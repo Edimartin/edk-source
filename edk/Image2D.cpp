@@ -631,7 +631,7 @@ edk::uint8 Image2D::rgbaToV(edk::color4ui8 rgba){
 //vector
 bool Image2D::rgbToV(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest){
     if(vector && size.width && size.height && dest){
-        edk::uint32 vecSize = size.width && size.height;
+        edk::uint32 vecSize = size.width * size.height;
         for(edk::uint32 i=0u;i<vecSize;i++){
             *dest = edk::Image2D::rgbToV(vector[0u],vector[1u],vector[2u]);
 
@@ -644,7 +644,7 @@ bool Image2D::rgbToV(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest){
 }
 edk::uint8* Image2D::rgbToV(edk::uint8* vector,edk::size2ui32 size){
     if(vector && size.width && size.height){
-        edk::uint32 vecSize = size.width && size.height;
+        edk::uint32 vecSize = size.width * size.height;
         //create the return
         edk::uint8* ret = new edk::uint8[vecSize];
         if(ret){
@@ -665,7 +665,7 @@ edk::uint8* Image2D::rgbToV(edk::uint8* vector,edk::uint32 width,edk::uint32 hei
 }
 bool Image2D::rgbaToV(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest){
     if(vector && size.width && size.height && dest){
-        edk::uint32 vecSize = size.width && size.height;
+        edk::uint32 vecSize = size.width * size.height;
         for(edk::uint32 i=0u;i<vecSize;i++){
             *dest = edk::Image2D::rgbToV(vector[0u],vector[1u],vector[2u]);
 
@@ -678,7 +678,7 @@ bool Image2D::rgbaToV(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest){
 }
 edk::uint8* Image2D::rgbaToV(edk::uint8* vector,edk::size2ui32 size){
     if(vector && size.width && size.height){
-        edk::uint32 vecSize = size.width && size.height;
+        edk::uint32 vecSize = size.width * size.height;
         //create the return
         edk::uint8* ret = new edk::uint8[vecSize];
         if(ret){
@@ -836,7 +836,7 @@ edk::uint8 Image2D::rgbaToLui8(edk::color4ui8 rgba){
 //vector
 bool Image2D::rgbToLui8(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest){
     if(vector && size.width && size.height && dest){
-        edk::uint32 vecSize = size.width && size.height;
+        edk::uint32 vecSize = size.width * size.height;
         for(edk::uint32 i=0u;i<vecSize;i++){
             *dest = edk::Image2D::rgbToLui8(vector[0u],vector[1u],vector[2u]);
 
@@ -849,7 +849,7 @@ bool Image2D::rgbToLui8(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest)
 }
 edk::uint8* Image2D::rgbToLui8(edk::uint8* vector,edk::size2ui32 size){
     if(vector && size.width && size.height){
-        edk::uint32 vecSize = size.width && size.height;
+        edk::uint32 vecSize = size.width * size.height;
         //create the return
         edk::uint8* ret = new edk::uint8[vecSize];
         if(ret){
@@ -871,7 +871,7 @@ edk::uint8* Image2D::rgbToLui8(edk::uint8* vector,edk::uint32 width,edk::uint32 
 }
 bool Image2D::rgbaToLui8(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest){
     if(vector && size.width && size.height && dest){
-        edk::uint32 vecSize = size.width && size.height;
+        edk::uint32 vecSize = size.width * size.height;
         for(edk::uint32 i=0u;i<vecSize;i++){
             *dest = edk::Image2D::rgbToLui8(vector[0u],vector[1u],vector[2u]);
 
@@ -884,7 +884,7 @@ bool Image2D::rgbaToLui8(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest
 }
 edk::uint8* Image2D::rgbaToLui8(edk::uint8* vector,edk::size2ui32 size){
     if(vector && size.width && size.height){
-        edk::uint32 vecSize = size.width && size.height;
+        edk::uint32 vecSize = size.width * size.height;
         //create the return
         edk::uint8* ret = new edk::uint8[vecSize];
         if(ret){
