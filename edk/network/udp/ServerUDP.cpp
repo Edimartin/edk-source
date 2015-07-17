@@ -78,6 +78,12 @@ bool edk::network::udp::ServerUDP::sendStream(edk::network::Adress host,edk::cla
     }
     return false;
 }
+bool edk::network::udp::ServerUDP::sendString(edk::network::Adress host,edk::char8* string){
+    return this->sendStream(host,string,edk::String::strSize(string)+1u);
+}
+bool edk::network::udp::ServerUDP::sendString(edk::network::Adress host,const char* string){
+    return this->sendString(host,(edk::char8*) string);
+}
 //Receive the message
 edk::int32 edk::network::udp::ServerUDP::receiveStream(edk::classID stream,edk::uint32 size,edk::network::Adress* host){
     //test the variables

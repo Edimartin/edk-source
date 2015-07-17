@@ -44,7 +44,7 @@ DWORD WINAPI edkThreadFunc(void*id){
     //test if have a threadFunc
     if(id){
         //then convert the pointer
-        edk::Thread* temp = (edk::Thread*)id;
+        edk::multi::Thread* temp = (edk::multi::Thread*)id;
 
         //run the function
         temp->runFunc();
@@ -57,7 +57,7 @@ DWORD WINAPI edkThreadFunc(void*id){
     //test if have a threadFunc
     if(id){
         //then convert the pointer
-        edk::Thread* temp = (edk::Thread*)id;
+        edk::multi::Thread* temp = (edk::multi::Thread*)id;
 
         //run the function
         temp->runFunc();
@@ -83,7 +83,7 @@ void* edkThreadFunc(void*id){
     //test if have a threadFunc
     if(id){
         //then convert the pointer
-        edk::Thread* temp = (edk::Thread*)id;
+        edk::multi::Thread* temp = (edk::multi::Thread*)id;
 
         //run the function
         temp->runFunc();

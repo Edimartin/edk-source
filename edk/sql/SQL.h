@@ -30,7 +30,7 @@ Gravatai RS Brazil 94065100
 
 #pragma once
 extern "C" {
-#include "../sqlite/sqlite3.h"
+#include "../../sqlite/sqlite3.h"
 }
 #include "../File.h"
 #include "../String.h"

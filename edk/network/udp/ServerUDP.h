@@ -38,6 +38,8 @@ public:
     void closeBind();
 
     bool sendStream(edk::network::Adress host,edk::classID stream,edk::uint32 size);
+    bool sendString(edk::network::Adress host,edk::char8* string);
+    bool sendString(edk::network::Adress host,const char* string);
     //Receive the message
     edk::int32 receiveStream(edk::classID stream,edk::uint32 size,edk::network::Adress* host);
 private:

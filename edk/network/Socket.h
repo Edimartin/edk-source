@@ -34,12 +34,16 @@ Gravatai RS Brazil 94065100
 #include <winsock2.h>
 #define bzero(b,len) (memset((b), '\0', (len)), (void) 0)
 #else
+#include <arpa/inet.h>
+#include <net/if.h>
+#include <sys/ioctl.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netdb.h>
 #endif
 #include <sys/types.h>
 #include <string.h>
+
 
 #include <unistd.h>
 
@@ -121,6 +125,8 @@ public:
     //return the IP by the name
     static edk::uint32 getIpByName(edk::char8* name);
     static edk::uint32 getIpByName(const char* name);
+    //return the ipMachine
+    static edk::uint32 getMyIP();
     //convert ipToString
     static edk::char8* ipToString(edk::uint32 ip);
     static bool ipToString(edk::uint32 ip,edk::char8* str);
@@ -130,6 +136,9 @@ public:
 private:
     edk::uint16 port;
     edk::uint32 ip;
+    //return the IP by the interface name
+    static edk::uint32 getIpByInterfaceName(edk::char8* name);
+    static edk::uint32 getIpByInterfaceName(const char* name);
 };
 
 

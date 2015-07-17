@@ -82,6 +82,41 @@ edk::network::Adress::Adress(const char* str,edk::uint16 port){
     this->setIP(str);
     this->setPort(port);
 }
+//return the IP by the interface name
+edk::uint32 edk::network::Adress::getIpByInterfaceName(edk::char8* name){
+    #ifdef __linux__
+    if(name){
+        int fd;
+        struct ifreq ifr;
+
+        fd = socket(AF_INET, SOCK_DGRAM, 0);
+
+        /* I want to get an IPv4 IP address */
+        ifr.ifr_addr.sa_family = AF_INET;
+
+        /* I want IP address attached to "eth0" */
+        strncpy(ifr.ifr_name, name, IFNAMSIZ-1);
+
+        ioctl(fd, SIOCGIFADDR, &ifr);
+
+        close(fd);
+
+        edk::uint32 ip = ((struct sockaddr_in *)&ifr.ifr_addr)->sin_addr.s_addr;
+
+        return edk::network::Adress::getIP(edk::network::Adress::getIpNumber(ip,0u),
+                edk::network::Adress::getIpNumber(ip,1u),
+                edk::network::Adress::getIpNumber(ip,2u),
+                edk::network::Adress::getIpNumber(ip,3u)
+                );
+
+        //return ((struct sockaddr_in *)&ifr.ifr_addr)->sin_addr.s_addr;
+    }
+    #endif
+    return 0u;
+}
+edk::uint32 edk::network::Adress::getIpByInterfaceName(const char* name){
+    return edk::network::Adress::getIpByInterfaceName((edk::char8*) name);
+}
 //set the IP
 bool edk::network::Adress::setIP(edk::uchar8 n1,edk::uchar8 n2,edk::uchar8 n3,edk::uchar8 n4){
     if(n1 || n2 || n3 || n4){
@@ -201,6 +236,14 @@ edk::uint32 edk::network::Adress::getIpByName(edk::char8* name){
 }
 edk::uint32 edk::network::Adress::getIpByName(const char* name){
     return edk::network::Adress::getIpByName((edk::char8*) name);
+}
+//return the ipMachine
+edk::uint32 edk::network::Adress::getMyIP(){
+#if defined(WIN32) || defined(WIN64)
+    return 0u;
+#elif defined(__linux__)
+    return edk::network::Adress::getIpByInterfaceName("eth0");
+#endif
 }
 //convert ipToString
 edk::char8* edk::network::Adress::ipToString(edk::uint32 ip){
@@ -334,14 +377,14 @@ struct sockaddr_in edk::network::Socket::getAdress(edk::char8* host){
 }
 
 edk::int32 edk::network::Socket::sendStream(edk::int32 socket,
-                                           edk::classID stream,
-                                           edk::uint32 size
-                                           ){
+                                            edk::classID stream,
+                                            edk::uint32 size
+                                            ){
     //testa o stream
     if(stream && size && socket){
         edk::int32 ret =
-        //send the message
-#if _WIN32 || _WIN64
+                //send the message
+        #if _WIN32 || _WIN64
                 send(socket,(const char*)stream,size, 0);
 #else
                 send(socket,stream,size, MSG_EOR|MSG_NOSIGNAL);
@@ -358,8 +401,8 @@ edk::uint32 edk::network::Socket::receiveStream(edk::int32 socket,
     //testa o stream
     if(stream && size && socket){
         edk::int32 ret =
-        //send the message
-#if _WIN32 || _WIN64
+                //send the message
+        #if _WIN32 || _WIN64
                 recv(socket,(char*)stream,size, 0);
 #else
                 recv(socket,stream,size, MSG_EOR|MSG_NOSIGNAL);

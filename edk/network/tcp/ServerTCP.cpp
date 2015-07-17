@@ -175,6 +175,12 @@ bool edk::network::tcp::ServerTCP::sendStream(edk::network::Adress host,edk::cla
     }
     return false;
 }
+bool edk::network::tcp::ServerTCP::sendString(edk::network::Adress host,edk::char8* string){
+    return this->sendStream(host,string,edk::String::strSize(string)+1u);
+}
+bool edk::network::tcp::ServerTCP::sendString(edk::network::Adress host,const char* string){
+    return this->sendString(host,(edk::char8*) string);
+}
 //Receive the message
 edk::int32 edk::network::tcp::ServerTCP::receiveStream(edk::classID stream,edk::uint32 size,edk::network::Adress* host){
     //test the host and stream

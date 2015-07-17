@@ -34,10 +34,19 @@ public:
     //Send a message to the server
     bool sendStream(edk::network::Adress host,edk::classID stream,edk::uint32 size);
     bool sendStream(edk::network::Adress host,const void* stream,edk::uint32 size);
+    //
+    bool sendString(edk::network::Adress host,edk::char8* string);
+    bool sendString(edk::network::Adress host,const char* string);
+    //
     bool sendStream(edk::char8* ip,edk::uint16 port,edk::classID stream,edk::uint32 size);
     bool sendStream(const char* ip,edk::uint16 port,edk::classID stream,edk::uint32 size);
     bool sendStream(edk::char8* ip,edk::uint16 port,const void* stream,edk::uint32 size);
     bool sendStream(const char* ip,edk::uint16 port,const void* stream,edk::uint32 size);
+    //
+    bool sendString(edk::char8* ip,edk::uint16 port,edk::char8* string);
+    bool sendString(const char* ip,edk::uint16 port,edk::char8* string);
+    bool sendString(edk::char8* ip,edk::uint16 port,const char* string);
+    bool sendString(const char* ip,edk::uint16 port,const char* string);
     //Recebe uma mensagem
     edk::int32 receiveStream(edk::classID stream,edk::uint32 size,edk::network::Adress* host);
 protected:

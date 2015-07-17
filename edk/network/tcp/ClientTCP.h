@@ -44,8 +44,12 @@ public:
 
     //send the stream to server
     bool sendStream(edk::network::Adress host,edk::classID stream,edk::uint32 size);
+    bool sendString(edk::network::Adress host,edk::char8* string);
+    bool sendString(edk::network::Adress host,const char* string);
     bool sendStream(edk::classID stream,edk::uint32 size);
     bool sendStream(const char* stream,edk::uint32 size);
+    bool sendString(edk::char8* string);
+    bool sendString(const char* string);
     //receive the stream from the server
     edk::int32 receiveStream(edk::classID stream,edk::uint32 size,edk::network::Adress* host);
     edk::int32 receiveStream(edk::classID stream,edk::uint32 size);

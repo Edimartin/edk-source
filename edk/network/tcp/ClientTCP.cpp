@@ -95,6 +95,12 @@ bool edk::network::tcp::ClientTCP::sendStream(edk::network::Adress host,edk::cla
     }
     return false;
 }
+bool edk::network::tcp::ClientTCP::sendString(edk::network::Adress host,edk::char8* string){
+    return this->sendStream(host,string,edk::String::strSize(string)+1u);
+}
+bool edk::network::tcp::ClientTCP::sendString(edk::network::Adress host,const char* string){
+    return this->sendString(host,(edk::char8*) string);
+}
 bool edk::network::tcp::ClientTCP::sendStream(edk::classID stream,edk::uint32 size){
     //test the stream e size
     if(stream && size && this->haveSocket() && this->haveConnection()){
@@ -105,6 +111,12 @@ bool edk::network::tcp::ClientTCP::sendStream(edk::classID stream,edk::uint32 si
 }
 bool edk::network::tcp::ClientTCP::sendStream(const char* stream,edk::uint32 size){
     return this->sendStream((edk::classID) stream,size);
+}
+bool edk::network::tcp::ClientTCP::sendString(edk::char8* string){
+    return this->sendStream(string,edk::String::strSize(string)+1u);
+}
+bool edk::network::tcp::ClientTCP::sendString(const char* string){
+    return this->sendString((edk::char8*)string);
 }
 //receive the stream from the server
 edk::int32 edk::network::tcp::ClientTCP::receiveStream(edk::classID stream,edk::uint32 size,edk::network::Adress* host){

@@ -56,6 +56,12 @@ bool edk::network::udp::ClientUDP::sendStream(edk::network::Adress host,edk::cla
 bool edk::network::udp::ClientUDP::sendStream(edk::network::Adress host,const void* stream,edk::uint32 size){
     return edk::network::Socket::sendStream(host,stream,size);
 }
+bool edk::network::udp::ClientUDP::sendString(edk::network::Adress host,edk::char8* string){
+    return this->sendStream(host,string,edk::String::strSize(string)+1u);
+}
+bool edk::network::udp::ClientUDP::sendString(edk::network::Adress host,const char* string){
+    return this->sendString(host,(edk::char8*)string);
+}
 bool edk::network::udp::ClientUDP::sendStream(edk::char8* ip,edk::uint16 port,edk::classID stream,edk::uint32 size){
     return edk::network::Socket::sendStream(ip,port,stream,size);
 }
@@ -67,6 +73,18 @@ bool edk::network::udp::ClientUDP::sendStream(edk::char8* ip,edk::uint16 port,co
 }
 bool edk::network::udp::ClientUDP::sendStream(const char* ip,edk::uint16 port,const void* stream,edk::uint32 size){
     return edk::network::Socket::sendStream(ip,port,stream,size);
+}
+bool edk::network::udp::ClientUDP::sendString(edk::char8* ip,edk::uint16 port,edk::char8* string){
+    return this->edk::network::udp::ClientUDP::sendStream(ip,port,string,edk::String::strSize(string)+1u);
+}
+bool edk::network::udp::ClientUDP::sendString(const char* ip,edk::uint16 port,edk::char8* string){
+    return this->sendString((edk::char8* )ip,port,string);
+}
+bool edk::network::udp::ClientUDP::sendString(edk::char8* ip,edk::uint16 port,const char* string){
+    return this->sendString(ip,port,(edk::char8* )string);
+}
+bool edk::network::udp::ClientUDP::sendString(const char* ip,edk::uint16 port,const char* string){
+    return this->sendString((edk::char8* )ip,port,(edk::char8* )string);
 }
 //Receive the message
 edk::int32 edk::network::udp::ClientUDP::receiveStream(edk::classID stream,edk::uint32 size,edk::network::Adress* host){
