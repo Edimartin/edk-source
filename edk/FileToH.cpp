@@ -55,6 +55,16 @@ bool edk::FileToH::writeToFile(edk::char8* fileName,edk::uint32 lineSize){
                                         temp++;
                                     }
                                 }
+                                edk::char8* fileNameFiltered = fileName;
+                                {
+                                    edk::uint32 nameSize = edk::String::strSize(fileNameFiltered);
+                                    for(edk::uint32 i=nameSize;i>0u;i--){
+                                        if(i) if(fileName[i-1u] == '/'){
+                                            fileNameFiltered = &fileName[i];
+                                            break;
+                                        }
+                                    }
+                                }
                                 //write the header
                                 file.writeText("#ifndef ");
                                 file.writeText(className);
@@ -76,10 +86,10 @@ bool edk::FileToH::writeToFile(edk::char8* fileName,edk::uint32 lineSize){
                                 file.writeText(className);
                                 file.writeText("Name");
                                 file.writeText("[");
-                                file.writeText((edk::uint32)(edk::String::strSize(fileName) + 1u));
+                                file.writeText((edk::uint32)(edk::String::strSize(fileNameFiltered) + 1u));
                                 file.writeText("]");
                                 file.writeText(" = \"");
-                                file.writeText(fileName);
+                                file.writeText(fileNameFiltered);
                                 file.writeText("\";");
 
                                 //write the char;
@@ -140,15 +150,6 @@ bool edk::FileToH::writeToEDKFile(edk::char8* fileName,edk::uint32 lineSize){
     if(!lineSize) lineSize=10u;
     //test the vector and the size
     if(fileName){
-        {
-            //filter fileName
-            edk::uint32 nameSize = edk::String::strSize(fileName);
-            if(nameSize){
-                for(edk::uint32 i=0u;i<nameSize;i++){
-                    //
-                }
-            }
-        }
         bool ret=false;
         //open the file
         edk::File file;
@@ -179,6 +180,16 @@ bool edk::FileToH::writeToEDKFile(edk::char8* fileName,edk::uint32 lineSize){
                                         temp++;
                                     }
                                 }
+                                edk::char8* fileNameFiltered = fileName;
+                                {
+                                    edk::uint32 nameSize = edk::String::strSize(fileNameFiltered);
+                                    for(edk::uint32 i=nameSize;i>0u;i--){
+                                        if(i) if(fileName[i-1u] == '/'){
+                                            fileNameFiltered = &fileName[i];
+                                            break;
+                                        }
+                                    }
+                                }
                                 //write the header
                                 file.writeText("#ifndef ");
                                 file.writeText(className);
@@ -204,10 +215,10 @@ bool edk::FileToH::writeToEDKFile(edk::char8* fileName,edk::uint32 lineSize){
                                 file.writeText(className);
                                 file.writeText("Name");
                                 file.writeText("[");
-                                file.writeText((edk::uint32)(edk::String::strSize(fileName) + 1u));
+                                file.writeText((edk::uint32)(edk::String::strSize(fileNameFiltered) + 1u));
                                 file.writeText("]");
                                 file.writeText(" = \"");
-                                file.writeText(fileName);
+                                file.writeText(fileNameFiltered);
                                 file.writeText("\";");
 
                                 //write the char;

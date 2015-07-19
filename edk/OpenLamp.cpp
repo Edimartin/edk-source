@@ -72,7 +72,12 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                     //FULL
                     for(edk::uint32 i=0u;i<pixelsSize;i++){
                         //get the pixel
-                        temp = edk::OpenLamp::pixelToNormal(*up,*down,*left,*right,*front);
+                        temp = edk::OpenLamp::pixelToNormal(edk::Image2D::rgbToV(up[0],up[1],up[2]),
+                                edk::Image2D::rgbToV(down[0],down[1],down[2]),
+                                edk::Image2D::rgbToV(left[0],left[1],left[2]),
+                                edk::Image2D::rgbToV(right[0],right[1],right[2]),
+                                edk::Image2D::rgbToV(front[0],front[1],front[2])
+                                );
                         normal[0u]=temp.r;
                         normal[1u]=temp.g;
                         normal[2u]=temp.b;
@@ -85,7 +90,12 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                     //up down left
                     for(edk::uint32 i=0u;i<pixelsSize;i++){
                         //get the pixel
-                        temp = edk::OpenLamp::pixelToNormal(*up,*down,*left,128,*front);
+                        temp = edk::OpenLamp::pixelToNormal(edk::Image2D::rgbToV(up[0],up[1],up[2]),
+                                edk::Image2D::rgbToV(down[0],down[1],down[2]),
+                                edk::Image2D::rgbToV(left[0],left[1],left[2]),
+                                128,
+                                edk::Image2D::rgbToV(front[0],front[1],front[2])
+                                );
                         normal[0u]=temp.r;
                         normal[1u]=temp.g;
                         normal[2u]=temp.b;
@@ -98,7 +108,12 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                     //up down right
                     for(edk::uint32 i=0u;i<pixelsSize;i++){
                         //get the pixel
-                        temp = edk::OpenLamp::pixelToNormal(*up,*down,128,*right,*front);
+                        temp = edk::OpenLamp::pixelToNormal(edk::Image2D::rgbToV(up[0],up[1],up[2]),
+                                edk::Image2D::rgbToV(down[0],down[1],down[2]),
+                                128,
+                                edk::Image2D::rgbToV(right[0],right[1],right[2]),
+                                edk::Image2D::rgbToV(front[0],front[1],front[2])
+                                );
                         normal[0u]=temp.r;
                         normal[1u]=temp.g;
                         normal[2u]=temp.b;
@@ -116,7 +131,12 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                     //up left right
                     for(edk::uint32 i=0u;i<pixelsSize;i++){
                         //get the pixel
-                        temp = edk::OpenLamp::pixelToNormal(*up,128,*left,*right,*front);
+                        temp = edk::OpenLamp::pixelToNormal(edk::Image2D::rgbToV(up[0],up[1],up[2]),
+                                128,
+                                edk::Image2D::rgbToV(left[0],left[1],left[2]),
+                                edk::Image2D::rgbToV(right[0],right[1],right[2]),
+                                edk::Image2D::rgbToV(front[0],front[1],front[2])
+                                );
                         normal[0u]=temp.r;
                         normal[1u]=temp.g;
                         normal[2u]=temp.b;
@@ -129,7 +149,12 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                     //up left
                     for(edk::uint32 i=0u;i<pixelsSize;i++){
                         //get the pixel
-                        temp = edk::OpenLamp::pixelToNormal(*up,128,*left,128,*front);
+                        temp = edk::OpenLamp::pixelToNormal(edk::Image2D::rgbToV(up[0],up[1],up[2]),
+                                128,
+                                edk::Image2D::rgbToV(left[0],left[1],left[2]),
+                                128,
+                                edk::Image2D::rgbToV(front[0],front[1],front[2])
+                                );
                         normal[0u]=temp.r;
                         normal[1u]=temp.g;
                         normal[2u]=temp.b;
@@ -142,7 +167,12 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                     //up right
                     for(edk::uint32 i=0u;i<pixelsSize;i++){
                         //get the pixel
-                        temp = edk::OpenLamp::pixelToNormal(*up,128,128,*right,*front);
+                        temp = edk::OpenLamp::pixelToNormal(edk::Image2D::rgbToV(up[0],up[1],up[2]),
+                                128,
+                                128,
+                                edk::Image2D::rgbToV(right[0],right[1],right[2]),
+                                edk::Image2D::rgbToV(front[0],front[1],front[2])
+                                );
                         normal[0u]=temp.r;
                         normal[1u]=temp.g;
                         normal[2u]=temp.b;
@@ -160,7 +190,12 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                     //down left right
                     for(edk::uint32 i=0u;i<pixelsSize;i++){
                         //get the pixel
-                        temp = edk::OpenLamp::pixelToNormal(128,*down,*left,*right,*front);
+                        temp = edk::OpenLamp::pixelToNormal(128,
+                                                            edk::Image2D::rgbToV(down[0],down[1],down[2]),
+                                edk::Image2D::rgbToV(left[0],left[1],left[2]),
+                                edk::Image2D::rgbToV(right[0],right[1],right[2]),
+                                edk::Image2D::rgbToV(front[0],front[1],front[2])
+                                );
                         normal[0u]=temp.r;
                         normal[1u]=temp.g;
                         normal[2u]=temp.b;
@@ -173,7 +208,12 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                     //down left
                     for(edk::uint32 i=0u;i<pixelsSize;i++){
                         //get the pixel
-                        temp = edk::OpenLamp::pixelToNormal(128,*down,*left,128,*front);
+                        temp = edk::OpenLamp::pixelToNormal(128,
+                                                            edk::Image2D::rgbToV(down[0],down[1],down[2]),
+                                edk::Image2D::rgbToV(left[0],left[1],left[2]),
+                                128,
+                                edk::Image2D::rgbToV(front[0],front[1],front[2])
+                                );
                         normal[0u]=temp.r;
                         normal[1u]=temp.g;
                         normal[2u]=temp.b;
@@ -186,7 +226,12 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                     //down right
                     for(edk::uint32 i=0u;i<pixelsSize;i++){
                         //get the pixel
-                        temp = edk::OpenLamp::pixelToNormal(128,*down,128,*right,*front);
+                        temp = edk::OpenLamp::pixelToNormal(128,
+                                                            edk::Image2D::rgbToV(down[0],down[1],down[2]),
+                                128,
+                                edk::Image2D::rgbToV(right[0],right[1],right[2]),
+                                edk::Image2D::rgbToV(front[0],front[1],front[2])
+                                );
                         normal[0u]=temp.r;
                         normal[1u]=temp.g;
                         normal[2u]=temp.b;
@@ -212,7 +257,11 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                     //FULL
                     for(edk::uint32 i=0u;i<pixelsSize;i++){
                         //get the pixel
-                        temp = edk::OpenLamp::pixelToNormal(*up,*down,*left,*right);
+                        temp = edk::OpenLamp::pixelToNormal(edk::Image2D::rgbToV(up[0],up[1],up[2]),
+                                edk::Image2D::rgbToV(down[0],down[1],down[2]),
+                                edk::Image2D::rgbToV(left[0],left[1],left[2]),
+                                edk::Image2D::rgbToV(right[0],right[1],right[2])
+                                );
                         normal[0u]=temp.r;
                         normal[1u]=temp.g;
                         normal[2u]=temp.b;
@@ -225,7 +274,11 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                     //up down left
                     for(edk::uint32 i=0u;i<pixelsSize;i++){
                         //get the pixel
-                        temp = edk::OpenLamp::pixelToNormal(*up,*down,*left,128);
+                        temp = edk::OpenLamp::pixelToNormal(edk::Image2D::rgbToV(up[0],up[1],up[2]),
+                                edk::Image2D::rgbToV(down[0],down[1],down[2]),
+                                edk::Image2D::rgbToV(left[0],left[1],left[2]),
+                                128
+                                );
                         normal[0u]=temp.r;
                         normal[1u]=temp.g;
                         normal[2u]=temp.b;
@@ -238,7 +291,11 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                     //up down right
                     for(edk::uint32 i=0u;i<pixelsSize;i++){
                         //get the pixel
-                        temp = edk::OpenLamp::pixelToNormal(*up,*down,128,*right);
+                        temp = edk::OpenLamp::pixelToNormal(edk::Image2D::rgbToV(up[0],up[1],up[2]),
+                                edk::Image2D::rgbToV(down[0],down[1],down[2]),
+                                128,
+                                edk::Image2D::rgbToV(right[0],right[1],right[2])
+                                );
                         normal[0u]=temp.r;
                         normal[1u]=temp.g;
                         normal[2u]=temp.b;
@@ -256,7 +313,11 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                     //up left right
                     for(edk::uint32 i=0u;i<pixelsSize;i++){
                         //get the pixel
-                        temp = edk::OpenLamp::pixelToNormal(*up,128,*left,*right);
+                        temp = edk::OpenLamp::pixelToNormal(edk::Image2D::rgbToV(up[0],up[1],up[2]),
+                                128,
+                                edk::Image2D::rgbToV(left[0],left[1],left[2]),
+                                edk::Image2D::rgbToV(right[0],right[1],right[2])
+                                );
                         normal[0u]=temp.r;
                         normal[1u]=temp.g;
                         normal[2u]=temp.b;
@@ -269,7 +330,11 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                     //up left
                     for(edk::uint32 i=0u;i<pixelsSize;i++){
                         //get the pixel
-                        temp = edk::OpenLamp::pixelToNormal(*up,128,*left,128);
+                        temp = edk::OpenLamp::pixelToNormal(edk::Image2D::rgbToV(up[0],up[1],up[2]),
+                                128,
+                                edk::Image2D::rgbToV(left[0],left[1],left[2]),
+                                128
+                                );
                         normal[0u]=temp.r;
                         normal[1u]=temp.g;
                         normal[2u]=temp.b;
@@ -282,7 +347,11 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                     //up right
                     for(edk::uint32 i=0u;i<pixelsSize;i++){
                         //get the pixel
-                        temp = edk::OpenLamp::pixelToNormal(*up,128,128,*right);
+                        temp = edk::OpenLamp::pixelToNormal(edk::Image2D::rgbToV(up[0],up[1],up[2]),
+                                128,
+                                128,
+                                edk::Image2D::rgbToV(right[0],right[1],right[2])
+                                );
                         normal[0u]=temp.r;
                         normal[1u]=temp.g;
                         normal[2u]=temp.b;
@@ -300,7 +369,11 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                     //down left right
                     for(edk::uint32 i=0u;i<pixelsSize;i++){
                         //get the pixel
-                        temp = edk::OpenLamp::pixelToNormal(128,*down,*left,*right);
+                        temp = edk::OpenLamp::pixelToNormal(128,
+                                                            edk::Image2D::rgbToV(down[0],down[1],down[2]),
+                                edk::Image2D::rgbToV(left[0],left[1],left[2]),
+                                edk::Image2D::rgbToV(right[0],right[1],right[2])
+                                );
                         normal[0u]=temp.r;
                         normal[1u]=temp.g;
                         normal[2u]=temp.b;
@@ -313,7 +386,11 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                     //down left
                     for(edk::uint32 i=0u;i<pixelsSize;i++){
                         //get the pixel
-                        temp = edk::OpenLamp::pixelToNormal(128,*down,*left,128);
+                        temp = edk::OpenLamp::pixelToNormal(128,
+                                                            edk::Image2D::rgbToV(down[0],down[1],down[2]),
+                                edk::Image2D::rgbToV(left[0],left[1],left[2]),
+                                128
+                                );
                         normal[0u]=temp.r;
                         normal[1u]=temp.g;
                         normal[2u]=temp.b;
@@ -326,7 +403,11 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                     //down right
                     for(edk::uint32 i=0u;i<pixelsSize;i++){
                         //get the pixel
-                        temp = edk::OpenLamp::pixelToNormal(128,*down,128,*right);
+                        temp = edk::OpenLamp::pixelToNormal(128,
+                                                            edk::Image2D::rgbToV(down[0],down[1],down[2]),
+                                128,
+                                edk::Image2D::rgbToV(right[0],right[1],right[2])
+                                );
                         normal[0u]=temp.r;
                         normal[1u]=temp.g;
                         normal[2u]=temp.b;
