@@ -172,31 +172,25 @@ bool edk::ObjectNameTree::haveElement(edk::ObjectWithName* value){
     return edk::vector::BinaryTree<edk::ObjectWithName*>::haveElement(value);
 }
 //compare if the value is bigger
-bool edk::ObjectNameTree::firstBiggerSecond(edk::Object<edk::ObjectWithName*>* first,
-                                            edk::Object<edk::ObjectWithName*>* second){
-    //test the textures
-    //temp
-    edk::ObjectWithName* tempF = (edk::ObjectWithName*)first;
-    edk::ObjectWithName* tempS = (edk::ObjectWithName*)second;
-    if(tempF!=NULL && tempS!=NULL){
+bool edk::ObjectNameTree::firstBiggerSecond(edk::ObjectWithName* first,
+                                            edk::ObjectWithName* second){
+    //test the objects
+    if(first!=NULL && second!=NULL){
         //test the names
-        return this->firstNameBiggerSecond(tempF->getName(),
-                                           tempS->getName()
+        return this->firstNameBiggerSecond(first->getName(),
+                                           second->getName()
                                            );
     }
     //else return false
     return false;
 }
-bool edk::ObjectNameTree::firstEqualSecond(edk::Object<edk::ObjectWithName*>* first,
-                                           edk::Object<edk::ObjectWithName*>* second){
-    //test the textures
-    //temp
-    edk::ObjectWithName* tempF = (edk::ObjectWithName*)first;
-    edk::ObjectWithName* tempS = (edk::ObjectWithName*)second;
-    if(tempF!=NULL && tempS!=NULL){
+bool edk::ObjectNameTree::firstEqualSecond(edk::ObjectWithName* first,
+                                           edk::ObjectWithName* second){
+    //test the objects
+    if(first!=NULL && second!=NULL){
         //test the names
-        return this->nameEqual(tempF->getName(),
-                               tempS->getName()
+        return this->nameEqual(first->getName(),
+                               second->getName()
                                );
     }
     //else return false
@@ -248,15 +242,14 @@ bool edk::ObjectNameTree::nameEqual(edk::char8* name1,edk::char8* name2){
     //else return false
     return false;
 }
-void edk::ObjectNameTree::printElement(edk::Object<edk::ObjectWithName*>* value){
+void edk::ObjectNameTree::printElement(edk::ObjectWithName* value){
     //
-    edk::ObjectWithName* temp = (edk::ObjectWithName*)value;
-    if(temp){
+    if(value){
         //
-        if(temp->name()){
+        if(value->name()){
             //
             printf("\nName %s"
-                   ,temp->name()
+                   ,value->name()
                    );
         }
         else{

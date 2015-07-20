@@ -66,7 +66,7 @@ bool edk::shd::GLSL::shaderLink::loadFileShader(edk::char8* name){
     if(name){
         //test if have the shader
         edk::shd::Shader find;
-        find.setName(this->getName());
+        find.setName(name);
         edk::shd::Shader* temp = (edk::shd::Shader*)shaderTree.getElement(&find);
         if(!temp){
             //load the shader
@@ -79,8 +79,6 @@ bool edk::shd::GLSL::shaderLink::loadFileShader(edk::char8* name){
                         if(this->setName(temp->getName())){
                             //then add the shader to the tree
                             if(shaderTree.addElement((edk::ObjectWithName*)temp,(edk::ObjectWithName**)&this->id)){
-                                //retain the shader
-                                temp->retainObject((edk::ObjectWithName**)&this->id);
                                 //set the id
                                 this->id=temp->getShaderID();
                                 //return true
@@ -108,6 +106,8 @@ bool edk::shd::GLSL::shaderLink::loadFileShader(edk::char8* name){
                 //save the id and name
                 this->id=temp->getShaderID();
                 this->setName(temp->getName());
+                //retain the shader
+                temp->retainObject((edk::ObjectWithName**)&this->id);
                 return true;
             }
         }
@@ -166,6 +166,8 @@ bool edk::shd::GLSL::shaderLink::loadMemoryShader(edk::char8* name,edk::uint8* d
                 //save the id and name
                 this->id=temp->getShaderID();
                 this->setName(temp->getName());
+                //retain the shader
+                temp->retainObject((edk::ObjectWithName**)&this->id);
                 return true;
             }
         }
@@ -551,6 +553,7 @@ void edk::shd::GLSL::deleteProgram(){
 void edk::shd::GLSL::deleteShaders(){
     edk::uint32 size = this->tree.size();
     edk::shd::GLSL::shaderLink* temp=NULL;
+    edk::uint32 position=0u;
     if(this->id){
         //delete all the shaders removing from the program
         for(unsigned int i=0u;i<size;i++){
@@ -560,6 +563,9 @@ void edk::shd::GLSL::deleteShaders(){
                     //detach
                     edk::GU_GLSL::guProgramRemoveShader(this->id,temp->id);
                 }
+                if(!this->tree.removeShader(temp)){
+                    position++;
+                }
                 //delete the shader
                 delete temp;
             }
@@ -568,7 +574,10 @@ void edk::shd::GLSL::deleteShaders(){
     else{
         //else just delete the shaders
         for(unsigned int i=0u;i<size;i++){
-            if((temp = this->tree.getElementInPosition(i))){
+            if((temp = this->tree.getElementInPosition(position))){
+                if(!this->tree.removeShader(temp)){
+                    position++;
+                }
                 //delete the shader
                 delete temp;
             }

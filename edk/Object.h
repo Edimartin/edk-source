@@ -122,8 +122,10 @@ class Object{
                 //test if dont have a root
                 if(!this->retains.haveRoot()){
                     //delete self
-                    if(temp)
-                        delete temp;
+                    if(temp){
+                        delete this;
+                        return true;
+                    }
                 }
                 return true;
             }
@@ -349,11 +351,11 @@ class ObjectNameTree: public edk::vector::BinaryTree<edk::ObjectWithName*>{
 
         //VIRTUAL
         //compare if the value is bigger
-        bool firstBiggerSecond(edk::Object<edk::ObjectWithName*>* first,
-                                   edk::Object<edk::ObjectWithName*>* second);
-        bool firstEqualSecond(edk::Object<edk::ObjectWithName*>* first,
-                                   edk::Object<edk::ObjectWithName*>* second);
-        void printElement(edk::Object<edk::ObjectWithName*>* value);
+        bool firstBiggerSecond(edk::ObjectWithName* first,
+                                   edk::ObjectWithName* second);
+        bool firstEqualSecond(edk::ObjectWithName* first,
+                                   edk::ObjectWithName* second);
+        void printElement(edk::ObjectWithName* value);
 
         private:
         //compare the names
