@@ -61,6 +61,9 @@ class InterpolationLine3D: public InterpolationLine2D{
         void isCurveZ();
         void isNotCurveZ();
         bool getCurveZ();
+        //set as constant interpolation
+        void setConstantZ();
+        void setLinearZ();
 
         //GETERS
         //return the start
@@ -86,6 +89,7 @@ class InterpolationLine3D: public InterpolationLine2D{
         edk::size2f32 p1Z;
         edk::size2f32 p2Z;
         bool curveZ;
+        bool constantZ;
     private:
 };
 }//end namespace animation

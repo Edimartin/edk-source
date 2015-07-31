@@ -210,6 +210,15 @@ void edk::animation::InterpolationLine2D::isNotCurveY(){
 bool edk::animation::InterpolationLine2D::getCurveY(){
     return this->curveY;
 }
+//set as constant interpolation
+void edk::animation::InterpolationLine2D::setConstantY(){
+    this->constantY=true;
+    this->setCurveY(false);
+}
+void edk::animation::InterpolationLine2D::setLinearY(){
+    this->constantY=false;
+    this->setCurveY(false);
+}
 
 //GETERS
 //return the start
@@ -232,6 +241,11 @@ edk::float32 edk::animation::InterpolationLine2D::getPositionY(edk::float32 seco
     //convert the two frames
     edk::animation::Frame2D* retStart = (edk::animation::Frame2D*)this->start;
     edk::animation::Frame2D* retEnd = (edk::animation::Frame2D*)this->end;
+    if(this->constantY){
+        return retStart->y;
+    }
+    //else test the linear or curve
+
     edk::float32 percent = ((second - retStart->second)/ distance);
     //test if is a curve
     if(this->curveY){

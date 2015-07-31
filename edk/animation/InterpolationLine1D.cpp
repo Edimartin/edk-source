@@ -31,6 +31,7 @@ edk::animation::InterpolationLine1D::InterpolationLine1D()
     this->allocStart();
     this->allocEnd();
     this->curveX=false;
+    this->constantX=false;
 }
 
 edk::animation::InterpolationLine1D::~InterpolationLine1D()
@@ -177,6 +178,8 @@ bool edk::animation::InterpolationLine1D::setCurveX(bool curve){
                                                );
             this->p1X = dist*0.25;
             this->p2X = dist*0.75;
+
+            this->constantX=false;
         }
         else{
             this->p1X.width = tempStart->second;
@@ -197,6 +200,15 @@ void edk::animation::InterpolationLine1D::isNotCurveX(){
 }
 bool edk::animation::InterpolationLine1D::getCurveX(){
     return this->curveX;
+}
+//set as constant interpolation
+void edk::animation::InterpolationLine1D::setConstantX(){
+    this->constantX = true;
+    this->setCurveX(false);
+}
+void edk::animation::InterpolationLine1D::setLinearX(){
+    this->constantX=false;
+    this->setCurveX(false);
 }
 
 //GETERS
@@ -220,6 +232,11 @@ edk::float32 edk::animation::InterpolationLine1D::getPositionX(edk::float32 seco
     //convert the two frames
     edk::animation::Frame1D* retStart = (edk::animation::Frame1D*)this->start;
     edk::animation::Frame1D* retEnd = (edk::animation::Frame1D*)this->end;
+    if(this->constantX){
+        return retStart->x;
+    }
+    //else test the linear or curve
+
     edk::float32 percent = ((second - retStart->second)/ distance);
     //test if is a curve
     if(this->curveX){

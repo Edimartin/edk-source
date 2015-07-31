@@ -94,6 +94,7 @@ class ViewController : public View {
     edk::vector::Stack<edk::View*> nexts;
     //save the rect inside
     edk::rectf32 rectInside;
+    bool setRectInside;
 };
 
 } /* End of namespace edk */

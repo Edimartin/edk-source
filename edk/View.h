@@ -47,6 +47,12 @@ Gravatai RS Brazil 94065100
 
 /*
 //Events
+void load(rectf32 outsideViewOrigin){
+    //
+}
+void unload(){
+    //
+}
 void View::eventMousePressed(edk::vec2f32 point,edk::uint32 button){
     //types
     //edk::mouse::left;
@@ -173,7 +179,7 @@ class View {
 
     virtual void draw(rectf32 outsideViewOrigin);
 
-    virtual void load();
+    virtual void load(rectf32 outsideViewOrigin);
     virtual void unload();
 
     virtual void update(edk::WindowEvents* events);

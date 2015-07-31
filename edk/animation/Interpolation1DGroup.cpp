@@ -190,7 +190,31 @@ bool edk::animation::Interpolation1DGroup::getInterpolationIsCurveX(edk::uint32 
         //load the interpolation
         edk::animation::InterpolationLine1D* temp = (edk::animation::InterpolationLine1D*)this->animations[position];
         if(temp){
-            temp->getCurveX();
+            return temp->getCurveX();
+        }
+    }
+    return false;
+}
+//set as constant interpolation
+bool edk::animation::Interpolation1DGroup::setConstantX(edk::uint32 position){
+    //test if have the interpolation
+    if(position < this->getInterpolationSize()){
+        //load the interpolation
+        edk::animation::InterpolationLine1D* temp = (edk::animation::InterpolationLine1D*)this->animations[position];
+        if(temp){
+            temp->setConstantX();
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::animation::Interpolation1DGroup::setLinearX(edk::uint32 position){
+    //test if have the interpolation
+    if(position < this->getInterpolationSize()){
+        //load the interpolation
+        edk::animation::InterpolationLine1D* temp = (edk::animation::InterpolationLine1D*)this->animations[position];
+        if(temp){
+            temp->setLinearX();
             return true;
         }
     }

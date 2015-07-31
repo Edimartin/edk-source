@@ -30,11 +30,13 @@ namespace edk {
 ViewController::ViewController(){
     //
     this->frame = edk::rectf32(0.f,0.f,0.f,0.f);
+    this->setRectInside = false;
 }
 
 ViewController::ViewController(rectf32 frame){
     //
     this->frame=frame;
+    this->setRectInside = false;
 }
 
 ViewController::~ViewController(){
@@ -56,7 +58,18 @@ bool ViewController::addSubview(edk::View *addView){
         //test if have added the view
         if(this->nexts.size()>temp){
             //load the view
-            addView->load();
+            if(this->setRectInside){
+                this->rectInside = edk::rectf32(
+                            rectTemp.origin.x + this->borderSize,
+                            rectTemp.origin.y,
+                            rectTemp.size.width - this->borderSize,
+                            rectTemp.size.height - this->borderSize
+                            );
+                addView->load(this->rectInside);
+            }
+            else{
+                addView->load(this->frame);
+            }
             //have added the view
             return true;
         }
@@ -211,6 +224,7 @@ void ViewController::draw(edk::rectf32 outsideViewOrigin){
                     rectTemp.size.width - this->borderSize,
                     rectTemp.size.height - this->borderSize
                     );
+        this->setRectInside = true;
         //Then draw the others
         for(edk::uint32 i=0u;i<this->nexts.size();i++){
             //test if the view exist
@@ -218,14 +232,14 @@ void ViewController::draw(edk::rectf32 outsideViewOrigin){
                 //then draw using the view in GU. no in EDK
                 this->nexts[i]->draw(
                             this->rectInside
-/*
-                            edk::rectf32(
-                                rectTemp.origin.x + this->borderSize,
-                                rectTemp.origin.y,
-                                rectTemp.size.width - this->borderSize,
-                                rectTemp.size.height - this->borderSize
-                                )
-*/
+                            /*
+                                        edk::rectf32(
+                                            rectTemp.origin.x + this->borderSize,
+                                            rectTemp.origin.y,
+                                            rectTemp.size.width - this->borderSize,
+                                            rectTemp.size.height - this->borderSize
+                                            )
+            */
                             );
             }
         }

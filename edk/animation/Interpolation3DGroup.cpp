@@ -233,12 +233,31 @@ bool edk::animation::Interpolation3DGroup::getInterpolationIsCurveZ(edk::uint32 
         //load the interpolation
         edk::animation::InterpolationLine3D* temp = (edk::animation::InterpolationLine3D*)this->animations[position];
         if(temp){
-            //test if is a curve
-            if(!temp->getCurveZ()){
-                //set as curve
-                temp->isCurveZ();
-            }
-            temp->getCurveZ();
+            return temp->getCurveZ();
+        }
+    }
+    return false;
+}
+//set as constant interpolation
+bool edk::animation::Interpolation3DGroup::setConstantZ(edk::uint32 position){
+    //test if have the interpolation
+    if(position < this->getInterpolationSize()){
+        //load the interpolation
+        edk::animation::InterpolationLine3D* temp = (edk::animation::InterpolationLine3D*)this->animations[position];
+        if(temp){
+            temp->setConstantZ();
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::animation::Interpolation3DGroup::setLinearZ(edk::uint32 position){
+    //test if have the interpolation
+    if(position < this->getInterpolationSize()){
+        //load the interpolation
+        edk::animation::InterpolationLine3D* temp = (edk::animation::InterpolationLine3D*)this->animations[position];
+        if(temp){
+            temp->setLinearZ();
             return true;
         }
     }

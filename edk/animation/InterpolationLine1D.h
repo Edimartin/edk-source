@@ -60,6 +60,9 @@ class InterpolationLine1D:public InterpolationLine{
         void isCurveX();
         void isNotCurveX();
         bool getCurveX();
+        //set as constant interpolation
+        void setConstantX();
+        void setLinearX();
 
         //GETERS
         //return the start
@@ -88,6 +91,7 @@ class InterpolationLine1D:public InterpolationLine{
         edk::size2f32 p1X;
         edk::size2f32 p2X;
         bool curveX;
+        bool constantX;
     private:
 };
 }//end namespace animation

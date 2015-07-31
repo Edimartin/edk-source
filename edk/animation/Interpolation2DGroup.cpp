@@ -226,12 +226,31 @@ bool edk::animation::Interpolation2DGroup::getInterpolationIsCurveY(edk::uint32 
         //load the interpolation
         edk::animation::InterpolationLine2D* temp = (edk::animation::InterpolationLine2D*)this->animations[position];
         if(temp){
-            //test if is a curve
-            if(!temp->getCurveY()){
-                //set as curve
-                temp->isCurveY();
-            }
-            temp->getCurveY();
+            return temp->getCurveY();
+        }
+    }
+    return false;
+}
+//set as constant interpolation
+bool edk::animation::Interpolation2DGroup::setConstantY(edk::uint32 position){
+    //test if have the interpolation
+    if(position < this->getInterpolationSize()){
+        //load the interpolation
+        edk::animation::InterpolationLine2D* temp = (edk::animation::InterpolationLine2D*)this->animations[position];
+        if(temp){
+            temp->setConstantY();
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::animation::Interpolation2DGroup::setLinearY(edk::uint32 position){
+    //test if have the interpolation
+    if(position < this->getInterpolationSize()){
+        //load the interpolation
+        edk::animation::InterpolationLine2D* temp = (edk::animation::InterpolationLine2D*)this->animations[position];
+        if(temp){
+            temp->setLinearY();
             return true;
         }
     }

@@ -212,6 +212,15 @@ void edk::animation::InterpolationLine3D::isNotCurveZ(){
 bool edk::animation::InterpolationLine3D::getCurveZ(){
     return this->curveZ;
 }
+//set as constant interpolation
+void edk::animation::InterpolationLine3D::setConstantZ(){
+    this->constantZ=true;
+    this->setCurveZ(false);
+}
+void edk::animation::InterpolationLine3D::setLinearZ(){
+    this->constantZ=false;
+    this->setCurveZ(false);
+}
 
 //GETERS
 //return the start
@@ -234,6 +243,11 @@ edk::float32 edk::animation::InterpolationLine3D::getPositionZ(edk::float32 seco
     //convert the two frames
     edk::animation::Frame3D* retStart = (edk::animation::Frame3D*)this->start;
     edk::animation::Frame3D* retEnd = (edk::animation::Frame3D*)this->end;
+    if(this->constantZ){
+        return retStart->z;
+    }
+    //else test the linear or curve
+
     edk::float32 percent = ((second - retStart->second)/ distance);
     //test if is a curve
     if(this->curveZ){

@@ -62,6 +62,10 @@ class example: edk::ViewGU2D{
     //destrutor
     ~example();
 
+    //Load and Unload
+    void load(edk::rectf32 outsideViewOrigin);
+    void unload();
+
     //Mouse Events
     void eventMousePressed(edk::vec2f32 point,edk::uint32 button);
     void eventMouseMoved(edk::vec2f32 point,edk::uint32 button);
@@ -73,7 +77,7 @@ class example: edk::ViewGU2D{
     //Update the scene
     void update(edk::WindowEvents* events);
 
-    //Callback to draw the elements on the scene
-    void drawScene();
+    //draw the GU scene
+    void drawScene(edk::rectf32 outsideViewOrigin);
 };
 */
