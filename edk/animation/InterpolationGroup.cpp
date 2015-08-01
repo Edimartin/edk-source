@@ -89,6 +89,14 @@ void edk::animation::InterpolationGroup::printInterpolationLine(edk::animation::
     }
 }
 
+//copy interpolation frame
+void edk::animation::InterpolationGroup::copyStartToStart(edk::animation::InterpolationLine* first,edk::animation::InterpolationLine* second){
+    second->setStart(first->getStart().second);
+}
+void edk::animation::InterpolationGroup::copyEndToEnd(edk::animation::InterpolationLine* first,edk::animation::InterpolationLine* second){
+    second->setEnd(first->getEnd().second);
+}
+
 //Frame functions
 //delete tempFrame
 void edk::animation::InterpolationGroup::deleteTempFrame(){
@@ -845,6 +853,88 @@ bool edk::animation::InterpolationGroup::removeAnimationName(edk::char8* name){
     //else return false
     return false;
 }
+//rmove a keyframe
+bool edk::animation::InterpolationGroup::removeKeyFrame(edk::float32 second){
+    bool ret=false;
+    if(this->animations.size()){
+        //search the interpolation
+        edk::uint32 search = this->searchBackInterpoaltion(second);
+        //load the interpolation
+        edk::animation::InterpolationLine* temp = this->animations[search];
+        if(temp){
+            //test if the second is equal to first
+            if(temp->getStart().second == second){
+                //test if have the search-1u
+                if(search){
+                    //load the first
+                    edk::animation::InterpolationLine* first = this->animations[search-1u];
+                    if(first){
+                        //send the last to the end of the stack
+                        this->animations.bringPositionTo(search,this->animations.size()-1u);
+
+                        //remove the last
+                        this->animations.remove(this->animations.size()-1u);
+
+                        //set the end of the temp
+                        //first->setStart(temp->getStart().second);
+                        this->copyStartToStart(temp,first);
+                        //delete last
+                        delete temp;
+                        ret=true;
+                    }
+                }
+                else{
+                    //else just remove the first interpolation
+
+                    //send the forst to the end of the stack
+                    this->animations.bringPositionTo(search,this->animations.size()-1u);
+
+                    //remove the last
+                    this->animations.remove(this->animations.size()-1u);
+
+                    delete temp;
+                    ret=true;
+                }
+            }
+            else if(temp->getEnd().second == second){
+                //test if have the next
+                if(search+1u<this->animations.size()){
+                    //load the last interpolation
+                    edk::animation::InterpolationLine* last = this->animations[search+1u];
+                    if(last){
+                        //send the last to the end of the stack
+                        this->animations.bringPositionTo(search+1u,this->animations.size()-1u);
+
+                        //remove the last
+                        this->animations.remove(this->animations.size()-1u);
+
+                        //set the end of the temp
+                        //temp->setEnd(last->getEnd().second);
+                        this->copyEndToEnd(last,temp);
+                        //delete last
+                        delete last;
+                        ret=true;
+                    }
+                }
+                else{
+                    //just remove the interpolation
+
+                    //load the last
+                    edk::animation::InterpolationLine* last = this->animations[this->animations.size()-1u];
+                    if(last){
+                        this->animations.remove(this->animations.size()-1u);
+                        delete last;
+                        ret=true;
+                    }
+                }
+            }
+        }
+    }
+    //set the end interpolation
+    this->setAnimationEndInterpolation(this->animations.size()-1u);
+    return ret;
+}
+
 //clean animationName selected
 void edk::animation::InterpolationGroup::cleanAnimationNameSelected(){
     this->nameSelected = NULL;
@@ -964,6 +1054,9 @@ void edk::animation::InterpolationGroup::loopOff(){
 //GETERS
 //return the number of animations
 edk::uint32 edk::animation::InterpolationGroup::getInterpolationSize(){
+    return this->animations.size();
+}
+edk::uint32 edk::animation::InterpolationGroup::getInterpolations(){
     return this->animations.size();
 }
 //get the second

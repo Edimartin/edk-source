@@ -63,6 +63,18 @@ void edk::animation::Interpolation3DGroup::printInterpolationLine(edk::animation
     }
 }
 
+//copy interpolation frame
+void edk::animation::Interpolation3DGroup::copyStartToStart(edk::animation::InterpolationLine* first,edk::animation::InterpolationLine* second){
+    edk::animation::InterpolationLine3D* f = (edk::animation::InterpolationLine3D*) first;
+    edk::animation::InterpolationLine3D* s = (edk::animation::InterpolationLine3D*) second;
+    s->setStart(f->getStart3D().second,f->getStart3D().x,f->getStart3D().y,f->getStart3D().z);
+}
+void edk::animation::Interpolation3DGroup::copyEndToEnd(edk::animation::InterpolationLine* first,edk::animation::InterpolationLine* second){
+    edk::animation::InterpolationLine3D* f = (edk::animation::InterpolationLine3D*) first;
+    edk::animation::InterpolationLine3D* s = (edk::animation::InterpolationLine3D*) second;
+    s->setEnd(f->getEnd3D().second,f->getEnd3D().x,f->getEnd3D().y,f->getEnd3D().z);
+}
+
 //Add a first interpolation
 bool edk::animation::Interpolation3DGroup::addFirstInterpolationLine(edk::float32 startSecond, edk::float32 startX, edk::float32 startY, edk::float32 startZ,
                                                                      edk::float32 endSecond,edk::float32 endX,edk::float32 endY,edk::float32 endZ){

@@ -201,6 +201,8 @@ public:
     //remove the animationName
     bool removeAnimationName(const char* name);
     bool removeAnimationName(edk::char8* name);
+    //rmove a keyframe
+    bool removeKeyFrame(edk::float32 second);
     //clean animationName selected
     void cleanAnimationNameSelected();
     //clean all animation Names
@@ -225,6 +227,7 @@ public:
     //GETERS
     //return the number of animations
     edk::uint32 getInterpolationSize();
+    edk::uint32 getInterpolations();
     //get the second
     edk::float32 getAnimationSecond();
     //return the interpolation seconds
@@ -294,6 +297,10 @@ protected:
     edk::animation::InterpolationLine* getSelectedInterpolation();
     //print the frame
     virtual void printInterpolationLine(edk::animation::InterpolationLine *interpolation);
+
+    //copy interpolation frame
+    virtual void copyStartToStart(edk::animation::InterpolationLine* first,edk::animation::InterpolationLine* second);
+    virtual void copyEndToEnd(edk::animation::InterpolationLine* first,edk::animation::InterpolationLine* second);
 
     //TempFrame to save the first interpolation
     edk::animation::Frame* tempFrame;

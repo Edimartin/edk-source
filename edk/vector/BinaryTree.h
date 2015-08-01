@@ -70,12 +70,12 @@ public:
     //Print
     virtual void printElement(obj* value){
         printf("\nElement %u"
-               ,(unsigned int)value
+               ,(edk::uint32)value
                );
     }
     virtual void renderElement(obj* value){
         printf("\nElement %u"
-               ,(unsigned int)value
+               ,(edk::uint32)value
                );
     }
     //UPDATE

@@ -123,6 +123,10 @@ class Interpolation2DGroup: public edk::animation::Interpolation1DGroup{
         virtual edk::animation::Frame* newFrame();
         //print the frame
         virtual void printInterpolationLine(edk::animation::InterpolationLine *interpolation);
+
+        //copy interpolation frame
+        virtual void copyStartToStart(edk::animation::InterpolationLine* first,edk::animation::InterpolationLine* second);
+        virtual void copyEndToEnd(edk::animation::InterpolationLine* first,edk::animation::InterpolationLine* second);
     private:
 };
 }//end namespace animarion
