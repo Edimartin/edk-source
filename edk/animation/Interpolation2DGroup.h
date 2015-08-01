@@ -66,6 +66,9 @@ class Interpolation2DGroup: public edk::animation::Interpolation1DGroup{
         //set as constant interpolation
         bool setConstantY(edk::uint32 position);
         bool setLinearY(edk::uint32 position);
+        //set all as constant interpolation
+        void setAllConstantY();
+        void setAllLinearY();
         //Set the interpolation curve points
         bool setInterpolationP1Y(edk::uint32 position,edk::float32 second,edk::float32 y);
         bool setInterpolationP2Y(edk::uint32 position,edk::float32 second,edk::float32 y);

@@ -275,6 +275,23 @@ bool edk::animation::Interpolation3DGroup::setLinearZ(edk::uint32 position){
     }
     return false;
 }
+//set all as constant interpolation
+void edk::animation::Interpolation3DGroup::setAllConstantZ(){
+    edk::uint32 size = this->animations.size();
+    edk::animation::InterpolationLine3D* temp = NULL;
+    for(edk::uint32 i=0u;i<size;i++){
+        temp = (edk::animation::InterpolationLine3D*)this->animations[i];
+        temp->setConstantZ();
+    }
+}
+void edk::animation::Interpolation3DGroup::setAllLinearZ(){
+    edk::uint32 size = this->animations.size();
+    edk::animation::InterpolationLine3D* temp = NULL;
+    for(edk::uint32 i=0u;i<size;i++){
+        temp = (edk::animation::InterpolationLine3D*)this->animations[i];
+        temp->setLinearZ();
+    }
+}
 
 //Set the interpolation curve points
 bool edk::animation::Interpolation3DGroup::setInterpolationP1Z(edk::uint32 position,edk::float32 second,edk::float32 z){

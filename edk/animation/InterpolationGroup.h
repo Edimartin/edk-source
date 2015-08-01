@@ -240,6 +240,8 @@ public:
     bool isRewind();
     //update the clock animation
     virtual edk::float32 updateClockAnimation();
+    //test if have the keyframe
+    bool haveKeyframe(edk::float32 second);
 
     //Print the frames
     bool printFrames();

@@ -68,6 +68,9 @@ class Interpolation3DGroup: public Interpolation2DGroup
         //set as constant interpolation
         bool setConstantZ(edk::uint32 position);
         bool setLinearZ(edk::uint32 position);
+        //set all as constant interpolation
+        void setAllConstantZ();
+        void setAllLinearZ();
         //Set the interpolation curve points
         bool setInterpolationP1Z(edk::uint32 position,edk::float32 second,edk::float32 z);
         bool setInterpolationP2Z(edk::uint32 position,edk::float32 second,edk::float32 z);

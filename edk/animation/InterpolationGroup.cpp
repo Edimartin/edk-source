@@ -859,72 +859,74 @@ bool edk::animation::InterpolationGroup::removeKeyFrame(edk::float32 second){
     if(this->animations.size()){
         //search the interpolation
         edk::uint32 search = this->searchBackInterpoaltion(second);
-        //load the interpolation
-        edk::animation::InterpolationLine* temp = this->animations[search];
-        if(temp){
-            //test if the second is equal to first
-            if(temp->getStart().second == second){
-                //test if have the search-1u
-                if(search){
-                    //load the first
-                    edk::animation::InterpolationLine* first = this->animations[search-1u];
-                    if(first){
-                        //send the last to the end of the stack
+        if(this->animations.havePos(search)){
+            //load the interpolation
+            edk::animation::InterpolationLine* temp = this->animations[search];
+            if(temp){
+                //test if the second is equal to first
+                if(temp->getStart().second == second){
+                    //test if have the search-1u
+                    if(search){
+                        //load the first
+                        edk::animation::InterpolationLine* first = this->animations[search-1u];
+                        if(first){
+                            //send the last to the end of the stack
+                            this->animations.bringPositionTo(search,this->animations.size()-1u);
+
+                            //remove the last
+                            this->animations.remove(this->animations.size()-1u);
+
+                            //set the end of the temp
+                            //first->setStart(temp->getStart().second);
+                            this->copyStartToStart(temp,first);
+                            //delete last
+                            delete temp;
+                            ret=true;
+                        }
+                    }
+                    else{
+                        //else just remove the first interpolation
+
+                        //send the forst to the end of the stack
                         this->animations.bringPositionTo(search,this->animations.size()-1u);
 
                         //remove the last
                         this->animations.remove(this->animations.size()-1u);
 
-                        //set the end of the temp
-                        //first->setStart(temp->getStart().second);
-                        this->copyStartToStart(temp,first);
-                        //delete last
                         delete temp;
                         ret=true;
                     }
                 }
-                else{
-                    //else just remove the first interpolation
+                else if(temp->getEnd().second == second){
+                    //test if have the next
+                    if(search+1u<this->animations.size()){
+                        //load the last interpolation
+                        edk::animation::InterpolationLine* last = this->animations[search+1u];
+                        if(last){
+                            //send the last to the end of the stack
+                            this->animations.bringPositionTo(search+1u,this->animations.size()-1u);
 
-                    //send the forst to the end of the stack
-                    this->animations.bringPositionTo(search,this->animations.size()-1u);
+                            //remove the last
+                            this->animations.remove(this->animations.size()-1u);
 
-                    //remove the last
-                    this->animations.remove(this->animations.size()-1u);
-
-                    delete temp;
-                    ret=true;
-                }
-            }
-            else if(temp->getEnd().second == second){
-                //test if have the next
-                if(search+1u<this->animations.size()){
-                    //load the last interpolation
-                    edk::animation::InterpolationLine* last = this->animations[search+1u];
-                    if(last){
-                        //send the last to the end of the stack
-                        this->animations.bringPositionTo(search+1u,this->animations.size()-1u);
-
-                        //remove the last
-                        this->animations.remove(this->animations.size()-1u);
-
-                        //set the end of the temp
-                        //temp->setEnd(last->getEnd().second);
-                        this->copyEndToEnd(last,temp);
-                        //delete last
-                        delete last;
-                        ret=true;
+                            //set the end of the temp
+                            //temp->setEnd(last->getEnd().second);
+                            this->copyEndToEnd(last,temp);
+                            //delete last
+                            delete last;
+                            ret=true;
+                        }
                     }
-                }
-                else{
-                    //just remove the interpolation
+                    else{
+                        //just remove the interpolation
 
-                    //load the last
-                    edk::animation::InterpolationLine* last = this->animations[this->animations.size()-1u];
-                    if(last){
-                        this->animations.remove(this->animations.size()-1u);
-                        delete last;
-                        ret=true;
+                        //load the last
+                        edk::animation::InterpolationLine* last = this->animations[this->animations.size()-1u];
+                        if(last){
+                            this->animations.remove(this->animations.size()-1u);
+                            delete last;
+                            ret=true;
+                        }
                     }
                 }
             }
@@ -1213,6 +1215,34 @@ edk::float32 edk::animation::InterpolationGroup::updateClockAnimation(){
     this->clock.start();
     //else return 0.0f
     return ret;
+}
+//test if have the keyframe
+bool edk::animation::InterpolationGroup::haveKeyframe(edk::float32 second){
+    if(this->animations.size()){
+        //search the interpolation
+        edk::uint32 search = this->searchBackInterpoaltion(second);
+        if(this->animations.havePos(search)){
+            //load the interpolation
+            edk::animation::InterpolationLine* temp = this->animations[search];
+            if(temp){
+                //test if the second is the start
+                if(temp->getStart().second == second){
+                    return true;
+                }
+                else if(temp->getEnd().second == second){
+                    //
+                    return true;
+                }
+            }
+        }
+    }
+    else if(this->tempFrame){
+        //test the tempFrame
+        if(this->tempFrame->second == second){
+            return true;
+        }
+    }
+    return false;
 }
 
 //Print the frames

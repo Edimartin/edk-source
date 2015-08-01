@@ -60,6 +60,9 @@ class Interpolation1DGroup: public edk::animation::InterpolationGroup{
         //set as constant interpolation
         bool setConstantX(edk::uint32 position);
         bool setLinearX(edk::uint32 position);
+        //set all as constant interpolation
+        void setAllConstantX();
+        void setAllLinearX();
         //Set the interpolation curve points
         bool setInterpolationP1X(edk::uint32 position,edk::float32 second,edk::float32 x);
         bool setInterpolationP2X(edk::uint32 position,edk::float32 second,edk::float32 x);

@@ -268,6 +268,23 @@ bool edk::animation::Interpolation2DGroup::setLinearY(edk::uint32 position){
     }
     return false;
 }
+//set all as constant interpolation
+void edk::animation::Interpolation2DGroup::setAllConstantY(){
+    edk::uint32 size = this->animations.size();
+    edk::animation::InterpolationLine2D* temp = NULL;
+    for(edk::uint32 i=0u;i<size;i++){
+        temp = (edk::animation::InterpolationLine2D*)this->animations[i];
+        temp->setConstantY();
+    }
+}
+void edk::animation::Interpolation2DGroup::setAllLinearY(){
+    edk::uint32 size = this->animations.size();
+    edk::animation::InterpolationLine2D* temp = NULL;
+    for(edk::uint32 i=0u;i<size;i++){
+        temp = (edk::animation::InterpolationLine2D*)this->animations[i];
+        temp->setLinearY();
+    }
+}
 //Set the interpolation curve points
 bool edk::animation::Interpolation2DGroup::setInterpolationP1Y(edk::uint32 position,edk::float32 second,edk::float32 y){
     //test if have the interpolation
