@@ -48,8 +48,12 @@ public:
 
     //add one action
     bool addAction(edk::float32 second,edk::Action* action);
+    bool addZeroAction(edk::float32 second);
     //remove second
     bool removeSecond(edk::float32 second);
+
+    //clean animation
+    void clean();
 
     //update animations
     void update();

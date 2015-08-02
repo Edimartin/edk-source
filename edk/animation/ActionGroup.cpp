@@ -24,11 +24,10 @@ Gravatai RS Brazil 94065100
 #warning "            Inside ActionGroup.cpp"
 #endif
 
-edk::animation::ActionGroup::ActionGroup()
-{
+edk::animation::ActionGroup::ActionGroup(){
 }
-edk::animation::ActionGroup::~ActionGroup()
-{
+edk::animation::ActionGroup::~ActionGroup(){
+    this->clean();
 }
 
 //add one action
@@ -48,6 +47,10 @@ bool edk::animation::ActionGroup::addAction(edk::float32 second,edk::Action* act
     }
     return ret;
 }
+bool edk::animation::ActionGroup::addZeroAction(edk::float32 second){
+    return this->addAction(second,new edk::ActionZero());
+}
+
 //remove second
 bool edk::animation::ActionGroup::removeSecond(edk::float32 second){
     if(this->anim.haveKeyframe(second)){
@@ -57,6 +60,13 @@ bool edk::animation::ActionGroup::removeSecond(edk::float32 second){
     //clean the secon on the tree
     this->tree.cleanActionsInSecond(second);
     return false;
+}
+
+//clean animation
+void edk::animation::ActionGroup::clean(){
+    this->anim.cleanFrameSelected();
+    this->anim.cleanAnimations();
+    this->tree.cleanActions();
 }
 
 //update animations

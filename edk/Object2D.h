@@ -41,6 +41,7 @@ Gravatai RS Brazil 94065100
 #include "animation/Interpolation1DGroup.h"
 #include "animation/Interpolation2DGroup.h"
 #include "animation/Interpolation3DGroup.h"
+#include "animation/ActionGroup.h"
 
 #ifdef printMessages
 #warning "    Compiling Object2D"
@@ -96,6 +97,51 @@ public:
     bool updateMeshAnimations(edk::uchar32 position);
     //update all animations
     virtual bool updateAnimations();
+
+    //ACTIONS
+    //play actions
+    void playForwardActions();
+    void playForwardInActions(edk::float32 second);
+    //void playRewind();
+    //void playRewindIn(edk::float32 second);
+    void pauseActions();
+    void stopActions();
+    //set loop
+    void setLoopActions(bool loop);
+    void loopOnActions();
+    void loopOffActions();
+
+    //return if are playing
+    bool isPlayingActions();
+    bool isPausedActions();
+    //update actions
+    void updateActions();
+    //Add zero action
+    bool actionZero(edk::float32 second);
+    //add move action
+    bool actionSetPosition(edk::float32 second,edk::vec2f32 position);
+    bool actionSetPosition(edk::float32 second,edk::float32 x,edk::float32 y);
+    //add move action
+    bool actionMoveFor(edk::float32 second,edk::float32 duration, edk::vec2f32 position);
+    bool actionMoveFor(edk::float32 second,edk::float32 duration, edk::float32 x,edk::float32 y);
+    bool actionMoveTo(edk::float32 start,edk::float32 end, edk::vec2f32 position);
+    bool actionMoveTo(edk::float32 start,edk::float32 end, edk::float32 x,edk::float32 y);
+    //add scale action
+    bool actionSetSize(edk::float32 second,edk::size2f32 size);
+    bool actionSetSize(edk::float32 second,edk::float32 width,edk::float32 height);
+    bool actionSetSize(edk::float32 second,edk::float32 size);
+    //add scale action
+    bool actionSizeFor(edk::float32 second,edk::float32 duration, edk::size2f32 size);
+    bool actionSizeFor(edk::float32 second,edk::float32 duration, edk::float32 width,edk::float32 height);
+    bool actionSizeFor(edk::float32 second,edk::float32 duration, edk::float32 size);
+    bool actionSizeTo(edk::float32 start,edk::float32 end, edk::size2f32 size);
+    bool actionSizeTo(edk::float32 start,edk::float32 end, edk::float32 width,edk::float32 height);
+    bool actionSizeTo(edk::float32 start,edk::float32 end, edk::float32 size);
+    //add angle action
+    bool actionSetAngle(edk::float32 second,edk::float32 angle);
+    //add angle action
+    bool actionAngleFor(edk::float32 second,edk::float32 duration, edk::float32 angle);
+    bool actionAngleTo(edk::float32 start,edk::float32 end, edk::float32 angle);
 
     //DRAW
     //print the mesh
@@ -243,6 +289,67 @@ private:
     edk::float32 lightPositions[EDK_LIGHT_LIMIT][4u];
     edk::float32 lightDirections[EDK_LIGHT_LIMIT][4u];
     bool lightIsOn[EDK_LIGHT_LIMIT];
+    //action group
+    edk::animation::ActionGroup actions;
+
+    //Actions
+    class ActionPosition:public edk::ActionZero{
+    public:
+        ActionPosition(edk::Object2D* object, edk::vec2f32 position);
+        //run action function
+        void runAction();
+    private:
+        edk::vec2f32 position;
+        edk::Object2D* object;
+    };
+    class ActionMove:public edk::ActionZero{
+    public:
+        ActionMove(edk::Object2D* object,edk::float32 duration, edk::vec2f32 position);
+        //run action function
+        void runAction();
+    private:
+        edk::vec2f32 position;
+        edk::float32 duration;
+        edk::Object2D* object;
+    };
+    class ActionSetSize:public edk::ActionZero{
+    public:
+        ActionSetSize(edk::Object2D* object, edk::size2f32 scale);
+        //run action function
+        void runAction();
+    private:
+        edk::size2f32 size;
+        edk::Object2D* object;
+    };
+    class ActionSize:public edk::ActionZero{
+    public:
+        ActionSize(edk::Object2D* object,edk::float32 duration, edk::size2f32 size);
+        //run action function
+        void runAction();
+    private:
+        edk::size2f32 size;
+        edk::float32 duration;
+        edk::Object2D* object;
+    };
+    class ActionSetAngle:public edk::ActionZero{
+    public:
+        ActionSetAngle(edk::Object2D* object, edk::float32 angle);
+        //run action function
+        void runAction();
+    private:
+        edk::float32 angle;
+        edk::Object2D* object;
+    };
+    class ActionAngle:public edk::ActionZero{
+    public:
+        ActionAngle(edk::Object2D* object,edk::float32 duration, edk::float32 angle);
+        //run action function
+        void runAction();
+    private:
+        edk::float32 angle;
+        edk::float32 duration;
+        edk::Object2D* object;
+    };
 
 public:
 
@@ -267,9 +374,9 @@ public:
         this->animationRotation = obj.animationRotation;
         this->animationSize = obj.animationSize;
 
-        this->position=obj.position;
-        this->angle=obj.angle;
-        this->size=obj.size;
+        this->position = obj.position;
+        this->angle = obj.angle;
+        this->size = obj.size;
 
         obj.cantDeleteObject2D();
         return obj;

@@ -31,7 +31,7 @@ Gravatai RS Brazil 94065100
 
 #pragma once
 #include "TypeVars.h"
-#include "vector/BinaryTree.h"
+#include "NameClass.h"
 
 namespace edk{
 //This is an Action. You can use this class to save actions to animation or ctrl+z.
@@ -64,6 +64,29 @@ public:
     }
 };
 //Action with names
+class ActionName: public edk::Name ,public edk::Action{
+public:
+    ActionName(){}
+    ActionName(edk::char8* _name){
+        edk::Name::setName(_name);
+    }
+    ActionName(const char* _name){
+        edk::Name::setName(_name);
+    }
+    virtual ~ActionName(){
+        this->deleteName();
+    }
+
+    //run action function
+    virtual void runAction(){}
+    //run a counter action used for ctrl+z
+    virtual void runCounterAction(){}
+
+    //return the code
+    virtual edk::uint64 getCode(){
+        return 0u;
+    }
+};
 }//end namespace edk
 
 #endif // ACTION_H

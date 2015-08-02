@@ -48,6 +48,65 @@ edk::Object2D::~Object2D(){
     this->canDeleteObject=true;
 }
 
+//Actions
+edk::Object2D::ActionPosition::ActionPosition(edk::Object2D* object, edk::vec2f32 position){
+    this->position=position;
+    this->object=object;
+}
+//run action function
+void edk::Object2D::ActionPosition::runAction(){
+    this->object->position = this->position;
+}
+edk::Object2D::ActionMove::ActionMove(edk::Object2D* object,edk::float32 duration, edk::vec2f32 position){
+    this->position=position;
+    this->duration = duration;
+    this->object=object;
+}
+//run action function
+void edk::Object2D::ActionMove::runAction(){
+    this->object->animationPosition.cleanAnimations();
+    this->object->animationPosition.addFirstInterpolationLine(0,this->object->position.x,this->object->position.y,this->duration,this->position.x,this->position.y);
+    this->object->animationPosition.playForward();
+}
+edk::Object2D::ActionSetSize::ActionSetSize(edk::Object2D* object, edk::size2f32 size){
+    this->object=object;
+    this->size=size;
+}
+//run action function
+void edk::Object2D::ActionSetSize::runAction(){
+    this->object->size = this->size;
+}
+edk::Object2D::ActionSize::ActionSize(edk::Object2D* object,edk::float32 duration, edk::size2f32 size){
+    this->size=size;
+    this->duration = duration;
+    this->object=object;
+}
+//run action function
+void edk::Object2D::ActionSize::runAction(){
+    this->object->animationSize.cleanAnimations();
+    this->object->animationSize.addFirstInterpolationLine(0,this->object->size.width,this->object->size.height,this->duration,this->size.width,this->size.height);
+    this->object->animationSize.playForward();
+}
+edk::Object2D::ActionSetAngle::ActionSetAngle(edk::Object2D* object, edk::float32 angle){
+    this->object = object;
+    this->angle = angle;
+}
+//run action function
+void edk::Object2D::ActionSetAngle::runAction(){
+    this->object->angle = this->angle;
+}
+edk::Object2D::ActionAngle::ActionAngle(edk::Object2D* object,edk::float32 duration, edk::float32 angle){
+    this->object = object;
+    this->duration = duration;
+    this->angle = angle;
+}
+//run action function
+void edk::Object2D::ActionAngle::runAction(){
+    this->object->animationRotation.cleanAnimations();
+    this->object->animationRotation.addFirstInterpolationLine(0,this->object->angle,this->duration,this->angle);
+    this->object->animationRotation.playForward();
+}
+
 //Add a list to the Object2D
 edk::uint32 edk::Object2D::addMesh(edk::shape::Mesh2D* mesh){
     //test if the list exist
@@ -299,6 +358,122 @@ bool edk::Object2D::updateAnimations(){
     }
     this->updateMeshAnimations();
     return ret;
+}
+
+//ACTIONS
+//play actions
+void edk::Object2D::playForwardActions(){
+    this->actions.playForward();
+}
+void edk::Object2D::playForwardInActions(edk::float32 second){
+    this->actions.playForwardIn(second);
+}
+void edk::Object2D::pauseActions(){
+    this->actions.pause();
+}
+void edk::Object2D::stopActions(){
+    this->actions.stop();
+}
+//set loop
+void edk::Object2D::setLoopActions(bool loop){
+    this->actions.setLoop(loop);
+}
+void edk::Object2D::loopOnActions(){
+    this->actions.loopOn();
+}
+void edk::Object2D::loopOffActions(){
+    this->actions.loopOff();
+}
+
+//return if are playing
+bool edk::Object2D::isPlayingActions(){
+    return this->actions.isPlaying();
+}
+bool edk::Object2D::isPausedActions(){
+    return this->actions.isPaused();
+}
+//update actions
+void edk::Object2D::updateActions(){
+    this->actions.update();
+}
+//Add zero action
+bool edk::Object2D::actionZero(edk::float32 second){
+    return this->actions.addAction(second,new edk::ActionZero);
+}
+//add move action
+bool edk::Object2D::actionSetPosition(edk::float32 second,edk::vec2f32 position){
+    return this->actions.addAction(second,new edk::Object2D::ActionPosition(this,position));
+}
+bool edk::Object2D::actionSetPosition(edk::float32 second,edk::float32 x,edk::float32 y){
+    return this->actionSetPosition(second,edk::vec2f32(x,y));
+}
+//add move action
+bool edk::Object2D::actionMoveFor(edk::float32 second,edk::float32 duration, edk::vec2f32 position){
+    //create the action
+    if (this->actions.addAction(second,new edk::Object2D::ActionMove(this,duration,position))){
+        this->actions.addZeroAction(second+duration);
+        return true;
+    }
+    return false;
+}
+bool edk::Object2D::actionMoveFor(edk::float32 second,edk::float32 duration, edk::float32 x,edk::float32 y){
+    return this->actionMoveFor(second,duration, edk::vec2f32(x,y));
+}
+bool edk::Object2D::actionMoveTo(edk::float32 start,edk::float32 end, edk::vec2f32 position){
+    return this->actionMoveFor(start,end-start, position);
+}
+bool edk::Object2D::actionMoveTo(edk::float32 start,edk::float32 end, edk::float32 x,edk::float32 y){
+    return this->actionMoveFor(start,end-start,x,y);
+}
+//add scale action
+bool edk::Object2D::actionSetSize(edk::float32 second,edk::size2f32 size){
+    //create the action
+    return this->actions.addAction(second,new edk::Object2D::ActionSetSize(this,size));
+}
+bool edk::Object2D::actionSetSize(edk::float32 second,edk::float32 width,edk::float32 height){
+    return this->actionSetSize(second,edk::size2f32(width,height));
+}
+bool edk::Object2D::actionSetSize(edk::float32 second,edk::float32 size){
+    return this->actionSetSize(second,size,size);
+}
+//add scale action
+bool edk::Object2D::actionSizeFor(edk::float32 second,edk::float32 duration, edk::size2f32 size){
+    //create the action
+    if (this->actions.addAction(second,new edk::Object2D::ActionSize(this,duration,size))){
+        this->actions.addZeroAction(second+duration);
+        return true;
+    }
+    return false;
+}
+bool edk::Object2D::actionSizeFor(edk::float32 second,edk::float32 duration, edk::float32 width,edk::float32 height){
+    return this->actionSizeFor(second,duration, edk::size2f32( width,height));
+}
+bool edk::Object2D::actionSizeFor(edk::float32 second,edk::float32 duration, edk::float32 size){
+    return this->actionSizeFor(second,duration, size,size);
+}
+bool edk::Object2D::actionSizeTo(edk::float32 start,edk::float32 end, edk::size2f32 size){
+    return this->actionSizeFor(start,end-start, size);
+}
+bool edk::Object2D::actionSizeTo(edk::float32 start,edk::float32 end, edk::float32 width,edk::float32 height){
+    return this->actionSizeFor(start,end-start, width,height);
+}
+bool edk::Object2D::actionSizeTo(edk::float32 start,edk::float32 end, edk::float32 size){
+    return this->actionSizeFor(start,end-start, size);
+}
+//add angle action
+bool edk::Object2D::actionSetAngle(edk::float32 second,edk::float32 angle){
+    return this->actions.addAction(second,new edk::Object2D::ActionSetAngle(this,angle));
+}
+//add angle action
+bool edk::Object2D::actionAngleFor(edk::float32 second,edk::float32 duration, edk::float32 angle){
+    if(this->actions.addAction(second,new edk::Object2D::ActionAngle(this,duration,angle))){
+        this->actions.addZeroAction(second);
+        return true;
+    }
+    return false;
+}
+bool edk::Object2D::actionAngleTo(edk::float32 start,edk::float32 end, edk::float32 angle){
+    return this->actionAngleFor(start,end-start, angle);
 }
 
 //DRAW
