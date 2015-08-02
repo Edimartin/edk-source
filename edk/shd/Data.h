@@ -39,7 +39,7 @@ Gravatai RS Brazil 94065100
 //The data use GU_GLSL
 #include "../GU/GU_GLSL.h"
 
-#include "../vector/BinaryTree.h"
+#include "../NameClass.h"
 
 #ifdef printMessages
 #warning "    Compiling Data"
@@ -47,7 +47,7 @@ Gravatai RS Brazil 94065100
 
 namespace edk{
 namespace shd{
-class Data: public edk::vector::Name{
+class Data: public edk::Name{
     public:
         Data();
         virtual ~Data();

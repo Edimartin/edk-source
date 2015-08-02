@@ -726,7 +726,7 @@ bool edk::animation::InterpolationGroup::addNewAnimationName(edk::char8* name, e
                         temp->start=start;
                         temp->end=end;
                         //add the temp
-                        if(this->animationNames.add((edk::vector::Name*)temp)){
+                        if(this->animationNames.add((edk::Name*)temp)){
                             //then return true
                             return true;
                         }

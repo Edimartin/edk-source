@@ -23,7 +23,7 @@ Gravatai RS Brazil 94065100
 
 #pragma once
 #include "../TypeVec2.h"
-#include "../vector/BinaryTree.h"
+#include "../NameClass.h"
 #include "../vector/Stack.h"
 #include "../Math.h"
 
@@ -39,7 +39,7 @@ Gravatai RS Brazil 94065100
 
 namespace edk{
 namespace bones{
-class Bone2D : public edk::vector::Name{
+class Bone2D : public edk::Name{
 public:
     Bone2D();
     Bone2D(edk::char8* name);

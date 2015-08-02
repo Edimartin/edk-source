@@ -160,11 +160,11 @@ private:
 protected:
 
     //Animation Names
-    class AnimationPathNames:public edk::vector::Name{
+    class AnimationPathNames:public edk::Name{
     public:
         AnimationPathNames(){this->start = this->end = 0u;}
         AnimationPathNames(edk::char8* name)
-            :edk::vector::Name(name){
+            :edk::Name(name){
             this->start = this->end = 0u;
         }
         ~AnimationPathNames(){

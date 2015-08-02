@@ -35,6 +35,7 @@ Gravatai RS Brazil 94065100
 //Clock for the animation
 #include "../watch/Time.h"
 //BinaryTree
+#include "../NameClass.h"
 #include "../vector/BinaryTree.h"
 //The Object
 #include "../Object.h"
@@ -54,14 +55,14 @@ public:
 };
 
 //animationName
-class AnimationName:public edk::vector::Name{
+class AnimationName:public edk::Name{
     //
 public:
     AnimationName(){
         //
     }
     AnimationName(edk::char8* name)
-        :edk::vector::Name(name)
+        :edk::Name(name)
     {
         //
     }

@@ -37,7 +37,7 @@ edk::shd::GLSL::shaderLink::shaderLink(){
 }
 edk::shd::GLSL::shaderLink::shaderLink(edk::char8* name){
     //set the name
-    edk::vector::Name::setName(name);
+    edk::Name::setName(name);
 }
 edk::shd::GLSL::shaderLink::~shaderLink(){
     //delete the shader
@@ -206,12 +206,12 @@ bool edk::shd::GLSL::TreeShader::firstEqualSecond(edk::shd::GLSL::shaderLink* fi
 bool edk::shd::GLSL::TreeShader::addShader(edk::shd::GLSL::shaderLink* shader){
     if(shader){
         //test if dont have the shader in treeName
-        if(!this->treeNames.haveElement((edk::vector::Name*)shader)){
+        if(!this->treeNames.haveElement((edk::Name*)shader)){
             //set the shader position
             shader->position = this->lastPosition;
             //add the shader to the tree
             if(this->add(shader)){
-                if(this->treeNames.add((edk::vector::Name*)shader)){
+                if(this->treeNames.add((edk::Name*)shader)){
                     //increment last position
                     this->lastPosition += 0.1f;
                     return true;
@@ -226,10 +226,10 @@ bool edk::shd::GLSL::TreeShader::addShader(edk::shd::GLSL::shaderLink* shader){
 bool edk::shd::GLSL::TreeShader::removeShader(edk::shd::GLSL::shaderLink* shader){
     if(shader){
         //test if have the shader
-        if(this->treeNames.haveElement((edk::vector::Name*)shader)){
+        if(this->treeNames.haveElement((edk::Name*)shader)){
             //remove the shader from the two trees
             this->remove(shader);
-            this->treeNames.remove((edk::vector::Name*)shader);
+            this->treeNames.remove((edk::Name*)shader);
             return true;
         }
     }

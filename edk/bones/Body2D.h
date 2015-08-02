@@ -178,7 +178,7 @@ private:
         bool firstBiggerSecond(edk::bones::Bone2D* first,edk::bones::Bone2D* second){
             //
             if(first && second){
-                if(edk::vector::Name::firstNameBiggerSecond(first->getName(),second->getName())){
+                if(edk::Name::firstNameBiggerSecond(first->getName(),second->getName())){
                     return true;
                 }
             }
@@ -187,7 +187,7 @@ private:
         bool firstEqualSecond(edk::bones::Bone2D* first,edk::bones::Bone2D* second){
             //
             if(first && second){
-                if(edk::vector::Name::stringEqual(first->getName(),second->getName())){
+                if(edk::Name::stringEqual(first->getName(),second->getName())){
                     return true;
                 }
             }

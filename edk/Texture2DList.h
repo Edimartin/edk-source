@@ -28,8 +28,7 @@ Gravatai RS Brazil 94065100
 //Includes
 #pragma once
 #include "Texture2DFile.h"
-#include "vector/BinaryTree.h"
-//#include "Object.h"
+#include "NameClass.h"
 
 #ifdef printMessages
 #warning "    Compiling Texture2DList"
@@ -87,7 +86,7 @@ public:
 protected:
 private:
     //Class to save the texture by the name and code
-    class TextureCode: public edk::vector::Name {
+    class TextureCode: public edk::Name {
     public:
         TextureCode(){
             this->code=0u;
@@ -201,7 +200,7 @@ private:
                         return true;
                     }
                     else if(first->filter==second->filter){
-                        if(edk::vector::Name::firstNameBiggerSecond(first->getName(),second->getName())){
+                        if(edk::Name::firstNameBiggerSecond(first->getName(),second->getName())){
                             if(first->filter>second->filter){
                                 //
                                 return true;
@@ -215,7 +214,7 @@ private:
         virtual bool firstEqualSecond(edk::Texture2DList::TextureCode* first,edk::Texture2DList::TextureCode* second){
             if(first && second){
                 if(first->filter==second->filter){
-                    if(edk::vector::Name::stringEqual(first->getName(),second->getName())){
+                    if(edk::Name::stringEqual(first->getName(),second->getName())){
                         //
                         return true;
                     }

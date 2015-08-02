@@ -23,7 +23,7 @@ Gravatai RS Brazil 94065100
 
 #pragma once
 #include "../tiles/TileSet2D.h"
-#include "../vector/BinaryTree.h"
+#include "../NameClass.h"
 
 namespace edk{
 namespace fonts{
@@ -69,7 +69,7 @@ public:
     edk::char8* getName();
 private:
     edk::tiles::TileSet2D tileSet;
-    edk::vector::Name name;
+    edk::Name name;
     edk::uint32 filter;
 };
 

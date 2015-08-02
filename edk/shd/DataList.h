@@ -52,7 +52,7 @@ public:
     ~dataTREE(){
         //
     }
-    void updateElement(edk::vector::Name* shader){
+    void updateElement(edk::Name* shader){
         //update the tree
         edk::shd::Data* temp = (edk::shd::Data*)shader;
         temp->updateData();

@@ -27,6 +27,7 @@ Gravatai RS Brazil 94065100
 
 #pragma once
 #include "../TypeVars.h"
+#include "../NameClass.h"
 #include "../String.h"
 #include "./Array.h"
 
@@ -869,7 +870,7 @@ private:
     }
 };
 
-
+/*
 //Class with name to save in the nameTree
 class Name{
 public:
@@ -919,11 +920,6 @@ public:
         //else return false
         return false;
     }
-    /*
-    bool setName(const char* _name){
-        return this->setName((edk::char8*) _name);
-    }
-    */
     //get the name
     edk::char8* getName(){
         //
@@ -1010,10 +1006,10 @@ private:
     edk::char8* _name;
     bool canDelete;
 };
-
+*/
 
 //String TREE
-class NameTree:public BinaryTree<edk::vector::Name*>{
+class NameTree:public BinaryTree<edk::Name*>{
 public:
     //Construtor
     NameTree(){
@@ -1037,10 +1033,10 @@ public:
     }
     bool addName(edk::char8* value){
         //
-        edk::vector::Name* temp = new edk::vector::Name(value);
+        edk::Name* temp = new edk::Name(value);
         if(temp){
             //
-            if(edk::vector::BinaryTree<edk::vector::Name*>::add(temp)){
+            if(edk::vector::BinaryTree<edk::Name*>::add(temp)){
                 //
                 return true;
             }
@@ -1056,15 +1052,15 @@ public:
     }
     bool removeName(edk::char8* value){
         //
-        edk::vector::Name find(value);
-        return edk::vector::BinaryTree<edk::vector::Name*>::remove(&find);
+        edk::Name find(value);
+        return edk::vector::BinaryTree<edk::Name*>::remove(&find);
     }
     //REMOVE THE ELEMENT IN POSITION
     bool removeNameInPosition(edk::uint32 position){
         //get the element
-        edk::vector::Name* temp = this->getElementInPosition(position);
+        edk::Name* temp = this->getElementInPosition(position);
         if(temp){
-            return edk::vector::BinaryTree<edk::vector::Name*>::remove(temp);
+            return edk::vector::BinaryTree<edk::Name*>::remove(temp);
         }
         return false;
     }
@@ -1075,9 +1071,9 @@ public:
     }
     bool deleteName(edk::char8* value){
         //
-        edk::vector::Name find(value);
-        edk::vector::Name *temp =  edk::vector::BinaryTree<edk::vector::Name*>::getElement(&find);
-        if(edk::vector::BinaryTree<edk::vector::Name*>::remove(temp)){
+        edk::Name find(value);
+        edk::Name *temp =  edk::vector::BinaryTree<edk::Name*>::getElement(&find);
+        if(edk::vector::BinaryTree<edk::Name*>::remove(temp)){
             delete temp;
             return true;
         }
@@ -1086,9 +1082,9 @@ public:
     //DELETE THE ELEMENT IN POSITION
     bool deleteNameInPosition(edk::uint32 position){
         //get the element
-        edk::vector::Name* temp = this->getElementInPosition(position);
+        edk::Name* temp = this->getElementInPosition(position);
         if(temp){
-            if(edk::vector::BinaryTree<edk::vector::Name*>::remove(temp)){
+            if(edk::vector::BinaryTree<edk::Name*>::remove(temp)){
                 delete temp;
                 return true;
             }
@@ -1097,14 +1093,14 @@ public:
     }
     //DELETE ALL THE NAMES
     void deleteAllNames(){
-        for(unsigned int i=0u;i<edk::vector::BinaryTree<edk::vector::Name*>::size();i++){
-            edk::vector::Name* temp = this->getElementInPosition(i);
+        for(unsigned int i=0u;i<edk::vector::BinaryTree<edk::Name*>::size();i++){
+            edk::Name* temp = this->getElementInPosition(i);
             if(temp){
                 delete temp;
                 temp=NULL;
             }
         }
-        edk::vector::BinaryTree<edk::vector::Name*>::clean();
+        edk::vector::BinaryTree<edk::Name*>::clean();
     }
     //remove all names
     //HAVE ELEMENT
@@ -1114,23 +1110,23 @@ public:
     }
     bool haveName(edk::char8* value){
         //
-        edk::vector::Name temp(value);
-        return edk::vector::BinaryTree<edk::vector::Name*>::haveElement(&temp);
+        edk::Name temp(value);
+        return edk::vector::BinaryTree<edk::Name*>::haveElement(&temp);
     }
     //GET ELEMENT
-    edk::vector::Name* getElementByName(const char* value){
+    edk::Name* getElementByName(const char* value){
         //
         return getElementByName((edk::char8*) value);
     }
-    edk::vector::Name* getElementByName(edk::char8* value){
+    edk::Name* getElementByName(edk::char8* value){
         //
-        edk::vector::Name temp(value);
-        return edk::vector::BinaryTree<edk::vector::Name*>::getElement(&temp);
+        edk::Name temp(value);
+        return edk::vector::BinaryTree<edk::Name*>::getElement(&temp);
     }
     //GET NAME IN POSITION
     edk::char8* getNameInPosition(edk::uint32 position){
         //get the position in the TREE
-        edk::vector::Name* temp = this->getElementInPosition(position);
+        edk::Name* temp = this->getElementInPosition(position);
         //if have the position
         if(temp){
             //return the name
@@ -1146,7 +1142,7 @@ public:
 
 protected:
     //Virtual Functions
-    bool firstBiggerSecond(edk::vector::Name* first,edk::vector::Name* second){
+    bool firstBiggerSecond(edk::Name* first,edk::Name* second){
         //test the values
         if(first && second){
             //then thes the strings
@@ -1155,7 +1151,7 @@ protected:
         }
         return false;
     }
-    bool firstEqualSecond(edk::vector::Name* first,edk::vector::Name* second){
+    bool firstEqualSecond(edk::Name* first,edk::Name* second){
         //test the values
         if(first && second){
             //then thes the strings
@@ -1167,7 +1163,7 @@ protected:
     //Print
     void printElement(edk::char8* value){
         //
-        edk::vector::Name* temp = (edk::vector::Name*)value;
+        edk::Name* temp = (edk::Name*)value;
         if(temp){
             //
             printf("\nString '%s'"

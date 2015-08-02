@@ -89,7 +89,7 @@ class GLSL:public edk::shd::DataList{
     protected:
     private:
     //shaderClass
-    class shaderLink: public edk::vector::Name{
+    class shaderLink: public edk::Name{
         public:
         shaderLink();
         shaderLink(edk::char8* name);

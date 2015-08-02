@@ -27,13 +27,13 @@ edk::bones::Bone2D::Bone2D(){
     this->canDeleteBone=true;
 }
 edk::bones::Bone2D::Bone2D(edk::char8* name)
-    : edk::vector::Name(name){
+    : edk::Name(name){
     this->vector = edk::vec2f32(0,1);
     this->angle = 0u;
     this->canDeleteBone=true;
 }
 edk::bones::Bone2D::Bone2D(const char* name)
-    : edk::vector::Name(name){
+    : edk::Name(name){
     this->vector = edk::vec2f32(0,1);
     this->angle = 0u;
     this->canDeleteBone=true;
@@ -1105,6 +1105,6 @@ edk::vec2f32 edk::bones::Bone2D::calculateInverseKinematic(edk::bones::Bone2D* b
     return ret;
 }
 void edk::bones::Bone2D::cantDelete(){
-    edk::vector::Name::cantDelete();
+    edk::Name::cantDelete();
     this->canDeleteBone = false;
 }
