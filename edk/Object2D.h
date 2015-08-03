@@ -142,6 +142,11 @@ public:
     //add angle action
     bool actionAngleFor(edk::float32 second,edk::float32 duration, edk::float32 angle);
     bool actionAngleTo(edk::float32 start,edk::float32 end, edk::float32 angle);
+    //MESH SPRITE SHEET
+    bool actionPlayName(edk::float32 second,edk::uint32 id,edk::char8* name,bool loop=false);
+    bool actionPlayName(edk::float32 second,edk::uint32 id,const char* name,bool loop=false);
+    bool actionPlayNameFor(edk::float32 second,edk::float32 duration,edk::uint32 id,edk::char8* name);
+    bool actionPlayNameFor(edk::float32 second,edk::float32 duration,edk::uint32 id,const char* name);
 
     //DRAW
     //print the mesh
@@ -348,6 +353,25 @@ private:
     private:
         edk::float32 angle;
         edk::float32 duration;
+        edk::Object2D* object;
+    };
+    class ActionMeshName: public edk::ActionName{
+    public:
+        ActionMeshName(edk::Object2D* object,edk::uint32 id, edk::char8* name,bool loop);
+        //run action function
+        void runAction();
+    private:
+        edk::uint32 id;
+        bool loop;
+        edk::Object2D* object;
+    };
+    class ActionMeshStop: public edk::ActionZero{
+    public:
+        ActionMeshStop(edk::Object2D* object,edk::uint32 id);
+        //run action function
+        void runAction();
+    private:
+        edk::uint32 id;
         edk::Object2D* object;
     };
 

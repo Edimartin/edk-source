@@ -106,6 +106,33 @@ void edk::Object2D::ActionAngle::runAction(){
     this->object->animationRotation.addFirstInterpolationLine(0,this->object->angle,this->duration,this->angle);
     this->object->animationRotation.playForward();
 }
+edk::Object2D::ActionMeshName::ActionMeshName(edk::Object2D* object,edk::uint32 id, edk::char8* name,bool loop){
+    this->object=object;
+    this->loop = loop;
+    this->id = id;
+    this->setName(name);
+}
+//run action function
+void edk::Object2D::ActionMeshName::runAction(){
+    //load the mesh
+    edk::shape::Mesh2D* mesh = this->object->getMesh(this->id);
+    if(mesh){
+        mesh->selectedAnimationSetLoop(this->loop);
+        mesh->selectedAnimationPlayNameForward(this->name());
+    }
+}
+edk::Object2D::ActionMeshStop::ActionMeshStop(edk::Object2D* object,edk::uint32 id){
+    this->object=object;
+    this->id = id;
+}
+//run action function
+void edk::Object2D::ActionMeshStop::runAction(){
+    //load the mesh
+    edk::shape::Mesh2D* mesh = this->object->getMesh(this->id);
+    if(mesh){
+        mesh->selectedAnimationStop();
+    }
+}
 
 //Add a list to the Object2D
 edk::uint32 edk::Object2D::addMesh(edk::shape::Mesh2D* mesh){
@@ -474,6 +501,26 @@ bool edk::Object2D::actionAngleFor(edk::float32 second,edk::float32 duration, ed
 }
 bool edk::Object2D::actionAngleTo(edk::float32 start,edk::float32 end, edk::float32 angle){
     return this->actionAngleFor(start,end-start, angle);
+}
+//MESH SPRITE SHEET
+bool edk::Object2D::actionPlayName(edk::float32 second,edk::uint32 id,edk::char8* name,bool loop){
+    //
+    return this->actions.addAction(second,new edk::Object2D::ActionMeshName(this,id,name,loop));
+}
+bool edk::Object2D::actionPlayName(edk::float32 second,edk::uint32 id,const char* name,bool loop){
+    //
+    return actionPlayName(second,id,(edk::char8*)name,loop);
+}
+bool edk::Object2D::actionPlayNameFor(edk::float32 second,edk::float32 duration,edk::uint32 id,edk::char8* name){
+    if(this->actions.addAction(second,new edk::Object2D::ActionMeshName(this,id,name,true))){
+        //add the stop action
+        this->actions.addAction(second+duration,new edk::Object2D::ActionMeshStop(this,id));
+        return true;
+    }
+    return false;
+}
+bool edk::Object2D::actionPlayNameFor(edk::float32 second,edk::float32 duration,edk::uint32 id,const char* name){
+    return this->actionPlayNameFor(second,duration,id,(edk::char8*)name);
 }
 
 //DRAW
