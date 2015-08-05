@@ -41,9 +41,11 @@ edk::Object2D::~Object2D(){
     }
     else{
         this->meshes.cantDestroy();
+        this->meshes.cantDeleteMeshes();
         this->animationPosition.cantDeleteGroup();
         this->animationRotation.cantDeleteGroup();
         this->animationSize.cantDeleteGroup();
+        this->actions.cantDeleteGroup();
     }
     this->canDeleteObject=true;
 }
@@ -57,6 +59,14 @@ edk::Object2D::ActionPosition::ActionPosition(edk::Object2D* object, edk::vec2f3
 void edk::Object2D::ActionPosition::runAction(){
     this->object->position = this->position;
 }
+//return the code
+edk::uint64 edk::Object2D::ActionPosition::getCode(){
+    return 1u;
+}
+//GET
+edk::vec2f32 edk::Object2D::ActionPosition::getPosition(){
+    return this->position;
+}
 edk::Object2D::ActionMove::ActionMove(edk::Object2D* object,edk::float32 duration, edk::vec2f32 position){
     this->position=position;
     this->duration = duration;
@@ -68,6 +78,17 @@ void edk::Object2D::ActionMove::runAction(){
     this->object->animationPosition.addFirstInterpolationLine(0,this->object->position.x,this->object->position.y,this->duration,this->position.x,this->position.y);
     this->object->animationPosition.playForward();
 }
+//return the code
+edk::uint64 edk::Object2D::ActionMove::getCode(){
+    return 2u;
+}
+//GET
+edk::vec2f32 edk::Object2D::ActionMove::getPosition(){
+    return this->position;
+}
+edk::float32 edk::Object2D::ActionMove::getDuration(){
+    return this->duration;
+}
 edk::Object2D::ActionSetSize::ActionSetSize(edk::Object2D* object, edk::size2f32 size){
     this->object=object;
     this->size=size;
@@ -75,6 +96,14 @@ edk::Object2D::ActionSetSize::ActionSetSize(edk::Object2D* object, edk::size2f32
 //run action function
 void edk::Object2D::ActionSetSize::runAction(){
     this->object->size = this->size;
+}
+//return the code
+edk::uint64 edk::Object2D::ActionSetSize::getCode(){
+    return 3u;
+}
+//GET
+edk::size2f32 edk::Object2D::ActionSetSize::getSize(){
+    return this->size;
 }
 edk::Object2D::ActionSize::ActionSize(edk::Object2D* object,edk::float32 duration, edk::size2f32 size){
     this->size=size;
@@ -87,6 +116,17 @@ void edk::Object2D::ActionSize::runAction(){
     this->object->animationSize.addFirstInterpolationLine(0,this->object->size.width,this->object->size.height,this->duration,this->size.width,this->size.height);
     this->object->animationSize.playForward();
 }
+//return the code
+edk::uint64 edk::Object2D::ActionSize::getCode(){
+    return 4u;
+}
+//GET
+edk::size2f32 edk::Object2D::ActionSize::getSize(){
+    return this->size;
+}
+edk::float32 edk::Object2D::ActionSize::getDuration(){
+    return this->duration;
+}
 edk::Object2D::ActionSetAngle::ActionSetAngle(edk::Object2D* object, edk::float32 angle){
     this->object = object;
     this->angle = angle;
@@ -94,6 +134,14 @@ edk::Object2D::ActionSetAngle::ActionSetAngle(edk::Object2D* object, edk::float3
 //run action function
 void edk::Object2D::ActionSetAngle::runAction(){
     this->object->angle = this->angle;
+}
+//return the code
+edk::uint64 edk::Object2D::ActionSetAngle::getCode(){
+    return 5u;
+}
+//GET
+edk::float32 edk::Object2D::ActionSetAngle::getAngle(){
+    return this->angle;
 }
 edk::Object2D::ActionAngle::ActionAngle(edk::Object2D* object,edk::float32 duration, edk::float32 angle){
     this->object = object;
@@ -105,6 +153,17 @@ void edk::Object2D::ActionAngle::runAction(){
     this->object->animationRotation.cleanAnimations();
     this->object->animationRotation.addFirstInterpolationLine(0,this->object->angle,this->duration,this->angle);
     this->object->animationRotation.playForward();
+}
+//return the code
+edk::uint64 edk::Object2D::ActionAngle::getCode(){
+    return 6u;
+}
+//GET
+edk::float32 edk::Object2D::ActionAngle::getAngle(){
+    return this->angle;
+}
+edk::float32 edk::Object2D::ActionAngle::getDuration(){
+    return this->duration;
 }
 edk::Object2D::ActionMeshName::ActionMeshName(edk::Object2D* object,edk::uint32 id, edk::char8* name,bool loop){
     this->object=object;
@@ -121,6 +180,17 @@ void edk::Object2D::ActionMeshName::runAction(){
         mesh->selectedAnimationPlayNameForward(this->name());
     }
 }
+//return the code
+edk::uint64 edk::Object2D::ActionMeshName::getCode(){
+    return 7u;
+}
+//GET
+edk::uint32 edk::Object2D::ActionMeshName::getId(){
+    return this->id;
+}
+bool edk::Object2D::ActionMeshName::getLoop(){
+    return this->loop;
+}
 edk::Object2D::ActionMeshStop::ActionMeshStop(edk::Object2D* object,edk::uint32 id){
     this->object=object;
     this->id = id;
@@ -132,6 +202,14 @@ void edk::Object2D::ActionMeshStop::runAction(){
     if(mesh){
         mesh->selectedAnimationStop();
     }
+}
+//return the code
+edk::uint64 edk::Object2D::ActionMeshStop::getCode(){
+    return 8u;
+}
+//GET
+edk::uint32 edk::Object2D::ActionMeshStop::getId(){
+    return this->id;
 }
 
 //Add a list to the Object2D
@@ -422,6 +500,13 @@ bool edk::Object2D::isPausedActions(){
 //update actions
 void edk::Object2D::updateActions(){
     this->actions.update();
+}
+//remove actions
+void edk::Object2D::removeAllActions(){
+    this->actions.clean();
+}
+bool edk::Object2D::removeActionSecond(edk::float32 second){
+    this->actions.removeSecond(second);
 }
 //Add zero action
 bool edk::Object2D::actionZero(edk::float32 second){

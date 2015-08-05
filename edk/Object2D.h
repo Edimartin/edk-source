@@ -116,6 +116,9 @@ public:
     bool isPausedActions();
     //update actions
     void updateActions();
+    //remove actions
+    void removeAllActions();
+    bool removeActionSecond(edk::float32 second);
     //Add zero action
     bool actionZero(edk::float32 second);
     //add move action
@@ -197,9 +200,16 @@ protected:
     //Meshs class
     class MeshsStack: public edk::vector::Stack <edk::Object2D::MeshAlloc*>{
     public:
-        MeshsStack(){}
+        MeshsStack(){
+            this->canDeleteMeshes=true;
+        }
         ~MeshsStack(){
+            if(this->canDeleteMeshes)
             this->removeAllMeshes();
+            else{
+                //
+            }
+            this->canDeleteMeshes=true;
         }
 
         edk::uint32 pushBackMesh(edk::shape::Mesh2D* mesh,bool create){
@@ -284,6 +294,12 @@ protected:
             }
             this->clean();
         }
+        void cantDeleteMeshes(){
+            this->canDeleteMeshes = false;
+        }
+
+    private:
+        bool canDeleteMeshes;
     }meshes;
 
     bool canDeleteObject;
@@ -303,6 +319,10 @@ private:
         ActionPosition(edk::Object2D* object, edk::vec2f32 position);
         //run action function
         void runAction();
+        //return the code
+        edk::uint64 getCode();
+        //GET
+        edk::vec2f32 getPosition();
     private:
         edk::vec2f32 position;
         edk::Object2D* object;
@@ -312,6 +332,11 @@ private:
         ActionMove(edk::Object2D* object,edk::float32 duration, edk::vec2f32 position);
         //run action function
         void runAction();
+        //return the code
+        edk::uint64 getCode();
+        //GET
+        edk::vec2f32 getPosition();
+        edk::float32 getDuration();
     private:
         edk::vec2f32 position;
         edk::float32 duration;
@@ -322,6 +347,10 @@ private:
         ActionSetSize(edk::Object2D* object, edk::size2f32 scale);
         //run action function
         void runAction();
+        //return the code
+        edk::uint64 getCode();
+        //GET
+        edk::size2f32 getSize();
     private:
         edk::size2f32 size;
         edk::Object2D* object;
@@ -331,6 +360,11 @@ private:
         ActionSize(edk::Object2D* object,edk::float32 duration, edk::size2f32 size);
         //run action function
         void runAction();
+        //return the code
+        edk::uint64 getCode();
+        //GET
+        edk::size2f32 getSize();
+        edk::float32 getDuration();
     private:
         edk::size2f32 size;
         edk::float32 duration;
@@ -341,6 +375,10 @@ private:
         ActionSetAngle(edk::Object2D* object, edk::float32 angle);
         //run action function
         void runAction();
+        //return the code
+        edk::uint64 getCode();
+        //GET
+        edk::float32 getAngle();
     private:
         edk::float32 angle;
         edk::Object2D* object;
@@ -350,6 +388,11 @@ private:
         ActionAngle(edk::Object2D* object,edk::float32 duration, edk::float32 angle);
         //run action function
         void runAction();
+        //return the code
+        edk::uint64 getCode();
+        //GET
+        edk::float32 getAngle();
+        edk::float32 getDuration();
     private:
         edk::float32 angle;
         edk::float32 duration;
@@ -360,6 +403,11 @@ private:
         ActionMeshName(edk::Object2D* object,edk::uint32 id, edk::char8* name,bool loop);
         //run action function
         void runAction();
+        //return the code
+        edk::uint64 getCode();
+        //GET
+        edk::uint32 getId();
+        bool getLoop();
     private:
         edk::uint32 id;
         bool loop;
@@ -370,6 +418,10 @@ private:
         ActionMeshStop(edk::Object2D* object,edk::uint32 id);
         //run action function
         void runAction();
+        //return the code
+        edk::uint64 getCode();
+        //GET
+        edk::uint32 getId();
     private:
         edk::uint32 id;
         edk::Object2D* object;
@@ -401,6 +453,99 @@ public:
         this->position = obj.position;
         this->angle = obj.angle;
         this->size = obj.size;
+
+/*
+    class ActionPosition 1
+    class ActionMove     2
+    class ActionSetSize  3
+    class ActionSize     4
+    class ActionSetAngle 5
+    class ActionAngle    6
+    class ActionMeshName 7
+    class ActionMeshStop 8
+*/
+
+
+        //copy the actions
+        this->actions.clean();
+        size = obj.actions.getKeySize();
+        edk::uint32 actionSize = 0u;
+        edk::float32 second=0.f;
+        edk::uint64 code = 0u;
+        for(edk::uint32 i=0u;i<size;i++){
+            //load the kay second
+            second = obj.actions.getKeySecond(i);
+            //load the size of actions inside de key
+            actionSize = obj.actions.getActionsSize(i);
+            for(edk::uint32 j=0u;j<actionSize;j++){
+                //get the action code
+                code = obj.actions.getActionCode(i,j);
+
+                switch(code){
+                case 1u:
+                {
+                    //ActionPosition
+                    edk::Object2D::ActionPosition* temp = (edk::Object2D::ActionPosition*)obj.actions.getActionInKey(i,j);
+                    this->actions.addAction(second,new edk::Object2D::ActionPosition(this,temp->getPosition()));
+                    break;
+                }
+                case 2u:
+                {
+                    //ActionMove
+                    edk::Object2D::ActionMove* temp = (edk::Object2D::ActionMove*)obj.actions.getActionInKey(i,j);
+                    this->actions.addAction(second,new edk::Object2D::ActionMove(this,temp->getDuration(),temp->getPosition()));
+                    break;
+                }
+                case 3u:
+                {
+                    //ActionSetSize
+                    edk::Object2D::ActionSetSize* temp = (edk::Object2D::ActionSetSize*)obj.actions.getActionInKey(i,j);
+                    this->actions.addAction(second,new edk::Object2D::ActionSetSize(this,temp->getSize()));
+                    break;
+                }
+                case 4u:
+                {
+                    //ActionSize
+                    edk::Object2D::ActionSize* temp = (edk::Object2D::ActionSize*)obj.actions.getActionInKey(i,j);
+                    this->actions.addAction(second,new edk::Object2D::ActionSize(this,temp->getDuration(),temp->getSize()));
+                    break;
+                }
+                case 5u:
+                {
+                    //ActionSetAngle
+                    edk::Object2D::ActionSetAngle* temp = (edk::Object2D::ActionSetAngle*)obj.actions.getActionInKey(i,j);
+                    this->actions.addAction(second,new edk::Object2D::ActionSetAngle(this,temp->getAngle()));
+                    break;
+                }
+                case 6u:
+                {
+                    //ActionAngle
+                    edk::Object2D::ActionAngle* temp = (edk::Object2D::ActionAngle*)obj.actions.getActionInKey(i,j);
+                    this->actions.addAction(second,new edk::Object2D::ActionAngle(this,temp->getDuration(),temp->getAngle()));
+                    break;
+                }
+                case 7u:
+                {
+                    //ActionMeshName
+                    edk::Object2D::ActionMeshName* temp = (edk::Object2D::ActionMeshName*)obj.actions.getActionInKey(i,j);
+                    this->actions.addAction(second,new edk::Object2D::ActionMeshName(this,temp->getId(),temp->getName(),temp->getLoop()));
+                    break;
+                }
+                case 8u:
+                {
+                    //ActionMeshStop
+                    edk::Object2D::ActionMeshStop* temp = (edk::Object2D::ActionMeshStop*)obj.actions.getActionInKey(i,j);
+                    this->actions.addAction(second,new edk::Object2D::ActionMeshStop(this,temp->getId()));
+                    break;
+                }
+                default:
+                {
+                    //actionZero
+                    this->actions.addAction(second,new edk::ActionZero());
+                }
+                }
+            }
+        }
 
         obj.cantDeleteObject2D();
         return obj;

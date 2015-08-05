@@ -25,9 +25,16 @@ Gravatai RS Brazil 94065100
 #endif
 
 edk::animation::ActionGroup::ActionGroup(){
+    this->canDeleteGroup=true;
 }
 edk::animation::ActionGroup::~ActionGroup(){
-    this->clean();
+    if(this->canDeleteGroup)
+        this->clean();
+    else{
+        this->anim.cantDeleteGroup();
+        this->tree.cantDeleteTrees();
+    }
+    this->canDeleteGroup=true;
 }
 
 //add one action
@@ -60,6 +67,39 @@ bool edk::animation::ActionGroup::removeSecond(edk::float32 second){
     //clean the secon on the tree
     this->tree.cleanActionsInSecond(second);
     return false;
+}
+
+//get the keyFrames size
+edk::uint32 edk::animation::ActionGroup::getKeySize(){
+    //
+    return this->tree.size();
+}
+//get the key second
+edk::float32 edk::animation::ActionGroup::getKeySecond(edk::uint32 keyPosition){
+    //
+    return this->tree.getSecond(keyPosition);
+}
+//get the actions size in position
+edk::uint32 edk::animation::ActionGroup::getActionsSize(edk::uint32 keyPosition){
+    //
+    return this->tree.getActionSizeInPosition(keyPosition);
+}
+//return the action code
+edk::uint32 edk::animation::ActionGroup::getActionCode(edk::uint32 keyPosition,edk::uint32 actionPosition){
+    edk::Action* temp = this->tree.getActionInPosition(keyPosition,actionPosition);
+    if(temp){
+        return temp->getCode();
+    }
+    return 0u;
+}
+//return the action
+edk::Action* edk::animation::ActionGroup::getActionInKey(edk::uint32 keyPosition,edk::uint32 actionPosition){
+    //
+    return this->tree.getActionInPosition(keyPosition,actionPosition);
+}
+edk::Action* edk::animation::ActionGroup::getActionInSecond(edk::float32 second,edk::uint32 actionPosition){
+    //
+    return this->tree.getActionInSecond(second,actionPosition);
 }
 
 //clean animation
@@ -109,3 +149,8 @@ void edk::animation::ActionGroup::loopOff(){this->anim.loopOff();}
 //return if are playing
 bool edk::animation::ActionGroup::isPlaying(){return this->anim.isPlaying();}
 bool edk::animation::ActionGroup::isPaused(){return this->isPaused();}
+
+//cand delete
+void edk::animation::ActionGroup::cantDeleteGroup(){
+    this->canDeleteGroup=false;
+}

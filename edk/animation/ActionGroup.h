@@ -52,6 +52,18 @@ public:
     //remove second
     bool removeSecond(edk::float32 second);
 
+    //get the keyFrames size
+    edk::uint32 getKeySize();
+    //get the key second
+    edk::float32 getKeySecond(edk::uint32 keyPosition);
+    //get the actions size in position
+    edk::uint32 getActionsSize(edk::uint32 keyPosition);
+    //return the action code
+    edk::uint32 getActionCode(edk::uint32 keyPosition,edk::uint32 actionPosition);
+    //return the action
+    edk::Action* getActionInKey(edk::uint32 keyPosition,edk::uint32 actionPosition);
+    edk::Action* getActionInSecond(edk::float32 second,edk::uint32 actionPosition);
+
     //clean animation
     void clean();
 
@@ -78,7 +90,11 @@ public:
     //return if are playing
     bool isPlaying();
     bool isPaused();
+
+    //cand delete
+    void cantDeleteGroup();
 private:
+    bool canDeleteGroup;
     //animation
     edk::animation::Interpolation1DGroup anim;
     //save the value
@@ -136,9 +152,25 @@ private:
     //create a tree to save the actions
     class ActionStackTree: public edk::vector::BinaryTree<edk::animation::ActionGroup::ActionsTree*>{
     public:
-        ActionStackTree(){}
+        ActionStackTree(){
+            this->canDeleteTree=true;
+        }
         ~ActionStackTree(){
+            if(this->canDeleteTree){
             this->cleanActions();
+            }
+            else{
+                this->cantDestruct();
+                this->actionsTree.cantDestruct();
+                edk::uint32 size = this->size();
+                edk::animation::ActionGroup::ActionsTree* temp;
+                for(edk::uint32 i=0u;i<size;i++){
+                    temp = this->getElementInPosition(i);
+                    if(temp)
+                        temp->cantDestruct();
+                }
+            }
+            this->canDeleteTree=true;
         }
 
         //compare if the value is bigger
@@ -164,6 +196,21 @@ private:
                 tree->update();
             }
             return false;
+        }
+
+        //cant delete the tree
+        void cantDeleteTrees(){
+            /*
+            this->cantDestruct();
+            edk::uint32 size = this->size();
+            edk::animation::ActionGroup::ActionsTree* temp;
+            for(edk::uint32 i=0u;i<size;i++){
+                temp = this->getElementInPosition(i);
+                if(temp)
+              temp->cantDestruct();
+            }
+            */
+            this->canDeleteTree=false;
         }
 
         //Add a new Action
@@ -238,9 +285,24 @@ private:
             }
             return 0u;
         }
+        edk::uint32 getActionSizeInPosition(edk::uint32 position){
+            edk::animation::ActionGroup::ActionsTree* tree = this->getElementInPosition(position);
+            if(tree){
+                return tree->size();
+            }
+            return 0u;
+        }
         //get the action
-        edk::Action* getActionInPosition(edk::float32 second,edk::uint32 position){
+        edk::Action* getActionInSecond(edk::float32 second,edk::uint32 position){
             edk::animation::ActionGroup::ActionsTree* tree = this->getActionTree(second);
+            if(tree){
+                //return the action in position
+                return tree->getElementInPosition(position);
+            }
+            return NULL;
+        }
+        edk::Action* getActionInPosition(edk::uint32 secondPosition,edk::uint32 position){
+            edk::animation::ActionGroup::ActionsTree* tree = this->getElementInPosition(secondPosition);
             if(tree){
                 //return the action in position
                 return tree->getElementInPosition(position);
@@ -323,6 +385,7 @@ private:
         }
 
     private:
+        bool canDeleteTree;
         edk::animation::ActionGroup::ActionsTree* getActionTree(edk::float32 second){
             edk::animation::ActionGroup::ActionsTree find(second);
             return this->getElement(&find);
@@ -339,7 +402,8 @@ private:
         class TreeActions: public edk::vector::BinaryTree<edk::animation::ActionGroup::ActionReferenceCount*>{
         public:
             TreeActions(){}
-            ~TreeActions(){}
+            virtual ~TreeActions(){
+            }
 
             //compare if the value is bigger
             virtual bool firstBiggerSecond(edk::animation::ActionGroup::ActionReferenceCount* first,edk::animation::ActionGroup::ActionReferenceCount* second){
