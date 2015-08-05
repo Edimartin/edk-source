@@ -77,61 +77,61 @@ class obj: public edk::Object<obj>{
 namespace edk{
 template <class typeTemplate>
 class Object{
-    public:
-        Object(){
-            //
-            this->dontDestruct=false;
+public:
+    Object(){
+        //
+        this->dontDestruct=false;
+    }
+    virtual ~Object(){
+        //remove all
+        if(!this->dontDestruct)
+            this->removeAll();
+        else{
+            //set the tree
+            this->retains.cantDestruct();
         }
-        virtual ~Object(){
-            //remove all
-            if(!this->dontDestruct)
-                this->removeAll();
-            else{
-                //set the tree
-                this->retains.cantDestruct();
-            }
-            this->dontDestruct=false;
-        }
+        this->dontDestruct=false;
+    }
 
-        //retain
-        typeTemplate* retainObject(typeTemplate** pointer){
-            //
-            if(pointer){
-                //add the pointer to the retains
-                if(this->retains.add(pointer)){
-                    //save the object
-                    this->saveObject(pointer);
-                    //
-                    return (typeTemplate*)this;
+    //retain
+    typeTemplate* retainObject(typeTemplate** pointer){
+        //
+        if(pointer){
+            //add the pointer to the retains
+            if(this->retains.add(pointer)){
+                //save the object
+                this->saveObject(pointer);
+                //
+                return (typeTemplate*)this;
+            }
+        }
+        //else return false
+        return NULL;
+    }
+
+    //release
+    bool releaseObject(typeTemplate** pointer)
+    {
+        //test if have the pointer
+        if(pointer){
+            typeTemplate* temp = *pointer;
+            //remove the object
+            this->retains.remove(pointer);
+            //clean the object
+            this->cleanObject(pointer);
+            //test if dont have a root
+            if(!this->retains.haveRoot()){
+                //delete self
+                if(temp){
+                    delete this;
+                    return true;
                 }
             }
-            //else return false
-            return NULL;
+            return true;
         }
-
-        //release
-        bool releaseObject(typeTemplate** pointer)
-        {
-            //test if have the pointer
-            if(pointer){
-                typeTemplate* temp = *pointer;
-                //remove the object
-                this->retains.remove(pointer);
-                //clean the object
-                this->cleanObject(pointer);
-                //test if dont have a root
-                if(!this->retains.haveRoot()){
-                    //delete self
-                    if(temp){
-                        delete this;
-                        return true;
-                    }
-                }
-                return true;
-            }
-            //else return false
-            return false;
-        }
+        //else return false
+        return false;
+    }
 
     //Return true if have retains
     bool haveRetains(){
@@ -149,7 +149,7 @@ class Object{
         dontDestruct=true;
     }
 
-    protected:
+protected:
     //Save the object
     virtual void saveObject(typeTemplate** pointer)
     {
@@ -186,11 +186,14 @@ class Object{
                 //remove the temp
                 this->retains.remove(temp);
             }
+            else{
+                this->retains.remove(temp);
+            }
             //clean the temp
             temp =NULL;
         }
     }
-    private:
+private:
     //binaryTree
     edk::vector::BinaryTree<typeTemplate**> retains;
     //set if cant run the destructor
@@ -199,7 +202,7 @@ class Object{
 
 //Create a object with name
 class ObjectWithName : public edk::Object<edk::ObjectWithName>{
-    public:
+public:
     //construtor
     ObjectWithName();
     //construtor
@@ -219,7 +222,7 @@ class ObjectWithName : public edk::Object<edk::ObjectWithName>{
     //delete the name
     void deleteName();
 
-    private:
+private:
     //private name
     edk::char8* objectName;
 };
@@ -230,7 +233,7 @@ class ObjectWithName : public edk::Object<edk::ObjectWithName>{
 template <class typeTemplate>
 class ObjectsTree :public edk::vector::BinaryTree<edk::Object<typeTemplate>*>{
     //
-    public:
+public:
     ObjectsTree(){
         //
     }
@@ -294,8 +297,8 @@ class ObjectsTree :public edk::vector::BinaryTree<edk::Object<typeTemplate>*>{
                 }
             }
         }
-    //else return false
-    return false;
+        //else return false
+        return false;
     }
     //delete the element of the tree
     bool deleteElement(edk::Object<typeTemplate>* value){
@@ -334,33 +337,33 @@ class ObjectsTree :public edk::vector::BinaryTree<edk::Object<typeTemplate>*>{
 //textureTree
 class ObjectNameTree: public edk::vector::BinaryTree<edk::ObjectWithName*>{
     //
-    public:
-        ObjectNameTree(){
-            //
-        }
-        virtual ~ObjectNameTree(){
-            //
-        }
-        //Add
-        //edk::Object<typeTemplate>* value,edk::Object<typeTemplate>** objRetain
-        bool addElement(edk::ObjectWithName* value,edk::ObjectWithName** objRetain);
-        bool releaseElement(edk::ObjectWithName* value,edk::ObjectWithName** objRetain);
-        bool deleteElement(edk::ObjectWithName* value);
-        edk::ObjectWithName* getElement(edk::ObjectWithName* value);
-        bool haveElement(edk::ObjectWithName* value);
+public:
+    ObjectNameTree(){
+        //
+    }
+    virtual ~ObjectNameTree(){
+        //
+    }
+    //Add
+    //edk::Object<typeTemplate>* value,edk::Object<typeTemplate>** objRetain
+    bool addElement(edk::ObjectWithName* value,edk::ObjectWithName** objRetain);
+    bool releaseElement(edk::ObjectWithName* value,edk::ObjectWithName** objRetain);
+    bool deleteElement(edk::ObjectWithName* value);
+    edk::ObjectWithName* getElement(edk::ObjectWithName* value);
+    bool haveElement(edk::ObjectWithName* value);
 
-        //VIRTUAL
-        //compare if the value is bigger
-        bool firstBiggerSecond(edk::ObjectWithName* first,
-                                   edk::ObjectWithName* second);
-        bool firstEqualSecond(edk::ObjectWithName* first,
-                                   edk::ObjectWithName* second);
-        void printElement(edk::ObjectWithName* value);
+    //VIRTUAL
+    //compare if the value is bigger
+    bool firstBiggerSecond(edk::ObjectWithName* first,
+                           edk::ObjectWithName* second);
+    bool firstEqualSecond(edk::ObjectWithName* first,
+                          edk::ObjectWithName* second);
+    void printElement(edk::ObjectWithName* value);
 
-        private:
-        //compare the names
-        bool firstNameBiggerSecond(edk::char8* name1,edk::char8* name2);
-        bool nameEqual(edk::char8* name1,edk::char8* name2);
+private:
+    //compare the names
+    bool firstNameBiggerSecond(edk::char8* name1,edk::char8* name2);
+    bool nameEqual(edk::char8* name1,edk::char8* name2);
 };
 
 

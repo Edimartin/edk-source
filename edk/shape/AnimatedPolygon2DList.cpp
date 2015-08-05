@@ -23,6 +23,7 @@ Gravatai RS Brazil 94065100
 edk::shape::AnimatedPolygon2DList::AnimatedPolygon2DList()
 {
     this->freeSelectedAnimation();
+    this->selectedID=0u;
 }
 edk::shape::AnimatedPolygon2DList::~AnimatedPolygon2DList()
 {
@@ -60,6 +61,25 @@ bool edk::shape::AnimatedPolygon2DList::copyAnimationFramesToPolygon(edk::uint32
         }
     }
     //else return false
+    return false;
+}
+bool edk::shape::AnimatedPolygon2DList::copyThisAnimationFramesToPolygon(edk::animation::Interpolation1DGroup* anim,edk::uint32 dest){
+    //test if have the 2 polygons
+    if(this->polygons.havePos(dest)
+            &&
+            anim){
+        //select the polygon
+        edk::shape::Polygon2D* poly = this->polygons[dest];
+        if(poly){
+            //clean the animation
+            edk::animation::Interpolation1DGroup* temp = poly->framesGetAnimation();
+            if(temp){
+                temp->cleanAnimations();
+                *temp = *anim;
+                return true;
+            }
+        }
+    }
     return false;
 }
 //remove polygonAnimation
@@ -101,10 +121,23 @@ bool edk::shape::AnimatedPolygon2DList::selectAnimationFramesFromPolygon(edk::ui
     //else return false
     return false;
 }
+//get animation ID selected
+edk::uint32 edk::shape::AnimatedPolygon2DList::getAnimationFramesSelectedID(){
+    return this->selectedID;
+}
+//return true if have the animation
+bool edk::shape::AnimatedPolygon2DList::haveSelectedAnimation(){
+    if(this->selectedAnimation){
+        return true;
+    }
+    return false;
+}
+
 //free the selected animation
 void edk::shape::AnimatedPolygon2DList::freeSelectedAnimation(){
     //set selectedAnimation to NULL
     this->selectedAnimation=NULL;
+    this->selectedID=0u;
 }
 //Atualiza as animações da malha
 void edk::shape::AnimatedPolygon2DList::updateFramesAnimations(){

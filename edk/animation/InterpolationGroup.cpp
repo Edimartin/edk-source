@@ -53,6 +53,7 @@ edk::animation::InterpolationGroup::~InterpolationGroup(){
     else{
         this->animations.cantDestroy();
         this->animationNames.cantDeleteNames();
+        this->cantDestruct();
     }
     this->canDeleteGroup=true;
 }

@@ -39,10 +39,15 @@ public:
     bool newAnimationFramesToPolygon(edk::uint32 position);
     //copy an animation to another polygon
     bool copyAnimationFramesToPolygon(edk::uint32 position,edk::uint32 dest);
+    bool copyThisAnimationFramesToPolygon(edk::animation::Interpolation1DGroup*,edk::uint32 dest);
     //remove polygonAnimation
     bool removeAnimationFramesFromPolygon(edk::uint32 position);
     //select the animation
     bool selectAnimationFramesFromPolygon(edk::uint32 position);
+    //get animation ID selected
+    edk::uint32 getAnimationFramesSelectedID();
+    //return true if have the animation
+    bool haveSelectedAnimation();
     //free the selected animation
     void freeSelectedAnimation();
     //Atualiza as animações da malha
@@ -104,6 +109,7 @@ public:
 protected:
     //animationSelected
     edk::animation::Interpolation1DGroup* selectedAnimation;
+    edk::uint32 selectedID;
 };
 }//end namespace shape
 }//end namespace edk
