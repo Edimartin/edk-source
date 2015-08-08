@@ -5,6 +5,7 @@
 #include "physics2D/World2D.h"
 #include "tiles/TileMap2D.h"
 #include "vector/BinaryTree.h"
+#include "animation/ActionGroup.h"
 
 namespace edk{
 class Cenario2D : public edk::physics2D::ContactCallback2D , public edk::tiles::tileCallback{
@@ -129,6 +130,8 @@ public:
 protected:
 private:
     edk::tiles::TileMap2D* mapSelected;
+    //actions group animation
+    edk::animation::ActionGroup* actions;
 
     //get levels less position
     edk::uint32 getLevelsLessPosition();

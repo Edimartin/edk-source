@@ -139,7 +139,10 @@ private:
 
     class AnimationDouble{
     public:
-        AnimationDouble(edk::animation::Interpolation1DGroup* first,edk::uint32 id){}
+        AnimationDouble(edk::animation::Interpolation1DGroup* first,edk::uint32 id){
+            this->first = first;
+            this->id=id;
+        }
         ~AnimationDouble(){}
         edk::animation::Interpolation1DGroup* first;
         edk::uint32 id;

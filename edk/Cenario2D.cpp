@@ -10,6 +10,7 @@ edk::Cenario2D::~Cenario2D(){
     this->world.removeContactCallback(this);
     this->deleteAllLevels();
     this->tileSet.deleteTiles();
+    this->actions->clean();
 }
 
 //XML
