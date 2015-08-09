@@ -75,10 +75,14 @@ public:
     //get the object
     edk::Object2D* getObject(edk::uint32 levelPosition,edk::float32 depth);
     edk::Object2D* getObject(edk::uint32 levelPosition,edk::uint32 position);
+    //get the objectDepth
+    edk::float32 getObjectDepth(edk::uint32 levelPosition,edk::uint32 position);
     //delete the object
     bool deleteObject(edk::uint32 levelPosition,edk::Object2D* obj);
     void deleteAllObjects(edk::uint32 levelPosition);
     void deleteAllObjects();
+    //set object to be animated
+    bool setObjectAnimated(edk::uint32 levelPosition,edk::Object2D* obj);
 
     //OBJECTS_PHYSICS
     //add a object to the tree
@@ -112,6 +116,33 @@ public:
     //clockStart
     void worldClockStart();
 
+    //ACTIONS
+    //play actions
+    void playForwardActions();
+    void playForwardInActions(edk::float32 second);
+    //void playRewind();
+    //void playRewindIn(edk::float32 second);
+    void pauseActions();
+    void stopActions();
+    //set loop
+    void setLoopActions(bool loop);
+    void loopOnActions();
+    void loopOffActions();
+
+    //return if are playing
+    bool isPlayingActions();
+    bool isPausedActions();
+    //update actions
+    void updateActions();
+    //remove actions
+    void removeAllActions();
+    bool removeActionSecond(edk::float32 second);
+    //Add zero action
+    bool actionZero(edk::float32 second);
+    //add move action
+    bool actionObjectSetPosition(edk::float32 second,edk::uint32 levelPosition,edk::float32 depth,edk::vec2f32 position);
+    bool actionObjectSetPosition(edk::float32 second,edk::uint32 levelPosition,edk::float32 depth,edk::float32 x,edk::float32 y);
+
 
     //update the physics and collisions
     void updatePhysics(edk::int32 velocityIterations, edk::int32 positionIterations);
@@ -131,7 +162,28 @@ protected:
 private:
     edk::tiles::TileMap2D* mapSelected;
     //actions group animation
-    edk::animation::ActionGroup* actions;
+    edk::animation::ActionGroup actions;
+    //objects animation tree
+    edk::vector::BinaryTree<edk::Object2D*>treeAnim;
+
+    //ACTIONS
+    class ActionObjectSetPosition:public edk::ActionZero{
+    public:
+        ActionObjectSetPosition(edk::Cenario2D* cenario,edk::uint32 levelPosition,edk::float32 depth, edk::vec2f32 position);
+        //run action function
+        void runAction();
+        //return the code
+        edk::uint64 getCode();
+        //GET
+        edk::vec2f32 getPosition();
+        edk::uint32 getLevelPosition();
+        edk::float32 getDepth();
+    private:
+        edk::vec2f32 position;
+        edk::Cenario2D* cenario;
+        edk::uint32 levelPosition;
+        edk::float32 depth;
+    };
 
     //get levels less position
     edk::uint32 getLevelsLessPosition();
@@ -255,6 +307,15 @@ private:
             }
             return NULL;
         }
+        edk::float32 getObjectDepthInPosition(edk::uint32 position){
+            //get the object
+            edk::Cenario2D::ObjClass* objClass = NULL;
+            objClass = this->getElementInPosition(position);
+            if(objClass){
+                return objClass->depth;
+            }
+            return 0.f;
+        }
         //return object in position
         edk::Object2D* getObjectInPosition(edk::uint32 position){
             //get the object
@@ -264,6 +325,19 @@ private:
                 return objClass->getObject();
             }
             return NULL;
+        }
+        //return the object
+        edk::Object2D* getObject(edk::Object2D* obj){
+            if(obj){
+                //get the object
+                edk::Cenario2D::ObjClass* objClass = this->getObjClass(obj);
+                if(objClass){
+                    if(objClass->getObject() == obj){
+                        return objClass->getObject();
+                    }
+                }
+            }
+            return false;
         }
         //test if have the object
         bool haveObject(edk::Object2D* obj){
@@ -303,22 +377,22 @@ private:
         }
         //delete the depth
         bool deleteObjInDepth(edk::float64 depth){
-                //get the object
-                edk::Cenario2D::ObjClass* objClass = this->getObjClassFromDepth(depth);
-                if(objClass){
-                    if(objClass->getObject()){
-                        //remove
-                        if(this->remove(objClass)){
-                            this->treeObj.remove(objClass);
-                            //test if can deleteIt
-                            if(objClass->haveCreated()){
-                                delete objClass->getObject();
-                            }
-                            delete objClass;
-                            return true;
+            //get the object
+            edk::Cenario2D::ObjClass* objClass = this->getObjClassFromDepth(depth);
+            if(objClass){
+                if(objClass->getObject()){
+                    //remove
+                    if(this->remove(objClass)){
+                        this->treeObj.remove(objClass);
+                        //test if can deleteIt
+                        if(objClass->haveCreated()){
+                            delete objClass->getObject();
                         }
+                        delete objClass;
+                        return true;
                     }
                 }
+            }
             return false;
         }
         bool deleteObjInPosition(edk::uint32 position){

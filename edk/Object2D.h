@@ -313,7 +313,7 @@ private:
     //action group
     edk::animation::ActionGroup actions;
 
-    //Actions
+    //ACTIONS
     class ActionPosition:public edk::ActionZero{
     public:
         ActionPosition(edk::Object2D* object, edk::vec2f32 position);

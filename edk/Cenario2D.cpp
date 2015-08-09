@@ -10,7 +10,7 @@ edk::Cenario2D::~Cenario2D(){
     this->world.removeContactCallback(this);
     this->deleteAllLevels();
     this->tileSet.deleteTiles();
-    this->actions->clean();
+    this->actions.clean();
 }
 
 //XML
@@ -370,6 +370,36 @@ bool edk::Cenario2D::LevelObj::readFromXML(edk::XML* xml,edk::uint32 id,edk::til
         return ret;
     }
     return false;
+}
+
+//ACTIONS
+edk::Cenario2D::ActionObjectSetPosition::ActionObjectSetPosition(edk::Cenario2D* cenario,edk::uint32 levelPosition,edk::float32 depth, edk::vec2f32 position){
+    this->cenario = cenario;
+    this->levelPosition = levelPosition;
+    this->depth = depth;
+    this->position = position;
+}
+//run action function
+void edk::Cenario2D::ActionObjectSetPosition::runAction(){
+    //load the object from the cenario
+    edk::Object2D* temp = this->cenario->getObject(this->levelPosition,this->depth);
+    if(temp){
+        temp->position = this->position;
+    }
+}
+//return the code
+edk::uint64 edk::Cenario2D::ActionObjectSetPosition::getCode(){
+    return 1u;
+}
+//GET
+edk::vec2f32 edk::Cenario2D::ActionObjectSetPosition::getPosition(){
+    return this->position;
+}
+edk::uint32 edk::Cenario2D::ActionObjectSetPosition::getLevelPosition(){
+    return this->levelPosition;
+}
+edk::float32 edk::Cenario2D::ActionObjectSetPosition::getDepth(){
+    return this->depth;
 }
 
 //get levels less position
@@ -1078,15 +1108,33 @@ edk::Object2D* edk::Cenario2D::getObject(edk::uint32 levelPosition,edk::uint32 p
     }
     return NULL;
 }
-//delete the object
-bool edk::Cenario2D::deleteObject(edk::uint32 levelPosition,edk::Object2D* obj){
-    //load the level
+//get the objectDepth
+edk::float32 edk::Cenario2D::getObjectDepth(edk::uint32 levelPosition,edk::uint32 position){
     if(levelPosition){
         levelPosition--;
-        if(obj){
+        if(this->levels.havePos(levelPosition)){
+            edk::Cenario2D::LevelObj* level = this->levels[levelPosition];
+            if(level){
+                if(level->objs){
+                    level->objs->getObjectDepthInPosition(position);
+                }
+            }
+        }
+    }
+    return 0.f;
+}
+
+//delete the object
+bool edk::Cenario2D::deleteObject(edk::uint32 levelPosition,edk::Object2D* obj){
+    if(obj){
+        //load the level
+        if(levelPosition){
+            levelPosition--;
             if(this->levels.havePos(levelPosition)){
                 edk::Cenario2D::LevelObj* level =this->levels[levelPosition];
                 if(level){
+                    //remove object from tree
+                    this->treeAnim.remove(obj);
                     if(level->objs){
                         bool ret = level->objs->deleteObj(obj);
                         if(!level->objs->size()){
@@ -1103,13 +1151,17 @@ bool edk::Cenario2D::deleteObject(edk::uint32 levelPosition,edk::Object2D* obj){
 }
 void edk::Cenario2D::deleteAllObjects(edk::uint32 levelPosition){
     //load the level
-    if(this->levels.havePos(levelPosition)){
-        edk::Cenario2D::LevelObj* level =this->levels[levelPosition];
-        if(level){
-            if(level->objs){
-                edk::uint32 size = level->objs->size();
-                for(edk::uint32 i=0u;i<size;i++){
-                    level->objs->deleteObjInPosition(0u);
+    if(levelPosition){
+        levelPosition--;
+        if(this->levels.havePos(levelPosition)){
+            edk::Cenario2D::LevelObj* level =this->levels[levelPosition];
+            if(level){
+                if(level->objs){
+                    edk::uint32 size = level->objs->size();
+                    for(edk::uint32 i=0u;i<size;i++){
+                        this->treeAnim.remove(level->objs->getObjectInPosition(0u));
+                        level->objs->deleteObjInPosition(0u);
+                    }
                 }
             }
         }
@@ -1122,11 +1174,38 @@ void edk::Cenario2D::deleteAllObjects(){
         level = this->levels[i];
         if(level){
             if(level->objs){
-                delete level->objs;
+                this->deleteAllObjects(i+1u);
                 level->clean();
             }
         }
     }
+}
+//set object to be animated
+bool edk::Cenario2D::setObjectAnimated(edk::uint32 levelPosition,edk::Object2D* obj){
+    //test the level position
+    if(levelPosition){
+        levelPosition--;
+        //load the level
+        edk::Cenario2D::LevelObj* level = this->levels[levelPosition];
+        if(level){
+            //test if have objects
+            if(level->objs){
+                //load the object
+                edk::Object2D* temp = level->objs->getObject(obj);
+                if(temp){
+                    //add the object to the animation tree
+                    if(this->treeAnim.haveElement(temp)){
+                        return true;
+                    }
+                    else{
+                        return this->treeAnim.add(temp);
+                    }
+                }
+            }
+        }
+    }
+    //test if have the object in the level
+    return false;
 }
 
 //OBJECTS_PHYSICS
@@ -1370,7 +1449,7 @@ void edk::Cenario2D::deleteLevel(edk::uint32 levelPosition){
                     delete level->tileMap;
                 }
                 if(level->objs){
-                    delete level->objs;
+                    this->deleteAllObjects(levelPosition);
                 }
                 if(level->objsPhys){
                     //remove the objPhys from world
@@ -1387,26 +1466,29 @@ void edk::Cenario2D::deleteLevel(edk::uint32 levelPosition){
 }
 void edk::Cenario2D::deleteAllLevels(){
     edk::uint32 size = this->levels.size();
-    edk::Cenario2D::LevelObj* level = NULL;
-    for(edk::uint32 i=0u;i<size;i++){
-        level = this->levels[i];
-        if(level){
-            if(level->tileMap){
-                delete level->tileMap;
-            }
-            if(level->objs){
-                delete level->objs;
-            }
-            if(level->objsPhys){
-                //remove the objPhys from world
-                edk::uint32 sizePhys = level->objsPhys->size();
-                for(edk::uint32 j=0u;j<sizePhys;j++){
-                    this->world.removeObject((edk::physics2D::PhysicObject2D*)level->objsPhys->getObjectInPosition(j));
+    if(size){
+        this->treeAnim.clean();
+        edk::Cenario2D::LevelObj* level = NULL;
+        for(edk::uint32 i=0u;i<size;i++){
+            level = this->levels[i];
+            if(level){
+                if(level->tileMap){
+                    delete level->tileMap;
                 }
-                delete level->objsPhys;
+                if(level->objs){
+                    this->deleteAllObjects(i+1u);
+                }
+                if(level->objsPhys){
+                    //remove the objPhys from world
+                    edk::uint32 sizePhys = level->objsPhys->size();
+                    for(edk::uint32 j=0u;j<sizePhys;j++){
+                        this->world.removeObject((edk::physics2D::PhysicObject2D*)level->objsPhys->getObjectInPosition(j));
+                    }
+                    delete level->objsPhys;
+                }
+                level->clean();
+                delete level;
             }
-            level->clean();
-            delete level;
         }
     }
     this->levels.clean();
@@ -1419,6 +1501,63 @@ void edk::Cenario2D::worldSetClockScale(edk::float32 scale){
 //clockStart
 void edk::Cenario2D::worldClockStart(){
     this->world.clockStart();
+}
+
+//ACTIONS
+//play actions
+void edk::Cenario2D::playForwardActions(){
+    this->actions.playForward();
+}
+void edk::Cenario2D::playForwardInActions(edk::float32 second){
+    this->actions.playForwardIn(second);
+}
+//void edk::Cenario2D::playRewind();
+//void edk::Cenario2D::playRewindIn(edk::float32 second);
+void edk::Cenario2D::pauseActions(){
+    this->actions.pause();
+}
+void edk::Cenario2D::stopActions(){
+    this->actions.stop();
+}
+//set loop
+void edk::Cenario2D::setLoopActions(bool loop){
+    this->actions.setLoop(loop);
+}
+void edk::Cenario2D::loopOnActions(){
+    this->actions.loopOn();
+}
+void edk::Cenario2D::loopOffActions(){
+    this->actions.loopOff();
+}
+
+//return if are playing
+bool edk::Cenario2D::isPlayingActions(){
+    return this->actions.isPlaying();
+}
+bool edk::Cenario2D::isPausedActions(){
+    return this->actions.isPaused();
+}
+//update actions
+void edk::Cenario2D::updateActions(){
+    this->actions.update();
+}
+//remove actions
+void edk::Cenario2D::removeAllActions(){
+    this->actions.clean();
+}
+bool edk::Cenario2D::removeActionSecond(edk::float32 second){
+    return this->actions.removeSecond(second);
+}
+//Add zero action
+bool edk::Cenario2D::actionZero(edk::float32 second){
+    return this->actions.addAction(second,new edk::ActionZero());
+}
+//add move action
+bool edk::Cenario2D::actionObjectSetPosition(edk::float32 second,edk::uint32 levelPosition,edk::float32 depth,edk::vec2f32 position){
+    return this->actions.addAction(second,new edk::Cenario2D::ActionObjectSetPosition(this,levelPosition,depth,position));
+}
+bool edk::Cenario2D::actionObjectSetPosition(edk::float32 second,edk::uint32 levelPosition,edk::float32 depth,edk::float32 x,edk::float32 y){
+    return this->actionObjectSetPosition(second,levelPosition,depth,edk::vec2f32(x,y));
 }
 
 
