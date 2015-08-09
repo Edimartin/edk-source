@@ -375,7 +375,7 @@ private:
             edk::uint32 position = 0u;
             edk::animation::ActionGroup::ActionsTree* tree = NULL;
             for(edk::uint32 i=0u;i<size;i++){
-                tree = this->getElementInPosition(i);
+                tree = this->getElementInPosition(position);
                 if(tree){
                     if(!this->cleanActionsInSecond(tree->getSecond())){
                         position++;
