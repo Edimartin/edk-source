@@ -100,6 +100,9 @@ private:
     //save the value
     edk::float32 valueTemp;
 
+    //first update
+    void firstUpdate();
+
     //create a stack to save the actions
     class ActionsTree : public edk::vector::BinaryTree<edk::Action*>{
     public:

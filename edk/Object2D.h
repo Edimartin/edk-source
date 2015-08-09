@@ -125,8 +125,8 @@ public:
     bool actionSetPosition(edk::float32 second,edk::vec2f32 position);
     bool actionSetPosition(edk::float32 second,edk::float32 x,edk::float32 y);
     //add move action
-    bool actionMoveFor(edk::float32 second,edk::float32 duration, edk::vec2f32 position);
-    bool actionMoveFor(edk::float32 second,edk::float32 duration, edk::float32 x,edk::float32 y);
+    bool actionMove(edk::float32 second,edk::float32 duration, edk::vec2f32 position);
+    bool actionMove(edk::float32 second,edk::float32 duration, edk::float32 x,edk::float32 y);
     bool actionMoveTo(edk::float32 start,edk::float32 end, edk::vec2f32 position);
     bool actionMoveTo(edk::float32 start,edk::float32 end, edk::float32 x,edk::float32 y);
     //add scale action
@@ -134,17 +134,17 @@ public:
     bool actionSetSize(edk::float32 second,edk::float32 width,edk::float32 height);
     bool actionSetSize(edk::float32 second,edk::float32 size);
     //add scale action
-    bool actionSizeFor(edk::float32 second,edk::float32 duration, edk::size2f32 size);
-    bool actionSizeFor(edk::float32 second,edk::float32 duration, edk::float32 width,edk::float32 height);
-    bool actionSizeFor(edk::float32 second,edk::float32 duration, edk::float32 size);
-    bool actionSizeTo(edk::float32 start,edk::float32 end, edk::size2f32 size);
-    bool actionSizeTo(edk::float32 start,edk::float32 end, edk::float32 width,edk::float32 height);
-    bool actionSizeTo(edk::float32 start,edk::float32 end, edk::float32 size);
+    bool actionScale(edk::float32 second,edk::float32 duration, edk::size2f32 size);
+    bool actionScale(edk::float32 second,edk::float32 duration, edk::float32 width,edk::float32 height);
+    bool actionScale(edk::float32 second,edk::float32 duration, edk::float32 size);
+    bool actionScaleTo(edk::float32 start,edk::float32 end, edk::size2f32 size);
+    bool actionScaleTo(edk::float32 start,edk::float32 end, edk::float32 width,edk::float32 height);
+    bool actionScaleTo(edk::float32 start,edk::float32 end, edk::float32 size);
     //add angle action
     bool actionSetAngle(edk::float32 second,edk::float32 angle);
     //add angle action
-    bool actionAngleFor(edk::float32 second,edk::float32 duration, edk::float32 angle);
-    bool actionAngleTo(edk::float32 start,edk::float32 end, edk::float32 angle);
+    bool actionRotateFor(edk::float32 second,edk::float32 duration, edk::float32 angle);
+    bool actionRotateTo(edk::float32 start,edk::float32 end, edk::float32 angle);
     //MESH SPRITE SHEET
     bool actionPlayName(edk::float32 second,edk::uint32 id,edk::char8* name,bool loop=false);
     bool actionPlayName(edk::float32 second,edk::uint32 id,const char* name,bool loop=false);

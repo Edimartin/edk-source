@@ -83,6 +83,8 @@ public:
     void deleteAllObjects();
     //set object to be animated
     bool setObjectAnimated(edk::uint32 levelPosition,edk::Object2D* obj);
+    bool setObjectAnimated(edk::uint32 levelPosition,edk::uint32 position);
+    bool setObjectAnimated(edk::uint32 levelPosition,edk::float32 depth);
 
     //OBJECTS_PHYSICS
     //add a object to the tree
@@ -139,9 +141,35 @@ public:
     bool removeActionSecond(edk::float32 second);
     //Add zero action
     bool actionZero(edk::float32 second);
-    //add move action
+    //add position action
     bool actionObjectSetPosition(edk::float32 second,edk::uint32 levelPosition,edk::float32 depth,edk::vec2f32 position);
     bool actionObjectSetPosition(edk::float32 second,edk::uint32 levelPosition,edk::float32 depth,edk::float32 x,edk::float32 y);
+    //add move action
+    bool actionObjectMove(edk::float32 second,edk::float32 duration,edk::uint32 levelPosition,edk::float32 depth,edk::vec2f32 position);
+    bool actionObjectMove(edk::float32 second,edk::float32 duration,edk::uint32 levelPosition,edk::float32 depth,edk::float32 x,edk::float32 y);
+    bool actionObjectMoveTo(edk::float32 start,edk::float32 end,edk::uint32 levelPosition,edk::float32 depth,edk::vec2f32 position);
+    bool actionObjectMoveTo(edk::float32 start,edk::float32 end,edk::uint32 levelPosition,edk::float32 depth,edk::float32 x,edk::float32 y);
+    //add Size action
+    bool actionObjectSetSize(edk::float32 second,edk::uint32 levelPosition,edk::float32 depth,edk::size2f32 size);
+    bool actionObjectSetSize(edk::float32 second,edk::uint32 levelPosition,edk::float32 depth,edk::float32 width,edk::float32 height);
+    bool actionObjectSetSize(edk::float32 second,edk::uint32 levelPosition,edk::float32 depth,edk::float32 size);
+    //add scale action
+    bool actionObjectScale(edk::float32 second,edk::float32 duration,edk::uint32 levelPosition,edk::float32 depth,edk::size2f32 size);
+    bool actionObjectScale(edk::float32 second,edk::float32 duration,edk::uint32 levelPosition,edk::float32 depth,edk::float32 width,edk::float32 height);
+    bool actionObjectScale(edk::float32 second,edk::float32 duration,edk::uint32 levelPosition,edk::float32 depth,edk::float32 size);
+    bool actionObjectScaleTo(edk::float32 start,edk::float32 end,edk::uint32 levelPosition,edk::float32 depth,edk::size2f32 size);
+    bool actionObjectScaleTo(edk::float32 start,edk::float32 end,edk::uint32 levelPosition,edk::float32 depth,edk::float32 width,edk::float32 height);
+    bool actionObjectScaleTo(edk::float32 start,edk::float32 end,edk::uint32 levelPosition,edk::float32 depth,edk::float32 size);
+    //add angle action
+    bool actionObjectSetAngle(edk::float32 second,edk::uint32 levelPosition,edk::float32 depth,edk::float32 angle);
+    //add angle action
+    bool actionObjectRotateFor(edk::float32 second,edk::float32 duration,edk::uint32 levelPosition,edk::float32 depth,edk::float32 angle);
+    bool actionObjectRotateTo(edk::float32 start,edk::float32 end,edk::uint32 levelPosition,edk::float32 depth,edk::float32 angle);
+    //MESH SPRITE SHEET
+    bool actionObjectPlayName(edk::float32 second,edk::uint32 levelPosition,edk::float32 depth,edk::uint32 id,edk::char8* name,bool loop=false);
+    bool actionObjectPlayName(edk::float32 second,edk::uint32 levelPosition,edk::float32 depth,edk::uint32 id,const char* name,bool loop=false);
+    bool actionObjectPlayNameFor(edk::float32 second,edk::float32 duration,edk::uint32 levelPosition,edk::float32 depth,edk::uint32 id,edk::char8* name);
+    bool actionObjectPlayNameFor(edk::float32 second,edk::float32 duration,edk::uint32 levelPosition,edk::float32 depth,edk::uint32 id,const char* name);
 
 
     //update the physics and collisions
@@ -163,11 +191,26 @@ private:
     edk::tiles::TileMap2D* mapSelected;
     //actions group animation
     edk::animation::ActionGroup actions;
-    //objects animation tree
-    edk::vector::BinaryTree<edk::Object2D*>treeAnim;
 
     //ACTIONS
-    class ActionObjectSetPosition:public edk::ActionZero{
+    class ActionObjectZero:public edk::ActionZero{
+    public:
+        ActionObjectZero(edk::Cenario2D* cenario,edk::uint32 levelPosition,edk::float32 depth);
+        edk::uint32 getLevelPosition();
+        edk::float32 getDepth();
+    protected:
+        edk::Cenario2D* cenario;
+        edk::uint32 levelPosition;
+        edk::float32 depth;
+    };
+    class ActionObjectZeroDuration:public edk::Cenario2D::ActionObjectZero{
+    public:
+        ActionObjectZeroDuration(edk::Cenario2D* cenario,edk::uint32 levelPosition,edk::float32 depth,edk::float32 duration);
+        edk::float32 getDuration();
+    protected:
+        edk::float32 duration;
+    };
+    class ActionObjectSetPosition:public edk::Cenario2D::ActionObjectZero{
     public:
         ActionObjectSetPosition(edk::Cenario2D* cenario,edk::uint32 levelPosition,edk::float32 depth, edk::vec2f32 position);
         //run action function
@@ -176,10 +219,101 @@ private:
         edk::uint64 getCode();
         //GET
         edk::vec2f32 getPosition();
-        edk::uint32 getLevelPosition();
-        edk::float32 getDepth();
     private:
         edk::vec2f32 position;
+    };
+    class ActionObjectMove:public edk::Cenario2D::ActionObjectZeroDuration{
+    public:
+        ActionObjectMove(edk::Cenario2D* cenario,edk::uint32 levelPosition,edk::float32 depth,edk::float32 duration, edk::vec2f32 position);
+        //run action function
+        void runAction();
+        //return the code
+        edk::uint64 getCode();
+        //GET
+        edk::vec2f32 getPosition();
+    private:
+        edk::vec2f32 position;
+    };
+    class ActionObjectSetSize:public edk::Cenario2D::ActionObjectZero{
+    public:
+        ActionObjectSetSize(edk::Cenario2D* cenario,edk::uint32 levelPosition,edk::float32 depth, edk::size2f32 size);
+        //run action function
+        void runAction();
+        //return the code
+        edk::uint64 getCode();
+        //GET
+        edk::size2f32 getSize();
+    private:
+        edk::size2f32 size;
+    };
+    class ActionObjectScale:public edk::Cenario2D::ActionObjectZeroDuration{
+    public:
+        ActionObjectScale(edk::Cenario2D* cenario,edk::uint32 levelPosition,edk::float32 depth,edk::float32 duration, edk::size2f32 size);
+        //run action function
+        void runAction();
+        //return the code
+        edk::uint64 getCode();
+        //GET
+        edk::size2f32 getSize();
+    private:
+        edk::size2f32 size;
+    };
+    class ActionObjectSetAngle:public edk::Cenario2D::ActionObjectZero{
+    public:
+        ActionObjectSetAngle(edk::Cenario2D* cenario,edk::uint32 levelPosition,edk::float32 depth, edk::float32 angle);
+        //run action function
+        void runAction();
+        //return the code
+        edk::uint64 getCode();
+        //GET
+        edk::float32 getAngle();
+    private:
+        edk::float32 angle;
+    };
+    class ActionObjectRotate:public edk::Cenario2D::ActionObjectZeroDuration{
+    public:
+        ActionObjectRotate(edk::Cenario2D* cenario,edk::uint32 levelPosition,edk::float32 depth,edk::float32 duration, edk::float32 angle);
+        //run action function
+        void runAction();
+        //return the code
+        edk::uint64 getCode();
+        //return the code
+        edk::float32 getAngle();
+    private:
+        edk::float32 angle;
+    };
+    class ActionObjectMeshName: public edk::ActionName{
+    public:
+        ActionObjectMeshName(edk::Cenario2D* cenario,edk::uint32 levelPosition,edk::float32 depth,edk::uint32 id, edk::char8* name,bool loop);
+        //run action function
+        void runAction();
+        //return the code
+        edk::uint64 getCode();
+        //GET
+        edk::uint32 getLevelPosition();
+        edk::float32 getDepth();
+        edk::uint32 getId();
+        bool getLoop();
+    private:
+        edk::uint32 id;
+        bool loop;
+        edk::Cenario2D* cenario;
+        edk::uint32 levelPosition;
+        edk::float32 depth;
+    };
+    class ActionObjectMeshStop: public edk::ActionZero{
+    public:
+        ActionObjectMeshStop(edk::Cenario2D* cenario,edk::uint32 levelPosition,edk::float32 depth,edk::uint32 id);
+        //run action function
+        void runAction();
+        //return the code
+        edk::uint64 getCode();
+        //GET
+        edk::uint32 getLevelPosition();
+        edk::float32 getDepth();
+        edk::uint32 getId();
+    private:
+        edk::uint32 id;
         edk::Cenario2D* cenario;
         edk::uint32 levelPosition;
         edk::float32 depth;
@@ -541,6 +675,17 @@ private:
         edk::tiles::TileMap2D* tileMap;
     };
 
+    //objects animation tree
+    class TreeAnim: public edk::vector::BinaryTree<edk::Object2D*>{
+    public:
+        TreeAnim(){}
+        ~TreeAnim(){}
+        //UPDATE
+        virtual void updateElement(edk::Object2D* value){
+            //update the value
+            value->updateAnimations();
+        }
+    }treeAnim;
 
     edk::vector::Stack<edk::Cenario2D::LevelObj*> levels;
 };

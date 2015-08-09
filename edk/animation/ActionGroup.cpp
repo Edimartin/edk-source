@@ -26,6 +26,7 @@ Gravatai RS Brazil 94065100
 
 edk::animation::ActionGroup::ActionGroup(){
     this->canDeleteGroup=true;
+    this->valueTemp=0.0;
 }
 edk::animation::ActionGroup::~ActionGroup(){
     if(this->canDeleteGroup)
@@ -35,6 +36,16 @@ edk::animation::ActionGroup::~ActionGroup(){
         this->tree.cantDeleteTrees();
     }
     this->canDeleteGroup=true;
+}
+
+//first update
+void edk::animation::ActionGroup::firstUpdate(){
+    if(this->anim.isPlaying()){
+        //update the clock
+        this->anim.updateClockAnimation();
+        //get the value
+        this->valueTemp = this->anim.getClockX() - 1.f;
+    }
 }
 
 //add one action
@@ -135,8 +146,14 @@ bool edk::animation::ActionGroup::isLooping(){return this->anim.isLooping();}
 
 //CONTROLS
 //animation controllers
-void edk::animation::ActionGroup::playForward(){this->anim.playForward();}
-void edk::animation::ActionGroup::playForwardIn(edk::float32 second){this->anim.playForwardIn(second);}
+void edk::animation::ActionGroup::playForward(){
+    this->anim.playForward();
+    this->firstUpdate();
+}
+void edk::animation::ActionGroup::playForwardIn(edk::float32 second){
+    this->anim.playForwardIn(second);
+    this->firstUpdate();
+}
 //void edk::animation::ActionGroup::playRewind(){this->anim.playRewind();}
 //void edk::animation::ActionGroup::playRewindIn(edk::float32 second){this->anim.playRewindIn(second);}
 void edk::animation::ActionGroup::pause(){this->anim.pause();}

@@ -373,10 +373,28 @@ bool edk::Cenario2D::LevelObj::readFromXML(edk::XML* xml,edk::uint32 id,edk::til
 }
 
 //ACTIONS
-edk::Cenario2D::ActionObjectSetPosition::ActionObjectSetPosition(edk::Cenario2D* cenario,edk::uint32 levelPosition,edk::float32 depth, edk::vec2f32 position){
+edk::Cenario2D::ActionObjectZero::ActionObjectZero(edk::Cenario2D* cenario,edk::uint32 levelPosition,edk::float32 depth){
     this->cenario = cenario;
     this->levelPosition = levelPosition;
     this->depth = depth;
+}
+edk::uint32 edk::Cenario2D::ActionObjectZero::getLevelPosition(){
+    return this->levelPosition;
+}
+edk::float32 edk::Cenario2D::ActionObjectZero::getDepth(){
+    return this->depth;
+}
+edk::Cenario2D::ActionObjectZeroDuration::ActionObjectZeroDuration(edk::Cenario2D* cenario,edk::uint32 levelPosition,edk::float32 depth,edk::float32 duration)
+    :ActionObjectZero(cenario,levelPosition,depth)
+{
+    this->duration=duration;
+}
+edk::float32 edk::Cenario2D::ActionObjectZeroDuration::getDuration(){
+    return this->duration;
+}
+edk::Cenario2D::ActionObjectSetPosition::ActionObjectSetPosition(edk::Cenario2D* cenario,edk::uint32 levelPosition,edk::float32 depth, edk::vec2f32 position)
+    :ActionObjectZero(cenario,levelPosition,depth)
+{
     this->position = position;
 }
 //run action function
@@ -395,11 +413,184 @@ edk::uint64 edk::Cenario2D::ActionObjectSetPosition::getCode(){
 edk::vec2f32 edk::Cenario2D::ActionObjectSetPosition::getPosition(){
     return this->position;
 }
-edk::uint32 edk::Cenario2D::ActionObjectSetPosition::getLevelPosition(){
+edk::Cenario2D::ActionObjectMove::ActionObjectMove(edk::Cenario2D* cenario,edk::uint32 levelPosition,edk::float32 depth,edk::float32 duration, edk::vec2f32 position)
+    :ActionObjectZeroDuration(cenario,levelPosition,depth,duration)
+{
+    this->position=position;
+}
+//run action function
+void edk::Cenario2D::ActionObjectMove::runAction(){
+    edk::Object2D* temp = this->cenario->getObject(this->levelPosition,this->depth);
+    if(temp){
+        temp->animationPosition.cleanAnimations();
+        temp->animationPosition.addFirstInterpolationLine(0u,temp->position.x,temp->position.y,this->duration,this->position.x,this->position.y);
+        temp->animationPosition.playForward();
+        this->cenario->setObjectAnimated(this->levelPosition,this->depth);
+    }
+}
+//return the code
+edk::uint64 edk::Cenario2D::ActionObjectMove::getCode(){
+    return 0u;
+}
+//GET
+edk::vec2f32 edk::Cenario2D::ActionObjectMove::getPosition(){
+    return this->position;
+}
+edk::Cenario2D::ActionObjectSetSize::ActionObjectSetSize(edk::Cenario2D* cenario,edk::uint32 levelPosition,edk::float32 depth, edk::size2f32 size)
+    :ActionObjectZero(cenario,levelPosition,depth)
+{
+    this->size = size;
+}
+//run action function
+void edk::Cenario2D::ActionObjectSetSize::runAction(){
+    //load the object from the cenario
+    edk::Object2D* temp = this->cenario->getObject(this->levelPosition,this->depth);
+    if(temp){
+        temp->size = this->size;
+    }
+}
+//return the code
+edk::uint64 edk::Cenario2D::ActionObjectSetSize::getCode(){
+    return 0u;
+}
+//GET
+edk::size2f32 edk::Cenario2D::ActionObjectSetSize::getSize(){
+    return this->size;
+}
+edk::Cenario2D::ActionObjectScale::ActionObjectScale(edk::Cenario2D* cenario,edk::uint32 levelPosition,edk::float32 depth,edk::float32 duration, edk::size2f32 size)
+    :ActionObjectZeroDuration(cenario,levelPosition,depth,duration)
+{
+    this->size = size;
+}
+//run action function
+void edk::Cenario2D::ActionObjectScale::runAction(){
+    edk::Object2D* temp = this->cenario->getObject(this->levelPosition,this->depth);
+    if(temp){
+        temp->animationSize.cleanAnimations();
+        temp->animationSize.addFirstInterpolationLine(0u,temp->size.width,temp->size.height,this->duration,this->size.width,this->size.height);
+        temp->animationSize.playForward();
+        this->cenario->setObjectAnimated(this->levelPosition,this->depth);
+    }
+}
+//return the code
+edk::uint64 edk::Cenario2D::ActionObjectScale::getCode(){
+    return 0u;
+}
+//GET
+edk::size2f32 edk::Cenario2D::ActionObjectScale::getSize(){
+    return this->size;
+}
+edk::Cenario2D::ActionObjectSetAngle::ActionObjectSetAngle(edk::Cenario2D* cenario,edk::uint32 levelPosition,edk::float32 depth, edk::float32 angle)
+    :ActionObjectZero(cenario,levelPosition,depth)
+{
+    this->angle=angle;
+}
+//run action function
+void edk::Cenario2D::ActionObjectSetAngle::runAction(){
+    //load the object from the cenario
+    edk::Object2D* temp = this->cenario->getObject(this->levelPosition,this->depth);
+    if(temp){
+        temp->angle = this->angle;
+    }
+}
+//return the code
+edk::uint64 edk::Cenario2D::ActionObjectSetAngle::getCode(){
+    return 0u;
+}
+//GET
+edk::float32 edk::Cenario2D::ActionObjectSetAngle::getAngle(){
+    return this->angle;
+}
+edk::Cenario2D::ActionObjectRotate::ActionObjectRotate(edk::Cenario2D* cenario,edk::uint32 levelPosition,edk::float32 depth,edk::float32 duration, edk::float32 angle)
+    :ActionObjectZeroDuration(cenario,levelPosition,depth,duration)
+{
+    this->angle=angle;
+}
+//run action function
+void edk::Cenario2D::ActionObjectRotate::runAction(){
+    edk::Object2D* temp = this->cenario->getObject(this->levelPosition,this->depth);
+    if(temp){
+        temp->animationRotation.cleanAnimations();
+        temp->animationRotation.addFirstInterpolationLine(0u,temp->angle,this->duration,this->angle);
+        temp->animationRotation.playForward();
+        this->cenario->setObjectAnimated(this->levelPosition,this->depth);
+    }
+}
+//return the code
+edk::uint64 edk::Cenario2D::ActionObjectRotate::getCode(){
+    return 0u;
+}
+//return the code
+edk::float32 edk::Cenario2D::ActionObjectRotate::getAngle(){
+    return this->angle;
+}
+edk::Cenario2D::ActionObjectMeshName::ActionObjectMeshName(edk::Cenario2D* cenario,edk::uint32 levelPosition,edk::float32 depth,edk::uint32 id, edk::char8* name,bool loop){
+    this->cenario = cenario;
+    this->levelPosition = levelPosition;
+    this->depth=depth;
+    this->id = id;
+    edk::Name::setName(name);
+    this->loop=loop;
+}
+//run action function
+void edk::Cenario2D::ActionObjectMeshName::runAction(){
+    edk::Object2D* temp = this->cenario->getObject(this->levelPosition,this->depth);
+    if(temp){
+        //load the mesh
+        edk::shape::Mesh2D* mesh = temp->getMesh(this->id);
+        if(mesh){
+            mesh->selectedAnimationSetLoop(this->loop);
+            mesh->selectedAnimationPlayNameForward(this->name());
+        }
+    }
+}
+//return the code
+edk::uint64 edk::Cenario2D::ActionObjectMeshName::getCode(){
+    return 0u;
+}
+//GET
+edk::uint32 edk::Cenario2D::ActionObjectMeshName::getLevelPosition(){
     return this->levelPosition;
 }
-edk::float32 edk::Cenario2D::ActionObjectSetPosition::getDepth(){
+edk::float32 edk::Cenario2D::ActionObjectMeshName::getDepth(){
     return this->depth;
+}
+edk::uint32 edk::Cenario2D::ActionObjectMeshName::getId(){
+    return this->id;
+}
+bool edk::Cenario2D::ActionObjectMeshName::getLoop(){
+    return this->loop;
+}
+edk::Cenario2D::ActionObjectMeshStop::ActionObjectMeshStop(edk::Cenario2D* cenario,edk::uint32 levelPosition,edk::float32 depth,edk::uint32 id){
+    this->cenario = cenario;
+    this->levelPosition = levelPosition;
+    this->depth=depth;
+    this->id = id;
+}
+//run action function
+void edk::Cenario2D::ActionObjectMeshStop::runAction(){
+    edk::Object2D* temp = this->cenario->getObject(this->levelPosition,this->depth);
+    if(temp){
+        //load the mesh
+        edk::shape::Mesh2D* mesh = temp->getMesh(this->id);
+        if(mesh){
+            mesh->selectedAnimationStop();
+        }
+    }
+}
+//return the code
+edk::uint64 edk::Cenario2D::ActionObjectMeshStop::getCode(){
+    return 0u;
+}
+//GET
+edk::uint32 edk::Cenario2D::ActionObjectMeshStop::getLevelPosition(){
+    return this->levelPosition;
+}
+edk::float32 edk::Cenario2D::ActionObjectMeshStop::getDepth(){
+    return this->depth;
+}
+edk::uint32 edk::Cenario2D::ActionObjectMeshStop::getId(){
+    return this->id;
 }
 
 //get levels less position
@@ -1204,7 +1395,56 @@ bool edk::Cenario2D::setObjectAnimated(edk::uint32 levelPosition,edk::Object2D* 
             }
         }
     }
-    //test if have the object in the level
+    return false;
+}
+bool edk::Cenario2D::setObjectAnimated(edk::uint32 levelPosition,edk::uint32 position){
+    //test the level position
+    if(levelPosition){
+        levelPosition--;
+        //load the level
+        edk::Cenario2D::LevelObj* level = this->levels[levelPosition];
+        if(level){
+            //test if have objects
+            if(level->objs){
+                //load the object
+                edk::Object2D* temp = level->objs->getObjectInPosition(position);
+                if(temp){
+                    //add the object to the animation tree
+                    if(this->treeAnim.haveElement(temp)){
+                        return true;
+                    }
+                    else{
+                        return this->treeAnim.add(temp);
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
+bool edk::Cenario2D::setObjectAnimated(edk::uint32 levelPosition,edk::float32 depth){
+    //test the level position
+    if(levelPosition){
+        levelPosition--;
+        //load the level
+        edk::Cenario2D::LevelObj* level = this->levels[levelPosition];
+        if(level){
+            //test if have objects
+            if(level->objs){
+                //load the object
+                edk::Object2D* temp = level->objs->getObjectFromDepth(depth);
+                if(temp){
+                    //add the object to the animation tree
+                    if(this->treeAnim.haveElement(temp)){
+                        return true;
+                    }
+                    else{
+                        return this->treeAnim.add(temp);
+                    }
+                }
+            }
+        }
+    }
     return false;
 }
 
@@ -1550,14 +1790,96 @@ bool edk::Cenario2D::removeActionSecond(edk::float32 second){
 }
 //Add zero action
 bool edk::Cenario2D::actionZero(edk::float32 second){
-    return this->actions.addAction(second,new edk::ActionZero());
+    return this->actions.addZeroAction(second);
 }
-//add move action
+//add position action
 bool edk::Cenario2D::actionObjectSetPosition(edk::float32 second,edk::uint32 levelPosition,edk::float32 depth,edk::vec2f32 position){
     return this->actions.addAction(second,new edk::Cenario2D::ActionObjectSetPosition(this,levelPosition,depth,position));
 }
 bool edk::Cenario2D::actionObjectSetPosition(edk::float32 second,edk::uint32 levelPosition,edk::float32 depth,edk::float32 x,edk::float32 y){
     return this->actionObjectSetPosition(second,levelPosition,depth,edk::vec2f32(x,y));
+}
+//add move action
+bool edk::Cenario2D::actionObjectMove(edk::float32 second,edk::float32 duration,edk::uint32 levelPosition,edk::float32 depth,edk::vec2f32 position){
+    if(this->actions.addAction(second,new edk::Cenario2D::ActionObjectMove(this,levelPosition,depth,duration,position))){
+        this->actions.addZeroAction(second+duration);
+        return true;
+    }
+    return false;
+}
+bool edk::Cenario2D::actionObjectMove(edk::float32 second,edk::float32 duration,edk::uint32 levelPosition,edk::float32 depth,edk::float32 x,edk::float32 y){
+    return this->actionObjectMove(second,duration,levelPosition,depth,edk::vec2f32(x,y));
+}
+bool edk::Cenario2D::actionObjectMoveTo(edk::float32 start,edk::float32 end,edk::uint32 levelPosition,edk::float32 depth,edk::vec2f32 position){
+    return this->actionObjectMove(start,end-start,levelPosition,depth,position);
+}
+bool edk::Cenario2D::actionObjectMoveTo(edk::float32 start,edk::float32 end,edk::uint32 levelPosition,edk::float32 depth,edk::float32 x,edk::float32 y){
+    return this->actionObjectMove(start,end-start,levelPosition,depth,edk::vec2f32(x,y));
+}
+//add Size action
+bool edk::Cenario2D::actionObjectSetSize(edk::float32 second,edk::uint32 levelPosition,edk::float32 depth,edk::size2f32 size){
+    return this->actions.addAction(second,new edk::Cenario2D::ActionObjectSetSize(this,levelPosition,depth,size));
+}
+bool edk::Cenario2D::actionObjectSetSize(edk::float32 second,edk::uint32 levelPosition,edk::float32 depth,edk::float32 width,edk::float32 height){
+    return actionObjectSetSize(second,levelPosition,depth,edk::size2f32(width,height));
+}
+bool edk::Cenario2D::actionObjectSetSize(edk::float32 second,edk::uint32 levelPosition,edk::float32 depth,edk::float32 size){
+    return this->actionObjectSetSize(second,levelPosition,depth,size,size);
+}
+//add scale action
+bool edk::Cenario2D::actionObjectScale(edk::float32 second,edk::float32 duration,edk::uint32 levelPosition,edk::float32 depth,edk::size2f32 size){
+    if(this->actions.addAction(second,new edk::Cenario2D::ActionObjectScale(this,levelPosition,depth,duration,size))){
+        this->actions.addZeroAction(second+duration);
+        return true;
+    }
+    return false;
+}
+bool edk::Cenario2D::actionObjectScale(edk::float32 second,edk::float32 duration,edk::uint32 levelPosition,edk::float32 depth,edk::float32 width,edk::float32 height){
+    return this->actionObjectScale(second,duration,levelPosition,depth,edk::size2f32(width,height));
+}
+bool edk::Cenario2D::actionObjectScale(edk::float32 second,edk::float32 duration,edk::uint32 levelPosition,edk::float32 depth,edk::float32 size){
+    return this->actionObjectScale(second,duration,levelPosition,depth,size,size);
+}
+bool edk::Cenario2D::actionObjectScaleTo(edk::float32 start,edk::float32 end,edk::uint32 levelPosition,edk::float32 depth,edk::size2f32 size){
+    return this->actionObjectScale(start,end-start,levelPosition,depth,size);
+}
+bool edk::Cenario2D::actionObjectScaleTo(edk::float32 start,edk::float32 end,edk::uint32 levelPosition,edk::float32 depth,edk::float32 width,edk::float32 height){
+    return this->actionObjectScale(start,end-start,levelPosition,depth,width,height);
+}
+bool edk::Cenario2D::actionObjectScaleTo(edk::float32 start,edk::float32 end,edk::uint32 levelPosition,edk::float32 depth,edk::float32 size){
+    return this->actionObjectScale(start,end-start,levelPosition,depth,size);
+}
+//add angle action
+bool edk::Cenario2D::actionObjectSetAngle(edk::float32 second,edk::uint32 levelPosition,edk::float32 depth,edk::float32 angle){
+    return this->actions.addAction(second,new edk::Cenario2D::ActionObjectSetAngle(this,levelPosition,depth,angle));
+}
+//add angle action
+bool edk::Cenario2D::actionObjectRotateFor(edk::float32 second,edk::float32 duration,edk::uint32 levelPosition,edk::float32 depth,edk::float32 angle){
+    if(this->actions.addAction(second,new edk::Cenario2D::ActionObjectRotate(this,levelPosition,depth,duration,angle))){
+        this->actions.addZeroAction(second+duration);
+        return true;
+    }
+    return false;
+}
+bool edk::Cenario2D::actionObjectRotateTo(edk::float32 start,edk::float32 end,edk::uint32 levelPosition,edk::float32 depth,edk::float32 angle){
+    return this->actionObjectRotateFor(start,end-start,levelPosition,depth,angle);
+}
+//MESH SPRITE SHEET
+bool edk::Cenario2D::actionObjectPlayName(edk::float32 second,edk::uint32 levelPosition,edk::float32 depth,edk::uint32 id,edk::char8* name,bool loop){
+    return this->actions.addAction(second,new edk::Cenario2D::ActionObjectMeshName(this,levelPosition,depth,id,name,loop));
+}
+bool edk::Cenario2D::actionObjectPlayName(edk::float32 second,edk::uint32 levelPosition,edk::float32 depth,edk::uint32 id,const char* name,bool loop){
+    return this->actionObjectPlayName(second,levelPosition,depth,id,(edk::char8*)name,loop);
+}
+bool edk::Cenario2D::actionObjectPlayNameFor(edk::float32 second,edk::float32 duration,edk::uint32 levelPosition,edk::float32 depth,edk::uint32 id,edk::char8* name){
+    if(this->actions.addAction(second,new edk::Cenario2D::ActionObjectMeshName(this,levelPosition,depth,id,name,true))){
+        this->actions.addAction(second+duration,new edk::Cenario2D::ActionObjectMeshStop(this,levelPosition,depth,id));
+        return true;
+    }
+    return false;
+}
+bool edk::Cenario2D::actionObjectPlayNameFor(edk::float32 second,edk::float32 duration,edk::uint32 levelPosition,edk::float32 depth,edk::uint32 id,const char* name){
+    return this->actionObjectPlayNameFor(second,duration,levelPosition,depth,id,(edk::char8*) name);
 }
 
 
@@ -1587,6 +1909,7 @@ bool edk::Cenario2D::updateAnimation(edk::uint32 position){
     return false;
 }
 void edk::Cenario2D::updateAnimations(){
+    /*
     //update the levels
     edk::uint32 size = this->levels.size();
     edk::Cenario2D::LevelObj * level=NULL;
@@ -1601,6 +1924,8 @@ void edk::Cenario2D::updateAnimations(){
             }
         }
     }
+    */
+    this->treeAnim.update();
     //update the tileSet
     this->tileSet.updateAnimations();
 }
