@@ -512,8 +512,86 @@ bool edk::XML::addSelectedNextChild(edk::char8* name){
     return false;
 }
 //Add a attribute at the end
+bool edk::XML::addSelectedNextAttribute(const char* name,edk::uint32 value){
+    return this->addSelectedNextAttribute((edk::char8*) name,value);
+}
+bool edk::XML::addSelectedNextAttribute(edk::char8* name,edk::uint32 value){
+    bool ret = false;
+    edk::char8* str = edk::String::uint32ToStr(value);
+    if(str){
+        ret = this->addSelectedNextAttribute(name,str);
+        delete[] str;
+    }
+    return ret;
+}
+bool edk::XML::addSelectedNextAttribute(const char* name,edk::int32 value){
+    return this->addSelectedNextAttribute((edk::char8*) name,value);
+}
+bool edk::XML::addSelectedNextAttribute(edk::char8* name,edk::int32 value){
+    bool ret = false;
+    edk::char8* str = edk::String::int32ToStr(value);
+    if(str){
+        ret = this->addSelectedNextAttribute(name,str);
+        delete[] str;
+    }
+    return ret;
+}
+bool edk::XML::addSelectedNextAttribute(const char* name,edk::uint64 value){
+    return this->addSelectedNextAttribute((edk::char8*) name,value);
+}
+bool edk::XML::addSelectedNextAttribute(edk::char8* name,edk::uint64 value){
+    bool ret = false;
+    edk::char8* str = edk::String::uint64ToStr(value);
+    if(str){
+        ret = this->addSelectedNextAttribute(name,str);
+        delete[] str;
+    }
+    return ret;
+}
+bool edk::XML::addSelectedNextAttribute(const char* name,edk::int64 value){
+    return this->addSelectedNextAttribute((edk::char8*) name,value);
+}
+bool edk::XML::addSelectedNextAttribute(edk::char8* name,edk::int64 value){
+    bool ret = false;
+    edk::char8* str = edk::String::int64ToStr(value);
+    if(str){
+        ret = this->addSelectedNextAttribute(name,str);
+        delete[] str;
+    }
+    return ret;
+}
+bool edk::XML::addSelectedNextAttribute(const char* name,edk::float32 value,edk::uint32 digits){
+    return this->addSelectedNextAttribute((edk::char8*) name,value,digits);
+}
+bool edk::XML::addSelectedNextAttribute(edk::char8* name,edk::float32 value,edk::uint32 digits){
+    bool ret = false;
+    edk::char8* str = edk::String::float32ToStr(value,digits);
+    if(str){
+        ret = this->addSelectedNextAttribute(name,str);
+        delete[] str;
+    }
+    return ret;
+}
+bool edk::XML::addSelectedNextAttribute(const char* name,edk::float64 value,edk::uint32 digits){
+    return this->addSelectedNextAttribute((edk::char8*) name,value,digits);
+}
+bool edk::XML::addSelectedNextAttribute(edk::char8* name,edk::float64 value,edk::uint32 digits){
+    bool ret = false;
+    edk::char8* str = edk::String::float64ToStr(value,digits);
+    if(str){
+        ret = this->addSelectedNextAttribute(name,str);
+        delete[] str;
+    }
+    return ret;
+}
 bool edk::XML::addSelectedNextAttribute(const char* name,const char* value){
     return this->addSelectedNextAttribute((edk::char8*) name,(edk::char8*) value);
+}
+bool edk::XML::addSelectedNextAttribute(edk::char8* name,const char* value){
+    return this->addSelectedNextAttribute(name,(edk::char8*) value);
+}
+bool edk::XML::addSelectedNextAttribute(const char* name,edk::char8* value){
+    return this->addSelectedNextAttribute((edk::char8*) name,value);
 }
 bool edk::XML::addSelectedNextAttribute(edk::char8* name,edk::char8* value){
     //test the selected
@@ -540,10 +618,87 @@ bool edk::XML::addSelectedNextAttribute(edk::char8* name,edk::char8* value){
     //else return false
     return false;
 }
-//Add a attribute at the start
+bool edk::XML::addSelectedPreviousAttribute(const char* name,edk::uint32 value){
+    return this->addSelectedPreviousAttribute((edk::char8*) name,value);
+}
+bool edk::XML::addSelectedPreviousAttribute(edk::char8* name,edk::uint32 value){
+    bool ret = false;
+    edk::char8* str = edk::String::uint32ToStr(value);
+    if(str){
+        ret = this->addSelectedPreviousAttribute(name,str);
+        delete[] str;
+    }
+    return ret;
+}
+bool edk::XML::addSelectedPreviousAttribute(const char* name,edk::int32 value){
+    return this->addSelectedPreviousAttribute((edk::char8*) name,value);
+}
+bool edk::XML::addSelectedPreviousAttribute(edk::char8* name,edk::int32 value){
+    bool ret = false;
+    edk::char8* str = edk::String::int32ToStr(value);
+    if(str){
+        ret = this->addSelectedPreviousAttribute(name,str);
+        delete[] str;
+    }
+    return ret;
+}
+bool edk::XML::addSelectedPreviousAttribute(const char* name,edk::uint64 value){
+    return this->addSelectedPreviousAttribute((edk::char8*) name,value);
+}
+bool edk::XML::addSelectedPreviousAttribute(edk::char8* name,edk::uint64 value){
+    bool ret = false;
+    edk::char8* str = edk::String::uint64ToStr(value);
+    if(str){
+        ret = this->addSelectedPreviousAttribute(name,str);
+        delete[] str;
+    }
+    return ret;
+}
+bool edk::XML::addSelectedPreviousAttribute(const char* name,edk::int64 value){
+    return this->addSelectedPreviousAttribute((edk::char8*) name,value);
+}
+bool edk::XML::addSelectedPreviousAttribute(edk::char8* name,edk::int64 value){
+    bool ret = false;
+    edk::char8* str = edk::String::int64ToStr(value);
+    if(str){
+        ret = this->addSelectedPreviousAttribute(name,str);
+        delete[] str;
+    }
+    return ret;
+}
+bool edk::XML::addSelectedPreviousAttribute(const char* name,edk::float32 value,edk::uint32 digits){
+    return this->addSelectedPreviousAttribute((edk::char8*) name,value,digits);
+}
+bool edk::XML::addSelectedPreviousAttribute(edk::char8* name,edk::float32 value,edk::uint32 digits){
+    bool ret = false;
+    edk::char8* str = edk::String::float32ToStr(value,digits);
+    if(str){
+        ret = this->addSelectedPreviousAttribute(name,str);
+        delete[] str;
+    }
+    return ret;
+}
+bool edk::XML::addSelectedPreviousAttribute(const char* name,edk::float64 value,edk::uint32 digits){
+    return this->addSelectedPreviousAttribute((edk::char8*) name,value,digits);
+}
+bool edk::XML::addSelectedPreviousAttribute(edk::char8* name,edk::float64 value,edk::uint32 digits){
+    bool ret = false;
+    edk::char8* str = edk::String::float64ToStr(value,digits);
+    if(str){
+        ret = this->addSelectedPreviousAttribute(name,str);
+        delete[] str;
+    }
+    return ret;
+}
 bool edk::XML::addSelectedPreviousAttribute(const char* name,const char* value){
     //
     return this->addSelectedPreviousAttribute((edk::char8*) name,(edk::char8*) value);
+}
+bool edk::XML::addSelectedPreviousAttribute(edk::char8* name,const char* value){
+    return this->addSelectedPreviousAttribute(name,(edk::char8*) value);
+}
+bool edk::XML::addSelectedPreviousAttribute(const char* name,edk::char8* value){
+    return this->addSelectedPreviousAttribute((edk::char8*) name,value);
 }
 bool edk::XML::addSelectedPreviousAttribute(edk::char8* name,edk::char8* value){
     //test the selected

@@ -32,9 +32,11 @@ edk::Object2D::Object2D(){
     //Scale
     this->size = edk::size2f32(1.f,1.f);
     this->canDeleteObject=true;
+    this->actions.setReadXMLActionFunction(&edk::Object2D::readXMLAction);
 }
 
 edk::Object2D::~Object2D(){
+    this->actions.cleanReadXMLActionFunction();
     //dtor
     if(this->canDeleteObject){
         this->cleanMeshes();
@@ -50,18 +52,120 @@ edk::Object2D::~Object2D(){
     this->canDeleteObject=true;
 }
 
+//Function to read the actions
+edk::Action* edk::Object2D::readXMLAction(edk::classID thisPointer,edk::uint32 actionCode){
+    switch(actionCode){
+    case 1u:
+    {
+        //ActionPosition
+        return new edk::Object2D::ActionPosition((edk::Object2D*)thisPointer,edk::vec2f32(0,0));
+        break;
+    }
+    case 2u:
+    {
+        //ActionMove
+        return new edk::Object2D::ActionMove((edk::Object2D*)thisPointer,0,edk::vec2f32(0,0));
+        break;
+    }
+    case 3u:
+    {
+        //ActionSetSize
+        return new edk::Object2D::ActionSetSize((edk::Object2D*)thisPointer,edk::size2f32(1,1));
+        break;
+    }
+    case 4u:
+    {
+        //ActionSize
+        return new edk::Object2D::ActionSize((edk::Object2D*)thisPointer,0,edk::size2f32(1,1));
+        break;
+    }
+    case 5u:
+    {
+        //ActionSetAngle
+        return new edk::Object2D::ActionSetAngle((edk::Object2D*)thisPointer,0);
+        break;
+    }
+    case 6u:
+    {
+        //ActionAngle
+        return new edk::Object2D::ActionAngle((edk::Object2D*)thisPointer,0,0);
+        break;
+    }
+    case 7u:
+    {
+        //ActionMeshName
+        return new edk::Object2D::ActionMeshName((edk::Object2D*)thisPointer,0,NULL,false);
+        break;
+    }
+    case 8u:
+    {
+        //ActionMeshStop
+        return new edk::Object2D::ActionMeshStop((edk::Object2D*)thisPointer,0);
+        break;
+    }
+    }
+    return new edk::ActionZero();
+}
+
 //Actions
 edk::Object2D::ActionPosition::ActionPosition(edk::Object2D* object, edk::vec2f32 position){
     this->position=position;
     this->object=object;
+    this->code = 1u;
 }
 //run action function
 void edk::Object2D::ActionPosition::runAction(){
     this->object->position = this->position;
 }
-//return the code
-edk::uint64 edk::Object2D::ActionPosition::getCode(){
-    return 1u;
+//write to XML
+bool edk::Object2D::ActionPosition::writeToXML(edk::XML* xml,edk::uint32 id){
+    bool ret=false;
+    if(edk::ActionZero::writeToXML(xml,id)){
+        edk::char8* number = edk::String::uint32ToStr(id);
+        if(number){
+            edk::char8* name = edk::String::strCat("Action_",number);
+            if(name){
+                //create the Action
+                if(xml->selectChild(name)){
+                    //write the position
+                    xml->addSelectedNextAttribute("positionX",this->position.x);
+                    xml->addSelectedNextAttribute("positionY",this->position.y);
+
+                    ret=true;
+                    //select father
+                    xml->selectFather();
+                }
+                delete[] name;
+            }
+            delete[] number;
+        }
+    }
+    return ret;
+}
+//read XML
+bool edk::Object2D::ActionPosition::readFromXML(edk::XML* xml,edk::uint32 id){
+    bool ret=false;
+    if(xml){
+        edk::char8* number = edk::String::uint32ToStr(id);
+        if(number){
+            edk::char8* name = edk::String::strCat("Action_",number);
+            if(name){
+                //create the Action
+                if(xml->selectChild(name)){
+                    //read the position
+                    this->position.x = edk::String::strToInt32(xml->getSelectedAttributeValueByName("positionX"));
+                    this->position.y = edk::String::strToInt32(xml->getSelectedAttributeValueByName("positionY"));
+
+                    ret=true;
+                    //then select the father
+                    xml->selectFather();
+                }
+                delete[] name;
+            }
+            delete[] number;
+        }
+    }
+    return ret;
 }
 //GET
 edk::vec2f32 edk::Object2D::ActionPosition::getPosition(){
@@ -71,6 +175,7 @@ edk::Object2D::ActionMove::ActionMove(edk::Object2D* object,edk::float32 duratio
     this->position=position;
     this->duration = duration;
     this->object=object;
+    this->code = 2u;
 }
 //run action function
 void edk::Object2D::ActionMove::runAction(){
@@ -78,9 +183,59 @@ void edk::Object2D::ActionMove::runAction(){
     this->object->animationPosition.addFirstInterpolationLine(0,this->object->position.x,this->object->position.y,this->duration,this->position.x,this->position.y);
     this->object->animationPosition.playForward();
 }
-//return the code
-edk::uint64 edk::Object2D::ActionMove::getCode(){
-    return 2u;
+//write to XML
+bool edk::Object2D::ActionMove::writeToXML(edk::XML* xml,edk::uint32 id){
+    bool ret=false;
+    if(edk::ActionZero::writeToXML(xml,id)){
+        edk::char8* number = edk::String::uint32ToStr(id);
+        if(number){
+            edk::char8* name = edk::String::strCat("Action_",number);
+            if(name){
+                //create the Action
+                if(xml->selectChild(name)){
+                    //write the position
+                    xml->addSelectedNextAttribute("positionX",this->position.x);
+                    xml->addSelectedNextAttribute("positionY",this->position.y);
+                    //write the duration
+                    xml->addSelectedNextAttribute("duration",this->duration);
+
+                    ret=true;
+                    //then select the father
+                    xml->selectFather();
+                }
+                delete[] name;
+            }
+            delete[] number;
+        }
+    }
+    return ret;
+}
+//read XML
+bool edk::Object2D::ActionMove::readFromXML(edk::XML* xml,edk::uint32 id){
+    bool ret=false;
+    if(xml){
+        edk::char8* number = edk::String::uint32ToStr(id);
+        if(number){
+            edk::char8* name = edk::String::strCat("Action_",number);
+            if(name){
+                //create the Action
+                if(xml->selectChild(name)){
+                    //read the position
+                    this->position.x = edk::String::strToInt32(xml->getSelectedAttributeValueByName("positionX"));
+                    this->position.y = edk::String::strToInt32(xml->getSelectedAttributeValueByName("positionY"));
+                    //read duration
+                    this->duration = edk::String::strToFloat32(xml->getSelectedAttributeValueByName("duration"));
+
+                    ret=true;
+                    //then select the father
+                    xml->selectFather();
+                }
+                delete[] name;
+            }
+            delete[] number;
+        }
+    }
+    return ret;
 }
 //GET
 edk::vec2f32 edk::Object2D::ActionMove::getPosition(){
@@ -92,14 +247,61 @@ edk::float32 edk::Object2D::ActionMove::getDuration(){
 edk::Object2D::ActionSetSize::ActionSetSize(edk::Object2D* object, edk::size2f32 size){
     this->object=object;
     this->size=size;
+    this->code = 3u;
 }
 //run action function
 void edk::Object2D::ActionSetSize::runAction(){
     this->object->size = this->size;
 }
-//return the code
-edk::uint64 edk::Object2D::ActionSetSize::getCode(){
-    return 3u;
+//write to XML
+bool edk::Object2D::ActionSetSize::writeToXML(edk::XML* xml,edk::uint32 id){
+    bool ret=false;
+    if(edk::ActionZero::writeToXML(xml,id)){
+        edk::char8* number = edk::String::uint32ToStr(id);
+        if(number){
+            edk::char8* name = edk::String::strCat("Action_",number);
+            if(name){
+                //create the Action
+                if(xml->selectChild(name)){
+                    //write the size
+                    xml->addSelectedNextAttribute("width",this->size.width);
+                    xml->addSelectedNextAttribute("height",this->size.height);
+
+                    ret=true;
+                    //then select the father
+                    xml->selectFather();
+                }
+                delete[] name;
+            }
+            delete[] number;
+        }
+    }
+    return ret;
+}
+//read XML
+bool edk::Object2D::ActionSetSize::readFromXML(edk::XML* xml,edk::uint32 id){
+    bool ret=false;
+    if(xml){
+        edk::char8* number = edk::String::uint32ToStr(id);
+        if(number){
+            edk::char8* name = edk::String::strCat("Action_",number);
+            if(name){
+                //create the Action
+                if(xml->selectChild(name)){
+                    //read the code
+                    this->size.width = edk::String::strToFloat32(xml->getSelectedAttributeValueByName("width"));
+                    this->size.height = edk::String::strToFloat32(xml->getSelectedAttributeValueByName("height"));
+
+                    ret=true;
+                    //then select the father
+                    xml->selectFather();
+                }
+                delete[] name;
+            }
+            delete[] number;
+        }
+    }
+    return ret;
 }
 //GET
 edk::size2f32 edk::Object2D::ActionSetSize::getSize(){
@@ -109,6 +311,7 @@ edk::Object2D::ActionSize::ActionSize(edk::Object2D* object,edk::float32 duratio
     this->size=size;
     this->duration = duration;
     this->object=object;
+    this->code = 4u;
 }
 //run action function
 void edk::Object2D::ActionSize::runAction(){
@@ -116,9 +319,59 @@ void edk::Object2D::ActionSize::runAction(){
     this->object->animationSize.addFirstInterpolationLine(0,this->object->size.width,this->object->size.height,this->duration,this->size.width,this->size.height);
     this->object->animationSize.playForward();
 }
-//return the code
-edk::uint64 edk::Object2D::ActionSize::getCode(){
-    return 4u;
+//write to XML
+bool edk::Object2D::ActionSize::writeToXML(edk::XML* xml,edk::uint32 id){
+    bool ret=false;
+    if(edk::ActionZero::writeToXML(xml,id)){
+        edk::char8* number = edk::String::uint32ToStr(id);
+        if(number){
+            edk::char8* name = edk::String::strCat("Action_",number);
+            if(name){
+                //create the Action
+                if(xml->selectChild(name)){
+                    //write the size
+                    xml->addSelectedNextAttribute("width",this->size.width);
+                    xml->addSelectedNextAttribute("height",this->size.height);
+                    //write the duration
+                    xml->addSelectedNextAttribute("duration",this->duration);
+
+                    ret=true;
+                    //then select the father
+                    xml->selectFather();
+                }
+                delete[] name;
+            }
+            delete[] number;
+        }
+    }
+    return ret;
+}
+//read XML
+bool edk::Object2D::ActionSize::readFromXML(edk::XML* xml,edk::uint32 id){
+    bool ret=false;
+    if(xml){
+        edk::char8* number = edk::String::uint32ToStr(id);
+        if(number){
+            edk::char8* name = edk::String::strCat("Action_",number);
+            if(name){
+                //create the Action
+                if(xml->selectChild(name)){
+                    //read the code
+                    this->size.width = edk::String::strToFloat32(xml->getSelectedAttributeValueByName("width"));
+                    this->size.height = edk::String::strToFloat32(xml->getSelectedAttributeValueByName("height"));
+                    //read the duration
+                    this->duration = edk::String::strToFloat32(xml->getSelectedAttributeValueByName("duration"));
+
+                    ret=true;
+                    //then select the father
+                    xml->selectFather();
+                }
+                delete[] name;
+            }
+            delete[] number;
+        }
+    }
+    return ret;
 }
 //GET
 edk::size2f32 edk::Object2D::ActionSize::getSize(){
@@ -130,14 +383,59 @@ edk::float32 edk::Object2D::ActionSize::getDuration(){
 edk::Object2D::ActionSetAngle::ActionSetAngle(edk::Object2D* object, edk::float32 angle){
     this->object = object;
     this->angle = angle;
+    this->code = 5u;
 }
 //run action function
 void edk::Object2D::ActionSetAngle::runAction(){
     this->object->angle = this->angle;
 }
-//return the code
-edk::uint64 edk::Object2D::ActionSetAngle::getCode(){
-    return 5u;
+//write to XML
+bool edk::Object2D::ActionSetAngle::writeToXML(edk::XML* xml,edk::uint32 id){
+    bool ret=false;
+    if(edk::ActionZero::writeToXML(xml,id)){
+        edk::char8* number = edk::String::uint32ToStr(id);
+        if(number){
+            edk::char8* name = edk::String::strCat("Action_",number);
+            if(name){
+                //create the Action
+                if(xml->selectChild(name)){
+                    //write angle
+                    xml->addSelectedNextAttribute("angle",this->angle);
+
+                    ret=true;
+                    //then select the father
+                    xml->selectFather();
+                }
+                delete[] name;
+            }
+            delete[] number;
+        }
+    }
+    return ret;
+}
+//read XML
+bool edk::Object2D::ActionSetAngle::readFromXML(edk::XML* xml,edk::uint32 id){
+    bool ret=false;
+    if(xml){
+        edk::char8* number = edk::String::uint32ToStr(id);
+        if(number){
+            edk::char8* name = edk::String::strCat("Action_",number);
+            if(name){
+                //create the Action
+                if(xml->selectChild(name)){
+                    //read angle
+                    this->angle = edk::String::strToFloat32(xml->getSelectedAttributeValueByName("angle"));
+
+                    ret=true;
+                    //then select the father
+                    xml->selectFather();
+                }
+                delete[] name;
+            }
+            delete[] number;
+        }
+    }
+    return ret;
 }
 //GET
 edk::float32 edk::Object2D::ActionSetAngle::getAngle(){
@@ -147,6 +445,7 @@ edk::Object2D::ActionAngle::ActionAngle(edk::Object2D* object,edk::float32 durat
     this->object = object;
     this->duration = duration;
     this->angle = angle;
+    this->code = 6u;
 }
 //run action function
 void edk::Object2D::ActionAngle::runAction(){
@@ -154,9 +453,57 @@ void edk::Object2D::ActionAngle::runAction(){
     this->object->animationRotation.addFirstInterpolationLine(0,this->object->angle,this->duration,this->angle);
     this->object->animationRotation.playForward();
 }
-//return the code
-edk::uint64 edk::Object2D::ActionAngle::getCode(){
-    return 6u;
+//write to XML
+bool edk::Object2D::ActionAngle::writeToXML(edk::XML* xml,edk::uint32 id){
+    bool ret=false;
+    if(edk::ActionZero::writeToXML(xml,id)){
+        edk::char8* number = edk::String::uint32ToStr(id);
+        if(number){
+            edk::char8* name = edk::String::strCat("Action_",number);
+            if(name){
+                //create the Action
+                if(xml->selectChild(name)){
+                    //write angle
+                    xml->addSelectedNextAttribute("angle",this->angle);
+                    //write the duration
+                    xml->addSelectedNextAttribute("duration",this->duration);
+
+                    ret=true;
+                    //then select the father
+                    xml->selectFather();
+                }
+                delete[] name;
+            }
+            delete[] number;
+        }
+    }
+    return ret;
+}
+//read XML
+bool edk::Object2D::ActionAngle::readFromXML(edk::XML* xml,edk::uint32 id){
+    bool ret=false;
+    if(xml){
+        edk::char8* number = edk::String::uint32ToStr(id);
+        if(number){
+            edk::char8* name = edk::String::strCat("Action_",number);
+            if(name){
+                //create the Action
+                if(xml->selectChild(name)){
+                    //read angle
+                    this->angle = edk::String::strToFloat32(xml->getSelectedAttributeValueByName("angle"));
+                    //read duratio
+                    this->duration = edk::String::strToFloat32(xml->getSelectedAttributeValueByName("duration"));
+
+                    ret=true;
+                    //then select the father
+                    xml->selectFather();
+                }
+                delete[] name;
+            }
+            delete[] number;
+        }
+    }
+    return ret;
 }
 //GET
 edk::float32 edk::Object2D::ActionAngle::getAngle(){
@@ -170,6 +517,7 @@ edk::Object2D::ActionMeshName::ActionMeshName(edk::Object2D* object,edk::uint32 
     this->loop = loop;
     this->id = id;
     this->setName(name);
+    this->code = 7u;
 }
 //run action function
 void edk::Object2D::ActionMeshName::runAction(){
@@ -180,9 +528,65 @@ void edk::Object2D::ActionMeshName::runAction(){
         mesh->selectedAnimationPlayNameForward(this->name());
     }
 }
-//return the code
-edk::uint64 edk::Object2D::ActionMeshName::getCode(){
-    return 7u;
+//write to XML
+bool edk::Object2D::ActionMeshName::writeToXML(edk::XML* xml,edk::uint32 id){
+    bool ret=false;
+    if(edk::ActionName::writeToXML(xml,id)){
+        edk::char8* number = edk::String::uint32ToStr(id);
+        if(number){
+            edk::char8* name = edk::String::strCat("Action_",number);
+            if(name){
+                //create the Action
+                if(xml->selectChild(name)){
+                    //write the loop
+                    if(this->loop){
+                        xml->setSelectedString("loopOn");
+                    }
+                    else{
+                        xml->setSelectedString("loopOff");
+                    }
+
+                    ret=true;
+                    //then select the father
+                    xml->selectFather();
+                }
+                delete[] name;
+            }
+            delete[] number;
+        }
+    }
+    return ret;
+}
+//read XML
+bool edk::Object2D::ActionMeshName::readFromXML(edk::XML* xml,edk::uint32 id){
+    bool ret=false;
+    edk::ActionName::readFromXML(xml,id);
+    this->id = 7u;
+    if(xml){
+        edk::char8* number = edk::String::uint32ToStr(id);
+        if(number){
+            edk::char8* name = edk::String::strCat("Action_",number);
+            if(name){
+                //create the Action
+                if(xml->selectChild(name)){
+                    //read the loop
+                    if(edk::String::strCompare((edk::char8*)"loopOn",xml->getSelectedString())){
+                        this->loop=true;
+                    }
+                    else{
+                        this->loop=false;
+                    }
+
+                    ret=true;
+                    //then select the father
+                    xml->selectFather();
+                }
+                delete[] name;
+            }
+            delete[] number;
+        }
+    }
+    return ret;
 }
 //GET
 edk::uint32 edk::Object2D::ActionMeshName::getId(){
@@ -194,6 +598,7 @@ bool edk::Object2D::ActionMeshName::getLoop(){
 edk::Object2D::ActionMeshStop::ActionMeshStop(edk::Object2D* object,edk::uint32 id){
     this->object=object;
     this->id = id;
+    this->code = 8u;
 }
 //run action function
 void edk::Object2D::ActionMeshStop::runAction(){
@@ -203,9 +608,53 @@ void edk::Object2D::ActionMeshStop::runAction(){
         mesh->selectedAnimationStop();
     }
 }
-//return the code
-edk::uint64 edk::Object2D::ActionMeshStop::getCode(){
-    return 8u;
+//write to XML
+bool edk::Object2D::ActionMeshStop::writeToXML(edk::XML* xml,edk::uint32 id){
+    bool ret=false;
+    if(edk::ActionZero::writeToXML(xml,id)){
+        edk::char8* number = edk::String::uint32ToStr(id);
+        if(number){
+            edk::char8* name = edk::String::strCat("Action_",number);
+            if(name){
+                //create the Action
+                if(xml->selectChild(name)){
+                    //write the ID
+                    xml->addSelectedNextAttribute("id",this->id);
+
+                    ret=true;
+                    //then select the father
+                    xml->selectFather();
+                }
+                delete[] name;
+            }
+            delete[] number;
+        }
+    }
+    return ret;
+}
+//read XML
+bool edk::Object2D::ActionMeshStop::readFromXML(edk::XML* xml,edk::uint32 id){
+    bool ret=false;
+    if(xml){
+        edk::char8* number = edk::String::uint32ToStr(id);
+        if(number){
+            edk::char8* name = edk::String::strCat("Action_",number);
+            if(name){
+                //create the Action
+                if(xml->selectChild(name)){
+                    //read the id
+                    this->id = edk::String::strToInt64(xml->getSelectedAttributeValueByName("id"));
+
+                    ret=true;
+                    //then select the father
+                    xml->selectFather();
+                }
+                delete[] name;
+            }
+            delete[] number;
+        }
+    }
+    return ret;
 }
 //GET
 edk::uint32 edk::Object2D::ActionMeshStop::getId(){
@@ -993,6 +1442,9 @@ bool edk::Object2D::writeToXML(edk::XML* xml,edk::uint32 id){
                         this->animationRotation.writeToXML(xml,1u);
                         this->animationSize.writeToXML(xml,2u);
 
+                        //write the actins
+                        this->actions.writeToXML(xml,0u);
+
                         ret=true;
                         xml->selectFather();
                     }
@@ -1051,6 +1503,10 @@ bool edk::Object2D::readFromXML(edk::XML* xml,edk::uint32 id){
                     this->animationPosition.readFromXML(xml,0u);
                     this->animationRotation.readFromXML(xml,1u);
                     this->animationSize.readFromXML(xml,2u);
+
+                    //ACTIONS
+                    this->actions.readFromXML(xml,0u,this);
+
                     ret=true;
                     xml->selectFather();
                 }

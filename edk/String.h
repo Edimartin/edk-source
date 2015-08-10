@@ -127,11 +127,17 @@ public:
 
     static char8* float32ToStr(edk::float32 value, int32 digits);
 
-    static char8* float64ToStr(double value, int32 digits);
+    static char8* float64ToStr(edk::float64 value, int32 digits);
 
     static char8* uint32ToStr(uint32 value);
 
+    static char8* uint64ToStr(uint64 value);
+
     static char8* strCat(char8 *str1, char8 *str2);
+
+    static char8* strCat(char8 *str1, const char *str2);
+
+    static char8* strCat(const char *str1, char8 *str2);
 
     static char8* strCat(const char *str1, const char *str2);
 

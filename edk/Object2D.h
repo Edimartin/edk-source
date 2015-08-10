@@ -313,14 +313,19 @@ private:
     //action group
     edk::animation::ActionGroup actions;
 
+    //Function to read the actions
+    static edk::Action* readXMLAction(edk::classID thisPointer,edk::uint32 actionCode);
+
     //ACTIONS
     class ActionPosition:public edk::ActionZero{
     public:
         ActionPosition(edk::Object2D* object, edk::vec2f32 position);
         //run action function
         void runAction();
-        //return the code
-        edk::uint64 getCode();
+        //write to XML
+        bool writeToXML(edk::XML* xml,edk::uint32 id);
+        //read XML
+        bool readFromXML(edk::XML* xml,edk::uint32 id);
         //GET
         edk::vec2f32 getPosition();
     private:
@@ -332,8 +337,10 @@ private:
         ActionMove(edk::Object2D* object,edk::float32 duration, edk::vec2f32 position);
         //run action function
         void runAction();
-        //return the code
-        edk::uint64 getCode();
+        //write to XML
+        bool writeToXML(edk::XML* xml,edk::uint32 id);
+        //read XML
+        bool readFromXML(edk::XML* xml,edk::uint32 id);
         //GET
         edk::vec2f32 getPosition();
         edk::float32 getDuration();
@@ -347,8 +354,10 @@ private:
         ActionSetSize(edk::Object2D* object, edk::size2f32 scale);
         //run action function
         void runAction();
-        //return the code
-        edk::uint64 getCode();
+        //write to XML
+        bool writeToXML(edk::XML* xml,edk::uint32 id);
+        //read XML
+        bool readFromXML(edk::XML* xml,edk::uint32 id);
         //GET
         edk::size2f32 getSize();
     private:
@@ -360,8 +369,10 @@ private:
         ActionSize(edk::Object2D* object,edk::float32 duration, edk::size2f32 size);
         //run action function
         void runAction();
-        //return the code
-        edk::uint64 getCode();
+        //write to XML
+        bool writeToXML(edk::XML* xml,edk::uint32 id);
+        //read XML
+        bool readFromXML(edk::XML* xml,edk::uint32 id);
         //GET
         edk::size2f32 getSize();
         edk::float32 getDuration();
@@ -375,8 +386,10 @@ private:
         ActionSetAngle(edk::Object2D* object, edk::float32 angle);
         //run action function
         void runAction();
-        //return the code
-        edk::uint64 getCode();
+        //write to XML
+        bool writeToXML(edk::XML* xml,edk::uint32 id);
+        //read XML
+        bool readFromXML(edk::XML* xml,edk::uint32 id);
         //GET
         edk::float32 getAngle();
     private:
@@ -388,8 +401,10 @@ private:
         ActionAngle(edk::Object2D* object,edk::float32 duration, edk::float32 angle);
         //run action function
         void runAction();
-        //return the code
-        edk::uint64 getCode();
+        //write to XML
+        bool writeToXML(edk::XML* xml,edk::uint32 id);
+        //read XML
+        bool readFromXML(edk::XML* xml,edk::uint32 id);
         //GET
         edk::float32 getAngle();
         edk::float32 getDuration();
@@ -403,8 +418,10 @@ private:
         ActionMeshName(edk::Object2D* object,edk::uint32 id, edk::char8* name,bool loop);
         //run action function
         void runAction();
-        //return the code
-        edk::uint64 getCode();
+        //write to XML
+        bool writeToXML(edk::XML* xml,edk::uint32 id);
+        //read XML
+        bool readFromXML(edk::XML* xml,edk::uint32 id);
         //GET
         edk::uint32 getId();
         bool getLoop();
@@ -418,8 +435,10 @@ private:
         ActionMeshStop(edk::Object2D* object,edk::uint32 id);
         //run action function
         void runAction();
-        //return the code
-        edk::uint64 getCode();
+        //write to XML
+        bool writeToXML(edk::XML* xml,edk::uint32 id);
+        //read XML
+        bool readFromXML(edk::XML* xml,edk::uint32 id);
         //GET
         edk::uint32 getId();
     private:

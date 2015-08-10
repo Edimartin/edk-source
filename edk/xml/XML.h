@@ -124,10 +124,38 @@ class XML{
         //add childs at the end
         bool addSelectedNextChild(const char* name);
         bool addSelectedNextChild(edk::char8* name);
-		//Add a attribute at end and start
-		bool addSelectedNextAttribute(const char* name,const char* value);
-		bool addSelectedNextAttribute(edk::char8* name,edk::char8* value);
-		bool addSelectedPreviousAttribute(const char* name,const char* value);
+        //Add a attribute at end and start
+        bool addSelectedNextAttribute(const char* name,edk::uint32 value);
+        bool addSelectedNextAttribute(edk::char8* name,edk::uint32 value);
+        bool addSelectedNextAttribute(const char* name,edk::int32 value);
+        bool addSelectedNextAttribute(edk::char8* name,edk::int32 value);
+        bool addSelectedNextAttribute(const char* name,edk::uint64 value);
+        bool addSelectedNextAttribute(edk::char8* name,edk::uint64 value);
+        bool addSelectedNextAttribute(const char* name,edk::int64 value);
+        bool addSelectedNextAttribute(edk::char8* name,edk::int64 value);
+        bool addSelectedNextAttribute(const char* name,edk::float32 value,edk::uint32 digits=2u);
+        bool addSelectedNextAttribute(edk::char8* name,edk::float32 value,edk::uint32 digits=2u);
+        bool addSelectedNextAttribute(const char* name,edk::float64 value,edk::uint32 digits=4u);
+        bool addSelectedNextAttribute(edk::char8* name,edk::float64 value,edk::uint32 digits=4u);
+        bool addSelectedNextAttribute(const char* name,const char* value);
+        bool addSelectedNextAttribute(edk::char8* name,const char* value);
+        bool addSelectedNextAttribute(const char* name,edk::char8* value);
+        bool addSelectedNextAttribute(edk::char8* name,edk::char8* value);
+        bool addSelectedPreviousAttribute(const char* name,edk::uint32 value);
+        bool addSelectedPreviousAttribute(edk::char8* name,edk::uint32 value);
+        bool addSelectedPreviousAttribute(const char* name,edk::int32 value);
+        bool addSelectedPreviousAttribute(edk::char8* name,edk::int32 value);
+        bool addSelectedPreviousAttribute(const char* name,edk::uint64 value);
+        bool addSelectedPreviousAttribute(edk::char8* name,edk::uint64 value);
+        bool addSelectedPreviousAttribute(const char* name,edk::int64 value);
+        bool addSelectedPreviousAttribute(edk::char8* name,edk::int64 value);
+        bool addSelectedPreviousAttribute(const char* name,edk::float32 value,edk::uint32 digits=2u);
+        bool addSelectedPreviousAttribute(edk::char8* name,edk::float32 value,edk::uint32 digits=2u);
+        bool addSelectedPreviousAttribute(const char* name,edk::float64 value,edk::uint32 digits=4u);
+        bool addSelectedPreviousAttribute(edk::char8* name,edk::float64 value,edk::uint32 digits=4u);
+        bool addSelectedPreviousAttribute(const char* name,const char* value);
+        bool addSelectedPreviousAttribute(edk::char8* name,const char* value);
+        bool addSelectedPreviousAttribute(const char* name,edk::char8* value);
 		bool addSelectedPreviousAttribute(edk::char8* name,edk::char8* value);
         //Add a new node to the root after and before
         bool addRootPreviousChild(const char* name);

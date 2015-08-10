@@ -192,10 +192,17 @@ private:
     //actions group animation
     edk::animation::ActionGroup actions;
 
+    //Function to read the actions
+    static edk::Action* readXMLAction(edk::classID thisPointer,edk::uint32 actionCode);
+
     //ACTIONS
     class ActionObjectZero:public edk::ActionZero{
     public:
         ActionObjectZero(edk::Cenario2D* cenario,edk::uint32 levelPosition,edk::float32 depth);
+        //write to XML
+        bool writeToXML(edk::XML* xml,edk::uint32 id);
+        //read XML
+        bool readFromXML(edk::XML* xml,edk::uint32 id);
         edk::uint32 getLevelPosition();
         edk::float32 getDepth();
     protected:
@@ -206,6 +213,9 @@ private:
     class ActionObjectZeroDuration:public edk::Cenario2D::ActionObjectZero{
     public:
         ActionObjectZeroDuration(edk::Cenario2D* cenario,edk::uint32 levelPosition,edk::float32 depth,edk::float32 duration);
+        bool writeToXML(edk::XML* xml,edk::uint32 id);
+        //read XML
+        bool readFromXML(edk::XML* xml,edk::uint32 id);
         edk::float32 getDuration();
     protected:
         edk::float32 duration;
@@ -215,8 +225,10 @@ private:
         ActionObjectSetPosition(edk::Cenario2D* cenario,edk::uint32 levelPosition,edk::float32 depth, edk::vec2f32 position);
         //run action function
         void runAction();
-        //return the code
-        edk::uint64 getCode();
+        //write to XML
+        bool writeToXML(edk::XML* xml,edk::uint32 id);
+        //read XML
+        bool readFromXML(edk::XML* xml,edk::uint32 id);
         //GET
         edk::vec2f32 getPosition();
     private:
@@ -227,8 +239,10 @@ private:
         ActionObjectMove(edk::Cenario2D* cenario,edk::uint32 levelPosition,edk::float32 depth,edk::float32 duration, edk::vec2f32 position);
         //run action function
         void runAction();
-        //return the code
-        edk::uint64 getCode();
+        //write to XML
+        bool writeToXML(edk::XML* xml,edk::uint32 id);
+        //read XML
+        bool readFromXML(edk::XML* xml,edk::uint32 id);
         //GET
         edk::vec2f32 getPosition();
     private:
@@ -239,8 +253,10 @@ private:
         ActionObjectSetSize(edk::Cenario2D* cenario,edk::uint32 levelPosition,edk::float32 depth, edk::size2f32 size);
         //run action function
         void runAction();
-        //return the code
-        edk::uint64 getCode();
+        //write to XML
+        bool writeToXML(edk::XML* xml,edk::uint32 id);
+        //read XML
+        bool readFromXML(edk::XML* xml,edk::uint32 id);
         //GET
         edk::size2f32 getSize();
     private:
@@ -251,8 +267,10 @@ private:
         ActionObjectScale(edk::Cenario2D* cenario,edk::uint32 levelPosition,edk::float32 depth,edk::float32 duration, edk::size2f32 size);
         //run action function
         void runAction();
-        //return the code
-        edk::uint64 getCode();
+        //write to XML
+        bool writeToXML(edk::XML* xml,edk::uint32 id);
+        //read XML
+        bool readFromXML(edk::XML* xml,edk::uint32 id);
         //GET
         edk::size2f32 getSize();
     private:
@@ -263,8 +281,10 @@ private:
         ActionObjectSetAngle(edk::Cenario2D* cenario,edk::uint32 levelPosition,edk::float32 depth, edk::float32 angle);
         //run action function
         void runAction();
-        //return the code
-        edk::uint64 getCode();
+        //write to XML
+        bool writeToXML(edk::XML* xml,edk::uint32 id);
+        //read XML
+        bool readFromXML(edk::XML* xml,edk::uint32 id);
         //GET
         edk::float32 getAngle();
     private:
@@ -275,8 +295,10 @@ private:
         ActionObjectRotate(edk::Cenario2D* cenario,edk::uint32 levelPosition,edk::float32 depth,edk::float32 duration, edk::float32 angle);
         //run action function
         void runAction();
-        //return the code
-        edk::uint64 getCode();
+        //write to XML
+        bool writeToXML(edk::XML* xml,edk::uint32 id);
+        //read XML
+        bool readFromXML(edk::XML* xml,edk::uint32 id);
         //return the code
         edk::float32 getAngle();
     private:
@@ -287,8 +309,10 @@ private:
         ActionObjectMeshName(edk::Cenario2D* cenario,edk::uint32 levelPosition,edk::float32 depth,edk::uint32 id, edk::char8* name,bool loop);
         //run action function
         void runAction();
-        //return the code
-        edk::uint64 getCode();
+        //write to XML
+        bool writeToXML(edk::XML* xml,edk::uint32 id);
+        //read XML
+        bool readFromXML(edk::XML* xml,edk::uint32 id);
         //GET
         edk::uint32 getLevelPosition();
         edk::float32 getDepth();
@@ -301,22 +325,24 @@ private:
         edk::uint32 levelPosition;
         edk::float32 depth;
     };
-    class ActionObjectMeshStop: public edk::ActionZero{
+    class ActionObjectMeshStop: public edk::Cenario2D::ActionObjectZero{
     public:
         ActionObjectMeshStop(edk::Cenario2D* cenario,edk::uint32 levelPosition,edk::float32 depth,edk::uint32 id);
         //run action function
         void runAction();
-        //return the code
-        edk::uint64 getCode();
+        //write to XML
+        bool writeToXML(edk::XML* xml,edk::uint32 id);
+        //read XML
+        bool readFromXML(edk::XML* xml,edk::uint32 id);
         //GET
-        edk::uint32 getLevelPosition();
-        edk::float32 getDepth();
+        //edk::uint32 getLevelPosition();
+        //edk::float32 getDepth();
         edk::uint32 getId();
     private:
         edk::uint32 id;
         edk::Cenario2D* cenario;
-        edk::uint32 levelPosition;
-        edk::float32 depth;
+        //edk::uint32 levelPosition;
+        //edk::float32 depth;
     };
 
     //get levels less position

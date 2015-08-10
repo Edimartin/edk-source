@@ -38,6 +38,11 @@ Gravatai RS Brazil 94065100
 //Use one animation
 #include "Interpolation1DGroup.h"
 
+/*
+FUNCTION EXAMPLE
+static edk::Action* newXMLAction(edk::classID thisPointer,edk::uint32 actionCode);
+*/
+
 namespace edk{
 namespace animation{
 class ActionGroup
@@ -91,6 +96,14 @@ public:
     bool isPlaying();
     bool isPaused();
 
+    bool writeToXML(edk::XML* xml,edk::uint32 id);
+    //read XML
+    bool readFromXML(edk::XML* xml,edk::uint32 id,edk::classID thisPointer=NULL);
+    //set readXMLaction funcion
+    bool setReadXMLActionFunction(edk::Action*(*readXMLAction)(edk::classID thisPointer,edk::uint32 actionCode));
+    //clean readXMLAction function
+    void cleanReadXMLActionFunction();
+
     //cand delete
     void cantDeleteGroup();
 private:
@@ -99,6 +112,11 @@ private:
     edk::animation::Interpolation1DGroup anim;
     //save the value
     edk::float32 valueTemp;
+
+    //functionPointer
+    edk::Action*(*readXMLAction)(edk::classID thisPointer,edk::uint32 actionCode);
+    //return the zero action
+    static edk::Action* readXMLZero(edk::classID thisPointer,edk::uint32 actionCode);
 
     //first update
     void firstUpdate();

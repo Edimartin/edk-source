@@ -27,6 +27,7 @@ Gravatai RS Brazil 94065100
 edk::animation::ActionGroup::ActionGroup(){
     this->canDeleteGroup=true;
     this->valueTemp=0.0;
+    this->setReadXMLActionFunction(&this->readXMLZero);
 }
 edk::animation::ActionGroup::~ActionGroup(){
     if(this->canDeleteGroup)
@@ -36,6 +37,11 @@ edk::animation::ActionGroup::~ActionGroup(){
         this->tree.cantDeleteTrees();
     }
     this->canDeleteGroup=true;
+}
+
+//return the zero action
+edk::Action* edk::animation::ActionGroup::readXMLZero(edk::classID,edk::uint32 ){
+    return new edk::ActionZero();
 }
 
 //first update
@@ -166,6 +172,154 @@ void edk::animation::ActionGroup::loopOff(){this->anim.loopOff();}
 //return if are playing
 bool edk::animation::ActionGroup::isPlaying(){return this->anim.isPlaying();}
 bool edk::animation::ActionGroup::isPaused(){return this->isPaused();}
+
+bool edk::animation::ActionGroup::writeToXML(edk::XML* xml,edk::uint32 id){
+    bool ret=false;
+    if(xml){
+        edk::char8* number = edk::String::uint32ToStr(id);
+        if(number){
+            edk::char8* name = edk::String::strCat("ActionGroup_",number);
+            if(name){
+                //create the Action
+                if(xml->addSelectedNextChild(name)){
+                    if(xml->selectChild(name)){
+                        //create the animations
+                        this->anim.writeToXML(xml,0u);
+
+                        //get size of tree
+                        edk::uint32 size = this->tree.size();
+
+                        //add the size
+                        xml->addSelectedNextAttribute("keySize",size);
+                        if(size){
+                            edk::uint32 sizeSecond;
+                            edk::Action* temp;
+                            edk::char8* nameTemp;
+                            edk::char8* numberTemp;
+                            //get the actions
+                            for(edk::uint32 i=0u;i<size;i++){
+                                sizeSecond = this->tree.getActionSizeInPosition(i);
+                                numberTemp = edk::String::uint32ToStr(i);
+                                if(numberTemp){
+                                    nameTemp = edk::String::strCat("key_",numberTemp);
+                                    if(nameTemp){
+
+                                        //create the child
+                                        if(xml->addSelectedNextChild(nameTemp)){
+                                            if(xml->selectChild(nameTemp)){
+                                                //add the second attribute
+                                                xml->addSelectedNextAttribute("second",this->tree.getSecond(i));
+                                                //write the size
+                                                xml->addSelectedNextAttribute("actionsSize",sizeSecond);
+                                                for(edk::uint32 j=0u;j<sizeSecond;j++){
+                                                    temp = this->tree.getActionInPosition(i,j);
+                                                    if(temp){
+                                                        //save the action
+                                                        temp->writeToXML(xml,j);
+                                                    }
+                                                }
+
+                                                //then select the father
+                                                xml->selectFather();
+                                            }
+                                        }
+                                        delete[] nameTemp;
+                                    }
+                                    delete[] numberTemp;
+                                }
+                            }
+                        }
+
+                        //then select the father
+                        xml->selectFather();
+                    }
+                }
+                delete[] name;
+            }
+            delete[] number;
+        }
+    }
+    return ret;
+}
+//read XML
+bool edk::animation::ActionGroup::readFromXML(edk::XML* xml,edk::uint32 id,edk::classID thisPointer){
+    bool ret=false;
+    if(xml){
+        this->clean();
+        edk::char8* number = edk::String::uint32ToStr(id);
+        if(number){
+            edk::char8* name = edk::String::strCat("ActionGroup_",number);
+            if(name){
+                //create the Action
+                if(xml->selectChild(name)){
+                    //create the animations
+                    this->anim.readFromXML(xml,0u);
+
+                    //get size of actions
+                    edk::uint32 size = edk::String::strToInt64(xml->getSelectedAttributeValueByName("keySize"));
+                    if(size){
+                        edk::uint32 sizeSecond;
+                        edk::float32 second;
+                        edk::ActionZero action;
+                        edk::Action* actionTemp;
+                        edk::char8* nameTemp;
+                        edk::char8* numberTemp;
+                        //get the actions
+                        for(edk::uint32 i=0u;i<size;i++){
+                            numberTemp = edk::String::uint32ToStr(i);
+                            if(numberTemp){
+                                nameTemp = edk::String::strCat("key_",numberTemp);
+                                if(nameTemp){
+                                    //create the child
+                                    if(xml->selectChild(nameTemp)){
+
+                                        //read the second
+                                        second = edk::String::strToFloat32(xml->getSelectedAttributeValueByName("second"));
+                                        //read the size
+                                        sizeSecond = edk::String::strToInt64(xml->getSelectedAttributeValueByName("actionsSize"));
+                                        for(edk::uint32 j=0u;j<sizeSecond;j++){
+                                            //load the action
+                                            action.readFromXML(xml,j);
+                                            //add the new action to the second
+                                            actionTemp = this->readXMLAction(thisPointer,action.getCode());
+                                            if(actionTemp){
+                                                actionTemp->readFromXML(xml,j);
+                                                this->addAction(second,actionTemp);
+                                            }
+                                        }
+                                        //then select the father
+                                        xml->selectFather();
+                                    }
+                                    delete[] nameTemp;
+                                }
+                                delete[] numberTemp;
+                            }
+                        }
+                    }
+                    //then select the father
+                    xml->selectFather();
+                }
+                delete[] name;
+            }
+            delete[] number;
+        }
+    }
+    return ret;
+}
+//set readXMLaction funcion
+bool edk::animation::ActionGroup::setReadXMLActionFunction(edk::Action*(*readXMLAction)(edk::classID thisPointer,edk::uint32 actionCode)){
+    if(readXMLAction){
+        //set the functio
+        this->readXMLAction = readXMLAction;
+        return true;
+    }
+    return false;
+}
+
+//clean readXMLAction function
+void edk::animation::ActionGroup::cleanReadXMLActionFunction(){
+    this->setReadXMLActionFunction(&this->readXMLZero);
+}
 
 //cand delete
 void edk::animation::ActionGroup::cantDeleteGroup(){
