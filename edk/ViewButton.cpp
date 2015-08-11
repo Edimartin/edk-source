@@ -552,7 +552,14 @@ void edk::ViewButton::eventMouseReleased(edk::vec2f32 position,edk::uint32 butto
         //test if have the button in the tree
         if(this->holdButton.haveElement(button)){
             bool inside;
-            if(position.x>=0.f/* || position.y>=0.f*/)
+            if(position.x>=this->frame.origin.x
+                    &&
+                    position.y>=this->frame.origin.y
+                    &&
+                    position.x<=this->frame.size.width
+                    &&
+                    position.y<=this->frame.size.height
+                    )
                 inside = true;
             else
                 inside = false;
@@ -606,19 +613,44 @@ void edk::ViewButton::eventMouseLeftView(edk::vec2f32 ){
 
 //draw the polygon on the scene
 void edk::ViewButton::drawPolygon(rectf32 outsideViewOrigin){
+    //test the rect
+    if(this->rectButtonSave!=this->frame){
+        this->borderTemp=this->borderSize;
+        //load the rect size
+        edk::size2f32 sizeTemp = edk::size2f32(this->frame.size * 0.5f);
+        //save the rect
+        this->rectButtonSave = this->frame;
+
+        //set the camera rect
+        this->cam.setRect(0,0,this->frame.size.width,this->frame.size.height);
+        //test the smaller size
+        if(sizeTemp.width < sizeTemp.height){
+            //width
+            if(this->borderTemp>sizeTemp.width){
+                this->borderTemp = sizeTemp.width;
+            }
+        }
+        else{
+            //height
+            if(this->borderTemp>sizeTemp.height){
+                this->borderTemp = sizeTemp.height;
+            }
+        }
+    }
+
     //a codeTemp
     edk::uint32 codeTemp=this->getSpriteCode();;
     edk::uint32 symbolCodeTemp=this->symbolCode;
     edk::size2ui32 insideSize = edk::size2ui32 (0u,0u);
-    edk::size2f32 tempSize = edk::size2f32(this->frame.size.width - this->borderSize,
-                                           this->frame.size.height - this->borderSize
+    edk::size2f32 tempSize = edk::size2f32(this->frame.size.width - this->borderTemp,
+                                           this->frame.size.height - this->borderTemp
                                            );
     if((tempSize.width)>0.f
             &&
             (tempSize.height)>0.f
             ){
-        insideSize = edk::size2ui32 ((edk::uint32)((edk::int32)this->frame.size.width-(edk::int32)this->borderSize),
-                                     (edk::uint32)((edk::int32)this->frame.size.height-(edk::int32)this->borderSize)
+        insideSize = edk::size2ui32 ((edk::uint32)((edk::int32)this->frame.size.width-(edk::int32)this->borderTemp),
+                                     (edk::uint32)((edk::int32)this->frame.size.height-(edk::int32)this->borderTemp)
                                      );
     }
     //test what state is the button
@@ -644,7 +676,6 @@ void edk::ViewButton::drawPolygon(rectf32 outsideViewOrigin){
         }
         break;
     }
-    this->cam.setRect(0,0,this->frame.size.width,this->frame.size.height);
     this->cam.draw();
 
     //draw the polygon with UV Map
@@ -664,30 +695,30 @@ void edk::ViewButton::drawPolygon(rectf32 outsideViewOrigin){
     edk::GU::guVertex3f32(0.f, 0.f, 0.f);
 
     edk::GU::guVertexTex2f32(0.0f, 0.5f);
-    edk::GU::guVertex3f32(0.f, this->borderSize, 0.f);
+    edk::GU::guVertex3f32(0.f, this->borderTemp, 0.f);
 
     edk::GU::guVertexTex2f32(0.5f, 0.5f);
-    edk::GU::guVertex3f32(this->borderSize, this->borderSize, 0.f);
+    edk::GU::guVertex3f32(this->borderTemp, this->borderTemp, 0.f);
 
     edk::GU::guVertexTex2f32(0.5f, 1.0f);
-    edk::GU::guVertex3f32(this->borderSize, 0.f, 0.f);
+    edk::GU::guVertex3f32(this->borderTemp, 0.f, 0.f);
 
     //rect2
     edk::GU::guVertexTex2f32(0.f, 0.5f);
-    edk::GU::guVertex3f32(0.f, this->frame.size.height - this->borderSize, 0.f);
+    edk::GU::guVertex3f32(0.f, this->frame.size.height - this->borderTemp, 0.f);
 
     edk::GU::guVertexTex2f32(0.f, 0.f);
     edk::GU::guVertex3f32(0.f, this->frame.size.height, 0.f);
 
     edk::GU::guVertexTex2f32(0.5f, 0.f);
-    edk::GU::guVertex3f32(this->borderSize, this->frame.size.height, 0.f);
+    edk::GU::guVertex3f32(this->borderTemp, this->frame.size.height, 0.f);
 
     edk::GU::guVertexTex2f32(0.5f, 0.5f);
-    edk::GU::guVertex3f32(this->borderSize, this->frame.size.height - this->borderSize, 0.f);
+    edk::GU::guVertex3f32(this->borderTemp, this->frame.size.height - this->borderTemp, 0.f);
 
     //rect3
     edk::GU::guVertexTex2f32(0.5f, 0.5f);
-    edk::GU::guVertex3f32(tempSize.width, this->frame.size.height - this->borderSize, 0.f);
+    edk::GU::guVertex3f32(tempSize.width, this->frame.size.height - this->borderTemp, 0.f);
 
     edk::GU::guVertexTex2f32(0.5f, 0.f);
     edk::GU::guVertex3f32(tempSize.width, this->frame.size.height, 0.f);
@@ -696,7 +727,7 @@ void edk::ViewButton::drawPolygon(rectf32 outsideViewOrigin){
     edk::GU::guVertex3f32(this->frame.size.width, this->frame.size.height, 0.f);
 
     edk::GU::guVertexTex2f32(1.0f, 0.5f);
-    edk::GU::guVertex3f32(this->frame.size.width, this->frame.size.height - this->borderSize, 0.f);
+    edk::GU::guVertex3f32(this->frame.size.width, this->frame.size.height - this->borderTemp, 0.f);
 
     //rect4
     edk::GU::guVertexTex2f32(0.5f, 1.f);
@@ -704,11 +735,11 @@ void edk::ViewButton::drawPolygon(rectf32 outsideViewOrigin){
 
 
     edk::GU::guVertexTex2f32(0.5f, 0.5f);
-    edk::GU::guVertex3f32(tempSize.width, this->borderSize, 0.f);
+    edk::GU::guVertex3f32(tempSize.width, this->borderTemp, 0.f);
 
 
     edk::GU::guVertexTex2f32(1.f, 0.5f);
-    edk::GU::guVertex3f32(this->frame.size.width, this->borderSize, 0.f);
+    edk::GU::guVertex3f32(this->frame.size.width, this->borderTemp, 0.f);
 
 
     edk::GU::guVertexTex2f32(1.f, 1.f);
@@ -717,71 +748,69 @@ void edk::ViewButton::drawPolygon(rectf32 outsideViewOrigin){
 
 
     //rect1
-    edk::GU::guColor3f32(1,1,1);
     edk::GU::guVertexTex2f32(0.f, 0.515f);
-    edk::GU::guVertex3f32(0.f, this->borderSize, 0.f);
+    edk::GU::guVertex3f32(0.f, this->borderTemp, 0.f);
 
-    edk::GU::guColor3f32(1,1,1);
     edk::GU::guVertexTex2f32(0.f, 0.515f);
     edk::GU::guVertex3f32(0.f, tempSize.height, 0.f);
 
     edk::GU::guVertexTex2f32(0.5f, 0.495f);
-    edk::GU::guVertex3f32(this->borderSize, tempSize.height, 0.f);
+    edk::GU::guVertex3f32(this->borderTemp, tempSize.height, 0.f);
 
     edk::GU::guVertexTex2f32(0.5f, 0.495);
-    edk::GU::guVertex3f32(this->borderSize, this->borderSize, 0.f);
+    edk::GU::guVertex3f32(this->borderTemp, this->borderTemp, 0.f);
 
     //rect2
     edk::GU::guVertexTex2f32(0.515f, 0.5f);
-    edk::GU::guVertex3f32(this->borderSize, this->frame.size.height - this->borderSize, 0.f);
+    edk::GU::guVertex3f32(this->borderTemp, this->frame.size.height - this->borderTemp, 0.f);
 
     edk::GU::guVertexTex2f32(0.515f, 0.f);
-    edk::GU::guVertex3f32(this->borderSize, this->frame.size.height, 0.f);
+    edk::GU::guVertex3f32(this->borderTemp, this->frame.size.height, 0.f);
 
     edk::GU::guVertexTex2f32(0.495f, 0.f);
     edk::GU::guVertex3f32(tempSize.width, this->frame.size.height, 0.f);
 
     edk::GU::guVertexTex2f32(0.495f, 0.5f);
-    edk::GU::guVertex3f32(tempSize.width, this->frame.size.height - this->borderSize, 0.f);
+    edk::GU::guVertex3f32(tempSize.width, this->frame.size.height - this->borderTemp, 0.f);
 
     //rect3
     edk::GU::guVertexTex2f32(0.5f, 0.515f);
-    edk::GU::guVertex3f32(tempSize.width, this->borderSize, 0.f);
+    edk::GU::guVertex3f32(tempSize.width, this->borderTemp, 0.f);
 
     edk::GU::guVertexTex2f32(0.5f, 0.515f);
-    edk::GU::guVertex3f32(tempSize.width, this->frame.size.height - this->borderSize, 0.f);
+    edk::GU::guVertex3f32(tempSize.width, this->frame.size.height - this->borderTemp, 0.f);
 
     edk::GU::guVertexTex2f32(1.f, 0.495f);
-    edk::GU::guVertex3f32(this->frame.size.width, this->frame.size.height - this->borderSize, 0.f);
+    edk::GU::guVertex3f32(this->frame.size.width, this->frame.size.height - this->borderTemp, 0.f);
 
     edk::GU::guVertexTex2f32(1.f, 0.495f);
-    edk::GU::guVertex3f32(this->frame.size.width, this->borderSize, 0.f);
+    edk::GU::guVertex3f32(this->frame.size.width, this->borderTemp, 0.f);
 
     //rect4
     edk::GU::guVertexTex2f32(0.515f, 1.f);
-    edk::GU::guVertex3f32(this->borderSize, 0.f, 0.f);
+    edk::GU::guVertex3f32(this->borderTemp, 0.f, 0.f);
 
     edk::GU::guVertexTex2f32(0.515f, 0.5f);
-    edk::GU::guVertex3f32(this->borderSize, this->borderSize, 0.f);
+    edk::GU::guVertex3f32(this->borderTemp, this->borderTemp, 0.f);
 
     edk::GU::guVertexTex2f32(0.495f, 0.5f);
-    edk::GU::guVertex3f32(tempSize.width, this->borderSize, 0.f);
+    edk::GU::guVertex3f32(tempSize.width, this->borderTemp, 0.f);
 
     edk::GU::guVertexTex2f32(0.495f, 1.f);
     edk::GU::guVertex3f32(tempSize.width, 0.f, 0.f);
 
     //CENTER
     edk::GU::guVertexTex2f32(0.495f, 0.515f);
-    edk::GU::guVertex3f32(this->borderSize, this->borderSize, 0.f);
+    edk::GU::guVertex3f32(this->borderTemp, this->borderTemp, 0.f);
 
     edk::GU::guVertexTex2f32(0.495f, 0.495f);
-    edk::GU::guVertex3f32(this->borderSize, tempSize.height, 0.f);
+    edk::GU::guVertex3f32(this->borderTemp, tempSize.height, 0.f);
 
     edk::GU::guVertexTex2f32(0.515f, 0.495f);
     edk::GU::guVertex3f32(tempSize.width, tempSize.height, 0.f);
 
     edk::GU::guVertexTex2f32(0.515f, 0.515f);
-    edk::GU::guVertex3f32(tempSize.width, this->borderSize, 0.f);
+    edk::GU::guVertex3f32(tempSize.width, this->borderTemp, 0.f);
 
     edk::GU::guEnd();
 
@@ -895,11 +924,11 @@ void edk::ViewButton::drawPolygon(rectf32 outsideViewOrigin){
 
         }
         //calculate the origin of insideView
-        insideView.origin = edk::vec2f32(outsideViewOrigin.origin.x + this->animatedFrame.origin.x + this->borderSize +
+        insideView.origin = edk::vec2f32(outsideViewOrigin.origin.x + this->animatedFrame.origin.x + this->borderTemp +
                                          ((insideSize.width) * 0.5f ) -
                                          ( insideView.size.width * 0.5f )
                                          ,
-                                         (outsideViewOrigin.origin.y + outsideViewOrigin.size.height - this->animatedFrame.origin.y - this->animatedFrame.size.height) + this->borderSize +
+                                         (outsideViewOrigin.origin.y + outsideViewOrigin.size.height - this->animatedFrame.origin.y - this->animatedFrame.size.height) + this->borderTemp +
                                          ((insideSize.height) * 0.5f ) -
                                          ( insideView.size.height  * 0.5f )
                                          );

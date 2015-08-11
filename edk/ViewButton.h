@@ -45,7 +45,7 @@ void edk::ViewButton::eventPressButton(edk::uint32 mouseButton){
     //printf("\nPRESS BUTTON %u",mouseButton);
 }
 //event releaseButton
-void edk::ViewButton::eventReleaseButton(edk::uint32 mouseButton){
+void edk::ViewButton::eventReleaseButton(edk::uint32 mouseButton,bool inside){
     //
     //printf("\nRELEASE BUTTON %u",mouseButton);
 }
@@ -213,7 +213,8 @@ class ViewButton: public edk::ViewSprite{
 
         //camera
         edk::Camera2D cam;
-        //edk::float64 borderSize;
+        edk::float32 borderTemp;
+        edk::rectf32 rectButtonSave;
 };
 }//end namesoace edk
 

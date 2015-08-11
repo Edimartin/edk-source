@@ -52,7 +52,7 @@ class ViewController : public View {
 
     ~ViewController();
 
-    bool addSubview(edk::View *addView);
+    virtual bool addSubview(edk::View *addView);
 
     uint32 getCount();
 

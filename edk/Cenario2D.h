@@ -497,7 +497,7 @@ private:
                     }
                 }
             }
-            return false;
+            return NULL;
         }
         //test if have the object
         bool haveObject(edk::Object2D* obj){
