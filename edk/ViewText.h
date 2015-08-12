@@ -44,11 +44,11 @@ public:
     bool createString(const char* string);
 protected:
     virtual void update(edk::WindowEvents* events);
+    //draw the GU scene
+    virtual void drawScene(edk::rectf32 outsideViewOrigin);
 private:
     void load(edk::rectf32 outsideViewOrigin);
     void unload();
-    //draw the GU scene
-    void drawScene(edk::rectf32 outsideViewOrigin);
 
     //rect
     edk::rectf32 rectSave;

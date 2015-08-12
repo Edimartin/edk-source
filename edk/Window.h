@@ -98,6 +98,8 @@ class Window {
 
     void removeSubview(View *subView);
 
+    void removeAllSubview();
+
     void windowRender(bool show);
 
     void showWindow();

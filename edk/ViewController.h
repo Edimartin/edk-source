@@ -80,6 +80,7 @@ class ViewController : public View {
 
     //remove subView
     bool removeSubview(View *subView);
+    void removeAllSubview();
 
     virtual void draw(edk::rectf32 outsideViewOrigin);
 

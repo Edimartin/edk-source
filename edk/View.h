@@ -277,6 +277,7 @@ class View {
 
  protected:
     edk::rectf32 rectTemp;
+    edk::float32 borderTemp;
 
     //Draw Functions
     //draw viewPort

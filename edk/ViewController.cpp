@@ -209,6 +209,9 @@ bool ViewController::removeSubview(edk::View *subView){
     }
     return false;
 }
+void ViewController::removeAllSubview(){
+    this->nexts.clean();
+}
 
 void ViewController::draw(edk::rectf32 outsideViewOrigin){
     //First draw calculting the rectTemp
@@ -219,10 +222,10 @@ void ViewController::draw(edk::rectf32 outsideViewOrigin){
     if(!this->hide){
         //save the rectInside
         this->rectInside = edk::rectf32(
-                    rectTemp.origin.x + this->borderSize,
+                    rectTemp.origin.x + this->borderTemp,
                     rectTemp.origin.y,
-                    rectTemp.size.width - this->borderSize,
-                    rectTemp.size.height - this->borderSize
+                    rectTemp.size.width - this->borderTemp,
+                    rectTemp.size.height - this->borderTemp
                     );
         this->setRectInside = true;
         //Then draw the others

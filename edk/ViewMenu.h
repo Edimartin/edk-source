@@ -53,7 +53,6 @@ protected:
     virtual void drawPolygon(rectf32 outsideViewOrigin);
 private:
     edk::Camera2D cam;
-    edk::float32 borderTemp;
     edk::rectf32 rectMenuSave;
 };
 }//end namespace edk
