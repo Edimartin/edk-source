@@ -232,14 +232,6 @@ void ViewController::draw(edk::rectf32 outsideViewOrigin){
                 //then draw using the view in GU. no in EDK
                 this->nexts[i]->draw(
                             this->rectInside
-                            /*
-                                                    edk::rectf32(
-                                                        rectTemp.origin.x + this->borderSize,
-                                                        rectTemp.origin.y,
-                                                        rectTemp.size.width - this->borderSize,
-                                                        rectTemp.size.height - this->borderSize
-                                                        )
-                        */
                             );
             }
         }
@@ -251,10 +243,8 @@ bool ViewController::contact(edk::vec2f32 point,edk::uint8 state,edk::vector::St
     //return
     bool ret=false;
     //first test the contact
-    if(this->pointInside( edk::vec2f32(point.x,point.y))){
-        if(edk::View::contact(point,state,buttons)){
-            //
-        }
+    if(edk::View::contact(point,state,buttons)){
+        //
     }
     //set the ViewFunction to run the eventFunctions
     for(edk::uint32 i=this->nexts.size();i>0u;i--){

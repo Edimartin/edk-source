@@ -157,7 +157,7 @@ edk::ViewButton::ViewButton()
     this->spritePressedCode=this->spriteUpCode=0u;
     this->symbolCode = this->symbolPressedCode = this->symbolUpCode = 0u;
     this->mouseInside=false;
-    this->borderSize = 20;
+    this->borderSize = 25;
     this->stateButton = edk::buttonView::state::normal;
 
     //load the images
@@ -183,7 +183,7 @@ bool edk::ViewButton::setBorderSize(edk::uint32 size){
         this->borderSize = size;
         return true;
     }
-    this->borderSize = 50.f;
+    this->borderSize = 25.f;
     return false;
 }
 //set the callback

@@ -40,19 +40,29 @@ Gravatai RS Brazil 94065100
 /*
 //EVENT
 //event press button
-void edk::ViewButton::eventPressButton(edk::uint32 mouseButton){
+void eventPressButton(edk::uint32 mouseButton){
     //
     //printf("\nPRESS BUTTON %u",mouseButton);
 }
 //event releaseButton
-void edk::ViewButton::eventReleaseButton(edk::uint32 mouseButton,bool inside){
+void eventReleaseButton(edk::uint32 mouseButton,bool inside){
     //
     //printf("\nRELEASE BUTTON %u",mouseButton);
 }
 //event holdButton
-void edk::ViewButton::eventHoldButton(edk::uint32 mouseButton){
+void eventHoldButton(edk::uint32 mouseButton){
     //
     //printf("\nHOLDING BUTTON %u",mouseButton);
+}
+//Mouse go Inside Outside
+void eventMouseEntryInsideView(edk::vec2f32 point){
+    //
+}
+void eventMouseLeftView(edk::vec2f32 point){
+    //
+}
+void eventMouseMovingInsideView(edk::vec2f32 point){
+    //
 }
 */
 

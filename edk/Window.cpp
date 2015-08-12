@@ -496,8 +496,6 @@ bool Window::setWindowSize(uint32 width, uint32 height)
 
 //Update the views
 void Window::updateViews(){
-    //load the events
-    //this->loadEvents();
     //test if have a mousePress ou Release
     if(this->eventMousePressed()){
         //test pressed with views

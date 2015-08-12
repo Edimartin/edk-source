@@ -122,35 +122,18 @@ edk::rectf32 edk::Camera2D::getRect(){
 }
 
 
- //draw the camera
- void edk::Camera2D::draw(){
+//draw the camera
+void edk::Camera2D::draw(){
     //
     //test if are NOT using GUmodelview
     if(!edk::GU::guUsingMatrix(GU_PROJECTION))
         //then set to use modelView
         edk::GU::guUseMatrix(GU_PROJECTION);
-    //guOrtho2D(left,rigght,botton,top);
-/*
-    guOrtho2D(this->position.x + this->screen.origin.x,//left
-              this->position.y + this->screen.origin.y,//rigght
-              this->position.x + this->screen.size.width,//botton
-              this->position.y + this->screen.size.height//top
-              );
-*/
+    edk::GU::guLoadIdentity();
 
-    //guOrtho(left,right,botton,top,nea,far);
-           /*
     edk::GU::guUseOrtho(this->position.x - this->size.width,//left
-                        this->position.x + this->size.width,//rigght
+                        this->position.x + this->size.width,//right
                         this->position.y - this->size.height,//botton
-                        this->position.y + this->size.height,//top
-                        -1.f,//nea
-                        1.f//far
-                        );
-                        */
-    edk::GU::guUseOrtho(this->position.x - this->size.width*3,//left
-                        this->position.x + this->size.width,//rigght
-                        this->position.y - this->size.height*3,//botton
                         this->position.y + this->size.height,//top
                         -1.f,//nea
                         1.f//far

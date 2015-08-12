@@ -24,7 +24,7 @@ Gravatai RS Brazil 94065100
 
 edk::ViewMenu::ViewMenu(){
     //
-    this->borderSize = 50.f;
+    this->borderSize = 25.f;
     this->loadSpriteFromMemory(EDKmenuTemplateTextureName,EDKmenuTemplateTexture,EDKmenuTemplateTextureSize);
 }
 //set borderSize
@@ -33,7 +33,7 @@ bool edk::ViewMenu::setBorderSize(edk::uint32 size){
         this->borderSize = size;
         return true;
     }
-    this->borderSize = 50.f;
+    this->borderSize = 25.f;
     return false;
 }
 //return the inside frame
