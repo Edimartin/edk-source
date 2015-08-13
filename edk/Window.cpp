@@ -1059,11 +1059,15 @@ bool Window::loadEvents()
         if(event.type == sf::Event::KeyPressed){//2.0
             //carrega a tecla pressionada
             //this->events.keyPressed.pushBack(event.Key.Code);//1.6
+            //printf("\nKey Pressed %d",event.key.code);fflush(stdout);
             if(event.key.code>=0&&event.key.code<26){
                 this->events.keyPressed.pushBack(event.key.code+'a') ;//2.0
             }
             else if(event.key.code>=26&&event.key.code<36){
                 this->events.keyPressed.pushBack(event.key.code+ '0' - 26) ;//2.0
+            }
+            else if(event.key.code>=75&&event.key.code<84){
+                this->events.keyPressed.pushBack(event.key.code+ '0' - 75) ;//2.0
             }
             else{
                 this->events.keyPressed.pushBack(event.key.code+256 - 36) ;//2.0
@@ -1083,6 +1087,9 @@ bool Window::loadEvents()
             }
             else if(event.key.code>=26&&event.key.code<36){
                 this->events.keyRelease.pushBack(event.key.code+ '0' - 26) ;//2.0
+            }
+            else if(event.key.code>=75&&event.key.code<84){
+                this->events.keyRelease.pushBack(event.key.code+ '0' - 75) ;//2.0
             }
             else{
                 this->events.keyRelease.pushBack(event.key.code+256 - 36) ;//2.0

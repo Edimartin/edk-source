@@ -86,6 +86,8 @@ private:
         bool setString(edk::char8* string);
         //add a characted
         bool addCharacter(edk::char8 c);
+        bool addCharacterFromString(const char* str);
+        bool addCharacterFromString(edk::char8* str);
         //remove the caracter
         bool removeCharacter();
         //delete the character

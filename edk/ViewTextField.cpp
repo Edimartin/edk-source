@@ -51,13 +51,6 @@ edk::ViewTextField::TextField::~TextField(){
 bool edk::ViewTextField::TextField::setEntryPosition(edk::float32 x){
     //convert the X and Y to the camera
     edk::rectf32 cameraRect = this->camera.getRect();
-    /*
-    edk::vec2f32 worldPosition = edk::vec2f32(cameraRect.origin.x + ((x/this->frame.size.width) * cameraRect.size.width)
-                                              -((this->borderSize/this->frame.size.width)* cameraRect.size.width)
-                                              ,
-                                              (cameraRect.origin.y + ((y/this->frame.size.height) * cameraRect.size.height))*-1
-                                              );
-*/
     edk::float32 worldPositionX = cameraRect.origin.x + ((x/this->frame.size.width) * cameraRect.size.width)
             -((this->borderSize/this->frame.size.width)* cameraRect.size.width);
 
@@ -66,10 +59,7 @@ bool edk::ViewTextField::TextField::setEntryPosition(edk::float32 x){
     //convert the position to int
     this->writePosition = (edk::uint32)(worldPositionX + 0.5f);
 
-    if(this->writePosition>this->sizeString)
-        this->writePosition=this->sizeString;
-
-    this->obj.position.x = this->writePosition;
+    this->setWritePosition(this->writePosition);
     return false;
 }
 
@@ -88,30 +78,12 @@ void edk::ViewTextField::TextField::eventMousePressed(edk::vec2f32 point ,edk::u
 }
 void edk::ViewTextField::TextField::eventMouseMoved(edk::vec2f32 point,edk::uint32 button){
     if(button == edk::mouse::left){
-        //
-        /*
-        printf("\nLEFT mouseMoved %.2f %.2f button %u"
-               ,point.x
-               ,point.y
-               ,button
-               );fflush(stdout);
-*/
-
         //set the entry position
         this->setEntryPosition(point.x);
     }
 }
-void edk::ViewTextField::TextField::eventMouseReleased(edk::vec2f32  ,edk::uint32 button){
-    if(button == edk::mouse::left){
-        //
-        /*
-        printf("\nLEFT mouseRelease %.2f %.2f button %u"
-               ,point.x
-               ,point.y
-               ,button
-               );fflush(stdout);
-*/
-    }
+void edk::ViewTextField::TextField::eventMouseReleased(edk::vec2f32  ,edk::uint32){
+    //
 }
 
 void edk::ViewTextField::TextField::load(rectf32){
@@ -172,6 +144,19 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events){
 
     //test if the view is selected
     if(this->selectView){
+        size = events->keyHolded.size();
+        bool shift=false;
+        //test if is holding the shift
+        for(edk::uint32 i=0u;i<size;i++){
+            switch(events->keyHolded[i]){
+            case edk::key::lShift:
+            case edk::key::rShift:
+                shift=true;
+                break;
+            }
+        }
+
+
         //test the keyboard
         size = events->keyPressed.size();
         edk::uint32 keyPressed;
@@ -195,6 +180,10 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events){
                 //
                 this->setWritePosition(this->sizeString);
                 break;
+            case edk::key::space:
+                //
+                this->addCharacter(' ');
+                break;
             case edk::key::backSpace:
                 //remove the character
                 this->removeCharacter();
@@ -217,15 +206,21 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events){
                         keyPressed<=edk::key::Z
                         ){
                     //add the character
-                    this->addCharacter(keyPressed);
+                    if(shift){
+                        this->addCharacter(keyPressed + ('A' - 'a'));
+                    }
+                    else{
+                        this->addCharacter(keyPressed);
+                    }
+                    break;
                 }
                 //test if the key is a number
                 if(keyPressed>=edk::key::num0
                         &&
-                        keyPressed>=edk::key::num9
+                        keyPressed<=edk::key::num9
                         ){
                     //add the character
-                    this->addCharacter(keyPressed+9u);
+                    this->addCharacter(keyPressed);
                 }
             }
         }
@@ -248,13 +243,24 @@ void edk::ViewTextField::TextField::drawScene(rectf32 outsideViewOrigin){
 
 //set writePosition
 void edk::ViewTextField::TextField::setWritePosition(edk::uint32 position){
-    if(position<=this->sizeString){
-        this->writePosition = position;
-        this->obj.position.x = position;
+    if(position>this->sizeString){
+        position=this->sizeString;
+    }
+    this->writePosition = position;
+    this->obj.position.x = position;
 
-        this->anim.loopOff();
-        this->anim.setAnimationEndSecond(0.49f);
-        this->anim.playForward();
+    this->anim.loopOff();
+    this->anim.setAnimationEndSecond(0.49f);
+    this->anim.playForward();
+
+    edk::rectf32 camRect = this->camera.getRect();
+    if(this->writePosition<camRect.origin.x){
+        camRect.origin.x = this->writePosition;
+        this->camera.setRect(camRect);
+    }
+    if(this->writePosition>camRect.origin.x + camRect.size.width){
+        camRect.origin.x = this->writePosition - camRect.size.width;
+        this->camera.setRect(camRect);
     }
 }
 //delete the string
@@ -269,7 +275,7 @@ void edk::ViewTextField::TextField::deleteString(){
 bool edk::ViewTextField::TextField::setString(edk::char8* string){
     this->deleteString();
     if(string){
-        this->string = edk::String::strCopy(string);
+        this->string = edk::String::strCopyFilterAccent(string);
         if(this->string){
             //create the map
             if(this->createString(string)){
@@ -367,6 +373,13 @@ bool edk::ViewTextField::TextField::addCharacter(edk::char8 c){
         this->createString(this->string);
     return ret;
 }
+bool edk::ViewTextField::TextField::addCharacterFromString(const char* str){
+    return this->addCharacterFromString((edk::char8*) str);
+}
+bool edk::ViewTextField::TextField::addCharacterFromString(edk::char8* str){
+    //filter the first character
+    return this->addCharacter(edk::String::filterAccent(str));
+}
 //remove the caracter
 bool edk::ViewTextField::TextField::removeCharacter(){
     bool ret=false;
@@ -449,7 +462,7 @@ bool edk::ViewTextField::TextField::deleteCharacter(){
             }
         }
         //else test if remove the characters inside
-        else{
+        else if(this->writePosition<this->sizeString){
             //create the new string
             strSet = new edk::char8[this->sizeString];
             if(strSet){
