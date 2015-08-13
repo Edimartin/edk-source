@@ -109,6 +109,10 @@ private:
         //save if is selecting the view
         bool selectView;
 
+        //press quote
+        bool pressQuote;
+        bool pressTilde;
+
         //save the string
         edk::char8* string;
         //string size
