@@ -166,7 +166,8 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events){
             switch(keyPressed){
             case edk::key::left:
                 //back the writer position
-                this->setWritePosition(this->writePosition-1u);
+                if(this->writePosition)
+                    this->setWritePosition(this->writePosition-1u);
                 break;
             case edk::key::right:
                 //foward the writer position
@@ -487,6 +488,10 @@ bool edk::ViewTextField::TextField::deleteCharacter(){
         this->createString(this->string);
     return ret;
 }
+//return the string
+edk::char8* edk::ViewTextField::TextField::getString(){
+    return this->string;
+}
 
 void edk::ViewTextField::load(rectf32){
     //
@@ -511,6 +516,11 @@ bool edk::ViewTextField::createString(const char* string){
 bool edk::ViewTextField::createString(edk::char8* string){
     return this->text.setString(string);
 }
+//get the string
+edk::char8* edk::ViewTextField::getString(){
+    return this->text.getString();
+}
+
 //add a character
 bool edk::ViewTextField::addCharacter(edk::char8 c){
     return this->text.addCharacter(c);

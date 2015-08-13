@@ -48,6 +48,8 @@ public:
     //create a string
     bool createString(const char* string);
     bool createString(edk::char8* string);
+    //get the string
+    edk::char8* getString();
     //add a character
     bool addCharacter(edk::char8 c);
     //remove the caracter
@@ -92,6 +94,8 @@ private:
         bool removeCharacter();
         //delete the character
         bool deleteCharacter();
+        //return the string
+        edk::char8* getString();
 
         //save border
         edk::float32 saveBorder;
