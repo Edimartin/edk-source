@@ -43,12 +43,30 @@ void edk::ViewText::drawScene(edk::rectf32){
         //then rect receive frame
         this->rectSave=this->frame;
 
+        if(this->textLine){
         //resize the camera
         this->camera.setRect(0.f,
                              0.f - (this->textLine - 1u),
                              this->rectSave.size.width / (this->rectSave.size.height / this->textLine),
                              1 + (this->textLine - 1u)
                              );
+        }
+        else if(this->frame.size.height){
+            //update the camera size
+            this->camera.setRect(0,
+                                 0,
+                                 this->frame.size.width/this->frame.size.height,
+                                 1
+                                 );
+        }
+        else{
+            //update the camera size
+            this->camera.setRect(0,
+                                 0,
+                                 1,
+                                 1
+                                 );
+        }
         this->saveLine = this->textLine;
     }
     this->text.draw();
