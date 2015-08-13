@@ -28,6 +28,7 @@ edk::ViewText::ViewText()
 {
     this->textLine=0u;
     this->saveLine=0u;
+    this->cleanString();
 }
 edk::ViewText::~ViewText()
 {
@@ -74,4 +75,9 @@ bool edk::ViewText::createString(edk::char8* string){
 }
 bool edk::ViewText::createString(const char* string){
     return this->createString((edk::char8*) string);
+}
+
+//clean the string
+void edk::ViewText::cleanString(){
+    this->text.createStringMap(" ");
 }

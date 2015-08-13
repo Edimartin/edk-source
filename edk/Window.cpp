@@ -507,7 +507,7 @@ void Window::updateViews(){
     }
     if(this->eventMouseMoved()){
         //
-        this->viewWindow.contact(edk::vec2f32(this->getMousePos().x,this->getMousePos().y),edk::mouse::state::moved,&this->events.mouseMoving);
+        this->viewWindow.contact(edk::vec2f32(this->getMousePos().x,this->getMousePos().y),edk::mouse::state::moved,&this->events.mouseHolded);
     }
     if(this->eventMouseRelease()){
         //test released with views

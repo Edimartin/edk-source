@@ -74,6 +74,7 @@ class WindowEvents{
             this->mousePressed.clean();
             this->mouseRelease.clean();
             this->mouseHolded.clean();
+            //this->mouseMoving.clean();
             this->mouseScrollWheel = 0u;
 /*
             //clean controllers
@@ -105,7 +106,7 @@ class WindowEvents{
         edk::vector::Stack<edk::uint32> keyHolded;
         //Mouse
         edk::vector::Stack<edk::uint32> mousePressed;
-        edk::vector::Stack<edk::uint32> mouseMoving;
+        //edk::vector::Stack<edk::uint32> mouseMoving;
         edk::vector::Stack<edk::uint32> mouseRelease;
         edk::vector::Stack<edk::uint32> mouseHolded;
         //Mouse Movido

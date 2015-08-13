@@ -42,6 +42,9 @@ public:
     //createString
     bool createString(edk::char8* string);
     bool createString(const char* string);
+
+    //clean the string
+    void cleanString();
 protected:
     virtual void update(edk::WindowEvents* events);
     //draw the GU scene
