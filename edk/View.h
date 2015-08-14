@@ -173,13 +173,13 @@ class View {
 
     View();
 
-    View(rectf32 frame);
+    View(edk::rectf32 frame);
 
     virtual ~View();
 
-    virtual void draw(rectf32 outsideViewOrigin);
+    virtual void draw(edk::rectf32 outsideViewOrigin);
 
-    virtual void load(rectf32 outsideViewOrigin);
+    virtual void load(edk::rectf32 outsideViewOrigin);
     virtual void unload();
 
     virtual void update(edk::WindowEvents* events);
@@ -281,11 +281,11 @@ class View {
 
     //Draw Functions
     //draw viewPort
-    virtual void drawViewport(rectf32 outsideViewOrigin);
+    virtual void drawViewport(edk::rectf32 outsideViewOrigin);
     //draw Camera
     virtual void drawCamera();
     //draw the polygon on the scene
-    virtual void drawPolygon(rectf32 outsideViewOrigin);
+    virtual void drawPolygon(edk::rectf32 outsideViewOrigin);
 
     //Animations
     //Position animation to change the viewPosition on the window (or View)

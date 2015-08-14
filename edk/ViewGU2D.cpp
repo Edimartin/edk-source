@@ -56,7 +56,7 @@ void edk::ViewGU2D::drawPolygon(rectf32 outsideViewOrigin){
 
 
 //draw
-void edk::ViewGU2D::drawScene(rectf32 outsideViewOrigin){
+void edk::ViewGU2D::drawScene(edk::rectf32 outsideViewOrigin){
     //
 }
 

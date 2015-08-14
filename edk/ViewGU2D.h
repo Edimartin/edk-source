@@ -40,7 +40,7 @@ class ViewGU2D: public edk::ViewGU{
         virtual ~ViewGU2D();
 
         //draw the GU scene
-        virtual void drawScene(rectf32 outsideViewOrigin);
+        virtual void drawScene(edk::rectf32 outsideViewOrigin);
 
         //the edkGU 2D camera
         edk::Camera2D camera;
