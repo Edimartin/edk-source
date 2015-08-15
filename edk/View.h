@@ -263,6 +263,9 @@ class View {
     //return true if is a buttonView
     virtual bool isButton();
 
+    //update the view
+    virtual void updateView(edk::WindowEvents* events);
+
  public:
     rectf32 frame;
     rectf32 animatedFrame;

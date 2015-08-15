@@ -522,7 +522,7 @@ void Window::updateView(edk::View* view){
     //test the viewGU
     if(view){
         //update the envents on the view
-        view->update(&this->events);
+        view->updateView(&this->events);
         //update the animations on the view
         view->updateAnimations();
         //tets if is not a leaf

@@ -179,17 +179,17 @@ class ViewButton: public edk::ViewSprite{
     protected:
         //draw the polygon on the scene
         void drawPolygon(rectf32 outsideViewOrigin);
+        //mouse events
+        virtual void eventMousePressed(edk::vec2f32 point,edk::uint32 button);
+        virtual void eventMouseMoved(edk::vec2f32 point,edk::uint32 button);
+        virtual void eventMouseReleased(edk::vec2f32 point,edk::uint32 button);
+        //Mouse go Inside Outside
+        virtual void eventMouseEntryInsideView(edk::vec2f32 point);
+        virtual void eventMouseLeftView(edk::vec2f32 point);
     private:
         //Events
         //update the view
         void update(edk::WindowEvents* events);
-        //mouse events
-        void eventMousePressed(edk::vec2f32 point,edk::uint32 button);
-        void eventMouseMoved(edk::vec2f32 point,edk::uint32 button);
-        void eventMouseReleased(edk::vec2f32 point,edk::uint32 button);
-        //Mouse go Inside Outside
-        void eventMouseEntryInsideView(edk::vec2f32 point);
-        void eventMouseLeftView(edk::vec2f32 point);
         //save the buttons pressed to hold the buttons
         edk::vector::BinaryTree<edk::uint32> holdButton;
         //mouse is inside

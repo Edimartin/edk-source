@@ -202,16 +202,6 @@ void View::updateAnimations(){
 }
 
 bool View::contact(edk::vec2f32 point,edk::uint8 state,edk::vector::Stack<edk::uint32>* buttons){
-    //test if is inside
-    /*
-    printf("\nPoint %.2f %.2f View frame %.2f %.2f %.2f %.2f"
-           ,point.x
-           ,point.y
-           ,this->frame.origin.x
-           ,this->frame.origin.y
-           ,this->frame.size.width
-           ,this->frame.size.height
-           );*/
     if(this->pointInside(edk::vec2f32(point.x,point.y))){
         //
         this->mousePos = point - this->animatedFrame.origin;
@@ -684,6 +674,12 @@ bool View::isGU(){
 bool View::isButton(){
     //
     return false;
+}
+
+//update the view
+void View::updateView(edk::WindowEvents* events){
+    //update the view function
+    this->update(events);
 }
 
 } /* End of namespace edk */
