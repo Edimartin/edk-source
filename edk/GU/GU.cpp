@@ -1444,6 +1444,41 @@ void edk::GU::guVertexTex4f64(edk::vec4f64 vec){glTexCoord4d(vec.x,vec.y,vec.z,v
 void edk::GU::guVertexTex4f32(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 w){glTexCoord4f(x,y,z,w);}
 void edk::GU::guVertexTex4f64(edk::float64 x,edk::float64 y,edk::float64 z,edk::float64 w){glTexCoord4d(x,y,z,w);}
 
+//SELET BUFFER
+//alloc the buffer
+bool edk::GU::guSetSelectionBuffer(edk::uint32 size,edk::uint32* vector){
+    if(vector && size){
+        glSelectBuffer(size,vector);
+        return true;
+    }
+    return false;
+}
+//Set renderMode
+edk::uint32 edk::GU::guRenderMode( edk::uint32 mode){
+    return glRenderMode(mode);
+}
+//init the names
+void edk::GU::guInitNames(){
+    glInitNames();
+    glPushName(0);
+}
+//push a name
+void edk::GU::guPushName(edk::uint32 id){
+    glPushName(id);
+}
+//set the pickMatrix
+void edk::GU::guPickMatrix(edk::float64  x,  edk::float64  y,  edk::float64  delX,  edk::float64  delY){
+    GLint viewport[4];
+    glGetIntegerv(GL_VIEWPORT, viewport);
+
+
+    printf("\nPick Position %.2lf %.2lf %.2lf %.2lf\nVewport %d %d %d %d"
+           ,x,y,delX,delY
+           ,viewport[0u],viewport[1u],viewport[2u],viewport[3u]
+           );fflush(stdout);
+    gluPickMatrix(x,y,delX,delY,viewport);
+}
+
 //STRING
 //GL_VENDOR
 //Returns the company responsible for this GL implementation

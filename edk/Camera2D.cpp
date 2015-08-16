@@ -139,6 +139,15 @@ void edk::Camera2D::draw(){
                         1.f//far
                         );
 }
+void edk::Camera2D::drawOrthoOnly(){
+    edk::GU::guUseOrtho(this->position.x - this->size.width,//left
+                        this->position.x + this->size.width,//right
+                        this->position.y - this->size.height,//botton
+                        this->position.y + this->size.height,//top
+                        -1.f,//nea
+                        1.f//far
+                        );
+}
 
 
 //move the camera

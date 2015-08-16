@@ -67,6 +67,7 @@ class Camera2D/* : public edk::Object<edk::Camera2D>*/{
 
         //draw the camera
         void draw();
+        void drawOrthoOnly();
 
         //move the camera
         void moveLeft(edk::float32 dist);

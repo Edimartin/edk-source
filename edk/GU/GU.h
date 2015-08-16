@@ -1823,6 +1823,10 @@ GL_QUADRATIC_ATTENUATION
 #define GU_NORMALIZE                            0x0BA1
 */
 
+// Render
+#define GU_RENDER                               0x1C00
+#define GU_SELECT                               0x1C02
+
 // Texture mapping
 #define GU_TEXTURE_1D                           0x0DE0
 #define GU_TEXTURE_2D                           0x0DE1
@@ -2066,6 +2070,19 @@ public:
     static void guVertexTex4f64(edk::vec4f64 vec);
     static void guVertexTex4f32(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 w);
     static void guVertexTex4f64(edk::float64 x,edk::float64 y,edk::float64 z,edk::float64 w);
+
+    //SELET BUFFER
+    //alloc the buffer
+    static bool guSetSelectionBuffer(edk::uint32 size,edk::uint32* vector);
+    //Set renderMode
+    static edk::uint32 guRenderMode( edk::uint32 mode);
+    //init the names
+    static void guInitNames();
+    //push a name
+    static void guPushName(edk::uint32 id);
+    //get the viewport specification
+    //set the pickMatrix
+    static void guPickMatrix(edk::float64  x,  edk::float64  y,  edk::float64  delX,  edk::float64  delY);
 
     //STRING
     //GL_VENDOR
