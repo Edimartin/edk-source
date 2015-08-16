@@ -1460,22 +1460,19 @@ edk::uint32 edk::GU::guRenderMode( edk::uint32 mode){
 //init the names
 void edk::GU::guInitNames(){
     glInitNames();
-    glPushName(0);
 }
 //push a name
 void edk::GU::guPushName(edk::uint32 id){
     glPushName(id);
 }
+void edk::GU::guPopName(){
+    glPopName();
+}
+
 //set the pickMatrix
 void edk::GU::guPickMatrix(edk::float64  x,  edk::float64  y,  edk::float64  delX,  edk::float64  delY){
     GLint viewport[4];
     glGetIntegerv(GL_VIEWPORT, viewport);
-
-
-    printf("\nPick Position %.2lf %.2lf %.2lf %.2lf\nVewport %d %d %d %d"
-           ,x,y,delX,delY
-           ,viewport[0u],viewport[1u],viewport[2u],viewport[3u]
-           );fflush(stdout);
     gluPickMatrix(x,y,delX,delY,viewport);
 }
 

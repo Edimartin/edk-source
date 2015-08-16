@@ -2080,6 +2080,7 @@ public:
     static void guInitNames();
     //push a name
     static void guPushName(edk::uint32 id);
+    static void guPopName();
     //get the viewport specification
     //set the pickMatrix
     static void guPickMatrix(edk::float64  x,  edk::float64  y,  edk::float64  delX,  edk::float64  delY);
