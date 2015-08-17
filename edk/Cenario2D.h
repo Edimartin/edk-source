@@ -179,6 +179,7 @@ public:
     void updateAnimations();
     //draw the cenario with all the objects
     void draw();
+    void drawSelection();
 
     //XML
     virtual bool writeToXML(edk::XML* xml,edk::uint32 id);
@@ -334,15 +335,10 @@ private:
         bool writeToXML(edk::XML* xml,edk::uint32 id);
         //read XML
         bool readFromXML(edk::XML* xml,edk::uint32 id);
-        //GET
-        //edk::uint32 getLevelPosition();
-        //edk::float32 getDepth();
         edk::uint32 getId();
     private:
         edk::uint32 id;
         edk::Cenario2D* cenario;
-        //edk::uint32 levelPosition;
-        //edk::float32 depth;
     };
 
     //get levels less position
@@ -377,7 +373,7 @@ private:
     bool getPhysicsLevelObject(edk::Object2D* obj,edk::Cenario2D::PhysicsPosition* objLevel);
     edk::physics2D::PhysicObject2D* getPhysicsObjectInLevel(edk::Cenario2D::PhysicsPosition objLevel);
 
-    //objects class
+    //objects class save one object with depth
     class ObjClass{
     public:
         //ObjClass(){this->created=false;this->obj=NULL;}
@@ -398,17 +394,23 @@ private:
         edk::Object2D* obj;
     };
 
-    //Binary Tree
+    //Binary Tree save objects in a level
     class TreeObjDepth:public edk::vector::BinaryTree<ObjClass*>{
     public:
         TreeObjDepth(){
             //
+            this->names=0u;
         }
         ~TreeObjDepth(){
             edk::uint32 size = this->size();
             for(edk::uint32 i=0u;i<size;i++){
                 this->deleteObjInPosition(0u);
             }
+        }
+
+        //clean names
+        void cleanNames(){
+            this->names = 0;
         }
 
         //XML
@@ -438,6 +440,15 @@ private:
         virtual void updateElement(ObjClass* value){
             if(value->getObject()){
                 value->getObject()->updateAnimations();
+            }
+        }
+        //Print
+        virtual void printElement(ObjClass* value){
+            if(value->getObject()){
+                edk::GU::guPushName(this->names);
+                value->getObject()->drawWithoutMaterial();
+                edk::GU::guPopName();
+                this->names++;
             }
         }
         //add object
@@ -600,6 +611,8 @@ private:
             return 0.0;
         }
     private:
+        //object names
+        edk::uint32 names;
 
         edk::Cenario2D::ObjClass* getObjClass(edk::Object2D* obj){
             edk::Cenario2D::ObjClass find(false,obj,0.f);
@@ -627,6 +640,7 @@ private:
             }
         }treeObj;
     };
+
     //Physics group to animate and update
     class TreePhysObjDepth:public edk::Cenario2D::TreeObjDepth{
     public:
@@ -657,6 +671,7 @@ private:
         edk::physics2D::World2D* world;
     };
 
+    //Save objects in a Level
     class LevelObj{
     public:
         LevelObj(edk::Cenario2D::TreeObjDepth* objs,edk::Cenario2D::TreePhysObjDepth* objsPhys){this->clean();this->objs = objs;this->objsPhys = objsPhys;}
@@ -670,11 +685,13 @@ private:
         void draw(){
             if(this->objs){
                 edk::GU::guEnable(GU_LIGHTING);
+                this->objs->cleanNames();
                 this->objs->render();
                 edk::GU::guDisable(GU_LIGHTING);
             }
             else if(this->objsPhys){
                 edk::GU::guEnable(GU_LIGHTING);
+                this->objsPhys->cleanNames();
                 this->objsPhys->render();
                 edk::GU::guDisable(GU_LIGHTING);
             }
@@ -682,6 +699,27 @@ private:
                 this->tileMap->draw();
             }
         }
+        void drawSelection(){
+            if(this->objs){
+                edk::GU::guPushName(0u);//sero is objects
+                edk::GU::guDisable(GU_LIGHTING);
+                this->objs->print();
+                edk::GU::guPopName();
+            }
+            else if(this->objsPhys){
+                edk::GU::guPushName(1u);//one is physic objects
+                edk::GU::guDisable(GU_LIGHTING);
+                this->objsPhys->print();
+                edk::GU::guPopName();
+            }
+            else if(this->tileMap){
+                edk::GU::guPushName(2u);//two is tileMap
+                edk::GU::guDisable(GU_LIGHTING);
+                this->tileMap->drawSelection();
+                edk::GU::guPopName();
+            }
+        }
+
         void clean(){this->objs = NULL;this->objsPhys = NULL;this->tileMap = NULL;}
         bool haveSome(){
             if(this->objs){

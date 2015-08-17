@@ -2460,19 +2460,20 @@ void edk::Cenario2D::draw(){
     for(edk::uint32 i=0u;i<size;i++){
         level=this->levels[i];
         if(level){
-            if(level->objs){
-                edk::GU::guEnable(GU_LIGHTING);
-                level->objs->render();
-                edk::GU::guDisable(GU_LIGHTING);
-            }
-            if(level->objsPhys){
-                edk::GU::guEnable(GU_LIGHTING);
-                level->objsPhys->render();
-                edk::GU::guDisable(GU_LIGHTING);
-            }
-            else if(level->tileMap){
-                level->tileMap->draw();
-            }
+            level->draw();
+        }
+    }
+}
+void edk::Cenario2D::drawSelection(){
+    //draw the levels
+    edk::uint32 size = this->levels.size();
+    edk::Cenario2D::LevelObj* level=NULL;
+    for(edk::uint32 i=0u;i<size;i++){
+        level=this->levels[i];
+        if(level){
+            edk::GU::guPushName(i);
+            level->drawSelection();
+            edk::GU::guPopName();
         }
     }
 }

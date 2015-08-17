@@ -117,7 +117,10 @@ public:
     void draw(edk::color4f32 color=edk::color4f32(1,1,1,1));
     void draw(edk::vec2ui32 origin,edk::size2ui32 last,edk::color4f32 color=edk::color4f32(1,1,1,1));
     void drawInsideWorldRect(edk::rectf32 rect,edk::color4f32 color=edk::color4f32(1,1,1,1));
-    //void draw(edk::uint32 originX,edk::uint32 originY,edk::uint32 sizeX,edk::uint32 sizeY);
+    //draw the tile for selection
+    void drawSelection(edk::color4f32 color=edk::color4f32(1,1,1,1));
+    void drawSelection(edk::vec2ui32 origin,edk::size2ui32 last,edk::color4f32 color=edk::color4f32(1,1,1,1));
+    void drawInsideWorldRectSelection(edk::rectf32 rect,edk::color4f32 color=edk::color4f32(1,1,1,1));
     //print the tileMap ID's
     void print();
 
