@@ -46,10 +46,17 @@ class ViewGU: public edk::ViewSpriteController{
         //delete the background
         void deleteBackground();
 
+        //test the selection
+        void testSelection(edk::vec2f32 position,edk::size2f32 size = edk::size2f32(1,1));
+        //process the selection
+        virtual void selectObject(edk::uint32 position,edk::uint32 objects,edk::float32 near,edk::float32 far,edk::vector::Stack<edk::uint32>* names);
+
         virtual void update(edk::WindowEvents* events);
 
         //draw the GU scene
         virtual void drawScene(rectf32 outsideViewOrigin);
+
+        virtual void drawSelectionScene();
 
         //return true if is a GU View
         bool isGU();
@@ -61,7 +68,17 @@ class ViewGU: public edk::ViewSpriteController{
     void drawCamera();
     //draw the polygon on the scene
     virtual void drawPolygon(rectf32 outsideViewOrigin);
+    //draw selection camera
+    virtual void drawSelectionCamera();
+    //process the selection
+    virtual void processHits(edk::uint32 hits, edk::uint32 buffer[]);
+    //run selection function
+    void runSelectionfunction();
     private:
+    //save selection position
+    edk::vec2f32 selectionPosition;
+    edk::size2f32 selectionSize;
+    bool runSelection;
 };
 }//end namespace
 

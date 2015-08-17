@@ -27,6 +27,7 @@ Gravatai RS Brazil 94065100
 edk::ViewGU::ViewGU()
 {
     //ctor
+    this->runSelection=false;
 }
 
 edk::ViewGU::~ViewGU()
@@ -59,7 +60,74 @@ void edk::ViewGU::drawPolygon(rectf32 outsideViewOrigin){
     //then draw the scene
     this->drawScene(outsideViewOrigin);
 
+    this->runSelectionfunction();
+
     edk::GU::guDisableAllLights();
+}
+//draw selection camera
+void edk::ViewGU::drawSelectionCamera(){
+    //
+}
+//process the selection
+void edk::ViewGU::processHits(edk::uint32 hits, edk::uint32 buffer[]){
+    edk::uint32 i, j;
+    edk::uint32 names, *ptr;
+    edk::float32 near=0.f,far=0.f;
+    //stack with names
+    edk::vector::Stack<edk::uint32> nameStack;
+
+    ptr = (GLuint *) buffer;
+    for (i = 0; i < hits; i++) {  /* for each hit  */
+        nameStack.clean();
+        names = *ptr;
+        ptr++;
+        near = (edk::float32)*ptr/0x7fffffff;
+        ptr++;
+        far = (edk::float32)*ptr/0x7fffffff;
+        ptr++;
+        for (j = 0; j < names; j++) {  /* for each name */
+            nameStack.pushBack(*ptr);
+            ptr++;
+        }
+        //run the function
+        this->selectObject(i,hits,near,far,&nameStack);
+    }
+}
+//run selection function
+void edk::ViewGU::runSelectionfunction(){
+    //test if need run the selection
+    if(this->runSelection){
+        //
+        this->runSelection=false;
+
+        edk::uint32 buffer[100u];
+        edk::GU::guSetSelectionBuffer(100u,buffer);
+
+        edk::GU::guUseMatrix(GU_PROJECTION);
+        edk::GU::guLoadIdentity();
+
+        edk::GU::guRenderMode(GU_SELECT);
+
+        edk::GU::guInitNames();
+
+        //set pick buffer
+        edk::GU::guPickMatrix((edk::float64)this->selectionPosition.x,(edk::float64)this->selectionPosition.y,
+                              this->selectionSize.width,this->selectionSize.height
+                              );
+
+        this->drawSelectionCamera();
+
+        edk::GU::guDisable(GU_TEXTURE);
+        edk::GU::guDisable(GU_LIGHTING);
+
+        //draw the polygon with UV Map
+        edk::GU::guUseMatrix(GU_MODELVIEW);
+
+        this->drawSelectionScene();
+
+        edk::uint32 total = edk::GU::guRenderMode(GU_RENDER);
+        this->processHits(total,buffer);
+    }
 }
 
 //load the background
@@ -78,10 +146,26 @@ void edk::ViewGU::deleteBackground(){
     this->deleteSprite();
 }
 
-//draw the GU scene
-void edk::ViewGU::drawScene(rectf32 outsideViewOrigin){
+//test the selection
+void edk::ViewGU::testSelection(edk::vec2f32 position,edk::size2f32 size){
+    //
+    this->runSelection = true;
+    this->selectionPosition = edk::vec2f32(position.x,(position.y*-1)+this->frame.size.height);
+    this->selectionSize = size;
+}
+//process the selection
+void edk::ViewGU::selectObject(edk::uint32 ,edk::uint32 ,edk::float32 ,edk::float32 ,edk::vector::Stack<edk::uint32>* ){
     //
 }
+
+//draw the GU scene
+void edk::ViewGU::drawScene(edk::rectf32){
+    //
+}
+void edk::ViewGU::drawSelectionScene(){
+    //
+}
+
 void edk::ViewGU::update(edk::WindowEvents* events){
     //
     edk::View::update(events);

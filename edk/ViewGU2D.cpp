@@ -36,11 +36,15 @@ edk::ViewGU2D::~ViewGU2D()
 }
 //draw the 2Dcamera
 void edk::ViewGU2D::drawCamera2D(){
-    //
-    edk::GU::guUseMatrix(GU_PROJECTION);
     //draw the camera2D
     this->camera.draw();
 }
+//draw selection camera
+void edk::ViewGU2D::drawSelectionCamera(){
+    edk::GU::guTranslate2f32(0,-0.865f);
+    this->camera.drawOrthoOnly();
+}
+
 //draw the polygon on the scene
 void edk::ViewGU2D::drawPolygon(rectf32 outsideViewOrigin){
     //
@@ -52,11 +56,14 @@ void edk::ViewGU2D::drawPolygon(rectf32 outsideViewOrigin){
 
     //draw the GU scene
     this->drawScene(outsideViewOrigin);
+
+    this->runSelectionfunction();
+
+    edk::GU::guDisableAllLights();
 }
 
 
 //draw
-void edk::ViewGU2D::drawScene(edk::rectf32 outsideViewOrigin){
+void edk::ViewGU2D::drawScene(edk::rectf32 ){
     //
 }
-

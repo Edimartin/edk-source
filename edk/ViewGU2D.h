@@ -50,6 +50,8 @@ class ViewGU2D: public edk::ViewGU{
     private:
     //draw the 2Dcamera
     void drawCamera2D();
+    //draw selection camera
+    void drawSelectionCamera();
 };
 }//end namespace edk
 
