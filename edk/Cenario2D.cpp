@@ -1791,6 +1791,19 @@ bool edk::Cenario2D::addObject(edk::uint32 levelPosition,edk::Object2D* obj,edk:
     }
     return false;
 }
+bool edk::Cenario2D::addObjectCreated(edk::uint32 levelPosition,edk::Object2D* obj){
+    //test the object
+    return this->addObjectCreated(levelPosition,obj,this->getHigherLevel(levelPosition)+1.0);
+}
+bool edk::Cenario2D::addObjectCreated(edk::uint32 levelPosition,edk::Object2D* obj,edk::float32 depth){
+    //test the object
+    if(levelPosition){
+        if(obj){
+            return this->addObjectToLevel(obj,NULL,levelPosition,depth,true);
+        }
+    }
+    return false;
+}
 //get the object
 edk::Object2D* edk::Cenario2D::getObject(edk::uint32 levelPosition,edk::float32 depth){
     //test if have the position
@@ -2032,11 +2045,26 @@ bool edk::Cenario2D::addPhysycObject(edk::uint32 levelPosition,edk::physics2D::P
     }
     return false;
 }
+bool edk::Cenario2D::addPhysycObjectCreated(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj){
+    return this->addPhysycObjectCreated(levelPosition,obj,this->getHigherLevel(levelPosition) + 1.0);
+}
+bool edk::Cenario2D::addPhysycObjectCreated(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj,edk::float32 depth){
+    if(obj){
+        return this->addObjectToLevel(NULL,(edk::Object2D*)obj,levelPosition,depth,true);
+    }
+    return false;
+}
 bool edk::Cenario2D::addPhysycSensor(edk::uint32 levelPosition,edk::physics2D::StaticSensor2D* sensor){
     return this->addPhysycObject(levelPosition,sensor);
 }
 bool edk::Cenario2D::addPhysycSensor(edk::uint32 levelPosition,edk::physics2D::StaticSensor2D* sensor,edk::float32 depth){
     return this->addPhysycObject(levelPosition,sensor,depth);
+}
+bool edk::Cenario2D::addPhysycSensorCreated(edk::uint32 levelPosition,edk::physics2D::StaticSensor2D* sensor){
+    return this->addPhysycObjectCreated(levelPosition,sensor);
+}
+bool edk::Cenario2D::addPhysycSensorCreated(edk::uint32 levelPosition,edk::physics2D::StaticSensor2D* sensor,edk::float32 depth){
+    return this->addPhysycObjectCreated(levelPosition,sensor,depth);
 }
 //get the object
 edk::physics2D::PhysicObject2D* edk::Cenario2D::getPhysycObject(edk::uint32 levelPosition,edk::float32 depth){

@@ -76,21 +76,26 @@ void edk::ViewGU::processHits(edk::uint32 hits, edk::uint32 buffer[]){
     //stack with names
     edk::vector::Stack<edk::uint32> nameStack;
 
-    ptr = (GLuint *) buffer;
-    for (i = 0; i < hits; i++) {  /* for each hit  */
-        nameStack.clean();
-        names = *ptr;
-        ptr++;
-        near = (edk::float32)*ptr/0x7fffffff;
-        ptr++;
-        far = (edk::float32)*ptr/0x7fffffff;
-        ptr++;
-        for (j = 0; j < names; j++) {  /* for each name */
-            nameStack.pushBack(*ptr);
+    if(hits){
+        ptr = (GLuint *) buffer;
+        for (i = 0; i < hits; i++) {  /* for each hit  */
+            nameStack.clean();
+            names = *ptr;
             ptr++;
+            near = (edk::float32)*ptr/0x7fffffff;
+            ptr++;
+            far = (edk::float32)*ptr/0x7fffffff;
+            ptr++;
+            for (j = 0; j < names; j++) {  /* for each name */
+                nameStack.pushBack(*ptr);
+                ptr++;
+            }
+            //run the function
+            this->selectObject(i,hits,near,far,&nameStack);
         }
-        //run the function
-        this->selectObject(i,hits,near,far,&nameStack);
+    }
+    else{
+        this->selectObject(0,0,0,0,&nameStack);
     }
 }
 //run selection function

@@ -72,6 +72,8 @@ public:
     edk::Object2D* newObject(edk::uint32 levelPosition,edk::float32 depth);
     bool addObject(edk::uint32 levelPosition,edk::Object2D* obj);
     bool addObject(edk::uint32 levelPosition,edk::Object2D* obj,edk::float32 depth);
+    bool addObjectCreated(edk::uint32 levelPosition,edk::Object2D* obj);
+    bool addObjectCreated(edk::uint32 levelPosition,edk::Object2D* obj,edk::float32 depth);
     //get the object
     edk::Object2D* getObject(edk::uint32 levelPosition,edk::float32 depth);
     edk::Object2D* getObject(edk::uint32 levelPosition,edk::uint32 position);
@@ -94,8 +96,12 @@ public:
     edk::physics2D::PhysicObject2D* newPhysycSensor(edk::uint32 levelPosition,edk::physics::bodyType physicType,edk::float32 depth);
     bool addPhysycObject(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj);
     bool addPhysycObject(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj,edk::float32 depth);
+    bool addPhysycObjectCreated(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj);
+    bool addPhysycObjectCreated(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj,edk::float32 depth);
     bool addPhysycSensor(edk::uint32 levelPosition,edk::physics2D::StaticSensor2D* sensor);
-    bool addPhysycSensor(edk::uint32 levelPosition,edk::physics2D::StaticSensor2D* obj,edk::float32 sensor);
+    bool addPhysycSensor(edk::uint32 levelPosition,edk::physics2D::StaticSensor2D* sensor,edk::float32 depth);
+    bool addPhysycSensorCreated(edk::uint32 levelPosition,edk::physics2D::StaticSensor2D* sensor);
+    bool addPhysycSensorCreated(edk::uint32 levelPosition,edk::physics2D::StaticSensor2D* sensor,edk::float32 depth);
     //get the object
     edk::physics2D::PhysicObject2D* getPhysycObject(edk::uint32 levelPosition,edk::float32 depth);
     edk::physics2D::PhysicObject2D* getPhysycObject(edk::uint32 levelPosition,edk::uint32 position);
