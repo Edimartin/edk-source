@@ -2499,7 +2499,7 @@ void edk::Cenario2D::drawSelection(){
     for(edk::uint32 i=0u;i<size;i++){
         level=this->levels[i];
         if(level){
-            edk::GU::guPushName(i);
+            edk::GU::guPushName(i+1u);
             level->drawSelection();
             edk::GU::guPopName();
         }
