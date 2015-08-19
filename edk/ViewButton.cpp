@@ -871,6 +871,8 @@ void edk::ViewButton::drawPolygon(rectf32 outsideViewOrigin){
     edk::GU::guUseTexture2D(0u);
     edk::GU::guDisable(GU_TEXTURE_2D);
 
+    edk::rectf32 temp;
+
     if(this->text.haveText()){
         //load the size of the text
 
@@ -896,7 +898,7 @@ void edk::ViewButton::drawPolygon(rectf32 outsideViewOrigin){
         else{
             //
             this->camTemp.setRect(-0.5f,
-                                  -0.5f,
+                                   0.0f,
                                   textSize.width,
                                   insideSize.height / ((textSize.height / textSize.width) * insideSize.width)
                                   );
@@ -905,16 +907,16 @@ void edk::ViewButton::drawPolygon(rectf32 outsideViewOrigin){
         if(!edk::GU::guUsingMatrix(GU_MODELVIEW))edk::GU::guUseMatrix(GU_MODELVIEW);
         //First create the view in GU
 
-        rectTemp = edk::rectf32((edk::uint32)(outsideViewOrigin.origin.x + this->animatedFrame.origin.x)
+        temp = edk::rectf32((edk::uint32)(outsideViewOrigin.origin.x + this->animatedFrame.origin.x)
                                 ,(edk::uint32)( outsideViewOrigin.origin.y + outsideViewOrigin.size.height - this->animatedFrame.origin.y - this->animatedFrame.size.height)
                                 ,(edk::uint32)this->animatedFrame.size.width
                                 ,(edk::uint32)this->animatedFrame.size.height
                                 );
         //Set the viewport
-        edk::GU::guSetViewport((edk::uint32)rectTemp.origin.x + this->borderTemp
-                               ,(edk::uint32)rectTemp.origin.y + this->borderTemp
-                               ,(edk::uint32)this->animatedFrame.size.width - (this->borderTemp*2.f)
-                               ,(edk::uint32)this->animatedFrame.size.height - (this->borderTemp*2.f)
+        edk::GU::guSetViewport((edk::uint32)temp.origin.x + this->borderTemp
+                               ,(edk::uint32)temp.origin.y + this->borderTemp
+                               ,(edk::uint32)temp.size.width - (this->borderTemp*2.f)
+                               ,(edk::uint32)temp.size.height - (this->borderTemp*2.f)
                                );
 
 
