@@ -817,17 +817,13 @@ void edk::ViewButton::drawPolygon(rectf32 outsideViewOrigin){
     edk::size2f32 sizeTemp = edk::size2f32((tempSize.width)/this->frame.size.width,
                                            (tempSize.height)/this->frame.size.height
                                            );
-    edk::float32 proportionInside;
+    edk::float32 proportionInside = (edk::float32)insideSize.width/(edk::float32)insideSize.height;
     edk::float32 proportionSymbol;
 
     if(symbolCodeTemp){
-        proportionInside = (edk::float32)insideSize.width/(edk::float32)insideSize.height;
-
-        this->cam.setRect(0,0,1,1);
-        //then set to use modelView
-        edk::GU::guUseMatrix(GU_PROJECTION);
-        edk::GU::guLoadIdentity();
-        this->cam.draw();
+        //
+        this->camTemp.setRect(-1.1f,-1.1f,2.1f,2.1f);
+        this->camTemp.draw();
         //draw the polygon with UV Map
         edk::GU::guUseMatrix(GU_MODELVIEW);
         edk::GU::guLoadIdentity();
@@ -871,74 +867,58 @@ void edk::ViewButton::drawPolygon(rectf32 outsideViewOrigin){
         edk::GU::guEnd();
     }
 
+
     edk::GU::guUseTexture2D(0u);
     edk::GU::guDisable(GU_TEXTURE_2D);
 
-
-
-    //test if have the text
     if(this->text.haveText()){
-        proportionInside = (edk::float32)insideSize.width/(edk::float32)insideSize.height;
         //load the size of the text
-        edk::size2ui32 textSize = this->text.getMapSize();
-        sizeTemp*=0.95f;
-        edk::GU::guScale2f32(1,-1);
 
-        this->cam.setRect(0.5f * ((textSize.width-1.f)),
-                          0.5f *((textSize.height-1.f)),
-                          textSize.width * 0.5f,
-                          textSize.height * 0.5f
-                          );
+        edk::size2f32 textSize = edk::size2f32(this->text.getMapSize().width,this->text.getMapSize().height);
+        this->camTemp.setRect(-0.5f,
+                              -0.5f,
+                              textSize.width,
+                              textSize.height
+                              );
 
-        //then set to use modelView
-        edk::GU::guUseMatrix(GU_PROJECTION);
-        edk::GU::guLoadIdentity();
-        this->cam.draw();
-        //draw the polygon with UV Map
-        edk::GU::guUseMatrix(GU_MODELVIEW);
-        edk::GU::guLoadIdentity();
+        this->camTemp.draw();
 
-        edk::GU::guScale2f32(sizeTemp);
-
-        //calculate the size of the insideView
-        //rectf32 outsideViewOrigin
-        edk::rectf32 insideView;
-
-        //proportions
-        proportionSymbol = (edk::float32)textSize.width/(edk::float32)textSize.height;
-        if(proportionInside >= proportionSymbol){
-            //then it fits with the height
-            sizeTemp = edk::size2f32((((edk::float32)insideSize.height / textSize.height ) * textSize.width) / (edk::float32)insideSize.width,
-                                     1.f
-                                     );
-            insideView.size = edk::size2f32((edk::float32)insideSize.width * sizeTemp.width,
-                                            (edk::float32)insideSize.height);
+        proportionSymbol = textSize.width/textSize.height;
+        if(proportionInside > proportionSymbol){
+            //
+            this->camTemp.setRect(-0.5f,
+                                  -0.5f,
+                                  insideSize.width / insideSize.height,
+                                  textSize.height
+                                  );
+            this->camTemp.position.x -= ((this->camTemp.getSize().width - textSize.width) * 0.5f);
         }
         else{
-            //then it fits with the witdh
-            sizeTemp = edk::size2f32(1.f,
-                                     (((edk::float32)insideSize.width / textSize.width) * textSize.height) / (edk::float32)insideSize.height
-                                     );
-            insideView.size = edk::size2f32((edk::float32)insideSize.width,
-                                            (edk::float32)insideSize.height * sizeTemp.height);
-
+            //
+            this->camTemp.setRect(-0.5f,
+                                  -0.5f,
+                                  textSize.width,
+                                  insideSize.height / ((textSize.height / textSize.width) * insideSize.width)
+                                  );
+            this->camTemp.position.y -= (this->camTemp.getSize().height*0.5);
         }
-        //calculate the origin of insideView
-        insideView.origin = edk::vec2f32(outsideViewOrigin.origin.x + this->animatedFrame.origin.x + this->borderTemp +
-                                         ((insideSize.width) * 0.5f ) -
-                                         ( insideView.size.width * 0.5f )
-                                         ,
-                                         (outsideViewOrigin.origin.y + outsideViewOrigin.size.height - this->animatedFrame.origin.y - this->animatedFrame.size.height) + this->borderTemp +
-                                         ((insideSize.height) * 0.5f ) -
-                                         ( insideView.size.height  * 0.5f )
-                                         );
+        if(!edk::GU::guUsingMatrix(GU_MODELVIEW))edk::GU::guUseMatrix(GU_MODELVIEW);
+        //First create the view in GU
 
-        edk::GU::guSetViewport((edk::uint32)insideView.origin.x
-                               ,(edk::uint32)insideView.origin.y
-                               ,(edk::uint32)insideView.size.width
-                               ,(edk::uint32)insideView.size.height
+        rectTemp = edk::rectf32((edk::uint32)(outsideViewOrigin.origin.x + this->animatedFrame.origin.x)
+                                ,(edk::uint32)( outsideViewOrigin.origin.y + outsideViewOrigin.size.height - this->animatedFrame.origin.y - this->animatedFrame.size.height)
+                                ,(edk::uint32)this->animatedFrame.size.width
+                                ,(edk::uint32)this->animatedFrame.size.height
+                                );
+        //Set the viewport
+        edk::GU::guSetViewport((edk::uint32)rectTemp.origin.x + this->borderTemp
+                               ,(edk::uint32)rectTemp.origin.y + this->borderTemp
+                               ,(edk::uint32)this->animatedFrame.size.width - (this->borderTemp*2.f)
+                               ,(edk::uint32)this->animatedFrame.size.height - (this->borderTemp*2.f)
                                );
 
+
+        this->camTemp.draw();
 
         this->text.draw();
     }

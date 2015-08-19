@@ -223,6 +223,7 @@ class ViewButton: public edk::ViewSprite{
 
         //camera
         edk::Camera2D cam;
+        edk::Camera2D camTemp;
         edk::float32 borderTemp;
         edk::rectf32 rectButtonSave;
 };
