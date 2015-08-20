@@ -291,6 +291,7 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events){
             case edk::key::Delete:
                 //delete the character
                 this->deleteCharacter();
+                break;
             case edk::key::Return:
                 //set press return
                 this->pressReturn = true;
@@ -408,7 +409,6 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events){
                             this->addCharacter(keyPressed);
                         }
                     }
-                    break;
                 }
                 //test if the key is a number
                 if(keyPressed>=edk::key::num0
@@ -698,6 +698,10 @@ bool edk::ViewTextField::TextField::deleteCharacter(){
 edk::char8* edk::ViewTextField::TextField::getString(){
     return this->string;
 }
+//eturn true if the text is selected
+bool edk::ViewTextField::TextField::isSelected(){
+    return this->selectView;
+}
 
 void edk::ViewTextField::load(rectf32){
     this->addSubview(&this->text);
@@ -754,4 +758,8 @@ bool edk::ViewTextField::havePressReturn(){
 //Set the writer position
 void edk::ViewTextField::setWritePosition(edk::uint32 position){
     this->text.setWritePosition(position);
+}
+//return true if is selected
+bool edk::ViewTextField::isSelected(){
+    return this->text.isSelected();
 }

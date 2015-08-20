@@ -62,6 +62,8 @@ public:
     bool havePressReturn();
     //Set the writer position
     void setWritePosition(edk::uint32 position);
+    //return true if is selected
+    bool isSelected();
 private:
     //save rect
     edk::rectf32 saveRect;
@@ -101,6 +103,8 @@ private:
         bool deleteCharacter();
         //return the string
         edk::char8* getString();
+        //eturn true if the text is selected
+        bool isSelected();
 
         //save border
         edk::float32 saveBorder;
