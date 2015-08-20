@@ -88,8 +88,8 @@ void edk::ViewTextField::TextField::eventMouseReleased(edk::vec2f32  ,edk::uint3
     //
 }
 
-void edk::ViewTextField::TextField::load(rectf32){
-
+void edk::ViewTextField::TextField::load(rectf32 outsideViewOrigin){
+    this->saveOutsideView.size = outsideViewOrigin.size;
     edk::shape::Mesh2D *mesh = this->obj.newMesh();
     if(mesh){
         edk::shape::Rectangle2D rect;
@@ -165,11 +165,6 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events){
         for(edk::uint32 i=0u;i<size;i++){
             //load the keyPressed
             keyPressed = events->keyPressed[i];
-
-            printf("\nKey %u Tilde %u"
-                   ,keyPressed
-                   ,edk::key::tilde
-                   );fflush(stdout);
             switch(keyPressed){
             case edk::key::left:
                 //back the writer position
@@ -429,6 +424,7 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events){
 }
 //draw the GU scene
 void edk::ViewTextField::TextField::drawScene(rectf32 outsideViewOrigin){
+    this->saveOutsideView.size = outsideViewOrigin.size;
     if(this->saveRect.size!=outsideViewOrigin.size
             ||
             this->saveBorder!=this->borderSize){
@@ -440,6 +436,16 @@ void edk::ViewTextField::TextField::drawScene(rectf32 outsideViewOrigin){
 
     if(this->selectView)
         this->obj.drawWithoutMaterial();
+}
+
+//test if a point is inside the view
+bool edk::ViewTextField::TextField::pointInside(edk::vec2f32 point){
+    //create a tempRectangleShape
+    edk::shape::Rectangle2D temp;
+    temp.setVertexPosition(0u,this->saveOutsideView.origin);
+    temp.setVertexPosition(1u,this->saveOutsideView.origin.x + this->saveOutsideView.size.width+this->saveBorder,this->saveOutsideView.origin.y + this->saveOutsideView.size.height+this->saveBorder);
+    //test the contact
+    return edk::collision::RectangleContact::contactPoint(point,temp);
 }
 
 //set writePosition
@@ -694,9 +700,8 @@ edk::char8* edk::ViewTextField::TextField::getString(){
 }
 
 void edk::ViewTextField::load(rectf32){
-    //
     this->addSubview(&this->text);
-    this->text.backgroundColor = edk::color4f32(0,1,0,1);
+    this->text.backgroundColor = edk::color4f32(1,1,1,0);
 }
 void edk::ViewTextField::unload(){
     this->removeSubview(&this->text);
@@ -719,6 +724,11 @@ bool edk::ViewTextField::createString(edk::char8* string){
 //get the string
 edk::char8* edk::ViewTextField::getString(){
     return this->text.getString();
+}
+//clean the string
+void edk::ViewTextField::cleanString(){
+    this->text.deleteString();
+    this->text.cleanString();
 }
 
 //add a character

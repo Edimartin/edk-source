@@ -50,6 +50,8 @@ public:
     bool createString(edk::char8* string);
     //get the string
     edk::char8* getString();
+    //clean the string
+    void cleanString();
     //add a character
     bool addCharacter(edk::char8 c);
     //remove the caracter
@@ -80,6 +82,9 @@ private:
         //draw the GU scene
         void drawScene(rectf32 outsideViewOrigin);
 
+        //test if a point is inside the view
+        bool pointInside(edk::vec2f32 point);
+
         //set writePosition
         void setWritePosition(edk::uint32 position);
         //delete the string
@@ -104,6 +109,7 @@ private:
     private:
         //save rect
         edk::rectf32 saveRect;
+        edk::rectf32 saveOutsideView;
         //press the mouse inside the view
         bool pressInside;
         //save if is selecting the view

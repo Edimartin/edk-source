@@ -252,7 +252,7 @@ class View {
     bool isThisAnimationPosition(edk::animation::InterpolationGroup* animation);
 
     //test if a point is inside the view
-    bool pointInside(edk::vec2f32 point);
+    virtual bool pointInside(edk::vec2f32 point);
 
     //return true if is leaf
     virtual bool isLeaf();
