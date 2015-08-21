@@ -1066,7 +1066,7 @@ bool Window::loadEvents()
             else if(event.key.code>=26&&event.key.code<36){
                 this->events.keyPressed.pushBack(event.key.code+ '0' - 26) ;//2.0
             }
-            else if(event.key.code>=75&&event.key.code<84){
+            else if(event.key.code>=75&&event.key.code<85){
                 this->events.keyPressed.pushBack(event.key.code+ '0' - 75) ;//2.0
             }
             else{
@@ -1088,7 +1088,7 @@ bool Window::loadEvents()
             else if(event.key.code>=26&&event.key.code<36){
                 this->events.keyRelease.pushBack(event.key.code+ '0' - 26) ;//2.0
             }
-            else if(event.key.code>=75&&event.key.code<84){
+            else if(event.key.code>=75&&event.key.code<85){
                 this->events.keyRelease.pushBack(event.key.code+ '0' - 75) ;//2.0
             }
             else{

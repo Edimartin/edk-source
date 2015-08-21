@@ -157,14 +157,16 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events){
                 break;
             }
         }
-
-
         //test the keyboard
         size = events->keyPressed.size();
         edk::uint32 keyPressed;
         for(edk::uint32 i=0u;i<size;i++){
             //load the keyPressed
             keyPressed = events->keyPressed[i];
+
+            printf("\nKey Pressed %u"
+                   ,keyPressed
+                   );fflush(stdout);
             switch(keyPressed){
             case edk::key::left:
                 //back the writer position
