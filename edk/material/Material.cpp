@@ -157,6 +157,23 @@ void edk::material::Material::setShininess(edk::color3f32 color){
 }
 
 //GETERS
+edk::color4f32 edk::material::Material::getAmbient(){
+    return edk::color4f32(this->ambient[0u],this->ambient[1u],this->ambient[2u],this->ambient[3u]);
+}
+edk::color4f32 edk::material::Material::getDiffuse(){
+    return edk::color4f32(this->diffuse[0u],this->diffuse[1u],this->diffuse[2u],this->diffuse[3u]);
+}
+edk::color4f32 edk::material::Material::getSpecular(){
+    return edk::color4f32(this->specular[0u],this->specular[1u],this->specular[2u],this->specular[3u]);
+}
+edk::color4f32 edk::material::Material::getEmission(){
+    return edk::color4f32(this->emission[0u],this->emission[1u],this->emission[2u],this->emission[3u]);
+}
+edk::color4f32 edk::material::Material::getShininess(){
+    return edk::color4f32(this->shininess[0u],this->shininess[1u],this->shininess[2u],this->shininess[3u]);
+}
+
+//GETERS
 edk::uint32 edk::material::Material::getTexture(edk::uint8 position){
     if(position < materialTextureCount){
         return this->textures[position];
@@ -476,7 +493,7 @@ bool edk::material::Material::readFromXML(edk::XML* xml,edk::uint32 id){
                             if(iTemp){
                                 nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);
                                 if(nameTemp){
-                                    this->ambient[i] = edk::String::strToInt64(xml->getSelectedAttributeValueByName(nameTemp));
+                                    this->ambient[i] = edk::String::strToFloat32(xml->getSelectedAttributeValueByName(nameTemp));
                                     delete[] nameTemp;
                                 }
                                 delete[] iTemp;
@@ -491,7 +508,7 @@ bool edk::material::Material::readFromXML(edk::XML* xml,edk::uint32 id){
                             if(iTemp){
                                 nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);
                                 if(nameTemp){
-                                    this->diffuse[i] = edk::String::strToInt64(xml->getSelectedAttributeValueByName(nameTemp));
+                                    this->diffuse[i] = edk::String::strToFloat32(xml->getSelectedAttributeValueByName(nameTemp));
                                     delete[] nameTemp;
                                 }
                                 delete[] iTemp;
@@ -506,7 +523,7 @@ bool edk::material::Material::readFromXML(edk::XML* xml,edk::uint32 id){
                             if(iTemp){
                                 nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);
                                 if(nameTemp){
-                                    this->specular[i] = edk::String::strToInt64(xml->getSelectedAttributeValueByName(nameTemp));
+                                    this->specular[i] = edk::String::strToFloat32(xml->getSelectedAttributeValueByName(nameTemp));
                                     delete[] nameTemp;
                                 }
                                 delete[] iTemp;
@@ -521,7 +538,7 @@ bool edk::material::Material::readFromXML(edk::XML* xml,edk::uint32 id){
                             if(iTemp){
                                 nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);
                                 if(nameTemp){
-                                    this->emission[i] = edk::String::strToInt64(xml->getSelectedAttributeValueByName(nameTemp));
+                                    this->emission[i] = edk::String::strToFloat32(xml->getSelectedAttributeValueByName(nameTemp));
                                     delete[] nameTemp;
                                 }
                                 delete[] iTemp;
@@ -536,7 +553,7 @@ bool edk::material::Material::readFromXML(edk::XML* xml,edk::uint32 id){
                             if(iTemp){
                                 nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);
                                 if(nameTemp){
-                                    this->shininess[i] = edk::String::strToInt64(xml->getSelectedAttributeValueByName(nameTemp));
+                                    this->shininess[i] = edk::String::strToFloat32(xml->getSelectedAttributeValueByName(nameTemp));
                                     delete[] nameTemp;
                                 }
                                 delete[] iTemp;

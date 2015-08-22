@@ -68,6 +68,13 @@ public:
     void setShininess(edk::color3f32 color);
 
     //GETERS
+    edk::color4f32 getAmbient();
+    edk::color4f32 getDiffuse();
+    edk::color4f32 getSpecular();
+    edk::color4f32 getEmission();
+    edk::color4f32 getShininess();
+
+    //GETERS
     edk::uint32 getTexture(edk::uint8 position);
     //return the size of the texture
     edk::size2ui32 getTextureSize(edk::uint8 position);

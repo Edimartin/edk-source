@@ -70,6 +70,8 @@ public:
     edk::float32 getPercentX();
     edk::float32 getPercentY();
     edk::vec2f32 getPercent();
+    //return true if the scroll is selected
+    bool isSelected();
 
     //get the scrollColor
     edk::color4f32 getBackColor();
@@ -122,6 +124,8 @@ private:
         edk::float32 getPercentX();
         edk::float32 getPercentY();
         edk::vec2f32 getPercent();
+        //return if the mouse is holded
+        bool isMouseHolded();
 
     private:
         //save the object color

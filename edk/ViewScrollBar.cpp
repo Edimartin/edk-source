@@ -390,6 +390,10 @@ edk::float32 edk::ViewScrollBar::ForegroundButton::getPercentY(){
 edk::vec2f32 edk::ViewScrollBar::ForegroundButton::getPercent(){
     return edk::vec2f32(this->getPercentX(),this->getPercentY());
 }
+//return if the mouse is holded
+bool edk::ViewScrollBar::ForegroundButton::isMouseHolded(){
+    return this->mouseHolded;
+}
 
 void edk::ViewScrollBar::load(rectf32){
     //
@@ -482,6 +486,10 @@ edk::float32 edk::ViewScrollBar::getPercentY(){
 }
 edk::vec2f32 edk::ViewScrollBar::getPercent(){
     this->foreground.getPercent();
+}
+//return true if the scroll is selected
+bool edk::ViewScrollBar::isSelected(){
+    this->foreground.isMouseHolded();
 }
 
 //get the scrollColor
