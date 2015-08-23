@@ -180,6 +180,14 @@ edk::uint32 edk::material::Material::getTexture(edk::uint8 position){
     }
     return 0u;
 }
+//return the name of the texture
+edk::char8* edk::material::Material::getTextureName(edk::uint8 position){
+    if(position < materialTextureCount){
+        return this->list.getTextureName(this->textures[position]);
+    }
+    return NULL;
+}
+
 //return the size of the texture
 edk::size2ui32 edk::material::Material::getTextureSize(edk::uint8 position){
     edk::size2ui32 ret;

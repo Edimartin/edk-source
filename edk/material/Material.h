@@ -76,6 +76,8 @@ public:
 
     //GETERS
     edk::uint32 getTexture(edk::uint8 position);
+    //return the name of the texture
+    edk::char8* getTextureName(edk::uint8 position);
     //return the size of the texture
     edk::size2ui32 getTextureSize(edk::uint8 position);
     edk::uint32 getTextureWidth(edk::uint8 position);
