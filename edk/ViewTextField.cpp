@@ -701,6 +701,9 @@ bool edk::ViewTextField::TextField::deleteCharacter(){
 edk::char8* edk::ViewTextField::TextField::getString(){
     return this->string;
 }
+edk::uint32 edk::ViewTextField::TextField::getSizeString(){
+    return this->sizeString;
+}
 //eturn true if the text is selected
 bool edk::ViewTextField::TextField::isSelected(){
     return this->selectView;
@@ -731,6 +734,10 @@ bool edk::ViewTextField::createString(edk::char8* string){
 //get the string
 edk::char8* edk::ViewTextField::getString(){
     return this->text.getString();
+}
+//return the size of the string
+edk::uint32 edk::ViewTextField::getStringSize(){
+    return this->text.getSizeString();
 }
 //clean the string
 void edk::ViewTextField::cleanString(){

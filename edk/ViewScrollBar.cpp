@@ -37,9 +37,14 @@ void edk::ViewScrollBar::updateFrames(){
     //test the rectScroll
     if(this->rectScrollSave!=this->frame){
         this->rectScrollSave = this->frame;
+        //save the percent
+        edk::vec2f32 percent = this->foreground.getPercent();
         //update the button
         this->background.frame.size = this->rectScrollSave.size;
         this->foreground.frame.size = this->rectScrollSave.size;
+        this->foreground.updateFrame();
+        //update the percent
+        this->foreground.setPercent(percent);
     }
 }
 
@@ -55,7 +60,7 @@ edk::ViewScrollBar::ForegroundButton::~ForegroundButton(){
     //
 }
 
-void edk::ViewScrollBar::ForegroundButton::load(rectf32 outsideViewOrigin){
+void edk::ViewScrollBar::ForegroundButton::load(rectf32){
     //
 }
 void edk::ViewScrollBar::ForegroundButton::unload(){
@@ -75,36 +80,34 @@ void edk::ViewScrollBar::ForegroundButton::update(edk::WindowEvents* events){
         this->saveObjectPosition = this->polygonRect.origin;
     }
 
-
-    //test the rect
-    if(this->saveFrame!=this->frame){
-        this->borderTemp=this->borderSize;
-        //save the rect
-        this->saveFrame = this->frame;
-
-        this->polygonRect.size = this->frame.size * this->sizeObject;
-
-        //load the rect size
-        edk::size2f32 sizeTemp = edk::size2f32(this->polygonRect.size * 0.5f);
-
-        //set the camera rect
-        this->camera.setRect(0,0,this->frame.size.width,this->frame.size.height);
-        //test the smaller size
-        if(sizeTemp.width < sizeTemp.height){
-            //width
-            if(this->borderTemp>sizeTemp.width){
-                this->borderTemp = sizeTemp.width;
-            }
-        }
-        else{
-            //height
-            if(this->borderTemp>sizeTemp.height){
-                this->borderTemp = sizeTemp.height;
-            }
-        }
-    }
+    //update the color
     if(this->backgroundColor.a){
         this->backgroundColor.a = 0.f;
+    }
+}
+void edk::ViewScrollBar::ForegroundButton::updateFrame(){
+
+    this->borderTemp=this->borderSize;
+
+    this->polygonRect.size = this->frame.size * this->sizeObject;
+
+    //load the rect size
+    edk::size2f32 sizeTemp = edk::size2f32(this->polygonRect.size * 0.5f);
+
+    //set the camera rect
+    this->camera.setRect(0,0,this->frame.size.width,this->frame.size.height);
+    //test the smaller size
+    if(sizeTemp.width < sizeTemp.height){
+        //width
+        if(this->borderTemp>sizeTemp.width){
+            this->borderTemp = sizeTemp.width;
+        }
+    }
+    else{
+        //height
+        if(this->borderTemp>sizeTemp.height){
+            this->borderTemp = sizeTemp.height;
+        }
     }
 }
 

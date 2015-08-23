@@ -94,6 +94,7 @@ private:
         void load(rectf32 outsideViewOrigin);
         void unload();
         void update(edk::WindowEvents* events);
+        void updateFrame();
 
         //Events
         virtual void eventMousePressed(edk::vec2f32 point,edk::uint32 button);
@@ -131,7 +132,6 @@ private:
         //save the object color
         edk::color4f32 colorObject;
         //save the rect
-        edk::rectf32 saveFrame;
         edk::float32 borderTemp;
         //size object
         edk::size2f32 sizeObject;

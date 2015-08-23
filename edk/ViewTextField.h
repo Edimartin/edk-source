@@ -50,6 +50,8 @@ public:
     bool createString(edk::char8* string);
     //get the string
     edk::char8* getString();
+    //return the size of the string
+    edk::uint32 getStringSize();
     //clean the string
     void cleanString();
     //add a character
@@ -103,6 +105,7 @@ private:
         bool deleteCharacter();
         //return the string
         edk::char8* getString();
+        edk::uint32 getSizeString();
         //eturn true if the text is selected
         bool isSelected();
 
