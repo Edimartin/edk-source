@@ -153,8 +153,6 @@ bool Window::createWindow(uint32 width, uint32 height/*, uint32 bitsPerPixel*/, 
 
         //Testa se a janela foi aberta
         if(this->isOpened()){
-            //set the size of the window
-            this->setWindowSize(width,height);
             //Seta a renderizacao da window
             //this->window.Show(this->renderWindow);//1.6
             this->window.setVisible(this->renderWindow);//2.0
@@ -164,8 +162,9 @@ bool Window::createWindow(uint32 width, uint32 height/*, uint32 bitsPerPixel*/, 
             //Seta a keyRepeat como true
             //this->window.EnableKeyRepeat(true);//1.6
             this->window.setKeyRepeatEnabled(true);//2.0
+
             //Seta o tamanho da window
-            this->setWindowSize(width,height);
+            this->setWindowSize(this->window.getSize().x,this->window.getSize().y);
 
             //set the blend with alpha channel
             edk::GU::guEnable(GU_BLEND);

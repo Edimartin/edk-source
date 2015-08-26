@@ -259,7 +259,7 @@ void edk::Texture2DList::deleteAllTextures(){
 }
 //return the size of the texture
 edk::size2ui32 edk::Texture2DList::getTextureSize(edk::char8* name,edk::uint32 filter){
-    edk::size2ui32 ret;
+    edk::size2ui32 ret(0u,0u);
     //load the texture
     edk::Texture2DList::TextureCode* temp = this->getTextureByName(name,filter);
     if(temp){
@@ -271,7 +271,7 @@ edk::size2ui32 edk::Texture2DList::getTextureSize(const char* name,edk::uint32 f
     return this->getTextureSize((edk::char8*) name,filter);
 }
 edk::size2ui32 edk::Texture2DList::getTextureSize(edk::uint32 code){
-    edk::size2ui32 ret;
+    edk::size2ui32 ret(0u,0u);
     //load the texture
     edk::Texture2DList::TextureCode* temp = this->getTextureByCode(code);
     if(temp){

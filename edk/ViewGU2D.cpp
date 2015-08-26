@@ -41,7 +41,6 @@ void edk::ViewGU2D::drawCamera2D(){
 }
 //draw selection camera
 void edk::ViewGU2D::drawSelectionCamera(){
-    edk::GU::guTranslate2f32(0,-0.865f);
     this->camera.drawOrthoOnly();
 }
 

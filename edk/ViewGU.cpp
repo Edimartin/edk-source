@@ -155,7 +155,7 @@ void edk::ViewGU::deleteBackground(){
 void edk::ViewGU::testSelection(edk::vec2f32 position,edk::size2f32 size){
     //
     this->runSelection = true;
-    this->selectionPosition = edk::vec2f32(position.x,(position.y*-1)+this->frame.size.height);
+    this->selectionPosition = edk::vec2f32(position.x,((position.y*-1)+this->frame.size.height) + this->rectTemp.origin.y);
     this->selectionSize = size;
 }
 //process the selection

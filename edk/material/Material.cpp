@@ -198,7 +198,7 @@ edk::size2ui32 edk::material::Material::getTextureSize(edk::uint8 position){
     return ret;
 }
 edk::uint32 edk::material::Material::getTextureWidth(edk::uint8 position){
-    edk::uint32 ret;
+    edk::uint32 ret=0u;
     if(position < materialTextureCount){
         //
         ret = this->list.getTextureSize(this->textures[position]).width;
@@ -206,7 +206,7 @@ edk::uint32 edk::material::Material::getTextureWidth(edk::uint8 position){
     return ret;
 }
 edk::uint32 edk::material::Material::getTextureHeight(edk::uint8 position){
-    edk::uint32 ret;
+    edk::uint32 ret=0u;
     if(position < materialTextureCount){
         //
         ret = this->list.getTextureSize(this->textures[position]).height;

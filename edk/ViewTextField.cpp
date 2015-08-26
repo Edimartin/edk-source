@@ -487,6 +487,7 @@ bool edk::ViewTextField::TextField::setString(edk::char8* string){
     if(string){
         this->string = edk::String::strCopyFilterAccent(string);
         if(this->string){
+            printf("\nStringWithFilter '%s'",this->string);fflush(stdout);
             //create the map
             if(this->createString(string)){
                 this->sizeString = edk::String::strSize(this->string);

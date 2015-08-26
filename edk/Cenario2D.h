@@ -58,7 +58,7 @@ public:
     bool selectedTileMapSetScaleMap(edk::size2f32 scale);
     bool selectedTileMapSetScaleMap(edk::float32 width,edk::float32 height );
     //delete physicObjects
-    bool  selectedTileDeletePhysicsTiles();
+    bool selectedTileDeletePhysicsTiles();
     bool selectedTileDeletePhysicTile(edk::vec2ui32 position);
     bool selectedTileDeletePhysicTile(edk::uint32 positionX,edk::uint32 positionY);
     //add physics tiles

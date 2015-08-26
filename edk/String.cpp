@@ -2867,8 +2867,9 @@ edk::char8* edk::String::strCopyFilterAccent(edk::char8* str){
         edk::uint32 size = edk::String::strSizeFilterAccent(str);
         if(size){
             //create the new string
-            edk::char8* ret = new edk::char8[size];
+            edk::char8* ret = new edk::char8[size+1u];
             if(ret){
+                ret[size] = '\0';
                 edk::uint8 jump=0u;
                 //copy the character with filter
                 for(edk::uint32 i=0u;i<size;i++){
