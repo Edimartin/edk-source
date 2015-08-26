@@ -2580,13 +2580,13 @@ edk::uint8 edk::Cenario2D::getLevelType(edk::uint32 levelPosition){
             edk::Cenario2D::LevelObj* level =this->levels[levelPosition];
             if(level){
                 if(level->objs){
-                    return EDK_CENARIO_OBJECTS;
+                    return EDK_LEVEL_OBJ;
                 }
                 if(level->objsPhys){
-                    return EDK_CENARIO_PHYSIC_OBJECTS;
+                    return EDK_LEVEL_OBJ_PHYSICS;
                 }
                 if(level->tileMap){
-                    return EDK_CENARIO_TILEMAP;
+                    return EDK_LEVEL_TILE_MAP;
                 }
             }
         }

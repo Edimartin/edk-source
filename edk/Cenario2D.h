@@ -2,14 +2,11 @@
 #define EDK_CENARIO2D_H
 
 #pragma once
+#include "TypeDefines.h"
 #include "physics2D/World2D.h"
 #include "tiles/TileMap2D.h"
 #include "vector/BinaryTree.h"
 #include "animation/ActionGroup.h"
-
-#define EDK_CENARIO_OBJECTS 0xFA
-#define EDK_CENARIO_PHYSIC_OBJECTS 0xFB
-#define EDK_CENARIO_TILEMAP 0xFC
 
 namespace edk{
 class Cenario2D : public edk::physics2D::ContactCallback2D , public edk::tiles::tileCallback{
@@ -198,6 +195,10 @@ public:
     void drawSelection();
 
     //get level type
+    //EDK_LEVEL_NOTHING
+    //EDK_LEVEL_OBJ
+    //EDK_LEVEL_OBJ_PHYSICS
+    //EDK_LEVEL_TILE_MAP
     edk::uint8 getLevelType(edk::uint32 levelPosition);
     //test if have the level
     bool haveLevel(edk::uint32 levelPosition);
