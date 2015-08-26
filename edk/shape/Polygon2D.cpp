@@ -200,7 +200,7 @@ bool edk::shape::Polygon2D::isCounterclockwise(){
         edk::float32 sum;
         //test the scalar
         for(register edk::uint32 i=1u;i<this->vertexs.size();i++){
-/*
+            /*
             printf("\nAngle (%.2f,%.2f) (%.2f,%.2f) == %.2f"
                    ,vertex.x
                    ,vertex.y
@@ -212,7 +212,7 @@ bool edk::shape::Polygon2D::isCounterclockwise(){
             sum+= (this->vertexs[i]->position.x - vertex.x) * (this->vertexs[i]->position.y - vertex.y);
             vertex = this->vertexs[i]->position;
         }
-/*
+        /*
         printf("\nAngle (%.2f,%.2f) (%.2f,%.2f) == %.2f"
                ,vertex.x
                ,vertex.y
@@ -222,7 +222,7 @@ bool edk::shape::Polygon2D::isCounterclockwise(){
                 );
 */
         sum+= sum+= (this->vertexs[0u]->position.x - vertex.x) * (this->vertexs[0u]->position.y - vertex.y);
-/*
+        /*
         printf("\nSum == %.2f"
                ,sum
                );
@@ -693,7 +693,23 @@ edk::vec2ui32 edk::shape::Polygon2D::getFrames(){
     //
     return this->frames;
 }
-
+//return the frameUseds
+edk::vec2ui32 edk::shape::Polygon2D::getFrameUsed(){
+    return this->frameUsing;
+}
+edk::uint32 edk::shape::Polygon2D::getFramePositionUsed(){
+    if(this->frames.x && this->frames.y){
+        edk::uint32 yTemp = this->frameUsing.y;
+        if(yTemp){
+            yTemp--;
+            return (this->frameUsing.y * yTemp) + this->frameUsing.x;
+        }
+        else{
+            return this->frameUsing.x;
+        }
+    }
+    return 0u;
+}
 //return the transform
 edk::vec2f32 edk::shape::Polygon2D::getTranslate(){
     return this->translate;

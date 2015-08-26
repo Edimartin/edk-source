@@ -132,6 +132,9 @@ public:
     edk::vec2f32 selectedGetVertexUV(edk::uint32 pos);
     //return the frames
     edk::vec2ui32 selectedGetFrames();
+    //return the frameUsed
+    edk::vec2ui32 selectedGetFrameUsed();
+    edk::uint32 selectedGetFramePositionUsed();
     //get Transate
     edk::vec2f32 selectedGetTranslate();
     //get scale

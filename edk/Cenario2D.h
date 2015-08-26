@@ -7,6 +7,10 @@
 #include "vector/BinaryTree.h"
 #include "animation/ActionGroup.h"
 
+#define EDK_CENARIO_OBJECTS 0xFA
+#define EDK_CENARIO_PHYSIC_OBJECTS 0xFB
+#define EDK_CENARIO_TILEMAP 0xFC
+
 namespace edk{
 class Cenario2D : public edk::physics2D::ContactCallback2D , public edk::tiles::tileCallback{
 public:
@@ -83,6 +87,8 @@ public:
     bool deleteObject(edk::uint32 levelPosition,edk::Object2D* obj);
     void deleteAllObjects(edk::uint32 levelPosition);
     void deleteAllObjects();
+    //dont delete the object
+    bool removeObject(edk::uint32 levelPosition,edk::Object2D* obj);
     //set object to be animated
     bool setObjectAnimated(edk::uint32 levelPosition,edk::Object2D* obj);
     bool setObjectAnimated(edk::uint32 levelPosition,edk::uint32 position);
@@ -90,29 +96,33 @@ public:
 
     //OBJECTS_PHYSICS
     //add a object to the tree
-    edk::physics2D::PhysicObject2D* newPhysycObject(edk::uint32 levelPosition,edk::physics::bodyType physicType);
-    edk::physics2D::PhysicObject2D* newPhysycObject(edk::uint32 levelPosition,edk::physics::bodyType physicType,edk::float32 depth);
-    edk::physics2D::PhysicObject2D* newPhysycSensor(edk::uint32 levelPosition,edk::physics::bodyType physicType);
-    edk::physics2D::PhysicObject2D* newPhysycSensor(edk::uint32 levelPosition,edk::physics::bodyType physicType,edk::float32 depth);
-    bool addPhysycObject(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj);
-    bool addPhysycObject(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj,edk::float32 depth);
-    bool addPhysycObjectCreated(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj);
-    bool addPhysycObjectCreated(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj,edk::float32 depth);
-    bool addPhysycSensor(edk::uint32 levelPosition,edk::physics2D::StaticSensor2D* sensor);
-    bool addPhysycSensor(edk::uint32 levelPosition,edk::physics2D::StaticSensor2D* sensor,edk::float32 depth);
-    bool addPhysycSensorCreated(edk::uint32 levelPosition,edk::physics2D::StaticSensor2D* sensor);
-    bool addPhysycSensorCreated(edk::uint32 levelPosition,edk::physics2D::StaticSensor2D* sensor,edk::float32 depth);
+    edk::physics2D::PhysicObject2D* newPhysicObject(edk::uint32 levelPosition,edk::physics::bodyType physicType);
+    edk::physics2D::PhysicObject2D* newPhysicObject(edk::uint32 levelPosition,edk::physics::bodyType physicType,edk::float32 depth);
+    edk::physics2D::PhysicObject2D* newPhysicSensor(edk::uint32 levelPosition,edk::physics::bodyType physicType);
+    edk::physics2D::PhysicObject2D* newPhysicSensor(edk::uint32 levelPosition,edk::physics::bodyType physicType,edk::float32 depth);
+    bool addPhysicObject(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj);
+    bool addPhysicObject(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj,edk::float32 depth);
+    bool addPhysicObjectCreated(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj);
+    bool addPhysicObjectCreated(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj,edk::float32 depth);
+    bool addPhysicSensor(edk::uint32 levelPosition,edk::physics2D::StaticSensor2D* sensor);
+    bool addPhysicSensor(edk::uint32 levelPosition,edk::physics2D::StaticSensor2D* sensor,edk::float32 depth);
+    bool addPhysicSensorCreated(edk::uint32 levelPosition,edk::physics2D::StaticSensor2D* sensor);
+    bool addPhysicSensorCreated(edk::uint32 levelPosition,edk::physics2D::StaticSensor2D* sensor,edk::float32 depth);
     //get the object
-    edk::physics2D::PhysicObject2D* getPhysycObject(edk::uint32 levelPosition,edk::float32 depth);
-    edk::physics2D::PhysicObject2D* getPhysycObject(edk::uint32 levelPosition,edk::uint32 position);
+    edk::physics2D::PhysicObject2D* getPhysicObject(edk::uint32 levelPosition,edk::float32 depth);
+    edk::physics2D::PhysicObject2D* getPhysicObject(edk::uint32 levelPosition,edk::uint32 position);
+    //return the depth of the physic object
+    edk::float32 getPhysicObjectDepth(edk::uint32 levelPosition,edk::uint32 position);
     //load the physicsObjects
     bool loadPhysicObjectToWorld(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj);
     bool loadPhysicObjectsToWorld(edk::uint32 levelPosition);
     void loadPhysicObjectsToWorld();
     //delete the object
-    bool deletePhysycObject(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj);
-    void deleteAllPhysycObjects(edk::uint32 levelPosition);
-    void deleteAllPhysycObjects();
+    bool deletePhysicObject(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj);
+    void deleteAllPhysicObjects(edk::uint32 levelPosition);
+    void deleteAllPhysicObjects();
+    //remove the object
+    bool removePhysicObject(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj);
 
 
     //DELETE ALL LEVELS
@@ -186,6 +196,11 @@ public:
     //draw the cenario with all the objects
     void draw();
     void drawSelection();
+
+    //get level type
+    edk::uint8 getLevelType(edk::uint32 levelPosition);
+    //test if have the level
+    bool haveLevel(edk::uint32 levelPosition);
 
     //XML
     virtual bool writeToXML(edk::XML* xml,edk::uint32 id);
@@ -544,6 +559,25 @@ private:
                             if(objClass->haveCreated()){
                                 delete objClass->getObject();
                             }
+                            delete objClass;
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+        //remove the obj
+        bool removeObj(edk::Object2D* obj){
+            if(obj){
+                //get the object
+                edk::Cenario2D::ObjClass* objClass = this->getObjClass(obj);
+                if(objClass){
+                    if(objClass->getObject()){
+                        //remove
+                        if(this->treeObj.remove(objClass)){
+                            this->remove(objClass);
+                            //
                             delete objClass;
                             return true;
                         }

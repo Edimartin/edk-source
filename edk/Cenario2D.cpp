@@ -1843,7 +1843,7 @@ edk::float32 edk::Cenario2D::getObjectDepth(edk::uint32 levelPosition,edk::uint3
             edk::Cenario2D::LevelObj* level = this->levels[levelPosition];
             if(level){
                 if(level->objs){
-                    level->objs->getObjectDepthInPosition(position);
+                    return level->objs->getObjectDepthInPosition(position);
                 }
             }
         }
@@ -1906,6 +1906,31 @@ void edk::Cenario2D::deleteAllObjects(){
             }
         }
     }
+}
+//dont delete the object
+bool edk::Cenario2D::removeObject(edk::uint32 levelPosition,edk::Object2D* obj){
+    if(obj){
+        //load the level
+        if(levelPosition){
+            levelPosition--;
+            if(this->levels.havePos(levelPosition)){
+                edk::Cenario2D::LevelObj* level =this->levels[levelPosition];
+                if(level){
+                    //remove object from tree
+                    this->treeAnim.remove(obj);
+                    if(level->objs){
+                        bool ret = level->objs->removeObj(obj);
+                        if(!level->objs->size()){
+                            delete level->objs;
+                            level->clean();
+                        }
+                        return ret;
+                    }
+                }
+            }
+        }
+    }
+    return false;
 }
 //set object to be animated
 bool edk::Cenario2D::setObjectAnimated(edk::uint32 levelPosition,edk::Object2D* obj){
@@ -1986,10 +2011,10 @@ bool edk::Cenario2D::setObjectAnimated(edk::uint32 levelPosition,edk::float32 de
 
 //OBJECTS_PHYSICS
 //add a object to the tree
-edk::physics2D::PhysicObject2D* edk::Cenario2D::newPhysycObject(edk::uint32 levelPosition,edk::physics::bodyType physicType){
-    return this->newPhysycObject(levelPosition,physicType,this->getHigherLevel(levelPosition) + 1.0);
+edk::physics2D::PhysicObject2D* edk::Cenario2D::newPhysicObject(edk::uint32 levelPosition,edk::physics::bodyType physicType){
+    return this->newPhysicObject(levelPosition,physicType,this->getHigherLevel(levelPosition) + 1.0);
 }
-edk::physics2D::PhysicObject2D* edk::Cenario2D::newPhysycObject(edk::uint32 levelPosition,edk::physics::bodyType physicType,edk::float32 depth){
+edk::physics2D::PhysicObject2D* edk::Cenario2D::newPhysicObject(edk::uint32 levelPosition,edk::physics::bodyType physicType,edk::float32 depth){
     if(levelPosition){
         edk::physics2D::PhysicObject2D* obj = NULL;
         switch(physicType){
@@ -2012,10 +2037,10 @@ edk::physics2D::PhysicObject2D* edk::Cenario2D::newPhysycObject(edk::uint32 leve
     }
     return NULL;
 }
-edk::physics2D::PhysicObject2D* edk::Cenario2D::newPhysycSensor(edk::uint32 levelPosition,edk::physics::bodyType physicType){
-    return this->newPhysycSensor(levelPosition,physicType,this->getHigherLevel(levelPosition) + 1.0);
+edk::physics2D::PhysicObject2D* edk::Cenario2D::newPhysicSensor(edk::uint32 levelPosition,edk::physics::bodyType physicType){
+    return this->newPhysicSensor(levelPosition,physicType,this->getHigherLevel(levelPosition) + 1.0);
 }
-edk::physics2D::PhysicObject2D* edk::Cenario2D::newPhysycSensor(edk::uint32 levelPosition,edk::physics::bodyType physicType,edk::float32 depth){
+edk::physics2D::PhysicObject2D* edk::Cenario2D::newPhysicSensor(edk::uint32 levelPosition,edk::physics::bodyType physicType,edk::float32 depth){
     if(levelPosition){
         edk::physics2D::PhysicObject2D* obj = NULL;
         switch(physicType){
@@ -2036,38 +2061,38 @@ edk::physics2D::PhysicObject2D* edk::Cenario2D::newPhysycSensor(edk::uint32 leve
     }
     return NULL;
 }
-bool edk::Cenario2D::addPhysycObject(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj){
-    return this->addPhysycObject(levelPosition,obj,this->getHigherLevel(levelPosition) + 1.0);
+bool edk::Cenario2D::addPhysicObject(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj){
+    return this->addPhysicObject(levelPosition,obj,this->getHigherLevel(levelPosition) + 1.0);
 }
-bool edk::Cenario2D::addPhysycObject(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj,edk::float32 depth){
+bool edk::Cenario2D::addPhysicObject(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj,edk::float32 depth){
     if(obj){
         return this->addObjectToLevel(NULL,(edk::Object2D*)obj,levelPosition,depth,false);
     }
     return false;
 }
-bool edk::Cenario2D::addPhysycObjectCreated(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj){
-    return this->addPhysycObjectCreated(levelPosition,obj,this->getHigherLevel(levelPosition) + 1.0);
+bool edk::Cenario2D::addPhysicObjectCreated(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj){
+    return this->addPhysicObjectCreated(levelPosition,obj,this->getHigherLevel(levelPosition) + 1.0);
 }
-bool edk::Cenario2D::addPhysycObjectCreated(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj,edk::float32 depth){
+bool edk::Cenario2D::addPhysicObjectCreated(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj,edk::float32 depth){
     if(obj){
         return this->addObjectToLevel(NULL,(edk::Object2D*)obj,levelPosition,depth,true);
     }
     return false;
 }
-bool edk::Cenario2D::addPhysycSensor(edk::uint32 levelPosition,edk::physics2D::StaticSensor2D* sensor){
-    return this->addPhysycObject(levelPosition,sensor);
+bool edk::Cenario2D::addPhysicSensor(edk::uint32 levelPosition,edk::physics2D::StaticSensor2D* sensor){
+    return this->addPhysicObject(levelPosition,sensor);
 }
-bool edk::Cenario2D::addPhysycSensor(edk::uint32 levelPosition,edk::physics2D::StaticSensor2D* sensor,edk::float32 depth){
-    return this->addPhysycObject(levelPosition,sensor,depth);
+bool edk::Cenario2D::addPhysicSensor(edk::uint32 levelPosition,edk::physics2D::StaticSensor2D* sensor,edk::float32 depth){
+    return this->addPhysicObject(levelPosition,sensor,depth);
 }
-bool edk::Cenario2D::addPhysycSensorCreated(edk::uint32 levelPosition,edk::physics2D::StaticSensor2D* sensor){
-    return this->addPhysycObjectCreated(levelPosition,sensor);
+bool edk::Cenario2D::addPhysicSensorCreated(edk::uint32 levelPosition,edk::physics2D::StaticSensor2D* sensor){
+    return this->addPhysicObjectCreated(levelPosition,sensor);
 }
-bool edk::Cenario2D::addPhysycSensorCreated(edk::uint32 levelPosition,edk::physics2D::StaticSensor2D* sensor,edk::float32 depth){
-    return this->addPhysycObjectCreated(levelPosition,sensor,depth);
+bool edk::Cenario2D::addPhysicSensorCreated(edk::uint32 levelPosition,edk::physics2D::StaticSensor2D* sensor,edk::float32 depth){
+    return this->addPhysicObjectCreated(levelPosition,sensor,depth);
 }
 //get the object
-edk::physics2D::PhysicObject2D* edk::Cenario2D::getPhysycObject(edk::uint32 levelPosition,edk::float32 depth){
+edk::physics2D::PhysicObject2D* edk::Cenario2D::getPhysicObject(edk::uint32 levelPosition,edk::float32 depth){
     if(levelPosition){
         levelPosition--;
         //test if have the position
@@ -2082,7 +2107,7 @@ edk::physics2D::PhysicObject2D* edk::Cenario2D::getPhysycObject(edk::uint32 leve
     }
     return NULL;
 }
-edk::physics2D::PhysicObject2D* edk::Cenario2D::getPhysycObject(edk::uint32 levelPosition,edk::uint32 position){
+edk::physics2D::PhysicObject2D* edk::Cenario2D::getPhysicObject(edk::uint32 levelPosition,edk::uint32 position){
     if(levelPosition){
         levelPosition--;
         //test if have the position
@@ -2096,6 +2121,22 @@ edk::physics2D::PhysicObject2D* edk::Cenario2D::getPhysycObject(edk::uint32 leve
         }
     }
     return NULL;
+}
+//return the depth of the physic object
+edk::float32 edk::Cenario2D::getPhysicObjectDepth(edk::uint32 levelPosition,edk::uint32 position){
+    if(levelPosition){
+        levelPosition--;
+        //test if have the position
+        if(this->levels.havePos(levelPosition)){
+            edk::Cenario2D::LevelObj* level =this->levels[levelPosition];
+            if(level){
+                if(level->objsPhys){
+                    return level->objsPhys->getObjectDepthInPosition(position);
+                }
+            }
+        }
+    }
+    return 0.f;
 }
 //load the physicsObjects
 bool edk::Cenario2D::loadPhysicObjectToWorld(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj){
@@ -2164,7 +2205,7 @@ void edk::Cenario2D::loadPhysicObjectsToWorld(){
 }
 
 //delete the object
-bool edk::Cenario2D::deletePhysycObject(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj){
+bool edk::Cenario2D::deletePhysicObject(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj){
     if(levelPosition){
         levelPosition--;
         //load the level
@@ -2189,7 +2230,7 @@ bool edk::Cenario2D::deletePhysycObject(edk::uint32 levelPosition,edk::physics2D
     }
     return false;
 }
-void edk::Cenario2D::deleteAllPhysycObjects(edk::uint32 levelPosition){
+void edk::Cenario2D::deleteAllPhysicObjects(edk::uint32 levelPosition){
     if(levelPosition){
         levelPosition--;
         //load the level
@@ -2208,7 +2249,7 @@ void edk::Cenario2D::deleteAllPhysycObjects(edk::uint32 levelPosition){
         }
     }
 }
-void edk::Cenario2D::deleteAllPhysycObjects(){
+void edk::Cenario2D::deleteAllPhysicObjects(){
     edk::uint32 size = this->levels.size();
     edk::Cenario2D::LevelObj* level = NULL;
     for(edk::uint32 i=0u;i<size;i++){
@@ -2226,7 +2267,32 @@ void edk::Cenario2D::deleteAllPhysycObjects(){
         }
     }
 }
-
+//remove the object
+bool edk::Cenario2D::removePhysicObject(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj){
+    if(levelPosition){
+        levelPosition--;
+        //load the level
+        if(obj){
+            if(this->levels.havePos(levelPosition)){
+                edk::Cenario2D::LevelObj* level =this->levels[levelPosition];
+                if(level){
+                    if(level->objsPhys){
+                        //remove from world
+                        this->world.removeObject(obj);
+                        bool ret = level->objsPhys->removeObj((edk::Object2D*)obj);
+                        if(!level->objsPhys->size()){
+                            //remove from world
+                            delete level->objsPhys;
+                            level->clean();
+                        }
+                        return ret;
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
 
 //DELETE ALL LEVELS
 void edk::Cenario2D::deleteLevel(edk::uint32 levelPosition){
@@ -2504,6 +2570,41 @@ void edk::Cenario2D::drawSelection(){
             edk::GU::guPopName();
         }
     }
+}
+
+//get level type
+edk::uint8 edk::Cenario2D::getLevelType(edk::uint32 levelPosition){
+    if(levelPosition){
+        levelPosition--;
+        if(this->levels.havePos(levelPosition)){
+            edk::Cenario2D::LevelObj* level =this->levels[levelPosition];
+            if(level){
+                if(level->objs){
+                    return EDK_CENARIO_OBJECTS;
+                }
+                if(level->objsPhys){
+                    return EDK_CENARIO_PHYSIC_OBJECTS;
+                }
+                if(level->tileMap){
+                    return EDK_CENARIO_TILEMAP;
+                }
+            }
+        }
+    }
+    return 0u;
+}
+//test if have the level
+bool edk::Cenario2D::haveLevel(edk::uint32 levelPosition){
+    if(levelPosition){
+        levelPosition--;
+        if(this->levels.havePos(levelPosition)){
+            edk::Cenario2D::LevelObj* level =this->levels[levelPosition];
+            if(level){
+                return level->haveSome();
+            }
+        }
+    }
+    return false;
 }
 
 //XML

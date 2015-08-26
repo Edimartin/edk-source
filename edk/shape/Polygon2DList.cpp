@@ -624,6 +624,26 @@ edk::vec2ui32 edk::shape::Polygon2DList::selectedGetFrames(){
     //else return zero
     return edk::vec2ui32(0u,0u);
 }
+//return the frameUsed
+edk::vec2ui32 edk::shape::Polygon2DList::selectedGetFrameUsed(){
+    //test if have selected
+    if(this->selected){
+        //
+        return this->selected->getFrameUsed();
+    }
+    //else return zero
+    return edk::vec2ui32(0u,0u);
+}
+edk::uint32 edk::shape::Polygon2DList::selectedGetFramePositionUsed(){
+    //test if have selected
+    if(this->selected){
+        //
+        return this->selected->getFramePositionUsed();
+    }
+    //else return zero
+    return 0u;
+}
+
 //get Transate
 edk::vec2f32 edk::shape::Polygon2DList::selectedGetTranslate(){
     //test if have selected
