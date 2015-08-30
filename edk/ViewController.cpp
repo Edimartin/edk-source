@@ -255,7 +255,7 @@ bool ViewController::contact(edk::vec2f32 point,edk::uint8 state,edk::vector::St
     //return
     bool ret=false;
     //first test the contact
-    if(edk::View::contact(point,state,buttons)){
+    if(this->pointInside(point)){
         if(state == edk::mouse::state::pressed || state == edk::mouse::state::moved){
             //set the ViewFunction to run the eventFunctions
             for(edk::uint32 i=this->nexts.size();i>0u;i--){
@@ -278,30 +278,24 @@ bool ViewController::contact(edk::vec2f32 point,edk::uint8 state,edk::vector::St
                     }
                 }
             }
+            if(!ret){
+                ret = this->edk::View::contact(point,state,buttons);
+            }
             return ret;
         }
     }
-    //set the ViewFunction to run the eventFunctions
-    for(edk::uint32 i=this->nexts.size();i>0u;i--){
-        //test if the view exist
-        if(this->nexts[i-1u]){
-            //test if not get the contact
-            if(!ret){
+    if(state == edk::mouse::state::released){
+        //set the ViewFunction to run the eventFunctions
+        for(edk::uint32 i=this->nexts.size();i>0u;i--){
+            //test if the view exist
+            if(this->nexts[i-1u]){
+                //test if not get the contact
                 //test the contact
-                if(this->nexts[i-1u]->contact(point - this->animatedFrame.origin,state,buttons)){
-                    //
-                    ret=true;
-                }
-            }
-            else{
-                //test if it's a button
-                if(this->nexts[i-1u]->isButton()){
-                    //then remove the contact by testing it
-                    this->nexts[i-1u]->contact(point - this->animatedFrame.origin,state,buttons);
-                }
+                this->nexts[i-1u]->contact(point - this->animatedFrame.origin,state,buttons);
             }
         }
     }
+    this->edk::View::contact(point,state,buttons);
     //else return false
     return ret;
 }
