@@ -365,7 +365,7 @@ namespace edk{
     namespace physics{
         enum bodyType
         {
-            StaticBody = 1u,
+            StaticBody = 0u,
             KinematicBody,
             DynamicBody
         };
