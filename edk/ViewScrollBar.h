@@ -98,7 +98,6 @@ private:
 
         //Events
         virtual void eventMousePressed(edk::vec2f32 point,edk::uint32 button);
-        virtual void eventMouseMoved(edk::vec2f32 point,edk::uint32 button);
         virtual void eventMouseReleased(edk::vec2f32 point,edk::uint32 button);
 
         //draw the GU scene

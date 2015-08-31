@@ -44,8 +44,14 @@ public:
 
     //Events
     void eventMousePressed(edk::vec2f32 point,edk::uint32 button);
+    //Mouse go Inside Outside
+    void eventMouseEntryInsideView(edk::vec2f32 point);
+    void eventMouseLeftView(edk::vec2f32 point);
 
     void update(edk::WindowEvents* events);
+
+    //set move scroll percent
+    bool setMoveScrollPercent(edk::float32 moveScroll);
 
     //set camera Size
     void setCameraSize(edk::size2ui32 size);
@@ -75,6 +81,8 @@ private:
     edk::rectf32 saveFrame;
     //scrollBar
     edk::ViewScrollBar scroll;
+    //move with the mouseScroll
+    edk::float32 moveScroll;
 
     //update the cells position
     void updateCellPosition();

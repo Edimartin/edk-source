@@ -42,7 +42,6 @@ edk::ViewListSelection::ListCell::~ListCell(){
 //draw the rectangle
 void edk::ViewListSelection::ListCell::drawRect(){
     //draw a rectangle in the text position and size
-    edk::GU::guColor4f32(this->drawColor);
     edk::GU::guBegin(GU_QUADS);
     edk::GU::guVertex2f32((this->text.getPositionX()-0.5f),(this->text.getPositionY()-0.5f));
     edk::GU::guVertex2f32((this->text.getPositionX()-0.5f)+*this->lineSize,(this->text.getPositionY()-0.5f));
@@ -86,11 +85,13 @@ bool edk::ViewListSelection::ListCell::isSelected(){
 }
 //draw the cell
 void edk::ViewListSelection::ListCell::draw(){
+    edk::GU::guColor4f32(this->drawColor);
     this->drawRect();
     this->text.draw();
 }
 //draw for selection
 void edk::ViewListSelection::ListCell::drawSelection(){
+    edk::GU::guColor4f32(1,1,1,1);
     this->drawRect();
 }
 //set position
@@ -102,6 +103,7 @@ edk::ViewListSelection::ViewListSelection(){
     //cameraSize
     this->cameraWidth=1u;
     this->cameraHeight=1u;
+    this->moveScroll = 0.1f;
 }
 edk::ViewListSelection::~ViewListSelection(){
     //
@@ -139,6 +141,7 @@ void edk::ViewListSelection::testScroll(){
         if(this->getCount()){
             //remove the subview
             this->removeSubview(&this->scroll);
+            this->scroll.setPercentY(0.f);
         }
     }
 }
@@ -148,9 +151,17 @@ void edk::ViewListSelection::eventMousePressed(edk::vec2f32 point,edk::uint32 bu
     if(button == edk::mouse::left){
         this->testSelection(point);
     }
+    fflush(stdout);
+}
+//Mouse go Inside Outside
+void edk::ViewListSelection::eventMouseEntryInsideView(edk::vec2f32){
+    //
+}
+void edk::ViewListSelection::eventMouseLeftView(edk::vec2f32){
+    //
 }
 
-void edk::ViewListSelection::update(edk::WindowEvents*){
+void edk::ViewListSelection::update(edk::WindowEvents* events){
     if(this->saveFrame!=this->frame){
         this->saveFrame=this->frame;
         //update the scroll
@@ -162,6 +173,31 @@ void edk::ViewListSelection::update(edk::WindowEvents*){
     }
     this->camera.setRect(-0.5f,-0.5f,this->cameraWidth,this->cameraHeight);
     this->camera.position.y-=(this->camera.getSize().height-1.f);
+    //move the percent
+    this->camera.position.y-= (this->cells.size() - this->camera.getSize().height) * this->scroll.getPercentY();
+
+    //move the mouseScroll
+    if(this->pointInside(edk::vec2f32(events->mousePos.x,events->mousePos.y))){
+        this->scroll.setPercentY(this->scroll.getPercentY() + (events->mouseScrollWheel * this->moveScroll * -1));
+    }
+}
+
+//set move scroll percent
+bool edk::ViewListSelection::setMoveScrollPercent(edk::float32 moveScroll){
+    if(moveScroll>=0.f){
+        if(moveScroll<=1.f){
+            //
+            this->moveScroll = moveScroll;
+            return true;
+        }
+        else{
+            this->moveScroll = 1.f;
+        }
+    }
+    else{
+        this->moveScroll = 0.f;
+    }
+    return false;
 }
 
 //set camera Size
@@ -271,17 +307,12 @@ void edk::ViewListSelection::drawSelectionScene(){
     }
 }
 //process the selection
-void edk::ViewListSelection::selectObject(edk::uint32 object,edk::uint32 ,edk::float32 ,edk::float32 ,edk::vector::Stack<edk::uint32>* names){
+void edk::ViewListSelection::selectObject(edk::uint32 object,edk::uint32 size,edk::float32 ,edk::float32 ,edk::vector::Stack<edk::uint32>* names){
     //select the object
     if(names[0u].size() && !object){
         edk::uint32 position = names[0u][0u];
-        printf("\nSelect List == %u"
-               ,position
-               );fflush(stdout);
         edk::ViewListSelection::ListCell* cell = this->cells[position];
         if(cell) cell->select();
     }
-    else{
-        printf("\nSelect List == Nothing");fflush(stdout);
-    }
+    fflush(stdout);
 }

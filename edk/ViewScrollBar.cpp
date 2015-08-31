@@ -125,14 +125,57 @@ void edk::ViewScrollBar::ForegroundButton::eventMousePressed(edk::vec2f32 point,
                 point.y < this->polygonRect.origin.y+this->polygonRect.size.height
                 )
             this->mouseHolded=true;
+        else{
+            if(point.x>this->polygonRect.origin.x + this->polygonRect.size.width){
+                if(point.y>this->polygonRect.origin.y + this->polygonRect.size.height){
+                    //go + +
+                    this->setPosition(edk::vec2f32(this->polygonRect.origin.x + this->polygonRect.size.width,
+                                                   this->polygonRect.origin.y + this->polygonRect.size.height
+                                                   ));
+                }
+                else if(point.y<this->polygonRect.origin.y){
+                    //go + -
+                    this->setPosition(edk::vec2f32(this->polygonRect.origin.x + this->polygonRect.size.width,
+                                                   this->polygonRect.origin.y - this->polygonRect.size.height
+                                                   ));
+                }
+                else{
+                    //go + (0)
+                    this->setPositionX(this->polygonRect.origin.x + this->polygonRect.size.width);
+                }
+            }
+            else if(point.x<this->polygonRect.origin.x){
+                if(point.y>this->polygonRect.origin.y + this->polygonRect.size.height){
+                    //go - +
+                    this->setPosition(edk::vec2f32(this->polygonRect.origin.x - this->polygonRect.size.width,
+                                                   this->polygonRect.origin.y + this->polygonRect.size.height
+                                                   ));
+                }
+                else if(point.y<this->polygonRect.origin.y){
+                    //go - -
+                    this->setPosition(edk::vec2f32(this->polygonRect.origin.x - this->polygonRect.size.width,
+                                                   this->polygonRect.origin.y - this->polygonRect.size.height
+                                                   ));
+                }
+                else{
+                    //go - (0)
+                    this->setPositionX(this->polygonRect.origin.x - this->polygonRect.size.width);
+                }
+            }
+            else{
+                if(point.y>this->polygonRect.origin.y + this->polygonRect.size.height){
+                    //go (0) +
+                    this->setPositionY(this->polygonRect.origin.y + this->polygonRect.size.height);
+                }
+                else if(point.y<this->polygonRect.origin.y){
+                    //go (0) -
+                    this->setPositionY(this->polygonRect.origin.y - this->polygonRect.size.height);
+                }
+            }
+        }
     }
 }
-void edk::ViewScrollBar::ForegroundButton::eventMouseMoved(edk::vec2f32 point,edk::uint32 button){
-    if(button == edk::mouse::left){
-        //
-    }
-}
-void edk::ViewScrollBar::ForegroundButton::eventMouseReleased(edk::vec2f32 point,edk::uint32 button){
+void edk::ViewScrollBar::ForegroundButton::eventMouseReleased(edk::vec2f32 ,edk::uint32 button){
     if(button == edk::mouse::left){
         //
         this->mouseHolded=false;
@@ -426,6 +469,7 @@ void edk::ViewScrollBar::setBorderSize(edk::uint32 size){
     this->background.setBorderSize(size);
     this->foreground.setBorderSize(size);
 }
+
 //set the size
 void edk::ViewScrollBar::setForegroundSize(edk::size2f32 size){
     this->updateFrames();
