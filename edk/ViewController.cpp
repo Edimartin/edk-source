@@ -254,50 +254,47 @@ void ViewController::draw(edk::rectf32 outsideViewOrigin){
 bool ViewController::contact(edk::vec2f32 point,edk::uint8 state,edk::vector::Stack<edk::uint32>* buttons){
     //return
     bool ret=false;
-    //first test the contact
     if(this->pointInside(point)){
-        if(state == edk::mouse::state::pressed || state == edk::mouse::state::moved){
-            //set the ViewFunction to run the eventFunctions
-            for(edk::uint32 i=this->nexts.size();i>0u;i--){
-                //test if the view exist
-                if(this->nexts[i-1u]){
-                    //test if not get the contact
-                    if(!ret){
-                        //test the contact
-                        if(this->nexts[i-1u]->contact(point - this->animatedFrame.origin,state,buttons)){
-                            //
-                            ret=true;
-                        }
-                    }
-                    else{
-                        //test if it's a button
-                        if(this->nexts[i-1u]->isButton()){
-                            //then remove the contact by testing it
-                            this->nexts[i-1u]->contact(point - this->animatedFrame.origin,state,buttons);
-                        }
-                    }
-                }
-            }
-            if(!ret){
-                ret = this->edk::View::contact(point,state,buttons);
-            }
-            return ret;
-        }
-    }
-    if(state == edk::mouse::state::released){
-        //set the ViewFunction to run the eventFunctions
         for(edk::uint32 i=this->nexts.size();i>0u;i--){
             //test if the view exist
             if(this->nexts[i-1u]){
-                //test if not get the contact
                 //test the contact
-                this->nexts[i-1u]->contact(point - this->animatedFrame.origin,state,buttons);
+                if(ret){
+                    this->nexts[i-1u]->contactRelease(point - this->animatedFrame.origin,state,buttons);
+                }
+                else{
+                    if(this->nexts[i-1u]->contact(point - this->animatedFrame.origin,state,buttons)){
+                        //
+                        ret=true;
+                    }
+                    else{
+                        this->nexts[i-1u]->contactRelease(point - this->animatedFrame.origin,state,buttons);
+                    }
+                }
             }
         }
+        if(ret){
+            this->edk::View::contactRelease(point,state,buttons);
+        }
+        else{
+            ret = this->edk::View::contact(point,state,buttons);
+        }
     }
-    this->edk::View::contact(point,state,buttons);
+    else{
+        this->contactRelease(point,state,buttons);
+    }
     //else return false
     return ret;
+}
+void ViewController::contactRelease(edk::vec2f32 point,edk::uint8 state,edk::vector::Stack<edk::uint32>* buttons){
+    this->edk::View::contactRelease(point,state,buttons);
+    for(edk::uint32 i=this->nexts.size();i>0u;i--){
+        //test if the view exist
+        if(this->nexts[i-1u]){
+            //test the contact
+            this->nexts[i-1u]->contactRelease(point - this->animatedFrame.origin,state,buttons);
+        }
+    }
 }
 
 //return false to isLeaf

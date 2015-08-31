@@ -249,28 +249,28 @@ bool View::contact(edk::vec2f32 point,edk::uint8 state,edk::vector::Stack<edk::u
         //return true
         return true;
     }
-    else{
-        //test if mouse is inside
-        if(this->mouseInside){
-            //run the function to mouse left
-            this->eventMouseLeftView(this->mousePos);
-        }
-        //set the mouseInside to false
-        this->mouseInside=false;
+    //else return false
+    return false;
+}
+void View::contactRelease(edk::vec2f32 point,edk::uint8 state,edk::vector::Stack<edk::uint32>* buttons){
+    //test if mouse was inside
+    if(this->mouseInside){
+        //run the function to mouse left
+        this->eventMouseLeftView(this->mousePos);
+    }
+    //set the mouseInside to false
+    this->mouseInside=false;
 
-        //run the functions to the buttons
-        if(buttons){
-            //test the state of the mouse
-            if(state == edk::mouse::state::released){
-                //
-                for(edk::uint8 i=0u;i<buttons->size();i++){
-                    this->eventMouseReleased(point,buttons->get(i));
-                }
+    //run the functions to the buttons
+    if(buttons){
+        //test the state of the mouse
+        if(state == edk::mouse::state::released){
+            //
+            for(edk::uint8 i=0u;i<buttons->size();i++){
+                this->eventMouseReleased(point,buttons->get(i));
             }
         }
     }
-    //else return false
-    return false;
 }
 
 //Events
@@ -674,6 +674,11 @@ bool View::isGU(){
 bool View::isButton(){
     //
     return false;
+}
+
+//return true if the mouse is inside
+bool View::isMouseInside(){
+    return this->mouseInside;
 }
 
 //update the view

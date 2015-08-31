@@ -186,6 +186,7 @@ class View {
     void updateAnimations();
 
     virtual bool contact(edk::vec2f32 point,edk::uint8 state,edk::vector::Stack<edk::uint32>* buttons);
+    virtual void contactRelease(edk::vec2f32 point,edk::uint8 state,edk::vector::Stack<edk::uint32>* buttons);
 
     //Events
     virtual void eventMousePressed(edk::vec2f32 point,edk::uint32 button);
@@ -262,6 +263,9 @@ class View {
 
     //return true if is a buttonView
     virtual bool isButton();
+
+    //return true if the mouse is inside
+    virtual bool isMouseInside();
 
     //update the view
     virtual void updateView(edk::WindowEvents* events);

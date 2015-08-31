@@ -76,6 +76,9 @@ public:
     //get the scrollColor
     edk::color4f32 getBackColor();
     edk::color4f32 getFrontColor();
+
+    //return true if the mouse is inside
+    virtual bool isMouseInside();
 private:
     //one ViewButton to represent the backgroun
     edk::ViewMenu background;

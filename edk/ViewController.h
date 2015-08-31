@@ -86,6 +86,7 @@ class ViewController : public View {
 
     //process contact in the view
     bool contact(edk::vec2f32 point,edk::uint8 state,edk::vector::Stack<edk::uint32>* buttons);
+    void contactRelease(edk::vec2f32 point,edk::uint8 state,edk::vector::Stack<edk::uint32>* buttons);
 
     //return false to isLeaf
     bool isLeaf();

@@ -177,7 +177,8 @@ void edk::ViewListSelection::update(edk::WindowEvents* events){
     this->camera.position.y-= (this->cells.size() - this->camera.getSize().height) * this->scroll.getPercentY();
 
     //move the mouseScroll
-    if(this->pointInside(edk::vec2f32(events->mousePos.x,events->mousePos.y))){
+    //if(this->pointInside(edk::vec2f32(events->mousePos.x,events->mousePos.y))){
+    if(this->isMouseInside() || this->scroll.isMouseInside()){
         this->scroll.setPercentY(this->scroll.getPercentY() + (events->mouseScrollWheel * this->moveScroll * -1));
     }
 }

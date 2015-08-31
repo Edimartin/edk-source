@@ -452,7 +452,7 @@ void edk::ViewScrollBar::unload(){
     edk::ViewController::removeSubview(&this->background);
     edk::ViewController::removeSubview(&this->foreground);
 }
-void edk::ViewScrollBar::update(edk::WindowEvents* events){
+void edk::ViewScrollBar::update(edk::WindowEvents*){
     this->updateFrames();
     //update color
     if(this->backgroundColor.a){
@@ -526,17 +526,17 @@ void edk::ViewScrollBar::setFrontColor(edk::float32 r,edk::float32 g,edk::float3
 
 //return the percent
 edk::float32 edk::ViewScrollBar::getPercentX(){
-    this->foreground.getPercentX();
+    return this->foreground.getPercentX();
 }
 edk::float32 edk::ViewScrollBar::getPercentY(){
-    this->foreground.getPercentY();
+    return this->foreground.getPercentY();
 }
 edk::vec2f32 edk::ViewScrollBar::getPercent(){
-    this->foreground.getPercent();
+    return this->foreground.getPercent();
 }
 //return true if the scroll is selected
 bool edk::ViewScrollBar::isSelected(){
-    this->foreground.isMouseHolded();
+    return this->foreground.isMouseHolded();
 }
 
 //get the scrollColor
@@ -545,4 +545,9 @@ edk::color4f32 edk::ViewScrollBar::getBackColor(){
 }
 edk::color4f32 edk::ViewScrollBar::getFrontColor(){
     return this->foreground.backgroundColor;
+}
+
+//return true if the mouse is inside
+bool edk::ViewScrollBar::isMouseInside(){
+    return this->foreground.isMouseInside() || this->background.isMouseInside();
 }
