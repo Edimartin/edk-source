@@ -50,6 +50,9 @@ public:
 
     void update(edk::WindowEvents* events);
 
+    //return true if the mouse is inside
+    bool isMouseInside();
+
     //set move scroll percent
     bool setMoveScrollPercent(edk::float32 moveScroll);
 
@@ -58,14 +61,31 @@ public:
     void setCameraSize(edk::uint32 width,edk::uint32 height);
 
     //add a cell
-    bool addCell(const char* name,edk::color4f32 cellColor = edk::color4f32(1,1,1,1));
-    bool addCell(edk::char8* name,edk::color4f32 cellColor = edk::color4f32(1,1,1,1));
+    bool addCell(const char* name,edk::uint32 id=0u,edk::color4f32 cellColor = edk::color4f32(1,1,1,1));
+    bool addCell(edk::char8* name,edk::uint32 id=0u,edk::color4f32 cellColor = edk::color4f32(1,1,1,1));
+    //set cell string
+    bool setCellString(edk::uint32 position,const char* string);
+    bool setCellString(edk::uint32 position,edk::char8* string);
+    //set the cellID
+    bool setCellID(edk::uint32 position,edk::uint32 id);
     //remove a cell
     bool removeCell(edk::uint32 position);
     //clean the cells
     void cleanCells();
     //return the cell size
     edk::uint32 getCellSize();
+    //return true if have the cell
+    bool haveCell(edk::uint32 position);
+    //return the cell ID
+    edk::uint32 getCellID(edk::uint32 position);
+    //test if the cell is selected
+    bool isCellSelected(edk::uint32 position);
+    //set the cell select
+    bool setCellSelect(edk::uint32 position,bool select);
+    //select all cells
+    void selectAllCells();
+    void deselectAllCells();
+
 
     //draw the GU scene
     void drawScene(edk::rectf32 outsideViewOrigin);
@@ -103,6 +123,7 @@ private:
         edk::uint32 getTextWidth();
         //select the cell
         bool select();
+        void setSelect(bool set);
         //return true if the cell is celected;
         bool isSelected();
         //draw the cell
@@ -116,6 +137,8 @@ private:
         edk::color4f32 backgroundColor;
         //background color selected
         edk::color4f32 backgroundColorSelected;
+        //ID
+        edk::uint32 id;
     private:
         //color to draw
         edk::color4f32 drawColor;
