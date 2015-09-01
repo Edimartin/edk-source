@@ -60,6 +60,12 @@ public:
     void setCameraSize(edk::size2ui32 size);
     void setCameraSize(edk::uint32 width,edk::uint32 height);
 
+    //set color
+    void setScrollBackColor(edk::color4f32 color);
+    void setScrollBackColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
+    void setScrollFrontColor(edk::color4f32 color);
+    void setScrollFrontColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
+
     //add a cell
     bool addCell(const char* name,edk::uint32 id=0u,edk::color4f32 cellColor = edk::color4f32(1,1,1,1));
     bool addCell(edk::char8* name,edk::uint32 id=0u,edk::color4f32 cellColor = edk::color4f32(1,1,1,1));

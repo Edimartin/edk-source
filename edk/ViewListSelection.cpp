@@ -230,6 +230,20 @@ void edk::ViewListSelection::setCameraSize(edk::uint32 width,edk::uint32 height)
     this->testScroll();
 }
 
+//set color
+void edk::ViewListSelection::setScrollBackColor(edk::color4f32 color){
+    this->scroll.setBackColor(color);
+}
+void edk::ViewListSelection::setScrollBackColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
+    this->setScrollBackColor(edk::color4f32(r,g,b,a));
+}
+void edk::ViewListSelection::setScrollFrontColor(edk::color4f32 color){
+    this->scroll.setFrontColor(color);
+}
+void edk::ViewListSelection::setScrollFrontColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
+    this->setScrollFrontColor(edk::color4f32(r,g,b,a));
+}
+
 //add a cell
 bool edk::ViewListSelection::addCell(const char* name,edk::uint32 id,edk::color4f32 cellColor){
     return this->addCell((edk::char8*) name,id,cellColor);

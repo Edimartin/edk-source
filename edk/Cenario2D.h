@@ -202,6 +202,8 @@ public:
     edk::uint8 getLevelType(edk::uint32 levelPosition);
     //test if have the level
     bool haveLevel(edk::uint32 levelPosition);
+    //return the levelSize
+    edk::uint32 getLevelSize();
 
     //XML
     virtual bool writeToXML(edk::XML* xml,edk::uint32 id);
