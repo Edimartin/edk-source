@@ -67,8 +67,8 @@ public:
     void setScrollFrontColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
 
     //add a cell
-    bool addCell(const char* name,edk::uint32 id=0u,edk::color4f32 cellColor = edk::color4f32(1,1,1,1));
-    bool addCell(edk::char8* name,edk::uint32 id=0u,edk::color4f32 cellColor = edk::color4f32(1,1,1,1));
+    edk::uint32 addCell(const char* name,edk::uint32 id=0u,edk::color4f32 cellColor = edk::color4f32(1,1,1,1));
+    edk::uint32 addCell(edk::char8* name,edk::uint32 id=0u,edk::color4f32 cellColor = edk::color4f32(1,1,1,1));
     //set cell string
     bool setCellString(edk::uint32 position,const char* string);
     bool setCellString(edk::uint32 position,edk::char8* string);
@@ -91,7 +91,10 @@ public:
     //select all cells
     void selectAllCells();
     void deselectAllCells();
-
+    //get cell clicked
+    bool haveClickCell();
+    //return the cell click position
+    edk::uint32 getClickPosition();
 
     //draw the GU scene
     void drawScene(edk::rectf32 outsideViewOrigin);
@@ -159,6 +162,9 @@ private:
     };
     //stack to put the cells
     edk::vector::Stack<edk::ViewListSelection::ListCell*> cells;
+    //save the last clicked
+    edk::ViewListSelection::ListCell* clicked;
+    edk::uint32 clickedPosition;
 };
 }
 

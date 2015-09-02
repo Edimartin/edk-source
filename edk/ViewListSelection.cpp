@@ -82,6 +82,10 @@ bool edk::ViewListSelection::ListCell::select(){
 }
 void edk::ViewListSelection::ListCell::setSelect(bool set){
     this->selected = set;
+    if(this->selected)
+        this->drawColor = this->backgroundColorSelected;
+    else
+        this->drawColor = this->backgroundColor;
 }
 
 //return true if the cell is celected;
@@ -109,6 +113,8 @@ edk::ViewListSelection::ViewListSelection(){
     this->cameraWidth=1u;
     this->cameraHeight=1u;
     this->moveScroll = 0.1f;
+    this->clicked = NULL;
+    this->clickedPosition=0u;
 }
 edk::ViewListSelection::~ViewListSelection(){
     //
@@ -245,10 +251,10 @@ void edk::ViewListSelection::setScrollFrontColor(edk::float32 r,edk::float32 g,e
 }
 
 //add a cell
-bool edk::ViewListSelection::addCell(const char* name,edk::uint32 id,edk::color4f32 cellColor){
+edk::uint32 edk::ViewListSelection::addCell(const char* name,edk::uint32 id,edk::color4f32 cellColor){
     return this->addCell((edk::char8*) name,id,cellColor);
 }
-bool edk::ViewListSelection::addCell(edk::char8* name,edk::uint32 id,edk::color4f32 cellColor){
+edk::uint32 edk::ViewListSelection::addCell(edk::char8* name,edk::uint32 id,edk::color4f32 cellColor){
     if(name){
         //create the new cell
         edk::ViewListSelection::ListCell* cell = new edk::ViewListSelection::ListCell(&this->cameraWidth);
@@ -265,14 +271,14 @@ bool edk::ViewListSelection::addCell(edk::char8* name,edk::uint32 id,edk::color4
                     //move the cell to the position
                     cell->setPosition(position*-1.f);
                     cell->id = id;
-                    return true;
+                    return size;
                 }
             }
             //else delete the cell
             delete cell;
         }
     }
-    return false;
+    return 0u;
 }
 //set cell string
 bool edk::ViewListSelection::setCellString(edk::uint32 position,const char* string){
@@ -375,6 +381,20 @@ void edk::ViewListSelection::deselectAllCells(){
         this->cells[i]->setSelect(false);
     }
 }
+//get cell clicked
+bool edk::ViewListSelection::haveClickCell(){
+    if(this->clicked)
+        return true;
+    return false;
+}
+//return the cell click position
+edk::uint32 edk::ViewListSelection::getClickPosition(){
+    if(this->clicked){
+        this->clicked = NULL;
+        return this->clickedPosition;
+    }
+    return 0u;
+}
 
 //draw the GU scene
 void edk::ViewListSelection::drawScene(edk::rectf32){
@@ -401,9 +421,9 @@ void edk::ViewListSelection::drawSelectionScene(){
 void edk::ViewListSelection::selectObject(edk::uint32 object,edk::uint32 size,edk::float32 ,edk::float32 ,edk::vector::Stack<edk::uint32>* names){
     //select the object
     if(names[0u].size() && !object){
-        edk::uint32 position = names[0u][0u];
-        edk::ViewListSelection::ListCell* cell = this->cells[position];
-        if(cell) cell->select();
+        this->clickedPosition = names[0u][0u];
+        this->clicked = this->cells[this->clickedPosition];
+        if(this->clicked) this->clicked->select();
     }
     fflush(stdout);
 }

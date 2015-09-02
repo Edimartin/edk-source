@@ -2558,6 +2558,18 @@ void edk::Cenario2D::draw(){
         }
     }
 }
+bool edk::Cenario2D::drawLevel(edk::uint32 levelPosition){
+    //draw the levelPosition
+    if(levelPosition){
+        levelPosition--;
+        edk::Cenario2D::LevelObj* level=this->levels[levelPosition];
+        if(level){
+            level->draw();
+            return true;
+        }
+    }
+    return false;
+}
 void edk::Cenario2D::drawSelection(){
     //draw the levels
     edk::uint32 size = this->levels.size();

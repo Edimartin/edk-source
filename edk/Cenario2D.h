@@ -192,6 +192,7 @@ public:
     void updateAnimations();
     //draw the cenario with all the objects
     void draw();
+    bool drawLevel(edk::uint32 levelPosition);
     void drawSelection();
 
     //get level type
