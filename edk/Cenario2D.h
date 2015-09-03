@@ -194,6 +194,7 @@ public:
     void draw();
     bool drawLevel(edk::uint32 levelPosition);
     void drawSelection();
+    bool drawSelectionLevel(edk::uint32 levelPosition);
 
     //get level type
     //EDK_LEVEL_NOTHING

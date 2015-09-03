@@ -2562,8 +2562,8 @@ bool edk::Cenario2D::drawLevel(edk::uint32 levelPosition){
     //draw the levelPosition
     if(levelPosition){
         levelPosition--;
-        edk::Cenario2D::LevelObj* level=this->levels[levelPosition];
-        if(level){
+        if(levelPosition<this->levels.size()){
+            edk::Cenario2D::LevelObj* level=this->levels[levelPosition];
             level->draw();
             return true;
         }
@@ -2582,6 +2582,20 @@ void edk::Cenario2D::drawSelection(){
             edk::GU::guPopName();
         }
     }
+}
+bool edk::Cenario2D::drawSelectionLevel(edk::uint32 levelPosition){
+    //draw the levelPosition
+    if(levelPosition){
+        levelPosition--;
+        if(levelPosition<this->levels.size()){
+            edk::Cenario2D::LevelObj* level=this->levels[levelPosition];
+            edk::GU::guPushName(levelPosition+1u);
+            level->drawSelection();
+            edk::GU::guPopName();
+            return true;
+        }
+    }
+    return false;
 }
 
 //get level type
