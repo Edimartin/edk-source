@@ -36,6 +36,7 @@ Gravatai RS Brazil 94065100
 #include <stdlib.h>
 #endif
 #include <string.h>
+#include "../String.h"
 
 namespace edk{
 namespace encrypt{
@@ -45,8 +46,14 @@ public:
     ~MD5();
 
     //processa o MD5
-    static bool md5(edk::uchar8 *pass, edk::uint32 size, edk::uchar8 *dest);
-    static edk::uchar8* md5(edk::uchar8 *pass, edk::uint32 size);
+    static bool convertTo(edk::char8 *pass, edk::uint32 size, edk::char8 *dest);
+    static bool convertTo(const char *pass, edk::uint32 size, edk::char8 *dest);
+    static bool convertTo(edk::char8 *pass, edk::char8 *dest);
+    static bool convertTo(const char *pass, edk::char8 *dest);
+    static edk::char8* convert(edk::char8 *pass, edk::uint32 size);
+    static edk::char8* convert(const char *pass, edk::uint32 size);
+    static edk::char8* convert(edk::char8 *pass);
+    static edk::char8* convert(const char *pass);
 };
 }//end namespace encrypt
 }//end namespace edk

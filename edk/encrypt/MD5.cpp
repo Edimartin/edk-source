@@ -179,12 +179,12 @@ void md5Wiki(const Md5uint8_t *initial_msg, size_t initial_len, Md5uint8_t *dige
 }
 
 //processa o MD5
-bool edk::encrypt::MD5::md5(edk::uchar8 *pass, edk::uint32 size, edk::uchar8 *dest){
+bool edk::encrypt::MD5::convertTo(edk::char8 *pass, edk::uint32 size, edk::char8 *dest){
     //testa as strings e os tamanhos
     if (pass && size && dest){
         //processa o MD5
         unsigned char result[16];
-        md5Wiki(pass, size, result);
+        md5Wiki((Md5uint8_t *)pass, size, result);
         //escreve o resultado no destino
 #ifdef _MSC_VER
         sprintf_s((char*)dest,33u
@@ -197,16 +197,33 @@ bool edk::encrypt::MD5::md5(edk::uchar8 *pass, edk::uint32 size, edk::uchar8 *de
     //senao retorna false
     return false;
 }
-edk::uchar8* edk::encrypt::MD5::md5(edk::uchar8 *pass, edk::uint32 size){
-    //
-    edk::uchar8* ret=NULL;
+bool edk::encrypt::MD5::convertTo(const char *pass, edk::uint32 size, edk::char8 *dest){
+    return edk::encrypt::MD5::convertTo((edk::char8 *)pass, size, dest);
+}
+bool edk::encrypt::MD5::convertTo(edk::char8 *pass, edk::char8 *dest){
+    return edk::encrypt::MD5::convertTo(pass,edk::String::strSize(pass),dest);
+}
+bool edk::encrypt::MD5::convertTo(const char *pass, edk::char8 *dest){
+    return edk::encrypt::MD5::convertTo((edk::char8 *)pass, dest);
+}
+edk::char8* edk::encrypt::MD5::convert(edk::char8 *pass, edk::uint32 size){
+    edk::char8* ret=NULL;
     if (pass && size){
         //cria a string de retorno
-        ret = new edk::uchar8[33u];
+        ret = new edk::char8[33u];
         if (ret){
-            edk::encrypt::MD5::md5(pass, size,ret);
+            edk::encrypt::MD5::convertTo(pass, size,ret);
         }
     }
     //senao retorna NULL
     return ret;
+}
+edk::char8* edk::encrypt::MD5::convert(const char *pass, edk::uint32 size){
+    return edk::encrypt::MD5::convert((edk::char8 *)pass, size);
+}
+edk::char8* edk::encrypt::MD5::convert(edk::char8 *pass){
+    return edk::encrypt::MD5::convert(pass, edk::String::strSize(pass));
+}
+edk::char8* edk::encrypt::MD5::convert(const char *pass){
+    return edk::encrypt::MD5::convert((edk::char8 *)pass);
 }
