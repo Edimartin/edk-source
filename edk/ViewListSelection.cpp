@@ -159,10 +159,12 @@ void edk::ViewListSelection::testScroll(){
 
 //Events
 void edk::ViewListSelection::eventMousePressed(edk::vec2f32 point,edk::uint32 button){
-    if(button == edk::mouse::left){
+    if(button){
         this->testSelection(point);
+        //save the mouseButton
+        this->mouseButtons.add(button);
+        if(button == edk::mouse::left) this->clickLeft = true;
     }
-    fflush(stdout);
 }
 //Mouse go Inside Outside
 void edk::ViewListSelection::eventMouseEntryInsideView(edk::vec2f32){
@@ -395,6 +397,27 @@ edk::uint32 edk::ViewListSelection::getClickPosition(){
     }
     return 0u;
 }
+//test if have clicled one button
+bool edk::ViewListSelection::haveClickedButton(edk::uint32 button){
+    if(this->mouseButtons.haveElement(button)){
+        this->mouseButtons.remove(button);
+        return true;
+    }
+    return false;
+}
+bool edk::ViewListSelection::haveClickedLeftButton(){
+    return this->haveClickedButton(edk::mouse::left);
+}
+bool edk::ViewListSelection::haveClickedRightButton(){
+    return this->haveClickedButton(edk::mouse::right);
+}
+bool edk::ViewListSelection::haveClickedMiddleButton(){
+    return this->haveClickedButton(edk::mouse::middle);
+}
+//clean the mouseButtons
+bool edk::ViewListSelection::cleanClickedButtons(){
+    this->mouseButtons.clean();
+}
 
 //draw the GU scene
 void edk::ViewListSelection::drawScene(edk::rectf32){
@@ -423,7 +446,12 @@ void edk::ViewListSelection::selectObject(edk::uint32 object,edk::uint32 size,ed
     if(names[0u].size() && !object){
         this->clickedPosition = names[0u][0u];
         this->clicked = this->cells[this->clickedPosition];
-        if(this->clicked) this->clicked->select();
+        //test if have clicked the left mouseButton
+        if(this->clickLeft){
+            //select the cell
+            if(this->clicked)
+                this->clicked->select();
+            this->clickLeft=false;
+        }
     }
-    fflush(stdout);
 }

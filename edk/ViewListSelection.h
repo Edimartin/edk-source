@@ -95,6 +95,13 @@ public:
     bool haveClickCell();
     //return the cell click position
     edk::uint32 getClickPosition();
+    //test if have clicled one button
+    bool haveClickedButton(edk::uint32 button);
+    bool haveClickedLeftButton();
+    bool haveClickedRightButton();
+    bool haveClickedMiddleButton();
+    //clean the mouseButtons
+    bool cleanClickedButtons();
 
     //draw the GU scene
     void drawScene(edk::rectf32 outsideViewOrigin);
@@ -112,6 +119,9 @@ private:
     edk::ViewScrollBar scroll;
     //move with the mouseScroll
     edk::float32 moveScroll;
+    //mouse buttons clicked
+    edk::vector::BinaryTree<edk::uint8> mouseButtons;
+    bool clickLeft;
 
     //update the cells position
     void updateCellPosition();
