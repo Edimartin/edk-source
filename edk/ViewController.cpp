@@ -202,6 +202,8 @@ bool ViewController::removeSubview(edk::View *subView){
             //then remove the same
             this->nexts.remove((edk::uint32)id);
 
+            //remove the mouseInside
+            this->mouseInside = false;
             //run unload
             subView->unload();
             return true;

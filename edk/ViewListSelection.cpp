@@ -162,7 +162,7 @@ void edk::ViewListSelection::eventMousePressed(edk::vec2f32 point,edk::uint32 bu
     if(button){
         this->testSelection(point);
         //save the mouseButton
-        this->mouseButtons.add(button);
+        this->mouseButtonsNew.add(button);
         if(button == edk::mouse::left) this->clickLeft = true;
     }
 }
@@ -172,6 +172,12 @@ void edk::ViewListSelection::eventMouseEntryInsideView(edk::vec2f32){
 }
 void edk::ViewListSelection::eventMouseLeftView(edk::vec2f32){
     //
+}
+
+//unload the mouseInside
+void edk::ViewListSelection::unload(){
+    this->mouseInside = false;
+    this->scroll.mouseInside = false;
 }
 
 void edk::ViewListSelection::update(edk::WindowEvents* events){
@@ -265,6 +271,7 @@ edk::uint32 edk::ViewListSelection::addCell(edk::char8* name,edk::uint32 id,edk:
             if(cell->createText(name)){
                 //set the cell color
                 cell->backgroundColor = cellColor;
+                cell->setSelect(false);
                 edk::uint32 size = this->cells.size();
                 //add the cell to the stack
                 edk::uint32 position = this->cells.pushBack(cell);
@@ -415,7 +422,7 @@ bool edk::ViewListSelection::haveClickedMiddleButton(){
     return this->haveClickedButton(edk::mouse::middle);
 }
 //clean the mouseButtons
-bool edk::ViewListSelection::cleanClickedButtons(){
+void edk::ViewListSelection::cleanClickedButtons(){
     this->mouseButtons.clean();
 }
 
@@ -441,11 +448,18 @@ void edk::ViewListSelection::drawSelectionScene(){
     }
 }
 //process the selection
-void edk::ViewListSelection::selectObject(edk::uint32 object,edk::uint32 size,edk::float32 ,edk::float32 ,edk::vector::Stack<edk::uint32>* names){
+void edk::ViewListSelection::selectObject(edk::uint32 object,edk::uint32 ,edk::float32 ,edk::float32 ,edk::vector::Stack<edk::uint32>* names){
     //select the object
     if(names[0u].size() && !object){
         this->clickedPosition = names[0u][0u];
         this->clicked = this->cells[this->clickedPosition];
+
+        //copy the mouseButtons
+        edk::uint32 size = this->mouseButtonsNew.size();
+        for(edk::uint32 i=0u;i<size;i++){
+            this->mouseButtons.add(this->mouseButtonsNew.getElementInPosition(i));
+        }
+
         //test if have clicked the left mouseButton
         if(this->clickLeft){
             //select the cell
@@ -454,4 +468,6 @@ void edk::ViewListSelection::selectObject(edk::uint32 object,edk::uint32 size,ed
             this->clickLeft=false;
         }
     }
+    this->clickLeft = false;
+    this->mouseButtonsNew.clean();
 }

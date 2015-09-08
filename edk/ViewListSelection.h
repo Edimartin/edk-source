@@ -48,6 +48,9 @@ public:
     void eventMouseEntryInsideView(edk::vec2f32 point);
     void eventMouseLeftView(edk::vec2f32 point);
 
+    //unload the mouseInside
+    void unload();
+
     void update(edk::WindowEvents* events);
 
     //return true if the mouse is inside
@@ -101,7 +104,7 @@ public:
     bool haveClickedRightButton();
     bool haveClickedMiddleButton();
     //clean the mouseButtons
-    bool cleanClickedButtons();
+    void cleanClickedButtons();
 
     //draw the GU scene
     void drawScene(edk::rectf32 outsideViewOrigin);
@@ -121,6 +124,7 @@ private:
     edk::float32 moveScroll;
     //mouse buttons clicked
     edk::vector::BinaryTree<edk::uint8> mouseButtons;
+    edk::vector::BinaryTree<edk::uint8> mouseButtonsNew;
     bool clickLeft;
 
     //update the cells position
