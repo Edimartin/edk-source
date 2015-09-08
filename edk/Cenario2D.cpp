@@ -2636,6 +2636,25 @@ bool edk::Cenario2D::haveLevel(edk::uint32 levelPosition){
 edk::uint32 edk::Cenario2D::getLevelSize(){
     return this->levels.size();
 }
+//move the level to back
+bool edk::Cenario2D::moveLevelBack(edk::uint32 levelPosition){
+    if(levelPosition){
+        levelPosition--;
+        if(this->levels.havePos(levelPosition)){
+            return this->levels.bringPositionMinusOne(levelPosition);
+        }
+    }
+    return false;
+}
+bool edk::Cenario2D::moveLevelFront(edk::uint32 levelPosition){
+    if(levelPosition){
+        levelPosition--;
+        if(this->levels.havePos(levelPosition)){
+            return this->levels.bringPositionPlusOne(levelPosition);
+        }
+    }
+    return false;
+}
 
 //XML
 bool edk::Cenario2D::writeToXML(edk::XML* xml,edk::uint32 id){

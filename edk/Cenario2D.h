@@ -206,6 +206,9 @@ public:
     bool haveLevel(edk::uint32 levelPosition);
     //return the levelSize
     edk::uint32 getLevelSize();
+    //move the level to back
+    bool moveLevelBack(edk::uint32 levelPosition);
+    bool moveLevelFront(edk::uint32 levelPosition);
 
     //XML
     virtual bool writeToXML(edk::XML* xml,edk::uint32 id);
