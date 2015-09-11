@@ -80,6 +80,7 @@ public:
     edk::Object2D* getObject(edk::uint32 levelPosition,edk::uint32 position);
     //get the objectDepth
     edk::float32 getObjectDepth(edk::uint32 levelPosition,edk::uint32 position);
+    edk::float32 getObjectDepth(edk::uint32 levelPosition,edk::Object2D* obj);
     //delete the object
     bool deleteObject(edk::uint32 levelPosition,edk::Object2D* obj);
     void deleteAllObjects(edk::uint32 levelPosition);
@@ -513,6 +514,18 @@ private:
             objClass = this->getElementInPosition(position);
             if(objClass){
                 return objClass->depth;
+            }
+            return 0.f;
+        }
+        edk::float32 getObjectDepth(edk::Object2D* obj){
+            if(obj){
+                //get the object
+                edk::Cenario2D::ObjClass* objClass = this->getObjClass(obj);
+                if(objClass){
+                    if(objClass->getObject() == obj){
+                        return objClass->depth;
+                    }
+                }
             }
             return 0.f;
         }

@@ -1850,6 +1850,23 @@ edk::float32 edk::Cenario2D::getObjectDepth(edk::uint32 levelPosition,edk::uint3
     }
     return 0.f;
 }
+edk::float32 edk::Cenario2D::getObjectDepth(edk::uint32 levelPosition,edk::Object2D* obj){
+    if(obj){
+        //load the level
+        if(levelPosition){
+            levelPosition--;
+            if(this->levels.havePos(levelPosition)){
+                edk::Cenario2D::LevelObj* level =this->levels[levelPosition];
+                if(level){
+                    if(level->objs){
+                        return level->objs->getObjectDepth(obj);
+                    }
+                }
+            }
+        }
+    }
+    return 0.f;
+}
 
 //delete the object
 bool edk::Cenario2D::deleteObject(edk::uint32 levelPosition,edk::Object2D* obj){
