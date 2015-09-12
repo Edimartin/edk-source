@@ -134,6 +134,10 @@ void edk::ViewGU::runSelectionfunction(){
         this->processHits(total,buffer);
     }
 }
+//get true if go run selection
+bool edk::ViewGU::isRunningSelection(){
+    return this->runSelection;
+}
 
 //load the background
 bool edk::ViewGU::loadBackground(const char* name){

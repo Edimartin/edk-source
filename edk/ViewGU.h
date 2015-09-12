@@ -74,6 +74,8 @@ class ViewGU: public edk::ViewSpriteController{
     virtual void processHits(edk::uint32 hits, edk::uint32 buffer[]);
     //run selection function
     void runSelectionfunction();
+    //get true if go run selection
+    bool isRunningSelection();
     private:
     //save selection position
     edk::vec2f32 selectionPosition;
