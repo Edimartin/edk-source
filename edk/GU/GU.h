@@ -2075,7 +2075,7 @@ public:
     //alloc the buffer
     static bool guSetSelectionBuffer(edk::uint32 size,edk::uint32* vector);
     //Set renderMode
-    static edk::uint32 guRenderMode( edk::uint32 mode);
+    static edk::int32 guRenderMode( edk::uint32 mode);
     //init the names
     static void guInitNames();
     //push a name

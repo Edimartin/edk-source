@@ -93,29 +93,29 @@ edk::uint64 edk::BinaryConverter::swapBytes(edk::uint64 value){
     return  (edk::uint64)
             ((edk::uchar8)(                     value>>56u  ))     |
             ((edk::uchar8)(                     value>>48u  )) <<8u|
-                                                                   ((edk::uchar8)(                     value>>40u  ))<<16u|
-                                                                   ((edk::uchar8)(                     value>>32u  ))<<24u|
-                                                                   ((edk::uint64)((edk::uchar8)(value>>24u )))<<32u|
-                                                                   ((edk::uint64)((edk::uchar8)(value>>16u )))<<40u|
-                                                                   ((edk::uint64)((edk::uchar8)(value>>8u  )))<<48u|
-                                                                   ((edk::uint64)((edk::uchar8)(value      )))<<56u
-                                                                   ;
+                                                                 ((edk::uchar8)(                     value>>40u  ))<<16u|
+                                                                 ((edk::uchar8)(                     value>>32u  ))<<24u|
+                                                                 ((edk::uint64)((edk::uchar8)(value>>24u )))<<32u|
+                                                                 ((edk::uint64)((edk::uchar8)(value>>16u )))<<40u|
+                                                                 ((edk::uint64)((edk::uchar8)(value>>8u  )))<<48u|
+                                                                 ((edk::uint64)((edk::uchar8)(value      )))<<56u
+                                                                 ;
 }
 edk::uint32 edk::BinaryConverter::swapBytes(edk::uint32 value){
     //
     return  (edk::uint32)
             ((edk::uchar8)(value>>24u))     |
             ((edk::uchar8)(value>>16u)) <<8u|
-                                            ((edk::uchar8)(value>>8u ))<<16u|
-                                            ((edk::uchar8)(value     ))<<24u
-                                            ;
+                                          ((edk::uchar8)(value>>8u ))<<16u|
+                                          ((edk::uchar8)(value     ))<<24u
+                                          ;
 }
 edk::uint16 edk::BinaryConverter::swapBytes(edk::uint16 value){
     //
     return  (edk::uint16)
             ((edk::uchar8)(value>>8u))    |
             ((edk::uint16)(value))   <<8u
-                                          ;
+                                       ;
 }
 
 
@@ -157,6 +157,41 @@ edk::uint32 edk::BinaryConverter::setBitTrue(edk::uint32 number,edk::uchar8 posi
     return number;
 }
 */
+edk::uint32 edk::BinaryConverter::joinBits(edk::uint32 number1,edk::uint32 number2,edk::uint32 position){
+    edk::uint32 ret = number1;
+    if(position<=32u){
+        ret  = ret<<position;
+        position = 32u-position;
+        number2 = (number2<<position)>>position;
+        ret = ret|number2;
+    }
+    return ret;
+}
+edk::uint64 edk::BinaryConverter::joinBits(edk::uint64 number1,edk::uint64 number2,edk::uint32 position){
+    edk::uint64 ret = number1;
+    if(position<=64u){
+        ret  = ret<<position;
+        position = 64u-position;
+        number2 = (number2<<position)>>position;
+        ret = ret|number2;
+    }
+    return ret;
+}
+edk::uint32 edk::BinaryConverter::getStart(edk::uint32 number,edk::uint8 position){
+    return number>>position;
+}
+edk::uint64 edk::BinaryConverter::getStart(edk::uint64 number,edk::uint8 position){
+    return number>>position;
+}
+edk::uint32 edk::BinaryConverter::getEnd(edk::uint32 number,edk::uint8 position){
+    position = 32u-position;
+    return (number<<position)>>position;
+}
+edk::uint64 edk::BinaryConverter::getEnd(edk::uint64 number,edk::uint8 position){
+    position = 64u-position;
+    return (number<<position)>>position;
+}
+
 //testa se um bit especifico esta true or false
 bool edk::BinaryConverter::testBit(edk::uchar8 byte,edk::uchar8 position){
 

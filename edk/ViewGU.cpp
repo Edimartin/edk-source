@@ -60,7 +60,7 @@ void edk::ViewGU::drawPolygon(rectf32 outsideViewOrigin){
     //then draw the scene
     this->drawScene(outsideViewOrigin);
 
-    this->runSelectionfunction();
+    this->runSelectionFunction();
 
     edk::GU::guDisableAllLights();
 }
@@ -69,14 +69,14 @@ void edk::ViewGU::drawSelectionCamera(){
     //
 }
 //process the selection
-void edk::ViewGU::processHits(edk::uint32 hits, edk::uint32 buffer[]){
+void edk::ViewGU::processHits(edk::int32 hits, edk::uint32 buffer[]){
     edk::uint32 i, j;
     edk::uint32 names, *ptr;
     edk::float32 near=0.f,far=0.f;
     //stack with names
     edk::vector::Stack<edk::uint32> nameStack;
 
-    if(hits){
+    if(hits>0){
         ptr = (GLuint *) buffer;
         for (i = 0; i < hits; i++) {  /* for each hit  */
             nameStack.clean();
@@ -99,7 +99,7 @@ void edk::ViewGU::processHits(edk::uint32 hits, edk::uint32 buffer[]){
     }
 }
 //run selection function
-void edk::ViewGU::runSelectionfunction(){
+void edk::ViewGU::runSelectionFunction(){
     //test if need run the selection
     if(this->runSelection){
         //
@@ -130,7 +130,7 @@ void edk::ViewGU::runSelectionfunction(){
 
         this->drawSelectionScene();
 
-        edk::uint32 total = edk::GU::guRenderMode(GU_RENDER);
+        edk::int32 total = edk::GU::guRenderMode(GU_RENDER);
         this->processHits(total,buffer);
     }
 }

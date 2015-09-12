@@ -594,22 +594,22 @@ void edk::tiles::TileMap2D::drawInsideWorldRect(edk::rectf32 rect,edk::color4f32
     this->draw(origin,size,color);
 }
 //draw the tile for selection
-void edk::tiles::TileMap2D::drawSelection(edk::color4f32 color){
+void edk::tiles::TileMap2D::drawSelection(edk::uint8 id,edk::color4f32 color){
     if(this->tileSet){
         edk::vec2f32 positionTemp = this->getPosition();
         //set the transformation
         edk::GU::guPushMatrix();
+
+        edk::uint32 count=1u;
         for(unsigned int y=0u,y2=this->sizeMap.height-1u;y<this->sizeMap.height;y++,y2--){
             for(unsigned int x=0u;x<this->sizeMap.width;x++){
                 //draw the tile
-                edk::GU::guPushName(x);
-                edk::GU::guPushName(y);
+                edk::GU::guPushName(edk::BinaryConverter::joinBits(id,count++,24));
                 this->tileSet->drawTile( this->tileMap[y][x]
                                          ,(x*this->scaleMap.width) + positionTemp.x
                                          ,(y2*this->scaleMap.height) + positionTemp.y
                                          ,0.f,this->scaleMap,color
                                          );
-                edk::GU::guPopName();
                 edk::GU::guPopName();
             }
         }
@@ -620,7 +620,7 @@ void edk::tiles::TileMap2D::drawSelection(edk::color4f32 color){
         edk::GU::guPopMatrix();
     }
 }
-void edk::tiles::TileMap2D::drawSelection(edk::vec2ui32 origin,edk::size2ui32 last,edk::color4f32 color){
+void edk::tiles::TileMap2D::drawSelection(edk::vec2ui32 origin,edk::size2ui32 last,edk::uint8 id,edk::color4f32 color){
     if(this->tileSet){
         if(last.width>this->sizeMap.width) last.width=this->sizeMap.width;
         if(last.height>this->sizeMap.height) last.height=this->sizeMap.height;
@@ -637,22 +637,19 @@ void edk::tiles::TileMap2D::drawSelection(edk::vec2ui32 origin,edk::size2ui32 la
             edk::GU::guPushMatrix();
             //last.height++;
             //last.width++;
-
+            edk::uint32 count=1u;
             for(unsigned int y=origin.y,y2=this->sizeMap.height-origin.y-1u;y<last.height;y++,y2--){
                 for(unsigned int x=origin.x;x<last.width;x++){
                     //draw the tile
-                    edk::GU::guPushName(x);
-                    edk::GU::guPushName(y);
+                    edk::GU::guPushName(edk::BinaryConverter::joinBits(id,count++,24));
                     this->tileSet->drawTile( this->tileMap[y][x]
                                              ,(x*this->scaleMap.width) + positionTemp.x
                                              ,(y2*this->scaleMap.height) + positionTemp.y
                                              ,0.f,this->scaleMap,color
                                              );
                     edk::GU::guPopName();
-                    edk::GU::guPopName();
                 }
             }
-
         }
 
         //draw physics objects
@@ -661,7 +658,7 @@ void edk::tiles::TileMap2D::drawSelection(edk::vec2ui32 origin,edk::size2ui32 la
         edk::GU::guPopMatrix();
     }
 }
-void edk::tiles::TileMap2D::drawInsideWorldRectSelection(edk::rectf32 rect,edk::color4f32 color){
+void edk::tiles::TileMap2D::drawInsideWorldRectSelection(edk::rectf32 rect,edk::uint8 id,edk::color4f32 color){
     //scale the points
     rect.origin.x /= this->scaleMap.width;
     rect.origin.y /= this->scaleMap.height;
@@ -700,7 +697,7 @@ void edk::tiles::TileMap2D::drawInsideWorldRectSelection(edk::rectf32 rect,edk::
     //generate the size
     edk::size2ui32 size = edk::size2ui32((edk::uint32)rect.origin.x,(edk::uint32)rect.origin.y);
 
-    this->drawSelection(origin,size,color);
+    this->drawSelection(origin,size,id,color);
 }
 
 //print the tileMap ID's

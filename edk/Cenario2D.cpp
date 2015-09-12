@@ -2594,9 +2594,7 @@ void edk::Cenario2D::drawSelection(){
     for(edk::uint32 i=0u;i<size;i++){
         level=this->levels[i];
         if(level){
-            edk::GU::guPushName(i+1u);
-            level->drawSelection();
-            edk::GU::guPopName();
+            level->drawSelection(i+1u);
         }
     }
 }
@@ -2606,9 +2604,7 @@ bool edk::Cenario2D::drawSelectionLevel(edk::uint32 levelPosition){
         levelPosition--;
         if(levelPosition<this->levels.size()){
             edk::Cenario2D::LevelObj* level=this->levels[levelPosition];
-            edk::GU::guPushName(levelPosition+1u);
-            level->drawSelection();
-            edk::GU::guPopName();
+            level->drawSelection(levelPosition+1u);
             return true;
         }
     }

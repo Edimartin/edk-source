@@ -430,6 +430,7 @@ private:
         TreeObjDepth(){
             //
             this->names=0u;
+            this->selectionID =0u;
         }
         ~TreeObjDepth(){
             edk::uint32 size = this->size();
@@ -437,6 +438,8 @@ private:
                 this->deleteObjInPosition(0u);
             }
         }
+
+        edk::uint8 selectionID;
 
         //clean names
         void cleanNames(){
@@ -475,10 +478,9 @@ private:
         //Print
         virtual void printElement(ObjClass* value){
             if(value->getObject()){
-                edk::GU::guPushName(this->names);
+                edk::GU::guPushName(edk::BinaryConverter::joinBits(this->selectionID,this->names++,24));
                 value->getObject()->drawWithoutMaterial();
                 edk::GU::guPopName();
-                this->names++;
             }
         }
         //add object
@@ -760,24 +762,18 @@ private:
                 this->tileMap->draw();
             }
         }
-        void drawSelection(){
+        void drawSelection(edk::uint8 id=0u){
             if(this->objs){
-                edk::GU::guPushName(0u);//sero is objects
                 edk::GU::guDisable(GU_LIGHTING);
                 this->objs->print();
-                edk::GU::guPopName();
             }
             else if(this->objsPhys){
-                edk::GU::guPushName(1u);//one is physic objects
                 edk::GU::guDisable(GU_LIGHTING);
                 this->objsPhys->print();
-                edk::GU::guPopName();
             }
             else if(this->tileMap){
-                edk::GU::guPushName(2u);//two is tileMap
                 edk::GU::guDisable(GU_LIGHTING);
-                this->tileMap->drawSelection();
-                edk::GU::guPopName();
+                this->tileMap->drawSelection(id);
             }
         }
 

@@ -32,6 +32,13 @@ public:
     static edk::uint32 setBitFalse(edk::uint32 number,edk::uchar8 position);
     //static edk::uint32 setBitTrue(edk::uint32 number,edk::uchar8 position);
 
+    static edk::uint32 joinBits(edk::uint32 number1,edk::uint32 number2,edk::uint32 position);
+    static edk::uint64 joinBits(edk::uint64 number1,edk::uint64 number2,edk::uint32 position);
+    static edk::uint32 getStart(edk::uint32 number,edk::uint8 position);
+    static edk::uint64 getStart(edk::uint64 number,edk::uint8 position);
+    static edk::uint32 getEnd(edk::uint32 number,edk::uint8 position);
+    static edk::uint64 getEnd(edk::uint64 number,edk::uint8 position);
+
     //testa se um bit especifico esta true or false
     static bool testBit(edk::uchar8 byte,edk::uchar8 position);
 };

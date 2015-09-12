@@ -71,9 +71,9 @@ class ViewGU: public edk::ViewSpriteController{
     //draw selection camera
     virtual void drawSelectionCamera();
     //process the selection
-    virtual void processHits(edk::uint32 hits, edk::uint32 buffer[]);
+    virtual void processHits(edk::int32 hits, edk::uint32 buffer[]);
     //run selection function
-    void runSelectionfunction();
+    void runSelectionFunction();
     //get true if go run selection
     bool isRunningSelection();
     private:

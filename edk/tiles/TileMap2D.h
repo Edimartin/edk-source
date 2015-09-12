@@ -27,6 +27,7 @@ Gravatai RS Brazil 94065100
 #include "../vector/Array.h"
 #include "../vector/BinaryTree.h"
 #include "../physics2D/World2D.h"
+#include "../BinaryConverter.h"
 
 namespace edk{
 namespace tiles{
@@ -118,9 +119,9 @@ public:
     void draw(edk::vec2ui32 origin,edk::size2ui32 last,edk::color4f32 color=edk::color4f32(1,1,1,1));
     void drawInsideWorldRect(edk::rectf32 rect,edk::color4f32 color=edk::color4f32(1,1,1,1));
     //draw the tile for selection
-    void drawSelection(edk::color4f32 color=edk::color4f32(1,1,1,1));
-    void drawSelection(edk::vec2ui32 origin,edk::size2ui32 last,edk::color4f32 color=edk::color4f32(1,1,1,1));
-    void drawInsideWorldRectSelection(edk::rectf32 rect,edk::color4f32 color=edk::color4f32(1,1,1,1));
+    void drawSelection(edk::uint8 id=0u,edk::color4f32 color=edk::color4f32(1,1,1,1));
+    void drawSelection(edk::vec2ui32 origin,edk::size2ui32 last,edk::uint8 id=0u,edk::color4f32 color=edk::color4f32(1,1,1,1));
+    void drawInsideWorldRectSelection(edk::rectf32 rect,edk::uint8 id=0u,edk::color4f32 color=edk::color4f32(1,1,1,1));
     //print the tileMap ID's
     void print();
 

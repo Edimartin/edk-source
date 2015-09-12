@@ -46,7 +46,7 @@ class ViewGU2D: public edk::ViewGU{
         edk::Camera2D camera;
     protected:
     //draw the polygon on the scene
-    void drawPolygon(rectf32 outsideViewOrigin);
+    void drawPolygon(edk::rectf32 outsideViewOrigin);
     private:
     //draw the 2Dcamera
     void drawCamera2D();

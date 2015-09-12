@@ -1454,7 +1454,7 @@ bool edk::GU::guSetSelectionBuffer(edk::uint32 size,edk::uint32* vector){
     return false;
 }
 //Set renderMode
-edk::uint32 edk::GU::guRenderMode( edk::uint32 mode){
+edk::int32 edk::GU::guRenderMode( edk::uint32 mode){
     return glRenderMode(mode);
 }
 //init the names

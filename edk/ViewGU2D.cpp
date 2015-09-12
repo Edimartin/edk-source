@@ -45,7 +45,7 @@ void edk::ViewGU2D::drawSelectionCamera(){
 }
 
 //draw the polygon on the scene
-void edk::ViewGU2D::drawPolygon(rectf32 outsideViewOrigin){
+void edk::ViewGU2D::drawPolygon(edk::rectf32 outsideViewOrigin){
     //
     edk::ViewSpriteController::drawPolygon(outsideViewOrigin);
     this->drawCamera2D();
@@ -56,7 +56,7 @@ void edk::ViewGU2D::drawPolygon(rectf32 outsideViewOrigin){
     //draw the GU scene
     this->drawScene(outsideViewOrigin);
 
-    this->runSelectionfunction();
+    this->runSelectionFunction();
 
     edk::GU::guDisableAllLights();
 }
