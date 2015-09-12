@@ -29,7 +29,7 @@ class RenderView: public edk::ViewGU2D{
 public:
     RenderView(){}
     ~RenderView(){}
-    void load(){
+    void load(edk::rectf32){
         this->camera.position.x = 7;
         this->camera.position.y = -0.5f;
         this->camera.setSize(16.f,10.f);
@@ -41,7 +41,7 @@ public:
         text.deleteMap();
     }
     //render the scene in the vew
-    void drawScene(){
+    void drawScene(edk::rectf32){
         //draw the message
         text.draw();
     }
