@@ -765,10 +765,12 @@ private:
         void drawSelection(edk::uint8 id=0u){
             if(this->objs){
                 edk::GU::guDisable(GU_LIGHTING);
+                this->objs->selectionID = id;
                 this->objs->print();
             }
             else if(this->objsPhys){
                 edk::GU::guDisable(GU_LIGHTING);
+                this->objsPhys->selectionID = id;
                 this->objsPhys->print();
             }
             else if(this->tileMap){
