@@ -448,7 +448,7 @@ void edk::ViewListSelection::drawSelectionScene(){
     }
 }
 //process the selection
-void edk::ViewListSelection::selectObject(edk::uint32 object,edk::uint32 ,edk::float32 ,edk::float32 ,edk::vector::Stack<edk::uint32>* names){
+void edk::ViewListSelection::selectObject(edk::uint32 object,edk::int32 ,edk::float32 ,edk::float32 ,edk::vector::Stack<edk::uint32>* names){
     //select the object
     if(names[0u].size() && !object){
         this->clickedPosition = names[0u][0u];

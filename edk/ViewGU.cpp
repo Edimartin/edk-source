@@ -95,7 +95,7 @@ void edk::ViewGU::processHits(edk::int32 hits, edk::uint32 buffer[]){
         }
     }
     else{
-        this->selectObject(0,0,0,0,&nameStack);
+        this->selectObject(0,hits,0,0,&nameStack);
     }
 }
 //run selection function
@@ -163,7 +163,7 @@ void edk::ViewGU::testSelection(edk::vec2f32 position,edk::size2f32 size){
     this->selectionSize = size;
 }
 //process the selection
-void edk::ViewGU::selectObject(edk::uint32 ,edk::uint32 ,edk::float32 ,edk::float32 ,edk::vector::Stack<edk::uint32>* ){
+void edk::ViewGU::selectObject(edk::uint32 ,edk::int32 ,edk::float32 ,edk::float32 ,edk::vector::Stack<edk::uint32>* ){
     //
 }
 
