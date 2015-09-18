@@ -448,7 +448,7 @@ private:
 
 public:
 
-    edk::Object2D operator=(edk::Object2D obj){
+    virtual edk::Object2D operator=(edk::Object2D obj){
         //copy the meshs
         edk::uint32 size = obj.meshes.size();
         edk::shape::Mesh2D* temp = NULL;

@@ -111,6 +111,7 @@ public:
     edk::physics2D::PhysicObject2D* getPhysicObject(edk::uint32 levelPosition,edk::uint32 position);
     //return the depth of the physic object
     edk::float32 getPhysicObjectDepth(edk::uint32 levelPosition,edk::uint32 position);
+    edk::float32 getPhysicObjectDepth(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj);
     //load the physicsObjects
     bool loadPhysicObjectToWorld(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj);
     bool loadPhysicObjectsToWorld(edk::uint32 levelPosition);

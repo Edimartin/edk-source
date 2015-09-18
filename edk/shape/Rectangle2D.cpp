@@ -394,7 +394,7 @@ void edk::shape::Rectangle2D::drawWire(){
         edk::GU::guRotateZf32(this->angle);
         edk::GU::guScale2f32(this->scale);
 
-        edk::GU::guBegin(GU_LINES);
+        edk::GU::guBegin(GU_LINE_LOOP);
 
         //draw the normal
         edk::GU::guVertexNormal3f32(0,0,1);

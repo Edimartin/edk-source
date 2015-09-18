@@ -95,9 +95,9 @@ public:
     //Animation rotation
     edk::animation::Path1DGroup animationRotation;
 
-    edk::physics2D::PhysicObject2D operator=(edk::physics2D::PhysicObject2D obj){
+    virtual edk::physics2D::PhysicObject2D operator=(edk::physics2D::PhysicObject2D obj){
         //copy the object
-        (edk::Object2D)*this = (edk::Object2D)obj;
+        edk::Object2D::operator =(obj);
         //copy the mesh
         this->physicMesh=obj.physicMesh;
         this->canSleep = obj.canSleep;

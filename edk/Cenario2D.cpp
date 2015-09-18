@@ -2155,6 +2155,22 @@ edk::float32 edk::Cenario2D::getPhysicObjectDepth(edk::uint32 levelPosition,edk:
     }
     return 0.f;
 }
+edk::float32 edk::Cenario2D::getPhysicObjectDepth(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj){
+    if(levelPosition){
+        levelPosition--;
+        //test if have the position
+        if(this->levels.havePos(levelPosition)){
+            edk::Cenario2D::LevelObj* level =this->levels[levelPosition];
+            if(level){
+                if(level->objsPhys){
+                    return level->objsPhys->getObjectDepth(obj);
+                }
+            }
+        }
+    }
+    return 0.f;
+}
+
 //load the physicsObjects
 bool edk::Cenario2D::loadPhysicObjectToWorld(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj){
     if(levelPosition){
