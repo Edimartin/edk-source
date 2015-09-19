@@ -605,7 +605,7 @@ void edk::tiles::TileMap2D::drawSelection(edk::uint8 id,edk::color4f32 color){
             for(unsigned int x=0u;x<this->sizeMap.width;x++){
                 //draw the tile
                 edk::GU::guPushName(edk::BinaryConverter::joinBits(id,count++,24));
-                this->tileSet->drawTile( this->tileMap[y][x]
+                this->tileSet->drawTileSelection( this->tileMap[y][x]
                                          ,(x*this->scaleMap.width) + positionTemp.x
                                          ,(y2*this->scaleMap.height) + positionTemp.y
                                          ,0.f,this->scaleMap,color
@@ -642,11 +642,11 @@ void edk::tiles::TileMap2D::drawSelection(edk::vec2ui32 origin,edk::size2ui32 la
                 for(unsigned int x=origin.x;x<last.width;x++){
                     //draw the tile
                     edk::GU::guPushName(edk::BinaryConverter::joinBits(id,count++,24));
-                    this->tileSet->drawTile( this->tileMap[y][x]
-                                             ,(x*this->scaleMap.width) + positionTemp.x
-                                             ,(y2*this->scaleMap.height) + positionTemp.y
-                                             ,0.f,this->scaleMap,color
-                                             );
+                    this->tileSet->drawTileSelection( this->tileMap[y][x]
+                                                      ,(x*this->scaleMap.width) + positionTemp.x
+                                                      ,(y2*this->scaleMap.height) + positionTemp.y
+                                                      ,0.f,this->scaleMap,color
+                                                      );
                     edk::GU::guPopName();
                 }
             }

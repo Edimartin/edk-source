@@ -146,6 +146,7 @@ public:
 
     //Draw the tile
     void draw(edk::float32 angle=0.f,edk::size2f32 size = edk::size2f32(1,1));
+    void drawSelection(edk::float32 angle=0.f,edk::size2f32 size = edk::size2f32(1,1));
     void drawPhysic(edk::float32 angle=0.f,edk::size2f32 size = edk::size2f32(1,1));
 private:
     //A tile have an object
