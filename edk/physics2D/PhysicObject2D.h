@@ -102,6 +102,8 @@ public:
         this->physicMesh=obj.physicMesh;
         this->canSleep = obj.canSleep;
         this->fixedRotation = obj.fixedRotation;
+        this->animationPosition = obj.animationPosition;
+        this->animationRotation = obj.animationRotation;
         obj.cantDeleteObject2D();
         return obj;
     }

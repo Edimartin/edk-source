@@ -35,6 +35,11 @@ edk::physics2D::PhysicObject2D::~PhysicObject2D(){
     if(!this->canDeleteObject){
         //set the mesh to not delete
         this->physicMesh.cantDeleteList();
+        this->animationPosition.cantDeleteGroup();
+        this->animationRotation.cantDeleteGroup();
+        this->treeCollisionGroups.cantDestruct();
+        this->treeNotCollisionGroups.cantDestruct();
+        edk::Object2D::cantDeleteObject2D();
     }
 }
 

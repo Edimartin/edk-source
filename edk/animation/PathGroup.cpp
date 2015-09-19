@@ -621,7 +621,7 @@ edk::float32 edk::animation::PathGroup::updateClockAnimation(){
 
 //cand delete
 void edk::animation::PathGroup::cantDeleteGroup(){
-    //
+    this->canDelete = false;
 }
 //write to XML
 bool edk::animation::PathGroup::writeToXML(edk::XML* xml,edk::uint32 id){
