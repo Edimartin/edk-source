@@ -189,13 +189,14 @@ public:
 
     //Draw the tile from the tileSet
     bool drawTile(edk::uint32 tile,edk::vec2f32 position,edk::float32 angle=0.f,edk::size2f32 size = edk::size2f32(1,1),edk::color4f32 color=edk::color4f32(1,1,1,1));
-    bool drawTile(edk::uint32 tile,edk::float32 positionX, edk::float32 positionY,edk::float32 angle=0.f,edk::size2f32 size = edk::size2f32(1,1),edk::color4f32 color=edk::color4f32(1,1,1,1));
-    bool drawTileSelection(edk::uint32 tile,edk::vec2f32 position,edk::float32 angle=0.f,edk::size2f32 size = edk::size2f32(1,1),edk::color4f32 color=edk::color4f32(1,1,1,1));
-    bool drawTileSelection(edk::uint32 tile,edk::float32 positionX, edk::float32 positionY,edk::float32 angle=0.f,edk::size2f32 size = edk::size2f32(1,1),edk::color4f32 color=edk::color4f32(1,1,1,1));
+    bool drawTile(edk::uint32 tile,edk::float32 positionX, edk::float32 positionY,edk::float32 angle=0.f,edk::size2f32 size = edk::size2f32(1,1),edk::color4f32 color=edk::color4f32(1,1,1,1));void drawTileSelection(edk::vec2f32 position,edk::float32 angle=0.f,edk::size2f32 size = edk::size2f32(1,1));
+    void drawTileWire(edk::vec2f32 position,edk::float32 angle=0.f,edk::size2f32 size = edk::size2f32(1,1),edk::color4f32 color=edk::color4f32(1,1,1,1));
+    void drawTileWire(edk::float32 positionX, edk::float32 positionY,edk::float32 angle=0.f,edk::size2f32 size = edk::size2f32(1,1),edk::color4f32 color=edk::color4f32(1,1,1,1));
+    void drawTileSelection(edk::float32 positionX, edk::float32 positionY,edk::float32 angle=0.f,edk::size2f32 size = edk::size2f32(1,1));
     bool drawTileInWorld(edk::uint32 tile,edk::vec2f32 position,edk::float32 angle=0.f,edk::size2f32 size = edk::size2f32(1,1),edk::color4f32 color=edk::color4f32(1,1,1,1));
     bool drawTileInWorld(edk::uint32 tile,edk::float32 positionX, edk::float32 positionY,edk::float32 angle=0.f,edk::size2f32 size = edk::size2f32(1,1),edk::color4f32 color=edk::color4f32(1,1,1,1));
-    bool drawTileSelectionInWorld(edk::uint32 tile,edk::vec2f32 position,edk::float32 angle=0.f,edk::size2f32 size = edk::size2f32(1,1),edk::color4f32 color=edk::color4f32(1,1,1,1));
-    bool drawTileSelectionInWorld(edk::uint32 tile,edk::float32 positionX, edk::float32 positionY,edk::float32 angle=0.f,edk::size2f32 size = edk::size2f32(1,1),edk::color4f32 color=edk::color4f32(1,1,1,1));
+    void drawTileSelectionInWorld(edk::vec2f32 position,edk::float32 angle=0.f,edk::size2f32 size = edk::size2f32(1,1));
+    void drawTileSelectionInWorld(edk::float32 positionX, edk::float32 positionY,edk::float32 angle=0.f,edk::size2f32 size = edk::size2f32(1,1));
     bool drawTilePhysics(edk::uint32 tile,edk::vec2f32 position,edk::float32 angle=0.f,edk::size2f32 size = edk::size2f32(1,1),edk::color4f32 color=edk::color4f32(1,1,1,1));
     bool drawTilePhysics(edk::uint32 tile,edk::float32 positionX, edk::float32 positionY,edk::float32 angle=0.f,edk::size2f32 size = edk::size2f32(1,1),edk::color4f32 color=edk::color4f32(1,1,1,1));
     bool drawTilePhysicsInWorld(edk::uint32 tile,edk::vec2f32 position,edk::float32 angle=0.f,edk::size2f32 size = edk::size2f32(1,1),edk::color4f32 color=edk::color4f32(1,1,1,1));
@@ -215,6 +216,8 @@ private:
     edk::vec2f32 tilesPosition;
     //tree XML to remove the tile
     edk::vector::BinaryTree<edk::uint32> treeRemoveXML;
+    //tileTemp to draw the selection
+    edk::tiles::Tile2D tileTemp;
 };
 }//end namespace tiles
 }//end namespace edk

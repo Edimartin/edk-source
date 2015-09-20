@@ -961,26 +961,21 @@ bool edk::tiles::TileSet2D::drawTile(edk::uint32 tile,edk::float32 positionX, ed
     //
     return this->drawTile(tile,edk::vec2f32( positionX,positionY),angle,size,color);
 }
-bool edk::tiles::TileSet2D::drawTileSelection(edk::uint32 tile,edk::vec2f32 position,edk::float32 angle,edk::size2f32 size,edk::color4f32 color){
-    if(tile){
-        tile--;
-        //load the tile from the stack
-        if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);
-            if(temp){
-                temp->setColor(color);
-                temp->setPosition(position.x * temp->getWidth(),position.y * temp->getHeight());
-                temp->drawSelection(angle,size);
-                return true;
-            }
-        }
-    }
-    //else return false
-    return false;
+void edk::tiles::TileSet2D::drawTileWire(edk::vec2f32 position,edk::float32 angle,edk::size2f32 size,edk::color4f32 color){
+    this->tileTemp.setColor(color);
+    this->tileTemp.setPosition(position.x * this->tileTemp.getWidth(),position.y * this->tileTemp.getHeight());
+    this->tileTemp.drawWire(angle,size);
 }
-bool edk::tiles::TileSet2D::drawTileSelection(edk::uint32 tile,edk::float32 positionX, edk::float32 positionY,edk::float32 angle,edk::size2f32 size,edk::color4f32 color){
+void edk::tiles::TileSet2D::drawTileWire(edk::float32 positionX, edk::float32 positionY,edk::float32 angle,edk::size2f32 size,edk::color4f32 color){
+    return this->drawTileWire(edk::vec2f32( positionX,positionY),angle,size,color);
+}
+void edk::tiles::TileSet2D::drawTileSelection(edk::vec2f32 position,edk::float32 angle,edk::size2f32 size){
+    this->tileTemp.setPosition(position.x * this->tileTemp.getWidth(),position.y * this->tileTemp.getHeight());
+    this->tileTemp.drawSelection(angle,size);
+}
+void edk::tiles::TileSet2D::drawTileSelection(edk::float32 positionX, edk::float32 positionY,edk::float32 angle,edk::size2f32 size){
     //
-    return this->drawTileSelection(tile,edk::vec2f32( positionX,positionY),angle,size,color);
+    return this->drawTileSelection(edk::vec2f32( positionX,positionY),angle,size);
 }
 bool edk::tiles::TileSet2D::drawTileInWorld(edk::uint32 tile,edk::vec2f32 position,edk::float32 angle,edk::size2f32 size,edk::color4f32 color){
     if(tile){
@@ -1003,26 +998,13 @@ bool edk::tiles::TileSet2D::drawTileInWorld(edk::uint32 tile,edk::float32 positi
     //
     return this->drawTileInWorld(tile,edk::vec2f32( positionX,positionY),angle,size,color);
 }
-bool edk::tiles::TileSet2D::drawTileSelectionInWorld(edk::uint32 tile,edk::vec2f32 position,edk::float32 angle,edk::size2f32 size,edk::color4f32 color){
-    if(tile){
-        tile--;
-        //load the tile from the stack
-        if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);
-            if(temp){
-                temp->setPosition(position.x,position.y);
-                temp->setColor(color);
-                temp->drawSelection(angle,size);
-                return true;
-            }
-        }
-    }
-    //else return false
-    return false;
+void edk::tiles::TileSet2D::drawTileSelectionInWorld(edk::vec2f32 position,edk::float32 angle,edk::size2f32 size){
+    this->tileTemp.setPosition(position.x,position.y);
+    this->tileTemp.drawSelection(angle,size);
 }
-bool edk::tiles::TileSet2D::drawTileSelectionInWorld(edk::uint32 tile,edk::float32 positionX, edk::float32 positionY,edk::float32 angle,edk::size2f32 size,edk::color4f32 color){
+void edk::tiles::TileSet2D::drawTileSelectionInWorld(edk::float32 positionX, edk::float32 positionY,edk::float32 angle,edk::size2f32 size){
     //
-    return this->drawTileSelectionInWorld(tile,edk::vec2f32( positionX,positionY),angle,size,color);
+    this->drawTileSelectionInWorld(edk::vec2f32( positionX,positionY),angle,size);
 }
 
 bool edk::tiles::TileSet2D::drawTilePhysics(edk::uint32 tile,edk::vec2f32 position,edk::float32 angle,edk::size2f32 size,edk::color4f32 color){

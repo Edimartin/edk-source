@@ -118,10 +118,14 @@ public:
     void draw(edk::color4f32 color=edk::color4f32(1,1,1,1));
     void draw(edk::vec2ui32 origin,edk::size2ui32 last,edk::color4f32 color=edk::color4f32(1,1,1,1));
     void drawInsideWorldRect(edk::rectf32 rect,edk::color4f32 color=edk::color4f32(1,1,1,1));
+    //draw wireTiles
+    void drawWire(edk::color4f32 color=edk::color4f32(1,1,1,1));
+    void drawWire(edk::vec2ui32 origin,edk::size2ui32 last,edk::color4f32 color=edk::color4f32(1,1,1,1));
+    void drawWireInsideWorldRect(edk::rectf32 rect,edk::color4f32 color=edk::color4f32(1,1,1,1));
     //draw the tile for selection
-    void drawSelection(edk::uint8 id=0u,edk::color4f32 color=edk::color4f32(1,1,1,1));
-    void drawSelection(edk::vec2ui32 origin,edk::size2ui32 last,edk::uint8 id=0u,edk::color4f32 color=edk::color4f32(1,1,1,1));
-    void drawInsideWorldRectSelection(edk::rectf32 rect,edk::uint8 id=0u,edk::color4f32 color=edk::color4f32(1,1,1,1));
+    void drawSelection(edk::uint8 id=0u);
+    void drawSelection(edk::vec2ui32 origin,edk::size2ui32 last,edk::uint8 id=0u);
+    void drawInsideWorldRectSelection(edk::rectf32 rect,edk::uint8 id=0u);
     //print the tileMap ID's
     void print();
 
@@ -182,7 +186,7 @@ private:
             return false;
         }
         //UPDATE
-        virtual void updateElement(edk::tiles::TileMap2D::PhysicsTiles* value){
+        virtual void renderElement(edk::tiles::TileMap2D::PhysicsTiles* value){
             if(this->tileSet && value){
                 //update the value drawing the tile from tileSet
                 if(value->object && value->tile){
