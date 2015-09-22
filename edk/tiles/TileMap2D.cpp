@@ -69,49 +69,6 @@ bool edk::tiles::TileMap2D::setTile(edk::uint32 tileID,edk::vec2ui32 position){
     if(position.x < this->sizeMap.width && position.y < this->sizeMap.height){
         //set the position
         this->tileMap[position.y][position.x] = tileID;
-        /*
-        //remove the object from world
-        if(this->world){
-            //remove object from world
-            this->world->removeObject(this->treePhysics.getObjectInPosition(position));
-        }
-        //remove the tile in position
-        this->treePhysics.deleteObjectInPosition(position);
-        //test if have a tileSet
-        if(this->tileSet){
-            if(this->world){
-                //test if the tile is physics
-                edk::physics2D::PhysicObject2D* temp2 = this->tileSet->getTilePhysicsObject(tileID);
-                if(temp2){
-                    //create the physics object
-                    edk::physics2D::PhysicObject2D* temp = this->treePhysics.newObjectInPosition(position,tileID,temp2->getType(),temp2->isSensor());
-
-                    if(temp){
-                        //copy the tileSet object to te temp
-                        *temp=*temp2;
-
-//                        temp->position = edk::vec2f32((edk::float32)position.x,
-//                                                      (edk::float32)(position.y - (this->sizeMap.height-1u))
-//                          );
-
-                        temp->position = edk::vec2f32((edk::float32)position.x,((edk::float32)this->sizeMap.height-1.f) - (edk::float32)position.y)
-                                + this->positionMap;
-                        temp->position.x *= this->scaleMap.width;
-                        temp->position.y *= this->scaleMap.height;
-                        temp->size = this->scaleMap;
-                        //add the new object to the physics world
-                        //temp->size = this->sizeMap;
-                        this->world->addObject(temp);
-                        //clean the tile in the world
-                        this->tileMap[position.y][position.x] = 0u;
-                    }
-                    else{
-                        this->treePhysics.deleteObject(temp);
-                    }
-                }
-            }
-        }
-*/
         //then return true
         return true;
     }
@@ -782,6 +739,33 @@ void edk::tiles::TileMap2D::drawInsideWorldRectSelection(edk::rectf32 rect,edk::
     edk::size2ui32 size = edk::size2ui32((edk::uint32)rect.origin.x,(edk::uint32)rect.origin.y);
 
     this->drawSelection(origin,size,id);
+}
+//draw the pivo
+void edk::tiles::TileMap2D::drawPivo(edk::float32 size,edk::color3f32 color){
+    edk::GU::guPushMatrix();
+    //add translate
+    edk::GU::guTranslate2f32(this->getPosition());
+    //add scale
+    edk::GU::guScale2f32(edk::size2f32(size,size));
+
+    //lineSize
+    edk::GU::guLineWidth(3);
+
+    //set the colors
+    edk::GU::guColor3f32(color);
+    //draw the lines
+    edk::GU::guBegin(GU_LINES);
+    //LINE 1
+    edk::GU::guVertex2f32(-0.5f,-0.5f);
+    edk::GU::guVertex2f32( 0.5f, 0.5f);
+    //LINE 2
+    edk::GU::guVertex2f32(-0.5f, 0.5f);
+    edk::GU::guVertex2f32( 0.5f,-0.5f);
+    edk::GU::guEnd();
+
+    //lineSize
+    edk::GU::guLineWidth(1);
+    edk::GU::guPopMatrix();
 }
 
 //print the tileMap ID's

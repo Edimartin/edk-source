@@ -126,6 +126,8 @@ public:
     void drawSelection(edk::uint8 id=0u);
     void drawSelection(edk::vec2ui32 origin,edk::size2ui32 last,edk::uint8 id=0u);
     void drawInsideWorldRectSelection(edk::rectf32 rect,edk::uint8 id=0u);
+    //draw the pivo
+    void drawPivo(edk::float32 size,edk::color3f32 color);
     //print the tileMap ID's
     void print();
 
