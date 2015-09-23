@@ -58,6 +58,9 @@ bool edk::tiles::TileMap2D::setTileSet(edk::tiles::TileSet2D* tileSet){
     this->treePhysics.setTileSet(tileSet);
     return (this->tileSet = tileSet);
 }
+edk::tiles::TileSet2D* edk::tiles::TileMap2D::getTileSet(){
+    return this->tileSet;
+}
 void edk::tiles::TileMap2D::removeTileSet(){
     this->deletePhysicsTiles();
     this->treePhysics.setTileSet(NULL);
@@ -78,6 +81,9 @@ bool edk::tiles::TileMap2D::setTile(edk::uint32 tileID,edk::vec2ui32 position){
 bool edk::tiles::TileMap2D::setTile(edk::uint32 tileID,edk::uint32 positionX,edk::uint32 positionY){
     //
     return this->setTile(tileID,edk::vec2ui32(positionX,positionY));
+}
+bool edk::tiles::TileMap2D::setTile(edk::uint32 tileID,edk::uint32 position){
+    return this->setTile(tileID,edk::vec2ui32(position%this->sizeMap.width,position/this->sizeMap.width));
 }
 //set the tileMap position
 void edk::tiles::TileMap2D::setPosition(edk::vec2f32 position){
@@ -238,6 +244,7 @@ void edk::tiles::TileMap2D::deleteTileMap(){
             }
         }
         delete[] this->tileMap;
+        this->sizeMap = edk::size2ui32(0u,0u);
     }
     this->tileMap=NULL;
 }

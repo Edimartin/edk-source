@@ -62,10 +62,12 @@ public:
 
     //set the tileSet
     bool setTileSet(edk::tiles::TileSet2D* tileSet);
+    edk::tiles::TileSet2D* getTileSet();
     void removeTileSet();
     //set a tile in the tileMap
     bool setTile(edk::uint32 tileID,edk::vec2ui32 position);
     bool setTile(edk::uint32 tileID,edk::uint32 positionX,edk::uint32 positionY);
+    bool setTile(edk::uint32 tileID,edk::uint32 position);
     //set the tileMap position
     void setPosition(edk::vec2f32 position);
     void setPosition(edk::float32 positionX,edk::float32 positionY);
