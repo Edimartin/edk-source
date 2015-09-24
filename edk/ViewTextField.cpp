@@ -773,3 +773,12 @@ void edk::ViewTextField::setWritePosition(edk::uint32 position){
 bool edk::ViewTextField::isSelected(){
     return this->text.isSelected();
 }
+//test if the mouse is inside
+bool edk::ViewTextField::isMouseInside(){
+    if(edk::View::isMouseInside()
+            ||
+            text.isMouseInside()
+            )
+        return true;
+    return false;
+}

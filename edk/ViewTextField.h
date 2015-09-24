@@ -66,6 +66,8 @@ public:
     void setWritePosition(edk::uint32 position);
     //return true if is selected
     bool isSelected();
+    //test if the mouse is inside
+    bool isMouseInside();
 private:
     //save rect
     edk::rectf32 saveRect;
