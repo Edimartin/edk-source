@@ -83,7 +83,11 @@ bool edk::tiles::TileMap2D::setTile(edk::uint32 tileID,edk::uint32 positionX,edk
     return this->setTile(tileID,edk::vec2ui32(positionX,positionY));
 }
 bool edk::tiles::TileMap2D::setTile(edk::uint32 tileID,edk::uint32 position){
-    return this->setTile(tileID,edk::vec2ui32(position%this->sizeMap.width,position/this->sizeMap.width));
+    if(position){
+        position--;
+        return this->setTile(tileID,edk::vec2ui32(position%this->sizeMap.width,position/this->sizeMap.width));
+    }
+    return false;
 }
 //set the tileMap position
 void edk::tiles::TileMap2D::setPosition(edk::vec2f32 position){
@@ -647,6 +651,41 @@ void edk::tiles::TileMap2D::drawWireInsideWorldRect(edk::rectf32 rect,edk::color
 
     this->drawWire(origin,size,color);
 }
+//draw one especific tile in wirte
+bool edk::tiles::TileMap2D::drawTileWire(edk::vec2ui32 position,edk::color4f32 color){
+    if(this->tileSet){
+        //test the position
+        if(position.x < this->sizeMap.width && position.y < this->sizeMap.height){
+            //draw the tile
+            edk::vec2f32 positionTemp = this->getPosition();
+            //set the transformation
+            edk::GU::guPushMatrix();
+            edk::int64 y2 = (position.y*-1) + this->sizeMap.height-1u;
+            //draw the tile
+            this->tileSet->drawTileWire((position.x*this->scaleMap.width) + positionTemp.x
+                                        ,(y2*this->scaleMap.height) + positionTemp.y
+                                        ,0.f,this->scaleMap,color
+                                        );
+            edk::GU::guPopMatrix();
+            //then return true
+            return true;
+        }
+    }
+    //else return false
+    return false;
+}
+bool edk::tiles::TileMap2D::drawTileWire(edk::uint32 positionX,edk::uint32 positionY,edk::color4f32 color){
+    return this->drawTileWire(edk::vec2ui32(positionX,positionY),color);
+}
+bool edk::tiles::TileMap2D::drawTileWire(edk::uint32 position,edk::color4f32 color){
+    if(position){
+        if(this->sizeMap.width && this->sizeMap.height){
+            position--;
+            return this->drawTileWire(edk::vec2ui32(position%this->sizeMap.width,position/this->sizeMap.width),color);
+        }
+    }
+    return false;
+}
 //draw the tile for selection
 void edk::tiles::TileMap2D::drawSelection(edk::uint8 id){
     if(this->tileSet){
@@ -665,8 +704,6 @@ void edk::tiles::TileMap2D::drawSelection(edk::uint8 id){
                 edk::GU::guPopName();
             }
         }
-
-        //this->treePhysics.print();
 
         edk::GU::guPopMatrix();
     }

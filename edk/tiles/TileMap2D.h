@@ -124,6 +124,10 @@ public:
     void drawWire(edk::color4f32 color=edk::color4f32(1,1,1,1));
     void drawWire(edk::vec2ui32 origin,edk::size2ui32 last,edk::color4f32 color=edk::color4f32(1,1,1,1));
     void drawWireInsideWorldRect(edk::rectf32 rect,edk::color4f32 color=edk::color4f32(1,1,1,1));
+    //draw one especific tile in wirte
+    bool drawTileWire(edk::vec2ui32 position,edk::color4f32 color=edk::color4f32(1,1,1,1));
+    bool drawTileWire(edk::uint32 positionX,edk::uint32 positionY,edk::color4f32 color=edk::color4f32(1,1,1,1));
+    bool drawTileWire(edk::uint32 position,edk::color4f32 color=edk::color4f32(1,1,1,1));
     //draw the tile for selection
     void drawSelection(edk::uint8 id=0u);
     void drawSelection(edk::vec2ui32 origin,edk::size2ui32 last,edk::uint8 id=0u);

@@ -350,30 +350,39 @@ edk::uint32 edk::ViewListSelection::getCellSize(){
 }
 //return true if have the cell
 bool edk::ViewListSelection::haveCell(edk::uint32 position){
-    return (bool)this->cells[position];
+    if(position < this->cells.size()){
+        return (bool)this->cells[position];
+    }
+    return false;
 }
 //return the cell ID
 edk::uint32 edk::ViewListSelection::getCellID(edk::uint32 position){
-    edk::ViewListSelection::ListCell* cell = this->cells[position];
-    if(cell){
-        return cell->id;
+    if(position < this->cells.size()){
+        edk::ViewListSelection::ListCell* cell = this->cells[position];
+        if(cell){
+            return cell->id;
+        }
     }
     return 0u;
 }
 //test if the cell is selected
 bool edk::ViewListSelection::isCellSelected(edk::uint32 position){
-    edk::ViewListSelection::ListCell* cell = this->cells[position];
-    if(cell){
-        return cell->isSelected();
+    if(position < this->cells.size()){
+        edk::ViewListSelection::ListCell* cell = this->cells[position];
+        if(cell){
+            return cell->isSelected();
+        }
     }
     return false;
 }
 //set the cell select
 bool edk::ViewListSelection::setCellSelect(edk::uint32 position,bool select){
-    edk::ViewListSelection::ListCell* cell = this->cells[position];
-    if(cell){
-        cell->setSelect(select);
-        return true;
+    if(position < this->cells.size()){
+        edk::ViewListSelection::ListCell* cell = this->cells[position];
+        if(cell){
+            cell->setSelect(select);
+            return true;
+        }
     }
     return false;
 }
