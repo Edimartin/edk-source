@@ -439,6 +439,15 @@ edk::uint32 edk::tiles::TileMap2D::getTileID(edk::vec2ui32 position){
 edk::uint32 edk::tiles::TileMap2D::getTileID(edk::uint32 positionX,edk::uint32 positionY){
     return this->getTileID(edk::vec2ui32(positionX,positionY));
 }
+edk::uint32 edk::tiles::TileMap2D::getTileID(edk::uint32 position){
+    if(position){
+        if(this->sizeMap.width && this->sizeMap.height){
+            position--;
+            return this->getTileID(edk::vec2ui32(position%this->sizeMap.width,position/this->sizeMap.width));
+        }
+    }
+    return 0u;
+}
 //return the size of the map
 edk::size2ui32 edk::tiles::TileMap2D::getMapSize(){
     return this->sizeMap;

@@ -107,6 +107,7 @@ public:
     //return the tileID
     edk::uint32 getTileID(edk::vec2ui32 position);
     edk::uint32 getTileID(edk::uint32 positionX,edk::uint32 positionY);
+    edk::uint32 getTileID(edk::uint32 position);
     //return the size of the map
     edk::size2ui32 getMapSize();
     //return the scale of the map
