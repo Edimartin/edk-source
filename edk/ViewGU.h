@@ -54,7 +54,7 @@ class ViewGU: public edk::ViewSpriteController{
         virtual void update(edk::WindowEvents* events);
 
         //draw the GU scene
-        virtual void drawScene(rectf32 outsideViewOrigin);
+        virtual void drawScene(edk::rectf32 outsideViewOrigin);
 
         virtual void drawSelectionScene();
 
@@ -63,11 +63,11 @@ class ViewGU: public edk::ViewSpriteController{
     protected:
     //Draw Functions
     //draw viewPort
-    void drawViewport(rectf32 outsideViewOrigin);
+    void drawViewport(edk::rectf32 outsideViewOrigin);
     //draw Camera
     void drawCamera();
     //draw the polygon on the scene
-    virtual void drawPolygon(rectf32 outsideViewOrigin);
+    virtual void drawPolygon(edk::rectf32 outsideViewOrigin);
     //draw selection camera
     virtual void drawSelectionCamera();
     //process the selection

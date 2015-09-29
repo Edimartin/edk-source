@@ -50,6 +50,8 @@ public:
     void deleteTiles();
     //delete one tile
     bool deleteTile(edk::uint32 position);
+    //delete one tile
+    bool deleteTilePosition(edk::uint32 position);
 
     //set the size of the tiles
     bool setSizeOfTiles(edk::size2f32 size);

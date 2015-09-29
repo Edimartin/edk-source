@@ -65,6 +65,24 @@ bool edk::tiles::TileSet2D::deleteTile(edk::uint32 position){
     //else return false
     return false;
 }
+//delete one tile
+bool edk::tiles::TileSet2D::deleteTilePosition(edk::uint32 position){
+    if(position){
+        position--;
+        if(this->tiles.havePos(position)){
+            edk::uint32 temp = this->tiles.size()-1u;
+            //swap the position to be last
+            this->tiles.bringPositionTo(position,temp);
+            edk::tiles::Tile2D* tile = this->tiles.remove(temp);
+            if(tile){
+                delete tile;
+                return true;
+            }
+        }
+    }
+    //else return false
+    return false;
+}
 
 //set the size of the tiles
 bool edk::tiles::TileSet2D::setSizeOfTiles(edk::size2f32 size){

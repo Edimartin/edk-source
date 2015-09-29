@@ -17,7 +17,7 @@ public:
     bool setTextureSize(edk::size2ui32 size);
     bool setTextureSize(edk::uint32 width,edk::uint32 height);
 
-    void draw(rectf32 outsideViewOrigin);
+    void draw(edk::rectf32 outsideViewOrigin);
 private:
     edk::Texture2DRender render;
     //camera to draw the polygon with the render texture
