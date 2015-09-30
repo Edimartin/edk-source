@@ -191,6 +191,8 @@ class Polygon2D{
         virtual bool drawWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],bool lightIsOn[][EDK_LIGHT_LIMIT]);
         //Draw the polygon with lines
         virtual void drawWire();
+        //draw vertexs
+        virtual void drawPolygonVertexs(edk::color4f32 color=edk::color4f32(1,1,1,1));
 
         //Write to XML
         bool writeToXML(edk::XML* xml,edk::uint32 polygonID);
@@ -266,6 +268,7 @@ class Polygon2D{
         bool canDeletePolygon;
         //Draw the polygon
         virtual void drawVertexs();
+        virtual void drawVertexsWithColor(edk::color4f32 color);
         //update framesSize
         void updateFramesSize();
         //test if is tranforming the polygon

@@ -195,6 +195,7 @@ public:
     );
     //draw the polygons in wireframe
     virtual void drawWirePolygons();
+    virtual void drawVertexs(edk::color3f32 color = edk::color3f32(1,1,1));
 
     //Set to cant delete the polygon
     void cantDeleteList();

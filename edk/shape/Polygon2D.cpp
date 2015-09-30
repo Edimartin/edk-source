@@ -129,6 +129,14 @@ void edk::shape::Polygon2D::drawVertexs(){
             vertexs[i]->draw();
     }
 }
+void edk::shape::Polygon2D::drawVertexsWithColor(edk::color4f32 color){
+    //
+    for(edk::uint32 i=0u;i<this->getVertexCount();i++){
+        //
+        if(vertexs[i])
+            vertexs[i]->drawWithColor(color);
+    }
+}
 //update framesSize
 void edk::shape::Polygon2D::updateFramesSize(){
     //
@@ -850,6 +858,13 @@ void edk::shape::Polygon2D::drawWire(){
     this->drawVertexs();
     edk::GU::guEnd();
     edk::GU::guPopMatrix();
+}
+//draw vertexs
+void edk::shape::Polygon2D::drawPolygonVertexs(edk::color4f32 color){
+    edk::GU::guBegin(GL_POINTS);
+    //edk::GU::guBegin(GU_LINE_LOOP);
+    this->drawVertexsWithColor(color);
+    edk::GU::guEnd();
 }
 
 //Write to XML

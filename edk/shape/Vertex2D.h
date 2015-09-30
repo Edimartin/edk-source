@@ -63,6 +63,24 @@ public:
     edk::color4f32 color;
 
     //draw function
+    virtual void drawWithColor(edk::color4f32 color = edk::color4f32(1,1,1,1)){
+        //Draw
+
+        //set the color of the vertex
+        edk::GU::guColor4f32(color.r,
+                             color.g,
+                             color.b,
+                             color.a
+                             );
+
+        //draw the normal
+        edk::GU::guVertexNormal3f32(this->position.x, this->position.y,1.f);
+
+        //draw the vertex
+        edk::GU::guVertex3f32( this->position.x, this->position.y, 0.0f);
+    }
+
+    //draw function
     virtual void draw(){
         //Draw
 
@@ -309,6 +327,14 @@ public:
     }
 
     //draw function
+    virtual void drawWithColor(edk::color4f32 color = edk::color4f32(1,1,1,1)){
+        //Add the UV
+        edk::GU::guVertexTex2f32(this->uv.x,this->uv.y);
+        //glMultiTexCoord2f(GL_TEXTURE0,this->uv.x,this->uv.y);
+        //draw the vector2D
+        edk::shape::Vertex2D::drawWithColor(color);
+    }
+    //draw function
     virtual void draw(){
         //Add the UV
         edk::GU::guVertexTex2f32(this->uv.x,this->uv.y);
@@ -502,6 +528,11 @@ public:
         edk::shape::Vertex2DWithUV::setUVY(this->uvMultiply.y * y + this->uvSaved.y*this->uvMultiply.y);
     }
 
+    //draw function
+    virtual void drawWithColor(edk::color4f32 color = edk::color4f32(1,1,1,1)){
+        //draw the vector2D
+        edk::shape::Vertex2DWithUV::drawWithColor(color);
+    }
     //draw function
     virtual void draw(){
         //draw the vector2D

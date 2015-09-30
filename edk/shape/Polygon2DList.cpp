@@ -869,6 +869,17 @@ void edk::shape::Polygon2DList::drawWirePolygons(){
         }
     }
 }
+void edk::shape::Polygon2DList::drawVertexs(edk::color3f32 color){
+    edk::GU::guColor3f32(color);
+    //draw the polygons
+    for(edk::uint32 i=0u;i<this->polygons.size();i++){
+        //
+        if(this->polygons[i]){
+            //
+            this->polygons[i]->drawPolygonVertexs(edk::color4f32(color.r,color.g,color.b,1.f));
+        }
+    }
+}
 
 //Set to cant delete the polygon
 void edk::shape::Polygon2DList::cantDeleteList(){
