@@ -53,16 +53,11 @@ void edk::Camera2D::start(){
 }
 //SETTERS
 //set the size
-bool edk::Camera2D::setSize(edk::size2f32 size){
+void edk::Camera2D::setSize(edk::size2f32 size){
     //
-    if(size.width>0.0f && size.height>0.0f){
-        //
-        this->size=size*0.5f;
-    }
-    //else return false
-    return false;
+    this->size=size*0.5f;
 }
-bool edk::Camera2D::setSize(edk::float32 sizeX,edk::float32 sizeY){
+void edk::Camera2D::setSize(edk::float32 sizeX,edk::float32 sizeY){
     //
     return this->setSize(edk::size2f32(sizeX,sizeY));
 }

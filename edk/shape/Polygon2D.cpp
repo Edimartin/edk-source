@@ -334,6 +334,11 @@ bool edk::shape::Polygon2D::setVertexUV(edk::uint32 vertex,edk::vec2f32 uv){
                 return false;
             }
         }
+        else if(vTemp->getType() == EDK_SHAPE_ANIMATED_UV){
+            edk::shape::Vertex2DAnimatedUV* vTemp2 = (edk::shape::Vertex2DAnimatedUV*)vTemp;
+            vTemp2->setUV(uv);
+            return true;
+        }
         //set the uv
         vTemp->setUV(uv);
         //return true

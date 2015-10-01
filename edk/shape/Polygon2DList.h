@@ -153,6 +153,10 @@ public:
     edk::float32 selectedGetDensity();
     edk::float32 selectedGetFriction();
     edk::float32 selectedGetRestitution();
+    //draw the selectedPolygon
+    bool selectedDrawPolygon();
+    bool selectedDrawWirePolygon();
+    bool selectedDrawVertexs(edk::color3f32 color = edk::color3f32(1,1,1));
 
     //XML
     virtual bool writeToXML(edk::XML* xml,edk::uint32 id);
@@ -167,7 +171,6 @@ public:
         edk::uint32 select=0u;
         edk::shape::Polygon2D* temp = NULL;
         for(edk::uint32 i=0u;i<size;i++){
-            //
             temp=list.polygons[i];
             if(temp){
                 if(temp==list.selected){

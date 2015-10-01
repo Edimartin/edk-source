@@ -52,6 +52,7 @@ public:
     Vertex2D(){
         //
         this->color.a=1u;
+        this->type = EDK_SHAPE_NOUV;
     }
     virtual ~Vertex2D(){
         //
@@ -267,7 +268,7 @@ public:
     //Just return the type of the vertex
     virtual edk::uint8 getType(){
         //
-        return EDK_SHAPE_NOUV;
+        return this->type;
     }
 
     //OPERATORS
@@ -278,6 +279,7 @@ public:
         return vertex;
     }
 protected:
+    edk::uint8 type;
 private:
 };
 
@@ -286,6 +288,7 @@ class Vertex2DWithUV: public edk::shape::Vertex2D{
 public:
     Vertex2DWithUV(){
         //
+        this->type = EDK_SHAPE_UV;
     }
     virtual ~Vertex2DWithUV(){
         //
@@ -419,12 +422,6 @@ public:
         return false;
     }
 
-    //Just return the type of the vertex with UV
-    virtual edk::uint8 getType(){
-        //
-        return EDK_SHAPE_UV;
-    }
-
     //OPERATORS
     edk::shape::Vertex2DWithUV operator=(edk::shape::Vertex2D vertex){
         //
@@ -450,6 +447,7 @@ class Vertex2DAnimatedUV: public edk::shape::Vertex2DWithUV{
 public:
     Vertex2DAnimatedUV(){
         //
+        this->type = EDK_SHAPE_ANIMATED_UV;
     }
     virtual ~Vertex2DAnimatedUV(){
         //
@@ -631,12 +629,6 @@ public:
             return true;
         }
         return false;
-    }
-
-    //Just return the type of the vertex with UV
-    virtual edk::uint8 getType(){
-        //
-        return EDK_SHAPE_ANIMATED_UV;
     }
 
     //OPERATORS

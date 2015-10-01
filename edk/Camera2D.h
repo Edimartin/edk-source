@@ -50,8 +50,8 @@ class Camera2D/* : public edk::Object<edk::Camera2D>*/{
 
         //SETTERS
         //set the size
-        bool setSize(edk::size2f32 size);
-        bool setSize(edk::float32 sizeX,edk::float32 sizeY);
+        void setSize(edk::size2f32 size);
+        void setSize(edk::float32 sizeX,edk::float32 sizeY);
         //Set a rectangle to the camera
         bool setRect(edk::rectf32 rect);
         bool setRect(edk::vec2f32 origin,size2f32 size);

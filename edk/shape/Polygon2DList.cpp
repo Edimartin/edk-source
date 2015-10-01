@@ -735,6 +735,34 @@ edk::float32 edk::shape::Polygon2DList::selectedGetRestitution(){
     }
     return 0.f;
 }
+//draw the selectedPolygon
+bool edk::shape::Polygon2DList::selectedDrawPolygon(){
+    //test if have selected
+    if(this->selected){
+        //
+        this->selected->draw();
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon2DList::selectedDrawWirePolygon(){
+    //test if have selected
+    if(this->selected){
+        //
+        this->selected->drawWire();
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon2DList::selectedDrawVertexs(edk::color3f32 color){
+    //test if have selected
+    if(this->selected){
+        //
+        this->selected->drawPolygonVertexs(edk::color4f32(color.r,color.g,color.b,1.f));
+        return true;
+    }
+    return false;
+}
 
 //XML
 bool edk::shape::Polygon2DList::writeToXML(edk::XML* xml,edk::uint32 id){
