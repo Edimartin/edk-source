@@ -196,7 +196,7 @@ bool ViewController::removeSubview(edk::View *subView){
     if(subView){
         //get subView ID
         edk::uint32 id = this->getSubviewId(subView);
-        if(id<this->nexts.size()){
+        if(this->nexts.havePos(id)){
             //set the subview to NULL
             this->nexts.set((edk::uint32)id,(View*)NULL);
             //then remove the same
@@ -216,9 +216,11 @@ void ViewController::removeAllSubview(){
     edk::View *subView=NULL;
     for(edk::uint32 i=0u;i<size;i++){
         //run unload function in views
-        subView = this->nexts[i];
-        if(subView){
-            subView->unload();
+        if(this->nexts.havePos(i)){
+            subView = this->nexts[i];
+            if(subView){
+                subView->unload();
+            }
         }
     }
     this->nexts.clean();
