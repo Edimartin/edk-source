@@ -62,11 +62,19 @@ public:
     virtual void print();
     //draw the mesh
     virtual void drawOneTexture();
+    virtual bool selectedDrawOneTexture();
     virtual void drawOneTextureWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
     edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
     bool lightIsOn[][EDK_LIGHT_LIMIT]);
+    virtual bool SelectedDrawOneTextureWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
+    edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
+    bool lightIsOn[][EDK_LIGHT_LIMIT]);
     virtual void drawMultiTexture();
+    virtual bool SelectedDrawMultiTexture();
     virtual void drawMultiTextureWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
+    edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
+    bool lightIsOn[][EDK_LIGHT_LIMIT]);
+    virtual bool SelectedDrawMultiTextureWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
     edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
     bool lightIsOn[][EDK_LIGHT_LIMIT]);
     virtual void drawWire();
