@@ -421,6 +421,10 @@ public:
         //
         return this->stackSize;
     }
+    edk::uint32 sizeRemoved(){
+        return this->removed.size();
+    }
+
     //test if have the pos
     bool havePos(edk::uint32 pos){
         //test if the pos is less then size

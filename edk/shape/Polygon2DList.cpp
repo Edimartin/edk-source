@@ -192,11 +192,11 @@ edk::uint32 edk::shape::Polygon2DList::addPolygon(edk::shape::Polygon2D polygon)
         *temp = polygon;
 
         //load the size of the polygons
-        edk::uint32 size = this->polygons.size();
+        edk::uint32 size = this->polygons.size() - this->polygons.sizeRemoved();
         //add the polygon
         ret = this->polygons.pushBack(temp);
         //now compare the size in the list
-        if(size<this->polygons.size()){
+        if(size<(this->polygons.size() - this->polygons.sizeRemoved())){
             //polygon added
 
             //select the ret
@@ -786,9 +786,11 @@ bool edk::shape::Polygon2DList::writeToXML(edk::XML* xml,edk::uint32 id){
                         edk::shape::Polygon2D* poly;
                         //write the polygons
                         for(edk::uint32 i=0u;i<size;i++){
-                            poly=this->polygons[i];
-                            if(poly){
-                                poly->writeToXML(xml,i);
+                            if(this->polygons.havePos(i)){
+                                poly=this->polygons[i];
+                                if(poly){
+                                    poly->writeToXML(xml,i);
+                                }
                             }
                         }
                         ret=true;
@@ -842,7 +844,7 @@ void edk::shape::Polygon2DList::printPolygons(){
     //print the polygons
     for(edk::uint32 i=0u;i<this->polygons.size();i++){
         //
-        if(this->polygons[i]){
+        if(this->polygons.havePos(i)){
             //
             printf("\nPolygon %u"
                    ,i
@@ -857,7 +859,7 @@ void edk::shape::Polygon2DList::drawPolygons(){
     //draw the polygons
     for(edk::uint32 i=0u;i<this->polygons.size();i++){
         //
-        if(this->polygons[i]){
+        if(this->polygons.havePos(i)){
             //
             this->polygons[i]->draw();
         }
@@ -870,7 +872,7 @@ bool lightIsOn[][EDK_LIGHT_LIMIT]){
     //draw the polygons
     for(edk::uint32 i=0u;i<this->polygons.size();i++){
         //
-        if(this->polygons[i]){
+        if(this->polygons.havePos(i)){
             if(this->polygons[i]->isTransforming()){
                 this->polygons[i]->drawWithLight(lightPositions,lightDirections,lightIsOn);
             }
@@ -891,7 +893,7 @@ void edk::shape::Polygon2DList::drawWirePolygons(){
     //draw the polygons
     for(edk::uint32 i=0u;i<this->polygons.size();i++){
         //
-        if(this->polygons[i]){
+        if(this->polygons.havePos(i)){
             //
             this->polygons[i]->drawWire();
         }
@@ -902,7 +904,7 @@ void edk::shape::Polygon2DList::drawVertexs(edk::color3f32 color){
     //draw the polygons
     for(edk::uint32 i=0u;i<this->polygons.size();i++){
         //
-        if(this->polygons[i]){
+        if(this->polygons.havePos(i)){
             //
             this->polygons[i]->drawPolygonVertexs(edk::color4f32(color.r,color.g,color.b,1.f));
         }
