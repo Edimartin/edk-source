@@ -2595,7 +2595,7 @@ bool edk::Cenario2D::drawLevel(edk::uint32 levelPosition){
     //draw the levelPosition
     if(levelPosition){
         levelPosition--;
-        if(levelPosition<this->levels.size()){
+        if(this->levels.havePos(levelPosition)){
             edk::Cenario2D::LevelObj* level=this->levels[levelPosition];
             level->draw();
             return true;
@@ -2618,10 +2618,41 @@ bool edk::Cenario2D::drawSelectionLevel(edk::uint32 levelPosition){
     //draw the levelPosition
     if(levelPosition){
         levelPosition--;
-        if(levelPosition<this->levels.size()){
+        if(this->levels.havePos(levelPosition)){
             edk::Cenario2D::LevelObj* level=this->levels[levelPosition];
             level->drawSelection(levelPosition+1u);
             return true;
+        }
+    }
+    return false;
+}
+
+//SHOW/HIDE LEVEL
+bool edk::Cenario2D::hideLevel(edk::uint32 levelPosition){
+    return this->setShowLevel(levelPosition,false);
+}
+bool edk::Cenario2D::showLevel(edk::uint32 levelPosition){
+    return this->setShowLevel(levelPosition,true);
+}
+bool edk::Cenario2D::setShowLevel(edk::uint32 levelPosition,bool show){
+    //draw the levelPosition
+    if(levelPosition){
+        levelPosition--;
+        if(this->levels.havePos(levelPosition)){
+            edk::Cenario2D::LevelObj* level=this->levels[levelPosition];
+            level->show = show;
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::Cenario2D::getShowLevel(edk::uint32 levelPosition){
+    //draw the levelPosition
+    if(levelPosition){
+        levelPosition--;
+        if(this->levels.havePos(levelPosition)){
+            edk::Cenario2D::LevelObj* level=this->levels[levelPosition];
+            return level->show;
         }
     }
     return false;

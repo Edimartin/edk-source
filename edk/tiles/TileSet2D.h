@@ -52,6 +52,8 @@ public:
     bool deleteTile(edk::uint32 position);
     //delete one tile
     bool deleteTilePosition(edk::uint32 position);
+    //test if have the tile
+    bool haveTile(edk::uint32 position);
 
     //set the size of the tiles
     bool setSizeOfTiles(edk::size2f32 size);
@@ -184,6 +186,10 @@ public:
     //add a polygon to the physics Object
     bool addTilePhysicsPolygon(edk::uint32 tile,edk::shape::Polygon2D poly);
     bool cleanTilePhysicsPolygons(edk::uint32 tile);
+    //get the tilePhysicsMesh
+    edk::physics2D::PhysicsMesh2D* getTilePhysicsMeshPointer(edk::uint32 tile);
+    //return the tileMesh
+    edk::shape::Mesh2D* getTileMeshPointer(edk::uint32 tile);
     //delete the objectPhysics
     bool deleteTilePhysics(edk::uint32 tile);
     //return the physicsObject

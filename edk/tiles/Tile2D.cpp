@@ -318,6 +318,11 @@ bool edk::tiles::Tile2D::setCurveP2X(edk::uint32 position,edk::float32 second,ed
     return this->mesh.selectedAnimationSetCurveP2X(position,second,x);
 }
 
+//get mesh pointer
+edk::shape::Mesh2D* edk::tiles::Tile2D::getMeshPointer(){
+    return &this->mesh;
+}
+
 //create a new object physics
 bool edk::tiles::Tile2D::setPhysics(edk::physics::bodyType type){
     this->deletePhysics();
@@ -386,6 +391,10 @@ void edk::tiles::Tile2D::deletePhysics(){
 //return the physicsObject
 edk::physics2D::PhysicObject2D* edk::tiles::Tile2D::getPhysicsObject(){
     return this->objPhys;
+}
+//return the physicsMesh
+edk::physics2D::PhysicsMesh2D* edk::tiles::Tile2D::getPhysicsMeshPointer(){
+    return &this->objPhys->physicMesh;
 }
 
 //update the animation

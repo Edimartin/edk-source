@@ -83,6 +83,17 @@ bool edk::tiles::TileSet2D::deleteTilePosition(edk::uint32 position){
     //else return false
     return false;
 }
+//test if have the tile
+bool edk::tiles::TileSet2D::haveTile(edk::uint32 position){
+    if(position){
+        position--;
+        if(this->tiles.havePos(position)){
+            return true;
+        }
+    }
+    //else return false
+    return false;
+}
 
 //set the size of the tiles
 bool edk::tiles::TileSet2D::setSizeOfTiles(edk::size2f32 size){
@@ -918,6 +929,36 @@ bool edk::tiles::TileSet2D::cleanTilePhysicsPolygons(edk::uint32 tile){
             edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
                 return temp->cleanPhysicsPolygons();
+            }
+        }
+    }
+    //else return false
+    return false;
+}
+//get the tilePhysicsMesh
+edk::physics2D::PhysicsMesh2D* edk::tiles::TileSet2D::getTilePhysicsMeshPointer(edk::uint32 tile){
+    if(tile){
+        tile--;
+        //load the tile from the stack
+        if(this->tiles.havePos(tile)){
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
+            if(temp){
+                return temp->getPhysicsMeshPointer();
+            }
+        }
+    }
+    //else return false
+    return false;
+}
+//return the tileMesh
+edk::shape::Mesh2D* edk::tiles::TileSet2D::getTileMeshPointer(edk::uint32 tile){
+    if(tile){
+        tile--;
+        //load the tile from the stack
+        if(this->tiles.havePos(tile)){
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
+            if(temp){
+                return temp->getMeshPointer();
             }
         }
     }

@@ -126,6 +126,9 @@ public:
     bool setCurveP1X(edk::uint32 position,edk::float32 second,edk::float32 x);
     bool setCurveP2X(edk::uint32 position,edk::float32 second,edk::float32 x);
 
+    //get mesh pointer
+    edk::shape::Mesh2D* getMeshPointer();
+
     //create a new object physics
     bool setPhysics(edk::physics::bodyType type);
     //add a polygon to the physics Object
@@ -135,6 +138,8 @@ public:
     void deletePhysics();
     //return the physicsObject
     edk::physics2D::PhysicObject2D* getPhysicsObject();
+    //return the physicsMesh
+    edk::physics2D::PhysicsMesh2D* getPhysicsMeshPointer();
 
 
     //update the animation

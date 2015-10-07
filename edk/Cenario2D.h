@@ -198,6 +198,12 @@ public:
     void drawSelection();
     bool drawSelectionLevel(edk::uint32 levelPosition);
 
+    //SHOW/HIDE LEVEL
+    bool hideLevel(edk::uint32 levelPosition);
+    bool showLevel(edk::uint32 levelPosition);
+    bool setShowLevel(edk::uint32 levelPosition,bool show);
+    bool getShowLevel(edk::uint32 levelPosition);
+
     //get level type
     //EDK_LEVEL_NOTHING
     //EDK_LEVEL_OBJ
@@ -738,45 +744,49 @@ private:
     //Save objects in a Level
     class LevelObj{
     public:
-        LevelObj(edk::Cenario2D::TreeObjDepth* objs,edk::Cenario2D::TreePhysObjDepth* objsPhys){this->clean();this->objs = objs;this->objsPhys = objsPhys;}
-        LevelObj(edk::tiles::TileMap2D* tileMap){this->clean();this->tileMap = tileMap;}
-        LevelObj(){this->clean();}
+        LevelObj(edk::Cenario2D::TreeObjDepth* objs,edk::Cenario2D::TreePhysObjDepth* objsPhys){this->clean();this->objs = objs;this->objsPhys = objsPhys;this->show=true;}
+        LevelObj(edk::tiles::TileMap2D* tileMap){this->clean();this->tileMap = tileMap;this->show=true;}
+        LevelObj(){this->clean();this->show=true;}
         ~LevelObj(){}
         //XML
         bool writeToXML(edk::XML* xml,edk::uint32 id);
         bool readFromXML(edk::XML* xml,edk::uint32 id,edk::tiles::TileSet2D* tileSet,edk::physics2D::World2D* world);
 
         void draw(){
-            if(this->objs){
-                edk::GU::guEnable(GU_LIGHTING);
-                this->objs->cleanNames();
-                this->objs->render();
-                edk::GU::guDisable(GU_LIGHTING);
-            }
-            else if(this->objsPhys){
-                edk::GU::guEnable(GU_LIGHTING);
-                this->objsPhys->cleanNames();
-                this->objsPhys->render();
-                edk::GU::guDisable(GU_LIGHTING);
-            }
-            else if(this->tileMap){
-                this->tileMap->draw();
+            if(this->show){
+                if(this->objs){
+                    edk::GU::guEnable(GU_LIGHTING);
+                    this->objs->cleanNames();
+                    this->objs->render();
+                    edk::GU::guDisable(GU_LIGHTING);
+                }
+                else if(this->objsPhys){
+                    edk::GU::guEnable(GU_LIGHTING);
+                    this->objsPhys->cleanNames();
+                    this->objsPhys->render();
+                    edk::GU::guDisable(GU_LIGHTING);
+                }
+                else if(this->tileMap){
+                    this->tileMap->draw();
+                }
             }
         }
         void drawSelection(edk::uint8 id=0u){
-            if(this->objs){
-                edk::GU::guDisable(GU_LIGHTING);
-                this->objs->selectionID = id;
-                this->objs->print();
-            }
-            else if(this->objsPhys){
-                edk::GU::guDisable(GU_LIGHTING);
-                this->objsPhys->selectionID = id;
-                this->objsPhys->print();
-            }
-            else if(this->tileMap){
-                edk::GU::guDisable(GU_LIGHTING);
-                this->tileMap->drawSelection(id);
+            if(this->show){
+                if(this->objs){
+                    edk::GU::guDisable(GU_LIGHTING);
+                    this->objs->selectionID = id;
+                    this->objs->print();
+                }
+                else if(this->objsPhys){
+                    edk::GU::guDisable(GU_LIGHTING);
+                    this->objsPhys->selectionID = id;
+                    this->objsPhys->print();
+                }
+                else if(this->tileMap){
+                    edk::GU::guDisable(GU_LIGHTING);
+                    this->tileMap->drawSelection(id);
+                }
             }
         }
 
@@ -797,6 +807,7 @@ private:
         edk::Cenario2D::TreeObjDepth* objs;
         edk::Cenario2D::TreePhysObjDepth* objsPhys;
         edk::tiles::TileMap2D* tileMap;
+        bool show;
     };
 
     //objects animation tree
