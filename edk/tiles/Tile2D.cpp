@@ -394,7 +394,9 @@ edk::physics2D::PhysicObject2D* edk::tiles::Tile2D::getPhysicsObject(){
 }
 //return the physicsMesh
 edk::physics2D::PhysicsMesh2D* edk::tiles::Tile2D::getPhysicsMeshPointer(){
-    return &this->objPhys->physicMesh;
+    if(this->objPhys)
+        return &this->objPhys->physicMesh;
+    return NULL;
 }
 
 //update the animation
@@ -465,8 +467,8 @@ bool edk::tiles::Tile2D::readFromXML(edk::XML* xml,edk::uint32 id){
                         }
                         //delete all mesh's from XML
 
-//                        edk::shape::Mesh2D* meshTemp;
-//                        edk::uint32 size = this->obj.getMeshSize();
+                        //                        edk::shape::Mesh2D* meshTemp;
+                        //                        edk::uint32 size = this->obj.getMeshSize();
                         /*
                         for(edk::uint32 i=0u;i<size;i++){
                             meshTemp = this->obj.getMesh(i);
