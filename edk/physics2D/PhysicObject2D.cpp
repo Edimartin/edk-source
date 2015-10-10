@@ -165,8 +165,6 @@ void edk::physics2D::PhysicObject2D::drawWirePhysics(){
     //set the pivo
     edk::GU::guTranslate2f32(this->pivo*-1.0f);
 
-    edk::GU::guColor4f32(1,1,1,1);
-
     this->physicMesh.drawWirePolygons();
 
     edk::GU::guPopMatrix();

@@ -35,9 +35,36 @@ edk::uint32 edk::physics2D::PhysicsMesh2D::addPolygon(edk::shape::Polygon2D poly
     else{
 
         //Test the polygon
-        if(polygon.isCircle() || polygon.getVertexCount()==2u){
+        if(polygon.isCircle()){
             //its a rect
             ret = edk::shape::Polygon2DList::addPolygon(polygon);
+        }
+        else if(polygon.getVertexCount()==2u){
+            //its a rectangle
+            edk::shape::Rectangle2D rect;
+            edk::vec2f32 vec0;
+            edk::vec2f32 vec1;
+            //test the vertex
+            if(polygon.getVertexPosition(0u).x>polygon.getVertexPosition(1u).x){
+                vec0.x = polygon.getVertexPosition(0u).x;
+                vec1.x = polygon.getVertexPosition(1u).x;
+            }
+            else{
+                vec0.x = polygon.getVertexPosition(1u).x;
+                vec1.x = polygon.getVertexPosition(0u).x;
+            }
+            if(polygon.getVertexPosition(0u).y>polygon.getVertexPosition(1u).y){
+                vec0.y = polygon.getVertexPosition(0u).y;
+                vec1.y = polygon.getVertexPosition(1u).y;
+            }
+            else{
+                vec0.y = polygon.getVertexPosition(1u).y;
+                vec1.y = polygon.getVertexPosition(0u).y;
+            }
+            rect.setVertexPosition(0u,vec0);
+            rect.setVertexPosition(1u,vec1);
+            //add the rect
+            ret = edk::shape::Polygon2DList::addPolygon(rect);
         }
         else{
 
