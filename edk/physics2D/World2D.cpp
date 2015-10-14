@@ -1464,6 +1464,10 @@ bool edk::physics2D::World2D::addObject(edk::physics2D::PhysicObject2D* object){
                                         !object->physicMesh.selectedGetAngle()
                                         ){
                                     //Set as box
+                                    if(rectSize.width<0.f)
+                                        rectSize.width*=-1.f;
+                                    if(rectSize.height<0.f)
+                                        rectSize.height*=-1.f;
                                     objectShape.SetAsBox(rectSize.width*0.5f,
                                                          rectSize.height*0.5f,
                                                          b2Vec2(0,0),

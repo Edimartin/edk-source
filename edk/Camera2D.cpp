@@ -57,9 +57,15 @@ void edk::Camera2D::setSize(edk::size2f32 size){
     //
     this->size=size*0.5f;
 }
-void edk::Camera2D::setSize(edk::float32 sizeX,edk::float32 sizeY){
+void edk::Camera2D::setSize(edk::float32 sizeW,edk::float32 sizeH){
     //
-    return this->setSize(edk::size2f32(sizeX,sizeY));
+    return this->setSize(edk::size2f32(sizeW,sizeH));
+}
+void edk::Camera2D::setSizeW(edk::float32 width){
+    this->size.width = width*0.5f;
+}
+void edk::Camera2D::setSizeH(edk::float32 height){
+    this->size.height = height*0.5f;
 }
 //Set a rectangle to the camera
 bool edk::Camera2D::setRect(edk::rectf32 rect){

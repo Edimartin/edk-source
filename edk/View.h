@@ -53,6 +53,9 @@ void load(rectf32 outsideViewOrigin){
 void unload(){
     //
 }
+void View::update(edk::WindowEvents* events){
+    //
+}
 void View::eventMousePressed(edk::vec2f32 point,edk::uint32 button){
     //types
     //edk::mouse::left;

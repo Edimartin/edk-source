@@ -130,170 +130,170 @@ public:
     //REVOLUTE
     edk::physics2D::RevoluteJoint2D* createRevoluteJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA,
                                                          edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 positionB,
-                                                         bool collide
+                                                         bool collide=false
                                                          );
     edk::physics2D::RevoluteJoint2D* createRevoluteJoint(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPosition,
-                                                         bool collide
+                                                         bool collide=false
                                                          );
     edk::physics2D::RevoluteJoint2D* createRevoluteAngleJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA,
                                                               edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 positionB,
                                                               edk::float32 lowerAngle,edk::float32 upperAngle,
-                                                              bool collide
+                                                              bool collide=false
                                                               );
     edk::physics2D::RevoluteJoint2D* createRevoluteAngleJoint(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPosition,
                                                               edk::float32 lowerAngle,edk::float32 upperAngle,
-                                                              bool collide
+                                                              bool collide=false
                                                               );
     edk::physics2D::RevoluteJoint2D* createRevoluteMotorJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA,
                                                               edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 positionB,
                                                               edk::float32 maxTorque,edk::float32 speed,
-                                                              bool collide
+                                                              bool collide=false
                                                               );
     edk::physics2D::RevoluteJoint2D* createRevoluteMotorJoint(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPosition,
                                                               edk::float32 maxTorque,edk::float32 speed,
-                                                              bool collide
+                                                              bool collide=false
                                                               );
     //PRISMATIC
     edk::physics2D::PrismaticJoint2D* createPrismaticJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA,
                                                            edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 positionB,
                                                            edk::vec2f32 direction, edk::float32 lowerDistance, edk::float32 upperDistance,
-                                                           bool collide
+                                                           bool collide=false
                                                            );
     edk::physics2D::PrismaticJoint2D* createPrismaticJoint(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPosition,
                                                            edk::vec2f32 direction, edk::float32 lowerDistance, edk::float32 upperDistance,
-                                                           bool collide
+                                                           bool collide=false
                                                            );
     edk::physics2D::PrismaticJoint2D* createPrismaticJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA,
                                                            edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 positionB,
                                                            edk::float32 angle, edk::float32 lowerDistance, edk::float32 upperDistance,
-                                                           bool collide
+                                                           bool collide=false
                                                            );
     edk::physics2D::PrismaticJoint2D* createPrismaticJoint(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPosition,
                                                            edk::float32 angle, edk::float32 lowerDistance, edk::float32 upperDistance,
-                                                           bool collide
+                                                           bool collide=false
                                                            );
     edk::physics2D::PrismaticJoint2D* createPrismaticMotorJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA,
                                                                 edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 positionB,
                                                                 edk::vec2f32 direction, edk::float32 lowerDistance, edk::float32 upperDistance,
                                                                 edk::float32 maxForce,edk::float32 speed,
-                                                                bool collide
+                                                                bool collide=false
                                                                 );
     edk::physics2D::PrismaticJoint2D* createPrismaticMotorJoint(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPosition,
                                                                 edk::vec2f32 direction, edk::float32 lowerDistance, edk::float32 upperDistance,
                                                                 edk::float32 maxForce,edk::float32 speed,
-                                                                bool collide
+                                                                bool collide=false
                                                                 );
     edk::physics2D::PrismaticJoint2D* createPrismaticMotorJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA,
                                                                 edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 positionB,
                                                                 edk::float32 angle, edk::float32 lowerDistance, edk::float32 upperDistance,
                                                                 edk::float32 maxForce,edk::float32 speed,
-                                                                bool collide
+                                                                bool collide=false
                                                                 );
     edk::physics2D::PrismaticJoint2D* createPrismaticMotorJoint(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPosition,
                                                                 edk::float32 angle, edk::float32 lowerDistance, edk::float32 upperDistance,
                                                                 edk::float32 maxForce,edk::float32 speed,
-                                                                bool collide
+                                                                bool collide=false
                                                                 );
     //DISTANCE
     edk::physics2D::DistanceJoint2D* createDistanceJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA,
                                                          edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 positionB,
                                                          edk::float32 frequency,edk::float32 distance,
-                                                         bool collide
+                                                         bool collide=false
                                                          );
     edk::physics2D::DistanceJoint2D* createDistanceJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 worldPositionA,
                                                          edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPositionB,
                                                          edk::float32 frequency,
-                                                         bool collide
+                                                         bool collide=false
                                                          );
     //PULLEY
     edk::physics2D::PulleyJoint2D* createPulleyJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA, edk::vec2f32 pulleyPositionA,
                                                      edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 positionB, edk::vec2f32 pulleyPositionB,
                                                      edk::float32 lenghtA,edk::float32 lenghtB,
-                                                     bool collide
+                                                     bool collide=false
                                                      );
     edk::physics2D::PulleyJoint2D* createPulleyJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA, edk::vec2f32 pulleyPositionA,
                                                      edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 positionB, edk::vec2f32 pulleyPositionB,
-                                                     bool collide
+                                                     bool collide=false
                                                      );
     edk::physics2D::PulleyJoint2D* createPulleyWorldJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 worldPositionA, edk::vec2f32 pulleyWorldPositionA,
                                                           edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPositionB, edk::vec2f32 pulleyWorldPositionB,
                                                           edk::float32 lenghtA,edk::float32 lenghtB,
-                                                          bool collide
+                                                          bool collide=false
                                                           );
     edk::physics2D::PulleyJoint2D* createPulleyWorldJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 worldPositionA, edk::vec2f32 pulleyWorldPositionA,
                                                           edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPositionB, edk::vec2f32 pulleyWorldPositionB,
-                                                          bool collide
+                                                          bool collide=false
                                                           );
     //WHEEL
     edk::physics2D::WheelJoint2D* createWheelJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA,
                                                    edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 positionB,
                                                    edk::vec2f32 direction, edk::float32 frequency, edk::float32 dampingRatio,
-                                                   bool collide
+                                                   bool collide=false
                                                    );
     edk::physics2D::WheelJoint2D* createWheelJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA,
                                                    edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 positionB,
                                                    edk::vec2f32 direction,
-                                                   bool collide
+                                                   bool collide=false
                                                    );
     edk::physics2D::WheelJoint2D* createWheelJoint(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPosition,
                                                    edk::vec2f32 direction, edk::float32 frequency, edk::float32 dampingRatio,
-                                                   bool collide
+                                                   bool collide=false
                                                    );
     edk::physics2D::WheelJoint2D* createWheelJoint(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPosition,
                                                    edk::vec2f32 direction,
-                                                   bool collide
+                                                   bool collide=false
                                                    );
     edk::physics2D::WheelJoint2D* createWheelMotorJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA,
                                                         edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 positionB,
                                                         edk::vec2f32 direction, edk::float32 frequency, edk::float32 dampingRatio,
                                                         edk::float32 maxTorque,edk::float32 speed,
-                                                        bool collide
+                                                        bool collide=false
                                                         );
     edk::physics2D::WheelJoint2D* createWheelMotorJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA,
                                                         edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 positionB,
                                                         edk::vec2f32 direction,
                                                         edk::float32 maxTorque,edk::float32 speed,
-                                                        bool collide
+                                                        bool collide=false
                                                         );
     edk::physics2D::WheelJoint2D* createWheelMotorJoint(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPosition,
                                                         edk::vec2f32 direction, edk::float32 frequency, edk::float32 dampingRatio,
                                                         edk::float32 maxTorque,edk::float32 speed,
-                                                        bool collide
+                                                        bool collide=false
                                                         );
     edk::physics2D::WheelJoint2D* createWheelMotorJoint(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPosition,
                                                         edk::vec2f32 direction,
                                                         edk::float32 maxTorque,edk::float32 speed,
-                                                        bool collide
+                                                        bool collide=false
                                                         );
     //WELD
     edk::physics2D::Joint2D* createWeldJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA,
                                              edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 positionB,
-                                             bool collide
+                                             bool collide=false
                                              );
     edk::physics2D::Joint2D* createWeldJoint(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPosition,
-                                             bool collide
+                                             bool collide=false
                                              );
     //ROPE
     edk::physics2D::RopeJoint2D* createRopeJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA,
                                                  edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 positionB,
                                                  edk::float32 maxLength,
-                                                 bool collide
+                                                 bool collide=false
                                                  );
     edk::physics2D::RopeJoint2D* createRopeJointWorldPositions(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 worldPositionA,
                                                                edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPositionB,
                                                                edk::float32 maxLength,
-                                                               bool collide
+                                                               bool collide=false
                                                                );
     edk::physics2D::RopeJoint2D* createRopeJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 worldPositionA,
                                                  edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPositionB,
-                                                 bool collide
+                                                 bool collide=false
                                                  );
     //GEAR
 /*
     edk::physics2D::RopeJoint2D* createGearJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA,
                                                  edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 positionB,
                                                  edk::float32 distance,
-                                                 bool collide
+                                                 bool collide=false
                                                  );
 */
 
