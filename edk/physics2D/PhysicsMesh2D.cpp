@@ -63,6 +63,14 @@ edk::uint32 edk::physics2D::PhysicsMesh2D::addPolygon(edk::shape::Polygon2D poly
             }
             rect.setVertexPosition(0u,vec0);
             rect.setVertexPosition(1u,vec1);
+            //set rect
+            rect.setScale(polygon.getScale());
+            rect.setTranslate(polygon.getTranslate());
+            rect.setAngle(polygon.getAngle());
+            //set physics
+            rect.setDensity(polygon.getDensity());
+            rect.setFriction(polygon.getFriction());
+            rect.setRestitution(polygon.getRestitution());
             //add the rect
             ret = edk::shape::Polygon2DList::addPolygon(rect);
         }
