@@ -85,7 +85,7 @@ uint32 ViewController::getCount(){
 
 View* ViewController::getSubview(edk::uint64 n){
     //test if the view exist
-    if(n<this->nexts.size()){
+    if(this->nexts.havePos(n)){
         //then find the view
         return this->nexts[n];
     }
@@ -99,9 +99,11 @@ uint32 ViewController::getSubviewId(edk::View *subView){
         //find the view
         for(edk::uint32 i=0u;i<this->nexts.size();i++){
             //test if the pointer is equal
-            if(subView==this->nexts[i]){
-                //foundIt. Return the pos in the vector
-                return i;
+            if(this->nexts.havePos(i)){
+                if(subView==this->nexts[i]){
+                    //foundIt. Return the pos in the vector
+                    return i;
+                }
             }
         }
     }
@@ -244,7 +246,7 @@ void ViewController::draw(edk::rectf32 outsideViewOrigin){
         //Then draw the others
         for(edk::uint32 i=0u;i<this->nexts.size();i++){
             //test if the view exist
-            if(this->nexts[i]){
+            if(this->nexts.havePos(i)){
                 //then draw using the view in GU. no in EDK
                 this->nexts[i]->draw(
                             this->rectInside
@@ -261,18 +263,20 @@ bool ViewController::contact(edk::vec2f32 point,edk::uint8 state,edk::vector::St
     if(this->pointInside(point)){
         for(edk::uint32 i=this->nexts.size();i>0u;i--){
             //test if the view exist
-            if(this->nexts[i-1u]){
-                //test the contact
-                if(ret){
-                    this->nexts[i-1u]->contactRelease(point - this->animatedFrame.origin,state,buttons);
-                }
-                else{
-                    if(this->nexts[i-1u]->contact(point - this->animatedFrame.origin,state,buttons)){
-                        //
-                        ret=true;
+            if(this->nexts.havePos(i-1u)){
+                if(this->nexts[i-1u]){
+                    //test the contact
+                    if(ret){
+                        this->nexts[i-1u]->contactRelease(point - this->animatedFrame.origin,state,buttons);
                     }
                     else{
-                        this->nexts[i-1u]->contactRelease(point - this->animatedFrame.origin,state,buttons);
+                        if(this->nexts[i-1u]->contact(point - this->animatedFrame.origin,state,buttons)){
+                            //
+                            ret=true;
+                        }
+                        else{
+                            this->nexts[i-1u]->contactRelease(point - this->animatedFrame.origin,state,buttons);
+                        }
                     }
                 }
             }
@@ -294,9 +298,11 @@ void ViewController::contactRelease(edk::vec2f32 point,edk::uint8 state,edk::vec
     this->edk::View::contactRelease(point,state,buttons);
     for(edk::uint32 i=this->nexts.size();i>0u;i--){
         //test if the view exist
-        if(this->nexts[i-1u]){
-            //test the contact
-            this->nexts[i-1u]->contactRelease(point - this->animatedFrame.origin,state,buttons);
+        if(this->nexts.havePos(i-1u)){
+            if(this->nexts[i-1u]){
+                //test the contact
+                this->nexts[i-1u]->contactRelease(point - this->animatedFrame.origin,state,buttons);
+            }
         }
     }
 }
