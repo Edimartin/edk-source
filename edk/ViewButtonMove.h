@@ -26,7 +26,7 @@ Gravatai RS Brazil 94065100
 #endif
 
 #pragma once
-#include "edk/ViewButton.h"
+#include "ViewButton.h"
 
 #ifdef printMessages
 #warning "    Compiling ViewButtonMove"

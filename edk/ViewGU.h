@@ -28,6 +28,7 @@ Gravatai RS Brazil 94065100
 #pragma once
 #include "ViewSpriteController.h"
 #include "WindowEvents.h"
+#include "GU/GU.h"
 
 #ifdef printMessages
 #warning "    Compiling ViewGU"

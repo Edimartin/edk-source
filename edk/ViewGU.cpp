@@ -71,8 +71,9 @@ void edk::ViewGU::drawSelectionCamera(){
 //process the selection
 void edk::ViewGU::processHits(edk::int32 hits, edk::uint32 buffer[]){
     edk::uint32 i, j;
-    edk::uint32 names, *ptr;
-    edk::float32 near=0.f,far=0.f;
+    edk::uint32 names=0u, *ptr=NULL;
+    edk::float32 sNear = 0.f;
+    edk::float32 sFar = 0.f;
     //stack with names
     edk::vector::Stack<edk::uint32> nameStack;
 
@@ -82,16 +83,16 @@ void edk::ViewGU::processHits(edk::int32 hits, edk::uint32 buffer[]){
             nameStack.clean();
             names = *ptr;
             ptr++;
-            near = (edk::float32)*ptr/0x7fffffff;
+            sNear = (edk::float32)*ptr/0x7fffffff;
             ptr++;
-            far = (edk::float32)*ptr/0x7fffffff;
+            sFar = (edk::float32)*ptr/0x7fffffff;
             ptr++;
             for (j = 0; j < names; j++) {  /* for each name */
                 nameStack.pushBack(*ptr);
                 ptr++;
             }
             //run the function
-            this->selectObject(i,hits,near,far,&nameStack);
+            this->selectObject(i,hits,sNear,sFar,&nameStack);
         }
     }
     else{

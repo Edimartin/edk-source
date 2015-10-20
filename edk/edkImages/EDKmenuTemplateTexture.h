@@ -1,7 +1,7 @@
 #ifndef EDKmenuTemplateTexture_H
 #define EDKmenuTemplateTexture_H
 
-#include "edk/TypeVars.h"
+#include "../TypeVars.h"
 
 static edk::uint32 EDKmenuTemplateTextureSize = 780u;
 static edk::char8 EDKmenuTemplateTextureName[27] = "EDKmenuTemplateTexture.png";
