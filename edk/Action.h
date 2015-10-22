@@ -30,6 +30,7 @@ Gravatai RS Brazil 94065100
 #endif
 
 #pragma once
+#include "String.h"
 #include "TypeVars.h"
 #include "NameClass.h"
 #include "xml/XML.h"
@@ -68,12 +69,16 @@ public:
         if(xml){
             edk::char8* number = edk::String::uint32ToStr(id);
             if(number){
-                edk::char8* name = edk::String::strCat("Action_",number);
+                edk::char8* name = edk::String::strCat((edk::char8*)"Action_",number);
                 if(name){
                     //create the Action
                     if(xml->addSelectedNextChild(name)){
                         if(xml->selectChild(name)){
-                            xml->addSelectedNextAttribute("code",this->getCode());
+                            edk::char8* str = edk::String::uint32ToStr(this->getCode());
+                            if(str){
+                                xml->addSelectedNextAttribute((edk::char8*)"code",str);
+                                delete str;
+                            }
 
                             ret=true;
                             //then select the father
@@ -93,7 +98,7 @@ public:
         if(xml){
             edk::char8* number = edk::String::uint32ToStr(id);
             if(number){
-                edk::char8* name = edk::String::strCat("Action_",number);
+                edk::char8* name = edk::String::strCat((edk::char8*)"Action_",number);
                 if(name){
                     //create the Action
                     if(xml->selectChild(name)){
@@ -143,13 +148,17 @@ public:
         if(xml){
             edk::char8* number = edk::String::uint32ToStr(id);
             if(number){
-                edk::char8* name = edk::String::strCat("Action_",number);
+                edk::char8* name = edk::String::strCat((edk::char8*)"Action_",number);
                 if(name){
                     //create the Action
                     if(xml->addSelectedNextChild(name)){
                         if(xml->selectChild(name)){
-                            xml->addSelectedNextAttribute("code",this->getCode());
-                            if(this->getName()) xml->addSelectedNextAttribute("name",this->getName());
+                            edk::char8* str = edk::String::uint32ToStr(this->getCode());
+                            if(str){
+                                xml->addSelectedNextAttribute((edk::char8*)"code",str);
+                                delete str;
+                            }
+                            if(this->getName()) xml->addSelectedNextAttribute((edk::char8*)"name",this->getName());
                             //then select the father
                             xml->selectFather();
                         }
@@ -167,14 +176,14 @@ public:
         if(xml){
             edk::char8* number = edk::String::uint32ToStr(id);
             if(number){
-                edk::char8* name = edk::String::strCat("Action_",number);
+                edk::char8* name = edk::String::strCat((edk::char8*)"Action_",number);
                 if(name){
                     //create the Action
                     if(xml->selectChild(name)){
                         //read the code
-                        this->code = edk::String::strToInt64(xml->getSelectedAttributeValueByName("code"));
+                        this->code = edk::String::strToInt64(xml->getSelectedAttributeValueByName((edk::char8*)"code"));
                         //read the name
-                        this->setName(xml->getSelectedAttributeValueByName("name"));
+                        this->setName(xml->getSelectedAttributeValueByName((edk::char8*)"name"));
                         //then select the father
                         xml->selectFather();
                     }
