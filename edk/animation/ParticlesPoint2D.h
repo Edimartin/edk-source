@@ -1,0 +1,166 @@
+#ifndef PARTICLESPOINT2D_H
+#define PARTICLESPOINT2D_H
+
+/*
+Biblioteca C++ ParticlesPoint2D - Manage a particle system generated in a single point
+Copyright (C) 2013 Eduardo Moura Sales Martins
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+Lesser General Public License for more details.
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+email: edimartin@gmail.com.br
+
+AV: Walmor M. de Souza 392 Casa
+Gravatai RS Brazil 94065100
+*/
+
+#ifdef printMessages
+#warning "Inside ParticlesPoint2D"
+#endif
+
+#pragma once
+#include "../TypeVars.h"
+#include "../Object2DValues.h"
+#include "../Object2D.h"
+#include "InterpolationLine3D.h"
+#include "../Random.h"
+#include "../watch/Time.h"
+#include "../vector/BinaryTree.h"
+
+#ifdef printMessages
+#warning "    Compiling ParticlesPoint2D"
+#endif
+
+namespace edk{
+namespace animation{
+class ParticlesPoint2D : public edk::Object2DValues{
+public:
+    ParticlesPoint2D();
+    ~ParticlesPoint2D();
+    //angle
+    void setAngleNear(edk::float32 near);
+    void setAngleFar(edk::float32 far);
+    void setAngleNearAndFar(edk::float32 near,edk::float32 far);
+    //TimeLimit
+    void setTimeNear(edk::float32 near);
+    void setTimeFar(edk::float32 far);
+    void setTimeNearAndFar(edk::float32 near,edk::float32 far);
+    //life
+    void setLifeNear(edk::float32 near);
+    void setLifeFar(edk::float32 far);
+    void setLifeNearAndFar(edk::float32 near,edk::float32 far);
+    //speed
+    void setSpeedNear(edk::float32 near);
+    void setSpeedFar(edk::float32 far);
+    void setSpeedNearAndFar(edk::float32 near,edk::float32 far);
+    //gravity
+    void setGravity(edk::vec2f32 gravity);
+    void setGravity(edk::float32 x,edk::float32 y);
+    //get the angles near and far
+    edk::float32 getAngleNear();
+    edk::float32 getAngleFar();
+
+    //set object
+    bool setObject(edk::Object2D obj);
+    //load particles
+    bool loadParticles(edk::uint32 size);
+    //clean the particles
+    void cleanParticles();
+
+    void update();
+    void draw();
+
+    edk::float32 angle;
+    edk::vec2f32 position;
+private:
+    //angles limit
+    edk::float32 angleNear,angleFar,angleDistance;
+    //speeds
+    edk::float32 speedFar,speedNear,speedDistance;
+    //gravity
+    edk::vec2f32 gravity;
+
+    //Object to draw
+    edk::Object2D obj;
+
+    //clock
+    edk::watch::Time time;
+    //time limit to create a new particle
+    edk::float32 timeNear,timeFar,timeDistance,timeLimit;
+    //life
+    edk::float32 lifeNear,lifeFar,lifeDistance;
+    //save the last second
+    edk::float32 lastSecond;
+
+    //animated object
+    class ParticleObject : public edk::Object2DValues{
+    public:
+        ParticleObject(edk::Object2D *obj);
+        ParticleObject();
+        ~ParticleObject();
+        //set the object pointer
+        void setObject(edk::Object2D *obj);
+        void setGravity(edk::vec2f32* gravity);
+        //update animations
+        void update(edk::float32 second);
+        void draw();
+        bool isPlaying();
+        //clean
+        void clean();
+        //animation
+        //edk::animation::Interpolation2DGroup animPosition;
+        edk::animation::InterpolationGroup life;
+        edk::vec2f32 direction;
+        edk::vec2f32* gravity;
+        edk::float32 speed;
+        edk::animation::Interpolation2DGroup animSize;
+        edk::animation::Interpolation2DGroup animAngle;
+    private:
+        edk::Object2D *obj;
+        static edk::vec2f32 gravitySet;
+    };
+
+    //particles vector
+    edk::animation::ParticlesPoint2D::ParticleObject* particles;
+    edk::uint32 nextParticle;
+    edk::uint32 size;
+
+    //tree with particles on scene
+    class TreeParticles: public edk::vector::BinaryTree<edk::animation::ParticlesPoint2D::ParticleObject*>{
+    public:
+        TreeParticles();
+        ~TreeParticles();
+        //render particles
+        void renderElement(edk::animation::ParticlesPoint2D::ParticleObject* value);
+        //update particles
+        void updateElement(edk::animation::ParticlesPoint2D::ParticleObject* value);
+
+        //update the objects
+        void updateParticles(edk::float32 second);
+    private:
+        edk::float32 second;
+        //remove tree
+        class treeRemove: public edk::vector::BinaryTree<edk::animation::ParticlesPoint2D::ParticleObject*>{
+        public:
+            treeRemove(){}
+            ~treeRemove(){}
+            //update particles
+            void updateElement(edk::animation::ParticlesPoint2D::ParticleObject* value){
+                //remove the element from treeTemp
+                this->treeTemp->remove(value);
+            }
+            edk::vector::BinaryTree<edk::animation::ParticlesPoint2D::ParticleObject*>* treeTemp;
+        }treeRemove;
+    }treeParticles;
+};
+}//end namespace animation
+}//end namespace edk
+
+#endif // ParticlesPoint2D_H

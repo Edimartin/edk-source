@@ -20,6 +20,10 @@ AV: Walmor M. de Souza 392 Casa
 Gravatai RS Brazil 94065100
 */
 
+#ifdef printMessages
+#warning "            Inside PathGroup2D.cpp"
+#endif
+
 edk::animation::Path2DGroup::Path2DGroup()
 {
 }
