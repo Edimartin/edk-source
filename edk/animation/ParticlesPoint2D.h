@@ -63,6 +63,8 @@ public:
     //gravity
     void setGravity(edk::vec2f32 gravity);
     void setGravity(edk::float32 x,edk::float32 y);
+    //set the blow
+    bool setBlowCount(edk::uint32 blow);
     //get the angles near and far
     edk::float32 getAngleNear();
     edk::float32 getAngleFar();
@@ -74,8 +76,18 @@ public:
     //clean the particles
     void cleanParticles();
 
+    //player
+    void play();
+    void pause();
+    void pauseParticles();
+    void stop();
+
     void update();
     void draw();
+    //draw the pivo
+    void drawPivo(edk::float32 size,edk::color3f32 color);
+    //draw the angles vector
+    void drawAngles(edk::float32 size,edk::color3f32 color);
 
     edk::float32 angle;
     edk::vec2f32 position;
@@ -86,6 +98,10 @@ private:
     edk::float32 speedFar,speedNear,speedDistance;
     //gravity
     edk::vec2f32 gravity;
+    //save if is playing
+    bool isPlaying;
+    //particles count to blow
+    edk::uint32 blow;
 
     //Object to draw
     edk::Object2D obj;
@@ -112,6 +128,9 @@ private:
         void update(edk::float32 second);
         void draw();
         bool isPlaying();
+        bool isStoped();
+        void play();
+        void pause();
         //clean
         void clean();
         //animation
@@ -141,9 +160,12 @@ private:
         void renderElement(edk::animation::ParticlesPoint2D::ParticleObject* value);
         //update particles
         void updateElement(edk::animation::ParticlesPoint2D::ParticleObject* value);
+        //pause particles
+        void printElement(edk::animation::ParticlesPoint2D::ParticleObject* value);
 
         //update the objects
         void updateParticles(edk::float32 second);
+        void pauseParticles();
     private:
         edk::float32 second;
         //remove tree

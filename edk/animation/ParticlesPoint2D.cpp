@@ -98,6 +98,17 @@ bool edk::animation::ParticlesPoint2D::ParticleObject::isPlaying(){
     }
     return false;
 }
+bool edk::animation::ParticlesPoint2D::ParticleObject::isStoped(){
+    if(!this->life.isPlaying() && !this->life.isPaused())
+        return true;
+    return false;
+}
+void edk::animation::ParticlesPoint2D::ParticleObject::play(){
+    this->life.playForward();
+}
+void edk::animation::ParticlesPoint2D::ParticleObject::pause(){
+    this->life.pause();
+}
 //clean
 void edk::animation::ParticlesPoint2D::ParticleObject::clean(){
     this->life.cleanAnimations();
@@ -120,13 +131,19 @@ void edk::animation::ParticlesPoint2D::TreeParticles::renderElement(edk::animati
 }
 //update particles
 void edk::animation::ParticlesPoint2D::TreeParticles::updateElement(edk::animation::ParticlesPoint2D::ParticleObject* value){
-    value->update(this->second);
-
-    //test if the value is playing
-    if(!value->isPlaying()){
+    //test if is playing
+    if(value->isPlaying()){
+        //then update
+        value->update(this->second);
+    }
+    else if(value->isStoped()){
         //add to the remove tree
         this->treeRemove.add(value);
     }
+}
+//pause particles
+void edk::animation::ParticlesPoint2D::TreeParticles::printElement(edk::animation::ParticlesPoint2D::ParticleObject* value){
+    value->pause();
 }
 
 //update the objects
@@ -137,8 +154,12 @@ void edk::animation::ParticlesPoint2D::TreeParticles::updateParticles(edk::float
     this->treeRemove.update();
     this->treeRemove.clean();
 }
+void edk::animation::ParticlesPoint2D::TreeParticles::pauseParticles(){
+    this->print();
+}
 
 edk::animation::ParticlesPoint2D::ParticlesPoint2D(){
+    this->blow = 1u;
     this->particles=NULL;
     this->nextParticle=0u;
     this->cleanParticles();
@@ -147,6 +168,8 @@ edk::animation::ParticlesPoint2D::ParticlesPoint2D(){
     this->setTimeNearAndFar(1.f,1.f);
     this->setLifeNearAndFar(1.f,1.f);
     this->gravity = edk::vec2f32(0,0);
+    this->isPlaying = false;
+    //this->isPlayingParticles = false;
 
     //load the object
     {
@@ -251,6 +274,15 @@ void edk::animation::ParticlesPoint2D::setGravity(edk::vec2f32 gravity){
 void edk::animation::ParticlesPoint2D::setGravity(edk::float32 x,edk::float32 y){
     this->setGravity(edk::vec2f32(x,y));
 }
+//set the blow
+bool edk::animation::ParticlesPoint2D::setBlowCount(edk::uint32 blow){
+    if(blow){
+        this->blow = blow;
+        return true;
+    }
+    this->blow = 1u;
+    return false;
+}
 //get the angles near and far
 edk::float32 edk::animation::ParticlesPoint2D::getAngleNear(){
     return this->angleFar;
@@ -292,40 +324,143 @@ void edk::animation::ParticlesPoint2D::cleanParticles(){
     this->nextParticle=0u;
 }
 
+//player
+void edk::animation::ParticlesPoint2D::play(){
+    //
+    this->isPlaying = true;
+    //this->isPlayingParticles=true;
+}
+void edk::animation::ParticlesPoint2D::pause(){
+    //
+    this->isPlaying = !this->isPlaying;
+    if(this->isPlaying){
+        //this->isPlayingParticles=true;
+    }
+}
+
+void edk::animation::ParticlesPoint2D::pauseParticles(){
+    /*
+    if(this->isPlaying){
+        this->isPlaying=false;
+        this->isPlayingParticles=false;
+    }
+    else if(!this->runPause){
+        this->isPlaying=true;
+        this->isPlayingParticles=true;
+    }
+    else{
+
+        //update particles
+        void updateElement(edk::animation::ParticlesPoint2D::ParticleObject* value);        this->isPlayingParticles=!this->isPlayingParticles;
+    }
+    */
+    this->treeParticles.pauseParticles();
+}
+void edk::animation::ParticlesPoint2D::stop(){
+    this->isPlaying = false;
+    this->treeParticles.clean();
+    //this->isPlayingParticles=false;
+}
+
 void edk::animation::ParticlesPoint2D::update(){
     edk::float32 second = (edk::float32)this->time.getMicroseconds() / (edk::float32)edk::watch::second;
     //update the tree
+    //if(this->isPlayingParticles || this->isPlaying)
     this->treeParticles.updateParticles(second - this->lastSecond);
 
-    if(second > this->timeLimit){
-        //
-        this->time.start();
-        if(this->nextParticle >= this->size){
-            this->nextParticle=0u;
-        }
-        //clean the particle
-        this->particles[this->nextParticle].clean();
-        //set the particle life
-        this->particles[this->nextParticle].life.addFirstInterpolationLine(0.f,this->lifeNear + (edk::Random::getRandPercent() * this->lifeDistance));
-        this->particles[this->nextParticle].life.playForward();
-        //set position
-        this->particles[this->nextParticle].position = this->position;
-        this->particles[this->nextParticle].speed = this->speedNear + (edk::Random::getRandPercent() * this->speedDistance);
-        //gravity
-        this->particles[this->nextParticle].setGravity(&this->gravity);
-        //set direction
-        this->particles[this->nextParticle].direction = edk::Math::rotate2f(edk::vec2f32(1,0),this->angleNear + (this->angleDistance * edk::Random::getRandPercent()));
-        //add to the tree
-        this->treeParticles.add(&this->particles[this->nextParticle]);
+    this->lastSecond = second;
+    if(this->isPlaying){
+        if(second > this->timeLimit){
+            this->time.start();
+            this->lastSecond = 0.f;
 
-        this->nextParticle++;
-        this->lastSecond = 0.f;
-        this->timeLimit = this->timeNear + (edk::Random::getRandPercent() * this->timeDistance);
+            for(edk::uint32 i=0u;i<this->blow;i++){
+                if(this->nextParticle >= this->size){
+                    this->nextParticle=0u;
+                }
+                //clean the particle
+                this->particles[this->nextParticle].clean();
+                //set the particle life
+                this->particles[this->nextParticle].life.addFirstInterpolationLine(0.f,this->lifeNear + (edk::Random::getRandPercent() * this->lifeDistance));
+                this->particles[this->nextParticle].life.playForward();
+                //set position
+                this->particles[this->nextParticle].position = this->position;
+                this->particles[this->nextParticle].speed = this->speedNear + (edk::Random::getRandPercent() * this->speedDistance);
+                //gravity
+                this->particles[this->nextParticle].setGravity(&this->gravity);
+                //set direction
+                this->particles[this->nextParticle].direction = edk::Math::rotate2f(edk::vec2f32(1,0),this->angleNear + (this->angleDistance * edk::Random::getRandPercent()) + this->angle);
+                //add to the tree
+                this->treeParticles.add(&this->particles[this->nextParticle]);
+
+                this->nextParticle++;
+            }
+            this->timeLimit = this->timeNear + (edk::Random::getRandPercent() * this->timeDistance);
+        }
     }
     else{
-        this->lastSecond = second;
+        this->time.start();
+        this->lastSecond = 0.f;
     }
 }
 void edk::animation::ParticlesPoint2D::draw(){
     this->treeParticles.render();
+}
+//draw the pivo
+void edk::animation::ParticlesPoint2D::drawPivo(edk::float32 size,edk::color3f32 color){
+    edk::GU::guPushMatrix();
+    //add translate
+    edk::GU::guTranslate2f32(this->position);
+    //add scale
+    edk::GU::guScale2f32(edk::size2f32(size,size));
+
+    //lineSize
+    edk::GU::guLineWidth(3);
+
+    //set the colors
+    edk::GU::guColor3f32(color);
+    //draw the lines
+    edk::GU::guBegin(GU_LINES);
+    //LINE 1
+    edk::GU::guVertex2f32(-0.5f,-0.5f);
+    edk::GU::guVertex2f32( 0.5f, 0.5f);
+    //LINE 2
+    edk::GU::guVertex2f32(-0.5f, 0.5f);
+    edk::GU::guVertex2f32( 0.5f,-0.5f);
+    edk::GU::guEnd();
+
+    //lineSize
+    edk::GU::guLineWidth(1);
+
+    //
+    edk::GU::guPopMatrix();
+}
+//draw the angles vector
+void edk::animation::ParticlesPoint2D::drawAngles(edk::float32 size,edk::color3f32 color){
+    edk::GU::guPushMatrix();
+    //add translate
+    edk::GU::guTranslate2f32(this->position);
+    //add scale
+    edk::GU::guScale2f32(edk::size2f32(size,size));
+
+    //lineSize
+    edk::GU::guLineWidth(3);
+
+    //set the colors
+    edk::GU::guColor3f32(color);
+    //draw the lines
+    edk::GU::guBegin(GU_LINES);
+    //LINE 1
+    edk::GU::guVertex2f32(-0.0f,-0.0f);
+    edk::GU::guVertex2f32(edk::Math::rotate2f(edk::vec2f32(1,0),this->angleNear + this->angle));
+    //LINE 2
+    edk::GU::guVertex2f32(-0.0f,-0.0f);
+    edk::GU::guVertex2f32(edk::Math::rotate2f(edk::vec2f32(1,0),this->angleFar + this->angle));
+    edk::GU::guEnd();
+
+    //lineSize
+    edk::GU::guLineWidth(1);
+
+    //
+    edk::GU::guPopMatrix();
 }
