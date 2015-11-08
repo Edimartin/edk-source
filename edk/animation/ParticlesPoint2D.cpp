@@ -195,6 +195,10 @@ edk::animation::ParticlesPoint2D::~ParticlesPoint2D(){
     this->cleanParticles();
     this->obj.cleanMeshes();
 }
+//get the position
+edk::vec2f32 edk::animation::ParticlesPoint2D::newPosition(){
+    return this->position;
+}
 
 //set angles near and far
 void edk::animation::ParticlesPoint2D::setAngleNear(edk::float32 near){
@@ -304,9 +308,9 @@ bool edk::animation::ParticlesPoint2D::loadParticles(edk::uint32 size){
         //create the new particles
         this->particles = new edk::animation::ParticlesPoint2D::ParticleObject[size];
         if(this->particles){
-            this->size = size;
+            this->sizeParticles = size;
             //set the objects
-            for(register edk::uint32 i = 0u;i<this->size;i++){
+            for(register edk::uint32 i = 0u;i<this->sizeParticles;i++){
                 this->particles[i].setObject(&this->obj);
             }
             return true;
@@ -320,7 +324,7 @@ void edk::animation::ParticlesPoint2D::cleanParticles(){
         delete[] particles;
         this->particles=NULL;
     }
-    this->size = 0u;
+    this->sizeParticles = 0u;
     this->nextParticle=0u;
 }
 
@@ -375,7 +379,7 @@ void edk::animation::ParticlesPoint2D::update(){
             this->lastSecond = 0.f;
 
             for(edk::uint32 i=0u;i<this->blow;i++){
-                if(this->nextParticle >= this->size){
+                if(this->nextParticle >= this->sizeParticles){
                     this->nextParticle=0u;
                 }
                 //clean the particle
@@ -384,7 +388,7 @@ void edk::animation::ParticlesPoint2D::update(){
                 this->particles[this->nextParticle].life.addFirstInterpolationLine(0.f,this->lifeNear + (edk::Random::getRandPercent() * this->lifeDistance));
                 this->particles[this->nextParticle].life.playForward();
                 //set position
-                this->particles[this->nextParticle].position = this->position;
+                this->particles[this->nextParticle].position = this->newPosition();
                 this->particles[this->nextParticle].speed = this->speedNear + (edk::Random::getRandPercent() * this->speedDistance);
                 //gravity
                 this->particles[this->nextParticle].setGravity(&this->gravity);

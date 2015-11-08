@@ -87,17 +87,21 @@ public:
     //draw the pivo
     void drawPivo(edk::float32 size,edk::color3f32 color);
     //draw the angles vector
-    void drawAngles(edk::float32 size,edk::color3f32 color);
+    virtual void drawAngles(edk::float32 size,edk::color3f32 color);
 
     edk::float32 angle;
     edk::vec2f32 position;
-private:
+
+protected:
+    //get the position
+    virtual edk::vec2f32 newPosition();
     //angles limit
     edk::float32 angleNear,angleFar,angleDistance;
     //speeds
     edk::float32 speedFar,speedNear,speedDistance;
     //gravity
     edk::vec2f32 gravity;
+private:
     //save if is playing
     bool isPlaying;
     //particles count to blow
@@ -149,7 +153,7 @@ private:
     //particles vector
     edk::animation::ParticlesPoint2D::ParticleObject* particles;
     edk::uint32 nextParticle;
-    edk::uint32 size;
+    edk::uint32 sizeParticles;
 
     //tree with particles on scene
     class TreeParticles: public edk::vector::BinaryTree<edk::animation::ParticlesPoint2D::ParticleObject*>{
