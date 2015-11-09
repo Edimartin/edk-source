@@ -60,6 +60,10 @@ public:
     void setSpeedNear(edk::float32 near);
     void setSpeedFar(edk::float32 far);
     void setSpeedNearAndFar(edk::float32 near,edk::float32 far);
+    //frame
+    void setFrameStart(edk::float32 start);
+    void setFrameEnd(edk::float32 end);
+    void setFrameStartAndEnd(edk::float32 start,edk::float32 end);
     //gravity
     void setGravity(edk::vec2f32 gravity);
     void setGravity(edk::float32 x,edk::float32 y);
@@ -69,8 +73,6 @@ public:
     edk::float32 getAngleNear();
     edk::float32 getAngleFar();
 
-    //set object
-    bool setObject(edk::Object2D obj);
     //load particles
     bool loadParticles(edk::uint32 size);
     //clean the particles
@@ -89,8 +91,11 @@ public:
     //draw the angles vector
     virtual void drawAngles(edk::float32 size,edk::color3f32 color);
 
-    edk::float32 angle;
-    edk::vec2f32 position;
+    bool autoRotate;
+
+    //Object to draw
+    edk::Object2D obj;
+    edk::float32 angleObject;
 
 protected:
     //get the position
@@ -99,6 +104,8 @@ protected:
     edk::float32 angleNear,angleFar,angleDistance;
     //speeds
     edk::float32 speedFar,speedNear,speedDistance;
+    //frame
+    edk::float32 frameStart,frameEnd;
     //gravity
     edk::vec2f32 gravity;
 private:
@@ -106,9 +113,6 @@ private:
     bool isPlaying;
     //particles count to blow
     edk::uint32 blow;
-
-    //Object to draw
-    edk::Object2D obj;
 
     //clock
     edk::watch::Time time;
@@ -128,6 +132,7 @@ private:
         //set the object pointer
         void setObject(edk::Object2D *obj);
         void setGravity(edk::vec2f32* gravity);
+        void setAngleObject(edk::float32* angleObj);
         //update animations
         void update(edk::float32 second);
         void draw();
@@ -137,17 +142,27 @@ private:
         void pause();
         //clean
         void clean();
+        //set this
+        bool setThis(edk::animation::ParticlesPoint2D* function);
         //animation
         //edk::animation::Interpolation2DGroup animPosition;
         edk::animation::InterpolationGroup life;
+        edk::float32 lifeLimit;
         edk::vec2f32 direction;
         edk::vec2f32* gravity;
+        edk::float32* angleObj;
         edk::float32 speed;
-        edk::animation::Interpolation2DGroup animSize;
-        edk::animation::Interpolation2DGroup animAngle;
+        //edk::animation::Interpolation2DGroup animSize;
+        //edk::animation::Interpolation2DGroup animAngle;
+        bool autoRotate;
+        //class pointer to update the function
+        edk::animation::ParticlesPoint2D* function;
+        edk::animation::Interpolation1DGroup animFrame;
+        edk::float32 frame;
     private:
         edk::Object2D *obj;
         static edk::vec2f32 gravitySet;
+        static edk::float32 angleObject;
     };
 
     //particles vector
@@ -185,6 +200,12 @@ private:
             edk::vector::BinaryTree<edk::animation::ParticlesPoint2D::ParticleObject*>* treeTemp;
         }treeRemove;
     }treeParticles;
+
+public:
+    //update the particle
+    virtual void updateParticle(edk::animation::ParticlesPoint2D::ParticleObject* particle);
+    //create a frame animation
+    virtual void newFrameAnimation(edk::animation::Interpolation1DGroup* animFrame,edk::float32 life);
 };
 }//end namespace animation
 }//end namespace edk
