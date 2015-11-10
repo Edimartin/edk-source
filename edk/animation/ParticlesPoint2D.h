@@ -83,6 +83,8 @@ public:
     void pause();
     void pauseParticles();
     void stop();
+    //return true if is playing
+    bool isPlaying();
 
     void update();
     void draw();
@@ -96,6 +98,7 @@ public:
     //Object to draw
     edk::Object2D obj;
     edk::float32 angleObject;
+    edk::size2f32 sizeObject;
 
 protected:
     //get the position
@@ -110,7 +113,7 @@ protected:
     edk::vec2f32 gravity;
 private:
     //save if is playing
-    bool isPlaying;
+    bool isPlayingBlower;
     //particles count to blow
     edk::uint32 blow;
 
@@ -122,6 +125,7 @@ private:
     edk::float32 lifeNear,lifeFar,lifeDistance;
     //save the last second
     edk::float32 lastSecond;
+    edk::float32 saveLastSecond;
 
     //animated object
     class ParticleObject : public edk::Object2DValues{
@@ -133,6 +137,7 @@ private:
         void setObject(edk::Object2D *obj);
         void setGravity(edk::vec2f32* gravity);
         void setAngleObject(edk::float32* angleObj);
+        void setSizeObject(edk::size2f32* sizeObj);
         //update animations
         void update(edk::float32 second);
         void draw();
@@ -151,6 +156,7 @@ private:
         edk::vec2f32 direction;
         edk::vec2f32* gravity;
         edk::float32* angleObj;
+        edk::size2f32* sizeObj;
         edk::float32 speed;
         //edk::animation::Interpolation2DGroup animSize;
         //edk::animation::Interpolation2DGroup animAngle;
@@ -163,6 +169,7 @@ private:
         edk::Object2D *obj;
         static edk::vec2f32 gravitySet;
         static edk::float32 angleObject;
+        static edk::size2f32 sizeObject;
     };
 
     //particles vector

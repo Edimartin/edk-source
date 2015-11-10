@@ -26,6 +26,7 @@ Gravatai RS Brazil 94065100
 edk::animation::ParticlesPoint2D particlesTemporaryFunctionPointer;
 edk::vec2f32 edk::animation::ParticlesPoint2D::ParticleObject::gravitySet = edk::vec2f32(0,0);
 edk::float32 edk::animation::ParticlesPoint2D::ParticleObject::angleObject = 0.f;
+edk::size2f32 edk::animation::ParticlesPoint2D::ParticleObject::sizeObject = edk::size2f32(1,1);
 edk::animation::ParticlesPoint2D::ParticleObject::ParticleObject(edk::Object2D *obj){
     //
     this->obj = obj;
@@ -34,6 +35,7 @@ edk::animation::ParticlesPoint2D::ParticleObject::ParticleObject(edk::Object2D *
     this->autoRotate = false;
     this->setGravity(NULL);
     this->setAngleObject(NULL);
+    this->setSizeObject(NULL);
     this->lifeLimit=0.f;
     this->setThis(NULL);
     this->frame = 0.f;
@@ -46,6 +48,7 @@ edk::animation::ParticlesPoint2D::ParticleObject::ParticleObject(){
     this->autoRotate = false;
     this->setGravity(NULL);
     this->setAngleObject(NULL);
+    this->setSizeObject(NULL);
     this->lifeLimit=0.f;
     this->setThis(NULL);
     this->frame = 0.f;
@@ -73,6 +76,14 @@ void edk::animation::ParticlesPoint2D::ParticleObject::setAngleObject(edk::float
         this->angleObj = &edk::animation::ParticlesPoint2D::ParticleObject::angleObject;
     }
 }
+void edk::animation::ParticlesPoint2D::ParticleObject::setSizeObject(edk::size2f32* sizeObj){
+    if(sizeObj){
+        this->sizeObj = sizeObj;
+    }
+    else{
+        this->sizeObj = &edk::animation::ParticlesPoint2D::ParticleObject::sizeObject;
+    }
+}
 
 //update animation
 void edk::animation::ParticlesPoint2D::ParticleObject::update(edk::float32 second){
@@ -86,26 +97,6 @@ void edk::animation::ParticlesPoint2D::ParticleObject::update(edk::float32 secon
     if(success){
         this->frame = temp;
     }
-    /*
-    this->animSize.updateClockAnimation();
-    this->animAngle.updateClockAnimation();
-    edk::float32 temp;
-    bool success=false;
-    //angle
-    temp = this->animSize.getClockX(&success);
-    if(success){
-        this->size.width = temp;
-        temp = this->animSize.getClockY(&success);
-        if(success){
-            this->size.height = temp;
-        }
-    }
-    //angle
-    temp = this->animSize.getClockX(&success);
-    if(success){
-        this->size.width = temp;
-    }
-    */
     //update the position
     edk::float32 percent = second * this->speed;
     this->position += (this->direction * percent);
@@ -121,7 +112,7 @@ void edk::animation::ParticlesPoint2D::ParticleObject::update(edk::float32 secon
 void edk::animation::ParticlesPoint2D::ParticleObject::draw(){
     //set the object
     this->obj->position = this->position;
-    this->obj->size = this->size;
+    this->obj->size = this->size * *this->sizeObj;
     this->obj->angle = this->angle;
     //set the frame
     {
@@ -225,7 +216,7 @@ edk::animation::ParticlesPoint2D::ParticlesPoint2D(){
     this->setTimeNearAndFar(1.f,1.f);
     this->setLifeNearAndFar(1.f,1.f);
     this->gravity = edk::vec2f32(0,0);
-    this->isPlaying = false;
+    this->isPlayingBlower = false;
     //this->isPlayingParticles = false;
 
     //load the object
@@ -243,6 +234,7 @@ edk::animation::ParticlesPoint2D::ParticlesPoint2D(){
 
     this->angle = 0u;
     this->angleObject=0.f;
+    this->sizeObject = edk::size2f32(1,1);
     this->position = edk::vec2f32(0,0);
 
     //load the rand
@@ -384,6 +376,7 @@ bool edk::animation::ParticlesPoint2D::loadParticles(edk::uint32 size){
 //clean the particles
 void edk::animation::ParticlesPoint2D::cleanParticles(){
     if(this->particles){
+        this->stop();
         delete[] particles;
         this->particles=NULL;
     }
@@ -394,13 +387,13 @@ void edk::animation::ParticlesPoint2D::cleanParticles(){
 //player
 void edk::animation::ParticlesPoint2D::play(){
     //
-    this->isPlaying = true;
+    this->isPlayingBlower = true;
     //this->isPlayingParticles=true;
 }
 void edk::animation::ParticlesPoint2D::pause(){
     //
-    this->isPlaying = !this->isPlaying;
-    if(this->isPlaying){
+    this->isPlayingBlower = !this->isPlayingBlower;
+    if(this->isPlayingBlower){
         //this->isPlayingParticles=true;
     }
 }
@@ -424,18 +417,22 @@ void edk::animation::ParticlesPoint2D::pauseParticles(){
     this->treeParticles.pauseParticles();
 }
 void edk::animation::ParticlesPoint2D::stop(){
-    this->isPlaying = false;
+    this->isPlayingBlower = false;
     this->treeParticles.clean();
     //this->isPlayingParticles=false;
+}
+//return true if is playing
+bool edk::animation::ParticlesPoint2D::isPlaying(){
+    return this->isPlayingBlower;
 }
 
 void edk::animation::ParticlesPoint2D::update(){
     edk::float32 second = (edk::float32)this->time.getMicroseconds() / (edk::float32)edk::watch::second;
-    //update the tree
-    this->treeParticles.updateParticles(second - this->lastSecond);
+
+    this->saveLastSecond = this->lastSecond;
 
     this->lastSecond = second;
-    if(this->isPlaying){
+    if(this->isPlayingBlower && this->particles){
         if(second > this->timeLimit){
             this->time.start();
             this->lastSecond = 0.f;
@@ -460,6 +457,8 @@ void edk::animation::ParticlesPoint2D::update(){
                 this->particles[this->nextParticle].setGravity(&this->gravity);
                 //angleObject
                 this->particles[this->nextParticle].setAngleObject(&this->angleObject);
+                //sizeObject
+                this->particles[this->nextParticle].setSizeObject(&this->sizeObject);
                 //set direction
                 this->particles[this->nextParticle].direction = edk::Math::rotate2f(edk::vec2f32(1,0),this->angleNear + (this->angleDistance * edk::Random::getRandPercent()) + this->angle);
                 //autorotate
@@ -476,6 +475,9 @@ void edk::animation::ParticlesPoint2D::update(){
         this->time.start();
         this->lastSecond = 0.f;
     }
+
+    //update the tree
+    this->treeParticles.updateParticles(second - this->saveLastSecond);
 }
 void edk::animation::ParticlesPoint2D::draw(){
     this->treeParticles.render();

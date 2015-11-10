@@ -47,7 +47,7 @@ Gravatai RS Brazil 94065100
 
 /*
 //Events
-void load(rectf32 outsideViewOrigin){
+void load(edk::rectf32 outsideViewOrigin){
     //
 }
 void unload(){
@@ -274,8 +274,8 @@ class View {
     virtual void updateView(edk::WindowEvents* events);
 
  public:
-    rectf32 frame;
-    rectf32 animatedFrame;
+    edk::rectf32 frame;
+    edk::rectf32 animatedFrame;
     color4f32 backgroundColor;
     //set if the view is hided
     bool hide;
