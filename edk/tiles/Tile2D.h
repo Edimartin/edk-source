@@ -140,6 +140,8 @@ public:
     edk::physics2D::PhysicObject2D* getPhysicsObject();
     //return the physicsMesh
     edk::physics2D::PhysicsMesh2D* getPhysicsMeshPointer();
+    //return true if the tile is Physics
+    bool isPhysics();
 
 
     //update the animation

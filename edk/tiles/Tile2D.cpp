@@ -398,6 +398,12 @@ edk::physics2D::PhysicsMesh2D* edk::tiles::Tile2D::getPhysicsMeshPointer(){
         return &this->objPhys->physicMesh;
     return NULL;
 }
+//return true if the tile is Physics
+bool edk::tiles::Tile2D::isPhysics(){
+    if(this->objPhys)
+        return true;
+    return false;
+}
 
 //update the animation
 void edk::tiles::Tile2D::updateAnimation(){

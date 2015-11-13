@@ -997,6 +997,21 @@ edk::physics2D::PhysicObject2D* edk::tiles::TileSet2D::getTilePhysicsObject(edk:
     //else return false
     return NULL;
 }
+//return true if the tile is physics
+bool edk::tiles::TileSet2D::isTilePhysics(edk::uint32 tile){
+    if(tile){
+        tile--;
+        //load the tile from the stack
+        if(this->tiles.havePos(tile)){
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
+            if(temp){
+                return temp->isPhysics();
+            }
+        }
+    }
+    //else return false
+    return NULL;
+}
 
 //Draw the tile from the tileSet
 bool edk::tiles::TileSet2D::drawTile(edk::uint32 tile,edk::vec2f32 position,edk::float32 angle,edk::size2f32 size,edk::color4f32 color){

@@ -194,6 +194,8 @@ public:
     bool deleteTilePhysics(edk::uint32 tile);
     //return the physicsObject
     edk::physics2D::PhysicObject2D* getTilePhysicsObject(edk::uint32 tile);
+    //return true if the tile is physics
+    bool isTilePhysics(edk::uint32 tile);
 
     //Draw the tile from the tileSet
     bool drawTile(edk::uint32 tile,edk::vec2f32 position,edk::float32 angle=0.f,edk::size2f32 size = edk::size2f32(1,1),edk::color4f32 color=edk::color4f32(1,1,1,1));
