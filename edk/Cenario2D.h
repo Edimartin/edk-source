@@ -194,7 +194,9 @@ public:
     void updateAnimations();
     //draw the cenario with all the objects
     void draw();
+    void drawInsideRect(edk::rectf32 rect);
     bool drawLevel(edk::uint32 levelPosition);
+    bool drawLevelInsideRect(edk::uint32 levelPosition,edk::rectf32 rect);
     void drawSelection();
     bool drawSelectionLevel(edk::uint32 levelPosition);
 
@@ -768,6 +770,25 @@ private:
                 }
                 else if(this->tileMap){
                     this->tileMap->draw();
+                }
+            }
+        }
+        void drawInsideRect(edk::rectf32 rect){
+            if(this->show){
+                if(this->objs){
+                    edk::GU::guEnable(GU_LIGHTING);
+                    this->objs->cleanNames();
+                    this->objs->render();
+                    edk::GU::guDisable(GU_LIGHTING);
+                }
+                else if(this->objsPhys){
+                    edk::GU::guEnable(GU_LIGHTING);
+                    this->objsPhys->cleanNames();
+                    this->objsPhys->render();
+                    edk::GU::guDisable(GU_LIGHTING);
+                }
+                else if(this->tileMap){
+                    this->tileMap->drawInsideWorldRect(rect);
                 }
             }
         }

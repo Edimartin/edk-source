@@ -2591,6 +2591,17 @@ void edk::Cenario2D::draw(){
         }
     }
 }
+void edk::Cenario2D::drawInsideRect(edk::rectf32 rect){
+    //draw the levels
+    edk::uint32 size = this->levels.size();
+    edk::Cenario2D::LevelObj* level=NULL;
+    for(edk::uint32 i=0u;i<size;i++){
+        level=this->levels[i];
+        if(level){
+            level->drawInsideRect(rect);
+        }
+    }
+}
 bool edk::Cenario2D::drawLevel(edk::uint32 levelPosition){
     //draw the levelPosition
     if(levelPosition){
@@ -2603,8 +2614,19 @@ bool edk::Cenario2D::drawLevel(edk::uint32 levelPosition){
     }
     return false;
 }
+bool edk::Cenario2D::drawLevelInsideRect(edk::uint32 levelPosition,edk::rectf32 rect){
+    //draw the levelPosition
+    if(levelPosition){
+        levelPosition--;
+        if(this->levels.havePos(levelPosition)){
+            edk::Cenario2D::LevelObj* level=this->levels[levelPosition];
+            level->drawInsideRect(rect);
+            return true;
+        }
+    }
+    return false;
+}
 void edk::Cenario2D::drawSelection(){
-    //draw the levels
     edk::uint32 size = this->levels.size();
     edk::Cenario2D::LevelObj* level=NULL;
     for(edk::uint32 i=0u;i<size;i++){
