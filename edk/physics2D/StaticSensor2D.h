@@ -35,10 +35,11 @@ public:
     ~StaticSensor2D();
 
     //get the bodyType
+    /*
     virtual edk::uint8 getType();
     //return if it's a sensor
     virtual bool isSensor();
-
+    */
     //Objects to activate the sensor
     //add
     bool addActivateObject(edk::physics2D::PhysicObject2D* object);

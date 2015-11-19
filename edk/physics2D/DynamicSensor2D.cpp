@@ -1,8 +1,7 @@
-#ifndef KINEMATICSENSOR2D_H
-#define KINEMATICSENSOR2D_H
+#include "DynamicSensor2D.h"
 
 /*
-Library StaticSensor2D - Static Sensors in physics2D
+Library DynamicSensor2D - Dynamic Sensors in physics2D
 Copyright (C) 2013 Eduardo Moura Sales Martins
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -21,21 +20,10 @@ AV: Walmor M. de Souza 392 Casa
 Gravatai RS Brazil 94065100
 */
 
-#pragma once
-#include <stdio.h>
-#include "PhysicObject2D.h"
-#include "StaticSensor2D.h"
-
-namespace edk{
-namespace physics2D{
-class KinematicSensor2D: public edk::physics2D::StaticSensor2D{
-public:
-    KinematicSensor2D();
-
-    //get the bodyType
-    //edk::uint8 getType();
-};
+edk::physics2D::DynamicSensor2D::DynamicSensor2D()
+{
+    this->physType = edk::physics::DynamicBody;
 }
+edk::physics2D::DynamicSensor2D::~DynamicSensor2D()
+{
 }
-
-#endif // KINEMATICSENSOR2D_H
