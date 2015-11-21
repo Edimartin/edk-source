@@ -53,7 +53,7 @@ public:
     //set the tileMap position
     bool  selectedTileMapSetPosition(edk::vec2f32 position);
     bool  selectedTileMapSetPosition(edk::float32 positionX,edk::float32 positionY);
-    edk::vec2f32 selectedTileMapGetTileWorldPosition(edk::vec2f32 position);
+    edk::vec2f32 selectedTileMapGetTileWorldPosition(edk::vec2ui32 position);
     edk::vec2f32 selectedTileMapGetTileWorldPosition(edk::uint32 positionX,edk::uint32 positionY);
     //Set scale the map
     bool selectedTileMapSetScaleMap(edk::size2f32 scale);
@@ -122,6 +122,8 @@ public:
     void deleteAllPhysicObjects();
     //remove the object
     bool removePhysicObject(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj);
+    bool removePhysicObjects(edk::uint32 levelPosition);
+    void removePhysicObjects();
 
 
     //DELETE ALL LEVELS

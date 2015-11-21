@@ -29,7 +29,6 @@ Gravatai RS Brazil 94065100
 #include "PhysicObject2D.h"
 #include "StaticSensor2D.h"
 #include "KinematicSensor2D.h"
-#include "DynamicSensor2D.h"
 #include "DynamicObject2D.h"
 #include "PrismaticJoint2D.h"
 #include "Contact2D.h"

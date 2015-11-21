@@ -117,9 +117,9 @@ void edk::tiles::TileMap2D::setPosition(edk::float32 positionX,edk::float32 posi
     //
     this->setPosition(edk::vec2f32(positionX,positionY));
 }
-edk::vec2f32 edk::tiles::TileMap2D::getTileWorldPosition(edk::vec2f32 position){
-    return edk::vec2f32((position.x + this->positionMap.x) * this->scaleMap.width,
-                        ((this->sizeMap.height-1 - position.y) + this->positionMap.y) * this->scaleMap.height
+edk::vec2f32 edk::tiles::TileMap2D::getTileWorldPosition(edk::vec2ui32 position){
+    return edk::vec2f32(((edk::float32)position.x + this->positionMap.x) * this->scaleMap.width,
+                        ((this->sizeMap.height-1 - (edk::float32)position.y) + this->positionMap.y) * this->scaleMap.height
                         );
 }
 edk::vec2f32 edk::tiles::TileMap2D::getTileWorldPosition(edk::uint32 positionX,edk::uint32 positionY){
@@ -467,6 +467,31 @@ edk::float32 edk::tiles::TileMap2D::getPositionX(){
 }
 edk::float32 edk::tiles::TileMap2D::getPositionY(){
     return this->positionMap.y * this->scaleMap.height;
+}
+//get the tile position in the position
+edk::vec2ui32 edk::tiles::TileMap2D::getPointPosition(edk::vec2f32 point,bool* inside){
+    edk::vec2ui32 ret(0u,0u);
+    //scale the points
+    point.x /= this->scaleMap.width;
+    point.y /= this->scaleMap.height;
+
+    point.y+=0.5f-this->positionMap.x;
+    point.x+=0.5f-this->positionMap.x;
+
+    if(point.x>0.f && point.y>0.f){
+        //convert to the ret
+        ret = edk::vec2ui32((edk::uint32)point.x,(edk::uint32)point.y);
+        //test the size
+        if(ret.x<this->sizeMap.width && ret.y<this->sizeMap.height){
+            //mirror the y
+            ret.y = (edk::uint32)(((edk::int32)ret.y*-1) + this->sizeMap.height-1u);
+            if(inside)*inside = true;
+            //return ret
+            return ret;
+        }
+    }
+    if(inside)*inside = false;
+    return edk::vec2ui32(0u,0u);
 }
 
 //Desenha o tileMap

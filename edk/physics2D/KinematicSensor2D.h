@@ -33,7 +33,7 @@ public:
     KinematicSensor2D();
 
     //get the bodyType
-    //edk::uint8 getType();
+    edk::uint8 getType();
 };
 }
 }

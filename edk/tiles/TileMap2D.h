@@ -71,7 +71,7 @@ public:
     //set the tileMap position
     void setPosition(edk::vec2f32 position);
     void setPosition(edk::float32 positionX,edk::float32 positionY);
-    edk::vec2f32 getTileWorldPosition(edk::vec2f32 position);
+    edk::vec2f32 getTileWorldPosition(edk::vec2ui32 position);
     edk::vec2f32 getTileWorldPosition(edk::uint32 positionX,edk::uint32 positionY);
     //Set scale the map
     bool setScaleMap(edk::size2f32 scale);
@@ -116,6 +116,8 @@ public:
     edk::vec2f32 getPosition();
     edk::float32 getPositionX();
     edk::float32 getPositionY();
+    //get the tile position in the position
+    edk::vec2ui32 getPointPosition(edk::vec2f32 point,bool* inside=NULL);
 
     //Desenha o tileMap
     void draw(edk::color4f32 color=edk::color4f32(1,1,1,1));

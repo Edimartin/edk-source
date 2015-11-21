@@ -1684,7 +1684,7 @@ bool  edk::Cenario2D::selectedTileMapSetPosition(edk::float32 positionX,edk::flo
     }
     return false;
 }
-edk::vec2f32 edk::Cenario2D::selectedTileMapGetTileWorldPosition(edk::vec2f32 position){
+edk::vec2f32 edk::Cenario2D::selectedTileMapGetTileWorldPosition(edk::vec2ui32 position){
     if(this->mapSelected){
         //
         return this->mapSelected->getTileWorldPosition(position);
@@ -2326,7 +2326,55 @@ bool edk::Cenario2D::removePhysicObject(edk::uint32 levelPosition,edk::physics2D
     }
     return false;
 }
-
+bool edk::Cenario2D::removePhysicObjects(edk::uint32 levelPosition){
+    if(levelPosition){
+        levelPosition--;
+        //load the level
+        if(this->levels.havePos(levelPosition)){
+            edk::Cenario2D::LevelObj* level =this->levels[levelPosition];
+            if(level){
+                if(level->objsPhys){
+                    edk::uint32 size = level->objsPhys->size();
+                    edk::physics2D::PhysicObject2D* temp;
+                    for(edk::uint32 i=0u;i<size;i++){
+                        temp = (edk::physics2D::PhysicObject2D*)level->objsPhys->getObjectInPosition(i);
+                        if(temp){
+                            this->world.removeObject(temp);
+                        }
+                    }
+                    return true;
+                }
+                else if(level->tileMap){
+                    level->tileMap->deletePhysicsTiles();
+                }
+            }
+        }
+    }
+    return false;
+}
+void edk::Cenario2D::removePhysicObjects(){
+    edk::uint32 levelSize = this->levels.size();
+    edk::uint32 size = 0u;
+    edk::Cenario2D::LevelObj* level=NULL;
+    for(edk::uint32 i=0u;i<levelSize;i++){
+        level =this->levels[i];
+        if(level){
+            if(level->objsPhys){
+                size = level->objsPhys->size();
+                edk::physics2D::PhysicObject2D* temp;
+                for(edk::uint32 i=0u;i<size;i++){
+                    temp = (edk::physics2D::PhysicObject2D*)level->objsPhys->getObjectInPosition(i);
+                    if(temp){
+                        this->world.removeObject(temp);
+                    }
+                }
+            }
+            else if(level->tileMap){
+                level->tileMap->deletePhysicsTiles();
+            }
+        }
+    }
+}
 //DELETE ALL LEVELS
 void edk::Cenario2D::deleteLevel(edk::uint32 levelPosition){
     if(levelPosition){
