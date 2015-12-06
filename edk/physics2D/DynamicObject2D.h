@@ -33,10 +33,6 @@ class DynamicObject2D : public edk::physics2D::KinematicObject2D{
 public:
     DynamicObject2D();
     ~DynamicObject2D();
-/*
-    //get the bodyType
-    virtual edk::uint8 getType();
-*/
 };
 }
 }

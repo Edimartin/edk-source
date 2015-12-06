@@ -32,10 +32,6 @@ class StaticObject2D: public edk::physics2D::PhysicObject2D{
 public:
     StaticObject2D();
     ~StaticObject2D();
-/*
-    //get the bodyType
-    virtual edk::uint8 getType();
-*/
 };
 }
 }

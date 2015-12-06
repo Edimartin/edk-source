@@ -32,10 +32,6 @@ class KinematicObject2D : public edk::physics2D::StaticObject2D{
 public:
     KinematicObject2D();
     ~KinematicObject2D();
-/*
-    //get the bodyType
-    virtual edk::uint8 getType();
-*/
 };
 }
 }

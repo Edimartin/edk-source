@@ -31,9 +31,6 @@ namespace physics2D{
 class KinematicSensor2D: public edk::physics2D::StaticSensor2D{
 public:
     KinematicSensor2D();
-
-    //get the bodyType
-    edk::uint8 getType();
 };
 }
 }

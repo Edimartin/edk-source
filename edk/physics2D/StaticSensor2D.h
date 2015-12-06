@@ -34,8 +34,6 @@ public:
     StaticSensor2D();
     ~StaticSensor2D();
 
-    //get the bodyType
-    virtual edk::uint8 getType();
     //return if it's a sensor
     virtual bool isSensor();
 

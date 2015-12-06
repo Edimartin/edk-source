@@ -3,15 +3,12 @@
 edk::physics2D::StaticSensor2D::StaticSensor2D()
 {
     this->isObjectSensor=true;
+    this->physType = edk::physics::StaticBody;
 }
 edk::physics2D::StaticSensor2D::~StaticSensor2D(){
     this->tree.clean();
 }
 
-//get the bodyType
-edk::uint8 edk::physics2D::StaticSensor2D::getType(){
-    return edk::physics::StaticBody;
-}
 //return if it's a sensor
 bool edk::physics2D::StaticSensor2D::isSensor(){
     return true;

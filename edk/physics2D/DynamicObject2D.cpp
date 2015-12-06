@@ -25,9 +25,3 @@ edk::physics2D::DynamicObject2D::DynamicObject2D(){
 }
 edk::physics2D::DynamicObject2D::~DynamicObject2D(){
 }
-/*
-//get the bodyType
-edk::uint8 edk::physics2D::DynamicObject2D::getType(){
-    return edk::physics::DynamicBody;
-}
-*/

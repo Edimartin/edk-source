@@ -25,9 +25,3 @@ edk::physics2D::StaticObject2D::StaticObject2D(){
 }
 edk::physics2D::StaticObject2D::~StaticObject2D(){
 }
-/*
-//get the bodyType
-edk::uint8 edk::physics2D::StaticObject2D::getType(){
-    return edk::physics::StaticBody;
-}
-*/

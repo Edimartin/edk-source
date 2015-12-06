@@ -2,9 +2,5 @@
 
 edk::physics2D::KinematicSensor2D::KinematicSensor2D()
 {
-}
-
-//get the bodyType
-edk::uint8 edk::physics2D::KinematicSensor2D::getType(){
-    return edk::physics::KinematicBody;
+    this->physType = edk::physics::KinematicBody;
 }

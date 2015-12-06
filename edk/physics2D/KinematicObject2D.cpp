@@ -27,9 +27,3 @@ edk::physics2D::KinematicObject2D::KinematicObject2D()
 edk::physics2D::KinematicObject2D::~KinematicObject2D()
 {
 }
-/*
-//get the bodyType
-edk::uint8 edk::physics2D::KinematicObject2D::getType(){
-    return edk::physics::KinematicBody;
-}
-*/
