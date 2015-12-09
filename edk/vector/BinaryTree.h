@@ -774,13 +774,13 @@ private:
         //test if have temp
         if(temp){
             //
-            if(temp->right){
-                this->updateRecursively(temp->right);
+            if(temp->left){
+                this->updateRecursively(temp->left);
             }
             //update
             this->updateElement(temp->value);
-            if(temp->left){
-                this->updateRecursively(temp->left);
+            if(temp->right){
+                this->updateRecursively(temp->right);
             }
         }
     }
