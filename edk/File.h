@@ -103,6 +103,10 @@ class File {
 
     bool openEndBinFile(const char *name);
 
+    //PIPE
+    bool openPipe(char8 *name);
+    bool openPipe(const char *name);
+
     void closeFile();
 
     static bool deleteFile(char8 *name);
@@ -126,6 +130,10 @@ class File {
     bool createAndOpenBinFile(char8 *name);
 
     bool createAndOpenBinFile(const char *name);
+
+    //PIPE
+    bool createAndOpenPipe(char8* name);
+    bool createAndOpenPipe(const char* name);
 
     static bool fileExist(char8 *name);
 
@@ -171,6 +179,12 @@ class File {
     bool writeBin(int64 *n);
 
     char8 readTextChar();
+
+    char8* readTextString(edk::uint32 limit, bool use = false);
+
+    char8* readTextString(edk::uint64 limit, bool use = false);
+
+    char8* readTextString(edk::uint8 limit = 0u, bool use = false);
 
     char8* readTextString(char8 limit, bool use = false);
 
@@ -246,7 +260,6 @@ class File {
 
      //Pointer to the FILE.
     FILE* arq;
-    // {pointer=NULL}
 
 
     //size of the file.
@@ -254,9 +267,7 @@ class File {
 
 
     //name of the file.
-
     edk::char8 *name;
-    // {pointer=NULL}
 };
 
 } /* End of namespace edk */
