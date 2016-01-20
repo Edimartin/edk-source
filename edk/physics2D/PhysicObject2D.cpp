@@ -28,6 +28,8 @@ edk::physics2D::PhysicObject2D::PhysicObject2D(){
     this->speed=0.f;
     this->linearVelocity = edk::vec2f32(0,0);
     this->linearVelocitySetted=false;
+    this->angularVelocity=0.f;
+    this->angularVelocitySetted=false;
     this->direction = edk::vec2f32(0,0);
     this->physType=0u;
 }
@@ -56,6 +58,10 @@ void edk::physics2D::PhysicObject2D::setLinearVelocity(edk::vec2f32 velocity){
 void edk::physics2D::PhysicObject2D::setLinearVelocity(edk::float32 x,edk::float32 y){
     this->setLinearVelocity(edk::vec2f32(x,y));
 }
+void edk::physics2D::PhysicObject2D::setAngularVelocity(edk::float32 angle){
+    this->angularVelocity = angle;
+    this->angularVelocitySetted=true;
+}
 //remove all meshes
 void edk::physics2D::PhysicObject2D::cleanMeshes(){
     edk::Object2D::cleanMeshes();
@@ -76,12 +82,29 @@ edk::vec2f32 edk::physics2D::PhysicObject2D::getDirection(){
 //rturn the linearVelocity
 edk::vec2f32 edk::physics2D::PhysicObject2D::getLinearVelocity(){
     this->linearVelocitySetted=false;
-    return this->linearVelocity;
+    edk::vec2f32 ret = this->linearVelocity;
+    this->linearVelocity = edk::vec2f32(0,0);
+    return ret;
 }
 //return if set the linearVelocity
 bool edk::physics2D::PhysicObject2D::haveSettedLinearVelocity(){
     if(this->linearVelocitySetted){
         this->linearVelocitySetted=false;
+        return true;
+    }
+    return false;
+}
+//return the angular velocity
+edk::float32 edk::physics2D::PhysicObject2D::getAngularVelocity(){
+    this->angularVelocitySetted=false;
+    edk::float32 ret = this->angularVelocity;
+    this->angularVelocity = 0.f;
+    return ret;
+}
+//return if set angular velocoty
+bool edk::physics2D::PhysicObject2D::haveSettedAngularVelocity(){
+    if(this->angularVelocitySetted){
+        this->angularVelocitySetted=false;
         return true;
     }
     return false;

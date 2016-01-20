@@ -40,6 +40,7 @@ public:
     //set the lonearVelocity
     void setLinearVelocity(edk::vec2f32 velocity);
     void setLinearVelocity(edk::float32 x,edk::float32 y);
+    void setAngularVelocity(edk::float32 angle);
     //remove all meshes
     void cleanMeshes();
     void cleanMesh();
@@ -48,10 +49,14 @@ public:
     edk::float32 getSpeed();
     //return the direction
     edk::vec2f32 getDirection();
-    //rturn the linearVelocity
+    //return the linearVelocity
     edk::vec2f32 getLinearVelocity();
     //return if set the linearVelocity
     bool haveSettedLinearVelocity();
+    //return the angular velocity
+    edk::float32 getAngularVelocity();
+    //return if set angular velocoty
+    bool haveSettedAngularVelocity();
 
     void removeAllMesh();
 
@@ -115,7 +120,9 @@ protected:
     edk::vec2f32 direction;
     //linear velocity
     edk::vec2f32 linearVelocity;
+    edk::float32 angularVelocity;
     bool linearVelocitySetted;
+    bool angularVelocitySetted;
     bool isObjectSensor;
     edk::uint32 physType;
 

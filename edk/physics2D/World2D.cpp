@@ -1784,7 +1784,6 @@ bool edk::physics2D::World2D::updateObjectVelocity(edk::physics2D::PhysicObject2
             break;
         }
         if(temp){
-
             edk::float32 angleDist = object->angle - (temp->GetAngle()* (180.f / b2_pi));
             edk::vec2f32 positionDist(object->position.x - temp->GetPosition().x,
                                       object->position.y - temp->GetPosition().y
@@ -1797,17 +1796,6 @@ bool edk::physics2D::World2D::updateObjectVelocity(edk::physics2D::PhysicObject2
             else{
                 temp->SetLinearVelocity(b2Vec2(positionDist.x,positionDist.y));
             }
-            /*
-            //set density
-            //set restitution
-            //set friction
-            b2Fixture* fixture = temp->GetFixtureList();
-            if(fixture){
-                fixture = fixture->GetNext();
-            }
-*/
-
-
             return true;
         }
     }
@@ -1831,13 +1819,6 @@ bool edk::physics2D::World2D::cleanObjectVelocity(edk::physics2D::PhysicObject2D
         }
         if(temp){
             temp->SetLinearVelocity(b2Vec2(0.f,0.f));
-            /*
-            b2Fixture* fixture = temp->GetFixtureList();
-            if(fixture){
-                fixture = fixture->GetNext();
-            }
-*/
-
 
             return true;
         }
