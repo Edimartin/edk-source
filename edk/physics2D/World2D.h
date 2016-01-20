@@ -87,6 +87,8 @@ public:
 
     //update the object position in the world
     bool updateObjectVelocity(edk::physics2D::PhysicObject2D* object);
+    bool updateObjectLinearVelocity(edk::physics2D::PhysicObject2D* object);
+    bool updateObjectAngularVelocity(edk::physics2D::PhysicObject2D* object);
     bool cleanObjectVelocity(edk::physics2D::PhysicObject2D* object);
     bool updateObjectStatus(edk::physics2D::PhysicObject2D* object);
     //move the object to a position

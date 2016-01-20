@@ -83,7 +83,6 @@ edk::vec2f32 edk::physics2D::PhysicObject2D::getDirection(){
 edk::vec2f32 edk::physics2D::PhysicObject2D::getLinearVelocity(){
     this->linearVelocitySetted=false;
     edk::vec2f32 ret = this->linearVelocity;
-    this->linearVelocity = edk::vec2f32(0,0);
     return ret;
 }
 //return if set the linearVelocity
@@ -98,7 +97,6 @@ bool edk::physics2D::PhysicObject2D::haveSettedLinearVelocity(){
 edk::float32 edk::physics2D::PhysicObject2D::getAngularVelocity(){
     this->angularVelocitySetted=false;
     edk::float32 ret = this->angularVelocity;
-    this->angularVelocity = 0.f;
     return ret;
 }
 //return if set angular velocoty

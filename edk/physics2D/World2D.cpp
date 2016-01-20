@@ -1784,17 +1784,61 @@ bool edk::physics2D::World2D::updateObjectVelocity(edk::physics2D::PhysicObject2
             break;
         }
         if(temp){
-            edk::float32 angleDist = object->angle - (temp->GetAngle()* (180.f / b2_pi));
-            edk::vec2f32 positionDist(object->position.x - temp->GetPosition().x,
-                                      object->position.y - temp->GetPosition().y
-                                      );
-            temp->SetAngularVelocity((edk::float32)angleDist / (180.f / b2_pi));
-
+            if(object->haveSettedAngularVelocity()){
+                temp->SetAngularVelocity((edk::float32)object->getAngularVelocity() / (180.f / b2_pi));
+            }
             if(object->haveSettedLinearVelocity()){
                 temp->SetLinearVelocity(b2Vec2(object->getLinearVelocity().x,object->getLinearVelocity().y));
             }
-            else{
-                temp->SetLinearVelocity(b2Vec2(positionDist.x,positionDist.y));
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::physics2D::World2D::updateObjectLinearVelocity(edk::physics2D::PhysicObject2D* object){
+    //test the object
+    if(object){
+        //load the box2D object
+        b2Body* temp=NULL;
+        switch(object->getType()){
+        case edk::physics::StaticBody:
+            temp = this->treeStatic.getBody(object);
+            break;
+        case edk::physics::DynamicBody:
+            temp = this->treeDynamic.getBody(object);
+            break;
+        case edk::physics::KinematicBody:
+            temp = this->treeKinematic.getBody(object);
+            break;
+        }
+        if(temp){
+            if(object->haveSettedLinearVelocity()){
+                temp->SetLinearVelocity(b2Vec2(object->getLinearVelocity().x,object->getLinearVelocity().y));
+            }
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::physics2D::World2D::updateObjectAngularVelocity(edk::physics2D::PhysicObject2D* object){
+    //test the object
+    if(object){
+        //load the box2D object
+        b2Body* temp=NULL;
+        switch(object->getType()){
+        case edk::physics::StaticBody:
+            temp = this->treeStatic.getBody(object);
+            break;
+        case edk::physics::DynamicBody:
+            temp = this->treeDynamic.getBody(object);
+            break;
+        case edk::physics::KinematicBody:
+            temp = this->treeKinematic.getBody(object);
+            break;
+        }
+        if(temp){
+            if(object->haveSettedAngularVelocity()){
+                temp->SetAngularVelocity((edk::float32)object->getAngularVelocity() / (180.f / b2_pi));
             }
             return true;
         }
