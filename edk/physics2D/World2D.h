@@ -413,6 +413,8 @@ private:
                     obj->angle = value->body->GetAngle() * (180.f / b2_pi);
                     obj->setLinearVelocity(value->body->GetLinearVelocity().x,value->body->GetLinearVelocity().y);
                     obj->getLinearVelocity();
+                    obj->setAngularVelocity(value->body->GetAngularVelocity() * (180.f / b2_pi));
+                    obj->getAngularVelocity();
                     //test if can sleep
                     if(!obj->canSleep && obj->getType()==edk::physics::DynamicBody){
                         //set awake to true

@@ -85,7 +85,9 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
                 contactTemp->shapeB = shapeB;
                 //
                 contactTemp->objectA->setLinearVelocity(bodyA->GetLinearVelocity().x,bodyA->GetLinearVelocity().y);
+                contactTemp->objectA->setAngularVelocity(bodyA->GetAngularVelocity() * (180.f / b2_pi));
                 contactTemp->objectB->setLinearVelocity(bodyB->GetLinearVelocity().x,bodyB->GetLinearVelocity().y);
+                contactTemp->objectB->setAngularVelocity(bodyB->GetAngularVelocity() * (180.f / b2_pi));
                 contactTemp->velocityA = contactTemp->objectA->getSpeed();
                 contactTemp->velocityB = contactTemp->objectB->getSpeed();
                 //
@@ -251,7 +253,9 @@ void edk::physics2D::World2D::MyContactListener::EndContact(b2Contact* contact){
     edk::physics2D::Contact2D* contactTemp = this->world->treeConcacts.getContact(contact);
     if(contactTemp){
         contactTemp->objectA->setLinearVelocity(bodyA->GetLinearVelocity().x,bodyA->GetLinearVelocity().y);
+        contactTemp->objectA->setAngularVelocity(bodyA->GetAngularVelocity() * (180.f / b2_pi));
         contactTemp->objectB->setLinearVelocity(bodyB->GetLinearVelocity().x,bodyB->GetLinearVelocity().y);
+        contactTemp->objectB->setAngularVelocity(bodyB->GetAngularVelocity() * (180.f / b2_pi));
         contactTemp->velocityA = contactTemp->objectA->getSpeed();
         contactTemp->velocityB = contactTemp->objectB->getSpeed();
         //update the positions
@@ -343,7 +347,9 @@ void edk::physics2D::World2D::MyContactListener::PreSolve(b2Contact* contact, co
     edk::physics2D::Contact2D* contactTemp = this->world->treeConcacts.getContact(contact);
     if(contactTemp){
         contactTemp->objectA->setLinearVelocity(bodyA->GetLinearVelocity().x,bodyA->GetLinearVelocity().y);
+        contactTemp->objectA->setAngularVelocity(bodyA->GetAngularVelocity() * (180.f / b2_pi));
         contactTemp->objectB->setLinearVelocity(bodyB->GetLinearVelocity().x,bodyB->GetLinearVelocity().y);
+        contactTemp->objectB->setAngularVelocity(bodyB->GetAngularVelocity() * (180.f / b2_pi));
         contactTemp->velocityA = contactTemp->objectA->getSpeed();
         contactTemp->velocityB = contactTemp->objectB->getSpeed();
         //update the positions
@@ -436,7 +442,9 @@ void edk::physics2D::World2D::MyContactListener::PostSolve(b2Contact* contact, c
     edk::physics2D::Contact2D* contactTemp = this->world->treeConcacts.getContact(contact);
     if(contactTemp){
         contactTemp->objectA->setLinearVelocity(bodyA->GetLinearVelocity().x,bodyA->GetLinearVelocity().y);
+        contactTemp->objectA->setAngularVelocity(bodyA->GetAngularVelocity() * (180.f / b2_pi));
         contactTemp->objectB->setLinearVelocity(bodyB->GetLinearVelocity().x,bodyB->GetLinearVelocity().y);
+        contactTemp->objectB->setAngularVelocity(bodyB->GetAngularVelocity() * (180.f / b2_pi));
         contactTemp->velocityA = contactTemp->objectA->getSpeed();
         contactTemp->velocityB = contactTemp->objectB->getSpeed();
         //update the positions
