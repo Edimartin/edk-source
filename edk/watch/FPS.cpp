@@ -96,7 +96,7 @@ bool FPS::waitForFPS()
         if(wait>0){
             //If the distance bigger than zero. He need wait.
         //Windows sleep millisecons
-        #ifdef _WIN32 || _WIN64
+        #if defined(_WIN32) || defined(_WIN64)
             clock.sleepProcessMiliseconds(wait*0.001);
         #else
             clock.sleepProcessMicroseconds(wait);

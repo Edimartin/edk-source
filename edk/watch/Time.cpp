@@ -204,7 +204,6 @@ void Time::clockLoadTime()
 // section 127-0-1-1-268c1826:13ad7e2c651:-8000:000000000000AAF8 begin
 {
     time_t rawtime = time(NULL);
-
     //load the clock based on the rawTime
 #ifdef _MSC_VER
     //systemClock = gmtime_s ( &rawtime );

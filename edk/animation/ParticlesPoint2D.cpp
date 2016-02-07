@@ -251,16 +251,16 @@ edk::vec2f32 edk::animation::ParticlesPoint2D::newPosition(){
 }
 
 //set angles near and far
-void edk::animation::ParticlesPoint2D::setAngleNear(edk::float32 near){
-    this->setAngleNearAndFar(near,this->angleFar);
+void edk::animation::ParticlesPoint2D::setAngleNear(edk::float32 _near){
+    this->setAngleNearAndFar(_near,this->angleFar);
 }
-void edk::animation::ParticlesPoint2D::setAngleFar(edk::float32 far){
-    this->setAngleNearAndFar(this->angleNear,far);
+void edk::animation::ParticlesPoint2D::setAngleFar(edk::float32 _far){
+    this->setAngleNearAndFar(this->angleNear,_far);
 }
-void edk::animation::ParticlesPoint2D::setAngleNearAndFar(edk::float32 near,edk::float32 far){
+void edk::animation::ParticlesPoint2D::setAngleNearAndFar(edk::float32 _near,edk::float32 _far){
     //set the angles
-    this->angleNear = near;
-    this->angleFar = far;
+    this->angleNear = _near;
+    this->angleFar = _far;
     //filter the angles
     while(this->angleNear>360.f){
         this->angleNear-=360.f;
@@ -285,41 +285,41 @@ void edk::animation::ParticlesPoint2D::setAngleNearAndFar(edk::float32 near,edk:
     }
 }
 //TimeLimit
-void edk::animation::ParticlesPoint2D::setTimeNear(edk::float32 near){
-    this->setTimeNearAndFar(near,this->timeFar);
+void edk::animation::ParticlesPoint2D::setTimeNear(edk::float32 _near){
+    this->setTimeNearAndFar(_near,this->timeFar);
 }
-void edk::animation::ParticlesPoint2D::setTimeFar(edk::float32 far){
-    this->setTimeNearAndFar(this->timeNear,far);
+void edk::animation::ParticlesPoint2D::setTimeFar(edk::float32 _far){
+    this->setTimeNearAndFar(this->timeNear,_far);
 }
-void edk::animation::ParticlesPoint2D::setTimeNearAndFar(edk::float32 near,edk::float32 far){
-    this->timeNear = near;
-    this->timeFar = far;
-    this->timeDistance = far - near;
+void edk::animation::ParticlesPoint2D::setTimeNearAndFar(edk::float32 _near,edk::float32 _far){
+    this->timeNear = _near;
+    this->timeFar = _far;
+    this->timeDistance = _far - _near;
     this->timeLimit = this->timeNear;
 }
 //LifeLimit
-void edk::animation::ParticlesPoint2D::setLifeNear(edk::float32 near){
-    this->setLifeNearAndFar(near,this->lifeFar);
+void edk::animation::ParticlesPoint2D::setLifeNear(edk::float32 _near){
+    this->setLifeNearAndFar(_near,this->lifeFar);
 }
-void edk::animation::ParticlesPoint2D::setLifeFar(edk::float32 far){
-    this->setLifeNearAndFar(this->lifeNear,far);
+void edk::animation::ParticlesPoint2D::setLifeFar(edk::float32 _far){
+    this->setLifeNearAndFar(this->lifeNear,_far);
 }
-void edk::animation::ParticlesPoint2D::setLifeNearAndFar(edk::float32 near,edk::float32 far){
-    this->lifeNear = near;
-    this->lifeFar = far;
-    this->lifeDistance = far - near;
+void edk::animation::ParticlesPoint2D::setLifeNearAndFar(edk::float32 _near,edk::float32 _far){
+    this->lifeNear = _near;
+    this->lifeFar = _far;
+    this->lifeDistance = _far - _near;
 }
 //speed
-void edk::animation::ParticlesPoint2D::setSpeedNear(edk::float32 near){
-    this->setSpeedNearAndFar(near,this->speedFar);
+void edk::animation::ParticlesPoint2D::setSpeedNear(edk::float32 _near){
+    this->setSpeedNearAndFar(_near,this->speedFar);
 }
-void edk::animation::ParticlesPoint2D::setSpeedFar(edk::float32 far){
-    this->setSpeedNearAndFar(this->speedNear,far);
+void edk::animation::ParticlesPoint2D::setSpeedFar(edk::float32 _far){
+    this->setSpeedNearAndFar(this->speedNear,_far);
 }
-void edk::animation::ParticlesPoint2D::setSpeedNearAndFar(edk::float32 near,edk::float32 far){
-    this->speedNear = near;
-    this->speedFar = far;
-    this->speedDistance = far - near;
+void edk::animation::ParticlesPoint2D::setSpeedNearAndFar(edk::float32 _near,edk::float32 _far){
+    this->speedNear = _near;
+    this->speedFar = _far;
+    this->speedDistance = _far - _near;
 }
 //frame
 void edk::animation::ParticlesPoint2D::setFrameStart(edk::float32 start){

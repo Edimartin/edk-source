@@ -45,21 +45,21 @@ public:
     ParticlesPoint2D();
     ~ParticlesPoint2D();
     //angle
-    void setAngleNear(edk::float32 near);
-    void setAngleFar(edk::float32 far);
-    void setAngleNearAndFar(edk::float32 near,edk::float32 far);
+    void setAngleNear(edk::float32 _near);
+    void setAngleFar(edk::float32 _far);
+    void setAngleNearAndFar(edk::float32 _near,edk::float32 _far);
     //TimeLimit
-    void setTimeNear(edk::float32 near);
-    void setTimeFar(edk::float32 far);
-    void setTimeNearAndFar(edk::float32 near,edk::float32 far);
+    void setTimeNear(edk::float32 _near);
+    void setTimeFar(edk::float32 _far);
+    void setTimeNearAndFar(edk::float32 _near,edk::float32 _far);
     //life
     void setLifeNear(edk::float32 near);
     void setLifeFar(edk::float32 far);
-    void setLifeNearAndFar(edk::float32 near,edk::float32 far);
+    void setLifeNearAndFar(edk::float32 _near,edk::float32 _far);
     //speed
-    void setSpeedNear(edk::float32 near);
-    void setSpeedFar(edk::float32 far);
-    void setSpeedNearAndFar(edk::float32 near,edk::float32 far);
+    void setSpeedNear(edk::float32 _near);
+    void setSpeedFar(edk::float32 _far);
+    void setSpeedNearAndFar(edk::float32 _near,edk::float32 _far);
     //frame
     void setFrameStart(edk::float32 start);
     void setFrameEnd(edk::float32 end);

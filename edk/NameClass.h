@@ -40,17 +40,20 @@ public:
     Name(){
         //
         this->_name=NULL;
+        this->_size = 0u;
         this->canDelete=true;
     }
     Name(edk::char8* _name){
         //
         this->_name=NULL;
+        this->_size = 0u;
         this->setName(_name);
         this->canDelete=true;
     }
     Name(const char* _name){
         //
         this->_name=NULL;
+        this->_size = 0u;
         this->setName(_name);
         this->canDelete=true;
     }
@@ -78,16 +81,14 @@ public:
         if(_name){
             //copy the name
             this->_name = edk::String::strCopy(_name);
-            if(this->_name) return true;
+            if(this->_name){
+                this->_size = edk::String::strSize(this->_name);
+                return true;
+            }
         }
         //else return false
         return false;
     }
-    /*
-    bool setName(const char* _name){
-        return this->setName((edk::char8*) _name);
-    }
-    */
     //get the name
     edk::char8* getName(){
         //
@@ -97,6 +98,14 @@ public:
         //
         return this->_name;
     }
+    //return the name size
+    edk::uint32 getSize(){
+        return this->size();
+    }
+    edk::uint32 size(){
+        return this->_size;
+    }
+
     bool nameEqual(edk::char8* _name){
         return edk::Name::stringEqual(this->_name,_name);
     }
@@ -167,11 +176,13 @@ protected:
             delete[] this->_name;
             this->_name=NULL;
         }
+        this->_size = 0u;
     }
 
 private:
     //have just one string with one name
     edk::char8* _name;
+    edk::uint32 _size;
     bool canDelete;
 };
 }
