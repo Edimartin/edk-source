@@ -2674,6 +2674,65 @@ bool edk::Cenario2D::drawLevelInsideRect(edk::uint32 levelPosition,edk::rectf32 
     }
     return false;
 }
+//draw levels from start and end
+bool edk::Cenario2D::drawLevels(edk::uint32 startPosition,edk::uint32 endPosition){
+    bool ret=true;
+    //find the positions
+    if(startPosition && endPosition && startPosition<=endPosition){
+        startPosition--;
+        endPosition--;
+        //test if have the positions
+        if(!this->levels.havePos(startPosition)){
+            //set the start and end to the last
+            startPosition = endPosition = this->levels.getSize()-1u;
+            ret=false;
+        }
+        else if(!this->levels.havePos(endPosition)){
+            //set the end to the last
+            endPosition = this->levels.getSize()-1u;
+            ret=false;
+        }
+        edk::Cenario2D::LevelObj* level=NULL;
+        //daw the rects
+        for(edk::uint32 i=startPosition;i<=endPosition;i++){
+            level=this->levels[i];
+            if(level){
+                level->draw();
+            }
+        }
+        return ret;
+    }
+    return false;
+}
+bool edk::Cenario2D::drawLevelsInsideRect(edk::uint32 startPosition,edk::uint32 endPosition,edk::rectf32 rect){
+    bool ret=true;
+    //find the positions
+    if(startPosition && endPosition && startPosition<=endPosition){
+        startPosition--;
+        endPosition--;
+        //test if have the positions
+        if(!this->levels.havePos(startPosition)){
+            //set the start and end to the last
+            startPosition = endPosition = this->levels.getSize()-1u;
+            ret=false;
+        }
+        else if(!this->levels.havePos(endPosition)){
+            //set the end to the last
+            endPosition = this->levels.getSize()-1u;
+            ret=false;
+        }
+        edk::Cenario2D::LevelObj* level=NULL;
+        //daw the rects
+        for(edk::uint32 i=startPosition;i<=endPosition;i++){
+            level=this->levels[i];
+            if(level){
+                level->drawInsideRect(rect);
+            }
+        }
+        return ret;
+    }
+    return false;
+}
 void edk::Cenario2D::drawSelection(){
     edk::uint32 size = this->levels.size();
     edk::Cenario2D::LevelObj* level=NULL;

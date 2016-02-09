@@ -199,6 +199,9 @@ public:
     void drawInsideRect(edk::rectf32 rect);
     bool drawLevel(edk::uint32 levelPosition);
     bool drawLevelInsideRect(edk::uint32 levelPosition,edk::rectf32 rect);
+    //draw levels from start and end
+    bool drawLevels(edk::uint32 startPosition,edk::uint32 endPosition);
+    bool drawLevelsInsideRect(edk::uint32 startPosition,edk::uint32 endPosition,edk::rectf32 rect);
     void drawSelection();
     bool drawSelectionLevel(edk::uint32 levelPosition);
 
