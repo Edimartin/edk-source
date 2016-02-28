@@ -2589,20 +2589,23 @@ void edk::Cenario2D::updatePhysics(edk::int32 velocityIterations, edk::int32 pos
 //update animations
 bool edk::Cenario2D::updateAnimation(edk::uint32 position){
     //test if have the level
-    if(this->levels.havePos(position)){
-        //load the level
-        edk::Cenario2D::LevelObj* level = this->levels[position];
-        if(level){
-            if(level->objs){
-                level->objs->update();
+    if(position){
+        position--;
+        if(this->levels.havePos(position)){
+            //load the level
+            edk::Cenario2D::LevelObj* level = this->levels[position];
+            if(level){
+                if(level->objs){
+                    level->objs->update();
+                }
+                if(level->objsPhys){
+                    level->objsPhys->update();
+                }
             }
-            if(level->objsPhys){
-                level->objsPhys->update();
-            }
+            //update the tileSet
+            this->tileSet.updateAnimations();
+            return true;
         }
-        //update the tileSet
-        this->tileSet.updateAnimations();
-        return true;
     }
     return false;
 }
@@ -2824,6 +2827,25 @@ bool edk::Cenario2D::haveLevel(edk::uint32 levelPosition){
 //return the levelSize
 edk::uint32 edk::Cenario2D::getLevelSize(){
     return this->levels.size();
+}
+edk::uint32 edk::Cenario2D::getLevelSize(edk::uint32 levelPosition){
+    //test the level
+    if(levelPosition){
+        levelPosition--;
+        //test if have the level
+        if(this->levels.havePos(levelPosition)){
+            edk::Cenario2D::LevelObj* level =this->levels[levelPosition];
+            if(level){
+                if(level->objs){
+                    return level->objs->size();
+                }
+                if(level->objsPhys){
+                    return level->objsPhys->size();
+                }
+            }
+        }
+    }
+    return 0u;
 }
 //move the level to back
 bool edk::Cenario2D::moveLevelBack(edk::uint32 levelPosition){

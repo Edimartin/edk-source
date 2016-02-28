@@ -116,15 +116,15 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
                     vertex = edk::Math::rotate2f(contactTemp->worldPositions[i]-contactTemp->objectA->position,
                                                  contactTemp->objectA->angle * -1.f
                                                  );
-                    vertex.x*=(contactTemp->objectA->size.width * -1.f);
-                    vertex.y*=(contactTemp->objectA->size.height * -1.f);
+                    if(contactTemp->objectA->size.width) vertex.x/=contactTemp->objectA->size.width;
+                    if(contactTemp->objectA->size.height) vertex.y/=contactTemp->objectA->size.height * -1.f;
                     contactTemp->objectAPositions.set(i,vertex);
                     //get objectB position
                     vertex = edk::Math::rotate2f(contactTemp->worldPositions[i]-contactTemp->objectB->position,
                                                  contactTemp->objectB->angle * -1.f
                                                  );
-                    vertex.x*=(contactTemp->objectB->size.width * -1.f);
-                    vertex.y*=(contactTemp->objectB->size.height * -1.f);
+                    if(contactTemp->objectB->size.width)vertex.x/=contactTemp->objectB->size.width;
+                    if(contactTemp->objectB->size.height)vertex.y/=contactTemp->objectB->size.height;
                     contactTemp->objectBPositions.set(i,vertex);
                     contactTemp->impulses.set(i,0.f);
                 }
@@ -275,15 +275,15 @@ void edk::physics2D::World2D::MyContactListener::EndContact(b2Contact* contact){
             vertex = edk::Math::rotate2f(contactTemp->worldPositions[i]-contactTemp->objectA->position,
                                          contactTemp->objectA->angle * -1.f
                                          );
-            vertex.x*=(contactTemp->objectA->size.width * -1.f);
-            vertex.y*=(contactTemp->objectA->size.height * -1.f);
+            if(contactTemp->objectA->size.width) vertex.x/=contactTemp->objectA->size.width;
+            if(contactTemp->objectA->size.height) vertex.y/=contactTemp->objectA->size.height * -1.f;
             contactTemp->objectAPositions.set(i,vertex);
             //get objectB position
             vertex = edk::Math::rotate2f(contactTemp->worldPositions[i]-contactTemp->objectB->position,
                                          contactTemp->objectB->angle * -1.f
                                          );
-            vertex.x*=(contactTemp->objectB->size.width * -1.f);
-            vertex.y*=(contactTemp->objectB->size.height * -1.f);
+            if(contactTemp->objectB->size.width) vertex.x/=contactTemp->objectB->size.width;
+            if(contactTemp->objectB->size.height) vertex.y/=contactTemp->objectB->size.height * -1.f;
             contactTemp->objectBPositions.set(i,vertex);
         }
 
@@ -368,15 +368,15 @@ void edk::physics2D::World2D::MyContactListener::PreSolve(b2Contact* contact, co
             vertex = edk::Math::rotate2f(contactTemp->worldPositions[i]-contactTemp->objectA->position,
                                          contactTemp->objectA->angle * -1.f
                                          );
-            vertex.x*=(contactTemp->objectA->size.width * -1.f);
-            vertex.y*=(contactTemp->objectA->size.height * -1.f);
+            if(contactTemp->objectA->size.width) vertex.x/=contactTemp->objectA->size.width;
+            if(contactTemp->objectA->size.height) vertex.y/=contactTemp->objectA->size.height * -1.f;
             contactTemp->objectAPositions.set(i,vertex);
             //get objectB position
             vertex = edk::Math::rotate2f(contactTemp->worldPositions[i]-contactTemp->objectB->position,
                                          contactTemp->objectB->angle * -1.f
                                          );
-            vertex.x*=(contactTemp->objectB->size.width * -1.f);
-            vertex.y*=(contactTemp->objectB->size.height * -1.f);
+            if(contactTemp->objectB->size.width) vertex.x/=contactTemp->objectB->size.width;
+            if(contactTemp->objectB->size.height) vertex.y/=contactTemp->objectB->size.height * -1.f;
             contactTemp->objectBPositions.set(i,vertex);
         }
 
@@ -464,15 +464,15 @@ void edk::physics2D::World2D::MyContactListener::PostSolve(b2Contact* contact, c
             vertex = edk::Math::rotate2f(contactTemp->worldPositions[i]-contactTemp->objectA->position,
                                          contactTemp->objectA->angle * -1.f
                                          );
-            vertex.x*=(contactTemp->objectA->size.width * -1.f);
-            vertex.y*=(contactTemp->objectA->size.height * -1.f);
+            if(contactTemp->objectA->size.width) vertex.x/=contactTemp->objectA->size.width;
+            if(contactTemp->objectA->size.height) vertex.y/=contactTemp->objectA->size.height * -1.f;
             contactTemp->objectAPositions.set(i,vertex);
             //get objectB position
             vertex = edk::Math::rotate2f(contactTemp->worldPositions[i]-contactTemp->objectB->position,
                                          contactTemp->objectB->angle * -1.f
                                          );
-            vertex.x*=(contactTemp->objectB->size.width * -1.f);
-            vertex.y*=(contactTemp->objectB->size.height * -1.f);
+            if(contactTemp->objectB->size.width) vertex.x/=contactTemp->objectB->size.width;
+            if(contactTemp->objectB->size.height) vertex.y/=contactTemp->objectB->size.height * -1.f;
             contactTemp->objectBPositions.set(i,vertex);
         }
 
