@@ -68,3 +68,8 @@ bool edk::codecs::DecoderJPEG::decode(edk::uint8* encoded,edk::uint32 size){
 bool edk::codecs::DecoderJPEG::decode(const unsigned char* encoded,edk::uint32 size){
     return this->decode((edk::uint8*) encoded,size);
 }
+
+//return the vector size
+edk::uint32 edk::codecs::DecoderJPEG::getVectorSize(){
+    edk::codecs::CodecImage::getFrameVectorSize();
+}

@@ -21,10 +21,18 @@ AV: Walmor M. de Souza 392 Casa
 Gravatai RS Brazil 94065100
 */
 
+#ifdef printMessages
+#warning "Inside EncoderJPEG"
+#endif
+
 #pragma once
 #include "EncoderImage.h"
 //Use JPEGlib
 #include "../../jpeglib/jpeglib.h"
+
+#ifdef printMessages
+#warning "    Compiling EncoderJPEG"
+#endif
 
 namespace edk{
 namespace codecs{

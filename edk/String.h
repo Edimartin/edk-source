@@ -171,13 +171,13 @@ public:
     static uint64 strSizeWithFilter(const char *str,edk::char8* filter);
     static uint64 strSizeWithFilter(const char *str,const char *filter);
 
-    static char8* strCut(char8 *str, char8 limit, bool use);
+    static char8* strCut(char8 *str, char8 limit, bool use=false);
 
-    static char8* strCut(const char *str, char8 limit, bool use);
+    static char8* strCut(const char *str, char8 limit, bool use=false);
 
-    static char8* strCut(char8 limit, char8 *str, bool use);
+    static char8* strCut(char8 limit, char8 *str, bool use=false);
 
-    static char8* strCut(char8 limit, const char *str, bool use);
+    static char8* strCut(char8 limit, const char *str, bool use=false);
 
     static char8* strCut(char8 *str, char8 start, char8 end);
 

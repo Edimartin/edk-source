@@ -565,387 +565,113 @@ void Image2D::deleteName()
 //Convertions
 //RGB to HSV
 edk::color3f32 Image2D::rgbTohsv(edk::uint8 r,edk::uint8 g,edk::uint8 b){
-    edk::color3f32 hsv;
-    edk::float32 min, max, delta;
-
-    min = r < g ? r : g;
-    min = min  < b ? min  : b;
-
-    max = r > g ? r : g;
-    max = max  > b ? max  : b;
-
-    hsv.b = max/255; // v
-    //hsv.b = max*0.003921569; // v
-
-
-    delta = max - min;
-    if( max > 0.f ) { // NOTE: if Max is == 0, this divide would cause a crash
-        hsv.g = (delta / max);// s
-    } else {
-        // if max is 0, then r = g = b = 0
-        // s = 0, v is undefined
-        hsv.g = 0.f; // s
-        hsv.r = 0.f;//NAN; // h its now undefined
-        return hsv;
-    }
-
-    if(delta){
-        if( r >= max )                        // > is bogus, just keeps compilor happy
-            hsv.r = ( g - b ) / delta;        // between yellow & magenta
-        else
-            if( g >= max )
-                hsv.r = 2.0 + ( b - r ) / delta;  // between cyan & yellow
-            else
-                hsv.r = 4.0 + ( r - g ) / delta;  // between magenta & cyan
-
-        hsv.r *= 60.0;                              // degrees
-
-        if( hsv.r  < 0.0 )
-            hsv.r  += 360.0;
-    }
-    else
-        hsv.r=0.f;
-
-    return hsv;
+    return edk::codecs::CodecImage::rgbTohsv(r,g,b);
 }
 edk::color3f32 Image2D::rgbTohsv(edk::color3ui8 rgb){
-    return edk::Image2D::rgbTohsv(rgb.r,rgb.g,rgb.b);
+    return edk::codecs::CodecImage::rgbTohsv(rgb.r,rgb.g,rgb.b);
 }
 edk::color3f32 Image2D::rgbTohsv(edk::color4ui8 rgba){
-    return edk::Image2D::rgbTohsv(rgba.r,rgba.g,rgba.b);
+    return edk::codecs::CodecImage::rgbTohsv(rgba.r,rgba.g,rgba.b);
 }
 edk::uint8 Image2D::rgbToV(edk::uint8 r,edk::uint8 g,edk::uint8 b){
-    edk::uint8 max;
-
-    max = r > g ? r : g;
-    max = max  > b ? max  : b;
-
-    return max; // v
+    return edk::codecs::CodecImage::rgbToV(r,g,b);
 }
 edk::uint8 Image2D::rgbToV(edk::color3ui8 rgb){
-    return edk::Image2D::rgbToV(rgb.r,rgb.g,rgb.b);
+    return edk::codecs::CodecImage::rgbToV(rgb.r,rgb.g,rgb.b);
 }
 edk::uint8 Image2D::rgbaToV(edk::color4ui8 rgba){
-    return edk::Image2D::rgbToV(rgba.r,rgba.g,rgba.b);
+    return edk::codecs::CodecImage::rgbToV(rgba.r,rgba.g,rgba.b);
 }
 //vector
 bool Image2D::rgbToV(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest){
-    if(vector && size.width && size.height && dest){
-        edk::uint32 vecSize = size.width * size.height;
-        for(edk::uint32 i=0u;i<vecSize;i++){
-            *dest = edk::Image2D::rgbToV(vector[0u],vector[1u],vector[2u]);
-
-            vector+=3u;
-            dest++;
-        }
-        return true;
-    }
-    return false;
+    return edk::codecs::CodecImage::rgbToV(vector,size,dest);
 }
 edk::uint8* Image2D::rgbToV(edk::uint8* vector,edk::size2ui32 size){
-    if(vector && size.width && size.height){
-        edk::uint32 vecSize = size.width * size.height;
-        //create the return
-        edk::uint8* ret = new edk::uint8[vecSize];
-        if(ret){
-            if(edk::Image2D::rgbToV(vector,size,ret)){
-                return ret;
-            }
-            //
-            delete[] ret;
-        }
-    }
-    return NULL;
+    return edk::codecs::CodecImage::rgbToV(vector,size);
 }
 bool Image2D::rgbToV(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest){
-    return edk::Image2D::rgbToV(vector,edk::size2ui32(width,height),dest);
+    return edk::codecs::CodecImage::rgbToV(vector,edk::size2ui32(width,height),dest);
 }
 edk::uint8* Image2D::rgbToV(edk::uint8* vector,edk::uint32 width,edk::uint32 height){
-    return edk::Image2D::rgbToV(vector,edk::size2ui32(width,height));
+    return edk::codecs::CodecImage::rgbToV(vector,edk::size2ui32(width,height));
 }
 bool Image2D::rgbaToV(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest){
-    if(vector && size.width && size.height && dest){
-        edk::uint32 vecSize = size.width * size.height;
-        for(edk::uint32 i=0u;i<vecSize;i++){
-            *dest = edk::Image2D::rgbToV(vector[0u],vector[1u],vector[2u]);
-
-            vector+=4u;
-            dest++;
-        }
-        return true;
-    }
-    return false;
+    return edk::codecs::CodecImage::rgbaToV(vector,size,dest);
 }
 edk::uint8* Image2D::rgbaToV(edk::uint8* vector,edk::size2ui32 size){
-    if(vector && size.width && size.height){
-        edk::uint32 vecSize = size.width * size.height;
-        //create the return
-        edk::uint8* ret = new edk::uint8[vecSize];
-        if(ret){
-            if(edk::Image2D::rgbaToV(vector,size,ret)){
-                return ret;
-            }
-            //
-            delete[] ret;
-        }
-    }
-    return NULL;
+    return edk::codecs::CodecImage::rgbaToV(vector,size);
 }
 bool Image2D::rgbaToV(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest){
-    return edk::Image2D::rgbaToV(vector,edk::size2ui32(width,height),dest);
+    return edk::codecs::CodecImage::rgbaToV(vector,edk::size2ui32(width,height),dest);
 }
 edk::uint8* Image2D::rgbaToV(edk::uint8* vector,edk::uint32 width,edk::uint32 height){
-    return edk::Image2D::rgbaToV(vector,edk::size2ui32(width,height));
+    return edk::codecs::CodecImage::rgbaToV(vector,edk::size2ui32(width,height));
 }
 //HSV to RGB
 edk::color3ui8 Image2D::hsvTorgb(edk::float32 h,edk::float32 s,edk::float32 v){
-    edk::color3ui8 rgb;
-
-    v*=255;
-
-    edk::float64      hh, p, q, t, ff;
-    edk::int64        i;
-
-    if(s <= 0.0) {       // < is bogus, just shuts up warnings
-        rgb.r = v;
-        rgb.g = v;
-        rgb.b = v;
-        return rgb;
-    }
-    hh = h;
-    if(hh >= 360.0) hh = 0.0;
-    hh /= 60.0;
-    i = (edk::int64)hh;
-    ff = hh - i;
-    p = v * (1.0 -  s);
-    q = v * (1.0 - (s * ff));
-    t = v * (1.0 - (s * (1.0 - ff)));
-
-    switch(i) {
-    case 0:
-        rgb.r = v;
-        rgb.g = t;
-        rgb.b = p;
-        break;
-    case 1:
-        rgb.r = q;
-        rgb.g = v;
-        rgb.b = p;
-        break;
-    case 2:
-        rgb.r = p;
-        rgb.g = v;
-        rgb.b = t;
-        break;
-
-    case 3:
-        rgb.r = p;
-        rgb.g = q;
-        rgb.b = v;
-        break;
-    case 4:
-        rgb.r = t;
-        rgb.g = p;
-        rgb.b = v;
-        break;
-    case 5:
-    default:
-        rgb.r = v;
-        rgb.g = p;
-        rgb.b = q;
-        break;
-    }
-
-    return rgb;
+    return edk::codecs::CodecImage::hsvTorgb(h,s,v);
 }
 edk::color3ui8 Image2D::hsvTorgb(edk::color3f32 hsv){
-    return edk::Image2D::hsvTorgb(hsv.r,hsv.g,hsv.b);
+    return edk::codecs::CodecImage::hsvTorgb(hsv.r,hsv.g,hsv.b);
 }
 //RGB to HSL
 edk::color3f32 Image2D::rgbTohsl(edk::uint8 r,edk::uint8 g,edk::uint8 b){
-    edk::color3f32 hsl;
-    edk::float32 dr = r/255.f,dg = g/255.f,db = b/255.f;
-    edk::float64 min, max;
-
-    min = dr < dg ? dr : dg;
-    min = min  < db ? min  : db;
-
-    max = dr > dg ? dr : dg;
-    max = max  > db ? max  : db;
-
-    hsl.b = (max + min) / 2.f; // l
-
-    if(max == min){
-        hsl.r = hsl.g= 0; // achromatic
-    }else{
-        edk::float64  delta = max - min;
-        hsl.g = hsl.b > 0.5f ? delta / (2.f - max - min) : delta / (max + min);
-
-        if(delta){
-            if(max==dr){
-                hsl.r = (dg - db) / delta + (dg < db ? 6.f : 0.f);
-            }
-            else if(max==dg)
-                hsl.r = (db - dr) / delta + 2.f;
-            else if(max==db)
-                hsl.r = (dr - dg) / delta + 4.f;
-
-            hsl.r/= 6.f;
-            //hsl.r*=360.f;
-        }
-        else{
-            hsl.r=0.f;
-        }
-    }
-    return hsl;
+    return edk::codecs::CodecImage::rgbTohsl(r,g,b);
 }
 edk::color3f32 Image2D::rgbTohsl(edk::color3ui8 rgb){
-    return edk::Image2D::rgbTohsl(rgb.r,rgb.g,rgb.b);
+    return edk::codecs::CodecImage::rgbTohsl(rgb.r,rgb.g,rgb.b);
 }
 edk::color3f32 Image2D::rgbaTohsl(edk::color4ui8 rgba){
-    return edk::Image2D::rgbTohsl(rgba.r,rgba.g,rgba.b);
+    return edk::codecs::CodecImage::rgbTohsl(rgba.r,rgba.g,rgba.b);
 }
 edk::float32 Image2D::rgbToL(edk::uint8 r,edk::uint8 g,edk::uint8 b){
-    //
-    edk::float32 dr = r/255.f,dg = g/255.f,db = b/255.f;
-    edk::float32 min, max;
-
-    min = dr < dg ? dr : dg;
-    min = min  < db ? min  : db;
-
-    max = dr > dg ? dr : dg;
-    max = max  > db ? max  : db;
-
-    return (max + min) / 2.f; // l
+    return edk::codecs::CodecImage::rgbToL(r,g,b);
 }
 edk::float32 Image2D::rgbToL(edk::color3ui8 rgb){
-    return edk::Image2D::rgbToL(rgb.r,rgb.g,rgb.b);
+    return edk::codecs::CodecImage::rgbToL(rgb.r,rgb.g,rgb.b);
 }
 edk::float32 Image2D::rgbaToL(edk::color4ui8 rgba){
-    return edk::Image2D::rgbToL(rgba.r,rgba.g,rgba.b);
+    return edk::codecs::CodecImage::rgbToL(rgba.r,rgba.g,rgba.b);
 }
 edk::uint8 Image2D::rgbToLui8(edk::uint8 r,edk::uint8 g,edk::uint8 b){
-    return (edk::uint8)(edk::Image2D::rgbToL(r,g,b) * 255.f);
+    return edk::codecs::CodecImage::rgbToLui8(r,g,b);
 }
 edk::uint8 Image2D::rgbToLui8(edk::color3ui8 rgb){
-    return edk::Image2D::rgbToLui8(rgb.r,rgb.g,rgb.b);
+    return edk::codecs::CodecImage::rgbToLui8(rgb.r,rgb.g,rgb.b);
 }
 edk::uint8 Image2D::rgbaToLui8(edk::color4ui8 rgba){
-    return edk::Image2D::rgbToLui8(rgba.r,rgba.g,rgba.b);
+    return edk::codecs::CodecImage::rgbToLui8(rgba.r,rgba.g,rgba.b);
 }
 //vector
 bool Image2D::rgbToLui8(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest){
-    if(vector && size.width && size.height && dest){
-        edk::uint32 vecSize = size.width * size.height;
-        for(edk::uint32 i=0u;i<vecSize;i++){
-            *dest = edk::Image2D::rgbToLui8(vector[0u],vector[1u],vector[2u]);
-
-            vector+=3u;
-            dest++;
-        }
-        return true;
-    }
-    return false;
+    return edk::codecs::CodecImage::rgbToLui8(vector,size,dest);
 }
 edk::uint8* Image2D::rgbToLui8(edk::uint8* vector,edk::size2ui32 size){
-    if(vector && size.width && size.height){
-        edk::uint32 vecSize = size.width * size.height;
-        //create the return
-        edk::uint8* ret = new edk::uint8[vecSize];
-        if(ret){
-            if(edk::Image2D::rgbToLui8(vector,size,ret)){
-                return ret;
-            }
-            //
-            delete[] ret;
-        }
-        ret=NULL;
-    }
-    return NULL;
+    return edk::codecs::CodecImage::rgbToLui8(vector,size);
 }
 bool Image2D::rgbToLui8(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest){
-    return edk::Image2D::rgbToLui8(vector,edk::size2ui32(width,height),dest);
+    return edk::codecs::CodecImage::rgbToLui8(vector,edk::size2ui32(width,height),dest);
 }
 edk::uint8* Image2D::rgbToLui8(edk::uint8* vector,edk::uint32 width,edk::uint32 height){
-    return edk::Image2D::rgbToLui8(vector,edk::size2ui32(width,height));
+    return edk::codecs::CodecImage::rgbToLui8(vector,edk::size2ui32(width,height));
 }
 bool Image2D::rgbaToLui8(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest){
-    if(vector && size.width && size.height && dest){
-        edk::uint32 vecSize = size.width * size.height;
-        for(edk::uint32 i=0u;i<vecSize;i++){
-            *dest = edk::Image2D::rgbToLui8(vector[0u],vector[1u],vector[2u]);
-
-            vector+=4u;
-            dest++;
-        }
-        return true;
-    }
-    return false;
+    return edk::codecs::CodecImage::rgbaToLui8(vector,size,dest);
 }
 edk::uint8* Image2D::rgbaToLui8(edk::uint8* vector,edk::size2ui32 size){
-    if(vector && size.width && size.height){
-        edk::uint32 vecSize = size.width * size.height;
-        //create the return
-        edk::uint8* ret = new edk::uint8[vecSize];
-        if(ret){
-            if(edk::Image2D::rgbaToLui8(vector,size,ret)){
-                return ret;
-            }
-            //
-            delete[] ret;
-        }
-        ret=NULL;
-    }
-    return NULL;
+    return edk::codecs::CodecImage::rgbaToLui8(vector,size);
 }
 bool Image2D::rgbaToLui8(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest){
-    return edk::Image2D::rgbaToLui8(vector,edk::size2ui32(width,height),dest);
+    return edk::codecs::CodecImage::rgbaToLui8(vector,edk::size2ui32(width,height),dest);
 }
 edk::uint8* Image2D::rgbaToLui8(edk::uint8* vector,edk::uint32 width,edk::uint32 height){
-    return edk::Image2D::rgbaToLui8(vector,edk::size2ui32(width,height));
-}
-//HSL to RGB
-edk::float32 EDKhue2rgb(edk::float32 p, edk::float32 q, edk::float32 t){
-    if(t < 0.f) t += 1.f;
-    if(t > 1.f) t -= 1.f;
-    if(t < 1.f/6.f) return p + (q - p) * 6.f * t;
-    if(t < 1.f/2.f) return q;
-    if(t < 2.f/3.f) return p + (q - p) * (2.f/3.f - t) * 6.f;
-    return p;
+    return edk::codecs::CodecImage::rgbaToLui8(vector,edk::size2ui32(width,height));
 }
 edk::color3ui8 Image2D::hslTorgb(edk::float32 h,edk::float32 s,edk::float32 l){
-
-    edk::float32 r,g,b;
-
-
-    if(s == 0.f){
-        r = g = b = l; // achromatic
-    }else{
-        edk::float32 q = l < 0.5f ? l * (1.f + s) : l + s - l * s;
-        edk::float32 p = 2.f * l - q;
-        r = EDKhue2rgb(p, q, h + (1.f/3.f));
-        g = EDKhue2rgb(p, q, h);
-        b = EDKhue2rgb(p, q, h - (1.f/3.f));
-    }
-    edk::color3ui8 rgb((edk::uint8)(r*255.f),
-                       (edk::uint8)(g*255.f),
-                       (edk::uint8)(b*255.f)
-                       );
-/*
-    if((r-rgb.r)>0.5f){
-        rgb.r++;
-    }
-    if((g-rgb.g)>0.5f){
-        rgb.g++;
-    }
-    if((b-rgb.b)>0.5f){
-        rgb.b++;
-    }
-*/
-    return rgb;
+    return edk::codecs::CodecImage::hslTorgb(h,s,l);
 }
 edk::color3ui8 Image2D::hslTorgb(edk::color3f32 hsl){
-    return edk::Image2D::hslTorgb(hsl.r,hsl.g,hsl.b);
+    return edk::codecs::CodecImage::hslTorgb(hsl.r,hsl.g,hsl.b);
 }
 
 } /* End of namespace edk */

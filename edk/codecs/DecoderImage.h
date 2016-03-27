@@ -42,6 +42,7 @@ class DecoderImage : protected edk::codecs::CodecImage{
 
         //Return the frame
         edk::uint8* getFrame();
+        edk::size2ui32 getFrameSize();
         edk::uint32 getFrameWidth();
         edk::uint32 getFrameHeight();
         edk::uint32 getFrameChannels();

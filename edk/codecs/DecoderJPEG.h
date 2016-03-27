@@ -37,7 +37,8 @@ class DecoderJPEG : public edk::codecs::DecoderImage{
         bool decode(edk::uint8* encoded,edk::uint32 size);
         bool decode(const unsigned char* encoded,edk::uint32 size);
 
-        //return the frame
+        //return the vector size
+        edk::uint32 getVectorSize();
     protected:
     private:
 };

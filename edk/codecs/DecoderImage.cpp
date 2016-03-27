@@ -62,6 +62,9 @@ bool edk::codecs::DecoderImage::decodeFromFile(edk::char8* fileName){
 edk::uint8* edk::codecs::DecoderImage::getFrame(){
     return edk::codecs::CodecImage::getFrame();
 }
+edk::size2ui32 edk::codecs::DecoderImage::getFrameSize(){
+    return edk::codecs::CodecImage::getFrameSize();
+}
 edk::uint32 edk::codecs::DecoderImage::getFrameWidth(){
     return edk::codecs::CodecImage::getFrameWidth();
 }

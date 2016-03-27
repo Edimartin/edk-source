@@ -89,10 +89,18 @@ Gravatai RS Brazil 94065100
 #define EDK_BVH_XZ 0x01
 #define EDK_BVH_YZ 0x02
 
+//MARCROS
+static void edk_nothing(){}
+#define edk_printDebug(my_val) \
+    printf("\n%s [%u] ",__FILE__,__LINE__); \
+    printf(my_val); \
+    printf(" (%s)",__FUNCTION__); \
+    edk_nothing()
+
 //
 namespace edk{
-    //SFML 1.6
-    /*
+//SFML 1.6
+/*
     namespace key{
         enum code{
             A = 'a',
@@ -205,148 +213,148 @@ namespace edk{
         }
     }
     */
-    //SFML 2.0
+//SFML 2.0
 
-    namespace key{
-        enum code{
-            num0 = '0',
-            num1 = '1',
-            num2 = '2',
-            num3 = '3',
-            num4 = '4',
-            num5 = '5',
-            num6 = '6',
-            num7 = '7',
-            num8 = '8',
-            num9 = '9',
-            A = 'a',
-            B = 'b',
-            C = 'c',
-            D = 'd',
-            E = 'e',
-            F = 'f',
-            G = 'g',
-            H = 'h',
-            I = 'i',
-            J = 'j',
-            K = 'k',
-            L = 'l',
-            M = 'm',
-            N = 'n',
-            O = 'o',
-            P = 'p',
-            Q = 'q',
-            R = 'r',
-            S = 's',
-            T = 't',
-            U = 'u',
-            V = 'v',
-            W = 'w',
-            X = 'x',
-            Y = 'y',
-            Z = 'z',
-            escape=256,
-            lControl,
-            lShift,
-            lAlt,
-            lSystem,
-            rControl,
-            rShift,
-            rAlt,
-            rSystem,
-            menu,
-            lBracket,
-            rBracket,
-            semiColon,
-            comma,
-            period,
-            quote,
-            slash,
-            backSlash,
-            tilde,
-            equal,
-            dash,
-            space,
-            Return,
-            backSpace,
-            tab,
-            pageUp,
-            pageDown,
-            end,
-            home,
-            insert,
-            Delete,
-            add,
-            subtract,
-            multiply,
-            divide,
-            left,
-            right,
-            up,
-            down,
-            numpad0,
-            numpad1,
-            numpad2,
-            numpad3,
-            numpad4,
-            numpad5,
-            numpad6,
-            numpad7,
-            numpad8,
-            numpad9,
-            F1,
-            F2,
-            F3,
-            F4,
-            F5,
-            F6,
-            F7,
-            F8,
-            F9,
-            F10,
-            F11,
-            F12,
-            F13,
-            F14,
-            F15,
-            pause
-        };
-        namespace state{
-            enum id{
-                pressed,
-                released,
-                held
-            };
-        }
-    }
-    //MOUSE
-    namespace mouse{
-        enum button{
-            left=1u,
-            right,
-            middle,
-            xButton1,
-            xButton2
-        };
-        namespace state{
-            enum id{
-                pressed,
-                released,
-                moved
-            };
-        }
-    }
-    namespace buttonView{
-        //
-        namespace state{
-            //
-            enum id{
-                normal,
-                pressed,
-                up
-            };
-        }
-    }
+namespace key{
+enum code{
+    num0 = '0',
+    num1 = '1',
+    num2 = '2',
+    num3 = '3',
+    num4 = '4',
+    num5 = '5',
+    num6 = '6',
+    num7 = '7',
+    num8 = '8',
+    num9 = '9',
+    A = 'a',
+    B = 'b',
+    C = 'c',
+    D = 'd',
+    E = 'e',
+    F = 'f',
+    G = 'g',
+    H = 'h',
+    I = 'i',
+    J = 'j',
+    K = 'k',
+    L = 'l',
+    M = 'm',
+    N = 'n',
+    O = 'o',
+    P = 'p',
+    Q = 'q',
+    R = 'r',
+    S = 's',
+    T = 't',
+    U = 'u',
+    V = 'v',
+    W = 'w',
+    X = 'x',
+    Y = 'y',
+    Z = 'z',
+    escape=256,
+    lControl,
+    lShift,
+    lAlt,
+    lSystem,
+    rControl,
+    rShift,
+    rAlt,
+    rSystem,
+    menu,
+    lBracket,
+    rBracket,
+    semiColon,
+    comma,
+    period,
+    quote,
+    slash,
+    backSlash,
+    tilde,
+    equal,
+    dash,
+    space,
+    Return,
+    backSpace,
+    tab,
+    pageUp,
+    pageDown,
+    end,
+    home,
+    insert,
+    Delete,
+    add,
+    subtract,
+    multiply,
+    divide,
+    left,
+    right,
+    up,
+    down,
+    numpad0,
+    numpad1,
+    numpad2,
+    numpad3,
+    numpad4,
+    numpad5,
+    numpad6,
+    numpad7,
+    numpad8,
+    numpad9,
+    F1,
+    F2,
+    F3,
+    F4,
+    F5,
+    F6,
+    F7,
+    F8,
+    F9,
+    F10,
+    F11,
+    F12,
+    F13,
+    F14,
+    F15,
+    pause
+};
+namespace state{
+enum id{
+    pressed,
+    released,
+    held
+};
+}
+}
+//MOUSE
+namespace mouse{
+enum button{
+    left=1u,
+    right,
+    middle,
+    xButton1,
+    xButton2
+};
+namespace state{
+enum id{
+    pressed,
+    released,
+    moved
+};
+}
+}
+namespace buttonView{
+//
+namespace state{
+//
+enum id{
+    normal,
+    pressed,
+    up
+};
+}
+}
 /*
     namespace controller{
         enum Axis
@@ -362,14 +370,14 @@ namespace edk{
     }
 */
 
-    namespace physics{
-        enum bodyType
-        {
-            StaticBody = 0u,
-            KinematicBody,
-            DynamicBody
-        };
-    }
+namespace physics{
+enum bodyType
+{
+    StaticBody = 0u,
+    KinematicBody,
+    DynamicBody
+};
+}
 }//end namespace
 
 #endif // TYPEDEFINES_H
