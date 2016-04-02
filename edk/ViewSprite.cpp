@@ -38,6 +38,39 @@ edk::ViewSprite::~ViewSprite()
     this->deleteSprite();
 }
 
+//create a new sprite
+bool edk::ViewSprite::createSprite(const char* name,edk::size2ui32 size, edk::uint32 mode,edk::uint32 filter){
+    return this->createSprite((edk::char8*) name,size, mode,filter);
+}
+bool edk::ViewSprite::createSprite(edk::char8* name,edk::size2ui32 size, edk::uint32 mode,edk::uint32 filter){
+    //delete the sprite
+    this->deleteSprite();
+    //test the name
+    if(name && size.width && size.height){
+        //then load the texture
+        this->spriteCode = this->list.createTexture(name,size,mode,filter);
+        this->spriteFilter=filter;
+        if(this->spriteCode) return true;
+    }
+
+    //else return false
+    return false;
+}
+bool edk::ViewSprite::createSprite(const char* name,edk::uint32 width,edk::uint32 height, edk::uint32 mode,edk::uint32 filter){
+    return this->createSprite((edk::char8*)name,width,height,mode,filter);
+}
+bool edk::ViewSprite::createSprite(edk::char8* name,edk::uint32 width,edk::uint32 height, edk::uint32 mode,edk::uint32 filter){
+    return this->createSprite(name,edk::size2ui32(width,height), mode,filter);
+}
+//draw sprite
+bool edk::ViewSprite::drawSprite(edk::uint8* sprite,edk::uint32 filter){
+    //test if have the sprite
+    if(this->spriteCode){
+        //draw the sprite
+        return this->list.drawTexture(this->spriteCode,sprite,filter);
+    }
+    return false;
+}
 //load the sprite
 bool edk::ViewSprite::loadSprite(const char* name,edk::uint32 filter){
     //

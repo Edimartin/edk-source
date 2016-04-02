@@ -39,6 +39,13 @@ public:
     ViewSpriteController();
     virtual ~ViewSpriteController();
 
+    //create a new sprite
+    bool createSprite(const char* name,edk::size2ui32 size, edk::uint32 mode = GU_RGB,edk::uint32 filter = GU_NEAREST);
+    bool createSprite(edk::char8* name,edk::size2ui32 size, edk::uint32 mode = GU_RGB,edk::uint32 filter = GU_NEAREST);
+    bool createSprite(const char* name,edk::uint32 width,edk::uint32 height, edk::uint32 mode = GU_RGB,edk::uint32 filter = GU_NEAREST);
+    bool createSprite(edk::char8* name,edk::uint32 width,edk::uint32 height, edk::uint32 mode = GU_RGB,edk::uint32 filter = GU_NEAREST);
+    //draw sprite
+    bool drawSprite(edk::uint8* sprite,edk::uint32 filter = GU_NEAREST);
     //load the sprite
     bool loadSprite(const char* name,edk::uint32 filter = GU_NEAREST);
     bool loadSprite(edk::char8* name,edk::uint32 filter = GU_NEAREST);

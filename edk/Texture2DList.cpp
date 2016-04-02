@@ -52,6 +52,78 @@ edk::Texture2DList::TextureCode* edk::Texture2DList::getTextureByCode(edk::uint3
     find.code = code;
     return edk::Texture2DList::codeTree.getElement(&find);
 }
+//create a new texture
+edk::uint32 edk::Texture2DList::createTexture(edk::char8* name,edk::size2ui32 size,edk::uint32 mode,edk::uint32 filter){
+    edk::uint32 ret=0u;
+    //test the pointers and size
+    if(name && size.height && size.width){
+        //get the texture from the tree
+        edk::Texture2DList::TextureCode* temp = this->getTextureByName(name,filter);
+        //test if NOT hame the texture
+        if(!temp){
+            //load the new texture
+            temp = new edk::Texture2DList::TextureCode;
+            if(temp){
+                //load the texture
+                if(temp->createTexture(name,size,mode,filter)){
+                    //add the texture to the tree's
+                    if(edk::Texture2DList::codeTree.add(temp)){
+                        if(edk::Texture2DList::nameTree.add(temp)){
+                            ret = temp->code;
+                            temp->retainTexture();
+                            return ret;
+                        }
+                        else{
+                            edk::Texture2DList::codeTree.remove(temp);
+                            //else delete temp
+                            delete temp;
+                            temp=NULL;
+                        }
+                    }
+                    else{
+                        //else delete temp
+                        delete temp;
+                        temp=NULL;
+                    }
+                }
+                else{
+                    //else delete temp
+                    delete temp;
+                    temp=NULL;
+                }
+            }
+        }
+        if(temp){
+            //retain the texture
+            ret=temp->code;
+            temp->retainTexture();
+        }
+    }
+    return ret;
+}
+edk::uint32 edk::Texture2DList::createTexture(const char8* name,edk::size2ui32 size,edk::uint32 mode,edk::uint32 filter){
+    return this->createTexture((edk::char8*) name,size,mode,filter);
+}
+//draw on a texture
+bool edk::Texture2DList::drawTexture(edk::char8* name,edk::uint8* image,edk::uint32 filter){
+    //test the name and retainTexture
+    if(name){
+        //get the texture from the tree
+        return this->drawTexture(this->getTextureByName(name,filter),image);
+    }
+    return false;
+}
+bool edk::Texture2DList::drawTexture(const char8* name,edk::uint8* image,edk::uint32 filter){
+    return this->drawTexture((const char8*) name, image,filter);
+}
+bool edk::Texture2DList::drawTexture(edk::uint32 code,edk::uint8* image,edk::uint32 filter){
+    //test the name and retainTexture
+    if(code){
+        //get the texture from the tree
+        return this->drawTexture(this->getTextureByCode(code),image);
+    }
+    return false;
+}
 
 //Load Texture
 edk::uint32 edk::Texture2DList::loadTexture(edk::char8* name,edk::uint32 filter){
@@ -167,6 +239,13 @@ bool edk::Texture2DList::retainTexture(edk::uint32 code){
         //set retain
         temp->retainTexture();
         return true;
+    }
+    return false;
+}
+//draw on the texture
+bool edk::Texture2DList::drawTexture(edk::Texture2DList::TextureCode* temp,edk::uint8* image,edk::uint32 filter){
+    if(temp){
+        return temp->drawTexture(image,filter);
     }
     return false;
 }

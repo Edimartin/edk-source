@@ -48,6 +48,13 @@ public:
     Texture2DList();
     ~Texture2DList();
 
+    //create a new texture
+    edk::uint32 createTexture(edk::char8* name,edk::size2ui32 size,edk::uint32 mode = GU_RGB,edk::uint32 filter = GU_NEAREST);
+    edk::uint32 createTexture(const char8* name,edk::size2ui32 size,edk::uint32 mode = GU_RGB,edk::uint32 filter = GU_NEAREST);
+    //draw on a texture
+    bool drawTexture(edk::char8* name,edk::uint8* image,edk::uint32 filter = GU_NEAREST);
+    bool drawTexture(const char8* name,edk::uint8* image,edk::uint32 filter = GU_NEAREST);
+    bool drawTexture(edk::uint32 code,edk::uint8* image,edk::uint32 filter = GU_NEAREST);
     //Load Texture
     edk::uint32 loadTexture(edk::char8* name,edk::uint32 filter = GU_NEAREST);
     edk::uint32 loadTexture(const char* name,edk::uint32 filter = GU_NEAREST);
@@ -103,6 +110,33 @@ private:
             this->code=0u;
             this->filter = 0u;
             this->deleteName();
+        }
+        //create a new testure
+        bool createTexture(edk::char8* name,edk::size2ui32 size,edk::uint32 mode,edk::uint32 filter){
+            this->deleteTexture();
+            if(name){
+                if((this->file = new edk::Texture2DFile)){
+                    if(this->file->createTexture(size.width,size.height,mode,NULL,filter)){
+                        //save the name
+                        if(this->setName(name)){
+                            //save the code
+                            this->code=this->file->getID();
+                            this->filter = filter;
+                            return true;
+                        }
+                    }
+                }
+            }
+            this->deleteTexture();
+            return false;
+        }
+        //draw in the texture
+        bool drawTexture(edk::uint8* image,edk::uint32 filter){
+            if(image){
+                //draw on the texture
+                return this->file->drawToTexture(image,filter);
+            }
+            return false;
         }
         //load texture
         bool loadFromFile(edk::char8* name,edk::uint32 filter){
@@ -232,6 +266,8 @@ private:
     edk::Texture2DList::TextureCode* getTextureByName(edk::char8* name, edk::uint32 filter);
     //get the texture by the code
     edk::Texture2DList::TextureCode* getTextureByCode(edk::uint32 code);
+    //draw on the texture
+    bool drawTexture(edk::Texture2DList::TextureCode* temp,edk::uint8* image,edk::uint32 filter = GU_NEAREST);
     //remove the texture
     bool removeTexture(edk::Texture2DList::TextureCode* temp);
     //delete the texture
