@@ -2210,7 +2210,7 @@ void String::consoleClear()
 #if defined(WIN32) || defined(WIN64)//Windows
     system("cls");
 #elif defined(__linux__) || defined(__APPLE__) //Linux //MacOS
-    system("clear");
+    printf("\033c");
 #endif
 }
 // section 127-0-1-1-268c1826:13ad7e2c651:-8000:000000000000A899 end
