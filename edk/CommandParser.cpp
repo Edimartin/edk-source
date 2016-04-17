@@ -176,11 +176,56 @@ void edk::CommandParser::printCommandsWithValues(){
 bool edk::CommandParser::parseArgcArgv(edk::int32 argc,edk::char8* argv[]){
     if(argc>1 && argv){
         edk::char8* temp=NULL;
+        edk::char8 character[3u];
+        character[0u]='-';
+        character[2u]='\0';
         //test the argc,argv
         for(edk::int32 i=1;i<argc;i++){
             //test the commad
             if(argv[i]){
                 temp = argv[i];
+                //test if have '-'
+                if(temp[0u] == '-'){
+                    //test if have the second '-'
+                    if(temp[1u] == '-'){
+                        //test if have an attribution
+                        while(*temp){
+                            //test if have an attribution
+                            if(*temp=='='){
+                                //remove the attribution
+                                *temp='\0';
+                                temp++;
+                                if(*temp){
+                                    //then add the command
+                                    this->addCommand(argv[i],temp);
+                                    temp=NULL;
+                                    break;
+                                }
+                            }
+                            temp++;
+                        }
+                        if(!temp) continue;
+
+                        //else read the single command
+                        this->addCommand(argv[i],argv[i]);
+                        //increment i to teste the next two argv's
+                        continue;
+                    }
+                    else{
+                        //test if is not only one character
+                        if(temp[2u]!='\0' && temp[2u]!='='){
+                            //read the characters
+                            while(temp[1u]){
+                                character[1u] = temp[1u];
+                                this->addCommand((edk::char8*)character,(edk::char8*)character);
+                                temp++;
+                            }
+                            //increment i to teste the next two argv's
+                            continue;
+                        }
+                    }
+                }
+
                 //test if have an attribution
                 while(*temp){
                     //test if have an attribution
@@ -200,9 +245,16 @@ bool edk::CommandParser::parseArgcArgv(edk::int32 argc,edk::char8* argv[]){
                 if(!temp) continue;
                 //else test if have the next argv
                 if(argv[i+1u]){
-                    //test if have the attributio
+                    //test if have the attribution
                     temp = argv[i+1u];
-                    //test if have an attribution
+                    //test if the temp is an '-'
+                    if(*temp=='-'){
+                        //then add the single command
+                        this->addCommand(argv[i],argv[i]);
+                        continue;
+                    }
+
+                    //else test if have an attribution
                     while(*temp){
                         //test if have an attribution
                         if(*temp=='='){
@@ -220,6 +272,10 @@ bool edk::CommandParser::parseArgcArgv(edk::int32 argc,edk::char8* argv[]){
                     this->addCommand(argv[i],argv[i+1u]);
                     //increment i to teste the next two argv's
                     i++;
+                }
+                else{
+                    //else add the single command
+                    this->addCommand(argv[i],argv[i]);
                 }
             }
         }

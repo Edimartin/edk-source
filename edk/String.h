@@ -27,10 +27,12 @@ Gravatai RS Brazil 94065100
 
 #pragma once
 #include "TypeVars.h"
+#include "TypeSize2.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include <sys/ioctl.h>
 
 #if defined(_WIN32) || defined(_WIN64)
 #include <conio.h>
@@ -202,6 +204,9 @@ public:
     static char8* consoleReadString();
 
     static void consoleClear();
+
+    //return the console size
+    static edk::size2ui32 consoleGetSize();
 
     static char8* strCopy(char8 *str);
 
