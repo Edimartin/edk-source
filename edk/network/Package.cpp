@@ -177,6 +177,17 @@ bool edk::network::Package::headerIsBroken(edk::classID vec){
     }
     return false;
 }
+//get the full size by the header
+edk::uint32 edk::network::Package::getHeaderFullSize(edk::classID vec){
+    //test the vec
+    if(vec){
+        //copy the header
+        edk::network::Package::PackHeader header;
+        memcpy(&header,vec,sizeof(edk::network::Package::PackHeader));
+        return header.size + sizeof(edk::network::Package::PackHeader);
+    }
+    return 0u;
+}
 //get the position by the header
 edk::uint32 edk::network::Package::getHeaderPosition(edk::classID vec){
     //test the vec

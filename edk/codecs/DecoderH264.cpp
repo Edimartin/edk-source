@@ -219,8 +219,10 @@ void edk::codecs::DecoderH264::finishDecoder(){
     //
     edk::codecs::DecoderVideo::finishDecoder();
 #ifdef EDK_USE_OPENH264
-    //unitialize
-    this->decoder->Uninitialize();
+    if(this->decoder){
+        //unitialize
+        this->decoder->Uninitialize();
+    }
 
     WelsDestroyDecoder(this->decoder);
     this->decoder = NULL;
@@ -228,4 +230,18 @@ void edk::codecs::DecoderH264::finishDecoder(){
         edk_printDebug("You must define EDK_USE_OPENH264 before use");
 #endif
 }
+
+//return true if have load the encoder
+bool edk::codecs::DecoderH264::haveInitialized(){
+#ifdef EDK_USE_OPENH264
+    if(this->decoder){
+        //unitialize
+        return true;
+    }
+#else
+        edk_printDebug("You must define EDK_USE_OPENH264 before use");
+#endif
+    return false;
+}
+
 

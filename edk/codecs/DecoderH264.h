@@ -56,6 +56,9 @@ public:
 
     //finish the encoder
     void finishDecoder();
+
+    //return true if have load the encoder
+    bool haveInitialized();
 private:
 #ifdef EDK_USE_OPENH264
     ISVCDecoder * decoder;

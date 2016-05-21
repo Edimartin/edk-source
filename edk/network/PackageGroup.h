@@ -70,6 +70,9 @@ public:
     //get the total size of packagess
     edk::uint32 getTotalPackages();
 
+    //read the package size
+    static edk::uint32 readPackageSize(edk::classID vec);
+
 private:
     //packages tree
     class PackageTree:public edk::vector::BinaryTree<edk::network::Package*>{

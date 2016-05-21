@@ -59,6 +59,8 @@ public:
 
     //test if the header is broked
     static bool headerIsBroken(edk::classID vec);
+    //get the full size by the header
+    static edk::uint32 getHeaderFullSize(edk::classID vec);
     //get the position by the header
     static edk::uint32 getHeaderPosition(edk::classID vec);
     //get the ID by the header

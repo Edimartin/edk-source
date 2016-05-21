@@ -127,7 +127,6 @@ bool edk::codecs::EncoderH264::encode(edk::uint8* frame,edk::uint8 channels){
                 memset (&this->sFbi, 0, sizeof (SFrameBSInfo));
 
                 if(this->isNextKeyframe()){
-                    printf("\nFORCE NEXT");fflush(stdout);
                     encoder->ForceIntraFrame(true);
                 }
 
@@ -173,13 +172,28 @@ void edk::codecs::EncoderH264::finishEncoder(){
     edk::codecs::EncoderVideo::finishEncoder();
 
 #ifdef EDK_USE_OPENH264
-    //unitialize
-    this->encoder->Uninitialize();
+    if(this->encoder){
+        //unitialize
+        this->encoder->Uninitialize();
+    }
 
     WelsDestroySVCEncoder(this->encoder);
     this->encoder=NULL;
 #else
         edk_printDebug("You must define EDK_USE_OPENH264 before use");
 #endif
+}
+
+//return true if have load the encoder
+bool edk::codecs::EncoderH264::haveInitialized(){
+#ifdef EDK_USE_OPENH264
+    if(this->encoder){
+        //unitialize
+        return true;
+    }
+#else
+        edk_printDebug("You must define EDK_USE_OPENH264 before use");
+#endif
+    return false;
 }
 

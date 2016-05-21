@@ -77,6 +77,10 @@ class Thread {
 
     bool start(classID (threadFunction)(classID));
 
+    bool startIn(classID (threadFunction)(classID), classID parameter, edk::uint32 core);
+
+    bool startIn(classID (threadFunction)(classID), edk::uint32 core);
+
     bool runFunc();
 
     bool isAlive();
@@ -90,6 +94,18 @@ class Thread {
     static void killThisThread();
 
     static void killAllThreads();
+
+    //return the thread id
+#if __x86_64__ || __ppc64__
+    static edk::uint64 getThisThreadID();
+#else
+    static edk::uint32 getThisThreadID();
+#endif
+
+    //return the thread core
+    static edk::uint32 getThisThreadCore();
+
+    static edk::uint32 numberOfCores();
 
 
  private:
@@ -107,6 +123,9 @@ class Thread {
      */
     void* funcParameter;
 
+    //number of cores on the system
+    static edk::uint32 cores;
+
     /**
      *  The Thread ID. Number edk::uint32 with a diferent type in diferent librarys.
      */
@@ -115,6 +134,10 @@ class Thread {
     #endif
     #if defined(__linux__)/*LINUX*/ || defined(__APPLE__)//MAC OS
     pthread_t threadID;
+    //thread attribute
+    pthread_attr_t attr;
+    //thread cpus to affinity
+    cpu_set_t cpus;
     #endif
 };
 } /* End of namespace multi */

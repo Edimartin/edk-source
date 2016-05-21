@@ -88,7 +88,7 @@ bool edk::network::PackageGroup::addVector(edk::classID vec,edk::uint32 size,edk
 
         edk::network::Package* pack=NULL;
         edk::uint8* temp = (edk::uint8*)vec;
-        edk::uint32 i;
+        edk::uint32 i=0u;
         edk::uint32 packages = 0u;
         //test the total
         if(total){
@@ -353,7 +353,7 @@ edk::uint32 edk::network::PackageGroup::getPackageID(edk::uint32 position){
         //return the vector
         edk::network::Package* pack = this->tree.getElementInPosition(position);
         if(pack){
-            return pack->getPosition();
+            return pack->getID();
         }
     }
     return 0u;
@@ -387,6 +387,16 @@ edk::uint32 edk::network::PackageGroup::getTotalPackages(){
             //get the number of packages
             return pack->getPackages();
         }
+    }
+    return 0u;
+}
+
+//read the package size
+edk::uint32 edk::network::PackageGroup::readPackageSize(edk::classID vec){
+    //test the vector
+    if(vec){
+        //get the header
+        return edk::network::Package::getHeaderFullSize(vec);
     }
     return 0u;
 }
