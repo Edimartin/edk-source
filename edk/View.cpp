@@ -82,11 +82,10 @@ void View::drawViewport(edk::rectf32 outsideViewOrigin){
     //test if are using the modelView
     if(!edk::GU::guUsingMatrix(GU_MODELVIEW))edk::GU::guUseMatrix(GU_MODELVIEW);
     //First create the view in GU
-
-    rectTemp = edk::rectf32((edk::uint32)(outsideViewOrigin.origin.x + this->animatedFrame.origin.x)
-                            ,(edk::uint32)( outsideViewOrigin.origin.y + outsideViewOrigin.size.height - this->animatedFrame.origin.y - this->animatedFrame.size.height)
-                            ,(edk::uint32)this->animatedFrame.size.width
-                            ,(edk::uint32)this->animatedFrame.size.height
+    rectTemp = edk::rectf32((edk::int32)(outsideViewOrigin.origin.x + this->animatedFrame.origin.x)
+                            ,(edk::int32)( outsideViewOrigin.origin.y + outsideViewOrigin.size.height - this->animatedFrame.origin.y - this->animatedFrame.size.height)
+                            ,(edk::int32)this->animatedFrame.size.width
+                            ,(edk::int32)this->animatedFrame.size.height
                             );
     //Set the viewport
     edk::GU::guSetViewport((edk::uint32)rectTemp.origin.x
