@@ -90,12 +90,19 @@ Gravatai RS Brazil 94065100
 #define EDK_BVH_YZ 0x02
 
 //MARCROS
-static void edk_nothing(){}
+
+//Need a class to remove the nothing warning
+namespace edk{
+class NothingClass{
+public:
+    static void edk_nothing(){}
+};
+}
 #define edk_printDebug(my_val) \
     printf("\n%s [%u] ",__FILE__,__LINE__); \
     printf(my_val); \
     printf(" (%s)",__FUNCTION__); \
-    edk_nothing()
+    edk::NothingClass::edk_nothing()
 
 //
 namespace edk{

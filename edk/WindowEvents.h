@@ -67,6 +67,7 @@ class WindowEvents{
             this->windowSize = edk::size2ui32(0u,0u);
             this->mousePos = edk::vec2i32(0,0);
             this->mousePosWorld = edk::vec2i32(0,0);
+            this->mousePosWindow = edk::vec2i32(0,0);
             this->mouseMove = edk::vec2i32(0,0);
             this->keyPressed.clean();
             this->keyRelease.clean();
@@ -111,8 +112,9 @@ class WindowEvents{
         edk::vector::Stack<edk::uint32> mouseHolded;
         //Mouse Movido
         bool mouseMoved;
-        edk::vec2i32 mousePos;
-        edk::vec2i32 mousePosWorld;
+        edk::vec2i32 mousePos;       //mouse position inside the view
+        edk::vec2i32 mousePosWorld;  //mouse position inside the world
+        edk::vec2i32 mousePosWindow; //mouse position inside the window
         edk::vec2i32 mouseMove;
         //Mouse entrou
         bool mouseEnter;

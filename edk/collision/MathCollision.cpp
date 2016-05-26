@@ -145,8 +145,6 @@ edk::collision::Vecs2f32 edk::collision::MathCollision::straightStraight2D(vec2f
     edk::collision::Vecs2f32 ret(0u);
     //the temp vec
     edk::vec2f32 temp;
-    edk::float32 p1=0.0;
-    edk::float32 p2=0.0;
     edk::float64 det;
 
     //( Ponto k,           Ponto l,         Ponto m,           Ponto n)
