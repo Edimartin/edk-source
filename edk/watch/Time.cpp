@@ -210,7 +210,7 @@ void Time::clockLoadTime()
     ///TODO:gmTime esta dando crash na aplicação
     gmtime_s(&systemClock,&rawtime);
 #else
-    systemClock = localtime ( &rawtime );
+    this->systemClock = localtime ( &rawtime );
 #endif
 }
 // section 127-0-1-1-268c1826:13ad7e2c651:-8000:000000000000AAF8 end

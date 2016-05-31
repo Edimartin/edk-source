@@ -552,13 +552,16 @@ void edk::ViewButton::eventMouseReleased(edk::vec2f32 position,edk::uint32 butto
         //test if have the button in the tree
         if(this->holdButton.haveElement(button)){
             bool inside;
-            if(position.x>=this->frame.origin.x
+            edk::vec2f32 positionTemp = edk::vec2f32((position.x*-1)+this->animatedFrame.size.width,
+                                                     (position.y*-1)+this->animatedFrame.size.height
+                                                     );
+            if(positionTemp.x>=this->animatedFrame.origin.x
                     &&
-                    position.y>=this->frame.origin.y
+                    positionTemp.y>=this->animatedFrame.origin.y
                     &&
-                    position.x<=this->frame.size.width
+                    positionTemp.x<=this->animatedFrame.size.width
                     &&
-                    position.y<=this->frame.size.height
+                    positionTemp.y<=this->animatedFrame.size.height
                     )
                 inside = true;
             else
