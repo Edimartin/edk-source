@@ -81,6 +81,9 @@ class Thread {
 
     bool startIn(classID (threadFunction)(classID), edk::uint32 core);
 
+    //change the threadCore
+    bool changeCore(edk::uint32 core);
+
     bool runFunc();
 
     bool isAlive();
@@ -134,8 +137,6 @@ class Thread {
     #endif
     #if defined(__linux__)/*LINUX*/ || defined(__APPLE__)//MAC OS
     pthread_t threadID;
-    //thread attribute
-    pthread_attr_t attr;
     //thread cpus to affinity
     cpu_set_t cpus;
     #endif

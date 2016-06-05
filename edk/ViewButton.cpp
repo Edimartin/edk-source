@@ -547,29 +547,14 @@ void edk::ViewButton::eventMouseMoved(edk::vec2f32,edk::uint32){
         }
     }
 }
-void edk::ViewButton::eventMouseReleased(edk::vec2f32 position,edk::uint32 button){
+void edk::ViewButton::eventMouseReleased(edk::vec2f32,edk::uint32 button){
     if(this->buttonOn){
         //test if have the button in the tree
         if(this->holdButton.haveElement(button)){
-            bool inside;
-            edk::vec2f32 positionTemp = edk::vec2f32((position.x*-1)+this->animatedFrame.size.width,
-                                                     (position.y*-1)+this->animatedFrame.size.height
-                                                     );
-            if(positionTemp.x>=this->animatedFrame.origin.x
-                    &&
-                    positionTemp.y>=this->animatedFrame.origin.y
-                    &&
-                    positionTemp.x<=this->animatedFrame.size.width
-                    &&
-                    positionTemp.y<=this->animatedFrame.size.height
-                    )
-                inside = true;
-            else
-                inside = false;
             //then run the releaseEvent
-            this->eventReleaseButton(button,inside);
+            this->eventReleaseButton(button,this->mouseInside);
             if(this->buttonCallback){
-                this->buttonCallback->releaseButton(this,button,inside);
+                this->buttonCallback->releaseButton(this,button,this->mouseInside);
             }
         }
         //decrement the buttonPressed
