@@ -38,6 +38,14 @@ Gravatai RS Brazil 94065100
 #warning "    Compiling XML"
 #endif
 
+//Define the XML types
+#define EDK_XML_NULL      0x00
+#define EDK_XML_UINT      0x02
+#define EDK_XML_INT       0x04
+#define EDK_XML_DOUBLE    0x08
+#define EDK_XML_BOOL      0x10
+#define EDK_XML_STRING    0x20
+
 /*
 
 xml_node xml_node::parent() const;
@@ -124,6 +132,24 @@ class XML{
         //add childs at the end
         bool addSelectedNextChild(const char* name);
         bool addSelectedNextChild(edk::char8* name);
+        bool addSelectedNextChild(const char* name,edk::uint32 value);
+        bool addSelectedNextChild(edk::char8* name,edk::uint32 value);
+        bool addSelectedNextChild(const char* name,edk::int32 value);
+        bool addSelectedNextChild(edk::char8* name,edk::int32 value);
+        bool addSelectedNextChild(const char* name,edk::uint64 value);
+        bool addSelectedNextChild(edk::char8* name,edk::uint64 value);
+        bool addSelectedNextChild(const char* name,edk::int64 value);
+        bool addSelectedNextChild(edk::char8* name,edk::int64 value);
+        bool addSelectedNextChild(const char* name,edk::float32 value,edk::uint32 digits=2u);
+        bool addSelectedNextChild(edk::char8* name,edk::float32 value,edk::uint32 digits=2u);
+        bool addSelectedNextChild(const char* name,edk::float64 value,edk::uint32 digits=4u);
+        bool addSelectedNextChild(edk::char8* name,edk::float64 value,edk::uint32 digits=4u);
+        bool addSelectedNextChild(const char* name,const char* value);
+        bool addSelectedNextChild(edk::char8* name,const char* value);
+        bool addSelectedNextChild(const char* name,edk::char8* value);
+        bool addSelectedNextChild(edk::char8* name,edk::char8* value);
+        bool addSelectedNextChild(const char* name,bool value);
+        bool addSelectedNextChild(edk::char8* name,bool value);
         //Add a attribute at end and start
         bool addSelectedNextAttribute(const char* name,edk::uint32 value);
         bool addSelectedNextAttribute(edk::char8* name,edk::uint32 value);
@@ -141,6 +167,8 @@ class XML{
         bool addSelectedNextAttribute(edk::char8* name,const char* value);
         bool addSelectedNextAttribute(const char* name,edk::char8* value);
         bool addSelectedNextAttribute(edk::char8* name,edk::char8* value);
+        bool addSelectedNextAttribute(const char* name,bool value);
+        bool addSelectedNextAttribute(edk::char8* name,bool value);
         bool addSelectedPreviousAttribute(const char* name,edk::uint32 value);
         bool addSelectedPreviousAttribute(edk::char8* name,edk::uint32 value);
         bool addSelectedPreviousAttribute(const char* name,edk::int32 value);
@@ -156,7 +184,9 @@ class XML{
         bool addSelectedPreviousAttribute(const char* name,const char* value);
         bool addSelectedPreviousAttribute(edk::char8* name,const char* value);
         bool addSelectedPreviousAttribute(const char* name,edk::char8* value);
-		bool addSelectedPreviousAttribute(edk::char8* name,edk::char8* value);
+        bool addSelectedPreviousAttribute(edk::char8* name,edk::char8* value);
+        bool addSelectedPreviousAttribute(const char* name,bool value);
+        bool addSelectedPreviousAttribute(edk::char8* name,bool value);
         //Add a new node to the root after and before
         bool addRootPreviousChild(const char* name);
         bool addRootPreviousChild(edk::char8* name);
@@ -167,8 +197,14 @@ class XML{
 		bool deleteSelectedAttribute(const char* name);
 		bool deleteSelectedAttribute(edk::char8* name);
 		//SELECTED SET
-		bool setSelectedString(const char* string);
-		bool setSelectedString(edk::char8* string);
+        bool setSelectedString(const char* string);
+        bool setSelectedString(edk::char8* string);
+        bool setSelectedString(edk::uint32 string);
+        bool setSelectedString(edk::int32 string);
+        bool setSelectedString(edk::uint64 string);
+        bool setSelectedString(edk::int64 string);
+        bool setSelectedString(edk::float32 string,edk::uint32 digits=2u);
+        bool setSelectedString(edk::float64 string,edk::uint32 digits=4u);
         //SELECTED GET
         //return if have a selected
         bool haveSelected();
@@ -180,6 +216,15 @@ class XML{
         edk::char8* getSelectedName();
         //return the string of the selected
         edk::char8* getSelectedString();
+        edk::int32 getSelectedStringAsInt32();
+        edk::uint32 getSelectedStringAsUint32();
+        edk::int64 getSelectedStringAsInt64();
+        edk::uint64 getSelectedStringAsUint64();
+        edk::float32 getSelectedStringAsFloat32();
+        edk::float64 getSelectedStringAsFloat64();
+        bool getSelectedStringAsBool();
+        //return the type of the selected string
+        edk::uint8 getSelectedStringType();
         //test if have the attribute
         bool haveAttributeName(const char* name);
         bool haveAttributeName(edk::char8* name);
@@ -187,17 +232,43 @@ class XML{
         edk::char8* getSelectedAttributeName(edk::uint32 id);
         //return the attribute value
         edk::char8* getSelectedAttributeValue(edk::uint32 id);
+        edk::int32 getSelectedAttributeValueAsInt32(edk::uint32 id);
+        edk::uint32 getSelectedAttributeValueAsUint32(edk::uint32 id);
+        edk::int64 getSelectedAttributeValueAsInt64(edk::uint32 id);
+        edk::uint64 getSelectedAttributeValueAsUint64(edk::uint32 id);
+        edk::float32 getSelectedAttributeValueAsFloat32(edk::uint32 id);
+        edk::float64 getSelectedAttributeValueAsFloat64(edk::uint32 id);
+        bool getSelectedAttributeValueAsBool(edk::uint32 id);
+        //return the attribute type
+        edk::uint8 getSelectedAttributeType(edk::uint32 id);
         //return the value by the attribute name
         edk::char8* getSelectedAttributeValueByName(const char* name);
         edk::char8* getSelectedAttributeValueByName(edk::char8* name);
+        edk::int32 getSelectedAttributeValueAsInt32ByName(const char* name);
+        edk::int32 getSelectedAttributeValueAsInt32ByName(edk::char8* name);
+        edk::uint32 getSelectedAttributeValueAsUint32ByName(const char* name);
+        edk::uint32 getSelectedAttributeValueAsUint32ByName(edk::char8* name);
+        edk::int64 getSelectedAttributeValueAsInt64ByName(const char* name);
+        edk::int64 getSelectedAttributeValueAsInt64ByName(edk::char8* name);
+        edk::uint64 getSelectedAttributeValueAsUint64ByName(const char* name);
+        edk::uint64 getSelectedAttributeValueAsUint64ByName(edk::char8* name);
+        edk::float32 getSelectedAttributeValueAsFloat32ByName(const char* name);
+        edk::float32 getSelectedAttributeValueAsFloat32ByName(edk::char8* name);
+        edk::float64 getSelectedAttributeValueAsFloat64ByName(const char* name);
+        edk::float64 getSelectedAttributeValueAsFloat64ByName(edk::char8* name);
+        bool getSelectedAttributeValueAsBoolByName(const char* name);
+        bool getSelectedAttributeValueAsBoolByName(edk::char8* name);
         //return the attributeID by the name
         edk::uint32 getSelectedAttributeID(edk::char8* name);
 
         //Parser Virtual Functions
-        virtual void didStartElement(edk::char8* name, edk::char8** attributes, edk::char8** values, edk::uint32 attributesCount);
-        virtual void foundCharacters(edk::char8* name,edk::char8* string);
+        virtual void didStartElement(edk::char8* name, edk::char8** attributes, edk::char8** values, edk::uint8* types, edk::uint32 attributesCount);
+        virtual void foundCharacters(edk::char8* name,edk::char8* string,edk::uint8 type);
         virtual void didEndElement(edk::char8* name);
     protected:
+        //return the string type
+        static edk::uint8 getStringType(const char* str);
+        static edk::uint8 getStringType(edk::char8* str);
     private:
 
     //using PugiXML
@@ -209,7 +280,7 @@ class XML{
     void parsing(pugi::xml_node node);
 	//add a root cleaning the code
 	bool addNewRoot(edk::char8* name);
-	bool addSelectedNewAttribute(edk::char8* name,edk::char8* value);
+    bool addSelectedNewAttribute(edk::char8* name,edk::char8* value);
 };
 }//end namespace edk
 

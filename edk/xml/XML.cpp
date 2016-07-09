@@ -79,6 +79,7 @@ void edk::XML::parsing(pugi::xml_node node){
             //create a new string to get the attributes and values
             edk::char8** attributes=new edk::char8*[attributesCount];
             edk::char8** values=new edk::char8*[attributesCount];
+            edk::uint8* types=new edk::uint8[attributesCount];
             if(attributes && values){
                 //get the attributes
                 pugi::xml_attribute attr = node.first_attribute();
@@ -90,34 +91,38 @@ void edk::XML::parsing(pugi::xml_node node){
                         //
                         attributes[i]=(edk::char8*)attr.name();
                         values[i]=(edk::char8*)attr.value();
+                        types[i]=edk::XML::getStringType(values[i]);
                     }
                     else{
                         //
                         attributes[i]=NULL;
                         values[i]=NULL;
+                        types[i]=EDK_XML_NULL;
                     }
                     //increment
                     attr = attr.next_attribute();
                 }
 
                 //Attributes copied. Did Start Element
-                this->didStartElement((edk::char8*)node.name(), attributes, values, attributesCount);
+                this->didStartElement((edk::char8*)node.name(), attributes, values, types, attributesCount);
             }
             //delete the attributes
             if(attributes) delete[] attributes;
             attributes=NULL;
             if(values) delete[] values;
             values=NULL;
+            if(types) delete[] types;
+            types=NULL;
         }
         else{
             //else dont have attributes
-            this->didStartElement((edk::char8*)node.name(), NULL, NULL, 0u);
+            this->didStartElement((edk::char8*)node.name(), NULL, NULL, NULL, 0u);
         }
 
         //get value
         if(*node.text()){
             //
-            this->foundCharacters((edk::char8*)node.name(),(edk::char8*)node.text().as_string());
+            this->foundCharacters((edk::char8*)node.name(),(edk::char8*)node.text().as_string(),edk::XML::getStringType((edk::char8*)node.text().as_string()));
         }
 
         //test if have a child
@@ -129,8 +134,186 @@ void edk::XML::parsing(pugi::xml_node node){
         this->parsing(node.next_sibling());
     }
 }
+bool edk::XML::addSelectedNewAttribute(edk::char8* name,edk::char8* value){
+    //test the strings and selected
+    if (this->selected && name && value){
+        //
+        if(this->selected.append_attribute((char*)name)){
+            //load the attribute to set the value
+            //set the attribute value
+            if(this->selected.attribute((char*)name).set_value((char*)value)){
+                //return true
+                return true;
+            }
+            else{
+                //else remove the attribute
+                this->selected.remove_attribute((char*)name);
+            }
+        }
+        else{
+            return false;
+        }
+    }
+    return false;
+}
 
-
+//return the string type
+edk::uint8 edk::XML::getStringType(const char* str){
+    return edk::XML::getStringType((edk::char8*) str);
+}
+edk::uint8 edk::XML::getStringType(edk::char8* str){
+    if(str){
+        if(*str){
+            //test the first character
+            if(*str=='-'){
+                str++;
+                //could it be an int
+                edk::uint32 havePointer=0u;
+                while(*str){
+                    //test if it's NOT a number
+                    if(*str<'0' || *str>'9'){
+                        //then test if it's a pointer
+                        if(*str=='.'){
+                            //test if the next is a number
+                            str++;
+                            if(*str){
+                                if(*str<'0' || *str>'9'){
+                                    //then it's a string
+                                    return EDK_XML_STRING;
+                                }
+                            }
+                            else{
+                                //else it's a string
+                                return EDK_XML_STRING;
+                            }
+                            //it's a pointer
+                            havePointer++;
+                            //just continue
+                            continue;
+                        }
+                        else{
+                            //else it's a string
+                            return EDK_XML_STRING;
+                        }
+                    }
+                    str++;
+                }
+                //test how many pointers it have
+                if(havePointer){
+                    //test if have one pointer
+                    if(havePointer==1u){
+                        //else it's a double
+                        return EDK_XML_DOUBLE;
+                    }
+                    else{
+                        //else it's a string
+                        return EDK_XML_STRING;
+                    }
+                }
+                else{
+                    //it's a int
+                    return EDK_XML_INT;
+                }
+            }
+            else if((*str>='0' && *str<='9') || *str=='+'){
+                str++;
+                //could it be an uint
+                edk::uint32 havePointer=0u;
+                while(*str){
+                    //test if it's NOT a number
+                    if(*str<'0' || *str>'9'){
+                        //then test if it's a pointer
+                        if(*str=='.'){
+                            //test if the next is a number
+                            str++;
+                            if(*str){
+                                if(*str<'0' || *str>'9'){
+                                    //then it's a string
+                                    return EDK_XML_STRING;
+                                }
+                            }
+                            else{
+                                //else it's a string
+                                return EDK_XML_STRING;
+                            }
+                            //it's a pointer
+                            havePointer++;
+                            //just continue
+                            continue;
+                        }
+                        else{
+                            //else it's a string
+                            return EDK_XML_STRING;
+                        }
+                    }
+                    str++;
+                }
+                //test how many pointers it have
+                if(havePointer){
+                    //test if have one pointer
+                    if(havePointer==1u){
+                        //else it's a double
+                        return EDK_XML_DOUBLE;
+                    }
+                    else{
+                        //else it's a string
+                        return EDK_XML_STRING;
+                    }
+                }
+                else{
+                    //it's a int
+                    return EDK_XML_UINT;
+                }
+            }
+            else if(*str=='t'||*str=='T'){
+                //coult it be bool
+                str++;
+                if(*str=='r'){
+                    str++;
+                    if(*str=='u'){
+                        str++;
+                        if(*str=='e'){
+                            str++;
+                            if(*str=='\0'){
+                                //it's a boolean
+                                return EDK_XML_BOOL;
+                            }
+                        }
+                    }
+                }
+                //it's a string
+                return EDK_XML_STRING;
+            }
+            else if(*str=='f'||*str=='F'){
+                //coult it be bool
+                str++;
+                if(*str=='a'){
+                    str++;
+                    if(*str=='l'){
+                        str++;
+                        if(*str=='s'){
+                            str++;
+                            if(*str=='e'){
+                                str++;
+                                if(*str=='\0'){
+                                    //it's a boolean
+                                    return EDK_XML_BOOL;
+                                }
+                            }
+                        }
+                    }
+                }
+                //it's a string
+                return EDK_XML_STRING;
+            }
+            else{
+                //it's a string
+                return EDK_XML_STRING;
+            }
+        }
+    }
+    return EDK_XML_NULL;
+}
 
 //parser the string
 bool edk::XML::parse(){
@@ -482,8 +665,6 @@ bool edk::XML::addSelectedPreviousChild(edk::char8* name){
 }
 //add childs at the end
 bool edk::XML::addSelectedNextChild(const char* name){
-    //
-    //else return false
     return this->addSelectedNextChild((edk::char8*) name);
 }
 bool edk::XML::addSelectedNextChild(edk::char8* name){
@@ -510,6 +691,354 @@ bool edk::XML::addSelectedNextChild(edk::char8* name){
     }
     //else return false
     return false;
+}
+bool edk::XML::addSelectedNextChild(const char* name,edk::uint32 value){
+    return this->addSelectedNextChild((edk::char8*) name,value);
+}
+bool edk::XML::addSelectedNextChild(edk::char8* name,edk::uint32 value){
+    //test if have the new name
+    if(name){
+        pugi::xml_node temp;
+        if(*this->selected.name()){
+            //test if have a last child
+            if(*this->selected.last_child().name()){
+                //then add a child before the last
+                if((temp = selected.insert_child_after((char*)name,this->selected.last_child()))){
+                    //set the text
+                    temp.text().set(value);
+                    //return true;
+                    return true;
+                }
+            }
+            else{
+                //else just add a new child
+                if((temp = selected.append_child((char*)name))){
+                    //set the text
+                    temp.text().set(value);
+                    //return true;
+                    return true;
+                }
+            }
+        }
+        else{
+            //test if have a root
+            if(!*this->doc.first_child().name()){
+                //add a new root
+                if((temp = this->doc.append_child((char*)name))){
+                    //set the text
+                    temp.text().set(value);
+                    //return true;
+                    return true;
+                }
+            }
+        }
+    }
+    //else return false
+    return false;
+}
+bool edk::XML::addSelectedNextChild(const char* name,edk::int32 value){
+    return this->addSelectedNextChild((edk::char8*) name,value);
+}
+bool edk::XML::addSelectedNextChild(edk::char8* name,edk::int32 value){
+    //test if have the new name
+    if(name){
+        pugi::xml_node temp;
+        if(*this->selected.name()){
+            //test if have a last child
+            if(*this->selected.last_child().name()){
+                //then add a child before the last
+                if((temp = selected.insert_child_after((char*)name,this->selected.last_child()))){
+                    //set the text
+                    temp.text().set(value);
+                    //return true;
+                    return true;
+                }
+            }
+            else{
+                //else just add a new child
+                if((temp = selected.append_child((char*)name))){
+                    //set the text
+                    temp.text().set(value);
+                    //return true;
+                    return true;
+                }
+            }
+        }
+        else{
+            //test if have a root
+            if(!*this->doc.first_child().name()){
+                //add a new root
+                if((temp = this->doc.append_child((char*)name))){
+                    //set the text
+                    temp.text().set(value);
+                    //return true;
+                    return true;
+                }
+            }
+        }
+    }
+    //else return false
+    return false;
+}
+bool edk::XML::addSelectedNextChild(const char* name,edk::uint64 value){
+    return this->addSelectedNextChild((edk::char8*) name,value);
+}
+bool edk::XML::addSelectedNextChild(edk::char8* name,edk::uint64 value){
+    //test if have the new name
+    if(name){
+        pugi::xml_node temp;
+        edk::char8* str = edk::String::uint64ToStr(value);
+        if(str){
+            if(*this->selected.name()){
+                //test if have a last child
+                if(*this->selected.last_child().name()){
+                    //then add a child before the last
+                    if((temp = selected.insert_child_after((char*)name,this->selected.last_child()))){
+                        //set the text
+                        temp.text().set(str);
+                        delete[] str;
+                        //return true;
+                        return true;
+                    }
+                }
+                else{
+                    //else just add a new child
+                    if((temp = selected.append_child((char*)name))){
+                        //set the text
+                        temp.text().set(str);
+                        delete[] str;
+                        //return true;
+                        return true;
+                    }
+                }
+            }
+            else{
+                //test if have a root
+                if(!*this->doc.first_child().name()){
+                    //add a new root
+                    if((temp = this->doc.append_child((char*)name))){
+                        //set the text
+                        temp.text().set(str);
+                        delete[] str;
+                        //return true;
+                        return true;
+                    }
+                }
+            }
+            delete[] str;
+        }
+    }
+    //else return false
+    return false;
+}
+bool edk::XML::addSelectedNextChild(const char* name,edk::int64 value){
+    return this->addSelectedNextChild((edk::char8*) name,value);
+}
+bool edk::XML::addSelectedNextChild(edk::char8* name,edk::int64 value){
+    //test if have the new name
+    if(name){
+        pugi::xml_node temp;
+        edk::char8* str = edk::String::int64ToStr(value);
+        if(str){
+            if(*this->selected.name()){
+                //test if have a last child
+                if(*this->selected.last_child().name()){
+                    //then add a child before the last
+                    if((temp = selected.insert_child_after((char*)name,this->selected.last_child()))){
+                        //set the text
+                        temp.text().set(str);
+                        delete[] str;
+                        //return true;
+                        return true;
+                    }
+                }
+                else{
+                    //else just add a new child
+                    if((temp = selected.append_child((char*)name))){
+                        //set the text
+                        temp.text().set(str);
+                        delete[] str;
+                        //return true;
+                        return true;
+                    }
+                }
+            }
+            else{
+                //test if have a root
+                if(!*this->doc.first_child().name()){
+                    //add a new root
+                    if((temp = this->doc.append_child((char*)name))){
+                        //set the text
+                        temp.text().set(str);
+                        delete[] str;
+                        //return true;
+                        return true;
+                    }
+                }
+            }
+            delete[] str;
+        }
+    }
+    //else return false
+    return false;
+}
+bool edk::XML::addSelectedNextChild(const char* name,edk::float32 value,edk::uint32 digits){
+    return this->addSelectedNextChild((edk::char8*) name,value,digits);
+}
+bool edk::XML::addSelectedNextChild(edk::char8* name,edk::float32 value,edk::uint32 digits){
+    //test if have the new name
+    if(name){
+        pugi::xml_node temp;
+        edk::char8* str = edk::String::float32ToStr(value,digits);
+        if(str){
+            if(*this->selected.name()){
+                //test if have a last child
+                if(*this->selected.last_child().name()){
+                    //then add a child before the last
+                    if((temp = selected.insert_child_after((char*)name,this->selected.last_child()))){
+                        //set the text
+                        temp.text().set(str);
+                        delete[] str;
+                        //return true;
+                        return true;
+                    }
+                }
+                else{
+                    //else just add a new child
+                    if((temp = selected.append_child((char*)name))){
+                        //set the text
+                        temp.text().set(str);
+                        delete[] str;
+                        //return true;
+                        return true;
+                    }
+                }
+            }
+            else{
+                //test if have a root
+                if(!*this->doc.first_child().name()){
+                    //add a new root
+                    if((temp = this->doc.append_child((char*)name))){
+                        //set the text
+                        temp.text().set(str);
+                        delete[] str;
+                        //return true;
+                        return true;
+                    }
+                }
+            }
+            delete[] str;
+        }
+    }
+    //else return false
+    return false;
+}
+bool edk::XML::addSelectedNextChild(const char* name,edk::float64 value,edk::uint32 digits){
+    return this->addSelectedNextChild((edk::char8*) name,value,digits);
+}
+bool edk::XML::addSelectedNextChild(edk::char8* name,edk::float64 value,edk::uint32 digits){
+    //test if have the new name
+    if(name){
+        pugi::xml_node temp;
+        edk::char8* str = edk::String::float64ToStr(value,digits);
+        if(str){
+            if(*this->selected.name()){
+                //test if have a last child
+                if(*this->selected.last_child().name()){
+                    //then add a child before the last
+                    if((temp = selected.insert_child_after((char*)name,this->selected.last_child()))){
+                        //set the text
+                        temp.text().set(str);
+                        delete[] str;
+                        //return true;
+                        return true;
+                    }
+                }
+                else{
+                    //else just add a new child
+                    if((temp = selected.append_child((char*)name))){
+                        //set the text
+                        temp.text().set(str);
+                        delete[] str;
+                        //return true;
+                        return true;
+                    }
+                }
+            }
+            else{
+                //test if have a root
+                if(!*this->doc.first_child().name()){
+                    //add a new root
+                    if((temp = this->doc.append_child((char*)name))){
+                        //set the text
+                        temp.text().set(str);
+                        delete[] str;
+                        //return true;
+                        return true;
+                    }
+                }
+            }
+        }
+        delete[] str;
+    }
+    //else return false
+    return false;
+}
+bool edk::XML::addSelectedNextChild(const char* name,const char* value){
+    return this->addSelectedNextChild((edk::char8*) name,value);
+}
+bool edk::XML::addSelectedNextChild(edk::char8* name,const char* value){
+    return this->addSelectedNextChild(name,(edk::char8*) value);
+}
+bool edk::XML::addSelectedNextChild(const char* name,edk::char8* value){
+    return this->addSelectedNextChild((edk::char8*) name,value);
+}
+bool edk::XML::addSelectedNextChild(edk::char8* name,edk::char8* value){
+    //test if have the new name
+    if(name){
+        pugi::xml_node temp;
+        if(*this->selected.name()){
+            //test if have a last child
+            if(*this->selected.last_child().name()){
+                //then add a child before the last
+                if((temp = selected.insert_child_after((char*)name,this->selected.last_child()))){
+                    //set the text
+                    temp.text().set(value);
+                    //return true;
+                    return true;
+                }
+            }
+            else{
+                //else just add a new child
+                if((temp = selected.append_child((char*)name))){
+                    //set the text
+                    temp.text().set(value);
+                    //return true;
+                    return true;
+                }
+            }
+        }
+        else{
+            //test if have a root
+            if(!*this->doc.first_child().name()){
+                //add a new root
+                if((temp = this->doc.append_child((char*)name))){
+                    //set the text
+                    temp.text().set(value);
+                    //return true;
+                    return true;
+                }
+            }
+        }
+    }
+    //else return false
+    return false;
+}
+bool edk::XML::addSelectedNextChild(const char* name,bool value){
+    return this->addSelectedNextChild((edk::char8*) name,value);
+}
+bool edk::XML::addSelectedNextChild(edk::char8* name,bool value){
+    return this->addSelectedNextChild(name,value?(edk::char8*)"true":(edk::char8*)"false");
 }
 //Add a attribute at the end
 bool edk::XML::addSelectedNextAttribute(const char* name,edk::uint32 value){
@@ -618,6 +1147,12 @@ bool edk::XML::addSelectedNextAttribute(edk::char8* name,edk::char8* value){
     //else return false
     return false;
 }
+bool edk::XML::addSelectedNextAttribute(const char* name,bool value){
+    return this->addSelectedNextAttribute((edk::char8*) name,value);
+}
+bool edk::XML::addSelectedNextAttribute(edk::char8* name,bool value){
+    return this->addSelectedNextAttribute(name,value?(edk::char8*)"true":(edk::char8*)"false");
+}
 bool edk::XML::addSelectedPreviousAttribute(const char* name,edk::uint32 value){
     return this->addSelectedPreviousAttribute((edk::char8*) name,value);
 }
@@ -724,6 +1259,12 @@ bool edk::XML::addSelectedPreviousAttribute(edk::char8* name,edk::char8* value){
     }
     //else return false
     return false;
+}
+bool edk::XML::addSelectedPreviousAttribute(const char* name,bool value){
+    return this->addSelectedPreviousAttribute((edk::char8*) name,value);
+}
+bool edk::XML::addSelectedPreviousAttribute(edk::char8* name,bool value){
+    return this->addSelectedPreviousAttribute(name,value?(edk::char8*)"true":(edk::char8*)"false");
 }
 //Add a new node to the root
 bool edk::XML::addRootPreviousChild(const char* name){
@@ -832,6 +1373,102 @@ bool edk::XML::setSelectedString(edk::char8* string){
     //else return false
     return false;
 }
+bool edk::XML::setSelectedString(edk::uint32 string){
+    //test if have selected
+    if (this->haveSelected()){
+        //set the selected string
+        if(this->selected.text().set(string)){
+            //
+            return true;
+        }
+    }
+    //else return false
+    return false;
+}
+bool edk::XML::setSelectedString(edk::int32 string){
+    //test if have selected
+    if (this->haveSelected()){
+        //set the selected string
+        if(this->selected.text().set(string)){
+            //
+            return true;
+        }
+    }
+    //else return false
+    return false;
+}
+bool edk::XML::setSelectedString(edk::uint64 string){
+    //test if have selected
+    if (this->haveSelected()){
+        //we need to convert the int64 to string
+        edk::char8* str = edk::String::uint64ToStr(string);
+        if(str){
+            bool ret = false;
+            //set the selected string
+            if(this->selected.text().set(str)){
+                ret = true;
+            }
+            delete[] str;
+            return ret;
+        }
+    }
+    //else return false
+    return false;
+}
+bool edk::XML::setSelectedString(edk::int64 string){
+    //test if have selected
+    if (this->haveSelected()){
+        //we need to convert the int64 to string
+        edk::char8* str = edk::String::int64ToStr(string);
+        if(str){
+            bool ret = false;
+            //set the selected string
+            if(this->selected.text().set(str)){
+                ret = true;
+            }
+            delete[] str;
+            return ret;
+        }
+    }
+    //else return false
+    return false;
+}
+bool edk::XML::setSelectedString(edk::float32 string,edk::uint32 digits){
+    //test if have selected
+    if (this->haveSelected()){
+        //we need to convert the int64 to string
+        edk::char8* str = edk::String::float32ToStr(string,digits);
+        if(str){
+            //set the selected string
+            if(this->selected.text().set(str)){
+                //
+                delete[] str;
+                return true;
+            }
+            delete[] str;
+        }
+    }
+    //else return false
+    return false;
+}
+bool edk::XML::setSelectedString(edk::float64 string,edk::uint32 digits){
+    //test if have selected
+    if (this->haveSelected()){
+        //we need to convert the int64 to string
+        edk::char8* str = edk::String::float64ToStr(string,digits);
+        if(str){
+            //set the selected string
+            if(this->selected.text().set(str)){
+                //
+                delete[] str;
+                return true;
+            }
+            delete[] str;
+        }
+    }
+    //else return false
+    return false;
+}
 //SELECTED GET
 //return if have a selected
 bool edk::XML::haveSelected(){
@@ -892,6 +1529,103 @@ edk::char8* edk::XML::getSelectedString(){
     }
     //else return NULL
     return NULL;
+}
+edk::int32 edk::XML::getSelectedStringAsInt32(){
+    //test if habe a selectedNode
+    if(this->haveSelected()){
+        //test if have a text
+        if(*this->selected.text()){
+            //return the text
+            return this->selected.text().as_int();
+        }
+    }
+    //else return NULL
+    return 0;
+}
+edk::uint32 edk::XML::getSelectedStringAsUint32(){
+    //test if habe a selectedNode
+    if(this->haveSelected()){
+        //test if have a text
+        if(*this->selected.text()){
+            //return the text
+            return this->selected.text().as_uint();
+        }
+    }
+    //else return NULL
+    return 0;
+}
+edk::int64 edk::XML::getSelectedStringAsInt64(){
+    //test if habe a selectedNode
+    if(this->haveSelected()){
+        //test if have a text
+        if(*this->selected.text()){
+            //return the text
+            return this->selected.text().as_int();
+        }
+    }
+    //else return NULL
+    return 0;
+}
+edk::uint64 edk::XML::getSelectedStringAsUint64(){
+    //test if habe a selectedNode
+    if(this->haveSelected()){
+        //test if have a text
+        if(*this->selected.text()){
+            //return the text
+            return this->selected.text().as_uint();
+        }
+    }
+    //else return NULL
+    return 0;
+}
+edk::float32 edk::XML::getSelectedStringAsFloat32(){
+    //test if habe a selectedNode
+    if(this->haveSelected()){
+        //test if have a text
+        if(*this->selected.text()){
+            //return the text
+            return this->selected.text().as_float();
+        }
+    }
+    //else return NULL
+    return 0;
+}
+edk::float64 edk::XML::getSelectedStringAsFloat64(){
+    //test if habe a selectedNode
+    if(this->haveSelected()){
+        //test if have a text
+        if(*this->selected.text()){
+            //return the text
+            return this->selected.text().as_double();
+        }
+    }
+    //else return NULL
+    return 0;
+}
+bool edk::XML::getSelectedStringAsBool(){
+    //test if habe a selectedNode
+    if(this->haveSelected()){
+        //test if have a text
+        if(*this->selected.text()){
+            //return the text
+            return this->selected.text().as_bool();
+        }
+    }
+    //else return NULL
+    return false;
+}
+//return the type of the selected string
+edk::uint8 edk::XML::getSelectedStringType(){
+    //test if habe a selectedNode
+    if(this->haveSelected()){
+        //test if have a text
+        if(*this->selected.text()){
+            //return the text
+            return edk::XML::getStringType(this->selected.text().as_string());
+        }
+    }
+    //else return NULL
+    return EDK_XML_NULL;
 }
 //test if have the attribute
 bool edk::XML::haveAttributeName(const char* name){
@@ -955,6 +1689,167 @@ edk::char8* edk::XML::getSelectedAttributeValue(edk::uint32 id){
     //else return NULL
     return NULL;
 }
+edk::int32 edk::XML::getSelectedAttributeValueAsInt32(edk::uint32 id){
+    //test if have a selected
+    if(this->haveSelected()){
+        //count the attributes
+        edk::uint32 attributesCount=0u;
+        for(pugi::xml_attribute attr = this->selected.first_attribute(); *attr.name(); attr = attr.next_attribute()){
+            //test if this is the ID
+            if(id==attributesCount){
+                //then find the attribute
+
+                //return the attribute value
+                return attr.as_int();
+            }
+            //increment the attributesCount
+            attributesCount++;
+        }
+    }
+    //else return NULL
+    return 0;
+}
+edk::uint32 edk::XML::getSelectedAttributeValueAsUint32(edk::uint32 id){
+    //test if have a selected
+    if(this->haveSelected()){
+        //count the attributes
+        edk::uint32 attributesCount=0u;
+        for(pugi::xml_attribute attr = this->selected.first_attribute(); *attr.name(); attr = attr.next_attribute()){
+            //test if this is the ID
+            if(id==attributesCount){
+                //then find the attribute
+
+                //return the attribute value
+                return attr.as_uint();
+            }
+            //increment the attributesCount
+            attributesCount++;
+        }
+    }
+    //else return NULL
+    return 0u;
+}
+edk::int64 edk::XML::getSelectedAttributeValueAsInt64(edk::uint32 id){
+    //test if have a selected
+    if(this->haveSelected()){
+        //count the attributes
+        edk::uint32 attributesCount=0u;
+        for(pugi::xml_attribute attr = this->selected.first_attribute(); *attr.name(); attr = attr.next_attribute()){
+            //test if this is the ID
+            if(id==attributesCount){
+                //then find the attribute
+
+                //return the attribute value
+                return attr.as_int();
+            }
+            //increment the attributesCount
+            attributesCount++;
+        }
+    }
+    //else return NULL
+    return 0;
+}
+edk::uint64 edk::XML::getSelectedAttributeValueAsUint64(edk::uint32 id){
+    //test if have a selected
+    if(this->haveSelected()){
+        //count the attributes
+        edk::uint32 attributesCount=0u;
+        for(pugi::xml_attribute attr = this->selected.first_attribute(); *attr.name(); attr = attr.next_attribute()){
+            //test if this is the ID
+            if(id==attributesCount){
+                //then find the attribute
+
+                //return the attribute value
+                return attr.as_uint();
+            }
+            //increment the attributesCount
+            attributesCount++;
+        }
+    }
+    //else return NULL
+    return 0u;
+}
+edk::float32 edk::XML::getSelectedAttributeValueAsFloat32(edk::uint32 id){
+    //test if have a selected
+    if(this->haveSelected()){
+        //count the attributes
+        edk::uint32 attributesCount=0u;
+        for(pugi::xml_attribute attr = this->selected.first_attribute(); *attr.name(); attr = attr.next_attribute()){
+            //test if this is the ID
+            if(id==attributesCount){
+                //then find the attribute
+
+                //return the attribute value
+                return attr.as_float();
+            }
+            //increment the attributesCount
+            attributesCount++;
+        }
+    }
+    //else return NULL
+    return 0.f;
+}
+edk::float64 edk::XML::getSelectedAttributeValueAsFloat64(edk::uint32 id){
+    //test if have a selected
+    if(this->haveSelected()){
+        //count the attributes
+        edk::uint32 attributesCount=0u;
+        for(pugi::xml_attribute attr = this->selected.first_attribute(); *attr.name(); attr = attr.next_attribute()){
+            //test if this is the ID
+            if(id==attributesCount){
+                //then find the attribute
+
+                //return the attribute value
+                return attr.as_double();
+            }
+            //increment the attributesCount
+            attributesCount++;
+        }
+    }
+    //else return NULL
+    return 0.0;
+}
+bool edk::XML::getSelectedAttributeValueAsBool(edk::uint32 id){
+    //test if have a selected
+    if(this->haveSelected()){
+        //count the attributes
+        edk::uint32 attributesCount=0u;
+        for(pugi::xml_attribute attr = this->selected.first_attribute(); *attr.name(); attr = attr.next_attribute()){
+            //test if this is the ID
+            if(id==attributesCount){
+                //then find the attribute
+
+                //return the attribute value
+                return attr.as_bool();
+            }
+            //increment the attributesCount
+            attributesCount++;
+        }
+    }
+    //else return NULL
+    return false;
+}
+//return the attribute type
+edk::uint8 edk::XML::getSelectedAttributeType(edk::uint32 id){
+    //test if have a selected
+    if(this->haveSelected()){
+        //count the attributes
+        edk::uint32 attributesCount=0u;
+        for(pugi::xml_attribute attr = this->selected.first_attribute(); *attr.name(); attr = attr.next_attribute()){
+            //test if this is the ID
+            if(id==attributesCount){
+                //then find the attribute
+
+                //return the attribute value
+                return edk::XML::getStringType(attr.value());
+            }
+            //increment the attributesCount
+            attributesCount++;
+        }
+    }
+    //else return NULL
+    return EDK_XML_NULL;
+}
 //return the value by the attribute name
 edk::char8* edk::XML::getSelectedAttributeValueByName(const char* name){
     //
@@ -975,6 +1870,139 @@ edk::char8* edk::XML::getSelectedAttributeValueByName(edk::char8* name){
     }
     //else return NULL
     return NULL;
+}
+edk::int32 edk::XML::getSelectedAttributeValueAsInt32ByName(const char* name){
+    return getSelectedAttributeValueAsInt32ByName((edk::char8*) name);
+}
+edk::int32 edk::XML::getSelectedAttributeValueAsInt32ByName(edk::char8* name){
+    //test if have selected and if name is valid
+    if(this->haveSelected() && name){
+        //find the nameValue
+        for(pugi::xml_attribute attr = this->selected.first_attribute(); *attr.name(); attr = attr.next_attribute()){
+            //test if the name are equal
+            if(edk::String::strCompare((edk::char8*)name,(edk::char8*)attr.name())){
+                //find and return the value
+                return attr.as_int();
+            }
+        }
+
+    }
+    //else return NULL
+    return 0;
+}
+edk::uint32 edk::XML::getSelectedAttributeValueAsUint32ByName(const char* name){
+    return this->getSelectedAttributeValueAsUint32ByName((edk::char8*) name);
+}
+edk::uint32 edk::XML::getSelectedAttributeValueAsUint32ByName(edk::char8* name){
+    //test if have selected and if name is valid
+    if(this->haveSelected() && name){
+        //find the nameValue
+        for(pugi::xml_attribute attr = this->selected.first_attribute(); *attr.name(); attr = attr.next_attribute()){
+            //test if the name are equal
+            if(edk::String::strCompare((edk::char8*)name,(edk::char8*)attr.name())){
+                //find and return the value
+                return attr.as_uint();
+            }
+        }
+
+    }
+    //else return NULL
+    return 0u;
+}
+edk::int64 edk::XML::getSelectedAttributeValueAsInt64ByName(const char* name){
+    return this->getSelectedAttributeValueAsInt64ByName((edk::char8*) name);
+}
+edk::int64 edk::XML::getSelectedAttributeValueAsInt64ByName(edk::char8* name){
+    //test if have selected and if name is valid
+    if(this->haveSelected() && name){
+        //find the nameValue
+        for(pugi::xml_attribute attr = this->selected.first_attribute(); *attr.name(); attr = attr.next_attribute()){
+            //test if the name are equal
+            if(edk::String::strCompare((edk::char8*)name,(edk::char8*)attr.name())){
+                //find and return the value
+                return attr.as_int();
+            }
+        }
+
+    }
+    //else return NULL
+    return 0;
+}
+edk::uint64 edk::XML::getSelectedAttributeValueAsUint64ByName(const char* name){
+    return this->getSelectedAttributeValueAsUint64ByName((edk::char8*) name);
+}
+edk::uint64 edk::XML::getSelectedAttributeValueAsUint64ByName(edk::char8* name){
+    //test if have selected and if name is valid
+    if(this->haveSelected() && name){
+        //find the nameValue
+        for(pugi::xml_attribute attr = this->selected.first_attribute(); *attr.name(); attr = attr.next_attribute()){
+            //test if the name are equal
+            if(edk::String::strCompare((edk::char8*)name,(edk::char8*)attr.name())){
+                //find and return the value
+                return attr.as_uint();
+            }
+        }
+
+    }
+    //else return NULL
+    return 0u;
+}
+edk::float32 edk::XML::getSelectedAttributeValueAsFloat32ByName(const char* name){
+    return this->getSelectedAttributeValueAsFloat32ByName((edk::char8*) name);
+}
+edk::float32 edk::XML::getSelectedAttributeValueAsFloat32ByName(edk::char8* name){
+    //test if have selected and if name is valid
+    if(this->haveSelected() && name){
+        //find the nameValue
+        for(pugi::xml_attribute attr = this->selected.first_attribute(); *attr.name(); attr = attr.next_attribute()){
+            //test if the name are equal
+            if(edk::String::strCompare((edk::char8*)name,(edk::char8*)attr.name())){
+                //find and return the value
+                return attr.as_float();
+            }
+        }
+
+    }
+    //else return NULL
+    return 0.f;
+}
+edk::float64 edk::XML::getSelectedAttributeValueAsFloat64ByName(const char* name){
+    return this->getSelectedAttributeValueAsFloat64ByName((edk::char8*) name);
+}
+edk::float64 edk::XML::getSelectedAttributeValueAsFloat64ByName(edk::char8* name){
+    //test if have selected and if name is valid
+    if(this->haveSelected() && name){
+        //find the nameValue
+        for(pugi::xml_attribute attr = this->selected.first_attribute(); *attr.name(); attr = attr.next_attribute()){
+            //test if the name are equal
+            if(edk::String::strCompare((edk::char8*)name,(edk::char8*)attr.name())){
+                //find and return the value
+                return attr.as_double();
+            }
+        }
+
+    }
+    //else return NULL
+    return 0.0;
+}
+bool edk::XML::getSelectedAttributeValueAsBoolByName(const char* name){
+    return this->getSelectedAttributeValueAsBoolByName((edk::char8*) name);
+}
+bool edk::XML::getSelectedAttributeValueAsBoolByName(edk::char8* name){
+    //test if have selected and if name is valid
+    if(this->haveSelected() && name){
+        //find the nameValue
+        for(pugi::xml_attribute attr = this->selected.first_attribute(); *attr.name(); attr = attr.next_attribute()){
+            //test if the name are equal
+            if(edk::String::strCompare((edk::char8*)name,(edk::char8*)attr.name())){
+                //find and return the value
+                return attr.as_bool();
+            }
+        }
+
+    }
+    //else return NULL
+    return false;
 }
 //return the attributeID by the name
 edk::uint32 edk::XML::getSelectedAttributeID(edk::char8* name){
@@ -1000,29 +2028,48 @@ edk::uint32 edk::XML::getSelectedAttributeID(edk::char8* name){
 
 
 //Parser Virtual Functions
-void edk::XML::didStartElement(edk::char8* name, edk::char8** attributes, edk::char8** values, edk::uint32 attributesCount){
+void edk::XML::didStartElement(edk::char8* name, edk::char8** attributes, edk::char8** values, edk::uint8* types, edk::uint32 attributesCount){
     //test if have the name
     if(name){
         //
-//        printf("\nDid Start Element '%s'"
-//               ,name
-//               );
+        //        printf("\nDid Start Element '%s'"
+        //               ,name
+        //               );
 
         //test the attributes
         for(edk::uint32 i=0u;i<attributesCount;i++){
             //
-            if(attributes[i] && values[i]){
-                //
-//                printf("\n    count %u attribute '%s' value '%s'"
-//                       ,i
-//                       ,attributes[i]
-//                       ,values[i]
-//                       );
+            if(attributes[i] && values[i] && types[i]){
+                //                printf("\n    count %u attribute '%s' value '%s'"
+                //                       ,i
+                //                       ,attributes[i]
+                //                       ,values[i]
+                //                       );
+                //                switch(types[i]){
+                //                case EDK_XML_NULL:
+                //                    printf(" type NULL");
+                //                    break;
+                //                case EDK_XML_UINT:
+                //                    printf(" type UINT");
+                //                    break;
+                //                case EDK_XML_INT:
+                //                    printf(" type INT");
+                //                    break;
+                //                case EDK_XML_DOUBLE:
+                //                    printf(" type DOUBLE");
+                //                    break;
+                //                case EDK_XML_STRING:
+                //                    printf(" type STRING");
+                //                    break;
+                //                case EDK_XML_BOOL:
+                //                    printf(" type BOOL");
+                //                    break;
+                //                }
             }
         }
     }
 }
-void edk::XML::foundCharacters(edk::char8* name,edk::char8* string){
+void edk::XML::foundCharacters(edk::char8* name,edk::char8* string,edk::uint8){
     //
     //test if have the name
     if(name){
@@ -1030,10 +2077,10 @@ void edk::XML::foundCharacters(edk::char8* name,edk::char8* string){
         //test if have the characters
         if(string){
             //
-//            printf("\n    Found Characters '%s' in '%s'"
-//                   ,string
-//                   ,name
-//                   );
+            //            printf("\n    Found Characters '%s' in '%s'"
+            //                   ,string
+            //                   ,name
+            //                   );
         }
     }
 }
@@ -1041,9 +2088,9 @@ void edk::XML::didEndElement(edk::char8* name){
     //test if have the name
     if(name){
         //
-//        printf("\nDid End Element '%s'"
-//               ,name
-//               );
+        //        printf("\nDid End Element '%s'"
+        //               ,name
+        //               );
     }
 }
 //add a root cleaning the code
@@ -1055,26 +2102,4 @@ bool edk::XML::addNewRoot(edk::char8* name){
         }
     }
     return ret;
-}
-bool edk::XML::addSelectedNewAttribute(edk::char8* name,edk::char8* value){
-    //test the strings and selected
-    if (this->selected && name && value){
-        //
-        if(this->selected.append_attribute((char*)name)){
-            //load the attribute to set the value
-            //set the attribute value
-            if(this->selected.attribute((char*)name).set_value((char*)value)){
-                //return true
-                return true;
-            }
-            else{
-                //else remove the attribute
-                this->selected.remove_attribute((char*)name);
-            }
-        }
-        else{
-            return false;
-        }
-    }
-    return false;
 }
