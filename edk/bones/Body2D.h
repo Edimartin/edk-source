@@ -63,6 +63,11 @@ public:
     bool selectedSetVector(edk::vec2f32 vector);
     bool selectedSetVector(edk::float32 x,edk::float32 y);
     bool selectedSetAngle(edk::float32 angle);
+    //animations
+    bool selectedCleanAnimationPosition();
+    bool selectedCleanAnimationNamesPosition();
+    bool selectedCleanAnimationAngle();
+    bool selectedCleanAnimationNamesAngle();
 
     //return the size of the bones
     edk::uint32 getBonesSize();

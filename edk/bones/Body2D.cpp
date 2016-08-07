@@ -849,6 +849,41 @@ bool edk::bones::Body2D::selectedSetAngle(edk::float32 angle){
     }
     return false;
 }
+//animations
+bool edk::bones::Body2D::selectedCleanAnimationPosition(){
+    //test the selected
+    if(this->selected){
+        //set the position
+        this->selected->animationPosition.cleanAnimationNames();
+        this->selected->animationPosition.cleanAnimations();
+    }
+    return false;
+}
+bool edk::bones::Body2D::selectedCleanAnimationNamesPosition(){
+    //test the selected
+    if(this->selected){
+        //set the position
+        this->selected->animationPosition.cleanAnimationNames();
+    }
+    return false;
+}
+bool edk::bones::Body2D::selectedCleanAnimationAngle(){
+    //test the selected
+    if(this->selected){
+        //set the position
+        this->selected->animationAngle.cleanAnimationNames();
+        this->selected->animationAngle.cleanAnimations();
+    }
+    return false;
+}
+bool edk::bones::Body2D::selectedCleanAnimationNamesAngle(){
+    //test the selected
+    if(this->selected){
+        //set the position
+        this->selected->animationAngle.cleanAnimationNames();
+    }
+    return false;
+}
 
 //return the size of the bones
 edk::uint32 edk::bones::Body2D::getBonesSize(){
