@@ -193,14 +193,6 @@ public:
         this->canDeleteVector=false;
     }
 
-    //OPERATORS
-    //[]
-    //        typeTemplate operator[](edk::uint32 n){
-    //        }
-
-    //        edk::vector::Queue<typeTemplate> operator=(edk::vector::Queue<typeTemplate> vec){
-    //        }
-
     //remove the value
     virtual void remove(typeTemplate){
         //
