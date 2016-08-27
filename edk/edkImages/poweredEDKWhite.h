@@ -7,8 +7,8 @@ namespace edk{
 class poweredEDKWhite{
 public:
     static edk::uint32 size;
-    static edk::char8 name[20];
-    static edk::uchar8 vec[133834];
+    static edk::char8 name[20u];
+    static edk::uchar8 vec[81722u];
 };
 }
 
