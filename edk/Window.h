@@ -209,6 +209,11 @@ class Window {
 
     static uint32 getDesktopBitsPerPixel();
 
+    //test if have a controller
+    static bool haveController(edk::uint32 controller);
+    //return the number of buttons of a controller
+    static edk::uint32 getControllerButtonCount(edk::uint32 controller);
+
  public:
     color3f32 cleanColor;
         //
@@ -223,6 +228,8 @@ class Window {
         void updateViewSize();
 
         void cleanEvents();
+        //update joystick events
+        void updateControllerEvents();
         //save focus
         bool windowFocus;
         //saveMouseinside

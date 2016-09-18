@@ -37,6 +37,53 @@ void Window::cleanEvents(){
     //
     this->events.clean();
 }
+//update joystick events
+void Window::updateControllerEvents(){
+    edk::uint32 controllers = this->events.controllerPressed.getControllerSize();
+    edk::uint32 controllerID = 0u;
+    edk::uint32 buttons = 0u;
+    edk::uint32 buttonID=0u;
+    for(edk::uint32 i=0u;i<controllers;i++){
+        //load the controllerID
+        controllerID = this->events.controllerPressed.getControllerIDInPosition(i);
+        if(sf::Joystick::isConnected(controllerID)){
+            //load the buttons size
+            buttons = this->events.controllerPressed.getControllerButtonSizeInPosition(i);
+            for(edk::uint32 j=0u;j<buttons;j++){
+                buttonID = this->events.controllerPressed.getControllerButtonByID(controllerID,j);
+                if(sf::Joystick::isButtonPressed(controllerID,buttonID)){
+                    //copy the button to the holded
+                    this->events.controllerHolded.addButton(controllerID,buttonID);
+                }
+            }
+        }
+        else{
+            //else clean the controller
+            this->events.controllerHolded.cleanControllerButtonsByID(controllerID);
+        }
+    }
+    //test if is holding the buttons
+    controllers = this->events.controllerHolded.getControllerSize();
+    for(edk::uint32 i=0u;i<controllers;i++){
+        //load the controllerID
+        controllerID = this->events.controllerHolded.getControllerIDInPosition(i);
+        if(sf::Joystick::isConnected(controllerID)){
+            //load the buttons size
+            buttons = this->events.controllerHolded.getControllerButtonSizeInPosition(i);
+            for(edk::uint32 j=0u;j<buttons;j++){
+                buttonID = this->events.controllerHolded.getControllerButtonByID(controllerID,j);
+                if(!sf::Joystick::isButtonPressed(controllerID,buttonID)){
+                    //remove the button
+                    this->events.controllerHolded.removeControllerButtonByID(controllerID,buttonID);
+                }
+            }
+        }
+        else{
+            //else clean the controller
+            this->events.controllerHolded.cleanControllerButtonsByID(controllerID);
+        }
+    }
+}
 
 
 Window::Window(){
@@ -726,6 +773,7 @@ size2i32 Window::getResize(){
 }
 
 bool Window::loadEvents(){
+    this->updateControllerEvents();
     //Limpa os eventos
     this->cleanEvents();
 
@@ -944,19 +992,46 @@ bool Window::loadEvents(){
         //FIM MOUSE SCROLL
         ///////////////////////////////////////////////////////////
 
+        //if(event.Type == sf::Event::JoyButtonPressed){//1.6
+        if(event.type == sf::Event::JoystickButtonPressed){//2.0
+/*
+                printf("\nJoyButtonPressed joy == %u button == %u"
+                       ,event.joystickButton.joystickId
+                       ,event.joystickButton.button
+                       );fflush(stdout);
+*/
+                this->events.controllerPressed.addButton(event.joystickButton.joystickId,event.joystickButton.button);
+        }
+
+        //if(event.Type == sf::Event::JoyButtonPressed){//1.6
+        if(event.type == sf::Event::JoystickButtonReleased){//2.0
+/*
+                printf("\nJoyButtonReleased joy == %u button == %u"
+                       ,event.joystickButton.joystickId
+                       ,event.joystickButton.button
+                       );fflush(stdout);
+*/
+                this->events.controllerReleased.addButton(event.joystickButton.joystickId,event.joystickButton.button);
+        }
 
 
         //if(event.Type == sf::Event::JoyButtonPressed){//1.6
-        if(event.type == sf::Event::JoystickButtonPressed){//2.0
-            //
-            /*
-                printf("\nJoyButtonPressed joy == %u button == %u"
-                       ,event.JoyButtonEvent.JoystickId
-                       ,event.JoyButtonEvent.Button
-                       );
-                */
+        if(event.type == sf::Event::JoystickMoved){//2.0
+/*
+                printf("\nJoyMoved joy == %u position == %.2f axis %u"
+                       ,event.joystickMove.joystickId
+                       ,event.joystickMove.position
+                       ,event.joystickMove.axis
+                       );fflush(stdout);
+*/
+            //test if it's the Y
+            if(event.joystickMove.axis<<(sizeof(event.joystickMove.axis)*8)-1u){
+                this->events.controllerAxisMoved.addAxis(event.joystickMove.joystickId,event.joystickMove.axis,event.joystickMove.position*-1.f);
+            }
+            else{
+                this->events.controllerAxisMoved.addAxis(event.joystickMove.joystickId,event.joystickMove.axis,event.joystickMove.position);
+            }
         }
-
 
 
 
@@ -1037,6 +1112,19 @@ uint32 Window::getDesktopBitsPerPixel(){
     //retorna os bits
     //return DesktopMode.BitsPerPixel;//1.6
     return DesktopMode.bitsPerPixel;//2.0
+}
+
+//test if have a controller
+bool Window::haveController(edk::uint32 controller){
+    if (sf::Joystick::isConnected(controller)){
+        return true;
+    }
+    return false;
+}
+//return the number of buttons of a controller
+edk::uint32 Window::getControllerButtonCount(edk::uint32 controller){
+    // check how many buttons joystick number 0 has
+    return sf::Joystick::getButtonCount(controller);
 }
 
 } /* End of namespace edk */

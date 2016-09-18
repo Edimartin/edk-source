@@ -169,7 +169,7 @@ void Time::clockLoadTime(){
     //load the clock based on the rawTime
 #ifdef _MSC_VER
     //systemClock = gmtime_s ( &rawtime );
-    ///TODO:gmTime esta dando crash na aplicação
+    ///TODO:gmTime esta dando crash na aplicaÃ§Ã£o
     gmtime_s(&systemClock,&rawtime);
 #else
     this->systemClock = localtime ( &rawtime );
