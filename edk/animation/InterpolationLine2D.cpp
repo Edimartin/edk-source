@@ -31,6 +31,7 @@ edk::animation::InterpolationLine2D::InterpolationLine2D()
     this->allocStart();
     this->allocEnd();
     this->curveY=false;
+    this->constantY=false;
 }
 
 edk::animation::InterpolationLine2D::~InterpolationLine2D()

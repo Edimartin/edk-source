@@ -31,6 +31,7 @@ edk::animation::InterpolationLine3D::InterpolationLine3D()
     this->allocStart();
     this->allocEnd();
     this->curveZ=false;
+    this->constantZ=false;
 }
 
 edk::animation::InterpolationLine3D::~InterpolationLine3D()

@@ -1820,7 +1820,7 @@ edk::Object2D* edk::Cenario2D::getObject(edk::uint32 levelPosition,edk::float32 
     }
     return NULL;
 }
-edk::Object2D* edk::Cenario2D::getObject(edk::uint32 levelPosition,edk::uint32 position){
+edk::Object2D* edk::Cenario2D::getObjectInPosition(edk::uint32 levelPosition,edk::uint32 position){
     //test if have the position
     if(levelPosition){
         levelPosition--;
@@ -2124,7 +2124,7 @@ edk::physics2D::PhysicObject2D* edk::Cenario2D::getPhysicObject(edk::uint32 leve
     }
     return NULL;
 }
-edk::physics2D::PhysicObject2D* edk::Cenario2D::getPhysicObject(edk::uint32 levelPosition,edk::uint32 position){
+edk::physics2D::PhysicObject2D* edk::Cenario2D::getPhysicObjectInPosition(edk::uint32 levelPosition,edk::uint32 position){
     if(levelPosition){
         levelPosition--;
         //test if have the position
