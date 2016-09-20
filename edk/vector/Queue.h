@@ -86,6 +86,10 @@ public:
         //else return false
         return false;
     }
+    //clean the queue
+    void clean(){
+        this->start=this->end=0u;
+    }
 
     //push back a value
     bool pushBack(typeTemplate value){
@@ -176,7 +180,7 @@ public:
 
     //delete the queue
     void deleteQueue(){
-        this->start=this->end=0u;
+        this->clean();
         //test if is alloc
         if(this->vector){
             //
