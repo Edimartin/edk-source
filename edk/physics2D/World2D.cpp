@@ -658,13 +658,15 @@ bool edk::physics2D::World2D::ObjectsJointsTree::firstEqualSecond(edk::physics2D
 }
 
 edk::physics2D::World2D::World2D()
-    : world(b2Vec2(0,0)),contacts(this){
+    : world(b2Vec2(0,0)),contacts(this),treeDeleted(&this->world){
     //set the initial gravity
     this->setGravity(edk::vec2f32(0.f,-9.8f));
     this->world.SetContactListener(&this->contacts);
 
     this->clockStart();
     this->clockScale=1.f;
+
+    this->runNextStep=false;
 }
 edk::physics2D::World2D::~World2D(){
     //
@@ -717,21 +719,39 @@ edk::physics2D::World2D::~World2D(){
     size = this->treeStatic.size();
     for(edk::uint32 i=0u;i<size;i++){
         body = this->treeStatic.getBodyInPosition(i);
-        if(body) this->world.DestroyBody(body);
+        if(body){
+            if(this->runNextStep)
+                //save the object on the deleted tree
+                this->treeDeleted.add(body);
+            else
+            this->world.DestroyBody(body);
+        }
     }
     this->treeStatic.clean();
     //destroy kinematic
     size = this->treeKinematic.size();
     for(edk::uint32 i=0u;i<size;i++){
         body = this->treeKinematic.getBodyInPosition(i);
-        if(body) this->world.DestroyBody(body);
+        if(body){
+            if(this->runNextStep)
+                //save the object on the deleted tree
+                this->treeDeleted.add(body);
+            else
+            this->world.DestroyBody(body);
+        }
     }
     this->treeKinematic.clean();
     //destroy dynamic
     size = this->treeDynamic.size();
     for(edk::uint32 i=0u;i<size;i++){
         body = this->treeDynamic.getBodyInPosition(i);
-        if(body) this->world.DestroyBody(body);
+        if(body){
+            if(this->runNextStep)
+                //save the object on the deleted tree
+                this->treeDeleted.add(body);
+            else
+            this->world.DestroyBody(body);
+        }
     }
     this->treeDynamic.clean();
 }
@@ -1598,6 +1618,10 @@ bool edk::physics2D::World2D::addObject(edk::physics2D::PhysicObject2D* object){
                 case b2_staticBody:
                     if(!this->treeStatic.addBody(object,objectBody)){
                         //destroy the body
+                        if(this->runNextStep)
+                            //save the object on the deleted tree
+                            this->treeDeleted.add(objectBody);
+                        else
                         this->world.DestroyBody(objectBody);
                         ret=false;
                     }
@@ -1605,6 +1629,10 @@ bool edk::physics2D::World2D::addObject(edk::physics2D::PhysicObject2D* object){
                 case b2_kinematicBody:
                     if(!this->treeKinematic.addBody(object,objectBody)){
                         //destroy the body
+                        if(this->runNextStep)
+                            //save the object on the deleted tree
+                            this->treeDeleted.add(objectBody);
+                        else
                         this->world.DestroyBody(objectBody);
                         ret=false;
                     }
@@ -1612,18 +1640,30 @@ bool edk::physics2D::World2D::addObject(edk::physics2D::PhysicObject2D* object){
                 case b2_dynamicBody:
                     if(!this->treeDynamic.addBody(object,objectBody)){
                         //destroy the body
+                        if(this->runNextStep)
+                            //save the object on the deleted tree
+                            this->treeDeleted.add(objectBody);
+                        else
                         this->world.DestroyBody(objectBody);
                         ret=false;
                     }
                     break;
                 default:
                     //destroy the object
+                    if(this->runNextStep)
+                        //save the object on the deleted tree
+                        this->treeDeleted.add(objectBody);
+                    else
                     this->world.DestroyBody(objectBody);
                     ret=false;
                 }
             }
             else{
                 //delete the object
+                if(this->runNextStep)
+                    //save the object on the deleted tree
+                    this->treeDeleted.add(objectBody);
+                else
                 this->world.DestroyBody(objectBody);
             }
         }
@@ -1655,6 +1695,10 @@ bool edk::physics2D::World2D::removeObject(edk::physics2D::PhysicObject2D* objec
             break;
         }
         if(temp){
+            if(this->runNextStep)
+                //save the object on the deleted tree
+                this->treeDeleted.add(temp);
+            else
             this->world.DestroyBody(temp);
             return true;
         }
@@ -1680,6 +1724,10 @@ void edk::physics2D::World2D::removeAllObjects(){
                 this->removeObjectJoints(tempObject);
             }
             if(!this->treeStatic.removeBody(temp))count++;
+            if(this->runNextStep)
+                //save the object on the deleted tree
+                this->treeDeleted.add(temp);
+            else
             this->world.DestroyBody(temp);
         }
         else count++;
@@ -1697,6 +1745,10 @@ void edk::physics2D::World2D::removeAllObjects(){
                 this->removeObjectJoints(tempObject);
             }
             if(!this->treeKinematic.removeBody(temp))count++;
+            if(this->runNextStep)
+                //save the object on the deleted tree
+                this->treeDeleted.add(temp);
+            else
             this->world.DestroyBody(temp);
         }
         else count++;
@@ -1715,6 +1767,10 @@ void edk::physics2D::World2D::removeAllObjects(){
                 this->removeObjectJoints(tempObject);
             }
             if(!this->treeDynamic.removeBody(temp))count++;
+            if(this->runNextStep)
+                //save the object on the deleted tree
+                this->treeDeleted.add(temp);
+            else
             this->world.DestroyBody(temp);
         }
         else count++;
@@ -2114,7 +2170,15 @@ bool edk::physics2D::World2D::applyTorque(edk::physics2D::PhysicObject2D* object
 void edk::physics2D::World2D::nextStep(edk::float32 timeStep,
                                        edk::int32 velocityIterations,
                                        edk::int32 positionIterations){
+    //save the nextSpet
+    this->runNextStep = true;
     this->world.Step(timeStep,velocityIterations,positionIterations);
+    this->runNextStep = false;
+
+    //remove the bodys
+    this->treeDeleted.update();
+    this->treeDeleted.clean();
+
     //update the kinematic objects
     this->treeKinematic.update();
     this->treeDynamic.update();

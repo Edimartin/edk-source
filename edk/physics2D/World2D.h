@@ -347,6 +347,9 @@ private:
     edk::watch::Time clock;
     edk::float32 clockScale;
 
+    //save if it's running the nextStep
+    bool runNextStep;
+
     //Box2D
     b2World world;
 
@@ -480,6 +483,19 @@ private:
             return false;
         }
     }treeStatic,treeKinematic,treeDynamic;
+
+    //deletedTree
+    class DeletedTree: public edk::vector::BinaryTree<b2Body*>{
+    public:
+        DeletedTree(b2World* world){this->world = world;}
+        ~DeletedTree(){}
+        void updateElement(b2Body* value){
+            //update the value
+            if(value) this->world->DestroyBody(value);
+        }
+        //Box2D
+        b2World* world;
+    }treeDeleted;
 
     //ContactTree
     class TreeConcacts:public edk::vector::BinaryTree<edk::physics2D::Contact2D*>{
