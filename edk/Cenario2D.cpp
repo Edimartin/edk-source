@@ -235,7 +235,9 @@ bool edk::Cenario2D::TreeObjDepth::readFromXML(edk::XML* xml,edk::uint32 id,bool
 
                                             xml->selectFather();
                                         }
+                                        delete[] nameTemp;
                                     }
+                                    delete[] idTemp;
                                 }
                             }
                         }
@@ -277,7 +279,9 @@ bool edk::Cenario2D::TreeObjDepth::readFromXML(edk::XML* xml,edk::uint32 id,bool
                                             }
                                             xml->selectFather();
                                         }
+                                        delete[] nameTemp;
                                     }
+                                    delete [] idTemp;
                                 }
                             }
                         }
@@ -1906,6 +1910,8 @@ void edk::Cenario2D::deleteAllObjects(edk::uint32 levelPosition){
                         this->treeAnim.remove(level->objs->getObjectInPosition(0u));
                         level->objs->deleteObjInPosition(0u);
                     }
+                    delete level->objs;
+                    level->clean();
                 }
             }
         }

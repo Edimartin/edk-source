@@ -38,11 +38,10 @@ edk::tiles::TileMap2D::TileMap2D(){
     this->sizeMap = edk::size2ui32(0u,0u);
 }
 edk::tiles::TileMap2D::TileMap2D(edk::tiles::TileSet2D* tileSet){
-    //
-    this->setTileSet(tileSet);
-    this->tileMap=NULL;
     this->world=NULL;
+    this->tileMap=NULL;
     this->sizeMap = edk::size2ui32(0u,0u);
+    this->setTileSet(tileSet);
 }
 edk::tiles::TileMap2D::~TileMap2D(){
     //
