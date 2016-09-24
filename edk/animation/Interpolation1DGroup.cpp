@@ -283,6 +283,73 @@ bool edk::animation::Interpolation1DGroup::setInterpolationP2X(edk::uint32 posit
     return false;
 }
 
+//create random animations
+//shake
+edk::float32 edk::animation::Interpolation1DGroup::addShakingFramesX(edk::float32 interpolationDistance,edk::float32 position, edk::float32 percent){
+    //test if is not animatin the shake
+    if(interpolationDistance>0.f
+            &&
+            percent<1.f){
+        edk::float32 translate = 0.f;
+        edk::float32 second = 0.f;
+        edk::uint32 interpolation=0u;
+        //get the last animation position
+        if(this->animations.size()){
+            //get the last animation frame
+            interpolation = this->animations.size()-1u;
+            translate = this->getInterpolationEndX(interpolation);
+            second = this->getInterpolationEndSecond(interpolation);
+            interpolation++;
+        }
+        else if(this->tempFrame){
+            edk::animation::Frame1D* temp = (edk::animation::Frame1D*)this->tempFrame;
+            translate = temp->x;
+            second = temp->second;;
+        }
+        else{
+            //else add the first frame
+            this->addNewInterpolationLine(second,translate);
+        }
+
+
+        //increment the second
+        second+=interpolationDistance;
+        while(position>0.1f
+               ||
+               position<-0.1f
+              ){
+            //add the interpolation
+            this->addNewInterpolationLine(second,position + translate);
+
+            //set the curve
+            this->setInterpolationCurveX(interpolation);
+            //set the curve points
+            this->setInterpolationP1X(interpolation,second,position + translate);
+            this->setInterpolationP2X(interpolation,second,position + translate);
+
+            //increment the second
+            second+=interpolationDistance;
+
+            //translate the percent
+            position = position*percent*-1.f;
+            //increment the interpolation
+            interpolation++;
+        }
+        //add the last interpolation to position zero
+        this->addNewInterpolationLine(second,translate);
+
+        //set the curve
+        this->setInterpolationCurveX(interpolation);
+        //set the curve points
+        this->setInterpolationP1X(interpolation,second,translate);
+        this->setInterpolationP2X(interpolation,second,translate);
+
+        //return how many seconds the animation have
+        return second;
+    }
+    return 0.f;
+}
+
 //set the animationSecond by the X
 bool edk::animation::Interpolation1DGroup::setSecondByX(edk::float32 oldSecond,edk::float32 x){
     //test if is playing

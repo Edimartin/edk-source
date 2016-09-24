@@ -309,6 +309,91 @@ bool edk::animation::Interpolation2DGroup::setInterpolationP2Y(edk::uint32 posit
     return false;
 }
 
+//create random animations
+//shake
+edk::float32 edk::animation::Interpolation2DGroup::addShakingFramesXY(edk::float32 interpolationDistance, edk::float32 random,edk::vec2f32 position, edk::float32 percent){
+    //test if is not animatin the shake
+    if(interpolationDistance>0.f
+            &&
+            percent<1.f){
+        edk::float32 angle = 0.f;
+        edk::vec2f32 translate = edk::vec2f32(0,0);
+        edk::float32 second = 0.f;
+        edk::uint32 interpolation=0u;
+        //get the last animation position
+        if(this->animations.size()){
+            //get the last animation frame
+            interpolation = this->animations.size()-1u;
+            translate.x = this->getInterpolationEndX(interpolation);
+            translate.y = this->getInterpolationEndY(interpolation);
+            second = this->getInterpolationEndSecond(interpolation);
+            interpolation++;
+        }
+        else if(this->tempFrame){
+            edk::animation::Frame2D* temp = (edk::animation::Frame2D*)this->tempFrame;
+            translate.x = temp->x;
+            translate.y = temp->y;
+            second = temp->second;;
+        }
+        else{
+            //else add the first frame
+            this->addNewInterpolationLine(second,translate.x,translate.y);
+        }
+
+        //increment the second
+        second+=interpolationDistance;
+        while((position.x>0.1f
+               ||
+               position.x<-0.1f)
+              ||
+              (position.y>0.1f
+               ||
+               position.y<-0.1f)
+              ){
+            //add the interpolation
+            this->addNewInterpolationLine(second,position.x + translate.x,position.y + translate.y);
+
+            //set the curve
+            this->setInterpolationCurveX(interpolation);
+            this->setInterpolationCurveY(interpolation);
+            //set the curve points
+            this->setInterpolationP1X(interpolation,second,position.x+ translate.x);
+            this->setInterpolationP1Y(interpolation,second,position.y+ translate.y);
+            this->setInterpolationP2X(interpolation,second,position.x+ translate.x);
+            this->setInterpolationP2Y(interpolation,second,position.y+ translate.y);
+
+            //get the random angle between -90 and 90
+            angle = -90.f + (edk::Random::getRandPercent() * 180.f);
+            //rotate the angle
+            position = edk::Math::rotatePlus2f(position,180.f + (angle * random));
+            //increment the second
+            second+=interpolationDistance;
+            //add the next frame
+
+            //translate the percent
+            position.x = position.x*percent;
+            position.y = position.y*percent;
+            //increment the interpolation
+            interpolation++;
+        }
+        //add the last interpolation to position zero
+        this->addNewInterpolationLine(second,translate.x,translate.y);
+
+        //set the curve
+        this->setInterpolationCurveX(interpolation);
+        this->setInterpolationCurveY(interpolation);
+        //set the curve points
+        this->setInterpolationP1X(interpolation,second,translate.x);
+        this->setInterpolationP1Y(interpolation,second,translate.y);
+        this->setInterpolationP2X(interpolation,second,translate.x);
+        this->setInterpolationP2Y(interpolation,second,translate.y);
+
+        //return how many seconds the animation have
+        return second;
+    }
+    return 0.f;
+}
+
 //GETERS
 //return the animationPosition
 edk::float32 edk::animation::Interpolation2DGroup::getClockY(bool* success){

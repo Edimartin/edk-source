@@ -67,6 +67,10 @@ class Interpolation1DGroup: public edk::animation::InterpolationGroup{
         bool setInterpolationP1X(edk::uint32 position,edk::float32 second,edk::float32 x);
         bool setInterpolationP2X(edk::uint32 position,edk::float32 second,edk::float32 x);
 
+        //create random animations
+        //shake
+        edk::float32 addShakingFramesX(edk::float32 interpolationDistance, edk::float32 position, edk::float32 percent = 0.9f);
+
         //set the animationSecond by the X
         bool setSecondByX(edk::float32 oldSecond,edk::float32 x);
 

@@ -33,6 +33,8 @@ Gravatai RS Brazil 94065100
 #include "../vector/Stack.h"
 //Clock to the animation
 #include "../watch/Time.h"
+#include "../Random.h"
+#include "../Math.h"
 
 #ifdef printMessages
 #warning "    Compiling Interpolation2DGroup"
@@ -72,6 +74,10 @@ class Interpolation2DGroup: public edk::animation::Interpolation1DGroup{
         //Set the interpolation curve points
         bool setInterpolationP1Y(edk::uint32 position,edk::float32 second,edk::float32 y);
         bool setInterpolationP2Y(edk::uint32 position,edk::float32 second,edk::float32 y);
+
+        //create random animations
+        //shake
+        edk::float32 addShakingFramesXY(edk::float32 interpolationDistance, edk::float32 random,edk::vec2f32 position, edk::float32 percent = 0.9f);
 
         //GETERS
         //return the animationPosition

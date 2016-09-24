@@ -1088,13 +1088,13 @@ bool edk::animation::InterpolationGroup::isRewind(){
 //return the interpolation seconds
 edk::float32 edk::animation::InterpolationGroup::getInterpolationStartSecond(edk::float32 position){
     if(position < this->animations.size()){
-        this->animations[position]->getStart().second;
+        return this->animations[position]->getStart().second;
     }
     return 0u;
 }
 edk::float32 edk::animation::InterpolationGroup::getInterpolationEndSecond(edk::float32 position){
     if(position < this->animations.size()){
-        this->animations[position]->getEnd().second;
+        return this->animations[position]->getEnd().second;
     }
     return 0u;
 }
