@@ -26,11 +26,13 @@ Gravatai RS Brazil 94065100
 #endif
 
 #pragma once
+#include "edk/Math.h"
 #include "GU/GU.h"
 #include <stdio.h>
 #include "Object.h"
 #include "TypeVec2.h"
 #include "TypeRect.h"
+#include "animation/Interpolation2DGroup.h"
 
 #ifdef printMessages
 #warning "    Compiling Camera2D"
@@ -88,12 +90,30 @@ class Camera2D/* : public edk::Object<edk::Camera2D>*/{
         void scaleY(edk::float32 dist);
         void scaleY(edk::float64 dist);
 
+        //set camera angle
+        void setAngle(edk::float32 angle);
+        //rotate the camera
+        void rotateCamera(edk::float32 angle);
+        //get the camera angle
+        edk::float32 getAngle();
+
+        //start the animation
+        bool addShakingAngle(edk::float32 position,edk::float32 percent = 0.9f,edk::float32 interpolationDistance=0.1f);
+        bool addShakingPosition(edk::vec2f32 position,edk::float32 random,edk::float32 percent = 0.9f,edk::float32 interpolationDistance=0.05f);
+
         //operator to copy the cameras
         edk::Camera2D operator=(edk::Camera2D newCam){this->size = newCam.size;return newCam;}
     protected:
     private:
         //size of the camera screen
         edk::size2f32 size;
+        edk::vec2f32 up;
+        edk::vec2f32 tempPosition;
+        edk::float32 angle;
+        //animated position
+        edk::animation::Interpolation2DGroup animPosition;
+        //animated angle
+        edk::animation::Interpolation1DGroup animAngle;
     void start();
 };
 }//end namespace edk

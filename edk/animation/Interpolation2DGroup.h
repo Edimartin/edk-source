@@ -77,7 +77,7 @@ class Interpolation2DGroup: public edk::animation::Interpolation1DGroup{
 
         //create random animations
         //shake
-        edk::float32 addShakingFramesXY(edk::float32 interpolationDistance, edk::float32 random,edk::vec2f32 position, edk::float32 percent = 0.9f);
+        edk::float32 addShakingFramesXY(edk::vec2f32 position,edk::float32 random,edk::float32 percent = 0.9f,edk::float32 interpolationDistance=0.05f);
 
         //GETERS
         //return the animationPosition

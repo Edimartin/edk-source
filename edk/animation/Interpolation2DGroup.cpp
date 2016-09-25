@@ -311,7 +311,7 @@ bool edk::animation::Interpolation2DGroup::setInterpolationP2Y(edk::uint32 posit
 
 //create random animations
 //shake
-edk::float32 edk::animation::Interpolation2DGroup::addShakingFramesXY(edk::float32 interpolationDistance, edk::float32 random,edk::vec2f32 position, edk::float32 percent){
+edk::float32 edk::animation::Interpolation2DGroup::addShakingFramesXY(edk::vec2f32 position,edk::float32 random,edk::float32 percent,edk::float32 interpolationDistance){
     //test if is not animatin the shake
     if(interpolationDistance>0.f
             &&

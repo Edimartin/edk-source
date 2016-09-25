@@ -1081,6 +1081,12 @@ void edk::GU::guPopMatrix(){glPopMatrix();}
 void edk::GU::guSetViewport(edk::uint32 x,edk::uint32 y,edk::uint32 width,edk::uint32 height){glViewport(x,y,width,height);}
 void edk::GU::guSetViewportRect(edk::rectui32 rect){glViewport(rect.origin.x,rect.origin.y,rect.size.width,rect.size.height);}
 void edk::GU::guUseOrtho(edk::float32 left, edk::float32 right, edk::float32 botton, edk::float32 top, edk::float32 near, edk::float32 far){glOrtho(left,right,botton,top,near,far);}
+void edk::GU::guLookAt(edk::float64 eyeX, edk::float64 eyeY, edk::float64 eyeZ, edk::float64 centerX, edk::float64 centerY, edk::float64 centerZ, edk::float64 upX, edk::float64 upY, edk::float64 upZ){
+    gluLookAt(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ);
+}
+void edk::GU::guLookAt(edk::float32 eyeX, edk::float32 eyeY, edk::float32 eyeZ, edk::float32 centerX, edk::float32 centerY, edk::float32 centerZ, edk::float32 upX, edk::float32 upY, edk::float32 upZ){
+    gluLookAt(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ);
+}
 
 //Create a texture
 edk::uint32 edk::GU::guAllocTexture2D(edk::uint32 width, edk::uint32 height, edk::uint32 mode, edk::uint32 filter, const edk::classID  data){

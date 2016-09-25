@@ -50,6 +50,10 @@ void edk::Camera2D::start(){
     this->position = edk::vec2f32(0.0f,0.0f);
     //set the screen to -1 1;
     this->setSize(1.0f,1.0f);
+    //set the up
+    this->up = edk::vec2f32(0,1);
+    //set the start angle
+    this->angle = 0.f;
 }
 //SETTERS
 //set the size
@@ -132,22 +136,42 @@ void edk::Camera2D::draw(){
         edk::GU::guUseMatrix(GU_PROJECTION);
     edk::GU::guLoadIdentity();
 
-    edk::GU::guUseOrtho(this->position.x - this->size.width,//left
-                        this->position.x + this->size.width,//right
-                        this->position.y - this->size.height,//botton
-                        this->position.y + this->size.height,//top
-                        -1.f,//nea
-                        1.f//far
-                        );
+    this->drawOrthoOnly();
 }
 void edk::Camera2D::drawOrthoOnly(){
-    edk::GU::guUseOrtho(this->position.x - this->size.width,//left
-                        this->position.x + this->size.width,//right
-                        this->position.y - this->size.height,//botton
-                        this->position.y + this->size.height,//top
+    edk::GU::guUseOrtho(-this->size.width,
+                        this->size.width,
+                        -this->size.height,
+                        this->size.height,
                         -1.f,//nea
                         1.f//far
                         );
+    //update the shaking animations
+    this->animAngle.updateClockAnimation();
+    if(this->animAngle.isPlaying()){
+        //calculate the angle of shaking
+        this->up = edk::Math::rotate2f(edk::vec2f32(1,0),(((this->angle + this->animAngle.getClockX())*-1)+360.f)+90);
+    }
+    else{
+        this->up = edk::Math::rotate2f(edk::vec2f32(1,0),((this->angle*-1)+360.f)+90);
+    }
+
+    //shake position
+    this->animPosition.updateClockAnimation();
+    if(this->animPosition.isPlaying()){
+        this->tempPosition.x = this->position.x+this->animPosition.getClockX();
+        this->tempPosition.y = this->position.y+this->animPosition.getClockY();
+        edk::GU::guLookAt(this->tempPosition.x,this->tempPosition.y,1.f,
+                          this->tempPosition.x,this->tempPosition.y,0.f,
+                          this->up.x,this->up.y,0.f
+                          );
+    }
+    else{
+        edk::GU::guLookAt(this->position.x,this->position.y,1.f,
+                          this->position.x,this->position.y,0.f,
+                          this->up.x,this->up.y,0.f
+                          );
+    }
 }
 
 
@@ -206,4 +230,45 @@ void edk::Camera2D::scaleY(edk::float32 dist){
 void edk::Camera2D::scaleY(edk::float64 dist){
     //
     this->size.height+=dist*0.5f;
+}
+//set camera angle
+void edk::Camera2D::setAngle(edk::float32 angle){
+    //set the angle
+    this->angle = angle;
+    while(this->angle>360.f)this->angle-=360.f;
+    while(this->angle<0.f)this->angle+=360.f;
+}
+//rotate the camera
+void edk::Camera2D::rotateCamera(edk::float32 angle){
+    this->setAngle(this->angle+angle);
+}
+//get the camera angle
+edk::float32 edk::Camera2D::getAngle(){
+    return this->angle;
+}
+
+//start the animation
+bool edk::Camera2D::addShakingAngle(edk::float32 position,edk::float32 percent,edk::float32 interpolationDistance){
+    //stop the last animation
+    this->animAngle.stop();
+    this->animAngle.cleanAnimations();
+    //create the shaking animation
+    if(this->animAngle.addShakingFramesX(position,percent,interpolationDistance)){
+        this->animAngle.playForward();
+        //return true;
+        return true;
+    }
+    return false;
+}
+bool edk::Camera2D::addShakingPosition(edk::vec2f32 position,edk::float32 random,edk::float32 percent,edk::float32 interpolationDistance){
+    //stop the last animation
+    this->animPosition.stop();
+    this->animPosition.cleanAnimations();
+    //create the shaking animation
+    if(this->animPosition.addShakingFramesXY(position,random,percent,interpolationDistance)){
+        this->animPosition.playForward();
+        //return true;
+        return true;
+    }
+    return false;
 }
