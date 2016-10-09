@@ -289,44 +289,46 @@ void edk::physics2D::World2D::MyContactListener::EndContact(b2Contact* contact){
 
         //process the contactEnd
 
-        //test if the objectA is a sensor
-        if(contactTemp->objectA->isSensor()){
-            //load the sensor
-            edk::physics2D::StaticSensor2D* sensor = (edk::physics2D::StaticSensor2D*)contactTemp->objectA;
-            //test if the sensor have objects
-            if(sensor->getActivateSize()){
-                //test if have the object in the sensor tree
-                if(sensor->haveActivateObject(contactTemp->objectB)){
+        if(contactTemp->isEnabled()){
+            //test if the objectA is a sensor
+            if(contactTemp->objectA->isSensor()){
+                //load the sensor
+                edk::physics2D::StaticSensor2D* sensor = (edk::physics2D::StaticSensor2D*)contactTemp->objectA;
+                //test if the sensor have objects
+                if(sensor->getActivateSize()){
+                    //test if have the object in the sensor tree
+                    if(sensor->haveActivateObject(contactTemp->objectB)){
+                        //this->world->sensorEnd(contactTemp);
+                        this->world->physicsSensorEnd(contactTemp);
+                    }
+                }
+                else{
+                    //test if the object is in the sensor
+                    //this->world->sensorEnd(contactTemp);
+                    this->world->physicsSensorEnd(contactTemp);
+                }
+            }
+            else if(contactTemp->objectB->isSensor()){
+                //load the sensor
+                edk::physics2D::StaticSensor2D* sensor = (edk::physics2D::StaticSensor2D*)contactTemp->objectB;
+                //test if the sensor have objects
+                if(sensor->getActivateSize()){
+                    //test if have the object in the sensor tree
+                    if(sensor->haveActivateObject(contactTemp->objectA)){
+                        //this->world->sensorEnd(contactTemp);
+                        this->world->physicsSensorEnd(contactTemp);
+                    }
+                }
+                else{
+                    //test if the object is in the sensor
                     //this->world->sensorEnd(contactTemp);
                     this->world->physicsSensorEnd(contactTemp);
                 }
             }
             else{
-                //test if the object is in the sensor
-                //this->world->sensorEnd(contactTemp);
-                this->world->physicsSensorEnd(contactTemp);
+                //this->world->contactEnd(contactTemp);
+                this->world->physicsContactEnd(contactTemp);
             }
-        }
-        else if(contactTemp->objectB->isSensor()){
-            //load the sensor
-            edk::physics2D::StaticSensor2D* sensor = (edk::physics2D::StaticSensor2D*)contactTemp->objectB;
-            //test if the sensor have objects
-            if(sensor->getActivateSize()){
-                //test if have the object in the sensor tree
-                if(sensor->haveActivateObject(contactTemp->objectA)){
-                    //this->world->sensorEnd(contactTemp);
-                    this->world->physicsSensorEnd(contactTemp);
-                }
-            }
-            else{
-                //test if the object is in the sensor
-                //this->world->sensorEnd(contactTemp);
-                this->world->physicsSensorEnd(contactTemp);
-            }
-        }
-        else{
-            //this->world->contactEnd(contactTemp);
-            this->world->physicsContactEnd(contactTemp);
         }
 
         //remove contactTemp from the tree
@@ -381,47 +383,52 @@ void edk::physics2D::World2D::MyContactListener::PreSolve(b2Contact* contact, co
         }
 
 
-        //test if the objectA is a sensor
-        if(contactTemp->objectA->isSensor()){
-            //load the sensor
-            edk::physics2D::StaticSensor2D* sensor = (edk::physics2D::StaticSensor2D*)contactTemp->objectA;
-            //test if the sensor have objects
-            if(sensor->getActivateSize()){
-                //test if have the object in the sensor tree
-                if(sensor->haveActivateObject(contactTemp->objectB)){
+        if(contactTemp->isEnabled()){
+            //test if the objectA is a sensor
+            if(contactTemp->objectA->isSensor()){
+                //load the sensor
+                edk::physics2D::StaticSensor2D* sensor = (edk::physics2D::StaticSensor2D*)contactTemp->objectA;
+                //test if the sensor have objects
+                if(sensor->getActivateSize()){
+                    //test if have the object in the sensor tree
+                    if(sensor->haveActivateObject(contactTemp->objectB)){
+                        //this->world->sensorKeeping(contactTemp);
+                        this->world->physicsSensorKeeping(contactTemp);
+                    }
+                }
+                else{
+                    //test if the object is in the sensor
                     //this->world->sensorKeeping(contactTemp);
                     this->world->physicsSensorKeeping(contactTemp);
                 }
+                contact->SetEnabled(false);
             }
-            else{
-                //test if the object is in the sensor
-                //this->world->sensorKeeping(contactTemp);
-                this->world->physicsSensorKeeping(contactTemp);
-            }
-            contact->SetEnabled(false);
-        }
-        else if(contactTemp->objectB->isSensor()){
-            //load the sensor
-            edk::physics2D::StaticSensor2D* sensor = (edk::physics2D::StaticSensor2D*)contactTemp->objectB;
-            //test if the sensor have objects
-            if(sensor->getActivateSize()){
-                //test if have the object in the sensor tree
-                if(sensor->haveActivateObject(contactTemp->objectA)){
+            else if(contactTemp->objectB->isSensor()){
+                //load the sensor
+                edk::physics2D::StaticSensor2D* sensor = (edk::physics2D::StaticSensor2D*)contactTemp->objectB;
+                //test if the sensor have objects
+                if(sensor->getActivateSize()){
+                    //test if have the object in the sensor tree
+                    if(sensor->haveActivateObject(contactTemp->objectA)){
+                        //this->world->sensorKeeping(contactTemp);
+                        this->world->physicsSensorKeeping(contactTemp);
+                    }
+                }
+                else{
+                    //test if the object is in the sensor
                     //this->world->sensorKeeping(contactTemp);
                     this->world->physicsSensorKeeping(contactTemp);
                 }
+                contact->SetEnabled(false);
             }
             else{
-                //test if the object is in the sensor
-                //this->world->sensorKeeping(contactTemp);
-                this->world->physicsSensorKeeping(contactTemp);
+                //this->world->contactKeepBegin(contactTemp);
+                this->world->physicsContactKeepBegin(contactTemp);
+                contact->SetEnabled(contactTemp->isEnabled());
             }
-            contact->SetEnabled(false);
         }
         else{
-            //this->world->contactKeepBegin(contactTemp);
-            this->world->physicsContactKeepBegin(contactTemp);
-            contact->SetEnabled(contactTemp->isEnabled());
+            contact->SetEnabled(false);
         }
     }
     else{
@@ -483,12 +490,14 @@ void edk::physics2D::World2D::MyContactListener::PostSolve(b2Contact* contact, c
         count = impulse->count;
 
 
-        //test if the objectA is a sensor
-        if(!contactTemp->objectA->isSensor()
-                &&
-                !contactTemp->objectB->isSensor()){
-            //this->world->contactKeepEnd(contactTemp);
-            this->world->physicsContactKeepEnd(contactTemp);
+        if(contactTemp->isEnabled()){
+            //test if the objectA is a sensor
+            if(!contactTemp->objectA->isSensor()
+                    &&
+                    !contactTemp->objectB->isSensor()){
+                //this->world->contactKeepEnd(contactTemp);
+                this->world->physicsContactKeepEnd(contactTemp);
+            }
         }
     }
 }
@@ -667,6 +676,7 @@ edk::physics2D::World2D::World2D()
     this->clockScale=1.f;
 
     this->runNextStep=false;
+    this->paused=false;
 }
 edk::physics2D::World2D::~World2D(){
     //
@@ -724,7 +734,7 @@ edk::physics2D::World2D::~World2D(){
                 //save the object on the deleted tree
                 this->treeDeleted.add(body);
             else
-            this->world.DestroyBody(body);
+                this->world.DestroyBody(body);
         }
     }
     this->treeStatic.clean();
@@ -737,7 +747,7 @@ edk::physics2D::World2D::~World2D(){
                 //save the object on the deleted tree
                 this->treeDeleted.add(body);
             else
-            this->world.DestroyBody(body);
+                this->world.DestroyBody(body);
         }
     }
     this->treeKinematic.clean();
@@ -750,7 +760,7 @@ edk::physics2D::World2D::~World2D(){
                 //save the object on the deleted tree
                 this->treeDeleted.add(body);
             else
-            this->world.DestroyBody(body);
+                this->world.DestroyBody(body);
         }
     }
     this->treeDynamic.clean();
@@ -1622,7 +1632,7 @@ bool edk::physics2D::World2D::addObject(edk::physics2D::PhysicObject2D* object){
                             //save the object on the deleted tree
                             this->treeDeleted.add(objectBody);
                         else
-                        this->world.DestroyBody(objectBody);
+                            this->world.DestroyBody(objectBody);
                         ret=false;
                     }
                     break;
@@ -1633,7 +1643,7 @@ bool edk::physics2D::World2D::addObject(edk::physics2D::PhysicObject2D* object){
                             //save the object on the deleted tree
                             this->treeDeleted.add(objectBody);
                         else
-                        this->world.DestroyBody(objectBody);
+                            this->world.DestroyBody(objectBody);
                         ret=false;
                     }
                     break;
@@ -1644,7 +1654,7 @@ bool edk::physics2D::World2D::addObject(edk::physics2D::PhysicObject2D* object){
                             //save the object on the deleted tree
                             this->treeDeleted.add(objectBody);
                         else
-                        this->world.DestroyBody(objectBody);
+                            this->world.DestroyBody(objectBody);
                         ret=false;
                     }
                     break;
@@ -1654,7 +1664,7 @@ bool edk::physics2D::World2D::addObject(edk::physics2D::PhysicObject2D* object){
                         //save the object on the deleted tree
                         this->treeDeleted.add(objectBody);
                     else
-                    this->world.DestroyBody(objectBody);
+                        this->world.DestroyBody(objectBody);
                     ret=false;
                 }
             }
@@ -1664,7 +1674,7 @@ bool edk::physics2D::World2D::addObject(edk::physics2D::PhysicObject2D* object){
                     //save the object on the deleted tree
                     this->treeDeleted.add(objectBody);
                 else
-                this->world.DestroyBody(objectBody);
+                    this->world.DestroyBody(objectBody);
             }
         }
         return ret;
@@ -1699,7 +1709,7 @@ bool edk::physics2D::World2D::removeObject(edk::physics2D::PhysicObject2D* objec
                 //save the object on the deleted tree
                 this->treeDeleted.add(temp);
             else
-            this->world.DestroyBody(temp);
+                this->world.DestroyBody(temp);
             return true;
         }
     }
@@ -1728,7 +1738,7 @@ void edk::physics2D::World2D::removeAllObjects(){
                 //save the object on the deleted tree
                 this->treeDeleted.add(temp);
             else
-            this->world.DestroyBody(temp);
+                this->world.DestroyBody(temp);
         }
         else count++;
     }
@@ -1749,7 +1759,7 @@ void edk::physics2D::World2D::removeAllObjects(){
                 //save the object on the deleted tree
                 this->treeDeleted.add(temp);
             else
-            this->world.DestroyBody(temp);
+                this->world.DestroyBody(temp);
         }
         else count++;
     }
@@ -1771,7 +1781,7 @@ void edk::physics2D::World2D::removeAllObjects(){
                 //save the object on the deleted tree
                 this->treeDeleted.add(temp);
             else
-            this->world.DestroyBody(temp);
+                this->world.DestroyBody(temp);
         }
         else count++;
     }
@@ -2170,19 +2180,21 @@ bool edk::physics2D::World2D::applyTorque(edk::physics2D::PhysicObject2D* object
 void edk::physics2D::World2D::nextStep(edk::float32 timeStep,
                                        edk::int32 velocityIterations,
                                        edk::int32 positionIterations){
-    //save the nextSpet
-    this->runNextStep = true;
-    this->world.Step(timeStep,velocityIterations,positionIterations);
-    this->runNextStep = false;
+    if(!this->paused){
+        //save the nextSpet
+        this->runNextStep = true;
+        this->world.Step(timeStep,velocityIterations,positionIterations);
+        this->runNextStep = false;
 
-    //remove the bodys
-    this->treeDeleted.update();
-    this->treeDeleted.clean();
+        //remove the bodys
+        this->treeDeleted.update();
+        this->treeDeleted.clean();
 
-    //update the kinematic objects
-    this->treeKinematic.update();
-    this->treeDynamic.update();
-    this->treeJoint.update();
+        //update the kinematic objects
+        this->treeKinematic.update();
+        this->treeDynamic.update();
+        this->treeJoint.update();
+    }
 }
 //next spet with clock
 void edk::physics2D::World2D::nextStep(edk::int32 velocityIterations, edk::int32 positionIterations){
@@ -2193,6 +2205,24 @@ void edk::physics2D::World2D::nextStep(edk::int32 velocityIterations, edk::int32
 
     //then clean the clock
     this->clockStart();
+}
+//pause the world steps
+void edk::physics2D::World2D::pauseStepOn(){
+    //test if is NOT paused
+    if(!this->paused){
+        //save the clock
+        this->clock.saveDistance();
+        this->paused=true;
+    }
+}
+void edk::physics2D::World2D::pauseStepOff(){
+    //test if is Paused
+    if(this->paused){
+        //start the clock and paste the distance
+        this->clockStart();
+        this->clock.pasteDistance();
+        this->paused=false;
+    }
 }
 
 //reset the clock

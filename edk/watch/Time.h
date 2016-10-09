@@ -114,6 +114,11 @@ class Time {
 
     edk::float32 getEstimativeFrame();
 
+    //save the distance
+    void saveDistance();
+    //paste the distance
+    void pasteDistance();
+
     static void sleepProcessMiliseconds(uint32 Milliseconds);
     static void sleepProcessMicroseconds(uint32 Microseconds);
 
@@ -152,6 +157,8 @@ class Time {
     #endif
     //save the startTime
     edk::uint32 timeStart;
+    //save the timeDistance to pause the clock
+    edk::uint32 saveTimeDistance;
 
     #if defined(__linux__) || defined(__APPLE__)
     static edk::uint32 linuxSecond;

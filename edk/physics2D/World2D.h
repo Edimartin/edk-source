@@ -115,6 +115,9 @@ public:
     void nextStep(edk::float32 timeStep, edk::int32 velocityIterations, edk::int32 positionIterations);
     //next spet with clock
     void nextStep(edk::int32 velocityIterations, edk::int32 positionIterations);
+    //pause the world steps
+    void pauseStepOn();
+    void pauseStepOff();
 
     //reset the clock
     void clockStart();
@@ -349,6 +352,7 @@ private:
 
     //save if it's running the nextStep
     bool runNextStep;
+    bool paused;
 
     //Box2D
     b2World world;

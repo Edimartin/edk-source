@@ -41,6 +41,7 @@ edk::uint32 edk::watch::Time::linuxSecond = 1000000u;
 
 Time::Time(){
     this->timeStart=0u;
+    this->saveTimeDistance=0u;
 #if defined(WIN32) || defined(WIN64)
     this->systemClock=NULL;
     QueryPerformanceFrequency(&this->PCFreq);
@@ -122,6 +123,16 @@ edk::float32 Time::getEstimativeFrame(){
     if(mili>0u)
         return (edk::watch::second/(edk::float32)mili);
     return 0.0f;
+}
+
+//save the distance
+void Time::saveDistance(){
+    this->saveTimeDistance = this->getMicroseconds();
+}
+//paste the distance
+void Time::pasteDistance(){
+    this->timeStart-=this->saveTimeDistance;
+    this->saveTimeDistance=0u;
 }
 
 void Time::sleepProcessMiliseconds(uint32 Milliseconds){
