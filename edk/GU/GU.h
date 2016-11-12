@@ -1846,8 +1846,10 @@ GL_QUADRATIC_ATTENUATION
 #define GU_NEAREST_MIPMAP_LINEAR                0x2702
 #define GU_LINEAR_MIPMAP_NEAREST                0x2701
 #define GU_LINEAR_MIPMAP_LINEAR                 0x2703
+//TEXTURE FILTER
 #define GU_NEAREST                              0x2600
 #define GU_LINEAR                               0x2601
+
 #define GU_REPEAT                               0x2901
 #define GU_CLAMP                                0x2900
 /*

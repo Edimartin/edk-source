@@ -75,7 +75,7 @@ bool edk::network::ServerSocket::treeAdress::removeAdress(edk::network::Adress h
 //delete all Adresses
 void edk::network::ServerSocket::treeAdress::deleteAllAdress(){
     edk::network::ServerSocket::nodeAdress* node = NULL;
-    for(unsigned int i=0u;i<this->getSize();i++){
+    for(edk::uint32 i=0u;i<this->getSize();i++){
         node = this->getElementInPosition(i);
         if(node){
             delete node;

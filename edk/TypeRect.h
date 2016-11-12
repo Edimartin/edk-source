@@ -638,7 +638,7 @@ public:
         ++this->size.height;
         return recti8(this->origin.x,this->origin.y,this->size.width,this->size.height);
     }
-    recti8 operator++(int){
+    recti8 operator++(int32){
         //
         this->origin.x++;
         this->origin.y++;
@@ -654,7 +654,7 @@ public:
         --this->size.height;
         return recti8(this->origin.x,this->origin.y,this->size.width,this->size.height);
     }
-    recti8 operator--(int){
+    recti8 operator--(int32){
         //
         this->origin.x--;
         this->origin.y--;
@@ -1402,7 +1402,7 @@ public:
         ++this->size.height;
         return recti16(this->origin.x,this->origin.y,this->size.width,this->size.height);
     }
-    recti16 operator++(int){
+    recti16 operator++(int32){
         //
         this->origin.x++;
         this->origin.y++;
@@ -1418,7 +1418,7 @@ public:
         --this->size.height;
         return recti16(this->origin.x,this->origin.y,this->size.width,this->size.height);
     }
-    recti16 operator--(int){
+    recti16 operator--(int32){
         //
         this->origin.x--;
         this->origin.y--;
@@ -2238,7 +2238,7 @@ public:
         ++this->size.height;
         return recti32(this->origin.x,this->origin.y,this->size.width,this->size.height);
     }
-    recti32 operator++(int){
+    recti32 operator++(int32){
         //
         this->origin.x++;
         this->origin.y++;
@@ -2254,7 +2254,7 @@ public:
         --this->size.height;
         return recti32(this->origin.x,this->origin.y,this->size.width,this->size.height);
     }
-    recti32 operator--(int){
+    recti32 operator--(int32){
         //
         this->origin.x--;
         this->origin.y--;
@@ -3146,7 +3146,7 @@ public:
         ++this->size.height;
         return recti64(this->origin.x,this->origin.y,this->size.width,this->size.height);
     }
-    recti64 operator++(int){
+    recti64 operator++(int32){
         //
         this->origin.x++;
         this->origin.y++;
@@ -3162,7 +3162,7 @@ public:
         --this->size.height;
         return recti64(this->origin.x,this->origin.y,this->size.width,this->size.height);
     }
-    recti64 operator--(int){
+    recti64 operator--(int32){
         //
         this->origin.x--;
         this->origin.y--;
@@ -3586,7 +3586,7 @@ public:
         ++this->size.height;
         return rectui8(this->origin.x,this->origin.y,this->size.width,this->size.height);
     }
-    rectui8 operator++(int){
+    rectui8 operator++(int32){
         //
         this->origin.x++;
         this->origin.y++;
@@ -3602,7 +3602,7 @@ public:
         --this->size.height;
         return rectui8(this->origin.x,this->origin.y,this->size.width,this->size.height);
     }
-    rectui8 operator--(int){
+    rectui8 operator--(int32){
         //
         this->origin.x--;
         this->origin.y--;
@@ -4066,7 +4066,7 @@ public:
         ++this->size.height;
         return rectui16(this->origin.x,this->origin.y,this->size.width,this->size.height);
     }
-    rectui16 operator++(int){
+    rectui16 operator++(int32){
         //
         this->origin.x++;
         this->origin.y++;
@@ -4082,7 +4082,7 @@ public:
         --this->size.height;
         return rectui16(this->origin.x,this->origin.y,this->size.width,this->size.height);
     }
-    rectui16 operator--(int){
+    rectui16 operator--(int32){
         //
         this->origin.x--;
         this->origin.y--;
@@ -4618,7 +4618,7 @@ public:
         ++this->size.height;
         return rectui32(this->origin.x,this->origin.y,this->size.width,this->size.height);
     }
-    rectui32 operator++(int){
+    rectui32 operator++(int32){
         //
         this->origin.x++;
         this->origin.y++;
@@ -4634,7 +4634,7 @@ public:
         --this->size.height;
         return rectui32(this->origin.x,this->origin.y,this->size.width,this->size.height);
     }
-    rectui32 operator--(int){
+    rectui32 operator--(int32){
         //
         this->origin.x--;
         this->origin.y--;
@@ -5242,7 +5242,7 @@ public:
         ++this->size.height;
         return rectui64(this->origin.x,this->origin.y,this->size.width,this->size.height);
     }
-    rectui64 operator++(int){
+    rectui64 operator++(int32){
         //
         this->origin.x++;
         this->origin.y++;
@@ -5258,7 +5258,7 @@ public:
         --this->size.height;
         return rectui64(this->origin.x,this->origin.y,this->size.width,this->size.height);
     }
-    rectui64 operator--(int){
+    rectui64 operator--(int32){
         //
         this->origin.x--;
         this->origin.y--;
@@ -6028,7 +6028,7 @@ public:
         ++this->size.height;
         return rectf32(this->origin.x,this->origin.y,this->size.width,this->size.height);
     }
-    rectf32 operator++(int){
+    rectf32 operator++(int32){
         //
         this->origin.x++;
         this->origin.y++;
@@ -6044,7 +6044,7 @@ public:
         --this->size.height;
         return rectf32(this->origin.x,this->origin.y,this->size.width,this->size.height);
     }
-    rectf32 operator--(int){
+    rectf32 operator--(int32){
         //
         this->origin.x--;
         this->origin.y--;
@@ -6862,7 +6862,7 @@ public:
         ++this->size.height;
         return rectf64(this->origin.x,this->origin.y,this->size.width,this->size.height);
     }
-    rectf64 operator++(int){
+    rectf64 operator++(int32){
         //
         this->origin.x++;
         this->origin.y++;
@@ -6878,7 +6878,7 @@ public:
         --this->size.height;
         return rectf64(this->origin.x,this->origin.y,this->size.width,this->size.height);
     }
-    rectf64 operator--(int){
+    rectf64 operator--(int32){
         //
         this->origin.x--;
         this->origin.y--;

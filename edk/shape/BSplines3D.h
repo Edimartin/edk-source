@@ -43,8 +43,8 @@ class BSplines3D : public edk::shape::Curve3D{
         virtual ~BSplines3D();
 
         //return the point
-        edk::vec3f32 getPoint(float percent);
-        static edk::vec3f32 getPoint(edk::vec3f32 p1,edk::vec3f32 p2,edk::vec3f32 p3,edk::vec3f32 p4,float percent);
+        edk::vec3f32 getPoint(edk::float32 percent);
+        static edk::vec3f32 getPoint(edk::vec3f32 p1,edk::vec3f32 p2,edk::vec3f32 p3,edk::vec3f32 p4,edk::float32 percent);
     protected:
     private:
 };

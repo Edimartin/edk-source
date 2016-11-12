@@ -49,13 +49,13 @@ edk::shape::Hermite3D::~Hermite3D()
 edk::vec3f32 edk::shape::Hermite3D::getPoint(edk::float32 percent){
     return edk::shape::Hermite3D::getPoint(this->point1,this->point2,this->point3,this->point4,percent,this->attenuation);
 }
-edk::vec3f32 edk::shape::Hermite3D::getPoint(edk::vec3f32 p1,edk::vec3f32 p2,edk::vec3f32 p3,edk::vec3f32 p4,float percent,edk::float32 attenuation){
+edk::vec3f32 edk::shape::Hermite3D::getPoint(edk::vec3f32 p1,edk::vec3f32 p2,edk::vec3f32 p3,edk::vec3f32 p4,edk::float32 percent,edk::float32 attenuation){
     //create a vector to return
     edk::vec3f32 ret;
 
     //percent pow's
-    float percent2 = percent * percent;
-    float percent3 = percent * percent * percent;
+    edk::float32 percent2 = percent * percent;
+    edk::float32 percent3 = percent * percent * percent;
 
     //get X
     ret.x = ((( 2*percent3 -3*percent2 +0*percent +1)* p1.x +

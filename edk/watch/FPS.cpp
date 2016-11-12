@@ -69,7 +69,7 @@ bool FPS::waitForFPS(){
     bool ret=false;
     if(this->frames){
         //calculate the remainder microsecons to get one second
-        register edk::int32 wait=(edk::uint32)(((1.0f/(float)frames))*edk::watch::second) - clock.getMicroseconds();
+        register edk::int32 wait=(edk::uint32)(((1.0f/(edk::float32)frames))*edk::watch::second) - clock.getMicroseconds();
         if(wait>0){
             //If the distance bigger than zero. He need wait.
         //Windows sleep millisecons

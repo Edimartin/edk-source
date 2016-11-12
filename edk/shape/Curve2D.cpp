@@ -43,7 +43,7 @@ edk::shape::Curve2D::~Curve2D()
 
 
 //return the point
-edk::vec2f32 edk::shape::Curve2D::getPoint(float percent){
+edk::vec2f32 edk::shape::Curve2D::getPoint(edk::float32 percent){
     if(percent){
         return edk::vec2f32();
     }

@@ -44,17 +44,17 @@ edk::shape::Bezier3D::~Bezier3D()
 
 
 //return the point
-edk::vec3f32 edk::shape::Bezier3D::getPoint(float percent){
+edk::vec3f32 edk::shape::Bezier3D::getPoint(edk::float32 percent){
     return edk::shape::Bezier3D::getPoint(this->point1,this->point2,this->point3,this->point4,percent);
 }
-edk::vec3f32 edk::shape::Bezier3D::getPoint(edk::vec3f32 p1,edk::vec3f32 p2,edk::vec3f32 p3,edk::vec3f32 p4,float percent){
+edk::vec3f32 edk::shape::Bezier3D::getPoint(edk::vec3f32 p1,edk::vec3f32 p2,edk::vec3f32 p3,edk::vec3f32 p4,edk::float32 percent){
 
     //create a vector to return
     edk::vec3f32 ret;
 
     //percent pow's
-    float percent2 = percent * percent;
-    float percent3 = percent * percent * percent;
+    edk::float32 percent2 = percent * percent;
+    edk::float32 percent3 = percent * percent * percent;
 
     //get the X
     ret.x = ((-1*(percent3) +3*(percent2) -3*percent +1)*p1.x +

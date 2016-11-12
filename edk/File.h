@@ -230,7 +230,7 @@ class File {
 
     edk::float32 readBinFloat();
 
-    float* readBinFloat(int64 size);
+    edk::float32* readBinFloat(int64 size);
 
     int64 readBinLongInt();
 

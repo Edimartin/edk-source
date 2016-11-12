@@ -102,8 +102,8 @@ bool edk::codecs::EncoderH264::encode(edk::uint8* frame,edk::uint8 channels){
         if(this->encoder){
             //clean the encoded
             this->writeEncoded(NULL,0);
-            int iLayerSize = 0;
-            int iNalIdx = 0;
+            edk::int32 iLayerSize = 0;
+            edk::int32 iNalIdx = 0;
             //draw the frame
             if(this->drawFrame(frame,channels)){
                 this->pic.iColorFormat = videoFormatI420;
@@ -133,11 +133,11 @@ bool edk::codecs::EncoderH264::encode(edk::uint8* frame,edk::uint8 channels){
                 if(!encoder->EncodeFrame(&this->pic,&this->sFbi)){
                     SLayerBSInfo* pLayerBsInfo = NULL;
                     //test if can copy the encoded
-                    if((int)this->getSpaceEncodedSize() < this->sFbi.iFrameSizeInBytes){
+                    if((edk::int32)this->getSpaceEncodedSize() < this->sFbi.iFrameSizeInBytes){
                         //alloc the frame encoded
                         this->newSpaceEncoded(this->sFbi.iFrameSizeInBytes+1u);
                     }
-                    if((int)this->getSpaceEncodedSize() > this->sFbi.iFrameSizeInBytes){
+                    if((edk::int32)this->getSpaceEncodedSize() > this->sFbi.iFrameSizeInBytes){
                         for(edk::uint32 i=0u;i<(edk::uint32)this->sFbi.iLayerNum;i++){
                             //
                             pLayerBsInfo = &sFbi.sLayerInfo[i];

@@ -141,12 +141,12 @@ void Time::sleepProcessMiliseconds(uint32 Milliseconds){
     Sleep(Milliseconds);
 #elif defined(__linux__)//Linux
     //
-    long int seconds=0;
+    edk::int64 seconds=0;
     //converte os segundos apenas se os mesmos existirem
     if(Milliseconds>=1000){
         seconds = Milliseconds*0.001;
     }
-    long int nanoseconds = (Milliseconds%1000)*1000000u;
+    edk::int64 nanoseconds = (Milliseconds%1000)*1000000u;
     //usleep(Milliseconds*1000);
     struct timespec temp = {seconds, nanoseconds};
     nanosleep(&temp, NULL);
@@ -163,7 +163,7 @@ void Time::sleepProcessMicroseconds(uint32 Microseconds){
     edk::int32 seconds=0;
     //converte os segundos apenas se os mesmos existirem
     if(Microseconds>=1000000){
-        seconds = (float)Microseconds/edk::watch::second;
+        seconds = (edk::float32)Microseconds/edk::watch::second;
     }
     edk::int32 nanoseconds = (Microseconds%edk::watch::second)*1000;
     struct timespec temp = {seconds, nanoseconds};

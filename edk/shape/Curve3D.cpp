@@ -42,7 +42,7 @@ edk::shape::Curve3D::~Curve3D()
 
 
 //return the point
-edk::vec3f32 edk::shape::Curve3D::getPoint(float percent){
+edk::vec3f32 edk::shape::Curve3D::getPoint(edk::float32 percent){
     //
     if(percent)
     return edk::vec3f32();

@@ -41,7 +41,7 @@ bool edk::codecs::DecoderJPEG::decode(edk::uint8* encoded,edk::uint32 size){
 					//copia os dados convertendo para YUV
 					//ret = RGBtoYUV(,this->width,this->height,this->frame);
 					unsigned char* temp = edk::codecs::CodecImage::getFrame();
-					unsigned int row_stride = edk::codecs::CodecImage::getFrameWidth() * cinfo.output_components;
+                    edk::uint32 row_stride = edk::codecs::CodecImage::getFrameWidth() * cinfo.output_components;
 					//printf("Error decoding the input file\n");
 					while (cinfo.output_scanline < cinfo.output_height){
 						//

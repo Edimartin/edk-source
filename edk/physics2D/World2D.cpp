@@ -687,7 +687,7 @@ edk::physics2D::World2D::~World2D(){
 
     //destroy treeContacts
     size = this->treeConcacts.getSize();
-    for(unsigned int i=0u;i<size;i++){
+    for(edk::uint32 i=0u;i<size;i++){
         edk::physics2D::Contact2D* temp = this->treeConcacts.getElementInPosition(i);
         if(temp){
             delete temp;
@@ -697,7 +697,7 @@ edk::physics2D::World2D::~World2D(){
 
     //destroy objectJoints
     size = this->treeJointObjects.size();
-    for(unsigned int i=0u;i<size;i++){
+    for(edk::uint32 i=0u;i<size;i++){
         //load the tree
         edk::physics2D::World2D::ObjectsJointsTree* treeTemp = this->treeJointObjects.getElementInPosition(i);
         if(treeTemp){
@@ -1127,7 +1127,7 @@ bool edk::physics2D::World2D::removeObjectJoints(edk::physics2D::PhysicObject2D*
             edk::physics2D::World2D::ObjectJointsTree* objectJointsBTemp=NULL;
             //objectTemp
             edk::physics2D::PhysicObject2D* objectTemp=NULL;
-            for(unsigned int i=0u;i<size;i++){
+            for(edk::uint32 i=0u;i<size;i++){
 
                 //load the tree of the joint
                 objectJointsATemp = objectsJointsATemp->getJointInPosition(i);
@@ -1144,7 +1144,7 @@ bool edk::physics2D::World2D::removeObjectJoints(edk::physics2D::PhysicObject2D*
                             if(objectJointsBTemp){
                                 //
                                 sizeJ = objectJointsBTemp->getSize();
-                                for(unsigned int j=0u;j<sizeJ;j++){
+                                for(edk::uint32 j=0u;j<sizeJ;j++){
                                     //load the joints
                                     joint = objectJointsBTemp->getJointInPosition(j);
                                     if(joint){
@@ -1177,7 +1177,7 @@ bool edk::physics2D::World2D::removeObjectJoints(edk::physics2D::PhysicObject2D*
 
                     //
                     sizeJ = objectJointsATemp->getSize();
-                    for(unsigned int j=0u;j<sizeJ;j++){
+                    for(edk::uint32 j=0u;j<sizeJ;j++){
                         //load the joints
                         joint = objectJointsATemp->getJointInPosition(j);
                         if(joint){
@@ -1325,7 +1325,7 @@ bool edk::physics2D::World2D::addObject(edk::physics2D::PhysicObject2D* object){
                         translate.y = object->physicMesh.selectedGetTranslate().y * object->size.height;
                         //translate.x = object->physicMesh.selectedGetTranslate().x * object->physicMesh.selectedGetScale().width;
                         //translate.y = object->physicMesh.selectedGetTranslate().y * object->physicMesh.selectedGetScale().height;
-                        for(unsigned int i=0u;i<b2_maxPolygonVertices;i++){
+                        for(edk::uint32 i=0u;i<b2_maxPolygonVertices;i++){
                             vertexs[i].x=0.f;
                             vertexs[i].y=0.f;
                         }

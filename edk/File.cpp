@@ -1384,7 +1384,7 @@ bool File::writeBin(edk::float32 f){
     return false;
 }
 
-bool File::writeBin(float* f){
+bool File::writeBin(edk::float32* f){
     //test if the file is opened and if the n is true and the size is >1u
     if(this->isOpened() && f){
         //
@@ -1847,7 +1847,7 @@ uint32* File::readBinUint32(uint64 size){
 
 edk::float32 File::readBinFloat(){
     //read the size
-    float* temp = (float*)this->readBin(sizeof(edk::float32));
+    edk::float32* temp = (edk::float32*)this->readBin(sizeof(edk::float32));
     //create the edk::char8
     edk::float32 n = 0u;
     if(temp){
@@ -1863,9 +1863,9 @@ edk::float32 File::readBinFloat(){
     return n;
 }
 
-float* File::readBinFloat(int64 size){
+edk::float32* File::readBinFloat(int64 size){
     //create the string
-    float* temp = (float*)this->readBin(sizeof(edk::float32)*size);
+    edk::float32* temp = (edk::float32*)this->readBin(sizeof(edk::float32)*size);
     if(temp){
         //return the string
         return temp;

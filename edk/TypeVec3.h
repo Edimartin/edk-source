@@ -613,7 +613,7 @@ namespace edk{
 			    ++this->z;
 			    return vec3i8(this->x,this->y,this->z);
 			}
-			vec3i8 operator++(int){
+            vec3i8 operator++(edk::int32){
 			    //
 			    this->x++;
 			    this->y++;
@@ -629,7 +629,7 @@ namespace edk{
 			    --this->z;
 			    return vec3i8(this->x,this->y,this->z);
 			}
-			vec3i8 operator--(int){
+            vec3i8 operator--(edk::int32){
 			    //
 			    this->x--;
 			    this->y--;
@@ -1331,7 +1331,7 @@ namespace edk{
 			    ++this->z;
 			    return vec3i16(this->x,this->y,this->z);
 			}
-			vec3i16 operator++(int){
+            vec3i16 operator++(edk::int32){
 			    //
 			    this->x++;
 			    this->y++;
@@ -1347,7 +1347,7 @@ namespace edk{
 			    --this->z;
 			    return vec3i16(this->x,this->y,this->z);
 			}
-			vec3i16 operator--(int){
+            vec3i16 operator--(edk::int32){
 			    //
 			    this->x--;
 			    this->y--;
@@ -2106,7 +2106,7 @@ namespace edk{
 			    ++this->z;
 			    return vec3i32(this->x,this->y,this->z);
 			}
-			vec3i32 operator++(int){
+            vec3i32 operator++(edk::int32){
 			    //
 			    this->x++;
 			    this->y++;
@@ -2122,7 +2122,7 @@ namespace edk{
 			    --this->z;
 			    return vec3i32(this->x,this->y,this->z);
 			}
-			vec3i32 operator--(int){
+            vec3i32 operator--(edk::int32){
 			    //
 			    this->x--;
 			    this->y--;
@@ -2938,7 +2938,7 @@ namespace edk{
 			    ++this->z;
 			    return vec3i64(this->x,this->y,this->z);
 			}
-			vec3i64 operator++(int){
+            vec3i64 operator++(edk::int32){
 			    //
 			    this->x++;
 			    this->y++;
@@ -2954,7 +2954,7 @@ namespace edk{
 			    --this->z;
 			    return vec3i64(this->x,this->y,this->z);
 			}
-			vec3i64 operator--(int){
+            vec3i64 operator--(edk::int32){
 			    //
 			    this->x--;
 			    this->y--;
@@ -3379,7 +3379,7 @@ namespace edk{
 			    ++this->z;
 			    return vec3ui8(this->x,this->y,this->z);
 			}
-			vec3ui8 operator++(int){
+            vec3ui8 operator++(edk::int32){
 			    //
 			    this->x++;
 			    this->y++;
@@ -3395,7 +3395,7 @@ namespace edk{
 			    --this->z;
 			    return vec3ui8(this->x,this->y,this->z);
 			}
-			vec3ui8 operator--(int){
+            vec3ui8 operator--(edk::int32){
 			    //
 			    this->x--;
 			    this->y--;
@@ -3849,7 +3849,7 @@ namespace edk{
 			    ++this->z;
 			    return vec3ui16(this->x,this->y,this->z);
 			}
-			vec3ui16 operator++(int){
+            vec3ui16 operator++(edk::int32){
 			    //
 			    this->x++;
 			    this->y++;
@@ -3865,7 +3865,7 @@ namespace edk{
 			    --this->z;
 			    return vec3ui16(this->x,this->y,this->z);
 			}
-			vec3ui16 operator--(int){
+            vec3ui16 operator--(edk::int32){
 			    //
 			    this->x--;
 			    this->y--;
@@ -4376,7 +4376,7 @@ namespace edk{
 			    ++this->z;
 			    return vec3ui32(this->x,this->y,this->z);
 			}
-			vec3ui32 operator++(int){
+            vec3ui32 operator++(edk::int32){
 			    //
 			    this->x++;
 			    this->y++;
@@ -4392,7 +4392,7 @@ namespace edk{
 			    --this->z;
 			    return vec3ui32(this->x,this->y,this->z);
 			}
-			vec3ui32 operator--(int){
+            vec3ui32 operator--(edk::int32){
 			    //
 			    this->x--;
 			    this->y--;
@@ -4960,7 +4960,7 @@ namespace edk{
 			    ++this->z;
 			    return vec3ui64(this->x,this->y,this->z);
 			}
-			vec3ui64 operator++(int){
+            vec3ui64 operator++(edk::int32){
 			    //
 			    this->x++;
 			    this->y++;
@@ -4976,7 +4976,7 @@ namespace edk{
 			    --this->z;
 			    return vec3ui64(this->x,this->y,this->z);
 			}
-			vec3ui64 operator--(int){
+            vec3ui64 operator--(edk::int32){
 			    //
 			    this->x--;
 			    this->y--;
@@ -5873,7 +5873,7 @@ namespace edk{
 			    ++this->z;
 			    return vec3f32(this->x,this->y,this->z);
 			}
-			vec3f32 operator++(int){
+            vec3f32 operator++(edk::int32){
 			    //
 			    this->x++;
 			    this->y++;
@@ -5889,7 +5889,7 @@ namespace edk{
 			    --this->z;
 			    return vec3f32(this->x,this->y,this->z);
 			}
-			vec3f32 operator--(int){
+            vec3f32 operator--(edk::int32){
 			    //
 			    this->x--;
 			    this->y--;
@@ -6828,7 +6828,7 @@ namespace edk{
 			    ++this->z;
 			    return vec3f64(this->x,this->y,this->z);
 			}
-			vec3f64 operator++(int){
+            vec3f64 operator++(edk::int32){
 			    //
 			    this->x++;
 			    this->y++;
@@ -6844,7 +6844,7 @@ namespace edk{
 			    --this->z;
 			    return vec3f64(this->x,this->y,this->z);
 			}
-			vec3f64 operator--(int){
+            vec3f64 operator--(edk::int32){
 			    //
 			    this->x--;
 			    this->y--;

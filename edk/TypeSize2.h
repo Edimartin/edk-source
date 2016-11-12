@@ -496,7 +496,7 @@ namespace edk{
 			    ++this->height;
 			    return size2i8(this->width,this->height);
 			}
-			size2i8 operator++(int){
+            size2i8 operator++(int32){
 			    //
 			    this->width++;
 			    this->height++;
@@ -510,7 +510,7 @@ namespace edk{
 			    --this->height;
 			    return size2i8(this->width,this->height);
 			}
-			size2i8 operator--(int){
+            size2i8 operator--(int32){
 			    //
 			    this->width--;
 			    this->height--;
@@ -1081,7 +1081,7 @@ namespace edk{
 			    ++this->height;
 			    return size2i16(this->width,this->height);
 			}
-			size2i16 operator++(int){
+            size2i16 operator++(int32){
 			    //
 			    this->width++;
 			    this->height++;
@@ -1095,7 +1095,7 @@ namespace edk{
 			    --this->height;
 			    return size2i16(this->width,this->height);
 			}
-			size2i16 operator--(int){
+            size2i16 operator--(int32){
 			    //
 			    this->width--;
 			    this->height--;
@@ -1716,7 +1716,7 @@ namespace edk{
 			    ++this->height;
 			    return size2i32(this->width,this->height);
 			}
-			size2i32 operator++(int){
+            size2i32 operator++(int32){
 			    //
 			    this->width++;
 			    this->height++;
@@ -1730,7 +1730,7 @@ namespace edk{
 			    --this->height;
 			    return size2i32(this->width,this->height);
 			}
-			size2i32 operator--(int){
+            size2i32 operator--(int32){
 			    //
 			    this->width--;
 			    this->height--;
@@ -2401,7 +2401,7 @@ namespace edk{
 			    ++this->height;
 			    return size2i64(this->width,this->height);
 			}
-			size2i64 operator++(int){
+            size2i64 operator++(int32){
 			    //
 			    this->width++;
 			    this->height++;
@@ -2415,7 +2415,7 @@ namespace edk{
 			    --this->height;
 			    return size2i64(this->width,this->height);
 			}
-			size2i64 operator--(int){
+            size2i64 operator--(int32){
 			    //
 			    this->width--;
 			    this->height--;
@@ -2748,7 +2748,7 @@ namespace edk{
 			    ++this->height;
 			    return size2ui8(this->width,this->height);
 			}
-			size2ui8 operator++(int){
+            size2ui8 operator++(int32){
 			    //
 			    this->width++;
 			    this->height++;
@@ -2762,7 +2762,7 @@ namespace edk{
 			    --this->height;
 			    return size2ui8(this->width,this->height);
 			}
-			size2ui8 operator--(int){
+            size2ui8 operator--(int32){
 			    //
 			    this->width--;
 			    this->height--;
@@ -3121,7 +3121,7 @@ namespace edk{
 			    ++this->height;
 			    return size2ui16(this->width,this->height);
 			}
-			size2ui16 operator++(int){
+            size2ui16 operator++(int32){
 			    //
 			    this->width++;
 			    this->height++;
@@ -3135,7 +3135,7 @@ namespace edk{
 			    --this->height;
 			    return size2ui16(this->width,this->height);
 			}
-			size2ui16 operator--(int){
+            size2ui16 operator--(int32){
 			    //
 			    this->width--;
 			    this->height--;
@@ -3544,7 +3544,7 @@ namespace edk{
 			    ++this->height;
 			    return size2ui32(this->width,this->height);
 			}
-			size2ui32 operator++(int){
+            size2ui32 operator++(int32){
 			    //
 			    this->width++;
 			    this->height++;
@@ -3558,7 +3558,7 @@ namespace edk{
 			    --this->height;
 			    return size2ui32(this->width,this->height);
 			}
-			size2ui32 operator--(int){
+            size2ui32 operator--(int32){
 			    //
 			    this->width--;
 			    this->height--;
@@ -4017,7 +4017,7 @@ namespace edk{
 			    ++this->height;
 			    return size2ui64(this->width,this->height);
 			}
-			size2ui64 operator++(int){
+            size2ui64 operator++(int32){
 			    //
 			    this->width++;
 			    this->height++;
@@ -4031,7 +4031,7 @@ namespace edk{
 			    --this->height;
 			    return size2ui64(this->width,this->height);
 			}
-			size2ui64 operator--(int){
+            size2ui64 operator--(int32){
 			    //
 			    this->width--;
 			    this->height--;
@@ -4759,7 +4759,7 @@ namespace edk{
 			    ++this->height;
 			    return size2f32(this->width,this->height);
 			}
-			size2f32 operator++(int){
+            size2f32 operator++(int32){
 			    //
 			    this->width++;
 			    this->height++;
@@ -4773,7 +4773,7 @@ namespace edk{
 			    --this->height;
 			    return size2f32(this->width,this->height);
 			}
-			size2f32 operator--(int){
+            size2f32 operator--(int32){
 			    //
 			    this->width--;
 			    this->height--;
@@ -5537,7 +5537,7 @@ namespace edk{
 			    ++this->height;
 			    return size2f64(this->width,this->height);
 			}
-			size2f64 operator++(int){
+            size2f64 operator++(int32){
 			    //
 			    this->width++;
 			    this->height++;
@@ -5551,7 +5551,7 @@ namespace edk{
 			    --this->height;
 			    return size2f64(this->width,this->height);
 			}
-			size2f64 operator--(int){
+            size2f64 operator--(int32){
 			    //
 			    this->width--;
 			    this->height--;

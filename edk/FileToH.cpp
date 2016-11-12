@@ -102,7 +102,7 @@ bool edk::FileToH::writeToFile(edk::char8* fileName,edk::uint32 lineSize){
                                 file.writeText((edk::uint8)fileVec[0]);
                                 edk::uint8 count = 1u;
                                 bool enter=false;
-                                for(unsigned int i=1u;i<size;i++){
+                                for(edk::uint32 i=1u;i<size;i++){
                                     file.writeText(",");
                                     file.writeText((edk::uint8)fileVec[i]);
                                     if(count>lineSize){
@@ -231,7 +231,7 @@ bool edk::FileToH::writeToEDKFile(edk::char8* fileName,edk::uint32 lineSize){
                                 file.writeText((edk::uint8)fileVec[0]);
                                 edk::uint8 count = 1u;
                                 bool enter=false;
-                                for(unsigned int i=1u;i<size;i++){
+                                for(edk::uint32 i=1u;i<size;i++){
                                     file.writeText(",");
                                     file.writeText((edk::uint8)fileVec[i]);
                                     if(count>lineSize){

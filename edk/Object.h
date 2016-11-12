@@ -69,7 +69,7 @@ class obj: public edk::Object<obj>{
     }
 
     //value
-    unsigned int value;
+    edk::uint32 value;
 };
 
 */

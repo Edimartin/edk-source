@@ -93,7 +93,7 @@ edk::int32 edk::network::udp::ClientUDP::receiveStream(edk::classID stream,edk::
         //recebe a mensagem
         struct sockaddr_in adress;
         edk::network::Socket::cleanAdress(&adress);
-        int ret = edk::network::Socket::receiveStreamFrom(this->getSocket(),&adress,stream,size);
+        edk::int32 ret = edk::network::Socket::receiveStreamFrom(this->getSocket(),&adress,stream,size);
         //carrega o IP
         host->setIP(edk::network::Adress::getIpNumber(adress.sin_addr.s_addr,0u),
                     edk::network::Adress::getIpNumber(adress.sin_addr.s_addr,1u),

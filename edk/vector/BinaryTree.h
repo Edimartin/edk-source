@@ -1093,7 +1093,7 @@ public:
     }
     //DELETE ALL THE NAMES
     void deleteAllNames(){
-        for(unsigned int i=0u;i<edk::vector::BinaryTree<edk::Name*>::size();i++){
+        for(edk::uint32 i=0u;i<edk::vector::BinaryTree<edk::Name*>::size();i++){
             edk::Name* temp = this->getElementInPosition(i);
             if(temp){
                 delete temp;

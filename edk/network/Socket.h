@@ -202,7 +202,7 @@ protected:
                                                 );
 private:
     //adress
-    int edkSocket;
+    edk::int32 edkSocket;
 };
 
 

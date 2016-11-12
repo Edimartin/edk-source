@@ -86,7 +86,7 @@ edk::network::Adress::Adress(const char* str,edk::uint16 port){
 edk::uint32 edk::network::Adress::getIpByInterfaceName(edk::char8* name){
     #ifdef __linux__
     if(name){
-        int fd;
+        edk::int32 fd;
         struct ifreq ifr;
 
         fd = socket(AF_INET, SOCK_DGRAM, 0);
@@ -418,10 +418,10 @@ bool edk::network::Socket::sendStreamTo(edk::int32 socket,
                                         edk::classID stream,
                                         edk::uint32 size
                                         ){
-    int ret = -1u;
+    edk::int32 ret = -1u;
     /*
-    (int __fd, __const void *__buf, size_t __n,
-            int __flags, __CONST_SOCKADDR_ARG __addr,
+    (edk::int32 __fd, __const void *__buf, size_t __n,
+            edk::int32 __flags, __CONST_SOCKADDR_ARG __addr,
             socklen_t __addr_len)
 */
     //envia a mensagem para o endereco
@@ -449,15 +449,15 @@ edk::int32 edk::network::Socket::receiveStreamFrom(edk::int32 socket,
                                                    edk::classID stream,
                                                    edk::uint32 size
                                                    ){
-    unsigned int sizeAdress = sizeof(struct sockaddr);
+    edk::uint32 sizeAdress = sizeof(struct sockaddr);
     /*
-    (int __fd, void *__restrict __buf, size_t __n,
-             int __flags, __SOCKADDR_ARG __addr,
+    (edk::int32 __fd, void *__restrict __buf, size_t __n,
+             edk::int32 __flags, __SOCKADDR_ARG __addr,
              socklen_t *__restrict __addr_len)
 */
 #if _WIN32 || _WIN64
-    int sizeAdressTemp = (int)sizeAdress;
-    int ret =
+    edk::int32 sizeAdressTemp = (edk::int32)sizeAdress;
+    edk::int32 ret =
             recvfrom(socket,
                      (char *)stream,
                      size,
@@ -466,7 +466,7 @@ edk::int32 edk::network::Socket::receiveStreamFrom(edk::int32 socket,
                      &sizeAdressTemp
                      );
 #else
-    int ret =
+    edk::int32 ret =
             //recv(this->mySocket, stream, size, MSG_EOR|MSG_NOSIGNAL)
             recvfrom(socket,
                      stream,
@@ -483,15 +483,15 @@ edk::int32 receiveStreamFromNonBlock(edk::int32 socket,
                                      edk::classID stream,
                                      edk::uint32 size
                                      ){
-    unsigned int sizeAdress = sizeof(struct sockaddr);
+    edk::uint32 sizeAdress = sizeof(struct sockaddr);
     /*
-    (int __fd, void *__restrict __buf, size_t __n,
-             int __flags, __SOCKADDR_ARG __addr,
+    (edk::int32 __fd, void *__restrict __buf, size_t __n,
+             edk::int32 __flags, __SOCKADDR_ARG __addr,
              socklen_t *__restrict __addr_len)
 */
 #if _WIN32 || _WIN64
-    int sizeAdressTemp = (int)sizeAdress;
-    int ret =
+    edk::int32 sizeAdressTemp = (edk::int32)sizeAdress;
+    edk::int32 ret =
             recvfrom(socket,
                      (char *)stream,
                      size,
@@ -500,7 +500,7 @@ edk::int32 receiveStreamFromNonBlock(edk::int32 socket,
                      &sizeAdressTemp
                      );
 #else
-    int ret =
+    edk::int32 ret =
             //recv(this->mySocket, stream, size, MSG_EOR|MSG_NOSIGNAL)
             recvfrom(socket,
                      stream,

@@ -37,7 +37,7 @@ void edk::tiles::TileSet2D::deleteTiles(){
     //test if have tiles
     if(this->tiles.size()){
         edk::tiles::Tile2D* temp = NULL;
-        for(unsigned int i=0u;i<this->tiles.size();i++){
+        for(edk::uint32 i=0u;i<this->tiles.size();i++){
             if(this->tiles.havePos(i)){
                 temp = this->tiles[i];
                 if(temp){
@@ -101,7 +101,7 @@ bool edk::tiles::TileSet2D::setSizeOfTiles(edk::size2f32 size){
         //save the size
         this->tileSize = size;
 
-        for(unsigned int i=0u;i<this->tiles.size();i++){
+        for(edk::uint32 i=0u;i<this->tiles.size();i++){
             if(this->tiles.havePos(i)){
                 edk::tiles::Tile2D* temp = this->tiles.get(i);
                 if(temp){
@@ -1022,6 +1022,8 @@ bool edk::tiles::TileSet2D::drawTile(edk::uint32 tile,edk::vec2f32 position,edk:
             edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
                 temp->setColor(color);
+                temp->setDiffuse(color);
+                temp->setEmission(color);
                 temp->setPosition(position.x * temp->getWidth(),position.y * temp->getHeight());
                 temp->draw(angle,size);
                 return true;

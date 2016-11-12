@@ -82,6 +82,38 @@ void edk::tiles::Tile2D::setColor(edk::color4f32 color){
 void edk::tiles::Tile2D::setColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
     return this->setColor(edk::color4f32(r,g,b,a));
 }
+//set the material color
+void edk::tiles::Tile2D::setAmbient(edk::color4f32 color){
+    this->mesh.material.setAmbient(color);
+}
+void edk::tiles::Tile2D::setAmbient(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
+    return this->setAmbient(edk::color4f32(r,g,b,a));
+}
+void edk::tiles::Tile2D::setDiffuse(edk::color4f32 color){
+    this->mesh.material.setDiffuse(color);
+}
+void edk::tiles::Tile2D::setDiffuse(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
+    return this->setDiffuse(edk::color4f32(r,g,b,a));
+}
+void edk::tiles::Tile2D::setSpecular(edk::color4f32 color){
+    this->mesh.material.setSpecular(color);
+}
+void edk::tiles::Tile2D::setSpecular(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
+    return this->setSpecular(edk::color4f32(r,g,b,a));
+}
+void edk::tiles::Tile2D::setEmission(edk::color4f32 color){
+    this->mesh.material.setEmission(color);
+}
+void edk::tiles::Tile2D::setEmission(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
+    return this->setEmission(edk::color4f32(r,g,b,a));
+}
+void edk::tiles::Tile2D::setShininess(edk::color4f32 color){
+    this->mesh.material.setShininess(color);
+}
+void edk::tiles::Tile2D::setShininess(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
+    return this->setShininess(edk::color4f32(r,g,b,a));
+}
+
 
 //set the rectangle of the tile
 void edk::tiles::Tile2D::setRect(edk::rectf32 rect){

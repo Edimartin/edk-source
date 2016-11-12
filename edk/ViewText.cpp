@@ -95,6 +95,52 @@ bool edk::ViewText::createString(const char* string){
     return this->createString((edk::char8*) string);
 }
 
+//load the font image
+bool edk::ViewText::loadFontImage(edk::char8* name,edk::uint32 filter,edk::color4f32 color){
+    return this->text.loadFontImage(name,filter,color);
+}
+bool edk::ViewText::loadFontImage(const char* name,edk::uint32 filter,edk::color4f32 color){
+    return this->text.loadFontImage(name,filter,color);
+}
+
+//set the color
+void edk::ViewText::setColor(edk::color4f32 color){
+    this->text.setColor(color);
+}
+void edk::ViewText::setColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
+    this->text.setColor(r,g,b,a);
+}
+void edk::ViewText::setAlpha(edk::float32 value){
+    this->text.setAlpha(value);
+}
+void edk::ViewText::setColor(edk::color4ui8 color){
+    this->text.setColor(color);
+}
+void edk::ViewText::setColor(edk::uint8 r,edk::uint8 g,edk::uint8 b,edk::uint8 a){
+    this->text.setColor(r,g,b,a);
+}
+void edk::ViewText::setAlpha(edk::uint8 value){
+    this->text.setAlpha(value);
+}
+
+//update the width
+void edk::ViewText::updateWidth(){
+    this->frame.size.width = (
+                (
+                (this->text.getMapSizeWidth() / this->text.getMapSizeHeight())
+                * this->frame.size.height
+                )
+              * this->text.getMapScaleWidth()
+                )
+            ;
+}
+void edk::ViewText::setScale(edk::size2f32 scale){
+    this->text.setScale(scale);
+}
+void edk::ViewText::setScale(edk::float32 width,edk::float32 height){
+    this->text.setScale(width,height);
+}
+
 //clean the string
 void edk::ViewText::cleanString(){
     this->text.createStringMap(" ");

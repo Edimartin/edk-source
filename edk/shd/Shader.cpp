@@ -67,8 +67,8 @@ bool edk::shd::Shader::checkCompilationStatus(edk::uint32 id) {
     edk::GU_GLSL::guGetShaderiv(id, GU_COMPILE_STATUS, &status);
     if (status == 0) {
         //status is error
-        int infologLength = 0;
-        int charsWritten  = 0;
+        edk::int32 infologLength = 0;
+        edk::int32 charsWritten  = 0;
         //load the information lenght
         edk::GU_GLSL::guGetShaderiv(id, GU_INFO_LOG_LENGTH, &infologLength);
         //if the information lenght is true

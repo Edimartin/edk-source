@@ -634,7 +634,7 @@ namespace edk{
 			    ++this->b;
                 return color3ui8(this->r,this->g,this->b);
 			}
-            color3ui8 operator++(int){
+            color3ui8 operator++(edk::int32){
 			    //
 			    this->r++;
 			    this->g++;
@@ -650,7 +650,7 @@ namespace edk{
 			    --this->b;
                 return color3ui8(this->r,this->g,this->b);
 			}
-            color3ui8 operator--(int){
+            color3ui8 operator--(edk::int32){
 			    //
 			    this->r--;
 			    this->g--;
@@ -1398,7 +1398,7 @@ namespace edk{
 			    ++this->a;
                 return color4ui8(this->r,this->g,this->b,this->a);
 			}
-            color4ui8 operator++(int){
+            color4ui8 operator++(int32){
 			    //
 			    this->r++;
 			    this->g++;
@@ -1416,7 +1416,7 @@ namespace edk{
 			    --this->a;
                 return color4ui8(this->r,this->g,this->b,this->a);
 			}
-            color4ui8 operator--(int){
+            color4ui8 operator--(int32){
 			    //
 			    this->r--;
 			    this->g--;
@@ -2421,7 +2421,7 @@ namespace edk{
 			    ++this->b;
 			    return color3f32(this->r,this->g,this->b);
 			}
-			color3f32 operator++(int){
+            color3f32 operator++(int32){
 			    //
 			    this->r++;
 			    this->g++;
@@ -2437,7 +2437,7 @@ namespace edk{
 			    --this->b;
 			    return color3f32(this->r,this->g,this->b);
 			}
-			color3f32 operator--(int){
+            color3f32 operator--(int32){
 			    //
 			    this->r--;
 			    this->g--;
@@ -3447,7 +3447,7 @@ namespace edk{
 			    ++this->b;
 			    return color3f64(this->r,this->g,this->b);
 			}
-			color3f64 operator++(int){
+            color3f64 operator++(int32){
 			    //
 			    this->r++;
 			    this->g++;
@@ -3463,7 +3463,7 @@ namespace edk{
 			    --this->b;
 			    return color3f64(this->r,this->g,this->b);
 			}
-			color3f64 operator--(int){
+            color3f64 operator--(int32){
 			    //
 			    this->r--;
 			    this->g--;
@@ -4734,7 +4734,7 @@ namespace edk{
 			    ++this->a;
 			    return color4f32(this->r,this->g,this->b,this->a);
 			}
-			color4f32 operator++(int){
+            color4f32 operator++(int32){
 			    //
 			    this->r++;
 			    this->g++;
@@ -4752,7 +4752,7 @@ namespace edk{
 			    --this->a;
 			    return color4f32(this->r,this->g,this->b,this->a);
 			}
-			color4f32 operator--(int){
+            color4f32 operator--(int32){
 			    //
 			    this->r--;
 			    this->g--;
@@ -6026,7 +6026,7 @@ namespace edk{
 			    ++this->a;
 			    return color4f64(this->r,this->g,this->b,this->a);
 			}
-			color4f64 operator++(int){
+            color4f64 operator++(int32){
 			    //
 			    this->r++;
 			    this->g++;
@@ -6044,7 +6044,7 @@ namespace edk{
 			    --this->a;
 			    return color4f64(this->r,this->g,this->b,this->a);
 			}
-			color4f64 operator--(int){
+            color4f64 operator--(int32){
 			    //
 			    this->r--;
 			    this->g--;

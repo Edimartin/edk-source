@@ -1128,10 +1128,10 @@ edk::size2f32 edk::fonts::FontMap::getMapScale(){
     return this->map.getScaleMap();
 }
 edk::float32 edk::fonts::FontMap::getMapScaleWidth(){
-    return this->map.getScaleMap().height;
+    return this->map.getScaleMap().width;
 }
 edk::float32 edk::fonts::FontMap::getMapScaleHeight(){
-    return this->map.getScaleMap().width;
+    return this->map.getScaleMap().height;
 }
 //return the last position
 edk::vec2ui32 edk::fonts::FontMap::getTheLastPosition(){
@@ -1158,6 +1158,7 @@ bool edk::fonts::FontMap::loadFontImage(const char* name,edk::uint32 filter,edk:
 bool edk::fonts::FontMap::loadFontImage(edk::char8* name,edk::uint32 filter,edk::color4f32 color){
     //remove the fontImage
     this->removeFontImage();
+    this->color = color;
     //test the name
     if(name){
         //load the fontImage
@@ -1408,6 +1409,26 @@ bool edk::fonts::FontMap::createStringMap(edk::char8* str){
     }
     this->cleanLines();
     return false;
+}
+
+//set the color
+void edk::fonts::FontMap::setColor(edk::color4f32 color){
+    this->color = color;
+}
+void edk::fonts::FontMap::setColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
+    this->setColor(edk::color4f32(r,g,b,a));
+}
+void edk::fonts::FontMap::setAlpha(edk::float32 value){
+    this->color.a = value;
+}
+void edk::fonts::FontMap::setColor(edk::color4ui8 color){
+    this->color = color;
+}
+void edk::fonts::FontMap::setColor(edk::uint8 r,edk::uint8 g,edk::uint8 b,edk::uint8 a){
+    this->setColor(edk::color4ui8(r,g,b,a));
+}
+void edk::fonts::FontMap::setAlpha(edk::uint8 value){
+    this->color.a = (edk::float32)value / 255.f;
 }
 
 //delete tileMap
@@ -1689,6 +1710,7 @@ bool edk::fonts::FontMap::updateAnimations(){
 
 //draw the text
 void edk::fonts::FontMap::draw(edk::color4f32 color){
+    this->color = color;
     //this->map.draw(color);
     this->draw(this->origin,this->last,color);
 }

@@ -77,9 +77,9 @@ public:
 
     static int64 strToInt64(const char *str);
 
-    static double strToFloat64(char8 *str);
+    static edk::float64 strToFloat64(char8 *str);
 
-    static double strToFloat64(const char *str);
+    static edk::float64 strToFloat64(const char *str);
 
     static bool strToVecInt8(edk::char8* str,edk::int8* vec,edk::uint32 size);
 

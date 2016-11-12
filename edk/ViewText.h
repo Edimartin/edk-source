@@ -43,6 +43,23 @@ public:
     bool createString(edk::char8* string);
     bool createString(const char* string);
 
+    //load the font image
+    bool loadFontImage(edk::char8* name,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
+    bool loadFontImage(const char* name,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
+
+    //set the color
+    void setColor(edk::color4f32 color);
+    void setColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
+    void setAlpha(edk::float32 value);
+    void setColor(edk::color4ui8 color);
+    void setColor(edk::uint8 r,edk::uint8 g,edk::uint8 b,edk::uint8 a);
+    void setAlpha(edk::uint8 value);
+
+    //update the width
+    void updateWidth();
+    void setScale(edk::size2f32 scale);
+    void setScale(edk::float32 width,edk::float32 height);
+
     //clean the string
     void cleanString();
 protected:

@@ -53,10 +53,13 @@ void load(edk::rectf32 outsideViewOrigin){
 void unload(){
     //
 }
-void View::update(edk::WindowEvents* events){
+void update(edk::WindowEvents* events){
     //
 }
-void View::eventMousePressed(edk::vec2f32 point,edk::uint32 button){
+void draw(edk::rectf32 outsideViewOrigin){
+    //
+}
+void eventMousePressed(edk::vec2f32 point,edk::uint32 button){
     //types
     //edk::mouse::left;
     //edk::mouse::right;
@@ -88,7 +91,7 @@ void View::eventMousePressed(edk::vec2f32 point,edk::uint32 button){
         //
     }
 }
-void View::eventMouseMoved(edk::vec2f32 point,edk::uint32 button){
+void eventMouseMoved(edk::vec2f32 point,edk::uint32 button){
     //types
     //edk::mouse::left;
     //edk::mouse::right;
@@ -124,7 +127,7 @@ void View::eventMouseMoved(edk::vec2f32 point,edk::uint32 button){
         //
     }
 }
-void View::eventMouseReleased(edk::vec2f32 point,edk::uint32 button){
+void eventMouseReleased(edk::vec2f32 point,edk::uint32 button){
     //types
     //edk::mouse::left;
     //edk::mouse::right;
@@ -157,11 +160,11 @@ void View::eventMouseReleased(edk::vec2f32 point,edk::uint32 button){
     }
 }
 //Mouse go Inside Outside
-void View::eventMouseEntryInsideView(edk::vec2f32 point){
+void eventMouseEntryInsideView(edk::vec2f32 point){
     //
     //printf("\nMouse entry in to view in position (%.2f %.2f )",point.x,point.y);
 }
-void View::eventMouseLeftView(edk::vec2f32 point){
+void eventMouseLeftView(edk::vec2f32 point){
     //
     //printf("\nMouse left the view in position (%.2f %.2f )",point.x,point.y);
 }

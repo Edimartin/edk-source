@@ -330,8 +330,8 @@ bool edk::shd::GLSL::checkCompilationStatus(edk::uint32 id){
     edk::GU_GLSL::guGetProgramiv(id, GU_LINK_STATUS, &status);
     if (status == 0) {
         //status is error
-        int infologLength = 0;
-        int charsWritten  = 0;
+        edk::int32 infologLength = 0;
+        edk::int32 charsWritten  = 0;
         //load the information lenght
         edk::GU_GLSL::guGetProgramiv(id, GU_INFO_LOG_LENGTH, &infologLength);
         //if the information lenght is true
@@ -493,7 +493,7 @@ bool edk::shd::GLSL::createProgram(edk::char8* name){
                 if(size){
                     //the attach the shaders
                     edk::shd::GLSL::shaderLink* temp=NULL;
-                    for(unsigned int i=0u;i<size;i++){
+                    for(edk::uint32 i=0u;i<size;i++){
                         //test if have the shader
                         if((temp = (edk::shd::GLSL::shaderLink*)this->tree.getElementInPosition(i))){
                             //test if have the id
@@ -531,7 +531,7 @@ void edk::shd::GLSL::deleteProgram(){
             //remove all the shaders from the program
             edk::uint32 size = this->tree.size();
             edk::shd::GLSL::shaderLink* temp=NULL;
-            for(unsigned int i=0u;i<size;i++){
+            for(edk::uint32 i=0u;i<size;i++){
                 if((temp = this->tree.getElementInPosition(i))){
                     //test if have the id
                     if(temp->id){
@@ -556,7 +556,7 @@ void edk::shd::GLSL::deleteShaders(){
     edk::uint32 position=0u;
     if(this->id){
         //delete all the shaders removing from the program
-        for(unsigned int i=0u;i<size;i++){
+        for(edk::uint32 i=0u;i<size;i++){
             if((temp = this->tree.getElementInPosition(i))){
                 //test if have the id
                 if(temp->id){
@@ -573,7 +573,7 @@ void edk::shd::GLSL::deleteShaders(){
     }
     else{
         //else just delete the shaders
-        for(unsigned int i=0u;i<size;i++){
+        for(edk::uint32 i=0u;i<size;i++){
             if((temp = this->tree.getElementInPosition(position))){
                 if(!this->tree.removeShader(temp)){
                     position++;

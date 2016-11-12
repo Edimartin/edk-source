@@ -31,7 +31,7 @@ edk::encrypt::MD5::~MD5()
 {
 }
 
-typedef unsigned int Md5uint32_t;
+typedef edk::uint32 Md5uint32_t;
 typedef unsigned char Md5uint8_t;
 // Constants are the integer part of the sines of integers (in radians) * 2^32.
 const Md5uint32_t k[64] = {

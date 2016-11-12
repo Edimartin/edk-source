@@ -42,7 +42,7 @@ class Curve2D{
         virtual ~Curve2D();
 
         //return the point
-        virtual edk::vec2f32 getPoint(float percent);
+        virtual edk::vec2f32 getPoint(edk::float32 percent);
 
         //the points of the curve
         edk::vec2f32 point1,point2,point3,point4;

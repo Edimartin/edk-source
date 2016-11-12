@@ -41,7 +41,7 @@ edk::network::Adress edk::network::tcp::ServerTCP::acceptTCPClient(bool nonBlock
 #if _WIN32 || _WIN64
             client = accept(this->getSocket()
                             ,(struct sockaddr *)(&clientAdress)
-                            ,(int*)&size
+                            ,(edk::int32*)&size
                             );
             //this->nonBloking=true;
 #else
@@ -56,7 +56,7 @@ edk::network::Adress edk::network::tcp::ServerTCP::acceptTCPClient(bool nonBlock
 #if _WIN32 || _WIN64
             client = accept(this->getSocket()
                             ,(struct sockaddr *)(&clientAdress)
-                            ,(int*)&size
+                            ,(edk::int32*)&size
                             );
             //this->nonBloking=false;
 #else

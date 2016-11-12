@@ -84,7 +84,7 @@ bool edk::SQL::openDataBase(edk::char8* name){
     edk::char8* nameExtension = this->addExtension(name,(edk::char8*)edkDataBase);
     if(nameExtension){
         if(edk::File::fileExist(nameExtension)){
-            int rc;
+            edk::int32 rc;
             rc = sqlite3_open((const char*) nameExtension, &this->db);
             if(!rc){
                 this->baseName = edk::String::strCopy(nameExtension);
@@ -102,7 +102,7 @@ bool edk::SQL::openDataBase(edk::char8* name){
     else{
         //test if have the file
         if(edk::File::fileExist(name)){
-            int rc;
+            edk::int32 rc;
             rc = sqlite3_open((const char*) name, &this->db);
             if(!rc){
                 this->baseName = edk::String::strCopy(name);
@@ -178,8 +178,8 @@ bool edk::SQL::deleteDataBase(edk::char8* name){
 }
 
 //execute a command
-static int sqlCallback(void *callback, int argc, char **argv, char **azColName){
-    int i;
+static edk::int32 sqlCallback(void *callback, edk::int32 argc, char **argv, char **azColName){
+    edk::int32 i;
     if(argc){
         edk::SQLGroup* temp = (edk::SQLGroup*)callback;
         edk::SQLNodes* group=NULL;
@@ -211,7 +211,7 @@ bool edk::SQL::execute(edk::char8* command,SQLGroup* callback){
     if(this->haveOpenedDataBase() && command){
         //execute the comand
         edk::char8* zErrMsg = NULL;
-        int rc = sqlite3_exec(this->db, (const char *)command, sqlCallback, callback, (char**)&zErrMsg);
+        edk::int32 rc = sqlite3_exec(this->db, (const char *)command, sqlCallback, callback, (char**)&zErrMsg);
         if( rc == SQLITE_OK ){
             return true;
         }else{

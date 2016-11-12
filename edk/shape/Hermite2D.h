@@ -43,8 +43,8 @@ class Hermite2D:public edk::shape::Curve2D{
         virtual ~Hermite2D();
 
         //Implement the Bezier Curve
-        edk::vec2f32 getPoint(float percent);
-        static edk::vec2f32 getPoint(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4,float percent,edk::float32 attenuation=1.f);
+        edk::vec2f32 getPoint(edk::float32 percent);
+        static edk::vec2f32 getPoint(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4,edk::float32 percent,edk::float32 attenuation=1.f);
 
         //add a atenuation
         edk::float32 attenuation;

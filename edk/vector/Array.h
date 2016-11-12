@@ -128,9 +128,9 @@ class Array{
             typeTemplate ret;
             /*
             printf("\nVector %u pos %u getSize(%u)"
-                   ,(unsigned int)this->vector
-                   ,(unsigned int)pos
-                   ,(unsigned int)this->getSize()
+                   ,(edk::uint32)this->vector
+                   ,(edk::uint32)pos
+                   ,(edk::uint32)this->getSize()
                    );
             */
             if(this->have(pos)){

@@ -106,9 +106,9 @@ void edk::animation::InterpolationGroup::deleteTempFrame(){
     this->tempFrame=NULL;
 }
 //search the beckInterpolation for the frame
-unsigned int edk::animation::InterpolationGroup::searchBackInterpoaltion(edk::float32 second){
+edk::uint32 edk::animation::InterpolationGroup::searchBackInterpoaltion(edk::float32 second){
     //test if the seond are bigger then the frames
-    for(unsigned int i=this->animations.size();i>0;i--){
+    for(edk::uint32 i=this->animations.size();i>0;i--){
         //test if have the frame
         if(this->animations[i-1u]){
             //then test if the second are bigger then last second
@@ -129,14 +129,14 @@ unsigned int edk::animation::InterpolationGroup::searchBackInterpoaltion(edk::fl
     return 0u;
 }
 //insert the frame after the position interpolation
-bool edk::animation::InterpolationGroup::insertLineFrameAfter(unsigned int position,edk::animation::Frame frame){
+bool edk::animation::InterpolationGroup::insertLineFrameAfter(edk::uint32 position,edk::animation::Frame frame){
     //test if the position is smallet then size
     if(position<this->animations.size()){
         //create a new interpolation 2D
         edk::animation::InterpolationLine* temp = this->newLineInterpolation();
         if(temp){
             //save the stack size
-            unsigned int size = this->animations.size();
+            edk::uint32 size = this->animations.size();
             //add the frame
             this->animations.pushBack(temp);
 
@@ -177,14 +177,14 @@ bool edk::animation::InterpolationGroup::insertLineFrameAfter(unsigned int posit
     //else return false
     return false;
 }
-bool edk::animation::InterpolationGroup::insertLineFrameInside(unsigned int position,edk::animation::Frame frame){
+bool edk::animation::InterpolationGroup::insertLineFrameInside(edk::uint32 position,edk::animation::Frame frame){
     //test if the position is smallet then size
     if(position<this->animations.size()){
         //create a new interpolation
         edk::animation::InterpolationLine* temp = this->newLineInterpolation();
         if(temp){
             //save the stack size
-            unsigned int size = this->animations.size();
+            edk::uint32 size = this->animations.size();
             //add the frame
             this->animations.pushBack(temp);
 
@@ -231,7 +231,7 @@ bool edk::animation::InterpolationGroup::insertLineFrameFirst(edk::animation::Fr
         edk::animation::InterpolationLine* temp = this->newLineInterpolation();
         if(temp){
             //save the stack size
-            unsigned int size = this->animations.size();
+            edk::uint32 size = this->animations.size();
             //add the frame
             this->animations.pushBack(temp);
 
@@ -290,7 +290,7 @@ bool edk::animation::InterpolationGroup::printSelectedFramesFrom(edk::uint32 sta
     //test if have frames
     if(this->animations.size()){
         //print the frames
-        for(unsigned int i=start;i<=end;i++){
+        for(edk::uint32 i=start;i<=end;i++){
             //
             if(this->animations[i]){
                 /*
@@ -397,7 +397,7 @@ void edk::animation::InterpolationGroup::cleanAnimations(){
     //remove the tempFrame
     //this->deleteTempFrame();
     //
-    for(unsigned int i=0u;i<this->animations.size();i++){
+    for(edk::uint32 i=0u;i<this->animations.size();i++){
         //delete if this exist
         if(animations[i]){
             //
@@ -471,7 +471,7 @@ bool edk::animation::InterpolationGroup::addNewInterpolationLine(edk::animation:
         //remove the interpolationTemp
         this->deleteTempFrame();
         //then search for the back interpolation
-        unsigned int search = this->searchBackInterpoaltion(frame.second);
+        edk::uint32 search = this->searchBackInterpoaltion(frame.second);
         if(search>0u){
             //intert the the interpolation before the search-1 interpolation
             ret=insertLineFrameAfter(search-1u,frame);

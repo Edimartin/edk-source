@@ -67,7 +67,7 @@ bool edk::codecs::EncoderJPEG::encode(edk::uint8* frame,edk::size2ui32 size,edk:
             //seta o destino
             jpeg_mem_dest(&cinfo,
                           edk::codecs::CodecImage::getEncodedPosition(),
-                          (long unsigned int*)edk::codecs::CodecImage::getEncodedSizePosition()
+                          (edk::uint64*)edk::codecs::CodecImage::getEncodedSizePosition()
                           );
 
             //inicia a compressao
@@ -75,7 +75,7 @@ bool edk::codecs::EncoderJPEG::encode(edk::uint8* frame,edk::size2ui32 size,edk:
             //carrega o ponteiro do frame
             unsigned char* temp = frame;
             if (temp){
-                unsigned int row_stride = size.width * channels;
+                edk::uint32 row_stride = size.width * channels;
                 while (cinfo.next_scanline < cinfo.image_height) {
                     jpeg_write_scanlines(&cinfo, &temp, 1);
                     //incrementa o temp

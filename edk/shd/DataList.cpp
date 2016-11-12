@@ -108,7 +108,7 @@ bool edk::shd::DataList::newData(edk::char8* name){
 //clean the datas
 void edk::shd::DataList::cleanDatas(){
     //delete the datas
-    for(unsigned int i=0u;i<this->tree.size();i++){
+    for(edk::uint32 i=0u;i<this->tree.size();i++){
         //return the element
         edk::shd::Data* temp= (edk::shd::Data*)this->tree.getElementInPosition(i);
         if(temp){
@@ -584,7 +584,7 @@ bool edk::shd::DataList::updateAllDatas(){
     if(this->tree.size()){
         //update all
         /*
-        for(unsigned int i=0u;i<this->tree.size();i++){
+        for(edk::uint32 i=0u;i<this->tree.size();i++){
             //select the data
             this->selected = (edk::shd::Data*)this->tree.getElementInPosition(i);
             if(this->selected){

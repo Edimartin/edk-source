@@ -351,10 +351,10 @@ private:
     //delete tempFrame
     void deleteTempFrame();
     //search the backInterpolation for the frame
-    unsigned int searchBackInterpoaltion(edk::float32 second);
+    edk::uint32 searchBackInterpoaltion(edk::float32 second);
     //insert the frame after the position interpolation
-    bool insertLineFrameAfter(unsigned int position,edk::animation::Frame frame);
-    bool insertLineFrameInside(unsigned int position,edk::animation::Frame frame);
+    bool insertLineFrameAfter(edk::uint32 position,edk::animation::Frame frame);
+    bool insertLineFrameInside(edk::uint32 position,edk::animation::Frame frame);
     bool insertLineFrameFirst(edk::animation::Frame frame);
     //select the interpolation by the second
     bool selectInterpolationBySecond(edk::float32 second);

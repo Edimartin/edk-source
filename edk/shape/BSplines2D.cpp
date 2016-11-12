@@ -42,11 +42,11 @@ edk::shape::BSplines2D::~BSplines2D()
 
 
 //Implement the Bezier Curve
-edk::vec2f32 edk::shape::BSplines2D::getPoint(float percent){
+edk::vec2f32 edk::shape::BSplines2D::getPoint(edk::float32 percent){
     //return the ret
     return edk::shape::BSplines2D::getPoint(this->point1,this->point2,this->point3,this->point4,percent);
 }
-edk::vec2f32 edk::shape::BSplines2D::getPoint(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4,float percent){
+edk::vec2f32 edk::shape::BSplines2D::getPoint(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4,edk::float32 percent){
 
     //create a return point
     edk::vec2f32 ret;
@@ -54,8 +54,8 @@ edk::vec2f32 edk::shape::BSplines2D::getPoint(edk::vec2f32 p1,edk::vec2f32 p2,ed
     #define div 0.1666
 
     //percent pow's
-    float percent2 = percent * percent;
-    float percent3 = percent * percent * percent;
+    edk::float32 percent2 = percent * percent;
+    edk::float32 percent3 = percent * percent * percent;
 
     //get X
     ret.x = (((-1*percent3 +3*percent2 -3*percent+1) *p1.x +

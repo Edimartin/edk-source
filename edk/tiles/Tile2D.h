@@ -43,6 +43,17 @@ public:
     //set the color of the tile
     void setColor(edk::color4f32 color);
     void setColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
+    //set the material color
+    void setAmbient(edk::color4f32 color);
+    void setAmbient(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
+    void setDiffuse(edk::color4f32 color);
+    void setDiffuse(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
+    void setSpecular(edk::color4f32 color);
+    void setSpecular(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
+    void setEmission(edk::color4f32 color);
+    void setEmission(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
+    void setShininess(edk::color4f32 color);
+    void setShininess(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
 
     //set the rectangle of the tile
     void setRect(edk::rectf32 rect);

@@ -100,7 +100,7 @@ edk::float32 edkModuleFloat32(edk::float32 value){
     }
     return value;
 }
-double edkModuleFloat64(edk::float64 value){
+edk::float64 edkModuleFloat64(edk::float64 value){
     //
     if(value<0.0L){
         //
@@ -400,13 +400,13 @@ int64 String::strToInt64(const char *str){
     return edk::String::strToInt64((edk::char8*)str);
 }
 
-double String::strToFloat64(char8 *str){
+edk::float64 String::strToFloat64(char8 *str){
     if(str)
         return strtod ((const char*)str,NULL);
     return 0.0;
 }
 
-double String::strToFloat64(const char *str){
+edk::float64 String::strToFloat64(const char *str){
     return edk::String::strToFloat64((edk::char8*)str);
 }
 
@@ -1297,7 +1297,7 @@ char8* String::float32ToStr(edk::float32 value, int32 digits){
 char8* String::float64ToStr(edk::float64 value, int32 digits){
     //first divide the value in two. After the point and before the poinf
     edk::int32 before = (edk::int32)value;
-    double after= edkModuleFloat64(value-(edk::float64)before);
+    edk::float64 after= edkModuleFloat64(value-(edk::float64)before);
     //string to return
     edk::char8* ret = NULL;
     //transform the before into a string

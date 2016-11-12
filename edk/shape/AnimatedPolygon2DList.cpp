@@ -142,7 +142,7 @@ void edk::shape::AnimatedPolygon2DList::freeSelectedAnimation(){
 //Atualiza as animações da malha
 void edk::shape::AnimatedPolygon2DList::updateFramesAnimations(){
     //update all animations
-    for(unsigned int i=0u;i<this->polygons.size();i++){
+    for(edk::uint32 i=0u;i<this->polygons.size();i++){
         //
         if(this->polygons[i]){
             //carrega a animation
@@ -157,7 +157,7 @@ void edk::shape::AnimatedPolygon2DList::updateFramesAnimations(){
 
     bool success;
 
-    for(unsigned int i=0u;i<this->polygons.size();i++){
+    for(edk::uint32 i=0u;i<this->polygons.size();i++){
         //
         if(this->polygons[i]){
             //carrega a animation

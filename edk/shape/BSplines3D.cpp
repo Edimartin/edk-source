@@ -44,15 +44,15 @@ edk::shape::BSplines3D::~BSplines3D()
 
 
 //return the point
-edk::vec3f32 edk::shape::BSplines3D::getPoint(float percent){
+edk::vec3f32 edk::shape::BSplines3D::getPoint(edk::float32 percent){
     //create a vector to return
     edk::vec3f32 ret;
 
     #define div 0.166666
 
     //percent pow's
-    float percent2 = percent * percent;
-    float percent3 = percent * percent * percent;
+    edk::float32 percent2 = percent * percent;
+    edk::float32 percent3 = percent * percent * percent;
 
     //get X
     ret.x = (((-1*percent3 +3*percent2 -3*percent+1) *this->point1.x +
@@ -78,15 +78,15 @@ edk::vec3f32 edk::shape::BSplines3D::getPoint(float percent){
 
     return edk::shape::BSplines3D::getPoint(this->point1,this->point2,this->point3,this->point4,percent);
 }
-edk::vec3f32 edk::shape::BSplines3D::getPoint(edk::vec3f32 p1,edk::vec3f32 p2,edk::vec3f32 p3,edk::vec3f32 p4,float percent){
+edk::vec3f32 edk::shape::BSplines3D::getPoint(edk::vec3f32 p1,edk::vec3f32 p2,edk::vec3f32 p3,edk::vec3f32 p4,edk::float32 percent){
     //create a vector to return
     edk::vec3f32 ret;
 
     #define div 0.166666
 
     //percent pow's
-    float percent2 = percent * percent;
-    float percent3 = percent * percent * percent;
+    edk::float32 percent2 = percent * percent;
+    edk::float32 percent3 = percent * percent * percent;
 
     //get X
     ret.x = (((-1*percent3 +3*percent2 -3*percent+1) *p1.x +

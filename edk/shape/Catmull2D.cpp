@@ -43,17 +43,17 @@ edk::shape::Catmull2D::~Catmull2D()
 
 
 //Implement the Bezier Curve
-edk::vec2f32 edk::shape::Catmull2D::getPoint(float percent){
+edk::vec2f32 edk::shape::Catmull2D::getPoint(edk::float32 percent){
     //return the ret
     return edk::shape::Catmull2D::getPoint(this->point1,this->point2,this->point3,this->point4,percent);
 }
-edk::vec2f32 edk::shape::Catmull2D::getPoint(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4,float percent){
+edk::vec2f32 edk::shape::Catmull2D::getPoint(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4,edk::float32 percent){
     //create a return point
     edk::vec2f32 ret;
 
     //percent pow's
-    float percent2 = percent * percent;
-    float percent3 = percent * percent * percent;
+    edk::float32 percent2 = percent * percent;
+    edk::float32 percent3 = percent * percent * percent;
 
     //get X
     ret.x = 0.5 *((2 * p2.x) +

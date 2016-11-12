@@ -88,6 +88,14 @@ public:
     bool createStringMap(const char* str);
     bool createStringMap(edk::char8* str);
 
+    //set the color
+    void setColor(edk::color4f32 color);
+    void setColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
+    void setAlpha(edk::float32 value);
+    void setColor(edk::color4ui8 color);
+    void setColor(edk::uint8 r,edk::uint8 g,edk::uint8 b,edk::uint8 a);
+    void setAlpha(edk::uint8 value);
+
     //delete tileMap
     void deleteMap();
     //return true if have a text
@@ -169,8 +177,8 @@ private:
     //force animation speed
     bool forceSpeedOrigin;
     bool forceSpeedLast;
-    float forceSpeedOriginValue;
-    float forceSpeedLastValue;
+    edk::float32 forceSpeedOriginValue;
+    edk::float32 forceSpeedLastValue;
 
     //interpolation to select what characters to draw
     edk::animation::Interpolation1DGroup animOrigin;
