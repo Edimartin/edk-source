@@ -19,7 +19,7 @@ Gravatai RS Brazil 94065100
 */
 
 Obrigado por fazer o download do Extensible Development Kit.
-Para usar o edk você precisa adicionar o código no projeto na sua IDE junto com as outras bibliotecas: Box2D, jpeglib, pugixml e sqlite.
+Para usar o edk você precisa adicionar o código do projeto na sua IDE junto com as outras bibliotecas: Box2D, jpeglib, pugixml e sqlite.
 Para compilar o código, você vai precisar das bibliotecas externas encontradas no arquivo "edk/LIBS.h":
 
 -lsfml-system -lsfml-window -lsfml-graphics -lsfml-audio
