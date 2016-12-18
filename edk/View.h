@@ -279,7 +279,7 @@ class View {
  public:
     edk::rectf32 frame;
     edk::rectf32 animatedFrame;
-    color4f32 backgroundColor;
+    edk::color4f32 backgroundColor;
     //set if the view is hided
     bool hide;
     //set if mouse is inside the view

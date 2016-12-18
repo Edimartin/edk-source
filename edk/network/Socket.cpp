@@ -70,6 +70,12 @@ edk::network::Adress::Adress(edk::uchar8 n1,edk::uchar8 n2,edk::uchar8 n3,edk::u
     this->setIP(n1,n2,n3,n4);
     this->setPort(port);
 }
+edk::network::Adress::Adress(edk::uint32 ip,edk::uint16 port){
+    this->ip=0u;
+    this->port=0u;
+    this->setIP(ip);
+    this->setPort(port);
+}
 edk::network::Adress::Adress(edk::char8* str,edk::uint16 port){
     this->ip=0u;
     this->port=0u;
@@ -84,7 +90,7 @@ edk::network::Adress::Adress(const char* str,edk::uint16 port){
 }
 //return the IP by the interface name
 edk::uint32 edk::network::Adress::getIpByInterfaceName(edk::char8* name){
-    #ifdef __linux__
+#ifdef __linux__
     if(name){
         edk::int32 fd;
         struct ifreq ifr;
@@ -104,14 +110,14 @@ edk::uint32 edk::network::Adress::getIpByInterfaceName(edk::char8* name){
         edk::uint32 ip = ((struct sockaddr_in *)&ifr.ifr_addr)->sin_addr.s_addr;
 
         return edk::network::Adress::getIP(edk::network::Adress::getIpNumber(ip,0u),
-                edk::network::Adress::getIpNumber(ip,1u),
-                edk::network::Adress::getIpNumber(ip,2u),
-                edk::network::Adress::getIpNumber(ip,3u)
-                );
+                                           edk::network::Adress::getIpNumber(ip,1u),
+                                           edk::network::Adress::getIpNumber(ip,2u),
+                                           edk::network::Adress::getIpNumber(ip,3u)
+                                           );
 
         //return ((struct sockaddr_in *)&ifr.ifr_addr)->sin_addr.s_addr;
     }
-    #endif
+#endif
     return 0u;
 }
 edk::uint32 edk::network::Adress::getIpByInterfaceName(const char* name){
@@ -122,6 +128,14 @@ bool edk::network::Adress::setIP(edk::uchar8 n1,edk::uchar8 n2,edk::uchar8 n3,ed
     if(n1 || n2 || n3 || n4){
         //set the ip
         this->ip = edk::network::Adress::getIP(n1,n2,n3,n4);
+        return true;
+    }
+    return false;
+}
+bool edk::network::Adress::setIP(edk::uint32 ip){
+    if(ip){
+        //set the IP
+        this->ip = ip;
         return true;
     }
     return false;
@@ -319,7 +333,35 @@ bool edk::network::Socket::createSocket(socketType type){
         }
         break;
     }
+    return false;
+}
+//create a nonblock soket
+bool edk::network::Socket::createSocketNonBlock(socketType type){
+    //test the type
+    switch(type){
+    case EDK_SOCKET_TCP:
 
+#if _WIN32 || _WIN64
+        if ((this->edkSocket = socket(AF_INET, SOCK_STREAM, 0)) >= 0){
+            u_long iMode=1;
+            ioctlsocket(this->edkSocket,FIONBIO,&iMode);
+#else
+        if ((this->edkSocket = socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, 0)) >= 0){
+#endif
+            return true;
+        }
+    case EDK_SOCKET_UDP:
+#if _WIN32 || _WIN64
+        if ((this->edkSocket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) >= 0){
+            u_long iMode=1;
+            ioctlsocket(this->edkSocket,FIONBIO,&iMode);
+#else
+        if ((this->edkSocket = socket(AF_INET, SOCK_DGRAM | SOCK_NONBLOCK, IPPROTO_UDP)) >= 0){
+#endif
+            return true;
+        }
+        break;
+    }
     return false;
 }
 //return true if have the socket
@@ -328,7 +370,7 @@ bool edk::network::Socket::haveSocket(){
     return false;
 }
 //return the socket
-edk::uint32 edk::network::Socket::getSocket(){
+edk::int32 edk::network::Socket::getSocket(){
     return this->edkSocket;
 }
 
@@ -412,6 +454,24 @@ edk::uint32 edk::network::Socket::receiveStream(edk::int32 socket,
     }
     return 0;
 }
+edk::uint32 edk::network::Socket::receiveStreamNonBlock(edk::int32 socket,
+                                                        edk::classID stream,
+                                                        edk::uint32 size
+                                                        ){
+    //testa o stream
+    if(stream && size && socket){
+        edk::int32 ret =
+                //send the message
+        #if _WIN32 || _WIN64
+                recv(socket,(char*)stream,size, WSAEWOULDBLOCK);
+#else
+                recv(socket,stream,size, MSG_EOR|MSG_NOSIGNAL|MSG_DONTWAIT);
+#endif
+        //retorna true
+        return ret;
+    }
+    return 0;
+}
 
 bool edk::network::Socket::sendStreamTo(edk::int32 socket,
                                         sockaddr_in sendAdress,
@@ -478,11 +538,11 @@ edk::int32 edk::network::Socket::receiveStreamFrom(edk::int32 socket,
 #endif
     return ret;
 }
-edk::int32 receiveStreamFromNonBlock(edk::int32 socket,
-                                     sockaddr_in *adress,
-                                     edk::classID stream,
-                                     edk::uint32 size
-                                     ){
+edk::int32 edk::network::Socket::receiveStreamFromNonBlock(edk::int32 socket,
+                                                           sockaddr_in *adress,
+                                                           edk::classID stream,
+                                                           edk::uint32 size
+                                                           ){
     edk::uint32 sizeAdress = sizeof(struct sockaddr);
     /*
     (edk::int32 __fd, void *__restrict __buf, size_t __n,

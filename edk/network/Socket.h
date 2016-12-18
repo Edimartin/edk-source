@@ -64,11 +64,13 @@ class Adress{
 public:
     Adress();
     Adress(edk::uchar8 n1,edk::uchar8 n2,edk::uchar8 n3,edk::uchar8 n4,edk::uint16 port);
+    Adress(edk::uint32 ip,edk::uint16 port);
     Adress(edk::char8* str,edk::uint16 port);
     Adress(const char* str,edk::uint16 port);
     //Adress Functions
     //set the IP
     bool setIP(edk::uchar8 n1,edk::uchar8 n2,edk::uchar8 n3,edk::uchar8 n4);
+    bool setIP(edk::uint32 ip);
     bool setIP(edk::char8* str);
     bool setIP(const char* str);
     //set the port
@@ -160,10 +162,12 @@ public:
 protected:
     //create the socket
     bool createSocket(socketType type);
+    //create a nonblock soket
+    bool createSocketNonBlock(socketType type);
     //return true if have the socket
     bool haveSocket();
     //return the socket
-    edk::uint32 getSocket();
+    edk::int32 getSocket();
     //close the socket
     void closeSocket();
     //clean the adress
@@ -178,13 +182,17 @@ protected:
     struct sockaddr_in sockAdress;
     //Send stream to
     static edk::int32 sendStream(edk::int32 socket,
-                                edk::classID stream,
-                                edk::uint32 size
-                                );
+                                 edk::classID stream,
+                                 edk::uint32 size
+                                 );
     edk::uint32 receiveStream(edk::int32 socket,
                               edk::classID stream,
                               edk::uint32 size
                               );
+    edk::uint32 receiveStreamNonBlock(edk::int32 socket,
+                                      edk::classID stream,
+                                      edk::uint32 size
+                                      );
     static bool sendStreamTo(edk::int32  socket,
                              sockaddr_in sendAdress,
                              edk::classID stream,

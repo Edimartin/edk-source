@@ -23,6 +23,11 @@ Gravatai RS Brazil 94065100
 
 #pragma once
 #include "../ServerSocket.h"
+#if _WIN32 || _WIN64
+#include <Mswsock.h>
+#else
+#include <sys/poll.h>
+#endif
 
 namespace edk{
 namespace network{
@@ -34,11 +39,12 @@ public:
 
     //Inicia a ouvir a porta
     bool startListen(edk::uint16 port,edk::uint32 connections=0u);
+    bool startListenNonBlock(edk::uint16 port,edk::uint32 connections=0u);
     //test if have listened
     bool haveListened();
     //accept client
     edk::network::Adress acceptClient();
-    edk::network::Adress acceptNonBlockClient();
+    edk::network::Adress acceptClientNonBlock();
     //Send the message
     bool sendStream(edk::network::Adress host,edk::classID stream,edk::uint32 size);
     bool sendString(edk::network::Adress host,edk::char8* string);
@@ -46,6 +52,8 @@ public:
     //Receive the message
     edk::int32 receiveStream(edk::classID stream,edk::uint32 size,edk::network::Adress* host);
     edk::int32 receiveStream(edk::classID stream,edk::uint32 size,edk::network::Adress host);
+    edk::int32 receiveStreamNonBlock(edk::classID stream,edk::uint32 size,edk::network::Adress* host);
+    edk::int32 receiveStreamNonBlock(edk::classID stream,edk::uint32 size,edk::network::Adress host);
     //disconnect the server
     void disconnect();
     //disconnect the client

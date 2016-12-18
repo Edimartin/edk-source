@@ -2048,10 +2048,15 @@ void String::consoleClear(){
 
 //return the console size
 edk::size2ui32 String::consoleGetSize(){
+    edk::size2ui32 ret(0u,0u);
+#if _WIN32 || _WIN64
+#else
     struct winsize w;
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-
-    return edk::size2ui32(w.ws_row,w.ws_col);
+    ret.width = w.ws_row;
+    ret.height = w.ws_col;
+#endif
+    return ret;
 }
 
 char8* String::strCopy(char8 *str){

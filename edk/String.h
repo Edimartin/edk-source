@@ -32,7 +32,6 @@ Gravatai RS Brazil 94065100
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
-#include <sys/ioctl.h>
 
 #if defined(_WIN32) || defined(_WIN64)
 #include <conio.h>
@@ -52,6 +51,7 @@ int edkKbhit(void);
 #include <termios.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <sys/ioctl.h>
 
 //Getch no linux
 int edkGetch(void);

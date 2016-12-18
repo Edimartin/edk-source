@@ -28,6 +28,37 @@ edk::network::tcp::ServerTCP::~ServerTCP(){
     this->disconnect();
 }
 
+int haveClient(int socket){
+    if(socket>=0){
+        //set the wait timeout
+#if _WIN32 || _WIN64
+        edk::int32 rc = -1;
+#else
+        struct pollfd fds[200];
+        //clean
+        memset(fds,0,sizeof(fds));
+        //set the socket
+        fds[0u].fd = socket;
+        fds[0u].events = POLLIN;
+        edk::int32 rc = poll(fds,1,1/*Timeout*/);
+#endif
+        //test if have the client
+        if(rc>0){
+            //have the client.
+            return 1;
+        }
+        else if(rc==0){
+            //else dont have the client
+            return 0;
+        }
+        else{
+            //else the poll return error
+            return -2;
+        }
+    }
+    return -1;
+}
+
 //accept client
 edk::network::Adress edk::network::tcp::ServerTCP::acceptTCPClient(bool nonBlock){
     edk::network::Adress host;
@@ -38,36 +69,26 @@ edk::network::Adress edk::network::tcp::ServerTCP::acceptTCPClient(bool nonBlock
         edk::uint32 size = sizeof(struct sockaddr_in);
         edk::int32 client  = -1;
         if(nonBlock){
-#if _WIN32 || _WIN64
-            client = accept(this->getSocket()
-                            ,(struct sockaddr *)(&clientAdress)
-                            ,(edk::int32*)&size
-                            );
-            //this->nonBloking=true;
-#else
-            client = accept4(this->getSocket()
-                             ,(struct sockaddr *)(&clientAdress)
-                             ,(socklen_t*)&size
-                             ,O_NONBLOCK
-                             );
-#endif
+            //test if the socket have a client
+            if(haveClient(this->getSocket())<=0){
+                //
+                return host;
+            }
         }
-        else{
 #if _WIN32 || _WIN64
-            client = accept(this->getSocket()
-                            ,(struct sockaddr *)(&clientAdress)
-                            ,(edk::int32*)&size
-                            );
-            //this->nonBloking=false;
+        client = accept(this->getSocket()
+                        ,(struct sockaddr *)(&clientAdress)
+                        ,(edk::int32*)&size
+                        );
+        //this->nonBloking=false;
 #else
-            client = accept(this->getSocket()
-                            ,(struct sockaddr *)(&clientAdress)
-                            ,(socklen_t*)&size
-                            );
+        client = accept(this->getSocket()
+                        ,(struct sockaddr *)(&clientAdress)
+                        ,(socklen_t*)&size
+                        );
 #endif
-        }
         //test if accept the client
-        if(client){
+        if(client>0){
             //save the clientHost
             //load the adress
             host.setIP(edk::network::Adress::getIpNumber(clientAdress.sin_addr.s_addr,0u),
@@ -143,6 +164,45 @@ bool edk::network::tcp::ServerTCP::startListen(edk::uint16 port,edk::uint32 conn
     //senao retorna false
     return false;
 }
+bool edk::network::tcp::ServerTCP::startListenNonBlock(edk::uint16 port,edk::uint32 connections){
+    if(!this->haveSocket()){
+        this->createSocketNonBlock(EDK_SOCKET_TCP);
+        this->cleanAdress();
+    }
+    //testa se possui o socket
+    if(this->haveSocket()){
+        //testa se ja esta ouvindo
+        if(this->listened){
+            //retorna true
+            return true;
+        }
+        edk::int32 on = 1;
+
+
+#if _WIN32 || _WIN64
+        setsockopt (this->getSocket(), SOL_SOCKET, SO_REUSEADDR, (const char*)&on, sizeof (on));
+
+#else
+        setsockopt (this->getSocket(), SOL_SOCKET, SO_REUSEADDR, &on, sizeof (on));
+#endif
+
+        //setsockopt (this->getSocket(), SOL_SOCKET, SO_REUSEADDR, &on, sizeof (on));
+        //Seta a porta no myAdress
+        this->sockAdress.sin_port = htons(port);
+        //Inicia o bind
+        if (bind(this->getSocket(), (struct sockaddr *)&this->sockAdress, sizeof(struct sockaddr))== -1){
+            this->cleanAdress();
+            return false;
+        }
+        //senao testa ouvir pela primeira vez
+        if (listen(this->getSocket(), connections) >= 0){
+            return (this->listened = true);
+        }
+    }
+    this->closeSocket();
+    //senao retorna false
+    return false;
+}
 //test if have listened
 bool edk::network::tcp::ServerTCP::haveListened(){
     return this->listened;
@@ -151,7 +211,7 @@ bool edk::network::tcp::ServerTCP::haveListened(){
 edk::network::Adress edk::network::tcp::ServerTCP::acceptClient(){
     return this->acceptTCPClient(false);
 }
-edk::network::Adress edk::network::tcp::ServerTCP::acceptNonBlockClient(){
+edk::network::Adress edk::network::tcp::ServerTCP::acceptClientNonBlock(){
     return this->acceptTCPClient(true);
 }
 //Send the message
@@ -204,6 +264,29 @@ edk::int32 edk::network::tcp::ServerTCP::receiveStream(edk::classID stream,edk::
 }
 edk::int32 edk::network::tcp::ServerTCP::receiveStream(edk::classID stream,edk::uint32 size,edk::network::Adress host){
     return this->receiveStream(stream,size,&host);
+}
+edk::int32 edk::network::tcp::ServerTCP::receiveStreamNonBlock(edk::classID stream,edk::uint32 size,edk::network::Adress* host){
+    //test the host and stream
+    if(host && stream && size){
+        //search the adress
+        edk::network::tcp::ServerTCP::nodeAdressTCP* temp = (edk::network::tcp::ServerTCP::nodeAdressTCP*)this->tree.getAdress(*host);
+        if(temp){
+            if(temp->socket){
+                //send the stream
+                edk::int32 ret  =  edk::network::Socket::receiveStreamNonBlock(temp->socket,stream,size);
+                if(ret!=0){
+                    return ret;
+                }
+            }
+            else{
+                this->disconnectClient(*host);
+            }
+        }
+    }
+    return 0;
+}
+edk::int32 edk::network::tcp::ServerTCP::receiveStreamNonBlock(edk::classID stream,edk::uint32 size,edk::network::Adress host){
+    return this->receiveStreamNonBlock(stream,size,&host);
 }
 //disconnect the server
 void edk::network::tcp::ServerTCP::disconnect(){
