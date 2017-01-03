@@ -219,6 +219,8 @@ public:
     void playRewind();
     void playRewindIn(edk::float32 second);
     void pause();
+    void pauseOn();
+    void pauseOff();
     void stop();
     //set loop
     void setLoop(bool loop);
@@ -231,6 +233,8 @@ public:
     edk::uint32 getInterpolations();
     //get the second
     edk::float32 getAnimationSecond();
+    //return the missingTime
+    edk::float32 getAnimationMissingSecond();
     //return the interpolation seconds
     edk::float32 getInterpolationStartSecond(edk::float32 position);
     edk::float32 getInterpolationEndSecond(edk::float32 position);

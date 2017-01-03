@@ -97,6 +97,8 @@ public:
     void playRewind();
     void playRewindIn(edk::float32 second);
     void pause();
+    void pauseOn();
+    void pauseOff();
     void stop();
     //set loop
     void setLoop(bool loop);
@@ -130,6 +132,8 @@ public:
     void playRewindThis();
     void playRewindInThis(edk::float32 second);
     void pauseThis();
+    void pauseOnThis();
+    void pauseOffThis();
     void stopThis();
     //set loop
     void setLoopThis(bool loop);

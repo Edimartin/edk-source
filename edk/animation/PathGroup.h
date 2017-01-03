@@ -75,6 +75,8 @@ public:
     void playRewind();
     void playRewindIn(edk::uint32 position);
     void pause();
+    void pauseOn();
+    void pauseOff();
     void stop();
     //set loop
     void setLoop(bool loop);

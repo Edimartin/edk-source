@@ -260,6 +260,14 @@ bool edk::tiles::Tile2D::pause(){
     this->selectAnimation();
     return this->mesh.selectedAnimationPause();
 }
+bool edk::tiles::Tile2D::pauseOn(){
+    this->selectAnimation();
+    return this->mesh.selectedAnimationPause();
+}
+bool edk::tiles::Tile2D::pauseOff(){
+    this->selectAnimation();
+    return this->mesh.selectedAnimationPause();
+}
 bool edk::tiles::Tile2D::stop(){
     this->selectAnimation();
     return this->mesh.selectedAnimationStop();

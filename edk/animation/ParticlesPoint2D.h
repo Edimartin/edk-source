@@ -81,6 +81,8 @@ public:
     //player
     void play();
     void pause();
+    void pauseOn();
+    void pauseOff();
     void pauseParticles();
     void stop();
     //return true if is playing
@@ -145,6 +147,8 @@ private:
         bool isStoped();
         void play();
         void pause();
+        void pauseOn();
+        void pauseOff();
         //clean
         void clean();
         //set this

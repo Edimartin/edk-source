@@ -473,6 +473,22 @@ void edk::bones::Bone2D::pause(){
         temp->pause();
     }
 }
+void edk::bones::Bone2D::pauseOn(){
+    this->pauseOnThis();
+    //update the son's
+    for(edk::uint32 i=0u;i<this->nexts.size();i++){
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+        temp->pauseOn();
+    }
+}
+void edk::bones::Bone2D::pauseOff(){
+    this->pauseOffThis();
+    //update the son's
+    for(edk::uint32 i=0u;i<this->nexts.size();i++){
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+        temp->pauseOff();
+    }
+}
 void edk::bones::Bone2D::stop(){
     this->stopThis();
     //update the son's
@@ -679,6 +695,14 @@ void edk::bones::Bone2D::playRewindInThis(edk::float32 second){
 void edk::bones::Bone2D::pauseThis(){
     this->animationPosition.pause();
     this->animationAngle.pause();
+}
+void edk::bones::Bone2D::pauseOnThis(){
+    this->animationPosition.pauseOn();
+    this->animationAngle.pauseOn();
+}
+void edk::bones::Bone2D::pauseOffThis(){
+    this->animationPosition.pauseOff();
+    this->animationAngle.pauseOff();
 }
 void edk::bones::Bone2D::stopThis(){
     this->animationPosition.stop();

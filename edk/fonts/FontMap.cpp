@@ -1552,6 +1552,14 @@ void edk::fonts::FontMap::pause(){
     this->animLast.pause();
     this->animOrigin.pause();
 }
+void edk::fonts::FontMap::pauseOn(){
+    this->animLast.pauseOn();
+    this->animOrigin.pauseOn();
+}
+void edk::fonts::FontMap::pauseOff(){
+    this->animLast.pauseOff();
+    this->animOrigin.pauseOff();
+}
 void edk::fonts::FontMap::stop(){
     this->animOrigin.stop();
     this->animLast.stop();

@@ -293,6 +293,20 @@ void edk::animation::PathGroup::pause(){
     this->playing=!this->playing;
     this->clock.start();
 }
+void edk::animation::PathGroup::pauseOn(){
+    if(!this->playing){
+        this->lastDist=0.f;
+        this->playing=false;
+        this->clock.start();
+    }
+}
+void edk::animation::PathGroup::pauseOff(){
+    if(this->playing){
+        this->lastDist=0.f;
+        this->playing=true;
+        this->clock.start();
+    }
+}
 void edk::animation::PathGroup::stop(){
     this->lastDist=0.f;
     this->saveStep = 0.f;

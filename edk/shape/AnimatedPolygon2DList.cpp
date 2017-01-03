@@ -267,6 +267,26 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationPause(){
     //else return false
     return false;
 }
+bool edk::shape::AnimatedPolygon2DList::selectedAnimationPauseOn(){
+    //test if have a animationSelected
+    if(this->selectedAnimation){
+        //add new interpolationLine
+        this->selectedAnimation->pauseOn();
+        return true;
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::AnimatedPolygon2DList::selectedAnimationPauseOff(){
+    //test if have a animationSelected
+    if(this->selectedAnimation){
+        //add new interpolationLine
+        this->selectedAnimation->pauseOff();
+        return true;
+    }
+    //else return false
+    return false;
+}
 bool edk::shape::AnimatedPolygon2DList::selectedAnimationStop(){
     //test if have a animationSelected
     if(this->selectedAnimation){

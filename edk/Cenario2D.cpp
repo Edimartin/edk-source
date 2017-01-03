@@ -60,6 +60,19 @@ edk::Action* edk::Cenario2D::readXMLAction(edk::classID thisPointer,edk::uint32 
     }
     return new edk::ActionZero();
 }
+//transformBeggin
+void edk::Cenario2D::transformBeggin(){
+    edk::GU::guPushMatrix();
+    //set the translate
+    edk::GU::guTranslate2f32(this->position);
+    //add rotation
+    edk::GU::guRotateZf32(this->angle);
+    //add scale
+    edk::GU::guScale2f32(this->size);
+}
+void edk::Cenario2D::transformEnd(){
+    edk::GU::guPopMatrix();
+}
 
 //XML
 bool edk::Cenario2D::TreeObjDepth::writeToXML(edk::XML* xml,edk::uint32 id,bool isPhysics){
@@ -2221,7 +2234,8 @@ bool edk::Cenario2D::loadPhysicObjectsToWorld(edk::uint32 levelPosition){
     }
     return false;
 }
-void edk::Cenario2D::loadPhysicObjectsToWorld(){
+bool edk::Cenario2D::loadPhysicObjectsToWorld(){
+    bool ret = false;
     edk::uint32 size = this->levels.size();
     edk::Cenario2D::LevelObj* level=NULL;
     for(edk::uint32 i=0u;i<size;i++){
@@ -2235,12 +2249,14 @@ void edk::Cenario2D::loadPhysicObjectsToWorld(){
                     this->world.removeObject(temp);
                     this->world.addObject(temp);
                 }
+                ret = true;
             }
             else if(level->tileMap){
                 level->tileMap->loadPhysicsTiles();
             }
         }
     }
+    return false;
 }
 
 //delete the object
@@ -2641,31 +2657,37 @@ void edk::Cenario2D::draw(){
     //draw the levels
     edk::uint32 size = this->levels.size();
     edk::Cenario2D::LevelObj* level=NULL;
+    this->transformBeggin();
     for(edk::uint32 i=0u;i<size;i++){
         level=this->levels[i];
         if(level){
             level->draw();
         }
     }
+    this->transformEnd();
 }
 void edk::Cenario2D::drawInsideRect(edk::rectf32 rect){
     //draw the levels
     edk::uint32 size = this->levels.size();
     edk::Cenario2D::LevelObj* level=NULL;
+    this->transformBeggin();
     for(edk::uint32 i=0u;i<size;i++){
         level=this->levels[i];
         if(level){
             level->drawInsideRect(rect);
         }
     }
+    this->transformEnd();
 }
 bool edk::Cenario2D::drawLevel(edk::uint32 levelPosition){
     //draw the levelPosition
     if(levelPosition){
         levelPosition--;
         if(this->levels.havePos(levelPosition)){
+            this->transformBeggin();
             edk::Cenario2D::LevelObj* level=this->levels[levelPosition];
             level->draw();
+            this->transformEnd();
             return true;
         }
     }
@@ -2676,8 +2698,10 @@ bool edk::Cenario2D::drawLevelInsideRect(edk::uint32 levelPosition,edk::rectf32 
     if(levelPosition){
         levelPosition--;
         if(this->levels.havePos(levelPosition)){
+            this->transformBeggin();
             edk::Cenario2D::LevelObj* level=this->levels[levelPosition];
             level->drawInsideRect(rect);
+            this->transformEnd();
             return true;
         }
     }
@@ -2693,7 +2717,12 @@ bool edk::Cenario2D::drawLevels(edk::uint32 startPosition,edk::uint32 endPositio
         //test if have the positions
         if(!this->levels.havePos(startPosition)){
             //set the start and end to the last
-            startPosition = endPosition = this->levels.getSize()-1u;
+            if(this->levels.getSize()){
+                startPosition = endPosition = this->levels.getSize()-1u;
+            }
+            else{
+                startPosition = endPosition = 0u;
+            }
             ret=false;
         }
         else if(!this->levels.havePos(endPosition)){
@@ -2703,12 +2732,14 @@ bool edk::Cenario2D::drawLevels(edk::uint32 startPosition,edk::uint32 endPositio
         }
         edk::Cenario2D::LevelObj* level=NULL;
         //daw the rects
+        this->transformBeggin();
         for(edk::uint32 i=startPosition;i<=endPosition;i++){
             level=this->levels[i];
             if(level){
                 level->draw();
             }
         }
+        this->transformEnd();
         return ret;
     }
     return false;
@@ -2722,7 +2753,12 @@ bool edk::Cenario2D::drawLevelsInsideRect(edk::uint32 startPosition,edk::uint32 
         //test if have the positions
         if(!this->levels.havePos(startPosition)){
             //set the start and end to the last
-            startPosition = endPosition = this->levels.getSize()-1u;
+            if(this->levels.getSize()){
+                startPosition = endPosition = this->levels.getSize()-1u;
+            }
+            else{
+                startPosition = endPosition = 0u;
+            }
             ret=false;
         }
         else if(!this->levels.havePos(endPosition)){
@@ -2732,12 +2768,14 @@ bool edk::Cenario2D::drawLevelsInsideRect(edk::uint32 startPosition,edk::uint32 
         }
         edk::Cenario2D::LevelObj* level=NULL;
         //daw the rects
+        this->transformBeggin();
         for(edk::uint32 i=startPosition;i<=endPosition;i++){
             level=this->levels[i];
             if(level){
                 level->drawInsideRect(rect);
             }
         }
+        this->transformEnd();
         return ret;
     }
     return false;
@@ -2745,20 +2783,24 @@ bool edk::Cenario2D::drawLevelsInsideRect(edk::uint32 startPosition,edk::uint32 
 void edk::Cenario2D::drawSelection(){
     edk::uint32 size = this->levels.size();
     edk::Cenario2D::LevelObj* level=NULL;
+    this->transformBeggin();
     for(edk::uint32 i=0u;i<size;i++){
         level=this->levels[i];
         if(level){
             level->drawSelection(i+1u);
         }
     }
+    this->transformEnd();
 }
 bool edk::Cenario2D::drawSelectionLevel(edk::uint32 levelPosition){
     //draw the levelPosition
     if(levelPosition){
         levelPosition--;
         if(this->levels.havePos(levelPosition)){
+            this->transformBeggin();
             edk::Cenario2D::LevelObj* level=this->levels[levelPosition];
             level->drawSelection(levelPosition+1u);
+            this->transformEnd();
             return true;
         }
     }

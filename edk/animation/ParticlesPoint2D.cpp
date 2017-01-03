@@ -143,6 +143,14 @@ void edk::animation::ParticlesPoint2D::ParticleObject::pause(){
     this->life.pause();
     this->animFrame.pause();
 }
+void edk::animation::ParticlesPoint2D::ParticleObject::pauseOn(){
+    this->life.pauseOn();
+    this->animFrame.pauseOn();
+}
+void edk::animation::ParticlesPoint2D::ParticleObject::pauseOff(){
+    this->life.pauseOff();
+    this->animFrame.pauseOff();
+}
 //clean
 void edk::animation::ParticlesPoint2D::ParticleObject::clean(){
     this->life.cleanAnimations();
@@ -395,6 +403,16 @@ void edk::animation::ParticlesPoint2D::pause(){
     this->isPlayingBlower = !this->isPlayingBlower;
     if(this->isPlayingBlower){
         //this->isPlayingParticles=true;
+    }
+}
+void edk::animation::ParticlesPoint2D::pauseOn(){
+    if(!this->isPlayingBlower){
+        this->isPlayingBlower=true;
+    }
+}
+void edk::animation::ParticlesPoint2D::pauseOff(){
+    if(this->isPlayingBlower){
+        this->isPlayingBlower=false;
     }
 }
 

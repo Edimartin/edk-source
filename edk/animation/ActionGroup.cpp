@@ -163,6 +163,8 @@ void edk::animation::ActionGroup::playForwardIn(edk::float32 second){
 //void edk::animation::ActionGroup::playRewind(){this->anim.playRewind();}
 //void edk::animation::ActionGroup::playRewindIn(edk::float32 second){this->anim.playRewindIn(second);}
 void edk::animation::ActionGroup::pause(){this->anim.pause();}
+void edk::animation::ActionGroup::pauseOn(){this->anim.pauseOn();}
+void edk::animation::ActionGroup::pauseOff(){this->anim.pauseOff();}
 void edk::animation::ActionGroup::stop(){this->anim.stop();}
 //set loop
 void edk::animation::ActionGroup::setLoop(bool loop){this->anim.setLoop(loop);}

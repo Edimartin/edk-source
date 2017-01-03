@@ -253,6 +253,30 @@ bool edk::Audio::pause(){
     //else return false
     return false;
 }
+bool edk::Audio::pauseOn(){
+    if(this->sound){
+        //
+        //this->sound->Pause();//1.6
+        if(this->sound->Playing){
+            this->sound->pause();
+        }
+        return true;
+    }
+    //else return false
+    return false;
+}
+bool edk::Audio::pauseOff(){
+    if(this->sound){
+        //
+        //this->sound->Pause();//1.6
+        if(!this->sound->Playing){
+            this->sound->pause();
+        }
+        return true;
+    }
+    //else return false
+    return false;
+}
 
 //INCREMENT DECREMENT
 //increment the volume

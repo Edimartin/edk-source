@@ -7,9 +7,10 @@
 #include "tiles/TileMap2D.h"
 #include "vector/BinaryTree.h"
 #include "animation/ActionGroup.h"
+#include "Object2DValues.h"
 
 namespace edk{
-class Cenario2D : public edk::physics2D::ContactCallback2D , public edk::tiles::tileCallback{
+class Cenario2D : public edk::Object2DValues , public edk::physics2D::ContactCallback2D , public edk::tiles::tileCallback{
 public:
     Cenario2D();
     virtual ~Cenario2D();
@@ -115,7 +116,7 @@ public:
     //load the physicsObjects
     bool loadPhysicObjectToWorld(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj);
     bool loadPhysicObjectsToWorld(edk::uint32 levelPosition);
-    void loadPhysicObjectsToWorld();
+    bool loadPhysicObjectsToWorld();
     //delete the object
     bool deletePhysicObject(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj);
     void deleteAllPhysicObjects(edk::uint32 levelPosition);
@@ -240,6 +241,9 @@ private:
 
     //Function to read the actions
     static edk::Action* readXMLAction(edk::classID thisPointer,edk::uint32 actionCode);
+    //transformBeggin
+    void transformBeggin();
+    void transformEnd();
 
     //ACTIONS
     class ActionObjectZero:public edk::ActionZero{

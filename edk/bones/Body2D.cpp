@@ -1080,6 +1080,12 @@ void edk::bones::Body2D::playRewindIn(edk::float32 second){
 void edk::bones::Body2D::pause(){
     this->root.pause();
 }
+void edk::bones::Body2D::pauseOn(){
+    this->root.pauseOn();
+}
+void edk::bones::Body2D::pauseOff(){
+    this->root.pauseOff();
+}
 void edk::bones::Body2D::stop(){
     this->root.stop();
 }

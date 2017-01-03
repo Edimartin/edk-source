@@ -105,6 +105,8 @@ public:
     bool playRewind();
     bool playRewindIn(edk::float32 second);
     bool pause();
+    bool pauseOn();
+    bool pauseOff();
     bool stop();
     //set loop
     bool setLoop(bool loop);

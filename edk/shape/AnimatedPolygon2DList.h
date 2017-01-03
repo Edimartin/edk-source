@@ -69,6 +69,8 @@ public:
     bool selectedAnimationPlayRewind();
     bool selectedAnimationPlayRewindIn(edk::float32 second);
     bool selectedAnimationPause();
+    bool selectedAnimationPauseOn();
+    bool selectedAnimationPauseOff();
     bool selectedAnimationStop();
     //set loop
     bool selectedAnimationSetLoop(bool loop);

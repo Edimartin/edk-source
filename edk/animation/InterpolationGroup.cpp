@@ -1016,17 +1016,20 @@ void edk::animation::InterpolationGroup::playRewindIn(edk::float32 second){
     this->rewind=true;
 }
 void edk::animation::InterpolationGroup::pause(){
-    //set dont playing
-    this->playing=!this->playing;
-    //test if go playing
-    if(this->playing){
-        this->paused=false;
-        //start the clock
-        this->clock.start();
+    if(!this->playing){
+        this->playing=true;
     }
-    else{
-        this->paused=true;
-    }
+    this->paused = !this->paused;
+}
+void edk::animation::InterpolationGroup::pauseOn(){
+    //test if wasn't playing
+    this->clock.start();
+    this->paused=true;
+}
+void edk::animation::InterpolationGroup::pauseOff(){
+    //test if was playing
+    this->clock.start();
+    this->paused=false;
 }
 void edk::animation::InterpolationGroup::stop(){
     //start the clock
@@ -1067,10 +1070,21 @@ edk::float32 edk::animation::InterpolationGroup::getAnimationSecond(){
     //
     return this->animationSecond;
 }
+//return the missingTime
+edk::float32 edk::animation::InterpolationGroup::getAnimationMissingSecond(){
+    //
+    if(this->rewind){
+        return this->animationSecond - this->frameStart;
+    }
+    else{
+        return this->frameEnd - this->animationSecond;
+    }
+    return 0.f;
+}
 //return if are playing
 bool edk::animation::InterpolationGroup::isPlaying(){
     //
-    if(this->playing && this->animations.size()){
+    if(this->playing && !this->paused && this->animations.size()){
         //
         return true;
     }

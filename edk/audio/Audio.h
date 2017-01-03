@@ -102,6 +102,8 @@ class Audio{
         bool stop();
         //Pause
         bool pause();
+        bool pauseOn();
+        bool pauseOff();
 
         //INCREMENT DECREMENT
         //increment the volume
