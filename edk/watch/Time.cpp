@@ -180,7 +180,7 @@ edk::uint64 Time::getTimeSinceEpoch(){
 }
 
 void Time::clockLoadGMTime(){
-    return this->clockLoadGMTime((edk::uint64) time(NULL));
+    this->clockLoadGMTime((edk::uint64) time(NULL));
 }
 
 void Time::clockLoadGMTime(edk::uint64 timeSinceEpoch){
@@ -196,7 +196,7 @@ void Time::clockLoadGMTime(edk::uint64 timeSinceEpoch){
 }
 
 void Time::clockLoadLocalTime(){
-    return this->clockLoadLocalTime((edk::uint64) time(NULL));
+    this->clockLoadLocalTime((edk::uint64) time(NULL));
 }
 
 void Time::clockLoadLocalTime(edk::uint64 timeSinceEpoch){
@@ -248,7 +248,7 @@ uint8 Time::clockGetHour(){
 #endif
 }
 
-uint8 Time::clockGetDayOfMont(){
+uint8 Time::clockGetDayOfMonth(){
 #ifdef _MSC_VER
     return systemClock.tm_mday;
 #else

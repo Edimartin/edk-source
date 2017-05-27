@@ -141,7 +141,7 @@ class Time {
 
     uint8 clockGetHour();
 
-    uint8 clockGetDayOfMont();
+    uint8 clockGetDayOfMonth();
 
     uint8 clockGetDayOfWeek();
 
