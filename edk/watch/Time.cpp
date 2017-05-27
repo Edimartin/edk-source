@@ -52,7 +52,7 @@ Time::Time(){
     //start the new clock
     this->start();
     //load the time
-    this->clockLoadTime();
+    this->clockLoadLocalTime();
 }
 
 
@@ -174,10 +174,34 @@ void Time::sleepProcessMicroseconds(uint32 Microseconds){
     return;
 }
 
+//get seconds since epoch
+edk::uint64 Time::getTimeSinceEpoch(){
+    return (edk::uint64) time(NULL);
+}
 
-void Time::clockLoadTime(){
-    time_t rawtime = time(NULL);
-    //load the clock based on the rawTime
+void Time::clockLoadGMTime(){
+    return this->clockLoadGMTime((edk::uint64) time(NULL));
+}
+
+void Time::clockLoadGMTime(edk::uint64 timeSinceEpoch){
+    time_t rawtime = (time_t)timeSinceEpoch;
+    //get localTime
+#ifdef _MSC_VER
+    //systemClock = gmtime_s ( &rawtime );
+    ///TODO:gmTime esta dando crash na aplicação
+    gmtime_s(&systemClock,&rawtime);
+#else
+    this->systemClock = gmtime ( &rawtime );
+#endif
+}
+
+void Time::clockLoadLocalTime(){
+    return this->clockLoadLocalTime((edk::uint64) time(NULL));
+}
+
+void Time::clockLoadLocalTime(edk::uint64 timeSinceEpoch){
+    time_t rawtime = (time_t)timeSinceEpoch;
+    //get localTime
 #ifdef _MSC_VER
     //systemClock = gmtime_s ( &rawtime );
     ///TODO:gmTime esta dando crash na aplicação
@@ -271,6 +295,43 @@ uint32 Time::clockGetYear(){
     if(systemClock)
         return systemClock->tm_year+1900u;
     return 0u;
+#endif
+}
+
+edk::int32 Time::clockGetGMTOff(){
+
+#ifdef _MSC_VER
+# ifdef	__USE_MISC
+        return systemClock.tm_gmtoff;
+# else
+        return systemClock.__tm_gmtoff;
+# endif
+#else
+    if(systemClock)
+# ifdef	__USE_MISC
+        return systemClock->tm_gmtoff;
+# else
+        return systemClock->__tm_gmtoff;
+# endif
+    return 0u;
+#endif
+}
+
+edk::char8* Time::clockGetTimezoneAbreviation(){
+#ifdef _MSC_VER
+# ifdef	__USE_MISC
+        return (edk::char8*)systemClock.tm_zone;
+# else
+        return (edk::char8*)systemClock.__tm_zone;
+# endif
+#else
+    if(systemClock)
+# ifdef	__USE_MISC
+        return (edk::char8*)systemClock->tm_zone;
+# else
+        return (edk::char8*)systemClock->__tm_zone;
+# endif
+    return NULL;
 #endif
 }
 

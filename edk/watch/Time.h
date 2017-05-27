@@ -122,7 +122,16 @@ class Time {
     static void sleepProcessMiliseconds(uint32 Milliseconds);
     static void sleepProcessMicroseconds(uint32 Microseconds);
 
-    void clockLoadTime();
+    //get seconds since epoch
+    edk::uint64 getTimeSinceEpoch();
+
+    void clockLoadGMTime();
+
+    void clockLoadGMTime(edk::uint64 timeSinceEpoch);
+
+    void clockLoadLocalTime();
+
+    void clockLoadLocalTime(edk::uint64 timeSinceEpoch);
 
     uint32 clockGetMillisecond();
 
@@ -142,6 +151,9 @@ class Time {
 
     uint32 clockGetYear();
 
+    edk::int32 clockGetGMTOff();
+
+    edk::char8* clockGetTimezoneAbreviation();
 
  private:
 

@@ -169,6 +169,12 @@ bool Image2D::loadFromFile(char8 *imageFileName)
                     ret = this->loadFromMemory(fileVector,file.getFileSize());
                 }
                 delete[] fileVector;
+                //test if neet delete the name
+                if(ret){
+                    if(!this->setName(imageFileName)){
+                        ret=false;
+                    }
+                }
             }
             return ret;
         }

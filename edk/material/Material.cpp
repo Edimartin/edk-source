@@ -93,6 +93,24 @@ bool edk::material::Material::loadTextureFromMemory(edk::char8* name,edk::uint8*
 bool edk::material::Material::loadTextureFromMemory(const char* name,edk::uint8* image,edk::uint32 size,edk::uint8 position,edk::uint32 filter){
     return loadTextureFromMemory((edk::char8*) name,image,size,position,filter);
 }
+//set the texture
+bool edk::material::Material::setTextureFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint8 position,edk::uint32 filter){
+    //test the position
+    if(position<materialTextureCount){
+        //remove the texture
+        this->removeTexture(position);
+        //then load the new texture
+        this->textures[position] = this->list.setTextureFromMemory(name,image,width,height,channels,filter);
+        if(this->textures[position]){
+            this->countTextures++;
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::material::Material::setTextureFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint8 position,edk::uint32 filter){
+    return this->setTextureFromMemory((edk::char8*) name,image,width,height,channels,position,filter);
+}
 
 //SETERS
 void edk::material::Material::setAmbient(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){

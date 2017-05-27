@@ -79,6 +79,9 @@ class Texture2DFile: public edk::Texture2D{
         bool loadFromFile(const char *fileName,edk::uint32 filter = GU_NEAREST);
         //LOAD from memory
         bool loadFromMemory(edk::uint8* image,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
+        //SERT from memory
+        bool setFromMemory(edk::char8 *fileName,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 filter = GU_NEAREST);
+        bool setFromMemory(const edk::char8 *fileName,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 filter = GU_NEAREST);
 
     protected:
     private:

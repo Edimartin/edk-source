@@ -160,3 +160,59 @@ bool edk::Texture2DFile::loadFromMemory(edk::uint8* image,edk::uint32 size,edk::
     }
     return ret;
 }
+//SERT from memory
+bool edk::Texture2DFile::setFromMemory(edk::char8 *fileName,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 filter){
+    //return
+    bool ret=false;
+    //delete the last texture
+    this->deleteTexture();
+    //test the image
+    if(image && width && height && channels){
+        //process the decode
+            //test the channels
+            switch(channels){
+            case 1u://GRAYSCALE
+                //load the texture
+                this->createTexture(width,
+                                    height,
+                                    GU_LUMINANCE,
+                                    (const edk::classID)image,
+                                    filter
+                                    );
+                break;
+            case 3u://RGB
+                //load the texture
+                this->createTexture(width,
+                                    height,
+                                    GU_RGB,
+                                    (const edk::classID)image,
+                                    filter
+                                    );
+                break;
+            case 4u://RGBA
+                //load the texture
+                this->createTexture(width,
+                                    height,
+                                    GU_RGBA,
+                                    (const edk::classID)image,
+                                    filter
+                                    );
+                break;
+            }
+
+            //test if create the texture
+            if(this->getID()){
+                //set the textureName
+                this->setName( "" );
+
+                //return true
+                ret = true;
+            }
+            //delete the image
+            this->image.deleteImage();
+    }
+    return ret;
+}
+bool edk::Texture2DFile::setFromMemory(const edk::char8 *fileName,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 filter){
+    return this->setFromMemory((edk::char8*) fileName,image,width,height,channels,filter);
+}

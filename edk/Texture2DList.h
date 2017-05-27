@@ -61,6 +61,9 @@ public:
     //load Texture from memory
     edk::uint32 loadTextureFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
     edk::uint32 loadTextureFromMemory(const char* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
+    //set Texture from memory
+    edk::uint32 setTextureFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 filter = GU_NEAREST);
+    edk::uint32 setTextureFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 filter = GU_NEAREST);
     //retain the texture
     bool retainTexture(edk::uint32 code);
     //remove texture
@@ -160,6 +163,24 @@ private:
             if(name){
                 if((this->file = new edk::Texture2DFile)){
                     if(this->file->loadFromMemory(image,size,filter)){
+                        //save the name
+                        if(this->setName(name)){
+                            //save the code
+                            this->code=this->file->getID();
+                            this->filter = filter;
+                            return true;
+                        }
+                    }
+                }
+            }
+            this->deleteTexture();
+            return false;
+        }
+        bool setFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 filter){
+            this->deleteTexture();
+            if(name){
+                if((this->file = new edk::Texture2DFile)){
+                    if(this->file->setFromMemory(name,image,width,height,channels,filter)){
                         //save the name
                         if(this->setName(name)){
                             //save the code
