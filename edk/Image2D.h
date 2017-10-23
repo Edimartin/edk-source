@@ -172,6 +172,16 @@ class Image2D {
     //HSL to RGB
     static edk::color3ui8 hslTorgb(edk::float32 h,edk::float32 s,edk::float32 l);
     static edk::color3ui8 hslTorgb(edk::color3f32 hsl);
+    //COLOR to RGBA
+    static edk::color4ui8 rgbTorgba(edk::uint8 r,edk::uint8 g,edk::uint8 b);
+    static edk::color4ui8 rgbTorgba(edk::color3ui8 rgb);
+    static edk::color4f32 rgbTorgba(edk::float32 r,edk::float32 g,edk::float32 b);
+    static edk::color4f32 rgbTorgba(edk::color3f32 rgb);
+    //vector
+    static bool rgbTorgba(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest);
+    static edk::uint8* rgbTorgba(edk::uint8* vector,edk::size2ui32 size);
+    static bool rgbTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest);
+    static edk::uint8* rgbTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height);
 
  private:
     //Save the image

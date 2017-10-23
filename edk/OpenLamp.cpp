@@ -85,6 +85,7 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                         up+=upChannels;down+=downChannels;left+=leftChannels;right+=rightChannels;front+=frontChannels;
                         normal+=3u;
                     }
+                    return true;
                 }
                 else if(left && leftChannels){
                     //up down left
@@ -103,6 +104,7 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                         up+=upChannels;down+=downChannels;left+=leftChannels;front+=frontChannels;
                         normal+=3u;
                     }
+                    return true;
                 }
                 else if(right && rightChannels){
                     //up down right
@@ -121,6 +123,7 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                         up+=upChannels;down+=downChannels;right+=rightChannels;front+=frontChannels;
                         normal+=3u;
                     }
+                    return true;
                 }
             }
             else if(up && upChannels){
@@ -144,6 +147,7 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                         up+=upChannels;left+=leftChannels;right+=rightChannels;front+=frontChannels;
                         normal+=3u;
                     }
+                    return true;
                 }
                 else if(left && leftChannels){
                     //up left
@@ -162,6 +166,7 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                         up+=upChannels;left+=leftChannels;front+=frontChannels;
                         normal+=3u;
                     }
+                    return true;
                 }
                 else if(right && rightChannels){
                     //up right
@@ -180,6 +185,7 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                         up+=upChannels;right+=rightChannels;front+=frontChannels;
                         normal+=3u;
                     }
+                    return true;
                 }
             }
             else if(down && downChannels){
@@ -203,6 +209,7 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                         down+=downChannels;left+=leftChannels;right+=rightChannels;front+=frontChannels;
                         normal+=3u;
                     }
+                    return true;
                 }
                 else if(left && leftChannels){
                     //down left
@@ -221,6 +228,7 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                         down+=downChannels;left+=leftChannels;front+=frontChannels;
                         normal+=3u;
                     }
+                    return true;
                 }
                 else if(right && rightChannels){
                     //down right
@@ -239,6 +247,7 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                         down+=downChannels;right+=rightChannels;front+=frontChannels;
                         normal+=3u;
                     }
+                    return true;
                 }
             }
         }
@@ -269,6 +278,7 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                         up+=upChannels;down+=downChannels;left+=leftChannels;right+=rightChannels;
                         normal+=3u;
                     }
+                    return true;
                 }
                 else if(left && leftChannels){
                     //up down left
@@ -286,6 +296,7 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                         up+=upChannels;down+=downChannels;left+=leftChannels;
                         normal+=3u;
                     }
+                    return true;
                 }
                 else if(right && rightChannels){
                     //up down right
@@ -303,6 +314,7 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                         up+=upChannels;down+=downChannels;right+=rightChannels;
                         normal+=3u;
                     }
+                    return true;
                 }
             }
             else if(up && upChannels){
@@ -325,6 +337,7 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                         up+=upChannels;left+=leftChannels;right+=rightChannels;
                         normal+=3u;
                     }
+                    return true;
                 }
                 else if(left && leftChannels){
                     //up left
@@ -342,6 +355,7 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                         up+=upChannels;left+=leftChannels;
                         normal+=3u;
                     }
+                    return true;
                 }
                 else if(right && rightChannels){
                     //up right
@@ -359,6 +373,7 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                         up+=upChannels;right+=rightChannels;
                         normal+=3u;
                     }
+                    return true;
                 }
             }
             else if(down && downChannels){
@@ -381,6 +396,7 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                         down+=downChannels;left+=leftChannels;right+=rightChannels;
                         normal+=3u;
                     }
+                    return true;
                 }
                 else if(left && leftChannels){
                     //down left
@@ -398,6 +414,7 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                         down+=downChannels;left+=leftChannels;
                         normal+=3u;
                     }
+                    return true;
                 }
                 else if(right && rightChannels){
                     //down right
@@ -415,6 +432,7 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                         down+=downChannels;right+=rightChannels;
                         normal+=3u;
                     }
+                    return true;
                 }
             }
         }

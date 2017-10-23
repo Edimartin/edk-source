@@ -192,6 +192,14 @@ bool Thread::start(classID (threadFunction)(classID), classID parameter){
         //LINUX
         pthread_attr_t attr;
         pthread_attr_init(&attr);
+
+        //set the parameters
+        //copy the function
+        this->threadFunc=threadFunction;
+        //copy the parameter
+        this->funcParameter=parameter;
+        //crate the thread
+
         pthread_create(&threadID,
                        &attr,
                        edkThreadFunc,
@@ -201,10 +209,6 @@ bool Thread::start(classID (threadFunction)(classID), classID parameter){
 #elif defined __APPLE__
         //APPLE
 #endif
-            //copy the function
-            this->threadFunc=threadFunction;
-            //copy the parameter
-            this->funcParameter=parameter;
             //then return true;
             return true;
         }
@@ -263,6 +267,13 @@ bool Thread::startIn(classID (threadFunction)(classID), classID parameter, edk::
         //set the core on the attribute
         pthread_attr_setaffinity_np(&attr, sizeof(cpu_set_t), &this->cpus);
 
+        //set the parameters
+        //copy the function
+        this->threadFunc=threadFunction;
+        //copy the parameter
+        this->funcParameter=parameter;
+        //crate the thread
+
         //set affinity
         pthread_create(&threadID,
                        &attr,
@@ -273,10 +284,6 @@ bool Thread::startIn(classID (threadFunction)(classID), classID parameter, edk::
 #elif defined __APPLE__
         //APPLE
 #endif
-            //copy the function
-            this->threadFunc=threadFunction;
-            //copy the parameter
-            this->funcParameter=parameter;
             //then return true;
             return true;
         }

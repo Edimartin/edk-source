@@ -674,5 +674,55 @@ edk::color3ui8 Image2D::hslTorgb(edk::float32 h,edk::float32 s,edk::float32 l){
 edk::color3ui8 Image2D::hslTorgb(edk::color3f32 hsl){
     return edk::codecs::CodecImage::hslTorgb(hsl.r,hsl.g,hsl.b);
 }
+//COLOR to RGBA
+edk::color4ui8 Image2D::rgbTorgba(edk::uint8 r,edk::uint8 g,edk::uint8 b){
+    return edk::color4ui8(r,g,b,(edk::uint8)255u);
+}
+edk::color4ui8 Image2D::rgbTorgba(edk::color3ui8 rgb){
+    return edk::Image2D::rgbTorgba(rgb.r,rgb.g,rgb.b);
+}
+edk::color4f32 Image2D::rgbTorgba(edk::float32 r,edk::float32 g,edk::float32 b){
+    return edk::color4f32(r,g,b,1.f);
+}
+edk::color4f32 Image2D::rgbTorgba(edk::color3f32 rgb){
+    return edk::Image2D::rgbTorgba(rgb.r,rgb.g,rgb.b);
+}
+//vector
+bool Image2D::rgbTorgba(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest){
+    if(vector && dest && size.width && size.height){
+        for(edk::uint32 y=0u;y<size.height;y++){
+            for(edk::uint32 x=0u;x<size.height;x++){
+                //copy the channels and add the fourth as 255u
+                dest[0u] = vector[0u];
+                dest[1u] = vector[1u];
+                dest[2u] = vector[2u];
+                dest[3u] = 255u;
+                //increment the vectors
+                vector+=3u;
+                dest+=4u;
+            }
+        }
+        return true;
+    }
+    return false;
+}
+edk::uint8* Image2D::rgbTorgba(edk::uint8* vector,edk::size2ui32 size){
+    if(size.width && size.height){
+        edk::uint8* ret = new edk::uint8[size.width*size.height*4u];
+        if(ret){
+            if (edk::Image2D::rgbTorgba(vector,size,ret)){
+                return ret;
+            }
+            delete[] ret;
+        }
+    }
+    return NULL;
+}
+bool Image2D::rgbTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest){
+    return edk::Image2D::rgbTorgba(vector,edk::size2ui32(width,height),dest);
+}
+edk::uint8* Image2D::rgbTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height){
+    return edk::Image2D::rgbTorgba(vector,edk::size2ui32(width,height));
+}
 
 } /* End of namespace edk */
