@@ -172,7 +172,7 @@ class Image2D {
     //HSL to RGB
     static edk::color3ui8 hslTorgb(edk::float32 h,edk::float32 s,edk::float32 l);
     static edk::color3ui8 hslTorgb(edk::color3f32 hsl);
-    //COLOR to RGBA
+    //RGB to RGBA
     static edk::color4ui8 rgbTorgba(edk::uint8 r,edk::uint8 g,edk::uint8 b);
     static edk::color4ui8 rgbTorgba(edk::color3ui8 rgb);
     static edk::color4f32 rgbTorgba(edk::float32 r,edk::float32 g,edk::float32 b);
@@ -182,6 +182,22 @@ class Image2D {
     static edk::uint8* rgbTorgba(edk::uint8* vector,edk::size2ui32 size);
     static bool rgbTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest);
     static edk::uint8* rgbTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height);
+    //LA to RGBA
+    static edk::color4ui8 laTorgba(edk::uint8 l,edk::uint8 a);
+    static edk::color4f32 laTorgba(edk::float32 l,edk::float32 a);
+    //vector
+    static bool laTorgba(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest);
+    static edk::uint8* laTorgba(edk::uint8* vector,edk::size2ui32 size);
+    static bool laTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest);
+    static edk::uint8* laTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height);
+    //L to RGBA
+    static edk::color4ui8 lTorgba(edk::uint8 l);
+    static edk::color4f32 lTorgba(edk::float32 l);
+    //vector
+    static bool lTorgba(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest);
+    static edk::uint8* lTorgba(edk::uint8* vector,edk::size2ui32 size);
+    static bool lTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest);
+    static edk::uint8* lTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height);
 
  private:
     //Save the image
@@ -203,6 +219,8 @@ class Image2D {
     void deleteFileName();
     //discover the imageType
     edk::uint8 getStreamType(edk::uint8* encoded);
+    //discover the nameType
+    edk::uint8 getNameType(edk::char8* name);
 };
 
 } /* End of namespace edk */

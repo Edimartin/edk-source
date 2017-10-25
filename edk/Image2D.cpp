@@ -118,6 +118,106 @@ edk::uint8 Image2D::getStreamType(edk::uint8* encoded){
     }
     return EDK_CODEC_NO;
 }
+//discover the nameType
+edk::uint8 Image2D::getNameType(edk::char8* name){
+    //test the fileName
+    if(name){
+        //get the fileSize
+        edk::uint32 size = edk::String::strSize(name);
+        if(size>sizeof(".xxxx")){
+            //go to the last character
+            edk::char8* str = &name[size-1u];
+            if(*str == 'g'){
+                str--;
+                if(*str == 'e'){
+                    //
+                    str--;
+                    if(*str == 'p'){
+                        //
+                        str--;
+                        if(*str == 'j'){
+                            //
+                            str--;
+                            if(*str == '.'){
+                                //it's a JPEG name
+                                return EDK_CODEC_JPEG;
+                            }
+                        }
+                    }
+                }
+                else if(*str == 'p'){
+                    //
+                    str--;
+                    if(*str == 'j'){
+                        //
+                        str--;
+                        if(*str == '.'){
+                            //it's a JPEG name
+                            return EDK_CODEC_JPEG;
+                        }
+                    }
+                }
+                else if(*str == 'n'){
+                    //test if it's png
+                    str--;
+                    if(*str == 'p'){
+                        //
+                        str--;
+                        if(*str == '.'){
+                            //it's a PNG name
+                            return EDK_CODEC_PNG;
+                        }
+                    }
+                }
+            }
+            else if(*str == 'G'){
+                str--;
+                if(*str == 'E'){
+                    //
+                    str--;
+                    if(*str == 'P'){
+                        //
+                        str--;
+                        if(*str == 'J'){
+                            //
+                            str--;
+                            if(*str == '.'){
+                                //it's a JPEG name
+                                return EDK_CODEC_JPEG;
+                            }
+                        }
+                    }
+                }
+                else if(*str == 'P'){
+                    //
+                    str--;
+                    if(*str == 'J'){
+                        //
+                        str--;
+
+                        if(*str == '.'){
+                            //it's a JPEG name
+                            return EDK_CODEC_JPEG;
+                        }
+                    }
+                }
+                else if(*str == 'N'){
+                    //test if it's png
+                    str--;
+                    if(*str == 'P'){
+                        //
+                        str--;
+                        if(*str == '.'){
+                            //it's a PNG name
+                            return EDK_CODEC_PNG;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return EDK_CODEC_NO;
+}
 
 
 //create a new Image
@@ -378,6 +478,10 @@ bool Image2D::saveToFile(edk::char8 *fileName){
     if(this->haveImage()){
         bool deleteTempName=false;
         bool ret=false;
+
+        //get the name type
+        edk::uint8 nameType = getNameType(fileName);
+
         //test the channels
         switch(this->getChannels()){
         case 1u:
@@ -386,42 +490,91 @@ bool Image2D::saveToFile(edk::char8 *fileName){
             if(!fileName){
                 fileName = edk::String::strCat(this->getName(),(edk::char8*)".jpg");
                 deleteTempName = true;
+                nameType = EDK_CODEC_JPEG;
             }
             if(fileName){
-                //save the encoder
-                edk::codecs::EncoderJPEG encoder;
-                ret = encoder.encodeToFile(this->vec,this->size.width,this->size.height,this->channels,100,fileName);
-                if(deleteTempName)
-                    delete[] fileName;
+                switch(nameType){
+                case EDK_CODEC_NO:
+                    //concatenate .jpg with the name
+                    fileName = edk::String::strCat(fileName,(edk::char8*)".jpg");
+                    deleteTempName = true;
+                case EDK_CODEC_JPEG:
+                {
+                    //save the encoder
+                    edk::codecs::EncoderJPEG encoder;
+                    ret = encoder.encodeToFile(this->vec,this->size.width,this->size.height,this->channels,100,fileName);
+                    if(deleteTempName)
+                        delete[] fileName;
+                    break;
+                }
+                case EDK_CODEC_PNG:
+                {
+                    //use sf::image
+                    sf::Image encoder;
+                    encoder.create(this->size.width,this->size.height,sf::Color::White);
+                    edk::uint8* temp = this->vec;
+                    //copy the pixels
+                    for(edk::uint32 y=0u;y<this->size.height;y++){
+                        for(edk::uint32 x=0u;x<this->size.width;x++){
+                            encoder.setPixel(x,y,sf::Color(temp[0u],
+                                             temp[1u],
+                                    temp[2u],
+                                    255u
+                                    )
+                                    );
+                            temp+=3u;
+                        }
+                    }
+                    //save the image
+                    ret = encoder.saveToFile(std::string((const char*)fileName));
+                    if(deleteTempName)
+                        delete[] fileName;
+                    break;
+                }
+                }
             }
             break;
         case 4u:
             //save jpeg
             if(!fileName){
-                fileName = edk::String::strCat(this->getName(),(edk::char8*)".jpg");
+                fileName = edk::String::strCat(this->getName(),(edk::char8*)".png");
                 deleteTempName = true;
+                nameType = EDK_CODEC_PNG;
             }
             if(fileName){
-                //use sf::image
-                sf::Image encoder;
-                encoder.create(this->size.width,this->size.height,sf::Color::White);
-                edk::uint8* temp = this->vec;
-                //copy the pixels
-                for(edk::uint32 y=0u;y<this->size.height;y++){
-                    for(edk::uint32 x=0u;x<this->size.width;x++){
-                        encoder.setPixel(x,y,sf::Color(temp[0u],
-                                         temp[1u],
-                                temp[2u],
-                                temp[3u]
-                                )
-                                );
-                        temp+=4u;
+                switch(nameType){
+                case EDK_CODEC_NO:
+                    //concatenate .jpg with the name
+                    fileName = edk::String::strCat(fileName,(edk::char8*)".png");
+                    deleteTempName = true;
+                case EDK_CODEC_JPEG:
+                    ret=false;
+                    break;
+                case EDK_CODEC_PNG:
+                {
+                    //use sf::image
+                    sf::Image encoder;
+                    encoder.create(this->size.width,this->size.height,sf::Color::White);
+                    edk::uint8* temp = this->vec;
+                    //copy the pixels
+                    for(edk::uint32 y=0u;y<this->size.height;y++){
+                        for(edk::uint32 x=0u;x<this->size.width;x++){
+                            encoder.setPixel(x,y,sf::Color(temp[0u],
+                                             temp[1u],
+                                    temp[2u],
+                                    temp[3u]
+                                    )
+                                    );
+                            temp+=4u;
+                        }
                     }
+                    //save the image
+                    ret = encoder.saveToFile(std::string((const char*)fileName));
+                    if(deleteTempName)
+                        delete[] fileName;
+                    break;
                 }
-                //save the image
-                ret = encoder.saveToFile(std::string((const char*)fileName));
-                if(deleteTempName)
-                    delete[] fileName;
+                }
             }
             break;
         }
@@ -674,7 +827,7 @@ edk::color3ui8 Image2D::hslTorgb(edk::float32 h,edk::float32 s,edk::float32 l){
 edk::color3ui8 Image2D::hslTorgb(edk::color3f32 hsl){
     return edk::codecs::CodecImage::hslTorgb(hsl.r,hsl.g,hsl.b);
 }
-//COLOR to RGBA
+//RGB to RGBA
 edk::color4ui8 Image2D::rgbTorgba(edk::uint8 r,edk::uint8 g,edk::uint8 b){
     return edk::color4ui8(r,g,b,(edk::uint8)255u);
 }
@@ -723,6 +876,93 @@ bool Image2D::rgbTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height,
 }
 edk::uint8* Image2D::rgbTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height){
     return edk::Image2D::rgbTorgba(vector,edk::size2ui32(width,height));
+}
+//LA to RGBA
+edk::color4ui8 Image2D::laTorgba(edk::uint8 l,edk::uint8 a){
+    return edk::color4ui8(l,l,l,a);
+}
+edk::color4f32 Image2D::laTorgba(edk::float32 l,edk::float32 a){
+    return edk::color4f32(l,l,l,a);
+}
+//vector
+bool Image2D::laTorgba(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest){
+    if(vector && dest && size.width && size.height){
+        for(edk::uint32 y=0u;y<size.height;y++){
+            for(edk::uint32 x=0u;x<size.height;x++){
+                //copy the channels
+                dest[0u] = vector[0u];
+                dest[1u] = vector[0u];
+                dest[2u] = vector[0u];
+                dest[3u] = vector[1u];
+                //increment the vectors
+                vector+=2u;
+                dest+=4u;
+            }
+        }
+        return true;
+    }
+    return false;
+}
+edk::uint8* Image2D::laTorgba(edk::uint8* vector,edk::size2ui32 size){
+    if(size.width && size.height){
+        edk::uint8* ret = new edk::uint8[size.width*size.height*4u];
+        if(ret){
+            if (edk::Image2D::laTorgba(vector,size,ret)){
+                return ret;
+            }
+            delete[] ret;
+        }
+    }
+    return NULL;
+}
+bool Image2D::laTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest){
+    return edk::Image2D::laTorgba(vector,edk::size2ui32(width,height),dest);
+}
+edk::uint8* Image2D::laTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height){
+    return edk::Image2D::laTorgba(vector,edk::size2ui32(width,height));
+}
+//L to RGBA
+edk::color4ui8 Image2D::lTorgba(edk::uint8 l){
+    return edk::color4ui8(l,l,l,(edk::uint8)255u);
+}
+edk::color4f32 Image2D::lTorgba(edk::float32 l){
+    return edk::color4f32(l,l,l,1.f);
+}
+bool Image2D::lTorgba(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest){
+    if(vector && dest && size.width && size.height){
+        for(edk::uint32 y=0u;y<size.height;y++){
+            for(edk::uint32 x=0u;x<size.height;x++){
+                //copy the channels
+                dest[0u] = vector[0u];
+                dest[1u] = vector[0u];
+                dest[2u] = vector[0u];
+                dest[3u] = 255u;
+                //increment the vectors
+                vector+=2u;
+                dest+=4u;
+            }
+        }
+        return true;
+    }
+    return false;
+}
+edk::uint8* Image2D::lTorgba(edk::uint8* vector,edk::size2ui32 size){
+    if(size.width && size.height){
+        edk::uint8* ret = new edk::uint8[size.width*size.height*4u];
+        if(ret){
+            if (edk::Image2D::lTorgba(vector,size,ret)){
+                return ret;
+            }
+            delete[] ret;
+        }
+    }
+    return NULL;
+}
+bool Image2D::lTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest){
+    return edk::Image2D::lTorgba(vector,edk::size2ui32(width,height),dest);
+}
+edk::uint8* Image2D::lTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height){
+    return edk::Image2D::lTorgba(vector,edk::size2ui32(width,height));
 }
 
 } /* End of namespace edk */

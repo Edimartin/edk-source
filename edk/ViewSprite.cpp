@@ -50,7 +50,10 @@ bool edk::ViewSprite::createSprite(edk::char8* name,edk::size2ui32 size, edk::ui
         //then load the texture
         this->spriteCode = this->list.createTexture(name,size,mode,filter);
         this->spriteFilter=filter;
-        if(this->spriteCode) return true;
+        if(this->spriteCode){
+            this->spriteSize = this->list.getTextureSize(this->spriteCode);
+            return true;
+        }
     }
 
     //else return false
@@ -115,6 +118,28 @@ bool edk::ViewSprite::loadSpriteFromMemory(edk::char8* name,edk::uint8* sprite,e
 
     //else return false
     return false;
+}
+//set sprite from memory
+bool edk::ViewSprite::setTextureFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 filter){
+    //delete the sprite
+    this->deleteSprite();
+    //test the name
+    if(name && sprite && width && height){
+        //then load the texture
+        this->spriteCode = this->list.setTextureFromMemory(name,sprite,width,height,channels,filter);
+        this->spriteFilter = filter;
+        if(this->spriteCode){
+            this->spriteSize = this->list.getTextureSize(this->spriteCode);
+            return true;
+        }
+    }
+    this->spriteFilter = 0u;
+
+    //else return false
+    return false;
+}
+bool edk::ViewSprite::setTextureFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 filter){
+    return setTextureFromMemory((edk::char8*) name,sprite,width,height,channels,filter);
 }
 
 //Delete the sprite

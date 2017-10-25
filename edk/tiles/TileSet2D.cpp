@@ -948,7 +948,7 @@ edk::physics2D::PhysicsMesh2D* edk::tiles::TileSet2D::getTilePhysicsMeshPointer(
         }
     }
     //else return false
-    return false;
+    return NULL;
 }
 //return the tileMesh
 edk::shape::Mesh2D* edk::tiles::TileSet2D::getTileMeshPointer(edk::uint32 tile){
@@ -963,7 +963,7 @@ edk::shape::Mesh2D* edk::tiles::TileSet2D::getTileMeshPointer(edk::uint32 tile){
         }
     }
     //else return false
-    return false;
+    return NULL;
 }
 
 //delete the objectPhysics
