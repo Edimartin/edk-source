@@ -310,6 +310,7 @@ bool Thread::changeCore(edk::uint32 core){
             DWORD_PTR mask = core;
             if(SetThreadAffinityMask(this->threadID, mask)){
                 return true;
+            }
 #elif defined WIN64
         //WINDOWS 64
         //test if create the thread
@@ -317,6 +318,7 @@ bool Thread::changeCore(edk::uint32 core){
             DWORD_PTR mask = core;
             if(SetThreadAffinityMask(this->threadID, mask)){
                 return true;
+            }
 #elif defined __linux__
         //test if have the thread
         if(this->threadID!=(pthread_t)0u){

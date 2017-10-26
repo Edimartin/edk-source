@@ -300,12 +300,8 @@ uint32 Time::clockGetYear(){
 
 edk::int32 Time::clockGetGMTOff(){
 
-#ifdef _MSC_VER
-# ifdef	__USE_MISC
-        return systemClock.tm_gmtoff;
-# else
-        return systemClock.__tm_gmtoff;
-# endif
+#if defined(__WIN32__) || defined(__WIN64__)
+        return 0u;
 #else
     if(systemClock)
 # ifdef	__USE_MISC
@@ -318,12 +314,8 @@ edk::int32 Time::clockGetGMTOff(){
 }
 
 edk::char8* Time::clockGetTimezoneAbreviation(){
-#ifdef _MSC_VER
-# ifdef	__USE_MISC
-        return (edk::char8*)systemClock.tm_zone;
-# else
-        return (edk::char8*)systemClock.__tm_zone;
-# endif
+#if defined(__WIN32__) || defined(__WIN64__)
+        return 0u;
 #else
     if(systemClock)
 # ifdef	__USE_MISC

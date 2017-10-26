@@ -64,11 +64,20 @@ bool edk::codecs::EncoderJPEG::encode(edk::uint8* frame,edk::size2ui32 size,edk:
             //seta a qualidade
             jpeg_set_quality(&cinfo, quality, TRUE);
 
-            //seta o destino
+#ifdef __x86_64
+			//seta o destino
             jpeg_mem_dest(&cinfo,
                           edk::codecs::CodecImage::getEncodedPosition(),
                           (edk::uint64*)edk::codecs::CodecImage::getEncodedSizePosition()
                           );
+#else
+			//seta o destino
+            jpeg_mem_dest(&cinfo,
+                          edk::codecs::CodecImage::getEncodedPosition(),
+                          (unsigned long int*)(edk::uint64*)edk::codecs::CodecImage::getEncodedSizePosition()
+                          );
+#endif
+            
 
             //inicia a compressao
             jpeg_start_compress(&cinfo, TRUE);

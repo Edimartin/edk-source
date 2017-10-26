@@ -844,7 +844,7 @@ edk::color4f32 Image2D::rgbTorgba(edk::color3f32 rgb){
 bool Image2D::rgbTorgba(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest){
     if(vector && dest && size.width && size.height){
         for(edk::uint32 y=0u;y<size.height;y++){
-            for(edk::uint32 x=0u;x<size.height;x++){
+            for(edk::uint32 x=0u;x<size.width;x++){
                 //copy the channels and add the fourth as 255u
                 dest[0u] = vector[0u];
                 dest[1u] = vector[1u];
@@ -888,7 +888,7 @@ edk::color4f32 Image2D::laTorgba(edk::float32 l,edk::float32 a){
 bool Image2D::laTorgba(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest){
     if(vector && dest && size.width && size.height){
         for(edk::uint32 y=0u;y<size.height;y++){
-            for(edk::uint32 x=0u;x<size.height;x++){
+            for(edk::uint32 x=0u;x<size.width;x++){
                 //copy the channels
                 dest[0u] = vector[0u];
                 dest[1u] = vector[0u];
@@ -931,7 +931,7 @@ edk::color4f32 Image2D::lTorgba(edk::float32 l){
 bool Image2D::lTorgba(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest){
     if(vector && dest && size.width && size.height){
         for(edk::uint32 y=0u;y<size.height;y++){
-            for(edk::uint32 x=0u;x<size.height;x++){
+            for(edk::uint32 x=0u;x<size.width;x++){
                 //copy the channels
                 dest[0u] = vector[0u];
                 dest[1u] = vector[0u];
