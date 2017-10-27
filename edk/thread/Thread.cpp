@@ -166,6 +166,12 @@ bool Thread::start(classID (threadFunction)(classID), classID parameter){
 
     //test if the function is true
     if(threadFunction){
+        //set the parameters
+        //copy the function
+        this->threadFunc=threadFunction;
+        //copy the parameter
+        this->funcParameter=parameter;
+
         //WINDOWS 32
 #ifdef WIN32
         DWORD flag;
@@ -192,12 +198,6 @@ bool Thread::start(classID (threadFunction)(classID), classID parameter){
         //LINUX
         pthread_attr_t attr;
         pthread_attr_init(&attr);
-
-        //set the parameters
-        //copy the function
-        this->threadFunc=threadFunction;
-        //copy the parameter
-        this->funcParameter=parameter;
         //crate the thread
 
         pthread_create(&threadID,
@@ -233,6 +233,14 @@ bool Thread::startIn(classID (threadFunction)(classID), classID parameter, edk::
     //test if the function is true and if the core exist
     if(threadFunction && core<this->cores){
         //WINDOWS 32
+
+        //set the parameters
+        //copy the function
+        this->threadFunc=threadFunction;
+        //copy the parameter
+        this->funcParameter=parameter;
+        //crate the thread
+
 #ifdef WIN32
         DWORD flag;
         this->threadID = CreateThread(NULL, //
@@ -266,14 +274,6 @@ bool Thread::startIn(classID (threadFunction)(classID), classID parameter, edk::
         pthread_attr_init(&attr);
         //set the core on the attribute
         pthread_attr_setaffinity_np(&attr, sizeof(cpu_set_t), &this->cpus);
-
-        //set the parameters
-        //copy the function
-        this->threadFunc=threadFunction;
-        //copy the parameter
-        this->funcParameter=parameter;
-        //crate the thread
-
         //set affinity
         pthread_create(&threadID,
                        &attr,
