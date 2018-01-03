@@ -353,7 +353,10 @@ public:
         }
         //else return false
         typeTemplate ret;
+        #pragma GCC diagnostic push
+        #pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
         return ret;
+        #pragma GCC diagnostic pop
     }
 
     //SETTERS
@@ -409,7 +412,10 @@ public:
         }
         //else return false
         typeTemplate ret;
+        #pragma GCC diagnostic push
+        #pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
         return ret;
+        #pragma GCC diagnostic pop
     }
     //get the size
     edk::uint32 getSize(){

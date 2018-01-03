@@ -180,7 +180,7 @@ edk::uint64 Time::getTimeSinceEpoch(){
 }
 
 void Time::clockLoadGMTime(){
-    this->clockLoadGMTime((edk::uint64) time(NULL));
+    return this->clockLoadGMTime((edk::uint64) time(NULL));
 }
 
 void Time::clockLoadGMTime(edk::uint64 timeSinceEpoch){
@@ -196,7 +196,7 @@ void Time::clockLoadGMTime(edk::uint64 timeSinceEpoch){
 }
 
 void Time::clockLoadLocalTime(){
-    this->clockLoadLocalTime((edk::uint64) time(NULL));
+    return this->clockLoadLocalTime((edk::uint64) time(NULL));
 }
 
 void Time::clockLoadLocalTime(edk::uint64 timeSinceEpoch){

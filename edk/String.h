@@ -181,21 +181,21 @@ public:
 
     static char8* strCut(char8 limit, const char *str, bool use=false);
 
-    static char8* strCut(char8 *str, char8 start, char8 end);
+    static char8* strCut(char8 *str, char8 start, char8 end, bool use);
 
-    static char8* strCut(const char *str, char8 start, char8 end);
+    static char8* strCut(const char *str, char8 start, char8 end, bool use);
 
     static bool strInvert(char8 *str);
 
     static bool strInvert(const char *str);
 
-    static edk::uint32 stringHaveChar(char8 *str,edk::char8 value);
+    static edk::uint64 stringHaveChar(char8 *str,edk::char8 value);
 
-    static edk::uint32 stringHaveChar(const char *str,edk::char8 value);
+    static edk::uint64 stringHaveChar(const char *str,edk::char8 value);
 
-    static edk::uint32 stringHaveChar(char8 *str,edk::uint64 size,edk::char8 value);
+    static edk::uint64 stringHaveChar(char8 *str,edk::uint64 size,edk::char8 value);
 
-    static edk::uint32 stringHaveChar(const char *str,edk::uint64 size,edk::char8 value);
+    static edk::uint64 stringHaveChar(const char *str,edk::uint64 size,edk::char8 value);
 
     static bool consoleKeyPressed();
 

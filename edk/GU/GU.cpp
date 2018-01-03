@@ -1489,13 +1489,13 @@ void edk::GU::guPickMatrix(edk::float64  x,  edk::float64  y,  edk::float64  del
 //STRING
 //GL_VENDOR
 //Returns the company responsible for this GL implementation
-edk::char8* edk::GU::guGetVendor(){glGetString(GL_VENDOR);}
+edk::char8* edk::GU::guGetVendor(){return (edk::char8*)glGetString(GL_VENDOR);}
 //GL_RENDERER
 //Returns the name of the renderer
-edk::char8* edk::GU::guGetRenderer(){glGetString(GL_RENDERER);}
+edk::char8* edk::GU::guGetRenderer(){return (edk::char8*)glGetString(GL_RENDERER);}
 //GL_VERSION
 //Returns a version or release number of the form
-edk::char8* edk::GU::guGetVersion(){glGetString(GL_VERSION);}
+edk::char8* edk::GU::guGetVersion(){return (edk::char8*)glGetString(GL_VERSION);}
 //GL_EXTENSIONS
 //Returns a space-separated list of supported extensions to GL.
-edk::char8* edk::GU::guGetExtensions(){glGetString(GL_EXTENSIONS);}
+edk::char8* edk::GU::guGetExtensions(){return (edk::char8*)glGetString(GL_EXTENSIONS);}

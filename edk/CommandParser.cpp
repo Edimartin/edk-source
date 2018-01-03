@@ -108,6 +108,17 @@ edk::char8* edk::CommandParser::TreeCommand::getValue(edk::char8* command){
     }
     return NULL;
 }
+//get command value in position
+edk::char8* edk::CommandParser::TreeCommand::getValueInPosition(edk::uint32 position){
+    //test if have the position
+    edk::CommandParser::Command* temp = (edk::CommandParser::Command*)this->getElementInPosition(position);
+    if(temp){
+        //return the value
+        return temp->value.getName();
+    }
+    //else return NULL
+    return NULL;
+}
 //clean commands
 void edk::CommandParser::TreeCommand::cleanCommands(){
     edk::uint32 position = 0u;
@@ -162,6 +173,14 @@ edk::char8* edk::CommandParser::getValue(const char* command){
 }
 edk::char8* edk::CommandParser::getValue(edk::char8* command){
     return this->tree.getValue(command);
+}
+//return the value of the command in position
+edk::char8* edk::CommandParser::getValueInPosition(edk::uint32 position){
+    return this->tree.getValueInPosition(position);
+}
+//return the size of the commands
+edk::uint32 edk::CommandParser::getCommandsSize(){
+    return this->tree.size();
 }
 
 //print commands

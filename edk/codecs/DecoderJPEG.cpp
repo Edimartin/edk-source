@@ -71,5 +71,5 @@ bool edk::codecs::DecoderJPEG::decode(const unsigned char* encoded,edk::uint32 s
 
 //return the vector size
 edk::uint32 edk::codecs::DecoderJPEG::getVectorSize(){
-    edk::codecs::CodecImage::getFrameVectorSize();
+    return edk::codecs::CodecImage::getFrameVectorSize();
 }

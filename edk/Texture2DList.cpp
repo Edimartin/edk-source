@@ -120,7 +120,7 @@ bool edk::Texture2DList::drawTexture(edk::uint32 code,edk::uint8* image,edk::uin
     //test the name and retainTexture
     if(code){
         //get the texture from the tree
-        return this->drawTexture(this->getTextureByCode(code),image);
+        return this->drawTexture(this->getTextureByCode(code),image,filter);
     }
     return false;
 }

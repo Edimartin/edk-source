@@ -191,4 +191,4 @@ bool edk::GU_GLSL::guCheckFrameBufferOK(edk::uint32 target){
 //STRING
 //GL_SHADING_LANGUAGE_VERSION
 //Returns a version or release number for the shading language of the form
-edk::char8* edk::GU_GLSL::guGetVersion(){glGetString(GL_SHADING_LANGUAGE_VERSION);}
+edk::char8* edk::GU_GLSL::guGetVersion(){return (edk::char8*)glGetString(GL_SHADING_LANGUAGE_VERSION);}

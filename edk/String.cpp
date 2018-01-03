@@ -1698,9 +1698,7 @@ bool String::strCompareWithFilter(char8 *str1, char8 *str2,char8 *filter){
                             }
                         }while(*str1 && *str2);
                     }
-                    if(*str1 && *str2){
-                        if(*str1 == *str2) return true;
-                    }
+                    if(*str1 == *str2) return true;
                 }
             }
             return false;
@@ -1878,7 +1876,7 @@ char8* String::strCut(char8 limit, const char *str, bool use){
     return edk::String::strCut(limit, (edk::char8 *)str, use);
 }
 
-char8* String::strCut(char8 *str, char8 start, char8 end){
+char8* String::strCut(char8 *str, char8 start, char8 end, bool use){
     //first test if the string exist
     if(str){
         //Find the start
@@ -1914,29 +1912,43 @@ char8* String::strCut(char8 *str, char8 start, char8 end){
                                ,b-(a+1u)+1u
                                );
                         */
-                        //Create the stirng
-                        edk::char8* ret = new edk::char8[b-(a+1u)+1u];
-                        //set the end of the string
-                        if(ret){
-                            //
-                            ret[b-a]='\0';
-                            //Then can copy the string
-                            for(edk::uint32 i=0u;i<b-(a+1u);i++){
-                                //copy the string
-                                /*
-                                printf("\nCopy %u %u"
-                                       ,i
-                                       ,i+a
-                                       );
-                                */
-                                ret[i]=str[i+(a+1u)];
-                            }
-                            //return the ret
-                            return ret;
+                        edk::uint32 size = b - a;
+                        if(use){
+                            str = &str[a];
+                            size = b - a +2u;
                         }
                         else{
-                            //
-                            ret=NULL;
+                            str = &str[a+1u];
+                        }
+                        if(size){
+                            size--;
+                            if(size){
+                                //Create the stirng
+                                edk::char8* ret = new edk::char8[size+1u];
+                                //set the end of the string
+                                if(ret){
+                                    //
+                                    ret[size]='\0';
+                                    //Then can copy the string
+                                    for(edk::uint32 i=0u;i<size;i++){
+                                        //copy the string
+                                        if(*str){
+                                            ret[i]=*str;
+                                        }
+                                        else{
+                                            ret[i]='\0';
+                                            break;
+                                        }
+                                        str++;
+                                    }
+                                    //return the ret
+                                    return ret;
+                                }
+                                else{
+                                    //
+                                    ret=NULL;
+                                }
+                            }
                         }
                         //break
                         break;
@@ -1956,8 +1968,8 @@ char8* String::strCut(char8 *str, char8 start, char8 end){
     return NULL;
 }
 
-char8* String::strCut(const char *str, char8 start, char8 end){
-    return edk::String::strCut((edk::char8 *)str, start, end);
+char8* String::strCut(const char *str, char8 start, char8 end, bool use){
+    return edk::String::strCut((edk::char8 *)str, start, end, use);
 }
 
 bool String::strInvert(char8 *str){
@@ -1987,37 +1999,39 @@ bool String::strInvert(const char *str){
     return edk::String::strInvert((edk::char8*)str);
 }
 
-edk::uint32 String::stringHaveChar(char8 *str,edk::char8 value){
+edk::uint64 String::stringHaveChar(char8 *str,edk::char8 value){
     if(str){
-        edk::uint32 count=0u;
+        edk::uint64 count=0u;
         while(*str){
             if(*str==value){
                 count++;
+                return count;
             }
+            count++;
             str++;
         }
-        return count;
     }
     return 0u;
 }
 
-edk::uint32 String::stringHaveChar(const char *str,edk::char8 value){
+edk::uint64 String::stringHaveChar(const char *str,edk::char8 value){
     return edk::String::stringHaveChar((char8 *)str,value);
 }
 
-edk::uint32 String::stringHaveChar(char8 *str,edk::uint64 size,edk::char8 value){
+edk::uint64 String::stringHaveChar(char8 *str,edk::uint64 size,edk::char8 value){
     if(str){
         edk::uint32 count=0u;
         for(edk::uint64 i=0u;i<size;i++){
             if(str[i]==value){
                 count++;
+                return count;
             }
+            count++;
         }
-        return count;
     }
     return 0u;
 }
-edk::uint32 String::stringHaveChar(const char *str,edk::uint64 size,edk::char8 value){
+edk::uint64 String::stringHaveChar(const char *str,edk::uint64 size,edk::char8 value){
     return edk::String::stringHaveChar((char8 *)str,size,value);
 }
 

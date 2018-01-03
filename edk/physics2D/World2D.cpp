@@ -19,6 +19,10 @@ email: edimartin@gmail.com.br
 AV: Walmor M. de Souza 392 Casa
 Gravatai RS Brazil 94065100
 */
+edk::physics2D::World2D::MyContactListener::MyContactListener(){
+    //
+    this->world = NULL;
+}
 edk::physics2D::World2D::MyContactListener::MyContactListener(edk::physics2D::World2D* world){
     //
     this->world = world;

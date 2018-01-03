@@ -531,6 +531,7 @@ private:
 
     class MyContactListener : public b2ContactListener {
     public:
+        MyContactListener();
         MyContactListener(edk::physics2D::World2D* world);
         ~MyContactListener(){}
         void BeginContact(b2Contact* contact);

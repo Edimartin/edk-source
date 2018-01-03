@@ -137,7 +137,10 @@ class Array{
                 //return the variable
                 return vector[pos];
             }
+            #pragma GCC diagnostic push
+            #pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
             return ret;
+            #pragma GCC diagnostic pop
         }
 
         //delete the array

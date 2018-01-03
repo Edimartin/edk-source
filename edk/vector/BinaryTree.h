@@ -60,6 +60,7 @@ public:
         }
         return false;
     }
+    //compare if the value is equal
     virtual bool firstEqualSecond(obj* first,obj* second){
         //
         if(first==second){

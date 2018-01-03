@@ -51,6 +51,10 @@ public:
     //return the value of a command
     edk::char8* getValue(const char* command);
     edk::char8* getValue(edk::char8* command);
+    //return the value of the command in position
+    edk::char8* getValueInPosition(edk::uint32 position);
+    //return the size of the commands
+    edk::uint32 getCommandsSize();
 
     //print commands
     void printCommands();
@@ -89,6 +93,8 @@ private:
         bool haveCommand(edk::char8* command);
         //get command value
         edk::char8* getValue(edk::char8* command);
+        //get command value in position
+        edk::char8* getValueInPosition(edk::uint32 position);
         //clean commands
         void cleanCommands();
     }tree;

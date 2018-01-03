@@ -78,11 +78,41 @@ bool edk::network::udp::ServerUDP::sendStream(edk::network::Adress host,edk::cla
     }
     return false;
 }
+bool edk::network::udp::ServerUDP::sendStreamNonBlock(edk::network::Adress host,edk::classID stream,edk::uint32 size){
+    if(host.getIP() && host.getPort() && stream && size){
+        //test if have NOT create the socket
+        if(!this->haveSocket()){
+            //create the socket
+            this->createSocket(EDK_SOCKET_UDP);
+        }
+        //test if have the socket
+        if(this->haveSocket()){
+            //load the host
+            edk::network::udp::ServerUDP::nodeAdress* node = this->tree.getAdress(host);
+            if(node){
+                //send the message to the host
+                edk::network::Socket::sendStreamToNonBlock(this->getSocket(),
+                                                           node->adress,
+                                                           stream,
+                                                           size
+                                                           );
+                return true;
+            }
+        }
+    }
+    return false;
+}
 bool edk::network::udp::ServerUDP::sendString(edk::network::Adress host,edk::char8* string){
     return this->sendStream(host,string,edk::String::strSize(string)+1u);
 }
 bool edk::network::udp::ServerUDP::sendString(edk::network::Adress host,const char* string){
     return this->sendString(host,(edk::char8*) string);
+}
+bool edk::network::udp::ServerUDP::sendStringNonBlock(edk::network::Adress host,edk::char8* string){
+    return this->sendStreamNonBlock(host,string,edk::String::strSize(string)+1u);
+}
+bool edk::network::udp::ServerUDP::sendStringNonBlock(edk::network::Adress host,const char* string){
+    return this->sendStringNonBlock(host,(edk::char8*) string);
 }
 //Receive the message
 edk::int32 edk::network::udp::ServerUDP::receiveStream(edk::classID stream,edk::uint32 size,edk::network::Adress* host){
@@ -104,9 +134,30 @@ edk::int32 edk::network::udp::ServerUDP::receiveStream(edk::classID stream,edk::
             //add the new host
             this->tree.addAdress(*host,adress);
         }
-        if(ret){
-            return ret;
+        return ret;
+    }
+    return 0u;
+}
+edk::int32 edk::network::udp::ServerUDP::receiveStreamNonBlock(edk::classID stream,edk::uint32 size,edk::network::Adress* host){
+    //test the variables
+    if(stream && size && host){
+        //receive the message
+        struct sockaddr_in adress;
+        edk::network::Socket::cleanAdress(&adress);
+        edk::int32 ret = edk::network::Socket::receiveStreamFromNonBlock(this->getSocket(),&adress,stream,size);
+        //load the adress
+        host->setIP(edk::network::Adress::getIpNumber(adress.sin_addr.s_addr,0u),
+                    edk::network::Adress::getIpNumber(adress.sin_addr.s_addr,1u),
+                    edk::network::Adress::getIpNumber(adress.sin_addr.s_addr,2u),
+                    edk::network::Adress::getIpNumber(adress.sin_addr.s_addr,3u)
+                    );
+        host->setPort(adress.sin_port);
+        //test if have the host on the tree
+        if(!this->tree.getAdress(*host)){
+            //add the new host
+            this->tree.addAdress(*host,adress);
         }
+        return ret;
     }
     return 0u;
 }

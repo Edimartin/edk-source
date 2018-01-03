@@ -139,7 +139,7 @@ edk::float32 edk::animation::Path2DGroup::updateClockAnimation(){
 
     //calculate the new position
     //this->y = this->y + ((temp->y - this->y) * step);
-    /*
+
     if(step>=temp->second){
         this->setX(temp->x);
         this->y = temp->y;

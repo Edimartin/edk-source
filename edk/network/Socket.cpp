@@ -318,6 +318,22 @@ bool edk::network::Socket::sendStream(edk::char8* ip,edk::uint16 port,const void
 bool edk::network::Socket::sendStream(const char* ip,edk::uint16 port,const void* stream,edk::uint32 size){
     return this->sendStream((edk::char8*) ip,port,(edk::classID) stream,size);
 }
+//Send a nonBlock message to the server
+bool edk::network::Socket::sendStreamNonBlock(edk::network::Adress host,const void* stream,edk::uint32 size){
+    return this->sendStreamNonBlock(host,(edk::classID) stream,size);
+}
+bool edk::network::Socket::sendStreamNonBlock(edk::char8* ip,edk::uint16 port,edk::classID stream,edk::uint32 size){
+    return this->sendStreamNonBlock(edk::network::Adress(ip,port),stream,size);
+}
+bool edk::network::Socket::sendStreamNonBlock(const char* ip,edk::uint16 port,edk::classID stream,edk::uint32 size){
+    return this->sendStreamNonBlock((edk::char8*) ip,port,stream,size);
+}
+bool edk::network::Socket::sendStreamNonBlock(edk::char8* ip,edk::uint16 port,const void* stream,edk::uint32 size){
+    return this->sendStreamNonBlock(ip,port,(edk::classID) stream,size);
+}
+bool edk::network::Socket::sendStreamNonBlock(const char* ip,edk::uint16 port,const void* stream,edk::uint32 size){
+    return this->sendStreamNonBlock((edk::char8*) ip,port,(edk::classID) stream,size);
+}
 
 //create the socket
 bool edk::network::Socket::createSocket(socketType type){
@@ -436,6 +452,25 @@ edk::int32 edk::network::Socket::sendStream(edk::int32 socket,
     }
     return 0;
 }
+edk::int32 edk::network::Socket::sendStreamNonBlock(edk::int32 socket,
+                                                    edk::classID stream,
+                                                    edk::uint32 size
+                                                    ){
+    //testa o stream
+    if(stream && size && socket){
+        edk::int32 ret =
+                //send the message
+        #if _WIN32 || _WIN64
+                send(socket,(const char*)stream,size, 0);
+#else
+                send(socket,stream,size, MSG_EOR|MSG_NOSIGNAL|MSG_DONTWAIT);
+#endif
+        //retorna true
+        return ret;
+    }
+    return 0;
+}
+
 edk::uint32 edk::network::Socket::receiveStream(edk::int32 socket,
                                                 edk::classID stream,
                                                 edk::uint32 size
@@ -492,6 +527,37 @@ bool edk::network::Socket::sendStreamTo(edk::int32 socket,
                  );
 #else
     ret = sendto(socket, stream, size, MSG_EOR|MSG_NOSIGNAL,
+                 (struct sockaddr *)&sendAdress,
+                 sizeof(struct sockaddr)
+                 );
+#endif
+    if(ret>=0){
+        //
+        return true;
+    }
+    //
+    return false;
+}
+
+bool edk::network::Socket::sendStreamToNonBlock(edk::int32 socket,
+                                                sockaddr_in sendAdress,
+                                                edk::classID stream,
+                                                edk::uint32 size
+                                                ){
+    edk::int32 ret = -1u;
+    /*
+    (edk::int32 __fd, __const void *__buf, size_t __n,
+            edk::int32 __flags, __CONST_SOCKADDR_ARG __addr,
+            socklen_t __addr_len)
+*/
+    //envia a mensagem para o endereco
+#if _WIN32 || _WIN64
+    ret = sendto(socket, (char *)stream, size, 0,
+                 (struct sockaddr *)&sendAdress,
+                 sizeof(struct sockaddr)
+                 );
+#else
+    ret = sendto(socket, stream, size, MSG_EOR|MSG_NOSIGNAL|MSG_DONTWAIT,
                  (struct sockaddr *)&sendAdress,
                  sizeof(struct sockaddr)
                  );

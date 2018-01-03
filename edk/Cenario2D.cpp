@@ -2256,7 +2256,7 @@ bool edk::Cenario2D::loadPhysicObjectsToWorld(){
             }
         }
     }
-    return false;
+    return ret;
 }
 
 //delete the object
