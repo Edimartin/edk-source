@@ -23,21 +23,9 @@ edk::network::tcp::ClientTCP::ClientTCP(){
     //
     this->connected=false;
     this->cleanAdress();
-    this->receiveStreamFunction = &this->receiveStreamBlock;
 }
-edk::int32 edk::network::tcp::ClientTCP::receiveStreamBlock(edk::classID stream,edk::uint32 size,edk::int32 socket,sockaddr_in* address){
-    //receive the message
-    edk::int32 ret = edk::network::Socket::receiveStreamFrom(socket,address,stream,size);
-    return ret;
-}
-edk::int32 edk::network::tcp::ClientTCP::receiveStreamNonBlock(edk::classID stream,edk::uint32 size,edk::int32 socket,sockaddr_in* address){
-    //receive the message
-    edk::int32 ret = edk::network::Socket::receiveStreamFromNonBlock(socket,address,stream,size);
-    return ret;
-}
-
 //connect the socket with a server
-bool edk::network::tcp::ClientTCP::connectSocket(edk::network::Adress host,bool nonBlock){
+bool edk::network::tcp::ClientTCP::connectSocket(edk::network::Adress host){
     //disconnect the last connection
     this->disconnect();
     //test the host
@@ -62,11 +50,6 @@ bool edk::network::tcp::ClientTCP::connectSocket(edk::network::Adress host,bool 
                 //
                 this->connected=true;
                 this->serverHost=host;
-                //set the receive function
-                if(nonBlock)
-                    this->receiveStreamFunction = &this->receiveStreamNonBlock;
-                else
-                    this->receiveStreamFunction = &this->receiveStreamBlock;
                 return true;
             }
         }
@@ -75,58 +58,14 @@ bool edk::network::tcp::ClientTCP::connectSocket(edk::network::Adress host,bool 
     this->disconnect();
     return false;
 }
-bool edk::network::tcp::ClientTCP::connectSocket(edk::uint32 ip,edk::uint16 port,bool nonBlock){
-    return this->connectSocket(edk::network::Adress(ip,port),nonBlock);
+bool edk::network::tcp::ClientTCP::connectSocket(edk::uint32 ip,edk::uint16 port){
+    return this->connectSocket(edk::network::Adress(ip,port));
 }
-bool edk::network::tcp::ClientTCP::connectSocket(edk::char8* ip,edk::uint16 port,bool nonBlock){
-    return this->connectSocket(edk::network::Adress(ip,port),nonBlock);
+bool edk::network::tcp::ClientTCP::connectSocket(edk::char8* ip,edk::uint16 port){
+    return this->connectSocket(edk::network::Adress(ip,port));
 }
-bool edk::network::tcp::ClientTCP::connectSocket(const char* ip,edk::uint16 port,bool nonBlock){
-    return this->connectSocket(edk::network::Adress(ip,port),nonBlock);
-}
-bool edk::network::tcp::ClientTCP::connectSocketUsingNonBlock(edk::network::Adress host){
-    //disconnect the last connection
-    this->disconnect();
-    //test the host
-    if(host.getIP()&&host.getPort()){
-        //test if have NOT the socket
-        if(!this->haveSocket()){
-            //create a new socket
-            if(!this->createSocketNonBlock(EDK_SOCKET_TCP)){
-                return false;
-            }
-        }
-        if(this->haveSocket()){
-            //set the adress
-            this->sockAdress = this->getAdress(host.getIP());
-            this->sockAdress.sin_port = htons(host.getPort());
-            //connect
-            edk::int32 ret = connect(this->getSocket()
-                                     ,(struct sockaddr *)&this->sockAdress
-                                     ,sizeof(struct sockaddr)
-                                     );
-            if(ret!=0){
-                //
-                this->connected=true;
-                this->serverHost=host;
-                //set the receive function
-                this->receiveStreamFunction = &this->receiveStreamNonBlock;
-                return true;
-            }
-        }
-    }
-    //disconnect the last connection
-    this->disconnect();
-    return false;
-}
-bool edk::network::tcp::ClientTCP::connectSocketUsingNonBlock(edk::uint32 ip,edk::uint16 port){
-    return this->connectSocketUsingNonBlock(edk::network::Adress(ip,port));
-}
-bool edk::network::tcp::ClientTCP::connectSocketUsingNonBlock(edk::char8* ip,edk::uint16 port){
-    return this->connectSocketUsingNonBlock(edk::network::Adress(ip,port));
-}
-bool edk::network::tcp::ClientTCP::connectSocketUsingNonBlock(const char* ip,edk::uint16 port){
-    return this->connectSocketUsingNonBlock(edk::network::Adress(ip,port));
+bool edk::network::tcp::ClientTCP::connectSocket(const char* ip,edk::uint16 port){
+    return this->connectSocket(edk::network::Adress(ip,port));
 }
 
 //test if have connection
@@ -160,11 +99,35 @@ bool edk::network::tcp::ClientTCP::sendStream(edk::network::Adress host,edk::cla
     }
     return false;
 }
+bool edk::network::tcp::ClientTCP::sendStreamNonBlock(edk::network::Adress host,edk::classID stream,edk::uint32 size){
+    if(host.getIP() && host.getPort() && stream && size){
+        //Test if the host is diferent
+        if(host != this->serverHost){
+            //then close the connection and connect with the new host
+            this->disconnect();
+            if(!this->connectSocket(host)){
+                return false;
+            }
+        }
+        //test if the host are equal then the host connected
+        if(host == this->serverHost){
+            //send the stream
+            return this->sendStreamNonBlock(stream,size);
+        }
+    }
+    return false;
+}
 bool edk::network::tcp::ClientTCP::sendString(edk::network::Adress host,edk::char8* string){
     return this->sendStream(host,string,edk::String::strSize(string)+1u);
 }
 bool edk::network::tcp::ClientTCP::sendString(edk::network::Adress host,const char* string){
     return this->sendString(host,(edk::char8*) string);
+}
+bool edk::network::tcp::ClientTCP::sendStringNonBlock(edk::network::Adress host,edk::char8* string){
+    return this->sendStreamNonBlock(host,string,edk::String::strSize(string)+1u);
+}
+bool edk::network::tcp::ClientTCP::sendStringNonBlock(edk::network::Adress host,const char* string){
+    return this->sendStringNonBlock(host,(edk::char8*) string);
 }
 bool edk::network::tcp::ClientTCP::sendStream(edk::classID stream,edk::uint32 size){
     //test the stream e size
@@ -177,11 +140,28 @@ bool edk::network::tcp::ClientTCP::sendStream(edk::classID stream,edk::uint32 si
 bool edk::network::tcp::ClientTCP::sendStream(const char* stream,edk::uint32 size){
     return this->sendStream((edk::classID) stream,size);
 }
+bool edk::network::tcp::ClientTCP::sendStreamNonBlock(edk::classID stream,edk::uint32 size){
+    //test the stream e size
+    if(stream && size && this->haveSocket() && this->haveConnection()){
+        //send the message
+        return edk::network::Socket::sendStreamToNonBlock(this->getSocket(),this->sockAdress,stream,size);
+    }
+    return false;
+}
+bool edk::network::tcp::ClientTCP::sendStreamNonBlock(const char* stream,edk::uint32 size){
+    return this->sendStreamNonBlock((edk::classID) stream,size);
+}
 bool edk::network::tcp::ClientTCP::sendString(edk::char8* string){
     return this->sendStream(string,edk::String::strSize(string)+1u);
 }
 bool edk::network::tcp::ClientTCP::sendString(const char* string){
     return this->sendString((edk::char8*)string);
+}
+bool edk::network::tcp::ClientTCP::sendStringNonBlock(edk::char8* string){
+    return this->sendStreamNonBlock(string,edk::String::strSize(string)+1u);
+}
+bool edk::network::tcp::ClientTCP::sendStringNonBlock(const char* string){
+    return this->sendStringNonBlock((edk::char8*)string);
 }
 //receive the stream from the server
 edk::int32 edk::network::tcp::ClientTCP::receiveStream(edk::classID stream,edk::uint32 size,edk::network::Adress* host){
@@ -190,27 +170,14 @@ edk::int32 edk::network::tcp::ClientTCP::receiveStream(edk::classID stream,edk::
         if(*host != this->serverHost){
             //then close the connection and connect with the new host
             this->disconnect();
-            //test if the socket is nonBlobk
-            if(this->receiveStreamFunction == &this->receiveStreamBlock){
-                if(!this->connectSocketUsingNonBlock(*host)){
-                    return false;
-                }
-            }
-            else{
-                if(!this->connectSocket(*host)){
-                    return false;
-                }
+            if(!this->connectSocket(*host)){
+                return false;
             }
         }
         //test if the host are equal
         if(*host == this->serverHost){
             //then receive the message
-            if(this->receiveStreamFunction == &this->receiveStreamBlock){
-                return this->receiveStreamBlock(stream,size,this->getSocket(),&this->sockAdress);
-            }
-            else{
-                return this->receiveStreamNonBlock(stream,size,this->getSocket(),&this->sockAdress);
-            }
+            return edk::network::Socket::receiveStreamFrom(this->getSocket(),&this->sockAdress,stream,size);
         }
     }
     return 0u;
@@ -219,7 +186,37 @@ edk::int32 edk::network::tcp::ClientTCP::receiveStream(edk::classID stream,edk::
     //test the stream e size
     if(stream && size && this->haveSocket() && this->haveConnection()){
         //receive the message
-        edk::int32 ret = this->receiveStreamFunction(stream,size,this->getSocket(),&this->sockAdress);
+        //edk::int32 ret = this->receiveStreamFunction(stream,size,this->getSocket(),&this->sockAdress);
+        edk::int32 ret = edk::network::Socket::receiveStreamFrom(this->getSocket(),&this->sockAdress,stream,size);
+        //
+        return ret;
+    }
+    return 0u;
+}
+edk::int32 edk::network::tcp::ClientTCP::receiveStreamNonBlock(edk::classID stream,edk::uint32 size,edk::network::Adress* host){
+    if(host && stream && size){
+        //test if the host is diferent
+        if(*host != this->serverHost){
+            //then close the connection and connect with the new host
+            this->disconnect();
+            if(!this->connectSocket(*host)){
+                return false;
+            }
+        }
+        //test if the host are equal
+        if(*host == this->serverHost){
+            //then receive the message
+            return edk::network::Socket::receiveStreamFromNonBlock(this->getSocket(),&this->sockAdress,stream,size);
+        }
+    }
+    return 0u;
+}
+edk::int32 edk::network::tcp::ClientTCP::receiveStreamNonBlock(edk::classID stream,edk::uint32 size){
+    //test the stream e size
+    if(stream && size && this->haveSocket() && this->haveConnection()){
+        //receive the message
+        //edk::int32 ret = this->receiveStreamFunction(stream,size,this->getSocket(),&this->sockAdress);
+        edk::int32 ret = edk::network::Socket::receiveStreamFromNonBlock(this->getSocket(),&this->sockAdress,stream,size);
         //
         return ret;
     }

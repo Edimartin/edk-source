@@ -32,14 +32,10 @@ public:
     ClientTCP();
 
     //connect the socket with a server
-    bool connectSocket(edk::network::Adress host,bool nonBlock=false);
-    bool connectSocket(edk::uint32 ip,edk::uint16 port,bool nonBlock=false);
-    bool connectSocket(edk::char8* ip,edk::uint16 port,bool nonBlock=false);
-    bool connectSocket(const char* ip,edk::uint16 port,bool nonBlock=false);
-    bool connectSocketUsingNonBlock(edk::network::Adress host);
-    bool connectSocketUsingNonBlock(edk::uint32 ip,edk::uint16 port);
-    bool connectSocketUsingNonBlock(edk::char8* ip,edk::uint16 port);
-    bool connectSocketUsingNonBlock(const char* ip,edk::uint16 port);
+    bool connectSocket(edk::network::Adress host);
+    bool connectSocket(edk::uint32 ip,edk::uint16 port);
+    bool connectSocket(edk::char8* ip,edk::uint16 port);
+    bool connectSocket(const char* ip,edk::uint16 port);
 
     //test if have connection
     bool haveConnection();
@@ -47,27 +43,31 @@ public:
     void disconnect();
 
     //send the stream to server
+
     bool sendStream(edk::network::Adress host,edk::classID stream,edk::uint32 size);
+    bool sendStreamNonBlock(edk::network::Adress host,edk::classID stream,edk::uint32 size);
     bool sendString(edk::network::Adress host,edk::char8* string);
     bool sendString(edk::network::Adress host,const char* string);
+    bool sendStringNonBlock(edk::network::Adress host,edk::char8* string);
+    bool sendStringNonBlock(edk::network::Adress host,const char* string);
     bool sendStream(edk::classID stream,edk::uint32 size);
     bool sendStream(const char* stream,edk::uint32 size);
+    bool sendStreamNonBlock(edk::classID stream,edk::uint32 size);
+    bool sendStreamNonBlock(const char* stream,edk::uint32 size);
     bool sendString(edk::char8* string);
     bool sendString(const char* string);
+    bool sendStringNonBlock(edk::char8* string);
+    bool sendStringNonBlock(const char* string);
     //receive the stream from the server
     edk::int32 receiveStream(edk::classID stream,edk::uint32 size,edk::network::Adress* host);
     edk::int32 receiveStream(edk::classID stream,edk::uint32 size);
+    edk::int32 receiveStreamNonBlock(edk::classID stream,edk::uint32 size,edk::network::Adress* host);
+    edk::int32 receiveStreamNonBlock(edk::classID stream,edk::uint32 size);
 private:
     //save the host of the server
     edk::network::Adress serverHost;
     //save if is connected
     bool connected;
-    //function pointers
-    edk::int32(*receiveStreamFunction)(edk::classID ,edk::uint32 ,edk::int32 ,sockaddr_in* );
-    //receive the stream from the server
-    static edk::int32 receiveStreamBlock(edk::classID stream,edk::uint32 size,edk::int32 socket,sockaddr_in* address);
-    //receive the stream from the server with nonblock
-    static edk::int32 receiveStreamNonBlock(edk::classID stream,edk::uint32 size,edk::int32 socket,sockaddr_in* address);
 };
 }
 }

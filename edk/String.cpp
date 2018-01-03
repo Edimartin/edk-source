@@ -27,15 +27,18 @@ Gravatai RS Brazil 94065100
 #if defined (__linux__) || defined(__APPLE__)
 int edkGetch(void)
 {
-    struct termios velho, novo;
+    struct termios oldt, newt;
     int x;
 
-    tcgetattr( STDIN_FILENO, &velho );
-    novo= velho;
-    novo.c_lflag &= ~( ICANON | ECHO );
-    tcsetattr( STDIN_FILENO, TCSANOW, &novo );
+    tcgetattr( STDIN_FILENO, &oldt );
+    newt= oldt;
+    newt.c_lflag &= ~ECHO;
+    newt.c_lflag &= ~ICANON;
+    newt.c_cc[VTIME]=0;
+    newt.c_cc[VMIN]=1;
+    tcsetattr( STDIN_FILENO, TCSANOW, &newt );
     x= getchar();
-    tcsetattr( STDIN_FILENO, TCSANOW, &velho );
+    tcsetattr( STDIN_FILENO, TCSANOW, &oldt );
     return x;
 }
 
@@ -47,7 +50,10 @@ int edkKbhit(void)
 
     tcgetattr(STDIN_FILENO, &oldt);
     newt = oldt;
-    newt.c_lflag &= ~(ICANON | ECHO);
+    newt.c_lflag &= ~ECHO;
+    newt.c_lflag &= ~ICANON;
+    newt.c_cc[VTIME]=0;
+    newt.c_cc[VMIN]=0;
     tcsetattr(STDIN_FILENO, TCSANOW, &newt);
     oldf = fcntl(STDIN_FILENO, F_GETFL, 0);
     fcntl(STDIN_FILENO, F_SETFL, oldf | O_NONBLOCK);

@@ -235,11 +235,37 @@ bool edk::network::tcp::ServerTCP::sendStream(edk::network::Adress host,edk::cla
     }
     return false;
 }
+bool edk::network::tcp::ServerTCP::sendStreamNonBlock(edk::network::Adress host,edk::classID stream,edk::uint32 size){
+    //test the host and stream
+    if(host.getIP() && host.getPort() && stream && size){
+        //search the adress
+        edk::network::tcp::ServerTCP::nodeAdressTCP* temp = (edk::network::tcp::ServerTCP::nodeAdressTCP*)this->tree.getAdress(host);
+        if(temp){
+            if(temp->socket){
+                //send the stream
+                edk::int32 ret  =  edk::network::Socket::sendStreamNonBlock(temp->socket,stream,size);
+                if(ret>=0){
+                    return true;
+                }
+            }
+            else{
+                this->disconnectClient(host);
+            }
+        }
+    }
+    return false;
+}
 bool edk::network::tcp::ServerTCP::sendString(edk::network::Adress host,edk::char8* string){
     return this->sendStream(host,string,edk::String::strSize(string)+1u);
 }
 bool edk::network::tcp::ServerTCP::sendString(edk::network::Adress host,const char* string){
     return this->sendString(host,(edk::char8*) string);
+}
+bool edk::network::tcp::ServerTCP::sendStringNonBlock(edk::network::Adress host,edk::char8* string){
+    return this->sendStreamNonBlock(host,string,edk::String::strSize(string)+1u);
+}
+bool edk::network::tcp::ServerTCP::sendStringNonBlock(edk::network::Adress host,const char* string){
+    return this->sendStringNonBlock(host,(edk::char8*) string);
 }
 //Receive the message
 edk::int32 edk::network::tcp::ServerTCP::receiveStream(edk::classID stream,edk::uint32 size,edk::network::Adress* host){
