@@ -36,33 +36,21 @@ public:
     void closeSocket();
 
     //Send a message to the server
-    bool sendStream(edk::network::Adress host,edk::classID stream,edk::uint32 size);
-    bool sendStream(edk::network::Adress host,const void* stream,edk::uint32 size);
-    bool sendStreamNonBlock(edk::network::Adress host,edk::classID stream,edk::uint32 size);
-    bool sendStreamNonBlock(edk::network::Adress host,const void* stream,edk::uint32 size);
+    edk::int32 sendStream(edk::network::Adress host,edk::classID stream,edk::uint32 size);
+    edk::int32 sendStream(edk::network::Adress host,const void* stream,edk::uint32 size);
     //
-    bool sendString(edk::network::Adress host,edk::char8* string);
-    bool sendString(edk::network::Adress host,const char* string);
-    bool sendStringNonBlock(edk::network::Adress host,edk::char8* string);
-    bool sendStringNonBlock(edk::network::Adress host,const char* string);
+    edk::int32 sendString(edk::network::Adress host,edk::char8* string);
+    edk::int32 sendString(edk::network::Adress host,const char* string);
     //
-    bool sendStream(edk::char8* ip,edk::uint16 port,edk::classID stream,edk::uint32 size);
-    bool sendStream(const char* ip,edk::uint16 port,edk::classID stream,edk::uint32 size);
-    bool sendStream(edk::char8* ip,edk::uint16 port,const void* stream,edk::uint32 size);
-    bool sendStream(const char* ip,edk::uint16 port,const void* stream,edk::uint32 size);
-    bool sendStreamNonBlock(edk::char8* ip,edk::uint16 port,edk::classID stream,edk::uint32 size);
-    bool sendStreamNonBlock(const char* ip,edk::uint16 port,edk::classID stream,edk::uint32 size);
-    bool sendStreamNonBlock(edk::char8* ip,edk::uint16 port,const void* stream,edk::uint32 size);
-    bool sendStreamNonBlock(const char* ip,edk::uint16 port,const void* stream,edk::uint32 size);
+    edk::int32 sendStream(edk::char8* ip,edk::uint16 port,edk::classID stream,edk::uint32 size);
+    edk::int32 sendStream(const char* ip,edk::uint16 port,edk::classID stream,edk::uint32 size);
+    edk::int32 sendStream(edk::char8* ip,edk::uint16 port,const void* stream,edk::uint32 size);
+    edk::int32 sendStream(const char* ip,edk::uint16 port,const void* stream,edk::uint32 size);
     //
-    bool sendString(edk::char8* ip,edk::uint16 port,edk::char8* string);
-    bool sendString(const char* ip,edk::uint16 port,edk::char8* string);
-    bool sendString(edk::char8* ip,edk::uint16 port,const char* string);
-    bool sendString(const char* ip,edk::uint16 port,const char* string);
-    bool sendStringNonBlock(edk::char8* ip,edk::uint16 port,edk::char8* string);
-    bool sendStringNonBlock(const char* ip,edk::uint16 port,edk::char8* string);
-    bool sendStringNonBlock(edk::char8* ip,edk::uint16 port,const char* string);
-    bool sendStringNonBlock(const char* ip,edk::uint16 port,const char* string);
+    edk::int32 sendString(edk::char8* ip,edk::uint16 port,edk::char8* string);
+    edk::int32 sendString(const char* ip,edk::uint16 port,edk::char8* string);
+    edk::int32 sendString(edk::char8* ip,edk::uint16 port,const char* string);
+    edk::int32 sendString(const char* ip,edk::uint16 port,const char* string);
     //Recebe uma mensagem
     edk::int32 receiveStream(edk::classID stream,edk::uint32 size,edk::network::Adress* host);
     edk::int32 receiveStreamNonBlock(edk::classID stream,edk::uint32 size,edk::network::Adress* host);

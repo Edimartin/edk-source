@@ -31,8 +31,7 @@ class ServerSocket : public edk::network::Socket{
 public:
     ServerSocket();
     //Send the message
-    virtual bool sendStream(edk::network::Adress host,edk::classID stream,edk::uint32 size)=0;
-    virtual bool sendStreamNonBlock(edk::network::Adress host,edk::classID stream,edk::uint32 size)=0;
+    virtual edk::int32 sendStream(edk::network::Adress host,edk::classID stream,edk::uint32 size)=0;
     //Receive the message
     virtual edk::int32 receiveStream(edk::classID stream,edk::uint32 size,edk::network::Adress* host)=0;
 protected:

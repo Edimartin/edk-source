@@ -164,45 +164,6 @@ bool edk::network::tcp::ServerTCP::startListen(edk::uint16 port,edk::uint32 conn
     //senao retorna false
     return false;
 }
-bool edk::network::tcp::ServerTCP::startListenNonBlock(edk::uint16 port,edk::uint32 connections){
-    if(!this->haveSocket()){
-        this->createSocketNonBlock(EDK_SOCKET_TCP);
-        this->cleanAdress();
-    }
-    //testa se possui o socket
-    if(this->haveSocket()){
-        //testa se ja esta ouvindo
-        if(this->listened){
-            //retorna true
-            return true;
-        }
-        edk::int32 on = 1;
-
-
-#if _WIN32 || _WIN64
-        setsockopt (this->getSocket(), SOL_SOCKET, SO_REUSEADDR, (const char*)&on, sizeof (on));
-
-#else
-        setsockopt (this->getSocket(), SOL_SOCKET, SO_REUSEADDR, &on, sizeof (on));
-#endif
-
-        //setsockopt (this->getSocket(), SOL_SOCKET, SO_REUSEADDR, &on, sizeof (on));
-        //Seta a porta no myAdress
-        this->sockAdress.sin_port = htons(port);
-        //Inicia o bind
-        if (bind(this->getSocket(), (struct sockaddr *)&this->sockAdress, sizeof(struct sockaddr))== -1){
-            this->cleanAdress();
-            return false;
-        }
-        //senao testa ouvir pela primeira vez
-        if (listen(this->getSocket(), connections) >= 0){
-            return (this->listened = true);
-        }
-    }
-    this->closeSocket();
-    //senao retorna false
-    return false;
-}
 //test if have listened
 bool edk::network::tcp::ServerTCP::haveListened(){
     return this->listened;
@@ -215,7 +176,7 @@ edk::network::Adress edk::network::tcp::ServerTCP::acceptClientNonBlock(){
     return this->acceptTCPClient(true);
 }
 //Send the message
-bool edk::network::tcp::ServerTCP::sendStream(edk::network::Adress host,edk::classID stream,edk::uint32 size){
+edk::int32 edk::network::tcp::ServerTCP::sendStream(edk::network::Adress host,edk::classID stream,edk::uint32 size){
     //test the host and stream
     if(host.getIP() && host.getPort() && stream && size){
         //search the adress
@@ -223,10 +184,7 @@ bool edk::network::tcp::ServerTCP::sendStream(edk::network::Adress host,edk::cla
         if(temp){
             if(temp->socket){
                 //send the stream
-                edk::int32 ret  =  edk::network::Socket::sendStream(temp->socket,stream,size);
-                if(ret>=0){
-                    return true;
-                }
+                return edk::network::Socket::sendStream(temp->socket,stream,size);
             }
             else{
                 this->disconnectClient(host);
@@ -235,37 +193,11 @@ bool edk::network::tcp::ServerTCP::sendStream(edk::network::Adress host,edk::cla
     }
     return false;
 }
-bool edk::network::tcp::ServerTCP::sendStreamNonBlock(edk::network::Adress host,edk::classID stream,edk::uint32 size){
-    //test the host and stream
-    if(host.getIP() && host.getPort() && stream && size){
-        //search the adress
-        edk::network::tcp::ServerTCP::nodeAdressTCP* temp = (edk::network::tcp::ServerTCP::nodeAdressTCP*)this->tree.getAdress(host);
-        if(temp){
-            if(temp->socket){
-                //send the stream
-                edk::int32 ret  =  edk::network::Socket::sendStreamNonBlock(temp->socket,stream,size);
-                if(ret>=0){
-                    return true;
-                }
-            }
-            else{
-                this->disconnectClient(host);
-            }
-        }
-    }
-    return false;
-}
-bool edk::network::tcp::ServerTCP::sendString(edk::network::Adress host,edk::char8* string){
+edk::int32 edk::network::tcp::ServerTCP::sendString(edk::network::Adress host,edk::char8* string){
     return this->sendStream(host,string,edk::String::strSize(string)+1u);
 }
-bool edk::network::tcp::ServerTCP::sendString(edk::network::Adress host,const char* string){
+edk::int32 edk::network::tcp::ServerTCP::sendString(edk::network::Adress host,const char* string){
     return this->sendString(host,(edk::char8*) string);
-}
-bool edk::network::tcp::ServerTCP::sendStringNonBlock(edk::network::Adress host,edk::char8* string){
-    return this->sendStreamNonBlock(host,string,edk::String::strSize(string)+1u);
-}
-bool edk::network::tcp::ServerTCP::sendStringNonBlock(edk::network::Adress host,const char* string){
-    return this->sendStringNonBlock(host,(edk::char8*) string);
 }
 //Receive the message
 edk::int32 edk::network::tcp::ServerTCP::receiveStream(edk::classID stream,edk::uint32 size,edk::network::Adress* host){

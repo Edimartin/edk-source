@@ -37,12 +37,9 @@ public:
     //close bind
     void closeBind();
 
-    bool sendStream(edk::network::Adress host,edk::classID stream,edk::uint32 size);
-    bool sendStreamNonBlock(edk::network::Adress host,edk::classID stream,edk::uint32 size);
-    bool sendString(edk::network::Adress host,edk::char8* string);
-    bool sendString(edk::network::Adress host,const char* string);
-    bool sendStringNonBlock(edk::network::Adress host,edk::char8* string);
-    bool sendStringNonBlock(edk::network::Adress host,const char* string);
+    edk::int32 sendStream(edk::network::Adress host,edk::classID stream,edk::uint32 size);
+    edk::int32 sendString(edk::network::Adress host,edk::char8* string);
+    edk::int32 sendString(edk::network::Adress host,const char* string);
     //Receive the message
     edk::int32 receiveStream(edk::classID stream,edk::uint32 size,edk::network::Adress* host);
     edk::int32 receiveStreamNonBlock(edk::classID stream,edk::uint32 size,edk::network::Adress* host);

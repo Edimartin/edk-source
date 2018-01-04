@@ -151,26 +151,19 @@ public:
     ~Socket();
 
     //Send a message to the server
-    virtual bool sendStream(edk::network::Adress host,edk::classID stream,edk::uint32 size)=0;
-    bool sendStream(edk::network::Adress host,const void* stream,edk::uint32 size);
-    bool sendStream(edk::char8* ip,edk::uint16 port,edk::classID stream,edk::uint32 size);
-    bool sendStream(const char* ip,edk::uint16 port,edk::classID stream,edk::uint32 size);
-    bool sendStream(edk::char8* ip,edk::uint16 port,const void* stream,edk::uint32 size);
-    bool sendStream(const char* ip,edk::uint16 port,const void* stream,edk::uint32 size);
-    //Send a nonBlock message to the server
-    virtual bool sendStreamNonBlock(edk::network::Adress host,edk::classID stream,edk::uint32 size)=0;
-    bool sendStreamNonBlock(edk::network::Adress host,const void* stream,edk::uint32 size);
-    bool sendStreamNonBlock(edk::char8* ip,edk::uint16 port,edk::classID stream,edk::uint32 size);
-    bool sendStreamNonBlock(const char* ip,edk::uint16 port,edk::classID stream,edk::uint32 size);
-    bool sendStreamNonBlock(edk::char8* ip,edk::uint16 port,const void* stream,edk::uint32 size);
-    bool sendStreamNonBlock(const char* ip,edk::uint16 port,const void* stream,edk::uint32 size);
+    virtual edk::int32 sendStream(edk::network::Adress host,edk::classID stream,edk::uint32 size)=0;
+    edk::int32 sendStream(edk::network::Adress host,const void* stream,edk::uint32 size);
+    edk::int32 sendStream(edk::char8* ip,edk::uint16 port,edk::classID stream,edk::uint32 size);
+    edk::int32 sendStream(const char* ip,edk::uint16 port,edk::classID stream,edk::uint32 size);
+    edk::int32 sendStream(edk::char8* ip,edk::uint16 port,const void* stream,edk::uint32 size);
+    edk::int32 sendStream(const char* ip,edk::uint16 port,const void* stream,edk::uint32 size);
     //Recebe uma mensagem
     virtual edk::int32 receiveStream(edk::classID stream,edk::uint32 size,edk::network::Adress* host)=0;
 protected:
     //create the socket
     bool createSocket(socketType type);
     //create a nonblock soket
-    bool createSocketNonBlock(socketType type);
+    //bool createSocketNonBlock(socketType type);
     //return true if have the socket
     bool haveSocket();
     //return the socket
@@ -192,10 +185,6 @@ protected:
                                  edk::classID stream,
                                  edk::uint32 size
                                  );
-    static edk::int32 sendStreamNonBlock(edk::int32 socket,
-                                         edk::classID stream,
-                                         edk::uint32 size
-                                         );
     edk::uint32 receiveStream(edk::int32 socket,
                               edk::classID stream,
                               edk::uint32 size
@@ -204,16 +193,11 @@ protected:
                                       edk::classID stream,
                                       edk::uint32 size
                                       );
-    static bool sendStreamTo(edk::int32  socket,
+    static edk::uint32 sendStreamTo(edk::int32  socket,
                              sockaddr_in sendAdress,
                              edk::classID stream,
                              edk::uint32 size
                              );
-    static bool sendStreamToNonBlock(edk::int32 socket,
-                                     sockaddr_in sendAdress,
-                                     edk::classID stream,
-                                     edk::uint32 size
-                                     );
     static edk::int32 receiveStreamFrom(edk::int32  socket,
                                         sockaddr_in *adress,
                                         edk::classID stream,
