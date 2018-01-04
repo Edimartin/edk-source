@@ -30,6 +30,10 @@ namespace udp{
 class ClientUDP: public edk::network::Socket{
 public:
     ClientUDP();
+    ~ClientUDP();
+
+    //close the socket
+    void closeSocket();
 
     //Send a message to the server
     bool sendStream(edk::network::Adress host,edk::classID stream,edk::uint32 size);

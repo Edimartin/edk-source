@@ -24,6 +24,15 @@ edk::network::udp::ClientUDP::ClientUDP()
 {
     this->cleanAdress();
 }
+edk::network::udp::ClientUDP::~ClientUDP(){
+    this->cleanAdress();
+    this->closeSocket();
+}
+
+//close the socket
+void edk::network::udp::ClientUDP::closeSocket(){
+    edk::network::Socket::closeSocket();
+}
 
 
 //Send a message to the server
