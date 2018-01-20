@@ -30,7 +30,7 @@ namespace edk {
 //Atualiza o tamanho da view
 void edk::Window::updateViewSize(){
     //seta o tamanho da view
-    this->viewWindow.frame=edk::rectf32(0.f,0.f,(edk::float32)this->getScreenSize().width,(edk::float32)this->getScreenSize().height);
+    this->viewWindow.animatedFrame = this->viewWindow.frame=edk::rectf32(0.f,0.f,(edk::float32)this->getScreenSize().width,(edk::float32)this->getScreenSize().height);
 }
 
 void Window::cleanEvents(){
