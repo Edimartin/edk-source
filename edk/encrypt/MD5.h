@@ -37,6 +37,7 @@ Gravatai RS Brazil 94065100
 #endif
 #include <string.h>
 #include "../String.h"
+#include "../File.h"
 
 namespace edk{
 namespace encrypt{
@@ -47,13 +48,19 @@ public:
 
     //processa o MD5
     static bool convertTo(edk::char8 *pass, edk::uint32 size, edk::char8 *dest);
-    static bool convertTo(const char *pass, edk::uint32 size, edk::char8 *dest);
+    static bool convertTo(const edk::char8 *pass, edk::uint32 size, edk::char8 *dest);
     static bool convertTo(edk::char8 *pass, edk::char8 *dest);
-    static bool convertTo(const char *pass, edk::char8 *dest);
+    static bool convertTo(const edk::char8 *pass, edk::char8 *dest);
+    static bool convertFileTo(edk::File* file, edk::char8 *dest);
+    static bool convertFileTo(edk::char8 *fileName, edk::char8 *dest);
+    static bool convertFileTo(const edk::char8 *fileName, edk::char8 *dest);
     static edk::char8* convert(edk::char8 *pass, edk::uint32 size);
-    static edk::char8* convert(const char *pass, edk::uint32 size);
+    static edk::char8* convert(const edk::char8 *pass, edk::uint32 size);
     static edk::char8* convert(edk::char8 *pass);
-    static edk::char8* convert(const char *pass);
+    static edk::char8* convert(const edk::char8 *pass);
+    static edk::char8* convertFile(edk::File* file);
+    static edk::char8* convertFile(edk::char8 *fileName);
+    static edk::char8* convertFile(const edk::char8 *fileName);
 };
 }//end namespace encrypt
 }//end namespace edk

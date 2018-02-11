@@ -1514,8 +1514,19 @@ char8* File::readTextString(char8 *limits, bool use){
     return NULL;
 }
 
-char8* File::readTextString(const char *limits, bool use){
+char8* File::readTextString(const edk::char8 *limits, bool use){
     return this->readTextString((edk::char8 *)limits, use);
+}
+
+//read to a string
+bool File::readTextString(char8 *str,edk::uint64 size){
+    //test the string
+    if(str && size){
+        if(this->readBin(str,size)){
+            return true;
+        }
+    }
+    return false;
 }
 
 int32 File::readTextInt(){
@@ -1785,6 +1796,16 @@ char8* File::readBinString(char8 *limits, bool use){
 
 char8* File::readBinString(const char *limits, bool use){
     return this->readBinString((char8 *)limits,use);
+}
+
+//read to a string
+bool File::readBinString(char8 *str,edk::uint64 size){
+    if(str && size){
+        if(this->readBin(str,size)){
+            return true;
+        }
+    }
+    return false;
 }
 
 int32 File::readBinInt32(){

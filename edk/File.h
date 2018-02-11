@@ -198,7 +198,10 @@ class File {
 
     char8* readTextString(char8 *limits, bool use = false);
 
-    char8* readTextString(const char *limits, bool use = false);
+    char8* readTextString(const edk::char8 *limits, bool use = false);
+
+    //read to a string
+    bool readTextString(char8 *str,edk::uint64 size);
 
     int32 readTextInt();
 
@@ -219,6 +222,9 @@ class File {
     char8* readBinString(char8 *limits, bool use = false);
 
     char8* readBinString(const char *limits, bool use = false);
+
+    //read to a string
+    bool readBinString(char8 *str,edk::uint64 size);
 
     int32 readBinInt32();
 
