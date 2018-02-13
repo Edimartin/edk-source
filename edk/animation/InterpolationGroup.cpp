@@ -285,6 +285,23 @@ bool edk::animation::InterpolationGroup::selectInterpolationBySecond(edk::float3
     //else return false
     return false;
 }
+bool edk::animation::InterpolationGroup::selectInterpolationRewindBySecond(edk::float32 second){
+    //test the animations
+    if(this->animations.size()){
+        //test with all interpolations
+        for(edk::uint32 i=this->animations.size();i>0u;i--){
+            if(second>this->animations[i-1u]->getStart().second && second<=this->animations[i-1u]->getEnd().second){
+                //find it
+                this->interpolationSelect=i;
+                this->filterSelectInterpolation();
+                return true;
+            }
+        }
+    }
+    this->interpolationSelect=0u;
+    //else return false
+    return false;
+}
 //print the selectedFrames
 bool edk::animation::InterpolationGroup::printSelectedFramesFrom(edk::uint32 start,edk::uint32 end){
     //test if have frames
@@ -1012,6 +1029,8 @@ void edk::animation::InterpolationGroup::playRewind(){
 void edk::animation::InterpolationGroup::playRewindIn(edk::float32 second){
     //set play forward
     this->playForwardIn(second);
+    //select the interpolation rewind
+    this->selectInterpolationRewindBySecond(second);
     //and change to rewind
     this->rewind=true;
 }
@@ -1135,7 +1154,7 @@ edk::float32 edk::animation::InterpolationGroup::updateClockAnimation(){
                         this->animationSecond += dist;
                     }
                     //select the first animation
-                    this->selectInterpolationBySecond(this->animationSecond);
+                    this->selectInterpolationRewindBySecond(this->animationSecond);
                 }
                 else{
                     //else just set the end

@@ -362,6 +362,7 @@ private:
     bool insertLineFrameFirst(edk::animation::Frame frame);
     //select the interpolation by the second
     bool selectInterpolationBySecond(edk::float32 second);
+    bool selectInterpolationRewindBySecond(edk::float32 second);
     //print the selectedFrames
     bool printSelectedFramesFrom(edk::uint32 start,edk::uint32 end);
     //filter the selectInterpolation from start and end
