@@ -306,6 +306,12 @@ bool Image2D::loadFromFileToRGBA(char8 *imageFileName){
                     ret = this->loadFromMemoryToRGBA(fileVector,file.getFileSize());
                 }
                 delete[] fileVector;
+                //test if neet delete the name
+                if(ret){
+                    if(!this->setName(imageFileName)){
+                        ret=false;
+                    }
+                }
             }
             return ret;
         }
