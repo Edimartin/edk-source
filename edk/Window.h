@@ -214,6 +214,34 @@ class Window {
     //return the number of buttons of a controller
     static edk::uint32 getControllerButtonCount(edk::uint32 controller);
 
+    bool eventControllerButtonPressed(edk::uint32 controller);
+
+    bool eventControllerButtonRelease(edk::uint32 controller);
+
+    bool eventControllerButtonHolded(edk::uint32 controller);
+
+    bool eventControllerAxisMoved(edk::uint32 controller);
+
+    uint8 eventGetControllerButtonPressedSize(edk::uint32 controller);
+
+    uint8 eventGetControllerButtonReleaseSize(edk::uint32 controller);
+
+    uint8 eventGetControllerButtonHoldedSize(edk::uint32 controller);
+
+    uint8 eventGetControllerAxisMovedSize(edk::uint32 controller);
+
+    uint8 eventGetControllerButtonPressed(edk::uint32 controller, uint32 pos);
+
+    uint8 eventGetControllerButtonRelease(edk::uint32 controller, uint32 pos);
+
+    uint8 eventGetControllerButtonHolded(edk::uint32 controller, uint32 pos);
+
+    uint32 eventGetControllerAxisIDMoved(edk::uint32 controller, uint32 pos);
+
+    float32 eventGetControllerAxisMoved(edk::uint32 controller, uint32 pos);
+
+    float32 eventGetControllerAxisMovedByID(edk::uint32 controller, uint32 id);
+
  public:
     color3f32 cleanColor;
         //

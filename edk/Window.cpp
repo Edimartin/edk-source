@@ -1127,4 +1127,60 @@ edk::uint32 Window::getControllerButtonCount(edk::uint32 controller){
     return sf::Joystick::getButtonCount(controller);
 }
 
+bool Window::eventControllerButtonPressed(edk::uint32 controller){
+    return (bool)this->eventGetControllerButtonPressedSize(controller);
+}
+
+bool Window::eventControllerButtonRelease(edk::uint32 controller){
+    return (bool)this->eventGetControllerButtonReleaseSize(controller);
+}
+
+bool Window::eventControllerButtonHolded(edk::uint32 controller){
+    return (bool)this->eventGetControllerButtonHoldedSize(controller);
+}
+
+bool Window::eventControllerAxisMoved(edk::uint32 controller){
+    return (bool)this->eventGetControllerAxisMovedSize(controller);
+}
+
+uint8 Window::eventGetControllerButtonPressedSize(edk::uint32 controller){
+    return this->events.controllerPressed.getControllerButtonSizeInPosition(controller);
+}
+
+uint8 Window::eventGetControllerButtonReleaseSize(edk::uint32 controller){
+    return this->events.controllerReleased.getControllerButtonSizeInPosition(controller);
+}
+
+uint8 Window::eventGetControllerButtonHoldedSize(edk::uint32 controller){
+    return this->events.controllerHolded.getControllerButtonSizeInPosition(controller);
+}
+
+uint8 Window::eventGetControllerAxisMovedSize(edk::uint32 controller){
+    return this->events.controllerAxisMoved.getControllerButtonSizeInPosition(controller);
+}
+
+uint8 Window::eventGetControllerButtonPressed(edk::uint32 controller, uint32 pos){
+    return this->events.controllerPressed.getControllerButtonInPosition(controller,pos);
+}
+
+uint8 Window::eventGetControllerButtonRelease(edk::uint32 controller, uint32 pos){
+    return this->events.controllerReleased.getControllerButtonInPosition(controller,pos);
+}
+
+uint8 Window::eventGetControllerButtonHolded(edk::uint32 controller, uint32 pos){
+    return this->events.controllerHolded.getControllerButtonInPosition(controller,pos);
+}
+
+uint32 Window::eventGetControllerAxisIDMoved(edk::uint32 controller, uint32 pos){
+    return this->events.controllerAxisMoved.getControllerAxisInPosition(controller,pos);
+}
+
+float32 Window::eventGetControllerAxisMoved(edk::uint32 controller, uint32 pos){
+    return this->events.controllerAxisMoved.getControllerAxisValueInPosition(controller,pos);
+}
+
+float32 Window::eventGetControllerAxisMovedByID(edk::uint32 controller, uint32 id){
+    return this->events.controllerAxisMoved.getControllerAxisValueByID(controller,id);
+}
+
 } /* End of namespace edk */

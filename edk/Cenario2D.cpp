@@ -3266,6 +3266,20 @@ bool edk::Cenario2D::writeToXML(edk::XML* xml,edk::uint32 id){
     }
     return false;
 }
+bool edk::Cenario2D::writeToXML(const edk::char8* fileName,edk::uint32 id){
+    return this->writeToXML((edk::char8*) fileName,id);
+}
+bool edk::Cenario2D::writeToXML(edk::char8* fileName,edk::uint32 id){
+    //load the XML file
+    if(fileName){
+        edk::XML xml;
+        if(this->writeToXML(&xml,id)){
+            //
+            return xml.saveToFile(fileName);
+        }
+    }
+    return false;
+}
 bool edk::Cenario2D::readFromXML(edk::XML* xml,edk::uint32 id){
     if(xml){
         bool ret=false;
@@ -3624,6 +3638,20 @@ bool edk::Cenario2D::readFromXML(edk::XML* xml,edk::uint32 id){
             delete[] nameID;
         }
         return ret;
+    }
+    return false;
+}
+bool edk::Cenario2D::readFromXML(const edk::char8* fileName,edk::uint32 id){
+    return this->readFromXML((edk::char8*) fileName,id);
+}
+bool edk::Cenario2D::readFromXML(edk::char8* fileName,edk::uint32 id){
+    //load the XML file
+    if(fileName){
+        edk::XML xml;
+        if(xml.loadFile(fileName)){
+            //load the cenario from the XML file
+            return this->readFromXML(&xml,id);
+        }
     }
     return false;
 }
