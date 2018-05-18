@@ -22,16 +22,14 @@ Gravatai RS Brazil 94065100
 */
 
 #pragma once
-#include <stdio.h>
-#include <stdlib.h>
 
 #if _WIN32 || _WIN64
 /*LIBS
 -lwsock32
 */
-#include <windows.h>
-#include <winsock.h>
 #include <winsock2.h>
+//#include <winsock.h>
+#include <windows.h>
 #define bzero(b,len) (memset((b), '\0', (len)), (void) 0)
 #else
 #include <arpa/inet.h>
@@ -46,6 +44,9 @@ Gravatai RS Brazil 94065100
 
 
 #include <unistd.h>
+
+#include <stdio.h>
+#include <stdlib.h>
 
 #include "../TypeVars.h"
 #include "../String.h"

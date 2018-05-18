@@ -245,6 +245,9 @@ edk::uint32 edk::network::Adress::getIpByName(edk::char8* name){
                         );
             }
         }
+        else{
+            return edk::network::Adress::getIP(name);
+        }
     }
     return 0u;
 }
@@ -321,6 +324,10 @@ edk::int32 edk::network::Socket::sendStream(const char* ip,edk::uint16 port,cons
 
 //create the socket
 bool edk::network::Socket::createSocket(socketType type){
+#if _WIN32 || _WIN64
+//inicializa a winSock
+if(!thisInitWinsock) startWinsock();
+#endif
     //test the type
     switch(type){
     case EDK_SOCKET_TCP:

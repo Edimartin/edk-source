@@ -22,9 +22,9 @@ Gravatai RS Brazil 94065100
 */
 
 #pragma once
-#include "../../vector/BinaryTree.h"
 #include "../Socket.h"
 #include "../ServerSocket.h"
+#include "../../vector/BinaryTree.h"
 
 namespace edk{
 namespace network{

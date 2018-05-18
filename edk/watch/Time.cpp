@@ -155,10 +155,11 @@ void Time::sleepProcessMiliseconds(uint32 Milliseconds){
 #endif
 }
 
-void Time::sleepProcessMicroseconds(uint32 Microseconds){
 #if defined(_WIN32) || defined(_WIN64)
+void Time::sleepProcessMicroseconds(uint32){
     //error. cant find microsleep in Windows
 #elif defined(__linux__)//Linux
+void Time::sleepProcessMicroseconds(uint32 Microseconds){
     //
     edk::int32 seconds=0;
     //converte os segundos apenas se os mesmos existirem
