@@ -42,11 +42,10 @@ bool edk::animation::Path3DGroup::reachFrame(edk::animation::Frame* frame){
                                                                  )
                                                     );
     if(distance<this->closerDistance
-            &&
-            distance>-this->closerDistance
             ){
-        if(this->saveStep>1.f)
-        ret=true;
+        if(this->saveStep>=1.f){
+            ret=true;
+        }
     }
     if(this->changeFrame){
         //test if reach the frame value
@@ -63,16 +62,16 @@ bool edk::animation::Path3DGroup::reachFrame(edk::animation::Frame* frame){
                 this->getZ()<=(temp->z+this->closerDistance)
                 ){
             //
-            if(this->saveStep>1.f)
-            ret = true;
+            if(this->saveStep>=1.f)
+                ret = true;
         }
     }
     else{
         //test if the distance is bigger than last distance
         if(distance > this->lastDist){
             //
-            if(this->saveStep>1.f)
-            ret=true;
+            if(this->saveStep>=1.f)
+                ret=true;
         }
     }
     //save distance
@@ -137,12 +136,22 @@ edk::float32 edk::animation::Path3DGroup::updateClockAnimation(){
     //load the frame
     edk::animation::Frame3D* temp = (edk::animation::Frame3D*)this->animations[this->animationPosition];
     edk::animation::Frame3D* last = (edk::animation::Frame3D*)this->getLastFrame();
-    //calculate the new position
-    this->saveStep = step/temp->second;
-    this->setX(last->x + ((temp->x - last->x) * this->saveStep));
-    this->setY( last->y + ((temp->y - last->y) * this->saveStep));
-    this->setZ( last->z + ((temp->z - last->z) * this->saveStep));
-    return step;
+    if(last){
+        //calculate the new position
+        if(temp->second==0.f){
+            this->saveStep = 1.f;
+        }
+        else{
+            this->saveStep = (step - last->second)/(temp->second-last->second);
+        }
+        this->setX(last->x + ((temp->x - last->x) * this->saveStep));
+        this->setY( last->y + ((temp->y - last->y) * this->saveStep));
+        this->setZ( last->z + ((temp->z - last->z) * this->saveStep));
+        return step;
+    }
+    else{
+        return 0.f;
+    }
 }
 
 //write to XML

@@ -97,8 +97,10 @@ public:
 
     //animarion position
     edk::animation::Path2DGroup animationPosition;
+    bool wasAnimatingPosition;
     //Animation rotation
     edk::animation::Path1DGroup animationRotation;
+    bool wasAnimatingRotation;
 
     virtual edk::physics2D::PhysicObject2D operator=(edk::physics2D::PhysicObject2D obj){
         //copy the object

@@ -1,6 +1,8 @@
 #include "Cenario2D.h"
 
-edk::Cenario2D::Cenario2D(){
+edk::Cenario2D::Cenario2D():
+    treeAnimPhys(&this->world)
+{
     //
     this->world.addContactCallback(this);
     this->cleanSelectedTileMap();
@@ -2269,6 +2271,7 @@ bool edk::Cenario2D::deletePhysicObject(edk::uint32 levelPosition,edk::physics2D
                 edk::Cenario2D::LevelObj* level =this->levels[levelPosition];
                 if(level){
                     if(level->objsPhys){
+                        this->treeAnimPhys.remove(obj);
                         //remove from world
                         this->world.removeObject(obj);
                         bool ret = level->objsPhys->deleteObj((edk::Object2D*)obj);
@@ -2295,6 +2298,7 @@ void edk::Cenario2D::deleteAllPhysicObjects(edk::uint32 levelPosition){
                 if(level->objsPhys){
                     edk::uint32 size = level->objsPhys->size();
                     for(edk::uint32 i=0u;i<size;i++){
+                        this->treeAnimPhys.remove((edk::physics2D::PhysicObject2D*)level->objsPhys->getObjectInPosition(0u));
                         //remove from worlf
                         this->world.removeObject((edk::physics2D::PhysicObject2D*)level->objsPhys->getObjectInPosition(0u));
                         level->objsPhys->deleteObjInPosition(0u);
@@ -2332,6 +2336,7 @@ bool edk::Cenario2D::removePhysicObject(edk::uint32 levelPosition,edk::physics2D
                 edk::Cenario2D::LevelObj* level =this->levels[levelPosition];
                 if(level){
                     if(level->objsPhys){
+                        this->treeAnimPhys.remove(obj);
                         //remove from world
                         this->world.removeObject(obj);
                         bool ret = level->objsPhys->removeObj((edk::Object2D*)obj);
@@ -2397,6 +2402,89 @@ void edk::Cenario2D::removePhysicObjects(){
         }
     }
 }
+//set physic object to be animated
+bool edk::Cenario2D::setPhysicObjectAnimated(edk::uint32 levelPosition,edk::physics2D::KinematicObject2D* obj){
+    //test the level position
+    if(levelPosition){
+        levelPosition--;
+        //load the level
+        edk::Cenario2D::LevelObj* level = this->levels[levelPosition];
+        if(level){
+            //test if have objects
+            if(level->objsPhys){
+                //load the object
+                edk::physics2D::PhysicObject2D* temp = (edk::physics2D::PhysicObject2D*)level->objsPhys->getObject(obj);
+                if(temp){
+                    if(temp->getType() == edk::physics::KinematicBody){
+                        //add the object to the animation tree
+                        if(this->treeAnimPhys.haveElement(temp)){
+                            return true;
+                        }
+                        else{
+                            return this->treeAnimPhys.add(temp);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
+bool edk::Cenario2D::setPhysicObjectAnimated(edk::uint32 levelPosition,edk::uint32 position){
+    //test the level position
+    if(levelPosition){
+        levelPosition--;
+        //load the level
+        edk::Cenario2D::LevelObj* level = this->levels[levelPosition];
+        if(level){
+            //test if have objects
+            if(level->objsPhys){
+                //load the object
+                edk::physics2D::PhysicObject2D* temp = (edk::physics2D::PhysicObject2D*)level->objsPhys->getObjectInPosition(position);
+                if(temp){
+                    if(temp->getType() == edk::physics::KinematicBody){
+                        //add the object to the animation tree
+                        if(this->treeAnimPhys.haveElement(temp)){
+                            return true;
+                        }
+                        else{
+                            return this->treeAnimPhys.add(temp);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
+bool edk::Cenario2D::setPhysicObjectAnimated(edk::uint32 levelPosition,edk::float32 depth){
+    //test the level position
+    if(levelPosition){
+        levelPosition--;
+        //load the level
+        edk::Cenario2D::LevelObj* level = this->levels[levelPosition];
+        if(level){
+            //test if have objects
+            if(level->objsPhys){
+                //load the object
+                edk::physics2D::PhysicObject2D* temp = (edk::physics2D::PhysicObject2D*)level->objsPhys->getObjectFromDepth(depth);
+                if(temp){
+                    if(temp->getType() == edk::physics::KinematicBody){
+                        //add the object to the animation tree
+                        if(this->treeAnimPhys.haveElement(temp)){
+                            return true;
+                        }
+                        else{
+                            return this->treeAnimPhys.add(temp);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
+
 //DELETE ALL LEVELS
 void edk::Cenario2D::deleteLevel(edk::uint32 levelPosition){
     if(levelPosition){
@@ -2428,6 +2516,7 @@ void edk::Cenario2D::deleteAllLevels(){
     edk::uint32 size = this->levels.size();
     if(size){
         this->treeAnim.clean();
+        this->treeAnimPhys.clean();
         edk::Cenario2D::LevelObj* level = NULL;
         for(edk::uint32 i=0u;i<size;i++){
             level = this->levels[i];
@@ -2649,6 +2738,7 @@ void edk::Cenario2D::updateAnimations(){
     }
     */
     this->treeAnim.update();
+    this->treeAnimPhys.update();
     //update the tileSet
     this->tileSet.updateAnimations();
 }

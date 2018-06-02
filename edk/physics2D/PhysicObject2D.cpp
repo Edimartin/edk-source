@@ -32,6 +32,9 @@ edk::physics2D::PhysicObject2D::PhysicObject2D(){
     this->angularVelocitySetted=false;
     this->direction = edk::vec2f32(0,0);
     this->physType=0u;
+
+    this->wasAnimatingPosition=false;
+    this->wasAnimatingRotation=false;
 }
 edk::physics2D::PhysicObject2D::~PhysicObject2D(){
     if(!this->canDeleteObject){
@@ -201,14 +204,23 @@ bool edk::physics2D::PhysicObject2D::updateAnimations(){
         //set the X and Y
         this->animationPosition.setX(this->position.x);
         this->animationPosition.setY(this->position.y);
-        //
         this->animationPosition.updateClockAnimation();
-
         //get X and Y
-        this->position = edk::vec2f32(this->animationPosition.getX(),
+        edk::vec2f32 positionAnim = edk::vec2f32(this->animationPosition.getX(),
                                       this->animationPosition.getY()
                                       );
+        this->setLinearVelocity((positionAnim.x - this->position.x)*100.f,(positionAnim.y - this->position.y)*100.f);
+        //this->position = positionAnim;
         ret=true;
+
+        this->wasAnimatingPosition=true;
+    }
+    else{
+        //remove the linearVelocity
+        if(this->wasAnimatingPosition){
+            this->setLinearVelocity(0.f,0.f);
+        }
+        this->wasAnimatingPosition=false;
     }
     if(this->animationRotation.isPlaying()){
         //set the angle
@@ -216,8 +228,17 @@ bool edk::physics2D::PhysicObject2D::updateAnimations(){
         //update
         this->animationRotation.updateClockAnimation();
         //get the new X
-        this->angle = this->animationRotation.getX();
+        edk::float32 angleAnim = this->animationRotation.getX();
+        this->setAngularVelocity((angleAnim - this->angle)*100.f);
         ret=true;
+        this->wasAnimatingRotation=true;
+    }
+    else{
+        //
+        if(this->wasAnimatingRotation){
+            this->setAngularVelocity(0.f);
+        }
+        this->wasAnimatingRotation=false;
     }
     this->updateMeshAnimations();
     return ret;

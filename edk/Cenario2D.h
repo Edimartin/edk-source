@@ -125,6 +125,10 @@ public:
     bool removePhysicObject(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj);
     bool removePhysicObjects(edk::uint32 levelPosition);
     void removePhysicObjects();
+    //set physic object to be animated
+    bool setPhysicObjectAnimated(edk::uint32 levelPosition,edk::physics2D::KinematicObject2D* obj);
+    bool setPhysicObjectAnimated(edk::uint32 levelPosition,edk::uint32 position);
+    bool setPhysicObjectAnimated(edk::uint32 levelPosition,edk::float32 depth);
 
 
     //DELETE ALL LEVELS
@@ -856,6 +860,21 @@ private:
             value->updateAnimations();
         }
     }treeAnim;
+
+    //objects animation tree
+    class TreeAnimPhys: public edk::vector::BinaryTree<edk::physics2D::PhysicObject2D*>{
+    public:
+        TreeAnimPhys(edk::physics2D::World2D* world){this->world = world;}
+        ~TreeAnimPhys(){}
+        //UPDATE
+        virtual void updateElement(edk::physics2D::PhysicObject2D* value){
+            //update the value
+            value->updateAnimations();
+            this->world->updateObjectLinearVelocity(value);
+        }
+    private:
+        edk::physics2D::World2D* world;
+    }treeAnimPhys;
 
     edk::vector::Stack<edk::Cenario2D::LevelObj*> levels;
 };

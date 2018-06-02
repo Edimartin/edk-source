@@ -38,11 +38,10 @@ bool edk::animation::Path2DGroup::reachFrame(edk::animation::Frame* frame){
     //calculate the distance between the temp and the last
     edk::float32 distance = edk::Math::pythagoras2f(edk::vec2f32(this->getX() - temp->x,this->getY() - temp->y));
     if(distance<this->closerDistance
-            &&
-            distance>-this->closerDistance
             ){
-        if(this->saveStep>1.f)
-        ret=true;
+        if(this->saveStep>=1.f){
+            ret=true;
+        }
     }
     if(this->changeFrame){
         //test if reach the frame value
@@ -55,7 +54,7 @@ bool edk::animation::Path2DGroup::reachFrame(edk::animation::Frame* frame){
                 this->getY()<=(temp->y+this->closerDistance)
                 ){
             //
-            if(this->saveStep>1.f)
+            if(this->saveStep>=1.f)
             ret = true;
         }
     }
@@ -63,7 +62,7 @@ bool edk::animation::Path2DGroup::reachFrame(edk::animation::Frame* frame){
         //test if the distance is bigger than last distance
         if(distance > this->lastDist){
             //
-            if(this->saveStep>1.f)
+            if(this->saveStep>=1.f)
             ret=true;
         }
     }
@@ -128,29 +127,21 @@ edk::float32 edk::animation::Path2DGroup::updateClockAnimation(){
     //load the frame
     edk::animation::Frame2D* temp = (edk::animation::Frame2D*)this->animations[this->animationPosition];
     edk::animation::Frame2D* last = (edk::animation::Frame2D*)this->getLastFrame();
-
-    this->saveStep = step/temp->second;
-    this->setX(last->x + ((temp->x - last->x) * this->saveStep));
-    this->setY( last->y + ((temp->y - last->y) * this->saveStep));
-
-    /*
-
-    //this->setY(vec.y);
-
-    //calculate the new position
-    //this->y = this->y + ((temp->y - this->y) * step);
-
-    if(step>=temp->second){
-        this->setX(temp->x);
-        this->y = temp->y;
+    if(last){
+        //calculate the new position
+        if(temp->second==0.f){
+            this->saveStep = 1.f;
+        }
+        else{
+            this->saveStep = (step - last->second)/(temp->second-last->second);
+        }
+        this->setX(last->x + ((temp->x - last->x) * this->saveStep));
+        this->setY( last->y + ((temp->y - last->y) * this->saveStep));
+        return step;
     }
     else{
-        edk::float32 div = step/temp->second;
-        this->setX(last->x + ((temp->x - last->x) * div));
-        this->y = last->y + ((temp->y - last->y) * div);
+        return 0.f;
     }
-    */
-    return step;
 }
 
 //write to XML

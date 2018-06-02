@@ -143,6 +143,8 @@ protected:
     bool changeFrame;
     //save closerDistance
     edk::float32 closerDistance;
+    //step
+    edk::float32 step;
     //save the step
     edk::float32 saveStep;
 private:
