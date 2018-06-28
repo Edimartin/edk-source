@@ -226,6 +226,22 @@ class File {
     //read to a string
     bool readBinString(char8 *str,edk::uint64 size);
 
+    int8 readBinInt8();
+
+    int8* readBinInt8(int64 size);
+
+    uint8 readBinUInt8();
+
+    uint8* readBinUint8(uint64 size);
+
+    int16 readBinInt16();
+
+    int16* readBinInt16(int16 size);
+
+    uint16 readBinUInt16();
+
+    uint16* readBinUint16(uint16 size);
+
     int32 readBinInt32();
 
     int32* readBinInt32(int64 size);
@@ -233,6 +249,14 @@ class File {
     uint32 readBinUInt32();
 
     uint32* readBinUint32(uint64 size);
+
+    int64 readBinInt64();
+
+    int64* readBinInt64(int64 size);
+
+    uint64 readBinUInt64();
+
+    uint64* readBinUint64(uint64 size);
 
     edk::float32 readBinFloat();
 

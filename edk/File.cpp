@@ -1808,7 +1808,123 @@ bool File::readBinString(char8 *str,edk::uint64 size){
     return false;
 }
 
-int32 File::readBinInt32(){
+edk::int8 File::readBinInt8(){
+    //read the size
+    edk::int8* temp = (edk::int8*)this->readBin(sizeof(edk::int8));
+    //create the edk::char8
+    edk::int8 n = 0u;
+    if(temp){
+        //copy the edk::char8
+        n = *temp;
+
+        //delete temp
+        delete temp;
+    }
+    temp=NULL;
+
+    //return the edk::char8
+    return n;
+}
+
+edk::int8* File::readBinInt8(int64 size){
+    //create the string
+    edk::int8* temp = (edk::int8*)this->readBin(sizeof(edk::int8)*size);
+    if(temp){
+        //return the string
+        return temp;
+    }
+    //else return NULL
+    return NULL;
+}
+
+edk::uint8 File::readBinUInt8(){
+    //read the size
+    edk::uint8* temp = (edk::uint8*)this->readBin(sizeof(edk::uint8));
+    //create the edk::char8
+    edk::uint8 n = 0u;
+    if(temp){
+        //copy the edk::char8
+        n = *temp;
+
+        //delete temp
+        delete temp;
+    }
+    temp=NULL;
+
+    //return the edk::char8
+    return n;
+}
+
+edk::uint8* File::readBinUint8(uint64 size){
+    //create the string
+    edk::uint8* temp = (edk::uint8*)this->readBin(sizeof(edk::uint8)*size);
+    if(temp){
+        //return the string
+        return temp;
+    }
+    //else return NULL
+    return NULL;
+}
+
+edk::int16 File::readBinInt16(){
+    //read the size
+    edk::int16* temp = (edk::int16*)this->readBin(sizeof(edk::int16));
+    //create the edk::char8
+    edk::int16 n = 0u;
+    if(temp){
+        //copy the edk::char8
+        n = *temp;
+
+        //delete temp
+        delete temp;
+    }
+    temp=NULL;
+
+    //return the edk::char8
+    return n;
+}
+
+edk::int16* File::readBinInt16(int16 size){
+    //create the string
+    edk::int16* temp = (edk::int16*)this->readBin(sizeof(edk::int16)*size);
+    if(temp){
+        //return the string
+        return temp;
+    }
+    //else return NULL
+    return NULL;
+}
+
+edk::uint16 File::readBinUInt16(){
+    //read the size
+    edk::uint16* temp = (edk::uint16*)this->readBin(sizeof(edk::uint16));
+    //create the edk::char8
+    edk::uint16 n = 0u;
+    if(temp){
+        //copy the edk::char8
+        n = *temp;
+
+        //delete temp
+        delete temp;
+    }
+    temp=NULL;
+
+    //return the edk::char8
+    return n;
+}
+
+edk::uint16* File::readBinUint16(uint16 size){
+    //create the string
+    edk::uint16* temp = (edk::uint16*)this->readBin(sizeof(edk::uint16)*size);
+    if(temp){
+        //return the string
+        return temp;
+    }
+    //else return NULL
+    return NULL;
+}
+
+edk::int32 File::readBinInt32(){
     //read the size
     edk::int32* temp = (edk::int32*)this->readBin(sizeof(edk::int32));
     //create the edk::char8
@@ -1826,7 +1942,7 @@ int32 File::readBinInt32(){
     return n;
 }
 
-int32* File::readBinInt32(int64 size){
+edk::int32* File::readBinInt32(int64 size){
     //create the string
     edk::int32* temp = (edk::int32*)this->readBin(sizeof(edk::int32)*size);
     if(temp){
@@ -1837,7 +1953,7 @@ int32* File::readBinInt32(int64 size){
     return NULL;
 }
 
-uint32 File::readBinUInt32(){
+edk::uint32 File::readBinUInt32(){
     //read the size
     edk::uint32* temp = (edk::uint32*)this->readBin(sizeof(edk::uint32));
     //create the edk::char8
@@ -1855,9 +1971,67 @@ uint32 File::readBinUInt32(){
     return n;
 }
 
-uint32* File::readBinUint32(uint64 size){
+edk::uint32* File::readBinUint32(uint64 size){
     //create the string
     edk::uint32* temp = (edk::uint32*)this->readBin(sizeof(edk::uint32)*size);
+    if(temp){
+        //return the string
+        return temp;
+    }
+    //else return NULL
+    return NULL;
+}
+
+edk::int64 File::readBinInt64(){
+    //read the size
+    edk::int64* temp = (edk::int64*)this->readBin(sizeof(edk::int64));
+    //create the edk::char8
+    edk::int64 n = 0u;
+    if(temp){
+        //copy the edk::char8
+        n = *temp;
+
+        //delete temp
+        delete temp;
+    }
+    temp=NULL;
+
+    //return the edk::char8
+    return n;
+}
+
+edk::int64* File::readBinInt64(int64 size){
+    //create the string
+    edk::int64* temp = (edk::int64*)this->readBin(sizeof(edk::int64)*size);
+    if(temp){
+        //return the string
+        return temp;
+    }
+    //else return NULL
+    return NULL;
+}
+
+edk::uint64 File::readBinUInt64(){
+    //read the size
+    edk::uint64* temp = (edk::uint64*)this->readBin(sizeof(edk::uint64));
+    //create the edk::char8
+    edk::uint64 n = 0u;
+    if(temp){
+        //copy the edk::char8
+        n = *temp;
+
+        //delete temp
+        delete temp;
+    }
+    temp=NULL;
+
+    //return the edk::char8
+    return n;
+}
+
+edk::uint64* File::readBinUint64(uint64 size){
+    //create the string
+    edk::uint64* temp = (edk::uint64*)this->readBin(sizeof(edk::uint64)*size);
     if(temp){
         //return the string
         return temp;

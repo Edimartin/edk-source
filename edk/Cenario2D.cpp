@@ -3745,3 +3745,22 @@ bool edk::Cenario2D::readFromXML(edk::char8* fileName,edk::uint32 id){
     }
     return false;
 }
+//Without id
+bool edk::Cenario2D::writeToXML(edk::XML* xml){
+    return this->writeToXML(xml,0u);
+}
+bool edk::Cenario2D::writeToXML(const edk::char8* fileName){
+    return this->writeToXML(fileName,0u);
+}
+bool edk::Cenario2D::writeToXML(edk::char8* fileName){
+    return this->writeToXML(fileName,0u);
+}
+bool edk::Cenario2D::readFromXML(edk::XML* xml){
+    return this->readFromXML(xml,0u);
+}
+bool edk::Cenario2D::readFromXML(const edk::char8* fileName){
+    return this->readFromXML(fileName,0u);
+}
+bool edk::Cenario2D::readFromXML(edk::char8* fileName){
+    return this->readFromXML(fileName,0u);
+}

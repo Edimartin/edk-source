@@ -238,6 +238,13 @@ public:
     virtual bool readFromXML(edk::XML* xml,edk::uint32 id);
     virtual bool readFromXML(const edk::char8* fileName,edk::uint32 id);
     virtual bool readFromXML(edk::char8* fileName,edk::uint32 id);
+    //Without id
+    virtual bool writeToXML(edk::XML* xml);
+    virtual bool writeToXML(const edk::char8* fileName);
+    virtual bool writeToXML(edk::char8* fileName);
+    virtual bool readFromXML(edk::XML* xml);
+    virtual bool readFromXML(const edk::char8* fileName);
+    virtual bool readFromXML(edk::char8* fileName);
 
     edk::physics2D::World2D world;
     edk::tiles::TileSet2D tileSet;
