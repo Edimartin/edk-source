@@ -168,7 +168,8 @@ bool edk::animation::InterpolationLine::setStart(edk::animation::Frame* frame){
         frame->retainObject(&this->start);
 
         //test if the end is < then start
-        if(*this->end<*this->start){
+        //if(*this->end<*this->start){
+        if(this->end->smallerThan(this->start)){
             //then switch the frames
             this->switchFrames();
         }
@@ -187,7 +188,8 @@ bool edk::animation::InterpolationLine::setStart(edk::float32 second){
         //
         this->start->second=second;
         //test if the end is < then start
-        if(*this->end<*this->start){
+        //if(*this->end<*this->start){
+        if(this->end->smallerThan(this->start)){
             //then switch the frames
             this->switchFrames();
         }
@@ -240,7 +242,8 @@ bool edk::animation::InterpolationLine::setEnd(edk::animation::Frame* frame){
         frame->retainObject(&this->end);
 
         //test if the end is < then start
-        if(*this->end<*this->start){
+        //if(*this->end<*this->start){
+        if(this->end->smallerThan(this->start)){
             //then switch the frames
             this->switchFrames();
         }
@@ -259,7 +262,8 @@ bool edk::animation::InterpolationLine::setEnd(edk::float32 second){
         //
         this->end->second=second;
         //test if the end is < then start
-        if(*this->end<*this->start){
+        //if(*this->end<*this->start){
+        if(this->end->smallerThan(this->start)){
             //then switch the frames
             this->switchFrames();
         }

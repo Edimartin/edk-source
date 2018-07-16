@@ -472,3 +472,21 @@ bool edk::physics2D::PhysicObject2D::readFromXMLisSensor(edk::XML* xml,edk::uint
     }
     return false;
 }
+
+bool edk::physics2D::PhysicObject2D::cloneFrom(edk::physics2D::PhysicObject2D* obj){
+    if(obj){
+        //copy the object
+        this->cloneFrom(obj);
+        //copy the mesh
+        //this->physicMesh=obj->physicMesh;
+        this->physicMesh.cloneFrom(&obj->physicMesh);
+        this->canSleep = obj->canSleep;
+        this->fixedRotation = obj->fixedRotation;
+        //this->animationPosition = obj->animationPosition;
+        this->animationPosition.cloneFrom(&obj->animationPosition);
+        //this->animationRotation = obj->animationRotation;
+        this->animationRotation.cloneFrom(&obj->animationRotation);
+        return true;
+    }
+    return false;
+}

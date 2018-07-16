@@ -86,6 +86,55 @@ class Interpolation3DGroup: public Interpolation2DGroup
         //read XML
         virtual bool readFromXML(edk::XML* xml,edk::uint32 id);
 
+        virtual bool cloneFrom(edk::animation::Interpolation3DGroup* group){
+            //clean frames
+            this->cleanAnimations();
+            if(group){
+                //first copy the frames
+                edk::uint32 size = group->animations.size();
+                for(edk::uint32 i=0u;i<size;i++){
+                    //
+                    edk::animation::InterpolationLine3D* temp = (edk::animation::InterpolationLine3D*)group->animations[i];
+                    if(temp){
+                        //test if it create the start frame
+                        if(temp->getCreateStart()){
+                            //copy the frame to the animation
+                            this->addNewInterpolationLine(temp->getStart3D());
+                        }
+                        //test if it create the end frame
+                        if(temp->getCreateEnd()){
+                            //copy the frame to the animation
+                            this->addNewInterpolationLine(temp->getEnd3D());
+                        }
+                    }
+                }
+
+                //now copy the animation names
+                size = group->animationNames.size();
+                for(edk::uint32 i=0u;i<size;i++){
+                    edk::animation::AnimationName* temp = (edk::animation::AnimationName*)group->animationNames.getElementInPosition(i);
+                    if(temp){
+                        this->addNewAnimationName(temp->name(),temp->start,temp->end);
+                    }
+                }
+                return true;
+            }
+            return false;
+        }
+    protected:
+        edk::float32 tempZ;
+        //create the interpolation
+        virtual edk::animation::InterpolationLine* newLineInterpolation();
+        //create the frame
+        virtual edk::animation::Frame* newFrame();
+        //print the frame
+        virtual void printInterpolationLine(edk::animation::InterpolationLine *interpolation);
+
+        //copy interpolation frame
+        virtual void copyStartToStart(edk::animation::InterpolationLine* first,edk::animation::InterpolationLine* second);
+        virtual void copyEndToEnd(edk::animation::InterpolationLine* first,edk::animation::InterpolationLine* second);
+    private:
+
         edk::animation::Interpolation3DGroup operator=(edk::animation::Interpolation3DGroup group){
             //clean frames
             this->cleanAnimations();
@@ -120,19 +169,6 @@ class Interpolation3DGroup: public Interpolation2DGroup
             group.cantDeleteGroup();
             return group;
         }
-    protected:
-        edk::float32 tempZ;
-        //create the interpolation
-        virtual edk::animation::InterpolationLine* newLineInterpolation();
-        //create the frame
-        virtual edk::animation::Frame* newFrame();
-        //print the frame
-        virtual void printInterpolationLine(edk::animation::InterpolationLine *interpolation);
-
-        //copy interpolation frame
-        virtual void copyStartToStart(edk::animation::InterpolationLine* first,edk::animation::InterpolationLine* second);
-        virtual void copyEndToEnd(edk::animation::InterpolationLine* first,edk::animation::InterpolationLine* second);
-    private:
 };
 }//end namespace animation
 }//end namespace edk

@@ -61,12 +61,21 @@ public:
     //print the mesh
     virtual void print();
     //draw the mesh
+    //edk::uint32 position
     virtual void drawOneTexture();
+    virtual void drawOneTexture(edk::uint32 position);
     virtual bool selectedDrawOneTexture();
+    virtual bool selectedDrawOneTexture(edk::uint32 position);
     virtual void drawOneTextureWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
     edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
     bool lightIsOn[][EDK_LIGHT_LIMIT]);
+    virtual void drawOneTextureWithLight(edk::uint32 position,edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
+    edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
+    bool lightIsOn[][EDK_LIGHT_LIMIT]);
     virtual bool SelectedDrawOneTextureWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
+    edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
+    bool lightIsOn[][EDK_LIGHT_LIMIT]);
+    virtual bool SelectedDrawOneTextureWithLight(edk::uint32 position,edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
     edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
     bool lightIsOn[][EDK_LIGHT_LIMIT]);
     virtual void drawMultiTexture();
@@ -84,64 +93,10 @@ public:
     virtual bool writeToXML(edk::XML* xml,edk::uint32 id);
     virtual bool readFromXML(edk::XML* xml,edk::uint32 id);
 
+    virtual bool cloneFrom(edk::shape::Mesh2D* mesh);
+
     //Material used for the mesh
     edk::material::Material material;
-
-    edk::shape::Mesh2D operator=(edk::shape::Mesh2D mesh){
-        //
-        edk::shape::Mesh2D::TreeAnimations tree;
-
-        //delete the polygons
-        this->cleanPolygons();
-        //read the polygons
-        register edk::uint32 size = mesh.polygons.size();
-        edk::uint32 select=0u;
-        edk::shape::Polygon2D* temp = NULL;
-        edk::uint32 id;
-        edk::animation::Interpolation1DGroup* animTemp=NULL;
-        for(edk::uint32 i=0u;i<size;i++){
-            //
-            temp=mesh.polygons[i];
-            if(temp){
-                if(temp==mesh.selected){
-                    select=i;
-                }
-                id=this->addPolygon(*temp);
-
-                //test the animation
-                animTemp = temp->framesGetAnimation();
-                if(animTemp){
-                    //test if already have the animation on the tree
-                    if(tree.haveAnimation(animTemp)){
-                        //set the animation to the polygon in the mesh
-                        this->copyAnimationFramesToPolygon(tree.getAnimationID(animTemp),id);
-                    }
-                    else{
-                        //add the animation on the tree
-                        if(tree.addAnimations(animTemp,id)){
-                            //create a new animation in the polygon
-                            if(this->newAnimationFramesToPolygon(id)){
-                                //copy the animation
-                                this->copyThisAnimationFramesToPolygon(animTemp,id);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        this->selectPolygon(select);
-        //test if have animation selected
-        if(mesh.haveSelectedAnimation()){
-            //Set the ID of the animation selected
-            this->selectAnimationFramesFromPolygon(mesh.getAnimationFramesSelectedID());
-        }
-        mesh.cantDeleteList();
-
-        this->material = mesh.material;
-        mesh.cantDeleteList();
-        mesh.cantDeleteMesh();
-        return mesh;
-    }
 private:
     bool canDeleteMesh;
 
@@ -232,6 +187,62 @@ private:
             return this->getElement(&find);
         }
     };
+private:
+    edk::shape::Mesh2D operator=(edk::shape::Mesh2D mesh){
+        //
+        edk::shape::Mesh2D::TreeAnimations tree;
+
+        //delete the polygons
+        this->cleanPolygons();
+        //read the polygons
+        register edk::uint32 size = mesh.polygons.size();
+        edk::uint32 select=0u;
+        edk::shape::Polygon2D* temp = NULL;
+        edk::uint32 id;
+        edk::animation::Interpolation1DGroup* animTemp=NULL;
+        for(edk::uint32 i=0u;i<size;i++){
+            //
+            temp=mesh.polygons[i];
+            if(temp){
+                if(temp==mesh.selected){
+                    select=i;
+                }
+                id=this->addPolygon(*temp);
+
+                //test the animation
+                animTemp = temp->framesGetAnimation();
+                if(animTemp){
+                    //test if already have the animation on the tree
+                    if(tree.haveAnimation(animTemp)){
+                        //set the animation to the polygon in the mesh
+                        this->copyAnimationFramesToPolygon(tree.getAnimationID(animTemp),id);
+                    }
+                    else{
+                        //add the animation on the tree
+                        if(tree.addAnimations(animTemp,id)){
+                            //create a new animation in the polygon
+                            if(this->newAnimationFramesToPolygon(id)){
+                                //copy the animation
+                                this->copyThisAnimationFramesToPolygon(animTemp,id);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        this->selectPolygon(select);
+        //test if have animation selected
+        if(mesh.haveSelectedAnimation()){
+            //Set the ID of the animation selected
+            this->selectAnimationFramesFromPolygon(mesh.getAnimationFramesSelectedID());
+        }
+        mesh.cantDeleteList();
+
+        this->material = mesh.material;
+        mesh.cantDeleteList();
+        mesh.cantDeleteMesh();
+        return mesh;
+    }
 };
 }//end namespace shape
 }//end namespace edk

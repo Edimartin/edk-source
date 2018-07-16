@@ -56,6 +56,13 @@ class Rectangle2D : public edk::shape::Polygon2D{
         //
         void drawWire();
 
+        virtual bool cloneFrom(edk::shape::Polygon2D* poly);
+
+    protected:
+    private:
+    //createPolygon
+    bool createPolygon();
+private:
         //Operator =
         edk::shape::Rectangle2D operator=(edk::shape::Polygon2D poly){
             //first remove the UV from the polygon
@@ -90,11 +97,6 @@ class Rectangle2D : public edk::shape::Polygon2D{
             edk::shape::Rectangle2D temp;
             return temp;
         }
-
-    protected:
-    private:
-    //createPolygon
-    bool createPolygon();
 };
 }//end namespace shape
 }//end namespace edk

@@ -53,25 +53,61 @@ public:
     //time of the frame
     edk::float32 second;
 
-    //Operator =
-    edk::animation::Frame operator=(edk::animation::Frame frame){
-        //
-        this->second = frame.second;
-        frame.cantDestruct();
-        return *this;
+    virtual bool cloneFrom(edk::animation::Frame* frame){
+        if(frame){
+            this->second = frame->second;
+            return true;
+        }
+        return false;
     }
-    //Operator ==
-    bool operator==(edk::animation::Frame frame){frame.cantDestruct();return this->second==frame.second;}
-    //Operator !=
-    bool operator!=(edk::animation::Frame frame){frame.cantDestruct();return this->second!=frame.second;}
-    //Operator >
-    bool operator>(edk::animation::Frame frame){frame.cantDestruct();return this->second>frame.second;}
-    //Operator >=
-    bool operator>=(edk::animation::Frame frame){frame.cantDestruct();return this->second>=frame.second;}
-    //Operator <
-    bool operator<(edk::animation::Frame frame){frame.cantDestruct();return this->second<frame.second;}
-    //Operator <=
-    bool operator<=(edk::animation::Frame frame){frame.cantDestruct();return this->second<=frame.second;}
+    virtual bool equalThan(edk::animation::Frame* frame){
+        if(frame){
+            if(this->second == frame->second){
+                return true;
+            }
+        }
+        return false;
+    }
+    virtual bool differentThan(edk::animation::Frame* frame){
+        if(frame){
+            if(this->second!=frame->second){
+                return true;
+            }
+        }
+        return false;
+    }
+    virtual bool biggerThan(edk::animation::Frame* frame){
+        if(frame){
+            if(this->second>frame->second){
+                return true;
+            }
+        }
+        return false;
+    }
+    virtual bool biggerEqualThan(edk::animation::Frame* frame){
+        if(frame){
+            if(this->second>=frame->second){
+                return true;
+            }
+        }
+        return false;
+    }
+    virtual bool smallerThan(edk::animation::Frame* frame){
+        if(frame){
+            if(this->second<frame->second){
+                return true;
+            }
+        }
+        return false;
+    }
+    virtual bool smallerEqualThan(edk::animation::Frame* frame){
+        if(frame){
+            if(this->second<=frame->second){
+                return true;
+            }
+        }
+        return false;
+    }
 
     //write to XML
     bool writeToXML(edk::XML* xml,edk::uint32 frameID){
@@ -132,6 +168,27 @@ public:
 
 protected:
 private:
+
+
+    //Operator =
+    edk::animation::Frame operator=(edk::animation::Frame frame){
+        //
+        this->second = frame.second;
+        frame.cantDestruct();
+        return *this;
+    }
+    //Operator ==
+    bool operator==(edk::animation::Frame frame){frame.cantDestruct();return this->second==frame.second;}
+    //Operator !=
+    bool operator!=(edk::animation::Frame frame){frame.cantDestruct();return this->second!=frame.second;}
+    //Operator >
+    bool operator>(edk::animation::Frame frame){frame.cantDestruct();return this->second>frame.second;}
+    //Operator >=
+    bool operator>=(edk::animation::Frame frame){frame.cantDestruct();return this->second>=frame.second;}
+    //Operator <
+    bool operator<(edk::animation::Frame frame){frame.cantDestruct();return this->second<frame.second;}
+    //Operator <=
+    bool operator<=(edk::animation::Frame frame){frame.cantDestruct();return this->second<=frame.second;}
 };
 }//end namespace animation
 }//end namespace edk

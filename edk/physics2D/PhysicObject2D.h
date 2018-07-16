@@ -92,6 +92,8 @@ public:
     virtual bool readFromXML(edk::XML* xml,edk::uint32 id);
     static bool readFromXMLisSensor(edk::XML* xml,edk::uint32 id);
 
+    virtual bool cloneFrom(edk::physics2D::PhysicObject2D* obj);
+
     //set if the body canSleep
     bool canSleep;
 
@@ -101,16 +103,19 @@ public:
     //Animation rotation
     edk::animation::Path1DGroup animationRotation;
     bool wasAnimatingRotation;
-
+private:
     virtual edk::physics2D::PhysicObject2D operator=(edk::physics2D::PhysicObject2D obj){
         //copy the object
-        edk::Object2D::operator =(obj);
+        this->cloneFrom(&obj);
         //copy the mesh
-        this->physicMesh=obj.physicMesh;
+        //this->physicMesh=obj.physicMesh;
+        this->physicMesh.cloneFrom(&obj.physicMesh);
         this->canSleep = obj.canSleep;
         this->fixedRotation = obj.fixedRotation;
-        this->animationPosition = obj.animationPosition;
-        this->animationRotation = obj.animationRotation;
+        //this->animationPosition = obj.animationPosition;
+        this->animationPosition.cloneFrom(&obj.animationPosition);
+        //this->animationRotation = obj.animationRotation;
+        this->animationRotation.cloneFrom(&obj.animationRotation);
         obj.cantDeleteObject2D();
         return obj;
     }

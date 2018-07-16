@@ -272,3 +272,12 @@ bool edk::Camera2D::addShakingPosition(edk::vec2f32 position,edk::float32 random
     }
     return false;
 }
+
+//operator to copy the cameras
+bool edk::Camera2D::cloneFrom(edk::Camera2D* cam){
+    if(cam){
+        this->size = cam->size;
+        return true;
+    }
+    return false;
+}

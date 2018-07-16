@@ -54,27 +54,14 @@ public:
     //x 2D of the frame
     edk::float32 x;
 
-    //Operator =
-    edk::animation::Frame1D operator=(edk::animation::Frame1D frame){
-        //
-        this->second = frame.second;
-        this->x = frame.x;
-        frame.cantDestruct();
-        return *this;
-    }/*
-        //Operator ==
-        bool operator==(edk::animation::Frame1D frame){frame.cantDestruct();return this->second==frame.second;}
-        //Operator !=
-        bool operator!=(edk::animation::Frame1D frame){frame.cantDestruct();return this->second!=frame.second;}
-        //Operator >
-        bool operator>(edk::animation::Frame1D frame){frame.cantDestruct();return this->second>frame.second;}
-        //Operator >=
-        bool operator>=(edk::animation::Frame1D frame){frame.cantDestruct();return this->second>=frame.second;}
-        //Operator <
-        bool operator<(edk::animation::Frame1D frame){frame.cantDestruct();return this->second<frame.second;}
-        //Operator <=
-        bool operator<=(edk::animation::Frame1D frame){frame.cantDestruct();return this->second<=frame.second;}
-        */
+    bool cloneFrom(edk::animation::Frame1D* frame){
+        if(frame){
+            this->second = frame->second;
+            this->x = frame->x;
+            return true;
+        }
+        return false;
+    }
 
     //write to XML
     bool writeToXML(edk::XML* xml,edk::uint32 frameID){
@@ -132,6 +119,16 @@ public:
     }
 protected:
 private:
+    //Operator =
+    edk::animation::Frame1D operator=(edk::animation::Frame1D frame){
+        //
+        this->second = frame.second;
+        this->x = frame.x;
+        frame.cantDestruct();
+        return *this;
+    }
+
+
 };
 
 

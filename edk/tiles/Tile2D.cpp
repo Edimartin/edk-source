@@ -509,7 +509,8 @@ bool edk::tiles::Tile2D::readFromXML(edk::XML* xml,edk::uint32 id){
                     if(this->obj.readFromXML(xml,0u)){
                         //copy the first mesh
                         if(this->obj.getMesh(0u)){
-                            this->mesh = *this->obj.getMesh(0u);
+                            //this->mesh = *this->obj.getMesh(0u);
+                            this->mesh.cloneFrom(this->obj.getMesh(0u));
                         }
                         //delete all mesh's from XML
 

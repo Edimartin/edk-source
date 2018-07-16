@@ -168,18 +168,19 @@ class Array{
             return this->get(n);
         }
 
-        edk::vector::Array<typeTemplate> operator=(edk::vector::Array<typeTemplate> vec){
-            //
+        virtual bool cloneFrom(edk::vector::Array<typeTemplate>* vec){
             this->deleteArray();
-            if(this->createArray(vec.size())){
-                //
-                for(edk::uint32 i=0u;i<vec.size();i++){
+            if(vec){
+                if(this->createArray(vec->size())){
                     //
-                    this->vector[i]=vec[i];
+                    for(edk::uint32 i=0u;i<vec->size();i++){
+                        //
+                        this->vector[i]=vec->get(i);
+                    }
                 }
+                return true;
             }
-            vec.cantDeleteVector();
-            return vec;
+            return false;
         }
 
     protected:
@@ -190,6 +191,20 @@ class Array{
     edk::uint32 vectorSize;
     //test if can delete the vector
     bool canDeleteVector;
+private:
+    edk::vector::Array<typeTemplate> operator=(edk::vector::Array<typeTemplate> vec){
+        //
+        this->deleteArray();
+        if(this->createArray(vec.size())){
+            //
+            for(edk::uint32 i=0u;i<vec.size();i++){
+                //
+                this->vector[i]=vec[i];
+            }
+        }
+        vec.cantDeleteVector();
+        return vec;
+    }
 };
 }//end namespace vector
 }//end namespace edk

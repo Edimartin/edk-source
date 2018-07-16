@@ -169,6 +169,8 @@ public:
     //cant delete
     void cantDeleteObject2D();
 
+    virtual bool cloneFrom(edk::Object2D* obj);
+
     //PolygonList selected
     edk::shape::Mesh2D *selected;
     //animarion position
@@ -446,7 +448,7 @@ private:
         edk::Object2D* object;
     };
 
-public:
+private:
 
     virtual edk::Object2D operator=(edk::Object2D obj){
         //copy the meshs
@@ -458,16 +460,20 @@ public:
             if(temp){
                 mesh = this->newMesh();
                 if(mesh){
-                    *mesh = *temp;
+                    //*mesh = *temp;
+                    mesh->cloneFrom(temp);
                 }
             }
         }
         //copy pivo
         this->pivo = obj.pivo;
         //copy the animations
-        this->animationPosition = obj.animationPosition;
-        this->animationRotation = obj.animationRotation;
-        this->animationSize = obj.animationSize;
+        //this->animationPosition = obj.animationPosition;
+        this->animationPosition.cloneFrom(&obj.animationPosition);
+        //this->animationRotation = obj.animationRotation;
+        this->animationRotation.cloneFrom(&obj.animationRotation);
+        //this->animationSize = obj.animationSize;
+        this->animationSize.cloneFrom(&obj.animationSize);
 
         this->position = obj.position;
         this->angle = obj.angle;

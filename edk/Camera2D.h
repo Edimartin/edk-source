@@ -26,7 +26,7 @@ Gravatai RS Brazil 94065100
 #endif
 
 #pragma once
-#include "edk/Math.h"
+#include "Math.h"
 #include "GU/GU.h"
 #include <stdio.h>
 #include "Object.h"
@@ -40,7 +40,7 @@ Gravatai RS Brazil 94065100
 
 
 namespace edk{
-class Camera2D/* : public edk::Object<edk::Camera2D>*/{
+class Camera2D{
     public:
         Camera2D();
         Camera2D(edk::vec2f32 position);
@@ -102,9 +102,10 @@ class Camera2D/* : public edk::Object<edk::Camera2D>*/{
         bool addShakingPosition(edk::vec2f32 position,edk::float32 random,edk::float32 percent = 0.9f,edk::float32 interpolationDistance=0.05f);
 
         //operator to copy the cameras
-        edk::Camera2D operator=(edk::Camera2D newCam){this->size = newCam.size;return newCam;}
+        bool cloneFrom(edk::Camera2D* cam);
     protected:
     private:
+        edk::Camera2D operator=(edk::Camera2D newCam){return *this;}
         //size of the camera screen
         edk::size2f32 size;
         edk::vec2f32 up;

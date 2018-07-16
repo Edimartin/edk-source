@@ -189,7 +189,8 @@ edk::uint32 edk::shape::Polygon2DList::addPolygon(edk::shape::Polygon2D polygon)
     //test if have created the polygon
     if(temp){
         //copy the polygon
-        *temp = polygon;
+        //*temp = polygon;
+        temp->cloneFrom(&polygon);
 
         //load the size of the polygons
         edk::uint32 size = this->polygons.size() - this->polygons.sizeRemoved();
@@ -834,6 +835,28 @@ bool edk::shape::Polygon2DList::readFromXML(edk::XML* xml,edk::uint32 id){
             delete[] nameID;
         }
         return ret;
+    }
+    return false;
+}
+bool edk::shape::Polygon2DList::cloneFrom(edk::shape::Polygon2DList* list){
+    //delete the polygons
+    this->cleanPolygons();
+    if(list){
+        //read the polygons
+        register edk::uint32 size = list->polygons.size();
+        edk::uint32 select=0u;
+        edk::shape::Polygon2D* temp = NULL;
+        for(edk::uint32 i=0u;i<size;i++){
+            temp=list->polygons[i];
+            if(temp){
+                if(temp==list->selected){
+                    select=i;
+                }
+                this->addPolygon(*temp);
+            }
+        }
+        this->selectPolygon(select);
+        return true;
     }
     return false;
 }

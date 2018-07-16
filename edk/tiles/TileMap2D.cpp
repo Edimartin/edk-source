@@ -330,7 +330,7 @@ bool edk::tiles::TileMap2D::loadPhysicsTiles(){
 
                             if(temp){
                                 //copy the tileSet object to te temp
-                                *temp=*temp2;
+                                temp->cloneFrom(temp2);
 
                                 temp->position = edk::vec2f32((edk::float32)x,((edk::float32)this->sizeMap.height-1.f) - y)
                                         + this->positionMap;
@@ -374,7 +374,7 @@ bool edk::tiles::TileMap2D::loadPhysicTile(edk::vec2ui32 position){
                         edk::physics2D::PhysicObject2D* temp = this->treePhysics.newObjectInPosition(edk::vec2ui32(position.x,position.y),tileID,object->getType(),object->isSensor());
                         if(temp){
                             //copy the tileSet object to te temp
-                            *temp=*object;
+                            temp->cloneFrom(object);
 
                             temp->position = edk::vec2f32((edk::float32)position.x,((edk::float32)this->sizeMap.height-1.f) - position.y)
                                     + this->positionMap;

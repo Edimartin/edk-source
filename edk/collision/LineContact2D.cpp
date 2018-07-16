@@ -79,15 +79,23 @@ edk::collision::Vecs2f32 edk::collision::LineContact2D::contactPolygon(edk::shap
         //
         if(i==(polygon.getVertexCount()-1u)){
             //test the line collision
-            ret+= edk::collision::MathCollision::straightStraight2D(test.start.position,test.end.position,
-                                                                    polygon.getVertexPosition(i),polygon.getVertexPosition(0u)
-                                                                    );
+//            ret+= edk::collision::MathCollision::straightStraight2D(test.start.position,test.end.position,
+//                                                                    polygon.getVertexPosition(i),polygon.getVertexPosition(0u)
+//                                                                    );
+            edk::collision::Vecs2f32 straight = edk::collision::MathCollision::straightStraight2D(test.start.position,test.end.position,
+                                                                                                  polygon.getVertexPosition(i),polygon.getVertexPosition(0u)
+                                                                                                  );
+            ret.incrementFrom(&straight);
         }
         else{
             //test the line collision
-            ret+= edk::collision::MathCollision::straightStraight2D(test.start.position,test.end.position,
+//            ret+= edk::collision::MathCollision::straightStraight2D(test.start.position,test.end.position,
+//                                                                    polygon.getVertexPosition(i),polygon.getVertexPosition(i+1u)
+//                                                                    );
+            edk::collision::Vecs2f32 straight = edk::collision::MathCollision::straightStraight2D(test.start.position,test.end.position,
                                                                     polygon.getVertexPosition(i),polygon.getVertexPosition(i+1u)
                                                                     );
+            ret.incrementFrom(&straight);
         }
     }
     //set cant delete the polygon

@@ -260,39 +260,40 @@ public:
     //read XML
     virtual bool readFromXML(edk::XML* xml,edk::uint32 id);
 
-    edk::animation::InterpolationGroup operator=(edk::animation::InterpolationGroup group){
+    virtual bool cloneFrom(edk::animation::InterpolationGroup* group){
         //clean frames
         this->cleanAnimations();
-        //first copy the frames
-        edk::uint32 size = group.animations.size();
-        for(edk::uint32 i=0u;i<size;i++){
-            //
-            edk::animation::InterpolationLine* temp = group.animations[i];
-            if(temp){
-                //test if it create the start frame
-                if(temp->getCreateStart()){
-                    //copy the frame to the animation
-                    this->addNewInterpolationLine(temp->getStart());
-                }
-                //test if it create the end frame
-                if(temp->getCreateEnd()){
-                    //copy the frame to the animation
-                    this->addNewInterpolationLine(temp->getEnd());
+        if(group){
+            //first copy the frames
+            edk::uint32 size = group->animations.size();
+            for(edk::uint32 i=0u;i<size;i++){
+                //
+                edk::animation::InterpolationLine* temp = group->animations[i];
+                if(temp){
+                    //test if it create the start frame
+                    if(temp->getCreateStart()){
+                        //copy the frame to the animation
+                        this->addNewInterpolationLine(temp->getStart());
+                    }
+                    //test if it create the end frame
+                    if(temp->getCreateEnd()){
+                        //copy the frame to the animation
+                        this->addNewInterpolationLine(temp->getEnd());
+                    }
                 }
             }
-        }
 
-        //now copy the animation names
-        size = group.animationNames.size();
-        for(edk::uint32 i=0u;i<size;i++){
-            edk::animation::AnimationName* temp = (edk::animation::AnimationName*)group.animationNames.getElementInPosition(i);
-            if(temp){
-                this->addNewAnimationName(temp->name(),temp->start,temp->end);
+            //now copy the animation names
+            size = group->animationNames.size();
+            for(edk::uint32 i=0u;i<size;i++){
+                edk::animation::AnimationName* temp = (edk::animation::AnimationName*)group->animationNames.getElementInPosition(i);
+                if(temp){
+                    this->addNewAnimationName(temp->name(),temp->start,temp->end);
+                }
             }
+            return true;
         }
-        //
-        group.cantDeleteGroup();
-        return group;
+        return false;
     }
 
 protected:
@@ -373,6 +374,41 @@ private:
     void updateStartEndFrames();
     //test if the second are inside the animation
     bool isSecondInsideAnimation(edk::float32 second);
+private:
+    edk::animation::InterpolationGroup operator=(edk::animation::InterpolationGroup group){
+        //clean frames
+        this->cleanAnimations();
+        //first copy the frames
+        edk::uint32 size = group.animations.size();
+        for(edk::uint32 i=0u;i<size;i++){
+            //
+            edk::animation::InterpolationLine* temp = group.animations[i];
+            if(temp){
+                //test if it create the start frame
+                if(temp->getCreateStart()){
+                    //copy the frame to the animation
+                    this->addNewInterpolationLine(temp->getStart());
+                }
+                //test if it create the end frame
+                if(temp->getCreateEnd()){
+                    //copy the frame to the animation
+                    this->addNewInterpolationLine(temp->getEnd());
+                }
+            }
+        }
+
+        //now copy the animation names
+        size = group.animationNames.size();
+        for(edk::uint32 i=0u;i<size;i++){
+            edk::animation::AnimationName* temp = (edk::animation::AnimationName*)group.animationNames.getElementInPosition(i);
+            if(temp){
+                this->addNewAnimationName(temp->name(),temp->start,temp->end);
+            }
+        }
+        //
+        group.cantDeleteGroup();
+        return group;
+    }
 };
 }//end namespace animation
 }//end namespace edk

@@ -201,6 +201,44 @@ public:
     static bool generateTranslateMatrix(edk::vec2f32 position,edk::float32 mat[][3u][3u]);
     static bool generateRotationMatrix(edk::float32 angle,edk::float32 mat[][3u][3u]);
     static bool generateScaleMatrix(edk::size2f32 size,edk::float32 mat[][3u][3u]);
+
+    virtual bool cloneFrom(edk::bones::Bone2D* bone){
+        if(bone){
+            this->position = bone->position;
+            this->vector = bone->vector;
+            this->angle = bone->angle;
+            //copy the animations
+            //this->animationAngle = bone.animationAngle;
+            this->animationAngle.cloneFrom(&bone->animationAngle);
+            //this->animationPosition = bone->animationPosition;
+            this->animationPosition.cloneFrom(&bone->animationPosition);
+
+            this->setName(bone->getName());
+
+            //copy the connectionObjects
+            edk::uint32 size = bone->treeObjects.size();
+            edk::bones::Bone2D::ObjectConnect* temp;
+            edk::bones::Bone2D::ObjectConnect* newConnection;
+            for(edk::uint32 i=0u;i<size;i++){
+                if((temp = bone->treeObjects.getElementInPosition(i))){
+                    if((newConnection = new edk::bones::Bone2D::ObjectConnect)){
+                        //copy the object valuess
+                        newConnection->position = temp->position;
+                        newConnection->angle = temp->angle;
+                        newConnection->size = temp->size;
+                        newConnection->object = temp->object;
+                        //add the new connection to the tree
+                        if(!this->treeObjects.add(newConnection)){
+                            delete newConnection;
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
 private:
     edk::vector::NameTree nexts;
 
@@ -410,7 +448,7 @@ private:
     void printVector(edk::float32 mat[3u]);
 
     bool canDeleteBone;
-public:
+private:
     //operator
     edk::bones::Bone2D operator=(edk::bones::Bone2D bone){
         //copy the vectors
@@ -419,8 +457,10 @@ public:
         this->vector = bone.vector;
         this->angle = bone.angle;
         //copy the animations
-        this->animationAngle = bone.animationAngle;
-        this->animationPosition = bone.animationPosition;
+        //this->animationAngle = bone.animationAngle;
+        this->animationAngle.cloneFrom(&bone.animationAngle);
+        //this->animationPosition = bone.animationPosition;
+        this->animationPosition.cloneFrom(&bone.animationPosition);
 
         this->setName(bone.getName());
 

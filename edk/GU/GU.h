@@ -1908,9 +1908,17 @@ public:
     static void guColor4f64(edk::float64 r,edk::float64 g,edk::float64 b,edk::float64 a);
 
     //return the openGL matrix are using
+    //mode
+    //GU_MODELVIEW
+    //GU_PROJECTION
+    //GU_TEXTURE
     static bool guUsingMatrix(edk::uint32 mode);
 
     //set the usingMatrix
+    //mode
+    //GU_MODELVIEW
+    //GU_PROJECTION
+    //GU_TEXTURE
     static void guUseMatrix(edk::uint32 mode);
 
     //load the identity matrix
@@ -1933,12 +1941,24 @@ public:
     //static usePerspective(edk::float32 left, edk::float32 right, edk::float32 botton, edk::float32 top, edk::float32 near, edk::float32 far);
 
     //create a texture
+    //mode
+    //GU_RGB
+    //GU_RGBA
+    //GU_LUMINANCE
+    //GU_LUMINANCE_ALPHA
+    //filter
+    //GU_NEAREST
+    //GU_LINEAR
     static edk::uint32 guAllocTexture2D(edk::uint32 width, edk::uint32 height, edk::uint32 mode, edk::uint32 filter, const edk::classID  data);
     //Draw to texture
-    //    GU_RGB
-    //    GU_RGBA
-    //    GU_LUMINANCE
-    //    GU_LUMINANCE_ALPHA
+    //mode
+    //GU_RGB
+    //GU_RGBA
+    //GU_LUMINANCE
+    //GU_LUMINANCE_ALPHA
+    //filter
+    //GU_NEAREST
+    //GU_LINEAR
     static bool guDrawToTexture(edk::uint32 ID,edk::uint32 width, edk::uint32 height, edk::uint32 mode, edk::uint32 filter, const edk::classID  data);
     //delete texture
     static void guDeleteTexture(edk::uint32 ID);
@@ -2017,6 +2037,17 @@ public:
     static void guLineWidth(edk::uint32 size);
     static void guLineWidth(edk::uint64 size);
     //DRAW functions
+    //mode
+    //GU_POINTS
+    //GU_LINES
+    //GU_LINE_LOOP
+    //GU_LINE_STRIP
+    //GU_TRIANGLES
+    //GU_TRIANGLE_STRIP
+    //GU_TRIANGLE_FAN
+    //GU_QUADS
+    //GU_QUAD_STRIP
+    //GU_POLYGON
     static void guBegin(edk::uint32 mode);
     static void guEnd();
     static void guVertex2f32(edk::vec2f32 vec);
@@ -2037,6 +2068,9 @@ public:
     static void guVertexNormal3f64(edk::float64 x,edk::float64 y,edk::float64 z);
 
     // LIGHTING
+    //modeL:
+    //GU_FLAT
+    //GU_SMOOTH
     static void guShadeModel( edk::uint32 model );
     static void guLightf32( edk::uint32 light, edk::uint32 pname, edk::float32 param );
     static void guLighti32( edk::uint32 light, edk::uint32 pname, edk::int32 param );
@@ -2052,9 +2086,23 @@ public:
     static void guMaterialiv32( edk::uint32 face, edk::uint32 pname, const edk::int32 *params );
     static void guGetMaterialfv32( edk::uint32 face, edk::uint32 pname, edk::float32 *params );
     static void guGetMaterialiv32( edk::uint32 face, edk::uint32 pname, edk::int32 *params );
+    //face:
+    //GU_FRONT
+    //GU_BACK
+    //GU_FRONT_AND_BACK
+    //mode:
+    //GU_EMISSION
+    //GU_AMBIENT
+    //GU_DIFFUSE
+    //GU_SPECULAR
+    //GU_AMBIENT_AND_DIFFUSE
     static void guColorMaterial( edk::uint32 face, edk::uint32 mode );
 
     //TEXTURE
+    //target
+    //GU_TEXTURE_1D
+    //GU_TEXTURE_2D
+    //GU_TEXTURE_3D
     static void guUseTexture(edk::uint32 target, edk::uint32 texture);
     //select te texture
     static void guUseTexture1D(edk::uint32 texture);
@@ -2079,6 +2127,10 @@ public:
     //alloc the buffer
     static bool guSetSelectionBuffer(edk::uint32 size,edk::uint32* vector);
     //Set renderMode
+    //mode:
+    //GU_RENDER
+    //GU_SELECT
+    //GU_FEEDBACK
     static edk::int32 guRenderMode( edk::uint32 mode);
     //init the names
     static void guInitNames();

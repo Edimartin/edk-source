@@ -27,9 +27,9 @@ Gravatai RS Brazil 94065100
 
 
 
-edk::uint32 EDKButtonNormalTemplateSize = 1800u;
-edk::char8 EDKButtonNormalTemplateName[28] = "EDKButtonNormalTemplate.png";
-edk::uchar8 EDKButtonNormalTemplate[1800] = {
+static edk::uint32 EDKButtonNormalTemplateSize = 1800u;
+static edk::char8 EDKButtonNormalTemplateName[28] = "EDKButtonNormalTemplate.png";
+static edk::uchar8 EDKButtonNormalTemplate[1800] = {
     137,80,78,71,13,10,26,10,0,0,0,13,73,72,68,82,0,0,0,50,0,0,0,50,8,6,0,0,0,30,63,136,177,0,0,0,4,115,66,73,84,8,8,8,8,124,8,100,136,0,0,0 \
     ,9,112,72,89,115,0,0,13,215,0,0,13,215,1,66,40,155,120,0,0,0,25,116,69,88,116,83,111,102,116,119,97,114,101,0,119,119,119,46,105,110,107,115,99,97,112,101,46,111,114,103 \
     ,155,238,60,26,0,0,6,133,73,68,65,84,104,129,205,90,77,76,27,71,20,126,94,227,31,161,4,2,166,138,192,18,106,155,72,205,173,151,40,135,158,218,43,149,146,84,105,19,36,14,136 \
@@ -67,9 +67,9 @@ edk::uchar8 EDKButtonNormalTemplate[1800] = {
     ,55,251,126,236,243,249,22,182,139,101,71,68,204,169,167,167,167,13,192,215,0,62,7,224,53,178,16,194,124,240,44,98,202,51,0,158,78,77,77,253,83,139,250,255,7,202,78,33,226,225,250 \
     ,198,18,0,0,0,0,73,69,78,68,174,66,96,130
 };
-edk::uint32 EDKButtonUpTemplateSize = 1946u;
-edk::char8 EDKButtonUpTemplateName[24] = "EDKButtonUpTemplate.png";
-edk::uchar8 EDKButtonUpTemplate[1946] = {
+static edk::uint32 EDKButtonUpTemplateSize = 1946u;
+static edk::char8 EDKButtonUpTemplateName[24] = "EDKButtonUpTemplate.png";
+static edk::uchar8 EDKButtonUpTemplate[1946] = {
     137,80,78,71,13,10,26,10,0,0,0,13,73,72,68,82,0,0,0,50,0,0,0,50,8,6,0,0,0,30,63,136,177,0,0,0,4,115,66,73,84,8,8,8,8,124,8,100,136,0,0,0 \
     ,9,112,72,89,115,0,0,13,215,0,0,13,215,1,66,40,155,120,0,0,0,25,116,69,88,116,83,111,102,116,119,97,114,101,0,119,119,119,46,105,110,107,115,99,97,112,101,46,111,114,103 \
     ,155,238,60,26,0,0,7,23,73,68,65,84,104,129,197,90,75,76,83,89,24,254,251,184,125,154,194,72,27,45,5,51,195,66,87,202,66,226,98,22,102,102,203,36,234,196,25,37,97,65,24 \
@@ -110,9 +110,9 @@ edk::uchar8 EDKButtonUpTemplate[1946] = {
     ,169,86,151,77,1,145,167,246,246,118,39,128,239,0,52,3,240,228,51,231,92,254,240,236,157,44,7,0,12,143,142,142,190,215,162,255,255,0,140,59,210,17,253,178,76,235,0,0,0,0,73 \
     ,69,78,68,174,66,96,130
 };
-edk::uint32 EDKButtonPressedTemplateSize = 1799u;
-edk::char8 EDKButtonPressedTemplateName[29] = "EDKButtonPressedTemplate.png";
-edk::uchar8 EDKButtonPressedTemplate[1799] = {
+static edk::uint32 EDKButtonPressedTemplateSize = 1799u;
+static edk::char8 EDKButtonPressedTemplateName[29] = "EDKButtonPressedTemplate.png";
+static edk::uchar8 EDKButtonPressedTemplate[1799] = {
     137,80,78,71,13,10,26,10,0,0,0,13,73,72,68,82,0,0,0,50,0,0,0,50,8,6,0,0,0,30,63,136,177,0,0,0,4,115,66,73,84,8,8,8,8,124,8,100,136,0,0,0 \
     ,9,112,72,89,115,0,0,13,215,0,0,13,215,1,66,40,155,120,0,0,0,25,116,69,88,116,83,111,102,116,119,97,114,101,0,119,119,119,46,105,110,107,115,99,97,112,101,46,111,114,103 \
     ,155,238,60,26,0,0,6,132,73,68,65,84,104,129,197,154,93,104,84,103,26,199,159,243,255,159,147,140,103,62,82,19,11,153,201,76,140,155,104,4,137,19,101,140,164,168,236,222,168,88,168 \
@@ -627,7 +627,7 @@ void edk::ViewButton::drawPolygon(rectf32 outsideViewOrigin){
     }
 
     //a codeTemp
-    edk::uint32 codeTemp=this->getSpriteCode();;
+    edk::uint32 codeTemp=this->getSpriteCode();
     edk::uint32 symbolCodeTemp=this->symbolCode;
     edk::size2ui32 insideSize = edk::size2ui32 (0u,0u);
     edk::size2f32 tempSize = edk::size2f32(this->frame.size.width - this->borderTemp,

@@ -75,11 +75,45 @@ void edk::shape::Mesh2D::drawOneTexture(){
         this->drawPolygons();
     }
 }
+void edk::shape::Mesh2D::drawOneTexture(edk::uint32 position){
+    //set the texture if have one
+    if(this->material.haveTexture()){
+        this->material.drawStartWithOneTexture(position);
+        //Draw the mesh
+        this->drawPolygons();
+
+        this->material.drawEndWithTexture();
+    }
+    else{
+        this->material.drawNoTexture();
+        //else just draw the mesh
+        this->drawPolygons();
+    }
+}
 bool edk::shape::Mesh2D::selectedDrawOneTexture(){
     if(this->selected){
         //set the texture if have one
         if(this->material.haveTexture()){
             this->material.drawStartWithOneTexture();
+            //Draw the polygon
+            this->selected->draw();
+
+            this->material.drawEndWithTexture();
+        }
+        else{
+            this->material.drawNoTexture();
+            //else just draw the polygon
+            this->selected->draw();
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Mesh2D::selectedDrawOneTexture(edk::uint32 position){
+    if(this->selected){
+        //set the texture if have one
+        if(this->material.haveTexture()){
+            this->material.drawStartWithOneTexture(position);
             //Draw the polygon
             this->selected->draw();
 
@@ -112,6 +146,23 @@ bool lightIsOn[][EDK_LIGHT_LIMIT]){
         this->drawPolygonsWithLight(lightPositions,lightDirections,lightIsOn);
     }
 }
+void edk::shape::Mesh2D::drawOneTextureWithLight(edk::uint32 position,edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
+edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
+bool lightIsOn[][EDK_LIGHT_LIMIT]){
+    //set the texture if have one
+    if(this->material.haveTexture()){
+        this->material.drawStartWithOneTexture(position);
+        //Draw the mesh
+        this->drawPolygonsWithLight(lightPositions,lightDirections,lightIsOn);
+
+        this->material.drawEndWithTexture();
+    }
+    else{
+        this->material.drawNoTexture();
+        //else just draw the mesh
+        this->drawPolygonsWithLight(lightPositions,lightDirections,lightIsOn);
+    }
+}
 bool edk::shape::Mesh2D::SelectedDrawOneTextureWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
 edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
 bool lightIsOn[][EDK_LIGHT_LIMIT]){
@@ -119,6 +170,27 @@ bool lightIsOn[][EDK_LIGHT_LIMIT]){
         //set the texture if have one
         if(this->material.haveTexture()){
             this->material.drawStartWithOneTexture();
+            //Draw the mesh
+            this->selected->drawWithLight(lightPositions,lightDirections,lightIsOn);
+
+            this->material.drawEndWithTexture();
+        }
+        else{
+            this->material.drawNoTexture();
+            //else just draw the mesh
+            this->selected->drawWithLight(lightPositions,lightDirections,lightIsOn);
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Mesh2D::SelectedDrawOneTextureWithLight(edk::uint32 position,edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
+edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
+bool lightIsOn[][EDK_LIGHT_LIMIT]){
+    if(this->selected){
+        //set the texture if have one
+        if(this->material.haveTexture()){
+            this->material.drawStartWithOneTexture(position);
             //Draw the mesh
             this->selected->drawWithLight(lightPositions,lightDirections,lightIsOn);
 
@@ -262,6 +334,63 @@ bool edk::shape::Mesh2D::readFromXML(edk::XML* xml,edk::uint32 id){
             delete[] nameID;
         }
         return ret;
+    }
+    return false;
+}
+
+bool edk::shape::Mesh2D::cloneFrom(edk::shape::Mesh2D* mesh){
+    if(mesh){
+        //
+        edk::shape::Mesh2D::TreeAnimations tree;
+
+        //delete the polygons
+        this->cleanPolygons();
+        //read the polygons
+        register edk::uint32 size = mesh->polygons.size();
+        edk::uint32 select=0u;
+        edk::shape::Polygon2D* temp = NULL;
+        edk::uint32 id;
+        edk::animation::Interpolation1DGroup* animTemp=NULL;
+        for(edk::uint32 i=0u;i<size;i++){
+            //
+            temp=mesh->polygons[i];
+            if(temp){
+                if(temp==mesh->selected){
+                    select=i;
+                }
+                id=this->addPolygon(*temp);
+
+                //test the animation
+                animTemp = temp->framesGetAnimation();
+                if(animTemp){
+                    //test if already have the animation on the tree
+                    if(tree.haveAnimation(animTemp)){
+                        //set the animation to the polygon in the mesh
+                        this->copyAnimationFramesToPolygon(tree.getAnimationID(animTemp),id);
+                    }
+                    else{
+                        //add the animation on the tree
+                        if(tree.addAnimations(animTemp,id)){
+                            //create a new animation in the polygon
+                            if(this->newAnimationFramesToPolygon(id)){
+                                //copy the animation
+                                this->copyThisAnimationFramesToPolygon(animTemp,id);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        this->selectPolygon(select);
+        //test if have animation selected
+        if(mesh->haveSelectedAnimation()){
+            //Set the ID of the animation selected
+            this->selectAnimationFramesFromPolygon(mesh->getAnimationFramesSelectedID());
+        }
+        mesh->cantDeleteList();
+
+        this->material = mesh->material;
+        return true;
     }
     return false;
 }

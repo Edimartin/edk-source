@@ -58,30 +58,16 @@ class Frame3D:public Frame2D{
         //z 2D of the frame
         edk::float32 z;
 
-        //Operator =
-        edk::animation::Frame3D operator=(edk::animation::Frame3D frame){
-            //
-            this->second = frame.second;
-            this->x = frame.x;
-            this->y = frame.y;
-            this->z = frame.z;
-            frame.cantDestruct();
-            return *this;
+        virtual bool cloneFrom(edk::animation::Frame3D* frame){
+            if(frame){
+                this->second = frame->second;
+                this->x = frame->x;
+                this->y = frame->y;
+                this->z = frame->z;
+                return true;
+            }
+            return false;
         }
-        /*
-        //Operator ==
-        bool operator==(edk::animation::Frame3D frame){return this->second==frame.second;}
-        //Operator !=
-        bool operator!=(edk::animation::Frame3D frame){return this->second!=frame.second;}
-        //Operator >
-        bool operator>(edk::animation::Frame3D frame){return this->second>frame.second;}
-        //Operator >=
-        bool operator>=(edk::animation::Frame3D frame){return this->second>=frame.second;}
-        //Operator <
-        bool operator<(edk::animation::Frame3D frame){return this->second<frame.second;}
-        //Operator <=
-        bool operator<=(edk::animation::Frame3D frame){return this->second<=frame.second;}
-        */
 
     //write to XML
     bool writeToXML(edk::XML* xml,edk::uint32 frameID){
@@ -139,6 +125,16 @@ class Frame3D:public Frame2D{
     }
     protected:
     private:
+    //Operator =
+    edk::animation::Frame3D operator=(edk::animation::Frame3D frame){
+        //
+        this->second = frame.second;
+        this->x = frame.x;
+        this->y = frame.y;
+        this->z = frame.z;
+        frame.cantDestruct();
+        return *this;
+    }
 };
 }//end namespace animation
 }//end namespace edk

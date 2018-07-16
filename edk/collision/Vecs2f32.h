@@ -139,6 +139,42 @@ public:
         //
         return this->get(n);
     }
+    virtual bool cloneFrom(edk::collision::Vecs2f32* vec){
+        if(vec){
+            //first clean
+            for(edk::uint32 i=0u;i<this->size();i++){
+                //
+                if(edk::vector::Stack<edk::vec2f32*>::get(i)){
+                    //
+                    delete edk::vector::Stack<edk::vec2f32*>::get(i);
+                }
+            }
+            edk::vector::Stack<edk::vec2f32*>::clean();
+
+            //Then add the new vectors
+            for(edk::uint32 i=0u;i<vec->size();i++){
+                //copy the vectors
+                this->pushBack( edk::vec2f32(vec->get(i).x ,vec->get(i).y ) );
+            }
+            return true;
+        }
+        return false;
+    }
+    virtual bool incrementFrom(edk::collision::Vecs2f32* vec){
+        if(vec){
+            //Just add new vectors
+            for(edk::uint32 i=0u;i<vec->size();i++){
+                //copy the vectors
+                this->pushBack( edk::vec2f32(vec->get(i).x ,vec->get(i).y ) );
+            }
+            return true;
+        }
+        return false;
+    }
+protected:
+private:
+    bool canDeleteVecs;
+
     edk::collision::Vecs2f32 operator=(edk::collision::Vecs2f32 vec){
         //first clean
         for(edk::uint32 i=0u;i<this->size();i++){
@@ -182,9 +218,6 @@ public:
         vec.cantDeleteVector();
         return vec;
     }
-protected:
-private:
-    bool canDeleteVecs;
 };
 
 }//end namespace collision

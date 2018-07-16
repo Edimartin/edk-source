@@ -60,13 +60,15 @@ public:
     edk::char8* getName(){return this->name;}
     edk::char8* getValue(){return this->value;}
 
-    SQLNode operator=(SQLNode node){
-        if(this->name) delete[] this->name;
-        if(this->value) delete[] this->value;
-        this->name = edk::String::strCopy(node.name);
-        this->value = edk::String::strCopy(node.value);
-        node.cantDelete();
-        return node;
+    virtual bool cloneFrom(SQLNode* node){
+        if(node){
+            if(this->name) delete[] this->name;
+            if(this->value) delete[] this->value;
+            this->name = edk::String::strCopy(node->name);
+            this->value = edk::String::strCopy(node->value);
+            return true;
+        }
+        return false;
     }
     //cant delete
     void cantDelete(){this->canDelete = false;}
@@ -75,6 +77,14 @@ private:
     edk::char8* name;
     edk::char8* value;
     bool canDelete;
+    SQLNode operator=(SQLNode node){
+        if(this->name) delete[] this->name;
+        if(this->value) delete[] this->value;
+        this->name = edk::String::strCopy(node.name);
+        this->value = edk::String::strCopy(node.value);
+        node.cantDelete();
+        return node;
+    }
 };
 class SQLNodes{
 public:

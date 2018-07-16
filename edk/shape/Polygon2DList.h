@@ -162,28 +162,7 @@ public:
     virtual bool writeToXML(edk::XML* xml,edk::uint32 id);
     virtual bool readFromXML(edk::XML* xml,edk::uint32 id);
 
-    //Operator
-    edk::shape::Polygon2DList operator=(edk::shape::Polygon2DList list){
-        //delete the polygons
-        this->cleanPolygons();
-        //read the polygons
-        register edk::uint32 size = list.polygons.size();
-        edk::uint32 select=0u;
-        edk::shape::Polygon2D* temp = NULL;
-        for(edk::uint32 i=0u;i<size;i++){
-            temp=list.polygons[i];
-            if(temp){
-                if(temp==list.selected){
-                    select=i;
-                }
-                this->addPolygon(*temp);
-            }
-        }
-        this->selectPolygon(select);
-        list.cantDeleteList();
-        this->cantDeleteList();
-        return list;
-    }
+    virtual bool cloneFrom(edk::shape::Polygon2DList* list);
 
 
     //DRAW
@@ -209,6 +188,29 @@ protected:
     edk::shape::Polygon2D* selected;
 private:
     bool canDeleteList;
+
+    //Operator
+    edk::shape::Polygon2DList operator=(edk::shape::Polygon2DList list){
+        //delete the polygons
+        this->cleanPolygons();
+        //read the polygons
+        register edk::uint32 size = list.polygons.size();
+        edk::uint32 select=0u;
+        edk::shape::Polygon2D* temp = NULL;
+        for(edk::uint32 i=0u;i<size;i++){
+            temp=list.polygons[i];
+            if(temp){
+                if(temp==list.selected){
+                    select=i;
+                }
+                this->addPolygon(*temp);
+            }
+        }
+        this->selectPolygon(select);
+        list.cantDeleteList();
+        this->cantDeleteList();
+        return list;
+    }
 };
 }//end namespace shape
 }//end namespace edk

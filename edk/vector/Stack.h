@@ -576,17 +576,18 @@ public:
         //
         return this->get(pos);
     }
-    //= //To create a copy of the Stack
-    edk::vector::Stack<typeTemplate> operator=(edk::vector::Stack<typeTemplate> ret){
+    virtual bool cloneFrom(edk::vector::Stack<typeTemplate>* ret){
         //clean the vector
         this->clean();
-        //copy the types from the ret
-        for(edk::uint32 i=0u;i<ret.size();i++){
-            //copy
-            this->pushBack(ret[i]);
+        if(ret){
+            //copy the types from the ret
+            for(edk::uint32 i=0u;i<ret->size();i++){
+                //copy
+                this->pushBack(ret->get(i));
+            }
+            return true;
         }
-        ret.cantDestroy();
-        return ret;
+        return false;
     }
 
 
@@ -658,6 +659,19 @@ private:
         }
         //else return false
         return false;
+    }
+private:
+    //= //To create a copy of the Stack
+    edk::vector::Stack<typeTemplate> operator=(edk::vector::Stack<typeTemplate> ret){
+        //clean the vector
+        this->clean();
+        //copy the types from the ret
+        for(edk::uint32 i=0u;i<ret.size();i++){
+            //copy
+            this->pushBack(ret[i]);
+        }
+        ret.cantDestroy();
+        return ret;
     }
 };
 }//end namespace vector

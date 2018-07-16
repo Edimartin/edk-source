@@ -1523,3 +1523,130 @@ bool edk::Object2D::readFromXML(edk::XML* xml,edk::uint32 id){
 void edk::Object2D::cantDeleteObject2D(){
     this->canDeleteObject=false;
 }
+
+bool edk::Object2D::cloneFrom(edk::Object2D* obj){
+    if(obj){
+        //copy the meshs
+        edk::uint32 size = obj->meshes.size();
+        edk::shape::Mesh2D* temp = NULL;
+        edk::shape::Mesh2D* mesh = NULL;
+        for(edk::uint32 i=0u;i<size;i++){
+            temp = obj->meshes.getMesh(i);
+            if(temp){
+                mesh = this->newMesh();
+                if(mesh){
+                    //*mesh = *temp;
+                    mesh->cloneFrom(temp);
+                }
+            }
+        }
+        //copy pivo
+        this->pivo = obj->pivo;
+        //copy the animations
+        //this->animationPosition = obj->animationPosition;
+        this->animationPosition.cloneFrom(&obj->animationPosition);
+        //this->animationRotation = obj->animationRotation;
+        this->animationRotation.cloneFrom(&obj->animationRotation);
+        //this->animationSize = obj->animationSize;
+        this->animationSize.cloneFrom(&obj->animationSize);
+
+        this->position = obj->position;
+        this->angle = obj->angle;
+        this->size = obj->size;
+
+        /*
+class ActionPosition 1
+class ActionMove     2
+class ActionSetSize  3
+class ActionSize     4
+class ActionSetAngle 5
+class ActionAngle    6
+class ActionMeshName 7
+class ActionMeshStop 8
+*/
+
+
+        //copy the actions
+        this->actions.clean();
+        size = obj->actions.getKeySize();
+        edk::uint32 actionSize = 0u;
+        edk::float32 second=0.f;
+        edk::uint64 code = 0u;
+        for(edk::uint32 i=0u;i<size;i++){
+            //load the kay second
+            second = obj->actions.getKeySecond(i);
+            //load the size of actions inside de key
+            actionSize = obj->actions.getActionsSize(i);
+            for(edk::uint32 j=0u;j<actionSize;j++){
+                //get the action code
+                code = obj->actions.getActionCode(i,j);
+
+                switch(code){
+                case 1u:
+                {
+                    //ActionPosition
+                    edk::Object2D::ActionPosition* temp = (edk::Object2D::ActionPosition*)obj->actions.getActionInKey(i,j);
+                    this->actions.addAction(second,new edk::Object2D::ActionPosition(this,temp->getPosition()));
+                    break;
+                }
+                case 2u:
+                {
+                    //ActionMove
+                    edk::Object2D::ActionMove* temp = (edk::Object2D::ActionMove*)obj->actions.getActionInKey(i,j);
+                    this->actions.addAction(second,new edk::Object2D::ActionMove(this,temp->getDuration(),temp->getPosition()));
+                    break;
+                }
+                case 3u:
+                {
+                    //ActionSetSize
+                    edk::Object2D::ActionSetSize* temp = (edk::Object2D::ActionSetSize*)obj->actions.getActionInKey(i,j);
+                    this->actions.addAction(second,new edk::Object2D::ActionSetSize(this,temp->getSize()));
+                    break;
+                }
+                case 4u:
+                {
+                    //ActionSize
+                    edk::Object2D::ActionSize* temp = (edk::Object2D::ActionSize*)obj->actions.getActionInKey(i,j);
+                    this->actions.addAction(second,new edk::Object2D::ActionSize(this,temp->getDuration(),temp->getSize()));
+                    break;
+                }
+                case 5u:
+                {
+                    //ActionSetAngle
+                    edk::Object2D::ActionSetAngle* temp = (edk::Object2D::ActionSetAngle*)obj->actions.getActionInKey(i,j);
+                    this->actions.addAction(second,new edk::Object2D::ActionSetAngle(this,temp->getAngle()));
+                    break;
+                }
+                case 6u:
+                {
+                    //ActionAngle
+                    edk::Object2D::ActionAngle* temp = (edk::Object2D::ActionAngle*)obj->actions.getActionInKey(i,j);
+                    this->actions.addAction(second,new edk::Object2D::ActionAngle(this,temp->getDuration(),temp->getAngle()));
+                    break;
+                }
+                case 7u:
+                {
+                    //ActionMeshName
+                    edk::Object2D::ActionMeshName* temp = (edk::Object2D::ActionMeshName*)obj->actions.getActionInKey(i,j);
+                    this->actions.addAction(second,new edk::Object2D::ActionMeshName(this,temp->getId(),temp->getName(),temp->getLoop()));
+                    break;
+                }
+                case 8u:
+                {
+                    //ActionMeshStop
+                    edk::Object2D::ActionMeshStop* temp = (edk::Object2D::ActionMeshStop*)obj->actions.getActionInKey(i,j);
+                    this->actions.addAction(second,new edk::Object2D::ActionMeshStop(this,temp->getId()));
+                    break;
+                }
+                default:
+                {
+                    //actionZero
+                    this->actions.addAction(second,new edk::ActionZero());
+                }
+                }
+            }
+        }
+        return true;
+    }
+    return false;
+}

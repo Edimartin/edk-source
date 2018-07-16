@@ -78,7 +78,8 @@ edk::uint32 edk::physics2D::PhysicsMesh2D::addPolygon(edk::shape::Polygon2D poly
 
             //temporary polygons
             edk::shape::Polygon2D p2;
-            p2 = polygon;
+            //p2 = polygon;
+            p2.cloneFrom(&polygon);
 
             //salva o menor vertice
             edk::vec2f32 temp;

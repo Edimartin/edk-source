@@ -199,6 +199,56 @@ class Polygon2D{
         //read from XML
         bool readFromXML(edk::XML* xml,edk::uint32 polygonID);
 
+        virtual bool cloneFrom(edk::shape::Polygon2D* poly);
+    protected:
+        edk::vector::Array<edk::shape::Vertex2D*> vertexs;
+        //save if don't transform the polygon
+        bool transforming;
+        //Color of the polygon
+        edk::color4f32 polygonColor;
+        //set the vertexFrames
+        bool setVertexUVFrames(edk::uint32 vertex,edk::vec2ui32 frames);
+        //set if can delete the polygon
+        bool canDeletePolygon;
+        //Draw the polygon
+        virtual void drawVertexs();
+        virtual void drawVertexsWithColor(edk::color4f32 color);
+        //update framesSize
+        void updateFramesSize();
+        //test if is tranforming the polygon
+        void testTransform();
+
+        //angle of the polygon
+        edk::float32 angle;
+        //scale the polygon
+        edk::size2f32 scale;
+        //polygon translation
+        edk::vec2f32 translate;
+
+        bool polygonCircle;
+        edk::float32 radius;
+        bool polygonLine;
+        edk::uint8 collisionID;
+
+        //Physics parameters
+        edk::float32 density;
+        edk::float32 friction;
+        edk::float32 restitution;
+    private:
+        //load the vertex
+        edk::shape::Vertex2D* getVertexPointer(edk::uint32 vertex);
+        //Animation frames
+        edk::vec2ui32 frames;
+        //save all the frames
+        edk::uint32 framesSize;
+        //save frame using
+        edk::vec2ui32 frameUsing;
+        //animationPointer
+        edk::animation::Interpolation1DGroup* animationFrame;
+        //save true if this polygon create the animationFrames
+        bool createAnimationFrames;
+
+private:
         //Operator =
         edk::shape::Polygon2D operator=(edk::shape::Polygon2D poly){
             //first delete the vertexs
@@ -256,53 +306,6 @@ class Polygon2D{
             //return the polygon
             return poly;
         }
-    protected:
-        edk::vector::Array<edk::shape::Vertex2D*> vertexs;
-        //save if don't transform the polygon
-        bool transforming;
-        //Color of the polygon
-        edk::color4f32 polygonColor;
-        //set the vertexFrames
-        bool setVertexUVFrames(edk::uint32 vertex,edk::vec2ui32 frames);
-        //set if can delete the polygon
-        bool canDeletePolygon;
-        //Draw the polygon
-        virtual void drawVertexs();
-        virtual void drawVertexsWithColor(edk::color4f32 color);
-        //update framesSize
-        void updateFramesSize();
-        //test if is tranforming the polygon
-        void testTransform();
-
-        //angle of the polygon
-        edk::float32 angle;
-        //scale the polygon
-        edk::size2f32 scale;
-        //polygon translation
-        edk::vec2f32 translate;
-
-        bool polygonCircle;
-        edk::float32 radius;
-        bool polygonLine;
-        edk::uint8 collisionID;
-
-        //Physics parameters
-        edk::float32 density;
-        edk::float32 friction;
-        edk::float32 restitution;
-    private:
-        //load the vertex
-        edk::shape::Vertex2D* getVertexPointer(edk::uint32 vertex);
-        //Animation frames
-        edk::vec2ui32 frames;
-        //save all the frames
-        edk::uint32 framesSize;
-        //save frame using
-        edk::vec2ui32 frameUsing;
-        //animationPointer
-        edk::animation::Interpolation1DGroup* animationFrame;
-        //save true if this polygon create the animationFrames
-        bool createAnimationFrames;
 };
 
 }//end namespace shape

@@ -102,6 +102,7 @@ public:
     void drawEnd();
     void drawNoTexture();
     void drawStartWithOneTexture();
+    void drawStartWithOneTexture(edk::uint32 position);
     void drawStartWithMultiTexture();
     void drawEndWithTexture();
 

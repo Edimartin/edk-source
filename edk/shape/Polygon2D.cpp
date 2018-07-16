@@ -1150,3 +1150,60 @@ bool edk::shape::Polygon2D::readFromXML(edk::XML* xml,edk::uint32 polygonID){
     }
     return false;
 }
+
+bool edk::shape::Polygon2D::cloneFrom(edk::shape::Polygon2D* poly){
+    //first delete the vertexs
+    this->deletePolygon();
+    if(poly){
+        //then create a new polygon
+        if(this->createPolygon(poly->getVertexCount())){
+            //then copy the vertex
+            for(edk::uint32 i=0u;i<this->getVertexCount();i++){
+                //copy the vertex
+                edk::shape::Vertex2DAnimatedUV* temp = (edk::shape::Vertex2DAnimatedUV*)vertexs[i];
+                if(temp){
+                    //this->setVertexPosition(i,poly->getVertexPosition(i));
+                    temp->position = poly->getVertexPosition(i);
+                    //this->setVertexColor(i,poly->getVertexColor(i));
+                    temp->color = poly->getVertexColor(i);
+                    //copy the frames
+                    //this->setVertexUVFrames(i,poly->getFrames());
+                    //get vertexType
+                    switch(poly->getVertexType(i)){
+                        //
+                        case EDK_SHAPE_ANIMATED_UV:
+                            //
+                            this->setVertexUV(i,poly->getVertexUV(i));
+                            this->setVertexUVFrames(i,poly->getFrames());
+                            break;
+                        case EDK_SHAPE_UV:
+                            //
+                            this->setVertexUV(i,poly->getVertexUV(i));
+                            break;
+                    };
+                }
+            }
+        }
+        //set the polygonFrames
+        this->setPolygonUVFrames(poly->getFrames());
+        this->usePolygonUVFrame(poly->frameUsing);
+        //set the transformations
+        this->setTranslate(poly->getTranslate());
+        this->setScale(poly->getScale());
+        this->setAngle(poly->getAngle());
+        //set physics
+        this->setDensity(poly->getDensity());
+        this->setFriction(poly->getFriction());
+        this->setRestitution(poly->getRestitution());
+        //
+        this->polygonCircle = poly->polygonCircle;
+        this->radius=poly->radius;
+        this->polygonLine = poly->polygonLine;
+        this->collisionID = poly->collisionID;
+        //set the animation
+        this->framesSetAnimation(poly->framesGetAnimation());
+        this->createAnimationFrames = poly->createAnimationFrames;
+        return true;
+    }
+    return false;
+}

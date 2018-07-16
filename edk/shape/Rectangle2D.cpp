@@ -418,3 +418,35 @@ void edk::shape::Rectangle2D::drawWire(){
         edk::GU::guPopMatrix();
     }
 }
+
+bool edk::shape::Rectangle2D::cloneFrom(edk::shape::Polygon2D* poly){
+    //first remove the UV from the polygon
+    this->deletePolygon();
+    if(poly){
+        //copy the polygons
+        for(edk::uint32 i=0u;i<this->vertexs.size();i++){
+            //
+            //copy the vertex
+            edk::shape::Vertex2DAnimatedUV* temp = (edk::shape::Vertex2DAnimatedUV*)vertexs[i];
+            if(temp){
+                //this->setVertexPosition(i,poly->getVertexPosition(i));
+                temp->position = poly->getVertexPosition(i);
+                //this->setVertexColor(i,poly->getVertexColor(i));
+                temp->color = poly->getVertexColor(i);
+                //get vertexType
+                switch(poly->getVertexType(i)){
+                    //
+                    case EDK_SHAPE_ANIMATED_UV:
+                        //
+                        this->setVertexUVFrames(i,poly->getFrames());
+                    case EDK_SHAPE_UV:
+                        //
+                        this->setVertexUV(i,poly->getVertexUV(i));
+                        break;
+                    };
+            }
+        }
+        return true;
+    }
+    return false;
+}

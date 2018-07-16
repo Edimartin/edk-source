@@ -298,6 +298,19 @@ void edk::material::Material::drawStartWithOneTexture(){
     //draw the material parameters
     this->useMaterialParameters();
 }
+void edk::material::Material::drawStartWithOneTexture(edk::uint32 position){
+    edk::GU::guEnable(GU_TEXTURE_2D);
+
+    //edk::GU_GLSL::guActiveTexture(GU_TEXTURE0);
+    //set the texture
+    if(position<materialTextureCount)
+        edk::GU::guUseTexture2D(this->textures[position]);
+    else
+        edk::GU::guUseTexture2D(this->textures[0u]);
+
+    //draw the material parameters
+    this->useMaterialParameters();
+}
 void edk::material::Material::drawStartWithMultiTexture(){
     edk::GU::guEnable(GU_TEXTURE_2D);
     //set the textures

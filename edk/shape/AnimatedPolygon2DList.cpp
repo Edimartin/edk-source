@@ -75,7 +75,8 @@ bool edk::shape::AnimatedPolygon2DList::copyThisAnimationFramesToPolygon(edk::an
             edk::animation::Interpolation1DGroup* temp = poly->framesGetAnimation();
             if(temp){
                 temp->cleanAnimations();
-                *temp = *anim;
+                //*temp = *anim;
+                temp->cloneFrom(anim);
                 return true;
             }
         }
