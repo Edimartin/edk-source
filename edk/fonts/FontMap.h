@@ -153,6 +153,8 @@ public:
 
     //draw the text
     void draw(edk::color4f32 color);
+    void draw(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
+    void draw(edk::float32 r,edk::float32 g,edk::float32 b);
     void draw();
 
     //remove the fontImage

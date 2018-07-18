@@ -84,6 +84,14 @@ public:
     bool loadSymbolUpFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
     void removeSymbolUp();
 
+    bool writeText(const char* text);
+    bool writeText(edk::char8* text);
+    bool writeText(const char* text,edk::float32 scaleWidth,edk::float32 scaleHeight);
+    bool writeText(edk::char8* text,edk::float32 scaleWidth,edk::float32 scaleHeight);
+    bool writeText(const char* text,edk::size2f32 scale);
+    bool writeText(edk::char8* text,edk::size2f32 scale);
+    void cleanText();
+
     //load the button textures and meshes
     virtual bool load();
     virtual void unload();
@@ -99,6 +107,7 @@ public:
 protected:
     void drawStart();
     void drawEnd();
+    void updateTextSize();
     edk::gui2d::ObjectGui2dBorder obj;
     //image inside the button
     edk::shape::Mesh2D sprite;
@@ -107,6 +116,9 @@ protected:
     edk::shape::Rectangle2D center;
     edk::shape::Rectangle2D centerS;
     edk::shape::Rectangle2D spritePolygon;
+    //text to be printed in front
+    edk::fonts::FontMap text;
+    edk::size2f32 textSize;
     //sprite size
     edk::size2ui32 spriteSize[edk::gui2d::gui2dTextureSize];
     //temp

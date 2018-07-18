@@ -1722,10 +1722,17 @@ void edk::fonts::FontMap::draw(edk::color4f32 color){
     //this->map.draw(color);
     this->draw(this->origin,this->last,color);
 }
+void edk::fonts::FontMap::draw(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
+    this->color = edk::color4f32(r,g,b,a);
+    //this->map.draw(color);
+    this->draw(this->origin,this->last,color);
+}
+void edk::fonts::FontMap::draw(edk::float32 r,edk::float32 g,edk::float32 b){
+    this->draw(r,g,b,1.f);
+}
 void edk::fonts::FontMap::draw(){
     this->draw(this->origin,this->last,this->color);
 }
-
 
 //remove the fontImage
 void edk::fonts::FontMap::removeFontImage(){
