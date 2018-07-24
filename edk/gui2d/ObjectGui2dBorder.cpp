@@ -364,6 +364,10 @@ bool edk::gui2d::ObjectGui2dBorder::updatePolygons(edk::size2f32 size){
         this->center.setVertexPosition(0u,(-0.5f*size.width)+this->border,(+0.5f*size.height)-this->border);
         this->center.setVertexPosition(1u,(+0.5f*size.width)-this->border,(-0.5f*size.height)+this->border);
 
+        //update the selection
+        this->selection.setVertexPosition(0u,-0.5f*size.width,+0.5f*size.height);
+        this->selection.setVertexPosition(1u,+0.5f*size.width,-0.5f*size.height);
+
         if(this->mesh.getPolygonSize()){
             //
             //this->mesh.setPolygonsColor(1,0,0,1);
@@ -390,6 +394,9 @@ bool edk::gui2d::ObjectGui2dBorder::setBorderSize(edk::float32 size){
     }
     this->border = size;
     return ret;
+}
+edk::float32 edk::gui2d::ObjectGui2dBorder::getBorderSize(){
+    return this->border;
 }
 
 //return the center rectangle
@@ -434,5 +441,8 @@ void edk::gui2d::ObjectGui2dBorder::drawUp(){
 }
 void edk::gui2d::ObjectGui2dBorder::drawPressed(){
     this->mesh.drawOneTexture(edk::gui2d::gui2dTexturePressed);
+}
+void edk::gui2d::ObjectGui2dBorder::drawSelection(){
+    this->selection.draw();
 }
 

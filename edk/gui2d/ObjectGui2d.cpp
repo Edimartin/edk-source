@@ -27,6 +27,8 @@ edk::gui2d::ObjectGui2d::ObjectGui2d(){
         this->spriteSize[i].width = this->spriteSize[i].height = 0.f;
     }
     this->textSize = edk::size2f32(1,2);
+    this->setStatus(edk::gui2d::gui2dTextureNormal);
+    this->pressed = false;
 }
 edk::gui2d::ObjectGui2d::~ObjectGui2d(){
     //
@@ -428,6 +430,19 @@ bool edk::gui2d::ObjectGui2d::writeText(edk::char8* text,edk::size2f32 scale){
         if(this->text.createStringMap(text)){
             //set the scale
             this->textSize = scale;
+
+            //filter the texSize
+            if(this->textSize.width>0.f && this->textSize.height){
+                if(this->textSize.width>this->textSize.height){
+                    this->textSize.height = this->textSize.height/this->textSize.width;
+                    this->textSize.width = 1.f;
+                }
+                else{
+                    this->textSize.width = this->textSize.width/this->textSize.height;
+                    this->textSize.height = 1.f;
+                }
+            }
+
             this->updateTextSize();
 
             return true;
@@ -453,9 +468,13 @@ void edk::gui2d::ObjectGui2d::unload(){
 }
 void edk::gui2d::ObjectGui2d::update(){
     //test if the size os different
-    if(this->sizeS!=this->size){
+    if(this->sizeS!=this->size
+            ||
+            this->borderSizeS!=this->obj.getBorderSize()
+            ){
         //save the size
         this->sizeS = this->size;
+        this->borderSizeS=this->obj.getBorderSize();
 
         //update the polygons
         this->obj.updatePolygons(this->size);
@@ -614,24 +633,73 @@ void edk::gui2d::ObjectGui2d::update(){
         this->centerS.cloneFrom(&this->center);
     }
 }
+bool edk::gui2d::ObjectGui2d::setStatus(edk::gui2d::gui2dTexture status){
+    switch(status){
+    case edk::gui2d::gui2dTexture::gui2dTextureNormal:
+        this->status = edk::gui2d::gui2dTexture::gui2dTextureNormal;
+        return true;
+        break;
+    case edk::gui2d::gui2dTexture::gui2dTextureUp:
+        this->status = edk::gui2d::gui2dTexture::gui2dTextureUp;
+        return true;
+        break;
+    case edk::gui2d::gui2dTexture::gui2dTexturePressed:
+        this->status = edk::gui2d::gui2dTexture::gui2dTexturePressed;
+        return true;
+        break;
+    case edk::gui2d::gui2dTexture::gui2dTextureSize:
+        break;
+    }
+    return false;
+}
+edk::gui2d::gui2dTexture edk::gui2d::ObjectGui2d::getStatus(){
+    return this->status;
+}
 
 //set border size
 bool edk::gui2d::ObjectGui2d::setBorderSize(edk::float32 size){
     //
-    return false;
+    return this->obj.setBorderSize(size);
 }
 
 //draw the button
 void edk::gui2d::ObjectGui2d::draw(){
     this->drawStart();
-    //draw the border
-    this->obj.drawNormal();
+
+    switch(this->status){
+    case edk::gui2d::gui2dTexture::gui2dTextureUp:
+        //draw the border
+        this->obj.drawUp();
+        break;
+    case edk::gui2d::gui2dTexture::gui2dTexturePressed:
+        //draw the border
+        this->obj.drawPressed();
+        break;
+    case edk::gui2d::gui2dTexture::gui2dTextureNormal:
+    case edk::gui2d::gui2dTexture::gui2dTextureSize:
+    default:
+        //draw the border
+        this->obj.drawNormal();
+        break;
+    }
 
     //test if have the texture
-    if(this->sprite.material.getTexture(edk::gui2d::gui2dTextureNormal)){
+    if(this->sprite.material.getTexture(this->status)){
         //draw the srite on the button
-        this->sprite.drawOneTexture(edk::gui2d::gui2dTextureNormal);
+        this->sprite.drawOneTexture(this->status);
     }
+
+    if(this->text.haveText()){
+        //
+        this->text.draw(edk::color4f32(0,0,0,1));
+    }
+
+    this->drawEnd();
+}
+void edk::gui2d::ObjectGui2d::drawSelection(){
+    this->drawStart();
+    //draw the border
+    this->obj.drawSelection();
 
     if(this->text.haveText()){
         //

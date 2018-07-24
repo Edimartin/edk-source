@@ -49,6 +49,7 @@ class ViewGU: public edk::ViewSpriteController{
 
         //test the selection
         void testSelection(edk::vec2f32 position,edk::size2f32 size = edk::size2f32(1,1));
+        void testSelection(edk::vec2i32 position,edk::size2f32 size = edk::size2f32(1,1));
         //process the selection
         virtual void selectObject(edk::uint32 position,edk::int32 objects,edk::float32 near,edk::float32 far,edk::vector::Stack<edk::uint32>* names);
 

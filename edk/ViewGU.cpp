@@ -163,6 +163,12 @@ void edk::ViewGU::testSelection(edk::vec2f32 position,edk::size2f32 size){
     this->selectionPosition = edk::vec2f32(position.x + this->rectTemp.origin.x,((position.y*-1)+this->frame.size.height) + this->rectTemp.origin.y);
     this->selectionSize = size;
 }
+void edk::ViewGU::testSelection(edk::vec2i32 position,edk::size2f32 size){
+    this->runSelection = true;
+    this->selectionPosition = edk::vec2f32(position.x + this->rectTemp.origin.x,((position.y*-1)+this->frame.size.height) + this->rectTemp.origin.y);
+    this->selectionSize = size;
+}
+
 //process the selection
 void edk::ViewGU::selectObject(edk::uint32 ,edk::int32 ,edk::float32 ,edk::float32 ,edk::vector::Stack<edk::uint32>* ){
     //

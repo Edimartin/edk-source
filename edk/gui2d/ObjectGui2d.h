@@ -96,14 +96,18 @@ public:
     virtual bool load();
     virtual void unload();
     virtual void update();
+    virtual bool setStatus(edk::gui2d::gui2dTexture status);
+    edk::gui2d::gui2dTexture getStatus();
 
     //set border size
     bool setBorderSize(edk::float32 size);
 
     //draw the button
     virtual void draw();
+    virtual void drawSelection();
     //button frame in the world
     edk::rectf32 frame;
+    bool pressed;
 protected:
     void drawStart();
     void drawEnd();
@@ -113,6 +117,7 @@ protected:
     edk::shape::Mesh2D sprite;
     //save the size
     edk::size2f32 sizeS;
+    edk::float32 borderSizeS;
     edk::shape::Rectangle2D center;
     edk::shape::Rectangle2D centerS;
     edk::shape::Rectangle2D spritePolygon;
@@ -125,6 +130,8 @@ protected:
     edk::float32 percent1;
     edk::float32 percent2;
     edk::float32 resize;
+    //object status
+    edk::gui2d::gui2dTexture status;
 private:
 };
 }//end namespace gui2d

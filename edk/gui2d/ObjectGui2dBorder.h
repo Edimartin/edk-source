@@ -75,6 +75,7 @@ class ObjectGui2dBorder{
 
     //set the borderSize
     bool setBorderSize(edk::float32 size);
+    edk::float32 getBorderSize();
 
     //return the center rectangle
     edk::shape::Rectangle2D* getCenter();
@@ -89,9 +90,11 @@ class ObjectGui2dBorder{
     void drawNormal();
     void drawUp();
     void drawPressed();
+    void drawSelection();
     private:
     edk::shape::Mesh2D mesh;
     edk::shape::Rectangle2D center;
+    edk::shape::Rectangle2D selection;
     edk::float32 border;
 };
 }//end namespace gui2d
