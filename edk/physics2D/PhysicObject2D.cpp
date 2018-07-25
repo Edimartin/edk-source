@@ -475,8 +475,6 @@ bool edk::physics2D::PhysicObject2D::readFromXMLisSensor(edk::XML* xml,edk::uint
 
 bool edk::physics2D::PhysicObject2D::cloneFrom(edk::physics2D::PhysicObject2D* obj){
     if(obj){
-        //copy the object
-        this->cloneFrom(obj);
         //copy the mesh
         //this->physicMesh=obj->physicMesh;
         this->physicMesh.cloneFrom(&obj->physicMesh);
