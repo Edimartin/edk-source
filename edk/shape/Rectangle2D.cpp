@@ -446,6 +446,14 @@ bool edk::shape::Rectangle2D::cloneFrom(edk::shape::Polygon2D* poly){
                     };
             }
         }
+        //set the transformations
+        this->setTranslate(poly->getTranslate());
+        this->setScale(poly->getScale());
+        this->setAngle(poly->getAngle());
+        //set physics
+        this->setDensity(poly->getDensity());
+        this->setFriction(poly->getFriction());
+        this->setRestitution(poly->getRestitution());
         return true;
     }
     return false;
