@@ -225,7 +225,7 @@ public:
     //test if have the level
     bool haveLevel(edk::uint32 levelPosition);
     //return the levelSize
-    edk::uint32 getLevelSize();
+    edk::uint32 getLevelsSize();
     edk::uint32 getLevelSize(edk::uint32 levelPosition);
     //move the level to back
     bool moveLevelBack(edk::uint32 levelPosition);

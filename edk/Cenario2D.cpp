@@ -2963,7 +2963,7 @@ bool edk::Cenario2D::haveLevel(edk::uint32 levelPosition){
     return false;
 }
 //return the levelSize
-edk::uint32 edk::Cenario2D::getLevelSize(){
+edk::uint32 edk::Cenario2D::getLevelsSize(){
     return this->levels.size();
 }
 edk::uint32 edk::Cenario2D::getLevelSize(edk::uint32 levelPosition){
