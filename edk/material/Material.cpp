@@ -111,6 +111,12 @@ bool edk::material::Material::setTextureFromMemory(edk::char8* name,edk::uint8* 
 bool edk::material::Material::setTextureFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint8 position,edk::uint32 filter){
     return this->setTextureFromMemory((edk::char8*) name,image,width,height,channels,position,filter);
 }
+bool edk::material::Material::setTextureFromMemory(edk::Image2D* image,edk::uint8 position,edk::uint32 filter){
+    if(image){
+        return this->setTextureFromMemory(image->getName(),image->getPixels(),image->getSize().width,image->getSize().height,image->getChannels(),position,filter);
+    }
+    return false;
+}
 
 //SETERS
 void edk::material::Material::setAmbient(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){

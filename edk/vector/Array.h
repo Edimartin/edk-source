@@ -57,7 +57,7 @@ class Array{
             //create the array
             this->createArray(size);
         }
-        ~Array(){
+        virtual ~Array(){
             //delete the array
             if(this->canDeleteVector){
                 //
