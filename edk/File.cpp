@@ -2148,6 +2148,15 @@ bool File::seekStart(){
     }
     return false;
 }
+bool File::seekStart64(){
+    //test if the file is opened
+    if(this->isOpened()){
+        fseeko64(this->arq,0,SEEK_SET);
+        //return true
+        return true;
+    }
+    return false;
+}
 bool File::seekStart(edk::uint32 bytes){
     //test if the file is opened
     if(this->isOpened()){
@@ -2170,6 +2179,15 @@ bool File::seekEnd(){
     //test if the file is opened
     if(this->isOpened()){
         fseek(this->arq,0,SEEK_END);
+        //return true
+        return true;
+    }
+    return false;
+}
+bool File::seekEnd64(){
+    //test if the file is opened
+    if(this->isOpened()){
+        fseeko64(this->arq,0,SEEK_END);
         //return true
         return true;
     }

@@ -274,9 +274,11 @@ class File {
     bool seek(edk::int32 bytes);
     bool seek(edk::int64 bytes);
     bool seekStart();
+    bool seekStart64();
     bool seekStart(edk::uint32 bytes);
     bool seekStart(edk::uint64 bytes);
     bool seekEnd();
+    bool seekEnd64();
     bool seekEnd(edk::int32 bytes);
     bool seekEnd(edk::int64 bytes);
     //return this current position

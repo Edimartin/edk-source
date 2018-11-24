@@ -32,47 +32,46 @@ edk::codecs::EncoderJPEG::EncoderJPEG()
 edk::codecs::EncoderJPEG::~EncoderJPEG()
 {
     //dtor
+    this->deleteEncoded();
 }
 
 //process the encoder
 bool edk::codecs::EncoderJPEG::encode(edk::uint8* frame,edk::size2ui32 size,edk::uint8 channels,edk::uint32 quality){
+    this->deleteEncoded();
     //process the father encoder
     if(edk::codecs::EncoderImage::encode(frame,size,channels,quality)){
         //test if the channels can be writed in jpeg
         if(channels == 1u || channels == 3u){
             bool ret=false;
-            //Process the libJpeg Encoder
-            jpeg_compress_struct cinfo;
-            jpeg_error_mgr jerr;
             //cria o encoder
-            jpeg_create_compress(&cinfo);
+            jpeg_create_compress(&this->cinfo);
             //carrega o ponteiro de erros
-            cinfo.err = jpeg_std_error(&jerr);
-            cinfo.image_width = size.width; 	/* image width and height, in pixels */
-            cinfo.image_height = size.height;
-            cinfo.input_components = channels;		/* # of color components per pixel */
+            this->cinfo.err = jpeg_std_error(&jerr);
+            this->cinfo.image_width = size.width; 	/* image width and height, in pixels */
+            this->cinfo.image_height = size.height;
+            this->cinfo.input_components = channels;		/* # of color components per pixel */
             switch(channels){
             case 1u:
-                cinfo.in_color_space = JCS_GRAYSCALE;/* colorspace of input image */
+                this->cinfo.in_color_space = JCS_GRAYSCALE;/* colorspace of input image */
                 break;
             case 3u:
-                cinfo.in_color_space = JCS_RGB; 	/* colorspace of input image */
+                this->cinfo.in_color_space = JCS_RGB; 	/* colorspace of input image */
                 break;
             }
             //seta o dado
-            jpeg_set_defaults(&cinfo);
+            jpeg_set_defaults(&this->cinfo);
             //seta a qualidade
-            jpeg_set_quality(&cinfo, quality, TRUE);
+            jpeg_set_quality(&this->cinfo, quality, TRUE);
 
 #ifdef __x86_64
 			//seta o destino
-            jpeg_mem_dest(&cinfo,
+            jpeg_mem_dest(&this->cinfo,
                           edk::codecs::CodecImage::getEncodedPosition(),
                           (edk::uint64*)edk::codecs::CodecImage::getEncodedSizePosition()
                           );
 #else
 			//seta o destino
-            jpeg_mem_dest(&cinfo,
+            jpeg_mem_dest(&this->cinfo,
                           edk::codecs::CodecImage::getEncodedPosition(),
                           (unsigned long int*)(edk::uint64*)edk::codecs::CodecImage::getEncodedSizePosition()
                           );
@@ -80,13 +79,13 @@ bool edk::codecs::EncoderJPEG::encode(edk::uint8* frame,edk::size2ui32 size,edk:
             
 
             //inicia a compressao
-            jpeg_start_compress(&cinfo, TRUE);
+            jpeg_start_compress(&this->cinfo, TRUE);
             //carrega o ponteiro do frame
             unsigned char* temp = frame;
             if (temp){
                 edk::uint32 row_stride = size.width * channels;
-                while (cinfo.next_scanline < cinfo.image_height) {
-                    jpeg_write_scanlines(&cinfo, &temp, 1);
+                while (this->cinfo.next_scanline < this->cinfo.image_height) {
+                    jpeg_write_scanlines(&this->cinfo, &temp, 1);
                     //incrementa o temp
                     temp+=row_stride;
                 }
@@ -94,7 +93,7 @@ bool edk::codecs::EncoderJPEG::encode(edk::uint8* frame,edk::size2ui32 size,edk:
 
             //
             //finaliza o encoder
-            jpeg_finish_compress(&cinfo);
+            jpeg_finish_compress(&this->cinfo);
 
             //calcula o tamanho do vetor
             if (this->getEncodedSize() && this->getEncoded()){
@@ -107,9 +106,6 @@ bool edk::codecs::EncoderJPEG::encode(edk::uint8* frame,edk::size2ui32 size,edk:
                 }
             }
 
-            //remove o encoder
-            jpeg_destroy_compress(&cinfo);
-
             return ret;
         }
     }
@@ -117,4 +113,11 @@ bool edk::codecs::EncoderJPEG::encode(edk::uint8* frame,edk::size2ui32 size,edk:
 }
 bool edk::codecs::EncoderJPEG::encode(edk::uint8* frame,edk::uint32 width,edk::uint32 height,edk::uint8 channels,edk::uint32 quality){
     return this->encode(frame,edk::size2ui32(width,height),channels,quality);
+}
+//delete the encoded
+void edk::codecs::EncoderJPEG::deleteEncoded(){
+    if(this->getEncoded()){
+        jpeg_destroy_compress(&this->cinfo);
+        this->cleanEncoded();
+    }
 }

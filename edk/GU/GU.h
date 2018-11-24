@@ -1949,6 +1949,10 @@ public:
     //filter
     //GU_NEAREST
     //GU_LINEAR
+    //GU_NEAREST_MIPMAP_NEAREST
+    //GU_NEAREST_MIPMAP_LINEAR
+    //GU_LINEAR_MIPMAP_NEAREST
+    //GU_LINEAR_MIPMAP_LINEAR
     static edk::uint32 guAllocTexture2D(edk::uint32 width, edk::uint32 height, edk::uint32 mode, edk::uint32 filter, const edk::classID  data);
     //Draw to texture
     //mode

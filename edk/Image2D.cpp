@@ -508,7 +508,7 @@ bool Image2D::saveToFile(edk::char8 *fileName){
                 {
                     //save the encoder
                     edk::codecs::EncoderJPEG encoder;
-                    ret = encoder.encodeToFile(this->vec,this->size.width,this->size.height,this->channels,100,fileName);
+                    ret = encoder.encodeToFile(this->vec,this->size.width,this->size.height,this->channels,90,fileName);
                     if(deleteTempName)
                         delete[] fileName;
                     break;
@@ -969,6 +969,75 @@ bool Image2D::lTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height,ed
 }
 edk::uint8* Image2D::lTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height){
     return edk::Image2D::lTorgba(vector,edk::size2ui32(width,height));
+}
+
+bool Image2D::cloneFrom(edk::Image2D* image){
+    if(image){
+        //test if the image exist
+        if(image->vec && image->channels && image->size.width && image->size.height && image->imageName /*&& image->imageFileName*/){
+            //test if the characteristics are equal
+            if(!(this->vec && image->channels == this->channels && image->size == this->size)){
+                //else delete the last image
+                this->deleteImage();
+                //create a new vec with the vecSize
+                if(!this->newImage(image->name(),image->size.width,image->size.height,image->channels)){
+                    //return false because it can't create a new image
+                    return false;
+                }
+            }
+            else{
+                //set the image name
+                if(!this->setName(image->name())){
+                    //if it cant set. Delete the last image and return false
+                    this->deleteImage();
+                    return false;
+                }
+            }
+            //test if create the image
+            if(this->vec && this->size.width && this->size.height && this->channels){
+                //clean the image setting all zeros
+                memcpy(this->vec,image->vec,this->size.width * this->size.height * this->channels);
+                return true;
+            }
+        }
+    }
+    //if don't have an image delete the last image
+    this->deleteImage();
+    return false;
+}
+bool Image2D::newFrom(edk::Image2D* image){
+    if(image){
+        //test if the image exist
+        if(image->vec && image->channels && image->size.width && image->size.height && image->imageName /*&& image->imageFileName*/){
+            //test if the characteristics are equal
+            if(!(this->vec && image->channels == this->channels && image->size == this->size)){
+                //else delete the last image
+                this->deleteImage();
+                //create a new vec with the vecSize
+                if(!this->newImage(image->name(),image->size.width,image->size.height,image->channels)){
+                    //return false because it can't create a new image
+                    return false;
+                }
+            }
+            else{
+                //set the image name
+                if(!this->setName(image->name())){
+                    //if it cant set. Delete the last image and return false
+                    this->deleteImage();
+                    return false;
+                }
+            }
+            //test if create the image
+            if(this->vec && this->size.width && this->size.height && this->channels){
+                //clean the image setting all zeros
+                memset(this->vec,0u,this->size.width * this->size.height * this->channels);
+                return true;
+            }
+        }
+    }
+    //if don't have an image delete the last image
+    this->deleteImage();
+    return false;
 }
 
 } /* End of namespace edk */

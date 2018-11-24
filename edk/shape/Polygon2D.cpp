@@ -472,11 +472,19 @@ void edk::shape::Polygon2D::setTranslate(edk::vec2f32 translate){
     this->translate = translate;
     this->testTransform();
 }
+void edk::shape::Polygon2D::setTranslate(edk::float32 translate){
+    this->translate = translate;
+    this->testTransform();
+}
 void edk::shape::Polygon2D::setTranslate(edk::float32 x,edk::float32 y){
     this->setTranslate(edk::vec2f32 (x,y));
 }
 //set the scale
 void edk::shape::Polygon2D::setScale(edk::size2f32 scale){
+    this->scale=scale;
+    this->testTransform();
+}
+void edk::shape::Polygon2D::setScale(edk::float32 scale){
     this->scale=scale;
     this->testTransform();
 }

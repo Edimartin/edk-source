@@ -187,7 +187,7 @@ edk::uint8* edk::codecs::CodecImage::cleanFrame(){
 edk::uint8* edk::codecs::CodecImage::cleanEncoded(){
     edk::uint8* ret = this->encoded;
 
-    this->frame=NULL;
+    this->encoded=NULL;
     //clean the size
     this->encodedSize = 0u;
 

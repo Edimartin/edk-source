@@ -199,7 +199,10 @@ class Image2D {
     static bool lTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest);
     static edk::uint8* lTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height);
 
+    bool cloneFrom(edk::Image2D* image);
+    bool newFrom(edk::Image2D* image);
  private:
+    edk::Image2D operator=(edk::Image2D newImage){return *this;}
     //Save the image
     //sf::Image* image;
     //image vector

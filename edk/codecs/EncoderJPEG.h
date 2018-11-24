@@ -44,8 +44,13 @@ class EncoderJPEG : public edk::codecs::EncoderImage{
         //process the encoder
         bool encode(edk::uint8* frame,edk::size2ui32 size,edk::uint8 channels,edk::uint32 quality);
         bool encode(edk::uint8* frame,edk::uint32 width,edk::uint32 height,edk::uint8 channels,edk::uint32 quality);
+        //delete the encoded
+        void deleteEncoded();
     protected:
     private:
+        //Process the libJpeg Encoder
+        jpeg_compress_struct cinfo;
+        jpeg_error_mgr jerr;
 };
 }//end namespace codecs
 }//end namespace edk

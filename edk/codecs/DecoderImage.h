@@ -47,7 +47,7 @@ class DecoderImage : protected edk::codecs::CodecImage{
         edk::uint32 getFrameHeight();
         edk::uint32 getFrameChannels();
         //delete the frame
-        void deleteFrame();
+        virtual void deleteFrame();
         //clean the frame
         edk::uint8* cleanFrame();
     protected:

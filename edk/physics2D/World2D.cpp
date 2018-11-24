@@ -293,7 +293,7 @@ void edk::physics2D::World2D::MyContactListener::EndContact(b2Contact* contact){
 
         //process the contactEnd
 
-        if(contactTemp->isEnabled()){
+        //if(contactTemp->isEnabled()){
             //test if the objectA is a sensor
             if(contactTemp->objectA->isSensor()){
                 //load the sensor
@@ -333,7 +333,7 @@ void edk::physics2D::World2D::MyContactListener::EndContact(b2Contact* contact){
                 //this->world->contactEnd(contactTemp);
                 this->world->physicsContactEnd(contactTemp);
             }
-        }
+        //}
 
         //remove contactTemp from the tree
         this->world->treeConcacts.remove(contactTemp);

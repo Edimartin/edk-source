@@ -33,6 +33,7 @@ edk::codecs::EncoderImage::EncoderImage()
 edk::codecs::EncoderImage::~EncoderImage()
 {
     //printf("\nEncoderImage Destrutor");fflush(stdout);
+    this->deleteEncoded();
 }
 
 //process the encoder

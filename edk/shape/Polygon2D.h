@@ -94,9 +94,11 @@ class Polygon2D{
         void cleanTransform();
         //Set the position of the polygon
         void setTranslate(edk::vec2f32 translate);
+        void setTranslate(edk::float32 translate);
         void setTranslate(edk::float32 x,edk::float32 y);
         //set the scale
         void setScale(edk::size2f32 scale);
+        void setScale(edk::float32 scale);
         void setScale(edk::float32 width,edk::float32 height);
         //set the angle
         void setAngle(edk::float32 angle);

@@ -60,7 +60,7 @@ class EncoderImage : protected edk::codecs::CodecImage{
         edk::uint8* getEncoded();
         edk::uint32 getEncodedSize();
         //delete the encoded
-        void deleteEncoded();
+        virtual void deleteEncoded();
     protected:
     private:
         //file manipulator
