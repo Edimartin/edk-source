@@ -29,6 +29,7 @@ edk::gui2d::ObjectGui2d::ObjectGui2d(){
     this->textSize = edk::size2f32(1,2);
     this->setStatus(edk::gui2d::gui2dTextureNormal);
     this->pressed = false;
+    this->drawText = false;
 }
 edk::gui2d::ObjectGui2d::~ObjectGui2d(){
     //
@@ -69,125 +70,188 @@ void edk::gui2d::ObjectGui2d::updateTextSize(){
                                  edk::Math::moduleFloat(this->center.getVertexPosition(0u).y)
                                  );
 
-        if(sizeText.width > sizeText.height){
-            //
-            //test the button size
-            if(centerSize.width>centerSize.height){
-                //width>height
-                this->percent1 = (edk::float32)centerSize.width / (edk::float32)centerSize.height;
-                this->percent2 = sizeText.width /
-                        sizeText.height;
-                this->resize = 0.f;
-                if(this->percent1>this->percent2){
+        if(centerSize.width>0.f && centerSize.height>0.f){
+            this->drawText = true;
+            if(sizeText.width > sizeText.height){
+                //
+                //test the button size
+                if(centerSize.width>centerSize.height){
+                    //width>height
+                    this->percent1 = (edk::float32)centerSize.width / (edk::float32)centerSize.height;
+                    this->percent2 = sizeText.width /
+                            sizeText.height;
+                    this->resize = 0.f;
+                    if(this->percent1>this->percent2){
+                        //resize height
+                        this->resize = this->percent2 * centerSize.height/* * 0.5*/;
+
+                        this->text.setScale(this->textSize.width*this->resize,this->textSize.height*this->resize);
+                        this->text.setPosition(this->position.x
+                                               - (this->text.getMapSizeWidth() * this->text.getMapScaleWidth() * 0.5f)
+                                               +(this->text.getMapScaleWidth() * 0.5f)
+                                               ,
+                                               this->position.y
+                                               );
+                    }
+                    else if(this->percent2>this->percent1){
+                        //resize width
+                        this->percent2 = sizeText.height /
+                                sizeText.width;
+                        this->resize = this->percent2 * centerSize.width/* * 0.5*/;
+
+                        this->text.setScale(this->textSize.width*this->resize,this->textSize.height*this->resize);
+                        this->text.setPosition(this->position.x -
+                                               (this->text.getMapSizeWidth() * this->text.getMapScaleWidth() * 0.5f)
+                                               +(this->text.getMapScaleWidth() * 0.5f)
+                                               ,
+                                               this->position.y
+                                               );
+                    }
+                    else{
+                        // ==
+                        //update the text
+                        this->text.setScale(centerSize.width,
+                                            centerSize.height
+                                            );
+                        this->text.setPosition(this->position.x,
+                                               this->position.y);
+                    }
+                }
+                else if(centerSize.height>centerSize.width){
+                    //height>width
+
                     //resize height
-                    this->resize = this->percent2 * centerSize.height * 0.5f;
+                    this->percent2 = sizeText.height /
+                            sizeText.width;
+                    this->resize = this->percent2 * centerSize.width/* * 0.5*/;
 
                     this->text.setScale(this->textSize.width*this->resize,this->textSize.height*this->resize);
                     this->text.setPosition(this->position.x
-                                           - (this->text.getMapSizeWidth() * this->text.getMapScaleWidth() * 0.5f)
-                                           +(this->text.getMapScaleWidth() * 0.5f)
-                                           ,
-                                           this->position.y
-                                           );
-                }
-                else if(this->percent2>this->percent1){
-                    //resize width
-                    this->percent2 = sizeText.height /
-                            sizeText.width;
-                    this->resize = this->percent2 * centerSize.width * 0.5;
-
-                    this->text.setScale(this->textSize.width*this->resize,this->textSize.height*this->resize);
-                    this->text.setPosition(this->position.x -
+                                           -
                                            (this->text.getMapSizeWidth() * this->text.getMapScaleWidth() * 0.5f)
-                                           +((1.f/(edk::float32)this->text.getMapSizeWidth()) * 0.5f)
+                                           +(this->text.getMapScaleWidth() * 0.5f)
                                            ,
                                            this->position.y
                                            );
                 }
                 else{
-                    // ==
-                    //update the text
-                    this->text.setScale(centerSize.width,
-                                        centerSize.height
-                                        );
-                    this->text.setPosition(this->position.x,
-                                           this->position.y);
-                }
-            }
-            else if(centerSize.height>centerSize.width){
-                //height>width
+                    //height==width
 
-                //resize height
-                this->percent2 = sizeText.height /
-                        sizeText.width;
-                this->resize = this->percent2 * centerSize.width * 0.5;
-
-                this->text.setScale(this->textSize.width*this->resize,this->textSize.height*this->resize);
-                this->text.setPosition(this->position.x -
-                                       (this->text.getMapSizeWidth() * this->text.getMapScaleWidth() * 0.5f)
-                                       +((1.f/(edk::float32)this->text.getMapSizeWidth()) * 0.5f)
-                                       ,
-                                       this->position.y
-                                       );
-            }
-            else{
-                //height==width
-
-                //resize height
-                this->percent2 = sizeText.height /
-                        sizeText.width;
-                this->resize = this->percent2 * centerSize.width * 0.5;
-                //update the text
-                this->text.setScale(this->textSize.width*this->resize,this->textSize.height*this->resize);
-                this->text.setPosition(this->position.x -
-                                       (this->text.getMapSizeWidth() * this->text.getMapScaleWidth() * 0.5f)
-                                       +((1.f/(edk::float32)this->text.getMapSizeWidth()) * 0.5f)
-                                       ,
-                                       this->position.y
-                                       );
-            }
-        }
-        else if(sizeText.height > sizeText.width){
-            //test the button size
-            if(centerSize.width>centerSize.height){
-                //width>height
-
-                //resize width
-                this->percent2 = sizeText.width /
-                        sizeText.height;
-                this->resize = this->percent2 * centerSize.height * 0.5;
-
-                this->text.setScale(this->textSize.width*this->resize,this->textSize.height*this->resize);
-                this->text.setPosition(this->position.x
-                                       - (this->text.getMapSizeWidth() * this->text.getMapScaleWidth() * 0.5f)
-                                       +(this->text.getMapScaleWidth() * 0.5f)
-                                       ,
-                                       this->position.y
-                                       );
-            }
-            else if(centerSize.height>centerSize.width){
-                //height>width
-                this->percent1 = (edk::float32)centerSize.height / (edk::float32)centerSize.width;
-                this->percent2 = sizeText.height /
-                        sizeText.width;
-                this->resize = 0.f;
-                if(this->percent1>this->percent2){
                     //resize height
-                    this->resize = this->percent2 * centerSize.width * 0.5f;
-
+                    this->percent2 = sizeText.height /
+                            sizeText.width;
+                    this->resize = this->percent2 * centerSize.width/* * 0.5*/;
+                    //update the text
                     this->text.setScale(this->textSize.width*this->resize,this->textSize.height*this->resize);
                     this->text.setPosition(this->position.x
-                                           - (this->text.getMapSizeWidth() * this->text.getMapScaleWidth() * 0.5f)
+                                           -
+                                           (this->text.getMapSizeWidth() * this->text.getMapScaleWidth() * 0.5f)
                                            +(this->text.getMapScaleWidth() * 0.5f)
                                            ,
                                            this->position.y
                                            );
                 }
-                else if(this->percent2>this->percent1){
+            }
+            else if(sizeText.height > sizeText.width){
+                //test the button size
+                if(centerSize.width>centerSize.height){
+                    //width>height
+
                     //resize width
                     this->percent2 = sizeText.width /
                             sizeText.height;
-                    this->resize = this->percent2 * centerSize.height * 0.5;
+                    this->resize = this->percent2 * centerSize.height/* * 0.5*/;
+
+                    this->text.setScale(this->textSize.width*this->resize,this->textSize.height*this->resize);
+                    this->text.setPosition(this->position.x
+                                           - (this->text.getMapSizeWidth() * this->text.getMapScaleWidth() * 0.5f)
+                                           +(this->text.getMapScaleWidth() * 0.5f)
+                                           ,
+                                           this->position.y
+                                           );
+                }
+                else if(centerSize.height>centerSize.width){
+                    //height>width
+                    this->percent1 = (edk::float32)centerSize.height / (edk::float32)centerSize.width;
+                    this->percent2 = sizeText.height /
+                            sizeText.width;
+                    this->resize = 0.f;
+                    if(this->percent1>this->percent2){
+                        //resize height
+                        this->resize = this->percent2 * centerSize.width/* * 0.5*/;
+
+                        this->text.setScale(this->textSize.width*this->resize,this->textSize.height*this->resize);
+                        this->text.setPosition(this->position.x
+                                               - (this->text.getMapSizeWidth() * this->text.getMapScaleWidth() * 0.5f)
+                                               +(this->text.getMapScaleWidth() * 0.5f)
+                                               ,
+                                               this->position.y
+                                               );
+                    }
+                    else if(this->percent2>this->percent1){
+                        //resize width
+                        this->percent2 = sizeText.width /
+                                sizeText.height;
+                        this->resize = this->percent2 * centerSize.height/* * 0.5*/;
+
+                        this->text.setScale(this->textSize.width*this->resize,this->textSize.height*this->resize);
+                        this->text.setPosition(this->position.x
+                                               - (this->text.getMapSizeWidth() * this->text.getMapScaleWidth() * 0.5f)
+                                               +(this->text.getMapScaleWidth() * 0.5f)
+                                               ,
+                                               this->position.y
+                                               );
+                    }
+                    else{
+                        // ==
+                        //update the text
+                        this->text.setScale(centerSize.width,
+                                            centerSize.height
+                                            );
+                        this->text.setPosition(this->position.x - (centerSize.width)*2,
+                                               this->position.y);
+                    }
+                }
+                else{
+                    //height==width
+
+                    //update the text
+                    this->text.setScale(sizeText.width * centerSize.width,
+                                        centerSize.height
+                                        );
+                    this->text.setPosition(this->position.x
+                                           - (this->text.getMapSizeWidth() * this->text.getMapScaleWidth() * 0.5f)
+                                           +(this->text.getMapScaleWidth() * 0.5f)
+                                           ,
+                                           this->position.y
+                                           );
+                }
+            }
+            else{
+                //test the button size
+                if(centerSize.width>centerSize.height){
+                    //width>height
+
+                    //resize width
+                    this->percent2 = sizeText.width /
+                            sizeText.height;
+                    this->resize = this->percent2 * centerSize.height/* * 0.5*/;
+
+                    this->text.setScale(this->textSize.width*this->resize,this->textSize.height*this->resize);
+                    this->text.setPosition(this->position.x
+                                           - (this->text.getMapSizeWidth() * this->text.getMapScaleWidth() * 0.5f)
+                                           +(this->text.getMapScaleWidth() * 0.5f)
+                                           ,
+                                           this->position.y
+                                           );
+                }
+                else if(centerSize.height>centerSize.width){
+                    //height>width
+
+                    //resize height
+                    this->percent2 = sizeText.height /
+                            sizeText.width;
+                    this->resize = this->percent2 * centerSize.width/* * 0.5*/;
 
                     this->text.setScale(this->textSize.width*this->resize,this->textSize.height*this->resize);
                     this->text.setPosition(this->position.x
@@ -198,80 +262,30 @@ void edk::gui2d::ObjectGui2d::updateTextSize(){
                                            );
                 }
                 else{
+                    //height==width
                     // ==
+
                     //update the text
-                    this->text.setScale(centerSize.width,
+                    this->text.setScale((this->textSize.width/(edk::float32)this->text.getMapSizeWidth()) * centerSize.width,
                                         centerSize.height
                                         );
-                    this->text.setPosition(this->position.x - (centerSize.width)*2,
-                                           this->position.y);
+                    this->text.setPosition(this->position.x
+                                           - (this->text.getMapSizeWidth() * this->text.getMapScaleWidth() * 0.5f)
+                                           +(this->text.getMapScaleWidth() * 0.5f)
+                                           ,
+                                           this->position.y
+                                           );
                 }
-            }
-            else{
-                //height==width
-
-                //update the text
-                this->text.setScale((1.f / this->textSize.width) * centerSize.width,
-                                    centerSize.height
-                                    );
-                this->text.setPosition(this->position.x
-                                       - (this->text.getMapSizeWidth() * this->text.getMapScaleWidth() * 0.5f)
-                                       +(this->text.getMapScaleWidth() * 0.5f)
-                                       ,
-                                       this->position.y
-                                       );
             }
         }
         else{
-            //test the button size
-            if(centerSize.width>centerSize.height){
-                //width>height
-
-                //resize width
-                this->percent2 = sizeText.width /
-                        sizeText.height;
-                this->resize = this->percent2 * centerSize.height * 0.5;
-
-                this->text.setScale(this->textSize.width*this->resize,this->textSize.height*this->resize);
-                this->text.setPosition(this->position.x
-                                       - (this->text.getMapSizeWidth() * this->text.getMapScaleWidth() * 0.5f)
-                                       +(this->text.getMapScaleWidth() * 0.5f)
-                                       ,
-                                       this->position.y
-                                       );
-            }
-            else if(centerSize.height>centerSize.width){
-                //height>width
-
-                //resize height
-                this->percent2 = sizeText.height /
-                        sizeText.width;
-                this->resize = this->percent2 * centerSize.width * 0.5;
-
-                this->text.setScale(this->textSize.width*this->resize,this->textSize.height*this->resize);
-                this->text.setPosition(this->position.x
-                                       - (this->text.getMapSizeWidth() * this->text.getMapScaleWidth() * 0.5f)
-                                       +(this->text.getMapScaleWidth() * 0.5f)
-                                       ,
-                                       this->position.y
-                                       );
-            }
-            else{
-                //height==width
-                // ==
-
-                //update the text
-                this->text.setScale((this->textSize.width/(edk::float32)this->text.getMapSizeWidth()) * centerSize.width,
-                                    centerSize.height
-                                    );
-                this->text.setPosition(this->position.x
-                                       - (this->text.getMapSizeWidth() * this->text.getMapScaleWidth() * 0.5f)
-                                       +(this->text.getMapScaleWidth() * 0.5f)
-                                       ,
-                                       this->position.y
-                                       );
-            }
+            this->drawText = false;
+            this->text.setScale(0.01f,0.01f);
         }
+    }
+    else{
+        this->drawText = false;
+        this->text.setScale(0.01f,0.01f);
     }
 }
 
@@ -432,7 +446,7 @@ bool edk::gui2d::ObjectGui2d::writeText(edk::char8* text,edk::size2f32 scale){
             this->textSize = scale;
 
             //filter the texSize
-            if(this->textSize.width>0.f && this->textSize.height){
+            if(this->textSize.width>0.f && this->textSize.height>0.f){
                 if(this->textSize.width>this->textSize.height){
                     this->textSize.height = this->textSize.height/this->textSize.width;
                     this->textSize.width = 1.f;
@@ -689,7 +703,7 @@ void edk::gui2d::ObjectGui2d::draw(){
         this->sprite.drawOneTexture(this->status);
     }
 
-    if(this->text.haveText()){
+    if(this->text.haveText() && this->drawText){
         //
         this->text.draw(edk::color4f32(0,0,0,1));
     }
@@ -701,7 +715,7 @@ void edk::gui2d::ObjectGui2d::drawSelection(){
     //draw the border
     this->obj.drawSelection();
 
-    if(this->text.haveText()){
+    if(this->text.haveText() && this->drawText){
         //
         this->text.draw(edk::color4f32(0,0,0,1));
     }

@@ -156,6 +156,8 @@ public:
     void draw(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
     void draw(edk::float32 r,edk::float32 g,edk::float32 b);
     void draw();
+    //draw the pivo
+    void drawPivo(edk::float32 size,edk::color3f32 color);
 
     //remove the fontImage
     void removeFontImage();

@@ -1733,6 +1733,10 @@ void edk::fonts::FontMap::draw(edk::float32 r,edk::float32 g,edk::float32 b){
 void edk::fonts::FontMap::draw(){
     this->draw(this->origin,this->last,this->color);
 }
+//draw the pivo
+void edk::fonts::FontMap::drawPivo(edk::float32 size,edk::color3f32 color){
+    this->map.drawPivo(size,color);
+}
 
 //remove the fontImage
 void edk::fonts::FontMap::removeFontImage(){

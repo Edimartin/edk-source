@@ -123,6 +123,7 @@ protected:
     edk::shape::Rectangle2D spritePolygon;
     //text to be printed in front
     edk::fonts::FontMap text;
+    bool drawText;
     edk::size2f32 textSize;
     //sprite size
     edk::size2ui32 spriteSize[edk::gui2d::gui2dTextureSize];
