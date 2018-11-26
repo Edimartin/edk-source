@@ -83,6 +83,12 @@ public:
     bool loadSymbolUpFromMemory(const char* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
     bool loadSymbolUpFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
     void removeSymbolUp();
+    //Load button symbol pressedUp
+    bool loadSymbolPressedUp(const char* name,edk::uint32 filter = GU_NEAREST);
+    bool loadSymbolPressedUp(edk::char8* name,edk::uint32 filter = GU_NEAREST);
+    bool loadSymbolPressedUpFromMemory(const char* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
+    bool loadSymbolPressedUpFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
+    void removeSymbolPressedUp();
 
     bool writeText(const char* text);
     bool writeText(edk::char8* text);

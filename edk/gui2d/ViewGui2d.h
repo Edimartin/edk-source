@@ -34,9 +34,11 @@ private:
     edk::vector::BinaryTree<edk::uint32>* selectTreeS;
     edk::vector::BinaryTree<edk::uint32> tree1;
     edk::vector::BinaryTree<edk::uint32> tree2;
+    edk::gui2d::ObjectGui2d* objPressed;
     bool mousePressed;
     bool mouseHolded;
     bool mouseRelease;
+    bool selectionExec;
 
     class ObjGui2dID{
     public:
@@ -76,14 +78,14 @@ private:
             return false;
         }
         //Print
-        virtual void printElement(edk::gui2d::ViewGui2d::ObjGui2dID* value){
+        virtual void printElement(edk::gui2d::ViewGui2d::ObjGui2dID* /*value*/){
             //
         }
-        virtual void renderElement(edk::gui2d::ViewGui2d::ObjGui2dID* value){
+        virtual void renderElement(edk::gui2d::ViewGui2d::ObjGui2dID* /*value*/){
             //
         }
         //UPDATE
-        virtual void updateElement(edk::gui2d::ViewGui2d::ObjGui2dID* value){
+        virtual void updateElement(edk::gui2d::ViewGui2d::ObjGui2dID* /*value*/){
             //
         }
         //get the object by the object
@@ -208,7 +210,7 @@ private:
             return this->removeObj(this->getObjectByID(id));
         }
         //remove all objectID's
-        bool removeAll(){
+        void removeAll(){
             edk::uint32 size = this->getSize();
             edk::gui2d::ViewGui2d::ObjGui2dID* obj = NULL;
             for(edk::uint32 i=0u;i<size;i++){

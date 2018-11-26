@@ -399,7 +399,7 @@ bool edk::gui2d::ObjectGui2d::loadSymbolUp(const char* name,edk::uint32 filter){
 bool edk::gui2d::ObjectGui2d::loadSymbolUp(edk::char8* name,edk::uint32 filter){
     if(this->sprite.material.loadTexture(name,edk::gui2d::gui2dTextureUp,filter)){
         //get the texture size
-        this->spriteSize[edk::gui2d::gui2dTexturePressed] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTextureUp);
+        this->spriteSize[edk::gui2d::gui2dTextureUp] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTextureUp);
         return true;
     }
     return false;
@@ -410,7 +410,7 @@ bool edk::gui2d::ObjectGui2d::loadSymbolUpFromMemory(const char* name,edk::uint8
 bool edk::gui2d::ObjectGui2d::loadSymbolUpFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
     if(this->sprite.material.loadTextureFromMemory(name,sprite,size,edk::gui2d::gui2dTextureUp,filter)){
         //get the texture size
-        this->spriteSize[edk::gui2d::gui2dTexturePressed] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTextureUp);
+        this->spriteSize[edk::gui2d::gui2dTextureUp] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTextureUp);
         return true;
     }
     return false;
@@ -418,6 +418,33 @@ bool edk::gui2d::ObjectGui2d::loadSymbolUpFromMemory(edk::char8* name,edk::uint8
 void edk::gui2d::ObjectGui2d::removeSymbolUp(){
     this->sprite.material.removeTexture(edk::gui2d::gui2dTextureUp);
     this->spriteSize[edk::gui2d::gui2dTextureUp].width = this->spriteSize[edk::gui2d::gui2dTextureUp].height = 0.f;
+}
+//Load button symbol pressedUp
+bool edk::gui2d::ObjectGui2d::loadSymbolPressedUp(const char* name,edk::uint32 filter){
+    return this->loadSymbolPressedUp((edk::char8*) name,filter);
+}
+bool edk::gui2d::ObjectGui2d::loadSymbolPressedUp(edk::char8* name,edk::uint32 filter){
+    if(this->sprite.material.loadTexture(name,edk::gui2d::gui2dTexturePressedUp,filter)){
+        //get the texture size
+        this->spriteSize[edk::gui2d::gui2dTexturePressedUp] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTexturePressedUp);
+        return true;
+    }
+    return false;
+}
+bool edk::gui2d::ObjectGui2d::loadSymbolPressedUpFromMemory(const char* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
+    return this->loadSymbolPressedUpFromMemory((edk::char8*) name,sprite,size,filter);
+}
+bool edk::gui2d::ObjectGui2d::loadSymbolPressedUpFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
+    if(this->sprite.material.loadTextureFromMemory(name,sprite,size,edk::gui2d::gui2dTexturePressedUp,filter)){
+        //get the texture size
+        this->spriteSize[edk::gui2d::gui2dTexturePressedUp] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTexturePressedUp);
+        return true;
+    }
+    return false;
+}
+void edk::gui2d::ObjectGui2d::removeSymbolPressedUp(){
+    this->sprite.material.removeTexture(edk::gui2d::gui2dTexturePressedUp);
+    this->spriteSize[edk::gui2d::gui2dTexturePressedUp].width = this->spriteSize[edk::gui2d::gui2dTexturePressedUp].height = 0.f;
 }
 
 bool edk::gui2d::ObjectGui2d::writeText(const char* text){
@@ -657,6 +684,10 @@ bool edk::gui2d::ObjectGui2d::setStatus(edk::gui2d::gui2dTexture status){
         this->status = edk::gui2d::gui2dTexture::gui2dTextureUp;
         return true;
         break;
+    case edk::gui2d::gui2dTexture::gui2dTexturePressedUp:
+        this->status = edk::gui2d::gui2dTexture::gui2dTexturePressedUp;
+        return true;
+        break;
     case edk::gui2d::gui2dTexture::gui2dTexturePressed:
         this->status = edk::gui2d::gui2dTexture::gui2dTexturePressed;
         return true;
@@ -689,6 +720,10 @@ void edk::gui2d::ObjectGui2d::draw(){
         //draw the border
         this->obj.drawPressed();
         break;
+    case edk::gui2d::gui2dTexture::gui2dTexturePressedUp:
+        //draw the border
+        this->obj.drawPressedUp();
+        break;
     case edk::gui2d::gui2dTexture::gui2dTextureNormal:
     case edk::gui2d::gui2dTexture::gui2dTextureSize:
     default:
@@ -714,12 +749,7 @@ void edk::gui2d::ObjectGui2d::drawSelection(){
     this->drawStart();
     //draw the border
     this->obj.drawSelection();
-
-    if(this->text.haveText() && this->drawText){
-        //
-        this->text.draw(edk::color4f32(0,0,0,1));
-    }
-
+    //
     this->drawEnd();
 }
 

@@ -43,6 +43,7 @@ enum gui2dTexture{
     gui2dTextureNormal=0u,
     gui2dTextureUp,
     gui2dTexturePressed,
+    gui2dTexturePressedUp,
     //
     gui2dTextureSize,
 };
@@ -69,6 +70,12 @@ class ObjectGui2dBorder{
     bool loadSpriteUpFromMemory(const char* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
     bool loadSpriteUpFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
     void removeSpriteUp();
+    //load pressedUp sprite
+    bool loadSpritePressedUp(const char* name,edk::uint32 filter = GU_NEAREST);
+    bool loadSpritePressedUp(edk::char8* name,edk::uint32 filter = GU_NEAREST);
+    bool loadSpritePressedUpFromMemory(const char* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
+    bool loadSpritePressedUpFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
+    void removeSpritePressedUp();
 
     //load the polygons
     bool updatePolygons(edk::size2f32 size);
@@ -90,6 +97,7 @@ class ObjectGui2dBorder{
     void drawNormal();
     void drawUp();
     void drawPressed();
+    void drawPressedUp();
     void drawSelection();
     private:
     edk::shape::Mesh2D mesh;
