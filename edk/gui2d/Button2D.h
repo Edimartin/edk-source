@@ -1,4 +1,5 @@
-#include "Button.h"
+#ifndef BUTTON_H
+#define BUTTON_H
 
 /*
 Button - Button for the GUI 2D library
@@ -20,41 +21,46 @@ AV: Walmor M. de Souza 392 Casa
 Gravatai RS Brazil 94065100
 */
 
-edk::gui2d::Button::Button(){
-    //
-    this->obj.setBorderSize(0.25f);
-}
-edk::gui2d::Button::~Button(){
-    //clean the meshes
-    this->unload();
-}
-//add the polygons
-bool edk::gui2d::Button::addPolygons(){
-    //
-    return false;
-}
+#ifdef printMessages
+#warning "Inside gui2d::Button"
+#endif
 
-//load the button textures and meshes
-bool edk::gui2d::Button::load(){
-    if(edk::gui2d::ObjectGui2d::load()){
-        return true;
-    }
-    return false;
-}
-void edk::gui2d::Button::unload(){
-    edk::gui2d::ObjectGui2d::unload();
-}
-void edk::gui2d::Button::update(){
-    edk::gui2d::ObjectGui2d::update();
-}
+#pragma once
+#include "../Object2DValues.h"
+#include "../TypeDefines.h"
+#include "../GU/GU.h"
+#include "../ViewSprite.h"
+#include "../vector/BinaryTree.h"
+#include "../fonts/FontMap.h"
+#include "../NameClass.h"
+#include "ObjectGui2dBorder.h"
+#include "ObjectGui2d.h"
 
-//set border size
-bool edk::gui2d::Button::setBorderSize(edk::float32 size){
-    return this->obj.setBorderSize(size);
-}
+#ifdef printMessages
+#warning "    Compiling gui2d::Button"
+#endif
 
-//draw the button
-void edk::gui2d::Button::draw(){
-    edk::gui2d::ObjectGui2d::draw();
-}
+namespace edk{
+namespace gui2d{
+class Button2D: public edk::gui2d::ObjectGui2d{
+public:
+    Button2D();
+    virtual ~Button2D();
+    //load the button textures and meshes
+    bool load();
+    void unload();
+    void update();
 
+    //set border size
+    bool setBorderSize(edk::float32 size);
+
+    //draw the button
+    void draw();
+private:
+    //add the polygons
+    bool addPolygons();
+};
+}//end namespace gui2d
+}//end namespace edk
+
+#endif // BUTTON_H

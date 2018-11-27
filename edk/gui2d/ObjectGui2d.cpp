@@ -28,6 +28,7 @@ edk::gui2d::ObjectGui2d::ObjectGui2d(){
     }
     this->textSize = edk::size2f32(1,2);
     this->setStatus(edk::gui2d::gui2dTextureNormal);
+    this->saveStatus = this->status;
     this->pressed = false;
     this->drawText = false;
 }
@@ -338,6 +339,23 @@ bool edk::gui2d::ObjectGui2d::loadSpriteUpFromMemory(edk::char8* name,edk::uint8
 void edk::gui2d::ObjectGui2d::removeSpriteUp(){
     this->obj.removeSpriteUp();
 }
+//load UP sprite
+bool edk::gui2d::ObjectGui2d::loadSpritePressedUp(const char* name,edk::uint32 filter){
+    return this->loadSpritePressedUp((edk::char8*) name,filter);
+}
+bool edk::gui2d::ObjectGui2d::loadSpritePressedUp(edk::char8* name,edk::uint32 filter){
+    return this->obj.loadSpritePressedUp(name,filter);
+}
+bool edk::gui2d::ObjectGui2d::loadSpritePressedUpFromMemory(const char* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
+    return this->loadSpritePressedUpFromMemory((edk::char8*) name,sprite,size,filter);
+}
+bool edk::gui2d::ObjectGui2d::loadSpritePressedUpFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
+    return this->obj.loadSpritePressedUpFromMemory(name,sprite,size,filter);
+}
+void edk::gui2d::ObjectGui2d::removeSpritePressedUp(){
+    this->obj.removeSpritePressedUp();
+}
+
 //Load button symbol normal
 bool edk::gui2d::ObjectGui2d::loadSymbol(const char* name,edk::uint32 filter){
     return this->loadSymbol((edk::char8*) name,filter);
@@ -446,6 +464,99 @@ void edk::gui2d::ObjectGui2d::removeSymbolPressedUp(){
     this->sprite.material.removeTexture(edk::gui2d::gui2dTexturePressedUp);
     this->spriteSize[edk::gui2d::gui2dTexturePressedUp].width = this->spriteSize[edk::gui2d::gui2dTexturePressedUp].height = 0.f;
 }
+//Load button symbolAllStatus
+bool edk::gui2d::ObjectGui2d::loadSymbolAllStatus(const char* name,edk::uint32 filter){
+    return this->loadSymbolAllStatus((edk::char8*) name,filter);
+}
+bool edk::gui2d::ObjectGui2d::loadSymbolAllStatus(edk::char8* name,edk::uint32 filter){
+    bool ret=true;
+    if(!this->loadSymbol(name,filter)){
+        ret = false;
+    }
+    if(!this->loadSymbolUp(name,filter)){
+        ret = false;
+    }
+    if(!this->loadSymbolPressed(name,filter)){
+        ret = false;
+    }
+    if(!this->loadSymbolPressedUp(name,filter)){
+        ret = false;
+    }
+    return ret;
+}
+bool edk::gui2d::ObjectGui2d::loadSymbolAllStatusFromMemory(const char* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
+    return this->loadSymbolAllStatusFromMemory((edk::char8*) name,sprite,size,filter);
+}
+bool edk::gui2d::ObjectGui2d::loadSymbolAllStatusFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
+    bool ret=true;
+    if(!this->loadSymbolFromMemory(name,sprite,size,filter)){
+        ret = false;
+    }
+    if(!this->loadSymbolUpFromMemory(name,sprite,size,filter)){
+        ret = false;
+    }
+    if(!this->loadSymbolPressedFromMemory(name,sprite,size,filter)){
+        ret = false;
+    }
+    if(!this->loadSymbolPressedUpFromMemory(name,sprite,size,filter)){
+        ret = false;
+    }
+    return ret;
+}
+//Load button symbolAllUPStatus
+bool edk::gui2d::ObjectGui2d::loadSymbolAllUPStatus(const char* name,edk::uint32 filter){
+    return this->loadSymbolAllUPStatus((edk::char8*) name,filter);
+}
+bool edk::gui2d::ObjectGui2d::loadSymbolAllUPStatus(edk::char8* name,edk::uint32 filter){
+    bool ret=true;
+    if(!this->loadSymbolUp(name,filter)){
+        ret = false;
+    }
+    if(!this->loadSymbolPressedUp(name,filter)){
+        ret = false;
+    }
+    return ret;
+}
+bool edk::gui2d::ObjectGui2d::loadSymbolAllUPStatusFromMemory(const char* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
+    return this->loadSymbolAllUPStatusFromMemory((edk::char8*) name,sprite,size,filter);
+}
+bool edk::gui2d::ObjectGui2d::loadSymbolAllUPStatusFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
+    bool ret=true;
+    if(!this->loadSymbolUpFromMemory(name,sprite,size,filter)){
+        ret = false;
+    }
+    if(!this->loadSymbolPressedUpFromMemory(name,sprite,size,filter)){
+        ret = false;
+    }
+    return ret;
+}
+//Load button symbolAllNormalAndPressedStatus
+bool edk::gui2d::ObjectGui2d::loadSymbolAllNormalAndPressedStatus(const char* name,edk::uint32 filter){
+    return this->loadSymbolAllNormalAndPressedStatus((edk::char8*) name,filter);
+}
+bool edk::gui2d::ObjectGui2d::loadSymbolAllNormalAndPressedStatus(edk::char8* name,edk::uint32 filter){
+    bool ret=true;
+    if(!this->loadSymbol(name,filter)){
+        ret = false;
+    }
+    if(!this->loadSymbolPressed(name,filter)){
+        ret = false;
+    }
+    return ret;
+}
+bool edk::gui2d::ObjectGui2d::loadSymbolAllNormalAndPressedStatusFromMemory(const char* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
+    return this->loadSymbolAllNormalAndPressedStatusFromMemory((edk::char8*) name,sprite,size,filter);
+}
+bool edk::gui2d::ObjectGui2d::loadSymbolAllNormalAndPressedStatusFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
+    bool ret=true;
+    if(!this->loadSymbolFromMemory(name,sprite,size,filter)){
+        ret = false;
+    }
+    if(!this->loadSymbolPressedFromMemory(name,sprite,size,filter)){
+        ret = false;
+    }
+    return ret;
+}
 
 bool edk::gui2d::ObjectGui2d::writeText(const char* text){
     //
@@ -528,8 +639,13 @@ void edk::gui2d::ObjectGui2d::update(){
     if(this->centerS.getVertexPosition(0u)!= this->center.getVertexPosition(0u)
             ||
             this->centerS.getVertexPosition(1u)!= this->center.getVertexPosition(1u)
+            ||
+            this->saveStatus != this->status
             ){
         this->spritePolygon.cloneFrom(&this->center);
+        if(this->status>=edk::gui2d::gui2dTextureSize)
+            this->status = edk::gui2d::gui2dTextureNormal;
+        this->saveStatus = this->status;
 
         //calculate the centerSize
         edk::size2f32 centerSize(edk::Math::moduleFloat(this->center.getVertexPosition(1u).x)
@@ -540,14 +656,14 @@ void edk::gui2d::ObjectGui2d::update(){
                                  edk::Math::moduleFloat(this->center.getVertexPosition(0u).y)
                                  );
 
-        if(this->spriteSize[edk::gui2d::gui2dTextureNormal].width > this->spriteSize[edk::gui2d::gui2dTextureNormal].height){
+        if(this->spriteSize[this->status].width > this->spriteSize[this->status].height){
             //
             //test the button size
             if(centerSize.width>centerSize.height){
                 //width>height
                 this->percent1 = (edk::float32)centerSize.width / (edk::float32)centerSize.height;
-                this->percent2 = (edk::float32)this->spriteSize[edk::gui2d::gui2dTextureNormal].width /
-                        (edk::float32)this->spriteSize[edk::gui2d::gui2dTextureNormal].height;
+                this->percent2 = (edk::float32)this->spriteSize[this->status].width /
+                        (edk::float32)this->spriteSize[this->status].height;
                 this->resize = 0.f;
                 if(this->percent1>this->percent2){
                     //resize height
@@ -557,8 +673,8 @@ void edk::gui2d::ObjectGui2d::update(){
                 }
                 else if(this->percent2>this->percent1){
                     //resize width
-                    this->percent2 = (edk::float32)this->spriteSize[edk::gui2d::gui2dTextureNormal].height /
-                            (edk::float32)this->spriteSize[edk::gui2d::gui2dTextureNormal].width;
+                    this->percent2 = (edk::float32)this->spriteSize[this->status].height /
+                            (edk::float32)this->spriteSize[this->status].width;
                     this->resize = this->percent2 * centerSize.width * 0.5;
                     this->spritePolygon.setVertexPosition(0u,this->spritePolygon.getVertexPosition(0u).x,+this->resize);
                     this->spritePolygon.setVertexPosition(1u,this->spritePolygon.getVertexPosition(1u).x,-this->resize);
@@ -571,8 +687,8 @@ void edk::gui2d::ObjectGui2d::update(){
                 //height>width
 
                 //resize height
-                this->percent2 = (edk::float32)this->spriteSize[edk::gui2d::gui2dTextureNormal].height /
-                        (edk::float32)this->spriteSize[edk::gui2d::gui2dTextureNormal].width;
+                this->percent2 = (edk::float32)this->spriteSize[this->status].height /
+                        (edk::float32)this->spriteSize[this->status].width;
                 this->resize = this->percent2 * centerSize.width * 0.5;
                 this->spritePolygon.setVertexPosition(0u,this->spritePolygon.getVertexPosition(0u).x,+this->resize);
                 this->spritePolygon.setVertexPosition(1u,this->spritePolygon.getVertexPosition(1u).x,-this->resize);
@@ -581,21 +697,21 @@ void edk::gui2d::ObjectGui2d::update(){
                 //height==width
 
                 //resize height
-                this->percent2 = (edk::float32)this->spriteSize[edk::gui2d::gui2dTextureNormal].height /
-                        (edk::float32)this->spriteSize[edk::gui2d::gui2dTextureNormal].width;
+                this->percent2 = (edk::float32)this->spriteSize[this->status].height /
+                        (edk::float32)this->spriteSize[this->status].width;
                 this->resize = this->percent2 * centerSize.width * 0.5;
                 this->spritePolygon.setVertexPosition(0u,this->spritePolygon.getVertexPosition(0u).x,+this->resize);
                 this->spritePolygon.setVertexPosition(1u,this->spritePolygon.getVertexPosition(1u).x,-this->resize);
             }
         }
-        else if(this->spriteSize[edk::gui2d::gui2dTextureNormal].height > this->spriteSize[edk::gui2d::gui2dTextureNormal].width){
+        else if(this->spriteSize[this->status].height > this->spriteSize[this->status].width){
             //test the button size
             if(centerSize.width>centerSize.height){
                 //width>height
 
                 //resize width
-                this->percent2 = (edk::float32)this->spriteSize[edk::gui2d::gui2dTextureNormal].width /
-                        (edk::float32)this->spriteSize[edk::gui2d::gui2dTextureNormal].height;
+                this->percent2 = (edk::float32)this->spriteSize[this->status].width /
+                        (edk::float32)this->spriteSize[this->status].height;
                 this->resize = this->percent2 * centerSize.height * 0.5;
                 this->spritePolygon.setVertexPosition(0u,-this->resize,this->spritePolygon.getVertexPosition(0u).y);
                 this->spritePolygon.setVertexPosition(1u,+this->resize,this->spritePolygon.getVertexPosition(1u).y);
@@ -603,8 +719,8 @@ void edk::gui2d::ObjectGui2d::update(){
             else if(centerSize.height>centerSize.width){
                 //height>width
                 this->percent1 = (edk::float32)centerSize.height / (edk::float32)centerSize.width;
-                this->percent2 = (edk::float32)this->spriteSize[edk::gui2d::gui2dTextureNormal].height /
-                        (edk::float32)this->spriteSize[edk::gui2d::gui2dTextureNormal].width;
+                this->percent2 = (edk::float32)this->spriteSize[this->status].height /
+                        (edk::float32)this->spriteSize[this->status].width;
                 this->resize = 0.f;
                 if(this->percent1>this->percent2){
                     //resize height
@@ -614,8 +730,8 @@ void edk::gui2d::ObjectGui2d::update(){
                 }
                 else if(this->percent2>this->percent1){
                     //resize width
-                    this->percent2 = (edk::float32)this->spriteSize[edk::gui2d::gui2dTextureNormal].width /
-                            (edk::float32)this->spriteSize[edk::gui2d::gui2dTextureNormal].height;
+                    this->percent2 = (edk::float32)this->spriteSize[this->status].width /
+                            (edk::float32)this->spriteSize[this->status].height;
                     this->resize = this->percent2 * centerSize.height * 0.5;
                     this->spritePolygon.setVertexPosition(0u,-this->resize,this->spritePolygon.getVertexPosition(0u).y);
                     this->spritePolygon.setVertexPosition(1u,+this->resize,this->spritePolygon.getVertexPosition(1u).y);
@@ -629,8 +745,8 @@ void edk::gui2d::ObjectGui2d::update(){
                 //height==width
 
                 //resize width
-                this->percent2 = (edk::float32)this->spriteSize[edk::gui2d::gui2dTextureNormal].width /
-                        (edk::float32)this->spriteSize[edk::gui2d::gui2dTextureNormal].height;
+                this->percent2 = (edk::float32)this->spriteSize[this->status].width /
+                        (edk::float32)this->spriteSize[this->status].height;
                 this->resize = this->percent2 * centerSize.height * 0.5;
                 this->spritePolygon.setVertexPosition(0u,-this->resize,this->spritePolygon.getVertexPosition(0u).y);
                 this->spritePolygon.setVertexPosition(1u,+this->resize,this->spritePolygon.getVertexPosition(1u).y);
@@ -642,8 +758,8 @@ void edk::gui2d::ObjectGui2d::update(){
                 //width>height
 
                 //resize width
-                this->percent2 = (edk::float32)this->spriteSize[edk::gui2d::gui2dTextureNormal].width /
-                        (edk::float32)this->spriteSize[edk::gui2d::gui2dTextureNormal].height;
+                this->percent2 = (edk::float32)this->spriteSize[this->status].width /
+                        (edk::float32)this->spriteSize[this->status].height;
                 this->resize = this->percent2 * centerSize.height * 0.5;
                 this->spritePolygon.setVertexPosition(0u,-this->resize,this->spritePolygon.getVertexPosition(0u).y);
                 this->spritePolygon.setVertexPosition(1u,+this->resize,this->spritePolygon.getVertexPosition(1u).y);
@@ -652,8 +768,8 @@ void edk::gui2d::ObjectGui2d::update(){
                 //height>width
 
                 //resize height
-                this->percent2 = (edk::float32)this->spriteSize[edk::gui2d::gui2dTextureNormal].height /
-                        (edk::float32)this->spriteSize[edk::gui2d::gui2dTextureNormal].width;
+                this->percent2 = (edk::float32)this->spriteSize[this->status].height /
+                        (edk::float32)this->spriteSize[this->status].width;
                 this->resize = this->percent2 * centerSize.width * 0.5;
                 this->spritePolygon.setVertexPosition(0u,this->spritePolygon.getVertexPosition(0u).x,+this->resize);
                 this->spritePolygon.setVertexPosition(1u,this->spritePolygon.getVertexPosition(1u).x,-this->resize);

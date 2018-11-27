@@ -41,6 +41,13 @@ Gravatai RS Brazil 94065100
 
 namespace edk{
 namespace gui2d{
+class ObjectGui2d;
+class ObjectGui2dCallback{
+public:
+    virtual void mousePressed(edk::gui2d::ObjectGui2d* button,edk::uint32 mouseButton)=0;
+    virtual void MouseRelease(edk::gui2d::ObjectGui2d* button,edk::uint32 mouseButton,bool isInside)=0;
+    virtual void MouseHolded(edk::gui2d::ObjectGui2d* button,edk::uint32 mouseButton)=0;
+};
 class ObjectGui2d: public edk::Object2DValues{
 public:
     ObjectGui2d();
@@ -64,6 +71,12 @@ public:
     bool loadSpriteUpFromMemory(const char* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
     bool loadSpriteUpFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
     void removeSpriteUp();
+    //load UP sprite
+    bool loadSpritePressedUp(const char* name,edk::uint32 filter = GU_NEAREST);
+    bool loadSpritePressedUp(edk::char8* name,edk::uint32 filter = GU_NEAREST);
+    bool loadSpritePressedUpFromMemory(const char* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
+    bool loadSpritePressedUpFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
+    void removeSpritePressedUp();
 
     //Load button symbol normal
     bool loadSymbol(const char* name,edk::uint32 filter = GU_NEAREST);
@@ -89,6 +102,21 @@ public:
     bool loadSymbolPressedUpFromMemory(const char* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
     bool loadSymbolPressedUpFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
     void removeSymbolPressedUp();
+    //Load button symbolAllStatus normal
+    bool loadSymbolAllStatus(const char* name,edk::uint32 filter = GU_NEAREST);
+    bool loadSymbolAllStatus(edk::char8* name,edk::uint32 filter = GU_NEAREST);
+    bool loadSymbolAllStatusFromMemory(const char* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
+    bool loadSymbolAllStatusFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
+    //Load button symbolAllUPStatus normal
+    bool loadSymbolAllUPStatus(const char* name,edk::uint32 filter = GU_NEAREST);
+    bool loadSymbolAllUPStatus(edk::char8* name,edk::uint32 filter = GU_NEAREST);
+    bool loadSymbolAllUPStatusFromMemory(const char* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
+    bool loadSymbolAllUPStatusFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
+    //Load button symbolAllUPStatus normal
+    bool loadSymbolAllNormalAndPressedStatus(const char* name,edk::uint32 filter = GU_NEAREST);
+    bool loadSymbolAllNormalAndPressedStatus(edk::char8* name,edk::uint32 filter = GU_NEAREST);
+    bool loadSymbolAllNormalAndPressedStatusFromMemory(const char* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
+    bool loadSymbolAllNormalAndPressedStatusFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
 
     bool writeText(const char* text);
     bool writeText(edk::char8* text);
@@ -139,6 +167,8 @@ protected:
     edk::float32 resize;
     //object status
     edk::gui2d::gui2dTexture status;
+    //save the object status to compare in update function
+    edk::gui2d::gui2dTexture saveStatus;
 private:
 };
 }//end namespace gui2d
