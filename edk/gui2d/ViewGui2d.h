@@ -35,10 +35,16 @@ private:
     edk::vector::BinaryTree<edk::uint32> tree1;
     edk::vector::BinaryTree<edk::uint32> tree2;
     edk::gui2d::ObjectGui2d* objPressed;
+    edk::vec2f32 objPressedPosition;
     bool mousePressed;
     bool mouseHolded;
     bool mouseRelease;
     bool selectionExec;
+
+    //object to draw the mousePosition
+    edk::vec2f32 saveMousePosition;
+    edk::vec2f32 mouseDistance;
+    bool mouseMoving;
 
     class ObjGui2dID{
     public:

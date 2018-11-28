@@ -87,11 +87,11 @@ void edk::gui2d::ObjectGui2d::updateTextSize(){
                         this->resize = this->percent2 * centerSize.height/* * 0.5*/;
 
                         this->text.setScale(this->textSize.width*this->resize,this->textSize.height*this->resize);
-                        this->text.setPosition(this->position.x
+                        this->text.setPosition(/*this->position.x*/
                                                - (this->text.getMapSizeWidth() * this->text.getMapScaleWidth() * 0.5f)
                                                +(this->text.getMapScaleWidth() * 0.5f)
                                                ,
-                                               this->position.y
+                                               /*this->position.y*/0.f
                                                );
                     }
                     else if(this->percent2>this->percent1){
@@ -101,11 +101,11 @@ void edk::gui2d::ObjectGui2d::updateTextSize(){
                         this->resize = this->percent2 * centerSize.width/* * 0.5*/;
 
                         this->text.setScale(this->textSize.width*this->resize,this->textSize.height*this->resize);
-                        this->text.setPosition(this->position.x -
-                                               (this->text.getMapSizeWidth() * this->text.getMapScaleWidth() * 0.5f)
+                        this->text.setPosition(/*this->position.x*/
+                                               - (this->text.getMapSizeWidth() * this->text.getMapScaleWidth() * 0.5f)
                                                +(this->text.getMapScaleWidth() * 0.5f)
                                                ,
-                                               this->position.y
+                                               /*this->position.y*/0.f
                                                );
                     }
                     else{
@@ -114,8 +114,9 @@ void edk::gui2d::ObjectGui2d::updateTextSize(){
                         this->text.setScale(centerSize.width,
                                             centerSize.height
                                             );
-                        this->text.setPosition(this->position.x,
-                                               this->position.y);
+                        this->text.setPosition(/*this->position.x*/0.f,
+                                               /*this->position.y*/0.f
+                                               );
                     }
                 }
                 else if(centerSize.height>centerSize.width){
@@ -127,12 +128,11 @@ void edk::gui2d::ObjectGui2d::updateTextSize(){
                     this->resize = this->percent2 * centerSize.width/* * 0.5*/;
 
                     this->text.setScale(this->textSize.width*this->resize,this->textSize.height*this->resize);
-                    this->text.setPosition(this->position.x
-                                           -
-                                           (this->text.getMapSizeWidth() * this->text.getMapScaleWidth() * 0.5f)
+                    this->text.setPosition(/*this->position.x*/
+                                           - (this->text.getMapSizeWidth() * this->text.getMapScaleWidth() * 0.5f)
                                            +(this->text.getMapScaleWidth() * 0.5f)
                                            ,
-                                           this->position.y
+                                           /*this->position.y*/0.f
                                            );
                 }
                 else{
@@ -144,12 +144,11 @@ void edk::gui2d::ObjectGui2d::updateTextSize(){
                     this->resize = this->percent2 * centerSize.width/* * 0.5*/;
                     //update the text
                     this->text.setScale(this->textSize.width*this->resize,this->textSize.height*this->resize);
-                    this->text.setPosition(this->position.x
-                                           -
-                                           (this->text.getMapSizeWidth() * this->text.getMapScaleWidth() * 0.5f)
+                    this->text.setPosition(/*this->position.x*/
+                                           - (this->text.getMapSizeWidth() * this->text.getMapScaleWidth() * 0.5f)
                                            +(this->text.getMapScaleWidth() * 0.5f)
                                            ,
-                                           this->position.y
+                                           /*this->position.y*/0.f
                                            );
                 }
             }
@@ -164,11 +163,11 @@ void edk::gui2d::ObjectGui2d::updateTextSize(){
                     this->resize = this->percent2 * centerSize.height/* * 0.5*/;
 
                     this->text.setScale(this->textSize.width*this->resize,this->textSize.height*this->resize);
-                    this->text.setPosition(this->position.x
+                    this->text.setPosition(/*this->position.x*/
                                            - (this->text.getMapSizeWidth() * this->text.getMapScaleWidth() * 0.5f)
                                            +(this->text.getMapScaleWidth() * 0.5f)
                                            ,
-                                           this->position.y
+                                           /*this->position.y*/0.f
                                            );
                 }
                 else if(centerSize.height>centerSize.width){
@@ -182,11 +181,11 @@ void edk::gui2d::ObjectGui2d::updateTextSize(){
                         this->resize = this->percent2 * centerSize.width/* * 0.5*/;
 
                         this->text.setScale(this->textSize.width*this->resize,this->textSize.height*this->resize);
-                        this->text.setPosition(this->position.x
+                        this->text.setPosition(/*this->position.x*/
                                                - (this->text.getMapSizeWidth() * this->text.getMapScaleWidth() * 0.5f)
                                                +(this->text.getMapScaleWidth() * 0.5f)
                                                ,
-                                               this->position.y
+                                               /*this->position.y*/0.f
                                                );
                     }
                     else if(this->percent2>this->percent1){
@@ -196,11 +195,11 @@ void edk::gui2d::ObjectGui2d::updateTextSize(){
                         this->resize = this->percent2 * centerSize.height/* * 0.5*/;
 
                         this->text.setScale(this->textSize.width*this->resize,this->textSize.height*this->resize);
-                        this->text.setPosition(this->position.x
+                        this->text.setPosition(/*this->position.x*/
                                                - (this->text.getMapSizeWidth() * this->text.getMapScaleWidth() * 0.5f)
                                                +(this->text.getMapScaleWidth() * 0.5f)
                                                ,
-                                               this->position.y
+                                               /*this->position.y*/0.f
                                                );
                     }
                     else{
@@ -209,8 +208,11 @@ void edk::gui2d::ObjectGui2d::updateTextSize(){
                         this->text.setScale(centerSize.width,
                                             centerSize.height
                                             );
-                        this->text.setPosition(this->position.x - (centerSize.width)*2,
-                                               this->position.y);
+                        this->text.setPosition(/*this->position.x*/
+                                               - (centerSize.width)*2
+                                               ,
+                                               /*this->position.y*/0.f
+                                               );
                     }
                 }
                 else{
@@ -220,11 +222,11 @@ void edk::gui2d::ObjectGui2d::updateTextSize(){
                     this->text.setScale(sizeText.width * centerSize.width,
                                         centerSize.height
                                         );
-                    this->text.setPosition(this->position.x
+                    this->text.setPosition(/*this->position.x*/
                                            - (this->text.getMapSizeWidth() * this->text.getMapScaleWidth() * 0.5f)
                                            +(this->text.getMapScaleWidth() * 0.5f)
                                            ,
-                                           this->position.y
+                                           /*this->position.y*/0.f
                                            );
                 }
             }
@@ -239,11 +241,11 @@ void edk::gui2d::ObjectGui2d::updateTextSize(){
                     this->resize = this->percent2 * centerSize.height/* * 0.5*/;
 
                     this->text.setScale(this->textSize.width*this->resize,this->textSize.height*this->resize);
-                    this->text.setPosition(this->position.x
+                    this->text.setPosition(/*this->position.x*/
                                            - (this->text.getMapSizeWidth() * this->text.getMapScaleWidth() * 0.5f)
                                            +(this->text.getMapScaleWidth() * 0.5f)
                                            ,
-                                           this->position.y
+                                           /*this->position.y*/0.f
                                            );
                 }
                 else if(centerSize.height>centerSize.width){
@@ -255,11 +257,11 @@ void edk::gui2d::ObjectGui2d::updateTextSize(){
                     this->resize = this->percent2 * centerSize.width/* * 0.5*/;
 
                     this->text.setScale(this->textSize.width*this->resize,this->textSize.height*this->resize);
-                    this->text.setPosition(this->position.x
+                    this->text.setPosition(/*this->position.x*/
                                            - (this->text.getMapSizeWidth() * this->text.getMapScaleWidth() * 0.5f)
                                            +(this->text.getMapScaleWidth() * 0.5f)
                                            ,
-                                           this->position.y
+                                           /*this->position.y*/0.f
                                            );
                 }
                 else{
@@ -270,11 +272,11 @@ void edk::gui2d::ObjectGui2d::updateTextSize(){
                     this->text.setScale((this->textSize.width/(edk::float32)this->text.getMapSizeWidth()) * centerSize.width,
                                         centerSize.height
                                         );
-                    this->text.setPosition(this->position.x
+                    this->text.setPosition(/*this->position.x*/
                                            - (this->text.getMapSizeWidth() * this->text.getMapScaleWidth() * 0.5f)
                                            +(this->text.getMapScaleWidth() * 0.5f)
                                            ,
-                                           this->position.y
+                                           /*this->position.y*/0.f
                                            );
                 }
             }
@@ -813,6 +815,9 @@ bool edk::gui2d::ObjectGui2d::setStatus(edk::gui2d::gui2dTexture status){
     }
     return false;
 }
+void edk::gui2d::ObjectGui2d::forceUpdate(){
+    this->saveStatus = edk::gui2d::gui2dTextureSize;
+}
 edk::gui2d::gui2dTexture edk::gui2d::ObjectGui2d::getStatus(){
     return this->status;
 }
@@ -867,5 +872,9 @@ void edk::gui2d::ObjectGui2d::drawSelection(){
     this->obj.drawSelection();
     //
     this->drawEnd();
+}
+//return true if the object can be moved
+bool edk::gui2d::ObjectGui2d::canMove(){
+    return false;
 }
 

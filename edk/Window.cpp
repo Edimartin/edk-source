@@ -773,6 +773,7 @@ size2i32 Window::getResize(){
 }
 
 bool Window::loadEvents(){
+    bool ret=false;
     this->updateControllerEvents();
     //Limpa os eventos
     this->cleanEvents();
@@ -962,9 +963,6 @@ bool Window::loadEvents(){
             //salva a nova posicao do mouse
             this->events.mousePos = edk::vec2i32(mouseTemp.x,mouseTemp.y);
         }
-        else{
-            this->events.mouseMove = edk::vec2i32(0,0);
-        }
         //FIM MOUSE MOVIDO
         ///////////////////////////////////////////////////////////
 
@@ -1000,7 +998,7 @@ bool Window::loadEvents(){
                        ,event.joystickButton.button
                        );fflush(stdout);
 */
-                this->events.controllerPressed.addButton(event.joystickButton.joystickId,event.joystickButton.button);
+            this->events.controllerPressed.addButton(event.joystickButton.joystickId,event.joystickButton.button);
         }
 
         //if(event.Type == sf::Event::JoyButtonPressed){//1.6
@@ -1011,7 +1009,7 @@ bool Window::loadEvents(){
                        ,event.joystickButton.button
                        );fflush(stdout);
 */
-                this->events.controllerReleased.addButton(event.joystickButton.joystickId,event.joystickButton.button);
+            this->events.controllerReleased.addButton(event.joystickButton.joystickId,event.joystickButton.button);
         }
 
 
@@ -1034,9 +1032,16 @@ bool Window::loadEvents(){
         }
 
 
-
+        ret=true;
 
     }
+    //load the window size
+    this->windowSize = edk::size2ui32(window.getSize().x,window.getSize().y);//2.0
+    this->events.windowSize = this->windowSize;
+
+    //Seta o tamanho da janela
+    this->updateViewSize();
+
     //load mousePosition
     //events.mousePosWindow = events.mousePos = edk::vec2i32( input.GetMouseX(),input.GetMouseY());//1.6
     events.mousePosWindow = events.mousePos = edk::vec2i32( sf::Mouse::getPosition(this->window).x,sf::Mouse::getPosition(this->window).y);//2.0
@@ -1060,15 +1065,13 @@ bool Window::loadEvents(){
                     this->events.keyHolded.pushBack(i+256 - 36) ;//2.0
             }
         }
-
-        if(this->mouseInside){
-            //load the holded mouse button
-            for(edk::int32 i=sf::Mouse::Left ;i<sf::Mouse::ButtonCount;i=i+1){
-                if(sf::Mouse::isButtonPressed((sf::Mouse::Button)i)){
-                    this->events.mouseHolded.pushBack(i+1u);
-                }
+        //load the holded mouse button
+        for(edk::int32 i=sf::Mouse::Left ;i<sf::Mouse::ButtonCount;i=i+1){
+            if(sf::Mouse::isButtonPressed((sf::Mouse::Button)i)){
+                this->events.mouseHolded.pushBack(i+1u);
             }
         }
+        ret=true;
     }
 
     //Testa os controlers
@@ -1091,7 +1094,7 @@ bool Window::loadEvents(){
 */
 
     //senao retorna false
-    return false;
+    return ret;
 }
 
 size2ui32 Window::getDesktopSize(){

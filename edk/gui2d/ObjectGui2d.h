@@ -131,6 +131,7 @@ public:
     virtual void unload();
     virtual void update();
     virtual bool setStatus(edk::gui2d::gui2dTexture status);
+    void forceUpdate();
     edk::gui2d::gui2dTexture getStatus();
 
     //set border size
@@ -139,6 +140,8 @@ public:
     //draw the button
     virtual void draw();
     virtual void drawSelection();
+    //return true if the object can be moved
+    virtual bool canMove();
     //button frame in the world
     edk::rectf32 frame;
     bool pressed;
