@@ -12,8 +12,59 @@ edk::gui2d::ViewGui2d::~ViewGui2d(){
     //
     this->tree1.clean();
     this->tree2.clean();
-
 }
+//return true if have the element on the callback list
+bool edk::gui2d::ViewGui2d::haveCallback(edk::gui2d::ObjectGui2dCallback* callback){
+    //test the callback
+    if(callback){
+        //get the size and the pointer
+        edk::uint32 size = this->listCallback.getSize();
+        for(edk::uint32 i=0u;i<size;i++){
+            if(this->listCallback.get(i) == callback){
+                return true;
+            }
+        }
+    }
+    return false;
+}
+//process the callbacks
+void edk::gui2d::ViewGui2d::processMousePressed(edk::gui2d::ObjectGui2d* button,edk::uint32 mouseButton){
+    //get the list size
+    edk::uint32 size = this->listCallback.size();
+    edk::gui2d::ObjectGui2dCallback* pointer = NULL;
+    for(edk::uint32 i=0u;i<size;i++){
+        pointer = this->listCallback.get(i);
+        if(pointer){
+            //process the function
+            pointer->mousePressed(button,mouseButton);
+        }
+    }
+}
+void edk::gui2d::ViewGui2d::processMouseRelease(edk::gui2d::ObjectGui2d* button,edk::uint32 mouseButton,bool isInside){
+    //get the list size
+    edk::uint32 size = this->listCallback.size();
+    edk::gui2d::ObjectGui2dCallback* pointer = NULL;
+    for(edk::uint32 i=0u;i<size;i++){
+        pointer = this->listCallback.get(i);
+        if(pointer){
+            //process the function
+            pointer->mouseRelease(button,mouseButton,isInside);
+        }
+    }
+}
+void edk::gui2d::ViewGui2d::processMouseHolded(edk::gui2d::ObjectGui2d* button,edk::uint32 mouseButton){
+    //get the list size
+    edk::uint32 size = this->listCallback.size();
+    edk::gui2d::ObjectGui2dCallback* pointer = NULL;
+    for(edk::uint32 i=0u;i<size;i++){
+        pointer = this->listCallback.get(i);
+        if(pointer){
+            //process the function
+            pointer->mouseHolded(button,mouseButton);
+        }
+    }
+}
+
 void edk::gui2d::ViewGui2d::drawSelectionScene(){
     //
     this->list.print();
@@ -167,7 +218,6 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
                 this->objPressed->setStatus(edk::gui2d::gui2dTextureNormal);
                 //clean the objPressed pointer to receive another object when click the mouse again
                 this->objPressed->pressed = false;
-                this->objPressed=NULL;
             }
         }
     }
@@ -233,8 +283,6 @@ void edk::gui2d::ViewGui2d::drawScene(edk::rectf32){
                 this->selectTree->remove(id);
             }
 
-
-
             obj = this->list.getPointerByID(this->selectTree->getElementInPosition(0u));
             if(obj){
                 //test if the mouse is pressed
@@ -244,8 +292,11 @@ void edk::gui2d::ViewGui2d::drawScene(edk::rectf32){
                     this->objPressed = obj;
                     //save the object position
                     this->objPressedPosition = this->objPressed->position;
+
+                    //process the callback
+                    this->processMousePressed(obj,edk::mouse::left);
                 }
-                if(this->mouseHolded){
+                else if(this->mouseHolded){
                     if(obj->pressed){
                         //set the objStatus
                         obj->setStatus(edk::gui2d::gui2dTexturePressedUp);
@@ -253,6 +304,10 @@ void edk::gui2d::ViewGui2d::drawScene(edk::rectf32){
                     else{
                         //set the objStatus
                         obj->setStatus(edk::gui2d::gui2dTextureUp);
+                    }
+                    if(this->objPressed){
+                        //process the callback
+                        this->processMouseHolded(this->objPressed,edk::mouse::left);
                     }
                 }
                 else{
@@ -267,6 +322,24 @@ void edk::gui2d::ViewGui2d::drawScene(edk::rectf32){
         if(this->mouseRelease){
             //clean the mouseRelease
             this->list.cleanPressed=true;
+        }
+    }
+
+    //test if release the object
+    if(this->mouseRelease){
+        //test if have the object pressed
+        if(this->objPressed){
+            //test if the mouse is inside the mouse pressed
+            if(this->objPressed == obj){
+                //process callback
+                this->processMouseRelease(this->objPressed,edk::mouse::left,true);
+            }
+            else{
+                //process callback
+                this->processMouseRelease(this->objPressed,edk::mouse::left,false);
+            }
+            this->objPressed->pressed=false;
+            this->objPressed = NULL;
         }
     }
 
@@ -293,6 +366,37 @@ void edk::gui2d::ViewGui2d::drawScene(edk::rectf32){
 
     //render the objects
     this->list.render();
+}
+
+
+//callback
+bool edk::gui2d::ViewGui2d::addCallback(edk::gui2d::ObjectGui2dCallback* callback){
+    //test the callback
+    if(callback){
+        //test if have this callback inside the list
+        if(!this->listCallback.haveElement(callback)){
+            //add the callback to the list
+            return this->listCallback.pushBack(callback);
+        }
+    }
+    return false;
+}
+bool edk::gui2d::ViewGui2d::removeCallback(edk::gui2d::ObjectGui2dCallback* callback){
+    //test the callback
+    if(callback){
+        //test if have this callback inside the list
+        edk::uint32 pos = this->listCallback.find(callback);
+        if(!pos){
+            if(this->listCallback.get(pos) != callback){
+                return false;
+            }
+        }
+        return this->listCallback.remove(pos);
+    }
+    return false;
+}
+void edk::gui2d::ViewGui2d::cleanCallbacks(){
+    this->listCallback.clean();
 }
 
 

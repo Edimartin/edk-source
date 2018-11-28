@@ -41,13 +41,6 @@ Gravatai RS Brazil 94065100
 
 namespace edk{
 namespace gui2d{
-class ObjectGui2d;
-class ObjectGui2dCallback{
-public:
-    virtual void mousePressed(edk::gui2d::ObjectGui2d* button,edk::uint32 mouseButton)=0;
-    virtual void MouseRelease(edk::gui2d::ObjectGui2d* button,edk::uint32 mouseButton,bool isInside)=0;
-    virtual void MouseHolded(edk::gui2d::ObjectGui2d* button,edk::uint32 mouseButton)=0;
-};
 class ObjectGui2d: public edk::Object2DValues{
 public:
     ObjectGui2d();

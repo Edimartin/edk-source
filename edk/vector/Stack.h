@@ -455,7 +455,7 @@ public:
                 //test if have the object
                 if(this->havePos(i)){
                     //test the obj
-                    if(this->get(0u)==obj){
+                    if(this->get(i)==obj){
                         //then return the i
                         return i;
                     }
@@ -464,6 +464,24 @@ public:
         }
         //else return 0u;
         return 0u;
+    }
+    bool haveElement(typeTemplate obj){
+        //test the size
+        if(this->stackSize){
+            //then find the object
+            for(edk::uint32 i=0u;i<this->stackSize;i++){
+                //test if have the object
+                if(this->havePos(i)){
+                    //test the obj
+                    if(this->get(i)==obj){
+                        //then return the i
+                        return true;
+                    }
+                }
+            }
+        }
+        //else return 0u;
+        return false;
     }
 
     //SWAP two objects

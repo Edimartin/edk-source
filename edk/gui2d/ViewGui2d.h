@@ -4,9 +4,16 @@
 #include "ObjectGui2d.h"
 #include "../ViewListSelection.h"
 #include "../vector/BinaryTree.h"
+#include "../vector/Array.h"
 
 namespace edk{
 namespace gui2d{
+class ObjectGui2dCallback{
+public:
+    virtual void mousePressed(edk::gui2d::ObjectGui2d* button,edk::uint32 mouseButton)=0;
+    virtual void mouseRelease(edk::gui2d::ObjectGui2d* button,edk::uint32 mouseButton,bool isInside)=0;
+    virtual void mouseHolded(edk::gui2d::ObjectGui2d* button,edk::uint32 mouseButton)=0;
+};
 class ViewGui2d : public edk::ViewGU2D{
 public:
     ViewGui2d();
@@ -23,6 +30,11 @@ public:
 
     //draw the GU scene
     virtual void drawScene(edk::rectf32 outsideViewOrigin);
+
+    //callback
+    bool addCallback(edk::gui2d::ObjectGui2dCallback* callback);
+    bool removeCallback(edk::gui2d::ObjectGui2dCallback* callback);
+    void cleanCallbacks();
 protected:
 
     void drawSelectionScene();
@@ -45,6 +57,15 @@ private:
     edk::vec2f32 saveMousePosition;
     edk::vec2f32 mouseDistance;
     bool mouseMoving;
+
+    //mouse callback
+    edk::vector::Stack<edk::gui2d::ObjectGui2dCallback*> listCallback;
+    //return true if have the element on the callback list
+    bool haveCallback(edk::gui2d::ObjectGui2dCallback* callback);
+    //process the callbacks
+    void processMousePressed(edk::gui2d::ObjectGui2d* button,edk::uint32 mouseButton);
+    void processMouseRelease(edk::gui2d::ObjectGui2d* button,edk::uint32 mouseButton,bool isInside);
+    void processMouseHolded(edk::gui2d::ObjectGui2d* button,edk::uint32 mouseButton);
 
     class ObjGui2dID{
     public:
