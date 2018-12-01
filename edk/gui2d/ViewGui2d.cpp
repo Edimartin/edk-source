@@ -167,7 +167,8 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
 
                 //move the object to the position before
                 if(this->objPressed){
-                    this->objPressed->position = this->objPressedPosition;
+                    if(this->objPressed->canMove())
+                        this->objPressed->cancelMove();
                     this->objPressed->forceUpdate();
                 }
             }
@@ -230,7 +231,7 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
         //test if can move object
         if(this->objPressed->canMove()){
             //move the objPressed
-            this->objPressed->position = this->objPressedPosition + this->mouseDistance;
+            this->objPressed->moveTo(this->mouseDistance);
             //update the object
             this->objPressed->forceUpdate();
         }
@@ -276,22 +277,24 @@ void edk::gui2d::ViewGui2d::drawScene(edk::rectf32){
 
             //clean the up from the saved objects
             for(edk::uint32 i=0u;i<size;i++){
-                id = this->selectTree->getElementInPosition(i);
+                id = this->selectTree->getElementInPosition(0u);
                 //up the object on the S tree
                 this->selectTreeS->add(id);
                 //remove it from the last tree
                 this->selectTree->remove(id);
             }
 
-            obj = this->list.getPointerByID(this->selectTree->getElementInPosition(0u));
+            id = this->selectTree->getElementInPosition(0u);
+
+            obj = this->list.getPointerByID(id);
             if(obj){
                 //test if the mouse is pressed
                 if(this->mousePressed){
                     obj->setStatus(edk::gui2d::gui2dTexturePressedUp);
                     obj->pressed=true;
                     this->objPressed = obj;
-                    //save the object position
-                    this->objPressedPosition = this->objPressed->position;
+                    if(this->objPressed->canMove())
+                        this->objPressed->startMove(this->saveMousePosition + this->mouseDistance);
 
                     //process the callback
                     this->processMousePressed(obj,edk::mouse::left);

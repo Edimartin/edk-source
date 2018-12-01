@@ -123,12 +123,15 @@ public:
     virtual bool load();
     virtual void unload();
     virtual void update();
+    virtual void startMove(edk::vec2f32 mousePosition);
+    virtual void moveTo(edk::vec2f32 position);
+    virtual void cancelMove();
     virtual bool setStatus(edk::gui2d::gui2dTexture status);
     void forceUpdate();
-    edk::gui2d::gui2dTexture getStatus();
+    virtual edk::gui2d::gui2dTexture getStatus();
 
     //set border size
-    bool setBorderSize(edk::float32 size);
+    virtual bool setBorderSize(edk::float32 size);
 
     //draw the button
     virtual void draw();
@@ -165,6 +168,8 @@ protected:
     edk::gui2d::gui2dTexture status;
     //save the object status to compare in update function
     edk::gui2d::gui2dTexture saveStatus;
+    //save the position to move the object
+    edk::vec2f32 savePosition;
 private:
 };
 }//end namespace gui2d

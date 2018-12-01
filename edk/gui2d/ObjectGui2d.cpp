@@ -792,6 +792,17 @@ void edk::gui2d::ObjectGui2d::update(){
         this->centerS.cloneFrom(&this->center);
     }
 }
+void edk::gui2d::ObjectGui2d::startMove(edk::vec2f32){
+    this->savePosition = this->position;
+}
+void edk::gui2d::ObjectGui2d::moveTo(edk::vec2f32 position){
+    //set the position
+    this->position = this->savePosition + position;
+}
+void edk::gui2d::ObjectGui2d::cancelMove(){
+    //
+    this->position = this->savePosition;
+}
 bool edk::gui2d::ObjectGui2d::setStatus(edk::gui2d::gui2dTexture status){
     switch(status){
     case edk::gui2d::gui2dTexture::gui2dTextureNormal:
