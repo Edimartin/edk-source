@@ -40,6 +40,16 @@ public:
     ScrollBar2d();
     virtual ~ScrollBar2d();
 
+    //Set the percent
+    void setPercent(edk::vec2f32 percent);
+    void setPercent(edk::float32 x,edk::float32 y);
+    void setPercentX(edk::float32 x);
+    void setPercentY(edk::float32 y);
+    //return the percent
+    edk::float32 getPercentX();
+    edk::float32 getPercentY();
+    edk::vec2f32 getPercent();
+
     //load the button textures and meshes
     bool load();
     void unload();
@@ -47,6 +57,13 @@ public:
 
     //set border size
     bool setBorderSize(edk::float32 size);
+    //set the size
+    bool setForegroundSize(edk::size2f32 size);
+    bool setForegroundSize(edk::float32 width,edk::float32 height);
+    //get the foregroundSize
+    edk::float32 getForegroundWidth();
+    edk::float32 getForegroundHeight();
+    edk::size2f32 getForegroundSize();
 
     //draw the button
     void draw();
@@ -61,11 +78,17 @@ public:
     edk::gui2d::gui2dTexture getStatus();
 private:
     void updateObjPosition();
+    //function to calculate the percent values for X and Y
+    void calculatePercents();
+    //calculate the position from the percents
+    void calculatePositon();
     edk::gui2d::ObjectGui2dBorder objInside;
     edk::vec2f32 objPosition;
     edk::size2f32 saveSize;
     //foreground size
     edk::size2f32 foregroundSize;
+    //position percent
+    edk::vec2f32 percent;
 
     //object inside status
     edk::gui2d::gui2dTexture statusInside;

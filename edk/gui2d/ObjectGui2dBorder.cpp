@@ -262,6 +262,7 @@ void edk::gui2d::ObjectGui2dBorder::removeSpritePressedUp(){
 bool edk::gui2d::ObjectGui2dBorder::updatePolygons(edk::size2f32 size){
     //load the mesh
     edk::shape::Polygon2D poly;
+    this->mesh.cleanPolygons();
     if(poly.createPolygon(4u)){
         //
         /*
