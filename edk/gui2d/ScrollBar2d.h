@@ -65,6 +65,12 @@ public:
     edk::float32 getForegroundHeight();
     edk::size2f32 getForegroundSize();
 
+    //set the color
+    void setForegroundColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
+    void setForegroundColor(edk::float32 r,edk::float32 g,edk::float32 b);
+    void setForegroundColor(edk::color4f32 color);
+    void setForegroundColor(edk::color3f32 color);
+
     //draw the button
     void draw();
 

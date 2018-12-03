@@ -111,6 +111,12 @@ public:
     bool loadSymbolAllNormalAndPressedStatusFromMemory(const char* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
     bool loadSymbolAllNormalAndPressedStatusFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
 
+    //set the color
+    void setColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
+    void setColor(edk::float32 r,edk::float32 g,edk::float32 b);
+    void setColor(edk::color4f32 color);
+    void setColor(edk::color3f32 color);
+
     bool writeText(const char* text);
     bool writeText(edk::char8* text);
     bool writeText(const char* text,edk::float32 scaleWidth,edk::float32 scaleHeight);

@@ -367,6 +367,13 @@ void edk::gui2d::ViewGui2d::drawScene(edk::rectf32){
     this->selectTreeS->clean();
 
 
+    //clean the lights in the view
+    edk::GU::guEnable(GU_LIGHTING);
+    for(edk::uint32 i=0u;i<EDK_LIGHT_LIMIT;i++){
+        edk::GU::guDisable(GU_LIGHT0+i);
+    }
+    edk::GU::guDisable(GU_LIGHTING);
+
     //render the objects
     this->list.render();
 }

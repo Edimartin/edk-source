@@ -258,6 +258,20 @@ void edk::gui2d::ObjectGui2dBorder::removeSpritePressedUp(){
     this->mesh.material.removeTexture(edk::gui2d::gui2dTexturePressedUp);
 }
 
+//set the color
+void edk::gui2d::ObjectGui2dBorder::setColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
+    this->mesh.material.setEmission(r,g,b,a);
+}
+void edk::gui2d::ObjectGui2dBorder::setColor(edk::float32 r,edk::float32 g,edk::float32 b){
+    this->mesh.material.setEmission(r,g,b);
+}
+void edk::gui2d::ObjectGui2dBorder::setColor(edk::color4f32 color){
+    this->mesh.material.setEmission(color);
+}
+void edk::gui2d::ObjectGui2dBorder::setColor(edk::color3f32 color){
+    this->mesh.material.setEmission(color);
+}
+
 //load the polygons
 bool edk::gui2d::ObjectGui2dBorder::updatePolygons(edk::size2f32 size){
     //load the mesh

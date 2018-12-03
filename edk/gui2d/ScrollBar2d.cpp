@@ -202,6 +202,20 @@ edk::size2f32 edk::gui2d::ScrollBar2d::getForegroundSize(){
     return this->foregroundSize;
 }
 
+//set the color
+void edk::gui2d::ScrollBar2d::setForegroundColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
+    this->objInside.setColor(r,g,b,a);
+}
+void edk::gui2d::ScrollBar2d::setForegroundColor(edk::float32 r,edk::float32 g,edk::float32 b){
+    this->objInside.setColor(r,g,b);
+}
+void edk::gui2d::ScrollBar2d::setForegroundColor(edk::color4f32 color){
+    this->objInside.setColor(color);
+}
+void edk::gui2d::ScrollBar2d::setForegroundColor(edk::color3f32 color){
+    this->objInside.setColor(color);
+}
+
 //draw the button
 void edk::gui2d::ScrollBar2d::draw(){
     edk::gui2d::ObjectGui2d::draw();
@@ -225,6 +239,8 @@ void edk::gui2d::ScrollBar2d::draw(){
     //add scale
     //edk::GU::guScale2f32(this->size);
 
+    edk::GU::guEnable(GU_LIGHTING);
+
     switch(this->statusInside){
     case gui2dTextureUp:
         this->objInside.drawUp();
@@ -240,6 +256,7 @@ void edk::gui2d::ScrollBar2d::draw(){
         this->objInside.drawNormal();
         break;
     }
+    edk::GU::guDisable(GU_LIGHTING);
 
     edk::GU::guPopMatrix();
 }

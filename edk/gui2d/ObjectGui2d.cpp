@@ -560,6 +560,20 @@ bool edk::gui2d::ObjectGui2d::loadSymbolAllNormalAndPressedStatusFromMemory(edk:
     return ret;
 }
 
+//set the color
+void edk::gui2d::ObjectGui2d::setColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
+    this->obj.setColor(r,g,b,a);
+}
+void edk::gui2d::ObjectGui2d::setColor(edk::float32 r,edk::float32 g,edk::float32 b){
+    this->obj.setColor(r,g,b);
+}
+void edk::gui2d::ObjectGui2d::setColor(edk::color4f32 color){
+    this->obj.setColor(color);
+}
+void edk::gui2d::ObjectGui2d::setColor(edk::color3f32 color){
+    this->obj.setColor(color);
+}
+
 bool edk::gui2d::ObjectGui2d::writeText(const char* text){
     //
     return this->writeText((edk::char8*) text);
@@ -843,6 +857,9 @@ bool edk::gui2d::ObjectGui2d::setBorderSize(edk::float32 size){
 void edk::gui2d::ObjectGui2d::draw(){
     this->drawStart();
 
+
+    edk::GU::guEnable(GU_LIGHTING);
+
     switch(this->status){
     case edk::gui2d::gui2dTexture::gui2dTextureUp:
         //draw the border
@@ -863,6 +880,7 @@ void edk::gui2d::ObjectGui2d::draw(){
         this->obj.drawNormal();
         break;
     }
+    edk::GU::guDisable(GU_LIGHTING);
 
     //test if have the texture
     if(this->sprite.material.getTexture(this->status)){

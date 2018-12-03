@@ -77,6 +77,12 @@ class ObjectGui2dBorder{
     bool loadSpritePressedUpFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
     void removeSpritePressedUp();
 
+    //set the color
+    void setColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
+    void setColor(edk::float32 r,edk::float32 g,edk::float32 b);
+    void setColor(edk::color4f32 color);
+    void setColor(edk::color3f32 color);
+
     //load the polygons
     bool updatePolygons(edk::size2f32 size);
 
