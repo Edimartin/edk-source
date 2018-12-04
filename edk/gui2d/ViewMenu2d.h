@@ -138,6 +138,10 @@ public:
     void setColorUp(edk::color4f32 color);
     void setColorUp(edk::float32 r,edk::float32 g,edk::float32 b);
     void setColorUp(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
+    void setColorPressed(edk::color3f32 color);
+    void setColorPressed(edk::color4f32 color);
+    void setColorPressed(edk::float32 r,edk::float32 g,edk::float32 b);
+    void setColorPressed(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
     void setColorPressedUp(edk::color3f32 color);
     void setColorPressedUp(edk::color4f32 color);
     void setColorPressedUp(edk::float32 r,edk::float32 g,edk::float32 b);

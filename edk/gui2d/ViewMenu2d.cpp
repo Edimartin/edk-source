@@ -521,6 +521,31 @@ void edk::gui2d::ViewMenu2d::setColorUp(edk::float32 r,edk::float32 g,edk::float
 void edk::gui2d::ViewMenu2d::setColorUp(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
     this->setColorUp(edk::color4f32(r,g,b,a));
 }
+void edk::gui2d::ViewMenu2d::setColorPressed(edk::color3f32 color){
+    //
+    this->setColorPressed(edk::color4f32(color.r,color.g,color.b,1.f));
+}
+void edk::gui2d::ViewMenu2d::setColorPressed(edk::color4f32 color){
+    //
+    this->color[edk::gui2d::gui2dTexturePressed] = color;
+
+    //set objects color
+    edk::gui2d::MenuObj* obj = NULL;
+    edk::uint32 size = this->objs.size();
+    for(edk::uint32 i=0u;i<size;i++){
+        obj = this->objs[i];
+        if(obj){
+            obj->color[edk::gui2d::gui2dTexturePressed] = this->color[edk::gui2d::gui2dTexturePressed];
+        }
+    }
+}
+void edk::gui2d::ViewMenu2d::setColorPressed(edk::float32 r,edk::float32 g,edk::float32 b){
+    this->setColorPressed(edk::color4f32(r,g,b,1.f));
+}
+void edk::gui2d::ViewMenu2d::setColorPressed(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
+    //
+    this->setColorPressed(edk::color4f32(r,g,b,a));
+}
 void edk::gui2d::ViewMenu2d::setColorPressedUp(edk::color3f32 color){
     //
     this->setColorPressedUp(edk::color4f32(color.r,color.g,color.b,1.f));
@@ -714,6 +739,14 @@ void edk::gui2d::ViewMenu2d::drawScene(edk::rectf32){
                             //desactivate the button
                             obj->active = false;
                             processDisable(obj);
+                        }
+                    }
+                    else{
+                        if(obj->active){
+                            obj->setStatus(edk::gui2d::gui2dTexturePressed);
+                        }
+                        else{
+                            obj->setStatus(edk::gui2d::gui2dTextureNormal);
                         }
                     }
                 }
