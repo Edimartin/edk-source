@@ -129,6 +129,20 @@ public:
     bool isOrderX();
     bool iOrderY();
 
+    //set the menu colors
+    void setColorNormal(edk::color3f32 color);
+    void setColorNormal(edk::color4f32 color);
+    void setColorNormal(edk::float32 r,edk::float32 g,edk::float32 b);
+    void setColorNormal(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
+    void setColorUp(edk::color3f32 color);
+    void setColorUp(edk::color4f32 color);
+    void setColorUp(edk::float32 r,edk::float32 g,edk::float32 b);
+    void setColorUp(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
+    void setColorPressedUp(edk::color3f32 color);
+    void setColorPressedUp(edk::color4f32 color);
+    void setColorPressedUp(edk::float32 r,edk::float32 g,edk::float32 b);
+    void setColorPressedUp(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
+
     virtual void load(edk::rectf32 outsideViewOrigin);
     virtual void unload();
     virtual void update(edk::WindowEvents* events);
@@ -145,7 +159,8 @@ private:
     //obj positions
     edk::vec2f32 positions;
 
-    edk::Object2D temp;
+    //menu colors
+    edk::color4f32 color[edk::gui2d::gui2dTextureSize];
 
     //save the mouse status
     edk::gui2d::gui2dMouseStatus mouseStatus;

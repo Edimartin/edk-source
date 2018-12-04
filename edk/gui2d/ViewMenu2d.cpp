@@ -244,6 +244,12 @@ edk::gui2d::ViewMenu2d::ViewMenu2d(){
 
     this->selectTree = &this->tree1;
     this->selectTreeS = &this->tree2;
+
+    //set the obj paramerets
+    this->color[edk::gui2d::gui2dTextureNormal] = edk::color4f32(0.5f,0.5f,0.5f,1.f);
+    this->color[edk::gui2d::gui2dTextureUp] = edk::color4f32(0.75f,0.75f,0.75f,1.f);
+    this->color[edk::gui2d::gui2dTexturePressed] = edk::color4f32(0.3f,0.3f,0.3f,1.f);
+    this->color[edk::gui2d::gui2dTexturePressedUp] = edk::color4f32(0.4f,0.4f,0.4f,1.f);
 }
 edk::gui2d::ViewMenu2d::~ViewMenu2d(){
     //
@@ -404,10 +410,10 @@ edk::uint32 edk::gui2d::ViewMenu2d::newObject(edk::char8* spriteName,edk::char8*
                 this->updatePositions();
 
                 //set the obj paramerets
-                obj->color[edk::gui2d::gui2dTextureNormal] = edk::color4f32(0.5f,0.5f,0.5f,1.f);
-                obj->color[edk::gui2d::gui2dTextureUp] = edk::color4f32(0.75f,0.75f,0.75f,1.f);
-                obj->color[edk::gui2d::gui2dTexturePressed] = edk::color4f32(0.3f,0.3f,0.3f,1.f);
-                obj->color[edk::gui2d::gui2dTexturePressedUp] = edk::color4f32(0.4f,0.4f,0.4f,1.f);
+                obj->color[edk::gui2d::gui2dTextureNormal] = this->color[edk::gui2d::gui2dTextureNormal];
+                obj->color[edk::gui2d::gui2dTextureUp] = this->color[edk::gui2d::gui2dTextureUp];
+                obj->color[edk::gui2d::gui2dTexturePressed] = this->color[edk::gui2d::gui2dTexturePressed];
+                obj->color[edk::gui2d::gui2dTexturePressedUp] = this->color[edk::gui2d::gui2dTexturePressedUp];
 
                 return ret;
             }
@@ -466,6 +472,79 @@ bool edk::gui2d::ViewMenu2d::isOrderX(){
 }
 bool edk::gui2d::ViewMenu2d::iOrderY(){
     return xOrder;
+}
+
+//set the menu colors
+void edk::gui2d::ViewMenu2d::setColorNormal(edk::color3f32 color){
+    this->setColorNormal(edk::color4f32(color.r,color.g,color.b,1.f));
+}
+void edk::gui2d::ViewMenu2d::setColorNormal(edk::color4f32 color){
+    this->color[edk::gui2d::gui2dTextureNormal] = color;
+
+    //set objects color
+    edk::gui2d::MenuObj* obj = NULL;
+    edk::uint32 size = this->objs.size();
+    for(edk::uint32 i=0u;i<size;i++){
+        obj = this->objs[i];
+        if(obj){
+            obj->color[edk::gui2d::gui2dTextureNormal] = this->color[edk::gui2d::gui2dTextureNormal];
+        }
+    }
+}
+void edk::gui2d::ViewMenu2d::setColorNormal(edk::float32 r,edk::float32 g,edk::float32 b){
+    this->setColorNormal(edk::color4f32(r,g,b,1.f));
+}
+void edk::gui2d::ViewMenu2d::setColorNormal(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
+    this->setColorNormal(edk::color4f32(r,g,b,a));
+}
+void edk::gui2d::ViewMenu2d::setColorUp(edk::color3f32 color){
+    //
+    this->setColorUp(edk::color4f32(color.r,color.g,color.b,1.f));
+}
+void edk::gui2d::ViewMenu2d::setColorUp(edk::color4f32 color){
+    //
+    this->color[edk::gui2d::gui2dTextureUp] = color;
+
+    //set objects color
+    edk::gui2d::MenuObj* obj = NULL;
+    edk::uint32 size = this->objs.size();
+    for(edk::uint32 i=0u;i<size;i++){
+        obj = this->objs[i];
+        if(obj){
+            obj->color[edk::gui2d::gui2dTextureUp] = this->color[edk::gui2d::gui2dTextureUp];
+        }
+    }
+}
+void edk::gui2d::ViewMenu2d::setColorUp(edk::float32 r,edk::float32 g,edk::float32 b){
+    this->setColorUp(edk::color4f32(r,g,b,1.f));
+}
+void edk::gui2d::ViewMenu2d::setColorUp(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
+    this->setColorUp(edk::color4f32(r,g,b,a));
+}
+void edk::gui2d::ViewMenu2d::setColorPressedUp(edk::color3f32 color){
+    //
+    this->setColorPressedUp(edk::color4f32(color.r,color.g,color.b,1.f));
+}
+void edk::gui2d::ViewMenu2d::setColorPressedUp(edk::color4f32 color){
+    //
+    this->color[edk::gui2d::gui2dTexturePressedUp] = color;
+
+    //set objects color
+    edk::gui2d::MenuObj* obj = NULL;
+    edk::uint32 size = this->objs.size();
+    for(edk::uint32 i=0u;i<size;i++){
+        obj = this->objs[i];
+        if(obj){
+            obj->color[edk::gui2d::gui2dTexturePressedUp] = this->color[edk::gui2d::gui2dTexturePressedUp];
+        }
+    }
+}
+void edk::gui2d::ViewMenu2d::setColorPressedUp(edk::float32 r,edk::float32 g,edk::float32 b){
+    this->setColorPressedUp(edk::color4f32(r,g,b,1.f));
+}
+void edk::gui2d::ViewMenu2d::setColorPressedUp(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
+    //
+    this->setColorPressedUp(edk::color4f32(r,g,b,a));
 }
 
 void edk::gui2d::ViewMenu2d::load(edk::rectf32){
@@ -552,14 +631,16 @@ void edk::gui2d::ViewMenu2d::drawScene(edk::rectf32){
 
 
     edk::uint32 size = 0u;
+    edk::uint32 sizeSelected = 0u;
     edk::gui2d::MenuObj* obj = NULL;
+    edk::gui2d::MenuObj* objSelected = NULL;
     if(this->runSelection){
-        edk::uint32 size = this->selectTree->size();
-        if(size){
+        sizeSelected = this->selectTree->size();
+        if(sizeSelected){
             {
                 //get the object
-                obj = this->objs[this->selectTree->getElementInPosition(0u)];
-                if(obj){
+                objSelected = this->objs[this->selectTree->getElementInPosition(0u)];
+                if(objSelected){
                     //test the mouse status
                     switch(this->mouseStatus){
                     case edk::gui2d::gui2dMousePressed:
@@ -569,7 +650,7 @@ void edk::gui2d::ViewMenu2d::drawScene(edk::rectf32){
                         //test if is xOrder
                         if(this->xOrder && this->mouseOn){
                             //then activate button
-                            this->processExec(obj);
+                            this->processExec(objSelected);
                         }
 
                         break;
@@ -577,7 +658,7 @@ void edk::gui2d::ViewMenu2d::drawScene(edk::rectf32){
                         //test if is NOT xOrder
                         if(!this->xOrder){
                             //run button action
-                            this->processExec(obj);
+                            this->processExec(objSelected);
                         }
                         break;
                     case edk::gui2d::gui2dMouseHolded:
@@ -589,25 +670,25 @@ void edk::gui2d::ViewMenu2d::drawScene(edk::rectf32){
                     //test if the mouse is on
                     if(this->mouseOn || !this->xOrder){
                         //set the button status to pressedUp
-                        obj->setStatus(edk::gui2d::gui2dTexturePressedUp);
-                        if(!obj->active){
-                            obj->active = true;
-                            processEnable(obj);
+                        objSelected->setStatus(edk::gui2d::gui2dTexturePressedUp);
+                        if(!objSelected->active){
+                            objSelected->active = true;
+                            processEnable(objSelected);
                         }
                     }
                     else{
                         //set the button status to op
-                        obj->setStatus(edk::gui2d::gui2dTextureUp);
-                        if(obj->active){
-                            obj->active = false;
-                            processDisable(obj);
+                        objSelected->setStatus(edk::gui2d::gui2dTextureUp);
+                        if(objSelected->active){
+                            objSelected->active = false;
+                            processDisable(objSelected);
                         }
                     }
                 }
             }
 
             edk::uint32 n;
-            for(edk::uint32 i=1u;i<size;i++){
+            for(edk::uint32 i=1u;i<sizeSelected;i++){
                 //remove this position
                 n = this->selectTree->getElementInPosition(1u);
                 this->selectTreeS->add(n);
@@ -616,9 +697,9 @@ void edk::gui2d::ViewMenu2d::drawScene(edk::rectf32){
             }
         }
         else{
-            //
-            //set off
-            this->mouseOn = false;
+            if(this->mouseStatus!=edk::gui2d::gui2dMouseHolded){
+                this->mouseOn = false;
+            }
         }
         size = this->selectTreeS->size();
 
@@ -627,18 +708,32 @@ void edk::gui2d::ViewMenu2d::drawScene(edk::rectf32){
                 //get the object
                 obj = this->objs[this->selectTreeS->getElementInPosition(i)];
                 if(obj){
-                    obj->setStatus(edk::gui2d::gui2dTextureNormal);
-                    //test if are xOrder
-                    //if(this->xOrder){
+                    if(!this->mouseOn || sizeSelected){
+                        obj->setStatus(edk::gui2d::gui2dTextureNormal);
                         if(obj->active){
                             //desactivate the button
                             obj->active = false;
                             processDisable(obj);
                         }
-                    //}
+                    }
                 }
             }
             this->selectTreeS->clean();
+        }
+        else if(sizeSelected || this->mouseStatus==edk::gui2d::gui2dMouseRelease){
+            //clean all objects on the list unless the selected
+            size = this->objs.size();
+            for(edk::uint32 i=0u;i<size;i++){
+                obj = this->objs[i];
+                if(obj && obj!=objSelected){
+                    obj->setStatus(edk::gui2d::gui2dTextureNormal);
+                    if(obj->active){
+                        //desactivate the button
+                        obj->active = false;
+                        processDisable(obj);
+                    }
+                }
+            }
         }
     }
 
