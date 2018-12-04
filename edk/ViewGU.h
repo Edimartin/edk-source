@@ -34,6 +34,21 @@ Gravatai RS Brazil 94065100
 #warning "    Compiling ViewGU"
 #endif
 
+/*
+void load(edk::rectf32 outsideViewOrigin){
+    //
+}
+void unload(){
+    //
+}
+void update(edk::WindowEvents* events){
+    //
+}
+void drawScene(edk::rectf32 outsideViewOrigin){
+    //
+}
+*/
+
 namespace edk{
 class ViewGU: public edk::ViewSpriteController{
     public:
