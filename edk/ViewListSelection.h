@@ -111,7 +111,7 @@ public:
 
     void drawSelectionScene();
     //process the selection
-    void selectObject(edk::uint32 position,edk::int32 objects,edk::float32 near,edk::float32 far,edk::vector::Stack<edk::uint32>* names);
+    void selectObject(edk::uint32 position,edk::uint32 objects,edk::float32 near,edk::float32 far,edk::vector::Stack<edk::uint32>* names);
 private:
     //cameraSize
     edk::uint32 cameraWidth;

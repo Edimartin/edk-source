@@ -68,8 +68,15 @@ void edk::ViewGU::drawPolygon(rectf32 outsideViewOrigin){
 void edk::ViewGU::drawSelectionCamera(){
     //
 }
+//push and pop the selection names
+void edk::ViewGU::selectionPushName(edk::uint32 id){
+    edk::GU::guPushName(id);
+}
+void edk::ViewGU::selectionPopName(){
+    edk::GU::guPopName();
+}
 //process the selection
-void edk::ViewGU::processHits(edk::int32 hits, edk::uint32 buffer[]){
+void edk::ViewGU::processHits(edk::uint32 hits, edk::uint32 buffer[]){
     edk::uint32 i, j;
     edk::uint32 names=0u, *ptr=NULL;
     edk::float32 sNear = 0.f;
@@ -98,6 +105,10 @@ void edk::ViewGU::processHits(edk::int32 hits, edk::uint32 buffer[]){
     else{
         this->selectObject(0,hits,0,0,&nameStack);
     }
+}
+//process the selection
+void edk::ViewGU::selectObject(edk::uint32 ,edk::uint32 ,edk::float32 ,edk::float32 ,edk::vector::Stack<edk::uint32>* ){
+    //
 }
 //run selection function
 void edk::ViewGU::runSelectionFunction(){
@@ -167,11 +178,6 @@ void edk::ViewGU::testSelection(edk::vec2i32 position,edk::size2f32 size){
     this->runSelection = true;
     this->selectionPosition = edk::vec2f32(position.x + this->rectTemp.origin.x,((position.y*-1)+this->frame.size.height) + this->rectTemp.origin.y);
     this->selectionSize = size;
-}
-
-//process the selection
-void edk::ViewGU::selectObject(edk::uint32 ,edk::int32 ,edk::float32 ,edk::float32 ,edk::vector::Stack<edk::uint32>* ){
-    //
 }
 
 //draw the GU scene

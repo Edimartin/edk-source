@@ -65,8 +65,6 @@ class ViewGU: public edk::ViewSpriteController{
         //test the selection
         void testSelection(edk::vec2f32 position,edk::size2f32 size = edk::size2f32(1,1));
         void testSelection(edk::vec2i32 position,edk::size2f32 size = edk::size2f32(1,1));
-        //process the selection
-        virtual void selectObject(edk::uint32 position,edk::int32 objects,edk::float32 near,edk::float32 far,edk::vector::Stack<edk::uint32>* names);
 
         virtual void update(edk::WindowEvents* events);
 
@@ -87,8 +85,13 @@ class ViewGU: public edk::ViewSpriteController{
     virtual void drawPolygon(edk::rectf32 outsideViewOrigin);
     //draw selection camera
     virtual void drawSelectionCamera();
+    //push and pop the selection names
+    void selectionPushName(edk::uint32 id);
+    void selectionPopName();
     //process the selection
-    virtual void processHits(edk::int32 hits, edk::uint32 buffer[]);
+    virtual void processHits(edk::uint32 hits, edk::uint32 buffer[]);
+    //process the selection
+    virtual void selectObject(edk::uint32 position,edk::uint32 objects,edk::float32 near,edk::float32 far,edk::vector::Stack<edk::uint32>* names);
     //run selection function
     void runSelectionFunction();
     //get true if go run selection

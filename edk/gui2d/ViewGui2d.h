@@ -38,6 +38,14 @@ Gravatai RS Brazil 94065100
 
 namespace edk{
 namespace gui2d{
+enum gui2dMouseStatus{
+    gui2dMouseNothing=0u,
+    gui2dMousePressed,
+    gui2dMouseHolded,
+    gui2dMouseRelease,
+    //
+    gui2dMouseStatusSize,
+};
 class ObjectGui2dCallback{
 public:
     virtual void mousePressed(edk::gui2d::ObjectGui2d* button,edk::uint32 mouseButton)=0;
@@ -68,7 +76,7 @@ public:
 protected:
 
     void drawSelectionScene();
-    void selectObject(edk::uint32 position,edk::int32 objects,edk::float32 near,edk::float32 far,edk::vector::Stack<edk::uint32>* names);
+    void selectObject(edk::uint32 position,edk::uint32 objects,edk::float32 near,edk::float32 far,edk::vector::Stack<edk::uint32>* names);
 
 private:
     edk::uint64 idCounter;
@@ -77,9 +85,7 @@ private:
     edk::vector::BinaryTree<edk::uint32> tree1;
     edk::vector::BinaryTree<edk::uint32> tree2;
     edk::gui2d::ObjectGui2d* objPressed;
-    bool mousePressed;
-    bool mouseHolded;
-    bool mouseRelease;
+    edk::gui2d::gui2dMouseStatus mouseStatus;
     bool selectionExec;
 
     //object to draw the mousePosition

@@ -23,7 +23,7 @@ Gravatai RS Brazil 94065100
 edk::gui2d::ViewGui2d::ViewGui2d(){
     //
     this->idCounter = 0u;
-    this->mouseHolded = false;
+    this->mouseStatus = edk::gui2d::gui2dMouseNothing;
     this->objPressed = NULL;
     this->selectTree = &this->tree1;
     this->selectTreeS = &this->tree2;
@@ -90,7 +90,7 @@ void edk::gui2d::ViewGui2d::drawSelectionScene(){
     this->list.print();
 }
 edk::uint32 counter=0u;
-void edk::gui2d::ViewGui2d::selectObject(edk::uint32 ,edk::int32 ,edk::float32 ,edk::float32 ,edk::vector::Stack<edk::uint32>* names){
+void edk::gui2d::ViewGui2d::selectObject(edk::uint32 ,edk::uint32 ,edk::float32 ,edk::float32 ,edk::vector::Stack<edk::uint32>* names){
     //
     edk::uint32 id=0u;
     edk::gui2d::ObjectGui2d* obj=NULL;
@@ -153,9 +153,8 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
     this->list.update();
     edk::uint32 size = 0u;
 
-    this->mouseHolded = false;
-    this->mousePressed = false;
-    this->mouseRelease = false;
+    this->mouseStatus = edk::gui2d::gui2dMouseNothing;
+    bool mousePressed = false;
 
     //calculate the mouse position in the world view
     edk::vec2f32 mousePercent = edk::vec2f32((edk::float32)events->mousePos.x / (edk::float32)events->windowSize.width
@@ -173,7 +172,8 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
     size = events->mousePressed.size();
     for(edk::uint32 i = 0u;i<size;i++){
         if(events->mousePressed[i] == edk::mouse::left){
-            this->mousePressed = true;
+            this->mouseStatus = edk::gui2d::gui2dMousePressed;
+            mousePressed = true;
             runSelection = true;
             //save the cursor position to move the object
             this->saveMousePosition = mousePosition;
@@ -197,8 +197,10 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
     size = events->mouseHolded.size();
     for(edk::uint32 i = 0u;i<size;i++){
         if(events->mouseHolded[i] == edk::mouse::left){
-            this->mouseHolded = true;
-            runSelection = true;
+            if(!runSelection){
+                this->mouseStatus = edk::gui2d::gui2dMouseHolded;
+                runSelection = true;
+            }
 
             //test if are moving the mouse and if have an object pressed
             if(events->mouseMoved && this->objPressed){
@@ -209,9 +211,9 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
     size = events->mouseRelease.size();
     for(edk::uint32 i = 0u;i<size;i++){
         if(events->mouseRelease[i] == edk::mouse::left){
-            this->mouseHolded = true;
             runSelection = true;
-            this->mouseRelease=true;
+
+            this->mouseStatus = edk::gui2d::gui2dMouseRelease;
 
             if(this->mouseMoving){
                 this->mouseMoving = false;
@@ -309,7 +311,7 @@ void edk::gui2d::ViewGui2d::drawScene(edk::rectf32){
             obj = this->list.getPointerByID(id);
             if(obj){
                 //test if the mouse is pressed
-                if(this->mousePressed){
+                if(this->mouseStatus == edk::gui2d::gui2dMousePressed){
                     obj->setStatus(edk::gui2d::gui2dTexturePressedUp);
                     obj->pressed=true;
                     this->objPressed = obj;
@@ -319,7 +321,7 @@ void edk::gui2d::ViewGui2d::drawScene(edk::rectf32){
                     //process the callback
                     this->processMousePressed(obj,edk::mouse::left);
                 }
-                else if(this->mouseHolded){
+                else if(this->mouseStatus == edk::gui2d::gui2dMouseHolded){
                     if(obj->pressed){
                         //set the objStatus
                         obj->setStatus(edk::gui2d::gui2dTexturePressedUp);
@@ -342,14 +344,14 @@ void edk::gui2d::ViewGui2d::drawScene(edk::rectf32){
         }
 
         //test if release the mouse
-        if(this->mouseRelease){
+        if(this->mouseStatus == edk::gui2d::gui2dMouseRelease){
             //clean the mouseRelease
             this->list.cleanPressed=true;
         }
     }
 
     //test if release the object
-    if(this->mouseRelease){
+    if(this->mouseStatus == edk::gui2d::gui2dMouseRelease){
         //test if have the object pressed
         if(this->objPressed){
             //test if the mouse is inside the mouse pressed
