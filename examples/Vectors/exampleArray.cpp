@@ -56,7 +56,7 @@ int main(){
     printf(";");fflush(stdout);
 
     //copy the vector 1 to vector 2
-    n2 = n1;
+    n2.cloneFrom(n1);
 
     //print the array values
 
