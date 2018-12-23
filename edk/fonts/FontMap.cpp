@@ -1074,6 +1074,25 @@ void edk::fonts::FontMap::draw(edk::vec2ui32 origin,edk::vec2ui32 last,edk::colo
 void edk::fonts::FontMap::draw(edk::uint32 originWidth,edk::uint32 originLine,edk::uint32 lastWidth,edk::uint32 lastLine,edk::color4f32 color){
     this->draw(edk::vec2ui32(originWidth,originLine),edk::vec2ui32 (lastWidth,lastLine),color);
 }
+void edk::fonts::FontMap::drawWire(edk::vec2ui32 origin,edk::vec2ui32 last,edk::color4f32 color){
+    //test if the line is the same
+    if(origin.y == last.y){
+        //then drawWire correctly
+        this->map.drawWire(origin,edk::size2ui32(last.x+1u,last.y+1u),color);
+    }
+    else{
+        edk::uint32 width = this->map.getMapSize().width;
+        this->map.drawWire(edk::vec2ui32(origin.x,origin.y),edk::size2ui32(width,origin.y+1u),color);
+        //drawWire all the lines
+        for(edk::uint32 i=origin.y+1u;i<last.y;i++){
+            this->map.drawWire(edk::vec2ui32(0u,i),edk::size2ui32(this->map.getMapSize().width,i+1u),color);
+        }
+        this->map.drawWire(edk::vec2ui32(0u,last.y),edk::size2ui32(last.x+1u,last.y+1u),color);
+    }
+}
+void edk::fonts::FontMap::drawWire(edk::uint32 originWidth,edk::uint32 originLine,edk::uint32 lastWidth,edk::uint32 lastLine,edk::color4f32 color){
+    this->drawWire(edk::vec2ui32(originWidth,originLine),edk::vec2ui32 (lastWidth,lastLine),color);
+}
 //draw the ID
 void edk::fonts::FontMap::draw(edk::uint32 originID,edk::uint32 lastID,edk::color4f32 color){
     edk::vec2ui32 origin = this->getCharacterPosition(originID);
@@ -1087,6 +1106,19 @@ void edk::fonts::FontMap::draw(edk::vec2ui32 origin,edk::uint32 lastID,edk::colo
 void edk::fonts::FontMap::draw(edk::uint32 originID,edk::vec2ui32 last,edk::color4f32 color){
     edk::vec2ui32 origin = this->getCharacterPosition(originID);
     return this->draw(origin,last,color);
+}
+void edk::fonts::FontMap::drawWire(edk::uint32 originID,edk::uint32 lastID,edk::color4f32 color){
+    edk::vec2ui32 origin = this->getCharacterPosition(originID);
+    edk::vec2ui32 last = this->getCharacterPosition(lastID);
+    return this->drawWire(origin,last,color);
+}
+void edk::fonts::FontMap::drawWire(edk::vec2ui32 origin,edk::uint32 lastID,edk::color4f32 color){
+    edk::vec2ui32 last = this->getCharacterPosition(lastID);
+    return this->drawWire(origin,last,color);
+}
+void edk::fonts::FontMap::drawWire(edk::uint32 originID,edk::vec2ui32 last,edk::color4f32 color){
+    edk::vec2ui32 origin = this->getCharacterPosition(originID);
+    return this->drawWire(origin,last,color);
 }
 
 //SET
@@ -1732,6 +1764,22 @@ void edk::fonts::FontMap::draw(edk::float32 r,edk::float32 g,edk::float32 b){
 }
 void edk::fonts::FontMap::draw(){
     this->draw(this->origin,this->last,this->color);
+}
+void edk::fonts::FontMap::drawWire(edk::color4f32 color){
+    this->color = color;
+    //this->map.drawWire(color);
+    this->drawWire(this->origin,this->last,color);
+}
+void edk::fonts::FontMap::drawWire(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
+    this->color = edk::color4f32(r,g,b,a);
+    //this->map.drawWire(color);
+    this->drawWire(this->origin,this->last,color);
+}
+void edk::fonts::FontMap::drawWire(edk::float32 r,edk::float32 g,edk::float32 b){
+    this->drawWire(r,g,b,1.f);
+}
+void edk::fonts::FontMap::drawWire(){
+    this->drawWire(this->origin,this->last,this->color);
 }
 //draw the pivo
 void edk::fonts::FontMap::drawPivo(edk::float32 size,edk::color3f32 color){

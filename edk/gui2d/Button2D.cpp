@@ -28,11 +28,6 @@ edk::gui2d::Button2D::~Button2D(){
     //clean the meshes
     this->unload();
 }
-//add the polygons
-bool edk::gui2d::Button2D::addPolygons(){
-    //
-    return false;
-}
 
 //load the button textures and meshes
 bool edk::gui2d::Button2D::load(){

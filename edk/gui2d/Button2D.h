@@ -57,8 +57,6 @@ public:
     //draw the button
     void draw();
 private:
-    //add the polygons
-    bool addPolygons();
 };
 }//end namespace gui2d
 }//end namespace edk
