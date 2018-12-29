@@ -1442,6 +1442,218 @@ bool edk::fonts::FontMap::createStringMap(edk::char8* str){
     this->cleanLines();
     return false;
 }
+bool edk::fonts::FontMap::createStringMapOneLine(const char* str,edk::uint32 width){
+    return this->createStringMapOneLine((edk::char8*) str,width);
+}
+bool edk::fonts::FontMap::createStringMapOneLine(edk::char8* str,edk::uint32 width){
+    this->cleanLines();
+    //first get the word size
+    if(str && width){
+        edk::fonts::FontMap::FontLine* line=NULL;
+        edk::uint32 size = 0u;
+        edk::uint32 write=0u;
+        edk::uint32 c = 0u;
+        edk::uint8 jump=0u;
+        edk::uint32 enters=0u;
+        bool haveLine = false;
+        while(*str){
+            //test if dont have the line
+            if(!line){
+                if(haveLine){
+                    break;
+                }
+                haveLine=true;
+                //create the new line
+                line = this->newLine(width);
+                write=0u;
+            }
+            //test if have the line
+            if(line){
+                //
+                size = this->wordSize(str);
+                if(size){
+                    enters=0u;
+                    //test if can write the word in the line
+                    if(size<=(line->getSize()-write)){
+                        //then write the word
+                        for(edk::uint32 i=0u;i<size;i++){
+                            c = this->getTileID(str,&jump);
+                            line->setValue(write,c);
+                            str+=jump;
+                            write++;
+                        }
+                    }
+                    //test if the write is zero
+                    else if(!write){
+                        //then break the word
+                        size = line->getSize();
+                        for(edk::uint32 i=0u;i<size;i++){
+                            c = this->getTileID(str,&jump);
+                            line->setValue(write,c);
+                            str+=jump;
+                            write++;
+                        }
+                    }
+                    else{
+                        //else create a new line
+                        line=NULL;
+                    }
+                }
+                else{
+                    //test if can write the character
+                    if(write<line->getSize()){
+                        //write the character
+                        c = this->getTileID(str,&jump);
+                        //test if have the enter '\n'
+                        if(c==10 || c == 13 || c == '\n'){
+                            //then create a new line
+                            if(enters){
+                                line=NULL;
+                            }
+                            enters++;
+                            str+=jump;
+                        }
+                        else{
+                            line->setValue(write,c);
+                            write++;
+                            str+=jump;
+                            enters=0u;
+                        }
+                    }
+                    else{
+                        //else clean the line pointer
+                        line=NULL;
+                    }
+                }
+            }
+            else{
+                this->cleanLines();
+                return false;
+            }
+        }
+        //test if have lines
+        if(this->lines.size()){
+            //create the new tileMap
+            if(this->map.newTileMap(width,this->lines.size())){
+                this->copyLinesToMap();
+                this->cleanLines();
+                this->selectAll();
+                return true;
+            }
+        }
+    }
+    this->cleanLines();
+    return false;
+}
+bool edk::fonts::FontMap::createStringMapOneLine(const char* str){
+    return this->createStringMapOneLine((edk::char8*) str);
+}
+bool edk::fonts::FontMap::createStringMapOneLine(edk::char8* str){
+    this->cleanLines();
+    //first get the word size
+    if(str){
+        edk::fonts::FontMap::FontLine* line=NULL;
+        edk::uint32 size = 0u;
+        edk::uint32 write=0u;
+        edk::uint32 c = 0u;
+        edk::uint8 jump=0u;
+        edk::uint32 width=0u;
+        edk::uint32 enters=0u;
+        bool haveLine = false;
+        while(*str){
+            //test if dont have the line
+            if(!line){
+                if(haveLine){
+                    break;
+                }
+                haveLine=true;
+                //get the lineSize
+                width = this->lineSize(str);
+                if(width){
+                    //create the new line
+                    line = this->newLine(width);
+                    write=0u;
+                    enters=0u;
+                }
+                else{
+                    if(*str == 10 || *str == 13){
+                        if(enters){
+                            this->newLine(1u);
+                        }
+                        enters++;
+                    }
+                }
+            }
+            //test if have the line
+            if(line){
+                //
+                size = this->wordSize(str);
+                if(size){
+                    //test if can write the word in the line
+                    if(size<=(line->getSize()-write)){
+                        //then write the word
+                        for(edk::uint32 i=0u;i<size;i++){
+                            c = this->getTileID(str,&jump);
+                            line->setValue(write,c);
+                            str+=jump;
+                            write++;
+                        }
+                    }
+                    //test if the write is zero
+                    else if(!write){
+                        //then break the word
+                        size = line->getSize();
+                        for(edk::uint32 i=0u;i<size;i++){
+                            c = this->getTileID(str,&jump);
+                            line->setValue(write,c);
+                            str+=jump;
+                            write++;
+                        }
+                    }
+                    else{
+                        //else create a new line
+                        line=NULL;
+                    }
+                }
+                else{
+                    //test if can write the character
+                    if(write<line->getSize()){
+                        //write the character
+                        c = this->getTileID(str,&jump);
+                        //test if have the enter '\n'
+                        if(c==10 || c == 13 || c == '\n'){
+                            //then create a new line
+                            line=NULL;
+                            str+=jump;
+                        }
+                        else{
+                            line->setValue(write,c);
+                            write++;
+                            str+=jump;
+                        }
+                    }
+                    else{
+                        //else clean the line pointer
+                        line=NULL;
+                    }
+                }
+            }
+            else if(*str)str++;
+        }
+        //test if have lines
+        if(this->lines.size()){
+            //create the new tileMap
+            if(this->map.newTileMap(this->maxSizeLine,this->lines.size())){
+                this->copyLinesToMap();
+                this->cleanLines();
+                this->selectAll();
+                return true;
+            }
+        }
+    }
+    this->cleanLines();
+    return false;
+}
 
 //set the color
 void edk::fonts::FontMap::setColor(edk::color4f32 color){
@@ -1494,6 +1706,67 @@ void edk::fonts::FontMap::selectAll(){
     this->last = edk::vec2ui32(this->map.getMapSize().width-1u,this->map.getMapSize().height-1u);
     this->originID = 0u;
     this->lastID = this->getCharacterID(this->last);
+}
+
+//set the origin and the last values
+bool edk::fonts::FontMap::setOriginAndLast(edk::uint32 originID, edk::uint32 lastID){
+    //test if have the ID
+    if(this->haveID(originID) && this->haveID(lastID)){
+        //test if the ID from origin is smaller than last
+        if(originID<lastID){
+            //add the interpolation
+            this->originID = originID;
+            this->lastID = lastID;
+            this->origin = this->getCharacterPosition(this->originID);
+            this->last = this->getCharacterPosition(this->lastID);
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::fonts::FontMap::setOriginAndLast(edk::vec2ui32 origin, edk::vec2ui32 last){
+    return this->setOriginAndLast(this->getCharacterID(origin),this->getCharacterID(last));
+}
+bool edk::fonts::FontMap::setOriginAndLast(edk::uint32 originX,edk::uint32 originY,edk::uint32 lastX,edk::uint32 lastY){
+    return this->setOriginAndLast(edk::vec2ui32(originX,originY),edk::vec2ui32(lastX,lastY));
+}
+bool edk::fonts::FontMap::setOrigin(edk::uint32 originID){
+    //test if have the ID
+    if(this->haveID(originID)){
+        //test if the ID from origin is smaller than last
+        if(originID<this->lastID){
+            //add the interpolation
+            this->originID = originID;
+            this->origin = this->getCharacterPosition(this->originID);
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::fonts::FontMap::setOrigin(edk::vec2ui32 origin){
+    return this->setOrigin(this->getCharacterID(origin));
+}
+bool edk::fonts::FontMap::setOrigin(edk::uint32 originX,edk::uint32 originY){
+    return this->setOrigin(edk::vec2ui32(originX,originY));
+}
+bool edk::fonts::FontMap::setLast(edk::uint32 lastID){
+    //test if have the ID
+    if(this->haveID(lastID)){
+        //test if the ID from origin is smaller than last
+        if(lastID>this->originID){
+            //add the interpolation
+            this->lastID = lastID;
+            this->last = this->getCharacterPosition(this->lastID);
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::fonts::FontMap::setLast(edk::vec2ui32 last){
+    return this->setLast(this->getCharacterID(last));
+}
+bool edk::fonts::FontMap::setLast(edk::uint32 lastX,edk::uint32 lastY){
+    return this->setLast(edk::vec2ui32(lastX,lastY));
 }
 
 //add animations

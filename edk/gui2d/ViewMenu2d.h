@@ -52,6 +52,9 @@ public:
     MenuObj();
     virtual ~MenuObj();
 
+    //get the type
+    virtual edk::gui2d::gui2dTypes getType();
+
     //load the object
     bool loadObject(edk::uint32 id,edk::char8* spriteName,edk::char8* text1,edk::char8* text2);
 

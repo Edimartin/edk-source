@@ -29,6 +29,12 @@ edk::gui2d::Button2D::~Button2D(){
     this->unload();
 }
 
+//get the type
+edk::gui2d::gui2dTypes edk::gui2d::Button2D::getType(){
+    return edk::gui2d::gui2dTypeButton;
+}
+
+
 //load the button textures and meshes
 bool edk::gui2d::Button2D::load(){
     if(edk::gui2d::ObjectGui2d::load()){

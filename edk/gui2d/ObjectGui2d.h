@@ -41,10 +41,22 @@ Gravatai RS Brazil 94065100
 
 namespace edk{
 namespace gui2d{
+enum gui2dTypes{
+    gui2dTypeObject=0u,
+    gui2dTypeButton,
+    gui2dTypeScrollBar,
+    gui2dTypeMenu,
+    gui2dTypeTextField,
+    //
+    gui2dTypeSize,
+};
 class ObjectGui2d: public edk::Object2DValues{
 public:
     ObjectGui2d();
     ~ObjectGui2d();
+
+    //get the type
+    virtual edk::gui2d::gui2dTypes getType();
 
     //LOAD SPRITES
     bool loadSprite(const char* name,edk::uint32 filter = GU_NEAREST);
@@ -135,6 +147,10 @@ public:
     virtual bool setStatus(edk::gui2d::gui2dTexture status);
     void forceUpdate();
     virtual edk::gui2d::gui2dTexture getStatus();
+    //select functions
+    virtual void select();
+    virtual void deselect();
+    bool isSelected();
 
     //set border size
     virtual bool setBorderSize(edk::float32 size);
@@ -150,8 +166,11 @@ public:
 protected:
     void drawStart();
     void drawEnd();
-    void updateTextSize();
+    void runTextSize();
+    virtual void updateTextSize(edk::size2f32 sizeText,edk::size2f32 centerSize,edk::size2ui32 mapSize);
     edk::gui2d::ObjectGui2dBorder obj;
+    //save if the obj is selected
+    bool selected;
     //image inside the button
     edk::shape::Mesh2D sprite;
     //save the size

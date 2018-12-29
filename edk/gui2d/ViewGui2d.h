@@ -30,6 +30,7 @@ Gravatai RS Brazil 94065100
 #include "../ViewListSelection.h"
 #include "../vector/BinaryTree.h"
 #include "../vector/Array.h"
+#include "TextField2d.h"
 
 #ifdef printMessages
 #warning "    Compiling gui2d::ViewGui2d"
@@ -85,8 +86,13 @@ private:
     edk::vector::BinaryTree<edk::uint32> tree1;
     edk::vector::BinaryTree<edk::uint32> tree2;
     edk::gui2d::ObjectGui2d* objPressed;
+    edk::gui2d::ObjectGui2d* objSelected;
     edk::gui2d::gui2dMouseStatus mouseStatus;
     bool selectionExec;
+    bool shift;
+    //press quote
+    bool pressQuote;
+    bool pressTilde;
 
     //object to draw the mousePosition
     edk::vec2f32 saveMousePosition;

@@ -31,10 +31,18 @@ edk::gui2d::ObjectGui2d::ObjectGui2d(){
     this->saveStatus = this->status;
     this->pressed = false;
     this->drawText = false;
+    this->selected=false;
 }
 edk::gui2d::ObjectGui2d::~ObjectGui2d(){
     //
 }
+
+//get the type
+edk::gui2d::gui2dTypes edk::gui2d::ObjectGui2d::getType(){
+    //
+    return edk::gui2d::gui2dTypeObject;
+}
+
 void edk::gui2d::ObjectGui2d::drawStart(){
     //
     //put the transformation on a stack
@@ -51,107 +59,27 @@ void edk::gui2d::ObjectGui2d::drawEnd(){
     //
     edk::GU::guPopMatrix();
 }
-void edk::gui2d::ObjectGui2d::updateTextSize(){
+void edk::gui2d::ObjectGui2d::runTextSize(){
     //test if have the text
     if(this->text.haveText()){
+        //test if have the text
         //get the text size
         edk::size2f32 sizeText = edk::size2f32(this->text.getMapSizeWidth() * this->textSize.width
                                                ,this->text.getMapSizeHeight() * this->textSize.height
                                                );
 
-
         //calculate the centerSize
-        edk::size2f32 centerSize(edk::Math::moduleFloat(this->center.getVertexPosition(1u).x)
-                                 +
-                                 edk::Math::moduleFloat(this->center.getVertexPosition(0u).x),
-                                 edk::Math::moduleFloat(this->center.getVertexPosition(1u).y)
-                                 +
-                                 edk::Math::moduleFloat(this->center.getVertexPosition(0u).y)
-                                 );
+        edk::size2f32 centerSize = edk::size2f32(edk::Math::moduleFloat(this->center.getVertexPosition(1u).x)
+                                                 +
+                                                 edk::Math::moduleFloat(this->center.getVertexPosition(0u).x),
+                                                 edk::Math::moduleFloat(this->center.getVertexPosition(1u).y)
+                                                 +
+                                                 edk::Math::moduleFloat(this->center.getVertexPosition(0u).y)
+                                                 );
         if(centerSize.width>0.f && centerSize.height>0.f){
             this->drawText = true;
-
-            if(centerSize.width>centerSize.height){
-                //center size width bigger than height
-                this->percent1 = (edk::float32)centerSize.width/(edk::float32)centerSize.height;
-                this->percent2 = sizeText.width/sizeText.height;
-                if(this->percent1>this->percent2){
-                    //
-                    this->text.setScale((centerSize.height * (this->percent2))/(edk::float32)this->text.getMapSizeWidth(),
-                                        (centerSize.height)/(edk::float32)this->text.getMapSizeHeight()
-                                        );
-                }
-                else if(this->percent2>this->percent1){
-                    //
-                    this->percent2 = sizeText.height/sizeText.width;
-                    this->text.setScale(centerSize.width/(edk::float32)this->text.getMapSizeWidth(),
-                                        (centerSize.width * this->percent2)/(edk::float32)this->text.getMapSizeHeight()
-                                        );
-                }
-                else{
-                    //
-                    this->text.setScale(centerSize.width/(edk::float32)this->text.getMapSizeWidth(),
-                                        centerSize.height/(edk::float32)this->text.getMapSizeHeight()
-                                        );
-                }
-            }
-            else if(centerSize.height>centerSize.width){
-                //center size height bigger than width
-                this->percent1 = (edk::float32)centerSize.height/(edk::float32)centerSize.width;
-                this->percent2 = sizeText.height/sizeText.width;
-                if(this->percent1>this->percent2){
-                    //
-                    this->text.setScale((centerSize.width)/(edk::float32)this->text.getMapSizeWidth(),
-                                        (centerSize.width * this->percent2)/(edk::float32)this->text.getMapSizeHeight()
-                                        );
-                }
-                else if(this->percent2>this->percent1){
-                    //
-                    this->percent2 = sizeText.width/sizeText.height;
-                    this->text.setScale((centerSize.height * this->percent2)/(edk::float32)this->text.getMapSizeWidth(),
-                                        centerSize.height/(edk::float32)this->text.getMapSizeHeight()
-                                        );
-                }
-                else{
-                    //
-                    this->text.setScale(centerSize.height/(edk::float32)this->text.getMapSizeHeight(),
-                                        centerSize.width/(edk::float32)this->text.getMapSizeWidth()
-                                        );
-                }
-            }
-            else{
-                //center size equal
-                if(sizeText.width>sizeText.height){
-                    this->percent2 = sizeText.height/sizeText.width;
-                    //
-                    this->text.setScale((centerSize.width)/(edk::float32)this->text.getMapSizeWidth(),
-                                        (centerSize.width * this->percent2)/(edk::float32)this->text.getMapSizeHeight()
-                                        );
-                }
-                else if(sizeText.height>sizeText.width){
-                    this->percent2 = sizeText.width/sizeText.height;
-                    //
-                    this->text.setScale((centerSize.height * this->percent2)/(edk::float32)this->text.getMapSizeWidth(),
-                                        (centerSize.height)/(edk::float32)this->text.getMapSizeHeight()
-                                        );
-                }
-                else{
-                    //
-                    this->text.setScale(centerSize.height/(edk::float32)this->text.getMapSizeHeight(),
-                                        centerSize.width/(edk::float32)this->text.getMapSizeWidth()
-                                        );
-                }
-            }
-            //set the text position
-            sizeText = edk::size2f32(this->text.getMapSizeWidth() * this->text.getMapScaleWidth()
-                                     ,this->text.getMapSizeHeight() * this->text.getMapScaleHeight()
-                                     );
-            //set the text position
-            this->text.setPosition((sizeText.width*-0.5f)
-                                   + (this->text.getMapScaleWidth()*0.5f)
-                                   ,
-                                   0.f
-                                   );
+            //
+            this->updateTextSize(sizeText,centerSize,this->text.getMapSize());
         }
         else{
             this->drawText = false;
@@ -162,6 +90,89 @@ void edk::gui2d::ObjectGui2d::updateTextSize(){
         this->drawText = false;
         this->text.setScale(0.01f,0.01f);
     }
+}
+void edk::gui2d::ObjectGui2d::updateTextSize(edk::size2f32 sizeText,edk::size2f32 centerSize,edk::size2ui32 mapSize){
+    if(centerSize.width>centerSize.height){
+        //center size width bigger than height
+        this->percent1 = (edk::float32)centerSize.width/(edk::float32)centerSize.height;
+        this->percent2 = sizeText.width/sizeText.height;
+        if(this->percent1>this->percent2){
+            //
+            this->text.setScale((centerSize.height * (this->percent2))/(edk::float32)mapSize.width,
+                                (centerSize.height)/(edk::float32)mapSize.height
+                                );
+        }
+        else if(this->percent2>this->percent1){
+            //
+            this->percent2 = sizeText.height/sizeText.width;
+            this->text.setScale(centerSize.width/(edk::float32)mapSize.width,
+                                (centerSize.width * this->percent2)/(edk::float32)mapSize.height
+                                );
+        }
+        else{
+            //
+            this->text.setScale(centerSize.width/(edk::float32)mapSize.width,
+                                centerSize.height/(edk::float32)mapSize.height
+                                );
+        }
+    }
+    else if(centerSize.height>centerSize.width){
+        //center size height bigger than width
+        this->percent1 = (edk::float32)centerSize.height/(edk::float32)centerSize.width;
+        this->percent2 = sizeText.height/sizeText.width;
+        if(this->percent1>this->percent2){
+            //
+            this->text.setScale((centerSize.width)/(edk::float32)mapSize.width,
+                                (centerSize.width * this->percent2)/(edk::float32)mapSize.height
+                                );
+        }
+        else if(this->percent2>this->percent1){
+            //
+            this->percent2 = sizeText.width/sizeText.height;
+            this->text.setScale((centerSize.height * this->percent2)/(edk::float32)mapSize.width,
+                                centerSize.height/(edk::float32)mapSize.height
+                                );
+        }
+        else{
+            //
+            this->text.setScale(centerSize.height/(edk::float32)mapSize.height,
+                                centerSize.width/(edk::float32)mapSize.width
+                                );
+        }
+    }
+    else{
+        //center size equal
+        if(sizeText.width>sizeText.height){
+            this->percent2 = sizeText.height/sizeText.width;
+            //
+            this->text.setScale((centerSize.width)/(edk::float32)mapSize.width,
+                                (centerSize.width * this->percent2)/(edk::float32)mapSize.height
+                                );
+        }
+        else if(sizeText.height>sizeText.width){
+            this->percent2 = sizeText.width/sizeText.height;
+            //
+            this->text.setScale((centerSize.height * this->percent2)/(edk::float32)mapSize.width,
+                                (centerSize.height)/(edk::float32)mapSize.height
+                                );
+        }
+        else{
+            //
+            this->text.setScale(centerSize.height/(edk::float32)mapSize.height,
+                                centerSize.width/(edk::float32)mapSize.width
+                                );
+        }
+    }
+    //set the text position
+    sizeText = edk::size2f32(mapSize.width * this->text.getMapScaleWidth()
+                             ,mapSize.height * this->text.getMapScaleHeight()
+                             );
+    //set the text position
+    this->text.setPosition((sizeText.width*-0.5f)
+                           + (this->text.getMapScaleWidth()*0.5f)
+                           ,
+                           0.f
+                           );
 }
 
 //LOAD SPRITES
@@ -467,7 +478,7 @@ bool edk::gui2d::ObjectGui2d::writeText(edk::char8* text,edk::size2f32 scale){
     //test if receive a text
     if(text){
         //write the text
-        if(this->text.createStringMap(text)){
+        if(this->text.createStringMapOneLine(text)){
             //set the scale
             this->textSize = scale;
 
@@ -483,7 +494,7 @@ bool edk::gui2d::ObjectGui2d::writeText(edk::char8* text,edk::size2f32 scale){
                 }
             }
 
-            this->updateTextSize();
+            this->runTextSize();
 
             return true;
         }
@@ -496,6 +507,7 @@ void edk::gui2d::ObjectGui2d::cleanText(){
 
 //load the button textures and meshes
 bool edk::gui2d::ObjectGui2d::load(){
+    this->selected=false;
     if(this->obj.load(this->size)){
         //
         return true;
@@ -503,6 +515,7 @@ bool edk::gui2d::ObjectGui2d::load(){
     return false;
 }
 void edk::gui2d::ObjectGui2d::unload(){
+    this->selected=false;
     //unload the meshes
     this->obj.unload();
 }
@@ -671,7 +684,7 @@ void edk::gui2d::ObjectGui2d::update(){
         this->sprite.addPolygon(this->spritePolygon);
 
         //update the text
-        this->updateTextSize();
+        this->runTextSize();
 
         //update the polygon
         //this->centerS = this->center;
@@ -717,6 +730,16 @@ void edk::gui2d::ObjectGui2d::forceUpdate(){
 }
 edk::gui2d::gui2dTexture edk::gui2d::ObjectGui2d::getStatus(){
     return this->status;
+}
+//select functions
+void edk::gui2d::ObjectGui2d::select(){
+    this->selected = true;
+}
+void edk::gui2d::ObjectGui2d::deselect(){
+    this->selected = false;
+}
+bool edk::gui2d::ObjectGui2d::isSelected(){
+    return this->selected;
 }
 
 //set border size

@@ -202,7 +202,7 @@ class Image2D {
     bool cloneFrom(edk::Image2D* image);
     bool newFrom(edk::Image2D* image);
  private:
-    edk::Image2D operator=(edk::Image2D newImage){return *this;}
+    edk::Image2D operator=(edk::Image2D){return *this;}
     //Save the image
     //sf::Image* image;
     //image vector

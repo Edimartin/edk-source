@@ -105,7 +105,7 @@ class Camera2D{
         bool cloneFrom(edk::Camera2D* cam);
     protected:
     private:
-        edk::Camera2D operator=(edk::Camera2D newCam){return *this;}
+        edk::Camera2D operator=(edk::Camera2D){return *this;}
         //size of the camera screen
         edk::size2f32 size;
         edk::vec2f32 up;

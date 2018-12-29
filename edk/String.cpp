@@ -2430,8 +2430,8 @@ edk::char8 String::filterAccent(edk::char8* str){
             case 189u:
                 //printf("\nAcento y");fflush(stdout);
                 return ((edk::uchar8)*str) + 64u;
-                str--;
             }
+            str--;
         }
         else if((edk::uint8)*str==225u){
             str++;

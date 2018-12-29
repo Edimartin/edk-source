@@ -25,8 +25,13 @@ edk::gui2d::ViewGui2d::ViewGui2d(){
     this->idCounter = 0u;
     this->mouseStatus = edk::gui2d::gui2dMouseNothing;
     this->objPressed = NULL;
+    this->objSelected = NULL;
     this->selectTree = &this->tree1;
     this->selectTreeS = &this->tree2;
+    this->shift = false;
+    //press quote
+    this->pressQuote=false;
+    this->pressTilde=false;
 }
 edk::gui2d::ViewGui2d::~ViewGui2d(){
     //
@@ -136,6 +141,10 @@ bool edk::gui2d::ViewGui2d::removeObjectGui2d(edk::gui2d::ObjectGui2d* obj){
         if(this->objPressed == obj){
             this->objPressed=NULL;
         }
+        if(this->objSelected == obj){
+            this->objSelected->deselect();
+            this->objSelected = NULL;
+        }
         return this->list.removeByPointer(obj);
     }
     return false;
@@ -144,6 +153,10 @@ bool edk::gui2d::ViewGui2d::removeObjectGui2d(edk::gui2d::ObjectGui2d* obj){
 void edk::gui2d::ViewGui2d::removeAllObjectGui2d(){
     //test if the obj is the same pressed
     this->objPressed=NULL;
+    if(this->objSelected){
+        this->objSelected->deselect();
+        this->objSelected = NULL;
+    }
     this->list.removeAll();
 }
 
@@ -280,6 +293,298 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
         this->selectionExec = false;
     }
 
+
+    //test the keyboard
+    size = events->keyHolded.size();
+    if(size){
+        //test if is holding the shift
+        for(edk::uint32 i=0u;i<size;i++){
+            switch(events->keyHolded[i]){
+            case edk::key::lShift:
+            case edk::key::rShift:
+                this->shift=true;
+                break;
+            }
+        }
+    }
+    else {
+        this->shift=false;
+    }
+
+    //test the keyboard
+    size = events->keyPressed.size();
+    if(size){
+        if(this->objSelected){
+            if(this->objSelected->getType() == edk::gui2d::gui2dTypeTextField){
+                edk::gui2d::TextField2d* field = (edk::gui2d::TextField2d*)this->objSelected;
+                edk::uint32 keyPressed = 0u;
+
+                for(edk::uint32 i=0u;i<size;i++){
+                    //load the keyPressed
+                    keyPressed = events->keyPressed[i];
+
+                    switch(keyPressed){
+                    case edk::key::left:
+                        //back the writer position
+                        field->decrementCursor();
+                        break;
+                    case edk::key::right:
+                        field->incrementCursor();
+                        break;
+                    case edk::key::home:
+                        field->moveCursorToStart();
+                        //
+                        break;
+                    case edk::key::end:
+                        field->moveCursorToEnd();
+                        //
+                        break;
+                    case edk::key::space:
+                        //
+                        //accent
+                        if(this->pressTilde){
+                            field->addCharacter('~');
+                            this->pressTilde=false;
+                        }
+                        else if(this->pressQuote){
+                            field->addCharacter('´');
+                            this->pressQuote=false;
+                        }
+                        else{
+                            field->addCharacter(' ');
+                        }
+                        break;
+                    case edk::key::comma:
+                        //
+                        field->addCharacter(',');
+                        break;
+                    case edk::key::semiColon:
+                        //
+                        field->addCharacter(';');
+                        break;
+                    case edk::key::period:
+                        //
+                        field->addCharacter('.');
+                        break;
+                    case edk::key::quote:
+                        //accent
+                        if(this->pressQuote){
+                            field->addCharacter('´');
+                            this->pressQuote=false;
+                        }
+                        else if(this->pressTilde){
+                            field->addCharacter('~');
+                            this->pressTilde=false;
+                        }
+                        else{
+                            this->pressQuote=true;
+                        }
+                        break;
+                    case edk::key::tilde:
+                        //accent
+                        if(this->pressTilde){
+                            field->addCharacter('~');
+                            this->pressTilde=false;
+                        }
+                        else if(this->pressQuote){
+                            field->addCharacter((edk::char8)'´');
+                            this->pressQuote=false;
+                        }
+                        else{
+                            this->pressTilde=true;
+                        }
+                        break;
+                    case edk::key::slash:
+                        //accent
+                        field->addCharacter('/');
+                        break;
+                    case edk::key::backSlash:
+                        //accent
+                        field->addCharacter('\\');
+                        break;
+                    case edk::key::equal:
+                        //accent
+                        field->addCharacter('=');
+                        break;
+                    case edk::key::dash:
+                        //accent
+                        field->addCharacter('-');
+                        break;
+                    case edk::key::tab:
+                        //accent
+                        field->addCharacter(' ');
+                        field->addCharacter(' ');
+                        field->addCharacter(' ');
+                        break;
+                    case edk::key::add:
+                        //accent
+                        field->addCharacter('+');
+                        break;
+                    case edk::key::subtract:
+                        //accent
+                        field->addCharacter('-');
+                        break;
+                    case edk::key::multiply:
+                        //accent
+                        field->addCharacter('*');
+                        break;
+                    case edk::key::divide:
+                        //accent
+                        field->addCharacter(247);
+                        break;
+                    case edk::key::backSpace:
+                        //remove the character
+                        if(this->pressQuote){
+                            this->pressQuote=false;
+                        }
+                        else if(this->pressTilde){
+                            this->pressTilde=false;
+                        }
+                        else{
+                            field->removeCharacter();
+                        }
+                        break;
+                    case edk::key::Delete:
+                        //delete the character
+                        field->deleteCharacter();
+                        break;
+                    case edk::key::Return:
+                        //set press return
+                        //this->pressReturn = true;
+                        break;
+                    case edk::key::escape:
+                        //
+                        //this->selectView=false;
+                        break;
+                    default:
+                        //test if the key is a letter
+                        if(keyPressed>=edk::key::A
+                                &&
+                                keyPressed<=edk::key::Z
+                                ){
+                            //add the character
+                            if(shift){
+                                if(this->pressQuote){
+                                    this->pressQuote=false;
+                                    switch(keyPressed){
+                                    case 'a':
+                                        field->addString("Á");
+                                        break;
+                                    case 'e':
+                                        field->addString("É");
+                                        break;
+                                    case 'i':
+                                        field->addString("Í");
+                                        break;
+                                    case 'o':
+                                        field->addString("Ó");
+                                        break;
+                                    case 'u':
+                                        field->addString("Ú");
+                                        break;
+                                    default:
+                                        field->addCharacter('´');
+                                        field->addCharacter(keyPressed + ('A' - 'a'));
+                                        break;
+                                    }
+                                }
+                                else if(this->pressTilde){
+                                    this->pressTilde=false;
+                                    switch(keyPressed){
+                                    case 'a':
+                                        field->addString("Ã");
+                                        break;
+                                    case 'e':
+                                        field->addString("Ẽ");
+                                        break;
+                                    case 'i':
+                                        field->addString("Ĩ");
+                                        break;
+                                    case 'o':
+                                        field->addString("Õ");
+                                        break;
+                                    case 'u':
+                                        field->addString("Ũ");
+                                        break;
+                                    default:
+                                        field->addCharacter('~');
+                                        field->addCharacter(keyPressed + ('A' - 'a'));
+                                        break;
+                                    }
+                                }
+                                else{
+                                    field->addCharacter(keyPressed + ('A' - 'a'));
+                                }
+                            }
+                            else{
+                                if(this->pressQuote){
+                                    this->pressQuote=false;
+                                    switch(keyPressed){
+                                    case 'a':
+                                        field->addString("á");
+                                        break;
+                                    case 'e':
+                                        field->addString("é");
+                                        break;
+                                    case 'i':
+                                        field->addString("í");
+                                        break;
+                                    case 'o':
+                                        field->addString("ó");
+                                        break;
+                                    case 'u':
+                                        field->addString("ú");
+                                        break;
+                                    default:
+                                        field->addCharacter('´');
+                                        field->addCharacter(keyPressed);
+                                        break;
+                                    }
+                                }
+                                else if(this->pressQuote){
+                                    this->pressQuote=false;
+                                    switch(keyPressed){
+                                    case 'a':
+                                        field->addString("ã");
+                                        break;
+                                    case 'e':
+                                        field->addString("ẽ");
+                                        break;
+                                    case 'i':
+                                        field->addString("ĩ");
+                                        break;
+                                    case 'o':
+                                        field->addString("õ");
+                                        break;
+                                    case 'u':
+                                        field->addString("ũ");
+                                        break;
+                                    default:
+                                        field->addCharacter('~');
+                                        field->addCharacter(keyPressed);
+                                        break;
+                                    }
+                                }
+                                else{
+                                    field->addCharacter(keyPressed);
+                                }
+                            }
+                        }
+                        //test if the key is a number
+                        if(keyPressed>=edk::key::num0
+                                &&
+                                keyPressed<=edk::key::num9
+                                ){
+                            //add the character
+                            field->addCharacter(keyPressed);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
     this->list.cleanPressed=false;
 }
 
@@ -318,6 +623,20 @@ void edk::gui2d::ViewGui2d::drawScene(edk::rectf32){
                     if(this->objPressed->canMove())
                         this->objPressed->startMove(this->saveMousePosition + this->mouseDistance);
 
+                    //test if the object selected is different
+                    if(this->objSelected){
+                        if(this->objSelected!=obj){
+                            //remove the selection
+                            this->objSelected->deselect();
+                            obj->select();
+                        }
+                    }
+                    else{
+                        obj->select();
+                    }
+                    //select the object
+                    this->objSelected = obj;
+
                     //process the callback
                     this->processMousePressed(obj,edk::mouse::left);
                 }
@@ -334,11 +653,37 @@ void edk::gui2d::ViewGui2d::drawScene(edk::rectf32){
                         //process the callback
                         this->processMouseHolded(this->objPressed,edk::mouse::left);
                     }
+                    //test if have the object selected
+                    if(this->objSelected){
+                        //
+                    }
                 }
                 else{
                     obj->pressed=false;
                     //set the objStatus
                     obj->setStatus(edk::gui2d::gui2dTextureUp);
+                }
+            }
+            else{
+                //test if the mouse is pressed
+                if(this->mouseStatus == edk::gui2d::gui2dMousePressed){
+                    //
+                    if(this->objSelected){
+                        this->objSelected->deselect();
+
+                        this->objSelected = NULL;
+                    }
+                }
+            }
+        }
+        else{
+            //test if the mouse is pressed
+            if(this->mouseStatus == edk::gui2d::gui2dMousePressed){
+                //
+                if(this->objSelected){
+                    this->objSelected->deselect();
+
+                    this->objSelected = NULL;
                 }
             }
         }

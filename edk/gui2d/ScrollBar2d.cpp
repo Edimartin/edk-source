@@ -36,6 +36,13 @@ edk::gui2d::ScrollBar2d::~ScrollBar2d(){
     //clean the meshes
     this->unload();
 }
+
+//get the type
+edk::gui2d::gui2dTypes edk::gui2d::ScrollBar2d::getType(){
+    //
+    return edk::gui2d::gui2dTypeScrollBar;
+}
+
 void edk::gui2d::ScrollBar2d::updateObjPosition(){
     //update X
     edk::vec2f32 position = this->objPosition-this->position;

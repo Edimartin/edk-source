@@ -27,6 +27,11 @@ edk::gui2d::MenuObj::~MenuObj(){
     this->str2.cleanName();
 }
 
+//get the type
+edk::gui2d::gui2dTypes edk::gui2d::MenuObj::getType(){
+    return edk::gui2d::gui2dTypeMenu;
+}
+
 void edk::gui2d::MenuObj::updatePositions(){
     //set the objects position based on the full size of the button
 

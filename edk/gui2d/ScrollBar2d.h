@@ -40,6 +40,9 @@ public:
     ScrollBar2d();
     virtual ~ScrollBar2d();
 
+    //get the type
+    virtual edk::gui2d::gui2dTypes getType();
+
     //Set the percent
     void setPercent(edk::vec2f32 percent);
     void setPercent(edk::float32 x,edk::float32 y);

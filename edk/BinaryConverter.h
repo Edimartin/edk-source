@@ -38,6 +38,36 @@ public:
     static edk::uint64 getStart(edk::uint64 number,edk::uint8 position);
     static edk::uint32 getEnd(edk::uint32 number,edk::uint8 position);
     static edk::uint64 getEnd(edk::uint64 number,edk::uint8 position);
+    //joint bytes
+    static edk::uint16 joinBytesLittleEndian(edk::uint8 byte1,edk::uint8 byte0);
+    static edk::uint32 joinBytesLittleEndian(edk::uint8 byte3,edk::uint8 byte2,edk::uint8 byte1,edk::uint8 byte0);
+    static edk::uint64 joinBytesLittleEndian(edk::uint8 byte7,
+                                             edk::uint8 byte6,
+                                             edk::uint8 byte5,
+                                             edk::uint8 byte4,
+                                             edk::uint8 byte3,
+                                             edk::uint8 byte2,
+                                             edk::uint8 byte1,
+                                             edk::uint8 byte0
+                                             );
+    static edk::uint16 joinBytesBigEndian(edk::uint8 byte0,edk::uint8 byte1);
+    static edk::uint32 joinBytesBigEndian(edk::uint8 byte0,edk::uint8 byte1,edk::uint8 byte2,edk::uint8 byte3);
+    static edk::uint64 joinBytesBigEndian(edk::uint8 byte0,
+                                          edk::uint8 byte1,
+                                          edk::uint8 byte2,
+                                          edk::uint8 byte3,
+                                          edk::uint8 byte4,
+                                          edk::uint8 byte5,
+                                          edk::uint8 byte6,
+                                          edk::uint8 byte7
+                                          );
+    //get the bytes from a number
+    static edk::uint8 getByteLittleEndian(edk::uint16 number,edk::uint8 position);
+    static edk::uint8 getByteLittleEndian(edk::uint32 number,edk::uint8 position);
+    static edk::uint8 getByteLittleEndian(edk::uint64 number,edk::uint8 position);
+    static edk::uint8 getByteBigEndian(edk::uint16 number,edk::uint8 position);
+    static edk::uint8 getByteBigEndian(edk::uint32 number,edk::uint8 position);
+    static edk::uint8 getByteBigEndian(edk::uint64 number,edk::uint8 position);
 
     //testa se um bit especifico esta true or false
     static bool testBit(edk::uchar8 byte,edk::uchar8 position);

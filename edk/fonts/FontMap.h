@@ -87,6 +87,10 @@ public:
     bool createStringMap(edk::char8* str,edk::uint32 width);
     bool createStringMap(const char* str);
     bool createStringMap(edk::char8* str);
+    bool createStringMapOneLine(const char* str,edk::uint32 width);
+    bool createStringMapOneLine(edk::char8* str,edk::uint32 width);
+    bool createStringMapOneLine(const char* str);
+    bool createStringMapOneLine(edk::char8* str);
 
     //set the color
     void setColor(edk::color4f32 color);
@@ -109,6 +113,17 @@ public:
 
     //Select characters to draw
     void selectAll();
+
+    //set the origin and the last values
+    bool setOriginAndLast(edk::uint32 originID, edk::uint32 lastID);
+    bool setOriginAndLast(edk::vec2ui32 origin, edk::vec2ui32 last);
+    bool setOriginAndLast(edk::uint32 originX,edk::uint32 originY,edk::uint32 lastX,edk::uint32 lastY);
+    bool setOrigin(edk::uint32 originID);
+    bool setOrigin(edk::vec2ui32 origin);
+    bool setOrigin(edk::uint32 originX,edk::uint32 originY);
+    bool setLast(edk::uint32 lastID);
+    bool setLast(edk::vec2ui32 last);
+    bool setLast(edk::uint32 lastX,edk::uint32 lastY);
 
     //add animations
     bool addInterpolation(edk::float32 second,edk::uint32 originID, edk::uint32 lastID);

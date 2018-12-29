@@ -191,6 +191,103 @@ edk::uint64 edk::BinaryConverter::getEnd(edk::uint64 number,edk::uint8 position)
     position = 64u-position;
     return (number<<position)>>position;
 }
+//joint bytes
+edk::uint16 edk::BinaryConverter::joinBytesLittleEndian(edk::uint8 byte1,edk::uint8 byte0){
+    return ((edk::uint16)byte1<<8u) + ((edk::uint16)byte0);
+}
+edk::uint32 edk::BinaryConverter::joinBytesLittleEndian(edk::uint8 byte3,edk::uint8 byte2,edk::uint8 byte1,edk::uint8 byte0){
+    return ((edk::uint32)byte3<<24u) + ((edk::uint32)byte2<<16u) + ((edk::uint32)byte1<<8u) + (edk::uint32)byte0;
+}
+edk::uint64 edk::BinaryConverter::joinBytesLittleEndian(edk::uint8 byte7,
+                                                        edk::uint8 byte6,
+                                                        edk::uint8 byte5,
+                                                        edk::uint8 byte4,
+                                                        edk::uint8 byte3,
+                                                        edk::uint8 byte2,
+                                                        edk::uint8 byte1,
+                                                        edk::uint8 byte0
+                                                        ){
+    return ((edk::uint64)byte7<<56u)
+            +
+            ((edk::uint64)byte6<<48u)
+            +
+            ((edk::uint64)byte5<<40u)
+            +
+            ((edk::uint64)byte4<<32u)
+            +
+            ((edk::uint64)byte3<<24u)
+            +
+            ((edk::uint64)byte2<<16u)
+            +
+            ((edk::uint64)byte1<<8u)
+            +
+            (edk::uint64)byte0;
+}
+edk::uint16 edk::BinaryConverter::joinBytesBigEndian(edk::uint8 byte0,edk::uint8 byte1){
+    return ((edk::uint16)byte1<<8u) + ((edk::uint16)byte0);
+}
+edk::uint32 edk::BinaryConverter::joinBytesBigEndian(edk::uint8 byte0,edk::uint8 byte1,edk::uint8 byte2,edk::uint8 byte3){
+    return ((edk::uint32)byte3<<24u) + ((edk::uint32)byte2<<16u) + ((edk::uint32)byte1<<8u) + (edk::uint32)byte0;
+}
+edk::uint64 edk::BinaryConverter::joinBytesBigEndian(edk::uint8 byte0,
+                                                     edk::uint8 byte1,
+                                                     edk::uint8 byte2,
+                                                     edk::uint8 byte3,
+                                                     edk::uint8 byte4,
+                                                     edk::uint8 byte5,
+                                                     edk::uint8 byte6,
+                                                     edk::uint8 byte7
+                                                     ){
+    return ((edk::uint64)byte7<<56u)
+            +
+            ((edk::uint64)byte6<<48u)
+            +
+            ((edk::uint64)byte5<<40u)
+            +
+            ((edk::uint64)byte4<<32u)
+            +
+            ((edk::uint64)byte3<<24u)
+            +
+            ((edk::uint64)byte2<<16u)
+            +
+            ((edk::uint64)byte1<<8u)
+            +
+            (edk::uint64)byte0;
+}
+//get the bytes from a number
+edk::uint8 edk::BinaryConverter::getByteLittleEndian(edk::uint16 number,edk::uint8 position){
+    //
+    if(position<sizeof(number)){
+        return (edk::uint8)((number<<((edk::uint8)(position*-8)+((sizeof(number)-1u)*8)))
+                            >>((sizeof(number)-1u) * 8u));
+    }
+    return 0u;
+}
+edk::uint8 edk::BinaryConverter::getByteLittleEndian(edk::uint32 number,edk::uint8 position){
+    //
+    if(position<sizeof(number)){
+        return (edk::uint8)((number<<((edk::uint8)(position*-8)+((sizeof(number)-1u)*8)))
+                            >>((sizeof(number)-1u) * 8u));
+    }
+    return 0u;
+}
+edk::uint8 edk::BinaryConverter::getByteLittleEndian(edk::uint64 number,edk::uint8 position){
+    //
+    if(position<sizeof(number)){
+        return (edk::uint8)((number<<((edk::uint8)(position*-8)+((sizeof(number)-1u)*8)))
+                            >>((sizeof(number)-1u) * 8u));
+    }
+    return 0u;
+}
+edk::uint8 edk::BinaryConverter::getByteBigEndian(edk::uint16 number,edk::uint8 position){
+    return edk::BinaryConverter::getByteLittleEndian(number,position*-1+sizeof(number)-1u);
+}
+edk::uint8 edk::BinaryConverter::getByteBigEndian(edk::uint32 number,edk::uint8 position){
+    return edk::BinaryConverter::getByteLittleEndian(number,position*-1+sizeof(number)-1u);
+}
+edk::uint8 edk::BinaryConverter::getByteBigEndian(edk::uint64 number,edk::uint8 position){
+    return edk::BinaryConverter::getByteLittleEndian(number,position*-1+sizeof(number)-1u);
+}
 
 //testa se um bit especifico esta true or false
 bool edk::BinaryConverter::testBit(edk::uchar8 byte,edk::uchar8 position){
