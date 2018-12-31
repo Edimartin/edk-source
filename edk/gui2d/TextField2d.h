@@ -66,6 +66,10 @@ public:
     //select functions
     void select();
     void deselect();
+    //click to select an polygon inside the object
+    void clickStart(edk::uint32 name);
+    void clickMove(edk::uint32 name,bool mouseInside);
+    void clickEnd(edk::uint32 name,bool mouseInside);
 
     //cursor functions
     void incrementCursor();
@@ -91,6 +95,7 @@ public:
 
     //draw the button
     void draw();
+    void drawSelection();
 private:
     void updateTextSize(edk::size2f32 sizeText,edk::size2f32 centerSize,edk::size2ui32 mapSize);
     void cleanTextVariables(edk::char8* newText);
@@ -99,6 +104,7 @@ private:
 
     //save the draw origin position
     edk::uint32 originID;
+    edk::uint32 endID;
     edk::uint32 cursorID;
     edk::Object2D cursor;
     edk::size2f32 saveCursorSize;

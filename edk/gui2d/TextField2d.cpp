@@ -287,6 +287,7 @@ edk::gui2d::TextField2d::TextField2d(){
     this->obj.setBorderSize(0.25f);
     this->originID = 0u;
     this->cursorID = this->originID;
+    this->endID=0u;
 }
 edk::gui2d::TextField2d::~TextField2d(){
     //
@@ -354,10 +355,12 @@ void edk::gui2d::TextField2d::updateTextSize(edk::size2f32 sizeText,edk::size2f3
                 this->originID = mapWidth - chSize;
             }
             //set the size
+            this->endID = this->originID + chSize - 1u;
             this->text.setOriginAndLast(this->originID,this->originID + chSize - 1u);
         }
         else{
             this->originID = 0u;
+            this->endID = mapWidth-1u;
             this->text.setOriginAndLast(this->originID,mapWidth-1u);
         }
 
@@ -373,12 +376,14 @@ void edk::gui2d::TextField2d::updateTextSize(edk::size2f32 sizeText,edk::size2f3
     else{
         this->cursorID = 0u;
         this->originID = 0u;
+        this->endID = 0u;
     }
 }
 void edk::gui2d::TextField2d::cleanTextVariables(edk::char8* newText){
     //clean the cursor
     this->cursorID = 0u;
     this->originID = 0u;
+    this->endID = 0u;
     this->textVec.clean();
 
     //test if need to write a new text
@@ -480,6 +485,17 @@ void edk::gui2d::TextField2d::select(){
 void edk::gui2d::TextField2d::deselect(){
     edk::gui2d::ObjectGui2d::deselect();
     this->cursor.animationSize.stop();
+}
+edk::uint32 counterID = 0u;
+//click to select an polygon inside the object
+void edk::gui2d::TextField2d::clickStart(edk::uint32 name){
+    edk::gui2d::ObjectGui2d::clickStart(name);
+}
+void edk::gui2d::TextField2d::clickMove(edk::uint32 name,bool mouseInside){
+    edk::gui2d::ObjectGui2d::clickMove(name,mouseInside);
+}
+void edk::gui2d::TextField2d::clickEnd(edk::uint32 name,bool mouseInside){
+    edk::gui2d::ObjectGui2d::clickEnd(name,mouseInside);
 }
 
 //cursor functions
@@ -736,6 +752,25 @@ void edk::gui2d::TextField2d::draw(){
             this->cursor.drawWithoutMaterial();
         }
     }
+    this->drawEnd();
+}
+void edk::gui2d::TextField2d::drawSelection(){
+    this->drawStart();
+    //draw the border
+    this->obj.drawSelection();
 
+    if(this->text.haveText() && this->drawText){
+        //
+        this->text.setPosition(this->text.getPositionX() - this->text.getMapScaleWidth()*0.5,
+                               this->text.getPositionY()
+                               );
+        this->text.setLast(this->endID + 1);
+        this->text.drawSelection();
+        this->text.setPosition(this->text.getPositionX() + this->text.getMapScaleWidth()*0.5,
+                               this->text.getPositionY()
+                               );
+        this->text.setLast(this->endID);
+    }
+    //
     this->drawEnd();
 }

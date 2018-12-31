@@ -175,6 +175,7 @@ public:
     void drawWire(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
     void drawWire(edk::float32 r,edk::float32 g,edk::float32 b);
     void drawWire();
+    void drawSelection();
     //draw the pivo
     void drawPivo(edk::float32 size,edk::color3f32 color);
 
@@ -267,6 +268,8 @@ private:
     void draw(edk::uint32 originWidth,edk::uint32 originLine,edk::uint32 lastWidth,edk::uint32 lastLine,edk::color4f32 color=edk::color4f32(1,1,1,1));
     void drawWire(edk::vec2ui32 origin,edk::vec2ui32 last,edk::color4f32 color=edk::color4f32(1,1,1,1));
     void drawWire(edk::uint32 originWidth,edk::uint32 originLine,edk::uint32 lastWidth,edk::uint32 lastLine,edk::color4f32 color=edk::color4f32(1,1,1,1));
+    void drawSelection(edk::vec2ui32 origin,edk::vec2ui32 last);
+    void drawSelection(edk::uint32 originWidth,edk::uint32 originLine,edk::uint32 lastWidth,edk::uint32 lastLine);
     //draw the ID
     void draw(edk::uint32 originID,edk::uint32 lastID,edk::color4f32 color=edk::color4f32(1,1,1,1));
     void draw(edk::vec2ui32 origin,edk::uint32 lastID,edk::color4f32 color=edk::color4f32(1,1,1,1));
@@ -274,6 +277,9 @@ private:
     void drawWire(edk::uint32 originID,edk::uint32 lastID,edk::color4f32 color=edk::color4f32(1,1,1,1));
     void drawWire(edk::vec2ui32 origin,edk::uint32 lastID,edk::color4f32 color=edk::color4f32(1,1,1,1));
     void drawWire(edk::uint32 originID,edk::vec2ui32 last,edk::color4f32 color=edk::color4f32(1,1,1,1));
+    void drawSelection(edk::uint32 originID,edk::uint32 lastID);
+    void drawSelection(edk::vec2ui32 origin,edk::uint32 lastID);
+    void drawSelection(edk::uint32 originID,edk::vec2ui32 last);
 };
 }//end namespace fonts
 }//end namespace edk

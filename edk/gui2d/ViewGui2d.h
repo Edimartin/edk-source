@@ -87,6 +87,8 @@ private:
     edk::vector::BinaryTree<edk::uint32> tree2;
     edk::gui2d::ObjectGui2d* objPressed;
     edk::gui2d::ObjectGui2d* objSelected;
+    edk::uint32 idSelected;
+    bool endSelect;
     edk::gui2d::gui2dMouseStatus mouseStatus;
     bool selectionExec;
     bool shift;

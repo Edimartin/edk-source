@@ -831,7 +831,7 @@ private:
                 }
                 else if(this->tileMap){
                     edk::GU::guDisable(GU_LIGHTING);
-                    this->tileMap->drawSelection(id);
+                    this->tileMap->drawSelectionWithID(id);
                 }
             }
         }
