@@ -278,6 +278,54 @@ edk::char8* edk::gui2d::TextField2d::TextVec::getString(){
     }
     return NULL;
 }
+edk::char8* edk::gui2d::TextField2d::TextVec::getStringWithLastSpace(){
+    edk::uint32 size = this->sizeOfString();
+    //test if have some characters
+    if(size){
+        //create the new string
+        edk::char8* str = new edk::char8[size+2u];
+        if(str){
+            str[size+1u]='\0';
+            str[size]=' ';
+            edk::uint32 position = 0u;
+            edk::char8* p = str;
+            edk::uint32 c = 0u;
+            //copy the characters
+            for(edk::uint32 i=0u;i<size;i++){
+                //
+                c = this->vec.get(position);
+                if(!c){
+                    delete[] str;
+                    return NULL;
+                }
+                //test if is a special character
+                if(edk::BinaryConverter::getByteLittleEndian(c,1u)){
+                    i++;
+                    if(edk::BinaryConverter::getByteLittleEndian(c,2u)){
+                        i++;
+                        if(edk::BinaryConverter::getByteLittleEndian(c,3u)){
+                            i++;
+                            //add the value
+                            *p = edk::BinaryConverter::getByteLittleEndian(c,3u);
+                            p++;
+                        }
+                        //add the value
+                        *p = edk::BinaryConverter::getByteLittleEndian(c,2u);
+                        p++;
+                    }
+                    //add the value
+                    *p = edk::BinaryConverter::getByteLittleEndian(c,1u);
+                    p++;
+                }
+                *p = edk::BinaryConverter::getByteLittleEndian(c,0u);
+                p++;
+                position++;
+            }
+            return str;
+        }
+    }
+    return NULL;
+}
 edk::uint32 edk::gui2d::TextField2d::TextVec::getSize(){
     return this->vec.size();
 }
@@ -300,7 +348,11 @@ edk::gui2d::gui2dTypes edk::gui2d::TextField2d::getType(){
 }
 
 void edk::gui2d::TextField2d::updateTextSize(edk::size2f32 sizeText,edk::size2f32 centerSize,edk::size2ui32 mapSize){
-    if(this->text.getMapSizeWidth()){
+    edk::uint32 mapWidth = this->text.getMapSizeWidth();
+    if(mapWidth)
+        mapWidth--;
+
+    if(mapWidth){
         this->text.setScale(1.f,
                             1.f
                             );
@@ -333,12 +385,11 @@ void edk::gui2d::TextField2d::updateTextSize(edk::size2f32 sizeText,edk::size2f3
         //get the size of characters inside the field
         edk::uint32 chSize = (edk::uint32)(centerSize.width/this->text.getMapScaleWidth());
 
-        if(this->cursorID>this->text.getMapSizeWidth()){
+        if(this->cursorID>mapWidth){
             //
-            this->cursorID=this->text.getMapSizeWidth();
+            this->cursorID=mapWidth;
         }
 
-        edk::uint32 mapWidth = this->text.getMapSizeWidth();
         //test if the origin can be drawed
         if(mapWidth >= chSize){
             //test if the cursor in outsize the origin and last
@@ -399,7 +450,7 @@ bool edk::gui2d::TextField2d::removeCharacter(edk::uint32 position){
     bool ret = false;
     if(this->textVec.remove(position)){
         //get the string and write the text to the object text
-        edk::char8* str = this->textVec.getString();
+        edk::char8* str = this->textVec.getStringWithLastSpace();
         if(str){
             //write the string
             if(edk::gui2d::ObjectGui2d::writeText(str)){
@@ -490,6 +541,15 @@ edk::uint32 counterID = 0u;
 //click to select an polygon inside the object
 void edk::gui2d::TextField2d::clickStart(edk::uint32 name){
     edk::gui2d::ObjectGui2d::clickStart(name);
+    //select the name
+    if(name) name--;
+    if(name>=this->originID && name<=this->endID+1u){
+        this->cursorID = name;
+        //force update
+        this->forceUpdate();
+        this->cursor.animationSize.stop();
+        this->cursor.animationSize.playForward();
+    }
 }
 void edk::gui2d::TextField2d::clickMove(edk::uint32 name,bool mouseInside){
     edk::gui2d::ObjectGui2d::clickMove(name,mouseInside);
@@ -501,15 +561,15 @@ void edk::gui2d::TextField2d::clickEnd(edk::uint32 name,bool mouseInside){
 //cursor functions
 void edk::gui2d::TextField2d::incrementCursor(){
     if(this->textVec.getSize()){
-        if(this->cursorID < this->text.getMapSizeWidth()){
+        edk::uint32 mapSize = this->text.getMapSizeWidth();
+        if(mapSize)mapSize--;
+        if(this->cursorID < mapSize){
             this->cursorID++;
             //force update
             this->forceUpdate();
             this->cursor.animationSize.stop();
             this->cursor.animationSize.playForward();
         }
-        //force update
-        this->forceUpdate();
     }
 }
 void edk::gui2d::TextField2d::decrementCursor(){
@@ -522,8 +582,10 @@ void edk::gui2d::TextField2d::decrementCursor(){
     }
 }
 void edk::gui2d::TextField2d::moveCursorToEnd(){
-    if(this->cursorID < this->text.getMapSizeWidth()){
-        this->cursorID = this->text.getMapSizeWidth();
+    edk::uint32 mapSize = this->text.getMapSizeWidth();
+    if(mapSize)mapSize--;
+    if(this->cursorID < mapSize){
+        this->cursorID = mapSize;
         //force update
         this->forceUpdate();
         this->cursor.animationSize.stop();
@@ -547,7 +609,7 @@ bool edk::gui2d::TextField2d::addCharacter(edk::char8 c){
         this->forceUpdate();
         this->cursor.animationSize.stop();
         this->cursor.animationSize.playForward();
-        edk::char8* str = this->textVec.getString();
+        edk::char8* str = this->textVec.getStringWithLastSpace();
         if(str){
             this->cursorID++;
             edk::gui2d::ObjectGui2d::writeText(str);
@@ -567,7 +629,7 @@ bool edk::gui2d::TextField2d::addString(edk::char8* str){
         this->forceUpdate();
         this->cursor.animationSize.stop();
         this->cursor.animationSize.playForward();
-        edk::char8* str = this->textVec.getString();
+        edk::char8* str = this->textVec.getStringWithLastSpace();
         if(str){
             this->cursorID++;
             edk::gui2d::ObjectGui2d::writeText(str);
@@ -590,7 +652,7 @@ bool edk::gui2d::TextField2d::writeText(const char* text){
     bool ret = false;
     this->cleanTextVariables((edk::char8*)text);
     //get the string
-    edk::char8* str = this->textVec.getString();
+    edk::char8* str = this->textVec.getStringWithLastSpace();
     if(str){
         if(edk::gui2d::ObjectGui2d::writeText(text)){
             ret = true;
@@ -605,7 +667,7 @@ bool edk::gui2d::TextField2d::writeText(edk::char8* text){
     bool ret = false;
     this->cleanTextVariables(text);
     //get the string
-    edk::char8* str = this->textVec.getString();
+    edk::char8* str = this->textVec.getStringWithLastSpace();
     if(str){
         if(edk::gui2d::ObjectGui2d::writeText(text)){
             ret = true;
@@ -620,7 +682,7 @@ bool edk::gui2d::TextField2d::writeText(const char* text,edk::float32 scaleWidth
     bool ret = false;
     this->cleanTextVariables((edk::char8*)text);
     //get the string
-    edk::char8* str = this->textVec.getString();
+    edk::char8* str = this->textVec.getStringWithLastSpace();
     if(str){
         if(edk::gui2d::ObjectGui2d::writeText(text,scaleWidth,scaleHeight)){
             ret = true;
@@ -635,7 +697,7 @@ bool edk::gui2d::TextField2d::writeText(edk::char8* text,edk::float32 scaleWidth
     bool ret = false;
     this->cleanTextVariables(text);
     //get the string
-    edk::char8* str = this->textVec.getString();
+    edk::char8* str = this->textVec.getStringWithLastSpace();
     if(str){
         if(edk::gui2d::ObjectGui2d::writeText(text,scaleWidth,scaleHeight)){
             ret = true;
@@ -650,7 +712,7 @@ bool edk::gui2d::TextField2d::writeText(const char* text,edk::size2f32 scale){
     bool ret = false;
     this->cleanTextVariables((edk::char8*)text);
     //get the string
-    edk::char8* str = this->textVec.getString();
+    edk::char8* str = this->textVec.getStringWithLastSpace();
     if(str){
         if(edk::gui2d::ObjectGui2d::writeText(text,scale)){
             ret = true;
@@ -665,7 +727,7 @@ bool edk::gui2d::TextField2d::writeText(edk::char8* text,edk::size2f32 scale){
     bool ret = false;
     this->cleanTextVariables(text);
     //get the string
-    edk::char8* str = this->textVec.getString();
+    edk::char8* str = this->textVec.getStringWithLastSpace();
     if(str){
         if(edk::gui2d::ObjectGui2d::writeText(str,scale)){
             ret = true;
@@ -684,7 +746,7 @@ void edk::gui2d::TextField2d::cleanText(){
 void edk::gui2d::TextField2d::deleteCharacter(){
     //
     this->textVec.remove(this->cursorID);
-    edk::char8* str = this->textVec.getString();
+    edk::char8* str = this->textVec.getStringWithLastSpace();
     if(str){
         edk::gui2d::ObjectGui2d::writeText(str);
         delete[] str;
@@ -696,7 +758,7 @@ void edk::gui2d::TextField2d::deleteCharacter(){
 void edk::gui2d::TextField2d::removeCharacter(){
     if(this->cursorID){
         this->textVec.remove(this->cursorID-1u);
-        edk::char8* str = this->textVec.getString();
+        edk::char8* str = this->textVec.getStringWithLastSpace();
         this->cursorID--;
         if(str){
             edk::gui2d::ObjectGui2d::writeText(str);
@@ -707,6 +769,14 @@ void edk::gui2d::TextField2d::removeCharacter(){
             edk::gui2d::ObjectGui2d::cleanText();
         }
     }
+}
+//get string writed
+edk::char8* edk::gui2d::TextField2d::getText(){
+    return this->textVec.getString();
+}
+//get string size
+edk::uint32 edk::gui2d::TextField2d::getTextSize(){
+    return this->textVec.getSize();
 }
 
 //draw the button
@@ -764,7 +834,7 @@ void edk::gui2d::TextField2d::drawSelection(){
         this->text.setPosition(this->text.getPositionX() - this->text.getMapScaleWidth()*0.5,
                                this->text.getPositionY()
                                );
-        this->text.setLast(this->endID + 1);
+        this->text.setLast(this->endID + 1u);
         this->text.drawSelection();
         this->text.setPosition(this->text.getPositionX() + this->text.getMapScaleWidth()*0.5,
                                this->text.getPositionY()

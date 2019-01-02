@@ -636,14 +636,12 @@ void edk::gui2d::ViewGui2d::drawScene(edk::rectf32){
 
                     //test if the object selected is different
                     if(this->objSelected){
-                        if(this->objSelected!=obj){
-                            //remove the selection
-                            this->objSelected->deselect();
-                            if(this->endSelect)
+                        //remove the selection
+                        this->objSelected->deselect();
+                        if(this->endSelect)
                             this->objSelected->clickEnd(this->idSelected,false);
-                            obj->select();
-                            obj->clickStart(this->idSelected);
-                        }
+                        obj->select();
+                        obj->clickStart(this->idSelected);
                     }
                     else{
                         obj->select();
@@ -754,16 +752,6 @@ void edk::gui2d::ViewGui2d::drawScene(edk::rectf32){
             }
             this->objPressed->pressed=false;
             this->objPressed = NULL;
-
-            if(this->objSelected){
-                this->objSelected->deselect();
-                if(this->endSelect)
-                    this->objSelected->clickEnd(this->idSelected,false);
-                this->endSelect = false;
-
-                this->objSelected = NULL;
-                this->idSelected = 0u;
-            }
         }
     }
 

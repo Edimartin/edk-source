@@ -92,6 +92,10 @@ public:
     //remove or delete characters
     void deleteCharacter();
     void removeCharacter();
+    //get string writed
+    edk::char8* getText();
+    //get string size
+    edk::uint32 getTextSize();
 
     //draw the button
     void draw();
@@ -122,6 +126,7 @@ private:
         bool remove(edk::uint32 position);
         bool remove(edk::uint32 position,edk::uint32 times);
         edk::char8* getString();
+        edk::char8* getStringWithLastSpace();
         edk::uint32 getSize();
     private:
         edk::vector::Stack <edk::char32> vec;
