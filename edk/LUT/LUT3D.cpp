@@ -42,47 +42,47 @@ bool edk::LUT3D::newTable(edk::uint16 size){
                     this->cube = new edk::color3ui8**[this->size];
                     if(this->cube){
                         //clean the values
-                        for(edk::uint16 r = 0u;r<this->size;r++){
-                            this->cube[r] = NULL;
+                        for(edk::uint16 x = 0u;x<this->size;x++){
+                            this->cube[x] = NULL;
                         }
                         //
-                        for(edk::uint16 r = 0u;r<this->size;r++){
-                            this->cube[r] = new edk::color3ui8*[this->size];
-                            if(this->cube[r]){
+                        for(edk::uint16 x = 0u;x<this->size;x++){
+                            this->cube[x] = new edk::color3ui8*[this->size];
+                            if(this->cube[x]){
                                 //clean the values
-                                for(edk::uint16 g = 0u;g<this->size;g++){
-                                    this->cube[r][g] = NULL;
+                                for(edk::uint16 y = 0u;y<this->size;y++){
+                                    this->cube[x][y] = NULL;
                                 }
-                                for(edk::uint16 g = 0u;g<this->size;g++){
-                                    this->cube[r][g] = new edk::color3ui8[this->size];
-                                    if(!this->cube[r][g]){
+                                for(edk::uint16 y = 0u;y<this->size;y++){
+                                    this->cube[x][y] = new edk::color3ui8[this->size];
+                                    if(!this->cube[x][y]){
                                         //delete all anothers
-                                        for(edk::uint16 gd = 0u;gd<g;gd++){
-                                            if(this->cube[r][gd]){
-                                                delete[] this->cube[r][gd];
-                                                this->cube[r][gd]=NULL;
+                                        for(edk::uint16 yd = 0u;yd<y;yd++){
+                                            if(this->cube[x][yd]){
+                                                delete[] this->cube[x][yd];
+                                                this->cube[x][yd]=NULL;
                                             }
                                         }
                                         //delete the r
-                                        delete[] this->cube[r];
-                                        this->cube[r] = NULL;
+                                        delete[] this->cube[x];
+                                        this->cube[x] = NULL;
                                         break;
                                     }
                                 }
                             }
-                            if(!this->cube[r]){
+                            if(!this->cube[x]){
                                 //else delete
-                                for(edk::uint16 rd = 0u;rd<r;rd++){
-                                    if(this->cube[rd]){
+                                for(edk::uint16 xd = 0u;xd<x;xd++){
+                                    if(this->cube[xd]){
                                         //delete all inside
-                                        for(edk::uint16 g = 0u;g<this->size;g++){
-                                            if(this->cube[rd][g]){
-                                                delete[] this->cube[rd][g];
-                                                this->cube[rd][g]=NULL;
+                                        for(edk::uint16 y = 0u;y<this->size;y++){
+                                            if(this->cube[xd][y]){
+                                                delete[] this->cube[xd][y];
+                                                this->cube[xd][y]=NULL;
                                             }
                                         }
-                                        delete[] this->cube[rd];
-                                        this->cube[rd] = NULL;
+                                        delete[] this->cube[xd];
+                                        this->cube[xd] = NULL;
                                     }
                                 }
                                 //delete the cube
@@ -109,11 +109,11 @@ bool edk::LUT3D::newTable(edk::uint16 size){
 //delete the table
 bool edk::LUT3D::deleteTable(){
     if(this->cube && this->size){
-        for(edk::uint16 r = 0u;r<size;r++){
-            for(edk::uint16 g = 0u;g<size;g++){
-                delete[] this->cube[r][g];
+        for(edk::uint16 x = 0u;x<size;x++){
+            for(edk::uint16 y = 0u;y<size;y++){
+                delete[] this->cube[x][y];
             }
-            delete[] this->cube[r];
+            delete[] this->cube[x];
         }
         delete[] this->cube;
         this->cube = NULL;
@@ -132,18 +132,18 @@ bool edk::LUT3D::cleanTable(){
     edk::uint16 multiply = 256/(this->size - 1);
     edk::uint16 value = 0u;
     if(this->cube && this->size){
-        for(edk::uint16 r = 0u;r<size;r++){
-            for(edk::uint16 g = 0u;g<size;g++){
-                for(edk::uint16 b = 0u;b<size;b++){
-                    value = r * multiply;
+        for(edk::uint16 x = 0u;x<size;x++){
+            for(edk::uint16 y = 0u;y<size;y++){
+                for(edk::uint16 z = 0u;z<size;z++){
+                    value = x * multiply;
                     if(value>=255)value=255;
-                    this->cube[r][g][b].r = value;
-                    value = g * multiply;
+                    this->cube[x][y][z].r = value;
+                    value = y * multiply;
                     if(value>=255)value=255;
-                    this->cube[r][g][b].g = value;
-                    value = b * multiply;
+                    this->cube[x][y][z].g = value;
+                    value = z * multiply;
                     if(value>=255)value=255;
-                    this->cube[r][g][b].b = value;
+                    this->cube[x][y][z].b = value;
                 }
             }
         }
@@ -159,16 +159,16 @@ bool edk::LUT3D::printTable(){
                ,this->getSize()
                ,this->getVectorSize()
                );
-        for(edk::uint16 r = 0u;r<size;r++){
-            for(edk::uint16 g = 0u;g<size;g++){
-                for(edk::uint16 b = 0u;b<size;b++){
+        for(edk::uint16 x = 0u;x<size;x++){
+            for(edk::uint16 y = 0u;y<size;y++){
+                for(edk::uint16 z = 0u;z<size;z++){
                     printf("\n[%u][%u][%u] == (%u,%u,%u)"
-                           ,r
-                           ,g
-                           ,b
-                           ,this->cube[r][g][b].r
-                           ,this->cube[r][g][b].g
-                           ,this->cube[r][g][b].b
+                           ,x
+                           ,y
+                           ,z
+                           ,this->cube[x][y][z].r
+                           ,this->cube[x][y][z].g
+                           ,this->cube[x][y][z].b
                            );
                 }
             }
@@ -213,17 +213,17 @@ bool edk::LUT3D::saveTo(edk::char8* fileName){
         file.writeText("\n");
         edk::float32 percent=0.f;
         if(this->cube && this->size){
-            for(edk::uint16 b = 0u;b<size;b++){
-                for(edk::uint16 g = 0u;g<size;g++){
-                    for(edk::uint16 r = 0u;r<size;r++){
+            for(edk::uint16 z = 0u;z<size;z++){
+                for(edk::uint16 y = 0u;y<size;y++){
+                    for(edk::uint16 x = 0u;x<size;x++){
                         //get the value percent
-                        percent = this->cube[r][g][b].r/255.f;
+                        percent = this->cube[x][y][z].r/255.f;
                         file.writeText(percent);
                         file.writeText(" ");
-                        percent = this->cube[r][g][b].g/255.f;
+                        percent = this->cube[x][y][z].g/255.f;
                         file.writeText(percent);
                         file.writeText(" ");
-                        percent = this->cube[r][g][b].b/255.f;
+                        percent = this->cube[x][y][z].b/255.f;
                         file.writeText(percent);
                         file.writeText("\n");
                     }
@@ -263,13 +263,13 @@ bool edk::LUT3D::saveToImage(edk::char8* fileName){
             if(image.newImage(fileName,this->getImageSize(),3u)){
                 if((vec = image.getPixels())){
                     //copy the pixels
-                    for(edk::uint16 b = 0u;b<size;b++){
-                        for(edk::uint16 g = 0u;g<size;g++){
-                            for(edk::uint16 r = 0u;r<size;r++){
+                    for(edk::uint16 z = 0u;z<size;z++){
+                        for(edk::uint16 y = 0u;y<size;y++){
+                            for(edk::uint16 x = 0u;x<size;x++){
                                 //get the value percent
-                                vec[0u] = this->cube[r][g][b].r;
-                                vec[1u] = this->cube[r][g][b].g;
-                                vec[2u] = this->cube[r][g][b].b;
+                                vec[0u] = this->cube[x][y][z].r;
+                                vec[1u] = this->cube[x][y][z].g;
+                                vec[2u] = this->cube[x][y][z].b;
                                 vec+=3u;
                             }
                         }
@@ -310,13 +310,13 @@ bool edk::LUT3D::loadFromImage(edk::uint16 size,edk::char8* fileName){
                                     this->imageSize.height == image.getHeight()
                                     ){
                                 //copy the pixels
-                                for(edk::uint16 b = 0u;b<size;b++){
-                                    for(edk::uint16 g = 0u;g<size;g++){
-                                        for(edk::uint16 r = 0u;r<size;r++){
+                                for(edk::uint16 z = 0u;z<size;z++){
+                                    for(edk::uint16 y = 0u;y<size;y++){
+                                        for(edk::uint16 x = 0u;x<size;x++){
                                             //get the value percent
-                                            this->cube[r][g][b].r = vec[0u];
-                                            this->cube[r][g][b].g = vec[1u];
-                                            this->cube[r][g][b].b = vec[2u];
+                                            this->cube[x][y][z].r = vec[0u];
+                                            this->cube[x][y][z].g = vec[1u];
+                                            this->cube[x][y][z].b = vec[2u];
                                             vec+=channels;
                                         }
                                     }
