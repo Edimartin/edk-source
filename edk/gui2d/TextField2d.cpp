@@ -334,8 +334,9 @@ edk::gui2d::TextField2d::TextField2d(){
     //
     this->obj.setBorderSize(0.25f);
     this->originID = 0u;
-    this->cursorID = this->originID;
+    this->cursorID = 0u;
     this->endID=0u;
+    this->selectionMiddle = this->selectionStart = this->selectionEnd = 0u;
 }
 edk::gui2d::TextField2d::~TextField2d(){
     //
@@ -349,8 +350,7 @@ edk::gui2d::gui2dTypes edk::gui2d::TextField2d::getType(){
 
 void edk::gui2d::TextField2d::updateTextSize(edk::size2f32 sizeText,edk::size2f32 centerSize,edk::size2ui32 mapSize){
     edk::uint32 mapWidth = this->text.getMapSizeWidth();
-    if(mapWidth)
-        mapWidth--;
+    if(mapWidth)mapWidth--;
 
     if(mapWidth){
         this->text.setScale(1.f,
@@ -384,6 +384,7 @@ void edk::gui2d::TextField2d::updateTextSize(edk::size2f32 sizeText,edk::size2f3
 
         //get the size of characters inside the field
         edk::uint32 chSize = (edk::uint32)(centerSize.width/this->text.getMapScaleWidth());
+        edk::uint32 selection1=0u,selection2=0u;
 
         if(this->cursorID>mapWidth){
             //
@@ -423,17 +424,60 @@ void edk::gui2d::TextField2d::updateTextSize(edk::size2f32 sizeText,edk::size2f3
         this->cursor.position = edk::vec2f32(this->position.y + (centerSize.width*-0.5f) + (this->text.getMapScaleWidth() * (this->cursorID-this->originID)),
                                              this->position.y
                                              );
+        //Calculate the selection position inside the object
+        if(this->selectionEnd>this->endID+1u){
+            selection2 = this->endID+1u;
+        }
+        else{
+            selection2 = this->selectionEnd;
+        }
+        if(this->selectionStart<this->originID){
+            selection1 = this->originID;
+        }
+        else{
+            selection1 = this->selectionStart;
+        }
+        if(selection2<selection1){
+            selection2 = selection1;
+        }
+        //set the selection object position to be in the smaller character
+
+        this->selection.position = edk::vec2f32(this->position.x + (centerSize.width*-0.5f) + (this->text.getMapScaleWidth()) * (selection1 - this->originID),
+                                                this->position.y
+                                                );
+        //set the selection size to the end be on the bigger character
+        this->selection.size = edk::size2f32(this->text.getMapScaleWidth() * (selection2 - selection1),
+                                             this->text.getMapScaleHeight()
+                                             );
     }
     else{
         this->cursorID = 0u;
         this->originID = 0u;
         this->endID = 0u;
+        this->selectionMiddle = this->selectionStart = this->selectionEnd = 0u;
+        this->selection.size = edk::size2f32(0.f,
+                                             0.f
+                                             );
+
+        this->text.setPosition(edk::vec2f32(this->position.x + (centerSize.width*-0.5f) + (this->text.getMapScaleWidth()*0.5f),
+                                            this->position.y
+                                            ));
+        this->selection.position = edk::vec2f32(this->position.x + (centerSize.width*-0.5f),
+                                                this->position.y
+                                                );
+        this->cursor.position = edk::vec2f32(this->position.y + (centerSize.width*-0.5f),
+                                             this->position.y
+                                             );
     }
+    //set the centerSelection to be clicked by the mouse
+    this->selectionInside.position = this->position;
+    this->selectionInside.size = centerSize;
 }
 void edk::gui2d::TextField2d::cleanTextVariables(edk::char8* newText){
     //clean the cursor
     this->cursorID = 0u;
     this->originID = 0u;
+    this->selectionMiddle = this->selectionStart = this->selectionEnd = 0u;
     this->endID = 0u;
     this->textVec.clean();
 
@@ -466,6 +510,17 @@ bool edk::gui2d::TextField2d::removeCharacter(edk::uint32 position){
     }
     return false;
 }
+//update the selection values with the cursor
+void edk::gui2d::TextField2d::updateSelection(){
+    if(this->cursorID>this->selectionMiddle){
+        this->selectionStart = this->selectionMiddle;
+        this->selectionEnd = this->cursorID;
+    }
+    else{
+        this->selectionEnd = this->selectionMiddle;
+        this->selectionStart = this->cursorID;
+    }
+}
 
 //load the button textures and meshes
 bool edk::gui2d::TextField2d::load(){
@@ -479,6 +534,23 @@ bool edk::gui2d::TextField2d::load(){
             mesh->addPolygon(rect);
             mesh->setPolygonsColor(0,0,0,1);
         }
+        mesh = this->selectionInside.newMesh();
+        if(mesh){
+            edk::shape::Rectangle2D rect;
+            rect.setPivoToCenter();
+            rect.setVertexPosition(0u,rect.getVertexPosition(0u).x,0.5f);
+            rect.setVertexPosition(1u,rect.getVertexPosition(1u).x,-0.5f);
+            mesh->addPolygon(rect);
+            mesh->setPolygonsColor(0.5f,0.5f,1.f,0.5f);
+        }
+        mesh = this->selection.newMesh();
+        if(mesh){
+            edk::shape::Rectangle2D rect;
+            rect.setVertexPosition(0u,rect.getVertexPosition(0u).x,0.5f);
+            rect.setVertexPosition(1u,rect.getVertexPosition(1u).x,-0.5f);
+            mesh->addPolygon(rect);
+            mesh->setPolygonsColor(0.5f,0.5f,1.f,0.5f);
+        }
         return true;
     }
     return false;
@@ -487,6 +559,8 @@ void edk::gui2d::TextField2d::unload(){
     //clean the cursor
     this->cursor.removeAllMesh();
     this->cursor.animationSize.cleanAnimations();
+    this->selection.removeAllMesh();
+    this->selectionInside.removeAllMesh();
 
     edk::gui2d::ObjectGui2d::unload();
 }
@@ -496,6 +570,7 @@ void edk::gui2d::TextField2d::update(){
         //create a text only with space
         this->text.createStringMap(" ");
         this->cursorID = 0u;
+        this->selectionMiddle = this->selectionStart = this->selectionEnd = 0u;
         this->forceUpdate();
     }
 
@@ -541,14 +616,24 @@ edk::uint32 counterID = 0u;
 //click to select an polygon inside the object
 void edk::gui2d::TextField2d::clickStart(edk::uint32 name){
     edk::gui2d::ObjectGui2d::clickStart(name);
-    //select the name
-    if(name) name--;
-    if(name>=this->originID && name<=this->endID+1u){
-        this->cursorID = name;
+    if(name>= this->text.getMapSizeWidth()){
+        this->cursorID = this->endID+1u;
+        this->selectionMiddle = this->selectionEnd = this->selectionStart = this->cursorID;
         //force update
         this->forceUpdate();
         this->cursor.animationSize.stop();
         this->cursor.animationSize.playForward();
+    }
+    else{
+        if(name) name--;
+        if(name>=this->originID && name<=this->endID+1u){
+            this->cursorID = name;
+            this->selectionMiddle = this->selectionEnd = this->selectionStart = this->cursorID;
+            //force update
+            this->forceUpdate();
+            this->cursor.animationSize.stop();
+            this->cursor.animationSize.playForward();
+        }
     }
 }
 void edk::gui2d::TextField2d::clickMove(edk::uint32 name,bool mouseInside){
@@ -565,6 +650,21 @@ void edk::gui2d::TextField2d::incrementCursor(){
         if(mapSize)mapSize--;
         if(this->cursorID < mapSize){
             this->cursorID++;
+            this->selectionMiddle = this->selectionEnd = this->selectionStart = this->cursorID;
+            //force update
+            this->forceUpdate();
+            this->cursor.animationSize.stop();
+            this->cursor.animationSize.playForward();
+        }
+    }
+}
+void edk::gui2d::TextField2d::incrementCursorWithSelect(){
+    if(this->textVec.getSize()){
+        edk::uint32 mapSize = this->text.getMapSizeWidth();
+        if(mapSize)mapSize--;
+        if(this->cursorID < mapSize){
+            this->cursorID++;
+            this->updateSelection();
             //force update
             this->forceUpdate();
             this->cursor.animationSize.stop();
@@ -575,6 +675,17 @@ void edk::gui2d::TextField2d::incrementCursor(){
 void edk::gui2d::TextField2d::decrementCursor(){
     if(this->cursorID){
         this->cursorID--;
+        this->selectionMiddle = this->selectionEnd = this->selectionStart = this->cursorID;
+        //force update
+        this->forceUpdate();
+        this->cursor.animationSize.stop();
+        this->cursor.animationSize.playForward();
+    }
+}
+void edk::gui2d::TextField2d::decrementCursorWithSelect(){
+    if(this->cursorID){
+        this->cursorID--;
+        this->updateSelection();
         //force update
         this->forceUpdate();
         this->cursor.animationSize.stop();
@@ -586,6 +697,19 @@ void edk::gui2d::TextField2d::moveCursorToEnd(){
     if(mapSize)mapSize--;
     if(this->cursorID < mapSize){
         this->cursorID = mapSize;
+        this->selectionMiddle = this->selectionEnd = this->selectionStart = this->cursorID;
+        //force update
+        this->forceUpdate();
+        this->cursor.animationSize.stop();
+        this->cursor.animationSize.playForward();
+    }
+}
+void edk::gui2d::TextField2d::moveCursorToEndWithSelect(){
+    edk::uint32 mapSize = this->text.getMapSizeWidth();
+    if(mapSize)mapSize--;
+    if(this->cursorID < mapSize){
+        this->cursorID = mapSize;
+        this->updateSelection();
         //force update
         this->forceUpdate();
         this->cursor.animationSize.stop();
@@ -595,6 +719,17 @@ void edk::gui2d::TextField2d::moveCursorToEnd(){
 void edk::gui2d::TextField2d::moveCursorToStart(){
     if(this->cursorID){
         this->cursorID = 0u;
+        this->selectionMiddle = this->selectionEnd = this->selectionStart = this->cursorID;
+        //force update
+        this->forceUpdate();
+        this->cursor.animationSize.stop();
+        this->cursor.animationSize.playForward();
+    }
+}
+void edk::gui2d::TextField2d::moveCursorToStartWithSelect(){
+    if(this->cursorID){
+        this->cursorID = 0u;
+        this->updateSelection();
         //force update
         this->forceUpdate();
         this->cursor.animationSize.stop();
@@ -612,6 +747,7 @@ bool edk::gui2d::TextField2d::addCharacter(edk::char8 c){
         edk::char8* str = this->textVec.getStringWithLastSpace();
         if(str){
             this->cursorID++;
+            this->selectionMiddle = this->selectionEnd = this->selectionStart = this->cursorID;
             edk::gui2d::ObjectGui2d::writeText(str);
             delete[] str;
             return true;
@@ -632,6 +768,7 @@ bool edk::gui2d::TextField2d::addString(edk::char8* str){
         edk::char8* str = this->textVec.getStringWithLastSpace();
         if(str){
             this->cursorID++;
+            this->selectionMiddle = this->selectionEnd = this->selectionStart = this->cursorID;
             edk::gui2d::ObjectGui2d::writeText(str);
             delete[] str;
             return true;
@@ -654,7 +791,7 @@ bool edk::gui2d::TextField2d::writeText(const char* text){
     //get the string
     edk::char8* str = this->textVec.getStringWithLastSpace();
     if(str){
-        if(edk::gui2d::ObjectGui2d::writeText(text)){
+        if(edk::gui2d::ObjectGui2d::writeText(str)){
             ret = true;
         }
         delete[] str;
@@ -669,7 +806,7 @@ bool edk::gui2d::TextField2d::writeText(edk::char8* text){
     //get the string
     edk::char8* str = this->textVec.getStringWithLastSpace();
     if(str){
-        if(edk::gui2d::ObjectGui2d::writeText(text)){
+        if(edk::gui2d::ObjectGui2d::writeText(str)){
             ret = true;
         }
         delete[] str;
@@ -684,7 +821,7 @@ bool edk::gui2d::TextField2d::writeText(const char* text,edk::float32 scaleWidth
     //get the string
     edk::char8* str = this->textVec.getStringWithLastSpace();
     if(str){
-        if(edk::gui2d::ObjectGui2d::writeText(text,scaleWidth,scaleHeight)){
+        if(edk::gui2d::ObjectGui2d::writeText(str,scaleWidth,scaleHeight)){
             ret = true;
         }
         delete[] str;
@@ -699,7 +836,7 @@ bool edk::gui2d::TextField2d::writeText(edk::char8* text,edk::float32 scaleWidth
     //get the string
     edk::char8* str = this->textVec.getStringWithLastSpace();
     if(str){
-        if(edk::gui2d::ObjectGui2d::writeText(text,scaleWidth,scaleHeight)){
+        if(edk::gui2d::ObjectGui2d::writeText(str,scaleWidth,scaleHeight)){
             ret = true;
         }
         delete[] str;
@@ -714,7 +851,7 @@ bool edk::gui2d::TextField2d::writeText(const char* text,edk::size2f32 scale){
     //get the string
     edk::char8* str = this->textVec.getStringWithLastSpace();
     if(str){
-        if(edk::gui2d::ObjectGui2d::writeText(text,scale)){
+        if(edk::gui2d::ObjectGui2d::writeText(str,scale)){
             ret = true;
         }
         delete[] str;
@@ -744,8 +881,15 @@ void edk::gui2d::TextField2d::cleanText(){
 }
 //remove or delete characters
 void edk::gui2d::TextField2d::deleteCharacter(){
-    //
-    this->textVec.remove(this->cursorID);
+    //test if have something selected
+    if(this->selectionStart!=this->selectionEnd){
+        //
+        this->cursorID = this->selectionStart;
+        this->textVec.remove(this->cursorID,this->selectionEnd - this->selectionStart);
+    }
+    else{
+        this->textVec.remove(this->cursorID);
+    }
     edk::char8* str = this->textVec.getStringWithLastSpace();
     if(str){
         edk::gui2d::ObjectGui2d::writeText(str);
@@ -754,12 +898,30 @@ void edk::gui2d::TextField2d::deleteCharacter(){
     else{
         edk::gui2d::ObjectGui2d::cleanText();
     }
+    this->selectionMiddle = this->selectionEnd = this->selectionStart = this->cursorID;
+    //force update
+    this->forceUpdate();
+    this->cursor.animationSize.stop();
+    this->cursor.animationSize.playForward();
 }
 void edk::gui2d::TextField2d::removeCharacter(){
-    if(this->cursorID){
-        this->textVec.remove(this->cursorID-1u);
+    bool remove = false;
+    //test if have something selected
+    if(this->selectionStart!=this->selectionEnd){
+        //
+        this->cursorID = this->selectionStart;
+        this->textVec.remove(this->cursorID,this->selectionEnd - this->selectionStart);
+        remove = true;
+    }
+    else{
+        if(this->cursorID){
+            this->textVec.remove(this->cursorID-1u);
+            this->cursorID--;
+            remove = true;
+        }
+    }
+    if(remove){
         edk::char8* str = this->textVec.getStringWithLastSpace();
-        this->cursorID--;
         if(str){
             edk::gui2d::ObjectGui2d::writeText(str);
             delete[] str;
@@ -769,6 +931,11 @@ void edk::gui2d::TextField2d::removeCharacter(){
             edk::gui2d::ObjectGui2d::cleanText();
         }
     }
+    this->selectionMiddle = this->selectionEnd = this->selectionStart = this->cursorID;
+    //force update
+    this->forceUpdate();
+    this->cursor.animationSize.stop();
+    this->cursor.animationSize.playForward();
 }
 //get string writed
 edk::char8* edk::gui2d::TextField2d::getText(){
@@ -813,13 +980,17 @@ void edk::gui2d::TextField2d::draw(){
     }
 
     if(this->text.haveText() && this->drawText){
-        //
-        this->text.draw(edk::color4f32(0,0,0,1));
-        this->text.drawWire(edk::color4f32(0,0,0,1));
-
         if(this->isSelected()){
+            //draw the selection
+            this->selection.drawWithoutMaterial();
+
+            this->text.draw(edk::color4f32(0,0,0,1));
+
             //draw the cursor
             this->cursor.drawWithoutMaterial();
+        }
+        else{
+            this->text.draw(edk::color4f32(0,0,0,1));
         }
     }
     this->drawEnd();
@@ -830,6 +1001,10 @@ void edk::gui2d::TextField2d::drawSelection(){
     this->obj.drawSelection();
 
     if(this->text.haveText() && this->drawText){
+        //first draw the selectionInside
+        edk::GU::guPushName(this->text.getMapSizeWidth());
+        this->selectionInside.drawWithoutMaterial();
+        edk::GU::guPopName();
         //
         this->text.setPosition(this->text.getPositionX() - this->text.getMapScaleWidth()*0.5,
                                this->text.getPositionY()

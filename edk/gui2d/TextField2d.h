@@ -73,9 +73,13 @@ public:
 
     //cursor functions
     void incrementCursor();
+    void incrementCursorWithSelect();
     void decrementCursor();
+    void decrementCursorWithSelect();
     void moveCursorToEnd();
+    void moveCursorToEndWithSelect();
     void moveCursorToStart();
+    void moveCursorToStartWithSelect();
     //add some character
     bool addCharacter(edk::char8 c);
     bool addString(edk::char8* str);
@@ -105,13 +109,20 @@ private:
     void cleanTextVariables(edk::char8* newText);
     //remove a character from the vec and update the text
     bool removeCharacter(edk::uint32 position);
+    //update the selection values with the cursor
+    void updateSelection();
 
     //save the draw origin position
     edk::uint32 originID;
     edk::uint32 endID;
+    edk::uint32 selectionStart;
+    edk::uint32 selectionEnd;
+    edk::uint32 selectionMiddle;
     edk::uint32 cursorID;
     edk::Object2D cursor;
     edk::size2f32 saveCursorSize;
+    edk::Object2D selection;
+    edk::Object2D selectionInside;
     //character map
     class TextVec{
     public:

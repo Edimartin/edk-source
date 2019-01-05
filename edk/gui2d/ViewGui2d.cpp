@@ -337,17 +337,37 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
                     switch(keyPressed){
                     case edk::key::left:
                         //back the writer position
-                        field->decrementCursor();
+                        if(this->shift){
+                            field->decrementCursorWithSelect();
+                        }
+                        else{
+                            field->decrementCursor();
+                        }
                         break;
                     case edk::key::right:
-                        field->incrementCursor();
+                        if(this->shift){
+                            field->incrementCursorWithSelect();
+                        }
+                        else{
+                            field->incrementCursor();
+                        }
                         break;
                     case edk::key::home:
-                        field->moveCursorToStart();
+                        if(this->shift){
+                            field->moveCursorToStartWithSelect();
+                        }
+                        else{
+                            field->moveCursorToStart();
+                        }
                         //
                         break;
                     case edk::key::end:
-                        field->moveCursorToEnd();
+                        if(this->shift){
+                            field->moveCursorToEndWithSelect();
+                        }
+                        else{
+                            field->moveCursorToEnd();
+                        }
                         //
                         break;
                     case edk::key::space:
