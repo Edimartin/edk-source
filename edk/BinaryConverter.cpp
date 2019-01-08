@@ -23,7 +23,7 @@ Gravatai RS Brazil 94065100
 edk::BinaryConverter::BinaryConverter(){
     //
 }
-edk::BinaryConverter::BinaryConverter(){
+edk::BinaryConverter::~BinaryConverter(){
     //
 }
 

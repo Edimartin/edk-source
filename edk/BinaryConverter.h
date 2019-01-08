@@ -37,7 +37,7 @@ namespace edk{
 class BinaryConverter{
 public:
     BinaryConverter();
-    virtual BinaryConverter();
+    virtual ~BinaryConverter();
 
     static void printBits(edk::uchar8 byte);
     static void printBits(edk::uchar8* bytes,edk::uint32 size,bool newLine = false);
