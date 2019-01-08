@@ -21,6 +21,10 @@ AV: Walmor M. de Souza 392 Casa
 Gravatai RS Brazil 94065100
 */
 
+#ifdef printMessages
+#warning "Inside TileMap2D"
+#endif
+
 #pragma once
 //Include a tileSet
 #include "TileSet2D.h"
@@ -28,6 +32,10 @@ Gravatai RS Brazil 94065100
 #include "../vector/BinaryTree.h"
 #include "../physics2D/World2D.h"
 #include "../BinaryConverter.h"
+
+#ifdef printMessages
+#warning "    Compiling TileMap2D"
+#endif
 
 namespace edk{
 namespace tiles{

@@ -21,12 +21,20 @@ AV: Walmor M. de Souza 392 Casa
 Gravatai RS Brazil 94065100
 */
 
+#ifdef printMessages
+#warning "Inside ServerTCP"
+#endif
+
 #pragma once
 #include "../ServerSocket.h"
 #if _WIN32 || _WIN64
 #include <Mswsock.h>
 #else
 #include <sys/poll.h>
+#endif
+
+#ifdef printMessages
+#warning "    Compiling ServerTCP"
 #endif
 
 namespace edk{

@@ -21,12 +21,21 @@ AV: Walmor M. de Souza 392 Casa
 Gravatai RS Brazil 94065100
 */
 
+#ifdef printMessages
+#warning "Inside Body2D"
+#endif
+
 #pragma once
 #include "Bone2D.h"
 #include "../String.h"
 #include "../File.h"
 #include "../TypeDefines.h"
 #include "../vector/Stack.h"
+
+#ifdef printMessages
+#warning "    Compiling Body2D"
+#endif
+
 
 namespace edk{
 namespace bones{

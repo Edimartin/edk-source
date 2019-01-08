@@ -21,6 +21,10 @@ AV: Walmor M. de Souza 392 Casa
 Gravatai RS Brazil 94065100
 */
 
+#ifdef printMessages
+#warning "Inside ContactCallback2D"
+#endif
+
 #pragma once
 #include "../TypeDefines.h"
 #include "../../Box2D/Box2D.h"
@@ -44,6 +48,10 @@ Gravatai RS Brazil 94065100
 
 #define angleDistLimit 10
 #define positionDistLimit 10
+
+#ifdef printMessages
+#warning "    Compiling ContactCallback2D"
+#endif
 
 namespace edk{
 namespace physics2D{

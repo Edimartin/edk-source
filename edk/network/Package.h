@@ -21,10 +21,18 @@ AV: Walmor M. de Souza 392 Casa
 Gravatai RS Brazil 94065100
 */
 
+#ifdef printMessages
+#warning "Inside Package"
+#endif
+
 #pragma once
 #include "../TypeVars.h"
 #include <stdio.h>
 #include <string.h>
+
+#ifdef printMessages
+#warning "    Compiling Package"
+#endif
 
 namespace edk{
 namespace network{

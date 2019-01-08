@@ -25,7 +25,6 @@ Gravatai RS Brazil 94065100
 #warning "Inside Vertex2D"
 #endif
 
-//
 #pragma once
 #include <stdio.h>
 #include "../TypeVec2.h"
@@ -33,7 +32,6 @@ Gravatai RS Brazil 94065100
 #include "../TypeDefines.h"
 #include "../GU/GU.h"
 #include "../xml/XML.h"
-
 
 #ifdef printMessages
 #warning "    Compiling Vertex2D"

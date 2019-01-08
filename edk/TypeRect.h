@@ -34,7 +34,6 @@ Gravatai RS Brazil 94065100
 #warning "    Compiling TypeRect"
 #endif
 
-
 namespace edk{
 //
 class recti8{

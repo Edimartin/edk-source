@@ -21,12 +21,21 @@ AV: Walmor M. de Souza 392 Casa
 Gravatai RS Brazil 94065100
 */
 
+#ifdef printMessages
+#warning "Inside QuadTree64"
+#endif
+
+#pragma once
 #include <stdio.h>
 #include "../TypeRect.h"
 #include "Stack.h"
 
 #ifdef EDK_QUADTREE_GU
 #include "../GU.h"
+#endif
+
+#ifdef printMessages
+#warning "    Compiling QuadTree64"
 #endif
 
 namespace edk{

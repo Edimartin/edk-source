@@ -38,6 +38,7 @@ namespace edk{
 class ViewMenu: public edk::ViewSpriteController{
 public:
     ViewMenu();
+    ~ViewMenu();
 
     //set borderSize
     bool setBorderSize(edk::uint32 size);

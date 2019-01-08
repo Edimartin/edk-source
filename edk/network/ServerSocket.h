@@ -21,9 +21,17 @@ AV: Walmor M. de Souza 392 Casa
 Gravatai RS Brazil 94065100
 */
 
+#ifdef printMessages
+#warning "Inside ServerSocket"
+#endif
+
 #pragma once
 #include "Socket.h"
 #include "../vector/BinaryTree.h"
+
+#ifdef printMessages
+#warning "    Compiling ServerSocket"
+#endif
 
 namespace edk{
 namespace network{

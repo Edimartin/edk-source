@@ -2,7 +2,7 @@
 #define EDK_NETWORK_TCP_CLIENT_H
 
 /*
-Library ClientUDP - Client TCP for EDK
+Library ClientTCP - Client TCP for EDK
 Copyright (C) 2013 Eduardo Moura Sales Martins
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -21,8 +21,16 @@ AV: Walmor M. de Souza 392 Casa
 Gravatai RS Brazil 94065100
 */
 
+#ifdef printMessages
+#warning "Inside ClientTCP"
+#endif
+
 #pragma once
 #include "../Socket.h"
+
+#ifdef printMessages
+#warning "    Compiling ClientTCP"
+#endif
 
 namespace edk{
 namespace network{

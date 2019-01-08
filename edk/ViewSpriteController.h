@@ -22,7 +22,7 @@ Gravatai RS Brazil 94065100
 */
 
 #ifdef printMessages
-#warning "Inside ViewController"
+#warning "Inside ViewSpriteController"
 #endif
 
 #pragma once
@@ -30,7 +30,7 @@ Gravatai RS Brazil 94065100
 #include "Texture2DList.h"
 
 #ifdef printMessages
-#warning "    Compiling ViewController"
+#warning "    Compiling ViewSpriteController"
 #endif
 
 namespace edk{

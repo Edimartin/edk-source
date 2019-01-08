@@ -21,10 +21,18 @@ AV: Walmor M. de Souza 392 Casa
 Gravatai RS Brazil 94065100
 */
 
+#ifdef printMessages
+#warning "Inside ServerUDP"
+#endif
+
 #pragma once
 #include "../Socket.h"
 #include "../ServerSocket.h"
 #include "../../vector/BinaryTree.h"
+
+#ifdef printMessages
+#warning "    Compiling ServerUDP"
+#endif
 
 namespace edk{
 namespace network{

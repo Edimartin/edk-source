@@ -21,10 +21,18 @@ AV: Walmor M. de Souza 392 Casa
 Gravatai RS Brazil 94065100
 */
 
+#ifdef printMessages
+#warning "Inside KinematicObject2D"
+#endif
+
 #pragma once
 #include <stdio.h>
 #include "PhysicObject2D.h"
 #include "StaticObject2D.h"
+
+#ifdef printMessages
+#warning "    Compiling KinematicObject2D"
+#endif
 
 namespace edk{
 namespace physics2D{

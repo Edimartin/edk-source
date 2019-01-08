@@ -21,9 +21,17 @@ AV: Walmor M. de Souza 392 Casa
 Gravatai RS Brazil 94065100
 */
 
+#ifdef printMessages
+#warning "Inside DecoderImage"
+#endif
+
 #pragma once
 #include "CodecImage.h"
 #include "../File.h"
+
+#ifdef printMessages
+#warning "    Compiling DecoderImage"
+#endif
 
 namespace edk{
 namespace codecs{

@@ -21,8 +21,11 @@ AV: Walmor M. de Souza 392 Casa
 Gravatai RS Brazil 94065100
 */
 
-#pragma once
+#ifdef printMessages
+#warning "Inside Adress"
+#endif
 
+#pragma once
 #if _WIN32 || _WIN64
 /*LIBS
 -lwsock32
@@ -57,9 +60,12 @@ Gravatai RS Brazil 94065100
 //EDK_SOCKET_UDP
 //EDK_SOCKET_TCP
 
+#ifdef printMessages
+#warning "    Compiling Adress"
+#endif
+
 namespace edk{
 namespace network{
-
 
 class Adress{
 public:

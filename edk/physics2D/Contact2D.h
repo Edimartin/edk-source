@@ -21,11 +21,19 @@ AV: Walmor M. de Souza 392 Casa
 Gravatai RS Brazil 94065100
 */
 
+#ifdef printMessages
+#warning "Inside Contact2D"
+#endif
+
 #pragma once
 #include "../TypeDefines.h"
 #include "../TypeVec2.h"
 #include "PhysicObject2D.h"
 #include "../vector/Array.h"
+
+#ifdef printMessages
+#warning "    Compiling Contact2D"
+#endif
 
 namespace edk{
 namespace physics2D{

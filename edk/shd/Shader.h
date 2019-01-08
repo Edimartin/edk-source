@@ -25,6 +25,7 @@ Gravatai RS Brazil 94065100
 #warning "Inside Shader"
 #endif
 
+#pragma once
 #include "../GU/GU_GLSL.h"
 #include "../Object.h"
 #include "../File.h"

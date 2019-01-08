@@ -21,10 +21,18 @@ AV: Walmor M. de Souza 392 Casa
 Gravatai RS Brazil 94065100
 */
 
+#ifdef printMessages
+#warning "Inside FileToH"
+#endif
+
 #pragma once
 //include file
 #include "File.h"
 #include "string.h"
+
+#ifdef printMessages
+#warning "    Compiling FileToH"
+#endif
 
 namespace edk{
 class FileToH{

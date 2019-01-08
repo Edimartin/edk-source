@@ -21,10 +21,18 @@ AV: Walmor M. de Souza 392 Casa
 Gravatai RS Brazil 94065100
 */
 
+#ifdef printMessages
+#warning "Inside StaticSensor2D"
+#endif
+
 #pragma once
 #include <stdio.h>
 #include "PhysicObject2D.h"
 #include "../vector/BinaryTree.h"
+
+#ifdef printMessages
+#warning "    Compiling StaticSensor2D"
+#endif
 
 
 namespace edk{

@@ -21,9 +21,17 @@ AV: Walmor M. de Souza 392 Casa
 Gravatai RS Brazil 94065100
 */
 
+#ifdef printMessages
+#warning "Inside StaticObject2D"
+#endif
+
 #pragma once
 #include <stdio.h>
 #include "PhysicObject2D.h"
+
+#ifdef printMessages
+#warning "    Compiling StaticObject2D"
+#endif
 
 
 namespace edk{

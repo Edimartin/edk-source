@@ -21,9 +21,17 @@ AV: Walmor M. de Souza 392 Casa
 Gravatai RS Brazil 94065100
 */
 
+#ifdef printMessages
+#warning "Inside PrismaticJoint2D"
+#endif
+
 #pragma once
 #include "Joint2D.h"
 #include "../TypeDefines.h"
+
+#ifdef printMessages
+#warning "    Compiling PrismaticJoint2D"
+#endif
 
 namespace edk{
 namespace physics2D{

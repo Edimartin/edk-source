@@ -26,6 +26,10 @@ Gravatai RS Brazil 94065100
 -ldl
 */
 
+#ifdef printMessages
+#warning "Inside SQLNode"
+#endif
+
 #define edkDataBase ".edb"
 
 #pragma once
@@ -35,6 +39,10 @@ extern "C" {
 #include "../File.h"
 #include "../String.h"
 #include "../vector/Stack.h"
+
+#ifdef printMessages
+#warning "    Compiling SQLNode"
+#endif
 
 namespace edk{
 class SQLNode{

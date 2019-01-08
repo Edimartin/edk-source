@@ -25,6 +25,7 @@ Gravatai RS Brazil 94065100
 #warning "Inside DataList"
 #endif
 
+#pragma once
 //Use the datas
 #include "Data.h"
 

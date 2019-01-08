@@ -21,9 +21,16 @@ AV: Walmor M. de Souza 392 Casa
 Gravatai RS Brazil 94065100
 */
 
-#pragma once
+#ifdef printMessages
+#warning "Inside PhysicsMesh2D"
+#endif
 
+#pragma once
 #include "../shape/Polygon2DList.h"
+
+#ifdef printMessages
+#warning "    Compiling PhysicsMesh2D"
+#endif
 
 namespace edk{
 namespace physics2D{

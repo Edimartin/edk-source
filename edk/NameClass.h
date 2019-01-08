@@ -25,13 +25,14 @@ Gravatai RS Brazil 94065100
 #warning "Inside NameClass"
 #endif
 
+#pragma once
+#include "TypeVars.h"
+#include "String.h"
+
 #ifdef printMessages
 #warning "    Compiling NameClass"
 #endif
 
-#pragma once
-#include "TypeVars.h"
-#include "String.h"
 
 //Class with name to save in the nameTree
 namespace edk{

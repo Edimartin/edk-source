@@ -21,8 +21,16 @@ AV: Walmor M. de Souza 392 Casa
 Gravatai RS Brazil 94065100
 */
 
+#ifdef printMessages
+#warning "Inside RopeJoint2D"
+#endif
+
 #pragma once
 #include "Joint2D.h"
+
+#ifdef printMessages
+#warning "    Compiling RopeJoint2D"
+#endif
 
 namespace edk{
 namespace physics2D{

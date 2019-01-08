@@ -1,6 +1,30 @@
 #ifndef EDK_CENARIO2D_H
 #define EDK_CENARIO2D_H
 
+/*
+Library C++ Cenario2D - 2D Cenario to draw objects, physic objects and tilemaps
+Copyright (C) 2013 Eduardo Moura Sales Martins
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+Lesser General Public License for more details.
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+email: edimartin@gmail.com.br
+
+AV: Walmor M. de Souza 392 Casa
+Gravatai RS Brazil 94065100
+*/
+
+#ifdef printMessages
+#warning "Inside Cenario2D"
+#endif
+
 #pragma once
 #include "TypeDefines.h"
 #include "physics2D/World2D.h"
@@ -8,6 +32,10 @@
 #include "vector/BinaryTree.h"
 #include "animation/ActionGroup.h"
 #include "Object2DValues.h"
+
+#ifdef printMessages
+#warning "    Compiling Cenario2D"
+#endif
 
 namespace edk{
 class Cenario2D : public edk::Object2DValues , public edk::physics2D::ContactCallback2D , public edk::tiles::tileCallback{

@@ -25,10 +25,6 @@ Gravatai RS Brazil 94065100
 #warning "Inside ActionGroup"
 #endif
 
-#ifdef printMessages
-#warning "    Compiling ActionGroup"
-#endif
-
 #pragma once
 //Use Actions
 #include "../Action.h"
@@ -37,6 +33,11 @@ Gravatai RS Brazil 94065100
 #include "../vector/Stack.h"
 //Use one animation
 #include "Interpolation1DGroup.h"
+
+#ifdef printMessages
+#warning "    Compiling ActionGroup"
+#endif
+
 
 /*
 FUNCTION EXAMPLE

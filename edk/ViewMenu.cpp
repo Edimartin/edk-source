@@ -27,6 +27,10 @@ edk::ViewMenu::ViewMenu(){
     this->borderSize = 25.f;
     this->loadSpriteFromMemory(EDKmenuTemplateTextureName,EDKmenuTemplateTexture,EDKmenuTemplateTextureSize);
 }
+edk::ViewMenu::~ViewMenu(){
+    //
+}
+
 //set borderSize
 bool edk::ViewMenu::setBorderSize(edk::uint32 size){
     if(size){

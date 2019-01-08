@@ -21,6 +21,10 @@ AV: Walmor M. de Souza 392 Casa
 Gravatai RS Brazil 94065100
 */
 
+#ifdef printMessages
+#warning "Inside Tile2D"
+#endif
+
 #pragma once
 #include "../Object2D.h"
 #include "../collision/RectangleContact.h"
@@ -29,6 +33,10 @@ Gravatai RS Brazil 94065100
 #include "../physics2D/KinematicObject2D.h"
 #include "../physics2D/DynamicObject2D.h"
 #include "../xml/XML.h"
+
+#ifdef printMessages
+#warning "    Compiling Tile2D"
+#endif
 
 namespace edk{
 namespace tiles{

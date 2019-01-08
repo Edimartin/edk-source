@@ -25,15 +25,15 @@ Gravatai RS Brazil 94065100
 #warning "Inside Action"
 #endif
 
-#ifdef printMessages
-#warning "    Compiling Action"
-#endif
-
 #pragma once
 #include "String.h"
 #include "TypeVars.h"
 #include "NameClass.h"
 #include "xml/XML.h"
+
+#ifdef printMessages
+#warning "    Compiling Action"
+#endif
 
 namespace edk{
 //This is an Action. You can use this class to save actions to animation or ctrl+z.

@@ -21,11 +21,18 @@ AV: Walmor M. de Souza 392 Casa
 Gravatai RS Brazil 94065100
 */
 
+#ifdef printMessages
+#warning "Inside AnimatedPolygon2DList"
+#endif
+
 #pragma once
 #include "Polygon2DList.h"
 //Animation
 #include "../animation/Interpolation2DGroup.h"
 
+#ifdef printMessages
+#warning "    Compiling AnimatedPolygon2DList"
+#endif
 
 namespace edk{
 namespace shape{

@@ -23,12 +23,20 @@ Gravatai RS Brazil 94065100
 
 //http://iphonedevelopment.blogspot.com.br/2009/05/opengl-es-from-ground-up-part-5-living.html
 
+#ifdef printMessages
+#warning "Inside Material"
+#endif
+
 #pragma once
 #include "../Texture2DList.h"
 #include "../GU/GU.h"
 #include "../GU/GU_GLSL.h"
 #include "../xml/XML.h"
 #include <stdio.h>
+
+#ifdef printMessages
+#warning "    Compiling Material"
+#endif
 
 namespace edk{
 namespace material{

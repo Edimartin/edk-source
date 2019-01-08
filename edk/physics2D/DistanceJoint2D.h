@@ -21,8 +21,16 @@ AV: Walmor M. de Souza 392 Casa
 Gravatai RS Brazil 94065100
 */
 
+#ifdef printMessages
+#warning "Inside DistanceJoint2D"
+#endif
+
 #pragma once
 #include "RevoluteJoint2D.h"
+
+#ifdef printMessages
+#warning "    Compiling DistanceJoint2D"
+#endif
 
 namespace edk{
 namespace physics2D{

@@ -21,13 +21,20 @@ AV: Walmor M. de Souza 392 Casa
 Gravatai RS Brazil 94065100
 */
 
+#ifdef printMessages
+#warning "Inside RevoluteJoint2D"
+#endif
+
 #pragma once
 #include "Joint2D.h"
 //Include edkGU
 #include "../GU/GU.h"
-
 //                                                              edk::float32 lowerAngle,edk::float32 upperAngle,
 //                                                              edk::float32 maxTorque,edk::float32 speed,
+
+#ifdef printMessages
+#warning "    Compiling RevoluteJoint2D"
+#endif
 
 namespace edk{
 namespace physics2D{

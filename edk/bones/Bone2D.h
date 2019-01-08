@@ -21,6 +21,10 @@ AV: Walmor M. de Souza 392 Casa
 Gravatai RS Brazil 94065100
 */
 
+#ifdef printMessages
+#warning "Inside Bone2D"
+#endif
+
 #pragma once
 #include "../TypeVec2.h"
 #include "../NameClass.h"
@@ -36,6 +40,10 @@ Gravatai RS Brazil 94065100
 #include "../Object2DValues.h"
 
 #include <stdio.h>
+
+#ifdef printMessages
+#warning "    Compiling Bone2D"
+#endif
 
 namespace edk{
 namespace bones{

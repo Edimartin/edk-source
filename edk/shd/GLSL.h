@@ -25,6 +25,7 @@ Gravatai RS Brazil 94065100
 #warning "Inside GLSL"
 #endif
 
+#pragma once
 //include dataList
 #include "DataList.h"
 #include "Shader.h"

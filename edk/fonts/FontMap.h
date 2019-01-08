@@ -21,12 +21,21 @@ AV: Walmor M. de Souza 392 Casa
 Gravatai RS Brazil 94065100
 */
 
+#ifdef printMessages
+#warning "Inside FontMap"
+#endif
+
 #pragma once
 #include "FontSet.h"
 #include "../tiles/TileMap2D.h"
 #include "../vector/Stack.h"
 //Animation
 #include "../animation/Interpolation1DGroup.h"
+
+#ifdef printMessages
+#warning "    Compiling FontMap"
+#endif
+
 
 namespace edk{
 namespace fonts{

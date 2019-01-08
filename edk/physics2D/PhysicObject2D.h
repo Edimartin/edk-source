@@ -21,12 +21,20 @@ AV: Walmor M. de Souza 392 Casa
 Gravatai RS Brazil 94065100
 */
 
+#ifdef printMessages
+#warning "Inside PhysicObject2D"
+#endif
+
 #pragma once
 #include "../Object2D.h"
 #include "../Math.h"
 #include "../TypeDefines.h"
 #include "PhysicsMesh2D.h"
 #include "../animation/Path2DGroup.h"
+
+#ifdef printMessages
+#warning "    Compiling PhysicObject2D"
+#endif
 
 namespace edk{
 namespace physics2D{

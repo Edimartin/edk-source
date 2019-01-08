@@ -25,10 +25,6 @@ Gravatai RS Brazil 94065100
 #warning "Inside MD5"
 #endif
 
-#ifdef printMessages
-#warning "    Compiling MD5"
-#endif
-
 #pragma once
 #include "../TypeVars.h"
 #include <stdio.h>
@@ -38,6 +34,10 @@ Gravatai RS Brazil 94065100
 #include <string.h>
 #include "../String.h"
 #include "../File.h"
+
+#ifdef printMessages
+#warning "    Compiling MD5"
+#endif
 
 namespace edk{
 namespace encrypt{

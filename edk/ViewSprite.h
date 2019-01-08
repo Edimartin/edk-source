@@ -25,8 +25,7 @@ Gravatai RS Brazil 94065100
 #warning "Inside ViewSprite"
 #endif
 
-//ViewSprite draw a textura in a view
-
+//ViewSprite draw a texture in a view
 #pragma once
 #include "View.h"
 #include "Texture2DList.h"

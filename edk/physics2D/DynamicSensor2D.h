@@ -21,11 +21,19 @@ AV: Walmor M. de Souza 392 Casa
 Gravatai RS Brazil 94065100
 */
 
+#ifdef printMessages
+#warning "Inside DynamicSensor2D"
+#endif
+
 #pragma once
 #include <stdio.h>
 #include "PhysicObject2D.h"
 #include "StaticSensor2D.h"
 #include "KinematicSensor2D.h"
+
+#ifdef printMessages
+#warning "    Compiling DynamicSensor2D"
+#endif
 
 namespace edk{
 namespace physics2D{
