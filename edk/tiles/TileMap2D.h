@@ -131,10 +131,16 @@ public:
     void draw(edk::color4f32 color=edk::color4f32(1,1,1,1));
     void draw(edk::vec2ui32 origin,edk::size2ui32 last,edk::color4f32 color=edk::color4f32(1,1,1,1));
     void drawInsideWorldRect(edk::rectf32 rect,edk::color4f32 color=edk::color4f32(1,1,1,1));
+    void drawIsometric(edk::color4f32 color=edk::color4f32(1,1,1,1));
+    void drawIsometric(edk::vec2ui32 origin,edk::size2ui32 last,edk::color4f32 color=edk::color4f32(1,1,1,1));
+    void drawIsometricInsideWorldRect(edk::rectf32 rect,edk::color4f32 color=edk::color4f32(1,1,1,1));
     //draw wireTiles
     void drawWire(edk::color4f32 color=edk::color4f32(1,1,1,1));
     void drawWire(edk::vec2ui32 origin,edk::size2ui32 last,edk::color4f32 color=edk::color4f32(1,1,1,1));
     void drawWireInsideWorldRect(edk::rectf32 rect,edk::color4f32 color=edk::color4f32(1,1,1,1));
+    void drawIsometricWire(edk::color4f32 color=edk::color4f32(1,1,1,1));
+    void drawIsometricWire(edk::vec2ui32 origin,edk::size2ui32 last,edk::color4f32 color=edk::color4f32(1,1,1,1));
+    void drawIsometricWireInsideWorldRect(edk::rectf32 rect,edk::color4f32 color=edk::color4f32(1,1,1,1));
     //draw wireTiles
     void drawWirePhysics(edk::color4f32 color=edk::color4f32(1,1,1,1));
     void drawWirePhysics(edk::vec2ui32 origin,edk::size2ui32 last,edk::color4f32 color=edk::color4f32(1,1,1,1));
@@ -143,7 +149,7 @@ public:
     void drawWireWithPhysics(edk::color4f32 color=edk::color4f32(1,1,1,1),edk::color4f32 physColor=edk::color4f32(0,0,0,1));
     void drawWireWithPhysics(edk::vec2ui32 origin,edk::size2ui32 last,edk::color4f32 color=edk::color4f32(1,1,1,1),edk::color4f32 physColor=edk::color4f32(0,0,0,1));
     void drawWireWithPhysicsInsideWorldRect(edk::rectf32 rect,edk::color4f32 color=edk::color4f32(1,1,1,1),edk::color4f32 physColor=edk::color4f32(0,0,0,1));
-    //draw one especific tile in wirte
+    //draw one especific tile in wire
     bool drawTileWire(edk::vec2ui32 position,edk::color4f32 color=edk::color4f32(1,1,1,1));
     bool drawTileWire(edk::uint32 positionX,edk::uint32 positionY,edk::color4f32 color=edk::color4f32(1,1,1,1));
     bool drawTileWire(edk::uint32 position,edk::color4f32 color=edk::color4f32(1,1,1,1));
@@ -154,6 +160,12 @@ public:
     void drawSelection(edk::vec2ui32 origin,edk::size2ui32 last);
     void drawInsideWorldRectSelectionWithID(edk::rectf32 rect,edk::uint8 id=0u);
     void drawInsideWorldRectSelection(edk::rectf32 rect);
+    void drawIsometricSelectionWithID(edk::uint8 id=0u);
+    void drawIsometricSelectionWithID(edk::vec2ui32 origin,edk::size2ui32 last,edk::uint8 id=0u);
+    void drawIsometricSelection();
+    void drawIsometricSelection(edk::vec2ui32 origin,edk::size2ui32 last);
+    void drawIsometricInsideWorldRectSelectionWithID(edk::rectf32 rect,edk::uint8 id=0u);
+    void drawIsometricInsideWorldRectSelection(edk::rectf32 rect);
     //draw the pivo
     void drawPivo(edk::float32 size,edk::color3f32 color);
     //print the tileMap ID's

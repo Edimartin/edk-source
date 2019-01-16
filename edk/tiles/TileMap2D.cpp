@@ -587,12 +587,123 @@ void edk::tiles::TileMap2D::drawInsideWorldRect(edk::rectf32 rect,edk::color4f32
     if(first.x<0.f) first.x=0.f;
     if(first.y<0.f) first.y=0.f;
 
-    //generate origin
-    edk::vec2ui32 origin = edk::vec2ui32((edk::uint32)first.x,(edk::uint32)first.y);
-    //generate the size
-    edk::size2ui32 size = edk::size2ui32((edk::uint32)rect.origin.x,(edk::uint32)rect.origin.y);
+    //generate origin only if it was bigger then zero
+    edk::vec2ui32 origin = edk::vec2ui32(first.x>0.f?(edk::uint32)first.x:0u,
+                                         first.y>0.f?(edk::uint32)first.y:0u
+                                                     );
+    //generate the size only if it was bigger then zero
+    edk::size2ui32 size = edk::size2ui32(rect.origin.x>0.f?(edk::uint32)rect.origin.x:0u,
+                                         rect.origin.y>0.f?(edk::uint32)rect.origin.y:0u
+                                                           );
 
     this->draw(origin,size,color);
+}
+void edk::tiles::TileMap2D::drawIsometric(edk::color4f32 color){
+    if(this->tileSet){
+        edk::vec2f32 positionTemp = this->getPosition();
+        //set the transformation
+        edk::GU::guPushMatrix();
+        for(edk::uint32 y=0u,y2=this->sizeMap.height-1u;y<this->sizeMap.height;y++,y2--){
+            for(edk::uint32 x=0u;x<this->sizeMap.width;x++){
+                //draw the tile
+                this->tileSet->drawTile( this->tileMap[y][x]
+                                         ,(x*this->scaleMap.width) + positionTemp.x + ((y%2u)*this->scaleMap.width*0.5f)
+                                         ,((y2*this->scaleMap.height)*0.25f) + positionTemp.y
+                                         ,0.f,this->scaleMap,color
+                                         );
+            }
+        }
+
+        //draw physics objects
+        this->treePhysics.render();
+
+        edk::GU::guPopMatrix();
+    }
+}
+void edk::tiles::TileMap2D::drawIsometric(edk::vec2ui32 origin,edk::size2ui32 last,edk::color4f32 color){
+    if(this->tileSet){
+        if(last.width>this->sizeMap.width) last.width=this->sizeMap.width;
+        if(last.height>this->sizeMap.height) last.height=this->sizeMap.height;
+        if(origin.x < this->sizeMap.width
+                &&
+                origin.y < this->sizeMap.height
+                &&
+                origin.x<=last.width
+                &&
+                origin.y<=last.height
+                ){
+            edk::vec2f32 positionTemp = this->getPosition();
+            //set the transformation
+            edk::GU::guPushMatrix();
+            //last.height++;
+            //last.width++;
+
+            for(edk::uint32 y=origin.y,y2=this->sizeMap.height-origin.y-1u;y<last.height;y++,y2--){
+                for(edk::uint32 x=origin.x;x<last.width;x++){
+                    //draw the tile
+                    this->tileSet->drawTile( this->tileMap[y][x]
+                                             ,(x*this->scaleMap.width) + positionTemp.x + ((y%2u)*this->scaleMap.width*0.5f)
+                                             ,((y2*this->scaleMap.height)*0.25f) + positionTemp.y
+                                             ,0.f,this->scaleMap,color
+                                             );
+                }
+            }
+
+        }
+
+        //draw physics objects
+        this->treePhysics.render();
+
+        edk::GU::guPopMatrix();
+    }
+}
+void edk::tiles::TileMap2D::drawIsometricInsideWorldRect(edk::rectf32 /*rect*/,edk::color4f32 /*color*/){
+/*
+    //scale the points
+    rect.origin.x /= this->scaleMap.width;
+    rect.origin.y /= this->scaleMap.height;
+    rect.size.width /= this->scaleMap.width;
+    rect.size.height /= this->scaleMap.height;
+
+    rect.origin.y+=0.5;
+    rect.origin.x+=0.5;
+
+    edk::vec2f32 first = rect.origin;
+    //
+    rect.origin.x +=rect.size.width;
+    first.y +=rect.size.height;
+
+    //translate the origin
+    rect.origin.x -= (this->positionMap.x);
+    rect.origin.y -= (this->positionMap.y);
+    first.x -= (this->positionMap.x);
+    first.y -= (this->positionMap.y);
+
+    //mirror the y
+    rect.origin.y= (rect.origin.y*-1.f) + this->sizeMap.height;
+    first.y= (first.y*-1.f) + this->sizeMap.height;
+
+    //increment the last pointer
+    rect.origin+=1.f;
+
+    //filter the last pointer
+    if(rect.origin.x>this->sizeMap.width) rect.origin.x=this->sizeMap.width;
+    if(rect.origin.y>this->sizeMap.height) rect.origin.y=this->sizeMap.height;
+    //filter the first pointer
+    if(first.x<0.f) first.x=0.f;
+    if(first.y<0.f) first.y=0.f;
+
+    //generate origin only if it was bigger then zero
+    edk::vec2ui32 origin = edk::vec2ui32(first.x>0.f?(edk::uint32)first.x:0u,
+                                         first.y>0.f?(edk::uint32)first.y:0u
+                                                     );
+    //generate the size only if it was bigger then zero
+    edk::size2ui32 size = edk::size2ui32(rect.origin.x>0.f?(edk::uint32)rect.origin.x:0u,
+                                         rect.origin.y>0.f?(edk::uint32)rect.origin.y:0u
+                                                           );
+
+    this->drawIsometric(origin,size,color);
+*/
 }
 //draw wireTiles
 void edk::tiles::TileMap2D::drawWire(edk::color4f32 color){
@@ -677,12 +788,111 @@ void edk::tiles::TileMap2D::drawWireInsideWorldRect(edk::rectf32 rect,edk::color
     if(first.x<0.f) first.x=0.f;
     if(first.y<0.f) first.y=0.f;
 
-    //generate origin
-    edk::vec2ui32 origin = edk::vec2ui32((edk::uint32)first.x,(edk::uint32)first.y);
-    //generate the size
-    edk::size2ui32 size = edk::size2ui32((edk::uint32)rect.origin.x,(edk::uint32)rect.origin.y);
+    //generate origin only if it was bigger then zero
+    edk::vec2ui32 origin = edk::vec2ui32(first.x>0.f?(edk::uint32)first.x:0u,
+                                         first.y>0.f?(edk::uint32)first.y:0u
+                                                     );
+    //generate the size only if it was bigger then zero
+    edk::size2ui32 size = edk::size2ui32(rect.origin.x>0.f?(edk::uint32)rect.origin.x:0u,
+                                         rect.origin.y>0.f?(edk::uint32)rect.origin.y:0u
+                                                           );
 
     this->drawWire(origin,size,color);
+}
+void edk::tiles::TileMap2D::drawIsometricWire(edk::color4f32 color){
+    if(this->tileSet){
+        edk::vec2f32 positionTemp = this->getPosition();
+        //set the transformation
+        edk::GU::guPushMatrix();
+        for(edk::uint32 y=0u,y2=this->sizeMap.height-1u;y<this->sizeMap.height;y++,y2--){
+            for(edk::uint32 x=0u;x<this->sizeMap.width;x++){
+                //draw the tile
+                this->tileSet->drawTileIsometricWire((x*this->scaleMap.width) + positionTemp.x + ((y%2u)*this->scaleMap.width*0.5f)
+                                                     ,((y2*this->scaleMap.height)*0.25f) + positionTemp.y
+                                                     ,0.f,this->scaleMap,color
+                                                     );
+            }
+        }
+        edk::GU::guPopMatrix();
+    }
+}
+void edk::tiles::TileMap2D::drawIsometricWire(edk::vec2ui32 origin,edk::size2ui32 last,edk::color4f32 color){
+    if(this->tileSet){
+        if(last.width>this->sizeMap.width) last.width=this->sizeMap.width;
+        if(last.height>this->sizeMap.height) last.height=this->sizeMap.height;
+        if(origin.x < this->sizeMap.width
+                &&
+                origin.y < this->sizeMap.height
+                &&
+                origin.x<=last.width
+                &&
+                origin.y<=last.height
+                ){
+            edk::vec2f32 positionTemp = this->getPosition();
+            //set the transformation
+            edk::GU::guPushMatrix();
+            //last.height++;
+            //last.width++;
+
+            for(edk::uint32 y=origin.y,y2=this->sizeMap.height-origin.y-1u;y<last.height;y++,y2--){
+                for(edk::uint32 x=origin.x;x<last.width;x++){
+                    //draw the tile
+                    this->tileSet->drawTileIsometricWire((x*this->scaleMap.width) + positionTemp.x + ((y%2u)*this->scaleMap.width*0.5f)
+                                                         ,((y2*this->scaleMap.height)*0.25f) + positionTemp.y
+                                                         ,0.f,this->scaleMap,color
+                                                         );
+                }
+            }
+        }
+        edk::GU::guPopMatrix();
+    }
+}
+void edk::tiles::TileMap2D::drawIsometricWireInsideWorldRect(edk::rectf32 /*rect*/,edk::color4f32 /*color*/){
+    /*
+    //scale the points
+    rect.origin.x /= this->scaleMap.width;
+    rect.origin.y /= this->scaleMap.height;
+    rect.size /= this->scaleMap;
+
+    rect.origin.y+=0.5;
+    rect.origin.x+=0.5;
+
+    edk::vec2f32 first = rect.origin;
+    //
+    rect.origin.x +=rect.size.width;
+    first.y +=rect.size.height;
+
+    //translate the origin
+    rect.origin.x -= (this->positionMap.x);
+    rect.origin.y -= (this->positionMap.y);
+    first.x -= (this->positionMap.x);
+    first.y -= (this->positionMap.y);
+
+    //mirror the y
+    rect.origin.y= (rect.origin.y*-1.f) + this->sizeMap.height;
+    first.y= (first.y*-1.f) + this->sizeMap.height;
+
+    //increment the last pointer
+    rect.origin+=1.f;
+
+    //filter the last pointer
+    if(rect.origin.x>this->sizeMap.width) rect.origin.x=this->sizeMap.width;
+    if(rect.origin.y>this->sizeMap.height) rect.origin.y=this->sizeMap.height;
+    //filter the first pointer
+    if(first.x<0.f) first.x=0.f;
+    if(first.y<0.f) first.y=0.f;
+
+    //generate origin only if it was bigger then zero
+    edk::vec2ui32 origin = edk::vec2ui32(first.x>0.f?(edk::uint32)first.x:0u,
+                                         first.y>0.f?(edk::uint32)first.y:0u
+                                                     );
+    //generate the size only if it was bigger then zero
+    edk::size2ui32 size = edk::size2ui32(rect.origin.x>0.f?(edk::uint32)rect.origin.x:0u,
+                                         rect.origin.y>0.f?(edk::uint32)rect.origin.y:0u
+                                                           );
+
+    this->drawIsometricWire(origin,size,color);
+    */
 }
 //draw wireTiles
 void edk::tiles::TileMap2D::drawWirePhysics(edk::color4f32 color){
@@ -771,10 +981,14 @@ void edk::tiles::TileMap2D::drawWirePhysicsInsideWorldRect(edk::rectf32 rect,edk
     if(first.x<0.f) first.x=0.f;
     if(first.y<0.f) first.y=0.f;
 
-    //generate origin
-    edk::vec2ui32 origin = edk::vec2ui32((edk::uint32)first.x,(edk::uint32)first.y);
-    //generate the size
-    edk::size2ui32 size = edk::size2ui32((edk::uint32)rect.origin.x,(edk::uint32)rect.origin.y);
+    //generate origin only if it was bigger then zero
+    edk::vec2ui32 origin = edk::vec2ui32(first.x>0.f?(edk::uint32)first.x:0u,
+                                         first.y>0.f?(edk::uint32)first.y:0u
+                                                     );
+    //generate the size only if it was bigger then zero
+    edk::size2ui32 size = edk::size2ui32(rect.origin.x>0.f?(edk::uint32)rect.origin.x:0u,
+                                         rect.origin.y>0.f?(edk::uint32)rect.origin.y:0u
+                                                           );
 
     this->drawWirePhysics(origin,size,color);
 }
@@ -877,10 +1091,14 @@ void edk::tiles::TileMap2D::drawWireWithPhysicsInsideWorldRect(edk::rectf32 rect
     if(first.x<0.f) first.x=0.f;
     if(first.y<0.f) first.y=0.f;
 
-    //generate origin
-    edk::vec2ui32 origin = edk::vec2ui32((edk::uint32)first.x,(edk::uint32)first.y);
-    //generate the size
-    edk::size2ui32 size = edk::size2ui32((edk::uint32)rect.origin.x,(edk::uint32)rect.origin.y);
+    //generate origin only if it was bigger then zero
+    edk::vec2ui32 origin = edk::vec2ui32(first.x>0.f?(edk::uint32)first.x:0u,
+                                         first.y>0.f?(edk::uint32)first.y:0u
+                                                     );
+    //generate the size only if it was bigger then zero
+    edk::size2ui32 size = edk::size2ui32(rect.origin.x>0.f?(edk::uint32)rect.origin.x:0u,
+                                         rect.origin.y>0.f?(edk::uint32)rect.origin.y:0u
+                                                           );
 
     this->drawWireWithPhysics(origin,size,color,physColor);
 }
@@ -1067,10 +1285,14 @@ void edk::tiles::TileMap2D::drawInsideWorldRectSelectionWithID(edk::rectf32 rect
     if(first.x<0.f) first.x=0.f;
     if(first.y<0.f) first.y=0.f;
 
-    //generate origin
-    edk::vec2ui32 origin = edk::vec2ui32((edk::uint32)first.x,(edk::uint32)first.y);
-    //generate the size
-    edk::size2ui32 size = edk::size2ui32((edk::uint32)rect.origin.x,(edk::uint32)rect.origin.y);
+    //generate origin only if it was bigger then zero
+    edk::vec2ui32 origin = edk::vec2ui32(first.x>0.f?(edk::uint32)first.x:0u,
+                                         first.y>0.f?(edk::uint32)first.y:0u
+                                                     );
+    //generate the size only if it was bigger then zero
+    edk::size2ui32 size = edk::size2ui32(rect.origin.x>0.f?(edk::uint32)rect.origin.x:0u,
+                                         rect.origin.y>0.f?(edk::uint32)rect.origin.y:0u
+                                                           );
 
     this->drawSelectionWithID(origin,size,id);
 }
@@ -1108,12 +1330,225 @@ void edk::tiles::TileMap2D::drawInsideWorldRectSelection(edk::rectf32 rect){
     if(first.x<0.f) first.x=0.f;
     if(first.y<0.f) first.y=0.f;
 
-    //generate origin
-    edk::vec2ui32 origin = edk::vec2ui32((edk::uint32)first.x,(edk::uint32)first.y);
-    //generate the size
-    edk::size2ui32 size = edk::size2ui32((edk::uint32)rect.origin.x,(edk::uint32)rect.origin.y);
+    //generate origin only if it was bigger then zero
+    edk::vec2ui32 origin = edk::vec2ui32(first.x>0.f?(edk::uint32)first.x:0u,
+                                         first.y>0.f?(edk::uint32)first.y:0u
+                                                     );
+    //generate the size only if it was bigger then zero
+    edk::size2ui32 size = edk::size2ui32(rect.origin.x>0.f?(edk::uint32)rect.origin.x:0u,
+                                         rect.origin.y>0.f?(edk::uint32)rect.origin.y:0u
+                                                           );
 
     this->drawSelection(origin,size);
+}
+void edk::tiles::TileMap2D::drawIsometricSelectionWithID(edk::uint8 id){
+    if(this->tileSet){
+        edk::vec2f32 positionTemp = this->getPosition();
+        //set the transformation
+        edk::GU::guPushMatrix();
+
+        for(edk::uint32 y=0u,y2=this->sizeMap.height-1u;y<this->sizeMap.height;y++,y2--){
+            for(edk::uint32 x=0u;x<this->sizeMap.width;x++){
+                //draw the tile
+                edk::GU::guPushName(edk::BinaryConverter::joinBits(id,((this->sizeMap.width * y) + x)+1u,24));
+                this->tileSet->drawTileSelection( (x*this->scaleMap.width) + positionTemp.x + ((y%2u)*this->scaleMap.width*0.5f)
+                                                  ,((y2*this->scaleMap.height)*0.25f) + positionTemp.y
+                                                  ,0.f,this->scaleMap
+                                                  );
+
+                edk::GU::guPopName();
+            }
+        }
+
+        edk::GU::guPopMatrix();
+    }
+}
+void edk::tiles::TileMap2D::drawIsometricSelectionWithID(edk::vec2ui32 origin,edk::size2ui32 last,edk::uint8 id){
+    if(this->tileSet){
+        if(last.width>this->sizeMap.width) last.width=this->sizeMap.width;
+        if(last.height>this->sizeMap.height) last.height=this->sizeMap.height;
+        if(origin.x < this->sizeMap.width
+                &&
+                origin.y < this->sizeMap.height
+                &&
+                origin.x<=last.width
+                &&
+                origin.y<=last.height
+                ){
+            edk::vec2f32 positionTemp = this->getPosition();
+            //set the transformation
+            edk::GU::guPushMatrix();
+            //last.height++;
+            //last.width++;
+            for(edk::uint32 y=origin.y,y2=this->sizeMap.height-origin.y-1u;y<last.height;y++,y2--){
+                for(edk::uint32 x=origin.x;x<last.width;x++){
+                    //draw the tile
+                    edk::GU::guPushName(edk::BinaryConverter::joinBits(id,((this->sizeMap.width * y) + x)+1u,24));
+                    this->tileSet->drawTileSelection( (x*this->scaleMap.width) + positionTemp.x + ((y%2u)*this->scaleMap.width*0.5f)
+                                                      ,((y2*this->scaleMap.height)*0.25f) + positionTemp.y
+                                                      ,0.f,this->scaleMap
+                                                      );
+
+                    edk::GU::guPopName();
+                }
+            }
+        }
+
+        //this->treePhysics.print();
+
+        edk::GU::guPopMatrix();
+    }
+}
+void edk::tiles::TileMap2D::drawIsometricSelection(){
+    if(this->tileSet){
+        edk::vec2f32 positionTemp = this->getPosition();
+        //set the transformation
+        edk::GU::guPushMatrix();
+
+        for(edk::uint32 y=0u,y2=this->sizeMap.height-1u;y<this->sizeMap.height;y++,y2--){
+            for(edk::uint32 x=0u;x<this->sizeMap.width;x++){
+                //draw the tile
+                edk::GU::guPushName(((this->sizeMap.width * y) + x)+1u);
+                this->tileSet->drawTileSelection( (x*this->scaleMap.width) + positionTemp.x + ((y%2u)*this->scaleMap.width*0.5f)
+                                                  ,((y2*this->scaleMap.height)*0.25f) + positionTemp.y
+                                                  ,0.f,this->scaleMap
+                                                  );
+                edk::GU::guPopName();
+            }
+        }
+
+        edk::GU::guPopMatrix();
+    }
+}
+void edk::tiles::TileMap2D::drawIsometricSelection(edk::vec2ui32 origin,edk::size2ui32 last){
+
+    if(this->tileSet){
+        if(last.width>this->sizeMap.width) last.width=this->sizeMap.width;
+        if(last.height>this->sizeMap.height) last.height=this->sizeMap.height;
+        if(origin.x < this->sizeMap.width
+                &&
+                origin.y < this->sizeMap.height
+                &&
+                origin.x<=last.width
+                &&
+                origin.y<=last.height
+                ){
+            edk::vec2f32 positionTemp = this->getPosition();
+            //set the transformation
+            edk::GU::guPushMatrix();
+            //last.height++;
+            //last.width++;
+            for(edk::uint32 y=origin.y,y2=this->sizeMap.height-origin.y-1u;y<last.height;y++,y2--){
+                for(edk::uint32 x=origin.x;x<last.width;x++){
+                    //draw the tile
+                    edk::GU::guPushName(((this->sizeMap.width * y) + x)+1u);
+                    this->tileSet->drawTileSelection( (x*this->scaleMap.width) + positionTemp.x + ((y%2u)*this->scaleMap.width*0.5f)
+                                                      ,((y2*this->scaleMap.height)*0.25f) + positionTemp.y
+                                                      ,0.f,this->scaleMap
+                                                      );
+                    edk::GU::guPopName();
+                }
+            }
+        }
+
+        //this->treePhysics.print();
+
+        edk::GU::guPopMatrix();
+    }
+}
+void edk::tiles::TileMap2D::drawIsometricInsideWorldRectSelectionWithID(edk::rectf32 /*rect*/,edk::uint8 /*id*/){
+    /*
+    //scale the points
+    rect.origin.x /= this->scaleMap.width;
+    rect.origin.y /= this->scaleMap.height;
+    rect.size /= this->scaleMap;
+
+    rect.origin.y+=0.5;
+    rect.origin.x+=0.5;
+
+    edk::vec2f32 first = rect.origin;
+    //
+    rect.origin.x +=rect.size.width;
+    first.y +=rect.size.height;
+
+    //translate the origin
+    rect.origin.x -= (this->positionMap.x);
+    rect.origin.y -= (this->positionMap.y);
+    first.x -= (this->positionMap.x);
+    first.y -= (this->positionMap.y);
+
+    //mirror the y
+    rect.origin.y= (rect.origin.y*-1.f) + this->sizeMap.height;
+    first.y= (first.y*-1.f) + this->sizeMap.height;
+
+    //increment the last pointer
+    rect.origin+=1.f;
+
+    //filter the last pointer
+    if(rect.origin.x>this->sizeMap.width) rect.origin.x=this->sizeMap.width;
+    if(rect.origin.y>this->sizeMap.height) rect.origin.y=this->sizeMap.height;
+    //filter the first pointer
+    if(first.x<0.f) first.x=0.f;
+    if(first.y<0.f) first.y=0.f;
+
+    //generate origin only if it was bigger then zero
+    edk::vec2ui32 origin = edk::vec2ui32(first.x>0.f?(edk::uint32)first.x:0u,
+                                         first.y>0.f?(edk::uint32)first.y:0u
+                                                     );
+    //generate the size only if it was bigger then zero
+    edk::size2ui32 size = edk::size2ui32(rect.origin.x>0.f?(edk::uint32)rect.origin.x:0u,
+                                         rect.origin.y>0.f?(edk::uint32)rect.origin.y:0u
+                                                           );
+
+    this->drawIsometricSelectionWithID(origin,size,id);
+    */
+}
+void edk::tiles::TileMap2D::drawIsometricInsideWorldRectSelection(edk::rectf32 /*rect*/){
+/*
+    //scale the points
+    rect.origin.x /= this->scaleMap.width;
+    rect.origin.y /= this->scaleMap.height;
+    rect.size /= this->scaleMap;
+
+    rect.origin.y+=0.5;
+    rect.origin.x+=0.5;
+
+    edk::vec2f32 first = rect.origin;
+    //
+    rect.origin.x +=rect.size.width;
+    first.y +=rect.size.height;
+
+    //translate the origin
+    rect.origin.x -= (this->positionMap.x);
+    rect.origin.y -= (this->positionMap.y);
+    first.x -= (this->positionMap.x);
+    first.y -= (this->positionMap.y);
+
+    //mirror the y
+    rect.origin.y= (rect.origin.y*-1.f) + this->sizeMap.height;
+    first.y= (first.y*-1.f) + this->sizeMap.height;
+
+    //increment the last pointer
+    rect.origin+=1.f;
+
+    //filter the last pointer
+    if(rect.origin.x>this->sizeMap.width) rect.origin.x=this->sizeMap.width;
+    if(rect.origin.y>this->sizeMap.height) rect.origin.y=this->sizeMap.height;
+    //filter the first pointer
+    if(first.x<0.f) first.x=0.f;
+    if(first.y<0.f) first.y=0.f;
+
+    //generate origin only if it was bigger then zero
+    edk::vec2ui32 origin = edk::vec2ui32(first.x>0.f?(edk::uint32)first.x:0u,
+                                         first.y>0.f?(edk::uint32)first.y:0u
+                                                     );
+    //generate the size only if it was bigger then zero
+    edk::size2ui32 size = edk::size2ui32(rect.origin.x>0.f?(edk::uint32)rect.origin.x:0u,
+                                         rect.origin.y>0.f?(edk::uint32)rect.origin.y:0u
+                                                           );
+
+    this->drawIsometricSelection(origin,size);
+*/
 }
 
 //draw the pivo
@@ -1572,8 +2007,6 @@ bool edk::tiles::TileMap2D::readFromXML(edk::XML* xml,edk::uint32 id){
             if(name){
                 //read the name
                 if(xml->selectChild(name)){
-                    edk::char8 filter[3u] = {9u,'\n',0u};
-                    edk::char8* temp;
                     //read size of tileMap
                     this->sizeMap = edk::size2ui32((edk::uint32)edk::String::strToInt64(xml->getSelectedAttributeValueByName("sizeMapW")),
                                                    (edk::uint32)edk::String::strToInt64(xml->getSelectedAttributeValueByName("sizeMapH"))

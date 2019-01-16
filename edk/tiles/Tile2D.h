@@ -40,10 +40,20 @@ Gravatai RS Brazil 94065100
 
 namespace edk{
 namespace tiles{
+enum tile2DType{
+    tile2DTypeNormal=0u,
+    tile2DTypeIsometric,
+    tile2DTypeIsometricFlat,
+    //
+    tile2DTypeSize,
+};
 class Tile2D{
 public:
     Tile2D();
-    ~Tile2D();
+    virtual ~Tile2D();
+
+    //return the type of the tile to the tileSet know witch tile is before delete it
+    virtual edk::tiles::tile2DType getType();
 
     //set the Tile Position
     void setPosition(edk::vec2f32 position);
@@ -177,7 +187,7 @@ public:
     void drawWire(edk::float32 angle=0.f,edk::size2f32 size = edk::size2f32(1,1));
     void drawSelection(edk::float32 angle=0.f,edk::size2f32 size = edk::size2f32(1,1));
     void drawPhysic(edk::float32 angle=0.f,edk::size2f32 size = edk::size2f32(1,1));
-private:
+protected:
     //A tile have an object
     edk::Object2D obj;
     //physics object

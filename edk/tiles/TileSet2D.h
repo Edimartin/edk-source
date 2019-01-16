@@ -27,6 +27,8 @@ Gravatai RS Brazil 94065100
 
 #pragma once
 #include "Tile2D.h"
+#include "TileIsometric2D.h"
+#include "TileIsometricFlat2D.h"
 #include "../vector/Stack.h"
 #include "../vector/BinaryTree.h"
 
@@ -127,12 +129,134 @@ public:
                                                                      edk::color4f32 color = edk::color4f32(1,1,1,1)
             );
 
+    //load the tiles from an image
+    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesIsometric(const char* image,
+                                                                    edk::uint32 x,
+                                                                    edk::uint32 y,
+                                                                    edk::uint32 filter = GU_NEAREST,
+                                                                    edk::color4f32 color = edk::color4f32(1,1,1,1)
+            );
+    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesIsometric(const char* image,
+                                                                    edk::vec2ui32 frames,
+                                                                    edk::uint32 filter = GU_NEAREST,
+                                                                    edk::color4f32 color = edk::color4f32(1,1,1,1)
+            );
+    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesIsometric(edk::char8* image,
+                                                                    edk::uint32 x,
+                                                                    edk::uint32 y,
+                                                                    edk::uint32 filter = GU_NEAREST,
+                                                                    edk::color4f32 color = edk::color4f32(1,1,1,1)
+            );
+    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesIsometric(edk::char8* image,
+                                                                    edk::vec2ui32 frames,
+                                                                    edk::uint32 filter = GU_NEAREST,
+                                                                    edk::color4f32 color = edk::color4f32(1,1,1,1)
+            );
+    //Load the tiles from mamory
+    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesIsometricFromMemory(const char* name,
+                                                                              edk::uint8* image,
+                                                                              edk::uint32 size,
+                                                                              edk::uint32 x,
+                                                                              edk::uint32 y,
+                                                                              edk::uint32 filter = GU_NEAREST,
+                                                                              edk::color4f32 color = edk::color4f32(1,1,1,1)
+            );
+    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesIsometricFromMemory(const char* name,
+                                                                              edk::uint8* image,
+                                                                              edk::uint32 size,
+                                                                              edk::vec2ui32 frames,
+                                                                              edk::uint32 filter = GU_NEAREST,
+                                                                              edk::color4f32 color = edk::color4f32(1,1,1,1)
+            );
+    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesIsometricFromMemory(edk::char8* name,
+                                                                              edk::uint8* image,
+                                                                              edk::uint32 size,
+                                                                              edk::uint32 x,
+                                                                              edk::uint32 y,
+                                                                              edk::uint32 filter = GU_NEAREST,
+                                                                              edk::color4f32 color = edk::color4f32(1,1,1,1)
+            );
+    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesIsometricFromMemory(edk::char8* name,
+                                                                              edk::uint8* image,
+                                                                              edk::uint32 size,
+                                                                              edk::vec2ui32 frames,
+                                                                              edk::uint32 filter = GU_NEAREST,
+                                                                              edk::color4f32 color = edk::color4f32(1,1,1,1)
+            );
+
+    //load the tiles from an image
+    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesIsometricFlat(const char* image,
+                                                                        edk::uint32 x,
+                                                                        edk::uint32 y,
+                                                                        edk::uint32 filter = GU_NEAREST,
+                                                                        edk::color4f32 color = edk::color4f32(1,1,1,1)
+            );
+    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesIsometricFlat(const char* image,
+                                                                        edk::vec2ui32 frames,
+                                                                        edk::uint32 filter = GU_NEAREST,
+                                                                        edk::color4f32 color = edk::color4f32(1,1,1,1)
+            );
+    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesIsometricFlat(edk::char8* image,
+                                                                        edk::uint32 x,
+                                                                        edk::uint32 y,
+                                                                        edk::uint32 filter = GU_NEAREST,
+                                                                        edk::color4f32 color = edk::color4f32(1,1,1,1)
+            );
+    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesIsometricFlat(edk::char8* image,
+                                                                        edk::vec2ui32 frames,
+                                                                        edk::uint32 filter = GU_NEAREST,
+                                                                        edk::color4f32 color = edk::color4f32(1,1,1,1)
+            );
+    //Load the tiles from mamory
+    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesIsometricFlatFromMemory(const char* name,
+                                                                                  edk::uint8* image,
+                                                                                  edk::uint32 size,
+                                                                                  edk::uint32 x,
+                                                                                  edk::uint32 y,
+                                                                                  edk::uint32 filter = GU_NEAREST,
+                                                                                  edk::color4f32 color = edk::color4f32(1,1,1,1)
+            );
+    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesIsometricFlatFromMemory(const char* name,
+                                                                                  edk::uint8* image,
+                                                                                  edk::uint32 size,
+                                                                                  edk::vec2ui32 frames,
+                                                                                  edk::uint32 filter = GU_NEAREST,
+                                                                                  edk::color4f32 color = edk::color4f32(1,1,1,1)
+            );
+    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesIsometricFlatFromMemory(edk::char8* name,
+                                                                                  edk::uint8* image,
+                                                                                  edk::uint32 size,
+                                                                                  edk::uint32 x,
+                                                                                  edk::uint32 y,
+                                                                                  edk::uint32 filter = GU_NEAREST,
+                                                                                  edk::color4f32 color = edk::color4f32(1,1,1,1)
+            );
+    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesIsometricFlatFromMemory(edk::char8* name,
+                                                                                  edk::uint8* image,
+                                                                                  edk::uint32 size,
+                                                                                  edk::vec2ui32 frames,
+                                                                                  edk::uint32 filter = GU_NEAREST,
+                                                                                  edk::color4f32 color = edk::color4f32(1,1,1,1)
+            );
+
     //create a new tile
     edk::uint32 newTile(const char* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
     edk::uint32 newTile(edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
     edk::uint32 newTile(edk::color4f32 color = edk::color4f32(1,1,1,1));
     edk::uint32 newTileFromMemory(const char* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
     edk::uint32 newTileFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
+    //create a new Isometric tile
+    edk::uint32 newTileIsometric(const char* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
+    edk::uint32 newTileIsometric(edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
+    edk::uint32 newTileIsometric(edk::color4f32 color = edk::color4f32(1,1,1,1));
+    edk::uint32 newTileIsometricFromMemory(const char* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
+    edk::uint32 newTileIsometricFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
+    //create a new IsometricFlat tile
+    edk::uint32 newTileIsometricFlat(const char* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
+    edk::uint32 newTileIsometricFlat(edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
+    edk::uint32 newTileIsometricFlat(edk::color4f32 color = edk::color4f32(1,1,1,1));
+    edk::uint32 newTileIsometricFlatFromMemory(const char* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
+    edk::uint32 newTileIsometricFlatFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
     //set the tile UVFrames
     bool setTileFramesUV(edk::uint32 tile,edk::vec2ui32 frames);
     bool setTileFramesUV(edk::uint32 tile,edk::uint32 x,edk::uint32 y);
@@ -206,19 +330,98 @@ public:
     bool isTilePhysics(edk::uint32 tile);
 
     //Draw the tile from the tileSet
-    bool drawTile(edk::uint32 tile,edk::vec2f32 position,edk::float32 angle=0.f,edk::size2f32 size = edk::size2f32(1,1),edk::color4f32 color=edk::color4f32(1,1,1,1));
-    bool drawTile(edk::uint32 tile,edk::float32 positionX, edk::float32 positionY,edk::float32 angle=0.f,edk::size2f32 size = edk::size2f32(1,1),edk::color4f32 color=edk::color4f32(1,1,1,1));void drawTileSelection(edk::vec2f32 position,edk::float32 angle=0.f,edk::size2f32 size = edk::size2f32(1,1));
-    void drawTileWire(edk::vec2f32 position,edk::float32 angle=0.f,edk::size2f32 size = edk::size2f32(1,1),edk::color4f32 color=edk::color4f32(1,1,1,1));
-    void drawTileWire(edk::float32 positionX, edk::float32 positionY,edk::float32 angle=0.f,edk::size2f32 size = edk::size2f32(1,1),edk::color4f32 color=edk::color4f32(1,1,1,1));
-    void drawTileSelection(edk::float32 positionX, edk::float32 positionY,edk::float32 angle=0.f,edk::size2f32 size = edk::size2f32(1,1));
-    bool drawTileInWorld(edk::uint32 tile,edk::vec2f32 position,edk::float32 angle=0.f,edk::size2f32 size = edk::size2f32(1,1),edk::color4f32 color=edk::color4f32(1,1,1,1));
-    bool drawTileInWorld(edk::uint32 tile,edk::float32 positionX, edk::float32 positionY,edk::float32 angle=0.f,edk::size2f32 size = edk::size2f32(1,1),edk::color4f32 color=edk::color4f32(1,1,1,1));
-    void drawTileSelectionInWorld(edk::vec2f32 position,edk::float32 angle=0.f,edk::size2f32 size = edk::size2f32(1,1));
-    void drawTileSelectionInWorld(edk::float32 positionX, edk::float32 positionY,edk::float32 angle=0.f,edk::size2f32 size = edk::size2f32(1,1));
-    bool drawTilePhysics(edk::uint32 tile,edk::vec2f32 position,edk::float32 angle=0.f,edk::size2f32 size = edk::size2f32(1,1),edk::color4f32 color=edk::color4f32(1,1,1,1));
-    bool drawTilePhysics(edk::uint32 tile,edk::float32 positionX, edk::float32 positionY,edk::float32 angle=0.f,edk::size2f32 size = edk::size2f32(1,1),edk::color4f32 color=edk::color4f32(1,1,1,1));
-    bool drawTilePhysicsInWorld(edk::uint32 tile,edk::vec2f32 position,edk::float32 angle=0.f,edk::size2f32 size = edk::size2f32(1,1),edk::color4f32 color=edk::color4f32(1,1,1,1));
-    bool drawTilePhysicsInWorld(edk::uint32 tile,edk::float32 positionX, edk::float32 positionY,edk::float32 angle=0.f,edk::size2f32 size = edk::size2f32(1,1),edk::color4f32 color=edk::color4f32(1,1,1,1));
+    bool drawTile(edk::uint32 tile,
+                  edk::vec2f32 position,
+                  edk::float32 angle=0.f,
+                  edk::size2f32 size = edk::size2f32(1,1),
+                  edk::color4f32 color=edk::color4f32(1,1,1,1)
+            );
+    bool drawTile(edk::uint32 tile,
+                  edk::float32 positionX,
+                  edk::float32 positionY,
+                  edk::float32 angle=0.f,
+                  edk::size2f32 size = edk::size2f32(1,1),
+                  edk::color4f32 color=edk::color4f32(1,1,1,1)
+            );
+    void drawTileSelection(edk::vec2f32 position,
+                           edk::float32 angle=0.f,
+                           edk::size2f32 size = edk::size2f32(1,1)
+            );
+    void drawTileWire(edk::vec2f32 position,
+                      edk::float32 angle=0.f,
+                      edk::size2f32 size = edk::size2f32(1,1),
+                      edk::color4f32 color=edk::color4f32(1,1,1,1)
+            );
+    void drawTileWire(edk::float32 positionX,
+                      edk::float32 positionY,
+                      edk::float32 angle=0.f,
+                      edk::size2f32 size = edk::size2f32(1,1),
+                      edk::color4f32 color=edk::color4f32(1,1,1,1)
+            );
+    void drawTileIsometricWire(edk::vec2f32 position,
+                               edk::float32 angle=0.f,
+                               edk::size2f32 size = edk::size2f32(1,1),
+                               edk::color4f32 color=edk::color4f32(1,1,1,1)
+            );
+    void drawTileIsometricWire(edk::float32 positionX,
+                               edk::float32 positionY,
+                               edk::float32 angle=0.f,
+                               edk::size2f32 size = edk::size2f32(1,1),
+                               edk::color4f32 color=edk::color4f32(1,1,1,1)
+            );
+    void drawTileSelection(edk::float32 positionX,
+                           edk::float32 positionY,
+                           edk::float32 angle=0.f,
+                           edk::size2f32 size = edk::size2f32(1,1)
+            );
+    bool drawTileInWorld(edk::uint32 tile,
+                         edk::vec2f32 position,
+                         edk::float32 angle=0.f,
+                         edk::size2f32 size = edk::size2f32(1,1),
+                         edk::color4f32 color=edk::color4f32(1,1,1,1)
+            );
+    bool drawTileInWorld(edk::uint32 tile,
+                         edk::float32 positionX,
+                         edk::float32 positionY,
+                         edk::float32 angle=0.f,
+                         edk::size2f32 size = edk::size2f32(1,1),
+                         edk::color4f32 color=edk::color4f32(1,1,1,1)
+            );
+    void drawTileSelectionInWorld(edk::vec2f32 position,
+                                  edk::float32 angle=0.f,
+                                  edk::size2f32 size = edk::size2f32(1,1)
+            );
+    void drawTileSelectionInWorld(edk::float32 positionX,
+                                  edk::float32 positionY,
+                                  edk::float32 angle=0.f,
+                                  edk::size2f32 size = edk::size2f32(1,1)
+            );
+    bool drawTilePhysics(edk::uint32 tile,
+                         edk::vec2f32 position,
+                         edk::float32 angle=0.f,
+                         edk::size2f32 size = edk::size2f32(1,1),
+                         edk::color4f32 color=edk::color4f32(1,1,1,1)
+            );
+    bool drawTilePhysics(edk::uint32 tile,
+                         edk::float32 positionX,
+                         edk::float32 positionY,
+                         edk::float32 angle=0.f,
+                         edk::size2f32 size = edk::size2f32(1,1),
+                         edk::color4f32 color=edk::color4f32(1,1,1,1)
+            );
+    bool drawTilePhysicsInWorld(edk::uint32 tile,
+                                edk::vec2f32 position,
+                                edk::float32 angle=0.f,
+                                edk::size2f32 size = edk::size2f32(1,1),
+                                edk::color4f32 color=edk::color4f32(1,1,1,1)
+            );
+    bool drawTilePhysicsInWorld(edk::uint32 tile,
+                                edk::float32 positionX,
+                                edk::float32 positionY,
+                                edk::float32 angle=0.f,
+                                edk::size2f32 size = edk::size2f32(1,1),
+                                edk::color4f32 color=edk::color4f32(1,1,1,1)
+            );
     bool printTile(edk::uint32 tile);
 
     //XML
@@ -236,6 +439,8 @@ private:
     edk::vector::BinaryTree<edk::uint32> treeRemoveXML;
     //tileTemp to draw the selection
     edk::tiles::Tile2D tileTemp;
+    //tileTemp to draw the selection
+    edk::tiles::TileIsometric2D tileIsometricTemp;
 };
 }//end namespace tiles
 }//end namespace edk

@@ -57,6 +57,12 @@ edk::tiles::Tile2D::~Tile2D(){
     this->deletePhysics();
     this->mesh.cleanTextures();
 }
+
+//return the type of the tile to the tileSet know witch tile is before delete it
+edk::tiles::tile2DType edk::tiles::Tile2D::getType(){
+    return edk::tiles::tile2DTypeNormal;
+}
+
 //select or create the animation for the polygon zero
 void edk::tiles::Tile2D::selectAnimation(){
     if(!this->mesh.selectAnimationFramesFromPolygon(0u)){
