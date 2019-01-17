@@ -26,81 +26,77 @@ edk::size2ui32 edk::LUT3D::calcImageSize(edk::uint16 size){
 bool edk::LUT3D::newTable(edk::uint16 size){
     //test the size
     if(size){
-        //test if the size is different
-        edk::uint8 pair = size%2u;
-        if(!pair){
-            if(size!=this->size){
-                //test the size
-                if(size<=256 && size>1u){
-                    //delete the table and create a new one
-                    this->deleteTable();
-                    //
-                    this->size = size;
-                    this->imageSize = this->calcImageSize(this->size);
+        if(size!=this->size){
+            //test the size
+            if(size<=256 && size>1u){
+                //delete the table and create a new one
+                this->deleteTable();
+                //
+                this->size = size;
+                this->imageSize = this->calcImageSize(this->size);
 
-                    //create a new table
-                    this->cube = new edk::color3ui8**[this->size];
-                    if(this->cube){
-                        //clean the values
-                        for(edk::uint16 x = 0u;x<this->size;x++){
-                            this->cube[x] = NULL;
+                //create a new table
+                this->cube = new edk::color3ui8**[this->size];
+                if(this->cube){
+                    //clean the values
+                    for(edk::uint16 x = 0u;x<this->size;x++){
+                        this->cube[x] = NULL;
+                    }
+                    //
+                    for(edk::uint16 x = 0u;x<this->size;x++){
+                        this->cube[x] = new edk::color3ui8*[this->size];
+                        if(this->cube[x]){
+                            //clean the values
+                            for(edk::uint16 y = 0u;y<this->size;y++){
+                                this->cube[x][y] = NULL;
+                            }
+                            for(edk::uint16 y = 0u;y<this->size;y++){
+                                this->cube[x][y] = new edk::color3ui8[this->size];
+                                if(!this->cube[x][y]){
+                                    //delete all anothers
+                                    for(edk::uint16 yd = 0u;yd<y;yd++){
+                                        if(this->cube[x][yd]){
+                                            delete[] this->cube[x][yd];
+                                            this->cube[x][yd]=NULL;
+                                        }
+                                    }
+                                    //delete the r
+                                    delete[] this->cube[x];
+                                    this->cube[x] = NULL;
+                                    break;
+                                }
+                            }
                         }
-                        //
-                        for(edk::uint16 x = 0u;x<this->size;x++){
-                            this->cube[x] = new edk::color3ui8*[this->size];
-                            if(this->cube[x]){
-                                //clean the values
-                                for(edk::uint16 y = 0u;y<this->size;y++){
-                                    this->cube[x][y] = NULL;
-                                }
-                                for(edk::uint16 y = 0u;y<this->size;y++){
-                                    this->cube[x][y] = new edk::color3ui8[this->size];
-                                    if(!this->cube[x][y]){
-                                        //delete all anothers
-                                        for(edk::uint16 yd = 0u;yd<y;yd++){
-                                            if(this->cube[x][yd]){
-                                                delete[] this->cube[x][yd];
-                                                this->cube[x][yd]=NULL;
-                                            }
+                        if(!this->cube[x]){
+                            //else delete
+                            for(edk::uint16 xd = 0u;xd<x;xd++){
+                                if(this->cube[xd]){
+                                    //delete all inside
+                                    for(edk::uint16 y = 0u;y<this->size;y++){
+                                        if(this->cube[xd][y]){
+                                            delete[] this->cube[xd][y];
+                                            this->cube[xd][y]=NULL;
                                         }
-                                        //delete the r
-                                        delete[] this->cube[x];
-                                        this->cube[x] = NULL;
-                                        break;
                                     }
+                                    delete[] this->cube[xd];
+                                    this->cube[xd] = NULL;
                                 }
                             }
-                            if(!this->cube[x]){
-                                //else delete
-                                for(edk::uint16 xd = 0u;xd<x;xd++){
-                                    if(this->cube[xd]){
-                                        //delete all inside
-                                        for(edk::uint16 y = 0u;y<this->size;y++){
-                                            if(this->cube[xd][y]){
-                                                delete[] this->cube[xd][y];
-                                                this->cube[xd][y]=NULL;
-                                            }
-                                        }
-                                        delete[] this->cube[xd];
-                                        this->cube[xd] = NULL;
-                                    }
-                                }
-                                //delete the cube
-                                delete[] this->cube;
-                                this->cube=NULL;
-                                this->size = 0u;
-                                this->imageSize = 0u;
-                                break;
-                            }
+                            //delete the cube
+                            delete[] this->cube;
+                            this->cube=NULL;
+                            this->size = 0u;
+                            this->imageSize = 0u;
+                            break;
                         }
                     }
                 }
             }
-            //test if have the table
-            if(this->cube){
-                //
-                return this->cleanTable();
-            }
+        }
+        //test if have the table
+        if(this->cube){
+            //
+            return this->cleanTable();
         }
     }
     //delete the table
@@ -240,18 +236,205 @@ bool edk::LUT3D::saveTo(const edk::char8* fileName){
     return this->saveTo((edk::char8*) fileName);
 }
 //load from file
-//bool edk::LUT3D::loadFrom(edk::char8* fileName){
-//    //
-//    edk::File file;
-//    if(file.openTextFile(fileName)){
-//        //read the lines
-//        file.closeFile();
-//    }
-//    return false;
-//}
-//bool edk::LUT3D::loadFrom(const edk::char8* fileName){
-//    return this->loadFrom((edk::char8*) fileName);
-//}
+bool edk::LUT3D::loadFrom(edk::char8* fileName){
+    bool ret = false;
+    edk::File file;
+    if(file.openTextFile(fileName)){
+        edk::char8* line = NULL;
+        edk::uint32 size = 0u;
+        edk::char8* title = NULL;
+        edk::char8* sizeTableStr = NULL;
+        edk::uint32 sizeTable = 0u;
+        //read the first part
+        while(!file.endOfFile() && file.isOpened()){
+            //read the line
+            line = file.readTextString("\n",false);
+            if(line){
+                //test the string size
+                if((size = edk::String::strSize(line))){
+                    //test if is NOT a comment
+                    if(*line!='#'){
+                        //test if it's a TITLE
+                        if(size>sizeof("TITLE \"\"")){
+                            //test if it's a TITLE
+                            if(line[0u]=='T'){
+                                if(line[1u]=='I'){
+                                    if(line[2u]=='T'){
+                                        if(line[3u]=='L'){
+                                            if(line[4u]=='E'){
+                                                if(line[5u]==' '){
+                                                    if(line[6u]=='"'){
+                                                        if(line[size-1u]=='"'){
+                                                            if(!title){
+                                                                line[size-1u]='\0';
+                                                                //read the title
+                                                                title = edk::String::strCopy(&line[7u]);
+                                                            }
+                                                            else{
+                                                                //else close the file
+                                                                file.closeFile();
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        //test if it's a LUT_3D_SIZE
+                        if(size>sizeof("LUT_3D_SIZE ")){
+                            if(line[0u]=='L'){
+                                if(line[1u]=='U'){
+                                    if(line[2u]=='T'){
+                                        if(line[3u]=='_'){
+                                            if(line[4u]=='3'){
+                                                if(line[5u]=='D'){
+                                                    if(line[6u]=='_'){
+                                                        if(line[7u]=='S'){
+                                                            if(line[8u]=='I'){
+                                                                if(line[9u]=='Z'){
+                                                                    if(line[10u]=='E'){
+                                                                        if(line[11u]==' '){
+                                                                            //test if dont have the tableSize
+                                                                            if(!sizeTableStr){
+                                                                                //12u
+                                                                                //read the sizeTableStr
+                                                                                sizeTableStr = edk::String::strCopy(&line[12u]);
+                                                                                if(sizeTableStr){
+                                                                                    //read the sizeTableStr
+                                                                                    sizeTable = edk::String::strToInt32(sizeTableStr);
+                                                                                }
+                                                                            }
+                                                                            else{
+                                                                                //else close the file
+                                                                                file.closeFile();
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                //delete the line
+                delete[] line;
+
+                //test if have the title and the sizeTableStr
+                if(title && sizeTableStr){
+                    //break
+                    break;
+                }
+            }
+        }
+
+        //test if have the title and the size
+        if(title && sizeTableStr && sizeTable && file.isOpened()){
+            //create the new table
+            if(this->newTable(sizeTable)){
+                edk::uint32 position2 = 0u;
+                edk::uint32 position3 = 0u;
+                edk::float32 percent=0.f;
+                bool haveEnd = false;
+                //read the values
+                for(edk::uint16 z = 0u;z<this->size;z++){
+                    for(edk::uint16 y = 0u;y<this->size;y++){
+                        for(edk::uint16 x = 0u;x<this->size;x++){
+                            //get the value percent
+                            //test if the file is opened and are not in the end of the file
+                            while(file.isOpened() && !file.endOfFile()){
+                                //read the line
+                                line = file.readTextString("\n",false);
+                                if(line){
+                                    //test the string size
+                                    if((size = edk::String::strSize(line))){
+                                        //test if is NOT a comment
+                                        if(*line!='#'){
+                                            //read the values
+
+                                            if((position2 = edk::String::stringHaveChar(line,' '))){
+                                                //read the x
+                                                percent = edk::String::strToFloat32(line);
+                                                this->cube[x][y][z].r = (edk::uint8)(percent*255.f)+1u;
+                                                if((position3 = edk::String::stringHaveChar(&line[position2],' '))){
+                                                    //
+                                                    position3 += position2;
+                                                    //read the y
+                                                    percent = edk::String::strToFloat32(&line[position2]);
+                                                    this->cube[x][y][z].g = (edk::uint8)(percent*255.f)+1u;
+                                                    //read the z
+                                                    percent = edk::String::strToFloat32(&line[position3]);
+                                                    this->cube[x][y][z].b = (edk::uint8)(percent*255.f)+1u;
+                                                }
+                                                else{
+                                                    haveEnd=true;
+                                                }
+                                            }
+                                            else{
+                                                haveEnd=true;
+                                            }
+                                        }
+                                        //delete the line readed
+                                        delete[] line;
+                                        break;
+                                    }
+
+                                    //delete the line readed
+                                    delete[] line;
+                                }
+                            }
+                            if(!file.isOpened() || file.endOfFile()){
+                                haveEnd=true;
+                            }
+                            if(haveEnd)
+                                break;
+                        }
+                        if(haveEnd)
+                            break;
+                    }
+                    if(haveEnd)
+                        break;
+
+                    //test if copy all the values
+                    if(z>=this->size-1u){
+                        //return true
+                        ret = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        //delete the title
+        if(title)
+            delete[] title;
+        if(sizeTableStr){
+            delete[] sizeTableStr;
+        }
+
+        //test if is not returning true
+        if(!ret){
+            //delete the table
+            this->deleteTable();
+        }
+
+        //read the lines
+        file.closeFile();
+    }
+    return ret;
+}
+bool edk::LUT3D::loadFrom(const edk::char8* fileName){
+    return this->loadFrom((edk::char8*) fileName);
+}
 //save to an image file
 bool edk::LUT3D::saveToImage(edk::char8* fileName){
     if(this->cube && this->size){

@@ -66,8 +66,8 @@ public:
     bool saveTo(edk::char8* fileName);
     bool saveTo(const edk::char8* fileName);
     //load from file
-//    bool loadFrom(edk::char8* fileName);
-//    bool loadFrom(const edk::char8* fileName);
+    bool loadFrom(edk::char8* fileName);
+    bool loadFrom(const edk::char8* fileName);
     //save to an image file
     bool saveToImage(edk::char8* fileName);
     bool saveToImage(const edk::char8* fileName);
