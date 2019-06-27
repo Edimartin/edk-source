@@ -334,6 +334,7 @@ if(!thisInitWinsock) startWinsock();
         if ((this->edkSocket = socket(AF_INET, SOCK_STREAM, 0)) >= 0){
             return true;
         }
+        break;
     case EDK_SOCKET_UDP:
         if ((this->edkSocket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) >= 0){
             return true;

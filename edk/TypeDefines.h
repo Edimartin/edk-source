@@ -25,6 +25,9 @@ Gravatai RS Brazil 94065100
 #warning "Inside TypeDefines"
 #endif
 
+#include <stdarg.h>
+#include "TypeVars.h"
+
 #ifdef printMessages
 #warning "    Compiling TypeDefines"
 #endif
@@ -95,13 +98,22 @@ Gravatai RS Brazil 94065100
 namespace edk{
 class NothingClass{
 public:
-    static void edk_nothing(){}
+    inline static void edk_nothing(){}
+    //write to vprintf with the line, file and function names
+    inline static void edk_lffprint(edk::uint32 line, const edk::char8* fileName, const edk::char8* funcName, const edk::char8* str,...){
+        if(fileName && funcName && str){
+            printf("\n[%06u] (%10s) %10s():",line,fileName,funcName);
+            va_list args;
+            va_start (args, str);
+            vprintf (str, args);
+            va_end (args);
+            fflush(stdout);
+        }
+    }
 };
 }
-#define edk_printDebug(my_val) \
-    printf("\n%s [%u] ",__FILE__,__LINE__); \
-    printf(my_val); \
-    printf(" (%s)",__FUNCTION__); \
+#define edk_printDebug(str,args...) \
+    edk::NothingClass::edk_lffprint(__LINE__,__FILE__,__func__,str,##args); \
     edk::NothingClass::edk_nothing()
 
 //
@@ -378,13 +390,27 @@ enum id{
 */
 
 namespace physics{
-enum bodyType
-{
+enum bodyType{
     StaticBody = 0u,
     KinematicBody,
     DynamicBody
 };
 }
-}//end namespace
+
+//network defines
+namespace network{
+//network errors
+enum networkCodes{
+    ok = 0,
+    error = -1,
+    cantCreateSocket = -2,
+    cantStartBind = -3,
+    cantStartListen = -4,
+    connectionRefused = -5,
+    //need to find more codes
+};
+}
+
+}//end namespace edk
 
 #endif // TYPEDEFINES_H

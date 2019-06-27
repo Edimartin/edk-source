@@ -41,7 +41,7 @@ class ServerUDP : public edk::network::ServerSocket{
 public:
     ServerUDP();
     //wait for connection
-    bool startBind(edk::uint16 port);
+    edk::network::networkCodes startBind(edk::uint16 port);
     //close bind
     void closeBind();
 

@@ -26,7 +26,7 @@ edk::network::udp::ServerUDP::ServerUDP(){
 }
 
 //wait for connection
-bool edk::network::udp::ServerUDP::startBind(edk::uint16 port){
+edk::network::networkCodes edk::network::udp::ServerUDP::startBind(edk::uint16 port){
     //close the last bind
     this->closeBind();
     //creathe the socket
@@ -35,12 +35,12 @@ bool edk::network::udp::ServerUDP::startBind(edk::uint16 port){
         this->sockAdress.sin_port = htons(port);
         //Start Bind
         if (bind(this->getSocket(), (struct sockaddr *)&this->sockAdress, sizeof(struct sockaddr))>= 0){
-            return true;
+            return edk::network::ok;
         }
         //else close bind
         this->closeBind();
     }
-    return false;
+    return edk::network::cantStartBind;
 }
 //close bind
 void edk::network::udp::ServerUDP::closeBind(){

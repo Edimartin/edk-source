@@ -40,10 +40,10 @@ public:
     ClientTCP();
 
     //connect the socket with a server
-    bool connectSocket(edk::network::Adress host);
-    bool connectSocket(edk::uint32 ip,edk::uint16 port);
-    bool connectSocket(edk::char8* ip,edk::uint16 port);
-    bool connectSocket(const char* ip,edk::uint16 port);
+    edk::network::networkCodes connectSocket(edk::network::Adress host);
+    edk::network::networkCodes connectSocket(edk::uint32 ip,edk::uint16 port);
+    edk::network::networkCodes connectSocket(edk::char8* ip,edk::uint16 port);
+    edk::network::networkCodes connectSocket(const char* ip,edk::uint16 port);
 
     //test if have connection
     bool haveConnection();

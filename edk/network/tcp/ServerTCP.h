@@ -46,7 +46,7 @@ public:
     ~ServerTCP();
 
     //Inicia a ouvir a porta
-    bool startListen(edk::uint16 port,edk::uint32 connections=0u);
+    edk::network::networkCodes startListen(edk::uint16 port,edk::uint32 connections=0u);
     //test if have listened
     bool haveListened();
     //accept client

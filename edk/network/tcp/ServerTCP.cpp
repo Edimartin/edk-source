@@ -125,7 +125,7 @@ edk::network::Adress edk::network::tcp::ServerTCP::acceptTCPClient(bool nonBlock
 }
 
 //Inicia a ouvir a porta
-bool edk::network::tcp::ServerTCP::startListen(edk::uint16 port,edk::uint32 connections){
+edk::network::networkCodes edk::network::tcp::ServerTCP::startListen(edk::uint16 port,edk::uint32 connections){
     if(!this->haveSocket()){
         this->createSocket(EDK_SOCKET_TCP);
         this->cleanAdress();
@@ -135,7 +135,7 @@ bool edk::network::tcp::ServerTCP::startListen(edk::uint16 port,edk::uint32 conn
         //testa se ja esta ouvindo
         if(this->listened){
             //retorna true
-            return true;
+            return edk::network::ok;
         }
         edk::int32 on = 1;
 
@@ -153,16 +153,17 @@ bool edk::network::tcp::ServerTCP::startListen(edk::uint16 port,edk::uint32 conn
         //Inicia o bind
         if (bind(this->getSocket(), (struct sockaddr *)&this->sockAdress, sizeof(struct sockaddr))== -1){
             this->cleanAdress();
-            return false;
+            return edk::network::cantStartBind;
         }
         //senao testa ouvir pela primeira vez
         if (listen(this->getSocket(), connections) >= 0){
-            return (this->listened = true);
+            this->listened = true;
+            return edk::network::ok;
         }
     }
     this->closeSocket();
     //senao retorna false
-    return false;
+    return edk::network::cantStartListen;
 }
 //test if have listened
 bool edk::network::tcp::ServerTCP::haveListened(){

@@ -25,7 +25,7 @@ edk::network::tcp::ClientTCP::ClientTCP(){
     this->cleanAdress();
 }
 //connect the socket with a server
-bool edk::network::tcp::ClientTCP::connectSocket(edk::network::Adress host){
+edk::network::networkCodes edk::network::tcp::ClientTCP::connectSocket(edk::network::Adress host){
     //disconnect the last connection
     this->disconnect();
     //test the host
@@ -34,7 +34,7 @@ bool edk::network::tcp::ClientTCP::connectSocket(edk::network::Adress host){
         if(!this->haveSocket()){
             //create a new socket
             if(!this->createSocket(EDK_SOCKET_TCP)){
-                return false;
+                return edk::network::cantCreateSocket;
             }
         }
         if(this->haveSocket()){
@@ -50,21 +50,33 @@ bool edk::network::tcp::ClientTCP::connectSocket(edk::network::Adress host){
                 //
                 this->connected=true;
                 this->serverHost=host;
-                return true;
+                return edk::network::ok;
+            }
+            else{
+#if _WIN32 || _WIN64
+#else
+                //disconnect the last connection
+                this->disconnect();
+                //Linux error code
+                switch(errno){
+                case ECONNREFUSED:
+                    return edk::network::connectionRefused;
+                }
+#endif
             }
         }
     }
     //disconnect the last connection
     this->disconnect();
-    return false;
+    return edk::network::error;
 }
-bool edk::network::tcp::ClientTCP::connectSocket(edk::uint32 ip,edk::uint16 port){
+edk::network::networkCodes edk::network::tcp::ClientTCP::connectSocket(edk::uint32 ip,edk::uint16 port){
     return this->connectSocket(edk::network::Adress(ip,port));
 }
-bool edk::network::tcp::ClientTCP::connectSocket(edk::char8* ip,edk::uint16 port){
+edk::network::networkCodes edk::network::tcp::ClientTCP::connectSocket(edk::char8* ip,edk::uint16 port){
     return this->connectSocket(edk::network::Adress(ip,port));
 }
-bool edk::network::tcp::ClientTCP::connectSocket(const char* ip,edk::uint16 port){
+edk::network::networkCodes edk::network::tcp::ClientTCP::connectSocket(const char* ip,edk::uint16 port){
     return this->connectSocket(edk::network::Adress(ip,port));
 }
 

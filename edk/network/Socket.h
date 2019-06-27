@@ -41,6 +41,7 @@ Gravatai RS Brazil 94065100
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netdb.h>
+#include <errno.h>
 #endif
 #include <sys/types.h>
 #include <string.h>
