@@ -28,7 +28,7 @@ Gravatai RS Brazil 94065100
 //add the GLEW before openGL
 #if defined(_WIN32) || defined(__linux__)
 #include <GL/glew.h>
-#include <GL/glext.h>
+//#include <GL/glext.h>
 #define USING_GLEW
 #elif defined(__APPLE__)
 #include <OpenGL/glew.h>

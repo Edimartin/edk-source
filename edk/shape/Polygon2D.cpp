@@ -203,38 +203,19 @@ bool edk::shape::Polygon2D::createPolygon(edk::uint32 vertexCount){
 bool edk::shape::Polygon2D::isCounterclockwise(){
     //test the polygon size
     if(this->getVertexCount()>=3){
-        //get the first vertex
-        edk::vec2f32 vertex = this->vertexs[0u]->position;
-        edk::float32 sum;
-        //test the scalar
-        for(register edk::uint32 i=1u;i<this->vertexs.size();i++){
-            /*
-            printf("\nAngle (%.2f,%.2f) (%.2f,%.2f) == %.2f"
-                   ,vertex.x
-                   ,vertex.y
-                   ,this->vertexs[i]->position.x
-                   ,this->vertexs[i]->position.y
-                   ,edk::Math::scalar2f(vertex,this->vertexs[i]->position)
-                   );
-*/
-            sum+= (this->vertexs[i]->position.x - vertex.x) * (this->vertexs[i]->position.y - vertex.y);
-            vertex = this->vertexs[i]->position;
+        //test the vertex angles
+        edk::float32 angle1 = edk::Math::getAngle2f(this->vertexs[1u]->position - this->vertexs[0u]->position);
+        edk::float32 angle2;
+        for(register edk::uint32 i=2u;i<this->vertexs.size();i++){
+            //get the next angle
+            angle2 = edk::Math::getAngle2f(this->vertexs[i]->position - this->vertexs[0u]->position);
+            if(angle2<angle1){
+                //it's not counterClockwise
+                return false;
+            }
+            angle1=angle2;
         }
-        /*
-        printf("\nAngle (%.2f,%.2f) (%.2f,%.2f) == %.2f"
-               ,vertex.x
-               ,vertex.y
-               ,this->vertexs[0u]->position.x
-                ,this->vertexs[0u]->position.y
-                ,edk::Math::scalar2f(vertex,this->vertexs[0u]->position)
-                );
-*/
-        sum+= sum+= (this->vertexs[0u]->position.x - vertex.x) * (this->vertexs[0u]->position.y - vertex.y);
-        /*
-        printf("\nSum == %.2f"
-               ,sum
-               );
-*/
+        return true;
     }
     return false;
 }

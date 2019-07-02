@@ -579,6 +579,7 @@ void edk::gui2d::ViewMenu2d::setColorPressedUp(edk::float32 r,edk::float32 g,edk
 
 void edk::gui2d::ViewMenu2d::load(edk::rectf32){
     //
+    this->saveFrame = edk::rectf32();
     this->camera.setSize(20,20);
     //this->camera.setRect(0,0,10,10);
 }

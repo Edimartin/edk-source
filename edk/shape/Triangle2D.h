@@ -44,6 +44,9 @@ class Triangle2D : public edk::shape::Polygon2D{
         bool createPolygon(edk::uint32 vertexCount);
         void deletePolygon();
 
+        //change the vertex position to the polygon be clockwise
+        bool calculateCounterClockwise();
+
         //print the triangle
         void print();
         //Draw the triangle

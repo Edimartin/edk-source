@@ -53,6 +53,25 @@ bool edk::shape::Triangle2D::createPolygon(edk::uint32 vertexCount){
 void edk::shape::Triangle2D::deletePolygon(){
     //set the function no do nothing
 }
+
+//change the vertex position to the polygon be counterClockwise
+bool edk::shape::Triangle2D::calculateCounterClockwise(){
+    //
+    if(this->getVertexCount()==3u){
+        if(this->vertexs[0u] &&
+                this->vertexs[1u] &&
+                this->vertexs[2u]
+                ){
+            if(!this->isCounterclockwise()){
+                edk::shape::Vertex2D* temp = this->vertexs[1u];
+                this->vertexs.set(1u,this->vertexs[2u]);
+                this->vertexs.set(2u,temp);
+            }
+            return true;
+        }
+    }
+    return false;
+}
 //print the triangle
 void edk::shape::Triangle2D::print(){
     //
