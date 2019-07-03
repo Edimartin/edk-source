@@ -40,22 +40,22 @@ Gravatai RS Brazil 94065100
 namespace edk{
 namespace collision{
 class LineContact2D{
-    public:
-        LineContact2D();
-        virtual ~LineContact2D();
+public:
+    LineContact2D();
+    virtual ~LineContact2D();
 
-        //Contacts
-        //point
-        static bool contactPoint(edk::vec2f32 point,edk::shape::Line2D test);
-        //line
-        static edk::collision::Vecs2f32 contactLine(edk::shape::Line2D line,edk::shape::Line2D test);
-        //Circle
-        static edk::collision::Vecs2f32 contactCircle(edk::shape::Circle2D circle,edk::shape::Line2D test);
-        //polygon
-        static edk::collision::Vecs2f32 contactPolygon(edk::shape::Polygon2D polygon,edk::shape::Line2D test);
+    //Contacts
+    //point
+    static bool contactPoint(edk::vec2f32 point,edk::shape::Line2D test);
+    //line
+    static bool contactLine(edk::shape::Line2D line,edk::shape::Line2D test, edk::collision::Vecs2f32* collision);
+    //Circle
+    static edk::collision::Vecs2f32 contactCircle(edk::shape::Circle2D circle,edk::shape::Line2D test);
+    //polygon
+    static edk::collision::Vecs2f32 contactPolygon(edk::shape::Polygon2D polygon,edk::shape::Line2D test);
 
-    protected:
-    private:
+protected:
+private:
 };
 }//end namesoace collision
 }//end namespace edk

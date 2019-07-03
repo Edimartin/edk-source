@@ -41,10 +41,17 @@ bool edk::collision::LineContact2D::contactPoint(edk::vec2f32 point,edk::shape::
     return edk::collision::MathCollision::pointStraigh2D(point,test.start.position,test.end.position);
 }
 //line
-edk::collision::Vecs2f32 edk::collision::LineContact2D::contactLine(edk::shape::Line2D line,edk::shape::Line2D test){
+bool edk::collision::LineContact2D::contactLine(edk::shape::Line2D line,
+                                                edk::shape::Line2D test,
+                                                edk::collision::Vecs2f32* collision){
     //
     //else return no point
-    return edk::collision::MathCollision::straightStraight2D(line.start.position,line.end.position,test.start.position,test.end.position);
+    return edk::collision::MathCollision::straightStraight2D(line.start.position,
+                                                             line.end.position,
+                                                             test.start.position,
+                                                             test.end.position,
+                                                             collision
+                                                             );
 }
 //Circle
 edk::collision::Vecs2f32 edk::collision::LineContact2D::contactCircle(edk::shape::Circle2D circle,edk::shape::Line2D test){
@@ -79,22 +86,26 @@ edk::collision::Vecs2f32 edk::collision::LineContact2D::contactPolygon(edk::shap
         //
         if(i==(polygon.getVertexCount()-1u)){
             //test the line collision
-//            ret+= edk::collision::MathCollision::straightStraight2D(test.start.position,test.end.position,
-//                                                                    polygon.getVertexPosition(i),polygon.getVertexPosition(0u)
-//                                                                    );
-            edk::collision::Vecs2f32 straight = edk::collision::MathCollision::straightStraight2D(test.start.position,test.end.position,
-                                                                                                  polygon.getVertexPosition(i),polygon.getVertexPosition(0u)
-                                                                                                  );
+            //            ret+= edk::collision::MathCollision::straightStraight2D(test.start.position,test.end.position,
+            //                                                                    polygon.getVertexPosition(i),polygon.getVertexPosition(0u)
+            //                                                                    );
+            edk::collision::Vecs2f32 straight;
+            edk::collision::MathCollision::straightStraight2D(test.start.position,test.end.position,
+                                                              polygon.getVertexPosition(i),polygon.getVertexPosition(0u),
+                                                              &straight
+                                                              );
             ret.incrementFrom(&straight);
         }
         else{
             //test the line collision
-//            ret+= edk::collision::MathCollision::straightStraight2D(test.start.position,test.end.position,
-//                                                                    polygon.getVertexPosition(i),polygon.getVertexPosition(i+1u)
-//                                                                    );
-            edk::collision::Vecs2f32 straight = edk::collision::MathCollision::straightStraight2D(test.start.position,test.end.position,
-                                                                    polygon.getVertexPosition(i),polygon.getVertexPosition(i+1u)
-                                                                    );
+            //            ret+= edk::collision::MathCollision::straightStraight2D(test.start.position,test.end.position,
+            //                                                                    polygon.getVertexPosition(i),polygon.getVertexPosition(i+1u)
+            //                                                                    );
+            edk::collision::Vecs2f32 straight;
+            edk::collision::MathCollision::straightStraight2D(test.start.position,test.end.position,
+                                                              polygon.getVertexPosition(i),polygon.getVertexPosition(i+1u),
+                                                              &straight
+                                                              );
             ret.incrementFrom(&straight);
         }
     }

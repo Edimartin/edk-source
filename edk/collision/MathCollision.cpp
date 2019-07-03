@@ -138,36 +138,41 @@ bool edk::collision::MathCollision::pointStraigh2D(edk::vec2f32 point,vec2f32 li
     //else return zero
     return false;
 }
-edk::collision::Vecs2f32 edk::collision::MathCollision::straightStraight2D(vec2f32 line1Start,vec2f32 line1End,
-                                                                           vec2f32 line2Start,vec2f32 line2End
-                                                                           ){
+bool edk::collision::MathCollision::straightStraight2D(vec2f32 line1Start,vec2f32 line1End,
+                                                       vec2f32 line2Start,vec2f32 line2End,
+                                                       edk::collision::Vecs2f32* vecs
+                                                       ){
+    bool ret = false;
     //create the vectors to the contact
-    edk::collision::Vecs2f32 ret(0u);
-    //the temp vec
-    edk::vec2f32 temp;
-    edk::float64 det;
+    if(vecs){
 
-    //( Ponto k,           Ponto l,         Ponto m,           Ponto n)
-    //vec2f32 line1Start,vec2f32 line1End,vec2f32 line2Start,vec2f32 line2End
-    //det = (line2End.x - line2Start.x) * (line1End.y - line1Start.y)  -  (line2End.y - line2Start.y) * (line1End.x - line1Start.x);
-    det = (line2End.x - line2Start.x) * (line1End.y - line1Start.y)  -  (line2End.y - line2Start.y) * (line1End.x - line1Start.x);
+        //the temp vec
+        edk::vec2f32 temp;
+        edk::float64 det;
 
-    if(det!=0.0){
-        //
-        //s =  ((line2End.x - line2Start.x) * (line2Start.y - line1Start.y) - (line2End.y - line2Start.y) * (line2Start.x - line1Start.x))/ det ;
-        temp.x=((line2End.x - line2Start.x) * (line2Start.y - line1Start.y) - (line2End.y - line2Start.y) * (line2Start.x - line1Start.x))/(edk::float32)det;
-        //t =  ((line1End.x - line1Start.x) * (line2Start.y - line1Start.y) - (line1End.y - line1Start.y) * (line2Start.x - line1Start.x))/ det ;
-        temp.y=((line1End.x - line1Start.x) * (line2Start.y - line1Start.y) - (line1End.y - line1Start.y) * (line2Start.x - line1Start.x))/(edk::float32)det;
-        if( temp.x>=0.f && temp.y<=1.f && temp.y>=0.f && temp.y<=1.f){
+        //( Ponto k,           Ponto l,         Ponto m,           Ponto n)
+        //vec2f32 line1Start,vec2f32 line1End,vec2f32 line2Start,vec2f32 line2End
+        //det = (line2End.x - line2Start.x) * (line1End.y - line1Start.y)  -  (line2End.y - line2Start.y) * (line1End.x - line1Start.x);
+        det = (line2End.x - line2Start.x) * (line1End.y - line1Start.y)  -  (line2End.y - line2Start.y) * (line1End.x - line1Start.x);
+
+        if(det!=0.0){
             //
-            //ret.createVectors(1u);
-            //Pi.x = k.x + (l.x-k.x)*s;
-            //Pi.y = k.y + (l.y-k.y)*s;
+            //s =  ((line2End.x - line2Start.x) * (line2Start.y - line1Start.y) - (line2End.y - line2Start.y) * (line2Start.x - line1Start.x))/ det ;
+            temp.x=((line2End.x - line2Start.x) * (line2Start.y - line1Start.y) - (line2End.y - line2Start.y) * (line2Start.x - line1Start.x))/(edk::float32)det;
+            //t =  ((line1End.x - line1Start.x) * (line2Start.y - line1Start.y) - (line1End.y - line1Start.y) * (line2Start.x - line1Start.x))/ det ;
+            temp.y=((line1End.x - line1Start.x) * (line2Start.y - line1Start.y) - (line1End.y - line1Start.y) * (line2Start.x - line1Start.x))/(edk::float32)det;
+            if( temp.x>=0.f && temp.y<=1.f && temp.y>=0.f && temp.y<=1.f){
+                //
+                //ret.createVectors(1u);
+                //Pi.x = k.x + (l.x-k.x)*s;
+                //Pi.y = k.y + (l.y-k.y)*s;
 
-            ret.pushBack(edk::vec2f32(line1Start.x+(temp.x*(line1End.x-line1Start.x)),
-                                      line1Start.y+(temp.x*(line1End.y-line1Start.y))
-                                      )
-                         );
+                vecs->pushBack(edk::vec2f32(line1Start.x+(temp.x*(line1End.x-line1Start.x)),
+                                          line1Start.y+(temp.x*(line1End.y-line1Start.y))
+                                          )
+                             );
+                ret=true;
+            }
         }
     }
     //else return a zero vector

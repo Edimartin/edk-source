@@ -51,21 +51,24 @@ public:
         //
         //delete the array
         if(this->canDeleteVecs){
-            //clean
-            for(edk::uint32 i=0u;i<this->size();i++){
-                //
-                if(edk::vector::Stack<edk::vec2f32*>::get(i)){
-                    //
-                    delete edk::vector::Stack<edk::vec2f32*>::get(i);
-                }
-            }
-
+            this->clean();
             this->canDeleteVecs=false;
         }
         else{
             //
             this->canDeleteVecs=true;
         }
+    }
+    void clean(){
+        //clean
+        for(edk::uint32 i=0u;i<this->size();i++){
+            //
+            if(edk::vector::Stack<edk::vec2f32*>::get(i)){
+                //
+                delete edk::vector::Stack<edk::vec2f32*>::get(i);
+            }
+        }
+        edk::vector::Stack<edk::vec2f32*>::clean();
     }
     edk::uint32 pushBack(edk::vec2f32 vec){
         //first create the vector
