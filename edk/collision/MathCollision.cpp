@@ -129,10 +129,16 @@ bool edk::collision::MathCollision::boundingContact2D(edk::vec2f32 point,edk::ve
 }
 
 //POINT STRAIGHT
-bool edk::collision::MathCollision::pointStraigh2D(edk::vec2f32 point,vec2f32 lineStart,vec2f32 lineEnd){
+bool edk::collision::MathCollision::pointStraigh2D(edk::vec2f32 point,vec2f32 lineStart,vec2f32 lineEnd, edk::float32 radius){
     //
+    edk::float32 value = (point.x*lineStart.y)+
+            (point.y*lineEnd.x)+
+            (lineStart.x*lineEnd.y)-
+            (lineEnd.x*lineStart.y)-
+            (lineEnd.y*point.x)-
+            (lineStart.x*point.y);
     //0==(pontoX*Y1)           +(pontoY*X2)        +(X1*Y2)                -(X2*Y1)                -(Y2*pontoX)        -(X1*pontoY))
-    if(0==(point.x*lineStart.y)+(point.y*lineEnd.x)+(lineStart.x*lineEnd.y)-(lineEnd.x*lineStart.y)-(lineEnd.y*point.x)-(lineStart.x*point.y))
+    if(value<radius && value>-radius)
         //Entao ele retorna true
         return true;
     //else return zero
@@ -168,15 +174,42 @@ bool edk::collision::MathCollision::straightStraight2D(vec2f32 line1Start,vec2f3
                 //Pi.y = k.y + (l.y-k.y)*s;
 
                 vecs->pushBack(edk::vec2f32(line1Start.x+(temp.x*(line1End.x-line1Start.x)),
-                                          line1Start.y+(temp.x*(line1End.y-line1Start.y))
-                                          )
-                             );
+                                            line1Start.y+(temp.x*(line1End.y-line1Start.y))
+                                            )
+                               );
                 ret=true;
             }
         }
     }
     //else return a zero vector
     return ret;
+}
+bool edk::collision::MathCollision::straightStraight2DtoBool(vec2f32 line1Start,vec2f32 line1End,
+                                                             vec2f32 line2Start,vec2f32 line2End
+                                                             ){
+    //create the vectors to the contact
+
+    //the temp vec
+    edk::vec2f32 temp;
+    edk::float64 det;
+
+    //( Ponto k,           Ponto l,         Ponto m,           Ponto n)
+    //vec2f32 line1Start,vec2f32 line1End,vec2f32 line2Start,vec2f32 line2End
+    //det = (line2End.x - line2Start.x) * (line1End.y - line1Start.y)  -  (line2End.y - line2Start.y) * (line1End.x - line1Start.x);
+    det = (line2End.x - line2Start.x) * (line1End.y - line1Start.y)  -  (line2End.y - line2Start.y) * (line1End.x - line1Start.x);
+
+    if(det!=0.0){
+        //
+        //s =  ((line2End.x - line2Start.x) * (line2Start.y - line1Start.y) - (line2End.y - line2Start.y) * (line2Start.x - line1Start.x))/ det ;
+        temp.x=((line2End.x - line2Start.x) * (line2Start.y - line1Start.y) - (line2End.y - line2Start.y) * (line2Start.x - line1Start.x))/(edk::float32)det;
+        //t =  ((line1End.x - line1Start.x) * (line2Start.y - line1Start.y) - (line1End.y - line1Start.y) * (line2Start.x - line1Start.x))/ det ;
+        temp.y=((line1End.x - line1Start.x) * (line2Start.y - line1Start.y) - (line1End.y - line1Start.y) * (line2Start.x - line1Start.x))/(edk::float32)det;
+        if( temp.x>=0.f && temp.y<=1.f && temp.y>=0.f && temp.y<=1.f){
+            //
+            return true;
+        }
+    }
+    return false;
 }
 /*
 

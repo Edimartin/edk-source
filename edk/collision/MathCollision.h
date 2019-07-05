@@ -47,11 +47,14 @@ public:
     static bool boundingContact2D(edk::vec2f32 point,edk::vec2f32 vec1,edk::vec2f32 vec2);
 
     //POINT STRAIGHT
-    static bool pointStraigh2D(edk::vec2f32 point,vec2f32 lineStart,vec2f32 lineEnd);
+    static bool pointStraigh2D(edk::vec2f32 point,vec2f32 lineStart,vec2f32 lineEnd, edk::float32 radius=0.01f);
     static bool straightStraight2D(vec2f32 line1Start,vec2f32 line1End,
                                    vec2f32 line2Start,vec2f32 line2End,
                                    edk::collision::Vecs2f32* vecs
                                    );
+    static bool straightStraight2DtoBool(vec2f32 line1Start,vec2f32 line1End,
+                                         vec2f32 line2Start,vec2f32 line2End
+                                         );
     static edk::collision::Vecs2f32 straightCircle2D(edk::vec2f32 lineStart,edk::vec2f32 lineEnd,edk::vec2f32 circlePosition,edk::float32 circleRadius);
     //static edk::collision::Vecs3f32 straightSphere3D(edk::vec3f32 lineStart,edk::vec3f32 lineEnd,edk::vec3f32 circlePosition,edk::float32 circleRadius);
 

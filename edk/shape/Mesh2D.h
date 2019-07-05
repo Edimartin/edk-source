@@ -36,6 +36,7 @@ Gravatai RS Brazil 94065100
 #include "AnimatedPolygon2DList.h"
 #include "../Texture2DList.h"
 #include "../material/Material.h"
+#include "../collision/MathCollision.h"
 
 #ifdef printMessages
 #warning "    Compiling Mesh2D"
@@ -87,6 +88,9 @@ public:
     edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
     bool lightIsOn[][EDK_LIGHT_LIMIT]);
     virtual void drawWire();
+
+    //vertexTriangularization the mesh with the triangles
+    static bool vertexTriangularization(edk::vector::Stack<edk::vec2f32>* vertexes,edk::shape::Mesh2D *mesh);
 
     void cantDeleteMesh();
     //XML
@@ -188,6 +192,72 @@ private:
         }
     };
 private:
+    //functions to vertex triangularization
+    class TriangleValues{
+    public:
+        TriangleValues(edk::uint32 i,edk::uint32 j,edk::uint32 w){this->i=i;this->j=j;this->k=w;}
+        ~TriangleValues(){}
+        edk::uint32 i,j,k;
+    };
+    //binary tree with the triangle vertex positions in stack
+    class treeTriangles:public edk::vector::BinaryTree<TriangleValues*>{
+    public:
+        //compare if the value is bigger
+        bool firstBiggerSecond(TriangleValues* first,TriangleValues* second){
+            if(first  &&  second){
+                if(first->i>second->i){
+                    return true;
+                }
+                else if(first->j>second->j){
+                    return true;
+                }
+                else if(first->k>second->k){
+                    return true;
+                }
+            }
+            return false;
+        }
+        //compare if the value is equal
+        bool firstEqualSecond(TriangleValues* first,TriangleValues* second){
+            if(first&&second)
+                if((first->i==second->i || first->i==second->j || first->i==second->k)
+                        &&
+                        (first->j==second->i || first->j==second->j || first->j==second->k)
+                        &&
+                        (first->k==second->i || first->k==second->j || first->k==second->k)
+                        ){
+                    return true;
+                }
+            return false;
+        }
+        bool haveTriangle(edk::uint32 i,edk::uint32 j,edk::uint32 k){
+            if(i != j && i != k && j != k){
+                TriangleValues triangle(i,j,k);
+                return this->haveElement(&triangle);
+            }
+            return false;
+        }
+        //add a new triangle
+        bool newTriangle(edk::uint32 i,edk::uint32 j,edk::uint32 k){
+            if(i != j && i != k && j != k){
+                if(!this->haveTriangle(i,j,k)){
+                    //create a new triangle
+                    TriangleValues* temp = new TriangleValues(i,j,k);
+                    if(temp){
+                        if(this->add(temp)){
+                            return true;
+                        }
+                        delete temp;
+                    }
+                }
+            }
+            return false;
+        }
+    };
+
+    static inline bool floatDifferent(edk::float32 f1,edk::float32 f2);
+    static bool pointInsideLine(edk::vec2f32 point,edk::vec2f32 lineStart,edk::vec2f32 lineEnd);
+
     edk::shape::Mesh2D operator=(edk::shape::Mesh2D mesh){
         //
         edk::shape::Mesh2D::TreeAnimations tree;

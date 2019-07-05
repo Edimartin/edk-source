@@ -1057,7 +1057,6 @@ char8* String::vecUint16toStr(edk::uint16* vec,edk::uint32 size){
 
 char8* String::vecUint32toStr(edk::uint32* vec,edk::uint32 size){
     if(vec && size){
-        printf("\n");
         //calculate the size of the string
         edk::uint32 stringSize = 0u;
         for(edk::uint32 i=0u;i<size;i++){
@@ -2062,7 +2061,7 @@ void String::consoleClear(){
 #if defined(WIN32) || defined(WIN64)//Windows
     system("cls");
 #elif defined(__linux__) || defined(__APPLE__) //Linux //MacOS
-    printf("\033c");
+    printf("\033c");fflush(stdout);
 #endif
 }
 
