@@ -89,8 +89,12 @@ public:
     bool lightIsOn[][EDK_LIGHT_LIMIT]);
     virtual void drawWire();
 
+    bool triangularizateFromVertex(edk::vector::Stack<edk::vec2f32>* vertexes);
+    bool triangularizateFromPolygon(edk::shape::Polygon2D polygon);
+
     //vertexTriangularization the mesh with the triangles
     static bool vertexTriangularization(edk::vector::Stack<edk::vec2f32>* vertexes,edk::shape::Mesh2D *mesh);
+    static bool polygonTriangularization(edk::shape::Polygon2D polygon,edk::shape::Mesh2D *mesh);
 
     void cantDeleteMesh();
     //XML

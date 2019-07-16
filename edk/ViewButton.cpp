@@ -428,10 +428,10 @@ bool edk::ViewButton::isOn(){
 
 //TEXT
 //add the text to the button
-bool edk::ViewButton::addButtonText(const char* str){
-    return this->addButtonText((edk::char8*) str);
+bool edk::ViewButton::writeText(const char* str){
+    return this->writeText((edk::char8*) str);
 }
-bool edk::ViewButton::addButtonText(edk::char8* str){
+bool edk::ViewButton::writeText(edk::char8* str){
     return this->text.createStringMap(str);
 }
 //load the textFont

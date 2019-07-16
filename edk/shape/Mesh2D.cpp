@@ -52,7 +52,7 @@ inline bool edk::shape::Mesh2D::floatDifferent(edk::float32 f1,edk::float32 f2){
     return false;
 }
 bool edk::shape::Mesh2D::pointInsideLine(edk::vec2f32 point,edk::vec2f32 lineStart,edk::vec2f32 lineEnd){
-/*
+    /*
     printf("\n%u %s %s point %.2f %.2f lineStart %.2f %.2f lineEnd %.2f %.2f pointStraigh2D %s"
            ,__LINE__,__FILE__,__func__
            ,point.x
@@ -82,7 +82,7 @@ bool edk::shape::Mesh2D::pointInsideLine(edk::vec2f32 point,edk::vec2f32 lineSta
         pEnd.y = lineStart.y;
     }
     //
-/*
+    /*
     printf("\n%u %s %s point %.2f %.2f pStart %.2f %.2f pEnd %.2f %.2f"
            ,__LINE__,__FILE__,__func__
            ,point.x
@@ -99,12 +99,12 @@ bool edk::shape::Mesh2D::pointInsideLine(edk::vec2f32 point,edk::vec2f32 lineSta
             &&
             point.y>=pStart.y && point.y<=pEnd.y
             ){
-/*
+        /*
         printf(" TRUE");fflush(stdout);
 */
         return true;
     }
-/*
+    /*
     printf(" FALSE");fflush(stdout);
 */
     return false;
@@ -351,6 +351,15 @@ void edk::shape::Mesh2D::drawWire(){
     this->drawWirePolygons();
 }
 
+bool edk::shape::Mesh2D::triangularizateFromVertex(edk::vector::Stack<edk::vec2f32>* vertexes){
+    return edk::shape::Mesh2D::vertexTriangularization(vertexes,this);
+}
+bool edk::shape::Mesh2D::triangularizateFromPolygon(edk::shape::Polygon2D polygon){
+    bool ret = edk::shape::Mesh2D::polygonTriangularization(polygon,this);
+    polygon.cantDeletePolygon();
+    return ret;
+}
+
 //vertexTriangularization the mesh with the triangles
 bool edk::shape::Mesh2D::vertexTriangularization(edk::vector::Stack<edk::vec2f32>* vertexes,edk::shape::Mesh2D *mesh){
     bool ret=false;
@@ -375,7 +384,7 @@ bool edk::shape::Mesh2D::vertexTriangularization(edk::vector::Stack<edk::vec2f32
                 for(edk::uint32 k=0u;k<size;k++){
                     if(k==i) continue;
                     if(k==j) continue;
-/*
+                    /*
                     printf("\nTri %u %u %u",i,j,k);fflush(stdout);
 */
                     //test if aready have the triangle on the tree
@@ -406,7 +415,7 @@ bool edk::shape::Mesh2D::vertexTriangularization(edk::vector::Stack<edk::vec2f32
                                                 edk::Math::getAngle2f(vertexes->get(i)-vertexes->get(k));
                                         if(angle<=180.f && angle>=0.f){
                                             //
-/*
+                                            /*
                                             printf("\n%u %s %s point      inside",__LINE__,__FILE__,__func__);fflush(stdout);
 */
                                             goContinue++;
@@ -436,7 +445,7 @@ bool edk::shape::Mesh2D::vertexTriangularization(edk::vector::Stack<edk::vec2f32
                                     //0 1
                                     t1 = tri.getVertexPosition(0u);
                                     t2 = tri.getVertexPosition(1u);
-/*
+                                    /*
                                     printf("\n%u %s %s  p1 == [%u] %.2f %.2f "
                                            "p2 == [%u] %.2f %.2f "
                                            "t1 == [%u] %.2f %.2f "
@@ -448,19 +457,19 @@ bool edk::shape::Mesh2D::vertexTriangularization(edk::vector::Stack<edk::vec2f32
                                            );fflush(stdout);
 */
                                     if((p1!=t1 || p2!=t2) && (p2!=t1 || p1!=t2)){
-/*
+                                        /*
                                         printf("\n%u %s %s straightStraight2D(p1[%.2f,%.2f],p2[%.2f,%.2f],t1[%.2f,%.2f],t2[%.2f,%.2f],&collision)",__LINE__,__FILE__,__func__
                                                ,p1.x,p1.y,p2.x,p2.y,t1.x,t1.y,t2.x,t2.y
                                                );fflush(stdout);
 */
                                         edk::collision::MathCollision::straightStraight2D(p1,p2,t1,t2,&collision);
-/*
+                                        /*
                                         printf("\nCollision size %u",collision.size());fflush(stdout);
 */
                                         if(collision.size()){
                                             csize = collision.size();
                                             for(edk::uint32 c=0u;c<csize;c++){
-/*
+                                                /*
                                                 printf("\n        %u %.2f %.2f"
                                                        ,c
                                                        ,collision.get(c).x
@@ -488,7 +497,7 @@ bool edk::shape::Mesh2D::vertexTriangularization(edk::vector::Stack<edk::vec2f32
                                                         pointInsideLine(collision.get(c),t1,t2)
 
                                                         ){
-/*
+                                                    /*
                                                     printf("\n%u %s %s      Intersect",__LINE__,__FILE__,__func__);fflush(stdout);
 */
                                                     goContinue++;
@@ -502,7 +511,7 @@ bool edk::shape::Mesh2D::vertexTriangularization(edk::vector::Stack<edk::vec2f32
                                     //1 2
                                     t1 = tri.getVertexPosition(1u);
                                     t2 = tri.getVertexPosition(2u);
-/*
+                                    /*
                                     printf("\n%u %s %s  p1 == [%u] %.2f %.2f "
                                            "p2 == [%u] %.2f %.2f "
                                            "t1 == [%u] %.2f %.2f "
@@ -514,19 +523,19 @@ bool edk::shape::Mesh2D::vertexTriangularization(edk::vector::Stack<edk::vec2f32
                                            );fflush(stdout);
 */
                                     if((p1!=t1 || p2!=t2) && (p2!=t1 || p1!=t2)){
-/*
+                                        /*
                                         printf("\n%u %s %s straightStraight2D(p1[%.2f,%.2f],p2[%.2f,%.2f],t1[%.2f,%.2f],t2[%.2f,%.2f],&collision)",__LINE__,__FILE__,__func__
                                                ,p1.x,p1.y,p2.x,p2.y,t1.x,t1.y,t2.x,t2.y
                                                );fflush(stdout);
 */
                                         edk::collision::MathCollision::straightStraight2D(p1,p2,t1,t2,&collision);
-/*
+                                        /*
                                         printf("\nCollision size %u",collision.size());fflush(stdout);
 */
                                         if(collision.size()){
                                             csize = collision.size();
                                             for(edk::uint32 c=0u;c<csize;c++){
-/*
+                                                /*
                                                 printf("\n        %u %.2f %.2f"
                                                        ,c
                                                        ,collision.get(c).x
@@ -554,7 +563,7 @@ bool edk::shape::Mesh2D::vertexTriangularization(edk::vector::Stack<edk::vec2f32
                                                         pointInsideLine(collision.get(c),t1,t2)
 
                                                         ){
-/*
+                                                    /*
                                                     printf("\n%u %s %s      Intersect",__LINE__,__FILE__,__func__);fflush(stdout);
 */
                                                     goContinue++;
@@ -568,7 +577,7 @@ bool edk::shape::Mesh2D::vertexTriangularization(edk::vector::Stack<edk::vec2f32
                                     //2 0
                                     t1 = tri.getVertexPosition(2u);
                                     t2 = tri.getVertexPosition(0u);
-/*
+                                    /*
                                     printf("\n%u %s %s  p1 == [%u] %.2f %.2f "
                                            "p2 == [%u] %.2f %.2f "
                                            "t1 == [%u] %.2f %.2f "
@@ -580,19 +589,19 @@ bool edk::shape::Mesh2D::vertexTriangularization(edk::vector::Stack<edk::vec2f32
                                            );fflush(stdout);
 */
                                     if((p1!=t1 || p2!=t2) && (p2!=t1 || p1!=t2)){
-/*
+                                        /*
                                         printf("\n%u %s %s straightStraight2D(p1[%.2f,%.2f],p2[%.2f,%.2f],t1[%.2f,%.2f],t2[%.2f,%.2f],&collision)",__LINE__,__FILE__,__func__
                                                ,p1.x,p1.y,p2.x,p2.y,t1.x,t1.y,t2.x,t2.y
                                                );fflush(stdout);
 */
                                         edk::collision::MathCollision::straightStraight2D(p1,p2,t1,t2,&collision);
-/*
+                                        /*
                                         printf("\nCollision size %u",collision.size());fflush(stdout);
 */
                                         if(collision.size()){
                                             csize = collision.size();
                                             for(edk::uint32 c=0u;c<csize;c++){
-/*
+                                                /*
                                                 printf("\n        %u %.2f %.2f"
                                                        ,c
                                                        ,collision.get(c).x
@@ -620,7 +629,7 @@ bool edk::shape::Mesh2D::vertexTriangularization(edk::vector::Stack<edk::vec2f32
                                                         pointInsideLine(collision.get(c),t1,t2)
 
                                                         ){
-/*
+                                                    /*
                                                     printf("\n%u %s %s      Intersect",__LINE__,__FILE__,__func__);fflush(stdout);
 */
                                                     goContinue++;
@@ -642,7 +651,7 @@ bool edk::shape::Mesh2D::vertexTriangularization(edk::vector::Stack<edk::vec2f32
                                     //0 1
                                     t1 = tri.getVertexPosition(0u);
                                     t2 = tri.getVertexPosition(1u);
-/*
+                                    /*
                                     printf("\n%u %s %s  p1 == [%u] %.2f %.2f "
                                            "p2 == [%u] %.2f %.2f "
                                            "t1 == [%u] %.2f %.2f "
@@ -654,19 +663,19 @@ bool edk::shape::Mesh2D::vertexTriangularization(edk::vector::Stack<edk::vec2f32
                                            );fflush(stdout);
 */
                                     if((p1!=t1 || p2!=t2) && (p2!=t1 || p1!=t2)){
-/*
+                                        /*
                                         printf("\n%u %s %s straightStraight2D(p1[%.2f,%.2f],p2[%.2f,%.2f],t1[%.2f,%.2f],t2[%.2f,%.2f],&collision)",__LINE__,__FILE__,__func__
                                                ,p1.x,p1.y,p2.x,p2.y,t1.x,t1.y,t2.x,t2.y
                                                );fflush(stdout);
 */
                                         edk::collision::MathCollision::straightStraight2D(p1,p2,t1,t2,&collision);
-/*
+                                        /*
                                         printf("\nCollision size %u",collision.size());fflush(stdout);
 */
                                         if(collision.size()){
                                             csize = collision.size();
                                             for(edk::uint32 c=0u;c<csize;c++){
-/*
+                                                /*
                                                 printf("\n        %u %.2f %.2f"
                                                        ,c
                                                        ,collision.get(c).x
@@ -694,7 +703,7 @@ bool edk::shape::Mesh2D::vertexTriangularization(edk::vector::Stack<edk::vec2f32
                                                         pointInsideLine(collision.get(c),t1,t2)
 
                                                         ){
-/*
+                                                    /*
                                                     printf("\n%u %s %s      Intersect",__LINE__,__FILE__,__func__);fflush(stdout);
 */
                                                     goContinue++;
@@ -708,7 +717,7 @@ bool edk::shape::Mesh2D::vertexTriangularization(edk::vector::Stack<edk::vec2f32
                                     //1 2
                                     t1 = tri.getVertexPosition(1u);
                                     t2 = tri.getVertexPosition(2u);
-/*
+                                    /*
                                     printf("\n%u %s %s  p1 == [%u] %.2f %.2f "
                                            "p2 == [%u] %.2f %.2f "
                                            "t1 == [%u] %.2f %.2f "
@@ -720,19 +729,19 @@ bool edk::shape::Mesh2D::vertexTriangularization(edk::vector::Stack<edk::vec2f32
                                            );fflush(stdout);
 */
                                     if((p1!=t1 || p2!=t2) && (p2!=t1 || p1!=t2)){
-/*
+                                        /*
                                         printf("\n%u %s %s straightStraight2D(p1[%.2f,%.2f],p2[%.2f,%.2f],t1[%.2f,%.2f],t2[%.2f,%.2f],&collision)",__LINE__,__FILE__,__func__
                                                ,p1.x,p1.y,p2.x,p2.y,t1.x,t1.y,t2.x,t2.y
                                                );fflush(stdout);
 */
                                         edk::collision::MathCollision::straightStraight2D(p1,p2,t1,t2,&collision);
-/*
+                                        /*
                                         printf("\nCollision size %u",collision.size());fflush(stdout);
 */
                                         if(collision.size()){
                                             csize = collision.size();
                                             for(edk::uint32 c=0u;c<csize;c++){
-/*
+                                                /*
                                                 printf("\n        %u %.2f %.2f"
                                                        ,c
                                                        ,collision.get(c).x
@@ -794,7 +803,7 @@ bool edk::shape::Mesh2D::vertexTriangularization(edk::vector::Stack<edk::vec2f32
                                                         pointInsideLine(collision.get(c),t1,t2)
 
                                                         ){
-/*
+                                                    /*
                                                     printf("\n%u %s %s      Intersect",__LINE__,__FILE__,__func__);fflush(stdout);
 */
                                                     goContinue++;
@@ -808,7 +817,7 @@ bool edk::shape::Mesh2D::vertexTriangularization(edk::vector::Stack<edk::vec2f32
                                     //2 0
                                     t1 = tri.getVertexPosition(2u);
                                     t2 = tri.getVertexPosition(0u);
-/*
+                                    /*
                                     printf("\n%u %s %s  p1 == [%u] %.2f %.2f "
                                            "p2 == [%u] %.2f %.2f "
                                            "t1 == [%u] %.2f %.2f "
@@ -820,19 +829,19 @@ bool edk::shape::Mesh2D::vertexTriangularization(edk::vector::Stack<edk::vec2f32
                                            );fflush(stdout);
 */
                                     if((p1!=t1 || p2!=t2) && (p2!=t1 || p1!=t2)){
-/*
+                                        /*
                                         printf("\n%u %s %s straightStraight2D(p1[%.2f,%.2f],p2[%.2f,%.2f],t1[%.2f,%.2f],t2[%.2f,%.2f],&collision)",__LINE__,__FILE__,__func__
                                                ,p1.x,p1.y,p2.x,p2.y,t1.x,t1.y,t2.x,t2.y
                                                );fflush(stdout);
 */
                                         edk::collision::MathCollision::straightStraight2D(p1,p2,t1,t2,&collision);
-/*
+                                        /*
                                         printf("\nCollision size %u",collision.size());fflush(stdout);
 */
                                         if(collision.size()){
                                             csize = collision.size();
                                             for(edk::uint32 c=0u;c<csize;c++){
-/*
+                                                /*
                                                 printf("\n        %u %.2f %.2f"
                                                        ,c
                                                        ,collision.get(c).x
@@ -860,7 +869,7 @@ bool edk::shape::Mesh2D::vertexTriangularization(edk::vector::Stack<edk::vec2f32
                                                         pointInsideLine(collision.get(c),t1,t2)
 
                                                         ){
-/*
+                                                    /*
                                                     printf("\n%u %s %s      Intersect",__LINE__,__FILE__,__func__);fflush(stdout);
 */
                                                     goContinue++;
@@ -879,7 +888,7 @@ bool edk::shape::Mesh2D::vertexTriangularization(edk::vector::Stack<edk::vec2f32
                             }
 
                             //create the polygon
-/*
+                            /*
                             printf("\n    Create %u %u %u",i,j,k);fflush(stdout);
 */
 
@@ -896,6 +905,256 @@ bool edk::shape::Mesh2D::vertexTriangularization(edk::vector::Stack<edk::vec2f32
             }
         }
     }
+    return ret;
+}
+bool edk::shape::Mesh2D::polygonTriangularization(edk::shape::Polygon2D polygon,edk::shape::Mesh2D *mesh){
+    bool ret=false;
+    edk::shape::Triangle2D tri;
+    edk::vector::Stack<edk::vec2f32> concaves;
+    edk::uint32 concaveActual=0u;
+    edk::uint32 concaveFirst=0u;
+    edk::shape::Polygon2D polyTemp;
+    edk::uint32 size = polygon.getVertexCount();
+    edk::float32 angle = 0.f;
+    if(size>=3u && mesh){
+        //search for the concave vertexes
+        size-=2u;
+        printf("\n%u %s %s vertex %u LINE %u %u with %u %u",__LINE__,__FILE__,__func__
+               ,0u
+               ,size+1u
+               ,0u
+               ,0u
+               ,1u
+               );fflush(stdout);
+
+        //calculate if the point is inside the triangle
+        angle = edk::Math::getAngle2f(polygon.getVertexPosition(0u)-polygon.getVertexPosition(size+1u)) -
+                edk::Math::getAngle2f(polygon.getVertexPosition(1u)-polygon.getVertexPosition(size+1u));
+        if(angle<0.f)angle+=360.f;
+        printf("\nAngle == %.2f"
+               ,angle
+               );fflush(stdout);
+        if(angle<=180.f){
+            printf(" concave");fflush(stdout);
+            if(!concaves.size()) concaveFirst = 0u;
+            concaves.pushBack(polygon.getVertexPosition(0u));
+            concaveActual = 0u;
+        }
+        else{
+            printf(" convex");fflush(stdout);
+        }
+        bool goBreak=false;
+        for(edk::uint32 i=0u;i<size;i++){
+            //test the two lines
+            printf("\n%u %s %s vertex %u LINE %u %u with %u %u",__LINE__,__FILE__,__func__
+                   ,i+1u
+                   ,i
+                   ,i+1u
+                   ,i+1u
+                   ,i+2u
+                   );fflush(stdout);
+
+            //calculate if the point is inside the triangle
+            angle = edk::Math::getAngle2f(polygon.getVertexPosition(i+1u)-polygon.getVertexPosition(i)) -
+                    edk::Math::getAngle2f(polygon.getVertexPosition(i+2u)-polygon.getVertexPosition(i));
+            if(angle<0.f)angle+=360.f;
+            printf("\nAngle == %.2f"
+                   ,angle
+                   );fflush(stdout);
+            if(angle<=180.f){
+                printf(" concave");fflush(stdout);
+                if(!concaves.size()) concaveFirst = i+1u;
+                concaves.pushBack(polygon.getVertexPosition(i+1u));
+                concaveActual = i+1u;
+            }
+            else{
+                printf(" convex");fflush(stdout);
+                //test if have concaves
+                if(concaves.size()){
+                    //join the concave, the convex and the next vertex to create a triangle
+                    tri.setVertexPosition(0u,polygon.getVertexPosition(concaveActual).x,polygon.getVertexPosition(concaveActual).y);
+                    tri.setVertexPosition(1u,polygon.getVertexPosition(i+1u).x,polygon.getVertexPosition(i+1u).y);
+                    tri.setVertexPosition(2u,polygon.getVertexPosition(i+2u).x,polygon.getVertexPosition(i+2u).y);
+                    if(tri.isCounterclockwise()){
+                        //test if the triangle have a vertex inside
+                        bool goContinue = true;
+                        for(edk::uint32 l=0u;l<size;l++){
+
+                            //calculate if the point is inside the triangle
+                            angle = edk::Math::getAngle2f(polygon.getVertexPosition(l)-tri.getVertexPosition(0u)) -
+                                    edk::Math::getAngle2f(tri.getVertexPosition(1u)-tri.getVertexPosition(0u));
+                            if(angle<=180.f && angle>=0.f){
+                                angle = edk::Math::getAngle2f(polygon.getVertexPosition(l)-tri.getVertexPosition(1u)) -
+                                        edk::Math::getAngle2f(tri.getVertexPosition(2u)-tri.getVertexPosition(1u));
+                                if(angle<=180.f && angle>=0.f){
+                                    angle = edk::Math::getAngle2f(polygon.getVertexPosition(l)-tri.getVertexPosition(2u)) -
+                                            edk::Math::getAngle2f(tri.getVertexPosition(0u)-tri.getVertexPosition(2u));
+                                    if(angle<=180.f && angle>=0.f){
+                                        //
+                                        /*
+                                        printf("\n%u %s %s point      inside",__LINE__,__FILE__,__func__);fflush(stdout);
+*/
+                                        goContinue=false;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        if(goContinue){
+                            mesh->addPolygon(tri);
+                        }
+                        else{
+                            //add the vertex as a concave
+                            if(!concaves.size()) concaveFirst = i+1u;
+                            concaves.pushBack(polygon.getVertexPosition(i+1u));
+                            concaveActual = i+1u;
+                        }
+                    }
+                    else{
+                        goBreak=true;
+                        break;
+                    }
+                }
+            }
+        }
+        if(!goBreak){
+            //then test the last vertexes
+            printf("\n%u %s %s vertex %u LINE %u %u with %u %u",__LINE__,__FILE__,__func__
+                   ,size+1u
+                   ,size
+                   ,size+1u
+                   ,size+1u
+                   ,0u
+                   );fflush(stdout);
+
+            //calculate if the point is inside the triangle
+            angle = edk::Math::getAngle2f(polygon.getVertexPosition(size+1u)-polygon.getVertexPosition(size)) -
+                    edk::Math::getAngle2f(polygon.getVertexPosition(0u)-polygon.getVertexPosition(size));
+            if(angle<0.f)angle+=360.f;
+            printf("\nAngle == %.2f"
+                   ,angle
+                   );fflush(stdout);
+            if(angle<=180.f){
+                printf(" concave");fflush(stdout);
+                if(!concaves.size()) concaveFirst = size+1u;
+                concaves.pushBack(polygon.getVertexPosition(size+1u));
+                concaveActual = size+1u;
+            }
+            else{
+                printf(" convex");fflush(stdout);
+                //test if have concaves
+                if(concaves.size()){
+                    //join the concave, the convex and the next vertex to create a triangle
+                    tri.setVertexPosition(0u,polygon.getVertexPosition(concaveActual).x,polygon.getVertexPosition(concaveActual).y);
+                    tri.setVertexPosition(1u,polygon.getVertexPosition(size+1u).x,polygon.getVertexPosition(size+1u).y);
+                    tri.setVertexPosition(2u,polygon.getVertexPosition(0u).x,polygon.getVertexPosition(0u).y);
+                    if(tri.isCounterclockwise()){
+                        //test if the triangle have a vertex inside
+                        bool goContinue = true;
+                        for(edk::uint32 l=0u;l<size;l++){
+
+                            //calculate if the point is inside the triangle
+                            angle = edk::Math::getAngle2f(polygon.getVertexPosition(l)-tri.getVertexPosition(0u)) -
+                                    edk::Math::getAngle2f(tri.getVertexPosition(1u)-tri.getVertexPosition(0u));
+                            if(angle<=180.f && angle>=0.f){
+                                angle = edk::Math::getAngle2f(polygon.getVertexPosition(l)-tri.getVertexPosition(1u)) -
+                                        edk::Math::getAngle2f(tri.getVertexPosition(2u)-tri.getVertexPosition(1u));
+                                if(angle<=180.f && angle>=0.f){
+                                    angle = edk::Math::getAngle2f(polygon.getVertexPosition(l)-tri.getVertexPosition(2u)) -
+                                            edk::Math::getAngle2f(tri.getVertexPosition(0u)-tri.getVertexPosition(2u));
+                                    if(angle<=180.f && angle>=0.f){
+                                        //
+                                        /*
+                                        printf("\n%u %s %s point      inside",__LINE__,__FILE__,__func__);fflush(stdout);
+*/
+                                        goContinue=false;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        if(goContinue){
+                            mesh->addPolygon(tri);
+                        }
+                        else{
+                            //add the vertex as a concave
+                            if(!concaves.size()) concaveFirst = size+1u;
+                            concaves.pushBack(polygon.getVertexPosition(size+1u));
+                            concaveActual = size+1u;
+                        }
+                    }
+                }
+            }
+
+            //test if have vertexes before the first concave
+            if(concaveFirst){
+                //test the vertexes
+                for(edk::uint32 i=0u;i<concaveFirst;i++){
+                    //
+                    tri.setVertexPosition(0u,polygon.getVertexPosition(concaveActual).x,polygon.getVertexPosition(concaveActual).y);
+                    tri.setVertexPosition(1u,polygon.getVertexPosition(i).x,polygon.getVertexPosition(i).y);
+                    tri.setVertexPosition(2u,polygon.getVertexPosition(i+1u).x,polygon.getVertexPosition(i+1u).y);
+                    if(tri.isCounterclockwise()){
+                        //test if the triangle have a vertex inside
+                        bool goContinue = true;
+                        for(edk::uint32 l=0u;l<size;l++){
+
+                            //calculate if the point is inside the triangle
+                            angle = edk::Math::getAngle2f(polygon.getVertexPosition(l)-tri.getVertexPosition(0u)) -
+                                    edk::Math::getAngle2f(tri.getVertexPosition(1u)-tri.getVertexPosition(0u));
+                            if(angle<=180.f && angle>=0.f){
+                                angle = edk::Math::getAngle2f(polygon.getVertexPosition(l)-tri.getVertexPosition(1u)) -
+                                        edk::Math::getAngle2f(tri.getVertexPosition(2u)-tri.getVertexPosition(1u));
+                                if(angle<=180.f && angle>=0.f){
+                                    angle = edk::Math::getAngle2f(polygon.getVertexPosition(l)-tri.getVertexPosition(2u)) -
+                                            edk::Math::getAngle2f(tri.getVertexPosition(0u)-tri.getVertexPosition(2u));
+                                    if(angle<=180.f && angle>=0.f){
+                                        //
+                                        /*
+                                        printf("\n%u %s %s point      inside",__LINE__,__FILE__,__func__);fflush(stdout);
+*/
+                                        goContinue=false;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        if(goContinue){
+                            mesh->addPolygon(tri);
+                        }
+                        else{
+                            //add the vertex as a concave
+                            concaves.pushBack(polygon.getVertexPosition(i));
+                        }
+                    }
+                }
+            }
+            if(!goBreak){
+                ret = true;
+                size = concaves.size();
+                //test if have concaves
+                if(size){
+                    //draw a polyTemp with the concaves
+                    polyTemp.createPolygon(size);
+                    for(edk::uint32 i=0u;i<size;i++){
+                        polyTemp.setVertexPosition(i,concaves.get(i).x,concaves.get(i).y);
+                    }
+                    //run the same function with the polyTemp
+                    edk::shape::Mesh2D::polygonTriangularization(polyTemp,mesh);
+                }
+                else{
+                    //run the simple vertex triangularization
+                    edk::vector::Stack<edk::vec2f32> vertexes;
+                    edk::uint32 size = polygon.getVertexCount();
+                    for(edk::uint32 i=0u;i<size;i++){
+                        vertexes.pushBack(edk::vec2f32(polygon.getVertexPosition(i)));
+                    }
+                    edk::shape::Mesh2D::vertexTriangularization(&vertexes,mesh);
+                }
+            }
+        }
+    }
+    polygon.cantDeletePolygon();
     return ret;
 }
 

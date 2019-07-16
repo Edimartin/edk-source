@@ -145,8 +145,8 @@ class ViewButton: public edk::ViewSprite{
 
         //TEXT
         //add the text to the button
-        bool addButtonText(const char* str);
-        bool addButtonText(edk::char8* str);
+        bool writeText(const char* str);
+        bool writeText(edk::char8* str);
         //load the textFont
         bool loadFontImage(const char* name,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
         bool loadFontImage(edk::char8* name,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
