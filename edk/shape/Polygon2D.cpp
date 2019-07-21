@@ -206,10 +206,12 @@ bool edk::shape::Polygon2D::isCounterclockwise(){
         //test the vertex angles
         edk::float32 angle1 = edk::Math::getAngle2f(this->vertexs[1u]->position - this->vertexs[0u]->position);
         edk::float32 angle2;
+        edk::float32 angleTemp;
         for(register edk::uint32 i=2u;i<this->vertexs.size();i++){
             //get the next angle
             angle2 = edk::Math::getAngle2f(this->vertexs[i]->position - this->vertexs[0u]->position);
-            if(angle2<angle1){
+            angleTemp = angle2 - angle1;
+            if(angleTemp>180.f || (angleTemp<0.f && angleTemp>-180.f)){
                 //it's not counterClockwise
                 return false;
             }
