@@ -283,7 +283,7 @@ void edk::gui2d::ViewMenu2d::processEnable(edk::gui2d::MenuObj* obj){
         pointer = this->listCallback.get(i);
         if(pointer){
             //process the function
-            pointer->enable(obj);
+            pointer->enable(this,obj);
         }
     }
 }
@@ -295,7 +295,7 @@ void edk::gui2d::ViewMenu2d::processExec(edk::gui2d::MenuObj* obj){
         pointer = this->listCallback.get(i);
         if(pointer){
             //process the function
-            pointer->exec(obj);
+            pointer->exec(this,obj);
         }
     }
 }
@@ -307,7 +307,7 @@ void edk::gui2d::ViewMenu2d::processDisable(edk::gui2d::MenuObj* obj){
         pointer = this->listCallback.get(i);
         if(pointer){
             //process the function
-            pointer->disable(obj);
+            pointer->disable(this,obj);
         }
     }
 }

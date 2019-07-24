@@ -165,7 +165,6 @@ public:
     //return true if the object can be moved
     virtual bool canMove();
     //button frame in the world
-    edk::rectf32 frame;
     bool pressed;
 protected:
     void drawStart();

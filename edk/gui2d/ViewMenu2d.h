@@ -103,12 +103,12 @@ public:
     //menu colors
     edk::color4f32 color[edk::gui2d::gui2dTextureSize];
 };
-
+class ViewMenu2d;
 class Menu2dCallback{
 public:
-    virtual void enable(edk::gui2d::MenuObj* obj)=0;
-    virtual void exec(edk::gui2d::MenuObj* obj)=0;
-    virtual void disable(edk::gui2d::MenuObj* obj)=0;
+    virtual void enable(edk::gui2d::ViewMenu2d* menu, edk::gui2d::MenuObj* obj)=0;
+    virtual void exec(edk::gui2d::ViewMenu2d* menu, edk::gui2d::MenuObj* obj)=0;
+    virtual void disable(edk::gui2d::ViewMenu2d* menu, edk::gui2d::MenuObj* obj)=0;
 };
 
 class ViewMenu2d : public edk::ViewGU2D{

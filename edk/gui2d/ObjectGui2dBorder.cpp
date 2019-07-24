@@ -459,10 +459,6 @@ bool edk::gui2d::ObjectGui2dBorder::setBorderSize(edk::float32 size){
         size=0.f;
         ret = false;
     }
-    if(size>1.f){
-        size=1.f;
-        ret = false;
-    }
     this->border = size;
     return ret;
 }
