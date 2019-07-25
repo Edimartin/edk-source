@@ -49,29 +49,31 @@ ViewController::~ViewController(){
 bool ViewController::addSubview(edk::View *addView){
     //test if the view exist
     if(addView){
-        //now he can add the view
-        edk::uint32 temp = this->nexts.size();
+        if(!this->haveSubview(addView)){
+            //now he can add the view
+            edk::uint32 temp = this->nexts.size();
 
-        //Add the new view
-        this->nexts.pushBack(addView);
+            //Add the new view
+            this->nexts.pushBack(addView);
 
-        //test if have added the view
-        if(this->nexts.size()>temp){
-            //load the view
-            if(this->setRectInside){
-                this->rectInside = edk::rectf32(
-                            rectTemp.origin.x + this->borderSize,
-                            rectTemp.origin.y,
-                            rectTemp.size.width - this->borderSize,
-                            rectTemp.size.height - this->borderSize
-                            );
-                addView->load(this->rectInside);
+            //test if have added the view
+            if(this->nexts.size()>temp){
+                //load the view
+                if(this->setRectInside){
+                    this->rectInside = edk::rectf32(
+                                rectTemp.origin.x + this->borderSize,
+                                rectTemp.origin.y,
+                                rectTemp.size.width - this->borderSize,
+                                rectTemp.size.height - this->borderSize
+                                );
+                    addView->load(this->rectInside);
+                }
+                else{
+                    addView->load(this->frame);
+                }
+                //have added the view
+                return true;
             }
-            else{
-                addView->load(this->frame);
-            }
-            //have added the view
-            return true;
         }
     }
     //else return false

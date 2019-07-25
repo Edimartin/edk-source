@@ -700,6 +700,7 @@ void edk::gui2d::ViewMenu2d::drawScene(edk::rectf32){
 
                     //test if the mouse is on
                     if(this->mouseOn || !this->xOrder){
+                        this->mouseOn = true;
                         //set the button status to pressedUp
                         objSelected->setStatus(edk::gui2d::gui2dTexturePressedUp);
                         if(!objSelected->active){
@@ -728,8 +729,8 @@ void edk::gui2d::ViewMenu2d::drawScene(edk::rectf32){
             }
         }
         else{
-            if(this->mouseStatus!=edk::gui2d::gui2dMouseHolded){
-                this->mouseOn = false;
+            if(this->mouseStatus==edk::gui2d::gui2dMouseRelease){
+                this->mouseOn=false;
             }
         }
         size = this->selectTreeS->size();
@@ -759,17 +760,19 @@ void edk::gui2d::ViewMenu2d::drawScene(edk::rectf32){
             }
             this->selectTreeS->clean();
         }
-        else if(sizeSelected || this->mouseStatus==edk::gui2d::gui2dMouseRelease){
-            //clean all objects on the list unless the selected
-            size = this->objs.size();
-            for(edk::uint32 i=0u;i<size;i++){
-                obj = this->objs[i];
-                if(obj && obj!=objSelected){
-                    obj->setStatus(edk::gui2d::gui2dTextureNormal);
-                    if(obj->active){
-                        //desactivate the button
-                        obj->active = false;
-                        processDisable(obj);
+        else{
+            if(sizeSelected || this->mouseStatus==edk::gui2d::gui2dMouseRelease){
+                //clean all objects on the list unless the selected
+                size = this->objs.size();
+                for(edk::uint32 i=0u;i<size;i++){
+                    obj = this->objs[i];
+                    if(obj && obj!=objSelected){
+                        obj->setStatus(edk::gui2d::gui2dTextureNormal);
+                        if(obj->active){
+                            //desactivate the button
+                            obj->active = false;
+                            processDisable(obj);
+                        }
                     }
                 }
             }
