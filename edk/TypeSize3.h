@@ -1571,9 +1571,9 @@ public:
     }
     size3i32(int8 size){
         //zera as variaveis
-        this->width=(int32)width;
-        this->height=(int32)height;
-        this->length=(int32)length;
+        this->width=(int32)size;
+        this->height=(int32)size;
+        this->length=(int32)size;
     }
     size3i32(int16 size){
         //zera as variaveis

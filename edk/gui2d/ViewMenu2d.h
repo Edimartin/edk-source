@@ -181,6 +181,8 @@ private:
     edk::vector::BinaryTree<edk::uint32> tree1;
     edk::vector::BinaryTree<edk::uint32> tree2;
 
+    edk::gui2d::MenuObj* objSelected;
+
     //mouse callback
     edk::vector::Stack<edk::gui2d::Menu2dCallback*> listCallback;
     //return true if have the element on the callback list

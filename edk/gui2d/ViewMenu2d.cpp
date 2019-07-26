@@ -578,10 +578,21 @@ void edk::gui2d::ViewMenu2d::setColorPressedUp(edk::float32 r,edk::float32 g,edk
 }
 
 void edk::gui2d::ViewMenu2d::load(edk::rectf32){
+    this->objSelected = NULL;
+    this->mouseStatus = edk::gui2d::gui2dMouseNothing;
     //
     this->saveFrame = edk::rectf32();
     this->camera.setSize(20,20);
-    //this->camera.setRect(0,0,10,10);
+    this->mouseOn = false;
+
+    //clean the objects status
+    edk::gui2d::MenuObj* obj = NULL;
+    edk::uint32 size = this->objs.size();
+    for(edk::uint32 i=0u;i<size;i++){
+        obj = this->objs[i];
+        if(obj)
+            obj->setStatus(edk::gui2d::gui2dTextureNormal);
+    }
 }
 void edk::gui2d::ViewMenu2d::unload(){
     //
@@ -632,6 +643,10 @@ void edk::gui2d::ViewMenu2d::update(edk::WindowEvents* events){
         case edk::mouse::left:
             this->mouseStatus = edk::gui2d::gui2dMouseRelease;
             this->runSelection = true;
+            if(!this->xOrder && this->objSelected){
+                //then activate button
+                this->processExec(this->objSelected);
+            }
             break;
         }
     }
@@ -660,18 +675,17 @@ void edk::gui2d::ViewMenu2d::drawScene(edk::rectf32){
         this->updateCamera();
     }
 
-
     edk::uint32 size = 0u;
     edk::uint32 sizeSelected = 0u;
     edk::gui2d::MenuObj* obj = NULL;
-    edk::gui2d::MenuObj* objSelected = NULL;
     if(this->runSelection){
+        this->objSelected = NULL;
         sizeSelected = this->selectTree->size();
         if(sizeSelected){
             {
                 //get the object
-                objSelected = this->objs[this->selectTree->getElementInPosition(0u)];
-                if(objSelected){
+                this->objSelected = this->objs[this->selectTree->getElementInPosition(0u)];
+                if(this->objSelected){
                     //test the mouse status
                     switch(this->mouseStatus){
                     case edk::gui2d::gui2dMousePressed:
@@ -681,15 +695,14 @@ void edk::gui2d::ViewMenu2d::drawScene(edk::rectf32){
                         //test if is xOrder
                         if(this->xOrder && this->mouseOn){
                             //then activate button
-                            this->processExec(objSelected);
+                            this->processExec(this->objSelected);
                         }
-
                         break;
                     case edk::gui2d::gui2dMouseRelease:
                         //test if is NOT xOrder
                         if(!this->xOrder){
                             //run button action
-                            this->processExec(objSelected);
+                            this->processExec(this->objSelected);
                         }
                         break;
                     case edk::gui2d::gui2dMouseHolded:
@@ -702,18 +715,18 @@ void edk::gui2d::ViewMenu2d::drawScene(edk::rectf32){
                     if(this->mouseOn || !this->xOrder){
                         this->mouseOn = true;
                         //set the button status to pressedUp
-                        objSelected->setStatus(edk::gui2d::gui2dTexturePressedUp);
-                        if(!objSelected->active){
-                            objSelected->active = true;
-                            processEnable(objSelected);
+                        this->objSelected->setStatus(edk::gui2d::gui2dTexturePressedUp);
+                        if(!this->objSelected->active){
+                            this->objSelected->active = true;
+                            processEnable(this->objSelected);
                         }
                     }
                     else{
                         //set the button status to op
-                        objSelected->setStatus(edk::gui2d::gui2dTextureUp);
-                        if(objSelected->active){
-                            objSelected->active = false;
-                            processDisable(objSelected);
+                        this->objSelected->setStatus(edk::gui2d::gui2dTextureUp);
+                        if(this->objSelected->active){
+                            this->objSelected->active = false;
+                            processDisable(this->objSelected);
                         }
                     }
                 }
@@ -766,7 +779,7 @@ void edk::gui2d::ViewMenu2d::drawScene(edk::rectf32){
                 size = this->objs.size();
                 for(edk::uint32 i=0u;i<size;i++){
                     obj = this->objs[i];
-                    if(obj && obj!=objSelected){
+                    if(obj && obj!=this->objSelected){
                         obj->setStatus(edk::gui2d::gui2dTextureNormal);
                         if(obj->active){
                             //desactivate the button
