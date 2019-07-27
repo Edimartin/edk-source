@@ -61,30 +61,23 @@ void edk::gui2d::ObjectGui2d::drawEnd(){
 }
 void edk::gui2d::ObjectGui2d::runTextSize(){
     //test if have the text
-    if(this->text.haveText()){
-        //test if have the text
-        //get the text size
-        edk::size2f32 sizeText = edk::size2f32(this->text.getMapSizeWidth() * this->textSize.width
-                                               ,this->text.getMapSizeHeight() * this->textSize.height
-                                               );
+    //get the text size
+    edk::size2f32 sizeText = edk::size2f32(this->text.getMapSizeWidth() * this->textSize.width
+                                           ,this->text.getMapSizeHeight() * this->textSize.height
+                                           );
 
-        //calculate the centerSize
-        edk::size2f32 centerSize = edk::size2f32(edk::Math::moduleFloat(this->center.getVertexPosition(1u).x)
-                                                 +
-                                                 edk::Math::moduleFloat(this->center.getVertexPosition(0u).x),
-                                                 edk::Math::moduleFloat(this->center.getVertexPosition(1u).y)
-                                                 +
-                                                 edk::Math::moduleFloat(this->center.getVertexPosition(0u).y)
-                                                 );
-        if(centerSize.width>0.f && centerSize.height>0.f){
-            this->drawText = true;
-            //
-            this->updateTextSize(sizeText,centerSize,this->text.getMapSize());
-        }
-        else{
-            this->drawText = false;
-            this->text.setScale(0.01f,0.01f);
-        }
+    //calculate the centerSize
+    edk::size2f32 centerSize = edk::size2f32(edk::Math::moduleFloat(this->center.getVertexPosition(1u).x)
+                                             +
+                                             edk::Math::moduleFloat(this->center.getVertexPosition(0u).x),
+                                             edk::Math::moduleFloat(this->center.getVertexPosition(1u).y)
+                                             +
+                                             edk::Math::moduleFloat(this->center.getVertexPosition(0u).y)
+                                             );
+    if(centerSize.width>0.f && centerSize.height>0.f){
+        this->drawText = true;
+        //
+        this->updateTextSize(sizeText,centerSize,this->text.getMapSize());
     }
     else{
         this->drawText = false;

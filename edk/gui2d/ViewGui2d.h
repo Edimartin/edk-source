@@ -238,7 +238,7 @@ private:
             }
             return false;
         }
-        edk::uint64 haveObjByPointer(edk::gui2d::ObjectGui2d* obj){
+        bool haveObjByPointer(edk::gui2d::ObjectGui2d* obj){
             edk::gui2d::ViewGui2d::ObjGui2dID search(obj,0u);
             edk::gui2d::ViewGui2d::ObjGui2dID* have = this->tree.getElement(&search);
             if(have){

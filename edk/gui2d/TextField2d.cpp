@@ -25,6 +25,8 @@ edk::gui2d::TextField2d::TextVec::TextVec(){
 }
 edk::gui2d::TextField2d::TextVec::~TextVec(){
     //
+    this->cleanFilterIn();
+    this->cleanFilterOut();
 }
 edk::uint32 edk::gui2d::TextField2d::TextVec::sizeOfString(){
     edk::uint32 size = this->vec.size();
@@ -44,6 +46,23 @@ edk::uint32 edk::gui2d::TextField2d::TextVec::sizeOfString(){
         }
     }
     return ret;
+}
+//return true if the character can be inside the tree
+bool edk::gui2d::TextField2d::TextVec::canGetIt(edk::char32 c){
+    //test if have something in filterIN
+    if(this->filterIn.size()){
+        //test if can add the c
+        return this->filterIn.haveElement(c);
+    }
+    else{
+        //else test if have something in filterOut
+        if(this->filterOut.size()){
+            //test if can't add the c
+            return !this->filterOut.haveElement(c);
+        }
+    }
+    //else return true
+    return true;
 }
 void edk::gui2d::TextField2d::TextVec::clean(){
     this->vec.clean();
@@ -108,7 +127,8 @@ bool edk::gui2d::TextField2d::TextVec::write(edk::char8* str){
                     c = str[i];
                 }
 
-                this->vec.pushBack(c);
+                if(this->canGetIt(c))
+                    this->vec.pushBack(c);
             }
             if(this->vec.size()){
                 return true;
@@ -199,7 +219,7 @@ edk::uint32 edk::gui2d::TextField2d::TextVec::add(edk::char16 c,edk::uint32 posi
 edk::uint32 edk::gui2d::TextField2d::TextVec::add(edk::char32 c,edk::uint32 position){
     edk::uint32 size = this->vec.size();
     //test if have the position
-    if(position<=size){
+    if(position<=size && this->canGetIt(c)){
         this->vec.pushBack(c);
         if(size<this->vec.size()){
             //
@@ -329,6 +349,175 @@ edk::char8* edk::gui2d::TextField2d::TextVec::getStringWithLastSpace(){
 edk::uint32 edk::gui2d::TextField2d::TextVec::getSize(){
     return this->vec.size();
 }
+//add a character to the filter
+bool edk::gui2d::TextField2d::TextVec::addFilterIn(edk::char8* str){
+    //test the string
+    if(str){
+        //get the strng lenght
+        edk::uint32 lenght = edk::String::strSize(str);
+        edk::char32 c;
+        bool ret = false;
+        if(lenght){
+            //populate the vector
+            for(edk::uint32 i=0u;i<lenght;i++){
+                if(str[i]==13
+                        ||
+                        str[i]==10
+                        ||
+                        str[i]=='\0'
+                        ){
+                    break;
+                }
+
+
+                if((edk::uint8)str[i]==195u){
+                    if(i+1u<lenght){
+                        //copy the two bytes character
+                        c = (edk::char32)edk::BinaryConverter::joinBytesLittleEndian(0u,0u,str[i],str[i+1u]);
+                        i+=1u;
+                    }
+                    else break;
+                }
+                else if((edk::uint8)str[i]==225u){
+                    if(i+1u<lenght){
+                        if((edk::uint8)str[i+1u]==186u){
+                            if(i+2u<lenght){
+                                //copy the 3 bytes character
+                                c = (edk::char32)edk::BinaryConverter::joinBytesLittleEndian(0u,str[i],str[i+1u],str[i+2u]);
+                                i+=2u;
+                            }
+                            else break;
+                        }
+                    }
+                    else break;
+
+                }
+                else if((edk::uint8)str[i]==196u){
+                    if(i+1u<lenght){
+                        //copy the two bytes character
+                        c = (edk::char32)edk::BinaryConverter::joinBytesLittleEndian(0u,0u,str[i],str[i+1u]);
+                        i+=1u;
+                    }
+                    else break;
+                }
+                else if((edk::uint8)str[i]==197u){
+                    if(i+1u<lenght){
+                        //copy the two bytes character
+                        c = (edk::char32)edk::BinaryConverter::joinBytesLittleEndian(0u,0u,str[i],str[i+1u]);
+                        i+=1u;
+                    }
+                    else break;
+                }
+                else{
+                    c = str[i];
+                }
+
+                if(!this->addFilterIn(c)){
+                    return false;
+                }
+                ret = true;
+            }
+            return ret;
+        }
+    }
+    return false;
+}
+bool edk::gui2d::TextField2d::TextVec::addFilterIn(edk::char8 c){
+    return this->addFilterIn((edk::char32)c);
+}
+bool edk::gui2d::TextField2d::TextVec::addFilterIn(edk::char16 c){
+    return this->addFilterIn((edk::char32)c);
+}
+bool edk::gui2d::TextField2d::TextVec::addFilterIn(edk::char32 c){
+    return this->filterIn.add(c);
+}
+void edk::gui2d::TextField2d::TextVec::cleanFilterIn(){
+    this->filterIn.clean();
+}
+bool edk::gui2d::TextField2d::TextVec::addFilterOut(edk::char8* str){
+    //test the string
+    if(str){
+        //get the strng lenght
+        edk::uint32 lenght = edk::String::strSize(str);
+        edk::char32 c;
+        bool ret = false;
+        if(lenght){
+            //populate the vector
+            for(edk::uint32 i=0u;i<lenght;i++){
+                if(str[i]==13
+                        ||
+                        str[i]==10
+                        ||
+                        str[i]=='\0'
+                        ){
+                    break;
+                }
+
+
+                if((edk::uint8)str[i]==195u){
+                    if(i+1u<lenght){
+                        //copy the two bytes character
+                        c = (edk::char32)edk::BinaryConverter::joinBytesLittleEndian(0u,0u,str[i],str[i+1u]);
+                        i+=1u;
+                    }
+                    else break;
+                }
+                else if((edk::uint8)str[i]==225u){
+                    if(i+1u<lenght){
+                        if((edk::uint8)str[i+1u]==186u){
+                            if(i+2u<lenght){
+                                //copy the 3 bytes character
+                                c = (edk::char32)edk::BinaryConverter::joinBytesLittleEndian(0u,str[i],str[i+1u],str[i+2u]);
+                                i+=2u;
+                            }
+                            else break;
+                        }
+                    }
+                    else break;
+
+                }
+                else if((edk::uint8)str[i]==196u){
+                    if(i+1u<lenght){
+                        //copy the two bytes character
+                        c = (edk::char32)edk::BinaryConverter::joinBytesLittleEndian(0u,0u,str[i],str[i+1u]);
+                        i+=1u;
+                    }
+                    else break;
+                }
+                else if((edk::uint8)str[i]==197u){
+                    if(i+1u<lenght){
+                        //copy the two bytes character
+                        c = (edk::char32)edk::BinaryConverter::joinBytesLittleEndian(0u,0u,str[i],str[i+1u]);
+                        i+=1u;
+                    }
+                    else break;
+                }
+                else{
+                    c = str[i];
+                }
+
+                if(!this->addFilterOut(c)){
+                    return false;
+                }
+                ret = true;
+            }
+            return ret;
+        }
+    }
+    return false;
+}
+bool edk::gui2d::TextField2d::TextVec::addFilterOut(edk::char8 c){
+    return this->addFilterOut((edk::char32)c);
+}
+bool edk::gui2d::TextField2d::TextVec::addFilterOut(edk::char16 c){
+    return this->addFilterOut((edk::char32)c);
+}
+bool edk::gui2d::TextField2d::TextVec::addFilterOut(edk::char32 c){
+    return this->filterOut.add(c);
+}
+void edk::gui2d::TextField2d::TextVec::cleanFilterOut(){
+    this->filterOut.clean();
+}
 
 edk::gui2d::TextField2d::TextField2d(){
     //
@@ -353,10 +542,6 @@ void edk::gui2d::TextField2d::updateTextSize(edk::size2f32 sizeText,edk::size2f3
     if(mapWidth)mapWidth--;
 
     if(mapWidth){
-        this->text.setScale(1.f,
-                            1.f
-                            );
-
         this->text.setScale((centerSize.height * (sizeText.width/sizeText.height))/(edk::float32)mapSize.width,
                             centerSize.height
                             );
@@ -375,11 +560,14 @@ void edk::gui2d::TextField2d::updateTextSize(edk::size2f32 sizeText,edk::size2f3
             this->cursor.animationSize.addNewInterpolationLine((edkGU2dCursorSecond*2.f) + 0.001f,0.f,0.f);
             this->cursor.animationSize.loopOn();
 
-            //play the animation
-            //this->cursor.animationSize.playForward();
-
             //save the cursorSize to the next comparison
             this->saveCursorSize = this->cursor.size;
+
+            //if its selected. Then play the animation
+            if(this->selected){
+                this->cursor.animationSize.stop();
+                this->cursor.animationSize.playForward();
+            }
         }
 
         //get the size of characters inside the field
@@ -421,8 +609,8 @@ void edk::gui2d::TextField2d::updateTextSize(edk::size2f32 sizeText,edk::size2f3
                                0.f
                                );
         //set the cursor position
-        this->cursor.position = edk::vec2f32(this->position.y + (centerSize.width*-0.5f) + (this->text.getMapScaleWidth() * (this->cursorID-this->originID)),
-                                             this->position.y
+        this->cursor.position = edk::vec2f32((centerSize.width*-0.5f) + (this->text.getMapScaleWidth() * (this->cursorID-this->originID)),
+                                             0.f
                                              );
         //Calculate the selection position inside the object
         if(this->selectionEnd>this->endID+1u){
@@ -442,8 +630,8 @@ void edk::gui2d::TextField2d::updateTextSize(edk::size2f32 sizeText,edk::size2f3
         }
         //set the selection object position to be in the smaller character
 
-        this->selection.position = edk::vec2f32(this->position.x + (centerSize.width*-0.5f) + (this->text.getMapScaleWidth()) * (selection1 - this->originID),
-                                                this->position.y
+        this->selection.position = edk::vec2f32((centerSize.width*-0.5f) + (this->text.getMapScaleWidth()) * (selection1 - this->originID),
+                                                0.f
                                                 );
         //set the selection size to the end be on the bigger character
         this->selection.size = edk::size2f32(this->text.getMapScaleWidth() * (selection2 - selection1),
@@ -451,6 +639,10 @@ void edk::gui2d::TextField2d::updateTextSize(edk::size2f32 sizeText,edk::size2f3
                                              );
     }
     else{
+        this->text.setScale(0.75f,centerSize.height);
+
+        //save the cursor size
+        this->cursor.size = edk::size2f32(this->text.getMapScaleWidth() * edkGU2dCursorWidthPercent,this->text.getMapScaleHeight());
         this->cursorID = 0u;
         this->originID = 0u;
         this->endID = 0u;
@@ -465,12 +657,39 @@ void edk::gui2d::TextField2d::updateTextSize(edk::size2f32 sizeText,edk::size2f3
         this->selection.position = edk::vec2f32(this->position.x + (centerSize.width*-0.5f),
                                                 this->position.y
                                                 );
-        this->cursor.position = edk::vec2f32(this->position.y + (centerSize.width*-0.5f),
-                                             this->position.y
+        //save the cursor size
+        this->cursor.size = edk::size2f32(this->text.getMapScaleWidth() * edkGU2dCursorWidthPercent,this->text.getMapScaleHeight());
+        this->cursor.position = edk::vec2f32( (centerSize.width*-0.5f),
+                                             0.f
                                              );
+
+        //test if it was modified
+        if(this->cursor.size != this->saveCursorSize){
+            //update the cursor animation
+            this->cursor.animationSize.cleanAnimations();
+
+            //create a size animation for the cursor
+            this->cursor.animationSize.addNewInterpolationLine(0.f,this->cursor.size.width,this->cursor.size.height);
+            this->cursor.animationSize.addNewInterpolationLine(edkGU2dCursorSecond,this->cursor.size.width,this->cursor.size.height);
+            this->cursor.animationSize.addNewInterpolationLine(edkGU2dCursorSecond + 0.001f,0.f,0.f);
+            this->cursor.animationSize.addNewInterpolationLine((edkGU2dCursorSecond*2.f) + 0.001f,0.f,0.f);
+            this->cursor.animationSize.loopOn();
+
+            //play the animation
+            //this->cursor.animationSize.playForward();
+
+            //save the cursorSize to the next comparison
+            this->saveCursorSize = this->cursor.size;
+
+            //if its selected. Then play the animation
+            if(this->selected){
+                this->cursor.animationSize.stop();
+                this->cursor.animationSize.playForward();
+            }
+        }
     }
     //set the centerSelection to be clicked by the mouse
-    this->selectionInside.position = this->position;
+    this->selectionInside.position = 0.f;//this->position;
     this->selectionInside.size = centerSize;
 }
 void edk::gui2d::TextField2d::cleanTextVariables(edk::char8* newText){
@@ -568,7 +787,6 @@ void edk::gui2d::TextField2d::update(){
     //test if NOT have the text
     if(!this->text.haveText()){
         //create a text only with space
-        this->text.createStringMap(" ");
         this->cursorID = 0u;
         this->selectionMiddle = this->selectionStart = this->selectionEnd = 0u;
         this->forceUpdate();
@@ -783,6 +1001,39 @@ bool edk::gui2d::TextField2d::addString(edk::char8* str){
 bool edk::gui2d::TextField2d::addString(const edk::char8* str){
     return this->addString((edk::char8*) str);
 }
+//add characters to the filters
+bool edk::gui2d::TextField2d::addCharacterFilterIn(edk::char8 c){
+    return this->textVec.addFilterIn(c);
+}
+bool edk::gui2d::TextField2d::addStringFilterIn(edk::char8* str){
+    if(str){
+        return this->textVec.addFilterIn(str);
+    }
+    return false;
+}
+bool edk::gui2d::TextField2d::addStringFilterIn(const edk::char8* str){
+    //
+    return this->addStringFilterIn((edk::char8*) str);
+}
+bool edk::gui2d::TextField2d::addCharacterFilterOut(edk::char8 c){
+    return this->textVec.addFilterOut(c);
+}
+bool edk::gui2d::TextField2d::addStringFilterOut(edk::char8* str){
+    if(str){
+        return this->textVec.addFilterOut(str);
+    }
+    return false;
+}
+bool edk::gui2d::TextField2d::addStringFilterOut(const edk::char8* str){
+    //
+    return this->addStringFilterOut((edk::char8*) str);
+}
+void edk::gui2d::TextField2d::cleanFilterIn(){
+    this->textVec.cleanFilterIn();
+}
+void edk::gui2d::TextField2d::cleanFilterOut(){
+    this->textVec.cleanFilterOut();
+}
 
 //write text to clean the originID and cursorID
 bool edk::gui2d::TextField2d::writeText(const char* text){
@@ -985,14 +1236,16 @@ void edk::gui2d::TextField2d::draw(){
             this->selection.drawWithoutMaterial();
 
             this->text.draw(edk::color4f32(0,0,0,1));
-
-            //draw the cursor
-            this->cursor.drawWithoutMaterial();
         }
         else{
             this->text.draw(edk::color4f32(0,0,0,1));
         }
     }
+
+    //draw the cursor
+    if(this->isSelected())
+        this->cursor.drawWithoutMaterial();
+
     this->drawEnd();
 }
 void edk::gui2d::TextField2d::drawSelection(){

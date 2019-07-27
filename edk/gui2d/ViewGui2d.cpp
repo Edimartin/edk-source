@@ -105,6 +105,7 @@ void edk::gui2d::ViewGui2d::selectObject(edk::uint32 ,edk::uint32 ,edk::float32 
 
     size = names->size();
     if(size){
+        id = names->get(0u);
         //get the object
         obj = this->list.getPointerByID(id);
         if(obj){
@@ -130,7 +131,7 @@ void edk::gui2d::ViewGui2d::selectObject(edk::uint32 ,edk::uint32 ,edk::float32 
 
 //add the object
 bool edk::gui2d::ViewGui2d::addObjectGui2d(edk::gui2d::ObjectGui2d* obj){
-    if(obj){
+    if(obj && !this->list.haveObjByPointer(obj)){
         edk::uint32 counter = 0u;
         //add the object to the tree
         while(!this->list.addNewObj(obj,this->idCounter)){
@@ -141,6 +142,7 @@ bool edk::gui2d::ViewGui2d::addObjectGui2d(edk::gui2d::ObjectGui2d* obj){
             }
         }
         this->idCounter+=1u;
+        obj->load();
         return true;
     }
     return false;

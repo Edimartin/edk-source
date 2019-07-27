@@ -1216,7 +1216,6 @@ void edk::tiles::TileMap2D::drawSelection(){
     }
 }
 void edk::tiles::TileMap2D::drawSelection(edk::vec2ui32 origin,edk::size2ui32 last){
-
     if(this->tileSet){
         if(last.width>this->sizeMap.width) last.width=this->sizeMap.width;
         if(last.height>this->sizeMap.height) last.height=this->sizeMap.height;

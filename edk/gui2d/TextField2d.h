@@ -84,6 +84,15 @@ public:
     bool addCharacter(edk::char8 c);
     bool addString(edk::char8* str);
     bool addString(const edk::char8* str);
+    //add characters to the filters
+    bool addCharacterFilterIn(edk::char8 c);
+    bool addStringFilterIn(edk::char8* str);
+    bool addStringFilterIn(const edk::char8* str);
+    bool addCharacterFilterOut(edk::char8 c);
+    bool addStringFilterOut(edk::char8* str);
+    bool addStringFilterOut(const edk::char8* str);
+    void cleanFilterIn();
+    void cleanFilterOut();
 
     //write text to clean the originID and cursorID
     bool writeText(const char* text);
@@ -139,9 +148,26 @@ private:
         edk::char8* getString();
         edk::char8* getStringWithLastSpace();
         edk::uint32 getSize();
+        //add a character to the filter
+        bool addFilterIn(edk::char8* str);
+        bool addFilterIn(edk::char8 c);
+        bool addFilterIn(edk::char16 c);
+        bool addFilterIn(edk::char32 c);
+        void cleanFilterIn();
+        bool addFilterOut(edk::char8* str);
+        bool addFilterOut(edk::char8 c);
+        bool addFilterOut(edk::char16 c);
+        bool addFilterOut(edk::char32 c);
+        void cleanFilterOut();
     private:
         edk::vector::Stack <edk::char32> vec;
+        //Filter some characters who can be inside the text field
+        edk::vector::BinaryTree <edk::char32> filterIn;
+        //Filter some characters who need be outside the text field (can't be inside the text field)
+        edk::vector::BinaryTree <edk::char32> filterOut;
         edk::uint32 sizeOfString();
+        //return true if the character can be inside the tree
+        bool canGetIt(edk::char32 c);
     }textVec;
 };
 }//end namespace gui2d
