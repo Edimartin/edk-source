@@ -117,14 +117,11 @@ void edk::gui2d::ViewGui2d::selectObject(edk::uint32 ,edk::uint32 ,edk::float32 
 
         //test if have the second name
         if(size>1u){
-            //test if the object selected is the same
-            if(obj == this->objSelected
-                    ||
-                    !this->objSelected
-                    ){
                 //
                 this->idSelected = names->get(1u);
-            }
+        }
+        else{
+            this->idSelected = 0u;
         }
     }
 }
@@ -662,13 +659,9 @@ void edk::gui2d::ViewGui2d::drawScene(edk::rectf32){
                         this->objSelected->deselect();
                         if(this->endSelect)
                             this->objSelected->clickEnd(this->idSelected,false);
-                        obj->select();
-                        obj->clickStart(this->idSelected);
                     }
-                    else{
-                        obj->select();
-                        obj->clickStart(this->idSelected);
-                    }
+                    obj->select();
+                    obj->clickStart(this->idSelected);
                     //select the object
                     this->objSelected = obj;
                     this->endSelect = true;
