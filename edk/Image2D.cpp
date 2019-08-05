@@ -722,6 +722,40 @@ void Image2D::deleteName()
     this->imageName=NULL;
 }
 
+//process the flip image in Y
+bool Image2D::flipImageY(){
+    return edk::Image2D::flipY(this->vec,this->size.width,this->size.height,this->channels);
+    /*
+    //test if have the image
+    if(this->vec && this->size.width && this->size.height && this->channels){
+        //get the line size
+        edk::uint32 size = this->size.width * this->channels;
+        //alloc a buffer to save the lines
+        edk::uint8* line = new edk::uint8[size];
+        if(line){
+            //set the pointers
+            edk::uint8 *start = this->vec,*end=this->vec + (size * this->height()) - size;
+            //go trow the lines copying
+            while (start<end){
+                //save the end
+                memcpy(line,end,size);
+                //copy the start to the end
+                memcpy(end,start,size);
+                //copy the line to the start
+                memcpy(start,line,size);
+
+                //increment start and decrment the end to meet in the middle
+                start+=size;
+                end-=size;
+            }
+            delete[] line;
+
+            return true;
+        }
+    }
+    */
+}
+
 //Convertions
 //RGB to HSV
 edk::color3f32 Image2D::rgbTohsv(edk::uint8 r,edk::uint8 g,edk::uint8 b){
@@ -969,6 +1003,37 @@ bool Image2D::lTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height,ed
 }
 edk::uint8* Image2D::lTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height){
     return edk::Image2D::lTorgba(vector,edk::size2ui32(width,height));
+}
+
+//flip pixels
+bool Image2D::flipY(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 channels){
+    if(vector && width && height && channels){
+        //get the line size
+        edk::uint32 size = width * channels;
+        //alloc a buffer to save the lines
+        edk::uint8* line = new edk::uint8[size];
+        if(line){
+            //set the pointers
+            edk::uint8 *start = vector,*end=vector + (size * height) - size;
+            //go trow the lines copying
+            while (start<end){
+                //save the end
+                memcpy(line,end,size);
+                //copy the start to the end
+                memcpy(end,start,size);
+                //copy the line to the start
+                memcpy(start,line,size);
+
+                //increment start and decrment the end to meet in the middle
+                start+=size;
+                end-=size;
+            }
+            delete[] line;
+
+            return true;
+        }
+    }
+    return false;
 }
 
 bool Image2D::cloneFrom(edk::Image2D* image){

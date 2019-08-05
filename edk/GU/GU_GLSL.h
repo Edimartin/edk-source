@@ -54,9 +54,9 @@ Gravatai RS Brazil 94065100
 #define GLEW_ERROR_GLX_11 3 //need openGL 1.2
 #endif
 
-#define GU_GLSL_fragment_program 11
-#define GU_GLSL_vertex_program   12
-#define GU_GLSL_geometry_program 13
+#define GU_GLSL_fragment_program 11u
+#define GU_GLSL_vertex_program   12u
+#define GU_GLSL_geometry_program 13u
 
 #define GU_GLSL_FRAGMENT_SHADER 0x8B30
 #define GU_GLSL_VERTEX_SHADER 0x8B31
@@ -138,6 +138,18 @@ Gravatai RS Brazil 94065100
 #define GU_FRAMEBUFFER_INCOMPLETE_READ_BUFFER   0x8CDC
 #define GU_FRAMEBUFFER_UNSUPPORTED              0x8CDD
 
+#define GU_STENCIL_INDEX GL_STENCIL_INDEX
+#define GU_DEPTH_COMPONENT GL_DEPTH_COMPONENT
+#define GU_DEPTH_STENCIL GL_DEPTH_STENCIL
+#define GU_RED GL_RED
+#define GU_GREEN GL_GREEN
+#define GU_BLUE GL_BLUE
+#define GU_RG GL_RG
+#define GU_RGB GL_RGB
+#define GU_RGBA GL_RGBA
+#define GU_BGR GL_BGR
+#define GU_BGRA GL_BGRA
+
 namespace edk{
 class GU_GLSL{
     public:
@@ -186,6 +198,19 @@ class GU_GLSL{
     static void guData4f32(edk::int32 id,edk::vec4f32 d);
     static void guData4f32(edk::int32 id,edk::float32 d0,edk::float32 d1,edk::float32 d2,edk::float32 d3);
 
+    //format
+    //GU_STENCIL_INDEX
+    //GU_DEPTH_COMPONENT
+    //GU_DEPTH_STENCIL
+    //GU_RED
+    //GU_GREEN
+    //GU_BLUE
+    //GU_RG
+    //GU_RGB
+    //GU_RGBA
+    //GU_BGR
+    //GU_BGRA
+    static bool guReadTexture(edk::uint32 ID,edk::uint32 format, const edk::classID  data);
     //matrix
     //glUniformMatrix2fv
 /*

@@ -129,6 +129,9 @@ class Image2D {
 
     void deleteName();
 
+    //process the flip image in Y
+    bool flipImageY();
+
     //Convertions
     //https://github.com/ratkins/RGBConverter/blob/master/RGBConverter.cpp
     //RGB to HSV
@@ -198,6 +201,9 @@ class Image2D {
     static edk::uint8* lTorgba(edk::uint8* vector,edk::size2ui32 size);
     static bool lTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest);
     static edk::uint8* lTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height);
+
+    //flip pixels
+    static bool flipY(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 channels);
 
     bool cloneFrom(edk::Image2D* image);
     bool newFrom(edk::Image2D* image);

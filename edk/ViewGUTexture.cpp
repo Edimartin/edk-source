@@ -21,6 +21,23 @@ bool edk::ViewGUTexture::setTextureSize(edk::uint32 width,edk::uint32 height){
     //
     return this->setTextureSize(edk::size2ui32(width,height));
 }
+//return the textureSize
+edk::size2ui32 edk::ViewGUTexture::getTextureSize(){
+    return this->render.getSize();
+}
+edk::uint32 edk::ViewGUTexture::getTextureWidth(){
+    return this->render.getSize().width;
+}
+edk::uint32 edk::ViewGUTexture::getTextureHeight(){
+    return this->render.getSize().height;
+}
+//return the texture mode
+edk::uint32 edk::ViewGUTexture::getTextureModeEDK(){
+    return this->render.getModeEDK();
+}
+edk::uint32 edk::ViewGUTexture::getTextureModeGU(){
+    return this->render.getModeGU();
+}
 
 void edk::ViewGUTexture::draw(rectf32 outsideViewOrigin){
     //test if it's not hided
@@ -97,4 +114,8 @@ void edk::ViewGUTexture::draw(rectf32 outsideViewOrigin){
         //remove the buffer
         this->render.dontUseFrameBuffer();
     }
+}
+//read from the texture
+bool edk::ViewGUTexture::read(const edk::classID  data,edk::uint32 format){
+    return this->render.readFromTexture(data,format);
 }

@@ -44,12 +44,40 @@ bool edk::Texture2D::createTexture(edk::uint32 width, edk::uint32 height, edk::u
     //first delete the texture
     this->deleteTexture();
 
+    switch(mode){
+    case EDK_RGB:
+        this->mode = GU_RGB;
+        break;
+    case EDK_RGBA:
+        this->mode = GU_RGBA;
+        break;
+    case EDK_LUMINANCE:
+        this->mode = GU_LUMINANCE;
+        break;
+    case EDK_LUMINANCE_ALPHA:
+        this->mode = GU_LUMINANCE_ALPHA;
+        break;
+    case GU_RGB:
+        this->mode = GU_RGB;
+        break;
+    case GU_RGBA:
+        this->mode = GU_RGBA;
+        break;
+    case GU_LUMINANCE:
+        this->mode = GU_LUMINANCE;
+        break;
+    case GU_LUMINANCE_ALPHA:
+        this->mode = GU_LUMINANCE_ALPHA;
+        break;
+    default:
+        return false;
+    }
+
     //then alloc the texture
-    this->textureId = edk::GU::guAllocTexture2D(width, height, mode, filter, data);
+    this->textureId = edk::GU::guAllocTexture2D(width, height, this->mode, filter, data);
     if(textureId){
         this->size.width = width;
         this->size.height = height;
-        this->mode = mode;
         this->filter = filter;
         //return true
         return true;
@@ -75,6 +103,15 @@ bool edk::Texture2D::drawToTexture(const edk::classID  data, edk::uint32 filter)
     }
     return false;
 }
+//read the texture
+bool edk::Texture2D::readFromTexture(const edk::classID  data,edk::uint32 format){
+    //test if have texture
+    if(this->getID() && this->size.width && this->size.height && this->mode){
+        //
+        return edk::GU_GLSL::guReadTexture(this->getID(),format,data);
+    }
+    return false;
+}
 
 //GETTERS
 //return the textureID
@@ -85,7 +122,22 @@ edk::uint32 edk::Texture2D::getID(){
 edk::size2ui32 edk::Texture2D::getSize(){
     return this->size;
 }
-
+edk::uint32 edk::Texture2D::getModeEDK(){
+    switch(this->mode){
+    case GU_RGB:
+        return EDK_RGB;
+    case GU_RGBA:
+        return EDK_RGBA;
+    case GU_LUMINANCE:
+        return EDK_LUMINANCE;
+    case GU_LUMINANCE_ALPHA:
+        return EDK_LUMINANCE_ALPHA;
+    }
+    return 0u;
+}
+edk::uint32 edk::Texture2D::getModeGU(){
+    return this->mode;
+}
 edk::uint32 edk::Texture2D::width(){
     return this->size.width;
 }

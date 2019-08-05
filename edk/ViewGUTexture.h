@@ -46,8 +46,38 @@ public:
     //set the new size of the texture
     bool setTextureSize(edk::size2ui32 size);
     bool setTextureSize(edk::uint32 width,edk::uint32 height);
+    //return the textureSize
+    edk::size2ui32 getTextureSize();
+    edk::uint32 getTextureWidth();
+    edk::uint32 getTextureHeight();
+    //return the texture mode
+    //EDK_LUMINANCE 1u
+    //EDK_LUMINANCE_ALPHA 2u
+    //EDK_RGB  3u
+    //EDK_RGBA 4u
+    edk::uint32 getTextureModeEDK();
+    //GU_RGB
+    //GU_RGBA
+    //GU_LUMINANCE
+    //GU_LUMINANCE_ALPHA
+    edk::uint32 getTextureModeGU();
 
     void draw(edk::rectf32 outsideViewOrigin);
+    //read from the texture
+
+    //format
+    //GU_STENCIL_INDEX
+    //GU_DEPTH_COMPONENT
+    //GU_DEPTH_STENCIL
+    //GU_RED
+    //GU_GREEN
+    //GU_BLUE
+    //GU_RG
+    //GU_RGB
+    //GU_RGBA
+    //GU_BGR
+    //GU_BGRA
+    bool read(const edk::classID  data,edk::uint32 format = GU_RGB);
 private:
     edk::Texture2DRender render;
     //camera to draw the polygon with the render texture

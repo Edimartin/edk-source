@@ -55,6 +55,23 @@ public:
     bool drawTexture(edk::char8* name,edk::uint8* image,edk::uint32 filter = GU_NEAREST);
     bool drawTexture(const char8* name,edk::uint8* image,edk::uint32 filter = GU_NEAREST);
     bool drawTexture(edk::uint32 code,edk::uint8* image,edk::uint32 filter = GU_NEAREST);
+    //read from a texture
+
+    //format
+    //GU_STENCIL_INDEX
+    //GU_DEPTH_COMPONENT
+    //GU_DEPTH_STENCIL
+    //GU_RED
+    //GU_GREEN
+    //GU_BLUE
+    //GU_RG
+    //GU_RGB
+    //GU_RGBA
+    //GU_BGR
+    //GU_BGRA
+    bool readTexture(edk::char8* name,edk::uint32 format,edk::uint8* image,edk::uint32 filter = GU_NEAREST);
+    bool readTexture(const char8* name,edk::uint32 format,edk::uint8* image,edk::uint32 filter = GU_NEAREST);
+    bool readTexture(edk::uint32 code,edk::uint32 format,edk::uint8* image);
     //Load Texture
     edk::uint32 loadTexture(edk::char8* name,edk::uint32 filter = GU_NEAREST);
     edk::uint32 loadTexture(const char* name,edk::uint32 filter = GU_NEAREST);
@@ -138,6 +155,14 @@ private:
             if(image){
                 //draw on the texture
                 return this->file->drawToTexture(image,filter);
+            }
+            return false;
+        }
+        //read from the texture
+        bool readTexture(edk::uint8* image,edk::uint32 format){
+            if(image){
+                //read from the texture
+                return this->file->readFromTexture(image,format);
             }
             return false;
         }
@@ -289,6 +314,8 @@ private:
     edk::Texture2DList::TextureCode* getTextureByCode(edk::uint32 code);
     //draw on the texture
     bool drawTexture(edk::Texture2DList::TextureCode* temp,edk::uint8* image,edk::uint32 filter = GU_NEAREST);
+    //read from the texture
+    bool readTexture(edk::Texture2DList::TextureCode* temp,edk::uint8* image,edk::uint32 format);
     //remove the texture
     bool removeTexture(edk::Texture2DList::TextureCode* temp);
     //delete the texture

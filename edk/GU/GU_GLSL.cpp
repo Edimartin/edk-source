@@ -113,6 +113,25 @@ void edk::GU_GLSL::guData3f32(edk::int32 id,edk::vec3f32 d){glUniform3f(id,d.x,d
 void edk::GU_GLSL::guData3f32(edk::int32 id,edk::float32 d0,edk::float32 d1,edk::float32 d2){glUniform3f(id,d0,d1,d2);}
 void edk::GU_GLSL::guData4f32(edk::int32 id,edk::vec4f32 d){glUniform4f(id,d.x,d.y,d.z,d.w);}
 void edk::GU_GLSL::guData4f32(edk::int32 id,edk::float32 d0,edk::float32 d1,edk::float32 d2,edk::float32 d3){glUniform4f(id,d0,d1,d2,d3);}
+
+bool edk::GU_GLSL::guReadTexture(edk::uint32 ID,edk::uint32 format,const edk::classID  data){
+    //test the ID
+    if(ID){
+        //Set using texture
+        glBindTexture(GL_TEXTURE_2D,ID);
+        //
+        glGetTexImage(GL_TEXTURE_2D,
+                           0u,
+                           format,
+                           GL_UNSIGNED_BYTE,
+                           data
+                           );
+        //Clean use texture
+        glBindTexture(GL_TEXTURE_2D, 0u);
+        return true;
+    }
+    return false;
+}
 /*
 void edk::GU_GLSL::guVertexData1i32(edk::int32 id,edk::int32 d0){glVertexAttrib1i(id,d0);}
 void edk::GU_GLSL::guVertexData2i32(edk::int32 id,edk::vec2i32 d){glVertexAttrib2i(id,d.x,d.y);}

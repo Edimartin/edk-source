@@ -52,8 +52,10 @@ Gravatai RS Brazil 94065100
 */
 
 //defines
-#define EDK_RGB  1u
-#define EDK_RGBA 2u
+#define EDK_LUMINANCE 1u
+#define EDK_LUMINANCE_ALPHA 2u
+#define EDK_RGB  3u
+#define EDK_RGBA 4u
 
 
 //Render to Texture
@@ -73,11 +75,36 @@ class Texture2D: public edk::ObjectWithName{
         //draw to the texture
         bool drawToTexture(const edk::classID  data);
         bool drawToTexture(const edk::classID  data, edk::uint32 filter = GU_NEAREST);
+        //read the texture
+
+        //format
+        //GU_STENCIL_INDEX
+        //GU_DEPTH_COMPONENT
+        //GU_DEPTH_STENCIL
+        //GU_RED
+        //GU_GREEN
+        //GU_BLUE
+        //GU_RG
+        //GU_RGB
+        //GU_RGBA
+        //GU_BGR
+        //GU_BGRA
+        bool readFromTexture(const edk::classID  data,edk::uint32 format = GU_RGB);
 
         //GETTERS
         //return the textureID
         edk::uint32 getID();
         size2ui32 getSize();
+        //EDK_LUMINANCE 1u
+        //EDK_LUMINANCE_ALPHA 2u
+        //EDK_RGB  3u
+        //EDK_RGBA 4u
+        edk::uint32 getModeEDK();
+        //GU_RGB
+        //GU_RGBA
+        //GU_LUMINANCE
+        //GU_LUMINANCE_ALPHA
+        edk::uint32 getModeGU();
         uint32 width();
         uint32 height();
         edk::uint32 textureID();
