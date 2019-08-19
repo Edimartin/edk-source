@@ -1737,8 +1737,8 @@ namespace edk{
 #define GU_MODELVIEW                            0x1700
 #define GU_PROJECTION                           0x1701
 #define GU_TEXTURE                              0x1702
-#define GU_RGB                                  0x1907
-#define GU_RGBA                                 0x1908
+//#define GU_RGB                                  0x1907
+//#define GU_RGBA                                 0x1908
 #define GU_LUMINANCE                            0x1909
 #define GU_LUMINANCE_ALPHA                      0x190A
 

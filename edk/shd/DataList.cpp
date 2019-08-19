@@ -580,6 +580,8 @@ bool edk::shd::DataList::updateData(edk::char8* name){
 }
 //update all datas
 bool edk::shd::DataList::updateAllDatas(){
+    //fot some reason, try a new wrong data help update all the other datas
+    this->newData("0.0");
     //test if have datas
     if(this->tree.size()){
         //update all
