@@ -123,7 +123,9 @@ class Time {
     static void sleepProcessMicroseconds(uint32 Microseconds);
 
     //get seconds since epoch
-    edk::uint64 getTimeSinceEpoch();
+    static edk::uint64 getTimeSinceEpoch();
+
+    static edk::uint64 getTimeSinceEpoch(edk::uint8 hour,edk::uint8 minute,edk::uint8 second,edk::uint8 dayOfMonth,edk::uint8 month,edk::uint32 year);
 
     void clockLoadGMTime();
 
@@ -162,6 +164,10 @@ class Time {
      */
      //update the startTime
      void updateStartTime();
+     //get day of the year
+     static edk::uint32 getDayOfYear(edk::uint8 dayOfMonth,edk::uint8 month,edk::uint32 year);
+     static bool isBisext(edk::uint32 year);
+
 
     #if defined(_WIN32) || defined(_WIN64)
     //Windows
@@ -175,6 +181,8 @@ class Time {
     #if defined(__linux__) || defined(__APPLE__)
     static edk::uint32 linuxSecond;
     #endif
+
+    static edk::uint8 monthDays[12u];
 
     //set if occur overflow
     bool overflow;

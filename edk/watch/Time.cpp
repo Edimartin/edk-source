@@ -39,6 +39,9 @@ edk::uint32 edk::watch::Time::linuxSecond = 1000000u;
 #endif
 
 
+edk::uint8 edk::watch::Time::monthDays[12u]={31,28,31,30,31,30,31,31,30,31,30,31};
+
+
 Time::Time(){
     this->timeStart=0u;
     this->saveTimeDistance=0u;
@@ -53,6 +56,32 @@ Time::Time(){
     this->start();
     //load the time
     this->clockLoadLocalTime();
+}
+
+
+//get day of the year
+edk::uint32 Time::getDayOfYear(edk::uint8 dayOfMonth,edk::uint8 month,edk::uint32 year){
+    edk::uint32 ret = 0u;
+    if(month<12){
+        ret = dayOfMonth;
+        for(edk::uint8 i=0u;i<month;i++){
+            ret += edk::watch::Time::monthDays[i];
+        }
+        //test if need add the bisext year day
+        if(month>2u){
+            //calculate if add the bisext day
+            if(edk::watch::Time::isBisext(year)){
+                ret++;
+            }
+        }
+    }
+    return ret;
+}
+bool Time::isBisext(edk::uint32 year){
+    if(!(year%4u) && (year%100u)){
+        return true;
+    }
+    return false;
 }
 
 
@@ -178,6 +207,21 @@ void Time::sleepProcessMicroseconds(uint32 Microseconds){
 //get seconds since epoch
 edk::uint64 Time::getTimeSinceEpoch(){
     return (edk::uint64) time(NULL);
+}
+
+edk::uint64 Time::getTimeSinceEpoch(edk::uint8 hour,edk::uint8 minute,edk::uint8 second,edk::uint8 dayOfMonth,edk::uint8 month,edk::uint32 year){
+    if(year>1970)year-=1970;
+    if(dayOfMonth)dayOfMonth--;
+    if(month)month--;
+    edk::uint64 ret = (edk::uint64)second
+            + ((edk::uint64)minute * 60u)
+            + ((edk::uint64)hour * 3600u)
+            + ((edk::uint64)edk::watch::Time::getDayOfYear(dayOfMonth,month,year) * 86400)
+            + ((edk::uint64)(year) * 31536000)
+            + (((edk::uint64)(year) / 4) * 86400)
+            ;
+    //
+    return ret;
 }
 
 void Time::clockLoadGMTime(){

@@ -76,6 +76,9 @@ void edk::ViewGUTexture::draw(rectf32 outsideViewOrigin){
         //
         edk::GU::guColor3f32(1,1,1);
 
+        //use the shader program
+        this->shader.useThisShader();
+
         //set the camera position
         edk::GU::guUseMatrix(GU_PROJECTION);
         //Load the identity
@@ -110,6 +113,9 @@ void edk::ViewGUTexture::draw(rectf32 outsideViewOrigin){
         edk::GU::guUseTexture2D(0u);
 
         edk::GU::guDisable(GU_TEXTURE_2D);
+
+        //remove the shader program
+        this->shader.useNoShader();
 
         //remove the buffer
         this->render.dontUseFrameBuffer();

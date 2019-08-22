@@ -31,6 +31,8 @@ Gravatai RS Brazil 94065100
 #include "Texture2DRender.h"
 #include "Camera2D.h"
 
+#include "shd/GLSL.h"
+
 #ifdef printMessages
 #warning "    Compiling ViewGUTexture"
 #endif
@@ -78,6 +80,9 @@ public:
     //GU_BGR
     //GU_BGRA
     bool read(const edk::classID  data,edk::uint32 format = GU_RGB);
+protected:
+    //shader program
+    edk::shd::GLSL shader;
 private:
     edk::Texture2DRender render;
     //camera to draw the polygon with the render texture
