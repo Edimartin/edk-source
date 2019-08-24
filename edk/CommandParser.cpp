@@ -38,7 +38,7 @@ edk::CommandParser::TreeCommand::TreeCommand(){
     //
 }
 edk::CommandParser::TreeCommand::~TreeCommand(){
-    //
+    this->clean();
 }
 
 //Print the command and value
@@ -96,6 +96,29 @@ bool edk::CommandParser::TreeCommand::removeCommand(edk::char8* command){
 //test if have the command
 bool edk::CommandParser::TreeCommand::haveCommand(edk::char8* command){
     return this->haveName(command);
+}
+//return the command istring in a position
+edk::char8* edk::CommandParser::TreeCommand::getCommandInPosition(edk::uint32 position){
+    //test if have the position
+    edk::CommandParser::Command* temp = (edk::CommandParser::Command*)this->getElementInPosition(position);
+    if(temp){
+        //return the value
+        return temp->getName();
+    }
+    //else return NULL
+    return NULL;
+}
+//remove all commands on the tree
+void edk::CommandParser::TreeCommand::clean(){
+    edk::uint32 size = this->size();
+    edk::CommandParser::Command* temp=NULL;
+    for(edk::uint32 i=0u;i<size;i++){
+        temp = (edk::CommandParser::Command*)this->getElementInPosition(i);
+        if(temp){
+            delete temp;
+        }
+    }
+    edk::vector::NameTree::clean();
 }
 //get command value
 edk::char8* edk::CommandParser::TreeCommand::getValue(edk::char8* command){
@@ -160,6 +183,10 @@ bool edk::CommandParser::removeCommand(const char* command){
 bool edk::CommandParser::removeCommand(edk::char8* command){
     return this->tree.removeCommand(command);
 }
+//clean the commands
+void edk::CommandParser::cleanCommands(){
+    this->tree.cleanCommands();
+}
 //test if have a command
 bool edk::CommandParser::haveCommand(const char* command){
     return haveCommand((edk::char8*) command);
@@ -177,6 +204,10 @@ edk::char8* edk::CommandParser::getValue(edk::char8* command){
 //return the value of the command in position
 edk::char8* edk::CommandParser::getValueInPosition(edk::uint32 position){
     return this->tree.getValueInPosition(position);
+}
+//return the command string in a position
+edk::char8* edk::CommandParser::getCommandInPosition(edk::uint32 position){
+    return this->tree.getCommandInPosition(position);
 }
 //return the size of the commands
 edk::uint32 edk::CommandParser::getCommandsSize(){
@@ -243,6 +274,10 @@ bool edk::CommandParser::parseArgcArgv(edk::int32 argc,edk::char8* argv[]){
                             continue;
                         }
                     }
+                }
+                else{
+                    this->addCommand(argv[i],argv[i]);
+                    continue;
                 }
 
                 //test if have an attribution

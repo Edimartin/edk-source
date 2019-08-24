@@ -57,7 +57,7 @@ namespace edk {
 
 class Image2D {
 
- public:
+public:
 
     Image2D();
 
@@ -205,9 +205,14 @@ class Image2D {
     //flip pixels
     static bool flipY(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 channels);
 
+    static bool imageClone(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 channels,
+                           edk::uint8* dest,edk::uint32 dWidth,edk::uint32 dHeight,edk::uint32 dChannels,
+                           edk::uint32 positionX,edk::uint32 positionY
+                           );
+
     bool cloneFrom(edk::Image2D* image);
     bool newFrom(edk::Image2D* image);
- private:
+private:
     edk::Image2D operator=(edk::Image2D){return *this;}
     //Save the image
     //sf::Image* image;

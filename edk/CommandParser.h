@@ -45,6 +45,8 @@ public:
     //remove a command
     bool removeCommand(const char* command);
     bool removeCommand(edk::char8* command);
+    //clean the commands
+    void cleanCommands();
     //test if have a command
     bool haveCommand(const char* command);
     bool haveCommand(edk::char8* command);
@@ -53,6 +55,8 @@ public:
     edk::char8* getValue(edk::char8* command);
     //return the value of the command in position
     edk::char8* getValueInPosition(edk::uint32 position);
+    //return the command string in a position
+    edk::char8* getCommandInPosition(edk::uint32 position);
     //return the size of the commands
     edk::uint32 getCommandsSize();
 
@@ -89,8 +93,12 @@ private:
         bool addCommand(edk::char8* command,edk::char8* value);
         //remove command
         bool removeCommand(edk::char8* command);
+        //remove all commands on the tree
+        void clean();
         //test if have the command
         bool haveCommand(edk::char8* command);
+        //return the command istring in a position
+        edk::char8* getCommandInPosition(edk::uint32 position);
         //get command value
         edk::char8* getValue(edk::char8* command);
         //get command value in position

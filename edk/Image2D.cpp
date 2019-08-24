@@ -1036,6 +1036,202 @@ bool Image2D::flipY(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk:
     return false;
 }
 
+bool Image2D::imageClone(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 channels,
+                         edk::uint8* dest,edk::uint32 dWidth,edk::uint32 dHeight,edk::uint32 dChannels,
+                         edk::uint32 positionX,edk::uint32 positionY
+                         ){
+    //test the vectors
+    if(vector && width && height && channels && dest && dWidth && dHeight && dChannels){
+        //test if can position the image inside the dest
+        if(positionX <= dWidth - width && positionY <= dHeight - height){
+            //then copy the image
+            dest+=positionY*dWidth * dChannels;
+            for(edk::uint32 y = 0u;y<height;y++){
+                dest+=positionX * dChannels;
+                //copy the channels
+                if(channels==1u){
+                    if(dChannels==1u){
+                        //1 1
+                        for(edk::uint32 x = 0u;x<width;x++){
+                            dest[0u] = vector[0u];
+                            //increment the vectors
+                            dest+=dChannels;
+                            vector+=channels;
+                        }
+                    }
+                    else if(dChannels==2u){
+                        //1 2
+                        for(edk::uint32 x = 0u;x<width;x++){
+                            dest[0u] = vector[0u];
+                            dest[1u] = 255u;
+                            //increment the vectors
+                            dest+=dChannels;
+                            vector+=channels;
+                        }
+                    }
+                    else if(dChannels==3u){
+                        //1 3
+                        for(edk::uint32 x = 0u;x<width;x++){
+                            dest[0u] = vector[0u];
+                            dest[2u] = vector[0u];
+                            dest[3u] = vector[0u];
+                            //increment the vectors
+                            dest+=dChannels;
+                            vector+=channels;
+                        }
+                    }
+                    else if(dChannels==4u){
+                        //1 4 transparent
+                        for(edk::uint32 x = 0u;x<width;x++){
+                            dest[0u] = vector[0u];
+                            dest[2u] = vector[0u];
+                            dest[3u] = vector[0u];
+                            dest[4u] = 255u;
+                            //increment the vectors
+                            dest+=dChannels;
+                            vector+=channels;
+                        }
+                    }
+                }
+                else if(channels==2u){
+                    if(dChannels==1u){
+                        //2 1 transparent
+                        for(edk::uint32 x = 0u;x<width;x++){
+                            dest[0u] = vector[0u];
+                            //increment the vectors
+                            dest+=dChannels;
+                            vector+=channels;
+                        }
+                    }
+                    else if(dChannels==2u){
+                        //2 2 transparent
+                        for(edk::uint32 x = 0u;x<width;x++){
+                            dest[0u] = vector[0u];
+                            dest[1u] = vector[1u];
+                            //increment the vectors
+                            dest+=dChannels;
+                            vector+=channels;
+                        }
+                    }
+                    else if(dChannels==3u){
+                        //2 3 transparent
+                        for(edk::uint32 x = 0u;x<width;x++){
+                            dest[0u] = vector[0u];
+                            dest[1u] = vector[0u];
+                            dest[2u] = vector[0u];
+                            //increment the vectors
+                            dest+=dChannels;
+                            vector+=channels;
+                        }
+                    }
+                    else if(dChannels==4u){
+                        //2 4 transparent
+                        for(edk::uint32 x = 0u;x<width;x++){
+                            dest[0u] = vector[0u];
+                            dest[1u] = vector[0u];
+                            dest[2u] = vector[0u];
+                            dest[4u] = vector[1u];
+                            //increment the vectors
+                            dest+=dChannels;
+                            vector+=channels;
+                        }
+                    }
+                }
+                else if(channels==3u){
+                    if(dChannels==1u){
+                        //3 1
+                        for(edk::uint32 x = 0u;x<width;x++){
+                            dest[0u] = edk::Image2D::rgbToL(vector[0u],vector[1u],vector[2u]);
+                            //increment the vectors
+                            dest+=dChannels;
+                            vector+=channels;
+                        }
+                    }
+                    else if(dChannels==2u){
+                        //3 2 transparent
+                        for(edk::uint32 x = 0u;x<width;x++){
+                            dest[0u] = edk::Image2D::rgbToL(vector[0u],vector[1u],vector[2u]);
+                            dest[1u] = 255;
+                            //increment the vectors
+                            dest+=dChannels;
+                            vector+=channels;
+                        }
+                    }
+                    else if(dChannels==3u){
+                        //3 3
+                        for(edk::uint32 x = 0u;x<width;x++){
+                            dest[0u] = vector[0u];
+                            dest[1u] = vector[1u];
+                            dest[2u] = vector[2u];
+                            //increment the vectors
+                            dest+=dChannels;
+                            vector+=channels;
+                        }
+                    }
+                    else if(dChannels==4u){
+                        //3 4 transparent
+                        for(edk::uint32 x = 0u;x<width;x++){
+                            dest[0u] = vector[0u];
+                            dest[1u] = vector[1u];
+                            dest[2u] = vector[2u];
+                            dest[1u] = 255;
+                            //increment the vectors
+                            dest+=dChannels;
+                            vector+=channels;
+                        }
+                    }
+                }
+                else if(channels==4u){
+                    if(dChannels==1u){
+                        //4 1
+                        for(edk::uint32 x = 0u;x<width;x++){
+                            dest[0u] = edk::Image2D::rgbToL(vector[0u],vector[1u],vector[2u]);
+                            //increment the vectors
+                            dest+=dChannels;
+                            vector+=channels;
+                        }
+                    }
+                    else if(dChannels==2u){
+                        //4 2 transparent
+                        for(edk::uint32 x = 0u;x<width;x++){
+                            dest[0u] = edk::Image2D::rgbToL(vector[0u],vector[1u],vector[2u]);
+                            dest[1u] = vector[1u];
+                            //increment the vectors
+                            dest+=dChannels;
+                            vector+=channels;
+                        }
+                    }
+                    else if(dChannels==3u){
+                        //4 3
+                        for(edk::uint32 x = 0u;x<width;x++){
+                            dest[0u] = edk::Image2D::rgbToL(vector[0u],vector[1u],vector[2u]);
+                            //increment the vectors
+                            dest+=dChannels;
+                            vector+=channels;
+                        }
+                    }
+                    else if(dChannels==4u){
+                        //4 4 transparent
+                        for(edk::uint32 x = 0u;x<width;x++){
+                            dest[0u] = vector[0u];
+                            dest[1u] = vector[1u];
+                            dest[2u] = vector[2u];
+                            dest[3u] = vector[3u];
+                            //increment the vectors
+                            dest+=dChannels;
+                            vector+=channels;
+                        }
+                    }
+                }
+                dest+=(dWidth - width - positionX) * dChannels;
+            }
+            //then return true
+            return true;
+        }
+    }
+    return false;
+}
+
 bool Image2D::cloneFrom(edk::Image2D* image){
     if(image){
         //test if the image exist
