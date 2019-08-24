@@ -53,6 +53,7 @@ public:
     virtual void mousePressed(edk::gui2d::ObjectGui2d* button,edk::uint32 mouseButton)=0;
     virtual void mouseRelease(edk::gui2d::ObjectGui2d* button,edk::uint32 mouseButton,bool isInside)=0;
     virtual void mouseHolded(edk::gui2d::ObjectGui2d* button,edk::uint32 mouseButton)=0;
+    virtual void returnPressed(edk::gui2d::ObjectGui2d* textField)=0;
 };
 class ViewGui2d : public edk::ViewGU2D{
 public:
@@ -115,6 +116,7 @@ private:
     void processMousePressed(edk::gui2d::ObjectGui2d* button,edk::uint32 mouseButton);
     void processMouseRelease(edk::gui2d::ObjectGui2d* button,edk::uint32 mouseButton,bool isInside);
     void processMouseHolded(edk::gui2d::ObjectGui2d* button,edk::uint32 mouseButton);
+    void processReturnPressed(edk::gui2d::ObjectGui2d* textField);
 
     class ObjGui2dID{
     public:

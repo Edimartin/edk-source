@@ -95,6 +95,18 @@ void edk::gui2d::ViewGui2d::processMouseHolded(edk::gui2d::ObjectGui2d* button,e
         }
     }
 }
+void edk::gui2d::ViewGui2d::processReturnPressed(edk::gui2d::ObjectGui2d* textField){
+    //get the list size
+    edk::uint32 size = this->listCallback.size();
+    edk::gui2d::ObjectGui2dCallback* pointer = NULL;
+    for(edk::uint32 i=0u;i<size;i++){
+        pointer = this->listCallback.get(i);
+        if(pointer){
+            //process the function
+            pointer->returnPressed(textField);
+        }
+    }
+}
 
 void edk::gui2d::ViewGui2d::drawSelectionScene(){
     //
@@ -122,8 +134,8 @@ void edk::gui2d::ViewGui2d::selectObject(edk::uint32 ,edk::uint32 ,edk::float32 
 
         //test if have the second name
         if(size>1u){
-                //
-                this->idSelected = names->get(1u);
+            //
+            this->idSelected = names->get(1u);
         }
         else{
             this->idSelected = 0u;
@@ -503,6 +515,11 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
                     case edk::key::Return:
                         //set press return
                         //this->pressReturn = true;
+                        if(this->objSelected){
+                            if(this->objSelected->getType() == edk::gui2d::gui2dTypeTextField){
+                                this->processReturnPressed(this->objSelected);
+                            }
+                        }
                         break;
                     case edk::key::escape:
                         //
