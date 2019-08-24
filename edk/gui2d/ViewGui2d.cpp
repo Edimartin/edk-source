@@ -33,6 +33,11 @@ edk::gui2d::ViewGui2d::ViewGui2d(){
     //press quote
     this->pressQuote=false;
     this->pressTilde=false;
+    //start the distances
+    this->distanceClick.start();
+    this->distanceDoubleClick.start();
+    //run doubleClick
+    this->doubleClick=false;
 }
 edk::gui2d::ViewGui2d::~ViewGui2d(){
     //
@@ -196,6 +201,9 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
     size = events->mousePressed.size();
     for(edk::uint32 i = 0u;i<size;i++){
         if(events->mousePressed[i] == edk::mouse::left){
+            //start the click
+            this->distanceClick.start();
+
             this->mouseStatus = edk::gui2d::gui2dMousePressed;
             runSelection = true;
             //save the cursor position to move the object
@@ -234,6 +242,20 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
     size = events->mouseRelease.size();
     for(edk::uint32 i = 0u;i<size;i++){
         if(events->mouseRelease[i] == edk::mouse::left){
+            //start the click
+            if(this->distanceClick.getMicroseconds()<edk::watch::second*0.2){
+                //mouse click. Test if is doubleClick
+                if(this->distanceDoubleClick.getMicroseconds()<edk::watch::second*0.2){
+                    //run doubleClick
+                    this->doubleClick=true;
+                    if(this->objSelected){
+                        //run the doubleClick
+                    }
+                }
+                //start the doubleClick distance
+                this->distanceDoubleClick.start();
+            }
+
             runSelection = true;
 
             this->mouseStatus = edk::gui2d::gui2dMouseRelease;
@@ -658,7 +680,7 @@ void edk::gui2d::ViewGui2d::drawScene(edk::rectf32){
                         //remove the selection
                         this->objSelected->deselect();
                         if(this->endSelect)
-                            this->objSelected->clickEnd(this->idSelected,false);
+                            this->objSelected->clickEnd(this->idSelected,false,this->doubleClick);
                     }
                     obj->select();
                     obj->clickStart(this->idSelected);
@@ -694,10 +716,10 @@ void edk::gui2d::ViewGui2d::drawScene(edk::rectf32){
                 else if(this->mouseStatus == edk::gui2d::gui2dMouseRelease){
                     //test if have the object selected
                     if(this->objSelected == obj && this->endSelect){
-                        obj->clickEnd(this->idSelected,true);
+                        obj->clickEnd(this->idSelected,true,this->doubleClick);
                     }
                     else if(this->objSelected){
-                        obj->clickEnd(this->idSelected,false);
+                        obj->clickEnd(this->idSelected,false,this->doubleClick);
                     }
                     this->endSelect = false;
                     obj->pressed=false;
@@ -717,7 +739,7 @@ void edk::gui2d::ViewGui2d::drawScene(edk::rectf32){
                     if(this->objSelected){
                         this->objSelected->deselect();
                         if(this->endSelect)
-                            this->objSelected->clickEnd(this->idSelected,false);
+                            this->objSelected->clickEnd(this->idSelected,false,this->doubleClick);
                         this->endSelect = false;
 
                         this->objSelected = NULL;
@@ -732,7 +754,7 @@ void edk::gui2d::ViewGui2d::drawScene(edk::rectf32){
                 //
                 if(this->objSelected){
                     this->objSelected->deselect();
-                    //this->objSelected->clickEnd(this->idSelected,false);
+                    //this->objSelected->clickEnd(this->idSelected,false,this->doubleClick);
 
                     this->objSelected = NULL;
                     this->idSelected = 0u;
@@ -789,6 +811,8 @@ void edk::gui2d::ViewGui2d::drawScene(edk::rectf32){
     }
     //clean the last tree
     this->selectTreeS->clean();
+
+    this->doubleClick=false;
 
 
     //clean the lights in the view

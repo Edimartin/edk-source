@@ -31,6 +31,7 @@ Gravatai RS Brazil 94065100
 #include "../vector/BinaryTree.h"
 #include "../vector/Array.h"
 #include "TextField2d.h"
+#include "../watch/Time.h"
 
 #ifdef printMessages
 #warning "    Compiling gui2d::ViewGui2d"
@@ -100,6 +101,11 @@ private:
     edk::vec2f32 saveMousePosition;
     edk::vec2f32 mouseDistance;
     bool mouseMoving;
+
+    //save the time to text if have double click
+    edk::watch::Time distanceClick;
+    edk::watch::Time distanceDoubleClick;
+    bool doubleClick;
 
     //mouse callback
     edk::vector::Stack<edk::gui2d::ObjectGui2dCallback*> listCallback;

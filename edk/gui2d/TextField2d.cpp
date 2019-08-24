@@ -536,6 +536,14 @@ edk::gui2d::TextField2d::~TextField2d(){
 edk::gui2d::gui2dTypes edk::gui2d::TextField2d::getType(){
     return edk::gui2d::gui2dTypeTextField;
 }
+//clean all characters
+void edk::gui2d::TextField2d::cleanCharacters(){
+    this->textVec.clean();
+    this->originID = 0u;
+    this->cursorID = 0u;
+    this->endID=0u;
+    this->selectionMiddle = this->selectionStart = this->selectionEnd = 0u;
+}
 
 void edk::gui2d::TextField2d::updateTextSize(edk::size2f32 sizeText,edk::size2f32 centerSize,edk::size2ui32 mapSize){
     edk::uint32 mapWidth = this->text.getMapSizeWidth();
@@ -660,8 +668,8 @@ void edk::gui2d::TextField2d::updateTextSize(edk::size2f32 sizeText,edk::size2f3
         //save the cursor size
         this->cursor.size = edk::size2f32(this->text.getMapScaleWidth() * edkGU2dCursorWidthPercent,this->text.getMapScaleHeight());
         this->cursor.position = edk::vec2f32( (centerSize.width*-0.5f),
-                                             0.f
-                                             );
+                                              0.f
+                                              );
 
         //test if it was modified
         if(this->cursor.size != this->saveCursorSize){
@@ -857,8 +865,11 @@ void edk::gui2d::TextField2d::clickStart(edk::uint32 name){
 void edk::gui2d::TextField2d::clickMove(edk::uint32 name,bool mouseInside){
     edk::gui2d::ObjectGui2d::clickMove(name,mouseInside);
 }
-void edk::gui2d::TextField2d::clickEnd(edk::uint32 name,bool mouseInside){
-    edk::gui2d::ObjectGui2d::clickEnd(name,mouseInside);
+void edk::gui2d::TextField2d::clickEnd(edk::uint32 name,bool mouseInside,bool doubleClick){
+    edk::gui2d::ObjectGui2d::clickEnd(name,mouseInside,doubleClick);
+    //select all text
+    if(doubleClick)
+        this->selectAll();
 }
 
 //cursor functions
@@ -954,8 +965,18 @@ void edk::gui2d::TextField2d::moveCursorToStartWithSelect(){
         this->cursor.animationSize.playForward();
     }
 }
+void edk::gui2d::TextField2d::selectAll(){
+    this->cursorID = this->text.getMapSizeWidth();
+    if(this->cursorID){this->cursorID--;
+        this->selectionEnd = this->cursorID;
+        this->selectionStart=0u;
+    }
+}
 //add some character
 bool edk::gui2d::TextField2d::addCharacter(edk::char8 c){
+    if(this->selectionStart!=this->selectionEnd){
+        this->deleteCharacter();
+    }
     //add the character
     if(this->textVec.add(c,this->cursorID)){
         //force update

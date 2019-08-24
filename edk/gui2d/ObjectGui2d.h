@@ -154,7 +154,7 @@ public:
     //click to select an polygon inside the object
     virtual void clickStart(edk::uint32 name);
     virtual void clickMove(edk::uint32 name,bool mouseInside);
-    virtual void clickEnd(edk::uint32 name,bool mouseInside);
+    virtual void clickEnd(edk::uint32 name,bool mouseInside,bool doubleClick);
 
     //set border size
     virtual bool setBorderSize(edk::float32 size);

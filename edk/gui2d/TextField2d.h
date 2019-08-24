@@ -54,6 +54,8 @@ public:
 
     //get the type
     virtual edk::gui2d::gui2dTypes getType();
+    //clean all characters
+    void cleanCharacters();
 
     //load the button textures and meshes
     bool load();
@@ -69,7 +71,7 @@ public:
     //click to select an polygon inside the object
     void clickStart(edk::uint32 name);
     void clickMove(edk::uint32 name,bool mouseInside);
-    void clickEnd(edk::uint32 name,bool mouseInside);
+    void clickEnd(edk::uint32 name,bool mouseInside,bool doubleClick);
 
     //cursor functions
     void incrementCursor();
@@ -80,6 +82,7 @@ public:
     void moveCursorToEndWithSelect();
     void moveCursorToStart();
     void moveCursorToStartWithSelect();
+    void selectAll();
     //add some character
     bool addCharacter(edk::char8 c);
     bool addString(edk::char8* str);

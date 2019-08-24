@@ -741,7 +741,7 @@ void edk::gui2d::ObjectGui2d::clickStart(edk::uint32){
 void edk::gui2d::ObjectGui2d::clickMove(edk::uint32,bool){
     //
 }
-void edk::gui2d::ObjectGui2d::clickEnd(edk::uint32,bool){
+void edk::gui2d::ObjectGui2d::clickEnd(edk::uint32,bool,bool){
     //
 }
 
