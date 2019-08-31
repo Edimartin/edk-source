@@ -98,6 +98,9 @@ bool edk::gui2d::MenuObj::loadObject(edk::uint32 id,edk::char8* spriteName,edk::
             }
         }
     }
+    else{
+        this->sprite.size.width = 0.f;
+    }
     if(text1){
         //test the size of the text
         if(edk::String::strSize(text1)){
@@ -185,12 +188,16 @@ void edk::gui2d::MenuObj::updateSizes(){
     this->positionText1 = this->positionText2 = 0.f;
     //set the object size
     this->obj.size = edk::size2f32(0,1);
-    this->sprite.size = edkGui2dInsideHeight;
-
     this->obj.size.width += edkGui2dInsideBorder;
 
-    this->obj.size.width += this->sprite.size.width;
-    this->obj.size.width += edkGui2dInsideBorder;
+    if(this->sprite.size.width>0.f){
+        this->sprite.size = edkGui2dInsideHeight;
+        this->obj.size.width += this->sprite.size.width;
+        this->obj.size.width += edkGui2dInsideBorder;
+    }
+    else{
+        this->sprite.size.height = edkGui2dInsideHeight;
+    }
 
     if(this->text1.haveText()){
         this->positionText1 = this->obj.size.width;
