@@ -48,6 +48,13 @@ public:
     ~Material();
 
     //load the texture
+    //filter
+    //GU_NEAREST
+    //GU_LINEAR
+    //GU_NEAREST_MIPMAP_NEAREST
+    //GU_NEAREST_MIPMAP_LINEAR
+    //GU_LINEAR_MIPMAP_NEAREST
+    //GU_LINEAR_MIPMAP_LINEAR
     bool loadTexture(edk::char8* name,edk::uint8 position=0u,edk::uint32 filter = GU_NEAREST);
     bool loadTexture(const char* name,edk::uint8 position=0u,edk::uint32 filter = GU_NEAREST);
     bool loadTextureFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint8 position=0u,edk::uint32 filter = GU_NEAREST);

@@ -121,8 +121,8 @@ edk::uint16 edk::Math::squareUint16(edk::uint16 n){ return n*n; }
 edk::uint32 edk::Math::squareUint32(edk::uint32 n){ return n*n; }
 edk::uint64 edk::Math::squareUint64(edk::uint64 n){ return n*n; }
 //VEC2
-edk::vec2f32 edk::Math::squarevec2f32(edk::float32 n1,edk::float32 n2){ return edk::Math::squarevec2f32(edk::vec2f32(n1,n2)); }
-edk::vec2f32 edk::Math::squarevec2f32(edk::vec2f32 vec){ return vec*vec; }
+edk::vec2f32 edk::Math::squareVec2f32(edk::float32 n1,edk::float32 n2){ return edk::Math::squareVec2f32(edk::vec2f32(n1,n2)); }
+edk::vec2f32 edk::Math::squareVec2f32(edk::vec2f32 vec){ return vec*vec; }
 edk::vec2i8 edk::Math::squareVec2i8(edk::int8 n1, edk::int8 n2){ return edk::Math::squareVec2i8(edk::vec2i8(n1,n2)); }
 edk::vec2i8 edk::Math::squareVec2i8(edk::vec2i8 vec){ return vec*vec; }
 edk::vec2i16 edk::Math::squareVec2i16(edk::int16 n1,edk::int16 n2){ return edk::Math::squareVec2i16(edk::vec2i16(n1,n2)); }
@@ -140,8 +140,8 @@ edk::vec2ui32 edk::Math::squareVec2ui32(edk::vec2ui32 vec){ return vec*vec; }
 edk::vec2ui64 edk::Math::squareVec2ui64(edk::uint64 n1,edk::uint64 n2){ return edk::Math::squareVec2ui64(edk::vec2ui64(n1,n2)); }
 edk::vec2ui64 edk::Math::squareVec2ui64(edk::vec2ui64 vec){ return vec*vec; }
 //VEC3
-edk::vec3f32 edk::Math::squarevec3f32(edk::float32 n1,edk::float32 n2,edk::float32 n3){ return edk::Math::squarevec3f32(edk::vec3f32(n1,n2,n3)); }
-edk::vec3f32 edk::Math::squarevec3f32(edk::vec3f32 vec){ return vec*vec; }
+edk::vec3f32 edk::Math::squareVec3f32(edk::float32 n1,edk::float32 n2,edk::float32 n3){ return edk::Math::squareVec3f32(edk::vec3f32(n1,n2,n3)); }
+edk::vec3f32 edk::Math::squareVec3f32(edk::vec3f32 vec){ return vec*vec; }
 edk::vec3i8 edk::Math::squareVec3i8(edk::int8 n1,edk::int8 n2,edk::int8 n3){ return edk::Math::squareVec3i8(edk::vec3i8(n1,n2,n3)); }
 edk::vec3i8 edk::Math::squareVec3i8(edk::vec3i8 vec){ return vec*vec; }
 edk::vec3i16 edk::Math::squareVec3i16(edk::int16 n1,edk::int16 n2,edk::int16 n3){ return edk::Math::squareVec3i16(edk::vec3i16(n1,n2,n3)); }
@@ -159,8 +159,8 @@ edk::vec3ui32 edk::Math::squareVec3ui32(edk::vec3ui32 vec){ return vec*vec; }
 edk::vec3ui64 edk::Math::squareVec3ui64(edk::uint64 n1,edk::uint64 n2,edk::uint64 n3){ return edk::Math::squareVec3ui64(edk::vec3ui64(n1,n2,n3)); }
 edk::vec3ui64 edk::Math::squareVec3ui64(edk::vec3ui64 vec){ return vec*vec; }
 //VEC4
-edk::vec4f32 edk::Math::squarevec4f32(edk::float32 n1,edk::float32 n2,edk::float32 n3,edk::float32 n4){ return edk::Math::squarevec4f32(edk::vec4f32(n1,n2,n3,n4)); }
-edk::vec4f32 edk::Math::squarevec4f32(edk::vec4f32 vec){ return vec*vec; }
+edk::vec4f32 edk::Math::squareVec4f32(edk::float32 n1,edk::float32 n2,edk::float32 n3,edk::float32 n4){ return edk::Math::squareVec4f32(edk::vec4f32(n1,n2,n3,n4)); }
+edk::vec4f32 edk::Math::squareVec4f32(edk::vec4f32 vec){ return vec*vec; }
 edk::vec4i8 edk::Math::squareVec4i8(edk::int8 n1,edk::int8 n2,edk::int8 n3,edk::int8 n4){ return edk::Math::squareVec4i8(edk::vec4i8(n1,n2,n3,n4)); }
 edk::vec4i8 edk::Math::squareVec4i8(edk::vec4i8 vec){ return vec*vec; }
 edk::vec4i16 edk::Math::squareVec4i16(edk::int16 n1,edk::int16 n2,edk::int16 n3,edk::int16 n4){ return edk::Math::squareVec4i16(edk::vec4i16(n1,n2,n3,n4)); }

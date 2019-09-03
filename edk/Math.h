@@ -82,8 +82,8 @@ class Math{
         static edk::uint32 squareUint32(edk::uint32 n);
         static edk::uint64 squareUint64(edk::uint64 n);
         //VEC2
-        static edk::vec2f32 squarevec2f32(edk::float32 n1,edk::float32 n2);
-        static edk::vec2f32 squarevec2f32(edk::vec2f32 vec);
+        static edk::vec2f32 squareVec2f32(edk::float32 n1,edk::float32 n2);
+        static edk::vec2f32 squareVec2f32(edk::vec2f32 vec);
         static edk::vec2i8 squareVec2i8(edk::int8 n1, edk::int8 n2);
         static edk::vec2i8 squareVec2i8(edk::vec2i8 vec);
         static edk::vec2i16 squareVec2i16(edk::int16 n1,edk::int16 n2);
@@ -101,8 +101,8 @@ class Math{
         static edk::vec2ui64 squareVec2ui64(edk::uint64 n1,edk::uint64 n2);
         static edk::vec2ui64 squareVec2ui64(edk::vec2ui64 vec);
         //VEC3
-        static edk::vec3f32 squarevec3f32(edk::float32 n1,edk::float32 n2,edk::float32 n3);
-        static edk::vec3f32 squarevec3f32(edk::vec3f32 vec);
+        static edk::vec3f32 squareVec3f32(edk::float32 n1,edk::float32 n2,edk::float32 n3);
+        static edk::vec3f32 squareVec3f32(edk::vec3f32 vec);
         static edk::vec3i8 squareVec3i8(edk::int8 n1, edk::int8 n2, edk::int8 n3);
         static edk::vec3i8 squareVec3i8(edk::vec3i8 vec);
         static edk::vec3i16 squareVec3i16(edk::int16 n1,edk::int16 n2,edk::int16 n3);
@@ -120,8 +120,8 @@ class Math{
         static edk::vec3ui64 squareVec3ui64(edk::uint64 n1,edk::uint64 n2,edk::uint64 n3);
         static edk::vec3ui64 squareVec3ui64(edk::vec3ui64 vec);
         //VEC4
-        static edk::vec4f32 squarevec4f32(edk::float32 n1,edk::float32 n2,edk::float32 n3,edk::float32 n4);
-        static edk::vec4f32 squarevec4f32(edk::vec4f32 vec);
+        static edk::vec4f32 squareVec4f32(edk::float32 n1,edk::float32 n2,edk::float32 n3,edk::float32 n4);
+        static edk::vec4f32 squareVec4f32(edk::vec4f32 vec);
         static edk::vec4i8 squareVec4i8(edk::int8 n1, edk::int8 n2, edk::int8 n3, edk::int8 n4);
         static edk::vec4i8 squareVec4i8(edk::vec4i8 vec);
         static edk::vec4i16 squareVec4i16(edk::int16 n1,edk::int16 n2,edk::int16 n3,edk::int16 n4);
