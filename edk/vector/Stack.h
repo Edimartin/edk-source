@@ -217,7 +217,7 @@ public:
         this->deleteLastCel=NULL;
 
         //the return
-        typeTemplate ret=(typeTemplate)0u;
+        typeTemplate ret;
         bool getRet=false;
 
         //test if have elements on the Stack

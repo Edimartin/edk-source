@@ -166,6 +166,11 @@ class ViewButton: public edk::ViewSprite{
         //remove the buttonText
         void deleteButtonText();
 
+        //save if something happen with the button
+        bool wasPressed();
+        bool wasReleased();
+        bool wasHolded();
+
         //EVENT
         //event press button
         virtual void eventPressButton(edk::uint32 mouseButton);
@@ -226,6 +231,11 @@ class ViewButton: public edk::ViewSprite{
         edk::Camera2D camTemp;
         edk::float32 borderTemp;
         edk::rectf32 rectButtonSave;
+
+        //save if something happen with the button
+        bool buttonPress;
+        bool buttonRelease;
+        bool buttonHold;
 };
 }//end namesoace edk
 

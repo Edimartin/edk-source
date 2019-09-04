@@ -153,6 +153,10 @@ static edk::uchar8 EDKButtonPressedTemplate[1799] = {
 
 edk::ViewButton::ViewButton()
 {
+    //save if something happen with the button
+    this->wasPressed();
+    this->wasReleased();
+    this->wasHolded();
     //clean the sprites
     this->spritePressedCode=this->spriteUpCode=0u;
     this->symbolCode = this->symbolPressedCode = this->symbolUpCode = 0u;
@@ -468,6 +472,23 @@ void edk::ViewButton::deleteButtonText(){
     this->text.deleteMap();
 }
 
+//save if something happen with the button
+bool edk::ViewButton::wasPressed(){
+    bool ret = this->buttonPress;
+    this->buttonPress=false;
+    return ret;
+}
+bool edk::ViewButton::wasReleased(){
+    bool ret = this->buttonRelease;
+    this->buttonRelease=false;
+    return ret;
+}
+bool edk::ViewButton::wasHolded(){
+    bool ret = this->buttonHold;
+    this->buttonHold=false;
+    return ret;
+}
+
 //EVENT
 //event press button
 void edk::ViewButton::eventPressButton(edk::uint32){
@@ -511,6 +532,7 @@ void edk::ViewButton::update(edk::WindowEvents* events){
         else{
             //run the holdButton events
             for(edk::uint32 i=0u;i<this->holdButton.size();i++){
+                this->buttonHold=true;
                 //run the function with the button on the order
                 this->eventHoldButton(this->holdButton.getElementInPosition(i));
                 if(this->buttonCallback)
@@ -529,6 +551,7 @@ void edk::ViewButton::eventMousePressed(edk::vec2f32 ,edk::uint32 button){
         this->holdButton.add(button);
 
         //set the function
+        this->buttonPress=true;
         this->eventPressButton(button);
         if(this->buttonCallback)
             this->buttonCallback->pressButton(this,button);
@@ -551,6 +574,7 @@ void edk::ViewButton::eventMouseReleased(edk::vec2f32,edk::uint32 button){
     if(this->buttonOn){
         //test if have the button in the tree
         if(this->holdButton.haveElement(button)){
+            this->buttonRelease=true;
             //then run the releaseEvent
             this->eventReleaseButton(button,this->mouseInside);
             if(this->buttonCallback){
