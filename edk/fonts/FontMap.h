@@ -96,6 +96,10 @@ public:
     bool createStringMap(edk::char8* str,edk::uint32 width);
     bool createStringMap(const char* str);
     bool createStringMap(edk::char8* str);
+    bool addStringLine(const char* str,edk::uint32 width);
+    bool addStringLine(edk::char8* str,edk::uint32 width);
+    bool addStringLine(const char* str);
+    bool addStringLine(edk::char8* str);
     bool createStringMapOneLine(const char* str,edk::uint32 width);
     bool createStringMapOneLine(edk::char8* str,edk::uint32 width);
     bool createStringMapOneLine(const char* str);
@@ -214,6 +218,8 @@ private:
     bool forceSpeedLast;
     edk::float32 forceSpeedOriginValue;
     edk::float32 forceSpeedLastValue;
+    //save the write value on the line
+    edk::uint32 write;
 
     //interpolation to select what characters to draw
     edk::animation::Interpolation1DGroup animOrigin;
@@ -264,6 +270,8 @@ private:
     void cleanLines();
     //create new line
     edk::fonts::FontMap::FontLine* newLine(edk::uint32 size);
+    //return the last line on the map
+    edk::fonts::FontMap::FontLine* getLastLine();
     //copy the text to the map
     bool copyLinesToMap();
     //test if have the ID
