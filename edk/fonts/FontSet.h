@@ -41,20 +41,20 @@ public:
     ~FontSet();
 
     //load the font
-    bool loadFontImage(const char* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
-    bool loadFontImage(edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
+    bool loadFontImage(const char* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
+    bool loadFontImage(edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
 
     bool loadFontImageFromMemory(const char* name,
                                  edk::uint8* image,
                                  edk::uint32 size,
                                  edk::uint32 filter = GU_NEAREST,
-                                 edk::color4f32 color = edk::color4f32(1,1,1,1)
+                                 edk::color4f32 color = edk::color4f32(0,0,0,1)
             );
     bool loadFontImageFromMemory(edk::char8* name,
                                  edk::uint8* image,
                                  edk::uint32 size,
                                  edk::uint32 filter = GU_NEAREST,
-                                 edk::color4f32 color = edk::color4f32(1,1,1,1)
+                                 edk::color4f32 color = edk::color4f32(0,0,0,1)
             );
 
     //delete image
@@ -87,9 +87,9 @@ public:
     fontSetList();
     ~fontSetList();
     //load the fontSet
-    edk::fonts::FontSet* createFontSet(edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
+    edk::fonts::FontSet* createFontSet(edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
     //load the fontSet
-    edk::fonts::FontSet* createFontSetFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
+    edk::fonts::FontSet* createFontSetFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
     //remove fontSet
     bool removeFontSetByName(edk::char8* image,edk::uint32 filter = GU_NEAREST);
     //remove fontSet
@@ -123,8 +123,8 @@ private:
         virtual void updateElement(edk::fonts::fontSetList::FontRetain* value);
 
         //load the font
-        edk::fonts::FontSet* loadFontImage(edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
-        edk::fonts::FontSet* loadFontImageFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
+        edk::fonts::FontSet* loadFontImage(edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
+        edk::fonts::FontSet* loadFontImageFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
         //remove image
         bool removeImage(edk::char8* image,edk::uint32 filter = GU_NEAREST);
         //remove FontSet
