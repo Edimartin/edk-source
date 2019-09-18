@@ -686,6 +686,87 @@ int32 String::strToInt32(const char *str){
     return edk::String::strToInt32((edk::char8*)str);
 }
 
+//str32ToStr convert a vector with 32bit characters to a string UTF8 and return it as a new string
+bool edk::String::str32ToStr(edk::uint32 *str32,edk::uint32 size,edk::char8* str){
+        if(str32 && size && str){
+            //str[size]='\0';
+            edk::uint32 position = 0u;
+            edk::char8* p = str;
+            edk::uint32 c = 0u;
+            //copy the characters
+            for(edk::uint32 i=0u;i<size;i++){
+                //
+                c = str32[position];
+                //test if is a special character
+                if(edk::BinaryConverter::getByteLittleEndian(c,1u)){
+                    if(edk::BinaryConverter::getByteLittleEndian(c,2u)){
+                        if(edk::BinaryConverter::getByteLittleEndian(c,3u)){
+                            //add the value
+                            *p = (edk::uint8)edk::BinaryConverter::getByteLittleEndian(c,3u);
+                            p++;
+                        }
+                        //add the value
+                        *p = (edk::uint8)edk::BinaryConverter::getByteLittleEndian(c,2u);
+                        p++;
+                    }
+                    //add the value
+                    *p = (edk::uint8)edk::BinaryConverter::getByteLittleEndian(c,1u);
+                    p++;
+                }
+                *p = (edk::uint8)edk::BinaryConverter::getByteLittleEndian(c,0u);
+                p++;
+                *p='\0';
+                position++;
+            }
+            *p=(edk::uint8)'\0';
+            return str;
+        }
+
+    return false;
+}
+//str32ToStr convert a vector with 32bit characters to a string UTF8
+edk::char8* edk::String::str32ToStr(edk::uint32 *str32,edk::uint32 size){
+    //get the string32 size
+    edk::uint32 size32 = edk::String::str32Size(str32,size);
+    if(size32){
+        edk::char8* str = NULL;
+        str = new edk::char8[size32+1u];
+        if(str){
+            //copy the str
+            if(edk::String::str32ToStr(str32,size,str)){
+                //return the str
+                return str;
+            }
+            delete[] str;
+        }
+    }
+    return NULL;
+}
+//return the size of a vector with 32bit charaters
+edk::uint32 edk::String::str32Size(edk::uint32 *str32,edk::uint32 size){
+    //test the str and the size
+    if(str32 && size){
+        //test the bit to test if it's an 8 16 or 32 bits string
+        edk::uint32 ret = size;
+        edk::uint32 c=0u;
+        for(edk::uint32 i = 0u;i<size;i++){
+            //get the 32 bits character
+            c = str32[i];
+            if(edk::BinaryConverter::getByteLittleEndian(c,1u)){
+                ret++;
+                if(edk::BinaryConverter::getByteLittleEndian(c,2u)){
+                    ret++;
+                    if(edk::BinaryConverter::getByteLittleEndian(c,3u)){
+                        ret++;
+                    }
+                }
+            }
+        }
+        return ret;
+    }
+    return 0u;
+}
+
 char8* String::int32ToStr(int32 value){
     edk::char8* str = 0u;
 

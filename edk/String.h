@@ -32,6 +32,7 @@ Gravatai RS Brazil 94065100
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include "./BinaryConverter.h"
 
 #if defined(_WIN32) || defined(_WIN64)
 #include <conio.h>
@@ -100,6 +101,13 @@ public:
     static int32 strToInt32(char8 *str);
 
     static int32 strToInt32(const char *str);
+
+    //str32ToStr convert a vector with 32bit characters to a string UTF8
+    static bool str32ToStr(edk::uint32 *str32,edk::uint32 size,edk::char8* str);
+    //str32ToStr convert a vector with 32bit characters to a string UTF8 and return it as a new string
+    static edk::char8* str32ToStr(edk::uint32 *str32,edk::uint32 size);
+    //return the size of a vector with 32bit charaters
+    static edk::uint32 str32Size(edk::uint32 *str32,edk::uint32 size);
 
     static char8* int32ToStr(int32 value);
 

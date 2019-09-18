@@ -895,7 +895,7 @@ bool edk::fonts::FontMap::addStringLine(const char* str,edk::uint32 width){
 bool edk::fonts::FontMap::addStringLine(edk::char8* str,edk::uint32 width){
     //first get the word size
     if(str && width){
-        edk::fonts::FontMap::FontLine* line=this->getLastLine();
+        edk::fonts::FontMap::FontLine* line=NULL;
         edk::uint32 size = 0u;
         edk::uint32 c = 0u;
         edk::uint8 jump=0u;
@@ -975,7 +975,7 @@ bool edk::fonts::FontMap::addStringLine(edk::char8* str,edk::uint32 width){
             //create the new tileMap
             if(this->map.newTileMap(width,this->lines.size())){
                 this->copyLinesToMap();
-                this->cleanLines();
+                //this->cleanLines();
                 this->selectAll();
                 return true;
             }
@@ -989,7 +989,7 @@ bool edk::fonts::FontMap::addStringLine(const char* str){
 bool edk::fonts::FontMap::addStringLine(edk::char8* str){
     //first get the word size
     if(str){
-        edk::fonts::FontMap::FontLine* line=this->getLastLine();
+        edk::fonts::FontMap::FontLine* line=NULL;
         edk::uint32 size = 0u;
         edk::uint32 c = 0u;
         edk::uint8 jump=0u;
