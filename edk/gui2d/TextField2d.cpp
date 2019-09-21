@@ -1000,7 +1000,7 @@ bool edk::gui2d::TextField2d::addCharacter(edk::char8 c){
         this->deleteCharacter();
     }
     //add the character
-    if(this->textVec.add(c,this->cursorID)){
+    if(this->textVec.add((edk::char32)edk::BinaryConverter::joinBytesLittleEndian(0u,0u,0u,c),this->cursorID)){
         //force update
         this->forceUpdate();
         this->cursor.animationSize.stop();

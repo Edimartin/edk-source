@@ -72,6 +72,7 @@ public:
         this->keyPressed.clean();
         this->keyRelease.clean();
         this->keyHolded.clean();
+        this->keyText.clean();
         this->mousePressed.clean();
         this->mouseRelease.clean();
         this->mouseHolded.clean();
@@ -98,6 +99,7 @@ public:
     edk::vector::Stack<edk::uint32> keyPressed;
     edk::vector::Stack<edk::uint32> keyRelease;
     edk::vector::Stack<edk::uint32> keyHolded;
+    edk::vector::Stack<edk::uint32> keyText;
     //Mouse
     edk::vector::Stack<edk::uint32> mousePressed;
     //edk::vector::Stack<edk::uint32> mouseMoving;

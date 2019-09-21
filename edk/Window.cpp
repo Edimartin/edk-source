@@ -853,6 +853,15 @@ bool Window::loadEvents(){
         //FIM RETIROU DA PRESSAO A TECLA
         ///////////////////////////////////////////////////////////
 
+        ///////////////////////////////////////////////////////////
+        //TEXT ENTERED
+        //if(event.Type == sf::Event::TextEntered){//1.6
+        if(event.type == sf::Event::TextEntered){//2.0
+            //
+            this->events.keyText.pushBack(event.text.unicode);
+        }
+        //END TEX ENTERED
+        ///////////////////////////////////////////////////////////
 
         ///////////////////////////////////////////////////////////
         //REDIMENCIONAMENTO DA JANELA
@@ -1023,7 +1032,7 @@ bool Window::loadEvents(){
                        );fflush(stdout);
 */
             //test if it's the Y
-            if(event.joystickMove.axis<<(sizeof(event.joystickMove.axis)*8)-1u){
+            if(event.joystickMove.axis<(sizeof(event.joystickMove.axis)*8)-1u){
                 this->events.controllerAxisMoved.addAxis(event.joystickMove.joystickId,event.joystickMove.axis,event.joystickMove.position*-1.f);
             }
             else{

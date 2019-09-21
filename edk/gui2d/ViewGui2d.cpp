@@ -403,250 +403,41 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
                         }
                         //
                         break;
-                    case edk::key::space:
-                        //
-                        //accent
-                        if(this->pressTilde){
-                            field->addCharacter('~');
-                            this->pressTilde=false;
-                        }
-                        else if(this->pressQuote){
-                            field->addCharacter('´');
-                            this->pressQuote=false;
-                        }
-                        else{
-                            field->addCharacter(' ');
-                        }
+                    }
+                }
+            }
+        }
+    }
+
+    //get keyText
+    size = events->keyText.size();
+    if(size){
+        if(this->objSelected){
+            if(this->objSelected->getType() == edk::gui2d::gui2dTypeTextField){
+                edk::gui2d::TextField2d* field = (edk::gui2d::TextField2d*)this->objSelected;
+                edk::uchar32 c;
+                for(edk::uint32 i=0u;i<size;i++){
+                    c = events->keyText[i];
+                    //
+                    switch(c){
+                    case 0x1b:
                         break;
-                    case edk::key::comma:
-                        //
-                        field->addCharacter(',');
+                    case 0x08:
+                        field->removeCharacter();
                         break;
-                    case edk::key::semiColon:
-                        //
-                        field->addCharacter(';');
-                        break;
-                    case edk::key::period:
-                        //
-                        field->addCharacter('.');
-                        break;
-                    case edk::key::quote:
-                        //accent
-                        if(this->pressQuote){
-                            field->addCharacter('´');
-                            this->pressQuote=false;
-                        }
-                        else if(this->pressTilde){
-                            field->addCharacter('~');
-                            this->pressTilde=false;
-                        }
-                        else{
-                            this->pressQuote=true;
-                        }
-                        break;
-                    case edk::key::tilde:
-                        //accent
-                        if(this->pressTilde){
-                            field->addCharacter('~');
-                            this->pressTilde=false;
-                        }
-                        else if(this->pressQuote){
-                            field->addCharacter((edk::char8)'´');
-                            this->pressQuote=false;
-                        }
-                        else{
-                            this->pressTilde=true;
-                        }
-                        break;
-                    case edk::key::slash:
-                        //accent
-                        field->addCharacter('/');
-                        break;
-                    case edk::key::backSlash:
-                        //accent
-                        field->addCharacter('\\');
-                        break;
-                    case edk::key::equal:
-                        //accent
-                        field->addCharacter('=');
-                        break;
-                    case edk::key::dash:
-                        //accent
-                        field->addCharacter('-');
-                        break;
-                    case edk::key::tab:
-                        //accent
-                        field->addCharacter(' ');
-                        field->addCharacter(' ');
-                        field->addCharacter(' ');
-                        break;
-                    case edk::key::add:
-                        //accent
-                        field->addCharacter('+');
-                        break;
-                    case edk::key::subtract:
-                        //accent
-                        field->addCharacter('-');
-                        break;
-                    case edk::key::multiply:
-                        //accent
-                        field->addCharacter('*');
-                        break;
-                    case edk::key::divide:
-                        //accent
-                        field->addCharacter(247);
-                        break;
-                    case edk::key::backSpace:
-                        //remove the character
-                        if(this->pressQuote){
-                            this->pressQuote=false;
-                        }
-                        else if(this->pressTilde){
-                            this->pressTilde=false;
-                        }
-                        else{
-                            field->removeCharacter();
-                        }
-                        break;
-                    case edk::key::Delete:
-                        //delete the character
+                    case 0x7f:
                         field->deleteCharacter();
                         break;
-                    case edk::key::Return:
-                        //set press return
-                        //this->pressReturn = true;
+                    case 0x0d:
+                    case 0x0a:
                         if(this->objSelected){
                             if(this->objSelected->getType() == edk::gui2d::gui2dTypeTextField){
                                 this->processReturnPressed(this->objSelected);
                             }
                         }
                         break;
-                    case edk::key::escape:
-                        //
-                        //this->selectView=false;
-                        break;
                     default:
-                        //test if the key is a letter
-                        if(keyPressed>=edk::key::A
-                                &&
-                                keyPressed<=edk::key::Z
-                                ){
-                            //add the character
-                            if(shift){
-                                if(this->pressQuote){
-                                    this->pressQuote=false;
-                                    switch(keyPressed){
-                                    case 'a':
-                                        field->addString("Á");
-                                        break;
-                                    case 'e':
-                                        field->addString("É");
-                                        break;
-                                    case 'i':
-                                        field->addString("Í");
-                                        break;
-                                    case 'o':
-                                        field->addString("Ó");
-                                        break;
-                                    case 'u':
-                                        field->addString("Ú");
-                                        break;
-                                    default:
-                                        field->addCharacter('´');
-                                        field->addCharacter(keyPressed + ('A' - 'a'));
-                                        break;
-                                    }
-                                }
-                                else if(this->pressTilde){
-                                    this->pressTilde=false;
-                                    switch(keyPressed){
-                                    case 'a':
-                                        field->addString("Ã");
-                                        break;
-                                    case 'e':
-                                        field->addString("Ẽ");
-                                        break;
-                                    case 'i':
-                                        field->addString("Ĩ");
-                                        break;
-                                    case 'o':
-                                        field->addString("Õ");
-                                        break;
-                                    case 'u':
-                                        field->addString("Ũ");
-                                        break;
-                                    default:
-                                        field->addCharacter('~');
-                                        field->addCharacter(keyPressed + ('A' - 'a'));
-                                        break;
-                                    }
-                                }
-                                else{
-                                    field->addCharacter(keyPressed + ('A' - 'a'));
-                                }
-                            }
-                            else{
-                                if(this->pressQuote){
-                                    this->pressQuote=false;
-                                    switch(keyPressed){
-                                    case 'a':
-                                        field->addString("á");
-                                        break;
-                                    case 'e':
-                                        field->addString("é");
-                                        break;
-                                    case 'i':
-                                        field->addString("í");
-                                        break;
-                                    case 'o':
-                                        field->addString("ó");
-                                        break;
-                                    case 'u':
-                                        field->addString("ú");
-                                        break;
-                                    default:
-                                        field->addCharacter('´');
-                                        field->addCharacter(keyPressed);
-                                        break;
-                                    }
-                                }
-                                else if(this->pressQuote){
-                                    this->pressQuote=false;
-                                    switch(keyPressed){
-                                    case 'a':
-                                        field->addString("ã");
-                                        break;
-                                    case 'e':
-                                        field->addString("ẽ");
-                                        break;
-                                    case 'i':
-                                        field->addString("ĩ");
-                                        break;
-                                    case 'o':
-                                        field->addString("õ");
-                                        break;
-                                    case 'u':
-                                        field->addString("ũ");
-                                        break;
-                                    default:
-                                        field->addCharacter('~');
-                                        field->addCharacter(keyPressed);
-                                        break;
-                                    }
-                                }
-                                else{
-                                    field->addCharacter(keyPressed);
-                                }
-                            }
-                        }
-                        //test if the key is a number
-                        if(keyPressed>=edk::key::num0
-                                &&
-                                keyPressed<=edk::key::num9
-                                ){
-                            //add the character
-                            field->addCharacter(keyPressed);
-                        }
+                        field->addCharacter(events->keyText[i]);
                     }
                 }
             }
