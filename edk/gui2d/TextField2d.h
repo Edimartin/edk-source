@@ -62,9 +62,17 @@ public:
     void unload();
     void update();
 
+    //enable and disable the background draw
+    void enableBackground();
+    void disableBackground();
+    bool haveDrawBackground();
+
     //set border size
     bool setBorderSize(edk::float32 size);
     bool setStatus(edk::gui2d::gui2dTexture status);
+    //set the color of the font and cursor
+    void setFontColor(edk::color4f32 fontColor);
+    void setFontColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
     //select functions
     void select();
     void deselect();
@@ -124,6 +132,10 @@ private:
     //update the selection values with the cursor
     void updateSelection();
 
+    bool drawBackground;
+    //save the fontColor
+    edk::color4f32 fontColor;
+
     //save the draw origin position
     edk::uint32 originID;
     edk::uint32 endID;
@@ -132,6 +144,7 @@ private:
     edk::uint32 selectionMiddle;
     edk::uint32 cursorID;
     edk::Object2D cursor;
+    edk::shape::Mesh2D meshCursor;
     edk::size2f32 saveCursorSize;
     edk::Object2D selection;
     edk::Object2D selectionInside;

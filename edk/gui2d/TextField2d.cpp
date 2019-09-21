@@ -521,6 +521,8 @@ void edk::gui2d::TextField2d::TextVec::cleanFilterOut(){
 
 edk::gui2d::TextField2d::TextField2d(){
     //
+    this->fontColor = edk::color4f32(0,0,0,1);
+    this->drawBackground=true;
     this->obj.setBorderSize(0.25f);
     this->originID = 0u;
     this->cursorID = 0u;
@@ -647,10 +649,9 @@ void edk::gui2d::TextField2d::updateTextSize(edk::size2f32 sizeText,edk::size2f3
                                              );
     }
     else{
-        this->text.setScale(0.75f,centerSize.height);
+        this->text.setScale(centerSize.height,centerSize.height);
 
         //save the cursor size
-        this->cursor.size = edk::size2f32(this->text.getMapScaleWidth() * edkGU2dCursorWidthPercent,this->text.getMapScaleHeight());
         this->cursorID = 0u;
         this->originID = 0u;
         this->endID = 0u;
@@ -754,7 +755,8 @@ bool edk::gui2d::TextField2d::load(){
     this->saveCursorSize = 0.f;
     if(edk::gui2d::ObjectGui2d::load()){
         //create the cursor object
-        edk::shape::Mesh2D* mesh = this->cursor.newMesh();
+        this->cursor.addMesh(&this->meshCursor);
+        edk::shape::Mesh2D* mesh = &this->meshCursor;
         if(mesh){
             edk::shape::Rectangle2D rect;
             rect.setPivoToCenter();
@@ -788,6 +790,7 @@ void edk::gui2d::TextField2d::unload(){
     this->cursor.animationSize.cleanAnimations();
     this->selection.removeAllMesh();
     this->selectionInside.removeAllMesh();
+    this->meshCursor.cleanPolygons();
 
     edk::gui2d::ObjectGui2d::unload();
 }
@@ -803,6 +806,17 @@ void edk::gui2d::TextField2d::update(){
 
     edk::gui2d::ObjectGui2d::update();
     this->cursor.updateAnimations();
+}
+
+//enable and disable the background draw
+void edk::gui2d::TextField2d::enableBackground(){
+    this->drawBackground = true;
+}
+void edk::gui2d::TextField2d::disableBackground(){
+    this->drawBackground = false;
+}
+bool edk::gui2d::TextField2d::haveDrawBackground(){
+    return this->drawBackground;
 }
 
 //set border size
@@ -828,6 +842,14 @@ bool edk::gui2d::TextField2d::setStatus(edk::gui2d::gui2dTexture status){
         break;
     }
     return false;
+}
+//set the color of the font and cursor
+void edk::gui2d::TextField2d::setFontColor(edk::color4f32 fontColor){
+    this->fontColor=fontColor;
+    this->meshCursor.setPolygonsColor(fontColor);
+}
+void edk::gui2d::TextField2d::setFontColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
+    this->setFontColor(edk::color4f32(r,g,b,a));
 }
 //select functions
 void edk::gui2d::TextField2d::select(){
@@ -1223,25 +1245,27 @@ void edk::gui2d::TextField2d::draw(){
     this->drawStart();
     edk::GU::guEnable(GU_LIGHTING);
 
-    switch(this->status){
-    case edk::gui2d::gui2dTexture::gui2dTextureUp:
-        //draw the border
-        this->obj.drawUp();
-        break;
-    case edk::gui2d::gui2dTexture::gui2dTexturePressed:
-        //draw the border
-        this->obj.drawPressed();
-        break;
-    case edk::gui2d::gui2dTexture::gui2dTexturePressedUp:
-        //draw the border
-        this->obj.drawPressedUp();
-        break;
-    case edk::gui2d::gui2dTexture::gui2dTextureNormal:
-    case edk::gui2d::gui2dTexture::gui2dTextureSize:
-    default:
-        //draw the border
-        this->obj.drawNormal();
-        break;
+    if(this->drawBackground){
+        switch(this->status){
+        case edk::gui2d::gui2dTexture::gui2dTextureUp:
+            //draw the border
+            this->obj.drawUp();
+            break;
+        case edk::gui2d::gui2dTexture::gui2dTexturePressed:
+            //draw the border
+            this->obj.drawPressed();
+            break;
+        case edk::gui2d::gui2dTexture::gui2dTexturePressedUp:
+            //draw the border
+            this->obj.drawPressedUp();
+            break;
+        case edk::gui2d::gui2dTexture::gui2dTextureNormal:
+        case edk::gui2d::gui2dTexture::gui2dTextureSize:
+        default:
+            //draw the border
+            this->obj.drawNormal();
+            break;
+        }
     }
     edk::GU::guDisable(GU_LIGHTING);
 
@@ -1256,16 +1280,18 @@ void edk::gui2d::TextField2d::draw(){
             //draw the selection
             this->selection.drawWithoutMaterial();
 
-            this->text.draw(edk::color4f32(0,0,0,1));
+            this->text.draw(this->fontColor);
         }
         else{
-            this->text.draw(edk::color4f32(0,0,0,1));
+            this->text.draw(this->fontColor);
         }
     }
 
     //draw the cursor
-    if(this->isSelected())
+    if(this->isSelected()){
+        this->meshCursor.setPolygonsColor(fontColor);
         this->cursor.drawWithoutMaterial();
+    }
 
     this->drawEnd();
 }

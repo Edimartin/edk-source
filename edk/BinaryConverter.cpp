@@ -41,7 +41,6 @@ void edk::BinaryConverter::printBits(edk::uchar8 byte){
     }
 }
 void edk::BinaryConverter::printBits(edk::uchar8* bytes,edk::uint32 size,bool newLine){
-
     //testa os bytes
     if (bytes && size){
         if (newLine){
@@ -65,7 +64,7 @@ void edk::BinaryConverter::printBits(edk::uchar8* bytes,edk::uint32 size,bool ne
 void edk::BinaryConverter::printBits(edk::char8* bytes,edk::uint32 size,bool newLine){
     edk::BinaryConverter::printBits((edk::uchar8*) bytes,size,newLine);
 }
-void edk::BinaryConverter::printBits(const char* bytes,edk::uint32 size,bool newLine){
+void edk::BinaryConverter::printBits(const edk::uchar8* bytes,edk::uint32 size,bool newLine){
     edk::BinaryConverter::printBits((edk::uchar8*) bytes,size,newLine);
 }
 
@@ -94,22 +93,82 @@ void edk::BinaryConverter::printBitsInverted(edk::uchar8* bytes,edk::uint32 size
 void edk::BinaryConverter::printBitsInverted(edk::char8* bytes,edk::uint32 size,bool newLine){
     edk::BinaryConverter::printBitsInverted((edk::uchar8*) bytes,size,newLine);
 }
-void edk::BinaryConverter::printBitsInverted(const char* bytes,edk::uint32 size,bool newLine){
+void edk::BinaryConverter::printBitsInverted(const edk::uchar8* bytes,edk::uint32 size,bool newLine){
     edk::BinaryConverter::printBitsInverted((edk::uchar8*) bytes,size,newLine);
 }
 
 void edk::BinaryConverter::printBits(edk::uint16 byte,bool newLine){
-    //
     edk::BinaryConverter::printBitsInverted((edk::uchar8*)(&byte),sizeof(byte),newLine);
 }
 void edk::BinaryConverter::printBits(edk::uint32 byte,bool newLine){
-    //
     edk::BinaryConverter::printBitsInverted((edk::uchar8*)(&byte),sizeof(byte),newLine);
 }
 void edk::BinaryConverter::printBits(edk::uint64 byte,bool newLine){
-    //
     edk::BinaryConverter::printBitsInverted((edk::uchar8*)(&byte),sizeof(byte),newLine);
+}
+void edk::BinaryConverter::printByte(edk::uchar8 byte){
+    printf("%03u",byte);
+}
+void edk::BinaryConverter::printBytes(edk::uchar8* bytes,edk::uint32 size,bool newLine){
+    //testa os bytes
+    if (bytes && size){
+        if (newLine){
+            //escreve os bytes com uma nova linha no final
+            for (edk::uint32 i = 0; i < size; i++){
+                edk::BinaryConverter::printByte(bytes[i]);
+                printf(" \n");
+            }
+        }
+        else{
+            //escreve os bytes sem a nova linha no final
+            for (edk::uint32 i = 0; i < size; i++){
+                edk::BinaryConverter::printByte(bytes[i]);
+                printf(" ");
+            }
+        }
+    }
+}
+void edk::BinaryConverter::printBytes(edk::char8* bytes,edk::uint32 size,bool newLine){
+    edk::BinaryConverter::printBytes((edk::uchar8*) bytes,size,newLine);
+}
+void edk::BinaryConverter::printBytes(const edk::uchar8* bytes,edk::uint32 size,bool newLine){
+    edk::BinaryConverter::printBytes((edk::uchar8*) bytes,size,newLine);
+}
+void edk::BinaryConverter::printBytesInverted(edk::uchar8* bytes,edk::uint32 size,bool newLine){
+    //testa os bytes
+    if (bytes && size){
+        if (newLine){
+            //escreve os bytes com uma nova linha no final
 
+            for (edk::uint32 i = size; i > 0u; i--){
+                edk::BinaryConverter::printByte(bytes[i-1u]);
+                printf(" \n");
+            }
+        }
+        else{
+            //escreve os bytes sem a nova linha no final
+
+            for (edk::uint32 i = size; i > 0u; i--){
+                edk::BinaryConverter::printByte(bytes[i-1u]);
+                printf(" ");
+            }
+        }
+    }
+}
+void edk::BinaryConverter::printBytesInverted(edk::char8* bytes,edk::uint32 size,bool newLine){
+    edk::BinaryConverter::printBytesInverted((edk::uchar8*) bytes,size,newLine);
+}
+void edk::BinaryConverter::printBytesInverted(const edk::uchar8* bytes,edk::uint32 size,bool newLine){
+    edk::BinaryConverter::printBytesInverted((edk::uchar8*) bytes,size,newLine);
+}
+void edk::BinaryConverter::printBytes(edk::uint16 byte,bool newLine){
+    edk::BinaryConverter::printBytesInverted((edk::uchar8*)(&byte),sizeof(byte),newLine);
+}
+void edk::BinaryConverter::printBytes(edk::uint32 byte,bool newLine){
+    edk::BinaryConverter::printBytesInverted((edk::uchar8*)(&byte),sizeof(byte),newLine);
+}
+void edk::BinaryConverter::printBytes(edk::uint64 byte,bool newLine){
+    edk::BinaryConverter::printBytesInverted((edk::uchar8*)(&byte),sizeof(byte),newLine);
 }
 //inverte os bytes
 edk::uint64 edk::BinaryConverter::swapBytes(edk::uint64 value){

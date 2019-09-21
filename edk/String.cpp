@@ -686,54 +686,76 @@ int32 String::strToInt32(const char *str){
     return edk::String::strToInt32((edk::char8*)str);
 }
 
+bool edk::String::str32ToUtf8(edk::char32 *str32,edk::char8* str){
+    //
+    return edk::String::str32ToUtf8(str32,edk::String::str32Size(str32),str);
+}
 //str32ToStr convert a vector with 32bit characters to a string UTF8 and return it as a new string
-bool edk::String::str32ToStr(edk::uint32 *str32,edk::uint32 size,edk::char8* str){
-        if(str32 && size && str){
-            //str[size]='\0';
-            edk::uint32 position = 0u;
-            edk::char8* p = str;
-            edk::uint32 c = 0u;
-            //copy the characters
-            for(edk::uint32 i=0u;i<size;i++){
-                //
-                c = str32[position];
-                //test if is a special character
-                if(edk::BinaryConverter::getByteLittleEndian(c,1u)){
-                    if(edk::BinaryConverter::getByteLittleEndian(c,2u)){
-                        if(edk::BinaryConverter::getByteLittleEndian(c,3u)){
-                            //add the value
-                            *p = (edk::uint8)edk::BinaryConverter::getByteLittleEndian(c,3u);
-                            p++;
-                        }
+bool edk::String::str32ToUtf8(edk::char32 *str32,edk::uint32 size,edk::char8* str){
+    if(str32 && size && str){
+        //str[size]='\0';
+        edk::char32 position = 0u;
+        edk::char8* p = str;
+        edk::char32 c = 0u;
+        //copy the characters
+        for(edk::uint32 i=0u;i<size;i++){
+            //
+            c = str32[position];
+            //test if is a special character
+            if(edk::BinaryConverter::getByteLittleEndian((edk::uint32)c,1u)){
+                if(edk::BinaryConverter::getByteLittleEndian((edk::uint32)c,2u)){
+                    if(edk::BinaryConverter::getByteLittleEndian((edk::uint32)c,3u)){
                         //add the value
-                        *p = (edk::uint8)edk::BinaryConverter::getByteLittleEndian(c,2u);
+                        *p = (edk::uint8)edk::BinaryConverter::getByteLittleEndian((edk::uint32)c,3u);
                         p++;
                     }
                     //add the value
-                    *p = (edk::uint8)edk::BinaryConverter::getByteLittleEndian(c,1u);
+                    *p = (edk::uint8)edk::BinaryConverter::getByteLittleEndian((edk::uint32)c,2u);
                     p++;
                 }
-                *p = (edk::uint8)edk::BinaryConverter::getByteLittleEndian(c,0u);
+                //add the value
+                *p = (edk::uint8)edk::BinaryConverter::getByteLittleEndian((edk::uint32)c,1u);
                 p++;
-                *p='\0';
-                position++;
             }
-            *p=(edk::uint8)'\0';
-            return str;
+            *p = (edk::uint8)edk::BinaryConverter::getByteLittleEndian((edk::uint32)c,0u);
+            p++;
+            *p='\0';
+            position++;
         }
+        *p=(edk::uint8)'\0';
+        return str;
+    }
 
     return false;
 }
+bool edk::String::str32ToUtf8(const edk::char32 *str32,edk::char8* str){
+    return edk::String::str32ToUtf8((edk::char32 *)str32,str);
+}
+bool edk::String::str32ToUtf8(const edk::char32 *str32,edk::uint32 size,edk::char8* str){
+    return edk::String::str32ToUtf8((edk::char32 *)str32,size,str);
+}
+bool edk::String::str32ToUtf8(edk::char32 *str32,const edk::char8* str){
+    return edk::String::str32ToUtf8(str32,(edk::char8*) str);
+}
+bool edk::String::str32ToUtf8(edk::char32 *str32,edk::uint32 size,const edk::char8* str){
+    return edk::String::str32ToUtf8(str32,size,(edk::char8*) str);
+}
+bool edk::String::str32ToUtf8(const edk::char32 *str32,const edk::char8* str){
+    return edk::String::str32ToUtf8((edk::char32 *)str32,(edk::char8*) str);
+}
+bool edk::String::str32ToUtf8(const edk::char32 *str32,edk::uint32 size,const edk::char8* str){
+    return edk::String::str32ToUtf8((edk::char32 *)str32,size,(edk::char8*) str);
+}
 //str32ToStr convert a vector with 32bit characters to a string UTF8
-edk::char8* edk::String::str32ToStr(edk::uint32 *str32,edk::uint32 size){
+edk::char8* edk::String::str32ToUtf8(edk::char32 *str32,edk::uint32 size){
     //get the string32 size
-    edk::uint32 size32 = edk::String::str32Size(str32,size);
+    edk::char32 size32 = edk::String::str32ToUtf8Size(str32,size);
     if(size32){
         edk::char8* str = NULL;
         str = new edk::char8[size32+1u];
         if(str){
             //copy the str
-            if(edk::String::str32ToStr(str32,size,str)){
+            if(edk::String::str32ToUtf8(str32,size,str)){
                 //return the str
                 return str;
             }
@@ -742,21 +764,43 @@ edk::char8* edk::String::str32ToStr(edk::uint32 *str32,edk::uint32 size){
     }
     return NULL;
 }
+edk::char8* edk::String::str32ToUtf8(const edk::char32 *str32,edk::uint32 size){
+    return edk::String::str32ToUtf8((edk::char32 *)str32,size);
+}
+edk::char8* edk::String::str32ToUtf8(edk::char32 *str32){
+    return edk::String::str32ToUtf8(str32,edk::String::str32Size(str32));
+}
+edk::char8* edk::String::str32ToUtf8(const edk::char32 *str32){
+    return edk::String::str32ToUtf8((edk::char32 *)str32,edk::String::str32Size(str32));
+}
+//return the size of characters using 32 bits per character
+edk::uint32 edk::String::str32Size(edk::char32 *str){
+    //test the str
+    edk::uint32 ret = 0u;
+    while(*str){
+        str++;
+        ret++;
+    }
+    return ret;
+}
+edk::uint32 edk::String::str32Size(const edk::char32 *str){
+    return edk::String::str32Size((edk::char32*) str);
+}
 //return the size of a vector with 32bit charaters
-edk::uint32 edk::String::str32Size(edk::uint32 *str32,edk::uint32 size){
+edk::uint32 edk::String::str32ToUtf8Size(edk::char32 *str32,edk::uint32 size){
     //test the str and the size
     if(str32 && size){
         //test the bit to test if it's an 8 16 or 32 bits string
-        edk::uint32 ret = size;
-        edk::uint32 c=0u;
+        edk::char32 ret = size;
+        edk::char32 c=0u;
         for(edk::uint32 i = 0u;i<size;i++){
             //get the 32 bits character
             c = str32[i];
-            if(edk::BinaryConverter::getByteLittleEndian(c,1u)){
+            if(edk::BinaryConverter::getByteLittleEndian((edk::uint32)c,1u)){
                 ret++;
-                if(edk::BinaryConverter::getByteLittleEndian(c,2u)){
+                if(edk::BinaryConverter::getByteLittleEndian((edk::uint32)c,2u)){
                     ret++;
-                    if(edk::BinaryConverter::getByteLittleEndian(c,3u)){
+                    if(edk::BinaryConverter::getByteLittleEndian((edk::uint32)c,3u)){
                         ret++;
                     }
                 }
@@ -765,6 +809,390 @@ edk::uint32 edk::String::str32Size(edk::uint32 *str32,edk::uint32 size){
         return ret;
     }
     return 0u;
+}
+edk::uint32 edk::String::str32ToUtf8Size(const edk::char32 *str32,edk::uint32 size){
+    return edk::String::str32ToUtf8Size((edk::char32 *)str32,size);
+}
+//convert utf8 to ascii
+bool edk::String::utf8ToStr(edk::char8 *utf8,edk::uint32 size,edk::char8 *str){
+    if(utf8 && size && str){
+        //convert the string
+        for(edk::uint32 i=0u;i<size;i++){
+            switch(utf8[i]){
+            case (edk::char8)0xe2:
+                i++;
+                switch(utf8[i]){
+                case (edk::char8)0x80:
+                    i++;
+                    switch(utf8[i]){
+                    case (edk::char8)0x9a:
+                        //82 00 e2 80 9a - 000 226 128 154
+                        *str = (edk::char8)0x82;
+                        break;
+                    case (edk::char8)0x9e:
+                        //84 00 e2 80 9e - 000 226 128 158
+                        *str = (edk::char8)0x84;
+                        break;
+                    case (edk::char8)0xa6:
+                        //85 00 e2 80 a6 - 000 226 128 166
+                        *str = (edk::char8)0x85;
+                        break;
+                    case (edk::char8)0xa0:
+                        //86 00 e2 80 a0 - 000 226 128 160
+                        *str = (edk::char8)0x86;
+                        break;
+                    case (edk::char8)0xa1:
+                        //87 00 e2 80 a1 - 000 226 128 161
+                        *str = (edk::char8)0x87;
+                        break;
+                    case (edk::char8)0xb0:
+                        //89 00 e2 80 b0 - 000 226 128 176
+                        *str = (edk::char8)0x89;
+                        break;
+                    case (edk::char8)0xb9:
+                        //8b 00 e2 80 b9 - 000 226 128 185
+                        *str = (edk::char8)0x8b;
+                        break;
+                    case (edk::char8)0x98:
+                        //91 00 e2 80 98 - 000 226 128 152
+                        *str = (edk::char8)0x91;
+                        break;
+                    case (edk::char8)0x99:
+                        //92 00 e2 80 99 - 000 226 128 153
+                        *str = (edk::char8)0x92;
+                        break;
+                    case (edk::char8)0x9c:
+                        //93 00 e2 80 9c - 000 226 128 156
+                        *str = (edk::char8)0x9c;
+                        break;
+                    case (edk::char8)0x9d:
+                        //94 00 e2 80 9d - 000 226 128 157
+                        *str = (edk::char8)0x9d;
+                        break;
+                    case (edk::char8)0xa2:
+                        //95 00 e2 80 a2 - 000 226 128 162
+                        *str = (edk::char8)0xa2;
+                        break;
+                    case (edk::char8)0x93:
+                        //96 00 e2 80 93 - 000 226 128 147
+                        *str = (edk::char8)0x93;
+                        break;
+                    case (edk::char8)0x94:
+                        //97 00 e2 80 94 - 000 226 128 148
+                        *str = (edk::char8)0x94;
+                        break;
+                    case (edk::char8)0xba:
+                        //9b 00 e2 80 ba - 000 226 128 186
+                        *str = (edk::char8)0xba;
+                        break;
+                    default:
+                        *str = '*';
+                        break;
+                    }
+                    i++;
+                    break;
+                case (edk::char8)0x82:
+                    //80 00 e2 82 ac - 000 226 130 172
+                    i++;
+                    if(utf8[i] == (edk::char8)0xac){
+                        *str = 0x80;
+                    }
+                    else{
+                        *str = '*';
+                    }
+                    i++;
+                    break;
+                case (edk::char8)0x84:
+                    //99 00 e2 84 a2 - 000 226 132 162
+                    i++;
+                    if(utf8[i] == (edk::char8)0xa2){
+                        *str = 0x99;
+                    }
+                    else{
+                        *str = '*';
+                    }
+                    i++;
+                    break;
+                }
+                break;
+            case (edk::char8)0xc2:
+                //a1 00 00 c2 a1 - 000 000 194 161
+                //a2 00 00 c2 a2 - 000 000 194 162
+                //a3 00 00 c2 a3 - 000 000 194 163
+                //a4 00 00 c2 a4 - 000 000 194 164
+                //a5 00 00 c2 a5 - 000 000 194 165
+                //a6 00 00 c2 a6 - 000 000 194 166
+                //a7 00 00 c2 a7 - 000 000 194 167
+                //a8 00 00 c2 a8 - 000 000 194 168
+                //a9 00 00 c2 a9 - 000 000 194 169
+                //aa 00 00 c2 aa - 000 000 194 170
+                //ab 00 00 c2 ab - 000 000 194 171
+                //ac 00 00 c2 ac - 000 000 194 172
+                //ae 00 00 c2 ae - 000 000 194 174
+                //af 00 00 c2 af - 000 000 194 175
+                //b0 00 00 c2 b0 - 000 000 194 176
+                //b1 00 00 c2 b1 - 000 000 194 177
+                //b2 00 00 c2 b2 - 000 000 194 178
+                //b3 00 00 c2 b3 - 000 000 194 179
+                //b4 00 00 c2 b4 - 000 000 194 180
+                //b5 00 00 c2 b5 - 000 000 194 181
+                //b6 00 00 c2 b6 - 000 000 194 182
+                //b7 00 00 c2 b7 - 000 000 194 183
+                //b8 00 00 c2 b8 - 000 000 194 184
+                //b9 00 00 c2 b9 - 000 000 194 185
+                //ba 00 00 c2 ba - 000 000 194 186
+                //bb 00 00 c2 bb - 000 000 194 187
+                //bc 00 00 c2 bc - 000 000 194 188
+                //bd 00 00 c2 bd - 000 000 194 189
+                //be 00 00 c2 be - 000 000 194 190
+                //bf 00 00 c2 bf - 000 000 194 191
+                i++;
+                *str = utf8[i];
+                break;
+            case (edk::char8)0xc3:
+                //c0 00 00 c3 80 - 000 000 195 128
+                //c1 00 00 c3 81 - 000 000 195 129
+                //c2 00 00 c3 82 - 000 000 195 130
+                //c3 00 00 c3 83 - 000 000 195 131
+                //c4 00 00 c3 84 - 000 000 195 132
+                //c5 00 00 c3 85 - 000 000 195 133
+                //c6 00 00 c3 86 - 000 000 195 134
+                //c7 00 00 c3 87 - 000 000 195 135
+                //c8 00 00 c3 88 - 000 000 195 136
+                //c9 00 00 c3 89 - 000 000 195 137
+                //ca 00 00 c3 8a - 000 000 195 138
+                //cb 00 00 c3 8b - 000 000 195 139
+                //cc 00 00 c3 8c - 000 000 195 140
+                //cd 00 00 c3 8d - 000 000 195 141
+                //ce 00 00 c3 8e - 000 000 195 142
+                //cf 00 00 c3 8f - 000 000 195 143
+                //d0 00 00 c3 90 - 000 000 195 144
+                //d1 00 00 c3 91 - 000 000 195 145
+                //d2 00 00 c3 92 - 000 000 195 146
+                //d3 00 00 c3 93 - 000 000 195 147
+                //d4 00 00 c3 94 - 000 000 195 148
+                //d5 00 00 c3 95 - 000 000 195 149
+                //d6 00 00 c3 96 - 000 000 195 150
+                //d7 00 00 c3 97 - 000 000 195 151
+                //d8 00 00 c3 98 - 000 000 195 152
+                //d9 00 00 c3 99 - 000 000 195 153
+                //da 00 00 c3 9a - 000 000 195 154
+                //db 00 00 c3 9b - 000 000 195 155
+                //dc 00 00 c3 9c - 000 000 195 156
+                //dd 00 00 c3 9d - 000 000 195 157
+                //de 00 00 c3 9e - 000 000 195 158
+                //df 00 00 c3 9f - 000 000 195 159
+                //e0 00 00 c3 a0 - 000 000 195 160
+                //e1 00 00 c3 a1 - 000 000 195 161
+                //e2 00 00 c3 a2 - 000 000 195 162
+                //e3 00 00 c3 a3 - 000 000 195 163
+                //e4 00 00 c3 a4 - 000 000 195 164
+                //e5 00 00 c3 a5 - 000 000 195 165
+                //e6 00 00 c3 a6 - 000 000 195 166
+                //e7 00 00 c3 a7 - 000 000 195 167
+                //e8 00 00 c3 a8 - 000 000 195 168
+                //e9 00 00 c3 a9 - 000 000 195 169
+                //ea 00 00 c3 aa - 000 000 195 170
+                //eb 00 00 c3 ab - 000 000 195 171
+                //ec 00 00 c3 ac - 000 000 195 172
+                //ed 00 00 c3 ad - 000 000 195 173
+                //ee 00 00 c3 ae - 000 000 195 174
+                //ef 00 00 c3 af - 000 000 195 175
+                //f0 00 00 c3 b0 - 000 000 195 176
+                //f1 00 00 c3 b1 - 000 000 195 177
+                //f2 00 00 c3 b2 - 000 000 195 178
+                //f3 00 00 c3 b3 - 000 000 195 179
+                //f4 00 00 c3 b4 - 000 000 195 180
+                //f5 00 00 c3 b5 - 000 000 195 181
+                //f6 00 00 c3 b6 - 000 000 195 182
+                //f7 00 00 c3 b7 - 000 000 195 183
+                //f8 00 00 c3 b8 - 000 000 195 184
+                //f9 00 00 c3 b9 - 000 000 195 185
+                //fa 00 00 c3 ba - 000 000 195 186
+                //fb 00 00 c3 bb - 000 000 195 187
+                //fc 00 00 c3 bc - 000 000 195 188
+                //fd 00 00 c3 bd - 000 000 195 189
+                //fe 00 00 c3 be - 000 000 195 190
+                //ff 00 00 c3 bf - 000 000 195 191
+                i++;
+                *str = utf8[i] + 0x43;
+                break;
+            case (edk::char8)0xc5:
+                i++;
+                switch(utf8[i]){
+                case (edk::char8)0xa0:
+                    //8a 00 00 c5 a0 - 000 000 197 160
+                    *str = 0x8a;
+                    break;
+                case (edk::char8)0x92:
+                    //8c 00 00 c5 92 - 000 000 197 146
+                    *str = 0x8c;
+                    break;
+                case (edk::char8)0xbd:
+                    //8e 00 00 c5 bd - 000 000 197 189
+                    *str = 0x8e;
+                    break;
+                case (edk::char8)0xa1:
+                    //9a 00 00 c5 a1 - 000 000 197 161
+                    *str = 0xa1;
+                    break;
+                case (edk::char8)0x93:
+                    //9c 00 00 c5 93 - 000 000 197 147
+                    *str = 0x93;
+                    break;
+                case (edk::char8)0xbe:
+                    //9e 00 00 c5 be - 000 000 197 190
+                    *str = 0xbe;
+                    break;
+                case (edk::char8)0xb8:
+                    //9f 00 00 c5 b8 - 000 000 197 184
+                    *str = 0xb8;
+                    break;
+                default:
+                    *str = '*';
+                    break;
+                }
+                i++;
+                break;
+            case (edk::char8)0xc6:
+                i++;
+                //83 00 00 c6 92 - 000 000 198 146
+                if(utf8[i] == (edk::char8)0x92){
+                    //
+                    *str = (edk::char8)0x83;
+                }
+                i++;
+                break;
+            case (edk::char8)0xcb:
+                i++;
+                switch(utf8[i]){
+                case (edk::char8)0x86:
+                    //88 00 00 cb 86 - 000 000 203 134
+                    *str = 0x88;
+                    break;
+                case (edk::char8)0x9c:
+                    //98 00 00 cb 9c - 000 000 203 156
+                    *str = 0x98;
+                    break;
+                default:
+                    *str = '*';
+                    break;
+                }
+                i++;
+                break;
+            default:
+                *str = utf8[i];
+                break;
+            }
+            str++;
+        }
+        *str = 0u;
+        return true;
+    }
+    return false;
+}
+bool edk::String::utf8ToStr(const edk::char8 *utf8,edk::uint32 size,edk::char8 *str){
+    return edk::String::utf8ToStr((edk::char8 *)utf8,size,str);
+}
+edk::char8* edk::String::utf8ToStr(edk::char8 *utf8,edk::uint32 size){
+    edk::char8* ret = NULL;
+    if(size){
+        //get the utf8 size
+        edk::uint32 sizeUtf = edk::String::utf8Size(utf8);
+        if(sizeUtf){
+            //create a string
+            ret = new edk::char8[sizeUtf+1u];
+            if(ret){
+                if(!edk::String::utf8ToStr(utf8,size,ret)){
+                    delete[] ret;
+                    ret=NULL;
+                }
+            }
+        }
+    }
+    return ret;
+}
+edk::char8* edk::String::utf8ToStr(const edk::char8 *utf8,edk::uint32 size){
+    return edk::String::utf8ToStr((edk::char8 *)utf8,size);
+}
+edk::char8* edk::String::utf8ToStr(edk::char8 *utf8){
+    return edk::String::utf8ToStr(utf8,edk::String::utf8Size(utf8));
+}
+edk::char8* edk::String::utf8ToStr(const edk::char8 *utf8){
+    return edk::String::utf8ToStr((edk::char8 *)utf8);
+}
+//return the size of a utf8 string
+edk::uint32 edk::String::utf8Size(edk::char8 *utf8){
+    edk::uint32 ret=0u;
+    //convert the string
+    while(*utf8){
+        switch(*utf8){
+        case (edk::char8)0xe2:
+            utf8++;
+            if(*utf8){
+                switch(*utf8){
+                case (edk::char8)0x80:
+                    utf8++;
+                    if(*utf8){
+                        ret++;
+                    }
+                    else return ret;
+                    break;
+                case (edk::char8)0x82:
+                    utf8++;
+                    if(*utf8){
+                        ret++;
+                    }
+                    else return ret;
+                    break;
+                case (edk::char8)0x84:
+                    utf8++;
+                    if(*utf8){
+                        ret++;
+                    }
+                    else return ret;
+                    break;
+                }
+            }
+            else return ret;
+            break;
+        case (edk::char8)0xc2:
+            if(*utf8){
+                ret++;
+            }
+            else return ret;
+            break;
+        case (edk::char8)0xc3:
+            if(*utf8){
+                ret++;
+            }
+            else return ret;
+            break;
+        case (edk::char8)0xc5:
+            if(*utf8){
+                ret++;
+            }
+            else return ret;
+            break;
+        case (edk::char8)0xc6:
+            if(*utf8){
+                ret++;
+            }
+            else return ret;
+            break;
+        case (edk::char8)0xcb:
+            if(*utf8){
+                ret++;
+            }
+            else return ret;
+            break;
+        default:
+            ret++;
+            break;
+        }
+        utf8++;
+    }
+    return ret;
 }
 
 char8* String::int32ToStr(int32 value){
@@ -1816,24 +2244,13 @@ bool String::strCompareWithFilter(const char *str1, char8 *str2,char8 *filter){
 }
 
 uint64 String::strSize(char8 *str){
-    edk::uint64 i=0u;
-
-    //first test the CString
-    if(str){
-        //then count the CString
-        while(true){
-            //
-            if(*str=='\0'){
-                //then find the end of the string
-                break;
-            }
-
-            //increment i to continue the counting
-            i++;
-            str++;
-        }
+    edk::uint64 ret=0u;
+    while(*str){
+        //increment i to continue the counting
+        ret++;
+        str++;
     }
-    return i;
+    return ret;
 }
 
 uint64 String::strSize(const char *str){

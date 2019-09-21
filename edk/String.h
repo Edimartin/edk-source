@@ -103,11 +103,34 @@ public:
     static int32 strToInt32(const char *str);
 
     //str32ToStr convert a vector with 32bit characters to a string UTF8
-    static bool str32ToStr(edk::uint32 *str32,edk::uint32 size,edk::char8* str);
+    static bool str32ToUtf8(edk::char32 *str32,edk::char8* str);
+    static bool str32ToUtf8(edk::char32 *str32,edk::uint32 size,edk::char8* str);
+    static bool str32ToUtf8(const edk::char32 *str32,edk::char8* str);
+    static bool str32ToUtf8(const edk::char32 *str32,edk::uint32 size,edk::char8* str);
+    static bool str32ToUtf8(edk::char32 *str32,const edk::char8* str);
+    static bool str32ToUtf8(edk::char32 *str32,edk::uint32 size,const edk::char8* str);
+    static bool str32ToUtf8(const edk::char32 *str32,const edk::char8* str);
+    static bool str32ToUtf8(const edk::char32 *str32,edk::uint32 size,const edk::char8* str);
     //str32ToStr convert a vector with 32bit characters to a string UTF8 and return it as a new string
-    static edk::char8* str32ToStr(edk::uint32 *str32,edk::uint32 size);
+    static edk::char8* str32ToUtf8(edk::char32 *str32,edk::uint32 size);
+    static edk::char8* str32ToUtf8(const edk::char32 *str32,edk::uint32 size);
+    static edk::char8* str32ToUtf8(edk::char32 *str32);
+    static edk::char8* str32ToUtf8(const edk::char32 *str32);
+    //return the size of characters using 32 bits per character
+    static edk::uint32 str32Size(edk::char32 *str);
+    static edk::uint32 str32Size(const edk::char32 *str);
     //return the size of a vector with 32bit charaters
-    static edk::uint32 str32Size(edk::uint32 *str32,edk::uint32 size);
+    static edk::uint32 str32ToUtf8Size(edk::char32 *str32,edk::uint32 size);
+    static edk::uint32 str32ToUtf8Size(const edk::char32 *str32,edk::uint32 size);
+    //convert utf8 to ascii
+    static bool utf8ToStr(edk::char8 *utf8,edk::uint32 size,edk::char8 *str);
+    static bool utf8ToStr(const edk::char8 *utf8,edk::uint32 size,edk::char8 *str);
+    static edk::char8* utf8ToStr(edk::char8 *utf8,edk::uint32 size);
+    static edk::char8* utf8ToStr(const edk::char8 *utf8,edk::uint32 size);
+    static edk::char8* utf8ToStr(edk::char8 *utf8);
+    static edk::char8* utf8ToStr(const edk::char8 *utf8);
+    //return the size of a utf8 string
+    static edk::uint32 utf8Size(edk::char8 *utf8);
 
     static char8* int32ToStr(int32 value);
 

@@ -42,13 +42,24 @@ public:
     static void printBits(edk::uchar8 byte);
     static void printBits(edk::uchar8* bytes,edk::uint32 size,bool newLine = false);
     static void printBits(edk::char8* bytes,edk::uint32 size,bool newLine = false);
-    static void printBits(const char* bytes,edk::uint32 size,bool newLine = false);
+    static void printBits(const edk::uchar8* bytes,edk::uint32 size,bool newLine = false);
     static void printBitsInverted(edk::uchar8* bytes,edk::uint32 size,bool newLine = false);
     static void printBitsInverted(edk::char8* bytes,edk::uint32 size,bool newLine = false);
-    static void printBitsInverted(const char* bytes,edk::uint32 size,bool newLine = false);
+    static void printBitsInverted(const edk::uchar8* bytes,edk::uint32 size,bool newLine = false);
     static void printBits(edk::uint16 byte,bool newLine = false);
     static void printBits(edk::uint32 byte,bool newLine = false);
     static void printBits(edk::uint64 byte,bool newLine = false);
+    //
+    static void printByte(edk::uchar8 byte);
+    static void printBytes(edk::uchar8* bytes,edk::uint32 size,bool newLine = false);
+    static void printBytes(edk::char8* bytes,edk::uint32 size,bool newLine = false);
+    static void printBytes(const edk::uchar8* bytes,edk::uint32 size,bool newLine = false);
+    static void printBytesInverted(edk::uchar8* bytes,edk::uint32 size,bool newLine = false);
+    static void printBytesInverted(edk::char8* bytes,edk::uint32 size,bool newLine = false);
+    static void printBytesInverted(const edk::uchar8* bytes,edk::uint32 size,bool newLine = false);
+    static void printBytes(edk::uint16 byte,bool newLine = false);
+    static void printBytes(edk::uint32 byte,bool newLine = false);
+    static void printBytes(edk::uint64 byte,bool newLine = false);
     //inverte os bytes
     static edk::uint64 swapBytes(edk::uint64 value);
     static edk::uint32 swapBytes(edk::uint32 value);
