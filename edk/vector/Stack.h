@@ -29,6 +29,7 @@ Gravatai RS Brazil 94065100
 //Include the array
 #include "Array.h"
 #include "BinaryTree.h"
+#include "../NameClass.h"
 
 #ifdef printMessages
 #warning "    Compiling Stack"
@@ -353,10 +354,10 @@ public:
         }
         //else return false
         typeTemplate ret;
-        #pragma GCC diagnostic push
-        #pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
         return ret;
-        #pragma GCC diagnostic pop
+#pragma GCC diagnostic pop
     }
 
     //SETTERS
@@ -412,10 +413,10 @@ public:
         }
         //else return false
         typeTemplate ret;
-        #pragma GCC diagnostic push
-        #pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
         return ret;
-        #pragma GCC diagnostic pop
+#pragma GCC diagnostic pop
     }
     //get the size
     edk::uint32 getSize(){
@@ -692,6 +693,245 @@ private:
         return ret;
     }
 };
+
+class StackNames: private edk::vector::Stack<edk::Name*>{
+public:
+    StackNames(){}
+    ~StackNames(){
+        this->clean();
+    }
+
+    //ADDS
+    //pushBack the object
+    edk::uint32 pushBack(const edk::char8* str){
+        return this->pushBack((edk::char8*) str);
+    }
+    edk::uint32 pushBack(edk::char8* str){
+        //test the string
+        if(str){
+            //create a new Name
+            edk::Name* name = new edk::Name;
+            if(name){
+                //set the name
+                if(name->setName(str)){
+                    edk::uint32 size = edk::vector::Stack<edk::Name*>::size();
+                    edk::uint32 pos= edk::vector::Stack<edk::Name*>::pushBack(name);
+                    if(size<edk::vector::Stack<edk::Name*>::size()){
+                        return pos;
+                    }
+                }
+                delete name;
+            }
+        }
+        //else return false
+        return 0u;
+    }
+
+    //DELETE
+    //Remove the top
+    bool popBack(){
+        if(edk::vector::Stack<edk::Name*>::size()){
+            edk::Name* name = edk::vector::Stack<edk::Name*>::popBack();
+            if(name){
+                //delete the last name removed
+                delete name;
+                return true;
+            }
+        }
+        //else return false
+        return false;
+    }
+    //delete all Stack
+    void deleteStack(){
+        //clean
+        this->clean();
+    }
+    //clean the Stack
+    void clean(){
+        //delete all the names
+        this->_deleteAllNames();
+        //in the end it need clean the stack with deleted pointers
+        edk::vector::Stack<edk::Name*>::clean();
+    }
+    //Clean changing the Stack ArraySize
+    void clean(edk::uint32 arraySize){
+        //delete all the names
+        this->_deleteAllNames();
+        //in the end it need clean the stack with deleted pointers
+        edk::vector::Stack<edk::Name*>::clean(arraySize);
+    }
+
+    //remove the element
+    bool remove(edk::uint32 pos){
+        //get the name in the position
+        edk::Name* name = edk::vector::Stack<edk::Name*>::get(pos);
+        if(name){
+            //remove
+            if(edk::vector::Stack<edk::Name*>::remove(pos)){
+                //delete the name
+                delete name;
+                return true;
+            }
+        }
+        //else return false
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+        return false;
+#pragma GCC diagnostic pop
+    }
+
+    //SETTERS
+    bool set(edk::uint32 pos,edk::char8* str){
+        if(str){
+            //get the name in the position
+            edk::Name* name = edk::vector::Stack<edk::Name*>::get(pos);
+            if(name){
+                //set the new string
+                return name->setName(str);
+            }
+        }
+        //else return NULL
+        return false;
+    }
+
+    //GETTERS
+    //get the object
+    edk::char8* get(edk::uint32 pos){
+        //else return false
+        edk::char8* ret=NULL;
+        //get the name in the position
+        edk::Name* name = edk::vector::Stack<edk::Name*>::get(pos);
+        if(name){
+            //return the string
+            ret = name->getName();
+        }
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+        return ret;
+#pragma GCC diagnostic pop
+    }
+
+    //get the size
+    edk::uint32 getSize(){
+        //
+        return edk::vector::Stack<edk::Name*>::getSize();
+    }
+    //return the size
+    edk::uint32 size(){
+        //
+        return edk::vector::Stack<edk::Name*>::size();
+    }
+    edk::uint32 sizeRemoved(){
+        return edk::vector::Stack<edk::Name*>::sizeRemoved();
+    }
+
+    //test if have the pos
+    bool havePos(edk::uint32 pos){
+        //get the name in the position
+        edk::Name* name = edk::vector::Stack<edk::Name*>::get(pos);
+        if(name){
+            if(name->size())
+                return true;
+        }
+        return false;
+    }
+    //find the position of the object
+    edk::uint32 find(const edk::char8* str){
+        return this->find((edk::char8*) str);
+    }
+    edk::uint32 find(edk::char8* str){
+        //find the string in the stack
+        edk::Name* name=NULL;
+        edk::uint32 size = edk::vector::Stack<edk::Name*>::size();
+        for(edk::uint32 i=0u;i<size;i++){
+            name = edk::vector::Stack<edk::Name*>::get(i);
+            if(name){
+                if(edk::String::strCompare(name->getName(),str)){
+                    return i;
+                }
+            }
+        }
+        return 0u;
+    }
+    bool haveString(const edk::char8* str){
+        return this->haveString((edk::char8*) str);
+    }
+    bool haveString(edk::char8* str){
+        //find the string in the stack
+        edk::Name* name=NULL;
+        edk::uint32 size = edk::vector::Stack<edk::Name*>::size();
+        for(edk::uint32 i=0u;i<size;i++){
+            name = edk::vector::Stack<edk::Name*>::get(i);
+            if(name){
+                if(edk::String::strCompare(name->getName(),str)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    //SWAP two objects
+    bool swap(edk::uint32 pos1,edk::uint32 pos2){
+        return edk::vector::Stack<edk::Name*>::swap(pos1,pos2);
+    }
+
+    //Move position object
+    bool bringPositionPlusOne(edk::uint32 position){
+        return edk::vector::Stack<edk::Name*>::bringPositionPlusOne(position);
+    }
+    bool bringPositionMinusOne(edk::uint32 position){
+        return edk::vector::Stack<edk::Name*>::bringPositionMinusOne(position);
+    }
+    //Move a count
+    bool bringPositionPlusTimes(edk::uint32 position,edk::uint32 times){
+        return edk::vector::Stack<edk::Name*>::bringPositionPlusTimes(position,times);
+    }
+    bool bringPositionMinusTimes(edk::uint32 position,edk::uint32 times){
+        return edk::vector::Stack<edk::Name*>::bringPositionMinusTimes(position,times);
+    }
+    bool bringPositionTo(edk::uint32 position,edk::uint32 position2){
+        return edk::vector::Stack<edk::Name*>::bringPositionTo(position,position2);
+    }
+
+    //cant
+    void cantDestroy(){
+        edk::vector::Stack<edk::Name*>::cantDestroy();
+    }
+
+    //OPERATORS
+    //[] //To return the object in the pos
+    edk::char8* operator[](edk::uint32 pos){
+        //
+        return this->get(pos);
+    }
+    virtual bool cloneFrom(edk::vector::StackNames* ret){
+        //clean the vector
+        this->clean();
+        if(ret){
+            //copy the types from the ret
+            for(edk::uint32 i=0u;i<ret->size();i++){
+                //copy
+                this->pushBack(ret->get(i));
+            }
+            return true;
+        }
+        return false;
+    }
+private:
+    void _deleteAllNames(){
+        //remove all the names on the stack
+        edk::Name* name=NULL;
+        edk::uint32 size = edk::vector::Stack<edk::Name*>::size();
+        for(edk::uint32 i=0u;i<size;i++){
+            name = edk::vector::Stack<edk::Name*>::get(i);
+            if(name){
+                delete name;
+            }
+        }
+    }
+};
+
 }//end namespace vector
 }//end namespace edk
 
