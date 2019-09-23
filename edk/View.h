@@ -56,6 +56,9 @@ void unload(){
 void update(edk::WindowEvents* events){
     //
 }
+void drawScene(edk::rectf32 outsideViewOrigin){
+    //
+}
 void draw(edk::rectf32 outsideViewOrigin){
     //
 }

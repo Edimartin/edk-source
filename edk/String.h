@@ -131,6 +131,9 @@ public:
     static edk::char8* utf8ToStr(const edk::char8 *utf8);
     //return the size of a utf8 string
     static edk::uint32 utf8Size(edk::char8 *utf8);
+    static edk::uint32 utf8Size(const edk::char8 *utf8);
+    static edk::uint32 utf8WordSize(edk::char8 *utf8);
+    static edk::uint32 utf8WordSize(const edk::char8 *utf8);
 
     static char8* int32ToStr(int32 value);
 
@@ -203,6 +206,15 @@ public:
     static uint64 strSizeWithFilter(char8 *str,const char *filter);
     static uint64 strSizeWithFilter(const char *str,edk::char8* filter);
     static uint64 strSizeWithFilter(const char *str,const char *filter);
+
+    static uint64 strWordSize(char8 *str);
+
+    static uint64 strWordSize(const char *str);
+
+    static uint64 strWordSizeWithFilter(char8 *str,edk::char8* filter);
+    static uint64 strWordSizeWithFilter(char8 *str,const char *filter);
+    static uint64 strWordSizeWithFilter(const char *str,edk::char8* filter);
+    static uint64 strWordSizeWithFilter(const char *str,const char *filter);
 
     static char8* strCut(char8 *str, char8 limit, bool use=false);
 
