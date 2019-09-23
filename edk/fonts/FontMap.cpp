@@ -1017,7 +1017,7 @@ bool edk::fonts::FontMap::addStringLine(edk::char8* str){
                 else{
                     if(*str == 10 || *str == 13){
                         if(enters){
-                            this->newLine(1u);
+                            line = this->newLine(1u);
                         }
                         enters++;
                     }
@@ -1326,7 +1326,7 @@ void edk::fonts::FontMap::setAlpha(edk::uint8 value){
 //delete tileMap
 void edk::fonts::FontMap::deleteMap(){
     //delete lines
-    //this->cleanLines();
+    this->cleanLines();
     this->map.deleteTileMap();
 }
 //return true if have a text

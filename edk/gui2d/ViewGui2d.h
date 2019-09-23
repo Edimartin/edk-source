@@ -179,7 +179,7 @@ private:
     class ObjGui2dIDTree : public edk::vector::BinaryTree<edk::gui2d::ViewGui2d::ObjGui2dID*>{
     public:
         ObjGui2dIDTree(){this->cleanPressed=false;}
-        ~ObjGui2dIDTree(){}
+        ~ObjGui2dIDTree(){this->removeAll();}
         //compare if the value is bigger
         virtual bool firstBiggerSecond(edk::gui2d::ViewGui2d::ObjGui2dID* first,edk::gui2d::ViewGui2d::ObjGui2dID* second){
             if(first && second){
