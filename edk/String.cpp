@@ -1366,21 +1366,21 @@ edk::uint8 edk::String::utf8Bytes(const edk::char8 *utf8){
 //convert a utf8 character to uint8
 edk::uint32 edk::String::utf8ToUint32(edk::char8 *utf8){
     edk::uint32 ret = 0u;
-    edk::uint8 size = utf8Bytes(utf8);
+    edk::uint8 size = edk::String::utf8Bytes(utf8);
     switch(size){
     case 1u:
         ret = edk::BinaryConverter::joinBytesLittleEndian(0u,0u,0u,utf8[0u]);
         break;
     case 2u:
-        ret = edk::BinaryConverter::joinBytesLittleEndian(0u,0u,utf8[1u],utf8[0u]);
+        ret = edk::BinaryConverter::joinBytesLittleEndian(0u,0u,utf8[0u],utf8[1u]);
         break;
     case 3u:
-        ret = edk::BinaryConverter::joinBytesLittleEndian(0u,utf8[2u],utf8[1u],utf8[0u]);
+        ret = edk::BinaryConverter::joinBytesLittleEndian(0u,utf8[0u],utf8[1u],utf8[2u]);
         break;
     case 4u:
     default:
         if(size){
-            ret = edk::BinaryConverter::joinBytesLittleEndian(utf8[3u],utf8[2u],utf8[1u],utf8[0u]);
+            ret = edk::BinaryConverter::joinBytesLittleEndian(utf8[0u],utf8[1u],utf8[2u],utf8[3u]);
         }
     }
     return ret;
