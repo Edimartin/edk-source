@@ -1286,6 +1286,108 @@ edk::uint32 edk::String::utf8WordSize(edk::char8 *utf8){
 edk::uint32 edk::String::utf8WordSize(const edk::char8 *utf8){
     return edk::String::utf8WordSize((edk::char8 *)utf8);
 }
+//get the size of utf8 bytes in a character
+edk::uint8 edk::String::utf8Bytes(edk::char8 *utf8){
+    edk::uint32 ret=0u;
+    if(utf8){
+        ret++;
+        switch(*utf8){
+        case (edk::char8)0xe2:
+            utf8++;
+            if(*utf8){
+                switch(*utf8){
+                case (edk::char8)0x80:
+                    utf8++;
+                    if(*utf8){
+                        ret++;
+                    }
+                    else return ret;
+                    break;
+                case (edk::char8)0x82:
+                    utf8++;
+                    if(*utf8){
+                        ret++;
+                    }
+                    else return ret;
+                    break;
+                case (edk::char8)0x84:
+                    utf8++;
+                    if(*utf8){
+                        ret++;
+                    }
+                    else return ret;
+                    break;
+                }
+            }
+            else return ret;
+            break;
+        case (edk::char8)0xc2:
+            utf8++;
+            if(*utf8){
+                ret++;
+            }
+            else return ret;
+            break;
+        case (edk::char8)0xc3:
+            utf8++;
+            if(*utf8){
+                ret++;
+            }
+            else return ret;
+            break;
+        case (edk::char8)0xc5:
+            utf8++;
+            if(*utf8){
+                ret++;
+            }
+            else return ret;
+            break;
+        case (edk::char8)0xc6:
+            utf8++;
+            if(*utf8){
+                ret++;
+            }
+            else return ret;
+            break;
+        case (edk::char8)0xcb:
+            utf8++;
+            if(*utf8){
+                ret++;
+            }
+            else return ret;
+            break;
+        }
+    }
+    return ret;
+}
+edk::uint8 edk::String::utf8Bytes(const edk::char8 *utf8){
+    return edk::String::utf8Bytes((edk::char8 *)utf8);
+}
+//convert a utf8 character to uint8
+edk::uint32 edk::String::utf8ToUint32(edk::char8 *utf8){
+    edk::uint32 ret = 0u;
+    edk::uint8 size = utf8Bytes(utf8);
+    switch(size){
+    case 1u:
+        ret = edk::BinaryConverter::joinBytesLittleEndian(0u,0u,0u,utf8[0u]);
+        break;
+    case 2u:
+        ret = edk::BinaryConverter::joinBytesLittleEndian(0u,0u,utf8[1u],utf8[0u]);
+        break;
+    case 3u:
+        ret = edk::BinaryConverter::joinBytesLittleEndian(0u,utf8[2u],utf8[1u],utf8[0u]);
+        break;
+    case 4u:
+    default:
+        if(size){
+            ret = edk::BinaryConverter::joinBytesLittleEndian(utf8[3u],utf8[2u],utf8[1u],utf8[0u]);
+        }
+    }
+    return ret;
+}
+edk::uint32 edk::String::utf8ToUint32(const edk::char8 *utf8){
+    return edk::String::utf8ToUint32((edk::char8 *)utf8);
+}
 
 char8* String::int32ToStr(int32 value){
     edk::char8* str = 0u;

@@ -134,6 +134,12 @@ public:
     static edk::uint32 utf8Size(const edk::char8 *utf8);
     static edk::uint32 utf8WordSize(edk::char8 *utf8);
     static edk::uint32 utf8WordSize(const edk::char8 *utf8);
+    //get the size of utf8 bytes in a character
+    static edk::uint8 utf8Bytes(edk::char8 *utf8);
+    static edk::uint8 utf8Bytes(const edk::char8 *utf8);
+    //convert a utf8 character to uint8
+    static edk::uint32 utf8ToUint32(edk::char8 *utf8);
+    static edk::uint32 utf8ToUint32(const edk::char8 *utf8);
 
     static char8* int32ToStr(int32 value);
 
