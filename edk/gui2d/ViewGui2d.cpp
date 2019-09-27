@@ -38,6 +38,8 @@ edk::gui2d::ViewGui2d::ViewGui2d(){
     this->distanceDoubleClick.start();
     //run doubleClick
     this->doubleClick=false;
+
+    this->enableMouse();
 }
 edk::gui2d::ViewGui2d::~ViewGui2d(){
     //
@@ -189,6 +191,39 @@ void edk::gui2d::ViewGui2d::removeAllObjectGui2d(){
     this->list.removeAll();
 }
 
+//disable the mouse on the view (Can be used to have only one textField on the view).
+void edk::gui2d::ViewGui2d::enableMouse(){
+    this->mouseOn = true;
+}
+void edk::gui2d::ViewGui2d::disableMouse(){
+    this->mouseOn = false;
+}
+
+//function used to select an object on the view
+bool edk::gui2d::ViewGui2d::selectObject(edk::gui2d::ObjectGui2d* obj){
+    //delelect the object
+    this->deselectObject();
+    if(obj){
+        obj->select();
+        obj->clickStart(this->idSelected);
+        //select the object
+        this->objSelected = obj;
+        this->endSelect = true;
+    }
+    return false;
+}
+void edk::gui2d::ViewGui2d::deselectObject(){
+    if(this->objSelected){
+        this->objSelected->deselect();
+        if(this->endSelect)
+            this->objSelected->clickEnd(this->idSelected,false,this->doubleClick);
+        this->endSelect = false;
+
+        this->objSelected = NULL;
+        this->idSelected = 0u;
+    }
+}
+
 void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
     //
     bool runSelection=false;
@@ -317,7 +352,7 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
     }
 
     //test if the mouse was moved or pressed
-    if(events->mouseMoved || runSelection){
+    if((events->mouseMoved || runSelection) && this->mouseOn){
         this->selectionExec = true;
 
         //change the tree's
@@ -544,15 +579,7 @@ void edk::gui2d::ViewGui2d::drawScene(edk::rectf32){
                 //test if the mouse is pressed
                 if(this->mouseStatus == edk::gui2d::gui2dMousePressed){
                     //
-                    if(this->objSelected){
-                        this->objSelected->deselect();
-                        if(this->endSelect)
-                            this->objSelected->clickEnd(this->idSelected,false,this->doubleClick);
-                        this->endSelect = false;
-
-                        this->objSelected = NULL;
-                        this->idSelected = 0u;
-                    }
+                    this->deselectObject();
                 }
             }
         }
@@ -560,13 +587,7 @@ void edk::gui2d::ViewGui2d::drawScene(edk::rectf32){
             //test if the mouse is pressed
             if(this->mouseStatus == edk::gui2d::gui2dMousePressed){
                 //
-                if(this->objSelected){
-                    this->objSelected->deselect();
-                    //this->objSelected->clickEnd(this->idSelected,false,this->doubleClick);
-
-                    this->objSelected = NULL;
-                    this->idSelected = 0u;
-                }
+                this->deselectObject();
             }
             else if(this->mouseStatus == edk::gui2d::gui2dMouseHolded){
                 if(this->objSelected){

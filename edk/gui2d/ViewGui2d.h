@@ -67,6 +67,14 @@ public:
     //remove all objects
     void removeAllObjectGui2d();
 
+    //disable the mouse on the view (Can be used to have only one textField on the view).
+    void enableMouse();
+    void disableMouse();
+
+    //function used to select an object on the view
+    bool selectObject(edk::gui2d::ObjectGui2d* obj);
+    void deselectObject();
+
     virtual void update(edk::WindowEvents* events);
 
     //draw the GU scene
@@ -97,6 +105,9 @@ private:
     //press quote
     bool pressQuote;
     bool pressTilde;
+
+    //save if the mouse is enabled or disabled
+    bool mouseOn;
 
     //object to draw the mousePosition
     edk::vec2f32 saveMousePosition;
