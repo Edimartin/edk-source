@@ -67,6 +67,9 @@ public:
     void disableBackground();
     bool haveDrawBackground();
 
+    //set the textLimit. Use zero to unlimited
+    void setCharacterLimit(edk::uint32 limit);
+
     //set border size
     bool setBorderSize(edk::float32 size);
     bool setStatus(edk::gui2d::gui2dTexture status);
@@ -175,12 +178,17 @@ private:
         bool addFilterOut(edk::char16 c);
         bool addFilterOut(edk::char32 c);
         void cleanFilterOut();
+        //set the textLimit. Use zero to unlimited
+        void setCharacterLimit(edk::uint32 limit);
     private:
         edk::vector::Stack <edk::char32> vec;
         //Filter some characters who can be inside the text field
         edk::vector::BinaryTree <edk::char32> filterIn;
         //Filter some characters who need be outside the text field (can't be inside the text field)
         edk::vector::BinaryTree <edk::char32> filterOut;
+        //character limt on the text field. Use zero to no limit
+        edk::uint32 limit;
+        //return the size of string
         edk::uint32 sizeOfString();
         //return true if the character can be inside the tree
         bool canGetIt(edk::char32 c);

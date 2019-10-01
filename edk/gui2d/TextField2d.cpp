@@ -22,6 +22,7 @@ Gravatai RS Brazil 94065100
 
 edk::gui2d::TextField2d::TextVec::TextVec(){
     //
+    this->limit = 0u;
 }
 edk::gui2d::TextField2d::TextVec::~TextVec(){
     //
@@ -74,6 +75,7 @@ bool edk::gui2d::TextField2d::TextVec::write(edk::char8* str){
         //get the strng lenght
         edk::uint32 lenght = edk::String::strSize(str);
         edk::char32 c;
+        edk::uint8 increment=0u;
         if(lenght){
             //populate the vector
             for(edk::uint32 i=0u;i<lenght;i++){
@@ -85,47 +87,9 @@ bool edk::gui2d::TextField2d::TextVec::write(edk::char8* str){
                         ){
                     break;
                 }
-                if((edk::uint8)str[i]==195u){
-                    if(i+1u<lenght){
-                        //copy the two bytes character
-                        c = (edk::char32)edk::BinaryConverter::joinBytesLittleEndian(0u,0u,str[i],str[i+1u]);
-                        i+=1u;
-                    }
-                    else break;
-                }
-                else if((edk::uint8)str[i]==225u){
-                    if(i+1u<lenght){
-                        if((edk::uint8)str[i+1u]==186u){
-                            if(i+2u<lenght){
-                                //copy the 3 bytes character
-                                c = (edk::char32)edk::BinaryConverter::joinBytesLittleEndian(0u,str[i],str[i+1u],str[i+2u]);
-                                i+=2u;
-                            }
-                            else break;
-                        }
-                    }
-                    else break;
-
-                }
-                else if((edk::uint8)str[i]==196u){
-                    if(i+1u<lenght){
-                        //copy the two bytes character
-                        c = (edk::char32)edk::BinaryConverter::joinBytesLittleEndian(0u,0u,str[i],str[i+1u]);
-                        i+=1u;
-                    }
-                    else break;
-                }
-                else if((edk::uint8)str[i]==197u){
-                    if(i+1u<lenght){
-                        //copy the two bytes character
-                        c = (edk::char32)edk::BinaryConverter::joinBytesLittleEndian(0u,0u,str[i],str[i+1u]);
-                        i+=1u;
-                    }
-                    else break;
-                }
-                else{
-                    c = str[i];
-                }
+                c = edk::String::utf8ToUint32(&str[i]);
+                increment=edk::String::utf8Bytes(&str[i]);
+                i+=increment;
 
                 if(this->canGetIt(c))
                     this->vec.pushBack(c);
@@ -144,6 +108,7 @@ edk::uint32 edk::gui2d::TextField2d::TextVec::add(edk::char8* str,edk::uint32 po
         edk::uint32 lenght = edk::String::strSize(str);
         edk::char32 c;
         edk::uint32 ret = 0u;
+        edk::uint8 increment=0u;
         if(lenght){
             //populate the vector
             for(edk::uint32 i=0u;i<lenght;i++){
@@ -155,49 +120,9 @@ edk::uint32 edk::gui2d::TextField2d::TextVec::add(edk::char8* str,edk::uint32 po
                         ){
                     break;
                 }
-
-
-                if((edk::uint8)str[i]==195u){
-                    if(i+1u<lenght){
-                        //copy the two bytes character
-                        c = (edk::char32)edk::BinaryConverter::joinBytesLittleEndian(0u,0u,str[i],str[i+1u]);
-                        i+=1u;
-                    }
-                    else break;
-                }
-                else if((edk::uint8)str[i]==225u){
-                    if(i+1u<lenght){
-                        if((edk::uint8)str[i+1u]==186u){
-                            if(i+2u<lenght){
-                                //copy the 3 bytes character
-                                c = (edk::char32)edk::BinaryConverter::joinBytesLittleEndian(0u,str[i],str[i+1u],str[i+2u]);
-                                i+=2u;
-                            }
-                            else break;
-                        }
-                    }
-                    else break;
-
-                }
-                else if((edk::uint8)str[i]==196u){
-                    if(i+1u<lenght){
-                        //copy the two bytes character
-                        c = (edk::char32)edk::BinaryConverter::joinBytesLittleEndian(0u,0u,str[i],str[i+1u]);
-                        i+=1u;
-                    }
-                    else break;
-                }
-                else if((edk::uint8)str[i]==197u){
-                    if(i+1u<lenght){
-                        //copy the two bytes character
-                        c = (edk::char32)edk::BinaryConverter::joinBytesLittleEndian(0u,0u,str[i],str[i+1u]);
-                        i+=1u;
-                    }
-                    else break;
-                }
-                else{
-                    c = str[i];
-                }
+                c = edk::String::utf8ToUint32(&str[i]);
+                increment=edk::String::utf8Bytes(&str[i]);
+                i+=increment;
 
                 if(!this->add(c,position)){
                     return 0u;
@@ -218,6 +143,10 @@ edk::uint32 edk::gui2d::TextField2d::TextVec::add(edk::char16 c,edk::uint32 posi
 }
 edk::uint32 edk::gui2d::TextField2d::TextVec::add(edk::char32 c,edk::uint32 position){
     edk::uint32 size = this->vec.size();
+    //test if the lenght exceede the limit
+    if(size>=this->limit){
+        return 0u;
+    }
     //test if have the position
     if(position<=size && this->canGetIt(c)){
         this->vec.pushBack(c);
@@ -518,6 +447,10 @@ bool edk::gui2d::TextField2d::TextVec::addFilterOut(edk::char32 c){
 void edk::gui2d::TextField2d::TextVec::cleanFilterOut(){
     this->filterOut.clean();
 }
+//set the textLimit. Use zero to unlimited
+void edk::gui2d::TextField2d::TextVec::setCharacterLimit(edk::uint32 limit){
+    this->limit = limit;
+}
 
 edk::gui2d::TextField2d::TextField2d(){
     //
@@ -817,6 +750,11 @@ void edk::gui2d::TextField2d::disableBackground(){
 }
 bool edk::gui2d::TextField2d::haveDrawBackground(){
     return this->drawBackground;
+}
+
+//set the textLimit. Use zero to unlimited
+void edk::gui2d::TextField2d::setCharacterLimit(edk::uint32 limit){
+    this->textVec.setCharacterLimit(limit);
 }
 
 //set border size

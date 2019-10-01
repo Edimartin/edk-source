@@ -67,7 +67,7 @@ bool edk::codecs::EncoderJPEG::encode(edk::uint8* frame,edk::size2ui32 size,edk:
 			//seta o destino
             jpeg_mem_dest(&this->cinfo,
                           edk::codecs::CodecImage::getEncodedPosition(),
-                          (edk::uint64*)edk::codecs::CodecImage::getEncodedSizePosition()
+                          (unsigned long int*)(edk::uint64*)edk::codecs::CodecImage::getEncodedSizePosition()
                           );
 #else
 			//seta o destino
