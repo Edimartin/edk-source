@@ -204,6 +204,12 @@ public:
     static bool strCompareWithFilter(const char *str1, char8 *str2,const char *filter);
     static bool strCompareWithFilter(const char *str1, char8 *str2,char8 *filter);
 
+    //return true if a string is inside the other string
+    static edk::char8* strInside(char8 *str, char8 *compare);
+    static edk::char8* strInside(const char8 *str, char8 *compare);
+    static edk::char8* strInside(char8 *str, const char8 *compare);
+    static edk::char8* strInside(const char8 *str, const char8 *compare);
+
     //return true if the first string is bigger than the second string
     static bool strBiggerStr(char8 *str1, char8 *str2);
     static bool strBiggerStr(const char8 *str1, char8 *str2);

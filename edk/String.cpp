@@ -2437,6 +2437,52 @@ bool String::strCompareWithFilter(const char *str1, char8 *str2,char8 *filter){
     return edk::String::strCompareWithFilter((char8 *)str1, str2,filter);
 }
 
+//return true if a string is inside the other string
+edk::char8* edk::String::strInside(char8 *str, char8 *compare){
+    edk::char8* temp = NULL;
+    edk::char8* ret = NULL;
+    if(str && compare){
+        while(*str){
+            //test if are equal
+            if(*str == *compare){
+                temp = compare;
+                ret = str;
+                //test the other characters
+                while(*str && *temp){
+                    //increment
+                    str++;
+                    temp++;
+                    if(*str != *temp){
+                        break;
+                    }
+                }
+                //test if reach the end
+                if(!*temp){
+                    //reach the end
+                    return ret;
+                }
+                if(!*str){
+                    //then return NULL;
+                    return NULL;
+                }
+            }
+
+            //increment
+            str++;
+        }
+    }
+    return NULL;
+}
+edk::char8* edk::String::strInside(const char8 *str, char8 *compare){
+    return edk::String::strInside((char8 *)str, compare);
+}
+edk::char8* edk::String::strInside(char8 *str, const char8 *compare){
+    return edk::String::strInside(str, (char8 *)compare);
+}
+edk::char8* edk::String::strInside(const char8 *str, const char8 *compare){
+    return edk::String::strInside((char8 *)str, (char8 *)compare);
+}
+
 //return true if the first string is bigger than the second string
 bool edk::String::strBiggerStr(char8 *str1, char8 *str2){
     //test the strings
@@ -2587,7 +2633,7 @@ bool edk::String::strCut(char8 *str,char8 *dest, char8 limit, bool use){
                 if(use){
                     //
                     *dest = limit;
-                    *dest++;
+                    dest++;
                 }
                 //
                 *dest='\0';
@@ -2605,7 +2651,7 @@ bool edk::String::strCut(char8 *str,char8 *dest, char8 limit, bool use){
 }
 
 bool edk::String::strCut(const char8 *str,char8 *dest, char8 limit, bool use){
-    edk::String::strCut((char8 *)str,dest, limit, use);
+    return edk::String::strCut((char8 *)str,dest, limit, use);
 }
 
 char8* edk::String::strCut(char8 *str, char8 limit, bool use){
@@ -2765,7 +2811,7 @@ bool edk::String::strCut(char8 *str,char8 *dest, char8 start, char8 end, bool us
 }
 
 bool edk::String::strCut(const char *str,char8 *dest, char8 start, char8 end, bool use){
-    edk::String::strCut((char8 *)str,dest, start, end, use);
+    return edk::String::strCut((char8 *)str,dest, start, end, use);
 }
 
 char8* edk::String::strCut(char8 *str, char8 start, char8 end, bool use){
