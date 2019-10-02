@@ -204,6 +204,12 @@ public:
     static bool strCompareWithFilter(const char *str1, char8 *str2,const char *filter);
     static bool strCompareWithFilter(const char *str1, char8 *str2,char8 *filter);
 
+    //return true if the first string is bigger than the second string
+    static bool strBiggerStr(char8 *str1, char8 *str2);
+    static bool strBiggerStr(const char8 *str1, char8 *str2);
+    static bool strBiggerStr(char8 *str1, const char8 *str2);
+    static bool strBiggerStr(const char8 *str1, const char8 *str2);
+
     static uint64 strSize(char8 *str);
 
     static uint64 strSize(const char *str);

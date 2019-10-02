@@ -22,6 +22,7 @@ Gravatai RS Brazil 94065100
 
 edk::gui2d::TextField2d::TextVec::TextVec(){
     //
+    this->caseInput = edk::gui2d::upperAndLowerCase;
     this->limit = 0u;
 }
 edk::gui2d::TextField2d::TextVec::~TextVec(){
@@ -91,6 +92,27 @@ bool edk::gui2d::TextField2d::TextVec::write(edk::char8* str){
                 increment=edk::String::utf8Bytes(&str[i]);
                 i+=increment;
 
+                //test if the lenght exceede the limit
+                if(this->vec.size()>=this->limit){
+                    return true;
+                }
+
+                //test the case
+                switch(this->caseInput){
+                case edk::gui2d::upperAndLowerCase:
+                    break;
+                case edk::gui2d::upperCase:
+                    if(c>='a' && c<='z'){
+                        c+='A'-'a';
+                    }
+                    break;
+                case edk::gui2d::lowerCase:
+                    if(c>='A' && c<='Z'){
+                        c-='A'-'a';
+                    }
+                    break;
+                }
+
                 if(this->canGetIt(c))
                     this->vec.pushBack(c);
             }
@@ -124,6 +146,22 @@ edk::uint32 edk::gui2d::TextField2d::TextVec::add(edk::char8* str,edk::uint32 po
                 increment=edk::String::utf8Bytes(&str[i]);
                 i+=increment;
 
+                //test the case
+                switch(this->caseInput){
+                case edk::gui2d::upperAndLowerCase:
+                    break;
+                case edk::gui2d::upperCase:
+                    if(c>='a' && c<='z'){
+                        c+='A'-'a';
+                    }
+                    break;
+                case edk::gui2d::lowerCase:
+                    if(c>='A' && c<='Z'){
+                        c-='A'-'a';
+                    }
+                    break;
+                }
+
                 if(!this->add(c,position)){
                     return 0u;
                 }
@@ -149,6 +187,21 @@ edk::uint32 edk::gui2d::TextField2d::TextVec::add(edk::char32 c,edk::uint32 posi
     }
     //test if have the position
     if(position<=size && this->canGetIt(c)){
+        //test the case
+        switch(this->caseInput){
+        case edk::gui2d::upperAndLowerCase:
+            break;
+        case edk::gui2d::upperCase:
+            if(c>='a' && c<='z'){
+                c+='A'-'a';
+            }
+            break;
+        case edk::gui2d::lowerCase:
+            if(c>='A' && c<='Z'){
+                c-='A'-'a';
+            }
+            break;
+        }
         this->vec.pushBack(c);
         if(size<this->vec.size()){
             //
@@ -285,6 +338,7 @@ bool edk::gui2d::TextField2d::TextVec::addFilterIn(edk::char8* str){
         //get the strng lenght
         edk::uint32 lenght = edk::String::strSize(str);
         edk::char32 c;
+        edk::uint32 increment;
         bool ret = false;
         if(lenght){
             //populate the vector
@@ -297,48 +351,24 @@ bool edk::gui2d::TextField2d::TextVec::addFilterIn(edk::char8* str){
                         ){
                     break;
                 }
+                c = edk::String::utf8ToUint32(&str[i]);
+                increment=edk::String::utf8Bytes(&str[i]);
+                i+=increment;
 
-
-                if((edk::uint8)str[i]==195u){
-                    if(i+1u<lenght){
-                        //copy the two bytes character
-                        c = (edk::char32)edk::BinaryConverter::joinBytesLittleEndian(0u,0u,str[i],str[i+1u]);
-                        i+=1u;
+                //test the case
+                switch(this->caseInput){
+                case edk::gui2d::upperAndLowerCase:
+                    break;
+                case edk::gui2d::upperCase:
+                    if(c>='a' && c<='z'){
+                        c+='A'-'a';
                     }
-                    else break;
-                }
-                else if((edk::uint8)str[i]==225u){
-                    if(i+1u<lenght){
-                        if((edk::uint8)str[i+1u]==186u){
-                            if(i+2u<lenght){
-                                //copy the 3 bytes character
-                                c = (edk::char32)edk::BinaryConverter::joinBytesLittleEndian(0u,str[i],str[i+1u],str[i+2u]);
-                                i+=2u;
-                            }
-                            else break;
-                        }
+                    break;
+                case edk::gui2d::lowerCase:
+                    if(c>='A' && c<='Z'){
+                        c-='A'-'a';
                     }
-                    else break;
-
-                }
-                else if((edk::uint8)str[i]==196u){
-                    if(i+1u<lenght){
-                        //copy the two bytes character
-                        c = (edk::char32)edk::BinaryConverter::joinBytesLittleEndian(0u,0u,str[i],str[i+1u]);
-                        i+=1u;
-                    }
-                    else break;
-                }
-                else if((edk::uint8)str[i]==197u){
-                    if(i+1u<lenght){
-                        //copy the two bytes character
-                        c = (edk::char32)edk::BinaryConverter::joinBytesLittleEndian(0u,0u,str[i],str[i+1u]);
-                        i+=1u;
-                    }
-                    else break;
-                }
-                else{
-                    c = str[i];
+                    break;
                 }
 
                 if(!this->addFilterIn(c)){
@@ -369,6 +399,7 @@ bool edk::gui2d::TextField2d::TextVec::addFilterOut(edk::char8* str){
         //get the strng lenght
         edk::uint32 lenght = edk::String::strSize(str);
         edk::char32 c;
+        edk::uint32 increment;
         bool ret = false;
         if(lenght){
             //populate the vector
@@ -382,47 +413,24 @@ bool edk::gui2d::TextField2d::TextVec::addFilterOut(edk::char8* str){
                     break;
                 }
 
+                c = edk::String::utf8ToUint32(&str[i]);
+                increment=edk::String::utf8Bytes(&str[i]);
+                i+=increment;
 
-                if((edk::uint8)str[i]==195u){
-                    if(i+1u<lenght){
-                        //copy the two bytes character
-                        c = (edk::char32)edk::BinaryConverter::joinBytesLittleEndian(0u,0u,str[i],str[i+1u]);
-                        i+=1u;
+                //test the case
+                switch(this->caseInput){
+                case edk::gui2d::upperAndLowerCase:
+                    break;
+                case edk::gui2d::upperCase:
+                    if(c>='a' && c<='z'){
+                        c+='A'-'a';
                     }
-                    else break;
-                }
-                else if((edk::uint8)str[i]==225u){
-                    if(i+1u<lenght){
-                        if((edk::uint8)str[i+1u]==186u){
-                            if(i+2u<lenght){
-                                //copy the 3 bytes character
-                                c = (edk::char32)edk::BinaryConverter::joinBytesLittleEndian(0u,str[i],str[i+1u],str[i+2u]);
-                                i+=2u;
-                            }
-                            else break;
-                        }
+                    break;
+                case edk::gui2d::lowerCase:
+                    if(c>='A' && c<='Z'){
+                        c-='A'-'a';
                     }
-                    else break;
-
-                }
-                else if((edk::uint8)str[i]==196u){
-                    if(i+1u<lenght){
-                        //copy the two bytes character
-                        c = (edk::char32)edk::BinaryConverter::joinBytesLittleEndian(0u,0u,str[i],str[i+1u]);
-                        i+=1u;
-                    }
-                    else break;
-                }
-                else if((edk::uint8)str[i]==197u){
-                    if(i+1u<lenght){
-                        //copy the two bytes character
-                        c = (edk::char32)edk::BinaryConverter::joinBytesLittleEndian(0u,0u,str[i],str[i+1u]);
-                        i+=1u;
-                    }
-                    else break;
-                }
-                else{
-                    c = str[i];
+                    break;
                 }
 
                 if(!this->addFilterOut(c)){
@@ -450,6 +458,10 @@ void edk::gui2d::TextField2d::TextVec::cleanFilterOut(){
 //set the textLimit. Use zero to unlimited
 void edk::gui2d::TextField2d::TextVec::setCharacterLimit(edk::uint32 limit){
     this->limit = limit;
+}
+//set the caseInput
+void edk::gui2d::TextField2d::TextVec::setCaseInput(edk::gui2d::Case caseInput){
+    this->caseInput = caseInput;
 }
 
 edk::gui2d::TextField2d::TextField2d(){
@@ -830,6 +842,17 @@ void edk::gui2d::TextField2d::clickEnd(edk::uint32 name,bool mouseInside,bool do
     //select all text
     if(doubleClick)
         this->selectAll();
+}
+
+//set the case
+void edk::gui2d::TextField2d::setUpperAndLowerCase(){
+    this->textVec.setCaseInput(edk::gui2d::upperAndLowerCase);
+}
+void edk::gui2d::TextField2d::setUpperCase(){
+    this->textVec.setCaseInput(edk::gui2d::upperCase);
+}
+void edk::gui2d::TextField2d::setLowerCase(){
+    this->textVec.setCaseInput(edk::gui2d::lowerCase);
 }
 
 //cursor functions

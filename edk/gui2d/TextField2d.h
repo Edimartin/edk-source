@@ -47,6 +47,11 @@ Gravatai RS Brazil 94065100
 
 namespace edk{
 namespace gui2d{
+enum Case{
+    upperAndLowerCase=0,
+    upperCase=1,
+    lowerCase=2,
+};
 class TextField2d: public edk::gui2d::ObjectGui2d{
 public:
     TextField2d();
@@ -83,6 +88,11 @@ public:
     void clickStart(edk::uint32 name);
     void clickMove(edk::uint32 name,bool mouseInside);
     void clickEnd(edk::uint32 name,bool mouseInside,bool doubleClick);
+
+    //set the case
+    void setUpperAndLowerCase();
+    void setUpperCase();
+    void setLowerCase();
 
     //cursor functions
     void incrementCursor();
@@ -180,6 +190,8 @@ private:
         void cleanFilterOut();
         //set the textLimit. Use zero to unlimited
         void setCharacterLimit(edk::uint32 limit);
+        //set the caseInput
+        void setCaseInput(edk::gui2d::Case caseInput);
     private:
         edk::vector::Stack <edk::char32> vec;
         //Filter some characters who can be inside the text field
@@ -188,6 +200,8 @@ private:
         edk::vector::BinaryTree <edk::char32> filterOut;
         //character limt on the text field. Use zero to no limit
         edk::uint32 limit;
+        //set the inputCase
+        edk::gui2d::Case caseInput;
         //return the size of string
         edk::uint32 sizeOfString();
         //return true if the character can be inside the tree

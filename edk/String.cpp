@@ -2416,25 +2416,58 @@ bool String::strCompareWithFilter(char8 *str1, char8 *str2,char8 *filter){
     return edk::String::strCompare(str1,str2);
 }
 bool String::strCompareWithFilter(char8 *str1, char8 *str2,const char *filter){
-    return strCompareWithFilter(str1, str2,(char8 *)filter);
+    return edk::String::strCompareWithFilter(str1, str2,(char8 *)filter);
 }
 bool String::strCompareWithFilter(const char *str1, const char *str2,const char *filter){
-    return strCompareWithFilter((char8 *)str1, (char8 *)str2,(char8 *)filter);
+    return edk::String::strCompareWithFilter((char8 *)str1, (char8 *)str2,(char8 *)filter);
 }
 bool String::strCompareWithFilter(const char *str1, const char *str2,char8 *filter){
-    return strCompareWithFilter((char8 *)str1, (char8 *)str2,filter);
+    return edk::String::strCompareWithFilter((char8 *)str1, (char8 *)str2,filter);
 }
 bool String::strCompareWithFilter(char8 *str1, const char *str2,const char *filter){
-    return strCompareWithFilter(str1, (char8 *)str2,(char8 *)filter);
+    return edk::String::strCompareWithFilter(str1, (char8 *)str2,(char8 *)filter);
 }
 bool String::strCompareWithFilter(char8 *str1, const char *str2,char8 *filter){
-    return strCompareWithFilter(str1, (char8 *)str2,filter);
+    return edk::String::strCompareWithFilter(str1, (char8 *)str2,filter);
 }
 bool String::strCompareWithFilter(const char *str1, char8 *str2,const char *filter){
-    return strCompareWithFilter((char8 *)str1, str2,(char8 *)filter);
+    return edk::String::strCompareWithFilter((char8 *)str1, str2,(char8 *)filter);
 }
 bool String::strCompareWithFilter(const char *str1, char8 *str2,char8 *filter){
-    return strCompareWithFilter((char8 *)str1, str2,filter);
+    return edk::String::strCompareWithFilter((char8 *)str1, str2,filter);
+}
+
+//return true if the first string is bigger than the second string
+bool edk::String::strBiggerStr(char8 *str1, char8 *str2){
+    //test the strings
+    if(str1 && str2){
+        //test if str1 is bigger
+        while(*str1!='\0' || *str2!='\0'){
+            //test if the first is bigger then second
+            if(*str1>*str2){
+                //the return true
+                return true;
+            }
+            else if(*str2>*str1){
+                //
+                break;
+            }
+            //else equal increment i
+            str2++;
+            str1++;
+        }
+    }
+    //else return false
+    return false;
+}
+bool edk::String::strBiggerStr(const char8 *str1, char8 *str2){
+    return edk::String::strBiggerStr((char8 *)str1, str2);
+}
+bool edk::String::strBiggerStr(char8 *str1, const char8 *str2){
+    return edk::String::strBiggerStr(str1, (char8 *)str2);
+}
+bool edk::String::strBiggerStr(const char8 *str1, const char8 *str2){
+    return edk::String::strBiggerStr((char8 *)str1, (char8 *)str2);
 }
 
 uint64 String::strSize(char8 *str){
