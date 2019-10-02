@@ -2578,7 +2578,37 @@ uint64 String::strWordSizeWithFilter(const char *str,const char *filter){
     return strWordSizeWithFilter((char8 *)str,(edk::char8*) filter);
 }
 
-char8* String::strCut(char8 *str, char8 limit, bool use){
+bool edk::String::strCut(char8 *str,char8 *dest, char8 limit, bool use){
+    if(str && dest && limit){
+        while(*str){
+            //test if the str is equal the limit
+            if(*str == limit){
+                //test if use
+                if(use){
+                    //
+                    *dest = limit;
+                    *dest++;
+                }
+                //
+                *dest='\0';
+                break;
+            }
+            //copy the character
+            *dest = *str;
+            //increment the str and the dest
+            str++;
+            dest++;
+        }
+        return true;
+    }
+    return false;
+}
+
+bool edk::String::strCut(const char8 *str,char8 *dest, char8 limit, bool use){
+    edk::String::strCut((char8 *)str,dest, limit, use);
+}
+
+char8* edk::String::strCut(char8 *str, char8 limit, bool use){
     //Test if the string is alloc
     if(str){
         //The new stirng
@@ -2623,11 +2653,44 @@ char8* String::strCut(char8 *str, char8 limit, bool use){
     return NULL;
 }
 
-char8* String::strCut(const char *str, char8 limit, bool use){
+char8* edk::String::strCut(const char *str, char8 limit, bool use){
     return edk::String::strCut((edk::char8 *)str, limit, use);
 }
 
-char8* String::strCut(char8 limit, char8 *str, bool use){
+bool edk::String::strCut(char8 limit, char8 *str, char8 *dest, bool use){
+    if(str && dest && limit){
+        while(*str){
+            //test if the str is equal the limit
+            if(*str == limit){
+                //test if use
+                if(use){
+                    //
+                    *dest = limit;
+                    dest++;
+                    str++;
+                }
+                while(*str){
+                    //copy the character
+                    *dest = *str;
+                    //increment the str and the dest
+                    str++;
+                    dest++;
+                }
+                *dest='\0';
+                return true;
+            }
+            str++;
+        }
+        return false;
+    }
+    return false;
+}
+
+bool edk::String::strCut(char8 limit, const char *str, char8 *dest, bool use){
+    return edk::String::strCut(limit, (char8 *)str, dest, use);
+}
+
+char8* edk::String::strCut(char8 limit, char8 *str, bool use){
     //First test if the string exist
     if(str){
         edk::uint32 i=0u;
@@ -2658,11 +2721,54 @@ char8* String::strCut(char8 limit, char8 *str, bool use){
     return NULL;
 }
 
-char8* String::strCut(char8 limit, const char *str, bool use){
+char8* edk::String::strCut(char8 limit, const char *str, bool use){
     return edk::String::strCut(limit, (edk::char8 *)str, use);
 }
 
-char8* String::strCut(char8 *str, char8 start, char8 end, bool use){
+bool edk::String::strCut(char8 *str,char8 *dest, char8 start, char8 end, bool use){
+    if(str && dest && start && end){
+        while(*str){
+            //test if the str is equal the limit
+            if(*str == start){
+                //test if use
+                if(use){
+                    //
+                    *dest = start;
+                    dest++;
+                    str++;
+                }
+                while(*str){
+                    if(*str == end){
+                        //test if use
+                        if(use){
+                            //
+                            *dest = end;
+                            dest++;
+                        }
+                        break;
+                    }
+
+                    //copy the character
+                    *dest = *str;
+                    //increment the str and the dest
+                    str++;
+                    dest++;
+                }
+                *dest='\0';
+                return true;
+            }
+            str++;
+        }
+        return false;
+    }
+    return false;
+}
+
+bool edk::String::strCut(const char *str,char8 *dest, char8 start, char8 end, bool use){
+    edk::String::strCut((char8 *)str,dest, start, end, use);
+}
+
+char8* edk::String::strCut(char8 *str, char8 start, char8 end, bool use){
     //first test if the string exist
     if(str){
         //Find the start
@@ -2754,7 +2860,7 @@ char8* String::strCut(char8 *str, char8 start, char8 end, bool use){
     return NULL;
 }
 
-char8* String::strCut(const char *str, char8 start, char8 end, bool use){
+char8* edk::String::strCut(const char *str, char8 start, char8 end, bool use){
     return edk::String::strCut((edk::char8 *)str, start, end, use);
 }
 
