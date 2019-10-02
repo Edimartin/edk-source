@@ -74,7 +74,12 @@ class XML{
 
 		//Just load the file
 		bool loadFile(const char* fileName);
-		bool loadFile(edk::char8* fileName);
+        bool loadFile(edk::char8* fileName);
+        bool loadFromMemory(edk::classID vector,edk::uint32 size);
+        bool loadFromMemory(edk::char8* vector,edk::uint32 size);
+        bool loadFromMemory(const edk::char8* vector,edk::uint32 size);
+        bool loadString(edk::char8* str);
+        bool loadString(const edk::char8* str);
 
         //parser the string
         bool parse();

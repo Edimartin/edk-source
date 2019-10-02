@@ -61,6 +61,32 @@ bool edk::XML::loadFile(edk::char8* fileName){
     //else return false
     return false;
 }
+bool edk::XML::loadFromMemory(edk::classID vector,edk::uint32 size){
+    //test the name of the file
+    if(vector && size){
+        //load the file
+        if((bool)this->doc.load_buffer(vector,size)){
+            //then parse the XML
+            return true;
+        }
+    }
+    //else return false
+    return false;
+}
+
+bool edk::XML::loadFromMemory(edk::char8* vector,edk::uint32 size){
+    return this->loadFromMemory((edk::classID) vector,size);
+}
+bool edk::XML::loadFromMemory(const edk::char8* vector,edk::uint32 size){
+    return this->loadFromMemory((edk::classID) vector,size);
+}
+bool edk::XML::loadString(edk::char8* str){
+    return this->loadFromMemory(str,edk::String::strSize(str));
+}
+bool edk::XML::loadString(const edk::char8* str){
+    return this->loadString((edk::char8*) str);
+}
+
 
 //parsing the xml
 void edk::XML::parsing(pugi::xml_node node){
