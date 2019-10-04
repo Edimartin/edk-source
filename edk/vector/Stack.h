@@ -799,11 +799,13 @@ public:
     edk::char8* get(edk::uint32 pos){
         //else return false
         edk::char8* ret=NULL;
-        //get the name in the position
-        edk::Name* name = edk::vector::Stack<edk::Name*>::get(pos);
-        if(name){
-            //return the string
-            ret = name->getName();
+        if(this->havePos(pos)){
+            //get the name in the position
+            edk::Name* name = edk::vector::Stack<edk::Name*>::get(pos);
+            if(name){
+                //return the string
+                ret = name->getName();
+            }
         }
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
@@ -827,11 +829,13 @@ public:
 
     //test if have the pos
     bool havePos(edk::uint32 pos){
-        //get the name in the position
-        edk::Name* name = edk::vector::Stack<edk::Name*>::get(pos);
-        if(name){
-            if(name->size())
-                return true;
+        if(pos<this->size()){
+            //get the name in the position
+            edk::Name* name = edk::vector::Stack<edk::Name*>::get(pos);
+            if(name){
+                if(name->size())
+                    return true;
+            }
         }
         return false;
     }
