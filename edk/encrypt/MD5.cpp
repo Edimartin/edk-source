@@ -462,6 +462,55 @@ bool edk::encrypt::MD5::convertFileTo(edk::char8 *fileName, edk::char8 *dest){
 bool edk::encrypt::MD5::convertFileTo(const edk::char8 *fileName, edk::char8 *dest){
     return edk::encrypt::MD5::convertFileTo((edk::char8 *)fileName, dest);
 }
+bool edk::encrypt::MD5::convertTo(edk::char8 *pass, edk::uint32 size, edk::uint8 dest[16u]){
+
+    //testa as strings e os tamanhos
+    if (pass && size && dest){
+        //processa o MD5
+        md5WikiSum((Md5uint8_t *)pass, size, dest);
+        //then return true
+        return true;
+    }
+    //senao retorna false
+    return false;
+}
+bool edk::encrypt::MD5::convertTo(const edk::char8 *pass, edk::uint32 size, edk::uint8 dest[16u]){
+    return edk::encrypt::MD5::convertTo((edk::char8 *)pass, size, dest);
+}
+bool edk::encrypt::MD5::convertTo(edk::char8 *pass, edk::uint8 dest[16u]){
+    return edk::encrypt::MD5::convertTo(pass,edk::String::strSize(pass),dest);
+}
+bool edk::encrypt::MD5::convertTo(const edk::char8 *pass, edk::uint8 dest[16u]){
+    return edk::encrypt::MD5::convertTo((edk::char8 *)pass, dest);
+}
+bool edk::encrypt::MD5::convertFileTo(edk::File* file, edk::uint8 dest[16u]){
+    //first test the file and dest
+    if(file && dest){
+        if(file->isOpened()){
+            //processa o MD5
+            md5WikiSum(file, dest);
+            //then return true
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::encrypt::MD5::convertFileTo(edk::char8 *fileName, edk::uint8 dest[16u]){
+    //
+    bool ret = false;
+    if (fileName && dest){
+        edk::File file;
+        file.openBinFile(fileName);
+        if (file.isOpened()){
+            ret = edk::encrypt::MD5::convertFileTo(&file,dest);
+            file.closeFile();
+        }
+    }
+    return ret;
+}
+bool edk::encrypt::MD5::convertFileTo(const edk::char8 *fileName, edk::uint8 dest[16u]){
+    return edk::encrypt::MD5::convertFileTo((edk::char8 *)fileName, dest);
+}
 edk::char8* edk::encrypt::MD5::convert(edk::char8 *pass, edk::uint32 size){
     edk::char8* ret=NULL;
     if (pass && size){

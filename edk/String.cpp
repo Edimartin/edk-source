@@ -3650,4 +3650,76 @@ edk::char8* edk::String::strCopyFilterAccent(edk::char8* str){
     return NULL;
 }
 
+//return the file name from a string
+edk::char8* edk::String::strFileName(edk::char8* str){
+    edk::char8* ret = NULL;
+    if(str){
+        //create a pointer to read the string
+        edk::char8* temp = str;
+        //go to the end of the string
+        while(*temp){
+            temp++;
+        }
+        edk::uint32 size = 0u;
+        //go back counting the size of the string
+        while(*temp!='/' && *temp!='\\' && temp!=str){
+            temp--;
+            size++;
+        }
+        if(*temp=='/' || *temp=='\\'){
+            temp++;
+            if(size)
+                size--;
+        }
+        if(size){
+            //create a new string with the size
+            ret = new char[size+1u];
+            if(ret){
+                //set the string end
+                ret[size]='\0';
+                //copy the name of the file to the return
+                for(edk::uint32 i = 0u;i<size;i++){
+                    ret[i] = temp[i];
+                }
+            }
+        }
+    }
+    return ret;
+}
+edk::char8* edk::String::strFileName(const edk::char8* str){
+    return edk::String::strFileName((edk::char8*) str);
+}
+bool edk::String::strFileName(edk::char8* str,edk::char8* dest){
+    bool ret=false;
+    if(str && dest){
+        //create a pointer to read the string
+        edk::char8* temp = str;
+        //go to the end of the string
+        while(*temp){
+            temp++;
+        }
+        if(temp!=str){
+            ret=true;
+        }
+        //go back
+        while(*temp=='/' && *temp=='\\' && temp!=str){
+            temp--;
+        }
+        if(*temp!='/' || *temp!='\\') temp++;
+        //copy the string from the temp
+        while(*temp){
+            *dest = *temp;
+            temp++;
+            dest++;
+        }
+        //at the end set the dest end
+        *dest=0u;
+        return ret;
+    }
+    return ret;
+}
+bool edk::String::strFileName(const edk::char8* str,edk::char8* dest){
+    return edk::String::strFileName((edk::char8*) str,dest);
+}
+
 } /* End of namespace edk */

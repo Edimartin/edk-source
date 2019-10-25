@@ -54,6 +54,13 @@ public:
     static bool convertFileTo(edk::File* file, edk::char8 *dest);
     static bool convertFileTo(edk::char8 *fileName, edk::char8 *dest);
     static bool convertFileTo(const edk::char8 *fileName, edk::char8 *dest);
+    static bool convertTo(edk::char8 *pass, edk::uint32 size, edk::uint8 dest[16u]);
+    static bool convertTo(const edk::char8 *pass, edk::uint32 size, edk::uint8 dest[16u]);
+    static bool convertTo(edk::char8 *pass, edk::uint8 dest[16u]);
+    static bool convertTo(const edk::char8 *pass, edk::uint8 dest[16u]);
+    static bool convertFileTo(edk::File* file, edk::uint8 dest[16u]);
+    static bool convertFileTo(edk::char8 *fileName, edk::uint8 dest[16u]);
+    static bool convertFileTo(const edk::char8 *fileName, edk::uint8 dest[16u]);
     static edk::char8* convert(edk::char8 *pass, edk::uint32 size);
     static edk::char8* convert(const edk::char8 *pass, edk::uint32 size);
     static edk::char8* convert(edk::char8 *pass);

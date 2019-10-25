@@ -182,6 +182,10 @@ class File {
 
     bool writeBin(edk::float32 *f);
 
+    bool writeBin(edk::uint64 n);
+
+    bool writeBin(edk::uint64 *n);
+
     bool writeBin(int64 n);
 
     bool writeBin(int64 *n);

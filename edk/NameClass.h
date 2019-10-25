@@ -113,11 +113,21 @@ public:
     bool nameEqual(const char* _name){
         return this->nameEqual((edk::char8*) _name);
     }
+    bool nameEqual(edk::Name* _name){
+        if(_name)
+            return edk::Name::stringEqual(this->_name,_name->_name);
+        return false;
+    }
     bool nameBiggerThan(edk::char8* _name){
         return edk::Name::firstNameBiggerSecond(this->_name,_name);
     }
     bool nameBiggerThan(const char* _name){
         return nameBiggerThan((edk::char8*) _name);
+    }
+    bool nameBiggerThan(edk::Name* _name){
+        if(_name)
+            return edk::Name::firstNameBiggerSecond(this->_name,_name->_name);
+        return false;
     }
 
     //compare the names

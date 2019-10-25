@@ -1396,6 +1396,30 @@ bool File::writeBin(edk::float32* f){
     return false;
 }
 
+bool File::writeBin(edk::uint64 n){
+    //test if the file is opened
+    if(this->isOpened()){
+        //
+        fwrite(&n,sizeof(edk::uint64),1u,this->arq);
+        //return true
+        return true;
+    }
+    //else return false
+    return false;
+}
+
+bool File::writeBin(edk::uint64 *n){
+    //test if the file is opened and if the n is true and the size is >1u
+    if(this->isOpened() && n){
+        //
+        fwrite(n,sizeof(edk::uint64),sizeof(n),this->arq);
+        //return true
+        return true;
+    }
+    //else return false
+    return false;
+}
+
 bool File::writeBin(int64 n){
     //test if the file is opened
     if(this->isOpened()){

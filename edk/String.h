@@ -310,6 +310,12 @@ public:
     //copy with filter
     static edk::char8* strCopyFilterAccent(const char* str);
     static edk::char8* strCopyFilterAccent(edk::char8* str);
+
+    //return the file name from a string
+    static edk::char8* strFileName(edk::char8* str);
+    static edk::char8* strFileName(const edk::char8* str);
+    static bool strFileName(edk::char8* str,edk::char8* dest);
+    static bool strFileName(const edk::char8* str,edk::char8* dest);
 private:
     static char8* int32ToMinusStr(int32 value);
 
