@@ -79,7 +79,7 @@ bool edk::gui2d::TextField2d::TextVec::write(edk::char8* str){
         edk::uint8 increment=0u;
         if(lenght){
             //populate the vector
-            for(edk::uint32 i=0u;i<lenght;i++){
+            for(edk::uint32 i=0u;i<lenght;){
                 if(str[i]==13
                         ||
                         str[i]==10
@@ -90,31 +90,34 @@ bool edk::gui2d::TextField2d::TextVec::write(edk::char8* str){
                 }
                 c = edk::String::utf8ToUint32(&str[i]);
                 increment=edk::String::utf8Bytes(&str[i]);
-                i+=increment;
+                if(increment){
+                    i+=increment;
 
-                //test if the lenght exceede the limit
-                if(this->vec.size()>=this->limit){
-                    return true;
-                }
-
-                //test the case
-                switch(this->caseInput){
-                case edk::gui2d::upperAndLowerCase:
-                    break;
-                case edk::gui2d::upperCase:
-                    if(c>='a' && c<='z'){
-                        c+='A'-'a';
+                    //test if the lenght exceede the limit
+                    if(this->vec.size()>=this->limit && this->limit){
+                        return true;
                     }
-                    break;
-                case edk::gui2d::lowerCase:
-                    if(c>='A' && c<='Z'){
-                        c-='A'-'a';
-                    }
-                    break;
-                }
 
-                if(this->canGetIt(c))
-                    this->vec.pushBack(c);
+                    //test the case
+                    switch(this->caseInput){
+                    case edk::gui2d::upperAndLowerCase:
+                        break;
+                    case edk::gui2d::upperCase:
+                        if(c>='a' && c<='z'){
+                            c+='A'-'a';
+                        }
+                        break;
+                    case edk::gui2d::lowerCase:
+                        if(c>='A' && c<='Z'){
+                            c-='A'-'a';
+                        }
+                        break;
+                    }
+
+                    if(this->canGetIt(c))
+                        this->vec.pushBack(c);
+                }
+                else return false;
             }
             if(this->vec.size()){
                 return true;
@@ -133,7 +136,7 @@ edk::uint32 edk::gui2d::TextField2d::TextVec::add(edk::char8* str,edk::uint32 po
         edk::uint8 increment=0u;
         if(lenght){
             //populate the vector
-            for(edk::uint32 i=0u;i<lenght;i++){
+            for(edk::uint32 i=0u;i<lenght;){
                 if(str[i]==13
                         ||
                         str[i]==10
@@ -144,29 +147,32 @@ edk::uint32 edk::gui2d::TextField2d::TextVec::add(edk::char8* str,edk::uint32 po
                 }
                 c = edk::String::utf8ToUint32(&str[i]);
                 increment=edk::String::utf8Bytes(&str[i]);
-                i+=increment;
+                if(increment){
+                    i+=increment;
 
-                //test the case
-                switch(this->caseInput){
-                case edk::gui2d::upperAndLowerCase:
-                    break;
-                case edk::gui2d::upperCase:
-                    if(c>='a' && c<='z'){
-                        c+='A'-'a';
+                    //test the case
+                    switch(this->caseInput){
+                    case edk::gui2d::upperAndLowerCase:
+                        break;
+                    case edk::gui2d::upperCase:
+                        if(c>='a' && c<='z'){
+                            c+='A'-'a';
+                        }
+                        break;
+                    case edk::gui2d::lowerCase:
+                        if(c>='A' && c<='Z'){
+                            c-='A'-'a';
+                        }
+                        break;
                     }
-                    break;
-                case edk::gui2d::lowerCase:
-                    if(c>='A' && c<='Z'){
-                        c-='A'-'a';
-                    }
-                    break;
-                }
 
-                if(!this->add(c,position)){
-                    return 0u;
+                    if(!this->add(c,position)){
+                        return 0u;
+                    }
+                    position++;
+                    ret++;
                 }
-                position++;
-                ret++;
+                else return false;
             }
             return ret;
         }
@@ -182,7 +188,7 @@ edk::uint32 edk::gui2d::TextField2d::TextVec::add(edk::char16 c,edk::uint32 posi
 edk::uint32 edk::gui2d::TextField2d::TextVec::add(edk::char32 c,edk::uint32 position){
     edk::uint32 size = this->vec.size();
     //test if the lenght exceede the limit
-    if(size>=this->limit){
+    if(size>=this->limit && this->limit){
         return 0u;
     }
     //test if have the position
@@ -342,7 +348,7 @@ bool edk::gui2d::TextField2d::TextVec::addFilterIn(edk::char8* str){
         bool ret = false;
         if(lenght){
             //populate the vector
-            for(edk::uint32 i=0u;i<lenght;i++){
+            for(edk::uint32 i=0u;i<lenght;){
                 if(str[i]==13
                         ||
                         str[i]==10
@@ -354,27 +360,29 @@ bool edk::gui2d::TextField2d::TextVec::addFilterIn(edk::char8* str){
                 c = edk::String::utf8ToUint32(&str[i]);
                 increment=edk::String::utf8Bytes(&str[i]);
                 i+=increment;
-
-                //test the case
-                switch(this->caseInput){
-                case edk::gui2d::upperAndLowerCase:
-                    break;
-                case edk::gui2d::upperCase:
-                    if(c>='a' && c<='z'){
-                        c+='A'-'a';
+                if(increment){
+                    //test the case
+                    switch(this->caseInput){
+                    case edk::gui2d::upperAndLowerCase:
+                        break;
+                    case edk::gui2d::upperCase:
+                        if(c>='a' && c<='z'){
+                            c+='A'-'a';
+                        }
+                        break;
+                    case edk::gui2d::lowerCase:
+                        if(c>='A' && c<='Z'){
+                            c-='A'-'a';
+                        }
+                        break;
                     }
-                    break;
-                case edk::gui2d::lowerCase:
-                    if(c>='A' && c<='Z'){
-                        c-='A'-'a';
-                    }
-                    break;
-                }
 
-                if(!this->addFilterIn(c)){
-                    return false;
+                    if(!this->addFilterIn(c)){
+                        return false;
+                    }
+                    ret = true;
                 }
-                ret = true;
+                else return false;
             }
             return ret;
         }
@@ -403,7 +411,7 @@ bool edk::gui2d::TextField2d::TextVec::addFilterOut(edk::char8* str){
         bool ret = false;
         if(lenght){
             //populate the vector
-            for(edk::uint32 i=0u;i<lenght;i++){
+            for(edk::uint32 i=0u;i<lenght;){
                 if(str[i]==13
                         ||
                         str[i]==10
@@ -416,27 +424,29 @@ bool edk::gui2d::TextField2d::TextVec::addFilterOut(edk::char8* str){
                 c = edk::String::utf8ToUint32(&str[i]);
                 increment=edk::String::utf8Bytes(&str[i]);
                 i+=increment;
-
-                //test the case
-                switch(this->caseInput){
-                case edk::gui2d::upperAndLowerCase:
-                    break;
-                case edk::gui2d::upperCase:
-                    if(c>='a' && c<='z'){
-                        c+='A'-'a';
+                if(increment){
+                    //test the case
+                    switch(this->caseInput){
+                    case edk::gui2d::upperAndLowerCase:
+                        break;
+                    case edk::gui2d::upperCase:
+                        if(c>='a' && c<='z'){
+                            c+='A'-'a';
+                        }
+                        break;
+                    case edk::gui2d::lowerCase:
+                        if(c>='A' && c<='Z'){
+                            c-='A'-'a';
+                        }
+                        break;
                     }
-                    break;
-                case edk::gui2d::lowerCase:
-                    if(c>='A' && c<='Z'){
-                        c-='A'-'a';
-                    }
-                    break;
-                }
 
-                if(!this->addFilterOut(c)){
-                    return false;
+                    if(!this->addFilterOut(c)){
+                        return false;
+                    }
+                    ret = true;
                 }
-                ret = true;
+                else return false;
             }
             return ret;
         }
