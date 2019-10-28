@@ -75,6 +75,9 @@ public:
     bool selectObject(edk::gui2d::ObjectGui2d* obj);
     void deselectObject();
 
+    //get the volume rect inside the menu
+    edk::rectf32 getVolume();
+
     virtual void update(edk::WindowEvents* events);
 
     //draw the GU scene
@@ -105,6 +108,9 @@ private:
     //press quote
     bool pressQuote;
     bool pressTilde;
+
+    //volume object
+    edk::Object2D volume;
 
     //save if the mouse is enabled or disabled
     bool mouseOn;
@@ -189,7 +195,7 @@ private:
     //tree with objects
     class ObjGui2dIDTree : public edk::vector::BinaryTree<edk::gui2d::ViewGui2d::ObjGui2dID*>{
     public:
-        ObjGui2dIDTree(){this->cleanPressed=false;}
+        ObjGui2dIDTree(){this->cleanPressed=false;this->startUpdateVolume=false;}
         ~ObjGui2dIDTree(){this->removeAll();}
         //compare if the value is bigger
         virtual bool firstBiggerSecond(edk::gui2d::ViewGui2d::ObjGui2dID* first,edk::gui2d::ViewGui2d::ObjGui2dID* second){
@@ -228,6 +234,38 @@ private:
             value->pointer->update();
             if(this->cleanPressed){
                 value->pointer->pressed = false;
+            }
+
+            //test if are updating the volume for the first time
+            if(this->startUpdateVolume){
+                //
+                edk::rectf32 temp = edk::rectf32(value->pointer->position.x - (value->pointer->size.width * 0.5f),
+                                                 value->pointer->position.y - (value->pointer->size.height * 0.5f),
+                                                 value->pointer->position.x + (value->pointer->size.width * 0.5f),
+                                                 value->pointer->position.y + (value->pointer->size.height * 0.5f)
+                                                 );
+                if(temp.origin.x<this->volume.origin.x){
+                    this->volume.origin.x = temp.origin.x;
+                }
+                if(temp.origin.y<this->volume.origin.y){
+                    this->volume.origin.y = temp.origin.y;
+                }
+                temp.size.width = temp.size.width-this->volume.origin.x;
+                if(temp.size.width>this->volume.size.width){
+                    this->volume.size.width = temp.size.width;
+                }
+                temp.size.height = temp.size.height-this->volume.origin.y;
+                if(temp.size.height>this->volume.size.height){
+                    this->volume.size.height = temp.size.height;
+                }
+            }
+            else{
+                this->startUpdateVolume = true;
+                this->volume = edk::rectf32(value->pointer->position.x - (value->pointer->size.width * 0.5f),
+                                            value->pointer->position.y - (value->pointer->size.height * 0.5f),
+                                            value->pointer->size.width,
+                                            value->pointer->size.height
+                                            );
             }
         }
         //add a new ObjectGui2d to the tree
@@ -313,6 +351,9 @@ private:
             this->tree.clean();
         }
         bool cleanPressed;
+        //volume rectangle to fill al the objects inside
+        bool startUpdateVolume;
+        edk::rectf32 volume;
     private:
         //clean the objects pressed
         edk::gui2d::ViewGui2d::ObjGui2dPointerTree tree;

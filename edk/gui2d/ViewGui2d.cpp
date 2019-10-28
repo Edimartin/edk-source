@@ -45,6 +45,7 @@ edk::gui2d::ViewGui2d::~ViewGui2d(){
     //
     this->tree1.clean();
     this->tree2.clean();
+    this->volume.cleanMeshes();
 }
 //return true if have the element on the callback list
 bool edk::gui2d::ViewGui2d::haveCallback(edk::gui2d::ObjectGui2dCallback* callback){
@@ -159,6 +160,16 @@ bool edk::gui2d::ViewGui2d::addObjectGui2d(edk::gui2d::ObjectGui2d* obj){
         }
         this->idCounter+=1u;
         obj->load();
+
+        //load the volume object
+        if(!this->volume.getMeshSize()){
+            edk::shape::Mesh2D* mesh = this->volume.newMesh();
+            if(mesh){
+                edk::shape::Rectangle2D rect;
+                rect.setPolygonColor(1.f,1.f,1.f,0.5f);
+                mesh->addPolygon(rect);
+            }
+        }
         return true;
     }
     return false;
@@ -222,6 +233,11 @@ void edk::gui2d::ViewGui2d::deselectObject(){
         this->objSelected = NULL;
         this->idSelected = 0u;
     }
+}
+
+//get the volume rect inside the menu
+edk::rectf32 edk::gui2d::ViewGui2d::getVolume(){
+    return this->list.volume;
 }
 
 void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
@@ -481,6 +497,14 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
 
 
     this->list.cleanPressed=false;
+
+
+    //update the volume inside the view
+    this->list.startUpdateVolume = true;
+    this->list.update();
+    //set the volume object
+    this->volume.position = this->list.volume.origin;
+    this->volume.size = this->list.volume.size;
 }
 
 //draw the GU scene
