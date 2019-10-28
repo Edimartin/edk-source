@@ -2,7 +2,7 @@
 #define TEXT_H
 
 /*
-Text - Simple Text for the GUI 2D library
+Text2D - Simple Text for the GUI 2D library
 Copyright (C) 2013 Eduardo Moura Sales Martins
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -22,7 +22,7 @@ Gravatai RS Brazil 94065100
 */
 
 #ifdef printMessages
-#warning "Inside gui2d::Text"
+#warning "Inside gui2d::Text2D"
 #endif
 
 #pragma once
@@ -37,15 +37,15 @@ Gravatai RS Brazil 94065100
 #include "ObjectGui2d.h"
 
 #ifdef printMessages
-#warning "    Compiling gui2d::Text"
+#warning "    Compiling gui2d::Text2D"
 #endif
 
 namespace edk{
 namespace gui2d{
-class Text: public edk::gui2d::ObjectGui2d{
+class Text2D: public edk::gui2d::ObjectGui2d{
 public:
-    Text();
-    ~Text();
+    Text2D();
+    ~Text2D();
 
     //get the type
     virtual edk::gui2d::gui2dTypes getType();
