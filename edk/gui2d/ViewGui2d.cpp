@@ -368,7 +368,7 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
     }
 
     //test if the mouse was moved or pressed
-    if((events->mouseMoved || runSelection) && this->mouseOn){
+    if((events->mouseMoved || runSelection) && this->mouseInside && this->mouseOn){
         this->selectionExec = true;
 
         //change the tree's
@@ -505,6 +505,19 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
     //set the volume object
     this->volume.position = this->list.volume.origin;
     this->volume.size = this->list.volume.size;
+
+    if(!this->mouseInside){
+        edk::gui2d::ObjectGui2d* obj=NULL;
+        edk::uint32 size = this->list.size();
+        for(edk::uint32 i=0u;i<size;i++){
+            obj = this->list.getPointerInPosition(i);
+            if(obj){
+                if(obj->getStatus() == edk::gui2d::gui2dTextureUp){
+                    obj->setStatus(edk::gui2d::gui2dTextureNormal);
+                }
+            }
+        }
+    }
 }
 
 //draw the GU scene

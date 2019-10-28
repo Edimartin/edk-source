@@ -321,6 +321,14 @@ private:
             }
             return NULL;
         }
+        //get pointer and id
+        edk::gui2d::ObjectGui2d* getPointerInPosition(edk::uint32 position){
+            edk::gui2d::ViewGui2d::ObjGui2dID* ret = this->getElementInPosition(position);
+            if(ret){
+                return ret->pointer;
+            }
+            return NULL;
+        }
         edk::uint64 getIdByPointer(edk::gui2d::ObjectGui2d* obj){
             edk::gui2d::ViewGui2d::ObjGui2dID search(obj,0u);
             edk::gui2d::ViewGui2d::ObjGui2dID* ret = this->tree.getElement(&search);
