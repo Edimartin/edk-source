@@ -46,6 +46,7 @@ enum gui2dTypes{
     gui2dTypeButton,
     gui2dTypeScrollBar,
     gui2dTypeMenu,
+    gui2dTypeText,
     gui2dTypeTextField,
     //
     gui2dTypeSize,
