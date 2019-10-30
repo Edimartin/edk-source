@@ -1526,6 +1526,9 @@ void edk::Object2D::cantDeleteObject2D(){
 
 bool edk::Object2D::cloneFrom(edk::Object2D* obj){
     if(obj){
+        this->cleanSelected();
+        this->cleanMeshes();
+
         //copy the meshs
         edk::uint32 size = obj->meshes.size();
         edk::shape::Mesh2D* temp = NULL;

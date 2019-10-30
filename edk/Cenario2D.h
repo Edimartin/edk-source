@@ -540,8 +540,10 @@ private:
         //Print
         virtual void printElement(ObjClass* value){
             if(value->getObject()){
-                edk::GU::guPushName(edk::BinaryConverter::joinBits(this->selectionID,this->names++,24));
+                edk::GU::guPushName(this->selectionID);
+                edk::GU::guPushName(this->names++);
                 value->getObject()->drawWithoutMaterial();
+                edk::GU::guPopName();
                 edk::GU::guPopName();
             }
         }

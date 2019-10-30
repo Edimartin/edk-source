@@ -219,10 +219,12 @@ private:
         }
         //Print
         virtual void printElement(edk::gui2d::ViewGui2d::ObjGui2dID* value){
-            //draw the element for selection
-            edk::GU::guPushName(value->id);
-            value->pointer->drawSelection();
-            edk::GU::guPopName();
+            if(value->pointer->getType() != edk::gui2d::gui2dTypeText){
+                //draw the element for selection
+                edk::GU::guPushName(value->id);
+                value->pointer->drawSelection();
+                edk::GU::guPopName();
+            }
         }
         virtual void renderElement(edk::gui2d::ViewGui2d::ObjGui2dID* value){
             //
