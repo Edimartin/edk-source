@@ -249,8 +249,8 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
     this->mouseStatus = edk::gui2d::gui2dMouseNothing;
 
     //calculate the mouse position in the world view
-    edk::vec2f32 mousePercent = edk::vec2f32((edk::float32)events->mousePos.x / (edk::float32)events->windowSize.width
-                                             ,(edk::float32)events->mousePos.y / (edk::float32)events->windowSize.height
+    edk::vec2f32 mousePercent = edk::vec2f32((edk::float32)events->mousePos.x / this->frame.size.width
+                                             ,(edk::float32)events->mousePos.y / this->frame.size.height
                                              );
     edk::vec2f32 mousePosition = edk::vec2f32((this->camera.getSize().width * mousePercent.x)
                                               - (this->camera.getSize().width*0.5f)
@@ -259,8 +259,6 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
                                               - (this->camera.getSize().height*0.5f)
                                               + this->camera.position.y
                                               );
-
-
     size = events->mousePressed.size();
     for(edk::uint32 i = 0u;i<size;i++){
         if(events->mousePressed[i] == edk::mouse::left){

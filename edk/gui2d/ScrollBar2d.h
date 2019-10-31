@@ -90,7 +90,7 @@ private:
     //function to calculate the percent values for X and Y
     void calculatePercents();
     //calculate the position from the percents
-    void calculatePositon();
+    void calculatePosition();
     edk::gui2d::ObjectGui2dBorder objInside;
     edk::vec2f32 objPosition;
     edk::size2f32 saveSize;
