@@ -274,40 +274,31 @@ void edk::gui2d::ObjectGui2dBorder::setColor(edk::color3f32 color){
 
 //load the polygons
 bool edk::gui2d::ObjectGui2dBorder::updatePolygons(edk::size2f32 size){
+    //test if the size is smaller then the border
+    if(this->border>size.width*0.5f){
+        this->border = size.width*0.5f;
+    }
+    if(this->border>size.height*0.5f){
+        this->border = size.height*0.5f;
+    }
     //load the mesh
     edk::shape::Polygon2D poly;
     this->mesh.cleanPolygons();
     if(poly.createPolygon(4u)){
         //
         /*
-        | | | |
-        | | | |
-        | | | |
-*/
-        /*
-        poly.setVertexUV(0u,0.f,0.f);
-        poly.setVertexPosition(0u,-0.5f*size.width,-0.5f*size.height);
-        poly.setVertexUV(1u,0.f,1.f);
-        poly.setVertexPosition(1u,-0.5f*size.width,+0.5f*size.height);
-        poly.setVertexUV(2u,1.f,1.f);
-        poly.setVertexPosition(2u,+0.5f*size.width,+0.5f*size.height);
-        poly.setVertexUV(3u,1.f,0.f);
-        poly.setVertexPosition(3u,+0.5f*size.width,-0.5f*size.height);
-        this->mesh.addPolygon(poly);
-        */
-        /*
         |x| | |
         | | | |
         | | | |
 */
         poly.setVertexUV(0u,0.f,0.495f);
-        poly.setVertexPosition(0u,-0.5f*size.width,(+0.5f*size.height) - (this->border*size.height*0.5f));
+        poly.setVertexPosition(0u,-0.5f*size.width,(+0.5f*size.height) - (this->border));
         poly.setVertexUV(1u,0.f,0.f);
         poly.setVertexPosition(1u,-0.5f*size.width,+0.5f*size.height);
         poly.setVertexUV(2u,0.495f,0.f);
-        poly.setVertexPosition(2u,(-0.5f*size.width)+(this->border*size.width*0.5f),+0.5f*size.height);
+        poly.setVertexPosition(2u,(-0.5f*size.width)+(this->border),+0.5f*size.height);
         poly.setVertexUV(3u,0.495f,0.495f);
-        poly.setVertexPosition(3u,(-0.5f*size.width)+(this->border*size.width*0.5f),(+0.5f*size.height) - (this->border*size.height*0.5f));
+        poly.setVertexPosition(3u,(-0.5f*size.width)+(this->border),(+0.5f*size.height) - (this->border));
         poly.setPolygonColor(1.f,1.f,1.f,1.0f);
         this->mesh.addPolygon(poly);
         /*
@@ -316,13 +307,13 @@ bool edk::gui2d::ObjectGui2dBorder::updatePolygons(edk::size2f32 size){
         | | | |
 */
         poly.setVertexUV(0u,0.505f,0.495f);
-        poly.setVertexPosition(0u,(+0.5f*size.width)-(this->border*size.width*0.5f),(+0.5f*size.height)-(this->border*size.height*0.5f));
+        poly.setVertexPosition(0u,(+0.5f*size.width)-(this->border),(+0.5f*size.height)-(this->border));
         poly.setVertexUV(1u,0.505f,0.f);
-        poly.setVertexPosition(1u,(+0.5f*size.width)-(this->border*size.width*0.5f),+0.5f*size.height);
+        poly.setVertexPosition(1u,(+0.5f*size.width)-(this->border),+0.5f*size.height);
         poly.setVertexUV(2u,1.f,0.f);
         poly.setVertexPosition(2u,+0.5f*size.width,+0.5f*size.height);
         poly.setVertexUV(3u,1.f,0.495f);
-        poly.setVertexPosition(3u,+0.5f*size.width,(+0.5f*size.height)-(this->border*size.height*0.5f));
+        poly.setVertexPosition(3u,+0.5f*size.width,(+0.5f*size.height)-(this->border));
         poly.setPolygonColor(1.f,1.f,1.f,1.0f);
         this->mesh.addPolygon(poly);
         /*
@@ -331,11 +322,11 @@ bool edk::gui2d::ObjectGui2dBorder::updatePolygons(edk::size2f32 size){
         | | |x|
 */
         poly.setVertexUV(0u,0.505f,1.f);
-        poly.setVertexPosition(0u,(+0.5f*size.width)-(this->border*size.width*0.5f),-0.5f*size.height);
+        poly.setVertexPosition(0u,(+0.5f*size.width)-(this->border),-0.5f*size.height);
         poly.setVertexUV(1u,0.505f,0.505f);
-        poly.setVertexPosition(1u,(+0.5f*size.width)-(this->border*size.width*0.5f),(-0.5f*size.height)+(this->border*size.height*0.5f));
+        poly.setVertexPosition(1u,(+0.5f*size.width)-(this->border),(-0.5f*size.height)+(this->border));
         poly.setVertexUV(2u,1.f,0.505f);
-        poly.setVertexPosition(2u,+0.5f*size.width,(-0.5f*size.height)+(this->border*size.height*0.5f));
+        poly.setVertexPosition(2u,+0.5f*size.width,(-0.5f*size.height)+(this->border));
         poly.setVertexUV(3u,1.f,1.f);
         poly.setVertexPosition(3u,+0.5f*size.width,-0.5f*size.height);
         poly.setPolygonColor(1.f,1.f,1.f,1.0f);
@@ -348,11 +339,11 @@ bool edk::gui2d::ObjectGui2dBorder::updatePolygons(edk::size2f32 size){
         poly.setVertexUV(0u,0.f,1.f);
         poly.setVertexPosition(0u,-0.5f*size.width,-0.5f*size.height);
         poly.setVertexUV(1u,0.f,0.505f);
-        poly.setVertexPosition(1u,-0.5f*size.width,(-0.5f*size.height)+(this->border*size.height*0.5f));
+        poly.setVertexPosition(1u,-0.5f*size.width,(-0.5f*size.height)+(this->border));
         poly.setVertexUV(2u,0.495f,0.505f);
-        poly.setVertexPosition(2u,(-0.5f*size.width)+(this->border*size.width*0.5f),(-0.5f*size.height)+(this->border*size.height*0.5f));
+        poly.setVertexPosition(2u,(-0.5f*size.width)+(this->border),(-0.5f*size.height)+(this->border));
         poly.setVertexUV(3u,0.495f,1.f);
-        poly.setVertexPosition(3u,(-0.5f*size.width)+(this->border*size.width*0.5f),-0.5f*size.height);
+        poly.setVertexPosition(3u,(-0.5f*size.width)+(this->border),-0.5f*size.height);
         poly.setPolygonColor(1.f,1.f,1.f,1.0f);
         this->mesh.addPolygon(poly);
         /*
@@ -361,13 +352,13 @@ bool edk::gui2d::ObjectGui2dBorder::updatePolygons(edk::size2f32 size){
         | | | |
 */
         poly.setVertexUV(0u,0.f,0.495f);
-        poly.setVertexPosition(0u,-0.5f*size.width,(-0.5f*size.height)+(this->border*size.height*0.5f));
+        poly.setVertexPosition(0u,-0.5f*size.width,(-0.5f*size.height)+(this->border));
         poly.setVertexUV(1u,0.f,0.505f);
-        poly.setVertexPosition(1u,-0.5f*size.width,(+0.5f*size.height)-(this->border*size.height*0.5f));
+        poly.setVertexPosition(1u,-0.5f*size.width,(+0.5f*size.height)-(this->border));
         poly.setVertexUV(2u,0.495f,0.505f);
-        poly.setVertexPosition(2u,(-0.5f*size.width)+(this->border*size.width*0.5f),(+0.5f*size.height)-(this->border*size.height*0.5f));
+        poly.setVertexPosition(2u,(-0.5f*size.width)+(this->border),(+0.5f*size.height)-(this->border));
         poly.setVertexUV(3u,0.495f,0.495f);
-        poly.setVertexPosition(3u,(-0.5f*size.width)+(this->border*size.width*0.5f),(-0.5f*size.height)+(this->border*size.height*0.5f));
+        poly.setVertexPosition(3u,(-0.5f*size.width)+(this->border),(-0.5f*size.height)+(this->border));
         poly.setPolygonColor(1.f,1.f,1.f,1.0f);
         this->mesh.addPolygon(poly);
         /*
@@ -376,13 +367,13 @@ bool edk::gui2d::ObjectGui2dBorder::updatePolygons(edk::size2f32 size){
         | | | |
 */
         poly.setVertexUV(0u,0.505f,0.495f);
-        poly.setVertexPosition(0u,(+0.5f*size.width)-(this->border*size.width*0.5f),(-0.5f*size.height)+(this->border*size.height*0.5f));
+        poly.setVertexPosition(0u,(+0.5f*size.width)-(this->border),(-0.5f*size.height)+(this->border));
         poly.setVertexUV(1u,0.505f,0.505f);
-        poly.setVertexPosition(1u,(+0.5f*size.width)-(this->border*size.width*0.5f),(+0.5f*size.height)-(this->border*size.height*0.5f));
+        poly.setVertexPosition(1u,(+0.5f*size.width)-(this->border),(+0.5f*size.height)-(this->border));
         poly.setVertexUV(2u,1.f,0.505f);
-        poly.setVertexPosition(2u,+0.5f*size.width,(+0.5f*size.height)-(this->border*size.height*0.5f));
+        poly.setVertexPosition(2u,+0.5f*size.width,(+0.5f*size.height)-(this->border));
         poly.setVertexUV(3u,1.f,0.495f);
-        poly.setVertexPosition(3u,+0.5f*size.width,(-0.5f*size.height)+(this->border*size.height*0.5f));
+        poly.setVertexPosition(3u,+0.5f*size.width,(-0.5f*size.height)+(this->border));
         poly.setPolygonColor(1.f,1.f,1.f,1.0f);
         this->mesh.addPolygon(poly);
         /*
@@ -391,13 +382,13 @@ bool edk::gui2d::ObjectGui2dBorder::updatePolygons(edk::size2f32 size){
         | | | |
 */
         poly.setVertexUV(0u,0.495f,0.f);
-        poly.setVertexPosition(0u,(-0.5f*size.width)+(this->border*size.width*0.5f),+0.5f*size.height);
+        poly.setVertexPosition(0u,(-0.5f*size.width)+(this->border),+0.5f*size.height);
         poly.setVertexUV(1u,0.495f,0.495f);
-        poly.setVertexPosition(1u,(-0.5f*size.width)+(this->border*size.width*0.5f),(+0.5f*size.height)-(this->border*size.height*0.5f));
+        poly.setVertexPosition(1u,(-0.5f*size.width)+(this->border),(+0.5f*size.height)-(this->border));
         poly.setVertexUV(2u,0.505f,0.495f);
-        poly.setVertexPosition(2u,(+0.5f*size.width)-(this->border*size.width*0.5f),(+0.5f*size.height)-(this->border*size.height*0.5f));
+        poly.setVertexPosition(2u,(+0.5f*size.width)-(this->border),(+0.5f*size.height)-(this->border));
         poly.setVertexUV(3u,0.505f,0.f);
-        poly.setVertexPosition(3u,(+0.5f*size.width)-(this->border*size.width*0.5f),+0.5f*size.height);
+        poly.setVertexPosition(3u,(+0.5f*size.width)-(this->border),+0.5f*size.height);
         poly.setPolygonColor(1.f,1.f,1.f,1.0f);
         this->mesh.addPolygon(poly);
         /*
@@ -406,13 +397,13 @@ bool edk::gui2d::ObjectGui2dBorder::updatePolygons(edk::size2f32 size){
         | |x| |
 */
         poly.setVertexUV(0u,0.495f,0.505f);
-        poly.setVertexPosition(0u,(-0.5f*size.width)+(this->border*size.width*0.5f),(-0.5f*size.height)+(this->border*size.height*0.5f));
+        poly.setVertexPosition(0u,(-0.5f*size.width)+(this->border),(-0.5f*size.height)+(this->border));
         poly.setVertexUV(1u,0.495f,1.f);
-        poly.setVertexPosition(1u,(-0.5f*size.width)+(this->border*size.width*0.5f),-0.5f*size.height);
+        poly.setVertexPosition(1u,(-0.5f*size.width)+(this->border),-0.5f*size.height);
         poly.setVertexUV(2u,0.505f,1.f);
-        poly.setVertexPosition(2u,(+0.5f*size.width)-(this->border*size.width*0.5f),-0.5f*size.height);
+        poly.setVertexPosition(2u,(+0.5f*size.width)-(this->border),-0.5f*size.height);
         poly.setVertexUV(3u,0.505f,0.505f);
-        poly.setVertexPosition(3u,(+0.5f*size.width)-(this->border*size.width*0.5f),(-0.5f*size.height)+(this->border*size.height*0.5f));
+        poly.setVertexPosition(3u,(+0.5f*size.width)-(this->border),(-0.5f*size.height)+(this->border));
         poly.setPolygonColor(1.f,1.f,1.f,1.0f);
         this->mesh.addPolygon(poly);
         /*
@@ -421,19 +412,19 @@ bool edk::gui2d::ObjectGui2dBorder::updatePolygons(edk::size2f32 size){
         | | | |
 */
         poly.setVertexUV(0u,0.495f,0.495f);
-        poly.setVertexPosition(0u,(-0.5f*size.width)+(this->border*size.width*0.5f),(+0.5f*size.height)-(this->border*size.height*0.5f));
+        poly.setVertexPosition(0u,(-0.5f*size.width)+(this->border),(+0.5f*size.height)-(this->border));
         poly.setVertexUV(1u,0.495f,0.505f);
-        poly.setVertexPosition(1u,(-0.5f*size.width)+(this->border*size.width*0.5f),(-0.5f*size.height)+(this->border*size.height*0.5f));
+        poly.setVertexPosition(1u,(-0.5f*size.width)+(this->border),(-0.5f*size.height)+(this->border));
         poly.setVertexUV(2u,0.505f,0.505f);
-        poly.setVertexPosition(2u,(+0.5f*size.width)-(this->border*size.width*0.5f),(-0.5f*size.height)+(this->border*size.height*0.5f));
+        poly.setVertexPosition(2u,(+0.5f*size.width)-(this->border),(-0.5f*size.height)+(this->border));
         poly.setVertexUV(3u,0.505f,0.495f);
-        poly.setVertexPosition(3u,(+0.5f*size.width)-(this->border*size.width*0.5f),(+0.5f*size.height)-(this->border*size.height*0.5f));
+        poly.setVertexPosition(3u,(+0.5f*size.width)-(this->border),(+0.5f*size.height)-(this->border));
         poly.setPolygonColor(1.f,1.f,1.f,1.0f);
         this->mesh.addPolygon(poly);
 
         //update the center
-        this->center.setVertexPosition(0u,(-0.5f*size.width)+(this->border*size.width*0.5f),(+0.5f*size.height)-(this->border*size.height*0.5f));
-        this->center.setVertexPosition(1u,(+0.5f*size.width)-(this->border*size.width*0.5f),(-0.5f*size.height)+(this->border*size.height*0.5f));
+        this->center.setVertexPosition(0u,(-0.5f*size.width)+(this->border),(+0.5f*size.height)-(this->border));
+        this->center.setVertexPosition(1u,(+0.5f*size.width)-(this->border),(-0.5f*size.height)+(this->border));
 
         //update the selection
         this->selection.setVertexPosition(0u,-0.5f*size.width,+0.5f*size.height);
