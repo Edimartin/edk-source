@@ -210,6 +210,7 @@ bool edk::gui2d::ScrollBar2d::load(){
         this->objInside.load(edk::size2f32(this->foregroundSize * this->size));
         //update the obj position
         this->calculatePosition();
+        this->updateObjPosition();
         this->calculatePercents();
 
         this->loadSpriteFromMemory(borderScrollUpName,borderScrollUp,borderScrollUpSize);
