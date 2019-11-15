@@ -1158,6 +1158,8 @@ bool edk::physics2D::World2D::removeObjectJoints(edk::physics2D::PhysicObject2D*
                                         boxJoint = this->treeJoint.getJoint(joint);
                                         if(boxJoint){
                                             this->treeJoint.removeJoint(boxJoint);
+                                            //destroy the joint
+                                            this->world.DestroyJoint(boxJoint);
                                             boxJoint=NULL;
                                         }
 
@@ -1191,6 +1193,8 @@ bool edk::physics2D::World2D::removeObjectJoints(edk::physics2D::PhysicObject2D*
                             boxJoint = this->treeJoint.getJoint(joint);
                             if(boxJoint){
                                 this->treeJoint.removeJoint(boxJoint);
+                                //destroy the joint
+                                this->world.DestroyJoint(boxJoint);
                                 boxJoint=NULL;
                             }
 

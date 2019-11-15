@@ -344,8 +344,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationIsPlaying(){
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        this->selectedAnimation->isPlaying();
-        return true;
+        return this->selectedAnimation->isPlaying();
     }
     //else return false
     return false;
