@@ -843,7 +843,6 @@ bool edk::Object2D::pauseMeshAnimations(edk::uchar32 position){
 }
 //update mesh animations
 void edk::Object2D::updateMeshAnimations(){
-    //
     //update mesh animations
     edk::uint32 size = this->meshes.size();
     edk::shape::Mesh2D *mesh;
@@ -854,13 +853,36 @@ void edk::Object2D::updateMeshAnimations(){
         }
     }
 }
-bool edk::Object2D::updateMeshAnimations(edk::uchar32 position){
+void edk::Object2D::updateMeshAnimations(edk::float32 seconds){
+    //update mesh animations
+    edk::uint32 size = this->meshes.size();
+    edk::shape::Mesh2D *mesh;
+    for(edk::uint32 i=0u;i<size;i++){
+        mesh = this->meshes.getMesh(i);
+        if(mesh){
+            mesh->updateFramesAnimations(seconds);
+        }
+    }
+}
+bool edk::Object2D::updateMeshAnimationsFromPosition(edk::uchar32 position){
     edk::shape::Mesh2D* mesh = this->meshes.getMesh(position);
     if(mesh){
         edk::uint32 polySize = mesh->getPolygonSize();
         for(edk::uint32 j=0u;j<polySize;j++){
             mesh->selectAnimationFramesFromPolygon(j);
             mesh->updateFramesAnimations();
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::Object2D::updateMeshAnimationsFromPosition(edk::uchar32 position,edk::float32 seconds){
+    edk::shape::Mesh2D* mesh = this->meshes.getMesh(position);
+    if(mesh){
+        edk::uint32 polySize = mesh->getPolygonSize();
+        for(edk::uint32 j=0u;j<polySize;j++){
+            mesh->selectAnimationFramesFromPolygon(j);
+            mesh->updateFramesAnimations(seconds);
         }
         return true;
     }
@@ -899,6 +921,51 @@ bool edk::Object2D::updateAnimations(){
     if(this->animationSize.isPlaying()){
         //
         this->animationSize.updateClockAnimation();
+        edk::size2f32 sizeTemp;
+        sizeTemp.width = this->animationSize.getClockX(&success);
+        if(success){
+            sizeTemp.height = this->animationSize.getClockY(&success);
+            if(success){
+                //set the value
+                this->size = sizeTemp;
+                ret=true;
+            }
+        }
+    }
+    this->updateMeshAnimations();
+    return ret;
+}
+bool edk::Object2D::updateAnimations(edk::float32 seconds){
+    bool ret=false;
+    bool success;
+    //test if are playing the animations
+    if(this->animationPosition.isPlaying()){
+        //
+        this->animationPosition.updateClockAnimation(seconds);
+        edk::vec2f32 posTemp;
+        posTemp.x = this->animationPosition.getClockX(&success);
+        if(success){
+            posTemp.y = this->animationPosition.getClockY(&success);
+            if(success){
+                //set the value
+                this->position = posTemp;
+                ret=true;
+            }
+        }
+    }
+    if(this->animationRotation.isPlaying()){
+        //
+        this->animationRotation.updateClockAnimation(seconds);
+        edk::float32 angleTemp = this->animationRotation.getClockX(&success);
+        if(success){
+            //set the value
+            this->angle = angleTemp;
+            ret=true;
+        }
+    }
+    if(this->animationSize.isPlaying()){
+        //
+        this->animationSize.updateClockAnimation(seconds);
         edk::size2f32 sizeTemp;
         sizeTemp.width = this->animationSize.getClockX(&success);
         if(success){

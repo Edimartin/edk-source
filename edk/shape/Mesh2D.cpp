@@ -229,7 +229,7 @@ bool lightIsOn[][EDK_LIGHT_LIMIT]){
         this->drawPolygonsWithLight(lightPositions,lightDirections,lightIsOn);
     }
 }
-bool edk::shape::Mesh2D::SelectedDrawOneTextureWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
+bool edk::shape::Mesh2D::selectedDrawOneTextureWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
 edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
 bool lightIsOn[][EDK_LIGHT_LIMIT]){
     if(this->selected){
@@ -250,7 +250,7 @@ bool lightIsOn[][EDK_LIGHT_LIMIT]){
     }
     return false;
 }
-bool edk::shape::Mesh2D::SelectedDrawOneTextureWithLight(edk::uint32 position,edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
+bool edk::shape::Mesh2D::selectedDrawOneTextureWithLight(edk::uint32 position,edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
 edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
 bool lightIsOn[][EDK_LIGHT_LIMIT]){
     if(this->selected){
@@ -288,7 +288,7 @@ void edk::shape::Mesh2D::drawMultiTexture(){
         this->drawPolygons();
     }
 }
-bool edk::shape::Mesh2D::SelectedDrawMultiTexture(){
+bool edk::shape::Mesh2D::selectedDrawMultiTexture(){
     if(this->selected){
         //set the texture if have one
         if(this->material.haveTexture()){
@@ -324,7 +324,7 @@ bool lightIsOn[][EDK_LIGHT_LIMIT]){
         this->drawPolygonsWithLight(lightPositions,lightDirections,lightIsOn);
     }
 }
-bool edk::shape::Mesh2D::SelectedDrawMultiTextureWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
+bool edk::shape::Mesh2D::selectedDrawMultiTextureWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
 edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
 bool lightIsOn[][EDK_LIGHT_LIMIT]){
     if(selected){

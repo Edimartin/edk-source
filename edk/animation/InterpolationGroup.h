@@ -245,6 +245,7 @@ public:
     bool isRewind();
     //update the clock animation
     virtual edk::float32 updateClockAnimation();
+    virtual edk::float32 updateClockAnimation(edk::float32 distance);
     //test if have the keyframe
     bool haveKeyframe(edk::float32 second);
 
@@ -337,6 +338,7 @@ protected:
     edk::uint32 interpolationStart,interpolationEnd;
     //second of the animation
     edk::float32 animationSecond;
+    edk::float32 saveAnimationSecond;
 private:
     //set if if playing
     bool playing;

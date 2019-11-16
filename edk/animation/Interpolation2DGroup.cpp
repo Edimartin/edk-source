@@ -399,8 +399,6 @@ edk::float32 edk::animation::Interpolation2DGroup::addShakingFramesXY(edk::vec2f
 edk::float32 edk::animation::Interpolation2DGroup::getClockY(bool* success){
     //test if is playing
     if(this->isPlaying()){
-        //get the second
-        //edk::float32 second = edk::animation::InterpolationGroup::updateClockAnimation();
         //load the interpolation
         edk::animation::InterpolationLine2D* temp = (edk::animation::InterpolationLine2D*)edk::animation::InterpolationGroup::getSelectedInterpolation();
         //set success

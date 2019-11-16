@@ -178,6 +178,7 @@ public:
     void forceSpeedInLast(edk::float32 speed);
     //update animations
     bool updateAnimations();
+    bool updateAnimations(edk::float32 seconds);
 
     //draw the text
     void draw(edk::color4f32 color);

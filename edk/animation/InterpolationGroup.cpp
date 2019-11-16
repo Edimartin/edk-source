@@ -425,7 +425,8 @@ void edk::animation::InterpolationGroup::cleanAnimations(){
     //clean
     this->animations.clean();
     //clean the second
-    this->animationSecond=0u;
+    this->animationSecond=0.f;
+    this->saveAnimationSecond = this->animationSecond;
     this->deleteTempFrame();
 }
 
@@ -1017,6 +1018,7 @@ void edk::animation::InterpolationGroup::playForwardIn(edk::float32 second){
         this->clock.start();
         //set true for playing
         this->playing=true;
+        this->saveAnimationSecond = this->animationSecond;
         return;
     }
     //else stop
@@ -1061,6 +1063,7 @@ void edk::animation::InterpolationGroup::stop(){
     else{
         this->animationSecond=this->animations[0u]->getStart().second;
     }
+    this->saveAnimationSecond = this->animationSecond;
 }
 //set loop
 void edk::animation::InterpolationGroup::setLoop(bool loop){
@@ -1133,14 +1136,20 @@ edk::float32 edk::animation::InterpolationGroup::getInterpolationEndSecond(edk::
 }
 //update the clock animation
 edk::float32 edk::animation::InterpolationGroup::updateClockAnimation(){
+    return this->updateClockAnimation(this->clock.getMicroseconds()*edk::watch::microsecond);
+}
+edk::float32 edk::animation::InterpolationGroup::updateClockAnimation(edk::float32 distance){
     //return
     edk::float32 ret=0.0;
     //test if have animations and playing
     if(this->isPlaying()){
+        if(distance>0.f){
+            this->clock.start();
+        }
         //test if is playin rewind
         if(this->rewind){
             //decrement the second
-            this->animationSecond-=(this->clock.getMicroseconds()*edk::watch::microsecond) * this->speed;
+            this->animationSecond-=distance * this->speed;
 
             //test if reach the start
             if(this->animationSecond<this->frameStart){
@@ -1192,8 +1201,7 @@ edk::float32 edk::animation::InterpolationGroup::updateClockAnimation(){
         }
         else{
             //increment the second
-            this->animationSecond+=(this->clock.getMicroseconds()*edk::watch::microsecond) * this->speed;
-
+            this->animationSecond+=distance * this->speed;
 
             //test if reach the end
             if(this->animationSecond>this->frameEnd){
@@ -1241,12 +1249,10 @@ edk::float32 edk::animation::InterpolationGroup::updateClockAnimation(){
             }
         }
 
-
+        this->saveAnimationSecond = this->animationSecond;
         //then return the second
         ret = this->animationSecond;
     }
-    //set the clock start
-    this->clock.start();
     //else return 0.0f
     return ret;
 }

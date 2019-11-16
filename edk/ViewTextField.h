@@ -85,6 +85,7 @@ private:
         void load(rectf32 outsideViewOrigin);
         void unload();
         void update(edk::WindowEvents* events);
+        void update(edk::WindowEvents* events,edk::float32 seconds);
         //draw the GU scene
         void drawScene(rectf32 outsideViewOrigin);
 

@@ -177,6 +177,8 @@ public:
 
     //update the animation
     void updateAnimation();
+    void updateAnimation(edk::float32 seconds);
+
 
     //XML
     bool writeToXML(edk::XML* xml,edk::uint32 id);

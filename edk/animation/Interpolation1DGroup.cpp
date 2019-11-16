@@ -580,8 +580,6 @@ bool edk::animation::Interpolation1DGroup::setSecondByX(edk::float32 oldSecond,e
 edk::float32 edk::animation::Interpolation1DGroup::getClockX(bool* success){
     //test if is playing
     if(this->isPlaying()){
-        //get the second
-        //edk::float32 second = edk::animation::InterpolationGroup::updateClockAnimation();
         //load the interpolation
         edk::animation::InterpolationLine1D* temp = (edk::animation::InterpolationLine1D*)edk::animation::InterpolationGroup::getSelectedInterpolation();
         //set success

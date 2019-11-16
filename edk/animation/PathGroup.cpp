@@ -520,12 +520,15 @@ edk::uint32 edk::animation::PathGroup::size(){
 }
 //update the clock animation
 edk::float32 edk::animation::PathGroup::updateClockAnimation(){
+    return this->updateClockAnimation(this->clock.getMicroseconds()*edk::watch::microsecond);
+}
+edk::float32 edk::animation::PathGroup::updateClockAnimation(edk::float32 distance){
     //test if is playing
     if(this->playing){
-
         //load the clock
-        edk::float32 distance = this->clock.getMicroseconds() / (edk::float32)edk::watch::second;
-        this->clock.start();
+        if(distance>0.f){
+            this->clock.start();
+        }
         edk::animation::Frame* temp = this->animations[this->animationPosition];
 
         //test if reach the frame
@@ -544,8 +547,6 @@ edk::float32 edk::animation::PathGroup::updateClockAnimation(){
                         //use the end position
                         this->changeFrame=true;
                         this->animationPosition=this->positionEnd;
-                        //this->clock.start();
-                        //distance = this->clock.getMicroseconds() / (edk::float32)edk::watch::second;
                         this->step = temp->second;
                         temp = this->animations[this->animationPosition];
                     }
@@ -563,8 +564,6 @@ edk::float32 edk::animation::PathGroup::updateClockAnimation(){
                             //use the end position
                             this->changeFrame=true;
                             this->animationPosition=this->positionEnd;
-                            //this->clock.start();
-                            //distance = this->clock.getMicroseconds() / (edk::float32)edk::watch::second;
                             this->step = temp->second;
                             temp = this->animations[this->animationPosition];
                         }
@@ -578,8 +577,6 @@ edk::float32 edk::animation::PathGroup::updateClockAnimation(){
                         //else just decrement the animationPosition
                         this->changeFrame=true;
                         this->animationPosition--;
-                        //this->clock.start();
-                        //distance = this->clock.getMicroseconds() / (edk::float32)edk::watch::second;
                         this->step = temp->second;
                         temp = this->animations[this->animationPosition];
                     }
@@ -595,8 +592,6 @@ edk::float32 edk::animation::PathGroup::updateClockAnimation(){
                         //use the start  position
                         this->changeFrame=true;
                         this->animationPosition=this->positionStart;
-                        //this->clock.start();
-                        //distance = this->clock.getMicroseconds() / (edk::float32)edk::watch::second;
                         this->step = temp->second;
                         temp = this->animations[this->animationPosition];
                     }
@@ -614,8 +609,6 @@ edk::float32 edk::animation::PathGroup::updateClockAnimation(){
                             //use the start position
                             this->changeFrame=true;
                             this->animationPosition=this->positionStart;
-                            //this->clock.start();
-                            //distance = this->clock.getMicroseconds() / (edk::float32)edk::watch::second;
                             this->step = temp->second;
                             temp = this->animations[this->animationPosition];
                         }
@@ -629,8 +622,6 @@ edk::float32 edk::animation::PathGroup::updateClockAnimation(){
                         //else just decrement the animationPosition
                         this->changeFrame=true;
                         this->animationPosition++;
-                        //this->clock.start();
-                        //distance = this->clock.getMicroseconds() / (edk::float32)edk::watch::second;
                         this->step = temp->second;
                         temp = this->animations[this->animationPosition];
                     }

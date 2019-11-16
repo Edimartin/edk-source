@@ -196,7 +196,6 @@ void edk::physics2D::PhysicObject2D::drawWirePhysics(){
 
 //update all animations
 bool edk::physics2D::PhysicObject2D::updateAnimations(){
-
     bool ret=false;
     //bool success;
     //test if are playing the animations
@@ -241,6 +240,53 @@ bool edk::physics2D::PhysicObject2D::updateAnimations(){
         this->wasAnimatingRotation=false;
     }
     this->updateMeshAnimations();
+    return ret;
+}
+bool edk::physics2D::PhysicObject2D::updateAnimations(edk::float32 seconds){
+    bool ret=false;
+    //bool success;
+    //test if are playing the animations
+    if(this->animationPosition.isPlaying()){
+        //set the X and Y
+        this->animationPosition.setX(this->position.x);
+        this->animationPosition.setY(this->position.y);
+        this->animationPosition.updateClockAnimation(seconds);
+        //get X and Y
+        edk::vec2f32 positionAnim = edk::vec2f32(this->animationPosition.getX(),
+                                      this->animationPosition.getY()
+                                      );
+        this->setLinearVelocity((positionAnim.x - this->position.x)*100.f,(positionAnim.y - this->position.y)*100.f);
+        //this->position = positionAnim;
+        ret=true;
+
+        this->wasAnimatingPosition=true;
+    }
+    else{
+        //remove the linearVelocity
+        if(this->wasAnimatingPosition){
+            this->setLinearVelocity(0.f,0.f);
+        }
+        this->wasAnimatingPosition=false;
+    }
+    if(this->animationRotation.isPlaying()){
+        //set the angle
+        this->animationRotation.setX(this->angle);
+        //update
+        this->animationRotation.updateClockAnimation(seconds);
+        //get the new X
+        edk::float32 angleAnim = this->animationRotation.getX();
+        this->setAngularVelocity((angleAnim - this->angle)*100.f);
+        ret=true;
+        this->wasAnimatingRotation=true;
+    }
+    else{
+        //
+        if(this->wasAnimatingRotation){
+            this->setAngularVelocity(0.f);
+        }
+        this->wasAnimatingRotation=false;
+    }
+    this->updateMeshAnimations(seconds);
     return ret;
 }
 

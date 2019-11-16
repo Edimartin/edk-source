@@ -89,7 +89,9 @@ public:
 
     //update all animations
     void updateAnimations();
+    void updateAnimations(edk::float32 seconds);
     void updateAnimationsThis();
+    void updateAnimationsThis(edk::float32 seconds);
     //scale animations
     void scaleAnimations(edk::float32 scale);
     void scaleAnimationsPosition(edk::float32 scale);

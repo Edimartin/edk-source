@@ -193,6 +193,7 @@ class View {
 
     virtual void update(edk::WindowEvents* events);
     void updateAnimations();
+    void updateAnimations(edk::float32 seconds);
 
     virtual bool contact(edk::vec2f32 point,edk::uint8 state,edk::vector::Stack<edk::uint32>* buttons);
     virtual void contactRelease(edk::vec2f32 point,edk::uint8 state,edk::vector::Stack<edk::uint32>* buttons);

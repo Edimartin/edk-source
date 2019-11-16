@@ -59,6 +59,7 @@ public:
     void freeSelectedAnimation();
     //Atualiza as animações da malha
     void updateFramesAnimations();
+    void updateFramesAnimations(edk::float32 seconds);
 
 
     //AnimationSelected

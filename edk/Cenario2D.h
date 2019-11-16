@@ -226,7 +226,9 @@ public:
     void updatePhysics(edk::int32 velocityIterations, edk::int32 positionIterations);
     //update animations
     bool updateAnimation(edk::uint32 position);
+    bool updateAnimation(edk::uint32 position,edk::float32 seconds);
     void updateAnimations();
+    void updateAnimations(edk::float32 seconds);
     //draw the cenario with all the objects
     void draw();
     void drawInsideRect(edk::rectf32 rect);

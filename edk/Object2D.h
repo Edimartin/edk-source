@@ -94,9 +94,12 @@ public:
     bool pauseMeshAnimations(edk::uchar32 position);
     //update mesh animations
     void updateMeshAnimations();
-    bool updateMeshAnimations(edk::uchar32 position);
+    void updateMeshAnimations(edk::float32 seconds);
+    bool updateMeshAnimationsFromPosition(edk::uchar32 position);
+    bool updateMeshAnimationsFromPosition(edk::uchar32 position,edk::float32 seconds);
     //update all animations
     virtual bool updateAnimations();
+    virtual bool updateAnimations(edk::float32 seconds);
 
     //ACTIONS
     //play actions

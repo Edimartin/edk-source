@@ -2740,27 +2740,39 @@ bool edk::Cenario2D::updateAnimation(edk::uint32 position){
     }
     return false;
 }
-void edk::Cenario2D::updateAnimations(){
-    /*
-    //update the levels
-    edk::uint32 size = this->levels.size();
-    edk::Cenario2D::LevelObj * level=NULL;
-    for(edk::uint32 i=0;i<size;i++){
-        level = this->levels[i];
-        if(level){
-            if(level->objs){
-                level->objs->update();
+bool edk::Cenario2D::updateAnimation(edk::uint32 position,edk::float32 seconds){
+    //test if have the level
+    if(position){
+        position--;
+        if(this->levels.havePos(position)){
+            //load the level
+            edk::Cenario2D::LevelObj* level = this->levels[position];
+            if(level){
+                if(level->objs){
+                    level->objs->update();
+                }
+                if(level->objsPhys){
+                    level->objsPhys->update();
+                }
             }
-            if(level->objsPhys){
-                level->objsPhys->update();
-            }
+            //update the tileSet
+            this->tileSet.updateAnimations(seconds);
+            return true;
         }
     }
-    */
+    return false;
+}
+void edk::Cenario2D::updateAnimations(){
     this->treeAnim.update();
     this->treeAnimPhys.update();
     //update the tileSet
     this->tileSet.updateAnimations();
+}
+void edk::Cenario2D::updateAnimations(edk::float32 seconds){
+    this->treeAnim.update();
+    this->treeAnimPhys.update();
+    //update the tileSet
+    this->tileSet.updateAnimations(seconds);
 }
 //draw the cenario with all the objects
 void edk::Cenario2D::draw(){

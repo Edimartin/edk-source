@@ -425,6 +425,316 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events){
         }
     }
 }
+void edk::ViewTextField::TextField::update(edk::WindowEvents* events,edk::float32 seconds){
+
+    //update animation
+    this->anim.updateClockAnimation(seconds);
+    this->obj.setPolygonsColor(0,0,0,this->anim.getClockX());
+
+    //test if is playing
+    if(!this->anim.isPlaying()){
+        //then play with loop
+        this->anim.setAnimationEndSecond(1);
+        this->anim.loopOn();
+        this->anim.playForward();
+    }
+
+    //test if mouse is pressed
+    edk::uint32 size = events->mousePressed.size();
+    if(size){
+        for(edk::uint32 i=0u;i<size;i++){
+            if(events->mousePressed[i] == edk::mouse::left){
+                if(!this->pressInside){
+                    //remove selection
+                    this->selectView = false;
+                }
+            }
+        }
+    }
+    this->pressInside=false;
+
+
+    //test if the view is selected
+    if(this->selectView){
+        size = events->keyHolded.size();
+        bool shift=false;
+        //test if is holding the shift
+        for(edk::uint32 i=0u;i<size;i++){
+            switch(events->keyHolded[i]){
+            case edk::key::lShift:
+            case edk::key::rShift:
+                shift=true;
+                break;
+            }
+        }
+        //test the keyboard
+        size = events->keyPressed.size();
+        edk::uint32 keyPressed;
+        for(edk::uint32 i=0u;i<size;i++){
+            //load the keyPressed
+            keyPressed = events->keyPressed[i];
+/*
+            printf("\nKey Pressed %u"
+                   ,keyPressed
+                   );fflush(stdout);
+*/
+            switch(keyPressed){
+            case edk::key::left:
+                //back the writer position
+                if(this->writePosition)
+                    this->setWritePosition(this->writePosition-1u);
+                break;
+            case edk::key::right:
+                //foward the writer position
+                this->setWritePosition(this->writePosition+1u);
+                break;
+            case edk::key::home:
+                //
+                this->setWritePosition(0u);
+                break;
+            case edk::key::end:
+                //
+                this->setWritePosition(this->sizeString);
+                break;
+            case edk::key::space:
+                //
+                //accent
+                if(this->pressTilde){
+                    this->addCharacter('~');
+                    this->pressTilde=false;
+                }
+                else if(this->pressQuote){
+                    this->addCharacter('´');
+                    this->pressQuote=false;
+                }
+                else{
+                    this->addCharacter(' ');
+                }
+                break;
+            case edk::key::comma:
+                //
+                this->addCharacter(',');
+                break;
+            case edk::key::semiColon:
+                //
+                this->addCharacter(';');
+                break;
+            case edk::key::period:
+                //
+                this->addCharacter('.');
+                break;
+            case edk::key::quote:
+                //accent
+                if(this->pressQuote){
+                    this->addCharacter('´');
+                    this->pressQuote=false;
+                }
+                else if(this->pressTilde){
+                    this->addCharacter('~');
+                    this->pressTilde=false;
+                }
+                else{
+                    this->pressQuote=true;
+                }
+                break;
+            case edk::key::tilde:
+                //accent
+                if(this->pressTilde){
+                    this->addCharacter('~');
+                    this->pressTilde=false;
+                }
+                else if(this->pressQuote){
+                    this->addCharacter('´');
+                    this->pressQuote=false;
+                }
+                else{
+                    this->pressTilde=true;
+                }
+                break;
+            case edk::key::slash:
+                //accent
+                this->addCharacter('/');
+                break;
+            case edk::key::backSlash:
+                //accent
+                this->addCharacter('\\');
+                break;
+            case edk::key::equal:
+                //accent
+                this->addCharacter('=');
+                break;
+            case edk::key::dash:
+                //accent
+                this->addCharacter('-');
+                break;
+            case edk::key::tab:
+                //accent
+                this->addCharacter(' ');
+                this->addCharacter(' ');
+                this->addCharacter(' ');
+                break;
+            case edk::key::add:
+                //accent
+                this->addCharacter('+');
+                break;
+            case edk::key::subtract:
+                //accent
+                this->addCharacter('-');
+                break;
+            case edk::key::multiply:
+                //accent
+                this->addCharacter('*');
+                break;
+            case edk::key::divide:
+                //accent
+                this->addCharacter(247);
+                break;
+            case edk::key::backSpace:
+                //remove the character
+                if(this->pressQuote){
+                    this->pressQuote=false;
+                }
+                else if(this->pressTilde){
+                    this->pressTilde=false;
+                }
+                else{
+                    this->removeCharacter();
+                }
+                break;
+            case edk::key::Delete:
+                //delete the character
+                this->deleteCharacter();
+                break;
+            case edk::key::Return:
+                //set press return
+                this->pressReturn = true;
+                break;
+            case edk::key::escape:
+                //
+                this->selectView=false;
+                break;
+            default:
+                //test if the key is a letter
+                if(keyPressed>=edk::key::A
+                        &&
+                        keyPressed<=edk::key::Z
+                        ){
+                    //add the character
+                    if(shift){
+                        if(this->pressQuote){
+                            this->pressQuote=false;
+                            switch(keyPressed){
+                            case 'a':
+                                this->addCharacterFromString("Á");
+                                break;
+                            case 'e':
+                                this->addCharacterFromString("É");
+                                break;
+                            case 'i':
+                                this->addCharacterFromString("Í");
+                                break;
+                            case 'o':
+                                this->addCharacterFromString("Ó");
+                                break;
+                            case 'u':
+                                this->addCharacterFromString("Ú");
+                                break;
+                            default:
+                                this->addCharacter('´');
+                                this->addCharacter(keyPressed + ('A' - 'a'));
+                            }
+                        }
+                        else if(this->pressTilde){
+                            this->pressTilde=false;
+                            switch(keyPressed){
+                            case 'a':
+                                this->addCharacterFromString("Ã");
+                                break;
+                            case 'e':
+                                this->addCharacterFromString("Ẽ");
+                                break;
+                            case 'i':
+                                this->addCharacterFromString("Ĩ");
+                                break;
+                            case 'o':
+                                this->addCharacterFromString("Õ");
+                                break;
+                            case 'u':
+                                this->addCharacterFromString("Ũ");
+                                break;
+                            default:
+                                this->addCharacter('~');
+                                this->addCharacter(keyPressed + ('A' - 'a'));
+                            }
+                        }
+                        else{
+                            this->addCharacter(keyPressed + ('A' - 'a'));
+                        }
+                    }
+                    else{
+                        if(this->pressQuote){
+                            this->pressQuote=false;
+                            switch(keyPressed){
+                            case 'a':
+                                this->addCharacterFromString("á");
+                                break;
+                            case 'e':
+                                this->addCharacterFromString("é");
+                                break;
+                            case 'i':
+                                this->addCharacterFromString("í");
+                                break;
+                            case 'o':
+                                this->addCharacterFromString("ó");
+                                break;
+                            case 'u':
+                                this->addCharacterFromString("ú");
+                                break;
+                            default:
+                                this->addCharacter('´');
+                                this->addCharacter(keyPressed);
+                            }
+                        }
+                        else if(this->pressQuote){
+                            this->pressQuote=false;
+                            switch(keyPressed){
+                            case 'a':
+                                this->addCharacterFromString("ã");
+                                break;
+                            case 'e':
+                                this->addCharacterFromString("ẽ");
+                                break;
+                            case 'i':
+                                this->addCharacterFromString("ĩ");
+                                break;
+                            case 'o':
+                                this->addCharacterFromString("õ");
+                                break;
+                            case 'u':
+                                this->addCharacterFromString("ũ");
+                                break;
+                            default:
+                                this->addCharacter('~');
+                                this->addCharacter(keyPressed);
+                            }
+                        }
+                        else{
+                            this->addCharacter(keyPressed);
+                        }
+                    }
+                }
+                //test if the key is a number
+                if(keyPressed>=edk::key::num0
+                        &&
+                        keyPressed<=edk::key::num9
+                        ){
+                    //add the character
+                    this->addCharacter(keyPressed);
+                }
+            }
+        }
+    }
+}
 //draw the GU scene
 void edk::ViewTextField::TextField::drawScene(rectf32 outsideViewOrigin){
     this->saveOutsideView.size = outsideViewOrigin.size;

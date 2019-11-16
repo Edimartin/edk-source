@@ -51,6 +51,7 @@ public:
 
     //update the clock animation
     virtual edk::float32 updateClockAnimation();
+    virtual edk::float32 updateClockAnimation(edk::float32 distance);
 
     //write to XML
     virtual bool writeToXML(edk::XML* xml,edk::uint32 id);

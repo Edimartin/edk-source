@@ -455,6 +455,9 @@ bool edk::tiles::Tile2D::isPhysics(){
 void edk::tiles::Tile2D::updateAnimation(){
     this->mesh.updateFramesAnimations();
 }
+void edk::tiles::Tile2D::updateAnimation(edk::float32 seconds){
+    this->mesh.updateFramesAnimations(seconds);
+}
 
 //XML
 bool edk::tiles::Tile2D::writeToXML(edk::XML* xml,edk::uint32 id){

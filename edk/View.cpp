@@ -179,6 +179,31 @@ void View::updateAnimations(){
         }
     }
 }
+void View::updateAnimations(edk::float32 seconds){
+    bool success;
+    if(!this->animationPosition.isPaused()){
+        //clean the animatedFrame
+        this->animatedFrame=this->frame;
+        if(this->animationPosition.isPlaying()){
+            //update
+            //printf("\n                     Second %.2f",this->animationPosition.updateClockAnimation());
+            this->animationPosition.updateClockAnimation(seconds);
+            edk::vec2f32 posTemp;
+            posTemp.x = this->animationPosition.getClockX(&success);
+            if(success){
+                posTemp.y = this->animationPosition.getClockY(&success);
+                if(success){
+                    //update the position
+                    /*
+                this->animatedFrame.origin.x += this->animationPosition.getClockX(&success);
+                this->animatedFrame.origin.y += this->animationPosition.getClockY(&success);
+                */
+                    this->animatedFrame.origin += posTemp;
+                }
+            }
+        }
+    }
+}
 
 bool View::contact(edk::vec2f32 point,edk::uint8 state,edk::vector::Stack<edk::uint32>* buttons){
     if(this->pointInside(edk::vec2f32(point.x,point.y))){

@@ -337,6 +337,14 @@ void edk::bones::Bone2D::updateAnimations(){
         temp->updateAnimations();
     }
 }
+void edk::bones::Bone2D::updateAnimations(edk::float32 seconds){
+    this->updateAnimationsThis(seconds);
+    //update the son's
+    for(edk::uint32 i=0u;i<this->nexts.size();i++){
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+        temp->updateAnimations(seconds);
+    }
+}
 void edk::bones::Bone2D::updateAnimationsThis(){
     bool success;
     //test if is playng the animations
@@ -352,13 +360,6 @@ void edk::bones::Bone2D::updateAnimationsThis(){
                 this->position = posTemp;
             }
         }
-
-        /*
-        printf(" position %.2f %.2f "
-               ,this->position.x
-               ,this->position.y
-               );
-*/
     }
     if(this->animationAngle.isPlaying()){
         this->animationAngle.updateClockAnimation();
@@ -367,13 +368,31 @@ void edk::bones::Bone2D::updateAnimationsThis(){
         if(success){
             this->angle = angleTemp;
         }
+    }
+}
+void edk::bones::Bone2D::updateAnimationsThis(edk::float32 seconds){
+    bool success;
+    //test if is playng the animations
+    if(this->animationPosition.isPlaying()){
+        this->animationPosition.updateClockAnimation(seconds);
 
+        edk::vec2f32 posTemp;
+        posTemp.x = this->animationPosition.getClockX(&success);
+        if(success){
+            posTemp.y = this->animationPosition.getClockY(&success);
+            if(success){
+                //
+                this->position = posTemp;
+            }
+        }
+    }
+    if(this->animationAngle.isPlaying()){
+        this->animationAngle.updateClockAnimation(seconds);
 
-        /*
-        printf("  Angle %.2f "
-               ,this->angle
-               );
-*/
+        edk::float32 angleTemp = this->animationAngle.getClockX(&success);
+        if(success){
+            this->angle = angleTemp;
+        }
     }
 }
 //scale animations

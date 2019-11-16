@@ -73,18 +73,18 @@ public:
     virtual void drawOneTextureWithLight(edk::uint32 position,edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
     edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
     bool lightIsOn[][EDK_LIGHT_LIMIT]);
-    virtual bool SelectedDrawOneTextureWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
+    virtual bool selectedDrawOneTextureWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
     edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
     bool lightIsOn[][EDK_LIGHT_LIMIT]);
-    virtual bool SelectedDrawOneTextureWithLight(edk::uint32 position,edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
+    virtual bool selectedDrawOneTextureWithLight(edk::uint32 position,edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
     edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
     bool lightIsOn[][EDK_LIGHT_LIMIT]);
     virtual void drawMultiTexture();
-    virtual bool SelectedDrawMultiTexture();
+    virtual bool selectedDrawMultiTexture();
     virtual void drawMultiTextureWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
     edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
     bool lightIsOn[][EDK_LIGHT_LIMIT]);
-    virtual bool SelectedDrawMultiTextureWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
+    virtual bool selectedDrawMultiTextureWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
     edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
     bool lightIsOn[][EDK_LIGHT_LIMIT]);
     virtual void drawWire();

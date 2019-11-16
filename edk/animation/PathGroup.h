@@ -117,6 +117,7 @@ public:
 
     //update the clock animation
     virtual edk::float32 updateClockAnimation();
+    virtual edk::float32 updateClockAnimation(edk::float32 distance);
 
     //cand delete
     void cantDeleteGroup();

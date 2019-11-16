@@ -1332,6 +1332,21 @@ bool edk::tiles::TileSet2D::updateAnimations(edk::uint32 tile){
     //else return false
     return false;
 }
+bool edk::tiles::TileSet2D::updateAnimations(edk::uint32 tile,edk::float32 seconds){
+    if(tile){
+        tile--;
+        //load the tile from the stack
+        if(this->tiles.havePos(tile)){
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
+            if(temp){
+                temp->updateAnimation(seconds);
+                return true;
+            }
+        }
+    }
+    //else return false
+    return false;
+}
 bool edk::tiles::TileSet2D::updateAnimations(){
     edk::uint32 size = this->treeAnimated.size();
     if(size){
@@ -1340,6 +1355,20 @@ bool edk::tiles::TileSet2D::updateAnimations(){
             temp = this->treeAnimated.getElementInPosition(i);
             if(temp){
                 temp->updateAnimation();
+            }
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::tiles::TileSet2D::updateAnimations(edk::float32 seconds){
+    edk::uint32 size = this->treeAnimated.size();
+    if(size){
+        edk::tiles::Tile2D* temp = NULL;
+        for(edk::uint32 i=0u;i<size;i++){
+            temp = this->treeAnimated.getElementInPosition(i);
+            if(temp){
+                temp->updateAnimation(seconds);
             }
         }
         return true;

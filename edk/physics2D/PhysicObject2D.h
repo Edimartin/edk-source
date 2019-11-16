@@ -94,6 +94,7 @@ public:
 
     //update all animations
     virtual bool updateAnimations();
+    virtual bool updateAnimations(edk::float32 seconds);
 
     //XML
     virtual bool writeToXML(edk::XML* xml,edk::uint32 id,bool connected=false);

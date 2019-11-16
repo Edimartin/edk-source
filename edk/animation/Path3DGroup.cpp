@@ -153,6 +153,29 @@ edk::float32 edk::animation::Path3DGroup::updateClockAnimation(){
         return 0.f;
     }
 }
+edk::float32 edk::animation::Path3DGroup::updateClockAnimation(edk::float32 distance){
+    //calculate the step
+    edk::float32 step = edk::animation::PathGroup::updateClockAnimation(distance);
+    //load the frame
+    edk::animation::Frame3D* temp = (edk::animation::Frame3D*)this->animations[this->animationPosition];
+    edk::animation::Frame3D* last = (edk::animation::Frame3D*)this->getLastFrame();
+    if(last){
+        //calculate the new position
+        if(temp->second==0.f){
+            this->saveStep = 1.f;
+        }
+        else{
+            this->saveStep = (step - last->second)/(temp->second-last->second);
+        }
+        this->setX(last->x + ((temp->x - last->x) * this->saveStep));
+        this->setY( last->y + ((temp->y - last->y) * this->saveStep));
+        this->setZ( last->z + ((temp->z - last->z) * this->saveStep));
+        return step;
+    }
+    else{
+        return 0.f;
+    }
+}
 
 //write to XML
 bool edk::animation::Path3DGroup::writeToXML(edk::XML* xml,edk::uint32 id){

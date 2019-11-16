@@ -88,8 +88,8 @@ void edk::animation::ParticlesPoint2D::ParticleObject::setSizeObject(edk::size2f
 //update animation
 void edk::animation::ParticlesPoint2D::ParticleObject::update(edk::float32 second){
     //update animations
-    this->life.updateClockAnimation();
-    this->animFrame.updateClockAnimation();
+    this->life.updateClockAnimation(second);
+    this->animFrame.updateClockAnimation(second);
     edk::float32 temp;
     bool success=false;
     //frame

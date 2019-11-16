@@ -311,7 +311,9 @@ public:
 
     //update the animations
     bool updateAnimations(edk::uint32 tile);
+    bool updateAnimations(edk::uint32 tile,edk::float32 seconds);
     bool updateAnimations();
+    bool updateAnimations(edk::float32 seconds);
 
     //create a new object physics
     bool setTilePhysics(edk::uint32 tile,edk::physics::bodyType type);

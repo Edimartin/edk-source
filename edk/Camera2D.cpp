@@ -173,6 +173,41 @@ void edk::Camera2D::drawOrthoOnly(){
                           );
     }
 }
+void edk::Camera2D::drawOrthoOnly(edk::float32 seconds){
+    edk::GU::guUseOrtho(-this->size.width,
+                        this->size.width,
+                        -this->size.height,
+                        this->size.height,
+                        -1.f,//nea
+                        1.f//far
+                        );
+    //update the shaking animations
+    this->animAngle.updateClockAnimation(seconds);
+    if(this->animAngle.isPlaying()){
+        //calculate the angle of shaking
+        this->up = edk::Math::rotate2f(edk::vec2f32(1,0),(((this->angle + this->animAngle.getClockX())*-1)+360.f)+90);
+    }
+    else{
+        this->up = edk::Math::rotate2f(edk::vec2f32(1,0),((this->angle*-1)+360.f)+90);
+    }
+
+    //shake position
+    this->animPosition.updateClockAnimation(seconds);
+    if(this->animPosition.isPlaying()){
+        this->tempPosition.x = this->position.x+this->animPosition.getClockX();
+        this->tempPosition.y = this->position.y+this->animPosition.getClockY();
+        edk::GU::guLookAt(this->tempPosition.x,this->tempPosition.y,1.f,
+                          this->tempPosition.x,this->tempPosition.y,0.f,
+                          this->up.x,this->up.y,0.f
+                          );
+    }
+    else{
+        edk::GU::guLookAt(this->position.x,this->position.y,1.f,
+                          this->position.x,this->position.y,0.f,
+                          this->up.x,this->up.y,0.f
+                          );
+    }
+}
 
 
 //move the camera

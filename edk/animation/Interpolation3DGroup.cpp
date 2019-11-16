@@ -322,8 +322,6 @@ bool edk::animation::Interpolation3DGroup::setInterpolationP2Z(edk::uint32 posit
 edk::float32 edk::animation::Interpolation3DGroup::getClockZ(bool* success){
     //test if is playing
     if(this->isPlaying()){
-        //get the second
-        //edk::float32 second = edk::animation::InterpolationGroup::updateClockAnimation();
         //load the interpolation
         edk::animation::InterpolationLine3D* temp = (edk::animation::InterpolationLine3D*)edk::animation::InterpolationGroup::getSelectedInterpolation();
         //set success

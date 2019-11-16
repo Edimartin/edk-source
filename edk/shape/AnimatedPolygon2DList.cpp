@@ -172,6 +172,37 @@ void edk::shape::AnimatedPolygon2DList::updateFramesAnimations(){
         }
     }
 }
+void edk::shape::AnimatedPolygon2DList::updateFramesAnimations(edk::float32 seconds){
+    //update all animations
+    for(edk::uint32 i=0u;i<this->polygons.size();i++){
+        //
+        if(this->polygons[i]){
+            //carrega a animation
+            if(this->polygons[i]->framesIsAnimationCreator()){
+                //carrega a animation
+                edk::float32 clock =
+                this->polygons[i]->framesGetAnimation()->updateClockAnimation(seconds);
+            }
+        }
+    }
+    //after update all polygons
+
+    bool success;
+
+    for(edk::uint32 i=0u;i<this->polygons.size();i++){
+        //
+        if(this->polygons[i]){
+            //carrega a animation
+            if(this->polygons[i]->framesGetAnimation()){
+                //
+                edk::float32 frameTemp = this->polygons[i]->framesGetAnimation()->getClockX(&success);
+                if(success){
+                    this->polygons[i]->usePolygonUVFramePosition(frameTemp);
+                }
+            }
+        }
+    }
+}
 
 
 //AnimationSelected

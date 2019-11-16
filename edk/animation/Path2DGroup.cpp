@@ -143,6 +143,28 @@ edk::float32 edk::animation::Path2DGroup::updateClockAnimation(){
         return 0.f;
     }
 }
+edk::float32 edk::animation::Path2DGroup::updateClockAnimation(edk::float32 distance){
+    //calculate the step
+    edk::float32 step = edk::animation::PathGroup::updateClockAnimation(distance);
+    //load the frame
+    edk::animation::Frame2D* temp = (edk::animation::Frame2D*)this->animations[this->animationPosition];
+    edk::animation::Frame2D* last = (edk::animation::Frame2D*)this->getLastFrame();
+    if(last){
+        //calculate the new position
+        if(temp->second==0.f){
+            this->saveStep = 1.f;
+        }
+        else{
+            this->saveStep = (step - last->second)/(temp->second-last->second);
+        }
+        this->setX(last->x + ((temp->x - last->x) * this->saveStep));
+        this->setY( last->y + ((temp->y - last->y) * this->saveStep));
+        return step;
+    }
+    else{
+        return 0.f;
+    }
+}
 
 //write to XML
 bool edk::animation::Path2DGroup::writeToXML(edk::XML* xml,edk::uint32 id){

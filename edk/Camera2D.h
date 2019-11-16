@@ -72,6 +72,7 @@ class Camera2D{
         //draw the camera
         void draw();
         void drawOrthoOnly();
+        void drawOrthoOnly(edk::float32 seconds);
 
         //move the camera
         void moveLeft(edk::float32 dist);
