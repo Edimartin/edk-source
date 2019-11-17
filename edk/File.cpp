@@ -1324,6 +1324,54 @@ bool File::writeBin(const char *str){
     return writeBin((edk::char8 *)str);
 }
 
+bool File::writeBin(int16 n){
+    //test if the file is opened
+    if(this->isOpened()){
+        //
+        fwrite(&n,sizeof(edk::int16),1u,this->arq);
+        //return true
+        return true;
+    }
+    //else return false
+    return false;
+}
+
+bool File::writeBin(int16 *n){
+    //test if the file is opened and if the n is true and the size is >1u
+    if(this->isOpened() && n){
+        //
+        fwrite(n,sizeof(edk::int16),sizeof(n),this->arq);
+        //return true
+        return true;
+    }
+    //else return false
+    return false;
+}
+
+bool File::writeBin(uint16 n){
+    //test if the file is opened
+    if(this->isOpened()){
+        //
+        fwrite(&n,sizeof(edk::uint16),1u,this->arq);
+        //return true
+        return true;
+    }
+    //else return false
+    return false;
+}
+
+bool File::writeBin(uint16 *n){
+    //test if the file is opened and if the n is true and the size is >1u
+    if(this->isOpened() && n){
+        //
+        fwrite(n,sizeof(edk::uint16),sizeof(n),this->arq);
+        //return true
+        return true;
+    }
+    //else return false
+    return false;
+}
+
 bool File::writeBin(int32 n){
     //test if the file is opened
     if(this->isOpened()){

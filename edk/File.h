@@ -170,6 +170,14 @@ class File {
 
     bool writeBin(const char *str);
 
+    bool writeBin(int16 n);
+
+    bool writeBin(int16 *n);
+
+    bool writeBin(uint16 n);
+
+    bool writeBin(uint16 *n);
+
     bool writeBin(int32 n);
 
     bool writeBin(int32 *n);
