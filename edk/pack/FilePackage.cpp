@@ -22,8 +22,59 @@ Gravatai RS Brazil 94065100
 
 edk::pack::FilePackage::FilePackage(){
     this->selected = NULL;
+    this->buffer = NULL;
+    this->bufferSize = 0u;
+    this->bufferReadSize = 0u;
 }
 edk::pack::FilePackage::~FilePackage(){
+    this->deleteBuffer();
+    this->removeAllNames();
+}
+bool edk::pack::FilePackage::readNodeToBuffer(edk::pack::FileNode* node){
+    this->bufferReadSize=0u;
+    //test if have selected file
+    if(node){
+        //get the selected size
+        edk::uint64 size = node->getFileSize();
+        if(size){
+            //test if the size is bigger then the buffer size
+            if(size>this->bufferSize){
+                //create a new buffer
+                this->deleteBuffer();
+                this->buffer = new edk::char8[size];
+                if(buffer){
+                    this->bufferSize = size;
+                }
+            }
+            //test if have the buffer
+            if(this->buffer && this->bufferSize){
+                //save the seek
+                edk::uint64 seek = this->file.getSeek64();
+                //seek to the file position to read
+                this->file.seekStart(node->getPosition());
+                bool ret = this->readNodeFile(node,this->buffer,size);
+                if(ret){
+                    this->bufferReadSize=size;
+                }
+                //return the seek
+                this->file.seekStart(seek);
+                return ret;
+            }
+        }
+    }
+    return false;
+}
+//read the file bytes
+bool edk::pack::FilePackage::readNodeFile(edk::pack::FileNode* node,classID vec,uint64 size){
+    //test if have a node selected
+    if(node && vec && size){
+        //test if have the size to be readed
+        if(size<=((node->getFileSize()+ node->getPosition()) - this->file.getSeek64() )){
+            //read the file
+            return this->file.readBin(vec,size);
+        }
+    }
+    return false;
 }
 
 //add a fileName to the tree
@@ -53,10 +104,23 @@ bool edk::pack::FilePackage::removeFileName(edk::char8* fileName){
 bool edk::pack::FilePackage::removeFileName(const edk::char8* fileName){
     return this->removeFileName((edk::char8*) fileName);
 }
+//get the fileName in position
+edk::char8* edk::pack::FilePackage::getFileName(edk::uint32 position){
+    //get the node in position
+    edk::pack::FileNode* node = this->tree.getElementInPosition(position);
+    if(node){
+        return node->getFileName();
+    }
+    return NULL;
+}
 //remove all fileNames
 void edk::pack::FilePackage::removeAllNames(){
     this->selected = NULL;
     this->tree.removeAllNodes();
+}
+//return the files size
+edk::uint32 edk::pack::FilePackage::getFilesSize(){
+    return this->tree.size();
 }
 //save all files in one package file
 bool edk::pack::FilePackage::savePackFile(edk::char8* fileName){
@@ -97,7 +161,6 @@ bool edk::pack::FilePackage::savePackFile(edk::char8* fileName){
                             //set the values to the node
                             node->setPosition(this->file.getSeek64());
                             node->setFileSize(copy.getFileSize());
-
                             while((bufferRead = copy.getFileSize() - copy.getSeek64())){
                                 //test if the buffer read is bigger then packBufferSize
                                 if(bufferRead>packBufferSize){
@@ -113,7 +176,6 @@ bool edk::pack::FilePackage::savePackFile(edk::char8* fileName){
                                     this->file.writeBin(buffer,bufferRead);
                                 }
                             }
-
                             copy.closeFile();
                         }
                         else{
@@ -196,7 +258,7 @@ bool edk::pack::FilePackage::openPackFile(edk::char8* fileName){
                     this->file.seekStart(nodesPosition);
 
                     //read the nodes
-                    printf("\n%lu",this->file.getSeek64());fflush(stdout);
+                    //printf("\n%lu",this->file.getSeek64());fflush(stdout);
                     while(this->file.getSeek64() < positionRead){
                         //create a new node
                         node = new edk::pack::FileNode;
@@ -267,12 +329,42 @@ bool edk::pack::FilePackage::readFile(classID vec,uint64 size){
     //test if have a node selected
     if(this->selected && vec && size){
         //test if have the size to be readed
-        if(size<(this->selected->getFileSize() - this->file.getSeek64())){
+        if(size<=((this->selected->getFileSize()+ this->selected->getPosition()) - this->file.getSeek64() )){
             //read the file
             return this->file.readBin(vec,size);
         }
     }
     return false;
+}
+
+//red the file to the buffer
+bool edk::pack::FilePackage::readFileToBuffer(){
+    //test if have selected file
+    if(this->selected){
+        return this->readNodeToBuffer(this->selected);
+    }
+    return false;
+}
+bool edk::pack::FilePackage::readFileToBuffer(edk::char8* fileName){
+    return this->readNodeToBuffer(this->tree.getNode(fileName));
+}
+
+//delete the read buffer
+void edk::pack::FilePackage::deleteBuffer(){
+    if(this->buffer){
+        delete[] this->buffer;
+        this->buffer = NULL;
+        this->bufferSize = 0u;
+        this->bufferReadSize=0u;
+    }
+}
+
+//get the buffer and the buffer size
+edk::char8* edk::pack::FilePackage::getBuffer(){
+    return this->buffer;
+}
+edk::uint64 edk::pack::FilePackage::getBufferSize(){
+    return this->bufferReadSize;
 }
 
 //get the size of the file inside the file pack

@@ -49,8 +49,12 @@ public:
     //remove the file from the tree
     bool removeFileName(edk::char8* fileName);
     bool removeFileName(const edk::char8* fileName);
+    //get the fileName in position
+    edk::char8* getFileName(edk::uint32 position);
     //remove all fileNames
     void removeAllNames();
+    //return the files size
+    edk::uint32 getFilesSize();
 
     //save all files in one package file
     bool savePackFile(edk::char8* fileName);
@@ -65,16 +69,30 @@ public:
     //read the file bytes
     bool readFile(classID vec,uint64 size);
 
+    //red the file to the buffer
+    bool readFileToBuffer();
+    bool readFileToBuffer(edk::char8* fileName);
+
+    //delete the read buffer
+    void deleteBuffer();
+
+    //get the buffer and the buffer size
+    edk::char8* getBuffer();
+    edk::uint64 getBufferSize();
+
     //get the size of the file inside the file pack
     edk::uint64 getFileSize(edk::char8* fileName);
     edk::uint64 getFileSize(const edk::char8* fileName);
 
     //print the names
     void printNames();
-
 private:
     edk::File file;
     edk::pack::FileNode* selected;
+    //buffer to read the full files
+    edk::char8* buffer;
+    edk::uint64 bufferSize;
+    edk::uint64 bufferReadSize;
     //node tree
     class treeInt:public edk::vector::BinaryTree<edk::pack::FileNode*>{
     public:
@@ -172,6 +190,9 @@ private:
             return false;
         }
     }tree;
+    bool readNodeToBuffer(edk::pack::FileNode* node);
+    //read the file bytes
+    bool readNodeFile(edk::pack::FileNode* node,classID vec,uint64 size);
 };
 }
 }
