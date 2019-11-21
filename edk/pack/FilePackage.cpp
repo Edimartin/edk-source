@@ -155,6 +155,9 @@ bool edk::pack::FilePackage::savePackFile(edk::char8* fileName){
                             this->file.writeBin(md5[j]);
                         }
 
+                        //set the node md5
+                        edk::encrypt::MD5::convertFileTo(node->getStrName(),node->md5);
+
                         //open and write the file
                         edk::File copy;
                         if(copy.openBinFile(node->getStrName())){
@@ -347,6 +350,25 @@ bool edk::pack::FilePackage::readFileToBuffer(){
 }
 bool edk::pack::FilePackage::readFileToBuffer(edk::char8* fileName){
     return this->readNodeToBuffer(this->tree.getNode(fileName));
+}
+//test if the buffer readed is valid
+bool edk::pack::FilePackage::isBufferValid(edk::char8* fileName){
+    if(fileName && this->buffer && this->bufferReadSize){
+        //get the node
+        edk::pack::FileNode* node = this->tree.getNode(fileName);
+        if(node){
+            //generate the buffer hash
+            edk::uint8 md5[16u];
+            if(edk::encrypt::MD5::convertTo(this->buffer,this->bufferReadSize,md5)){
+                //test if the md5 is equal to node md5
+                return node->compareMD5(md5);
+            }
+        }
+    }
+    return false;
+}
+bool edk::pack::FilePackage::isBufferValid(const edk::char8* fileName){
+    return this->isBufferValid((edk::char8*) fileName);
 }
 
 //delete the read buffer

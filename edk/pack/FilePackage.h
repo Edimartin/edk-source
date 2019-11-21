@@ -72,6 +72,9 @@ public:
     //red the file to the buffer
     bool readFileToBuffer();
     bool readFileToBuffer(edk::char8* fileName);
+    //test if the buffer readed is valid
+    bool isBufferValid(edk::char8* fileName);
+    bool isBufferValid(const edk::char8* fileName);
 
     //delete the read buffer
     void deleteBuffer();

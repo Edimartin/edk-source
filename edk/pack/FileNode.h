@@ -36,10 +36,13 @@ Gravatai RS Brazil 94065100
 
 namespace edk{
 namespace pack{
+class FilePackage;
 class FileNode{
 public:
     FileNode();
     virtual ~FileNode();
+
+    friend edk::pack::FilePackage;
 
     //set the fileName
     bool setFileName(edk::char8* str);
@@ -74,6 +77,14 @@ private:
     edk::Name fileName;
     edk::uint64 position;
     edk::uint64 fileSize;
+    //MD5 code from the file
+    edk::uint8 md5[16u];
+    //clean the md5 code
+    void cleanMD5();
+    //compare the md5
+    bool compareMD5(edk::uint8 md5[16u]);
+    //print the md5
+    void printMD5(edk::uint8 md5[16u]);
 };
 }
 }

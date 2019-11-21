@@ -32,6 +32,7 @@ Gravatai RS Brazil 94065100
 #include <stdlib.h>
 #endif
 #include <string.h>
+#include <math.h>
 #include "../String.h"
 #include "../File.h"
 

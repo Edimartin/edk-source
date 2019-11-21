@@ -24,10 +24,32 @@ edk::pack::FileNode::FileNode(){
     this->position = 0u;
     this->fileSize = 0u;
     //this->position = this->fileSize = 0u;
+    this->cleanMD5();
 }
 edk::pack::FileNode::~FileNode(){
     this->str.cleanName();
     this->fileName.cleanName();
+}
+//clean the md5 code
+void edk::pack::FileNode::cleanMD5(){
+    memset(this->md5,0u,sizeof(this->md5));
+}
+//compare the md5
+bool edk::pack::FileNode::compareMD5(edk::uint8 md5[16u]){
+    //compare the md5
+    for(edk::uint32 i=0u;i<sizeof(this->md5);i++){
+        if(this->md5[i]!=md5[i]){
+            return false;
+        }
+    }
+    return true;
+}
+//print the md5
+void edk::pack::FileNode::printMD5(edk::uint8 md5[16u]){
+    for(edk::uint32 i=0u;i<16u;i++){
+        printf("%02x",(edk::uint8)md5[i]);
+    }
+    fflush(stdout);
 }
 
 //set the fileName
@@ -127,6 +149,7 @@ void edk::pack::FileNode::print(){
            ,this->position
            ,this->fileSize
            );
+    printf("\nMD5: ");this->printMD5(this->md5);
     fflush(stdout);
 }
 
@@ -143,6 +166,7 @@ bool edk::pack::FileNode::writeFile(edk::File* file){
         //write the position and the size
         file->writeBin(this->position);
         file->writeBin(this->fileSize);
+        file->writeBin(this->md5,sizeof(this->md5));
         return true;
     }
     return false;
@@ -168,6 +192,8 @@ bool edk::pack::FileNode::readFile(edk::File* file){
                 //read the position
                 this->position = file->readBinUInt64();
                 this->fileSize = file->readBinUInt64();
+                //read the md5
+                file->readBin(this->md5,sizeof(this->md5));
 
                 return true;
             }
