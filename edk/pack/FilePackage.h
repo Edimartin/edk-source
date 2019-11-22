@@ -80,7 +80,7 @@ public:
     void deleteBuffer();
 
     //get the buffer and the buffer size
-    edk::char8* getBuffer();
+    edk::uint8* getBuffer();
     edk::uint64 getBufferSize();
 
     //get the size of the file inside the file pack
@@ -93,7 +93,7 @@ private:
     edk::File file;
     edk::pack::FileNode* selected;
     //buffer to read the full files
-    edk::char8* buffer;
+    edk::uint8* buffer;
     edk::uint64 bufferSize;
     edk::uint64 bufferReadSize;
     //node tree

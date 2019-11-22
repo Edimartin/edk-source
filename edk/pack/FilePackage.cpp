@@ -41,7 +41,7 @@ bool edk::pack::FilePackage::readNodeToBuffer(edk::pack::FileNode* node){
             if(size>this->bufferSize){
                 //create a new buffer
                 this->deleteBuffer();
-                this->buffer = new edk::char8[size];
+                this->buffer = new edk::uint8[size];
                 if(buffer){
                     this->bufferSize = size;
                 }
@@ -359,7 +359,7 @@ bool edk::pack::FilePackage::isBufferValid(edk::char8* fileName){
         if(node){
             //generate the buffer hash
             edk::uint8 md5[16u];
-            if(edk::encrypt::MD5::convertTo(this->buffer,this->bufferReadSize,md5)){
+            if(edk::encrypt::MD5::convertTo((edk::char8*)this->buffer,this->bufferReadSize,md5)){
                 //test if the md5 is equal to node md5
                 return node->compareMD5(md5);
             }
@@ -382,7 +382,7 @@ void edk::pack::FilePackage::deleteBuffer(){
 }
 
 //get the buffer and the buffer size
-edk::char8* edk::pack::FilePackage::getBuffer(){
+edk::uint8* edk::pack::FilePackage::getBuffer(){
     return this->buffer;
 }
 edk::uint64 edk::pack::FilePackage::getBufferSize(){
