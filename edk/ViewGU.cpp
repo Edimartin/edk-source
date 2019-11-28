@@ -160,6 +160,13 @@ bool edk::ViewGU::loadBackground(edk::char8* name){
     //
     return this->loadSprite(name);
 }
+//load the sprite from memory
+bool edk::ViewGU::loadBackgroundFromMemory(const char* name,edk::uint8* sprite,edk::uint32 size){
+    return this->loadBackgroundFromMemory((edk::char8*)name,sprite,size);
+}
+bool edk::ViewGU::loadBackgroundFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size){
+    return this->loadSpriteFromMemory(name,sprite,size);
+}
 
 //delete the background
 void edk::ViewGU::deleteBackground(){
