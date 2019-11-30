@@ -573,6 +573,66 @@ bool edk::tiles::Tile2D::readFromXML(edk::XML* xml,edk::uint32 id){
     }
     return false;
 }
+bool edk::tiles::Tile2D::readFromXMLWithPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id){
+    if(xml && pack){
+        bool ret=false;
+        //create the nameID
+        edk::char8* nameID = edk::String::int64ToStr(id);
+        if(nameID){
+            //concat
+            edk::char8* name = edk::String::strCat((edk::char8*)"tile_",nameID);
+            if(name){
+                //read the name
+                if(xml->selectChild(name)){
+                    this->obj.cleanMeshes();
+                    this->mesh.cleanPolygons();
+                    //read obj
+                    if(this->obj.readFromXMLWithPack(pack,xml,0u)){
+                        //copy the first mesh
+                        if(this->obj.getMesh(0u)){
+                            //this->mesh = *this->obj.getMesh(0u);
+                            this->mesh.cloneFrom(this->obj.getMesh(0u));
+                        }
+                        //delete all mesh's from XML
+
+                        //                        edk::shape::Mesh2D* meshTemp;
+                        //                        edk::uint32 size = this->obj.getMeshSize();
+                        /*
+                        for(edk::uint32 i=0u;i<size;i++){
+                            meshTemp = this->obj.getMesh(i);
+                            if(meshTemp)
+                                delete meshTemp;
+                        }
+*/
+                        this->obj.removeAllMesh();
+
+                        //set the mesh
+                        this->obj.addMesh(&this->mesh);
+                    }
+                    //read the physicsObject
+                    this->objPhys = new edk::physics2D::PhysicObject2D;
+                    if(this->objPhys){
+                        if(!this->objPhys->readFromXMLWithPack(pack,xml,0u)){
+                            //dont have physicc object
+                            delete this->objPhys;
+                            this->objPhys=NULL;
+                        }
+                    }
+                    //read the tileSize
+                    this->tileSize = edk::size2f32(edk::String::strToFloat32(xml->getSelectedAttributeValueByName("tSizeW")),
+                                                   edk::String::strToFloat32(xml->getSelectedAttributeValueByName("tSizeH"))
+                                                   );
+                    ret=true;
+                    xml->selectFather();
+                }
+                delete[] name;
+            }
+            delete[] nameID;
+        }
+        return ret;
+    }
+    return false;
+}
 
 //Draw the tile
 void edk::tiles::Tile2D::draw(edk::float32 angle,edk::size2f32 size){

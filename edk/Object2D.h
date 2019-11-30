@@ -43,6 +43,8 @@ Gravatai RS Brazil 94065100
 #include "animation/Interpolation3DGroup.h"
 #include "animation/ActionGroup.h"
 
+#include "pack/FilePackage.h"
+
 #ifdef printMessages
 #warning "    Compiling Object2D"
 #endif
@@ -168,6 +170,7 @@ public:
     //XML
     virtual bool writeToXML(edk::XML* xml,edk::uint32 id);
     virtual bool readFromXML(edk::XML* xml,edk::uint32 id);
+    virtual bool readFromXMLWithPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id);
 
     //cant delete
     void cantDeleteObject2D();

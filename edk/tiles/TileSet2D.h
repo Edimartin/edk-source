@@ -31,6 +31,7 @@ Gravatai RS Brazil 94065100
 #include "TileIsometricFlat2D.h"
 #include "../vector/Stack.h"
 #include "../vector/BinaryTree.h"
+#include "../pack/FilePackage.h"
 
 #ifdef printMessages
 #warning "    Compiling TileSet2D"
@@ -429,6 +430,7 @@ public:
     //XML
     bool writeToXML(edk::XML* xml,edk::uint32 id);
     bool readFromXML(edk::XML* xml,edk::uint32 id);
+    bool readFromXMLWithPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id);
 private:
     edk::vector::Stack<edk::tiles::Tile2D*> tiles;
     //animated tiles

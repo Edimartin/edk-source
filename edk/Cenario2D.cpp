@@ -333,6 +333,139 @@ bool edk::Cenario2D::TreeObjDepth::readFromXML(edk::XML* xml,edk::uint32 id,bool
     }
     return false;
 }
+bool edk::Cenario2D::TreeObjDepth::readFromXMLWithPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id,bool isPhysics){
+    if(xml && pack){
+        bool ret=false;
+        //create the nameID
+        edk::char8* nameID = edk::String::int64ToStr(id);
+        if(nameID){
+            //concat
+            edk::char8* name = edk::String::strCat((edk::char8*)"Objects_",nameID);
+            if(name){
+                //
+                //create the name
+                if(xml->selectChild(name)){
+                    edk::char8 filter[3u] = {9u,'\n',0u};
+                    edk::char8* temp;
+                    //read the object size
+                    edk::uint32 size = 0u;
+                    temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);
+                    if(temp){
+                        size = edk::String::strToInt64(temp);
+                        delete[] temp;
+                    }
+                    if(size){
+                        edk::char8* nameTemp;
+                        edk::char8* idTemp;
+                        edk::float32 depth;
+                        if(isPhysics){
+                            //load the objects
+                            edk::physics2D::PhysicObject2D* obj;
+                            for(edk::uint32 i=0u;i<size;i++){
+                                depth = 0.f;
+                                idTemp = edk::String::int64ToStr(i);
+                                if(idTemp){
+                                    nameTemp = edk::String::strCat((edk::char8*)"obj_",idTemp);
+                                    if(nameTemp){
+                                        if(xml->selectChild(nameTemp)){
+                                            //read the depth
+                                            depth=0u;
+                                            temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);
+                                            if(temp){
+                                                depth = edk::String::strToFloat32(temp);
+                                                delete[] temp;
+                                            }
+                                            //create the object
+                                            if(edk::physics2D::PhysicObject2D::readFromXMLisSensor(xml,i)){
+                                                //
+                                                obj = new edk::physics2D::StaticSensor2D;
+                                            }
+                                            else{
+                                                obj = new edk::physics2D::PhysicObject2D;
+                                            }
+                                            if(obj){
+                                                //read the object
+                                                if(obj->readFromXMLWithPack(pack,xml,i)){
+                                                    //add the object
+                                                    if(!this->addObject(true,(edk::Object2D*)obj,depth)){
+                                                        //else delete the object
+                                                        delete obj;
+                                                    }
+                                                    obj->playMeshAnimations();
+                                                    obj->animationPosition.playForward();
+                                                    obj->animationRotation.playForward();
+                                                    obj->animationSize.playForward();
+                                                }
+                                                else{
+                                                    delete obj;
+                                                }
+                                            }
+
+                                            xml->selectFather();
+                                        }
+                                        delete[] nameTemp;
+                                    }
+                                    delete[] idTemp;
+                                }
+                            }
+                        }
+                        else{
+                            //load the objects
+                            edk::Object2D* obj;
+                            for(edk::uint32 i=0u;i<size;i++){
+                                depth = 0.f;
+                                idTemp = edk::String::int64ToStr(i);
+                                if(idTemp){
+                                    nameTemp = edk::String::strCat((edk::char8*)"obj_",idTemp);
+                                    if(nameTemp){
+                                        if(xml->selectChild(nameTemp)){
+                                            //read the depth
+                                            depth=0u;
+                                            temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);
+                                            if(temp){
+                                                depth = edk::String::strToFloat32(temp);
+                                                delete[] temp;
+                                            }
+                                            //create the object
+                                            obj = new edk::Object2D;
+                                            if(obj){
+                                                //read the object
+                                                if(obj->readFromXMLWithPack(pack,xml,i)){
+                                                    //add the object
+                                                    if(!this->addObject(true,obj,depth)){
+                                                        //else delete the object
+                                                        delete obj;
+                                                    }
+                                                    obj->playMeshAnimations();
+                                                    obj->animationPosition.playForward();
+                                                    obj->animationRotation.playForward();
+                                                    obj->animationSize.playForward();
+                                                }
+                                                else{
+                                                    delete obj;
+                                                }
+                                            }
+                                            xml->selectFather();
+                                        }
+                                        delete[] nameTemp;
+                                    }
+                                    delete [] idTemp;
+                                }
+                            }
+                        }
+                    }
+                    //
+                    ret=true;
+                    xml->selectFather();
+                }
+                delete[] name;
+            }
+            delete[] nameID;
+        }
+        return ret;
+    }
+    return false;
+}
 
 //XML
 bool edk::Cenario2D::LevelObj::writeToXML(edk::XML* xml,edk::uint32 id){
@@ -425,6 +558,88 @@ bool edk::Cenario2D::LevelObj::readFromXML(edk::XML* xml,edk::uint32 id,edk::til
                             this->objsPhys = new edk::Cenario2D::TreePhysObjDepth(world);
                             if(this->objsPhys){
                                 if(!this->objsPhys->readFromXML(xml,0u,true)){
+                                    delete this->objsPhys;
+                                    this->clean();
+                                }
+                            }
+                        }
+                        else if(edk::String::strCompare(temp,"tileMap")){
+                            //read the tileMap
+
+                            this->tileMap = new edk::tiles::TileMap2D(tileSet);
+                            if(this->tileMap){
+                                if(this->tileMap->readFromXML(xml,0u)){
+                                    //Set the tileSet and tileMap
+                                    this->tileMap->setWorld(world);
+                                }
+                                else{
+                                    delete this->tileMap;
+                                    this->clean();
+                                }
+                            }
+                        }
+                        delete[] temp;
+                    }
+                    ret=true;
+                    xml->selectFather();
+                }
+                delete[] name;
+            }
+            delete[] nameID;
+        }
+        return ret;
+    }
+    return false;
+}
+bool edk::Cenario2D::LevelObj::readFromXMLWithPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id,edk::tiles::TileSet2D* tileSet,edk::physics2D::World2D* world){
+    if(xml && pack){
+        bool ret=false;
+        //create the nameID
+        edk::char8* nameID = edk::String::int64ToStr(id);
+        if(nameID){
+            //concat
+            edk::char8* name = edk::String::strCat((edk::char8*)"Level_",nameID);
+            if(name){
+                //create the name
+                if(xml->selectChild(name)){
+                    edk::char8 filter[3u] = {9u,'\n',0u};
+                    edk::char8* temp;
+
+                    //delete if have some
+                    if(this->haveSome()){
+                        //delete the some
+                        if(this->objs){
+                            //read the objects
+                            delete this->objs;
+                        }
+                        else if(this->objsPhys){
+                            //read the objects
+                            delete this->objsPhys;
+                        }
+                        else if(this->tileMap){
+                            //read the objects
+                            delete this->tileMap;
+                        }
+                    }
+
+                    //test the string
+                    temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);
+                    if(temp){
+                        if(edk::String::strCompare(temp,"objs")){
+                            //read the objects
+                            this->objs = new edk::Cenario2D::TreeObjDepth;
+                            if(this->objs){
+                                if(!this->objs->readFromXMLWithPack(pack,xml,0u)){
+                                    delete this->objs;
+                                    this->clean();
+                                }
+                            }
+                        }
+                        else if(edk::String::strCompare(temp,"objsPhys")){
+                            //read the physics objects
+                            this->objsPhys = new edk::Cenario2D::TreePhysObjDepth(world);
+                            if(this->objsPhys){
+                                if(!this->objsPhys->readFromXMLWithPack(pack,xml,0u,true)){
                                     delete this->objsPhys;
                                     this->clean();
                                 }
@@ -3777,6 +3992,383 @@ bool edk::Cenario2D::readFromXML(edk::char8* fileName,edk::uint32 id){
     }
     return false;
 }
+bool edk::Cenario2D::readFromXMLWithPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id){
+    if(xml && pack){
+        bool ret=false;
+        //create the nameID
+        edk::char8* nameID = edk::String::int64ToStr(id);
+        if(nameID){
+            //concat
+            edk::char8* name = edk::String::strCat((edk::char8*)"Cenario_",nameID);
+            if(name){
+                //create the name
+                if(xml->selectChild(name)){
+                    edk::char8 filter[3u] = {9u,'\n',0u};
+                    edk::char8* nameTemp;
+                    edk::char8* idTemp;
+                    edk::char8* temp;
+
+                    //read tileSet
+                    this->tileSet.readFromXMLWithPack(pack,xml,0u);
+                    //read the levels
+                    if(xml->selectChild("levels")){
+
+                        this->deleteAllLevels();
+                        edk::uint32 size = 0u;
+
+                        temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);
+                        if(temp){
+                            size = edk::String::strToInt64(temp);
+                            delete[] temp;
+                        }
+                        edk::Cenario2D::LevelObj* level;
+                        for(edk::uint32 i=0u;i<size;i++){
+                            //load the level
+                            level = new edk::Cenario2D::LevelObj;
+                            if(level){
+                                //add the level to the tree
+                                this->levels.pushBack(level);
+                                level->readFromXMLWithPack(pack,xml,i,&this->tileSet,&this->world);
+                            }
+                        }
+                        this->loadPhysicObjectsToWorld();
+                        xml->selectFather();
+                    }
+
+                    //JOINTS
+                    if(xml->selectChild("joints")){
+                        edk::uint32 size = 0u;
+                        temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);
+                        if(temp){
+                            size = edk::String::strToInt64(temp);
+                            delete[] temp;
+                        }
+                        //object vectors
+                        bool collide;
+                        edk::vec2f32 worldPosition;
+                        edk::vec2f32 positionA;
+                        edk::vec2f32 positionB;
+                        for(edk::uint32 i = 0u;i<size;i++){
+                            collide=false;
+                            edk::Cenario2D::PhysicsPosition objectA;
+                            edk::Cenario2D::PhysicsPosition objectB;
+                            idTemp = edk::String::int64ToStr(i);
+                            if(idTemp){
+                                nameTemp = edk::String::strCat((edk::char8*)"joint_",idTemp);
+                                if(nameTemp){
+                                    //create the xmlNode
+                                    if(xml->selectChild(nameTemp)){
+                                        //read the type
+                                        edk::uint8 jointType = 0u;
+                                        temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);
+                                        if(temp){
+                                            jointType = edk::String::strToInt32(temp);
+                                            delete[] temp;
+                                        }
+                                        //read the objects
+                                        objectA.readFromXML(xml,true);
+                                        objectB.readFromXML(xml,false);
+                                        //ret collide
+                                        if(xml->getSelectedAttributeValueByName("collide")){
+                                            collide=true;
+                                        }
+                                        //getWorldPosition
+                                        worldPosition = edk::vec2f32(edk::String::strToFloat32(xml->getSelectedAttributeValueByName("worldPositionAX")),
+                                                                     edk::String::strToFloat32(xml->getSelectedAttributeValueByName("worldPositionAY")));
+                                        positionA = edk::vec2f32(edk::String::strToFloat32(xml->getSelectedAttributeValueByName("positionAX")),
+                                                                 edk::String::strToFloat32(xml->getSelectedAttributeValueByName("positionAY")));
+                                        positionB = edk::vec2f32(edk::String::strToFloat32(xml->getSelectedAttributeValueByName("positionBX")),
+                                                                 edk::String::strToFloat32(xml->getSelectedAttributeValueByName("positionBY")));
+
+                                        switch(jointType){
+                                        case EDK_JOINT:
+                                            //add the joint
+                                            //                                            this->world.createWeldJoint(this->getPhysicsObjectInLevel(objectA),
+                                            //                                                                        this->getPhysicsObjectInLevel(objectB),
+                                            //                                                                        worldPosition,
+                                            //                                                                        collide
+                                            //                                                                        );
+                                            this->world.createWeldJoint(this->getPhysicsObjectInLevel(objectA),
+                                                                        positionA,
+                                                                        this->getPhysicsObjectInLevel(objectB),
+                                                                        positionB,
+                                                                        collide
+                                                                        );
+                                            break;
+                                        case EDK_REVOLUTE_JOINT:
+                                            //test the revoluteType
+                                            if(edk::String::strCompare(xml->getSelectedAttributeValueByName("type"),"ANGLE")){
+                                                //"lowerAngle"
+                                                //"upperAngle"
+                                                //                                                this->world.createRevoluteAngleJoint(this->getPhysicsObjectInLevel(objectA),
+                                                //                                                                                     this->getPhysicsObjectInLevel(objectB),
+                                                //                                                                                     worldPosition,
+                                                //                                                                                     edk::String::strToFloat32(xml->getSelectedAttributeValueByName("lowerAngle")),
+                                                //                                                                                     edk::String::strToFloat32(xml->getSelectedAttributeValueByName("upperAngle")),
+                                                //                                                                                     collide
+                                                //                                                                                     );
+                                                this->world.createRevoluteAngleJoint(this->getPhysicsObjectInLevel(objectA),
+                                                                                     positionA,
+                                                                                     this->getPhysicsObjectInLevel(objectB),
+                                                                                     positionB,
+                                                                                     edk::String::strToFloat32(xml->getSelectedAttributeValueByName("lowerAngle")),
+                                                                                     edk::String::strToFloat32(xml->getSelectedAttributeValueByName("upperAngle")),
+                                                                                     collide
+                                                                                     );
+                                            }
+                                            else if(edk::String::strCompare(xml->getSelectedAttributeValueByName("type"),"MOTOR")){
+                                                //"maxTorque"
+                                                //"speed"
+                                                //                                                this->world.createRevoluteMotorJoint(this->getPhysicsObjectInLevel(objectA),
+                                                //                                                                                     this->getPhysicsObjectInLevel(objectB),
+                                                //                                                                                     worldPosition,
+                                                //                                                                                     edk::String::strToFloat32(xml->getSelectedAttributeValueByName("maxTorque")),
+                                                //                                                                                     edk::String::strToFloat32(xml->getSelectedAttributeValueByName("speed")),
+                                                //                                                                                     collide
+                                                //                                                                                     );
+                                                this->world.createRevoluteMotorJoint(this->getPhysicsObjectInLevel(objectA),
+                                                                                     positionA,
+                                                                                     this->getPhysicsObjectInLevel(objectB),
+                                                                                     positionB,
+                                                                                     edk::String::strToFloat32(xml->getSelectedAttributeValueByName("maxTorque")),
+                                                                                     edk::String::strToFloat32(xml->getSelectedAttributeValueByName("speed")),
+                                                                                     collide
+                                                                                     );
+                                            }
+                                            else if(edk::String::strCompare(xml->getSelectedAttributeValueByName("type"),"NORMAL")){
+                                                //
+                                                //                                                this->world.createRevoluteJoint(this->getPhysicsObjectInLevel(objectA),
+                                                //                                                                                this->getPhysicsObjectInLevel(objectB),
+                                                //                                                                                worldPosition,
+                                                //                                                                                collide
+                                                //                                                                                );
+                                                this->world.createRevoluteJoint(this->getPhysicsObjectInLevel(objectA),
+                                                                                positionA,
+                                                                                this->getPhysicsObjectInLevel(objectB),
+                                                                                positionB,
+                                                                                collide
+                                                                                );
+                                            }
+                                            break;
+                                        case EDK_DISTANCE_JOINT:
+                                            //create distanceJoint
+                                            //                                            this->world.createDistanceJoint(this->getPhysicsObjectInLevel(objectA),
+                                            //                                                                            worldPosition,
+                                            //                                                                            this->getPhysicsObjectInLevel(objectB),
+                                            //                                                                            edk::vec2f32(edk::String::strToFloat32(xml->getSelectedAttributeValueByName("worldPositionBX")),
+                                            //                                                                                         edk::String::strToFloat32(xml->getSelectedAttributeValueByName("worldPositionBY"))
+                                            //                                                                                         ),
+                                            //                                                                            collide);
+                                            this->world.createDistanceJoint(this->getPhysicsObjectInLevel(objectA),
+                                                                            positionA,
+                                                                            this->getPhysicsObjectInLevel(objectB),
+                                                                            positionB,
+                                                                            edk::String::strToFloat32(xml->getSelectedAttributeValueByName("distance")),
+                                                                            collide);
+                                            break;
+                                        case EDK_PRISMATIC_JOINT:
+                                            //test the Type
+                                            if(edk::String::strCompare(xml->getSelectedAttributeValueByName("type"),"MOTOR")){
+                                                //"maxTorque"
+                                                //"speed"
+                                                //                                                this->world.createPrismaticMotorJoint(this->getPhysicsObjectInLevel(objectA),
+                                                //                                                                                      this->getPhysicsObjectInLevel(objectB),
+                                                //                                                                                      worldPosition,
+                                                //                                                                                      edk::vec2f32(edk::String::strToFloat32(xml->getSelectedAttributeValueByName("directionX")),
+                                                //                                                                                                   edk::String::strToFloat32(xml->getSelectedAttributeValueByName("directionY"))
+                                                //                                                                                                   ),
+                                                //                                                                                      edk::String::strToFloat32(xml->getSelectedAttributeValueByName("lowerDistance")),
+                                                //                                                                                      edk::String::strToFloat32(xml->getSelectedAttributeValueByName("upperDistance")),
+                                                //                                                                                      edk::String::strToFloat32(xml->getSelectedAttributeValueByName("maxForce")),
+                                                //                                                                                      edk::String::strToFloat32(xml->getSelectedAttributeValueByName("speed")),
+                                                //                                                                                      collide
+                                                //                                                                                      );
+                                                this->world.createPrismaticMotorJoint(this->getPhysicsObjectInLevel(objectA),
+                                                                                      positionA,
+                                                                                      this->getPhysicsObjectInLevel(objectB),
+                                                                                      positionB,
+                                                                                      edk::vec2f32(edk::String::strToFloat32(xml->getSelectedAttributeValueByName("directionX")),
+                                                                                                   edk::String::strToFloat32(xml->getSelectedAttributeValueByName("directionY"))
+                                                                                                   ),
+                                                                                      edk::String::strToFloat32(xml->getSelectedAttributeValueByName("lowerDistance")),
+                                                                                      edk::String::strToFloat32(xml->getSelectedAttributeValueByName("upperDistance")),
+                                                                                      edk::String::strToFloat32(xml->getSelectedAttributeValueByName("maxForce")),
+                                                                                      edk::String::strToFloat32(xml->getSelectedAttributeValueByName("speed")),
+                                                                                      collide
+                                                                                      );
+                                            }
+                                            else{
+                                                //"lowerAngle"
+                                                //"upperAngle"
+                                                //"directionX"
+                                                //"directionY"
+                                                //                                                this->world.createPrismaticJoint(this->getPhysicsObjectInLevel(objectA),
+                                                //                                                                                 this->getPhysicsObjectInLevel(objectB),
+                                                //                                                                                 worldPosition,
+                                                //                                                                                 edk::vec2f32(edk::String::strToFloat32(xml->getSelectedAttributeValueByName("directionX")),
+                                                //                                                                                              edk::String::strToFloat32(xml->getSelectedAttributeValueByName("directionY"))
+                                                //                                                                                              ),
+                                                //                                                                                 edk::String::strToFloat32(xml->getSelectedAttributeValueByName("lowerDistance")),
+                                                //                                                                                 edk::String::strToFloat32(xml->getSelectedAttributeValueByName("upperDistance")),
+                                                //                                                                                 collide
+                                                //                                                                                 );
+                                                this->world.createPrismaticJoint(this->getPhysicsObjectInLevel(objectA),
+                                                                                 positionA,
+                                                                                 this->getPhysicsObjectInLevel(objectB),
+                                                                                 positionB,
+                                                                                 edk::vec2f32(edk::String::strToFloat32(xml->getSelectedAttributeValueByName("directionX")),
+                                                                                              edk::String::strToFloat32(xml->getSelectedAttributeValueByName("directionY"))
+                                                                                              ),
+                                                                                 edk::String::strToFloat32(xml->getSelectedAttributeValueByName("lowerDistance")),
+                                                                                 edk::String::strToFloat32(xml->getSelectedAttributeValueByName("upperDistance")),
+                                                                                 collide
+                                                                                 );
+                                            }
+                                            break;
+                                        case EDK_PULLEY_JOINT:
+                                            //
+                                            //                                            this->world.createPulleyWorldJoint(this->getPhysicsObjectInLevel(objectA),
+                                            //                                                                               worldPosition,
+                                            //                                                                               edk::vec2f32(edk::String::strToFloat32(xml->getSelectedAttributeValueByName("pulleyPositionAX")),
+                                            //                                                                                            edk::String::strToFloat32(xml->getSelectedAttributeValueByName("pulleyPositionAY"))
+                                            //                                                                                            ),
+                                            //                                                                               this->getPhysicsObjectInLevel(objectB),
+                                            //                                                                               edk::vec2f32(edk::String::strToFloat32(xml->getSelectedAttributeValueByName("worldPositionBX")),
+                                            //                                                                                            edk::String::strToFloat32(xml->getSelectedAttributeValueByName("worldPositionBY"))
+                                            //                                                                                            ),
+                                            //                                                                               edk::vec2f32(edk::String::strToFloat32(xml->getSelectedAttributeValueByName("pulleyPositionBX")),
+                                            //                                                                                            edk::String::strToFloat32(xml->getSelectedAttributeValueByName("pulleyPositionBY"))
+                                            //                                                                                            ),
+                                            //                                                                               collide
+                                            //                                                                               );
+                                            this->world.createPulleyJoint(this->getPhysicsObjectInLevel(objectA),
+                                                                          positionA,
+                                                                          edk::vec2f32(edk::String::strToFloat32(xml->getSelectedAttributeValueByName("pulleyPositionAX")),
+                                                                                       edk::String::strToFloat32(xml->getSelectedAttributeValueByName("pulleyPositionAY"))
+                                                                                       ),
+                                                                          this->getPhysicsObjectInLevel(objectB),
+                                                                          positionB,
+                                                                          edk::vec2f32(edk::String::strToFloat32(xml->getSelectedAttributeValueByName("pulleyPositionBX")),
+                                                                                       edk::String::strToFloat32(xml->getSelectedAttributeValueByName("pulleyPositionBY"))
+                                                                                       ),
+                                                                          edk::String::strToFloat32(xml->getSelectedAttributeValueByName("lenghtA")),
+                                                                          edk::String::strToFloat32(xml->getSelectedAttributeValueByName("lenghtB")),
+                                                                          collide
+                                                                          );
+                                            break;
+                                        case EDK_WHEEL_JOINT:
+                                            //
+                                            if(edk::String::strCompare(xml->getSelectedAttributeValueByName("type"),"MOTOR")){
+                                                //
+                                                //                                                this->world.createWheelMotorJoint(this->getPhysicsObjectInLevel(objectA),
+                                                //                                                                                  this->getPhysicsObjectInLevel(objectB),
+                                                //                                                                                  worldPosition,
+                                                //                                                                                  edk::vec2f32(edk::String::strToFloat32(xml->getSelectedAttributeValueByName("directionX")),
+                                                //                                                                                               edk::String::strToFloat32(xml->getSelectedAttributeValueByName("directionY"))
+                                                //                                                                                               ),
+                                                //                                                                                  edk::String::strToFloat32(xml->getSelectedAttributeValueByName("frequency")),
+                                                //                                                                                  edk::String::strToFloat32(xml->getSelectedAttributeValueByName("dampingRatio")),
+                                                //                                                                                  edk::String::strToFloat32(xml->getSelectedAttributeValueByName("maxTorque")),
+                                                //                                                                                  edk::String::strToFloat32(xml->getSelectedAttributeValueByName("speed")),
+                                                //                                                                                  collide
+                                                //                                                                                  );
+                                                this->world.createWheelMotorJoint(this->getPhysicsObjectInLevel(objectA),
+                                                                                  positionA,
+                                                                                  this->getPhysicsObjectInLevel(objectB),
+                                                                                  positionB,
+                                                                                  edk::vec2f32(edk::String::strToFloat32(xml->getSelectedAttributeValueByName("directionX")),
+                                                                                               edk::String::strToFloat32(xml->getSelectedAttributeValueByName("directionY"))
+                                                                                               ),
+                                                                                  edk::String::strToFloat32(xml->getSelectedAttributeValueByName("frequency")),
+                                                                                  edk::String::strToFloat32(xml->getSelectedAttributeValueByName("dampingRatio")),
+                                                                                  edk::String::strToFloat32(xml->getSelectedAttributeValueByName("maxTorque")),
+                                                                                  edk::String::strToFloat32(xml->getSelectedAttributeValueByName("speed")),
+                                                                                  collide
+                                                                                  );
+                                            }
+                                            else{
+                                                //
+                                                //                                                this->world.createWheelJoint(this->getPhysicsObjectInLevel(objectA),
+                                                //                                                                             this->getPhysicsObjectInLevel(objectB),
+                                                //                                                                             worldPosition,
+                                                //                                                                             edk::vec2f32(edk::String::strToFloat32(xml->getSelectedAttributeValueByName("directionX")),
+                                                //                                                                                          edk::String::strToFloat32(xml->getSelectedAttributeValueByName("directionY"))
+                                                //                                                                                          ),
+                                                //                                                                             edk::String::strToFloat32(xml->getSelectedAttributeValueByName("frequency")),
+                                                //                                                                             edk::String::strToFloat32(xml->getSelectedAttributeValueByName("dampingRatio")),
+                                                //                                                                             collide
+                                                //                                                                             );
+                                                this->world.createWheelJoint(this->getPhysicsObjectInLevel(objectA),
+                                                                             positionA,
+                                                                             this->getPhysicsObjectInLevel(objectB),
+                                                                             positionB,
+                                                                             edk::vec2f32(edk::String::strToFloat32(xml->getSelectedAttributeValueByName("directionX")),
+                                                                                          edk::String::strToFloat32(xml->getSelectedAttributeValueByName("directionY"))
+                                                                                          ),
+                                                                             edk::String::strToFloat32(xml->getSelectedAttributeValueByName("frequency")),
+                                                                             edk::String::strToFloat32(xml->getSelectedAttributeValueByName("dampingRatio")),
+                                                                             collide
+                                                                             );
+                                            }
+                                            break;
+                                        case EDK_ROPE_JOINT:
+                                            //
+                                            //                                            this->world.createRopeJointWorldPositions(this->getPhysicsObjectInLevel(objectA),
+                                            //                                                                                      worldPosition,
+                                            //                                                                                      this->getPhysicsObjectInLevel(objectB),
+                                            //                                                                                      edk::vec2f32(edk::String::strToFloat32(xml->getSelectedAttributeValueByName("directionX")),
+                                            //                                                                                                   edk::String::strToFloat32(xml->getSelectedAttributeValueByName("directionY"))
+                                            //                                                                                                   ),
+                                            //                                                                                      edk::String::strToFloat32(xml->getSelectedAttributeValueByName("maxLength")),
+                                            //                                                                                      collide
+                                            //                                                                                      );
+                                            this->world.createRopeJoint(this->getPhysicsObjectInLevel(objectA),
+                                                                        positionA,
+                                                                        this->getPhysicsObjectInLevel(objectB),
+                                                                        positionB,
+                                                                        edk::String::strToFloat32(xml->getSelectedAttributeValueByName("maxLength")),
+                                                                        collide
+                                                                        );
+                                            break;
+                                        }
+                                    }
+                                    delete[] nameTemp;
+                                }
+                                delete[] idTemp;
+                            }
+                        }
+                    }
+
+                    //ACTIONS
+                    this->actions.readFromXML(xml,0u,this);
+
+                    ret=true;
+                    xml->selectFather();
+                }
+                delete[] name;
+            }
+            delete[] nameID;
+        }
+        return ret;
+    }
+    return false;
+}
+bool edk::Cenario2D::readFromXMLWithPack(edk::pack::FilePackage* pack,const edk::char8* fileName,edk::uint32 id){
+    return this->readFromXMLWithPack(pack,(edk::char8*) fileName,id);
+}
+bool edk::Cenario2D::readFromXMLWithPack(edk::pack::FilePackage* pack,edk::char8* fileName,edk::uint32 id){
+    //load the XML file
+    if(fileName && pack){
+        edk::XML xml;
+        if(pack->readFileToBuffer(fileName)){
+            if(xml.loadFromMemory(pack->getBuffer(),pack->getBufferSize())){
+                //load the cenario from the XML file
+                return this->readFromXMLWithPack(pack,&xml,id);
+            }
+        }
+    }
+    return false;
+}
 //Without id
 bool edk::Cenario2D::writeToXML(edk::XML* xml){
     return this->writeToXML(xml,0u);
@@ -3795,4 +4387,13 @@ bool edk::Cenario2D::readFromXML(const edk::char8* fileName){
 }
 bool edk::Cenario2D::readFromXML(edk::char8* fileName){
     return this->readFromXML(fileName,0u);
+}
+bool edk::Cenario2D::readFromXMLWithPack(edk::pack::FilePackage* pack,edk::XML* xml){
+    return this->readFromXMLWithPack(pack,xml,0u);
+}
+bool edk::Cenario2D::readFromXMLWithPack(edk::pack::FilePackage* pack,const edk::char8* fileName){
+    return this->readFromXMLWithPack(pack,fileName,0u);
+}
+bool edk::Cenario2D::readFromXMLWithPack(edk::pack::FilePackage* pack,edk::char8* fileName){
+    return this->readFromXMLWithPack(pack,fileName,0u);
 }

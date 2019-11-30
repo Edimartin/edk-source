@@ -492,6 +492,96 @@ bool edk::physics2D::PhysicObject2D::readFromXML(edk::XML* xml,edk::uint32 id){
     }
     return false;
 }
+bool edk::physics2D::PhysicObject2D::readFromXMLWithPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id){
+    if(xml && pack){
+        bool ret=false;
+        //create the nameID
+        edk::char8* nameID = edk::String::int64ToStr(id);
+        if(nameID){
+            //concat
+            edk::char8* name = edk::String::strCat((edk::char8*)"physicObject_",nameID);
+            if(name){
+                //create the name
+                if(xml->selectChild(name)){
+                    edk::char8* nameTemp;
+                    edk::char8* iTemp;
+                    this->physicMesh.cleanPolygons();
+                    //read the object
+                    edk::Object2D::readFromXMLWithPack(pack,xml,id);
+                    //read type
+                    this->physType = edk::String::strToInt32(xml->getSelectedAttributeValueByName("type"));
+                    //read sensor
+                    if(edk::String::strCompare(xml->getSelectedAttributeValueByName("sensor"),(edk::char8*)"true")) this->isObjectSensor=true;
+                    else this->isObjectSensor=false;
+                    //read fixedRot
+                    if(edk::String::strCompare(xml->getSelectedAttributeValueByName("fixedRot"),(edk::char8*)"true")) this->fixedRotation=true;
+                    else this->fixedRotation=false;
+                    //read canSleep
+                    if(edk::String::strCompare(xml->getSelectedAttributeValueByName("canSleep"),(edk::char8*)"true")) this->canSleep=true;
+                    else this->canSleep=false;
+                    //read mesh
+                    this->physicMesh.readFromXML(xml,0u);
+                    //read collisionGroup
+                    this->treeCollisionGroups.clean();
+                    if(xml->selectChild("collision")){
+                        edk::uint32 i=0u;
+                        bool cont=true;
+                        do{
+                            iTemp = edk::String::int64ToStr(i);
+                            if(iTemp){
+                                nameTemp = edk::String::strCat((edk::char8*)"c",iTemp);
+                                if(nameTemp){
+                                    if(xml->haveSelectedAttribute(nameTemp)){
+                                        //read the value
+                                        this->treeCollisionGroups.add(edk::String::strToInt64(xml->getSelectedAttributeValueByName(nameTemp)));
+                                    }
+                                    else cont=false;
+                                    delete[] nameTemp;
+                                }
+                                delete[] iTemp;
+                            }
+                            i++;
+                        }while(cont);
+                        xml->selectFather();
+                    }
+                    //read notCollisionGroup
+                    this->treeNotCollisionGroups.clean();
+                    if(xml->selectChild("notCollision")){
+                        edk::uint32 i=0u;
+                        bool cont=true;
+                        do{
+                            iTemp = edk::String::int64ToStr(i);
+                            if(iTemp){
+                                nameTemp = edk::String::strCat((edk::char8*)"n",iTemp);
+                                if(nameTemp){
+                                    if(xml->haveSelectedAttribute(nameTemp)){
+                                        //read the value
+                                        this->treeNotCollisionGroups.add(edk::String::strToInt64(xml->getSelectedAttributeValueByName(nameTemp)));
+                                    }
+                                    else cont=false;
+                                    delete[] nameTemp;
+                                }
+                                delete[] iTemp;
+                            }
+                            i++;
+                        }while(cont);
+                        xml->selectFather();
+                    }
+                    //write physics animations
+                    this->animationPosition.readFromXML(xml,0u);
+                    this->animationRotation.readFromXML(xml,1u);
+
+                    ret=true;
+                    xml->selectFather();
+                }
+                delete[] name;
+            }
+            delete[] nameID;
+        }
+        return ret;
+    }
+    return false;
+}
 bool edk::physics2D::PhysicObject2D::readFromXMLisSensor(edk::XML* xml,edk::uint32 id){
     if(xml){
         bool ret=false;

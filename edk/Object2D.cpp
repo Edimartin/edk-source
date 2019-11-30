@@ -1585,6 +1585,67 @@ bool edk::Object2D::readFromXML(edk::XML* xml,edk::uint32 id){
     }
     return false;
 }
+bool edk::Object2D::readFromXMLWithPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id){
+    if(xml && pack){
+        bool ret=false;
+        //create the nameID
+        edk::char8* nameID = edk::String::int64ToStr(id);
+        if(nameID){
+            //concat
+            edk::char8* name = edk::String::strCat((edk::char8*)"object_",nameID);
+            if(name){
+                //create the name
+                if(xml->selectChild(name)){
+                    this->cleanMeshes();
+                    //read mesh
+                    edk::shape::Mesh2D* mesh;
+                    edk::uint32 count=0u;
+                    edk::uint32 position=0u;
+                    do{
+                        mesh = this->newMesh(&position);
+                        if(mesh){
+                            if(!mesh->readFromXMLWithPack(pack,xml,count)){
+                                this->removeMesh(position);
+                                mesh=NULL;
+                            }
+                        }
+                        count++;
+                    }while(mesh);
+                    //read pivo
+                    this->pivo = edk::vec2f32(edk::String::strToFloat32(xml->getSelectedAttributeValueByName("pivoX")),
+                                              edk::String::strToFloat32(xml->getSelectedAttributeValueByName("pivoY"))
+                                              );
+                    //read the object values
+                    //position
+                    this->position = edk::vec2f32(edk::String::strToFloat32(xml->getSelectedAttributeValueByName("positionX")),
+                                                  edk::String::strToFloat32(xml->getSelectedAttributeValueByName("positionY"))
+                                                  );
+                    //size
+                    this->size = edk::size2f32(edk::String::strToFloat32(xml->getSelectedAttributeValueByName("sizeW")),
+                                               edk::String::strToFloat32(xml->getSelectedAttributeValueByName("sizeH"))
+                                               );
+                    //angle
+                    this->angle = edk::String::strToFloat32(xml->getSelectedAttributeValueByName("angle"));
+
+                    //write animations
+                    this->animationPosition.readFromXML(xml,0u);
+                    this->animationRotation.readFromXML(xml,1u);
+                    this->animationSize.readFromXML(xml,2u);
+
+                    //ACTIONS
+                    this->actions.readFromXML(xml,0u,this);
+
+                    ret=true;
+                    xml->selectFather();
+                }
+                delete[] name;
+            }
+            delete[] nameID;
+        }
+        return ret;
+    }
+    return false;
+}
 
 //cant delete
 void edk::Object2D::cantDeleteObject2D(){

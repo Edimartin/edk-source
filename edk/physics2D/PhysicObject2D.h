@@ -99,6 +99,7 @@ public:
     //XML
     virtual bool writeToXML(edk::XML* xml,edk::uint32 id,bool connected=false);
     virtual bool readFromXML(edk::XML* xml,edk::uint32 id);
+    virtual bool readFromXMLWithPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id);
     static bool readFromXMLisSensor(edk::XML* xml,edk::uint32 id);
 
     virtual bool cloneFrom(edk::physics2D::PhysicObject2D* obj);

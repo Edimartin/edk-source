@@ -1292,6 +1292,30 @@ bool edk::shape::Mesh2D::readFromXML(edk::XML* xml,edk::uint32 id){
     }
     return false;
 }
+bool edk::shape::Mesh2D::readFromXMLWithPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id){
+    if(edk::shape::Polygon2DList::readFromXML(xml,id)){
+        bool ret=true;
+        //create the nameID
+        edk::char8* nameID = edk::String::int64ToStr(id);
+        if(nameID){
+            //concat
+            edk::char8* name = edk::String::strCat((edk::char8*)"mesh_",nameID);
+            if(name){
+                //select the name
+                if(xml->selectChild(name)){
+                    //read the material
+                    this->material.readFromXMLWithPack(pack,xml,0u);
+                    ret=true;
+                    xml->selectFather();
+                }
+                delete[] name;
+            }
+            delete[] nameID;
+        }
+        return ret;
+    }
+    return false;
+}
 
 bool edk::shape::Mesh2D::cloneFrom(edk::shape::Mesh2D* mesh){
     if(mesh){

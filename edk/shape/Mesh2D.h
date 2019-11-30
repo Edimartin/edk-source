@@ -37,6 +37,7 @@ Gravatai RS Brazil 94065100
 #include "../Texture2DList.h"
 #include "../material/Material.h"
 #include "../collision/MathCollision.h"
+#include "../pack/FilePackage.h"
 
 #ifdef printMessages
 #warning "    Compiling Mesh2D"
@@ -100,6 +101,7 @@ public:
     //XML
     virtual bool writeToXML(edk::XML* xml,edk::uint32 id);
     virtual bool readFromXML(edk::XML* xml,edk::uint32 id);
+    virtual bool readFromXMLWithPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id);
 
     virtual bool cloneFrom(edk::shape::Mesh2D* mesh);
 

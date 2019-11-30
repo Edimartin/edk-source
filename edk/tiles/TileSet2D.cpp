@@ -1947,3 +1947,88 @@ bool edk::tiles::TileSet2D::readFromXML(edk::XML* xml,edk::uint32 id){
     }
     return false;
 }
+bool edk::tiles::TileSet2D::readFromXMLWithPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id){
+    this->treeRemoveXML.clean();
+    if(xml && pack){
+        bool ret=false;
+        //create the nameID
+        edk::char8* nameID = edk::String::int64ToStr(id);
+        if(nameID){
+            //concat
+            edk::char8* name = edk::String::strCat((edk::char8*)"tileSet_",nameID);
+            if(name){
+                //select the name
+                if(xml->selectChild(name)){
+                    this->deleteTiles();
+                    ret=true;
+                    //read the size
+                    this->tileSize = edk::size2f32(edk::String::strToFloat32(xml->getSelectedAttributeValueByName("sizeW")),
+                                                   edk::String::strToFloat32(xml->getSelectedAttributeValueByName("sizeH"))
+                                                   );
+                    //read the position
+                    this->tilesPosition = edk::vec2f32(edk::String::strToFloat32(xml->getSelectedAttributeValueByName("posX")),
+                                                       edk::String::strToFloat32(xml->getSelectedAttributeValueByName("posY"))
+                                                       );
+
+                    //read tiles
+                    edk::tiles::Tile2D* tileTemp;
+                    //                    edk::int32 i = 0u;
+                    edk::char8* nameTemp;
+                    edk::char8* iTemp;
+                    edk::uint32 size = edk::String::strToInt64(xml->getSelectedAttributeValueByName("tileSize"));
+                    edk::uint32 sizeStack;
+                    for(edk::uint32 i=1u;i<=size;i++){
+                        tileTemp = new edk::tiles::Tile2D;
+                        if(tileTemp){
+                            //add the tile
+                            sizeStack = this->tiles.size();
+                            this->tiles.pushBack(tileTemp);
+                            if(sizeStack<this->tiles.size()){
+                                //load the tile
+                                if(tileTemp->readFromXMLWithPack(pack,xml,i)){
+                                    //test if the tile is animated
+                                    iTemp = edk::String::int64ToStr(i);
+                                    if(iTemp){
+                                        nameTemp = edk::String::strCat((edk::char8*)"anim_",iTemp);
+                                        if(nameTemp){
+                                            //test the animated
+                                            if(xml->selectChild(nameTemp)){
+                                                //add the tile to the animatedTree
+                                                this->treeAnimated.add(tileTemp);
+                                                xml->selectFather();
+                                            }
+                                            delete[] nameTemp;
+                                        }
+                                        delete[] iTemp;
+                                    }
+                                }
+                                else{
+                                    //else remove the tile after
+                                    this->treeRemoveXML.add(i);
+                                    //
+                                }
+                            }
+                            else{
+                                //
+                                delete tileTemp;
+                                ret=false;
+                                break;
+                            }
+                        }
+                    }
+                    //remove the tiles
+                    size = this->treeRemoveXML.size();
+                    for(edk::uint32 i=0u;i<size;i++){
+                        this->deleteTile(this->treeRemoveXML.getElementInPosition(i));
+                    }
+                    xml->selectFather();
+                }
+                delete[] name;
+            }
+            delete[] nameID;
+        }
+        this->treeRemoveXML.clean();
+        return ret;
+    }
+    return false;
+}
