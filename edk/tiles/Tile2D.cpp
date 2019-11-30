@@ -209,6 +209,18 @@ bool edk::tiles::Tile2D::loadImageFromMemory(edk::char8* name,edk::uint8* image,
     //else return false
     return false;
 }
+//set the tileImage from the pack
+bool edk::tiles::Tile2D::loadImageFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint32 filter){
+    return this->loadImageFromPack(pack,(edk::char8*) name,filter);
+}
+bool edk::tiles::Tile2D::loadImageFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter){
+    //test the name
+    if(name && pack){
+        return this->mesh.material.loadTextureFromPack(pack,name,0u,filter);
+    }
+    //else return false
+    return false;
+}
 
 //Get the size of the Tile
 edk::size2f32 edk::tiles::Tile2D::getSize(){

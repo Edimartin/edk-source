@@ -143,6 +143,105 @@ bool edk::gui2d::MenuObj::loadObject(edk::uint32 id,edk::char8* spriteName,edk::
 
     return ret;
 }
+bool edk::gui2d::MenuObj::loadObject(edk::uint32 id,const edk::char8* spriteName,edk::char8* text1,edk::char8* text2){
+    return this->loadObject(id,(edk::char8*) spriteName,text1,text2);
+}
+bool edk::gui2d::MenuObj::loadObjectFromPack(edk::pack::FilePackage* pack,edk::uint32 id,edk::char8* spriteName,edk::char8* text1,edk::char8* text2){
+    this->id = id;
+    this->sprite.cleanMeshes();
+    this->text1.deleteMap();
+    this->str1.cleanName();
+    this->text2.deleteMap();
+    this->str2.cleanName();
+    bool ret = true;
+    this->positionText1 = this->positionText2 = 0.f;
+    //set the object size
+    this->obj.size = edk::size2f32(0,1);
+    this->sprite.size = edkGui2dInsideHeight;
+
+
+    this->obj.size.width += edkGui2dInsideBorder;
+    if(spriteName && pack){
+        //
+        edk::shape::Mesh2D* mesh = this->sprite.newMesh();
+        if(mesh){
+            edk::shape::Rectangle2D rect;
+            rect.setPivoToCenter();
+            mesh->addPolygon(rect);
+            //load the texture
+            if(mesh->material.loadTextureFromPack(pack,spriteName,0u)){
+                edk::size2ui32 texSize = mesh->material.getTextureSize(0u);
+                if(texSize.width && texSize.height){
+                    //test the size to set the sprite new size
+                    if(texSize.width > texSize.height){
+                        //
+                        this->sprite.size.height = this->sprite.size.width * ((edk::float32)texSize.height / (edk::float32)texSize.width);
+                    }
+                    else{
+                        this->sprite.size.width = this->sprite.size.height * ((edk::float32)texSize.width / (edk::float32)texSize.height);
+                    }
+                    this->obj.size.width += this->sprite.size.width;
+                    this->obj.size.width += edkGui2dInsideBorder;
+                }
+                else{
+                    this->sprite.removeAllMesh();
+                    ret = false;
+                }
+            }
+            else{
+                this->sprite.removeAllMesh();
+                ret = false;
+            }
+        }
+    }
+    else{
+        this->sprite.size.width = 0.f;
+    }
+    if(text1){
+        //test the size of the text
+        if(edk::String::strSize(text1)){
+            //create the fontMap
+            this->text1.deleteMap();
+            this->text1.setScale(edkGui2dInsideHeight*0.5f,edkGui2dInsideHeight);
+            this->positionText1 = this->obj.size.width;
+            if(this->text1.createStringMap(text1)){
+                this->str1.setName(text1);
+                this->obj.size.width += this->text1.getMapSizeWidth() * edkGui2dInsideHeight * 0.5f;
+            }
+            else{
+                ret = false;
+            }
+        }
+        this->obj.size.width += edkGui2dInsideBorder;
+    }
+    if(text2){
+
+        //test the size of the text
+        if(edk::String::strSize(text2)){
+            //
+            //create the fontMap
+            this->text2.deleteMap();
+            this->text2.setScale(edkGui2dInsideHeight*0.5f,edkGui2dInsideHeight);
+            this->positionText2 = this->obj.size.width;
+            if(this->text2.createStringMap(text2)){
+                this->str2.setName(text2);
+                this->obj.size.width += this->text2.getMapSizeWidth() * edkGui2dInsideHeight * 0.5f;
+            }
+            else{
+                ret = false;
+            }
+        }
+        this->obj.size.width += edkGui2dInsideBorder;
+
+    }
+
+    this->updatePositions();
+
+    return ret;
+}
+bool edk::gui2d::MenuObj::loadObjectFromPack(edk::pack::FilePackage* pack,edk::uint32 id,const edk::char8* spriteName,edk::char8* text1,edk::char8* text2){
+    return this->loadObjectFromPack(pack,id,(edk::char8*) spriteName,text1,text2);
+}
 //set the button position
 void edk::gui2d::MenuObj::setPosition(edk::float32 x,edk::float32 y){
     this->setPosition(edk::vec2f32 (x,y));

@@ -33,6 +33,7 @@ Gravatai RS Brazil 94065100
 #include "../physics2D/KinematicObject2D.h"
 #include "../physics2D/DynamicObject2D.h"
 #include "../xml/XML.h"
+#include "../pack/FilePackage.h"
 
 #ifdef printMessages
 #warning "    Compiling Tile2D"
@@ -102,6 +103,9 @@ public:
     //set the tileImage from memory
     bool loadImageFromMemory(const char* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
     bool loadImageFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
+    //set the tileImage from the pack
+    bool loadImageFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint32 filter = GU_NEAREST);
+    bool loadImageFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter = GU_NEAREST);
 
     //Get the size of the Tile
     edk::size2f32 getSize();

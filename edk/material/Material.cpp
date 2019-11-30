@@ -93,6 +93,23 @@ bool edk::material::Material::loadTextureFromMemory(edk::char8* name,edk::uint8*
 bool edk::material::Material::loadTextureFromMemory(const char* name,edk::uint8* image,edk::uint32 size,edk::uint8 position,edk::uint32 filter){
     return loadTextureFromMemory((edk::char8*) name,image,size,position,filter);
 }
+bool edk::material::Material::loadTextureFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint8 position,edk::uint32 filter){
+    //test the position
+    if(position<materialTextureCount){
+        //remove the texture
+        this->removeTexture(position);
+        //then load the new texture
+        this->textures[position] = this->list.loadTextureFromPack(pack,name,filter);
+        if(this->textures[position]){
+            this->countTextures++;
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::material::Material::loadTextureFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint8 position,edk::uint32 filter){
+    return this->loadTextureFromPack(pack,(edk::char8*) name,position,filter);
+}
 //set the texture
 bool edk::material::Material::setTextureFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint8 position,edk::uint32 filter){
     //test the position

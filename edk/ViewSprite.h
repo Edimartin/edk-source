@@ -29,6 +29,7 @@ Gravatai RS Brazil 94065100
 #pragma once
 #include "View.h"
 #include "Texture2DList.h"
+#include "pack/FilePackage.h"
 
 #ifdef printMessages
 #warning "    Compiling ViewSprite"
@@ -54,8 +55,11 @@ public:
     bool loadSpriteFromMemory(const char* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
     bool loadSpriteFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
     //set sprite from memory
-    bool setTextureFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 filter = GU_NEAREST);
-    bool setTextureFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 filter = GU_NEAREST);
+    bool setSpriteFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 filter = GU_NEAREST);
+    bool setSpriteFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 filter = GU_NEAREST);
+    //load the sprite
+    bool loadSpriteFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint32 filter = GU_NEAREST);
+    bool loadSpriteFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter = GU_NEAREST);
 
     //Delete the sprite
     void deleteSprite();

@@ -120,7 +120,7 @@ bool edk::ViewSprite::loadSpriteFromMemory(edk::char8* name,edk::uint8* sprite,e
     return false;
 }
 //set sprite from memory
-bool edk::ViewSprite::setTextureFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 filter){
+bool edk::ViewSprite::setSpriteFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 filter){
     //delete the sprite
     this->deleteSprite();
     //test the name
@@ -138,8 +138,30 @@ bool edk::ViewSprite::setTextureFromMemory(edk::char8* name,edk::uint8* sprite,e
     //else return false
     return false;
 }
-bool edk::ViewSprite::setTextureFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 filter){
-    return setTextureFromMemory((edk::char8*) name,sprite,width,height,channels,filter);
+bool edk::ViewSprite::setSpriteFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 filter){
+    return setSpriteFromMemory((edk::char8*) name,sprite,width,height,channels,filter);
+}
+//load the sprite
+bool edk::ViewSprite::loadSpriteFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint32 filter){
+    return this->loadSpriteFromPack(pack,(edk::char8*) name,filter);
+}
+bool edk::ViewSprite::loadSpriteFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter){
+    //delete the sprite
+    this->deleteSprite();
+    //test the name
+    if(name && pack){
+        //then load the texture
+        this->spriteCode = this->list.loadTextureFromPack(pack,name,filter);
+        this->spriteFilter = filter;
+        if(this->spriteCode){
+            this->spriteSize = this->list.getTextureSize(this->spriteCode);
+            return true;
+        }
+    }
+    this->spriteFilter = 0u;
+
+    //else return false
+    return false;
 }
 
 //Delete the sprite

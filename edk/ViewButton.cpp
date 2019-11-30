@@ -237,6 +237,22 @@ bool edk::ViewButton::loadSpritePressedFromMemory(edk::char8* name,edk::uint8* s
     //else return false
     return false;
 }
+bool edk::ViewButton::loadSpritePressedFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint32 filter){
+    return this->loadSpritePressedFromPack(pack,(edk::char8* )name,filter);
+}
+bool edk::ViewButton::loadSpritePressedFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter){
+    //delete the sprite
+    this->deleteSpritePressed();
+    //test the name
+    if(name && pack){
+        //then load the texture
+        this->spritePressedCode = this->list.loadTextureFromPack(pack,name,filter);
+        if(this->spritePressedCode) return true;
+    }
+
+    //else return false
+    return false;
+}
 //load UP sprite
 bool edk::ViewButton::loadSpriteUp(const char* name,edk::uint32 filter){
     //
@@ -264,6 +280,21 @@ bool edk::ViewButton::loadSpriteUpFromMemory(edk::char8* name,edk::uint8* sprite
     if(name){
         //then load the texture
         this->spriteUpCode = this->list.loadTextureFromMemory(name,sprite,size,filter);
+        if(this->spriteUpCode) return true;
+    }
+    //else return false
+    return false;
+}
+bool edk::ViewButton::loadSpriteUpFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint32 filter){
+    return this->loadSpriteUpFromPack(pack,(edk::char8*) name,filter);
+}
+bool edk::ViewButton::loadSpriteUpFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter){
+    //delete the sprite
+    this->deleteSpriteUp();
+    //test the name
+    if(name && pack){
+        //then load the texture
+        this->spriteUpCode = this->list.loadTextureFromPack(pack,name,filter);
         if(this->spriteUpCode) return true;
     }
     //else return false
@@ -301,6 +332,21 @@ bool edk::ViewButton::loadSymbolFromMemory(edk::char8* name,edk::uint8* sprite,e
     }
     return false;
 }
+bool edk::ViewButton::loadSymbolFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint32 filter){
+    return this->loadSymbolFromPack(pack,(edk::char8*) name,filter);
+}
+bool edk::ViewButton::loadSymbolFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter){
+    //delete symbol
+    this->deleteSymbol();
+    if(name && pack){
+        this->symbolCode = this->list.loadTextureFromPack(pack,name,filter);
+        if(this->symbolCode){
+            this->symbolSize = this->list.getTextureSize(this->symbolCode);
+            return true;
+        }
+    }
+    return false;
+}
 //Load button symbol pressed
 bool edk::ViewButton::loadSymbolPressed(const char* name,edk::uint32 filter){
     return this->loadSymbol((edk::char8*) name,filter);
@@ -326,6 +372,18 @@ bool edk::ViewButton::loadSymbolPressedFromMemory(edk::char8* name,edk::uint8* s
     }
     return false;
 }
+bool edk::ViewButton::loadSymbolPressedFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint32 filter){
+    return this->loadSymbolPressedFromPack(pack,(edk::char8*) name,filter);
+}
+bool edk::ViewButton::loadSymbolPressedFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter){
+    //delete symbol
+    this->deleteSymbolPressed();
+    if(name && pack){
+        this->symbolPressedCode = this->list.loadTextureFromPack(pack,name,filter);
+        if(this->symbolPressedCode) return true;
+    }
+    return false;
+}
 //Load button symbol up
 bool edk::ViewButton::loadSymbolUp(const char* name,edk::uint32 filter){
     return this->loadSymbolUp((edk::char8*) name,filter);
@@ -347,6 +405,18 @@ bool edk::ViewButton::loadSymbolUpFromMemory(edk::char8* name,edk::uint8* sprite
     this->deleteSymbolUp();
     if(name){
         this->symbolUpCode = this->list.loadTextureFromMemory(name,sprite,size,filter);
+        if(this->symbolUpCode) return true;
+    }
+    return false;
+}
+bool edk::ViewButton::loadSymbolUpFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint32 filter){
+    return this->loadSymbolUpFromPack(pack,(edk::char8*) name,filter);
+}
+bool edk::ViewButton::loadSymbolUpFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter){
+    //delete symbol
+    this->deleteSymbolUp();
+    if(name && pack){
+        this->symbolUpCode = this->list.loadTextureFromPack(pack,name,filter);
         if(this->symbolUpCode) return true;
     }
     return false;

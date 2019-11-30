@@ -139,6 +139,27 @@ bool edk::ViewSpriteController::setTextureFromMemory(edk::char8* name,edk::uint8
 bool edk::ViewSpriteController::setTextureFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 filter){
     return setTextureFromMemory((edk::char8*) name,sprite,width,height,channels,filter);
 }
+//load the sprite
+bool edk::ViewSpriteController::loadSpriteFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint32 filter){
+    return this->loadSpriteFromPack(pack,(edk::char8*) name,filter);
+}
+bool edk::ViewSpriteController::loadSpriteFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter){
+    //delete the sprite
+    this->deleteSprite();
+    //test the name
+    if(name && pack){
+        //then load the texture
+        this->spriteCode = this->list.loadTextureFromPack(pack,name,filter);
+        this->spriteFilter=filter;
+        if(this->spriteCode){
+            this->spriteSize = this->list.getTextureSize(this->spriteCode);
+            return true;
+        }
+    }
+
+    //else return false
+    return false;
+}
 
 //Delete the sprite
 void edk::ViewSpriteController::deleteSprite(){

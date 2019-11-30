@@ -33,6 +33,7 @@ Gravatai RS Brazil 94065100
 #include "../vector/BinaryTree.h"
 #include "../fonts/FontMap.h"
 #include "../NameClass.h"
+#include "../pack/FilePackage.h"
 #include "ObjectGui2dBorder.h"
 
 #ifdef printMessages
@@ -64,24 +65,32 @@ public:
     bool loadSprite(edk::char8* name,edk::uint32 filter = GU_NEAREST);
     bool loadSpriteFromMemory(const char* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
     bool loadSpriteFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
+    bool loadSpriteFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint32 filter = GU_NEAREST);
+    bool loadSpriteFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter = GU_NEAREST);
     void removeSprite();
     //load pressed sprite
     bool loadSpritePressed(const char* name,edk::uint32 filter = GU_NEAREST);
     bool loadSpritePressed(edk::char8* name,edk::uint32 filter = GU_NEAREST);
     bool loadSpritePressedFromMemory(const char* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
     bool loadSpritePressedFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
+    bool loadSpritePressedFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint32 filter = GU_NEAREST);
+    bool loadSpritePressedFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter = GU_NEAREST);
     void removeSpritePressed();
     //load UP sprite
     bool loadSpriteUp(const char* name,edk::uint32 filter = GU_NEAREST);
     bool loadSpriteUp(edk::char8* name,edk::uint32 filter = GU_NEAREST);
     bool loadSpriteUpFromMemory(const char* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
     bool loadSpriteUpFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
+    bool loadSpriteUpFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint32 filter = GU_NEAREST);
+    bool loadSpriteUpFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter = GU_NEAREST);
     void removeSpriteUp();
     //load UP sprite
     bool loadSpritePressedUp(const char* name,edk::uint32 filter = GU_NEAREST);
     bool loadSpritePressedUp(edk::char8* name,edk::uint32 filter = GU_NEAREST);
     bool loadSpritePressedUpFromMemory(const char* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
     bool loadSpritePressedUpFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
+    bool loadSpritePressedUpFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint32 filter = GU_NEAREST);
+    bool loadSpritePressedUpFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter = GU_NEAREST);
     void removeSpritePressedUp();
 
     //Load button symbol normal
@@ -89,40 +98,54 @@ public:
     bool loadSymbol(edk::char8* name,edk::uint32 filter = GU_NEAREST);
     bool loadSymbolFromMemory(const char* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
     bool loadSymbolFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
+    bool loadSymbolFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint32 filter = GU_NEAREST);
+    bool loadSymbolFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter = GU_NEAREST);
     void removeSymbol();
     //Load button symbol pressed
     bool loadSymbolPressed(const char* name,edk::uint32 filter = GU_NEAREST);
     bool loadSymbolPressed(edk::char8* name,edk::uint32 filter = GU_NEAREST);
     bool loadSymbolPressedFromMemory(const char* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
     bool loadSymbolPressedFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
+    bool loadSymbolPressedFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint32 filter = GU_NEAREST);
+    bool loadSymbolPressedFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter = GU_NEAREST);
     void removeSymbolPressed();
     //Load button symbol up
     bool loadSymbolUp(const char* name,edk::uint32 filter = GU_NEAREST);
     bool loadSymbolUp(edk::char8* name,edk::uint32 filter = GU_NEAREST);
     bool loadSymbolUpFromMemory(const char* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
     bool loadSymbolUpFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
+    bool loadSymbolUpFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint32 filter = GU_NEAREST);
+    bool loadSymbolUpFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter = GU_NEAREST);
     void removeSymbolUp();
     //Load button symbol pressedUp
     bool loadSymbolPressedUp(const char* name,edk::uint32 filter = GU_NEAREST);
     bool loadSymbolPressedUp(edk::char8* name,edk::uint32 filter = GU_NEAREST);
     bool loadSymbolPressedUpFromMemory(const char* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
     bool loadSymbolPressedUpFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
+    bool loadSymbolPressedUpFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint32 filter = GU_NEAREST);
+    bool loadSymbolPressedUpFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter = GU_NEAREST);
     void removeSymbolPressedUp();
     //Load button symbolAllStatus normal
     bool loadSymbolAllStatus(const char* name,edk::uint32 filter = GU_NEAREST);
     bool loadSymbolAllStatus(edk::char8* name,edk::uint32 filter = GU_NEAREST);
     bool loadSymbolAllStatusFromMemory(const char* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
     bool loadSymbolAllStatusFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
+    bool loadSymbolAllStatusFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint32 filter = GU_NEAREST);
+    bool loadSymbolAllStatusFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter = GU_NEAREST);
     //Load button symbolAllUPStatus normal
     bool loadSymbolAllUPStatus(const char* name,edk::uint32 filter = GU_NEAREST);
     bool loadSymbolAllUPStatus(edk::char8* name,edk::uint32 filter = GU_NEAREST);
     bool loadSymbolAllUPStatusFromMemory(const char* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
     bool loadSymbolAllUPStatusFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
+    bool loadSymbolAllUPStatusFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint32 filter = GU_NEAREST);
+    bool loadSymbolAllUPStatusFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter = GU_NEAREST);
     //Load button symbolAllUPStatus normal
     bool loadSymbolAllNormalAndPressedStatus(const char* name,edk::uint32 filter = GU_NEAREST);
     bool loadSymbolAllNormalAndPressedStatus(edk::char8* name,edk::uint32 filter = GU_NEAREST);
     bool loadSymbolAllNormalAndPressedStatusFromMemory(const char* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
     bool loadSymbolAllNormalAndPressedStatusFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
+    bool loadSymbolAllNormalAndPressedStatusFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint32 filter = GU_NEAREST);
+    bool loadSymbolAllNormalAndPressedStatusFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter = GU_NEAREST);
 
     //set the color
     void setColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);

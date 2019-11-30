@@ -182,6 +182,12 @@ bool edk::gui2d::ObjectGui2d::loadSpriteFromMemory(const char* name,edk::uint8* 
 bool edk::gui2d::ObjectGui2d::loadSpriteFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
     return this->obj.loadSpriteNormalFromMemory(name,sprite,size,filter);
 }
+bool edk::gui2d::ObjectGui2d::loadSpriteFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint32 filter){
+    return this->loadSpriteFromPack(pack,(edk::char8*) name,filter);
+}
+bool edk::gui2d::ObjectGui2d::loadSpriteFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter){
+    return this->obj.loadSpriteNormalFromPack(pack,name,filter);
+}
 void edk::gui2d::ObjectGui2d::removeSprite(){
     this->obj.removeSpriteNormal();
 }
@@ -198,6 +204,12 @@ bool edk::gui2d::ObjectGui2d::loadSpritePressedFromMemory(const char* name,edk::
 bool edk::gui2d::ObjectGui2d::loadSpritePressedFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
     return this->obj.loadSpritePressedFromMemory(name,sprite,size,filter);
 }
+bool edk::gui2d::ObjectGui2d::loadSpritePressedFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint32 filter){
+    return this->loadSpritePressedFromPack(pack,(edk::char8*) name,filter);
+}
+bool edk::gui2d::ObjectGui2d::loadSpritePressedFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter){
+    return this->obj.loadSpritePressedFromPack(pack,name,filter);
+}
 void edk::gui2d::ObjectGui2d::removeSpritePressed(){
     this->obj.removeSpritePressed();
 }
@@ -213,6 +225,12 @@ bool edk::gui2d::ObjectGui2d::loadSpriteUpFromMemory(const char* name,edk::uint8
 }
 bool edk::gui2d::ObjectGui2d::loadSpriteUpFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
     return this->obj.loadSpriteUpFromMemory(name,sprite,size,filter);
+}
+bool edk::gui2d::ObjectGui2d::loadSpriteUpFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint32 filter){
+    return this->loadSpriteUpFromPack(pack,(edk::char8*) name,filter);
+}
+bool edk::gui2d::ObjectGui2d::loadSpriteUpFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter){
+    return this->obj.loadSpriteUpFromPack(pack,name,filter);
 }
 void edk::gui2d::ObjectGui2d::removeSpriteUp(){
     this->obj.removeSpriteUp();
@@ -233,6 +251,12 @@ bool edk::gui2d::ObjectGui2d::loadSpritePressedUpFromMemory(edk::char8* name,edk
 void edk::gui2d::ObjectGui2d::removeSpritePressedUp(){
     this->obj.removeSpritePressedUp();
 }
+bool edk::gui2d::ObjectGui2d::loadSpritePressedUpFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint32 filter){
+    return this->loadSpritePressedUpFromPack(pack,(edk::char8*) name,filter);
+}
+bool edk::gui2d::ObjectGui2d::loadSpritePressedUpFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter){
+    return this->obj.loadSpritePressedUpFromPack(pack,name,filter);
+}
 
 //Load button symbol normal
 bool edk::gui2d::ObjectGui2d::loadSymbol(const char* name,edk::uint32 filter){
@@ -251,6 +275,17 @@ bool edk::gui2d::ObjectGui2d::loadSymbolFromMemory(const char* name,edk::uint8* 
 }
 bool edk::gui2d::ObjectGui2d::loadSymbolFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
     if(this->sprite.material.loadTextureFromMemory(name,sprite,size,edk::gui2d::gui2dTextureNormal,filter)){
+        //get the texture size
+        this->spriteSize[edk::gui2d::gui2dTextureNormal] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTextureNormal);
+        return true;
+    }
+    return false;
+}
+bool edk::gui2d::ObjectGui2d::loadSymbolFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint32 filter){
+    return this->loadSymbolFromPack(pack,(edk::char8*) name,filter);
+}
+bool edk::gui2d::ObjectGui2d::loadSymbolFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter){
+    if(this->sprite.material.loadTextureFromPack(pack,name,edk::gui2d::gui2dTextureNormal,filter)){
         //get the texture size
         this->spriteSize[edk::gui2d::gui2dTextureNormal] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTextureNormal);
         return true;
@@ -284,6 +319,17 @@ bool edk::gui2d::ObjectGui2d::loadSymbolPressedFromMemory(edk::char8* name,edk::
     }
     return false;
 }
+bool edk::gui2d::ObjectGui2d::loadSymbolPressedFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint32 filter){
+    return this->loadSymbolPressedFromPack(pack,(edk::char8*) name,filter);
+}
+bool edk::gui2d::ObjectGui2d::loadSymbolPressedFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter){
+    if(this->sprite.material.loadTextureFromPack(pack,name,edk::gui2d::gui2dTexturePressed,filter)){
+        //get the texture size
+        this->spriteSize[edk::gui2d::gui2dTexturePressed] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTexturePressed);
+        return true;
+    }
+    return false;
+}
 void edk::gui2d::ObjectGui2d::removeSymbolPressed(){
     this->sprite.material.removeTexture(edk::gui2d::gui2dTexturePressed);
     this->spriteSize[edk::gui2d::gui2dTexturePressed].width = this->spriteSize[edk::gui2d::gui2dTexturePressed].height = 0.f;
@@ -311,6 +357,17 @@ bool edk::gui2d::ObjectGui2d::loadSymbolUpFromMemory(edk::char8* name,edk::uint8
     }
     return false;
 }
+bool edk::gui2d::ObjectGui2d::loadSymbolUpFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint32 filter){
+    return this->loadSymbolUpFromPack(pack,(edk::char8*) name,filter);
+}
+bool edk::gui2d::ObjectGui2d::loadSymbolUpFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter){
+    if(this->sprite.material.loadTextureFromPack(pack,name,edk::gui2d::gui2dTextureUp,filter)){
+        //get the texture size
+        this->spriteSize[edk::gui2d::gui2dTextureUp] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTextureUp);
+        return true;
+    }
+    return false;
+}
 void edk::gui2d::ObjectGui2d::removeSymbolUp(){
     this->sprite.material.removeTexture(edk::gui2d::gui2dTextureUp);
     this->spriteSize[edk::gui2d::gui2dTextureUp].width = this->spriteSize[edk::gui2d::gui2dTextureUp].height = 0.f;
@@ -332,6 +389,17 @@ bool edk::gui2d::ObjectGui2d::loadSymbolPressedUpFromMemory(const char* name,edk
 }
 bool edk::gui2d::ObjectGui2d::loadSymbolPressedUpFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
     if(this->sprite.material.loadTextureFromMemory(name,sprite,size,edk::gui2d::gui2dTexturePressedUp,filter)){
+        //get the texture size
+        this->spriteSize[edk::gui2d::gui2dTexturePressedUp] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTexturePressedUp);
+        return true;
+    }
+    return false;
+}
+bool edk::gui2d::ObjectGui2d::loadSymbolPressedUpFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint32 filter){
+    return this->loadSymbolPressedUpFromPack(pack,(edk::char8*) name,filter);
+}
+bool edk::gui2d::ObjectGui2d::loadSymbolPressedUpFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter){
+    if(this->sprite.material.loadTextureFromPack(pack,name,edk::gui2d::gui2dTexturePressedUp,filter)){
         //get the texture size
         this->spriteSize[edk::gui2d::gui2dTexturePressedUp] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTexturePressedUp);
         return true;
@@ -381,6 +449,25 @@ bool edk::gui2d::ObjectGui2d::loadSymbolAllStatusFromMemory(edk::char8* name,edk
     }
     return ret;
 }
+bool edk::gui2d::ObjectGui2d::loadSymbolAllStatusFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint32 filter){
+    return this->loadSymbolAllStatusFromPack(pack,(edk::char8*) name,filter);
+}
+bool edk::gui2d::ObjectGui2d::loadSymbolAllStatusFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter){
+    bool ret=true;
+    if(!this->loadSymbolFromPack(pack,name,filter)){
+        ret = false;
+    }
+    if(!this->loadSymbolUpFromPack(pack,name,filter)){
+        ret = false;
+    }
+    if(!this->loadSymbolPressedFromPack(pack,name,filter)){
+        ret = false;
+    }
+    if(!this->loadSymbolPressedUpFromPack(pack,name,filter)){
+        ret = false;
+    }
+    return ret;
+}
 //Load button symbolAllUPStatus
 bool edk::gui2d::ObjectGui2d::loadSymbolAllUPStatus(const char* name,edk::uint32 filter){
     return this->loadSymbolAllUPStatus((edk::char8*) name,filter);
@@ -408,6 +495,19 @@ bool edk::gui2d::ObjectGui2d::loadSymbolAllUPStatusFromMemory(edk::char8* name,e
     }
     return ret;
 }
+bool edk::gui2d::ObjectGui2d::loadSymbolAllUPStatusFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint32 filter){
+    return this->loadSymbolAllUPStatusFromPack(pack,(edk::char8*) name,filter);
+}
+bool edk::gui2d::ObjectGui2d::loadSymbolAllUPStatusFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter){
+    bool ret=true;
+    if(!this->loadSymbolUpFromPack(pack,name,filter)){
+        ret = false;
+    }
+    if(!this->loadSymbolPressedUpFromPack(pack,name,filter)){
+        ret = false;
+    }
+    return ret;
+}
 //Load button symbolAllNormalAndPressedStatus
 bool edk::gui2d::ObjectGui2d::loadSymbolAllNormalAndPressedStatus(const char* name,edk::uint32 filter){
     return this->loadSymbolAllNormalAndPressedStatus((edk::char8*) name,filter);
@@ -431,6 +531,19 @@ bool edk::gui2d::ObjectGui2d::loadSymbolAllNormalAndPressedStatusFromMemory(edk:
         ret = false;
     }
     if(!this->loadSymbolPressedFromMemory(name,sprite,size,filter)){
+        ret = false;
+    }
+    return ret;
+}
+bool edk::gui2d::ObjectGui2d::loadSymbolAllNormalAndPressedStatusFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint32 filter){
+    return this->loadSymbolAllNormalAndPressedStatusFromPack(pack,(edk::char8*) name,filter);
+}
+bool edk::gui2d::ObjectGui2d::loadSymbolAllNormalAndPressedStatusFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter){
+    bool ret=true;
+    if(!this->loadSymbolFromPack(pack,name,filter)){
+        ret = false;
+    }
+    if(!this->loadSymbolPressedFromPack(pack,name,filter)){
         ret = false;
     }
     return ret;

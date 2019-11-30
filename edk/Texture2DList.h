@@ -29,6 +29,7 @@ Gravatai RS Brazil 94065100
 #pragma once
 #include "Texture2DFile.h"
 #include "NameClass.h"
+#include "pack/FilePackage.h"
 
 #ifdef printMessages
 #warning "    Compiling Texture2DList"
@@ -81,6 +82,9 @@ public:
     //set Texture from memory
     edk::uint32 setTextureFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 filter = GU_NEAREST);
     edk::uint32 setTextureFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 filter = GU_NEAREST);
+    //load the texture from a file package
+    edk::uint32 loadTextureFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter = GU_NEAREST);
+    edk::uint32 loadTextureFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 filter = GU_NEAREST);
     //retain the texture
     bool retainTexture(edk::uint32 code);
     //remove texture

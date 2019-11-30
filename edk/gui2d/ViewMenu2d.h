@@ -36,6 +36,7 @@ Gravatai RS Brazil 94065100
 #include "../String.h"
 #include "ViewGui2d.h"
 #include "../NameClass.h"
+#include "../pack/FilePackage.h"
 
 #ifdef printMessages
 #warning "    Compiling gui2d::ViewMenu2d"
@@ -57,6 +58,9 @@ public:
 
     //load the object
     bool loadObject(edk::uint32 id,edk::char8* spriteName,edk::char8* text1,edk::char8* text2);
+    bool loadObject(edk::uint32 id,const edk::char8* spriteName,edk::char8* text1,edk::char8* text2);
+    bool loadObjectFromPack(edk::pack::FilePackage* pack,edk::uint32 id,edk::char8* spriteName,edk::char8* text1,edk::char8* text2);
+    bool loadObjectFromPack(edk::pack::FilePackage* pack,edk::uint32 id,const edk::char8* spriteName,edk::char8* text1,edk::char8* text2);
 
     //set the button position
     void setPosition(edk::float32 x,edk::float32 y);
