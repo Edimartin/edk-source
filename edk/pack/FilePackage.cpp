@@ -76,6 +76,18 @@ bool edk::pack::FilePackage::readNodeFile(edk::pack::FileNode* node,classID vec,
     }
     return false;
 }
+//test if the buffer is valid with the node
+bool edk::pack::FilePackage::isBufferValid(edk::pack::FileNode* node){
+    if(node){
+        //generate the buffer hash
+        edk::uint8 md5[16u];
+        if(edk::encrypt::MD5::convertTo((edk::char8*)this->buffer,this->bufferReadSize,md5)){
+            //test if the md5 is equal to node md5
+            return node->compareMD5(md5);
+        }
+    }
+    return false;
+}
 
 //add a fileName to the tree
 bool edk::pack::FilePackage::addFileName(edk::char8* fileName){
@@ -356,19 +368,35 @@ bool edk::pack::FilePackage::isBufferValid(edk::char8* fileName){
     if(fileName && this->buffer && this->bufferReadSize){
         //get the node
         edk::pack::FileNode* node = this->tree.getNode(fileName);
-        if(node){
-            //generate the buffer hash
-            edk::uint8 md5[16u];
-            if(edk::encrypt::MD5::convertTo((edk::char8*)this->buffer,this->bufferReadSize,md5)){
-                //test if the md5 is equal to node md5
-                return node->compareMD5(md5);
-            }
-        }
+        return this->isBufferValid(node);
     }
     return false;
 }
 bool edk::pack::FilePackage::isBufferValid(const edk::char8* fileName){
     return this->isBufferValid((edk::char8*) fileName);
+}
+
+//test if all the files are valid
+bool edk::pack::FilePackage::isFilesValid(){
+    //test the files
+    edk::uint32 size = this->tree.size();
+    edk::pack::FileNode *node;
+    for(edk::uint32 i=0u;i<size;i++){
+        node = this->tree.getElementInPosition(i);
+        if(node){
+            //load the node to the buffer
+            if(this->readNodeToBuffer(node)){
+                //test if the node is valid
+                if(!this->isBufferValid(node)){
+                    return false;
+                }
+            }
+            else{
+                return false;
+            }
+        }
+    }
+    return true;
 }
 
 //delete the read buffer

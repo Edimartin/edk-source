@@ -76,6 +76,9 @@ public:
     bool isBufferValid(edk::char8* fileName);
     bool isBufferValid(const edk::char8* fileName);
 
+    //test if all the files are valid
+    bool isFilesValid();
+
     //delete the read buffer
     void deleteBuffer();
 
@@ -196,6 +199,8 @@ private:
     bool readNodeToBuffer(edk::pack::FileNode* node);
     //read the file bytes
     bool readNodeFile(edk::pack::FileNode* node,classID vec,uint64 size);
+    //test if the buffer is valid with the node
+    bool isBufferValid(edk::pack::FileNode* node);
 };
 }
 }

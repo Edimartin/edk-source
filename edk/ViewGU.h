@@ -29,6 +29,7 @@ Gravatai RS Brazil 94065100
 #include "ViewSpriteController.h"
 #include "WindowEvents.h"
 #include "GU/GU.h"
+#include "pack/FilePackage.h"
 
 #ifdef printMessages
 #warning "    Compiling ViewGU"
@@ -61,6 +62,9 @@ class ViewGU: public edk::ViewSpriteController{
         //load the sprite from memory
         bool loadBackgroundFromMemory(const char* name,edk::uint8* sprite,edk::uint32 size);
         bool loadBackgroundFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size);
+        //laod the sprite from pack
+        bool loadBackgroundFromPack(edk::pack::FilePackage* pack, edk::char8* name);
+        bool loadBackgroundFromPack(edk::pack::FilePackage* pack, const edk::char8* name);
 
         //delete the background
         void deleteBackground();

@@ -152,7 +152,7 @@ bool ViewController::bringSubviewToFront(edk::View *subView){
 bool ViewController::bringSubviewIDToFront(edk::uint32 id){
     //
     if(this->nexts.size()){
-        return this->bringSubviewIDToIDFront(id,this->nexts.size()-1u);
+        return this->nexts.bringPositionTo(id,this->nexts.size()-1u);
     }
     //else return false
     return false;
@@ -201,10 +201,9 @@ bool ViewController::removeSubview(edk::View *subView){
         //get subView ID
         edk::uint32 id = this->getSubviewId(subView);
         if(this->nexts.havePos(id)){
-            //set the subview to NULL
-            this->nexts.set((edk::uint32)id,(View*)NULL);
+            this->nexts.bringPositionTo(id,this->nexts.size()-1u);
             //then remove the same
-            this->nexts.remove((edk::uint32)id);
+            this->nexts.remove(this->nexts.size()-1u);
 
             //remove the mouseInside
             this->mouseInside = false;
