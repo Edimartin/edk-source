@@ -50,6 +50,34 @@ bool edk::Audio3D::open(edk::char8* name){
     //else return false
     return false;
 }
+bool edk::Audio3D::openFromMemory(const char* name,edk::classID vector,edk::uint32 size){
+    return this->openFromMemory((edk::char8*) name,vector,size);
+}
+bool edk::Audio3D::openFromMemory(edk::char8* name,edk::classID vector,edk::uint32 size){
+    //open the audio
+    if(edk::Audio::openFromMemory(name,vector,size)){
+        //then set the position of the audio
+        this->setPosition3D(this->position);
+        //then return true
+        return true;
+    }
+    //else return false
+    return false;
+}
+bool edk::Audio3D::openFromPack(edk::pack::FilePackage* pack,const char* name){
+    return this->openFromPack(pack,(edk::char8*) name);
+}
+bool edk::Audio3D::openFromPack(edk::pack::FilePackage* pack,edk::char8* name){
+    //open the audio
+    if(edk::Audio::openFromPack(pack,name)){
+        //then set the position of the audio
+        this->setPosition3D(this->position);
+        //then return true
+        return true;
+    }
+    //else return false
+    return false;
+}
 
 //Set the listener position
 void edk::Audio3D::setListenerPosition3D(edk::vec3f32 position){

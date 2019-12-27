@@ -188,6 +188,11 @@ public:
     //ANIMATIONNAMES
     bool addNewAnimationName(const char* name, edk::float32 start,edk::float32 end);
     bool addNewAnimationName(edk::char8* name, edk::float32 start,edk::float32 end);
+    //get the animationName seconds
+    edk::float32 getAnimationNameStart(const edk::char8* name);
+    edk::float32 getAnimationNameStart(edk::char8* name);
+    edk::float32 getAnimationNameEnd(const edk::char8* name);
+    edk::float32 getAnimationNameEnd(edk::char8* name);
     //select the animationName
     bool selectAnimationName(const char* name);
     bool selectAnimationName(edk::char8* name);

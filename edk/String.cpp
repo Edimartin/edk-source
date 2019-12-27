@@ -3673,7 +3673,7 @@ edk::char8* edk::String::strFileName(edk::char8* str){
         }
         if(size){
             //create a new string with the size
-            ret = new char[size+1u];
+            ret = new edk::char8[size+1u];
             if(ret){
                 //set the string end
                 ret[size]='\0';

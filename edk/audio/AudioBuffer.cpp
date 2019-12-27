@@ -39,7 +39,7 @@ edk::AudioBuffer::~AudioBuffer()
 
 //LOAD
 //load the buffer from a file
-bool edk::AudioBuffer::loadBufferFromFile(const char* name){
+bool edk::AudioBuffer::loadBufferFromFile(const edk::char8* name){
     return loadBufferFromFile((edk::char8*) name);
 }
 bool edk::AudioBuffer::loadBufferFromFile(edk::char8* name){
@@ -49,13 +49,75 @@ bool edk::AudioBuffer::loadBufferFromFile(edk::char8* name){
     if(edk::File::fileExist(name)){
         //open the file using SFML
         this->buffer=new sf::SoundBuffer;
-        //load from the file
-        //if (this->buffer->LoadFromFile((const char*)name) ){//1.6
-        if (this->buffer->loadFromFile((const char*)name) ){//2.0
-            //then set the name
-            this->setName(name);
-            //return true
-            return true;
+        if(this->buffer){
+            //load from the file
+            //if (this->buffer->LoadFromFile((const char*)name) ){//1.6
+            if (this->buffer->loadFromFile((const char*)name) ){//2.0
+                //then set the name
+                this->setName(name);
+                //return true
+                return true;
+            }
+            delete this->buffer;
+            this->buffer=NULL;
+        }
+    }
+    //else return false
+    return false;
+}
+bool edk::AudioBuffer::loadBufferFromMemory(const edk::char8* name,edk::classID vector,edk::uint32 size){
+    return this->loadBufferFromMemory((edk::char8*) name,vector,size);
+}
+bool edk::AudioBuffer::loadBufferFromMemory(edk::char8* name,edk::classID vector,edk::uint32 size){
+    //delete the last buffer
+    this->deleteBuffer();
+    //test if the file exist
+    if(name && vector && size){
+        //open the file using SFML
+        this->buffer=new sf::SoundBuffer;
+        if(this->buffer){
+            //load from the file
+            //if (this->buffer->loadFromMemory(vector,size)){//1.6
+            if (this->buffer->loadFromMemory(vector,size)){//2.0
+                //then set the name
+                this->setName(name);
+                //return true
+                return true;
+            }
+            delete this->buffer;
+            this->buffer=NULL;
+        }
+    }
+    //else return false
+    return false;
+}
+bool edk::AudioBuffer::loadBufferFromPack(edk::pack::FilePackage* pack,const edk::char8* name){
+    return this->loadBufferFromPack(pack,(edk::char8*) name);
+}
+bool edk::AudioBuffer::loadBufferFromPack(edk::pack::FilePackage* pack,edk::char8* name){
+    //delete the last buffer
+    this->deleteBuffer();
+    if(pack && name){
+        //test if the file exist
+        if(pack->goToFile(name)){
+            if(pack->readFileToBuffer()){
+//                if(pack->readFileToBuffer(name)){
+                    //open the file using SFML
+                    this->buffer=new sf::SoundBuffer;
+                    if(this->buffer){
+                        //load from the file
+                        //if (this->buffer->Memory(pack->getBuffer(),pack->getBufferSize()) ){//1.6
+                        if (this->buffer->loadFromMemory(pack->getBuffer(),pack->getBufferSize()) ){//2.0
+                            //then set the name
+                            this->setName(name);
+                            //return true
+                            return true;
+                        }
+                        delete this->buffer;
+                        this->buffer=NULL;
+                    }
+//                }
+            }
         }
     }
     //else return false

@@ -42,6 +42,10 @@ class Audio3D : public edk::Audio{
         //OPEN
         bool open(const char* name);
         bool open(edk::char8* name);
+        bool openFromMemory(const char* name,edk::classID vector,edk::uint32 size);
+        bool openFromMemory(edk::char8* name,edk::classID vector,edk::uint32 size);
+        bool openFromPack(edk::pack::FilePackage* pack,const char* name);
+        bool openFromPack(edk::pack::FilePackage* pack,edk::char8* name);
 
         //Set the listener position
         static void setListenerPosition3D(edk::vec3f32 position);

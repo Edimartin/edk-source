@@ -30,6 +30,7 @@ Gravatai RS Brazil 94065100
 #include "../String.h"
 #include <SFML/Audio.hpp>
 #include "../Object.h"
+#include "../pack/FilePackage.h"
 
 #ifdef printMessages
 #warning "    Compiling AudioBuffer"
@@ -49,8 +50,12 @@ class AudioBuffer : public edk::ObjectWithName{
 
         //LOAD
         //load the buffer from a file
-        bool loadBufferFromFile(const char* name);
+        bool loadBufferFromFile(const edk::char8* name);
         bool loadBufferFromFile(edk::char8* name);
+        bool loadBufferFromMemory(const edk::char8* name,edk::classID vector,edk::uint32 size);
+        bool loadBufferFromMemory(edk::char8* name,edk::classID vector,edk::uint32 size);
+        bool loadBufferFromPack(edk::pack::FilePackage* pack,const edk::char8* name);
+        bool loadBufferFromPack(edk::pack::FilePackage* pack,edk::char8* name);
 
         //DELETE
         //delete the buffer

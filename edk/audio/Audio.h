@@ -32,6 +32,7 @@ Gravatai RS Brazil 94065100
 //Use the AudioList
 #include "AudioList.h"
 #include "../TypeDefines.h"
+#include "../pack/FilePackage.h"
 
 #ifdef printMessages
 #warning "    Compiling Audio"
@@ -55,6 +56,10 @@ class Audio{
         //OPEN
         virtual bool open(const char* name);
         virtual bool open(edk::char8* name);
+        virtual bool openFromMemory(const char* name,edk::classID vector,edk::uint32 size);
+        virtual bool openFromMemory(edk::char8* name,edk::classID vector,edk::uint32 size);
+        virtual bool openFromPack(edk::pack::FilePackage* pack,const char* name);
+        virtual bool openFromPack(edk::pack::FilePackage* pack,edk::char8* name);
         void close();
 
         //SETERS

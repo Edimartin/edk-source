@@ -94,6 +94,11 @@ public:
     //test if have the animationName
     bool selectedAnimationHaveAnimationName(const char* name);
     bool selectedAnimationHaveAnimationName(edk::char8* name);
+    //return the animation name seconds
+    edk::float32 selectedAnimationGetAnimationNameStart(const char* name);
+    edk::float32 selectedAnimationGetAnimationNameStart(edk::char8* name);
+    edk::float32 selectedAnimationGetAnimationNameEnd(const char* name);
+    edk::float32 selectedAnimationGetAnimationNameEnd(edk::char8* name);
     //Play the animationName
     bool selectedAnimationPlayNameForward(const char* name);
     bool selectedAnimationPlayNameForward(edk::char8* name);

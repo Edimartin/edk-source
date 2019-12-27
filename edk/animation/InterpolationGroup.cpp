@@ -760,6 +760,46 @@ bool edk::animation::InterpolationGroup::addNewAnimationName(edk::char8* name, e
     //else return false
     return false;
 }
+//get the animationName seconds
+edk::float32 edk::animation::InterpolationGroup::getAnimationNameStart(const edk::char8* name){
+    //
+    return this->getAnimationNameStart((edk::char8*) name);
+}
+edk::float32 edk::animation::InterpolationGroup::getAnimationNameStart(edk::char8* name){
+    //Test the name
+    if(name){
+        //create a tempAnimationName
+        edk::animation::AnimationName temp(name);
+        edk::animation::AnimationName* animName;
+        //find the animationName
+        animName = (edk::animation::AnimationName*)this->animationNames.getElement(&temp);
+        if(animName){
+            //
+            return animName->start;
+        }
+    }
+    //else return 0.f
+    return 0.f;
+}
+edk::float32 edk::animation::InterpolationGroup::getAnimationNameEnd(const edk::char8* name){
+    return this->getAnimationNameEnd((edk::char8*) name);
+}
+edk::float32 edk::animation::InterpolationGroup::getAnimationNameEnd(edk::char8* name){
+    //Test the name
+    if(name){
+        //create a tempAnimationName
+        edk::animation::AnimationName temp(name);
+        edk::animation::AnimationName* animName;
+        //find the animationName
+        animName = (edk::animation::AnimationName*)this->animationNames.getElement(&temp);
+        if(animName){
+            //
+            return animName->end;
+        }
+    }
+    //else return 0.f
+    return 0.f;
+}
 //select the animationName
 bool edk::animation::InterpolationGroup::selectAnimationName(const char* name){
     //

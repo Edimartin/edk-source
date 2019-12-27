@@ -68,6 +68,64 @@ bool edk::Audio::open(edk::char8* name){
     //else return false
     return false;
 }
+bool edk::Audio::openFromMemory(const char* name,edk::classID vector,edk::uint32 size){
+    return this->openFromMemory((edk::char8*) name,vector,size);
+}
+bool edk::Audio::openFromMemory(edk::char8* name,edk::classID vector,edk::uint32 size){
+    //Close the last audio removing from the memory
+    this->close();
+
+    //load the buffer
+    if(this->list.loadAudioFromMemory(name,vector,size,&this->buffer) ){
+        if(this->buffer){
+            //Set the SFML manipulator
+            this->sound=new sf::Sound();
+            if(this->sound){
+                //If create the soundManipulator
+                //this->sound->SetBuffer(*buffer->getBufferPointer()); //1.6
+                this->sound->setBuffer(*buffer->getBufferPointer()); //2.0
+                //remove listener
+                //this->sound->SetRelativeToListener(use);//1.6
+                this->sound->setRelativeToListener(true);//2.0
+                //retorna true
+                return true;
+            }
+        }
+    }
+    //Else close the audioFile
+    this->close();
+    //else return false
+    return false;
+}
+bool edk::Audio::openFromPack(edk::pack::FilePackage* pack,const char* name){
+    return this->openFromPack(pack,(edk::char8*) name);
+}
+bool edk::Audio::openFromPack(edk::pack::FilePackage* pack,edk::char8* name){
+    //Close the last audio removing from the memory
+    this->close();
+
+    //load the buffer
+    if(this->list.loadAudioFromPack(pack,name,&this->buffer) ){
+        if(this->buffer){
+            //Set the SFML manipulator
+            this->sound=new sf::Sound();
+            if(this->sound){
+                //If create the soundManipulator
+                //this->sound->SetBuffer(*buffer->getBufferPointer()); //1.6
+                this->sound->setBuffer(*buffer->getBufferPointer()); //2.0
+                //remove listener
+                //this->sound->SetRelativeToListener(use);//1.6
+                this->sound->setRelativeToListener(true);//2.0
+                //retorna true
+                return true;
+            }
+        }
+    }
+    //Else close the audioFile
+    this->close();
+    //else return false
+    return false;
+}
 void edk::Audio::close(){
     //Test if is playing the file
     if(this->getStatus()!=EDK_STOPPED){
