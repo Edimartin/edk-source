@@ -69,11 +69,15 @@ bool edk::codecs::EncoderH264::startEncoder(edk::size2ui32 size, edk::uint32 fps
                 this->param.iPicHeight = size.height;
                 this->param.iTargetBitrate = rand() + 1; // !=0
                 // Force a bitrate of at least w*h/50, otherwise we will only get skipped frames
+                /*
                 this->param.iTargetBitrate = WELS_CLIP3 (this->param.iTargetBitrate,
                                                          this->param.iPicWidth * this->param.iPicHeight / 50, 100000000);
                 int32_t iLevelMaxBitrate = WelsCommon::g_ksLevelLimits[LEVEL_5_0 - 1].uiMaxBR * CpbBrNalFactor;
                 if (this->param.iTargetBitrate > iLevelMaxBitrate)
                     this->param.iTargetBitrate = iLevelMaxBitrate;
+                */
+
+                this->param.iTargetBitrate = 50000;
 
                 this->param.iRCMode = RC_BITRATE_MODE;
                 //use the FPS

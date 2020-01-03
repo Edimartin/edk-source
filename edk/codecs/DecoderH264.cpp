@@ -153,7 +153,7 @@ bool edk::codecs::DecoderH264::startDecoder(edk::uint32 spaceDecodeSize){
                 {
                     this->param.sVideoProperty.size = sizeof (param.sVideoProperty);
                     this->param.pFileNameRestructed=NULL;
-                    this->param.eOutputColorFormat = videoFormatI420;
+                    //this->param.eOutputColorFormat = videoFormatI420;
                     this->pic.iColorFormat = videoFormatI420;
                     this->param.uiCpuLoad = rand() % 100;
                     this->param.uiTargetDqLayer = rand() % 100;
