@@ -39,6 +39,7 @@ extern "C" {
 #include "../File.h"
 #include "../String.h"
 #include "../vector/Stack.h"
+#include "../NameClass.h"
 
 #ifdef printMessages
 #warning "    Compiling SQLNode"
@@ -48,51 +49,35 @@ namespace edk{
 class SQLNode{
 public:
     SQLNode(){
-        this->name = NULL;
-        this->value = NULL;
-        this->canDelete = true;
+        this->name.cleanName();
+        this->value.cleanName();
     }
     SQLNode(edk::char8* name,edk::char8* value){
-        this->name = edk::String::strCopy(name);
-        this->value = edk::String::strCopy(value);
-        this->canDelete = true;
+        this->name.setName(name);
+        this->value.setName(value);
     }
     ~SQLNode(){
-        if(this->canDelete){
-            if(this->name) delete[] this->name;
-            if(this->value) delete[] this->value;
-        }
-        this->canDelete=true;
+        this->name.cleanName();
+        this->value.cleanName();
     }
     //getters
-    edk::char8* getName(){return this->name;}
-    edk::char8* getValue(){return this->value;}
+    edk::char8* getName(){return this->name.getName();}
+    edk::char8* getValue(){return this->value.getName();}
 
     virtual bool cloneFrom(SQLNode* node){
         if(node){
-            if(this->name) delete[] this->name;
-            if(this->value) delete[] this->value;
-            this->name = edk::String::strCopy(node->name);
-            this->value = edk::String::strCopy(node->value);
+            this->name.cleanName();
+            this->value.cleanName();
+            this->name.setName(node->name.getName());
+            this->value.setName(node->value.getName());
             return true;
         }
         return false;
     }
-    //cant delete
-    void cantDelete(){this->canDelete = false;}
 
 private:
-    edk::char8* name;
-    edk::char8* value;
-    bool canDelete;
-    SQLNode operator=(SQLNode node){
-        if(this->name) delete[] this->name;
-        if(this->value) delete[] this->value;
-        this->name = edk::String::strCopy(node.name);
-        this->value = edk::String::strCopy(node.value);
-        node.cantDelete();
-        return node;
-    }
+    edk::Name name;
+    edk::Name value;
 };
 class SQLNodes{
 public:
@@ -102,8 +87,9 @@ public:
         edk::SQLNode* temp;
         for(edk::uint32 i=0u;i<size;i++){
             temp = this->nodes[i];
-            if(temp)
+            if(temp){
                 delete temp;
+            }
         }
         this->nodes.clean();
     }
@@ -121,6 +107,7 @@ public:
                 if(size < this->nodes.size()){
                     return true;
                 }
+                delete node;
             }
         }
         return false;
@@ -162,7 +149,9 @@ public:
         SQLNodes* temp = NULL;
         for(edk::uint32 i=0u;i<size;i++){
             temp=this->groups[i];
-            if(temp) delete temp;
+            if(temp){
+                delete temp;
+            }
         }
         this->groups.clean();
     }
