@@ -248,7 +248,17 @@ void edk::Camera3D::drawAxisOnly(edk::float32 seconds){
 
 //operator to copy the cameras
 bool edk::Camera3D::cloneFrom(edk::Camera3D* cam){
-    //
-    ///TODO
+    if(cam){
+        this->position = cam->position;
+        this->lookAt = cam->lookAt;
+        this->perspective = cam->perspective;
+        this->up = cam->up;
+        this->size = cam->size;
+        this->sizePercent = cam->sizePercent;
+        this->near = cam->near;
+        this->far = cam->far;
+        this->firstPerson = cam->firstPerson;
+        return true;
+    }
     return false;
 }
