@@ -1081,6 +1081,7 @@ void edk::GU::guPopMatrix(){glPopMatrix();}
 void edk::GU::guSetViewport(edk::uint32 x,edk::uint32 y,edk::uint32 width,edk::uint32 height){glViewport(x,y,width,height);}
 void edk::GU::guSetViewportRect(edk::rectui32 rect){glViewport(rect.origin.x,rect.origin.y,rect.size.width,rect.size.height);}
 void edk::GU::guUseOrtho(edk::float32 left, edk::float32 right, edk::float32 botton, edk::float32 top, edk::float32 near, edk::float32 far){glOrtho(left,right,botton,top,near,far);}
+void edk::GU::guUsePerspective(edk::float32 fovy, edk::float32 aspect, edk::float32 near, edk::float32 far){gluPerspective(fovy, aspect, near, far);}
 void edk::GU::guLookAt(edk::float64 eyeX, edk::float64 eyeY, edk::float64 eyeZ, edk::float64 centerX, edk::float64 centerY, edk::float64 centerZ, edk::float64 upX, edk::float64 upY, edk::float64 upZ){
     gluLookAt(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ);
 }
