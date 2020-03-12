@@ -188,7 +188,7 @@ static edk::int32 sqlCallback(void *callback, edk::int32 argc, char **argv, char
             if(group){
                 for(i=0; i<argc; i++){
 /*
-                    printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
+                    printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");fflush(stdout);
                     if(argv[i]){
                         group->addNode((edk::char8*)azColName[i],(edk::char8*)argv[i]);
                     }
