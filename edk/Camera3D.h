@@ -75,15 +75,22 @@ public:
     //move the distance
     bool moveDistance(edk::float32 distance);
 
+    //functions to move the camera in his axis
+    void moveHorizontal(edk::float32 distance);
+    void moveVertical(edk::float32 distance);
+
     //return the angle width and height
     edk::float32 getAngleX();
     edk::float32 getAngleY();
+    edk::float32 getAngleUp();
     //set the angles
     void setAngleX(edk::float32 angle);
     void setAngleY(edk::float32 angle);
+    void setAngleUp(edk::float32 angle);
     //move the angles
-    void moveAngleX(edk::float32 angle);
-    void moveAngleY(edk::float32 angle);
+    void rotateAngleX(edk::float32 angle);
+    void rotateAngleY(edk::float32 angle);
+    void rotateAngleUp(edk::float32 angle);
 
     //draw the camera
     void draw();
@@ -95,7 +102,7 @@ public:
 private:
     edk::Camera3D operator=(edk::Camera3D){return *this;}
     bool perspective;
-    edk::vec3f32 up;
+    edk::vec2f32 up;
     edk::size2f32 size;
     edk::float32 sizePercent;
     edk::float32 near,far;
