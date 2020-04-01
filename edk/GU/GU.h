@@ -2129,6 +2129,7 @@ public:
 
     //DEPTH
     static void guDepthFunc(edk::uint32 func);
+    static void guDepthRange( edk::float64 near_val, edk::float64 far_val );
 
     //TEXTURE
     //target

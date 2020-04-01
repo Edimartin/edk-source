@@ -32,6 +32,8 @@ void edk::ViewGU3D::drawPolygon(edk::rectf32 outsideViewOrigin){
 
     edk::GU::guDepthFunc(GU_LESS);
 
+    edk::GU::guDepthRange(0.0f, 1.0f);
+
     edk::GU::guClear(GU_DEPTH_BUFFER_BIT);
     //draw the GU scene
     this->drawScene(outsideViewOrigin);

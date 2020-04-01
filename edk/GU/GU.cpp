@@ -1443,6 +1443,7 @@ void edk::GU::guColorMaterial( edk::uint32 face, edk::uint32 mode ){glColorMater
 
 //DEPTH
 void edk::GU::guDepthFunc(edk::uint32 func){ glDepthFunc( func ); }
+void edk::GU::guDepthRange( edk::float64 near_val, edk::float64 far_val ){glDepthRange(near_val,far_val);}
 
 //TEXTURE
 void edk::GU::guUseTexture(edk::uint32 target, edk::uint32 texture){ glBindTexture( target, texture ); }
