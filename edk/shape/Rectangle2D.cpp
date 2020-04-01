@@ -128,6 +128,14 @@ void edk::shape::Rectangle2D::draw(){
                 ){
             edk::shape::Vertex2DWithUV* vTemp0 = (edk::shape::Vertex2DWithUV*)this->vertexs[0u];
             edk::shape::Vertex2DWithUV* vTemp1 = (edk::shape::Vertex2DWithUV*)this->vertexs[1u];
+
+            //draw the third vertex
+            edk::GU::guColor4f32(this->vertexs[1u]->color.r,
+                    this->vertexs[1u]->color.g,
+                    this->vertexs[1u]->color.b,
+                    this->vertexs[1u]->color.a
+                    );
+
             //draw the normal
             edk::GU::guVertexNormal3f32(0.f,0.f,1.f);
             //draw the textureUV
@@ -139,17 +147,10 @@ void edk::shape::Rectangle2D::draw(){
             //draw the normal
             //edk::GU::guVertexNormal3f32(0.f,0.f,1.f);
             //draw the textureUV
-            edk::GU::guVertexTex2f32(vTemp0->getUVX(), vTemp1->getUVY());
-            //glMultiTexCoord2f(GL_TEXTURE0,vTemp0->getUVX(), vTemp0->getUVY());
+            edk::GU::guVertexTex2f32(vTemp1->getUVX(), vTemp0->getUVY());
+            //glMultiTexCoord2f(GL_TEXTURE0,vTemp1->getUVX(), vTemp1->getUVY());
             //draw the vertex
-            edk::GU::guVertex3f32( this->vertexs[0u]->position.x, this->vertexs[1u]->position.y, 0.0f);
-
-            //draw the third vertex
-            edk::GU::guColor4f32(this->vertexs[1u]->color.r,
-                    this->vertexs[1u]->color.g,
-                    this->vertexs[1u]->color.b,
-                    this->vertexs[1u]->color.a
-                    );
+            edk::GU::guVertex3f32( this->vertexs[1u]->position.x, this->vertexs[0u]->position.y, 0.0f);
 
             //draw the normal
             //edk::GU::guVertexNormal3f32(0.f,0.f,1.f);
@@ -162,10 +163,10 @@ void edk::shape::Rectangle2D::draw(){
             //draw the normal
             //edk::GU::guVertexNormal3f32(0.f,0.f,1.f);
             //draw the textureUV
-            edk::GU::guVertexTex2f32(vTemp1->getUVX(), vTemp0->getUVY());
-            //glMultiTexCoord2f(GL_TEXTURE0,vTemp1->getUVX(), vTemp1->getUVY());
+            edk::GU::guVertexTex2f32(vTemp0->getUVX(), vTemp1->getUVY());
+            //glMultiTexCoord2f(GL_TEXTURE0,vTemp0->getUVX(), vTemp0->getUVY());
             //draw the vertex
-            edk::GU::guVertex3f32( this->vertexs[1u]->position.x, this->vertexs[0u]->position.y, 0.0f);
+            edk::GU::guVertex3f32( this->vertexs[0u]->position.x, this->vertexs[1u]->position.y, 0.0f);
         }
         else{
 

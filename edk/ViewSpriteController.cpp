@@ -194,14 +194,14 @@ void edk::ViewSpriteController::drawPolygon(rectf32 outsideViewOrigin){
     edk::GU::guVertexTex2f32(0.f, 1.f);
     edk::GU::guVertex3f32(0.f, 0.f, 0.f);
 
-    edk::GU::guVertexTex2f32(0.f, 0.f);
-    edk::GU::guVertex3f32(0.f, 1.f, 0.f);
+    edk::GU::guVertexTex2f32(1.f, 1.f);
+    edk::GU::guVertex3f32(1.f, 0.f, 0.f);
 
     edk::GU::guVertexTex2f32(1.f, 0.f);
     edk::GU::guVertex3f32(1.f, 1.f, 0.f);
 
-    edk::GU::guVertexTex2f32(1.f, 1.f);
-    edk::GU::guVertex3f32(1.f, 0.f, 0.f);
+    edk::GU::guVertexTex2f32(0.f, 0.f);
+    edk::GU::guVertex3f32(0.f, 1.f, 0.f);
     edk::GU::guEnd();
 
     edk::GU::guUseTexture2D(0u);

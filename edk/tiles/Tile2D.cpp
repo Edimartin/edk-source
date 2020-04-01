@@ -32,14 +32,14 @@ edk::tiles::Tile2D::Tile2D(){
     //    rect.setVertexPosition(2u,1,1);
     //    rect.setVertexPosition(3u,1,0);
     rect.setVertexPosition(0u,-0.5,-0.5);
-    rect.setVertexPosition(1u,-0.5,0.5);
+    rect.setVertexPosition(1u,0.5,-0.5);
     rect.setVertexPosition(2u,0.5,0.5);
-    rect.setVertexPosition(3u,0.5,-0.5);
+    rect.setVertexPosition(3u,-0.5,0.5);
     //set the UV'S
     rect.setVertexUV(0u,0,1);
-    rect.setVertexUV(1u,0,0);
+    rect.setVertexUV(1u,1,1);
     rect.setVertexUV(2u,1,0);
-    rect.setVertexUV(3u,1,1);
+    rect.setVertexUV(3u,0,0);
     //Use a rectPolygon to the mesh
     this->mesh.addPolygon(rect);
     this->mesh.selectPolygon(0u);

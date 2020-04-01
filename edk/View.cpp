@@ -101,9 +101,9 @@ void View::drawPolygon(edk::rectf32){
     //Draw a quadrangle
     edk::GU::guBegin(GU_QUADS);
     edk::GU::guVertex3f32(0.f, 0.f, 0.f);
-    edk::GU::guVertex3f32(0.f, 1.f, 0.f);
-    edk::GU::guVertex3f32(1.f, 1.f, 0.f);
     edk::GU::guVertex3f32(1.f, 0.f, 0.f);
+    edk::GU::guVertex3f32(1.f, 1.f, 0.f);
+    edk::GU::guVertex3f32(0.f, 1.f, 0.f);
     edk::GU::guEnd();
 }
 
