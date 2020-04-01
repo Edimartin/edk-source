@@ -300,7 +300,15 @@ class Math{
         static edk::float32 angleToRadFloat(edk::float32 angle);
         static edk::float32 radToAngleFloat(edk::float32 rad);
 
-        //
+        //CROSS PRODUCT (calculate the normal of 2 vectors)
+        static edk::vec3f32 crossProduct(edk::float32 x1,
+                                         edk::float32 y1,
+                                         edk::float32 z1,
+                                         edk::float32 x2,
+                                         edk::float32 y2,
+                                         edk::float32 z2
+                                         );
+        static edk::vec3f32 crossProduct(edk::vec3f32 vec1,edk::vec3f32 vec2);
     protected:
     private:
 };

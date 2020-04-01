@@ -1742,6 +1742,11 @@ namespace edk{
 #define GU_LUMINANCE                            0x1909
 #define GU_LUMINANCE_ALPHA                      0x190A
 
+#define GU_COLOR_BUFFER_BIT                     0x00004000
+#define GU_DEPTH_BUFFER_BIT                     0x00000100
+#define GU_ACCUM_BUFFER_BIT                     0x00000200
+#define GU_STENCIL_BUFFER_BIT                   0x00000400
+
 // Blending
 #define GU_BLEND                                0x0BE2
 #define GU_ZERO                                 0x0
@@ -1771,6 +1776,17 @@ namespace edk{
 #define GU_QUADS                                0x0007
 #define GU_QUAD_STRIP                           0x0008
 #define GU_POLYGON                              0x0009
+
+// Depth buffer
+#define GU_NEVER                                0x0200
+#define GU_LESS                                 0x0201
+#define GU_EQUAL                                0x0202
+#define GU_LEQUAL                               0x0203
+#define GU_GREATER                              0x0204
+#define GU_NOTEQUAL                             0x0205
+#define GU_GEQUAL                               0x0206
+#define GU_ALWAYS                               0x0207
+#define GU_DEPTH_TEST                           0x0B71
 
 // Lighting
 #define GU_LIGHTING                             0x0B50
@@ -1906,6 +1922,14 @@ public:
     static void guColor4f64(edk::color4f64 color);
     static void guColor4f32(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
     static void guColor4f64(edk::float64 r,edk::float64 g,edk::float64 b,edk::float64 a);
+
+    //clear dome buffer
+    //mask
+    //GU_COLOR_BUFFER_BIT
+    //GU_DEPTH_BUFFER_BIT
+    //GU_ACCUM_BUFFER_BIT
+    //GU_STENCIL_BUFFER_BIT
+    static void guClear( edk::uint32 mask );
 
     //return the openGL matrix are using
     //mode
@@ -2102,6 +2126,9 @@ public:
     //GU_SPECULAR
     //GU_AMBIENT_AND_DIFFUSE
     static void guColorMaterial( edk::uint32 face, edk::uint32 mode );
+
+    //DEPTH
+    static void guDepthFunc(edk::uint32 func);
 
     //TEXTURE
     //target

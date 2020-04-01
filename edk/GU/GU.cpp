@@ -1062,6 +1062,12 @@ void edk::GU::guColor4f32(edk::color4f32 color){glColor4f(color.r,color.g,color.
 void edk::GU::guColor4f64(edk::color4f64 color){glColor4d(color.r,color.g,color.b,color.a);}
 void edk::GU::guColor4f32(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){glColor4f(r,g,b,a);}
 void edk::GU::guColor4f64(edk::float64 r,edk::float64 g,edk::float64 b,edk::float64 a){glColor4d(r,g,b,a);}
+
+//clear dome buffer
+void edk::GU::guClear(edk::uint32 mask){
+    glClear(mask);
+}
+
 //return the openGL matrix are using
 bool edk::GU::guUsingMatrix(edk::uint32 mode){ return matrixMode==mode; }
 //set the usingMatrix
@@ -1434,6 +1440,9 @@ void edk::GU::guMaterialiv32( edk::uint32 face, edk::uint32 pname, const edk::in
 void edk::GU::guGetMaterialfv32( edk::uint32 face, edk::uint32 pname, edk::float32 *params ){glGetMaterialfv(face,pname,params);}
 void edk::GU::guGetMaterialiv32( edk::uint32 face, edk::uint32 pname, edk::int32 *params ){glGetMaterialiv(face,pname,params);}
 void edk::GU::guColorMaterial( edk::uint32 face, edk::uint32 mode ){glColorMaterial(face,mode);}
+
+//DEPTH
+void edk::GU::guDepthFunc(edk::uint32 func){ glDepthFunc( func ); }
 
 //TEXTURE
 void edk::GU::guUseTexture(edk::uint32 target, edk::uint32 texture){ glBindTexture( target, texture ); }

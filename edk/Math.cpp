@@ -224,82 +224,82 @@ edk::float32 edk::Math::pythagoras2f(edk::float32 x,edk::float32 y){return edk::
 edk::float32 edk::Math::pythagoras2f(edk::vec2f32 vec){return (edk::float32)edk::Math::squareRootFloat(edk::Math::squareFloat32(vec.x)+edk::Math::squareFloat32(vec.y));}
 edk::float32 edk::Math::pythagoras3f(edk::float32 x,edk::float32 y,edk::float32 z){return edk::Math::pythagoras3f(edk::vec3f32(x,y,z));}
 edk::float32 edk::Math::pythagoras3f(edk::vec3f32 vec){return (edk::float32)edk::Math::squareRootFloat(edk::Math::squareFloat32(vec.x)+edk::Math::squareFloat32(vec.y)+
-                                                                                       edk::Math::squareFloat32(vec.z));}
+                                                                                                       edk::Math::squareFloat32(vec.z));}
 edk::float32 edk::Math::pythagoras4f(edk::float32 x,edk::float32 y,edk::float32 z, edk::float32 w){return edk::Math::pythagoras4f(edk::vec4f32(x,y,z,w));}
 edk::float32 edk::Math::pythagoras4f(edk::vec4f32 vec){return (edk::float32)edk::Math::squareRootFloat(edk::Math::squareFloat32(vec.x)+edk::Math::squareFloat32(vec.y)+
-                                                                                       edk::Math::squareFloat32(vec.z)+edk::Math::squareFloat32(vec.w));}
+                                                                                                       edk::Math::squareFloat32(vec.z)+edk::Math::squareFloat32(vec.w));}
 //INT8
 edk::float32 edk::Math::pythagoras2i8(edk::int8 x,edk::int8 y){return edk::Math::pythagoras2i8(edk::vec2i8(x,y));}
 edk::float32 edk::Math::pythagoras2i8(edk::vec2i8 vec){return (edk::float32)edk::Math::squareRootInt8(edk::Math::squareInt8(vec.x)+edk::Math::squareInt8(vec.y));}
 edk::float32 edk::Math::pythagoras3i8(edk::int8 x,edk::int8 y,edk::int8 z){return edk::Math::pythagoras3i8(edk::vec3i8(x,y,z));}
 edk::float32 edk::Math::pythagoras3i8(edk::vec3i8 vec){return (edk::float32)edk::Math::squareRootInt8(edk::Math::squareInt8(vec.x)+edk::Math::squareInt8(vec.y)+
-                                                                                       edk::Math::squareInt8(vec.z));}
+                                                                                                      edk::Math::squareInt8(vec.z));}
 edk::float32 edk::Math::pythagoras4i8(edk::int8 x,edk::int8 y,edk::int8 z, edk::int8 w){return edk::Math::pythagoras4i8(edk::vec4i8(x,y,z,w));}
 edk::float32 edk::Math::pythagoras4i8(edk::vec4i8 vec){return (edk::float32)edk::Math::squareRootInt8(edk::Math::squareInt8(vec.x)+edk::Math::squareInt8(vec.y)+
-                                                                                       edk::Math::squareInt8(vec.z)+edk::Math::squareInt8(vec.w));}
+                                                                                                      edk::Math::squareInt8(vec.z)+edk::Math::squareInt8(vec.w));}
 //INT16
 edk::float32 edk::Math::pythagoras2i16(edk::int16 x,edk::int16 y){return edk::Math::pythagoras2i16(edk::vec2i16(x,y));}
 edk::float32 edk::Math::pythagoras2i16(edk::vec2i16 vec){return (edk::float32)edk::Math::squareRootInt16(edk::Math::squareInt16(vec.x)+edk::Math::squareInt16(vec.y));}
 edk::float32 edk::Math::pythagoras3i16(edk::int16 x,edk::int16 y,edk::int16 z){return edk::Math::pythagoras3i16(edk::vec3i16(x,y,z));}
 edk::float32 edk::Math::pythagoras3i16(edk::vec3i16 vec){return (edk::float32)edk::Math::squareRootInt16(edk::Math::squareInt16(vec.x)+edk::Math::squareInt16(vec.y)+
-                                                                                       edk::Math::squareInt16(vec.z));}
+                                                                                                         edk::Math::squareInt16(vec.z));}
 edk::float32 edk::Math::pythagoras4i16(edk::int16 x,edk::int16 y,edk::int16 z, edk::int16 w){return edk::Math::pythagoras4i16(edk::vec4i16(x,y,z,w));}
 edk::float32 edk::Math::pythagoras4i16(edk::vec4i16 vec){return (edk::float32)edk::Math::squareRootInt16(edk::Math::squareInt16(vec.x)+edk::Math::squareInt16(vec.y)+
-                                                                                       edk::Math::squareInt16(vec.z)+edk::Math::squareInt16(vec.w));}
+                                                                                                         edk::Math::squareInt16(vec.z)+edk::Math::squareInt16(vec.w));}
 //INT32
 edk::float32 edk::Math::pythagoras2i32(edk::int32 x,edk::int32 y){return edk::Math::pythagoras2i32(edk::vec2i32(x,y));}
 edk::float32 edk::Math::pythagoras2i32(edk::vec2i32 vec){return (edk::float32)edk::Math::squareRootInt32(edk::Math::squareInt32(vec.x)+edk::Math::squareInt32(vec.y));}
 edk::float32 edk::Math::pythagoras3i32(edk::int32 x,edk::int32 y,edk::int32 z){return edk::Math::pythagoras3i32(edk::vec3i32(x,y,z));}
 edk::float32 edk::Math::pythagoras3i32(edk::vec3i32 vec){return (edk::float32)edk::Math::squareRootInt32(edk::Math::squareInt32(vec.x)+edk::Math::squareInt32(vec.y)+
-                                                                                       edk::Math::squareInt32(vec.z));}
+                                                                                                         edk::Math::squareInt32(vec.z));}
 edk::float32 edk::Math::pythagoras4i32(edk::int32 x,edk::int32 y,edk::int32 z, edk::int32 w){return edk::Math::pythagoras4i32(edk::vec4i32(x,y,z,w));}
 edk::float32 edk::Math::pythagoras4i32(edk::vec4i32 vec){return (edk::float32)edk::Math::squareRootInt32(edk::Math::squareInt32(vec.x)+edk::Math::squareInt32(vec.y)+
-                                                                                       edk::Math::squareInt32(vec.z)+edk::Math::squareInt32(vec.w));}
+                                                                                                         edk::Math::squareInt32(vec.z)+edk::Math::squareInt32(vec.w));}
 //INT64
 edk::float32 edk::Math::pythagoras2i64(edk::int64 x,edk::int64 y){return edk::Math::pythagoras2i64(edk::vec2i64(x,y));}
 edk::float32 edk::Math::pythagoras2i64(edk::vec2i64 vec){return (edk::float32)edk::Math::squareRootInt64(edk::Math::squareInt64(vec.x)+edk::Math::squareInt64(vec.y));}
 edk::float32 edk::Math::pythagoras3i64(edk::int64 x,edk::int64 y,edk::int64 z){return edk::Math::pythagoras3i64(edk::vec3i64(x,y,z));}
 edk::float32 edk::Math::pythagoras3i64(edk::vec3i64 vec){return (edk::float32)edk::Math::squareRootInt64(edk::Math::squareInt64(vec.x)+edk::Math::squareInt64(vec.y)+
-                                                                                       edk::Math::squareInt64(vec.z));}
+                                                                                                         edk::Math::squareInt64(vec.z));}
 edk::float32 edk::Math::pythagoras4i64(edk::int64 x,edk::int64 y,edk::int64 z, edk::int64 w){return edk::Math::pythagoras4i64(edk::vec4i64(x,y,z,w));}
 edk::float32 edk::Math::pythagoras4i64(edk::vec4i64 vec){return (edk::float32)edk::Math::squareRootInt64(edk::Math::squareInt64(vec.x)+edk::Math::squareInt64(vec.y)+
-                                                                                       edk::Math::squareInt64(vec.z)+edk::Math::squareInt64(vec.w));}
+                                                                                                         edk::Math::squareInt64(vec.z)+edk::Math::squareInt64(vec.w));}
 //UINT8
 edk::float32 edk::Math::pythagoras2ui8(edk::uint8 x,edk::uint8 y){return edk::Math::pythagoras2ui8(edk::vec2ui8(x,y));}
 edk::float32 edk::Math::pythagoras2ui8(edk::vec2ui8 vec){return (edk::float32)edk::Math::squareRootInt8(edk::Math::squareUint8(vec.x)+edk::Math::squareUint8(vec.y));}
 edk::float32 edk::Math::pythagoras3ui8(edk::uint8 x,edk::uint8 y,edk::uint8 z){return edk::Math::pythagoras3ui8(edk::vec3ui8(x,y,z));}
 edk::float32 edk::Math::pythagoras3ui8(edk::vec3ui8 vec){return (edk::float32)edk::Math::squareRootInt8(edk::Math::squareUint8(vec.x)+edk::Math::squareUint8(vec.y)+
-                                                                                       edk::Math::squareUint8(vec.z));}
+                                                                                                        edk::Math::squareUint8(vec.z));}
 edk::float32 edk::Math::pythagoras4ui8(edk::uint8 x,edk::uint8 y,edk::uint8 z, edk::uint8 w){return edk::Math::pythagoras4ui8(edk::vec4ui8(x,y,z,w));}
 edk::float32 edk::Math::pythagoras4ui8(edk::vec4ui8 vec){return (edk::float32)edk::Math::squareRootInt8(edk::Math::squareUint8(vec.x)+edk::Math::squareUint8(vec.y)+
-                                                                                       edk::Math::squareUint8(vec.z)+edk::Math::squareUint8(vec.w));}
+                                                                                                        edk::Math::squareUint8(vec.z)+edk::Math::squareUint8(vec.w));}
 //UINT16
 edk::float32 edk::Math::pythagoras2ui16(edk::uint16 x,edk::uint16 y){return edk::Math::pythagoras2ui16(edk::vec2ui16(x,y));}
 edk::float32 edk::Math::pythagoras2ui16(edk::vec2ui16 vec){return (edk::float32)edk::Math::squareRootInt16(edk::Math::squareUint16(vec.x)+edk::Math::squareUint16(vec.y));}
 edk::float32 edk::Math::pythagoras3ui16(edk::uint16 x,edk::uint16 y,edk::uint16 z){return edk::Math::pythagoras3ui16(edk::vec3ui16(x,y,z));}
 edk::float32 edk::Math::pythagoras3ui16(edk::vec3ui16 vec){return (edk::float32)edk::Math::squareRootInt16(edk::Math::squareUint16(vec.x)+edk::Math::squareUint16(vec.y)+
-                                                                                       edk::Math::squareUint16(vec.z));}
+                                                                                                           edk::Math::squareUint16(vec.z));}
 edk::float32 edk::Math::pythagoras4ui16(edk::uint16 x,edk::uint16 y,edk::uint16 z, edk::uint16 w){return edk::Math::pythagoras4ui16(edk::vec4ui16(x,y,z,w));}
 edk::float32 edk::Math::pythagoras4ui16(edk::vec4ui16 vec){return (edk::float32)edk::Math::squareRootInt16(edk::Math::squareUint16(vec.x)+edk::Math::squareUint16(vec.y)+
-                                                                                       edk::Math::squareUint16(vec.z)+edk::Math::squareUint16(vec.w));}
+                                                                                                           edk::Math::squareUint16(vec.z)+edk::Math::squareUint16(vec.w));}
 //UINT32
 edk::float32 edk::Math::pythagoras2ui32(edk::uint32 x,edk::uint32 y){return edk::Math::pythagoras2ui32(edk::vec2ui32(x,y));}
 edk::float32 edk::Math::pythagoras2ui32(edk::vec2ui32 vec){return (edk::float32)edk::Math::squareRootInt32(edk::Math::squareUint32(vec.x)+edk::Math::squareUint32(vec.y));}
 edk::float32 edk::Math::pythagoras3ui32(edk::uint32 x,edk::uint32 y,edk::uint32 z){return edk::Math::pythagoras3ui32(edk::vec3ui32(x,y,z));}
 edk::float32 edk::Math::pythagoras3ui32(edk::vec3ui32 vec){return (edk::float32)edk::Math::squareRootInt32(edk::Math::squareUint32(vec.x)+edk::Math::squareUint32(vec.y)+
-                                                                                       edk::Math::squareUint32(vec.z));}
+                                                                                                           edk::Math::squareUint32(vec.z));}
 edk::float32 edk::Math::pythagoras4ui32(edk::uint32 x,edk::uint32 y,edk::uint32 z, edk::uint32 w){return edk::Math::pythagoras4ui32(edk::vec4ui32(x,y,z,w));}
 edk::float32 edk::Math::pythagoras4ui32(edk::vec4ui32 vec){return (edk::float32)edk::Math::squareRootInt32(edk::Math::squareUint32(vec.x)+edk::Math::squareUint32(vec.y)+
-                                                                                       edk::Math::squareUint32(vec.z)+edk::Math::squareUint32(vec.w));}
+                                                                                                           edk::Math::squareUint32(vec.z)+edk::Math::squareUint32(vec.w));}
 //UINT64
 edk::float32 edk::Math::pythagoras2ui64(edk::uint64 x,edk::uint64 y){return edk::Math::pythagoras2ui64(edk::vec2ui64(x,y));}
 edk::float32 edk::Math::pythagoras2ui64(edk::vec2ui64 vec){return (edk::float32)edk::Math::squareRootInt64(edk::Math::squareUint64(vec.x)+edk::Math::squareUint64(vec.y));}
 edk::float32 edk::Math::pythagoras3ui64(edk::uint64 x,edk::uint64 y,edk::uint64 z){return edk::Math::pythagoras3ui64(edk::vec3ui64(x,y,z));}
 edk::float32 edk::Math::pythagoras3ui64(edk::vec3ui64 vec){return (edk::float32)edk::Math::squareRootInt64(edk::Math::squareUint64(vec.x)+edk::Math::squareUint64(vec.y)+
-                                                                                       edk::Math::squareUint64(vec.z));}
+                                                                                                           edk::Math::squareUint64(vec.z));}
 edk::float32 edk::Math::pythagoras4ui64(edk::uint64 x,edk::uint64 y,edk::uint64 z, edk::uint64 w){return edk::Math::pythagoras4ui64(edk::vec4ui64(x,y,z,w));}
 edk::float32 edk::Math::pythagoras4ui64(edk::vec4ui64 vec){return (edk::float32)edk::Math::squareRootInt64(edk::Math::squareUint64(vec.x)+edk::Math::squareUint64(vec.y)+
-                                                                                       edk::Math::squareUint64(vec.z)+edk::Math::squareUint64(vec.w));}
+                                                                                                           edk::Math::squareUint64(vec.z)+edk::Math::squareUint64(vec.w));}
 
 //Return sin and cosin of angle.
 edk::float32 edk::Math::getSinFloat(edk::float32 angle){if (angle == 180)return 0;else	return sin(angle*PI/180.f);}
@@ -337,34 +337,34 @@ edk::float32 edk::Math::getAngle2f(edk::float32 x,edk::float32 y){
 edk::float32 edk::Math::getAngle2f(edk::vec2f32 vec){
     //
     vec=edk::Math::normalise2f(vec);
-   //calcula o quadrante
-   if(vec.x>=0.0f){
-      // + X
-      if(vec.y>=0.0f){
-         // + Y
-         //1º
-         return asin (vec.y) * 180.0f / PI;
-      }
-      else if(vec.y<=0.0f){
-         // - Y
-         //4º
-         return 360.0f+((asin (vec.y) * 180.0f / PI));
-      }
-   }
-   else if(vec.x<=0.0f){
-      // - X
-      if(vec.y>0.0f){
-         // + Y
-         //2º
-         return 180.0f+((asin (vec.y) * 180.0f / PI)*-1.0f);
-      }
-      else if(vec.y<=0.0f){
-         // - Y
-         //3º
-         return 180.0f+((asin (vec.y) * 180.0f / PI)*-1.0f);
-      }
-   }
-   return 0.0f;
+    //calcula o quadrante
+    if(vec.x>=0.0f){
+        // + X
+        if(vec.y>=0.0f){
+            // + Y
+            //1º
+            return asin (vec.y) * 180.0f / PI;
+        }
+        else if(vec.y<=0.0f){
+            // - Y
+            //4º
+            return 360.0f+((asin (vec.y) * 180.0f / PI));
+        }
+    }
+    else if(vec.x<=0.0f){
+        // - X
+        if(vec.y>0.0f){
+            // + Y
+            //2º
+            return 180.0f+((asin (vec.y) * 180.0f / PI)*-1.0f);
+        }
+        else if(vec.y<=0.0f){
+            // - Y
+            //3º
+            return 180.0f+((asin (vec.y) * 180.0f / PI)*-1.0f);
+        }
+    }
+    return 0.0f;
 }
 //Return the 2D Angle between 2 vectors
 edk::float32 edk::Math::getAngleDist2f(edk::vec2f32 vec1,edk::vec2f32 vec2){
@@ -430,9 +430,7 @@ edk::vec2f32 edk::Math::rotatePlus2f(edk::vec2f32 vec,edk::float32 angle){
 
 //Normal of the vector
 edk::vec3f32 edk::Math::normal3f(edk::vec3f32 vec1,edk::vec3f32 vec2,edk::vec3f32 vec3){
-
-
-/*
+    /*
 
  Point3D v1, v2;
     double len;
@@ -461,115 +459,115 @@ edk::vec3f32 edk::Math::normal3f(edk::vec3f32 vec1,edk::vec3f32 vec2,edk::vec3f3
 */
     //
     //Aqui ele calculo o vetor normal do poligono
-   edk::vec3f32 vT1,vT2;
-   edk::vec3f32 v1,v2;
-   double len;
+    edk::vec3f32 vT1,vT2;
+    edk::vec3f32 v1,v2;
+    double len;
 
-   //Primeiro ele encountra o centro do triangle
-   edk::vec3f32 bigger;
-   edk::vec3f32 smaller;
-   bigger=vec1;
+    //Primeiro ele encountra o centro do triangle
+    edk::vec3f32 bigger;
+    edk::vec3f32 smaller;
+    bigger=vec1;
 
-   smaller=vec1;
+    smaller=vec1;
 
-   if(smaller.x>vec2.x)
-      smaller.x=vec2.x;
-   if(smaller.y>vec2.y)
-      smaller.y=vec2.y;
-   if(smaller.z>vec2.z)
-      smaller.z=vec2.z;
+    if(smaller.x>vec2.x)
+        smaller.x=vec2.x;
+    if(smaller.y>vec2.y)
+        smaller.y=vec2.y;
+    if(smaller.z>vec2.z)
+        smaller.z=vec2.z;
 
-   if(smaller.x>vec3.x)
-      smaller.x=vec3.x;
-   if(smaller.y>vec3.y)
-      smaller.y=vec3.y;
-   if(smaller.z>vec3.z)
-      smaller.z=vec3.z;
+    if(smaller.x>vec3.x)
+        smaller.x=vec3.x;
+    if(smaller.y>vec3.y)
+        smaller.y=vec3.y;
+    if(smaller.z>vec3.z)
+        smaller.z=vec3.z;
 
-   if(bigger.x<vec2.x)
-      bigger.x=vec2.x;
-   if(bigger.y<vec2.y)
-      bigger.y=vec2.y;
-   if(bigger.z<vec2.z)
-      bigger.z=vec2.z;
+    if(bigger.x<vec2.x)
+        bigger.x=vec2.x;
+    if(bigger.y<vec2.y)
+        bigger.y=vec2.y;
+    if(bigger.z<vec2.z)
+        bigger.z=vec2.z;
 
-   if(bigger.x<vec3.x)
-      bigger.x=vec3.x;
-   if(bigger.y<vec3.y)
-      bigger.y=vec3.y;
-   if(bigger.z<vec3.z)
-      bigger.z=vec3.z;
+    if(bigger.x<vec3.x)
+        bigger.x=vec3.x;
+    if(bigger.y<vec3.y)
+        bigger.y=vec3.y;
+    if(bigger.z<vec3.z)
+        bigger.z=vec3.z;
 
-   v2.x=smaller.x+0.5f*(bigger.x-smaller.x);
-   v2.y=smaller.y+0.5f*(bigger.y-smaller.y);
-   v2.z=smaller.z+0.5f*(bigger.z-smaller.z);
+    v2.x=smaller.x+0.5f*(bigger.x-smaller.x);
+    v2.y=smaller.y+0.5f*(bigger.y-smaller.y);
+    v2.z=smaller.z+0.5f*(bigger.z-smaller.z);
 
 
-   //Depois ele faz o calculo da Normal
+    //Depois ele faz o calculo da Normal
 
-   // Encountra vetor v1
-   vT1.x = vec2.x - vec1.x;
-   vT1.y = vec2.y - vec1.y;
-   vT1.z = vec2.z - vec1.z;
+    // Encountra vetor v1
+    vT1.x = vec2.x - vec1.x;
+    vT1.y = vec2.y - vec1.y;
+    vT1.z = vec2.z - vec1.z;
 
-   // Encountra vetor v2
-   vT2.x = vec3.x - vec1.x;
-   vT2.y = vec3.y - vec1.y;
-   vT2.z = vec3.z - vec1.z;
+    // Encountra vetor v2
+    vT2.x = vec3.x - vec1.x;
+    vT2.y = vec3.y - vec1.y;
+    vT2.z = vec3.z - vec1.z;
 
-   // Calculo do produto vetorial de v1 e v2
-   v1.x = (vT1.y * vT2.z) - (vT1.z * vT2.y);
-   v1.y = (vT1.z * vT2.x) - (vT1.x * vT2.z);
-   v1.z = (vT1.x * vT2.y) - (vT1.y * vT2.x);
+    // Calculo do produto vetorial de v1 e v2
+    v1.x = (vT1.y * vT2.z) - (vT1.z * vT2.y);
+    v1.y = (vT1.z * vT2.x) - (vT1.x * vT2.z);
+    v1.z = (vT1.x * vT2.y) - (vT1.y * vT2.x);
 
-   // normalizecao de n
-   len = sqrt(v1.x*v1.x + v1.y*v1.y + v1.z*v1.z);
-   v1.x /= (edk::float32)len;
-   v1.y /= (edk::float32)len;
-   v1.z /= (edk::float32)len;
+    // normalizecao de n
+    len = sqrt(v1.x*v1.x + v1.y*v1.y + v1.z*v1.z);
+    v1.x /= (edk::float32)len;
+    v1.y /= (edk::float32)len;
+    v1.z /= (edk::float32)len;
 
-   //E no final ele translada o vetor normal para o centro do triangle
-   v1.x=v1.x+v2.x;
-   v1.y=v1.y+v2.y;
-   v1.z=v1.z+v2.z;
+    //E no final ele translada o vetor normal para o centro do triangle
+    v1.x=v1.x+v2.x;
+    v1.y=v1.y+v2.y;
+    v1.z=v1.z+v2.z;
 
-   return v1;
+    return v1;
 }
 
- //QUATERION
- edk::vec3f32  edk::Math::quaternionToAngle(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 w){
-     //
-     return edk::Math::quaternionToAngle(edk::vec4f32(x,y,z,w));
- }
- edk::vec3f32  edk::Math::quaternionToAngle(edk::vec4f32 vec){
-     ////Conver quaternions to angle
-   edk::float32 sqw = vec.w*vec.w;
-   edk::float32 sqx = vec.x*vec.x;
-   edk::float32 sqy = vec.y*vec.y;
-   edk::float32 sqz = vec.z*vec.z;
+//QUATERION
+edk::vec3f32  edk::Math::quaternionToAngle(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 w){
+    //
+    return edk::Math::quaternionToAngle(edk::vec4f32(x,y,z,w));
+}
+edk::vec3f32  edk::Math::quaternionToAngle(edk::vec4f32 vec){
+    ////Conver quaternions to angle
+    edk::float32 sqw = vec.w*vec.w;
+    edk::float32 sqx = vec.x*vec.x;
+    edk::float32 sqy = vec.y*vec.y;
+    edk::float32 sqz = vec.z*vec.z;
 
-   edk::vec3f32 v1;
+    edk::vec3f32 v1;
 
-   v1.z = atan2f(2.f * (vec.x*vec.y + vec.z*vec.w), sqx - sqy - sqz + sqw);
+    v1.z = atan2f(2.f * (vec.x*vec.y + vec.z*vec.w), sqx - sqy - sqz + sqw);
 
-   edk::float32 tempY=(-2.f * (vec.x*vec.z - vec.y*vec.w));
+    edk::float32 tempY=(-2.f * (vec.x*vec.z - vec.y*vec.w));
 
-   if( tempY > 1.0f || tempY < -1.0f  ){
-      //
-      v1.x=v1.y=v1.z=0.0;
-      //printf("\nFalse");
-      return v1;
-   }
-   v1.y = asinf(-2.f * (vec.x*vec.z - vec.y*vec.w));
-   v1.x = atan2f(2.f * (vec.y*vec.z + vec.x*vec.w), -sqx - sqy + sqz + sqw);
+    if( tempY > 1.0f || tempY < -1.0f  ){
+        //
+        v1.x=v1.y=v1.z=0.0;
+        //printf("\nFalse");
+        return v1;
+    }
+    v1.y = asinf(-2.f * (vec.x*vec.z - vec.y*vec.w));
+    v1.x = atan2f(2.f * (vec.y*vec.z + vec.x*vec.w), -sqx - sqy + sqz + sqw);
 
-   //convert to angle
-   v1.x=v1.x*(180.0f/PI);
-   v1.y=v1.y*(180.0f/PI);
-   v1.z=v1.z*(180.0f/PI);
+    //convert to angle
+    v1.x=v1.x*(180.0f/PI);
+    v1.y=v1.y*(180.0f/PI);
+    v1.z=v1.z*(180.0f/PI);
 
-   return v1;
- }
+    return v1;
+}
 edk::vec4f32 edk::Math::angleToQuaternion(edk::float32 x,edk::float32 y,edk::float32 z){
     //
     return edk::Math::angleToQuaternion(edk::vec3f32(x,y,z));
@@ -606,4 +604,24 @@ edk::float32 edk::Math::angleToRadFloat(edk::float32 angle){
 edk::float32 edk::Math::radToAngleFloat(edk::float32 rad){
     //
     return (rad * 180.0f) / PI;
+}
+
+//CROSS PRODUCT (calculate the normal of 2 vectors)
+edk::vec3f32 edk::Math::crossProduct(edk::float32 x1,
+                                     edk::float32 y1,
+                                     edk::float32 z1,
+                                     edk::float32 x2,
+                                     edk::float32 y2,
+                                     edk::float32 z2
+                                     ){
+    return edk::Math::crossProduct(edk::vec3f32(x1,y1,z1),edk::vec3f32(x2,y2,z2));
+}
+edk::vec3f32 edk::Math::crossProduct(edk::vec3f32 vec1,edk::vec3f32 vec2){
+    edk::vec3f32 ret;
+
+    ret.x = (vec1.y * vec2.z) - (vec1.z * vec2.y);
+    ret.y = (vec1.z * vec2.x) - (vec1.x * vec2.z);
+    ret.z = (vec1.x * vec2.y) - (vec1.y * vec2.x);
+
+    return ret;
 }

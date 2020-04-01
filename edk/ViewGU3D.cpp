@@ -28,8 +28,15 @@ void edk::ViewGU3D::drawPolygon(edk::rectf32 outsideViewOrigin){
     //set the matrix before draw the scene
     edk::GU::guUseMatrix(GU_MODELVIEW);
 
+    edk::GU::guEnable(GU_DEPTH_TEST);
+
+    edk::GU::guDepthFunc(GU_LESS);
+
+    edk::GU::guClear(GU_DEPTH_BUFFER_BIT);
     //draw the GU scene
     this->drawScene(outsideViewOrigin);
+
+    edk::GU::guDisable(GU_DEPTH_TEST);
 
     edk::GU::guDisableAllLights();
 }
