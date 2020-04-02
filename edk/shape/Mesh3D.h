@@ -50,6 +50,14 @@ public:
     bool newVertex(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
     bool newVertex(edk::vec3f32 position,edk::color4f32 color);
     bool newVertex(edk::shape::Vertex3D vert);
+    //NORMALS
+    bool newNormal(edk::float32 x,edk::float32 y,edk::float32 z);
+    bool newNormal(edk::vec3f32 vector);
+    bool newNormal(edk::shape::Vector3D vector);
+    //UVS
+    bool newUV(edk::float32 x,edk::float32 y);
+    bool newUV(edk::vec2f32 vector);
+    bool newUV(edk::shape::UV2D uv);
 
     //get a vertex in a position
     edk::shape::Vertex3D getVertex(edk::uint32 position);
@@ -58,6 +66,20 @@ public:
     edk::color4f32 getVertexColor(edk::uint32 position);
     //remove a vertex in a position
     bool removeVertex(edk::uint32 position);
+
+    //get a normal in a position
+    edk::shape::Vector3D getNormal(edk::uint32 position);
+    //get a normal vector
+    edk::vec3f32 getNormalPosition(edk::uint32 position);
+    //remove a normal in a position
+    bool removeNormal(edk::uint32 position);
+
+    //get the UV in a position
+    edk::shape::UV2D getUV(edk::uint32 position);
+    //get a UV position
+    edk::vec2f32 getUVPosition(edk::uint32 position);
+    //remove a UV in a position
+    bool removeIV(edk::uint32 position);
 private:
     //Class to save all the vertexes from the polygon
     class MeshVertex{
@@ -83,158 +105,130 @@ private:
         edk::uint32 use;
     };
 
-    class treeVertex:public edk::vector::BinaryTree<edk::shape::Mesh3D::MeshVertex*>{
+    class StackVertex{
     public:
-        treeVertex(){}
-        virtual ~treeVertex(){
-            this->cleanVertexes();
-        }
-        //compare if the value is bigger
-        virtual bool firstBiggerSecond(edk::shape::Mesh3D::MeshVertex* first,edk::shape::Mesh3D::MeshVertex* second){
-            if(first&&second){
-                if(&first->pointer>&second->pointer){
-                    return true;
-                }
-            }
-            return false;
-        }
-        //compare if the value is equal
-        virtual bool firstEqualSecond(edk::shape::Mesh3D::MeshVertex* first,edk::shape::Mesh3D::MeshVertex* second){
-            if(first&&second){
-                if(&first->pointer==&second->pointer){
-                    return true;
-                }
-            }
-            return false;
-        }
-        //Print
-        virtual void printElement(edk::shape::Mesh3D::MeshVertex* value){
-            //
-        }
-        virtual void renderElement(edk::shape::Mesh3D::MeshVertex* value){
-            //
-        }
-        //UPDATE
-        virtual void updateElement(edk::shape::Mesh3D::MeshVertex* value){
-            //update the value
-        }
+        StackVertex();
+        ~StackVertex();
 
-        void cleanVertexes(){
-            edk::uint32 size = this->size();
-            edk::shape::Mesh3D::MeshVertex* temp;
-            for(edk::uint32 i=0u;i<size;i++){
-                temp = this->getElementInPosition(i);
-                if(temp){
-                    delete temp;
-                }
-            }
-            this->clean();
-        }
+        //clean all vertexes
+        void cleanVertexes();
+        //get the size of the vertexes
+        edk::uint32 size();
+        edk::uint32 getSize();
 
-        //create a new vertex into the tree
-        bool newVertex(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 r,edk::float32 g,edk::float32 b){
-            return this->newVertex(x,y,z,r,g,b,1.f);
-        }
-        bool newVertex(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
-            edk::shape::Mesh3D::MeshVertex* vert = new edk::shape::Mesh3D::MeshVertex;
-            if(vert){
-                vert->vertex.x = x;
-                vert->vertex.y = y;
-                vert->vertex.z = z;
-                vert->vertex.r = r;
-                vert->vertex.g = g;
-                vert->vertex.b = b;
-                vert->vertex.a = a;
-                //add this vert in to
-                if(this->add(vert)){
-                    return true;
-                }
-                delete vert;
-            }
-            return false;
-        }
-        bool newVertex(edk::vec3f32 position,edk::color4f32 color){
-            //
-            return this->newVertex(position.x,position.y,position.z,color.r,color.g,color.b,color.a);
-        }
-        bool newVertex(edk::shape::Vertex3D vert){
-            return this->newVertex(edk::vec3f32(vert.x,vert.y,vert.z),edk::color4f32(vert.r,vert.g,vert.b,vert.a));
-        }
-        edk::shape::Vertex3D* getVertexInPosition(edk::uint32 position){
-            edk::shape::Mesh3D::MeshVertex* temp = this->getElementInPosition(position);
-            if(temp){
-                return temp->pointer;
-            }
-            return NULL;
-        }
-        //Delete vertex
-        bool deleteVertex(edk::shape::Vertex3D* vert){
-            edk::shape::Mesh3D::MeshVertex* temp = this->getMeshVertex(vert);
-            if(temp){
-                if(this->remove(temp)){
-                    delete temp;
-                    return true;
-                }
-            }
-            return false;
-        }
-        //remove the vertex in a position
-        bool deletePosition(edk::uint32 position){
-            edk::shape::Mesh3D::MeshVertex* temp = this->getElementInPosition(position);
-            if(temp){
-                if(this->remove(temp)){
-                    delete temp;
-                    return true;
-                }
-            }
-            return false;
-        }
-        //Increment and decrement the vertex use
-        bool incrementVertex(edk::shape::Vertex3D* vert){
-            edk::shape::Mesh3D::MeshVertex* temp = this->getMeshVertex(vert);
-            if(temp){
-                temp->incrementUse();
-                return true;
-            }
-            return false;
-        }
-        bool incrementPosition(edk::uint32 position){
-            edk::shape::Mesh3D::MeshVertex* temp = this->getElementInPosition(position);
-            if(temp){
-                temp->incrementUse();
-                return true;
-            }
-            return false;
-        }
-        bool decrementVertex(edk::shape::Vertex3D* vert){
-            edk::shape::Mesh3D::MeshVertex* temp = this->getMeshVertex(vert);
-            if(temp){
-                return temp->decrementUse();
-            }
-            return false;
-        }
-        bool decrementPosition(edk::uint32 position){
-            edk::shape::Mesh3D::MeshVertex* temp = this->getElementInPosition(position);
-            if(temp){
-                return temp->decrementUse();
-            }
-            return false;
-        }
-        bool havePosition(edk::uint32 position){
-            edk::shape::Mesh3D::MeshVertex* temp = this->getElementInPosition(position);
-            if(temp){
-                return true;
-            }
-            return false;
-        }
+        //create a new vertex in to the stack
+        edk::uint32 newVertex(edk::float32 x,edk::float32 y,edk::float32 z);
+        edk::uint32 newVertex(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 r,edk::float32 g,edk::float32 b);
+        edk::uint32 newVertex(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
+        edk::uint32 newVertex(edk::vec3f32 position,edk::color4f32 color);
+        edk::uint32 newVertex(edk::shape::Vertex3D vert);
+
+        edk::shape::Vertex3D* getVertex(edk::uint32 position);
+        bool haveVertex(edk::uint32 position);
+        bool deleteVertex(edk::uint32 position);
+        bool incrementVertex(edk::uint32 position);
+        bool decrementVertex(edk::uint32 position);
     private:
-        //get the vertex
-        edk::shape::Mesh3D::MeshVertex* getMeshVertex(edk::shape::Vertex3D* vert){
-            edk::shape::Mesh3D::MeshVertex temp;
-            temp.pointer = vert;
-            return this->getElement(&temp);
-        }
+        edk::vector::Stack<edk::shape::Mesh3D::MeshVertex*> stack;
     }vertexes;
+
+    //Class to save all the normals from the polygon
+    class MeshNormal{
+    public:
+        MeshNormal(){
+            this->use = 0u;
+            this->pointer = &this->normal;
+        }
+        void incrementUse(){
+            this->use++;
+        }
+        bool decrementUse(){
+            if(this->use){
+                this->use--;
+            }
+            if(this->use){
+                return true;
+            }
+            return false;
+        }
+        edk::shape::Vector3D normal;
+        edk::shape::Vector3D* pointer;
+        edk::uint32 use;
+    };
+
+    class StackNormal{
+    public:
+        StackNormal();
+        ~StackNormal();
+
+        //clean all normals
+        void cleanNormals();
+        //get the size of the normals
+        edk::uint32 size();
+        edk::uint32 getSize();
+
+        //create a new normal in to the stack
+        edk::uint32 newNormal(edk::float32 x,edk::float32 y,edk::float32 z);
+        edk::uint32 newNormal(edk::vec3f32 position);
+        edk::uint32 newNormal(edk::shape::Vector3D vert);
+
+        edk::shape::Vector3D* getNormal(edk::uint32 position);
+        bool haveNormal(edk::uint32 position);
+        bool deleteNormal(edk::uint32 position);
+        bool incrementNormal(edk::uint32 position);
+        bool decrementNormal(edk::uint32 position);
+    private:
+        edk::vector::Stack<edk::shape::Mesh3D::MeshNormal*> stack;
+    }normals;
+
+    //Class to save all the normals from the polygon
+    class MeshUV{
+    public:
+        MeshUV(){
+            this->use = 0u;
+            this->pointer = &this->uv;
+        }
+        void incrementUse(){
+            this->use++;
+        }
+        bool decrementUse(){
+            if(this->use){
+                this->use--;
+            }
+            if(this->use){
+                return true;
+            }
+            return false;
+        }
+        edk::shape::UV2D uv;
+        edk::shape::UV2D* pointer;
+        edk::uint32 use;
+    };
+
+    class StackUV{
+    public:
+        StackUV();
+        ~StackUV();
+
+        //clean all uvs
+        void cleanUVS();
+        //get the size of the uvs
+        edk::uint32 size();
+        edk::uint32 getSize();
+
+        //create a new uv in to the stack
+        edk::uint32 newUV(edk::float32 u,edk::float32 x);
+        edk::uint32 newUV(edk::vec2f32 position);
+        edk::uint32 newUV(edk::shape::UV2D vert);
+
+        edk::shape::UV2D* getUV(edk::uint32 position);
+        bool haveUV(edk::uint32 position);
+        bool deleteUV(edk::uint32 position);
+        bool incrementUV(edk::uint32 position);
+        bool decrementUV(edk::uint32 position);
+    private:
+        edk::vector::Stack<edk::shape::Mesh3D::MeshUV*> stack;
+    }uvs;
 };
 }//end namespace shape
 }//end namespace edk

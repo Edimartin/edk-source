@@ -54,9 +54,9 @@ public:
     void deletePolygon();
 
     //Set the vertexes
-    bool setVertex(edk::uint32 position,edk::shape::Vertex3D* vertex);
-    bool setNormal(edk::uint32 position,edk::shape::Vector3D* normal);
-    bool setUV(edk::uint32 position,edk::shape::UV2D* uv);
+    bool setVertex(edk::uint32 position,edk::shape::Vertex3D* vertex,edk::uint32 vertexID);
+    bool setNormal(edk::uint32 position,edk::shape::Vector3D* normal,edk::uint32 normalID);
+    bool setUV(edk::uint32 position,edk::shape::UV2D* uv,edk::uint32 uvID);
 
     //Calculate the normal of the polygon
     bool updateNormal();
@@ -102,8 +102,9 @@ private:
     //Only Vertex
     class PolygonVertex{
     public:
-        PolygonVertex(edk::shape::Vertex3D* vertex){
+        PolygonVertex(edk::shape::Vertex3D* vertex,edk::uint32 vertexID){
             this->vertex = vertex;
+            this->vertexID=vertexID;
         }
         virtual ~PolygonVertex(){}
         virtual void draw(){
@@ -127,17 +128,22 @@ private:
         }
         edk::shape::Polygon3D::PolygonVertex operator=(edk::shape::Polygon3D::PolygonVertex vert){
             this->vertex = vert.vertex;
+            this->vertexID = vert.vertexID;
             return vert;
         }
         edk::shape::Vertex3D* vertex;
+        edk::uint32 vertexID;
     };
     //Vertex With UV
     class PolygonVertexWithUV : public edk::shape::Polygon3D::PolygonVertex{
     public:
-        PolygonVertexWithUV(edk::shape::Vertex3D* vertex,edk::shape::UV2D* uv)
-            :edk::shape::Polygon3D::PolygonVertex(vertex)
+        PolygonVertexWithUV(edk::shape::Vertex3D* vertex,edk::uint32 vertexID,
+                            edk::shape::UV2D* uv,edk::uint32 uvID
+                            )
+            :edk::shape::Polygon3D::PolygonVertex(vertex,vertexID)
         {
             this->uv = uv;
+            this->uvID = uvID;
         }
         virtual ~PolygonVertexWithUV(){}
         virtual void draw(){
@@ -158,18 +164,24 @@ private:
         }
         edk::shape::Polygon3D::PolygonVertexWithUV operator=(edk::shape::Polygon3D::PolygonVertexWithUV vert){
             this->vertex = vert.vertex;
+            this->vertexID = vert.vertexID;
             this->uv = vert.uv;
+            this->uvID = vert.uvID;
             return vert;
         }
         edk::shape::UV2D* uv;
+        edk::uint32 uvID;
     };
     //Vertex With Normal
     class PolygonVertexWithNormal : public edk::shape::Polygon3D::PolygonVertex{
     public:
-        PolygonVertexWithNormal(edk::shape::Vertex3D* vertex,edk::shape::Vector3D* normal)
-            :edk::shape::Polygon3D::PolygonVertex(vertex)
+        PolygonVertexWithNormal(edk::shape::Vertex3D* vertex,edk::uint32 vertexID,
+                                edk::shape::Vector3D* normal,edk::uint32 normalID
+                                )
+            :edk::shape::Polygon3D::PolygonVertex(vertex,vertexID)
         {
             this->normal = normal;
+            this->normalID = normalID;
         }
         virtual ~PolygonVertexWithNormal(){}
         virtual void draw(){
@@ -189,18 +201,27 @@ private:
         }
         edk::shape::Polygon3D::PolygonVertexWithNormal operator=(edk::shape::Polygon3D::PolygonVertexWithNormal vert){
             this->vertex = vert.vertex;
+            this->vertexID = vert.vertexID;
             this->normal = vert.normal;
+            this->normalID = vert.normalID;
             return vert;
         }
         edk::shape::Vector3D* normal;
+        edk::uint32 normalID;
     };
     //Vertex With UV and Normal
     class PolygonVertexWithUVNormal: public edk::shape::Polygon3D::PolygonVertexWithNormal{
     public:
-        PolygonVertexWithUVNormal(edk::shape::Vertex3D* vertex,edk::shape::UV2D* uv,edk::shape::Vector3D* normal)
-            :edk::shape::Polygon3D::PolygonVertexWithNormal(vertex,normal)
+        PolygonVertexWithUVNormal(edk::shape::Vertex3D* vertex,edk::uint32 vertexID,
+                                  edk::shape::UV2D* uv,edk::uint32 uvID,
+                                  edk::shape::Vector3D* normal,edk::uint32 normalID
+                                  )
+            :edk::shape::Polygon3D::PolygonVertexWithNormal(vertex,vertexID
+                                                            ,normal,normalID
+                                                            )
         {
             this->uv = uv;
+            this->uvID = uvID;
         }
         virtual ~PolygonVertexWithUVNormal(){}
         virtual void draw(){
@@ -223,11 +244,15 @@ private:
         }
         edk::shape::Polygon3D::PolygonVertexWithUVNormal operator=(edk::shape::Polygon3D::PolygonVertexWithUVNormal vert){
             this->vertex = vert.vertex;
+            this->vertexID = vert.vertexID;
             this->uv = vert.uv;
+            this->uvID = vert.uvID;
             this->normal = vert.normal;
+            this->normalID = vert.normalID;
             return vert;
         }
         edk::shape::UV2D* uv;
+        edk::uint32 uvID;
     };
     edk::shape::Polygon3D operator=(edk::shape::Polygon3D list){
         return list;
