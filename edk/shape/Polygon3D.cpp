@@ -373,7 +373,7 @@ void edk::shape::Polygon3D::drawWireWithColor(edk::color4f32 color){
     //    edk::GU::guTranslate2f32(this->translate);
     //    edk::GU::guRotateZf32(this->angle);
     //    edk::GU::guScale2f32(this->scale);
-    edk::GU::guBegin(GU_LINES);
+    edk::GU::guBegin(GU_LINE_LOOP);
     this->drawVertexsWithColor(color);
     edk::GU::guEnd();
     edk::GU::guPopMatrix();

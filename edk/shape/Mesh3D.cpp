@@ -244,8 +244,8 @@ edk::uint32 edk::shape::Mesh3D::StackUV::getSize(){
 
 //create a new uv in to the stack
 edk::uint32 edk::shape::Mesh3D::StackUV::newUV(edk::float32 u,
-                                                       edk::float32 v
-                                                       ){
+                                               edk::float32 v
+                                               ){
     edk::shape::Mesh3D::MeshUV* vert = new edk::shape::Mesh3D::MeshUV;
     if(vert){
         vert->uv.u = u;
@@ -302,6 +302,81 @@ bool edk::shape::Mesh3D::StackUV::decrementUV(edk::uint32 position){
     return false;
 }
 
+edk::shape::Mesh3D::StackPolygon::StackPolygon(){
+    //
+}
+edk::shape::Mesh3D::StackPolygon::~StackPolygon(){
+    //
+    this->cleanPolygons();
+}
+
+edk::uint32 edk::shape::Mesh3D::StackPolygon::size(){
+    return this->list.size();
+}
+edk::uint32 edk::shape::Mesh3D::StackPolygon::getSize(){
+    return this->list.size();
+}
+
+//clean the polygon list
+void edk::shape::Mesh3D::StackPolygon::cleanPolygons(){
+    edk::uint32 size = this->list.size();
+    edk::shape::Polygon3D* temp;
+    for(edk::uint32 i=0u;i<size;i++){
+        temp = this->list.get(i);
+        if(temp){
+            delete temp;
+        }
+    }
+    this->list.clean();
+}
+//create a new polygon
+edk::uint32 edk::shape::Mesh3D::StackPolygon::newPolygon(edk::uint32 vertexes){
+    //create a new polygon
+    edk::shape::Polygon3D* poly = new edk::shape::Polygon3D;
+    if(poly){
+        if(poly->createPolygon(vertexes)){
+            edk::uint32 ret=0u;
+            edk::uint32 size = this->list.size();
+            ret = this->list.pushBack(poly);
+            if(size<this->list.size()){
+                return ret;
+            }
+        }
+        delete poly;
+    }
+    return 0u;
+}
+//return the polygon in a position
+edk::shape::Polygon3D* edk::shape::Mesh3D::StackPolygon::getPolygon(edk::uint32 position){
+    return this->list.get(position);
+}
+//print the polygons
+void edk::shape::Mesh3D::StackPolygon::printPolygons(){
+    this->list.print();
+}
+//draw the polygons
+void edk::shape::Mesh3D::StackPolygon::drawPolygons(){
+    this->list.render();
+}
+void edk::shape::Mesh3D::StackPolygon::drawWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
+edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
+bool lightIsOn[][EDK_LIGHT_LIMIT]
+){
+    this->list.drawWithLight(lightPositions,lightDirections,lightIsOn);
+}
+//Draw the polygon with lines
+void edk::shape::Mesh3D::StackPolygon::drawWire(){
+    this->list.drawWire();
+}
+//Draw the polygon with lines
+void edk::shape::Mesh3D::StackPolygon::drawWireWithColor(edk::color4f32 color){
+    this->list.drawWireWithColor(color);
+}
+//Draw the polygon with lines
+void edk::shape::Mesh3D::StackPolygon::drawPolygonVertexs(edk::color4f32 color){
+    this->list.drawPolygonVertexs(color);
+}
+
 edk::shape::Mesh3D::Mesh3D(){
     //
 }
@@ -310,49 +385,49 @@ edk::shape::Mesh3D::~Mesh3D(){
 }
 
 //VERTEXES
-bool edk::shape::Mesh3D::newVertex(edk::float32 x,
-                                   edk::float32 y,
-                                   edk::float32 z,
-                                   edk::float32 r,
-                                   edk::float32 g,
-                                   edk::float32 b
-                                   ){
+edk::uint32 edk::shape::Mesh3D::newVertex(edk::float32 x,
+                                          edk::float32 y,
+                                          edk::float32 z,
+                                          edk::float32 r,
+                                          edk::float32 g,
+                                          edk::float32 b
+                                          ){
     return this->vertexes.newVertex(x,y,z,r,g,b);
 }
-bool edk::shape::Mesh3D::newVertex(edk::float32 x,
-                                   edk::float32 y,
-                                   edk::float32 z,
-                                   edk::float32 r,
-                                   edk::float32 g,
-                                   edk::float32 b,
-                                   edk::float32 a
-                                   ){
+edk::uint32 edk::shape::Mesh3D::newVertex(edk::float32 x,
+                                          edk::float32 y,
+                                          edk::float32 z,
+                                          edk::float32 r,
+                                          edk::float32 g,
+                                          edk::float32 b,
+                                          edk::float32 a
+                                          ){
     return this->vertexes.newVertex(x,y,z,r,g,b,a);
 }
-bool edk::shape::Mesh3D::newVertex(edk::vec3f32 position,edk::color4f32 color){
+edk::uint32 edk::shape::Mesh3D::newVertex(edk::vec3f32 position,edk::color4f32 color){
     return this->vertexes.newVertex(position,color);
 }
-bool edk::shape::Mesh3D::newVertex(edk::shape::Vertex3D vert){
+edk::uint32 edk::shape::Mesh3D::newVertex(edk::shape::Vertex3D vert){
     return this->vertexes.newVertex(vert);
 }
 //NORMALS
-bool edk::shape::Mesh3D::newNormal(edk::float32 x,edk::float32 y,edk::float32 z){
+edk::uint32 edk::shape::Mesh3D::newNormal(edk::float32 x,edk::float32 y,edk::float32 z){
     return this->normals.newNormal(x,y,z);
 }
-bool edk::shape::Mesh3D::newNormal(edk::vec3f32 vector){
+edk::uint32 edk::shape::Mesh3D::newNormal(edk::vec3f32 vector){
     return this->normals.newNormal(vector);
 }
-bool edk::shape::Mesh3D::newNormal(edk::shape::Vector3D vector){
+edk::uint32 edk::shape::Mesh3D::newNormal(edk::shape::Vector3D vector){
     return this->normals.newNormal(vector);
 }
 //UVS
-bool edk::shape::Mesh3D::newUV(edk::float32 x,edk::float32 y){
+edk::uint32 edk::shape::Mesh3D::newUV(edk::float32 x,edk::float32 y){
     return this->uvs.newUV(x,y);
 }
-bool edk::shape::Mesh3D::newUV(edk::vec2f32 vector){
+edk::uint32 edk::shape::Mesh3D::newUV(edk::vec2f32 vector){
     return this->uvs.newUV(vector);
 }
-bool edk::shape::Mesh3D::newUV(edk::shape::UV2D uv){
+edk::uint32 edk::shape::Mesh3D::newUV(edk::shape::UV2D uv){
     return this->uvs.newUV(uv);
 }
 
@@ -457,4 +532,74 @@ bool edk::shape::Mesh3D::removeIV(edk::uint32 position){
         return this->uvs.deleteUV(position);
     }
     return false;
+}
+//POLYGONS
+edk::uint32 edk::shape::Mesh3D::newPolygon(edk::uint32 vertexes){
+    return this->polygons.newPolygon(vertexes);
+}
+//select the polygon
+bool edk::shape::Mesh3D::selectPolygon(edk::uint32 position){
+    this->selected = this->polygons.getPolygon(position);
+    if(this->selected){
+        return true;
+    }
+    return false;
+}
+//set polygon vertexes normals and UV
+bool edk::shape::Mesh3D::selectedPolygonSetVertex(edk::uint32 position,edk::uint32 vertex){
+    if(this->selected){
+        //get the vertex
+        edk::shape::Vertex3D* temp = this->vertexes.getVertex(vertex);
+        if(temp){
+            return this->selected->setVertex(position,temp,vertex);
+        }
+    }
+    return false;
+}
+bool edk::shape::Mesh3D::selectedPolygonSetNormal(edk::uint32 position,edk::uint32 normal){
+    if(this->selected){
+        //get the vertex
+        edk::shape::Vector3D* temp = this->normals.getNormal(normal);
+        if(temp){
+            return this->selected->setNormal(position,temp,normal);
+        }
+    }
+    return false;
+}
+bool edk::shape::Mesh3D::selectedPolygonSetUV(edk::uint32 position,edk::uint32 uv){
+    if(this->selected){
+        //get the vertex
+        edk::shape::UV2D* temp = this->uvs.getUV(uv);
+        if(temp){
+            return this->selected->setUV(position,temp,uv);
+        }
+    }
+    return false;
+}
+
+//DRAW
+//print the mesh
+void edk::shape::Mesh3D::printPolygons(){
+    this->polygons.printPolygons();
+}
+//draw the mesh
+void edk::shape::Mesh3D::drawPolygons(){
+    this->polygons.drawPolygons();
+}
+//draw the mesh with lights
+void edk::shape::Mesh3D::drawPolygonsWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
+edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
+bool lightIsOn[][EDK_LIGHT_LIMIT]
+){
+    this->polygons.drawWithLight(lightPositions,lightDirections,lightIsOn);
+}
+//draw the polygons in wireframe
+void edk::shape::Mesh3D::drawWirePolygons(){
+    this->polygons.drawWire();
+}
+void edk::shape::Mesh3D::drawWirePolygonsWithColor(edk::color4f32 color){
+    this->polygons.drawWireWithColor(color);
+}
+void edk::shape::Mesh3D::drawVertexs(edk::color3f32 color){
+    //
 }

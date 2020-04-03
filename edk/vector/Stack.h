@@ -393,8 +393,8 @@ public:
         //test if have the pos
         if(this->havePos(pos)){
             //get the position in the Stack
-            edk::uint32 StackPos = pos/StackArraySize;
-            edk::uint32 arrayPos = pos%StackArraySize;
+            edk::uint32 StackPos = pos/this->StackArraySize;
+            edk::uint32 arrayPos = pos%this->StackArraySize;
             //create a temp
             edk::vector::StackCel<typeTemplate> *temp=this->first;
             //then find the value
@@ -417,6 +417,103 @@ public:
 #pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
         return ret;
 #pragma GCC diagnostic pop
+    }
+    //UPDATE
+    //update the objects inside the stack
+    bool update(){
+        edk::uint32 increment=0u;
+        edk::vector::StackCel<typeTemplate> *temp=this->first;
+        if(temp){
+            while(temp){
+                if(!temp->next){
+                    edk::uint32 size = this->stackSize - increment;
+                    for(edk::uint32 i=0u;i<size;i++){
+                        //test if have the element
+                        if(!this->removed.haveElement(i)){
+                            //update element
+                            this->updateElement(temp->get(i));
+                        }
+                    }
+                }
+                else{
+                    for(edk::uint32 i=0u;i<this->StackArraySize;i++){
+                        //test if have the element
+                        if(!this->removed.haveElement(i)){
+                            //update element
+                            this->updateElement(temp->get(i));
+                        }
+                    }
+                }
+                temp=temp->next;
+                increment+=this->StackArraySize;
+            }
+            return true;
+        }
+        return false;
+    }
+    //print the objects inside the stack
+    bool print(){
+        edk::uint32 increment=0u;
+        edk::vector::StackCel<typeTemplate> *temp=this->first;
+        if(temp){
+            while(temp){
+                if(!temp->next){
+                    edk::uint32 size = this->stackSize - increment;
+                    for(edk::uint32 i=0u;i<size;i++){
+                        //test if have the element
+                        if(!this->removed.haveElement(i)){
+                            //update element
+                            this->printElement(temp->get(i));
+                        }
+                    }
+                }
+                else{
+                    for(edk::uint32 i=0u;i<this->StackArraySize;i++){
+                        //test if have the element
+                        if(!this->removed.haveElement(i)){
+                            //update element
+                            this->printElement(temp->get(i));
+                        }
+                    }
+                }
+                temp=temp->next;
+                increment+=this->StackArraySize;
+            }
+            return true;
+        }
+        return false;
+    }
+    //render the objects inside the stack
+    bool render(){
+        edk::uint32 increment=0u;
+        edk::vector::StackCel<typeTemplate> *temp=this->first;
+        if(temp){
+            while(temp){
+                if(!temp->next){
+                    edk::uint32 size = this->stackSize - increment;
+                    for(edk::uint32 i=0u;i<size;i++){
+                        //test if have the element
+                        if(!this->removed.haveElement(i)){
+                            //update element
+                            this->renderElement(temp->get(i));
+                        }
+                    }
+                }
+                else{
+                    for(edk::uint32 i=0u;i<this->StackArraySize;i++){
+                        //test if have the element
+                        if(!this->removed.haveElement(i)){
+                            //update element
+                            this->renderElement(temp->get(i));
+                        }
+                    }
+                }
+                temp=temp->next;
+                increment+=this->StackArraySize;
+            }
+            return true;
+        }
+        return false;
     }
     //get the size
     edk::uint32 getSize(){
@@ -611,6 +708,9 @@ public:
 
 
 protected:
+    virtual void updateElement(typeTemplate){}
+    virtual void printElement(typeTemplate){}
+    virtual void renderElement(typeTemplate){}
 private:
     //Have the first cel
     edk::vector::StackCel<typeTemplate>* first;
