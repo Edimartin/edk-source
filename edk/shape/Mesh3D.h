@@ -45,6 +45,12 @@ public:
     Mesh3D();
     ~Mesh3D();
 
+    void cleanVertexes();
+    void cleanNormals();
+    void cleanUVs();
+    void cleanPolygons();
+    void cleanMesh();
+
     //VERTEXES
     edk::uint32 newVertex(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 r,edk::float32 g,edk::float32 b);
     edk::uint32 newVertex(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
@@ -89,6 +95,10 @@ public:
     bool selectedPolygonSetVertex(edk::uint32 position,edk::uint32 vertex);
     bool selectedPolygonSetNormal(edk::uint32 position,edk::uint32 normal);
     bool selectedPolygonSetUV(edk::uint32 position,edk::uint32 uv);
+    bool selectedPolygonSetSmooth(bool smooth);
+    bool selectedPolygonSmoothOn();
+    bool selectedPolygonSmoothOff();
+    bool selectedPolygonUpdateNormal();
 
     //DRAW
     //print the mesh
@@ -104,6 +114,39 @@ public:
     virtual void drawWirePolygons();
     virtual void drawWirePolygonsWithColor(edk::color4f32 color=edk::color4f32(1,1,1,1));
     virtual void drawVertexs(edk::color3f32 color = edk::color3f32(1,1,1));
+    virtual void drawPolygonsNormals();
+    virtual void drawPolygonsNormalsWithColor(edk::color3f32 color = edk::color3f32(1,1,1));
+
+
+    //draw the mesh
+    virtual void drawOneTexture();
+    virtual void drawOneTexture(edk::uint32 position);
+    virtual bool selectedDrawOneTexture();
+    virtual bool selectedDrawOneTexture(edk::uint32 position);
+    virtual void drawOneTextureWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
+    edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
+    bool lightIsOn[][EDK_LIGHT_LIMIT]);
+    virtual void drawOneTextureWithLight(edk::uint32 position,edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
+    edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
+    bool lightIsOn[][EDK_LIGHT_LIMIT]);
+    virtual bool selectedDrawOneTextureWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
+    edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
+    bool lightIsOn[][EDK_LIGHT_LIMIT]);
+    virtual bool selectedDrawOneTextureWithLight(edk::uint32 position,edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
+    edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
+    bool lightIsOn[][EDK_LIGHT_LIMIT]);
+    virtual void drawMultiTexture();
+    virtual bool selectedDrawMultiTexture();
+    virtual void drawMultiTextureWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
+    edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
+    bool lightIsOn[][EDK_LIGHT_LIMIT]);
+    virtual bool selectedDrawMultiTextureWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
+    edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
+    bool lightIsOn[][EDK_LIGHT_LIMIT]);
+    virtual void drawWire();
+
+    //Material used for the mesh
+    edk::material::Material material;
 private:
     //Class to save all the vertexes from the polygon
     class MeshVertex{
@@ -323,6 +366,24 @@ protected:
             value->drawPolygonVertexs(list->color);
         }
 
+        //Draw the polygon normals
+        void drawPolygonNormals(){
+            this->func = edk::shape::Mesh3D::PolygonList::runDrawPolygonNormals;
+            this->update();
+        }
+        static void runDrawPolygonNormals(edk::shape::Mesh3D::PolygonList*,edk::shape::Polygon3D* value){
+            value->drawPolygonNormals();
+        }
+        //Draw the polygon with lines
+        void drawPolygonNormalsWithColor(edk::color3f32 color=edk::color3f32(1,1,1)){
+            this->func = edk::shape::Mesh3D::PolygonList::runDrawPolygonNormalsWithColor;
+            this->color = color;
+            this->update();
+        }
+        static void runDrawPolygonNormalsWithColor(edk::shape::Mesh3D::PolygonList* list,edk::shape::Polygon3D* value){
+            value->drawPolygonNormalsWithColor(list->color);
+        }
+
         void (*func)(edk::shape::Mesh3D::PolygonList* list,edk::shape::Polygon3D* value);
         edk::color4f32 color;
         edk::float32 lightPositions[EDK_LIGHT_LIMIT][4u];
@@ -359,6 +420,10 @@ protected:
         void drawWireWithColor(edk::color4f32 color=edk::color4f32(1,1,1,1));
         //Draw the polygon with lines
         void drawPolygonVertexs(edk::color4f32 color=edk::color4f32(1,1,1,1));
+        //Draw the polygon normals lines
+        void drawPolygonNormals();
+        //Draw the polygon normals lines
+        void drawPolygonNormalsWithColor(edk::color3f32 color=edk::color3f32(1,1,1));
     private:
         //list of polygons
         edk::shape::Mesh3D::PolygonList list;

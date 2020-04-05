@@ -376,12 +376,40 @@ void edk::shape::Mesh3D::StackPolygon::drawWireWithColor(edk::color4f32 color){
 void edk::shape::Mesh3D::StackPolygon::drawPolygonVertexs(edk::color4f32 color){
     this->list.drawPolygonVertexs(color);
 }
+//Draw the polygon normals lines
+void edk::shape::Mesh3D::StackPolygon::drawPolygonNormals(){
+    this->list.drawPolygonNormals();
+}
+//Draw the polygon normals lines
+void edk::shape::Mesh3D::StackPolygon::drawPolygonNormalsWithColor(edk::color3f32 color){
+    this->list.drawPolygonNormalsWithColor(color);
+}
 
 edk::shape::Mesh3D::Mesh3D(){
     //
 }
 edk::shape::Mesh3D::~Mesh3D(){
     //
+    this->cleanMesh();
+}
+
+void edk::shape::Mesh3D::cleanVertexes(){
+    this->vertexes.cleanVertexes();
+}
+void edk::shape::Mesh3D::cleanNormals(){
+    this->normals.cleanNormals();
+}
+void edk::shape::Mesh3D::cleanUVs(){
+    this->uvs.cleanUVS();
+}
+void edk::shape::Mesh3D::cleanPolygons(){
+    this->polygons.cleanPolygons();
+}
+void edk::shape::Mesh3D::cleanMesh(){
+    this->cleanPolygons();
+    this->cleanVertexes();
+    this->cleanNormals();
+    this->cleanUVs();
 }
 
 //VERTEXES
@@ -576,6 +604,34 @@ bool edk::shape::Mesh3D::selectedPolygonSetUV(edk::uint32 position,edk::uint32 u
     }
     return false;
 }
+bool edk::shape::Mesh3D::selectedPolygonSetSmooth(bool smooth){
+    if(this->selected){
+        this->selected->smooth=smooth;
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Mesh3D::selectedPolygonSmoothOn(){
+    if(this->selected){
+        this->selected->smooth=true;
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Mesh3D::selectedPolygonSmoothOff(){
+    if(this->selected){
+        this->selected->smooth=false;
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Mesh3D::selectedPolygonUpdateNormal(){
+    if(this->selected){
+        this->selected->updateNormal();
+        return true;
+    }
+    return false;
+}
 
 //DRAW
 //print the mesh
@@ -601,5 +657,237 @@ void edk::shape::Mesh3D::drawWirePolygonsWithColor(edk::color4f32 color){
     this->polygons.drawWireWithColor(color);
 }
 void edk::shape::Mesh3D::drawVertexs(edk::color3f32 color){
-    //
+    this->polygons.drawPolygonVertexs(edk::color4f32(color.r,color.g,color.b,1.f));
+}
+void edk::shape::Mesh3D::drawPolygonsNormals(){
+    this->polygons.drawPolygonNormals();
+}
+void edk::shape::Mesh3D::drawPolygonsNormalsWithColor(edk::color3f32 color){
+    this->polygons.drawPolygonNormalsWithColor(color);
+}
+
+//draw the mesh
+void edk::shape::Mesh3D::drawOneTexture(){
+    //set the texture if have one
+    if(this->material.haveTexture()){
+        this->material.drawStartWithOneTexture();
+        //Draw the mesh
+        this->drawPolygons();
+
+        this->material.drawEndWithTexture();
+    }
+    else{
+        this->material.drawNoTexture();
+        //else just draw the mesh
+        this->drawPolygons();
+    }
+}
+void edk::shape::Mesh3D::drawOneTexture(edk::uint32 position){
+    //set the texture if have one
+    if(this->material.haveTexture()){
+        this->material.drawStartWithOneTexture(position);
+        //Draw the mesh
+        this->drawPolygons();
+
+        this->material.drawEndWithTexture();
+    }
+    else{
+        this->material.drawNoTexture();
+        //else just draw the mesh
+        this->drawPolygons();
+    }
+}
+bool edk::shape::Mesh3D::selectedDrawOneTexture(){
+    if(this->selected){
+        //set the texture if have one
+        if(this->material.haveTexture()){
+            this->material.drawStartWithOneTexture();
+            //Draw the polygon
+            this->selected->draw();
+
+            this->material.drawEndWithTexture();
+        }
+        else{
+            this->material.drawNoTexture();
+            //else just draw the polygon
+            this->selected->draw();
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Mesh3D::selectedDrawOneTexture(edk::uint32 position){
+    if(this->selected){
+        //set the texture if have one
+        if(this->material.haveTexture()){
+            this->material.drawStartWithOneTexture(position);
+            //Draw the polygon
+            this->selected->draw();
+
+            this->material.drawEndWithTexture();
+        }
+        else{
+            this->material.drawNoTexture();
+            //else just draw the polygon
+            this->selected->draw();
+        }
+        return true;
+    }
+    return false;
+}
+
+void edk::shape::Mesh3D::drawOneTextureWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
+edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
+bool lightIsOn[][EDK_LIGHT_LIMIT]){
+    //set the texture if have one
+    if(this->material.haveTexture()){
+        this->material.drawStartWithOneTexture();
+        //Draw the mesh
+        this->drawPolygonsWithLight(lightPositions,lightDirections,lightIsOn);
+
+        this->material.drawEndWithTexture();
+    }
+    else{
+        this->material.drawNoTexture();
+        //else just draw the mesh
+        this->drawPolygonsWithLight(lightPositions,lightDirections,lightIsOn);
+    }
+}
+void edk::shape::Mesh3D::drawOneTextureWithLight(edk::uint32 position,edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
+edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
+bool lightIsOn[][EDK_LIGHT_LIMIT]){
+    //set the texture if have one
+    if(this->material.haveTexture()){
+        this->material.drawStartWithOneTexture(position);
+        //Draw the mesh
+        this->drawPolygonsWithLight(lightPositions,lightDirections,lightIsOn);
+
+        this->material.drawEndWithTexture();
+    }
+    else{
+        this->material.drawNoTexture();
+        //else just draw the mesh
+        this->drawPolygonsWithLight(lightPositions,lightDirections,lightIsOn);
+    }
+}
+bool edk::shape::Mesh3D::selectedDrawOneTextureWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
+edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
+bool lightIsOn[][EDK_LIGHT_LIMIT]){
+    if(this->selected){
+        //set the texture if have one
+        if(this->material.haveTexture()){
+            this->material.drawStartWithOneTexture();
+            //Draw the mesh
+            this->selected->drawWithLight(lightPositions,lightDirections,lightIsOn);
+
+            this->material.drawEndWithTexture();
+        }
+        else{
+            this->material.drawNoTexture();
+            //else just draw the mesh
+            this->selected->drawWithLight(lightPositions,lightDirections,lightIsOn);
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Mesh3D::selectedDrawOneTextureWithLight(edk::uint32 position,edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
+edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
+bool lightIsOn[][EDK_LIGHT_LIMIT]){
+    if(this->selected){
+        //set the texture if have one
+        if(this->material.haveTexture()){
+            this->material.drawStartWithOneTexture(position);
+            //Draw the mesh
+            this->selected->drawWithLight(lightPositions,lightDirections,lightIsOn);
+
+            this->material.drawEndWithTexture();
+        }
+        else{
+            this->material.drawNoTexture();
+            //else just draw the mesh
+            this->selected->drawWithLight(lightPositions,lightDirections,lightIsOn);
+        }
+        return true;
+    }
+    return false;
+}
+
+//draw the mesh
+void edk::shape::Mesh3D::drawMultiTexture(){
+    //set the texture if have one
+    if(this->material.haveTexture()){
+        this->material.drawStartWithMultiTexture();
+        //Draw the mesh
+        this->drawPolygons();
+
+        this->material.drawEndWithTexture();
+    }
+    else{
+        this->material.drawNoTexture();
+        //else just draw the mesh
+        this->drawPolygons();
+    }
+}
+bool edk::shape::Mesh3D::selectedDrawMultiTexture(){
+    if(this->selected){
+        //set the texture if have one
+        if(this->material.haveTexture()){
+            this->material.drawStartWithMultiTexture();
+            //Draw the mesh
+            this->selected->draw();
+
+            this->material.drawEndWithTexture();
+        }
+        else{
+            this->material.drawNoTexture();
+            //else just draw the mesh
+            this->selected->draw();
+        }
+        return true;
+    }
+    return false;
+}
+void edk::shape::Mesh3D::drawMultiTextureWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
+edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
+bool lightIsOn[][EDK_LIGHT_LIMIT]){
+    //set the texture if have one
+    if(this->material.haveTexture()){
+        this->material.drawStartWithMultiTexture();
+        //Draw the mesh
+        this->drawPolygonsWithLight(lightPositions,lightDirections,lightIsOn);
+
+        this->material.drawEndWithTexture();
+    }
+    else{
+        this->material.drawNoTexture();
+        //else just draw the mesh
+        this->drawPolygonsWithLight(lightPositions,lightDirections,lightIsOn);
+    }
+}
+bool edk::shape::Mesh3D::selectedDrawMultiTextureWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
+edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
+bool lightIsOn[][EDK_LIGHT_LIMIT]){
+    if(selected){
+        //set the texture if have one
+        if(this->material.haveTexture()){
+            this->material.drawStartWithMultiTexture();
+            //Draw the mesh
+            this->selected->drawWithLight(lightPositions,lightDirections,lightIsOn);
+
+            this->material.drawEndWithTexture();
+        }
+        else{
+            this->material.drawNoTexture();
+            //else just draw the mesh
+            this->selected->drawWithLight(lightPositions,lightDirections,lightIsOn);
+        }
+        return true;
+    }
+    return false;
+}
+void edk::shape::Mesh3D::drawWire(){
+    this->material.drawNoTexture();
+    //else just draw the mesh
+    this->drawWirePolygons();
 }

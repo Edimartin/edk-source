@@ -64,6 +64,10 @@ public:
         //draw the vertex
         edk::GU::guVertex3f32(this->x, this->y,this->z);
     }
+    virtual void drawVertexPosition(edk::vec3f32 position){
+        //draw the vertex
+        edk::GU::guVertex3f32(this->x+position.x, this->y+position.y,this->z+position.z);
+    }
     virtual void printVertex(){
         printf("\nVertex %.2f %.2f %.2f",
                this->x,this->y,this->z
@@ -203,6 +207,16 @@ public:
         //draw the vertex
         edk::shape::Vector3D::drawVertex();
     }
+    void drawVertexPosition(edk::vec3f32 position){
+        //set the color of the vertex
+        edk::GU::guColor4f32(this->r,
+                             this->g,
+                             this->b,
+                             this->a
+                             );
+        //draw the vertex
+        edk::shape::Vector3D::drawVertexPosition(position);
+    }
     void drawVertexWithColor(edk::color4f32 color){
         //set the color of the vertex
         edk::GU::guColor4f32(color.r,
@@ -212,6 +226,16 @@ public:
                              );
         //draw the vertex
         edk::shape::Vector3D::drawVertex();
+    }
+    void drawVertexPositionWithColor(edk::vec3f32 position,edk::color4f32 color){
+        //set the color of the vertex
+        edk::GU::guColor4f32(color.r,
+                             color.g,
+                             color.b,
+                             color.a
+                             );
+        //draw the vertex
+        edk::shape::Vector3D::drawVertexPosition(position);
     }
 
     void printVertex(){

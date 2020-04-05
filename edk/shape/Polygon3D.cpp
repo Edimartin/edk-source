@@ -36,6 +36,37 @@ edk::shape::Polygon3D::~Polygon3D(){
     //
     this->deletePolygon();
 }
+//update the center position
+void edk::shape::Polygon3D::updateCenterPosition(){
+    edk::uint32 size = this->vertexs.size();
+    if(size){
+        edk::shape::Vertex3D min,max;
+        edk::shape::Polygon3D::PolygonVertex* vertex;
+        for(edk::uint32 i=0u;i<size;i++){
+            vertex = this->vertexs[i];
+            if(vertex){
+                if(vertex->vertex->x < min.x)
+                    min.x = vertex->vertex->x;
+                if(vertex->vertex->y < min.y)
+                    min.y = vertex->vertex->y;
+                if(vertex->vertex->z < min.z)
+                    min.z = vertex->vertex->z;
+
+                if(vertex->vertex->x > max.x)
+                    max.x = vertex->vertex->x;
+                if(vertex->vertex->y > max.y)
+                    max.y = vertex->vertex->y;
+                if(vertex->vertex->z > max.z)
+                    max.z = vertex->vertex->z;
+            }
+        }
+        //then update the center
+        this->center.x = min.x + ((max.x - min.x)*0.5f);
+        this->center.y = min.y + ((max.y - min.y)*0.5f);
+        this->center.z = min.z + ((max.z - min.z)*0.5f);
+    }
+}
+
 //draw the vertezes
 bool edk::shape::Polygon3D::drawVertexs(){
     edk::uint32 size = this->vertexs.size();
@@ -140,6 +171,10 @@ bool edk::shape::Polygon3D::setVertex(edk::uint32 position,edk::shape::Vertex3D*
         edk::shape::Polygon3D::PolygonVertex* vert = this->vertexs[position];
         vert->vertex = vertex;
         vert->vertexID = vertexID;
+
+        //update the center position
+        this->updateCenterPosition();
+
         return true;
     }
     return false;
@@ -388,6 +423,72 @@ void edk::shape::Polygon3D::drawPolygonVertexs(edk::color4f32 color){
     this->drawVertexsWithColor(color);
     edk::GU::guEnd();
     edk::GU::guPopMatrix();
+}
+
+void edk::shape::Polygon3D::drawPolygonNormals(){
+    edk::uint32 size = this->vertexs.size();
+    if(size){
+        edk::GU::guPushMatrix();
+        //    edk::GU::guTranslate2f32(this->translate);
+        //    edk::GU::guRotateZf32(this->angle);
+        //    edk::GU::guScale2f32(this->scale);
+        edk::GU::guBegin(GU_LINES);
+        edk::shape::Polygon3D::PolygonVertex* vertex;
+        if(this->smooth){
+            for(edk::uint32 i=0u;i<size;i++){
+                vertex = this->vertexs[i];
+                if(vertex){
+                    vertex->drawNormal();
+                }
+            }
+        }
+        else{
+            vertex = this->vertexs[0u];
+            if(vertex){
+                //set the color of the vertex
+                edk::GU::guColor4f32(vertex->vertex->r,
+                                     vertex->vertex->g,
+                                     vertex->vertex->b,
+                                     vertex->vertex->a
+                                     );
+                this->center.drawVertex();
+                this->center.drawVertexPosition(edk::vec3f32(this->normal.x,this->normal.z,this->normal.z));
+            }
+        }
+        edk::GU::guEnd();
+        edk::GU::guPopMatrix();
+    }
+}
+void edk::shape::Polygon3D::drawPolygonNormalsWithColor(edk::color4f32 color){
+    edk::uint32 size = this->vertexs.size();
+    if(size){
+        edk::GU::guPushMatrix();
+        //    edk::GU::guTranslate2f32(this->translate);
+        //    edk::GU::guRotateZf32(this->angle);
+        //    edk::GU::guScale2f32(this->scale);
+        edk::GU::guBegin(GU_LINES);
+        edk::shape::Polygon3D::PolygonVertex* vertex;
+        if(this->smooth){
+            for(edk::uint32 i=0u;i<size;i++){
+                vertex = this->vertexs[i];
+                if(vertex){
+                    vertex->drawNormalWithColor(color);
+                }
+            }
+        }
+        else{
+            //set the color of the vertex
+            edk::GU::guColor4f32(color.r,
+                                 color.g,
+                                 color.b,
+                                 color.a
+                                 );
+            this->center.drawVertex();
+            this->center.drawVertexPosition(edk::vec3f32(this->normal.x,this->normal.z,this->normal.z));
+        }
+        edk::GU::guEnd();
+        edk::GU::guPopMatrix();
+    }
 }
 
 bool edk::shape::Polygon3D::cloneFrom(edk::shape::Polygon3D* poly){

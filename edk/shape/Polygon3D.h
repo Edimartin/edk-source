@@ -73,6 +73,9 @@ public:
     //draw vertexs
     virtual void drawPolygonVertexs(edk::color4f32 color=edk::color4f32(1,1,1,1));
 
+    virtual void drawPolygonNormals();
+    virtual void drawPolygonNormalsWithColor(edk::color4f32 color=edk::color4f32(1,1,1,1));
+
     bool cloneFrom(edk::shape::Polygon3D* poly);
 
     //boolean to save if the polygon is draw with smooth
@@ -89,6 +92,7 @@ private:
     static edk::shape::UV2D staticUV;
     //normal of the polygon
     edk::shape::Vector3D normal;
+    edk::shape::Vector3D center;
     class PolygonVertex;
     //array with the vertexes
     edk::vector::Array<PolygonVertex*> vertexs;
@@ -99,6 +103,8 @@ private:
         typeVertexWithNormal,
         typeVertexWithUVNormal,
     };
+    //update the center position
+    void updateCenterPosition();
     //Only Vertex
     class PolygonVertex{
     public:
@@ -120,6 +126,10 @@ private:
         void drawWithColor(edk::color4f32 color){
             this->vertex->drawVertexWithColor(color);
         }
+        virtual void drawNormal(){}
+        virtual void drawNormalWithColor(edk::color4f32){}
+        virtual void drawNormalPosition(edk::vec3f32){}
+        virtual void drawNormalPositionWithColor(edk::vec3f32,edk::color4f32){}
         virtual void print(){
             this->vertex->printVertex();
         }
@@ -147,14 +157,18 @@ private:
         }
         virtual ~PolygonVertexWithUV(){}
         virtual void draw(){
-            this->vertex->drawVertex();
             this->uv->drawUV();
+            this->vertex->drawVertex();
         }
         virtual void drawWithNormal(edk::shape::Vector3D normal){
-            this->vertex->drawVertex();
-            normal.drawNormal();
             this->uv->drawUV();
+            normal.drawNormal();
+            this->vertex->drawVertex();
         }
+        virtual void drawNormal(){}
+        virtual void drawNormalWithColor(edk::color4f32){}
+        virtual void drawNormalPosition(edk::vec3f32){}
+        virtual void drawNormalPositionWithColor(edk::vec3f32,edk::color4f32){}
         virtual void print(){
             this->vertex->printVertex();
             this->uv->printUV();
@@ -185,12 +199,28 @@ private:
         }
         virtual ~PolygonVertexWithNormal(){}
         virtual void draw(){
-            this->vertex->drawVertex();
             this->normal->drawNormal();
+            this->vertex->drawVertex();
         }
         virtual void drawWithNormal(edk::shape::Vector3D normal){
-            this->vertex->drawVertex();
             normal.drawNormal();
+            this->vertex->drawVertex();
+        }
+        virtual void drawNormal(){
+            this->vertex->drawVertex();
+            this->normal->drawVertexPosition(edk::vec3f32(this->vertex->x,this->vertex->y,this->vertex->z));
+        }
+        virtual void drawNormalWithColor(edk::color4f32 color){
+            this->vertex->drawVertexWithColor(color);
+            this->normal->drawVertexPosition(edk::vec3f32(this->vertex->x,this->vertex->y,this->vertex->z));
+        }
+        virtual void drawNormalPosition(edk::vec3f32 position){
+            this->vertex->drawVertex();
+            this->vertex->drawVertexPosition(position);
+        }
+        virtual void drawNormalPositionWithColor(edk::vec3f32 position,edk::color4f32 color){
+            this->vertex->drawVertexWithColor(color);
+            this->vertex->drawVertexPosition(position);
         }
         virtual void print(){
             this->vertex->printVertex();
@@ -225,14 +255,30 @@ private:
         }
         virtual ~PolygonVertexWithUVNormal(){}
         virtual void draw(){
-            this->vertex->drawVertex();
-            this->normal->drawNormal();
             this->uv->drawUV();
+            this->normal->drawNormal();
+            this->vertex->drawVertex();
         }
         virtual void drawWithNormal(edk::shape::Vector3D normal){
-            this->vertex->drawVertex();
-            normal.drawNormal();
             this->uv->drawUV();
+            normal.drawNormal();
+            this->vertex->drawVertex();
+        }
+        virtual void drawNormal(){
+            this->vertex->drawVertex();
+            this->normal->drawVertexPosition(edk::vec3f32(this->vertex->x,this->vertex->y,this->vertex->z));
+        }
+        virtual void drawNormalWithColor(edk::color4f32 color){
+            this->vertex->drawVertexWithColor(color);
+            this->normal->drawVertexPosition(edk::vec3f32(this->vertex->x,this->vertex->y,this->vertex->z));
+        }
+        virtual void drawNormalPosition(edk::vec3f32 position){
+            this->vertex->drawVertex();
+            this->vertex->drawVertexPosition(position);
+        }
+        virtual void drawNormalPositionWithColor(edk::vec3f32 position,edk::color4f32 color){
+            this->vertex->drawVertexWithColor(color);
+            this->vertex->drawVertexPosition(position);
         }
         virtual void print(){
             this->vertex->printVertex();
