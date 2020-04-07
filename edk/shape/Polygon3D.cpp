@@ -42,7 +42,17 @@ void edk::shape::Polygon3D::updateCenterPosition(){
     if(size){
         edk::shape::Vertex3D min,max;
         edk::shape::Polygon3D::PolygonVertex* vertex;
-        for(edk::uint32 i=0u;i<size;i++){
+            vertex = this->vertexs[0u];
+            if(vertex){
+                    min.x = vertex->vertex->x;
+                    min.y = vertex->vertex->y;
+                    min.z = vertex->vertex->z;
+
+                    max.x = vertex->vertex->x;
+                    max.y = vertex->vertex->y;
+                    max.z = vertex->vertex->z;
+            }
+        for(edk::uint32 i=1u;i<size;i++){
             vertex = this->vertexs[i];
             if(vertex){
                 if(vertex->vertex->x < min.x)
@@ -452,7 +462,7 @@ void edk::shape::Polygon3D::drawPolygonNormals(){
                                      vertex->vertex->a
                                      );
                 this->center.drawVertex();
-                this->center.drawVertexPosition(edk::vec3f32(this->normal.x,this->normal.z,this->normal.z));
+                this->center.drawVertexPosition(edk::vec3f32(this->normal.x,this->normal.y,this->normal.z));
             }
         }
         edk::GU::guEnd();
@@ -484,7 +494,7 @@ void edk::shape::Polygon3D::drawPolygonNormalsWithColor(edk::color4f32 color){
                                  color.a
                                  );
             this->center.drawVertex();
-            this->center.drawVertexPosition(edk::vec3f32(this->normal.x,this->normal.z,this->normal.z));
+            this->center.drawVertexPosition(edk::vec3f32(this->normal.x,this->normal.y,this->normal.z));
         }
         edk::GU::guEnd();
         edk::GU::guPopMatrix();
