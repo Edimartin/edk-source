@@ -661,6 +661,10 @@ edk::uint32 edk::Object2D::ActionMeshStop::getId(){
     return this->id;
 }
 
+//create a new mesh and add to the meshs stack
+edk::shape::Mesh2D* edk::Object2D::newMesh(edk::uint32* position){
+    return this->meshes.pushNewMesh(position);
+}
 //Add a list to the Object2D
 edk::uint32 edk::Object2D::addMesh(edk::shape::Mesh2D* mesh){
     //test if the list exist
@@ -677,10 +681,6 @@ edk::uint32 edk::Object2D::addMesh(edk::shape::Mesh2D* mesh){
 
     //else return falses
     return 0u;
-}
-//create a new mesh and add to the meshs stack
-edk::shape::Mesh2D* edk::Object2D::newMesh(edk::uint32* position){
-    return this->meshes.pushNewMesh(position);
 }
 //remove a polygonlist
 bool edk::Object2D::removeMesh(edk::uint32 position){
@@ -711,7 +711,7 @@ edk::uint32 edk::Object2D::selectedGetTextureID(edk::uint8 number){
         return this->selected->material.getTexture(number);
     }
     //else return false
-    return false;
+    return 0u;
 }
 //free the selected
 void edk::Object2D::cleanSelected(){

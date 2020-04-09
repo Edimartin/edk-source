@@ -412,6 +412,56 @@ void edk::shape::Mesh3D::cleanMesh(){
     this->cleanUVs();
 }
 
+//Set polygons color
+bool edk::shape::Mesh3D::setPolygonsColor(edk::color4f32 color){
+    //test if have polygons
+    if(this->polygons.size()){
+        edk::shape::Polygon3D* polygon=NULL;
+        //set the polygonColors
+        for(edk::uint32 i=0u;i<this->polygons.size();i++){
+            polygon = this->polygons.getPolygon(i);
+            if(polygon){
+                polygon->setPolygonColor(color);
+            }
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Mesh3D::setPolygonsColor(edk::color3f32 color){
+    return setPolygonsColor(color.r,color.g,color.b);
+}
+bool edk::shape::Mesh3D::setPolygonsColor(edk::float32 r,edk::float32 g,edk::float32 b){
+    //test if have polygons
+    if(this->polygons.size()){
+        edk::shape::Polygon3D* polygon=NULL;
+        //set the polygonColors
+        for(edk::uint32 i=0u;i<this->polygons.size();i++){
+            polygon = this->polygons.getPolygon(i);
+            if(polygon){
+                polygon->setPolygonColor(r,g,b);
+            }
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Mesh3D::setPolygonsColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
+    //test if have polygons
+    if(this->polygons.size()){
+        edk::shape::Polygon3D* polygon=NULL;
+        //set the polygonColors
+        for(edk::uint32 i=0u;i<this->polygons.size();i++){
+            polygon = this->polygons.getPolygon(i);
+            if(polygon){
+                polygon->setPolygonColor(r,g,b,a);
+            }
+        }
+        return true;
+    }
+    return false;
+}
+
 //VERTEXES
 edk::uint32 edk::shape::Mesh3D::newVertex(edk::float32 x,
                                           edk::float32 y,

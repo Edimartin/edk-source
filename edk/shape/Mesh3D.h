@@ -43,13 +43,19 @@ namespace shape{
 class Mesh3D{
 public:
     Mesh3D();
-    ~Mesh3D();
+    virtual ~Mesh3D();
 
     void cleanVertexes();
     void cleanNormals();
     void cleanUVs();
     void cleanPolygons();
     void cleanMesh();
+
+    //Set polygons color
+    bool setPolygonsColor(edk::color4f32 color);
+    bool setPolygonsColor(edk::color3f32 color);
+    bool setPolygonsColor(edk::float32 r,edk::float32 g,edk::float32 b);
+    bool setPolygonsColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
 
     //VERTEXES
     edk::uint32 newVertex(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 r,edk::float32 g,edk::float32 b);

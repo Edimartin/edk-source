@@ -58,6 +58,12 @@ public:
     bool setNormal(edk::uint32 position,edk::shape::Vector3D* normal,edk::uint32 normalID);
     bool setUV(edk::uint32 position,edk::shape::UV2D* uv,edk::uint32 uvID);
 
+    //Set polygon color
+    bool setPolygonColor(edk::color4f32 color);
+    bool setPolygonColor(edk::color3f32 color);
+    bool setPolygonColor(edk::float32 r,edk::float32 g,edk::float32 b);
+    bool setPolygonColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
+
     //Calculate the normal of the polygon
     bool updateNormal();
 

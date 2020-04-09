@@ -312,6 +312,36 @@ bool edk::shape::Polygon3D::setUV(edk::uint32 position,edk::shape::UV2D* uv,edk:
     return false;
 }
 
+//Set polygon color
+bool edk::shape::Polygon3D::setPolygonColor(edk::color4f32 color){
+    edk::uint32 size = this->vertexs.size();
+    if(size){
+        edk::shape::Polygon3D::PolygonVertex* vertex;
+        for(edk::uint32 i=0u;i<size;i++){
+            vertex = this->vertexs[i];
+            if(vertex){
+                vertex->vertex->r = color.r;
+                vertex->vertex->g = color.g;
+                vertex->vertex->b = color.b;
+                vertex->vertex->a = color.a;
+            }
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon3D::setPolygonColor(edk::color3f32 color){
+    return this->setPolygonColor(edk::color4f32 (color.r,color.g,color.b,1.f));
+}
+bool edk::shape::Polygon3D::setPolygonColor(edk::float32 r,edk::float32 g,edk::float32 b){
+    //
+    return this->setPolygonColor(edk::color4f32 (r,g,b,1.f));
+}
+bool edk::shape::Polygon3D::setPolygonColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
+    //
+    return this->setPolygonColor(edk::color4f32 (r,g,b,a));
+}
+
 //Calculate the normal of the polygon
 bool edk::shape::Polygon3D::updateNormal(){
     //test if have the vertexes
