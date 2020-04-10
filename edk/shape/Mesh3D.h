@@ -112,6 +112,7 @@ public:
     bool selectedPolygonSetVertex(edk::uint32 position,edk::uint32 vertex);
     bool selectedPolygonSetNormal(edk::uint32 position,edk::uint32 normal);
     bool selectedPolygonSetUV(edk::uint32 position,edk::uint32 uv);
+    bool selectedPolygonSetNormalFlat(edk::shape::Vector3D normal);
     bool selectedPolygonSetSmooth(bool smooth);
     bool selectedPolygonSmoothOn();
     bool selectedPolygonSmoothOff();

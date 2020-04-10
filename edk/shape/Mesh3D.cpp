@@ -757,6 +757,14 @@ bool edk::shape::Mesh3D::selectedPolygonSetUV(edk::uint32 position,edk::uint32 u
     }
     return false;
 }
+bool edk::shape::Mesh3D::selectedPolygonSetNormalFlat(edk::shape::Vector3D normal){
+    if(this->selected){
+        //get the vertex
+        this->selected->setNormalFlat(normal);
+        return true;
+    }
+    return false;
+}
 bool edk::shape::Mesh3D::selectedPolygonSetSmooth(bool smooth){
     if(this->selected){
         this->selected->smooth=smooth;

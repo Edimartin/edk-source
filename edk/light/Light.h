@@ -58,6 +58,8 @@ public:
     void setSpecular(edk::color3f32 color);
     //DRAW THE LIGH USING THE LIGHT NUMBER
     virtual void draw(edk::uint32 lightNumber);
+    //draw the pivo
+    virtual void drawPivo(edk::float32 size,edk::color3f32 color);
     void print(){
         printf("\nAmbiant %.2f %.2f %.2f %.2f"
                ,this->ambient[0u]

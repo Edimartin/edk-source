@@ -198,3 +198,39 @@ void edk::light::Light::draw(edk::uint32 lightNumber){
     edk::GU::guLightf32(GU_LIGHT0+lightNumber,GU_LINEAR_ATTENUATION,this->linearAttenuation);
     edk::GU::guLightf32(GU_LIGHT0+lightNumber,GU_QUADRATIC_ATTENUATION,this->quadraticAttenuation);
 }
+//draw the pivo
+void edk::light::Light::drawPivo(edk::float32 size,edk::color3f32 color){
+
+    edk::GU::guPushMatrix();
+    //add translate
+    edk::GU::guTranslate3f32(this->position[0u],this->position[1u],this->position[2u]);
+    //add scale
+    edk::GU::guScale3f32(edk::size3f32(size,size,size));
+
+    //lineSize
+    edk::GU::guLineWidth(3);
+
+    //set the colors
+    edk::GU::guColor3f32(color);
+    //draw the lines
+    edk::GU::guBegin(GU_LINES);
+    //LINE 1
+    edk::GU::guVertex3f32(-0.5f,-0.5f,0.f);
+    edk::GU::guVertex3f32( 0.5f, 0.5f,0.f);
+    //LINE 2
+    edk::GU::guVertex3f32(-0.5f, 0.5f,0.f);
+    edk::GU::guVertex3f32( 0.5f,-0.5f,0.f);
+    //LINE 3
+    edk::GU::guVertex3f32(0.0f, 0.5f,-0.5f);
+    edk::GU::guVertex3f32(0.0f,-0.5f, 0.5f);
+    //LINE 4
+    edk::GU::guVertex3f32(0.0f, 0.5f, 0.5f);
+    edk::GU::guVertex3f32(0.0f,-0.5f,-0.5f);
+    edk::GU::guEnd();
+
+    //lineSize
+    edk::GU::guLineWidth(1);
+
+    //
+    edk::GU::guPopMatrix();
+}

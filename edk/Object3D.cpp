@@ -163,6 +163,39 @@ bool edk::Object3D::updatePolygonsNormals(){
     return false;
 }
 
+//LIGHT
+bool edk::Object3D::setLight(edk::uint32 position,edk::light::Light light){
+    if(position<EDK_LIGHT_LIMIT){
+        this->lights[position] = light;
+        return true;
+    }
+    return false;
+}
+bool edk::Object3D::cleanLight(edk::uint32 position){
+    if(position<EDK_LIGHT_LIMIT){
+        //
+        this->lights[position].clean();
+        return true;
+    }
+    return false;
+}
+bool edk::Object3D::lightOn(edk::uint32 position){
+    if(position<EDK_LIGHT_LIMIT){
+        //add the light on the tree
+        this->lights[position].on=true;
+        return true;
+    }
+    return false;
+}
+bool edk::Object3D::lightOff(edk::uint32 position){
+    if(position<EDK_LIGHT_LIMIT){
+        //remove the position from the tree
+        this->lights[position].on=false;
+        return true;
+    }
+    return false;
+}
+
 //OBJ
 bool edk::Object3D::addObj(const edk::char8* fileName){
     return this->addObj((edk::char8*) fileName);
@@ -198,7 +231,7 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                     if(str){
                         delete[] str;
                     }
-                    printf("\nComentario");fflush(stdout);
+                    //printf("\nComentario");fflush(stdout);
                     break;
                     //mtllib cubes.mtl
                 case 'm':
@@ -211,7 +244,7 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                                             //readthe mtlFile
                                             str = file.readTextString("\n",false);
                                             if(str){
-                                                printf("\nMTL LIB == '%s'",str);fflush(stdout);
+                                                //printf("\nMTL LIB == '%s'",str);fflush(stdout);
                                                 delete[] str;
                                             }
                                         }
@@ -225,7 +258,7 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                     if(file.readTextChar() == ' '){
                         str = file.readTextString("\n",false);
                         if(str){
-                            printf("\nNEW OBJECT NAME == '%s'",str);fflush(stdout);
+                            //printf("\nNEW OBJECT NAME == '%s'",str);fflush(stdout);
                             delete[] str;
 
                             if(mesh){
@@ -239,6 +272,9 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                     }
                     break;
                 case 'v':
+                    if(!mesh){
+                        mesh=this->newMesh();
+                    }
                     c = file.readTextChar();
                     if(c == ' '){
                         str = file.readTextString(" ",false);
@@ -256,7 +292,7 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                             z = edk::String::strToFloat32(str);
                             delete[] str;
                         }
-                        printf("\nNEW Vertex %.2f %.2f %.2f",x,y,z);fflush(stdout);
+                        //printf("\nNEW Vertex %.2f %.2f %.2f",x,y,z);fflush(stdout);
                         mesh->newVertex(x,y,z,1,1,1,1);
                         //mesh->newVertex(x,y,z,0,0,0,1);
                     }
@@ -273,7 +309,7 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                                 y = edk::String::strToFloat32(str);
                                 delete[] str;
                             }
-                            printf("\nNEW Vertex Texture %.2f %.2f",x,y);fflush(stdout);
+                            //printf("\nNEW Vertex Texture %.2f %.2f",x,y);fflush(stdout);
                             mesh->newUV(x,y);
                         }
                     }
@@ -295,12 +331,15 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                                 z = edk::String::strToFloat32(str);
                                 delete[] str;
                             }
-                            printf("\nNEW Vertex Normal %.2f %.2f %.2f",x,y,z);fflush(stdout);
+                            //printf("\nNEW Vertex Normal %.2f %.2f %.2f",x,y,z);fflush(stdout);
                             mesh->newNormal(x,y,z);
                         }
                     }
                     break;
                 case 's':
+                    if(!mesh){
+                        mesh=this->newMesh();
+                    }
                     if(file.readTextChar() == ' '){
                         str = file.readTextString("\n",false);
                         if(str){
@@ -308,7 +347,7 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                                 if(str[1u]=='f'){
                                     if(str[2u]=='f'){
                                         //
-                                        printf("\nSMOOTH FALSE '%s'",str);fflush(stdout);
+                                        //printf("\nSMOOTH FALSE '%s'",str);fflush(stdout);
                                         smooth=false;
                                     }
                                 }
@@ -316,7 +355,7 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                             else{
                                 if(str[0u]=='1'){
                                     //
-                                    printf("\nSMOOTH TRUE '%s'",str);fflush(stdout);
+                                    //printf("\nSMOOTH TRUE '%s'",str);fflush(stdout);
                                     smooth=true;
                                 }
                             }
@@ -331,13 +370,16 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                     }
                     break;
                 case 'f':
+                    if(!mesh){
+                        mesh=this->newMesh();
+                    }
                     if(file.readTextChar() == ' '){
                         //
                         str = file.readTextString("\n",true);
                         if(str){
                             ve = temp = str;
                             read = 0u;
-                            printf("\n");
+                            //printf("\n");
 
 
 
@@ -390,28 +432,34 @@ bool edk::Object3D::addObj(edk::char8* fileName){
 
                                         switch(read){
                                         case 1u:
+                                            /*
                                             printf(" Face %u"
                                                    ,v
                                                    );fflush(stdout);
+                                                   */
                                             sv.pushBack(v);
                                             sp.pushBack(0u);
                                             sn.pushBack(0u);
                                             break;
                                         case 2u:
+                                            /*
                                             printf(" Face %u/%u"
                                                    ,v
                                                    ,p
                                                    );fflush(stdout);
+                                            */
                                             sv.pushBack(v);
                                             sp.pushBack(p);
                                             sn.pushBack(0u);
                                             break;
                                         case 3u:
+                                            /*
                                             printf(" Face %u/%u/%u"
                                                    ,v
                                                    ,p
                                                    ,n
                                                    );fflush(stdout);
+                                            */
                                             sv.pushBack(v);
                                             sp.pushBack(p);
                                             sn.pushBack(n);
@@ -432,9 +480,16 @@ bool edk::Object3D::addObj(edk::char8* fileName){
 
                             edk::uint32 size = sv.size();
                             if(size){
-                                printf(" NEW FACE");fflush(stdout);
+                                //printf(" NEW FACE");fflush(stdout);
                                 edk::uint32 po = mesh->newPolygon(size);
                                 mesh->selectPolygon(po);
+                                mesh->selectedPolygonSetSmooth(smooth);
+                                if(smooth){
+                                    mesh->selectedPolygonUpdateNormal();
+                                }
+                                else{
+                                    mesh->selectedPolygonSetNormalFlat(mesh->getNormal(sn[0u]-1u-countN));
+                                }
                                 for(edk::uint32 i=0u;i<size;i++){
                                     v = sv[i];
                                     p = sp[i];
@@ -482,7 +537,7 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                                             //readthe mtlFile
                                             str = file.readTextString("\n",false);
                                             if(str){
-                                                printf("\nUSE MTL == '%s'",str);fflush(stdout);
+                                                //printf("\nUSE MTL == '%s'",str);fflush(stdout);
                                                 delete[] str;
                                             }
                                         }
@@ -517,6 +572,119 @@ void edk::Object3D::print(){
 //draw the mesh
 void edk::Object3D::draw(){
 
+    //put the transformation on a stack
+    edk::GU::guPushMatrix();
+
+
+    //add translate
+    edk::GU::guTranslate3f32(this->position);
+    //add rotation
+    edk::GU::guRotateZf32(this->angle.z);
+    edk::GU::guRotateYf32(this->angle.y);
+    edk::GU::guRotateXf32(this->angle.x);
+    //add scale
+    edk::GU::guScale3f32(this->size);
+    //set the pivo
+    edk::GU::guTranslate3f32(this->pivo*-1.0f);
+
+    bool haveLight=false;
+
+    {
+        //edk::vec3f32 temp;
+        for(edk::uint32 i=0u;i<EDK_LIGHT_LIMIT;i++){
+            if(this->lights[i].on){
+                edk::GU::guEnable(GU_LIGHT0+i);
+                this->lights[i].draw(i);
+                this->lightIsOn[i] = true;
+
+                //translate pivo
+                this->lightPositions[i][0u] = this->lights[i].getPositionX() + this->pivo.x;
+                this->lightPositions[i][1u] = this->lights[i].getPositionY() + this->pivo.y;
+                this->lightPositions[i][2u] = this->lights[i].getPositionZ() + this->pivo.z;
+                this->lightPositions[i][3u] = 1.f;
+
+                this->lightDirections[i][0u] = this->lights[i].getDirectionX() + this->pivo.x;
+                this->lightDirections[i][1u] = this->lights[i].getDirectionY() + this->pivo.y;
+                this->lightDirections[i][2u] = this->lights[i].getDirectionZ() + this->pivo.z;
+                this->lightDirections[i][3u] = 1.f;
+
+                //translate
+                this->lightPositions[i][0u] -= this->position.x;
+                this->lightPositions[i][1u] -= this->position.y;
+                this->lightPositions[i][2u] -= this->position.z;
+
+                this->lightDirections[i][0u] -= this->position.x;
+                this->lightDirections[i][1u] -= this->position.y;
+                this->lightDirections[i][2u] -= this->position.z;
+
+                //scale
+                this->lightPositions[i][0u] *= (1.f/this->size.width);
+                this->lightPositions[i][1u] *= (1.f/this->size.height);
+                this->lightPositions[i][2u] *= (1.f/this->size.length);
+
+                this->lightDirections[i][0u] *= (1.f/this->size.width);
+                this->lightDirections[i][1u] *= (1.f/this->size.height);
+                this->lightDirections[i][2u] *= (1.f/this->size.length);
+                /*
+                //rotate
+                temp = edk::Math::rotatePlus2f(edk::vec2f32(this->lightPositions[i][0u],this->lightPositions[i][1u])
+                        ,this->angle*-1.f
+                        );
+                this->lightPositions[i][0u] = temp.x;
+                this->lightPositions[i][1u] = temp.y;
+                this->lightPositions[i][2u] = temp.z;
+
+                temp = edk::Math::rotatePlus2f(edk::vec2f32(this->lightDirections[i][0u],this->lightDirections[i][1u])
+                        ,this->angle*-1.f
+                        );
+                this->lightDirections[i][0u] = temp.x;
+                this->lightDirections[i][1u] = temp.y;
+                this->lightDirections[i][2u] = temp.z;
+*/
+
+                edk::GU::guLightfv32(GU_LIGHT0+i,GU_POSITION,this->lightPositions[i]);
+                edk::GU::guLightfv32(GU_LIGHT0+i,GU_SPOT_DIRECTION,this->lightDirections[i]);
+
+                haveLight=true;
+
+            }
+            else{
+                this->lightIsOn[i] = false;
+                edk::GU::guDisable(GU_LIGHT0+i);
+            }
+        }
+    }
+
+    if(haveLight){
+        //
+        edk::GU::guEnable(GU_LIGHTING);
+        this->meshes.drawWithLight(&this->lightPositions,&this->lightDirections,&this->lightIsOn);
+        edk::GU::guDisable(GU_LIGHTING);
+    }
+    else{
+        this->meshes.render();
+    }
+    edk::GU::guPopMatrix();
+}
+void edk::Object3D::drawWithoutMaterial(){
+    //put the transformation on a stack
+    edk::GU::guPushMatrix();
+    //add translate
+    edk::GU::guTranslate3f32(this->position);
+    //add rotation
+    edk::GU::guRotateZf32(this->angle.z);
+    edk::GU::guRotateYf32(this->angle.y);
+    edk::GU::guRotateXf32(this->angle.x);
+    //add scale
+    edk::GU::guScale3f32(this->size);
+    //set the pivo
+    edk::GU::guTranslate3f32(this->pivo*-1.0f);
+
+    this->meshes.drawWithoutMaterial();
+
+    edk::GU::guPopMatrix();
+}
+void edk::Object3D::drawWithoutMaterialWithLight(){
     //put the transformation on a stack
     edk::GU::guPushMatrix();
 
@@ -602,126 +770,13 @@ void edk::Object3D::draw(){
     }
 
     if(haveLight){
-        //
-        this->meshes.drawWithLight(&this->lightPositions,&this->lightDirections,&this->lightIsOn);
-    }
-    else{
-        this->meshes.render();
-    }
-    edk::GU::guDisable(GU_LIGHTING);
-    edk::GU::guPopMatrix();
-}
-void edk::Object3D::drawWithoutMaterial(){
-    //put the transformation on a stack
-    edk::GU::guPushMatrix();
-    //add translate
-    edk::GU::guTranslate3f32(this->position);
-    //add rotation
-    edk::GU::guRotateZf32(this->angle.z);
-    edk::GU::guRotateYf32(this->angle.y);
-    edk::GU::guRotateXf32(this->angle.x);
-    //add scale
-    edk::GU::guScale3f32(this->size);
-    //set the pivo
-    edk::GU::guTranslate3f32(this->pivo*-1.0f);
-
-    this->meshes.drawWithoutMaterial();
-
-    edk::GU::guPopMatrix();
-}
-void edk::Object3D::drawWithoutMaterialWithLight(){
-    //put the transformation on a stack
-    edk::GU::guPushMatrix();
-
-
-    //add translate
-    edk::GU::guTranslate3f32(this->position);
-    //add rotation
-    edk::GU::guRotateZf32(this->angle.z);
-    edk::GU::guRotateYf32(this->angle.y);
-    edk::GU::guRotateXf32(this->angle.x);
-    //add scale
-    edk::GU::guScale3f32(this->size);
-    //set the pivo
-    edk::GU::guTranslate3f32(this->pivo*-1.0f);
-
-    bool haveLight=false;
-
-    {
-        //edk::vec3f32 temp;
-        for(edk::uint32 i=0u;i<EDK_LIGHT_LIMIT;i++){
-            if(this->lights[i].on){
-                edk::GU::guEnable(GU_LIGHT0+i);
-                this->lights[i].draw(i);
-                this->lightIsOn[i] = true;
-
-                //translate pivo
-                this->lightPositions[i][0u] = this->lights[i].getPositionX() + this->pivo.x;
-                this->lightPositions[i][1u] = this->lights[i].getPositionY() + this->pivo.y;
-                this->lightPositions[i][2u] = this->lights[i].getPositionZ() + this->pivo.z;
-                this->lightPositions[i][3u] = 1.f;
-
-                this->lightDirections[i][0u] = this->lights[i].getDirectionX() + this->pivo.x;
-                this->lightDirections[i][1u] = this->lights[i].getDirectionY() + this->pivo.y;
-                this->lightDirections[i][2u] = this->lights[i].getDirectionZ() + this->pivo.z;
-                this->lightDirections[i][3u] = 1.f;
-
-                //translate
-                this->lightPositions[i][0u] -= this->position.x;
-                this->lightPositions[i][1u] -= this->position.y;
-                this->lightPositions[i][2u] -= this->position.z;
-
-                this->lightDirections[i][0u] -= this->position.x;
-                this->lightDirections[i][1u] -= this->position.y;
-                this->lightDirections[i][2u] -= this->position.z;
-
-                //scale
-                this->lightPositions[i][0u] *= (1.f/this->size.width);
-                this->lightPositions[i][1u] *= (1.f/this->size.height);
-                this->lightPositions[i][2u] *= (1.f/this->size.length);
-
-                this->lightDirections[i][0u] *= (1.f/this->size.width);
-                this->lightDirections[i][1u] *= (1.f/this->size.height);
-                this->lightDirections[i][2u] *= (1.f/this->size.length);
-                /*
-                //rotate
-                temp = edk::Math::rotatePlus2f(edk::vec2f32(this->lightPositions[i][0u],this->lightPositions[i][1u])
-                        ,this->angle*-1.f
-                        );
-                this->lightPositions[i][0u] = temp.x;
-                this->lightPositions[i][1u] = temp.y;
-                this->lightPositions[i][2u] = temp.z;
-
-                temp = edk::Math::rotatePlus2f(edk::vec2f32(this->lightDirections[i][0u],this->lightDirections[i][1u])
-                        ,this->angle*-1.f
-                        );
-                this->lightDirections[i][0u] = temp.x;
-                this->lightDirections[i][1u] = temp.y;
-                this->lightDirections[i][2u] = temp.z;
-*/
-
-                edk::GU::guLightfv32(GU_LIGHT0+i,GU_POSITION,this->lightPositions[i]);
-                edk::GU::guLightfv32(GU_LIGHT0+i,GU_SPOT_DIRECTION,this->lightDirections[i]);
-
-                haveLight=true;
-
-            }
-            else{
-                this->lightIsOn[i] = false;
-                edk::GU::guDisable(GU_LIGHT0+i);
-            }
-        }
-    }
-
-    if(haveLight){
-        edk::GU::guEnable(GU_LIGHTING);
         this->meshes.drawWithoutMaterialWithLight(&this->lightPositions,&this->lightDirections,&this->lightIsOn);
-        edk::GU::guDisable(GU_LIGHTING);
     }
     else{
         this->meshes.drawWithoutMaterial();
     }
 
+    edk::GU::guDisable(GU_LIGHTING);
     edk::GU::guPopMatrix();
 }
 void edk::Object3D::drawWire(){

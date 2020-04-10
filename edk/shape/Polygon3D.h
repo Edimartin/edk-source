@@ -66,6 +66,7 @@ public:
 
     //Calculate the normal of the polygon
     bool updateNormal();
+    void setNormalFlat(edk::shape::Vector3D normal);
 
     //print the polygon
     virtual bool print();
@@ -123,8 +124,11 @@ private:
             this->vertex->drawVertex();
         }
         virtual void drawWithNormal(edk::shape::Vector3D normal){
-            this->vertex->drawVertex();
             normal.drawNormal();
+            this->vertex->drawVertex();
+        }
+        virtual void drawWithoutNormal(){
+            this->vertex->drawVertex();
         }
         void drawVertex(){
             this->vertex->drawVertex();
@@ -171,6 +175,10 @@ private:
             normal.drawNormal();
             this->vertex->drawVertex();
         }
+        virtual void drawWithoutNormal(){
+            this->uv->drawUV();
+            this->vertex->drawVertex();
+        }
         virtual void drawNormal(){}
         virtual void drawNormalWithColor(edk::color4f32){}
         virtual void drawNormalPosition(edk::vec3f32){}
@@ -210,6 +218,9 @@ private:
         }
         virtual void drawWithNormal(edk::shape::Vector3D normal){
             normal.drawNormal();
+            this->vertex->drawVertex();
+        }
+        virtual void drawWithoutNormal(){
             this->vertex->drawVertex();
         }
         virtual void drawNormal(){
@@ -268,6 +279,10 @@ private:
         virtual void drawWithNormal(edk::shape::Vector3D normal){
             this->uv->drawUV();
             normal.drawNormal();
+            this->vertex->drawVertex();
+        }
+        virtual void drawWithoutNormal(){
+            this->uv->drawUV();
             this->vertex->drawVertex();
         }
         virtual void drawNormal(){

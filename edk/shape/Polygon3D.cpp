@@ -91,10 +91,11 @@ bool edk::shape::Polygon3D::drawVertexs(){
             }
         }
         else{
+            this->normal.drawNormal();
             for(edk::uint32 i=0u;i<size;i++){
                 vertex = this->vertexs[i];
                 if(vertex){
-                    vertex->drawWithNormal(this->normal);
+                    vertex->drawWithoutNormal();
                 }
             }
         }
@@ -367,6 +368,9 @@ bool edk::shape::Polygon3D::updateNormal(){
     }
     return false;
 }
+void edk::shape::Polygon3D::setNormalFlat(edk::shape::Vector3D normal){
+    this->normal = normal;
+}
 
 //print the polygon
 bool edk::shape::Polygon3D::print(){
@@ -398,36 +402,11 @@ void edk::shape::Polygon3D::draw(){
 //Draw the polygon with lights
 bool edk::shape::Polygon3D::drawWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],bool lightIsOn[][EDK_LIGHT_LIMIT]){
     if(lightPositions && lightDirections && lightIsOn){
-        edk::GU::guPushMatrix();
-
-        edk::float32 lightPosition[4u];
-        edk::float32 lightDirection[4u];
-
-        //translate the lights
-        for(edk::uint32 i=0u;i<EDK_LIGHT_LIMIT;i++){
-            if(*lightIsOn[i]){
-                //translate the light and direction
-                lightPosition[0u] = *lightPositions[i][0u];
-                lightPosition[1u] = *lightPositions[i][1u];
-                lightPosition[2u] = *lightPositions[i][2u];
-                lightPosition[3u] = *lightPositions[i][3u];
-                //
-                lightDirection[0u] = *lightDirections[i][0u];
-                lightDirection[1u] = *lightDirections[i][1u];
-                lightDirection[2u] = *lightDirections[i][2u];
-                lightDirection[3u] = *lightDirections[i][3u];
-
-
-                edk::GU::guLightfv32(GU_LIGHT0+i,GU_POSITION,lightPosition);
-                edk::GU::guLightfv32(GU_LIGHT0+i,GU_SPOT_DIRECTION,lightDirection);
-            }
-        }
-
-
+        //edk::GU::guPushMatrix();
         edk::GU::guBegin(GU_POLYGON);
         this->drawVertexs();
         edk::GU::guEnd();
-        edk::GU::guPopMatrix();
+        //edk::GU::guPopMatrix();
         return true;
     }
     return false;

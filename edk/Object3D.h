@@ -33,7 +33,7 @@ Gravatai RS Brazil 94065100
 #include "shape/Mesh3D.h"
 
 #include "light/Light.h"
-#include "light/Light2D.h"
+#include "light/Light3D.h"
 
 //Animations
 #include "animation/InterpolationGroup.h"
@@ -87,6 +87,12 @@ public:
     bool setPolygonsSmoothOff();
     //update the polygons normals
     bool updatePolygonsNormals();
+
+    //LIGHT
+    bool setLight(edk::uint32 position,edk::light::Light light);
+    bool cleanLight(edk::uint32 position);
+    bool lightOn(edk::uint32 position);
+    bool lightOff(edk::uint32 position);
 
     //OBJ
     bool addObj(const edk::char8* fileName);
