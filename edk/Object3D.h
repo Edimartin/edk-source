@@ -79,8 +79,20 @@ public:
     //set the polygonsColor
     bool setPolygonColor(edk::uint32 position,edk::color4f32 color);
     bool setPolygonColor(edk::uint32 position,edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
-    void setPolygonsColor(edk::color4f32 color);
-    void setPolygonsColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
+    bool setPolygonsColor(edk::color4f32 color);
+    bool setPolygonsColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
+    //Set the polygons smooth
+    bool setPolygonsSmooth(bool smooth);
+    bool setPolygonsSmoothOn();
+    bool setPolygonsSmoothOff();
+    //update the polygons normals
+    bool updatePolygonsNormals();
+
+    //OBJ
+    bool addObj(const edk::char8* fileName);
+    bool addObj(edk::char8* fileName);
+    bool loadOBJ(const edk::char8* fileName);
+    bool loadOBJ(edk::char8* fileName);
 
     //DRAW
     //print the mesh
@@ -90,6 +102,8 @@ public:
     virtual void drawWithoutMaterial();
     virtual void drawWithoutMaterialWithLight();
     virtual void drawWire();
+    virtual void drawNormals();
+    virtual void drawNormalsWithColor(edk::color3f32 color = edk::color3f32(1,1,1));
     //draw the pivo
     void drawPivo(edk::float32 size,edk::color3f32 color);
 
@@ -250,6 +264,25 @@ protected:
             value->getMesh()->drawWire();
         }
 
+        //Draw the polygon normals
+        void drawNormals(){
+            this->func = edk::Object3D::MeshsStack::runDrawNormals;
+            this->update();
+        }
+        static void runDrawNormals(edk::Object3D::MeshsStack*,edk::Object3D::MeshAlloc* value){
+            value->getMesh()->drawPolygonsNormals();
+        }
+
+        //Draw the polygon normals
+        void drawNormalsWithColor(edk::color3f32 color){
+            this->func = edk::Object3D::MeshsStack::runDrawNormalsWithColor;
+            this->color = color;
+            this->update();
+        }
+        static void runDrawNormalsWithColor(edk::Object3D::MeshsStack* list,edk::Object3D::MeshAlloc* value){
+            value->getMesh()->drawPolygonsNormalsWithColor(list->color);
+        }
+
         void drawWithoutMaterial(){
             this->func = edk::Object3D::MeshsStack::runDrawWithoutMaterial;
             this->update();
@@ -320,6 +353,7 @@ protected:
         edk::float32 lightPositions[EDK_LIGHT_LIMIT][4u];
         edk::float32 lightDirections[EDK_LIGHT_LIMIT][4u];
         bool lightIsOn[EDK_LIGHT_LIMIT];
+        edk::color3f32 color;
     }meshes;
 
 private:
