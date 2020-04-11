@@ -32,3 +32,19 @@ void edk::light::Light3D::setDirection(edk::vec3f32 direction){
 void edk::light::Light3D::setDirection(edk::vec2f32 direction){
     edk::light::Light::setDirection(direction);
 }
+//Spot Values
+void edk::light::Light3D::setExponent(edk::float32 exponent){
+    edk::light::Light::setExponent(exponent);
+}
+void edk::light::Light3D::setCutoff(edk::float32 cutoff){
+    edk::light::Light::setCutoff(cutoff);
+}
+void edk::light::Light3D::setConstantAttenuation(edk::float32 constantAttenuation){
+    edk::light::Light::setConstantAttenuation(constantAttenuation);
+}
+void edk::light::Light3D::setLinearAttenuation(edk::float32 linearAttenuation){
+    edk::light::Light::setLinearAttenuation(linearAttenuation);
+}
+void edk::light::Light3D::setQuadraticAttenuation(edk::float32 quadraticAttenuation){
+    edk::light::Light::setQuadraticAttenuation(quadraticAttenuation);
+}

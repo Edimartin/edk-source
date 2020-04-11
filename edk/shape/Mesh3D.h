@@ -336,17 +336,18 @@ protected:
         ){
             this->func = edk::shape::Mesh3D::PolygonList::runDrawWithLight;
             for(edk::uint32 i=0u;i<EDK_LIGHT_LIMIT;i++){
-                this->lightPositions[i][0u] = *lightPositions[i][0u];
-                this->lightPositions[i][1u] = *lightPositions[i][1u];
-                this->lightPositions[i][2u] = *lightPositions[i][2u];
-                this->lightPositions[i][3u] = *lightPositions[i][3u];
-
-                this->lightDirections[i][0u] = *lightDirections[i][0u];
-                this->lightDirections[i][1u] = *lightDirections[i][1u];
-                this->lightDirections[i][2u] = *lightDirections[i][2u];
-                this->lightDirections[i][3u] = *lightDirections[i][3u];
-
                 this->lightIsOn[i] = *lightIsOn[i];
+                if(this->lightIsOn[i]){
+                    this->lightPositions[i][0u] = *lightPositions[i][0u];
+                    this->lightPositions[i][1u] = *lightPositions[i][1u];
+                    this->lightPositions[i][2u] = *lightPositions[i][2u];
+                    this->lightPositions[i][3u] = *lightPositions[i][3u];
+
+                    this->lightDirections[i][0u] = *lightDirections[i][0u];
+                    this->lightDirections[i][1u] = *lightDirections[i][1u];
+                    this->lightDirections[i][2u] = *lightDirections[i][2u];
+                    this->lightDirections[i][3u] = *lightDirections[i][3u];
+                }
             }
 
             this->update();

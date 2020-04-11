@@ -392,20 +392,28 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                                         switch(read){
                                         case 0u:
                                             v = edk::String::strToInt64(ve);
-                                            read = 1u;
                                             break;
                                         case 1u:
                                             p = edk::String::strToInt64(ve);
-                                            read = 2u;
                                             break;
                                         case 2u:
                                             n = edk::String::strToInt64(ve);
-                                            read = 3u;
                                             break;
                                         }
                                     }
                                     *temp = '/';
-
+                                    //
+                                    switch(read){
+                                    case 0u:
+                                        read = 1u;
+                                        break;
+                                    case 1u:
+                                        read = 2u;
+                                        break;
+                                    case 2u:
+                                        read = 3u;
+                                        break;
+                                    }
 
 
                                     ve = temp+1u;
@@ -465,6 +473,7 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                                             sn.pushBack(n);
                                             break;
                                         }
+                                        v=p=n=0u;
                                         read=0u;
                                     }
                                     *temp = ' ';

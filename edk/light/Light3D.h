@@ -54,6 +54,12 @@ public:
     void setDirection(edk::vec4f32 direction);
     void setDirection(edk::vec3f32 direction);
     void setDirection(edk::vec2f32 direction);
+    //Spot Values
+    void setExponent(edk::float32 exponent);
+    void setCutoff(edk::float32 cutoff);
+    void setConstantAttenuation(edk::float32 constantAttenuation);
+    void setLinearAttenuation(edk::float32 linearAttenuation);
+    void setQuadraticAttenuation(edk::float32 quadraticAttenuation);
 };
 }//end namespace light
 }//end namespace edk
