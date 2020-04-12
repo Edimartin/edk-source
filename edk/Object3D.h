@@ -296,61 +296,6 @@ protected:
         static void runDrawWithoutMaterial(edk::Object3D::MeshsStack*,edk::Object3D::MeshAlloc* value){
             value->getMesh()->drawPolygons();
         }
-        void drawWithoutMaterialWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
-        edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
-        bool lightIsOn[][EDK_LIGHT_LIMIT]
-        ){
-            this->func = edk::Object3D::MeshsStack::runDrawWithoutMaterialWithLight;
-            for(edk::uint32 i=0u;i<EDK_LIGHT_LIMIT;i++){
-                this->lightIsOn[i] = *lightIsOn[i];
-                if(this->lightIsOn[i]){
-                    this->lightPositions[i][0u] = *lightPositions[i][0u];
-                    this->lightPositions[i][1u] = *lightPositions[i][1u];
-                    this->lightPositions[i][2u] = *lightPositions[i][2u];
-                    this->lightPositions[i][3u] = *lightPositions[i][3u];
-
-                    this->lightDirections[i][0u] = *lightDirections[i][0u];
-                    this->lightDirections[i][1u] = *lightDirections[i][1u];
-                    this->lightDirections[i][2u] = *lightDirections[i][2u];
-                    this->lightDirections[i][3u] = *lightDirections[i][3u];
-                }
-            }
-            this->update();
-        }
-        static void runDrawWithoutMaterialWithLight(edk::Object3D::MeshsStack* list,edk::Object3D::MeshAlloc* value){
-            value->getMesh()->drawPolygonsWithLight(&list->lightPositions,&list->lightDirections,&list->lightIsOn);
-        }
-
-        void drawWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
-        edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
-        bool lightIsOn[][EDK_LIGHT_LIMIT]
-        ){
-            this->func = edk::Object3D::MeshsStack::runDrawWithLight;
-            for(edk::uint32 i=0u;i<EDK_LIGHT_LIMIT;i++){
-                this->lightIsOn[i] = *lightIsOn[i];
-                if(this->lightIsOn[i]){
-                    this->lightPositions[i][0u] = *lightPositions[i][0u];
-                    this->lightPositions[i][1u] = *lightPositions[i][1u];
-                    this->lightPositions[i][2u] = *lightPositions[i][2u];
-                    this->lightPositions[i][3u] = *lightPositions[i][3u];
-
-                    this->lightDirections[i][0u] = *lightDirections[i][0u];
-                    this->lightDirections[i][1u] = *lightDirections[i][1u];
-                    this->lightDirections[i][2u] = *lightDirections[i][2u];
-                    this->lightDirections[i][3u] = *lightDirections[i][3u];
-                }
-            }
-            this->update();
-        }
-        static void runDrawWithLight(edk::Object3D::MeshsStack* list,edk::Object3D::MeshAlloc* value){
-            if(value->getMesh()->material.haveOneTexture()){
-                value->getMesh()->drawOneTextureWithLight(&list->lightPositions,&list->lightDirections,&list->lightIsOn);
-            }
-            else{
-                //
-                value->getMesh()->drawMultiTextureWithLight(&list->lightPositions,&list->lightDirections,&list->lightIsOn);
-            }
-        }
 
 
 
@@ -358,18 +303,12 @@ protected:
         bool canDeleteMeshes;
 
         void (*func)(edk::Object3D::MeshsStack* list,edk::Object3D::MeshAlloc* value);
-        edk::float32 lightPositions[EDK_LIGHT_LIMIT][4u];
-        edk::float32 lightDirections[EDK_LIGHT_LIMIT][4u];
-        bool lightIsOn[EDK_LIGHT_LIMIT];
         edk::color3f32 color;
     }meshes;
 
 private:
     //Tree Static Vector
     edk::light::Light lights[EDK_LIGHT_LIMIT];
-    edk::float32 lightPositions[EDK_LIGHT_LIMIT][4u];
-    edk::float32 lightDirections[EDK_LIGHT_LIMIT][4u];
-    bool lightIsOn[EDK_LIGHT_LIMIT];
 };
 }//end namespace edk
 

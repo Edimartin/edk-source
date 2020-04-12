@@ -584,6 +584,21 @@ void edk::Object3D::draw(){
     //put the transformation on a stack
     edk::GU::guPushMatrix();
 
+    bool haveLight=false;
+
+    {
+        //edk::vec3f32 temp;
+        for(edk::uint32 i=0u;i<EDK_LIGHT_LIMIT;i++){
+            if(this->lights[i].on){
+                edk::GU::guEnable(GU_LIGHT0+i);
+                this->lights[i].draw(i);
+                haveLight=true;
+            }
+            else{
+                edk::GU::guDisable(GU_LIGHT0+i);
+            }
+        }
+    }
 
     //add translate
     edk::GU::guTranslate3f32(this->position);
@@ -596,78 +611,11 @@ void edk::Object3D::draw(){
     //set the pivo
     edk::GU::guTranslate3f32(this->pivo*-1.0f);
 
-    bool haveLight=false;
-
-    {
-        //edk::vec3f32 temp;
-        for(edk::uint32 i=0u;i<EDK_LIGHT_LIMIT;i++){
-            if(this->lights[i].on){
-                edk::GU::guEnable(GU_LIGHT0+i);
-                this->lights[i].draw(i);
-                this->lightIsOn[i] = true;
-
-                //translate pivo
-                this->lightPositions[i][0u] = this->lights[i].getPositionX() + this->pivo.x;
-                this->lightPositions[i][1u] = this->lights[i].getPositionY() + this->pivo.y;
-                this->lightPositions[i][2u] = this->lights[i].getPositionZ() + this->pivo.z;
-                this->lightPositions[i][3u] = 1.f;
-
-                this->lightDirections[i][0u] = this->lights[i].getDirectionX() + this->pivo.x;
-                this->lightDirections[i][1u] = this->lights[i].getDirectionY() + this->pivo.y;
-                this->lightDirections[i][2u] = this->lights[i].getDirectionZ() + this->pivo.z;
-                this->lightDirections[i][3u] = 1.f;
-
-                //translate
-                this->lightPositions[i][0u] -= this->position.x;
-                this->lightPositions[i][1u] -= this->position.y;
-                this->lightPositions[i][2u] -= this->position.z;
-
-                this->lightDirections[i][0u] -= this->position.x;
-                this->lightDirections[i][1u] -= this->position.y;
-                this->lightDirections[i][2u] -= this->position.z;
-
-                //scale
-                this->lightPositions[i][0u] *= (1.f/this->size.width);
-                this->lightPositions[i][1u] *= (1.f/this->size.height);
-                this->lightPositions[i][2u] *= (1.f/this->size.length);
-
-                this->lightDirections[i][0u] *= (1.f/this->size.width);
-                this->lightDirections[i][1u] *= (1.f/this->size.height);
-                this->lightDirections[i][2u] *= (1.f/this->size.length);
-                /*
-                //rotate
-                temp = edk::Math::rotatePlus2f(edk::vec2f32(this->lightPositions[i][0u],this->lightPositions[i][1u])
-                        ,this->angle*-1.f
-                        );
-                this->lightPositions[i][0u] = temp.x;
-                this->lightPositions[i][1u] = temp.y;
-                this->lightPositions[i][2u] = temp.z;
-
-                temp = edk::Math::rotatePlus2f(edk::vec2f32(this->lightDirections[i][0u],this->lightDirections[i][1u])
-                        ,this->angle*-1.f
-                        );
-                this->lightDirections[i][0u] = temp.x;
-                this->lightDirections[i][1u] = temp.y;
-                this->lightDirections[i][2u] = temp.z;
-*/
-
-                edk::GU::guLightfv32(GU_LIGHT0+i,GU_POSITION,this->lightPositions[i]);
-                edk::GU::guLightfv32(GU_LIGHT0+i,GU_SPOT_DIRECTION,this->lightDirections[i]);
-
-                haveLight=true;
-
-            }
-            else{
-                this->lightIsOn[i] = false;
-                edk::GU::guDisable(GU_LIGHT0+i);
-            }
-        }
-    }
 
     if(haveLight){
         //
         edk::GU::guEnable(GU_LIGHTING);
-        this->meshes.drawWithLight(&this->lightPositions,&this->lightDirections,&this->lightIsOn);
+        this->meshes.render();
         edk::GU::guDisable(GU_LIGHTING);
     }
     else{
@@ -697,7 +645,23 @@ void edk::Object3D::drawWithoutMaterialWithLight(){
     //put the transformation on a stack
     edk::GU::guPushMatrix();
 
-    edk::GU::guEnable(GU_LIGHTING);
+
+    bool haveLight=false;
+
+    {
+        //edk::vec3f32 temp;
+        for(edk::uint32 i=0u;i<EDK_LIGHT_LIMIT;i++){
+            if(this->lights[i].on){
+                edk::GU::guEnable(GU_LIGHT0+i);
+                this->lights[i].draw(i);
+                haveLight=true;
+
+            }
+            else{
+                edk::GU::guDisable(GU_LIGHT0+i);
+            }
+        }
+    }
 
     //add translate
     edk::GU::guTranslate3f32(this->position);
@@ -710,82 +674,15 @@ void edk::Object3D::drawWithoutMaterialWithLight(){
     //set the pivo
     edk::GU::guTranslate3f32(this->pivo*-1.0f);
 
-    bool haveLight=false;
-
-    {
-        //edk::vec3f32 temp;
-        for(edk::uint32 i=0u;i<EDK_LIGHT_LIMIT;i++){
-            if(this->lights[i].on){
-                edk::GU::guEnable(GU_LIGHT0+i);
-                this->lights[i].draw(i);
-                this->lightIsOn[i] = true;
-
-                //translate pivo
-                this->lightPositions[i][0u] = this->lights[i].getPositionX() + this->pivo.x;
-                this->lightPositions[i][1u] = this->lights[i].getPositionY() + this->pivo.y;
-                this->lightPositions[i][2u] = this->lights[i].getPositionZ() + this->pivo.z;
-                this->lightPositions[i][3u] = 1.f;
-
-                this->lightDirections[i][0u] = this->lights[i].getDirectionX() + this->pivo.x;
-                this->lightDirections[i][1u] = this->lights[i].getDirectionY() + this->pivo.y;
-                this->lightDirections[i][2u] = this->lights[i].getDirectionZ() + this->pivo.z;
-                this->lightDirections[i][3u] = 1.f;
-
-                //translate
-                this->lightPositions[i][0u] -= this->position.x;
-                this->lightPositions[i][1u] -= this->position.y;
-                this->lightPositions[i][2u] -= this->position.z;
-
-                this->lightDirections[i][0u] -= this->position.x;
-                this->lightDirections[i][1u] -= this->position.y;
-                this->lightDirections[i][2u] -= this->position.z;
-
-                //scale
-                this->lightPositions[i][0u] *= (1.f/this->size.width);
-                this->lightPositions[i][1u] *= (1.f/this->size.height);
-                this->lightPositions[i][2u] *= (1.f/this->size.length);
-
-                this->lightDirections[i][0u] *= (1.f/this->size.width);
-                this->lightDirections[i][1u] *= (1.f/this->size.height);
-                this->lightDirections[i][2u] *= (1.f/this->size.length);
-                /*
-                //rotate
-                temp = edk::Math::rotatePlus2f(edk::vec2f32(this->lightPositions[i][0u],this->lightPositions[i][1u])
-                        ,this->angle*-1.f
-                        );
-                this->lightPositions[i][0u] = temp.x;
-                this->lightPositions[i][1u] = temp.y;
-                this->lightPositions[i][2u] = temp.z;
-
-                temp = edk::Math::rotatePlus2f(edk::vec2f32(this->lightDirections[i][0u],this->lightDirections[i][1u])
-                        ,this->angle*-1.f
-                        );
-                this->lightDirections[i][0u] = temp.x;
-                this->lightDirections[i][1u] = temp.y;
-                this->lightDirections[i][2u] = temp.z;
-*/
-
-                edk::GU::guLightfv32(GU_LIGHT0+i,GU_POSITION,this->lightPositions[i]);
-                edk::GU::guLightfv32(GU_LIGHT0+i,GU_SPOT_DIRECTION,this->lightDirections[i]);
-
-                haveLight=true;
-
-            }
-            else{
-                this->lightIsOn[i] = false;
-                edk::GU::guDisable(GU_LIGHT0+i);
-            }
-        }
-    }
-
     if(haveLight){
-        this->meshes.drawWithoutMaterialWithLight(&this->lightPositions,&this->lightDirections,&this->lightIsOn);
+        edk::GU::guEnable(GU_LIGHTING);
+        this->meshes.drawWithoutMaterial();
+        edk::GU::guDisable(GU_LIGHTING);
     }
     else{
         this->meshes.drawWithoutMaterial();
     }
 
-    edk::GU::guDisable(GU_LIGHTING);
     edk::GU::guPopMatrix();
 }
 void edk::Object3D::drawWire(){

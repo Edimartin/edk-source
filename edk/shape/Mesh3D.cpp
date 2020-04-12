@@ -386,12 +386,6 @@ void edk::shape::Mesh3D::StackPolygon::printPolygons(){
 void edk::shape::Mesh3D::StackPolygon::drawPolygons(){
     this->list.render();
 }
-void edk::shape::Mesh3D::StackPolygon::drawWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
-edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
-bool lightIsOn[][EDK_LIGHT_LIMIT]
-){
-    this->list.drawWithLight(lightPositions,lightDirections,lightIsOn);
-}
 //Draw the polygon with lines
 void edk::shape::Mesh3D::StackPolygon::drawWire(){
     this->list.drawWire();
@@ -414,7 +408,12 @@ void edk::shape::Mesh3D::StackPolygon::drawPolygonNormalsWithColor(edk::color3f3
 }
 
 edk::shape::Mesh3D::Mesh3D(){
-    //
+    //mesh angles
+    this->angles = edk::vec3f32(0,0,0);
+    //mesh size
+    this->size = edk::size3f32(1,1,1);
+    //mesh position inside the object
+    this->position = edk::vec3f32(0,0,0);
 }
 edk::shape::Mesh3D::~Mesh3D(){
     //
@@ -447,10 +446,10 @@ edk::uint32 edk::shape::Mesh3D::getUVSize(){
     return this->uvs.size();
 }
 edk::uint32 edk::shape::Mesh3D::getNormalSize(){
-    this->normals.size();
+    return this->normals.size();
 }
 edk::uint32 edk::shape::Mesh3D::getPolygonSize(){
-    this->polygons.size();
+    return this->polygons.size();
 }
 
 //Set polygons color
@@ -801,30 +800,83 @@ void edk::shape::Mesh3D::printPolygons(){
 }
 //draw the mesh
 void edk::shape::Mesh3D::drawPolygons(){
+    edk::GU::guPushMatrix();
+    //add translate
+    edk::GU::guTranslate3f32(this->position);
+    //add rotation
+    edk::GU::guRotateZf32(this->angles.z);
+    edk::GU::guRotateYf32(this->angles.y);
+    edk::GU::guRotateXf32(this->angles.x);
+    //add scale
+    edk::GU::guScale3f32(this->size);
     this->polygons.drawPolygons();
-}
-//draw the mesh with lights
-void edk::shape::Mesh3D::drawPolygonsWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
-edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
-bool lightIsOn[][EDK_LIGHT_LIMIT]
-){
-    this->polygons.drawWithLight(lightPositions,lightDirections,lightIsOn);
+    edk::GU::guPopMatrix();
 }
 //draw the polygons in wireframe
 void edk::shape::Mesh3D::drawWirePolygons(){
+    edk::GU::guPushMatrix();
+    //add translate
+    edk::GU::guTranslate3f32(this->position);
+    //add rotation
+    edk::GU::guRotateZf32(this->angles.z);
+    edk::GU::guRotateYf32(this->angles.y);
+    edk::GU::guRotateXf32(this->angles.x);
+    //add scale
+    edk::GU::guScale3f32(this->size);
     this->polygons.drawWire();
+    edk::GU::guPopMatrix();
 }
 void edk::shape::Mesh3D::drawWirePolygonsWithColor(edk::color4f32 color){
+    edk::GU::guPushMatrix();
+    //add translate
+    edk::GU::guTranslate3f32(this->position);
+    //add rotation
+    edk::GU::guRotateZf32(this->angles.z);
+    edk::GU::guRotateYf32(this->angles.y);
+    edk::GU::guRotateXf32(this->angles.x);
+    //add scale
+    edk::GU::guScale3f32(this->size);
     this->polygons.drawWireWithColor(color);
+    edk::GU::guPopMatrix();
 }
 void edk::shape::Mesh3D::drawVertexs(edk::color3f32 color){
+    edk::GU::guPushMatrix();
+    //add translate
+    edk::GU::guTranslate3f32(this->position);
+    //add rotation
+    edk::GU::guRotateZf32(this->angles.z);
+    edk::GU::guRotateYf32(this->angles.y);
+    edk::GU::guRotateXf32(this->angles.x);
+    //add scale
+    edk::GU::guScale3f32(this->size);
     this->polygons.drawPolygonVertexs(edk::color4f32(color.r,color.g,color.b,1.f));
+    edk::GU::guPopMatrix();
 }
 void edk::shape::Mesh3D::drawPolygonsNormals(){
+    edk::GU::guPushMatrix();
+    //add translate
+    edk::GU::guTranslate3f32(this->position);
+    //add rotation
+    edk::GU::guRotateZf32(this->angles.z);
+    edk::GU::guRotateYf32(this->angles.y);
+    edk::GU::guRotateXf32(this->angles.x);
+    //add scale
+    edk::GU::guScale3f32(this->size);
     this->polygons.drawPolygonNormals();
+    edk::GU::guPopMatrix();
 }
 void edk::shape::Mesh3D::drawPolygonsNormalsWithColor(edk::color3f32 color){
+    edk::GU::guPushMatrix();
+    //add translate
+    edk::GU::guTranslate3f32(this->position);
+    //add rotation
+    edk::GU::guRotateZf32(this->angles.z);
+    edk::GU::guRotateYf32(this->angles.y);
+    edk::GU::guRotateXf32(this->angles.x);
+    //add scale
+    edk::GU::guScale3f32(this->size);
     this->polygons.drawPolygonNormalsWithColor(color);
+    edk::GU::guPopMatrix();
 }
 
 //draw the mesh
@@ -897,83 +949,6 @@ bool edk::shape::Mesh3D::selectedDrawOneTexture(edk::uint32 position){
     return false;
 }
 
-void edk::shape::Mesh3D::drawOneTextureWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
-edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
-bool lightIsOn[][EDK_LIGHT_LIMIT]){
-    //set the texture if have one
-    if(this->material.haveTexture()){
-        this->material.drawStartWithOneTexture();
-        //Draw the mesh
-        this->drawPolygonsWithLight(lightPositions,lightDirections,lightIsOn);
-
-        this->material.drawEndWithTexture();
-    }
-    else{
-        this->material.drawNoTexture();
-        //else just draw the mesh
-        this->drawPolygonsWithLight(lightPositions,lightDirections,lightIsOn);
-    }
-}
-void edk::shape::Mesh3D::drawOneTextureWithLight(edk::uint32 position,edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
-edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
-bool lightIsOn[][EDK_LIGHT_LIMIT]){
-    //set the texture if have one
-    if(this->material.haveTexture()){
-        this->material.drawStartWithOneTexture(position);
-        //Draw the mesh
-        this->drawPolygonsWithLight(lightPositions,lightDirections,lightIsOn);
-
-        this->material.drawEndWithTexture();
-    }
-    else{
-        this->material.drawNoTexture();
-        //else just draw the mesh
-        this->drawPolygonsWithLight(lightPositions,lightDirections,lightIsOn);
-    }
-}
-bool edk::shape::Mesh3D::selectedDrawOneTextureWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
-edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
-bool lightIsOn[][EDK_LIGHT_LIMIT]){
-    if(this->selected){
-        //set the texture if have one
-        if(this->material.haveTexture()){
-            this->material.drawStartWithOneTexture();
-            //Draw the mesh
-            this->selected->drawWithLight(lightPositions,lightDirections,lightIsOn);
-
-            this->material.drawEndWithTexture();
-        }
-        else{
-            this->material.drawNoTexture();
-            //else just draw the mesh
-            this->selected->drawWithLight(lightPositions,lightDirections,lightIsOn);
-        }
-        return true;
-    }
-    return false;
-}
-bool edk::shape::Mesh3D::selectedDrawOneTextureWithLight(edk::uint32 position,edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
-edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
-bool lightIsOn[][EDK_LIGHT_LIMIT]){
-    if(this->selected){
-        //set the texture if have one
-        if(this->material.haveTexture()){
-            this->material.drawStartWithOneTexture(position);
-            //Draw the mesh
-            this->selected->drawWithLight(lightPositions,lightDirections,lightIsOn);
-
-            this->material.drawEndWithTexture();
-        }
-        else{
-            this->material.drawNoTexture();
-            //else just draw the mesh
-            this->selected->drawWithLight(lightPositions,lightDirections,lightIsOn);
-        }
-        return true;
-    }
-    return false;
-}
-
 //draw the mesh
 void edk::shape::Mesh3D::drawMultiTexture(){
     //set the texture if have one
@@ -1004,44 +979,6 @@ bool edk::shape::Mesh3D::selectedDrawMultiTexture(){
             this->material.drawNoTexture();
             //else just draw the mesh
             this->selected->draw();
-        }
-        return true;
-    }
-    return false;
-}
-void edk::shape::Mesh3D::drawMultiTextureWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
-edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
-bool lightIsOn[][EDK_LIGHT_LIMIT]){
-    //set the texture if have one
-    if(this->material.haveTexture()){
-        this->material.drawStartWithMultiTexture();
-        //Draw the mesh
-        this->drawPolygonsWithLight(lightPositions,lightDirections,lightIsOn);
-
-        this->material.drawEndWithTexture();
-    }
-    else{
-        this->material.drawNoTexture();
-        //else just draw the mesh
-        this->drawPolygonsWithLight(lightPositions,lightDirections,lightIsOn);
-    }
-}
-bool edk::shape::Mesh3D::selectedDrawMultiTextureWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
-edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
-bool lightIsOn[][EDK_LIGHT_LIMIT]){
-    if(selected){
-        //set the texture if have one
-        if(this->material.haveTexture()){
-            this->material.drawStartWithMultiTexture();
-            //Draw the mesh
-            this->selected->drawWithLight(lightPositions,lightDirections,lightIsOn);
-
-            this->material.drawEndWithTexture();
-        }
-        else{
-            this->material.drawNoTexture();
-            //else just draw the mesh
-            this->selected->drawWithLight(lightPositions,lightDirections,lightIsOn);
         }
         return true;
     }

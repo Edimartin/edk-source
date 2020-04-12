@@ -123,11 +123,6 @@ public:
     virtual void printPolygons();
     //draw the mesh
     virtual void drawPolygons();
-    //draw the mesh with lights
-    virtual void drawPolygonsWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
-    edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
-    bool lightIsOn[][EDK_LIGHT_LIMIT]
-    );
     //draw the polygons in wireframe
     virtual void drawWirePolygons();
     virtual void drawWirePolygonsWithColor(edk::color4f32 color=edk::color4f32(1,1,1,1));
@@ -141,30 +136,19 @@ public:
     virtual void drawOneTexture(edk::uint32 position);
     virtual bool selectedDrawOneTexture();
     virtual bool selectedDrawOneTexture(edk::uint32 position);
-    virtual void drawOneTextureWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
-    edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
-    bool lightIsOn[][EDK_LIGHT_LIMIT]);
-    virtual void drawOneTextureWithLight(edk::uint32 position,edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
-    edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
-    bool lightIsOn[][EDK_LIGHT_LIMIT]);
-    virtual bool selectedDrawOneTextureWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
-    edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
-    bool lightIsOn[][EDK_LIGHT_LIMIT]);
-    virtual bool selectedDrawOneTextureWithLight(edk::uint32 position,edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
-    edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
-    bool lightIsOn[][EDK_LIGHT_LIMIT]);
     virtual void drawMultiTexture();
     virtual bool selectedDrawMultiTexture();
-    virtual void drawMultiTextureWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
-    edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
-    bool lightIsOn[][EDK_LIGHT_LIMIT]);
-    virtual bool selectedDrawMultiTextureWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
-    edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
-    bool lightIsOn[][EDK_LIGHT_LIMIT]);
     virtual void drawWire();
 
     //Material used for the mesh
     edk::material::Material material;
+
+    //mesh angles
+    edk::vec3f32 angles;
+    //mesh size
+    edk::size3f32 size;
+    //mesh position inside the object
+    edk::vec3f32 position;
 private:
     //Class to save all the vertexes from the polygon
     class MeshVertex{
@@ -330,31 +314,6 @@ protected:
         void renderElement(edk::shape::Polygon3D* value){
             value->draw();
         }
-        void drawWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
-        edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
-        bool lightIsOn[][EDK_LIGHT_LIMIT]
-        ){
-            this->func = edk::shape::Mesh3D::PolygonList::runDrawWithLight;
-            for(edk::uint32 i=0u;i<EDK_LIGHT_LIMIT;i++){
-                this->lightIsOn[i] = *lightIsOn[i];
-                if(this->lightIsOn[i]){
-                    this->lightPositions[i][0u] = *lightPositions[i][0u];
-                    this->lightPositions[i][1u] = *lightPositions[i][1u];
-                    this->lightPositions[i][2u] = *lightPositions[i][2u];
-                    this->lightPositions[i][3u] = *lightPositions[i][3u];
-
-                    this->lightDirections[i][0u] = *lightDirections[i][0u];
-                    this->lightDirections[i][1u] = *lightDirections[i][1u];
-                    this->lightDirections[i][2u] = *lightDirections[i][2u];
-                    this->lightDirections[i][3u] = *lightDirections[i][3u];
-                }
-            }
-
-            this->update();
-        }
-        static void runDrawWithLight(edk::shape::Mesh3D::PolygonList* list,edk::shape::Polygon3D* value){
-            value->drawWithLight(&list->lightPositions,&list->lightDirections,&list->lightIsOn);
-        }
         //Draw the polygon with lines
         void drawWire(){
             this->func = edk::shape::Mesh3D::PolygonList::runDrawWire;
@@ -429,10 +388,6 @@ protected:
         void printPolygons();
         //draw the polygons
         void drawPolygons();
-        void drawWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
-        edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
-        bool lightIsOn[][EDK_LIGHT_LIMIT]
-        );
         //Draw the polygon with lines
         void drawWire();
         //Draw the polygon with lines

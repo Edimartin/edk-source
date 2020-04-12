@@ -72,8 +72,6 @@ public:
     virtual bool print();
     //draw the polygon
     virtual void draw();
-    //Draw the polygon with lights
-    virtual bool drawWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],bool lightIsOn[][EDK_LIGHT_LIMIT]);
     //Draw the polygon with lines
     virtual void drawWire();
     virtual void drawWireWithColor(edk::color4f32 color=edk::color4f32(1,1,1,1));

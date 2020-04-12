@@ -390,26 +390,14 @@ bool edk::shape::Polygon3D::print(){
 }
 //draw the polygon
 void edk::shape::Polygon3D::draw(){
-    edk::GU::guPushMatrix();
+    //edk::GU::guPushMatrix();
     //    edk::GU::guTranslate2f32(this->translate);
     //    edk::GU::guRotateZf32(this->angle);
     //    edk::GU::guScale2f32(this->scale);
     edk::GU::guBegin(GU_POLYGON);
     this->drawVertexs();
     edk::GU::guEnd();
-    edk::GU::guPopMatrix();
-}
-//Draw the polygon with lights
-bool edk::shape::Polygon3D::drawWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],bool lightIsOn[][EDK_LIGHT_LIMIT]){
-    if(lightPositions && lightDirections && lightIsOn){
-        //edk::GU::guPushMatrix();
-        edk::GU::guBegin(GU_POLYGON);
-        this->drawVertexs();
-        edk::GU::guEnd();
-        //edk::GU::guPopMatrix();
-        return true;
-    }
-    return false;
+    //edk::GU::guPopMatrix();
 }
 //Draw the polygon with lines
 void edk::shape::Polygon3D::drawWire(){
