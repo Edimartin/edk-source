@@ -24,10 +24,18 @@ Gravatai RS Brazil 94065100
 #warning "            Inside Light.cpp"
 #endif
 
-edk::light::Light::Light()
-{
+edk::light::Light::Light(){
     this->clean();
     this->on = false;
+}
+edk::light::Light::~Light(){
+    //
+}
+void edk::light::Light::updateDirection(){
+    this->direction[0u] = this->lightDirection[0u] - this->position[0u];
+    this->direction[1u] = this->lightDirection[1u] - this->position[1u];
+    this->direction[2u] = this->lightDirection[2u] - this->position[2u];
+    this->direction[3u] = 1.f;
 }
 //clean the light
 void edk::light::Light::clean(){
@@ -51,26 +59,33 @@ void edk::light::Light::clean(){
     this->specular[2u] = 1.f;
     this->specular[3u] = 1.f;
 
-    this->direction[0u] = 0.f;
-    this->direction[1u] = 0.f;
-    this->direction[2u] = 1.f;
-    this->direction[2u] = 1.f;
+    this->setDirection(0.f,0.f,0.f);
 
-    this->exponent=0.f;
+    this->exponent=1.f;
     this->cutoff=180.f;
+    this->cutoffRadian=(PI * this->cutoff)/180.f;
     this->constantAttenuation=1.f;
-    this->linearAttenuation=0.f;
-    this->quadraticAttenuation=0.f;
+    this->linearAttenuation=0.0f;
+    this->quadraticAttenuation=0.0;
 }
 //Set Vectors
 void edk::light::Light::setPosition(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 w){
-    this->position[0u] = x;this->position[1u] = y;this->position[2u] = z;this->position[3u] = w;
+    this->position[0u] = x;
+    this->position[1u] = y;
+    this->position[2u] = z;
+    this->position[3u] = w;
+    this->updateDirection();
 }
 void edk::light::Light::setPosition(edk::float32 x,edk::float32 y,edk::float32 z){
-    this->position[0u] = x;this->position[1u] = y;this->position[2u] = z;
+    this->position[0u] = x;
+    this->position[1u] = y;
+    this->position[2u] = z;
+    this->updateDirection();
 }
 void edk::light::Light::setPosition(edk::float32 x,edk::float32 y){
-    this->position[0u] = x;this->position[1u] = y;
+    this->position[0u] = x;
+    this->position[1u] = y;
+    this->updateDirection();
 }
 void edk::light::Light::setPosition(edk::vec4f32 position){
     return this->setPosition(position.x,position.y,position.z,position.w);
@@ -81,17 +96,18 @@ void edk::light::Light::setPosition(edk::vec3f32 position){
 void edk::light::Light::setPosition(edk::vec2f32 position){
     return this->setPosition(position.x,position.y);
 }
-void edk::light::Light::setDirection(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 w){
-    this->direction[0u] = x;this->direction[1u] = y;this->direction[2u] = z;this->direction[3u] = w;
-}
 void edk::light::Light::setDirection(edk::float32 x,edk::float32 y,edk::float32 z){
-    this->direction[0u] = x;this->direction[1u] = y;this->direction[2u] = z;
+    this->lightDirection[0u] = x;
+    this->lightDirection[1u] = y;
+    this->lightDirection[2u] = z;
+    this->lightDirection[3u] = 1.f;
+    this->updateDirection();
 }
 void edk::light::Light::setDirection(edk::float32 x,edk::float32 y){
-    this->direction[0u] = x;this->direction[1u] = y;
-}
-void edk::light::Light::setDirection(edk::vec4f32 direction){
-    return this->setDirection(direction.x,direction.y,direction.z,direction.w);
+    this->lightDirection[0u] = x;
+    this->lightDirection[1u] = y;
+    this->lightDirection[3u] = 1.f;
+    this->updateDirection();
 }
 void edk::light::Light::setDirection(edk::vec3f32 direction){
     return this->setDirection(direction.x,direction.y,direction.z);
@@ -185,6 +201,24 @@ edk::vec2f32 edk::light::Light::getDirection2f(){
 edk::vec3f32 edk::light::Light::getDirection3f(){
     return edk::vec3f32(this->direction[0u],this->direction[1u],this->direction[2u]);
 }
+
+//Spot Values
+edk::float32 edk::light::Light::getExponent(){
+    return this->exponent;
+}
+edk::float32 edk::light::Light::getCutoff(){
+    return this->cutoff;
+}
+edk::float32 edk::light::Light::getConstantAttenuation(){
+    return this->constantAttenuation;
+}
+edk::float32 edk::light::Light::getLinearAttenuation(){
+    return this->linearAttenuation;
+}
+edk::float32 edk::light::Light::getQuadraticAttenuation(){
+    return this->quadraticAttenuation;
+}
+
 //DRAW THE LIGH USING THE LIGHT NUMBER
 void edk::light::Light::draw(edk::uint32 lightNumber){
     edk::GU::guLightfv32(GU_LIGHT0+lightNumber,GU_POSITION,this->position);

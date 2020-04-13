@@ -41,6 +41,7 @@ namespace light{
 class Light{
 public:
     Light();
+    virtual ~Light();
     //clean the light
     void clean();
     //Set Colors
@@ -81,15 +82,20 @@ public:
     edk::vec2f32 getDirection2f();
     edk::vec3f32 getDirection3f();
 
+    //Spot Values
+    edk::float32 getExponent();
+    edk::float32 getCutoff();
+    edk::float32 getConstantAttenuation();
+    edk::float32 getLinearAttenuation();
+    edk::float32 getQuadraticAttenuation();
+
     //Operator =
     edk::light::Light operator = (edk::light::Light newLight){
-        edk::int32 sizeofVecF = sizeof(this->position);
-        memcpy(this->position,newLight.position,sizeofVecF);
-        memcpy(this->diffuse,newLight.diffuse,sizeofVecF);
-        memcpy(this->ambient,newLight.ambient,sizeofVecF);
-        memcpy(this->specular,newLight.specular,sizeofVecF);
-        sizeofVecF = sizeof(this->direction);
-        memcpy(this->direction,newLight.direction,sizeofVecF);
+        memcpy(this->position,newLight.position,sizeof(this->position));
+        memcpy(this->diffuse,newLight.diffuse,sizeof(this->diffuse));
+        memcpy(this->ambient,newLight.ambient,sizeof(this->ambient));
+        memcpy(this->specular,newLight.specular,sizeof(this->specular));
+        memcpy(this->direction,newLight.direction,sizeof(this->direction));
         this->exponent = newLight.exponent;
         this->cutoff = newLight.cutoff;
         this->constantAttenuation = newLight.constantAttenuation;
@@ -107,7 +113,8 @@ protected:
     edk::float32 diffuse[4u];  //GU_DIFFUSE (1.0, 1.0, 1.0, 1.0) diffuse RGBA intensity of light
     edk::float32 ambient[4u];  //GU_AMBIENT (0.0, 0.0, 0.0, 1.0) ambient RGBA intensity of light
     edk::float32 specular[4u]; //GU_SPECULAR (1.0, 1.0, 1.0, 1.0) specular RGBA intensity of light
-    edk::float32 direction[3u]; //GU_SPOT_DIRECTION (0.0, 0.0, -1.0) (x, y, z) direction of spotlight
+    edk::float32 direction[4u]; //GU_SPOT_DIRECTION (0.0, 0.0, -1.0) (x, y, z) direction of spotlight
+    edk::float32 lightDirection[4u]; //Direction minus position
     edk::float32 exponent; //GU_SPOT_EXPONENT 0.0 spotlight exponent
     edk::float32 cutoff; //GU_SPOT_CUTOFF 180.0 spotlight cutoff angle
     edk::float32 constantAttenuation; //GU_CONSTANT_ATTENUATION 1.0 constant attenuation factor
@@ -120,10 +127,8 @@ protected:
     void setPosition(edk::vec4f32 position);
     void setPosition(edk::vec3f32 position);
     void setPosition(edk::vec2f32 position);
-    void setDirection(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 w);
     void setDirection(edk::float32 x,edk::float32 y,edk::float32 z);
     void setDirection(edk::float32 x,edk::float32 y);
-    void setDirection(edk::vec4f32 direction);
     void setDirection(edk::vec3f32 direction);
     void setDirection(edk::vec2f32 direction);
     //Spot Values
@@ -132,6 +137,8 @@ protected:
     void setConstantAttenuation(edk::float32 constantAttenuation);
     void setLinearAttenuation(edk::float32 linearAttenuation);
     void setQuadraticAttenuation(edk::float32 quadraticAttenuation);
+private:
+    void updateDirection();
 };
 }//end namespace light
 }//end namespace edk
