@@ -63,7 +63,6 @@ void edk::light::Light::clean(){
 
     this->exponent=1.f;
     this->cutoff=180.f;
-    this->cutoffRadian=(PI * this->cutoff)/180.f;
     this->constantAttenuation=1.f;
     this->linearAttenuation=0.0f;
     this->quadraticAttenuation=0.0;
