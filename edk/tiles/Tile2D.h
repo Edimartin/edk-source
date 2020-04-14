@@ -71,8 +71,7 @@ public:
     void setSpecular(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
     void setEmission(edk::color4f32 color);
     void setEmission(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
-    void setShininess(edk::color4f32 color);
-    void setShininess(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
+    void setShininess(edk::float32 shininess);
 
     //set the rectangle of the tile
     void setRect(edk::rectf32 rect);

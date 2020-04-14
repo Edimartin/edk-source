@@ -28,10 +28,7 @@ edk::material::Material::Material(){
     this->emission[2] = 1.0f;
     this->emission[3] = 1.0f;
     //shinines
-    this->shininess[0] = 0.0f;
-    this->shininess[1] = 0.0f;
-    this->shininess[2] = 0.0f;
-    this->shininess[3] = 1.0f;
+    this->shininess = 0.0f;
 }
 edk::material::Material::~Material(){
     if(this->canDelete){
@@ -45,17 +42,11 @@ void edk::material::Material::cantDelete(){
 }
 //draw the material parameters
 void edk::material::Material::useMaterialParameters(){
-    /*
-    edk::GU::guEnable(GU_LIGHTING);
-    edk::GU::guEnable(GU_LIGHT0);
-    glLightfv(GL_LIGHT0,GL_AMBIENT,this->specular);
-    glLightfv(GL_LIGHT0,GL_DIFFUSE,this->ambient);
-    */
     edk::GU::guMaterialfv32(GU_FRONT,GU_AMBIENT,this->ambient);
     edk::GU::guMaterialfv32(GU_FRONT,GU_DIFFUSE,this->diffuse);
     edk::GU::guMaterialfv32(GU_FRONT,GU_SPECULAR,this->specular);
     edk::GU::guMaterialfv32(GU_FRONT,GU_EMISSION,this->emission);
-    edk::GU::guMaterialfv32(GU_FRONT,GU_SHININESS,this->shininess);
+    edk::GU::guMaterialf32(GU_FRONT,GU_SHININESS,this->shininess);
 }
 
 //load the texture
@@ -184,17 +175,8 @@ void edk::material::Material::setEmission(edk::color4f32 color){
 void edk::material::Material::setEmission(edk::color3f32 color){
     this->setEmission(color.r,color.g,color.b);
 }
-void edk::material::Material::setShininess(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
-    this->shininess[0] = r;this->shininess[1] = g;this->shininess[2] = b;this->shininess[3] = a;
-}
-void edk::material::Material::setShininess(edk::float32 r,edk::float32 g,edk::float32 b){
-    this->setShininess(r,g,b,1.f);
-}
-void edk::material::Material::setShininess(edk::color4f32 color){
-    this->setShininess(color.r,color.g,color.b,color.a);
-}
-void edk::material::Material::setShininess(edk::color3f32 color){
-    this->setShininess(color.r,color.g,color.b);
+void edk::material::Material::setShininess(edk::float32 shininess){
+    this->shininess = shininess;
 }
 
 //GETERS
@@ -210,8 +192,8 @@ edk::color4f32 edk::material::Material::getSpecular(){
 edk::color4f32 edk::material::Material::getEmission(){
     return edk::color4f32(this->emission[0u],this->emission[1u],this->emission[2u],this->emission[3u]);
 }
-edk::color4f32 edk::material::Material::getShininess(){
-    return edk::color4f32(this->shininess[0u],this->shininess[1u],this->shininess[2u],this->shininess[3u]);
+edk::float32 edk::material::Material::getShininess(){
+    return this->shininess;
 }
 
 //GETERS
@@ -464,12 +446,12 @@ bool edk::material::Material::writeToXML(edk::XML* xml,edk::uint32 id){
                         if(xml->addSelectedNextChild("shininess")){
                             if(xml->selectChild("shininess")){
                                 //write the attributes
-                                for(edk::uint32 i=0u;i<4u;i++){
+                                for(edk::uint32 i=0u;i<1u;i++){
                                     iTemp = edk::String::int64ToStr(i);
                                     if(iTemp){
                                         nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);
                                         if(nameTemp){
-                                            temp=edk::String::float32ToStr(shininess[i]);
+                                            temp=edk::String::float32ToStr(shininess);
                                             if(temp){
                                                 xml->addSelectedNextAttribute(nameTemp,temp);
                                                 delete[] temp;
@@ -610,12 +592,12 @@ bool edk::material::Material::readFromXML(edk::XML* xml,edk::uint32 id){
                     }
                     if(xml->selectChild("shininess")){
                         //set the shininess attributes
-                        for(edk::uint32 i=0u;i<4u;i++){
+                        for(edk::uint32 i=0u;i<1u;i++){
                             iTemp = edk::String::int64ToStr(i);
                             if(iTemp){
                                 nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);
                                 if(nameTemp){
-                                    this->shininess[i] = edk::String::strToFloat32(xml->getSelectedAttributeValueByName(nameTemp));
+                                    this->shininess = edk::String::strToFloat32(xml->getSelectedAttributeValueByName(nameTemp));
                                     delete[] nameTemp;
                                 }
                                 delete[] iTemp;
@@ -738,12 +720,12 @@ bool edk::material::Material::readFromXMLWithPack(edk::pack::FilePackage* pack,e
                     }
                     if(xml->selectChild("shininess")){
                         //set the shininess attributes
-                        for(edk::uint32 i=0u;i<4u;i++){
+                        for(edk::uint32 i=0u;i<1u;i++){
                             iTemp = edk::String::int64ToStr(i);
                             if(iTemp){
                                 nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);
                                 if(nameTemp){
-                                    this->shininess[i] = edk::String::strToFloat32(xml->getSelectedAttributeValueByName(nameTemp));
+                                    this->shininess = edk::String::strToFloat32(xml->getSelectedAttributeValueByName(nameTemp));
                                     delete[] nameTemp;
                                 }
                                 delete[] iTemp;

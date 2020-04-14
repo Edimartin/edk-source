@@ -84,17 +84,14 @@ public:
     void setEmission(edk::float32 r,edk::float32 g,edk::float32 b);
     void setEmission(edk::color4f32 color);
     void setEmission(edk::color3f32 color);
-    void setShininess(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
-    void setShininess(edk::float32 r,edk::float32 g,edk::float32 b);
-    void setShininess(edk::color4f32 color);
-    void setShininess(edk::color3f32 color);
+    void setShininess(edk::float32 shininess);
 
     //GETERS
     edk::color4f32 getAmbient();
     edk::color4f32 getDiffuse();
     edk::color4f32 getSpecular();
     edk::color4f32 getEmission();
-    edk::color4f32 getShininess();
+    edk::float32 getShininess();
 
     //GETERS
     edk::uint32 getTexture(edk::uint8 position);
@@ -161,7 +158,7 @@ public:
         memcpy(this->diffuse,mat.diffuse,sizeOf);
         memcpy(this->specular,mat.specular,sizeOf);
         memcpy(this->emission,mat.emission,sizeOf);
-        memcpy(this->shininess,mat.shininess,sizeOf);
+        this->shininess = mat.shininess;
         this->countTextures = mat.countTextures;
         //set to dont delete the textures in the destructor
         mat.cantDelete();
@@ -176,7 +173,7 @@ protected:
     edk::float32 diffuse[4u];
     edk::float32 specular[4u];
     edk::float32 emission[4u];
-    edk::float32 shininess[4u];
+    edk::float32 shininess;
     //textures in the mesh
     edk::uint32 textures[materialTextureCount];
 private:
