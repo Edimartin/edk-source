@@ -145,7 +145,7 @@ void edk::light::Light::setAmbient(edk::color3f32 color){
     return this->setAmbient(color.r,color.g,color.b);
 }
 void edk::light::Light::setDiffuse(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
-    this->ambient[0u] = r;this->ambient[1u] = g;this->ambient[2u] = b;this->ambient[3u] = a;
+    this->diffuse[0u] = r;this->diffuse[1u] = g;this->diffuse[2u] = b;this->diffuse[3u] = a;
 }
 void edk::light::Light::setDiffuse(edk::float32 r,edk::float32 g,edk::float32 b){
     return this->setDiffuse(r,g,b,1.f);
@@ -157,7 +157,7 @@ void edk::light::Light::setDiffuse(edk::color3f32 color){
     return this->setDiffuse(color.r,color.g,color.b);
 }
 void edk::light::Light::setSpecular(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
-    this->ambient[0u] = r;this->ambient[1u] = g;this->ambient[2u] = b;this->ambient[3u] = a;
+    this->specular[0u] = r;this->specular[1u] = g;this->specular[2u] = b;this->specular[3u] = a;
 }
 void edk::light::Light::setSpecular(edk::float32 r,edk::float32 g,edk::float32 b){
     return this->setSpecular(r,g,b,1.f);

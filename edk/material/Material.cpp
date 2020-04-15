@@ -28,7 +28,7 @@ edk::material::Material::Material(){
     this->emission[2] = 1.0f;
     this->emission[3] = 1.0f;
     //shinines
-    this->shininess = 0.0f;
+    this->shininess = 50.0f;
 }
 edk::material::Material::~Material(){
     if(this->canDelete){
