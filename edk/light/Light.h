@@ -57,6 +57,20 @@ public:
     void setSpecular(edk::float32 r,edk::float32 g,edk::float32 b);
     void setSpecular(edk::color4f32 color);
     void setSpecular(edk::color3f32 color);
+
+    edk::float32 getAmbientR();
+    edk::float32 getAmbientG();
+    edk::float32 getAmbientB();
+    edk::float32 getAmbientA();
+    edk::float32 getDiffuseR();
+    edk::float32 getDiffuseG();
+    edk::float32 getDiffuseB();
+    edk::float32 getDiffuseA();
+    edk::float32 getSpecularR();
+    edk::float32 getSpecularG();
+    edk::float32 getSpecularB();
+    edk::float32 getSpecularA();
+
     //DRAW THE LIGH USING THE LIGHT NUMBER
     virtual void draw(edk::uint32 lightNumber);
     //draw the pivo
@@ -69,25 +83,6 @@ public:
                ,this->ambient[3u]
                );
     }
-
-    //get Position
-    edk::float32 getPositionX();
-    edk::float32 getPositionY();
-    edk::float32 getPositionZ();
-    edk::vec2f32 getPosition2f();
-    edk::vec3f32 getPosition3f();
-    edk::float32 getDirectionX();
-    edk::float32 getDirectionY();
-    edk::float32 getDirectionZ();
-    edk::vec2f32 getDirection2f();
-    edk::vec3f32 getDirection3f();
-
-    //Spot Values
-    edk::float32 getExponent();
-    edk::float32 getCutoff();
-    edk::float32 getConstantAttenuation();
-    edk::float32 getLinearAttenuation();
-    edk::float32 getQuadraticAttenuation();
 
     //Operator =
     edk::light::Light operator = (edk::light::Light newLight){
@@ -137,6 +132,29 @@ protected:
     void setConstantAttenuation(edk::float32 constantAttenuation);
     void setLinearAttenuation(edk::float32 linearAttenuation);
     void setQuadraticAttenuation(edk::float32 quadraticAttenuation);
+
+    //get Position
+    edk::float32 getPositionX();
+    edk::float32 getPositionY();
+    edk::float32 getPositionZ();
+    edk::float32 getPositionW();
+    edk::vec2f32 getPosition2f();
+    edk::vec3f32 getPosition3f();
+    edk::vec4f32 getPosition4f();
+    edk::float32 getDirectionX();
+    edk::float32 getDirectionY();
+    edk::float32 getDirectionZ();
+    edk::float32 getDirectionW();
+    edk::vec2f32 getDirection2f();
+    edk::vec3f32 getDirection3f();
+    edk::vec4f32 getDirection4f();
+
+    //Spot Values
+    edk::float32 getExponent();
+    edk::float32 getCutoff();
+    edk::float32 getConstantAttenuation();
+    edk::float32 getLinearAttenuation();
+    edk::float32 getQuadraticAttenuation();
 private:
     void updateDirection();
 };

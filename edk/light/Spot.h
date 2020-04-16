@@ -1,8 +1,8 @@
-#ifndef EDK_LIGHT_LIGHT3D_H
-#define EDK_LIGHT_LIGHT3D_H
+#ifndef SPOT_H
+#define SPOT_H
 
 /*
-Library Light3D - Control GU 3D lights on the EDK Game Engine
+Library Spot - Control GU spot lights on the EDK Game Engine
 Copyright (C) 2013 Eduardo Moura Sales Martins
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -22,7 +22,7 @@ Gravatai RS Brazil 94065100
 */
 
 #ifdef printMessages
-#warning "Inside Light3D"
+#warning "Inside SUN"
 #endif
 
 #pragma once
@@ -31,27 +31,28 @@ Gravatai RS Brazil 94065100
 #include "Light.h"
 
 #ifdef printMessages
-#warning "    Compiling Light3D"
+#warning "    Compiling SUN"
 #endif
 
 namespace edk{
 namespace light{
-class Light3D : public edk::light::Light{
+class Spot : public edk::light::Light{
 public:
-    Light3D();
-    virtual ~Light3D();
+    Spot();
+    ~Spot();
 
-    //Set Vectors
-    void setPosition(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 w);
+    //DRAW THE LIGH USING THE LIGHT NUMBER
+    void draw(edk::uint32 lightNumber);
+    //draw the pivo
+    void drawPivo(edk::float32 size,edk::color3f32 color);
+
+    //Set the position of the light
     void setPosition(edk::float32 x,edk::float32 y,edk::float32 z);
     void setPosition(edk::float32 x,edk::float32 y);
-    void setPosition(edk::vec4f32 position);
     void setPosition(edk::vec3f32 position);
     void setPosition(edk::vec2f32 position);
-    void setDirection(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 w);
     void setDirection(edk::float32 x,edk::float32 y,edk::float32 z);
     void setDirection(edk::float32 x,edk::float32 y);
-    void setDirection(edk::vec4f32 direction);
     void setDirection(edk::vec3f32 direction);
     void setDirection(edk::vec2f32 direction);
     //Spot Values
@@ -61,7 +62,7 @@ public:
     void setLinearAttenuation(edk::float32 linearAttenuation);
     void setQuadraticAttenuation(edk::float32 quadraticAttenuation);
 
-    //get Position
+    //get the position of the light
     edk::float32 getPositionX();
     edk::float32 getPositionY();
     edk::float32 getPositionZ();
@@ -83,18 +84,4 @@ public:
 }//end namespace light
 }//end namespace edk
 
-#endif // LIGHT2D_H
-
-/*
-GU_SPOT_DIRECTION (0.0, 0.0, -1.0) (x, y, z) direction of spotlight
-
-GU_SPOT_EXPONENT 0.0 spotlight exponent
-
-GU_SPOT_CUTOFF 180.0 spotlight cutoff angle
-
-GU_CONSTANT_ATTENUATION 1.0 constant attenuation factor
-
-GU_LINEAR_ATTENUATION 0.0 linear attenuation factor
-
-GU_QUADRATIC_ATTENUATION 0.0 quadratic attenuation factor
-*/
+#endif // SPOT_H

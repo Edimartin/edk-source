@@ -785,65 +785,6 @@ void edk::shape::Polygon2D::draw(){
     edk::GU::guEnd();
     edk::GU::guPopMatrix();
 }
-//Draw the polygon with lights
-bool edk::shape::Polygon2D::drawWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],bool lightIsOn[][EDK_LIGHT_LIMIT]){
-    if(lightPositions && lightDirections && lightIsOn){
-        edk::GU::guPushMatrix();
-        edk::GU::guTranslate2f32(this->translate);
-        edk::GU::guRotateZf32(this->angle);
-        edk::GU::guScale2f32(this->scale);
-
-        edk::float32 lightPosition[4u];
-        edk::float32 lightDirection[4u];
-        edk::vec2f32 temp;
-
-        //translate the lights
-        for(edk::uint32 i=0u;i<EDK_LIGHT_LIMIT;i++){
-            if(*lightIsOn[i]){
-                //translate the light and direction
-                lightPosition[0u] = *lightPositions[i][0u] - this->translate.x;
-                lightPosition[1u] = *lightPositions[i][1u] - this->translate.x;
-                lightPosition[2u] = *lightPositions[i][2u];
-                lightPosition[3u] = *lightPositions[i][3u];
-                //
-                lightDirection[0u] = *lightDirections[i][0u] - this->translate.x;
-                lightDirection[1u] = *lightDirections[i][1u] - this->translate.x;
-                lightDirection[2u] = *lightDirections[i][2u];
-                lightDirection[3u] = *lightDirections[i][3u];
-
-                //scale
-                lightPosition[0u] *= (1.f/this->scale.width);
-                lightPosition[1u] *= (1.f/this->scale.height);
-
-                lightDirection[0u] *= (1.f/this->scale.width);
-                lightDirection[1u] *= (1.f/this->scale.height);
-
-                //rotate
-                temp = edk::Math::rotatePlus2f(edk::vec2f32(lightPosition[0u],lightPosition[1u])
-                        ,this->angle*-1.f
-                        );
-                lightPosition[0u] = temp.x;
-                lightPosition[1u] = temp.y;
-
-                temp = edk::Math::rotatePlus2f(edk::vec2f32(lightDirection[0u],lightDirection[1u])
-                        ,this->angle*-1.f
-                        );
-                lightDirection[0u] = temp.x;
-                lightDirection[1u] = temp.y;
-
-                edk::GU::guLightfv32(GU_LIGHT0+i,GU_POSITION,lightPosition);
-                edk::GU::guLightfv32(GU_LIGHT0+i,GU_SPOT_DIRECTION,lightDirection);
-            }
-        }
-
-        edk::GU::guBegin(GU_POLYGON);
-        this->drawVertexs();
-        edk::GU::guEnd();
-        edk::GU::guPopMatrix();
-        return true;
-    }
-    return false;
-}
 //Draw the polygon with lines
 void edk::shape::Polygon2D::drawWire(){
     edk::GU::guPushMatrix();

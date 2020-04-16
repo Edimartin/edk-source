@@ -315,9 +315,6 @@ protected:
 private:
     //Tree Static Vector
     edk::light::Light lights[EDK_LIGHT_LIMIT];
-    edk::float32 lightPositions[EDK_LIGHT_LIMIT][4u];
-    edk::float32 lightDirections[EDK_LIGHT_LIMIT][4u];
-    bool lightIsOn[EDK_LIGHT_LIMIT];
     //action group
     edk::animation::ActionGroup actions;
 

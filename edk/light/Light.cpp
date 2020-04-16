@@ -131,6 +131,67 @@ void edk::light::Light::setQuadraticAttenuation(edk::float32 quadraticAttenuatio
     this->quadraticAttenuation=quadraticAttenuation;
 }
 
+//get Position
+edk::float32 edk::light::Light::getPositionX(){
+    return this->position[0u];
+}
+edk::float32 edk::light::Light::getPositionY(){
+    return this->position[1u];
+}
+edk::float32 edk::light::Light::getPositionZ(){
+    return this->position[2u];
+}
+edk::float32 edk::light::Light::getPositionW(){
+    return this->position[3u];
+}
+edk::vec2f32 edk::light::Light::getPosition2f(){
+    return edk::vec2f32(this->position[0u],this->position[1u]);
+}
+edk::vec3f32 edk::light::Light::getPosition3f(){
+    return edk::vec3f32(this->position[0u],this->position[1u],this->position[2u]);
+}
+edk::vec4f32 edk::light::Light::getPosition4f(){
+    return edk::vec4f32(this->position[0u],this->position[1u],this->position[2u],this->position[3u]);
+}
+edk::float32 edk::light::Light::getDirectionX(){
+    return this->direction[0u];
+}
+edk::float32 edk::light::Light::getDirectionY(){
+    return this->direction[1u];
+}
+edk::float32 edk::light::Light::getDirectionZ(){
+    return this->direction[2u];
+}
+edk::float32 edk::light::Light::getDirectionW(){
+    return this->direction[3u];
+}
+edk::vec2f32 edk::light::Light::getDirection2f(){
+    return edk::vec2f32(this->direction[0u],this->direction[1u]);
+}
+edk::vec3f32 edk::light::Light::getDirection3f(){
+    return edk::vec3f32(this->direction[0u],this->direction[1u],this->direction[2u]);
+}
+edk::vec4f32 edk::light::Light::getDirection4f(){
+    return edk::vec4f32(this->direction[0u],this->direction[1u],this->direction[2u],this->direction[3u]);
+}
+
+//Spot Values
+edk::float32 edk::light::Light::getExponent(){
+    return this->exponent;
+}
+edk::float32 edk::light::Light::getCutoff(){
+    return this->cutoff;
+}
+edk::float32 edk::light::Light::getConstantAttenuation(){
+    return this->constantAttenuation;
+}
+edk::float32 edk::light::Light::getLinearAttenuation(){
+    return this->linearAttenuation;
+}
+edk::float32 edk::light::Light::getQuadraticAttenuation(){
+    return this->quadraticAttenuation;
+}
+
 //Set Colors
 void edk::light::Light::setAmbient(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
     this->ambient[0u] = r;this->ambient[1u] = g;this->ambient[2u] = b;this->ambient[3u] = a;
@@ -169,53 +230,41 @@ void edk::light::Light::setSpecular(edk::color3f32 color){
     return this->setSpecular(color.r,color.g,color.b);
 }
 
-//get Position
-edk::float32 edk::light::Light::getPositionX(){
-    return this->position[0u];
+edk::float32 edk::light::Light::getAmbientR(){
+    return this->ambient[0u];
 }
-edk::float32 edk::light::Light::getPositionY(){
-    return this->position[1u];
+edk::float32 edk::light::Light::getAmbientG(){
+    return this->ambient[1u];
 }
-edk::float32 edk::light::Light::getPositionZ(){
-    return this->position[2u];
+edk::float32 edk::light::Light::getAmbientB(){
+    return this->ambient[2u];
 }
-edk::vec2f32 edk::light::Light::getPosition2f(){
-    return edk::vec2f32(this->position[0u],this->position[1u]);
+edk::float32 edk::light::Light::getAmbientA(){
+    return this->ambient[3u];
 }
-edk::vec3f32 edk::light::Light::getPosition3f(){
-    return edk::vec3f32(this->position[0u],this->position[1u],this->position[2u]);
+edk::float32 edk::light::Light::getDiffuseR(){
+    return this->diffuse[0u];
 }
-edk::float32 edk::light::Light::getDirectionX(){
-    return this->direction[0u];
+edk::float32 edk::light::Light::getDiffuseG(){
+    return this->diffuse[1u];
 }
-edk::float32 edk::light::Light::getDirectionY(){
-    return this->direction[1u];
+edk::float32 edk::light::Light::getDiffuseB(){
+    return this->diffuse[2u];
 }
-edk::float32 edk::light::Light::getDirectionZ(){
-    return this->direction[2u];
+edk::float32 edk::light::Light::getDiffuseA(){
+    return this->diffuse[3u];
 }
-edk::vec2f32 edk::light::Light::getDirection2f(){
-    return edk::vec2f32(this->direction[0u],this->direction[1u]);
+edk::float32 edk::light::Light::getSpecularR(){
+    return this->specular[0u];
 }
-edk::vec3f32 edk::light::Light::getDirection3f(){
-    return edk::vec3f32(this->direction[0u],this->direction[1u],this->direction[2u]);
+edk::float32 edk::light::Light::getSpecularG(){
+    return this->specular[1u];
 }
-
-//Spot Values
-edk::float32 edk::light::Light::getExponent(){
-    return this->exponent;
+edk::float32 edk::light::Light::getSpecularB(){
+    return this->specular[2u];
 }
-edk::float32 edk::light::Light::getCutoff(){
-    return this->cutoff;
-}
-edk::float32 edk::light::Light::getConstantAttenuation(){
-    return this->constantAttenuation;
-}
-edk::float32 edk::light::Light::getLinearAttenuation(){
-    return this->linearAttenuation;
-}
-edk::float32 edk::light::Light::getQuadraticAttenuation(){
-    return this->quadraticAttenuation;
+edk::float32 edk::light::Light::getSpecularA(){
+    return this->specular[3u];
 }
 
 //DRAW THE LIGH USING THE LIGHT NUMBER

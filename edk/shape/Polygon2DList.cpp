@@ -888,29 +888,6 @@ void edk::shape::Polygon2DList::drawPolygons(){
         }
     }
 }
-//draw the mesh with lights
-void edk::shape::Polygon2DList::drawPolygonsWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
-edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
-bool lightIsOn[][EDK_LIGHT_LIMIT]){
-    //draw the polygons
-    for(edk::uint32 i=0u;i<this->polygons.size();i++){
-        //
-        if(this->polygons.havePos(i)){
-            if(this->polygons[i]->isTransforming()){
-                this->polygons[i]->drawWithLight(lightPositions,lightDirections,lightIsOn);
-            }
-            else{
-                for(edk::uint32 i=0u;i<EDK_LIGHT_LIMIT;i++){
-                    if(*lightIsOn[i]){
-                        edk::GU::guLightfv32(GU_LIGHT0+i,GU_POSITION,*lightPositions[i]);
-                        edk::GU::guLightfv32(GU_LIGHT0+i,GU_SPOT_DIRECTION,*lightDirections[i]);
-                    }
-                }
-                this->polygons[i]->draw();
-            }
-        }
-    }
-}
 //draw the polygons in wireframe
 void edk::shape::Polygon2DList::drawWirePolygons(){
     //draw the polygons

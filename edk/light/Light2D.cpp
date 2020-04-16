@@ -44,3 +44,23 @@ void edk::light::Light2D::setDirection(edk::float32 x,edk::float32 y){
 void edk::light::Light2D::setDirection(edk::vec2f32 direction){
     edk::light::Light::setDirection(direction);
 }
+
+//get Position
+edk::float32 edk::light::Light2D::getPositionX(){
+    return edk::light::Light::getPositionX();
+}
+edk::float32 edk::light::Light2D::getPositionY(){
+    return edk::light::Light::getPositionY();
+}
+edk::vec2f32 edk::light::Light2D::getPosition2f(){
+    return edk::light::Light::getPosition2f();
+}
+edk::float32 edk::light::Light2D::getDirectionX(){
+    return edk::light::Light::getDirectionX();
+}
+edk::float32 edk::light::Light2D::getDirectionY(){
+    return edk::light::Light::getDirectionY();
+}
+edk::vec2f32 edk::light::Light2D::getDirection2f(){
+    return edk::light::Light::getDirection2f();
+}

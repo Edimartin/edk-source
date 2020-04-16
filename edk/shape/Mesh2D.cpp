@@ -195,83 +195,6 @@ bool edk::shape::Mesh2D::selectedDrawOneTexture(edk::uint32 position){
     return false;
 }
 
-void edk::shape::Mesh2D::drawOneTextureWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
-edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
-bool lightIsOn[][EDK_LIGHT_LIMIT]){
-    //set the texture if have one
-    if(this->material.haveTexture()){
-        this->material.drawStartWithOneTexture();
-        //Draw the mesh
-        this->drawPolygonsWithLight(lightPositions,lightDirections,lightIsOn);
-
-        this->material.drawEndWithTexture();
-    }
-    else{
-        this->material.drawNoTexture();
-        //else just draw the mesh
-        this->drawPolygonsWithLight(lightPositions,lightDirections,lightIsOn);
-    }
-}
-void edk::shape::Mesh2D::drawOneTextureWithLight(edk::uint32 position,edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
-edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
-bool lightIsOn[][EDK_LIGHT_LIMIT]){
-    //set the texture if have one
-    if(this->material.haveTexture()){
-        this->material.drawStartWithOneTexture(position);
-        //Draw the mesh
-        this->drawPolygonsWithLight(lightPositions,lightDirections,lightIsOn);
-
-        this->material.drawEndWithTexture();
-    }
-    else{
-        this->material.drawNoTexture();
-        //else just draw the mesh
-        this->drawPolygonsWithLight(lightPositions,lightDirections,lightIsOn);
-    }
-}
-bool edk::shape::Mesh2D::selectedDrawOneTextureWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
-edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
-bool lightIsOn[][EDK_LIGHT_LIMIT]){
-    if(this->selected){
-        //set the texture if have one
-        if(this->material.haveTexture()){
-            this->material.drawStartWithOneTexture();
-            //Draw the mesh
-            this->selected->drawWithLight(lightPositions,lightDirections,lightIsOn);
-
-            this->material.drawEndWithTexture();
-        }
-        else{
-            this->material.drawNoTexture();
-            //else just draw the mesh
-            this->selected->drawWithLight(lightPositions,lightDirections,lightIsOn);
-        }
-        return true;
-    }
-    return false;
-}
-bool edk::shape::Mesh2D::selectedDrawOneTextureWithLight(edk::uint32 position,edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
-edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
-bool lightIsOn[][EDK_LIGHT_LIMIT]){
-    if(this->selected){
-        //set the texture if have one
-        if(this->material.haveTexture()){
-            this->material.drawStartWithOneTexture(position);
-            //Draw the mesh
-            this->selected->drawWithLight(lightPositions,lightDirections,lightIsOn);
-
-            this->material.drawEndWithTexture();
-        }
-        else{
-            this->material.drawNoTexture();
-            //else just draw the mesh
-            this->selected->drawWithLight(lightPositions,lightDirections,lightIsOn);
-        }
-        return true;
-    }
-    return false;
-}
-
 //draw the mesh
 void edk::shape::Mesh2D::drawMultiTexture(){
     //set the texture if have one
@@ -302,44 +225,6 @@ bool edk::shape::Mesh2D::selectedDrawMultiTexture(){
             this->material.drawNoTexture();
             //else just draw the mesh
             this->selected->draw();
-        }
-        return true;
-    }
-    return false;
-}
-void edk::shape::Mesh2D::drawMultiTextureWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
-edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
-bool lightIsOn[][EDK_LIGHT_LIMIT]){
-    //set the texture if have one
-    if(this->material.haveTexture()){
-        this->material.drawStartWithMultiTexture();
-        //Draw the mesh
-        this->drawPolygonsWithLight(lightPositions,lightDirections,lightIsOn);
-
-        this->material.drawEndWithTexture();
-    }
-    else{
-        this->material.drawNoTexture();
-        //else just draw the mesh
-        this->drawPolygonsWithLight(lightPositions,lightDirections,lightIsOn);
-    }
-}
-bool edk::shape::Mesh2D::selectedDrawMultiTextureWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
-edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
-bool lightIsOn[][EDK_LIGHT_LIMIT]){
-    if(selected){
-        //set the texture if have one
-        if(this->material.haveTexture()){
-            this->material.drawStartWithMultiTexture();
-            //Draw the mesh
-            this->selected->drawWithLight(lightPositions,lightDirections,lightIsOn);
-
-            this->material.drawEndWithTexture();
-        }
-        else{
-            this->material.drawNoTexture();
-            //else just draw the mesh
-            this->selected->drawWithLight(lightPositions,lightDirections,lightIsOn);
         }
         return true;
     }

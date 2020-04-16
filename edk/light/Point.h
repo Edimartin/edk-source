@@ -1,8 +1,8 @@
-#ifndef EDK_LIGHT_LIGHT2D_H
-#define EDK_LIGHT_LIGHT2D_H
+#ifndef POINT_H
+#define POINT_H
 
 /*
-Library Light2D - Control GU lights on the EDK Game Engine
+Library Point - Control GU point lights on the EDK Game Engine
 Copyright (C) 2013 Eduardo Moura Sales Martins
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -22,7 +22,7 @@ Gravatai RS Brazil 94065100
 */
 
 #ifdef printMessages
-#warning "Inside Light2D"
+#warning "Inside Point"
 #endif
 
 #pragma once
@@ -31,45 +31,32 @@ Gravatai RS Brazil 94065100
 #include "Light.h"
 
 #ifdef printMessages
-#warning "    Compiling Light2D"
+#warning "    Compiling Point"
 #endif
 
 namespace edk{
 namespace light{
-class Light2D : public edk::light::Light{
+class Point: public edk::light::Light{
 public:
-    Light2D();
+    Point();
+    ~Point();
+    //DRAW THE LIGH USING THE LIGHT NUMBER
+    virtual void draw(edk::uint32 lightNumber);
 
-    //Set the 2D Values
+    //Set the position of the light
+    void setPosition(edk::float32 x,edk::float32 y,edk::float32 z);
     void setPosition(edk::float32 x,edk::float32 y);
+    void setPosition(edk::vec3f32 position);
     void setPosition(edk::vec2f32 position);
-    void setZ(edk::float32 z);
-    void setDirection(edk::float32 x,edk::float32 y);
-    void setDirection(edk::vec2f32 direction);
 
-    //get Position
+    //get the position of the light
     edk::float32 getPositionX();
     edk::float32 getPositionY();
+    edk::float32 getPositionZ();
     edk::vec2f32 getPosition2f();
-    edk::float32 getDirectionX();
-    edk::float32 getDirectionY();
-    edk::vec2f32 getDirection2f();
+    edk::vec3f32 getPosition3f();
 };
 }//end namespace light
 }//end namespace edk
 
-#endif // LIGHT2D_H
-
-/*
-GU_SPOT_DIRECTION (0.0, 0.0, -1.0) (x, y, z) direction of spotlight
-
-GU_SPOT_EXPONENT 0.0 spotlight exponent
-
-GU_SPOT_CUTOFF 180.0 spotlight cutoff angle
-
-GU_CONSTANT_ATTENUATION 1.0 constant attenuation factor
-
-GU_LINEAR_ATTENUATION 0.0 linear attenuation factor
-
-GU_QUADRATIC_ATTENUATION 0.0 quadratic attenuation factor
-*/
+#endif // POINT_H

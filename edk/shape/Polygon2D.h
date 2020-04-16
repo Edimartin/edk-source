@@ -189,8 +189,6 @@ class Polygon2D{
         virtual void print();
         //Draw the polygon
         virtual void draw();
-        //Draw the polygon with lights
-        virtual bool drawWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],bool lightIsOn[][EDK_LIGHT_LIMIT]);
         //Draw the polygon with lines
         virtual void drawWire();
         //draw vertexs

@@ -170,11 +170,6 @@ public:
     virtual void printPolygons();
     //draw the mesh
     virtual void drawPolygons();
-    //draw the mesh with lights
-    virtual void drawPolygonsWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],
-    edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],
-    bool lightIsOn[][EDK_LIGHT_LIMIT]
-    );
     //draw the polygons in wireframe
     virtual void drawWirePolygons();
     virtual void drawVertexs(edk::color3f32 color = edk::color3f32(1,1,1));
