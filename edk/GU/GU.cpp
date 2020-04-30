@@ -1246,7 +1246,7 @@ void edk::GU::guRotate3f64( edk::float64 angle, edk::float64 x, edk::float64 y, 
 }
 void edk::GU::guRotateXf32(edk::float32 angle){
     //
-    edk::GU::guRotate3f32( angle, 1.0d, 0.0f, 0.0f );
+    edk::GU::guRotate3f32( angle, 1.0f, 0.0f, 0.0f );
 }
 void edk::GU::guRotateXf64(edk::float64 angle){
     //
@@ -1254,11 +1254,11 @@ void edk::GU::guRotateXf64(edk::float64 angle){
 }
 void edk::GU::guRotateYf32(edk::float32 angle){
     //
-    edk::GU::guRotate3f32( angle, 0.0f, 0.0f, 1.0f );
+    edk::GU::guRotate3f32( angle, 0.0f, 1.0f, 0.0f );
 }
 void edk::GU::guRotateYf64(edk::float64 angle){
     //
-    edk::GU::guRotate3f64( angle, 0.0, 0.0, 1.0 );
+    edk::GU::guRotate3f64( angle, 0.0, 1.0, 0.0 );
 }
 void edk::GU::guRotateZf32(edk::float32 angle){
     //

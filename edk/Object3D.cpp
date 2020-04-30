@@ -163,6 +163,24 @@ bool edk::Object3D::updatePolygonsNormals(){
     return false;
 }
 
+//rotate the object to look at the camera
+void edk::Object3D::lookAtPoint(edk::float32 x,edk::float32 y,edk::float32 z){
+    this->lookAtPoint(edk::vec3f32(x,y,z));
+}
+void edk::Object3D::lookAtPoint(edk::vec3f32 point){
+    //get the point angle
+    point-=this->position;
+    this->angle.x = 0.f;
+    this->angle.y = 0.f;
+    this->angle.z = 0.f;
+
+    //get the base angle
+    this->angle.y = edk::Math::getAngle2f(point.x,point.z) *-1.f;
+    //get the height angle
+    edk::vec2f32 newPosition = edk::Math::rotatePlus2f(edk::vec2f32(point.x,point.z),this->angle.y);
+    this->angle.z = edk::Math::getAngle2f(newPosition.x,point.y);
+}
+
 //LIGHT
 bool edk::Object3D::setLight(edk::uint32 position,edk::light::Light light){
     if(position<EDK_LIGHT_LIMIT){
@@ -603,9 +621,9 @@ void edk::Object3D::draw(){
     //add translate
     edk::GU::guTranslate3f32(this->position);
     //add rotation
-    edk::GU::guRotateZf32(this->angle.z);
-    edk::GU::guRotateYf32(this->angle.y);
     edk::GU::guRotateXf32(this->angle.x);
+    edk::GU::guRotateYf32(this->angle.y);
+    edk::GU::guRotateZf32(this->angle.z);
     //add scale
     edk::GU::guScale3f32(this->size);
     //set the pivo
@@ -629,9 +647,9 @@ void edk::Object3D::drawWithoutMaterial(){
     //add translate
     edk::GU::guTranslate3f32(this->position);
     //add rotation
-    edk::GU::guRotateZf32(this->angle.z);
-    edk::GU::guRotateYf32(this->angle.y);
     edk::GU::guRotateXf32(this->angle.x);
+    edk::GU::guRotateYf32(this->angle.y);
+    edk::GU::guRotateZf32(this->angle.z);
     //add scale
     edk::GU::guScale3f32(this->size);
     //set the pivo
@@ -666,9 +684,9 @@ void edk::Object3D::drawWithoutMaterialWithLight(){
     //add translate
     edk::GU::guTranslate3f32(this->position);
     //add rotation
-    edk::GU::guRotateZf32(this->angle.z);
-    edk::GU::guRotateYf32(this->angle.y);
     edk::GU::guRotateXf32(this->angle.x);
+    edk::GU::guRotateYf32(this->angle.y);
+    edk::GU::guRotateZf32(this->angle.z);
     //add scale
     edk::GU::guScale3f32(this->size);
     //set the pivo
@@ -691,9 +709,9 @@ void edk::Object3D::drawWire(){
     //add translate
     edk::GU::guTranslate3f32(this->position);
     //add rotation
-    edk::GU::guRotateZf32(this->angle.z);
-    edk::GU::guRotateYf32(this->angle.y);
     edk::GU::guRotateXf32(this->angle.x);
+    edk::GU::guRotateYf32(this->angle.y);
+    edk::GU::guRotateZf32(this->angle.z);
     //add scale
     edk::GU::guScale3f32(this->size);
     //set the pivo
@@ -709,9 +727,9 @@ void edk::Object3D::drawNormals(){
     //add translate
     edk::GU::guTranslate3f32(this->position);
     //add rotation
-    edk::GU::guRotateZf32(this->angle.z);
-    edk::GU::guRotateYf32(this->angle.y);
     edk::GU::guRotateXf32(this->angle.x);
+    edk::GU::guRotateYf32(this->angle.y);
+    edk::GU::guRotateZf32(this->angle.z);
     //add scale
     edk::GU::guScale3f32(this->size);
     //set the pivo
@@ -727,9 +745,9 @@ void edk::Object3D::drawNormalsWithColor(edk::color3f32 color){
     //add translate
     edk::GU::guTranslate3f32(this->position);
     //add rotation
-    edk::GU::guRotateZf32(this->angle.z);
-    edk::GU::guRotateYf32(this->angle.y);
     edk::GU::guRotateXf32(this->angle.x);
+    edk::GU::guRotateYf32(this->angle.y);
+    edk::GU::guRotateZf32(this->angle.z);
     //add scale
     edk::GU::guScale3f32(this->size);
     //set the pivo

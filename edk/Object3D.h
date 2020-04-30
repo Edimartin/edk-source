@@ -88,6 +88,10 @@ public:
     //update the polygons normals
     bool updatePolygonsNormals();
 
+    //rotate the object to look at the camera
+    void lookAtPoint(edk::float32 x,edk::float32 y,edk::float32 z);
+    void lookAtPoint(edk::vec3f32 point);
+
     //LIGHT
     bool setLight(edk::uint32 position,edk::light::Light light);
     bool cleanLight(edk::uint32 position);

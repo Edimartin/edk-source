@@ -73,10 +73,8 @@ bool edk::shape::Rectangle2D::createPolygon(){
 }
 
 //Virtual Functions
-bool edk::shape::Rectangle2D::createPolygon(edk::uint32 vertexCount){
-    //set the function to do nothing but return true to think he create
-    if(vertexCount)
-        return true;
+bool edk::shape::Rectangle2D::createPolygon(edk::uint32){
+    //set the function to return false
     return false;
 }
 void edk::shape::Rectangle2D::deletePolygon(){
