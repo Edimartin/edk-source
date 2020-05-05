@@ -198,6 +198,11 @@ class GU_GLSL{
     static void guData4f32(edk::int32 id,edk::vec4f32 d);
     static void guData4f32(edk::int32 id,edk::float32 d0,edk::float32 d1,edk::float32 d2,edk::float32 d3);
 
+    //MATRICES
+    static void guMatrix2f32(edk::int32 id,edk::float32* mat);
+    static void guMatrix3f32(edk::int32 id,edk::float32* mat);
+    static void guMatrix4f32(edk::int32 id,edk::float32* mat);
+
     //format
     //GU_STENCIL_INDEX
     //GU_DEPTH_COMPONENT

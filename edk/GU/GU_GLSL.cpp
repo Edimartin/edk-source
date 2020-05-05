@@ -114,6 +114,17 @@ void edk::GU_GLSL::guData3f32(edk::int32 id,edk::float32 d0,edk::float32 d1,edk:
 void edk::GU_GLSL::guData4f32(edk::int32 id,edk::vec4f32 d){glUniform4f(id,d.x,d.y,d.z,d.w);}
 void edk::GU_GLSL::guData4f32(edk::int32 id,edk::float32 d0,edk::float32 d1,edk::float32 d2,edk::float32 d3){glUniform4f(id,d0,d1,d2,d3);}
 
+//MATRICES
+void edk::GU_GLSL::guMatrix2f32(edk::int32 id,edk::float32* mat){
+    glUniformMatrix2fv(id,1u, false,mat);
+}
+void edk::GU_GLSL::guMatrix3f32(edk::int32 id,edk::float32* mat){
+    glUniformMatrix3fv(id,1u, false,mat);
+}
+void edk::GU_GLSL::guMatrix4f32(edk::int32 id,edk::float32* mat){
+    glUniformMatrix4fv(id,1u, false,mat);
+}
+
 bool edk::GU_GLSL::guReadTexture(edk::uint32 ID,edk::uint32 format,const edk::classID  data){
     //test the ID
     if(ID){
