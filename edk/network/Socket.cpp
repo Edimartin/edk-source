@@ -82,7 +82,7 @@ edk::network::Adress::Adress(edk::char8* str,edk::uint16 port){
     this->setIP(str);
     this->setPort(port);
 }
-edk::network::Adress::Adress(const char* str,edk::uint16 port){
+edk::network::Adress::Adress(const edk::char8* str,edk::uint16 port){
     this->ip=0u;
     this->port=0u;
     this->setIP(str);
@@ -120,7 +120,7 @@ edk::uint32 edk::network::Adress::getIpByInterfaceName(edk::char8* name){
 #endif
     return 0u;
 }
-edk::uint32 edk::network::Adress::getIpByInterfaceName(const char* name){
+edk::uint32 edk::network::Adress::getIpByInterfaceName(const edk::char8* name){
     return edk::network::Adress::getIpByInterfaceName((edk::char8*) name);
 }
 //set the IP
@@ -151,7 +151,7 @@ bool edk::network::Adress::setIP(edk::char8* str){
     }
     return false;
 }
-bool edk::network::Adress::setIP(const char* str){
+bool edk::network::Adress::setIP(const edk::char8* str){
     return this->setIP((edk::char8*) str);
 }
 //set the port
@@ -221,7 +221,7 @@ edk::uint32 edk::network::Adress::getIP(edk::char8* str){
     }
     return 0u;
 }
-edk::uint32 edk::network::Adress::getIP(const char* str){
+edk::uint32 edk::network::Adress::getIP(const edk::char8* str){
     return edk::network::Adress::getIP((edk::char8*) str);
 }
 //return the IP by the name
@@ -232,7 +232,7 @@ edk::uint32 edk::network::Adress::getIpByName(edk::char8* name){
         hostent *host=NULL;
 
         //carrega o host pelo nome
-        host = gethostbyname((const char*)name);
+        host = gethostbyname((const edk::char8*)name);
         //testa se carregou o host
         if(host){
             //testa o tamanho do ip
@@ -251,7 +251,7 @@ edk::uint32 edk::network::Adress::getIpByName(edk::char8* name){
     }
     return 0u;
 }
-edk::uint32 edk::network::Adress::getIpByName(const char* name){
+edk::uint32 edk::network::Adress::getIpByName(const edk::char8* name){
     return edk::network::Adress::getIpByName((edk::char8*) name);
 }
 //return the ipMachine
@@ -312,13 +312,13 @@ edk::int32 edk::network::Socket::sendStream(edk::network::Adress host,const void
 edk::int32 edk::network::Socket::sendStream(edk::char8* ip,edk::uint16 port,edk::classID stream,edk::uint32 size){
     return this->sendStream(edk::network::Adress(ip,port),stream,size);
 }
-edk::int32 edk::network::Socket::sendStream(const char* ip,edk::uint16 port,edk::classID stream,edk::uint32 size){
+edk::int32 edk::network::Socket::sendStream(const edk::char8* ip,edk::uint16 port,edk::classID stream,edk::uint32 size){
     return this->sendStream((edk::char8*) ip,port,stream,size);
 }
 edk::int32 edk::network::Socket::sendStream(edk::char8* ip,edk::uint16 port,const void* stream,edk::uint32 size){
     return this->sendStream(ip,port,(edk::classID) stream,size);
 }
-edk::int32 edk::network::Socket::sendStream(const char* ip,edk::uint16 port,const void* stream,edk::uint32 size){
+edk::int32 edk::network::Socket::sendStream(const edk::char8* ip,edk::uint16 port,const void* stream,edk::uint32 size){
     return this->sendStream((edk::char8*) ip,port,(edk::classID) stream,size);
 }
 
@@ -411,7 +411,7 @@ struct sockaddr_in edk::network::Socket::getAdress(edk::uint32 IP){
     return this->getAdress(host);
 }
 //Carrega o host pelo IP
-struct sockaddr_in edk::network::Socket::getAdress(const char* host){
+struct sockaddr_in edk::network::Socket::getAdress(const edk::char8* host){
     return this->getAdress((edk::char8*) host);
 }
 struct sockaddr_in edk::network::Socket::getAdress(edk::char8* host){
@@ -420,7 +420,7 @@ struct sockaddr_in edk::network::Socket::getAdress(edk::char8* host){
     this->cleanAdress(&ret);
 
     //carrega o host
-    struct hostent *hosten=gethostbyname((const char*)host);
+    struct hostent *hosten=gethostbyname((const edk::char8*)host);
     if(host){
         //carrega o IP do host
         ret.sin_addr = *((struct in_addr *)hosten->h_addr);
@@ -437,7 +437,7 @@ edk::int32 edk::network::Socket::sendStream(edk::int32 socket,
         edk::int32 ret =
                 //send the message
         #if _WIN32 || _WIN64
-                send(socket,(const char*)stream,size, 0);
+                send(socket,(const edk::char8*)stream,size, 0);
 #else
                 send(socket,stream,size, MSG_EOR|MSG_NOSIGNAL);
 #endif

@@ -24,7 +24,7 @@ bool edk::codecs::DecoderImage::decode(const unsigned char* encoded,edk::uint32 
 }
 
 //decode from file
-bool edk::codecs::DecoderImage::decodeFromFile(const char* fileName){
+bool edk::codecs::DecoderImage::decodeFromFile(const edk::char8* fileName){
     return this->decodeFromFile((edk::char8*) fileName);
 }
 bool edk::codecs::DecoderImage::decodeFromFile(edk::char8* fileName){

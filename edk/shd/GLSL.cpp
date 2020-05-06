@@ -366,7 +366,7 @@ bool edk::shd::GLSL::checkCompilationStatus(edk::uint32 id){
 
 //LOAD
 //load a shader from a file
-bool edk::shd::GLSL::loadShaderFromFile(const char* name){
+bool edk::shd::GLSL::loadShaderFromFile(const edk::char8* name){
     return this->loadShaderFromFile((edk::char8*) name);
 }
 bool edk::shd::GLSL::loadShaderFromFile(edk::char8* name){
@@ -417,7 +417,7 @@ bool edk::shd::GLSL::loadShaderFromFile(edk::char8* name){
     //else return false
     return false;
 }
-bool edk::shd::GLSL::loadShaderFromMemory(const char* name,edk::uint8* data,edk::uint32 size,edk::shd::shaderType type){
+bool edk::shd::GLSL::loadShaderFromMemory(const edk::char8* name,edk::uint8* data,edk::uint32 size,edk::shd::shaderType type){
     //
     return this->loadShaderFromMemory((edk::char8*) name,data,size,type);
 }
@@ -474,7 +474,7 @@ bool edk::shd::GLSL::loadShaderFromMemory(edk::char8* name,edk::uint8* data,edk:
     return false;
 }
 //create the shaderProgram
-bool edk::shd::GLSL::createProgram(const char* name){
+bool edk::shd::GLSL::createProgram(const edk::char8* name){
     return this->createProgram((edk::char8*) name);
 }
 bool edk::shd::GLSL::createProgram(edk::char8* name){

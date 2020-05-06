@@ -74,7 +74,7 @@ bool edk::GU_GLSL::guShaderSource(edk::uint32 id, edk::uint8 *data,  edk::uint32
     //
     if(id && data && length){
         //set the shaderSource
-        glShaderSource(id,  1u,  (const char**)(&data),  (const GLint*)&length);
+        glShaderSource(id,  1u,  (const edk::char8**)(&data),  (const GLint*)&length);
         //return true
         return true;
     }
@@ -162,10 +162,10 @@ void edk::GU_GLSL::guVertexData4f32(edk::int32 id,edk::float32 d0,edk::float32 d
 
 //return the data location
 edk::int32 edk::GU_GLSL::guGetDataLocation(edk::uint32 program, const char *name){return glGetUniformLocation(program,name);}
-edk::int32 edk::GU_GLSL::guGetDataLocation(edk::uint32 program, edk::char8* name){return glGetUniformLocation(program,(const char*)name);}
+edk::int32 edk::GU_GLSL::guGetDataLocation(edk::uint32 program, edk::char8* name){return glGetUniformLocation(program,(const edk::char8*)name);}
 //return the vertexData location
 edk::int32 edk::GU_GLSL::guGetVertexDataLocation(edk::uint32 program, const char *name){return glGetAttribLocation(program,name);}
-edk::int32 edk::GU_GLSL::guGetVertexDataLocation(edk::uint32 program, edk::char8* name){return glGetAttribLocation(program,(const char*)name);}
+edk::int32 edk::GU_GLSL::guGetVertexDataLocation(edk::uint32 program, edk::char8* name){return glGetAttribLocation(program,(const edk::char8*)name);}
 
 //Errors
 edk::char8* edk::GU_GLSL::guGetErrorString(edk::int32 error){return (edk::char8*)glewGetErrorString(error);}

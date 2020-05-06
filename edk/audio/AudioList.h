@@ -43,11 +43,11 @@ class AudioList{
 
         //LOAD
         //Load the audio. If are loaded, just return the
-        bool loadAudio(const char* name, edk::AudioBuffer** retainAudio);
+        bool loadAudio(const edk::char8* name, edk::AudioBuffer** retainAudio);
         bool loadAudio(edk::char8* name, edk::AudioBuffer** retainAudio);
-        bool loadAudioFromMemory(const char* name,edk::classID vector,edk::uint32 size, edk::AudioBuffer** retainAudio);
+        bool loadAudioFromMemory(const edk::char8* name,edk::classID vector,edk::uint32 size, edk::AudioBuffer** retainAudio);
         bool loadAudioFromMemory(edk::char8* name,edk::classID vector,edk::uint32 size, edk::AudioBuffer** retainAudio);
-        bool loadAudioFromPack(edk::pack::FilePackage* pack,const char* name, edk::AudioBuffer** retainAudio);
+        bool loadAudioFromPack(edk::pack::FilePackage* pack,const edk::char8* name, edk::AudioBuffer** retainAudio);
         bool loadAudioFromPack(edk::pack::FilePackage* pack,edk::char8* name, edk::AudioBuffer** retainAudio);
         //remove audio. Release the audio file
         bool removeAudio(edk::AudioBuffer** retainAudio);

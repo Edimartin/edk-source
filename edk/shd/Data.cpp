@@ -259,13 +259,13 @@ void edk::shd::Data::setMatrix3f(edk::float32 f11,edk::float32 f12,edk::float32 
     this->useMatrix = edk::shd::matrix3;
 }
 void edk::shd::Data::setMatrix4f(edk::float32 mat[4u][4u]){
-    this->setMatrix3f(mat[0u][0u],mat[0u][1u],mat[0u][2u],mat[0u][3u],
+    this->setMatrix4f(mat[0u][0u],mat[0u][1u],mat[0u][2u],mat[0u][3u],
             mat[1u][0u],mat[1u][1u],mat[1u][2u],mat[1u][3u],
             mat[2u][0u],mat[2u][1u],mat[2u][2u],mat[2u][3u],
             mat[3u][0u],mat[3u][1u],mat[3u][2u],mat[3u][3u]
             );
 }
-void edk::shd::Data::setMatrix3f(edk::float32 f11,edk::float32 f12,edk::float32 f13,edk::float32 f14,
+void edk::shd::Data::setMatrix4f(edk::float32 f11,edk::float32 f12,edk::float32 f13,edk::float32 f14,
                                  edk::float32 f21,edk::float32 f22,edk::float32 f23,edk::float32 f24,
                                  edk::float32 f31,edk::float32 f32,edk::float32 f33,edk::float32 f34,
                                  edk::float32 f41,edk::float32 f42,edk::float32 f43,edk::float32 f44

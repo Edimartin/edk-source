@@ -204,7 +204,7 @@ void edk::ViewButton::removeCallback(){
 }
 
 //LOAD SPRITES
-bool edk::ViewButton::loadSpritePressed(const char* name,edk::uint32 filter){
+bool edk::ViewButton::loadSpritePressed(const edk::char8* name,edk::uint32 filter){
     //
     return loadSpritePressed((edk::char8*)name,filter);
 }
@@ -221,7 +221,7 @@ bool edk::ViewButton::loadSpritePressed(edk::char8* name,edk::uint32 filter){
     //else return false
     return false;
 }
-bool edk::ViewButton::loadSpritePressedFromMemory(const char* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
+bool edk::ViewButton::loadSpritePressedFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
     return this->loadSpritePressedFromMemory((edk::char8*) name,sprite,size,filter);
 }
 bool edk::ViewButton::loadSpritePressedFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
@@ -237,7 +237,7 @@ bool edk::ViewButton::loadSpritePressedFromMemory(edk::char8* name,edk::uint8* s
     //else return false
     return false;
 }
-bool edk::ViewButton::loadSpritePressedFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint32 filter){
+bool edk::ViewButton::loadSpritePressedFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 filter){
     return this->loadSpritePressedFromPack(pack,(edk::char8* )name,filter);
 }
 bool edk::ViewButton::loadSpritePressedFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter){
@@ -254,7 +254,7 @@ bool edk::ViewButton::loadSpritePressedFromPack(edk::pack::FilePackage* pack,edk
     return false;
 }
 //load UP sprite
-bool edk::ViewButton::loadSpriteUp(const char* name,edk::uint32 filter){
+bool edk::ViewButton::loadSpriteUp(const edk::char8* name,edk::uint32 filter){
     //
     return loadSpriteUp((edk::char8*)name,filter);
 }
@@ -270,7 +270,7 @@ bool edk::ViewButton::loadSpriteUp(edk::char8* name,edk::uint32 filter){
     //else return false
     return false;
 }
-bool edk::ViewButton::loadSpriteUpFromMemory(const char* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
+bool edk::ViewButton::loadSpriteUpFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
     return this->loadSpriteUpFromMemory((edk::char8*) name,sprite,size,filter);
 }
 bool edk::ViewButton::loadSpriteUpFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
@@ -285,7 +285,7 @@ bool edk::ViewButton::loadSpriteUpFromMemory(edk::char8* name,edk::uint8* sprite
     //else return false
     return false;
 }
-bool edk::ViewButton::loadSpriteUpFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint32 filter){
+bool edk::ViewButton::loadSpriteUpFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 filter){
     return this->loadSpriteUpFromPack(pack,(edk::char8*) name,filter);
 }
 bool edk::ViewButton::loadSpriteUpFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter){
@@ -302,7 +302,7 @@ bool edk::ViewButton::loadSpriteUpFromPack(edk::pack::FilePackage* pack,edk::cha
 }
 
 //Load button symbol normal
-bool edk::ViewButton::loadSymbol(const char* name,edk::uint32 filter){
+bool edk::ViewButton::loadSymbol(const edk::char8* name,edk::uint32 filter){
     return this->loadSymbol((edk::char8*)name,filter);
 }
 bool edk::ViewButton::loadSymbol(edk::char8* name,edk::uint32 filter){
@@ -317,7 +317,7 @@ bool edk::ViewButton::loadSymbol(edk::char8* name,edk::uint32 filter){
     }
     return false;
 }
-bool edk::ViewButton::loadSymbolFromMemory(const char* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
+bool edk::ViewButton::loadSymbolFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
     return this->loadSymbolFromMemory((edk::char8*) name,sprite,size,filter);
 }
 bool edk::ViewButton::loadSymbolFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
@@ -332,7 +332,7 @@ bool edk::ViewButton::loadSymbolFromMemory(edk::char8* name,edk::uint8* sprite,e
     }
     return false;
 }
-bool edk::ViewButton::loadSymbolFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint32 filter){
+bool edk::ViewButton::loadSymbolFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 filter){
     return this->loadSymbolFromPack(pack,(edk::char8*) name,filter);
 }
 bool edk::ViewButton::loadSymbolFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter){
@@ -348,7 +348,7 @@ bool edk::ViewButton::loadSymbolFromPack(edk::pack::FilePackage* pack,edk::char8
     return false;
 }
 //Load button symbol pressed
-bool edk::ViewButton::loadSymbolPressed(const char* name,edk::uint32 filter){
+bool edk::ViewButton::loadSymbolPressed(const edk::char8* name,edk::uint32 filter){
     return this->loadSymbol((edk::char8*) name,filter);
 }
 bool edk::ViewButton::loadSymbolPressed(edk::char8* name,edk::uint32 filter){
@@ -360,7 +360,7 @@ bool edk::ViewButton::loadSymbolPressed(edk::char8* name,edk::uint32 filter){
     }
     return false;
 }
-bool edk::ViewButton::loadSymbolPressedFromMemory(const char* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
+bool edk::ViewButton::loadSymbolPressedFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
     return this->loadSymbolPressedFromMemory((edk::char8*) name,sprite,size,filter);
 }
 bool edk::ViewButton::loadSymbolPressedFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
@@ -372,7 +372,7 @@ bool edk::ViewButton::loadSymbolPressedFromMemory(edk::char8* name,edk::uint8* s
     }
     return false;
 }
-bool edk::ViewButton::loadSymbolPressedFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint32 filter){
+bool edk::ViewButton::loadSymbolPressedFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 filter){
     return this->loadSymbolPressedFromPack(pack,(edk::char8*) name,filter);
 }
 bool edk::ViewButton::loadSymbolPressedFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter){
@@ -385,7 +385,7 @@ bool edk::ViewButton::loadSymbolPressedFromPack(edk::pack::FilePackage* pack,edk
     return false;
 }
 //Load button symbol up
-bool edk::ViewButton::loadSymbolUp(const char* name,edk::uint32 filter){
+bool edk::ViewButton::loadSymbolUp(const edk::char8* name,edk::uint32 filter){
     return this->loadSymbolUp((edk::char8*) name,filter);
 }
 bool edk::ViewButton::loadSymbolUp(edk::char8* name,edk::uint32 filter){
@@ -397,7 +397,7 @@ bool edk::ViewButton::loadSymbolUp(edk::char8* name,edk::uint32 filter){
     }
     return false;
 }
-bool edk::ViewButton::loadSymbolUpFromMemory(const char* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
+bool edk::ViewButton::loadSymbolUpFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
     return this->loadSymbolUpFromMemory((edk::char8*) name,sprite,size,filter);
 }
 bool edk::ViewButton::loadSymbolUpFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
@@ -409,7 +409,7 @@ bool edk::ViewButton::loadSymbolUpFromMemory(edk::char8* name,edk::uint8* sprite
     }
     return false;
 }
-bool edk::ViewButton::loadSymbolUpFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint32 filter){
+bool edk::ViewButton::loadSymbolUpFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 filter){
     return this->loadSymbolUpFromPack(pack,(edk::char8*) name,filter);
 }
 bool edk::ViewButton::loadSymbolUpFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter){
@@ -502,20 +502,20 @@ bool edk::ViewButton::isOn(){
 
 //TEXT
 //add the text to the button
-bool edk::ViewButton::writeText(const char* str){
+bool edk::ViewButton::writeText(const edk::char8* str){
     return this->writeText((edk::char8*) str);
 }
 bool edk::ViewButton::writeText(edk::char8* str){
     return this->text.createStringMap(str);
 }
 //load the textFont
-bool edk::ViewButton::loadFontImage(const char* name,edk::uint32 filter,edk::color4f32 color){
+bool edk::ViewButton::loadFontImage(const edk::char8* name,edk::uint32 filter,edk::color4f32 color){
     return this->loadFontImage((edk::char8*) name,filter,color);
 }
 bool edk::ViewButton::loadFontImage(edk::char8* name,edk::uint32 filter,edk::color4f32 color){
     return this->text.loadFontImage(name,filter,color);
 }
-bool edk::ViewButton::loadFontImageFromMemory(const char* name,
+bool edk::ViewButton::loadFontImageFromMemory(const edk::char8* name,
                                               edk::uint8* image,
                                               edk::uint32 size,
                                               edk::uint32 filter,

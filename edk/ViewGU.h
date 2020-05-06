@@ -57,10 +57,10 @@ class ViewGU: public edk::ViewSpriteController{
         virtual ~ViewGU();
 
         //load the background
-        bool loadBackground(const char* name);
+        bool loadBackground(const edk::char8* name);
         bool loadBackground(edk::char8* name);
         //load the sprite from memory
-        bool loadBackgroundFromMemory(const char* name,edk::uint8* sprite,edk::uint32 size);
+        bool loadBackgroundFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 size);
         bool loadBackgroundFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size);
         //laod the sprite from pack
         bool loadBackgroundFromPack(edk::pack::FilePackage* pack, edk::char8* name);

@@ -119,11 +119,11 @@ public:
     void cleanFilterOut();
 
     //write text to clean the originID and cursorID
-    bool writeText(const char* text);
+    bool writeText(const edk::char8* text);
     bool writeText(edk::char8* text);
-    bool writeText(const char* text,edk::float32 scaleWidth,edk::float32 scaleHeight);
+    bool writeText(const edk::char8* text,edk::float32 scaleWidth,edk::float32 scaleHeight);
     bool writeText(edk::char8* text,edk::float32 scaleWidth,edk::float32 scaleHeight);
-    bool writeText(const char* text,edk::size2f32 scale);
+    bool writeText(const edk::char8* text,edk::size2f32 scale);
     bool writeText(edk::char8* text,edk::size2f32 scale);
     void cleanText();
     //remove or delete characters

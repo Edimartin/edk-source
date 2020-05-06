@@ -141,7 +141,7 @@ edk::network::networkCodes edk::network::tcp::ServerTCP::startListen(edk::uint16
 
 
 #if _WIN32 || _WIN64
-        setsockopt (this->getSocket(), SOL_SOCKET, SO_REUSEADDR, (const char*)&on, sizeof (on));
+        setsockopt (this->getSocket(), SOL_SOCKET, SO_REUSEADDR, (const edk::char8*)&on, sizeof (on));
 
 #else
         setsockopt (this->getSocket(), SOL_SOCKET, SO_REUSEADDR, &on, sizeof (on));
@@ -197,7 +197,7 @@ edk::int32 edk::network::tcp::ServerTCP::sendStream(edk::network::Adress host,ed
 edk::int32 edk::network::tcp::ServerTCP::sendString(edk::network::Adress host,edk::char8* string){
     return this->sendStream(host,string,edk::String::strSize(string)+1u);
 }
-edk::int32 edk::network::tcp::ServerTCP::sendString(edk::network::Adress host,const char* string){
+edk::int32 edk::network::tcp::ServerTCP::sendString(edk::network::Adress host,const edk::char8* string){
     return this->sendString(host,(edk::char8*) string);
 }
 //Receive the message

@@ -229,7 +229,7 @@ private:
 
     //imageFileNameFunctions
     void setFileName(edk::char8* imageFileName);
-    void setFileName(const char* imageFileName);
+    void setFileName(const edk::char8* imageFileName);
     void deleteFileName();
     //discover the imageType
     edk::uint8 getStreamType(edk::uint8* encoded);

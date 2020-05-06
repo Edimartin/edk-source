@@ -217,17 +217,17 @@ public:
     ~SQL();
 
     //open dataBase
-    bool openDataBase(const char* name);
+    bool openDataBase(const edk::char8* name);
     bool openDataBase(edk::char8* name);
     //create a new dataBase (it will delete the file with the same name)
-    bool newDataBase(const char* name);
+    bool newDataBase(const edk::char8* name);
     bool newDataBase(edk::char8* name);
     //delete dataBase
-    bool deleteDataBase(const char* name);
+    bool deleteDataBase(const edk::char8* name);
     bool deleteDataBase(edk::char8* name = NULL);
 
     //execute a command
-    bool execute(const char* command,SQLGroup* callback = NULL);
+    bool execute(const edk::char8* command,SQLGroup* callback = NULL);
     bool execute(edk::char8* command,SQLGroup* callback = NULL);
 
     //return true if have a dataBase

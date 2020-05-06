@@ -74,13 +74,13 @@ public:
     Adress(edk::uchar8 n1,edk::uchar8 n2,edk::uchar8 n3,edk::uchar8 n4,edk::uint16 port);
     Adress(edk::uint32 ip,edk::uint16 port);
     Adress(edk::char8* str,edk::uint16 port);
-    Adress(const char* str,edk::uint16 port);
+    Adress(const edk::char8* str,edk::uint16 port);
     //Adress Functions
     //set the IP
     bool setIP(edk::uchar8 n1,edk::uchar8 n2,edk::uchar8 n3,edk::uchar8 n4);
     bool setIP(edk::uint32 ip);
     bool setIP(edk::char8* str);
-    bool setIP(const char* str);
+    bool setIP(const edk::char8* str);
     //set the port
     bool setPort(edk::uint16 port);
     //return the IP
@@ -131,10 +131,10 @@ public:
     //Convert to IP
     static edk::uint32 getIP(edk::uchar8 n1,edk::uchar8 n2,edk::uchar8 n3,edk::uchar8 n4);
     static edk::uint32 getIP(edk::char8* str);
-    static edk::uint32 getIP(const char* str);
+    static edk::uint32 getIP(const edk::char8* str);
     //return the IP by the name
     static edk::uint32 getIpByName(edk::char8* name);
-    static edk::uint32 getIpByName(const char* name);
+    static edk::uint32 getIpByName(const edk::char8* name);
     //return the ipMachine
     static edk::uint32 getMyIP();
     //convert ipToString
@@ -148,7 +148,7 @@ private:
     edk::uint32 ip;
     //return the IP by the interface name
     static edk::uint32 getIpByInterfaceName(edk::char8* name);
-    static edk::uint32 getIpByInterfaceName(const char* name);
+    static edk::uint32 getIpByInterfaceName(const edk::char8* name);
 };
 
 
@@ -162,9 +162,9 @@ public:
     virtual edk::int32 sendStream(edk::network::Adress host,edk::classID stream,edk::uint32 size)=0;
     edk::int32 sendStream(edk::network::Adress host,const void* stream,edk::uint32 size);
     edk::int32 sendStream(edk::char8* ip,edk::uint16 port,edk::classID stream,edk::uint32 size);
-    edk::int32 sendStream(const char* ip,edk::uint16 port,edk::classID stream,edk::uint32 size);
+    edk::int32 sendStream(const edk::char8* ip,edk::uint16 port,edk::classID stream,edk::uint32 size);
     edk::int32 sendStream(edk::char8* ip,edk::uint16 port,const void* stream,edk::uint32 size);
-    edk::int32 sendStream(const char* ip,edk::uint16 port,const void* stream,edk::uint32 size);
+    edk::int32 sendStream(const edk::char8* ip,edk::uint16 port,const void* stream,edk::uint32 size);
     //Recebe uma mensagem
     virtual edk::int32 receiveStream(edk::classID stream,edk::uint32 size,edk::network::Adress* host)=0;
 protected:
@@ -184,7 +184,7 @@ protected:
     //Carrega o host pelo IP
     struct sockaddr_in getAdress(edk::uint32 IP);
     //Carrega o host pelo IP
-    struct sockaddr_in getAdress(const char* host);
+    struct sockaddr_in getAdress(const edk::char8* host);
     struct sockaddr_in getAdress(edk::char8* host);
     //Adress used by the socket
     struct sockaddr_in sockAdress;

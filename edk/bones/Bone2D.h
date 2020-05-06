@@ -51,7 +51,7 @@ class Bone2D : public edk::Name{
 public:
     Bone2D();
     Bone2D(edk::char8* name);
-    Bone2D(const char* name);
+    Bone2D(const edk::char8* name);
     ~Bone2D();
     edk::vec2f32 position;
     edk::vec2f32 vector;
@@ -69,7 +69,7 @@ public:
     //remove next
     bool removeNext(edk::bones::Bone2D* next);
     //remove by the name
-    bool removeNextByName(const char* name);
+    bool removeNextByName(const edk::char8* name);
     bool removeNextByName(edk::char8* name);
     //remove all nexts
     void removeAllNexts();
@@ -116,21 +116,21 @@ public:
     void loopOff();
     void printFrames();
     //ANIMATIONNAMES
-    bool addNewAnimationName(const char* name, edk::float32 start,edk::float32 end);
+    bool addNewAnimationName(const edk::char8* name, edk::float32 start,edk::float32 end);
     bool addNewAnimationName(edk::char8* name, edk::float32 start,edk::float32 end);
     //select the animationName
-    bool selectAnimationName(const char* name);
+    bool selectAnimationName(const edk::char8* name);
     bool selectAnimationName(edk::char8* name);
     //test if have the animationName
-    bool haveAnimationName(const char* name);
+    bool haveAnimationName(const edk::char8* name);
     bool haveAnimationName(edk::char8* name);
     //Play the animationName
-    bool playNameForward(const char* name);
+    bool playNameForward(const edk::char8* name);
     bool playNameForward(edk::char8* name);
-    bool playNameRewind(const char* name);
+    bool playNameRewind(const edk::char8* name);
     bool playNameRewind(edk::char8* name);
     //remove the animationName
-    bool removeAnimationName(const char* name);
+    bool removeAnimationName(const edk::char8* name);
     bool removeAnimationName(edk::char8* name);
     void removeAllAnimationNames();
     //return if are playing
@@ -151,21 +151,21 @@ public:
     void loopOffThis();
     void printFramesThis();
     //ANIMATIONNAMES
-    bool addNewAnimationNameThis(const char* name, edk::float32 start,edk::float32 end);
+    bool addNewAnimationNameThis(const edk::char8* name, edk::float32 start,edk::float32 end);
     bool addNewAnimationNameThis(edk::char8* name, edk::float32 start,edk::float32 end);
     //select the animationName
-    bool selectAnimationNameThis(const char* name);
+    bool selectAnimationNameThis(const edk::char8* name);
     bool selectAnimationNameThis(edk::char8* name);
     //test if have the animationName
-    bool haveAnimationNameThis(const char* name);
+    bool haveAnimationNameThis(const edk::char8* name);
     bool haveAnimationNameThis(edk::char8* name);
     //Play the animationName
-    bool playNameForwardThis(const char* name);
+    bool playNameForwardThis(const edk::char8* name);
     bool playNameForwardThis(edk::char8* name);
-    bool playNameRewindThis(const char* name);
+    bool playNameRewindThis(const edk::char8* name);
     bool playNameRewindThis(edk::char8* name);
     //remove the animationName
-    bool removeAnimationNameThis(const char* name);
+    bool removeAnimationNameThis(const edk::char8* name);
     bool removeAnimationNameThis(edk::char8* name);
     void removeAllAnimationNamesThis();
     //return if are playing

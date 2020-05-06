@@ -76,13 +76,13 @@ public:
     edk::uint32 getTileSize();
 
     //load the tiles from an image
-    edk::tiles::TileSet2D::Tile2Positions2D loadImageTiles(const char* image,
+    edk::tiles::TileSet2D::Tile2Positions2D loadImageTiles(const edk::char8* image,
                                                            edk::uint32 x,
                                                            edk::uint32 y,
                                                            edk::uint32 filter = GU_NEAREST,
                                                            edk::color4f32 color = edk::color4f32(1,1,1,1)
             );
-    edk::tiles::TileSet2D::Tile2Positions2D loadImageTiles(const char* image,
+    edk::tiles::TileSet2D::Tile2Positions2D loadImageTiles(const edk::char8* image,
                                                            edk::vec2ui32 frames,
                                                            edk::uint32 filter = GU_NEAREST,
                                                            edk::color4f32 color = edk::color4f32(1,1,1,1)
@@ -99,7 +99,7 @@ public:
                                                            edk::color4f32 color = edk::color4f32(1,1,1,1)
             );
     //Load the tiles from mamory
-    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesFromMemory(const char* name,
+    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesFromMemory(const edk::char8* name,
                                                                      edk::uint8* image,
                                                                      edk::uint32 size,
                                                                      edk::uint32 x,
@@ -107,7 +107,7 @@ public:
                                                                      edk::uint32 filter = GU_NEAREST,
                                                                      edk::color4f32 color = edk::color4f32(1,1,1,1)
             );
-    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesFromMemory(const char* name,
+    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesFromMemory(const edk::char8* name,
                                                                      edk::uint8* image,
                                                                      edk::uint32 size,
                                                                      edk::vec2ui32 frames,
@@ -131,13 +131,13 @@ public:
             );
 
     //load the tiles from an image
-    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesIsometric(const char* image,
+    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesIsometric(const edk::char8* image,
                                                                     edk::uint32 x,
                                                                     edk::uint32 y,
                                                                     edk::uint32 filter = GU_NEAREST,
                                                                     edk::color4f32 color = edk::color4f32(1,1,1,1)
             );
-    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesIsometric(const char* image,
+    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesIsometric(const edk::char8* image,
                                                                     edk::vec2ui32 frames,
                                                                     edk::uint32 filter = GU_NEAREST,
                                                                     edk::color4f32 color = edk::color4f32(1,1,1,1)
@@ -154,7 +154,7 @@ public:
                                                                     edk::color4f32 color = edk::color4f32(1,1,1,1)
             );
     //Load the tiles from mamory
-    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesIsometricFromMemory(const char* name,
+    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesIsometricFromMemory(const edk::char8* name,
                                                                               edk::uint8* image,
                                                                               edk::uint32 size,
                                                                               edk::uint32 x,
@@ -162,7 +162,7 @@ public:
                                                                               edk::uint32 filter = GU_NEAREST,
                                                                               edk::color4f32 color = edk::color4f32(1,1,1,1)
             );
-    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesIsometricFromMemory(const char* name,
+    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesIsometricFromMemory(const edk::char8* name,
                                                                               edk::uint8* image,
                                                                               edk::uint32 size,
                                                                               edk::vec2ui32 frames,
@@ -186,13 +186,13 @@ public:
             );
 
     //load the tiles from an image
-    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesIsometricFlat(const char* image,
+    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesIsometricFlat(const edk::char8* image,
                                                                         edk::uint32 x,
                                                                         edk::uint32 y,
                                                                         edk::uint32 filter = GU_NEAREST,
                                                                         edk::color4f32 color = edk::color4f32(1,1,1,1)
             );
-    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesIsometricFlat(const char* image,
+    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesIsometricFlat(const edk::char8* image,
                                                                         edk::vec2ui32 frames,
                                                                         edk::uint32 filter = GU_NEAREST,
                                                                         edk::color4f32 color = edk::color4f32(1,1,1,1)
@@ -209,7 +209,7 @@ public:
                                                                         edk::color4f32 color = edk::color4f32(1,1,1,1)
             );
     //Load the tiles from mamory
-    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesIsometricFlatFromMemory(const char* name,
+    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesIsometricFlatFromMemory(const edk::char8* name,
                                                                                   edk::uint8* image,
                                                                                   edk::uint32 size,
                                                                                   edk::uint32 x,
@@ -217,7 +217,7 @@ public:
                                                                                   edk::uint32 filter = GU_NEAREST,
                                                                                   edk::color4f32 color = edk::color4f32(1,1,1,1)
             );
-    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesIsometricFlatFromMemory(const char* name,
+    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesIsometricFlatFromMemory(const edk::char8* name,
                                                                                   edk::uint8* image,
                                                                                   edk::uint32 size,
                                                                                   edk::vec2ui32 frames,
@@ -241,22 +241,22 @@ public:
             );
 
     //create a new tile
-    edk::uint32 newTile(const char* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
+    edk::uint32 newTile(const edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
     edk::uint32 newTile(edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
     edk::uint32 newTile(edk::color4f32 color = edk::color4f32(1,1,1,1));
-    edk::uint32 newTileFromMemory(const char* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
+    edk::uint32 newTileFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
     edk::uint32 newTileFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
     //create a new Isometric tile
-    edk::uint32 newTileIsometric(const char* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
+    edk::uint32 newTileIsometric(const edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
     edk::uint32 newTileIsometric(edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
     edk::uint32 newTileIsometric(edk::color4f32 color = edk::color4f32(1,1,1,1));
-    edk::uint32 newTileIsometricFromMemory(const char* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
+    edk::uint32 newTileIsometricFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
     edk::uint32 newTileIsometricFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
     //create a new IsometricFlat tile
-    edk::uint32 newTileIsometricFlat(const char* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
+    edk::uint32 newTileIsometricFlat(const edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
     edk::uint32 newTileIsometricFlat(edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
     edk::uint32 newTileIsometricFlat(edk::color4f32 color = edk::color4f32(1,1,1,1));
-    edk::uint32 newTileIsometricFlatFromMemory(const char* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
+    edk::uint32 newTileIsometricFlatFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
     edk::uint32 newTileIsometricFlatFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
     //set the tile UVFrames
     bool setTileFramesUV(edk::uint32 tile,edk::vec2ui32 frames);
@@ -288,18 +288,18 @@ public:
     //return if are playing
     bool isPlaying(edk::uint32 tile);
     //animationNames
-    bool addAnimationName(edk::uint32 tile,const char* name, edk::float32 start,edk::float32 end);
+    bool addAnimationName(edk::uint32 tile,const edk::char8* name, edk::float32 start,edk::float32 end);
     bool addAnimationName(edk::uint32 tile,edk::char8* name, edk::float32 start,edk::float32 end);
     //test if have the animationName
-    bool haveAnimationName(edk::uint32 tile,const char* name);
+    bool haveAnimationName(edk::uint32 tile,const edk::char8* name);
     bool haveAnimationName(edk::uint32 tile,edk::char8* name);
     //Play the animationName
-    bool playNameForward(edk::uint32 tile,const char* name);
+    bool playNameForward(edk::uint32 tile,const edk::char8* name);
     bool playNameForward(edk::uint32 tile,edk::char8* name);
-    bool playNameRewind(edk::uint32 tile,const char* name);
+    bool playNameRewind(edk::uint32 tile,const edk::char8* name);
     bool playNameRewind(edk::uint32 tile,edk::char8* name);
     //remove the animationName
-    bool removeAnimationName(edk::uint32 tile,const char* name);
+    bool removeAnimationName(edk::uint32 tile,const edk::char8* name);
     bool removeAnimationName(edk::uint32 tile,edk::char8* name);
 
     //Set one interpolation X as a curve

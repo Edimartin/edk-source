@@ -73,7 +73,7 @@ void edk::SQL::deleteBaseName(){
 }
 
 //open dataBase
-bool edk::SQL::openDataBase(const char* name){
+bool edk::SQL::openDataBase(const edk::char8* name){
     return this->openDataBase((edk::char8*) name);
 }
 bool edk::SQL::openDataBase(edk::char8* name){
@@ -85,7 +85,7 @@ bool edk::SQL::openDataBase(edk::char8* name){
     if(nameExtension){
         if(edk::File::fileExist(nameExtension)){
             edk::int32 rc;
-            rc = sqlite3_open((const char*) nameExtension, &this->db);
+            rc = sqlite3_open((const edk::char8*) nameExtension, &this->db);
             if(!rc){
                 this->baseName = edk::String::strCopy(nameExtension);
                 delete[] nameExtension;
@@ -103,7 +103,7 @@ bool edk::SQL::openDataBase(edk::char8* name){
         //test if have the file
         if(edk::File::fileExist(name)){
             edk::int32 rc;
-            rc = sqlite3_open((const char*) name, &this->db);
+            rc = sqlite3_open((const edk::char8*) name, &this->db);
             if(!rc){
                 this->baseName = edk::String::strCopy(name);
                 return true;
@@ -118,7 +118,7 @@ bool edk::SQL::openDataBase(edk::char8* name){
     return false;
 }
 //create a new dataBase (it will delete the file with the same name)
-bool edk::SQL::newDataBase(const char* name){
+bool edk::SQL::newDataBase(const edk::char8* name){
     return this->newDataBase((edk::char8*) name);
 }
 bool edk::SQL::newDataBase(edk::char8* name){
@@ -141,7 +141,7 @@ bool edk::SQL::newDataBase(edk::char8* name){
     return false;
 }
 //delete dataBase
-bool edk::SQL::deleteDataBase(const char* name){
+bool edk::SQL::deleteDataBase(const edk::char8* name){
     return this->deleteDataBase((edk::char8*) name);
 }
 bool edk::SQL::deleteDataBase(edk::char8* name){
@@ -203,7 +203,7 @@ static edk::int32 sqlCallback(void *callback, edk::int32 argc, char **argv, char
     }
     return 0;
 }
-bool edk::SQL::execute(const char* command,SQLGroup* callback){
+bool edk::SQL::execute(const edk::char8* command,SQLGroup* callback){
     return this->execute((edk::char8*) command,callback);
 }
 bool edk::SQL::execute(edk::char8* command,SQLGroup* callback){

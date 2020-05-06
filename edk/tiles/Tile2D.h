@@ -97,13 +97,13 @@ public:
     void useFrameUVinPosition(edk::uint32 position);
 
     //Set the tileImage
-    bool loadImage(const char* name,edk::uint32 filter = GU_NEAREST);
+    bool loadImage(const edk::char8* name,edk::uint32 filter = GU_NEAREST);
     bool loadImage(edk::char8* name,edk::uint32 filter = GU_NEAREST);
     //set the tileImage from memory
-    bool loadImageFromMemory(const char* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
+    bool loadImageFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
     bool loadImageFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
     //set the tileImage from the pack
-    bool loadImageFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint32 filter = GU_NEAREST);
+    bool loadImageFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 filter = GU_NEAREST);
     bool loadImageFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter = GU_NEAREST);
 
     //Get the size of the Tile
@@ -138,18 +138,18 @@ public:
     //return if are playing
     bool isPlaying();
     //animationNames
-    bool addAnimationName(const char* name, edk::float32 start,edk::float32 end);
+    bool addAnimationName(const edk::char8* name, edk::float32 start,edk::float32 end);
     bool addAnimationName(edk::char8* name, edk::float32 start,edk::float32 end);
     //test if have the animationName
-    bool haveAnimationName(const char* name);
+    bool haveAnimationName(const edk::char8* name);
     bool haveAnimationName(edk::char8* name);
     //Play the animationName
-    bool playNameForward(const char* name);
+    bool playNameForward(const edk::char8* name);
     bool playNameForward(edk::char8* name);
-    bool playNameRewind(const char* name);
+    bool playNameRewind(const edk::char8* name);
     bool playNameRewind(edk::char8* name);
     //remove the animationName
-    bool removeAnimationName(const char* name);
+    bool removeAnimationName(const edk::char8* name);
     bool removeAnimationName(edk::char8* name);
 
     //Set one interpolation X as a curve

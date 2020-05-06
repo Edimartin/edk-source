@@ -1108,7 +1108,7 @@ bool edk::Object2D::actionPlayName(edk::float32 second,edk::uint32 id,edk::char8
     //
     return this->actions.addAction(second,new edk::Object2D::ActionMeshName(this,id,name,loop));
 }
-bool edk::Object2D::actionPlayName(edk::float32 second,edk::uint32 id,const char* name,bool loop){
+bool edk::Object2D::actionPlayName(edk::float32 second,edk::uint32 id,const edk::char8* name,bool loop){
     //
     return actionPlayName(second,id,(edk::char8*)name,loop);
 }
@@ -1120,7 +1120,7 @@ bool edk::Object2D::actionPlayNameFor(edk::float32 second,edk::float32 duration,
     }
     return false;
 }
-bool edk::Object2D::actionPlayNameFor(edk::float32 second,edk::float32 duration,edk::uint32 id,const char* name){
+bool edk::Object2D::actionPlayNameFor(edk::float32 second,edk::float32 duration,edk::uint32 id,const edk::char8* name){
     return this->actionPlayNameFor(second,duration,id,(edk::char8*)name);
 }
 

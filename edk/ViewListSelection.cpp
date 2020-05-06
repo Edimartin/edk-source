@@ -259,7 +259,7 @@ void edk::ViewListSelection::setScrollFrontColor(edk::float32 r,edk::float32 g,e
 }
 
 //add a cell
-edk::uint32 edk::ViewListSelection::addCell(const char* name,edk::uint32 id,edk::color4f32 cellColor){
+edk::uint32 edk::ViewListSelection::addCell(const edk::char8* name,edk::uint32 id,edk::color4f32 cellColor){
     return this->addCell((edk::char8*) name,id,cellColor);
 }
 edk::uint32 edk::ViewListSelection::addCell(edk::char8* name,edk::uint32 id,edk::color4f32 cellColor){
@@ -290,7 +290,7 @@ edk::uint32 edk::ViewListSelection::addCell(edk::char8* name,edk::uint32 id,edk:
     return 0u;
 }
 //set cell string
-bool edk::ViewListSelection::setCellString(edk::uint32 position,const char* string){
+bool edk::ViewListSelection::setCellString(edk::uint32 position,const edk::char8* string){
     return this->setCellString(position,(edk::char8*) string);
 }
 bool edk::ViewListSelection::setCellString(edk::uint32 position,edk::char8* string){

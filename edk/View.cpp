@@ -598,7 +598,7 @@ void View::animationLoopOff(){
     this->animationPosition.loopOff();
 }
 //AnimationNames
-bool View::animationAddAnimationName(const char* name,edk::float32 start,edk::float32 end){
+bool View::animationAddAnimationName(const edk::char8* name,edk::float32 start,edk::float32 end){
     //
     return this->animationPosition.addNewAnimationName(name,start,end);
 }
@@ -606,7 +606,7 @@ bool View::animationAddAnimationName(edk::char8* name,edk::float32 start,edk::fl
     //
     return this->animationPosition.addNewAnimationName(name,start,end);
 }
-bool View::animationPlayNameForward(const char* name){
+bool View::animationPlayNameForward(const edk::char8* name){
     //
     return this->animationPosition.playNameForward(name);
 }
@@ -614,7 +614,7 @@ bool View::animationPlayNameForward(edk::char8* name){
     //
     return this->animationPosition.playNameForward(name);
 }
-bool View::animationPlayNameRewind(const char* name){
+bool View::animationPlayNameRewind(const edk::char8* name){
     //
     return this->animationPosition.playNameRewind(name);
 }
@@ -622,7 +622,7 @@ bool View::animationPlayNameRewind(edk::char8* name){
     //
     return this->animationPosition.playNameRewind(name);
 }
-void View::animationRemoveAnimationName(const char* name){
+void View::animationRemoveAnimationName(const edk::char8* name){
     //
     this->animationPosition.removeAnimationName(name);
 }

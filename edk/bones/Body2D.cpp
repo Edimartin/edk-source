@@ -699,19 +699,19 @@ bool edk::bones::Body2D::loadBVH(edk::char8* name,edk::uint8 mode){
 }
 
 //add a new bone to the selected
-edk::bones::Bone2D* edk::bones::Body2D::createBoneToSelected(const char* name){
+edk::bones::Bone2D* edk::bones::Body2D::createBoneToSelected(const edk::char8* name){
     return this->createBoneToSelected((edk::char8*) name);
 }
-edk::bones::Bone2D* edk::bones::Body2D::createBoneToSelected(const char* name,edk::vec2f32 position){
+edk::bones::Bone2D* edk::bones::Body2D::createBoneToSelected(const edk::char8* name,edk::vec2f32 position){
     return this->createBoneToSelected((edk::char8*) name,position);
 }
-edk::bones::Bone2D* edk::bones::Body2D::createBoneToSelected(const char* name,edk::float32 positionX,edk::float32 positionY){
+edk::bones::Bone2D* edk::bones::Body2D::createBoneToSelected(const edk::char8* name,edk::float32 positionX,edk::float32 positionY){
     return this->createBoneToSelected((edk::char8*) name,edk::vec2f32(positionX,positionY));
 }
-edk::bones::Bone2D* edk::bones::Body2D::createBoneToSelected(const char* name,edk::vec2f32 position,edk::float32 angle){
+edk::bones::Bone2D* edk::bones::Body2D::createBoneToSelected(const edk::char8* name,edk::vec2f32 position,edk::float32 angle){
     return this->createBoneToSelected((edk::char8*) name,position,angle);
 }
-edk::bones::Bone2D* edk::bones::Body2D::createBoneToSelected(const char* name,edk::float32 positionX,edk::float32 positionY,edk::float32 angle){
+edk::bones::Bone2D* edk::bones::Body2D::createBoneToSelected(const edk::char8* name,edk::float32 positionX,edk::float32 positionY,edk::float32 angle){
     return this->createBoneToSelected((edk::char8*) name,edk::vec2f32(positionX,positionY),angle);
 }
 edk::bones::Bone2D* edk::bones::Body2D::createBoneToSelected(edk::char8* name){
@@ -763,7 +763,7 @@ bool edk::bones::Body2D::addBoneToSelected(edk::bones::Bone2D* bone){
     }
     return false;
 }
-bool edk::bones::Body2D::addBoneToSelected(const char* name){
+bool edk::bones::Body2D::addBoneToSelected(const edk::char8* name){
     return this->addBoneToSelected((edk::char8*) name);
 }
 bool edk::bones::Body2D::addBoneToSelected(edk::char8* name){
@@ -803,7 +803,7 @@ bool edk::bones::Body2D::selectBone(edk::bones::Bone2D* bone){
     return false;
 }
 //Select the bone by the name
-bool edk::bones::Body2D::selectBoneByName(const char* name){
+bool edk::bones::Body2D::selectBoneByName(const edk::char8* name){
     return this->selectBoneByName((edk::char8*) name);
 }
 bool edk::bones::Body2D::selectBoneByName(edk::char8* name){
@@ -905,7 +905,7 @@ edk::bones::Bone2D* edk::bones::Body2D::getBone(edk::uint32 position){
     }
     return NULL;
 }
-edk::bones::Bone2D* edk::bones::Body2D::getBoneByName(const char* name){
+edk::bones::Bone2D* edk::bones::Body2D::getBoneByName(const edk::char8* name){
     return this->getBoneByName((edk::char8*) name);
 }
 edk::bones::Bone2D* edk::bones::Body2D::getBoneByName(edk::char8* name){
@@ -939,7 +939,7 @@ bool edk::bones::Body2D::deleteBone(edk::bones::Bone2D* bone){
     }
     return false;
 }
-bool edk::bones::Body2D::deleteBone(const char* name){
+bool edk::bones::Body2D::deleteBone(const edk::char8* name){
     return this->deleteBone((edk::char8*) name);
 }
 bool edk::bones::Body2D::deleteBone(edk::char8* name){
@@ -969,7 +969,7 @@ void edk::bones::Body2D::deleteAllBones(){
     this->root.cleanBone();
 }
 //add a connection object
-bool edk::bones::Body2D::addConnectionObject(const char* boneName,edk::Object2DValues* object){
+bool edk::bones::Body2D::addConnectionObject(const edk::char8* boneName,edk::Object2DValues* object){
     return this->addConnectionObject((edk::char8*)boneName,object);
 }
 bool edk::bones::Body2D::addConnectionObject(edk::char8* boneName,edk::Object2DValues* object){
@@ -981,7 +981,7 @@ bool edk::bones::Body2D::addConnectionObject(edk::char8* boneName,edk::Object2DV
 }
 
 //return the objects size
-edk::uint32 edk::bones::Body2D::getConnectionObjectSize(const char* boneName){
+edk::uint32 edk::bones::Body2D::getConnectionObjectSize(const edk::char8* boneName){
     return this->getConnectionObjectSize((edk::char8*)boneName);
 }
 edk::uint32 edk::bones::Body2D::getConnectionObjectSize(edk::char8* boneName){
@@ -993,7 +993,7 @@ edk::uint32 edk::bones::Body2D::getConnectionObjectSize(edk::char8* boneName){
     return 0u;
 }
 //remove the connectionObject
-bool edk::bones::Body2D::removeConnectionObject(const char* boneName,edk::Object2DValues* object){
+bool edk::bones::Body2D::removeConnectionObject(const edk::char8* boneName,edk::Object2DValues* object){
     return this->removeConnectionObject((edk::char8*)boneName,object);
 }
 bool edk::bones::Body2D::removeConnectionObject(edk::char8* boneName,edk::Object2DValues* object){
@@ -1005,7 +1005,7 @@ bool edk::bones::Body2D::removeConnectionObject(edk::char8* boneName,edk::Object
     return false;
 }
 //remove the connectionObject in the position
-bool edk::bones::Body2D::removeConnectionObjectInPosition(const char* boneName,edk::uint32 position){
+bool edk::bones::Body2D::removeConnectionObjectInPosition(const edk::char8* boneName,edk::uint32 position){
     return this->removeConnectionObjectInPosition((edk::char8*)boneName,position);
 }
 bool edk::bones::Body2D::removeConnectionObjectInPosition(edk::char8* boneName,edk::uint32 position){
@@ -1017,7 +1017,7 @@ bool edk::bones::Body2D::removeConnectionObjectInPosition(edk::char8* boneName,e
     return false;
 }
 //remove all connection objects
-bool edk::bones::Body2D::removeAllConnectionObjects(const char* boneName){
+bool edk::bones::Body2D::removeAllConnectionObjects(const edk::char8* boneName){
     return this->removeAllConnectionObjects((edk::char8*) boneName);
 }
 bool edk::bones::Body2D::removeAllConnectionObjects(edk::char8* boneName){
@@ -1103,41 +1103,41 @@ void edk::bones::Body2D::printFrames(){
     this->root.printFrames();
 }
 //ANIMATIONNAMES
-bool edk::bones::Body2D::addNewAnimationName(const char* name, edk::float32 start,edk::float32 end){
+bool edk::bones::Body2D::addNewAnimationName(const edk::char8* name, edk::float32 start,edk::float32 end){
     return this->root.addNewAnimationName(name,start,end);
 }
 bool edk::bones::Body2D::addNewAnimationName(edk::char8* name, edk::float32 start,edk::float32 end){
     return this->root.addNewAnimationName(name,start,end);
 }
 //select the animationName
-bool edk::bones::Body2D::selectAnimationName(const char* name){
+bool edk::bones::Body2D::selectAnimationName(const edk::char8* name){
     return this->root.selectAnimationName(name);
 }
 bool edk::bones::Body2D::selectAnimationName(edk::char8* name){
     return this->root.selectAnimationName(name);
 }
 //test if have the animationName
-bool edk::bones::Body2D::haveAnimationName(const char* name){
+bool edk::bones::Body2D::haveAnimationName(const edk::char8* name){
     return this->root.haveAnimationName(name);
 }
 bool edk::bones::Body2D::haveAnimationName(edk::char8* name){
     return this->root.haveAnimationName(name);
 }
 //Play the animationName
-bool edk::bones::Body2D::playNameForward(const char* name){
+bool edk::bones::Body2D::playNameForward(const edk::char8* name){
     return this->root.playNameForward(name);
 }
 bool edk::bones::Body2D::playNameForward(edk::char8* name){
     return this->root.playNameForward(name);
 }
-bool edk::bones::Body2D::playNameRewind(const char* name){
+bool edk::bones::Body2D::playNameRewind(const edk::char8* name){
     return this->root.playNameRewind(name);
 }
 bool edk::bones::Body2D::playNameRewind(edk::char8* name){
     return this->root.playNameRewind(name);
 }
 //remove the animationName
-bool edk::bones::Body2D::removeAnimationName(const char* name){
+bool edk::bones::Body2D::removeAnimationName(const edk::char8* name){
     return this->root.removeAnimationName(name);
 }
 bool edk::bones::Body2D::removeAnimationName(edk::char8* name){
@@ -1153,19 +1153,19 @@ bool edk::bones::Body2D::isPlaying(){
 }
 
 //load the BVH
-bool edk::bones::Body2D::loadBVHXY(const char* name){
+bool edk::bones::Body2D::loadBVHXY(const edk::char8* name){
     return this->loadBVH((edk::char8*)name,EDK_BVH_XY);
 }
 bool edk::bones::Body2D::loadBVHXY(edk::char8* name){
     return this->loadBVH((edk::char8*)name,EDK_BVH_XY);
 }
-bool edk::bones::Body2D::loadBVHXZ(const char* name){
+bool edk::bones::Body2D::loadBVHXZ(const edk::char8* name){
     return this->loadBVH((edk::char8*)name,EDK_BVH_XZ);
 }
 bool edk::bones::Body2D::loadBVHXZ(edk::char8* name){
     return this->loadBVH((edk::char8*)name,EDK_BVH_XZ);
 }
-bool edk::bones::Body2D::loadBVHYZ(const char* name){
+bool edk::bones::Body2D::loadBVHYZ(const edk::char8* name){
     return this->loadBVH((edk::char8*)name,EDK_BVH_YZ);
 }
 bool edk::bones::Body2D::loadBVHYZ(edk::char8* name){
@@ -1269,7 +1269,7 @@ edk::vec2f32  edk::bones::Body2D::getBoneWorldVector(edk::bones::Bone2D* bone, b
     }
     return edk::vec2f32(0,0);
 }
-void edk::bones::Body2D::calculateInverseKinematic(const char* name,edk::vec2f32 worldPoint,edk::uint32 tail,edk::uint32 times){
+void edk::bones::Body2D::calculateInverseKinematic(const edk::char8* name,edk::vec2f32 worldPoint,edk::uint32 tail,edk::uint32 times){
     return this->calculateInverseKinematic((edk::char8*) name,worldPoint,tail,times);
 }
 void edk::bones::Body2D::calculateInverseKinematic(edk::char8* name,edk::vec2f32 worldPoint,edk::uint32 tail,edk::uint32 times){

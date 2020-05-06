@@ -89,23 +89,23 @@ public:
     //return if are playing
     bool selectedAnimationIsPlaying();
     //animationNames
-    bool selectedAnimationAddAnimationName(const char* name, edk::float32 start,edk::float32 end);
+    bool selectedAnimationAddAnimationName(const edk::char8* name, edk::float32 start,edk::float32 end);
     bool selectedAnimationAddAnimationName(edk::char8* name, edk::float32 start,edk::float32 end);
     //test if have the animationName
-    bool selectedAnimationHaveAnimationName(const char* name);
+    bool selectedAnimationHaveAnimationName(const edk::char8* name);
     bool selectedAnimationHaveAnimationName(edk::char8* name);
     //return the animation name seconds
-    edk::float32 selectedAnimationGetAnimationNameStart(const char* name);
+    edk::float32 selectedAnimationGetAnimationNameStart(const edk::char8* name);
     edk::float32 selectedAnimationGetAnimationNameStart(edk::char8* name);
-    edk::float32 selectedAnimationGetAnimationNameEnd(const char* name);
+    edk::float32 selectedAnimationGetAnimationNameEnd(const edk::char8* name);
     edk::float32 selectedAnimationGetAnimationNameEnd(edk::char8* name);
     //Play the animationName
-    bool selectedAnimationPlayNameForward(const char* name);
+    bool selectedAnimationPlayNameForward(const edk::char8* name);
     bool selectedAnimationPlayNameForward(edk::char8* name);
-    bool selectedAnimationPlayNameRewind(const char* name);
+    bool selectedAnimationPlayNameRewind(const edk::char8* name);
     bool selectedAnimationPlayNameRewind(edk::char8* name);
     //remove the animationName
-    bool selectedAnimationRemoveAnimationName(const char* name);
+    bool selectedAnimationRemoveAnimationName(const edk::char8* name);
     bool selectedAnimationRemoveAnimationName(edk::char8* name);
 
     //Set one interpolation X as a curve

@@ -300,15 +300,15 @@ public:
     static bool clipboardClean();
 
     //filter string accent's
-    static edk::char8 filterAccent(const char* str);
+    static edk::char8 filterAccent(const edk::char8* str);
     static edk::char8 filterAccent(edk::char8* str);
-    static edk::char8 filterAccent(const char* str,edk::uint8* jump);
+    static edk::char8 filterAccent(const edk::char8* str,edk::uint8* jump);
     static edk::char8 filterAccent(edk::char8* str,edk::uint8* jump);
     //get size with filter
-    static edk::uint32 strSizeFilterAccent(const char* str);
+    static edk::uint32 strSizeFilterAccent(const edk::char8* str);
     static edk::uint32 strSizeFilterAccent(edk::char8* str);
     //copy with filter
-    static edk::char8* strCopyFilterAccent(const char* str);
+    static edk::char8* strCopyFilterAccent(const edk::char8* str);
     static edk::char8* strCopyFilterAccent(edk::char8* str);
 
     //return the file name from a string

@@ -38,7 +38,7 @@ edk::Audio::~Audio()
 
 
 /*OPEN*/
-bool edk::Audio::open(const char* name){
+bool edk::Audio::open(const edk::char8* name){
     //
     return this->open((edk::char8*) name);
 }
@@ -68,7 +68,7 @@ bool edk::Audio::open(edk::char8* name){
     //else return false
     return false;
 }
-bool edk::Audio::openFromMemory(const char* name,edk::classID vector,edk::uint32 size){
+bool edk::Audio::openFromMemory(const edk::char8* name,edk::classID vector,edk::uint32 size){
     return this->openFromMemory((edk::char8*) name,vector,size);
 }
 bool edk::Audio::openFromMemory(edk::char8* name,edk::classID vector,edk::uint32 size){
@@ -97,7 +97,7 @@ bool edk::Audio::openFromMemory(edk::char8* name,edk::classID vector,edk::uint32
     //else return false
     return false;
 }
-bool edk::Audio::openFromPack(edk::pack::FilePackage* pack,const char* name){
+bool edk::Audio::openFromPack(edk::pack::FilePackage* pack,const edk::char8* name){
     return this->openFromPack(pack,(edk::char8*) name);
 }
 bool edk::Audio::openFromPack(edk::pack::FilePackage* pack,edk::char8* name){

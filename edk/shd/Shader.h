@@ -58,7 +58,7 @@ class Shader: public edk::ObjectWithName{
 
         //load the shader
         bool loadShaderFromMemory(edk::uint8* shader, edk::uint32 size, edk::shd::shaderType type);
-        bool loadShaderFromFile(const char* name);
+        bool loadShaderFromFile(const edk::char8* name);
         bool loadShaderFromFile(edk::char8* name);
 
         //return true if the shader is loaded

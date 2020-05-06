@@ -170,14 +170,14 @@ edk::CommandParser::~CommandParser(){
 }
 
 //new command
-bool edk::CommandParser::addCommand(const char* command,const char* value){
+bool edk::CommandParser::addCommand(const edk::char8* command,const edk::char8* value){
     return addCommand((edk::char8*) command,(edk::char8*) value);
 }
 bool edk::CommandParser::addCommand(edk::char8* command,edk::char8* value){
     return this->tree.addCommand(command,value);
 }
 //remove a command
-bool edk::CommandParser::removeCommand(const char* command){
+bool edk::CommandParser::removeCommand(const edk::char8* command){
     return removeCommand((edk::char8*) command);
 }
 bool edk::CommandParser::removeCommand(edk::char8* command){
@@ -188,14 +188,14 @@ void edk::CommandParser::cleanCommands(){
     this->tree.cleanCommands();
 }
 //test if have a command
-bool edk::CommandParser::haveCommand(const char* command){
+bool edk::CommandParser::haveCommand(const edk::char8* command){
     return haveCommand((edk::char8*) command);
 }
 bool edk::CommandParser::haveCommand(edk::char8* command){
     return this->tree.haveCommand(command);
 }
 //return the value of a command
-edk::char8* edk::CommandParser::getValue(const char* command){
+edk::char8* edk::CommandParser::getValue(const edk::char8* command){
     return getValue((edk::char8*) command);
 }
 edk::char8* edk::CommandParser::getValue(edk::char8* command){

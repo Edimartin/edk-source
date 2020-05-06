@@ -51,7 +51,7 @@ public:
         this->setName(_name);
         this->canDelete=true;
     }
-    Name(const char* _name){
+    Name(const edk::char8* _name){
         //
         this->_name=NULL;
         this->_size = 0u;
@@ -71,7 +71,7 @@ public:
     void cleanName(){
         this->setName((edk::char8*)NULL);
     }
-    bool setName(const char* _name){
+    bool setName(const edk::char8* _name){
         return this->setName((edk::char8*) _name);
     }
     //set the name
@@ -110,7 +110,7 @@ public:
     bool nameEqual(edk::char8* _name){
         return edk::Name::stringEqual(this->_name,_name);
     }
-    bool nameEqual(const char* _name){
+    bool nameEqual(const edk::char8* _name){
         return this->nameEqual((edk::char8*) _name);
     }
     bool nameEqual(edk::Name* _name){
@@ -121,7 +121,7 @@ public:
     bool nameBiggerThan(edk::char8* _name){
         return edk::Name::firstNameBiggerSecond(this->_name,_name);
     }
-    bool nameBiggerThan(const char* _name){
+    bool nameBiggerThan(const edk::char8* _name){
         return nameBiggerThan((edk::char8*) _name);
     }
     bool nameBiggerThan(edk::Name* _name){

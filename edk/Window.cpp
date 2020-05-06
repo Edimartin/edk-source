@@ -183,8 +183,8 @@ bool Window::createWindow(uint32 width, uint32 height/*, uint32 bitsPerPixel*/, 
         sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
         bitsPerPixel = desktop.bitsPerPixel;
         //Agora ele pode criar a janela
-        //this->window.Create(sf::VideoMode(width, height, bitsPerPixel),(const char*)name,style,sf::WindowSettings(depth,stencil,antialiasing));//1.6
-        this->window.create(sf::VideoMode(width, height, bitsPerPixel),(const char*)name,style,sf::ContextSettings(depth,stencil,antialiasing));//2.0
+        //this->window.Create(sf::VideoMode(width, height, bitsPerPixel),(const edk::char8*)name,style,sf::WindowSettings(depth,stencil,antialiasing));//1.6
+        this->window.create(sf::VideoMode(width, height, bitsPerPixel),(const edk::char8*)name,style,sf::ContextSettings(depth,stencil,antialiasing));//2.0
 
         //Testa se a janela foi aberta
         if(this->isOpened()){

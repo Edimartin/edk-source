@@ -39,7 +39,7 @@ edk::AudioList::~AudioList()
 
 
 //LOAD
-bool edk::AudioList::loadAudio(const char* name, edk::AudioBuffer** retainAudio){
+bool edk::AudioList::loadAudio(const edk::char8* name, edk::AudioBuffer** retainAudio){
     //
     return this->loadAudio((edk::char8*) name, retainAudio);
 }
@@ -89,7 +89,7 @@ bool edk::AudioList::loadAudio(edk::char8* name, edk::AudioBuffer** retainAudio)
     //else return false
     return false;
 }
-bool edk::AudioList::loadAudioFromMemory(const char* name,edk::classID vector,edk::uint32 size, edk::AudioBuffer** retainAudio){
+bool edk::AudioList::loadAudioFromMemory(const edk::char8* name,edk::classID vector,edk::uint32 size, edk::AudioBuffer** retainAudio){
     return this->loadAudioFromMemory((edk::char8*) name,vector,size, retainAudio);
 }
 bool edk::AudioList::loadAudioFromMemory(edk::char8* name,edk::classID vector,edk::uint32 size, edk::AudioBuffer** retainAudio){
@@ -138,7 +138,7 @@ bool edk::AudioList::loadAudioFromMemory(edk::char8* name,edk::classID vector,ed
     //else return false
     return false;
 }
-bool edk::AudioList::loadAudioFromPack(edk::pack::FilePackage* pack,const char* name, edk::AudioBuffer** retainAudio){
+bool edk::AudioList::loadAudioFromPack(edk::pack::FilePackage* pack,const edk::char8* name, edk::AudioBuffer** retainAudio){
     return this->loadAudioFromPack(pack,(edk::char8*) name, retainAudio);
 }
 bool edk::AudioList::loadAudioFromPack(edk::pack::FilePackage* pack,edk::char8* name, edk::AudioBuffer** retainAudio){

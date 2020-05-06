@@ -340,7 +340,7 @@ bool edk::animation::PathGroup::isRewind(){
 }
 
 //ANIMATIONNAMES
-bool edk::animation::PathGroup::addNewAnimationName(const char* name, edk::uint32 start,edk::uint32 end){
+bool edk::animation::PathGroup::addNewAnimationName(const edk::char8* name, edk::uint32 start,edk::uint32 end){
     return this->addNewAnimationName((edk::char8*) name, start,end);
 }
 bool edk::animation::PathGroup::addNewAnimationName(edk::char8* name, edk::uint32 start,edk::uint32 end){
@@ -374,7 +374,7 @@ bool edk::animation::PathGroup::addNewAnimationName(edk::char8* name, edk::uint3
     return false;
 }
 //select the animationName
-bool edk::animation::PathGroup::selectAnimationName(const char* name){
+bool edk::animation::PathGroup::selectAnimationName(const edk::char8* name){
     return this->selectAnimationName((edk::char8*) name);
 }
 bool edk::animation::PathGroup::selectAnimationName(edk::char8* name){
@@ -402,7 +402,7 @@ bool edk::animation::PathGroup::selectAnimationName(edk::char8* name){
     return false;
 }
 //test if have the animationName
-bool edk::animation::PathGroup::haveAnimationName(const char* name){
+bool edk::animation::PathGroup::haveAnimationName(const edk::char8* name){
     return this->haveAnimationName((edk::char8*) name);
 }
 bool edk::animation::PathGroup::haveAnimationName(edk::char8* name){
@@ -415,7 +415,7 @@ bool edk::animation::PathGroup::haveAnimationName(edk::char8* name){
     return false;
 }
 //Play the animationName
-bool edk::animation::PathGroup::playNameForward(const char* name){
+bool edk::animation::PathGroup::playNameForward(const edk::char8* name){
     return this->playNameForward((edk::char8*) name);
 }
 bool edk::animation::PathGroup::playNameForward(edk::char8* name){
@@ -432,7 +432,7 @@ bool edk::animation::PathGroup::playNameForward(edk::char8* name){
     //else return false
     return false;
 }
-bool edk::animation::PathGroup::playNameRewind(const char* name){
+bool edk::animation::PathGroup::playNameRewind(const edk::char8* name){
     return this->playNameRewind((edk::char8*) name);
 }
 bool edk::animation::PathGroup::playNameRewind(edk::char8* name){
@@ -450,7 +450,7 @@ bool edk::animation::PathGroup::playNameRewind(edk::char8* name){
     return false;
 }
 //remove the animationName
-bool edk::animation::PathGroup::removeAnimationName(const char* name){
+bool edk::animation::PathGroup::removeAnimationName(const edk::char8* name){
     return this->removeAnimationName((edk::char8*) name);
 }
 bool edk::animation::PathGroup::removeAnimationName(edk::char8* name){

@@ -32,7 +32,7 @@ edk::bones::Bone2D::Bone2D(edk::char8* name)
     this->angle = 0u;
     this->canDeleteBone=true;
 }
-edk::bones::Bone2D::Bone2D(const char* name)
+edk::bones::Bone2D::Bone2D(const edk::char8* name)
     : edk::Name(name){
     this->vector = edk::vec2f32(0,1);
     this->angle = 0u;
@@ -282,7 +282,7 @@ void edk::bones::Bone2D::removeAllNexts(){
 }
 
 //remove by the name
-bool edk::bones::Bone2D::removeNextByName(const char* name){
+bool edk::bones::Bone2D::removeNextByName(const edk::char8* name){
     return this->removeNextByName((edk::char8*) name);
 }
 bool edk::bones::Bone2D::removeNextByName(edk::char8* name){
@@ -550,7 +550,7 @@ void edk::bones::Bone2D::printFrames(){
     }
 }
 //ANIMATIONNAMES
-bool edk::bones::Bone2D::addNewAnimationName(const char* name, edk::float32 start,edk::float32 end){
+bool edk::bones::Bone2D::addNewAnimationName(const edk::char8* name, edk::float32 start,edk::float32 end){
     bool ret =
             this->addNewAnimationNameThis(name,start,end);
     //update the son's
@@ -571,7 +571,7 @@ bool edk::bones::Bone2D::addNewAnimationName(edk::char8* name, edk::float32 star
     return ret;
 }
 //select the animationName
-bool edk::bones::Bone2D::selectAnimationName(const char* name){
+bool edk::bones::Bone2D::selectAnimationName(const edk::char8* name){
     bool ret =
             this->selectAnimationNameThis(name);
     //update the son's
@@ -592,7 +592,7 @@ bool edk::bones::Bone2D::selectAnimationName(edk::char8* name){
     return ret;
 }
 //test if have the animationName
-bool edk::bones::Bone2D::haveAnimationName(const char* name){
+bool edk::bones::Bone2D::haveAnimationName(const edk::char8* name){
     bool ret =
             this->haveAnimationNameThis(name);
     //update the son's
@@ -613,7 +613,7 @@ bool edk::bones::Bone2D::haveAnimationName(edk::char8* name){
     return ret;
 }
 //Play the animationName
-bool edk::bones::Bone2D::playNameForward(const char* name){
+bool edk::bones::Bone2D::playNameForward(const edk::char8* name){
     bool ret =
             this->playNameForwardThis(name);
     //update the son's
@@ -633,7 +633,7 @@ bool edk::bones::Bone2D::playNameForward(edk::char8* name){
     }
     return ret;
 }
-bool edk::bones::Bone2D::playNameRewind(const char* name){
+bool edk::bones::Bone2D::playNameRewind(const edk::char8* name){
     bool ret =
             this->playNameRewindThis(name);
     //update the son's
@@ -654,7 +654,7 @@ bool edk::bones::Bone2D::playNameRewind(edk::char8* name){
     return ret;
 }
 //remove the animationName
-bool edk::bones::Bone2D::removeAnimationName(const char* name){
+bool edk::bones::Bone2D::removeAnimationName(const edk::char8* name){
     bool ret =
             this->removeAnimationNameThis(name);
     //update the son's
@@ -747,7 +747,7 @@ void edk::bones::Bone2D::printFramesThis(){
     this->animationAngle.printFrames();
 }
 //ANIMATIONNAMES
-bool edk::bones::Bone2D::addNewAnimationNameThis(const char* name, edk::float32 start,edk::float32 end){
+bool edk::bones::Bone2D::addNewAnimationNameThis(const edk::char8* name, edk::float32 start,edk::float32 end){
     bool ret=true;
     if(!this->animationPosition.addNewAnimationName(name,start,end)) ret=false;
     if(!this->animationAngle.addNewAnimationName(name,start,end)) ret=false;
@@ -760,7 +760,7 @@ bool edk::bones::Bone2D::addNewAnimationNameThis(edk::char8* name, edk::float32 
     return ret;
 }
 //select the animationName
-bool edk::bones::Bone2D::selectAnimationNameThis(const char* name){
+bool edk::bones::Bone2D::selectAnimationNameThis(const edk::char8* name){
     bool ret=true;
     if(!this->animationPosition.selectAnimationName(name)) ret=false;
     if(!this->animationAngle.selectAnimationName(name)) ret=false;
@@ -773,7 +773,7 @@ bool edk::bones::Bone2D::selectAnimationNameThis(edk::char8* name){
     return ret;
 }
 //test if have the animationName
-bool edk::bones::Bone2D::haveAnimationNameThis(const char* name){
+bool edk::bones::Bone2D::haveAnimationNameThis(const edk::char8* name){
     bool ret=true;
     if(!this->animationPosition.haveAnimationName(name)) ret=false;
     if(!this->animationAngle.haveAnimationName(name)) ret=false;
@@ -786,7 +786,7 @@ bool edk::bones::Bone2D::haveAnimationNameThis(edk::char8* name){
     return ret;
 }
 //Play the animationName
-bool edk::bones::Bone2D::playNameForwardThis(const char* name){
+bool edk::bones::Bone2D::playNameForwardThis(const edk::char8* name){
     bool ret=true;
     if(!this->animationPosition.playNameForward(name)) ret=false;
     if(!this->animationAngle.playNameForward(name)) ret=false;
@@ -798,7 +798,7 @@ bool edk::bones::Bone2D::playNameForwardThis(edk::char8* name){
     if(!this->animationAngle.playNameForward(name)) ret=false;
     return ret;
 }
-bool edk::bones::Bone2D::playNameRewindThis(const char* name){
+bool edk::bones::Bone2D::playNameRewindThis(const edk::char8* name){
     bool ret=true;
     if(!this->animationPosition.playNameRewind(name)) ret=false;
     if(!this->animationAngle.playNameRewind(name)) ret=false;
@@ -811,7 +811,7 @@ bool edk::bones::Bone2D::playNameRewindThis(edk::char8* name){
     return ret;
 }
 //remove the animationName
-bool edk::bones::Bone2D::removeAnimationNameThis(const char* name){
+bool edk::bones::Bone2D::removeAnimationNameThis(const edk::char8* name){
     bool ret=true;
     if(!this->animationPosition.removeAnimationName(name)) ret=false;
     if(!this->animationAngle.removeAnimationName(name)) ret=false;

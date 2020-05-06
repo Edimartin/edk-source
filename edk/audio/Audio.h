@@ -54,11 +54,11 @@ class Audio{
         virtual ~Audio();
 
         //OPEN
-        virtual bool open(const char* name);
+        virtual bool open(const edk::char8* name);
         virtual bool open(edk::char8* name);
-        virtual bool openFromMemory(const char* name,edk::classID vector,edk::uint32 size);
+        virtual bool openFromMemory(const edk::char8* name,edk::classID vector,edk::uint32 size);
         virtual bool openFromMemory(edk::char8* name,edk::classID vector,edk::uint32 size);
-        virtual bool openFromPack(edk::pack::FilePackage* pack,const char* name);
+        virtual bool openFromPack(edk::pack::FilePackage* pack,const edk::char8* name);
         virtual bool openFromPack(edk::pack::FilePackage* pack,edk::char8* name);
         void close();
 

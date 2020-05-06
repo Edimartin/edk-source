@@ -2912,7 +2912,7 @@ bool edk::Cenario2D::actionObjectRotateTo(edk::float32 start,edk::float32 end,ed
 bool edk::Cenario2D::actionObjectPlayName(edk::float32 second,edk::uint32 levelPosition,edk::float32 depth,edk::uint32 id,edk::char8* name,bool loop){
     return this->actions.addAction(second,new edk::Cenario2D::ActionObjectMeshName(this,levelPosition,depth,id,name,loop));
 }
-bool edk::Cenario2D::actionObjectPlayName(edk::float32 second,edk::uint32 levelPosition,edk::float32 depth,edk::uint32 id,const char* name,bool loop){
+bool edk::Cenario2D::actionObjectPlayName(edk::float32 second,edk::uint32 levelPosition,edk::float32 depth,edk::uint32 id,const edk::char8* name,bool loop){
     return this->actionObjectPlayName(second,levelPosition,depth,id,(edk::char8*)name,loop);
 }
 bool edk::Cenario2D::actionObjectPlayNameFor(edk::float32 second,edk::float32 duration,edk::uint32 levelPosition,edk::float32 depth,edk::uint32 id,edk::char8* name){
@@ -2922,7 +2922,7 @@ bool edk::Cenario2D::actionObjectPlayNameFor(edk::float32 second,edk::float32 du
     }
     return false;
 }
-bool edk::Cenario2D::actionObjectPlayNameFor(edk::float32 second,edk::float32 duration,edk::uint32 levelPosition,edk::float32 depth,edk::uint32 id,const char* name){
+bool edk::Cenario2D::actionObjectPlayNameFor(edk::float32 second,edk::float32 duration,edk::uint32 levelPosition,edk::float32 depth,edk::uint32 id,const edk::char8* name){
     return this->actionObjectPlayNameFor(second,duration,levelPosition,depth,id,(edk::char8*) name);
 }
 

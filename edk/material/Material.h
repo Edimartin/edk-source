@@ -57,11 +57,11 @@ public:
     //GU_LINEAR_MIPMAP_NEAREST
     //GU_LINEAR_MIPMAP_LINEAR
     bool loadTexture(edk::char8* name,edk::uint8 position=0u,edk::uint32 filter = GU_NEAREST);
-    bool loadTexture(const char* name,edk::uint8 position=0u,edk::uint32 filter = GU_NEAREST);
+    bool loadTexture(const edk::char8* name,edk::uint8 position=0u,edk::uint32 filter = GU_NEAREST);
     bool loadTextureFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint8 position=0u,edk::uint32 filter = GU_NEAREST);
-    bool loadTextureFromMemory(const char* name,edk::uint8* image,edk::uint32 size,edk::uint8 position=0u,edk::uint32 filter = GU_NEAREST);
+    bool loadTextureFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint8 position=0u,edk::uint32 filter = GU_NEAREST);
     bool loadTextureFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint8 position=0u,edk::uint32 filter = GU_NEAREST);
-    bool loadTextureFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint8 position=0u,edk::uint32 filter = GU_NEAREST);
+    bool loadTextureFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint8 position=0u,edk::uint32 filter = GU_NEAREST);
     //set the texture
     bool setTextureFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint8 position=0u,edk::uint32 filter = GU_NEAREST);
     bool setTextureFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint8 position=0u,edk::uint32 filter = GU_NEAREST);

@@ -51,8 +51,8 @@ bool edk::AudioBuffer::loadBufferFromFile(edk::char8* name){
         this->buffer=new sf::SoundBuffer;
         if(this->buffer){
             //load from the file
-            //if (this->buffer->LoadFromFile((const char*)name) ){//1.6
-            if (this->buffer->loadFromFile((const char*)name) ){//2.0
+            //if (this->buffer->LoadFromFile((const edk::char8*)name) ){//1.6
+            if (this->buffer->loadFromFile((const edk::char8*)name) ){//2.0
                 //then set the name
                 this->setName(name);
                 //return true

@@ -54,35 +54,35 @@ class ObjectGui2dBorder{
     ~ObjectGui2dBorder();
 
     //LOAD SPRITES
-    bool loadSpriteNormal(const char* name,edk::uint32 filter = GU_NEAREST);
+    bool loadSpriteNormal(const edk::char8* name,edk::uint32 filter = GU_NEAREST);
     bool loadSpriteNormal(edk::char8* name,edk::uint32 filter = GU_NEAREST);
-    bool loadSpriteNormalFromMemory(const char* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
+    bool loadSpriteNormalFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
     bool loadSpriteNormalFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
-    bool loadSpriteNormalFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint32 filter = GU_NEAREST);
+    bool loadSpriteNormalFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 filter = GU_NEAREST);
     bool loadSpriteNormalFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter = GU_NEAREST);
     void removeSpriteNormal();
     //load pressed sprite
-    bool loadSpritePressed(const char* name,edk::uint32 filter = GU_NEAREST);
+    bool loadSpritePressed(const edk::char8* name,edk::uint32 filter = GU_NEAREST);
     bool loadSpritePressed(edk::char8* name,edk::uint32 filter = GU_NEAREST);
-    bool loadSpritePressedFromMemory(const char* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
+    bool loadSpritePressedFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
     bool loadSpritePressedFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
-    bool loadSpritePressedFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint32 filter = GU_NEAREST);
+    bool loadSpritePressedFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 filter = GU_NEAREST);
     bool loadSpritePressedFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter = GU_NEAREST);
     void removeSpritePressed();
     //load UP sprite
-    bool loadSpriteUp(const char* name,edk::uint32 filter = GU_NEAREST);
+    bool loadSpriteUp(const edk::char8* name,edk::uint32 filter = GU_NEAREST);
     bool loadSpriteUp(edk::char8* name,edk::uint32 filter = GU_NEAREST);
-    bool loadSpriteUpFromMemory(const char* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
+    bool loadSpriteUpFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
     bool loadSpriteUpFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
-    bool loadSpriteUpFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint32 filter = GU_NEAREST);
+    bool loadSpriteUpFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 filter = GU_NEAREST);
     bool loadSpriteUpFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter = GU_NEAREST);
     void removeSpriteUp();
     //load pressedUp sprite
-    bool loadSpritePressedUp(const char* name,edk::uint32 filter = GU_NEAREST);
+    bool loadSpritePressedUp(const edk::char8* name,edk::uint32 filter = GU_NEAREST);
     bool loadSpritePressedUp(edk::char8* name,edk::uint32 filter = GU_NEAREST);
-    bool loadSpritePressedUpFromMemory(const char* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
+    bool loadSpritePressedUpFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
     bool loadSpritePressedUpFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
-    bool loadSpritePressedUpFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint32 filter = GU_NEAREST);
+    bool loadSpritePressedUpFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 filter = GU_NEAREST);
     bool loadSpritePressedUpFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter = GU_NEAREST);
     void removeSpritePressedUp();
 

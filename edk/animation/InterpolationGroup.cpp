@@ -719,7 +719,7 @@ bool edk::animation::InterpolationGroup::setAnimationEndSecond(edk::float32 seco
 
 //ANIMATIONNAMES
 //Add a new animationName
-bool edk::animation::InterpolationGroup::addNewAnimationName(const char* name, edk::float32 start,edk::float32 end){
+bool edk::animation::InterpolationGroup::addNewAnimationName(const edk::char8* name, edk::float32 start,edk::float32 end){
     //
     return this->addNewAnimationName((edk::char8*) name, start,end);
 }
@@ -801,7 +801,7 @@ edk::float32 edk::animation::InterpolationGroup::getAnimationNameEnd(edk::char8*
     return 0.f;
 }
 //select the animationName
-bool edk::animation::InterpolationGroup::selectAnimationName(const char* name){
+bool edk::animation::InterpolationGroup::selectAnimationName(const edk::char8* name){
     //
     return this->selectAnimationName((edk::char8*) name);
 }
@@ -830,7 +830,7 @@ bool edk::animation::InterpolationGroup::selectAnimationName(edk::char8* name){
     return false;
 }
 //test if have the animationName
-bool edk::animation::InterpolationGroup::haveAnimationName(const char* name){
+bool edk::animation::InterpolationGroup::haveAnimationName(const edk::char8* name){
     //
     return this->haveAnimationName((edk::char8*) name);
 }
@@ -844,7 +844,7 @@ bool edk::animation::InterpolationGroup::haveAnimationName(edk::char8* name){
     return false;
 }
 //Play the animationName
-bool edk::animation::InterpolationGroup::playNameForward(const char* name){
+bool edk::animation::InterpolationGroup::playNameForward(const edk::char8* name){
     //
     return this->playNameForward((edk::char8*) name);
 }
@@ -863,7 +863,7 @@ bool edk::animation::InterpolationGroup::playNameForward(edk::char8* name){
     return false;
 }
 //Play the animationName
-bool edk::animation::InterpolationGroup::playNameRewind(const char* name){
+bool edk::animation::InterpolationGroup::playNameRewind(const edk::char8* name){
     //
     return this->playNameRewind((edk::char8*) name);
 }
@@ -882,7 +882,7 @@ bool edk::animation::InterpolationGroup::playNameRewind(edk::char8* name){
     return false;
 }
 //remove the animationName
-bool edk::animation::InterpolationGroup::removeAnimationName(const char* name){
+bool edk::animation::InterpolationGroup::removeAnimationName(const edk::char8* name){
     //
     return this->removeAnimationName((edk::char8*) name);
 }

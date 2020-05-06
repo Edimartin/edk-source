@@ -43,7 +43,7 @@ public:
     edk::network::networkCodes connectSocket(edk::network::Adress host);
     edk::network::networkCodes connectSocket(edk::uint32 ip,edk::uint16 port);
     edk::network::networkCodes connectSocket(edk::char8* ip,edk::uint16 port);
-    edk::network::networkCodes connectSocket(const char* ip,edk::uint16 port);
+    edk::network::networkCodes connectSocket(const edk::char8* ip,edk::uint16 port);
 
     //test if have connection
     bool haveConnection();
@@ -54,11 +54,11 @@ public:
 
     edk::int32 sendStream(edk::network::Adress host,edk::classID stream,edk::uint32 size);
     edk::int32 sendString(edk::network::Adress host,edk::char8* string);
-    edk::int32 sendString(edk::network::Adress host,const char* string);
+    edk::int32 sendString(edk::network::Adress host,const edk::char8* string);
     edk::int32 sendStream(edk::classID stream,edk::uint32 size);
-    edk::int32 sendStream(const char* stream,edk::uint32 size);
+    edk::int32 sendStream(const edk::char8* stream,edk::uint32 size);
     edk::int32 sendString(edk::char8* string);
-    edk::int32 sendString(const char* string);
+    edk::int32 sendString(const edk::char8* string);
     //receive the stream from the server
     edk::int32 receiveStream(edk::classID stream,edk::uint32 size,edk::network::Adress* host);
     edk::int32 receiveStream(edk::classID stream,edk::uint32 size);

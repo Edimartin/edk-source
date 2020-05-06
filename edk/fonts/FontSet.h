@@ -41,10 +41,10 @@ public:
     ~FontSet();
 
     //load the font
-    bool loadFontImage(const char* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
+    bool loadFontImage(const edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
     bool loadFontImage(edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
 
-    bool loadFontImageFromMemory(const char* name,
+    bool loadFontImageFromMemory(const edk::char8* name,
                                  edk::uint8* image,
                                  edk::uint32 size,
                                  edk::uint32 filter = GU_NEAREST,
@@ -66,12 +66,12 @@ public:
     edk::uint32 getFilter();
 
     //setName
-    bool setName(const char* name);
+    bool setName(const edk::char8* name);
     bool setName(edk::char8* name);
     //test the names
-    bool nameBiggerThan(const char* name);
+    bool nameBiggerThan(const edk::char8* name);
     bool nameBiggerThan(edk::char8* name);
-    bool nameEqualThan(const char* name);
+    bool nameEqualThan(const edk::char8* name);
     bool nameEqualThan(edk::char8* name);
     //get the name
     edk::char8* getName();

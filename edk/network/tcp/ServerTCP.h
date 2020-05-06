@@ -55,7 +55,7 @@ public:
     //Send the message
     edk::int32 sendStream(edk::network::Adress host,edk::classID stream,edk::uint32 size);
     edk::int32 sendString(edk::network::Adress host,edk::char8* string);
-    edk::int32 sendString(edk::network::Adress host,const char* string);
+    edk::int32 sendString(edk::network::Adress host,const edk::char8* string);
     //Receive the message
     edk::int32 receiveStream(edk::classID stream,edk::uint32 size,edk::network::Adress* host);
     edk::int32 receiveStream(edk::classID stream,edk::uint32 size,edk::network::Adress host);

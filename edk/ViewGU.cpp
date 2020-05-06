@@ -152,7 +152,7 @@ bool edk::ViewGU::isRunningSelection(){
 }
 
 //load the background
-bool edk::ViewGU::loadBackground(const char* name){
+bool edk::ViewGU::loadBackground(const edk::char8* name){
     //
     return this->loadSprite(name);
 }
@@ -161,7 +161,7 @@ bool edk::ViewGU::loadBackground(edk::char8* name){
     return this->loadSprite(name);
 }
 //load the sprite from memory
-bool edk::ViewGU::loadBackgroundFromMemory(const char* name,edk::uint8* sprite,edk::uint32 size){
+bool edk::ViewGU::loadBackgroundFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 size){
     return this->loadBackgroundFromMemory((edk::char8*)name,sprite,size);
 }
 bool edk::ViewGU::loadBackgroundFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size){

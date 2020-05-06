@@ -182,7 +182,7 @@ void edk::tiles::Tile2D::useFrameUVinPosition(edk::uint32 position){
 }
 
 //Set the tileImage
-bool edk::tiles::Tile2D::loadImage(const char* name,edk::uint32 filter){
+bool edk::tiles::Tile2D::loadImage(const edk::char8* name,edk::uint32 filter){
     //
     return this->loadImage((edk::char8*) name,filter);
 }
@@ -195,7 +195,7 @@ bool edk::tiles::Tile2D::loadImage(edk::char8* name,edk::uint32 filter){
     return false;
 }
 //set the tileImage from memory
-bool edk::tiles::Tile2D::loadImageFromMemory(const char* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter){
+bool edk::tiles::Tile2D::loadImageFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter){
     return this->loadImageFromMemory(name,image,size,filter);
 }
 bool edk::tiles::Tile2D::loadImageFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter){
@@ -207,7 +207,7 @@ bool edk::tiles::Tile2D::loadImageFromMemory(edk::char8* name,edk::uint8* image,
     return false;
 }
 //set the tileImage from the pack
-bool edk::tiles::Tile2D::loadImageFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint32 filter){
+bool edk::tiles::Tile2D::loadImageFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 filter){
     return this->loadImageFromPack(pack,(edk::char8*) name,filter);
 }
 bool edk::tiles::Tile2D::loadImageFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter){
@@ -311,7 +311,7 @@ bool edk::tiles::Tile2D::isPlaying(){
     return this->mesh.selectedAnimationIsPlaying();
 }
 //animationNames
-bool edk::tiles::Tile2D::addAnimationName(const char* name, edk::float32 start,edk::float32 end){
+bool edk::tiles::Tile2D::addAnimationName(const edk::char8* name, edk::float32 start,edk::float32 end){
     return this->addAnimationName((edk::char8*) name,start,end);
 }
 bool edk::tiles::Tile2D::addAnimationName(edk::char8* name, edk::float32 start,edk::float32 end){
@@ -319,7 +319,7 @@ bool edk::tiles::Tile2D::addAnimationName(edk::char8* name, edk::float32 start,e
     return this->mesh.selectedAnimationAddAnimationName(name,start,end);
 }
 //test if have the animationName
-bool edk::tiles::Tile2D::haveAnimationName(const char* name){
+bool edk::tiles::Tile2D::haveAnimationName(const edk::char8* name){
     return this->haveAnimationName((edk::char8*) name);
 }
 bool edk::tiles::Tile2D::haveAnimationName(edk::char8* name){
@@ -327,14 +327,14 @@ bool edk::tiles::Tile2D::haveAnimationName(edk::char8* name){
     return this->mesh.selectedAnimationHaveAnimationName(name);
 }
 //Play the animationName
-bool edk::tiles::Tile2D::playNameForward(const char* name){
+bool edk::tiles::Tile2D::playNameForward(const edk::char8* name){
     return this->playNameForward((edk::char8*) name);
 }
 bool edk::tiles::Tile2D::playNameForward(edk::char8* name){
     this->selectAnimation();
     return this->mesh.selectedAnimationPlayNameForward(name);
 }
-bool edk::tiles::Tile2D::playNameRewind(const char* name){
+bool edk::tiles::Tile2D::playNameRewind(const edk::char8* name){
     return this->playNameRewind((edk::char8*) name);
 }
 bool edk::tiles::Tile2D::playNameRewind(edk::char8* name){
@@ -342,7 +342,7 @@ bool edk::tiles::Tile2D::playNameRewind(edk::char8* name){
     return this->mesh.selectedAnimationPlayNameRewind(name);
 }
 //remove the animationName
-bool edk::tiles::Tile2D::removeAnimationName(const char* name){
+bool edk::tiles::Tile2D::removeAnimationName(const edk::char8* name){
     return this->removeAnimationName((edk::char8*) name);
 }
 bool edk::tiles::Tile2D::removeAnimationName(edk::char8* name){

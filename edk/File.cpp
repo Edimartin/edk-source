@@ -430,7 +430,7 @@ bool File::openTextFile(char8 *name){
     this->closeFile();
 
     //Then open the file in your compiler
-    if((const char*)name){
+    if((const edk::char8*)name){
 
         #ifdef _WIN32
             //Windows 32
@@ -441,7 +441,7 @@ bool File::openTextFile(char8 *name){
             #ifdef __GNUC__
                 #ifdef __cplusplus
                     //G++
-                    arq=fopen((const char*)name,"r");
+                    arq=fopen((const edk::char8*)name,"r");
                 #else
                     //GCC
                 #endif
@@ -456,7 +456,7 @@ bool File::openTextFile(char8 *name){
             #ifdef __GNUC__
                 #ifdef __cplusplus
                     //G++
-                    arq=fopen((const char*)name,"r");
+                    arq=fopen((const edk::char8*)name,"r");
                 #else
                     //GCC
                 #endif
@@ -467,7 +467,7 @@ bool File::openTextFile(char8 *name){
             #ifdef __GNUC__
                 #ifdef __cplusplus
                     //G++
-                    arq=fopen((const char*)name,"r");
+                    arq=fopen((const edk::char8*)name,"r");
                 #else
                     //GCC
                 #endif
@@ -478,7 +478,7 @@ bool File::openTextFile(char8 *name){
             #ifdef __GNUC__
                 #ifdef __cplusplus
                     //G++
-                    arq=fopen((const char*)name,"r");
+                    arq=fopen((const edk::char8*)name,"r");
                 #else
                     //GCC
                 #endif
@@ -517,7 +517,7 @@ bool File::openBinFile(char8 *name){
     this->closeFile();
 
     //Then open the file in your compiler
-    if((const char*)name){
+    if((const edk::char8*)name){
 
         #ifdef _WIN32
             //Windows 32
@@ -528,7 +528,7 @@ bool File::openBinFile(char8 *name){
             #ifdef __GNUC__
                 #ifdef __cplusplus
                     //G++
-                    arq=fopen((const char*)name,"rb");
+                    arq=fopen((const edk::char8*)name,"rb");
                 #else
                     //GCC
                 #endif
@@ -543,7 +543,7 @@ bool File::openBinFile(char8 *name){
             #ifdef __GNUC__
                 #ifdef __cplusplus
                     //G++
-                    arq=fopen((const char*)name,"rb");
+                    arq=fopen((const edk::char8*)name,"rb");
                 #else
                     //GCC
                 #endif
@@ -554,7 +554,7 @@ bool File::openBinFile(char8 *name){
             #ifdef __GNUC__
                 #ifdef __cplusplus
                     //G++
-                    arq=fopen((const char*)name,"rb");
+                    arq=fopen((const edk::char8*)name,"rb");
                 #else
                     //GCC
                 #endif
@@ -565,7 +565,7 @@ bool File::openBinFile(char8 *name){
             #ifdef __GNUC__
                 #ifdef __cplusplus
                     //G++
-                    arq=fopen((const char*)name,"rb");
+                    arq=fopen((const edk::char8*)name,"rb");
                 #else
                     //GCC
                 #endif
@@ -604,7 +604,7 @@ bool File::openEndTextFile(char8 *name){
     this->closeFile();
 
     //Then open the file in your compiler
-    if((const char*)name){
+    if((const edk::char8*)name){
 
         #ifdef _WIN32
             //Windows 32
@@ -615,7 +615,7 @@ bool File::openEndTextFile(char8 *name){
             #ifdef __GNUC__
                 #ifdef __cplusplus
                     //G++
-                    arq=fopen((const char*)name,"a");
+                    arq=fopen((const edk::char8*)name,"a");
                 #else
                     //GCC
                 #endif
@@ -630,7 +630,7 @@ bool File::openEndTextFile(char8 *name){
             #ifdef __GNUC__
                 #ifdef __cplusplus
                     //G++
-                    arq=fopen((const char*)name,"a");
+                    arq=fopen((const edk::char8*)name,"a");
                 #else
                     //GCC
                 #endif
@@ -641,7 +641,7 @@ bool File::openEndTextFile(char8 *name){
             #ifdef __GNUC__
                 #ifdef __cplusplus
                     //G++
-                    arq=fopen((const char*)name,"a");
+                    arq=fopen((const edk::char8*)name,"a");
                 #else
                     //GCC
                 #endif
@@ -652,7 +652,7 @@ bool File::openEndTextFile(char8 *name){
             #ifdef __GNUC__
                 #ifdef __cplusplus
                     //G++
-                    arq=fopen((const char*)name,"a");
+                    arq=fopen((const edk::char8*)name,"a");
                 #else
                     //GCC
                 #endif
@@ -691,7 +691,7 @@ bool File::openEndBinFile(char8 *name){
     this->closeFile();
 
     //Then open the file in your compiler
-    if((const char*)name){
+    if((const edk::char8*)name){
 
         #ifdef _WIN32
             //Windows 32
@@ -702,7 +702,7 @@ bool File::openEndBinFile(char8 *name){
             #ifdef __GNUC__
                 #ifdef __cplusplus
                     //G++
-                    arq=fopen((const char*)name,"ab");
+                    arq=fopen((const edk::char8*)name,"ab");
                 #else
                     //GCC
                 #endif
@@ -717,7 +717,7 @@ bool File::openEndBinFile(char8 *name){
             #ifdef __GNUC__
                 #ifdef __cplusplus
                     //G++
-                    arq=fopen((const char*)name,"ab");
+                    arq=fopen((const edk::char8*)name,"ab");
                 #else
                     //GCC
                 #endif
@@ -728,7 +728,7 @@ bool File::openEndBinFile(char8 *name){
             #ifdef __GNUC__
                 #ifdef __cplusplus
                     //G++
-                    arq=fopen((const char*)name,"ab");
+                    arq=fopen((const edk::char8*)name,"ab");
                 #else
                     //GCC
                 #endif
@@ -739,7 +739,7 @@ bool File::openEndBinFile(char8 *name){
             #ifdef __GNUC__
                 #ifdef __cplusplus
                     //G++
-                    arq=fopen((const char*)name,"ab");
+                    arq=fopen((const edk::char8*)name,"ab");
                 #else
                     //GCC
                 #endif
@@ -779,7 +779,7 @@ bool File::openPipe(char8 *name){
     this->closeFile();
 
     //Then open the file in your compiler
-    if((const char*)name){
+    if((const edk::char8*)name){
 
         #ifdef _WIN32
             //Windows 32
@@ -790,7 +790,7 @@ bool File::openPipe(char8 *name){
             #ifdef __GNUC__
                 #ifdef __cplusplus
                     //G++
-                    arq=popen((const char*)name,"r");
+                    arq=popen((const edk::char8*)name,"r");
                 #else
                     //GCC
                 #endif
@@ -805,7 +805,7 @@ bool File::openPipe(char8 *name){
             #ifdef __GNUC__
                 #ifdef __cplusplus
                     //G++
-                    arq=popen((const char*)name,"r");
+                    arq=popen((const edk::char8*)name,"r");
                 #else
                     //GCC
                 #endif
@@ -816,7 +816,7 @@ bool File::openPipe(char8 *name){
             #ifdef __GNUC__
                 #ifdef __cplusplus
                     //G++
-                    arq=popen((const char*)name,"r");
+                    arq=popen((const edk::char8*)name,"r");
                 #else
                     //GCC
                 #endif
@@ -827,7 +827,7 @@ bool File::openPipe(char8 *name){
             #ifdef __GNUC__
                 #ifdef __cplusplus
                     //G++
-                    arq=popen((const char*)name,"r");
+                    arq=popen((const edk::char8*)name,"r");
                 #else
                     //GCC
                 #endif
@@ -880,9 +880,9 @@ void File::closeFile(){
 
 bool File::deleteFile(char8 *name){
     //To delete the file we use the Remove
-    if((const char*)name){
+    if((const edk::char8*)name){
         //
-        if( remove( (const char*)name ) != 0 ){
+        if( remove( (const edk::char8*)name ) != 0 ){
             //Remove the file
             return true;
         }
@@ -925,7 +925,7 @@ bool File::renameFile(char8 *oldName, char8 *newName){
     //Test if the names is valid
     if(oldName && newName){
         //Then try rename the file
-        if ( rename( (const char*)oldName , (const char*)newName ) == 0 )
+        if ( rename( (const edk::char8*)oldName , (const edk::char8*)newName ) == 0 )
             //Return true because he rename the file
             return true;
     }
@@ -942,7 +942,7 @@ bool File::createFile(char8 *name){
    FILE *tempArq=NULL;
 
    //test the name of the file
-   if((const char*)name){
+   if((const edk::char8*)name){
        //Create the file
        #ifdef _WIN32
             //Windows 32
@@ -953,7 +953,7 @@ bool File::createFile(char8 *name){
             #ifdef __GNUC__
                 #ifdef __cplusplus
                     //G++
-                    tempArq=fopen((const char*)name,"wb");
+                    tempArq=fopen((const edk::char8*)name,"wb");
                 #else
                     //GCC
                 #endif
@@ -968,7 +968,7 @@ bool File::createFile(char8 *name){
             #ifdef __GNUC__
                 #ifdef __cplusplus
                     //G++
-                    tempArq=fopen((const char*)name,"wb");
+                    tempArq=fopen((const edk::char8*)name,"wb");
                 #else
                     //GCC
                 #endif
@@ -979,7 +979,7 @@ bool File::createFile(char8 *name){
             #ifdef __GNUC__
                 #ifdef __cplusplus
                     //G++
-                    tempArq=fopen((const char*)name,"wb");
+                    tempArq=fopen((const edk::char8*)name,"wb");
                 #else
                     //GCC
                 #endif
@@ -990,7 +990,7 @@ bool File::createFile(char8 *name){
             #ifdef __GNUC__
                 #ifdef __cplusplus
                     //G++
-                    tempArq=fopen((const char*)name,"wb");
+                    tempArq=fopen((const edk::char8*)name,"wb");
                 #else
                     //GCC
                 #endif
@@ -1049,7 +1049,7 @@ bool File::createAndOpenPipe(char8* name){
     this->closeFile();
 
     //Then open the file in your compiler
-    if((const char*)name){
+    if((const edk::char8*)name){
 
         #ifdef _WIN32
             //Windows 32
@@ -1060,7 +1060,7 @@ bool File::createAndOpenPipe(char8* name){
             #ifdef __GNUC__
                 #ifdef __cplusplus
                     //G++
-                    arq=popen((const char*)name,"w");
+                    arq=popen((const edk::char8*)name,"w");
                 #else
                     //GCC
                 #endif
@@ -1075,7 +1075,7 @@ bool File::createAndOpenPipe(char8* name){
             #ifdef __GNUC__
                 #ifdef __cplusplus
                     //G++
-                    arq=popen((const char*)name,"w");
+                    arq=popen((const edk::char8*)name,"w");
                 #else
                     //GCC
                 #endif
@@ -1086,7 +1086,7 @@ bool File::createAndOpenPipe(char8* name){
             #ifdef __GNUC__
                 #ifdef __cplusplus
                     //G++
-                    arq=popen((const char*)name,"w");
+                    arq=popen((const edk::char8*)name,"w");
                 #else
                     //GCC
                 #endif
@@ -1097,7 +1097,7 @@ bool File::createAndOpenPipe(char8* name){
             #ifdef __GNUC__
                 #ifdef __cplusplus
                     //G++
-                    arq=popen((const char*)name,"w");
+                    arq=popen((const edk::char8*)name,"w");
                 #else
                     //GCC
                 #endif
@@ -1126,7 +1126,7 @@ bool File::createAndOpenPipe(char8* name){
     }
     return false;
 }
-bool File::createAndOpenPipe(const char* name){
+bool File::createAndOpenPipe(const edk::char8* name){
     return this->createAndOpenPipe((char8*) name);
 }
 
@@ -1134,7 +1134,7 @@ bool File::fileExist(char8 *name){
     //create a tempFile
     FILE *tempArq=NULL;
     //Test the name
-    if((const char*)name){
+    if((const edk::char8*)name){
         //Try open the file
 
        #ifdef _WIN32
@@ -1146,7 +1146,7 @@ bool File::fileExist(char8 *name){
             #ifdef __GNUC__
                 #ifdef __cplusplus
                     //G++
-                    tempArq=fopen((const char*)name,"r");
+                    tempArq=fopen((const edk::char8*)name,"r");
                 #else
                     //GCC
                 #endif
@@ -1161,7 +1161,7 @@ bool File::fileExist(char8 *name){
             #ifdef __GNUC__
                 #ifdef __cplusplus
                     //G++
-                    tempArq=fopen((const char*)name,"r");
+                    tempArq=fopen((const edk::char8*)name,"r");
                 #else
                     //GCC
                 #endif
@@ -1172,7 +1172,7 @@ bool File::fileExist(char8 *name){
             #ifdef __GNUC__
                 #ifdef __cplusplus
                     //G++
-                    tempArq=fopen((const char*)name,"r");
+                    tempArq=fopen((const edk::char8*)name,"r");
                 #else
                     //GCC
                 #endif
@@ -1183,7 +1183,7 @@ bool File::fileExist(char8 *name){
             #ifdef __GNUC__
                 #ifdef __cplusplus
                     //G++
-                    tempArq=fopen((const char*)name,"r");
+                    tempArq=fopen((const edk::char8*)name,"r");
                 #else
                     //GCC
                 #endif
@@ -1311,7 +1311,7 @@ bool File::writeBin(char8 *str){
     //test if the file is opened and if the str is true and the size is >1u
     if(this->isOpened() && str){
         //
-        fwrite(str,sizeof(edk::char8),strlen((const char*)str),this->arq);
+        fwrite(str,sizeof(edk::char8),strlen((const edk::char8*)str),this->arq);
         fwrite(str,sizeof(edk::char8),edk::String::strSize(str),this->arq);
         //return true
         return true;

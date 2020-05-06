@@ -40,18 +40,18 @@ public:
     ~CommandParser();
 
     //new command
-    bool addCommand(const char* command,const char* value);
+    bool addCommand(const edk::char8* command,const edk::char8* value);
     bool addCommand(edk::char8* command,edk::char8* value);
     //remove a command
-    bool removeCommand(const char* command);
+    bool removeCommand(const edk::char8* command);
     bool removeCommand(edk::char8* command);
     //clean the commands
     void cleanCommands();
     //test if have a command
-    bool haveCommand(const char* command);
+    bool haveCommand(const edk::char8* command);
     bool haveCommand(edk::char8* command);
     //return the value of a command
-    edk::char8* getValue(const char* command);
+    edk::char8* getValue(const edk::char8* command);
     edk::char8* getValue(edk::char8* command);
     //return the value of the command in position
     edk::char8* getValueInPosition(edk::uint32 position);

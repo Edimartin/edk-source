@@ -29,7 +29,7 @@ edk::fonts::FontSet::~FontSet(){
 }
 
 //load the font
-bool edk::fonts::FontSet::loadFontImage(const char* image,edk::uint32 filter,edk::color4f32 color){
+bool edk::fonts::FontSet::loadFontImage(const edk::char8* image,edk::uint32 filter,edk::color4f32 color){
     return this->loadFontImage((edk::char8*) image,filter,color);
 }
 
@@ -46,7 +46,7 @@ bool edk::fonts::FontSet::loadFontImage(edk::char8* image,edk::uint32 filter,edk
     return false;
 }
 
-bool edk::fonts::FontSet::loadFontImageFromMemory(const char* name,
+bool edk::fonts::FontSet::loadFontImageFromMemory(const edk::char8* name,
                                                   edk::uint8* image,
                                                   edk::uint32 size,
                                                   edk::uint32 filter,
@@ -89,7 +89,7 @@ edk::uint32 edk::fonts::FontSet::getFilter(){
 }
 
 //setName
-bool edk::fonts::FontSet::setName(const char* name){
+bool edk::fonts::FontSet::setName(const edk::char8* name){
     return this->setName((edk::char8*) name);
 }
 bool edk::fonts::FontSet::setName(edk::char8* name){
@@ -97,13 +97,13 @@ bool edk::fonts::FontSet::setName(edk::char8* name){
     return this->name.setName(name);
 }
 //test the names
-bool edk::fonts::FontSet::nameBiggerThan(const char* name){
+bool edk::fonts::FontSet::nameBiggerThan(const edk::char8* name){
     return this->nameBiggerThan((edk::char8*) name);
 }
 bool edk::fonts::FontSet::nameBiggerThan(edk::char8* name){
     return this->name.nameBiggerThan(name);
 }
-bool edk::fonts::FontSet::nameEqualThan(const char* name){
+bool edk::fonts::FontSet::nameEqualThan(const edk::char8* name){
     return this->nameEqualThan((edk::char8*) name);
 }
 bool edk::fonts::FontSet::nameEqualThan(edk::char8* name){

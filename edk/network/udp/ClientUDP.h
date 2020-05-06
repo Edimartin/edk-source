@@ -48,17 +48,17 @@ public:
     edk::int32 sendStream(edk::network::Adress host,const void* stream,edk::uint32 size);
     //
     edk::int32 sendString(edk::network::Adress host,edk::char8* string);
-    edk::int32 sendString(edk::network::Adress host,const char* string);
+    edk::int32 sendString(edk::network::Adress host,const edk::char8* string);
     //
     edk::int32 sendStream(edk::char8* ip,edk::uint16 port,edk::classID stream,edk::uint32 size);
-    edk::int32 sendStream(const char* ip,edk::uint16 port,edk::classID stream,edk::uint32 size);
+    edk::int32 sendStream(const edk::char8* ip,edk::uint16 port,edk::classID stream,edk::uint32 size);
     edk::int32 sendStream(edk::char8* ip,edk::uint16 port,const void* stream,edk::uint32 size);
-    edk::int32 sendStream(const char* ip,edk::uint16 port,const void* stream,edk::uint32 size);
+    edk::int32 sendStream(const edk::char8* ip,edk::uint16 port,const void* stream,edk::uint32 size);
     //
     edk::int32 sendString(edk::char8* ip,edk::uint16 port,edk::char8* string);
-    edk::int32 sendString(const char* ip,edk::uint16 port,edk::char8* string);
-    edk::int32 sendString(edk::char8* ip,edk::uint16 port,const char* string);
-    edk::int32 sendString(const char* ip,edk::uint16 port,const char* string);
+    edk::int32 sendString(const edk::char8* ip,edk::uint16 port,edk::char8* string);
+    edk::int32 sendString(edk::char8* ip,edk::uint16 port,const edk::char8* string);
+    edk::int32 sendString(const edk::char8* ip,edk::uint16 port,const edk::char8* string);
     //Recebe uma mensagem
     edk::int32 receiveStream(edk::classID stream,edk::uint32 size,edk::network::Adress* host);
     edk::int32 receiveStreamNonBlock(edk::classID stream,edk::uint32 size,edk::network::Adress* host);

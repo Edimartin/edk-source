@@ -208,13 +208,13 @@ public:
     //construtor
     ObjectWithName(edk::char8* name);
     //construtor
-    ObjectWithName(const char* name);
+    ObjectWithName(const edk::char8* name);
     //destructor
     virtual ~ObjectWithName();
 
     //Set the name
     bool setName(edk::char8* name);
-    bool setName(const char* name);
+    bool setName(const edk::char8* name);
     //get the name
     edk::char8* getName();
     edk::char8* name();

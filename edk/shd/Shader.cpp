@@ -143,7 +143,7 @@ bool edk::shd::Shader::loadShaderFromMemory(edk::uint8* shader, edk::uint32 size
     //else return false
     return false;
 }
-bool edk::shd::Shader::loadShaderFromFile(const char* name){
+bool edk::shd::Shader::loadShaderFromFile(const edk::char8* name){
     //
     return this->loadShaderFromFile((edk::char8*) name);
 }

@@ -243,13 +243,13 @@ class View {
     void animationLoopOn();
     void animationLoopOff();
     //AnimationNames
-    bool animationAddAnimationName(const char* name,edk::float32 start,edk::float32 end);
+    bool animationAddAnimationName(const edk::char8* name,edk::float32 start,edk::float32 end);
     bool animationAddAnimationName(edk::char8* name,edk::float32 start,edk::float32 end);
-    bool animationPlayNameForward(const char* name);
+    bool animationPlayNameForward(const edk::char8* name);
     bool animationPlayNameForward(edk::char8* name);
-    bool animationPlayNameRewind(const char* name);
+    bool animationPlayNameRewind(const edk::char8* name);
     bool animationPlayNameRewind(edk::char8* name);
-    void animationRemoveAnimationName(const char* name);
+    void animationRemoveAnimationName(const edk::char8* name);
     void animationRemoveAnimationName(edk::char8* name);
     //clean all animation Names
     void animationCleanAnimationNames();

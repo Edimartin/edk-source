@@ -888,7 +888,7 @@ public:
         this->setName(_name);
         this->canDelete=true;
     }
-    Name(const char* _name){
+    Name(const edk::char8* _name){
         //
         this->_name=NULL;
         this->setName(_name);
@@ -907,7 +907,7 @@ public:
     void cleanName(){
         this->setName((edk::char8*)NULL);
     }
-    bool setName(const char* _name){
+    bool setName(const edk::char8* _name){
         return this->setName((edk::char8*) _name);
     }
     //set the name
@@ -935,13 +935,13 @@ public:
     bool nameEqual(edk::char8* _name){
         return edk::vector::Name::stringEqual(this->_name,_name);
     }
-    bool nameEqual(const char* _name){
+    bool nameEqual(const edk::char8* _name){
         return this->nameEqual((edk::char8*) _name);
     }
     bool nameBiggerThan(edk::char8* _name){
         return edk::vector::Name::firstNameBiggerSecond(this->_name,_name);
     }
-    bool nameBiggerThan(const char* _name){
+    bool nameBiggerThan(const edk::char8* _name){
         return nameBiggerThan((edk::char8*) _name);
     }
 
@@ -1031,7 +1031,7 @@ public:
     }
     //Functions in const
     //ADD
-    bool addName(const char* value){
+    bool addName(const edk::char8* value){
         return this->addName((edk::char8*) value);
     }
     bool addName(edk::char8* value){
@@ -1049,7 +1049,7 @@ public:
         return false;
     }
     //REMOVE
-    bool removeName(const char* value){
+    bool removeName(const edk::char8* value){
         //
         return this->removeName((edk::char8*) value);
     }
@@ -1068,7 +1068,7 @@ public:
         return false;
     }
     //DELETE
-    bool deleteName(const char* value){
+    bool deleteName(const edk::char8* value){
         //
         return this->deleteName((edk::char8*) value);
     }
@@ -1107,7 +1107,7 @@ public:
     }
     //remove all names
     //HAVE ELEMENT
-    bool haveName(const char* value){
+    bool haveName(const edk::char8* value){
         //
         return this->haveName((edk::char8*)value);
     }
@@ -1117,7 +1117,7 @@ public:
         return edk::vector::BinaryTree<edk::Name*>::haveElement(&temp);
     }
     //GET ELEMENT
-    edk::Name* getElementByName(const char* value){
+    edk::Name* getElementByName(const edk::char8* value){
         //
         return getElementByName((edk::char8*) value);
     }

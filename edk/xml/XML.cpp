@@ -28,7 +28,7 @@ edk::XML::XML()
 {
     //
 }
-edk::XML::XML(const char* xmlCode)
+edk::XML::XML(const edk::char8* xmlCode)
 {
     //parse the xmlCode
     this->parse(xmlCode);
@@ -44,7 +44,7 @@ edk::XML::~XML()
     //dtor
 }
 //Just load the file
-bool edk::XML::loadFile(const char* fileName){
+bool edk::XML::loadFile(const edk::char8* fileName){
     //
     //else return false
     return this->loadFile((edk::char8*) fileName);
@@ -184,7 +184,7 @@ bool edk::XML::addSelectedNewAttribute(edk::char8* name,edk::char8* value){
 }
 
 //return the string type
-edk::uint8 edk::XML::getStringType(const char* str){
+edk::uint8 edk::XML::getStringType(const edk::char8* str){
     return edk::XML::getStringType((edk::char8*) str);
 }
 edk::uint8 edk::XML::getStringType(edk::char8* str){
@@ -354,7 +354,7 @@ bool edk::XML::parse(){
     //else return false
     return false;
 }
-bool edk::XML::parse(const char* xmlCode){
+bool edk::XML::parse(const edk::char8* xmlCode){
     //
     return this->parse((edk::char8*) xmlCode);
 }
@@ -371,7 +371,7 @@ bool edk::XML::parse(edk::char8* xmlCode){
     }
     return false;
 }
-bool edk::XML::parseFile(const char* fileName){
+bool edk::XML::parseFile(const edk::char8* fileName){
     //
     return this->parseFile((edk::char8*)fileName);
 }
@@ -386,7 +386,7 @@ bool edk::XML::parseFile(edk::char8* fileName){
 }
 
 //save to a file
-bool edk::XML::saveToFile(const char* fileName){
+bool edk::XML::saveToFile(const edk::char8* fileName){
     //
     //else return false
     return this->saveToFile((edk::char8*) fileName);
@@ -443,7 +443,7 @@ edk::char8* edk::XML::selectFather(){
     return NULL;
 }
 //select the brother by the name
-edk::char8* edk::XML::selectBrother(const char* name){
+edk::char8* edk::XML::selectBrother(const edk::char8* name){
     //
     return this->selectBrother((edk::char8*) name);
 }
@@ -572,7 +572,7 @@ edk::char8* edk::XML::selectChild(edk::uint32 id){
     //esle return false
     return NULL;
 }
-edk::char8* edk::XML::selectChild(const char* name){
+edk::char8* edk::XML::selectChild(const edk::char8* name){
     return this->selectChild((edk::char8*) name);
 }
 edk::char8* edk::XML::selectChild(edk::char8* name){
@@ -625,7 +625,7 @@ edk::char8* edk::XML::selectLastChild(){
 }
 //SELECTED ADD
 //add brother before the selected
-bool edk::XML::addSelectedPreviousBrother(const char* name){
+bool edk::XML::addSelectedPreviousBrother(const edk::char8* name){
     //
     return this->addSelectedPreviousBrother((edk::char8*) name);
 }
@@ -647,7 +647,7 @@ bool edk::XML::addSelectedPreviousBrother(edk::char8* name){
     return NULL;
 }
 //add brother after selected
-bool edk::XML::addSelectedNextBrother(const char* name){
+bool edk::XML::addSelectedNextBrother(const edk::char8* name){
     //
     return this->addSelectedNextBrother((edk::char8*) name);
 }
@@ -669,7 +669,7 @@ bool edk::XML::addSelectedNextBrother(edk::char8* name){
     return NULL;
 }
 //add childs at the beginning
-bool edk::XML::addSelectedPreviousChild(const char* name){
+bool edk::XML::addSelectedPreviousChild(const edk::char8* name){
     //
     return this->addSelectedPreviousChild((edk::char8*) name);
 }
@@ -690,7 +690,7 @@ bool edk::XML::addSelectedPreviousChild(edk::char8* name){
     return false;
 }
 //add childs at the end
-bool edk::XML::addSelectedNextChild(const char* name){
+bool edk::XML::addSelectedNextChild(const edk::char8* name){
     return this->addSelectedNextChild((edk::char8*) name);
 }
 bool edk::XML::addSelectedNextChild(edk::char8* name){
@@ -718,7 +718,7 @@ bool edk::XML::addSelectedNextChild(edk::char8* name){
     //else return false
     return false;
 }
-bool edk::XML::addSelectedNextChild(const char* name,edk::uint32 value){
+bool edk::XML::addSelectedNextChild(const edk::char8* name,edk::uint32 value){
     return this->addSelectedNextChild((edk::char8*) name,value);
 }
 bool edk::XML::addSelectedNextChild(edk::char8* name,edk::uint32 value){
@@ -762,7 +762,7 @@ bool edk::XML::addSelectedNextChild(edk::char8* name,edk::uint32 value){
     //else return false
     return false;
 }
-bool edk::XML::addSelectedNextChild(const char* name,edk::int32 value){
+bool edk::XML::addSelectedNextChild(const edk::char8* name,edk::int32 value){
     return this->addSelectedNextChild((edk::char8*) name,value);
 }
 bool edk::XML::addSelectedNextChild(edk::char8* name,edk::int32 value){
@@ -806,7 +806,7 @@ bool edk::XML::addSelectedNextChild(edk::char8* name,edk::int32 value){
     //else return false
     return false;
 }
-bool edk::XML::addSelectedNextChild(const char* name,edk::uint64 value){
+bool edk::XML::addSelectedNextChild(const edk::char8* name,edk::uint64 value){
     return this->addSelectedNextChild((edk::char8*) name,value);
 }
 bool edk::XML::addSelectedNextChild(edk::char8* name,edk::uint64 value){
@@ -857,7 +857,7 @@ bool edk::XML::addSelectedNextChild(edk::char8* name,edk::uint64 value){
     //else return false
     return false;
 }
-bool edk::XML::addSelectedNextChild(const char* name,edk::int64 value){
+bool edk::XML::addSelectedNextChild(const edk::char8* name,edk::int64 value){
     return this->addSelectedNextChild((edk::char8*) name,value);
 }
 bool edk::XML::addSelectedNextChild(edk::char8* name,edk::int64 value){
@@ -908,7 +908,7 @@ bool edk::XML::addSelectedNextChild(edk::char8* name,edk::int64 value){
     //else return false
     return false;
 }
-bool edk::XML::addSelectedNextChild(const char* name,edk::float32 value,edk::uint32 digits){
+bool edk::XML::addSelectedNextChild(const edk::char8* name,edk::float32 value,edk::uint32 digits){
     return this->addSelectedNextChild((edk::char8*) name,value,digits);
 }
 bool edk::XML::addSelectedNextChild(edk::char8* name,edk::float32 value,edk::uint32 digits){
@@ -959,7 +959,7 @@ bool edk::XML::addSelectedNextChild(edk::char8* name,edk::float32 value,edk::uin
     //else return false
     return false;
 }
-bool edk::XML::addSelectedNextChild(const char* name,edk::float64 value,edk::uint32 digits){
+bool edk::XML::addSelectedNextChild(const edk::char8* name,edk::float64 value,edk::uint32 digits){
     return this->addSelectedNextChild((edk::char8*) name,value,digits);
 }
 bool edk::XML::addSelectedNextChild(edk::char8* name,edk::float64 value,edk::uint32 digits){
@@ -1010,13 +1010,13 @@ bool edk::XML::addSelectedNextChild(edk::char8* name,edk::float64 value,edk::uin
     //else return false
     return false;
 }
-bool edk::XML::addSelectedNextChild(const char* name,const char* value){
+bool edk::XML::addSelectedNextChild(const edk::char8* name,const edk::char8* value){
     return this->addSelectedNextChild((edk::char8*) name,value);
 }
-bool edk::XML::addSelectedNextChild(edk::char8* name,const char* value){
+bool edk::XML::addSelectedNextChild(edk::char8* name,const edk::char8* value){
     return this->addSelectedNextChild(name,(edk::char8*) value);
 }
-bool edk::XML::addSelectedNextChild(const char* name,edk::char8* value){
+bool edk::XML::addSelectedNextChild(const edk::char8* name,edk::char8* value){
     return this->addSelectedNextChild((edk::char8*) name,value);
 }
 bool edk::XML::addSelectedNextChild(edk::char8* name,edk::char8* value){
@@ -1060,14 +1060,14 @@ bool edk::XML::addSelectedNextChild(edk::char8* name,edk::char8* value){
     //else return false
     return false;
 }
-bool edk::XML::addSelectedNextChild(const char* name,bool value){
+bool edk::XML::addSelectedNextChild(const edk::char8* name,bool value){
     return this->addSelectedNextChild((edk::char8*) name,value);
 }
 bool edk::XML::addSelectedNextChild(edk::char8* name,bool value){
     return this->addSelectedNextChild(name,value?(edk::char8*)"true":(edk::char8*)"false");
 }
 //Add a attribute at the end
-bool edk::XML::addSelectedNextAttribute(const char* name,edk::uint32 value){
+bool edk::XML::addSelectedNextAttribute(const edk::char8* name,edk::uint32 value){
     return this->addSelectedNextAttribute((edk::char8*) name,value);
 }
 bool edk::XML::addSelectedNextAttribute(edk::char8* name,edk::uint32 value){
@@ -1079,7 +1079,7 @@ bool edk::XML::addSelectedNextAttribute(edk::char8* name,edk::uint32 value){
     }
     return ret;
 }
-bool edk::XML::addSelectedNextAttribute(const char* name,edk::int32 value){
+bool edk::XML::addSelectedNextAttribute(const edk::char8* name,edk::int32 value){
     return this->addSelectedNextAttribute((edk::char8*) name,value);
 }
 bool edk::XML::addSelectedNextAttribute(edk::char8* name,edk::int32 value){
@@ -1091,7 +1091,7 @@ bool edk::XML::addSelectedNextAttribute(edk::char8* name,edk::int32 value){
     }
     return ret;
 }
-bool edk::XML::addSelectedNextAttribute(const char* name,edk::uint64 value){
+bool edk::XML::addSelectedNextAttribute(const edk::char8* name,edk::uint64 value){
     return this->addSelectedNextAttribute((edk::char8*) name,value);
 }
 bool edk::XML::addSelectedNextAttribute(edk::char8* name,edk::uint64 value){
@@ -1103,7 +1103,7 @@ bool edk::XML::addSelectedNextAttribute(edk::char8* name,edk::uint64 value){
     }
     return ret;
 }
-bool edk::XML::addSelectedNextAttribute(const char* name,edk::int64 value){
+bool edk::XML::addSelectedNextAttribute(const edk::char8* name,edk::int64 value){
     return this->addSelectedNextAttribute((edk::char8*) name,value);
 }
 bool edk::XML::addSelectedNextAttribute(edk::char8* name,edk::int64 value){
@@ -1115,7 +1115,7 @@ bool edk::XML::addSelectedNextAttribute(edk::char8* name,edk::int64 value){
     }
     return ret;
 }
-bool edk::XML::addSelectedNextAttribute(const char* name,edk::float32 value,edk::uint32 digits){
+bool edk::XML::addSelectedNextAttribute(const edk::char8* name,edk::float32 value,edk::uint32 digits){
     return this->addSelectedNextAttribute((edk::char8*) name,value,digits);
 }
 bool edk::XML::addSelectedNextAttribute(edk::char8* name,edk::float32 value,edk::uint32 digits){
@@ -1127,7 +1127,7 @@ bool edk::XML::addSelectedNextAttribute(edk::char8* name,edk::float32 value,edk:
     }
     return ret;
 }
-bool edk::XML::addSelectedNextAttribute(const char* name,edk::float64 value,edk::uint32 digits){
+bool edk::XML::addSelectedNextAttribute(const edk::char8* name,edk::float64 value,edk::uint32 digits){
     return this->addSelectedNextAttribute((edk::char8*) name,value,digits);
 }
 bool edk::XML::addSelectedNextAttribute(edk::char8* name,edk::float64 value,edk::uint32 digits){
@@ -1139,13 +1139,13 @@ bool edk::XML::addSelectedNextAttribute(edk::char8* name,edk::float64 value,edk:
     }
     return ret;
 }
-bool edk::XML::addSelectedNextAttribute(const char* name,const char* value){
+bool edk::XML::addSelectedNextAttribute(const edk::char8* name,const edk::char8* value){
     return this->addSelectedNextAttribute((edk::char8*) name,(edk::char8*) value);
 }
-bool edk::XML::addSelectedNextAttribute(edk::char8* name,const char* value){
+bool edk::XML::addSelectedNextAttribute(edk::char8* name,const edk::char8* value){
     return this->addSelectedNextAttribute(name,(edk::char8*) value);
 }
-bool edk::XML::addSelectedNextAttribute(const char* name,edk::char8* value){
+bool edk::XML::addSelectedNextAttribute(const edk::char8* name,edk::char8* value){
     return this->addSelectedNextAttribute((edk::char8*) name,value);
 }
 bool edk::XML::addSelectedNextAttribute(edk::char8* name,edk::char8* value){
@@ -1173,13 +1173,13 @@ bool edk::XML::addSelectedNextAttribute(edk::char8* name,edk::char8* value){
     //else return false
     return false;
 }
-bool edk::XML::addSelectedNextAttribute(const char* name,bool value){
+bool edk::XML::addSelectedNextAttribute(const edk::char8* name,bool value){
     return this->addSelectedNextAttribute((edk::char8*) name,value);
 }
 bool edk::XML::addSelectedNextAttribute(edk::char8* name,bool value){
     return this->addSelectedNextAttribute(name,value?(edk::char8*)"true":(edk::char8*)"false");
 }
-bool edk::XML::addSelectedPreviousAttribute(const char* name,edk::uint32 value){
+bool edk::XML::addSelectedPreviousAttribute(const edk::char8* name,edk::uint32 value){
     return this->addSelectedPreviousAttribute((edk::char8*) name,value);
 }
 bool edk::XML::addSelectedPreviousAttribute(edk::char8* name,edk::uint32 value){
@@ -1191,7 +1191,7 @@ bool edk::XML::addSelectedPreviousAttribute(edk::char8* name,edk::uint32 value){
     }
     return ret;
 }
-bool edk::XML::addSelectedPreviousAttribute(const char* name,edk::int32 value){
+bool edk::XML::addSelectedPreviousAttribute(const edk::char8* name,edk::int32 value){
     return this->addSelectedPreviousAttribute((edk::char8*) name,value);
 }
 bool edk::XML::addSelectedPreviousAttribute(edk::char8* name,edk::int32 value){
@@ -1203,7 +1203,7 @@ bool edk::XML::addSelectedPreviousAttribute(edk::char8* name,edk::int32 value){
     }
     return ret;
 }
-bool edk::XML::addSelectedPreviousAttribute(const char* name,edk::uint64 value){
+bool edk::XML::addSelectedPreviousAttribute(const edk::char8* name,edk::uint64 value){
     return this->addSelectedPreviousAttribute((edk::char8*) name,value);
 }
 bool edk::XML::addSelectedPreviousAttribute(edk::char8* name,edk::uint64 value){
@@ -1215,7 +1215,7 @@ bool edk::XML::addSelectedPreviousAttribute(edk::char8* name,edk::uint64 value){
     }
     return ret;
 }
-bool edk::XML::addSelectedPreviousAttribute(const char* name,edk::int64 value){
+bool edk::XML::addSelectedPreviousAttribute(const edk::char8* name,edk::int64 value){
     return this->addSelectedPreviousAttribute((edk::char8*) name,value);
 }
 bool edk::XML::addSelectedPreviousAttribute(edk::char8* name,edk::int64 value){
@@ -1227,7 +1227,7 @@ bool edk::XML::addSelectedPreviousAttribute(edk::char8* name,edk::int64 value){
     }
     return ret;
 }
-bool edk::XML::addSelectedPreviousAttribute(const char* name,edk::float32 value,edk::uint32 digits){
+bool edk::XML::addSelectedPreviousAttribute(const edk::char8* name,edk::float32 value,edk::uint32 digits){
     return this->addSelectedPreviousAttribute((edk::char8*) name,value,digits);
 }
 bool edk::XML::addSelectedPreviousAttribute(edk::char8* name,edk::float32 value,edk::uint32 digits){
@@ -1239,7 +1239,7 @@ bool edk::XML::addSelectedPreviousAttribute(edk::char8* name,edk::float32 value,
     }
     return ret;
 }
-bool edk::XML::addSelectedPreviousAttribute(const char* name,edk::float64 value,edk::uint32 digits){
+bool edk::XML::addSelectedPreviousAttribute(const edk::char8* name,edk::float64 value,edk::uint32 digits){
     return this->addSelectedPreviousAttribute((edk::char8*) name,value,digits);
 }
 bool edk::XML::addSelectedPreviousAttribute(edk::char8* name,edk::float64 value,edk::uint32 digits){
@@ -1251,14 +1251,14 @@ bool edk::XML::addSelectedPreviousAttribute(edk::char8* name,edk::float64 value,
     }
     return ret;
 }
-bool edk::XML::addSelectedPreviousAttribute(const char* name,const char* value){
+bool edk::XML::addSelectedPreviousAttribute(const edk::char8* name,const edk::char8* value){
     //
     return this->addSelectedPreviousAttribute((edk::char8*) name,(edk::char8*) value);
 }
-bool edk::XML::addSelectedPreviousAttribute(edk::char8* name,const char* value){
+bool edk::XML::addSelectedPreviousAttribute(edk::char8* name,const edk::char8* value){
     return this->addSelectedPreviousAttribute(name,(edk::char8*) value);
 }
-bool edk::XML::addSelectedPreviousAttribute(const char* name,edk::char8* value){
+bool edk::XML::addSelectedPreviousAttribute(const edk::char8* name,edk::char8* value){
     return this->addSelectedPreviousAttribute((edk::char8*) name,value);
 }
 bool edk::XML::addSelectedPreviousAttribute(edk::char8* name,edk::char8* value){
@@ -1286,14 +1286,14 @@ bool edk::XML::addSelectedPreviousAttribute(edk::char8* name,edk::char8* value){
     //else return false
     return false;
 }
-bool edk::XML::addSelectedPreviousAttribute(const char* name,bool value){
+bool edk::XML::addSelectedPreviousAttribute(const edk::char8* name,bool value){
     return this->addSelectedPreviousAttribute((edk::char8*) name,value);
 }
 bool edk::XML::addSelectedPreviousAttribute(edk::char8* name,bool value){
     return this->addSelectedPreviousAttribute(name,value?(edk::char8*)"true":(edk::char8*)"false");
 }
 //Add a new node to the root
-bool edk::XML::addRootPreviousChild(const char* name){
+bool edk::XML::addRootPreviousChild(const edk::char8* name){
     //
     return this->addRootPreviousChild((edk::char8*) name);
 }
@@ -1313,7 +1313,7 @@ bool edk::XML::addRootPreviousChild(edk::char8* name){
     //else return false
     return false;
 }
-bool edk::XML::addRootNextChild(const char* name){
+bool edk::XML::addRootNextChild(const edk::char8* name){
     //
     return this->addRootNextChild((edk::char8*) name);
 }
@@ -1369,7 +1369,7 @@ bool edk::XML::deleteSelected(){
     //else return false
     return false;
 }
-bool edk::XML::deleteSelectedAttribute(const char* name){
+bool edk::XML::deleteSelectedAttribute(const edk::char8* name){
     //
     return this->deleteSelectedAttribute((edk::char8*) name);
 }
@@ -1383,7 +1383,7 @@ bool edk::XML::deleteSelectedAttribute(edk::char8* name){
     return false;
 }
 //SELECTED SET
-bool edk::XML::setSelectedString(const char* string){
+bool edk::XML::setSelectedString(const edk::char8* string){
     //
     return this->setSelectedString((edk::char8*) string);
 }
@@ -1654,7 +1654,7 @@ edk::uint8 edk::XML::getSelectedStringType(){
     return EDK_XML_NULL;
 }
 //test if have the attribute
-bool edk::XML::haveAttributeName(const char* name){
+bool edk::XML::haveAttributeName(const edk::char8* name){
     return this->haveAttributeName((edk::char8*) name);
 }
 bool edk::XML::haveAttributeName(edk::char8* name){
@@ -1877,7 +1877,7 @@ edk::uint8 edk::XML::getSelectedAttributeType(edk::uint32 id){
     return EDK_XML_NULL;
 }
 //return the value by the attribute name
-edk::char8* edk::XML::getSelectedAttributeValueByName(const char* name){
+edk::char8* edk::XML::getSelectedAttributeValueByName(const edk::char8* name){
     //
     return this->getSelectedAttributeValueByName((edk::char8*) name);
 }
@@ -1897,7 +1897,7 @@ edk::char8* edk::XML::getSelectedAttributeValueByName(edk::char8* name){
     //else return NULL
     return NULL;
 }
-edk::int32 edk::XML::getSelectedAttributeValueAsInt32ByName(const char* name){
+edk::int32 edk::XML::getSelectedAttributeValueAsInt32ByName(const edk::char8* name){
     return getSelectedAttributeValueAsInt32ByName((edk::char8*) name);
 }
 edk::int32 edk::XML::getSelectedAttributeValueAsInt32ByName(edk::char8* name){
@@ -1916,7 +1916,7 @@ edk::int32 edk::XML::getSelectedAttributeValueAsInt32ByName(edk::char8* name){
     //else return NULL
     return 0;
 }
-edk::uint32 edk::XML::getSelectedAttributeValueAsUint32ByName(const char* name){
+edk::uint32 edk::XML::getSelectedAttributeValueAsUint32ByName(const edk::char8* name){
     return this->getSelectedAttributeValueAsUint32ByName((edk::char8*) name);
 }
 edk::uint32 edk::XML::getSelectedAttributeValueAsUint32ByName(edk::char8* name){
@@ -1935,7 +1935,7 @@ edk::uint32 edk::XML::getSelectedAttributeValueAsUint32ByName(edk::char8* name){
     //else return NULL
     return 0u;
 }
-edk::int64 edk::XML::getSelectedAttributeValueAsInt64ByName(const char* name){
+edk::int64 edk::XML::getSelectedAttributeValueAsInt64ByName(const edk::char8* name){
     return this->getSelectedAttributeValueAsInt64ByName((edk::char8*) name);
 }
 edk::int64 edk::XML::getSelectedAttributeValueAsInt64ByName(edk::char8* name){
@@ -1954,7 +1954,7 @@ edk::int64 edk::XML::getSelectedAttributeValueAsInt64ByName(edk::char8* name){
     //else return NULL
     return 0;
 }
-edk::uint64 edk::XML::getSelectedAttributeValueAsUint64ByName(const char* name){
+edk::uint64 edk::XML::getSelectedAttributeValueAsUint64ByName(const edk::char8* name){
     return this->getSelectedAttributeValueAsUint64ByName((edk::char8*) name);
 }
 edk::uint64 edk::XML::getSelectedAttributeValueAsUint64ByName(edk::char8* name){
@@ -1973,7 +1973,7 @@ edk::uint64 edk::XML::getSelectedAttributeValueAsUint64ByName(edk::char8* name){
     //else return NULL
     return 0u;
 }
-edk::float32 edk::XML::getSelectedAttributeValueAsFloat32ByName(const char* name){
+edk::float32 edk::XML::getSelectedAttributeValueAsFloat32ByName(const edk::char8* name){
     return this->getSelectedAttributeValueAsFloat32ByName((edk::char8*) name);
 }
 edk::float32 edk::XML::getSelectedAttributeValueAsFloat32ByName(edk::char8* name){
@@ -1992,7 +1992,7 @@ edk::float32 edk::XML::getSelectedAttributeValueAsFloat32ByName(edk::char8* name
     //else return NULL
     return 0.f;
 }
-edk::float64 edk::XML::getSelectedAttributeValueAsFloat64ByName(const char* name){
+edk::float64 edk::XML::getSelectedAttributeValueAsFloat64ByName(const edk::char8* name){
     return this->getSelectedAttributeValueAsFloat64ByName((edk::char8*) name);
 }
 edk::float64 edk::XML::getSelectedAttributeValueAsFloat64ByName(edk::char8* name){
@@ -2011,7 +2011,7 @@ edk::float64 edk::XML::getSelectedAttributeValueAsFloat64ByName(edk::char8* name
     //else return NULL
     return 0.0;
 }
-bool edk::XML::getSelectedAttributeValueAsBoolByName(const char* name){
+bool edk::XML::getSelectedAttributeValueAsBoolByName(const edk::char8* name){
     return this->getSelectedAttributeValueAsBoolByName((edk::char8*) name);
 }
 bool edk::XML::getSelectedAttributeValueAsBoolByName(edk::char8* name){

@@ -88,21 +88,21 @@ public:
     bool isRewind();
 
     //ANIMATIONNAMES
-    bool addNewAnimationName(const char* name, edk::uint32 start,edk::uint32 end);
+    bool addNewAnimationName(const edk::char8* name, edk::uint32 start,edk::uint32 end);
     bool addNewAnimationName(edk::char8* name, edk::uint32 start,edk::uint32 end);
     //select the animationName
-    bool selectAnimationName(const char* name);
+    bool selectAnimationName(const edk::char8* name);
     bool selectAnimationName(edk::char8* name);
     //test if have the animationName
-    bool haveAnimationName(const char* name);
+    bool haveAnimationName(const edk::char8* name);
     bool haveAnimationName(edk::char8* name);
     //Play the animationName
-    bool playNameForward(const char* name);
+    bool playNameForward(const edk::char8* name);
     bool playNameForward(edk::char8* name);
-    bool playNameRewind(const char* name);
+    bool playNameRewind(const edk::char8* name);
     bool playNameRewind(edk::char8* name);
     //remove the animationName
-    bool removeAnimationName(const char* name);
+    bool removeAnimationName(const edk::char8* name);
     bool removeAnimationName(edk::char8* name);
     //clean animationName selected
     void cleanAnimationNameSelected();

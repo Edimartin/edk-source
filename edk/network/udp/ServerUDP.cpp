@@ -81,7 +81,7 @@ edk::int32 edk::network::udp::ServerUDP::sendStream(edk::network::Adress host,ed
 edk::int32 edk::network::udp::ServerUDP::sendString(edk::network::Adress host,edk::char8* string){
     return this->sendStream(host,string,edk::String::strSize(string)+1u);
 }
-edk::int32 edk::network::udp::ServerUDP::sendString(edk::network::Adress host,const char* string){
+edk::int32 edk::network::udp::ServerUDP::sendString(edk::network::Adress host,const edk::char8* string){
     return this->sendString(host,(edk::char8*) string);
 }
 //Receive the message

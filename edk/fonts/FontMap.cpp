@@ -817,7 +817,7 @@ edk::uint32 edk::fonts::FontMap::getTheLastPositionY(){
     return this->getTheLastPosition().y;
 }
 //load fontImage
-bool edk::fonts::FontMap::loadFontImage(const char* name,edk::uint32 filter,edk::color4f32 color){
+bool edk::fonts::FontMap::loadFontImage(const edk::char8* name,edk::uint32 filter,edk::color4f32 color){
     return this->loadFontImage((edk::char8*) name,filter,color);
 }
 bool edk::fonts::FontMap::loadFontImage(edk::char8* name,edk::uint32 filter,edk::color4f32 color){
@@ -839,7 +839,7 @@ bool edk::fonts::FontMap::loadFontImage(edk::char8* name,edk::uint32 filter,edk:
     this->removeFontImage();
     return false;
 }
-bool edk::fonts::FontMap::loadFontImageFromMemory(const char* name,
+bool edk::fonts::FontMap::loadFontImageFromMemory(const edk::char8* name,
                                                   edk::uint8* image,
                                                   edk::uint32 size,
                                                   edk::uint32 filter,
@@ -874,7 +874,7 @@ bool edk::fonts::FontMap::loadFontImageFromMemory(edk::char8* name,
 }
 
 //create the string
-bool edk::fonts::FontMap::createStringMap(const char* str,edk::uint32 width){
+bool edk::fonts::FontMap::createStringMap(const edk::char8* str,edk::uint32 width){
     return this->createStringMap((edk::char8*) str,width);
 }
 bool edk::fonts::FontMap::createStringMap(edk::char8* str,edk::uint32 width){
@@ -886,7 +886,7 @@ bool edk::fonts::FontMap::createStringMap(edk::char8* str,edk::uint32 width){
     this->cleanLines();
     return false;
 }
-bool edk::fonts::FontMap::createStringMap(const char* str){
+bool edk::fonts::FontMap::createStringMap(const edk::char8* str){
     return this->createStringMap((edk::char8*) str);
 }
 bool edk::fonts::FontMap::createStringMap(edk::char8* str){
@@ -897,7 +897,7 @@ bool edk::fonts::FontMap::createStringMap(edk::char8* str){
     this->cleanLines();
     return false;
 }
-bool edk::fonts::FontMap::addStringLine(const char* str,edk::uint32 width){
+bool edk::fonts::FontMap::addStringLine(const edk::char8* str,edk::uint32 width){
     return this->addStringLine((edk::char8*) str, width);
 }
 bool edk::fonts::FontMap::addStringLine(edk::char8* str,edk::uint32 width){
@@ -991,7 +991,7 @@ bool edk::fonts::FontMap::addStringLine(edk::char8* str,edk::uint32 width){
     }
     return false;
 }
-bool edk::fonts::FontMap::addStringLine(const char* str){
+bool edk::fonts::FontMap::addStringLine(const edk::char8* str){
     return this->addStringLine((edk::char8*) str);
 }
 bool edk::fonts::FontMap::addStringLine(edk::char8* str){
@@ -1092,7 +1092,7 @@ bool edk::fonts::FontMap::addStringLine(edk::char8* str){
     }
     return false;
 }
-bool edk::fonts::FontMap::createStringMapOneLine(const char* str,edk::uint32 width){
+bool edk::fonts::FontMap::createStringMapOneLine(const edk::char8* str,edk::uint32 width){
     return this->createStringMapOneLine((edk::char8*) str,width);
 }
 bool edk::fonts::FontMap::createStringMapOneLine(edk::char8* str,edk::uint32 width){
@@ -1194,7 +1194,7 @@ bool edk::fonts::FontMap::createStringMapOneLine(edk::char8* str,edk::uint32 wid
     this->cleanLines();
     return false;
 }
-bool edk::fonts::FontMap::createStringMapOneLine(const char* str){
+bool edk::fonts::FontMap::createStringMapOneLine(const edk::char8* str){
     return this->createStringMapOneLine((edk::char8*) str);
 }
 bool edk::fonts::FontMap::createStringMapOneLine(edk::char8* str){

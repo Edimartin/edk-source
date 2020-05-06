@@ -893,7 +893,7 @@ bool edk::ViewTextField::TextField::addCharacter(edk::char8 c){
         this->createString(this->string);
     return ret;
 }
-bool edk::ViewTextField::TextField::addCharacterFromString(const char* str){
+bool edk::ViewTextField::TextField::addCharacterFromString(const edk::char8* str){
     return this->addCharacterFromString((edk::char8*) str);
 }
 bool edk::ViewTextField::TextField::addCharacterFromString(edk::char8* str){
@@ -1035,7 +1035,7 @@ void edk::ViewTextField::update(edk::WindowEvents*){
 }
 
 //create a string
-bool edk::ViewTextField::createString(const char* string){
+bool edk::ViewTextField::createString(const edk::char8* string){
     return this->createString((edk::char8*) string);
 }
 bool edk::ViewTextField::createString(edk::char8* string){

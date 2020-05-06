@@ -46,7 +46,7 @@ public:
     void update(edk::WindowEvents* events);
 
     //create a string
-    bool createString(const char* string);
+    bool createString(const edk::char8* string);
     bool createString(edk::char8* string);
     //get the string
     edk::char8* getString();
@@ -100,7 +100,7 @@ private:
         bool setString(edk::char8* string);
         //add a characted
         bool addCharacter(edk::char8 c);
-        bool addCharacterFromString(const char* str);
+        bool addCharacterFromString(const edk::char8* str);
         bool addCharacterFromString(edk::char8* str);
         //remove the caracter
         bool removeCharacter();

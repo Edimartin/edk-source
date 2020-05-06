@@ -45,11 +45,11 @@ public:
     virtual ~Body2D();
 
     //add a new bone to the selected
-    edk::bones::Bone2D* createBoneToSelected(const char* name);
-    edk::bones::Bone2D* createBoneToSelected(const char* name,edk::vec2f32 position);
-    edk::bones::Bone2D* createBoneToSelected(const char* name,edk::float32 positionX,edk::float32 positionY);
-    edk::bones::Bone2D* createBoneToSelected(const char* name,edk::vec2f32 position,edk::float32 angle);
-    edk::bones::Bone2D* createBoneToSelected(const char* name,edk::float32 positionX,edk::float32 positionY,edk::float32 angle);
+    edk::bones::Bone2D* createBoneToSelected(const edk::char8* name);
+    edk::bones::Bone2D* createBoneToSelected(const edk::char8* name,edk::vec2f32 position);
+    edk::bones::Bone2D* createBoneToSelected(const edk::char8* name,edk::float32 positionX,edk::float32 positionY);
+    edk::bones::Bone2D* createBoneToSelected(const edk::char8* name,edk::vec2f32 position,edk::float32 angle);
+    edk::bones::Bone2D* createBoneToSelected(const edk::char8* name,edk::float32 positionX,edk::float32 positionY,edk::float32 angle);
     edk::bones::Bone2D* createBoneToSelected(edk::char8* name);
     edk::bones::Bone2D* createBoneToSelected(edk::char8* name,edk::vec2f32 position);
     edk::bones::Bone2D* createBoneToSelected(edk::char8* name,edk::float32 positionX,edk::float32 positionY);
@@ -58,13 +58,13 @@ public:
 
     //Add the bone to the selected
     bool addBoneToSelected(edk::bones::Bone2D* bone);
-    bool addBoneToSelected(const char* name);
+    bool addBoneToSelected(const edk::char8* name);
     bool addBoneToSelected(edk::char8* name);
 
     //Select the bone
     bool selectBone(edk::bones::Bone2D* bone);
     //Select the bone by the name
-    bool selectBoneByName(const char* name);
+    bool selectBoneByName(const edk::char8* name);
     bool selectBoneByName(edk::char8* name);
 
     bool selectedSetPosition(edk::vec2f32 position);
@@ -83,32 +83,32 @@ public:
 
     //get the bone
     edk::bones::Bone2D* getBone(edk::uint32 position);
-    edk::bones::Bone2D* getBoneByName(const char* name);
+    edk::bones::Bone2D* getBoneByName(const edk::char8* name);
     edk::bones::Bone2D* getBoneByName(edk::char8* name);
 
     //remove the selection
     void cleanSelected();
     //delete a bone
     bool deleteBone(edk::bones::Bone2D* bone);
-    bool deleteBone(const char* name);
+    bool deleteBone(const edk::char8* name);
     bool deleteBone(edk::char8* name);
     //delete all bones
     void deleteAllBones();
 
     //add a connection object
-    bool addConnectionObject(const char* boneName,edk::Object2DValues* object);
+    bool addConnectionObject(const edk::char8* boneName,edk::Object2DValues* object);
     bool addConnectionObject(edk::char8* boneName,edk::Object2DValues* object);
     //return the objects size
-    edk::uint32 getConnectionObjectSize(const char* boneName);
+    edk::uint32 getConnectionObjectSize(const edk::char8* boneName);
     edk::uint32 getConnectionObjectSize(edk::char8* boneName);
     //remove the connectionObject
-    bool removeConnectionObject(const char* boneName,edk::Object2DValues* object);
+    bool removeConnectionObject(const edk::char8* boneName,edk::Object2DValues* object);
     bool removeConnectionObject(edk::char8* boneName,edk::Object2DValues* object);
     //remove the connectionObject in the position
-    bool removeConnectionObjectInPosition(const char* boneName,edk::uint32 position);
+    bool removeConnectionObjectInPosition(const edk::char8* boneName,edk::uint32 position);
     bool removeConnectionObjectInPosition(edk::char8* boneName,edk::uint32 position);
     //remove all connection objects
-    bool removeAllConnectionObjects(const char* boneName);
+    bool removeAllConnectionObjects(const edk::char8* boneName);
     bool removeAllConnectionObjects(edk::char8* boneName);
     void removeAllConnectionObjects();
 
@@ -138,32 +138,32 @@ public:
     void loopOff();
     void printFrames();
     //ANIMATIONNAMES
-    bool addNewAnimationName(const char* name, edk::float32 start,edk::float32 end);
+    bool addNewAnimationName(const edk::char8* name, edk::float32 start,edk::float32 end);
     bool addNewAnimationName(edk::char8* name, edk::float32 start,edk::float32 end);
     //select the animationName
-    bool selectAnimationName(const char* name);
+    bool selectAnimationName(const edk::char8* name);
     bool selectAnimationName(edk::char8* name);
     //test if have the animationName
-    bool haveAnimationName(const char* name);
+    bool haveAnimationName(const edk::char8* name);
     bool haveAnimationName(edk::char8* name);
     //Play the animationName
-    bool playNameForward(const char* name);
+    bool playNameForward(const edk::char8* name);
     bool playNameForward(edk::char8* name);
-    bool playNameRewind(const char* name);
+    bool playNameRewind(const edk::char8* name);
     bool playNameRewind(edk::char8* name);
     //remove the animationName
-    bool removeAnimationName(const char* name);
+    bool removeAnimationName(const edk::char8* name);
     bool removeAnimationName(edk::char8* name);
     void removeAllAnimationNames();
     //return if are playing
     bool isPlaying();
 
     //load the BVH
-    bool loadBVHXY(const char* name);
+    bool loadBVHXY(const edk::char8* name);
     bool loadBVHXY(edk::char8* name);
-    bool loadBVHXZ(const char* name);
+    bool loadBVHXZ(const edk::char8* name);
     bool loadBVHXZ(edk::char8* name);
-    bool loadBVHYZ(const char* name);
+    bool loadBVHYZ(const edk::char8* name);
     bool loadBVHYZ(edk::char8* name);
 
     //print the bones
@@ -174,7 +174,7 @@ public:
     void updateObjects();
     //return the world vector of the bone
     edk::vec2f32 getBoneWorldVector(edk::bones::Bone2D* bone, bool* found = NULL);
-    void calculateInverseKinematic(const char* name,edk::vec2f32 worldPoint,edk::uint32 tail,edk::uint32 times);
+    void calculateInverseKinematic(const edk::char8* name,edk::vec2f32 worldPoint,edk::uint32 tail,edk::uint32 times);
     void calculateInverseKinematic(edk::char8* name,edk::vec2f32 worldPoint,edk::uint32 tail,edk::uint32 times);
     void calculateInverseKinematic(edk::bones::Bone2D* bone,edk::vec2f32 worldPoint,edk::uint32 tail,edk::uint32 times);
 
@@ -209,7 +209,7 @@ private:
             }
             return false;
         }
-        edk::bones::Bone2D* getElementByName(const char* name){
+        edk::bones::Bone2D* getElementByName(const edk::char8* name){
             return this->getElementByName((edk::char8*) name);
         }
         edk::bones::Bone2D* getElementByName(edk::char8* name){

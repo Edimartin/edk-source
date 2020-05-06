@@ -35,7 +35,7 @@ edk::ObjectWithName::ObjectWithName(edk::char8* name){
     this->setName(name);
 }
 //construtor
-edk::ObjectWithName::ObjectWithName(const char* name){
+edk::ObjectWithName::ObjectWithName(const edk::char8* name){
     //
     this->objectName=NULL;
     this->setName(name);
@@ -62,7 +62,7 @@ bool edk::ObjectWithName::setName(edk::char8* name)
     //else return false
     return false;
 }
-bool edk::ObjectWithName::setName(const char* name)
+bool edk::ObjectWithName::setName(const edk::char8* name)
 {
     //
     //else return false

@@ -152,9 +152,9 @@ public:
     bool actionRotateTo(edk::float32 start,edk::float32 end, edk::float32 angle);
     //MESH SPRITE SHEET
     bool actionPlayName(edk::float32 second,edk::uint32 id,edk::char8* name,bool loop=false);
-    bool actionPlayName(edk::float32 second,edk::uint32 id,const char* name,bool loop=false);
+    bool actionPlayName(edk::float32 second,edk::uint32 id,const edk::char8* name,bool loop=false);
     bool actionPlayNameFor(edk::float32 second,edk::float32 duration,edk::uint32 id,edk::char8* name);
-    bool actionPlayNameFor(edk::float32 second,edk::float32 duration,edk::uint32 id,const char* name);
+    bool actionPlayNameFor(edk::float32 second,edk::float32 duration,edk::uint32 id,const edk::char8* name);
 
     //DRAW
     //print the mesh

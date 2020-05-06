@@ -70,10 +70,10 @@ public:
     void setScrollFrontColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
 
     //add a cell
-    edk::uint32 addCell(const char* name,edk::uint32 id=0u,edk::color4f32 cellColor = edk::color4f32(1,1,1,1));
+    edk::uint32 addCell(const edk::char8* name,edk::uint32 id=0u,edk::color4f32 cellColor = edk::color4f32(1,1,1,1));
     edk::uint32 addCell(edk::char8* name,edk::uint32 id=0u,edk::color4f32 cellColor = edk::color4f32(1,1,1,1));
     //set cell string
-    bool setCellString(edk::uint32 position,const char* string);
+    bool setCellString(edk::uint32 position,const edk::char8* string);
     bool setCellString(edk::uint32 position,edk::char8* string);
     //set the cellID
     bool setCellID(edk::uint32 position,edk::uint32 id);

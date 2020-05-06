@@ -75,10 +75,10 @@ public:
     bool readTexture(edk::uint32 code,edk::uint32 format,edk::uint8* image);
     //Load Texture
     edk::uint32 loadTexture(edk::char8* name,edk::uint32 filter = GU_NEAREST);
-    edk::uint32 loadTexture(const char* name,edk::uint32 filter = GU_NEAREST);
+    edk::uint32 loadTexture(const edk::char8* name,edk::uint32 filter = GU_NEAREST);
     //load Texture from memory
     edk::uint32 loadTextureFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
-    edk::uint32 loadTextureFromMemory(const char* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
+    edk::uint32 loadTextureFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
     //set Texture from memory
     edk::uint32 setTextureFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 filter = GU_NEAREST);
     edk::uint32 setTextureFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 filter = GU_NEAREST);
@@ -89,30 +89,30 @@ public:
     bool retainTexture(edk::uint32 code);
     //remove texture
     bool removeTexture(edk::char8* name,edk::uint32 filter = GU_NEAREST);
-    bool removeTexture(const char* name,edk::uint32 filter = GU_NEAREST);
+    bool removeTexture(const edk::char8* name,edk::uint32 filter = GU_NEAREST);
     bool removeTexture(edk::uint32 code);
     //delete texture
     bool deleteTexture(edk::char8* name,edk::uint32 filter = GU_NEAREST);
-    bool deleteTexture(const char* name,edk::uint32 filter = GU_NEAREST);
+    bool deleteTexture(const edk::char8* name,edk::uint32 filter = GU_NEAREST);
     bool deleteTexture(edk::uint32 code);
     //delete all textures
     void deleteAllTextures();
     //return the size of the texture
     edk::size2ui32 getTextureSize(edk::char8* name,edk::uint32 filter = GU_NEAREST);
-    edk::size2ui32 getTextureSize(const char* name,edk::uint32 filter = GU_NEAREST);
+    edk::size2ui32 getTextureSize(const edk::char8* name,edk::uint32 filter = GU_NEAREST);
     edk::size2ui32 getTextureSize(edk::uint32 code);
     edk::uint32 getTextureWidth(edk::char8* name,edk::uint32 filter = GU_NEAREST);
-    edk::uint32 getTextureWidth(const char* name,edk::uint32 filter = GU_NEAREST);
+    edk::uint32 getTextureWidth(const edk::char8* name,edk::uint32 filter = GU_NEAREST);
     edk::uint32 getTextureWidth(edk::uint32 code);
     edk::uint32 getTextureHeight(edk::char8* name,edk::uint32 filter = GU_NEAREST);
-    edk::uint32 getTextureHeight(const char* name,edk::uint32 filter = GU_NEAREST);
+    edk::uint32 getTextureHeight(const edk::char8* name,edk::uint32 filter = GU_NEAREST);
     edk::uint32 getTextureHeight(edk::uint32 code);
     //return the textureName
     edk::char8* getTextureName(edk::uint32 code);
     edk::uint32 getTextureFilter(edk::uint32 code);
     //Test if have the texture
     bool haveTexture(edk::char8* name,edk::uint32 filter = GU_NEAREST);
-    bool haveTexture(const char* name,edk::uint32 filter = GU_NEAREST);
+    bool haveTexture(const edk::char8* name,edk::uint32 filter = GU_NEAREST);
     bool haveTexture(edk::uint32 code);
 protected:
 private:

@@ -45,7 +45,7 @@ class DecoderImage : protected edk::codecs::CodecImage{
         virtual bool decode(const unsigned char* encoded,edk::uint32 size);
 
         //decode from file
-        bool decodeFromFile(const char* fileName);
+        bool decodeFromFile(const edk::char8* fileName);
         bool decodeFromFile(edk::char8* fileName);
 
         //Return the frame

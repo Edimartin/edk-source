@@ -304,7 +304,7 @@ edk::float32 String::strToFloat32(const char *str){
 
 edk::float32 String::strToFloat32(char8 *str){
     if(str)
-        return (edk::float32)atof((const char*)str);
+        return (edk::float32)atof((const edk::char8*)str);
     return 0.0f;
     /*
     //the return
@@ -398,7 +398,7 @@ edk::float32 String::strToFloat32(char8 *str){
 
 int64 String::strToInt64(char8 *str){
     if(str)
-        return (edk::int64)atol((const char*)str);
+        return (edk::int64)atol((const edk::char8*)str);
     return 0;
 }
 
@@ -408,7 +408,7 @@ int64 String::strToInt64(const char *str){
 
 edk::float64 String::strToFloat64(char8 *str){
     if(str)
-        return strtod ((const char*)str,NULL);
+        return strtod ((const edk::char8*)str,NULL);
     return 0.0;
 }
 
@@ -626,7 +626,7 @@ bool String::strToVecUint64(edk::char8* str,edk::uint64* vec,edk::uint32 size){
 
 int32 String::strToInt32(char8 *str){
     if(str)
-        return (edk::int32)atoi((const char*)str);
+        return (edk::int32)atoi((const edk::char8*)str);
     return 0;
     /*
     //the final number to be returned
@@ -1982,7 +1982,7 @@ char8* String::float32ToStr(edk::float32 value, int32 digits){
     }
     else{
         //create one string .0;
-        beforeStr=edk::String::strCopy((const char*)".0");
+        beforeStr=edk::String::strCopy((const edk::char8*)".0");
     }
     //then concatenate the two strings
     if(beforeStr){
@@ -2040,7 +2040,7 @@ char8* String::float64ToStr(edk::float64 value, int32 digits){
     }
     else{
         //create one string .0;
-        beforeStr=edk::String::strCopy((const char*)".0");
+        beforeStr=edk::String::strCopy((const edk::char8*)".0");
     }
     //then concatenate the two strings
     if(beforeStr){
@@ -3203,7 +3203,7 @@ bool String::clipboardClean(){
 
 
 //filter string accent's
-edk::char8 String::filterAccent(const char* str){
+edk::char8 String::filterAccent(const edk::char8* str){
     return edk::String::filterAccent((edk::char8*) str);
 }
 edk::char8 String::filterAccent(edk::char8* str){
@@ -3397,7 +3397,7 @@ edk::char8 String::filterAccent(edk::char8* str){
     }
     return 0u;
 }
-edk::char8 edk::String::filterAccent(const char* str,edk::uint8* jump){
+edk::char8 edk::String::filterAccent(const edk::char8* str,edk::uint8* jump){
     return edk::String::filterAccent((edk::char8*) str,jump);
 }
 edk::char8 edk::String::filterAccent(edk::char8* str,edk::uint8* jump){
@@ -3603,7 +3603,7 @@ edk::char8 edk::String::filterAccent(edk::char8* str,edk::uint8* jump){
     }
     return 0u;
 }
-edk::uint32 edk::String::strSizeFilterAccent(const char* str){
+edk::uint32 edk::String::strSizeFilterAccent(const edk::char8* str){
     return edk::String::strSizeFilterAccent((edk::char8*) str);
 }
 edk::uint32 edk::String::strSizeFilterAccent(edk::char8* str){
@@ -3623,7 +3623,7 @@ edk::uint32 edk::String::strSizeFilterAccent(edk::char8* str){
     return ret;
 }
 //copy with filter
-edk::char8* edk::String::strCopyFilterAccent(const char* str){
+edk::char8* edk::String::strCopyFilterAccent(const edk::char8* str){
     return edk::String::strCopyFilterAccent((edk::char8*) str);
 }
 edk::char8* edk::String::strCopyFilterAccent(edk::char8* str){

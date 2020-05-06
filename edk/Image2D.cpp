@@ -81,7 +81,7 @@ void edk::Image2D::setFileName(edk::char8* imageFileName){
         this->imageFileName = edk::String::strCopy(imageFileName);
     }
 }
-void edk::Image2D::setFileName(const char* imageFileName){
+void edk::Image2D::setFileName(const edk::char8* imageFileName){
     //
     this->setFileName((edk::char8*) imageFileName);
 }
@@ -532,7 +532,7 @@ bool Image2D::saveToFile(edk::char8 *fileName){
                         }
                     }
                     //save the image
-                    ret = encoder.saveToFile(std::string((const char*)fileName));
+                    ret = encoder.saveToFile(std::string((const edk::char8*)fileName));
                     if(deleteTempName)
                         delete[] fileName;
                     break;
@@ -575,7 +575,7 @@ bool Image2D::saveToFile(edk::char8 *fileName){
                         }
                     }
                     //save the image
-                    ret = encoder.saveToFile(std::string((const char*)fileName));
+                    ret = encoder.saveToFile(std::string((const edk::char8*)fileName));
                     if(deleteTempName)
                         delete[] fileName;
                     break;

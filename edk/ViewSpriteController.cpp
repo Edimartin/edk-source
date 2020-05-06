@@ -39,7 +39,7 @@ edk::ViewSpriteController::~ViewSpriteController()
 }
 
 //create a new sprite
-bool edk::ViewSpriteController::createSprite(const char* name,edk::size2ui32 size, edk::uint32 mode,edk::uint32 filter){
+bool edk::ViewSpriteController::createSprite(const edk::char8* name,edk::size2ui32 size, edk::uint32 mode,edk::uint32 filter){
     return this->createSprite((edk::char8*) name,size,mode,filter);
 }
 bool edk::ViewSpriteController::createSprite(edk::char8* name,edk::size2ui32 size, edk::uint32 mode,edk::uint32 filter){
@@ -59,7 +59,7 @@ bool edk::ViewSpriteController::createSprite(edk::char8* name,edk::size2ui32 siz
     //else return false
     return false;
 }
-bool edk::ViewSpriteController::createSprite(const char* name,edk::uint32 width,edk::uint32 height, edk::uint32 mode,edk::uint32 filter){
+bool edk::ViewSpriteController::createSprite(const edk::char8* name,edk::uint32 width,edk::uint32 height, edk::uint32 mode,edk::uint32 filter){
     return this->createSprite((edk::char8*) name,width,height, mode,filter);
 }
 bool edk::ViewSpriteController::createSprite(edk::char8* name,edk::uint32 width,edk::uint32 height, edk::uint32 mode,edk::uint32 filter){
@@ -75,7 +75,7 @@ bool edk::ViewSpriteController::drawSprite(edk::uint8* sprite,edk::uint32 filter
     return false;
 }
 //load the sprite
-bool edk::ViewSpriteController::loadSprite(const char* name,edk::uint32 filter){
+bool edk::ViewSpriteController::loadSprite(const edk::char8* name,edk::uint32 filter){
     //
     return this->loadSprite((edk::char8*) name,filter);
 }
@@ -97,7 +97,7 @@ bool edk::ViewSpriteController::loadSprite(edk::char8* name,edk::uint32 filter){
     return false;
 }
 //load the sprite from memory
-bool edk::ViewSpriteController::loadSpriteFromMemory(const char* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
+bool edk::ViewSpriteController::loadSpriteFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
     return this->loadSpriteFromMemory((edk::char8*) name,sprite,size,filter);
 }
 bool edk::ViewSpriteController::loadSpriteFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
@@ -140,7 +140,7 @@ bool edk::ViewSpriteController::setTextureFromMemory(const edk::char8* name,edk:
     return setTextureFromMemory((edk::char8*) name,sprite,width,height,channels,filter);
 }
 //load the sprite
-bool edk::ViewSpriteController::loadSpriteFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint32 filter){
+bool edk::ViewSpriteController::loadSpriteFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 filter){
     return this->loadSpriteFromPack(pack,(edk::char8*) name,filter);
 }
 bool edk::ViewSpriteController::loadSpriteFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter){

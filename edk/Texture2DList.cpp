@@ -195,7 +195,7 @@ edk::uint32 edk::Texture2DList::loadTexture(edk::char8* name,edk::uint32 filter)
     //else return false
     return ret;
 }
-edk::uint32 edk::Texture2DList::loadTexture(const char* name,edk::uint32 filter){
+edk::uint32 edk::Texture2DList::loadTexture(const edk::char8* name,edk::uint32 filter){
     //
     return this->loadTexture((edk::char8*) name,filter);
 }
@@ -248,7 +248,7 @@ edk::uint32 edk::Texture2DList::loadTextureFromMemory(edk::char8* name,edk::uint
     }
     return ret;
 }
-edk::uint32 edk::Texture2DList::loadTextureFromMemory(const char* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter){
+edk::uint32 edk::Texture2DList::loadTextureFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter){
     return this->loadTextureFromMemory((edk::char8*) name,image,size,filter);
 }
 //set Texture from memory
@@ -420,7 +420,7 @@ bool edk::Texture2DList::removeTexture(edk::char8* name,edk::uint32 filter){
     //else return false
     return false;
 }
-bool edk::Texture2DList::removeTexture(const char* name,edk::uint32 filter){
+bool edk::Texture2DList::removeTexture(const edk::char8* name,edk::uint32 filter){
     //
     return this->removeTexture((edk::char8*) name,filter);
 }
@@ -456,7 +456,7 @@ bool edk::Texture2DList::deleteTexture(edk::char8* name,edk::uint32 filter){
     //else return false
     return false;
 }
-bool edk::Texture2DList::deleteTexture(const char* name,edk::uint32 filter){
+bool edk::Texture2DList::deleteTexture(const edk::char8* name,edk::uint32 filter){
     return this->deleteTexture((edk::char8*) name,filter);
 }
 bool edk::Texture2DList::deleteTexture(edk::uint32 code){
@@ -485,7 +485,7 @@ edk::size2ui32 edk::Texture2DList::getTextureSize(edk::char8* name,edk::uint32 f
     }
     return ret;
 }
-edk::size2ui32 edk::Texture2DList::getTextureSize(const char* name,edk::uint32 filter){
+edk::size2ui32 edk::Texture2DList::getTextureSize(const edk::char8* name,edk::uint32 filter){
     return this->getTextureSize((edk::char8*) name,filter);
 }
 edk::size2ui32 edk::Texture2DList::getTextureSize(edk::uint32 code){
@@ -500,7 +500,7 @@ edk::size2ui32 edk::Texture2DList::getTextureSize(edk::uint32 code){
 edk::uint32 edk::Texture2DList::getTextureWidth(edk::char8* name,edk::uint32 filter){
     return this->getTextureSize(name,filter).width;
 }
-edk::uint32 edk::Texture2DList::getTextureWidth(const char* name,edk::uint32 filter){
+edk::uint32 edk::Texture2DList::getTextureWidth(const edk::char8* name,edk::uint32 filter){
     return this->getTextureSize(name,filter).width;
 }
 edk::uint32 edk::Texture2DList::getTextureWidth(edk::uint32 code){
@@ -509,7 +509,7 @@ edk::uint32 edk::Texture2DList::getTextureWidth(edk::uint32 code){
 edk::uint32 edk::Texture2DList::getTextureHeight(edk::char8* name,edk::uint32 filter){
     return this->getTextureSize(name,filter).height;
 }
-edk::uint32 edk::Texture2DList::getTextureHeight(const char* name,edk::uint32 filter){
+edk::uint32 edk::Texture2DList::getTextureHeight(const edk::char8* name,edk::uint32 filter){
     return this->getTextureSize(name,filter).height;
 }
 edk::uint32 edk::Texture2DList::getTextureHeight(edk::uint32 code){
@@ -538,7 +538,7 @@ bool edk::Texture2DList::haveTexture(edk::char8* name,edk::uint32 filter){
     }
     return false;
 }
-bool edk::Texture2DList::haveTexture(const char* name,edk::uint32 filter){
+bool edk::Texture2DList::haveTexture(const edk::char8* name,edk::uint32 filter){
     return this->haveTexture((edk::char8*) name,filter);
 }
 bool edk::Texture2DList::haveTexture(uint32 code){

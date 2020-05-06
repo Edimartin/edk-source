@@ -381,7 +381,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationIsPlaying(){
     return false;
 }
 //animationNames
-bool edk::shape::AnimatedPolygon2DList::selectedAnimationAddAnimationName(const char* name, edk::float32 start,edk::float32 end){
+bool edk::shape::AnimatedPolygon2DList::selectedAnimationAddAnimationName(const edk::char8* name, edk::float32 start,edk::float32 end){
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
@@ -402,7 +402,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationAddAnimationName(edk::c
     return false;
 }
 //test if have the animationName
-bool edk::shape::AnimatedPolygon2DList::selectedAnimationHaveAnimationName(const char* name){
+bool edk::shape::AnimatedPolygon2DList::selectedAnimationHaveAnimationName(const edk::char8* name){
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
@@ -423,7 +423,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationHaveAnimationName(edk::
     return false;
 }
 //return the animation name seconds
-edk::float32 edk::shape::AnimatedPolygon2DList::selectedAnimationGetAnimationNameStart(const char* name){
+edk::float32 edk::shape::AnimatedPolygon2DList::selectedAnimationGetAnimationNameStart(const edk::char8* name){
     return this->selectedAnimationGetAnimationNameStart((edk::char8*) name);
 }
 edk::float32 edk::shape::AnimatedPolygon2DList::selectedAnimationGetAnimationNameStart(edk::char8* name){
@@ -435,7 +435,7 @@ edk::float32 edk::shape::AnimatedPolygon2DList::selectedAnimationGetAnimationNam
     //else return false
     return 0.f;
 }
-edk::float32 edk::shape::AnimatedPolygon2DList::selectedAnimationGetAnimationNameEnd(const char* name){
+edk::float32 edk::shape::AnimatedPolygon2DList::selectedAnimationGetAnimationNameEnd(const edk::char8* name){
     return this->selectedAnimationGetAnimationNameEnd((edk::char8*) name);
 }
 edk::float32 edk::shape::AnimatedPolygon2DList::selectedAnimationGetAnimationNameEnd(edk::char8* name){
@@ -448,7 +448,7 @@ edk::float32 edk::shape::AnimatedPolygon2DList::selectedAnimationGetAnimationNam
     return 0.f;
 }
 //Play the animationName
-bool edk::shape::AnimatedPolygon2DList::selectedAnimationPlayNameForward(const char* name){
+bool edk::shape::AnimatedPolygon2DList::selectedAnimationPlayNameForward(const edk::char8* name){
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
@@ -468,7 +468,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationPlayNameForward(edk::ch
     //else return false
     return false;
 }
-bool edk::shape::AnimatedPolygon2DList::selectedAnimationPlayNameRewind(const char* name){
+bool edk::shape::AnimatedPolygon2DList::selectedAnimationPlayNameRewind(const edk::char8* name){
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
@@ -489,7 +489,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationPlayNameRewind(edk::cha
     return false;
 }
 //remove the animationName
-bool edk::shape::AnimatedPolygon2DList::selectedAnimationRemoveAnimationName(const char* name){
+bool edk::shape::AnimatedPolygon2DList::selectedAnimationRemoveAnimationName(const edk::char8* name){
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine

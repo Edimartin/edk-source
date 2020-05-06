@@ -41,11 +41,11 @@ public:
 
     //createString
     bool createString(edk::char8* string);
-    bool createString(const char* string);
+    bool createString(const edk::char8* string);
 
     //load the font image
     bool loadFontImage(edk::char8* name,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
-    bool loadFontImage(const char* name,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
+    bool loadFontImage(const edk::char8* name,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
 
     //set the color
     void setColor(edk::color4f32 color);

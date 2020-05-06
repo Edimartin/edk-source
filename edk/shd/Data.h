@@ -93,7 +93,7 @@ class Data: public edk::Name{
                          edk::float32 f31,edk::float32 f32,edk::float32 f33
                          );
         void setMatrix4f(edk::float32 mat[4u][4u]);
-        void setMatrix3f(edk::float32 f11,edk::float32 f12,edk::float32 f13,edk::float32 f14,
+        void setMatrix4f(edk::float32 f11,edk::float32 f12,edk::float32 f13,edk::float32 f14,
                          edk::float32 f21,edk::float32 f22,edk::float32 f23,edk::float32 f24,
                          edk::float32 f31,edk::float32 f32,edk::float32 f33,edk::float32 f34,
                          edk::float32 f41,edk::float32 f42,edk::float32 f43,edk::float32 f44

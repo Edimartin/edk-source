@@ -55,14 +55,14 @@ class GLSL:public edk::shd::DataList{
 
         //LOAD
         //load a shader from a file
-        bool loadShaderFromFile(const char* name);
+        bool loadShaderFromFile(const edk::char8* name);
         bool loadShaderFromFile(edk::char8* name);
         //load the shader from memory
-        bool loadShaderFromMemory(const char* name,edk::uint8* data,edk::uint32 size,edk::shd::shaderType type);
+        bool loadShaderFromMemory(const edk::char8* name,edk::uint8* data,edk::uint32 size,edk::shd::shaderType type);
         bool loadShaderFromMemory(edk::char8* name,edk::uint8* data,edk::uint32 size,edk::shd::shaderType type);
 
         //create the shaderProgram
-        bool createProgram(const char* name);
+        bool createProgram(const edk::char8* name);
         bool createProgram(edk::char8* name);
 
         //delete the shaderProgram

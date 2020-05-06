@@ -131,7 +131,7 @@ public:
     ActionName(edk::char8* _name){
         edk::Name::setName(_name);
     }
-    ActionName(const char* _name){
+    ActionName(const edk::char8* _name){
         edk::Name::setName(_name);
     }
     virtual ~ActionName(){

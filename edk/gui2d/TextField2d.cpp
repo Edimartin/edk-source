@@ -1110,7 +1110,7 @@ void edk::gui2d::TextField2d::cleanFilterOut(){
 }
 
 //write text to clean the originID and cursorID
-bool edk::gui2d::TextField2d::writeText(const char* text){
+bool edk::gui2d::TextField2d::writeText(const edk::char8* text){
     bool ret = false;
     this->cleanTextVariables((edk::char8*)text);
     //get the string
@@ -1140,7 +1140,7 @@ bool edk::gui2d::TextField2d::writeText(edk::char8* text){
     this->cleanTextVariables(NULL);
     return false;
 }
-bool edk::gui2d::TextField2d::writeText(const char* text,edk::float32 scaleWidth,edk::float32 scaleHeight){
+bool edk::gui2d::TextField2d::writeText(const edk::char8* text,edk::float32 scaleWidth,edk::float32 scaleHeight){
     bool ret = false;
     this->cleanTextVariables((edk::char8*)text);
     //get the string
@@ -1170,7 +1170,7 @@ bool edk::gui2d::TextField2d::writeText(edk::char8* text,edk::float32 scaleWidth
     this->cleanTextVariables(NULL);
     return false;
 }
-bool edk::gui2d::TextField2d::writeText(const char* text,edk::size2f32 scale){
+bool edk::gui2d::TextField2d::writeText(const edk::char8* text,edk::size2f32 scale){
     bool ret = false;
     this->cleanTextVariables((edk::char8*)text);
     //get the string

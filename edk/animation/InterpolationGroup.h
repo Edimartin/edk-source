@@ -186,7 +186,7 @@ public:
     bool setAnimationEndSecond(edk::float32 second);
 
     //ANIMATIONNAMES
-    bool addNewAnimationName(const char* name, edk::float32 start,edk::float32 end);
+    bool addNewAnimationName(const edk::char8* name, edk::float32 start,edk::float32 end);
     bool addNewAnimationName(edk::char8* name, edk::float32 start,edk::float32 end);
     //get the animationName seconds
     edk::float32 getAnimationNameStart(const edk::char8* name);
@@ -194,18 +194,18 @@ public:
     edk::float32 getAnimationNameEnd(const edk::char8* name);
     edk::float32 getAnimationNameEnd(edk::char8* name);
     //select the animationName
-    bool selectAnimationName(const char* name);
+    bool selectAnimationName(const edk::char8* name);
     bool selectAnimationName(edk::char8* name);
     //test if have the animationName
-    bool haveAnimationName(const char* name);
+    bool haveAnimationName(const edk::char8* name);
     bool haveAnimationName(edk::char8* name);
     //Play the animationName
-    bool playNameForward(const char* name);
+    bool playNameForward(const edk::char8* name);
     bool playNameForward(edk::char8* name);
-    bool playNameRewind(const char* name);
+    bool playNameRewind(const edk::char8* name);
     bool playNameRewind(edk::char8* name);
     //remove the animationName
-    bool removeAnimationName(const char* name);
+    bool removeAnimationName(const edk::char8* name);
     bool removeAnimationName(edk::char8* name);
     //rmove a keyframe
     bool removeKeyFrame(edk::float32 second);

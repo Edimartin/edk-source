@@ -76,9 +76,9 @@ public:
     edk::uint32 getTheLastPositionY();
 
     //load fontImage
-    bool loadFontImage(const char* name,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
+    bool loadFontImage(const edk::char8* name,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
     bool loadFontImage(edk::char8* name,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
-    bool loadFontImageFromMemory(const char* name,
+    bool loadFontImageFromMemory(const edk::char8* name,
                                  edk::uint8* image,
                                  edk::uint32 size,
                                  edk::uint32 filter = GU_NEAREST,
@@ -92,17 +92,17 @@ public:
             );
 
     //create the string
-    bool createStringMap(const char* str,edk::uint32 width);
+    bool createStringMap(const edk::char8* str,edk::uint32 width);
     bool createStringMap(edk::char8* str,edk::uint32 width);
-    bool createStringMap(const char* str);
+    bool createStringMap(const edk::char8* str);
     bool createStringMap(edk::char8* str);
-    bool addStringLine(const char* str,edk::uint32 width);
+    bool addStringLine(const edk::char8* str,edk::uint32 width);
     bool addStringLine(edk::char8* str,edk::uint32 width);
-    bool addStringLine(const char* str);
+    bool addStringLine(const edk::char8* str);
     bool addStringLine(edk::char8* str);
-    bool createStringMapOneLine(const char* str,edk::uint32 width);
+    bool createStringMapOneLine(const edk::char8* str,edk::uint32 width);
     bool createStringMapOneLine(edk::char8* str,edk::uint32 width);
-    bool createStringMapOneLine(const char* str);
+    bool createStringMapOneLine(const edk::char8* str);
     bool createStringMapOneLine(edk::char8* str);
 
     //set the color

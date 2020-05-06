@@ -91,7 +91,7 @@ bool edk::ViewText::createString(edk::char8* string){
     }
     return false;
 }
-bool edk::ViewText::createString(const char* string){
+bool edk::ViewText::createString(const edk::char8* string){
     return this->createString((edk::char8*) string);
 }
 
@@ -99,7 +99,7 @@ bool edk::ViewText::createString(const char* string){
 bool edk::ViewText::loadFontImage(edk::char8* name,edk::uint32 filter,edk::color4f32 color){
     return this->text.loadFontImage(name,filter,color);
 }
-bool edk::ViewText::loadFontImage(const char* name,edk::uint32 filter,edk::color4f32 color){
+bool edk::ViewText::loadFontImage(const edk::char8* name,edk::uint32 filter,edk::color4f32 color){
     return this->text.loadFontImage(name,filter,color);
 }
 

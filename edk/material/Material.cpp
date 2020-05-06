@@ -64,7 +64,7 @@ bool edk::material::Material::loadTexture(edk::char8* name,edk::uint8 position,e
     }
     return false;
 }
-bool edk::material::Material::loadTexture(const char* name,edk::uint8 position,edk::uint32 filter){
+bool edk::material::Material::loadTexture(const edk::char8* name,edk::uint8 position,edk::uint32 filter){
     return this->loadTexture((edk::char8*) name,position,filter);
 }
 bool edk::material::Material::loadTextureFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint8 position,edk::uint32 filter){
@@ -81,7 +81,7 @@ bool edk::material::Material::loadTextureFromMemory(edk::char8* name,edk::uint8*
     }
     return false;
 }
-bool edk::material::Material::loadTextureFromMemory(const char* name,edk::uint8* image,edk::uint32 size,edk::uint8 position,edk::uint32 filter){
+bool edk::material::Material::loadTextureFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint8 position,edk::uint32 filter){
     return loadTextureFromMemory((edk::char8*) name,image,size,position,filter);
 }
 bool edk::material::Material::loadTextureFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint8 position,edk::uint32 filter){
@@ -98,7 +98,7 @@ bool edk::material::Material::loadTextureFromPack(edk::pack::FilePackage* pack,e
     }
     return false;
 }
-bool edk::material::Material::loadTextureFromPack(edk::pack::FilePackage* pack,const char* name,edk::uint8 position,edk::uint32 filter){
+bool edk::material::Material::loadTextureFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint8 position,edk::uint32 filter){
     return this->loadTextureFromPack(pack,(edk::char8*) name,position,filter);
 }
 //set the texture

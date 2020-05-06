@@ -141,7 +141,7 @@ class File {
 
     //PIPE
     bool createAndOpenPipe(char8* name);
-    bool createAndOpenPipe(const char* name);
+    bool createAndOpenPipe(const edk::char8* name);
 
     static bool fileExist(char8 *name);
 

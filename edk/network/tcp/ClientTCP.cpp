@@ -76,7 +76,7 @@ edk::network::networkCodes edk::network::tcp::ClientTCP::connectSocket(edk::uint
 edk::network::networkCodes edk::network::tcp::ClientTCP::connectSocket(edk::char8* ip,edk::uint16 port){
     return this->connectSocket(edk::network::Adress(ip,port));
 }
-edk::network::networkCodes edk::network::tcp::ClientTCP::connectSocket(const char* ip,edk::uint16 port){
+edk::network::networkCodes edk::network::tcp::ClientTCP::connectSocket(const edk::char8* ip,edk::uint16 port){
     return this->connectSocket(edk::network::Adress(ip,port));
 }
 
@@ -114,7 +114,7 @@ edk::int32 edk::network::tcp::ClientTCP::sendStream(edk::network::Adress host,ed
 edk::int32 edk::network::tcp::ClientTCP::sendString(edk::network::Adress host,edk::char8* string){
     return this->sendStream(host,string,edk::String::strSize(string)+1u);
 }
-edk::int32 edk::network::tcp::ClientTCP::sendString(edk::network::Adress host,const char* string){
+edk::int32 edk::network::tcp::ClientTCP::sendString(edk::network::Adress host,const edk::char8* string){
     return this->sendString(host,(edk::char8*) string);
 }
 edk::int32 edk::network::tcp::ClientTCP::sendStream(edk::classID stream,edk::uint32 size){
@@ -125,13 +125,13 @@ edk::int32 edk::network::tcp::ClientTCP::sendStream(edk::classID stream,edk::uin
     }
     return false;
 }
-edk::int32 edk::network::tcp::ClientTCP::sendStream(const char* stream,edk::uint32 size){
+edk::int32 edk::network::tcp::ClientTCP::sendStream(const edk::char8* stream,edk::uint32 size){
     return this->sendStream((edk::classID) stream,size);
 }
 edk::int32 edk::network::tcp::ClientTCP::sendString(edk::char8* string){
     return this->sendStream(string,edk::String::strSize(string)+1u);
 }
-edk::int32 edk::network::tcp::ClientTCP::sendString(const char* string){
+edk::int32 edk::network::tcp::ClientTCP::sendString(const edk::char8* string){
     return this->sendString((edk::char8*)string);
 }
 //receive the stream from the server
