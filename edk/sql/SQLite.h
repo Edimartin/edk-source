@@ -211,10 +211,10 @@ public:
 private:
     edk::vector::Stack<SQLNodes*> groups;
 };
-class SQL{
+class SQLite{
 public:
-    SQL();
-    ~SQL();
+    SQLite();
+    ~SQLite();
 
     //open dataBase
     bool openDataBase(const edk::char8* name);
