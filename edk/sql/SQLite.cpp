@@ -1,7 +1,7 @@
 #include "SQLite.h"
 
 /*
-Library SQL - Use SQLITE in EDK Game Engine.
+Library SQLite - Use SQLITE in EDK Game Engine.
 Copyright (C) 1013 Eduardo Moura Sales Martins
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -20,19 +20,19 @@ AV: Walmor M. de Souza 392 Casa
 Gravatai RS Brazil 94065100
 */
 
-edk::SQLite::SQLite(){
+edk::sql::SQLite::SQLite(){
     this->db = NULL;
     this->baseName=NULL;
 }
 
-edk::SQLite::~SQLite(){
+edk::sql::SQLite::~SQLite(){
     //close the db
     this->closeDataBase();
     this->deleteBaseName();
 }
 
 //add a extension to the file
-edk::char8* edk::SQLite::addExtension(edk::char8* name,edk::char8* extension){
+edk::char8* edk::sql::SQLite::addExtension(edk::char8* name,edk::char8* extension){
     //return
     edk::char8* ret=NULL;
     if(name){
@@ -65,7 +65,7 @@ edk::char8* edk::SQLite::addExtension(edk::char8* name,edk::char8* extension){
     return ret;
 }
 //delete basename
-void edk::SQLite::deleteBaseName(){
+void edk::sql::SQLite::deleteBaseName(){
     if(this->baseName){
         delete[] this->baseName;
     }
@@ -73,10 +73,10 @@ void edk::SQLite::deleteBaseName(){
 }
 
 //open dataBase
-bool edk::SQLite::openDataBase(const edk::char8* name){
+bool edk::sql::SQLite::openDataBase(const edk::char8* name){
     return this->openDataBase((edk::char8*) name);
 }
-bool edk::SQLite::openDataBase(edk::char8* name){
+bool edk::sql::SQLite::openDataBase(edk::char8* name){
     //close the last dataBase
     this->closeDataBase();
     this->deleteBaseName();
@@ -118,10 +118,10 @@ bool edk::SQLite::openDataBase(edk::char8* name){
     return false;
 }
 //create a new dataBase (it will delete the file with the same name)
-bool edk::SQLite::newDataBase(const edk::char8* name){
+bool edk::sql::SQLite::newDataBase(const edk::char8* name){
     return this->newDataBase((edk::char8*) name);
 }
-bool edk::SQLite::newDataBase(edk::char8* name){
+bool edk::sql::SQLite::newDataBase(edk::char8* name){
     //create the name with the extension
     edk::char8* nameExtension = this->addExtension(name,(edk::char8*)edkDataBase);
     if(nameExtension){
@@ -141,10 +141,10 @@ bool edk::SQLite::newDataBase(edk::char8* name){
     return false;
 }
 //delete dataBase
-bool edk::SQLite::deleteDataBase(const edk::char8* name){
+bool edk::sql::SQLite::deleteDataBase(const edk::char8* name){
     return this->deleteDataBase((edk::char8*) name);
 }
-bool edk::SQLite::deleteDataBase(edk::char8* name){
+bool edk::sql::SQLite::deleteDataBase(edk::char8* name){
     if(name){
         edk::char8* nameExtension = this->addExtension(name,(edk::char8*)edkDataBase);
         if(nameExtension){
@@ -181,8 +181,8 @@ bool edk::SQLite::deleteDataBase(edk::char8* name){
 static edk::int32 sqlCallback(void *callback, edk::int32 argc, char **argv, char **azColName){
     edk::int32 i;
     if(argc){
-        edk::SQLGroup* temp = (edk::SQLGroup*)callback;
-        edk::SQLNodes* group=NULL;
+        edk::sql::SQLGroup* temp = (edk::sql::SQLGroup*)callback;
+        edk::sql::SQLNodes* group=NULL;
         if(temp){
             group = temp->getNewGroup();
             if(group){
@@ -203,10 +203,10 @@ static edk::int32 sqlCallback(void *callback, edk::int32 argc, char **argv, char
     }
     return 0;
 }
-bool edk::SQLite::execute(const edk::char8* command,SQLGroup* callback){
+bool edk::sql::SQLite::execute(const edk::char8* command,edk::sql::SQLGroup* callback){
     return this->execute((edk::char8*) command,callback);
 }
-bool edk::SQLite::execute(edk::char8* command,SQLGroup* callback){
+bool edk::sql::SQLite::execute(edk::char8* command,edk::sql::SQLGroup* callback){
     //est if have opened the dataBase
     if(this->haveOpenedDataBase() && command){
         //execute the comand
@@ -223,7 +223,7 @@ bool edk::SQLite::execute(edk::char8* command,SQLGroup* callback){
 }
 
 //return true if have a dataBase
-bool edk::SQLite::haveOpenedDataBase(){
+bool edk::sql::SQLite::haveOpenedDataBase(){
     if(this->db){
         return true;
     }
@@ -231,7 +231,7 @@ bool edk::SQLite::haveOpenedDataBase(){
 }
 
 //close the dataBase
-void edk::SQLite::closeDataBase(){
+void edk::sql::SQLite::closeDataBase(){
     if(this->db){
         sqlite3_close(this->db);
     }

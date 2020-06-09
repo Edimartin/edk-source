@@ -1,8 +1,8 @@
-#ifndef EDK_SQL_H
-#define EDK_SQL_H
+#ifndef POSTGRE_H
+#define POSTGRE_H
 
 /*
-Library SQLite - Use SQLITE in EDK Game Engine.
+Library POSTGRE - Use POSTGRE in EDK Game Engine.
 Copyright (C) 1013 Eduardo Moura Sales Martins
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -27,42 +27,36 @@ Gravatai RS Brazil 94065100
 */
 
 #ifdef printMessages
-#warning "Inside SQLite"
+#warning "Inside POSTGRE"
 #endif
 
 #define edkDataBase ".edb"
 
 #pragma once
-extern "C" {
-#include "../../sqlite/sqlite3.h"
-}
-#include "../File.h"
 #include "../String.h"
-#include "../vector/Stack.h"
-#include "../NameClass.h"
-
 #include "SQLGroup.h"
+#ifdef EDK_USE_POSTGRE
+#include <pqxx/pqxx>
+#endif
 
 #ifdef printMessages
-#warning "    Compiling SQLite"
+#warning "    Compiling POSTGRE"
 #endif
 
 namespace edk{
 namespace sql{
-class SQLite{
+class Postgre{
 public:
-    SQLite();
-    ~SQLite();
+    Postgre();
+    virtual ~Postgre();
 
     //open dataBase
-    bool openDataBase(const edk::char8* name);
-    bool openDataBase(edk::char8* name);
-    //create a new dataBase (it will delete the file with the same name)
-    bool newDataBase(const edk::char8* name);
-    bool newDataBase(edk::char8* name);
-    //delete dataBase
-    bool deleteDataBase(const edk::char8* name);
-    bool deleteDataBase(edk::char8* name = NULL);
+    bool openDataBase(const edk::char8* database,const edk::char8* user,const edk::char8* password);
+    bool openDataBase(edk::char8* database,edk::char8* user,edk::char8* password);
+    bool openDataBase(const edk::char8* database,const edk::char8* user,const edk::char8* password,const edk::char8* host);
+    bool openDataBase(edk::char8* database,edk::char8* user,edk::char8* password,edk::char8* host);
+    bool openDataBase(const edk::char8* database,const edk::char8* user,const edk::char8* password,const edk::char8* host,edk::uint32 port);
+    bool openDataBase(edk::char8* database,edk::char8* user,edk::char8* password,edk::char8* host,edk::uint32 port);
 
     //execute a command
     bool execute(const edk::char8* command,edk::sql::SQLGroup* callback = NULL);
@@ -74,16 +68,15 @@ public:
     //close the dataBase
     void closeDataBase();
 
+    //return the error string
+    edk::char8* getError();
 private:
-    sqlite3 *db;
-    edk::char8* baseName;
-
-    //add a extension to the file
-    edk::char8* addExtension(edk::char8* name,edk::char8* extension);
-    //delete basename
-    void deleteBaseName();
+#ifdef EDK_USE_POSTGRE
+    pqxx::connection* C;
+#endif
+    edk::Name error;
 };
 }//end namespace sql
 }//end namespace edk
 
-#endif // SQL_H
+#endif // POSTGRE_H
