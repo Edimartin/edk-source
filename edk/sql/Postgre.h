@@ -73,6 +73,7 @@ public:
 private:
 #ifdef EDK_USE_POSTGRE
     pqxx::connection* C;
+    pqxx::nontransaction* N;
 #endif
     edk::Name error;
 };

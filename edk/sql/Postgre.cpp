@@ -31,6 +31,7 @@ edk::sql::Postgre::Postgre(){
     //
 #ifdef EDK_USE_POSTGRE
     this->C=NULL;
+    this->N=NULL;
 #endif
     this->error.setName(" ");
 }
@@ -105,8 +106,13 @@ bool edk::sql::Postgre::openDataBase(edk::char8* database,edk::char8* user,edk::
                         //test if it's connected
                         if(this->C->is_open()){
                             delete[] str;
-                            //then return true
-                            return true;
+
+                            //create the nonTransaction
+                            this->N = new pqxx::nontransaction(*this->C);
+                            if(N){
+                                //then return true
+                                return true;
+                            }
                         }
                         delete C;
                     }
@@ -118,7 +124,7 @@ bool edk::sql::Postgre::openDataBase(edk::char8* database,edk::char8* user,edk::
             }
         }
 #else
-    printf("\nYou must define EDK_USE_POSTGRE before use");fflush(stdout);
+        printf("\nYou must define EDK_USE_POSTGRE before use");fflush(stdout);
 #endif
     }
     return false;
@@ -129,43 +135,86 @@ bool edk::sql::Postgre::execute(const edk::char8* command,edk::sql::SQLGroup* ca
     return this->execute((edk::char8*) command,callback);
 }
 bool edk::sql::Postgre::execute(edk::char8* command,edk::sql::SQLGroup* callback){
+    this->error.setName(" ");
     if(this->haveOpenedDataBase()){
         //
-    }
-    return false;
-}
-
-//return true if have a dataBase
-bool edk::sql::Postgre::haveOpenedDataBase(){
+        if(command){
 #ifdef EDK_USE_POSTGRE
-    if(this->C){
-        if(this->C->is_open()){
-            return true;
+            try {
+                //execute
+                /* Execute SQL query */
+                pqxx::result R( this->N->exec( command ));
+                if(callback){
+
+                    edk::sql::SQLNodes* group=NULL;
+                    //group = temp->getNewGroup();
+
+                    edk::uint32 size = 0u;
+                    /* List down all the records */
+                    for (pqxx::result::const_iterator c = R.begin(); c != R.end(); ++c) {
+                        size = c.size();
+                        if(size){
+                            group = callback->getNewGroup();
+                            if(group){
+                                for(edk::uint32 i=0u;i<size;i++){
+/*
+                                    printf("\n'%s' == '%s'"
+                                           ,R.column_name(i)
+                                           ,c[i].c_str()
+                                           );
+*/
+                                    group->addNode((edk::char8*)R.column_name(i),(edk::char8*)c[i].c_str());
+                                }
+                            }
+                        }
+                    }
+                }
+            } catch (const std::exception &e) {
+                this->error.setName(e.what());
+            }
         }
-    }
 #else
-    printf("\nYou must define EDK_USE_POSTGRE before use");fflush(stdout);
+            printf("\nYou must define EDK_USE_POSTGRE before use");fflush(stdout);
 #endif
-    return false;
-}
+        }
+        return false;
+    }
 
-//close the dataBase
-void edk::sql::Postgre::closeDataBase(){
-    this->error.setName(" ");
+    //return true if have a dataBase
+    bool edk::sql::Postgre::haveOpenedDataBase(){
 #ifdef EDK_USE_POSTGRE
-    if(this->C){
-        //close the database
-        this->C->disconnect();
-
-        delete this->C;
-    }
-    this->C=NULL;
+        if(this->C){
+            if(this->C->is_open()){
+                return true;
+            }
+        }
 #else
-    printf("\nYou must define EDK_USE_POSTGRE before use");fflush(stdout);
+        printf("\nYou must define EDK_USE_POSTGRE before use");fflush(stdout);
 #endif
-}
+        return false;
+    }
 
-//return the error string
-edk::char8* edk::sql::Postgre::getError(){
-    return this->error.getName();
-}
+    //close the dataBase
+    void edk::sql::Postgre::closeDataBase(){
+        this->error.setName(" ");
+#ifdef EDK_USE_POSTGRE
+        if(this->N){
+            delete this->N;
+        }
+        this->N=NULL;
+        if(this->C){
+            //close the database
+            this->C->disconnect();
+
+            delete this->C;
+        }
+        this->C=NULL;
+#else
+        printf("\nYou must define EDK_USE_POSTGRE before use");fflush(stdout);
+#endif
+    }
+
+    //return the error string
+    edk::char8* edk::sql::Postgre::getError(){
+        return this->error.getName();
+    }
