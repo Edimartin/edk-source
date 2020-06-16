@@ -60,10 +60,18 @@ public:
     }
     //destroi the quads
     void deleteQuads(){
-        if(this->quad[0u]) delete this->quad[0u];this->quad[0u]=NULL;
-        if(this->quad[1u]) delete this->quad[1u];this->quad[1u]=NULL;
-        if(this->quad[2u]) delete this->quad[2u];this->quad[2u]=NULL;
-        if(this->quad[3u]) delete this->quad[3u];this->quad[3u]=NULL;
+        if(this->quad[0u])
+            delete this->quad[0u];
+        this->quad[0u]=NULL;
+        if(this->quad[1u])
+            delete this->quad[1u];
+        this->quad[1u]=NULL;
+        if(this->quad[2u])
+            delete this->quad[2u];
+        this->quad[2u]=NULL;
+        if(this->quad[3u])
+            delete this->quad[3u];
+        this->quad[3u]=NULL;
     }
     //new quads
     bool newQuads(edk::vec2f64 position){
@@ -105,13 +113,16 @@ public:
                         return true;
                     }
                     //
-                    delete this->quad[2u];this->quad[2u]=NULL;
+                    delete this->quad[2u];
+                    this->quad[2u]=NULL;
                 }
                 //
-                delete this->quad[1u];this->quad[1u]=NULL;
+                delete this->quad[1u];
+                this->quad[1u]=NULL;
             }
             //
-            delete this->quad[0u];this->quad[0u]=NULL;
+            delete this->quad[0u];
+            this->quad[0u]=NULL;
         }
 
 /*

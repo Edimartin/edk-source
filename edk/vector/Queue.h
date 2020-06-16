@@ -28,191 +28,249 @@ Gravatai RS Brazil 94065100
 #pragma once
 #include <stdio.h>
 #include "../TypeVars.h"
+#include "Array.h"
 
 #ifdef printMessages
 #warning "    Compiling Array"
 #endif
 
+//Size of the arrays in the Stack
+#define PatternArraySize 10u
+
 namespace edk{
 namespace vector{
+
+
+//NEXT CEL
+template <class typeTemplate>
+class QueueCel : public edk::vector::Array<typeTemplate>{
+    //
+public:
+    //construtor
+    QueueCel(){
+        //clean the next
+        this->next=NULL;
+    }
+    QueueCel(edk::uint32 size){
+        //clean the next
+        this->next=NULL;
+        //
+        this->createArray(size);
+    }
+    //Destrutor
+    ~QueueCel(){
+        //clean the next
+        this->next=NULL;
+    }
+
+    //Next array
+    edk::vector::QueueCel<typeTemplate>* next;
+};
 //Use a template to alloc whatever
 template <class typeTemplate>
 //The arrayClass
+
 class Queue{
 public:
     Queue(){
         //
-        this->vector=NULL;
-        this->deleteQueue();
+        this->first = this->last = NULL;
+        this->arraySize = PatternArraySize;
+        this->start = this->end = 0u;
+        this->_size = 0u;
     }
     Queue(edk::uint32 size){
         //
-        this->vector=NULL;
-
-        //create the array
-        this->createQueue(size);
-    }
-    ~Queue(){
-        //delete the array
-        if(this->canDeleteVector){
-            //
-            this->deleteQueue();
-            this->canDeleteVector=false;
+        this->first = this->last = NULL;
+        if(size){
+            this->arraySize = size;
         }
         else{
-            //
-            this->canDeleteVector=true;
+            this->arraySize = PatternArraySize;
         }
+        this->start = this->end = 0u;
+        this->_size = 0u;
+    }
+    ~Queue(){
     }
 
-    //create the array
-    bool createQueue(edk::uint32 size){
-        //first delete
-        this->deleteQueue();
-
-        //Test the size
-        if(size){
-            size++;
-            //create the new array
-            if( ( this->vector = new typeTemplate[size] ) ){
-                //save the size of the vector
-                this->vectorSize=size;
-                //can delete the vector
-                this->canDeleteVector=true;
-                //return true
-                return true;
-            }
-        }
-        //else return false
-        return false;
-    }
     //clean the queue
-    void clean(){
-        this->start=this->end=0u;
+    void clean(edk::uint32 size){
+        //test the arraySiIze
+        if(size){
+            //set the arraySize
+            this->arraySize=size;
+        }
+        else{
+            this->arraySize=PatternArraySize;
+        }
+
+        //clean the vectors
+        edk::vector::QueueCel<typeTemplate>* temp = NULL;
+        edk::vector::QueueCel<typeTemplate>* tempDelete = this->first;
+        while(tempDelete){
+            //
+            if(tempDelete->next){
+                temp=tempDelete->next;
+            }
+
+            //delete the tempDelete
+            delete tempDelete;
+            tempDelete = temp;
+        }
     }
 
     //push back a value
     bool pushBack(typeTemplate value){
-        if(this->vector){
-            //set the position
-            this->vector[this->end] = value;
+        //test if have the end
+        if(!this->last){
+            //create a new first and last
+            this->first = new edk::vector::QueueCel<typeTemplate>(this->arraySize);
+            if(this->first){
+                //set the last
+                this->last = this->first;
+            }
+            this->start = this->end = 0u;
+            this->_size = 0u;
+        }
+        if(this->last){
+            //add the value
+            this->last->set(this->end,value);
             //increment the end
             this->end++;
-            //test if reach the end
-            if(this->end>=this->vectorSize){
-                //end receive 0u
+            //test if the increment is passing the size
+            if(this->end>=this->arraySize){
+                //create the next last
+                this->last->next = new edk::vector::QueueCel<typeTemplate>(this->arraySize);
+                if(this->last->next){
+                    this->last = this->last->next;
+                }
                 this->end=0u;
             }
-            //test if the end reach the start
-            if(this->end==this->start){
-                //remove the start value
-                this->remove(this->vector[this->start]);
-                //push the start
-                this->start++;
-                if(this->start>=this->vectorSize){
-                    this->start=0u;
-                }
-            }
+            this->_size++;
             return true;
         }
         return false;
     }
 
     //pop front
-    bool popFront(){
-        if(this->vector){
-            //test if the start reach the end
-            if(this->start==this->end){
-                //return false
-                return false;
+    typeTemplate popFront(){
+        typeTemplate ret;
+        //test if have the first
+        if(this->first){
+            //test if the first and the last are equal
+            if(this->first==this->last){
+                //only get the value if the start is smaller then the end
+                if(this->start<this->end){
+                    //get the value
+                    ret = this->first->get(this->start);
+                    //increment the start
+                    this->start++;
+                }
+                if(this->start>=this->end){
+                    //get the last value. Delete the cel's
+                    delete first;
+                    this->first = this->last = NULL;
+                    this->start = this->end = 0u;
+                    this->_size = 0u;
+                }
             }
-            //else remove the value
-            this->remove(this->vector[this->start]);
-            this->start++;
-            //test if the start reach the end of the vector
-            if(this->start>=this->vectorSize){
-                //start receive zero
-                this->start=0u;
+            else{
+                //get the value
+                ret = this->first->get(this->start);
+                //increment the start
+                this->start++;
+                this->_size--;
+
+                //test if reach the end
+                if(this->start>=this->arraySize){
+                    //delete the first and go to the next
+                    edk::vector::QueueCel<typeTemplate>* temp = this->first;
+                    this->first = this->first->next;
+                    delete temp;
+                    this->start = 0u;
+
+
+                    //tes if reach the last
+                    if(this->first==this->last && !this->end){
+                        //delete the first and last
+                        delete first;
+                        this->first = this->last = NULL;
+                        this->start = this->end = 0u;
+                        this->_size = 0u;
+                    }
+                }
             }
-            return true;
         }
-        return false;
+        return ret;
     }
 
     //GETTERS
     //returrn the vector size
     edk::uint32  size(){
-        if(this->end>this->start){
-            return this->end - this->start;
-        }
-        else if(this->end<this->start){
-            return (this->vectorSize - this->start) + this->end;
-        }
-        return 0;
+        return this->_size;
     }
     edk::uint32  getSize(){
-        //return the full size of the queue
         return this->size();
-    }
-    //test if have the object in the position
-    bool have(edk::uint32 pos){
-        if(this->vector && pos<this->getSize()){
-            //return the variable
-            return true;
-        }
-        return false;
     }
     //return the object
     typeTemplate get(edk::uint32 pos){
         typeTemplate ret;
-        //test if have the position
-        if(this->have(pos)){
-            edk::uint32 position = this->start+pos;
-            //test if reach the end
-            if(position>=this->vectorSize){
-                position-=this->vectorSize;
+        //first test if have the first cell
+        if(this->first && pos<this->_size){
+            //test if the position is in the first cel
+            if(pos+this->start<this->arraySize){
+                //get the value
+                ret = this->first->get(this->start+pos);
             }
-            //return the value
-            return this->vector[position];
+            else{
+                pos-=this->arraySize-this->start;
+                //else search for the value in other cel's
+                edk::vector::QueueCel<typeTemplate>* temp = this->first->next;
+                while(temp){
+                    //test if the value is in this cel
+                    if(pos<this->arraySize){
+                        if(temp==this->last){
+                            if(pos<this->end){
+                                ret = temp->get(pos);
+                                break;
+                            }
+                            else{
+                                break;
+                            }
+                        }
+                        else{
+                            ret = temp->get(pos);
+                            break;
+                        }
+                    }
+                    else{
+                        //else go to the next
+                        temp=temp->next;
+                        ret+=this->arraySize;
+                        pos-=this->arraySize;
+                    }
+                }
+            }
         }
         return ret;
     }
 
-    //delete the queue
-    void deleteQueue(){
-        this->clean();
-        //test if is alloc
-        if(this->vector){
-            //
-            delete[] vector;
-        }
-        vector=NULL;
-        vectorSize=0u;
-        this->canDeleteVector=false;
-    }
-
-    //cant
-    void cantDeleteVector(){
-        //
-        this->canDeleteVector=false;
-    }
-
-    //remove the value
-    virtual void remove(typeTemplate){
-        //
-    }
-
 protected:
 private:
-    //the vector
-    typeTemplate* vector;
-    //size of the vector
-    edk::uint32 vectorSize;
-    //positions
+    //Have the first cel
+    edk::vector::QueueCel<typeTemplate>* first;
+    //Have the next cel
+    edk::vector::QueueCel<typeTemplate>* last;
+    //save the array size
+    edk::uint32 arraySize;
+    //positions in the vector
     edk::uint32 start,end;
-    //test if can delete the vector
-    bool canDeleteVector;
+
+    //save the queue size
+    edk::uint32 _size;
 };
+
 }//end namespace vector
 }//end namespace edk
 
