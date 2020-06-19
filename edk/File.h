@@ -29,6 +29,9 @@ Gravatai RS Brazil 94065100
 #include "String.h"
 #include <stdio.h>
 #include <string.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 #ifdef _WIN32
     //Windows 32
@@ -130,6 +133,10 @@ class File {
     static bool createFile(char8 *name);
 
     static bool createFile(const char *name);
+
+    //return true if is a file
+    static bool isFile(edk::char8 *name);
+    static bool isFile(const edk::char8 *name);
 
     bool createAndOpenTextFile(char8 *name);
 

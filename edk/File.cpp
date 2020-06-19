@@ -430,7 +430,7 @@ bool File::openTextFile(char8 *name){
     this->closeFile();
 
     //Then open the file in your compiler
-    if((const edk::char8*)name){
+    if((const edk::char8*)name && edk::File::isFile(name)){
 
         #ifdef _WIN32
             //Windows 32
@@ -517,7 +517,7 @@ bool File::openBinFile(char8 *name){
     this->closeFile();
 
     //Then open the file in your compiler
-    if((const edk::char8*)name){
+    if((const edk::char8*)name && edk::File::isFile(name)){
 
         #ifdef _WIN32
             //Windows 32
@@ -604,7 +604,7 @@ bool File::openEndTextFile(char8 *name){
     this->closeFile();
 
     //Then open the file in your compiler
-    if((const edk::char8*)name){
+    if((const edk::char8*)name && edk::File::isFile(name)){
 
         #ifdef _WIN32
             //Windows 32
@@ -691,7 +691,7 @@ bool File::openEndBinFile(char8 *name){
     this->closeFile();
 
     //Then open the file in your compiler
-    if((const edk::char8*)name){
+    if((const edk::char8*)name && edk::File::isFile(name)){
 
         #ifdef _WIN32
             //Windows 32
@@ -779,7 +779,7 @@ bool File::openPipe(char8 *name){
     this->closeFile();
 
     //Then open the file in your compiler
-    if((const edk::char8*)name){
+    if((const edk::char8*)name && edk::File::isFile(name)){
 
         #ifdef _WIN32
             //Windows 32
@@ -1013,6 +1013,20 @@ bool File::createFile(char8 *name){
 
 bool File::createFile(const char *name){
     return createFile((edk::char8 *)name);
+}
+
+//return true if is a file
+bool File::isFile(edk::char8 *name){
+    if(name){
+        struct stat path_stat;
+        stat(name, &path_stat);
+        return S_ISREG(path_stat.st_mode);
+    }
+    return false;
+}
+bool File::isFile(const edk::char8* name){
+    //
+    return edk::File::isFile((edk::char8*)name);
 }
 
 bool File::createAndOpenTextFile(char8 *name){
