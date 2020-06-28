@@ -779,7 +779,7 @@ bool File::openPipe(char8 *name){
     this->closeFile();
 
     //Then open the file in your compiler
-    if((const edk::char8*)name && edk::File::isFile(name)){
+    if((const edk::char8*)name){
 
         #ifdef _WIN32
             //Windows 32
