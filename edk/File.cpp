@@ -64,58 +64,58 @@ edk::char8* File::readStringFromTheFile(FILE* arq,edk::char8 limit,edk::uint32 c
         return str;
     }
 
-    #ifdef _WIN32
-            //Windows 32
-            #ifdef _MSC_VER
-                //Visual C
-                fscanf_s(arq,"%c",&temp);
-            #endif
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    fscanf(arq,"%c",&temp);
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
-        #ifdef _WIN64
-            //Windows 64
-            #ifdef _MSC_VER
-                //Visual C
-                fscanf_s(arq,"%c",&temp);
-            #endif
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    fscanf(arq,"%c",&temp);
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
-        #ifdef __linux__
-            //LINUX
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    fscanf(arq,"%c",&temp);
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
-        #ifdef __APPLE__
-            //MACOS
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    fscanf(arq,"%c",&temp);
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
+#ifdef _WIN32
+    //Windows 32
+#ifdef _MSC_VER
+    //Visual C
+    fscanf_s(arq,"%c",&temp);
+#endif
+#ifdef __GNUC__
+#ifdef __cplusplus
+    //G++
+    fscanf(arq,"%c",&temp);
+#else
+    //GCC
+#endif
+#endif
+#endif
+#ifdef _WIN64
+    //Windows 64
+#ifdef _MSC_VER
+    //Visual C
+    fscanf_s(arq,"%c",&temp);
+#endif
+#ifdef __GNUC__
+#ifdef __cplusplus
+    //G++
+    fscanf(arq,"%c",&temp);
+#else
+    //GCC
+#endif
+#endif
+#endif
+#ifdef __linux__
+    //LINUX
+#ifdef __GNUC__
+#ifdef __cplusplus
+    //G++
+    fscanf(arq,"%c",&temp);
+#else
+    //GCC
+#endif
+#endif
+#endif
+#ifdef __APPLE__
+    //MACOS
+#ifdef __GNUC__
+#ifdef __cplusplus
+    //G++
+    fscanf(arq,"%c",&temp);
+#else
+    //GCC
+#endif
+#endif
+#endif
     //test if read the end character or the end of the file
 
     if(feof(arq) || temp==limit || temp=='\0'){
@@ -143,7 +143,7 @@ edk::char8* File::readStringFromTheFile(FILE* arq,edk::char8 limit,edk::uint32 c
         }
         //return the string
         return str;
-        }
+    }
     else{
         //keep trying
         ret = this->readStringFromTheFile(arq,limit,count+1u,use);
@@ -178,58 +178,58 @@ edk::char8* File::readStringFromTheFile(FILE* arq,edk::char8* limits,edk::uint32
         return str;
     }
 
-    #ifdef _WIN32
-            //Windows 32
-            #ifdef _MSC_VER
-                //Visual C
-                fscanf_s(arq,"%c",&temp);
-            #endif
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    fscanf(arq,"%c",&temp);
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
-        #ifdef _WIN64
-            //Windows 64
-            #ifdef _MSC_VER
-                //Visual C
-                fscanf_s(arq,"%c",&temp);
-            #endif
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    fscanf(arq,"%c",&temp);
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
-        #ifdef __linux__
-            //LINUX
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    fscanf(arq,"%c",&temp);
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
-        #ifdef __APPLE__
-            //MACOS
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    fscanf(arq,"%c",&temp);
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
+#ifdef _WIN32
+    //Windows 32
+#ifdef _MSC_VER
+    //Visual C
+    fscanf_s(arq,"%c",&temp);
+#endif
+#ifdef __GNUC__
+#ifdef __cplusplus
+    //G++
+    fscanf(arq,"%c",&temp);
+#else
+    //GCC
+#endif
+#endif
+#endif
+#ifdef _WIN64
+    //Windows 64
+#ifdef _MSC_VER
+    //Visual C
+    fscanf_s(arq,"%c",&temp);
+#endif
+#ifdef __GNUC__
+#ifdef __cplusplus
+    //G++
+    fscanf(arq,"%c",&temp);
+#else
+    //GCC
+#endif
+#endif
+#endif
+#ifdef __linux__
+    //LINUX
+#ifdef __GNUC__
+#ifdef __cplusplus
+    //G++
+    fscanf(arq,"%c",&temp);
+#else
+    //GCC
+#endif
+#endif
+#endif
+#ifdef __APPLE__
+    //MACOS
+#ifdef __GNUC__
+#ifdef __cplusplus
+    //G++
+    fscanf(arq,"%c",&temp);
+#else
+    //GCC
+#endif
+#endif
+#endif
     //test if read the end character or the end of the file
 
     if(feof(arq) || testLimits(temp,limits) || temp=='\0'){
@@ -257,7 +257,7 @@ edk::char8* File::readStringFromTheFile(FILE* arq,edk::char8* limits,edk::uint32
         }
         //return the string
         return str;
-        }
+    }
     else{
         //keep trying
         ret = this->readStringFromTheFile(arq,limits,count+1u,use);
@@ -319,7 +319,7 @@ edk::char8* File::readStringFromTheBinFile(FILE* arq,edk::char8 limit,edk::uint3
         }
         //return the string
         return str;
-        }
+    }
     else{
         //keep trying
         ret = this->readStringFromTheBinFile(arq,limit,count+1u,use);
@@ -382,7 +382,7 @@ edk::char8* File::readStringFromTheBinFile(FILE* arq,edk::char8* limits,edk::uin
         }
         //return the string
         return str;
-        }
+    }
     else{
         //keep trying
         ret = this->readStringFromTheBinFile(arq,limits,count+1u,use);
@@ -415,14 +415,17 @@ File::~File(){
 }
 
 uint64 File::getFileSize(){
-    if(!this->size){
-        //load fileSize
-        edk::uint64 position = this->getSeek64();
-        this->seekEnd();
-        this->size = this->getSeek64();
-        this->seekStart(position);
+    if(this->isOpened()){
+        if(!this->size){
+            //load fileSize
+            edk::uint64 position = this->getSeek64();
+            this->seekEnd();
+            this->size = this->getSeek64();
+            this->seekStart(position);
+        }
+        return this->size;
     }
-    return this->size;
+    return 0u;
 }
 
 bool File::openTextFile(char8 *name){
@@ -432,58 +435,58 @@ bool File::openTextFile(char8 *name){
     //Then open the file in your compiler
     if((const edk::char8*)name && edk::File::isFile(name)){
 
-        #ifdef _WIN32
-            //Windows 32
-            #ifdef _MSC_VER
-                //Visual C
-                fopen_s(&arq,name,"r");
-            #endif
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    arq=fopen((const edk::char8*)name,"r");
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
-        #ifdef _WIN64
-            //Windows 64
-            #ifdef _MSC_VER
-                //Visual C
-                fopen_s(&arq,name,"r");
-            #endif
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    arq=fopen((const edk::char8*)name,"r");
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
-        #ifdef __linux__
-            //LINUX
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    arq=fopen((const edk::char8*)name,"r");
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
-        #ifdef __APPLE__
-            //MACOS
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    arq=fopen((const edk::char8*)name,"r");
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
+#ifdef _WIN32
+        //Windows 32
+#ifdef _MSC_VER
+        //Visual C
+        fopen_s(&arq,name,"r");
+#endif
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        arq=fopen((const edk::char8*)name,"r");
+#else
+        //GCC
+#endif
+#endif
+#endif
+#ifdef _WIN64
+        //Windows 64
+#ifdef _MSC_VER
+        //Visual C
+        fopen_s(&arq,name,"r");
+#endif
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        arq=fopen((const edk::char8*)name,"r");
+#else
+        //GCC
+#endif
+#endif
+#endif
+#ifdef __linux__
+        //LINUX
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        arq=fopen((const edk::char8*)name,"r");
+#else
+        //GCC
+#endif
+#endif
+#endif
+#ifdef __APPLE__
+        //MACOS
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        arq=fopen((const edk::char8*)name,"r");
+#else
+        //GCC
+#endif
+#endif
+#endif
         //Test if open the file
         if(this->isOpened()){
             //then copy the things of the file
@@ -519,58 +522,58 @@ bool File::openBinFile(char8 *name){
     //Then open the file in your compiler
     if((const edk::char8*)name && edk::File::isFile(name)){
 
-        #ifdef _WIN32
-            //Windows 32
-            #ifdef _MSC_VER
-                //Visual C
-                fopen_s(&arq,name,"rb");
-            #endif
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    arq=fopen((const edk::char8*)name,"rb");
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
-        #ifdef _WIN64
-            //Windows 64
-            #ifdef _MSC_VER
-                //Visual C
-                fopen_s(&arq,name,"rb");
-            #endif
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    arq=fopen((const edk::char8*)name,"rb");
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
-        #ifdef __linux__
-            //LINUX
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    arq=fopen((const edk::char8*)name,"rb");
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
-        #ifdef __APPLE__
-            //MACOS
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    arq=fopen((const edk::char8*)name,"rb");
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
+#ifdef _WIN32
+        //Windows 32
+#ifdef _MSC_VER
+        //Visual C
+        fopen_s(&arq,name,"rb");
+#endif
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        arq=fopen((const edk::char8*)name,"rb");
+#else
+        //GCC
+#endif
+#endif
+#endif
+#ifdef _WIN64
+        //Windows 64
+#ifdef _MSC_VER
+        //Visual C
+        fopen_s(&arq,name,"rb");
+#endif
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        arq=fopen((const edk::char8*)name,"rb");
+#else
+        //GCC
+#endif
+#endif
+#endif
+#ifdef __linux__
+        //LINUX
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        arq=fopen((const edk::char8*)name,"rb");
+#else
+        //GCC
+#endif
+#endif
+#endif
+#ifdef __APPLE__
+        //MACOS
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        arq=fopen((const edk::char8*)name,"rb");
+#else
+        //GCC
+#endif
+#endif
+#endif
         //Test if open the file
         if(this->isOpened()){
             //then copy the things of the file
@@ -606,58 +609,58 @@ bool File::openEndTextFile(char8 *name){
     //Then open the file in your compiler
     if((const edk::char8*)name && edk::File::isFile(name)){
 
-        #ifdef _WIN32
-            //Windows 32
-            #ifdef _MSC_VER
-                //Visual C
-                fopen_s(&arq,name,"a");
-            #endif
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    arq=fopen((const edk::char8*)name,"a");
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
-        #ifdef _WIN64
-            //Windows 64
-            #ifdef _MSC_VER
-                //Visual C
-                fopen_s(&arq,name,"a");
-            #endif
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    arq=fopen((const edk::char8*)name,"a");
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
-        #ifdef __linux__
-            //LINUX
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    arq=fopen((const edk::char8*)name,"a");
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
-        #ifdef __APPLE__
-            //MACOS
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    arq=fopen((const edk::char8*)name,"a");
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
+#ifdef _WIN32
+        //Windows 32
+#ifdef _MSC_VER
+        //Visual C
+        fopen_s(&arq,name,"a");
+#endif
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        arq=fopen((const edk::char8*)name,"a");
+#else
+        //GCC
+#endif
+#endif
+#endif
+#ifdef _WIN64
+        //Windows 64
+#ifdef _MSC_VER
+        //Visual C
+        fopen_s(&arq,name,"a");
+#endif
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        arq=fopen((const edk::char8*)name,"a");
+#else
+        //GCC
+#endif
+#endif
+#endif
+#ifdef __linux__
+        //LINUX
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        arq=fopen((const edk::char8*)name,"a");
+#else
+        //GCC
+#endif
+#endif
+#endif
+#ifdef __APPLE__
+        //MACOS
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        arq=fopen((const edk::char8*)name,"a");
+#else
+        //GCC
+#endif
+#endif
+#endif
         //Test if open the file
         if(this->isOpened()){
             //then copy the things of the file
@@ -693,58 +696,58 @@ bool File::openEndBinFile(char8 *name){
     //Then open the file in your compiler
     if((const edk::char8*)name && edk::File::isFile(name)){
 
-        #ifdef _WIN32
-            //Windows 32
-            #ifdef _MSC_VER
-                //Visual C
-                fopen_s(&arq,name,"ab");
-            #endif
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    arq=fopen((const edk::char8*)name,"ab");
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
-        #ifdef _WIN64
-            //Windows 64
-            #ifdef _MSC_VER
-                //Visual C
-                fopen_s(&arq,name,"ab");
-            #endif
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    arq=fopen((const edk::char8*)name,"ab");
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
-        #ifdef __linux__
-            //LINUX
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    arq=fopen((const edk::char8*)name,"ab");
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
-        #ifdef __APPLE__
-            //MACOS
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    arq=fopen((const edk::char8*)name,"ab");
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
+#ifdef _WIN32
+        //Windows 32
+#ifdef _MSC_VER
+        //Visual C
+        fopen_s(&arq,name,"ab");
+#endif
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        arq=fopen((const edk::char8*)name,"ab");
+#else
+        //GCC
+#endif
+#endif
+#endif
+#ifdef _WIN64
+        //Windows 64
+#ifdef _MSC_VER
+        //Visual C
+        fopen_s(&arq,name,"ab");
+#endif
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        arq=fopen((const edk::char8*)name,"ab");
+#else
+        //GCC
+#endif
+#endif
+#endif
+#ifdef __linux__
+        //LINUX
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        arq=fopen((const edk::char8*)name,"ab");
+#else
+        //GCC
+#endif
+#endif
+#endif
+#ifdef __APPLE__
+        //MACOS
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        arq=fopen((const edk::char8*)name,"ab");
+#else
+        //GCC
+#endif
+#endif
+#endif
         //Test if open the file
         if(this->isOpened()){
             //then copy the things of the file
@@ -781,58 +784,58 @@ bool File::openPipe(char8 *name){
     //Then open the file in your compiler
     if((const edk::char8*)name){
 
-        #ifdef _WIN32
-            //Windows 32
-            #ifdef _MSC_VER
-                //Visual C
-                popen_s(&arq,name,"r");
-            #endif
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    arq=popen((const edk::char8*)name,"r");
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
-        #ifdef _WIN64
-            //Windows 64
-            #ifdef _MSC_VER
-                //Visual C
-                popen_s(&arq,name,"r");
-            #endif
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    arq=popen((const edk::char8*)name,"r");
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
-        #ifdef __linux__
-            //LINUX
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    arq=popen((const edk::char8*)name,"r");
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
-        #ifdef __APPLE__
-            //MACOS
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    arq=popen((const edk::char8*)name,"r");
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
+#ifdef _WIN32
+        //Windows 32
+#ifdef _MSC_VER
+        //Visual C
+        popen_s(&arq,name,"r");
+#endif
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        arq=popen((const edk::char8*)name,"r");
+#else
+        //GCC
+#endif
+#endif
+#endif
+#ifdef _WIN64
+        //Windows 64
+#ifdef _MSC_VER
+        //Visual C
+        popen_s(&arq,name,"r");
+#endif
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        arq=popen((const edk::char8*)name,"r");
+#else
+        //GCC
+#endif
+#endif
+#endif
+#ifdef __linux__
+        //LINUX
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        arq=popen((const edk::char8*)name,"r");
+#else
+        //GCC
+#endif
+#endif
+#endif
+#ifdef __APPLE__
+        //MACOS
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        arq=popen((const edk::char8*)name,"r");
+#else
+        //GCC
+#endif
+#endif
+#endif
         //Test if open the file
         if(this->isOpened()){
             //then copy the things of the file
@@ -938,64 +941,64 @@ bool File::renameFile(const char *oldName, const char *newName){
 }
 
 bool File::createFile(char8 *name){
-   //Use a file
-   FILE *tempArq=NULL;
+    //Use a file
+    FILE *tempArq=NULL;
 
-   //test the name of the file
-   if((const edk::char8*)name){
-       //Create the file
-       #ifdef _WIN32
-            //Windows 32
-            #ifdef _MSC_VER
-                //Visual C
-                fopen_s(&tempArq,name,"wb");
-            #endif
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    tempArq=fopen((const edk::char8*)name,"wb");
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
-        #ifdef _WIN64
-            //Windows 64
-            #ifdef _MSC_VER
-                //Visual C
-                fopen_s(&tempArq,name,"wb");
-            #endif
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    tempArq=fopen((const edk::char8*)name,"wb");
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
-        #ifdef __linux__
-            //LINUX
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    tempArq=fopen((const edk::char8*)name,"wb");
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
-        #ifdef __APPLE__
-            //MACOS
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    tempArq=fopen((const edk::char8*)name,"wb");
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
+    //test the name of the file
+    if((const edk::char8*)name){
+        //Create the file
+#ifdef _WIN32
+        //Windows 32
+#ifdef _MSC_VER
+        //Visual C
+        fopen_s(&tempArq,name,"wb");
+#endif
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        tempArq=fopen((const edk::char8*)name,"wb");
+#else
+        //GCC
+#endif
+#endif
+#endif
+#ifdef _WIN64
+        //Windows 64
+#ifdef _MSC_VER
+        //Visual C
+        fopen_s(&tempArq,name,"wb");
+#endif
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        tempArq=fopen((const edk::char8*)name,"wb");
+#else
+        //GCC
+#endif
+#endif
+#endif
+#ifdef __linux__
+        //LINUX
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        tempArq=fopen((const edk::char8*)name,"wb");
+#else
+        //GCC
+#endif
+#endif
+#endif
+#ifdef __APPLE__
+        //MACOS
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        tempArq=fopen((const edk::char8*)name,"wb");
+#else
+        //GCC
+#endif
+#endif
+#endif
 
         //Test if create the file
         if(tempArq){
@@ -1065,58 +1068,58 @@ bool File::createAndOpenPipe(char8* name){
     //Then open the file in your compiler
     if((const edk::char8*)name){
 
-        #ifdef _WIN32
-            //Windows 32
-            #ifdef _MSC_VER
-                //Visual C
-                popen_s(&arq,name,"w");
-            #endif
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    arq=popen((const edk::char8*)name,"w");
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
-        #ifdef _WIN64
-            //Windows 64
-            #ifdef _MSC_VER
-                //Visual C
-                popen_s(&arq,name,"ab");
-            #endif
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    arq=popen((const edk::char8*)name,"w");
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
-        #ifdef __linux__
-            //LINUX
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    arq=popen((const edk::char8*)name,"w");
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
-        #ifdef __APPLE__
-            //MACOS
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    arq=popen((const edk::char8*)name,"w");
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
+#ifdef _WIN32
+        //Windows 32
+#ifdef _MSC_VER
+        //Visual C
+        popen_s(&arq,name,"w");
+#endif
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        arq=popen((const edk::char8*)name,"w");
+#else
+        //GCC
+#endif
+#endif
+#endif
+#ifdef _WIN64
+        //Windows 64
+#ifdef _MSC_VER
+        //Visual C
+        popen_s(&arq,name,"ab");
+#endif
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        arq=popen((const edk::char8*)name,"w");
+#else
+        //GCC
+#endif
+#endif
+#endif
+#ifdef __linux__
+        //LINUX
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        arq=popen((const edk::char8*)name,"w");
+#else
+        //GCC
+#endif
+#endif
+#endif
+#ifdef __APPLE__
+        //MACOS
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        arq=popen((const edk::char8*)name,"w");
+#else
+        //GCC
+#endif
+#endif
+#endif
         //Test if open the file
         if(this->isOpened()){
             //then copy the things of the file
@@ -1151,58 +1154,58 @@ bool File::fileExist(char8 *name){
     if((const edk::char8*)name){
         //Try open the file
 
-       #ifdef _WIN32
-            //Windows 32
-            #ifdef _MSC_VER
-                //Visual C
-                fopen_s(&tempArq,name,"r");
-            #endif
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    tempArq=fopen((const edk::char8*)name,"r");
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
-        #ifdef _WIN64
-            //Windows 64
-            #ifdef _MSC_VER
-                //Visual C
-                fopen_s(&tempArq,name,"r");
-            #endif
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    tempArq=fopen((const edk::char8*)name,"r");
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
-        #ifdef __linux__
-            //LINUX
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    tempArq=fopen((const edk::char8*)name,"r");
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
-        #ifdef __APPLE__
-            //MACOS
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    tempArq=fopen((const edk::char8*)name,"r");
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
+#ifdef _WIN32
+        //Windows 32
+#ifdef _MSC_VER
+        //Visual C
+        fopen_s(&tempArq,name,"r");
+#endif
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        tempArq=fopen((const edk::char8*)name,"r");
+#else
+        //GCC
+#endif
+#endif
+#endif
+#ifdef _WIN64
+        //Windows 64
+#ifdef _MSC_VER
+        //Visual C
+        fopen_s(&tempArq,name,"r");
+#endif
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        tempArq=fopen((const edk::char8*)name,"r");
+#else
+        //GCC
+#endif
+#endif
+#endif
+#ifdef __linux__
+        //LINUX
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        tempArq=fopen((const edk::char8*)name,"r");
+#else
+        //GCC
+#endif
+#endif
+#endif
+#ifdef __APPLE__
+        //MACOS
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        tempArq=fopen((const edk::char8*)name,"r");
+#else
+        //GCC
+#endif
+#endif
+#endif
 
         //Test if open the file
         if(tempArq){
@@ -1513,58 +1516,58 @@ char8 File::readTextChar(){
     if(this->isOpened()){
         //read the edk::char8
 
-        #ifdef _WIN32
-            //Windows 32
-            #ifdef _MSC_VER
-                //Visual C
-                fscanf_s(this->arq,"%c",&c);
-            #endif
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    fscanf(this->arq,"%c",&c);
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
-        #ifdef _WIN64
-            //Windows 64
-            #ifdef _MSC_VER
-                //Visual C
-                fscanf_s(this->arq,"%c",&c);
-            #endif
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    fscanf(this->arq,"%c",&c);
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
-        #ifdef __linux__
-            //LINUX
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    fscanf(this->arq,"%c",&c);
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
-        #ifdef __APPLE__
-            //MACOS
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    fscanf(this->arq,"%c",&c);
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
+#ifdef _WIN32
+        //Windows 32
+#ifdef _MSC_VER
+        //Visual C
+        fscanf_s(this->arq,"%c",&c);
+#endif
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        fscanf(this->arq,"%c",&c);
+#else
+        //GCC
+#endif
+#endif
+#endif
+#ifdef _WIN64
+        //Windows 64
+#ifdef _MSC_VER
+        //Visual C
+        fscanf_s(this->arq,"%c",&c);
+#endif
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        fscanf(this->arq,"%c",&c);
+#else
+        //GCC
+#endif
+#endif
+#endif
+#ifdef __linux__
+        //LINUX
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        fscanf(this->arq,"%c",&c);
+#else
+        //GCC
+#endif
+#endif
+#endif
+#ifdef __APPLE__
+        //MACOS
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        fscanf(this->arq,"%c",&c);
+#else
+        //GCC
+#endif
+#endif
+#endif
     }
     //else return false
     return c;
@@ -1622,58 +1625,58 @@ int32 File::readTextInt(){
     if(this->isOpened()){
         //read the edk::char8
 
-        #ifdef _WIN32
-            //Windows 32
-            #ifdef _MSC_VER
-                //Visual C
-                fscanf_s(this->arq,"%d",&n);
-            #endif
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    fscanf(this->arq,"%d",&n);
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
-        #ifdef _WIN64
-            //Windows 64
-            #ifdef _MSC_VER
-                //Visual C
-                fscanf_s(this->arq,"%d",&n);
-            #endif
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    fscanf(this->arq,"%d",&n);
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
-        #ifdef __linux__
-            //LINUX
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    fscanf(this->arq,"%d",&n);
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
-        #ifdef __APPLE__
-            //MACOS
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    fscanf(this->arq,"%d",&n);
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
+#ifdef _WIN32
+        //Windows 32
+#ifdef _MSC_VER
+        //Visual C
+        fscanf_s(this->arq,"%d",&n);
+#endif
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        fscanf(this->arq,"%d",&n);
+#else
+        //GCC
+#endif
+#endif
+#endif
+#ifdef _WIN64
+        //Windows 64
+#ifdef _MSC_VER
+        //Visual C
+        fscanf_s(this->arq,"%d",&n);
+#endif
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        fscanf(this->arq,"%d",&n);
+#else
+        //GCC
+#endif
+#endif
+#endif
+#ifdef __linux__
+        //LINUX
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        fscanf(this->arq,"%d",&n);
+#else
+        //GCC
+#endif
+#endif
+#endif
+#ifdef __APPLE__
+        //MACOS
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        fscanf(this->arq,"%d",&n);
+#else
+        //GCC
+#endif
+#endif
+#endif
     }
     //else return false
     return n;
@@ -1686,58 +1689,58 @@ uint32 File::readTextUInt(){
     if(this->isOpened()){
         //read the edk::char8
 
-        #ifdef _WIN32
-            //Windows 32
-            #ifdef _MSC_VER
-                //Visual C
-                fscanf_s(this->arq,"%u",&n);
-            #endif
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    fscanf(this->arq,"%u",&n);
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
-        #ifdef _WIN64
-            //Windows 64
-            #ifdef _MSC_VER
-                //Visual C
-                fscanf_s(this->arq,"%u",&n);
-            #endif
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    fscanf(this->arq,"%u",&n);
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
-        #ifdef __linux__
-            //LINUX
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    fscanf(this->arq,"%u",&n);
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
-        #ifdef __APPLE__
-            //MACOS
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    fscanf(this->arq,"%u",&n);
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
+#ifdef _WIN32
+        //Windows 32
+#ifdef _MSC_VER
+        //Visual C
+        fscanf_s(this->arq,"%u",&n);
+#endif
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        fscanf(this->arq,"%u",&n);
+#else
+        //GCC
+#endif
+#endif
+#endif
+#ifdef _WIN64
+        //Windows 64
+#ifdef _MSC_VER
+        //Visual C
+        fscanf_s(this->arq,"%u",&n);
+#endif
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        fscanf(this->arq,"%u",&n);
+#else
+        //GCC
+#endif
+#endif
+#endif
+#ifdef __linux__
+        //LINUX
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        fscanf(this->arq,"%u",&n);
+#else
+        //GCC
+#endif
+#endif
+#endif
+#ifdef __APPLE__
+        //MACOS
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        fscanf(this->arq,"%u",&n);
+#else
+        //GCC
+#endif
+#endif
+#endif
     }
     //else return false
     return n;
@@ -1750,58 +1753,58 @@ edk::float32 File::readTextFloat(){
     if(this->isOpened()){
         //read the edk::char8
 
-        #ifdef _WIN32
-            //Windows 32
-            #ifdef _MSC_VER
-                //Visual C
-                fscanf_s(this->arq,"%f",&f);
-            #endif
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    fscanf(this->arq,"%f",&f);
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
-        #ifdef _WIN64
-            //Windows 64
-            #ifdef _MSC_VER
-                //Visual C
-                fscanf_s(this->arq,"%f",&f);
-            #endif
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    fscanf(this->arq,"%f",&f);
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
-        #ifdef __linux__
-            //LINUX
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    fscanf(this->arq,"%f",&f);
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
-        #ifdef __APPLE__
-            //MACOS
-            #ifdef __GNUC__
-                #ifdef __cplusplus
-                    //G++
-                    fscanf(this->arq,"%f",&f);
-                #else
-                    //GCC
-                #endif
-            #endif
-        #endif
+#ifdef _WIN32
+        //Windows 32
+#ifdef _MSC_VER
+        //Visual C
+        fscanf_s(this->arq,"%f",&f);
+#endif
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        fscanf(this->arq,"%f",&f);
+#else
+        //GCC
+#endif
+#endif
+#endif
+#ifdef _WIN64
+        //Windows 64
+#ifdef _MSC_VER
+        //Visual C
+        fscanf_s(this->arq,"%f",&f);
+#endif
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        fscanf(this->arq,"%f",&f);
+#else
+        //GCC
+#endif
+#endif
+#endif
+#ifdef __linux__
+        //LINUX
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        fscanf(this->arq,"%f",&f);
+#else
+        //GCC
+#endif
+#endif
+#endif
+#ifdef __APPLE__
+        //MACOS
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        fscanf(this->arq,"%f",&f);
+#else
+        //GCC
+#endif
+#endif
+#endif
     }
     //else return false
     return f;
