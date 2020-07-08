@@ -1363,7 +1363,7 @@ edk::uint8 edk::String::utf8Bytes(edk::char8 *utf8){
 edk::uint8 edk::String::utf8Bytes(const edk::char8 *utf8){
     return edk::String::utf8Bytes((edk::char8 *)utf8);
 }
-//convert a utf8 character to uint8
+//convert a utf8 character to uint32
 edk::uint32 edk::String::utf8ToUint32(edk::char8 *utf8){
     edk::uint32 ret = 0u;
     edk::uint8 size = edk::String::utf8Bytes(utf8);
@@ -3720,6 +3720,156 @@ bool edk::String::strFileName(edk::char8* str,edk::char8* dest){
 }
 bool edk::String::strFileName(const edk::char8* str,edk::char8* dest){
     return edk::String::strFileName((edk::char8*) str,dest);
+}
+
+//BASE64
+const edk::char8 b64chars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+int b64invs[] = { 62, -1, -1, -1, 63, 52, 53, 54, 55, 56, 57, 58,
+                  59, 60, 61, -1, -1, -1, -1, -1, -1, -1, 0, 1, 2, 3, 4, 5,
+                  6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+                  21, 22, 23, 24, 25, -1, -1, -1, -1, -1, -1, 26, 27, 28,
+                  29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42,
+                  43, 44, 45, 46, 47, 48, 49, 50, 51 };
+//encode
+//return the encode result size
+edk::uint64 edk::String::base64EncodeSize(edk::uint64 size){
+    edk::uint64 ret;
+
+    ret = size;
+    if (size % 3 != 0)
+        ret += 3 - (size % 3);
+    ret /= 3;
+    ret *= 4;
+
+    return ret;
+}
+//convert the vector to base64 receiving the pre alloc string
+bool edk::String::base64Encode(edk::uint8* vec,edk::uint64 size,edk::char8* dest){
+    if(vec && size){
+        edk::uint64  elen;
+        edk::uint64  i;
+        edk::uint64  j;
+        edk::uint64  v;
+
+        elen = edk::String::base64EncodeSize(size);
+        dest[elen] = '\0';
+
+        for (i=0, j=0; i<size; i+=3, j+=4) {
+            v = vec[i];
+            v = i+1 < size ? v << 8 | vec[i+1] : v << 8;
+            v = i+2 < size ? v << 8 | vec[i+2] : v << 8;
+
+            dest[j]   = b64chars[(v >> 18) & 0x3F];
+            dest[j+1] = b64chars[(v >> 12) & 0x3F];
+            if (i+1 < size) {
+                dest[j+2] = b64chars[(v >> 6) & 0x3F];
+            } else {
+                dest[j+2] = '=';
+            }
+            if (i+2 < size) {
+                dest[j+3] = b64chars[v & 0x3F];
+            } else {
+                dest[j+3] = '=';
+            }
+        }
+
+        return true;
+    }
+    return false;
+}
+bool edk::String::base64Encode(edk::char8* str,edk::uint64 size,edk::char8* dest){
+    return edk::String::base64Encode((edk::uint8*) str,size,dest);
+}
+bool edk::String::base64Encode(const edk::char8* str,edk::uint64 size,edk::char8* dest){
+    return edk::String::base64Encode((edk::uint8*) str,size,dest);
+}
+//convert the vector to base64 new string
+edk::char8* edk::String::base64Encode(edk::uint8* vec,edk::uint64 size){
+    edk::char8   *out;
+    edk::uint64  elen;
+
+    if (vec == NULL || size == 0)
+        return NULL;
+
+    elen = edk::String::base64EncodeSize(size);
+    out  = (edk::char8*)malloc(elen+1);
+    out[elen] = '\0';
+
+    edk::String::base64Encode(vec,size,out);
+
+    return out;
+}
+edk::char8* edk::String::base64Encode(edk::char8* str,edk::uint64 size){
+    return edk::String::base64Encode((edk::uint8*) str,size);
+}
+edk::char8* edk::String::base64Encode(const edk::char8* str,edk::uint64 size){
+    return edk::String::base64Encode((edk::uint8*) str,size);
+}
+//decode
+//convert a base64 to a pre alloc vector
+edk::uint64 edk::String::base64DecodeSize(edk::char8* str){
+    edk::uint64 len;
+    edk::uint64 ret;
+    edk::uint64 i;
+
+    if (str == NULL)
+        return 0;
+
+    len = edk::String::strSize(str);
+    ret = len / 4 * 3;
+
+    for (i=len; i-->0; ) {
+        if (str[i] == '=') {
+            ret--;
+        } else {
+            break;
+        }
+    }
+
+    return ret;
+}
+bool edk::String::base64Decode(edk::char8* str,edk::uint8* dest){
+    edk::uint64 len;
+    edk::uint64 i;
+    edk::uint64 j;
+    int    v;
+
+    if (str == NULL || dest == NULL)
+        return false;
+
+    len = edk::String::strSize(str);
+    /*
+    if (size < edk::String::base64DecodeSize(str) || len % 4 != 0)
+        return false;
+    */
+
+    for (i=0; i<len; i++){
+        //test if it's a valid character
+        if((str[i] < '0' && str[i] > '9') &&
+                (str[i] < 'A' && str[i] > 'Z') &&
+                (str[i] < 'a' && str[i] > 'z') &&
+                (str[i] != '+' || str[i] != '/' || str[i] != '=')
+                ){
+            return false;
+        }
+    }
+
+    for (i=0, j=0; i<len; i+=4, j+=3) {
+        v = b64invs[str[i]-43];
+        v = (v << 6) | b64invs[str[i+1]-43];
+        v = str[i+2]=='=' ? v << 6 : (v << 6) | b64invs[str[i+2]-43];
+        v = str[i+3]=='=' ? v << 6 : (v << 6) | b64invs[str[i+3]-43];
+
+        dest[j] = (v >> 16) & 0xFF;
+        if (str[i+2] != '=')
+            dest[j+1] = (v >> 8) & 0xFF;
+        if (str[i+3] != '=')
+            dest[j+2] = v & 0xFF;
+    }
+    return true;
+}
+bool edk::String::base64Decode(const edk::char8* str,edk::uint8* dest){
+    return edk::String::base64Decode((edk::char8*) str,dest);
 }
 
 } /* End of namespace edk */

@@ -137,7 +137,7 @@ public:
     //get the size of utf8 bytes in a character
     static edk::uint8 utf8Bytes(edk::char8 *utf8);
     static edk::uint8 utf8Bytes(const edk::char8 *utf8);
-    //convert a utf8 character to uint8
+    //convert a utf8 character to uint32
     static edk::uint32 utf8ToUint32(edk::char8 *utf8);
     static edk::uint32 utf8ToUint32(const edk::char8 *utf8);
 
@@ -316,6 +316,24 @@ public:
     static edk::char8* strFileName(const edk::char8* str);
     static bool strFileName(edk::char8* str,edk::char8* dest);
     static bool strFileName(const edk::char8* str,edk::char8* dest);
+
+    //BASE64
+    //encode
+    //return the encode result size
+    static edk::uint64 base64EncodeSize(edk::uint64 size);
+    //convert the vector to base64 receiving the pre alloc string
+    static bool base64Encode(edk::uint8* vec,edk::uint64 size,edk::char8* dest);
+    static bool base64Encode(edk::char8* str,edk::uint64 size,edk::char8* dest);
+    static bool base64Encode(const edk::char8* str,edk::uint64 size,edk::char8* dest);
+    //convert the vector to base64 new string
+    static edk::char8* base64Encode(edk::uint8* vec,edk::uint64 size);
+    static edk::char8* base64Encode(edk::char8* str,edk::uint64 size);
+    static edk::char8* base64Encode(const edk::char8* str,edk::uint64 size);
+    //decode
+    //convert a base64 to a pre alloc vector
+    static edk::uint64 base64DecodeSize(edk::char8* str);
+    static bool base64Decode(edk::char8* str,edk::uint8* dest);
+    static bool base64Decode(const edk::char8* str,edk::uint8* dest);
 private:
     static char8* int32ToMinusStr(int32 value);
 
