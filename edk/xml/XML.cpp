@@ -2052,6 +2052,20 @@ edk::uint32 edk::XML::getSelectedAttributeID(edk::char8* name){
     return 0u;
 }
 
+//COMPARE
+bool edk::XML::compareSelectedName(edk::char8* compare){
+    //test if have a selected
+    if(this->haveSelected() && compare){
+        //return the selectedName
+        return edk::String::strCompare(compare,(edk::char8*)this->selected.name());
+    }
+    //else return NULL
+    return false;
+}
+bool edk::XML::compareSelectedName(const edk::char8* compare){
+    return this->compareSelectedName((edk::char8*) compare);
+}
+
 
 //Parser Virtual Functions
 void edk::XML::didStartElement(edk::char8* name, edk::char8** attributes, edk::char8** values, edk::uint8* types, edk::uint32 attributesCount){

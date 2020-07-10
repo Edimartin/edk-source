@@ -266,6 +266,10 @@ class XML{
         //return the attributeID by the name
         edk::uint32 getSelectedAttributeID(edk::char8* name);
 
+        //COMPARE
+        bool compareSelectedName(edk::char8* compare);
+        bool compareSelectedName(const edk::char8* compare);
+
         //Parser Virtual Functions
         virtual void didStartElement(edk::char8* name, edk::char8** attributes, edk::char8** values, edk::uint8* types, edk::uint32 attributesCount);
         virtual void foundCharacters(edk::char8* name,edk::char8* string,edk::uint8 type);
