@@ -276,6 +276,10 @@ public:
 
     static char8* consoleReadString();
 
+    static char8* consoleReadStringNoPrint();
+
+    static char8* consoleReadPassword();
+
     static void consoleClear();
 
     //return the console size

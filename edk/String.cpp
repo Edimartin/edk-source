@@ -119,9 +119,38 @@ edk::char8* readFromTheConsole(edk::uint32 i){
     //nao sei o que ei iria faser
 inicio:
     //primeiro ele le a tecla do teclado e ve se e equal a enter 13
-    edk::char8 c=edkGetch();
-    //#endif
-    //printf(" %u recebido",c);
+    edk::uchar8 c=edkGetch();
+    edk::uchar8 c2=0u,c3=0u,c4=0u;
+    edk::uint8 size=1u;
+
+    //2: c2 -> df
+    //3: e0 -> ea : ed - ef
+    //4: f0 - f3 - f4
+
+    //test if need getch another character
+    if(c>=0xc2 && c<=0xdf){
+        //read one more
+        c2=edkGetch();
+        size=2u;
+    }
+    else if((c>= 0xe0 && c<=0xea)
+            || c==0xed
+            || c==0xef
+            ){
+        //read two more
+        c2=edkGetch();
+        c3=edkGetch();
+        size=3u;
+    }
+    else if(c==0xf0 || c==0xf3 || c==0xf4){
+        //read tree more
+        c2=edkGetch();
+        c3=edkGetch();
+        c4=edkGetch();
+        size=4u;
+    }
+
+    //printf(" %u recebido",(edk::uint8)c);
     //Aqui ele pergunta se o edk::char8 e equal a o backspace
     if(c==8||c==127){
         if(i==0){
@@ -144,12 +173,247 @@ inicio:
     }
     else{
         //Senao ele countinua a recursividade recebendo a string como parametro
-        printf("%c",c);
-        string=readFromTheConsole(i+1);
+        switch(size){
+        case 4u:
+            printf("%c",c);
+            printf("%c",c2);
+            printf("%c",c3);
+            printf("%c",c4);
+            break;
+        case 3u:
+            printf("%c",c);
+            printf("%c",c2);
+            printf("%c",c3);
+            break;
+        case 2u:
+            printf("%c",c);
+            printf("%c",c2);
+            break;
+        case 1u:
+            printf("%c",c);
+            break;
+        }
+
+        string=readFromTheConsole(i+size);
         //Aqui ele pegunta se a string existe
         if(string){
             //se sim ele atribui o caracter desta etapa para a string
-            string[i]=c;
+
+
+            switch(size){
+            case 4u:
+                string[i+3u]=c4;
+                string[i+2u]=c3;
+                string[i+1u]=c2;
+                string[i]=c;
+                break;
+            case 3u:
+                string[i+2u]=c3;
+                string[i+1u]=c2;
+                string[i]=c;
+                break;
+            case 2u:
+                string[i+1u]=c2;
+                string[i]=c;
+                break;
+            case 1u:
+                string[i]=c;
+                break;
+            }
+
+            //no final ele retorna a string
+            return string;
+        }
+        else{
+            //Senao entao ele countinua lendo
+            goto inicio;
+        }
+    }
+}
+
+edk::char8* readFromTheConsoleNoPrint(edk::uint32 i){
+    //Eu sei que os professores dizem NUNCA use isso mas se eu nao usasse eu
+    //nao sei o que ei iria faser
+inicio:
+    //primeiro ele le a tecla do teclado e ve se e equal a enter 13
+    edk::uchar8 c=edkGetch();
+    edk::uchar8 c2=0u,c3=0u,c4=0u;
+    edk::uint8 size=1u;
+
+    //2: c2 -> df
+    //3: e0 -> ea : ed - ef
+    //4: f0 - f3 - f4
+
+    //test if need getch another character
+    if(c>=0xc2 && c<=0xdf){
+        //read one more
+        c2=edkGetch();
+        size=2u;
+    }
+    else if((c>= 0xe0 && c<=0xea)
+            || c==0xed
+            || c==0xef
+            ){
+        //read two more
+        c2=edkGetch();
+        c3=edkGetch();
+        size=3u;
+    }
+    else if(c==0xf0 || c==0xf3 || c==0xf4){
+        //read tree more
+        c2=edkGetch();
+        c3=edkGetch();
+        c4=edkGetch();
+        size=4u;
+    }
+
+    //printf(" %u recebido",(edk::uint8)c);
+    //Aqui ele pergunta se o edk::char8 e equal a o backspace
+    if(c==8||c==127){
+        if(i==0){
+            //Se o i for equal a 0 ele nao pode retornar entao ele volta pro inicio do goto
+            goto inicio;
+        }
+        //Se for equal entao ele apaga o caracter e le ele denovo;
+        printf("%c %c",8,8);
+        return NULL;
+    }
+    //depois ele gera o ponteiro para a string na memoria
+    edk::char8* string;
+    if(c==13||c==10){
+        //Acabou a recursividade e portanto ele cria a string e retorna ela
+        string = new edk::char8[i+1]; //Ele cria ela uma vez maior para adicionar o
+        //caracter de parada
+        string[i]='\0';
+        //string[i]=c;
+        return string;
+    }
+    else{
+        string=readFromTheConsoleNoPrint(i+size);
+        //Aqui ele pegunta se a string existe
+        if(string){
+            //se sim ele atribui o caracter desta etapa para a string
+
+
+            switch(size){
+            case 4u:
+                string[i+3u]=c4;
+                string[i+2u]=c3;
+                string[i+1u]=c2;
+                string[i]=c;
+                break;
+            case 3u:
+                string[i+2u]=c3;
+                string[i+1u]=c2;
+                string[i]=c;
+                break;
+            case 2u:
+                string[i+1u]=c2;
+                string[i]=c;
+                break;
+            case 1u:
+                string[i]=c;
+                break;
+            }
+
+            //no final ele retorna a string
+            return string;
+        }
+        else{
+            //Senao entao ele countinua lendo
+            goto inicio;
+        }
+    }
+}
+
+edk::char8* readPasswordFromTheConsole(edk::uint32 i){
+    //Eu sei que os professores dizem NUNCA use isso mas se eu nao usasse eu
+    //nao sei o que ei iria faser
+inicio:
+    //primeiro ele le a tecla do teclado e ve se e equal a enter 13
+    edk::uchar8 c=edkGetch();
+    edk::uchar8 c2=0u,c3=0u,c4=0u;
+    edk::uint8 size=1u;
+
+    //2: c2 -> df
+    //3: e0 -> ea : ed - ef
+    //4: f0 - f3 - f4
+
+    //test if need getch another character
+    if(c>=0xc2 && c<=0xdf){
+        //read one more
+        c2=edkGetch();
+        size=2u;
+    }
+    else if((c>= 0xe0 && c<=0xea)
+            || c==0xed
+            || c==0xef
+            ){
+        //read two more
+        c2=edkGetch();
+        c3=edkGetch();
+        size=3u;
+    }
+    else if(c==0xf0 || c==0xf3 || c==0xf4){
+        //read tree more
+        c2=edkGetch();
+        c3=edkGetch();
+        c4=edkGetch();
+        size=4u;
+    }
+
+    //printf(" %u recebido",(edk::uint8)c);
+    //Aqui ele pergunta se o edk::char8 e equal a o backspace
+    if(c==8||c==127){
+        if(i==0){
+            //Se o i for equal a 0 ele nao pode retornar entao ele volta pro inicio do goto
+            goto inicio;
+        }
+        //Se for equal entao ele apaga o caracter e le ele denovo;
+        printf("%c %c",8,8);
+        return NULL;
+    }
+    //depois ele gera o ponteiro para a string na memoria
+    edk::char8* string;
+    if(c==13||c==10){
+        //Acabou a recursividade e portanto ele cria a string e retorna ela
+        string = new edk::char8[i+1]; //Ele cria ela uma vez maior para adicionar o
+        //caracter de parada
+        string[i]='\0';
+        //string[i]=c;
+        return string;
+    }
+    else{
+        //Senao ele countinua a recursividade recebendo a string como parametro
+        printf("*");fflush(stdout);
+
+        string=readPasswordFromTheConsole(i+size);
+        //Aqui ele pegunta se a string existe
+        if(string){
+            //se sim ele atribui o caracter desta etapa para a string
+
+
+            switch(size){
+            case 4u:
+                string[i+3u]=c4;
+                string[i+2u]=c3;
+                string[i+1u]=c2;
+                string[i]=c;
+                break;
+            case 3u:
+                string[i+2u]=c3;
+                string[i+1u]=c2;
+                string[i]=c;
+                break;
+            case 2u:
+                string[i+1u]=c2;
+                string[i]=c;
+                break;
+            case 1u:
+                string[i]=c;
+                break;
+            }
+
             //no final ele retorna a string
             return string;
         }
@@ -2987,6 +3251,14 @@ char8 String::consoleReadKey(){
 
 char8* String::consoleReadString(){
     return readFromTheConsole(0u);
+}
+
+char8* String::consoleReadStringNoPrint(){
+    return readFromTheConsoleNoPrint(0u);
+}
+
+char8* String::consoleReadPassword(){
+    return readPasswordFromTheConsole(0u);
 }
 
 void String::consoleClear(){
