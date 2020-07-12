@@ -320,6 +320,11 @@ public:
     static edk::char8* strFileName(const edk::char8* str);
     static bool strFileName(edk::char8* str,edk::char8* dest);
     static bool strFileName(const edk::char8* str,edk::char8* dest);
+    //return the folder name from a string
+    static edk::char8* strFolderName(edk::char8* str);
+    static edk::char8* strFolderName(const edk::char8* str);
+    static bool strFolderName(edk::char8* str,edk::char8* dest);
+    static bool strFolderName(const edk::char8* str,edk::char8* dest);
 
     //BASE64
     //encode

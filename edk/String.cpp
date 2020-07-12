@@ -3993,6 +3993,112 @@ bool edk::String::strFileName(edk::char8* str,edk::char8* dest){
 bool edk::String::strFileName(const edk::char8* str,edk::char8* dest){
     return edk::String::strFileName((edk::char8*) str,dest);
 }
+//return the folder name from a string
+edk::char8* edk::String::strFolderName(edk::char8* str){
+    edk::char8* ret = NULL;
+    if(str){
+        edk::uint32 i=0u;
+        edk::uint32 lastFolder=0u;
+        bool haveLast=false;
+        //create a pointer to read the string
+        edk::char8* temp = str;
+        //go to the last '/' or '\\'
+        while(*temp){
+            if(*temp=='/' || *temp=='\\'){
+                //find a folder
+                lastFolder = i;
+                haveLast=true;
+            }
+            temp++;
+            i++;
+        }
+
+        //test if have the last folder
+        if(lastFolder){
+            lastFolder++;
+            //create a new string with the size of the last folder
+            ret = new edk::char8[lastFolder+1u];
+            if(ret){
+                ret[lastFolder]='\0';
+                for(edk::uint32 j=0u;j<lastFolder;j++){
+                    ret[j]=str[j];
+                }
+            }
+        }
+        else{
+            if(haveLast){
+                //create a new string for use "./"
+                ret = new edk::char8[2u];
+                if(ret){
+                    ret[0u]='/';
+                    ret[1u]='\0';
+                }
+            }
+            else{
+                //create a new string for use "./"
+                ret = new edk::char8[3u];
+                if(ret){
+                    ret[0u]='.';
+                    ret[1u]='/';
+                    ret[2u]='\0';
+                }
+            }
+        }
+    }
+    return ret;
+}
+edk::char8* edk::String::strFolderName(const edk::char8* str){
+    return edk::String::strFolderName((edk::char8*) str);
+}
+bool edk::String::strFolderName(edk::char8* str,edk::char8* dest){
+    if(str && dest){
+        edk::uint32 i=0u;
+        edk::uint32 lastFolder=0u;
+        bool haveLast=false;
+        //create a pointer to read the string
+        edk::char8* temp = str;
+        //go to the last '/' or '\\'
+        while(*temp){
+            if(*temp=='/' || *temp=='\\'){
+                //find a folder
+                lastFolder = i;
+                haveLast=true;
+            }
+            temp++;
+            i++;
+        }
+
+        //test if have the last folder
+        if(lastFolder){
+            lastFolder++;
+            //create a new string with the size of the last folder
+                dest[lastFolder]='\0';
+                for(edk::uint32 j=0u;j<lastFolder;j++){
+                    dest[j]=str[j];
+                }
+                return true;
+        }
+        else{
+            if(haveLast){
+                //create a new string for use "./"
+                    dest[0u]='/';
+                    dest[1u]='\0';
+                    return true;
+            }
+            else{
+                //create a new string for use "./"
+                    dest[0u]='.';
+                    dest[1u]='/';
+                    dest[2u]='\0';
+                    return true;
+            }
+        }
+    }
+    return false;
+}
+bool edk::String::strFolderName(const edk::char8* str,edk::char8* dest){
+    return edk::String::strFolderName((edk::char8*) str,(edk::char8*) dest);
+}
 
 //BASE64
 const edk::char8 b64chars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
