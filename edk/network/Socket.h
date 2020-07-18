@@ -165,8 +165,15 @@ public:
     edk::int32 sendStream(const edk::char8* ip,edk::uint16 port,edk::classID stream,edk::uint32 size);
     edk::int32 sendStream(edk::char8* ip,edk::uint16 port,const void* stream,edk::uint32 size);
     edk::int32 sendStream(const edk::char8* ip,edk::uint16 port,const void* stream,edk::uint32 size);
+    virtual edk::int32 sendStreamNonBlock(edk::network::Adress host,edk::classID stream,edk::uint32 size)=0;
+    edk::int32 sendStreamNonBlock(edk::network::Adress host,const void* stream,edk::uint32 size);
+    edk::int32 sendStreamNonBlock(edk::char8* ip,edk::uint16 port,edk::classID stream,edk::uint32 size);
+    edk::int32 sendStreamNonBlock(const edk::char8* ip,edk::uint16 port,edk::classID stream,edk::uint32 size);
+    edk::int32 sendStreamNonBlock(edk::char8* ip,edk::uint16 port,const void* stream,edk::uint32 size);
+    edk::int32 sendStreamNonBlock(const edk::char8* ip,edk::uint16 port,const void* stream,edk::uint32 size);
     //Recebe uma mensagem
     virtual edk::int32 receiveStream(edk::classID stream,edk::uint32 size,edk::network::Adress* host)=0;
+    virtual edk::int32 receiveStreamNonBlock(edk::classID stream,edk::uint32 size,edk::network::Adress* host)=0;
 protected:
     //create the socket
     bool createSocket(socketType type);
@@ -193,6 +200,10 @@ protected:
                                  edk::classID stream,
                                  edk::uint32 size
                                  );
+    static edk::int32 sendStreamNonBlock(edk::int32 socket,
+                                         edk::classID stream,
+                                         edk::uint32 size
+                                         );
     edk::uint32 receiveStream(edk::int32 socket,
                               edk::classID stream,
                               edk::uint32 size
@@ -202,10 +213,15 @@ protected:
                                       edk::uint32 size
                                       );
     static edk::uint32 sendStreamTo(edk::int32  socket,
-                             sockaddr_in sendAdress,
-                             edk::classID stream,
-                             edk::uint32 size
-                             );
+                                    sockaddr_in sendAdress,
+                                    edk::classID stream,
+                                    edk::uint32 size
+                                    );
+    static edk::uint32 sendStreamToNonBlock(edk::int32  socket,
+                                            sockaddr_in sendAdress,
+                                            edk::classID stream,
+                                            edk::uint32 size
+                                            );
     static edk::int32 receiveStreamFrom(edk::int32  socket,
                                         sockaddr_in *adress,
                                         edk::classID stream,

@@ -53,12 +53,19 @@ public:
     //send the stream to server
 
     edk::int32 sendStream(edk::network::Adress host,edk::classID stream,edk::uint32 size);
+    edk::int32 sendStreamNonBlock(edk::network::Adress host,edk::classID stream,edk::uint32 size);
     edk::int32 sendString(edk::network::Adress host,edk::char8* string);
     edk::int32 sendString(edk::network::Adress host,const edk::char8* string);
+    edk::int32 sendStringNonBlock(edk::network::Adress host,edk::char8* string);
+    edk::int32 sendStringNonBlock(edk::network::Adress host,const edk::char8* string);
     edk::int32 sendStream(edk::classID stream,edk::uint32 size);
     edk::int32 sendStream(const edk::char8* stream,edk::uint32 size);
+    edk::int32 sendStreamNonBlock(edk::classID stream,edk::uint32 size);
+    edk::int32 sendStreamNonBlock(const edk::char8* stream,edk::uint32 size);
     edk::int32 sendString(edk::char8* string);
     edk::int32 sendString(const edk::char8* string);
+    edk::int32 sendStringNonBlock(edk::char8* string);
+    edk::int32 sendStringNonBlock(const edk::char8* string);
     //receive the stream from the server
     edk::int32 receiveStream(edk::classID stream,edk::uint32 size,edk::network::Adress* host);
     edk::int32 receiveStream(edk::classID stream,edk::uint32 size);
