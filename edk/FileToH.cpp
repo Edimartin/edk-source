@@ -37,6 +37,10 @@ bool edk::FileToH::writeToFile(edk::char8* fileName,edk::uint32 lineSize){
                     if(size){
                         //create the vector
                         edk::char8* fileVec = new edk::char8[size];
+                        edk::char8 hex[5u];
+                        hex[0u] = '0';
+                        hex[1u] = 'x';
+                        hex[4u] = '\0';
                         if(fileVec){
                             //read the file
                             file.readBin(fileVec,size);
@@ -99,12 +103,22 @@ bool edk::FileToH::writeToFile(edk::char8* fileName,edk::uint32 lineSize){
                                 file.writeText(size);
                                 file.writeText("] = {\n");
                                 //write the bytes
-                                file.writeText((edk::uint8)fileVec[0]);
+
+                                sprintf(hex,"0x%02x",(edk::uint8)fileVec[0u]);
+                                file.writeText(hex);
+
+                                //file.writeText((edk::uint8)fileVec[0]);
+
                                 edk::uint8 count = 1u;
                                 bool enter=false;
                                 for(edk::uint32 i=1u;i<size;i++){
                                     file.writeText(",");
-                                    file.writeText((edk::uint8)fileVec[i]);
+
+                                    sprintf(hex,"0x%02x",(edk::uint8)fileVec[i]);
+                                    file.writeText(hex);
+
+                                    //file.writeText((edk::uint8)fileVec[i]);
+
                                     if(count>lineSize){
                                         file.writeText(" \\\n");
                                         count=0u;
@@ -162,6 +176,10 @@ bool edk::FileToH::writeToEDKFile(edk::char8* fileName,edk::uint32 lineSize){
                     if(size){
                         //create the vector
                         edk::char8* fileVec = new edk::char8[size];
+                        edk::char8 hex[5u];
+                        hex[0u] = '0';
+                        hex[1u] = 'x';
+                        hex[4u] = '\0';
                         if(fileVec){
                             //read the file
                             file.readBin(fileVec,size);
@@ -228,12 +246,22 @@ bool edk::FileToH::writeToEDKFile(edk::char8* fileName,edk::uint32 lineSize){
                                 file.writeText(size);
                                 file.writeText("] = {\n");
                                 //write the bytes
-                                file.writeText((edk::uint8)fileVec[0]);
+
+                                sprintf(hex,"0x%02x",(edk::uint8)fileVec[0u]);
+                                file.writeText(hex);
+
+                                //file.writeText((edk::uint8)fileVec[0]);
+
                                 edk::uint8 count = 1u;
                                 bool enter=false;
                                 for(edk::uint32 i=1u;i<size;i++){
                                     file.writeText(",");
-                                    file.writeText((edk::uint8)fileVec[i]);
+
+                                    sprintf(hex,"0x%02x",(edk::uint8)fileVec[i]);
+                                    file.writeText(hex);
+
+                                    //file.writeText((edk::uint8)fileVec[i]);
+
                                     if(count>lineSize){
                                         file.writeText(" \\\n");
                                         count=0u;
