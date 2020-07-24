@@ -141,6 +141,24 @@ public:
     static edk::uint32 utf8ToUint32(edk::char8 *utf8);
     static edk::uint32 utf8ToUint32(const edk::char8 *utf8);
 
+    //ASCII to UTF8
+    static bool asciiToUtf8(edk::char8* src,edk::char8* dest);
+    static bool asciiToUtf8(const edk::char8* src,edk::char8* dest);
+    static edk::char8* asciiToUtf8(edk::char8* src);
+    static edk::char8* asciiToUtf8(const edk::char8* src);
+    //ASCII to UTF8 Size
+    static edk::uint32 asciiToUtf8Size(edk::char8* src);
+    static edk::uint32 asciiToUtf8Size(const edk::char8* src);
+
+    //UTF8 to ASCII
+    static bool utf8ToAscii(edk::char8* src,edk::char8* dest);
+    static bool utf8ToAscii(const edk::char8* src,edk::char8* dest);
+    static edk::char8* utf8ToAscii(edk::char8* src);
+    static edk::char8* utf8ToAscii(const edk::char8* src);
+    //UTF8 to ASCII size
+    static edk::uint32 utf8ToAsciiSize(edk::char8* src);
+    static edk::uint32 utf8ToAsciiSize(const edk::char8* src);
+
     static char8* int32ToStr(int32 value);
 
     static char8* int64ToStr(int64 value);

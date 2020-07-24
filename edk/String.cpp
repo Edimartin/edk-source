@@ -1653,6 +1653,219 @@ edk::uint32 edk::String::utf8ToUint32(const edk::char8 *utf8){
     return edk::String::utf8ToUint32((edk::char8 *)utf8);
 }
 
+//ASCII to UTF8
+bool String::asciiToUtf8(edk::char8* src,edk::char8* dest){
+    if(src && dest){
+        edk::uchar8 c;
+        //
+        while(*src){
+            c = *src;
+            switch(c){
+            case 0xC3:
+                src++;
+                c = *src;
+                *dest = c | 0x40;
+                break;
+            case 0xC2:
+                src++;
+                *dest = *src;
+                break;
+            default:
+                *dest = c;
+                break;
+            }
+            src++;
+            dest++;
+        }
+        *dest='\0';
+        return true;
+    }
+    return false;
+}
+bool String::asciiToUtf8(const edk::char8* src,edk::char8* dest){
+    return edk::String::asciiToUtf8((edk::char8*) src,dest);
+}
+edk::char8* String::asciiToUtf8(edk::char8* src){
+    edk::char8* ret=NULL;
+    //get the size of the string
+    edk::uint32 size = edk::String::asciiToUtf8Size(src);
+    if(size){
+        //create the string
+        ret = new edk::char8[size+1u];
+        if(ret){
+            //convert the ascii to utf8
+            if(edk::String::asciiToUtf8(src,ret)){
+                return ret;
+            }
+            delete[] ret;
+        }
+    }
+    return NULL;
+}
+edk::char8* String::asciiToUtf8(const edk::char8* src){
+    return edk::String::asciiToUtf8((edk::char8*) src);
+}
+//ASCII to UTF8 Size
+edk::uint32 String::asciiToUtf8Size(edk::char8* src){
+    edk::uint32 ret=0u;
+    if(src){
+        edk::uchar8 c;
+        while(*src){
+            c = *src;
+            switch(c){
+            case 0xC3:
+                src++;
+                //ret++;
+                break;
+            case 0xC2:
+                src++;
+                //ret++;
+                break;
+            }
+            src++;
+            ret++;
+        }
+    }
+    return ret;
+}
+edk::uint32 String::asciiToUtf8Size(const edk::char8* src){
+    return edk::String::asciiToUtf8Size((edk::char8*) src);
+}
+
+//UTF8 to ASCII
+bool String::utf8ToAscii(edk::char8* src,edk::char8* dest){
+    if(src && dest){
+        edk::uchar8 c;
+        while(*src){
+            c = *src;
+            //test if need getch another character
+            if(c>=0xc2 && c<=0xdf){
+                //read one more
+                *dest=0xC3;
+                dest++;
+                *dest=c & 0xbf;
+
+                dest++;
+                *dest=0xC2;
+                dest++;
+                src++;
+                *dest=*src;
+            }
+            else if((c>= 0xe0 && c<=0xea)
+                    || c==0xed
+                    || c==0xef
+                    ){
+                //read two more
+                *dest=0xC3;
+                dest++;
+                *dest=c & 0xbf;
+
+                dest++;
+                *dest=0xC2;
+                dest++;
+                src++;
+                *dest=*src;
+
+                dest++;
+                *dest=0xC2;
+                dest++;
+                src++;
+                *dest=*src;
+            }
+            else if(c==0xf0 || c==0xf3 || c==0xf4){
+                //read tree more
+                *dest=0xC3;
+                dest++;
+                *dest=c & 0xbf;
+
+                dest++;
+                *dest=0xC2;
+                dest++;
+                src++;
+                *dest=*src;
+
+                dest++;
+                *dest=0xC2;
+                dest++;
+                src++;
+                *dest=*src;
+
+                dest++;
+                *dest=0xC2;
+                dest++;
+                src++;
+                *dest=*src;
+            }
+            else{
+                *dest=c;
+            }
+            src++;
+            dest++;
+        }
+        *dest='\0';
+        return true;
+    }
+    return false;
+}
+bool String::utf8ToAscii(const edk::char8* src,edk::char8* dest){
+    return edk::String::utf8ToAscii((edk::char8*) src,dest);
+}
+edk::char8* String::utf8ToAscii(edk::char8* src){
+    edk::char8* ret=NULL;
+    //get the size of the string
+    edk::uint32 size = edk::String::utf8ToAsciiSize(src);
+    if(size){
+        //create the string
+        ret = new edk::char8[size+1u];
+        if(ret){
+            //convert the ascii to utf8
+            if(edk::String::utf8ToAscii(src,ret)){
+                return ret;
+            }
+            delete[] ret;
+        }
+    }
+    return NULL;
+}
+edk::char8* String::utf8ToAscii(const edk::char8* src){
+    return edk::String::utf8ToAscii((edk::char8*) src);
+}
+//UTF8 to ASCII size
+edk::uint32 String::utf8ToAsciiSize(edk::char8* src){
+    edk::uint32 size=0u;
+    if(src){
+        edk::uchar8 c;
+        while(*src){
+            c = *src;
+            //test if need getch another character
+            if(c>=0xc2 && c<=0xdf){
+                //read one more
+                size+=3u;
+                src++;
+            }
+            else if((c>= 0xe0 && c<=0xea)
+                    || c==0xed
+                    || c==0xef
+                    ){
+                //read two more
+                size+=5u;
+                src+=2u;
+            }
+            else if(c==0xf0 || c==0xf3 || c==0xf4){
+                //read tree more
+                size+=7u;
+                src+=3u;
+            }
+            src++;
+            size++;
+        }
+    }
+    return size;
+}
+edk::uint32 String::utf8ToAsciiSize(const edk::char8* src){
+    return edk::String::utf8ToAsciiSize((edk::char8*) src);
+}
+
 char8* String::int32ToStr(int32 value){
     edk::char8* str = 0u;
 
@@ -4072,25 +4285,25 @@ bool edk::String::strFolderName(edk::char8* str,edk::char8* dest){
         if(lastFolder){
             lastFolder++;
             //create a new string with the size of the last folder
-                dest[lastFolder]='\0';
-                for(edk::uint32 j=0u;j<lastFolder;j++){
-                    dest[j]=str[j];
-                }
-                return true;
+            dest[lastFolder]='\0';
+            for(edk::uint32 j=0u;j<lastFolder;j++){
+                dest[j]=str[j];
+            }
+            return true;
         }
         else{
             if(haveLast){
                 //create a new string for use "./"
-                    dest[0u]='/';
-                    dest[1u]='\0';
-                    return true;
+                dest[0u]='/';
+                dest[1u]='\0';
+                return true;
             }
             else{
                 //create a new string for use "./"
-                    dest[0u]='.';
-                    dest[1u]='/';
-                    dest[2u]='\0';
-                    return true;
+                dest[0u]='.';
+                dest[1u]='/';
+                dest[2u]='\0';
+                return true;
             }
         }
     }
