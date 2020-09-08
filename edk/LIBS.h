@@ -15,6 +15,9 @@
 
 /*QTCreator
 
+QMAKE_CXXFLAGS += -Wno-deprecated-declarations
+QMAKE_CXXFLAGS += -Wno-deprecated-copy
+
 LIBS += -lsfml-system -lsfml-window -lsfml-graphics -lsfml-audio
 
 win32: LIBS += -lwsock32 -lopengl32 -lglu32 -lglew32
