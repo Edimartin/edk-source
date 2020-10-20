@@ -1148,6 +1148,8 @@ void edk::Object2D::draw(){
     edk::GU::guPushMatrix();
 
 
+    edk::GU::guEnable(GU_LIGHTING);
+    //glEnable(GL_RESCALE_NORMAL);
 
     bool haveLight=false;
 
@@ -1176,7 +1178,6 @@ void edk::Object2D::draw(){
 
     edk::shape::Mesh2D* mesh;
     if(haveLight){
-        edk::GU::guEnable(GU_LIGHTING);
         for(edk::uint32 i=this->meshes.size();i>0u;i--){
             //
             mesh = this->meshes.getMesh(i-1u);
@@ -1189,7 +1190,6 @@ void edk::Object2D::draw(){
                 }
             }
         }
-        edk::GU::guDisable(GU_LIGHTING);
     }
     else{
         for(edk::uint32 i=this->meshes.size();i>0u;i--){
@@ -1206,6 +1206,7 @@ void edk::Object2D::draw(){
         }
     }
     //glEnable(GL_RESCALE_NORMAL);
+    edk::GU::guDisable(GU_LIGHTING);
     edk::GU::guPopMatrix();
 }
 void edk::Object2D::drawWithoutMaterial(){
@@ -1235,6 +1236,8 @@ void edk::Object2D::drawWithoutMaterialWithLight(){
     //put the transformation on a stack
     edk::GU::guPushMatrix();
 
+    edk::GU::guEnable(GU_LIGHTING);
+
     bool haveLight=false;
 
     {
@@ -1261,7 +1264,6 @@ void edk::Object2D::drawWithoutMaterialWithLight(){
 
     edk::shape::Mesh2D* mesh;
     if(haveLight){
-        edk::GU::guEnable(GU_LIGHTING);
         for(edk::uint32 i=this->meshes.size();i>0u;i--){
             //
             mesh = this->meshes.getMesh(i-1u);
@@ -1269,7 +1271,6 @@ void edk::Object2D::drawWithoutMaterialWithLight(){
                 mesh->drawOneTexture();
             }
         }
-        edk::GU::guDisable(GU_LIGHTING);
     }
     else{
         for(edk::uint32 i=this->meshes.size();i>0u;i--){
@@ -1280,6 +1281,7 @@ void edk::Object2D::drawWithoutMaterialWithLight(){
             }
         }
     }
+    edk::GU::guDisable(GU_LIGHTING);
     edk::GU::guPopMatrix();
 }
 void edk::Object2D::drawWire(){
