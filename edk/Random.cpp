@@ -1,7 +1,7 @@
 #include "Random.h"
 
 /*
-Library C++ Random - Generate random numbers using rand()
+Library C++ Random - Generate random numbers using a static mathematic function
 Copyright (C) 1013 Eduardo Moura Sales Martins
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -24,14 +24,22 @@ Gravatai RS Brazil 94065100
 #warning "            Inside Random.cpp"
 #endif
 
-edk::Random::Random()
-{
+#define edkRandom(n){((n * 1109518245) + 12345)}
+
+edk::uint32 edk::Random::seed = 1u;
+
+edk::Random::Random(){
+    //
+}
+
+edk::Random::~Random(){
+    //
 }
 
 //set the seed
 void edk::Random::setSeed(edk::uint32 seed){
     //
-    srand(seed);
+    edk::Random::seed = seed;
 }
 
 //load the seed
@@ -43,7 +51,7 @@ edk::uint32 edk::Random::loadSeed(){
 }
 //get the rand number
 edk::uint32 edk::Random::getRandNumber(){
-    return rand();
+    return ((edk::Random::seed = edkRandom(edk::Random::seed)));
 }
 edk::uint32 edk::Random::getRandNumber(edk::uint32 limit){
     return edk::Random::getRandNumber()%limit;

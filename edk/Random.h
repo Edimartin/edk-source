@@ -2,7 +2,7 @@
 #define RANDOM_H
 
 /*
-Library C++ Random - Generate random numbers using rand()
+Library C++ Random - Generate random numbers using a static mathematic function
 Copyright (C) 1013 Eduardo Moura Sales Martins
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -27,7 +27,6 @@ Gravatai RS Brazil 94065100
 
 #pragma once
 #include "watch/Time.h"
-#include <stdlib.h>
 
 #ifdef printMessages
 #warning "    Compiling Random"
@@ -37,6 +36,7 @@ namespace edk{
 class Random{
 public:
     Random();
+    ~Random();
 
     //set the seed
     static void setSeed(edk::uint32 seed);
@@ -46,6 +46,10 @@ public:
     static edk::uint32 getRandNumber();
     static edk::uint32 getRandNumber(edk::uint32 div);
     static edk::float32 getRandPercent();
+
+private:
+    //save the seed
+    static edk::uint32 seed;
 };
 }//end namespace edk
 
