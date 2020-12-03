@@ -42,6 +42,8 @@ public:
     static void setSeed(edk::uint32 seed);
     //load the seed
     static edk::uint32 loadSeed();
+    //return the seed value
+    static edk::uint32 getSeed();
     //get the rand number
     static edk::uint32 getRandNumber();
     static edk::uint32 getRandNumber(edk::uint32 div);

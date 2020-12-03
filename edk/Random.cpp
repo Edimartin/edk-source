@@ -49,6 +49,10 @@ edk::uint32 edk::Random::loadSeed(){
     edk::Random::setSeed(seed);
     return seed;
 }
+//return the seed value
+edk::uint32 edk::Random::getSeed(){
+    return edk::Random::seed;
+}
 //get the rand number
 edk::uint32 edk::Random::getRandNumber(){
     return ((edk::Random::seed = edkRandom(edk::Random::seed)));
