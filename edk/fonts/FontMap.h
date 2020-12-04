@@ -91,6 +91,9 @@ public:
                                  edk::color4f32 color = edk::color4f32(0,0,0,1)
             );
 
+    //create a map
+    bool createMap(edk::size2ui32 size);
+    bool createMap(edk::uint32 width,edk::uint32 height);
     //create the string
     bool createStringMap(const edk::char8* str,edk::uint32 width);
     bool createStringMap(edk::char8* str,edk::uint32 width);
@@ -104,6 +107,9 @@ public:
     bool createStringMapOneLine(edk::char8* str,edk::uint32 width);
     bool createStringMapOneLine(const edk::char8* str);
     bool createStringMapOneLine(edk::char8* str);
+
+    //write a character in the map position
+    bool writeChar(edk::char8 c,edk::uint32 x,edk::uint32 y);
 
     //set the color
     void setColor(edk::color4f32 color);

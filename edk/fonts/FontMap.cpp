@@ -872,6 +872,23 @@ bool edk::fonts::FontMap::loadFontImageFromMemory(edk::char8* name,
     this->removeFontImage();
     return false;
 }
+//create a map
+bool edk::fonts::FontMap::createMap(edk::size2ui32 size){
+    //clean the lines
+    this->cleanLines();
+    //test the size
+    if(size.width && size.height){
+        //
+        if(this->map.newTileMap(size.width,size.height)){
+            this->selectAll();
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::fonts::FontMap::createMap(edk::uint32 width,edk::uint32 height){
+    return this->createMap(edk::size2ui32(width,height));
+}
 
 //create the string
 bool edk::fonts::FontMap::createStringMap(const edk::char8* str,edk::uint32 width){
@@ -981,7 +998,7 @@ bool edk::fonts::FontMap::addStringLine(edk::char8* str,edk::uint32 width){
         //test if have lines
         if(this->lines.size()){
             //create the new tileMap
-            if(this->map.newTileMap(width,this->lines.size())){
+            if(this->map.newTileMap(this->maxSizeLine,this->lines.size())){
                 this->copyLinesToMap();
                 //this->cleanLines();
                 this->selectAll();
@@ -1300,6 +1317,24 @@ bool edk::fonts::FontMap::createStringMapOneLine(edk::char8* str){
         }
     }
     this->cleanLines();
+    return false;
+}
+
+//write a character in the map position
+bool edk::fonts::FontMap::writeChar(edk::char8 c,edk::uint32 x,edk::uint32 y){
+    //test if have the position in the map
+    if(x<this->map.getMapSize().width && y<this->map.getMapSize().height
+            && c
+            ){
+        //set the character in the map
+        edk::char8 str[2u];
+        str[0u]=c;
+        str[1u]='\0';
+        edk::uint8 jump=0u;
+        c = this->getTileID(str,&jump);
+
+        return this->map.setTile(c+1,x,y);
+    }
     return false;
 }
 
