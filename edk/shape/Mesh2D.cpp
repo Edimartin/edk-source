@@ -127,13 +127,10 @@ void edk::shape::Mesh2D::print(){
 }
 //draw the mesh
 void edk::shape::Mesh2D::drawWithoutMaterial(){
-    this->material.drawNoTexture();
-    //else just draw the mesh
     this->drawPolygons();
 }
-void edk::shape::Mesh2D::drawWithoutMaterial(edk::uint32 position){
+void edk::shape::Mesh2D::drawNoTexture(){
     this->material.drawNoTexture();
-    //else just draw the mesh
     this->drawPolygons();
 }
 void edk::shape::Mesh2D::drawOneTexture(){

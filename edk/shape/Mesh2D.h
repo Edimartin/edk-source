@@ -65,7 +65,7 @@ public:
     //draw the mesh
     //edk::uint32 position
     virtual void drawWithoutMaterial();
-    virtual void drawWithoutMaterial(edk::uint32 position);
+    virtual void drawNoTexture();
     virtual void drawOneTexture();
     virtual void drawOneTexture(edk::uint32 position);
     virtual bool selectedDrawOneTexture();
