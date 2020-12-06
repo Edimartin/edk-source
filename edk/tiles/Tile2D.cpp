@@ -640,6 +640,14 @@ void edk::tiles::Tile2D::draw(edk::float32 angle,edk::size2f32 size){
     this->obj.angle = 0.f;
     this->obj.size = this->tileSize;
 }
+void edk::tiles::Tile2D::drawWithoutMaterial(edk::float32 angle,edk::size2f32 size){
+    this->obj.angle = angle;
+    this->tileSize = this->obj.size;
+    this->obj.size = size;
+    this->obj.drawWithoutMaterial();
+    this->obj.angle = 0.f;
+    this->obj.size = this->tileSize;
+}
 void edk::tiles::Tile2D::drawWire(edk::float32 angle,edk::size2f32 size){
     this->obj.angle = angle;
     this->tileSize = this->obj.size;

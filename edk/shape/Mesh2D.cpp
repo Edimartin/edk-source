@@ -126,6 +126,16 @@ void edk::shape::Mesh2D::print(){
     this->printPolygons();
 }
 //draw the mesh
+void edk::shape::Mesh2D::drawWithoutMaterial(){
+    this->material.drawNoTexture();
+    //else just draw the mesh
+    this->drawPolygons();
+}
+void edk::shape::Mesh2D::drawWithoutMaterial(edk::uint32 position){
+    this->material.drawNoTexture();
+    //else just draw the mesh
+    this->drawPolygons();
+}
 void edk::shape::Mesh2D::drawOneTexture(){
     //set the texture if have one
     if(this->material.haveTexture()){
@@ -810,20 +820,20 @@ bool edk::shape::Mesh2D::polygonTriangularization(edk::shape::Polygon2D polygon,
         angle = edk::Math::getAngle2f(polygon.getVertexPosition(0u)-polygon.getVertexPosition(size+1u)) -
                 edk::Math::getAngle2f(polygon.getVertexPosition(1u)-polygon.getVertexPosition(size+1u));
         if(angle<0.f)angle+=360.f;
-/*
+        /*
         printf("\nvertex 0u Angle == %.2f"
                ,angle
                );fflush(stdout);
 */
         if(angle<=180.f){
-/*
+            /*
             printf(" concave");fflush(stdout);
 */
             if(!pConcaves.size()) concaveFirst = 0u;
             pConcaves.pushBack(polygon.getVertexPosition(0u));
             concaveActual = 0u;
         }
-/*
+        /*
         else{
             printf(" convex");fflush(stdout);
         }
@@ -835,14 +845,14 @@ bool edk::shape::Mesh2D::polygonTriangularization(edk::shape::Polygon2D polygon,
             angle = edk::Math::getAngle2f(polygon.getVertexPosition(i+1u)-polygon.getVertexPosition(i)) -
                     edk::Math::getAngle2f(polygon.getVertexPosition(i+2u)-polygon.getVertexPosition(i));
             if(angle<0.f)angle+=360.f;
-/*
+            /*
             printf("\nvertex %uu Angle == %.2f"
                    ,i+1u
                    ,angle
                    );fflush(stdout);
 */
             if(angle<=180.f){
-/*
+                /*
                 printf(" concave");fflush(stdout);
 */
                 if(!pConcaves.size()) concaveFirst = i+1u;
@@ -850,13 +860,13 @@ bool edk::shape::Mesh2D::polygonTriangularization(edk::shape::Polygon2D polygon,
                 concaveActual = i+1u;
             }
             else{
-/*
+                /*
                 printf(" convex");fflush(stdout);
 */
                 //then create the triangle
                 if(pConcaves.size()){
                     //join the concave, the convex and the next vertex to create a triangle
-/*
+                    /*
                     printf("\n%u Create triangle %u %u %u",__LINE__
                            ,concaveActual
                            ,i+1u
@@ -867,7 +877,7 @@ bool edk::shape::Mesh2D::polygonTriangularization(edk::shape::Polygon2D polygon,
                     tri.setVertexPosition(1u,polygon.getVertexPosition(i+1u).x,polygon.getVertexPosition(i+1u).y);
                     tri.setVertexPosition(2u,polygon.getVertexPosition(i+2u).x,polygon.getVertexPosition(i+2u).y);
                     if(tri.isCounterclockwise()){
-/*
+                        /*
                         printf(" isCounterClockwise");fflush(stdout);
 */
                         //test if the triangle have a vertex inside
@@ -899,12 +909,12 @@ bool edk::shape::Mesh2D::polygonTriangularization(edk::shape::Polygon2D polygon,
                         }
                         if(goContinue){
                             mesh->addPolygon(tri);
-/*
+                            /*
                             printf(" addPolygon");fflush(stdout);
 */
                         }
                         else{
-/*
+                            /*
                             printf(" notAddPolygon");fflush(stdout);
 */
                             //add the vertex as a concave
@@ -914,7 +924,7 @@ bool edk::shape::Mesh2D::polygonTriangularization(edk::shape::Polygon2D polygon,
                         }
                     }
                     else{
-/*
+                        /*
                         printf(" isNOTCounterClockwise");fflush(stdout);
 */
                         goBreak=true;
@@ -931,14 +941,14 @@ bool edk::shape::Mesh2D::polygonTriangularization(edk::shape::Polygon2D polygon,
             angle = edk::Math::getAngle2f(polygon.getVertexPosition(size+1u)-polygon.getVertexPosition(size)) -
                     edk::Math::getAngle2f(polygon.getVertexPosition(0u)-polygon.getVertexPosition(size));
             if(angle<0.f)angle+=360.f;
-/*
+            /*
             printf("\nvertex %uu Angle == %.2f"
                    ,size+1u
                    ,angle
                    );fflush(stdout);
 */
             if(angle<=180.f){
-/*
+                /*
                 printf(" concave");fflush(stdout);
 */
                 if(!pConcaves.size()) concaveFirst = size+1u;
@@ -946,14 +956,14 @@ bool edk::shape::Mesh2D::polygonTriangularization(edk::shape::Polygon2D polygon,
                 concaveActual = size+1u;
             }
             else{
-/*
+                /*
                 printf(" convex");fflush(stdout);
 */
 
                 //then create the triangle
                 if(pConcaves.size()){
                     //join the concave, the convex and the next vertex to create a triangle
-/*
+                    /*
                     printf("\n%u Create triangle %u %u %u",__LINE__
                            ,concaveActual
                            ,size+1u
@@ -964,7 +974,7 @@ bool edk::shape::Mesh2D::polygonTriangularization(edk::shape::Polygon2D polygon,
                     tri.setVertexPosition(1u,polygon.getVertexPosition(size+1u).x,polygon.getVertexPosition(size+1u).y);
                     tri.setVertexPosition(2u,polygon.getVertexPosition(0u).x,polygon.getVertexPosition(0u).y);
                     if(tri.isCounterclockwise()){
-/*
+                        /*
                         printf(" isCounterClockwise");fflush(stdout);
 */
                         //test if the triangle have a vertex inside
@@ -996,12 +1006,12 @@ bool edk::shape::Mesh2D::polygonTriangularization(edk::shape::Polygon2D polygon,
                         }
                         if(goContinue){
                             mesh->addPolygon(tri);
-/*
+                            /*
                             printf(" addPolygon");fflush(stdout);
 */
                         }
                         else{
-/*
+                            /*
                             printf(" notAddPolygon");fflush(stdout);
 */
                             //add the vertex as a concave
@@ -1011,7 +1021,7 @@ bool edk::shape::Mesh2D::polygonTriangularization(edk::shape::Polygon2D polygon,
                         }
                     }
                     else{
-/*
+                        /*
                         printf(" isNOTCounterClockwise");fflush(stdout);
 */
                         goBreak=true;
@@ -1029,7 +1039,7 @@ bool edk::shape::Mesh2D::polygonTriangularization(edk::shape::Polygon2D polygon,
                 //test the vertexes
                 for(edk::uint32 i=0u;i<concaveFirst;i++){
                     //
-/*
+                    /*
                     printf("\n%u Create triangle %u %u %u",__LINE__
                            ,concaveActual
                            ,i
@@ -1041,7 +1051,7 @@ bool edk::shape::Mesh2D::polygonTriangularization(edk::shape::Polygon2D polygon,
                     tri.setVertexPosition(2u,polygon.getVertexPosition(i+1u).x,polygon.getVertexPosition(i+1u).y);
                     if(tri.isCounterclockwise()){
 
-/*
+                        /*
                         printf(" isCounterClockwise");fflush(stdout);
 */
                         //test if the triangle have a vertex inside
@@ -1073,12 +1083,12 @@ bool edk::shape::Mesh2D::polygonTriangularization(edk::shape::Polygon2D polygon,
                         }
                         if(goContinue){
                             mesh->addPolygon(tri);
-/*
+                            /*
                             printf(" addPolygon");fflush(stdout);
 */
                         }
                         else{
-/*
+                            /*
                             printf(" notAddPolygon");fflush(stdout);
 */
                             //add the vertex as a concave
@@ -1088,7 +1098,7 @@ bool edk::shape::Mesh2D::polygonTriangularization(edk::shape::Polygon2D polygon,
                         }
                     }
                     else{
-/*
+                        /*
                         printf(" isNOTCounterClockwise");fflush(stdout);
 */
                         goBreak=true;

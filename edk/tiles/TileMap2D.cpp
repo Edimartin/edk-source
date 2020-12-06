@@ -553,6 +553,65 @@ void edk::tiles::TileMap2D::draw(edk::vec2ui32 origin,edk::size2ui32 last,edk::c
         edk::GU::guPopMatrix();
     }
 }
+void edk::tiles::TileMap2D::drawWithoutMaterial(edk::color4f32 color){
+    if(this->tileSet){
+        edk::vec2f32 positionTemp = this->getPosition();
+        //set the transformation
+        edk::GU::guPushMatrix();
+        for(edk::uint32 y=0u,y2=this->sizeMap.height-1u;y<this->sizeMap.height;y++,y2--){
+            for(edk::uint32 x=0u;x<this->sizeMap.width;x++){
+                //draw the tile
+                this->tileSet->drawTileWithoutMaterial(this->tileMap[y][x]
+                                                       ,(x*this->scaleMap.width) + positionTemp.x
+                                                       ,(y2*this->scaleMap.height) + positionTemp.y
+                                                       ,0.f,this->scaleMap,color
+                                                       );
+            }
+        }
+
+        //draw physics objects
+        this->treePhysics.render();
+
+        edk::GU::guPopMatrix();
+    }
+}
+void edk::tiles::TileMap2D::drawWithoutMaterial(edk::vec2ui32 origin,edk::size2ui32 last,edk::color4f32 color){
+    if(this->tileSet){
+        if(last.width>this->sizeMap.width) last.width=this->sizeMap.width;
+        if(last.height>this->sizeMap.height) last.height=this->sizeMap.height;
+        if(origin.x < this->sizeMap.width
+                &&
+                origin.y < this->sizeMap.height
+                &&
+                origin.x<=last.width
+                &&
+                origin.y<=last.height
+                ){
+            edk::vec2f32 positionTemp = this->getPosition();
+            //set the transformation
+            edk::GU::guPushMatrix();
+            //last.height++;
+            //last.width++;
+
+            for(edk::uint32 y=origin.y,y2=this->sizeMap.height-origin.y-1u;y<last.height;y++,y2--){
+                for(edk::uint32 x=origin.x;x<last.width;x++){
+                    //draw the tile
+                    this->tileSet->drawTileWithoutMaterial( this->tileMap[y][x]
+                                                            ,(x*this->scaleMap.width) + positionTemp.x
+                                                            ,(y2*this->scaleMap.height) + positionTemp.y
+                                                            ,0.f,this->scaleMap,color
+                                                            );
+                }
+            }
+
+        }
+
+        //draw physics objects
+        this->treePhysics.render();
+
+        edk::GU::guPopMatrix();
+    }
+}
 void edk::tiles::TileMap2D::drawInsideWorldRect(edk::rectf32 rect,edk::color4f32 color){
     //scale the points
     rect.origin.x /= this->scaleMap.width;
@@ -658,7 +717,7 @@ void edk::tiles::TileMap2D::drawIsometric(edk::vec2ui32 origin,edk::size2ui32 la
     }
 }
 void edk::tiles::TileMap2D::drawIsometricInsideWorldRect(edk::rectf32 /*rect*/,edk::color4f32 /*color*/){
-/*
+    /*
     //scale the points
     rect.origin.x /= this->scaleMap.width;
     rect.origin.y /= this->scaleMap.height;
@@ -1503,7 +1562,7 @@ void edk::tiles::TileMap2D::drawIsometricInsideWorldRectSelectionWithID(edk::rec
     */
 }
 void edk::tiles::TileMap2D::drawIsometricInsideWorldRectSelection(edk::rectf32 /*rect*/){
-/*
+    /*
     //scale the points
     rect.origin.x /= this->scaleMap.width;
     rect.origin.y /= this->scaleMap.height;

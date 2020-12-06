@@ -219,7 +219,7 @@ edk::uchar8 EDKFontTemplate[4480u] = {
     ,44,141,112,142,23,58,11,153,90,148,54,16,133,39,68,116,227,95,20,154,152 \
     ,86,108,133,68,242,210,31,117,49,251,72,141,15,187,166,0,0,0,0,73,69 \
     ,78,68,174,66,96,130
-    };
+};
 
 edk::fonts::FontMap::FontLine::FontLine(edk::uint32 size){
     this->size = size;
@@ -676,6 +676,27 @@ void edk::fonts::FontMap::draw(edk::vec2ui32 origin,edk::vec2ui32 last,edk::colo
 void edk::fonts::FontMap::draw(edk::uint32 originWidth,edk::uint32 originLine,edk::uint32 lastWidth,edk::uint32 lastLine,edk::color4f32 color){
     this->draw(edk::vec2ui32(originWidth,originLine),edk::vec2ui32 (lastWidth,lastLine),color);
 }
+
+void edk::fonts::FontMap::drawWithoutMaterial(edk::vec2ui32 origin,edk::vec2ui32 last,edk::color4f32 color){
+    //test if the line is the same
+    if(origin.y == last.y){
+        //then draw correctly
+        this->map.drawWithoutMaterial(origin,edk::size2ui32(last.x+1u,last.y+1u),color);
+    }
+    else{
+        edk::uint32 width = this->map.getMapSize().width;
+        this->map.drawWithoutMaterial(edk::vec2ui32(origin.x,origin.y),edk::size2ui32(width,origin.y+1u),color);
+        //draw all the lines
+        for(edk::uint32 i=origin.y+1u;i<last.y;i++){
+            this->map.drawWithoutMaterial(edk::vec2ui32(0u,i),edk::size2ui32(this->map.getMapSize().width,i+1u),color);
+        }
+        this->map.drawWithoutMaterial(edk::vec2ui32(0u,last.y),edk::size2ui32(last.x+1u,last.y+1u),color);
+    }
+}
+void edk::fonts::FontMap::drawWithoutMaterial(edk::uint32 originWidth,edk::uint32 originLine,edk::uint32 lastWidth,edk::uint32 lastLine,edk::color4f32 color){
+    this->drawWithoutMaterial(edk::vec2ui32(originWidth,originLine),edk::vec2ui32 (lastWidth,lastLine),color);
+}
+
 void edk::fonts::FontMap::drawWire(edk::vec2ui32 origin,edk::vec2ui32 last,edk::color4f32 color){
     //test if the line is the same
     if(origin.y == last.y){
@@ -727,6 +748,19 @@ void edk::fonts::FontMap::draw(edk::vec2ui32 origin,edk::uint32 lastID,edk::colo
 void edk::fonts::FontMap::draw(edk::uint32 originID,edk::vec2ui32 last,edk::color4f32 color){
     edk::vec2ui32 origin = this->getCharacterPosition(originID);
     return this->draw(origin,last,color);
+}
+void edk::fonts::FontMap::drawWithoutMaterial(edk::uint32 originID,edk::uint32 lastID,edk::color4f32 color){
+    edk::vec2ui32 origin = this->getCharacterPosition(originID);
+    edk::vec2ui32 last = this->getCharacterPosition(lastID);
+    return this->drawWithoutMaterial(origin,last,color);
+}
+void edk::fonts::FontMap::drawWithoutMaterial(edk::vec2ui32 origin,edk::uint32 lastID,edk::color4f32 color){
+    edk::vec2ui32 last = this->getCharacterPosition(lastID);
+    return this->drawWithoutMaterial(origin,last,color);
+}
+void edk::fonts::FontMap::drawWithoutMaterial(edk::uint32 originID,edk::vec2ui32 last,edk::color4f32 color){
+    edk::vec2ui32 origin = this->getCharacterPosition(originID);
+    return this->drawWithoutMaterial(origin,last,color);
 }
 void edk::fonts::FontMap::drawWire(edk::uint32 originID,edk::uint32 lastID,edk::color4f32 color){
     edk::vec2ui32 origin = this->getCharacterPosition(originID);
@@ -1848,15 +1882,31 @@ void edk::fonts::FontMap::draw(edk::float32 r,edk::float32 g,edk::float32 b){
 void edk::fonts::FontMap::draw(){
     this->draw(this->origin,this->last,this->color);
 }
-void edk::fonts::FontMap::drawWire(edk::color4f32 color){
+void edk::fonts::FontMap::drawWithoutMaterial(edk::color4f32 color){
     this->color = color;
+    //this->map.draw(color);
+    this->drawWithoutMaterial(this->origin,this->last,color);
+}
+void edk::fonts::FontMap::drawWithoutMaterial(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
+    this->color = edk::color4f32(r,g,b,a);
+    //this->map.draw(color);
+    this->drawWithoutMaterial(this->origin,this->last,color);
+}
+void edk::fonts::FontMap::drawWithoutMaterial(edk::float32 r,edk::float32 g,edk::float32 b){
+    this->drawWithoutMaterial(r,g,b,1.f);
+}
+void edk::fonts::FontMap::drawWithoutMaterial(){
+    this->drawWithoutMaterial(this->origin,this->last,this->color);
+}
+void edk::fonts::FontMap::drawWire(edk::color4f32 color){
+    //this->color = color;
     //this->map.drawWire(color);
     this->drawWire(this->origin,this->last,color);
 }
 void edk::fonts::FontMap::drawWire(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
-    this->color = edk::color4f32(r,g,b,a);
+    //this->color = edk::color4f32(r,g,b,a);
     //this->map.drawWire(color);
-    this->drawWire(this->origin,this->last,color);
+    this->drawWire(this->origin,this->last,edk::color4f32(r,g,b,a));
 }
 void edk::fonts::FontMap::drawWire(edk::float32 r,edk::float32 g,edk::float32 b){
     this->drawWire(r,g,b,1.f);

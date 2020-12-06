@@ -346,6 +346,19 @@ public:
                   edk::size2f32 size = edk::size2f32(1,1),
                   edk::color4f32 color=edk::color4f32(1,1,1,1)
             );
+    bool drawTileWithoutMaterial(edk::uint32 tile,
+                                 edk::vec2f32 position,
+                                 edk::float32 angle=0.f,
+                                 edk::size2f32 size = edk::size2f32(1,1),
+                                 edk::color4f32 color=edk::color4f32(1,1,1,1)
+            );
+    bool drawTileWithoutMaterial(edk::uint32 tile,
+                                 edk::float32 positionX,
+                                 edk::float32 positionY,
+                                 edk::float32 angle=0.f,
+                                 edk::size2f32 size = edk::size2f32(1,1),
+                                 edk::color4f32 color=edk::color4f32(1,1,1,1)
+            );
     void drawTileSelection(edk::vec2f32 position,
                            edk::float32 angle=0.f,
                            edk::size2f32 size = edk::size2f32(1,1)

@@ -161,6 +161,8 @@ public:
     virtual void print();
     //draw the mesh
     virtual void draw();
+    virtual void drawOneTexture();
+    virtual void drawOneTextureWithLight();
     virtual void drawWithoutMaterial();
     virtual void drawWithoutMaterialWithLight();
     virtual void drawWire();

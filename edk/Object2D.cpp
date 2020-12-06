@@ -1209,7 +1209,7 @@ void edk::Object2D::draw(){
     edk::GU::guDisable(GU_LIGHTING);
     edk::GU::guPopMatrix();
 }
-void edk::Object2D::drawWithoutMaterial(){
+void edk::Object2D::drawOneTexture(){
     //put the transformation on a stack
     edk::GU::guPushMatrix();
     //add translate
@@ -1232,7 +1232,7 @@ void edk::Object2D::drawWithoutMaterial(){
     }
     edk::GU::guPopMatrix();
 }
-void edk::Object2D::drawWithoutMaterialWithLight(){
+void edk::Object2D::drawOneTextureWithLight(){
     //put the transformation on a stack
     edk::GU::guPushMatrix();
 
@@ -1278,6 +1278,81 @@ void edk::Object2D::drawWithoutMaterialWithLight(){
             mesh = this->meshes.getMesh(i-1u);
             if(mesh){
                 mesh->drawOneTexture();
+            }
+        }
+    }
+    edk::GU::guDisable(GU_LIGHTING);
+    edk::GU::guPopMatrix();
+}
+void edk::Object2D::drawWithoutMaterial(){
+    //put the transformation on a stack
+    edk::GU::guPushMatrix();
+    //add translate
+    edk::GU::guTranslate2f32(this->position);
+    //add rotation
+    edk::GU::guRotateZf32(this->angle);
+    //add scale
+    edk::GU::guScale2f32(this->size);
+    //set the pivo
+    edk::GU::guTranslate2f32(this->pivo*-1.0f);
+
+    edk::shape::Mesh2D* mesh;
+    //print all polygonList
+    for(edk::uint32 i=this->meshes.size();i>0u;i--){
+        //
+        mesh = this->meshes.getMesh(i-1u);
+        if(mesh){
+            mesh->drawWithoutMaterial();
+        }
+    }
+    edk::GU::guPopMatrix();
+}
+void edk::Object2D::drawWithoutMaterialWithLight(){
+    //put the transformation on a stack
+    edk::GU::guPushMatrix();
+
+    edk::GU::guEnable(GU_LIGHTING);
+
+    bool haveLight=false;
+
+    {
+        for(edk::uint32 i=0u;i<EDK_LIGHT_LIMIT;i++){
+            if(this->lights[i].on){
+                edk::GU::guEnable(GU_LIGHT0+i);
+                this->lights[i].draw(i);
+                haveLight=true;
+
+            }
+            else{
+                edk::GU::guDisable(GU_LIGHT0+i);
+            }
+        }
+    }
+    //add translate
+    edk::GU::guTranslate2f32(this->position);
+    //add rotation
+    edk::GU::guRotateZf32(this->angle);
+    //add scale
+    edk::GU::guScale2f32(this->size);
+    //set the pivo
+    edk::GU::guTranslate2f32(this->pivo*-1.0f);
+
+    edk::shape::Mesh2D* mesh;
+    if(haveLight){
+        for(edk::uint32 i=this->meshes.size();i>0u;i--){
+            //
+            mesh = this->meshes.getMesh(i-1u);
+            if(mesh){
+                mesh->drawWithoutMaterial();
+            }
+        }
+    }
+    else{
+        for(edk::uint32 i=this->meshes.size();i>0u;i--){
+            //
+            mesh = this->meshes.getMesh(i-1u);
+            if(mesh){
+                mesh->drawWithoutMaterial();
             }
         }
     }

@@ -130,6 +130,8 @@ public:
     //Desenha o tileMap
     void draw(edk::color4f32 color=edk::color4f32(1,1,1,1));
     void draw(edk::vec2ui32 origin,edk::size2ui32 last,edk::color4f32 color=edk::color4f32(1,1,1,1));
+    void drawWithoutMaterial(edk::color4f32 color=edk::color4f32(1,1,1,1));
+    void drawWithoutMaterial(edk::vec2ui32 origin,edk::size2ui32 last,edk::color4f32 color=edk::color4f32(1,1,1,1));
     void drawInsideWorldRect(edk::rectf32 rect,edk::color4f32 color=edk::color4f32(1,1,1,1));
     void drawIsometric(edk::color4f32 color=edk::color4f32(1,1,1,1));
     void drawIsometric(edk::vec2ui32 origin,edk::size2ui32 last,edk::color4f32 color=edk::color4f32(1,1,1,1));
