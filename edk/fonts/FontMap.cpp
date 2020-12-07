@@ -656,7 +656,7 @@ edk::uint32 edk::fonts::FontMap::getCharacterID(edk::vec2ui32 position){
     }
     return 0u;
 }
-
+//Draw
 void edk::fonts::FontMap::draw(edk::vec2ui32 origin,edk::vec2ui32 last,edk::color4f32 color){
     //test if the line is the same
     if(origin.y == last.y){
@@ -735,6 +735,67 @@ void edk::fonts::FontMap::drawSelection(edk::vec2ui32 origin,edk::vec2ui32 last)
 void edk::fonts::FontMap::drawSelection(edk::uint32 originWidth,edk::uint32 originLine,edk::uint32 lastWidth,edk::uint32 lastLine){
     this->drawSelection(edk::vec2ui32(originWidth,originLine),edk::vec2ui32 (lastWidth,lastLine));
 }
+//Draw without passing a color
+void edk::fonts::FontMap::draw(edk::vec2ui32 origin,edk::vec2ui32 last){
+    //test if the line is the same
+    if(origin.y == last.y){
+        //then draw correctly
+        this->map.draw(origin,edk::size2ui32(last.x+1u,last.y+1u));
+    }
+    else{
+        edk::uint32 width = this->map.getMapSize().width;
+        this->map.draw(edk::vec2ui32(origin.x,origin.y),edk::size2ui32(width,origin.y+1u));
+        //draw all the lines
+        for(edk::uint32 i=origin.y+1u;i<last.y;i++){
+            this->map.draw(edk::vec2ui32(0u,i),edk::size2ui32(this->map.getMapSize().width,i+1u));
+        }
+        this->map.draw(edk::vec2ui32(0u,last.y),edk::size2ui32(last.x+1u,last.y+1u));
+    }
+}
+void edk::fonts::FontMap::draw(edk::uint32 originWidth,edk::uint32 originLine,edk::uint32 lastWidth,edk::uint32 lastLine){
+    this->draw(edk::vec2ui32(originWidth,originLine),edk::vec2ui32 (lastWidth,lastLine));
+}
+
+void edk::fonts::FontMap::drawWithoutMaterial(edk::vec2ui32 origin,edk::vec2ui32 last){
+    //test if the line is the same
+    if(origin.y == last.y){
+        //then draw correctly
+        this->map.drawWithoutMaterial(origin,edk::size2ui32(last.x+1u,last.y+1u));
+    }
+    else{
+        edk::uint32 width = this->map.getMapSize().width;
+        this->map.drawWithoutMaterial(edk::vec2ui32(origin.x,origin.y),edk::size2ui32(width,origin.y+1u));
+        //draw all the lines
+        for(edk::uint32 i=origin.y+1u;i<last.y;i++){
+            this->map.drawWithoutMaterial(edk::vec2ui32(0u,i),edk::size2ui32(this->map.getMapSize().width,i+1u));
+        }
+        this->map.drawWithoutMaterial(edk::vec2ui32(0u,last.y),edk::size2ui32(last.x+1u,last.y+1u));
+    }
+}
+void edk::fonts::FontMap::drawWithoutMaterial(edk::uint32 originWidth,edk::uint32 originLine,edk::uint32 lastWidth,edk::uint32 lastLine){
+    this->drawWithoutMaterial(edk::vec2ui32(originWidth,originLine),edk::vec2ui32 (lastWidth,lastLine));
+}
+
+void edk::fonts::FontMap::drawWire(edk::vec2ui32 origin,edk::vec2ui32 last){
+    //test if the line is the same
+    if(origin.y == last.y){
+        //then drawWire correctly
+        this->map.drawWire(origin,edk::size2ui32(last.x+1u,last.y+1u));
+    }
+    else{
+        edk::uint32 width = this->map.getMapSize().width;
+        this->map.drawWire(edk::vec2ui32(origin.x,origin.y),edk::size2ui32(width,origin.y+1u));
+        //drawWire all the lines
+        for(edk::uint32 i=origin.y+1u;i<last.y;i++){
+            this->map.drawWire(edk::vec2ui32(0u,i),edk::size2ui32(this->map.getMapSize().width,i+1u));
+        }
+        this->map.drawWire(edk::vec2ui32(0u,last.y),edk::size2ui32(last.x+1u,last.y+1u));
+    }
+}
+void edk::fonts::FontMap::drawWire(edk::uint32 originWidth,edk::uint32 originLine,edk::uint32 lastWidth,edk::uint32 lastLine){
+    this->drawWire(edk::vec2ui32(originWidth,originLine),edk::vec2ui32 (lastWidth,lastLine));
+}
+
 //draw the ID
 void edk::fonts::FontMap::draw(edk::uint32 originID,edk::uint32 lastID,edk::color4f32 color){
     edk::vec2ui32 origin = this->getCharacterPosition(originID);
@@ -787,6 +848,46 @@ void edk::fonts::FontMap::drawSelection(edk::vec2ui32 origin,edk::uint32 lastID)
 void edk::fonts::FontMap::drawSelection(edk::uint32 originID,edk::vec2ui32 last){
     edk::vec2ui32 origin = this->getCharacterPosition(originID);
     return this->drawSelection(origin,last);
+}
+//draw the ID without passing a color
+void edk::fonts::FontMap::draw(edk::uint32 originID,edk::uint32 lastID){
+    edk::vec2ui32 origin = this->getCharacterPosition(originID);
+    edk::vec2ui32 last = this->getCharacterPosition(lastID);
+    return this->draw(origin,last);
+}
+void edk::fonts::FontMap::draw(edk::vec2ui32 origin,edk::uint32 lastID){
+    edk::vec2ui32 last = this->getCharacterPosition(lastID);
+    return this->draw(origin,last);
+}
+void edk::fonts::FontMap::draw(edk::uint32 originID,edk::vec2ui32 last){
+    edk::vec2ui32 origin = this->getCharacterPosition(originID);
+    return this->draw(origin,last);
+}
+void edk::fonts::FontMap::drawWithoutMaterial(edk::uint32 originID,edk::uint32 lastID){
+    edk::vec2ui32 origin = this->getCharacterPosition(originID);
+    edk::vec2ui32 last = this->getCharacterPosition(lastID);
+    return this->drawWithoutMaterial(origin,last);
+}
+void edk::fonts::FontMap::drawWithoutMaterial(edk::vec2ui32 origin,edk::uint32 lastID){
+    edk::vec2ui32 last = this->getCharacterPosition(lastID);
+    return this->drawWithoutMaterial(origin,last);
+}
+void edk::fonts::FontMap::drawWithoutMaterial(edk::uint32 originID,edk::vec2ui32 last){
+    edk::vec2ui32 origin = this->getCharacterPosition(originID);
+    return this->drawWithoutMaterial(origin,last);
+}
+void edk::fonts::FontMap::drawWire(edk::uint32 originID,edk::uint32 lastID){
+    edk::vec2ui32 origin = this->getCharacterPosition(originID);
+    edk::vec2ui32 last = this->getCharacterPosition(lastID);
+    return this->drawWire(origin,last);
+}
+void edk::fonts::FontMap::drawWire(edk::vec2ui32 origin,edk::uint32 lastID){
+    edk::vec2ui32 last = this->getCharacterPosition(lastID);
+    return this->drawWire(origin,last);
+}
+void edk::fonts::FontMap::drawWire(edk::uint32 originID,edk::vec2ui32 last){
+    edk::vec2ui32 origin = this->getCharacterPosition(originID);
+    return this->drawWire(origin,last);
 }
 
 //SET
@@ -859,7 +960,6 @@ bool edk::fonts::FontMap::loadFontImage(edk::char8* name,edk::uint32 filter,edk:
     this->removeFontImage();
     //test the name
     if(name){
-        this->color = color;
         //load the fontImage
         if((this->set = this->list.createFontSet(name,filter,color))){
             //set tileSet in map
@@ -892,7 +992,6 @@ bool edk::fonts::FontMap::loadFontImageFromMemory(edk::char8* name,
     this->removeFontImage();
     //test the name
     if(name){
-        this->color = color;
         //load the fontImage
         if((this->set = this->list.createFontSetFromMemory(name,image,size,filter,color))){
             //set tileSet in map
@@ -1374,22 +1473,27 @@ bool edk::fonts::FontMap::writeChar(edk::char8 c,edk::uint32 x,edk::uint32 y){
 
 //set the color
 void edk::fonts::FontMap::setColor(edk::color4f32 color){
-    this->color = color;
+    this->map.setColor(color);
 }
 void edk::fonts::FontMap::setColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
-    this->setColor(edk::color4f32(r,g,b,a));
+    this->map.setColor(r,g,b,a);
 }
 void edk::fonts::FontMap::setAlpha(edk::float32 value){
-    this->color.a = value;
+    this->map.setAlpha(value);
 }
 void edk::fonts::FontMap::setColor(edk::color4ui8 color){
-    this->color = color;
+    this->setColor(edk::color4f32((edk::float32)color.r/255.f,
+                                  (edk::float32)color.g/255.f,
+                                  (edk::float32)color.b/255.f,
+                                  (edk::float32)color.a/255.f
+                                  )
+                   );
 }
 void edk::fonts::FontMap::setColor(edk::uint8 r,edk::uint8 g,edk::uint8 b,edk::uint8 a){
     this->setColor(edk::color4ui8(r,g,b,a));
 }
 void edk::fonts::FontMap::setAlpha(edk::uint8 value){
-    this->color.a = (edk::float32)value / 255.f;
+    this->setAlpha((edk::float32)value/255.f);
 }
 
 //delete tileMap
@@ -1867,52 +1971,41 @@ bool edk::fonts::FontMap::updateAnimations(edk::float32 seconds){
 
 //draw the text
 void edk::fonts::FontMap::draw(edk::color4f32 color){
-    this->color = color;
-    //this->map.draw(color);
     this->draw(this->origin,this->last,color);
 }
 void edk::fonts::FontMap::draw(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
-    this->color = edk::color4f32(r,g,b,a);
-    //this->map.draw(color);
-    this->draw(this->origin,this->last,color);
+    this->draw(this->origin,this->last,edk::color4f32(r,g,b,a));
 }
 void edk::fonts::FontMap::draw(edk::float32 r,edk::float32 g,edk::float32 b){
     this->draw(r,g,b,1.f);
 }
 void edk::fonts::FontMap::draw(){
-    this->draw(this->origin,this->last,this->color);
+    this->draw(this->origin,this->last);
 }
 void edk::fonts::FontMap::drawWithoutMaterial(edk::color4f32 color){
-    this->color = color;
     //this->map.draw(color);
     this->drawWithoutMaterial(this->origin,this->last,color);
 }
 void edk::fonts::FontMap::drawWithoutMaterial(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
-    this->color = edk::color4f32(r,g,b,a);
-    //this->map.draw(color);
-    this->drawWithoutMaterial(this->origin,this->last,color);
+    this->drawWithoutMaterial(this->origin,this->last,edk::color4f32(r,g,b,a));
 }
 void edk::fonts::FontMap::drawWithoutMaterial(edk::float32 r,edk::float32 g,edk::float32 b){
     this->drawWithoutMaterial(r,g,b,1.f);
 }
 void edk::fonts::FontMap::drawWithoutMaterial(){
-    this->drawWithoutMaterial(this->origin,this->last,this->color);
+    this->drawWithoutMaterial(this->origin,this->last);
 }
 void edk::fonts::FontMap::drawWire(edk::color4f32 color){
-    //this->color = color;
-    //this->map.drawWire(color);
     this->drawWire(this->origin,this->last,color);
 }
 void edk::fonts::FontMap::drawWire(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
-    //this->color = edk::color4f32(r,g,b,a);
-    //this->map.drawWire(color);
     this->drawWire(this->origin,this->last,edk::color4f32(r,g,b,a));
 }
 void edk::fonts::FontMap::drawWire(edk::float32 r,edk::float32 g,edk::float32 b){
     this->drawWire(r,g,b,1.f);
 }
 void edk::fonts::FontMap::drawWire(){
-    this->drawWire(this->origin,this->last,this->color);
+    this->drawWire(this->origin,this->last);
 }
 void edk::fonts::FontMap::drawSelection(){
     this->drawSelection(this->origin,this->last);

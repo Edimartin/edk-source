@@ -76,6 +76,21 @@ public:
     bool setTile(edk::uint32 tileID,edk::vec2ui32 position);
     bool setTile(edk::uint32 tileID,edk::uint32 positionX,edk::uint32 positionY);
     bool setTile(edk::uint32 tileID,edk::uint32 position);
+    //set a color in the colorMap
+    bool setTileColor(edk::color4f32 color,edk::vec2ui32 position);
+    bool setTileColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a,edk::vec2ui32 position);
+    bool setTileColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::vec2ui32 position);
+    bool setTileColor(edk::color4f32 color,edk::uint32 positionX,edk::uint32 positionY);
+    bool setTileColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a,edk::uint32 positionX,edk::uint32 positionY);
+    bool setTileColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::uint32 positionX,edk::uint32 positionY);
+    bool setTileColor(edk::color4f32 color,edk::uint32 position);
+    bool setTileColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a,edk::uint32 position);
+    bool setTileColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::uint32 position);
+    //set the color of all tiles
+    void setColor(edk::color4f32 color);
+    void setColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
+    void setColor(edk::float32 r,edk::float32 g,edk::float32 b);
+    void setAlpha(edk::float32 a);
     //set the tileMap position
     void setPosition(edk::vec2f32 position);
     void setPosition(edk::float32 positionX,edk::float32 positionY);
@@ -116,6 +131,10 @@ public:
     edk::uint32 getTileID(edk::vec2ui32 position);
     edk::uint32 getTileID(edk::uint32 positionX,edk::uint32 positionY);
     edk::uint32 getTileID(edk::uint32 position);
+    //return the tileColor
+    edk::color4f32 getTileColor(edk::vec2ui32 position);
+    edk::color4f32 getTileColor(edk::uint32 positionX,edk::uint32 positionY);
+    edk::color4f32 getTileColor(edk::uint32 position);
     //return the size of the map
     edk::size2ui32 getMapSize();
     //return the scale of the map
@@ -128,33 +147,57 @@ public:
     edk::vec2ui32 getPointPosition(edk::vec2f32 point,bool* inside=NULL);
 
     //Desenha o tileMap
-    void draw(edk::color4f32 color=edk::color4f32(1,1,1,1));
-    void draw(edk::vec2ui32 origin,edk::size2ui32 last,edk::color4f32 color=edk::color4f32(1,1,1,1));
-    void drawWithoutMaterial(edk::color4f32 color=edk::color4f32(1,1,1,1));
-    void drawWithoutMaterial(edk::vec2ui32 origin,edk::size2ui32 last,edk::color4f32 color=edk::color4f32(1,1,1,1));
-    void drawInsideWorldRect(edk::rectf32 rect,edk::color4f32 color=edk::color4f32(1,1,1,1));
-    void drawIsometric(edk::color4f32 color=edk::color4f32(1,1,1,1));
-    void drawIsometric(edk::vec2ui32 origin,edk::size2ui32 last,edk::color4f32 color=edk::color4f32(1,1,1,1));
-    void drawIsometricInsideWorldRect(edk::rectf32 rect,edk::color4f32 color=edk::color4f32(1,1,1,1));
+    void draw(edk::color4f32 color);
+    void draw(edk::vec2ui32 origin,edk::size2ui32 last,edk::color4f32 color);
+    void drawWithoutMaterial(edk::color4f32 color);
+    void drawWithoutMaterial(edk::vec2ui32 origin,edk::size2ui32 last,edk::color4f32 color);
+    void drawInsideWorldRect(edk::rectf32 rect,edk::color4f32 color);
+    void drawIsometric(edk::color4f32 color);
+    void drawIsometric(edk::vec2ui32 origin,edk::size2ui32 last,edk::color4f32 color);
+    void drawIsometricInsideWorldRect(edk::rectf32 rect,edk::color4f32 color);
+    //Draw tileMap without passing a color
+    void draw();
+    void draw(edk::vec2ui32 origin,edk::size2ui32 last);
+    void drawWithoutMaterial();
+    void drawWithoutMaterial(edk::vec2ui32 origin,edk::size2ui32 last);
+    void drawInsideWorldRect(edk::rectf32 rect);
+    void drawIsometric();
+    void drawIsometric(edk::vec2ui32 origin,edk::size2ui32 last);
+    void drawIsometricInsideWorldRect(edk::rectf32 rect);
     //draw wireTiles
-    void drawWire(edk::color4f32 color=edk::color4f32(1,1,1,1));
-    void drawWire(edk::vec2ui32 origin,edk::size2ui32 last,edk::color4f32 color=edk::color4f32(1,1,1,1));
-    void drawWireInsideWorldRect(edk::rectf32 rect,edk::color4f32 color=edk::color4f32(1,1,1,1));
-    void drawIsometricWire(edk::color4f32 color=edk::color4f32(1,1,1,1));
-    void drawIsometricWire(edk::vec2ui32 origin,edk::size2ui32 last,edk::color4f32 color=edk::color4f32(1,1,1,1));
-    void drawIsometricWireInsideWorldRect(edk::rectf32 rect,edk::color4f32 color=edk::color4f32(1,1,1,1));
+    void drawWire(edk::color4f32 color);
+    void drawWire(edk::vec2ui32 origin,edk::size2ui32 last,edk::color4f32 color);
+    void drawWireInsideWorldRect(edk::rectf32 rect,edk::color4f32 color);
+    void drawIsometricWire(edk::color4f32 color);
+    void drawIsometricWire(edk::vec2ui32 origin,edk::size2ui32 last,edk::color4f32 color);
+    void drawIsometricWireInsideWorldRect(edk::rectf32 rect,edk::color4f32 color);
+    //draw wireTiles without passing a color
+    void drawWire();
+    void drawWire(edk::vec2ui32 origin,edk::size2ui32 last);
+    void drawWireInsideWorldRect(edk::rectf32 rect);
+    void drawIsometricWire();
+    void drawIsometricWire(edk::vec2ui32 origin,edk::size2ui32 last);
+    void drawIsometricWireInsideWorldRect(edk::rectf32 rect);
     //draw wireTiles
-    void drawWirePhysics(edk::color4f32 color=edk::color4f32(1,1,1,1));
-    void drawWirePhysics(edk::vec2ui32 origin,edk::size2ui32 last,edk::color4f32 color=edk::color4f32(1,1,1,1));
-    void drawWirePhysicsInsideWorldRect(edk::rectf32 rect,edk::color4f32 color=edk::color4f32(1,1,1,1));
+    void drawWirePhysics(edk::color4f32 color);
+    void drawWirePhysics(edk::vec2ui32 origin,edk::size2ui32 last,edk::color4f32 color);
+    void drawWirePhysicsInsideWorldRect(edk::rectf32 rect,edk::color4f32 color);
+    //draw wireTiles without passing a color
+    void drawWirePhysics();
+    void drawWirePhysics(edk::vec2ui32 origin,edk::size2ui32 last);
+    void drawWirePhysicsInsideWorldRect(edk::rectf32 rect);
     //draw wireWitPhysics
     void drawWireWithPhysics(edk::color4f32 color=edk::color4f32(1,1,1,1),edk::color4f32 physColor=edk::color4f32(0,0,0,1));
     void drawWireWithPhysics(edk::vec2ui32 origin,edk::size2ui32 last,edk::color4f32 color=edk::color4f32(1,1,1,1),edk::color4f32 physColor=edk::color4f32(0,0,0,1));
     void drawWireWithPhysicsInsideWorldRect(edk::rectf32 rect,edk::color4f32 color=edk::color4f32(1,1,1,1),edk::color4f32 physColor=edk::color4f32(0,0,0,1));
     //draw one especific tile in wire
-    bool drawTileWire(edk::vec2ui32 position,edk::color4f32 color=edk::color4f32(1,1,1,1));
-    bool drawTileWire(edk::uint32 positionX,edk::uint32 positionY,edk::color4f32 color=edk::color4f32(1,1,1,1));
-    bool drawTileWire(edk::uint32 position,edk::color4f32 color=edk::color4f32(1,1,1,1));
+    bool drawTileWire(edk::vec2ui32 position,edk::color4f32 color);
+    bool drawTileWire(edk::uint32 positionX,edk::uint32 positionY,edk::color4f32 color);
+    bool drawTileWire(edk::uint32 position,edk::color4f32 color);
+    //draw one especific tile in wire without passing a color
+    bool drawTileWire(edk::vec2ui32 position);
+    bool drawTileWire(edk::uint32 positionX,edk::uint32 positionY);
+    bool drawTileWire(edk::uint32 position);
     //draw the tile for selection
     void drawSelectionWithID(edk::uint8 id=0u);
     void drawSelectionWithID(edk::vec2ui32 origin,edk::size2ui32 last,edk::uint8 id=0u);
@@ -196,12 +239,17 @@ private:
 
     //tileMap matrix
     edk::uint32** tileMap;
+    //color matrix
+    edk::color4f32** colorMap;
     //size of the tileMap
     edk::size2ui32 sizeMap;
     //scale the tileMap
     edk::size2f32 scaleMap;
     //position of the tileMap
     edk::vec2f32 positionMap;
+
+    //color of the tiles. When tiles was created it will receive this color
+    edk::color4f32 color;
 
     //PhysicsTiles
     class PhysicsTiles{

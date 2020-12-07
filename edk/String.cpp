@@ -888,6 +888,58 @@ bool String::strToVecUint64(edk::char8* str,edk::uint64* vec,edk::uint32 size){
     return false;
 }
 
+bool String::strToVecfloat32(edk::char8* str,edk::float32* vec,edk::uint32 size){
+    if(str && vec && size){
+        edk::uint32 i=0u;
+        while(*str){
+            vec[i] = edk::String::strToFloat32(str);
+            i++;
+            //test if get end
+            if(i>=size){
+                break;
+            }
+            else{
+                //else continue with the string
+                while(*str){
+                    str++;
+                    if(*str==' '){
+                        str++;
+                        break;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+    return false;
+}
+
+bool String::strToVecfloat64(edk::char8* str,edk::float64* vec,edk::uint32 size){
+    if(str && vec && size){
+        edk::uint32 i=0u;
+        while(*str){
+            vec[i] = edk::String::strToFloat64(str);
+            i++;
+            //test if get end
+            if(i>=size){
+                break;
+            }
+            else{
+                //else continue with the string
+                while(*str){
+                    str++;
+                    if(*str==' '){
+                        str++;
+                        break;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+    return false;
+}
+
 int32 String::strToInt32(char8 *str){
     if(str)
         return (edk::int32)atoi((const edk::char8*)str);
@@ -2310,18 +2362,75 @@ char8* String::vecUint64toStr(edk::uint64* vec,edk::uint32 size){
     return NULL;
 }
 
+char8* String::vecfloat32toStr(edk::float32* vec,edk::uint32 size){
+    if(vec && size){
+        //calculate the size of the string
+        edk::uint32 stringSize = 0u;
+        for(edk::uint32 i=0u;i<size;i++){
+                stringSize += edk::String::sizeOfFloat32(vec[i]) + 1u;
+        }
+        //test stringSize
+        if(stringSize){
+            //new string
+            edk::char8* str = new edk::char8[stringSize];
+            if(str){
+                edk::char8* temp = str;
+                //write the numbers to the string
+                edk::uint32 sizeTemp = 0u;
+                for(edk::uint32 i=0u;i<size;i++){
+                        sizeTemp = edk::String::sizeOfFloat32(vec[i]);
+                    //copy the number
+                    sprintf(temp,"%.4f",vec[i]);
+                    //copy the ' '
+                    temp[sizeTemp] = ' ';
+                    temp+=sizeTemp+1u;
+                }
+                str[stringSize-1u] = '\0';
+                return str;
+            }
+        }
+    }
+    return NULL;
+}
+
+char8* String::vecfloat64toStr(edk::float64* vec,edk::uint32 size){
+    if(vec && size){
+        //calculate the size of the string
+        edk::uint32 stringSize = 0u;
+        for(edk::uint32 i=0u;i<size;i++){
+                stringSize += edk::String::sizeOfFloat64(vec[i]) + 1u;
+        }
+        //test stringSize
+        if(stringSize){
+            //new string
+            edk::char8* str = new edk::char8[stringSize];
+            if(str){
+                edk::char8* temp = str;
+                //write the numbers to the string
+                edk::uint32 sizeTemp = 0u;
+                for(edk::uint32 i=0u;i<size;i++){
+                        sizeTemp = edk::String::sizeOfFloat64(vec[i]);
+                    //copy the number
+                    sprintf(temp,"%.4f",vec[i]);
+                    //copy the ' '
+                    temp[sizeTemp] = ' ';
+                    temp+=sizeTemp+1u;
+                }
+                str[stringSize-1u] = '\0';
+                return str;
+            }
+        }
+    }
+    return NULL;
+}
+
 edk::uint32 String::sizeOfInt32(int32 value){
     //use the module of the number
     edk::int32 module = edkModuleInt32(value);
 
     //count the number
     edk::uint32 size = 0;
-    while(true){
-        //
-        if(module<=0){
-            //
-            break;
-        }
+    while(module>0){
         module=module/10;
         size++;
     }
@@ -2334,13 +2443,36 @@ edk::uint32 String::sizeOfInt64(int64 value){
 
     //count the number
     edk::uint32 size = 0;
-    while(true){
-        //
-        if(module<=0){
-            //
-            break;
-        }
+    while(module>0){
         module=module/10;
+        size++;
+    }
+    return size;
+}
+
+edk::uint32 String::sizeOfFloat32(float32 value){
+    //use the module of the number
+    edk::float64 module = edkModuleFloat32(value);
+
+    //count the number
+    edk::uint32 size = 6u;
+    module=module/10.f;
+    while(module>0.9999f){
+        module=module/10.f;
+        size++;
+    }
+    return size;
+}
+
+edk::uint32 String::sizeOfFloat64(float64 value){
+    //use the module of the number
+    edk::float64 module = edkModuleFloat64(value);
+
+    //count the number
+    edk::uint32 size = 6u;
+    module=module/10.f;
+    while(module>0.9999f){
+        module=module/10.f;
         size++;
     }
     return size;

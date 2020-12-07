@@ -98,6 +98,10 @@ public:
 
     static bool strToVecUint64(edk::char8* str,edk::uint64* vec,edk::uint32 size);
 
+    static bool strToVecfloat32(edk::char8* str,edk::float32* vec,edk::uint32 size);
+
+    static bool strToVecfloat64(edk::char8* str,edk::float64* vec,edk::uint32 size);
+
     static int32 strToInt32(char8 *str);
 
     static int32 strToInt32(const char *str);
@@ -179,9 +183,17 @@ public:
 
     static char8* vecUint64toStr(edk::uint64* vec,edk::uint32 size);
 
+    static char8* vecfloat32toStr(edk::float32* vec,edk::uint32 size);
+
+    static char8* vecfloat64toStr(edk::float64* vec,edk::uint32 size);
+
     static edk::uint32 sizeOfInt32(int32 value);
 
     static edk::uint32 sizeOfInt64(int64 value);
+
+    static edk::uint32 sizeOfFloat32(float32 value);
+
+    static edk::uint32 sizeOfFloat64(float64 value);
 
     static char8* float32ToStr(edk::float32 value);
 

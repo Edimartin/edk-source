@@ -34,13 +34,17 @@ edk::tiles::TileMap2D::TileMap2D(){
     //
     this->tileSet=tileSet;
     this->tileMap=NULL;
+    this->colorMap=NULL;
     this->world=NULL;
     this->sizeMap = edk::size2ui32(0u,0u);
+    this->color = 1.f;
 }
 edk::tiles::TileMap2D::TileMap2D(edk::tiles::TileSet2D* tileSet){
     this->world=NULL;
     this->tileMap=NULL;
+    this->colorMap=NULL;
     this->sizeMap = edk::size2ui32(0u,0u);
+    this->color = 1.f;
     this->setTileSet(tileSet);
 }
 edk::tiles::TileMap2D::~TileMap2D(){
@@ -87,6 +91,73 @@ bool edk::tiles::TileMap2D::setTile(edk::uint32 tileID,edk::uint32 position){
         return this->setTile(tileID,edk::vec2ui32(position%this->sizeMap.width,position/this->sizeMap.width));
     }
     return false;
+}
+//set a color in the colorMap
+bool edk::tiles::TileMap2D::setTileColor(edk::color4f32 color,edk::vec2ui32 position){
+    //test the position
+    if(position.x < this->sizeMap.width && position.y < this->sizeMap.height){
+        //set the position
+        this->colorMap[position.y][position.x] = color;
+        //then return true
+        return true;
+    }
+    //else return false
+    return false;
+}
+bool edk::tiles::TileMap2D::setTileColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a,edk::vec2ui32 position){
+    return this->setTileColor(edk::color4f32(r,g,b,a),position);
+}
+bool edk::tiles::TileMap2D::setTileColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::vec2ui32 position){
+    return this->setTileColor(r,g,b,1.f,position);
+}
+bool edk::tiles::TileMap2D::setTileColor(edk::color4f32 color,edk::uint32 positionX,edk::uint32 positionY){
+    return this->setTileColor(color,edk::vec2ui32 (positionX,positionY));
+}
+bool edk::tiles::TileMap2D::setTileColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a,edk::uint32 positionX,edk::uint32 positionY){
+    return this->setTileColor(edk::color4f32 (r,g,b,a),positionX,positionY);
+}
+bool edk::tiles::TileMap2D::setTileColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::uint32 positionX,edk::uint32 positionY){
+    return this->setTileColor(r,g,b,1.f,positionX,positionY);
+}
+bool edk::tiles::TileMap2D::setTileColor(edk::color4f32 color,edk::uint32 position){
+    if(position){
+        position--;
+        return this->setTileColor(color,edk::vec2ui32(position%this->sizeMap.width,position/this->sizeMap.width));
+    }
+    return false;
+}
+bool edk::tiles::TileMap2D::setTileColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a,edk::uint32 position){
+    return this->setTileColor(edk::color4f32 (r,g,b,a),position);
+}
+bool edk::tiles::TileMap2D::setTileColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::uint32 position){
+    return this->setTileColor(r,g,b,1.f,position);
+}
+//set the color of all tiles
+void edk::tiles::TileMap2D::setColor(edk::color4f32 color){
+    this->color = color;
+    if(this->colorMap){
+        for(edk::uint32 y=0u;y<this->sizeMap.height;y++){
+            for(edk::uint32 x=0u;x<this->sizeMap.width;x++){
+                this->colorMap[y][x] = color;
+            }
+        }
+    }
+}
+void edk::tiles::TileMap2D::setColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
+    this->setColor(edk::color4f32 (r,g,b,a));
+}
+void edk::tiles::TileMap2D::setColor(edk::float32 r,edk::float32 g,edk::float32 b){
+    this->setColor(edk::color4f32 (r,g,b,1.f));
+}
+void edk::tiles::TileMap2D::setAlpha(edk::float32 a){
+    this->color.a = a;
+    if(this->colorMap){
+        for(edk::uint32 y=0u;y<this->sizeMap.height;y++){
+            for(edk::uint32 x=0u;x<this->sizeMap.width;x++){
+                this->colorMap[y][x].a = a;
+            }
+        }
+    }
 }
 //set the tileMap position
 void edk::tiles::TileMap2D::setPosition(edk::vec2f32 position){
@@ -186,9 +257,12 @@ void edk::tiles::TileMap2D::cleanWorldPointer(){
 }
 //cleanTiles
 void edk::tiles::TileMap2D::cleanTiles(){
-    for(edk::uint32 y=0u;y<this->sizeMap.height;y++){
-        for(edk::uint32 x=0u;x<this->sizeMap.width;x++){
-            this->tileMap[y][x] = 0u;
+    if(this->tileMap){
+        for(edk::uint32 y=0u;y<this->sizeMap.height;y++){
+            for(edk::uint32 x=0u;x<this->sizeMap.width;x++){
+                this->tileMap[y][x] = 0u;
+                this->colorMap[y][x] = this->color;
+            }
         }
     }
 }
@@ -199,11 +273,12 @@ bool edk::tiles::TileMap2D::newTileMap(edk::size2ui32 size){
     //test the size
     if(size.width && size.height){
         //delete the last tileMap
+        bool alloc=false;
 
         //create a new tileMap
         this->tileMap = new edk::uint32*[size.height];
         if(this->tileMap){
-            bool alloc=true;
+            alloc=true;
             //create the width's
             for(edk::uint32 i=0u;i<size.height;i++){
                 //
@@ -218,14 +293,38 @@ bool edk::tiles::TileMap2D::newTileMap(edk::size2ui32 size){
                     alloc=false;
                 }
             }
-            //test if is alloc
-            if(!alloc){
-                this->deleteTileMap();
+        }
+
+        if(alloc){
+            //create a new colorMap
+            this->colorMap = new edk::color4f32*[size.height];
+            if(this->colorMap){
+                //create the width's
+                for(edk::uint32 i=0u;i<size.height;i++){
+                    //
+                    this->colorMap[i]=new edk::color4f32[size.width];
+                    if(tileMap[i]){
+                        //clean the vector
+                        for(edk::uint32 j=0u;j<size.width;j++){
+                            this->colorMap[i][j] = this->color;
+                        }
+                    }
+                    else{
+                        alloc=false;
+                    }
+                }
+                //test if is alloc
+                if(!alloc){
+                    this->deleteTileMap();
+                }
+                else{
+                    this->sizeMap=size;
+                    return true;
+                }
             }
-            else{
-                this->sizeMap=size;
-                return true;
-            }
+        }
+        else{
+            this->deleteTileMap();
         }
     }
     //else return false
@@ -250,6 +349,18 @@ void edk::tiles::TileMap2D::deleteTileMap(){
         this->sizeMap = edk::size2ui32(0u,0u);
     }
     this->tileMap=NULL;
+    //delete the colorMap
+    if(this->colorMap){
+        //remove all physics objects
+        for(edk::uint32 i=0u;i<this->sizeMap.height;i++){
+            if(this->colorMap[i]){
+                delete[] this->colorMap[i];
+            }
+        }
+        delete[] this->colorMap;
+        this->sizeMap = edk::size2ui32(0u,0u);
+    }
+    this->colorMap=NULL;
 }
 //return true if have a tileMap
 bool edk::tiles::TileMap2D::haveTileMap(){
@@ -446,6 +557,29 @@ edk::uint32 edk::tiles::TileMap2D::getTileID(edk::uint32 position){
         }
     }
     return 0u;
+}
+//return the tileColor
+edk::color4f32 edk::tiles::TileMap2D::getTileColor(edk::vec2ui32 position){
+    edk::color4f32 ret;
+    //test the position
+    if(position.x < this->sizeMap.width && position.y < this->sizeMap.height){
+        //set the position
+        ret=this->colorMap[position.y][position.x];
+    }
+    return ret;
+}
+edk::color4f32 edk::tiles::TileMap2D::getTileColor(edk::uint32 positionX,edk::uint32 positionY){
+    return this->getTileColor(edk::vec2ui32(positionX,positionY));
+}
+edk::color4f32 edk::tiles::TileMap2D::getTileColor(edk::uint32 position){
+    edk::color4f32 ret;
+    if(position){
+        if(this->sizeMap.width && this->sizeMap.height){
+            position--;
+            ret=this->getTileColor(edk::vec2ui32(position%this->sizeMap.width,position/this->sizeMap.width));
+        }
+    }
+    return ret;
 }
 //return the size of the map
 edk::size2ui32 edk::tiles::TileMap2D::getMapSize(){
@@ -764,6 +898,278 @@ void edk::tiles::TileMap2D::drawIsometricInsideWorldRect(edk::rectf32 /*rect*/,e
     this->drawIsometric(origin,size,color);
 */
 }
+//Draw tileMap without passing a color
+void edk::tiles::TileMap2D::draw(){
+    if(this->tileSet){
+        edk::vec2f32 positionTemp = this->getPosition();
+        //set the transformation
+        edk::GU::guPushMatrix();
+        for(edk::uint32 y=0u,y2=this->sizeMap.height-1u;y<this->sizeMap.height;y++,y2--){
+            for(edk::uint32 x=0u;x<this->sizeMap.width;x++){
+                //draw the tile
+                this->tileSet->drawTile( this->tileMap[y][x]
+                                         ,(x*this->scaleMap.width) + positionTemp.x
+                                         ,(y2*this->scaleMap.height) + positionTemp.y
+                                         ,0.f,this->scaleMap,this->colorMap[y][x]
+                                         );
+            }
+        }
+
+        //draw physics objects
+        this->treePhysics.render();
+
+        edk::GU::guPopMatrix();
+    }
+}
+void edk::tiles::TileMap2D::draw(edk::vec2ui32 origin,edk::size2ui32 last){
+    if(this->tileSet){
+        if(last.width>this->sizeMap.width) last.width=this->sizeMap.width;
+        if(last.height>this->sizeMap.height) last.height=this->sizeMap.height;
+        if(origin.x < this->sizeMap.width
+                &&
+                origin.y < this->sizeMap.height
+                &&
+                origin.x<=last.width
+                &&
+                origin.y<=last.height
+                ){
+            edk::vec2f32 positionTemp = this->getPosition();
+            //set the transformation
+            edk::GU::guPushMatrix();
+            //last.height++;
+            //last.width++;
+
+            for(edk::uint32 y=origin.y,y2=this->sizeMap.height-origin.y-1u;y<last.height;y++,y2--){
+                for(edk::uint32 x=origin.x;x<last.width;x++){
+                    //draw the tile
+                    this->tileSet->drawTile( this->tileMap[y][x]
+                                             ,(x*this->scaleMap.width) + positionTemp.x
+                                             ,(y2*this->scaleMap.height) + positionTemp.y
+                                             ,0.f,this->scaleMap,this->colorMap[y][x]
+                                             );
+                }
+            }
+
+        }
+
+        //draw physics objects
+        this->treePhysics.render();
+
+        edk::GU::guPopMatrix();
+    }
+}
+void edk::tiles::TileMap2D::drawWithoutMaterial(){
+    if(this->tileSet){
+        edk::vec2f32 positionTemp = this->getPosition();
+        //set the transformation
+        edk::GU::guPushMatrix();
+        for(edk::uint32 y=0u,y2=this->sizeMap.height-1u;y<this->sizeMap.height;y++,y2--){
+            for(edk::uint32 x=0u;x<this->sizeMap.width;x++){
+                //draw the tile
+                this->tileSet->drawTileWithoutMaterial(this->tileMap[y][x]
+                                                       ,(x*this->scaleMap.width) + positionTemp.x
+                                                       ,(y2*this->scaleMap.height) + positionTemp.y
+                                                       ,0.f,this->scaleMap,this->colorMap[y][x]
+                                                       );
+            }
+        }
+
+        //draw physics objects
+        this->treePhysics.render();
+
+        edk::GU::guPopMatrix();
+    }
+}
+void edk::tiles::TileMap2D::drawWithoutMaterial(edk::vec2ui32 origin,edk::size2ui32 last){
+    if(this->tileSet){
+        if(last.width>this->sizeMap.width) last.width=this->sizeMap.width;
+        if(last.height>this->sizeMap.height) last.height=this->sizeMap.height;
+        if(origin.x < this->sizeMap.width
+                &&
+                origin.y < this->sizeMap.height
+                &&
+                origin.x<=last.width
+                &&
+                origin.y<=last.height
+                ){
+            edk::vec2f32 positionTemp = this->getPosition();
+            //set the transformation
+            edk::GU::guPushMatrix();
+            //last.height++;
+            //last.width++;
+
+            for(edk::uint32 y=origin.y,y2=this->sizeMap.height-origin.y-1u;y<last.height;y++,y2--){
+                for(edk::uint32 x=origin.x;x<last.width;x++){
+                    //draw the tile
+                    this->tileSet->drawTileWithoutMaterial( this->tileMap[y][x]
+                                                            ,(x*this->scaleMap.width) + positionTemp.x
+                                                            ,(y2*this->scaleMap.height) + positionTemp.y
+                                                            ,0.f,this->scaleMap,this->colorMap[y][x]
+                                                            );
+                }
+            }
+
+        }
+
+        //draw physics objects
+        this->treePhysics.render();
+
+        edk::GU::guPopMatrix();
+    }
+}
+void edk::tiles::TileMap2D::drawInsideWorldRect(edk::rectf32 rect){
+    //scale the points
+    rect.origin.x /= this->scaleMap.width;
+    rect.origin.y /= this->scaleMap.height;
+    rect.size /= this->scaleMap;
+
+    rect.origin.y+=0.5;
+    rect.origin.x+=0.5;
+
+    edk::vec2f32 first = rect.origin;
+    //
+    rect.origin.x +=rect.size.width;
+    first.y +=rect.size.height;
+
+    //translate the origin
+    rect.origin.x -= (this->positionMap.x);
+    rect.origin.y -= (this->positionMap.y);
+    first.x -= (this->positionMap.x);
+    first.y -= (this->positionMap.y);
+
+    //mirror the y
+    rect.origin.y= (rect.origin.y*-1.f) + this->sizeMap.height;
+    first.y= (first.y*-1.f) + this->sizeMap.height;
+
+    //increment the last pointer
+    rect.origin+=1.f;
+
+    //filter the last pointer
+    if(rect.origin.x>this->sizeMap.width) rect.origin.x=this->sizeMap.width;
+    if(rect.origin.y>this->sizeMap.height) rect.origin.y=this->sizeMap.height;
+    //filter the first pointer
+    if(first.x<0.f) first.x=0.f;
+    if(first.y<0.f) first.y=0.f;
+
+    //generate origin only if it was bigger then zero
+    edk::vec2ui32 origin = edk::vec2ui32(first.x>0.f?(edk::uint32)first.x:0u,
+                                         first.y>0.f?(edk::uint32)first.y:0u
+                                                     );
+    //generate the size only if it was bigger then zero
+    edk::size2ui32 size = edk::size2ui32(rect.origin.x>0.f?(edk::uint32)rect.origin.x:0u,
+                                         rect.origin.y>0.f?(edk::uint32)rect.origin.y:0u
+                                                           );
+
+    this->draw(origin,size);
+}
+void edk::tiles::TileMap2D::drawIsometric(){
+    if(this->tileSet){
+        edk::vec2f32 positionTemp = this->getPosition();
+        //set the transformation
+        edk::GU::guPushMatrix();
+        for(edk::uint32 y=0u,y2=this->sizeMap.height-1u;y<this->sizeMap.height;y++,y2--){
+            for(edk::uint32 x=0u;x<this->sizeMap.width;x++){
+                //draw the tile
+                this->tileSet->drawTile( this->tileMap[y][x]
+                                         ,(x*this->scaleMap.width) + positionTemp.x + ((y%2u)*this->scaleMap.width*0.5f)
+                                         ,((y2*this->scaleMap.height)*0.25f) + positionTemp.y
+                                         ,0.f,this->scaleMap,this->colorMap[y][x]
+                                         );
+            }
+        }
+
+        //draw physics objects
+        this->treePhysics.render();
+
+        edk::GU::guPopMatrix();
+    }
+}
+void edk::tiles::TileMap2D::drawIsometric(edk::vec2ui32 origin,edk::size2ui32 last){
+    if(this->tileSet){
+        if(last.width>this->sizeMap.width) last.width=this->sizeMap.width;
+        if(last.height>this->sizeMap.height) last.height=this->sizeMap.height;
+        if(origin.x < this->sizeMap.width
+                &&
+                origin.y < this->sizeMap.height
+                &&
+                origin.x<=last.width
+                &&
+                origin.y<=last.height
+                ){
+            edk::vec2f32 positionTemp = this->getPosition();
+            //set the transformation
+            edk::GU::guPushMatrix();
+            //last.height++;
+            //last.width++;
+
+            for(edk::uint32 y=origin.y,y2=this->sizeMap.height-origin.y-1u;y<last.height;y++,y2--){
+                for(edk::uint32 x=origin.x;x<last.width;x++){
+                    //draw the tile
+                    this->tileSet->drawTile( this->tileMap[y][x]
+                                             ,(x*this->scaleMap.width) + positionTemp.x + ((y%2u)*this->scaleMap.width*0.5f)
+                                             ,((y2*this->scaleMap.height)*0.25f) + positionTemp.y
+                                             ,0.f,this->scaleMap,this->colorMap[y][x]
+                                             );
+                }
+            }
+
+        }
+
+        //draw physics objects
+        this->treePhysics.render();
+
+        edk::GU::guPopMatrix();
+    }
+}
+void edk::tiles::TileMap2D::drawIsometricInsideWorldRect(edk::rectf32 /*rect*/){
+    /*
+    //scale the points
+    rect.origin.x /= this->scaleMap.width;
+    rect.origin.y /= this->scaleMap.height;
+    rect.size.width /= this->scaleMap.width;
+    rect.size.height /= this->scaleMap.height;
+
+    rect.origin.y+=0.5;
+    rect.origin.x+=0.5;
+
+    edk::vec2f32 first = rect.origin;
+    //
+    rect.origin.x +=rect.size.width;
+    first.y +=rect.size.height;
+
+    //translate the origin
+    rect.origin.x -= (this->positionMap.x);
+    rect.origin.y -= (this->positionMap.y);
+    first.x -= (this->positionMap.x);
+    first.y -= (this->positionMap.y);
+
+    //mirror the y
+    rect.origin.y= (rect.origin.y*-1.f) + this->sizeMap.height;
+    first.y= (first.y*-1.f) + this->sizeMap.height;
+
+    //increment the last pointer
+    rect.origin+=1.f;
+
+    //filter the last pointer
+    if(rect.origin.x>this->sizeMap.width) rect.origin.x=this->sizeMap.width;
+    if(rect.origin.y>this->sizeMap.height) rect.origin.y=this->sizeMap.height;
+    //filter the first pointer
+    if(first.x<0.f) first.x=0.f;
+    if(first.y<0.f) first.y=0.f;
+
+    //generate origin only if it was bigger then zero
+    edk::vec2ui32 origin = edk::vec2ui32(first.x>0.f?(edk::uint32)first.x:0u,
+                                         first.y>0.f?(edk::uint32)first.y:0u
+                                                     );
+    //generate the size only if it was bigger then zero
+    edk::size2ui32 size = edk::size2ui32(rect.origin.x>0.f?(edk::uint32)rect.origin.x:0u,
+                                         rect.origin.y>0.f?(edk::uint32)rect.origin.y:0u
+                                                           );
+
+    this->drawIsometric(origin,size);
+*/
+}
+
 //draw wireTiles
 void edk::tiles::TileMap2D::drawWire(edk::color4f32 color){
     if(this->tileSet){
@@ -953,6 +1359,196 @@ void edk::tiles::TileMap2D::drawIsometricWireInsideWorldRect(edk::rectf32 /*rect
     this->drawIsometricWire(origin,size,color);
     */
 }
+//draw wireTiles without passing a color
+void edk::tiles::TileMap2D::drawWire(){
+    if(this->tileSet){
+        edk::vec2f32 positionTemp = this->getPosition();
+        //set the transformation
+        edk::GU::guPushMatrix();
+        for(edk::uint32 y=0u,y2=this->sizeMap.height-1u;y<this->sizeMap.height;y++,y2--){
+            for(edk::uint32 x=0u;x<this->sizeMap.width;x++){
+                //draw the tile
+                this->tileSet->drawTileWire((x*this->scaleMap.width) + positionTemp.x
+                                            ,(y2*this->scaleMap.height) + positionTemp.y
+                                            ,0.f,this->scaleMap,this->colorMap[y][x]
+                                            );
+            }
+        }
+        edk::GU::guPopMatrix();
+    }
+}
+void edk::tiles::TileMap2D::drawWire(edk::vec2ui32 origin,edk::size2ui32 last){
+    if(this->tileSet){
+        if(last.width>this->sizeMap.width) last.width=this->sizeMap.width;
+        if(last.height>this->sizeMap.height) last.height=this->sizeMap.height;
+        if(origin.x < this->sizeMap.width
+                &&
+                origin.y < this->sizeMap.height
+                &&
+                origin.x<=last.width
+                &&
+                origin.y<=last.height
+                ){
+            edk::vec2f32 positionTemp = this->getPosition();
+            //set the transformation
+            edk::GU::guPushMatrix();
+            //last.height++;
+            //last.width++;
+
+            for(edk::uint32 y=origin.y,y2=this->sizeMap.height-origin.y-1u;y<last.height;y++,y2--){
+                for(edk::uint32 x=origin.x;x<last.width;x++){
+                    //draw the tile
+                    this->tileSet->drawTileWire((x*this->scaleMap.width) + positionTemp.x
+                                                ,(y2*this->scaleMap.height) + positionTemp.y
+                                                ,0.f,this->scaleMap,this->colorMap[y][x]
+                                                );
+                }
+            }
+        }
+        edk::GU::guPopMatrix();
+    }
+}
+void edk::tiles::TileMap2D::drawWireInsideWorldRect(edk::rectf32 rect){
+    //scale the points
+    rect.origin.x /= this->scaleMap.width;
+    rect.origin.y /= this->scaleMap.height;
+    rect.size /= this->scaleMap;
+
+    rect.origin.y+=0.5;
+    rect.origin.x+=0.5;
+
+    edk::vec2f32 first = rect.origin;
+    //
+    rect.origin.x +=rect.size.width;
+    first.y +=rect.size.height;
+
+    //translate the origin
+    rect.origin.x -= (this->positionMap.x);
+    rect.origin.y -= (this->positionMap.y);
+    first.x -= (this->positionMap.x);
+    first.y -= (this->positionMap.y);
+
+    //mirror the y
+    rect.origin.y= (rect.origin.y*-1.f) + this->sizeMap.height;
+    first.y= (first.y*-1.f) + this->sizeMap.height;
+
+    //increment the last pointer
+    rect.origin+=1.f;
+
+    //filter the last pointer
+    if(rect.origin.x>this->sizeMap.width) rect.origin.x=this->sizeMap.width;
+    if(rect.origin.y>this->sizeMap.height) rect.origin.y=this->sizeMap.height;
+    //filter the first pointer
+    if(first.x<0.f) first.x=0.f;
+    if(first.y<0.f) first.y=0.f;
+
+    //generate origin only if it was bigger then zero
+    edk::vec2ui32 origin = edk::vec2ui32(first.x>0.f?(edk::uint32)first.x:0u,
+                                         first.y>0.f?(edk::uint32)first.y:0u
+                                                     );
+    //generate the size only if it was bigger then zero
+    edk::size2ui32 size = edk::size2ui32(rect.origin.x>0.f?(edk::uint32)rect.origin.x:0u,
+                                         rect.origin.y>0.f?(edk::uint32)rect.origin.y:0u
+                                                           );
+
+    this->drawWire(origin,size);
+}
+void edk::tiles::TileMap2D::drawIsometricWire(){
+    if(this->tileSet){
+        edk::vec2f32 positionTemp = this->getPosition();
+        //set the transformation
+        edk::GU::guPushMatrix();
+        for(edk::uint32 y=0u,y2=this->sizeMap.height-1u;y<this->sizeMap.height;y++,y2--){
+            for(edk::uint32 x=0u;x<this->sizeMap.width;x++){
+                //draw the tile
+                this->tileSet->drawTileIsometricWire((x*this->scaleMap.width) + positionTemp.x + ((y%2u)*this->scaleMap.width*0.5f)
+                                                     ,((y2*this->scaleMap.height)*0.25f) + positionTemp.y
+                                                     ,0.f,this->scaleMap,this->colorMap[y][x]
+                                                     );
+            }
+        }
+        edk::GU::guPopMatrix();
+    }
+}
+void edk::tiles::TileMap2D::drawIsometricWire(edk::vec2ui32 origin,edk::size2ui32 last){
+    if(this->tileSet){
+        if(last.width>this->sizeMap.width) last.width=this->sizeMap.width;
+        if(last.height>this->sizeMap.height) last.height=this->sizeMap.height;
+        if(origin.x < this->sizeMap.width
+                &&
+                origin.y < this->sizeMap.height
+                &&
+                origin.x<=last.width
+                &&
+                origin.y<=last.height
+                ){
+            edk::vec2f32 positionTemp = this->getPosition();
+            //set the transformation
+            edk::GU::guPushMatrix();
+            //last.height++;
+            //last.width++;
+
+            for(edk::uint32 y=origin.y,y2=this->sizeMap.height-origin.y-1u;y<last.height;y++,y2--){
+                for(edk::uint32 x=origin.x;x<last.width;x++){
+                    //draw the tile
+                    this->tileSet->drawTileIsometricWire((x*this->scaleMap.width) + positionTemp.x + ((y%2u)*this->scaleMap.width*0.5f)
+                                                         ,((y2*this->scaleMap.height)*0.25f) + positionTemp.y
+                                                         ,0.f,this->scaleMap,this->colorMap[y][x]
+                                                         );
+                }
+            }
+        }
+        edk::GU::guPopMatrix();
+    }
+}
+void edk::tiles::TileMap2D::drawIsometricWireInsideWorldRect(edk::rectf32 /*rect*/){
+    /*
+    //scale the points
+    rect.origin.x /= this->scaleMap.width;
+    rect.origin.y /= this->scaleMap.height;
+    rect.size /= this->scaleMap;
+
+    rect.origin.y+=0.5;
+    rect.origin.x+=0.5;
+
+    edk::vec2f32 first = rect.origin;
+    //
+    rect.origin.x +=rect.size.width;
+    first.y +=rect.size.height;
+
+    //translate the origin
+    rect.origin.x -= (this->positionMap.x);
+    rect.origin.y -= (this->positionMap.y);
+    first.x -= (this->positionMap.x);
+    first.y -= (this->positionMap.y);
+
+    //mirror the y
+    rect.origin.y= (rect.origin.y*-1.f) + this->sizeMap.height;
+    first.y= (first.y*-1.f) + this->sizeMap.height;
+
+    //increment the last pointer
+    rect.origin+=1.f;
+
+    //filter the last pointer
+    if(rect.origin.x>this->sizeMap.width) rect.origin.x=this->sizeMap.width;
+    if(rect.origin.y>this->sizeMap.height) rect.origin.y=this->sizeMap.height;
+    //filter the first pointer
+    if(first.x<0.f) first.x=0.f;
+    if(first.y<0.f) first.y=0.f;
+
+    //generate origin only if it was bigger then zero
+    edk::vec2ui32 origin = edk::vec2ui32(first.x>0.f?(edk::uint32)first.x:0u,
+                                         first.y>0.f?(edk::uint32)first.y:0u
+                                                     );
+    //generate the size only if it was bigger then zero
+    edk::size2ui32 size = edk::size2ui32(rect.origin.x>0.f?(edk::uint32)rect.origin.x:0u,
+                                         rect.origin.y>0.f?(edk::uint32)rect.origin.y:0u
+                                                           );
+
+    this->drawIsometricWire(origin,size);
+    */
+}
+
 //draw wireTiles
 void edk::tiles::TileMap2D::drawWirePhysics(edk::color4f32 color){
     if(this->tileSet){
@@ -1051,6 +1647,105 @@ void edk::tiles::TileMap2D::drawWirePhysicsInsideWorldRect(edk::rectf32 rect,edk
 
     this->drawWirePhysics(origin,size,color);
 }
+//draw wireTiles without passing a color
+void edk::tiles::TileMap2D::drawWirePhysics(){
+    if(this->tileSet){
+        edk::vec2f32 positionTemp = this->getPosition();
+        //set the transformation
+        edk::GU::guPushMatrix();
+        for(edk::uint32 y=0u,y2=this->sizeMap.height-1u;y<this->sizeMap.height;y++,y2--){
+            for(edk::uint32 x=0u;x<this->sizeMap.width;x++){
+                //draw the tile
+                if(this->tileSet->isTilePhysics(this->tileMap[y][x])){
+                    this->tileSet->drawTileWire((x*this->scaleMap.width) + positionTemp.x
+                                                ,(y2*this->scaleMap.height) + positionTemp.y
+                                                ,0.f,this->scaleMap,this->colorMap[y][x]
+                                                );
+                }
+            }
+        }
+        edk::GU::guPopMatrix();
+    }
+}
+void edk::tiles::TileMap2D::drawWirePhysics(edk::vec2ui32 origin,edk::size2ui32 last){
+    if(this->tileSet){
+        if(last.width>this->sizeMap.width) last.width=this->sizeMap.width;
+        if(last.height>this->sizeMap.height) last.height=this->sizeMap.height;
+        if(origin.x < this->sizeMap.width
+                &&
+                origin.y < this->sizeMap.height
+                &&
+                origin.x<=last.width
+                &&
+                origin.y<=last.height
+                ){
+            edk::vec2f32 positionTemp = this->getPosition();
+            //set the transformation
+            edk::GU::guPushMatrix();
+            //last.height++;
+            //last.width++;
+
+            for(edk::uint32 y=origin.y,y2=this->sizeMap.height-origin.y-1u;y<last.height;y++,y2--){
+                for(edk::uint32 x=origin.x;x<last.width;x++){
+                    //draw the tile
+                    if(this->tileSet->isTilePhysics(this->tileMap[y][x])){
+                        this->tileSet->drawTileWire((x*this->scaleMap.width) + positionTemp.x
+                                                    ,(y2*this->scaleMap.height) + positionTemp.y
+                                                    ,0.f,this->scaleMap,this->colorMap[y][x]
+                                                    );
+                    }
+                }
+            }
+        }
+        edk::GU::guPopMatrix();
+    }
+}
+void edk::tiles::TileMap2D::drawWirePhysicsInsideWorldRect(edk::rectf32 rect){
+    //scale the points
+    rect.origin.x /= this->scaleMap.width;
+    rect.origin.y /= this->scaleMap.height;
+    rect.size /= this->scaleMap;
+
+    rect.origin.y+=0.5;
+    rect.origin.x+=0.5;
+
+    edk::vec2f32 first = rect.origin;
+    //
+    rect.origin.x +=rect.size.width;
+    first.y +=rect.size.height;
+
+    //translate the origin
+    rect.origin.x -= (this->positionMap.x);
+    rect.origin.y -= (this->positionMap.y);
+    first.x -= (this->positionMap.x);
+    first.y -= (this->positionMap.y);
+
+    //mirror the y
+    rect.origin.y= (rect.origin.y*-1.f) + this->sizeMap.height;
+    first.y= (first.y*-1.f) + this->sizeMap.height;
+
+    //increment the last pointer
+    rect.origin+=1.f;
+
+    //filter the last pointer
+    if(rect.origin.x>this->sizeMap.width) rect.origin.x=this->sizeMap.width;
+    if(rect.origin.y>this->sizeMap.height) rect.origin.y=this->sizeMap.height;
+    //filter the first pointer
+    if(first.x<0.f) first.x=0.f;
+    if(first.y<0.f) first.y=0.f;
+
+    //generate origin only if it was bigger then zero
+    edk::vec2ui32 origin = edk::vec2ui32(first.x>0.f?(edk::uint32)first.x:0u,
+                                         first.y>0.f?(edk::uint32)first.y:0u
+                                                     );
+    //generate the size only if it was bigger then zero
+    edk::size2ui32 size = edk::size2ui32(rect.origin.x>0.f?(edk::uint32)rect.origin.x:0u,
+                                         rect.origin.y>0.f?(edk::uint32)rect.origin.y:0u
+                                                           );
+
+    this->drawWirePhysics(origin,size);
+}
+
 //draw wireWitPhysics
 void edk::tiles::TileMap2D::drawWireWithPhysics(edk::color4f32 color,edk::color4f32 physColor){
     if(this->tileSet){
@@ -1196,6 +1891,48 @@ bool edk::tiles::TileMap2D::drawTileWire(edk::uint32 position,edk::color4f32 col
     }
     return false;
 }
+//draw one especific tile in wire without passing a color
+bool drawTileWire(edk::vec2ui32 position);
+bool drawTileWire(edk::uint32 positionX,edk::uint32 positionY);
+bool drawTileWire(edk::uint32 position);
+
+
+bool edk::tiles::TileMap2D::drawTileWire(edk::vec2ui32 position){
+    if(this->tileSet){
+        //test the position
+        if(position.x < this->sizeMap.width && position.y < this->sizeMap.height){
+            //draw the tile
+            edk::vec2f32 positionTemp = this->getPosition();
+            //set the transformation
+            edk::GU::guPushMatrix();
+            edk::int64 y2 = (position.y*-1) + this->sizeMap.height-1u;
+            //draw the tile
+            this->tileSet->drawTileWire((position.x*this->scaleMap.width) + positionTemp.x
+                                        ,(y2*this->scaleMap.height) + positionTemp.y
+                                        ,0.f,this->scaleMap,this->colorMap[position.y][position.x]
+                    );
+            edk::GU::guPopMatrix();
+            //then return true
+            return true;
+        }
+    }
+    //else return false
+    return false;
+}
+bool edk::tiles::TileMap2D::drawTileWire(edk::uint32 positionX,edk::uint32 positionY){
+    return this->drawTileWire(edk::vec2ui32(positionX,positionY));
+}
+bool edk::tiles::TileMap2D::drawTileWire(edk::uint32 position){
+    if(position){
+        if(this->sizeMap.width && this->sizeMap.height){
+            position--;
+            edk::vec2ui32 vec(position%this->sizeMap.width,position/this->sizeMap.width);
+            return this->drawTileWire(vec,this->colorMap[vec.y][vec.x]);
+        }
+    }
+    return false;
+}
+
 //draw the tile for selection
 void edk::tiles::TileMap2D::drawSelectionWithID(edk::uint8 id){
     if(this->tileSet){
@@ -1646,7 +2383,15 @@ void edk::tiles::TileMap2D::print(){
         for(edk::uint32 y=0u;y<this->sizeMap.height;y++){
             for(edk::uint32 x=0u;x<this->sizeMap.width;x++){
                 //draw the tile
-                printf("\n%u %u [%u] ",x,y,this->tileMap[y][x]);
+                printf("\n%u %u [%u] color [%.2f,%.2f,%.2f,%.2f] "
+                       ,x
+                       ,y
+                       ,this->tileMap[y][x]
+                       ,this->colorMap[y][x].r
+                       ,this->colorMap[y][x].g
+                       ,this->colorMap[y][x].b
+                       ,this->colorMap[y][x].a
+                       );
             }
         }
         edk::GU::guPopMatrix();
@@ -2041,6 +2786,41 @@ bool edk::tiles::TileMap2D::writeToXML(edk::XML* xml,edk::uint32 id){
                                 }
                             }
                         }
+                        //write the colorMap
+                        if(this->colorMap){
+                            if(xml->addSelectedNextChild("colorMap")){
+                                if(xml->selectChild("colorMap")){
+
+                                    //create a new vector
+                                    edk::uint32 size = this->sizeMap.width * this->sizeMap.height * 4u;
+                                    if(size){
+                                        edk::float32* vec = new edk::float32[size];
+                                        if(vec){
+                                            edk::uint32 count = 0u;
+                                            //copy the mat to the vec
+                                            for(edk::uint32 y=0u;y<this->sizeMap.height;y++){
+                                                for(edk::uint32 x=0u;x<this->sizeMap.width;x++){
+                                                    //test if XY is a physics object
+                                                    vec[count+0u] = this->colorMap[y][x].a;
+                                                    vec[count+1u] = this->colorMap[y][x].r;
+                                                    vec[count+2u] = this->colorMap[y][x].g;
+                                                    vec[count+3u] = this->colorMap[y][x].b;
+                                                    count+=4u;
+                                                }
+                                            }
+                                            //create the string
+                                            temp = edk::String::vecfloat32toStr(vec,size);
+                                            if(temp){
+                                                xml->setSelectedString(temp);
+                                                delete[] temp;
+                                            }
+                                            delete[] vec;
+                                        }
+                                    }
+                                    xml->selectFather();
+                                }
+                            }
+                        }
                         //
                         ret=true;
                         xml->selectFather();
@@ -2091,6 +2871,32 @@ bool edk::tiles::TileMap2D::readFromXML(edk::XML* xml,edk::uint32 id){
                                                 for(edk::uint32 x=0u;x<this->sizeMap.width;x++){
                                                     this->tileMap[y][x] = vec[count];
                                                     count++;
+                                                }
+                                            }
+                                        }
+                                        delete[] vec;
+                                    }
+                                }
+                                xml->selectFather();
+                            }
+                            if(this->colorMap){
+                                //create a new vector
+                                edk::uint32 size = this->sizeMap.width * this->sizeMap.height * 4u;
+                                if(size){
+                                    //create the vector
+                                    edk::float32* vec = new edk::float32[size];
+                                    if(vec){
+                                        //convert the string
+                                        if(edk::String::strToVecfloat32(xml->getSelectedString(),vec,size)){
+                                            edk::uint32 count = 0u;
+                                            //copy the vec to the mat
+                                            for(edk::uint32 y=0u;y<this->sizeMap.height;y++){
+                                                for(edk::uint32 x=0u;x<this->sizeMap.width;x++){
+                                                    this->colorMap[y][x].a = vec[count+0u];
+                                                    this->colorMap[y][x].r = vec[count+1u];
+                                                    this->colorMap[y][x].g = vec[count+2u];
+                                                    this->colorMap[y][x].b = vec[count+3u];
+                                                    count+=4u;
                                                 }
                                             }
                                         }

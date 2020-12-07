@@ -217,8 +217,6 @@ private:
     edk::fonts::fontSetList list;
     edk::fonts::FontSet* set;
 
-    edk::color4f32 color;
-
     //positions to draw
     edk::uint32 originID;
     edk::uint32 lastID;
@@ -292,27 +290,44 @@ private:
     edk::uint32 getCharacterID(edk::vec2ui32 position);
 
     //Draw
-    void draw(edk::vec2ui32 origin,edk::vec2ui32 last,edk::color4f32 color=edk::color4f32(0,0,0,1));
-    void draw(edk::uint32 originWidth,edk::uint32 originLine,edk::uint32 lastWidth,edk::uint32 lastLine,edk::color4f32 color=edk::color4f32(1,1,1,1));
-    void drawWithoutMaterial(edk::vec2ui32 origin,edk::vec2ui32 last,edk::color4f32 color=edk::color4f32(0,0,0,1));
-    void drawWithoutMaterial(edk::uint32 originWidth,edk::uint32 originLine,edk::uint32 lastWidth,edk::uint32 lastLine,edk::color4f32 color=edk::color4f32(1,1,1,1));
-    void drawWire(edk::vec2ui32 origin,edk::vec2ui32 last,edk::color4f32 color=edk::color4f32(1,1,1,1));
-    void drawWire(edk::uint32 originWidth,edk::uint32 originLine,edk::uint32 lastWidth,edk::uint32 lastLine,edk::color4f32 color=edk::color4f32(1,1,1,1));
+    void draw(edk::vec2ui32 origin,edk::vec2ui32 last,edk::color4f32 color);
+    void draw(edk::uint32 originWidth,edk::uint32 originLine,edk::uint32 lastWidth,edk::uint32 lastLine,edk::color4f32 color);
+    void drawWithoutMaterial(edk::vec2ui32 origin,edk::vec2ui32 last,edk::color4f32 color);
+    void drawWithoutMaterial(edk::uint32 originWidth,edk::uint32 originLine,edk::uint32 lastWidth,edk::uint32 lastLine,edk::color4f32 color);
+    void drawWire(edk::vec2ui32 origin,edk::vec2ui32 last,edk::color4f32 color);
+    void drawWire(edk::uint32 originWidth,edk::uint32 originLine,edk::uint32 lastWidth,edk::uint32 lastLine,edk::color4f32 color);
     void drawSelection(edk::vec2ui32 origin,edk::vec2ui32 last);
     void drawSelection(edk::uint32 originWidth,edk::uint32 originLine,edk::uint32 lastWidth,edk::uint32 lastLine);
+    //Draw without passing a color
+    void draw(edk::vec2ui32 origin,edk::vec2ui32 last);
+    void draw(edk::uint32 originWidth,edk::uint32 originLine,edk::uint32 lastWidth,edk::uint32 lastLine);
+    void drawWithoutMaterial(edk::vec2ui32 origin,edk::vec2ui32 last);
+    void drawWithoutMaterial(edk::uint32 originWidth,edk::uint32 originLine,edk::uint32 lastWidth,edk::uint32 lastLine);
+    void drawWire(edk::vec2ui32 origin,edk::vec2ui32 last);
+    void drawWire(edk::uint32 originWidth,edk::uint32 originLine,edk::uint32 lastWidth,edk::uint32 lastLine);
     //draw the ID
-    void draw(edk::uint32 originID,edk::uint32 lastID,edk::color4f32 color=edk::color4f32(0,0,0,1));
-    void draw(edk::vec2ui32 origin,edk::uint32 lastID,edk::color4f32 color=edk::color4f32(0,0,0,1));
-    void draw(edk::uint32 originID,edk::vec2ui32 last,edk::color4f32 color=edk::color4f32(0,0,0,1));
-    void drawWithoutMaterial(edk::uint32 originID,edk::uint32 lastID,edk::color4f32 color=edk::color4f32(0,0,0,1));
-    void drawWithoutMaterial(edk::vec2ui32 origin,edk::uint32 lastID,edk::color4f32 color=edk::color4f32(0,0,0,1));
-    void drawWithoutMaterial(edk::uint32 originID,edk::vec2ui32 last,edk::color4f32 color=edk::color4f32(0,0,0,1));
-    void drawWire(edk::uint32 originID,edk::uint32 lastID,edk::color4f32 color=edk::color4f32(0,0,0,1));
-    void drawWire(edk::vec2ui32 origin,edk::uint32 lastID,edk::color4f32 color=edk::color4f32(0,0,0,1));
-    void drawWire(edk::uint32 originID,edk::vec2ui32 last,edk::color4f32 color=edk::color4f32(0,0,0,1));
+    void draw(edk::uint32 originID,edk::uint32 lastID,edk::color4f32 color);
+    void draw(edk::vec2ui32 origin,edk::uint32 lastID,edk::color4f32 color);
+    void draw(edk::uint32 originID,edk::vec2ui32 last,edk::color4f32 color);
+    void drawWithoutMaterial(edk::uint32 originID,edk::uint32 lastID,edk::color4f32 color);
+    void drawWithoutMaterial(edk::vec2ui32 origin,edk::uint32 lastID,edk::color4f32 color);
+    void drawWithoutMaterial(edk::uint32 originID,edk::vec2ui32 last,edk::color4f32 color);
+    void drawWire(edk::uint32 originID,edk::uint32 lastID,edk::color4f32 color);
+    void drawWire(edk::vec2ui32 origin,edk::uint32 lastID,edk::color4f32 color);
+    void drawWire(edk::uint32 originID,edk::vec2ui32 last,edk::color4f32 color);
     void drawSelection(edk::uint32 originID,edk::uint32 lastID);
     void drawSelection(edk::vec2ui32 origin,edk::uint32 lastID);
     void drawSelection(edk::uint32 originID,edk::vec2ui32 last);
+    //draw the ID without passing a color
+    void draw(edk::uint32 originID,edk::uint32 lastID);
+    void draw(edk::vec2ui32 origin,edk::uint32 lastID);
+    void draw(edk::uint32 originID,edk::vec2ui32 last);
+    void drawWithoutMaterial(edk::uint32 originID,edk::uint32 lastID);
+    void drawWithoutMaterial(edk::vec2ui32 origin,edk::uint32 lastID);
+    void drawWithoutMaterial(edk::uint32 originID,edk::vec2ui32 last);
+    void drawWire(edk::uint32 originID,edk::uint32 lastID);
+    void drawWire(edk::vec2ui32 origin,edk::uint32 lastID);
+    void drawWire(edk::uint32 originID,edk::vec2ui32 last);
 };
 }//end namespace fonts
 }//end namespace edk
