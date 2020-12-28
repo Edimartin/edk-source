@@ -1470,6 +1470,32 @@ bool edk::fonts::FontMap::writeChar(edk::char8 c,edk::uint32 x,edk::uint32 y){
     }
     return false;
 }
+bool edk::fonts::FontMap::writeChar(edk::char8 c,edk::vec2f32 position){
+    return this->writeChar(c,position.x,position.y);
+}
+bool edk::fonts::FontMap::writeColor(edk::color4f32 color,edk::uint32 x,edk::uint32 y){
+    //test if have the position in the map
+    if(x<this->map.getMapSize().width && y<this->map.getMapSize().height
+            ){
+        return this->map.setTileColor(color,x,y);
+    }
+    return false;
+}
+bool edk::fonts::FontMap::writeColor(edk::color4f32 color,edk::vec2f32 position){
+    return this->writeColor(color,position.x,position.y);
+}
+bool edk::fonts::FontMap::writeColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a,edk::uint32 x,edk::uint32 y){
+    return this->writeColor(edk::color4f32(r,g,b,a),x,y);
+}
+bool edk::fonts::FontMap::writeColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a,edk::vec2f32 position){
+    return this->writeColor(edk::color4f32(r,g,b,a),position.x,position.y);
+}
+bool edk::fonts::FontMap::writeColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::uint32 x,edk::uint32 y){
+    return this->writeColor(edk::color4f32(r,g,b,1.f),x,y);
+}
+bool edk::fonts::FontMap::writeColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::vec2f32 position){
+    return this->writeColor(edk::color4f32(r,g,b,1.f),position.x,position.y);
+}
 
 //set the color
 void edk::fonts::FontMap::setColor(edk::color4f32 color){

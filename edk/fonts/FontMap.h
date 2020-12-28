@@ -110,6 +110,15 @@ public:
 
     //write a character in the map position
     bool writeChar(edk::char8 c,edk::uint32 x,edk::uint32 y);
+    bool writeChar(edk::char8 c,edk::vec2f32 position);
+    bool writeColor(edk::color4f32 color,edk::uint32 x,edk::uint32 y);
+    bool writeColor(edk::color4f32 color,edk::vec2f32 position);
+    bool writeColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a,edk::uint32 x,edk::uint32 y);
+    bool writeColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a,edk::vec2f32 position);
+    bool writeColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::uint32 x,edk::uint32 y);
+    bool writeColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::vec2f32 position);
+
+    bool writeString(const edk::char8* str,edk::uint32 x,edk::uint8 y,edk::uint32 width);
 
     //set the color
     void setColor(edk::color4f32 color);
