@@ -105,7 +105,8 @@ private:
     edk::vec2f32 up;
     edk::size2f32 size;
     edk::float32 sizePercent;
-    edk::float32 near,far;
+    edk::float32 _near;
+    edk::float32 _far;
     bool firstPerson;
     void start();
 };

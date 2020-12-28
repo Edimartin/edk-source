@@ -31,8 +31,8 @@ void edk::Camera3D::start(){
     this->up = edk::vec2f32(0.f,1.f);
     this->size = edk::size2f32(1.f,1.f);
     this->sizePercent = this->size.width/this->size.height;
-    this->near = 0.0001f;
-    this->far = 1.f;
+    this->_near = 0.0001f;
+    this->_far = 1.f;
 }
 
 //Sset witch camera type its using
@@ -70,25 +70,25 @@ edk::float32 edk::Camera3D::getHeight(){
 }
 
 //set near and far
-void edk::Camera3D::setNearFar(edk::float32 near,edk::float32 far){
-    if(far>near){
-        this->near = near;
-        this->far = far;
+void edk::Camera3D::setNearFar(edk::float32 _near,edk::float32 _far){
+    if(_far>_near){
+        this->_near = _near;
+        this->_far = _far;
     }
     else{
-        this->near = far;
-        this->far = near;
+        this->_near = _far;
+        this->_far = _near;
     }
 }
-void edk::Camera3D::setFar(edk::float32 far){
-    this->setNearFar(0.0001f,far);
+void edk::Camera3D::setFar(edk::float32 _far){
+    this->setNearFar(0.0001f,_far);
 }
 //Get near and far
 edk::float32 edk::Camera3D::getNear(){
-    return this->near;
+    return this->_near;
 }
 edk::float32 edk::Camera3D::getFar(){
-    return this->far;
+    return this->_far;
 }
 
 //Distance
@@ -260,15 +260,15 @@ void edk::Camera3D::draw(){
 }
 void edk::Camera3D::drawAxisOnly(){
     if(this->perspective){
-        edk::GU::guUsePerspective(this->size.height*2.f,this->sizePercent,this->near,this->far);
+        edk::GU::guUsePerspective(this->size.height*2.f,this->sizePercent,this->_near,this->_far);
     }
     else{
         edk::GU::guUseOrtho(-this->size.width,
                             this->size.width,
                             -this->size.height,
                             this->size.height,
-                            this->near,//nea
-                            this->far//far
+                            this->_near,//nea
+                            this->_far//far
                             );
     }
     /*
@@ -319,8 +319,8 @@ bool edk::Camera3D::cloneFrom(edk::Camera3D* cam){
         this->up = cam->up;
         this->size = cam->size;
         this->sizePercent = cam->sizePercent;
-        this->near = cam->near;
-        this->far = cam->far;
+        this->_near = cam->_near;
+        this->_far = cam->_far;
         this->firstPerson = cam->firstPerson;
         return true;
     }
