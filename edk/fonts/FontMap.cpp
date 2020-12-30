@@ -1484,6 +1484,12 @@ bool edk::fonts::FontMap::writeColor(edk::color4f32 color,edk::uint32 x,edk::uin
 bool edk::fonts::FontMap::writeColor(edk::color4f32 color,edk::vec2f32 position){
     return this->writeColor(color,position.x,position.y);
 }
+bool edk::fonts::FontMap::writeColor(edk::color3f32 color,edk::uint32 x,edk::uint32 y){
+    return this->writeColor(edk::color4f32(color.r,color.g,color.b,1.f),x,y);
+}
+bool edk::fonts::FontMap::writeColor(edk::color3f32 color,edk::vec2f32 position){
+    return this->writeColor(edk::color4f32(color.r,color.g,color.b,1.f),position.x,position.y);
+}
 bool edk::fonts::FontMap::writeColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a,edk::uint32 x,edk::uint32 y){
     return this->writeColor(edk::color4f32(r,g,b,a),x,y);
 }
@@ -1495,6 +1501,1770 @@ bool edk::fonts::FontMap::writeColor(edk::float32 r,edk::float32 g,edk::float32 
 }
 bool edk::fonts::FontMap::writeColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::vec2f32 position){
     return this->writeColor(edk::color4f32(r,g,b,1.f),position.x,position.y);
+}
+
+bool edk::fonts::FontMap::writeString(const edk::char8* str,edk::uint32 x,edk::uint8 y,edk::uint32 width){
+    return this->writeString((edk::char8*) str,x,y,width);
+}
+bool edk::fonts::FontMap::writeString(edk::char8* str,edk::uint32 x,edk::uint8 y,edk::uint32 width){
+    edk::uint32 lenght=x+width;
+    if(lenght>=this->map.getMapSize().width){
+        lenght = this->map.getMapSize().width;
+        width = lenght-x;
+    }
+    if(str && width
+            && x<this->map.getMapSize().width
+            && y<this->map.getMapSize().height
+            ){
+        //
+        edk::uint32 size=0u;
+        edk::uint32 headX=x;
+        edk::uint32 headY=y;
+        edk::uint32 c;
+        edk::uint32 space;
+        edk::uint8 jump=0u;
+        edk::char8 temp[2u];
+        temp[0u]=' ';
+        temp[1u]='\0';
+        //prepare the space
+        space = this->getTileID(temp,&jump);
+        while(*str){
+            size = this->wordSize(str);
+            //test if the word fit inside the line
+            if(size>=lenght-headX){
+                //test if the headX is in the beggining
+                if(headX==x){
+                    size = width;
+                }
+                else{
+                    //clean the last characters of the line
+                    for(;headX<lenght;headX++){
+                        this->map.setTile(space+1u,headX,headY);
+                    }
+
+                    //else it create a new line
+                    headY++;
+                    headX=x;
+                    if(headY>=this->map.getMapSize().height){
+                        break;
+                    }
+                    continue;
+                }
+            }
+            //write the characters
+            if(size){
+                for(edk::uint32 i=0u;i<size;i++){
+                    c = this->getTileID(str,&jump);
+                    this->map.setTile(c+1u,headX,headY);
+                    str+=jump;
+                    headX++;
+                }
+            }
+            else{
+                if(*str=='\n' && *str==10){
+                    //clean the last characters of the line
+                    for(;headX<lenght;headX++){
+                        this->map.setTile(space+1u,headX,headY);
+                    }
+
+                    //create a new line
+                    headY++;
+                    headX=x;
+                    str++;
+                    if(headY>=this->map.getMapSize().height){
+                        break;
+                    }
+                    continue;
+                }
+                else{
+                    c = this->getTileID(str,&jump);
+                    this->map.setTile(c+1u,headX,headY);
+                    str+=jump;
+                    headX++;
+                }
+                continue;
+            }
+        }
+        //in the end it will clean the last characters in the map
+        for(;headX<lenght;headX++){
+            this->map.setTile(space+1u,headX,headY);
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::fonts::FontMap::writeString(const edk::char8* str,edk::vec2f32 position,edk::uint32 width){
+    return this->writeString((edk::char8*) str,position.x,position.y,width);
+}
+bool edk::fonts::FontMap::writeString(edk::char8* str,edk::vec2f32 position,edk::uint32 width){
+    return this->writeString(str,position.x,position.y,width);
+}
+bool edk::fonts::FontMap::writeString(const edk::char8* str,edk::uint32 x,
+                                      edk::uint8 y,
+                                      edk::uint32 width,
+                                      edk::uint32 height
+                                      ){
+    return this->writeString((edk::char8*) str,x,y,width,height);
+}
+
+bool edk::fonts::FontMap::writeString(edk::char8* str,edk::uint32 x,edk::uint8 y,edk::uint32 width,edk::uint32 height){
+    edk::uint32 lenght=x+width;
+    if(lenght>=this->map.getMapSize().width){
+        lenght = this->map.getMapSize().width;
+        width = lenght-x;
+    }
+    edk::uint32 up=y+height;
+    if(up>=this->map.getMapSize().height){
+        up = this->map.getMapSize().height;
+        height = up-y;
+    }
+    if(str && width && height
+            && x<this->map.getMapSize().width
+            && y<this->map.getMapSize().height
+            ){
+        //
+        edk::uint32 size=0u;
+        edk::uint32 headX=x;
+        edk::uint32 headY=y;
+        edk::uint32 c;
+        edk::uint32 space;
+        edk::uint8 jump=0u;
+        edk::char8 temp[2u];
+        temp[0u]=' ';
+        temp[1u]='\0';
+        //prepare the space
+        space = this->getTileID(temp,&jump);
+        while(*str){
+            size = this->wordSize(str);
+            //test if the word fit inside the line
+            if(size>=lenght-headX){
+                //test if the headX is in the beggining
+                if(headX==x){
+                    size = width;
+                }
+                else{
+                    //clean the last characters of the line
+                    for(;headX<lenght;headX++){
+                        this->map.setTile(space+1u,headX,headY);
+                    }
+
+                    //else it create a new line
+                    headY++;
+                    headX=x;
+                    if(headY>=up){
+                        break;
+                    }
+                    continue;
+                }
+            }
+            //write the characters
+            if(size){
+                for(edk::uint32 i=0u;i<size;i++){
+                    c = this->getTileID(str,&jump);
+                    this->map.setTile(c+1u,headX,headY);
+                    str+=jump;
+                    headX++;
+                }
+            }
+            else{
+                if(*str=='\n' && *str==10){
+                    //clean the last characters of the line
+                    for(;headX<lenght;headX++){
+                        this->map.setTile(space+1u,headX,headY);
+                    }
+
+                    //create a new line
+                    headY++;
+                    headX=x;
+                    str++;
+                    if(headY>=up){
+                        break;
+                    }
+                    continue;
+                }
+                else{
+                    c = this->getTileID(str,&jump);
+                    this->map.setTile(c+1u,headX,headY);
+                    str+=jump;
+                    headX++;
+                }
+                continue;
+            }
+        }
+        //in the end it will clean the last characters in the map
+        for(;headX<lenght;headX++){
+            this->map.setTile(space+1u,headX,headY);
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::fonts::FontMap::writeString(const edk::char8* str,
+                                      edk::vec2f32 position,
+                                      edk::uint32 width,
+                                      edk::uint32 height
+                                      ){
+    return this->writeString((edk::char8*) str,position.x,position.y,width,height);
+}
+bool edk::fonts::FontMap::writeString(edk::char8* str,
+                                      edk::vec2f32 position,
+                                      edk::uint32 width,
+                                      edk::uint32 height
+                                      ){
+    return this->writeString(str,position.x,position.y,width,height);
+}
+bool edk::fonts::FontMap::writeString(const edk::char8* str,edk::uint32 x,edk::uint8 y,edk::size2ui32 size){
+    return this->writeString((edk::char8*) str,x,y,size.width,size.height);
+}
+bool edk::fonts::FontMap::writeString(edk::char8* str,edk::uint32 x,edk::uint8 y,edk::size2ui32 size){
+    return this->writeString(str,x,y,size.width,size.height);
+}
+bool edk::fonts::FontMap::writeString(const edk::char8* str,edk::vec2f32 position,edk::size2ui32 size){
+    return this->writeString((edk::char8*) str,position.x,position.y,size.width,size.height);
+}
+bool edk::fonts::FontMap::writeString(edk::char8* str,edk::vec2f32 position,edk::size2ui32 size){
+    return this->writeString(str,position.x,position.y,size.width,size.height);
+}
+
+bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::uint32 width,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b,
+                                           edk::float32 a
+                                           ){
+    return this->writeStringColor((edk::char8*) str,x,y,width,r,g,b,a);
+}
+bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::uint32 width,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b,
+                                           edk::float32 a
+                                           ){
+    edk::uint32 lenght=x+width;
+    if(lenght>=this->map.getMapSize().width){
+        lenght = this->map.getMapSize().width;
+        width = lenght-x;
+    }
+    if(str && width
+            && x<this->map.getMapSize().width
+            && y<this->map.getMapSize().height
+            ){
+        //
+        edk::uint32 size=0u;
+        edk::uint32 headX=x;
+        edk::uint32 headY=y;
+        edk::uint32 c;
+        edk::uint32 space;
+        edk::uint8 jump=0u;
+        edk::char8 temp[2u];
+        temp[0u]=' ';
+        temp[1u]='\0';
+        //prepare the space
+        space = this->getTileID(temp,&jump);
+        while(*str){
+            size = this->wordSize(str);
+            //test if the word fit inside the line
+            if(size>=lenght-headX){
+                //test if the headX is in the beggining
+                if(headX==x){
+                    size = width;
+                }
+                else{
+                    //clean the last characters of the line
+                    for(;headX<lenght;headX++){
+                        this->map.setTile(space+1u,headX,headY);
+                        this->map.setTileColor(r,g,b,a,headX,headY);
+                    }
+
+                    //else it create a new line
+                    headY++;
+                    headX=x;
+                    if(headY>=this->map.getMapSize().height){
+                        break;
+                    }
+                    continue;
+                }
+            }
+            //write the characters
+            if(size){
+                for(edk::uint32 i=0u;i<size;i++){
+                    c = this->getTileID(str,&jump);
+                    this->map.setTile(c+1u,headX,headY);
+                    this->map.setTileColor(r,g,b,a,headX,headY);
+                    str+=jump;
+                    headX++;
+                }
+            }
+            else{
+                if(*str=='\n' && *str==10){
+                    //clean the last characters of the line
+                    for(;headX<lenght;headX++){
+                        this->map.setTile(space+1u,headX,headY);
+                        this->map.setTileColor(r,g,b,a,headX,headY);
+                    }
+
+                    //create a new line
+                    headY++;
+                    headX=x;
+                    str++;
+                    if(headY>=this->map.getMapSize().height){
+                        break;
+                    }
+                    continue;
+                }
+                else{
+                    c = this->getTileID(str,&jump);
+                    this->map.setTile(c+1u,headX,headY);
+                    this->map.setTileColor(r,g,b,a,headX,headY);
+                    str+=jump;
+                    headX++;
+                }
+                continue;
+            }
+        }
+        //in the end it will clean the last characters in the map
+        for(;headX<lenght;headX++){
+            this->map.setTile(space+1u,headX,headY);
+            this->map.setTileColor(r,g,b,a,headX,headY);
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::uint32 width,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b,
+                                           edk::float32 a
+                                           ){
+    return this->writeStringColor((edk::char8*) str,position.x,position.y,width,r,g,b,a);
+}
+bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::uint32 width,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b,
+                                           edk::float32 a
+                                           ){
+    return this->writeStringColor(str,position.x,position.y,width,r,g,b,a);
+}
+bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::uint32 width,
+                                           edk::uint32 height,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b,
+                                           edk::float32 a
+                                      ){
+    return this->writeStringColor((edk::char8*) str,x,y,width,height,r,g,b,a);
+}
+
+bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::uint32 width,
+                                           edk::uint32 height,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b,
+                                           edk::float32 a
+                                           ){
+    edk::uint32 lenght=x+width;
+    if(lenght>=this->map.getMapSize().width){
+        lenght = this->map.getMapSize().width;
+        width = lenght-x;
+    }
+    edk::uint32 up=y+height;
+    if(up>=this->map.getMapSize().height){
+        up = this->map.getMapSize().height;
+        height = up-y;
+    }
+    if(str && width && height
+            && x<this->map.getMapSize().width
+            && y<this->map.getMapSize().height
+            ){
+        //
+        edk::uint32 size=0u;
+        edk::uint32 headX=x;
+        edk::uint32 headY=y;
+        edk::uint32 c;
+        edk::uint32 space;
+        edk::uint8 jump=0u;
+        edk::char8 temp[2u];
+        temp[0u]=' ';
+        temp[1u]='\0';
+        //prepare the space
+        space = this->getTileID(temp,&jump);
+        while(*str){
+            size = this->wordSize(str);
+            //test if the word fit inside the line
+            if(size>=lenght-headX){
+                //test if the headX is in the beggining
+                if(headX==x){
+                    size = width;
+                }
+                else{
+                    //clean the last characters of the line
+                    for(;headX<lenght;headX++){
+                        this->map.setTile(space+1u,headX,headY);
+                        this->map.setTileColor(r,g,b,a,headX,headY);
+                    }
+
+                    //else it create a new line
+                    headY++;
+                    headX=x;
+                    if(headY>=up){
+                        break;
+                    }
+                    continue;
+                }
+            }
+            //write the characters
+            if(size){
+                for(edk::uint32 i=0u;i<size;i++){
+                    c = this->getTileID(str,&jump);
+                    this->map.setTile(c+1u,headX,headY);
+                    this->map.setTileColor(r,g,b,a,headX,headY);
+                    str+=jump;
+                    headX++;
+                }
+            }
+            else{
+                if(*str=='\n' && *str==10){
+                    //clean the last characters of the line
+                    for(;headX<lenght;headX++){
+                        this->map.setTile(space+1u,headX,headY);
+                        this->map.setTileColor(r,g,b,a,headX,headY);
+                    }
+
+                    //create a new line
+                    headY++;
+                    headX=x;
+                    str++;
+                    if(headY>=up){
+                        break;
+                    }
+                    continue;
+                }
+                else{
+                    c = this->getTileID(str,&jump);
+                    this->map.setTile(c+1u,headX,headY);
+                    this->map.setTileColor(r,g,b,a,headX,headY);
+                    str+=jump;
+                    headX++;
+                }
+                continue;
+            }
+        }
+        //in the end it will clean the last characters in the map
+        for(;headX<lenght;headX++){
+            this->map.setTile(space+1u,headX,headY);
+            this->map.setTileColor(r,g,b,a,headX,headY);
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::uint32 width,
+                                           edk::uint32 height,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b,
+                                           edk::float32 a
+                                      ){
+    return this->writeStringColor((edk::char8*) str,position.x,position.y,width,height,r,g,b,a);
+}
+bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::uint32 width,
+                                           edk::uint32 height,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b,
+                                           edk::float32 a
+                                      ){
+    return this->writeStringColor(str,position.x,position.y,width,height,r,g,b,a);
+}
+bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::size2ui32 size,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b,
+                                           edk::float32 a
+                                           ){
+    return this->writeStringColor((edk::char8*) str,x,y,size.width,size.height,r,g,b,a);
+}
+bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::size2ui32 size,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b,
+                                           edk::float32 a
+                                           ){
+    return this->writeStringColor(str,x,y,size.width,size.height,r,g,b,a);
+}
+bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::size2ui32 size,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b,
+                                           edk::float32 a
+                                           ){
+    return this->writeStringColor((edk::char8*) str,position.x,position.y,size.width,size.height,r,g,b,a);
+}
+bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::size2ui32 size,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b,
+                                           edk::float32 a
+                                           ){
+    return this->writeStringColor(str,position.x,position.y,size.width,size.height,r,g,b,a);
+}
+
+bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::uint32 width,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b
+                                           ){
+    return this->writeStringColor((edk::char8*) str,x,y,width,r,g,b,1.0f);
+}
+bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::uint32 width,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b
+                                           ){
+    return this->writeStringColor(str,x,y,width,r,g,b,1.f);
+}
+bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::uint32 width,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b
+                                           ){
+    return this->writeStringColor((edk::char8*) str,position.x,position.y,width,r,g,b,1.0f);
+}
+bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::uint32 width,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b
+                                           ){
+    return this->writeStringColor(str,position.x,position.y,width,r,g,b,1.0f);
+}
+bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::uint32 width,
+                                           edk::uint32 height,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b
+                                      ){
+    return this->writeStringColor((edk::char8*) str,x,y,width,height,r,g,b,1.0f);
+}
+
+bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::uint32 width,
+                                           edk::uint32 height,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b
+                                           ){
+    return this->writeStringColor(str,x,y,width,height,r,g,b,1.f);
+}
+bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::uint32 width,
+                                           edk::uint32 height,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b
+                                      ){
+    return this->writeStringColor((edk::char8*) str,position.x,position.y,width,height,r,g,b,1.0f);
+}
+bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::uint32 width,
+                                           edk::uint32 height,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b
+                                      ){
+    return this->writeStringColor(str,position.x,position.y,width,height,r,g,b,1.0f);
+}
+bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::size2ui32 size,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b
+                                           ){
+    return this->writeStringColor((edk::char8*) str,x,y,size.width,size.height,r,g,b,1.0f);
+}
+bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::size2ui32 size,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b
+                                           ){
+    return this->writeStringColor(str,x,y,size.width,size.height,r,g,b,1.0f);
+}
+bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::size2ui32 size,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b
+                                           ){
+    return this->writeStringColor((edk::char8*) str,position.x,position.y,size.width,size.height,r,g,b,1.0f);
+}
+bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::size2ui32 size,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b
+                                           ){
+    return this->writeStringColor(str,position.x,position.y,size.width,size.height,r,g,b,1.0f);
+}
+
+bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::uint32 width,
+                                           edk::color4f32 color
+                                           ){
+    return this->writeStringColor((edk::char8*) str,x,y,width,color.r,color.g,color.b,color.a);
+}
+bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::uint32 width,
+                                           edk::color4f32 color
+                                           ){
+    return this->writeStringColor(str,x,y,width,color.r,color.g,color.b,color.a);
+}
+bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::uint32 width,
+                                           edk::color4f32 color
+                                           ){
+    return this->writeStringColor((edk::char8*) str,position.x,position.y,width,color.r,color.g,color.b,color.a);
+}
+bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::uint32 width,
+                                           edk::color4f32 color
+                                           ){
+    return this->writeStringColor(str,position.x,position.y,width,color.r,color.g,color.b,color.a);
+}
+bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::uint32 width,
+                                           edk::uint32 height,
+                                           edk::color4f32 color
+                                      ){
+    return this->writeStringColor((edk::char8*) str,x,y,width,height,color.r,color.g,color.b,color.a);
+}
+
+bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::uint32 width,
+                                           edk::uint32 height,
+                                           edk::color4f32 color
+                                           ){
+    return this->writeStringColor(str,x,y,width,height,color.r,color.g,color.b,color.a);
+}
+bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::uint32 width,
+                                           edk::uint32 height,
+                                           edk::color4f32 color
+                                      ){
+    return this->writeStringColor((edk::char8*) str,
+                                  position.x,
+                                  position.y,
+                                  width,height,
+                                  color.r,
+                                  color.g,
+                                  color.b,
+                                  color.a
+                                  );
+}
+bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::uint32 width,
+                                           edk::uint32 height,
+                                           edk::color4f32 color
+                                      ){
+    return this->writeStringColor(str,position.x,position.y,width,height,color.r,color.g,color.b,color.a);
+}
+bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::size2ui32 size,
+                                           edk::color4f32 color
+                                           ){
+    return this->writeStringColor((edk::char8*) str,x,y,size.width,size.height,color.r,color.g,color.b,color.a);
+}
+bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::size2ui32 size,
+                                           edk::color4f32 color
+                                           ){
+    return this->writeStringColor(str,x,y,size.width,size.height,color.r,color.g,color.b,color.a);
+}
+bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::size2ui32 size,
+                                           edk::color4f32 color
+                                           ){
+    return this->writeStringColor((edk::char8*) str,position.x,
+                                  position.y,
+                                  size.width,
+                                  size.height,
+                                  color.r,
+                                  color.g,
+                                  color.b,
+                                  color.a
+                                  );
+}
+bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::size2ui32 size,
+                                           edk::color4f32 color
+                                           ){
+    return this->writeStringColor(str,position.x,position.y,size.width,size.height,color.r,color.g,color.b,color.a);
+}
+
+bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::uint32 width,
+                                           edk::color3f32 color
+                                           ){
+    return this->writeStringColor((edk::char8*) str,x,y,width,color.r,color.g,color.b,1.0f);
+}
+bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::uint32 width,
+                                           edk::color3f32 color
+                                           ){
+    return this->writeStringColor(str,x,y,width,color.r,color.g,color.b,1.0f);
+}
+bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::uint32 width,
+                                           edk::color3f32 color
+                                           ){
+    return this->writeStringColor((edk::char8*) str,position.x,position.y,width,color.r,color.g,color.b,1.0f);
+}
+bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::uint32 width,
+                                           edk::color3f32 color
+                                           ){
+    return this->writeStringColor(str,position.x,position.y,width,color.r,color.g,color.b,1.0f);
+}
+bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::uint32 width,
+                                           edk::uint32 height,
+                                           edk::color3f32 color
+                                      ){
+    return this->writeStringColor((edk::char8*) str,x,y,width,height,color.r,color.g,color.b,1.0f);
+}
+
+bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::uint32 width,
+                                           edk::uint32 height,
+                                           edk::color3f32 color
+                                           ){
+    return this->writeStringColor(str,x,y,width,height,color.r,color.g,color.b,1.0f);
+}
+bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::uint32 width,
+                                           edk::uint32 height,
+                                           edk::color3f32 color
+                                      ){
+    return this->writeStringColor((edk::char8*) str,
+                                  position.x,
+                                  position.y,
+                                  width,height,
+                                  color.r,
+                                  color.g,
+                                  color.b,
+                                  1.0f
+                                  );
+}
+bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::uint32 width,
+                                           edk::uint32 height,
+                                           edk::color3f32 color
+                                      ){
+    return this->writeStringColor(str,position.x,position.y,width,height,color.r,color.g,color.b,1.0f);
+}
+bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::size2ui32 size,
+                                           edk::color3f32 color
+                                           ){
+    return this->writeStringColor((edk::char8*) str,x,y,size.width,size.height,color.r,color.g,color.b,1.0f);
+}
+bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::size2ui32 size,
+                                           edk::color3f32 color
+                                           ){
+    return this->writeStringColor(str,x,y,size.width,size.height,color.r,color.g,color.b,1.0f);
+}
+bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::size2ui32 size,
+                                           edk::color3f32 color
+                                           ){
+    return this->writeStringColor((edk::char8*) str,position.x,
+                                  position.y,
+                                  size.width,
+                                  size.height,
+                                  color.r,
+                                  color.g,
+                                  color.b,
+                                  1.0f
+                                  );
+}
+bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::size2ui32 size,
+                                           edk::color3f32 color
+                                           ){
+    return this->writeStringColor(str,position.x,position.y,size.width,size.height,color.r,color.g,color.b,1.0f);
+}
+
+bool edk::fonts::FontMap::writeSpaces(const edk::char8* str,edk::uint32 x,edk::uint8 y,edk::uint32 width){
+    return this->writeSpaces((edk::char8*) str,x,y,width);
+}
+bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y,edk::uint32 width){
+    edk::uint32 lenght=x+width;
+    if(lenght>=this->map.getMapSize().width){
+        lenght = this->map.getMapSize().width;
+        width = lenght-x;
+    }
+    if(str && width
+            && x<this->map.getMapSize().width
+            && y<this->map.getMapSize().height
+            ){
+        //
+        edk::uint32 size=0u;
+        edk::uint32 headX=x;
+        edk::uint32 headY=y;
+        edk::uint32 c;
+        edk::uint32 space;
+        edk::uint8 jump=0u;
+        edk::char8 temp[2u];
+        temp[0u]=' ';
+        temp[1u]='\0';
+        //prepare the space
+        space = this->getTileID(temp,&jump);
+        while(*str){
+            size = this->wordSize(str);
+            //test if the word fit inside the line
+            if(size>=lenght-headX){
+                //test if the headX is in the beggining
+                if(headX==x){
+                    size = width;
+                }
+                else{
+                    //clean the last characters of the line
+                    for(;headX<lenght;headX++){
+                        this->map.setTile(space+1u,headX,headY);
+                    }
+
+                    //else it create a new line
+                    headY++;
+                    headX=x;
+                    if(headY>=this->map.getMapSize().height){
+                        break;
+                    }
+                    continue;
+                }
+            }
+            //write the characters
+            if(size){
+                for(edk::uint32 i=0u;i<size;i++){
+                    c = this->getTileID(str,&jump);
+                    this->map.setTile(space+1u,headX,headY);
+                    str+=jump;
+                    headX++;
+                }
+            }
+            else{
+                if(*str=='\n' && *str==10){
+                    //clean the last characters of the line
+                    for(;headX<lenght;headX++){
+                        this->map.setTile(space+1u,headX,headY);
+                    }
+
+                    //create a new line
+                    headY++;
+                    headX=x;
+                    str++;
+                    if(headY>=this->map.getMapSize().height){
+                        break;
+                    }
+                    continue;
+                }
+                else{
+                    c = this->getTileID(str,&jump);
+                    this->map.setTile(space+1u,headX,headY);
+                    str+=jump;
+                    headX++;
+                }
+                continue;
+            }
+        }
+        //in the end it will clean the last characters in the map
+        for(;headX<lenght;headX++){
+            this->map.setTile(space+1u,headX,headY);
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::fonts::FontMap::writeSpaces(const edk::char8* str,edk::vec2f32 position,edk::uint32 width){
+    return this->writeSpaces((edk::char8*) str,position.x,position.y,width);
+}
+bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::vec2f32 position,edk::uint32 width){
+    return this->writeSpaces(str,position.x,position.y,width);
+}
+bool edk::fonts::FontMap::writeSpaces(const edk::char8* str,edk::uint32 x,
+                                      edk::uint8 y,
+                                      edk::uint32 width,
+                                      edk::uint32 height
+                                      ){
+    return this->writeSpaces((edk::char8*) str,x,y,width,height);
+}
+
+bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y,edk::uint32 width,edk::uint32 height){
+    edk::uint32 lenght=x+width;
+    if(lenght>=this->map.getMapSize().width){
+        lenght = this->map.getMapSize().width;
+        width = lenght-x;
+    }
+    edk::uint32 up=y+height;
+    if(up>=this->map.getMapSize().height){
+        up = this->map.getMapSize().height;
+        height = up-y;
+    }
+    if(str && width && height
+            && x<this->map.getMapSize().width
+            && y<this->map.getMapSize().height
+            ){
+        //
+        edk::uint32 size=0u;
+        edk::uint32 headX=x;
+        edk::uint32 headY=y;
+        edk::uint32 c;
+        edk::uint32 space;
+        edk::uint8 jump=0u;
+        edk::char8 temp[2u];
+        temp[0u]=' ';
+        temp[1u]='\0';
+        //prepare the space
+        space = this->getTileID(temp,&jump);
+        while(*str){
+            size = this->wordSize(str);
+            //test if the word fit inside the line
+            if(size>=lenght-headX){
+                //test if the headX is in the beggining
+                if(headX==x){
+                    size = width;
+                }
+                else{
+                    //clean the last characters of the line
+                    for(;headX<lenght;headX++){
+                        this->map.setTile(space+1u,headX,headY);
+                    }
+
+                    //else it create a new line
+                    headY++;
+                    headX=x;
+                    if(headY>=up){
+                        break;
+                    }
+                    continue;
+                }
+            }
+            //write the characters
+            if(size){
+                for(edk::uint32 i=0u;i<size;i++){
+                    c = this->getTileID(str,&jump);
+                    this->map.setTile(space+1u,headX,headY);
+                    str+=jump;
+                    headX++;
+                }
+            }
+            else{
+                if(*str=='\n' && *str==10){
+                    //clean the last characters of the line
+                    for(;headX<lenght;headX++){
+                        this->map.setTile(space+1u,headX,headY);
+                    }
+
+                    //create a new line
+                    headY++;
+                    headX=x;
+                    str++;
+                    if(headY>=up){
+                        break;
+                    }
+                    continue;
+                }
+                else{
+                    c = this->getTileID(str,&jump);
+                    this->map.setTile(space+1u,headX,headY);
+                    str+=jump;
+                    headX++;
+                }
+                continue;
+            }
+        }
+        //in the end it will clean the last characters in the map
+        for(;headX<lenght;headX++){
+            this->map.setTile(space+1u,headX,headY);
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::fonts::FontMap::writeSpaces(const edk::char8* str,
+                                      edk::vec2f32 position,
+                                      edk::uint32 width,
+                                      edk::uint32 height
+                                      ){
+    return this->writeSpaces((edk::char8*) str,position.x,position.y,width,height);
+}
+bool edk::fonts::FontMap::writeSpaces(edk::char8* str,
+                                      edk::vec2f32 position,
+                                      edk::uint32 width,
+                                      edk::uint32 height
+                                      ){
+    return this->writeSpaces(str,position.x,position.y,width,height);
+}
+bool edk::fonts::FontMap::writeSpaces(const edk::char8* str,edk::uint32 x,edk::uint8 y,edk::size2ui32 size){
+    return this->writeSpaces((edk::char8*) str,x,y,size.width,size.height);
+}
+bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y,edk::size2ui32 size){
+    return this->writeSpaces(str,x,y,size.width,size.height);
+}
+bool edk::fonts::FontMap::writeSpaces(const edk::char8* str,edk::vec2f32 position,edk::size2ui32 size){
+    return this->writeSpaces((edk::char8*) str,position.x,position.y,size.width,size.height);
+}
+bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::vec2f32 position,edk::size2ui32 size){
+    return this->writeSpaces(str,position.x,position.y,size.width,size.height);
+}
+
+bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::uint32 width,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b,
+                                           edk::float32 a
+                                           ){
+    return this->writeSpacesColor((edk::char8*) str,x,y,width,r,g,b,a);
+}
+bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::uint32 width,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b,
+                                           edk::float32 a
+                                           ){
+    edk::uint32 lenght=x+width;
+    if(lenght>=this->map.getMapSize().width){
+        lenght = this->map.getMapSize().width;
+        width = lenght-x;
+    }
+    if(str && width
+            && x<this->map.getMapSize().width
+            && y<this->map.getMapSize().height
+            ){
+        //
+        edk::uint32 size=0u;
+        edk::uint32 headX=x;
+        edk::uint32 headY=y;
+        edk::uint32 c;
+        edk::uint32 space;
+        edk::uint8 jump=0u;
+        edk::char8 temp[2u];
+        temp[0u]=' ';
+        temp[1u]='\0';
+        //prepare the space
+        space = this->getTileID(temp,&jump);
+        while(*str){
+            size = this->wordSize(str);
+            //test if the word fit inside the line
+            if(size>=lenght-headX){
+                //test if the headX is in the beggining
+                if(headX==x){
+                    size = width;
+                }
+                else{
+                    //clean the last characters of the line
+                    for(;headX<lenght;headX++){
+                        this->map.setTile(space+1u,headX,headY);
+                        this->map.setTileColor(r,g,b,a,headX,headY);
+                    }
+
+                    //else it create a new line
+                    headY++;
+                    headX=x;
+                    if(headY>=this->map.getMapSize().height){
+                        break;
+                    }
+                    continue;
+                }
+            }
+            //write the characters
+            if(size){
+                for(edk::uint32 i=0u;i<size;i++){
+                    c = this->getTileID(str,&jump);
+                    this->map.setTile(space+1u,headX,headY);
+                    this->map.setTileColor(r,g,b,a,headX,headY);
+                    str+=jump;
+                    headX++;
+                }
+            }
+            else{
+                if(*str=='\n' && *str==10){
+                    //clean the last characters of the line
+                    for(;headX<lenght;headX++){
+                        this->map.setTile(space+1u,headX,headY);
+                        this->map.setTileColor(r,g,b,a,headX,headY);
+                    }
+
+                    //create a new line
+                    headY++;
+                    headX=x;
+                    str++;
+                    if(headY>=this->map.getMapSize().height){
+                        break;
+                    }
+                    continue;
+                }
+                else{
+                    c = this->getTileID(str,&jump);
+                    this->map.setTile(space+1u,headX,headY);
+                    this->map.setTileColor(r,g,b,a,headX,headY);
+                    str+=jump;
+                    headX++;
+                }
+                continue;
+            }
+        }
+        //in the end it will clean the last characters in the map
+        for(;headX<lenght;headX++){
+            this->map.setTile(space+1u,headX,headY);
+            this->map.setTileColor(r,g,b,a,headX,headY);
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::uint32 width,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b,
+                                           edk::float32 a
+                                           ){
+    return this->writeSpacesColor((edk::char8*) str,position.x,position.y,width,r,g,b,a);
+}
+bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::uint32 width,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b,
+                                           edk::float32 a
+                                           ){
+    return this->writeSpacesColor(str,position.x,position.y,width,r,g,b,a);
+}
+bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::uint32 width,
+                                           edk::uint32 height,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b,
+                                           edk::float32 a
+                                      ){
+    return this->writeSpacesColor((edk::char8*) str,x,y,width,height,r,g,b,a);
+}
+
+bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::uint32 width,
+                                           edk::uint32 height,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b,
+                                           edk::float32 a
+                                           ){
+    edk::uint32 lenght=x+width;
+    if(lenght>=this->map.getMapSize().width){
+        lenght = this->map.getMapSize().width;
+        width = lenght-x;
+    }
+    edk::uint32 up=y+height;
+    if(up>=this->map.getMapSize().height){
+        up = this->map.getMapSize().height;
+        height = up-y;
+    }
+    if(str && width && height
+            && x<this->map.getMapSize().width
+            && y<this->map.getMapSize().height
+            ){
+        //
+        edk::uint32 size=0u;
+        edk::uint32 headX=x;
+        edk::uint32 headY=y;
+        edk::uint32 c;
+        edk::uint32 space;
+        edk::uint8 jump=0u;
+        edk::char8 temp[2u];
+        temp[0u]=' ';
+        temp[1u]='\0';
+        //prepare the space
+        space = this->getTileID(temp,&jump);
+        while(*str){
+            size = this->wordSize(str);
+            //test if the word fit inside the line
+            if(size>=lenght-headX){
+                //test if the headX is in the beggining
+                if(headX==x){
+                    size = width;
+                }
+                else{
+                    //clean the last characters of the line
+                    for(;headX<lenght;headX++){
+                        this->map.setTile(space+1u,headX,headY);
+                        this->map.setTileColor(r,g,b,a,headX,headY);
+                    }
+
+                    //else it create a new line
+                    headY++;
+                    headX=x;
+                    if(headY>=up){
+                        break;
+                    }
+                    continue;
+                }
+            }
+            //write the characters
+            if(size){
+                for(edk::uint32 i=0u;i<size;i++){
+                    c = this->getTileID(str,&jump);
+                    this->map.setTile(space+1u,headX,headY);
+                    this->map.setTileColor(r,g,b,a,headX,headY);
+                    str+=jump;
+                    headX++;
+                }
+            }
+            else{
+                if(*str=='\n' && *str==10){
+                    //clean the last characters of the line
+                    for(;headX<lenght;headX++){
+                        this->map.setTile(space+1u,headX,headY);
+                        this->map.setTileColor(r,g,b,a,headX,headY);
+                    }
+
+                    //create a new line
+                    headY++;
+                    headX=x;
+                    str++;
+                    if(headY>=up){
+                        break;
+                    }
+                    continue;
+                }
+                else{
+                    c = this->getTileID(str,&jump);
+                    this->map.setTile(space+1u,headX,headY);
+                    this->map.setTileColor(r,g,b,a,headX,headY);
+                    str+=jump;
+                    headX++;
+                }
+                continue;
+            }
+        }
+        //in the end it will clean the last characters in the map
+        for(;headX<lenght;headX++){
+            this->map.setTile(space+1u,headX,headY);
+            this->map.setTileColor(r,g,b,a,headX,headY);
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::uint32 width,
+                                           edk::uint32 height,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b,
+                                           edk::float32 a
+                                      ){
+    return this->writeSpacesColor((edk::char8*) str,position.x,position.y,width,height,r,g,b,a);
+}
+bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::uint32 width,
+                                           edk::uint32 height,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b,
+                                           edk::float32 a
+                                      ){
+    return this->writeSpacesColor(str,position.x,position.y,width,height,r,g,b,a);
+}
+bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::size2ui32 size,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b,
+                                           edk::float32 a
+                                           ){
+    return this->writeSpacesColor((edk::char8*) str,x,y,size.width,size.height,r,g,b,a);
+}
+bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::size2ui32 size,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b,
+                                           edk::float32 a
+                                           ){
+    return this->writeSpacesColor(str,x,y,size.width,size.height,r,g,b,a);
+}
+bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::size2ui32 size,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b,
+                                           edk::float32 a
+                                           ){
+    return this->writeSpacesColor((edk::char8*) str,position.x,position.y,size.width,size.height,r,g,b,a);
+}
+bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::size2ui32 size,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b,
+                                           edk::float32 a
+                                           ){
+    return this->writeSpacesColor(str,position.x,position.y,size.width,size.height,r,g,b,a);
+}
+
+bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::uint32 width,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b
+                                           ){
+    return this->writeSpacesColor((edk::char8*) str,x,y,width,r,g,b,1.0f);
+}
+bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::uint32 width,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b
+                                           ){
+    return this->writeSpacesColor(str,x,y,width,r,g,b,1.f);
+}
+bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::uint32 width,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b
+                                           ){
+    return this->writeSpacesColor((edk::char8*) str,position.x,position.y,width,r,g,b,1.0f);
+}
+bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::uint32 width,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b
+                                           ){
+    return this->writeSpacesColor(str,position.x,position.y,width,r,g,b,1.0f);
+}
+bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::uint32 width,
+                                           edk::uint32 height,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b
+                                      ){
+    return this->writeSpacesColor((edk::char8*) str,x,y,width,height,r,g,b,1.0f);
+}
+
+bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::uint32 width,
+                                           edk::uint32 height,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b
+                                           ){
+    return this->writeSpacesColor(str,x,y,width,height,r,g,b,1.f);
+}
+bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::uint32 width,
+                                           edk::uint32 height,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b
+                                      ){
+    return this->writeSpacesColor((edk::char8*) str,position.x,position.y,width,height,r,g,b,1.0f);
+}
+bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::uint32 width,
+                                           edk::uint32 height,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b
+                                      ){
+    return this->writeSpacesColor(str,position.x,position.y,width,height,r,g,b,1.0f);
+}
+bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::size2ui32 size,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b
+                                           ){
+    return this->writeSpacesColor((edk::char8*) str,x,y,size.width,size.height,r,g,b,1.0f);
+}
+bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::size2ui32 size,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b
+                                           ){
+    return this->writeSpacesColor(str,x,y,size.width,size.height,r,g,b,1.0f);
+}
+bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::size2ui32 size,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b
+                                           ){
+    return this->writeSpacesColor((edk::char8*) str,position.x,position.y,size.width,size.height,r,g,b,1.0f);
+}
+bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::size2ui32 size,
+                                           edk::float32 r,
+                                           edk::float32 g,
+                                           edk::float32 b
+                                           ){
+    return this->writeSpacesColor(str,position.x,position.y,size.width,size.height,r,g,b,1.0f);
+}
+
+bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::uint32 width,
+                                           edk::color4f32 color
+                                           ){
+    return this->writeSpacesColor((edk::char8*) str,x,y,width,color.r,color.g,color.b,color.a);
+}
+bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::uint32 width,
+                                           edk::color4f32 color
+                                           ){
+    return this->writeSpacesColor(str,x,y,width,color.r,color.g,color.b,color.a);
+}
+bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::uint32 width,
+                                           edk::color4f32 color
+                                           ){
+    return this->writeSpacesColor((edk::char8*) str,position.x,position.y,width,color.r,color.g,color.b,color.a);
+}
+bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::uint32 width,
+                                           edk::color4f32 color
+                                           ){
+    return this->writeSpacesColor(str,position.x,position.y,width,color.r,color.g,color.b,color.a);
+}
+bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::uint32 width,
+                                           edk::uint32 height,
+                                           edk::color4f32 color
+                                      ){
+    return this->writeSpacesColor((edk::char8*) str,x,y,width,height,color.r,color.g,color.b,color.a);
+}
+
+bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::uint32 width,
+                                           edk::uint32 height,
+                                           edk::color4f32 color
+                                           ){
+    return this->writeSpacesColor(str,x,y,width,height,color.r,color.g,color.b,color.a);
+}
+bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::uint32 width,
+                                           edk::uint32 height,
+                                           edk::color4f32 color
+                                      ){
+    return this->writeSpacesColor((edk::char8*) str,
+                                  position.x,
+                                  position.y,
+                                  width,height,
+                                  color.r,
+                                  color.g,
+                                  color.b,
+                                  color.a
+                                  );
+}
+bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::uint32 width,
+                                           edk::uint32 height,
+                                           edk::color4f32 color
+                                      ){
+    return this->writeSpacesColor(str,position.x,position.y,width,height,color.r,color.g,color.b,color.a);
+}
+bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::size2ui32 size,
+                                           edk::color4f32 color
+                                           ){
+    return this->writeSpacesColor((edk::char8*) str,x,y,size.width,size.height,color.r,color.g,color.b,color.a);
+}
+bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::size2ui32 size,
+                                           edk::color4f32 color
+                                           ){
+    return this->writeSpacesColor(str,x,y,size.width,size.height,color.r,color.g,color.b,color.a);
+}
+bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::size2ui32 size,
+                                           edk::color4f32 color
+                                           ){
+    return this->writeSpacesColor((edk::char8*) str,position.x,
+                                  position.y,
+                                  size.width,
+                                  size.height,
+                                  color.r,
+                                  color.g,
+                                  color.b,
+                                  color.a
+                                  );
+}
+bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::size2ui32 size,
+                                           edk::color4f32 color
+                                           ){
+    return this->writeSpacesColor(str,position.x,position.y,size.width,size.height,color.r,color.g,color.b,color.a);
+}
+
+bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::uint32 width,
+                                           edk::color3f32 color
+                                           ){
+    return this->writeSpacesColor((edk::char8*) str,x,y,width,color.r,color.g,color.b,1.0f);
+}
+bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::uint32 width,
+                                           edk::color3f32 color
+                                           ){
+    return this->writeSpacesColor(str,x,y,width,color.r,color.g,color.b,1.0f);
+}
+bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::uint32 width,
+                                           edk::color3f32 color
+                                           ){
+    return this->writeSpacesColor((edk::char8*) str,position.x,position.y,width,color.r,color.g,color.b,1.0f);
+}
+bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::uint32 width,
+                                           edk::color3f32 color
+                                           ){
+    return this->writeSpacesColor(str,position.x,position.y,width,color.r,color.g,color.b,1.0f);
+}
+bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::uint32 width,
+                                           edk::uint32 height,
+                                           edk::color3f32 color
+                                      ){
+    return this->writeSpacesColor((edk::char8*) str,x,y,width,height,color.r,color.g,color.b,1.0f);
+}
+
+bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::uint32 width,
+                                           edk::uint32 height,
+                                           edk::color3f32 color
+                                           ){
+    return this->writeSpacesColor(str,x,y,width,height,color.r,color.g,color.b,1.0f);
+}
+bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::uint32 width,
+                                           edk::uint32 height,
+                                           edk::color3f32 color
+                                      ){
+    return this->writeSpacesColor((edk::char8*) str,
+                                  position.x,
+                                  position.y,
+                                  width,height,
+                                  color.r,
+                                  color.g,
+                                  color.b,
+                                  1.0f
+                                  );
+}
+bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::uint32 width,
+                                           edk::uint32 height,
+                                           edk::color3f32 color
+                                      ){
+    return this->writeSpacesColor(str,position.x,position.y,width,height,color.r,color.g,color.b,1.0f);
+}
+bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::size2ui32 size,
+                                           edk::color3f32 color
+                                           ){
+    return this->writeSpacesColor((edk::char8*) str,x,y,size.width,size.height,color.r,color.g,color.b,1.0f);
+}
+bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
+                                           edk::uint32 x,
+                                           edk::uint8 y,
+                                           edk::size2ui32 size,
+                                           edk::color3f32 color
+                                           ){
+    return this->writeSpacesColor(str,x,y,size.width,size.height,color.r,color.g,color.b,1.0f);
+}
+bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::size2ui32 size,
+                                           edk::color3f32 color
+                                           ){
+    return this->writeSpacesColor((edk::char8*) str,position.x,
+                                  position.y,
+                                  size.width,
+                                  size.height,
+                                  color.r,
+                                  color.g,
+                                  color.b,
+                                  1.0f
+                                  );
+}
+bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
+                                           edk::vec2f32 position,
+                                           edk::size2ui32 size,
+                                           edk::color3f32 color
+                                           ){
+    return this->writeSpacesColor(str,position.x,position.y,size.width,size.height,color.r,color.g,color.b,1.0f);
 }
 
 //set the color
