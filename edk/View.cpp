@@ -107,6 +107,19 @@ void View::drawPolygon(edk::rectf32){
     edk::GU::guEnd();
 }
 
+void View::runDraw(edk::rectf32 outsideViewOrigin){
+    this->draw(outsideViewOrigin);
+}
+void View::runLoad(edk::rectf32 outsideViewOrigin){
+    this->load(outsideViewOrigin);
+}
+void View::runUnload(){
+    this->unload();
+}
+void View::runUpdate(edk::WindowEvents* events){
+    this->update(events);
+}
+
 void View::draw(edk::rectf32 outsideViewOrigin){
     //test if it's not hided
     if(!this->hide){
@@ -688,7 +701,7 @@ bool View::isMouseInside(){
 //update the view
 void View::updateView(edk::WindowEvents* events){
     //update the view function
-    this->update(events);
+    this->runUpdate(events);
 }
 
 } /* End of namespace edk */

@@ -192,6 +192,13 @@ class View {
     virtual void unload();
 
     virtual void update(edk::WindowEvents* events);
+
+    //those functions run the other functions
+    virtual void runDraw(edk::rectf32 outsideViewOrigin);
+    virtual void runLoad(edk::rectf32 outsideViewOrigin);
+    virtual void runUnload();
+    virtual void runUpdate(edk::WindowEvents* events);
+
     void updateAnimations();
     void updateAnimations(edk::float32 seconds);
 

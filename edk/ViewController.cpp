@@ -66,10 +66,10 @@ bool ViewController::addSubview(edk::View *addView){
                                 rectTemp.size.width - this->borderSize,
                                 rectTemp.size.height - this->borderSize
                                 );
-                    addView->load(this->rectInside);
+                    addView->runLoad(this->rectInside);
                 }
                 else{
-                    addView->load(this->frame);
+                    addView->runLoad(this->frame);
                 }
                 //have added the view
                 return true;
@@ -208,7 +208,7 @@ bool ViewController::removeSubview(edk::View *subView){
             //remove the mouseInside
             this->mouseInside = false;
             //run unload
-            subView->unload();
+            subView->runUnload();
             return true;
         }
     }
@@ -222,7 +222,7 @@ void ViewController::removeAllSubview(){
         if(this->nexts.havePos(i)){
             subView = this->nexts[i];
             if(subView){
-                subView->unload();
+                subView->runUnload();
             }
         }
     }
@@ -249,7 +249,7 @@ void ViewController::draw(edk::rectf32 outsideViewOrigin){
             //test if the view exist
             if(this->nexts.havePos(i)){
                 //then draw using the view in GU. no in EDK
-                this->nexts[i]->draw(
+                this->nexts[i]->runDraw(
                             this->rectInside
                             );
             }

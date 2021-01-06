@@ -77,6 +77,7 @@ class ViewGU: public edk::ViewSpriteController{
 
         //draw the GU scene
         virtual void drawScene(edk::rectf32 outsideViewOrigin);
+        virtual void runDrawScene(edk::rectf32 outsideViewOrigin);
 
         virtual void drawSelectionScene();
 

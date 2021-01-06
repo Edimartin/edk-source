@@ -58,7 +58,7 @@ void edk::ViewGU::drawPolygon(rectf32 outsideViewOrigin){
     //Draw the camera in the future
 
     //then draw the scene
-    this->drawScene(outsideViewOrigin);
+    this->runDrawScene(outsideViewOrigin);
 
     this->runSelectionFunction();
 
@@ -198,6 +198,9 @@ void edk::ViewGU::testSelection(edk::vec2i32 position,edk::size2f32 size){
 //draw the GU scene
 void edk::ViewGU::drawScene(edk::rectf32){
     //
+}
+void edk::ViewGU::runDrawScene(edk::rectf32 outsideViewOrigin){
+    this->drawScene(outsideViewOrigin);
 }
 void edk::ViewGU::drawSelectionScene(){
     //
