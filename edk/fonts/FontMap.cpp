@@ -1480,7 +1480,7 @@ bool edk::fonts::FontMap::writeChar(edk::char8* c,edk::uint32 x,edk::uint32 y){
             ){
         //set the character in the map
         edk::uint8 jump;
-        edk::char8 temp = this->getTileID(c,&jump);
+        edk::uint32 temp = this->getTileID(c,&jump);
 
         return this->map.setTile(temp+1,x,y);
     }
