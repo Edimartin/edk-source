@@ -1473,6 +1473,28 @@ bool edk::fonts::FontMap::writeChar(edk::char8 c,edk::uint32 x,edk::uint32 y){
 bool edk::fonts::FontMap::writeChar(edk::char8 c,edk::vec2f32 position){
     return this->writeChar(c,position.x,position.y);
 }
+bool edk::fonts::FontMap::writeChar(edk::char8* c,edk::uint32 x,edk::uint32 y){
+    //test if have the position in the map
+    if(x<this->map.getMapSize().width && y<this->map.getMapSize().height
+            && c
+            ){
+        //set the character in the map
+        edk::uint8 jump;
+        edk::char8 temp = this->getTileID(c,&jump);
+
+        return this->map.setTile(temp+1,x,y);
+    }
+    return false;
+}
+bool edk::fonts::FontMap::writeChar(edk::char8* c,edk::vec2f32 position){
+    return this->writeChar(c,position.x,position.y);
+}
+bool edk::fonts::FontMap::writeChar(const edk::char8* c,edk::uint32 x,edk::uint32 y){
+    return this->writeChar((edk::char8*) c,x,y);
+}
+bool edk::fonts::FontMap::writeChar(const edk::char8* c,edk::vec2f32 position){
+    return this->writeChar((edk::char8*) c,position);
+}
 bool edk::fonts::FontMap::writeColor(edk::color4f32 color,edk::uint32 x,edk::uint32 y){
     //test if have the position in the map
     if(x<this->map.getMapSize().width && y<this->map.getMapSize().height
@@ -2402,7 +2424,6 @@ bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y
         edk::uint32 size=0u;
         edk::uint32 headX=x;
         edk::uint32 headY=y;
-        edk::uint32 c;
         edk::uint32 space;
         edk::uint8 jump=0u;
         edk::char8 temp[2u];
@@ -2436,7 +2457,6 @@ bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y
             //write the characters
             if(size){
                 for(edk::uint32 i=0u;i<size;i++){
-                    c = this->getTileID(str,&jump);
                     this->map.setTile(space+1u,headX,headY);
                     str+=jump;
                     headX++;
@@ -2459,7 +2479,6 @@ bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y
                     continue;
                 }
                 else{
-                    c = this->getTileID(str,&jump);
                     this->map.setTile(space+1u,headX,headY);
                     str+=jump;
                     headX++;
@@ -2508,7 +2527,6 @@ bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y
         edk::uint32 size=0u;
         edk::uint32 headX=x;
         edk::uint32 headY=y;
-        edk::uint32 c;
         edk::uint32 space;
         edk::uint8 jump=0u;
         edk::char8 temp[2u];
@@ -2542,7 +2560,6 @@ bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y
             //write the characters
             if(size){
                 for(edk::uint32 i=0u;i<size;i++){
-                    c = this->getTileID(str,&jump);
                     this->map.setTile(space+1u,headX,headY);
                     str+=jump;
                     headX++;
@@ -2565,7 +2582,6 @@ bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y
                     continue;
                 }
                 else{
-                    c = this->getTileID(str,&jump);
                     this->map.setTile(space+1u,headX,headY);
                     str+=jump;
                     headX++;
@@ -2641,7 +2657,6 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
         edk::uint32 size=0u;
         edk::uint32 headX=x;
         edk::uint32 headY=y;
-        edk::uint32 c;
         edk::uint32 space;
         edk::uint8 jump=0u;
         edk::char8 temp[2u];
@@ -2676,7 +2691,6 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
             //write the characters
             if(size){
                 for(edk::uint32 i=0u;i<size;i++){
-                    c = this->getTileID(str,&jump);
                     this->map.setTile(space+1u,headX,headY);
                     this->map.setTileColor(r,g,b,a,headX,headY);
                     str+=jump;
@@ -2701,7 +2715,6 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                     continue;
                 }
                 else{
-                    c = this->getTileID(str,&jump);
                     this->map.setTile(space+1u,headX,headY);
                     this->map.setTileColor(r,g,b,a,headX,headY);
                     str+=jump;
@@ -2780,7 +2793,6 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
         edk::uint32 size=0u;
         edk::uint32 headX=x;
         edk::uint32 headY=y;
-        edk::uint32 c;
         edk::uint32 space;
         edk::uint8 jump=0u;
         edk::char8 temp[2u];
@@ -2815,7 +2827,6 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
             //write the characters
             if(size){
                 for(edk::uint32 i=0u;i<size;i++){
-                    c = this->getTileID(str,&jump);
                     this->map.setTile(space+1u,headX,headY);
                     this->map.setTileColor(r,g,b,a,headX,headY);
                     str+=jump;
@@ -2840,7 +2851,6 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                     continue;
                 }
                 else{
-                    c = this->getTileID(str,&jump);
                     this->map.setTile(space+1u,headX,headY);
                     this->map.setTileColor(r,g,b,a,headX,headY);
                     str+=jump;

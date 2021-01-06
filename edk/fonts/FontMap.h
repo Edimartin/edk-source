@@ -111,6 +111,10 @@ public:
     //write a character in the map position
     bool writeChar(edk::char8 c,edk::uint32 x,edk::uint32 y);
     bool writeChar(edk::char8 c,edk::vec2f32 position);
+    bool writeChar(edk::char8* c,edk::uint32 x,edk::uint32 y);
+    bool writeChar(edk::char8* c,edk::vec2f32 position);
+    bool writeChar(const edk::char8* c,edk::uint32 x,edk::uint32 y);
+    bool writeChar(const edk::char8* c,edk::vec2f32 position);
     bool writeColor(edk::color4f32 color,edk::uint32 x,edk::uint32 y);
     bool writeColor(edk::color4f32 color,edk::vec2f32 position);
     bool writeColor(edk::color3f32 color,edk::uint32 x,edk::uint32 y);
