@@ -1607,10 +1607,6 @@ bool edk::fonts::FontMap::writeString(edk::char8* str,edk::uint32 x,edk::uint8 y
                 continue;
             }
         }
-        //in the end it will clean the last characters in the map
-        for(;headX<lenght;headX++){
-            this->map.setTile(space+1u,headX,headY);
-        }
         return true;
     }
     return false;
@@ -1712,10 +1708,6 @@ bool edk::fonts::FontMap::writeString(edk::char8* str,edk::uint32 x,edk::uint8 y
                 }
                 continue;
             }
-        }
-        //in the end it will clean the last characters in the map
-        for(;headX<lenght;headX++){
-            this->map.setTile(space+1u,headX,headY);
         }
         return true;
     }
@@ -1850,11 +1842,6 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                 continue;
             }
         }
-        //in the end it will clean the last characters in the map
-        for(;headX<lenght;headX++){
-            this->map.setTile(space+1u,headX,headY);
-            this->map.setTileColor(r,g,b,a,headX,headY);
-        }
         return true;
     }
     return false;
@@ -1988,11 +1975,6 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                 }
                 continue;
             }
-        }
-        //in the end it will clean the last characters in the map
-        for(;headX<lenght;headX++){
-            this->map.setTile(space+1u,headX,headY);
-            this->map.setTileColor(r,g,b,a,headX,headY);
         }
         return true;
     }
@@ -2486,10 +2468,6 @@ bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y
                 continue;
             }
         }
-        //in the end it will clean the last characters in the map
-        for(;headX<lenght;headX++){
-            this->map.setTile(space+1u,headX,headY);
-        }
         return true;
     }
     return false;
@@ -2588,10 +2566,6 @@ bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y
                 }
                 continue;
             }
-        }
-        //in the end it will clean the last characters in the map
-        for(;headX<lenght;headX++){
-            this->map.setTile(space+1u,headX,headY);
         }
         return true;
     }
@@ -2723,11 +2697,6 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                 continue;
             }
         }
-        //in the end it will clean the last characters in the map
-        for(;headX<lenght;headX++){
-            this->map.setTile(space+1u,headX,headY);
-            this->map.setTileColor(r,g,b,a,headX,headY);
-        }
         return true;
     }
     return false;
@@ -2858,11 +2827,6 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                 }
                 continue;
             }
-        }
-        //in the end it will clean the last characters in the map
-        for(;headX<lenght;headX++){
-            this->map.setTile(space+1u,headX,headY);
-            this->map.setTileColor(r,g,b,a,headX,headY);
         }
         return true;
     }
