@@ -110,32 +110,32 @@ public:
 
     //write a character in the map position
     bool writeChar(edk::char8 c,edk::uint32 x,edk::uint32 y);
-    bool writeChar(edk::char8 c,edk::vec2f32 position);
+    bool writeChar(edk::char8 c,edk::vec2ui32 position);
     bool writeChar(edk::char8* c,edk::uint32 x,edk::uint32 y);
-    bool writeChar(edk::char8* c,edk::vec2f32 position);
+    bool writeChar(edk::char8* c,edk::vec2ui32 position);
     bool writeChar(const edk::char8* c,edk::uint32 x,edk::uint32 y);
-    bool writeChar(const edk::char8* c,edk::vec2f32 position);
+    bool writeChar(const edk::char8* c,edk::vec2ui32 position);
     bool writeColor(edk::color4f32 color,edk::uint32 x,edk::uint32 y);
-    bool writeColor(edk::color4f32 color,edk::vec2f32 position);
+    bool writeColor(edk::color4f32 color,edk::vec2ui32 position);
     bool writeColor(edk::color3f32 color,edk::uint32 x,edk::uint32 y);
-    bool writeColor(edk::color3f32 color,edk::vec2f32 position);
+    bool writeColor(edk::color3f32 color,edk::vec2ui32 position);
     bool writeColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a,edk::uint32 x,edk::uint32 y);
-    bool writeColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a,edk::vec2f32 position);
+    bool writeColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a,edk::vec2ui32 position);
     bool writeColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::uint32 x,edk::uint32 y);
-    bool writeColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::vec2f32 position);
+    bool writeColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::vec2ui32 position);
 
     bool writeString(const edk::char8* str,edk::uint32 x,edk::uint8 y,edk::uint32 width);
     bool writeString(edk::char8* str,edk::uint32 x,edk::uint8 y,edk::uint32 width);
-    bool writeString(const edk::char8* str,edk::vec2f32 position,edk::uint32 width);
-    bool writeString(edk::char8* str,edk::vec2f32 position,edk::uint32 width);
+    bool writeString(const edk::char8* str,edk::vec2ui32 position,edk::uint32 width);
+    bool writeString(edk::char8* str,edk::vec2ui32 position,edk::uint32 width);
     bool writeString(const edk::char8* str,edk::uint32 x,edk::uint8 y,edk::uint32 width,edk::uint32 height);
     bool writeString(edk::char8* str,edk::uint32 x,edk::uint8 y,edk::uint32 width,edk::uint32 height);
-    bool writeString(const edk::char8* str,edk::vec2f32 position,edk::uint32 width,edk::uint32 height);
-    bool writeString(edk::char8* str,edk::vec2f32 position,edk::uint32 width,edk::uint32 height);
+    bool writeString(const edk::char8* str,edk::vec2ui32 position,edk::uint32 width,edk::uint32 height);
+    bool writeString(edk::char8* str,edk::vec2ui32 position,edk::uint32 width,edk::uint32 height);
     bool writeString(const edk::char8* str,edk::uint32 x,edk::uint8 y,edk::size2ui32 size);
     bool writeString(edk::char8* str,edk::uint32 x,edk::uint8 y,edk::size2ui32 size);
-    bool writeString(const edk::char8* str,edk::vec2f32 position,edk::size2ui32 size);
-    bool writeString(edk::char8* str,edk::vec2f32 position,edk::size2ui32 size);
+    bool writeString(const edk::char8* str,edk::vec2ui32 position,edk::size2ui32 size);
+    bool writeString(edk::char8* str,edk::vec2ui32 position,edk::size2ui32 size);
 
     bool writeStringColor(const edk::char8* str,
                           edk::uint32 x,
@@ -156,7 +156,7 @@ public:
                           edk::float32 a
                           );
     bool writeStringColor(const edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::uint32 width,
                           edk::float32 r,
                           edk::float32 g,
@@ -164,7 +164,7 @@ public:
                           edk::float32 a
                           );
     bool writeStringColor(edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::uint32 width,
                           edk::float32 r,
                           edk::float32 g,
@@ -192,7 +192,7 @@ public:
                           edk::float32 a
                           );
     bool writeStringColor(const edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::uint32 width,
                           edk::uint32 height,
                           edk::float32 r,
@@ -201,7 +201,7 @@ public:
                           edk::float32 a
                           );
     bool writeStringColor(edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::uint32 width,
                           edk::uint32 height,
                           edk::float32 r,
@@ -228,7 +228,7 @@ public:
                           edk::float32 a
                           );
     bool writeStringColor(const edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::size2ui32 size,
                           edk::float32 r,
                           edk::float32 g,
@@ -236,7 +236,7 @@ public:
                           edk::float32 a
                           );
     bool writeStringColor(edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::size2ui32 size,
                           edk::float32 r,
                           edk::float32 g,
@@ -261,14 +261,14 @@ public:
                           edk::float32 b
                           );
     bool writeStringColor(const edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::uint32 width,
                           edk::float32 r,
                           edk::float32 g,
                           edk::float32 b
                           );
     bool writeStringColor(edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::uint32 width,
                           edk::float32 r,
                           edk::float32 g,
@@ -293,7 +293,7 @@ public:
                           edk::float32 b
                           );
     bool writeStringColor(const edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::uint32 width,
                           edk::uint32 height,
                           edk::float32 r,
@@ -301,7 +301,7 @@ public:
                           edk::float32 b
                           );
     bool writeStringColor(edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::uint32 width,
                           edk::uint32 height,
                           edk::float32 r,
@@ -325,14 +325,14 @@ public:
                           edk::float32 b
                           );
     bool writeStringColor(const edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::size2ui32 size,
                           edk::float32 r,
                           edk::float32 g,
                           edk::float32 b
                           );
     bool writeStringColor(edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::size2ui32 size,
                           edk::float32 r,
                           edk::float32 g,
@@ -352,12 +352,12 @@ public:
                           edk::color4f32 color
                           );
     bool writeStringColor(const edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::uint32 width,
                           edk::color4f32 color
                           );
     bool writeStringColor(edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::uint32 width,
                           edk::color4f32 color
                           );
@@ -376,13 +376,13 @@ public:
                           edk::color4f32 color
                           );
     bool writeStringColor(const edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::uint32 width,
                           edk::uint32 height,
                           edk::color4f32 color
                           );
     bool writeStringColor(edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::uint32 width,
                           edk::uint32 height,
                           edk::color4f32 color
@@ -400,12 +400,12 @@ public:
                           edk::color4f32 color
                           );
     bool writeStringColor(const edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::size2ui32 size,
                           edk::color4f32 color
                           );
     bool writeStringColor(edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::size2ui32 size,
                           edk::color4f32 color
                           );
@@ -423,12 +423,12 @@ public:
                           edk::color3f32 color
                           );
     bool writeStringColor(const edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::uint32 width,
                           edk::color3f32 color
                           );
     bool writeStringColor(edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::uint32 width,
                           edk::color3f32 color
                           );
@@ -447,13 +447,13 @@ public:
                           edk::color3f32 color
                           );
     bool writeStringColor(const edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::uint32 width,
                           edk::uint32 height,
                           edk::color3f32 color
                           );
     bool writeStringColor(edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::uint32 width,
                           edk::uint32 height,
                           edk::color3f32 color
@@ -471,28 +471,28 @@ public:
                           edk::color3f32 color
                           );
     bool writeStringColor(const edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::size2ui32 size,
                           edk::color3f32 color
                           );
     bool writeStringColor(edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::size2ui32 size,
                           edk::color3f32 color
                           );
 
     bool writeSpaces(const edk::char8* str,edk::uint32 x,edk::uint8 y,edk::uint32 width);
     bool writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y,edk::uint32 width);
-    bool writeSpaces(const edk::char8* str,edk::vec2f32 position,edk::uint32 width);
-    bool writeSpaces(edk::char8* str,edk::vec2f32 position,edk::uint32 width);
+    bool writeSpaces(const edk::char8* str,edk::vec2ui32 position,edk::uint32 width);
+    bool writeSpaces(edk::char8* str,edk::vec2ui32 position,edk::uint32 width);
     bool writeSpaces(const edk::char8* str,edk::uint32 x,edk::uint8 y,edk::uint32 width,edk::uint32 height);
     bool writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y,edk::uint32 width,edk::uint32 height);
-    bool writeSpaces(const edk::char8* str,edk::vec2f32 position,edk::uint32 width,edk::uint32 height);
-    bool writeSpaces(edk::char8* str,edk::vec2f32 position,edk::uint32 width,edk::uint32 height);
+    bool writeSpaces(const edk::char8* str,edk::vec2ui32 position,edk::uint32 width,edk::uint32 height);
+    bool writeSpaces(edk::char8* str,edk::vec2ui32 position,edk::uint32 width,edk::uint32 height);
     bool writeSpaces(const edk::char8* str,edk::uint32 x,edk::uint8 y,edk::size2ui32 size);
     bool writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y,edk::size2ui32 size);
-    bool writeSpaces(const edk::char8* str,edk::vec2f32 position,edk::size2ui32 size);
-    bool writeSpaces(edk::char8* str,edk::vec2f32 position,edk::size2ui32 size);
+    bool writeSpaces(const edk::char8* str,edk::vec2ui32 position,edk::size2ui32 size);
+    bool writeSpaces(edk::char8* str,edk::vec2ui32 position,edk::size2ui32 size);
 
     bool writeSpacesColor(const edk::char8* str,
                           edk::uint32 x,
@@ -513,7 +513,7 @@ public:
                           edk::float32 a
                           );
     bool writeSpacesColor(const edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::uint32 width,
                           edk::float32 r,
                           edk::float32 g,
@@ -521,7 +521,7 @@ public:
                           edk::float32 a
                           );
     bool writeSpacesColor(edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::uint32 width,
                           edk::float32 r,
                           edk::float32 g,
@@ -549,7 +549,7 @@ public:
                           edk::float32 a
                           );
     bool writeSpacesColor(const edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::uint32 width,
                           edk::uint32 height,
                           edk::float32 r,
@@ -558,7 +558,7 @@ public:
                           edk::float32 a
                           );
     bool writeSpacesColor(edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::uint32 width,
                           edk::uint32 height,
                           edk::float32 r,
@@ -585,7 +585,7 @@ public:
                           edk::float32 a
                           );
     bool writeSpacesColor(const edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::size2ui32 size,
                           edk::float32 r,
                           edk::float32 g,
@@ -593,7 +593,7 @@ public:
                           edk::float32 a
                           );
     bool writeSpacesColor(edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::size2ui32 size,
                           edk::float32 r,
                           edk::float32 g,
@@ -618,14 +618,14 @@ public:
                           edk::float32 b
                           );
     bool writeSpacesColor(const edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::uint32 width,
                           edk::float32 r,
                           edk::float32 g,
                           edk::float32 b
                           );
     bool writeSpacesColor(edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::uint32 width,
                           edk::float32 r,
                           edk::float32 g,
@@ -650,7 +650,7 @@ public:
                           edk::float32 b
                           );
     bool writeSpacesColor(const edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::uint32 width,
                           edk::uint32 height,
                           edk::float32 r,
@@ -658,7 +658,7 @@ public:
                           edk::float32 b
                           );
     bool writeSpacesColor(edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::uint32 width,
                           edk::uint32 height,
                           edk::float32 r,
@@ -682,14 +682,14 @@ public:
                           edk::float32 b
                           );
     bool writeSpacesColor(const edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::size2ui32 size,
                           edk::float32 r,
                           edk::float32 g,
                           edk::float32 b
                           );
     bool writeSpacesColor(edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::size2ui32 size,
                           edk::float32 r,
                           edk::float32 g,
@@ -709,12 +709,12 @@ public:
                           edk::color4f32 color
                           );
     bool writeSpacesColor(const edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::uint32 width,
                           edk::color4f32 color
                           );
     bool writeSpacesColor(edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::uint32 width,
                           edk::color4f32 color
                           );
@@ -733,13 +733,13 @@ public:
                           edk::color4f32 color
                           );
     bool writeSpacesColor(const edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::uint32 width,
                           edk::uint32 height,
                           edk::color4f32 color
                           );
     bool writeSpacesColor(edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::uint32 width,
                           edk::uint32 height,
                           edk::color4f32 color
@@ -757,12 +757,12 @@ public:
                           edk::color4f32 color
                           );
     bool writeSpacesColor(const edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::size2ui32 size,
                           edk::color4f32 color
                           );
     bool writeSpacesColor(edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::size2ui32 size,
                           edk::color4f32 color
                           );
@@ -780,12 +780,12 @@ public:
                           edk::color3f32 color
                           );
     bool writeSpacesColor(const edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::uint32 width,
                           edk::color3f32 color
                           );
     bool writeSpacesColor(edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::uint32 width,
                           edk::color3f32 color
                           );
@@ -804,13 +804,13 @@ public:
                           edk::color3f32 color
                           );
     bool writeSpacesColor(const edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::uint32 width,
                           edk::uint32 height,
                           edk::color3f32 color
                           );
     bool writeSpacesColor(edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::uint32 width,
                           edk::uint32 height,
                           edk::color3f32 color
@@ -828,12 +828,12 @@ public:
                           edk::color3f32 color
                           );
     bool writeSpacesColor(const edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::size2ui32 size,
                           edk::color3f32 color
                           );
     bool writeSpacesColor(edk::char8* str,
-                          edk::vec2f32 position,
+                          edk::vec2ui32 position,
                           edk::size2ui32 size,
                           edk::color3f32 color
                           );

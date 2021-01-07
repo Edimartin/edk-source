@@ -45,9 +45,40 @@ BLUE
 MAGENTA
 CYAN
 WHITE
+
+    Black \033[0;30m
+
+    Red \033[0;31m
+
+    Green \033[0;32m
+
+    Yellow \033[0;33m
+
+    Blue \033[0;34m
+
+    Purple \033[0;35m
+
+    Cyan \033[0;36m
+
+    White \033[0;37m
 */
 
 namespace edk{
+
+//COLOR IDS
+enum ConsoleColors{
+    black = 0u,
+    red,
+    green,
+    yellow,
+    blue,
+    purple,
+    cyan,
+    white,
+
+    colorSize
+};
+
 class ViewConsole : public edk::ViewGU{
 public:
     ViewConsole();
@@ -59,351 +90,25 @@ public:
 
     //Write a position
     bool writeChar(edk::char8 c,edk::uint32 x,edk::uint32 y);
-    bool writeChar(edk::char8 c,edk::vec2f32 position);
+    bool writeChar(edk::char8 c,edk::vec2ui32 position);
     bool writeChar(edk::char8* c,edk::uint32 x,edk::uint32 y);
-    bool writeChar(edk::char8* c,edk::vec2f32 position);
+    bool writeChar(edk::char8* c,edk::vec2ui32 position);
     bool writeChar(const edk::char8* c,edk::uint32 x,edk::uint32 y);
-    bool writeChar(const edk::char8* c,edk::vec2f32 position);
+    bool writeChar(const edk::char8* c,edk::vec2ui32 position);
 
-    bool writeChar(edk::char8 c,
-                   edk::uint32 x,
-                   edk::uint32 y,
-                   edk::float32 colorR,
-                   edk::float32 colorG,
-                   edk::float32 colorB,
-                   edk::float32 colorA
-                   );
-    bool writeChar(edk::char8 c,
-                   edk::vec2f32 position,
-                   edk::float32 colorR,
-                   edk::float32 colorG,
-                   edk::float32 colorB,
-                   edk::float32 colorA
-                   );
-    bool writeChar(edk::char8* c,
-                   edk::uint32 x,
-                   edk::uint32 y,
-                   edk::float32 colorR,
-                   edk::float32 colorG,
-                   edk::float32 colorB,
-                   edk::float32 colorA
-                   );
-    bool writeChar(edk::char8* c,
-                   edk::vec2f32 position,
-                   edk::float32 colorR,
-                   edk::float32 colorG,
-                   edk::float32 colorB,
-                   edk::float32 colorA
-                   );
-    bool writeChar(const edk::char8* c,
-                   edk::uint32 x,
-                   edk::uint32 y,
-                   edk::float32 colorR,
-                   edk::float32 colorG,
-                   edk::float32 colorB,
-                   edk::float32 colorA
-                   );
-    bool writeChar(const edk::char8* c,
-                   edk::vec2f32 position,
-                   edk::float32 colorR,
-                   edk::float32 colorG,
-                   edk::float32 colorB,
-                   edk::float32 colorA
-                   );
+    bool writeChar(edk::char8 c,edk::uint32 x,edk::uint32 y,edk::ConsoleColors color);
+    bool writeChar(edk::char8 c,edk::vec2ui32 position,edk::ConsoleColors color);
+    bool writeChar(edk::char8* c,edk::uint32 x,edk::uint32 y,edk::ConsoleColors color);
+    bool writeChar(edk::char8* c,edk::vec2ui32 position,edk::ConsoleColors color);
+    bool writeChar(const edk::char8* c,edk::uint32 x,edk::uint32 y,edk::ConsoleColors color);
+    bool writeChar(const edk::char8* c,edk::vec2ui32 position,edk::ConsoleColors color);
 
-    bool writeChar(edk::char8 c,
-                   edk::uint32 x,
-                   edk::uint32 y,
-                   edk::float32 colorR,
-                   edk::float32 colorG,
-                   edk::float32 colorB
-                   );
-    bool writeChar(edk::char8 c,
-                   edk::vec2f32 position,
-                   edk::float32 colorR,
-                   edk::float32 colorG,
-                   edk::float32 colorB
-                   );
-    bool writeChar(edk::char8* c,
-                   edk::uint32 x,
-                   edk::uint32 y,
-                   edk::float32 colorR,
-                   edk::float32 colorG,
-                   edk::float32 colorB
-                   );
-    bool writeChar(edk::char8* c,
-                   edk::vec2f32 position,
-                   edk::float32 colorR,
-                   edk::float32 colorG,
-                   edk::float32 colorB
-                   );
-    bool writeChar(const edk::char8* c,
-                   edk::uint32 x,
-                   edk::uint32 y,
-                   edk::float32 colorR,
-                   edk::float32 colorG,
-                   edk::float32 colorB
-                   );
-    bool writeChar(const edk::char8* c,
-                   edk::vec2f32 position,
-                   edk::float32 colorR,
-                   edk::float32 colorG,
-                   edk::float32 colorB
-                   );
-
-    bool writeChar(edk::char8 c,
-                   edk::uint32 x,
-                   edk::uint32 y,
-                   edk::color3f32 color
-                   );
-    bool writeChar(edk::char8 c,
-                   edk::vec2f32 position,
-                   edk::color3f32 color
-                   );
-    bool writeChar(edk::char8* c,
-                   edk::uint32 x,
-                   edk::uint32 y,
-                   edk::color3f32 color
-                   );
-    bool writeChar(edk::char8* c,
-                   edk::vec2f32 position,
-                   edk::color3f32 color
-                   );
-    bool writeChar(const edk::char8* c,
-                   edk::uint32 x,
-                   edk::uint32 y,
-                   edk::color3f32 color
-                   );
-    bool writeChar(const edk::char8* c,
-                   edk::vec2f32 position,
-                   edk::color3f32 color
-                   );
-
-    bool writeChar(edk::char8 c,
-                   edk::uint32 x,
-                   edk::uint32 y,
-                   edk::color4f32 color
-                   );
-    bool writeChar(edk::char8 c,
-                   edk::vec2f32 position,
-                   edk::color4f32 color
-                   );
-    bool writeChar(edk::char8* c,
-                   edk::uint32 x,
-                   edk::uint32 y,
-                   edk::color4f32 color
-                   );
-    bool writeChar(edk::char8* c,
-                   edk::vec2f32 position,
-                   edk::color4f32 color
-                   );
-    bool writeChar(const edk::char8* c,
-                   edk::uint32 x,
-                   edk::uint32 y,
-                   edk::color4f32 color
-                   );
-    bool writeChar(const edk::char8* c,
-                   edk::vec2f32 position,
-                   edk::color4f32 color
-                   );
-
-
-
-    bool writeChar(edk::char8 c,
-                   edk::uint32 x,
-                   edk::uint32 y,
-                   edk::float32 colorR,
-                   edk::float32 colorG,
-                   edk::float32 colorB,
-                   edk::float32 colorA,
-                   edk::float32 backgroundColorR,
-                   edk::float32 backgroundColorG,
-                   edk::float32 backgroundColorB,
-                   edk::float32 backgroundColorA
-                   );
-    bool writeChar(edk::char8 c,
-                   edk::vec2f32 position,
-                   edk::float32 colorR,
-                   edk::float32 colorG,
-                   edk::float32 colorB,
-                   edk::float32 colorA,
-                   edk::float32 backgroundColorR,
-                   edk::float32 backgroundColorG,
-                   edk::float32 backgroundColorB,
-                   edk::float32 backgroundColorA
-                   );
-    bool writeChar(edk::char8* c,
-                   edk::uint32 x,
-                   edk::uint32 y,
-                   edk::float32 colorR,
-                   edk::float32 colorG,
-                   edk::float32 colorB,
-                   edk::float32 colorA,
-                   edk::float32 backgroundColorR,
-                   edk::float32 backgroundColorG,
-                   edk::float32 backgroundColorB,
-                   edk::float32 backgroundColorA
-                   );
-    bool writeChar(edk::char8* c,
-                   edk::vec2f32 position,
-                   edk::float32 colorR,
-                   edk::float32 colorG,
-                   edk::float32 colorB,
-                   edk::float32 colorA,
-                   edk::float32 backgroundColorR,
-                   edk::float32 backgroundColorG,
-                   edk::float32 backgroundColorB,
-                   edk::float32 backgroundColorA
-                   );
-    bool writeChar(const edk::char8* c,
-                   edk::uint32 x,
-                   edk::uint32 y,
-                   edk::float32 colorR,
-                   edk::float32 colorG,
-                   edk::float32 colorB,
-                   edk::float32 colorA,
-                   edk::float32 backgroundColorR,
-                   edk::float32 backgroundColorG,
-                   edk::float32 backgroundColorB,
-                   edk::float32 backgroundColorA
-                   );
-    bool writeChar(const edk::char8* c,
-                   edk::vec2f32 position,
-                   edk::float32 colorR,
-                   edk::float32 colorG,
-                   edk::float32 colorB,
-                   edk::float32 colorA,
-                   edk::float32 backgroundColorR,
-                   edk::float32 backgroundColorG,
-                   edk::float32 backgroundColorB,
-                   edk::float32 backgroundColorA
-                   );
-
-    bool writeChar(edk::char8 c,
-                   edk::uint32 x,
-                   edk::uint32 y,
-                   edk::float32 colorR,
-                   edk::float32 colorG,
-                   edk::float32 colorB,
-                   edk::float32 backgroundColorR,
-                   edk::float32 backgroundColorG,
-                   edk::float32 backgroundColorB
-                   );
-    bool writeChar(edk::char8 c,
-                   edk::vec2f32 position,
-                   edk::float32 colorR,
-                   edk::float32 colorG,
-                   edk::float32 colorB,
-                   edk::float32 backgroundColorR,
-                   edk::float32 backgroundColorG,
-                   edk::float32 backgroundColorB
-                   );
-    bool writeChar(edk::char8* c,
-                   edk::uint32 x,
-                   edk::uint32 y,
-                   edk::float32 colorR,
-                   edk::float32 colorG,
-                   edk::float32 colorB,
-                   edk::float32 backgroundColorR,
-                   edk::float32 backgroundColorG,
-                   edk::float32 backgroundColorB
-                   );
-    bool writeChar(edk::char8* c,
-                   edk::vec2f32 position,
-                   edk::float32 colorR,
-                   edk::float32 colorG,
-                   edk::float32 colorB,
-                   edk::float32 backgroundColorR,
-                   edk::float32 backgroundColorG,
-                   edk::float32 backgroundColorB
-                   );
-    bool writeChar(const edk::char8* c,
-                   edk::uint32 x,
-                   edk::uint32 y,
-                   edk::float32 colorR,
-                   edk::float32 colorG,
-                   edk::float32 colorB,
-                   edk::float32 backgroundColorR,
-                   edk::float32 backgroundColorG,
-                   edk::float32 backgroundColorB
-                   );
-    bool writeChar(const edk::char8* c,
-                   edk::vec2f32 position,
-                   edk::float32 colorR,
-                   edk::float32 colorG,
-                   edk::float32 colorB,
-                   edk::float32 backgroundColorR,
-                   edk::float32 backgroundColorG,
-                   edk::float32 backgroundColorB
-                   );
-
-    bool writeChar(edk::char8 c,
-                   edk::uint32 x,
-                   edk::uint32 y,
-                   edk::color3f32 color,
-                   edk::color3f32 backgroundColor
-                   );
-    bool writeChar(edk::char8 c,
-                   edk::vec2f32 position,
-                   edk::color3f32 color,
-                   edk::color3f32 backgroundColor
-                   );
-    bool writeChar(edk::char8* c,
-                   edk::uint32 x,
-                   edk::uint32 y,
-                   edk::color3f32 color,
-                   edk::color3f32 backgroundColor
-                   );
-    bool writeChar(edk::char8* c,
-                   edk::vec2f32 position,
-                   edk::color3f32 color,
-                   edk::color3f32 backgroundColor
-                   );
-    bool writeChar(const edk::char8* c,
-                   edk::uint32 x,
-                   edk::uint32 y,
-                   edk::color3f32 color,
-                   edk::color3f32 backgroundColor
-                   );
-    bool writeChar(const edk::char8* c,
-                   edk::vec2f32 position,
-                   edk::color3f32 color,
-                   edk::color3f32 backgroundColor
-                   );
-
-    bool writeChar(edk::char8 c,
-                   edk::uint32 x,
-                   edk::uint32 y,
-                   edk::color4f32 color,
-                   edk::color4f32 backgroundColor
-                   );
-    bool writeChar(edk::char8 c,
-                   edk::vec2f32 position,
-                   edk::color4f32 color,
-                   edk::color4f32 backgroundColor
-                   );
-    bool writeChar(edk::char8* c,
-                   edk::uint32 x,
-                   edk::uint32 y,
-                   edk::color4f32 color,
-                   edk::color4f32 backgroundColor
-                   );
-    bool writeChar(edk::char8* c,
-                   edk::vec2f32 position,
-                   edk::color4f32 color,
-                   edk::color4f32 backgroundColor
-                   );
-    bool writeChar(const edk::char8* c,
-                   edk::uint32 x,
-                   edk::uint32 y,
-                   edk::color4f32 color,
-                   edk::color4f32 backgroundColor
-                   );
-    bool writeChar(const edk::char8* c,
-                   edk::vec2f32 position,
-                   edk::color4f32 color,
-                   edk::color4f32 backgroundColor
-                   );
+    bool writeChar(edk::char8 c,edk::uint32 x,edk::uint32 y,edk::ConsoleColors color,edk::ConsoleColors backgroundColor);
+    bool writeChar(edk::char8 c,edk::vec2ui32 position,edk::ConsoleColors color,edk::ConsoleColors backgroundColor);
+    bool writeChar(edk::char8* c,edk::uint32 x,edk::uint32 y,edk::ConsoleColors color,edk::ConsoleColors backgroundColor);
+    bool writeChar(edk::char8* c,edk::vec2ui32 position,edk::ConsoleColors color,edk::ConsoleColors backgroundColor);
+    bool writeChar(const edk::char8* c,edk::uint32 x,edk::uint32 y,edk::ConsoleColors color,edk::ConsoleColors backgroundColor);
+    bool writeChar(const edk::char8* c,edk::vec2ui32 position,edk::ConsoleColors color,edk::ConsoleColors backgroundColor);
 
     //write the string
     bool writeString(edk::char8* str,
@@ -412,7 +117,7 @@ public:
                      edk::uint32 width
                      );
     bool writeString(edk::char8* str,
-                     edk::vec2f32 position,
+                     edk::vec2ui32 position,
                      edk::uint32 width
                      );
     bool writeString(const edk::char8* str,
@@ -421,7 +126,7 @@ public:
                      edk::uint32 width
                      );
     bool writeString(const edk::char8* str,
-                     edk::vec2f32 position,
+                     edk::vec2ui32 position,
                      edk::uint32 width
                      );
     bool writeString(edk::char8* str,
@@ -431,7 +136,7 @@ public:
                      edk::uint32 height
                      );
     bool writeString(edk::char8* str,
-                     edk::vec2f32 position,
+                     edk::vec2ui32 position,
                      edk::uint32 width,
                      edk::uint32 height
                      );
@@ -442,7 +147,7 @@ public:
                      edk::uint32 height
                      );
     bool writeString(const edk::char8* str,
-                     edk::vec2f32 position,
+                     edk::vec2ui32 position,
                      edk::uint32 width,
                      edk::uint32 height
                      );
@@ -451,545 +156,120 @@ public:
                      edk::uint32 x,
                      edk::uint32 y,
                      edk::uint32 width,
-                     edk::float32 colorR,
-                     edk::float32 colorG,
-                     edk::float32 colorB,
-                     edk::float32 colorA
+                     edk::ConsoleColors color
                      );
     bool writeString(edk::char8* str,
-                     edk::vec2f32 position,
+                     edk::vec2ui32 position,
                      edk::uint32 width,
-                     edk::float32 colorR,
-                     edk::float32 colorG,
-                     edk::float32 colorB,
-                     edk::float32 colorA
+                     edk::ConsoleColors color
                      );
     bool writeString(const edk::char8* str,
                      edk::uint32 x,
                      edk::uint32 y,
                      edk::uint32 width,
-                     edk::float32 colorR,
-                     edk::float32 colorG,
-                     edk::float32 colorB,
-                     edk::float32 colorA
+                     edk::ConsoleColors color
                      );
     bool writeString(const edk::char8* str,
-                     edk::vec2f32 position,
+                     edk::vec2ui32 position,
                      edk::uint32 width,
-                     edk::float32 colorR,
-                     edk::float32 colorG,
-                     edk::float32 colorB,
-                     edk::float32 colorA
+                     edk::ConsoleColors color
                      );
     bool writeString(edk::char8* str,
                      edk::uint32 x,
                      edk::uint32 y,
                      edk::uint32 width,
                      edk::uint32 height,
-                     edk::float32 colorR,
-                     edk::float32 colorG,
-                     edk::float32 colorB,
-                     edk::float32 colorA
+                     edk::ConsoleColors color
                      );
     bool writeString(edk::char8* str,
-                     edk::vec2f32 position,
+                     edk::vec2ui32 position,
                      edk::uint32 width,
                      edk::uint32 height,
-                     edk::float32 colorR,
-                     edk::float32 colorG,
-                     edk::float32 colorB,
-                     edk::float32 colorA
+                     edk::ConsoleColors color
                      );
     bool writeString(const edk::char8* str,
                      edk::uint32 x,
                      edk::uint32 y,
                      edk::uint32 width,
                      edk::uint32 height,
-                     edk::float32 colorR,
-                     edk::float32 colorG,
-                     edk::float32 colorB,
-                     edk::float32 colorA
+                     edk::ConsoleColors color
                      );
     bool writeString(const edk::char8* str,
-                     edk::vec2f32 position,
+                     edk::vec2ui32 position,
                      edk::uint32 width,
                      edk::uint32 height,
-                     edk::float32 colorR,
-                     edk::float32 colorG,
-                     edk::float32 colorB,
-                     edk::float32 colorA
+                     edk::ConsoleColors color
                      );
 
     bool writeString(edk::char8* str,
                      edk::uint32 x,
                      edk::uint32 y,
                      edk::uint32 width,
-                     edk::float32 colorR,
-                     edk::float32 colorG,
-                     edk::float32 colorB
+                     edk::ConsoleColors color,
+                     edk::ConsoleColors backgroundColor
                      );
     bool writeString(edk::char8* str,
-                     edk::vec2f32 position,
+                     edk::vec2ui32 position,
                      edk::uint32 width,
-                     edk::float32 colorR,
-                     edk::float32 colorG,
-                     edk::float32 colorB
+                     edk::ConsoleColors color,
+                     edk::ConsoleColors backgroundColor
                      );
     bool writeString(const edk::char8* str,
                      edk::uint32 x,
                      edk::uint32 y,
                      edk::uint32 width,
-                     edk::float32 colorR,
-                     edk::float32 colorG,
-                     edk::float32 colorB
+                     edk::ConsoleColors color,
+                     edk::ConsoleColors backgroundColor
                      );
     bool writeString(const edk::char8* str,
-                     edk::vec2f32 position,
+                     edk::vec2ui32 position,
                      edk::uint32 width,
-                     edk::float32 colorR,
-                     edk::float32 colorG,
-                     edk::float32 colorB
+                     edk::ConsoleColors color,
+                     edk::ConsoleColors backgroundColor
                      );
     bool writeString(edk::char8* str,
                      edk::uint32 x,
                      edk::uint32 y,
                      edk::uint32 width,
                      edk::uint32 height,
-                     edk::float32 colorR,
-                     edk::float32 colorG,
-                     edk::float32 colorB
+                     edk::ConsoleColors color,
+                     edk::ConsoleColors backgroundColor
                      );
     bool writeString(edk::char8* str,
-                     edk::vec2f32 position,
+                     edk::vec2ui32 position,
                      edk::uint32 width,
                      edk::uint32 height,
-                     edk::float32 colorR,
-                     edk::float32 colorG,
-                     edk::float32 colorB
+                     edk::ConsoleColors color,
+                     edk::ConsoleColors backgroundColor
                      );
     bool writeString(const edk::char8* str,
                      edk::uint32 x,
                      edk::uint32 y,
                      edk::uint32 width,
                      edk::uint32 height,
-                     edk::float32 colorR,
-                     edk::float32 colorG,
-                     edk::float32 colorB
+                     edk::ConsoleColors color,
+                     edk::ConsoleColors backgroundColor
                      );
     bool writeString(const edk::char8* str,
-                     edk::vec2f32 position,
+                     edk::vec2ui32 position,
                      edk::uint32 width,
                      edk::uint32 height,
-                     edk::float32 colorR,
-                     edk::float32 colorG,
-                     edk::float32 colorB
+                     edk::ConsoleColors color,
+                     edk::ConsoleColors backgroundColor
                      );
 
-    bool writeString(edk::char8* str,
-                     edk::uint32 x,
-                     edk::uint32 y,
-                     edk::uint32 width,
-                     edk::color4f32 color
-                     );
-    bool writeString(edk::char8* str,
-                     edk::vec2f32 position,
-                     edk::uint32 width,
-                     edk::color4f32 color
-                     );
-    bool writeString(const edk::char8* str,
-                     edk::uint32 x,
-                     edk::uint32 y,
-                     edk::uint32 width,
-                     edk::color4f32 color
-                     );
-    bool writeString(const edk::char8* str,
-                     edk::vec2f32 position,
-                     edk::uint32 width,
-                     edk::color4f32 color
-                     );
-    bool writeString(edk::char8* str,
-                     edk::uint32 x,
-                     edk::uint32 y,
-                     edk::uint32 width,
-                     edk::uint32 height,
-                     edk::color4f32 color
-                     );
-    bool writeString(edk::char8* str,
-                     edk::vec2f32 position,
-                     edk::uint32 width,
-                     edk::uint32 height,
-                     edk::color4f32 color
-                     );
-    bool writeString(const edk::char8* str,
-                     edk::uint32 x,
-                     edk::uint32 y,
-                     edk::uint32 width,
-                     edk::uint32 height,
-                     edk::color4f32 color
-                     );
-    bool writeString(const edk::char8* str,
-                     edk::vec2f32 position,
-                     edk::uint32 width,
-                     edk::uint32 height,
-                     edk::color4f32 color
-                     );
-
-    bool writeString(edk::char8* str,
-                     edk::uint32 x,
-                     edk::uint32 y,
-                     edk::uint32 width,
-                     edk::color3f32 color
-                     );
-    bool writeString(edk::char8* str,
-                     edk::vec2f32 position,
-                     edk::uint32 width,
-                     edk::color3f32 color
-                     );
-    bool writeString(const edk::char8* str,
-                     edk::uint32 x,
-                     edk::uint32 y,
-                     edk::uint32 width,
-                     edk::color3f32 color
-                     );
-    bool writeString(const edk::char8* str,
-                     edk::vec2f32 position,
-                     edk::uint32 width,
-                     edk::color3f32 color
-                     );
-    bool writeString(edk::char8* str,
-                     edk::uint32 x,
-                     edk::uint32 y,
-                     edk::uint32 width,
-                     edk::uint32 height,
-                     edk::color3f32 color
-                     );
-    bool writeString(edk::char8* str,
-                     edk::vec2f32 position,
-                     edk::uint32 width,
-                     edk::uint32 height,
-                     edk::color3f32 color
-                     );
-    bool writeString(const edk::char8* str,
-                     edk::uint32 x,
-                     edk::uint32 y,
-                     edk::uint32 width,
-                     edk::uint32 height,
-                     edk::color3f32 color
-                     );
-    bool writeString(const edk::char8* str,
-                     edk::vec2f32 position,
-                     edk::uint32 width,
-                     edk::uint32 height,
-                     edk::color3f32 color
-                     );
-
-    bool writeString(edk::char8* str,
-                     edk::uint32 x,
-                     edk::uint32 y,
-                     edk::uint32 width,
-                     edk::float32 colorR,
-                     edk::float32 colorG,
-                     edk::float32 colorB,
-                     edk::float32 colorA,
-                     edk::float32 backgroundColorR,
-                     edk::float32 backgroundColorG,
-                     edk::float32 backgroundColorB,
-                     edk::float32 backgroundColorA
-                     );
-    bool writeString(edk::char8* str,
-                     edk::vec2f32 position,
-                     edk::uint32 width,
-                     edk::float32 colorR,
-                     edk::float32 colorG,
-                     edk::float32 colorB,
-                     edk::float32 colorA,
-                     edk::float32 backgroundColorR,
-                     edk::float32 backgroundColorG,
-                     edk::float32 backgroundColorB,
-                     edk::float32 backgroundColorA
-                     );
-    bool writeString(const edk::char8* str,
-                     edk::uint32 x,
-                     edk::uint32 y,
-                     edk::uint32 width,
-                     edk::float32 colorR,
-                     edk::float32 colorG,
-                     edk::float32 colorB,
-                     edk::float32 colorA,
-                     edk::float32 backgroundColorR,
-                     edk::float32 backgroundColorG,
-                     edk::float32 backgroundColorB,
-                     edk::float32 backgroundColorA
-                     );
-    bool writeString(const edk::char8* str,
-                     edk::vec2f32 position,
-                     edk::uint32 width,
-                     edk::float32 colorR,
-                     edk::float32 colorG,
-                     edk::float32 colorB,
-                     edk::float32 colorA,
-                     edk::float32 backgroundColorR,
-                     edk::float32 backgroundColorG,
-                     edk::float32 backgroundColorB,
-                     edk::float32 backgroundColorA
-                     );
-    bool writeString(edk::char8* str,
-                     edk::uint32 x,
-                     edk::uint32 y,
-                     edk::uint32 width,
-                     edk::uint32 height,
-                     edk::float32 colorR,
-                     edk::float32 colorG,
-                     edk::float32 colorB,
-                     edk::float32 colorA,
-                     edk::float32 backgroundColorR,
-                     edk::float32 backgroundColorG,
-                     edk::float32 backgroundColorB,
-                     edk::float32 backgroundColorA
-                     );
-    bool writeString(edk::char8* str,
-                     edk::vec2f32 position,
-                     edk::uint32 width,
-                     edk::uint32 height,
-                     edk::float32 colorR,
-                     edk::float32 colorG,
-                     edk::float32 colorB,
-                     edk::float32 colorA,
-                     edk::float32 backgroundColorR,
-                     edk::float32 backgroundColorG,
-                     edk::float32 backgroundColorB,
-                     edk::float32 backgroundColorA
-                     );
-    bool writeString(const edk::char8* str,
-                     edk::uint32 x,
-                     edk::uint32 y,
-                     edk::uint32 width,
-                     edk::uint32 height,
-                     edk::float32 colorR,
-                     edk::float32 colorG,
-                     edk::float32 colorB,
-                     edk::float32 colorA,
-                     edk::float32 backgroundColorR,
-                     edk::float32 backgroundColorG,
-                     edk::float32 backgroundColorB,
-                     edk::float32 backgroundColorA
-                     );
-    bool writeString(const edk::char8* str,
-                     edk::vec2f32 position,
-                     edk::uint32 width,
-                     edk::uint32 height,
-                     edk::float32 colorR,
-                     edk::float32 colorG,
-                     edk::float32 colorB,
-                     edk::float32 colorA,
-                     edk::float32 backgroundColorR,
-                     edk::float32 backgroundColorG,
-                     edk::float32 backgroundColorB,
-                     edk::float32 backgroundColorA
-                     );
-
-    bool writeString(edk::char8* str,
-                     edk::uint32 x,
-                     edk::uint32 y,
-                     edk::uint32 width,
-                     edk::float32 colorR,
-                     edk::float32 colorG,
-                     edk::float32 colorB,
-                     edk::float32 backgroundColorR,
-                     edk::float32 backgroundColorG,
-                     edk::float32 backgroundColorB
-                     );
-    bool writeString(edk::char8* str,
-                     edk::vec2f32 position,
-                     edk::uint32 width,
-                     edk::float32 colorR,
-                     edk::float32 colorG,
-                     edk::float32 colorB,
-                     edk::float32 backgroundColorR,
-                     edk::float32 backgroundColorG,
-                     edk::float32 backgroundColorB
-                     );
-    bool writeString(const edk::char8* str,
-                     edk::uint32 x,
-                     edk::uint32 y,
-                     edk::uint32 width,
-                     edk::float32 colorR,
-                     edk::float32 colorG,
-                     edk::float32 colorB,
-                     edk::float32 backgroundColorR,
-                     edk::float32 backgroundColorG,
-                     edk::float32 backgroundColorB
-                     );
-    bool writeString(const edk::char8* str,
-                     edk::vec2f32 position,
-                     edk::uint32 width,
-                     edk::float32 colorR,
-                     edk::float32 colorG,
-                     edk::float32 colorB,
-                     edk::float32 backgroundColorR,
-                     edk::float32 backgroundColorG,
-                     edk::float32 backgroundColorB
-                     );
-    bool writeString(edk::char8* str,
-                     edk::uint32 x,
-                     edk::uint32 y,
-                     edk::uint32 width,
-                     edk::uint32 height,
-                     edk::float32 colorR,
-                     edk::float32 colorG,
-                     edk::float32 colorB,
-                     edk::float32 backgroundColorR,
-                     edk::float32 backgroundColorG,
-                     edk::float32 backgroundColorB
-                     );
-    bool writeString(edk::char8* str,
-                     edk::vec2f32 position,
-                     edk::uint32 width,
-                     edk::uint32 height,
-                     edk::float32 colorR,
-                     edk::float32 colorG,
-                     edk::float32 colorB,
-                     edk::float32 backgroundColorR,
-                     edk::float32 backgroundColorG,
-                     edk::float32 backgroundColorB
-                     );
-    bool writeString(const edk::char8* str,
-                     edk::uint32 x,
-                     edk::uint32 y,
-                     edk::uint32 width,
-                     edk::uint32 height,
-                     edk::float32 colorR,
-                     edk::float32 colorG,
-                     edk::float32 colorB,
-                     edk::float32 backgroundColorR,
-                     edk::float32 backgroundColorG,
-                     edk::float32 backgroundColorB
-                     );
-    bool writeString(const edk::char8* str,
-                     edk::vec2f32 position,
-                     edk::uint32 width,
-                     edk::uint32 height,
-                     edk::float32 colorR,
-                     edk::float32 colorG,
-                     edk::float32 colorB,
-                     edk::float32 backgroundColorR,
-                     edk::float32 backgroundColorG,
-                     edk::float32 backgroundColorB
-                     );
-
-    bool writeString(edk::char8* str,
-                     edk::uint32 x,
-                     edk::uint32 y,
-                     edk::uint32 width,
-                     edk::color4f32 color,
-                     edk::color4f32 backgroundColor
-                     );
-    bool writeString(edk::char8* str,
-                     edk::vec2f32 position,
-                     edk::uint32 width,
-                     edk::color4f32 color,
-                     edk::color4f32 backgroundColor
-                     );
-    bool writeString(const edk::char8* str,
-                     edk::uint32 x,
-                     edk::uint32 y,
-                     edk::uint32 width,
-                     edk::color4f32 color,
-                     edk::color4f32 backgroundColor
-                     );
-    bool writeString(const edk::char8* str,
-                     edk::vec2f32 position,
-                     edk::uint32 width,
-                     edk::color4f32 color,
-                     edk::color4f32 backgroundColor
-                     );
-    bool writeString(edk::char8* str,
-                     edk::uint32 x,
-                     edk::uint32 y,
-                     edk::uint32 width,
-                     edk::uint32 height,
-                     edk::color4f32 color,
-                     edk::color4f32 backgroundColor
-                     );
-    bool writeString(edk::char8* str,
-                     edk::vec2f32 position,
-                     edk::uint32 width,
-                     edk::uint32 height,
-                     edk::color4f32 color,
-                     edk::color4f32 backgroundColor
-                     );
-    bool writeString(const edk::char8* str,
-                     edk::uint32 x,
-                     edk::uint32 y,
-                     edk::uint32 width,
-                     edk::uint32 height,
-                     edk::color4f32 color,
-                     edk::color4f32 backgroundColor
-                     );
-    bool writeString(const edk::char8* str,
-                     edk::vec2f32 position,
-                     edk::uint32 width,
-                     edk::uint32 height,
-                     edk::color4f32 color,
-                     edk::color4f32 backgroundColor
-                     );
-
-    bool writeString(edk::char8* str,
-                     edk::uint32 x,
-                     edk::uint32 y,
-                     edk::uint32 width,
-                     edk::color3f32 color,
-                     edk::color3f32 backgroundColor
-                     );
-    bool writeString(edk::char8* str,
-                     edk::vec2f32 position,
-                     edk::uint32 width,
-                     edk::color3f32 color,
-                     edk::color3f32 backgroundColor
-                     );
-    bool writeString(const edk::char8* str,
-                     edk::uint32 x,
-                     edk::uint32 y,
-                     edk::uint32 width,
-                     edk::color3f32 color,
-                     edk::color3f32 backgroundColor
-                     );
-    bool writeString(const edk::char8* str,
-                     edk::vec2f32 position,
-                     edk::uint32 width,
-                     edk::color3f32 color,
-                     edk::color3f32 backgroundColor
-                     );
-    bool writeString(edk::char8* str,
-                     edk::uint32 x,
-                     edk::uint32 y,
-                     edk::uint32 width,
-                     edk::uint32 height,
-                     edk::color3f32 color,
-                     edk::color3f32 backgroundColor
-                     );
-    bool writeString(edk::char8* str,
-                     edk::vec2f32 position,
-                     edk::uint32 width,
-                     edk::uint32 height,
-                     edk::color3f32 color,
-                     edk::color3f32 backgroundColor
-                     );
-    bool writeString(const edk::char8* str,
-                     edk::uint32 x,
-                     edk::uint32 y,
-                     edk::uint32 width,
-                     edk::uint32 height,
-                     edk::color3f32 color,
-                     edk::color3f32 backgroundColor
-                     );
-    bool writeString(const edk::char8* str,
-                     edk::vec2f32 position,
-                     edk::uint32 width,
-                     edk::uint32 height,
-                     edk::color3f32 color,
-                     edk::color3f32 backgroundColor
-                     );
+    //write a rectangle just in background color
+    bool writeRectangle(edk::uint32 x,
+                        edk::uint32 y,
+                        edk::uint32 width,
+                        edk::uint32 height,
+                        edk::ConsoleColors backgroundColor
+                        );
+    bool writeRectangle(edk::vec2ui32 position,
+                        edk::uint32 width,
+                        edk::uint32 height,
+                        edk::ConsoleColors backgroundColor
+                        );
 protected:
     //draw the polygon on the scene
     void runDrawScene(edk::rectf32 outsideViewOrigin);
