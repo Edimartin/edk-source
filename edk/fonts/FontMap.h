@@ -109,8 +109,8 @@ public:
     bool createStringMapOneLine(edk::char8* str);
 
     //write a character in the map position
-    bool writeChar(edk::char8 c,edk::uint32 x,edk::uint32 y);
-    bool writeChar(edk::char8 c,edk::vec2ui32 position);
+    bool writeChar(edk::uchar8 c,edk::uint32 x,edk::uint32 y);
+    bool writeChar(edk::uchar8 c,edk::vec2ui32 position);
     bool writeChar(edk::char8* c,edk::uint32 x,edk::uint32 y);
     bool writeChar(edk::char8* c,edk::vec2ui32 position);
     bool writeChar(const edk::char8* c,edk::uint32 x,edk::uint32 y);

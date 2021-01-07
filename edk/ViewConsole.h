@@ -88,6 +88,10 @@ public:
     bool newConsole(edk::size2ui32 size);
     bool newConsole(edk::uint32 width,edk::uint32 height);
 
+    edk::size2ui32 getSize();
+    edk::uint32 getWidth();
+    edk::uint32 getHeight();
+
     //Write a position
     bool writeChar(edk::char8 c,edk::uint32 x,edk::uint32 y);
     bool writeChar(edk::char8 c,edk::vec2ui32 position);
@@ -270,6 +274,20 @@ public:
                         edk::uint32 height,
                         edk::ConsoleColors backgroundColor
                         );
+    //write a box with background and border
+    bool writeBox(edk::uint32 x,
+                  edk::uint32 y,
+                  edk::uint32 width,
+                  edk::uint32 height,
+                  edk::ConsoleColors color,
+                  edk::ConsoleColors backgroundColor
+                  );
+    bool writeBox(edk::vec2ui32 position,
+                  edk::uint32 width,
+                  edk::uint32 height,
+                  edk::ConsoleColors color,
+                  edk::ConsoleColors backgroundColor
+                  );
 protected:
     //draw the polygon on the scene
     void runDrawScene(edk::rectf32 outsideViewOrigin);

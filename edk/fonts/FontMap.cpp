@@ -1454,7 +1454,7 @@ bool edk::fonts::FontMap::createStringMapOneLine(edk::char8* str){
 }
 
 //write a character in the map position
-bool edk::fonts::FontMap::writeChar(edk::char8 c,edk::uint32 x,edk::uint32 y){
+bool edk::fonts::FontMap::writeChar(edk::uchar8 c,edk::uint32 x,edk::uint32 y){
     //test if have the position in the map
     if(x<this->map.getMapSize().width && y<this->map.getMapSize().height
             && c
@@ -1470,7 +1470,7 @@ bool edk::fonts::FontMap::writeChar(edk::char8 c,edk::uint32 x,edk::uint32 y){
     }
     return false;
 }
-bool edk::fonts::FontMap::writeChar(edk::char8 c,edk::vec2ui32 position){
+bool edk::fonts::FontMap::writeChar(edk::uchar8 c,edk::vec2ui32 position){
     return this->writeChar(c,position.x,position.y);
 }
 bool edk::fonts::FontMap::writeChar(edk::char8* c,edk::uint32 x,edk::uint32 y){
