@@ -138,6 +138,17 @@ public:
     static edk::uint32 utf8Size(const edk::char8 *utf8);
     static edk::uint32 utf8WordSize(edk::char8 *utf8);
     static edk::uint32 utf8WordSize(const edk::char8 *utf8);
+    static edk::uint32 utf8WordSize(edk::char8 *utf8,edk::uint32* jump);
+    static edk::uint32 utf8WordSize(const edk::char8 *utf8,edk::uint32* jump);
+    static edk::uint32 utf8LineCount(edk::char8 *utf8,edk::uint32 limit);
+    static edk::uint32 utf8LineCount(const edk::char8 *utf8,edk::uint32 limit);
+    static edk::uint32 utf8LineSize(edk::char8 *utf8,edk::uint32 limit);
+    static edk::uint32 utf8LineSize(const edk::char8 *utf8,edk::uint32 limit);
+    static edk::uint32 utf8LineSize(edk::char8 *utf8,edk::uint32 limit,edk::uint32* jump);
+    static edk::uint32 utf8LineSize(const edk::char8 *utf8,edk::uint32 limit,edk::uint32* jump);
+    //return the position of a string where the line starts
+    static edk::char8* utf8LinePosition(edk::char8 *utf8,edk::uint32 limit,edk::uint32 linePosition);
+    static edk::char8* utf8LinePosition(const edk::char8 *utf8,edk::uint32 limit,edk::uint32 linePosition);
     //get the size of utf8 bytes in a character
     static edk::uint8 utf8Bytes(edk::char8 *utf8);
     static edk::uint8 utf8Bytes(const edk::char8 *utf8);

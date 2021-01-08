@@ -1475,30 +1475,35 @@ edk::uint32 edk::String::utf8Size(edk::char8 *utf8){
                 else return ret;
                 break;
             case (edk::char8)0xc2:
+                utf8++;
                 if(*utf8){
                     ret++;
                 }
                 else return ret;
                 break;
             case (edk::char8)0xc3:
+                utf8++;
                 if(*utf8){
                     ret++;
                 }
                 else return ret;
                 break;
             case (edk::char8)0xc5:
+                utf8++;
                 if(*utf8){
                     ret++;
                 }
                 else return ret;
                 break;
             case (edk::char8)0xc6:
+                utf8++;
                 if(*utf8){
                     ret++;
                 }
                 else return ret;
                 break;
             case (edk::char8)0xcb:
+                utf8++;
                 if(*utf8){
                     ret++;
                 }
@@ -1600,7 +1605,267 @@ edk::uint32 edk::String::utf8WordSize(edk::char8 *utf8){
     return ret;
 }
 edk::uint32 edk::String::utf8WordSize(const edk::char8 *utf8){
-    return edk::String::utf8WordSize((edk::char8 *)utf8);
+    return edk::String::utf8WordSize((edk::char8*) utf8);
+}
+edk::uint32 edk::String::utf8WordSize(edk::char8 *utf8,edk::uint32* jump){
+
+    edk::uint32 ret=0u;
+    if(utf8 && jump){
+        edk::char8* str = utf8;
+        //convert the string
+        while(*utf8){
+            //test the character
+            if(*utf8==' ' || *utf8=='\n' || *utf8==10){
+                break;
+            }
+            switch(*utf8){
+            case (edk::char8)0xe2:
+                utf8++;
+                if(*utf8){
+                    switch(*utf8){
+                    case (edk::char8)0x80:
+                        utf8++;
+                        if(*utf8){
+                            ret++;
+                        }
+                        else return ret;
+                        break;
+                    case (edk::char8)0x82:
+                        utf8++;
+                        if(*utf8){
+                            ret++;
+                        }
+                        else return ret;
+                        break;
+                    case (edk::char8)0x84:
+                        utf8++;
+                        if(*utf8){
+                            ret++;
+                        }
+                        else return ret;
+                        break;
+                    }
+                }
+                else return ret;
+                break;
+            case (edk::char8)0xc2:
+                utf8++;
+                if(*utf8){
+                    ret++;
+                }
+                else return ret;
+                break;
+            case (edk::char8)0xc3:
+                utf8++;
+                if(*utf8){
+                    ret++;
+                }
+                else return ret;
+                break;
+            case (edk::char8)0xc5:
+                utf8++;
+                if(*utf8){
+                    ret++;
+                }
+                else return ret;
+                break;
+            case (edk::char8)0xc6:
+                utf8++;
+                if(*utf8){
+                    ret++;
+                }
+                else return ret;
+                break;
+            case (edk::char8)0xcb:
+                utf8++;
+                if(*utf8){
+                    ret++;
+                }
+                else return ret;
+                break;
+            default:
+                ret++;
+                break;
+            }
+            utf8++;
+        }
+        *jump = utf8-str;
+    }
+    return ret;
+}
+edk::uint32 edk::String::utf8WordSize(const edk::char8 *utf8,edk::uint32* jump){
+    return edk::String::utf8WordSize((edk::char8*) utf8,jump);
+}
+edk::uint32 edk::String::utf8LineCount(edk::char8 *utf8,edk::uint32 limit){
+    edk::uint32 ret = NULL;
+    if(utf8 && limit){
+        edk::uint32 word=0u;
+        edk::uint32 myJump=0u;
+        //count the characte size in the line
+        edk::uint32 size = 0u;
+        bool newLine = false;
+        ret++;
+        bool firstLine=false;
+        while(*utf8){
+            //test if the size extend the limit
+            if(size+1u>=limit || *utf8 == '\n' || *utf8 == 10
+                    ||
+                    newLine
+                    ){
+                while(*utf8){
+                    if(*utf8==' ') utf8++;
+                    else break;
+                }
+                if(firstLine)
+                    ret++;
+                size=0u;
+                newLine = false;
+                firstLine=true;
+            }
+
+            word = edk::String::utf8WordSize(utf8,&myJump);
+            if(word){
+                //if the next word does't fit in the line it will return the last size
+                if(size+word>limit){
+                    //new line
+                    newLine = true;
+                    continue;
+                }
+                size+=word;
+                //go to the space
+                utf8+=myJump;
+            }
+            else{
+                size++;
+                utf8++;
+            }
+        }
+    }
+    return ret;
+}
+edk::uint32 edk::String::utf8LineCount(const edk::char8 *utf8,edk::uint32 limit){
+    return edk::String::utf8LineCount((edk::char8*) utf8,limit);
+}
+edk::uint32 edk::String::utf8LineSize(edk::char8* utf8,edk::uint32 limit){
+    edk::uint32 size = 0u;
+    if(utf8 && limit){
+        edk::uint32 word=0u;
+        edk::uint32 myJump=0u;
+        while(*utf8){
+            //test if the size extend the limit
+            if(size+1u>=limit || *utf8 == '\n' || *utf8 == 10){
+                break;
+            }
+
+            word = edk::String::utf8WordSize(utf8,&myJump);
+            if(word){
+                //if the next word does't fit in the line it will return the last size
+                if(size+word>limit){
+                    break;
+                }
+                size+=word;
+                //go to the space
+                utf8+=myJump;
+            }
+            else{
+                size++;
+                utf8++;
+            }
+        }
+    }
+    return size;
+}
+edk::uint32 edk::String::utf8LineSize(const edk::char8 *utf8,edk::uint32 limit){
+    return edk::String::utf8LineSize((edk::char8*)utf8,limit);
+}
+edk::uint32 edk::String::utf8LineSize(edk::char8 *utf8,edk::uint32 limit,edk::uint32* jump){
+    edk::uint32 size = 0u;
+    if(utf8 && limit && jump){
+        edk::uint32 word=0u;
+        edk::uint32 myJump=0u;
+        *jump=0u;
+        while(*utf8){
+            //test if the size extend the limit
+            if(size+1u>=limit || *utf8 == '\n' || *utf8 == 10){
+                break;
+            }
+
+            word = edk::String::utf8WordSize(utf8,&myJump);
+            if(word){
+                //if the next word does't fit in the line it will return the last size
+                if(size+word>limit){
+                    break;
+                }
+                size+=word;
+                *jump+=myJump;
+                //go to the jump
+                utf8+=myJump;
+            }
+            else{
+                size++;
+                utf8++;
+                *jump+=1u;
+            }
+        }
+    }
+    return size;
+}
+edk::uint32 edk::String::utf8LineSize(const edk::char8 *utf8,edk::uint32 limit,edk::uint32* jump){
+    return edk::String::utf8LineSize((edk::char8*) utf8,limit,jump);
+}
+//return the position of a string where the line starts
+edk::char8* edk::String::utf8LinePosition(edk::char8 *utf8,edk::uint32 limit,edk::uint32 linePosition){
+    edk::char8* ret = NULL;
+    if(utf8 && limit){
+        edk::uint32 word=0u;
+        edk::uint32 myJump=0u;
+        //count the lines until the line position
+        edk::uint32 count=0u;
+        //count the characte size in the line
+        edk::uint32 size = 0u;
+        bool newLine = false;
+        ret = utf8;
+        while(*utf8){
+            //test if the size extend the limit
+            if(size+1u>=limit || *utf8 == '\n' || *utf8 == 10
+                    ||
+                    newLine
+                    ){
+                while(*utf8){
+                    if(*utf8==' ') utf8++;
+                    else break;
+                }
+                count++;
+                size=0u;
+                ret = utf8;
+                if(count>=linePosition){
+                    break;
+                }
+                newLine = false;
+            }
+
+            word = edk::String::utf8WordSize(utf8,&myJump);
+            if(word){
+                //if the next word does't fit in the line it will return the last size
+                if(size+word>limit){
+                    //new line
+                    newLine = true;
+                    continue;
+                }
+                size+=word;
+                //go to the space
+                utf8+=myJump;
+            }
+            else{
+                size++;
+                utf8++;
+            }
+        }
+    }
+    return ret;
+}
+edk::char8* edk::String::utf8LinePosition(const edk::char8 *utf8,edk::uint32 limit,edk::uint32 linePosition){
+    return edk::String::utf8LinePosition((edk::char8*) utf8,limit,linePosition);
 }
 //get the size of utf8 bytes in a character
 edk::uint8 edk::String::utf8Bytes(edk::char8 *utf8){
