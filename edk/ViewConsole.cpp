@@ -282,10 +282,10 @@ bool edk::ViewConsole::writeString(edk::char8* str,
                                    edk::ConsoleColors color
                                    ){
     return this->map.writeStringColor(str,
-                                 x,
-                                 y,
-                                 width,
-                                 consoleColors[color][0u],
+                                      x,
+                                      y,
+                                      width,
+                                      consoleColors[color][0u],
             consoleColors[color][1u],
             consoleColors[color][2u]
             );
@@ -296,9 +296,9 @@ bool edk::ViewConsole::writeString(edk::char8* str,
                                    edk::ConsoleColors color
                                    ){
     return this->map.writeStringColor(str,
-                                 position,
-                                 width,
-                                 consoleColors[color][0u],
+                                      position,
+                                      width,
+                                      consoleColors[color][0u],
             consoleColors[color][1u],
             consoleColors[color][2u]);
 }
@@ -325,14 +325,14 @@ bool edk::ViewConsole::writeString(edk::char8* str,
                                    edk::ConsoleColors color
                                    ){
     return this->map.writeStringColor(str,
-                                 x,
-                                 y,
-                                 width,
-                                 height,
-                                 consoleColors[color][0u],
+                                      x,
+                                      y,
+                                      width,
+                                      height,
+                                      consoleColors[color][0u],
             consoleColors[color][1u],
             consoleColors[color][2u]
-                                 );
+            );
 }
 bool edk::ViewConsole::writeString(edk::char8* str,
                                    edk::vec2ui32 position,
@@ -341,13 +341,13 @@ bool edk::ViewConsole::writeString(edk::char8* str,
                                    edk::ConsoleColors color
                                    ){
     return this->map.writeStringColor(str,
-                                 position,
-                                 width,
-                                 height,
-                                 consoleColors[color][0u],
+                                      position,
+                                      width,
+                                      height,
+                                      consoleColors[color][0u],
             consoleColors[color][1u],
             consoleColors[color][2u]
-                                 );
+            );
 }
 bool edk::ViewConsole::writeString(const edk::char8* str,
                                    edk::uint32 x,
@@ -379,14 +379,14 @@ bool edk::ViewConsole::writeString(edk::char8* str,
                                 y,
                                 width,
                                 consoleColors[backgroundColor][0u],
-           consoleColors[backgroundColor][1u],
-           consoleColors[backgroundColor][2u]
-           );
+            consoleColors[backgroundColor][1u],
+            consoleColors[backgroundColor][2u]
+            );
     return this->map.writeStringColor(str,
-                                 x,
-                                 y,
-                                 width,
-                                 consoleColors[color][0u],
+                                      x,
+                                      y,
+                                      width,
+                                      consoleColors[color][0u],
             consoleColors[color][1u],
             consoleColors[color][2u]
             );
@@ -401,13 +401,13 @@ bool edk::ViewConsole::writeString(edk::char8* str,
                                 position,
                                 width,
                                 consoleColors[backgroundColor][0u],
-           consoleColors[backgroundColor][1u],
-           consoleColors[backgroundColor][2u]
-           );
+            consoleColors[backgroundColor][1u],
+            consoleColors[backgroundColor][2u]
+            );
     return this->map.writeStringColor(str,
-                                 position,
-                                 width,
-                                 consoleColors[color][0u],
+                                      position,
+                                      width,
+                                      consoleColors[color][0u],
             consoleColors[color][1u],
             consoleColors[color][2u]);
 }
@@ -442,18 +442,18 @@ bool edk::ViewConsole::writeString(edk::char8* str,
                                 width,
                                 height,
                                 consoleColors[backgroundColor][0u],
-           consoleColors[backgroundColor][1u],
-           consoleColors[backgroundColor][2u]
-           );
+            consoleColors[backgroundColor][1u],
+            consoleColors[backgroundColor][2u]
+            );
     return this->map.writeStringColor(str,
-                                 x,
-                                 y,
-                                 width,
-                                 height,
-                                 consoleColors[color][0u],
+                                      x,
+                                      y,
+                                      width,
+                                      height,
+                                      consoleColors[color][0u],
             consoleColors[color][1u],
             consoleColors[color][2u]
-                                 );
+            );
 }
 bool edk::ViewConsole::writeString(edk::char8* str,
                                    edk::vec2ui32 position,
@@ -467,17 +467,17 @@ bool edk::ViewConsole::writeString(edk::char8* str,
                                 width,
                                 height,
                                 consoleColors[backgroundColor][0u],
-           consoleColors[backgroundColor][1u],
-           consoleColors[backgroundColor][2u]
-           );
+            consoleColors[backgroundColor][1u],
+            consoleColors[backgroundColor][2u]
+            );
     return this->map.writeStringColor(str,
-                                 position,
-                                 width,
-                                 height,
-                                 consoleColors[color][0u],
+                                      position,
+                                      width,
+                                      height,
+                                      consoleColors[color][0u],
             consoleColors[color][1u],
             consoleColors[color][2u]
-                                 );
+            );
 }
 bool edk::ViewConsole::writeString(const edk::char8* str,
                                    edk::uint32 x,
@@ -535,10 +535,10 @@ bool edk::ViewConsole::writeRectangle(edk::uint32 x,
     return false;
 }
 bool edk::ViewConsole::writeRectangle(edk::vec2ui32 position,
-                    edk::uint32 width,
-                    edk::uint32 height,
-                    edk::ConsoleColors backgroundColor
-                    ){
+                                      edk::uint32 width,
+                                      edk::uint32 height,
+                                      edk::ConsoleColors backgroundColor
+                                      ){
     return this->writeRectangle(position.x,
                                 position.y,
                                 width,
@@ -546,12 +546,89 @@ bool edk::ViewConsole::writeRectangle(edk::vec2ui32 position,
                                 backgroundColor
                                 );
 }
+bool edk::ViewConsole::writeRectangleWithShadow(edk::uint32 x,
+                                                edk::uint32 y,
+                                                edk::uint32 width,
+                                                edk::uint32 height,
+                                                edk::ConsoleColors backgroundColor
+                                                ){
+    edk::size2ui32 size = this->back.getMapSize();
+    if(width+x >= size.width){
+        width = size.width - x;
+    }
+    if(height+y >= size.height){
+        height = size.height - y;
+    }
+    edk::size2ui32 end = edk::size2ui32(width+x,height+y);
+    if(x<size.width
+            && y<size.height
+            && end.width<= size.width
+            && end.height <= size.height
+            ){
+        for(edk::uint32 i= y;i<end.height;i++){
+            for(edk::uint32 j= x;j<end.width;j++){
+                this->back.writeChar(' ',j,i);
+                this->back.writeColor(consoleColors[backgroundColor][0u],
+                        consoleColors[backgroundColor][1u],
+                        consoleColors[backgroundColor][2u],
+                        j,i
+                        );
+                this->map.writeChar(' ',j,i);
+            }
+        }
+        //write the shadow
+        edk::uint32 temp = 0u;
+        if(width<2u)
+            temp = end.width;
+        else
+            temp = end.width+1u;
+        for(edk::uint32 i=x+2u;i<=temp;i++){
+            this->back.writeChar(' ',i,end.height);
+            this->back.writeColor(consoleColors[edk::black][0u],
+                    consoleColors[edk::black][1u],
+                    consoleColors[edk::black][2u],
+                    i,end.height
+                    );
+            this->map.writeChar(' ',i,end.height);
+        }
+        for(edk::uint32 i=y+1u;i<=end.height;i++){
+            this->back.writeChar(' ',end.width,i);
+            this->back.writeColor(consoleColors[edk::black][0u],
+                    consoleColors[edk::black][1u],
+                    consoleColors[edk::black][2u],
+                    end.width,i
+                    );
+            this->map.writeChar(' ',end.width,i);
+            this->back.writeChar(' ',temp,i);
+            this->back.writeColor(consoleColors[edk::black][0u],
+                    consoleColors[edk::black][1u],
+                    consoleColors[edk::black][2u],
+                    temp,i
+                    );
+            this->map.writeChar(' ',temp,i);
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::ViewConsole::writeRectangleWithShadow(edk::vec2ui32 position,
+                                                edk::uint32 width,
+                                                edk::uint32 height,
+                                                edk::ConsoleColors backgroundColor
+                                                ){
+    return this->writeRectangleWithShadow(position.x,
+                                          position.y,
+                                          width,
+                                          height,
+                                          backgroundColor
+                                          );
+}
 bool edk::ViewConsole::writeBox(edk::uint32 x,
-              edk::uint32 y,
-              edk::uint32 width,
-              edk::uint32 height,
-              edk::ConsoleColors color,
-              edk::ConsoleColors backgroundColor
+                                edk::uint32 y,
+                                edk::uint32 width,
+                                edk::uint32 height,
+                                edk::ConsoleColors color,
+                                edk::ConsoleColors backgroundColor
                                 ){
     edk::size2ui32 size = this->back.getMapSize();
     if(width+x >= size.width){
@@ -583,18 +660,21 @@ bool edk::ViewConsole::writeBox(edk::uint32 x,
                         j,i);
             }
         }
+        edk::uint32 temp = 0u;
         //write the borders
         this->map.writeChar((edk::uchar8)129u,x,y);
         this->map.writeChar((edk::uchar8)144u,x+width-1u,y);
         this->map.writeChar((edk::uchar8)143u,x,y+height-1u);
         this->map.writeChar((edk::uchar8)159u,x+width-1u,y+height-1u);
         //
-        for(edk::uint32 i=x+1u;i<end.width-1u;i++){
+        temp = end.width-1u;
+        for(edk::uint32 i=x+1u;i<temp;i++){
             this->map.writeChar((edk::uchar8)191u,i,y);
             this->map.writeChar((edk::uchar8)191u,i,end.height-1u);
         }
         //
-        for(edk::uint32 i=y+1u;i<end.height-1u;i++){
+        temp = end.height-1u;
+        for(edk::uint32 i=y+1u;i<temp;i++){
             this->map.writeChar((edk::uchar8)160u,x,i);
             this->map.writeChar((edk::uchar8)160u,end.width-1u,i);
         }
@@ -603,10 +683,10 @@ bool edk::ViewConsole::writeBox(edk::uint32 x,
     return false;
 }
 bool edk::ViewConsole::writeBox(edk::vec2ui32 position,
-              edk::uint32 width,
-              edk::uint32 height,
-              edk::ConsoleColors color,
-              edk::ConsoleColors backgroundColor
+                                edk::uint32 width,
+                                edk::uint32 height,
+                                edk::ConsoleColors color,
+                                edk::ConsoleColors backgroundColor
                                 ){
     return this->writeBox(position.x,
                           position.y,
@@ -614,5 +694,109 @@ bool edk::ViewConsole::writeBox(edk::vec2ui32 position,
                           height,
                           color,
                           backgroundColor
-                                            );
+                          );
+}
+bool edk::ViewConsole::writeBoxWithShadow(edk::uint32 x,
+                                          edk::uint32 y,
+                                          edk::uint32 width,
+                                          edk::uint32 height,
+                                          edk::ConsoleColors color,
+                                          edk::ConsoleColors backgroundColor
+                                          ){
+    edk::size2ui32 size = this->back.getMapSize();
+    if(width+x >= size.width){
+        width = size.width - x;
+    }
+    if(height+y >= size.height){
+        height = size.height - y;
+    }
+    edk::size2ui32 end = edk::size2ui32(width+x,height+y);
+    if(x<size.width
+            && y<size.height
+            && end.width<= size.width
+            && end.height <= size.height
+            && width>=3u
+            && height>=3u
+            ){
+        for(edk::uint32 i= y;i<end.height;i++){
+            for(edk::uint32 j= x;j<end.width;j++){
+                this->back.writeChar(' ',j,i);
+                this->back.writeColor(consoleColors[backgroundColor][0u],
+                        consoleColors[backgroundColor][1u],
+                        consoleColors[backgroundColor][2u],
+                        j,i
+                        );
+                this->map.writeChar(' ',j,i);
+                this->map.writeColor(consoleColors[color][0u],
+                        consoleColors[color][1u],
+                        consoleColors[color][2u],
+                        j,i);
+            }
+        }
+        edk::uint32 temp = 0u;
+        //write the borders
+        this->map.writeChar((edk::uchar8)129u,x,y);
+        this->map.writeChar((edk::uchar8)144u,x+width-1u,y);
+        this->map.writeChar((edk::uchar8)143u,x,y+height-1u);
+        this->map.writeChar((edk::uchar8)159u,x+width-1u,y+height-1u);
+        //
+        temp = end.width-1u;
+        for(edk::uint32 i=x+1u;i<temp;i++){
+            this->map.writeChar((edk::uchar8)191u,i,y);
+            this->map.writeChar((edk::uchar8)191u,i,end.height-1u);
+        }
+        //
+        temp = end.height-1u;
+        for(edk::uint32 i=y+1u;i<temp;i++){
+            this->map.writeChar((edk::uchar8)160u,x,i);
+            this->map.writeChar((edk::uchar8)160u,end.width-1u,i);
+        }
+
+        //write the shadow
+        if(width<2u)
+            temp = end.width;
+        else
+            temp = end.width+1u;
+        for(edk::uint32 i=x+2u;i<=temp;i++){
+            this->back.writeChar(' ',i,end.height);
+            this->back.writeColor(consoleColors[edk::black][0u],
+                    consoleColors[edk::black][1u],
+                    consoleColors[edk::black][2u],
+                    i,end.height
+                    );
+            this->map.writeChar(' ',i,end.height);
+        }
+        for(edk::uint32 i=y+1u;i<=end.height;i++){
+            this->back.writeChar(' ',end.width,i);
+            this->back.writeColor(consoleColors[edk::black][0u],
+                    consoleColors[edk::black][1u],
+                    consoleColors[edk::black][2u],
+                    end.width,i
+                    );
+            this->map.writeChar(' ',end.width,i);
+            this->back.writeChar(' ',temp,i);
+            this->back.writeColor(consoleColors[edk::black][0u],
+                    consoleColors[edk::black][1u],
+                    consoleColors[edk::black][2u],
+                    temp,i
+                    );
+            this->map.writeChar(' ',temp,i);
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::ViewConsole::writeBoxWithShadow(edk::vec2ui32 position,
+                                          edk::uint32 width,
+                                          edk::uint32 height,
+                                          edk::ConsoleColors color,
+                                          edk::ConsoleColors backgroundColor
+                                          ){
+    return this->writeBox(position.x,
+                          position.y,
+                          width,
+                          height,
+                          color,
+                          backgroundColor
+                          );
 }

@@ -274,6 +274,17 @@ public:
                         edk::uint32 height,
                         edk::ConsoleColors backgroundColor
                         );
+    bool writeRectangleWithShadow(edk::uint32 x,
+                                  edk::uint32 y,
+                                  edk::uint32 width,
+                                  edk::uint32 height,
+                                  edk::ConsoleColors backgroundColor
+                                  );
+    bool writeRectangleWithShadow(edk::vec2ui32 position,
+                                  edk::uint32 width,
+                                  edk::uint32 height,
+                                  edk::ConsoleColors backgroundColor
+                                  );
     //write a box with background and border
     bool writeBox(edk::uint32 x,
                   edk::uint32 y,
@@ -283,6 +294,19 @@ public:
                   edk::ConsoleColors backgroundColor
                   );
     bool writeBox(edk::vec2ui32 position,
+                  edk::uint32 width,
+                  edk::uint32 height,
+                  edk::ConsoleColors color,
+                  edk::ConsoleColors backgroundColor
+                  );
+    bool writeBoxWithShadow(edk::uint32 x,
+                  edk::uint32 y,
+                  edk::uint32 width,
+                  edk::uint32 height,
+                  edk::ConsoleColors color,
+                  edk::ConsoleColors backgroundColor
+                  );
+    bool writeBoxWithShadow(edk::vec2ui32 position,
                   edk::uint32 width,
                   edk::uint32 height,
                   edk::ConsoleColors color,
