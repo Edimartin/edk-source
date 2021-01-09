@@ -1875,7 +1875,7 @@ bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                            edk::float32 g,
                                            edk::float32 b,
                                            edk::float32 a
-                                      ){
+                                           ){
     return this->writeStringColor((edk::char8*) str,x,y,width,height,r,g,b,a);
 }
 
@@ -1988,7 +1988,7 @@ bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                            edk::float32 g,
                                            edk::float32 b,
                                            edk::float32 a
-                                      ){
+                                           ){
     return this->writeStringColor((edk::char8*) str,position.x,position.y,width,height,r,g,b,a);
 }
 bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
@@ -1999,7 +1999,7 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::float32 g,
                                            edk::float32 b,
                                            edk::float32 a
-                                      ){
+                                           ){
     return this->writeStringColor(str,position.x,position.y,width,height,r,g,b,a);
 }
 bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
@@ -2091,7 +2091,7 @@ bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                            edk::float32 r,
                                            edk::float32 g,
                                            edk::float32 b
-                                      ){
+                                           ){
     return this->writeStringColor((edk::char8*) str,x,y,width,height,r,g,b,1.0f);
 }
 
@@ -2113,7 +2113,7 @@ bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                            edk::float32 r,
                                            edk::float32 g,
                                            edk::float32 b
-                                      ){
+                                           ){
     return this->writeStringColor((edk::char8*) str,position.x,position.y,width,height,r,g,b,1.0f);
 }
 bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
@@ -2123,7 +2123,7 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::float32 r,
                                            edk::float32 g,
                                            edk::float32 b
-                                      ){
+                                           ){
     return this->writeStringColor(str,position.x,position.y,width,height,r,g,b,1.0f);
 }
 bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
@@ -2201,7 +2201,7 @@ bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                            edk::uint32 width,
                                            edk::uint32 height,
                                            edk::color4f32 color
-                                      ){
+                                           ){
     return this->writeStringColor((edk::char8*) str,x,y,width,height,color.r,color.g,color.b,color.a);
 }
 
@@ -2219,7 +2219,7 @@ bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                            edk::uint32 width,
                                            edk::uint32 height,
                                            edk::color4f32 color
-                                      ){
+                                           ){
     return this->writeStringColor((edk::char8*) str,
                                   position.x,
                                   position.y,
@@ -2235,7 +2235,7 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::uint32 width,
                                            edk::uint32 height,
                                            edk::color4f32 color
-                                      ){
+                                           ){
     return this->writeStringColor(str,position.x,position.y,width,height,color.r,color.g,color.b,color.a);
 }
 bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
@@ -2313,7 +2313,7 @@ bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                            edk::uint32 width,
                                            edk::uint32 height,
                                            edk::color3f32 color
-                                      ){
+                                           ){
     return this->writeStringColor((edk::char8*) str,x,y,width,height,color.r,color.g,color.b,1.0f);
 }
 
@@ -2331,7 +2331,7 @@ bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                            edk::uint32 width,
                                            edk::uint32 height,
                                            edk::color3f32 color
-                                      ){
+                                           ){
     return this->writeStringColor((edk::char8*) str,
                                   position.x,
                                   position.y,
@@ -2347,7 +2347,7 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::uint32 width,
                                            edk::uint32 height,
                                            edk::color3f32 color
-                                      ){
+                                           ){
     return this->writeStringColor(str,position.x,position.y,width,height,color.r,color.g,color.b,1.0f);
 }
 bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
@@ -2468,6 +2468,15 @@ bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y
                 continue;
             }
         }
+
+        //test if reach the end of the limit
+        if(headX<lenght){
+            for(;headX<lenght;headX++){
+                this->map.setTile(space+1u,headX,headY);
+            }
+            headX = x;
+            headY++;
+        }
         return true;
     }
     return false;
@@ -2565,6 +2574,22 @@ bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y
                     headX++;
                 }
                 continue;
+            }
+        }
+
+        //test if reach the end of the limit
+        if(headX<lenght){
+            for(;headX<lenght;headX++){
+                this->map.setTile(space+1u,headX,headY);
+            }
+            headX = x;
+            headY++;
+        }
+        if(headY<up){
+            for(;headY<up;headY++){
+                for(headX=x;headX<lenght;headX++){
+                    this->map.setTile(space+1u,headX,headY);
+                }
             }
         }
         return true;
@@ -2697,6 +2722,16 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                 continue;
             }
         }
+
+        //test if reach the end of the limit
+        if(headX<lenght){
+            for(;headX<lenght;headX++){
+                this->map.setTile(space+1u,headX,headY);
+                this->map.setTileColor(r,g,b,a,headX,headY);
+            }
+            headX = x;
+            headY++;
+        }
         return true;
     }
     return false;
@@ -2730,7 +2765,7 @@ bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                            edk::float32 g,
                                            edk::float32 b,
                                            edk::float32 a
-                                      ){
+                                           ){
     return this->writeSpacesColor((edk::char8*) str,x,y,width,height,r,g,b,a);
 }
 
@@ -2828,6 +2863,24 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                 continue;
             }
         }
+
+        //test if reach the end of the limit
+        if(headX<lenght){
+            for(;headX<lenght;headX++){
+                this->map.setTile(space+1u,headX,headY);
+                this->map.setTileColor(r,g,b,a,headX,headY);
+            }
+            headX = x;
+            headY++;
+        }
+        if(headY<up){
+            for(;headY<up;headY++){
+                for(headX=x;headX<lenght;headX++){
+                    this->map.setTile(space+1u,headX,headY);
+                    this->map.setTileColor(r,g,b,a,headX,headY);
+                }
+            }
+        }
         return true;
     }
     return false;
@@ -2840,7 +2893,7 @@ bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                            edk::float32 g,
                                            edk::float32 b,
                                            edk::float32 a
-                                      ){
+                                           ){
     return this->writeSpacesColor((edk::char8*) str,position.x,position.y,width,height,r,g,b,a);
 }
 bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
@@ -2851,7 +2904,7 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::float32 g,
                                            edk::float32 b,
                                            edk::float32 a
-                                      ){
+                                           ){
     return this->writeSpacesColor(str,position.x,position.y,width,height,r,g,b,a);
 }
 bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
@@ -2943,7 +2996,7 @@ bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                            edk::float32 r,
                                            edk::float32 g,
                                            edk::float32 b
-                                      ){
+                                           ){
     return this->writeSpacesColor((edk::char8*) str,x,y,width,height,r,g,b,1.0f);
 }
 
@@ -2965,7 +3018,7 @@ bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                            edk::float32 r,
                                            edk::float32 g,
                                            edk::float32 b
-                                      ){
+                                           ){
     return this->writeSpacesColor((edk::char8*) str,position.x,position.y,width,height,r,g,b,1.0f);
 }
 bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
@@ -2975,7 +3028,7 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::float32 r,
                                            edk::float32 g,
                                            edk::float32 b
-                                      ){
+                                           ){
     return this->writeSpacesColor(str,position.x,position.y,width,height,r,g,b,1.0f);
 }
 bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
@@ -3053,7 +3106,7 @@ bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                            edk::uint32 width,
                                            edk::uint32 height,
                                            edk::color4f32 color
-                                      ){
+                                           ){
     return this->writeSpacesColor((edk::char8*) str,x,y,width,height,color.r,color.g,color.b,color.a);
 }
 
@@ -3071,7 +3124,7 @@ bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                            edk::uint32 width,
                                            edk::uint32 height,
                                            edk::color4f32 color
-                                      ){
+                                           ){
     return this->writeSpacesColor((edk::char8*) str,
                                   position.x,
                                   position.y,
@@ -3087,7 +3140,7 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::uint32 width,
                                            edk::uint32 height,
                                            edk::color4f32 color
-                                      ){
+                                           ){
     return this->writeSpacesColor(str,position.x,position.y,width,height,color.r,color.g,color.b,color.a);
 }
 bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
@@ -3165,7 +3218,7 @@ bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                            edk::uint32 width,
                                            edk::uint32 height,
                                            edk::color3f32 color
-                                      ){
+                                           ){
     return this->writeSpacesColor((edk::char8*) str,x,y,width,height,color.r,color.g,color.b,1.0f);
 }
 
@@ -3183,7 +3236,7 @@ bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                            edk::uint32 width,
                                            edk::uint32 height,
                                            edk::color3f32 color
-                                      ){
+                                           ){
     return this->writeSpacesColor((edk::char8*) str,
                                   position.x,
                                   position.y,
@@ -3199,7 +3252,7 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::uint32 width,
                                            edk::uint32 height,
                                            edk::color3f32 color
-                                      ){
+                                           ){
     return this->writeSpacesColor(str,position.x,position.y,width,height,color.r,color.g,color.b,1.0f);
 }
 bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
