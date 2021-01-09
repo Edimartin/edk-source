@@ -1697,7 +1697,7 @@ edk::uint32 edk::String::utf8WordSize(const edk::char8 *utf8,edk::uint32* jump){
     return edk::String::utf8WordSize((edk::char8*) utf8,jump);
 }
 edk::uint32 edk::String::utf8LineCount(edk::char8 *utf8,edk::uint32 limit){
-    edk::uint32 ret = NULL;
+    edk::uint32 ret = 0u;
     if(utf8 && limit){
         edk::uint32 word=0u;
         edk::uint32 myJump=0u;
@@ -1712,9 +1712,13 @@ edk::uint32 edk::String::utf8LineCount(edk::char8 *utf8,edk::uint32 limit){
                     ||
                     newLine
                     ){
-                while(*utf8){
-                    if(*utf8==' ') utf8++;
-                    else break;
+                if(*utf8==' '){
+                    if(utf8[1u]!=' ' && *utf8==10 && *utf8=='\n'){
+                        utf8++;
+                    }
+                }
+                if(*utf8=='\n' || *utf8==10){
+                    utf8++;
                 }
                 if(firstLine)
                     ret++;
@@ -1831,9 +1835,13 @@ edk::char8* edk::String::utf8LinePosition(edk::char8 *utf8,edk::uint32 limit,edk
                     ||
                     newLine
                     ){
-                while(*utf8){
-                    if(*utf8==' ') utf8++;
-                    else break;
+                if(*utf8==' '){
+                    if(utf8[1u]!=' ' && *utf8==10 && *utf8=='\n'){
+                        utf8++;
+                    }
+                }
+                if(*utf8=='\n' || *utf8==10){
+                    utf8++;
                 }
                 count++;
                 size=0u;
