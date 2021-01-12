@@ -1608,7 +1608,6 @@ edk::uint32 edk::String::utf8WordSize(const edk::char8 *utf8){
     return edk::String::utf8WordSize((edk::char8*) utf8);
 }
 edk::uint32 edk::String::utf8WordSize(edk::char8 *utf8,edk::uint32* jump){
-
     edk::uint32 ret=0u;
     if(utf8 && jump){
         edk::char8* str = utf8;
@@ -1696,6 +1695,97 @@ edk::uint32 edk::String::utf8WordSize(edk::char8 *utf8,edk::uint32* jump){
 edk::uint32 edk::String::utf8WordSize(const edk::char8 *utf8,edk::uint32* jump){
     return edk::String::utf8WordSize((edk::char8*) utf8,jump);
 }
+edk::uint32 edk::String::utf8WordSize(edk::char8 *utf8,edk::uint32 limit,edk::uint32* jump){
+    edk::uint32 ret=0u;
+    if(utf8 && jump){
+        edk::char8* str = utf8;
+        //convert the string
+        while(*utf8){
+            //test the character
+            if(*utf8==' ' || *utf8=='\n' || *utf8==10){
+                break;
+            }
+            switch(*utf8){
+            case (edk::char8)0xe2:
+                utf8++;
+                if(*utf8){
+                    switch(*utf8){
+                    case (edk::char8)0x80:
+                        utf8++;
+                        if(*utf8){
+                            ret++;
+                        }
+                        else return ret;
+                        break;
+                    case (edk::char8)0x82:
+                        utf8++;
+                        if(*utf8){
+                            ret++;
+                        }
+                        else return ret;
+                        break;
+                    case (edk::char8)0x84:
+                        utf8++;
+                        if(*utf8){
+                            ret++;
+                        }
+                        else return ret;
+                        break;
+                    }
+                }
+                else return ret;
+                break;
+            case (edk::char8)0xc2:
+                utf8++;
+                if(*utf8){
+                    ret++;
+                }
+                else return ret;
+                break;
+            case (edk::char8)0xc3:
+                utf8++;
+                if(*utf8){
+                    ret++;
+                }
+                else return ret;
+                break;
+            case (edk::char8)0xc5:
+                utf8++;
+                if(*utf8){
+                    ret++;
+                }
+                else return ret;
+                break;
+            case (edk::char8)0xc6:
+                utf8++;
+                if(*utf8){
+                    ret++;
+                }
+                else return ret;
+                break;
+            case (edk::char8)0xcb:
+                utf8++;
+                if(*utf8){
+                    ret++;
+                }
+                else return ret;
+                break;
+            default:
+                ret++;
+                break;
+            }
+            utf8++;
+            if(ret>=limit){
+                break;
+            }
+        }
+        *jump = utf8-str;
+    }
+    return ret;
+}
+edk::uint32 edk::String::utf8WordSize(const edk::char8 *utf8,edk::uint32 limit,edk::uint32* jump){
+    return edk::String::utf8WordSize((edk::char8*) utf8,limit,jump);
+}
 edk::uint32 edk::String::utf8LineCount(edk::char8 *utf8,edk::uint32 limit){
     edk::uint32 ret = 0u;
     if(utf8 && limit){
@@ -1713,7 +1803,7 @@ edk::uint32 edk::String::utf8LineCount(edk::char8 *utf8,edk::uint32 limit){
                     newLine
                     ){
                 if(*utf8==' '){
-                    if(utf8[1u]!=' ' && *utf8==10 && *utf8=='\n'){
+                    if(utf8[1u]!=' ' && utf8[1u]!=10 && utf8[1u]!='\n'){
                         utf8++;
                     }
                 }
@@ -1725,15 +1815,21 @@ edk::uint32 edk::String::utf8LineCount(edk::char8 *utf8,edk::uint32 limit){
                 size=0u;
                 newLine = false;
                 firstLine=true;
+                continue;
             }
 
             word = edk::String::utf8WordSize(utf8,&myJump);
             if(word){
                 //if the next word does't fit in the line it will return the last size
                 if(size+word>limit){
-                    //new line
-                    newLine = true;
-                    continue;
+                    if(!size){
+                        word = edk::String::utf8WordSize(utf8,limit,&myJump);
+                    }
+                    else{
+                        //new line
+                        newLine = true;
+                        continue;
+                    }
                 }
                 size+=word;
                 //go to the space
@@ -1744,6 +1840,8 @@ edk::uint32 edk::String::utf8LineCount(edk::char8 *utf8,edk::uint32 limit){
                 utf8++;
             }
         }
+        if(size)
+            ret++;
     }
     return ret;
 }
@@ -1836,7 +1934,7 @@ edk::char8* edk::String::utf8LinePosition(edk::char8 *utf8,edk::uint32 limit,edk
                     newLine
                     ){
                 if(*utf8==' '){
-                    if(utf8[1u]!=' ' && *utf8==10 && *utf8=='\n'){
+                    if(utf8[1u]!=' ' && utf8[1u]!=10 && utf8[1u]!='\n'){
                         utf8++;
                     }
                 }
@@ -1850,15 +1948,21 @@ edk::char8* edk::String::utf8LinePosition(edk::char8 *utf8,edk::uint32 limit,edk
                     break;
                 }
                 newLine = false;
+                continue;
             }
 
             word = edk::String::utf8WordSize(utf8,&myJump);
             if(word){
                 //if the next word does't fit in the line it will return the last size
                 if(size+word>limit){
-                    //new line
-                    newLine = true;
-                    continue;
+                    if(!size){
+                        word = edk::String::utf8WordSize(utf8,limit,&myJump);
+                    }
+                    else{
+                        //new line
+                        newLine = true;
+                        continue;
+                    }
                 }
                 size+=word;
                 //go to the space

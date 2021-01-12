@@ -140,6 +140,8 @@ public:
     static edk::uint32 utf8WordSize(const edk::char8 *utf8);
     static edk::uint32 utf8WordSize(edk::char8 *utf8,edk::uint32* jump);
     static edk::uint32 utf8WordSize(const edk::char8 *utf8,edk::uint32* jump);
+    static edk::uint32 utf8WordSize(edk::char8 *utf8,edk::uint32 limit,edk::uint32* jump);
+    static edk::uint32 utf8WordSize(const edk::char8 *utf8,edk::uint32 limit,edk::uint32* jump);
     static edk::uint32 utf8LineCount(edk::char8 *utf8,edk::uint32 limit);
     static edk::uint32 utf8LineCount(const edk::char8 *utf8,edk::uint32 limit);
     static edk::uint32 utf8LineSize(edk::char8 *utf8,edk::uint32 limit);
