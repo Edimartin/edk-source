@@ -1587,7 +1587,11 @@ bool edk::fonts::FontMap::writeString(edk::char8* str,edk::uint32 x,edk::uint8 y
             }
             else{
                 if(*str=='\n' && *str==10){
-                    if(headX == x && haveInitialReturn){
+                    if(headX == x && !haveInitialReturn){
+                        //
+                        str++;
+                    }
+                    else{
                         //clean the last characters of the line
                         for(;headX<lenght;headX++){
                             this->map.setTile(space+1u,headX,headY);
@@ -1601,11 +1605,7 @@ bool edk::fonts::FontMap::writeString(edk::char8* str,edk::uint32 x,edk::uint8 y
                             break;
                         }
                     }
-                    else{
-                        //
-                        haveInitialReturn=true;
-                        str++;
-                    }
+                    haveInitialReturn=true;
                 }
                 else if(*str==' ' && newLine){
                     if(str[1u]!=' ' && str[1u]!=10 && str[1u]!='\n'){
@@ -1705,7 +1705,11 @@ bool edk::fonts::FontMap::writeString(edk::char8* str,edk::uint32 x,edk::uint8 y
             }
             else{
                 if(*str=='\n' && *str==10){
-                    if(headX == x && haveInitialReturn){
+                    if(headX == x && !haveInitialReturn){
+                        //
+                        str++;
+                    }
+                    else{
                         //clean the last characters of the line
                         for(;headX<lenght;headX++){
                             this->map.setTile(space+1u,headX,headY);
@@ -1719,11 +1723,7 @@ bool edk::fonts::FontMap::writeString(edk::char8* str,edk::uint32 x,edk::uint8 y
                             break;
                         }
                     }
-                    else{
-                        //
-                        haveInitialReturn=true;
-                        str++;
-                    }
+                    haveInitialReturn=true;
                 }
                 else if(*str==' ' && newLine){
                     if(str[1u]!=' ' && str[1u]!=10 && str[1u]!='\n'){
@@ -1852,7 +1852,11 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
             }
             else{
                 if(*str=='\n' && *str==10){
-                    if(headX == x && haveInitialReturn){
+                    if(headX == x && !haveInitialReturn){
+                        //
+                        str++;
+                    }
+                    else{
                         //clean the last characters of the line
                         for(;headX<lenght;headX++){
                             this->map.setTile(space+1u,headX,headY);
@@ -1867,10 +1871,7 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                             break;
                         }
                     }
-                    else{
-                        haveInitialReturn=true;
-                        str++;
-                    }
+                    haveInitialReturn=true;
                 }
                 else if(*str==' ' && newLine){
                     if(str[1u]!=' ' && str[1u]!=10 && str[1u]!='\n'){
@@ -2004,7 +2005,6 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                     if(headX == x && !haveInitialReturn){
                         //
                         str++;
-                        haveInitialReturn=true;
                     }
                     else{
                         //clean the last characters of the line
@@ -2021,6 +2021,7 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                             break;
                         }
                     }
+                    haveInitialReturn=true;
                 }
                 else if(*str==' ' && newLine){
                     if(str[1u]!=' ' && str[1u]!=10 && str[1u]!='\n'){
@@ -2511,7 +2512,11 @@ bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y
             }
             else{
                 if(*str=='\n' && *str==10){
-                    if(headX == x && haveInitialReturn){
+                    if(headX == x && !haveInitialReturn){
+                        //
+                        str++;
+                    }
+                    else{
                         //clean the last characters of the line
                         for(;headX<lenght;headX++){
                             this->map.setTile(space+1u,headX,headY);
@@ -2525,11 +2530,7 @@ bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y
                             break;
                         }
                     }
-                    else{
-                        //
-                        haveInitialReturn=true;
-                        str++;
-                    }
+                    haveInitialReturn=true;
                 }
                 else if(*str==' ' && newLine){
                     if(str[1u]!=' ' && str[1u]!=10 && str[1u]!='\n'){
@@ -2633,7 +2634,11 @@ bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y
             }
             else{
                 if(*str=='\n' && *str==10){
-                    if(headX == x && haveInitialReturn){
+                    if(headX == x && !haveInitialReturn){
+                        //
+                        str++;
+                    }
+                    else{
                         //clean the last characters of the line
                         for(;headX<lenght;headX++){
                             this->map.setTile(space+1u,headX,headY);
@@ -2647,11 +2652,7 @@ bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y
                             break;
                         }
                     }
-                    else{
-                        //
-                        haveInitialReturn=true;
-                        str++;
-                    }
+                    haveInitialReturn=true;
                 }
                 else if(*str==' ' && newLine){
                     haveInitialReturn=false;
@@ -2796,7 +2797,11 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
             }
             else{
                 if(*str=='\n' && *str==10){
-                    if(headX == x && haveInitialReturn){
+                    if(headX == x && !haveInitialReturn){
+                        //
+                        str++;
+                    }
+                    else{
                         //clean the last characters of the line
                         for(;headX<lenght;headX++){
                             this->map.setTile(space+1u,headX,headY);
@@ -2811,11 +2816,7 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                             break;
                         }
                     }
-                    else{
-                        //
-                        haveInitialReturn=true;
-                        str++;
-                    }
+                    haveInitialReturn=true;
                 }
                 else if(*str==' ' && newLine){
                     haveInitialReturn=false;
@@ -2954,7 +2955,11 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
             }
             else{
                 if(*str=='\n' && *str==10){
-                    if(headX == x && haveInitialReturn){
+                    if(headX == x && !haveInitialReturn){
+                        //
+                        str++;
+                    }
+                    else{
                         //clean the last characters of the line
                         for(;headX<lenght;headX++){
                             this->map.setTile(space+1u,headX,headY);
@@ -2969,11 +2974,7 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                             break;
                         }
                     }
-                    else{
-                        //
-                        haveInitialReturn=true;
-                        str++;
-                    }
+                    haveInitialReturn=true;
                 }
                 else if(*str==' ' && newLine){
                     if(str[1u]!=' ' && str[1u]!=10 && str[1u]!='\n'){
