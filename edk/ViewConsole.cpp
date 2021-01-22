@@ -800,3 +800,231 @@ bool edk::ViewConsole::writeBoxWithShadow(edk::vec2ui32 position,
                           backgroundColor
                           );
 }
+
+//write a scroll bar in the console
+bool edk::ViewConsole::writeScrollBarVertical(edk::uint32 x,
+                                              edk::uint32 y,
+                                              edk::uint32 lenght,
+                                              edk::uint32 barPosition,
+                                              edk::uint32 barLenght,
+                                              edk::ConsoleColors color,
+                                              edk::ConsoleColors backgroundColor
+                                              ){
+
+    edk::size2ui32 size = this->back.getMapSize();
+    if(lenght+y >= size.height){
+        lenght = size.height - y;
+    }
+    edk::size2ui32 end = edk::size2ui32(1u+x,lenght+y);
+
+    edk::uint32 barEnd = barLenght+barPosition+y+1u;
+    if(barEnd>y+lenght-1u){
+        barEnd = y+lenght-1u;
+    }
+
+
+    if(x<size.width
+            && y<size.height
+            && end.width<= size.width
+            && end.height <= size.height
+            && lenght>=3u
+            ){
+
+        for(edk::uint32 i= y;i<end.height;i++){
+            for(edk::uint32 j= x;j<end.width;j++){
+                this->back.writeChar(' ',j,i);
+                this->back.writeColor(consoleColors[backgroundColor][0u],
+                        consoleColors[backgroundColor][1u],
+                        consoleColors[backgroundColor][2u],
+                        j,i
+                        );
+                this->map.writeChar((edk::uchar8)7u,j,i);
+                this->map.writeColor(consoleColors[color][0u],
+                        consoleColors[color][1u],
+                        consoleColors[color][2u],
+                        j,i);
+            }
+        }
+
+        //write the arrows
+        this->map.writeChar((edk::uchar8)30u,x,y);
+        this->map.writeChar((edk::uchar8)31u,x,y+lenght-1u);
+        //write the scroll bar
+        for(edk::uint32 i=y+barPosition+1u;i<barEnd;i++){
+            this->map.writeChar(' ',x,i);
+            this->back.writeColor(consoleColors[color][0u],
+                    consoleColors[color][1u],
+                    consoleColors[color][2u],
+                    x,i);
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::ViewConsole::writeScrollBarVertical(edk::vec2ui32 position,
+                                              edk::uint32 lenght,
+                                              edk::uint32 barPosition,
+                                              edk::uint32 barLenght,
+                                              edk::ConsoleColors color,
+                                              edk::ConsoleColors backgroundColor
+                                              ){
+    return this->writeScrollBarVertical(position.x,
+                                        position.y,
+                                        lenght,
+                                        barPosition,
+                                        barLenght,
+                                        color,
+                                        backgroundColor
+                                        );
+}
+
+bool edk::ViewConsole::writeScrollBarHorizontal(edk::uint32 x,
+                                                edk::uint32 y,
+                                                edk::uint32 lenght,
+                                                edk::uint32 barPosition,
+                                                edk::uint32 barLenght,
+                                                edk::ConsoleColors color,
+                                                edk::ConsoleColors backgroundColor
+                                                ){
+
+    edk::size2ui32 size = this->back.getMapSize();
+    if(lenght+x >= size.width){
+        lenght = size.width - x;
+    }
+    edk::size2ui32 end = edk::size2ui32(lenght+x,1u+y);
+
+    edk::uint32 barEnd = barLenght+barPosition+x+1u;
+    if(barEnd>x+lenght-1u){
+        barEnd = x+lenght-1u;
+    }
+
+
+    if(x<size.width
+            && y<size.height
+            && end.width<= size.width
+            && end.height <= size.height
+            && lenght>=3u
+            ){
+
+        for(edk::uint32 i= y;i<end.height;i++){
+            for(edk::uint32 j= x;j<end.width;j++){
+                this->back.writeChar(' ',j,i);
+                this->back.writeColor(consoleColors[backgroundColor][0u],
+                        consoleColors[backgroundColor][1u],
+                        consoleColors[backgroundColor][2u],
+                        j,i
+                        );
+                this->map.writeChar((edk::uchar8)7u,j,i);
+                this->map.writeColor(consoleColors[color][0u],
+                        consoleColors[color][1u],
+                        consoleColors[color][2u],
+                        j,i);
+            }
+        }
+        //write the arrows
+        this->map.writeChar((edk::uchar8)17u,x,y);
+        this->map.writeChar((edk::uchar8)16u,x+lenght-1u,y);
+        //write the scroll bar
+        for(edk::uint32 i=x+barPosition+1u;i<barEnd;i++){
+            this->map.writeChar(' ',i,y);
+            this->back.writeColor(consoleColors[color][0u],
+                    consoleColors[color][1u],
+                    consoleColors[color][2u],
+                    i,y);
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::ViewConsole::writeScrollBarHorizontal(edk::vec2ui32 position,
+                                                edk::uint32 lenght,
+                                                edk::uint32 barPosition,
+                                                edk::uint32 barLenght,
+                                                edk::ConsoleColors color,
+                                                edk::ConsoleColors backgroundColor
+                                                ){
+    return this->writeScrollBarHorizontal(position.x,
+                                          position.y,
+                                          lenght,
+                                          barPosition,
+                                          barLenght,
+                                          color,
+                                          backgroundColor
+                                          );
+}
+
+//write a scroll bar in the console with percent
+bool edk::ViewConsole::writeScrollBarVertical(edk::uint32 x,
+                                              edk::uint32 y,
+                                              edk::uint32 lenght,
+                                              edk::float32 barPosition,
+                                              edk::float32 barLenght,
+                                              edk::ConsoleColors color,
+                                              edk::ConsoleColors backgroundColor
+                                              ){
+    edk::uint32 _lenght = (edk::uint32)((edk::float32)lenght-2u)*barLenght;
+    edk::uint32 _position = (edk::uint32)(barPosition *
+                                          ((edk::float32)lenght-2u-
+                                           (edk::float32)_lenght));
+    return writeScrollBarVertical(x,
+                                  y,
+                                  lenght,
+                                  _position,
+                                  _lenght,
+                                  color,
+                                  backgroundColor
+                                  );
+}
+bool edk::ViewConsole::writeScrollBarVertical(edk::vec2ui32 position,
+                                              edk::uint32 lenght,
+                                              edk::float32 barPosition,
+                                              edk::float32 barLenght,
+                                              edk::ConsoleColors color,
+                                              edk::ConsoleColors backgroundColor
+                                              ){
+    return writeScrollBarVertical(position.x,
+                                  position.y,
+                                  lenght,
+                                  barPosition,
+                                  barLenght,
+                                  color,
+                                  backgroundColor
+                                  );
+}
+bool edk::ViewConsole::writeScrollBarHorizontal(edk::uint32 x,
+                                                edk::uint32 y,
+                                                edk::uint32 lenght,
+                                                edk::float32 barPosition,
+                                                edk::float32 barLenght,
+                                                edk::ConsoleColors color,
+                                                edk::ConsoleColors backgroundColor
+                                                ){
+    edk::uint32 _lenght = (edk::uint32)((edk::float32)lenght-2u)*barLenght;
+    edk::uint32 _position = (edk::uint32)(barPosition *
+                                          ((edk::float32)lenght-2u-
+                                           (edk::float32)_lenght));
+    return writeScrollBarHorizontal(x,
+                                  y,
+                                  lenght,
+                                  _position,
+                                  _lenght,
+                                  color,
+                                  backgroundColor
+                                  );
+}
+bool edk::ViewConsole::writeScrollBarHorizontal(edk::vec2ui32 position,
+                                                edk::uint32 lenght,
+                                                edk::float32 barPosition,
+                                                edk::float32 barLenght,
+                                                edk::ConsoleColors color,
+                                                edk::ConsoleColors backgroundColor
+                                                ){
+    return writeScrollBarHorizontal(position.x,
+                                    position.y,
+                                    lenght,
+                                    barPosition,
+                                    barLenght,
+                                    color,
+                                    backgroundColor
+                                    );
+}
