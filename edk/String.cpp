@@ -1941,13 +1941,16 @@ edk::char8* edk::String::utf8LinePosition(edk::char8 *utf8,edk::uint32 limit,edk
                 if(*utf8=='\n' || *utf8==10){
                     utf8++;
                 }
-                count++;
-                size=0u;
-                ret = utf8;
                 if(count>=linePosition){
                     break;
                 }
+                count++;
+                size=0u;
+                ret = utf8;
                 newLine = false;
+                if(count>=linePosition){
+                    break;
+                }
                 continue;
             }
 
@@ -4371,6 +4374,34 @@ edk::char8 String::filterAccent(edk::char8* str){
             }
             str--;
         }
+        else if((edk::uint8)*str==226u){
+            str++;
+            if((edk::uint8)*str==128u){
+                str++;
+                if((edk::uint8)*str==148u){
+                    //printf("\n");
+                    return 45u;
+                }
+                else if((edk::uint8)*str==152u){
+                    //printf("\nAbrir aspas simples");
+                    return '\'';
+                }
+                else if((edk::uint8)*str==153u){
+                    //printf("\nFechar aspas simples");
+                    return '\'';
+                }
+                else if((edk::uint8)*str==156u){
+                    //printf("\nAbrir aspas");
+                    return '\"';
+                }
+                else if((edk::uint8)*str==157u){
+                    //printf("\nFechar aspas");
+                    return '\"';
+                }
+                str--;
+            }
+            str--;
+        }
         else if((edk::uint8)*str==196u){
             str++;
             if((edk::uint8)*str==169u){
@@ -4566,6 +4597,38 @@ edk::char8 edk::String::filterAccent(edk::char8* str,edk::uint8* jump){
                 if((edk::uint8)*str==189u){
                     //printf("\nTio e");
                     return 32u;
+                }
+                *jump-=1u;
+                str--;
+            }
+            *jump-=1u;
+            str--;
+        }
+        else if((edk::uint8)*str==226u){
+            *jump+=1u;
+            str++;
+            if((edk::uint8)*str==128u){
+                *jump+=1u;
+                str++;
+                if((edk::uint8)*str==148u){
+                    //printf("\n");
+                    return 45u;
+                }
+                else if((edk::uint8)*str==152u){
+                    //printf("\nAbrir aspas simples");
+                    return '\'';
+                }
+                else if((edk::uint8)*str==153u){
+                    //printf("\nFechar aspas simples");
+                    return '\'';
+                }
+                else if((edk::uint8)*str==156u){
+                    //printf("\nAbrir aspas");
+                    return '\"';
+                }
+                else if((edk::uint8)*str==157u){
+                    //printf("\nFechar aspas");
+                    return '\"';
                 }
                 *jump-=1u;
                 str--;

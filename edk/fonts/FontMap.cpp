@@ -484,6 +484,38 @@ edk::uint32 edk::fonts::FontMap::getTileID(edk::char8* str,edk::uint8* jump){
             *jump-=1u;
             str--;
         }
+        else if((edk::uint8)*str==226u){
+            *jump+=1u;
+            str++;
+            if((edk::uint8)*str==128u){
+                *jump+=1u;
+                str++;
+                if((edk::uint8)*str==148u){
+                    //printf("\n");
+                    return 45u;
+                }
+                else if((edk::uint8)*str==152u){
+                    //printf("\nAbrir aspas simples");
+                    return '\'';
+                }
+                else if((edk::uint8)*str==153u){
+                    //printf("\nFechar aspas simples");
+                    return '\'';
+                }
+                else if((edk::uint8)*str==156u){
+                    //printf("\nAbrir aspas");
+                    return '\"';
+                }
+                else if((edk::uint8)*str==157u){
+                    //printf("\nFechar aspas");
+                    return '\"';
+                }
+                *jump-=1u;
+                str--;
+            }
+            *jump-=1u;
+            str--;
+        }
         else if((edk::uint8)*str==196u){
             *jump+=1u;
             str++;
@@ -1545,7 +1577,7 @@ bool edk::fonts::FontMap::writeString(edk::char8* str,edk::uint32 x,edk::uint8 y
         edk::uint32 space;
         edk::uint8 jump=0u;
         edk::char8 temp[2u];
-        bool haveInitialReturn=false;
+        bool haveInitialReturn=true;
         bool newLine=false;
         temp[0u]=' ';
         temp[1u]='\0';
@@ -1586,7 +1618,7 @@ bool edk::fonts::FontMap::writeString(edk::char8* str,edk::uint32 x,edk::uint8 y
                 }
             }
             else{
-                if(*str=='\n' && *str==10){
+                if(*str=='\n' || *str==10){
                     if(headX == x && !haveInitialReturn){
                         //
                         str++;
@@ -1663,7 +1695,7 @@ bool edk::fonts::FontMap::writeString(edk::char8* str,edk::uint32 x,edk::uint8 y
         edk::uint32 space;
         edk::uint8 jump=0u;
         edk::char8 temp[2u];
-        bool haveInitialReturn=false;
+        bool haveInitialReturn=true;
         bool newLine=false;
         temp[0u]=' ';
         temp[1u]='\0';
@@ -1704,7 +1736,7 @@ bool edk::fonts::FontMap::writeString(edk::char8* str,edk::uint32 x,edk::uint8 y
                 }
             }
             else{
-                if(*str=='\n' && *str==10){
+                if(*str=='\n' || *str==10){
                     if(headX == x && !haveInitialReturn){
                         //
                         str++;
@@ -1808,7 +1840,7 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
         edk::uint32 space;
         edk::uint8 jump=0u;
         edk::char8 temp[2u];
-        bool haveInitialReturn=false;
+        bool haveInitialReturn=true;
         bool newLine=false;
         temp[0u]=' ';
         temp[1u]='\0';
@@ -1851,7 +1883,7 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                 }
             }
             else{
-                if(*str=='\n' && *str==10){
+                if(*str=='\n' || *str==10){
                     if(headX == x && !haveInitialReturn){
                         //
                         str++;
@@ -1958,7 +1990,7 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
         edk::uint32 space;
         edk::uint8 jump=0u;
         edk::char8 temp[2u];
-        bool haveInitialReturn=false;
+        bool haveInitialReturn=true;
         bool newLine=false;
         temp[0u]=' ';
         temp[1u]='\0';
@@ -2001,7 +2033,7 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                 }
             }
             else{
-                if(*str=='\n' && *str==10){
+                if(*str=='\n' || *str==10){
                     if(headX == x && !haveInitialReturn){
                         //
                         str++;
@@ -2472,7 +2504,7 @@ bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y
         edk::uint32 space;
         edk::uint8 jump=0u;
         edk::char8 temp[2u];
-        bool haveInitialReturn=false;
+        bool haveInitialReturn=true;
         bool newLine=false;
         temp[0u]=' ';
         temp[1u]='\0';
@@ -2511,7 +2543,7 @@ bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y
                 }
             }
             else{
-                if(*str=='\n' && *str==10){
+                if(*str=='\n' || *str==10){
                     if(headX == x && !haveInitialReturn){
                         //
                         str++;
@@ -2594,7 +2626,7 @@ bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y
         edk::uint32 space;
         edk::uint8 jump=0u;
         edk::char8 temp[2u];
-        bool haveInitialReturn=false;
+        bool haveInitialReturn=true;
         bool newLine=false;
         temp[0u]=' ';
         temp[1u]='\0';
@@ -2633,7 +2665,7 @@ bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y
                 }
             }
             else{
-                if(*str=='\n' && *str==10){
+                if(*str=='\n' || *str==10){
                     if(headX == x && !haveInitialReturn){
                         //
                         str++;
@@ -2754,7 +2786,7 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
         edk::uint32 space;
         edk::uint8 jump=0u;
         edk::char8 temp[2u];
-        bool haveInitialReturn=false;
+        bool haveInitialReturn=true;
         bool newLine=false;
         temp[0u]=' ';
         temp[1u]='\0';
@@ -2796,7 +2828,7 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                 }
             }
             else{
-                if(*str=='\n' && *str==10){
+                if(*str=='\n' || *str==10){
                     if(headX == x && !haveInitialReturn){
                         //
                         str++;
@@ -2912,7 +2944,7 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
         edk::uint32 space;
         edk::uint8 jump=0u;
         edk::char8 temp[2u];
-        bool haveInitialReturn=false;
+        bool haveInitialReturn=true;
         bool newLine=false;
         temp[0u]=' ';
         temp[1u]='\0';
@@ -2954,7 +2986,7 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                 }
             }
             else{
-                if(*str=='\n' && *str==10){
+                if(*str=='\n' || *str==10){
                     if(headX == x && !haveInitialReturn){
                         //
                         str++;

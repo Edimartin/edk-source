@@ -963,6 +963,7 @@ bool edk::ViewConsole::writeScrollBarVertical(edk::uint32 x,
                                               edk::ConsoleColors backgroundColor
                                               ){
     edk::uint32 _lenght = (edk::uint32)((edk::float32)lenght-2u)*barLenght;
+    if(!_lenght) _lenght=1u;
     edk::uint32 _position = (edk::uint32)(barPosition *
                                           ((edk::float32)lenght-2u-
                                            (edk::float32)_lenght));
