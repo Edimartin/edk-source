@@ -230,7 +230,7 @@ class File {
 
     classID readBin(uint64 size);
 
-    bool readBin(classID vec,uint64 size);
+    edk::uint64 readBin(classID vec,uint64 size);
 
     char8 readBinChar();
 
@@ -243,7 +243,7 @@ class File {
     char8* readBinString(const char *limits, bool use = false);
 
     //read to a string
-    bool readBinString(char8 *str,edk::uint64 size);
+    edk::uint64 readBinString(char8 *str,edk::uint64 size);
 
     int8 readBinInt8();
 

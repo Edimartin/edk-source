@@ -1256,9 +1256,9 @@ bool File::writeText(char8 *str){
     //Test if the file is opened and if the string is true
     if(this->isOpened() && str){
         //Then write in the file
-        fprintf(this->arq,"%s",str);
-        //return true
-        return true;
+        edk::int32 ret = fprintf(this->arq,"%s",str);
+        if(ret>=0)
+            return true;
     }
     return false;
 }
@@ -1818,7 +1818,7 @@ classID File::readBin(uint64 size){
         //alloc the return
         ret=malloc(size);
         if(ret){
-            //fread(ret,size,1u,this->arq);
+            //fread(ret,1u,size,this->arq);
             this->readBin(ret,size);
             return ret;
         }
@@ -1826,12 +1826,12 @@ classID File::readBin(uint64 size){
     return ret;
 }
 
-bool File::readBin(classID vec,uint64 size){
+edk::uint64 File::readBin(classID vec,uint64 size){
+    edk::uint64 ret = 0u;
     if(size && vec){
-        fread(vec,size,1u,this->arq);
-        return true;
+        ret = fread(vec,1u,size,this->arq);
     }
-    return false;
+    return ret;
 }
 
 char8 File::readBinChar(){
@@ -1888,13 +1888,12 @@ char8* File::readBinString(const char *limits, bool use){
 }
 
 //read to a string
-bool File::readBinString(char8 *str,edk::uint64 size){
+edk::uint64 File::readBinString(char8 *str,edk::uint64 size){
+    edk::uint64 ret=0u;
     if(str && size){
-        if(this->readBin(str,size)){
-            return true;
-        }
+        ret = this->readBin(str,size);
     }
-    return false;
+    return ret;
 }
 
 edk::int8 File::readBinInt8(){
@@ -2311,7 +2310,8 @@ edk::uint64 File::getSeek64(){
 //flush the file
 bool File::flush(){
     if(this->isOpened()){
-        fflush(this->arq);
+        edk::int32 ret = fflush(this->arq);
+        if(ret<0) return false;
         return true;
     }
     return false;
