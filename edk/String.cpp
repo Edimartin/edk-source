@@ -2094,9 +2094,17 @@ bool String::asciiToUtf8(edk::char8* src,edk::char8* dest){
             c = *src;
             switch(c){
             case 0xC3:
-                src++;
-                c = *src;
-                *dest = c | 0x40;
+                *dest = c;
+                //test if have the C2
+                if(src[1u]){
+                    c = src[2u];
+                    if(c == 0xC2){
+                        //if have the c2. Then convert the character
+                        src++;
+                        c = *src;
+                        *dest = c | 0x40;
+                    }
+                }
                 break;
             case 0xC2:
                 src++;
@@ -2747,7 +2755,7 @@ char8* String::vecfloat32toStr(edk::float32* vec,edk::uint32 size){
         //calculate the size of the string
         edk::uint32 stringSize = 0u;
         for(edk::uint32 i=0u;i<size;i++){
-                stringSize += edk::String::sizeOfFloat32(vec[i]) + 1u;
+            stringSize += edk::String::sizeOfFloat32(vec[i]) + 1u;
         }
         //test stringSize
         if(stringSize){
@@ -2758,7 +2766,7 @@ char8* String::vecfloat32toStr(edk::float32* vec,edk::uint32 size){
                 //write the numbers to the string
                 edk::uint32 sizeTemp = 0u;
                 for(edk::uint32 i=0u;i<size;i++){
-                        sizeTemp = edk::String::sizeOfFloat32(vec[i]);
+                    sizeTemp = edk::String::sizeOfFloat32(vec[i]);
                     //copy the number
                     sprintf(temp,"%.4f",vec[i]);
                     //copy the ' '
@@ -2778,7 +2786,7 @@ char8* String::vecfloat64toStr(edk::float64* vec,edk::uint32 size){
         //calculate the size of the string
         edk::uint32 stringSize = 0u;
         for(edk::uint32 i=0u;i<size;i++){
-                stringSize += edk::String::sizeOfFloat64(vec[i]) + 1u;
+            stringSize += edk::String::sizeOfFloat64(vec[i]) + 1u;
         }
         //test stringSize
         if(stringSize){
@@ -2789,7 +2797,7 @@ char8* String::vecfloat64toStr(edk::float64* vec,edk::uint32 size){
                 //write the numbers to the string
                 edk::uint32 sizeTemp = 0u;
                 for(edk::uint32 i=0u;i<size;i++){
-                        sizeTemp = edk::String::sizeOfFloat64(vec[i]);
+                    sizeTemp = edk::String::sizeOfFloat64(vec[i]);
                     //copy the number
                     sprintf(temp,"%.4f",vec[i]);
                     //copy the ' '
@@ -3237,7 +3245,7 @@ char8* String::strCatMulti(char8 *str, ...){
                 //cat the temp with the new
                 if((ret = edk::String::strCat(temp,strTemp))){
                     //delete temp
-                    delete temp;
+                    delete[] temp;
                 }
                 else{
                     //else return temp
@@ -3275,7 +3283,7 @@ char8* String::strCatMulti(const char *str, ...){
                 //cat the temp with the new
                 if((ret = edk::String::strCat(temp,strTemp))){
                     //delete temp
-                    delete temp;
+                    delete[] temp;
                 }
                 else{
                     //else return temp
