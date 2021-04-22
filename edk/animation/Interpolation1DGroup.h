@@ -74,6 +74,12 @@ class Interpolation1DGroup: public edk::animation::InterpolationGroup{
         //set the animationSecond by the X
         bool setSecondByX(edk::float32 oldSecond,edk::float32 x);
 
+        //increment functions to run the increment for the values
+        virtual void runIncrementForward();
+        virtual void runIncrementRewind();
+        virtual void cleanIncrement();
+        virtual void startIncrement();
+
         //GETERS
         //return the animationPosition
         edk::float32 getClockX(bool* success=NULL);
@@ -122,6 +128,8 @@ class Interpolation1DGroup: public edk::animation::InterpolationGroup{
         }
     protected:
         edk::float32 tempX;
+        edk::float32 incrementX;
+        edk::float32 incrementXValue;
         //create the interpolation
         virtual edk::animation::InterpolationLine* newLineInterpolation();
         //create the frame

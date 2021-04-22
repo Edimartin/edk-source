@@ -75,6 +75,12 @@ class Interpolation3DGroup: public Interpolation2DGroup
         bool setInterpolationP1Z(edk::uint32 position,edk::float32 second,edk::float32 z);
         bool setInterpolationP2Z(edk::uint32 position,edk::float32 second,edk::float32 z);
 
+        //increment functions to run the increment for the values
+        virtual void runIncrementForward();
+        virtual void runIncrementRewind();
+        virtual void cleanIncrement();
+        virtual void startIncrement();
+
         //GETERS
         //return the animationPosition
         edk::float32 getClockZ(bool* success=NULL);
@@ -123,6 +129,8 @@ class Interpolation3DGroup: public Interpolation2DGroup
         }
     protected:
         edk::float32 tempZ;
+        edk::float32 incrementZ;
+        edk::float32 incrementZValue;
         //create the interpolation
         virtual edk::animation::InterpolationLine* newLineInterpolation();
         //create the frame

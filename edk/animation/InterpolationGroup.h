@@ -216,6 +216,14 @@ public:
 
     //get Loop
     bool isLooping();
+    //get Increment
+    bool isIncrementing();
+
+    //increment functions to run the increment for the values
+    virtual void runIncrementForward();
+    virtual void runIncrementRewind();
+    virtual void cleanIncrement();
+    virtual void startIncrement();
 
     //CONTROLS
     //animation controllers
@@ -231,6 +239,10 @@ public:
     void setLoop(bool loop);
     void loopOn();
     void loopOff();
+    //set increment - The animation will run in looping but incrementing the values
+    void setIncrement(bool incrementing);
+    void incrementOn();
+    void incrementOff();
 
     //GETERS
     //return the number of animations
@@ -352,6 +364,8 @@ private:
     bool rewind;
     //set if it is looping
     bool looping;
+    //set if it's incrementing the animation
+    bool incrementing;
     //processor clock
     edk::watch::Time clock;
     //callbacks

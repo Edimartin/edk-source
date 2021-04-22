@@ -30,6 +30,7 @@ edk::animation::InterpolationGroup::InterpolationGroup(){
     this->playing=false;
     this->paused=false;
     this->looping=false;
+    this->incrementing=false;
     this->interpolationSelect=0u;
     this->interpolationStart=this->interpolationEnd=0u;
     this->frameStart=this->frameEnd=0.0f;
@@ -1015,7 +1016,25 @@ void edk::animation::InterpolationGroup::cleanAnimationNames(){
 
 //get Loop
 bool edk::animation::InterpolationGroup::isLooping(){
-    return looping;
+    return this->looping;
+}
+//get Increment
+bool edk::animation::InterpolationGroup::isIncrementing(){
+    return this->incrementing;
+}
+
+//increment functions to run the increment for the values
+void edk::animation::InterpolationGroup::runIncrementForward(){
+    //
+}
+void edk::animation::InterpolationGroup::runIncrementRewind(){
+    //
+}
+void edk::animation::InterpolationGroup::cleanIncrement(){
+    //
+}
+void edk::animation::InterpolationGroup::startIncrement(){
+    //
 }
 
 //CONTROLS
@@ -1059,6 +1078,12 @@ void edk::animation::InterpolationGroup::playForwardIn(edk::float32 second){
         //set true for playing
         this->playing=true;
         this->saveAnimationSecond = this->animationSecond;
+
+        //test if is incrementing
+        if(this->incrementing){
+            //run the start incrementing
+            this->startIncrement();
+        }
         return;
     }
     //else stop
@@ -1075,6 +1100,15 @@ void edk::animation::InterpolationGroup::playRewindIn(edk::float32 second){
     this->selectInterpolationRewindBySecond(second);
     //and change to rewind
     this->rewind=true;
+
+    //test if is incrementing
+    if(this->incrementing){
+        //run the start incrementing
+        this->startIncrement();
+    }
+    else{
+        this->cleanIncrement();
+    }
 }
 void edk::animation::InterpolationGroup::pause(){
     if(!this->playing){
@@ -1094,6 +1128,7 @@ void edk::animation::InterpolationGroup::pauseOff(){
 }
 void edk::animation::InterpolationGroup::stop(){
     //start the clock
+    this->cleanIncrement();
     this->clock.start();
     this->playing=false;
     this->paused=false;
@@ -1117,6 +1152,19 @@ void edk::animation::InterpolationGroup::loopOn(){
 void edk::animation::InterpolationGroup::loopOff(){
     //
     this->setLoop(false);
+}
+//set increment - The animation will run in looping but incrementing the values
+void edk::animation::InterpolationGroup::setIncrement(bool increment){
+    this->incrementing=increment;
+    if(this->isPlaying() && this->incrementing){
+        this->startIncrement();
+    }
+}
+void edk::animation::InterpolationGroup::incrementOn(){
+    this->setIncrement(true);
+}
+void edk::animation::InterpolationGroup::incrementOff(){
+    this->setIncrement(false);
 }
 
 //GETERS
@@ -1196,7 +1244,7 @@ edk::float32 edk::animation::InterpolationGroup::updateClockAnimation(edk::float
                 //then reach the start
 
                 //test if are looping;
-                if(this->looping){
+                if(this->looping || this->incrementing){
                     edk::float32 dist = this->frameEnd-frameStart;
                     while(this->animationSecond<this->frameStart){
                         //then calculate the looping
@@ -1204,6 +1252,11 @@ edk::float32 edk::animation::InterpolationGroup::updateClockAnimation(edk::float
                     }
                     //select the first animation
                     this->selectInterpolationRewindBySecond(this->animationSecond);
+
+                    //run the increment to notify the increment values
+                    if(this->incrementing){
+                        this->runIncrementRewind();
+                    }
                 }
                 else{
                     //else just set the end
@@ -1248,7 +1301,7 @@ edk::float32 edk::animation::InterpolationGroup::updateClockAnimation(edk::float
                 //then reach the end
 
                 //test if are looping;
-                if(this->looping){
+                if(this->looping || this->incrementing){
                     edk::float32 dist = this->frameEnd-frameStart;
                     if(this->animationSecond>this->frameEnd){
                         //then calculate the looping
@@ -1256,6 +1309,11 @@ edk::float32 edk::animation::InterpolationGroup::updateClockAnimation(edk::float
                     }
                     //select the first animation
                     this->selectInterpolationBySecond(this->animationSecond);
+
+                    //run the increment to notify the increment values
+                    if(this->incrementing){
+                        this->runIncrementForward();
+                    }
                 }
                 else{
                     //else just set the end
@@ -1369,6 +1427,9 @@ bool edk::animation::InterpolationGroup::writeToXML(edk::XML* xml,edk::uint32 id
                         //save the looping
                         if(this->looping) xml->addSelectedNextAttribute("loop","on");
                         else              xml->addSelectedNextAttribute("loop","off");
+                        //save the incrementing
+                        if(this->incrementing) xml->addSelectedNextAttribute("increment","on");
+                        else              xml->addSelectedNextAttribute("increment","off");
                         //test if have the frameTemp
                         if(this->tempFrame){
                             //add the tempFrame
@@ -1430,6 +1491,13 @@ bool edk::animation::InterpolationGroup::readFromXML(edk::XML* xml,edk::uint32 i
                     }
                     else if(edk::String::strCompare(xml->getSelectedAttributeValueByName("loop"),(edk::char8*)"off")){
                         this->loopOff();
+                    }
+                    //read the increment
+                    if(edk::String::strCompare(xml->getSelectedAttributeValueByName("increment"),(edk::char8*)"on")){
+                        this->incrementOn();
+                    }
+                    else if(edk::String::strCompare(xml->getSelectedAttributeValueByName("increment"),(edk::char8*)"off")){
+                        this->incrementOff();
                     }
                     //read the frames
                     while(frameTemp.readFromXML(xml,count)){

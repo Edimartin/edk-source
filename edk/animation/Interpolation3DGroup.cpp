@@ -27,6 +27,8 @@ Gravatai RS Brazil 94065100
 edk::animation::Interpolation3DGroup::Interpolation3DGroup()
 {
     //ctor
+    this->incrementZ=0.f;
+    this->incrementZValue=0.f;
 }
 
 edk::animation::Interpolation3DGroup::~Interpolation3DGroup()
@@ -317,6 +319,36 @@ bool edk::animation::Interpolation3DGroup::setInterpolationP2Z(edk::uint32 posit
     return false;
 }
 
+//increment functions to run the increment for the values
+void edk::animation::Interpolation3DGroup::runIncrementForward(){
+    edk::animation::Interpolation2DGroup::runIncrementForward();
+    //run the increment value
+    this->incrementZ+=this->incrementZValue;
+}
+void edk::animation::Interpolation3DGroup::runIncrementRewind(){
+    edk::animation::Interpolation2DGroup::runIncrementRewind();
+    //run the increment value
+    this->incrementZ-=this->incrementZValue;
+}
+void edk::animation::Interpolation3DGroup::cleanIncrement(){
+    edk::animation::Interpolation2DGroup::cleanIncrement();
+    //clean the increment value
+    this->incrementZ = 0.f;
+}
+void edk::animation::Interpolation3DGroup::startIncrement(){
+    edk::animation::Interpolation2DGroup::startIncrement();
+    this->incrementZ = 0.f;
+    //get the last Interpolation Line
+    edk::uint32 size = this->animations.size();
+    if(size){
+        edk::animation::InterpolationLine3D* temp =
+                (edk::animation::InterpolationLine3D*)this->animations.get(size-1u);
+        if(temp){
+            this->incrementZValue = temp->getEnd3D().z;
+        }
+    }
+}
+
 //GETERS
 //return the animationPosition
 edk::float32 edk::animation::Interpolation3DGroup::getClockZ(bool* success){
@@ -329,7 +361,7 @@ edk::float32 edk::animation::Interpolation3DGroup::getClockZ(bool* success){
         //load the position
         if(temp){
             //
-            return temp->getPositionZ(this->animationSecond);
+            return temp->getPositionZ(this->animationSecond) + this->incrementZ;
         }
     }
     //set success

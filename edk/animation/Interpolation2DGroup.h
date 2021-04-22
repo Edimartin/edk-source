@@ -79,6 +79,12 @@ class Interpolation2DGroup: public edk::animation::Interpolation1DGroup{
         //shake
         edk::float32 addShakingFramesXY(edk::vec2f32 position,edk::float32 random,edk::float32 percent = 0.9f,edk::float32 interpolationDistance=0.05f);
 
+        //increment functions to run the increment for the values
+        virtual void runIncrementForward();
+        virtual void runIncrementRewind();
+        virtual void cleanIncrement();
+        virtual void startIncrement();
+
         //GETERS
         //return the animationPosition
         edk::float32 getClockY(bool* success=NULL);
@@ -127,6 +133,8 @@ class Interpolation2DGroup: public edk::animation::Interpolation1DGroup{
         }
     protected:
         edk::float32 tempY;
+        edk::float32 incrementY;
+        edk::float32 incrementYValue;
         //create the interpolation
         virtual edk::animation::InterpolationLine* newLineInterpolation();
         //create the frame

@@ -28,6 +28,8 @@ edk::animation::Interpolation1DGroup::Interpolation1DGroup()
     :edk::animation::InterpolationGroup()
 {
     //ctor
+    this->incrementX=0.f;
+    this->incrementXValue=0.f;
 }
 
 edk::animation::Interpolation1DGroup::~Interpolation1DGroup()
@@ -575,6 +577,36 @@ bool edk::animation::Interpolation1DGroup::setSecondByX(edk::float32 oldSecond,e
     return false;
 }
 
+//increment functions to run the increment for the values
+void edk::animation::Interpolation1DGroup::runIncrementForward(){
+    edk::animation::InterpolationGroup::runIncrementForward();
+    //run the increment value
+    this->incrementX+=this->incrementXValue;
+}
+void edk::animation::Interpolation1DGroup::runIncrementRewind(){
+    edk::animation::InterpolationGroup::runIncrementRewind();
+    //run the increment value
+    this->incrementX-=this->incrementXValue;
+}
+void edk::animation::Interpolation1DGroup::cleanIncrement(){
+    edk::animation::InterpolationGroup::cleanIncrement();
+    //clean the increment value
+    this->incrementX = 0.f;
+}
+void edk::animation::Interpolation1DGroup::startIncrement(){
+    edk::animation::InterpolationGroup::startIncrement();
+    this->incrementX = 0.f;
+    //get the last Interpolation Line
+    edk::uint32 size = this->animations.size();
+    if(size){
+        edk::animation::InterpolationLine1D* temp =
+                (edk::animation::InterpolationLine1D*)this->animations.get(size-1u);
+        if(temp){
+            this->incrementXValue = temp->getEnd1D().x;
+        }
+    }
+}
+
 //GETERS
 //return the animationPosition
 edk::float32 edk::animation::Interpolation1DGroup::getClockX(bool* success){
@@ -588,7 +620,7 @@ edk::float32 edk::animation::Interpolation1DGroup::getClockX(bool* success){
         if(temp){
             //
 
-            return temp->getPositionX(this->animationSecond);
+            return temp->getPositionX(this->animationSecond) + this->incrementX;
         }
     }
     //set success

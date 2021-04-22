@@ -27,6 +27,8 @@ Gravatai RS Brazil 94065100
 edk::animation::Interpolation2DGroup::Interpolation2DGroup()
 {
     //
+    this->incrementY=0.f;
+    this->incrementYValue=0.f;
 }
 
 edk::animation::Interpolation2DGroup::~Interpolation2DGroup()
@@ -394,6 +396,36 @@ edk::float32 edk::animation::Interpolation2DGroup::addShakingFramesXY(edk::vec2f
     return 0.f;
 }
 
+//increment functions to run the increment for the values
+void edk::animation::Interpolation2DGroup::runIncrementForward(){
+    edk::animation::Interpolation1DGroup::runIncrementForward();
+    //run the increment value
+    this->incrementY+=this->incrementYValue;
+}
+void edk::animation::Interpolation2DGroup::runIncrementRewind(){
+    edk::animation::Interpolation1DGroup::runIncrementRewind();
+    //run the increment value
+    this->incrementY-=this->incrementYValue;
+}
+void edk::animation::Interpolation2DGroup::cleanIncrement(){
+    edk::animation::Interpolation1DGroup::cleanIncrement();
+    //clean the increment value
+    this->incrementY = 0.f;
+}
+void edk::animation::Interpolation2DGroup::startIncrement(){
+    edk::animation::Interpolation1DGroup::startIncrement();
+    this->incrementY = 0.f;
+    //get the last Interpolation Line
+    edk::uint32 size = this->animations.size();
+    if(size){
+        edk::animation::InterpolationLine2D* temp =
+                (edk::animation::InterpolationLine2D*)this->animations.get(size-1u);
+        if(temp){
+            this->incrementYValue = temp->getEnd2D().y;
+        }
+    }
+}
+
 //GETERS
 //return the animationPosition
 edk::float32 edk::animation::Interpolation2DGroup::getClockY(bool* success){
@@ -406,7 +438,7 @@ edk::float32 edk::animation::Interpolation2DGroup::getClockY(bool* success){
         //load the position
         if(temp){
             //
-            return temp->getPositionY(this->animationSecond);
+            return temp->getPositionY(this->animationSecond) + this->incrementY;
         }
     }
     //set success
