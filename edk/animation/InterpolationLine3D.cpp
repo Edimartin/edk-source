@@ -250,6 +250,12 @@ edk::float32 edk::animation::InterpolationLine3D::getPositionZ(edk::float32 seco
     //else test the linear or curve
 
     edk::float32 percent = ((second - retStart->second)/ distance);
+    if(percent>=1.f){
+        return retEnd->z;
+    }
+    else if(percent<=0.f){
+        return retStart->z;
+    }
     //test if is a curve
     if(this->curveZ){
         edk::shape::Bezier2D bezier(edk::vec2f32(retStart->second,retStart->z),
