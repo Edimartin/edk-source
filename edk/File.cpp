@@ -1341,6 +1341,54 @@ bool File::writeBin(const char *str){
     return writeBin((edk::char8 *)str);
 }
 
+bool File::writeBin(int8 n){
+    //test if the file is opened
+    if(this->isOpened()){
+        //
+        fwrite(&n,sizeof(edk::int8),1u,this->arq);
+        //return true
+        return true;
+    }
+    //else return false
+    return false;
+}
+
+bool File::writeBin(int8 *n){
+    //test if the file is opened and if the n is true and the size is >1u
+    if(this->isOpened() && n){
+        //
+        fwrite(n,sizeof(edk::int8),sizeof(n),this->arq);
+        //return true
+        return true;
+    }
+    //else return false
+    return false;
+}
+
+bool File::writeBin(uint8 n){
+    //test if the file is opened
+    if(this->isOpened()){
+        //
+        fwrite(&n,sizeof(edk::uint8),1u,this->arq);
+        //return true
+        return true;
+    }
+    //else return false
+    return false;
+}
+
+bool File::writeBin(uint8 *n){
+    //test if the file is opened and if the n is true and the size is >1u
+    if(this->isOpened() && n){
+        //
+        fwrite(n,sizeof(edk::uint8),sizeof(n),this->arq);
+        //return true
+        return true;
+    }
+    //else return false
+    return false;
+}
+
 bool File::writeBin(int16 n){
     //test if the file is opened
     if(this->isOpened()){
@@ -1502,6 +1550,54 @@ bool File::writeBin(int64 *n){
     if(this->isOpened() && n){
         //
         fwrite(n,sizeof(edk::int64),sizeof(n),this->arq);
+        //return true
+        return true;
+    }
+    //else return false
+    return false;
+}
+
+bool File::writeBin(edk::float64 f){
+    //test if the file is opened
+    if(this->isOpened()){
+        //
+        fwrite(&f,sizeof(edk::float64),1u,this->arq);
+        //return true
+        return true;
+    }
+    //else return false
+    return false;
+}
+
+bool File::writeBin(edk::float64 *f){
+    //test if the file is opened and if the n is true and the size is >1u
+    if(this->isOpened() && f){
+        //
+        fwrite(f,sizeof(edk::float64),sizeof(f),this->arq);
+        //return true
+        return true;
+    }
+    //else return false
+    return false;
+}
+
+bool File::writeBin(bool b){
+    //test if the file is opened
+    if(this->isOpened()){
+        //
+        fwrite(&b,sizeof(bool),1u,this->arq);
+        //return true
+        return true;
+    }
+    //else return false
+    return false;
+}
+
+bool File::writeBin(bool *b){
+    //test if the file is opened and if the n is true and the size is >1u
+    if(this->isOpened() && b){
+        //
+        fwrite(b,sizeof(bool),sizeof(b),this->arq);
         //return true
         return true;
     }

@@ -177,6 +177,14 @@ class File {
 
     bool writeBin(const char *str);
 
+    bool writeBin(int8 n);
+
+    bool writeBin(int8 *n);
+
+    bool writeBin(uint8 n);
+
+    bool writeBin(uint8 *n);
+
     bool writeBin(int16 n);
 
     bool writeBin(int16 *n);
@@ -204,6 +212,14 @@ class File {
     bool writeBin(int64 n);
 
     bool writeBin(int64 *n);
+
+    bool writeBin(edk::float64 f);
+
+    bool writeBin(edk::float64 *f);
+
+    bool writeBin(bool b);
+
+    bool writeBin(bool *b);
 
     char8 readTextChar();
 
