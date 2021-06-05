@@ -35,6 +35,7 @@ public:
         this->camera.setSize(16.f,10.f);
         //create the message
         text.createStringMap("Hello EDK World");
+        text.setColor(0.f,0.f,0.f,1.f);
     }
     void unload(){
         //remove the message
