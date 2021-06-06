@@ -518,8 +518,14 @@ bool edk::animation::InterpolationGroup::addNewInterpolationLine(edk::animation:
 
             //test if second are bigger que first frame
             if(frame.second>this->animations[0u]->getStart().second){
-                //then insert inside the first
-                ret=this->insertLineFrameInside(0u,frame);
+                //test if need insert the frame after the first frame
+                if(frame.second>this->animations[0u]->getEnd().second){
+                    ret=insertLineFrameAfter(search,frame);
+                }
+                else{
+                    //then insert inside the first
+                    ret=this->insertLineFrameInside(0u,frame);
+                }
             }
             else{
                 //add a new first frame
