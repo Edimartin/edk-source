@@ -511,7 +511,7 @@ bool edk::animation::InterpolationGroup::addNewInterpolationLine(edk::animation:
         edk::uint32 search = this->searchBackInterpoaltion(frame.second);
         if(search>0u){
             //intert the the interpolation before the search-1 interpolation
-            ret=insertLineFrameAfter(search-1u,frame);
+            ret=insertLineFrameAfter(search,frame);
         }
         else{
             //intert the interpolation in the first interpolation
