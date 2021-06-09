@@ -32,6 +32,8 @@ Gravatai RS Brazil 94065100
 //Animation
 #include "../animation/Interpolation1DGroup.h"
 
+#include "../pack/FilePackage.h"
+
 #ifdef printMessages
 #warning "    Compiling FontMap"
 #endif
@@ -90,6 +92,8 @@ public:
                                  edk::uint32 filter = GU_NEAREST,
                                  edk::color4f32 color = edk::color4f32(0,0,0,1)
             );
+    bool loadFontImageFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
+    bool loadFontImageFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
 
     //create a map
     bool createMap(edk::size2ui32 size);

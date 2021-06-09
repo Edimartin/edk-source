@@ -129,6 +129,33 @@ public:
                                                                      edk::uint32 filter = GU_NEAREST,
                                                                      edk::color4f32 color = edk::color4f32(1,1,1,1)
             );
+    //load the tiles from pack
+    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesFromPack(edk::pack::FilePackage* pack,
+                                                                   const edk::char8* image,
+                                                                   edk::uint32 x,
+                                                                   edk::uint32 y,
+                                                                   edk::uint32 filter = GU_NEAREST,
+                                                                   edk::color4f32 color = edk::color4f32(1,1,1,1)
+            );
+    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesFromPack(edk::pack::FilePackage* pack,
+                                                                   const edk::char8* image,
+                                                                   edk::vec2ui32 frames,
+                                                                   edk::uint32 filter = GU_NEAREST,
+                                                                   edk::color4f32 color = edk::color4f32(1,1,1,1)
+            );
+    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesFromPack(edk::pack::FilePackage* pack,
+                                                                   edk::char8* image,
+                                                                   edk::uint32 x,
+                                                                   edk::uint32 y,
+                                                                   edk::uint32 filter = GU_NEAREST,
+                                                                   edk::color4f32 color = edk::color4f32(1,1,1,1)
+            );
+    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesFromPack(edk::pack::FilePackage* pack,
+                                                                   edk::char8* image,
+                                                                   edk::vec2ui32 frames,
+                                                                   edk::uint32 filter = GU_NEAREST,
+                                                                   edk::color4f32 color = edk::color4f32(1,1,1,1)
+            );
 
     //load the tiles from an image
     edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesIsometric(const edk::char8* image,
@@ -184,6 +211,33 @@ public:
                                                                               edk::uint32 filter = GU_NEAREST,
                                                                               edk::color4f32 color = edk::color4f32(1,1,1,1)
             );
+    //load the tiles from pack
+    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesIsometricFromPack(edk::pack::FilePackage* pack,
+                                                                            const edk::char8* image,
+                                                                            edk::uint32 x,
+                                                                            edk::uint32 y,
+                                                                            edk::uint32 filter = GU_NEAREST,
+                                                                            edk::color4f32 color = edk::color4f32(1,1,1,1)
+            );
+    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesIsometricFromPack(edk::pack::FilePackage* pack,
+                                                                            const edk::char8* image,
+                                                                            edk::vec2ui32 frames,
+                                                                            edk::uint32 filter = GU_NEAREST,
+                                                                            edk::color4f32 color = edk::color4f32(1,1,1,1)
+            );
+    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesIsometricFromPack(edk::pack::FilePackage* pack,
+                                                                            edk::char8* image,
+                                                                            edk::uint32 x,
+                                                                            edk::uint32 y,
+                                                                            edk::uint32 filter = GU_NEAREST,
+                                                                            edk::color4f32 color = edk::color4f32(1,1,1,1)
+            );
+    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesIsometricFromPack(edk::pack::FilePackage* pack,
+                                                                            edk::char8* image,
+                                                                            edk::vec2ui32 frames,
+                                                                            edk::uint32 filter = GU_NEAREST,
+                                                                            edk::color4f32 color = edk::color4f32(1,1,1,1)
+            );
 
     //load the tiles from an image
     edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesIsometricFlat(const edk::char8* image,
@@ -238,6 +292,34 @@ public:
                                                                                   edk::vec2ui32 frames,
                                                                                   edk::uint32 filter = GU_NEAREST,
                                                                                   edk::color4f32 color = edk::color4f32(1,1,1,1)
+            );
+
+    //load the tiles from pack
+    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesIsometricFlatFromPack(edk::pack::FilePackage* pack,
+                                                                                const edk::char8* image,
+                                                                                edk::uint32 x,
+                                                                                edk::uint32 y,
+                                                                                edk::uint32 filter = GU_NEAREST,
+                                                                                edk::color4f32 color = edk::color4f32(1,1,1,1)
+            );
+    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesIsometricFlatFromPack(edk::pack::FilePackage* pack,
+                                                                                const edk::char8* image,
+                                                                                edk::vec2ui32 frames,
+                                                                                edk::uint32 filter = GU_NEAREST,
+                                                                                edk::color4f32 color = edk::color4f32(1,1,1,1)
+            );
+    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesIsometricFlatFromPack(edk::pack::FilePackage* pack,
+                                                                                edk::char8* image,
+                                                                                edk::uint32 x,
+                                                                                edk::uint32 y,
+                                                                                edk::uint32 filter = GU_NEAREST,
+                                                                                edk::color4f32 color = edk::color4f32(1,1,1,1)
+            );
+    edk::tiles::TileSet2D::Tile2Positions2D loadImageTilesIsometricFlatFromPack(edk::pack::FilePackage* pack,
+                                                                                edk::char8* image,
+                                                                                edk::vec2ui32 frames,
+                                                                                edk::uint32 filter = GU_NEAREST,
+                                                                                edk::color4f32 color = edk::color4f32(1,1,1,1)
             );
 
     //create a new tile
@@ -246,18 +328,24 @@ public:
     edk::uint32 newTile(edk::color4f32 color = edk::color4f32(1,1,1,1));
     edk::uint32 newTileFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
     edk::uint32 newTileFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
+    edk::uint32 newTileFromPack(edk::pack::FilePackage* pack,const edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
+    edk::uint32 newTileFromPack(edk::pack::FilePackage* pack,edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
     //create a new Isometric tile
     edk::uint32 newTileIsometric(const edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
     edk::uint32 newTileIsometric(edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
     edk::uint32 newTileIsometric(edk::color4f32 color = edk::color4f32(1,1,1,1));
     edk::uint32 newTileIsometricFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
     edk::uint32 newTileIsometricFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
+    edk::uint32 newTileIsometricFromPack(edk::pack::FilePackage* pack,const edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
+    edk::uint32 newTileIsometricFromPack(edk::pack::FilePackage* pack,edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
     //create a new IsometricFlat tile
     edk::uint32 newTileIsometricFlat(const edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
     edk::uint32 newTileIsometricFlat(edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
     edk::uint32 newTileIsometricFlat(edk::color4f32 color = edk::color4f32(1,1,1,1));
     edk::uint32 newTileIsometricFlatFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
     edk::uint32 newTileIsometricFlatFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
+    edk::uint32 newTileIsometricFlatFromPack(edk::pack::FilePackage* pack,const edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
+    edk::uint32 newTileIsometricFlatFromPack(edk::pack::FilePackage* pack,edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));
     //set the tile UVFrames
     bool setTileFramesUV(edk::uint32 tile,edk::vec2ui32 frames);
     bool setTileFramesUV(edk::uint32 tile,edk::uint32 x,edk::uint32 y);

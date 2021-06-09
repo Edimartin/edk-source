@@ -73,6 +73,22 @@ bool edk::fonts::FontSet::loadFontImageFromMemory(edk::char8* name,
     return false;
 }
 
+bool edk::fonts::FontSet::loadFontImageFromPack(edk::pack::FilePackage* pack,const edk::char8* image,edk::uint32 filter,edk::color4f32 color){
+    return this->loadFontImageFromPack(pack,(edk::char8*) image,filter,color);
+}
+bool edk::fonts::FontSet::loadFontImageFromPack(edk::pack::FilePackage* pack,edk::char8* image,edk::uint32 filter,edk::color4f32 color){
+    this->deleteImage();
+    edk::tiles::TileSet2D::Tile2Positions2D ret = this->tileSet.loadImageTilesFromPack(pack,image,16u,16u,filter,color);
+    if(ret.first==1u && ret.last==256u){
+        if(this->name.setName(image)){
+            this->filter = filter;
+            return true;
+        }
+    }
+    this->deleteImage();
+    return false;
+}
+
 //delete image
 void edk::fonts::FontSet::deleteImage(){
     this->tileSet.deleteTiles();
@@ -225,6 +241,32 @@ edk::fonts::FontSet* edk::fonts::fontSetList::TreeFont::loadFontImageFromMemory(
     }
     return NULL;
 }
+edk::fonts::FontSet* edk::fonts::fontSetList::TreeFont::loadFontImageFromPack(edk::pack::FilePackage* pack,edk::char8* image,edk::uint32 filter,edk::color4f32 color){
+    if(image && pack){
+        //find the image
+        edk::fonts::fontSetList::FontRetain* ret = this->getFontSetByImage(image,filter);
+        if(ret){
+            //then retain
+            ret->retain();
+            return &ret->set;
+        }
+        else{
+            //else create the new fontSet
+            ret = new edk::fonts::fontSetList::FontRetain;
+            if(ret){
+                if(ret->set.loadFontImageFromPack(pack,image,filter,color)){
+                    //add the fontRet to the tree
+                    if(this->add(ret)){
+                        ret->retain();
+                        return &ret->set;
+                    }
+                }
+                delete ret;
+            }
+        }
+    }
+    return NULL;
+}
 
 //remove image
 bool edk::fonts::fontSetList::TreeFont::removeImage(edk::char8* image,edk::uint32 filter){
@@ -282,6 +324,10 @@ edk::fonts::FontSet* edk::fonts::fontSetList::createFontSet(edk::char8* image,ed
 //load the fontSet
 edk::fonts::FontSet* edk::fonts::fontSetList::createFontSetFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter,edk::color4f32 color){
     return edk::fonts::fontSetList::tree.loadFontImageFromMemory(name,image,size,filter,color);
+}
+//load the fontSet
+edk::fonts::FontSet* edk::fonts::fontSetList::createFontSetFromPack(edk::pack::FilePackage* pack,edk::char8* image,edk::uint32 filter,edk::color4f32 color){
+    return edk::fonts::fontSetList::tree.loadFontImageFromPack(pack,image,filter,color);
 }
 
 //remove fontSet

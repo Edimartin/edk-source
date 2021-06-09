@@ -29,6 +29,8 @@ Gravatai RS Brazil 94065100
 #include "../tiles/TileSet2D.h"
 #include "../NameClass.h"
 
+#include "../pack/FilePackage.h"
+
 #ifdef printMessages
 #warning "    Compiling FontSet"
 #endif
@@ -56,6 +58,9 @@ public:
                                  edk::uint32 filter = GU_NEAREST,
                                  edk::color4f32 color = edk::color4f32(0,0,0,1)
             );
+
+    bool loadFontImageFromPack(edk::pack::FilePackage* pack,const edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
+    bool loadFontImageFromPack(edk::pack::FilePackage* pack,edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
 
     //delete image
     void deleteImage();
@@ -90,6 +95,8 @@ public:
     edk::fonts::FontSet* createFontSet(edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
     //load the fontSet
     edk::fonts::FontSet* createFontSetFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
+    //load the fontSet
+    edk::fonts::FontSet* createFontSetFromPack(edk::pack::FilePackage* pack,edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
     //remove fontSet
     bool removeFontSetByName(edk::char8* image,edk::uint32 filter = GU_NEAREST);
     //remove fontSet
@@ -125,6 +132,7 @@ private:
         //load the font
         edk::fonts::FontSet* loadFontImage(edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
         edk::fonts::FontSet* loadFontImageFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
+        edk::fonts::FontSet* loadFontImageFromPack(edk::pack::FilePackage* pack,edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
         //remove image
         bool removeImage(edk::char8* image,edk::uint32 filter = GU_NEAREST);
         //remove FontSet

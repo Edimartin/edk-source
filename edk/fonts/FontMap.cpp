@@ -1037,6 +1037,27 @@ bool edk::fonts::FontMap::loadFontImageFromMemory(edk::char8* name,
     this->removeFontImage();
     return false;
 }
+bool edk::fonts::FontMap::loadFontImageFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 filter,edk::color4f32 color){
+    return this->loadFontImageFromPack(pack,(edk::char8*) name,filter,color);
+}
+bool edk::fonts::FontMap::loadFontImageFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter,edk::color4f32 color){
+    //remove the fontImage
+    this->removeFontImage();
+    //test the name
+    if(name && pack){
+        //load the fontImage
+        if((this->set = this->list.createFontSetFromPack(pack,name,filter,color))){
+            //set tileSet in map
+            if(this->map.setTileSet(this->set->getTileSet())){
+                //return true
+                return true;
+            }
+        }
+    }
+    //else remove fontImage
+    this->removeFontImage();
+    return false;
+}
 //create a map
 bool edk::fonts::FontMap::createMap(edk::size2ui32 size){
     //clean the lines

@@ -283,6 +283,79 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesFro
 
     return ret;
 }
+//load the tiles from pack
+edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesFromPack(edk::pack::FilePackage* pack,
+                                                                                      const edk::char8* image,
+                                                                                      edk::uint32 x,
+                                                                                      edk::uint32 y,
+                                                                                      edk::uint32 filter,
+                                                                                      edk::color4f32 color
+        ){
+    //
+    return this->loadImageTilesFromPack(pack,(edk::char8*)image,edk::vec2ui32(x,y),filter,color);
+}
+edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesFromPack(edk::pack::FilePackage* pack,
+                                                                                      const edk::char8* image,
+                                                                                      edk::vec2ui32 frames,
+                                                                                      edk::uint32 filter,
+                                                                                      edk::color4f32 color
+        ){
+    //
+    return this->loadImageTilesFromPack(pack,(edk::char8*)image,frames,filter,color);
+}
+edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesFromPack(edk::pack::FilePackage* pack,
+                                                                                      edk::char8* image,
+                                                                                      edk::uint32 x,
+                                                                                      edk::uint32 y,
+                                                                                      edk::uint32 filter,
+                                                                                      edk::color4f32 color
+        ){
+    //
+    return this->loadImageTilesFromPack(pack,image,edk::vec2ui32(x,y),filter,color);
+}
+edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesFromPack(edk::pack::FilePackage* pack,
+                                                                                      edk::char8* image,
+                                                                                      edk::vec2ui32 frames,
+                                                                                      edk::uint32 filter,
+                                                                                      edk::color4f32 color
+        ){
+    //
+    //
+    edk::tiles::TileSet2D::Tile2Positions2D ret;
+
+    //test the imageName
+    if(image && pack){
+        //load the tiles
+        edk::uint32 tempX = frames.x;
+        edk::uint32 tempY = frames.y;
+        //save the tile position
+        edk::uint32 position=0u;
+        for(edk::uint32 y=0u;y<tempY;y++){
+            for(edk::uint32 x=0u;x<tempX;x++){
+                //test if its the first
+                if(!x && !y){
+                    //load the first tile and set the ret
+                    position = ret.first = this->newTileFromPack(pack,image,filter,color);
+                }
+                //test if its the last
+                else if(x==tempX-1u && y==tempY-1u){
+                    //load the first tile and set the ret
+                    position = ret.last = this->newTileFromPack(pack,image,filter,color);
+                }
+                else{
+                    //else just load the tile
+                    position = this->newTileFromPack(pack,image,filter,color);
+                }
+                //set the tile frames
+                this->setTileFramesUV(position,tempX,tempY);
+                //set the tile position
+                this->setTileFrameUV(position,x,y);
+            }
+        }
+    }
+
+    return ret;
+}
 
 //load the tiles from an image
 edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIsometric(const edk::char8* image,
@@ -415,6 +488,75 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIso
                 else{
                     //else just load the tile
                     position = this->newTileIsometricFromMemory(name,image,size,filter,color);
+                }
+                //set the tile frames
+                this->setTileFramesUV(position,tempX,tempY);
+                //set the tile position
+                this->setTileFrameUV(position,x,y);
+            }
+        }
+    }
+
+    return ret;
+}
+//load the tiles from pack
+edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIsometricFromPack(edk::pack::FilePackage* pack,
+                                                                                               const edk::char8* image,
+                                                                                               edk::uint32 x,
+                                                                                               edk::uint32 y,
+                                                                                               edk::uint32 filter,
+                                                                                               edk::color4f32 color
+        ){
+    return this->loadImageTilesIsometricFromPack(pack,(edk::char8*)image,edk::vec2ui32(x,y),filter,color);
+}
+edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIsometricFromPack(edk::pack::FilePackage* pack,
+                                                                                               const edk::char8* image,
+                                                                                               edk::vec2ui32 frames,
+                                                                                               edk::uint32 filter,
+                                                                                               edk::color4f32 color
+        ){
+    return this->loadImageTilesIsometricFromPack(pack,(edk::char8*)image,frames,filter,color);
+}
+edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIsometricFromPack(edk::pack::FilePackage* pack,
+                                                                                               edk::char8* image,
+                                                                                               edk::uint32 x,
+                                                                                               edk::uint32 y,
+                                                                                               edk::uint32 filter,
+                                                                                               edk::color4f32 color
+        ){
+    return this->loadImageTilesIsometricFromPack(pack,image,edk::vec2ui32(x,y),filter,color);
+}
+edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIsometricFromPack(edk::pack::FilePackage* pack,
+                                                                                               edk::char8* image,
+                                                                                               edk::vec2ui32 frames,
+                                                                                               edk::uint32 filter,
+                                                                                               edk::color4f32 color
+        ){
+    //
+    edk::tiles::TileSet2D::Tile2Positions2D ret;
+
+    //test the imageName
+    if(image && pack){
+        //load the tiles
+        edk::uint32 tempX = frames.x;
+        edk::uint32 tempY = frames.y;
+        //save the tile position
+        edk::uint32 position=0u;
+        for(edk::uint32 y=0u;y<tempY;y++){
+            for(edk::uint32 x=0u;x<tempX;x++){
+                //test if its the first
+                if(!x && !y){
+                    //load the first tile and set the ret
+                    position = ret.first = this->newTileIsometricFromPack(pack,image,filter,color);
+                }
+                //test if its the last
+                else if(x==tempX-1u && y==tempY-1u){
+                    //load the first tile and set the ret
+                    position = ret.last = this->newTileIsometricFromPack(pack,image,filter,color);
+                }
+                else{
+                    //else just load the tile
+                    position = this->newTileIsometricFromPack(pack,image,filter,color);
                 }
                 //set the tile frames
                 this->setTileFramesUV(position,tempX,tempY);
@@ -570,6 +712,76 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIso
     return ret;
 }
 
+//load the tiles from pack
+edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIsometricFlatFromPack(edk::pack::FilePackage* pack,
+                                                                            const edk::char8* image,
+                                                                            edk::uint32 x,
+                                                                            edk::uint32 y,
+                                                                            edk::uint32 filter,
+                                                                            edk::color4f32 color
+        ){
+    return this->loadImageTilesIsometricFlatFromPack(pack,(edk::char8*)image,edk::vec2ui32(x,y),filter,color);
+}
+edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIsometricFlatFromPack(edk::pack::FilePackage* pack,
+                                                                            const edk::char8* image,
+                                                                            edk::vec2ui32 frames,
+                                                                            edk::uint32 filter,
+                                                                            edk::color4f32 color
+        ){
+    return this->loadImageTilesIsometricFlatFromPack(pack,(edk::char8*)image,frames,filter,color);
+}
+edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIsometricFlatFromPack(edk::pack::FilePackage* pack,
+                                                                            edk::char8* image,
+                                                                            edk::uint32 x,
+                                                                            edk::uint32 y,
+                                                                            edk::uint32 filter,
+                                                                            edk::color4f32 color
+        ){
+    return this->loadImageTilesIsometricFlatFromPack(pack,image,edk::vec2ui32(x,y),filter,color);
+}
+edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIsometricFlatFromPack(edk::pack::FilePackage* pack,
+                                                                            edk::char8* image,
+                                                                            edk::vec2ui32 frames,
+                                                                            edk::uint32 filter,
+                                                                            edk::color4f32 color
+        ){
+    //
+    edk::tiles::TileSet2D::Tile2Positions2D ret;
+
+    //test the imageName
+    if(image && pack){
+        //load the tiles
+        edk::uint32 tempX = frames.x;
+        edk::uint32 tempY = frames.y;
+        //save the tile position
+        edk::uint32 position=0u;
+        for(edk::uint32 y=0u;y<tempY;y++){
+            for(edk::uint32 x=0u;x<tempX;x++){
+                //test if its the first
+                if(!x && !y){
+                    //load the first tile and set the ret
+                    position = ret.first = this->newTileIsometricFlatFromPack(pack,image,filter,color);
+                }
+                //test if its the last
+                else if(x==tempX-1u && y==tempY-1u){
+                    //load the first tile and set the ret
+                    position = ret.last = this->newTileIsometricFlatFromPack(pack,image,filter,color);
+                }
+                else{
+                    //else just load the tile
+                    position = this->newTileIsometricFlatFromPack(pack,image,filter,color);
+                }
+                //set the tile frames
+                this->setTileFramesUV(position,tempX,tempY);
+                //set the tile position
+                this->setTileFrameUV(position,x,y);
+            }
+        }
+    }
+
+    return ret;
+}
+
 //create a new tile
 edk::uint32 edk::tiles::TileSet2D::newTile(const edk::char8* image,edk::uint32 filter,edk::color4f32 color){
     //
@@ -635,6 +847,35 @@ edk::uint32 edk::tiles::TileSet2D::newTileFromMemory(edk::char8* name,edk::uint8
                 if(temp){
                     //
                     if(temp->loadImageFromMemory(name,image,size,filter)){
+                        //return the position
+                        return position;
+                    }
+                    else{
+                        //else remove the tile
+                        this->tiles.remove(position-1u);
+                    }
+                    delete temp;
+                }
+            }
+        }
+    }
+    //else return minus one
+    return 0u;
+}
+edk::uint32 edk::tiles::TileSet2D::newTileFromPack(edk::pack::FilePackage* pack,const edk::char8* image,edk::uint32 filter,edk::color4f32 color){
+    return this->newTileFromPack(pack,(edk::char8*) image,filter,color);
+}
+edk::uint32 edk::tiles::TileSet2D::newTileFromPack(edk::pack::FilePackage* pack,edk::char8* image,edk::uint32 filter,edk::color4f32 color){
+    if(image && pack){
+        //new tile with white color
+        edk::uint32 position = this->newTile(color);
+        if(position){
+            //load the image
+            if(this->tiles.havePos(position -1u)){
+                edk::tiles::Tile2D* temp = this->tiles.get(position -1u);
+                if(temp){
+                    //
+                    if(temp->loadImageFromPack(pack,image,filter)){
                         //return the position
                         return position;
                     }
@@ -730,6 +971,35 @@ edk::uint32 edk::tiles::TileSet2D::newTileIsometricFromMemory(edk::char8* name,e
     //else return minus one
     return 0u;
 }
+edk::uint32 edk::tiles::TileSet2D::newTileIsometricFromPack(edk::pack::FilePackage* pack,const edk::char8* image,edk::uint32 filter,edk::color4f32 color){
+    return this->newTileIsometricFromPack(pack,(edk::char8*) image,filter,color);
+}
+edk::uint32 edk::tiles::TileSet2D::newTileIsometricFromPack(edk::pack::FilePackage* pack,edk::char8* image,edk::uint32 filter,edk::color4f32 color){
+    if(image && pack){
+        //new tile with white color
+        edk::uint32 position = this->newTileIsometric(color);
+        if(position){
+            //load the image
+            if(this->tiles.havePos(position -1u)){
+                edk::tiles::Tile2D* temp = this->tiles.get(position -1u);
+                if(temp){
+                    //
+                    if(temp->loadImageFromPack(pack,image,filter)){
+                        //return the position
+                        return position;
+                    }
+                    else{
+                        //else remove the tile
+                        this->tiles.remove(position-1u);
+                    }
+                    delete temp;
+                }
+            }
+        }
+    }
+    //else return minus one
+    return 0u;
+}
 //create a new Isometric tile
 edk::uint32 edk::tiles::TileSet2D::newTileIsometricFlat(const edk::char8* image,edk::uint32 filter,edk::color4f32 color){
     //
@@ -795,6 +1065,35 @@ edk::uint32 edk::tiles::TileSet2D::newTileIsometricFlatFromMemory(edk::char8* na
                 if(temp){
                     //
                     if(temp->loadImageFromMemory(name,image,size,filter)){
+                        //return the position
+                        return position;
+                    }
+                    else{
+                        //else remove the tile
+                        this->tiles.remove(position-1u);
+                    }
+                    delete temp;
+                }
+            }
+        }
+    }
+    //else return minus one
+    return 0u;
+}
+edk::uint32 edk::tiles::TileSet2D::newTileIsometricFlatFromPack(edk::pack::FilePackage* pack,const edk::char8* image,edk::uint32 filter,edk::color4f32 color){
+    return this->newTileIsometricFlatFromPack(pack,(edk::char8*) image,filter,color);
+}
+edk::uint32 edk::tiles::TileSet2D::newTileIsometricFlatFromPack(edk::pack::FilePackage* pack,edk::char8* image,edk::uint32 filter,edk::color4f32 color){
+    if(image && pack){
+        //new tile with white color
+        edk::uint32 position = this->newTileIsometricFlat(color);
+        if(position){
+            //load the image
+            if(this->tiles.havePos(position -1u)){
+                edk::tiles::Tile2D* temp = this->tiles.get(position -1u);
+                if(temp){
+                    //
+                    if(temp->loadImageFromPack(pack,image,filter)){
                         //return the position
                         return position;
                     }
