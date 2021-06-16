@@ -90,6 +90,9 @@ class ViewController : public View {
 
     //return false to isLeaf
     bool isLeaf();
+protected:
+    //draw the view inside in a separated function to viewTexture draw other views inside
+    void drawViewInside();
  private:
 
     //The list of views inside this view

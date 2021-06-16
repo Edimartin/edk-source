@@ -119,6 +119,8 @@ void edk::ViewGUTexture::draw(rectf32 outsideViewOrigin){
 
         //remove the buffer
         this->render.dontUseFrameBuffer();
+
+        this->drawViewInside();
     }
 }
 //read from the texture

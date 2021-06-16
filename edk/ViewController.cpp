@@ -44,6 +44,31 @@ ViewController::~ViewController(){
     this->frame = edk::rectf32(0.f,0.f,0.f,0.f);
 }
 
+//draw the view inside in a separated function to viewTexture draw other views inside
+void ViewController::drawViewInside(){
+    //test if this view is not hided
+    if(!this->hide){
+        //save the rectInside
+        this->rectInside = edk::rectf32(
+                    rectTemp.origin.x + this->borderTemp,
+                    rectTemp.origin.y,
+                    rectTemp.size.width - this->borderTemp,
+                    rectTemp.size.height - this->borderTemp
+                    );
+        this->setRectInside = true;
+        //Then draw the others
+        for(edk::uint32 i=0u;i<this->nexts.size();i++){
+            //test if the view exist
+            if(this->nexts.havePos(i)){
+                //then draw using the view in GU. no in EDK
+                this->nexts[i]->runDraw(
+                            this->rectInside
+                            );
+            }
+        }
+    }
+}
+
 
 
 bool ViewController::addSubview(edk::View *addView){
@@ -232,29 +257,8 @@ void ViewController::removeAllSubview(){
 void ViewController::draw(edk::rectf32 outsideViewOrigin){
     //First draw calculting the rectTemp
     edk::View::draw(outsideViewOrigin);
-    //Then call the nextView
-
-    //test if this view is not hided
-    if(!this->hide){
-        //save the rectInside
-        this->rectInside = edk::rectf32(
-                    rectTemp.origin.x + this->borderTemp,
-                    rectTemp.origin.y,
-                    rectTemp.size.width - this->borderTemp,
-                    rectTemp.size.height - this->borderTemp
-                    );
-        this->setRectInside = true;
-        //Then draw the others
-        for(edk::uint32 i=0u;i<this->nexts.size();i++){
-            //test if the view exist
-            if(this->nexts.havePos(i)){
-                //then draw using the view in GU. no in EDK
-                this->nexts[i]->runDraw(
-                            this->rectInside
-                            );
-            }
-        }
-    }
+    //draw the view inside
+    this->drawViewInside();
 }
 
 //contact in the view
