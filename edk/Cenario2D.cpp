@@ -2732,7 +2732,7 @@ void edk::Cenario2D::deleteLevel(edk::uint32 levelPosition){
                     delete level->tileMap;
                 }
                 if(level->objs){
-                    this->deleteAllObjects(levelPosition);
+                    this->deleteAllObjects(levelPosition+1u);
                 }
                 if(level->objsPhys){
                     //remove the objPhys from world
