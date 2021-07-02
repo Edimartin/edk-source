@@ -2877,7 +2877,6 @@ bool edk::tiles::TileMap2D::readFromXML(edk::XML* xml,edk::uint32 id){
                                         delete[] vec;
                                     }
                                 }
-                                xml->selectFather();
                             }
                             if(this->colorMap){
                                 //create a new vector
@@ -2903,9 +2902,9 @@ bool edk::tiles::TileMap2D::readFromXML(edk::XML* xml,edk::uint32 id){
                                         delete[] vec;
                                     }
                                 }
-                                xml->selectFather();
                             }
                         }
+                        xml->selectFather();
                     }
                     edk::vec2f32 positionTemp = edk::vec2f32(edk::String::strToFloat32(xml->getSelectedAttributeValueByName("posMapX")),
                                                              edk::String::strToFloat32(xml->getSelectedAttributeValueByName("posMapY"))

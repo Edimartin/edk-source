@@ -538,7 +538,7 @@ private:
         //Print
         virtual void renderElement(ObjClass* value){
             if(value->getObject()){
-                value->getObject()->drawWithoutMaterialWithLight();
+                value->getObject()->draw();
             }
         }
         //UPDATE
