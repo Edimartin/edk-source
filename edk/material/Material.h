@@ -110,6 +110,7 @@ public:
 
     //test if have texture
     bool haveTexture();
+    bool haveTexture(edk::uint8 position);
     bool haveOneTexture();
 
     //DRAW

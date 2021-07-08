@@ -273,6 +273,14 @@ bool edk::material::Material::deleteTexture(edk::uint8 position){
 bool edk::material::Material::haveTexture(){
     return (bool)this->countTextures;
 }
+bool edk::material::Material::haveTexture(edk::uint8 position){
+    if(position < materialTextureCount){
+        if(this->textures[position]){
+            return true;
+        }
+    }
+    return false;
+}
 bool edk::material::Material::haveOneTexture(){
     if(this->countTextures==1u && this->textures[0u])
         return true;

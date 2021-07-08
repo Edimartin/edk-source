@@ -90,6 +90,10 @@ public:
     edk::uint64 getFileSize(edk::char8* fileName);
     edk::uint64 getFileSize(const edk::char8* fileName);
 
+    //return true if have the file
+    bool haveFile(edk::char8* fileName);
+    bool haveFile(const edk::char8* fileName);
+
     //print the names
     void printNames();
 private:

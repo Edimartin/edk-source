@@ -2878,34 +2878,45 @@ bool edk::tiles::TileMap2D::readFromXML(edk::XML* xml,edk::uint32 id){
                                     }
                                 }
                             }
-                            if(this->colorMap){
-                                //create a new vector
-                                edk::uint32 size = this->sizeMap.width * this->sizeMap.height * 4u;
-                                if(size){
-                                    //create the vector
-                                    edk::float32* vec = new edk::float32[size];
-                                    if(vec){
-                                        //convert the string
-                                        if(edk::String::strToVecfloat32(xml->getSelectedString(),vec,size)){
-                                            edk::uint32 count = 0u;
-                                            //copy the vec to the mat
-                                            for(edk::uint32 y=0u;y<this->sizeMap.height;y++){
-                                                for(edk::uint32 x=0u;x<this->sizeMap.width;x++){
-                                                    this->colorMap[y][x].a = vec[count+0u];
-                                                    this->colorMap[y][x].r = vec[count+1u];
-                                                    this->colorMap[y][x].g = vec[count+2u];
-                                                    this->colorMap[y][x].b = vec[count+3u];
-                                                    count+=4u;
+                            xml->selectFather();
+
+                            //read the colorMap
+                            if(xml->selectChild("colorMap")){
+                                if(this->colorMap){
+                                    //create a new vector
+                                    edk::uint32 size = this->sizeMap.width * this->sizeMap.height * 4u;
+                                    if(size){
+                                        //create the vector
+                                        edk::float32* vec = new edk::float32[size];
+                                        if(vec){
+                                            //convert the string
+                                            if(edk::String::strToVecfloat32(xml->getSelectedString(),vec,size)){
+                                                edk::uint32 count = 0u;
+                                                //copy the vec to the mat
+                                                for(edk::uint32 y=0u;y<this->sizeMap.height;y++){
+                                                    for(edk::uint32 x=0u;x<this->sizeMap.width;x++){
+                                                        this->colorMap[y][x].a = vec[count+0u];
+                                                        this->colorMap[y][x].r = vec[count+1u];
+                                                        this->colorMap[y][x].g = vec[count+2u];
+                                                        this->colorMap[y][x].b = vec[count+3u];
+                                                        count+=4u;
+                                                    }
                                                 }
                                             }
+                                            delete[] vec;
                                         }
-                                        delete[] vec;
                                     }
                                 }
+                                xml->selectFather();
                             }
                         }
-                        xml->selectFather();
+                        else{
+                            xml->selectFather();
+                        }
                     }
+
+
+
                     edk::vec2f32 positionTemp = edk::vec2f32(edk::String::strToFloat32(xml->getSelectedAttributeValueByName("posMapX")),
                                                              edk::String::strToFloat32(xml->getSelectedAttributeValueByName("posMapY"))
                                                              );

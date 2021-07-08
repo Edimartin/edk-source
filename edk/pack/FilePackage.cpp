@@ -431,6 +431,22 @@ edk::uint64 edk::pack::FilePackage::getFileSize(edk::char8* fileName){
 edk::uint64 edk::pack::FilePackage::getFileSize(const edk::char8* fileName){
     return this->getFileSize((edk::char8*) fileName);
 }
+
+//return true if have the file
+bool edk::pack::FilePackage::haveFile(edk::char8* fileName){
+    //test the name
+    if(fileName){
+        //test if have the node
+        edk::pack::FileNode* node = this->tree.getNode(fileName);
+        if(node){
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::pack::FilePackage::haveFile(const edk::char8* fileName){
+    return this->haveFile((edk::char8*) fileName);
+}
 //print the names
 void edk::pack::FilePackage::printNames(){
     this->tree.print();
