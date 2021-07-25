@@ -1297,20 +1297,53 @@ edk::float32 edk::animation::InterpolationGroup::updateClockAnimation(edk::float
                 //test if back the interpolation selected
                 edk::animation::InterpolationLine* temp = NULL;
                 while(true){
-                    temp = this->animations[this->interpolationSelect];
-                    if(temp){
-                        //load the start and end seconds
-                        if(this->animationSecond<temp->getStart().second
-                                &&
-                                this->interpolationSelect>0u
-                                ){
-                            if(this->interpolationSelect){
-                                //increment the interpolationSelected
-                                this->interpolationSelect--;
+                    if(this->animations.havePos(this->interpolationSelect)){
+                        temp = this->animations[this->interpolationSelect];
+                        if(temp){
+                            //load the start and end seconds
+                            if(this->animationSecond<temp->getStart().second
+                                    &&
+                                    this->interpolationSelect>0u
+                                    ){
+                                if(this->interpolationSelect){
+                                    //increment the interpolationSelected
+                                    this->interpolationSelect--;
+                                }
+                                else{
+                                    break;
+                                }
                             }
-                            else{
-                                break;
+                            else break;
+                        }
+                        else break;
+                    }
+                    else
+                        if(this->interpolationSelect)
+                            this->interpolationSelect--;
+                        else
+                            break;
+                }
+
+                while(true){
+                    if(this->animations.havePos(this->interpolationSelect)){
+                        //test if over the interpolation selected
+                        temp = this->animations[this->interpolationSelect];
+                        if(temp){
+                            //load the start and end seconds
+                            if(this->animationSecond>temp->getEnd().second){
+
+                                if(this->animations.havePos(this->interpolationSelect +1u)){
+
+                                    //increment the interpolationSelected
+                                    this->interpolationSelect++;
+
+                                    if(this->interpolationSelect>this->animations.size()){
+                                        break;
+                                    }
+                                }
+                                else break;
                             }
+                            else break;
                         }
                         else break;
                     }
@@ -1376,7 +1409,10 @@ edk::float32 edk::animation::InterpolationGroup::updateClockAnimation(edk::float
                         }
                         else break;
                     }
-                    else break;
+                    else{
+                        this->interpolationSelect--;
+                        break;
+                    }
 
                 }
             }
