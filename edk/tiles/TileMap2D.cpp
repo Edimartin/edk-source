@@ -32,7 +32,7 @@ edk::tiles::tileContact2D::~tileContact2D(){
 
 edk::tiles::TileMap2D::TileMap2D(){
     //
-    this->tileSet=tileSet;
+    this->tileSet=NULL;
     this->tileMap=NULL;
     this->colorMap=NULL;
     this->world=NULL;
