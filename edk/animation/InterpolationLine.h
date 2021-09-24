@@ -74,6 +74,8 @@ class InterpolationLine{
         //write to XML
         virtual bool writeToXMLStart(edk::XML* xml,edk::uint32 frameID);
         virtual bool writeToXMLEnd(edk::XML* xml,edk::uint32 frameID);
+
+        bool active;
     protected:
 
     //frames of the interpolation

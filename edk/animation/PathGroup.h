@@ -129,6 +129,8 @@ public:
     virtual bool writeToXML(edk::XML* xml,edk::uint32 id);
     //read XML
     virtual bool readFromXML(edk::XML* xml,edk::uint32 id);
+
+    bool active;
 protected:
     //create the frame
     virtual edk::animation::Frame* newFrame();

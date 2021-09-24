@@ -35,6 +35,7 @@ edk::animation::InterpolationLine::InterpolationLine()
     //
     this->allocStart();
     this->allocEnd();
+    this->active=false;
 }
 
 edk::animation::InterpolationLine::~InterpolationLine()

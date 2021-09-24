@@ -318,6 +318,7 @@ public:
         return false;
     }
 
+    bool active;
 protected:
     //create the interpolation
     virtual edk::animation::InterpolationLine* newLineInterpolation();

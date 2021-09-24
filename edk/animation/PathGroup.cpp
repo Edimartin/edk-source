@@ -38,6 +38,7 @@ edk::animation::PathGroup::PathGroup(){
     this->closerDistance=0.5f;
     this->changeFrame=false;
     this->step = 0.f;
+    this->active=false;
 }
 edk::animation::PathGroup::~PathGroup(){
     //

@@ -47,6 +47,7 @@ edk::animation::InterpolationGroup::InterpolationGroup(){
     this->canDeleteGroup=true;
     this->setfirstInterpolation=false;
     this->speed = 1.f;
+    this->active=false;
 }
 
 edk::animation::InterpolationGroup::~InterpolationGroup(){
