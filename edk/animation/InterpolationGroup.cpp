@@ -131,7 +131,7 @@ edk::uint32 edk::animation::InterpolationGroup::searchBackInterpoaltion(edk::flo
                 //test if the second is inside the interpolation line
                 if(second<=temp->getEnd().second && second>temp->getStart().second){
                     //then return i
-                    return i;
+                    return i-1u;
                 }
             }
             else{
