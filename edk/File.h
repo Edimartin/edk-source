@@ -167,11 +167,25 @@ class File {
 
     bool writeText(const char *str);
 
+    bool writeText(int8 n);
+
+    bool writeText(uint8 n);
+
+    bool writeText(int16 n);
+
+    bool writeText(uint16 n);
+
     bool writeText(int32 n);
 
     bool writeText(uint32 n);
 
+    bool writeText(int64 n);
+
+    bool writeText(uint64 n);
+
     bool writeText(edk::float32 f);
+
+    bool writeText(edk::float64 f);
 
     bool writeBin(classID w, edk::uint32 size);
 

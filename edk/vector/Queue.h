@@ -117,11 +117,15 @@ public:
             if(tempDelete->next){
                 temp=tempDelete->next;
             }
+            else{
+                temp=NULL;
+            }
 
             //delete the tempDelete
             delete tempDelete;
             tempDelete = temp;
         }
+        this->first=this->last=NULL;
     }
 
     //push back a value

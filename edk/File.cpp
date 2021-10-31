@@ -1271,6 +1271,50 @@ bool File::writeText(const char *str){
     return writeText((edk::char8 *)str);
 }
 
+bool File::writeText(int8 n){
+    //Test if the file is opened
+    if(this->isOpened()){
+        //Then write in the file
+        fprintf(this->arq,"%d",n);
+        //return true
+        return true;
+    }
+    return false;
+}
+
+bool File::writeText(uint8 n){
+    //Test if the file is opened
+    if(this->isOpened()){
+        //Then write in the file
+        fprintf(this->arq,"%u",n);
+        //return true
+        return true;
+    }
+    return false;
+}
+
+bool File::writeText(int16 n){
+    //Test if the file is opened
+    if(this->isOpened()){
+        //Then write in the file
+        fprintf(this->arq,"%d",n);
+        //return true
+        return true;
+    }
+    return false;
+}
+
+bool File::writeText(uint16 n){
+    //Test if the file is opened
+    if(this->isOpened()){
+        //Then write in the file
+        fprintf(this->arq,"%u",n);
+        //return true
+        return true;
+    }
+    return false;
+}
+
 bool File::writeText(int32 n){
     //Test if the file is opened
     if(this->isOpened()){
@@ -1293,11 +1337,44 @@ bool File::writeText(uint32 n){
     return false;
 }
 
+bool File::writeText(int64 n){
+    //Test if the file is opened
+    if(this->isOpened()){
+        //Then write in the file
+        fprintf(this->arq,"%ld",n);
+        //return true
+        return true;
+    }
+    return false;
+}
+
+bool File::writeText(uint64 n){
+    //Test if the file is opened
+    if(this->isOpened()){
+        //Then write in the file
+        fprintf(this->arq,"%lu",n);
+        //return true
+        return true;
+    }
+    return false;
+}
+
 bool File::writeText(edk::float32 f){
     //Test if the file is opened
     if(this->isOpened()){
         //Then write in the file
         fprintf(this->arq,"%f",f);
+        //return true
+        return true;
+    }
+    return false;
+}
+
+bool File::writeText(edk::float64 f){
+    //Test if the file is opened
+    if(this->isOpened()){
+        //Then write in the file
+        fprintf(this->arq,"%lf",f);
         //return true
         return true;
     }
