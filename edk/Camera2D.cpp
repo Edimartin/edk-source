@@ -151,20 +151,20 @@ void edk::Camera2D::drawOrthoOnly(){
                         1.f//far
                         );
     //update the shaking animations
-    this->animAngle.updateClockAnimation();
-    if(this->animAngle.isPlaying()){
+    this->animShakingAngle.updateClockAnimation();
+    if(this->animShakingAngle.isPlaying()){
         //calculate the angle of shaking
-        this->up = edk::Math::rotate2f(edk::vec2f32(1,0),(((this->angle + this->animAngle.getClockX())*-1)+360.f)+90);
+        this->up = edk::Math::rotate2f(edk::vec2f32(1,0),(((this->angle + this->animShakingAngle.getClockX())*-1)+360.f)+90);
     }
     else{
         this->up = edk::Math::rotate2f(edk::vec2f32(1,0),((this->angle*-1)+360.f)+90);
     }
 
     //shake position
-    this->animPosition.updateClockAnimation();
-    if(this->animPosition.isPlaying()){
-        this->tempPosition.x = this->position.x+this->animPosition.getClockX();
-        this->tempPosition.y = this->position.y+this->animPosition.getClockY();
+    this->animShakingPosition.updateClockAnimation();
+    if(this->animShakingPosition.isPlaying()){
+        this->tempPosition.x = this->position.x+this->animShakingPosition.getClockX();
+        this->tempPosition.y = this->position.y+this->animShakingPosition.getClockY();
         edk::GU::guLookAt(this->tempPosition.x,this->tempPosition.y,1.f,
                           this->tempPosition.x,this->tempPosition.y,0.f,
                           this->up.x,this->up.y,0.f
@@ -284,6 +284,19 @@ void edk::Camera2D::rotateCamera(edk::float32 angle){
 //get the camera angle
 edk::float32 edk::Camera2D::getAngle(){
     return this->angle;
+}
+
+//update the camera animations
+void edk::Camera2D::updateAnimations(){
+    this->animPosition.updateClockAnimation();
+    this->animAngle.updateClockAnimation();
+    if(this->animPosition.isPlaying()){
+        this->position.x = this->animPosition.getClockX();
+        this->position.y = this->animPosition.getClockY();
+    }
+    if(this->animAngle.isPlaying()){
+        this->angle = this->animAngle.getClockX();
+    }
 }
 
 //start the animation

@@ -34,6 +34,12 @@ edk::ListDirectory::~ListDirectory(){
 //start listing the folders and files in a directory received by function parameter
 bool edk::ListDirectory::run(edk::char8* directory){
     if(directory){
+
+        //test if are trying to compile in Windows
+#if defined(_WIN32) || defined(_WIN64)
+
+        //Or Linux or MacOS
+#elif defined(__linux__) || defined(__APPLE__)
         //directory pointer
         DIR *dir;
         //file pointer
@@ -73,6 +79,7 @@ bool edk::ListDirectory::run(edk::char8* directory){
 
             closedir(dir);
         }
+#endif
     }
     return false;
 }

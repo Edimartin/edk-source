@@ -102,12 +102,18 @@ class Camera2D{
         //get the camera angle
         edk::float32 getAngle();
 
+        void updateAnimations();
+
         //start the animation
         bool addShakingAngle(edk::float32 position,edk::float32 percent = 0.9f,edk::float32 interpolationDistance=0.1f);
         bool addShakingPosition(edk::vec2f32 position,edk::float32 random,edk::float32 percent = 0.9f,edk::float32 interpolationDistance=0.05f);
 
         //operator to copy the cameras
         bool cloneFrom(edk::Camera2D* cam);
+        //animated position
+        edk::animation::Interpolation2DGroup animPosition;
+        //animated angle
+        edk::animation::Interpolation1DGroup animAngle;
     protected:
     private:
         edk::Camera2D operator=(edk::Camera2D){return *this;}
@@ -117,9 +123,9 @@ class Camera2D{
         edk::vec2f32 tempPosition;
         edk::float32 angle;
         //animated position
-        edk::animation::Interpolation2DGroup animPosition;
+        edk::animation::Interpolation2DGroup animShakingPosition;
         //animated angle
-        edk::animation::Interpolation1DGroup animAngle;
+        edk::animation::Interpolation1DGroup animShakingAngle;
     void start();
 };
 }//end namespace edk
