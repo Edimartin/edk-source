@@ -34,12 +34,6 @@ edk::ListDirectory::~ListDirectory(){
 //start listing the folders and files in a directory received by function parameter
 bool edk::ListDirectory::run(edk::char8* directory){
     if(directory){
-
-        //test if are trying to compile in Windows
-#if defined(_WIN32) || defined(_WIN64)
-
-        //Or Linux or MacOS
-#elif defined(__linux__) || defined(__APPLE__)
         //directory pointer
         DIR *dir;
         //file pointer
@@ -51,7 +45,7 @@ bool edk::ListDirectory::run(edk::char8* directory){
         //open the directory
         dir = opendir(directory);
         if(dir){
-            printf("\nDirectory %s",directory);fflush(stdout);
+            //printf("\nDirectory %s",directory);fflush(stdout);
             //list the files
             while((file = readdir(dir)) != NULL){
                 //create the file string to read the status
@@ -60,13 +54,13 @@ bool edk::ListDirectory::run(edk::char8* directory){
                     //read the status
                     stat(temp, &status);
 
-                    switch(file->d_type){
-                    case 4u:
+                    switch(status.st_mode & S_IFMT){
+                    case S_IFDIR:
                         //FOLDER
                         //printf("\nFolder:%s\\ LastModify:%lu size:%lu",file->d_name,status.st_mtime,status.st_size);fflush(stdout);
                         this->listFolder(file->d_name,status.st_mtime,status.st_size);
                         break;
-                    case 8u:
+                    case S_IFREG:
                         //FILE
                         //printf("\nFile  :%s\\ LastModify:%lu size:%lu",file->d_name,status.st_mtime,status.st_size);fflush(stdout);
                         this->listFile(file->d_name,status.st_mtime,status.st_size);
@@ -79,7 +73,6 @@ bool edk::ListDirectory::run(edk::char8* directory){
 
             closedir(dir);
         }
-#endif
     }
     return false;
 }
