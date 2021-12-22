@@ -37,6 +37,10 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 -lwsock32 -lopengl32 -lglu32 -lglew32
 */
 
+/* POSTGRE ALL
+ -lpqxx
+*/
+
 /*QTCreator
 
 QMAKE_CXXFLAGS += -Wno-deprecated-declarations

@@ -308,7 +308,7 @@ public:
                 //create a temp
                 edk::vector::StackCel<typeTemplate> *temp;
                 //copy the previous to the temp
-                temp= this->first->previous;
+                temp= this->end->previous;
                 //delete the end
                 delete this->end;
                 //set the end
@@ -756,6 +756,7 @@ private:
             if((this->end->next =new edk::vector::StackCel<typeTemplate>(StackArraySize))){
                 //set the previous
                 this->end->next->previous=this->end;
+                this->end->next->next=NULL;
                 //set the end
                 this->end = this->end->next;
                 //return true
@@ -773,7 +774,10 @@ private:
             if((this->first = new edk::vector::StackCel<typeTemplate>(StackArraySize))){
                 //set the end
                 this->end=this->first;
-                //this->canDeleteVector=true;
+
+                this->first->next=NULL;
+                this->first->previous=NULL;
+
                 //return true
                 return true;
             }
