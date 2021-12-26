@@ -103,13 +103,13 @@ bool edk::sql::MariaDB::execute(edk::char8* command,edk::sql::SQLGroup* callback
                             group = callback->getNewGroup();
                             if(group){
                                 while(this->row[i]){
-                                    /*
+/*
                                     printf("\n'%s' == '%s'"
                                     ,this->row[i]
                                     ,this->row[i]
                                     );
-                                    */
-                                    group->addNode((edk::char8*)this->row[i],(edk::char8*)this->row[i]);
+*/
+                                    //group->addNode((edk::char8*)this->row[i],(edk::char8*)this->row[i]);
                                     //
                                     i++;
                                 }
@@ -141,10 +141,11 @@ bool edk::sql::MariaDB::haveOpenedDataBase(){
 
 //close the dataBase
 void edk::sql::MariaDB::closeDataBase(){
-    this->error.setName(" ");
 #ifdef EDK_USE_MARIADB
-    // close database connection
-    mysql_close(this->con);
+    if(this->con){
+        // close database connection
+        mysql_close(this->con);
+    }
 
     this->con=NULL;
     this->res=NULL;
