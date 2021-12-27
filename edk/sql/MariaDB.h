@@ -39,6 +39,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma once
 #include "../String.h"
 #include "SQLGroup.h"
+#include "../vector/Stack.h"
 #ifdef EDK_USE_MARIADB
 #include <mariadb/mysql.h>
 #endif
@@ -81,6 +82,7 @@ private:
     MYSQL *con;	// the connection
     MYSQL_RES *res;	// the results
     MYSQL_ROW row;	// the results rows (array)
+    MYSQL_FIELD *field; //the fields
 #endif
     edk::Name error;
 };

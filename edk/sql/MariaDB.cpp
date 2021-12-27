@@ -28,6 +28,7 @@ edk::sql::MariaDB::MariaDB(){
 #ifdef EDK_USE_MARIADB
     this->con=NULL;
     this->res=NULL;
+    this->field=NULL;
 #endif
     this->error.setName(" ");
 }
@@ -92,30 +93,32 @@ bool edk::sql::MariaDB::execute(edk::char8* command,edk::sql::SQLGroup* callback
                 this->error.setName(mysql_error(this->con));
             }
             else{
-                this->res = mysql_use_result(this->con);
-                if(callback){
-                    edk::sql::SQLNodes* group=NULL;
-                    edk::uint32 i = 0u;
-                    /* List down all the records */
-                    while ((this->row = mysql_fetch_row(this->res)) != NULL){
-                        if(this->row[0u]){
-                            i = 0u;
-                            group = callback->getNewGroup();
+                this->res = mysql_store_result(this->con);
+                if(this->res){
+                    edk::int32 num_fields = mysql_num_fields(this->res);
+                    if(callback){
+                        edk::sql::SQLNodes* group=NULL;
+                        /* List down all the records */
+                        group = callback->getNewGroup();
+                        printf("\n get the field names");
+                        while(this->field = mysql_fetch_field(this->res)){
+                            printf("%s ", this->field->name);
+                        }
+                        this->field=NULL;
+                        while ((this->row = mysql_fetch_row(this->res)) != NULL){
+                            printf("\n");
                             if(group){
-                                while(this->row[i]){
-/*
-                                    printf("\n'%s' == '%s'"
-                                    ,this->row[i]
-                                    ,this->row[i]
-                                    );
-*/
-                                    //group->addNode((edk::char8*)this->row[i],(edk::char8*)this->row[i]);
+                                for(int i = 0; i < num_fields; i++){
+                                    printf("%s ", row[i] ? row[i] : "NULL");fflush(stdout);
+
+                                    group->addNode((edk::char8*)this->row[i],(edk::char8*)this->row[i]);
                                     //
-                                    i++;
                                 }
                             }
                         }
+                        this->row=NULL;
                     }
+                    mysql_free_result(this->res);
                 }
                 return true;
 #else
