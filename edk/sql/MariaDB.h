@@ -83,6 +83,7 @@ private:
     MYSQL_RES *res;	// the results
     MYSQL_ROW row;	// the results rows (array)
     MYSQL_FIELD *field; //the fields
+    edk::vector::StackNames fields; //fields used to save the field names
 #endif
     edk::Name error;
 };

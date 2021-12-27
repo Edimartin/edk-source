@@ -34,6 +34,7 @@ edk::sql::MariaDB::MariaDB(){
 }
 edk::sql::MariaDB::~MariaDB(){
     //
+    this->closeDataBase();
 }
 
 //open dataBase
@@ -99,24 +100,30 @@ bool edk::sql::MariaDB::execute(edk::char8* command,edk::sql::SQLGroup* callback
                     if(callback){
                         edk::sql::SQLNodes* group=NULL;
                         /* List down all the records */
-                        group = callback->getNewGroup();
-                        printf("\n get the field names");
                         while(this->field = mysql_fetch_field(this->res)){
-                            printf("%s ", this->field->name);
+                            //add the field into the stack
+                            this->fields.pushBack(this->field->name);
                         }
                         this->field=NULL;
                         while ((this->row = mysql_fetch_row(this->res)) != NULL){
-                            printf("\n");
+                            group = callback->getNewGroup();
                             if(group){
                                 for(int i = 0; i < num_fields; i++){
-                                    printf("%s ", row[i] ? row[i] : "NULL");fflush(stdout);
+                                    //test if have the field in the stack
+                                    if(this->fields.havePos(i)){
+                                        //
+                                        group->addNode((edk::char8*)this->fields.get(i),(edk::char8*)this->row[i]);
+                                    }
+                                    else{
 
-                                    group->addNode((edk::char8*)this->row[i],(edk::char8*)this->row[i]);
-                                    //
+                                        group->addNode((edk::char8*)this->row[i],(edk::char8*)this->row[i]);
+                                    }
                                 }
                             }
                         }
                         this->row=NULL;
+
+                        this->fields.clean();
                     }
                     mysql_free_result(this->res);
                 }
@@ -152,6 +159,9 @@ void edk::sql::MariaDB::closeDataBase(){
 
     this->con=NULL;
     this->res=NULL;
+    this->field=NULL;
+
+    this->fields.clean();
 #else
     printf("\nYou must define EDK_USE_MARIADB before use");fflush(stdout);
 #endif
