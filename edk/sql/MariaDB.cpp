@@ -128,13 +128,13 @@ bool edk::sql::MariaDB::execute(edk::char8* command,edk::sql::SQLGroup* callback
                     mysql_free_result(this->res);
                 }
                 return true;
+            }
 #else
             printf("\nYou must define EDK_USE_MARIADB before use");fflush(stdout);
 #endif
         }
     }
-}
-return false;
+    return false;
 }
 
 //return true if have a dataBase
