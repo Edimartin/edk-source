@@ -41,6 +41,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  -lpqxx
 */
 
+/* MARIADB ALL
+ -lmariadb
+*/
+
+/* MYSQL ALL
+ -lmysqlclient
+*/
+
 /*QTCreator
 
 QMAKE_CXXFLAGS += -Wno-deprecated-declarations

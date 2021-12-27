@@ -34,8 +34,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #warning "Inside MARIADB"
 #endif
 
-#define edkDataBase ".edb"
-
 #pragma once
 #include "../String.h"
 #include "SQLGroup.h"
@@ -47,6 +45,12 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #ifdef printMessages
 #warning "    Compiling MARIADB"
 #endif
+
+//https://www.youtube.com/watch?v=cSZvq7Kv6_0&ab_channel=Steve%27steacher
+
+//https://phoenixnap.com/kb/how-to-create-mariadb-user-grant-privileges
+
+//https://zetcode.com/db/mysqlc/
 
 namespace edk{
 namespace sql{

@@ -1,8 +1,8 @@
-#ifndef POSTGRE_H
-#define POSTGRE_H
+#ifndef MYSQL_H
+#define MYSQL_H
 
 /*
-Library POSTGRE - Use POSTGRE in EDK Game Engine.
+Library MYSQL - Use MySQL in EDK Game Engine.
 Copyright 2013 Eduardo Moura Sales Martins (edimartin@gmail.com)
 
 Permission is hereby granted, free of charge, to any person obtaining
@@ -27,30 +27,31 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 /*LIBS:
--ldl -lpqxx
+-ldl -lmysqlclient
 */
 
 #ifdef printMessages
-#warning "Inside POSTGRE"
+#warning "Inside MYSQL"
 #endif
 
 #pragma once
 #include "../String.h"
 #include "SQLGroup.h"
-#ifdef EDK_USE_POSTGRE
-#include <pqxx/pqxx>
+#include "../vector/Stack.h"
+#ifdef EDK_USE_MYSQL
+#include <mysql/mysql.h>
 #endif
 
 #ifdef printMessages
-#warning "    Compiling POSTGRE"
+#warning "    Compiling MYSQL"
 #endif
 
 namespace edk{
 namespace sql{
-class Postgre{
+class MySQL{
 public:
-    Postgre();
-    virtual ~Postgre();
+    MySQL();
+    ~MySQL();
 
     //open dataBase
     bool openDataBase(const edk::char8* database,const edk::char8* user,const edk::char8* password);
@@ -73,13 +74,16 @@ public:
     //return the error string
     edk::char8* getError();
 private:
-#ifdef EDK_USE_POSTGRE
-    pqxx::connection* C;
-    pqxx::nontransaction* N;
+#ifdef EDK_USE_MYSQL
+    MYSQL *con;	// the connection
+    MYSQL_RES *res;	// the results
+    MYSQL_ROW row;	// the results rows (array)
+    MYSQL_FIELD *field; //the fields
+    edk::vector::StackNames fields; //fields used to save the field names
 #endif
     edk::Name error;
 };
 }//end namespace sql
 }//end namespace edk
 
-#endif // POSTGRE_H
+#endif // MYSQL_H
