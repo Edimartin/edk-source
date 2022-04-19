@@ -1,8 +1,8 @@
-#ifndef ENCODERJPEG_H
-#define ENCODERJPEG_H
+#ifndef EncoderPNG_H
+#define EncoderPNG_H
 
 /*
-Library C++ EncoderJPEG - Encode a frame to a JPEG stream or file
+Library C++ EncoderPNG - Encode a frame to a JPEG stream or file
 Copyright 2013 Eduardo Moura Sales Martins (edimartin@gmail.com)
 
 Permission is hereby granted, free of charge, to any person obtaining
@@ -26,42 +26,35 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside EncoderJPEG"
+#warning "Inside EncoderPNG"
 #endif
 
 #pragma once
 #include "EncoderImage.h"
 //Add the stb to encode the JPEG
 #include "../../stb/stb_image_write.h"
-#include "../vector/Stack.h"
+#include "../../stb/stb_image.h" //add the stb image to use the STBI_FREE
 
 #ifdef printMessages
-#warning "    Compiling EncoderJPEG"
+#warning "    Compiling EncoderPNG"
 #endif
 
 namespace edk{
 namespace codecs{
-class EncoderJPEG : public edk::codecs::EncoderImage{
+class EncoderPNG : public edk::codecs::EncoderImage{
     public:
-        EncoderJPEG();
-        virtual ~EncoderJPEG();
-
-        static void jpg_write_func(void *context, void *data, int size);
+        EncoderPNG();
+        virtual ~EncoderPNG();
 
         //process the encoder
-        bool encode(edk::uint8* frame,edk::size2ui32 size,edk::uint8 channels,edk::uint32 quality);
+        bool encode(edk::uint8* frame,edk::size2ui32 size,edk::uint8 channels,edk::uint32);
         bool encode(edk::uint8* frame,edk::uint32 width,edk::uint32 height,edk::uint8 channels,edk::uint32 quality);
         //delete the encoded
         void deleteEncoded();
     protected:
     private:
-        edk::vector::Stack<edk::uint8> stack;
-        //Functions to write the data
-        void startWriteData();
-        void writeData(void *data, edk::uint32 size);
-        bool endWriteData();
 };
 }//end namespace codecs
 }//end namespace edk
 
-#endif // ENCODERJPEG_H
+#endif // EncoderPNG_H

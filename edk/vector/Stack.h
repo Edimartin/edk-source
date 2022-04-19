@@ -131,15 +131,6 @@ public:
         }
         //
         this->canDeleteVector=true;
-        /*
-            //clean
-            this->clean();
-            //
-            this->first=NULL;
-            this->end=NULL;
-            this->stackSize=0u;
-            this->deleteLastCel=NULL;
-            */
     }
 
     //ADDS
@@ -275,6 +266,43 @@ public:
     void deleteStack(){
         //clean
         this->clean();
+    }
+    //Copy the values inside the stack to a vector
+    bool copyToVector(typeTemplate* vector){
+        if(vector){
+            edk::uint32 increment=0u;
+            edk::vector::StackCel<typeTemplate> *temp=this->first;
+            if(temp){
+                while(temp){
+                    if(!temp->next){
+                        edk::uint32 size = this->stackSize - increment;
+                        for(edk::uint32 i=0u;i<size;i++){
+                            //test if have the element
+                            if(!this->removed.haveElement(i)){
+                                //copy the element
+                                vector[0u] = temp->get(i);
+                                vector++;
+                            }
+                        }
+                    }
+                    else{
+                        for(edk::uint32 i=0u;i<this->StackArraySize;i++){
+                            //test if have the element
+                            if(!this->removed.haveElement(i)){
+                                //copy the element
+                                vector[0u] = temp->get(i);
+                                vector++;
+                            }
+                        }
+                    }
+                    temp=temp->next;
+                    increment+=this->StackArraySize;
+                }
+                return true;
+            }
+            return false;
+        }
+        return false;
     }
     //clean the Stack
     void clean(){

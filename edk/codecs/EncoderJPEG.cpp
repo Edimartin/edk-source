@@ -38,6 +38,40 @@ edk::codecs::EncoderJPEG::~EncoderJPEG()
     //dtor
     this->deleteEncoded();
 }
+//Functions to write the data
+void edk::codecs::EncoderJPEG::startWriteData(){
+    //
+    this->stack.clean(1000u);
+}
+void edk::codecs::EncoderJPEG::writeData(void *data, edk::uint32 size){
+    edk::uint8* temp = (edk::uint8*)data;
+    for(edk::uint32 i=0u;i<size;i++){
+        //copy the bytes
+        this->stack.pushBack(temp[i]);
+    }
+}
+bool edk::codecs::EncoderJPEG::endWriteData(){
+    bool ret=false;
+    //create the buffer with the size of the stack
+    if(this->newFrameEncoded(this->stack.size())){
+        edk::uint8* temp = edk::codecs::CodecImage::getEncoded();
+        if(temp){
+            this->stack.copyToVector(temp);
+            ret=true;
+        }
+    }
+
+    //clean the stack
+    this->stack.clean();
+    return ret;
+}
+
+inline void edk::codecs::EncoderJPEG::jpg_write_func(void *context, void *data, int size){
+    if(context){
+        edk::codecs::EncoderJPEG* encoder = (edk::codecs::EncoderJPEG*)context;
+        encoder->writeData(data,(edk::uint32)size);
+    }
+}
 
 //process the encoder
 bool edk::codecs::EncoderJPEG::encode(edk::uint8* frame,edk::size2ui32 size,edk::uint8 channels,edk::uint32 quality){
@@ -47,57 +81,35 @@ bool edk::codecs::EncoderJPEG::encode(edk::uint8* frame,edk::size2ui32 size,edk:
         //test if the channels can be writed in jpeg
         if(channels == 1u || channels == 3u){
             bool ret=false;
-            //cria o encoder
-            jpeg_create_compress(&this->cinfo);
-            //carrega o ponteiro de erros
-            this->cinfo.err = jpeg_std_error(&jerr);
-            this->cinfo.image_width = size.width; 	/* image width and height, in pixels */
-            this->cinfo.image_height = size.height;
-            this->cinfo.input_components = channels;		/* # of color components per pixel */
-            switch(channels){
-            case 1u:
-                this->cinfo.in_color_space = JCS_GRAYSCALE;/* colorspace of input image */
-                break;
-            case 3u:
-                this->cinfo.in_color_space = JCS_RGB; 	/* colorspace of input image */
-                break;
+            //
+            stbi__write_context s;
+
+            s.func=NULL;
+            s.context=NULL;
+            s.buf_used=0;
+
+            //contruct the context
+            for(edk::uint64 i=0u;i<sizeof(s.buffer);i++){
+                s.buffer[i]=0u;
             }
-            //seta o dado
-            jpeg_set_defaults(&this->cinfo);
-            //seta a qualidade
-            jpeg_set_quality(&this->cinfo, quality, TRUE);
 
-#ifdef __x86_64
-			//seta o destino
-            jpeg_mem_dest(&this->cinfo,
-                          edk::codecs::CodecImage::getEncodedPosition(),
-                          (unsigned long int*)(edk::uint64*)edk::codecs::CodecImage::getEncodedSizePosition()
-                          );
-#else
-			//seta o destino
-            jpeg_mem_dest(&this->cinfo,
-                          edk::codecs::CodecImage::getEncodedPosition(),
-                          (unsigned long int*)(edk::uint64*)edk::codecs::CodecImage::getEncodedSizePosition()
-                          );
-#endif
-            
+            //Set the fuunction and ontext
+            s.func = (void (*)(void*, void*, int))&this->jpg_write_func;
+            s.context = this;
 
-            //inicia a compressao
-            jpeg_start_compress(&this->cinfo, TRUE);
-            //carrega o ponteiro do frame
-            unsigned char* temp = frame;
-            if (temp){
-                edk::uint32 row_stride = size.width * channels;
-                while (this->cinfo.next_scanline < this->cinfo.image_height) {
-                    jpeg_write_scanlines(&this->cinfo, &temp, 1);
-                    //incrementa o temp
-                    temp+=row_stride;
+            //start write the stack
+            this->startWriteData();
+
+            if(stbi_write_jpg_core(&s, (int) size.width, (int) size.height, (int)channels, (const void*) frame, quality)){
+                //
+                if(!this->endWriteData()){
+                    this->cleanEncoded();
                 }
             }
-
-            //
-            //finaliza o encoder
-            jpeg_finish_compress(&this->cinfo);
+            else{
+                //start write the data just to clean the stack
+                this->startWriteData();
+            }
 
             //calcula o tamanho do vetor
             if (this->getEncodedSize() && this->getEncoded()){
@@ -121,7 +133,7 @@ bool edk::codecs::EncoderJPEG::encode(edk::uint8* frame,edk::uint32 width,edk::u
 //delete the encoded
 void edk::codecs::EncoderJPEG::deleteEncoded(){
     if(this->getEncoded()){
-        jpeg_destroy_compress(&this->cinfo);
+        //jpeg_destroy_compress(&this->cinfo);
         this->cleanEncoded();
     }
 }

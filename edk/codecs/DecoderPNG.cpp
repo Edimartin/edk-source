@@ -1,7 +1,7 @@
-#include "DecoderJPEG.h"
+#include "DecoderPNG.h"
 
 /*
-Library C++ EncoderJPEG - Encode a frame to a JPEG stream or file
+Library C++ EncoderPNG - Encode a frame to a PNG stream or file
 Copyright 2013 Eduardo Moura Sales Martins (edimartin@gmail.com)
 
 Permission is hereby granted, free of charge, to any person obtaining
@@ -24,18 +24,18 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-edk::codecs::DecoderJPEG::DecoderJPEG()
+edk::codecs::DecoderPNG::DecoderPNG()
 {
     //ctor
 }
 
-edk::codecs::DecoderJPEG::~DecoderJPEG()
+edk::codecs::DecoderPNG::~DecoderPNG()
 {
     //dtor
 }
 
 //process the decoder
-bool edk::codecs::DecoderJPEG::decode(edk::uint8* encoded,edk::uint32 size){
+bool edk::codecs::DecoderPNG::decode(edk::uint8* encoded,edk::uint32 size){
     //use the father decoder
     if(edk::codecs::DecoderImage::decode(encoded,size)){
         //process the decoder
@@ -95,10 +95,10 @@ bool edk::codecs::DecoderJPEG::decode(edk::uint8* encoded,edk::uint32 size){
 
 
         //test if the encoded have the header
-        if(stbi__jpeg_test(&s)){
+        if(stbi__png_test(&s)){
             //decode the jpeg image
-            if((result = (unsigned char*)stbi__jpeg_load(&s, &w, &h, &comp, 0, &ri))){
-                if(w && h && (comp == 1u || comp==3u)){
+            if((result = (unsigned char*)stbi__png_load(&s, &w, &h, &comp, 0, &ri))){
+                if(w && h && (comp == 1u || comp==2u || comp==3u || comp==4u)){
                     //alloc the new image frame
                     edk::codecs::CodecImage::newFrame(w,h,(edk::float32)comp);
                     if (edk::codecs::CodecImage::getFrame() &&
@@ -114,6 +114,24 @@ bool edk::codecs::DecoderJPEG::decode(edk::uint8* encoded,edk::uint32 size){
                                 switch(ri.bits_per_channel){
                                 case 8u:
                                     memcpy(temp,result,w*h);
+                                    break;
+                                case 16u:
+                                    for(edk::int32 y=0;y<h;y++){
+                                        for(edk::int32 x=0;x<w;x++){
+                                            temp[0u]=source[0u];
+                                            //
+                                            source+=comp*2u;
+                                            temp+=comp;
+                                        }
+                                    }
+                                    break;
+                                }
+                                break;
+                            case 2u:
+                                //test the bits per pixel
+                                switch(ri.bits_per_channel){
+                                case 8u:
+                                    memcpy(temp,result,w*h*comp);
                                     break;
                                 case 16u:
                                     for(edk::int32 y=0;y<h;y++){
@@ -181,6 +199,24 @@ bool edk::codecs::DecoderJPEG::decode(edk::uint8* encoded,edk::uint32 size){
                                     break;
                                 }
                                 break;
+                            case 4u:
+                                //test the bits per pixel
+                                switch(ri.bits_per_channel){
+                                case 8u:
+                                    memcpy(temp,result,w*h*comp);
+                                    break;
+                                case 16u:
+                                    for(edk::int32 y=0;y<h;y++){
+                                        for(edk::int32 x=0;x<w;x++){
+                                            temp[0u]=source[0u];
+                                            //
+                                            source+=comp*2u;
+                                            temp+=comp;
+                                        }
+                                    }
+                                    break;
+                                }
+                                break;
                             default:
                                 break;
                             }
@@ -201,11 +237,11 @@ bool edk::codecs::DecoderJPEG::decode(edk::uint8* encoded,edk::uint32 size){
     }
     return false;
 }
-bool edk::codecs::DecoderJPEG::decode(const unsigned char* encoded,edk::uint32 size){
+bool edk::codecs::DecoderPNG::decode(const unsigned char* encoded,edk::uint32 size){
     return this->decode((edk::uint8*) encoded,size);
 }
 
 //return the vector size
-edk::uint32 edk::codecs::DecoderJPEG::getVectorSize(){
+edk::uint32 edk::codecs::DecoderPNG::getVectorSize(){
     return edk::codecs::CodecImage::getFrameVectorSize();
 }

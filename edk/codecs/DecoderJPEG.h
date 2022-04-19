@@ -31,8 +31,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #pragma once
 #include "DecoderImage.h"
-//Use JPEGlib
-#include "../../jpeglib/jpeglib.h"
+//Add the stb to decode the JPEG
+#include "../../stb/stb_image.h"
 
 #ifdef printMessages
 #warning "    Compiling DecoderImage"

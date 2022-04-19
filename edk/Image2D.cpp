@@ -347,7 +347,7 @@ bool Image2D::loadFromMemory(uint8 *image, edk::uint32 vecSize){
                 this->vec = decoder.getFrame();
                 if(vec){
                     //get size
-                    this->size = edk::size2ui32(decoder.getFrameWidth(),decoder.getFrameHeight());//2.0
+                    this->size = edk::size2ui32(decoder.getFrameWidth(),decoder.getFrameHeight());
                     //get channels
                     this->channels = decoder.getFrameChannels();
                     decoder.cleanFrame();
@@ -358,28 +358,18 @@ bool Image2D::loadFromMemory(uint8 *image, edk::uint32 vecSize){
             break;
         case EDK_CODEC_PNG:
         {
-            //alloc a new image
-            sf::Image imageTemp;
-            //open the file
-            if(imageTemp.loadFromMemory( image,vecSize )){
-                //Get the image size
-                //this->size = edk::size2ui32(this->imageTemp->GetWidth(),this->imageTemp->GetHeight());1.6
-                this->size = edk::size2ui32(imageTemp.getSize().x,imageTemp.getSize().y);//2.0
-                //set the channels
-                this->channels=4u;
-                //alloc the new image
-                this->vec = new edk::uint8[this->size.width * this->size.height * 4u];
-                if(this->vec){
-                    //copy the image vector
-                    memcpy(this->vec,imageTemp.getPixelsPtr(),this->size.width * this->size.height * 4u);
-                    //copy the imageFileName
-                    this->setFileName(this->imageFileName);
+            //decode using jpegCodec
+            edk::codecs::DecoderPNG decoder;
+            if(decoder.decode(image,vecSize)){
+                this->vec = decoder.getFrame();
+                if(vec){
+                    //get size
+                    this->size = edk::size2ui32(decoder.getFrameWidth(),decoder.getFrameHeight());
+                    //get channels
+                    this->channels = decoder.getFrameChannels();
+                    decoder.cleanFrame();
                     return true;
                 }
-            }
-            else{
-                //else remove the image
-                this->deleteImage();
             }
         }
             break;
@@ -452,28 +442,63 @@ bool Image2D::loadFromMemoryToRGBA(uint8 *image, edk::uint32 vecSize){
             break;
         case EDK_CODEC_PNG:
         {
-            //alloc a new image
-            sf::Image imageTemp;
-            //open the file
-            if(imageTemp.loadFromMemory( image,vecSize )){
-                //Get the image size
-                //this->size = edk::size2ui32(this->imageTemp->GetWidth(),this->imageTemp->GetHeight());1.6
-                this->size = edk::size2ui32(imageTemp.getSize().x,imageTemp.getSize().y);//2.0
-                //set the channels
-                this->channels=4u;
-                //alloc the new image
-                this->vec = new edk::uint8[this->size.width * this->size.height * 4u];
-                if(this->vec){
-                    //copy the image vector
-                    memcpy(this->vec,imageTemp.getPixelsPtr(),this->size.width * this->size.height * 4u);
-                    //copy the imageFileName
-                    this->setFileName(imageFileName);
-                    return true;
+            //decode using jpegCodec
+            edk::codecs::DecoderPNG decoder;
+            if(decoder.decode(image,vecSize)){
+                edk::uint32 imageSize = decoder.getFrameWidth()*decoder.getFrameHeight();
+                if(imageSize){
+                    this->vec = new edk::uint8[imageSize*4u];
+                    //get channels
+                    this->channels = decoder.getFrameChannels();
+                    if(this->channels==1u || this->channels==2u || this->channels == 3u){
+                        if(vec){
+                            //get size
+                            this->size = edk::size2ui32(decoder.getFrameWidth(),decoder.getFrameHeight());
+                            //Convert the frame to RGBA
+                            edk::uint8* rgbaTemp = this->vec;
+                            edk::uint8* frameTemp = decoder.getFrame();
+                            switch(this->channels){
+                            case 1:
+                                for(edk::uint32 i=0u;i<imageSize;i++){
+                                    rgbaTemp[0u] = frameTemp[0u];
+                                    rgbaTemp[1u] = frameTemp[0u];
+                                    rgbaTemp[2u] = frameTemp[0u];
+                                    rgbaTemp[3u] = 255;
+                                    rgbaTemp+=4u;
+                                    frameTemp+=1u;
+                                }
+                                decoder.deleteFrame();
+                                this->channels=4u;
+                                return true;
+                            case 2:
+                                for(edk::uint32 i=0u;i<imageSize;i++){
+                                    rgbaTemp[0u] = frameTemp[0u];
+                                    rgbaTemp[1u] = frameTemp[0u];
+                                    rgbaTemp[2u] = frameTemp[0u];
+                                    rgbaTemp[3u] = frameTemp[1u];
+                                    rgbaTemp+=4u;
+                                    frameTemp+=2u;
+                                }
+                                decoder.deleteFrame();
+                                this->channels=4u;
+                                return true;
+                            case 3:
+                                for(edk::uint32 i=0u;i<imageSize;i++){
+                                    rgbaTemp[0u] = frameTemp[0u];
+                                    rgbaTemp[1u] = frameTemp[1u];
+                                    rgbaTemp[2u] = frameTemp[2u];
+                                    rgbaTemp[3u] = 255;
+                                    rgbaTemp+=4u;
+                                    frameTemp+=3u;
+                                }
+                                decoder.deleteFrame();
+                                this->channels=4u;
+                                return true;
+                            }
+                            delete vec;
+                        }
+                    }
                 }
-            }
-            else{
-                //else remove the image
-                this->deleteImage();
             }
         }
             break;
@@ -494,6 +519,38 @@ bool Image2D::saveToFile(edk::char8 *fileName){
 
         //test the channels
         switch(this->getChannels()){
+        case 2u:
+            //save jpeg
+            if(!fileName){
+                fileName = edk::String::strCat(this->getName(),(edk::char8*)".png");
+                deleteTempName = true;
+                nameType = EDK_CODEC_JPEG;
+            }
+            if(fileName){
+                switch(nameType){
+                case EDK_CODEC_NO:
+                    //concatenate .png with the name
+                    fileName = edk::String::strCat(fileName,(edk::char8*)".png");
+                    deleteTempName = true;
+                case EDK_CODEC_PNG:
+                {
+                    //save the encoder
+                    edk::codecs::EncoderPNG encoder;
+                    ret = encoder.encodeToFile(this->vec,this->size.width,this->size.height,this->channels,9,fileName);
+                    if(deleteTempName)
+                        delete[] fileName;
+                    break;
+                }
+                case EDK_CODEC_JPEG:
+                {
+                    ret = false;
+                    if(deleteTempName)
+                        delete[] fileName;
+                    break;
+                }
+                }
+            }
+            break;
         case 1u:
         case 3u:
             //save jpeg
@@ -519,24 +576,9 @@ bool Image2D::saveToFile(edk::char8 *fileName){
                 }
                 case EDK_CODEC_PNG:
                 {
-                    //use sf::image
-                    sf::Image encoder;
-                    encoder.create(this->size.width,this->size.height,sf::Color::White);
-                    edk::uint8* temp = this->vec;
-                    //copy the pixels
-                    for(edk::uint32 y=0u;y<this->size.height;y++){
-                        for(edk::uint32 x=0u;x<this->size.width;x++){
-                            encoder.setPixel(x,y,sf::Color(temp[0u],
-                                             temp[1u],
-                                    temp[2u],
-                                    255u
-                                    )
-                                    );
-                            temp+=3u;
-                        }
-                    }
-                    //save the image
-                    ret = encoder.saveToFile(std::string((const edk::char8*)fileName));
+                    //save the encoder
+                    edk::codecs::EncoderPNG encoder;
+                    ret = encoder.encodeToFile(this->vec,this->size.width,this->size.height,this->channels,9,fileName);
                     if(deleteTempName)
                         delete[] fileName;
                     break;
@@ -554,32 +596,36 @@ bool Image2D::saveToFile(edk::char8 *fileName){
             if(fileName){
                 switch(nameType){
                 case EDK_CODEC_NO:
+                {
                     //concatenate .jpg with the name
                     fileName = edk::String::strCat(fileName,(edk::char8*)".png");
                     deleteTempName = true;
-                case EDK_CODEC_JPEG:
-                    ret=false;
-                    break;
+                }
                 case EDK_CODEC_PNG:
                 {
-                    //use sf::image
-                    sf::Image encoder;
-                    encoder.create(this->size.width,this->size.height,sf::Color::White);
-                    edk::uint8* temp = this->vec;
-                    //copy the pixels
-                    for(edk::uint32 y=0u;y<this->size.height;y++){
-                        for(edk::uint32 x=0u;x<this->size.width;x++){
-                            encoder.setPixel(x,y,sf::Color(temp[0u],
-                                             temp[1u],
-                                    temp[2u],
-                                    temp[3u]
-                                    )
-                                    );
-                            temp+=4u;
+                    //save the encoder
+                    edk::codecs::EncoderPNG encoder;
+                    ret = encoder.encodeToFile(this->vec,this->size.width,this->size.height,this->channels,9,fileName);
+                    if(deleteTempName)
+                        delete[] fileName;
+                    break;
+                }
+                case EDK_CODEC_JPEG:
+                {
+                    //create a new image and convert the frame to rgb
+                    edk::uint8* temp = new edk::uint8[this->size.width * this->size.height * 3u];
+                    if(temp){
+                        //convert the image
+                        if(edk::Image2D::imageClone(this->vec,this->size.width,this->size.height,this->channels,
+                                                    temp,this->size.width,this->size.height,3u,
+                                                    0u,0u
+                                                    )){
+                            //save the image as JPEG
+                            edk::codecs::EncoderJPEG encoder;
+                            ret = encoder.encodeToFile(temp,this->size.width,this->size.height,3u,90,fileName);
                         }
+                        delete[] temp;
                     }
-                    //save the image
-                    ret = encoder.saveToFile(std::string((const edk::char8*)fileName));
                     if(deleteTempName)
                         delete[] fileName;
                     break;
@@ -1239,7 +1285,7 @@ bool Image2D::imageClone(edk::uint8* vector,edk::uint32 width,edk::uint32 height
 bool Image2D::cloneFrom(edk::Image2D* image){
     if(image){
         //test if the image exist
-        if(image->vec && image->channels && image->size.width && image->size.height && image->imageName /*&& image->imageFileName*/){
+        if(image->vec && image->channels && image->size.width && image->size.height && image->imageName){
             //test if the characteristics are equal
             if(!(this->vec && image->channels == this->channels && image->size == this->size)){
                 //else delete the last image
@@ -1273,7 +1319,7 @@ bool Image2D::cloneFrom(edk::Image2D* image){
 bool Image2D::newFrom(edk::Image2D* image){
     if(image){
         //test if the image exist
-        if(image->vec && image->channels && image->size.width && image->size.height && image->imageName /*&& image->imageFileName*/){
+        if(image->vec && image->channels && image->size.width && image->size.height && image->imageName){
             //test if the characteristics are equal
             if(!(this->vec && image->channels == this->channels && image->size == this->size)){
                 //else delete the last image

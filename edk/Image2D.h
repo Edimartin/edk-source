@@ -39,11 +39,12 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //#include "Types.h"
 #include "TypeColor.h"
 #include "TypeDefines.h"
-#include <SFML/Graphics.hpp>
 #include "File.h"
 #include "String.h"
 #include "codecs/DecoderJPEG.h"
 #include "codecs/EncoderJPEG.h"
+#include "codecs/DecoderPNG.h"
+#include "codecs/EncoderPNG.h"
 
 #ifdef printMessages
 #warning "    Compiling Image2D"
