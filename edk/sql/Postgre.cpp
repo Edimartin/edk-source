@@ -54,7 +54,7 @@ bool edk::sql::Postgre::openDataBase(const edk::char8* database,const edk::char8
     return this->openDataBase((edk::char8*) database,(edk::char8*) user,(edk::char8*) password,(edk::char8*) host);
 }
 bool edk::sql::Postgre::openDataBase(edk::char8* database,edk::char8* user,edk::char8* password,edk::char8* host){
-    return this->openDataBase(database,user,password,host,6432u);
+    return this->openDataBase(database,user,password,host,5432u);
 }
 bool edk::sql::Postgre::openDataBase(const edk::char8* database,const edk::char8* user,const edk::char8* password,const edk::char8* host,edk::uint32 port){
     return this->openDataBase((edk::char8*) database,(edk::char8*) user,(edk::char8*) password,(edk::char8*) host,port);

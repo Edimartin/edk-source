@@ -1,8 +1,8 @@
-#ifndef POSTGRE_H
-#define POSTGRE_H
+#ifndef MARIADB_H
+#define MARIADB_H
 
 /*
-Library POSTGRE - Use POSTGRE in EDK Game Engine.
+Library MARIADB - Use MariaDB in EDK Game Engine.
 Copyright 2013 Eduardo Moura Sales Martins (edimartin@gmail.com)
 
 Permission is hereby granted, free of charge, to any person obtaining
@@ -27,30 +27,39 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 /*LIBS:
--ldl -lpqxx
+-ldl -lmariadb
 */
 
 #ifdef printMessages
-#warning "Inside POSTGRE"
+#warning "Inside MARIADB"
 #endif
 
 #pragma once
 #include "../String.h"
 #include "SQLGroup.h"
-#ifdef EDK_USE_POSTGRE
-#include <pqxx/pqxx>
+#include "../vector/Stack.h"
+#ifdef EDK_USE_MARIADB
+#include <mariadb/mysql.h>
 #endif
 
 #ifdef printMessages
-#warning "    Compiling POSTGRE"
+#warning "    Compiling MARIADB"
 #endif
+
+//https://www.youtube.com/watch?v=cSZvq7Kv6_0&ab_channel=Steve%27steacher
+
+//https://phoenixnap.com/kb/how-to-create-mariadb-user-grant-privileges
+
+//https://zetcode.com/db/mysqlc/
 
 namespace edk{
 namespace sql{
-class Postgre{
+
+
+class MariaDB{
 public:
-    Postgre();
-    virtual ~Postgre();
+    MariaDB();
+    ~MariaDB();
 
     //open dataBase
     bool openDataBase(const edk::char8* database,const edk::char8* user,const edk::char8* password);
@@ -73,13 +82,16 @@ public:
     //return the error string
     edk::char8* getError();
 private:
-#ifdef EDK_USE_POSTGRE
-    pqxx::connection* C;
-    pqxx::nontransaction* N;
+#ifdef EDK_USE_MARIADB
+    MYSQL *con;	// the connection
+    MYSQL_RES *res;	// the results
+    MYSQL_ROW row;	// the results rows (array)
+    MYSQL_FIELD *field; //the fields
+    edk::vector::StackNames fields; //fields used to save the field names
 #endif
     edk::Name error;
 };
 }//end namespace sql
 }//end namespace edk
 
-#endif // POSTGRE_H
+#endif // MARIADB_H
