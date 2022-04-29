@@ -498,6 +498,17 @@ bool Image2D::loadFromMemoryToRGBA(uint8 *image, edk::uint32 vecSize){
                             delete vec;
                         }
                     }
+                    else if(this->channels==4u){
+                        //The image aready have 4 channels
+                        if(vec){
+                            this->size = edk::size2ui32(decoder.getFrameWidth(),decoder.getFrameHeight());
+                            //just copy the frame in to the vec
+                            memcpy(this->vec,decoder.getFrame(),imageSize*4u);
+                            decoder.deleteFrame();
+                            this->channels=4u;
+                            return true;
+                        }
+                    }
                 }
             }
         }
