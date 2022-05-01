@@ -241,6 +241,13 @@ public:
 
     static bool strCompare(const char *str1, const char *str2);
 
+    static bool strCompareBeggin(char8 *str1, char8 *str2);
+
+    static bool strCompareBeggin(const char *str1, char8 *str2);
+    static bool strCompareBeggin(char8 *str1, const char *str2);
+
+    static bool strCompareBeggin(const char *str1, const char *str2);
+
     //Compare string removing some characters with filter
     static bool strCompareWithFilter(char8 *str1, char8 *str2,char8 *filter);
     static bool strCompareWithFilter(char8 *str1, char8 *str2,const char *filter);
@@ -272,6 +279,11 @@ public:
     static uint64 strSizeWithFilter(const char *str,edk::char8* filter);
     static uint64 strSizeWithFilter(const char *str,const char *filter);
 
+    static uint64 strSizeWithLimit(char8 *str,edk::char8* limit);
+    static uint64 strSizeWithLimit(char8 *str,const char *limit);
+    static uint64 strSizeWithLimit(const char *str,edk::char8* limit);
+    static uint64 strSizeWithLimit(const char *str,const char *limit);
+
     static uint64 strWordSize(char8 *str);
 
     static uint64 strWordSize(const char *str);
@@ -280,6 +292,15 @@ public:
     static uint64 strWordSizeWithFilter(char8 *str,const char *filter);
     static uint64 strWordSizeWithFilter(const char *str,edk::char8* filter);
     static uint64 strWordSizeWithFilter(const char *str,const char *filter);
+
+    static uint64 strLineSize(char8 *str);
+
+    static uint64 strLineSize(const char *str);
+
+    static uint64 strLineSizeWithFilter(char8 *str,edk::char8* filter);
+    static uint64 strLineSizeWithFilter(char8 *str,const char *filter);
+    static uint64 strLineSizeWithFilter(const char *str,edk::char8* filter);
+    static uint64 strLineSizeWithFilter(const char *str,const char *filter);
 
     static bool strCut(char8 *str,char8 *dest, char8 limit, bool use=false);
 
@@ -335,6 +356,14 @@ public:
     static char8* strCopy(char8 *str);
 
     static char8* strCopy(const char *str);
+
+    static char8* strCopyLine(char8 *str);
+
+    static char8* strCopyLine(const char *str);
+
+    static char8* strCopyWord(char8 *str);
+
+    static char8* strCopyWord(const char *str);
 
     //remove a filter from string
     static edk::char8* strCopyWithFilter(char8 *str,char8 *filter);

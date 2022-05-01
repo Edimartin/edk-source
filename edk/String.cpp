@@ -3335,6 +3335,33 @@ bool String::strCompare(const char *str1, const char *str2){
     return edk::String::strCompare((edk::char8*)str1,(edk::char8*)str2);
 }
 
+bool String::strCompareBeggin(char8 *str1, char8 *str2){
+    if(str1 && str2){
+        while(*str1 && *str2){
+            if (*str1!=*str2){
+                return false;
+            }
+            str1++;
+            str2++;
+        }
+        if(*str1=='\0'){
+            return true;
+        }
+    }
+    return false;
+}
+bool String::strCompareBeggin(const char *str1, char8 *str2){
+    return edk::String::strCompareBeggin((char8 *)str1, (char8 *)str2);
+}
+bool String::strCompareBeggin(char8 *str1, const char *str2){
+    return edk::String::strCompareBeggin((char8 *)str1, (char8 *)str2);
+}
+
+
+bool String::strCompareBeggin(const char *str1, const char *str2){
+    return edk::String::strCompareBeggin((edk::char8*)str1,(edk::char8*)str2);
+}
+
 //Compare string removing some characters with filter
 bool String::strCompareWithFilter(char8 *str1, char8 *str2,char8 *filter){
     //test filter
@@ -3571,10 +3598,45 @@ uint64 String::strSizeWithFilter(const char *str,const char *filter){
     return strSizeWithFilter((char8 *)str,(edk::char8*) filter);
 }
 
+uint64 String::strSizeWithLimit(char8 *str,edk::char8* limit){
+    edk::uint64 i=0u;
+
+    if(limit){
+        edk::char8* temp = limit;
+        while(*str){
+            temp = limit;
+            while(temp){
+                if(*str == *temp){
+                    break;
+                }
+                temp++;
+            }
+            str++;
+            i++;
+        }
+    }
+    else return edk::String::strSize(str);
+
+    return i;
+}
+uint64 String::strSizeWithLimit(char8 *str,const char *limit){
+    return strSizeWithLimit(str,(edk::char8*) limit);
+}
+uint64 String::strSizeWithLimit(const char *str,edk::char8* limit){
+    return strSizeWithLimit((char8 *)str,limit);
+}
+uint64 String::strSizeWithLimit(const char *str,const char *limit){
+    return strSizeWithLimit((char8 *)str,(edk::char8*) limit);
+}
+
 uint64 String::strWordSize(char8 *str){
     edk::uint64 ret=0u;
     if(str){
         while(*str){
+            //test if have reach the end of the word
+            if(*str=='\0' || *str==' ' || *str==9u || *str == 10u){
+                break;
+            }
             //increment i to continue the counting
             ret++;
             str++;
@@ -3599,7 +3661,7 @@ uint64 String::strWordSizeWithFilter(char8 *str,edk::char8* filter){
                 while(true){
                     //test the filter
                     haveFilter = (bool)edk::String::stringHaveChar(filter,size,*str);
-                    if(*str=='\0' || *str==' ' || *str == 10u){
+                    if(*str=='\0' || *str==' ' || *str==9u || *str == 10u){
                         //then find the end of the string
                         break;
                     }
@@ -3623,6 +3685,64 @@ uint64 String::strWordSizeWithFilter(const char *str,edk::char8* filter){
 }
 uint64 String::strWordSizeWithFilter(const char *str,const char *filter){
     return strWordSizeWithFilter((char8 *)str,(edk::char8*) filter);
+}
+
+uint64 String::strLineSize(char8 *str){
+    edk::uint64 ret=0u;
+    if(str){
+        while(*str){
+            //test if have reach the end of the word
+            if(*str=='\0' || *str == 10u){
+                break;
+            }
+            //increment i to continue the counting
+            ret++;
+            str++;
+        }
+    }
+    return ret;
+}
+
+uint64 String::strLineSize(const char *str){
+    return edk::String::strWordSize((edk::char8*)str);
+}
+
+uint64 String::strLineSizeWithFilter(char8 *str,edk::char8* filter){
+    edk::uint64 i=0u;
+
+    if(filter){
+        //get the filterSize
+        edk::uint64 size = edk::String::strWordSize(filter);
+        if(size){
+            if(str){
+                bool haveFilter;
+                while(true){
+                    //test the filter
+                    haveFilter = (bool)edk::String::stringHaveChar(filter,size,*str);
+                    if(*str=='\0' || *str == 10u){
+                        //then find the end of the string
+                        break;
+                    }
+                    if(!haveFilter)
+                        //increment i to continue the counting
+                        i++;
+                    str++;
+                }
+            }
+        }
+        else return edk::String::strWordSize(str);
+    }
+    else return edk::String::strWordSize(str);
+    return i;
+}
+uint64 String::strLineSizeWithFilter(char8 *str,const char *filter){
+    return strLineSizeWithFilter(str,(edk::char8*) filter);
+}
+uint64 String::strLineSizeWithFilter(const char *str,edk::char8* filter){
+    return strLineSizeWithFilter((char8 *)str,filter);
+}
+uint64 String::strLineSizeWithFilter(const char *str,const char *filter){
+    return strLineSizeWithFilter((char8 *)str,(edk::char8*) filter);
 }
 
 bool edk::String::strCut(char8 *str,char8 *dest, char8 limit, bool use){
@@ -4033,12 +4153,6 @@ char8* String::strCopy(char8 *str){
             strRet[size]='\0';
             //copy the string
             memcpy(strRet,str,size);
-            /*
-            for(edk::uint32 i=0u;i<size;i++){
-                //
-                strRet[i]=str[i];
-            }
-            */
         }
         else{
             //
@@ -4050,6 +4164,58 @@ char8* String::strCopy(char8 *str){
 
 char8* String::strCopy(const char *str){
     return edk::String::strCopy((edk::char8*)str);
+}
+
+char8* String::strCopyLine(char8 *str){
+    edk::char8* strRet=NULL;
+
+    //count the string
+    edk::uint32 size = edk::String::strLineSize(str);
+    if(size>0u){
+        //alloc the string
+        strRet = new edk::char8[size+1u];
+        //test if alloc de string
+        if(strRet){
+            strRet[size]='\0';
+            //copy the string
+            memcpy(strRet,str,size);
+        }
+        else{
+            //
+            strRet=0u;
+        }
+    }
+    return strRet;
+}
+
+char8* String::strCopyLine(const char *str){
+    return edk::String::strCopyLine((edk::char8*)str);
+}
+
+char8* String::strCopyWord(char8 *str){
+    edk::char8* strRet=NULL;
+
+    //count the string
+    edk::uint32 size = edk::String::strWordSize(str);
+    if(size>0u){
+        //alloc the string
+        strRet = new edk::char8[size+1u];
+        //test if alloc de string
+        if(strRet){
+            strRet[size]='\0';
+            //copy the string
+            memcpy(strRet,str,size);
+        }
+        else{
+            //
+            strRet=0u;
+        }
+    }
+    return strRet;
+}
+
+char8* String::strCopyWord(const char *str){
+    return edk::String::strCopyWord((edk::char8*)str);
 }
 
 //remove a filter from string
