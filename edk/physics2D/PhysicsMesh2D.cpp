@@ -67,6 +67,9 @@ edk::uint32 edk::physics2D::PhysicsMesh2D::addPolygon(edk::shape::Polygon2D poly
             }
             rect.setVertexPosition(0u,vec0);
             rect.setVertexPosition(1u,vec1);
+            //set the color
+            rect.setVertexColor(0u,polygon.getVertexColor(0u));
+            rect.setVertexColor(1u,polygon.getVertexColor(1u));
             //set rect
             rect.setScale(polygon.getScale());
             rect.setTranslate(polygon.getTranslate());
@@ -86,20 +89,22 @@ edk::uint32 edk::physics2D::PhysicsMesh2D::addPolygon(edk::shape::Polygon2D poly
             p2.cloneFrom(&polygon);
 
             //salva o menor vertice
-            edk::vec2f32 temp;
-            edk::vec2f32 menor;
+            edk::physics2D::vec3f32Color4f32 temp;
+            edk::physics2D::vec3f32Color4f32 menor;
             if(polygon.getVertexCount()){
                 temp = polygon.getVertexPosition(0u);
+                temp = polygon.getVertexColor(0u);
                 menor=temp;
                 for(edk::uint32 i=1u;i<polygon.getVertexCount();i++){
                     //
                     temp = polygon.getVertexPosition(i);
-                    if(temp.y < menor.y){
+                    temp = polygon.getVertexColor(i);
+                    if(temp.position.y < menor.position.y){
                         menor=temp;
                     }
-                    else if(temp.y==menor.y
+                    else if(temp.position.y==menor.position.y
                             &&
-                            temp.x < menor.x
+                            temp.position.x < menor.position.x
                             ){
                         menor=temp;
                     }
@@ -108,16 +113,18 @@ edk::uint32 edk::physics2D::PhysicsMesh2D::addPolygon(edk::shape::Polygon2D poly
                 edk::physics2D::PhysicsMesh2D::ConvexTree tree;
                 for(edk::uint32 i=0u;i<polygon.getVertexCount();i++){
                     temp = polygon.getVertexPosition(i);
-                    if(temp.x!=menor.x
+                    temp = polygon.getVertexColor(i);
+                    if(temp.position.x!=menor.position.x
                             ||
-                            temp.y != menor.y
+                            temp.position.y != menor.position.y
                             ){
                         //
-                        edk::vec3f32 *vert = new edk::vec3f32;
+                        edk::physics2D::vec3f32Color4f32 *vert = new edk::physics2D::vec3f32Color4f32;
                         if(vert){
-                            vert->x = temp.x;
-                            vert->y = temp.y;
-                            vert->z = edk::Math::getAngle2f(temp-menor);
+                            vert->position.x = temp.position.x;
+                            vert->position.y = temp.position.y;
+                            vert->position.z = edk::Math::getAngle2f(temp.position.x-menor.position.x,temp.position.y-menor.position.y);
+                            vert->color = temp.color;
                             //adiciona o vert
                             if(!tree.add(vert)){
                                 //
@@ -128,13 +135,13 @@ edk::uint32 edk::physics2D::PhysicsMesh2D::addPolygon(edk::shape::Polygon2D poly
                     }
                 }
                 if(tree.size()){
-                    edk::vec3f32 *test = tree.getElementInPosition(0u);
-                    edk::vec2f32 sub = menor;
+                    edk::physics2D::vec3f32Color4f32 *test = tree.getElementInPosition(0u);
+                    edk::physics2D::vec3f32Color4f32 sub = menor;
                     for(edk::uint32 i=1u;i<tree.size();i++){
-                        edk::vec3f32 *next = tree.getElementInPosition(i);
+                        edk::physics2D::vec3f32Color4f32 *next = tree.getElementInPosition(i);
                         if(next){
-                            if(edk::Math::getAngleDistance(edk::vec2f32(next->x - sub.x,next->y - sub.y),
-                                                    edk::vec2f32(test->x - sub.x,test->y - sub.y)
+                            if(edk::Math::getAngleDistance(edk::vec2f32(next->position.x - sub.position.x,next->position.y - sub.position.y),
+                                                    edk::vec2f32(test->position.x - sub.position.x,test->position.y - sub.position.y)
                                                     )>=0.f
                                     ){
                                 //
@@ -145,10 +152,11 @@ edk::uint32 edk::physics2D::PhysicsMesh2D::addPolygon(edk::shape::Polygon2D poly
                             test = tree.getElementInPosition(i);
 
                             if(i){
-                                edk::vec3f32 *temp = tree.getElementInPosition(i-1u);
+                                edk::physics2D::vec3f32Color4f32 *temp = tree.getElementInPosition(i-1u);
                                 if(temp){
-                                    sub.x = temp->x;
-                                    sub.y = temp->y;
+                                    sub.position.x = temp->position.x;
+                                    sub.position.y = temp->position.y;
+                                    sub.color = temp->color;
                                 }
                             }
                             else{
@@ -166,14 +174,16 @@ edk::uint32 edk::physics2D::PhysicsMesh2D::addPolygon(edk::shape::Polygon2D poly
                             //
                             p2.createPolygon(maxPolyCount+2u);
                             //set the first vertex
-                            p2.setVertexPosition(0u,menor.x,menor.y);
+                            p2.setVertexPosition(0u,menor.position.x,menor.position.y);
+                            p2.setVertexColor(0u,menor.color);
                             for(edk::uint32 i=0u;i<=maxPolyCount;i++){
                                 //
-                                edk::vec3f32 *vert = tree.getElementInPosition(count);
+                                edk::physics2D::vec3f32Color4f32 *vert = tree.getElementInPosition(count);
                                 if(vert){
 
                                     //set the vertex
-                                    p2.setVertexPosition(i+1u,vert->x,vert->y);
+                                    p2.setVertexPosition(i+1u,vert->position.x,vert->position.y);
+                                    p2.setVertexColor(i+1u,vert->color);
 
 
                                     if(i<maxPolyCount){
@@ -189,13 +199,15 @@ edk::uint32 edk::physics2D::PhysicsMesh2D::addPolygon(edk::shape::Polygon2D poly
                             //
                             p2.createPolygon(tree.size()+1u);
                             //set the first vertex
-                            p2.setVertexPosition(0u,menor.x,menor.y);
+                            p2.setVertexPosition(0u,menor.position.x,menor.position.y);
+                            p2.setVertexColor(0u,menor.color);
                             for(edk::uint32 i=0u;i<tree.size();i++){
-                                edk::vec3f32 *vert = tree.getElementInPosition(i);
+                                edk::physics2D::vec3f32Color4f32 *vert = tree.getElementInPosition(i);
                                 if(vert){
 
                                     //set the vertex
-                                    p2.setVertexPosition(i+1u,vert->x,vert->y);
+                                    p2.setVertexPosition(i+1u,vert->position.x,vert->position.y);
+                                    p2.setVertexColor(i+1u,vert->color);
                                     //deleta o vert
                                     delete vert;
                                 }
