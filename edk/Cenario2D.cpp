@@ -3315,7 +3315,8 @@ bool edk::Cenario2D::writeToXML(edk::XML* xml,edk::uint32 id){
                                 edk::physics2D::PrismaticJoint2D* prismaticJoint;
                                 edk::physics2D::PulleyJoint2D* pulleyJoint;
                                 edk::physics2D::WheelJoint2D* wheelJoint;
-                                edk::physics2D::RopeJoint2D* ropeJoint;
+                                //REMOVE IN NEW BOX2D
+                                //edk::physics2D::RopeJoint2D* ropeJoint;
                                 edk::Cenario2D::PhysicsPosition objectA;
                                 edk::Cenario2D::PhysicsPosition objectB;
                                 for(edk::uint32 i=0u;i<size;i++){
@@ -3544,17 +3545,9 @@ bool edk::Cenario2D::writeToXML(edk::XML* xml,edk::uint32 id){
                                                                             delete[] temp;
                                                                         }
                                                                     }
-                                                                    temp = edk::String::float32ToStr(wheelJoint->frequency);
-                                                                    if(temp){
-                                                                        xml->addSelectedNextAttribute((edk::char8*)"frequency",temp);
-                                                                        delete[] temp;
-                                                                    }
-                                                                    temp = edk::String::float32ToStr(wheelJoint->dampingRatio);
-                                                                    if(temp){
-                                                                        xml->addSelectedNextAttribute((edk::char8*)"dampingRatio",temp);
-                                                                        delete[] temp;
-                                                                    }
                                                                     break;
+                                                                //REMOVE IN NEW BOX2D
+                                                                /*
                                                                 case EDK_ROPE_JOINT:
                                                                     //
                                                                     //xml->setSelectedString("ROPE_JOINT");
@@ -3576,6 +3569,7 @@ bool edk::Cenario2D::writeToXML(edk::XML* xml,edk::uint32 id){
                                                                         delete[] temp;
                                                                     }
                                                                     break;
+                                                                */
                                                                 }
                                                                 xml->selectFather();
                                                             }
@@ -3895,8 +3889,6 @@ bool edk::Cenario2D::readFromXML(edk::XML* xml,edk::uint32 id){
                                                 //                                                                                  edk::vec2f32(edk::String::strToFloat32(xml->getSelectedAttributeValueByName("directionX")),
                                                 //                                                                                               edk::String::strToFloat32(xml->getSelectedAttributeValueByName("directionY"))
                                                 //                                                                                               ),
-                                                //                                                                                  edk::String::strToFloat32(xml->getSelectedAttributeValueByName("frequency")),
-                                                //                                                                                  edk::String::strToFloat32(xml->getSelectedAttributeValueByName("dampingRatio")),
                                                 //                                                                                  edk::String::strToFloat32(xml->getSelectedAttributeValueByName("maxTorque")),
                                                 //                                                                                  edk::String::strToFloat32(xml->getSelectedAttributeValueByName("speed")),
                                                 //                                                                                  collide
@@ -3908,8 +3900,6 @@ bool edk::Cenario2D::readFromXML(edk::XML* xml,edk::uint32 id){
                                                                                   edk::vec2f32(edk::String::strToFloat32(xml->getSelectedAttributeValueByName("directionX")),
                                                                                                edk::String::strToFloat32(xml->getSelectedAttributeValueByName("directionY"))
                                                                                                ),
-                                                                                  edk::String::strToFloat32(xml->getSelectedAttributeValueByName("frequency")),
-                                                                                  edk::String::strToFloat32(xml->getSelectedAttributeValueByName("dampingRatio")),
                                                                                   edk::String::strToFloat32(xml->getSelectedAttributeValueByName("maxTorque")),
                                                                                   edk::String::strToFloat32(xml->getSelectedAttributeValueByName("speed")),
                                                                                   collide
@@ -3923,8 +3913,6 @@ bool edk::Cenario2D::readFromXML(edk::XML* xml,edk::uint32 id){
                                                 //                                                                             edk::vec2f32(edk::String::strToFloat32(xml->getSelectedAttributeValueByName("directionX")),
                                                 //                                                                                          edk::String::strToFloat32(xml->getSelectedAttributeValueByName("directionY"))
                                                 //                                                                                          ),
-                                                //                                                                             edk::String::strToFloat32(xml->getSelectedAttributeValueByName("frequency")),
-                                                //                                                                             edk::String::strToFloat32(xml->getSelectedAttributeValueByName("dampingRatio")),
                                                 //                                                                             collide
                                                 //                                                                             );
                                                 this->world.createWheelJoint(this->getPhysicsObjectInLevel(objectA),
@@ -3934,8 +3922,6 @@ bool edk::Cenario2D::readFromXML(edk::XML* xml,edk::uint32 id){
                                                                              edk::vec2f32(edk::String::strToFloat32(xml->getSelectedAttributeValueByName("directionX")),
                                                                                           edk::String::strToFloat32(xml->getSelectedAttributeValueByName("directionY"))
                                                                                           ),
-                                                                             edk::String::strToFloat32(xml->getSelectedAttributeValueByName("frequency")),
-                                                                             edk::String::strToFloat32(xml->getSelectedAttributeValueByName("dampingRatio")),
                                                                              collide
                                                                              );
                                             }
@@ -3951,6 +3937,8 @@ bool edk::Cenario2D::readFromXML(edk::XML* xml,edk::uint32 id){
                                             //                                                                                      edk::String::strToFloat32(xml->getSelectedAttributeValueByName("maxLength")),
                                             //                                                                                      collide
                                             //                                                                                      );
+                                            //REMOVED IN NEW BOX2D
+                                            /*
                                             this->world.createRopeJoint(this->getPhysicsObjectInLevel(objectA),
                                                                         positionA,
                                                                         this->getPhysicsObjectInLevel(objectB),
@@ -3958,6 +3946,7 @@ bool edk::Cenario2D::readFromXML(edk::XML* xml,edk::uint32 id){
                                                                         edk::String::strToFloat32(xml->getSelectedAttributeValueByName("maxLength")),
                                                                         collide
                                                                         );
+                                            */
                                             break;
                                         }
                                     }
@@ -4270,8 +4259,6 @@ bool edk::Cenario2D::readFromXMLWithPack(edk::pack::FilePackage* pack,edk::XML* 
                                                 //                                                                                  edk::vec2f32(edk::String::strToFloat32(xml->getSelectedAttributeValueByName("directionX")),
                                                 //                                                                                               edk::String::strToFloat32(xml->getSelectedAttributeValueByName("directionY"))
                                                 //                                                                                               ),
-                                                //                                                                                  edk::String::strToFloat32(xml->getSelectedAttributeValueByName("frequency")),
-                                                //                                                                                  edk::String::strToFloat32(xml->getSelectedAttributeValueByName("dampingRatio")),
                                                 //                                                                                  edk::String::strToFloat32(xml->getSelectedAttributeValueByName("maxTorque")),
                                                 //                                                                                  edk::String::strToFloat32(xml->getSelectedAttributeValueByName("speed")),
                                                 //                                                                                  collide
@@ -4283,8 +4270,6 @@ bool edk::Cenario2D::readFromXMLWithPack(edk::pack::FilePackage* pack,edk::XML* 
                                                                                   edk::vec2f32(edk::String::strToFloat32(xml->getSelectedAttributeValueByName("directionX")),
                                                                                                edk::String::strToFloat32(xml->getSelectedAttributeValueByName("directionY"))
                                                                                                ),
-                                                                                  edk::String::strToFloat32(xml->getSelectedAttributeValueByName("frequency")),
-                                                                                  edk::String::strToFloat32(xml->getSelectedAttributeValueByName("dampingRatio")),
                                                                                   edk::String::strToFloat32(xml->getSelectedAttributeValueByName("maxTorque")),
                                                                                   edk::String::strToFloat32(xml->getSelectedAttributeValueByName("speed")),
                                                                                   collide
@@ -4298,8 +4283,6 @@ bool edk::Cenario2D::readFromXMLWithPack(edk::pack::FilePackage* pack,edk::XML* 
                                                 //                                                                             edk::vec2f32(edk::String::strToFloat32(xml->getSelectedAttributeValueByName("directionX")),
                                                 //                                                                                          edk::String::strToFloat32(xml->getSelectedAttributeValueByName("directionY"))
                                                 //                                                                                          ),
-                                                //                                                                             edk::String::strToFloat32(xml->getSelectedAttributeValueByName("frequency")),
-                                                //                                                                             edk::String::strToFloat32(xml->getSelectedAttributeValueByName("dampingRatio")),
                                                 //                                                                             collide
                                                 //                                                                             );
                                                 this->world.createWheelJoint(this->getPhysicsObjectInLevel(objectA),
@@ -4309,8 +4292,6 @@ bool edk::Cenario2D::readFromXMLWithPack(edk::pack::FilePackage* pack,edk::XML* 
                                                                              edk::vec2f32(edk::String::strToFloat32(xml->getSelectedAttributeValueByName("directionX")),
                                                                                           edk::String::strToFloat32(xml->getSelectedAttributeValueByName("directionY"))
                                                                                           ),
-                                                                             edk::String::strToFloat32(xml->getSelectedAttributeValueByName("frequency")),
-                                                                             edk::String::strToFloat32(xml->getSelectedAttributeValueByName("dampingRatio")),
                                                                              collide
                                                                              );
                                             }
@@ -4326,6 +4307,8 @@ bool edk::Cenario2D::readFromXMLWithPack(edk::pack::FilePackage* pack,edk::XML* 
                                             //                                                                                      edk::String::strToFloat32(xml->getSelectedAttributeValueByName("maxLength")),
                                             //                                                                                      collide
                                             //                                                                                      );
+                                            //REMOVED IN NEW BOX2D
+                                            /*
                                             this->world.createRopeJoint(this->getPhysicsObjectInLevel(objectA),
                                                                         positionA,
                                                                         this->getPhysicsObjectInLevel(objectB),
@@ -4333,6 +4316,7 @@ bool edk::Cenario2D::readFromXMLWithPack(edk::pack::FilePackage* pack,edk::XML* 
                                                                         edk::String::strToFloat32(xml->getSelectedAttributeValueByName("maxLength")),
                                                                         collide
                                                                         );
+                                            */
                                             break;
                                         }
                                     }

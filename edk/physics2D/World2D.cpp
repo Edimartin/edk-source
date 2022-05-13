@@ -39,16 +39,16 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
 */
     b2Body* bodyA = contact->GetFixtureA()->GetBody();
     b2Body* bodyB = contact->GetFixtureB()->GetBody();
-    edk::uint64 shapeA = (edk::uint64)contact->GetFixtureA()->GetUserData();
-    edk::uint64 shapeB = (edk::uint64)contact->GetFixtureB()->GetUserData();
+    edk::uint64 shapeA = (edk::uint64)contact->GetFixtureA()->GetUserData().pointer;
+    edk::uint64 shapeB = (edk::uint64)contact->GetFixtureB()->GetUserData().pointer;
     edk::uint8 count = contact->GetManifold()->pointCount;
     if(count){
         //get the contact
         edk::physics2D::Contact2D* contactTemp = this->world->treeConcacts.getContact(contact);
 
         //test if the two objecs are on the same group
-        edk::physics2D::PhysicObject2D* objectA = (edk::physics2D::PhysicObject2D*)bodyA->GetUserData();
-        edk::physics2D::PhysicObject2D* objectB = (edk::physics2D::PhysicObject2D*)bodyB->GetUserData();
+        edk::physics2D::PhysicObject2D* objectA = (edk::physics2D::PhysicObject2D*)bodyA->GetUserData().pointer;
+        edk::physics2D::PhysicObject2D* objectB = (edk::physics2D::PhysicObject2D*)bodyB->GetUserData().pointer;
 
         bool thisContinue=true;
         if(objectA->getNotCollisionGroupSize() && objectB->getNotCollisionGroupSize()){
@@ -87,8 +87,8 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
             }
             if(contactTemp){
                 //update the values
-                contactTemp->objectA = (edk::physics2D::PhysicObject2D*)bodyA->GetUserData();
-                contactTemp->objectB = (edk::physics2D::PhysicObject2D*)bodyB->GetUserData();
+                contactTemp->objectA = (edk::physics2D::PhysicObject2D*)bodyA->GetUserData().pointer;
+                contactTemp->objectB = (edk::physics2D::PhysicObject2D*)bodyB->GetUserData().pointer;
                 contactTemp->shapeA = shapeA;
                 contactTemp->shapeB = shapeB;
                 //
@@ -726,7 +726,7 @@ edk::physics2D::World2D::~World2D(){
     for(edk::uint32 i=0u;i<size;i++){
         joint = this->treeJoint.getB2JointInPosition(i);
         if(joint){
-            edkJoint = (edk::physics2D::Joint2D*)joint->GetUserData();
+            edkJoint = (edk::physics2D::Joint2D*)joint->GetUserData().pointer;
             if(edkJoint) delete edkJoint;
             this->world.DestroyJoint(joint);
         }
@@ -1311,6 +1311,9 @@ bool edk::physics2D::World2D::addObject(edk::physics2D::PhysicObject2D* object){
         objectDef.type = (b2BodyType)object->getType();
         objectDef.fixedRotation=object->fixedRotation;
 
+        //In the new version of box2D the userData will be setted in objectDef
+        objectDef.userData.pointer = (uintptr_t)object;
+
         //objectDef.fixedRotation = false;
 
         b2Body* objectBody = this->world.CreateBody(&objectDef);
@@ -1318,7 +1321,8 @@ bool edk::physics2D::World2D::addObject(edk::physics2D::PhysicObject2D* object){
             objectBody->SetTransform( b2Vec2(object->position.x,object->position.y),object->angle / (180.f / b2_pi) );
 
 
-            objectBody->SetUserData(object);
+            //objectBody->SetUserData(object);
+            //update the set user data in bodyDef for the new box2D version
             //read the polygons
             edk::uint32 size = object->physicMesh.getPolygonSize();
             if(size){
@@ -1348,7 +1352,7 @@ bool edk::physics2D::World2D::addObject(edk::physics2D::PhysicObject2D* object){
                             b2CircleShape objectShape;
                             b2FixtureDef fixture;
                             // Check windows
-                            fixture.userData = (void*)i;
+                            fixture.userData.pointer = (uintptr_t)i;
                             objectShape.m_p.Set(translate.x/* * scale.width*/,
                                                 translate.y/* * scale.height*/
                                                 );
@@ -1404,12 +1408,25 @@ bool edk::physics2D::World2D::addObject(edk::physics2D::PhysicObject2D* object){
                                 vertex2+=translate;
 
                                 //set the line
+                                //removed the old box2D
+                                /*
                                 objectShape.Set(b2Vec2 (vertex1.x, vertex1.y),
                                                 b2Vec2 (vertex2.x, vertex2.y)
                                                 );
+                                */
+                                //change it to the new box2D
+                                // These are the edge vertices
+                                objectShape.m_vertex1=b2Vec2 (vertex1.x, vertex1.y);
+                                objectShape.m_vertex2=b2Vec2 (vertex2.x, vertex2.y);
+                                // Optional adjacent vertices. These are used for smooth collision.
+                                objectShape.m_vertex0=b2Vec2 (vertex1.x, vertex1.y);
+                                objectShape.m_vertex3=b2Vec2 (vertex2.x, vertex2.y);
+
+
+
 
                                 b2FixtureDef fixture;
-                                fixture.userData = (void*)i;
+                                fixture.userData.pointer = (uintptr_t)i;
                                 fixture.density = object->physicMesh.selectedGetDensity();
                                 fixture.friction = object->physicMesh.selectedGetFriction();
                                 fixture.restitution = object->physicMesh.selectedGetRestitution();
@@ -1423,7 +1440,7 @@ bool edk::physics2D::World2D::addObject(edk::physics2D::PhysicObject2D* object){
                                 //
                                 b2ChainShape objectShape;
                                 b2FixtureDef fixture;
-                                fixture.userData = (void*)i;
+                                fixture.userData.pointer = (uintptr_t)i;
 
                                 edk::uint32 vCount=object->physicMesh.selectedGetVertexCount();
                                 //it's a polygon
@@ -1446,7 +1463,7 @@ bool edk::physics2D::World2D::addObject(edk::physics2D::PhysicObject2D* object){
                                     vertexs[p].x = vertex.x + translate.x;
                                     vertexs[p].y = vertex.y + translate.y;
                                 }
-                                objectShape.CreateChain(vertexs,vCount);
+                                objectShape.CreateChain(vertexs,vCount,vertexs[vCount-2u],vertexs[1u]);
                                 //then delete the vertexs
 
                                 fixture.density = object->physicMesh.selectedGetDensity();
@@ -1474,7 +1491,7 @@ bool edk::physics2D::World2D::addObject(edk::physics2D::PhysicObject2D* object){
                             //Else use the shape as polygon
                             b2PolygonShape objectShape;
                             b2FixtureDef fixture;
-                            fixture.userData = (void*)i;
+                            fixture.userData.pointer = (uintptr_t)i;
 
                             if(object->physicMesh.selectedGetVertexCount() == 2u){
                                 //load the rectSize
@@ -1740,7 +1757,7 @@ void edk::physics2D::World2D::removeAllObjects(){
         temp = this->treeStatic.getBodyInPosition(count);
         if(temp){
             //
-            tempObject = (edk::physics2D::PhysicObject2D*) temp->GetUserData();
+            tempObject = (edk::physics2D::PhysicObject2D*) temp->GetUserData().pointer;
             if(tempObject){
                 //remove the joints
                 this->removeObjectJoints(tempObject);
@@ -1761,7 +1778,7 @@ void edk::physics2D::World2D::removeAllObjects(){
         temp = this->treeKinematic.getBodyInPosition(count);
         if(temp){
             //
-            tempObject =  (edk::physics2D::PhysicObject2D*)temp->GetUserData();
+            tempObject =  (edk::physics2D::PhysicObject2D*)temp->GetUserData().pointer;
             if(tempObject){
                 //remove the joints
                 this->removeObjectJoints(tempObject);
@@ -1783,7 +1800,7 @@ void edk::physics2D::World2D::removeAllObjects(){
         temp = this->treeDynamic.getBodyInPosition(count);
         if(temp){
             //
-            tempObject =  (edk::physics2D::PhysicObject2D*)temp->GetUserData();
+            tempObject =  (edk::physics2D::PhysicObject2D*)temp->GetUserData().pointer;
             if(tempObject){
                 //remove the joints
                 this->removeObjectJoints(tempObject);
@@ -1821,8 +1838,8 @@ edk::uint32 edk::physics2D::World2D::getStaticObjectsSize(){
 edk::physics2D::PhysicObject2D* edk::physics2D::World2D::getStaticObjectInPosition(edk::uint32 position){
     b2Body* body = this->treeStatic.getBodyInPosition(position);
     if(body){
-        if(body->GetUserData()){
-            return (edk::physics2D::PhysicObject2D*)body->GetUserData();
+        if(body->GetUserData().pointer){
+            return (edk::physics2D::PhysicObject2D*)body->GetUserData().pointer;
         }
     }
     return NULL;
@@ -1833,8 +1850,8 @@ edk::uint32 edk::physics2D::World2D::getDynamicObjectsSize(){
 edk::physics2D::PhysicObject2D* edk::physics2D::World2D::getDynamicObjectInPosition(edk::uint32 position){
     b2Body* body = this->treeDynamic.getBodyInPosition(position);
     if(body){
-        if(body->GetUserData()){
-            return (edk::physics2D::PhysicObject2D*)body->GetUserData();
+        if(body->GetUserData().pointer){
+            return (edk::physics2D::PhysicObject2D*)body->GetUserData().pointer;
         }
     }
     return NULL;
@@ -1845,8 +1862,8 @@ edk::uint32 edk::physics2D::World2D::getKinematicObjectsSize(){
 edk::physics2D::PhysicObject2D* edk::physics2D::World2D::getKinematicObjectInPosition(edk::uint32 position){
     b2Body* body = this->treeKinematic.getBodyInPosition(position);
     if(body){
-        if(body->GetUserData()){
-            return (edk::physics2D::PhysicObject2D*)body->GetUserData();
+        if(body->GetUserData().pointer){
+            return (edk::physics2D::PhysicObject2D*)body->GetUserData().pointer;
         }
     }
     return NULL;
@@ -2285,6 +2302,9 @@ edk::physics2D::RevoluteJoint2D* edk::physics2D::World2D::createRevoluteJoint(ed
                 //create the edkJoint
                 edkJoint = new edk::physics2D::RevoluteJoint2D(collide);
                 if(edkJoint){
+                    //in the new version of box2D the userData are setted in jointDef
+                    jointDef.userData.pointer = (uintptr_t)edkJoint;
+
                     edkJoint->objectA = objectA;
                     edkJoint->objectB = objectB;
                     edkJoint->positionA = positionA;
@@ -2305,7 +2325,8 @@ edk::physics2D::RevoluteJoint2D* edk::physics2D::World2D::createRevoluteJoint(ed
                         //
                         b2Joint* joint = (b2Joint*) this->world.CreateJoint(&jointDef);
                         if(joint){
-                            joint->SetUserData(edkJoint);
+                            //removed from the old box2D version. In the new box2D version the userData is in JointDef
+                            //joint->SetUserData(edkJoint);
                             //add the joint in the tree
                             if(this->treeJoint.addJoint(edkJoint,joint)){
                                 return edkJoint;
@@ -2370,6 +2391,9 @@ edk::physics2D::RevoluteJoint2D* edk::physics2D::World2D::createRevoluteAngleJoi
                 //create the edkJoint
                 edkJoint = new edk::physics2D::RevoluteJoint2D(collide);
                 if(edkJoint){
+                    //in the new version of box2D the userData are setted in jointDef
+                    jointDef.userData.pointer = (uintptr_t)edkJoint;
+
                     edkJoint->objectA = objectA;
                     edkJoint->objectB = objectB;
                     edkJoint->positionA = positionA;
@@ -2384,7 +2408,8 @@ edk::physics2D::RevoluteJoint2D* edk::physics2D::World2D::createRevoluteAngleJoi
                         //
                         b2Joint* joint = (b2Joint*) this->world.CreateJoint(&jointDef);
                         if(joint){
-                            joint->SetUserData(edkJoint);
+                            //removed from the old box2D version. In the new box2D version the userData is in JointDef
+                            //joint->SetUserData(edkJoint);
                             //add the joint in the tree
                             if(this->treeJoint.addJoint(edkJoint,joint)){
                                 return edkJoint;
@@ -2449,6 +2474,9 @@ edk::physics2D::RevoluteJoint2D* edk::physics2D::World2D::createRevoluteMotorJoi
                 //create the edkJoint
                 edkJoint = new edk::physics2D::RevoluteJoint2D(collide);
                 if(edkJoint){
+                    //in the new version of box2D the userData are setted in jointDef
+                    jointDef.userData.pointer = (uintptr_t)edkJoint;
+
                     edkJoint->objectA = objectA;
                     edkJoint->objectB = objectB;
                     edkJoint->positionA = positionA;
@@ -2466,7 +2494,8 @@ edk::physics2D::RevoluteJoint2D* edk::physics2D::World2D::createRevoluteMotorJoi
                         //
                         b2Joint* joint = (b2Joint*) this->world.CreateJoint(&jointDef);
                         if(joint){
-                            joint->SetUserData(edkJoint);
+                            //removed from the old box2D version. In the new box2D version the userData is in JointDef
+                            //joint->SetUserData(edkJoint);
                             //add the joint in the tree
                             if(this->treeJoint.addJoint(edkJoint,joint)){
                                 return edkJoint;
@@ -2536,6 +2565,9 @@ edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticJoint(
                 //create the edkJoint
                 edkJoint = new edk::physics2D::PrismaticJoint2D(collide);
                 if(edkJoint){
+                    //in the new version of box2D the userData are setted in jointDef
+                    jointDef.userData.pointer = (uintptr_t)edkJoint;
+
                     edkJoint->objectA = objectA;
                     edkJoint->objectB = objectB;
                     edkJoint->positionA = positionA;
@@ -2556,7 +2588,8 @@ edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticJoint(
                         //
                         b2Joint* joint = (b2Joint*) this->world.CreateJoint(&jointDef);
                         if(joint){
-                            joint->SetUserData(edkJoint);
+                            //removed from the old box2D version. In the new box2D version the userData is in JointDef
+                            //joint->SetUserData(edkJoint);
                             //add the joint in the tree
                             if(this->treeJoint.addJoint(edkJoint,joint)){
                                 return edkJoint;
@@ -2660,6 +2693,9 @@ edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticMotorJ
                 //create the edkJoint
                 edkJoint = new edk::physics2D::PrismaticJoint2D(collide);
                 if(edkJoint){
+                    //in the new version of box2D the userData are setted in jointDef
+                    jointDef.userData.pointer = (uintptr_t)edkJoint;
+
                     edkJoint->objectA = objectA;
                     edkJoint->objectB = objectB;
                     edkJoint->positionA = positionA;
@@ -2682,7 +2718,8 @@ edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticMotorJ
                         //
                         b2Joint* joint = (b2Joint*) this->world.CreateJoint(&jointDef);
                         if(joint){
-                            joint->SetUserData(edkJoint);
+                            //removed from the old box2D version. In the new box2D version the userData is in JointDef
+                            //joint->SetUserData(edkJoint);
                             //add the joint in the tree
                             if(this->treeJoint.addJoint(edkJoint,joint)){
                                 return edkJoint;
@@ -2757,7 +2794,7 @@ edk::physics2D::DistanceJoint2D* edk::physics2D::World2D::createDistanceJoint(ed
                                                                               edk::vec2f32 positionA,
                                                                               edk::physics2D::PhysicObject2D* objectB,
                                                                               edk::vec2f32 positionB,
-                                                                              edk::float32 frequency,edk::float32 distance,
+                                                                              edk::float32 distance,
                                                                               bool collide
                                                                               ){
     //test the object
@@ -2780,11 +2817,14 @@ edk::physics2D::DistanceJoint2D* edk::physics2D::World2D::createDistanceJoint(ed
                 jointDef.localAnchorB = b2Vec2(positionB.x,positionB.y);
                 jointDef.length = distance;
 
-                jointDef.frequencyHz = frequency;
+                //removed frequency in new box2D
 
                 //create the edkJoint
                 edkJoint = new edk::physics2D::DistanceJoint2D(collide);
                 if(edkJoint){
+                    //in the new version of box2D the userData are setted in jointDef
+                    jointDef.userData.pointer = (uintptr_t)edkJoint;
+
                     edkJoint->objectA = objectA;
                     edkJoint->objectB = objectB;
                     edkJoint->positionA = positionA;
@@ -2803,7 +2843,8 @@ edk::physics2D::DistanceJoint2D* edk::physics2D::World2D::createDistanceJoint(ed
                         //
                         b2Joint* joint = (b2Joint*) this->world.CreateJoint(&jointDef);
                         if(joint){
-                            joint->SetUserData(edkJoint);
+                            //removed from the old box2D version. In the new box2D version the userData is in JointDef
+                            //joint->SetUserData(edkJoint);
                             //add the joint in the tree
                             if(this->treeJoint.addJoint(edkJoint,joint)){
                                 return edkJoint;
@@ -2821,7 +2862,6 @@ edk::physics2D::DistanceJoint2D* edk::physics2D::World2D::createDistanceJoint(ed
 }
 edk::physics2D::DistanceJoint2D* edk::physics2D::World2D::createDistanceJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 worldPositionA,
                                                                               edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPositionB,
-                                                                              edk::float32 frequency,
                                                                               bool collide
                                                                               ){
     //test the object
@@ -2830,7 +2870,6 @@ edk::physics2D::DistanceJoint2D* edk::physics2D::World2D::createDistanceJoint(ed
                                          edk::physics2D::World2D::JointTree::getJointPosition(objectA,worldPositionA),
                                          objectB,
                                          edk::physics2D::World2D::JointTree::getJointPosition(objectB,worldPositionB),
-                                         frequency,
                                          edk::Math::moduleFloat(edk::Math::pythagoras2f(worldPositionA - worldPositionB)),
                                          collide
                                          );
@@ -2871,6 +2910,9 @@ edk::physics2D::PulleyJoint2D* edk::physics2D::World2D::createPulleyJoint(edk::p
                 //create the edkJoint
                 edkJoint = new edk::physics2D::PulleyJoint2D(collide);
                 if(edkJoint){
+                    //in the new version of box2D the userData are setted in jointDef
+                    jointDef.userData.pointer = (uintptr_t)edkJoint;
+
                     edkJoint->objectA = objectA;
                     edkJoint->objectB = objectB;
                     edkJoint->positionA = positionA;
@@ -2898,7 +2940,8 @@ edk::physics2D::PulleyJoint2D* edk::physics2D::World2D::createPulleyJoint(edk::p
                         //
                         b2Joint* joint = (b2Joint*) this->world.CreateJoint(&jointDef);
                         if(joint){
-                            joint->SetUserData(edkJoint);
+                            //removed from the old box2D version. In the new box2D version the userData is in JointDef
+                            //joint->SetUserData(edkJoint);
                             //add the joint in the tree
                             if(this->treeJoint.addJoint(edkJoint,joint)){
                                 return edkJoint;
@@ -2968,7 +3011,7 @@ edk::physics2D::PulleyJoint2D* edk::physics2D::World2D::createPulleyWorldJoint(e
 //WHEEL
 edk::physics2D::WheelJoint2D* edk::physics2D::World2D::createWheelJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA,
                                                                         edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 positionB,
-                                                                        edk::vec2f32 direction, edk::float32 frequency, edk::float32 dampingRatio,
+                                                                        edk::vec2f32 direction,
                                                                         bool collide
                                                                         ){
     //test the object
@@ -2993,12 +3036,15 @@ edk::physics2D::WheelJoint2D* edk::physics2D::World2D::createWheelJoint(edk::phy
                 jointDef.localAxisA = b2Vec2(direction.x,direction.y);
                 jointDef.localAxisA.Normalize();
 
-                jointDef.frequencyHz = frequency;
-                jointDef.dampingRatio = dampingRatio;
+                //removed frequency in new box2D
+                //removed dampingRatio in new box2D
 
                 //create the edkJoint
                 edkJoint = new edk::physics2D::WheelJoint2D(collide);
                 if(edkJoint){
+                    //in the new version of box2D the userData are setted in jointDef
+                    jointDef.userData.pointer = (uintptr_t)edkJoint;
+
                     edkJoint->objectA = objectA;
                     edkJoint->objectB = objectB;
                     edkJoint->positionA = positionA;
@@ -3015,7 +3061,8 @@ edk::physics2D::WheelJoint2D* edk::physics2D::World2D::createWheelJoint(edk::phy
                         //
                         b2Joint* joint = (b2Joint*) this->world.CreateJoint(&jointDef);
                         if(joint){
-                            joint->SetUserData(edkJoint);
+                            //removed from the old box2D version. In the new box2D version the userData is in JointDef
+                            //joint->SetUserData(edkJoint);
                             //add the joint in the tree
                             if(this->treeJoint.addJoint(edkJoint,joint)){
                                 return edkJoint;
@@ -3031,24 +3078,9 @@ edk::physics2D::WheelJoint2D* edk::physics2D::World2D::createWheelJoint(edk::phy
     }
     return NULL;
 }
-edk::physics2D::WheelJoint2D* edk::physics2D::World2D::createWheelJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA,
-                                                                        edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 positionB,
-                                                                        edk::vec2f32 direction,
-                                                                        bool collide
-                                                                        ){
-    //test the object
-    if(objectA && objectB){
-        return this->createWheelJoint(objectA,positionA,
-                                      objectB,positionB,
-                                      direction,1, 1,
-                                      collide
-                                      );
-    }
-    return NULL;
-}
 
 edk::physics2D::WheelJoint2D* edk::physics2D::World2D::createWheelJoint(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPosition,
-                                                                        edk::vec2f32 direction, edk::float32 frequency, edk::float32 dampingRatio,
+                                                                        edk::vec2f32 direction,
                                                                         bool collide
                                                                         ){
     //test the object
@@ -3057,92 +3089,9 @@ edk::physics2D::WheelJoint2D* edk::physics2D::World2D::createWheelJoint(edk::phy
                                       edk::physics2D::World2D::JointTree::getJointPosition(objectA,worldPosition),
                                       objectB,
                                       edk::physics2D::World2D::JointTree::getJointPosition(objectB,worldPosition),
-                                      direction,frequency, dampingRatio,
+                                      direction,
                                       collide
                                       );
-    }
-    return NULL;
-}
-edk::physics2D::WheelJoint2D* edk::physics2D::World2D::createWheelJoint(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPosition,
-                                                                        edk::vec2f32 direction,
-                                                                        bool collide
-                                                                        ){
-    //test the object
-    if(objectA && objectB){
-        return this->createWheelJoint(objectA,objectB,worldPosition,
-                                      direction,1, 1,
-                                      collide
-                                      );
-    }
-    return NULL;
-}
-edk::physics2D::WheelJoint2D* edk::physics2D::World2D::createWheelMotorJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA,
-                                                                             edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 positionB,
-                                                                             edk::vec2f32 direction, edk::float32 frequency, edk::float32 dampingRatio,
-                                                                             edk::float32 maxTorque,edk::float32 speed,
-                                                                             bool collide
-                                                                             ){
-    //test the object
-    if(objectA && objectB){
-        //test the objectType
-        if(objectA->getType()!=edk::physics::StaticBody || objectB->getType()!=edk::physics::StaticBody){
-            //load the objects
-            b2Body* bodyA = this->getBody(objectA);
-            b2Body* bodyB = this->getBody(objectB);
-
-            //create the joint
-            if(bodyA && bodyB){
-                edk::physics2D::WheelJoint2D *edkJoint = NULL;
-                //create the revolute def
-                b2WheelJointDef jointDef;
-                jointDef.collideConnected=collide;
-                jointDef.bodyA = bodyA;
-                jointDef.bodyB = bodyB;
-                jointDef.localAnchorA = b2Vec2(positionA.x,positionA.y);
-                jointDef.localAnchorB = b2Vec2(positionB.x,positionB.y);
-
-                jointDef.localAxisA = b2Vec2(direction.x,direction.y);
-                jointDef.localAxisA.Normalize();
-
-                jointDef.frequencyHz = frequency;
-                jointDef.dampingRatio = dampingRatio;
-
-                jointDef.maxMotorTorque = maxTorque;
-                jointDef.motorSpeed = speed;
-                jointDef.enableMotor=true;
-
-                //create the edkJoint
-                edkJoint = new edk::physics2D::WheelJoint2D(collide);
-                if(edkJoint){
-                    edkJoint->objectA = objectA;
-                    edkJoint->objectB = objectB;
-                    edkJoint->positionA = positionA;
-                    edkJoint->worldPositionA
-                            =
-                            edk::physics2D::World2D::JointTree::getJointWorldPosition(objectA,positionA)
-                            ;
-                    edkJoint->positionB = positionB;
-
-                    edkJoint->direction = direction;
-
-                    //create the edkJoint
-                    if(this->addJoint(edkJoint)){
-                        //
-                        b2Joint* joint = (b2Joint*) this->world.CreateJoint(&jointDef);
-                        if(joint){
-                            joint->SetUserData(edkJoint);
-                            //add the joint in the tree
-                            if(this->treeJoint.addJoint(edkJoint,joint)){
-                                return edkJoint;
-                            }
-                            //else destroy the joint
-                            this->world.DestroyJoint(joint);
-                        }
-                        this->destroyJoint(edkJoint);
-                    }
-                }
-            }
-        }
     }
     return NULL;
 }
@@ -3154,17 +3103,74 @@ edk::physics2D::WheelJoint2D* edk::physics2D::World2D::createWheelMotorJoint(edk
                                                                              ){
     //test the object
     if(objectA && objectB){
-        return this->createWheelMotorJoint(objectA,positionA,
-                                           objectB,positionB,
-                                           direction,1, 1,
-                                           maxTorque,speed,
-                                           collide
-                                           );
+        //test the objectType
+        if(objectA->getType()!=edk::physics::StaticBody || objectB->getType()!=edk::physics::StaticBody){
+            //load the objects
+            b2Body* bodyA = this->getBody(objectA);
+            b2Body* bodyB = this->getBody(objectB);
+
+            //create the joint
+            if(bodyA && bodyB){
+                edk::physics2D::WheelJoint2D *edkJoint = NULL;
+                //create the revolute def
+                b2WheelJointDef jointDef;
+                jointDef.collideConnected=collide;
+                jointDef.bodyA = bodyA;
+                jointDef.bodyB = bodyB;
+                jointDef.localAnchorA = b2Vec2(positionA.x,positionA.y);
+                jointDef.localAnchorB = b2Vec2(positionB.x,positionB.y);
+
+                jointDef.localAxisA = b2Vec2(direction.x,direction.y);
+                jointDef.localAxisA.Normalize();
+
+                //removed frequency in new box2D
+                //removed dampingRatio in new box2D
+
+                jointDef.maxMotorTorque = maxTorque;
+                jointDef.motorSpeed = speed;
+                jointDef.enableMotor=true;
+
+                //create the edkJoint
+                edkJoint = new edk::physics2D::WheelJoint2D(collide);
+                if(edkJoint){
+                    //in the new version of box2D the userData are setted in jointDef
+                    jointDef.userData.pointer = (uintptr_t)edkJoint;
+
+                    edkJoint->objectA = objectA;
+                    edkJoint->objectB = objectB;
+                    edkJoint->positionA = positionA;
+                    edkJoint->worldPositionA
+                            =
+                            edk::physics2D::World2D::JointTree::getJointWorldPosition(objectA,positionA)
+                            ;
+                    edkJoint->positionB = positionB;
+
+                    edkJoint->direction = direction;
+
+                    //create the edkJoint
+                    if(this->addJoint(edkJoint)){
+                        //
+                        b2Joint* joint = (b2Joint*) this->world.CreateJoint(&jointDef);
+                        if(joint){
+                            //removed from the old box2D version. In the new box2D version the userData is in JointDef
+                            //joint->SetUserData(edkJoint);
+                            //add the joint in the tree
+                            if(this->treeJoint.addJoint(edkJoint,joint)){
+                                return edkJoint;
+                            }
+                            //else destroy the joint
+                            this->world.DestroyJoint(joint);
+                        }
+                        this->destroyJoint(edkJoint);
+                    }
+                }
+            }
+        }
     }
     return NULL;
 }
 edk::physics2D::WheelJoint2D* edk::physics2D::World2D::createWheelMotorJoint(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPosition,
-                                                                             edk::vec2f32 direction, edk::float32 frequency, edk::float32 dampingRatio,
+                                                                             edk::vec2f32 direction,
                                                                              edk::float32 maxTorque,edk::float32 speed,
                                                                              bool collide
                                                                              ){
@@ -3174,22 +3180,7 @@ edk::physics2D::WheelJoint2D* edk::physics2D::World2D::createWheelMotorJoint(edk
                                            edk::physics2D::World2D::JointTree::getJointPosition(objectA,worldPosition),
                                            objectB,
                                            edk::physics2D::World2D::JointTree::getJointPosition(objectB,worldPosition),
-                                           direction,frequency, dampingRatio,
-                                           maxTorque,speed,
-                                           collide
-                                           );
-    }
-    return NULL;
-}
-edk::physics2D::WheelJoint2D* edk::physics2D::World2D::createWheelMotorJoint(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPosition,
-                                                                             edk::vec2f32 direction,
-                                                                             edk::float32 maxTorque,edk::float32 speed,
-                                                                             bool collide
-                                                                             ){
-    //test the object
-    if(objectA && objectB){
-        return this->createWheelMotorJoint(objectA,objectB,worldPosition,
-                                           direction,1, 1,
+                                           direction,
                                            maxTorque,speed,
                                            collide
                                            );
@@ -3226,7 +3217,8 @@ edk::physics2D::Joint2D* edk::physics2D::World2D::createWeldJoint(edk::physics2D
                     //
                     b2Joint* joint = (b2Joint*) this->world.CreateJoint(&jointDef);
                     if(joint){
-                        joint->SetUserData(edkJoint);
+                        //removed from the old box2D version. In the new box2D version the userData is in JointDef
+                        //joint->SetUserData(edkJoint);
                         //add the joint in the tree
                         if(this->treeJoint.addJoint(edkJoint,joint)){
                             return edkJoint;
@@ -3256,7 +3248,8 @@ edk::physics2D::Joint2D* edk::physics2D::World2D::createWeldJoint(edk::physics2D
     }
     return NULL;
 }
-//ROPE
+//ROPE //REMOVED FROM NEW BOX2D
+/*
 edk::physics2D::RopeJoint2D* edk::physics2D::World2D::createRopeJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA,
                                                                       edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 positionB,
                                                                       edk::float32 maxLength,
@@ -3286,6 +3279,9 @@ edk::physics2D::RopeJoint2D* edk::physics2D::World2D::createRopeJoint(edk::physi
                 //create the edkJoint
                 edkJoint = new edk::physics2D::RopeJoint2D(collide);
                 if(edkJoint){
+                    //in the new version of box2D the userData are setted in jointDef
+                    jointDef.userData.pointer = (uintptr_t)edkJoint;
+
                     edkJoint->objectA = objectA;
                     edkJoint->objectB = objectB;
                     edkJoint->positionA = positionA;
@@ -3305,7 +3301,8 @@ edk::physics2D::RopeJoint2D* edk::physics2D::World2D::createRopeJoint(edk::physi
                         //
                         b2Joint* joint = (b2Joint*) this->world.CreateJoint(&jointDef);
                         if(joint){
-                            joint->SetUserData(edkJoint);
+                            //removed from the old box2D version. In the new box2D version the userData is in JointDef
+                            //joint->SetUserData(edkJoint);
                             //add the joint in the tree
                             if(this->treeJoint.addJoint(edkJoint,joint)){
                                 return edkJoint;
@@ -3354,6 +3351,7 @@ edk::physics2D::RopeJoint2D* edk::physics2D::World2D::createRopeJoint(edk::physi
     }
     return NULL;
 }
+*/
 //GEAR
 /*
 edk::physics2D::RopeJoint2D* edk::physics2D::World2D::createGearJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA,
@@ -3385,6 +3383,9 @@ edk::physics2D::RopeJoint2D* edk::physics2D::World2D::createGearJoint(edk::physi
                 //create the edkJoint
                 edkJoint = new edk::physics2D::RopeJoint2D(collide);
                 if(edkJoint){
+                    //in the new version of box2D the userData are setted in jointDef
+                    jointDef.userData.pointer = (uintptr_t)edkJoint;
+
                     edkJoint->objectA = objectA;
                     edkJoint->objectB = objectB;
                     edkJoint->positionA = positionA;
@@ -3403,7 +3404,8 @@ edk::physics2D::RopeJoint2D* edk::physics2D::World2D::createGearJoint(edk::physi
                         //
                         b2Joint* joint = (b2Joint*) this->world.CreateJoint(&jointDef);
                         if(joint){
-                            joint->SetUserData(edkJoint);
+                            //removed from the old box2D version. In the new box2D version the userData is in JointDef
+                            //joint->SetUserData(edkJoint);
                             //add the joint in the tree
                             if(this->treeJoint.addJoint(edkJoint,joint)){
                                 return edkJoint;
@@ -3720,7 +3722,7 @@ bool edk::physics2D::World2D::writeToXML(edk::XML* xml,edk::uint32 id){
                                 for(edk::uint32 i=0u;i<size;i++){
                                     body = this->treeStatic.getBodyInPosition(i);
                                     if(body){
-                                        object = (edk::physics2D::PhysicObject2D*)body->GetUserData();
+                                        object = (edk::physics2D::PhysicObject2D*)body->GetUserData().pointer;
                                         if(object){
                                             object->writeToXML(xml,i,true);
                                             //add the if to the tree
@@ -3738,7 +3740,7 @@ bool edk::physics2D::World2D::writeToXML(edk::XML* xml,edk::uint32 id){
                                 for(edk::uint32 i=0u;i<size;i++){
                                     body = this->treeDynamic.getBodyInPosition(i);
                                     if(body){
-                                        object = (edk::physics2D::PhysicObject2D*)body->GetUserData();
+                                        object = (edk::physics2D::PhysicObject2D*)body->GetUserData().pointer;
                                         if(object){
                                             object->writeToXML(xml,i,true);
                                             //add the if to the tree
@@ -3756,7 +3758,7 @@ bool edk::physics2D::World2D::writeToXML(edk::XML* xml,edk::uint32 id){
                                 for(edk::uint32 i=0u;i<size;i++){
                                     body = this->treeKinematic.getBodyInPosition(i);
                                     if(body){
-                                        object = (edk::physics2D::PhysicObject2D*)body->GetUserData();
+                                        object = (edk::physics2D::PhysicObject2D*)body->GetUserData().pointer;
                                         if(object){
                                             object->writeToXML(xml,i,true);
                                             //add the if to the tree

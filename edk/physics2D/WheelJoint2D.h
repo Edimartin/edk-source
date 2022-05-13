@@ -34,7 +34,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 /*
-                                                        edk::vec2f32 direction, edk::float32 frequency, edk::float32 dampingRatio,
+                                                        edk::vec2f32 direction,
                                                         edk::float32 maxTorque,edk::float32 speed,
                                                         bool collide
 */
@@ -62,8 +62,6 @@ public:
 
     //add an vector
     edk::vec2f32 direction;
-    edk::float32 frequency;
-    edk::float32 dampingRatio;
 private:
     edk::float32 maxTorque;
     edk::float32 speed;
