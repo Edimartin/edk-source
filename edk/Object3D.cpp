@@ -199,10 +199,10 @@ void edk::Object3D::lookAtPoint(edk::vec3f32 point){
     this->angle.z = 0.f;
 
     //get the base angle
-    this->angle.y = edk::Math::getAngle2f(point.x,point.z) *-1.f;
+    this->angle.y = edk::Math::getAngle(point.x,point.z) *-1.f;
     //get the height angle
-    edk::vec2f32 newPosition = edk::Math::rotatePlus2f(edk::vec2f32(point.x,point.z),this->angle.y);
-    this->angle.z = edk::Math::getAngle2f(newPosition.x,point.y);
+    edk::vec2f32 newPosition = edk::Math::rotatePlus(edk::vec2f32(point.x,point.z),this->angle.y);
+    this->angle.z = edk::Math::getAngle(newPosition.x,point.y);
 }
 
 //LIGHT

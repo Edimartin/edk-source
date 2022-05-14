@@ -34,7 +34,7 @@ edk::animation::ParticlesLine2D::ParticlesLine2D(){
 //get the position
 edk::vec2f32 edk::animation::ParticlesLine2D::newPosition(){
     edk::float32 percent = edk::Random::getRandPercent();
-    return this->position + edk::Math::rotatePlus2f((this->point1 + ((this->point2 - this->point1)*percent)),this->angle);
+    return this->position + edk::Math::rotatePlus((this->point1 + ((this->point2 - this->point1)*percent)),this->angle);
 }
 
 //set the points
@@ -83,10 +83,10 @@ void edk::animation::ParticlesLine2D::drawAngles(edk::float32 size,edk::color3f3
     edk::GU::guVertex2f32(this->point2);
     //LINE 1
     edk::GU::guVertex2f32(this->point1);
-    edk::GU::guVertex2f32(this->point1 + edk::Math::rotate2f(edk::vec2f32(1,0),this->angleFar)*size);
+    edk::GU::guVertex2f32(this->point1 + edk::Math::rotate(edk::vec2f32(1,0),this->angleFar)*size);
     //LINE 2
     edk::GU::guVertex2f32(this->point2);
-    edk::GU::guVertex2f32(this->point2 + edk::Math::rotate2f(edk::vec2f32(1,0),this->angleNear)*size);
+    edk::GU::guVertex2f32(this->point2 + edk::Math::rotate(edk::vec2f32(1,0),this->angleNear)*size);
     //
     edk::GU::guEnd();
 

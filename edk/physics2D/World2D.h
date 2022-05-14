@@ -565,7 +565,7 @@ private:
             ret  = worldPosition - object->position;
             //and rotate the worldPosition
             if(object->angle){
-                ret = edk::Math::rotate2f(ret,object->angle * -1);
+                ret = edk::Math::rotate(ret,object->angle * -1);
             }
             return ret;
         }
@@ -576,7 +576,7 @@ private:
             //and rotate the worldPosition
             if(object->angle){
                 //rotate
-                ret = edk::Math::rotatePlus2f(jointPosition,object->angle);
+                ret = edk::Math::rotatePlus(jointPosition,object->angle);
                 //translate
                 ret+=object->position;
             }

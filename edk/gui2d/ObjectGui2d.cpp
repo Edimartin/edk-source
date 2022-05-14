@@ -71,12 +71,12 @@ void edk::gui2d::ObjectGui2d::runTextSize(){
                                            );
 
     //calculate the centerSize
-    edk::size2f32 centerSize = edk::size2f32(edk::Math::moduleFloat(this->center.getVertexPosition(1u).x)
+    edk::size2f32 centerSize = edk::size2f32(edk::Math::module(this->center.getVertexPosition(1u).x)
                                              +
-                                             edk::Math::moduleFloat(this->center.getVertexPosition(0u).x),
-                                             edk::Math::moduleFloat(this->center.getVertexPosition(1u).y)
+                                             edk::Math::module(this->center.getVertexPosition(0u).x),
+                                             edk::Math::module(this->center.getVertexPosition(1u).y)
                                              +
-                                             edk::Math::moduleFloat(this->center.getVertexPosition(0u).y)
+                                             edk::Math::module(this->center.getVertexPosition(0u).y)
                                              );
     if(centerSize.width>0.f && centerSize.height>0.f){
         this->drawText = true;
@@ -659,12 +659,12 @@ void edk::gui2d::ObjectGui2d::update(){
         this->saveStatus = this->status;
 
         //calculate the centerSize
-        edk::size2f32 centerSize(edk::Math::moduleFloat(this->center.getVertexPosition(1u).x)
+        edk::size2f32 centerSize(edk::Math::module(this->center.getVertexPosition(1u).x)
                                  +
-                                 edk::Math::moduleFloat(this->center.getVertexPosition(0u).x),
-                                 edk::Math::moduleFloat(this->center.getVertexPosition(1u).y)
+                                 edk::Math::module(this->center.getVertexPosition(0u).x),
+                                 edk::Math::module(this->center.getVertexPosition(1u).y)
                                  +
-                                 edk::Math::moduleFloat(this->center.getVertexPosition(0u).y)
+                                 edk::Math::module(this->center.getVertexPosition(0u).y)
                                  );
 
         if(this->spriteSize[this->status].width > this->spriteSize[this->status].height){

@@ -269,13 +269,13 @@ bool edk::shape::Rectangle2D::drawWithLight(edk::float32 lightPositions[][EDK_LI
                     lightDirection[1u] *= (1.f/this->scale.height);
 
                     //rotate
-                    temp = edk::Math::rotatePlus2f(edk::vec2f32(lightPosition[0u],lightPosition[1u])
+                    temp = edk::Math::rotatePlus(edk::vec2f32(lightPosition[0u],lightPosition[1u])
                             ,this->angle*-1.f
                             );
                     lightPosition[0u] = temp.x;
                     lightPosition[1u] = temp.y;
 
-                    temp = edk::Math::rotatePlus2f(edk::vec2f32(lightDirection[0u],lightDirection[1u])
+                    temp = edk::Math::rotatePlus(edk::vec2f32(lightDirection[0u],lightDirection[1u])
                             ,this->angle*-1.f
                             );
                     lightDirection[0u] = temp.x;

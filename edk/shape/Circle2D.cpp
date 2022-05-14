@@ -70,7 +70,7 @@ bool edk::shape::Circle2D::createPolygon(edk::uint32 sides,edk::float32 radius){
         edk::vec2f32 temp(0,0);
         edk::vec2f32 translateUV(0.5f,0.5f);
         for(edk::uint32 i=0u;i<sides;i++){
-            temp = edk::Math::rotate2f(edk::vec2f32(0.5f,0.0f),angles*i);
+            temp = edk::Math::rotate(edk::vec2f32(0.5f,0.0f),angles*i);
             //set the position of the vertex
             edk::shape::Polygon2D::setVertexPosition(i,(temp*this->radius)*2.f);
             //set the same position to the UV

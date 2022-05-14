@@ -328,9 +328,9 @@ private:
                 //Scale the angle
                 edk::float32 angleScaled = (value->angle * this->angleMultiply) + this->angle;
                 if(this->scale.width!=this->scale.height)
-                    angleScaled = edk::Math::getAngle2f(
-                                edk::vec2f32( edk::Math::getCosinFloat(angleScaled) * this->scale.width ,
-                                              edk::Math::getSinFloat(angleScaled) * this->scale.height
+                    angleScaled = edk::Math::getAngle(
+                                edk::vec2f32( edk::Math::getCosin(angleScaled) * this->scale.width ,
+                                              edk::Math::getSin(angleScaled) * this->scale.height
                                               )
                                 );
 

@@ -42,7 +42,7 @@ bool edk::animation::Path1DGroup::reachFrame(edk::animation::Frame* frame){
     bool ret=false;
     edk::animation::Frame1D* temp = (edk::animation::Frame1D*)frame;
     //calculate the distance between the temp and the last
-    edk::float32 distance = edk::Math::moduleFloat(this->getX() - temp->x);
+    edk::float32 distance = edk::Math::module(this->getX() - temp->x);
     if(distance<this->closerDistance
             ){
         if(this->saveStep>=1.f){

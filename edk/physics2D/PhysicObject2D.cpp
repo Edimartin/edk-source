@@ -57,9 +57,9 @@ void edk::physics2D::PhysicObject2D::setLinearVelocity(edk::vec2f32 velocity){
     //set linear velocity
     this->linearVelocity = velocity;
     //calculate the speed
-    this->speed = edk::Math::pythagoras2f(this->linearVelocity);
+    this->speed = edk::Math::pythagoras(this->linearVelocity);
     //get the direction
-    this->direction = edk::Math::normalise2f(this->linearVelocity);
+    this->direction = edk::Math::normalise(this->linearVelocity);
     this->linearVelocitySetted=true;
 }
 void edk::physics2D::PhysicObject2D::setLinearVelocity(edk::float32 x,edk::float32 y){

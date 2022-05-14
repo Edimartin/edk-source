@@ -37,7 +37,7 @@ edk::LUT3D::~LUT3D(){
 //calculate the imageSize
 edk::size2ui32 edk::LUT3D::calcImageSize(edk::uint16 size){
     edk::uint32 vecSize = size*size*size;
-    edk::uint32 result = (edk::uint32)edk::Math::squareRootInt64(vecSize);
+    edk::uint32 result = (edk::uint32)edk::Math::squareRoot(vecSize);
     edk::uint8 increment=0u;
     if(vecSize%result){
         increment=1u;

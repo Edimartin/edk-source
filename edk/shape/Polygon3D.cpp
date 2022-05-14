@@ -365,7 +365,7 @@ bool edk::shape::Polygon3D::updateNormal(){
                                                    v3->vertex->y - v1->vertex->y,
                                                    v3->vertex->z - v1->vertex->z
                                                    );
-            this->normal = edk::Math::normalise3f(this->normal.x,this->normal.y,this->normal.z);
+            this->normal = edk::Math::normalise(this->normal.x,this->normal.y,this->normal.z);
             //
             return true;
         }

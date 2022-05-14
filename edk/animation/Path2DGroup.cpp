@@ -40,7 +40,7 @@ bool edk::animation::Path2DGroup::reachFrame(edk::animation::Frame* frame){
     bool ret=false;
     edk::animation::Frame2D* temp = (edk::animation::Frame2D*)frame;
     //calculate the distance between the temp and the last
-    edk::float32 distance = edk::Math::pythagoras2f(edk::vec2f32(this->getX() - temp->x,this->getY() - temp->y));
+    edk::float32 distance = edk::Math::pythagoras(edk::vec2f32(this->getX() - temp->x,this->getY() - temp->y));
     if(distance<this->closerDistance
             ){
         if(this->saveStep>=1.f){

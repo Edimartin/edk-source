@@ -209,10 +209,10 @@ bool edk::bones::Bone2D::generateRotationMatrix(edk::float32 angle,edk::float32 
     if(mat){
         //then clean the matrix
         edk::bones::Bone2D::setIdentity(mat);
-        mat[0u][0u][0u] = edk::Math::getCosinFloat(angle);//cos
-        mat[0u][1u][0u] = edk::Math::getSinFloat(angle)*-1.f;//-sin
-        mat[0u][0u][1u] = edk::Math::getSinFloat(angle);//sin
-        mat[0u][1u][1u] = edk::Math::getCosinFloat(angle);//cos
+        mat[0u][0u][0u] = edk::Math::getCosin(angle);//cos
+        mat[0u][1u][0u] = edk::Math::getSin(angle)*-1.f;//-sin
+        mat[0u][0u][1u] = edk::Math::getSin(angle);//sin
+        mat[0u][1u][1u] = edk::Math::getCosin(angle);//cos
         return true;
     }
     return false;
@@ -1134,7 +1134,7 @@ edk::vec2f32 edk::bones::Bone2D::calculateInverseKinematic(edk::bones::Bone2D* b
                    );fflush(stdout);
 */
             //get the angle between the two vectors
-            edk::float32 rotateAngle = edk::Math::getAngle2f(point) - edk::Math::getAngle2f(boneVector);
+            edk::float32 rotateAngle = edk::Math::getAngle(point) - edk::Math::getAngle(boneVector);
             /*
             printf(" rotate %.2f"
                    ,rotateAngle

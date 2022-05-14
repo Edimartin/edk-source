@@ -48,7 +48,7 @@ bool edk::Voronoi::runGenerateImageRGB(edk::vector::Array<edk::vec2f32ColorRGB>*
                 for(edk::uint32 x = 0u;x<width;x++){
                     point = points->get(0u);
                     //get the first distance
-                    distance = edk::Math::pythagoras2f(x - (point.position.x*width),
+                    distance = edk::Math::pythagoras(x - (point.position.x*width),
                                                        y - (point.position.y*height)
                                                        );
                     image[0u] = point.color.r;
@@ -57,7 +57,7 @@ bool edk::Voronoi::runGenerateImageRGB(edk::vector::Array<edk::vec2f32ColorRGB>*
                     for(edk::uint32 i=1u;i<size;i++){
                         point = points->get(i);
                         //calculate the new distance
-                        distanceN = edk::Math::pythagoras2f(x - (point.position.x*width),
+                        distanceN = edk::Math::pythagoras(x - (point.position.x*width),
                                                             y - (point.position.y*height)
                                                             );
                         //test the distances
@@ -95,7 +95,7 @@ bool edk::Voronoi::runGenerateImageRGB(edk::vector::Array<edk::vec2f32ColorGray>
                 for(edk::uint32 x = 0u;x<width;x++){
                     point = points->get(0u);
                     //get the first distance
-                    distance = edk::Math::pythagoras2f(x - (point.position.x*width),
+                    distance = edk::Math::pythagoras(x - (point.position.x*width),
                                                        y - (point.position.y*height)
                                                        );
                     image[0u] = point.grayscale;
@@ -104,7 +104,7 @@ bool edk::Voronoi::runGenerateImageRGB(edk::vector::Array<edk::vec2f32ColorGray>
                     for(edk::uint32 i=1u;i<size;i++){
                         point = points->get(i);
                         //calculate the new distance
-                        distanceN = edk::Math::pythagoras2f(x - (point.position.x*width),
+                        distanceN = edk::Math::pythagoras(x - (point.position.x*width),
                                                             y - (point.position.y*height)
                                                             );
                         //test the distances
@@ -142,14 +142,14 @@ bool edk::Voronoi::runGenerateImageGray(edk::vector::Array<edk::vec2f32ColorRGB>
                 for(edk::uint32 x = 0u;x<width;x++){
                     point = points->get(0u);
                     //get the first distance
-                    distance = edk::Math::pythagoras2f(x - (point.position.x*width),
+                    distance = edk::Math::pythagoras(x - (point.position.x*width),
                                                        y - (point.position.y*height)
                                                        );
                     *image = point.color.r;
                     for(edk::uint32 i=1u;i<size;i++){
                         point = points->get(i);
                         //calculate the new distance
-                        distanceN = edk::Math::pythagoras2f(x - (point.position.x*width),
+                        distanceN = edk::Math::pythagoras(x - (point.position.x*width),
                                                             y - (point.position.y*height)
                                                             );
                         //test the distances
@@ -185,14 +185,14 @@ bool edk::Voronoi::runGenerateImageGray(edk::vector::Array<edk::vec2f32ColorGray
                 for(edk::uint32 x = 0u;x<width;x++){
                     point = points->get(0u);
                     //get the first distance
-                    distance = edk::Math::pythagoras2f(x - (point.position.x*width),
+                    distance = edk::Math::pythagoras(x - (point.position.x*width),
                                                        y - (point.position.y*height)
                                                        );
                     *image = point.grayscale;
                     for(edk::uint32 i=1u;i<size;i++){
                         point = points->get(i);
                         //calculate the new distance
-                        distanceN = edk::Math::pythagoras2f(x - (point.position.x*width),
+                        distanceN = edk::Math::pythagoras(x - (point.position.x*width),
                                                             y - (point.position.y*height)
                                                             );
                         //test the distances

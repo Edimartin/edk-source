@@ -818,8 +818,8 @@ bool edk::shape::Mesh2D::polygonTriangularization(edk::shape::Polygon2D polygon,
         //search for the concave vertexes
         size-=2u;
         //calculate if the point is inside the triangle
-        angle = edk::Math::getAngle2f(polygon.getVertexPosition(0u)-polygon.getVertexPosition(size+1u)) -
-                edk::Math::getAngle2f(polygon.getVertexPosition(1u)-polygon.getVertexPosition(size+1u));
+        angle = edk::Math::getAngle(polygon.getVertexPosition(0u)-polygon.getVertexPosition(size+1u)) -
+                edk::Math::getAngle(polygon.getVertexPosition(1u)-polygon.getVertexPosition(size+1u));
         if(angle<0.f)angle+=360.f;
         /*
         printf("\nvertex 0u Angle == %.2f"
@@ -843,8 +843,8 @@ bool edk::shape::Mesh2D::polygonTriangularization(edk::shape::Polygon2D polygon,
         for(edk::uint32 i=0u;i<size;i++){
             //test the two lines
             //calculate if the point is inside the triangle
-            angle = edk::Math::getAngle2f(polygon.getVertexPosition(i+1u)-polygon.getVertexPosition(i)) -
-                    edk::Math::getAngle2f(polygon.getVertexPosition(i+2u)-polygon.getVertexPosition(i));
+            angle = edk::Math::getAngle(polygon.getVertexPosition(i+1u)-polygon.getVertexPosition(i)) -
+                    edk::Math::getAngle(polygon.getVertexPosition(i+2u)-polygon.getVertexPosition(i));
             if(angle<0.f)angle+=360.f;
             /*
             printf("\nvertex %uu Angle == %.2f"
@@ -939,8 +939,8 @@ bool edk::shape::Mesh2D::polygonTriangularization(edk::shape::Polygon2D polygon,
 
         if(!goBreak){
             //calculate if the point is inside the triangle
-            angle = edk::Math::getAngle2f(polygon.getVertexPosition(size+1u)-polygon.getVertexPosition(size)) -
-                    edk::Math::getAngle2f(polygon.getVertexPosition(0u)-polygon.getVertexPosition(size));
+            angle = edk::Math::getAngle(polygon.getVertexPosition(size+1u)-polygon.getVertexPosition(size)) -
+                    edk::Math::getAngle(polygon.getVertexPosition(0u)-polygon.getVertexPosition(size));
             if(angle<0.f)angle+=360.f;
             /*
             printf("\nvertex %uu Angle == %.2f"

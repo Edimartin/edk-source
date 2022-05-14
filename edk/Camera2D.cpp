@@ -154,10 +154,10 @@ void edk::Camera2D::drawOrthoOnly(){
     this->animShakingAngle.updateClockAnimation();
     if(this->animShakingAngle.isPlaying()){
         //calculate the angle of shaking
-        this->up = edk::Math::rotate2f(edk::vec2f32(1,0),(((this->angle + this->animShakingAngle.getClockX())*-1)+360.f)+90);
+        this->up = edk::Math::rotate(edk::vec2f32(1,0),(((this->angle + this->animShakingAngle.getClockX())*-1)+360.f)+90);
     }
     else{
-        this->up = edk::Math::rotate2f(edk::vec2f32(1,0),((this->angle*-1)+360.f)+90);
+        this->up = edk::Math::rotate(edk::vec2f32(1,0),((this->angle*-1)+360.f)+90);
     }
 
     //shake position
@@ -189,10 +189,10 @@ void edk::Camera2D::drawOrthoOnly(edk::float32 seconds){
     this->animAngle.updateClockAnimation(seconds);
     if(this->animAngle.isPlaying()){
         //calculate the angle of shaking
-        this->up = edk::Math::rotate2f(edk::vec2f32(1,0),(((this->angle + this->animAngle.getClockX())*-1)+360.f)+90);
+        this->up = edk::Math::rotate(edk::vec2f32(1,0),(((this->angle + this->animAngle.getClockX())*-1)+360.f)+90);
     }
     else{
-        this->up = edk::Math::rotate2f(edk::vec2f32(1,0),((this->angle*-1)+360.f)+90);
+        this->up = edk::Math::rotate(edk::vec2f32(1,0),((this->angle*-1)+360.f)+90);
     }
 
     //shake position

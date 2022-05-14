@@ -123,7 +123,7 @@ edk::uint32 edk::physics2D::PhysicsMesh2D::addPolygon(edk::shape::Polygon2D poly
                         if(vert){
                             vert->position.x = temp.position.x;
                             vert->position.y = temp.position.y;
-                            vert->position.z = edk::Math::getAngle2f(temp.position.x-menor.position.x,temp.position.y-menor.position.y);
+                            vert->position.z = edk::Math::getAngle(temp.position.x-menor.position.x,temp.position.y-menor.position.y);
                             vert->color = temp.color;
                             //adiciona o vert
                             if(!tree.add(vert)){

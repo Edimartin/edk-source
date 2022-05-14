@@ -36,9 +36,9 @@ edk::color3ui8 edk::OpenLamp::pixelToNormal(edk::uint8 up,edk::uint8 down,edk::u
     edk::int32 angleV = (edk::int32)((((edk::int32)up-(edk::int32)down)/255.f)*90u);
     //load the R and G using sen 0 to 255 (0 == -128; 255 == 128)
     ret.r = (edk::uint32)((sin ( ( angleH * PI)/180)     * 127) + 127);
-    ret.r = (edk::uint32)((edk::Math::getSinInt32(angleH) * 127) + 127);
+    ret.r = (edk::uint32)((edk::Math::getSin(angleH) * 127) + 127);
     ret.g = (edk::uint32)((sin ( ( angleV * PI)/180)     * 127) + 127);
-    ret.g = (edk::uint32)((edk::Math::getSinInt32(angleV) * 127) + 127);
+    ret.g = (edk::uint32)((edk::Math::getSin(angleV) * 127) + 127);
     ret.b = front;
 
     return ret;
@@ -50,16 +50,16 @@ edk::color3ui8 edk::OpenLamp::pixelToNormal(edk::uint8 up,edk::uint8 down,edk::u
     edk::int32 angleV = (edk::int32)((((edk::int32)up-(edk::int32)down)/255.f)*90u);
     //load the R and G using sen 0 to 255 (0 == -128; 255 == 128)
     ret.r = (edk::uint32)((sin ( ( angleH * PI)/180)     * 127) + 127);
-    ret.r = (edk::uint32)((edk::Math::getSinInt32(angleH) * 127) + 127);
+    ret.r = (edk::uint32)((edk::Math::getSin(angleH) * 127) + 127);
     ret.g = (edk::uint32)((sin ( ( angleV * PI)/180)     * 127) + 127);
-    ret.g = (edk::uint32)((edk::Math::getSinInt32(angleV) * 127) + 127);
+    ret.g = (edk::uint32)((edk::Math::getSin(angleV) * 127) + 127);
 
     //load the two depth of the angles using cosin
     //edk::float32 depthV = cos ( ( angleV * PI)/180);
-    edk::float32 depthV = edk::Math::getCosinInt32(angleV);
+    edk::float32 depthV = edk::Math::getCosin(angleV);
     //edk::float32 depthH = cos ( ( angleH * PI)/180);
-    edk::float32 depthH = edk::Math::getCosinInt32(angleH);
-    //test with depth is higher to calculate the middle point
+    edk::float32 depthH = edk::Math::getCosin(angleH);
+    //test with depth is higher to calculate the middle poinst
     if(depthV > depthH){
         //calculate the mittle point
         ret.b = (edk::uint32)(((edk::int32)((depthV - depthH)*0.5f)+depthH)* 128) + 127u;

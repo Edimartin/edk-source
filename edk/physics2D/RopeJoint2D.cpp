@@ -42,11 +42,11 @@ void edk::physics2D::RopeJoint2D::draw(edk::size2f32,edk::color3f32 color){
     edk::GU::guVertex2f32(this->worldPositionA.x,this->worldPositionA.y);
     edk::GU::guVertex2f32(this->worldPositionB.x,this->worldPositionB.y);
 */
-    temp=edk::Math::rotate2f(this->positionA,this->objectA->angle);
+    temp=edk::Math::rotate(this->positionA,this->objectA->angle);
     edk::GU::guVertex2f32(this->objectA->position.x + (temp.x),
                           this->objectA->position.y + (temp.y)
                           );
-    temp=edk::Math::rotate2f(this->positionB,this->objectB->angle);
+    temp=edk::Math::rotate(this->positionB,this->objectB->angle);
     edk::GU::guVertex2f32(this->objectB->position.x + (temp.x),
                           this->objectB->position.y + (temp.y)
                           );

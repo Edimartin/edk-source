@@ -108,7 +108,7 @@ void edk::animation::ParticlesPoint2D::ParticleObject::update(edk::float32 secon
     this->direction+=*this->gravity * percent;
 
     //rotate the object
-    this->angle = (edk::Math::getAngle2f(this->direction) * this->autoRotate) + *this->angleObj;
+    this->angle = (edk::Math::getAngle(this->direction) * this->autoRotate) + *this->angleObj;
 
     //Run the function
     this->function->updateParticle(this);
@@ -482,7 +482,7 @@ void edk::animation::ParticlesPoint2D::update(){
                 //sizeObject
                 this->particles[this->nextParticle].setSizeObject(&this->sizeObject);
                 //set direction
-                this->particles[this->nextParticle].direction = edk::Math::rotate2f(edk::vec2f32(1,0),this->angleNear + (this->angleDistance * edk::Random::getRandPercent()) + this->angle);
+                this->particles[this->nextParticle].direction = edk::Math::rotate(edk::vec2f32(1,0),this->angleNear + (this->angleDistance * edk::Random::getRandPercent()) + this->angle);
                 //autorotate
                 this->particles[this->nextParticle].autoRotate=this->autoRotate;
                 //add to the tree
@@ -550,10 +550,10 @@ void edk::animation::ParticlesPoint2D::drawAngles(edk::float32 size,edk::color3f
     edk::GU::guBegin(GU_LINES);
     //LINE 1
     edk::GU::guVertex2f32(-0.0f,-0.0f);
-    edk::GU::guVertex2f32(edk::Math::rotate2f(edk::vec2f32(1,0),this->angleNear + this->angle));
+    edk::GU::guVertex2f32(edk::Math::rotate(edk::vec2f32(1,0),this->angleNear + this->angle));
     //LINE 2
     edk::GU::guVertex2f32(-0.0f,-0.0f);
-    edk::GU::guVertex2f32(edk::Math::rotate2f(edk::vec2f32(1,0),this->angleFar + this->angle));
+    edk::GU::guVertex2f32(edk::Math::rotate(edk::vec2f32(1,0),this->angleFar + this->angle));
     edk::GU::guEnd();
 
     //lineSize

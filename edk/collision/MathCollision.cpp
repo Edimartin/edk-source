@@ -234,17 +234,17 @@ edk::collision::Vecs2f32 edk::collision::MathCollision::straightCircle2D(edk::ve
     //vectors
     edk::vec2f32 v1,v2;
 
-    a =  squareFloat32(lineEnd.x - lineStart.x) + squareFloat32(lineEnd.y - lineStart.y)/* + squareFloat32(lineEnd.z - lineStart.z)*/;
+    a =  edk::Math::square(lineEnd.x - lineStart.x) + edk::Math::square(lineEnd.y - lineStart.y)/* + edk::Math::square(lineEnd.z - lineStart.z)*/;
     b =  2.0* ( (lineEnd.x - lineStart.x)*(lineStart.x - circlePosition.x)
                 + (lineEnd.y - lineStart.y)*(lineStart.y - circlePosition.y)
                 //+ (lineEnd.z - lineStart.z)*(lineStart.z - circlePosition.z)
                 ) ;
-    c =  squareFloat32(circlePosition.x) + squareFloat32(circlePosition.y) +
-            //squareFloat32(circlePosition.z) +
-            squareFloat32(lineStart.x) +
-            squareFloat32(lineStart.y)
-            //+ squareFloat32(lineStart.z)
-            - 2* ( circlePosition.x*lineStart.x + circlePosition.y*lineStart.y /* + circlePosition.z*lineStart.z */ ) - squareFloat32(circleRadius) ;
+    c =  edk::Math::square(circlePosition.x) + edk::Math::square(circlePosition.y) +
+            //edk::Math::square(circlePosition.z) +
+            edk::Math::square(lineStart.x) +
+            edk::Math::square(lineStart.y)
+            //+ edk::Math::square(lineStart.z)
+            - 2* ( circlePosition.x*lineStart.x + circlePosition.y*lineStart.y /* + circlePosition.z*lineStart.z */ ) - edk::Math::square(circleRadius) ;
     i =   b * b - 4 * a * c ;
 
     if ( i == 0.0f ){
@@ -267,12 +267,12 @@ edk::collision::Vecs2f32 edk::collision::MathCollision::straightCircle2D(edk::ve
         // two intersections
 
         // first intersection
-        mu = (-b + sqrt( squareFloat32(b) - 4*a*c )) / (2*a);
+        mu = (-b + sqrt( edk::Math::square(b) - 4*a*c )) / (2*a);
         v1.x = lineStart.x + mu*(lineEnd.x-lineStart.x);
         v1.y = lineStart.y + mu*(lineEnd.y-lineStart.y);
         //v1.z = lineStart.z + mu*(lineEnd.z-lineStart.z);
         // second intersection
-        mu = (-b - sqrt(squareFloat32(b) - 4*a*c )) / (2*a);
+        mu = (-b - sqrt(edk::Math::square(b) - 4*a*c )) / (2*a);
         v2.x = lineStart.x + mu*(lineEnd.x-lineStart.x);
         v2.y = lineStart.y + mu*(lineEnd.y-lineStart.y);
         //v2.z = lineStart.x + mu*(lineEnd.z-lineStart.x);
@@ -310,17 +310,17 @@ edk::collision::Vecs3f32 edk::collision::MathCollision::straightSphere3D(edk::ve
     //vectors
     edk::vec3f32 v1,v2;
 
-    a =  squareFloat32(lineEnd.x - lineStart.x) + squareFloat32(lineEnd.y - lineStart.y) + squareFloat32(lineEnd.z - lineStart.z);
+    a =  edk::Math::square(lineEnd.x - lineStart.x) + edk::Math::square(lineEnd.y - lineStart.y) + edk::Math::square(lineEnd.z - lineStart.z);
     b =  2* ( (lineEnd.x - lineStart.x)*(lineStart.x - circlePosition.x)
              + (lineEnd.y - lineStart.y)*(lineStart.y - circlePosition.y)
              + (lineEnd.z - lineStart.z)*(lineStart.z - circlePosition.z)
              ) ;
-    c =  squareFloat32(circlePosition.x) + squareFloat32(circlePosition.y) +
-    squareFloat32(circlePosition.z) +
-    squareFloat32(lineStart.x) +
-    squareFloat32(lineStart.y)
-    + squareFloat32(lineStart.z)
-    - 2* ( circlePosition.x*lineStart.x + circlePosition.y*lineStart.y  + circlePosition.z*lineStart.z  ) - squareFloat32(circleRadius) ;
+    c =  edk::Math::square(circlePosition.x) +edk::Math:: square(circlePosition.y) +
+    edk::Math::square(circlePosition.z) +
+    edk::Math::square(lineStart.x) +
+    edk::Math::square(lineStart.y)
+    + edk::Math::square(lineStart.z)
+    - 2* ( circlePosition.x*lineStart.x + circlePosition.y*lineStart.y  + circlePosition.z*lineStart.z  ) - edk::Math::square(circleRadius) ;
     i =   b * b - 4 * a * c ;
 
     if ( i == 0.0f ){
@@ -343,12 +343,12 @@ edk::collision::Vecs3f32 edk::collision::MathCollision::straightSphere3D(edk::ve
     // two intersections
 
         // first intersection
-        mu = (-b + sqrt( squareFloat32(b) - 4*a*c )) / (2*a);
+        mu = (-b + sqrt( edk::Math::square(b) - 4*a*c )) / (2*a);
         v1.x = lineStart.x + mu*(lineEnd.x-lineStart.x);
         v1.y = lineStart.y + mu*(lineEnd.y-lineStart.y);
         v1.z = lineStart.z + mu*(lineEnd.z-lineStart.z);
         // second intersection
-        mu = (-b - sqrt(squareFloat32(b) - 4*a*c )) / (2*a);
+        mu = (-b - sqrt(edk::Math::square(b) - 4*a*c )) / (2*a);
         v2.x = lineStart.x + mu*(lineEnd.x-lineStart.x);
         v2.y = lineStart.y + mu*(lineEnd.y-lineStart.y);
         v2.z = lineStart.x + mu*(lineEnd.z-lineStart.x);
