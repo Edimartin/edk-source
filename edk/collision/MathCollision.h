@@ -31,8 +31,12 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #pragma once
 #include "../TypeVec2.h"
+#include "../TypeVec3.h"
+#include "../TypeRect.h"
 #include "../Math.h"
 #include "Vecs2f32.h"
+#include "Vecs3f32.h"
+#include "Vecs4f32.h"
 #include "../shape/Polygon2D.h"
 
 #ifdef printMessages
@@ -50,6 +54,19 @@ public:
     static bool boundingContact3D(edk::vec3f32 point,edk::vec3f32 vec1,edk::vec3f32 vec2);
     static bool boundingContact2D(edk::vec2f32 point,edk::vec2f32 vec1,edk::vec2f32 vec2);
 
+    //2D
+    static bool aabb(edk::float32 x1,edk::float32 y1,edk::float32 width1,edk::float32 height1,
+                     edk::float32 x2,edk::float32 y2,edk::float32 width2,edk::float32 height2
+                     );
+    static bool aabb(edk::vec2f32 position1,edk::size2f32 size1,edk::vec2f32 position2,edk::size2f32 size2);
+    static bool aabb(edk::rectf32 rect1,edk::rectf32 rect2);
+    //3D
+    static bool aabb(edk::float32 x1,edk::float32 y1,edk::float32 z1,edk::float32 width1,edk::float32 height1,edk::float32 length1,
+                     edk::float32 x2,edk::float32 y2,edk::float32 z2,edk::float32 width2,edk::float32 height2,edk::float32 length2
+                     );
+    static bool aabb(edk::vec3f32 position1,edk::size3f32 size1,edk::vec3f32 position2,edk::size3f32 size2);
+    static bool aabb(edk::cubef32 cube1,edk::cubef32 cube2);
+
     //POINT STRAIGHT
     static bool pointStraigh2D(edk::vec2f32 point,vec2f32 lineStart,vec2f32 lineEnd, edk::float32 radius=0.01f);
     static bool straightStraight2D(vec2f32 line1Start,vec2f32 line1End,
@@ -60,7 +77,7 @@ public:
                                          vec2f32 line2Start,vec2f32 line2End
                                          );
     static edk::collision::Vecs2f32 straightCircle2D(edk::vec2f32 lineStart,edk::vec2f32 lineEnd,edk::vec2f32 circlePosition,edk::float32 circleRadius);
-    //static edk::collision::Vecs3f32 straightSphere3D(edk::vec3f32 lineStart,edk::vec3f32 lineEnd,edk::vec3f32 circlePosition,edk::float32 circleRadius);
+    static edk::collision::Vecs3f32 straightSphere3D(edk::vec3f32 lineStart,edk::vec3f32 lineEnd,edk::vec3f32 spherePosition,edk::float32 sphereRadius);
 
 
     //POLYGON POINT

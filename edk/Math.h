@@ -309,11 +309,17 @@ class Math{
         //Rotate de vectors
         static edk::float32 rotateX(edk::float32 radius, edk::float32 angle);
         static edk::float32 rotateY(edk::float32 radius, edk::float32 angle);
+        static edk::vec2f32 rotate(edk::float32 x,edk::float32 y,edk::float32 angle);
         static edk::vec2f32 rotate(edk::vec2f32 vec,edk::float32 angle);
+        static edk::vec2f32 rotatePlus(edk::float32 x,edk::float32 y,edk::float32 angle);
         static edk::vec2f32 rotatePlus(edk::vec2f32 vec,edk::float32 angle);
 
         //Normal of the triangle
-        static edk::vec3f32 normal3f(edk::vec3f32 vec1,edk::vec3f32 vec2,edk::vec3f32 vec3);
+        static edk::vec3f32 normalTriangle(edk::float32 x1,edk::float32 y1,edk::float32 z1,
+                                           edk::float32 x2,edk::float32 y2,edk::float32 z2,
+                                           edk::float32 x3,edk::float32 y3,edk::float32 z3
+                                           );
+        static edk::vec3f32 normalTriangle(edk::vec3f32 vec1,edk::vec3f32 vec2,edk::vec3f32 vec3);
 
         //QUATERION
         static edk::vec3f32 quaternionToAngle(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 w);

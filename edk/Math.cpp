@@ -452,10 +452,16 @@ edk::float32 edk::Math::rotateY(edk::float32 radius, edk::float32 angle){
     //
     return edk::Math::getSin(angle)*radius;
 }
+edk::vec2f32 edk::Math::rotate(edk::float32 x,edk::float32 y,edk::float32 angle){
+    return edk::Math::rotate(edk::vec2f32(x,y),angle);
+}
 edk::vec2f32 edk::Math::rotate(edk::vec2f32 vec,edk::float32 angle){
     //get the radius of the vector
     edk::float32 radius = edk::Math::pythagoras(vec);
     return edk::vec2f32( edk::Math::rotateX(radius,angle),edk::Math::rotateY(radius,angle));
+}
+edk::vec2f32 edk::Math::rotatePlus(edk::float32 x,edk::float32 y,edk::float32 angle){
+    return edk::Math::rotatePlus(edk::vec2f32(x,y),angle);
 }
 edk::vec2f32 edk::Math::rotatePlus(edk::vec2f32 vec,edk::float32 angle){
     //find the angle
@@ -468,7 +474,13 @@ edk::vec2f32 edk::Math::rotatePlus(edk::vec2f32 vec,edk::float32 angle){
 }
 
 //Normal of the triangle
-edk::vec3f32 edk::Math::normal3f(edk::vec3f32 vec1,edk::vec3f32 vec2,edk::vec3f32 vec3){
+edk::vec3f32 edk::Math::normalTriangle(edk::float32 x1,edk::float32 y1,edk::float32 z1,
+                                   edk::float32 x2,edk::float32 y2,edk::float32 z2,
+                                   edk::float32 x3,edk::float32 y3,edk::float32 z3
+                                       ){
+    return edk::Math::normalTriangle(edk::vec3f32(x1,y1,z1),edk::vec3f32(x2,y2,z2),edk::vec3f32(x3,y3,z3));
+}
+edk::vec3f32 edk::Math::normalTriangle(edk::vec3f32 vec1,edk::vec3f32 vec2,edk::vec3f32 vec3){
     /*
 
  Point3D v1, v2;
@@ -561,6 +573,7 @@ edk::vec3f32 edk::Math::normal3f(edk::vec3f32 vec1,edk::vec3f32 vec2,edk::vec3f3
 
     // normalizecao de n
     len = sqrt(v1.x*v1.x + v1.y*v1.y + v1.z*v1.z);
+    if(!len) len=0.0001;
     v1.x /= (edk::float32)len;
     v1.y /= (edk::float32)len;
     v1.z /= (edk::float32)len;
@@ -594,7 +607,6 @@ edk::vec3f32  edk::Math::quaternionToAngle(edk::vec4f32 vec){
     if( tempY > 1.0f || tempY < -1.0f  ){
         //
         v1.x=v1.y=v1.z=0.0;
-        //printf("\nFalse");
         return v1;
     }
     v1.y = asinf(-2.f * (vec.x*vec.z - vec.y*vec.w));
