@@ -33,6 +33,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../TypeVec2.h"
 #include "../TypeVec3.h"
 #include "../TypeRect.h"
+#include "../TypeCube.h"
 #include "../Math.h"
 #include "Vecs2f32.h"
 #include "Vecs3f32.h"
