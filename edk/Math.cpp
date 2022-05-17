@@ -100,32 +100,52 @@ edk::vec4f32  edk::Math::normalise(edk::vec4f32 vec){
 }
 
 //ScalarProduct
-edk::float32 edk::Math::scalarProduct(edk::float32 x1,edk::float32 y1,
+edk::float32 edk::Math::dotProduct(edk::float32 x1,edk::float32 y1,
                                       edk::float32 x2,edk::float32 y2
                                       ){
-    return edk::Math::scalarProduct(edk::vec2f32(x1,y1),edk::vec2f32(x2,y2));
+    return edk::Math::dotProduct(edk::vec2f32(x1,y1),edk::vec2f32(x2,y2));
 }
-edk::float32 edk::Math::scalarProduct(edk::vec2f32 vec1,edk::vec2f32 vec2){
+edk::float32 edk::Math::dotProduct(edk::vec2f32 vec1,edk::vec2f32 vec2){
     //
     return (vec1.x*vec2.x) + (vec1.y*vec2.y);
 }
-edk::float32 edk::Math::scalarProduct(edk::float32 x1,edk::float32 y1,edk::float32 z1,
+edk::float32 edk::Math::dotProduct(edk::float32 x1,edk::float32 y1,edk::float32 z1,
                                       edk::float32 x2,edk::float32 y2,edk::float32 z2
                                       ){
-    return edk::Math::scalarProduct(edk::vec3f32(x1,y1,z1),edk::vec3f32(x2,y2,z2));
+    return edk::Math::dotProduct(edk::vec3f32(x1,y1,z1),edk::vec3f32(x2,y2,z2));
 }
-edk::float32 edk::Math::scalarProduct(edk::vec3f32 vec1,edk::vec3f32 vec2){
+edk::float32 edk::Math::dotProduct(edk::vec3f32 vec1,edk::vec3f32 vec2){
     //
     return (vec1.x*vec2.x) + (vec1.y*vec2.y) + (vec1.z*vec2.z);
 }
-edk::float32 edk::Math::scalarProduct(edk::float32 x1,edk::float32 y1,edk::float32 z1,edk::float32 w1,
+edk::float32 edk::Math::dotProduct(edk::float32 x1,edk::float32 y1,edk::float32 z1,edk::float32 w1,
                                       edk::float32 x2,edk::float32 y2,edk::float32 z2,edk::float32 w2
                                       ){
-    return edk::Math::scalarProduct(edk::vec4f32(x1,y1,z1,w1),edk::vec4f32(x2,y2,z2,w2));
+    return edk::Math::dotProduct(edk::vec4f32(x1,y1,z1,w1),edk::vec4f32(x2,y2,z2,w2));
 }
-edk::float32 edk::Math::scalarProduct(edk::vec4f32 vec1,edk::vec4f32 vec2){
+edk::float32 edk::Math::dotProduct(edk::vec4f32 vec1,edk::vec4f32 vec2){
     //
     return (vec1.x*vec2.x) + (vec1.y*vec2.y) + (vec1.z*vec2.z) + (vec1.w*vec2.w);
+}
+
+//CROSS PRODUCT (calculate the normal of 2 vectors)
+edk::vec3f32 edk::Math::crossProduct(edk::float32 x1,
+                                     edk::float32 y1,
+                                     edk::float32 z1,
+                                     edk::float32 x2,
+                                     edk::float32 y2,
+                                     edk::float32 z2
+                                     ){
+    return edk::Math::crossProduct(edk::vec3f32(x1,y1,z1),edk::vec3f32(x2,y2,z2));
+}
+edk::vec3f32 edk::Math::crossProduct(edk::vec3f32 vec1,edk::vec3f32 vec2){
+    edk::vec3f32 ret;
+
+    ret.x = (vec1.y * vec2.z) - (vec1.z * vec2.y);
+    ret.y = (vec1.z * vec2.x) - (vec1.x * vec2.z);
+    ret.z = (vec1.x * vec2.y) - (vec1.y * vec2.x);
+
+    return ret;
 }
 
 //The square function return the square of the number
@@ -395,7 +415,7 @@ edk::float32 edk::Math::getAngleDist(edk::vec2f32 vec1,edk::vec2f32 vec2){
     //
     if(vec1==vec2)
         return 0.f;
-    return edk::Math::arcCosin(( edk::Math::pythagoras(vec1) * edk::Math::pythagoras(vec2)),edk::Math::scalarProduct(vec1,vec2));
+    return edk::Math::arcCosin(( edk::Math::pythagoras(vec1) * edk::Math::pythagoras(vec2)),edk::Math::dotProduct(vec1,vec2));
 }
 edk::float32 edk::Math::getAngleDist(edk::float32 x1,edk::float32 y1,edk::float32 z1,
                                      edk::float32 x2,edk::float32 y2,edk::float32 z2
@@ -406,7 +426,7 @@ edk::float32 edk::Math::getAngleDist(edk::vec3f32 vec1,edk::vec3f32 vec2){
     //
     if(vec1==vec2)
         return 0.f;
-    return edk::Math::arcCosin(( edk::Math::pythagoras(vec1) * edk::Math::pythagoras(vec2)),edk::Math::scalarProduct(vec1,vec2));
+    return edk::Math::arcCosin(( edk::Math::pythagoras(vec1) * edk::Math::pythagoras(vec2)),edk::Math::dotProduct(vec1,vec2));
 }
 edk::float32 edk::Math::getAngleDist(edk::float32 x1,edk::float32 y1,edk::float32 z1,edk::float32 w1,
                                      edk::float32 x2,edk::float32 y2,edk::float32 z2,edk::float32 w2
@@ -417,7 +437,7 @@ edk::float32 edk::Math::getAngleDist(edk::vec4f32 vec1,edk::vec4f32 vec2){
     //
     if(vec1==vec2)
         return 0.f;
-    return edk::Math::arcCosin(( edk::Math::pythagoras(vec1) * edk::Math::pythagoras(vec2)),edk::Math::scalarProduct(vec1,vec2));
+    return edk::Math::arcCosin(( edk::Math::pythagoras(vec1) * edk::Math::pythagoras(vec2)),edk::Math::dotProduct(vec1,vec2));
 }
 
 //RightHand to find if the point is on the right or left
@@ -655,24 +675,4 @@ edk::float32 edk::Math::angleToRad(edk::float32 angle){
 edk::float32 edk::Math::radToAngle(edk::float32 rad){
     //
     return (rad * 180.0f) / PI;
-}
-
-//CROSS PRODUCT (calculate the normal of 2 vectors)
-edk::vec3f32 edk::Math::crossProduct(edk::float32 x1,
-                                     edk::float32 y1,
-                                     edk::float32 z1,
-                                     edk::float32 x2,
-                                     edk::float32 y2,
-                                     edk::float32 z2
-                                     ){
-    return edk::Math::crossProduct(edk::vec3f32(x1,y1,z1),edk::vec3f32(x2,y2,z2));
-}
-edk::vec3f32 edk::Math::crossProduct(edk::vec3f32 vec1,edk::vec3f32 vec2){
-    edk::vec3f32 ret;
-
-    ret.x = (vec1.y * vec2.z) - (vec1.z * vec2.y);
-    ret.y = (vec1.z * vec2.x) - (vec1.x * vec2.z);
-    ret.z = (vec1.x * vec2.y) - (vec1.y * vec2.x);
-
-    return ret;
 }

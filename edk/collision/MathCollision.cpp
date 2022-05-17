@@ -164,6 +164,9 @@ bool edk::collision::MathCollision::aabb(edk::cubef32 cube1,edk::cubef32 cube2){
 }
 
 //POINT STRAIGHT
+bool edk::collision::MathCollision::pointStraigh2D(edk::float32 pointX,edk::float32 pointY,float32 lineX1,float32 lineY1,float32 lineX2,float32 lineY2, edk::float32 radius){
+    return edk::collision::MathCollision::pointStraigh2D(edk::vec2f32(pointX,pointY),vec2f32(lineX1,lineY1),vec2f32(lineX2,lineY2), radius);
+}
 bool edk::collision::MathCollision::pointStraigh2D(edk::vec2f32 point,vec2f32 lineStart,vec2f32 lineEnd, edk::float32 radius){
     edk::float32 value = (point.x*lineStart.y)+
             (point.y*lineEnd.x)+
@@ -176,6 +179,15 @@ bool edk::collision::MathCollision::pointStraigh2D(edk::vec2f32 point,vec2f32 li
         return true;
     //else return zero
     return false;
+}
+bool edk::collision::MathCollision::straightStraight2D(float32 line1StartX,float32 line1StartY,float32 line1EndX,float32 line1EndY,
+                                                       float32 line2StartX,float32 line2StartY,float32 line2EndX,float32 line2EndY,
+                                                       edk::collision::Vecs2f32* vecs
+                                                       ){
+    return edk::collision::MathCollision::straightStraight2D(vec2f32(line1StartX,line1StartY),vec2f32(line1EndX,line1EndY),
+                                                             vec2f32(line2StartX,line2StartY),vec2f32(line2EndX,line2EndY),
+                                                             vecs
+                                                             );
 }
 bool edk::collision::MathCollision::straightStraight2D(vec2f32 line1Start,vec2f32 line1End,
                                                        vec2f32 line2Start,vec2f32 line2End,
@@ -217,6 +229,13 @@ bool edk::collision::MathCollision::straightStraight2D(vec2f32 line1Start,vec2f3
     }
     //else return a zero vector
     return ret;
+}
+bool edk::collision::MathCollision::straightStraight2DtoBool(float32 line1StartX,float32 line1StartY,float32 line1EndX,float32 line1EndY,
+                                                             float32 line2StartX,float32 line2StartY,float32 line2EndX,float32 line2EndY
+                                                             ){
+    return edk::collision::MathCollision::straightStraight2DtoBool(vec2f32(line1StartX,line1StartY),vec2f32(line1EndX,line1EndY),
+                                                                   vec2f32(line2StartX,line2StartY),vec2f32(line2EndX,line2EndY)
+                                                                   );
 }
 bool edk::collision::MathCollision::straightStraight2DtoBool(vec2f32 line1Start,vec2f32 line1End,
                                                              vec2f32 line2Start,vec2f32 line2End
@@ -360,6 +379,58 @@ edk::collision::Vecs3f32 edk::collision::MathCollision::straightSphere3D(edk::ve
 
     //return the ret
     return ret;
+}
+
+bool edk::collision::MathCollision::straightTriangle3D(edk::vec3f32 lineStart,edk::vec3f32 lineEnd,
+                                                       edk::vec3f32 triangle1,edk::vec3f32 triangle2,edk::vec3f32 triangle3,
+                                                       edk::vec3f32* result){
+    //stark to be returned
+    edk::collision::Vecs3f32 ret(1u);
+
+    edk::vec3f32 e1,e2,h,s,q;
+    edk::float32 a,f,u,v;
+    edk::float32 t;
+    e1=triangle2-triangle1;
+    e2=triangle3-triangle1;
+
+    h = edk::Math::crossProduct(lineEnd,e2);
+
+    a = edk::Math::dotProduct(e1,h);
+
+    if (a > -0.00001 && a < 0.00001)
+        return false;
+
+    f = 1.f/a;
+    s=lineStart-triangle1;
+    u = f * edk::Math::dotProduct(s,h);
+
+    if (u < 0.0 || u > 1.0)
+        return false;
+
+    q = edk::Math::crossProduct(s,e1);
+
+    v = f * edk::Math::dotProduct(lineEnd,q);
+
+    if (v < 0.0 || u + v > 1.0)
+        return false;
+
+    // at this stage we can compute t to find out where
+    // the intersection point is on the line
+    t = f * edk::Math::dotProduct(e2,q);
+
+    if (t > -0.00001f && t<1.00001){ // ray intersection
+        if(result){
+            result->x = lineStart.x + (lineEnd.x * t);
+            result->y = lineStart.y + (lineEnd.y * t);
+            result->z = lineStart.z + (lineEnd.z * t);
+        }
+        return true;
+    }
+
+    // this means that there is a line intersection
+    // but not a ray intersection
+
+    return false;
 }
 
 //POLYGON POINT

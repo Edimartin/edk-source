@@ -69,19 +69,29 @@ class Math{
         static edk::vec4f32 normalise(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 w);
         static edk::vec4f32 normalise(edk::vec4f32 vec);
 
-        //ScalarProduct - Scalar Product of two vector
-        static edk::float32 scalarProduct(edk::float32 x1,edk::float32 y1,
+        //DotProduct - Dot Product of two vectors - Scalar Product of two vector (in portuguese)
+        static edk::float32 dotProduct(edk::float32 x1,edk::float32 y1,
                                           edk::float32 x2,edk::float32 y2
                                           );
-        static edk::float32 scalarProduct(edk::vec2f32 vec1,edk::vec2f32 vec2);
-        static edk::float32 scalarProduct(edk::float32 x1,edk::float32 y1,edk::float32 z1,
+        static edk::float32 dotProduct(edk::vec2f32 vec1,edk::vec2f32 vec2);
+        static edk::float32 dotProduct(edk::float32 x1,edk::float32 y1,edk::float32 z1,
                                           edk::float32 x2,edk::float32 y2,edk::float32 z2
                                           );
-        static edk::float32 scalarProduct(edk::vec3f32 vec1,edk::vec3f32 vec2);
-        static edk::float32 scalarProduct(edk::float32 x1,edk::float32 y1,edk::float32 z1,edk::float32 w1,
+        static edk::float32 dotProduct(edk::vec3f32 vec1,edk::vec3f32 vec2);
+        static edk::float32 dotProduct(edk::float32 x1,edk::float32 y1,edk::float32 z1,edk::float32 w1,
                                           edk::float32 x2,edk::float32 y2,edk::float32 z2,edk::float32 w2
                                           );
-        static edk::float32 scalarProduct(edk::vec4f32 vec1,edk::vec4f32 vec2);
+        static edk::float32 dotProduct(edk::vec4f32 vec1,edk::vec4f32 vec2);
+
+        //CROSS PRODUCT (calculate the normal of 2 vectors)
+        static edk::vec3f32 crossProduct(edk::float32 x1,
+                                         edk::float32 y1,
+                                         edk::float32 z1,
+                                         edk::float32 x2,
+                                         edk::float32 y2,
+                                         edk::float32 z2
+                                         );
+        static edk::vec3f32 crossProduct(edk::vec3f32 vec1,edk::vec3f32 vec2);
 
         //The square function return the square of the number (n*n)
         static edk::float32 square(edk::float32 n);
@@ -330,16 +340,6 @@ class Math{
         //RADIAN
         static edk::float32 angleToRad(edk::float32 angle);
         static edk::float32 radToAngle(edk::float32 rad);
-
-        //CROSS PRODUCT (calculate the normal of 2 vectors)
-        static edk::vec3f32 crossProduct(edk::float32 x1,
-                                         edk::float32 y1,
-                                         edk::float32 z1,
-                                         edk::float32 x2,
-                                         edk::float32 y2,
-                                         edk::float32 z2
-                                         );
-        static edk::vec3f32 crossProduct(edk::vec3f32 vec1,edk::vec3f32 vec2);
     protected:
     private:
 };

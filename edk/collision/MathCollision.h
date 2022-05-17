@@ -69,16 +69,31 @@ public:
     static bool aabb(edk::cubef32 cube1,edk::cubef32 cube2);
 
     //POINT STRAIGHT
+    static bool pointStraigh2D(edk::float32 pointX,edk::float32 pointY,float32 lineX1,float32 lineY1,float32 lineX2,float32 lineY2, edk::float32 radius=0.01f);
     static bool pointStraigh2D(edk::vec2f32 point,vec2f32 lineStart,vec2f32 lineEnd, edk::float32 radius=0.01f);
+    static bool straightStraight2D(float32 line1StartX,float32 line1StartY,float32 line1EndX,float32 line1EndY,
+                                   float32 line2StartX,float32 line2StartY,float32 line2EndX,float32 line2EndY,
+                                   edk::collision::Vecs2f32* vecs
+                                   );
     static bool straightStraight2D(vec2f32 line1Start,vec2f32 line1End,
                                    vec2f32 line2Start,vec2f32 line2End,
                                    edk::collision::Vecs2f32* vecs
                                    );
+    static bool straightStraight2DtoBool(float32 line1StartX,float32 line1StartY,float32 line1EndX,float32 line1EndY,
+                                         float32 line2StartX,float32 line2StartY,float32 line2EndX,float32 line2EndY
+                                         );
     static bool straightStraight2DtoBool(vec2f32 line1Start,vec2f32 line1End,
                                          vec2f32 line2Start,vec2f32 line2End
                                          );
+
     static edk::collision::Vecs2f32 straightCircle2D(edk::vec2f32 lineStart,edk::vec2f32 lineEnd,edk::vec2f32 circlePosition,edk::float32 circleRadius);
     static edk::collision::Vecs3f32 straightSphere3D(edk::vec3f32 lineStart,edk::vec3f32 lineEnd,edk::vec3f32 spherePosition,edk::float32 sphereRadius);
+
+    //http://www.lighthouse3d.com/tutorials/maths/ray-triangle-intersection/
+    static bool straightTriangle3D(edk::vec3f32 lineStart,edk::vec3f32 lineEnd,
+                                   edk::vec3f32 triangle1,edk::vec3f32 triangle2,edk::vec3f32 triangle3,
+                                   edk::vec3f32* result
+                                   );
 
 
     //POLYGON POINT
