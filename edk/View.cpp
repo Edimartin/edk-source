@@ -110,18 +110,28 @@ void View::drawPolygon(edk::rectf32){
     edk::GU::guVertex3f32(0.f, 1.f, 0.f);
     edk::GU::guEnd();
 }
-
-void View::runDraw(edk::rectf32 outsideViewOrigin){
+//those functions run the other functions
+void edk::View::runDraw(edk::rectf32 outsideViewOrigin){
     this->draw(outsideViewOrigin);
 }
-void View::runLoad(edk::rectf32 outsideViewOrigin){
+void edk::View::runLoad(edk::rectf32 outsideViewOrigin){
     this->load(outsideViewOrigin);
 }
-void View::runUnload(){
+void edk::View::runUnload(){
     this->unload();
 }
-void View::runUpdate(edk::WindowEvents* events){
+void edk::View::runUpdate(edk::WindowEvents* events){
     this->update(events);
+}
+//run the pause function
+void edk::View::runPause(){
+    //
+    this->pause();
+}
+//run the unpause functin
+void edk::View::runUnpause(){
+    //
+    this->unpause();
 }
 
 void View::draw(edk::rectf32 outsideViewOrigin){
@@ -170,6 +180,13 @@ void edk::View::unload(){
 
 void edk::View::update(edk::WindowEvents*){
     //update the animation
+}
+
+void edk::View::pause(){
+    //pause the view
+}
+void edk::View::unpause(){
+    //unpause the view
 }
 void View::updateAnimations(){
     bool success;

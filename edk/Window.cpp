@@ -534,6 +534,14 @@ void Window::drawView(){
     this->drawEnd();
 }
 
+void Window::pauseViews(){
+    this->viewWindow.runPause();
+}
+
+void Window::unpauseViews(){
+    this->viewWindow.runUnpause();
+}
+
 bool Window::flip(){
     //testa se possui uma janela e se ja desenhou
     if(this->isOpened() && !this->activeRender){

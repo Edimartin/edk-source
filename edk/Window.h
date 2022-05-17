@@ -137,6 +137,10 @@ class Window {
 
     void drawView();
 
+    void pauseViews();
+
+    void unpauseViews();
+
     bool flip();
 
     bool render();

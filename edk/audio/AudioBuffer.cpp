@@ -160,7 +160,8 @@ edk::float32 edk::AudioBuffer::getDuration(){
     if(this->buffer){
         //
         //this->buffer->GetDuration();//1.6
-        this->buffer->getDuration();//2.0
+        sf::Time ret = this->buffer->getDuration();//2.0
+        return ret.asSeconds();
     }
     //else return 0.0
     return 0.0f;

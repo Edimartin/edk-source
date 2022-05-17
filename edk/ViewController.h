@@ -44,7 +44,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 namespace edk {
-
+class Window;
 /*
  */
 class ViewController : public View {
@@ -53,6 +53,9 @@ class ViewController : public View {
     ViewController();
 
     ViewController(edk::rectf32 frame);
+
+    //Window can use the protected functions of the view
+    friend edk::Window;
 
     ~ViewController();
 
@@ -97,6 +100,10 @@ class ViewController : public View {
 protected:
     //draw the view inside in a separated function to viewTexture draw other views inside
     void drawViewInside();
+    //run the pause function
+    void runPause();
+    //run the unpause function
+    void runUnpause();
  private:
 
     //The list of views inside this view

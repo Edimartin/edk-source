@@ -72,6 +72,38 @@ void ViewController::drawViewInside(){
         }
     }
 }
+//run the pause function
+void ViewController::runPause(){
+    //test if this view is not hided
+    if(!this->hide){
+        //pause this view
+        edk::View::runPause();
+        //Then pause the others
+        for(edk::uint32 i=0u;i<this->nexts.size();i++){
+            //test if the view exist
+            if(this->nexts.havePos(i)){
+                //then pause the view
+                this->nexts[i]->runPause();
+            }
+        }
+    }
+}
+//run the unpause function
+void ViewController::runUnpause(){
+    //test if this view is not hided
+    if(!this->hide){
+        //pause this view
+        edk::View::runUnpause();
+        //Then unpause the others
+        for(edk::uint32 i=0u;i<this->nexts.size();i++){
+            //test if the view exist
+            if(this->nexts.havePos(i)){
+                //then unpause the view
+                this->nexts[i]->runUnpause();
+            }
+        }
+    }
+}
 
 
 

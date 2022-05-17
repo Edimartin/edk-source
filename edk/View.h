@@ -179,14 +179,15 @@ void eventMouseLeftView(edk::vec2f32 point){
 
 
 namespace edk {
-
+class ViewController;
 class View {
-
  public:
-
     View();
 
     View(edk::rectf32 frame);
+
+    //ViewController can access the protected functions
+    friend edk::ViewController;
 
     virtual ~View();
 
@@ -197,11 +198,8 @@ class View {
 
     virtual void update(edk::WindowEvents* events);
 
-    //those functions run the other functions
-    virtual void runDraw(edk::rectf32 outsideViewOrigin);
-    virtual void runLoad(edk::rectf32 outsideViewOrigin);
-    virtual void runUnload();
-    virtual void runUpdate(edk::WindowEvents* events);
+    virtual void pause();
+    virtual void unpause();
 
     void updateAnimations();
     void updateAnimations(edk::float32 seconds);
@@ -314,6 +312,15 @@ class View {
     virtual void drawCamera();
     //draw the polygon on the scene
     virtual void drawPolygon(edk::rectf32 outsideViewOrigin);
+    //those functions run the other functions
+    virtual void runDraw(edk::rectf32 outsideViewOrigin);
+    virtual void runLoad(edk::rectf32 outsideViewOrigin);
+    virtual void runUnload();
+    virtual void runUpdate(edk::WindowEvents* events);
+    //run the pause function
+    virtual void runPause();
+    //run the unpause function
+    virtual void runUnpause();
 
     //Animations
     //Position animation to change the viewPosition on the window (or View)
