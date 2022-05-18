@@ -74,14 +74,17 @@ class ViewGU: public edk::ViewSpriteController{
         void deleteBackground();
 
         //test the selection
-        void testSelection(edk::vec2f32 position,edk::size2f32 size = edk::size2f32(1,1));
-        void testSelection(edk::vec2i32 position,edk::size2f32 size = edk::size2f32(1,1));
+        void testSelection(edk::vec2f32 position,edk::size2f32 size = edk::size2f32(1.f,1.f));
+        void testSelection(edk::float32 x,edk::float32 y,edk::size2f32 size = edk::size2f32(1.f,1.f));
+        void testSelection(edk::float32 x,edk::float32 y,edk::float32 width=1.f,edk::float32 height=1.f);
+        void testSelection(edk::vec2i32 position,edk::size2f32 size = edk::size2f32(1.f,1.f));
+        void testSelection(edk::int32 x,edk::int32 y,edk::size2f32 size = edk::size2f32(1.f,1.f));
+        void testSelection(edk::int32 x,edk::int32 y,edk::float32 width = 1.f,edk::float32 height = 1.f);
 
         virtual void update(edk::WindowEvents* events);
 
         //draw the GU scene
         virtual void drawScene(edk::rectf32 outsideViewOrigin);
-        virtual void runDrawScene(edk::rectf32 outsideViewOrigin);
 
         virtual void drawSelectionScene();
 
@@ -108,6 +111,8 @@ class ViewGU: public edk::ViewSpriteController{
     void runSelectionFunction();
     //get true if go run selection
     bool isRunningSelection();
+    //function to run the drawScene
+    virtual void runDrawScene(edk::rectf32 outsideViewOrigin);
     private:
     //save selection position
     edk::vec2f32 selectionPosition;
