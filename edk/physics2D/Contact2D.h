@@ -41,9 +41,12 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 namespace edk{
 namespace physics2D{
+class World2D;
 class Contact2D{
 public:
     Contact2D(edk::classID pointer);
+
+    friend edk::physics2D::World2D;
 
     //return the max contact poits
     edk::uint8 getMaxPoints();
@@ -56,6 +59,8 @@ public:
     void enableContact();
     void setEnabled(bool enabled);
     bool isEnabled();
+    //return true if aready have a contact with the same objects
+    bool haveAreadyContact();
 
     //objects
     edk::physics2D::PhysicObject2D* objectA;
@@ -78,10 +83,13 @@ public:
     //poinst contact
     edk::uint8 points;
 
+
 private:
     edk::classID contactPointer;
     //set if is enabled
     bool enabled;
+    //save if aready have the contact
+    bool areadyContacted;
 };
 }//end namespace physics2D
 }//end namespace edk

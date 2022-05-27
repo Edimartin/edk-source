@@ -484,7 +484,7 @@ bool edk::animation::Interpolation2DGroup::writeToXML(edk::XML* xml,edk::uint32 
                 if(xml->addSelectedNextChild(name)){
                     if(xml->selectChild(name)){
                         //save the looping
-                        if(this->isLooping()) xml->addSelectedNextAttribute("loop","on");
+                        if(this->getLoop()) xml->addSelectedNextAttribute("loop","on");
                         else              xml->addSelectedNextAttribute("loop","off");
                         edk::uint32 count = 0u;
                         edk::animation::InterpolationLine2D* temp = NULL;

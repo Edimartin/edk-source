@@ -126,6 +126,8 @@ class Interpolation1DGroup: public edk::animation::InterpolationGroup{
                         this->addNewAnimationName(temp->name(),temp->start,temp->end);
                     }
                 }
+
+                this->setLoop(group->getLoop());
                 return true;
             }
             return false;

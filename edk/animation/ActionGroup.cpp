@@ -152,7 +152,7 @@ void edk::animation::ActionGroup::update(){
 
 //ANIMATION FUNCTIONS
 //get Loop
-bool edk::animation::ActionGroup::isLooping(){return this->anim.isLooping();}
+bool edk::animation::ActionGroup::isLooping(){return this->anim.getLoop();}
 
 //CONTROLS
 //animation controllers

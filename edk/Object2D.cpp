@@ -1566,7 +1566,7 @@ bool edk::Object2D::readFromXML(edk::XML* xml,edk::uint32 id){
     }
     return false;
 }
-bool edk::Object2D::readFromXMLWithPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id){
+bool edk::Object2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id){
     if(xml && pack){
         bool ret=false;
         //create the nameID
@@ -1585,7 +1585,7 @@ bool edk::Object2D::readFromXMLWithPack(edk::pack::FilePackage* pack,edk::XML* x
                     do{
                         mesh = this->newMesh(&position);
                         if(mesh){
-                            if(!mesh->readFromXMLWithPack(pack,xml,count)){
+                            if(!mesh->readFromXMLFromPack(pack,xml,count)){
                                 this->removeMesh(position);
                                 mesh=NULL;
                             }

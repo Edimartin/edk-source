@@ -89,7 +89,7 @@ public:
     //XML
     virtual bool writeToXML(edk::XML* xml,edk::uint32 id);
     virtual bool readFromXML(edk::XML* xml,edk::uint32 id);
-    virtual bool readFromXMLWithPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id);
+    virtual bool readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id);
 
     virtual bool cloneFrom(edk::shape::Mesh2D* mesh);
 

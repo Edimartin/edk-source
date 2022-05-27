@@ -1188,7 +1188,7 @@ bool edk::shape::Mesh2D::readFromXML(edk::XML* xml,edk::uint32 id){
     }
     return false;
 }
-bool edk::shape::Mesh2D::readFromXMLWithPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id){
+bool edk::shape::Mesh2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id){
     if(edk::shape::Polygon2DList::readFromXML(xml,id)){
         bool ret=true;
         //create the nameID
@@ -1200,7 +1200,7 @@ bool edk::shape::Mesh2D::readFromXMLWithPack(edk::pack::FilePackage* pack,edk::X
                 //select the name
                 if(xml->selectChild(name)){
                     //read the material
-                    this->material.readFromXMLWithPack(pack,xml,0u);
+                    this->material.readFromXMLFromPack(pack,xml,0u);
                     ret=true;
                     xml->selectFather();
                 }

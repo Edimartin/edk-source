@@ -496,7 +496,7 @@ bool edk::physics2D::PhysicObject2D::readFromXML(edk::XML* xml,edk::uint32 id){
     }
     return false;
 }
-bool edk::physics2D::PhysicObject2D::readFromXMLWithPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id){
+bool edk::physics2D::PhysicObject2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id){
     if(xml && pack){
         bool ret=false;
         //create the nameID
@@ -511,7 +511,7 @@ bool edk::physics2D::PhysicObject2D::readFromXMLWithPack(edk::pack::FilePackage*
                     edk::char8* iTemp;
                     this->physicMesh.cleanPolygons();
                     //read the object
-                    edk::Object2D::readFromXMLWithPack(pack,xml,id);
+                    edk::Object2D::readFromXMLFromPack(pack,xml,id);
                     //read type
                     this->physType = edk::String::strToInt32(xml->getSelectedAttributeValueByName("type"));
                     //read sensor
@@ -625,6 +625,16 @@ bool edk::physics2D::PhysicObject2D::cloneFrom(edk::physics2D::PhysicObject2D* o
         this->animationPosition.cloneFrom(&obj->animationPosition);
         //this->animationRotation = obj->animationRotation;
         this->animationRotation.cloneFrom(&obj->animationRotation);
+        //copy the collision groups
+        edk::uint32 size;
+        size = obj->treeCollisionGroups.size();
+        for(edk::uint32 i=0u;i<size;i++){
+            this->treeCollisionGroups.add(obj->treeCollisionGroups.getElementInPosition(i));
+        }
+        size = obj->treeNotCollisionGroups.size();
+        for(edk::uint32 i=0u;i<size;i++){
+            this->treeNotCollisionGroups.add(obj->treeNotCollisionGroups.getElementInPosition(i));
+        }
         return true;
     }
     return false;

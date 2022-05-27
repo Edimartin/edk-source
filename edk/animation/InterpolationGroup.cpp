@@ -1046,7 +1046,7 @@ void edk::animation::InterpolationGroup::cleanAnimationNames(){
 }
 
 //get Loop
-bool edk::animation::InterpolationGroup::isLooping(){
+bool edk::animation::InterpolationGroup::getLoop(){
     return this->looping;
 }
 //get Increment

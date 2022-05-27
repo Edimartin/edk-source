@@ -273,9 +273,9 @@ public:
     virtual bool readFromXML(edk::XML* xml,edk::uint32 id);
     virtual bool readFromXML(const edk::char8* fileName,edk::uint32 id);
     virtual bool readFromXML(edk::char8* fileName,edk::uint32 id);
-    virtual bool readFromXMLWithPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id);
-    virtual bool readFromXMLWithPack(edk::pack::FilePackage* pack,const edk::char8* fileName,edk::uint32 id);
-    virtual bool readFromXMLWithPack(edk::pack::FilePackage* pack,edk::char8* fileName,edk::uint32 id);
+    virtual bool readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id);
+    virtual bool readFromXMLFromPack(edk::pack::FilePackage* pack,const edk::char8* fileName,edk::uint32 id);
+    virtual bool readFromXMLFromPack(edk::pack::FilePackage* pack,edk::char8* fileName,edk::uint32 id);
     //Without id
     virtual bool writeToXML(edk::XML* xml);
     virtual bool writeToXML(const edk::char8* fileName);
@@ -283,9 +283,9 @@ public:
     virtual bool readFromXML(edk::XML* xml);
     virtual bool readFromXML(const edk::char8* fileName);
     virtual bool readFromXML(edk::char8* fileName);
-    virtual bool readFromXMLWithPack(edk::pack::FilePackage* pack,edk::XML* xml);
-    virtual bool readFromXMLWithPack(edk::pack::FilePackage* pack,const edk::char8* fileName);
-    virtual bool readFromXMLWithPack(edk::pack::FilePackage* pack,edk::char8* fileName);
+    virtual bool readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml);
+    virtual bool readFromXMLFromPack(edk::pack::FilePackage* pack,const edk::char8* fileName);
+    virtual bool readFromXMLFromPack(edk::pack::FilePackage* pack,edk::char8* fileName);
 
     edk::physics2D::World2D world;
     edk::tiles::TileSet2D tileSet;
@@ -524,7 +524,7 @@ private:
         //XML
         bool writeToXML(edk::XML* xml,edk::uint32 id,bool isPhysics=false);
         bool readFromXML(edk::XML* xml,edk::uint32 id,bool isPhysics=false);
-        bool readFromXMLWithPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id,bool isPhysics=false);
+        bool readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id,bool isPhysics=false);
 
         //compare if the value is bigger
         virtual bool firstBiggerSecond(ObjClass* first,ObjClass* second){
@@ -822,7 +822,7 @@ private:
         //XML
         bool writeToXML(edk::XML* xml,edk::uint32 id);
         bool readFromXML(edk::XML* xml,edk::uint32 id,edk::tiles::TileSet2D* tileSet,edk::physics2D::World2D* world);
-        bool readFromXMLWithPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id,edk::tiles::TileSet2D* tileSet,edk::physics2D::World2D* world);
+        bool readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id,edk::tiles::TileSet2D* tileSet,edk::physics2D::World2D* world);
 
         void draw(){
             if(this->show){

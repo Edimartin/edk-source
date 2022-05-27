@@ -219,7 +219,7 @@ public:
     void cleanAnimationNames();
 
     //get Loop
-    bool isLooping();
+    bool getLoop();
     //get Increment
     bool isIncrementing();
 
@@ -313,6 +313,8 @@ public:
                     this->addNewAnimationName(temp->name(),temp->start,temp->end);
                 }
             }
+
+            this->looping = group->looping;
             return true;
         }
         return false;

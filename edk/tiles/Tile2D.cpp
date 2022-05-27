@@ -574,7 +574,7 @@ bool edk::tiles::Tile2D::readFromXML(edk::XML* xml,edk::uint32 id){
     }
     return false;
 }
-bool edk::tiles::Tile2D::readFromXMLWithPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id){
+bool edk::tiles::Tile2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id){
     if(xml && pack){
         bool ret=false;
         //create the nameID
@@ -588,7 +588,7 @@ bool edk::tiles::Tile2D::readFromXMLWithPack(edk::pack::FilePackage* pack,edk::X
                     this->obj.cleanMeshes();
                     this->mesh.cleanPolygons();
                     //read obj
-                    if(this->obj.readFromXMLWithPack(pack,xml,0u)){
+                    if(this->obj.readFromXMLFromPack(pack,xml,0u)){
                         //copy the first mesh
                         if(this->obj.getMesh(0u)){
                             //this->mesh = *this->obj.getMesh(0u);
@@ -613,7 +613,7 @@ bool edk::tiles::Tile2D::readFromXMLWithPack(edk::pack::FilePackage* pack,edk::X
                     //read the physicsObject
                     this->objPhys = new edk::physics2D::PhysicObject2D;
                     if(this->objPhys){
-                        if(!this->objPhys->readFromXMLWithPack(pack,xml,0u)){
+                        if(!this->objPhys->readFromXMLFromPack(pack,xml,0u)){
                             //dont have physicc object
                             delete this->objPhys;
                             this->objPhys=NULL;

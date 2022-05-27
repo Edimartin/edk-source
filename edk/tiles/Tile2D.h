@@ -190,7 +190,7 @@ public:
     //XML
     bool writeToXML(edk::XML* xml,edk::uint32 id);
     bool readFromXML(edk::XML* xml,edk::uint32 id);
-    bool readFromXMLWithPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id);
+    bool readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id);
 
     //Draw the tile
     void draw(edk::float32 angle=0.f,edk::size2f32 size = edk::size2f32(1,1));

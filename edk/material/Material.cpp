@@ -674,7 +674,7 @@ bool edk::material::Material::readFromXML(edk::XML* xml,edk::uint32 id){
     }
     return false;
 }
-bool edk::material::Material::readFromXMLWithPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id){
+bool edk::material::Material::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id){
     if(xml && pack){
         bool ret=false;
         //create the nameID

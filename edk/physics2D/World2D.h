@@ -48,6 +48,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "PrismaticJoint2D.h"
 #include "PulleyJoint2D.h"
 #include "WheelJoint2D.h"
+#include "TreeContactObjects.h"
 //REMOVE IN NEW BOX2D
 //#include "RopeJoint2D.h"
 
@@ -366,6 +367,15 @@ private:
     //Box2D
     b2World world;
 
+    //TREE WITH OBJECTS IN CONTACT
+    edk::physics2D::TreeContactObjects beginContacs;
+    edk::physics2D::TreeContactObjects keepBeginContacs;
+    edk::physics2D::TreeContactObjects keepEndContacs;
+    edk::physics2D::TreeContactObjects endContacs;
+    edk::physics2D::TreeContactObjects sensorBeginContacs;
+    edk::physics2D::TreeContactObjects sensorKeepContacs;
+    edk::physics2D::TreeContactObjects sensorEndContacs;
+
     //return the body
     b2Body* getBody(edk::physics2D::PhysicObject2D* object);
 
@@ -509,6 +519,30 @@ private:
         //Box2D
         b2World* world;
     }treeDeleted;
+
+    //newTree
+    class NewTree: public edk::vector::BinaryTree<edk::physics2D::PhysicObject2D*>{
+    public:
+        NewTree(edk::physics2D::World2D* world){this->world = world;}
+        ~NewTree(){}
+        //NEW OBJECT
+        virtual void printElement(edk::physics2D::PhysicObject2D* value){
+            if(!this->world->runNextStep)
+                this->world->addObject(value);
+        }
+        //SET LINEAR VELOCITY
+        virtual void renderElement(edk::physics2D::PhysicObject2D* value){
+            if(!this->world->runNextStep)
+                this->world->updateObjectLinearVelocity(value);
+        }
+        //SET ANGULAR VELOCITY
+        void updateElement(edk::physics2D::PhysicObject2D* value){
+            if(!this->world->runNextStep)
+                this->world->updateObjectAngularVelocity(value);
+        }
+        //edkWorld
+        edk::physics2D::World2D* world;
+    }treeNew,treeLinearVelocity,treeAngularVelocity;
 
     //ContactTree
     class TreeConcacts:public edk::vector::BinaryTree<edk::physics2D::Contact2D*>{

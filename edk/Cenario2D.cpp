@@ -337,7 +337,7 @@ bool edk::Cenario2D::TreeObjDepth::readFromXML(edk::XML* xml,edk::uint32 id,bool
     }
     return false;
 }
-bool edk::Cenario2D::TreeObjDepth::readFromXMLWithPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id,bool isPhysics){
+bool edk::Cenario2D::TreeObjDepth::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id,bool isPhysics){
     if(xml && pack){
         bool ret=false;
         //create the nameID
@@ -389,7 +389,7 @@ bool edk::Cenario2D::TreeObjDepth::readFromXMLWithPack(edk::pack::FilePackage* p
                                             }
                                             if(obj){
                                                 //read the object
-                                                if(obj->readFromXMLWithPack(pack,xml,i)){
+                                                if(obj->readFromXMLFromPack(pack,xml,i)){
                                                     //add the object
                                                     if(!this->addObject(true,(edk::Object2D*)obj,depth)){
                                                         //else delete the object
@@ -434,7 +434,7 @@ bool edk::Cenario2D::TreeObjDepth::readFromXMLWithPack(edk::pack::FilePackage* p
                                             obj = new edk::Object2D;
                                             if(obj){
                                                 //read the object
-                                                if(obj->readFromXMLWithPack(pack,xml,i)){
+                                                if(obj->readFromXMLFromPack(pack,xml,i)){
                                                     //add the object
                                                     if(!this->addObject(true,obj,depth)){
                                                         //else delete the object
@@ -595,7 +595,7 @@ bool edk::Cenario2D::LevelObj::readFromXML(edk::XML* xml,edk::uint32 id,edk::til
     }
     return false;
 }
-bool edk::Cenario2D::LevelObj::readFromXMLWithPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id,edk::tiles::TileSet2D* tileSet,edk::physics2D::World2D* world){
+bool edk::Cenario2D::LevelObj::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id,edk::tiles::TileSet2D* tileSet,edk::physics2D::World2D* world){
     if(xml && pack){
         bool ret=false;
         //create the nameID
@@ -633,7 +633,7 @@ bool edk::Cenario2D::LevelObj::readFromXMLWithPack(edk::pack::FilePackage* pack,
                             //read the objects
                             this->objs = new edk::Cenario2D::TreeObjDepth;
                             if(this->objs){
-                                if(!this->objs->readFromXMLWithPack(pack,xml,0u)){
+                                if(!this->objs->readFromXMLFromPack(pack,xml,0u)){
                                     delete this->objs;
                                     this->clean();
                                 }
@@ -643,7 +643,7 @@ bool edk::Cenario2D::LevelObj::readFromXMLWithPack(edk::pack::FilePackage* pack,
                             //read the physics objects
                             this->objsPhys = new edk::Cenario2D::TreePhysObjDepth(world);
                             if(this->objsPhys){
-                                if(!this->objsPhys->readFromXMLWithPack(pack,xml,0u,true)){
+                                if(!this->objsPhys->readFromXMLFromPack(pack,xml,0u,true)){
                                     delete this->objsPhys;
                                     this->clean();
                                 }
@@ -3985,7 +3985,7 @@ bool edk::Cenario2D::readFromXML(edk::char8* fileName,edk::uint32 id){
     }
     return false;
 }
-bool edk::Cenario2D::readFromXMLWithPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id){
+bool edk::Cenario2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id){
     if(xml && pack){
         bool ret=false;
         //create the nameID
@@ -4002,7 +4002,7 @@ bool edk::Cenario2D::readFromXMLWithPack(edk::pack::FilePackage* pack,edk::XML* 
                     edk::char8* temp;
 
                     //read tileSet
-                    this->tileSet.readFromXMLWithPack(pack,xml,0u);
+                    this->tileSet.readFromXMLFromPack(pack,xml,0u);
                     //read the levels
                     if(xml->selectChild("levels")){
 
@@ -4021,7 +4021,7 @@ bool edk::Cenario2D::readFromXMLWithPack(edk::pack::FilePackage* pack,edk::XML* 
                             if(level){
                                 //add the level to the tree
                                 this->levels.pushBack(level);
-                                level->readFromXMLWithPack(pack,xml,i,&this->tileSet,&this->world);
+                                level->readFromXMLFromPack(pack,xml,i,&this->tileSet,&this->world);
                             }
                         }
                         this->loadPhysicObjectsToWorld();
@@ -4341,17 +4341,17 @@ bool edk::Cenario2D::readFromXMLWithPack(edk::pack::FilePackage* pack,edk::XML* 
     }
     return false;
 }
-bool edk::Cenario2D::readFromXMLWithPack(edk::pack::FilePackage* pack,const edk::char8* fileName,edk::uint32 id){
-    return this->readFromXMLWithPack(pack,(edk::char8*) fileName,id);
+bool edk::Cenario2D::readFromXMLFromPack(edk::pack::FilePackage* pack,const edk::char8* fileName,edk::uint32 id){
+    return this->readFromXMLFromPack(pack,(edk::char8*) fileName,id);
 }
-bool edk::Cenario2D::readFromXMLWithPack(edk::pack::FilePackage* pack,edk::char8* fileName,edk::uint32 id){
+bool edk::Cenario2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::char8* fileName,edk::uint32 id){
     //load the XML file
     if(fileName && pack){
         edk::XML xml;
         if(pack->readFileToBuffer(fileName)){
             if(xml.loadFromMemory(pack->getBuffer(),pack->getBufferSize())){
                 //load the cenario from the XML file
-                return this->readFromXMLWithPack(pack,&xml,id);
+                return this->readFromXMLFromPack(pack,&xml,id);
             }
         }
     }
@@ -4376,12 +4376,12 @@ bool edk::Cenario2D::readFromXML(const edk::char8* fileName){
 bool edk::Cenario2D::readFromXML(edk::char8* fileName){
     return this->readFromXML(fileName,0u);
 }
-bool edk::Cenario2D::readFromXMLWithPack(edk::pack::FilePackage* pack,edk::XML* xml){
-    return this->readFromXMLWithPack(pack,xml,0u);
+bool edk::Cenario2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml){
+    return this->readFromXMLFromPack(pack,xml,0u);
 }
-bool edk::Cenario2D::readFromXMLWithPack(edk::pack::FilePackage* pack,const edk::char8* fileName){
-    return this->readFromXMLWithPack(pack,fileName,0u);
+bool edk::Cenario2D::readFromXMLFromPack(edk::pack::FilePackage* pack,const edk::char8* fileName){
+    return this->readFromXMLFromPack(pack,fileName,0u);
 }
-bool edk::Cenario2D::readFromXMLWithPack(edk::pack::FilePackage* pack,edk::char8* fileName){
-    return this->readFromXMLWithPack(pack,fileName,0u);
+bool edk::Cenario2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::char8* fileName){
+    return this->readFromXMLFromPack(pack,fileName,0u);
 }

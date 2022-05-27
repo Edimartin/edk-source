@@ -2290,7 +2290,7 @@ bool edk::tiles::TileSet2D::readFromXML(edk::XML* xml,edk::uint32 id){
     }
     return false;
 }
-bool edk::tiles::TileSet2D::readFromXMLWithPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id){
+bool edk::tiles::TileSet2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id){
     this->treeRemoveXML.clean();
     if(xml && pack){
         bool ret=false;
@@ -2328,7 +2328,7 @@ bool edk::tiles::TileSet2D::readFromXMLWithPack(edk::pack::FilePackage* pack,edk
                             this->tiles.pushBack(tileTemp);
                             if(sizeStack<this->tiles.size()){
                                 //load the tile
-                                if(tileTemp->readFromXMLWithPack(pack,xml,i)){
+                                if(tileTemp->readFromXMLFromPack(pack,xml,i)){
                                     //test if the tile is animated
                                     iTemp = edk::String::int64ToStr(i);
                                     if(iTemp){

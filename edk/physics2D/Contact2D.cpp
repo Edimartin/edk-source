@@ -35,6 +35,7 @@ edk::physics2D::Contact2D::Contact2D(edk::classID pointer){
     this->velocityB=0.f;
     this->points = 0u;
     this->enabled = true;
+    this->areadyContacted=false;
 }
 edk::uint8 edk::physics2D::Contact2D::getMaxPoints(){
     return EDK_MAX_CONTACTS_POINTS;
@@ -57,4 +58,8 @@ void edk::physics2D::Contact2D::setEnabled(bool enabled){
 }
 bool edk::physics2D::Contact2D::isEnabled(){
     return this->enabled;
+}
+//return true if aready have a contact with the same objects
+bool edk::physics2D::Contact2D::haveAreadyContact(){
+    return this->areadyContacted;
 }
