@@ -57,6 +57,14 @@ void edk::animation::ActionGroup::firstUpdate(){
         this->valueTemp = this->anim.getClockX() - 1.f;
     }
 }
+void edk::animation::ActionGroup::firstUpdate(edk::float32 seconds){
+    if(this->anim.isPlaying()){
+        //update the clock
+        this->anim.updateClockAnimation(seconds);
+        //get the value
+        this->valueTemp = this->anim.getClockX() - 1.f;
+    }
+}
 
 //add one action
 bool edk::animation::ActionGroup::addAction(edk::float32 second,edk::Action* action){
@@ -149,6 +157,24 @@ void edk::animation::ActionGroup::update(){
         }
     }
 }
+void edk::animation::ActionGroup::update(edk::float32 seconds){
+    if(this->anim.isPlaying()){
+        //update the clock
+        this->anim.updateClockAnimation(seconds);
+        //get the value
+        bool success = false;
+        edk::float32 value = this->anim.getClockX(&success);
+        if(success){
+            //tets if the value is diferent than the last value
+            if(value!=this->valueTemp){
+                //then run the actions
+                //printf("\nUpdate Tree %.2f",value);
+                this->tree.updateSecond(value);
+                this->valueTemp = value;
+            }
+        }
+    }
+}
 
 //ANIMATION FUNCTIONS
 //get Loop
@@ -163,6 +189,14 @@ void edk::animation::ActionGroup::playForward(){
 void edk::animation::ActionGroup::playForwardIn(edk::float32 second){
     this->anim.playForwardIn(second);
     this->firstUpdate();
+}
+void edk::animation::ActionGroup::playForward(edk::float32 updateSeconds){
+    this->anim.playForward();
+    this->firstUpdate(updateSeconds);
+}
+void edk::animation::ActionGroup::playForwardIn(edk::float32 second,edk::float32 updateSeconds){
+    this->anim.playForwardIn(second);
+    this->firstUpdate(updateSeconds);
 }
 //void edk::animation::ActionGroup::playRewind(){this->anim.playRewind();}
 //void edk::animation::ActionGroup::playRewindIn(edk::float32 second){this->anim.playRewindIn(second);}

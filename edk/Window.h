@@ -33,6 +33,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //View to window
 #include "ViewController.h"
 #include "ViewGU.h"
+#include "edk/watch/Time.h"
 
 #include "Types.h"
 //Events
@@ -286,6 +287,9 @@ class Window {
         bool renderWindow;
         //Guarda se o render da janela esta ativo
         bool activeRender;
+
+        //edkTime to count the passed time since the last frame
+        edk::watch::Time time;
 
         //save the size of the window
         edk::size2ui32 windowSize;

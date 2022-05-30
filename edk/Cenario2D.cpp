@@ -2796,8 +2796,14 @@ void edk::Cenario2D::worldClockStart(){
 void edk::Cenario2D::playForwardActions(){
     this->actions.playForward();
 }
+void edk::Cenario2D::playForwardActions(edk::float32 updateSeconds){
+    this->actions.playForward(updateSeconds);
+}
 void edk::Cenario2D::playForwardInActions(edk::float32 second){
     this->actions.playForwardIn(second);
+}
+void edk::Cenario2D::playForwardInActions(edk::float32 second,edk::float32 updateSeconds){
+    this->actions.playForwardIn(second,updateSeconds);
 }
 //void edk::Cenario2D::playRewind();
 //void edk::Cenario2D::playRewindIn(edk::float32 second);
@@ -2828,6 +2834,9 @@ bool edk::Cenario2D::isPausedActions(){
 //update actions
 void edk::Cenario2D::updateActions(){
     this->actions.update();
+}
+void edk::Cenario2D::updateActions(edk::float32 seconds){
+    this->actions.update(seconds);
 }
 //remove actions
 void edk::Cenario2D::removeAllActions(){
@@ -2936,6 +2945,10 @@ void edk::Cenario2D::updatePhysics(edk::int32 velocityIterations, edk::int32 pos
     //
     this->world.nextStep(velocityIterations, positionIterations);
 }
+void edk::Cenario2D::updatePhysics(edk::float32 seconds, edk::int32 velocityIterations, edk::int32 positionIterations){
+    //
+    this->world.nextStep(seconds,velocityIterations, positionIterations);
+}
 //update animations
 bool edk::Cenario2D::updateAnimation(edk::uint32 position){
     //test if have the level
@@ -2946,9 +2959,11 @@ bool edk::Cenario2D::updateAnimation(edk::uint32 position){
             edk::Cenario2D::LevelObj* level = this->levels[position];
             if(level){
                 if(level->objs){
+                    level->objs->loadSeconds();
                     level->objs->update();
                 }
                 if(level->objsPhys){
+                    level->objsPhys->loadSeconds();
                     level->objsPhys->update();
                 }
             }
@@ -2968,10 +2983,14 @@ bool edk::Cenario2D::updateAnimation(edk::uint32 position,edk::float32 seconds){
             edk::Cenario2D::LevelObj* level = this->levels[position];
             if(level){
                 if(level->objs){
+                    level->objs->setSeconds(seconds);
                     level->objs->update();
+                    level->objs->loadSeconds();
                 }
                 if(level->objsPhys){
+                    level->objsPhys->setSeconds(seconds);
                     level->objsPhys->update();
+                    level->objsPhys->loadSeconds();
                 }
             }
             //update the tileSet
@@ -2982,14 +3001,20 @@ bool edk::Cenario2D::updateAnimation(edk::uint32 position,edk::float32 seconds){
     return false;
 }
 void edk::Cenario2D::updateAnimations(){
+    this->treeAnim.loadSeconds();
     this->treeAnim.update();
+    this->treeAnimPhys.loadSeconds();
     this->treeAnimPhys.update();
     //update the tileSet
     this->tileSet.updateAnimations();
 }
 void edk::Cenario2D::updateAnimations(edk::float32 seconds){
+    this->treeAnim.setSeconds(seconds);
     this->treeAnim.update();
+    this->treeAnim.loadSeconds();
+    this->treeAnimPhys.setSeconds(seconds);
     this->treeAnimPhys.update();
+    this->treeAnimPhys.loadSeconds();
     //update the tileSet
     this->tileSet.updateAnimations(seconds);
 }

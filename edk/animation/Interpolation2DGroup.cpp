@@ -78,6 +78,36 @@ void edk::animation::Interpolation2DGroup::copyEndToEnd(edk::animation::Interpol
     s->setEnd(f->getEnd2D().second,f->getEnd2D().x,f->getEnd2D().y);
 }
 
+//increment functions to run the increment for the values
+void edk::animation::Interpolation2DGroup::runIncrementForward(){
+    edk::animation::Interpolation1DGroup::runIncrementForward();
+    //run the increment value
+    this->incrementY+=this->incrementYValue;
+}
+void edk::animation::Interpolation2DGroup::runIncrementRewind(){
+    edk::animation::Interpolation1DGroup::runIncrementRewind();
+    //run the increment value
+    this->incrementY-=this->incrementYValue;
+}
+void edk::animation::Interpolation2DGroup::cleanIncrement(){
+    edk::animation::Interpolation1DGroup::cleanIncrement();
+    //clean the increment value
+    this->incrementY = 0.f;
+}
+void edk::animation::Interpolation2DGroup::startIncrement(){
+    edk::animation::Interpolation1DGroup::startIncrement();
+    this->incrementY = 0.f;
+    //get the last Interpolation Line
+    edk::uint32 size = this->animations.size();
+    if(size){
+        edk::animation::InterpolationLine2D* temp =
+                (edk::animation::InterpolationLine2D*)this->animations.get(size-1u);
+        if(temp){
+            this->incrementYValue = temp->getEnd2D().y;
+        }
+    }
+}
+
 //Add a first interpolation
 bool edk::animation::Interpolation2DGroup::addFirstInterpolationLine(edk::float32 startSecond, edk::float32 startX, edk::float32 startY,
                                                                      edk::float32 endSecond,edk::float32 endX,edk::float32 endY){
@@ -400,36 +430,6 @@ edk::float32 edk::animation::Interpolation2DGroup::addShakingFramesXY(edk::vec2f
     return 0.f;
 }
 
-//increment functions to run the increment for the values
-void edk::animation::Interpolation2DGroup::runIncrementForward(){
-    edk::animation::Interpolation1DGroup::runIncrementForward();
-    //run the increment value
-    this->incrementY+=this->incrementYValue;
-}
-void edk::animation::Interpolation2DGroup::runIncrementRewind(){
-    edk::animation::Interpolation1DGroup::runIncrementRewind();
-    //run the increment value
-    this->incrementY-=this->incrementYValue;
-}
-void edk::animation::Interpolation2DGroup::cleanIncrement(){
-    edk::animation::Interpolation1DGroup::cleanIncrement();
-    //clean the increment value
-    this->incrementY = 0.f;
-}
-void edk::animation::Interpolation2DGroup::startIncrement(){
-    edk::animation::Interpolation1DGroup::startIncrement();
-    this->incrementY = 0.f;
-    //get the last Interpolation Line
-    edk::uint32 size = this->animations.size();
-    if(size){
-        edk::animation::InterpolationLine2D* temp =
-                (edk::animation::InterpolationLine2D*)this->animations.get(size-1u);
-        if(temp){
-            this->incrementYValue = temp->getEnd2D().y;
-        }
-    }
-}
-
 //GETERS
 //return the animationPosition
 edk::float32 edk::animation::Interpolation2DGroup::getClockY(bool* success){
@@ -485,7 +485,10 @@ bool edk::animation::Interpolation2DGroup::writeToXML(edk::XML* xml,edk::uint32 
                     if(xml->selectChild(name)){
                         //save the looping
                         if(this->getLoop()) xml->addSelectedNextAttribute("loop","on");
-                        else              xml->addSelectedNextAttribute("loop","off");
+                        else                xml->addSelectedNextAttribute("loop","off");
+                        //save the incrementing
+                        if(this->getIncrement()) xml->addSelectedNextAttribute("increment","on");
+                        else                     xml->addSelectedNextAttribute("increment","off");
                         edk::uint32 count = 0u;
                         edk::animation::InterpolationLine2D* temp = NULL;
                         edk::animation::Frame2D* frameTemp=(edk::animation::Frame2D*)this->tempFrame;
@@ -556,6 +559,13 @@ bool edk::animation::Interpolation2DGroup::readFromXML(edk::XML* xml,edk::uint32
                     }
                     else if(edk::String::strCompare(xml->getSelectedAttributeValueByName("loop"),(edk::char8*)"off")){
                         this->loopOff();
+                    }
+                    //read the increment
+                    if(edk::String::strCompare(xml->getSelectedAttributeValueByName("increment"),(edk::char8*)"on")){
+                        this->incrementOn();
+                    }
+                    else if(edk::String::strCompare(xml->getSelectedAttributeValueByName("increment"),(edk::char8*)"off")){
+                        this->incrementOff();
                     }
                     edk::uint32 count = 0u;
                     edk::animation::Frame2D frameTemp;

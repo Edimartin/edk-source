@@ -113,6 +113,9 @@ class Time {
     uint32 getMicroseconds();
     static uint32 getMicrosecondsReal();
 
+    //return the seconds in float
+    edk::float32 getSeconds();
+
     //test if occur overflow
     bool overflowOccurred();
 

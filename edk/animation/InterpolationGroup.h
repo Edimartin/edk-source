@@ -211,7 +211,7 @@ public:
     //remove the animationName
     bool removeAnimationName(const edk::char8* name);
     bool removeAnimationName(edk::char8* name);
-    //rmove a keyframe
+    //remove a keyframe
     bool removeKeyFrame(edk::float32 second);
     //clean animationName selected
     void cleanAnimationNameSelected();
@@ -221,13 +221,7 @@ public:
     //get Loop
     bool getLoop();
     //get Increment
-    bool isIncrementing();
-
-    //increment functions to run the increment for the values
-    virtual void runIncrementForward();
-    virtual void runIncrementRewind();
-    virtual void cleanIncrement();
-    virtual void startIncrement();
+    bool getIncrement();
 
     //CONTROLS
     //animation controllers
@@ -314,7 +308,8 @@ public:
                 }
             }
 
-            this->looping = group->looping;
+            this->setLoop(group->getLoop());
+            this->setIncrement(group->getIncrement());
             return true;
         }
         return false;
@@ -334,6 +329,12 @@ protected:
     //copy interpolation frame
     virtual void copyStartToStart(edk::animation::InterpolationLine* first,edk::animation::InterpolationLine* second);
     virtual void copyEndToEnd(edk::animation::InterpolationLine* first,edk::animation::InterpolationLine* second);
+
+    //increment functions to run the increment for the values
+    virtual void runIncrementForward();
+    virtual void runIncrementRewind();
+    virtual void cleanIncrement();
+    virtual void startIncrement();
 
     //TempFrame to save the first interpolation
     edk::animation::Frame* tempFrame;

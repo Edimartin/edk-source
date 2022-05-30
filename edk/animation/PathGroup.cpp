@@ -31,7 +31,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 edk::animation::PathGroup::PathGroup(){
     //
     this->animationPosition = this->positionStart = this->positionEnd = 0u;
-    this->rewind = this->playing = this->looping=false;
+    this->secondStart = this->secondEnd = 0.f;
+    this->rewind = this->playing = this->looping= this->incrementing = false;
     this->canDelete=true;
     this->lastDist=0.f;
     this->saveStep = 0.f;
@@ -39,6 +40,7 @@ edk::animation::PathGroup::PathGroup(){
     this->changeFrame=false;
     this->step = 0.f;
     this->active=false;
+    this->nameSelected=NULL;
 }
 edk::animation::PathGroup::~PathGroup(){
     //
@@ -50,6 +52,7 @@ edk::animation::PathGroup::~PathGroup(){
         this->animationNames.cantDeleteNames();
     }
     this->canDelete=true;
+    this->nameSelected=NULL;
 }
 
 //create the frame
@@ -74,7 +77,7 @@ edk::animation::Frame* edk::animation::PathGroup::getLastFrame(){
             }
             else if(this->animationPosition==this->positionEnd){
                 //test if is looping
-                if(this->isLopping()){
+                if(this->getLoop()){
                     //then get the start position
                     return this->animations[this->positionStart];
                 }
@@ -88,7 +91,7 @@ edk::animation::Frame* edk::animation::PathGroup::getLastFrame(){
             }
             else if(this->animationPosition==this->positionStart){
                 //test if is looping
-                if(this->isLopping()){
+                if(this->getLoop()){
                     //then get the start position
                     return this->animations[this->positionEnd];
                 }
@@ -99,6 +102,54 @@ edk::animation::Frame* edk::animation::PathGroup::getLastFrame(){
     }
     //else return this frame
     return NULL;
+}
+
+//increment functions to run the increment for the values
+void edk::animation::PathGroup::runIncrementForward(){
+    //
+}
+void edk::animation::PathGroup::runIncrementRewind(){
+    //
+}
+void edk::animation::PathGroup::cleanIncrement(){
+    //
+}
+void edk::animation::PathGroup::startIncrement(){
+    //
+}
+
+//function to get the position by the second inside the animation
+edk::uint32 edk::animation::PathGroup::getPositionFromSecond(edk::float32 second){
+    edk::uint32 ret =this->animations.size();
+    edk::uint32 size = ret;
+    edk::animation::Frame* temp = NULL;
+    for(edk::uint32 i=0u;i<size;i++){
+        //search for the animation frame with the second
+        temp = this->animations.get(i);
+        if(temp){
+            if(i==size-1u){
+                //test the last frames
+                if(second> temp->second){
+                    //cant find the position
+                    ret=size;
+                }
+                else if(second > temp->second-0.0001f && second < temp->second+0.0001f){
+                    ret=i;
+                }
+            }
+            else{
+            if(second < temp->second){
+                //get the animation position
+                break;
+            }
+            else if(second> temp->second-0.0001f){
+                //copy the position
+                ret=i;
+            }
+            }
+        }
+    }
+    return ret;
 }
 
 //add a new frame
@@ -236,6 +287,9 @@ bool edk::animation::PathGroup::setAnimationStartPosition(edk::uint32 position){
     }
     return false;
 }
+bool edk::animation::PathGroup::setAnimationStartSecond(edk::float32 second){
+    return this->setAnimationStartPosition(this->getPositionFromSecond(second));
+}
 bool edk::animation::PathGroup::setAnimationEndPosition(edk::uint32 position){
     //test the position
     if(this->havePosition(position)){
@@ -247,13 +301,16 @@ bool edk::animation::PathGroup::setAnimationEndPosition(edk::uint32 position){
     }
     return false;
 }
+bool edk::animation::PathGroup::setAnimationEndSecond(edk::float32 second){
+    return this->setAnimationEndPosition(this->getPositionFromSecond(second));
+}
 
 //CONTROLS
 //animation controllers
 void edk::animation::PathGroup::playForward(){
-    this->playForwardIn(this->animationPosition);
+    this->playForwardInPosition(this->animationPosition);
 }
-void edk::animation::PathGroup::playForwardIn(edk::uint32 position){
+void edk::animation::PathGroup::playForwardInPosition(edk::uint32 position){
     this->lastDist=0.f;
     //test the position
     if(this->havePosition(position)){
@@ -270,13 +327,22 @@ void edk::animation::PathGroup::playForwardIn(edk::uint32 position){
             //set play
             this->playing=true;
             this->clock.start();
+
+            //test if is incrementing
+            if(this->incrementing){
+                //run the start incrementing
+                this->startIncrement();
+            }
         }
     }
 }
-void edk::animation::PathGroup::playRewind(){
-    this->playRewindIn(this->animationPosition);
+void edk::animation::PathGroup::playForwardIn(edk::float32 second){
+    return this->playForwardInPosition(this->getPositionFromSecond(second));
 }
-void edk::animation::PathGroup::playRewindIn(edk::uint32 position){
+void edk::animation::PathGroup::playRewind(){
+    this->playRewindInPosition(this->animationPosition);
+}
+void edk::animation::PathGroup::playRewindInPosition(edk::uint32 position){
     this->lastDist=0.f;
     //test the position
     if(this->havePosition(position)){
@@ -293,8 +359,20 @@ void edk::animation::PathGroup::playRewindIn(edk::uint32 position){
             //set play
             this->playing=true;
             this->clock.start();
+
+            //test if is incrementing
+            if(this->incrementing){
+                //run the start incrementing
+                this->startIncrement();
+            }
+            else{
+                this->cleanIncrement();
+            }
         }
     }
+}
+void edk::animation::PathGroup::playRewindIn(edk::float32 second){
+    return this->playRewindInPosition(this->getPositionFromSecond(second));
 }
 void edk::animation::PathGroup::pause(){
     this->lastDist=0.f;
@@ -316,6 +394,7 @@ void edk::animation::PathGroup::pauseOff(){
     }
 }
 void edk::animation::PathGroup::stop(){
+    this->cleanIncrement();
     this->lastDist=0.f;
     this->step = 0.f;
     this->saveStep = 0.f;
@@ -332,10 +411,25 @@ void edk::animation::PathGroup::loopOn(){
 void edk::animation::PathGroup::loopOff(){
     this->looping=false;
 }
+void edk::animation::PathGroup::setIncrement(bool incrementing){
+    this->incrementing=incrementing;
+    if(this->isPlaying() && this->incrementing){
+        this->startIncrement();
+    }
+}
+void edk::animation::PathGroup::incrementOn(){
+    this->setIncrement(true);
+}
+void edk::animation::PathGroup::incrementOff(){
+    this->setIncrement(false);
+}
 
 //return if is looping
-bool edk::animation::PathGroup::isLopping(){
+bool edk::animation::PathGroup::getLoop(){
     return this->looping;
+}
+bool edk::animation::PathGroup::getIncrement(){
+    return this->incrementing;
 }
 bool edk::animation::PathGroup::isPlaying(){
     return this->playing;
@@ -345,10 +439,10 @@ bool edk::animation::PathGroup::isRewind(){
 }
 
 //ANIMATIONNAMES
-bool edk::animation::PathGroup::addNewAnimationName(const edk::char8* name, edk::uint32 start,edk::uint32 end){
+bool edk::animation::PathGroup::addNewAnimationName(const edk::char8* name, edk::float32 start,edk::float32 end){
     return this->addNewAnimationName((edk::char8*) name, start,end);
 }
-bool edk::animation::PathGroup::addNewAnimationName(edk::char8* name, edk::uint32 start,edk::uint32 end){
+bool edk::animation::PathGroup::addNewAnimationName(edk::char8* name, edk::float32 start,edk::float32 end){
     //test if have animations
     if(this->animations.size()){
         //test if the name exist and if the start is before the end
@@ -426,11 +520,12 @@ bool edk::animation::PathGroup::playNameForward(const edk::char8* name){
 bool edk::animation::PathGroup::playNameForward(edk::char8* name){
     //first select the name
     if(this->selectAnimationName(name)){
+        this->positionStart=0u;
         //then set the animationLimits
-        this->setAnimationStartPosition(this->nameSelected->start);
-        this->setAnimationEndPosition(this->nameSelected->end);
+        this->setAnimationEndSecond(this->nameSelected->end);
+        this->setAnimationStartSecond(this->nameSelected->start);
         //then play the animation
-        this->playForwardIn(this->positionStart);
+        this->playForwardInPosition(this->positionStart);
         //then return true
         return true;
     }
@@ -443,11 +538,12 @@ bool edk::animation::PathGroup::playNameRewind(const edk::char8* name){
 bool edk::animation::PathGroup::playNameRewind(edk::char8* name){
     //first select the name
     if(this->selectAnimationName(name)){
+        this->positionStart=0u;
         //then set the animationLimits
-        this->setAnimationStartPosition(this->nameSelected->start);
-        this->setAnimationEndPosition(this->nameSelected->end);
+        this->setAnimationEndSecond(this->nameSelected->end);
+        this->setAnimationStartSecond(this->nameSelected->start);
         //then play the animation
-        this->playRewindIn(this->positionEnd);
+        this->playRewindInPosition(this->positionEnd);
         //then return true
         return true;
     }
@@ -547,13 +643,17 @@ edk::float32 edk::animation::PathGroup::updateClockAnimation(edk::float32 distan
 
                 //test if reach the start
                 if(this->animationPosition<=this->positionStart){
-                    //test if is loopig
-                    if(this->isLopping()){
+                    //test if is loopig or incrementing
+                    if(this->getLoop() || this->getIncrement()){
                         //use the end position
                         this->changeFrame=true;
                         this->animationPosition=this->positionEnd;
                         this->step = temp->second;
                         temp = this->animations[this->animationPosition];
+
+                        if(this->getIncrement()){
+                            this->runIncrementRewind();
+                        }
                     }
                     else{
                         //stop
@@ -565,12 +665,16 @@ edk::float32 edk::animation::PathGroup::updateClockAnimation(edk::float32 distan
                     //test if reach the zero position
                     if(!this->animationPosition){
                         //test if is looping
-                        if(this->isLopping()){
+                        if(this->getLoop() || this->getIncrement()){
                             //use the end position
                             this->changeFrame=true;
                             this->animationPosition=this->positionEnd;
                             this->step = temp->second;
                             temp = this->animations[this->animationPosition];
+
+                            if(this->getIncrement()){
+                                this->runIncrementRewind();
+                            }
                         }
                         else{
                             //else stop
@@ -593,12 +697,16 @@ edk::float32 edk::animation::PathGroup::updateClockAnimation(edk::float32 distan
                 //test if reach the start
                 if(this->animationPosition>=this->positionEnd){
                     //test if is loopig
-                    if(this->isLopping()){
+                    if(this->getLoop() || this->getIncrement()){
                         //use the start  position
                         this->changeFrame=true;
                         this->animationPosition=this->positionStart;
                         this->step = temp->second;
                         temp = this->animations[this->animationPosition];
+
+                        if(this->getIncrement()){
+                            this->runIncrementForward();
+                        }
                     }
                     else{
                         //stop
@@ -610,12 +718,16 @@ edk::float32 edk::animation::PathGroup::updateClockAnimation(edk::float32 distan
                     //test if reach the zero position
                     if(this->animationPosition>=this->animations.size()-1u){
                         //test if is looping
-                        if(this->isLopping()){
+                        if(this->getLoop() || this->getIncrement()){
                             //use the start position
                             this->changeFrame=true;
                             this->animationPosition=this->positionStart;
                             this->step = temp->second;
                             temp = this->animations[this->animationPosition];
+
+                            if(this->getIncrement()){
+                                this->runIncrementForward();
+                            }
                         }
                         else{
                             //else stop
@@ -647,7 +759,7 @@ edk::float32 edk::animation::PathGroup::updateClockAnimation(edk::float32 distan
             else{
                 //increment
                 this->step+=distance;
-                //test if it's bigget then frame second
+                //test if it's bigger then frame second
                 if(this->step > temp->second){
                     //then corret the step
                     this->step = temp->second;
@@ -686,6 +798,9 @@ bool edk::animation::PathGroup::writeToXML(edk::XML* xml,edk::uint32 id){
                         //save the looping
                         if(this->looping) xml->addSelectedNextAttribute("loop","on");
                         else              xml->addSelectedNextAttribute("loop","off");
+                        //save the incrementing
+                        if(this->incrementing) xml->addSelectedNextAttribute("increment","on");
+                        else                   xml->addSelectedNextAttribute("increment","off");
                         //write the animationFrames
                         edk::uint32 size = this->animations.size();
                         for(edk::uint32 i=0u;i<size;i++){
@@ -737,6 +852,13 @@ bool edk::animation::PathGroup::readFromXML(edk::XML* xml,edk::uint32 id){
                     }
                     else if(edk::String::strCompare(xml->getSelectedAttributeValueByName("loop"),(edk::char8*)"off")){
                         this->loopOff();
+                    }
+                    //read the increment
+                    if(edk::String::strCompare(xml->getSelectedAttributeValueByName("increment"),(edk::char8*)"on")){
+                        this->incrementOn();
+                    }
+                    else if(edk::String::strCompare(xml->getSelectedAttributeValueByName("increment"),(edk::char8*)"off")){
+                        this->incrementOff();
                     }
                     //read the frames
                     while(frameTemp.readFromXML(xml,count)){

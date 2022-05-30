@@ -252,17 +252,17 @@ edk::float32 edk::Audio::getDuration(){
 //return true if is playing
 bool edk::Audio::isPlaying(){
     //
-    return this->getStatus()==EDK_PLAYING;
+    return this->getStatus()==sf::Sound::Playing;
 }
 //return true if is paused
 bool edk::Audio::isPaused(){
     //
-    return this->getStatus()==EDK_PAUSED;
+    return this->getStatus()==sf::Sound::Paused;
 }
 //return true if is stopped
 bool edk::Audio::isStopped(){
     //
-    return this->getStatus()==EDK_STOPPED;
+    return this->getStatus()==sf::Sound::Stopped;
 }
 
 //test if have audio
@@ -319,7 +319,7 @@ bool edk::Audio::pauseOn(){
     if(this->sound){
         //
         //this->sound->Pause();//1.6
-        if(this->sound->Playing){
+        if(this->sound->getStatus() == sf::Sound::Playing){
             this->sound->pause();
         }
         return true;
@@ -331,8 +331,8 @@ bool edk::Audio::pauseOff(){
     if(this->sound){
         //
         //this->sound->Pause();//1.6
-        if(!this->sound->Playing){
-            this->sound->pause();
+        if(this->sound->getStatus() == sf::Sound::Paused){
+            this->sound->play();
         }
         return true;
     }

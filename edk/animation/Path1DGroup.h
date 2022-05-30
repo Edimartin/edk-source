@@ -66,9 +66,52 @@ protected:
     virtual edk::animation::Frame* newFrame();
     //return true if the value reach the frame position
     virtual bool reachFrame(edk::animation::Frame* frame);
+
+    //increment functions to run the increment for the values
+    virtual void runIncrementForward();
+    virtual void runIncrementRewind();
+    virtual void cleanIncrement();
+    virtual void startIncrement();
+
+    void setXNoDecrement(edk::float32 x);
+    edk::float32 getXNoIncrement();
 private:
     //the x value
     edk::float32 x;
+    edk::float32 incrementX;
+    edk::float32 incrementXValue;
+
+public:
+    virtual bool cloneFrom(edk::animation::Path1DGroup* group){
+        //clean frames
+        this->deleteFrames();
+        if(group){
+            //first copy the frames
+            edk::uint32 size = group->animations.size();
+            for(edk::uint32 i=0u;i<size;i++){
+                //
+                edk::animation::Frame1D* temp = (edk::animation::Frame1D*)group->animations[i];
+                if(temp){
+                    this->addNewFrame(temp->second,temp->x);
+                }
+            }
+
+            //set if it is loop
+            this->setLoop(group->getLoop());
+            this->setIncrement(group->getIncrement());
+
+            //now copy the animation names
+            size = group->animationNames.size();
+            for(edk::uint32 i=0u;i<size;i++){
+                edk::animation::PathGroup::AnimationPathNames* temp = (edk::animation::PathGroup::AnimationPathNames*)group->animationNames.getElementInPosition(i);
+                if(temp){
+                    this->addNewAnimationName(temp->name(),temp->start,temp->end);
+                }
+            }
+            return true;
+        }
+        return false;
+    }
 };
 }
 }

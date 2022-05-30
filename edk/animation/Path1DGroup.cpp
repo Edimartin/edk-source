@@ -31,6 +31,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 edk::animation::Path1DGroup::Path1DGroup(){
     //
     this->x = 0.f;
+    this->incrementX=0.f;
+    this->incrementXValue=0.f;
 }
 //create the frame
 edk::animation::Frame* edk::animation::Path1DGroup::newFrame(){
@@ -42,7 +44,7 @@ bool edk::animation::Path1DGroup::reachFrame(edk::animation::Frame* frame){
     bool ret=false;
     edk::animation::Frame1D* temp = (edk::animation::Frame1D*)frame;
     //calculate the distance between the temp and the last
-    edk::float32 distance = edk::Math::module(this->getX() - temp->x);
+    edk::float32 distance = edk::Math::module(this->getXNoIncrement() - temp->x);
     if(distance<this->closerDistance
             ){
         if(this->saveStep>=1.f){
@@ -51,13 +53,13 @@ bool edk::animation::Path1DGroup::reachFrame(edk::animation::Frame* frame){
     }
     if(this->changeFrame){
         //test if reach the frame value
-        if(this->getX()>=(temp->x-this->closerDistance)
+        if(this->getXNoIncrement()>=(temp->x-this->closerDistance)
                 &&
-                this->getX()<=(temp->x+this->closerDistance)
+                this->getXNoIncrement()<=(temp->x+this->closerDistance)
                 ){
             //
             if(this->saveStep>=1.f)
-            ret = true;
+                ret = true;
         }
     }
     else{
@@ -65,7 +67,7 @@ bool edk::animation::Path1DGroup::reachFrame(edk::animation::Frame* frame){
         if(distance > this->lastDist){
             //
             if(this->saveStep>=1.f)
-            ret=true;
+                ret=true;
         }
     }
     //save distance
@@ -73,6 +75,43 @@ bool edk::animation::Path1DGroup::reachFrame(edk::animation::Frame* frame){
 
     this->changeFrame=false;
     return ret;
+}
+
+//increment functions to run the increment for the values
+void edk::animation::Path1DGroup::runIncrementForward(){
+    edk::animation::PathGroup::runIncrementForward();
+    //run the increment value
+    this->incrementX+=this->incrementXValue;
+}
+void edk::animation::Path1DGroup::runIncrementRewind(){
+    edk::animation::PathGroup::runIncrementRewind();
+    //run the increment value
+    this->incrementX-=this->incrementXValue;
+}
+void edk::animation::Path1DGroup::cleanIncrement(){
+    edk::animation::PathGroup::cleanIncrement();
+    //clean the increment value
+    this->incrementX = this->incrementXValue = 0.f;
+}
+void edk::animation::Path1DGroup::startIncrement(){
+    edk::animation::PathGroup::startIncrement();
+    this->incrementX = 0.f;
+    //get the last Interpolation Line
+    edk::uint32 size = this->animations.size();
+    if(size){
+        edk::animation::Frame1D* temp =
+                (edk::animation::Frame1D*)this->animations.get(size-1u);
+        if(temp){
+            this->incrementXValue = temp->x;
+        }
+    }
+}
+
+void edk::animation::Path1DGroup::setXNoDecrement(edk::float32 x){
+    this->x=x;
+}
+edk::float32 edk::animation::Path1DGroup::getXNoIncrement(){
+    return x;
 }
 
 //add a new frame
@@ -112,11 +151,11 @@ bool edk::animation::Path1DGroup::addNewFrameToPosition(edk::uint32 position,edk
 
 //set the X
 void edk::animation::Path1DGroup::setX(edk::float32 x){
-    this->x=x;
+    this->x=x - this->incrementX;
 }
 //get the X
 edk::float32 edk::animation::Path1DGroup::getX(){
-    return this->x;
+    return this->x + this->incrementX;
 }
 
 //update the clock animation
@@ -126,7 +165,7 @@ edk::float32 edk::animation::Path1DGroup::updateClockAnimation(){
     //load the frame
     edk::animation::Frame1D* temp = (edk::animation::Frame1D*)this->animations[this->animationPosition];
     edk::animation::Frame1D* last = (edk::animation::Frame1D*)this->getLastFrame();
-    if(last){
+    if(temp && last){
         //calculate the new position
         if(temp->second==0.f){
             this->saveStep = 1.f;
@@ -134,12 +173,10 @@ edk::float32 edk::animation::Path1DGroup::updateClockAnimation(){
         else{
             this->saveStep = (step - last->second)/(temp->second-last->second);
         }
-        this->setX(last->x + ((temp->x - last->x) * this->saveStep));
+        this->setXNoDecrement(last->x + ((temp->x - last->x) * this->saveStep));
         return step;
     }
-    else{
-        return 0.f;
-    }
+    return 0.f;
 }
 edk::float32 edk::animation::Path1DGroup::updateClockAnimation(edk::float32 distance){
     //calculate the step
@@ -155,12 +192,10 @@ edk::float32 edk::animation::Path1DGroup::updateClockAnimation(edk::float32 dist
         else{
             this->saveStep = (step - last->second)/(temp->second-last->second);
         }
-        this->setX(last->x + ((temp->x - last->x) * this->saveStep));
+        this->setXNoDecrement(last->x + ((temp->x - last->x) * this->saveStep));
         return step;
     }
-    else{
-        return 0.f;
-    }
+    return 0.f;
 }
 
 //write to XML
@@ -178,8 +213,11 @@ bool edk::animation::Path1DGroup::writeToXML(edk::XML* xml,edk::uint32 id){
                 if(xml->addSelectedNextChild(name)){
                     if(xml->selectChild(name)){
                         //save the looping
-                        if(this->isLopping()) xml->addSelectedNextAttribute("loop","on");
-                        else              xml->addSelectedNextAttribute("loop","off");
+                        if(this->getLoop()) xml->addSelectedNextAttribute("loop","on");
+                        else                xml->addSelectedNextAttribute("loop","off");
+                        //save the incrementing
+                        if(this->getIncrement()) xml->addSelectedNextAttribute("increment","on");
+                        else                     xml->addSelectedNextAttribute("increment","off");
                         //write the animationFrames
                         edk::uint32 size = this->animations.size();
                         edk::animation::Frame1D* tempFrame;
@@ -235,6 +273,13 @@ bool edk::animation::Path1DGroup::readFromXML(edk::XML* xml,edk::uint32 id){
                     }
                     else if(edk::String::strCompare(xml->getSelectedAttributeValueByName("loop"),(edk::char8*)"off")){
                         this->loopOff();
+                    }
+                    //read the increment
+                    if(edk::String::strCompare(xml->getSelectedAttributeValueByName("increment"),(edk::char8*)"on")){
+                        this->incrementOn();
+                    }
+                    else if(edk::String::strCompare(xml->getSelectedAttributeValueByName("increment"),(edk::char8*)"off")){
+                        this->incrementOff();
                     }
                     //read the frames
                     while(frameTemp.readFromXML(xml,count)){

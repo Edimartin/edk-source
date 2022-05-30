@@ -232,7 +232,7 @@ bool edk::physics2D::PhysicObject2D::updateAnimations(){
         this->animationRotation.updateClockAnimation();
         //get the new X
         edk::float32 angleAnim = this->animationRotation.getX();
-        this->setAngularVelocity((angleAnim - this->angle)*100.f);
+        this->setAngularVelocity((angleAnim - this->angle)*50.f);
         ret=true;
         this->wasAnimatingRotation=true;
     }
@@ -279,7 +279,7 @@ bool edk::physics2D::PhysicObject2D::updateAnimations(edk::float32 seconds){
         this->animationRotation.updateClockAnimation(seconds);
         //get the new X
         edk::float32 angleAnim = this->animationRotation.getX();
-        this->setAngularVelocity((angleAnim - this->angle)*100.f);
+        this->setAngularVelocity((angleAnim - this->angle)*50.f);
         ret=true;
         this->wasAnimatingRotation=true;
     }

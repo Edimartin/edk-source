@@ -49,6 +49,12 @@ void unload(){
 void update(edk::WindowEvents* events){
     //
 }
+void pause(){
+    //
+}
+void unpause(){
+    //
+}
 void drawScene(edk::rectf32 outsideViewOrigin){
     //
 }

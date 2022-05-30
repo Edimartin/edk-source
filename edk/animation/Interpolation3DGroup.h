@@ -79,12 +79,6 @@ class Interpolation3DGroup: public Interpolation2DGroup
         bool setInterpolationP1Z(edk::uint32 position,edk::float32 second,edk::float32 z);
         bool setInterpolationP2Z(edk::uint32 position,edk::float32 second,edk::float32 z);
 
-        //increment functions to run the increment for the values
-        virtual void runIncrementForward();
-        virtual void runIncrementRewind();
-        virtual void cleanIncrement();
-        virtual void startIncrement();
-
         //GETERS
         //return the animationPosition
         edk::float32 getClockZ(bool* success=NULL);
@@ -127,6 +121,9 @@ class Interpolation3DGroup: public Interpolation2DGroup
                         this->addNewAnimationName(temp->name(),temp->start,temp->end);
                     }
                 }
+
+                this->setLoop(group->getLoop());
+                this->setIncrement(group->getIncrement());
                 return true;
             }
             return false;
@@ -145,40 +142,15 @@ class Interpolation3DGroup: public Interpolation2DGroup
         //copy interpolation frame
         virtual void copyStartToStart(edk::animation::InterpolationLine* first,edk::animation::InterpolationLine* second);
         virtual void copyEndToEnd(edk::animation::InterpolationLine* first,edk::animation::InterpolationLine* second);
+
+        //increment functions to run the increment for the values
+        virtual void runIncrementForward();
+        virtual void runIncrementRewind();
+        virtual void cleanIncrement();
+        virtual void startIncrement();
     private:
 
         edk::animation::Interpolation3DGroup operator=(edk::animation::Interpolation3DGroup group){
-            //clean frames
-            this->cleanAnimations();
-            //first copy the frames
-            edk::uint32 size = group.animations.size();
-            for(edk::uint32 i=0u;i<size;i++){
-                //
-                edk::animation::InterpolationLine3D* temp = (edk::animation::InterpolationLine3D*)group.animations[i];
-                if(temp){
-                    //test if it create the start frame
-                    if(temp->getCreateStart()){
-                        //copy the frame to the animation
-                        this->addNewInterpolationLine(temp->getStart3D());
-                    }
-                    //test if it create the end frame
-                    if(temp->getCreateEnd()){
-                        //copy the frame to the animation
-                        this->addNewInterpolationLine(temp->getEnd3D());
-                    }
-                }
-            }
-
-            //now copy the animation names
-            size = group.animationNames.size();
-            for(edk::uint32 i=0u;i<size;i++){
-                edk::animation::AnimationName* temp = (edk::animation::AnimationName*)group.animationNames.getElementInPosition(i);
-                if(temp){
-                    this->addNewAnimationName(temp->name(),temp->start,temp->end);
-                }
-            }
-            //
-            group.cantDeleteGroup();
             return group;
         }
 };

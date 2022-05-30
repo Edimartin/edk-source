@@ -176,7 +176,9 @@ public:
     //ACTIONS
     //play actions
     void playForwardActions();
+    void playForwardActions(edk::float32 updateSeconds);
     void playForwardInActions(edk::float32 second);
+    void playForwardInActions(edk::float32 second,edk::float32 updateSeconds);
     //void playRewind();
     //void playRewindIn(edk::float32 second);
     void pauseActions();
@@ -191,6 +193,7 @@ public:
     bool isPausedActions();
     //update actions
     void updateActions();
+    void updateActions(edk::float32 seconds);
     //remove actions
     void removeAllActions();
     bool removeActionSecond(edk::float32 second);
@@ -229,6 +232,7 @@ public:
 
     //update the physics and collisions
     void updatePhysics(edk::int32 velocityIterations, edk::int32 positionIterations);
+    void updatePhysics(edk::float32 seconds, edk::int32 velocityIterations, edk::int32 positionIterations);
     //update animations
     bool updateAnimation(edk::uint32 position);
     bool updateAnimation(edk::uint32 position,edk::float32 seconds);
@@ -506,6 +510,8 @@ private:
             //
             this->names=0u;
             this->selectionID =0u;
+            this->seconds=0.f;
+            this->time.start();
         }
         ~TreeObjDepth(){
             edk::uint32 size = this->size();
@@ -539,7 +545,7 @@ private:
             }
             return false;
         }
-        //Print
+        //Render
         virtual void renderElement(ObjClass* value){
             if(value->getObject()){
                 value->getObject()->draw();
@@ -548,7 +554,7 @@ private:
         //UPDATE
         virtual void updateElement(ObjClass* value){
             if(value->getObject()){
-                value->getObject()->updateAnimations();
+                value->getObject()->updateAnimations(this->seconds);
             }
         }
         //Print
@@ -560,6 +566,22 @@ private:
                 edk::GU::guPopName();
                 edk::GU::guPopName();
             }
+        }
+        //SET
+        bool setSeconds(edk::float32 seconds){
+            if(seconds>0.f){
+                this->seconds=seconds;
+                return true;
+            }
+            else{
+                this->seconds=0.f;
+            }
+            return false;
+        }
+        bool loadSeconds(){
+            bool ret = this->setSeconds(this->time.getSeconds());
+            this->time.start();
+            return ret;
         }
         //add object
         bool addObject(bool created,edk::Object2D* obj,edk::float64 depth){
@@ -751,6 +773,9 @@ private:
             }
             return 0.0;
         }
+    protected:
+        edk::float32 seconds;
+        edk::watch::Time time;
     private:
         //object names
         edk::uint32 names;
@@ -785,12 +810,12 @@ private:
     //Physics group to animate and update
     class TreePhysObjDepth:public edk::Cenario2D::TreeObjDepth{
     public:
-        TreePhysObjDepth(edk::physics2D::World2D* world){this->world=world;}
+        TreePhysObjDepth(edk::physics2D::World2D* world){this->world=world;this->seconds=0.f;}
         //UPDATE
         virtual void updateElement(ObjClass* value){
             edk::physics2D::PhysicObject2D* temp = (edk::physics2D::PhysicObject2D*)value->getObject();
             if(value->getObject()){
-                if(value->getObject()->updateAnimations()){
+                if(value->getObject()->updateAnimations(this->seconds)){
                     //update the object in the physics world
                     this->world->updateObjectVelocity(temp);
                     value->animating=true;
@@ -904,28 +929,65 @@ private:
     //objects animation tree
     class TreeAnim: public edk::vector::BinaryTree<edk::Object2D*>{
     public:
-        TreeAnim(){}
-        ~TreeAnim(){}
+        TreeAnim(){this->seconds=0.f;this->time.start();}
+        ~TreeAnim(){this->seconds=0.f;}
+        //SET
+        bool setSeconds(edk::float32 seconds){
+            if(seconds>0.f){
+                this->seconds=seconds;
+                return true;
+            }
+            else{
+                this->seconds=0.f;
+            }
+            return false;
+        }
+        bool loadSeconds(){
+            bool ret = this->setSeconds(this->time.getSeconds());
+            this->time.start();
+            return ret;
+        }
         //UPDATE
         virtual void updateElement(edk::Object2D* value){
             //update the value
-            value->updateAnimations();
+            value->updateAnimations(this->seconds);
         }
+    private:
+        edk::float32 seconds;
+        edk::watch::Time time;
     }treeAnim;
 
     //objects animation tree
     class TreeAnimPhys: public edk::vector::BinaryTree<edk::physics2D::PhysicObject2D*>{
     public:
-        TreeAnimPhys(edk::physics2D::World2D* world){this->world = world;}
+        TreeAnimPhys(edk::physics2D::World2D* world){this->world = world;this->seconds=0.f;this->time.start();}
         ~TreeAnimPhys(){}
+        //SET
+        bool setSeconds(edk::float32 seconds){
+            if(seconds>0.f){
+                this->seconds=seconds;
+                return true;
+            }
+            else{
+                this->seconds=0.f;
+            }
+            return false;
+        }
+        bool loadSeconds(){
+            bool ret = this->setSeconds(this->time.getSeconds());
+            this->time.start();
+            return ret;
+        }
         //UPDATE
         virtual void updateElement(edk::physics2D::PhysicObject2D* value){
             //update the value
-            value->updateAnimations();
+            value->updateAnimations(this->seconds);
             this->world->updateObjectLinearVelocity(value);
         }
     private:
         edk::physics2D::World2D* world;
+        edk::float32 seconds;
+        edk::watch::Time time;
     }treeAnimPhys;
 
     edk::vector::Stack<edk::Cenario2D::LevelObj*> levels;

@@ -981,7 +981,7 @@ bool edk::Object2D::updateAnimations(edk::float32 seconds){
             }
         }
     }
-    this->updateMeshAnimations();
+    this->updateMeshAnimations(seconds);
     return ret;
 }
 

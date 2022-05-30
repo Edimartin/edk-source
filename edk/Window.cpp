@@ -99,6 +99,7 @@ Window::Window(){
     this->windowFocus = true;
     this->mouseInside=false;
     this->cleanEvents();
+    this->time.start();
 }
 
 Window::~Window(){
@@ -209,6 +210,7 @@ bool Window::createWindow(uint32 width, uint32 height/*, uint32 bitsPerPixel*/, 
             edk::GU::guEnable(GU_BLEND);
             edk::GU::guBlendFunc(GU_SRC_ALPHA,GU_ONE_MINUS_SRC_ALPHA);
 
+            this->time.start();
             //retorna true
             return true;
         }
@@ -540,6 +542,9 @@ void Window::pauseViews(){
 
 void Window::unpauseViews(){
     this->viewWindow.runUnpause();
+    //after unpause the views, start the time to generate new seconds because, if it's not started
+    //it will get all the time where the views was paused
+    this->time.start();
 }
 
 bool Window::flip(){
@@ -795,6 +800,11 @@ bool Window::loadEvents(){
     //Input da janela
     //const sf::Input& input=window.GetInput();//1.6
     //2.0
+
+    //load the time passed since the last frame
+    this->events.secondPassed = this->time.getMicroseconds() * edk::watch::microsecond;
+
+    this->time.start();
 
     //while(window.GetEvent(event)){//1.6
     while(window.pollEvent(event)){//2.0

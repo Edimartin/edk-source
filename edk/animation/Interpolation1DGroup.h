@@ -78,12 +78,6 @@ class Interpolation1DGroup: public edk::animation::InterpolationGroup{
         //set the animationSecond by the X
         bool setSecondByX(edk::float32 oldSecond,edk::float32 x);
 
-        //increment functions to run the increment for the values
-        virtual void runIncrementForward();
-        virtual void runIncrementRewind();
-        virtual void cleanIncrement();
-        virtual void startIncrement();
-
         //GETERS
         //return the animationPosition
         edk::float32 getClockX(bool* success=NULL);
@@ -128,6 +122,7 @@ class Interpolation1DGroup: public edk::animation::InterpolationGroup{
                 }
 
                 this->setLoop(group->getLoop());
+                this->setIncrement(group->getIncrement());
                 return true;
             }
             return false;
@@ -146,6 +141,12 @@ class Interpolation1DGroup: public edk::animation::InterpolationGroup{
         //copy interpolation frame
         virtual void copyStartToStart(edk::animation::InterpolationLine* first,edk::animation::InterpolationLine* second);
         virtual void copyEndToEnd(edk::animation::InterpolationLine* first,edk::animation::InterpolationLine* second);
+
+        //increment functions to run the increment for the values
+        virtual void runIncrementForward();
+        virtual void runIncrementRewind();
+        virtual void cleanIncrement();
+        virtual void startIncrement();
     private:
 
         edk::animation::Interpolation1DGroup operator=(edk::animation::Interpolation1DGroup group){

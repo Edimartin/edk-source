@@ -70,14 +70,18 @@ public:
 
     //Set start end
     bool setAnimationStartPosition(edk::uint32 position);
+    bool setAnimationStartSecond(edk::float32 second);
     bool setAnimationEndPosition(edk::uint32 position);
+    bool setAnimationEndSecond(edk::float32 second);
 
     //CONTROLS
     //animation controllers
     void playForward();
-    void playForwardIn(edk::uint32 position);
+    void playForwardInPosition(edk::uint32 position);
+    void playForwardIn(edk::float32 second);
     void playRewind();
-    void playRewindIn(edk::uint32 position);
+    void playRewindInPosition(edk::uint32 position);
+    void playRewindIn(edk::float32 second);
     void pause();
     void pauseOn();
     void pauseOff();
@@ -86,14 +90,18 @@ public:
     void setLoop(bool loop);
     void loopOn();
     void loopOff();
-    //return if is looping
-    bool isLopping();
+    void setIncrement(bool incrementing);
+    void incrementOn();
+    void incrementOff();
+    //return
+    bool getLoop();
+    bool getIncrement();
     bool isPlaying();
     bool isRewind();
 
     //ANIMATIONNAMES
-    bool addNewAnimationName(const edk::char8* name, edk::uint32 start,edk::uint32 end);
-    bool addNewAnimationName(edk::char8* name, edk::uint32 start,edk::uint32 end);
+    bool addNewAnimationName(const edk::char8* name, edk::float32 start,edk::float32 end);
+    bool addNewAnimationName(edk::char8* name, edk::float32 start,edk::float32 end);
     //select the animationName
     bool selectAnimationName(const edk::char8* name);
     bool selectAnimationName(edk::char8* name);
@@ -139,10 +147,18 @@ protected:
     //return the last frame
     edk::animation::Frame* getLastFrame();
 
+    //increment functions to run the increment for the values
+    virtual void runIncrementForward();
+    virtual void runIncrementRewind();
+    virtual void cleanIncrement();
+    virtual void startIncrement();
+
     edk::vector::Stack<edk::animation::Frame*> animations;
     //positions start and end
     edk::uint32 positionStart;
     edk::uint32 positionEnd;
+    edk::float32 secondStart;
+    edk::float32 secondEnd;
     edk::uint32 animationPosition;
     //save the last distance
     edk::float32 lastDist;
@@ -163,12 +179,18 @@ private:
     bool rewind;
     //set if it is looping
     bool looping;
+    //set if it's incrementing the animation
+    bool incrementing;
     //processor clock
     edk::watch::Time clock;
     //callbacks
     //edk::animation::AnimationCallback* callback;
 
 protected:
+
+    //function to get the position by the second inside the animation
+    edk::uint32 getPositionFromSecond(edk::float32 second);
+
 
     //Animation Names
     class AnimationPathNames:public edk::Name{
@@ -273,6 +295,10 @@ public:
                 }
             }
 
+            //set if it is loop
+            this->setLoop(group->getLoop());
+            this->setIncrement(group->getIncrement());
+
             //now copy the animation names
             size = group->animationNames.size();
             for(edk::uint32 i=0u;i<size;i++){
@@ -281,35 +307,13 @@ public:
                     this->addNewAnimationName(temp->name(),temp->start,temp->end);
                 }
             }
-            return false;
+            return true;
         }
         return false;
     }
 
 private:
     edk::animation::PathGroup operator=(edk::animation::PathGroup group){
-        //clean frames
-        this->deleteFrames();
-        //first copy the frames
-        edk::uint32 size = group.animations.size();
-        for(edk::uint32 i=0u;i<size;i++){
-            //
-            edk::animation::Frame* temp = group.animations[i];
-            if(temp){
-                this->addNewFrame(temp->second);
-            }
-        }
-
-        //now copy the animation names
-        size = group.animationNames.size();
-        for(edk::uint32 i=0u;i<size;i++){
-            edk::animation::PathGroup::AnimationPathNames* temp = (edk::animation::PathGroup::AnimationPathNames*)group.animationNames.getElementInPosition(i);
-            if(temp){
-                this->addNewAnimationName(temp->name(),temp->start,temp->end);
-            }
-        }
-        //
-        group.cantDeleteGroup();
         return group;
     }
 };

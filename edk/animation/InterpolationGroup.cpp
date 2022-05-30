@@ -104,6 +104,20 @@ void edk::animation::InterpolationGroup::copyEndToEnd(edk::animation::Interpolat
     second->setEnd(first->getEnd().second);
 }
 
+//increment functions to run the increment for the values
+void edk::animation::InterpolationGroup::runIncrementForward(){
+    //
+}
+void edk::animation::InterpolationGroup::runIncrementRewind(){
+    //
+}
+void edk::animation::InterpolationGroup::cleanIncrement(){
+    //
+}
+void edk::animation::InterpolationGroup::startIncrement(){
+    //
+}
+
 //Frame functions
 //delete tempFrame
 void edk::animation::InterpolationGroup::deleteTempFrame(){
@@ -1050,22 +1064,8 @@ bool edk::animation::InterpolationGroup::getLoop(){
     return this->looping;
 }
 //get Increment
-bool edk::animation::InterpolationGroup::isIncrementing(){
+bool edk::animation::InterpolationGroup::getIncrement(){
     return this->incrementing;
-}
-
-//increment functions to run the increment for the values
-void edk::animation::InterpolationGroup::runIncrementForward(){
-    //
-}
-void edk::animation::InterpolationGroup::runIncrementRewind(){
-    //
-}
-void edk::animation::InterpolationGroup::cleanIncrement(){
-    //
-}
-void edk::animation::InterpolationGroup::startIncrement(){
-    //
 }
 
 //CONTROLS
@@ -1501,11 +1501,11 @@ bool edk::animation::InterpolationGroup::writeToXML(edk::XML* xml,edk::uint32 id
                     if(xml->selectChild(name)){
                         edk::uint32 count = 0u;
                         //save the looping
-                        if(this->looping) xml->addSelectedNextAttribute("loop","on");
-                        else              xml->addSelectedNextAttribute("loop","off");
+                        if(this->getLoop()) xml->addSelectedNextAttribute("loop","on");
+                        else                xml->addSelectedNextAttribute("loop","off");
                         //save the incrementing
-                        if(this->incrementing) xml->addSelectedNextAttribute("increment","on");
-                        else              xml->addSelectedNextAttribute("increment","off");
+                        if(this->getIncrement()) xml->addSelectedNextAttribute("increment","on");
+                        else                     xml->addSelectedNextAttribute("increment","off");
                         //test if have the frameTemp
                         if(this->tempFrame){
                             //add the tempFrame

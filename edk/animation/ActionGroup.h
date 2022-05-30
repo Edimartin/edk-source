@@ -79,6 +79,7 @@ public:
 
     //update animations
     void update();
+    void update(edk::float32 seconds);
 
     //ANIMATION FUNCTIONS
     //get Loop
@@ -88,6 +89,8 @@ public:
     //animation controllers
     void playForward();
     void playForwardIn(edk::float32 second);
+    void playForward(edk::float32 updateSeconds);
+    void playForwardIn(edk::float32 second,edk::float32 updateSeconds);
     //void playRewind();
     //void playRewindIn(edk::float32 second);
     void pause();
@@ -127,6 +130,7 @@ private:
 
     //first update
     void firstUpdate();
+    void firstUpdate(edk::float32 seconds);
 
     //create a stack to save the actions
     class ActionsTree : public edk::vector::BinaryTree<edk::Action*>{

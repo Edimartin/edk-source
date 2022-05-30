@@ -145,6 +145,11 @@ edk::uint32 Time::getMicrosecondsReal(){
     return 0.0f;
 }
 
+//return the seconds in float
+edk::float32 Time::getSeconds(){
+    return this->getMicroseconds() * edk::watch::microsecond;
+}
+
 //test if occur overflow
 bool Time::overflowOccurred(){
     this->getMicroseconds();
