@@ -284,6 +284,11 @@ bool edk::animation::PathGroup::setAnimationStartPosition(edk::uint32 position){
             this->animationPosition = this->positionStart = position;
             return true;
         }
+        else{
+            this->positionEnd = position;
+            this->animationPosition = this->positionStart = position;
+            return true;
+        }
     }
     return false;
 }
@@ -295,6 +300,11 @@ bool edk::animation::PathGroup::setAnimationEndPosition(edk::uint32 position){
     if(this->havePosition(position)){
         //test if is lower thn end
         if(position>this->positionStart){
+            this->positionEnd = position;
+            return true;
+        }
+        else{
+            this->positionStart = position;
             this->positionEnd = position;
             return true;
         }

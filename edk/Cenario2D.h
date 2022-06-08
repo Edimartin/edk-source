@@ -248,6 +248,8 @@ public:
     bool drawLevelsInsideRect(edk::uint32 startPosition,edk::uint32 endPosition,edk::rectf32 rect);
     void drawSelection();
     bool drawSelectionLevel(edk::uint32 levelPosition);
+    bool drawSelectionLevels(edk::uint32 startPosition,edk::uint32 endPosition);
+    bool drawSelectionLevelsInsideRect(edk::uint32 startPosition,edk::uint32 endPosition,edk::rectf32 rect);
 
     //SHOW/HIDE LEVEL
     bool hideLevel(edk::uint32 levelPosition);
@@ -902,6 +904,23 @@ private:
                 else if(this->tileMap){
                     edk::GU::guDisable(GU_LIGHTING);
                     this->tileMap->drawSelectionWithID(id);
+                }
+            }
+        }
+        void drawSelectionInsideRect(edk::rectf32 rect,edk::uint8 id=0u){
+            if(this->show){
+                if(this->objs){
+                    edk::GU::guDisable(GU_LIGHTING);
+                    this->objs->selectionID = id;
+                    this->objs->print();
+                }
+                else if(this->objsPhys){
+                    edk::GU::guDisable(GU_LIGHTING);
+                    this->objsPhys->selectionID = id;
+                    this->objsPhys->print();
+                }
+                else if(this->tileMap){
+                    this->tileMap->drawInsideWorldRectSelectionWithID(rect,id);
                 }
             }
         }

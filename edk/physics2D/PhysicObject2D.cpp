@@ -259,7 +259,7 @@ bool edk::physics2D::PhysicObject2D::updateAnimations(edk::float32 seconds){
         edk::vec2f32 positionAnim = edk::vec2f32(this->animationPosition.getX(),
                                       this->animationPosition.getY()
                                       );
-        this->setLinearVelocity((positionAnim.x - this->position.x)*100.f,(positionAnim.y - this->position.y)*100.f);
+        this->setLinearVelocity((positionAnim.x - this->position.x)*75.f,(positionAnim.y - this->position.y)*75.f);
         //this->position = positionAnim;
         ret=true;
 

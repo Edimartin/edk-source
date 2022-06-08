@@ -789,6 +789,18 @@ size2i32 Window::getResize(){
     return this->events.resizePos;
 }
 
+//set and get the second passed
+bool Window::setSecondPassed(edk::float32 seconds){
+    if(seconds>0.f){
+        this->events.secondPassed = seconds;
+        return true;
+    }
+    return false;
+}
+edk::float32 Window::eventGetSecondPassed(){
+    return this->events.secondPassed;
+}
+
 bool Window::loadEvents(){
     bool ret=false;
     this->updateControllerEvents();

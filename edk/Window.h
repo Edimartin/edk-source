@@ -69,7 +69,7 @@ EDK_WINDOW_FULLSCREEN
 
 namespace edk {
 class Window {
- public:
+public:
 
     Window();
 
@@ -212,6 +212,10 @@ class Window {
 
     size2i32 getResize();
 
+    //set and get the second passed
+    bool setSecondPassed(edk::float32 seconds);
+    edk::float32 eventGetSecondPassed();
+
     bool loadEvents();
 
     static size2ui32 getDesktopSize();
@@ -251,50 +255,50 @@ class Window {
 
     float32 eventGetControllerAxisMovedByID(edk::uint32 controller, uint32 id);
 
- public:
+public:
     color3f32 cleanColor;
-        //
-    private:
-        //update the viewGU
-        void updateView(edk::View* viewGU);
-        //contactView
-        void mousePressView(edk::ViewController* view, edk::vec2i32 point, edk::vector::Stack<edk::uint32> buttons);
-        void mouseReleaseView(edk::ViewController* view, edk::vec2i32 point, edk::vector::Stack<edk::uint32> buttons);
+    //
+private:
+    //update the viewGU
+    void updateView(edk::View* viewGU);
+    //contactView
+    void mousePressView(edk::ViewController* view, edk::vec2i32 point, edk::vector::Stack<edk::uint32> buttons);
+    void mouseReleaseView(edk::ViewController* view, edk::vec2i32 point, edk::vector::Stack<edk::uint32> buttons);
 
-        //Atualiza o tamanho da view
-        void updateViewSize();
+    //Atualiza o tamanho da view
+    void updateViewSize();
 
-        void cleanEvents();
-        //update joystick events
-        void updateControllerEvents();
-        //save focus
-        bool windowFocus;
-        //saveMouseinside
-        bool mouseInside;
-        //save the mousePosition
-        edk::vec2i32 saveMousePos;
+    void cleanEvents();
+    //update joystick events
+    void updateControllerEvents();
+    //save focus
+    bool windowFocus;
+    //saveMouseinside
+    bool mouseInside;
+    //save the mousePosition
+    edk::vec2i32 saveMousePos;
 
-        //janela SFML
-        sf::RenderWindow window;
-        //sf::Window window;
+    //janela SFML
+    sf::RenderWindow window;
+    //sf::Window window;
 
-        //View principal
-        edk::ViewController viewWindow;
+    //View principal
+    edk::ViewController viewWindow;
 
-        //renderiza o mouse na tela
-        bool renderMouse;
-        //renderiza a window na tela
-        bool renderWindow;
-        //Guarda se o render da janela esta ativo
-        bool activeRender;
+    //renderiza o mouse na tela
+    bool renderMouse;
+    //renderiza a window na tela
+    bool renderWindow;
+    //Guarda se o render da janela esta ativo
+    bool activeRender;
 
-        //edkTime to count the passed time since the last frame
-        edk::watch::Time time;
+    //edkTime to count the passed time since the last frame
+    edk::watch::Time time;
 
-        //save the size of the window
-        edk::size2ui32 windowSize;
+    //save the size of the window
+    edk::size2ui32 windowSize;
 
-        edk::WindowEvents events;
+    edk::WindowEvents events;
 };
 
 } /* End of namespace edk */
