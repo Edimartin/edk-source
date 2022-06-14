@@ -71,7 +71,7 @@ edk::tiles::tile2DType edk::tiles::Tile2D::getType(){
 void edk::tiles::Tile2D::selectAnimation(){
     if(!this->mesh.selectAnimationFramesFromPolygon(0u)){
         //create a new animation
-        this->mesh.newAnimationFramesToPolygon(0u);
+        this->mesh.setAnimationFramesToPolygon(0u);
         this->mesh.selectAnimationFramesFromPolygon(0u);
     }
 }

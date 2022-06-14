@@ -285,7 +285,7 @@ private:
                         //add the animation on the tree
                         if(tree.addAnimations(animTemp,id)){
                             //create a new animation in the polygon
-                            if(this->newAnimationFramesToPolygon(id)){
+                            if(this->setAnimationFramesToPolygon(id)){
                                 //copy the animation
                                 this->copyThisAnimationFramesToPolygon(animTemp,id);
                             }

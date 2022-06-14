@@ -210,6 +210,55 @@ namespace edk{
 				return (this->x!=vec.x||this->y!=vec.y||this->z!=vec.z||this->w!=vec.w);
 			}
 
+            //Operator >
+            bool operator>(vec4i8 vec){
+                if(this->x>vec.x)
+                    return true;
+                else if(this->x==vec.x && this->y>vec.y)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z>vec.z)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z==vec.z && this->w>vec.w)
+                    return true;
+                return false;
+            }
+            //Operator >=
+            bool operator>=(vec4i8 vec){
+                if(this->x>vec.x)
+                    return true;
+                else if(this->x==vec.x && this->y>vec.y)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z>vec.z)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z==vec.z && this->w>=vec.w)
+                    return true;
+                return false;
+            }
+            //Operator <
+            bool operator<(vec4i8 vec){
+                if(this->x<vec.x)
+                    return true;
+                else if(this->x==vec.x && this->y<vec.y)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z<vec.z)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z==vec.z && this->w<vec.w)
+                    return true;
+                return false;
+            }
+            //Operator <=
+            bool operator<=(vec4i8 vec){
+                if(this->x<vec.x)
+                    return true;
+                else if(this->x==vec.x && this->y<vec.y)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z<vec.z)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z==vec.z && this->w<=vec.w)
+                    return true;
+                return false;
+            }
+
 			//+
 			vec4i8 operator+(vec4i8 vec){
 				//
@@ -1020,6 +1069,99 @@ namespace edk{
 				//
 				return (this->x!=vec.x||this->y!=vec.y||this->z!=vec.z||this->w!=vec.w);
 			}
+
+            //Operator >
+            bool operator>(vec4i8 vec){
+                if(this->x>(int16)vec.x)
+                    return true;
+                else if(this->x==(int16)vec.x && this->y>(int16)vec.y)
+                    return true;
+                else if(this->x==(int16)vec.x && this->y==(int16)vec.y && this->z>(int16)vec.z)
+                    return true;
+                else if(this->x==(int16)vec.x && this->y==(int16)vec.y && this->z==(int16)vec.z && this->w>(int16)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator>(vec4i16 vec){
+                if(this->x>vec.x)
+                    return true;
+                else if(this->x==vec.x && this->y>vec.y)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z>vec.z)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z==vec.z && this->w>vec.w)
+                    return true;
+                return false;
+            }
+            //Operator >=
+            bool operator>=(vec4i8 vec){
+                if(this->x>(int16)vec.x)
+                    return true;
+                else if(this->x==(int16)vec.x && this->y>(int16)vec.y)
+                    return true;
+                else if(this->x==(int16)vec.x && this->y==(int16)vec.y && this->z>(int16)vec.z)
+                    return true;
+                else if(this->x==(int16)vec.x && this->y==(int16)vec.y && this->z==(int16)vec.z && this->w>=(int16)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator>=(vec4i16 vec){
+                if(this->x>vec.x)
+                    return true;
+                else if(this->x==vec.x && this->y>vec.y)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z>vec.z)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z==vec.z && this->w>=vec.w)
+                    return true;
+                return false;
+            }
+            //Operator <
+            bool operator<(vec4i8 vec){
+                if(this->x<(int16)vec.x)
+                    return true;
+                else if(this->x==(int16)vec.x && this->y<(int16)vec.y)
+                    return true;
+                else if(this->x==(int16)vec.x && this->y==(int16)vec.y && this->z<(int16)vec.z)
+                    return true;
+                else if(this->x==(int16)vec.x && this->y==(int16)vec.y && this->z==(int16)vec.z && this->w<(int16)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator<(vec4i16 vec){
+                if(this->x<vec.x)
+                    return true;
+                else if(this->x==vec.x && this->y<vec.y)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z<vec.z)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z==vec.z && this->w<vec.w)
+                    return true;
+                return false;
+            }
+            //Operator <=
+            bool operator<=(vec4i8 vec){
+                if(this->x<(int16)vec.x)
+                    return true;
+                else if(this->x==(int16)vec.x && this->y<(int16)vec.y)
+                    return true;
+                else if(this->x==(int16)vec.x && this->y==(int16)vec.y && this->z<(int16)vec.z)
+                    return true;
+                else if(this->x==(int16)vec.x && this->y==(int16)vec.y && this->z==(int16)vec.z && this->w<=(int16)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator<=(vec4i16 vec){
+                if(this->x<vec.x)
+                    return true;
+                else if(this->x==vec.x && this->y<vec.y)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z<vec.z)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z==vec.z && this->w<=vec.w)
+                    return true;
+                return false;
+            }
 
 			//+
 			vec4i16 operator+(vec4i8 vec){
@@ -1872,11 +2014,11 @@ namespace edk{
 			//==
 			bool operator==(vec4i8 vec){
 				//
-				return (this->x==vec.x&&this->y==vec.y&&this->z==vec.z&&this->w==vec.w);
+                return (this->x==(int32)vec.x&&this->y==(int32)vec.y&&this->z==(int32)vec.z&&this->w==(int32)vec.w);
 			}
 			bool operator==(vec4i16 vec){
 				//
-				return (this->x==vec.x&&this->y==vec.y&&this->z==vec.z&&this->w==vec.w);
+                return (this->x==(int32)vec.x&&this->y==(int32)vec.y&&this->z==(int32)vec.z&&this->w==(int32)vec.w);
 			}
 			bool operator==(vec4i32 vec){
 				//
@@ -1885,16 +2027,153 @@ namespace edk{
 			//!=
 			bool operator!=(vec4i8 vec){
 				//
-				return (this->x!=vec.x||this->y!=vec.y||this->z!=vec.z||this->w!=vec.w);
+                return (this->x!=(int32)vec.x||this->y!=(int32)vec.y||this->z!=(int32)vec.z||this->w!=(int32)vec.w);
 			}
 			bool operator!=(vec4i16 vec){
 				//
-				return (this->x!=vec.x||this->y!=vec.y||this->z!=vec.z||this->w!=vec.w);
+                return (this->x!=(int32)vec.x||this->y!=(int32)vec.y||this->z!=(int32)vec.z||this->w!=(int32)vec.w);
 			}
 			bool operator!=(vec4i32 vec){
 				//
 				return (this->x!=vec.x||this->y!=vec.y||this->z!=vec.z||this->w!=vec.w);
 			}
+
+            //Operator >
+            bool operator>(vec4i8 vec){
+                if(this->x>(int32)vec.x)
+                    return true;
+                else if(this->x==(int32)vec.x && this->y>(int32)vec.y)
+                    return true;
+                else if(this->x==(int32)vec.x && this->y==(int32)vec.y && this->z>(int32)vec.z)
+                    return true;
+                else if(this->x==(int32)vec.x && this->y==(int32)vec.y && this->z==(int32)vec.z && this->w>(int32)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator>(vec4i16 vec){
+                if(this->x>(int32)vec.x)
+                    return true;
+                else if(this->x==(int32)vec.x && this->y>(int32)vec.y)
+                    return true;
+                else if(this->x==(int32)vec.x && this->y==(int32)vec.y && this->z>(int32)vec.z)
+                    return true;
+                else if(this->x==(int32)vec.x && this->y==(int32)vec.y && this->z==(int32)vec.z && this->w>(int32)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator>(vec4i32 vec){
+                if(this->x>vec.x)
+                    return true;
+                else if(this->x==vec.x && this->y>vec.y)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z>vec.z)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z==vec.z && this->w>vec.w)
+                    return true;
+                return false;
+            }
+            //Operator >=
+            bool operator>=(vec4i8 vec){
+                if(this->x>(int32)vec.x)
+                    return true;
+                else if(this->x==(int32)vec.x && this->y>(int32)vec.y)
+                    return true;
+                else if(this->x==(int32)vec.x && this->y==(int32)vec.y && this->z>(int32)vec.z)
+                    return true;
+                else if(this->x==(int32)vec.x && this->y==(int32)vec.y && this->z==(int32)vec.z && this->w>=(int32)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator>=(vec4i16 vec){
+                if(this->x>(int32)vec.x)
+                    return true;
+                else if(this->x==(int32)vec.x && this->y>(int32)vec.y)
+                    return true;
+                else if(this->x==(int32)vec.x && this->y==(int32)vec.y && this->z>(int32)vec.z)
+                    return true;
+                else if(this->x==(int32)vec.x && this->y==(int32)vec.y && this->z==(int32)vec.z && this->w>=(int32)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator>=(vec4i32 vec){
+                if(this->x>vec.x)
+                    return true;
+                else if(this->x==vec.x && this->y>vec.y)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z>vec.z)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z==vec.z && this->w>=vec.w)
+                    return true;
+                return false;
+            }
+            //Operator <
+            bool operator<(vec4i8 vec){
+                if(this->x<(int32)vec.x)
+                    return true;
+                else if(this->x==(int32)vec.x && this->y<(int32)vec.y)
+                    return true;
+                else if(this->x==(int32)vec.x && this->y==(int32)vec.y && this->z<(int32)vec.z)
+                    return true;
+                else if(this->x==(int32)vec.x && this->y==(int32)vec.y && this->z==(int32)vec.z && this->w<(int32)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator<(vec4i16 vec){
+                if(this->x<(int32)vec.x)
+                    return true;
+                else if(this->x==(int32)vec.x && this->y<(int32)vec.y)
+                    return true;
+                else if(this->x==(int32)vec.x && this->y==(int32)vec.y && this->z<(int32)vec.z)
+                    return true;
+                else if(this->x==(int32)vec.x && this->y==(int32)vec.y && this->z==(int32)vec.z && this->w<(int32)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator<(vec4i32 vec){
+                if(this->x<vec.x)
+                    return true;
+                else if(this->x==vec.x && this->y<vec.y)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z<vec.z)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z==vec.z && this->w<vec.w)
+                    return true;
+                return false;
+            }
+            //Operator <=
+            bool operator<=(vec4i8 vec){
+                if(this->x<(int32)vec.x)
+                    return true;
+                else if(this->x==(int32)vec.x && this->y<(int32)vec.y)
+                    return true;
+                else if(this->x==(int32)vec.x && this->y==(int32)vec.y && this->z<(int32)vec.z)
+                    return true;
+                else if(this->x==(int32)vec.x && this->y==(int32)vec.y && this->z==(int32)vec.z && this->w<=(int32)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator<=(vec4i16 vec){
+                if(this->x<(int32)vec.x)
+                    return true;
+                else if(this->x==(int32)vec.x && this->y<(int32)vec.y)
+                    return true;
+                else if(this->x==(int32)vec.x && this->y==(int32)vec.y && this->z<(int32)vec.z)
+                    return true;
+                else if(this->x==(int32)vec.x && this->y==(int32)vec.y && this->z==(int32)vec.z && this->w<=(int32)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator<=(vec4i32 vec){
+                if(this->x<vec.x)
+                    return true;
+                else if(this->x==vec.x && this->y<vec.y)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z<vec.z)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z==vec.z && this->w<=vec.w)
+                    return true;
+                return false;
+            }
 
 			//+
 			vec4i32 operator+(vec4i8 vec){
@@ -2803,37 +3082,218 @@ namespace edk{
 			//==
 			bool operator==(vec4i8 vec){
 				//
-				return (this->x==vec.x&&this->y==vec.y&&this->z==vec.z&&this->w==vec.w);
+                return (this->x==(int64)vec.x&&this->y==(int64)vec.y&&this->z==(int64)vec.z&&this->w==(int64)vec.w);
 			}
 			bool operator==(vec4i16 vec){
 				//
-				return (this->x==vec.x&&this->y==vec.y&&this->z==vec.z&&this->w==vec.w);
+                return (this->x==(int64)vec.x&&this->y==(int64)vec.y&&this->z==(int64)vec.z&&this->w==(int64)vec.w);
 			}
 			bool operator==(vec4i32 vec){
 				//
-				return (this->x==vec.x&&this->y==vec.y&&this->z==vec.z&&this->w==vec.w);
+                return (this->x==(int64)vec.x&&this->y==(int64)vec.y&&this->z==(int64)vec.z&&this->w==(int64)vec.w);
 			}
 			bool operator==(vec4i64 vec){
 				//
-				return (this->x==vec.x&&this->y==vec.y&&this->z==vec.z&&this->w==vec.w);
+                return (this->x==vec.x&&this->y==vec.y&&this->z==vec.z&&this->w==vec.w);
 			}
 			//!=
 			bool operator!=(vec4i8 vec){
 				//
-				return (this->x!=vec.x||this->y!=vec.y||this->z!=vec.z||this->w!=vec.w);
+                return (this->x!=(int64)vec.x||this->y!=(int64)vec.y||this->z!=(int64)vec.z||this->w!=(int64)vec.w);
 			}
 			bool operator!=(vec4i16 vec){
 				//
-				return (this->x!=vec.x||this->y!=vec.y||this->z!=vec.z||this->w!=vec.w);
+                return (this->x!=(int64)vec.x||this->y!=(int64)vec.y||this->z!=(int64)vec.z||this->w!=(int64)vec.w);
 			}
 			bool operator!=(vec4i32 vec){
 				//
-				return (this->x!=vec.x||this->y!=vec.y||this->z!=vec.z||this->w!=vec.w);
+                return (this->x!=(int64)vec.x||this->y!=(int64)vec.y||this->z!=(int64)vec.z||this->w!=(int64)vec.w);
 			}
 			bool operator!=(vec4i64 vec){
 				//
-				return (this->x!=vec.x||this->y!=vec.y||this->z!=vec.z||this->w!=vec.w);
+                return (this->x!=vec.x||this->y!=vec.y||this->z!=vec.z||this->w!=vec.w);
 			}
+
+            //Operator >
+            bool operator>(vec4i8 vec){
+                if(this->x>(int64)vec.x)
+                    return true;
+                else if(this->x==(int64)vec.x && this->y>(int64)vec.y)
+                    return true;
+                else if(this->x==(int64)vec.x && this->y==(int64)vec.y && this->z>(int64)vec.z)
+                    return true;
+                else if(this->x==(int64)vec.x && this->y==(int64)vec.y && this->z==(int64)vec.z && this->w>(int64)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator>(vec4i16 vec){
+                if(this->x>(int64)vec.x)
+                    return true;
+                else if(this->x==(int64)vec.x && this->y>(int64)vec.y)
+                    return true;
+                else if(this->x==(int64)vec.x && this->y==(int64)vec.y && this->z>(int64)vec.z)
+                    return true;
+                else if(this->x==(int64)vec.x && this->y==(int64)vec.y && this->z==(int64)vec.z && this->w>(int64)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator>(vec4i32 vec){
+                if(this->x>(int64)vec.x)
+                    return true;
+                else if(this->x==(int64)vec.x && this->y>(int64)vec.y)
+                    return true;
+                else if(this->x==(int64)vec.x && this->y==(int64)vec.y && this->z>(int64)vec.z)
+                    return true;
+                else if(this->x==(int64)vec.x && this->y==(int64)vec.y && this->z==(int64)vec.z && this->w>(int64)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator>(vec4i64 vec){
+                if(this->x>vec.x)
+                    return true;
+                else if(this->x==vec.x && this->y>vec.y)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z>vec.z)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z==vec.z && this->w>vec.w)
+                    return true;
+                return false;
+            }
+            //Operator >=
+            bool operator>=(vec4i8 vec){
+                if(this->x>(int64)vec.x)
+                    return true;
+                else if(this->x==(int64)vec.x && this->y>(int64)vec.y)
+                    return true;
+                else if(this->x==(int64)vec.x && this->y==(int64)vec.y && this->z>(int64)vec.z)
+                    return true;
+                else if(this->x==(int64)vec.x && this->y==(int64)vec.y && this->z==(int64)vec.z && this->w>=(int64)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator>=(vec4i16 vec){
+                if(this->x>(int64)vec.x)
+                    return true;
+                else if(this->x==(int64)vec.x && this->y>(int64)vec.y)
+                    return true;
+                else if(this->x==(int64)vec.x && this->y==(int64)vec.y && this->z>(int64)vec.z)
+                    return true;
+                else if(this->x==(int64)vec.x && this->y==(int64)vec.y && this->z==(int64)vec.z && this->w>=(int64)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator>=(vec4i32 vec){
+                if(this->x>(int64)vec.x)
+                    return true;
+                else if(this->x==(int64)vec.x && this->y>(int64)vec.y)
+                    return true;
+                else if(this->x==(int64)vec.x && this->y==(int64)vec.y && this->z>(int64)vec.z)
+                    return true;
+                else if(this->x==(int64)vec.x && this->y==(int64)vec.y && this->z==(int64)vec.z && this->w>=(int64)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator>=(vec4i64 vec){
+                if(this->x>vec.x)
+                    return true;
+                else if(this->x==vec.x && this->y>vec.y)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z>vec.z)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z==vec.z && this->w>=vec.w)
+                    return true;
+                return false;
+            }
+            //Operator <
+            bool operator<(vec4i8 vec){
+                if(this->x<(int64)vec.x)
+                    return true;
+                else if(this->x==(int64)vec.x && this->y<(int64)vec.y)
+                    return true;
+                else if(this->x==(int64)vec.x && this->y==(int64)vec.y && this->z<(int64)vec.z)
+                    return true;
+                else if(this->x==(int64)vec.x && this->y==(int64)vec.y && this->z==(int64)vec.z && this->w<(int64)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator<(vec4i16 vec){
+                if(this->x<(int64)vec.x)
+                    return true;
+                else if(this->x==(int64)vec.x && this->y<(int64)vec.y)
+                    return true;
+                else if(this->x==(int64)vec.x && this->y==(int64)vec.y && this->z<(int64)vec.z)
+                    return true;
+                else if(this->x==(int64)vec.x && this->y==(int64)vec.y && this->z==(int64)vec.z && this->w<(int64)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator<(vec4i32 vec){
+                if(this->x<(int64)vec.x)
+                    return true;
+                else if(this->x==(int64)vec.x && this->y<(int64)vec.y)
+                    return true;
+                else if(this->x==(int64)vec.x && this->y==(int64)vec.y && this->z<(int64)vec.z)
+                    return true;
+                else if(this->x==(int64)vec.x && this->y==(int64)vec.y && this->z==(int64)vec.z && this->w<(int64)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator<(vec4i64 vec){
+                if(this->x<vec.x)
+                    return true;
+                else if(this->x==vec.x && this->y<vec.y)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z<vec.z)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z==vec.z && this->w<vec.w)
+                    return true;
+                return false;
+            }
+            //Operator <=
+            bool operator<=(vec4i8 vec){
+                if(this->x<(int64)vec.x)
+                    return true;
+                else if(this->x==(int64)vec.x && this->y<(int64)vec.y)
+                    return true;
+                else if(this->x==(int64)vec.x && this->y==(int64)vec.y && this->z<(int64)vec.z)
+                    return true;
+                else if(this->x==(int64)vec.x && this->y==(int64)vec.y && this->z==(int64)vec.z && this->w<=(int64)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator<=(vec4i16 vec){
+                if(this->x<(int64)vec.x)
+                    return true;
+                else if(this->x==(int64)vec.x && this->y<(int64)vec.y)
+                    return true;
+                else if(this->x==(int64)vec.x && this->y==(int64)vec.y && this->z<(int64)vec.z)
+                    return true;
+                else if(this->x==(int64)vec.x && this->y==(int64)vec.y && this->z==(int64)vec.z && this->w<=(int64)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator<=(vec4i32 vec){
+                if(this->x<(int64)vec.x)
+                    return true;
+                else if(this->x==(int64)vec.x && this->y<(int64)vec.y)
+                    return true;
+                else if(this->x==(int64)vec.x && this->y==(int64)vec.y && this->z<(int64)vec.z)
+                    return true;
+                else if(this->x==(int64)vec.x && this->y==(int64)vec.y && this->z==(int64)vec.z && this->w<=(int64)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator<=(vec4i64 vec){
+                if(this->x<vec.x)
+                    return true;
+                else if(this->x==vec.x && this->y<vec.y)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z<vec.z)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z==vec.z && this->w<=vec.w)
+                    return true;
+                return false;
+            }
 
 			//+
 			vec4i64 operator+(vec4i8 vec){
@@ -3714,6 +4174,55 @@ namespace edk{
 				return (this->x!=vec.x||this->y!=vec.y||this->z!=vec.z||this->w!=vec.w);
 			}
 
+            //Operator >
+            bool operator>(vec4ui8 vec){
+                if(this->x>vec.x)
+                    return true;
+                else if(this->x==vec.x && this->y>vec.y)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z>vec.z)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z==vec.z && this->w>vec.w)
+                    return true;
+                return false;
+            }
+            //Operator >=
+            bool operator>=(vec4ui8 vec){
+                if(this->x>vec.x)
+                    return true;
+                else if(this->x==vec.x && this->y>vec.y)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z>vec.z)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z==vec.z && this->w>=vec.w)
+                    return true;
+                return false;
+            }
+            //Operator <
+            bool operator<(vec4ui8 vec){
+                if(this->x<vec.x)
+                    return true;
+                else if(this->x==vec.x && this->y<vec.y)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z<vec.z)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z==vec.z && this->w<vec.w)
+                    return true;
+                return false;
+            }
+            //Operator <=
+            bool operator<=(vec4ui8 vec){
+                if(this->x<vec.x)
+                    return true;
+                else if(this->x==vec.x && this->y<vec.y)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z<vec.z)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z==vec.z && this->w<=vec.w)
+                    return true;
+                return false;
+            }
+
 			//+
 			vec4ui8 operator+(vec4ui8 vec){
 				//
@@ -4240,6 +4749,99 @@ namespace edk{
 				//
 				return (this->x!=vec.x||this->y!=vec.y||this->z!=vec.z||this->w!=vec.w);
 			}
+
+            //Operator >
+            bool operator>(vec4ui8 vec){
+                if(this->x>(uint16)vec.x)
+                    return true;
+                else if(this->x==(uint16)vec.x && this->y>(uint16)vec.y)
+                    return true;
+                else if(this->x==(uint16)vec.x && this->y==(uint16)vec.y && this->z>(uint16)vec.z)
+                    return true;
+                else if(this->x==(uint16)vec.x && this->y==(uint16)vec.y && this->z==(uint16)vec.z && this->w>(uint16)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator>(vec4ui16 vec){
+                if(this->x>vec.x)
+                    return true;
+                else if(this->x==vec.x && this->y>vec.y)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z>vec.z)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z==vec.z && this->w>vec.w)
+                    return true;
+                return false;
+            }
+            //Operator >=
+            bool operator>=(vec4ui8 vec){
+                if(this->x>(uint16)vec.x)
+                    return true;
+                else if(this->x==(uint16)vec.x && this->y>(uint16)vec.y)
+                    return true;
+                else if(this->x==(uint16)vec.x && this->y==(uint16)vec.y && this->z>(uint16)vec.z)
+                    return true;
+                else if(this->x==(uint16)vec.x && this->y==(uint16)vec.y && this->z==(uint16)vec.z && this->w>=(uint16)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator>=(vec4ui16 vec){
+                if(this->x>vec.x)
+                    return true;
+                else if(this->x==vec.x && this->y>vec.y)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z>vec.z)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z==vec.z && this->w>=vec.w)
+                    return true;
+                return false;
+            }
+            //Operator <
+            bool operator<(vec4ui8 vec){
+                if(this->x<(uint16)vec.x)
+                    return true;
+                else if(this->x==(uint16)vec.x && this->y<(uint16)vec.y)
+                    return true;
+                else if(this->x==(uint16)vec.x && this->y==(uint16)vec.y && this->z<(uint16)vec.z)
+                    return true;
+                else if(this->x==(uint16)vec.x && this->y==(uint16)vec.y && this->z==(uint16)vec.z && this->w<(uint16)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator<(vec4ui16 vec){
+                if(this->x<vec.x)
+                    return true;
+                else if(this->x==vec.x && this->y<vec.y)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z<vec.z)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z==vec.z && this->w<vec.w)
+                    return true;
+                return false;
+            }
+            //Operator <=
+            bool operator<=(vec4ui8 vec){
+                if(this->x<(uint16)vec.x)
+                    return true;
+                else if(this->x==(uint16)vec.x && this->y<(uint16)vec.y)
+                    return true;
+                else if(this->x==(uint16)vec.x && this->y==(uint16)vec.y && this->z<(uint16)vec.z)
+                    return true;
+                else if(this->x==(uint16)vec.x && this->y==(uint16)vec.y && this->z==(uint16)vec.z && this->w<=(uint16)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator<=(vec4ui16 vec){
+                if(this->x<vec.x)
+                    return true;
+                else if(this->x==vec.x && this->y<vec.y)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z<vec.z)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z==vec.z && this->w<=vec.w)
+                    return true;
+                return false;
+            }
 
 			//+
 			vec4ui16 operator+(vec4ui8 vec){
@@ -4808,11 +5410,11 @@ namespace edk{
 			//==
 			bool operator==(vec4ui8 vec){
 				//
-				return (this->x==vec.x&&this->y==vec.y&&this->z==vec.z&&this->w==vec.w);
+                return (this->x==(uint32)vec.x&&this->y==(uint32)vec.y&&this->z==(uint32)vec.z&&this->w==(uint32)vec.w);
 			}
 			bool operator==(vec4ui16 vec){
 				//
-				return (this->x==vec.x&&this->y==vec.y&&this->z==vec.z&&this->w==vec.w);
+                return (this->x==(uint32)vec.x&&this->y==(uint32)vec.y&&this->z==(uint32)vec.z&&this->w==(uint32)vec.w);
 			}
 			bool operator==(vec4ui32 vec){
 				//
@@ -4821,16 +5423,153 @@ namespace edk{
 			//!=
 			bool operator!=(vec4ui8 vec){
 				//
-				return (this->x!=vec.x||this->y!=vec.y||this->z!=vec.z||this->w!=vec.w);
+                return (this->x!=(uint32)vec.x||this->y!=(uint32)vec.y||this->z!=(uint32)vec.z||this->w!=(uint32)vec.w);
 			}
 			bool operator!=(vec4ui16 vec){
 				//
-				return (this->x!=vec.x||this->y!=vec.y||this->z!=vec.z||this->w!=vec.w);
+                return (this->x!=(uint32)vec.x||this->y!=(uint32)vec.y||this->z!=(uint32)vec.z||this->w!=(uint32)vec.w);
 			}
 			bool operator!=(vec4ui32 vec){
 				//
 				return (this->x!=vec.x||this->y!=vec.y||this->z!=vec.z||this->w!=vec.w);
 			}
+
+            //Operator >
+            bool operator>(vec4ui8 vec){
+                if(this->x>(uint32)vec.x)
+                    return true;
+                else if(this->x==(uint32)vec.x && this->y>(uint32)vec.y)
+                    return true;
+                else if(this->x==(uint32)vec.x && this->y==(uint32)vec.y && this->z>(uint32)vec.z)
+                    return true;
+                else if(this->x==(uint32)vec.x && this->y==(uint32)vec.y && this->z==(uint32)vec.z && this->w>(uint32)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator>(vec4ui16 vec){
+                if(this->x>(uint32)vec.x)
+                    return true;
+                else if(this->x==(uint32)vec.x && this->y>(uint32)vec.y)
+                    return true;
+                else if(this->x==(uint32)vec.x && this->y==(uint32)vec.y && this->z>(uint32)vec.z)
+                    return true;
+                else if(this->x==(uint32)vec.x && this->y==(uint32)vec.y && this->z==(uint32)vec.z && this->w>(uint32)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator>(vec4ui32 vec){
+                if(this->x>vec.x)
+                    return true;
+                else if(this->x==vec.x && this->y>vec.y)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z>vec.z)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z==vec.z && this->w>vec.w)
+                    return true;
+                return false;
+            }
+            //Operator >=
+            bool operator>=(vec4ui8 vec){
+                if(this->x>(uint32)vec.x)
+                    return true;
+                else if(this->x==(uint32)vec.x && this->y>(uint32)vec.y)
+                    return true;
+                else if(this->x==(uint32)vec.x && this->y==(uint32)vec.y && this->z>(uint32)vec.z)
+                    return true;
+                else if(this->x==(uint32)vec.x && this->y==(uint32)vec.y && this->z==(uint32)vec.z && this->w>=(uint32)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator>=(vec4ui16 vec){
+                if(this->x>(uint32)vec.x)
+                    return true;
+                else if(this->x==(uint32)vec.x && this->y>(uint32)vec.y)
+                    return true;
+                else if(this->x==(uint32)vec.x && this->y==(uint32)vec.y && this->z>(uint32)vec.z)
+                    return true;
+                else if(this->x==(uint32)vec.x && this->y==(uint32)vec.y && this->z==(uint32)vec.z && this->w>=(uint32)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator>=(vec4ui32 vec){
+                if(this->x>vec.x)
+                    return true;
+                else if(this->x==vec.x && this->y>vec.y)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z>vec.z)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z==vec.z && this->w>=vec.w)
+                    return true;
+                return false;
+            }
+            //Operator <
+            bool operator<(vec4ui8 vec){
+                if(this->x<(uint32)vec.x)
+                    return true;
+                else if(this->x==(uint32)vec.x && this->y<(uint32)vec.y)
+                    return true;
+                else if(this->x==(uint32)vec.x && this->y==(uint32)vec.y && this->z<(uint32)vec.z)
+                    return true;
+                else if(this->x==(uint32)vec.x && this->y==(uint32)vec.y && this->z==(uint32)vec.z && this->w<(uint32)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator<(vec4ui16 vec){
+                if(this->x<(uint32)vec.x)
+                    return true;
+                else if(this->x==(uint32)vec.x && this->y<(uint32)vec.y)
+                    return true;
+                else if(this->x==(uint32)vec.x && this->y==(uint32)vec.y && this->z<(uint32)vec.z)
+                    return true;
+                else if(this->x==(uint32)vec.x && this->y==(uint32)vec.y && this->z==(uint32)vec.z && this->w<(uint32)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator<(vec4ui32 vec){
+                if(this->x<vec.x)
+                    return true;
+                else if(this->x==vec.x && this->y<vec.y)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z<vec.z)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z==vec.z && this->w<vec.w)
+                    return true;
+                return false;
+            }
+            //Operator <=
+            bool operator<=(vec4ui8 vec){
+                if(this->x<(uint32)vec.x)
+                    return true;
+                else if(this->x==(uint32)vec.x && this->y<(uint32)vec.y)
+                    return true;
+                else if(this->x==(uint32)vec.x && this->y==(uint32)vec.y && this->z<(uint32)vec.z)
+                    return true;
+                else if(this->x==(uint32)vec.x && this->y==(uint32)vec.y && this->z==(uint32)vec.z && this->w<=(uint32)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator<=(vec4ui16 vec){
+                if(this->x<(uint32)vec.x)
+                    return true;
+                else if(this->x==(uint32)vec.x && this->y<(uint32)vec.y)
+                    return true;
+                else if(this->x==(uint32)vec.x && this->y==(uint32)vec.y && this->z<(uint32)vec.z)
+                    return true;
+                else if(this->x==(uint32)vec.x && this->y==(uint32)vec.y && this->z==(uint32)vec.z && this->w<=(uint32)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator<=(vec4ui32 vec){
+                if(this->x<vec.x)
+                    return true;
+                else if(this->x==vec.x && this->y<vec.y)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z<vec.z)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z==vec.z && this->w<=vec.w)
+                    return true;
+                return false;
+            }
 
 			//+
 			vec4ui32 operator+(vec4ui8 vec){
@@ -5455,15 +6194,15 @@ namespace edk{
 			//==
 			bool operator==(vec4ui8 vec){
 				//
-				return (this->x==vec.x&&this->y==vec.y&&this->z==vec.z&&this->w==vec.w);
+                return (this->x==(uint64)vec.x&&this->y==(uint64)vec.y&&this->z==(uint64)vec.z&&this->w==(uint64)vec.w);
 			}
 			bool operator==(vec4ui16 vec){
 				//
-				return (this->x==vec.x&&this->y==vec.y&&this->z==vec.z&&this->w==vec.w);
+                return (this->x==(uint64)vec.x&&this->y==(uint64)vec.y&&this->z==(uint64)vec.z&&this->w==(uint64)vec.w);
 			}
 			bool operator==(vec4ui32 vec){
 				//
-				return (this->x==vec.x&&this->y==vec.y&&this->z==vec.z&&this->w==vec.w);
+                return (this->x==(uint64)vec.x&&this->y==(uint64)vec.y&&this->z==(uint64)vec.z&&this->w==(uint64)vec.w);
 			}
 			bool operator==(vec4ui64 vec){
 				//
@@ -5472,20 +6211,201 @@ namespace edk{
 			//!=
 			bool operator!=(vec4ui8 vec){
 				//
-				return (this->x!=vec.x||this->y!=vec.y||this->z!=vec.z||this->w!=vec.w);
+                return (this->x!=(uint64)vec.x||this->y!=(uint64)vec.y||this->z!=(uint64)vec.z||this->w!=(uint64)vec.w);
 			}
 			bool operator!=(vec4ui16 vec){
 				//
-				return (this->x!=vec.x||this->y!=vec.y||this->z!=vec.z||this->w!=vec.w);
+                return (this->x!=(uint64)vec.x||this->y!=(uint64)vec.y||this->z!=(uint64)vec.z||this->w!=(uint64)vec.w);
 			}
 			bool operator!=(vec4ui32 vec){
 				//
-				return (this->x!=vec.x||this->y!=vec.y||this->z!=vec.z||this->w!=vec.w);
+                return (this->x!=(uint64)vec.x||this->y!=(uint64)vec.y||this->z!=(uint64)vec.z||this->w!=(uint64)vec.w);
 			}
 			bool operator!=(vec4ui64 vec){
 				//
 				return (this->x!=vec.x||this->y!=vec.y||this->z!=vec.z||this->w!=vec.w);
 			}
+
+            //Operator >
+            bool operator>(vec4ui8 vec){
+                if(this->x>(uint64)vec.x)
+                    return true;
+                else if(this->x==(uint64)vec.x && this->y>(uint64)vec.y)
+                    return true;
+                else if(this->x==(uint64)vec.x && this->y==(uint64)vec.y && this->z>(uint64)vec.z)
+                    return true;
+                else if(this->x==(uint64)vec.x && this->y==(uint64)vec.y && this->z==(uint64)vec.z && this->w>(uint64)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator>(vec4ui16 vec){
+                if(this->x>(uint64)vec.x)
+                    return true;
+                else if(this->x==(uint64)vec.x && this->y>(uint64)vec.y)
+                    return true;
+                else if(this->x==(uint64)vec.x && this->y==(uint64)vec.y && this->z>(uint64)vec.z)
+                    return true;
+                else if(this->x==(uint64)vec.x && this->y==(uint64)vec.y && this->z==(uint64)vec.z && this->w>(uint64)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator>(vec4ui32 vec){
+                if(this->x>(uint64)vec.x)
+                    return true;
+                else if(this->x==(uint64)vec.x && this->y>(uint64)vec.y)
+                    return true;
+                else if(this->x==(uint64)vec.x && this->y==(uint64)vec.y && this->z>(uint64)vec.z)
+                    return true;
+                else if(this->x==(uint64)vec.x && this->y==(uint64)vec.y && this->z==(uint64)vec.z && this->w>(uint64)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator>(vec4ui64 vec){
+                if(this->x>vec.x)
+                    return true;
+                else if(this->x==vec.x && this->y>vec.y)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z>vec.z)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z==vec.z && this->w>vec.w)
+                    return true;
+                return false;
+            }
+            //Operator >=
+            bool operator>=(vec4ui8 vec){
+                if(this->x>(uint64)vec.x)
+                    return true;
+                else if(this->x==(uint64)vec.x && this->y>(uint64)vec.y)
+                    return true;
+                else if(this->x==(uint64)vec.x && this->y==(uint64)vec.y && this->z>(uint64)vec.z)
+                    return true;
+                else if(this->x==(uint64)vec.x && this->y==(uint64)vec.y && this->z==(uint64)vec.z && this->w>=(uint64)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator>=(vec4ui16 vec){
+                if(this->x>(uint64)vec.x)
+                    return true;
+                else if(this->x==(uint64)vec.x && this->y>(uint64)vec.y)
+                    return true;
+                else if(this->x==(uint64)vec.x && this->y==(uint64)vec.y && this->z>(uint64)vec.z)
+                    return true;
+                else if(this->x==(uint64)vec.x && this->y==(uint64)vec.y && this->z==(uint64)vec.z && this->w>=(uint64)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator>=(vec4ui32 vec){
+                if(this->x>(uint64)vec.x)
+                    return true;
+                else if(this->x==(uint64)vec.x && this->y>(uint64)vec.y)
+                    return true;
+                else if(this->x==(uint64)vec.x && this->y==(uint64)vec.y && this->z>(uint64)vec.z)
+                    return true;
+                else if(this->x==(uint64)vec.x && this->y==(uint64)vec.y && this->z==(uint64)vec.z && this->w>=(uint64)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator>=(vec4ui64 vec){
+                if(this->x>vec.x)
+                    return true;
+                else if(this->x==vec.x && this->y>vec.y)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z>vec.z)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z==vec.z && this->w>=vec.w)
+                    return true;
+                return false;
+            }
+            //Operator <
+            bool operator<(vec4ui8 vec){
+                if(this->x<(uint64)vec.x)
+                    return true;
+                else if(this->x==(uint64)vec.x && this->y<(uint64)vec.y)
+                    return true;
+                else if(this->x==(uint64)vec.x && this->y==(uint64)vec.y && this->z<(uint64)vec.z)
+                    return true;
+                else if(this->x==(uint64)vec.x && this->y==(uint64)vec.y && this->z==(uint64)vec.z && this->w<(uint64)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator<(vec4ui16 vec){
+                if(this->x<(uint64)vec.x)
+                    return true;
+                else if(this->x==(uint64)vec.x && this->y<(uint64)vec.y)
+                    return true;
+                else if(this->x==(uint64)vec.x && this->y==(uint64)vec.y && this->z<(uint64)vec.z)
+                    return true;
+                else if(this->x==(uint64)vec.x && this->y==(uint64)vec.y && this->z==(uint64)vec.z && this->w<(uint64)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator<(vec4ui32 vec){
+                if(this->x<(uint64)vec.x)
+                    return true;
+                else if(this->x==(uint64)vec.x && this->y<(uint64)vec.y)
+                    return true;
+                else if(this->x==(uint64)vec.x && this->y==(uint64)vec.y && this->z<(uint64)vec.z)
+                    return true;
+                else if(this->x==(uint64)vec.x && this->y==(uint64)vec.y && this->z==(uint64)vec.z && this->w<(uint64)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator<(vec4ui64 vec){
+                if(this->x<vec.x)
+                    return true;
+                else if(this->x==vec.x && this->y<vec.y)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z<vec.z)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z==vec.z && this->w<vec.w)
+                    return true;
+                return false;
+            }
+            //Operator <=
+            bool operator<=(vec4ui8 vec){
+                if(this->x<(uint64)vec.x)
+                    return true;
+                else if(this->x==(uint64)vec.x && this->y<(uint64)vec.y)
+                    return true;
+                else if(this->x==(uint64)vec.x && this->y==(uint64)vec.y && this->z<(uint64)vec.z)
+                    return true;
+                else if(this->x==(uint64)vec.x && this->y==(uint64)vec.y && this->z==(uint64)vec.z && this->w<=(uint64)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator<=(vec4ui16 vec){
+                if(this->x<(uint64)vec.x)
+                    return true;
+                else if(this->x==(uint64)vec.x && this->y<(uint64)vec.y)
+                    return true;
+                else if(this->x==(uint64)vec.x && this->y==(uint64)vec.y && this->z<(uint64)vec.z)
+                    return true;
+                else if(this->x==(uint64)vec.x && this->y==(uint64)vec.y && this->z==(uint64)vec.z && this->w<=(uint64)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator<=(vec4ui32 vec){
+                if(this->x<(uint64)vec.x)
+                    return true;
+                else if(this->x==(uint64)vec.x && this->y<(uint64)vec.y)
+                    return true;
+                else if(this->x==(uint64)vec.x && this->y==(uint64)vec.y && this->z<(uint64)vec.z)
+                    return true;
+                else if(this->x==(uint64)vec.x && this->y==(uint64)vec.y && this->z==(uint64)vec.z && this->w<=(uint64)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator<=(vec4ui64 vec){
+                if(this->x<vec.x)
+                    return true;
+                else if(this->x==vec.x && this->y<vec.y)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z<vec.z)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z==vec.z && this->w<=vec.w)
+                    return true;
+                return false;
+            }
 
 			//+
 			vec4ui64 operator+(vec4ui8 vec){
@@ -6231,6 +7151,55 @@ namespace edk{
 				//
 				return (this->x!=vec.x||this->y!=vec.y||this->z!=vec.z||this->w!=vec.w);
 			}
+
+            //Operator >
+            bool operator>(vec4f32 vec){
+                if(this->x>vec.x)
+                    return true;
+                else if(this->x==vec.x && this->y>vec.y)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z>vec.z)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z==vec.z && this->w>vec.w)
+                    return true;
+                return false;
+            }
+            //Operator >=
+            bool operator>=(vec4f32 vec){
+                if(this->x>vec.x)
+                    return true;
+                else if(this->x==vec.x && this->y>vec.y)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z>vec.z)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z==vec.z && this->w>=vec.w)
+                    return true;
+                return false;
+            }
+            //Operator <
+            bool operator<(vec4f32 vec){
+                if(this->x<vec.x)
+                    return true;
+                else if(this->x==vec.x && this->y<vec.y)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z<vec.z)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z==vec.z && this->w<vec.w)
+                    return true;
+                return false;
+            }
+            //Operator <=
+            bool operator<=(vec4f32 vec){
+                if(this->x<vec.x)
+                    return true;
+                else if(this->x==vec.x && this->y<vec.y)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z<vec.z)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z==vec.z && this->w<=vec.w)
+                    return true;
+                return false;
+            }
 
 			//+
 			vec4f32 operator+(vec4f32 vec){
@@ -7374,6 +8343,99 @@ namespace edk{
 				//
 				return (this->x!=vec.x||this->y!=vec.y||this->z!=vec.z||this->w!=vec.w);
 			}
+
+            //Operator >
+            bool operator>(vec4f32 vec){
+                if(this->x>(float64)vec.x)
+                    return true;
+                else if(this->x==(float64)vec.x && this->y>(float64)vec.y)
+                    return true;
+                else if(this->x==(float64)vec.x && this->y==(float64)vec.y && this->z>(float64)vec.z)
+                    return true;
+                else if(this->x==(float64)vec.x && this->y==(float64)vec.y && this->z==(float64)vec.z && this->w>(float64)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator>(vec4f64 vec){
+                if(this->x>vec.x)
+                    return true;
+                else if(this->x==vec.x && this->y>vec.y)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z>vec.z)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z==vec.z && this->w>vec.w)
+                    return true;
+                return false;
+            }
+            //Operator >=
+            bool operator>=(vec4f32 vec){
+                if(this->x>(float64)vec.x)
+                    return true;
+                else if(this->x==(float64)vec.x && this->y>(float64)vec.y)
+                    return true;
+                else if(this->x==(float64)vec.x && this->y==(float64)vec.y && this->z>(float64)vec.z)
+                    return true;
+                else if(this->x==(float64)vec.x && this->y==(float64)vec.y && this->z==(float64)vec.z && this->w>=(float64)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator>=(vec4f64 vec){
+                if(this->x>vec.x)
+                    return true;
+                else if(this->x==vec.x && this->y>vec.y)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z>vec.z)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z==vec.z && this->w>=vec.w)
+                    return true;
+                return false;
+            }
+            //Operator <
+            bool operator<(vec4f32 vec){
+                if(this->x<(float64)vec.x)
+                    return true;
+                else if(this->x==(float64)vec.x && this->y<(float64)vec.y)
+                    return true;
+                else if(this->x==(float64)vec.x && this->y==(float64)vec.y && this->z<(float64)vec.z)
+                    return true;
+                else if(this->x==(float64)vec.x && this->y==(float64)vec.y && this->z==(float64)vec.z && this->w<(float64)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator<(vec4f64 vec){
+                if(this->x<vec.x)
+                    return true;
+                else if(this->x==vec.x && this->y<vec.y)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z<vec.z)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z==vec.z && this->w<vec.w)
+                    return true;
+                return false;
+            }
+            //Operator <=
+            bool operator<=(vec4f32 vec){
+                if(this->x<(float64)vec.x)
+                    return true;
+                else if(this->x==(float64)vec.x && this->y<(float64)vec.y)
+                    return true;
+                else if(this->x==(float64)vec.x && this->y==(float64)vec.y && this->z<(float64)vec.z)
+                    return true;
+                else if(this->x==(float64)vec.x && this->y==(float64)vec.y && this->z==(float64)vec.z && this->w<=(float64)vec.w)
+                    return true;
+                return false;
+            }
+            bool operator<=(vec4f64 vec){
+                if(this->x<vec.x)
+                    return true;
+                else if(this->x==vec.x && this->y<vec.y)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z<vec.z)
+                    return true;
+                else if(this->x==vec.x && this->y==vec.y && this->z==vec.z && this->w<=vec.w)
+                    return true;
+                return false;
+            }
 
 			//+
 			vec4f64 operator+(vec4f64 vec){

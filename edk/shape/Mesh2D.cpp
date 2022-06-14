@@ -1247,7 +1247,7 @@ bool edk::shape::Mesh2D::cloneFrom(edk::shape::Mesh2D* mesh){
                         //add the animation on the tree
                         if(tree.addAnimations(animTemp,id)){
                             //create a new animation in the polygon
-                            if(this->newAnimationFramesToPolygon(id)){
+                            if(this->setAnimationFramesToPolygon(id)){
                                 //copy the animation
                                 this->copyThisAnimationFramesToPolygon(animTemp,id);
                             }

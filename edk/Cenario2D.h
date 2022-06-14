@@ -295,7 +295,6 @@ public:
 
     edk::physics2D::World2D world;
     edk::tiles::TileSet2D tileSet;
-protected:
 private:
     edk::tiles::TileMap2D* mapSelected;
     //actions group animation

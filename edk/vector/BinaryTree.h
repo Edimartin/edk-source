@@ -126,16 +126,18 @@ class BinaryLeaf{
 public:
     BinaryLeaf(){
         //
-        left=NULL;
-        right=NULL;
-        value=(typeTemplate)0u;
+        this->left=NULL;
+        this->right=NULL;
+        typeTemplate value; memset((void*)&value,0u,sizeof(typeTemplate));
+        this->value=value;
     }
     //Destrutor
     ~BinaryLeaf(){
         //
-        left=NULL;
-        right=NULL;
-        value=(typeTemplate)0u;
+        this->left=NULL;
+        this->right=NULL;
+        typeTemplate value; memset((void*)&value,0u,sizeof(typeTemplate));
+        this->value=value;
     }
     //RIGHT
     BinaryLeaf* left;
@@ -568,8 +570,9 @@ public:
                 return ret->value;
             }
         }
+        typeTemplate ret; memset((void*)&ret,0u,sizeof(typeTemplate));
         //else return zero
-        return (typeTemplate)0u;
+        return ret;
     }
 
     //return the size

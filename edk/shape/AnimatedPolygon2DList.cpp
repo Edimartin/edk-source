@@ -35,7 +35,7 @@ edk::shape::AnimatedPolygon2DList::~AnimatedPolygon2DList()
 
 //ANIMATIONS
 //create a new animation in a polygon
-bool edk::shape::AnimatedPolygon2DList::newAnimationFramesToPolygon(edk::uint32 position){
+bool edk::shape::AnimatedPolygon2DList::setAnimationFramesToPolygon(edk::uint32 position){
     //test if have the polygon
     if(this->polygons.havePos(position)){
         //select the polygon

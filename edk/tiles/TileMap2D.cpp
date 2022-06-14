@@ -63,6 +63,7 @@ bool edk::tiles::TileMap2D::setTileSet(edk::tiles::TileSet2D* tileSet){
     //remove all physics objects
     this->deletePhysicsTiles();
     this->treePhysics.setTileSet(tileSet);
+    this->treeStaticPhysics.setTileSet(tileSet);
     return (this->tileSet = tileSet);
 }
 edk::tiles::TileSet2D* edk::tiles::TileMap2D::getTileSet(){
@@ -71,6 +72,7 @@ edk::tiles::TileSet2D* edk::tiles::TileMap2D::getTileSet(){
 void edk::tiles::TileMap2D::removeTileSet(){
     this->deletePhysicsTiles();
     this->treePhysics.setTileSet(NULL);
+    this->treeStaticPhysics.setTileSet(NULL);
     this->tileSet=NULL;
 }
 //set a tile in the tileMap
@@ -185,6 +187,17 @@ void edk::tiles::TileMap2D::setPosition(edk::vec2f32 position){
                 this->world->updateObjectStatus(temp);
             }
         }
+        size = this->treeStaticPhysics.size();
+        for(edk::uint32 i=0u;i<size;i++){
+            temp = this->treeStaticPhysics.getObjectInPosition(i);
+            if(temp){
+                //scale the object and position
+                temp->position+=translate;
+                //update to the world
+                this->world->updateObjectStatus(temp);
+            }
+        }
+
     }
 }
 void edk::tiles::TileMap2D::setPosition(edk::float32 positionX,edk::float32 positionY){
@@ -216,6 +229,18 @@ bool edk::tiles::TileMap2D::setScaleMap(edk::size2f32 scale){
             edk::uint32 size = this->treePhysics.size();
             for(edk::uint32 i=0u;i<size;i++){
                 temp = this->treePhysics.getObjectInPosition(i);
+                if(temp){
+                    //scale the object and position
+                    temp->position.x*=this->scaleMap.width;
+                    temp->position.y*=this->scaleMap.height;
+                    temp->size = this->scaleMap;
+                    //update to the world
+                    this->world->updateObjectStatus(temp);
+                }
+            }
+            size = this->treeStaticPhysics.size();
+            for(edk::uint32 i=0u;i<size;i++){
+                temp = this->treeStaticPhysics.getObjectInPosition(i);
                 if(temp){
                     //scale the object and position
                     temp->position.x*=this->scaleMap.width;
@@ -257,6 +282,7 @@ void edk::tiles::TileMap2D::cleanWorldPointer(){
     }
     //delete all physics objects
     this->treePhysics.deleteAll();
+    this->treeStaticPhysics.deleteAll();
     this->world=NULL;
 }
 //cleanTiles
@@ -393,6 +419,7 @@ void edk::tiles::TileMap2D::deletePhysicsTiles(){
             }
         }
         this->treePhysics.deleteAll();
+        this->treeStaticPhysics.deleteAll();
     }
 }
 bool edk::tiles::TileMap2D::deletePhysicTile(edk::vec2ui32 position){
@@ -411,6 +438,7 @@ bool edk::tiles::TileMap2D::deletePhysicTile(edk::vec2ui32 position){
             }
             //delete the tilePhysics
             this->treePhysics.deleteObject(temp->object);
+            this->treeStaticPhysics.deleteObject(temp->object);
             return true;
         }
     }
@@ -523,8 +551,15 @@ edk::physics2D::PhysicObject2D* edk::tiles::TileMap2D::getPhysicTile(edk::vec2ui
     if(this->world){
         //test if have a tileSet
         if(this->tileSet){
+            edk::physics2D::PhysicObject2D* ret=NULL;
             //load the physicsObject
-            return this->treePhysics.getPhysicsObjectInPosition(edk::vec2ui32(position.x,position.y));
+            ret =  this->treePhysics.getPhysicsObjectInPosition(edk::vec2ui32(position.x,position.y));
+            if(ret){
+                return ret;
+            }
+            else{
+                return this->treeStaticPhysics.getPhysicsObjectInPosition(edk::vec2ui32(position.x,position.y));
+            }
         }
     }
     return NULL;
@@ -534,10 +569,20 @@ edk::physics2D::PhysicObject2D* edk::tiles::TileMap2D::getPhysicTile(edk::uint32
 }
 //test ih have the physicsObject
 bool edk::tiles::TileMap2D::havePhysicObject(edk::physics2D::PhysicObject2D* object){
-    return this->treePhysics.haveObject(object);
+    if(this->treePhysics.haveObject(object)){
+        return true;
+    }
+    //else return it from another tree
+    return this->treeStaticPhysics.haveObject(object);
 }
 edk::vec2ui32 edk::tiles::TileMap2D::getPhysicObjectPosition(edk::physics2D::PhysicObject2D* object){
-    return this->treePhysics.getPositionOfObject(object);
+    if(this->treePhysics.haveObject(object)){
+        return this->treePhysics.getPositionOfObject(object);
+    }
+    if(this->treeStaticPhysics.haveObject(object) && this->treeStaticPhysics.getPositionSizeOfObject(object)){
+        return this->treeStaticPhysics.getPositionOfObject(object,0u);
+    }
+    return edk::vec2ui32(0u,0u);
 }
 
 //GETTERS
@@ -650,6 +695,7 @@ void edk::tiles::TileMap2D::draw(edk::color4f32 color){
 
         //draw physics objects
         this->treePhysics.render();
+        //this->treeStaticPhysics.render();
 
         edk::GU::guPopMatrix();
     }
@@ -687,6 +733,7 @@ void edk::tiles::TileMap2D::draw(edk::vec2ui32 origin,edk::size2ui32 last,edk::c
 
         //draw physics objects
         this->treePhysics.render();
+        //this->treeStaticPhysics.render();
 
         edk::GU::guPopMatrix();
     }
@@ -709,6 +756,7 @@ void edk::tiles::TileMap2D::drawWithoutMaterial(edk::color4f32 color){
 
         //draw physics objects
         this->treePhysics.render();
+        //this->treeStaticPhysics.render();
 
         edk::GU::guPopMatrix();
     }
@@ -746,6 +794,7 @@ void edk::tiles::TileMap2D::drawWithoutMaterial(edk::vec2ui32 origin,edk::size2u
 
         //draw physics objects
         this->treePhysics.render();
+        //this->treeStaticPhysics.render();
 
         edk::GU::guPopMatrix();
     }
@@ -813,6 +862,7 @@ void edk::tiles::TileMap2D::drawIsometric(edk::color4f32 color){
 
         //draw physics objects
         this->treePhysics.render();
+        //this->treeStaticPhysics.render();
 
         edk::GU::guPopMatrix();
     }
@@ -850,6 +900,7 @@ void edk::tiles::TileMap2D::drawIsometric(edk::vec2ui32 origin,edk::size2ui32 la
 
         //draw physics objects
         this->treePhysics.render();
+        //this->treeStaticPhysics.render();
 
         edk::GU::guPopMatrix();
     }
@@ -921,6 +972,7 @@ void edk::tiles::TileMap2D::draw(){
 
         //draw physics objects
         this->treePhysics.render();
+        //this->treeStaticPhysics.render();
 
         edk::GU::guPopMatrix();
     }
@@ -958,6 +1010,7 @@ void edk::tiles::TileMap2D::draw(edk::vec2ui32 origin,edk::size2ui32 last){
 
         //draw physics objects
         this->treePhysics.render();
+        //this->treeStaticPhysics.render();
 
         edk::GU::guPopMatrix();
     }
@@ -980,6 +1033,7 @@ void edk::tiles::TileMap2D::drawWithoutMaterial(){
 
         //draw physics objects
         this->treePhysics.render();
+        //this->treeStaticPhysics.render();
 
         edk::GU::guPopMatrix();
     }
@@ -1017,6 +1071,7 @@ void edk::tiles::TileMap2D::drawWithoutMaterial(edk::vec2ui32 origin,edk::size2u
 
         //draw physics objects
         this->treePhysics.render();
+        //this->treeStaticPhysics.render();
 
         edk::GU::guPopMatrix();
     }
@@ -1084,6 +1139,7 @@ void edk::tiles::TileMap2D::drawIsometric(){
 
         //draw physics objects
         this->treePhysics.render();
+        //this->treeStaticPhysics.render();
 
         edk::GU::guPopMatrix();
     }
@@ -1121,6 +1177,7 @@ void edk::tiles::TileMap2D::drawIsometric(edk::vec2ui32 origin,edk::size2ui32 la
 
         //draw physics objects
         this->treePhysics.render();
+        //this->treeStaticPhysics.render();
 
         edk::GU::guPopMatrix();
     }
@@ -1990,6 +2047,7 @@ void edk::tiles::TileMap2D::drawSelectionWithID(edk::vec2ui32 origin,edk::size2u
         }
 
         //this->treePhysics.print();
+        //this->treeStaticPhysics.printf();
 
         edk::GU::guPopMatrix();
     }
@@ -2046,6 +2104,7 @@ void edk::tiles::TileMap2D::drawSelection(edk::vec2ui32 origin,edk::size2ui32 la
         }
 
         //this->treePhysics.print();
+        //this->treeStaticPhysics.printf();
 
         edk::GU::guPopMatrix();
     }
@@ -2194,6 +2253,7 @@ void edk::tiles::TileMap2D::drawIsometricSelectionWithID(edk::vec2ui32 origin,ed
         }
 
         //this->treePhysics.print();
+        //this->treeStaticPhysics.printf();
 
         edk::GU::guPopMatrix();
     }
@@ -2251,6 +2311,7 @@ void edk::tiles::TileMap2D::drawIsometricSelection(edk::vec2ui32 origin,edk::siz
         }
 
         //this->treePhysics.print();
+        //this->treeStaticPhysics.printf();
 
         edk::GU::guPopMatrix();
     }
