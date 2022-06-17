@@ -124,6 +124,12 @@ public:
     bool loadPhysicsTiles();
     bool loadPhysicTile(edk::vec2ui32 position);
     bool loadPhysicTile(edk::uint32 positionX,edk::uint32 positionY);
+    //load static physics tiles merged to generate boxes
+    bool loadPhysicsTilesStaticMerged();
+    //load dynamic and kinematic into the world
+    bool loadPhysicsTilesDynamic();
+    bool loadPhysicsTilesKinematic();
+    bool loadPhysicsTilesKinematicAndDynamic();
     //return the physicTileObject
     edk::physics2D::PhysicObject2D* getPhysicTile(edk::vec2ui32 position);
     edk::physics2D::PhysicObject2D* getPhysicTile(edk::uint32 positionX,edk::uint32 positionY);
@@ -255,6 +261,12 @@ private:
 
     //color of the tiles. When tiles was created it will receive this color
     edk::color4f32 color;
+
+    //get the static object from tile with just one rectangle
+    edk::physics2D::PhysicObject2D* getStaticTile(edk::vec2ui32 position);
+    edk::physics2D::PhysicObject2D* getStaticTile(edk::uint32 positionX,edk::uint32 positionY);
+    //compare two static objects
+    bool compareStaticTile(edk::physics2D::PhysicObject2D* tile1,edk::physics2D::PhysicObject2D* tile2);
 
     //PhysicsTiles
     class PhysicsTiles{

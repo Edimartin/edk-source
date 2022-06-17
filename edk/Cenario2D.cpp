@@ -2468,7 +2468,14 @@ bool edk::Cenario2D::loadPhysicObjectsToWorld(edk::uint32 levelPosition){
                     return true;
                 }
                 else if(level->tileMap){
-                    return level->tileMap->loadPhysicsTiles();
+                    bool ret = false;
+                    if(level->tileMap->loadPhysicsTilesStaticMerged()){
+                        ret=true;
+                    }
+                    if(level->tileMap->loadPhysicsTilesKinematicAndDynamic()){
+                        ret=true;
+                    }
+                    return ret;
                 }
             }
         }
@@ -2493,7 +2500,8 @@ bool edk::Cenario2D::loadPhysicObjectsToWorld(){
                 ret = true;
             }
             else if(level->tileMap){
-                level->tileMap->loadPhysicsTiles();
+                level->tileMap->loadPhysicsTilesStaticMerged();
+                level->tileMap->loadPhysicsTilesKinematicAndDynamic();
             }
         }
     }

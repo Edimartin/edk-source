@@ -58,6 +58,169 @@ edk::tiles::TileMap2D::~TileMap2D(){
     this->cleanWorldPointer();
 }
 
+//get the static object from tile with just one rectangle
+edk::physics2D::PhysicObject2D* edk::tiles::TileMap2D::getStaticTile(edk::vec2ui32 position){
+    edk::physics2D::PhysicObject2D* ret=NULL;
+    //test if have a tileSet
+    if(this->tileSet){
+        //
+
+        //then load the tiles
+        edk::uint32 tileID = 0u;
+        edk::physics2D::PhysicObject2D* temp2 = NULL;
+
+        if(position.y < this->sizeMap.height
+                &&
+                position.x < this->sizeMap.width
+                ){
+            //load the tileID
+            tileID = this->tileMap[position.y][position.x];
+            if(tileID){
+                //get the tilePhysicsObject
+                temp2 = this->tileSet->getTilePhysicsObject(tileID);
+                if(temp2){
+                    //test if the temp2 is a dynamic physics tile
+                    if(temp2->getType() == edk::physics::StaticBody){
+                        //test if the tile have a physics rectangle object
+                        if(temp2->physicMesh.getPolygonSize() == 1u){
+                            //now test if the polygon is an rectangle
+                            if(temp2->physicMesh.selectPolygon(0u)){
+                                if(temp2->physicMesh.selectedGetVertexCount()==2u){
+                                    edk::vec2f32 vertex = temp2->physicMesh.selectedGetVertexPosition(0u);
+                                    if(vertex.x > +0.49f && vertex.x < +0.51f && vertex.y > +0.49f && vertex.y < +0.51f){
+                                        vertex = temp2->physicMesh.selectedGetVertexPosition(1u);
+                                        if(vertex.x < -0.49f && vertex.x > -0.51f && vertex.y < -0.49f && vertex.y > -0.51f){
+                                            ret = temp2;
+                                        }
+                                    }
+                                    else if(vertex.x < -0.49f && vertex.x > -0.51f && vertex.y < -0.49f && vertex.y > -0.51f){
+                                        vertex = temp2->physicMesh.selectedGetVertexPosition(1u);
+                                        if(vertex.x > +0.49f && vertex.x < +0.51f && vertex.y > +0.49f && vertex.y < +0.51f){
+                                            ret = temp2;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return ret;
+}
+edk::physics2D::PhysicObject2D* edk::tiles::TileMap2D::getStaticTile(edk::uint32 positionX,edk::uint32 positionY){
+    return this->getStaticTile(edk::vec2ui32(positionX,positionY));
+}
+//compare two static objects
+bool edk::tiles::TileMap2D::compareStaticTile(edk::physics2D::PhysicObject2D* tile1,edk::physics2D::PhysicObject2D* tile2){
+    bool ret=false;
+    //test if have the two objects
+    if(tile1 && tile2){
+        //test if the tiles are the same
+        if(tile1 == tile2) return true;
+
+        //test if the two objects are the same type
+        if(tile1->getType() == tile2->getType()){
+            ret=true;
+            //test the physics mesh of the tile
+            if(tile1->physicMesh.getPolygonSize() == tile2->physicMesh.getPolygonSize()){
+                //test if have the polygons with the same vertex positions
+                edk::uint32 size = tile1->physicMesh.getPolygonSize();
+                edk::vec2f32 position1,position2,position3,position4;
+                edk::uint32 sizeVertex = 0u;
+                edk::float32 value1,value2;
+
+                for(edk::uint32 i=0u;i<size;i++){
+                    //select the polygon
+                    if(tile1->physicMesh.selectPolygon(i) && tile2->physicMesh.selectPolygon(i)){
+                        //compare the vertexes size of the polygon
+                        if(tile1->physicMesh.selectedGetVertexCount() == tile2->physicMesh.selectedGetVertexCount()){
+                            //test the vertexes
+                            sizeVertex = tile1->physicMesh.selectedGetVertexCount();
+                            if(sizeVertex==2u){
+                                //compare the vertexes
+                                position1 = tile1->physicMesh.selectedGetVertexPosition(0u);
+                                position2 = tile1->physicMesh.selectedGetVertexPosition(1u);
+                                position3 = tile2->physicMesh.selectedGetVertexPosition(0u);
+                                position4 = tile2->physicMesh.selectedGetVertexPosition(1u);
+
+                                //compare the cactangle
+                                if(!(((position1.x>position3.x-0.01 && position1.x<position3.x+0.01
+                                       &&
+                                       position1.y>position3.y-0.01 && position1.y<position3.y+0.01)
+                                      &&
+                                      (position2.x>position4.x-0.01 && position2.x<position4.x+0.01
+                                       &&
+                                       position2.y>position4.y-0.01 && position2.y<position4.y+0.01))
+                                     ||
+                                     ((position1.x>position4.x-0.01 && position1.x<position4.x+0.01
+                                       &&
+                                       position1.y>position4.y-0.01 && position1.y<position4.y+0.01)
+                                      &&
+                                      (position2.x>position3.x-0.01 && position2.x<position3.x+0.01
+                                       &&
+                                       position2.y>position3.y-0.01 && position2.y<position3.y+0.01)))
+                                        ){
+                                    //
+                                    ret=false;
+                                    break;
+                                }
+                            }
+                            else{
+                                for(edk::uint32 j=0u;j<sizeVertex;j++){
+                                    //test the vertex position
+                                    position1 = tile1->physicMesh.selectedGetVertexPosition(i);
+                                    position2 = tile2->physicMesh.selectedGetVertexPosition(i);
+                                    //compare the vertexes
+                                    if(!(position1.x-0.01>position2.x && position1.x+0.01<position2.x
+                                         &&
+                                         position1.y-0.01>position2.y && position1.y+0.01<position2.y)){
+                                        //
+                                        ret=false;
+                                        break;
+                                    }
+                                }
+                                if(!ret) break;
+                            }
+                        }
+                        else{
+                            ret=false;
+                            break;
+                        }
+
+                        //compare the physics variables
+                        value1 = tile1->physicMesh.selectedGetDensity();
+                        value2 = tile2->physicMesh.selectedGetDensity();
+                        if(!(value1>value2-0.01 && value1<value2+0.01)){
+                            ret=false;
+                            break;
+                        }
+                        value1 = tile1->physicMesh.selectedGetFriction();
+                        value2 = tile2->physicMesh.selectedGetFriction();
+                        if(!(value1>value2-0.01 && value1<value2+0.01)){
+                            ret=false;
+                            break;
+                        }
+                        value1 = tile1->physicMesh.selectedGetRestitution();
+                        value2 = tile2->physicMesh.selectedGetDensity();
+                        if(!(value1>value2-0.01 && value1<value2+0.01)){
+                            ret=false;
+                            break;
+                        }
+                    }
+                    else{
+                        ret=false;
+                        break;
+                    }
+                }
+            }
+            else ret=false;
+        }
+    }
+    return ret;
+}
+
 //set the tileSet
 bool edk::tiles::TileMap2D::setTileSet(edk::tiles::TileSet2D* tileSet){
     //remove all physics objects
@@ -419,11 +582,23 @@ void edk::tiles::TileMap2D::deletePhysicsTiles(){
             }
         }
         this->treePhysics.deleteAll();
+
+        edk::tiles::TileMap2D::StaticTileObjects* temp2=NULL;
+        //remove all the physics static objects
+        size = this->treeStaticPhysics.size();
+        for(edk::uint32 i=0u;i<size;i++){
+            temp2 = this->treeStaticPhysics.getElementInPosition(i);
+            if(temp2){
+                this->world->removeObject(temp2->object);
+                temp2=NULL;
+            }
+        }
         this->treeStaticPhysics.deleteAll();
     }
 }
 bool edk::tiles::TileMap2D::deletePhysicTile(edk::vec2ui32 position){
     if(this->world){
+        bool ret=false;
         //load the physics object
         edk::tiles::TileMap2D::PhysicsTiles* temp = this->treePhysics.getPhysicsTileInPosition(position);
         if(temp){
@@ -438,8 +613,15 @@ bool edk::tiles::TileMap2D::deletePhysicTile(edk::vec2ui32 position){
             }
             //delete the tilePhysics
             this->treePhysics.deleteObject(temp->object);
-            this->treeStaticPhysics.deleteObject(temp->object);
-            return true;
+            ret=true;
+        }
+        edk::tiles::TileMap2D::StaticTileObjects* temp2 = this->treeStaticPhysics.getPhysicsTileInPosition(position);
+        if(temp2){
+            //remove the object from the world
+            this->world->removeObject(temp2->object);
+            //delete the object
+            this->treeStaticPhysics.deleteObject(temp2->object);
+            ret=true;
         }
     }
     return false;
@@ -545,6 +727,401 @@ bool edk::tiles::TileMap2D::loadPhysicTile(edk::uint32 positionX,edk::uint32 pos
     //
     return this->loadPhysicTile(edk::vec2ui32(positionX,positionY));
 }
+//load static physics tiles merged to generate boxes
+bool edk::tiles::TileMap2D::loadPhysicsTilesStaticMerged(){
+    //test if have the world
+    if(this->world){
+        //test if have a tileSet
+        if(this->tileSet){
+            edk::uint32 width,height;
+            //then load the tiles
+            edk::uint32 tileID = 0u;
+            edk::physics2D::PhysicObject2D* temp = NULL;
+            edk::physics2D::PhysicObject2D* temp1 = NULL;
+            edk::physics2D::PhysicObject2D* temp2 = NULL;
+            edk::physics2D::PhysicObject2D* temp3 = NULL;
+            bool canContinue=true;
+            //rect for the polygon positions in the map
+            edk::rectui32 rect;
+            edk::rectf32 rectf;
+            edk::vector::Stack<edk::vec2ui32> positions;
+            edk::vec2ui32 position;
+            edk::vec2f32 positionf;
+            edk::size2f32 sizef;
+            //vertexes
+            edk::vec2f32 v1,v2;
+
+            //create the rectangle
+            edk::shape::Rectangle2D rectangle;
+            rectangle.setPivoToCenter();
+            //
+            for(edk::uint32 y=0u;y<this->sizeMap.height;y++){
+                for(edk::uint32 x=0u;x<this->sizeMap.width;x++){
+                    //If aready have the position in physics objects. Then it not create another object
+                    if(this->treeStaticPhysics.havePosition(edk::vec2ui32(x,y))) continue;
+
+                    //test if the object is a valid static with one rectangle
+                    if((temp1 = this->getStaticTile(x,y))){
+                        positions.clean();
+
+                        width=x;
+                        height=y;
+                        //set rect
+                        rect.origin.x=x;
+                        rect.origin.y=y;
+
+                        rect.size.width=width;
+                        rect.size.height=height;
+
+                        position.x = x;
+                        position.y = y;
+                        positions.pushBack(position);
+
+
+                        temp3=temp1;
+
+
+                        //search for the neibors in X
+                        do{
+                            temp2=NULL;
+                            width++;
+                            //height++;
+                            if(height<this->sizeMap.height && width<this->sizeMap.width){
+                                if(!this->treeStaticPhysics.havePosition(edk::vec2ui32(width,height))){
+                                    temp2 = this->getStaticTile(width,height);
+                                    if(temp2){
+                                        //compare if the temp1 and temp2 are equal
+                                        if(this->compareStaticTile(temp1,temp2)){
+                                            //copy the last values
+                                            rect.size.width=width;
+                                            rect.size.height=height;
+                                            temp3=temp2;
+
+                                            position.x = width;
+                                            position.y = height;
+                                            positions.pushBack(position);
+                                        }
+                                        else{
+                                            temp2=NULL;
+                                        }
+                                    }
+                                }
+                            }
+                        }while(temp2);
+
+                        canContinue=true;
+                        //
+                        //search for other neibors in Y
+                        for(edk::uint32 j=y+1u;j<this->sizeMap.height;j++){
+                            for(edk::uint32 i=x;i<width;i++){
+                                if(!this->treeStaticPhysics.havePosition(edk::vec2ui32(i,j))){
+                                    //search for all objects as like the temp1
+                                    temp2 = this->getStaticTile(i,j);
+                                    if(temp2){
+                                        //test if the temp2 is equal temp1
+                                        if(!this->compareStaticTile(temp1,temp2)){
+                                            canContinue=false;
+                                            break;
+                                        }
+                                    }
+                                    else{
+                                        //else there is a hole in the tile.
+                                        canContinue=false;
+                                        break;
+                                    }
+                                }
+                                else{
+                                    canContinue=false;
+                                    break;
+                                }
+                            }
+                            //
+                            if(!canContinue) break;
+                            else{
+                                for(edk::uint32 i=x;i<width;i++){
+                                    //push back the positions
+                                    position.x = i;
+                                    position.y = j;
+                                    positions.pushBack(position);
+
+                                    rect.size.width=i;
+                                    rect.size.height=j;
+
+                                    temp3=temp2;
+                                }
+                            }
+                        }
+
+                        //test if the rect size is different than origin
+                        if(rect.size.width>rect.origin.x
+                                ||
+                                rect.size.height>rect.origin.y
+                                ){
+                            //generate the new physics object
+                            positionf = this->getTileWorldPosition(rect.origin.x,rect.origin.y);
+                            temp1->physicMesh.selectPolygon(0u);
+                            v1 = temp1->physicMesh.selectedGetVertexPosition(0u);
+                            v2 = temp1->physicMesh.selectedGetVertexPosition(1u);
+                            if(v2.x < v1.x) v1.x=v2.x;
+                            if(v2.y > v1.y) v1.y=v2.y;
+                            rectf.origin.x = positionf.x + (v1.x * this->getScaleMap().width);
+                            rectf.origin.y = positionf.y + (v1.y * this->getScaleMap().height);
+
+                            temp3->physicMesh.selectPolygon(0u);
+                            positionf = this->getTileWorldPosition(rect.size.width,rect.size.height);
+                            v1 = temp3->physicMesh.selectedGetVertexPosition(0u);
+                            v2 = temp3->physicMesh.selectedGetVertexPosition(1u);
+                            if(v2.x > v1.x) v1.x=v2.x;
+                            if(v2.y < v1.y) v1.y=v2.y;
+                            rectf.size.width = positionf.x + (v1.x * this->getScaleMap().width);
+                            rectf.size.height = positionf.y + (v1.y * this->getScaleMap().height);
+
+                            sizef.width = rectf.size.width - rectf.origin.x;
+                            sizef.height = rectf.size.height - rectf.origin.y;
+
+                            //calculate the object position
+                            positionf.x = sizef.width*0.5f + (rectf.origin.x);
+                            positionf.y = sizef.height*0.5f + (rectf.origin.y);
+
+                            //create the object
+                            temp = this->treeStaticPhysics.newObjectInPositions(&positions,tileID,edk::physics::StaticBody,false);
+
+                            if(temp){
+                                //copy the tileSet object to te temp
+                                temp->physicMesh.addPolygon(rectangle);
+
+                                temp->position = positionf;
+                                temp->size.width = edk::Math::module(sizef.width);
+                                temp->size.height = edk::Math::module(sizef.height);
+                                //add the new object to the physics world
+                                if(!this->world->addObject(temp)){
+                                    this->treeStaticPhysics.deleteObject(temp);
+                                }
+                            }
+                            else{
+                                this->treeStaticPhysics.deleteObject(temp);
+                            }
+                        }
+                        else{
+                            //else just clone the object
+                            positionf = this->getTileWorldPosition(rect.origin.x,rect.origin.y);
+
+                            //create the object
+                            temp = this->treeStaticPhysics.newObjectInPositions(&positions,tileID,edk::physics::StaticBody,false);
+
+                            if(temp){
+                                //copy the tileSet object to te temp
+                                temp->physicMesh.addPolygon(rectangle);
+
+                                temp->position = positionf;
+                                temp->size = this->scaleMap;
+                                //add the new object to the physics world
+                                if(!this->world->addObject(temp)){
+                                    this->treeStaticPhysics.deleteObject(temp);
+                                }
+                            }
+                            else{
+                                this->treeStaticPhysics.deleteObject(temp);
+                            }
+                        }
+                        //it create the object in to the treeStaticOhysics. Then it don't need make an object in treePhysics
+                        continue;
+                    }
+
+                    //IF it din't create the object in treeStaticPhysics. Then it make the tile as a object in the old way. But only for static bodies
+
+                    //load the tileID
+                    tileID = this->tileMap[y][x];
+                    if(tileID){
+                        //get the tilePhysicsObject
+                        temp1 = this->tileSet->getTilePhysicsObject(tileID);
+                        if(temp1){
+                            //test if the temp1 is a dynamic physics tile
+                            if(temp1->getType() == edk::physics::StaticBody){
+                                //create the physics object
+                                temp = this->treePhysics.newObjectInPosition(edk::vec2ui32(x,y),tileID,temp1->getType(),temp1->isSensor());
+
+                                if(temp){
+                                    //copy the tileSet object to te temp
+                                    temp->cloneFrom(temp1);
+
+                                    temp->position = edk::vec2f32((edk::float32)x,((edk::float32)this->sizeMap.height-1.f) - y)
+                                            + this->positionMap;
+                                    temp->position.x *= this->scaleMap.width;
+                                    temp->position.y *= this->scaleMap.height;
+                                    temp->size = this->scaleMap;
+                                    //add the new object to the physics world
+                                    //temp->size = this->sizeMap;
+                                    this->world->addObject(temp);
+                                    //remove the ID from the tileMap
+                                    this->tileMap[y][x] = 0u;
+                                }
+                                else{
+                                    this->treePhysics.deleteObject(temp);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            positions.clean();
+            return true;
+        }
+    }
+    return false;
+}
+//load dynamic and kinematic into the world
+bool edk::tiles::TileMap2D::loadPhysicsTilesDynamic(){
+    //test if have the world
+    if(this->world){
+        //test if have a tileSet
+        if(this->tileSet){
+            //then load the tiles
+            edk::uint32 tileID = 0u;
+            edk::physics2D::PhysicObject2D* temp2 = NULL;
+            for(edk::uint32 y=0u;y<this->sizeMap.height;y++){
+                for(edk::uint32 x=0u;x<this->sizeMap.width;x++){
+                    //load the tileID
+                    tileID = this->tileMap[y][x];
+                    if(tileID){
+                        //get the tilePhysicsObject
+                        temp2 = this->tileSet->getTilePhysicsObject(tileID);
+                        if(temp2){
+                            //test if the temp2 is a dynamic physics tile
+                            if(temp2->getType() == edk::physics::DynamicBody){
+
+                                //create the physics object
+                                edk::physics2D::PhysicObject2D* temp = this->treePhysics.newObjectInPosition(edk::vec2ui32(x,y),tileID,temp2->getType(),temp2->isSensor());
+
+                                if(temp){
+                                    //copy the tileSet object to te temp
+                                    temp->cloneFrom(temp2);
+
+                                    temp->position = edk::vec2f32((edk::float32)x,((edk::float32)this->sizeMap.height-1.f) - y)
+                                            + this->positionMap;
+                                    temp->position.x *= this->scaleMap.width;
+                                    temp->position.y *= this->scaleMap.height;
+                                    temp->size = this->scaleMap;
+                                    //add the new object to the physics world
+                                    //temp->size = this->sizeMap;
+                                    this->world->addObject(temp);
+                                    //remove the ID from the tileMap
+                                    this->tileMap[y][x] = 0u;
+                                }
+                                else{
+                                    this->treePhysics.deleteObject(temp);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::tiles::TileMap2D::loadPhysicsTilesKinematic(){
+    //test if have the world
+    if(this->world){
+        //test if have a tileSet
+        if(this->tileSet){
+            //then load the tiles
+            edk::uint32 tileID = 0u;
+            edk::physics2D::PhysicObject2D* temp2 = NULL;
+            for(edk::uint32 y=0u;y<this->sizeMap.height;y++){
+                for(edk::uint32 x=0u;x<this->sizeMap.width;x++){
+                    //load the tileID
+                    tileID = this->tileMap[y][x];
+                    if(tileID){
+                        //get the tilePhysicsObject
+                        temp2 = this->tileSet->getTilePhysicsObject(tileID);
+                        if(temp2){
+                            //test if the temp2 is a dynamic physics tile
+                            if(temp2->getType() == edk::physics::KinematicBody){
+
+                                //create the physics object
+                                edk::physics2D::PhysicObject2D* temp = this->treePhysics.newObjectInPosition(edk::vec2ui32(x,y),tileID,temp2->getType(),temp2->isSensor());
+
+                                if(temp){
+                                    //copy the tileSet object to te temp
+                                    temp->cloneFrom(temp2);
+
+                                    temp->position = edk::vec2f32((edk::float32)x,((edk::float32)this->sizeMap.height-1.f) - y)
+                                            + this->positionMap;
+                                    temp->position.x *= this->scaleMap.width;
+                                    temp->position.y *= this->scaleMap.height;
+                                    temp->size = this->scaleMap;
+                                    //add the new object to the physics world
+                                    //temp->size = this->sizeMap;
+                                    this->world->addObject(temp);
+                                    //remove the ID from the tileMap
+                                    this->tileMap[y][x] = 0u;
+                                }
+                                else{
+                                    this->treePhysics.deleteObject(temp);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::tiles::TileMap2D::loadPhysicsTilesKinematicAndDynamic(){
+    //test if have the world
+    if(this->world){
+        //test if have a tileSet
+        if(this->tileSet){
+            //then load the tiles
+            edk::uint32 tileID = 0u;
+            edk::physics2D::PhysicObject2D* temp2 = NULL;
+            for(edk::uint32 y=0u;y<this->sizeMap.height;y++){
+                for(edk::uint32 x=0u;x<this->sizeMap.width;x++){
+                    //load the tileID
+                    tileID = this->tileMap[y][x];
+                    if(tileID){
+                        //get the tilePhysicsObject
+                        temp2 = this->tileSet->getTilePhysicsObject(tileID);
+                        if(temp2){
+                            //test if the temp2 is a dynamic physics tile
+                            if(temp2->getType() == edk::physics::KinematicBody || temp2->getType() == edk::physics::DynamicBody){
+
+                                //create the physics object
+                                edk::physics2D::PhysicObject2D* temp = this->treePhysics.newObjectInPosition(edk::vec2ui32(x,y),tileID,temp2->getType(),temp2->isSensor());
+
+                                if(temp){
+                                    //copy the tileSet object to te temp
+                                    temp->cloneFrom(temp2);
+
+                                    temp->position = edk::vec2f32((edk::float32)x,((edk::float32)this->sizeMap.height-1.f) - y)
+                                            + this->positionMap;
+                                    temp->position.x *= this->scaleMap.width;
+                                    temp->position.y *= this->scaleMap.height;
+                                    temp->size = this->scaleMap;
+                                    //add the new object to the physics world
+                                    //temp->size = this->sizeMap;
+                                    this->world->addObject(temp);
+                                    //remove the ID from the tileMap
+                                    this->tileMap[y][x] = 0u;
+                                }
+                                else{
+                                    this->treePhysics.deleteObject(temp);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+    }
+    return false;
+}
+
 //return the physicTileObject
 edk::physics2D::PhysicObject2D* edk::tiles::TileMap2D::getPhysicTile(edk::vec2ui32 position){
     //test if have a world
