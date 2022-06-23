@@ -1301,6 +1301,9 @@ bool edk::fonts::FontMap::addStringLine(edk::char8* str){
                     else{
                         //else clean the line pointer
                         line=NULL;
+                        if(*str == 10 || *str == 13){
+                            str++;
+                        }
                     }
                 }
             }
