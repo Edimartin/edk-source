@@ -69,10 +69,22 @@ int edkKbhit(void);
 #endif
 
 namespace edk {
+class TTY{
+public:
+    TTY();
+    ~TTY();
+
+    bool initTerminal();
+    bool resetTerminal();
+private:
+    bool haveInit;
+};
 
 class String {
 
 public:
+    //TTY to construct and destruct
+    static edk::TTY tty;
 
     static edk::float32 strToFloat32(const char *str);
 

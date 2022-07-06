@@ -780,8 +780,8 @@ edk::physics2D::World2D::~World2D(){
         joint = this->treeJoint.getB2JointInPosition(i);
         if(joint){
             edkJoint = (edk::physics2D::Joint2D*)joint->GetUserData().pointer;
-            if(edkJoint) delete edkJoint;
             this->world.DestroyJoint(joint);
+            if(edkJoint) delete edkJoint;
         }
     }
     this->treeJoint.clean();
@@ -3413,7 +3413,9 @@ edk::physics2D::Joint2D* edk::physics2D::World2D::createWeldJoint(edk::physics2D
 
                 //create the edkJoint
                 if((edkJoint = this->addJoint(objectA,positionA,objectB,positionB))){
-                    //
+                    //in the new version of box2D the userData are setted in jointDef
+                    jointDef.userData.pointer = (uintptr_t)edkJoint;
+
                     b2Joint* joint = (b2Joint*) this->world.CreateJoint(&jointDef);
                     if(joint){
                         //removed from the old box2D version. In the new box2D version the userData is in JointDef

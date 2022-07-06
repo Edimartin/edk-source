@@ -29,51 +29,117 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 #if defined (__linux__) || defined(__APPLE__)
-int edkGetch(void)
-{
-    struct termios oldt, newt;
-    int x;
+//https://stackoverflow.com/questions/1513734/problem-with-kbhitand-getch-for-linux?answertab=trending#tab-top
+struct termios oldTermios;
+int edkTTYraw(int fd){
+    /* Set terminal mode as follows:
+       Noncanonical mode - turn off ICANON.
+       Turn off signal-generation (ISIG)
+        including BREAK character (BRKINT).
+       Turn off any possible preprocessing of input (IEXTEN).
+       Turn ECHO mode off.
+       Disable CR-to-NL mapping on input.
+       Disable input parity detection (INPCK).
+       Disable stripping of eighth bit on input (ISTRIP).
+       Disable flow control (IXON).
+       Use eight bit characters (CS8).
+       Disable parity checking (PARENB).
+       Disable any implementation-dependent output processing (OPOST).
+       One byte at a time input (MIN=1, TIME=0).
+    */
+    struct termios newtermios;
+    if(tcgetattr(fd, &oldTermios) < 0)
+        return(-1);
+    newtermios = oldTermios;
 
-    tcgetattr( STDIN_FILENO, &oldt );
-    newt= oldt;
-    newt.c_lflag &= ~ECHO;
-    newt.c_lflag &= ~ICANON;
-    newt.c_cc[VTIME]=0;
-    newt.c_cc[VMIN]=1;
-    tcsetattr( STDIN_FILENO, TCSANOW, &newt );
-    x= getchar();
-    tcsetattr( STDIN_FILENO, TCSANOW, &oldt );
-    return x;
+    newtermios.c_lflag &= ~(ECHO | ICANON | IEXTEN | ISIG);
+    /* OK, why IEXTEN? If IEXTEN is on, the DISCARD character
+       is recognized and is not passed to the process. This
+       character causes output to be suspended until another
+       DISCARD is received. The DSUSP character for job control,
+       the LNEXT character that removes any special meaning of
+       the following character, the REPRINT character, and some
+       others are also in this category.
+    */
+
+    newtermios.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
+    /* If an input character arrives with the wrong parity, then INPCK
+       is checked. If this flag is set, then IGNPAR is checked
+       to see if input bytes with parity errors should be ignored.
+       If it shouldn't be ignored, then PARMRK determines what
+       character sequence the process will actually see.
+
+       When we turn off IXON, the start and stop characters can be read.
+    */
+
+    newtermios.c_cflag &= ~(CSIZE | PARENB);
+    /* CSIZE is a mask that determines the number of bits per byte.
+       PARENB enables parity checking on input and parity generation
+       on output.
+    */
+
+    newtermios.c_cflag |= CS8;
+    /* Set 8 bits per character. */
+
+    newtermios.c_oflag &= ~(OPOST);
+    /* This includes things like expanding tabs to spaces. */
+
+    newtermios.c_cc[VMIN] = 1;
+    newtermios.c_cc[VTIME] = 0;
+
+    /* You tell me why TCSAFLUSH. */
+    if(tcsetattr(fd, TCSAFLUSH, &newtermios) < 0)
+        return(-1);
+    return(0);
 }
 
-int edkKbhit(void)
+int edkTTYreset(int fd)
 {
-    struct termios oldt, newt;
-    int ch;
-    int oldf;
+    if(tcsetattr(fd, TCSAFLUSH, &oldTermios) < 0)
+        return(-1);
 
-    tcgetattr(STDIN_FILENO, &oldt);
-    newt = oldt;
-    newt.c_lflag &= ~ECHO;
-    newt.c_lflag &= ~ICANON;
-    newt.c_cc[VTIME]=0;
-    newt.c_cc[VMIN]=0;
-    tcsetattr(STDIN_FILENO, TCSANOW, &newt);
-    oldf = fcntl(STDIN_FILENO, F_GETFL, 0);
-    fcntl(STDIN_FILENO, F_SETFL, oldf | O_NONBLOCK);
+    return(0);
+}
 
-    ch = getchar();
+int edkGetch(void)
+{
+    struct termios t;
+    tcgetattr(0, &t);
+    tcflag_t old_flag = t.c_lflag;
+    t.c_lflag &= ~(ICANON | ECHO);
+    tcsetattr(0, TCSANOW, &t);
+    int     c = getchar();
+    t.c_lflag = old_flag;
+    tcsetattr(0, TCSANOW, &t);
+    return c;
+}
 
-    tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
-    fcntl(STDIN_FILENO, F_SETFL, oldf);
+int edkKbhit(void){
+    int cnt = 0;
+    int error;
+    static struct termios Otty, Ntty;
 
-    if(ch != EOF)
-    {
-        ungetc(ch, stdin);
-        return 1;
+    tcgetattr(0, &Otty);
+    Ntty = Otty;
+
+    Ntty.c_iflag = 0; // input mode
+    Ntty.c_oflag = 0; // output mode
+    Ntty.c_lflag &= ~ICANON; // raw mode
+    Ntty.c_cc[VMIN] = CMIN; // minimum time to wait
+    Ntty.c_cc[VTIME] = CTIME; // minimum characters to wait for
+
+    if (0 == (error = tcsetattr(0, TCSANOW, &Ntty))) {
+        struct timeval tv;
+        error += ioctl(0, FIONREAD, &cnt);
+        error += tcsetattr(0, TCSANOW, &Otty);
+
+        // throw in a miniscule time delay
+        tv.tv_sec = 0;
+        tv.tv_usec = 100;
+        select(1, NULL, NULL, NULL, &tv);
     }
 
-    return 0;
+    return (error == 0 ? cnt : -1 );
 }
 #endif
 #if defined(WIN32) || defined(WIN64)
@@ -85,6 +151,46 @@ int edkGetch(void){return getch();}
 int edkKbhit(void){return kbhit();}
 #endif
 #endif
+
+edk::TTY::TTY(){
+    this->haveInit=false;
+#if defined (EDK_LINUX_TERMINAL)
+    //init the terminal
+    this->initTerminal();
+#endif
+}
+edk::TTY::~TTY(){
+    //reset the terminal if it was initiated
+    this->resetTerminal();
+}
+
+bool edk::TTY::initTerminal(){
+    if(!this->haveInit){
+#if defined (__linux__) || defined(__APPLE__)
+        //set the ttyRaw
+        if(edkTTYraw(0) < 0){
+            return false;
+        }
+#endif
+        this->haveInit=true;
+    }
+    return true;
+}
+bool edk::TTY::resetTerminal(){
+    if(this->haveInit){
+#if defined (__linux__) || defined(__APPLE__)
+        //set the ttyRaw
+        if(edkTTYreset(0) < 0){
+            return false;
+        }
+#endif
+        this->haveInit=false;
+    }
+    return false;
+}
+
+//TTY to construct and destruct
+edk::TTY edk::String::tty;
 
 edk::int32 edkModuleInt32(edk::int32 value){
     //

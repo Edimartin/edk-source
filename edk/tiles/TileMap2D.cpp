@@ -3019,15 +3019,12 @@ void edk::tiles::TileMap2D::drawPivo(edk::float32 size,edk::color3f32 color){
 //print the tileMap ID's
 void edk::tiles::TileMap2D::print(){
     if(this->tileSet){
-        //set the transformation
-        edk::GU::guPushMatrix();
-        edk::GU::guTranslate2f32(this->positionMap.x,this->positionMap.y);
         for(edk::uint32 y=0u;y<this->sizeMap.height;y++){
             for(edk::uint32 x=0u;x<this->sizeMap.width;x++){
                 //draw the tile
                 printf("\n%u %u [%u] color [%.2f,%.2f,%.2f,%.2f] "
-                       ,x
-                       ,y
+                       ,x + this->positionMap.x
+                       ,y + this->positionMap.y
                        ,this->tileMap[y][x]
                        ,this->colorMap[y][x].r
                        ,this->colorMap[y][x].g
@@ -3036,7 +3033,6 @@ void edk::tiles::TileMap2D::print(){
                        );
             }
         }
-        edk::GU::guPopMatrix();
     }
 }
 
