@@ -120,6 +120,21 @@ bool edk::tiles::TileMap2D::compareStaticTile(edk::physics2D::PhysicObject2D* ti
         //test if the tiles are the same
         if(tile1 == tile2) return true;
 
+        {
+            edk::uint32 size = tile1->getNotCollisionGroupSize();
+            for(edk::uint32 i=0u;i<size;i++){
+                if(!tile2->haveNotCollisionGroup(tile1->getNotCollisionGroupInPosition(i))){
+                    return false;
+                }
+            }
+            size = tile1->getCollisionGroupSize();
+            for(edk::uint32 i=0u;i<size;i++){
+                if(!tile2->haveCollisionGroup(tile1->getCollisionGroupInPosition(i))){
+                    return false;
+                }
+            }
+        }
+
         //test if the two objects are the same type
         if(tile1->getType() == tile2->getType()){
             ret=true;
@@ -890,6 +905,18 @@ bool edk::tiles::TileMap2D::loadPhysicsTilesStaticMerged(){
                                 //copy the tileSet object to te temp
                                 temp->physicMesh.addPolygon(rectangle);
 
+                                //copy the groups
+                                {
+                                    edk::uint32 sizeGroup = temp1->getCollisionGroupSize();
+                                    for(edk::uint32 i=0u;i<sizeGroup;i++){
+                                        temp->addCollisionGroup(temp1->getCollisionGroupInPosition(i));
+                                    }
+                                    sizeGroup = temp1->getNotCollisionGroupSize();
+                                    for(edk::uint32 i=0u;i<sizeGroup;i++){
+                                        temp->addNotCollisionGroup(temp1->getNotCollisionGroupInPosition(i));
+                                    }
+                                }
+
                                 temp->position = positionf;
                                 temp->size.width = edk::Math::module(sizef.width);
                                 temp->size.height = edk::Math::module(sizef.height);
@@ -912,6 +939,18 @@ bool edk::tiles::TileMap2D::loadPhysicsTilesStaticMerged(){
                             if(temp){
                                 //copy the tileSet object to te temp
                                 temp->physicMesh.addPolygon(rectangle);
+
+                                //copy the groups
+                                {
+                                    edk::uint32 sizeGroup = temp1->getCollisionGroupSize();
+                                    for(edk::uint32 i=0u;i<sizeGroup;i++){
+                                        temp->addCollisionGroup(temp1->getCollisionGroupInPosition(i));
+                                    }
+                                    sizeGroup = temp1->getNotCollisionGroupSize();
+                                    for(edk::uint32 i=0u;i<sizeGroup;i++){
+                                        temp->addNotCollisionGroup(temp1->getNotCollisionGroupInPosition(i));
+                                    }
+                                }
 
                                 temp->position = positionf;
                                 temp->size = this->scaleMap;
