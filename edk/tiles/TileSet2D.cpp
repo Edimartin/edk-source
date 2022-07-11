@@ -1192,6 +1192,94 @@ bool edk::tiles::TileSet2D::setTileFrameUVinPosition(edk::uint32 tile,edk::uint3
     return false;
 }
 
+//add tileDrawCallback
+bool edk::tiles::TileSet2D::addStartDrawCallback(edk::uint32 tile,edk::tiles::DrawTile2DCallback* callback){
+    if(tile){
+        tile--;
+        //load the tile from the stack
+        if(this->tiles.havePos(tile)){
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
+            if(temp){
+                return temp->addStartDrawCallback(callback);
+            }
+        }
+    }
+    //else return false
+    return false;
+}
+bool edk::tiles::TileSet2D::addEndDrawCallback(edk::uint32 tile,edk::tiles::DrawTile2DCallback* callback){
+    if(tile){
+        tile--;
+        //load the tile from the stack
+        if(this->tiles.havePos(tile)){
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
+            if(temp){
+                return temp->addEndDrawCallback(callback);
+            }
+        }
+    }
+    //else return false
+    return false;
+}
+bool edk::tiles::TileSet2D::removeStartDrawCallback(edk::uint32 tile,edk::tiles::DrawTile2DCallback* callback){
+    if(tile){
+        tile--;
+        //load the tile from the stack
+        if(this->tiles.havePos(tile)){
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
+            if(temp){
+                return temp->removeStartDrawCallback(callback);
+            }
+        }
+    }
+    //else return false
+    return false;
+}
+bool edk::tiles::TileSet2D::removeEndDrawCallback(edk::uint32 tile,edk::tiles::DrawTile2DCallback* callback){
+    if(tile){
+        tile--;
+        //load the tile from the stack
+        if(this->tiles.havePos(tile)){
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
+            if(temp){
+                return temp->removeEndDrawCallback(callback);
+            }
+        }
+    }
+    //else return false
+    return false;
+}
+bool edk::tiles::TileSet2D::runStartDraw(edk::uint32 id,edk::vec2ui32 position,edk::vec2f32 worldPosition){
+    if(id){
+        edk::uint32 tile = id-1u;
+        //load the tile from the stack
+        if(this->tiles.havePos(tile)){
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
+            if(temp){
+                temp->runStartDraw(id,position,worldPosition);
+                return true;
+            }
+        }
+    }
+    //else return false
+    return false;
+}
+bool edk::tiles::TileSet2D::runEndDraw(edk::uint32 id,edk::vec2ui32 position,edk::vec2f32 worldPosition){
+    if(id){
+        edk::uint32 tile = id-1u;
+        //load the tile from the stack
+        if(this->tiles.havePos(tile)){
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
+            if(temp){
+                temp->runEndDraw(id,position,worldPosition);
+                return true;
+            }
+        }
+    }
+    //else return false
+    return false;
+}
+
 //Add a interpolation to the animation
 bool edk::tiles::TileSet2D::addFrameInterpolation(edk::uint32 tile,edk::float32 second,edk::float32 frame){
     if(tile && frame>=1.f){

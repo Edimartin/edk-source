@@ -484,14 +484,13 @@ void edk::tiles::TileMap2D::startDrawTiles(edk::vec2ui32 origin,edk::size2ui32 l
     edk::vec2f32 positionTemp = this->getPosition();
     for(edk::uint32 y=origin.y,y2=this->sizeMap.height-origin.y-1u;y<last.height;y++,y2--){
         for(edk::uint32 x=origin.x;x<last.width;x++){
-            //draw the tile
-            /*
-            this->tileSet->drawTile( this->tileMap[y][x]
-                                     ,(x*this->scaleMap.width) + positionTemp.x
-                                     ,(y2*this->scaleMap.height) + positionTemp.y
-                                     ,0.f,this->scaleMap,color
-                                     );
-            */
+            //run Start Draw Tile
+            this->tileSet->runStartDraw(this->tileMap[y][x]
+                                        ,edk::vec2ui32(x,y),
+                                        edk::vec2f32((x*this->scaleMap.width) + positionTemp.x,
+                                                     (y2*this->scaleMap.height) + positionTemp.y
+                                                     )
+                                        );
         }
     }
 }
@@ -499,14 +498,13 @@ void edk::tiles::TileMap2D::endDrawTiles(edk::vec2ui32 origin,edk::size2ui32 las
     edk::vec2f32 positionTemp = this->getPosition();
     for(edk::uint32 y=origin.y,y2=this->sizeMap.height-origin.y-1u;y<last.height;y++,y2--){
         for(edk::uint32 x=origin.x;x<last.width;x++){
-            //draw the tile
-            /*
-            this->tileSet->drawTile( this->tileMap[y][x]
-                                     ,(x*this->scaleMap.width) + positionTemp.x
-                                     ,(y2*this->scaleMap.height) + positionTemp.y
-                                     ,0.f,this->scaleMap,color
-                                     );
-            */
+            //run End Draw Tile
+            this->tileSet->runEndDraw(this->tileMap[y][x]
+                                      ,edk::vec2ui32(x,y),
+                                      edk::vec2f32((x*this->scaleMap.width) + positionTemp.x,
+                                                   (y2*this->scaleMap.height) + positionTemp.y
+                                                   )
+                                      );
         }
     }
 }
@@ -1627,6 +1625,9 @@ void edk::tiles::TileMap2D::draw(edk::vec2ui32 origin,edk::size2ui32 last,edk::c
         //this->treeStaticPhysics.render();
 
         edk::GU::guPopMatrix();
+
+        //set the draw tiles to start or end
+        this->updateDrawTiles(origin,last);
     }
 }
 void edk::tiles::TileMap2D::drawWithoutMaterial(edk::color4f32 color){
@@ -1688,6 +1689,9 @@ void edk::tiles::TileMap2D::drawWithoutMaterial(edk::vec2ui32 origin,edk::size2u
         //this->treeStaticPhysics.render();
 
         edk::GU::guPopMatrix();
+
+        //set the draw tiles to start or end
+        this->updateDrawTiles(origin,last);
     }
 }
 void edk::tiles::TileMap2D::drawInsideWorldRect(edk::rectf32 rect,edk::color4f32 color){
@@ -1794,6 +1798,9 @@ void edk::tiles::TileMap2D::drawIsometric(edk::vec2ui32 origin,edk::size2ui32 la
         //this->treeStaticPhysics.render();
 
         edk::GU::guPopMatrix();
+
+        //set the draw tiles to start or end
+        this->updateDrawTiles(origin,last);
     }
 }
 void edk::tiles::TileMap2D::drawIsometricInsideWorldRect(edk::rectf32 /*rect*/,edk::color4f32 /*color*/){
@@ -1904,6 +1911,9 @@ void edk::tiles::TileMap2D::draw(edk::vec2ui32 origin,edk::size2ui32 last){
         //this->treeStaticPhysics.render();
 
         edk::GU::guPopMatrix();
+
+        //set the draw tiles to start or end
+        this->updateDrawTiles(origin,last);
     }
 }
 void edk::tiles::TileMap2D::drawWithoutMaterial(){
@@ -1965,6 +1975,9 @@ void edk::tiles::TileMap2D::drawWithoutMaterial(edk::vec2ui32 origin,edk::size2u
         //this->treeStaticPhysics.render();
 
         edk::GU::guPopMatrix();
+
+        //set the draw tiles to start or end
+        this->updateDrawTiles(origin,last);
     }
 }
 void edk::tiles::TileMap2D::drawInsideWorldRect(edk::rectf32 rect){
@@ -2071,6 +2084,9 @@ void edk::tiles::TileMap2D::drawIsometric(edk::vec2ui32 origin,edk::size2ui32 la
         //this->treeStaticPhysics.render();
 
         edk::GU::guPopMatrix();
+
+        //set the draw tiles to start or end
+        this->updateDrawTiles(origin,last);
     }
 }
 void edk::tiles::TileMap2D::drawIsometricInsideWorldRect(edk::rectf32 /*rect*/){
@@ -2169,6 +2185,9 @@ void edk::tiles::TileMap2D::drawWire(edk::vec2ui32 origin,edk::size2ui32 last,ed
             }
         }
         edk::GU::guPopMatrix();
+
+        //set the draw tiles to start or end
+        //this->updateDrawTiles(origin,last);
     }
 }
 void edk::tiles::TileMap2D::drawWireInsideWorldRect(edk::rectf32 rect,edk::color4f32 color){
@@ -2262,6 +2281,9 @@ void edk::tiles::TileMap2D::drawIsometricWire(edk::vec2ui32 origin,edk::size2ui3
             }
         }
         edk::GU::guPopMatrix();
+
+        //set the draw tiles to start or end
+        //this->updateDrawTiles(origin,last);
     }
 }
 void edk::tiles::TileMap2D::drawIsometricWireInsideWorldRect(edk::rectf32 /*rect*/,edk::color4f32 /*color*/){
@@ -2358,6 +2380,9 @@ void edk::tiles::TileMap2D::drawWire(edk::vec2ui32 origin,edk::size2ui32 last){
             }
         }
         edk::GU::guPopMatrix();
+
+        //set the draw tiles to start or end
+        //this->updateDrawTiles(origin,last);
     }
 }
 void edk::tiles::TileMap2D::drawWireInsideWorldRect(edk::rectf32 rect){
@@ -2451,6 +2476,9 @@ void edk::tiles::TileMap2D::drawIsometricWire(edk::vec2ui32 origin,edk::size2ui3
             }
         }
         edk::GU::guPopMatrix();
+
+        //set the draw tiles to start or end
+        //this->updateDrawTiles(origin,last);
     }
 }
 void edk::tiles::TileMap2D::drawIsometricWireInsideWorldRect(edk::rectf32 /*rect*/){
@@ -2552,6 +2580,9 @@ void edk::tiles::TileMap2D::drawWirePhysics(edk::vec2ui32 origin,edk::size2ui32 
             }
         }
         edk::GU::guPopMatrix();
+
+        //set the draw tiles to start or end
+        //this->updateDrawTiles(origin,last);
     }
 }
 void edk::tiles::TileMap2D::drawWirePhysicsInsideWorldRect(edk::rectf32 rect,edk::color4f32 color){
@@ -2650,6 +2681,9 @@ void edk::tiles::TileMap2D::drawWirePhysics(edk::vec2ui32 origin,edk::size2ui32 
             }
         }
         edk::GU::guPopMatrix();
+
+        //set the draw tiles to start or end
+        //this->updateDrawTiles(origin,last);
     }
 }
 void edk::tiles::TileMap2D::drawWirePhysicsInsideWorldRect(edk::rectf32 rect){
@@ -2761,6 +2795,9 @@ void edk::tiles::TileMap2D::drawWireWithPhysics(edk::vec2ui32 origin,edk::size2u
             }
         }
         edk::GU::guPopMatrix();
+
+        //set the draw tiles to start or end
+        //this->updateDrawTiles(origin,last);
     }
 }
 void edk::tiles::TileMap2D::drawWireWithPhysicsInsideWorldRect(edk::rectf32 rect,edk::color4f32 color,edk::color4f32 physColor){
@@ -3651,6 +3688,56 @@ void edk::tiles::TileMap2D::sensor2DKeeping(edk::physics2D::Contact2D* contact){
             }
         }
     }
+}
+
+//add tileDrawCallback
+bool edk::tiles::TileMap2D::addStartDrawCallback(edk::uint32 tileID,edk::tiles::DrawTile2DCallback* callback){
+    if(callback && this->tileSet && tileID){
+        return this->tileSet->addStartDrawCallback(tileID,callback);
+    }
+    return false;
+}
+bool edk::tiles::TileMap2D::addStartDrawCallback(edk::vec2ui32 position,edk::tiles::DrawTile2DCallback* callback){
+    return this->addStartDrawCallback(this->getTileID(position),callback);
+}
+bool edk::tiles::TileMap2D::addStartDrawCallback(edk::uint32 positionX,edk::uint32 positionY,edk::tiles::DrawTile2DCallback* callback){
+    return this->addStartDrawCallback(this->getTileID(positionX,positionY),callback);
+}
+bool edk::tiles::TileMap2D::addEndDrawCallback(edk::uint32 tileID,edk::tiles::DrawTile2DCallback* callback){
+    if(callback && this->tileSet && tileID){
+        return this->tileSet->addEndDrawCallback(tileID,callback);
+    }
+    return false;
+}
+bool edk::tiles::TileMap2D::addEndDrawCallback(edk::vec2ui32 position,edk::tiles::DrawTile2DCallback* callback){
+    return this->addEndDrawCallback(this->getTileID(position),callback);
+}
+bool edk::tiles::TileMap2D::addEndDrawCallback(edk::uint32 positionX,edk::uint32 positionY,edk::tiles::DrawTile2DCallback* callback){
+    return this->addEndDrawCallback(this->getTileID(positionX,positionY),callback);
+}
+bool edk::tiles::TileMap2D::removeStartDrawCallback(edk::uint32 tileID,edk::tiles::DrawTile2DCallback* callback){
+    if(callback && this->tileSet && tileID){
+        return this->tileSet->removeStartDrawCallback(tileID,callback);
+    }
+    return false;
+}
+bool edk::tiles::TileMap2D::removeStartDrawCallback(edk::vec2ui32 position,edk::tiles::DrawTile2DCallback* callback){
+    return this->removeStartDrawCallback(this->getTileID(position),callback);
+}
+bool edk::tiles::TileMap2D::removeStartDrawCallback(edk::uint32 positionX,edk::uint32 positionY,edk::tiles::DrawTile2DCallback* callback){
+    return this->removeStartDrawCallback(this->getTileID(positionX,positionY),callback);
+}
+bool edk::tiles::TileMap2D::removeEndDrawCallback(edk::uint32 tileID,edk::tiles::DrawTile2DCallback* callback){
+    if(callback && this->tileSet && tileID){
+        return this->tileSet->removeEndDrawCallback(tileID,callback);
+    }
+    return false;
+}
+bool edk::tiles::TileMap2D::removeEndDrawCallback(edk::vec2ui32 position,edk::tiles::DrawTile2DCallback* callback){
+    return this->removeEndDrawCallback(this->getTileID(position),callback);
+}
+bool edk::tiles::TileMap2D::removeEndDrawCallback(edk::uint32 positionX,edk::uint32 positionY,edk::tiles::DrawTile2DCallback* callback){
+    return this->removeEndDrawCallback(this->getTileID(positionX,positionY),callback);
 }
 
 //XML

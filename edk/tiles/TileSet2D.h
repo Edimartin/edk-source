@@ -358,6 +358,14 @@ public:
     bool setTileFrameUV(edk::uint32 tile,edk::uint32 x,edk::uint32 y);
     bool setTileFrameUVinPosition(edk::uint32 tile,edk::uint32 position);
 
+    //add tileDrawCallback
+    bool addStartDrawCallback(edk::uint32 tile,edk::tiles::DrawTile2DCallback* callback);
+    bool addEndDrawCallback(edk::uint32 tile,edk::tiles::DrawTile2DCallback* callback);
+    bool removeStartDrawCallback(edk::uint32 tile,edk::tiles::DrawTile2DCallback* callback);
+    bool removeEndDrawCallback(edk::uint32 tile,edk::tiles::DrawTile2DCallback* callback);
+    bool runStartDraw(edk::uint32 id,edk::vec2ui32 position,edk::vec2f32 worldPosition);
+    bool runEndDraw(edk::uint32 id,edk::vec2ui32 position,edk::vec2f32 worldPosition);
+
     //Add a interpolation to the animation
     bool addFrameInterpolation(edk::uint32 tile,edk::float32 second,edk::float32 frame);
     //return the interpolationSize

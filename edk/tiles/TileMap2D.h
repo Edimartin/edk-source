@@ -236,6 +236,20 @@ public:
     void sensor2DEnd(edk::physics2D::Contact2D* contact);
     void sensor2DKeeping(edk::physics2D::Contact2D* contact);
 
+    //add tileDrawCallback
+    bool addStartDrawCallback(edk::uint32 tileID,edk::tiles::DrawTile2DCallback* callback);
+    bool addStartDrawCallback(edk::vec2ui32 position,edk::tiles::DrawTile2DCallback* callback);
+    bool addStartDrawCallback(edk::uint32 positionX,edk::uint32 positionY,edk::tiles::DrawTile2DCallback* callback);
+    bool addEndDrawCallback(edk::uint32 tileID,edk::tiles::DrawTile2DCallback* callback);
+    bool addEndDrawCallback(edk::vec2ui32 position,edk::tiles::DrawTile2DCallback* callback);
+    bool addEndDrawCallback(edk::uint32 positionX,edk::uint32 positionY,edk::tiles::DrawTile2DCallback* callback);
+    bool removeStartDrawCallback(edk::uint32 tileID,edk::tiles::DrawTile2DCallback* callback);
+    bool removeStartDrawCallback(edk::vec2ui32 position,edk::tiles::DrawTile2DCallback* callback);
+    bool removeStartDrawCallback(edk::uint32 positionX,edk::uint32 positionY,edk::tiles::DrawTile2DCallback* callback);
+    bool removeEndDrawCallback(edk::uint32 tileID,edk::tiles::DrawTile2DCallback* callback);
+    bool removeEndDrawCallback(edk::vec2ui32 position,edk::tiles::DrawTile2DCallback* callback);
+    bool removeEndDrawCallback(edk::uint32 positionX,edk::uint32 positionY,edk::tiles::DrawTile2DCallback* callback);
+
     //XML
     bool writeToXML(edk::XML* xml,edk::uint32 id);
     bool readFromXML(edk::XML* xml,edk::uint32 id);

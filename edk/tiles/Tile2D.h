@@ -38,6 +38,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../physics2D/DynamicObject2D.h"
 #include "../xml/XML.h"
 #include "../pack/FilePackage.h"
+#include "../vector/BinaryTree.h"
 
 #ifdef printMessages
 #warning "    Compiling Tile2D"
@@ -45,6 +46,12 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 namespace edk{
 namespace tiles{
+class DrawTile2DCallback{
+public:
+    DrawTile2DCallback(){}
+    virtual void startDrawTile(edk::uint32 /*id*/,edk::vec2ui32 /*position*/,edk::vec2f32 /*worldPosition*/){}
+    virtual void endDrawTile(edk::uint32 /*id*/,edk::vec2ui32 /*position*/,edk::vec2f32 /*worldPosition*/){}
+};
 enum tile2DType{
     tile2DTypeNormal=0u,
     tile2DTypeIsometric,
@@ -117,6 +124,14 @@ public:
     edk::vec2f32 getPosition();
     edk::float32 getPositionX();
     edk::float32 getPositionY();
+
+    //callback to start and end draw tile
+    bool addStartDrawCallback(edk::tiles::DrawTile2DCallback* callback);
+    bool addEndDrawCallback(edk::tiles::DrawTile2DCallback* callback);
+    bool removeStartDrawCallback(edk::tiles::DrawTile2DCallback* callback);
+    bool removeEndDrawCallback(edk::tiles::DrawTile2DCallback* callback);
+    void runStartDraw(edk::uint32 id,edk::vec2ui32 position,edk::vec2f32 worldPosition);
+    void runEndDraw(edk::uint32 id,edk::vec2ui32 position,edk::vec2f32 worldPosition);
 
     //Add a interpolation to the animation
     bool addFrameInterpolation(edk::float32 second,edk::float32 frame);
@@ -213,6 +228,35 @@ protected:
     edk::vec2f32 middle;
     //select or create the animation for the polygon zero
     void selectAnimation();
+
+    //binary tree to save the callback functions to init and end draw the tile
+    class TreeTileDraw : public edk::vector::BinaryTree<edk::tiles::DrawTile2DCallback*>{
+    public:
+        TreeTileDraw(){}
+        ~TreeTileDraw(){}
+        //Print
+        virtual void printElement(edk::tiles::DrawTile2DCallback* value){
+            value->startDrawTile(this->id,this->position,this->worldPosition);
+        }
+        virtual void renderElement(edk::tiles::DrawTile2DCallback* value){
+            value->endDrawTile(this->id,this->position,this->worldPosition);
+        }
+        void runStart(edk::uint32 id,edk::vec2ui32 position,edk::vec2f32 worldPosition){
+            this->id=id;
+            this->position=position;
+            this->worldPosition=worldPosition;
+            this->print();
+        }
+        void runEnd(edk::uint32 id,edk::vec2ui32 position,edk::vec2f32 worldPosition){
+            this->id=id;
+            this->position=position;
+            this->worldPosition=worldPosition;
+            this->render();
+        }
+        edk::uint32 id;
+        edk::vec2ui32 position;
+        edk::vec2f32 worldPosition;
+    }startDraw,endDraw;
 };
 }//end namespace tiles
 }//end namespace edk
