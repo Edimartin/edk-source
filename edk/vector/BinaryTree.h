@@ -247,7 +247,7 @@ public:
     }
 
     //Print the elements
-    void print(){
+    virtual void print(){
         //test if have root
         if(this->root){
             //
@@ -255,14 +255,14 @@ public:
         }
     }
     //render the elements
-    void render(){
+    virtual void render(){
         //test if have root
         if(this->root){
             //
             this->renderRecursively(this->root);
         }
     }
-    void update(){
+    virtual void update(){
         //test if have root
         if(this->root){
             //then update recursively

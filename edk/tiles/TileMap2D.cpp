@@ -42,6 +42,8 @@ edk::tiles::TileMap2D::TileMap2D(){
     this->world=NULL;
     this->sizeMap = edk::size2ui32(0u,0u);
     this->color = 1.f;
+    this->saveOrigin = edk::vec2ui32(0u,0u);
+    this->saveLast = edk::size2ui32(0u,0u);
 }
 edk::tiles::TileMap2D::TileMap2D(edk::tiles::TileSet2D* tileSet){
     this->world=NULL;
@@ -234,6 +236,279 @@ bool edk::tiles::TileMap2D::compareStaticTile(edk::physics2D::PhysicObject2D* ti
         }
     }
     return ret;
+}
+//update draw tiles to calculate which tile will start to draw and end to draw
+void edk::tiles::TileMap2D::updateDrawTiles(edk::vec2ui32 origin,edk::size2ui32 last){
+    //test if the tiles are the same
+    if(this->saveOrigin.x == this->saveLast.width
+            &&
+            this->saveOrigin.y == this->saveLast.height
+            ){
+        //
+        return;
+    }
+    else{
+        //test which add and remove from draw
+        if(origin.x <= this->saveOrigin.x){
+            //add tiles in X
+            if(origin.y <= this->saveOrigin.y){
+                //add tiles in Y
+                if(last.width <= this->saveOrigin.x){
+                    //
+                    //add all origin
+                    this->startDrawTiles(origin,last);
+                    //remove all save
+                    this->endDrawTiles(this->saveOrigin,this->saveLast);
+                }
+                else{
+                    //
+                    if(last.height <= this->saveOrigin.y){
+                        //
+                        //add all origin
+                        this->startDrawTiles(origin,last);
+                        //remove all save
+                        this->endDrawTiles(this->saveOrigin,this->saveLast);
+                    }
+                    else{
+                        //
+                        if(last.width <= this->saveLast.width){
+                            //
+                            if(last.height <= this->saveLast.height){
+                                //
+                                this->startDrawTiles(edk::vec2ui32(origin.x,origin.y),edk::size2ui32(last.width,this->saveOrigin.y));
+                                this->startDrawTiles(edk::vec2ui32(origin.x,this->saveOrigin.y),edk::size2ui32(this->saveOrigin.x,last.height));
+                                //
+                                this->endDrawTiles(edk::vec2ui32(last.width,this->saveOrigin.y),edk::size2ui32(this->saveLast.width,last.height));
+                                this->endDrawTiles(edk::vec2ui32(this->saveOrigin.x,last.height),edk::size2ui32(this->saveLast.width,this->saveLast.height));
+                            }
+                            else{
+                                //
+                                this->startDrawTiles(edk::vec2ui32(origin.x,origin.y),edk::size2ui32(last.width,this->saveOrigin.y));
+                                this->startDrawTiles(edk::vec2ui32(origin.x,this->saveOrigin.y),edk::size2ui32(this->saveOrigin.x,this->saveLast.height));
+                                this->startDrawTiles(edk::vec2ui32(origin.x,this->saveLast.height),edk::size2ui32(last.width,last.height));
+                                //
+                                this->endDrawTiles(edk::vec2ui32(last.width,this->saveOrigin.y),edk::size2ui32(this->saveLast.width,this->saveLast.height));
+                            }
+                        }
+                        else{
+                            if(last.height <= this->saveLast.height){
+                                //
+                                this->startDrawTiles(edk::vec2ui32(origin.x,origin.y),edk::size2ui32(last.width,this->saveOrigin.y));
+                                this->startDrawTiles(edk::vec2ui32(origin.x,this->saveOrigin.y),edk::size2ui32(this->saveOrigin.x,last.height));
+                                this->startDrawTiles(edk::vec2ui32(this->saveLast.width,this->saveOrigin.y),edk::size2ui32(last.width,last.height));
+                                //
+                                this->endDrawTiles(edk::vec2ui32(this->saveOrigin.x,last.height),edk::size2ui32(this->saveLast.width,this->saveLast.height));
+                            }
+                            else{
+                                //
+                                this->startDrawTiles(edk::vec2ui32(origin.x,origin.y),edk::size2ui32(last.width,this->saveOrigin.y));
+                                this->startDrawTiles(edk::vec2ui32(origin.x,this->saveOrigin.y),edk::size2ui32(this->saveOrigin.x,this->saveLast.height));
+                                this->startDrawTiles(edk::vec2ui32(this->saveLast.width,this->saveOrigin.y),edk::size2ui32(last.width,this->saveLast.height));
+                                this->startDrawTiles(edk::vec2ui32(origin.x,this->saveLast.height),edk::size2ui32(last.width,last.height));
+                            }
+                        }
+                    }
+                }
+            }
+            else{
+                //
+                if(last.width <= this->saveOrigin.x){
+                    //
+                    //add all origin
+                    this->startDrawTiles(origin,last);
+                    //remove all save
+                    this->endDrawTiles(this->saveOrigin,this->saveLast);
+                }
+                else{
+                    //
+                    if(origin.y <= this->saveLast.height){
+                        //
+                        if(last.width <= this->saveLast.width){
+                            //
+                            if(last.height <= this->saveLast.height){
+                                //
+                                this->startDrawTiles(edk::vec2ui32(origin.x,origin.y),edk::size2ui32(this->saveOrigin.x,last.height));
+                                //
+                                this->endDrawTiles(edk::vec2ui32(this->saveOrigin.x,this->saveOrigin.y),edk::size2ui32(this->saveLast.width,origin.y));
+                                this->endDrawTiles(edk::vec2ui32(last.width,origin.y),edk::size2ui32(this->saveLast.width,last.height));
+                                this->endDrawTiles(edk::vec2ui32(this->saveOrigin.x,last.height),edk::size2ui32(this->saveLast.width,this->saveLast.height));
+                            }
+                            else{
+                                //
+                                this->startDrawTiles(edk::vec2ui32(origin.x,origin.y),edk::size2ui32(this->saveOrigin.x,this->saveLast.height));
+                                this->startDrawTiles(edk::vec2ui32(origin.x,this->saveLast.height),edk::size2ui32(last.width,last.height));
+                                //
+                                this->endDrawTiles(edk::vec2ui32(this->saveOrigin.x,this->saveOrigin.y),edk::size2ui32(this->saveLast.width,origin.y));
+                                this->endDrawTiles(edk::vec2ui32(last.width,origin.y),edk::size2ui32(this->saveLast.width,this->saveLast.height));
+                            }
+                        }
+                        else{
+                            if(last.height <= this->saveLast.height){
+                                //
+                                this->startDrawTiles(edk::vec2ui32(origin.x,origin.y),edk::size2ui32(this->saveOrigin.x,last.height));
+                                this->startDrawTiles(edk::vec2ui32(this->saveLast.width,origin.y),edk::size2ui32(last.width,last.height));
+                                //
+                                this->endDrawTiles(edk::vec2ui32(this->saveOrigin.x,this->saveOrigin.y),edk::size2ui32(this->saveLast.width,origin.y));
+                                this->endDrawTiles(edk::vec2ui32(this->saveOrigin.x,last.height),edk::size2ui32(this->saveLast.width,this->saveLast.height));
+                            }
+                            else{
+                                //
+                                this->startDrawTiles(edk::vec2ui32(origin.x,origin.y),edk::size2ui32(this->saveOrigin.x,this->saveLast.height));
+                                this->startDrawTiles(edk::vec2ui32(this->saveLast.width,origin.y),edk::size2ui32(last.width,this->saveLast.height));
+                                this->startDrawTiles(edk::vec2ui32(origin.x,this->saveLast.height),edk::size2ui32(last.width,last.height));
+                                //
+                                this->endDrawTiles(edk::vec2ui32(this->saveOrigin.x,this->saveOrigin.y),edk::size2ui32(this->saveLast.width,origin.y));
+                            }
+                        }
+                    }
+                    else{
+                        //
+                        //add all origin
+                        this->startDrawTiles(origin,last);
+                        //remove all save
+                        this->endDrawTiles(this->saveOrigin,this->saveLast);
+                    }
+                }
+            }
+        }
+        else{
+            if(origin.x <= this->saveLast.width){
+                //remove tiles in X
+                if(origin.y <= this->saveOrigin.y){
+                    //
+                    if(last.height<=this->saveOrigin.y){
+                        //
+                        //add all origin
+                        this->startDrawTiles(origin,last);
+                        //remove all save
+                        this->endDrawTiles(this->saveOrigin,this->saveLast);
+                    }
+                    else{
+                        //
+                        if(last.height<=this->saveLast.height){
+                            //
+                            if(last.width<=this->saveLast.width){
+                                //
+                                this->startDrawTiles(edk::vec2ui32(origin.x,origin.y),edk::size2ui32(last.width,this->saveOrigin.y));
+                                //
+                                this->endDrawTiles(edk::vec2ui32(this->saveOrigin.x,this->saveOrigin.y),edk::size2ui32(origin.x,last.height));
+                                this->endDrawTiles(edk::vec2ui32(last.width,this->saveOrigin.y),edk::size2ui32(last.width,last.height));
+                                this->endDrawTiles(edk::vec2ui32(this->saveOrigin.x,last.height),edk::size2ui32(this->saveLast.width,this->saveLast.height));
+                            }
+                            else{
+                                //
+                                this->startDrawTiles(edk::vec2ui32(origin.x,origin.y),edk::size2ui32(last.width,this->saveOrigin.y));
+                                this->startDrawTiles(edk::vec2ui32(this->saveLast.width,this->saveOrigin.y),edk::size2ui32(last.width,last.height));
+                                //
+                                this->endDrawTiles(edk::vec2ui32(this->saveOrigin.x,this->saveOrigin.y),edk::size2ui32(origin.x,last.height));
+                                this->endDrawTiles(edk::vec2ui32(this->saveOrigin.x,last.height),edk::size2ui32(this->saveLast.width,this->saveLast.height));
+                            }
+                        }
+                        else{
+                            if(last.width<=this->saveLast.width){
+                                //
+                                this->startDrawTiles(edk::vec2ui32(origin.x,origin.y),edk::size2ui32(last.width,this->saveOrigin.y));
+                                this->startDrawTiles(edk::vec2ui32(origin.x,this->saveLast.height),edk::size2ui32(last.width,last.height));
+                                //
+                                this->endDrawTiles(edk::vec2ui32(this->saveOrigin.x,this->saveOrigin.y),edk::size2ui32(origin.x,this->saveLast.height));
+                                this->endDrawTiles(edk::vec2ui32(last.width,this->saveOrigin.y),edk::size2ui32(this->saveLast.width,this->saveLast.height));
+                            }
+                            else{
+                                //
+                                this->startDrawTiles(edk::vec2ui32(origin.x,origin.y),edk::size2ui32(last.width,this->saveOrigin.y));
+                                this->startDrawTiles(edk::vec2ui32(this->saveLast.width,this->saveOrigin.y),edk::size2ui32(last.width,this->saveLast.height));
+                                this->startDrawTiles(edk::vec2ui32(origin.x,this->saveLast.height),edk::size2ui32(last.width,last.height));
+                                //
+                                this->endDrawTiles(edk::vec2ui32(this->saveOrigin.x,this->saveOrigin.y),edk::size2ui32(origin.x,this->saveLast.height));
+                            }
+                        }
+                    }
+                }
+                else{
+                    //
+                    if(last.width <= this->saveLast.width){
+                        //
+                        if(last.height <= this->saveLast.height){
+                            //
+                            this->endDrawTiles(edk::vec2ui32(this->saveOrigin.x,this->saveOrigin.y),edk::size2ui32(this->saveLast.width,origin.y));
+                            this->endDrawTiles(edk::vec2ui32(this->saveOrigin.x,origin.y),edk::size2ui32(origin.x,last.height));
+                            this->endDrawTiles(edk::vec2ui32(last.width,origin.y),edk::size2ui32(this->saveLast.width,last.height));
+                            this->endDrawTiles(edk::vec2ui32(this->saveOrigin.x,last.height),edk::size2ui32(this->saveLast.width,this->saveLast.height));
+                        }
+                        else{
+                            //
+                            this->startDrawTiles(edk::vec2ui32(origin.x,this->saveLast.height),edk::size2ui32(last.width,last.height));
+                            //
+                            this->endDrawTiles(edk::vec2ui32(this->saveOrigin.x,this->saveOrigin.y),edk::size2ui32(this->saveLast.width,origin.y));
+                            this->endDrawTiles(edk::vec2ui32(this->saveOrigin.x,origin.y),edk::size2ui32(origin.x,this->saveLast.height));
+                            this->endDrawTiles(edk::vec2ui32(last.width,origin.y),edk::size2ui32(this->saveLast.width,this->saveLast.height));
+                        }
+                    }
+                    else{
+                        //
+                        if(last.height <= this->saveLast.height){
+                            //
+                            this->startDrawTiles(edk::vec2ui32(this->saveLast.width,origin.y),edk::size2ui32(last.width,last.height));
+                            //
+                            this->endDrawTiles(edk::vec2ui32(this->saveOrigin.x,this->saveOrigin.y),edk::size2ui32(this->saveLast.width,origin.y));
+                            this->endDrawTiles(edk::vec2ui32(this->saveOrigin.x,origin.y),edk::size2ui32(origin.x,last.height));
+                            this->endDrawTiles(edk::vec2ui32(this->saveOrigin.x,last.height),edk::size2ui32(this->saveLast.width,this->saveLast.height));
+                        }
+                        else{
+                            //
+                            this->startDrawTiles(edk::vec2ui32(this->saveLast.width,origin.y),edk::size2ui32(last.width,this->saveLast.height));
+                            this->startDrawTiles(edk::vec2ui32(origin.x,this->saveLast.height),edk::size2ui32(last.width,last.height));
+                            //
+                            this->endDrawTiles(edk::vec2ui32(this->saveOrigin.x,this->saveOrigin.y),edk::size2ui32(this->saveLast.width,origin.y));
+                            this->endDrawTiles(edk::vec2ui32(this->saveOrigin.x,origin.y),edk::size2ui32(origin.x,this->saveLast.height));
+                        }
+                    }
+                }
+            }
+            else{
+                //
+                //add all origin
+                this->startDrawTiles(origin,last);
+                //remove all save
+                this->endDrawTiles(this->saveOrigin,this->saveLast);
+            }
+        }
+    }
+
+    //save the new origind and size
+    this->saveOrigin=origin;
+    this->saveLast=last;
+}
+//start and end the draw tiles
+void edk::tiles::TileMap2D::startDrawTiles(edk::vec2ui32 origin,edk::size2ui32 last){
+    edk::vec2f32 positionTemp = this->getPosition();
+    for(edk::uint32 y=origin.y,y2=this->sizeMap.height-origin.y-1u;y<last.height;y++,y2--){
+        for(edk::uint32 x=origin.x;x<last.width;x++){
+            //draw the tile
+            /*
+            this->tileSet->drawTile( this->tileMap[y][x]
+                                     ,(x*this->scaleMap.width) + positionTemp.x
+                                     ,(y2*this->scaleMap.height) + positionTemp.y
+                                     ,0.f,this->scaleMap,color
+                                     );
+            */
+        }
+    }
+}
+void edk::tiles::TileMap2D::endDrawTiles(edk::vec2ui32 origin,edk::size2ui32 last){
+    edk::vec2f32 positionTemp = this->getPosition();
+    for(edk::uint32 y=origin.y,y2=this->sizeMap.height-origin.y-1u;y<last.height;y++,y2--){
+        for(edk::uint32 x=origin.x;x<last.width;x++){
+            //draw the tile
+            /*
+            this->tileSet->drawTile( this->tileMap[y][x]
+                                     ,(x*this->scaleMap.width) + positionTemp.x
+                                     ,(y2*this->scaleMap.height) + positionTemp.y
+                                     ,0.f,this->scaleMap,color
+                                     );
+            */
+        }
+    }
 }
 
 //set the tileSet

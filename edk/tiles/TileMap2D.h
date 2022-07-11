@@ -157,7 +157,7 @@ public:
     //get the tile position in the position
     edk::vec2ui32 getPointPosition(edk::vec2f32 point,bool* inside=NULL);
 
-    //Desenha o tileMap
+    //Draw the tileMap
     void draw(edk::color4f32 color);
     void draw(edk::vec2ui32 origin,edk::size2ui32 last,edk::color4f32 color);
     void drawWithoutMaterial(edk::color4f32 color);
@@ -259,6 +259,10 @@ private:
     //position of the tileMap
     edk::vec2f32 positionMap;
 
+    //save draw positions
+    edk::vec2ui32 saveOrigin;
+    edk::size2ui32 saveLast;
+
     //color of the tiles. When tiles was created it will receive this color
     edk::color4f32 color;
 
@@ -267,6 +271,11 @@ private:
     edk::physics2D::PhysicObject2D* getStaticTile(edk::uint32 positionX,edk::uint32 positionY);
     //compare two static objects
     bool compareStaticTile(edk::physics2D::PhysicObject2D* tile1,edk::physics2D::PhysicObject2D* tile2);
+    //update draw tiles to calculate which tile will start to draw and end to draw
+    void updateDrawTiles(edk::vec2ui32 origin,edk::size2ui32 last);
+    //start and end the draw tiles
+    void startDrawTiles(edk::vec2ui32 origin,edk::size2ui32 last);
+    void endDrawTiles(edk::vec2ui32 origin,edk::size2ui32 last);
 
     //PhysicsTiles
     class PhysicsTiles{
