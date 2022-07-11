@@ -60,8 +60,7 @@ edk::tiles::Tile2D::~Tile2D(){
     this->obj.removeAllMesh();
     this->deletePhysics();
     this->mesh.cleanTextures();
-    this->startDraw.clean();
-    this->endDraw.clean();
+    this->treeDraw.clean();
 }
 
 //return the type of the tile to the tileSet know witch tile is before delete it
@@ -246,27 +245,19 @@ edk::float32 edk::tiles::Tile2D::getPositionY(){
 }
 
 //callback to start and end draw tile
-bool edk::tiles::Tile2D::addStartDrawCallback(edk::tiles::DrawTile2DCallback* callback){
+bool edk::tiles::Tile2D::addDrawCallback(edk::tiles::DrawTile2DCallback* callback){
     if(callback)
-        return this->startDraw.add(callback);
+        return this->treeDraw.add(callback);
     return false;
 }
-bool edk::tiles::Tile2D::addEndDrawCallback(edk::tiles::DrawTile2DCallback* callback){
-    if(callback)
-    return this->endDraw.add(callback);
-    return false;
-}
-bool edk::tiles::Tile2D::removeStartDrawCallback(edk::tiles::DrawTile2DCallback* callback){
-    return this->startDraw.remove(callback);
-}
-bool edk::tiles::Tile2D::removeEndDrawCallback(edk::tiles::DrawTile2DCallback* callback){
-    return this->endDraw.remove(callback);
+bool edk::tiles::Tile2D::removeDrawCallback(edk::tiles::DrawTile2DCallback* callback){
+    return this->treeDraw.remove(callback);
 }
 void edk::tiles::Tile2D::runStartDraw(edk::uint32 id,edk::vec2ui32 position,edk::vec2f32 worldPosition){
-    this->startDraw.runStart(id,position,worldPosition);
+    this->treeDraw.runStart(id,position,worldPosition);
 }
 void edk::tiles::Tile2D::runEndDraw(edk::uint32 id,edk::vec2ui32 position,edk::vec2f32 worldPosition){
-    this->startDraw.runEnd(id,position,worldPosition);
+    this->treeDraw.runEnd(id,position,worldPosition);
 }
 
 //Add a interpolation to the animation

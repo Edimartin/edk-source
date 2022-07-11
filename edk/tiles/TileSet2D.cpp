@@ -1193,56 +1193,28 @@ bool edk::tiles::TileSet2D::setTileFrameUVinPosition(edk::uint32 tile,edk::uint3
 }
 
 //add tileDrawCallback
-bool edk::tiles::TileSet2D::addStartDrawCallback(edk::uint32 tile,edk::tiles::DrawTile2DCallback* callback){
+bool edk::tiles::TileSet2D::addDrawCallback(edk::uint32 tile,edk::tiles::DrawTile2DCallback* callback){
     if(tile){
         tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
             edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                return temp->addStartDrawCallback(callback);
+                return temp->addDrawCallback(callback);
             }
         }
     }
     //else return false
     return false;
 }
-bool edk::tiles::TileSet2D::addEndDrawCallback(edk::uint32 tile,edk::tiles::DrawTile2DCallback* callback){
+bool edk::tiles::TileSet2D::removeDrawCallback(edk::uint32 tile,edk::tiles::DrawTile2DCallback* callback){
     if(tile){
         tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
             edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                return temp->addEndDrawCallback(callback);
-            }
-        }
-    }
-    //else return false
-    return false;
-}
-bool edk::tiles::TileSet2D::removeStartDrawCallback(edk::uint32 tile,edk::tiles::DrawTile2DCallback* callback){
-    if(tile){
-        tile--;
-        //load the tile from the stack
-        if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);
-            if(temp){
-                return temp->removeStartDrawCallback(callback);
-            }
-        }
-    }
-    //else return false
-    return false;
-}
-bool edk::tiles::TileSet2D::removeEndDrawCallback(edk::uint32 tile,edk::tiles::DrawTile2DCallback* callback){
-    if(tile){
-        tile--;
-        //load the tile from the stack
-        if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);
-            if(temp){
-                return temp->removeEndDrawCallback(callback);
+                return temp->removeDrawCallback(callback);
             }
         }
     }

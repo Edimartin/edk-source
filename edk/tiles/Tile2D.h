@@ -126,10 +126,8 @@ public:
     edk::float32 getPositionY();
 
     //callback to start and end draw tile
-    bool addStartDrawCallback(edk::tiles::DrawTile2DCallback* callback);
-    bool addEndDrawCallback(edk::tiles::DrawTile2DCallback* callback);
-    bool removeStartDrawCallback(edk::tiles::DrawTile2DCallback* callback);
-    bool removeEndDrawCallback(edk::tiles::DrawTile2DCallback* callback);
+    bool addDrawCallback(edk::tiles::DrawTile2DCallback* callback);
+    bool removeDrawCallback(edk::tiles::DrawTile2DCallback* callback);
     void runStartDraw(edk::uint32 id,edk::vec2ui32 position,edk::vec2f32 worldPosition);
     void runEndDraw(edk::uint32 id,edk::vec2ui32 position,edk::vec2f32 worldPosition);
 
@@ -256,7 +254,7 @@ protected:
         edk::uint32 id;
         edk::vec2ui32 position;
         edk::vec2f32 worldPosition;
-    }startDraw,endDraw;
+    }treeDraw;
 };
 }//end namespace tiles
 }//end namespace edk

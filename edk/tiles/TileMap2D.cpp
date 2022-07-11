@@ -3691,53 +3691,29 @@ void edk::tiles::TileMap2D::sensor2DKeeping(edk::physics2D::Contact2D* contact){
 }
 
 //add tileDrawCallback
-bool edk::tiles::TileMap2D::addStartDrawCallback(edk::uint32 tileID,edk::tiles::DrawTile2DCallback* callback){
+bool edk::tiles::TileMap2D::addDrawCallback(edk::uint32 tileID,edk::tiles::DrawTile2DCallback* callback){
     if(callback && this->tileSet && tileID){
-        return this->tileSet->addStartDrawCallback(tileID,callback);
+        return this->tileSet->addDrawCallback(tileID,callback);
     }
     return false;
 }
-bool edk::tiles::TileMap2D::addStartDrawCallback(edk::vec2ui32 position,edk::tiles::DrawTile2DCallback* callback){
-    return this->addStartDrawCallback(this->getTileID(position),callback);
+bool edk::tiles::TileMap2D::addDrawCallback(edk::vec2ui32 position,edk::tiles::DrawTile2DCallback* callback){
+    return this->addDrawCallback(this->getTileID(position),callback);
 }
-bool edk::tiles::TileMap2D::addStartDrawCallback(edk::uint32 positionX,edk::uint32 positionY,edk::tiles::DrawTile2DCallback* callback){
-    return this->addStartDrawCallback(this->getTileID(positionX,positionY),callback);
+bool edk::tiles::TileMap2D::addDrawCallback(edk::uint32 positionX,edk::uint32 positionY,edk::tiles::DrawTile2DCallback* callback){
+    return this->addDrawCallback(this->getTileID(positionX,positionY),callback);
 }
-bool edk::tiles::TileMap2D::addEndDrawCallback(edk::uint32 tileID,edk::tiles::DrawTile2DCallback* callback){
+bool edk::tiles::TileMap2D::removeDrawCallback(edk::uint32 tileID,edk::tiles::DrawTile2DCallback* callback){
     if(callback && this->tileSet && tileID){
-        return this->tileSet->addEndDrawCallback(tileID,callback);
+        return this->tileSet->removeDrawCallback(tileID,callback);
     }
     return false;
 }
-bool edk::tiles::TileMap2D::addEndDrawCallback(edk::vec2ui32 position,edk::tiles::DrawTile2DCallback* callback){
-    return this->addEndDrawCallback(this->getTileID(position),callback);
+bool edk::tiles::TileMap2D::removeDrawCallback(edk::vec2ui32 position,edk::tiles::DrawTile2DCallback* callback){
+    return this->removeDrawCallback(this->getTileID(position),callback);
 }
-bool edk::tiles::TileMap2D::addEndDrawCallback(edk::uint32 positionX,edk::uint32 positionY,edk::tiles::DrawTile2DCallback* callback){
-    return this->addEndDrawCallback(this->getTileID(positionX,positionY),callback);
-}
-bool edk::tiles::TileMap2D::removeStartDrawCallback(edk::uint32 tileID,edk::tiles::DrawTile2DCallback* callback){
-    if(callback && this->tileSet && tileID){
-        return this->tileSet->removeStartDrawCallback(tileID,callback);
-    }
-    return false;
-}
-bool edk::tiles::TileMap2D::removeStartDrawCallback(edk::vec2ui32 position,edk::tiles::DrawTile2DCallback* callback){
-    return this->removeStartDrawCallback(this->getTileID(position),callback);
-}
-bool edk::tiles::TileMap2D::removeStartDrawCallback(edk::uint32 positionX,edk::uint32 positionY,edk::tiles::DrawTile2DCallback* callback){
-    return this->removeStartDrawCallback(this->getTileID(positionX,positionY),callback);
-}
-bool edk::tiles::TileMap2D::removeEndDrawCallback(edk::uint32 tileID,edk::tiles::DrawTile2DCallback* callback){
-    if(callback && this->tileSet && tileID){
-        return this->tileSet->removeEndDrawCallback(tileID,callback);
-    }
-    return false;
-}
-bool edk::tiles::TileMap2D::removeEndDrawCallback(edk::vec2ui32 position,edk::tiles::DrawTile2DCallback* callback){
-    return this->removeEndDrawCallback(this->getTileID(position),callback);
-}
-bool edk::tiles::TileMap2D::removeEndDrawCallback(edk::uint32 positionX,edk::uint32 positionY,edk::tiles::DrawTile2DCallback* callback){
-    return this->removeEndDrawCallback(this->getTileID(positionX,positionY),callback);
+bool edk::tiles::TileMap2D::removeDrawCallback(edk::uint32 positionX,edk::uint32 positionY,edk::tiles::DrawTile2DCallback* callback){
+    return this->removeDrawCallback(this->getTileID(positionX,positionY),callback);
 }
 
 //XML

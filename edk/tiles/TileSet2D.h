@@ -359,10 +359,8 @@ public:
     bool setTileFrameUVinPosition(edk::uint32 tile,edk::uint32 position);
 
     //add tileDrawCallback
-    bool addStartDrawCallback(edk::uint32 tile,edk::tiles::DrawTile2DCallback* callback);
-    bool addEndDrawCallback(edk::uint32 tile,edk::tiles::DrawTile2DCallback* callback);
-    bool removeStartDrawCallback(edk::uint32 tile,edk::tiles::DrawTile2DCallback* callback);
-    bool removeEndDrawCallback(edk::uint32 tile,edk::tiles::DrawTile2DCallback* callback);
+    bool addDrawCallback(edk::uint32 tile,edk::tiles::DrawTile2DCallback* callback);
+    bool removeDrawCallback(edk::uint32 tile,edk::tiles::DrawTile2DCallback* callback);
     bool runStartDraw(edk::uint32 id,edk::vec2ui32 position,edk::vec2f32 worldPosition);
     bool runEndDraw(edk::uint32 id,edk::vec2ui32 position,edk::vec2f32 worldPosition);
 
