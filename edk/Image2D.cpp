@@ -28,44 +28,47 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #warning "            Inside Image2D.cpp"
 #endif
 
-namespace edk {
-
-
-
-
-Image2D::Image2D()
-{
+edk::Image2D::Image2D(){
     //ctor
     this->imageName=NULL;
     this->imageFileName=NULL;
     this->vec = NULL;
+    this->colors = NULL;
     this->channels=0u;
+    this->palette=NULL;
+    this->paletteSize=0u;
+    this->bytesPerColors=0u;
 }
 
-Image2D::Image2D(char8 *imageFileName)
-{
+edk::Image2D::Image2D(char8 *imageFileName){
     //clean all
     this->imageName=NULL;
     this->imageFileName=NULL;
     this->vec = NULL;
+    this->colors = NULL;
     this->channels=0u;
+    this->palette=NULL;
+    this->paletteSize=0u;
+    this->bytesPerColors=0u;
     //load the image
     this->loadFromFile(imageFileName);
 }
 
-Image2D::Image2D(const char *imageFileName)
-{
+edk::Image2D::Image2D(const char *imageFileName){
     //clean all
     this->imageName=NULL;
     this->imageFileName=NULL;
     this->vec = NULL;
+    this->colors = NULL;
     this->channels=0u;
+    this->palette=NULL;
+    this->paletteSize=0u;
+    this->bytesPerColors=0u;
     //load the image
     this->loadFromFile(imageFileName);
 }
 
-Image2D::~Image2D()
-{
+edk::Image2D::~Image2D(){
     //dtor
     this->deleteImage();
     //    this->deleteName();
@@ -98,7 +101,7 @@ void edk::Image2D::deleteFileName(){
     this->imageFileName=NULL;
 }
 //discover the imageType
-edk::uint8 Image2D::getStreamType(edk::uint8* encoded){
+edk::uint8 edk::Image2D::getStreamType(edk::uint8* encoded){
     //test the stream encoded
     if(encoded){
         //test if are JPEG
@@ -123,7 +126,7 @@ edk::uint8 Image2D::getStreamType(edk::uint8* encoded){
     return EDK_CODEC_NO;
 }
 //discover the nameType
-edk::uint8 Image2D::getNameType(edk::char8* name){
+edk::uint8 edk::Image2D::getNameType(edk::char8* name){
     //test the fileName
     if(name){
         //get the fileSize
@@ -225,7 +228,7 @@ edk::uint8 Image2D::getNameType(edk::char8* name){
 
 
 //create a new Image
-bool Image2D::newImage(edk::char8 *imageName,edk::size2ui32 size,edk::uint8 channels){
+bool edk::Image2D::newImage(edk::char8 *imageName,edk::size2ui32 size,edk::uint8 channels){
     //delete the last image
     this->deleteImage();
     //test the new image
@@ -247,17 +250,73 @@ bool Image2D::newImage(edk::char8 *imageName,edk::size2ui32 size,edk::uint8 chan
     this->deleteImage();
     return false;
 }
-bool Image2D::newImage(edk::char8 *imageName,edk::uint32 width,edk::uint32 height,edk::uint8 channels){
+bool edk::Image2D::newImage(edk::char8 *imageName,edk::uint32 width,edk::uint32 height,edk::uint8 channels){
     return this->newImage(imageName,edk::size2ui32(width,height),channels);
 }
-bool Image2D::newImage(const char *imageName,edk::size2ui32 size,edk::uint8 channels){
+bool edk::Image2D::newImage(const edk::char8 *imageName,edk::size2ui32 size,edk::uint8 channels){
     return this->newImage((edk::char8 *)imageName,size,channels);
 }
-bool Image2D::newImage(const char *imageName,edk::uint32 width,edk::uint32 height,edk::uint8 channels){
+bool edk::Image2D::newImage(const edk::char8 *imageName,edk::uint32 width,edk::uint32 height,edk::uint8 channels){
     return this->newImage((edk::char8 *)imageName,width,height,channels);
 }
 
-bool Image2D::loadFromFile(char8 *imageFileName)
+//create a new image with a palette
+bool edk::Image2D::newImage(edk::char8 *imageName,edk::size2ui32 size,edk::uint8 channels,edk::uint32 paletteSize){
+    //delete the last image
+    this->deleteImage();
+    //test the new image
+    if(imageName&&size.width&&size.height&&paletteSize&&channels&&channels<=4u){
+        //set the name
+        if(this->setName(imageName)){
+            //set the size
+            this->size = size;
+            //clean the channels
+            this->channels=channels;
+            //create the palette
+            this->palette=new edk::uint8[paletteSize * this->channels];
+            if(this->palette){
+                this->paletteSize=paletteSize;
+
+                edk::uint32 imageSize = size.width*size.height;
+
+                //calculate the bits per pixel
+                if(this->paletteSize<=0xFF){
+                    this->bytesPerColors=1u;
+                }
+                else if(this->paletteSize<=0xFFFF){
+                    this->bytesPerColors=2u;
+                }
+                else if(this->paletteSize<=0xFFFFFF){
+                    this->bytesPerColors=3u;
+                }
+                else if(this->paletteSize<=0xFFFFFFFF){
+                    this->bytesPerColors=4u;
+                }
+
+                //create the new vector
+                this->colors = new edk::uint8[imageSize * this->bytesPerColors];
+                if(this->colors){
+                    memset(this->colors,0u,imageSize * this->bytesPerColors);
+                    //return true
+                    return true;
+                }
+            }
+        }
+    }
+    this->deleteImage();
+    return false;
+}
+bool edk::Image2D::newImage(edk::char8 *imageName,edk::uint32 width,edk::uint32 height,edk::uint8 channels,edk::uint32 paletteSize){
+    return this->newImage(imageName,edk::size2ui32(width,height),channels,paletteSize);
+}
+bool edk::Image2D::newImage(const edk::char8 *imageName,edk::size2ui32 size,edk::uint8 channels,edk::uint32 paletteSize){
+    return this->newImage((edk::char8 *)imageName,size,channels,paletteSize);
+}
+bool edk::Image2D::newImage(const edk::char8 *imageName,edk::uint32 width,edk::uint32 height,edk::uint8 channels,edk::uint32 paletteSize){
+    return this->newImage((edk::char8 *)imageName,width,height,channels,paletteSize);
+}
+
+bool edk::Image2D::loadFromFile(char8 *imageFileName)
 {
     //open the file
     edk::File file;
@@ -291,11 +350,11 @@ bool Image2D::loadFromFile(char8 *imageFileName)
     return false;
 }
 
-bool Image2D::loadFromFile(const char *imageFileName){
+bool edk::Image2D::loadFromFile(const char *imageFileName){
     return this->loadFromFile((edk::char8*)imageFileName);
 }
 
-bool Image2D::loadFromFileToRGBA(char8 *imageFileName){
+bool edk::Image2D::loadFromFileToRGBA(char8 *imageFileName){
     //open the file
     edk::File file;
     if(file.openBinFile(imageFileName)){
@@ -328,11 +387,11 @@ bool Image2D::loadFromFileToRGBA(char8 *imageFileName){
     return false;
 }
 
-bool Image2D::loadFromFileToRGBA(const char *imageFileName){
+bool edk::Image2D::loadFromFileToRGBA(const char *imageFileName){
     return this->loadFromFileToRGBA((edk::char8*)imageFileName);
 }
 
-bool Image2D::loadFromMemory(uint8 *image, edk::uint32 vecSize){
+bool edk::Image2D::loadFromMemory(uint8 *image, edk::uint32 vecSize){
     //delete the vector
     this->deleteImage();
     //this->deleteName();
@@ -378,7 +437,7 @@ bool Image2D::loadFromMemory(uint8 *image, edk::uint32 vecSize){
     return false;
 }
 
-bool Image2D::loadFromMemoryToRGBA(uint8 *image, edk::uint32 vecSize){
+bool edk::Image2D::loadFromMemoryToRGBA(uint8 *image, edk::uint32 vecSize){
     //delete the vector
     this->deleteImage();
     //this->deleteName();
@@ -518,8 +577,121 @@ bool Image2D::loadFromMemoryToRGBA(uint8 *image, edk::uint32 vecSize){
     return false;
 }
 
+//function used to generate the pixels from colors palette
+bool edk::Image2D::generatePixelsFromColors(){
+    //test if have the image
+    edk::uint32 width = this->getWidth();
+    edk::uint32 height = this->getHeight();
+    edk::uint8 channels = this->getChannels();
+    edk::uint8 bytes = this->bytesPerColors;
+    edk::uint8* palette = this->palette;
+    edk::uint32 paletteSize = this->paletteSize;
+
+    if(this->haveImage() && width && height && channels && this->haveColors() && bytes && palette && paletteSize){
+        //delete the last vector
+        if(this->vec){
+            delete[] this->vec;
+        }
+        //create a new vec
+        this->vec = new edk::uint8[width*height*channels];
+        //create the new vec to set the pixels
+        if(this->vec){
+            //copy the colors in to pixels
+            //pixel vector
+            edk::uint8* vector = this->vec;
+            //color id vector
+            edk::uint8* colors = this->colors;
+            //color id vector
+            //edk::uint8* color = NULL;
+
+            switch(bytes){
+            case 1u:
+            {
+                //color id
+                edk::uint8 colorID;
+                //copy the colors into pixels
+                for(edk::uint32 y=0u;y<height;y++){
+                    for(edk::uint32 x=0u;x<width;x++){
+                        mempcpy(&colorID,colors,sizeof(colorID));
+                        if(colorID < paletteSize){
+                            //convert the color ID to the pixel channel
+                            memcpy(vector,&palette[colorID*channels],channels);
+                        }
+                        //increment the vectors and colors
+                        vector+=channels;
+                        colors+=bytes;
+                    }
+                }
+            }
+                break;
+            case 2u:
+            {
+                //
+                edk::uint16 colorID;
+                //copy the colors into pixels
+                for(edk::uint32 y=0u;y<height;y++){
+                    for(edk::uint32 x=0u;x<width;x++){
+                        mempcpy(&colorID,colors,sizeof(colorID));
+                        if(colorID < paletteSize){
+                            //convert the color ID to the pixel channel
+                            memcpy(vector,&palette[colorID*channels],channels);
+                        }
+                        //increment the vectors and colors
+                        vector+=channels;
+                        colors+=bytes;
+                    }
+                }
+            }
+                break;
+            case 3u:
+            {
+                //
+                edk::uint32 colorID;
+                //copy the colors into pixels
+                for(edk::uint32 y=0u;y<height;y++){
+                    for(edk::uint32 x=0u;x<width;x++){
+                        mempcpy(&colorID,colors,/*sizeof(colorID)*/3u);
+                        if(colorID < paletteSize){
+                            //convert the color ID to the pixel channel
+                            memcpy(vector,&palette[colorID*channels],channels);
+                        }
+                        //increment the vectors and colors
+                        vector+=channels;
+                        colors+=bytes;
+                    }
+                }
+            }
+                break;
+            case 4u:
+            {
+                //
+                edk::uint32 colorID;
+                //copy the colors into pixels
+                for(edk::uint32 y=0u;y<height;y++){
+                    for(edk::uint32 x=0u;x<width;x++){
+                        mempcpy(&colorID,colors,sizeof(colorID));
+                        if(colorID < paletteSize){
+                            //convert the color ID to the pixel channel
+                            memcpy(vector,&palette[colorID*channels],channels);
+                        }
+                        //increment the vectors and colors
+                        vector+=channels;
+                        colors+=bytes;
+                    }
+                }
+            }
+                break;
+            default:
+                return false;
+            }
+            return true;
+        }
+    }
+    return false;
+}
+
 //save the image
-bool Image2D::saveToFile(edk::char8 *fileName){
+bool edk::Image2D::saveToFile(edk::char8 *fileName){
     //test if have image
     if(this->haveImage()){
         bool deleteTempName=false;
@@ -649,11 +821,11 @@ bool Image2D::saveToFile(edk::char8 *fileName){
     }
     return false;
 }
-bool Image2D::saveToFile(const char *fileName){
+bool edk::Image2D::saveToFile(const char *fileName){
     return this->saveToFile((edk::char8 *)fileName);
 }
 
-bool Image2D::setName(char8 *imageName)
+bool edk::Image2D::setName(char8 *imageName)
 {
     //delete the last imageName
     this->deleteName();
@@ -667,85 +839,290 @@ bool Image2D::setName(char8 *imageName)
     return false;
 }
 
-bool Image2D::setName(const char *imageName)
+bool edk::Image2D::setName(const char *imageName)
 {
     return this->setName((edk::char8*) imageName);
 }
 
 //draw on the image
-bool Image2D::draw(edk::uint8* pixels){
+bool edk::Image2D::draw(edk::uint8* pixels){
     if(pixels && this->haveImage()){
         memcpy(this->vec,pixels,this->getWidth()*this->getHeight()*this->getChannels());
         return true;
     }
     return false;
 }
+//draw a color in the image vector
+bool edk::Image2D::drawPosition(edk::vec2ui32 position,edk::uint8* color){
+    if(position.x < this->getWidth() && position.y<this->getHeight() && color){
+        edk::uint32 i = (position.x + (position.y*this->getHeight())) * this->channels;
+        memcpy(&this->vec[i],color,this->channels);
+        return true;
+    }
+    return false;
+}
+bool edk::Image2D::drawPosition(edk::vec2ui32 position,edk::uint8 g){
+    edk::uint8 color[4u] = {g,1u,0u,0u};
+    return this->drawPosition(position,(edk::uint8*)&color);
+}
+bool edk::Image2D::drawPosition(edk::vec2ui32 position,edk::uint8 g,edk::uint8 a){
+    edk::uint8 color[4u] = {g,a,0u,0u};
+    return this->drawPosition(position,(edk::uint8*)&color);
+}
+bool edk::Image2D::drawPosition(edk::vec2ui32 position,edk::uint8 r,edk::uint8 g,edk::uint8 b){
+    edk::uint8 color[4u] = {r,g,b,1u};
+    return this->drawPosition(position,(edk::uint8*)&color);
+}
+bool edk::Image2D::drawPosition(edk::vec2ui32 position,edk::uint8 r,edk::uint8 g,edk::uint8 b,edk::uint8 a){
+    edk::uint8 color[4u] = {r,g,b,a};
+    return this->drawPosition(position,(edk::uint8*)&color);
+}
+bool edk::Image2D::drawPosition(edk::uint32 positionX,edk::uint32 positionY,edk::uint8* color){
+    return this->drawPosition(edk::vec2ui32(positionX,positionY),color);
+}
+bool edk::Image2D::drawPosition(edk::uint32 positionX,edk::uint32 positionY,edk::uint8 g){
+    return this->drawPosition(edk::vec2ui32(positionX,positionY),g);
+}
+bool edk::Image2D::drawPosition(edk::uint32 positionX,edk::uint32 positionY,edk::uint8 g,edk::uint8 a){
+    return this->drawPosition(edk::vec2ui32(positionX,positionY),g,a);
+}
+bool edk::Image2D::drawPosition(edk::uint32 positionX,edk::uint32 positionY,edk::uint8 r,edk::uint8 g,edk::uint8 b){
+    return this->drawPosition(edk::vec2ui32(positionX,positionY),r,g,b);
+}
+bool edk::Image2D::drawPosition(edk::uint32 positionX,edk::uint32 positionY,edk::uint8 r,edk::uint8 g,edk::uint8 b,edk::uint8 a){
+    return this->drawPosition(edk::vec2ui32(positionX,positionY),r,g,b,a);
+}
+//draw the colors on the palette. The user need to know the size of the palette multiply by channel size
+bool edk::Image2D::drawPalette(edk::uint8* colors){
+    if(colors && this->havePalette()){
+        memcpy(this->colors,colors,this->getWidth()*this->getHeight()*this->getChannels());
+        return true;
+    }
+    return false;
+}
+//draw a color in palette position
+bool edk::Image2D::drawPalettePosition(edk::uint32 position,edk::uint8* color){
+    if(position < this->paletteSize && color && this->palette){
+        //set the color
+        memcpy(&this->palette[position],color,this->channels);
+        return true;
+    }
+    return false;
+}
+bool edk::Image2D::drawPalettePosition(edk::uint32 position,edk::uint8 g){
+    edk::uint8 color[4u] = {g,1u,0u,0u};
+    return this->drawPalettePosition(position,(edk::uint8*)&color);
+}
+bool edk::Image2D::drawPalettePosition(edk::uint32 position,edk::uint8 g,edk::uint8 a){
+    edk::uint8 color[4u] = {g,a,0u,0u};
+    return this->drawPalettePosition(position,(edk::uint8*)&color);
+}
+bool edk::Image2D::drawPalettePosition(edk::uint32 position,edk::uint8 r,edk::uint8 g,edk::uint8 b){
+    edk::uint8 color[4u] = {r,g,b,1u};
+    return this->drawPalettePosition(position,(edk::uint8*)&color);
+}
+bool edk::Image2D::drawPalettePosition(edk::uint32 position,edk::uint8 r,edk::uint8 g,edk::uint8 b,edk::uint8 a){
+    edk::uint8 color[4u] = {r,g,b,a};
+    return this->drawPalettePosition(position,(edk::uint8*)&color);
+}
+//draw the colorIDs in the image using the palette positions. The user need to know the colors size which is the paletteSize multiply by bytesPerColor
+bool edk::Image2D::drawColors(edk::uint8* colors){
+    if(this->colors && colors && this->getWidth() && getHeight() && this->getBytesPerColor()){
+        memcpy(this->colors,colors,this->getWidth()*this->getHeight()*this->getBytesPerColor());
+        return true;
+    }
+    return false;
+}
+//draw a color position from the palette in colors vector.
+bool edk::Image2D::drawColorsPosition(edk::vec2ui32 position,edk::uint8* colorID){
+    if(position.x < this->getWidth() && position.y<this->getHeight() && colorID){
+        edk::uint32 i = (position.x + (position.y*this->getHeight())) * this->bytesPerColors;
+        memcpy(&this->colors[i],colorID,this->bytesPerColors);
+        return true;
+    }
+    return false;
+}
+bool edk::Image2D::drawColorsPosition(edk::vec2ui32 position,edk::uint8 colorID){
+    switch(this->bytesPerColors){
+    case 1u:
+    {
+        edk::uint8 color = colorID;
+        return this->drawColorsPosition(position,(edk::uint8*)&color);
+    }
+    case 2u:
+    {
+        edk::uint8 color[2u] = {0u,colorID};
+        return this->drawColorsPosition(position,(edk::uint8*)&color);
+    }
+    case 3u:
+    {
+        edk::uint8 color[3u] = {0u,0u,colorID};
+        return this->drawColorsPosition(position,(edk::uint8*)&color);
+    }
+    case 4u:
+    {
+        edk::uint8 color[4u] = {0u,0u,0u,colorID};
+        return this->drawColorsPosition(position,(edk::uint8*)&color);
+    }
+    }
+    return false;
+}
+bool edk::Image2D::drawColorsPosition(edk::vec2ui32 position,edk::uint16 colorID){
+    switch(this->bytesPerColors){
+    case 1u:
+    {
+        edk::uint8 color = (edk::uint8)colorID;
+        return this->drawColorsPosition(position,(edk::uint8*)&color);
+    }
+    case 2u:
+    {
+        edk::uint8 color[2u] = {((edk::uint8*)&colorID)[0u],((edk::uint8*)&colorID)[1u]};
+        return this->drawColorsPosition(position,(edk::uint8*)&color);
+    }
+    case 3u:
+    {
+        edk::uint8 color[3u] = {0u,((edk::uint8*)&colorID)[0u],((edk::uint8*)&colorID)[1u]};
+        return this->drawColorsPosition(position,(edk::uint8*)&color);
+    }
+    case 4u:
+    {
+        edk::uint8 color[4u] = {0u,0u,((edk::uint8*)&colorID)[0u],((edk::uint8*)&colorID)[1u]};
+        return this->drawColorsPosition(position,(edk::uint8*)&color);
+    }
+    }
+    return false;
+}
+bool edk::Image2D::drawColorsPosition(edk::vec2ui32 position,edk::uint32 colorID){
+    switch(this->bytesPerColors){
+    case 1u:
+    {
+        edk::uint8 color = (edk::uint8)colorID;
+        return this->drawColorsPosition(position,(edk::uint8*)&color);
+    }
+    case 2u:
+    {
+        edk::uint8 color[2u] = {((edk::uint8*)&colorID)[2u],((edk::uint8*)&colorID)[3u]};
+        return this->drawColorsPosition(position,(edk::uint8*)&color);
+    }
+    case 3u:
+    {
+        edk::uint8 color[3u] = {((edk::uint8*)&colorID)[1u],((edk::uint8*)&colorID)[2u],((edk::uint8*)&colorID)[3u]};
+        return this->drawColorsPosition(position,(edk::uint8*)&color);
+    }
+    case 4u:
+    {
+        edk::uint8 color[4u] = {((edk::uint8*)&colorID)[0u],((edk::uint8*)&colorID)[1u],((edk::uint8*)&colorID)[2u],((edk::uint8*)&colorID)[3u]};
+        return this->drawColorsPosition(position,(edk::uint8*)&color);
+    }
+    }
+    return false;
+}
+bool edk::Image2D::drawColorsPosition(edk::uint32 positionX,edk::uint32 positionY,edk::uint8* colorID){
+    return this->drawColorsPosition(edk::vec2ui32(positionX,positionY),colorID);
+}
+bool edk::Image2D::drawColorsPosition(edk::uint32 positionX,edk::uint32 positionY,edk::uint8 colorID){
+    return this->drawColorsPosition(edk::vec2ui32(positionX,positionY),colorID);
+}
+bool edk::Image2D::drawColorsPosition(edk::uint32 positionX,edk::uint32 positionY,edk::uint16 colorID){
+    return this->drawColorsPosition(edk::vec2ui32(positionX,positionY),colorID);
+}
+bool edk::Image2D::drawColorsPosition(edk::uint32 positionX,edk::uint32 positionY,edk::uint32 colorID){
+    return this->drawColorsPosition(edk::vec2ui32(positionX,positionY),colorID);
+}
 
-size2ui32 Image2D::getSize()
+edk::size2ui32 edk::Image2D::getSize()
 {
     //test if have a image
     return this->size;
 }
 
-uint32 Image2D::getWidth(){
+edk::uint32 edk::Image2D::getWidth(){
     return this->getSize().width;
 }
 
-uint32 Image2D::getHeight(){
+edk::uint32 edk::Image2D::getHeight(){
     return this->getSize().height;
 }
 
-uint32 Image2D::width()
+edk::uint32 edk::Image2D::width()
 {
     return this->getSize().width;
 }
 
-uint32 Image2D::height()
+edk::uint32 edk::Image2D::height()
 {
     return this->getSize().height;
 }
 //return the channels of the image
-edk::uint8 Image2D::getChannels(){
+edk::uint8 edk::Image2D::getChannels(){
     return this->channels;
 }
+//return the bytes per color to set the color values with the palette positions.
+edk::uint8 edk::Image2D::getBytesPerColor(){
+    return this->bytesPerColors;
+}
 
-bool Image2D::haveImage()
+edk::uint32 edk::Image2D::getPaletteSize(){
+    return this->paletteSize;
+}
+//get the vector size
+edk::uint32 edk::Image2D::getPixelsLenght(){
+    return this->getWidth() * this->getHeight() * this->getChannels();
+}
+//get the palette size
+edk::uint32 edk::Image2D::getPaletteLenght(){
+    return this->getPaletteSize() * this->getChannels();
+}
+//get the colors lenght returh the colors vector lenght with the palette ID's
+edk::uint32 edk::Image2D::getColorsLenght(){
+    return this->getBytesPerColor() * this->getWidth() * this->getHeight();
+}
+
+bool edk::Image2D::haveImage()
 {
     return (bool)this->vec;
 }
 
-bool Image2D::haveName()
+bool edk::Image2D::haveColors(){
+    return (bool)this->colors;
+}
+
+bool edk::Image2D::havePalette(){
+    return (bool)this->palette;
+}
+
+bool edk::Image2D::haveName()
 {
     return (bool)this->imageName;
 }
 
-bool Image2D::haveFileName()
+bool edk::Image2D::haveFileName()
 {
     return (bool)this->imageFileName;
 }
 
-char8* Image2D::getName()
+edk::char8* edk::Image2D::getName()
 {
     return this->imageName;
 }
 
-char8* Image2D::name()
+edk::char8* edk::Image2D::name()
 {
     return this->getName();
 }
 
-char8* Image2D::getFileName()
+edk::char8* edk::Image2D::getFileName()
 {
     return this->imageFileName;
 }
 
-char8* Image2D::fileName()
+edk::char8* edk::Image2D::fileName()
 {
     return this->getFileName();
 }
 
 //return the pixels of the image to use in videoBoard
-edk::uint8* Image2D::getPixels(){
+edk::uint8* edk::Image2D::getPixels(){
     //test if open the image
     if(this->haveImage()){
         //then return the pointer
@@ -754,15 +1131,33 @@ edk::uint8* Image2D::getPixels(){
     //else return false
     return NULL;
 }
+//return the colors vector with all the palette codes
+edk::uint8* edk::Image2D::getColors(){
+    //test if open the image
+    if(this->haveColors()){
+        //then return the pointer
+        return this->colors;
+    }
+    //else return false
+    return NULL;
+}
 
-void Image2D::deleteImage()
+void edk::Image2D::deleteImage()
 {
-    //testa se possui uma image
+    //test if have an image
     if(this->haveImage()){
         //
         delete[] this->vec;
     }
     this->vec=NULL;
+    //test if have a palette
+    if(this->havePalette()){
+        //
+        delete[] this->palette;
+    }
+    this->palette=NULL;
+    this->paletteSize=0u;
+    this->bytesPerColors=0u;
     //clean the channels
     this->channels=0u;
     //clean the size
@@ -773,7 +1168,7 @@ void Image2D::deleteImage()
     this->deleteFileName();
 }
 
-void Image2D::deleteName()
+void edk::Image2D::deleteName()
 {
     //
     if(this->haveName()){
@@ -784,7 +1179,7 @@ void Image2D::deleteName()
 }
 
 //process the flip image in Y
-bool Image2D::flipImageY(){
+bool edk::Image2D::flipImageY(){
     return edk::Image2D::flipY(this->vec,this->size.width,this->size.height,this->channels);
     /*
     //test if have the image
@@ -819,130 +1214,130 @@ bool Image2D::flipImageY(){
 
 //Convertions
 //RGB to HSV
-edk::color3f32 Image2D::rgbTohsv(edk::uint8 r,edk::uint8 g,edk::uint8 b){
+edk::color3f32 edk::Image2D::rgbTohsv(edk::uint8 r,edk::uint8 g,edk::uint8 b){
     return edk::codecs::CodecImage::rgbTohsv(r,g,b);
 }
-edk::color3f32 Image2D::rgbTohsv(edk::color3ui8 rgb){
+edk::color3f32 edk::Image2D::rgbTohsv(edk::color3ui8 rgb){
     return edk::codecs::CodecImage::rgbTohsv(rgb.r,rgb.g,rgb.b);
 }
-edk::color3f32 Image2D::rgbTohsv(edk::color4ui8 rgba){
+edk::color3f32 edk::Image2D::rgbTohsv(edk::color4ui8 rgba){
     return edk::codecs::CodecImage::rgbTohsv(rgba.r,rgba.g,rgba.b);
 }
-edk::uint8 Image2D::rgbToV(edk::uint8 r,edk::uint8 g,edk::uint8 b){
+edk::uint8 edk::Image2D::rgbToV(edk::uint8 r,edk::uint8 g,edk::uint8 b){
     return edk::codecs::CodecImage::rgbToV(r,g,b);
 }
-edk::uint8 Image2D::rgbToV(edk::color3ui8 rgb){
+edk::uint8 edk::Image2D::rgbToV(edk::color3ui8 rgb){
     return edk::codecs::CodecImage::rgbToV(rgb.r,rgb.g,rgb.b);
 }
-edk::uint8 Image2D::rgbaToV(edk::color4ui8 rgba){
+edk::uint8 edk::Image2D::rgbaToV(edk::color4ui8 rgba){
     return edk::codecs::CodecImage::rgbToV(rgba.r,rgba.g,rgba.b);
 }
 //vector
-bool Image2D::rgbToV(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest){
+bool edk::Image2D::rgbToV(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest){
     return edk::codecs::CodecImage::rgbToV(vector,size,dest);
 }
-edk::uint8* Image2D::rgbToV(edk::uint8* vector,edk::size2ui32 size){
+edk::uint8* edk::Image2D::rgbToV(edk::uint8* vector,edk::size2ui32 size){
     return edk::codecs::CodecImage::rgbToV(vector,size);
 }
-bool Image2D::rgbToV(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest){
+bool edk::Image2D::rgbToV(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest){
     return edk::codecs::CodecImage::rgbToV(vector,edk::size2ui32(width,height),dest);
 }
-edk::uint8* Image2D::rgbToV(edk::uint8* vector,edk::uint32 width,edk::uint32 height){
+edk::uint8* edk::Image2D::rgbToV(edk::uint8* vector,edk::uint32 width,edk::uint32 height){
     return edk::codecs::CodecImage::rgbToV(vector,edk::size2ui32(width,height));
 }
-bool Image2D::rgbaToV(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest){
+bool edk::Image2D::rgbaToV(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest){
     return edk::codecs::CodecImage::rgbaToV(vector,size,dest);
 }
-edk::uint8* Image2D::rgbaToV(edk::uint8* vector,edk::size2ui32 size){
+edk::uint8* edk::Image2D::rgbaToV(edk::uint8* vector,edk::size2ui32 size){
     return edk::codecs::CodecImage::rgbaToV(vector,size);
 }
-bool Image2D::rgbaToV(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest){
+bool edk::Image2D::rgbaToV(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest){
     return edk::codecs::CodecImage::rgbaToV(vector,edk::size2ui32(width,height),dest);
 }
-edk::uint8* Image2D::rgbaToV(edk::uint8* vector,edk::uint32 width,edk::uint32 height){
+edk::uint8* edk::Image2D::rgbaToV(edk::uint8* vector,edk::uint32 width,edk::uint32 height){
     return edk::codecs::CodecImage::rgbaToV(vector,edk::size2ui32(width,height));
 }
 //HSV to RGB
-edk::color3ui8 Image2D::hsvTorgb(edk::float32 h,edk::float32 s,edk::float32 v){
+edk::color3ui8 edk::Image2D::hsvTorgb(edk::float32 h,edk::float32 s,edk::float32 v){
     return edk::codecs::CodecImage::hsvTorgb(h,s,v);
 }
-edk::color3ui8 Image2D::hsvTorgb(edk::color3f32 hsv){
+edk::color3ui8 edk::Image2D::hsvTorgb(edk::color3f32 hsv){
     return edk::codecs::CodecImage::hsvTorgb(hsv.r,hsv.g,hsv.b);
 }
 //RGB to HSL
-edk::color3f32 Image2D::rgbTohsl(edk::uint8 r,edk::uint8 g,edk::uint8 b){
+edk::color3f32 edk::Image2D::rgbTohsl(edk::uint8 r,edk::uint8 g,edk::uint8 b){
     return edk::codecs::CodecImage::rgbTohsl(r,g,b);
 }
-edk::color3f32 Image2D::rgbTohsl(edk::color3ui8 rgb){
+edk::color3f32 edk::Image2D::rgbTohsl(edk::color3ui8 rgb){
     return edk::codecs::CodecImage::rgbTohsl(rgb.r,rgb.g,rgb.b);
 }
-edk::color3f32 Image2D::rgbaTohsl(edk::color4ui8 rgba){
+edk::color3f32 edk::Image2D::rgbaTohsl(edk::color4ui8 rgba){
     return edk::codecs::CodecImage::rgbTohsl(rgba.r,rgba.g,rgba.b);
 }
-edk::float32 Image2D::rgbToL(edk::uint8 r,edk::uint8 g,edk::uint8 b){
+edk::float32 edk::Image2D::rgbToL(edk::uint8 r,edk::uint8 g,edk::uint8 b){
     return edk::codecs::CodecImage::rgbToL(r,g,b);
 }
-edk::float32 Image2D::rgbToL(edk::color3ui8 rgb){
+edk::float32 edk::Image2D::rgbToL(edk::color3ui8 rgb){
     return edk::codecs::CodecImage::rgbToL(rgb.r,rgb.g,rgb.b);
 }
-edk::float32 Image2D::rgbaToL(edk::color4ui8 rgba){
+edk::float32 edk::Image2D::rgbaToL(edk::color4ui8 rgba){
     return edk::codecs::CodecImage::rgbToL(rgba.r,rgba.g,rgba.b);
 }
-edk::uint8 Image2D::rgbToLui8(edk::uint8 r,edk::uint8 g,edk::uint8 b){
+edk::uint8 edk::Image2D::rgbToLui8(edk::uint8 r,edk::uint8 g,edk::uint8 b){
     return edk::codecs::CodecImage::rgbToLui8(r,g,b);
 }
-edk::uint8 Image2D::rgbToLui8(edk::color3ui8 rgb){
+edk::uint8 edk::Image2D::rgbToLui8(edk::color3ui8 rgb){
     return edk::codecs::CodecImage::rgbToLui8(rgb.r,rgb.g,rgb.b);
 }
-edk::uint8 Image2D::rgbaToLui8(edk::color4ui8 rgba){
+edk::uint8 edk::Image2D::rgbaToLui8(edk::color4ui8 rgba){
     return edk::codecs::CodecImage::rgbToLui8(rgba.r,rgba.g,rgba.b);
 }
 //vector
-bool Image2D::rgbToLui8(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest){
+bool edk::Image2D::rgbToLui8(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest){
     return edk::codecs::CodecImage::rgbToLui8(vector,size,dest);
 }
-edk::uint8* Image2D::rgbToLui8(edk::uint8* vector,edk::size2ui32 size){
+edk::uint8* edk::Image2D::rgbToLui8(edk::uint8* vector,edk::size2ui32 size){
     return edk::codecs::CodecImage::rgbToLui8(vector,size);
 }
-bool Image2D::rgbToLui8(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest){
+bool edk::Image2D::rgbToLui8(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest){
     return edk::codecs::CodecImage::rgbToLui8(vector,edk::size2ui32(width,height),dest);
 }
-edk::uint8* Image2D::rgbToLui8(edk::uint8* vector,edk::uint32 width,edk::uint32 height){
+edk::uint8* edk::Image2D::rgbToLui8(edk::uint8* vector,edk::uint32 width,edk::uint32 height){
     return edk::codecs::CodecImage::rgbToLui8(vector,edk::size2ui32(width,height));
 }
-bool Image2D::rgbaToLui8(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest){
+bool edk::Image2D::rgbaToLui8(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest){
     return edk::codecs::CodecImage::rgbaToLui8(vector,size,dest);
 }
-edk::uint8* Image2D::rgbaToLui8(edk::uint8* vector,edk::size2ui32 size){
+edk::uint8* edk::Image2D::rgbaToLui8(edk::uint8* vector,edk::size2ui32 size){
     return edk::codecs::CodecImage::rgbaToLui8(vector,size);
 }
-bool Image2D::rgbaToLui8(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest){
+bool edk::Image2D::rgbaToLui8(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest){
     return edk::codecs::CodecImage::rgbaToLui8(vector,edk::size2ui32(width,height),dest);
 }
-edk::uint8* Image2D::rgbaToLui8(edk::uint8* vector,edk::uint32 width,edk::uint32 height){
+edk::uint8* edk::Image2D::rgbaToLui8(edk::uint8* vector,edk::uint32 width,edk::uint32 height){
     return edk::codecs::CodecImage::rgbaToLui8(vector,edk::size2ui32(width,height));
 }
-edk::color3ui8 Image2D::hslTorgb(edk::float32 h,edk::float32 s,edk::float32 l){
+edk::color3ui8 edk::Image2D::hslTorgb(edk::float32 h,edk::float32 s,edk::float32 l){
     return edk::codecs::CodecImage::hslTorgb(h,s,l);
 }
-edk::color3ui8 Image2D::hslTorgb(edk::color3f32 hsl){
+edk::color3ui8 edk::Image2D::hslTorgb(edk::color3f32 hsl){
     return edk::codecs::CodecImage::hslTorgb(hsl.r,hsl.g,hsl.b);
 }
 //RGB to RGBA
-edk::color4ui8 Image2D::rgbTorgba(edk::uint8 r,edk::uint8 g,edk::uint8 b){
+edk::color4ui8 edk::Image2D::rgbTorgba(edk::uint8 r,edk::uint8 g,edk::uint8 b){
     return edk::color4ui8(r,g,b,(edk::uint8)255u);
 }
-edk::color4ui8 Image2D::rgbTorgba(edk::color3ui8 rgb){
+edk::color4ui8 edk::Image2D::rgbTorgba(edk::color3ui8 rgb){
     return edk::Image2D::rgbTorgba(rgb.r,rgb.g,rgb.b);
 }
-edk::color4f32 Image2D::rgbTorgba(edk::float32 r,edk::float32 g,edk::float32 b){
+edk::color4f32 edk::Image2D::rgbTorgba(edk::float32 r,edk::float32 g,edk::float32 b){
     return edk::color4f32(r,g,b,1.f);
 }
-edk::color4f32 Image2D::rgbTorgba(edk::color3f32 rgb){
+edk::color4f32 edk::Image2D::rgbTorgba(edk::color3f32 rgb){
     return edk::Image2D::rgbTorgba(rgb.r,rgb.g,rgb.b);
 }
 //vector
-bool Image2D::rgbTorgba(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest){
+bool edk::Image2D::rgbTorgba(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest){
     if(vector && dest && size.width && size.height){
         for(edk::uint32 y=0u;y<size.height;y++){
             for(edk::uint32 x=0u;x<size.width;x++){
@@ -960,7 +1355,7 @@ bool Image2D::rgbTorgba(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest)
     }
     return false;
 }
-edk::uint8* Image2D::rgbTorgba(edk::uint8* vector,edk::size2ui32 size){
+edk::uint8* edk::Image2D::rgbTorgba(edk::uint8* vector,edk::size2ui32 size){
     if(size.width && size.height){
         edk::uint8* ret = new edk::uint8[size.width*size.height*4u];
         if(ret){
@@ -972,21 +1367,21 @@ edk::uint8* Image2D::rgbTorgba(edk::uint8* vector,edk::size2ui32 size){
     }
     return NULL;
 }
-bool Image2D::rgbTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest){
+bool edk::Image2D::rgbTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest){
     return edk::Image2D::rgbTorgba(vector,edk::size2ui32(width,height),dest);
 }
-edk::uint8* Image2D::rgbTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height){
+edk::uint8* edk::Image2D::rgbTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height){
     return edk::Image2D::rgbTorgba(vector,edk::size2ui32(width,height));
 }
 //LA to RGBA
-edk::color4ui8 Image2D::laTorgba(edk::uint8 l,edk::uint8 a){
+edk::color4ui8 edk::Image2D::laTorgba(edk::uint8 l,edk::uint8 a){
     return edk::color4ui8(l,l,l,a);
 }
-edk::color4f32 Image2D::laTorgba(edk::float32 l,edk::float32 a){
+edk::color4f32 edk::Image2D::laTorgba(edk::float32 l,edk::float32 a){
     return edk::color4f32(l,l,l,a);
 }
 //vector
-bool Image2D::laTorgba(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest){
+bool edk::Image2D::laTorgba(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest){
     if(vector && dest && size.width && size.height){
         for(edk::uint32 y=0u;y<size.height;y++){
             for(edk::uint32 x=0u;x<size.width;x++){
@@ -1004,7 +1399,7 @@ bool Image2D::laTorgba(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest){
     }
     return false;
 }
-edk::uint8* Image2D::laTorgba(edk::uint8* vector,edk::size2ui32 size){
+edk::uint8* edk::Image2D::laTorgba(edk::uint8* vector,edk::size2ui32 size){
     if(size.width && size.height){
         edk::uint8* ret = new edk::uint8[size.width*size.height*4u];
         if(ret){
@@ -1016,20 +1411,20 @@ edk::uint8* Image2D::laTorgba(edk::uint8* vector,edk::size2ui32 size){
     }
     return NULL;
 }
-bool Image2D::laTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest){
+bool edk::Image2D::laTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest){
     return edk::Image2D::laTorgba(vector,edk::size2ui32(width,height),dest);
 }
-edk::uint8* Image2D::laTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height){
+edk::uint8* edk::Image2D::laTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height){
     return edk::Image2D::laTorgba(vector,edk::size2ui32(width,height));
 }
 //L to RGBA
-edk::color4ui8 Image2D::lTorgba(edk::uint8 l){
+edk::color4ui8 edk::Image2D::lTorgba(edk::uint8 l){
     return edk::color4ui8(l,l,l,(edk::uint8)255u);
 }
-edk::color4f32 Image2D::lTorgba(edk::float32 l){
+edk::color4f32 edk::Image2D::lTorgba(edk::float32 l){
     return edk::color4f32(l,l,l,1.f);
 }
-bool Image2D::lTorgba(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest){
+bool edk::Image2D::lTorgba(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest){
     if(vector && dest && size.width && size.height){
         for(edk::uint32 y=0u;y<size.height;y++){
             for(edk::uint32 x=0u;x<size.width;x++){
@@ -1047,7 +1442,7 @@ bool Image2D::lTorgba(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest){
     }
     return false;
 }
-edk::uint8* Image2D::lTorgba(edk::uint8* vector,edk::size2ui32 size){
+edk::uint8* edk::Image2D::lTorgba(edk::uint8* vector,edk::size2ui32 size){
     if(size.width && size.height){
         edk::uint8* ret = new edk::uint8[size.width*size.height*4u];
         if(ret){
@@ -1059,15 +1454,15 @@ edk::uint8* Image2D::lTorgba(edk::uint8* vector,edk::size2ui32 size){
     }
     return NULL;
 }
-bool Image2D::lTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest){
+bool edk::Image2D::lTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest){
     return edk::Image2D::lTorgba(vector,edk::size2ui32(width,height),dest);
 }
-edk::uint8* Image2D::lTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height){
+edk::uint8* edk::Image2D::lTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height){
     return edk::Image2D::lTorgba(vector,edk::size2ui32(width,height));
 }
 
 //flip pixels
-bool Image2D::flipY(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 channels){
+bool edk::Image2D::flipY(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 channels){
     if(vector && width && height && channels){
         //get the line size
         edk::uint32 size = width * channels;
@@ -1097,10 +1492,10 @@ bool Image2D::flipY(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk:
     return false;
 }
 
-bool Image2D::imageClone(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 channels,
-                         edk::uint8* dest,edk::uint32 dWidth,edk::uint32 dHeight,edk::uint32 dChannels,
-                         edk::uint32 positionX,edk::uint32 positionY
-                         ){
+bool edk::Image2D::imageClone(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 channels,
+                              edk::uint8* dest,edk::uint32 dWidth,edk::uint32 dHeight,edk::uint32 dChannels,
+                              edk::uint32 positionX,edk::uint32 positionY
+                              ){
     //test the vectors
     if(vector && width && height && channels && dest && dWidth && dHeight && dChannels){
         //test if can position the image inside the dest
@@ -1293,7 +1688,7 @@ bool Image2D::imageClone(edk::uint8* vector,edk::uint32 width,edk::uint32 height
     return false;
 }
 
-bool Image2D::cloneFrom(edk::Image2D* image){
+bool edk::Image2D::cloneFrom(edk::Image2D* image){
     if(image){
         //test if the image exist
         if(image->vec && image->channels && image->size.width && image->size.height && image->imageName){
@@ -1327,7 +1722,7 @@ bool Image2D::cloneFrom(edk::Image2D* image){
     this->deleteImage();
     return false;
 }
-bool Image2D::newFrom(edk::Image2D* image){
+bool edk::Image2D::newFrom(edk::Image2D* image){
     if(image){
         //test if the image exist
         if(image->vec && image->channels && image->size.width && image->size.height && image->imageName){
@@ -1361,5 +1756,3 @@ bool Image2D::newFrom(edk::Image2D* image){
     this->deleteImage();
     return false;
 }
-
-} /* End of namespace edk */

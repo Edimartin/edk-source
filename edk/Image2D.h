@@ -75,8 +75,14 @@ public:
     //create a new Image
     bool newImage(edk::char8 *imageName,edk::size2ui32 size,edk::uint8 channels);
     bool newImage(edk::char8 *imageName,edk::uint32 width,edk::uint32 height,edk::uint8 channels);
-    bool newImage(const char *imageName,edk::size2ui32 size,edk::uint8 channels);
-    bool newImage(const char *imageName,edk::uint32 width,edk::uint32 height,edk::uint8 channels);
+    bool newImage(const edk::char8 *imageName,edk::size2ui32 size,edk::uint8 channels);
+    bool newImage(const edk::char8 *imageName,edk::uint32 width,edk::uint32 height,edk::uint8 channels);
+
+    //create a new image with a palette
+    bool newImage(edk::char8 *imageName,edk::size2ui32 size,edk::uint8 channels,edk::uint32 paletteSize);
+    bool newImage(edk::char8 *imageName,edk::uint32 width,edk::uint32 height,edk::uint8 channels,edk::uint32 paletteSize);
+    bool newImage(const edk::char8 *imageName,edk::size2ui32 size,edk::uint8 channels,edk::uint32 paletteSize);
+    bool newImage(const edk::char8 *imageName,edk::uint32 width,edk::uint32 height,edk::uint8 channels,edk::uint32 paletteSize);
 
     bool loadFromFile(char8 *imageFileName);
 
@@ -90,6 +96,9 @@ public:
 
     bool loadFromMemoryToRGBA(uint8 *image, edk::uint32 vecSize);
 
+    //function used to generate the pixels from colors palette
+    bool generatePixelsFromColors();
+
     //save the image
     bool saveToFile(edk::char8 *fileName = NULL);
     bool saveToFile(const char *fileName);
@@ -100,6 +109,36 @@ public:
 
     //draw on the image
     bool draw(edk::uint8* pixels);
+    //draw a color in the image vector
+    bool drawPosition(edk::vec2ui32 position,edk::uint8* color);
+    bool drawPosition(edk::vec2ui32 position,edk::uint8 g);
+    bool drawPosition(edk::vec2ui32 position,edk::uint8 g,edk::uint8 a);
+    bool drawPosition(edk::vec2ui32 position,edk::uint8 r,edk::uint8 g,edk::uint8 b);
+    bool drawPosition(edk::vec2ui32 position,edk::uint8 r,edk::uint8 g,edk::uint8 b,edk::uint8 a);
+    bool drawPosition(edk::uint32 positionX,edk::uint32 positionY,edk::uint8* color);
+    bool drawPosition(edk::uint32 positionX,edk::uint32 positionY,edk::uint8 g);
+    bool drawPosition(edk::uint32 positionX,edk::uint32 positionY,edk::uint8 g,edk::uint8 a);
+    bool drawPosition(edk::uint32 positionX,edk::uint32 positionY,edk::uint8 r,edk::uint8 g,edk::uint8 b);
+    bool drawPosition(edk::uint32 positionX,edk::uint32 positionY,edk::uint8 r,edk::uint8 g,edk::uint8 b,edk::uint8 a);
+    //draw the colors on the palette. The user need to know the size of the palette multiply by channel size
+    bool drawPalette(edk::uint8* colors);
+    //draw a color in palette position
+    bool drawPalettePosition(edk::uint32 position,edk::uint8* color);
+    bool drawPalettePosition(edk::uint32 position,edk::uint8 g);
+    bool drawPalettePosition(edk::uint32 position,edk::uint8 g,edk::uint8 a);
+    bool drawPalettePosition(edk::uint32 position,edk::uint8 r,edk::uint8 g,edk::uint8 b);
+    bool drawPalettePosition(edk::uint32 position,edk::uint8 r,edk::uint8 g,edk::uint8 b,edk::uint8 a);
+    //draw the colorIDs in the image using the palette positions. The user need to know the colors size which is the paletteSize multiply by bytesPerColor
+    bool drawColors(edk::uint8* colors);
+    //draw a color position from the palette in colors vector.
+    bool drawColorsPosition(edk::vec2ui32 position,edk::uint8* colorID);
+    bool drawColorsPosition(edk::vec2ui32 position,edk::uint8 colorID);
+    bool drawColorsPosition(edk::vec2ui32 position,edk::uint16 colorID);
+    bool drawColorsPosition(edk::vec2ui32 position,edk::uint32 colorID);
+    bool drawColorsPosition(edk::uint32 positionX,edk::uint32 positionY,edk::uint8* colorID);
+    bool drawColorsPosition(edk::uint32 positionX,edk::uint32 positionY,edk::uint8 colorID);
+    bool drawColorsPosition(edk::uint32 positionX,edk::uint32 positionY,edk::uint16 colorID);
+    bool drawColorsPosition(edk::uint32 positionX,edk::uint32 positionY,edk::uint32 colorID);
 
     size2ui32 getSize();
 
@@ -112,8 +151,22 @@ public:
     uint32 height();
     //return the channels of the image
     edk::uint8 getChannels();
+    //return the bytes per color to set the color values with the palette positions.
+    edk::uint8 getBytesPerColor();
+    //return the number of colors on the palette
+    edk::uint32 getPaletteSize();
+    //get the vector size
+    edk::uint32 getPixelsLenght();
+    //get the palette size
+    edk::uint32 getPaletteLenght();
+    //get the colors lenght returh the colors vector lenght with the palette ID's
+    edk::uint32 getColorsLenght();
 
     bool haveImage();
+
+    bool haveColors();
+
+    bool havePalette();
 
     bool haveName();
 
@@ -129,6 +182,8 @@ public:
 
     //return the pixels of the image to use in videoBoard
     edk::uint8* getPixels();
+    //return the colors vector with all the palette codes
+    edk::uint8* getColors();
 
     void deleteImage();
 
@@ -219,18 +274,24 @@ public:
     bool newFrom(edk::Image2D* image);
 private:
     edk::Image2D operator=(edk::Image2D){return *this;}
-    //Save the image
-    //sf::Image* image;
-    //image vector
+    //pixel vector
     edk::uint8* vec;
+    //color id vector
+    edk::uint8* colors;
     //channels of the image
     edk::uint8 channels;
+    //save the bits per colors
+    edk::uint8 bytesPerColors;
     //Size of the image
     edk::size2ui32 size;
     //imageName of the image
     edk::char8* imageName;
     //imageName of the file
     edk::char8* imageFileName;
+
+    //image palette
+    edk::uint8* palette;
+    edk::uint32 paletteSize;
 
     //imageFileNameFunctions
     void setFileName(edk::char8* imageFileName);
