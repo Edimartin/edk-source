@@ -420,13 +420,13 @@ File::~File(){
 
 uint64 File::getFileSize(){
     if(this->isOpened()){
-        if(!this->size){
+        //if(!this->size){
             //load fileSize
             edk::uint64 position = this->getSeek64();
             this->seekEnd();
             this->size = this->getSeek64();
             this->seekStart(position);
-        }
+        //}
         return this->size;
     }
     return 0u;
@@ -515,7 +515,7 @@ bool File::openTextFile(char8 *name){
     return false;
 }
 
-bool File::openTextFile(const char *name){
+bool File::openTextFile(const edk::char8 *name){
     return this->openTextFile((edk::char8*)name);
 }
 
@@ -602,7 +602,7 @@ bool File::openBinFile(char8 *name){
     return false;
 }
 
-bool File::openBinFile(const char *name){
+bool File::openBinFile(const edk::char8 *name){
     return this->openBinFile((edk::char8*)name);
 }
 
@@ -689,7 +689,7 @@ bool File::openEndTextFile(char8 *name){
     return false;
 }
 
-bool File::openEndTextFile(const char *name){
+bool File::openEndTextFile(const edk::char8 *name){
     return this->openEndTextFile((edk::char8 *)name);
 }
 
@@ -776,7 +776,7 @@ bool File::openEndBinFile(char8 *name){
     return false;
 }
 
-bool File::openEndBinFile(const char *name){
+bool File::openEndBinFile(const edk::char8 *name){
     return this->openEndBinFile((edk::char8*)name);
 }
 
@@ -863,7 +863,7 @@ bool File::openPipe(char8 *name){
     }
     return false;
 }
-bool File::openPipe(const char *name){
+bool File::openPipe(const edk::char8 *name){
     return this->openPipe((char8 *)name);
 }
 
@@ -897,7 +897,7 @@ bool File::deleteFile(char8 *name){
     return false;
 }
 
-bool File::deleteFile(const char *name){
+bool File::deleteFile(const edk::char8 *name){
     return deleteFile((edk::char8 *)name);
 }
 
@@ -940,7 +940,7 @@ bool File::renameFile(char8 *oldName, char8 *newName){
     return false;
 }
 
-bool File::renameFile(const char *oldName, const char *newName){
+bool File::renameFile(const edk::char8 *oldName, const edk::char8 *newName){
     return renameFile((edk::char8 *)oldName, (edk::char8 *)newName);
 }
 
@@ -1018,7 +1018,7 @@ bool File::createFile(char8 *name){
     return false;
 }
 
-bool File::createFile(const char *name){
+bool File::createFile(const edk::char8 *name){
     return createFile((edk::char8 *)name);
 }
 
@@ -1037,30 +1037,160 @@ bool File::isFile(const edk::char8* name){
 }
 
 bool File::createAndOpenTextFile(char8 *name){
-    //First he create the file
-    if(edk::File::createFile(name)){
-        //Then open the file
-        return this->openEndTextFile(name);
+    //Close the file
+    this->closeFile();
+
+    //Then open the file in your compiler
+    if((const edk::char8*)name){
+
+#ifdef _WIN32
+        //Windows 32
+#ifdef _MSC_VER
+        //Visual C
+        fopen_s(&this->arq,name,"w");
+#endif
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        this->arq=fopen((const edk::char8*)name,"w");
+#else
+        //GCC
+#endif
+#endif
+#endif
+#ifdef _WIN64
+        //Windows 64
+#ifdef _MSC_VER
+        //Visual C
+        fopen_s(&this->arq,name,"w");
+#endif
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        this->arq=fopen((const edk::char8*)name,"w");
+#else
+        //GCC
+#endif
+#endif
+#endif
+#ifdef __linux__
+        //LINUX
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        this->arq=fopen((const edk::char8*)name,"w");
+#else
+        //GCC
+#endif
+#endif
+#endif
+#ifdef __APPLE__
+        //MACOS
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        this->arq=fopen((const edk::char8*)name,"w");
+#else
+        //GCC
+#endif
+#endif
+#endif
+        //Test if open the file
+        if(this->isOpened()){
+            //Copy the name of the file
+            this->name = edk::String::strCopy(name);
+
+            //return true
+            return true;
+        }
+        else{
+            //Else he can't open the file
+            this->arq=NULL;
+        }
     }
-    //Else return false;
     return false;
 }
 
-bool File::createAndOpenTextFile(const char *name){
+bool File::createAndOpenTextFile(const edk::char8 *name){
     return createAndOpenTextFile((edk::char8 *)name);
 }
 
 bool File::createAndOpenBinFile(char8 *name){
-    //First he create the file
-    if(edk::File::createFile(name)){
-        //Then open the file
-        return this->openEndBinFile(name);
+    //Close the file
+    this->closeFile();
+
+    //Then open the file in your compiler
+    if((const edk::char8*)name){
+
+#ifdef _WIN32
+        //Windows 32
+#ifdef _MSC_VER
+        //Visual C
+        fopen_s(&this->arq,name,"wb");
+#endif
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        this->arq=fopen((const edk::char8*)name,"wb");
+#else
+        //GCC
+#endif
+#endif
+#endif
+#ifdef _WIN64
+        //Windows 64
+#ifdef _MSC_VER
+        //Visual C
+        fopen_s(&this->arq,name,"wb");
+#endif
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        this->arq=fopen((const edk::char8*)name,"wb");
+#else
+        //GCC
+#endif
+#endif
+#endif
+#ifdef __linux__
+        //LINUX
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        this->arq=fopen((const edk::char8*)name,"wb");
+#else
+        //GCC
+#endif
+#endif
+#endif
+#ifdef __APPLE__
+        //MACOS
+#ifdef __GNUC__
+#ifdef __cplusplus
+        //G++
+        this->arq=fopen((const edk::char8*)name,"wb");
+#else
+        //GCC
+#endif
+#endif
+#endif
+        //Test if open the file
+        if(this->isOpened()){
+            //Copy the name of the file
+            this->name = edk::String::strCopy(name);
+
+            //return true
+            return true;
+        }
+        else{
+            //Else he can't open the file
+            this->arq=NULL;
+        }
     }
-    //Else return false;
     return false;
 }
 
-bool File::createAndOpenBinFile(const char *name){
+bool File::createAndOpenBinFile(const edk::char8 *name){
     return createAndOpenBinFile((edk::char8 *)name);
 }
 
@@ -1223,7 +1353,7 @@ bool File::fileExist(char8 *name){
     return false;
 }
 
-bool File::fileExist(const char *name){
+bool File::fileExist(const edk::char8 *name){
     return fileExist((edk::char8 *)name);
 }
 
@@ -1267,7 +1397,7 @@ bool File::writeText(char8 *str){
     return false;
 }
 
-bool File::writeText(const char *str){
+bool File::writeText(const edk::char8 *str){
     return writeText((edk::char8 *)str);
 }
 
@@ -1409,7 +1539,6 @@ bool File::writeBin(char8 *str){
     //test if the file is opened and if the str is true and the size is >1u
     if(this->isOpened() && str){
         //
-        fwrite(str,sizeof(edk::char8),strlen((const edk::char8*)str),this->arq);
         fwrite(str,sizeof(edk::char8),edk::String::strSize(str),this->arq);
         //return true
         return true;
@@ -1418,7 +1547,7 @@ bool File::writeBin(char8 *str){
     return false;
 }
 
-bool File::writeBin(const char *str){
+bool File::writeBin(const edk::char8 *str){
     return writeBin((edk::char8 *)str);
 }
 
@@ -2060,7 +2189,7 @@ char8* File::readBinString(char8 *limits, bool use){
     return NULL;
 }
 
-char8* File::readBinString(const char *limits, bool use){
+char8* File::readBinString(const edk::char8 *limits, bool use){
     return this->readBinString((char8 *)limits,use);
 }
 

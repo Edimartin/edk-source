@@ -104,39 +104,39 @@ class File {
 
     bool openTextFile(char8 *name);
 
-    bool openTextFile(const char *name);
+    bool openTextFile(const edk::char8 *name);
 
     bool openBinFile(char8 *name);
 
-    bool openBinFile(const char *name);
+    bool openBinFile(const edk::char8 *name);
 
     bool openEndTextFile(char8 *name);
 
-    bool openEndTextFile(const char *name);
+    bool openEndTextFile(const edk::char8 *name);
 
     bool openEndBinFile(char8 *name);
 
-    bool openEndBinFile(const char *name);
+    bool openEndBinFile(const edk::char8 *name);
 
     //PIPE
     bool openPipe(char8 *name);
-    bool openPipe(const char *name);
+    bool openPipe(const edk::char8 *name);
 
     void closeFile();
 
     static bool deleteFile(char8 *name);
 
-    static bool deleteFile(const char *name);
+    static bool deleteFile(const edk::char8 *name);
 
     bool deleteFile();
 
     static bool renameFile(char8 *oldName, char8 *newName);
 
-    static bool renameFile(const char *oldName, const char *newName);
+    static bool renameFile(const edk::char8 *oldName, const edk::char8 *newName);
 
     static bool createFile(char8 *name);
 
-    static bool createFile(const char *name);
+    static bool createFile(const edk::char8 *name);
 
     //return true if is a file
     static bool isFile(edk::char8 *name);
@@ -144,11 +144,11 @@ class File {
 
     bool createAndOpenTextFile(char8 *name);
 
-    bool createAndOpenTextFile(const char *name);
+    bool createAndOpenTextFile(const edk::char8 *name);
 
     bool createAndOpenBinFile(char8 *name);
 
-    bool createAndOpenBinFile(const char *name);
+    bool createAndOpenBinFile(const edk::char8 *name);
 
     //PIPE
     bool createAndOpenPipe(char8* name);
@@ -156,7 +156,7 @@ class File {
 
     static bool fileExist(char8 *name);
 
-    static bool fileExist(const char *name);
+    static bool fileExist(const edk::char8 *name);
 
     bool readEnd();
     bool endOfFile();
@@ -165,7 +165,7 @@ class File {
 
     bool writeText(char8 *str);
 
-    bool writeText(const char *str);
+    bool writeText(const edk::char8 *str);
 
     bool writeText(int8 n);
 
@@ -193,7 +193,7 @@ class File {
 
     bool writeBin(char8 *str);
 
-    bool writeBin(const char *str);
+    bool writeBin(const edk::char8 *str);
 
     bool writeBin(int8 n);
 
@@ -274,7 +274,7 @@ class File {
 
     char8* readBinString(char8 *limits, bool use = false);
 
-    char8* readBinString(const char *limits, bool use = false);
+    char8* readBinString(const edk::char8 *limits, bool use = false);
 
     //read to a string
     edk::uint64 readBinString(char8 *str,edk::uint64 size);
