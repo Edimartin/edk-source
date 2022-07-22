@@ -153,7 +153,6 @@ void edk::shape::AnimatedPolygon2DList::updateFramesAnimations(){
             //carrega a animation
             if(this->polygons[i]->framesIsAnimationCreator()){
                 //carrega a animation
-                edk::float32 clock =
                 this->polygons[i]->framesGetAnimation()->updateClockAnimation();
             }
         }
@@ -161,6 +160,7 @@ void edk::shape::AnimatedPolygon2DList::updateFramesAnimations(){
     //after update all polygons
 
     bool success;
+    edk::float32 frameTemp = 0.f;
 
     for(edk::uint32 i=0u;i<this->polygons.size();i++){
         //
@@ -168,7 +168,7 @@ void edk::shape::AnimatedPolygon2DList::updateFramesAnimations(){
             //carrega a animation
             if(this->polygons[i]->framesGetAnimation()){
                 //
-                edk::float32 frameTemp = this->polygons[i]->framesGetAnimation()->getClockX(&success);
+                frameTemp = this->polygons[i]->framesGetAnimation()->getClockX(&success);
                 if(success){
                     this->polygons[i]->usePolygonUVFramePosition(frameTemp);
                 }
