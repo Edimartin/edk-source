@@ -152,6 +152,12 @@ int edkKbhit(void){return kbhit();}
 #endif
 #endif
 
+//write the isspace function
+edk::int32 edkIsSpace(edk::int32 c){
+    return (c == '\t' || c == '\n' ||
+            c == '\v' || c == '\f' || c == '\r' || c == ' ' ? 1 : 0);
+}
+
 edk::TTY::TTY(){
     this->haveInit=false;
 #if defined (EDK_LINUX_TERMINAL)
@@ -534,11 +540,11 @@ inicio:
     }
 }
 
-namespace edk {
 
 
 
-char8* String::int32ToMinusStr(int32 value){
+
+edk::char8* edk::String::int32ToMinusStr(edk::int32 value){
 
     edk::char8* str = 0u;
     //use the module of the number
@@ -592,7 +598,7 @@ char8* String::int32ToMinusStr(int32 value){
     }
     return str;
 }
-char8* String::int64ToMinusStr(int64 value){
+edk::char8* edk::String::int64ToMinusStr(edk::int64 value){
 
     edk::char8* str = 0u;
     //use the module of the number
@@ -648,7 +654,7 @@ char8* String::int64ToMinusStr(int64 value){
 }
 
 //copy the number to the string
-bool String::copyInt32ToStr(edk::int32 value,edk::char8* str,int32 size){
+bool edk::String::copyInt32ToStr(edk::int32 value,edk::char8* str,edk::int32 size){
     if(str && size){
         edk::int32 module = edkModuleInt32(value);
         for(edk::uint32 i=size;i>0u;i--){
@@ -660,7 +666,7 @@ bool String::copyInt32ToStr(edk::int32 value,edk::char8* str,int32 size){
     return false;
 }
 
-bool String::copyInt64ToStr(edk::int64 value,edk::char8* str,int32 size){
+bool edk::String::copyInt64ToStr(edk::int64 value,edk::char8* str,edk::int32 size){
     if(str && size){
         edk::int64 module = edkModuleInt64(value);
         for(edk::uint32 i=size;i>0u;i--){
@@ -672,11 +678,11 @@ bool String::copyInt64ToStr(edk::int64 value,edk::char8* str,int32 size){
     return false;
 }
 
-edk::float32 String::strToFloat32(const char *str){
+edk::float32 edk::String::strToFloat32(const char *str){
     return edk::String::strToFloat32((edk::char8*)str);
 }
 
-edk::float32 String::strToFloat32(char8 *str){
+edk::float32 edk::String::strToFloat32(edk::char8 *str){
     if(str)
         return (edk::float32)atof((const edk::char8*)str);
     return 0.0f;
@@ -770,27 +776,27 @@ edk::float32 String::strToFloat32(char8 *str){
     */
 }
 
-int64 String::strToInt64(char8 *str){
+edk::int64 edk::String::strToInt64(edk::char8 *str){
     if(str)
         return (edk::int64)atol((const edk::char8*)str);
     return 0;
 }
 
-int64 String::strToInt64(const char *str){
+edk::int64 edk::String::strToInt64(const edk::char8 *str){
     return edk::String::strToInt64((edk::char8*)str);
 }
 
-edk::float64 String::strToFloat64(char8 *str){
+edk::float64 edk::String::strToFloat64(char8 *str){
     if(str)
         return strtod ((const edk::char8*)str,NULL);
     return 0.0;
 }
 
-edk::float64 String::strToFloat64(const char *str){
+edk::float64 edk::String::strToFloat64(const edk::char8 *str){
     return edk::String::strToFloat64((edk::char8*)str);
 }
 
-bool String::strToVecInt8(edk::char8* str,edk::int8* vec,edk::uint32 size){
+bool edk::String::strToVecInt8(edk::char8* str,edk::int8* vec,edk::uint32 size){
     if(str && vec && size){
         edk::uint32 i=0u;
         while(*str){
@@ -816,7 +822,7 @@ bool String::strToVecInt8(edk::char8* str,edk::int8* vec,edk::uint32 size){
     return false;
 }
 
-bool String::strToVecInt16(edk::char8* str,edk::int16* vec,edk::uint32 size){
+bool edk::String::strToVecInt16(edk::char8* str,edk::int16* vec,edk::uint32 size){
     if(str && vec && size){
         edk::uint32 i=0u;
         while(*str){
@@ -842,7 +848,7 @@ bool String::strToVecInt16(edk::char8* str,edk::int16* vec,edk::uint32 size){
     return false;
 }
 
-bool String::strToVecInt32(edk::char8* str,edk::int32* vec,edk::uint32 size){
+bool edk::String::strToVecInt32(edk::char8* str,edk::int32* vec,edk::uint32 size){
     if(str && vec && size){
         edk::uint32 i=0u;
         while(*str){
@@ -868,7 +874,7 @@ bool String::strToVecInt32(edk::char8* str,edk::int32* vec,edk::uint32 size){
     return false;
 }
 
-bool String::strToVecInt64(edk::char8* str,edk::int64* vec,edk::uint32 size){
+bool edk::String::strToVecInt64(edk::char8* str,edk::int64* vec,edk::uint32 size){
     if(str && vec && size){
         edk::uint32 i=0u;
         while(*str){
@@ -894,7 +900,7 @@ bool String::strToVecInt64(edk::char8* str,edk::int64* vec,edk::uint32 size){
     return false;
 }
 
-bool String::strToVecUint8(edk::char8* str,edk::uint8* vec,edk::uint32 size){
+bool edk::String::strToVecUint8(edk::char8* str,edk::uint8* vec,edk::uint32 size){
     if(str && vec && size){
         edk::uint32 i=0u;
         while(*str){
@@ -920,7 +926,7 @@ bool String::strToVecUint8(edk::char8* str,edk::uint8* vec,edk::uint32 size){
     return false;
 }
 
-bool String::strToVecUint16(edk::char8* str,edk::uint16* vec,edk::uint32 size){
+bool edk::String::strToVecUint16(edk::char8* str,edk::uint16* vec,edk::uint32 size){
     if(str && vec && size){
         edk::uint32 i=0u;
         while(*str){
@@ -946,7 +952,7 @@ bool String::strToVecUint16(edk::char8* str,edk::uint16* vec,edk::uint32 size){
     return false;
 }
 
-bool String::strToVecUint32(edk::char8* str,edk::uint32* vec,edk::uint32 size){
+bool edk::String::strToVecUint32(edk::char8* str,edk::uint32* vec,edk::uint32 size){
     if(str && vec && size){
         edk::uint32 i=0u;
         while(*str){
@@ -972,7 +978,7 @@ bool String::strToVecUint32(edk::char8* str,edk::uint32* vec,edk::uint32 size){
     return false;
 }
 
-bool String::strToVecUint64(edk::char8* str,edk::uint64* vec,edk::uint32 size){
+bool edk::String::strToVecUint64(edk::char8* str,edk::uint64* vec,edk::uint32 size){
     if(str && vec && size){
         edk::uint32 i=0u;
         while(*str){
@@ -998,7 +1004,7 @@ bool String::strToVecUint64(edk::char8* str,edk::uint64* vec,edk::uint32 size){
     return false;
 }
 
-bool String::strToVecfloat32(edk::char8* str,edk::float32* vec,edk::uint32 size){
+bool edk::String::strToVecfloat32(edk::char8* str,edk::float32* vec,edk::uint32 size){
     if(str && vec && size){
         edk::uint32 i=0u;
         while(*str){
@@ -1024,7 +1030,7 @@ bool String::strToVecfloat32(edk::char8* str,edk::float32* vec,edk::uint32 size)
     return false;
 }
 
-bool String::strToVecfloat64(edk::char8* str,edk::float64* vec,edk::uint32 size){
+bool edk::String::strToVecfloat64(edk::char8* str,edk::float64* vec,edk::uint32 size){
     if(str && vec && size){
         edk::uint32 i=0u;
         while(*str){
@@ -1050,7 +1056,7 @@ bool String::strToVecfloat64(edk::char8* str,edk::float64* vec,edk::uint32 size)
     return false;
 }
 
-int32 String::strToInt32(char8 *str){
+edk::int32 edk::String::strToInt32(edk::char8 *str){
     if(str)
         return (edk::int32)atoi((const edk::char8*)str);
     return 0;
@@ -1108,7 +1114,7 @@ int32 String::strToInt32(char8 *str){
 */
 }
 
-int32 String::strToInt32(const char *str){
+edk::int32 edk::String::strToInt32(const edk::char8 *str){
     return edk::String::strToInt32((edk::char8*)str);
 }
 
@@ -2196,7 +2202,7 @@ edk::uint32 edk::String::utf8ToUint32(const edk::char8 *utf8){
 }
 
 //ASCII to UTF8
-bool String::asciiToUtf8(edk::char8* src,edk::char8* dest){
+bool edk::String::asciiToUtf8(edk::char8* src,edk::char8* dest){
     if(src && dest){
         edk::uchar8 c;
         //
@@ -2232,10 +2238,10 @@ bool String::asciiToUtf8(edk::char8* src,edk::char8* dest){
     }
     return false;
 }
-bool String::asciiToUtf8(const edk::char8* src,edk::char8* dest){
+bool edk::String::asciiToUtf8(const edk::char8* src,edk::char8* dest){
     return edk::String::asciiToUtf8((edk::char8*) src,dest);
 }
-edk::char8* String::asciiToUtf8(edk::char8* src){
+edk::char8* edk::String::asciiToUtf8(edk::char8* src){
     edk::char8* ret=NULL;
     //get the size of the string
     edk::uint32 size = edk::String::asciiToUtf8Size(src);
@@ -2252,11 +2258,11 @@ edk::char8* String::asciiToUtf8(edk::char8* src){
     }
     return NULL;
 }
-edk::char8* String::asciiToUtf8(const edk::char8* src){
+edk::char8* edk::String::asciiToUtf8(const edk::char8* src){
     return edk::String::asciiToUtf8((edk::char8*) src);
 }
 //ASCII to UTF8 Size
-edk::uint32 String::asciiToUtf8Size(edk::char8* src){
+edk::uint32 edk::String::asciiToUtf8Size(edk::char8* src){
     edk::uint32 ret=0u;
     if(src){
         edk::uchar8 c;
@@ -2278,12 +2284,12 @@ edk::uint32 String::asciiToUtf8Size(edk::char8* src){
     }
     return ret;
 }
-edk::uint32 String::asciiToUtf8Size(const edk::char8* src){
+edk::uint32 edk::String::asciiToUtf8Size(const edk::char8* src){
     return edk::String::asciiToUtf8Size((edk::char8*) src);
 }
 
 //UTF8 to ASCII
-bool String::utf8ToAscii(edk::char8* src,edk::char8* dest){
+bool edk::String::utf8ToAscii(edk::char8* src,edk::char8* dest){
     if(src && dest){
         edk::uchar8 c;
         while(*src){
@@ -2357,10 +2363,10 @@ bool String::utf8ToAscii(edk::char8* src,edk::char8* dest){
     }
     return false;
 }
-bool String::utf8ToAscii(const edk::char8* src,edk::char8* dest){
+bool edk::String::utf8ToAscii(const edk::char8* src,edk::char8* dest){
     return edk::String::utf8ToAscii((edk::char8*) src,dest);
 }
-edk::char8* String::utf8ToAscii(edk::char8* src){
+edk::char8* edk::String::utf8ToAscii(edk::char8* src){
     edk::char8* ret=NULL;
     //get the size of the string
     edk::uint32 size = edk::String::utf8ToAsciiSize(src);
@@ -2377,11 +2383,11 @@ edk::char8* String::utf8ToAscii(edk::char8* src){
     }
     return NULL;
 }
-edk::char8* String::utf8ToAscii(const edk::char8* src){
+edk::char8* edk::String::utf8ToAscii(const edk::char8* src){
     return edk::String::utf8ToAscii((edk::char8*) src);
 }
 //UTF8 to ASCII size
-edk::uint32 String::utf8ToAsciiSize(edk::char8* src){
+edk::uint32 edk::String::utf8ToAsciiSize(edk::char8* src){
     edk::uint32 size=0u;
     if(src){
         edk::uchar8 c;
@@ -2412,11 +2418,11 @@ edk::uint32 String::utf8ToAsciiSize(edk::char8* src){
     }
     return size;
 }
-edk::uint32 String::utf8ToAsciiSize(const edk::char8* src){
+edk::uint32 edk::String::utf8ToAsciiSize(const edk::char8* src){
     return edk::String::utf8ToAsciiSize((edk::char8*) src);
 }
 
-char8* String::int32ToStr(int32 value){
+edk::char8* edk::String::int32ToStr(edk::int32 value){
     edk::char8* str = 0u;
 
     //count the number
@@ -2471,7 +2477,7 @@ char8* String::int32ToStr(int32 value){
     return str;
 }
 
-char8* String::int64ToStr(int64 value){
+edk::char8* edk::String::int64ToStr(edk::int64 value){
     edk::char8* str = 0u;
 
     //count the number
@@ -2526,7 +2532,7 @@ char8* String::int64ToStr(int64 value){
     return str;
 }
 
-char8* String::vecInt8toStr(edk::int8* vec,edk::uint32 size){
+edk::char8* edk::String::vecInt8toStr(edk::int8* vec,edk::uint32 size){
     if(vec && size){
         //calculate the size of the string
         edk::uint32 stringSize = 0u;
@@ -2572,7 +2578,7 @@ char8* String::vecInt8toStr(edk::int8* vec,edk::uint32 size){
     return NULL;
 }
 
-char8* String::vecInt16toStr(edk::int16* vec,edk::uint32 size){
+edk::char8* edk::String::vecInt16toStr(edk::int16* vec,edk::uint32 size){
     if(vec && size){
         //calculate the size of the string
         edk::uint32 stringSize = 0u;
@@ -2618,7 +2624,7 @@ char8* String::vecInt16toStr(edk::int16* vec,edk::uint32 size){
     return NULL;
 }
 
-char8* String::vecInt32toStr(edk::int32* vec,edk::uint32 size){
+edk::char8* edk::String::vecInt32toStr(edk::int32* vec,edk::uint32 size){
     if(vec && size){
         //calculate the size of the string
         edk::uint32 stringSize = 0u;
@@ -2663,7 +2669,7 @@ char8* String::vecInt32toStr(edk::int32* vec,edk::uint32 size){
     }
     return NULL;
 }
-char8* String::vecInt64toStr(edk::int64* vec,edk::uint32 size){
+edk::char8* edk::String::vecInt64toStr(edk::int64* vec,edk::uint32 size){
     if(vec && size){
         //calculate the size of the string
         edk::uint32 stringSize = 0u;
@@ -2709,7 +2715,7 @@ char8* String::vecInt64toStr(edk::int64* vec,edk::uint32 size){
     return NULL;
 }
 
-char8* String::vecUint8toStr(edk::uint8* vec,edk::uint32 size){
+edk::char8* edk::String::vecUint8toStr(edk::uint8* vec,edk::uint32 size){
     if(vec && size){
         //calculate the size of the string
         edk::uint32 stringSize = 0u;
@@ -2747,7 +2753,7 @@ char8* String::vecUint8toStr(edk::uint8* vec,edk::uint32 size){
     return NULL;
 }
 
-char8* String::vecUint16toStr(edk::uint16* vec,edk::uint32 size){
+edk::char8* edk::String::vecUint16toStr(edk::uint16* vec,edk::uint32 size){
     if(vec && size){
         //calculate the size of the string
         edk::uint32 stringSize = 0u;
@@ -2785,7 +2791,7 @@ char8* String::vecUint16toStr(edk::uint16* vec,edk::uint32 size){
     return NULL;
 }
 
-char8* String::vecUint32toStr(edk::uint32* vec,edk::uint32 size){
+edk::char8* edk::String::vecUint32toStr(edk::uint32* vec,edk::uint32 size){
     if(vec && size){
         //calculate the size of the string
         edk::uint32 stringSize = 0u;
@@ -2822,7 +2828,7 @@ char8* String::vecUint32toStr(edk::uint32* vec,edk::uint32 size){
     }
     return NULL;
 }
-char8* String::vecUint64toStr(edk::uint64* vec,edk::uint32 size){
+edk::char8* edk::String::vecUint64toStr(edk::uint64* vec,edk::uint32 size){
     if(vec && size){
         //calculate the size of the string
         edk::uint32 stringSize = 0u;
@@ -2860,7 +2866,7 @@ char8* String::vecUint64toStr(edk::uint64* vec,edk::uint32 size){
     return NULL;
 }
 
-char8* String::vecfloat32toStr(edk::float32* vec,edk::uint32 size){
+edk::char8* edk::String::vecfloat32toStr(edk::float32* vec,edk::uint32 size){
     if(vec && size){
         //calculate the size of the string
         edk::uint32 stringSize = 0u;
@@ -2891,7 +2897,7 @@ char8* String::vecfloat32toStr(edk::float32* vec,edk::uint32 size){
     return NULL;
 }
 
-char8* String::vecfloat64toStr(edk::float64* vec,edk::uint32 size){
+edk::char8* edk::String::vecfloat64toStr(edk::float64* vec,edk::uint32 size){
     if(vec && size){
         //calculate the size of the string
         edk::uint32 stringSize = 0u;
@@ -2922,7 +2928,7 @@ char8* String::vecfloat64toStr(edk::float64* vec,edk::uint32 size){
     return NULL;
 }
 
-edk::uint32 String::sizeOfInt32(int32 value){
+edk::uint32 edk::String::sizeOfInt32(edk::int32 value){
     //use the module of the number
     edk::int32 module = edkModuleInt32(value);
 
@@ -2935,7 +2941,7 @@ edk::uint32 String::sizeOfInt32(int32 value){
     return size;
 }
 
-edk::uint32 String::sizeOfInt64(int64 value){
+edk::uint32 edk::String::sizeOfInt64(edk::int64 value){
     //use the module of the number
     edk::int64 module = edkModuleInt64(value);
 
@@ -2948,7 +2954,7 @@ edk::uint32 String::sizeOfInt64(int64 value){
     return size;
 }
 
-edk::uint32 String::sizeOfFloat32(float32 value){
+edk::uint32 edk::String::sizeOfFloat32(edk::float32 value){
     //use the module of the number
     edk::float64 module = edkModuleFloat32(value);
 
@@ -2962,7 +2968,7 @@ edk::uint32 String::sizeOfFloat32(float32 value){
     return size;
 }
 
-edk::uint32 String::sizeOfFloat64(float64 value){
+edk::uint32 edk::String::sizeOfFloat64(edk::float64 value){
     //use the module of the number
     edk::float64 module = edkModuleFloat64(value);
 
@@ -2976,7 +2982,7 @@ edk::uint32 String::sizeOfFloat64(float64 value){
     return size;
 }
 
-char8* String::float32ToStr(edk::float32 value){
+edk::char8* edk::String::float32ToStr(edk::float32 value){
     //first divide the value in two. After the point and before the poinf
     edk::int32 before = (edk::int32)value;
     edk::float32 after= edkModuleFloat32(value-(edk::float32)before);
@@ -3047,7 +3053,7 @@ char8* String::float32ToStr(edk::float32 value){
     return ret;
 }
 
-char8* String::float32ToStr(edk::float32 value, int32 digits){
+edk::char8* edk::String::float32ToStr(edk::float32 value, edk::int32 digits){
     //first divide the value in two. After the point and before the poinf
     edk::int32 before = (edk::int32)value;
     edk::float32 after= edkModuleFloat32(value-(edk::float32)before);
@@ -3109,7 +3115,7 @@ char8* String::float32ToStr(edk::float32 value, int32 digits){
     return ret;
 }
 
-char8* String::float64ToStr(edk::float64 value, int32 digits){
+edk::char8* edk::String::float64ToStr(edk::float64 value, edk::int32 digits){
     //first divide the value in two. After the point and before the poinf
     edk::int32 before = (edk::int32)value;
     edk::float64 after= edkModuleFloat64(value-(edk::float64)before);
@@ -3167,7 +3173,7 @@ char8* String::float64ToStr(edk::float64 value, int32 digits){
     return ret;
 }
 
-char8* String::uint32ToStr(uint32 value){
+edk::char8* edk::String::uint32ToStr(edk::uint32 value){
     edk::char8* str = NULL;
     //use the module of the number
     edk::uint32 module = value;
@@ -3228,7 +3234,7 @@ char8* String::uint32ToStr(uint32 value){
     return str;
 }
 
-char8* String::uint64ToStr(uint64 value){
+edk::char8* edk::String::uint64ToStr(edk::uint64 value){
     edk::char8* str = NULL;
     //use the module of the number
     edk::uint64 module = value;
@@ -3289,7 +3295,7 @@ char8* String::uint64ToStr(uint64 value){
     return str;
 }
 
-char8* String::strCat(char8 *str1, char8 *str2){
+edk::char8* edk::String::strCat(edk::char8 *str1, edk::char8 *str2){
     //first declare a return
     edk::char8* ret=NULL;
     //test if string are alloc
@@ -3321,19 +3327,19 @@ char8* String::strCat(char8 *str1, char8 *str2){
     return ret;
 }
 
-char8* String::strCat(char8 *str1, const char *str2){
-    return edk::String::strCat(str1, (char8*) str2);
+edk::char8* edk::String::strCat(edk::char8 *str1, const edk::char8 *str2){
+    return edk::String::strCat(str1, (edk::char8*) str2);
 }
 
-char8* String::strCat(const char *str1, char8 *str2){
-    return edk::String::strCat((char8*) str1,str2);
+edk::char8* edk::String::strCat(const edk::char8 *str1, edk::char8 *str2){
+    return edk::String::strCat((edk::char8*) str1,str2);
 }
 
-char8* String::strCat(const char *str1, const char *str2){
+edk::char8* edk::String::strCat(const edk::char8 *str1, const edk::char8 *str2){
     return edk::String::strCat((edk::char8*)str1,(edk::char8*)str2);
 }
 
-char8* String::strCatMulti(char8 *str, ...){
+edk::char8* edk::String::strCatMulti(edk::char8 *str, ...){
     //first make a copy of the pointer transforming to a matrix
     edk::char8* strTemp=str;
     //Alloc the return
@@ -3348,7 +3354,7 @@ char8* String::strCatMulti(char8 *str, ...){
         //clone the str
         if((ret = edk::String::strCopy(strTemp))){
             //get the next string
-            strTemp = va_arg(vl,char8*);
+            strTemp = va_arg(vl,edk::char8*);
             while(strTemp){
                 //save the ret
                 temp = ret;
@@ -3362,7 +3368,7 @@ char8* String::strCatMulti(char8 *str, ...){
                     ret = temp;
                     break;
                 }
-                strTemp = va_arg(vl,char8*);
+                strTemp = va_arg(vl,edk::char8*);
             }
         }
     }
@@ -3371,7 +3377,7 @@ char8* String::strCatMulti(char8 *str, ...){
     return ret;
 }
 
-char8* String::strCatMulti(const char *str, ...){
+edk::char8* edk::String::strCatMulti(const edk::char8 *str, ...){
     //first make a copy of the pointer transforming to a matrix
     edk::char8* strTemp=(edk::char8*)str;
     //Alloc the return
@@ -3386,7 +3392,7 @@ char8* String::strCatMulti(const char *str, ...){
         //clone the str
         if((ret = edk::String::strCopy(strTemp))){
             //get the next string
-            strTemp = va_arg(vl,char8*);
+            strTemp = va_arg(vl,edk::char8*);
             while(strTemp){
                 //save the ret
                 temp = ret;
@@ -3400,7 +3406,7 @@ char8* String::strCatMulti(const char *str, ...){
                     ret = temp;
                     break;
                 }
-                strTemp = va_arg(vl,char8*);
+                strTemp = va_arg(vl,edk::char8*);
             }
         }
     }
@@ -3409,7 +3415,7 @@ char8* String::strCatMulti(const char *str, ...){
     return ret;
 }
 
-bool String::strCompare(char8 *str1, char8 *str2){
+bool edk::String::strCompare(edk::char8 *str1, edk::char8 *str2){
     //alloc the return
     if(str1 && str2){
         //then he can compare the two strings
@@ -3429,19 +3435,19 @@ bool String::strCompare(char8 *str1, char8 *str2){
     }
     return false;
 }
-bool String::strCompare(const char *str1, char8 *str2){
-    return edk::String::strCompare((char8 *)str1, (char8 *)str2);
+bool edk::String::strCompare(const edk::char8 *str1, edk::char8 *str2){
+    return edk::String::strCompare((edk::char8 *)str1, (edk::char8 *)str2);
 }
-bool String::strCompare(char8 *str1, const char *str2){
-    return edk::String::strCompare((char8 *)str1, (char8 *)str2);
+bool edk::String::strCompare(edk::char8 *str1, const edk::char8 *str2){
+    return edk::String::strCompare((edk::char8 *)str1, (edk::char8 *)str2);
 }
 
 
-bool String::strCompare(const char *str1, const char *str2){
+bool edk::String::strCompare(const edk::char8 *str1, const edk::char8 *str2){
     return edk::String::strCompare((edk::char8*)str1,(edk::char8*)str2);
 }
 
-bool String::strCompareBeggin(char8 *str1, char8 *str2){
+bool edk::String::strCompareBeggin(edk::char8 *str1, edk::char8 *str2){
     if(str1 && str2){
         while(*str1 && *str2){
             if (*str1!=*str2){
@@ -3456,20 +3462,20 @@ bool String::strCompareBeggin(char8 *str1, char8 *str2){
     }
     return false;
 }
-bool String::strCompareBeggin(const char *str1, char8 *str2){
-    return edk::String::strCompareBeggin((char8 *)str1, (char8 *)str2);
+bool edk::String::strCompareBeggin(const edk::char8 *str1, edk::char8 *str2){
+    return edk::String::strCompareBeggin((edk::char8 *)str1, (edk::char8 *)str2);
 }
-bool String::strCompareBeggin(char8 *str1, const char *str2){
-    return edk::String::strCompareBeggin((char8 *)str1, (char8 *)str2);
+bool edk::String::strCompareBeggin(edk::char8 *str1, const edk::char8 *str2){
+    return edk::String::strCompareBeggin((edk::char8 *)str1, (edk::char8 *)str2);
 }
 
 
-bool String::strCompareBeggin(const char *str1, const char *str2){
+bool edk::String::strCompareBeggin(const edk::char8 *str1, const edk::char8 *str2){
     return edk::String::strCompareBeggin((edk::char8*)str1,(edk::char8*)str2);
 }
 
 //Compare string removing some characters with filter
-bool String::strCompareWithFilter(char8 *str1, char8 *str2,char8 *filter){
+bool edk::String::strCompareWithFilter(edk::char8 *str1, edk::char8 *str2,edk::char8 *filter){
     //test filter
     if(filter){
         //get size of the filter
@@ -3549,30 +3555,30 @@ bool String::strCompareWithFilter(char8 *str1, char8 *str2,char8 *filter){
     //else test normalCompare
     return edk::String::strCompare(str1,str2);
 }
-bool String::strCompareWithFilter(char8 *str1, char8 *str2,const char *filter){
-    return edk::String::strCompareWithFilter(str1, str2,(char8 *)filter);
+bool edk::String::strCompareWithFilter(edk::char8 *str1, edk::char8 *str2,const edk::char8 *filter){
+    return edk::String::strCompareWithFilter(str1, str2,(edk::char8 *)filter);
 }
-bool String::strCompareWithFilter(const char *str1, const char *str2,const char *filter){
-    return edk::String::strCompareWithFilter((char8 *)str1, (char8 *)str2,(char8 *)filter);
+bool edk::String::strCompareWithFilter(const edk::char8 *str1, const edk::char8 *str2,const edk::char8 *filter){
+    return edk::String::strCompareWithFilter((edk::char8 *)str1, (edk::char8 *)str2,(edk::char8 *)filter);
 }
-bool String::strCompareWithFilter(const char *str1, const char *str2,char8 *filter){
-    return edk::String::strCompareWithFilter((char8 *)str1, (char8 *)str2,filter);
+bool edk::String::strCompareWithFilter(const edk::char8 *str1, const edk::char8 *str2,edk::char8 *filter){
+    return edk::String::strCompareWithFilter((edk::char8 *)str1, (edk::char8 *)str2,filter);
 }
-bool String::strCompareWithFilter(char8 *str1, const char *str2,const char *filter){
-    return edk::String::strCompareWithFilter(str1, (char8 *)str2,(char8 *)filter);
+bool edk::String::strCompareWithFilter(edk::char8 *str1, const edk::char8 *str2,const edk::char8 *filter){
+    return edk::String::strCompareWithFilter(str1, (edk::char8 *)str2,(edk::char8 *)filter);
 }
-bool String::strCompareWithFilter(char8 *str1, const char *str2,char8 *filter){
-    return edk::String::strCompareWithFilter(str1, (char8 *)str2,filter);
+bool edk::String::strCompareWithFilter(edk::char8 *str1, const edk::char8 *str2,edk::char8 *filter){
+    return edk::String::strCompareWithFilter(str1, (edk::char8 *)str2,filter);
 }
-bool String::strCompareWithFilter(const char *str1, char8 *str2,const char *filter){
-    return edk::String::strCompareWithFilter((char8 *)str1, str2,(char8 *)filter);
+bool edk::String::strCompareWithFilter(const edk::char8 *str1, edk::char8 *str2,const edk::char8 *filter){
+    return edk::String::strCompareWithFilter((edk::char8 *)str1, str2,(edk::char8 *)filter);
 }
-bool String::strCompareWithFilter(const char *str1, char8 *str2,char8 *filter){
-    return edk::String::strCompareWithFilter((char8 *)str1, str2,filter);
+bool edk::String::strCompareWithFilter(const edk::char8 *str1, edk::char8 *str2,edk::char8 *filter){
+    return edk::String::strCompareWithFilter((edk::char8 *)str1, str2,filter);
 }
 
 //return true if a string is inside the other string
-edk::char8* edk::String::strInside(char8 *str, char8 *compare){
+edk::char8* edk::String::strInside(edk::char8 *str, edk::char8 *compare){
     edk::char8* temp = NULL;
     edk::char8* ret = NULL;
     if(str && compare){
@@ -3607,18 +3613,18 @@ edk::char8* edk::String::strInside(char8 *str, char8 *compare){
     }
     return NULL;
 }
-edk::char8* edk::String::strInside(const char8 *str, char8 *compare){
-    return edk::String::strInside((char8 *)str, compare);
+edk::char8* edk::String::strInside(const edk::char8 *str, edk::char8 *compare){
+    return edk::String::strInside((edk::char8 *)str, compare);
 }
-edk::char8* edk::String::strInside(char8 *str, const char8 *compare){
-    return edk::String::strInside(str, (char8 *)compare);
+edk::char8* edk::String::strInside(edk::char8 *str, const edk::char8 *compare){
+    return edk::String::strInside(str, (edk::char8 *)compare);
 }
-edk::char8* edk::String::strInside(const char8 *str, const char8 *compare){
-    return edk::String::strInside((char8 *)str, (char8 *)compare);
+edk::char8* edk::String::strInside(const edk::char8 *str, const edk::char8 *compare){
+    return edk::String::strInside((edk::char8 *)str, (edk::char8 *)compare);
 }
 
 //return true if the first string is bigger than the second string
-bool edk::String::strBiggerStr(char8 *str1, char8 *str2){
+bool edk::String::strBiggerStr(edk::char8 *str1, edk::char8 *str2){
     //test the strings
     if(str1 && str2){
         //test if str1 is bigger
@@ -3640,17 +3646,17 @@ bool edk::String::strBiggerStr(char8 *str1, char8 *str2){
     //else return false
     return false;
 }
-bool edk::String::strBiggerStr(const char8 *str1, char8 *str2){
-    return edk::String::strBiggerStr((char8 *)str1, str2);
+bool edk::String::strBiggerStr(const edk::char8 *str1, edk::char8 *str2){
+    return edk::String::strBiggerStr((edk::char8 *)str1, str2);
 }
-bool edk::String::strBiggerStr(char8 *str1, const char8 *str2){
-    return edk::String::strBiggerStr(str1, (char8 *)str2);
+bool edk::String::strBiggerStr(edk::char8 *str1, const edk::char8 *str2){
+    return edk::String::strBiggerStr(str1, (edk::char8 *)str2);
 }
-bool edk::String::strBiggerStr(const char8 *str1, const char8 *str2){
-    return edk::String::strBiggerStr((char8 *)str1, (char8 *)str2);
+bool edk::String::strBiggerStr(const edk::char8 *str1, const edk::char8 *str2){
+    return edk::String::strBiggerStr((edk::char8 *)str1, (edk::char8 *)str2);
 }
 
-uint64 String::strSize(char8 *str){
+edk::uint64 edk::String::strSize(edk::char8 *str){
     edk::uint64 ret=0u;
     if(str){
         while(*str){
@@ -3662,11 +3668,11 @@ uint64 String::strSize(char8 *str){
     return ret;
 }
 
-uint64 String::strSize(const char *str){
+edk::uint64 edk::String::strSize(const edk::char8 *str){
     return edk::String::strSize((edk::char8*)str);
 }
 
-uint64 String::strSizeWithFilter(char8 *str,edk::char8* filter){
+edk::uint64 edk::String::strSizeWithFilter(edk::char8 *str,edk::char8* filter){
     edk::uint64 i=0u;
 
     if(filter){
@@ -3694,17 +3700,17 @@ uint64 String::strSizeWithFilter(char8 *str,edk::char8* filter){
     else return edk::String::strSize(str);
     return i;
 }
-uint64 String::strSizeWithFilter(char8 *str,const char *filter){
+edk::uint64 edk::String::strSizeWithFilter(edk::char8 *str,const char *filter){
     return strSizeWithFilter(str,(edk::char8*) filter);
 }
-uint64 String::strSizeWithFilter(const char *str,edk::char8* filter){
-    return strSizeWithFilter((char8 *)str,filter);
+edk::uint64 edk::String::strSizeWithFilter(const edk::char8 *str,edk::char8* filter){
+    return strSizeWithFilter((edk::char8 *)str,filter);
 }
-uint64 String::strSizeWithFilter(const char *str,const char *filter){
-    return strSizeWithFilter((char8 *)str,(edk::char8*) filter);
+edk::uint64 edk::String::strSizeWithFilter(const edk::char8 *str,const edk::char8 *filter){
+    return strSizeWithFilter((edk::char8 *)str,(edk::char8*) filter);
 }
 
-uint64 String::strSizeWithLimit(char8 *str,edk::char8* limit){
+edk::uint64 edk::String::strSizeWithLimit(edk::char8 *str,edk::char8* limit){
     edk::uint64 i=0u;
 
     if(limit){
@@ -3725,17 +3731,17 @@ uint64 String::strSizeWithLimit(char8 *str,edk::char8* limit){
 
     return i;
 }
-uint64 String::strSizeWithLimit(char8 *str,const char *limit){
+edk::uint64 edk::String::strSizeWithLimit(edk::char8 *str,const edk::char8 *limit){
     return strSizeWithLimit(str,(edk::char8*) limit);
 }
-uint64 String::strSizeWithLimit(const char *str,edk::char8* limit){
-    return strSizeWithLimit((char8 *)str,limit);
+edk::uint64 edk::String::strSizeWithLimit(const edk::char8 *str,edk::char8* limit){
+    return strSizeWithLimit((edk::char8 *)str,limit);
 }
-uint64 String::strSizeWithLimit(const char *str,const char *limit){
-    return strSizeWithLimit((char8 *)str,(edk::char8*) limit);
+edk::uint64 edk::String::strSizeWithLimit(const edk::char8 *str,const edk::char8 *limit){
+    return strSizeWithLimit((edk::char8 *)str,(edk::char8*) limit);
 }
 
-uint64 String::strWordSize(char8 *str){
+edk::uint64 edk::String::strWordSize(edk::char8 *str){
     edk::uint64 ret=0u;
     if(str){
         while(*str){
@@ -3751,11 +3757,11 @@ uint64 String::strWordSize(char8 *str){
     return ret;
 }
 
-uint64 String::strWordSize(const char *str){
+edk::uint64 edk::String::strWordSize(const edk::char8 *str){
     return edk::String::strWordSize((edk::char8*)str);
 }
 
-uint64 String::strWordSizeWithFilter(char8 *str,edk::char8* filter){
+edk::uint64 edk::String::strWordSizeWithFilter(edk::char8 *str,edk::char8* filter){
     edk::uint64 i=0u;
 
     if(filter){
@@ -3783,17 +3789,17 @@ uint64 String::strWordSizeWithFilter(char8 *str,edk::char8* filter){
     else return edk::String::strWordSize(str);
     return i;
 }
-uint64 String::strWordSizeWithFilter(char8 *str,const char *filter){
+edk::uint64 edk::String::strWordSizeWithFilter(edk::char8 *str,const edk::char8 *filter){
     return strWordSizeWithFilter(str,(edk::char8*) filter);
 }
-uint64 String::strWordSizeWithFilter(const char *str,edk::char8* filter){
+edk::uint64 edk::String::strWordSizeWithFilter(const edk::char8 *str,edk::char8* filter){
     return strWordSizeWithFilter((char8 *)str,filter);
 }
-uint64 String::strWordSizeWithFilter(const char *str,const char *filter){
+edk::uint64 edk::String::strWordSizeWithFilter(const edk::char8 *str,const edk::char8 *filter){
     return strWordSizeWithFilter((char8 *)str,(edk::char8*) filter);
 }
 
-uint64 String::strLineSize(char8 *str){
+edk::uint64 edk::String::strLineSize(edk::char8 *str){
     edk::uint64 ret=0u;
     if(str){
         while(*str){
@@ -3809,11 +3815,11 @@ uint64 String::strLineSize(char8 *str){
     return ret;
 }
 
-uint64 String::strLineSize(const char *str){
+edk::uint64 edk::String::strLineSize(const edk::char8 *str){
     return edk::String::strWordSize((edk::char8*)str);
 }
 
-uint64 String::strLineSizeWithFilter(char8 *str,edk::char8* filter){
+edk::uint64 edk::String::strLineSizeWithFilter(edk::char8 *str,edk::char8* filter){
     edk::uint64 i=0u;
 
     if(filter){
@@ -3841,17 +3847,17 @@ uint64 String::strLineSizeWithFilter(char8 *str,edk::char8* filter){
     else return edk::String::strWordSize(str);
     return i;
 }
-uint64 String::strLineSizeWithFilter(char8 *str,const char *filter){
+edk::uint64 edk::String::strLineSizeWithFilter(edk::char8 *str,const edk::char8 *filter){
     return strLineSizeWithFilter(str,(edk::char8*) filter);
 }
-uint64 String::strLineSizeWithFilter(const char *str,edk::char8* filter){
-    return strLineSizeWithFilter((char8 *)str,filter);
+edk::uint64 edk::String::strLineSizeWithFilter(const edk::char8 *str,edk::char8* filter){
+    return strLineSizeWithFilter((edk::char8 *)str,filter);
 }
-uint64 String::strLineSizeWithFilter(const char *str,const char *filter){
-    return strLineSizeWithFilter((char8 *)str,(edk::char8*) filter);
+edk::uint64 edk::String::strLineSizeWithFilter(const edk::char8 *str,const edk::char8 *filter){
+    return strLineSizeWithFilter((edk::char8 *)str,(edk::char8*) filter);
 }
 
-bool edk::String::strCut(char8 *str,char8 *dest, char8 limit, bool use){
+bool edk::String::strCut(edk::char8 *str,edk::char8 *dest, edk::char8 limit, bool use){
     if(str && dest && limit){
         while(*str){
             //test if the str is equal the limit
@@ -3877,11 +3883,11 @@ bool edk::String::strCut(char8 *str,char8 *dest, char8 limit, bool use){
     return false;
 }
 
-bool edk::String::strCut(const char8 *str,char8 *dest, char8 limit, bool use){
-    return edk::String::strCut((char8 *)str,dest, limit, use);
+bool edk::String::strCut(const edk::char8 *str,edk::char8 *dest, edk::char8 limit, bool use){
+    return edk::String::strCut((edk::char8 *)str,dest, limit, use);
 }
 
-char8* edk::String::strCut(char8 *str, char8 limit, bool use){
+edk::char8* edk::String::strCut(edk::char8 *str, edk::char8 limit, bool use){
     //Test if the string is alloc
     if(str){
         //The new stirng
@@ -3926,11 +3932,11 @@ char8* edk::String::strCut(char8 *str, char8 limit, bool use){
     return NULL;
 }
 
-char8* edk::String::strCut(const char *str, char8 limit, bool use){
+edk::char8* edk::String::strCut(const edk::char8 *str, edk::char8 limit, bool use){
     return edk::String::strCut((edk::char8 *)str, limit, use);
 }
 
-bool edk::String::strCut(char8 limit, char8 *str, char8 *dest, bool use){
+bool edk::String::strCut(edk::char8 limit, edk::char8 *str, edk::char8 *dest, bool use){
     if(str && dest && limit){
         while(*str){
             //test if the str is equal the limit
@@ -3959,11 +3965,11 @@ bool edk::String::strCut(char8 limit, char8 *str, char8 *dest, bool use){
     return false;
 }
 
-bool edk::String::strCut(char8 limit, const char *str, char8 *dest, bool use){
-    return edk::String::strCut(limit, (char8 *)str, dest, use);
+bool edk::String::strCut(edk::char8 limit, const edk::char8 *str, edk::char8 *dest, bool use){
+    return edk::String::strCut(limit, (edk::char8 *)str, dest, use);
 }
 
-char8* edk::String::strCut(char8 limit, char8 *str, bool use){
+edk::char8* edk::String::strCut(edk::char8 limit, edk::char8 *str, bool use){
     //First test if the string exist
     if(str){
         edk::uint32 i=0u;
@@ -3994,11 +4000,11 @@ char8* edk::String::strCut(char8 limit, char8 *str, bool use){
     return NULL;
 }
 
-char8* edk::String::strCut(char8 limit, const char *str, bool use){
+edk::char8* edk::String::strCut(edk::char8 limit, const edk::char8 *str, bool use){
     return edk::String::strCut(limit, (edk::char8 *)str, use);
 }
 
-bool edk::String::strCut(char8 *str,char8 *dest, char8 start, char8 end, bool use){
+bool edk::String::strCut(edk::char8 *str,edk::char8 *dest, edk::char8 start, edk::char8 end, bool use){
     if(str && dest && start && end){
         while(*str){
             //test if the str is equal the limit
@@ -4037,11 +4043,11 @@ bool edk::String::strCut(char8 *str,char8 *dest, char8 start, char8 end, bool us
     return false;
 }
 
-bool edk::String::strCut(const char *str,char8 *dest, char8 start, char8 end, bool use){
-    return edk::String::strCut((char8 *)str,dest, start, end, use);
+bool edk::String::strCut(const edk::char8 *str,edk::char8 *dest, edk::char8 start, edk::char8 end, bool use){
+    return edk::String::strCut((edk::char8 *)str,dest, start, end, use);
 }
 
-char8* edk::String::strCut(char8 *str, char8 start, char8 end, bool use){
+edk::char8* edk::String::strCut(edk::char8 *str, edk::char8 start, edk::char8 end, bool use){
     //first test if the string exist
     if(str){
         //Find the start
@@ -4133,11 +4139,11 @@ char8* edk::String::strCut(char8 *str, char8 start, char8 end, bool use){
     return NULL;
 }
 
-char8* edk::String::strCut(const char *str, char8 start, char8 end, bool use){
+edk::char8* edk::String::strCut(const edk::char8 *str, edk::char8 start, edk::char8 end, bool use){
     return edk::String::strCut((edk::char8 *)str, start, end, use);
 }
 
-bool String::strInvert(char8 *str){
+bool edk::String::strInvert(edk::char8 *str){
     //first count the string
     edk::uint32 size=edk::String::strSize(str);
     //test if the string have characters
@@ -4160,11 +4166,11 @@ bool String::strInvert(char8 *str){
     return false;
 }
 
-bool String::strInvert(const char *str){
+bool edk::String::strInvert(const edk::char8 *str){
     return edk::String::strInvert((edk::char8*)str);
 }
 
-edk::uint64 String::stringHaveChar(char8 *str,edk::char8 value){
+edk::uint64 edk::String::stringHaveChar(edk::char8 *str,edk::char8 value){
     if(str){
         edk::uint64 count=0u;
         while(*str){
@@ -4179,11 +4185,11 @@ edk::uint64 String::stringHaveChar(char8 *str,edk::char8 value){
     return 0u;
 }
 
-edk::uint64 String::stringHaveChar(const char *str,edk::char8 value){
-    return edk::String::stringHaveChar((char8 *)str,value);
+edk::uint64 edk::String::stringHaveChar(const edk::char8 *str,edk::char8 value){
+    return edk::String::stringHaveChar((edk::char8 *)str,value);
 }
 
-edk::uint64 String::stringHaveChar(char8 *str,edk::uint64 size,edk::char8 value){
+edk::uint64 edk::String::stringHaveChar(edk::char8 *str,edk::uint64 size,edk::char8 value){
     if(str){
         edk::uint32 count=0u;
         for(edk::uint64 i=0u;i<size;i++){
@@ -4196,11 +4202,11 @@ edk::uint64 String::stringHaveChar(char8 *str,edk::uint64 size,edk::char8 value)
     }
     return 0u;
 }
-edk::uint64 String::stringHaveChar(const char *str,edk::uint64 size,edk::char8 value){
-    return edk::String::stringHaveChar((char8 *)str,size,value);
+edk::uint64 edk::String::stringHaveChar(const edk::char8 *str,edk::uint64 size,edk::char8 value){
+    return edk::String::stringHaveChar((edk::char8 *)str,size,value);
 }
 
-bool String::consoleKeyPressed(){
+bool edk::String::consoleKeyPressed(){
     if(edkKbhit()){
         //
         return true;
@@ -4208,23 +4214,23 @@ bool String::consoleKeyPressed(){
     return false;
 }
 
-char8 String::consoleReadKey(){
+edk::char8 edk::String::consoleReadKey(){
     return edkGetch();
 }
 
-char8* String::consoleReadString(){
+edk::char8* edk::String::consoleReadString(){
     return readFromTheConsole(0u);
 }
 
-char8* String::consoleReadStringNoPrint(){
+edk::char8* edk::String::consoleReadStringNoPrint(){
     return readFromTheConsoleNoPrint(0u);
 }
 
-char8* String::consoleReadPassword(){
+edk::char8* edk::String::consoleReadPassword(){
     return readPasswordFromTheConsole(0u);
 }
 
-void String::consoleClear(){
+void edk::String::consoleClear(){
     //cleat console using a operatin system command
 #if defined(WIN32) || defined(WIN64)//Windows
     system("cls");
@@ -4234,7 +4240,7 @@ void String::consoleClear(){
 }
 
 //return the console size
-edk::size2ui32 String::consoleGetSize(){
+edk::size2ui32 edk::String::consoleGetSize(){
     edk::size2ui32 ret(0u,0u);
 #if _WIN32 || _WIN64
 #else
@@ -4246,7 +4252,7 @@ edk::size2ui32 String::consoleGetSize(){
     return ret;
 }
 
-char8* String::strCopy(char8 *str){
+edk::char8* edk::String::strCopy(edk::char8 *str){
     edk::char8* strRet=NULL;
 
     //count the string
@@ -4268,11 +4274,11 @@ char8* String::strCopy(char8 *str){
     return strRet;
 }
 
-char8* String::strCopy(const char *str){
+edk::char8* edk::String::strCopy(const edk::char8 *str){
     return edk::String::strCopy((edk::char8*)str);
 }
 
-char8* String::strCopyLine(char8 *str){
+edk::char8* edk::String::strCopyLine(edk::char8 *str){
     edk::char8* strRet=NULL;
 
     //count the string
@@ -4294,11 +4300,11 @@ char8* String::strCopyLine(char8 *str){
     return strRet;
 }
 
-char8* String::strCopyLine(const char *str){
+edk::char8* edk::String::strCopyLine(const edk::char8 *str){
     return edk::String::strCopyLine((edk::char8*)str);
 }
 
-char8* String::strCopyWord(char8 *str){
+edk::char8* edk::String::strCopyWord(edk::char8 *str){
     edk::char8* strRet=NULL;
 
     //count the string
@@ -4320,12 +4326,12 @@ char8* String::strCopyWord(char8 *str){
     return strRet;
 }
 
-char8* String::strCopyWord(const char *str){
+edk::char8* edk::String::strCopyWord(const edk::char8 *str){
     return edk::String::strCopyWord((edk::char8*)str);
 }
 
 //remove a filter from string
-edk::char8* String::strCopyWithFilter(char8 *str,char8 *filter){
+edk::char8* edk::String::strCopyWithFilter(edk::char8 *str,edk::char8 *filter){
     edk::char8* strRet=NULL;
 
     if(filter){
@@ -4366,17 +4372,17 @@ edk::char8* String::strCopyWithFilter(char8 *str,char8 *filter){
     else return edk::String::strCopy(str);
     return strRet;
 }
-edk::char8* String::strCopyWithFilter(const char *str,char8 *filter){
-    return strCopyWithFilter((char8 *)str,filter);
+edk::char8* edk::String::strCopyWithFilter(const edk::char8 *str,edk::char8 *filter){
+    return strCopyWithFilter((edk::char8 *)str,filter);
 }
-edk::char8* String::strCopyWithFilter(char8 *str,const char *filter){
-    return strCopyWithFilter(str,(char8 *)filter);
+edk::char8* edk::String::strCopyWithFilter(char8 *str,const edk::char8 *filter){
+    return strCopyWithFilter(str,(edk::char8 *)filter);
 }
-edk::char8* String::strCopyWithFilter(const char *str,const char *filter){
-    return strCopyWithFilter((char8 *)str,(char8 *)filter);
+edk::char8* edk::String::strCopyWithFilter(const edk::char8 *str,const edk::char8 *filter){
+    return strCopyWithFilter((edk::char8 *)str,(edk::char8 *)filter);
 }
 
-char8* String::clipboardRead(){
+edk::char8* edk::String::clipboardRead(){
     //variavel do clipboard
     edk::char8* str=NULL;
 
@@ -4406,7 +4412,7 @@ char8* String::clipboardRead(){
     return str;
 }
 
-bool String::clipboardWrite(char8 *str){
+bool edk::String::clipboardWrite(edk::char8 *str){
     bool ret=false;
 
     //copia a string se a mesma for estatica
@@ -4449,11 +4455,11 @@ bool String::clipboardWrite(char8 *str){
     return ret;
 }
 
-bool String::clipboardWrite(const char *str){
+bool edk::String::clipboardWrite(const edk::char8 *str){
     return edk::String::clipboardWrite((edk::char8*)str);
 }
 
-bool String::clipboardClean(){
+bool edk::String::clipboardClean(){
     //variavel de retorno
     bool ret=false;
 
@@ -4484,10 +4490,10 @@ bool String::clipboardClean(){
 
 
 //filter string accent's
-edk::char8 String::filterAccent(const edk::char8* str){
+edk::char8 edk::String::filterAccent(const edk::char8* str){
     return edk::String::filterAccent((edk::char8*) str);
 }
-edk::char8 String::filterAccent(edk::char8* str){
+edk::char8 edk::String::filterAccent(edk::char8* str){
     //
     if(str){
         if((edk::uint8)*str==195u){
@@ -5319,4 +5325,91 @@ bool edk::String::base64Decode(const edk::char8* str,edk::uint8* dest){
     return edk::String::base64Decode((edk::char8*) str,dest);
 }
 
-} /* End of namespace edk */
+//convert the uri to utf8 to be used by http servers
+edk::uint64 edk::String::uriUnescapeSize(edk::char8* str){
+    edk::uint64  ret = 0u;
+    //test the string
+    if(str){
+        // Skip inital non encoded character
+        while (*str && !edkIsSpace((edk::int32)(*str)) && (*str != '%')){
+            str++;
+            ret++;
+        }
+
+        while (*str && !edkIsSpace((edk::int32)(*str))) {
+            if (*str == '+'){
+                ret++;
+            }
+            else if ((*str == '%') && str[1] && str[2]) {
+                str++;
+                str++;
+                ret++;
+            } else{
+                ret++;
+            }
+            str++;
+        }
+    }
+    return ret;
+}
+edk::uint64 edk::String::uriUnescapeSize(const edk::char8* str){
+    return edk::String::uriUnescapeSize((edk::char8*) str);
+}
+bool edk::String::uriUnescape(edk::char8* str,edk::char8* dest){
+    if(str && dest){
+        edk::char8 chr = 0;
+        edk::char8* temp = dest;
+
+        // Skip inital non encoded character
+        while (*str && !edkIsSpace((edk::int32)(*str)) && (*str != '%')){
+            *dest = *str;
+            str++;
+            dest++;
+        }
+
+        while (*str && !edkIsSpace((edk::int32)(*str))) {
+            if (*str == '+')
+                chr = ' ';
+            else if ((*str == '%') && str[1] && str[2]) {
+                str++;
+                chr = ((*str & 0x0F) + 9 * (*str > '9')) * 16;
+                str++;
+                chr += ((*str & 0x0F) + 9 * (*str > '9'));
+            } else
+                chr = *str;
+            *dest = chr;
+            dest++;
+            str++;
+        }
+        *dest = '\0';
+        return true;
+    }
+    return false;
+}
+bool edk::String::uriUnescape(const edk::char8* str,edk::char8* dest){
+    return uriUnescape((edk::char8*) str,dest);
+}
+bool edk::String::uriUnescape(edk::char8* str,const edk::char8* dest){
+    return uriUnescape(str,(edk::char8*) dest);
+}
+bool edk::String::uriUnescape(const edk::char8* str,const edk::char8* dest){
+    return uriUnescape((edk::char8*) str,(edk::char8*) dest);
+}
+edk::char8* edk::String::uriUnescape(edk::char8* str){
+    //create the new string to ret
+    edk::uint64 size = edk::String::uriUnescapeSize(str);
+    if(size){
+        edk::char8* ret = new edk::char8[size+1u];
+        if(ret){
+            ret[size]='\0';
+            if(edk::String::uriUnescape(str,ret)){
+                return ret;
+            }
+            delete[] ret;
+        }
+    }
+    return NULL;
+}
+edk::char8* edk::String::uriUnescape(const edk::char8* str){
+    return edk::String::uriUnescape((edk::char8*) str);
+}

@@ -1043,15 +1043,17 @@ public:
     }
     bool addName(edk::char8* value){
         //
-        edk::Name* temp = new edk::Name(value);
-        if(temp){
-            //
-            if(edk::vector::BinaryTree<edk::Name*>::add(temp)){
+        if(value){
+            edk::Name* temp = new edk::Name(value);
+            if(temp){
                 //
-                return true;
+                if(edk::vector::BinaryTree<edk::Name*>::add(temp)){
+                    //
+                    return true;
+                }
+                //delete the temp
+                delete temp;
             }
-            //delete the temp
-            delete temp;
         }
         return false;
     }

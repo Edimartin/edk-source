@@ -86,15 +86,15 @@ public:
     //TTY to construct and destruct
     static edk::TTY tty;
 
-    static edk::float32 strToFloat32(const char *str);
+    static edk::float32 strToFloat32(const edk::char8 *str);
 
-    static edk::float32 strToFloat32(char8 *str);
+    static edk::float32 strToFloat32(edk::char8 *str);
 
-    static int64 strToInt64(char8 *str);
+    static edk::int64 strToInt64(edk::char8 *str);
 
-    static int64 strToInt64(const char *str);
+    static edk::int64 strToInt64(const edk::char8 *str);
 
-    static edk::float64 strToFloat64(char8 *str);
+    static edk::float64 strToFloat64(edk::char8 *str);
 
     static edk::float64 strToFloat64(const char *str);
 
@@ -118,9 +118,9 @@ public:
 
     static bool strToVecfloat64(edk::char8* str,edk::float64* vec,edk::uint32 size);
 
-    static int32 strToInt32(char8 *str);
+    static edk::int32 strToInt32(edk::char8 *str);
 
-    static int32 strToInt32(const char *str);
+    static edk::int32 strToInt32(const edk::char8 *str);
 
     //str32ToStr convert a vector with 32bit characters to a string UTF8
     static bool str32ToUtf8(edk::char32 *str32,edk::char8* str);
@@ -192,155 +192,155 @@ public:
     static edk::uint32 utf8ToAsciiSize(edk::char8* src);
     static edk::uint32 utf8ToAsciiSize(const edk::char8* src);
 
-    static char8* int32ToStr(int32 value);
+    static edk::char8* int32ToStr(edk::int32 value);
 
-    static char8* int64ToStr(int64 value);
+    static edk::char8* int64ToStr(edk::int64 value);
 
-    static char8* vecInt8toStr(edk::int8* vec,edk::uint32 size);
+    static edk::char8* vecInt8toStr(edk::int8* vec,edk::uint32 size);
 
-    static char8* vecInt16toStr(edk::int16* vec,edk::uint32 size);
+    static edk::char8* vecInt16toStr(edk::int16* vec,edk::uint32 size);
 
-    static char8* vecInt32toStr(edk::int32* vec,edk::uint32 size);
+    static edk::char8* vecInt32toStr(edk::int32* vec,edk::uint32 size);
 
-    static char8* vecInt64toStr(edk::int64* vec,edk::uint32 size);
+    static edk::char8* vecInt64toStr(edk::int64* vec,edk::uint32 size);
 
-    static char8* vecUint8toStr(edk::uint8* vec,edk::uint32 size);
+    static edk::char8* vecUint8toStr(edk::uint8* vec,edk::uint32 size);
 
-    static char8* vecUint16toStr(edk::uint16* vec,edk::uint32 size);
+    static edk::char8* vecUint16toStr(edk::uint16* vec,edk::uint32 size);
 
-    static char8* vecUint32toStr(edk::uint32* vec,edk::uint32 size);
+    static edk::char8* vecUint32toStr(edk::uint32* vec,edk::uint32 size);
 
-    static char8* vecUint64toStr(edk::uint64* vec,edk::uint32 size);
+    static edk::char8* vecUint64toStr(edk::uint64* vec,edk::uint32 size);
 
-    static char8* vecfloat32toStr(edk::float32* vec,edk::uint32 size);
+    static edk::char8* vecfloat32toStr(edk::float32* vec,edk::uint32 size);
 
-    static char8* vecfloat64toStr(edk::float64* vec,edk::uint32 size);
+    static edk::char8* vecfloat64toStr(edk::float64* vec,edk::uint32 size);
 
-    static edk::uint32 sizeOfInt32(int32 value);
+    static edk::uint32 sizeOfInt32(edk::int32 value);
 
-    static edk::uint32 sizeOfInt64(int64 value);
+    static edk::uint32 sizeOfInt64(edk::int64 value);
 
-    static edk::uint32 sizeOfFloat32(float32 value);
+    static edk::uint32 sizeOfFloat32(edk::float32 value);
 
-    static edk::uint32 sizeOfFloat64(float64 value);
+    static edk::uint32 sizeOfFloat64(edk::float64 value);
 
-    static char8* float32ToStr(edk::float32 value);
+    static edk::char8* float32ToStr(edk::float32 value);
 
-    static char8* float32ToStr(edk::float32 value, int32 digits);
+    static edk::char8* float32ToStr(edk::float32 value, edk::int32 digits);
 
-    static char8* float64ToStr(edk::float64 value, int32 digits);
+    static edk::char8* float64ToStr(edk::float64 value, edk::int32 digits);
 
-    static char8* uint32ToStr(uint32 value);
+    static edk::char8* uint32ToStr(edk::uint32 value);
 
-    static char8* uint64ToStr(uint64 value);
+    static edk::char8* uint64ToStr(edk::uint64 value);
 
-    static char8* strCat(char8 *str1, char8 *str2);
+    static edk::char8* strCat(edk::char8 *str1, edk::char8 *str2);
 
-    static char8* strCat(char8 *str1, const char *str2);
+    static edk::char8* strCat(edk::char8 *str1, const edk::char8 *str2);
 
-    static char8* strCat(const char *str1, char8 *str2);
+    static edk::char8* strCat(const edk::char8 *str1, edk::char8 *str2);
 
-    static char8* strCat(const char *str1, const char *str2);
+    static edk::char8* strCat(const edk::char8 *str1, const edk::char8 *str2);
 
-    static char8* strCatMulti(char8 *str, ...);
+    static edk::char8* strCatMulti(edk::char8 *str, ...);
 
-    static char8* strCatMulti(const char *str, ...);
+    static edk::char8* strCatMulti(const edk::char8 *str, ...);
 
-    static bool strCompare(char8 *str1, char8 *str2);
+    static bool strCompare(edk::char8 *str1, edk::char8 *str2);
 
-    static bool strCompare(const char *str1, char8 *str2);
-    static bool strCompare(char8 *str1, const char *str2);
+    static bool strCompare(const edk::char8 *str1, edk::char8 *str2);
+    static bool strCompare(edk::char8 *str1, const edk::char8 *str2);
 
-    static bool strCompare(const char *str1, const char *str2);
+    static bool strCompare(const edk::char8 *str1, const edk::char8 *str2);
 
-    static bool strCompareBeggin(char8 *str1, char8 *str2);
+    static bool strCompareBeggin(edk::char8 *str1, edk::char8 *str2);
 
-    static bool strCompareBeggin(const char *str1, char8 *str2);
-    static bool strCompareBeggin(char8 *str1, const char *str2);
+    static bool strCompareBeggin(const edk::char8 *str1, edk::char8 *str2);
+    static bool strCompareBeggin(edk::char8 *str1, const edk::char8 *str2);
 
-    static bool strCompareBeggin(const char *str1, const char *str2);
+    static bool strCompareBeggin(const edk::char8 *str1, const edk::char8 *str2);
 
     //Compare string removing some characters with filter
-    static bool strCompareWithFilter(char8 *str1, char8 *str2,char8 *filter);
-    static bool strCompareWithFilter(char8 *str1, char8 *str2,const char *filter);
-    static bool strCompareWithFilter(const char *str1, const char *str2,const char *filter);
-    static bool strCompareWithFilter(const char *str1, const char *str2,char8 *filter);
-    static bool strCompareWithFilter(char8 *str1, const char *str2,const char *filter);
-    static bool strCompareWithFilter(char8 *str1, const char *str2,char8 *filter);
-    static bool strCompareWithFilter(const char *str1, char8 *str2,const char *filter);
-    static bool strCompareWithFilter(const char *str1, char8 *str2,char8 *filter);
+    static bool strCompareWithFilter(edk::char8 *str1, edk::char8 *str2,edk::char8 *filter);
+    static bool strCompareWithFilter(edk::char8 *str1, edk::char8 *str2,const edk::char8 *filter);
+    static bool strCompareWithFilter(const edk::char8 *str1, const edk::char8 *str2,const edk::char8 *filter);
+    static bool strCompareWithFilter(const edk::char8 *str1, const edk::char8 *str2,edk::char8 *filter);
+    static bool strCompareWithFilter(edk::char8 *str1, const edk::char8 *str2,const edk::char8 *filter);
+    static bool strCompareWithFilter(edk::char8 *str1, const edk::char8 *str2,edk::char8 *filter);
+    static bool strCompareWithFilter(const edk::char8 *str1, edk::char8 *str2,const edk::char8 *filter);
+    static bool strCompareWithFilter(const edk::char8 *str1, edk::char8 *str2,edk::char8 *filter);
 
     //return true if a string is inside the other string
-    static edk::char8* strInside(char8 *str, char8 *compare);
-    static edk::char8* strInside(const char8 *str, char8 *compare);
-    static edk::char8* strInside(char8 *str, const char8 *compare);
-    static edk::char8* strInside(const char8 *str, const char8 *compare);
+    static edk::char8* strInside(edk::char8 *str, edk::char8 *compare);
+    static edk::char8* strInside(const edk::char8 *str, edk::char8 *compare);
+    static edk::char8* strInside(edk::char8 *str, const edk::char8 *compare);
+    static edk::char8* strInside(const edk::char8 *str, const edk::char8 *compare);
 
     //return true if the first string is bigger than the second string
-    static bool strBiggerStr(char8 *str1, char8 *str2);
-    static bool strBiggerStr(const char8 *str1, char8 *str2);
-    static bool strBiggerStr(char8 *str1, const char8 *str2);
-    static bool strBiggerStr(const char8 *str1, const char8 *str2);
+    static bool strBiggerStr(edk::char8 *str1, edk::char8 *str2);
+    static bool strBiggerStr(const edk::char8 *str1, edk::char8 *str2);
+    static bool strBiggerStr(edk::char8 *str1, const edk::char8 *str2);
+    static bool strBiggerStr(const edk::char8 *str1, const edk::char8 *str2);
 
-    static uint64 strSize(char8 *str);
+    static uint64 strSize(edk::char8 *str);
 
-    static uint64 strSize(const char *str);
+    static uint64 strSize(const edk::char8 *str);
 
-    static uint64 strSizeWithFilter(char8 *str,edk::char8* filter);
-    static uint64 strSizeWithFilter(char8 *str,const char *filter);
-    static uint64 strSizeWithFilter(const char *str,edk::char8* filter);
-    static uint64 strSizeWithFilter(const char *str,const char *filter);
+    static uint64 strSizeWithFilter(edk::char8 *str,edk::char8* filter);
+    static uint64 strSizeWithFilter(edk::char8 *str,const edk::char8 *filter);
+    static uint64 strSizeWithFilter(const edk::char8 *str,edk::char8* filter);
+    static uint64 strSizeWithFilter(const edk::char8 *str,const edk::char8 *filter);
 
-    static uint64 strSizeWithLimit(char8 *str,edk::char8* limit);
-    static uint64 strSizeWithLimit(char8 *str,const char *limit);
-    static uint64 strSizeWithLimit(const char *str,edk::char8* limit);
-    static uint64 strSizeWithLimit(const char *str,const char *limit);
+    static uint64 strSizeWithLimit(edk::char8 *str,edk::char8* limit);
+    static uint64 strSizeWithLimit(edk::char8 *str,const edk::char8 *limit);
+    static uint64 strSizeWithLimit(const edk::char8 *str,edk::char8* limit);
+    static uint64 strSizeWithLimit(const edk::char8 *str,const edk::char8 *limit);
 
-    static uint64 strWordSize(char8 *str);
+    static uint64 strWordSize(edk::char8 *str);
 
-    static uint64 strWordSize(const char *str);
+    static uint64 strWordSize(const edk::char8 *str);
 
-    static uint64 strWordSizeWithFilter(char8 *str,edk::char8* filter);
-    static uint64 strWordSizeWithFilter(char8 *str,const char *filter);
-    static uint64 strWordSizeWithFilter(const char *str,edk::char8* filter);
-    static uint64 strWordSizeWithFilter(const char *str,const char *filter);
+    static uint64 strWordSizeWithFilter(edk::char8 *str,edk::char8* filter);
+    static uint64 strWordSizeWithFilter(edk::char8 *str,const edk::char8 *filter);
+    static uint64 strWordSizeWithFilter(const edk::char8 *str,edk::char8* filter);
+    static uint64 strWordSizeWithFilter(const edk::char8 *str,const edk::char8 *filter);
 
-    static uint64 strLineSize(char8 *str);
+    static uint64 strLineSize(edk::char8 *str);
 
-    static uint64 strLineSize(const char *str);
+    static uint64 strLineSize(const edk::char8 *str);
 
-    static uint64 strLineSizeWithFilter(char8 *str,edk::char8* filter);
-    static uint64 strLineSizeWithFilter(char8 *str,const char *filter);
-    static uint64 strLineSizeWithFilter(const char *str,edk::char8* filter);
-    static uint64 strLineSizeWithFilter(const char *str,const char *filter);
+    static uint64 strLineSizeWithFilter(edk::char8 *str,edk::char8* filter);
+    static uint64 strLineSizeWithFilter(edk::char8 *str,const edk::char8 *filter);
+    static uint64 strLineSizeWithFilter(const edk::char8 *str,edk::char8* filter);
+    static uint64 strLineSizeWithFilter(const edk::char8 *str,const edk::char8 *filter);
 
-    static bool strCut(char8 *str,char8 *dest, char8 limit, bool use=false);
+    static bool strCut(edk::char8 *str,edk::char8 *dest, edk::char8 limit, bool use=false);
 
-    static bool strCut(const char8 *str,char8 *dest, char8 limit, bool use=false);
+    static bool strCut(const edk::char8 *str,edk::char8 *dest, edk::char8 limit, bool use=false);
 
-    static char8* strCut(char8 *str, char8 limit, bool use=false);
+    static edk::char8* strCut(edk::char8 *str, edk::char8 limit, bool use=false);
 
-    static char8* strCut(const char *str, char8 limit, bool use=false);
+    static edk::char8* strCut(const edk::char8 *str, edk::char8 limit, bool use=false);
 
-    static bool strCut(char8 limit, char8 *str, char8 *dest, bool use=false);
+    static bool strCut(edk::char8 limit, edk::char8 *str, edk::char8 *dest, bool use=false);
 
-    static bool strCut(char8 limit, const char *str, char8 *dest, bool use=false);
+    static bool strCut(edk::char8 limit, const edk::char8 *str, edk::char8 *dest, bool use=false);
 
-    static char8* strCut(char8 limit, char8 *str, bool use=false);
+    static edk::char8* strCut(edk::char8 limit, edk::char8 *str, bool use=false);
 
-    static char8* strCut(char8 limit, const char *str, bool use=false);
+    static edk::char8* strCut(edk::char8 limit, const edk::char8 *str, bool use=false);
 
-    static bool strCut(char8 *str,char8 *dest, char8 start, char8 end, bool use=false);
+    static bool strCut(edk::char8 *str,edk::char8 *dest, edk::char8 start, edk::char8 end, bool use=false);
 
-    static bool strCut(const char *str,char8 *dest, char8 start, char8 end, bool use=false);
+    static bool strCut(const edk::char8 *str,edk::char8 *dest, edk::char8 start, edk::char8 end, bool use=false);
 
-    static char8* strCut(char8 *str, char8 start, char8 end, bool use=false);
+    static char8* strCut(edk::char8 *str, edk::char8 start, edk::char8 end, bool use=false);
 
-    static char8* strCut(const char *str, char8 start, char8 end, bool use=false);
+    static char8* strCut(const edk::char8 *str, edk::char8 start, edk::char8 end, bool use=false);
 
-    static bool strInvert(char8 *str);
+    static bool strInvert(edk::char8 *str);
 
-    static bool strInvert(const char *str);
+    static bool strInvert(const edk::char8 *str);
 
     static edk::uint64 stringHaveChar(char8 *str,edk::char8 value);
 
@@ -352,42 +352,42 @@ public:
 
     static bool consoleKeyPressed();
 
-    static char8 consoleReadKey();
+    static edk::char8 consoleReadKey();
 
-    static char8* consoleReadString();
+    static edk::char8* consoleReadString();
 
-    static char8* consoleReadStringNoPrint();
+    static edk::char8* consoleReadStringNoPrint();
 
-    static char8* consoleReadPassword();
+    static edk::char8* consoleReadPassword();
 
     static void consoleClear();
 
     //return the console size
     static edk::size2ui32 consoleGetSize();
 
-    static char8* strCopy(char8 *str);
+    static edk::char8* strCopy(edk::char8 *str);
 
-    static char8* strCopy(const char *str);
+    static edk::char8* strCopy(const edk::char8 *str);
 
-    static char8* strCopyLine(char8 *str);
+    static edk::char8* strCopyLine(edk::char8 *str);
 
-    static char8* strCopyLine(const char *str);
+    static edk::char8* strCopyLine(const edk::char8 *str);
 
-    static char8* strCopyWord(char8 *str);
+    static edk::char8* strCopyWord(edk::char8 *str);
 
-    static char8* strCopyWord(const char *str);
+    static edk::char8* strCopyWord(const edk::char8 *str);
 
     //remove a filter from string
-    static edk::char8* strCopyWithFilter(char8 *str,char8 *filter);
-    static edk::char8* strCopyWithFilter(const char *str,char8 *filter);
-    static edk::char8* strCopyWithFilter(char8 *str,const char *filter);
-    static edk::char8* strCopyWithFilter(const char *str,const char *filter);
+    static edk::char8* strCopyWithFilter(edk::char8 *str,edk::char8 *filter);
+    static edk::char8* strCopyWithFilter(const edk::char8 *str,edk::char8 *filter);
+    static edk::char8* strCopyWithFilter(edk::char8 *str,const edk::char8 *filter);
+    static edk::char8* strCopyWithFilter(const edk::char8 *str,const edk::char8 *filter);
 
-    static char8* clipboardRead();
+    static edk::char8* clipboardRead();
 
-    static bool clipboardWrite(char8 *str);
+    static bool clipboardWrite(edk::char8 *str);
 
-    static bool clipboardWrite(const char *str);
+    static bool clipboardWrite(const edk::char8 *str);
 
     static bool clipboardClean();
 
@@ -431,15 +431,25 @@ public:
     static edk::uint64 base64DecodeSize(edk::char8* str);
     static bool base64Decode(edk::char8* str,edk::uint8* dest);
     static bool base64Decode(const edk::char8* str,edk::uint8* dest);
-private:
-    static char8* int32ToMinusStr(int32 value);
 
-    static char8* int64ToMinusStr(int64 value);
+    //convert the uri to utf8 to be used by http servers
+    static edk::uint64 uriUnescapeSize(edk::char8* str);
+    static edk::uint64 uriUnescapeSize(const edk::char8* str);
+    static bool uriUnescape(edk::char8* str,edk::char8* dest);
+    static bool uriUnescape(const edk::char8* str,edk::char8* dest);
+    static bool uriUnescape(edk::char8* str,const edk::char8* dest);
+    static bool uriUnescape(const edk::char8* str,const edk::char8* dest);
+    static edk::char8* uriUnescape(edk::char8* str);
+    static edk::char8* uriUnescape(const edk::char8* str);
+private:
+    static edk::char8* int32ToMinusStr(edk::int32 value);
+
+    static edk::char8* int64ToMinusStr(edk::int64 value);
 
     //copy the number to the string
-    static bool copyInt32ToStr(edk::int32 value,edk::char8* str,int32 size);
+    static bool copyInt32ToStr(edk::int32 value,edk::char8* str,edk::int32 size);
 
-    static bool copyInt64ToStr(edk::int64 value,edk::char8* str,int32 size);
+    static bool copyInt64ToStr(edk::int64 value,edk::char8* str,edk::int32 size);
 };
 
 } /* End of namespace edk */
