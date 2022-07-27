@@ -33,17 +33,7 @@ namespace encrypt{
 class SHA1_variables{
 public:
     SHA1_variables(){
-        this->size = 0u;
-        this->bitSize = 0u;
-        this->state[0] = 0x67452301;
-        this->state[1] = 0xEFCDAB89;
-        this->state[2] = 0x98BADCFE;
-        this->state[3] = 0x10325476;
-        this->state[4] = 0xc3d2e1f0;
-        this->k[0] = 0x5a827999;
-        this->k[1] = 0x6ed9eba1;
-        this->k[2] = 0x8f1bbcdc;
-        this->k[3] = 0xca62c1d6;
+        this->init();
     }
     ~SHA1_variables(){}
 
@@ -205,12 +195,14 @@ bool edk::encrypt::SHA1::convertTo(edk::char8 *pass, edk::uint32 size, edk::char
 
         //write the result in the destiny
 #ifdef _MSC_VER
-        sprintf_s((char*)dest,33u
+        sprintf_s((char*)dest,41u
           #else
         sprintf((char*)dest
         #endif
-                ,"%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x"
-                ,result[0],result[1],result[2],result[3],result[4],result[5],result[6],result[7],result[8],result[9],result[10],result[11],result[12],result[13],result[14],result[15]);
+                ,"%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x"
+                ,result[0],result[1],result[2],result[3],result[4],result[5],result[6],result[7],result[8],result[9],result[10],result[11],result[12],result[13],result[14],result[15]
+                ,result[16],result[17],result[18],result[19]
+                );
         //then return true
         return true;
     }
@@ -256,12 +248,14 @@ bool edk::encrypt::SHA1::convertFileTo(edk::File* file, edk::char8 *dest){
 
             //write the result in the destiny
     #ifdef _MSC_VER
-            sprintf_s((char*)dest,33u
+            sprintf_s((char*)dest,41u
               #else
             sprintf((char*)dest
             #endif
-                    ,"%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x"
-                    ,result[0],result[1],result[2],result[3],result[4],result[5],result[6],result[7],result[8],result[9],result[10],result[11],result[12],result[13],result[14],result[15]);
+                    ,"%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x"
+                    ,result[0],result[1],result[2],result[3],result[4],result[5],result[6],result[7],result[8],result[9],result[10],result[11],result[12],result[13],result[14],result[15]
+                    ,result[16],result[17],result[18],result[19]
+                    );
             //then return true
             return true;
         }
