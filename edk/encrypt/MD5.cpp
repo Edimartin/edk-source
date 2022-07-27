@@ -40,27 +40,27 @@ https://rosettacode.org/wiki/MD5#C
 */
 
 typedef union uwb {
-    unsigned w;
-    unsigned char b[4];
+    edk::uint32 w;
+    edk::uint8 b[4];
 } WBunion;
 
-typedef unsigned Digest[4];
+typedef edk::uint32 Digest[4];
 
-unsigned f0( unsigned abcd[] ){
+edk::uint32 f0( edk::uint32 abcd[] ){
     return ( abcd[1] & abcd[2]) | (~abcd[1] & abcd[3]);}
 
-unsigned f1( unsigned abcd[] ){
+edk::uint32 f1( edk::uint32 abcd[] ){
     return ( abcd[3] & abcd[1]) | (~abcd[3] & abcd[2]);}
 
-unsigned f2( unsigned abcd[] ){
+edk::uint32 f2( edk::uint32 abcd[] ){
     return  abcd[1] ^ abcd[2] ^ abcd[3];}
 
-unsigned f3( unsigned abcd[] ){
+edk::uint32 f3( edk::uint32 abcd[] ){
     return abcd[2] ^ (abcd[1] |~ abcd[3]);}
 
-typedef unsigned (*DgstFctn)(unsigned a[]);
+typedef edk::uint32 (*DgstFctn)(edk::uint32 a[]);
 
-unsigned *calcKs( unsigned *k)
+edk::uint32 *calcKs( edk::uint32 *k)
 {
     double s, pwr;
     int i;
@@ -68,46 +68,46 @@ unsigned *calcKs( unsigned *k)
     pwr = pow( 2, 32);
     for (i=0; i<64; i++) {
         s = fabs(sin(1+i));
-        k[i] = (unsigned)( s * pwr );
+        k[i] = (edk::uint32)( s * pwr );
     }
     return k;
 }
 
 // ROtate v Left by amt bits
-unsigned rol( unsigned v, short amt )
+edk::uint32 rol( edk::uint32 v, edk::int16 amt )
 {
-    unsigned  msk1 = (1<<amt) -1;
+    edk::uint32  msk1 = (1<<amt) -1;
     return ((v>>(32-amt)) & msk1) | ((v<<amt) & ~msk1);
 }
 
-unsigned *md5( char *msg, int mlen)
+edk::uint32 *md5( edk::char8 *msg, edk::int32 mlen)
 {
     static Digest h0 = { 0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476 };
 //    static Digest h0 = { 0x01234567, 0x89ABCDEF, 0xFEDCBA98, 0x76543210 };
     static DgstFctn ff[] = { &f0, &f1, &f2, &f3 };
-    static short M[] = { 1, 5, 3, 7 };
-    static short O[] = { 0, 1, 5, 0 };
-    static short rot0[] = { 7,12,17,22};
-    static short rot1[] = { 5, 9,14,20};
-    static short rot2[] = { 4,11,16,23};
-    static short rot3[] = { 6,10,15,21};
-    static short *rots[] = {rot0, rot1, rot2, rot3 };
-    static unsigned kspace[64];
-    static unsigned *k;
+    static edk::int16 M[] = { 1, 5, 3, 7 };
+    static edk::int16 O[] = { 0, 1, 5, 0 };
+    static edk::int16 rot0[] = { 7,12,17,22};
+    static edk::int16 rot1[] = { 5, 9,14,20};
+    static edk::int16 rot2[] = { 4,11,16,23};
+    static edk::int16 rot3[] = { 6,10,15,21};
+    static edk::int16 *rots[] = {rot0, rot1, rot2, rot3 };
+    static edk::uint32 kspace[64];
+    static edk::uint32 *k;
 
     static Digest h;
     Digest abcd;
     DgstFctn fctn;
-    short m, o, g;
-    unsigned f;
-    short *rotn;
+    edk::int16 m, o, g;
+    edk::uint32 f;
+    edk::int16 *rotn;
     union {
-        unsigned w[16];
-        char     b[64];
+        edk::uint32 w[16];
+        edk::char8  b[64];
     }mm;
-    int os = 0;
-    int grp, grps, q, p;
-    unsigned char *msg2;
+    edk::int32 os = 0;
+    edk::int32 grp, grps, q, p;
+    edk::uint8 *msg2;
 
     if (k==NULL) k= calcKs(kspace);
 
@@ -115,13 +115,13 @@ unsigned *md5( char *msg, int mlen)
 
     {
         grps  = 1 + (mlen+8)/64;
-        msg2 = (unsigned char *)malloc( 64*grps);
+        msg2 = (edk::uint8 *)malloc( 64*grps);
         memcpy( msg2, msg, mlen);
-        msg2[mlen] = (unsigned char)0x80;
+        msg2[mlen] = (edk::uint8)0x80;
         q = mlen + 1;
         while (q < 64*grps){ msg2[q] = 0; q++ ; }
         {
-//            unsigned char t;
+//            edk::uint8 t;
             WBunion u;
             u.w = 8*mlen;
 //            t = u.b[0]; u.b[0] = u.b[3]; u.b[3] = t;
@@ -159,35 +159,35 @@ unsigned *md5( char *msg, int mlen)
 
     return h;
 }
-unsigned *md5File( edk::File* file)
+edk::uint32 *md5File( edk::File* file)
 {
     int mlen = file->getFileSize();
     static Digest h0 = { 0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476 };
 //    static Digest h0 = { 0x01234567, 0x89ABCDEF, 0xFEDCBA98, 0x76543210 };
     static DgstFctn ff[] = { &f0, &f1, &f2, &f3 };
-    static short M[] = { 1, 5, 3, 7 };
-    static short O[] = { 0, 1, 5, 0 };
-    static short rot0[] = { 7,12,17,22};
-    static short rot1[] = { 5, 9,14,20};
-    static short rot2[] = { 4,11,16,23};
-    static short rot3[] = { 6,10,15,21};
-    static short *rots[] = {rot0, rot1, rot2, rot3 };
-    static unsigned kspace[64];
-    static unsigned *k;
+    static edk::int16 M[] = { 1, 5, 3, 7 };
+    static edk::int16 O[] = { 0, 1, 5, 0 };
+    static edk::int16 rot0[] = { 7,12,17,22};
+    static edk::int16 rot1[] = { 5, 9,14,20};
+    static edk::int16 rot2[] = { 4,11,16,23};
+    static edk::int16 rot3[] = { 6,10,15,21};
+    static edk::int16 *rots[] = {rot0, rot1, rot2, rot3 };
+    static edk::uint32 kspace[64];
+    static edk::uint32 *k;
 
     static Digest h;
     Digest abcd;
     DgstFctn fctn;
-    short m, o, g;
-    unsigned f;
-    short *rotn;
+    edk::int16 m, o, g;
+    edk::uint32 f;
+    edk::int16 *rotn;
     union {
-        unsigned w[16];
-        char     b[64];
+        edk::uint32 w[16];
+        edk::char8  b[64];
     }mm;
-    int os = 0;
-    int grp, grps, q, p;
-    unsigned char *msg2;
+    edk::int32 os = 0;
+    edk::int32 grp, grps, q, p;
+    edk::uint8 *msg2;
 
     if (k==NULL) k= calcKs(kspace);
 
@@ -195,14 +195,14 @@ unsigned *md5File( edk::File* file)
 
     {
         grps  = 1 + (mlen+8)/64;
-        msg2 = (unsigned char *)malloc( 64*grps);
+        msg2 = (edk::uint8 *)malloc( 64*grps);
         //memcpy( msg2, msg, mlen);
         file->readBin(msg2,mlen);
-        msg2[mlen] = (unsigned char)0x80;
+        msg2[mlen] = (edk::uint8)0x80;
         q = mlen + 1;
         while (q < 64*grps){ msg2[q] = 0; q++ ; }
         {
-//            unsigned char t;
+//            edk::uint8 t;
             WBunion u;
             u.w = 8*mlen;
 //            t = u.b[0]; u.b[0] = u.b[3]; u.b[3] = t;
@@ -250,15 +250,15 @@ unsigned *md5File( edk::File* file)
 
 
 
-//processa o MD5
+//process the MD5
 bool edk::encrypt::MD5::convertTo(edk::char8 *pass, edk::uint32 size, edk::char8 *dest){
     //testa as strings e os tamanhos
     if (pass && size && dest){
         //processa o MD5
-        unsigned char result[16];
+        edk::uint8 result[16];
         //md5WikiSum((Md5uint8_t *)pass, size, result);
 
-        unsigned *d = md5(pass, size);
+        edk::uint32 *d = md5(pass, size);
         WBunion u;
 
         edk::uint32 i = 0u;
@@ -271,11 +271,11 @@ bool edk::encrypt::MD5::convertTo(edk::char8 *pass, edk::uint32 size, edk::char8
         }
 
 
-        //escreve o resultado no destino
+        //write the result in the destiny
 #ifdef _MSC_VER
-        sprintf_s((char*)dest,33u
+        sprintf_s((edk:char8*)dest,33u
           #else
-        sprintf((char*)dest
+        sprintf((edk::char8*)dest
         #endif
                 ,"%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x"
                 ,result[0],result[1],result[2],result[3],result[4],result[5],result[6],result[7],result[8],result[9],result[10],result[11],result[12],result[13],result[14],result[15]);
@@ -300,10 +300,10 @@ bool edk::encrypt::MD5::convertFileTo(edk::File* file, edk::char8 *dest){
         if(file->isOpened()){
             //
             //processa o MD5
-            unsigned char result[16];
+            edk::uint8 result[16];
             //md5WikiSum(file, result);
 
-            unsigned *d = md5File(file);
+            edk::uint32 *d = md5File(file);
             WBunion u;
 
             edk::uint32 i = 0u;
@@ -318,9 +318,9 @@ bool edk::encrypt::MD5::convertFileTo(edk::File* file, edk::char8 *dest){
 
             //escreve o resultado no destino
 #ifdef _MSC_VER
-            sprintf_s((char*)dest,33u
+            sprintf_s((edk::char8*)dest,33u
           #else
-            sprintf((char*)dest
+            sprintf((edk::char8*)dest
         #endif
                     ,"%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x"
                     ,result[0],result[1],result[2],result[3],result[4],result[5],result[6],result[7],result[8],result[9],result[10],result[11],result[12],result[13],result[14],result[15]);
@@ -352,7 +352,7 @@ bool edk::encrypt::MD5::convertTo(edk::char8 *pass, edk::uint32 size, edk::uint8
         //processa o MD5
         //md5WikiSum((Md5uint8_t *)pass, size, dest);
 
-        unsigned *d = md5(pass, size);
+        edk::uint32 *d = md5(pass, size);
         WBunion u;
 
         edk::uint32 i = 0u;
@@ -386,7 +386,7 @@ bool edk::encrypt::MD5::convertFileTo(edk::File* file, edk::uint8 dest[16u]){
             //processa o MD5
             //md5WikiSum(file, dest);
 
-            unsigned *d = md5File(file);
+            edk::uint32 *d = md5File(file);
             WBunion u;
 
             edk::uint32 i = 0u;

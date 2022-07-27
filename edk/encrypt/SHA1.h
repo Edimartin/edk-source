@@ -1,8 +1,8 @@
-#ifndef MD5_H
-#define MD5_H
+#ifndef SHA1_H
+#define SHA1_H
 
 /*
-Library C++ MD5 - Encrypt string in MD5
+Library C++ SHA1 - Encrypt string in SHA1
 Copyright 2013 Eduardo Moura Sales Martins (edimartin@gmail.com)
 
 Permission is hereby granted, free of charge, to any person obtaining
@@ -26,32 +26,31 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside MD5"
+#warning "Inside SHA1"
 #endif
 
 #pragma once
-#include "../TypeVars.h"
 #include <stdio.h>
+#include "../TypeVars.h"
 #ifndef __cplusplus
 #include <stdlib.h>
 #endif
-#include <string.h>
-#include <math.h>
 #include "../String.h"
 #include "../File.h"
+#include "../TypeDefines.h"
 
 #ifdef printMessages
-#warning "    Compiling MD5"
+#warning "    Compiling SHA1"
 #endif
 
 namespace edk{
 namespace encrypt{
-class MD5{
+class SHA1{
 public:
-    MD5();
-    ~MD5();
+    SHA1();
+    ~SHA1();
 
-    //process the MD5
+    //process the SHA1
     static bool convertTo(edk::char8 *pass, edk::uint32 size, edk::char8 *dest);
     static bool convertTo(const edk::char8 *pass, edk::uint32 size, edk::char8 *dest);
     static bool convertTo(edk::char8 *pass, edk::char8 *dest);
@@ -59,13 +58,13 @@ public:
     static bool convertFileTo(edk::File* file, edk::char8 *dest);
     static bool convertFileTo(edk::char8 *fileName, edk::char8 *dest);
     static bool convertFileTo(const edk::char8 *fileName, edk::char8 *dest);
-    static bool convertTo(edk::char8 *pass, edk::uint32 size, edk::uint8 dest[16u]);
-    static bool convertTo(const edk::char8 *pass, edk::uint32 size, edk::uint8 dest[16u]);
-    static bool convertTo(edk::char8 *pass, edk::uint8 dest[16u]);
-    static bool convertTo(const edk::char8 *pass, edk::uint8 dest[16u]);
-    static bool convertFileTo(edk::File* file, edk::uint8 dest[16u]);
-    static bool convertFileTo(edk::char8 *fileName, edk::uint8 dest[16u]);
-    static bool convertFileTo(const edk::char8 *fileName, edk::uint8 dest[16u]);
+    static bool convertTo(edk::char8 *pass, edk::uint32 size, edk::uint8 dest[20u]);
+    static bool convertTo(const edk::char8 *pass, edk::uint32 size, edk::uint8 dest[20u]);
+    static bool convertTo(edk::char8 *pass, edk::uint8 dest[20u]);
+    static bool convertTo(const edk::char8 *pass, edk::uint8 dest[20u]);
+    static bool convertFileTo(edk::File* file, edk::uint8 dest[20u]);
+    static bool convertFileTo(edk::char8 *fileName, edk::uint8 dest[20u]);
+    static bool convertFileTo(const edk::char8 *fileName, edk::uint8 dest[20u]);
     static edk::char8* convert(edk::char8 *pass, edk::uint32 size);
     static edk::char8* convert(const edk::char8 *pass, edk::uint32 size);
     static edk::char8* convert(edk::char8 *pass);
@@ -77,4 +76,4 @@ public:
 }//end namespace encrypt
 }//end namespace edk
 
-#endif // MD5_H
+#endif // SHA1_H
