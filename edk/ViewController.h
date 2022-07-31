@@ -43,10 +43,29 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #warning "    Compiling ViewControllers"
 #endif
 
+/*
+void load(edk::rectf32 outsideViewOrigin){
+    //
+}
+void unload(){
+    //
+}
+void update(edk::WindowEvents* events){
+    //
+}
+void pause(){
+    //
+}
+void unpause(){
+    //
+}
+void resize(edk::rectf32 outsideViewOrigin){
+    //
+}
+*/
+
 namespace edk {
 class Window;
-/*
- */
 class ViewController : public View {
     //
     public:

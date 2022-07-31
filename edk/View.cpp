@@ -46,6 +46,7 @@ View::View(){
     this->borderSize=0.f;
     this->borderTemp=0.f;
     this->mousePos = edk::vec2f32(0,0);
+    this->saveOutsideFrame=0.f;
 }
 
 View::View(edk::rectf32 frame){
@@ -112,9 +113,20 @@ void View::drawPolygon(edk::rectf32){
 }
 //those functions run the other functions
 void edk::View::runDraw(edk::rectf32 outsideViewOrigin){
+    //test if the outsideViewOrigin is different then the saveFrame
+    if(this->saveOutsideFrame != outsideViewOrigin){
+        this->saveOutsideFrame = outsideViewOrigin;
+        //run the resize function
+        this->resize(outsideViewOrigin);
+    }
     this->draw(outsideViewOrigin);
 }
 void edk::View::runLoad(edk::rectf32 outsideViewOrigin){
+    //save the first outsideViewOrigin
+    this->saveOutsideFrame = outsideViewOrigin;
+    //run the resize function
+    this->resize(outsideViewOrigin);
+    //then run load
     this->load(outsideViewOrigin);
 }
 void edk::View::runUnload(){
@@ -169,6 +181,9 @@ void View::draw(edk::rectf32 outsideViewOrigin){
         }
 */
     }
+}
+void edk::View::resize(edk::rectf32 outsideViewOrigin){
+    //
 }
 
 void edk::View::load(rectf32){

@@ -66,10 +66,7 @@ void pause(){
 void unpause(){
     //
 }
-void drawScene(edk::rectf32 outsideViewOrigin){
-    //
-}
-void draw(edk::rectf32 outsideViewOrigin){
+void resize(edk::rectf32 outsideViewOrigin){
     //
 }
 void eventMousePressed(edk::vec2f32 point,edk::uint32 button){
@@ -198,6 +195,7 @@ class View {
     virtual ~View();
 
     virtual void draw(edk::rectf32 outsideViewOrigin);
+    virtual void resize(edk::rectf32 outsideViewOrigin);
 
     virtual void load(edk::rectf32 outsideViewOrigin);
     virtual void unload();
@@ -332,7 +330,8 @@ class View {
     //Position animation to change the viewPosition on the window (or View)
     edk::animation::Interpolation2DGroup animationPosition;
 private:
-    //
+    //save the outside frame to test if it was changed
+    edk::rectf32 saveOutsideFrame;
 };
 
 } /* End of namespace edk */

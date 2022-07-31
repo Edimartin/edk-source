@@ -58,6 +58,9 @@ void unpause(){
 void drawScene(edk::rectf32 outsideViewOrigin){
     //
 }
+void resize(edk::rectf32 outsideViewOrigin){
+    //
+}
 */
 
 namespace edk{
