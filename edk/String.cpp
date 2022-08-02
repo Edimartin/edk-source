@@ -5358,7 +5358,6 @@ edk::uint64 edk::String::uriUnescapeSize(const edk::char8* str){
 bool edk::String::uriUnescape(edk::char8* str,edk::char8* dest){
     if(str && dest){
         edk::char8 chr = 0;
-        edk::char8* temp = dest;
 
         // Skip inital non encoded character
         while (*str && !edkIsSpace((edk::int32)(*str)) && (*str != '%')){
