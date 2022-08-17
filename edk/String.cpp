@@ -2422,11 +2422,19 @@ edk::uint32 edk::String::utf8ToAsciiSize(const edk::char8* src){
     return edk::String::utf8ToAsciiSize((edk::char8*) src);
 }
 
+edk::uint32 edk::String::int32ToStrSize(edk::int32 value){
+    return edk::String::sizeOfInt32(value);
+}
+
+edk::uint32 edk::String::int64ToStrSize(edk::int64 value){
+    return edk::String::sizeOfInt64(value);
+}
+
 edk::char8* edk::String::int32ToStr(edk::int32 value){
     edk::char8* str = 0u;
 
     //count the number
-    edk::uint32 size = sizeOfInt32(value);
+    edk::uint32 size = edk::String::sizeOfInt32(value);
 
     //test if the size is bigger then 0u
     if(size>0u){
@@ -2530,6 +2538,70 @@ edk::char8* edk::String::int64ToStr(edk::int64 value){
         }
     }
     return str;
+}
+
+bool edk::String::int32ToStr(edk::int32 value,edk::char8* dest){
+    if(dest){
+        //count the number
+        edk::uint32 size = edk::String::sizeOfInt32(value);
+
+        //test if the size is bigger then 0u
+        if(size>0u){
+            //begin
+            edk::uint32 begin=0u;
+            if(value>=0){
+                //Positive
+                dest[size]='\0';
+            }
+            else{
+                //Negative
+                size=size+1u;
+                begin=1u;
+                dest[0u]='-';
+                dest[size]='\0';
+            }
+            return edk::String::copyInt32ToStr(value,&dest[begin],size-begin);
+        }
+        else{
+            //create a zero
+            dest[0u]='0';
+            dest[1u]='\0';
+        }
+        return true;
+    }
+    return false;
+}
+
+bool edk::String::int64ToStr(edk::int64 value,edk::char8* dest){
+    if(dest){
+        //count the number
+        edk::uint32 size = edk::String::sizeOfInt64(value);
+
+        //test if the size is bigger then 0u
+        if(size>0u){
+            //begin
+            edk::uint32 begin=0u;
+            if(value>=0){
+                //Positive
+                dest[size]='\0';
+            }
+            else{
+                //Negative
+                size=size+1u;
+                begin=1u;
+                dest[0u]='-';
+                dest[size]='\0';
+            }
+            return edk::String::copyInt64ToStr(value,&dest[begin],size-begin);
+        }
+        else{
+            //create a zero
+            dest[0u]='0';
+            dest[1u]='\0';
+        }
+        return true;
+    }
+    return false;
 }
 
 edk::char8* edk::String::vecInt8toStr(edk::int8* vec,edk::uint32 size){

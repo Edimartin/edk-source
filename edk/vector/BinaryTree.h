@@ -91,6 +91,18 @@ public:
         //update the value
         value++;
     }
+
+    //Print the elements
+    virtual void print(){
+        edk::vector::BinaryTree<obj*>::print();
+    }
+    //render the elements
+    virtual void render(){
+        edk::vector::BinaryTree<obj*>::render();
+    }
+    virtual void update(){
+        edk::vector::BinaryTree<obj*>::update();
+    }
 };
 
 */

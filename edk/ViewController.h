@@ -44,6 +44,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 /*
+void resize(edk::rectf32 outsideViewOrigin){
+    //
+}
 void load(edk::rectf32 outsideViewOrigin){
     //
 }
@@ -57,9 +60,6 @@ void pause(){
     //
 }
 void unpause(){
-    //
-}
-void resize(edk::rectf32 outsideViewOrigin){
     //
 }
 */

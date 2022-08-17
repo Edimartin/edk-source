@@ -80,4 +80,30 @@ namespace edk{
 
 }//end namespace
 
+#include <stdarg.h>
+
+//MARCROS
+
+//Need a class to remove the nothing warning
+namespace edk{
+class NothingClass{
+public:
+    inline static void edk_nothing(){}
+    //write to vprintf with the line, file and function names
+    inline static void edk_lffprint(edk::uint32 line, const edk::char8* fileName, const edk::char8* funcName, const edk::char8* str,...){
+        if(fileName && funcName && str){
+            printf("\n[%06u] (%10s) %10s():",line,fileName,funcName);
+            va_list args;
+            va_start (args, str);
+            vprintf (str, args);
+            va_end (args);
+            fflush(stdout);
+        }
+    }
+};
+}
+#define edkPrintf(str,args...) \
+    edk::NothingClass::edk_lffprint(__LINE__,__FILE__,__func__,str,##args); \
+    edk::NothingClass::edk_nothing()
+
 #endif // TYPEVARS_H

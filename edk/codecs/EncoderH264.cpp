@@ -52,7 +52,7 @@ edk::codecs::EncoderH264::EncoderH264(){
     this->encoder=NULL;
     this->version = WelsGetCodecVersion();
 #else
-        edk_printDebug("You must define EDK_USE_OPENH264 before use");
+        edkPrintf("You must define EDK_USE_OPENH264 before use");
 #endif
 }
 edk::codecs::EncoderH264::~EncoderH264(){
@@ -95,7 +95,7 @@ bool edk::codecs::EncoderH264::startEncoder(edk::size2ui32 size, edk::uint32 fps
             }
         }
 #else
-        edk_printDebug("You must define EDK_USE_OPENH264 before use");
+        edkPrintf("You must define EDK_USE_OPENH264 before use");
 #endif
         //finish encoder
         edk::codecs::EncoderVideo::finishEncoder();
@@ -169,7 +169,7 @@ bool edk::codecs::EncoderH264::encode(edk::uint8* frame,edk::uint8 channels){
             }
         }
 #else
-        edk_printDebug("You must define EDK_USE_OPENH264 before use");
+        edkPrintf("You must define EDK_USE_OPENH264 before use");
 #endif
     }
     return false;
@@ -188,7 +188,7 @@ void edk::codecs::EncoderH264::finishEncoder(){
     WelsDestroySVCEncoder(this->encoder);
     this->encoder=NULL;
 #else
-        edk_printDebug("You must define EDK_USE_OPENH264 before use");
+        edkPrintf("You must define EDK_USE_OPENH264 before use");
 #endif
 }
 
@@ -200,7 +200,7 @@ bool edk::codecs::EncoderH264::haveInitialized(){
         return true;
     }
 #else
-        edk_printDebug("You must define EDK_USE_OPENH264 before use");
+        edkPrintf("You must define EDK_USE_OPENH264 before use");
 #endif
     return false;
 }

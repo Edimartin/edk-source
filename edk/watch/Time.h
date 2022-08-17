@@ -109,6 +109,10 @@ class Time {
     void start();
 
     void remove(uint32 microseconds);
+    void removeSeconds(edk::float32 seconds);
+
+    void increase(uint32 microseconds);
+    void increaseSeconds(edk::float32 seconds);
 
     uint32 getMicroseconds();
     static uint32 getMicrosecondsReal();

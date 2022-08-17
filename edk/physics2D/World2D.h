@@ -82,6 +82,13 @@ public:
     //Set the gravity
     void setGravity(edk::vec2f32 gravity);
     void setGravity(edk::float32 x,edk::float32 y);
+    //set the percent
+    void setMeterDistance(edk::float32 meter);
+    void setMeterDistance(edk::uint8 meter);
+    void setMeterDistance(edk::uint16 meter);
+    void setMeterDistance(edk::uint32 meter);
+    void setMeterDistance(edk::uint64 meter);
+    edk::float32 getMeterDistance();
 
     //Add a Object to the world
     bool addObject(edk::physics2D::PhysicObject2D* object);
@@ -354,6 +361,10 @@ public:
     virtual bool readFromXML(edk::XML* xml,edk::uint32 id);
 
 private:
+    //world percent to have bigger objects in the engine but smaller objects in the physics world
+    edk::float32 percentIn;
+    edk::float32 percentOut;
+
     edk::vec2f32 gravity;
 
     //clock
@@ -434,10 +445,10 @@ private:
                 //update the value
                 edk::physics2D::PhysicObject2D* obj = (edk::physics2D::PhysicObject2D*)value->body->GetUserData().pointer;
                 if(obj){
-                    obj->position.x = value->body->GetPosition().x;
-                    obj->position.y = value->body->GetPosition().y;
+                    obj->position.x = value->body->GetPosition().x * this->percentOut;
+                    obj->position.y = value->body->GetPosition().y * this->percentOut;
                     obj->angle = value->body->GetAngle() * (180.f / b2_pi);
-                    obj->setLinearVelocity(value->body->GetLinearVelocity().x,value->body->GetLinearVelocity().y);
+                    obj->setLinearVelocity(value->body->GetLinearVelocity().x * this->percentOut,value->body->GetLinearVelocity().y);
                     obj->getLinearVelocity();
                     obj->setAngularVelocity(value->body->GetAngularVelocity() * (180.f / b2_pi));
                     obj->getAngularVelocity();
@@ -505,6 +516,8 @@ private:
             }
             return false;
         }
+        edk::float32 percentIn;
+        edk::float32 percentOut;
     }treeStatic,treeKinematic,treeDynamic;
 
     //deletedTree
@@ -582,13 +595,15 @@ private:
         void PreSolve(b2Contact* contact, const b2Manifold* oldManifold);
         void PostSolve(b2Contact* contact, const b2ContactImpulse* impulse);
         edk::physics2D::World2D* world;
+        edk::float32 percentIn;
+        edk::float32 percentOut;
     }contacts;
 
     //class to save the joint
-    class JointTree{
+    class JointTreeObject{
     public:
-        JointTree(edk::physics2D::Joint2D* joint,b2Joint* boxJoint){this->joint=joint;this->boxJoint=boxJoint;}
-        ~JointTree(){}
+        JointTreeObject(edk::physics2D::Joint2D* joint,b2Joint* boxJoint){this->joint=joint;this->boxJoint=boxJoint;}
+        ~JointTreeObject(){}
         edk::physics2D::Joint2D* joint;
         b2Joint* boxJoint;
 
@@ -623,22 +638,22 @@ private:
     };
 
     //Joint Tree
-    class TreeJoint:public edk::vector::BinaryTree<edk::physics2D::World2D::JointTree*>{
+    class TreeJoint:public edk::vector::BinaryTree<edk::physics2D::World2D::JointTreeObject*>{
     public:
         //compare if the value is bigger
-        bool firstBiggerSecond(edk::physics2D::World2D::JointTree* first,edk::physics2D::World2D::JointTree* second){
+        bool firstBiggerSecond(edk::physics2D::World2D::JointTreeObject* first,edk::physics2D::World2D::JointTreeObject* second){
             if(first->joint>second->joint)
                 return true;
             return false;
         }
-        bool firstEqualSecond(edk::physics2D::World2D::JointTree* first,edk::physics2D::World2D::JointTree* second){
+        bool firstEqualSecond(edk::physics2D::World2D::JointTreeObject* first,edk::physics2D::World2D::JointTreeObject* second){
             if(first->joint==second->joint)
                 return true;
             return false;
         }
         bool haveJoint(edk::physics2D::Joint2D* joint){
             if(joint){
-                edk::physics2D::World2D::JointTree find(joint,NULL);
+                edk::physics2D::World2D::JointTreeObject find(joint,NULL);
                 return this->haveElement(&find);
             }
             return false;
@@ -646,8 +661,8 @@ private:
         //return the joint
         b2Joint* getJoint(edk::physics2D::Joint2D* joint){
             if(joint){
-                edk::physics2D::World2D::JointTree find(joint,NULL);
-                edk::physics2D::World2D::JointTree* temp = this->getElement(&find);
+                edk::physics2D::World2D::JointTreeObject find(joint,NULL);
+                edk::physics2D::World2D::JointTreeObject* temp = this->getElement(&find);
                 if(temp){
                     return temp->boxJoint;
                 }
@@ -656,7 +671,7 @@ private:
         }
         bool addJoint(edk::physics2D::Joint2D* joint,b2Joint* boxJoint){
             //create the joint
-            edk::physics2D::World2D::JointTree* temp = new edk::physics2D::World2D::JointTree(joint,boxJoint);
+            edk::physics2D::World2D::JointTreeObject* temp = new edk::physics2D::World2D::JointTreeObject(joint,boxJoint);
             if(temp){
                 //set the boxJoint
                 if(this->add(temp)){
@@ -671,8 +686,8 @@ private:
         //remove the joint
         bool removeJoint(b2Joint* joint){
             if(joint){
-                edk::physics2D::World2D::JointTree find((edk::physics2D::Joint2D*)joint->GetUserData().pointer,joint);
-                edk::physics2D::World2D::JointTree* temp = this->getElement(&find);
+                edk::physics2D::World2D::JointTreeObject find((edk::physics2D::Joint2D*)joint->GetUserData().pointer,joint);
+                edk::physics2D::World2D::JointTreeObject* temp = this->getElement(&find);
                 if(temp){
                     if(this->remove(temp)){
                         delete temp;
@@ -684,17 +699,17 @@ private:
         }
         //return the joint in the position
         b2Joint* getB2JointInPosition(edk::uint32 position){
-            edk::physics2D::World2D::JointTree* temp = this->getElementInPosition(position);
+            edk::physics2D::World2D::JointTreeObject* temp = this->getElementInPosition(position);
             if(temp) return temp->boxJoint;
             return NULL;
         }
         edk::physics2D::Joint2D* getJointInPosition(edk::uint32 position){
-            edk::physics2D::World2D::JointTree* temp = this->getElementInPosition(position);
+            edk::physics2D::World2D::JointTreeObject* temp = this->getElementInPosition(position);
             if(temp) if(temp->joint) return temp->joint;
             return NULL;
         }
         //UPDATE
-        virtual void updateElement(edk::physics2D::World2D::JointTree* value){
+        virtual void updateElement(edk::physics2D::World2D::JointTreeObject* value){
             if(value->joint && value->boxJoint){
                 if(value->joint->objectA
                         &&
@@ -702,7 +717,7 @@ private:
                         ){
                     //load the worldPosition
                     value->joint->worldPositionA =
-                            edk::physics2D::World2D::JointTree::getJointWorldPosition(value->joint->objectA,
+                            edk::physics2D::World2D::JointTreeObject::getJointWorldPosition(value->joint->objectA,
                                                                                       value->joint->positionA
                                                                                       );
 
@@ -712,7 +727,7 @@ private:
                     {
                         edk::physics2D::DistanceJoint2D* temp = (edk::physics2D::DistanceJoint2D*)value->joint;
                         temp->worldPositionB =
-                                edk::physics2D::World2D::JointTree::getJointWorldPosition(value->joint->objectB,
+                                edk::physics2D::World2D::JointTreeObject::getJointWorldPosition(value->joint->objectB,
                                                                                           value->joint->positionB
                                                                                           );
                     }

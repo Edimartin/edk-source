@@ -28,9 +28,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #warning "            Inside Thread.cpp"
 #endif
 
-namespace edk {
-namespace multi {
-
 
 /**
      *  Thread class to create just one thread per time.
@@ -45,9 +42,9 @@ edk::uint32 getWindowsCores(){
     GetSystemInfo(&sysinfo);
     return sysinfo.dwNumberOfProcessors;
 }
-edk::uint32 Thread::cores=getWindowsCores();
+edk::uint32 edk::multi::Thread::cores=getWindowsCores();
 #elif defined __linux__
-edk::uint32 Thread::cores=sysconf(_SC_NPROCESSORS_ONLN);
+edk::uint32 edk::multi::Thread::cores=sysconf(_SC_NPROCESSORS_ONLN);
 #elif defined __APPLE__
 edk::uint32 getMacCores(){
     int nm[2];
@@ -64,7 +61,7 @@ edk::uint32 getMacCores(){
     }
     return count;
 }
-edk::uint32 Thread::cores=getMacCores();
+edk::uint32 edk::multi::Thread::cores=getMacCores();
 #endif
 
 //EDKThreadFunc
@@ -125,7 +122,7 @@ void* edkThreadFunc(void*id){
 /**
      *  Clean all the thread class atributes variables.
      */
-void Thread::cleanThread(){
+void edk::multi::Thread::cleanThread(){
     //
 #ifdef WIN32
     //clean ID
@@ -150,21 +147,21 @@ void Thread::cleanThread(){
 
 
 
-Thread::Thread(){
+edk::multi::Thread::Thread(){
     this->cleanThread();
 }
 
-Thread::Thread(classID (*threadFunction)(classID), classID parameter){
+edk::multi::Thread::Thread(classID (*threadFunction)(classID), classID parameter){
     this->cleanThread();
     this->start(threadFunction, parameter);
 }
 
-Thread::~Thread(){
+edk::multi::Thread::~Thread(){
     //Kill the Thread
     this->kill();
 }
 
-bool Thread::start(classID (threadFunction)(classID), classID parameter){
+bool edk::multi::Thread::start(classID (threadFunction)(classID), classID parameter){
     //kill the previous thread
     this->kill();
 
@@ -225,11 +222,11 @@ bool Thread::start(classID (threadFunction)(classID), classID parameter){
     return false;
 }
 
-bool Thread::start(classID (threadFunction)(classID)){
+bool edk::multi::Thread::start(classID (threadFunction)(classID)){
     return this->start(threadFunction,(void*)NULL);
 }
 
-bool Thread::startIn(classID (threadFunction)(classID), classID parameter, edk::uint32 core){
+bool edk::multi::Thread::startIn(classID (threadFunction)(classID), classID parameter, edk::uint32 core){
 
     //kill the previous thread
     this->kill();
@@ -300,12 +297,12 @@ bool Thread::startIn(classID (threadFunction)(classID), classID parameter, edk::
     return false;
 }
 
-bool Thread::startIn(classID (threadFunction)(classID), edk::uint32 core){
+bool edk::multi::Thread::startIn(classID (threadFunction)(classID), edk::uint32 core){
     return this->startIn(threadFunction, NULL, core);
 }
 
 //change the threadCore
-bool Thread::changeCore(edk::uint32 core){
+bool edk::multi::Thread::changeCore(edk::uint32 core){
     //test if have the core
     if(core<this->cores){
 #ifdef WIN32
@@ -340,7 +337,7 @@ bool Thread::changeCore(edk::uint32 core){
 return false;
 }
 
-bool Thread::runFunc(){
+bool edk::multi::Thread::runFunc(){
     if(this->threadFunc){
         //test if have parameter
         if(this->funcParameter){
@@ -362,7 +359,7 @@ bool Thread::runFunc(){
     return false;
 }
 
-bool Thread::isAlive(){
+bool edk::multi::Thread::isAlive(){
     //WINDOWS 32
 #ifdef WIN32
     if(this->threadID){
@@ -397,7 +394,7 @@ bool Thread::isAlive(){
     return false;
 }
 
-bool Thread::waitEnd(uint64 milliseconds){
+bool edk::multi::Thread::waitEnd(uint64 milliseconds){
     //WINDOWS 32
 #ifdef WIN32
     if(this->threadID){
@@ -435,7 +432,7 @@ bool Thread::waitEnd(uint64 milliseconds){
     return false;
 }
 
-bool Thread::waitEnd(){
+bool edk::multi::Thread::waitEnd(){
     bool ret=false;
     //WINDOWS 32
 #ifdef WIN32
@@ -471,7 +468,7 @@ bool Thread::waitEnd(){
     return ret;
 }
 
-bool Thread::kill(){
+bool edk::multi::Thread::kill(){
     bool ret = false;
     //WINDOWS 32
 #ifdef WIN32
@@ -510,7 +507,7 @@ bool Thread::kill(){
     return ret;
 }
 
-void Thread::killThisThread(){
+void edk::multi::Thread::killThisThread(){
     //WINDOWS 32
 #ifdef WIN32
     //Finish the thread
@@ -534,7 +531,7 @@ void Thread::killThisThread(){
 #endif
 }
 
-void Thread::killAllThreads(){
+void edk::multi::Thread::killAllThreads(){
     //WINDOWS 32
 #ifdef WIN32
     /*
@@ -563,7 +560,7 @@ void Thread::killAllThreads(){
 }
 #if __x86_64__ || __ppc64__
 //get the thread id
-edk::uint64 Thread::getThisThreadID(){
+edk::uint64 edk::multi::Thread::getThisThreadID(){
 #if WIN64
     return GetCurrentThreadId();
 #elif __linux__
@@ -572,7 +569,7 @@ edk::uint64 Thread::getThisThreadID(){
 }
 #else
 //get the thread id
-edk::uint32 Thread::getThisThreadID(){
+edk::uint32 edk::multi::Thread::getThisThreadID(){
 #if WIN32
     return GetCurrentThreadId();
 #elif __linux__
@@ -582,7 +579,7 @@ edk::uint32 Thread::getThisThreadID(){
 #endif
 
 //return the thread core
-edk::uint32 Thread::getThisThreadCore(){
+edk::uint32 edk::multi::Thread::getThisThreadCore(){
 #if defined(WIN32) || defined(WIN64)
     return 0;
 #elif __linux__
@@ -590,9 +587,6 @@ edk::uint32 Thread::getThisThreadCore(){
 #endif
 }
 
-edk::uint32 Thread::numberOfCores(){
+edk::uint32 edk::multi::Thread::numberOfCores(){
     return edk::multi::Thread::cores;
 }
-}
-
-} /* End of namespace edk */

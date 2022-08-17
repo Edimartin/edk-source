@@ -103,9 +103,9 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
                 contactTemp->shapeA = shapeA;
                 contactTemp->shapeB = shapeB;
                 //
-                contactTemp->objectA->setLinearVelocity(bodyA->GetLinearVelocity().x,bodyA->GetLinearVelocity().y);
+                contactTemp->objectA->setLinearVelocity(bodyA->GetLinearVelocity().x * this->percentOut,bodyA->GetLinearVelocity().y * this->percentOut);
                 contactTemp->objectA->setAngularVelocity(bodyA->GetAngularVelocity() * (180.f / b2_pi));
-                contactTemp->objectB->setLinearVelocity(bodyB->GetLinearVelocity().x,bodyB->GetLinearVelocity().y);
+                contactTemp->objectB->setLinearVelocity(bodyB->GetLinearVelocity().x * this->percentOut,bodyB->GetLinearVelocity().y * this->percentOut);
                 contactTemp->objectB->setAngularVelocity(bodyB->GetAngularVelocity() * (180.f / b2_pi));
                 contactTemp->velocityA = contactTemp->objectA->getSpeed();
                 contactTemp->velocityB = contactTemp->objectB->getSpeed();
@@ -129,7 +129,7 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
                     //copy the point to the worldPosition
 
                     point = worldManifold.points[i];
-                    contactTemp->worldPositions.set(i,edk::vec2f32(point.x,point.y));
+                    contactTemp->worldPositions.set(i,edk::vec2f32(point.x * this->percentOut,point.y * this->percentOut));
 
                     //get objectA position
                     vertex = edk::Math::rotatePlus(contactTemp->worldPositions[i]-contactTemp->objectA->position,
@@ -282,9 +282,9 @@ void edk::physics2D::World2D::MyContactListener::EndContact(b2Contact* contact){
 
     edk::physics2D::Contact2D* contactTemp = this->world->treeConcacts.getContact(contact);
     if(contactTemp){
-        contactTemp->objectA->setLinearVelocity(bodyA->GetLinearVelocity().x,bodyA->GetLinearVelocity().y);
+        contactTemp->objectA->setLinearVelocity(bodyA->GetLinearVelocity().x * this->percentOut,bodyA->GetLinearVelocity().y * this->percentOut);
         contactTemp->objectA->setAngularVelocity(bodyA->GetAngularVelocity() * (180.f / b2_pi));
-        contactTemp->objectB->setLinearVelocity(bodyB->GetLinearVelocity().x,bodyB->GetLinearVelocity().y);
+        contactTemp->objectB->setLinearVelocity(bodyB->GetLinearVelocity().x * this->percentOut,bodyB->GetLinearVelocity().y * this->percentOut);
         contactTemp->objectB->setAngularVelocity(bodyB->GetAngularVelocity() * (180.f / b2_pi));
         contactTemp->velocityA = contactTemp->objectA->getSpeed();
         contactTemp->velocityB = contactTemp->objectB->getSpeed();
@@ -299,7 +299,7 @@ void edk::physics2D::World2D::MyContactListener::EndContact(b2Contact* contact){
             //copy the point to the worldPosition
 
             point = worldManifold.points[i];
-            contactTemp->worldPositions.set(i,edk::vec2f32(point.x,point.y));
+            contactTemp->worldPositions.set(i,edk::vec2f32(point.x * this->percentOut,point.y * this->percentOut));
 
             //get objectA position
             vertex = edk::Math::rotatePlus(contactTemp->worldPositions[i]-contactTemp->objectA->position,
@@ -389,9 +389,9 @@ void edk::physics2D::World2D::MyContactListener::PreSolve(b2Contact* contact, co
 
     edk::physics2D::Contact2D* contactTemp = this->world->treeConcacts.getContact(contact);
     if(contactTemp){
-        contactTemp->objectA->setLinearVelocity(bodyA->GetLinearVelocity().x,bodyA->GetLinearVelocity().y);
+        contactTemp->objectA->setLinearVelocity(bodyA->GetLinearVelocity().x * this->percentOut,bodyA->GetLinearVelocity().y * this->percentOut);
         contactTemp->objectA->setAngularVelocity(bodyA->GetAngularVelocity() * (180.f / b2_pi));
-        contactTemp->objectB->setLinearVelocity(bodyB->GetLinearVelocity().x,bodyB->GetLinearVelocity().y);
+        contactTemp->objectB->setLinearVelocity(bodyB->GetLinearVelocity().x * this->percentOut,bodyB->GetLinearVelocity().y * this->percentOut);
         contactTemp->objectB->setAngularVelocity(bodyB->GetAngularVelocity() * (180.f / b2_pi));
         contactTemp->velocityA = contactTemp->objectA->getSpeed();
         contactTemp->velocityB = contactTemp->objectB->getSpeed();
@@ -405,7 +405,7 @@ void edk::physics2D::World2D::MyContactListener::PreSolve(b2Contact* contact, co
             //copy the point to the worldPosition
 
             point = worldManifold.points[i];
-            contactTemp->worldPositions.set(i,edk::vec2f32(point.x,point.y));
+            contactTemp->worldPositions.set(i,edk::vec2f32(point.x * this->percentOut,point.y * this->percentOut));
 
             //get objectA position
             vertex = edk::Math::rotatePlus(contactTemp->worldPositions[i]-contactTemp->objectA->position,
@@ -500,9 +500,9 @@ void edk::physics2D::World2D::MyContactListener::PostSolve(b2Contact* contact, c
 
     edk::physics2D::Contact2D* contactTemp = this->world->treeConcacts.getContact(contact);
     if(contactTemp){
-        contactTemp->objectA->setLinearVelocity(bodyA->GetLinearVelocity().x,bodyA->GetLinearVelocity().y);
+        contactTemp->objectA->setLinearVelocity(bodyA->GetLinearVelocity().x * this->percentOut,bodyA->GetLinearVelocity().y * this->percentOut);
         contactTemp->objectA->setAngularVelocity(bodyA->GetAngularVelocity() * (180.f / b2_pi));
-        contactTemp->objectB->setLinearVelocity(bodyB->GetLinearVelocity().x,bodyB->GetLinearVelocity().y);
+        contactTemp->objectB->setLinearVelocity(bodyB->GetLinearVelocity().x * this->percentOut,bodyB->GetLinearVelocity().y * this->percentOut);
         contactTemp->objectB->setAngularVelocity(bodyB->GetAngularVelocity() * (180.f / b2_pi));
         contactTemp->velocityA = contactTemp->objectA->getSpeed();
         contactTemp->velocityB = contactTemp->objectB->getSpeed();
@@ -517,7 +517,7 @@ void edk::physics2D::World2D::MyContactListener::PostSolve(b2Contact* contact, c
             //copy the point to the worldPosition
 
             point = worldManifold.points[i];
-            contactTemp->worldPositions.set(i,edk::vec2f32(point.x,point.y));
+            contactTemp->worldPositions.set(i,edk::vec2f32(point.x * this->percentOut,point.y * this->percentOut));
 
             //get objectA position
             vertex = edk::Math::rotatePlus(contactTemp->worldPositions[i]-contactTemp->objectA->position,
@@ -721,6 +721,7 @@ bool edk::physics2D::World2D::ObjectsJointsTree::firstEqualSecond(edk::physics2D
 edk::physics2D::World2D::World2D()
     : world(b2Vec2(0,0)),contacts(this),treeDeleted(&this->world),
       treeNew(this),treeLinearVelocity(this),treeAngularVelocity(this){
+    this->setMeterDistance(1.f);
     //set the initial gravity
     this->setGravity(edk::vec2f32(0.f,-9.8f));
     this->world.SetContactListener(&this->contacts);
@@ -981,7 +982,7 @@ edk::physics2D::Joint2D* edk::physics2D::World2D::addJoint(edk::physics2D::Physi
                                     joint->positionA = positionA;
                                     joint->worldPositionA
                                             =
-                                            edk::physics2D::World2D::JointTree::getJointWorldPosition(objectA,positionA)
+                                            edk::physics2D::World2D::JointTreeObject::getJointWorldPosition(objectA,positionA)
                                             ;
                                     joint->positionB = positionB;
                                     /*
@@ -1420,12 +1421,43 @@ void edk::physics2D::World2D::physicsSensorKeeping(edk::physics2D::Contact2D* co
 
 //Set the gravity
 void edk::physics2D::World2D::setGravity(edk::vec2f32 gravity){
-    this->gravity=gravity;
+    this->gravity=gravity * this->percentIn;
     //update the world gravity
     this->world.SetGravity(b2Vec2(this->gravity.x,this->gravity.y));
 }
 void edk::physics2D::World2D::setGravity(edk::float32 x,edk::float32 y){
     this->setGravity(edk::vec2f32 (x,y));
+}
+//set the percent
+void edk::physics2D::World2D::setMeterDistance(edk::float32 meter){
+    //
+    this->percentOut = meter;
+    this->percentIn = 1/this->percentOut;
+
+    //update the tree's
+    this->contacts.percentIn = this->percentIn;
+    this->contacts.percentOut = this->percentOut;
+    treeStatic.percentIn = this->percentIn;
+    treeStatic.percentOut = this->percentOut;
+    treeKinematic.percentIn = this->percentIn;
+    treeKinematic.percentOut = this->percentOut;
+    treeDynamic.percentIn = this->percentIn;
+    treeDynamic.percentOut = this->percentOut;
+}
+void edk::physics2D::World2D::setMeterDistance(edk::uint8 meter){
+    return this->setMeterDistance((edk::float32)meter);
+}
+void edk::physics2D::World2D::setMeterDistance(edk::uint16 meter){
+    return this->setMeterDistance((edk::float32)meter);
+}
+void edk::physics2D::World2D::setMeterDistance(edk::uint32 meter){
+    return this->setMeterDistance((edk::float32)meter);
+}
+void edk::physics2D::World2D::setMeterDistance(edk::uint64 meter){
+    return this->setMeterDistance((edk::float32)meter);
+}
+edk::float32 edk::physics2D::World2D::getMeterDistance(){
+    return this->percentOut;
 }
 
 //Add a Object to the world
@@ -1458,7 +1490,7 @@ bool edk::physics2D::World2D::addObject(edk::physics2D::PhysicObject2D* object){
 
         b2Body* objectBody = this->world.CreateBody(&objectDef);
         if(objectBody){
-            objectBody->SetTransform( b2Vec2(object->position.x,object->position.y),object->angle / (180.f / b2_pi) );
+            objectBody->SetTransform( b2Vec2(object->position.x*this->percentIn,object->position.y*this->percentIn),object->angle / (180.f / b2_pi) );
 
 
             //objectBody->SetUserData(object);
@@ -1475,10 +1507,10 @@ bool edk::physics2D::World2D::addObject(edk::physics2D::PhysicObject2D* object){
 #endif
                     //select the polygon
                     if(object->physicMesh.selectPolygon(i)){
-                        edk::size2f32 scale = object->physicMesh.selectedGetScale() * object->size;
+                        edk::size2f32 scale = object->physicMesh.selectedGetScale() * object->size * this->percentIn;
                         edk::vec2f32 translate /*= object->physicMesh.selectedGetTranslate() * object->physicMesh.selectedGetScale()*/;
-                        translate.x = object->physicMesh.selectedGetTranslate().x * object->size.width;
-                        translate.y = object->physicMesh.selectedGetTranslate().y * object->size.height;
+                        translate.x = object->physicMesh.selectedGetTranslate().x * object->size.width * this->percentIn;
+                        translate.y = object->physicMesh.selectedGetTranslate().y * object->size.height * this->percentIn;
                         //translate.x = object->physicMesh.selectedGetTranslate().x * object->physicMesh.selectedGetScale().width;
                         //translate.y = object->physicMesh.selectedGetTranslate().y * object->physicMesh.selectedGetScale().height;
                         for(edk::uint32 i=0u;i<b2_maxPolygonVertices;i++){
@@ -2185,7 +2217,7 @@ bool edk::physics2D::World2D::moveObject(edk::physics2D::PhysicObject2D* object,
     //test the object
     if(object){
         //move the pbject
-        object->position+=move;
+        object->position+=move * this->percentIn;
         return this->updateObjectVelocity(object);
     }
     return false;
@@ -2197,7 +2229,7 @@ bool edk::physics2D::World2D::moveObjectToPosition(edk::physics2D::PhysicObject2
     //test the object
     if(object){
         //move the pbject
-        object->position=position;
+        object->position=position * this->percentIn;
         return this->updateObjectVelocity(object);
     }
     return false;
@@ -2272,7 +2304,7 @@ bool edk::physics2D::World2D::setLinearVelocity(edk::physics2D::PhysicObject2D* 
             break;
         }
         if(temp){
-            temp->SetLinearVelocity(b2Vec2(vector.x,vector.y));
+            temp->SetLinearVelocity(b2Vec2(vector.x * this->percentIn,vector.y * this->percentIn));
             return true;
         }
     }
@@ -2313,8 +2345,8 @@ bool edk::physics2D::World2D::applyForce(edk::physics2D::PhysicObject2D* object,
             break;
         }
         if(temp){
-            temp->ApplyForce(b2Vec2(force.x,force.y),
-                             b2Vec2(position.x,position.y),
+            temp->ApplyForce(b2Vec2(force.x * this->percentIn,force.y * this->percentIn),
+                             b2Vec2(position.x * this->percentIn,position.y * this->percentIn),
                              wake
                              );
             return true;
@@ -2336,7 +2368,7 @@ bool edk::physics2D::World2D::applyLinearImpulse(edk::physics2D::PhysicObject2D*
             break;
         }
         if(temp){
-            temp->ApplyLinearImpulse(b2Vec2(impulse.x,impulse.y),b2Vec2(position.x,position.y),wake);
+            temp->ApplyLinearImpulse(b2Vec2(impulse.x * this->percentIn,impulse.y * this->percentIn),b2Vec2(position.x * this->percentIn,position.y * this->percentIn),wake);
             return true;
         }
     }
@@ -2378,7 +2410,7 @@ bool edk::physics2D::World2D::applyTorque(edk::physics2D::PhysicObject2D* object
             break;
         }
         if(temp){
-            temp->ApplyTorque(torque,wake);
+            temp->ApplyTorque(torque * this->percentIn,wake);
             return true;
         }
     }
@@ -2495,8 +2527,8 @@ edk::physics2D::RevoluteJoint2D* edk::physics2D::World2D::createRevoluteJoint(ed
                 jointDef.collideConnected=collide;
                 jointDef.bodyA = bodyA;
                 jointDef.bodyB = bodyB;
-                jointDef.localAnchorA = b2Vec2(positionA.x,positionA.y);
-                jointDef.localAnchorB = b2Vec2(positionB.x,positionB.y);
+                jointDef.localAnchorA = b2Vec2(positionA.x * this->percentIn,positionA.y * this->percentIn);
+                jointDef.localAnchorB = b2Vec2(positionB.x * this->percentIn,positionB.y * this->percentIn);
 
                 //create the edkJoint
                 edkJoint = new edk::physics2D::RevoluteJoint2D(collide);
@@ -2509,7 +2541,7 @@ edk::physics2D::RevoluteJoint2D* edk::physics2D::World2D::createRevoluteJoint(ed
                     edkJoint->positionA = positionA;
                     edkJoint->worldPositionA
                             =
-                            edk::physics2D::World2D::JointTree::getJointWorldPosition(objectA,positionA)
+                            edk::physics2D::World2D::JointTreeObject::getJointWorldPosition(objectA,positionA)
                             ;
                     edkJoint->positionB = positionB;
                     /*
@@ -2549,9 +2581,9 @@ edk::physics2D::RevoluteJoint2D* edk::physics2D::World2D::createRevoluteJoint(ed
     //test the object
     if(objectA && objectB){
         return this->createRevoluteJoint(objectA,
-                                         edk::physics2D::World2D::JointTree::getJointPosition(objectA,worldPosition),
+                                         edk::physics2D::World2D::JointTreeObject::getJointPosition(objectA,worldPosition),
                                          objectB,
-                                         edk::physics2D::World2D::JointTree::getJointPosition(objectB,worldPosition),
+                                         edk::physics2D::World2D::JointTreeObject::getJointPosition(objectB,worldPosition),
                                          collide
                                          );
     }
@@ -2578,8 +2610,8 @@ edk::physics2D::RevoluteJoint2D* edk::physics2D::World2D::createRevoluteAngleJoi
                 jointDef.collideConnected=collide;
                 jointDef.bodyA = bodyA;
                 jointDef.bodyB = bodyB;
-                jointDef.localAnchorA = b2Vec2(positionA.x,positionA.y);
-                jointDef.localAnchorB = b2Vec2(positionB.x,positionB.y);
+                jointDef.localAnchorA = b2Vec2(positionA.x * this->percentIn,positionA.y * this->percentIn);
+                jointDef.localAnchorB = b2Vec2(positionB.x * this->percentIn,positionB.y * this->percentIn);
 
                 jointDef.lowerAngle = (lowerAngle / 180.f) * b2_pi;
                 jointDef.upperAngle = (upperAngle/ 180.f) * b2_pi;
@@ -2596,7 +2628,7 @@ edk::physics2D::RevoluteJoint2D* edk::physics2D::World2D::createRevoluteAngleJoi
                     edkJoint->objectA = objectA;
                     edkJoint->objectB = objectB;
                     edkJoint->positionA = positionA;
-                    edkJoint->worldPositionA = edk::physics2D::World2D::JointTree::getJointWorldPosition(objectA,positionA);
+                    edkJoint->worldPositionA = edk::physics2D::World2D::JointTreeObject::getJointWorldPosition(objectA,positionA);
                     edkJoint->positionB = positionB;
 
                     //angle Joint
@@ -2631,9 +2663,9 @@ edk::physics2D::RevoluteJoint2D* edk::physics2D::World2D::createRevoluteAngleJoi
     //test the object
     if(objectA && objectB){
         return this->createRevoluteAngleJoint(objectA,
-                                              edk::physics2D::World2D::JointTree::getJointPosition(objectA,worldPosition),
+                                              edk::physics2D::World2D::JointTreeObject::getJointPosition(objectA,worldPosition),
                                               objectB,
-                                              edk::physics2D::World2D::JointTree::getJointPosition(objectB,worldPosition),
+                                              edk::physics2D::World2D::JointTreeObject::getJointPosition(objectB,worldPosition),
                                               lowerAngle,upperAngle,
                                               collide
                                               );
@@ -2661,8 +2693,8 @@ edk::physics2D::RevoluteJoint2D* edk::physics2D::World2D::createRevoluteMotorJoi
                 jointDef.collideConnected=collide;
                 jointDef.bodyA = bodyA;
                 jointDef.bodyB = bodyB;
-                jointDef.localAnchorA = b2Vec2(positionA.x,positionA.y);
-                jointDef.localAnchorB = b2Vec2(positionB.x,positionB.y);
+                jointDef.localAnchorA = b2Vec2(positionA.x * this->percentIn,positionA.y * this->percentIn);
+                jointDef.localAnchorB = b2Vec2(positionB.x * this->percentIn,positionB.y * this->percentIn);
 
                 jointDef.maxMotorTorque = maxTorque;
                 jointDef.motorSpeed = speed;
@@ -2681,7 +2713,7 @@ edk::physics2D::RevoluteJoint2D* edk::physics2D::World2D::createRevoluteMotorJoi
                     edkJoint->positionA = positionA;
                     edkJoint->worldPositionA
                             =
-                            edk::physics2D::World2D::JointTree::getJointWorldPosition(objectA,positionA)
+                            edk::physics2D::World2D::JointTreeObject::getJointWorldPosition(objectA,positionA)
                             ;
                     edkJoint->positionB = positionB;
 
@@ -2717,9 +2749,9 @@ edk::physics2D::RevoluteJoint2D* edk::physics2D::World2D::createRevoluteMotorJoi
     //test the object
     if(objectA && objectB){
         return this->createRevoluteMotorJoint(objectA,
-                                              edk::physics2D::World2D::JointTree::getJointPosition(objectA,worldPosition),
+                                              edk::physics2D::World2D::JointTreeObject::getJointPosition(objectA,worldPosition),
                                               objectB,
-                                              edk::physics2D::World2D::JointTree::getJointPosition(objectB,worldPosition),
+                                              edk::physics2D::World2D::JointTreeObject::getJointPosition(objectB,worldPosition),
                                               maxTorque,speed,
                                               collide
                                               );
@@ -2750,9 +2782,9 @@ edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticJoint(
                 jointDef.collideConnected=collide;
                 jointDef.bodyA = bodyA;
                 jointDef.bodyB = bodyB;
-                jointDef.localAnchorA = b2Vec2(positionA.x,positionA.y);
-                jointDef.localAnchorB = b2Vec2(positionB.x,positionB.y);
-                jointDef.localAxisA = b2Vec2(direction.x,direction.y);
+                jointDef.localAnchorA = b2Vec2(positionA.x * this->percentIn,positionA.y * this->percentIn);
+                jointDef.localAnchorB = b2Vec2(positionB.x * this->percentIn,positionB.y * this->percentIn);
+                jointDef.localAxisA = b2Vec2(direction.x * this->percentIn,direction.y * this->percentIn);
                 jointDef.localAxisA.Normalize();
                 if(upperDistance > lowerDistance){
                     //enable distance
@@ -2772,7 +2804,7 @@ edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticJoint(
                     edkJoint->positionA = positionA;
                     edkJoint->worldPositionA
                             =
-                            edk::physics2D::World2D::JointTree::getJointWorldPosition(objectA,positionA)
+                            edk::physics2D::World2D::JointTreeObject::getJointWorldPosition(objectA,positionA)
                             ;
                     edkJoint->positionB = positionB;
 
@@ -2813,9 +2845,9 @@ edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticJoint(
     //test the object
     if(objectA && objectB){
         return this->createPrismaticJoint(objectA,
-                                          edk::physics2D::World2D::JointTree::getJointPosition(objectA,worldPosition),
+                                          edk::physics2D::World2D::JointTreeObject::getJointPosition(objectA,worldPosition),
                                           objectB,
-                                          edk::physics2D::World2D::JointTree::getJointPosition(objectB,worldPosition),
+                                          edk::physics2D::World2D::JointTreeObject::getJointPosition(objectB,worldPosition),
                                           direction,lowerDistance,upperDistance,
                                           collide
                                           );
@@ -2844,9 +2876,9 @@ edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticJoint(
     //test the object
     if(objectA && objectB){
         return this->createPrismaticJoint(objectA,
-                                          edk::physics2D::World2D::JointTree::getJointPosition(objectA,worldPosition),
+                                          edk::physics2D::World2D::JointTreeObject::getJointPosition(objectA,worldPosition),
                                           objectB,
-                                          edk::physics2D::World2D::JointTree::getJointPosition(objectB,worldPosition),
+                                          edk::physics2D::World2D::JointTreeObject::getJointPosition(objectB,worldPosition),
                                           edk::Math::rotate(edk::vec2f32(1,0),angle),lowerDistance,upperDistance,
                                           collide
                                           );
@@ -2875,9 +2907,9 @@ edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticMotorJ
                 jointDef.collideConnected=collide;
                 jointDef.bodyA = bodyA;
                 jointDef.bodyB = bodyB;
-                jointDef.localAnchorA = b2Vec2(positionA.x,positionA.y);
-                jointDef.localAnchorB = b2Vec2(positionB.x,positionB.y);
-                jointDef.localAxisA = b2Vec2(direction.x,direction.y);
+                jointDef.localAnchorA = b2Vec2(positionA.x * this->percentIn,positionA.y * this->percentIn);
+                jointDef.localAnchorB = b2Vec2(positionB.x * this->percentIn,positionB.y * this->percentIn);
+                jointDef.localAxisA = b2Vec2(direction.x * this->percentIn,direction.y * this->percentIn);
                 jointDef.localAxisA.Normalize();
                 if(upperDistance > lowerDistance){
                     //enable distance
@@ -2900,7 +2932,7 @@ edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticMotorJ
                     edkJoint->positionA = positionA;
                     edkJoint->worldPositionA
                             =
-                            edk::physics2D::World2D::JointTree::getJointWorldPosition(objectA,positionA)
+                            edk::physics2D::World2D::JointTreeObject::getJointWorldPosition(objectA,positionA)
                             ;
                     edkJoint->positionB = positionB;
 
@@ -2942,9 +2974,9 @@ edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticMotorJ
     //test the object
     if(objectA && objectB){
         return this->createPrismaticMotorJoint(objectA,
-                                               edk::physics2D::World2D::JointTree::getJointPosition(objectA,worldPosition),
+                                               edk::physics2D::World2D::JointTreeObject::getJointPosition(objectA,worldPosition),
                                                objectB,
-                                               edk::physics2D::World2D::JointTree::getJointPosition(objectB,worldPosition),
+                                               edk::physics2D::World2D::JointTreeObject::getJointPosition(objectB,worldPosition),
                                                direction,lowerDistance,upperDistance,
                                                maxForce,speed,
                                                collide
@@ -2977,9 +3009,9 @@ edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticMotorJ
     //test the object
     if(objectA && objectB){
         return this->createPrismaticMotorJoint(objectA,
-                                               edk::physics2D::World2D::JointTree::getJointPosition(objectA,worldPosition),
+                                               edk::physics2D::World2D::JointTreeObject::getJointPosition(objectA,worldPosition),
                                                objectB,
-                                               edk::physics2D::World2D::JointTree::getJointPosition(objectB,worldPosition),
+                                               edk::physics2D::World2D::JointTreeObject::getJointPosition(objectB,worldPosition),
                                                edk::Math::rotate(edk::vec2f32(1,0),angle),lowerDistance,upperDistance,
                                                maxForce,speed,
                                                collide
@@ -3012,8 +3044,8 @@ edk::physics2D::DistanceJoint2D* edk::physics2D::World2D::createDistanceJoint(ed
                 jointDef.collideConnected=collide;
                 jointDef.bodyA = bodyA;
                 jointDef.bodyB = bodyB;
-                jointDef.localAnchorA = b2Vec2(positionA.x,positionA.y);
-                jointDef.localAnchorB = b2Vec2(positionB.x,positionB.y);
+                jointDef.localAnchorA = b2Vec2(positionA.x * this->percentIn,positionA.y * this->percentIn);
+                jointDef.localAnchorB = b2Vec2(positionB.x * this->percentIn,positionB.y * this->percentIn);
                 jointDef.length = distance;
 
                 //removed frequency in new box2D
@@ -3029,12 +3061,12 @@ edk::physics2D::DistanceJoint2D* edk::physics2D::World2D::createDistanceJoint(ed
                     edkJoint->positionA = positionA;
                     edkJoint->worldPositionA
                             =
-                            edk::physics2D::World2D::JointTree::getJointWorldPosition(objectA,positionA)
+                            edk::physics2D::World2D::JointTreeObject::getJointWorldPosition(objectA,positionA)
                             ;
                     edkJoint->positionB = positionB;
                     edkJoint->worldPositionB
                             =
-                            edk::physics2D::World2D::JointTree::getJointWorldPosition(objectB,positionB)
+                            edk::physics2D::World2D::JointTreeObject::getJointWorldPosition(objectB,positionB)
                             ;
 
                     //create the edkJoint
@@ -3066,9 +3098,9 @@ edk::physics2D::DistanceJoint2D* edk::physics2D::World2D::createDistanceJoint(ed
     //test the object
     if(objectA && objectB){
         return this->createDistanceJoint(objectA,
-                                         edk::physics2D::World2D::JointTree::getJointPosition(objectA,worldPositionA),
+                                         edk::physics2D::World2D::JointTreeObject::getJointPosition(objectA,worldPositionA),
                                          objectB,
-                                         edk::physics2D::World2D::JointTree::getJointPosition(objectB,worldPositionB),
+                                         edk::physics2D::World2D::JointTreeObject::getJointPosition(objectB,worldPositionB),
                                          edk::Math::module(edk::Math::pythagoras(worldPositionA - worldPositionB)),
                                          collide
                                          );
@@ -3097,11 +3129,11 @@ edk::physics2D::PulleyJoint2D* edk::physics2D::World2D::createPulleyJoint(edk::p
                 jointDef.collideConnected=collide;
                 jointDef.bodyA = bodyA;
                 jointDef.bodyB = bodyB;
-                jointDef.localAnchorA = b2Vec2(positionA.x,positionA.y);
-                jointDef.localAnchorB = b2Vec2(positionB.x,positionB.y);
+                jointDef.localAnchorA = b2Vec2(positionA.x * this->percentIn,positionA.y * this->percentIn);
+                jointDef.localAnchorB = b2Vec2(positionB.x * this->percentIn,positionB.y * this->percentIn);
 
-                jointDef.groundAnchorA = b2Vec2(pulleyPositionA.x + objectA->position.x,pulleyPositionA.y + objectA->position.y);
-                jointDef.groundAnchorB = b2Vec2(pulleyPositionB.x + objectB->position.x,pulleyPositionB.y + objectB->position.y);
+                jointDef.groundAnchorA = b2Vec2((pulleyPositionA.x * this->percentIn) + (objectA->position.x * this->percentIn),(pulleyPositionA.y * this->percentIn) + (objectA->position.y * this->percentIn));
+                jointDef.groundAnchorB = b2Vec2((pulleyPositionB.x * this->percentIn) + (objectB->position.x * this->percentIn),(pulleyPositionB.y * this->percentIn) + (objectB->position.y * this->percentIn));
 
                 jointDef.lengthA = lenghtA;
                 jointDef.lengthB = lenghtB;
@@ -3117,20 +3149,20 @@ edk::physics2D::PulleyJoint2D* edk::physics2D::World2D::createPulleyJoint(edk::p
                     edkJoint->positionA = positionA;
                     edkJoint->worldPositionA
                             =
-                            edk::physics2D::World2D::JointTree::getJointWorldPosition(objectA,positionA)
+                            edk::physics2D::World2D::JointTreeObject::getJointWorldPosition(objectA,positionA)
                             ;
                     edkJoint->positionB = positionB;
                     edkJoint->worldPositionB
                             =
-                            edk::physics2D::World2D::JointTree::getJointWorldPosition(objectB,positionB)
+                            edk::physics2D::World2D::JointTreeObject::getJointWorldPosition(objectB,positionB)
                             ;
                     edkJoint->pulleyPositionA
                             =
-                            edk::physics2D::World2D::JointTree::getJointWorldPosition(objectA,pulleyPositionA)
+                            edk::physics2D::World2D::JointTreeObject::getJointWorldPosition(objectA,pulleyPositionA)
                             ;
                     edkJoint->pulleyPositionB
                             =
-                            edk::physics2D::World2D::JointTree::getJointWorldPosition(objectB,pulleyPositionB)
+                            edk::physics2D::World2D::JointTreeObject::getJointWorldPosition(objectB,pulleyPositionB)
                             ;
 
 
@@ -3179,11 +3211,11 @@ edk::physics2D::PulleyJoint2D* edk::physics2D::World2D::createPulleyWorldJoint(e
     //test the object
     if(objectA && objectB){
         createPulleyJoint(objectA,
-                          edk::physics2D::World2D::JointTree::getJointPosition(objectA,worldPositionA),
-                          edk::physics2D::World2D::JointTree::getJointPosition(objectA,pulleyWorldPositionA),
+                          edk::physics2D::World2D::JointTreeObject::getJointPosition(objectA,worldPositionA),
+                          edk::physics2D::World2D::JointTreeObject::getJointPosition(objectA,pulleyWorldPositionA),
                           objectB,
-                          edk::physics2D::World2D::JointTree::getJointPosition(objectB,worldPositionB),
-                          edk::physics2D::World2D::JointTree::getJointPosition(objectB,pulleyWorldPositionB),
+                          edk::physics2D::World2D::JointTreeObject::getJointPosition(objectB,worldPositionB),
+                          edk::physics2D::World2D::JointTreeObject::getJointPosition(objectB,pulleyWorldPositionB),
                           lenghtA,lenghtB,
                           collide
                           );
@@ -3197,11 +3229,11 @@ edk::physics2D::PulleyJoint2D* edk::physics2D::World2D::createPulleyWorldJoint(e
     //test the object
     if(objectA && objectB){
         createPulleyJoint(objectA,
-                          edk::physics2D::World2D::JointTree::getJointPosition(objectA,worldPositionA),
-                          edk::physics2D::World2D::JointTree::getJointPosition(objectA,pulleyWorldPositionA),
+                          edk::physics2D::World2D::JointTreeObject::getJointPosition(objectA,worldPositionA),
+                          edk::physics2D::World2D::JointTreeObject::getJointPosition(objectA,pulleyWorldPositionA),
                           objectB,
-                          edk::physics2D::World2D::JointTree::getJointPosition(objectB,worldPositionB),
-                          edk::physics2D::World2D::JointTree::getJointPosition(objectB,pulleyWorldPositionB),
+                          edk::physics2D::World2D::JointTreeObject::getJointPosition(objectB,worldPositionB),
+                          edk::physics2D::World2D::JointTreeObject::getJointPosition(objectB,pulleyWorldPositionB),
                           collide
                           );
     }
@@ -3229,10 +3261,10 @@ edk::physics2D::WheelJoint2D* edk::physics2D::World2D::createWheelJoint(edk::phy
                 jointDef.collideConnected=collide;
                 jointDef.bodyA = bodyA;
                 jointDef.bodyB = bodyB;
-                jointDef.localAnchorA = b2Vec2(positionA.x,positionA.y);
-                jointDef.localAnchorB = b2Vec2(positionB.x,positionB.y);
+                jointDef.localAnchorA = b2Vec2(positionA.x * this->percentIn,positionA.y * this->percentIn);
+                jointDef.localAnchorB = b2Vec2(positionB.x * this->percentIn,positionB.y * this->percentIn);
 
-                jointDef.localAxisA = b2Vec2(direction.x,direction.y);
+                jointDef.localAxisA = b2Vec2(direction.x * this->percentIn,direction.y * this->percentIn);
                 jointDef.localAxisA.Normalize();
 
                 //removed frequency in new box2D
@@ -3249,7 +3281,7 @@ edk::physics2D::WheelJoint2D* edk::physics2D::World2D::createWheelJoint(edk::phy
                     edkJoint->positionA = positionA;
                     edkJoint->worldPositionA
                             =
-                            edk::physics2D::World2D::JointTree::getJointWorldPosition(objectA,positionA)
+                            edk::physics2D::World2D::JointTreeObject::getJointWorldPosition(objectA,positionA)
                             ;
                     edkJoint->positionB = positionB;
 
@@ -3285,9 +3317,9 @@ edk::physics2D::WheelJoint2D* edk::physics2D::World2D::createWheelJoint(edk::phy
     //test the object
     if(objectA && objectB){
         return this->createWheelJoint(objectA,
-                                      edk::physics2D::World2D::JointTree::getJointPosition(objectA,worldPosition),
+                                      edk::physics2D::World2D::JointTreeObject::getJointPosition(objectA,worldPosition),
                                       objectB,
-                                      edk::physics2D::World2D::JointTree::getJointPosition(objectB,worldPosition),
+                                      edk::physics2D::World2D::JointTreeObject::getJointPosition(objectB,worldPosition),
                                       direction,
                                       collide
                                       );
@@ -3316,10 +3348,10 @@ edk::physics2D::WheelJoint2D* edk::physics2D::World2D::createWheelMotorJoint(edk
                 jointDef.collideConnected=collide;
                 jointDef.bodyA = bodyA;
                 jointDef.bodyB = bodyB;
-                jointDef.localAnchorA = b2Vec2(positionA.x,positionA.y);
-                jointDef.localAnchorB = b2Vec2(positionB.x,positionB.y);
+                jointDef.localAnchorA = b2Vec2(positionA.x * this->percentIn,positionA.y * this->percentIn);
+                jointDef.localAnchorB = b2Vec2(positionB.x * this->percentIn,positionB.y * this->percentIn);
 
-                jointDef.localAxisA = b2Vec2(direction.x,direction.y);
+                jointDef.localAxisA = b2Vec2(direction.x * this->percentIn,direction.y * this->percentIn);
                 jointDef.localAxisA.Normalize();
 
                 //removed frequency in new box2D
@@ -3340,7 +3372,7 @@ edk::physics2D::WheelJoint2D* edk::physics2D::World2D::createWheelMotorJoint(edk
                     edkJoint->positionA = positionA;
                     edkJoint->worldPositionA
                             =
-                            edk::physics2D::World2D::JointTree::getJointWorldPosition(objectA,positionA)
+                            edk::physics2D::World2D::JointTreeObject::getJointWorldPosition(objectA,positionA)
                             ;
                     edkJoint->positionB = positionB;
 
@@ -3376,9 +3408,9 @@ edk::physics2D::WheelJoint2D* edk::physics2D::World2D::createWheelMotorJoint(edk
     //test the object
     if(objectA && objectB){
         return this->createWheelMotorJoint(objectA,
-                                           edk::physics2D::World2D::JointTree::getJointPosition(objectA,worldPosition),
+                                           edk::physics2D::World2D::JointTreeObject::getJointPosition(objectA,worldPosition),
                                            objectB,
-                                           edk::physics2D::World2D::JointTree::getJointPosition(objectB,worldPosition),
+                                           edk::physics2D::World2D::JointTreeObject::getJointPosition(objectB,worldPosition),
                                            direction,
                                            maxTorque,speed,
                                            collide
@@ -3408,8 +3440,8 @@ edk::physics2D::Joint2D* edk::physics2D::World2D::createWeldJoint(edk::physics2D
                 jointDef.collideConnected=collide;
                 jointDef.bodyA = bodyA;
                 jointDef.bodyB = bodyB;
-                jointDef.localAnchorA = b2Vec2(positionA.x,positionA.y);
-                jointDef.localAnchorB = b2Vec2(positionB.x,positionB.y);
+                jointDef.localAnchorA = b2Vec2(positionA.x * this->percentIn,positionA.y * this->percentIn);
+                jointDef.localAnchorB = b2Vec2(positionB.x * this->percentIn,positionB.y * this->percentIn);
 
                 //create the edkJoint
                 if((edkJoint = this->addJoint(objectA,positionA,objectB,positionB))){
@@ -3441,9 +3473,9 @@ edk::physics2D::Joint2D* edk::physics2D::World2D::createWeldJoint(edk::physics2D
     //test the object
     if(objectA && objectB){
         return this->createWeldJoint(objectA,
-                                     edk::physics2D::World2D::JointTree::getJointPosition(objectA,worldPosition),
+                                     edk::physics2D::World2D::JointTreeObject::getJointPosition(objectA,worldPosition),
                                      objectB,
-                                     edk::physics2D::World2D::JointTree::getJointPosition(objectB,worldPosition),
+                                     edk::physics2D::World2D::JointTreeObject::getJointPosition(objectB,worldPosition),
                                      collide
                                      );
     }
@@ -3472,8 +3504,8 @@ edk::physics2D::RopeJoint2D* edk::physics2D::World2D::createRopeJoint(edk::physi
                 jointDef.collideConnected=collide;
                 jointDef.bodyA = bodyA;
                 jointDef.bodyB = bodyB;
-                jointDef.localAnchorA = b2Vec2(positionA.x,positionA.y);
-                jointDef.localAnchorB = b2Vec2(positionB.x,positionB.y);
+                jointDef.localAnchorA = b2Vec2(positionA.x * this->percentIn,positionA.y * this->percentIn);
+                jointDef.localAnchorB = b2Vec2(positionB.x * this->percentIn,positionB.y * this->percentIn);
 
                 jointDef.maxLength = maxLength;
 
@@ -3576,8 +3608,8 @@ edk::physics2D::RopeJoint2D* edk::physics2D::World2D::createGearJoint(edk::physi
                 jointDef.collideConnected=collide;
                 jointDef.bodyA = bodyA;
                 jointDef.bodyB = bodyB;
-                jointDef.localAnchorA = b2Vec2(positionA.x,positionA.y);
-                jointDef.localAnchorB = b2Vec2(positionB.x,positionB.y);
+                jointDef.localAnchorA = b2Vec2(positionA.x * this->percentIn,positionA.y * this->percentIn);
+                jointDef.localAnchorB = b2Vec2(positionB.x * this->percentIn,positionB.y * this->percentIn);
 
                 jointDef.distance = distance;
 
@@ -3710,14 +3742,14 @@ bool edk::physics2D::World2D::setMotorJointMaxTorque(edk::physics2D::Joint2D* jo
                 //
             {
                 b2RevoluteJoint* temp = (b2RevoluteJoint*)boxJoint;
-                temp->SetMaxMotorTorque(maxTorque);
+                temp->SetMaxMotorTorque(maxTorque * this->percentIn);
                 return true;
             }
             case e_motorJoint:
                 //
             {
                 b2MotorJoint* temp = (b2MotorJoint*)boxJoint;
-                temp->SetMaxTorque(maxTorque);
+                temp->SetMaxTorque(maxTorque * this->percentIn);
                 return true;
             }
             default:
@@ -3738,7 +3770,7 @@ bool edk::physics2D::World2D::setMotorJointSpeed(edk::physics2D::Joint2D* joint,
                 //
             {
                 b2RevoluteJoint* temp = (b2RevoluteJoint*)boxJoint;
-                temp->SetMotorSpeed(speed);
+                temp->SetMotorSpeed(speed * this->percentIn);
                 return true;
             }
             default:
@@ -3760,8 +3792,8 @@ bool edk::physics2D::World2D::setMotorJointTorqueAndSpeed(edk::physics2D::Joint2
                 //
             {
                 b2RevoluteJoint* temp = (b2RevoluteJoint*)boxJoint;
-                temp->SetMaxMotorTorque(maxTorque);
-                temp->SetMotorSpeed(speed);
+                temp->SetMaxMotorTorque(maxTorque * this->percentIn);
+                temp->SetMotorSpeed(speed * this->percentIn);
                 return true;
             }
             default:
@@ -3803,7 +3835,7 @@ edk::float32 edk::physics2D::World2D::getMotorJointTorque(edk::physics2D::Joint2
                 //
             {
                 b2RevoluteJoint* temp = (b2RevoluteJoint*)boxJoint;
-                return temp->GetMaxMotorTorque();
+                return temp->GetMaxMotorTorque() * this->percentOut;
             }
             default:
                 break;
@@ -3823,7 +3855,7 @@ edk::float32 edk::physics2D::World2D::getMotorJointSpeed(edk::physics2D::Joint2D
                 //
             {
                 b2RevoluteJoint* temp = (b2RevoluteJoint*)boxJoint;
-                return temp->GetMotorSpeed();
+                return temp->GetMotorSpeed() * this->percentOut;
             }
             default:
                 break;
@@ -3908,6 +3940,12 @@ bool edk::physics2D::World2D::writeToXML(edk::XML* xml,edk::uint32 id){
                 //create the name
                 if(xml->addSelectedNextChild(name)){
                     if(xml->selectChild(name)){
+                        if(xml->addSelectedNextChild("meter")){
+                            if(xml->selectChild("meter")){
+                                xml->setSelectedString(this->getMeterDistance());
+                                xml->selectFather();
+                            }
+                        }
                         //WRITE
                         edk::physics2D::World2D::TreeObjectID treeIdStatic;
                         edk::physics2D::World2D::TreeObjectID treeIdDynamic;
@@ -3994,6 +4032,10 @@ bool edk::physics2D::World2D::readFromXML(edk::XML* xml,edk::uint32 id){
                 //create the name
                 if(xml->selectChild(name)){
                     //READ
+                    if(xml->selectChild("meter")){
+                        this->setMeterDistance(xml->getSelectedStringAsFloat32());
+                        xml->selectFather();
+                    }
                     edk::physics2D::PhysicObject2D* object=NULL;
                     edk::uint32 i=0u;
                     if(xml->selectChild("static")){

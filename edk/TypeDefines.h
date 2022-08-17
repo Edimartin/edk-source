@@ -29,7 +29,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #warning "Inside TypeDefines"
 #endif
 
-#include <stdarg.h>
 #include "TypeVars.h"
 
 #ifdef printMessages
@@ -95,30 +94,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define EDK_BVH_XY 0x00
 #define EDK_BVH_XZ 0x01
 #define EDK_BVH_YZ 0x02
-
-//MARCROS
-
-//Need a class to remove the nothing warning
-namespace edk{
-class NothingClass{
-public:
-    inline static void edk_nothing(){}
-    //write to vprintf with the line, file and function names
-    inline static void edk_lffprint(edk::uint32 line, const edk::char8* fileName, const edk::char8* funcName, const edk::char8* str,...){
-        if(fileName && funcName && str){
-            printf("\n[%06u] (%10s) %10s():",line,fileName,funcName);
-            va_list args;
-            va_start (args, str);
-            vprintf (str, args);
-            va_end (args);
-            fflush(stdout);
-        }
-    }
-};
-}
-#define edk_printDebug(str,args...) \
-    edk::NothingClass::edk_lffprint(__LINE__,__FILE__,__func__,str,##args); \
-    edk::NothingClass::edk_nothing()
 
 //
 namespace edk{
@@ -240,6 +215,7 @@ namespace edk{
 
 namespace key{
 enum code{
+    nothing = 0u,
     num0 = '0',
     num1 = '1',
     num2 = '2',

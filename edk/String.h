@@ -192,9 +192,17 @@ public:
     static edk::uint32 utf8ToAsciiSize(edk::char8* src);
     static edk::uint32 utf8ToAsciiSize(const edk::char8* src);
 
+    static edk::uint32 int32ToStrSize(edk::int32 value);
+
+    static edk::uint32 int64ToStrSize(edk::int64 value);
+
     static edk::char8* int32ToStr(edk::int32 value);
 
     static edk::char8* int64ToStr(edk::int64 value);
+
+    static bool int32ToStr(edk::int32 value,edk::char8* dest);
+
+    static bool int64ToStr(edk::int64 value,edk::char8* dest);
 
     static edk::char8* vecInt8toStr(edk::int8* vec,edk::uint32 size);
 

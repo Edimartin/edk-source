@@ -70,7 +70,7 @@ class FPS {
     edk::uint32 frames;
 };
 
-} /* End of namespace edk::ptr */
+} /* End of namespace watch */
 } /* End of namespace edk */
 
 #endif // edk_ptr_FPS_h

@@ -308,6 +308,8 @@ class View {
  protected:
     edk::rectf32 rectTemp;
     edk::float32 borderTemp;
+    //save if it's paused
+    bool paused;
 
     //Draw Functions
     //draw viewPort

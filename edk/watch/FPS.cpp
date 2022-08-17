@@ -34,30 +34,25 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     //MacOS
 #endif
 
-namespace edk {
-namespace watch {
 
-
-
-
-FPS::FPS(){
+edk::watch::FPS::FPS(){
     //clean the FPS
     this->setFPS(0u);
     this->start();
 }
 
-FPS::FPS(uint32 fps){
+edk::watch::FPS::FPS(uint32 fps){
     //set the new FPS
     this->setFPS(fps);
     this->start();
 }
 
-void FPS::start(){
+void edk::watch::FPS::start(){
     //clear the clock
     clock.start();
 }
 
-void FPS::setFPS(uint32 fps){
+void edk::watch::FPS::setFPS(uint32 fps){
     //test if the FPS is not zero
     if(fps){
         //then set the fps
@@ -69,7 +64,7 @@ void FPS::setFPS(uint32 fps){
     }
 }
 
-bool FPS::waitForFPS(){
+bool edk::watch::FPS::waitForFPS(){
     bool ret=false;
     if(this->frames){
         //calculate the remainder microsecons to get one second
@@ -91,6 +86,3 @@ bool FPS::waitForFPS(){
     }
     return ret;
 }
-
-} /* End of namespace edk::ptr */
-} /* End of namespace edk */

@@ -30,18 +30,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include <stdio.h>
 
-namespace edk {
-
-
-
-
-View::View(){
+edk::View::View(){
     this->frame = edk::rectf32(0.f,0.f,0.f,0.f);
     this->animatedFrame = this->frame;
     //set color to white
     this->backgroundColor = edk::color4f32(1,1,1,1);
     //set to show view
     this->hide=false;
+    this->paused=false;
     this->mouseInside=false;
     this->borderSize=0.f;
     this->borderTemp=0.f;
@@ -49,25 +45,26 @@ View::View(){
     this->saveOutsideFrame=0.f;
 }
 
-View::View(edk::rectf32 frame){
+edk::View::View(edk::rectf32 frame){
     this->frame = frame;
     this->animatedFrame = this->frame;
     //set color to white
     this->backgroundColor = edk::color4f32(1,1,1,1);
     //set to show view
     this->hide=false;
+    this->paused=false;
     this->mouseInside=false;
     this->borderSize=0.0;
     this->borderTemp=0.f;
 }
 
-View::~View(){
+edk::View::~View(){
     //
 }
 
 //Draw Functions
 //draw viewPort
-void View::drawViewport(edk::rectf32 outsideViewOrigin){
+void edk::View::drawViewport(edk::rectf32 outsideViewOrigin){
     //DRAW VIEWPORT
     //test if are using the modelView
     if(!edk::GU::guUsingMatrix(GU_MODELVIEW))edk::GU::guUseMatrix(GU_MODELVIEW);
@@ -88,7 +85,7 @@ void View::drawViewport(edk::rectf32 outsideViewOrigin){
     edk::GU::guColor4f32(this->backgroundColor);
 }
 //draw Camera
-void View::drawCamera(){
+void edk::View::drawCamera(){
     //DRAW THE VIEW CAMERA
     //Use the projection matrix to set the camera
     edk::GU::guUseMatrix(GU_PROJECTION);
@@ -98,7 +95,7 @@ void View::drawCamera(){
     edk::GU::guUseOrtho(0,1,0,1,-1,1);
 }
 //draw the polygon on the scene
-void View::drawPolygon(edk::rectf32){
+void edk::View::drawPolygon(edk::rectf32){
     //DRAW THE POLYGON
     //Set the modelView matrix to draw the polygon
     //edk::GU::guUseMatrix(GU_MODELVIEW);
@@ -122,6 +119,7 @@ void edk::View::runDraw(edk::rectf32 outsideViewOrigin){
     this->draw(outsideViewOrigin);
 }
 void edk::View::runLoad(edk::rectf32 outsideViewOrigin){
+    this->paused=false;
     //save the first outsideViewOrigin
     this->saveOutsideFrame = outsideViewOrigin;
     //run the resize function
@@ -130,6 +128,7 @@ void edk::View::runLoad(edk::rectf32 outsideViewOrigin){
     this->load(outsideViewOrigin);
 }
 void edk::View::runUnload(){
+    this->paused=false;
     this->unload();
 }
 void edk::View::runUpdate(edk::WindowEvents* events){
@@ -137,16 +136,18 @@ void edk::View::runUpdate(edk::WindowEvents* events){
 }
 //run the pause function
 void edk::View::runPause(){
+    this->paused=true;
     //
     this->pause();
 }
 //run the unpause functin
 void edk::View::runUnpause(){
+    this->paused=false;
     //
     this->unpause();
 }
 
-void View::draw(edk::rectf32 outsideViewOrigin){
+void edk::View::draw(edk::rectf32 outsideViewOrigin){
     //test if it's not hided
     if(!this->hide){
         //Then draw
@@ -203,7 +204,7 @@ void edk::View::pause(){
 void edk::View::unpause(){
     //unpause the view
 }
-void View::updateAnimations(){
+void edk::View::updateAnimations(){
     bool success;
     if(!this->animationPosition.isPaused()){
         //clean the animatedFrame
@@ -228,7 +229,7 @@ void View::updateAnimations(){
         }
     }
 }
-void View::updateAnimations(edk::float32 seconds){
+void edk::View::updateAnimations(edk::float32 seconds){
     bool success;
     if(!this->animationPosition.isPaused()){
         //clean the animatedFrame
@@ -254,7 +255,7 @@ void View::updateAnimations(edk::float32 seconds){
     }
 }
 
-bool View::contact(edk::vec2f32 point,edk::uint8 state,edk::vector::Stack<edk::uint32>* buttons){
+bool edk::View::contact(edk::vec2f32 point,edk::uint8 state,edk::vector::Stack<edk::uint32>* buttons){
     if(this->pointInside(edk::vec2f32(point.x,point.y))){
         //
         this->mousePos = point - this->animatedFrame.origin;
@@ -305,7 +306,7 @@ bool View::contact(edk::vec2f32 point,edk::uint8 state,edk::vector::Stack<edk::u
     //else return false
     return false;
 }
-void View::contactRelease(edk::vec2f32 point,edk::uint8 state,edk::vector::Stack<edk::uint32>* buttons){
+void edk::View::contactRelease(edk::vec2f32 point,edk::uint8 state,edk::vector::Stack<edk::uint32>* buttons){
     //test if mouse was inside
     if(this->mouseInside){
         //run the function to mouse left
@@ -327,7 +328,7 @@ void View::contactRelease(edk::vec2f32 point,edk::uint8 state,edk::vector::Stack
 }
 
 //Events
-void View::eventMousePressed(edk::vec2f32 point,edk::uint32 button){
+void edk::View::eventMousePressed(edk::vec2f32 point,edk::uint32 button){
     if(point.x){
         //remove the warning
     }
@@ -389,7 +390,7 @@ void View::eventMousePressed(edk::vec2f32 point,edk::uint32 button){
         //
     }
 }
-void View::eventMouseMoved(edk::vec2f32 point,edk::uint32 button){
+void edk::View::eventMouseMoved(edk::vec2f32 point,edk::uint32 button){
     if(point.x){
         //remove the warning
     }
@@ -460,7 +461,7 @@ void View::eventMouseMoved(edk::vec2f32 point,edk::uint32 button){
         //
     }
 }
-void View::eventMouseReleased(edk::vec2f32 point,edk::uint32 button){
+void edk::View::eventMouseReleased(edk::vec2f32 point,edk::uint32 button){
     if(point.x){
         //remove the warning
     }
@@ -523,7 +524,7 @@ void View::eventMouseReleased(edk::vec2f32 point,edk::uint32 button){
     }
 }
 //Mouse go Inside Outside
-void View::eventMouseEntryInsideView(edk::vec2f32 point){
+void edk::View::eventMouseEntryInsideView(edk::vec2f32 point){
     if(point.x){
         //remove the warning
     }
@@ -535,7 +536,7 @@ void View::eventMouseEntryInsideView(edk::vec2f32 point){
            );
 */
 }
-void View::eventMouseLeftView(edk::vec2f32 point){
+void edk::View::eventMouseLeftView(edk::vec2f32 point){
     if(point.x){
         //remove the warning
     }
@@ -547,163 +548,163 @@ void View::eventMouseLeftView(edk::vec2f32 point){
            );
 */
 }
-void View::eventMouseMovingInsideView(edk::vec2f32){
+void edk::View::eventMouseMovingInsideView(edk::vec2f32){
     //
 }
 
 //ANIMATIONS
 //add a new position frame
-bool View::animationAddFrame(edk::float32 second, edk::float32 x,edk::float32 y){
+bool edk::View::animationAddFrame(edk::float32 second, edk::float32 x,edk::float32 y){
     //
     return this->animationAddFrame(second, edk::vec2f32(x,y));
 }
-bool View::animationAddFrame(edk::float32 second, edk::vec2f32 position){
+bool edk::View::animationAddFrame(edk::float32 second, edk::vec2f32 position){
     //
     return this->animationAddFrame(edk::animation::Frame2D(second, position.x,position.y));
 }
-bool View::animationAddFrame(edk::animation::Frame2D frame){
+bool edk::View::animationAddFrame(edk::animation::Frame2D frame){
     //add the new frame in animationPosition
     return this->animationPosition.addNewInterpolationLine(frame);
 }
 //clean animation
-void View::animationClean(){
+void edk::View::animationClean(){
     this->animationPosition.cleanAnimations();
 }
 //return if are playing
-bool View::animationIsPlaying(){
+bool edk::View::animationIsPlaying(){
     return this->animationPosition.isPlaying();
 }
 //Animation curve
 //Set one interpolation X as a curve
-bool View::animationSetInterpolationCurveX(edk::uint32 position){
+bool edk::View::animationSetInterpolationCurveX(edk::uint32 position){
     return this->animationPosition.setInterpolationCurveX(position);
 }
-bool View::animationSetInterpolationNotCurveX(edk::uint32 position){
+bool edk::View::animationSetInterpolationNotCurveX(edk::uint32 position){
     return this->animationPosition.setInterpolationNotCurveX(position);
 }
-bool View::animationGetInterpolationIsCurveX(edk::uint32 position){
+bool edk::View::animationGetInterpolationIsCurveX(edk::uint32 position){
     return this->animationPosition.getInterpolationIsCurveX(position);
 }
 //Set the interpolation curve points
-bool View::animationSetInterpolationP1X(edk::uint32 position,edk::float32 second,edk::float32 x){
+bool edk::View::animationSetInterpolationP1X(edk::uint32 position,edk::float32 second,edk::float32 x){
     return this->animationPosition.setInterpolationP1X(position,second,x);
 }
-bool View::animationSetInterpolationP2X(edk::uint32 position,edk::float32 second,edk::float32 x){
+bool edk::View::animationSetInterpolationP2X(edk::uint32 position,edk::float32 second,edk::float32 x){
     return this->animationPosition.setInterpolationP2X(position,second,x);
 }
 //Set one interpolation Y as a curve
-bool View::animationSetInterpolationCurveY(edk::uint32 position){
+bool edk::View::animationSetInterpolationCurveY(edk::uint32 position){
     return this->animationPosition.setInterpolationCurveY(position);
 }
-bool View::animationSetInterpolationNotCurveY(edk::uint32 position){
+bool edk::View::animationSetInterpolationNotCurveY(edk::uint32 position){
     return this->animationPosition.setInterpolationNotCurveY(position);
 }
-bool View::animationGetInterpolationIsCurveY(edk::uint32 position){
+bool edk::View::animationGetInterpolationIsCurveY(edk::uint32 position){
     return this->animationPosition.getInterpolationIsCurveY(position);
 }
 //Set the interpolation curve points
-bool View::animationSetInterpolationP1Y(edk::uint32 position,edk::float32 second,edk::float32 y){
+bool edk::View::animationSetInterpolationP1Y(edk::uint32 position,edk::float32 second,edk::float32 y){
     return this->animationPosition.setInterpolationP1Y(position,second,y);
 }
-bool View::animationSetInterpolationP2Y(edk::uint32 position,edk::float32 second,edk::float32 y){
+bool edk::View::animationSetInterpolationP2Y(edk::uint32 position,edk::float32 second,edk::float32 y){
     return this->animationPosition.setInterpolationP2Y(position,second,y);
 }
 //Position controls
-void View::animationPlayForward(){
+void edk::View::animationPlayForward(){
     //
     this->animationPosition.playForward();
 }
-void View::animationPlayForwardIn(edk::float32 second){
+void edk::View::animationPlayForwardIn(edk::float32 second){
     //
     this->animationPosition.playForwardIn(second);
 }
-void View::animationPlayRewind(){
+void edk::View::animationPlayRewind(){
     //
     this->animationPosition.playRewind();
 }
-void View::animationPlayRewindIn(edk::float32 second){
+void edk::View::animationPlayRewindIn(edk::float32 second){
     //
     this->animationPosition.playRewindIn(second);
 }
-void View::animationPause(){
+void edk::View::animationPause(){
     //
     this->animationPosition.pause();
 }
-void View::animationStop(){
+void edk::View::animationStop(){
     //
     this->animationPosition.stop();
 }
 //set loop
-void View::animationSetLoop(bool loop){
+void edk::View::animationSetLoop(bool loop){
     //
     this->animationPosition.setLoop(loop);
 }
-void View::animationLoopOn(){
+void edk::View::animationLoopOn(){
     //
     this->animationPosition.loopOn();
 }
-void View::animationLoopOff(){
+void edk::View::animationLoopOff(){
     //
     this->animationPosition.loopOff();
 }
 //AnimationNames
-bool View::animationAddAnimationName(const edk::char8* name,edk::float32 start,edk::float32 end){
+bool edk::View::animationAddAnimationName(const edk::char8* name,edk::float32 start,edk::float32 end){
     //
     return this->animationPosition.addNewAnimationName(name,start,end);
 }
-bool View::animationAddAnimationName(edk::char8* name,edk::float32 start,edk::float32 end){
+bool edk::View::animationAddAnimationName(edk::char8* name,edk::float32 start,edk::float32 end){
     //
     return this->animationPosition.addNewAnimationName(name,start,end);
 }
-bool View::animationPlayNameForward(const edk::char8* name){
+bool edk::View::animationPlayNameForward(const edk::char8* name){
     //
     return this->animationPosition.playNameForward(name);
 }
-bool View::animationPlayNameForward(edk::char8* name){
+bool edk::View::animationPlayNameForward(edk::char8* name){
     //
     return this->animationPosition.playNameForward(name);
 }
-bool View::animationPlayNameRewind(const edk::char8* name){
+bool edk::View::animationPlayNameRewind(const edk::char8* name){
     //
     return this->animationPosition.playNameRewind(name);
 }
-bool View::animationPlayNameRewind(edk::char8* name){
+bool edk::View::animationPlayNameRewind(edk::char8* name){
     //
     return this->animationPosition.playNameRewind(name);
 }
-void View::animationRemoveAnimationName(const edk::char8* name){
+void edk::View::animationRemoveAnimationName(const edk::char8* name){
     //
     this->animationPosition.removeAnimationName(name);
 }
-void View::animationRemoveAnimationName(edk::char8* name){
+void edk::View::animationRemoveAnimationName(edk::char8* name){
     //
     this->animationPosition.removeAnimationName(name);
 }
 //clean all animation Names
-void View::animationCleanAnimationNames(){
+void edk::View::animationCleanAnimationNames(){
     this->animationPosition.cleanAnimationNames();
 }
 //Print
-void View::animationPrintAnimation(){
+void edk::View::animationPrintAnimation(){
     //
     this->animationPosition.printFrames();
 }
 //Callback
-bool View::animationSetCallback(edk::animation::AnimationCallback* callback){
+bool edk::View::animationSetCallback(edk::animation::AnimationCallback* callback){
     return this->animationPosition.setAnimationCallback(callback);
 }
 //remove callback
-void View::animationRemoveCallback(){
+void edk::View::animationRemoveCallback(){
     this->animationPosition.removeAnimationCallback();
 }
 //test the animationPointer
-bool View::isThisAnimationPosition(edk::animation::InterpolationGroup* animation){
+bool edk::View::isThisAnimationPosition(edk::animation::InterpolationGroup* animation){
     if(animation == &this->animationPosition) return true;
     return false;
 }
 
 //test if a point is inside the view
-bool View::pointInside(edk::vec2f32 point){
+bool edk::View::pointInside(edk::vec2f32 point){
     //create a tempRectangleShape
     edk::shape::Rectangle2D temp;
     temp.setVertexPosition(0u,this->animatedFrame.origin);
@@ -713,31 +714,29 @@ bool View::pointInside(edk::vec2f32 point){
 }
 
 //Return if is leaf
-bool View::isLeaf(){
+bool edk::View::isLeaf(){
     //
     return true;
 }
 
 //return true if is a GUView
-bool View::isGU(){
+bool edk::View::isGU(){
     //return false
     return false;
 }
 //return true if is a buttonView
-bool View::isButton(){
+bool edk::View::isButton(){
     //
     return false;
 }
 
 //return true if the mouse is inside
-bool View::isMouseInside(){
+bool edk::View::isMouseInside(){
     return this->mouseInside;
 }
 
 //update the view
-void View::updateView(edk::WindowEvents* events){
+void edk::View::updateView(edk::WindowEvents* events){
     //update the view function
     this->runUpdate(events);
 }
-
-} /* End of namespace edk */

@@ -48,6 +48,18 @@ Create a multiple array
 
 */
 
+/*
+void updateElement(typeTemplate value){
+    //
+}
+void printElement(typeTemplate value){
+    //
+}
+void renderElement(typeTemplate value){
+    //
+}
+*/
+
 namespace edk{
 namespace vector{
 
@@ -452,7 +464,7 @@ public:
     }
     //UPDATE
     //update the objects inside the stack
-    bool update(){
+    virtual bool update(){
         edk::uint32 increment=0u;
         edk::vector::StackCel<typeTemplate> *temp=this->first;
         if(temp){
@@ -484,7 +496,7 @@ public:
         return false;
     }
     //print the objects inside the stack
-    bool print(){
+    virtual bool print(){
         edk::uint32 increment=0u;
         edk::vector::StackCel<typeTemplate> *temp=this->first;
         if(temp){
@@ -516,7 +528,7 @@ public:
         return false;
     }
     //render the objects inside the stack
-    bool render(){
+    virtual bool render(){
         edk::uint32 increment=0u;
         edk::vector::StackCel<typeTemplate> *temp=this->first;
         if(temp){

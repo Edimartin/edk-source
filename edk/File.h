@@ -35,7 +35,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/ioctl.h>
 #include <unistd.h>
+#include <fcntl.h>
+#include <errno.h>
+#include "NameClass.h"
 
 #ifdef _WIN32
     //Windows 32
@@ -84,57 +88,51 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     #endif
 #endif
 
-//#include "String.h"
-
 #ifdef printMessages
 #warning "    Compiling File"
 #endif
 
-namespace edk {
-
-class File {
-
+namespace edk{
+class File{
  public:
-
     File();
-
     ~File();
 
-    uint64 getFileSize();
+    edk::uint64 getFileSize();
 
-    bool openTextFile(char8 *name);
+    bool openTextFile(edk::char8 *name);
 
     bool openTextFile(const edk::char8 *name);
 
-    bool openBinFile(char8 *name);
+    bool openBinFile(edk::char8 *name);
 
     bool openBinFile(const edk::char8 *name);
 
-    bool openEndTextFile(char8 *name);
+    bool openEndTextFile(edk::char8 *name);
 
     bool openEndTextFile(const edk::char8 *name);
 
-    bool openEndBinFile(char8 *name);
+    bool openEndBinFile(edk::char8 *name);
 
     bool openEndBinFile(const edk::char8 *name);
 
     //PIPE
-    bool openPipe(char8 *name);
+    bool openPipe(edk::char8 *name);
     bool openPipe(const edk::char8 *name);
 
     void closeFile();
 
-    static bool deleteFile(char8 *name);
+    static bool deleteFile(edk::char8 *name);
 
     static bool deleteFile(const edk::char8 *name);
 
     bool deleteFile();
 
-    static bool renameFile(char8 *oldName, char8 *newName);
+    static bool renameFile(edk::char8 *oldName, edk::char8 *newName);
 
     static bool renameFile(const edk::char8 *oldName, const edk::char8 *newName);
 
-    static bool createFile(char8 *name);
+    static bool createFile(edk::char8 *name);
 
     static bool createFile(const edk::char8 *name);
 
@@ -142,82 +140,82 @@ class File {
     static bool isFile(edk::char8 *name);
     static bool isFile(const edk::char8 *name);
 
-    bool createAndOpenTextFile(char8 *name);
+    bool createAndOpenTextFile(edk::char8 *name);
 
     bool createAndOpenTextFile(const edk::char8 *name);
 
-    bool createAndOpenBinFile(char8 *name);
+    bool createAndOpenBinFile(edk::char8 *name);
 
     bool createAndOpenBinFile(const edk::char8 *name);
 
     //PIPE
-    bool createAndOpenPipe(char8* name);
+    bool createAndOpenPipe(edk::char8* name);
     bool createAndOpenPipe(const edk::char8* name);
 
-    static bool fileExist(char8 *name);
+    static bool fileExist(edk::char8 *name);
 
     static bool fileExist(const edk::char8 *name);
 
     bool readEnd();
     bool endOfFile();
 
-    bool writeText(char8 c);
+    bool writeText(edk::char8 c);
 
-    bool writeText(char8 *str);
+    bool writeText(edk::char8 *str);
 
     bool writeText(const edk::char8 *str);
 
-    bool writeText(int8 n);
+    bool writeText(edk::int8 n);
 
-    bool writeText(uint8 n);
+    bool writeText(edk::uint8 n);
 
-    bool writeText(int16 n);
+    bool writeText(edk::int16 n);
 
-    bool writeText(uint16 n);
+    bool writeText(edk::uint16 n);
 
-    bool writeText(int32 n);
+    bool writeText(edk::int32 n);
 
-    bool writeText(uint32 n);
+    bool writeText(edk::uint32 n);
 
-    bool writeText(int64 n);
+    bool writeText(edk::int64 n);
 
-    bool writeText(uint64 n);
+    bool writeText(edk::uint64 n);
 
     bool writeText(edk::float32 f);
 
     bool writeText(edk::float64 f);
 
-    bool writeBin(classID w, edk::uint32 size);
+    bool writeBin(edk::classID w, edk::uint32 size);
 
-    bool writeBin(char8 c);
+    bool writeBin(edk::char8 c);
 
-    bool writeBin(char8 *str);
+    bool writeBin(edk::char8 *str);
 
     bool writeBin(const edk::char8 *str);
 
-    bool writeBin(int8 n);
+    bool writeBin(edk::int8 n);
 
-    bool writeBin(int8 *n);
+    bool writeBin(edk::int8 *n);
 
-    bool writeBin(uint8 n);
+    bool writeBin(edk::uint8 n);
 
-    bool writeBin(uint8 *n);
+    bool writeBin(edk::uint8 *n);
 
-    bool writeBin(int16 n);
+    bool writeBin(edk::int16 n);
 
-    bool writeBin(int16 *n);
+    bool writeBin(edk::int16 *n);
 
-    bool writeBin(uint16 n);
+    bool writeBin(edk::uint16 n);
 
-    bool writeBin(uint16 *n);
+    bool writeBin(edk::uint16 *n);
 
-    bool writeBin(int32 n);
+    bool writeBin(edk::int32 n);
 
-    bool writeBin(int32 *n);
+    bool writeBin(edk::int32 *n);
 
-    bool writeBin(uint32 n);
+    bool writeBin(edk::uint32 n);
 
-    bool writeBin(uint32 *n);
+    bool writeBin(edk::uint32 *n);
 
     bool writeBin(edk::float32 f);
 
@@ -227,9 +225,9 @@ class File {
 
     bool writeBin(edk::uint64 *n);
 
-    bool writeBin(int64 n);
+    bool writeBin(edk::int64 n);
 
-    bool writeBin(int64 *n);
+    bool writeBin(edk::int64 *n);
 
     bool writeBin(edk::float64 f);
 
@@ -239,87 +237,87 @@ class File {
 
     bool writeBin(bool *b);
 
-    char8 readTextChar();
+    edk::char8 readTextChar();
 
-    char8* readTextString(edk::uint32 limit, bool use = false);
+    edk::char8* readTextString(edk::uint32 limit, bool use = false);
 
-    char8* readTextString(edk::uint64 limit, bool use = false);
+    edk::char8* readTextString(edk::uint64 limit, bool use = false);
 
-    char8* readTextString(edk::uint8 limit = 0u, bool use = false);
+    edk::char8* readTextString(edk::uint8 limit = 0u, bool use = false);
 
-    char8* readTextString(char8 limit, bool use = false);
+    edk::char8* readTextString(edk::char8 limit, bool use = false);
 
-    char8* readTextString(char8 *limits, bool use = false);
+    edk::char8* readTextString(edk::char8 *limits, bool use = false);
 
-    char8* readTextString(const edk::char8 *limits, bool use = false);
+    edk::char8* readTextString(const edk::char8 *limits, bool use = false);
 
     //read to a string
-    bool readTextString(char8 *str,edk::uint64 size);
+    bool readTextString(edk::char8 *str,edk::uint64 size);
 
-    int32 readTextInt();
+    edk::int32 readTextInt();
 
-    uint32 readTextUInt();
+    edk::uint32 readTextUInt();
 
     edk::float32 readTextFloat();
 
-    classID readBin(uint64 size);
+    edk::classID readBin(edk::uint64 size);
 
-    edk::uint64 readBin(classID vec,uint64 size);
+    edk::uint64 readBin(edk::classID vec,edk::uint64 size);
 
-    char8 readBinChar();
+    edk::char8 readBinChar();
 
-    char8* readBinString(char64 size);
+    edk::char8* readBinString(edk::char64 size);
 
-    char8* readBinString(char8 limit, bool use = false);
+    edk::char8* readBinString(edk::char8 limit, bool use = false);
 
-    char8* readBinString(char8 *limits, bool use = false);
+    edk::char8* readBinString(edk::char8 *limits, bool use = false);
 
-    char8* readBinString(const edk::char8 *limits, bool use = false);
+    edk::char8* readBinString(const edk::char8 *limits, bool use = false);
 
     //read to a string
-    edk::uint64 readBinString(char8 *str,edk::uint64 size);
+    edk::uint64 readBinString(edk::char8 *str,edk::uint64 size);
 
-    int8 readBinInt8();
+    edk::int8 readBinInt8();
 
-    int8* readBinInt8(int64 size);
+    edk::int8* readBinInt8(edk::int64 size);
 
-    uint8 readBinUInt8();
+    edk::uint8 readBinUInt8();
 
-    uint8* readBinUint8(uint64 size);
+    edk::uint8* readBinUint8(edk::uint64 size);
 
-    int16 readBinInt16();
+    edk::int16 readBinInt16();
 
-    int16* readBinInt16(int16 size);
+    edk::int16* readBinInt16(edk::int16 size);
 
-    uint16 readBinUInt16();
+    edk::uint16 readBinUInt16();
 
-    uint16* readBinUint16(uint16 size);
+    edk::uint16* readBinUint16(edk::uint16 size);
 
-    int32 readBinInt32();
+    edk::int32 readBinInt32();
 
-    int32* readBinInt32(int64 size);
+    edk::int32* readBinInt32(edk::int64 size);
 
-    uint32 readBinUInt32();
+    edk::uint32 readBinUInt32();
 
-    uint32* readBinUint32(uint64 size);
+    edk::uint32* readBinUint32(edk::uint64 size);
 
-    int64 readBinInt64();
+    edk::int64 readBinInt64();
 
-    int64* readBinInt64(int64 size);
+    edk::int64* readBinInt64(edk::int64 size);
 
-    uint64 readBinUInt64();
+    edk::uint64 readBinUInt64();
 
-    uint64* readBinUint64(uint64 size);
+    edk::uint64* readBinUint64(edk::uint64 size);
 
     edk::float32 readBinFloat();
 
-    edk::float32* readBinFloat(int64 size);
+    edk::float32* readBinFloat(edk::int64 size);
 
-    int64 readBinLongInt();
+    edk::int64 readBinLongInt();
 
-    int64* readBinLongInt(int64 size);
+    edk::int64* readBinLongInt(edk::int64 size);
 
-    char8* getName();
+    edk::char8* getName();
 
     //SEEK the file
     bool seek(edk::uint32 bytes);
@@ -361,6 +359,40 @@ class File {
 
     //name of the file.
     edk::char8 *name;
+};
+//Class fileStream to read some stream from a file
+class FileStream{
+public:
+    FileStream();
+    ~FileStream();
+
+    bool openFileStream(edk::char8* name);
+    bool openFileStream(const edk::char8* name);
+    bool openFileStreamNonBlock(edk::char8* name);
+    bool openFileStreamNonBlock(const edk::char8* name);
+    void closeFileStream();
+
+    edk::int64 readVec(edk::classID vec,edk::uint64 size);
+    edk::int64 readVec(edk::classID vec,edk::uint32 size);
+    edk::char8 readChar8();
+    edk::uchar8 readUChar8();
+    edk::int8 readInt8();
+    edk::uint8 readUInt8();
+    edk::int16 readInt16();
+    edk::uint16 readUInt16();
+    edk::int32 readInt32();
+    edk::uint32 readUInt32();
+    edk::float32 readFloat32();
+    edk::float64 readFloat64();
+
+    edk::int32 ioControl(edk::uint32 __request,void* value);
+
+    edk::char8* getName();
+
+    bool isOpened();
+private:
+    edk::int32 arq;
+    edk::Name name;
 };
 
 } /* End of namespace edk */

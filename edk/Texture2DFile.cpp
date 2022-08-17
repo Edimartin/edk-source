@@ -28,8 +28,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #warning "            Inside Texture2DFile.cpp"
 #endif
 
-using namespace edk;
-
 edk::Texture2DFile::Texture2DFile()
 {
     //ctor

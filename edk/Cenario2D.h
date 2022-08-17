@@ -146,10 +146,14 @@ public:
     //return the depth of the physic object
     edk::float32 getPhysicObjectDepth(edk::uint32 levelPosition,edk::uint32 position);
     edk::float32 getPhysicObjectDepth(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj);
-    //load the physicsObjects
+    //load the physicsObjects to the world
     bool loadPhysicObjectToWorld(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj);
     bool loadPhysicObjectsToWorld(edk::uint32 levelPosition);
     bool loadPhysicObjectsToWorld();
+    //unload the physicsObjects from the world
+    bool unloadPhysicObjectFromWorld(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj);
+    bool unloadPhysicObjectsFromWorld(edk::uint32 levelPosition);
+    bool unloadPhysicObjectsFromWorld();
     //delete the object
     bool deletePhysicObject(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj);
     void deleteAllPhysicObjects(edk::uint32 levelPosition);

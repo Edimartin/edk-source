@@ -2507,6 +2507,62 @@ bool edk::Cenario2D::loadPhysicObjectsToWorld(){
     }
     return ret;
 }
+//unload the physicsObjects from the world
+bool edk::Cenario2D::unloadPhysicObjectFromWorld(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj){
+    if(levelPosition){
+        levelPosition--;
+        //load the level
+        if(obj){
+            if(this->levels.havePos(levelPosition)){
+                edk::Cenario2D::LevelObj* level =this->levels[levelPosition];
+                if(level){
+                    if(level->objsPhys){
+                        this->treeAnimPhys.remove(obj);
+                        //remove from world
+                        this->world.removeObject(obj);
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
+bool edk::Cenario2D::unloadPhysicObjectsFromWorld(edk::uint32 levelPosition){
+    if(levelPosition){
+        levelPosition--;
+        //load the level
+        if(this->levels.havePos(levelPosition)){
+            edk::Cenario2D::LevelObj* level =this->levels[levelPosition];
+            if(level){
+                if(level->objsPhys){
+                    edk::uint32 size = level->objsPhys->size();
+                    for(edk::uint32 i=0u;i<size;i++){
+                        this->treeAnimPhys.remove((edk::physics2D::PhysicObject2D*)level->objsPhys->getObjectInPosition(i));
+                        //remove from worlf
+                        this->world.removeObject((edk::physics2D::PhysicObject2D*)level->objsPhys->getObjectInPosition(i));
+                    }
+                }
+            }
+        }
+    }
+}
+bool edk::Cenario2D::unloadPhysicObjectsFromWorld(){
+    edk::uint32 size = this->levels.size();
+    edk::Cenario2D::LevelObj* level = NULL;
+    for(edk::uint32 i=0u;i<size;i++){
+        level = this->levels[i];
+        if(level){
+            if(level->objsPhys){
+                //remove the objPhys from world
+                edk::uint32 sizePhys = level->objsPhys->size();
+                for(edk::uint32 j=0u;j<sizePhys;j++){
+                    this->world.removeObject((edk::physics2D::PhysicObject2D*)level->objsPhys->getObjectInPosition(j));
+                }
+            }
+        }
+    }
+}
 
 //delete the object
 bool edk::Cenario2D::deletePhysicObject(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj){
@@ -3374,6 +3430,13 @@ bool edk::Cenario2D::writeToXML(edk::XML* xml,edk::uint32 id){
                 //create the name
                 if(xml->addSelectedNextChild(name)){
                     if(xml->selectChild(name)){
+                        if(xml->addSelectedNextChild("meters")){
+                            if(xml->selectChild("meters")){
+                                xml->setSelectedString(this->world.getMeterDistance());
+                                xml->selectFather();
+                            }
+                        }
+
                         //write the tileSet
                         this->tileSet.writeToXML(xml,0u);
 
@@ -3735,6 +3798,11 @@ bool edk::Cenario2D::readFromXML(edk::XML* xml,edk::uint32 id){
                     edk::char8* nameTemp;
                     edk::char8* idTemp;
                     edk::char8* temp;
+
+                    if(xml->selectChild("meters")){
+                        this->world.setMeterDistance(xml->getSelectedStringAsFloat32());
+                        xml->selectFather();
+                    }
 
                     //read tileSet
                     this->tileSet.readFromXML(xml,0u);
@@ -4105,6 +4173,11 @@ bool edk::Cenario2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* 
                     edk::char8* nameTemp;
                     edk::char8* idTemp;
                     edk::char8* temp;
+
+                    if(xml->selectChild("meters")){
+                        this->world.setMeterDistance(xml->getSelectedStringAsFloat32());
+                        xml->selectFather();
+                    }
 
                     //read tileSet
                     this->tileSet.readFromXMLFromPack(pack,xml,0u);

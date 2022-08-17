@@ -28,8 +28,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #warning "            Inside File.cpp"
 #endif
 
-namespace edk {
-
 //Test if the edk::char8 is equal to some characters
 bool testLimits(edk::char8 c,edk::char8* limits){
     //
@@ -48,7 +46,7 @@ bool testLimits(edk::char8 c,edk::char8* limits){
 }
 
 //Read the string from the file
-edk::char8* File::readStringFromTheFile(FILE* arq,edk::char8 limit,edk::uint32 count,bool use){
+edk::char8* edk::File::readStringFromTheFile(FILE* arq,edk::char8 limit,edk::uint32 count,bool use){
     //First read the next character
     edk::char8 temp = '\0';
 
@@ -161,7 +159,7 @@ edk::char8* File::readStringFromTheFile(FILE* arq,edk::char8 limit,edk::uint32 c
     //return the ret string
     return ret;
 }
-edk::char8* File::readStringFromTheFile(FILE* arq,edk::char8* limits,edk::uint32 count,bool use){
+edk::char8* edk::File::readStringFromTheFile(FILE* arq,edk::char8* limits,edk::uint32 count,bool use){
 
     //First read the next character
     edk::char8 temp = '\0';
@@ -275,7 +273,7 @@ edk::char8* File::readStringFromTheFile(FILE* arq,edk::char8* limits,edk::uint32
     //return the ret string
     return ret;
 }
-edk::char8* File::readStringFromTheBinFile(FILE* arq,edk::char8 limit,edk::uint32 count,bool use){
+edk::char8* edk::File::readStringFromTheBinFile(FILE* arq,edk::char8 limit,edk::uint32 count,bool use){
     //First read the next character
     edk::char8 temp = '\0';
 
@@ -337,7 +335,7 @@ edk::char8* File::readStringFromTheBinFile(FILE* arq,edk::char8 limit,edk::uint3
     //return the ret string
     return ret;
 }
-edk::char8* File::readStringFromTheBinFile(FILE* arq,edk::char8* limits,edk::uint32 count,bool use){
+edk::char8* edk::File::readStringFromTheBinFile(FILE* arq,edk::char8* limits,edk::uint32 count,bool use){
 
     //First read the next character
     edk::char8 temp = '\0';
@@ -406,19 +404,19 @@ edk::char8* File::readStringFromTheBinFile(FILE* arq,edk::char8* limits,edk::uin
 
 
 
-File::File(){
+edk::File::File(){
     //clean the atributes
     this->arq=NULL;
     this->name=NULL;
     this->size=0u;
 }
 
-File::~File(){
+edk::File::~File(){
     //close the file
     this->closeFile();
 }
 
-uint64 File::getFileSize(){
+edk::uint64 edk::File::getFileSize(){
     if(this->isOpened()){
         //if(!this->size){
             //load fileSize
@@ -432,7 +430,7 @@ uint64 File::getFileSize(){
     return 0u;
 }
 
-bool File::openTextFile(char8 *name){
+bool edk::File::openTextFile(edk::char8 *name){
     //Close the file
     this->closeFile();
 
@@ -515,11 +513,11 @@ bool File::openTextFile(char8 *name){
     return false;
 }
 
-bool File::openTextFile(const edk::char8 *name){
+bool edk::File::openTextFile(const edk::char8 *name){
     return this->openTextFile((edk::char8*)name);
 }
 
-bool File::openBinFile(char8 *name){
+bool edk::File::openBinFile(edk::char8 *name){
     //Close the file
     this->closeFile();
 
@@ -602,11 +600,11 @@ bool File::openBinFile(char8 *name){
     return false;
 }
 
-bool File::openBinFile(const edk::char8 *name){
+bool edk::File::openBinFile(const edk::char8 *name){
     return this->openBinFile((edk::char8*)name);
 }
 
-bool File::openEndTextFile(char8 *name){
+bool edk::File::openEndTextFile(edk::char8 *name){
     //Close the file
     this->closeFile();
 
@@ -689,11 +687,11 @@ bool File::openEndTextFile(char8 *name){
     return false;
 }
 
-bool File::openEndTextFile(const edk::char8 *name){
+bool edk::File::openEndTextFile(const edk::char8 *name){
     return this->openEndTextFile((edk::char8 *)name);
 }
 
-bool File::openEndBinFile(char8 *name){
+bool edk::File::openEndBinFile(edk::char8 *name){
     //Close the file
     this->closeFile();
 
@@ -776,12 +774,12 @@ bool File::openEndBinFile(char8 *name){
     return false;
 }
 
-bool File::openEndBinFile(const edk::char8 *name){
+bool edk::File::openEndBinFile(const edk::char8 *name){
     return this->openEndBinFile((edk::char8*)name);
 }
 
 //PIPE
-bool File::openPipe(char8 *name){
+bool edk::File::openPipe(edk::char8 *name){
     //Close the file
     this->closeFile();
 
@@ -863,11 +861,11 @@ bool File::openPipe(char8 *name){
     }
     return false;
 }
-bool File::openPipe(const edk::char8 *name){
-    return this->openPipe((char8 *)name);
+bool edk::File::openPipe(const edk::char8 *name){
+    return this->openPipe((edk::char8 *)name);
 }
 
-void File::closeFile(){
+void edk::File::closeFile(){
     //Test if the file is opened
     if(this->isOpened()){
         //Then close the file
@@ -885,7 +883,7 @@ void File::closeFile(){
     this->name=NULL;
 }
 
-bool File::deleteFile(char8 *name){
+bool edk::File::deleteFile(edk::char8 *name){
     //To delete the file we use the Remove
     if((const edk::char8*)name){
         //
@@ -897,11 +895,11 @@ bool File::deleteFile(char8 *name){
     return false;
 }
 
-bool File::deleteFile(const edk::char8 *name){
+bool edk::File::deleteFile(const edk::char8 *name){
     return deleteFile((edk::char8 *)name);
 }
 
-bool File::deleteFile(){
+bool edk::File::deleteFile(){
     //Test if the file is opened
     if(this->isOpened()){
         //copy the name of the file
@@ -928,7 +926,7 @@ bool File::deleteFile(){
     return false;
 }
 
-bool File::renameFile(char8 *oldName, char8 *newName){
+bool edk::File::renameFile(edk::char8 *oldName, edk::char8 *newName){
     //Test if the names is valid
     if(oldName && newName){
         //Then try rename the file
@@ -940,11 +938,11 @@ bool File::renameFile(char8 *oldName, char8 *newName){
     return false;
 }
 
-bool File::renameFile(const edk::char8 *oldName, const edk::char8 *newName){
+bool edk::File::renameFile(const edk::char8 *oldName, const edk::char8 *newName){
     return renameFile((edk::char8 *)oldName, (edk::char8 *)newName);
 }
 
-bool File::createFile(char8 *name){
+bool edk::File::createFile(edk::char8 *name){
     //Use a file
     FILE *tempArq=NULL;
 
@@ -1018,12 +1016,12 @@ bool File::createFile(char8 *name){
     return false;
 }
 
-bool File::createFile(const edk::char8 *name){
+bool edk::File::createFile(const edk::char8 *name){
     return createFile((edk::char8 *)name);
 }
 
 //return true if is a file
-bool File::isFile(edk::char8 *name){
+bool edk::File::isFile(edk::char8 *name){
     if(name){
         struct stat path_stat;
         stat(name, &path_stat);
@@ -1031,12 +1029,12 @@ bool File::isFile(edk::char8 *name){
     }
     return false;
 }
-bool File::isFile(const edk::char8* name){
+bool edk::File::isFile(const edk::char8* name){
     //
     return edk::File::isFile((edk::char8*)name);
 }
 
-bool File::createAndOpenTextFile(char8 *name){
+bool edk::File::createAndOpenTextFile(edk::char8 *name){
     //Close the file
     this->closeFile();
 
@@ -1111,11 +1109,11 @@ bool File::createAndOpenTextFile(char8 *name){
     return false;
 }
 
-bool File::createAndOpenTextFile(const edk::char8 *name){
+bool edk::File::createAndOpenTextFile(const edk::char8 *name){
     return createAndOpenTextFile((edk::char8 *)name);
 }
 
-bool File::createAndOpenBinFile(char8 *name){
+bool edk::File::createAndOpenBinFile(edk::char8 *name){
     //Close the file
     this->closeFile();
 
@@ -1190,12 +1188,12 @@ bool File::createAndOpenBinFile(char8 *name){
     return false;
 }
 
-bool File::createAndOpenBinFile(const edk::char8 *name){
+bool edk::File::createAndOpenBinFile(const edk::char8 *name){
     return createAndOpenBinFile((edk::char8 *)name);
 }
 
 //PIPE
-bool File::createAndOpenPipe(char8* name){
+bool edk::File::createAndOpenPipe(edk::char8* name){
     //Close the file
     this->closeFile();
 
@@ -1277,11 +1275,11 @@ bool File::createAndOpenPipe(char8* name){
     }
     return false;
 }
-bool File::createAndOpenPipe(const edk::char8* name){
-    return this->createAndOpenPipe((char8*) name);
+bool edk::File::createAndOpenPipe(const edk::char8* name){
+    return this->createAndOpenPipe((edk::char8*) name);
 }
 
-bool File::fileExist(char8 *name){
+bool edk::File::fileExist(edk::char8 *name){
     //create a tempFile
     FILE *tempArq=NULL;
     //Test the name
@@ -1353,11 +1351,11 @@ bool File::fileExist(char8 *name){
     return false;
 }
 
-bool File::fileExist(const edk::char8 *name){
+bool edk::File::fileExist(const edk::char8 *name){
     return fileExist((edk::char8 *)name);
 }
 
-bool File::readEnd(){
+bool edk::File::readEnd(){
     //Test if the file reading get the end of the file
 
     //Test if the file is opened
@@ -1371,11 +1369,11 @@ bool File::readEnd(){
     //Else return false
     return false;
 }
-bool File::endOfFile(){
+bool edk::File::endOfFile(){
     return this->readEnd();
 }
 
-bool File::writeText(char8 c){
+bool edk::File::writeText(edk::char8 c){
     //Test if the file is opened
     if(this->isOpened()){
         //Then write in the file
@@ -1386,7 +1384,7 @@ bool File::writeText(char8 c){
     return false;
 }
 
-bool File::writeText(char8 *str){
+bool edk::File::writeText(edk::char8 *str){
     //Test if the file is opened and if the string is true
     if(this->isOpened() && str){
         //Then write in the file
@@ -1397,11 +1395,11 @@ bool File::writeText(char8 *str){
     return false;
 }
 
-bool File::writeText(const edk::char8 *str){
+bool edk::File::writeText(const edk::char8 *str){
     return writeText((edk::char8 *)str);
 }
 
-bool File::writeText(int8 n){
+bool edk::File::writeText(edk::int8 n){
     //Test if the file is opened
     if(this->isOpened()){
         //Then write in the file
@@ -1412,7 +1410,7 @@ bool File::writeText(int8 n){
     return false;
 }
 
-bool File::writeText(uint8 n){
+bool edk::File::writeText(edk::uint8 n){
     //Test if the file is opened
     if(this->isOpened()){
         //Then write in the file
@@ -1423,7 +1421,7 @@ bool File::writeText(uint8 n){
     return false;
 }
 
-bool File::writeText(int16 n){
+bool edk::File::writeText(edk::int16 n){
     //Test if the file is opened
     if(this->isOpened()){
         //Then write in the file
@@ -1434,7 +1432,7 @@ bool File::writeText(int16 n){
     return false;
 }
 
-bool File::writeText(uint16 n){
+bool edk::File::writeText(edk::uint16 n){
     //Test if the file is opened
     if(this->isOpened()){
         //Then write in the file
@@ -1445,7 +1443,7 @@ bool File::writeText(uint16 n){
     return false;
 }
 
-bool File::writeText(int32 n){
+bool edk::File::writeText(edk::int32 n){
     //Test if the file is opened
     if(this->isOpened()){
         //Then write in the file
@@ -1456,7 +1454,7 @@ bool File::writeText(int32 n){
     return false;
 }
 
-bool File::writeText(uint32 n){
+bool edk::File::writeText(edk::uint32 n){
     //Test if the file is opened
     if(this->isOpened()){
         //Then write in the file
@@ -1467,7 +1465,7 @@ bool File::writeText(uint32 n){
     return false;
 }
 
-bool File::writeText(int64 n){
+bool edk::File::writeText(edk::int64 n){
     //Test if the file is opened
     if(this->isOpened()){
         //Then write in the file
@@ -1478,7 +1476,7 @@ bool File::writeText(int64 n){
     return false;
 }
 
-bool File::writeText(uint64 n){
+bool edk::File::writeText(edk::uint64 n){
     //Test if the file is opened
     if(this->isOpened()){
         //Then write in the file
@@ -1489,7 +1487,7 @@ bool File::writeText(uint64 n){
     return false;
 }
 
-bool File::writeText(edk::float32 f){
+bool edk::File::writeText(edk::float32 f){
     //Test if the file is opened
     if(this->isOpened()){
         //Then write in the file
@@ -1500,7 +1498,7 @@ bool File::writeText(edk::float32 f){
     return false;
 }
 
-bool File::writeText(edk::float64 f){
+bool edk::File::writeText(edk::float64 f){
     //Test if the file is opened
     if(this->isOpened()){
         //Then write in the file
@@ -1511,7 +1509,7 @@ bool File::writeText(edk::float64 f){
     return false;
 }
 
-bool File::writeBin(classID w, edk::uint32 size){
+bool edk::File::writeBin(edk::classID w, edk::uint32 size){
     //test if the file is opened and if the w is true and the size is >1u
     if(this->isOpened() && w && size){
         //
@@ -1523,7 +1521,7 @@ bool File::writeBin(classID w, edk::uint32 size){
     return false;
 }
 
-bool File::writeBin(char8 c){
+bool edk::File::writeBin(edk::char8 c){
     //test if the file is opened
     if(this->isOpened()){
         //
@@ -1535,7 +1533,7 @@ bool File::writeBin(char8 c){
     return false;
 }
 
-bool File::writeBin(char8 *str){
+bool edk::File::writeBin(edk::char8 *str){
     //test if the file is opened and if the str is true and the size is >1u
     if(this->isOpened() && str){
         //
@@ -1547,11 +1545,11 @@ bool File::writeBin(char8 *str){
     return false;
 }
 
-bool File::writeBin(const edk::char8 *str){
+bool edk::File::writeBin(const edk::char8 *str){
     return writeBin((edk::char8 *)str);
 }
 
-bool File::writeBin(int8 n){
+bool edk::File::writeBin(edk::int8 n){
     //test if the file is opened
     if(this->isOpened()){
         //
@@ -1563,7 +1561,7 @@ bool File::writeBin(int8 n){
     return false;
 }
 
-bool File::writeBin(int8 *n){
+bool edk::File::writeBin(edk::int8 *n){
     //test if the file is opened and if the n is true and the size is >1u
     if(this->isOpened() && n){
         //
@@ -1575,7 +1573,7 @@ bool File::writeBin(int8 *n){
     return false;
 }
 
-bool File::writeBin(uint8 n){
+bool edk::File::writeBin(edk::uint8 n){
     //test if the file is opened
     if(this->isOpened()){
         //
@@ -1587,7 +1585,7 @@ bool File::writeBin(uint8 n){
     return false;
 }
 
-bool File::writeBin(uint8 *n){
+bool edk::File::writeBin(edk::uint8 *n){
     //test if the file is opened and if the n is true and the size is >1u
     if(this->isOpened() && n){
         //
@@ -1599,7 +1597,7 @@ bool File::writeBin(uint8 *n){
     return false;
 }
 
-bool File::writeBin(int16 n){
+bool edk::File::writeBin(edk::int16 n){
     //test if the file is opened
     if(this->isOpened()){
         //
@@ -1611,7 +1609,7 @@ bool File::writeBin(int16 n){
     return false;
 }
 
-bool File::writeBin(int16 *n){
+bool edk::File::writeBin(edk::int16 *n){
     //test if the file is opened and if the n is true and the size is >1u
     if(this->isOpened() && n){
         //
@@ -1623,7 +1621,7 @@ bool File::writeBin(int16 *n){
     return false;
 }
 
-bool File::writeBin(uint16 n){
+bool edk::File::writeBin(edk::uint16 n){
     //test if the file is opened
     if(this->isOpened()){
         //
@@ -1635,7 +1633,7 @@ bool File::writeBin(uint16 n){
     return false;
 }
 
-bool File::writeBin(uint16 *n){
+bool edk::File::writeBin(edk::uint16 *n){
     //test if the file is opened and if the n is true and the size is >1u
     if(this->isOpened() && n){
         //
@@ -1647,7 +1645,7 @@ bool File::writeBin(uint16 *n){
     return false;
 }
 
-bool File::writeBin(int32 n){
+bool edk::File::writeBin(edk::int32 n){
     //test if the file is opened
     if(this->isOpened()){
         //
@@ -1659,7 +1657,7 @@ bool File::writeBin(int32 n){
     return false;
 }
 
-bool File::writeBin(int32 *n){
+bool edk::File::writeBin(edk::int32 *n){
     //test if the file is opened and if the n is true and the size is >1u
     if(this->isOpened() && n){
         //
@@ -1671,7 +1669,7 @@ bool File::writeBin(int32 *n){
     return false;
 }
 
-bool File::writeBin(uint32 n){
+bool edk::File::writeBin(edk::uint32 n){
     //test if the file is opened
     if(this->isOpened()){
         //
@@ -1683,7 +1681,7 @@ bool File::writeBin(uint32 n){
     return false;
 }
 
-bool File::writeBin(uint32 *n){
+bool edk::File::writeBin(edk::uint32 *n){
     //test if the file is opened and if the n is true and the size is >1u
     if(this->isOpened() && n){
         //
@@ -1695,7 +1693,7 @@ bool File::writeBin(uint32 *n){
     return false;
 }
 
-bool File::writeBin(edk::float32 f){
+bool edk::File::writeBin(edk::float32 f){
     //test if the file is opened
     if(this->isOpened()){
         //
@@ -1707,7 +1705,7 @@ bool File::writeBin(edk::float32 f){
     return false;
 }
 
-bool File::writeBin(edk::float32* f){
+bool edk::File::writeBin(edk::float32* f){
     //test if the file is opened and if the n is true and the size is >1u
     if(this->isOpened() && f){
         //
@@ -1719,7 +1717,7 @@ bool File::writeBin(edk::float32* f){
     return false;
 }
 
-bool File::writeBin(edk::uint64 n){
+bool edk::File::writeBin(edk::uint64 n){
     //test if the file is opened
     if(this->isOpened()){
         //
@@ -1731,7 +1729,7 @@ bool File::writeBin(edk::uint64 n){
     return false;
 }
 
-bool File::writeBin(edk::uint64 *n){
+bool edk::File::writeBin(edk::uint64 *n){
     //test if the file is opened and if the n is true and the size is >1u
     if(this->isOpened() && n){
         //
@@ -1743,7 +1741,7 @@ bool File::writeBin(edk::uint64 *n){
     return false;
 }
 
-bool File::writeBin(int64 n){
+bool edk::File::writeBin(edk::int64 n){
     //test if the file is opened
     if(this->isOpened()){
         //
@@ -1755,7 +1753,7 @@ bool File::writeBin(int64 n){
     return false;
 }
 
-bool File::writeBin(int64 *n){
+bool edk::File::writeBin(edk::int64 *n){
     //test if the file is opened and if the n is true and the size is >1u
     if(this->isOpened() && n){
         //
@@ -1767,7 +1765,7 @@ bool File::writeBin(int64 *n){
     return false;
 }
 
-bool File::writeBin(edk::float64 f){
+bool edk::File::writeBin(edk::float64 f){
     //test if the file is opened
     if(this->isOpened()){
         //
@@ -1779,7 +1777,7 @@ bool File::writeBin(edk::float64 f){
     return false;
 }
 
-bool File::writeBin(edk::float64 *f){
+bool edk::File::writeBin(edk::float64 *f){
     //test if the file is opened and if the n is true and the size is >1u
     if(this->isOpened() && f){
         //
@@ -1791,7 +1789,7 @@ bool File::writeBin(edk::float64 *f){
     return false;
 }
 
-bool File::writeBin(bool b){
+bool edk::File::writeBin(bool b){
     //test if the file is opened
     if(this->isOpened()){
         //
@@ -1803,7 +1801,7 @@ bool File::writeBin(bool b){
     return false;
 }
 
-bool File::writeBin(bool *b){
+bool edk::File::writeBin(bool *b){
     //test if the file is opened and if the n is true and the size is >1u
     if(this->isOpened() && b){
         //
@@ -1815,7 +1813,7 @@ bool File::writeBin(bool *b){
     return false;
 }
 
-char8 File::readTextChar(){
+edk::char8 edk::File::readTextChar(){
     //create the text
     edk::char8 c=0u;
     //Test if the file is openned
@@ -1879,17 +1877,17 @@ char8 File::readTextChar(){
     return c;
 }
 
-char8* File::readTextString(edk::uint32 limit, bool use){
-    return this->readTextString((char8) limit, use);
+edk::char8* edk::File::readTextString(edk::uint32 limit, bool use){
+    return this->readTextString((edk::char8) limit, use);
 }
-char8* File::readTextString(edk::uint64 limit, bool use){
-    return this->readTextString((char8) limit, use);
+edk::char8* edk::File::readTextString(edk::uint64 limit, bool use){
+    return this->readTextString((edk::char8) limit, use);
 }
-char8* File::readTextString(edk::uint8 limit, bool use){
-    return this->readTextString((char8) limit, use);
+edk::char8* edk::File::readTextString(edk::uint8 limit, bool use){
+    return this->readTextString((edk::char8) limit, use);
 }
 
-char8* File::readTextString(char8 limit, bool use){
+edk::char8* edk::File::readTextString(edk::char8 limit, bool use){
     //test if the file os opened
     if(this->isOpened()){
         //read the string
@@ -1899,7 +1897,7 @@ char8* File::readTextString(char8 limit, bool use){
     return NULL;
 }
 
-char8* File::readTextString(char8 *limits, bool use){
+edk::char8* edk::File::readTextString(edk::char8 *limits, bool use){
     //test if the file os opened
     if(this->isOpened()&&limits){
         //read the string
@@ -1909,12 +1907,12 @@ char8* File::readTextString(char8 *limits, bool use){
     return NULL;
 }
 
-char8* File::readTextString(const edk::char8 *limits, bool use){
+edk::char8* edk::File::readTextString(const edk::char8 *limits, bool use){
     return this->readTextString((edk::char8 *)limits, use);
 }
 
 //read to a string
-bool File::readTextString(char8 *str,edk::uint64 size){
+bool edk::File::readTextString(edk::char8 *str,edk::uint64 size){
     //test the string
     if(str && size){
         if(this->readBin(str,size)){
@@ -1924,7 +1922,7 @@ bool File::readTextString(char8 *str,edk::uint64 size){
     return false;
 }
 
-int32 File::readTextInt(){
+edk::int32 edk::File::readTextInt(){
     //create the edk::int32
     edk::int32 n=0u;
     //Test if the file is openned
@@ -1988,7 +1986,7 @@ int32 File::readTextInt(){
     return n;
 }
 
-uint32 File::readTextUInt(){
+edk::uint32 edk::File::readTextUInt(){
     //create the edk::uint32
     edk::int32 n=0u;
     //Test if the file is openned
@@ -2052,7 +2050,7 @@ uint32 File::readTextUInt(){
     return n;
 }
 
-edk::float32 File::readTextFloat(){
+edk::float32 edk::File::readTextFloat(){
     //create the edk::uint32
     edk::float32 f=0.0;
     //Test if the file is openned
@@ -2116,7 +2114,7 @@ edk::float32 File::readTextFloat(){
     return f;
 }
 
-classID File::readBin(uint64 size){
+edk::classID edk::File::readBin(edk::uint64 size){
     //create the return
     void* ret=NULL;
     //test if the file is opened and the size is >1u
@@ -2132,7 +2130,7 @@ classID File::readBin(uint64 size){
     return ret;
 }
 
-edk::uint64 File::readBin(classID vec,uint64 size){
+edk::uint64 edk::File::readBin(edk::classID vec,uint64 size){
     edk::uint64 ret = 0u;
     if(size && vec){
         ret = fread(vec,1u,size,this->arq);
@@ -2140,7 +2138,7 @@ edk::uint64 File::readBin(classID vec,uint64 size){
     return ret;
 }
 
-char8 File::readBinChar(){
+edk::char8 edk::File::readBinChar(){
     //read the size
     edk::char8* temp = (edk::char8*)this->readBin(sizeof(edk::char8));
     //create the edk::char8
@@ -2158,7 +2156,7 @@ char8 File::readBinChar(){
     return c;
 }
 
-char8* File::readBinString(char64 size){
+edk::char8* edk::File::readBinString(char64 size){
     //create the string
     edk::char8* temp = (edk::char8*)this->readBin(sizeof(edk::char8)*size);
     if(temp){
@@ -2169,7 +2167,7 @@ char8* File::readBinString(char64 size){
     return NULL;
 }
 
-char8* File::readBinString(char8 limit, bool use){
+edk::char8* edk::File::readBinString(edk::char8 limit, bool use){
     //test if the file os opened
     if(this->isOpened()){
         //read the string
@@ -2179,7 +2177,7 @@ char8* File::readBinString(char8 limit, bool use){
     return NULL;
 }
 
-char8* File::readBinString(char8 *limits, bool use){
+edk::char8* edk::File::readBinString(edk::char8 *limits, bool use){
     //test if the file os opened
     if(this->isOpened()){
         //read the string
@@ -2189,12 +2187,12 @@ char8* File::readBinString(char8 *limits, bool use){
     return NULL;
 }
 
-char8* File::readBinString(const edk::char8 *limits, bool use){
-    return this->readBinString((char8 *)limits,use);
+edk::char8* edk::File::readBinString(const edk::char8 *limits, bool use){
+    return this->readBinString((edk::char8 *)limits,use);
 }
 
 //read to a string
-edk::uint64 File::readBinString(char8 *str,edk::uint64 size){
+edk::uint64 edk::File::readBinString(edk::char8 *str,edk::uint64 size){
     edk::uint64 ret=0u;
     if(str && size){
         ret = this->readBin(str,size);
@@ -2202,7 +2200,7 @@ edk::uint64 File::readBinString(char8 *str,edk::uint64 size){
     return ret;
 }
 
-edk::int8 File::readBinInt8(){
+edk::int8 edk::File::readBinInt8(){
     //read the size
     edk::int8* temp = (edk::int8*)this->readBin(sizeof(edk::int8));
     //create the edk::char8
@@ -2220,7 +2218,7 @@ edk::int8 File::readBinInt8(){
     return n;
 }
 
-edk::int8* File::readBinInt8(int64 size){
+edk::int8* edk::File::readBinInt8(edk::int64 size){
     //create the string
     edk::int8* temp = (edk::int8*)this->readBin(sizeof(edk::int8)*size);
     if(temp){
@@ -2231,7 +2229,7 @@ edk::int8* File::readBinInt8(int64 size){
     return NULL;
 }
 
-edk::uint8 File::readBinUInt8(){
+edk::uint8 edk::File::readBinUInt8(){
     //read the size
     edk::uint8* temp = (edk::uint8*)this->readBin(sizeof(edk::uint8));
     //create the edk::char8
@@ -2249,7 +2247,7 @@ edk::uint8 File::readBinUInt8(){
     return n;
 }
 
-edk::uint8* File::readBinUint8(uint64 size){
+edk::uint8* edk::File::readBinUint8(edk::uint64 size){
     //create the string
     edk::uint8* temp = (edk::uint8*)this->readBin(sizeof(edk::uint8)*size);
     if(temp){
@@ -2260,7 +2258,7 @@ edk::uint8* File::readBinUint8(uint64 size){
     return NULL;
 }
 
-edk::int16 File::readBinInt16(){
+edk::int16 edk::File::readBinInt16(){
     //read the size
     edk::int16* temp = (edk::int16*)this->readBin(sizeof(edk::int16));
     //create the edk::char8
@@ -2278,7 +2276,7 @@ edk::int16 File::readBinInt16(){
     return n;
 }
 
-edk::int16* File::readBinInt16(int16 size){
+edk::int16* edk::File::readBinInt16(edk::int16 size){
     //create the string
     edk::int16* temp = (edk::int16*)this->readBin(sizeof(edk::int16)*size);
     if(temp){
@@ -2289,7 +2287,7 @@ edk::int16* File::readBinInt16(int16 size){
     return NULL;
 }
 
-edk::uint16 File::readBinUInt16(){
+edk::uint16 edk::File::readBinUInt16(){
     //read the size
     edk::uint16* temp = (edk::uint16*)this->readBin(sizeof(edk::uint16));
     //create the edk::char8
@@ -2307,7 +2305,7 @@ edk::uint16 File::readBinUInt16(){
     return n;
 }
 
-edk::uint16* File::readBinUint16(uint16 size){
+edk::uint16* edk::File::readBinUint16(edk::uint16 size){
     //create the string
     edk::uint16* temp = (edk::uint16*)this->readBin(sizeof(edk::uint16)*size);
     if(temp){
@@ -2318,7 +2316,7 @@ edk::uint16* File::readBinUint16(uint16 size){
     return NULL;
 }
 
-edk::int32 File::readBinInt32(){
+edk::int32 edk::File::readBinInt32(){
     //read the size
     edk::int32* temp = (edk::int32*)this->readBin(sizeof(edk::int32));
     //create the edk::char8
@@ -2336,7 +2334,7 @@ edk::int32 File::readBinInt32(){
     return n;
 }
 
-edk::int32* File::readBinInt32(int64 size){
+edk::int32* edk::File::readBinInt32(edk::int64 size){
     //create the string
     edk::int32* temp = (edk::int32*)this->readBin(sizeof(edk::int32)*size);
     if(temp){
@@ -2347,7 +2345,7 @@ edk::int32* File::readBinInt32(int64 size){
     return NULL;
 }
 
-edk::uint32 File::readBinUInt32(){
+edk::uint32 edk::File::readBinUInt32(){
     //read the size
     edk::uint32* temp = (edk::uint32*)this->readBin(sizeof(edk::uint32));
     //create the edk::char8
@@ -2365,7 +2363,7 @@ edk::uint32 File::readBinUInt32(){
     return n;
 }
 
-edk::uint32* File::readBinUint32(uint64 size){
+edk::uint32* edk::File::readBinUint32(edk::uint64 size){
     //create the string
     edk::uint32* temp = (edk::uint32*)this->readBin(sizeof(edk::uint32)*size);
     if(temp){
@@ -2376,7 +2374,7 @@ edk::uint32* File::readBinUint32(uint64 size){
     return NULL;
 }
 
-edk::int64 File::readBinInt64(){
+edk::int64 edk::File::readBinInt64(){
     //read the size
     edk::int64* temp = (edk::int64*)this->readBin(sizeof(edk::int64));
     //create the edk::char8
@@ -2394,7 +2392,7 @@ edk::int64 File::readBinInt64(){
     return n;
 }
 
-edk::int64* File::readBinInt64(int64 size){
+edk::int64* edk::File::readBinInt64(edk::int64 size){
     //create the string
     edk::int64* temp = (edk::int64*)this->readBin(sizeof(edk::int64)*size);
     if(temp){
@@ -2405,7 +2403,7 @@ edk::int64* File::readBinInt64(int64 size){
     return NULL;
 }
 
-edk::uint64 File::readBinUInt64(){
+edk::uint64 edk::File::readBinUInt64(){
     //read the size
     edk::uint64* temp = (edk::uint64*)this->readBin(sizeof(edk::uint64));
     //create the edk::char8
@@ -2423,7 +2421,7 @@ edk::uint64 File::readBinUInt64(){
     return n;
 }
 
-edk::uint64* File::readBinUint64(uint64 size){
+edk::uint64* edk::File::readBinUint64(edk::uint64 size){
     //create the string
     edk::uint64* temp = (edk::uint64*)this->readBin(sizeof(edk::uint64)*size);
     if(temp){
@@ -2434,7 +2432,7 @@ edk::uint64* File::readBinUint64(uint64 size){
     return NULL;
 }
 
-edk::float32 File::readBinFloat(){
+edk::float32 edk::File::readBinFloat(){
     //read the size
     edk::float32* temp = (edk::float32*)this->readBin(sizeof(edk::float32));
     //create the edk::char8
@@ -2452,7 +2450,7 @@ edk::float32 File::readBinFloat(){
     return n;
 }
 
-edk::float32* File::readBinFloat(int64 size){
+edk::float32* edk::File::readBinFloat(edk::int64 size){
     //create the string
     edk::float32* temp = (edk::float32*)this->readBin(sizeof(edk::float32)*size);
     if(temp){
@@ -2463,7 +2461,7 @@ edk::float32* File::readBinFloat(int64 size){
     return NULL;
 }
 
-int64 File::readBinLongInt(){
+edk::int64 edk::File::readBinLongInt(){
     //read the size
     edk::int64* temp = (edk::int64*)this->readBin(sizeof(edk::int64));
     //create the edk::char8
@@ -2481,7 +2479,7 @@ int64 File::readBinLongInt(){
     return n;
 }
 
-int64* File::readBinLongInt(int64 size){
+edk::int64* edk::File::readBinLongInt(edk::int64 size){
     //create the string
     edk::int64* temp = (edk::int64*)this->readBin(sizeof(edk::int64)*size);
     if(temp){
@@ -2492,12 +2490,12 @@ int64* File::readBinLongInt(int64 size){
     return NULL;
 }
 
-char8* File::getName(){
+edk::char8* edk::File::getName(){
     return this->name;
 }
 
 //SEEK the file
-bool File::seek(edk::uint32 bytes){
+bool edk::File::seek(edk::uint32 bytes){
     //test if the file is opened
     if(this->isOpened()){
         fseek(this->arq,bytes,SEEK_CUR);
@@ -2506,7 +2504,7 @@ bool File::seek(edk::uint32 bytes){
     }
     return false;
 }
-bool File::seek(edk::uint64 bytes){
+bool edk::File::seek(edk::uint64 bytes){
     //test if the file is opened
     if(this->isOpened()){
         fseeko64(this->arq,bytes,SEEK_CUR);
@@ -2515,7 +2513,7 @@ bool File::seek(edk::uint64 bytes){
     }
     return false;
 }
-bool File::seek(edk::int32 bytes){
+bool edk::File::seek(edk::int32 bytes){
     //test if the file is opened
     if(this->isOpened()){
         fseek(this->arq,bytes,SEEK_CUR);
@@ -2524,7 +2522,7 @@ bool File::seek(edk::int32 bytes){
     }
     return false;
 }
-bool File::seek(edk::int64 bytes){
+bool edk::File::seek(edk::int64 bytes){
     //test if the file is opened
     if(this->isOpened()){
         fseeko64(this->arq,bytes,SEEK_CUR);
@@ -2533,7 +2531,7 @@ bool File::seek(edk::int64 bytes){
     }
     return false;
 }
-bool File::seekStart(){
+bool edk::File::seekStart(){
     //test if the file is opened
     if(this->isOpened()){
         fseek(this->arq,0,SEEK_SET);
@@ -2542,7 +2540,7 @@ bool File::seekStart(){
     }
     return false;
 }
-bool File::seekStart64(){
+bool edk::File::seekStart64(){
     //test if the file is opened
     if(this->isOpened()){
         fseeko64(this->arq,0,SEEK_SET);
@@ -2551,7 +2549,7 @@ bool File::seekStart64(){
     }
     return false;
 }
-bool File::seekStart(edk::uint32 bytes){
+bool edk::File::seekStart(edk::uint32 bytes){
     //test if the file is opened
     if(this->isOpened()){
         fseek(this->arq,bytes,SEEK_SET);
@@ -2560,7 +2558,7 @@ bool File::seekStart(edk::uint32 bytes){
     }
     return false;
 }
-bool File::seekStart(edk::uint64 bytes){
+bool edk::File::seekStart(edk::uint64 bytes){
     //test if the file is opened
     if(this->isOpened()){
         fseeko64(this->arq,bytes,SEEK_SET);
@@ -2569,7 +2567,7 @@ bool File::seekStart(edk::uint64 bytes){
     }
     return false;
 }
-bool File::seekEnd(){
+bool edk::File::seekEnd(){
     //test if the file is opened
     if(this->isOpened()){
         fseek(this->arq,0,SEEK_END);
@@ -2578,7 +2576,7 @@ bool File::seekEnd(){
     }
     return false;
 }
-bool File::seekEnd64(){
+bool edk::File::seekEnd64(){
     //test if the file is opened
     if(this->isOpened()){
         fseeko64(this->arq,0,SEEK_END);
@@ -2587,7 +2585,7 @@ bool File::seekEnd64(){
     }
     return false;
 }
-bool File::seekEnd(edk::int32 bytes){
+bool edk::File::seekEnd(edk::int32 bytes){
     //test if the file is opened
     if(this->isOpened()){
         fseek(this->arq,bytes,SEEK_END);
@@ -2596,7 +2594,7 @@ bool File::seekEnd(edk::int32 bytes){
     }
     return false;
 }
-bool File::seekEnd(edk::int64 bytes){
+bool edk::File::seekEnd(edk::int64 bytes){
     //test if the file is opened
     if(this->isOpened()){
         fseeko64(this->arq,bytes,SEEK_END);
@@ -2606,15 +2604,15 @@ bool File::seekEnd(edk::int64 bytes){
     return false;
 }
 //return this current position
-edk::uint32 File::getSeek32(){
+edk::uint32 edk::File::getSeek32(){
     return ftell(this->arq);
 }
-edk::uint64 File::getSeek64(){
+edk::uint64 edk::File::getSeek64(){
     return ftello64(this->arq);
 }
 
 //flush the file
-bool File::flush(){
+bool edk::File::flush(){
     if(this->isOpened()){
         edk::int32 ret = fflush(this->arq);
         if(ret<0) return false;
@@ -2623,7 +2621,7 @@ bool File::flush(){
     return false;
 }
 
-bool File::isOpened(){
+bool edk::File::isOpened(){
     //Test if have the ponter of the file
     if(this->arq){
         //return true
@@ -2633,4 +2631,149 @@ bool File::isOpened(){
     return false;
 }
 
-} /* End of namespace edk */
+
+edk::FileStream::FileStream(){
+    this->arq=-1;
+}
+edk::FileStream::~FileStream(){
+    this->closeFileStream();
+}
+
+bool edk::FileStream::openFileStream(edk::char8* name){
+    //close the stream
+    this->closeFileStream();
+    if(name){
+        this->arq = open(name, O_RDONLY);
+        if(this->arq>=0){
+            this->name.setName(name);
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::FileStream::openFileStream(const edk::char8* name){
+    return this->openFileStream((edk::char8*) name);
+}
+void edk::FileStream::closeFileStream(){
+    if(this->isOpened()){
+        close(this->arq);
+        this->arq=-1;
+        this->name.cleanName();
+    }
+}
+bool edk::FileStream::openFileStreamNonBlock(edk::char8* name){
+    //close the stream
+    this->closeFileStream();
+    if(name){
+        this->arq = open(name, O_RDONLY | O_NONBLOCK);
+        if(this->arq>=0){
+            this->name.setName(name);
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::FileStream::openFileStreamNonBlock(const edk::char8* name){
+    return this->openFileStreamNonBlock((edk::char8*) name);
+}
+
+edk::int64 edk::FileStream::readVec(edk::classID vec,uint64 size){
+    edk::int64 ret=0;
+    if(this->isOpened()){
+        //
+        ret = read(this->arq, vec, size);
+        //test if the file is closed
+        if(ret<0){
+            if(errno!=EWOULDBLOCK){
+                //file is closed
+                this->closeFileStream();
+            }
+        }
+    }
+    return ret;
+}
+edk::int64 edk::FileStream::readVec(edk::classID vec,edk::uint32 size){
+    edk::int32 ret=0;
+    if(this->isOpened()){
+        //
+        ret = read(this->arq, vec, size);
+        //test if the file is closed
+        if(ret<0){
+            if(errno!=EWOULDBLOCK){
+                //file is closed
+                this->closeFileStream();
+            }
+        }
+    }
+    return ret;
+}
+edk::char8 edk::FileStream::readChar8(){
+    edk::char8 ret=0;
+    this->readVec(&ret,sizeof(ret));
+    return ret;
+}
+edk::uchar8 edk::FileStream::readUChar8(){
+    edk::uchar8 ret=0;
+    this->readVec(&ret,sizeof(ret));
+    return ret;
+}
+edk::int8 edk::FileStream::readInt8(){
+    edk::int8 ret=0;
+    this->readVec(&ret,sizeof(ret));
+    return ret;
+}
+edk::uint8 edk::FileStream::readUInt8(){
+    edk::uint8 ret=0;
+    this->readVec(&ret,sizeof(ret));
+    return ret;
+}
+edk::int16 edk::FileStream::readInt16(){
+    edk::int16 ret=0;
+    this->readVec(&ret,sizeof(ret));
+    return ret;
+}
+edk::uint16 edk::FileStream::readUInt16(){
+    edk::uint16 ret=0;
+    this->readVec(&ret,sizeof(ret));
+    return ret;
+}
+edk::int32 edk::FileStream::readInt32(){
+    edk::int32 ret=0;
+    this->readVec(&ret,sizeof(ret));
+    return ret;
+}
+edk::uint32 edk::FileStream::readUInt32(){
+    edk::uint32 ret=0;
+    this->readVec(&ret,sizeof(ret));
+    return ret;
+}
+edk::float32 edk::FileStream::readFloat32(){
+    edk::float32 ret=0;
+    this->readVec(&ret,sizeof(ret));
+    return ret;
+}
+edk::float64 edk::FileStream::readFloat64(){
+    edk::float64 ret=0;
+    this->readVec(&ret,sizeof(ret));
+    return ret;
+}
+
+edk::int32 edk::FileStream::ioControl(edk::uint32 __request,void* value){
+    edk::int32 ret = -1;
+    if(this->isOpened()){
+        if(value){
+            ret = ioctl(this->arq,__request,value);
+        }
+    }
+    return ret;
+}
+
+edk::char8* edk::FileStream::getName(){
+    return this->name.getName();
+}
+
+bool edk::FileStream::isOpened(){
+    if(this->arq>=0)
+        return true;
+    return false;
+}

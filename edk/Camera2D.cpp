@@ -28,7 +28,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #warning "            Inside Camera2D.cpp"
 #endif
 
-using namespace edk;
 edk::Camera2D::Camera2D(){
     //
     this->start();
