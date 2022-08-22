@@ -5,6 +5,7 @@ edk::InfiniteWallpaper::InfiniteWallpaper(){
     this->percent=0.f;
     this->translate=0.f;
     this->clock.start();
+    this->saveLenght = 0u;
 }
 edk::InfiniteWallpaper::~InfiniteWallpaper(){
     //
@@ -39,6 +40,8 @@ void edk::InfiniteWallpaper::clean(){
     }
     this->stack.clean();
     this->translate=0.f;
+    this->matrix.deleteMatrix();
+    this->saveLenght=0u;
 }
 //add new wallpaper
 //filter
@@ -177,7 +180,7 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
     if(this->saveSize!=this->size){
         this->changeSize();
     }
-/*
+    /*
     //test the runMove
     if(runMove<-1){
         runMove=-1;
@@ -188,20 +191,140 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
 */
     //
     this->translate+=this->speed*runMove * seconds;
+    bool changeXNegative;
+    bool changeXPositive;
+    bool changeYNegative;
+    bool changeYPositive;
 
-    //test if the translate is bigger then the size
-    if(this->translate.x > this->size.width){
-        this->translate.x -= this->size.width;
-    }
-    if(this->translate.x < this->size.width*-1.f){
-        this->translate.x += this->size.width;
-    }
-    if(this->translate.y > this->size.height){
-        this->translate.y -= this->size.height;
-    }
-    if(this->translate.y < this->size.height*-1.f){
-        this->translate.y += this->size.height;
-    }
+    do{
+        changeXNegative=false;
+        changeXPositive=false;
+        changeYNegative=false;
+        changeYPositive=false;
+        //test if the translate is bigger then the size
+        if(this->translate.x > this->size.width){
+            this->translate.x -= this->size.width;
+            //change the matrix in X
+            changeXPositive=true;
+        }
+        if(this->translate.x < 0.f){
+            this->translate.x += this->size.width;
+            //change the matrix
+            changeXNegative=true;
+        }
+        if(this->translate.y > this->size.height){
+            this->translate.y -= this->size.height;
+            //change the matrix
+            changeYPositive=true;
+        }
+        if(this->translate.y < 0.f){
+            this->translate.y += this->size.height;
+            //change the matrix
+            changeYNegative=true;
+        }
+
+        //test if need to change the matrix values
+        if(changeXPositive){
+            if(changeYPositive){
+                //XPositive YPositive
+            }
+            else if(changeYNegative){
+                //XPositive YNegative
+            }
+            else{
+                //just X Positive
+                if(this->matrix.haveMatrix() && this->stack.size()){
+                    edk::size2ui32 size = this->matrix.size();
+                    for(edk::uint32 x=size.width;x>0u;x--){
+                        for(edk::uint32 y=0u;y<size.height;y++){
+                            this->matrix.set(x-1u,y,this->matrix.get(x-2u,y));
+                        }
+                    }
+                    edk::uint32 position;
+                    //in the end it fill the first matrix values
+                    for(edk::uint32 y=0u;y<size.height;y++){
+                        position = this->matrix.get(1u,y);
+                        if(position==0u) position = this->stack.size()-1u;
+                        else position--;
+                        this->matrix.set(0u,y,position);
+                    }
+                }
+            }
+        }
+        else if(changeXNegative){
+            if(changeYPositive){
+                //XPositive YPositive
+            }
+            else if(changeYNegative){
+                //XPositive YNegative
+            }
+            else{
+                //just X Negative
+                if(this->matrix.haveMatrix() && this->stack.size()){
+                    edk::size2ui32 size = this->matrix.size();
+                    if(size.width>1u){
+                        size.width--;
+                        for(edk::uint32 x=0;x<size.width;x++){
+                            for(edk::uint32 y=0u;y<size.height;y++){
+                                this->matrix.set(x,y,this->matrix.get(x+1u,y));
+                            }
+                        }
+                        edk::uint32 position;
+                        //in the end it fill the first matrix values
+                        for(edk::uint32 y=0u;y<size.height;y++){
+                            position = this->matrix.get(size.width-1u,y) + 1u;
+                            if(this->stack.size()<=position) position=0u;
+                            this->matrix.set(size.width,y,position);
+                        }
+                    }
+                }
+            }
+        }
+        else if(changeYPositive){
+            //just Y Positive
+            if(this->matrix.haveMatrix() && this->stack.size()){
+                edk::size2ui32 size = this->matrix.size();
+                for(edk::uint32 y=size.height;y>0u;y--){
+                    for(edk::uint32 x=0u;x<size.width;x++){
+                        this->matrix.set(x,y-1u,this->matrix.get(x,y-2u));
+                    }
+                }
+                edk::uint32 position;
+                //in the end it fill the first matrix values
+                for(edk::uint32 x=0u;x<size.width;x++){
+                    position = this->matrix.get(x,1u);
+                    if(position==0u) position = this->stack.size()-1u;
+                    else position--;
+                    this->matrix.set(x,0u,position);
+                }
+            }
+        }
+        else if(changeYNegative){
+            //just Y Negative
+            if(this->matrix.haveMatrix() && this->stack.size()){
+                edk::size2ui32 size = this->matrix.size();
+                if(size.height>1u){
+                    size.height--;
+                    for(edk::uint32 y=0;y<size.height;y++){
+                        for(edk::uint32 x=0u;x<size.width;x++){
+                            this->matrix.set(x,y,this->matrix.get(x,y+1u));
+                        }
+                    }
+                    edk::uint32 position;
+                    //in the end it fill the first matrix values
+                    for(edk::uint32 x=0u;x<size.width;x++){
+                        position = this->matrix.get(x,size.height-1u) + 1u;
+                        if(this->stack.size()<=position) position=0u;
+                        this->matrix.set(x,size.height,position);
+                    }
+                }
+            }
+        }
+    }while(changeXNegative||
+           changeXPositive||
+           changeYNegative||
+           changeYPositive
+           );
 }
 void edk::InfiniteWallpaper::update(edk::float32 runMove){
     this->update(runMove,this->clock.getSeconds());
@@ -227,23 +350,58 @@ void edk::InfiniteWallpaper::drawInsideRect(edk::rectf32 rect){
     if(lenght.x<0)lenght.x*=-1;
     if(lenght.y<0)lenght.y*=-1;
 
-    if(this->saveLenght!=lenght){
-        this->saveLenght = lenght;
-
+    if(this->matrix.width()!=(edk::uint32)lenght.x*2
+            ||
+            this->matrix.height()!=(edk::uint32)lenght.y*2
+            ){
         //change the matrix
-    }
+        this->matrix.createMatrix(lenght.x*2,lenght.y*2);
 
-    if(this->stack.size()){
-        edk::Object2D* temp = this->stack.get(0u);
-        if(temp){
-            //draw the objects
-            for(edk::int32 y=lenght.y*-1;y<=lenght.y;y++){
-                temp->position.y = this->position.y + this->translate.y + (y * this->size.height);
-                for(edk::int32 x=lenght.x*-1;x<=lenght.x;x++){
-                    temp->position.x = this->position.x + this->translate.x + (x * this->size.width);
-                    temp->draw();
-                }
+        edk::size2ui32 size = this->matrix.size();
+        //fill the matrix with the wallpapers in X (temporary)
+        edk::uint32 value = 0u;
+        for(edk::uint32 x=0u;x<size.width;x++){
+            for(edk::uint32 y=0;y<size.height;y++){
+                this->matrix.set(x,y,value);
             }
+            value++;
+            if(value>=this->stack.size()){
+                value=0u;
+            }
+        }
+
+    }
+    if(this->stack.size()){
+        edk::uint32 objPos=0u;
+        edk::uint32 matrixValue=0u;
+        edk::Object2D* temp = this->stack.get(objPos);
+        if(this->matrix.haveMatrix()){
+            edk::size2ui32 size = this->matrix.size();
+            edk::int32 posX,posY;
+            this->obj.size = this->size;
+            this->obj.addMesh(temp->getMesh(0u));
+            posY=lenght.y*-1;
+            for(edk::uint32 y=0u;y<size.height;y++){
+                this->obj.position.y = this->position.y + this->translate.y + (posY * this->size.height);
+                posX=lenght.x*-1;
+                for(edk::uint32 x=0u;x<size.width;x++){
+                    this->obj.position.x = this->position.x + this->translate.x + (posX * this->size.width);
+                    //test if need change the mesh
+                    matrixValue = this->matrix.get(x,y);
+                    if(matrixValue != objPos){
+                        if((temp = this->stack.get(matrixValue))){
+                            //chante the mesh
+                            this->obj.cleanMeshes();
+                            this->obj.addMesh(temp->getMesh(0u));
+                            objPos = matrixValue;
+                        }
+                    }
+                    this->obj.draw();
+                    posX++;
+                }
+                posY++;
+            }
+            this->obj.cleanMeshes();
         }
     }
 

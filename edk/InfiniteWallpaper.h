@@ -56,6 +56,10 @@ private:
     edk::vec2f32 percent;
     edk::vec2f32 translate;
     edk::watch::Time clock;
+    //matrix with the position values
+    edk::vector::Matrix<edk::uint32> matrix;
+    //object pointer to be rendered
+    edk::Object2D obj;
     //change the status
     void changeStatus();
     void changeSize();

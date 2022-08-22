@@ -153,6 +153,12 @@ public:
     bool have(edk::uint32 x,edk::uint32 y){
         return this->have(edk::vec2f32(x,y));
     }
+    bool haveMatrix(){
+        if(this->matrix && this->matrixSize.width && this->matrixSize.height){
+            return true;
+        }
+        return false;
+    }
     //return the value in a position
     typeTemplate get(edk::vec2ui32 position){
         //
