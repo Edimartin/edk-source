@@ -49,6 +49,12 @@ bool edk::shape::AnimatedPolygon2DList::setAnimationFramesToPolygon(edk::uint32 
     //else return false
     return false;
 }
+bool edk::shape::AnimatedPolygon2DList::newAnimationFramesToPolygon(edk::uint32 position){
+    return this->setAnimationFramesToPolygon(position);
+}
+bool edk::shape::AnimatedPolygon2DList::createAnimationFramesToPolygon(edk::uint32 position){
+    return this->setAnimationFramesToPolygon(position);
+}
 //copy an animation to another polygon
 bool edk::shape::AnimatedPolygon2DList::copyAnimationFramesToPolygon(edk::uint32 position,edk::uint32 dest){
     //test if have the 2 polygons

@@ -419,11 +419,11 @@ edk::File::~File(){
 edk::uint64 edk::File::getFileSize(){
     if(this->isOpened()){
         //if(!this->size){
-            //load fileSize
-            edk::uint64 position = this->getSeek64();
-            this->seekEnd();
-            this->size = this->getSeek64();
-            this->seekStart(position);
+        //load fileSize
+        edk::uint64 position = this->getSeek64();
+        this->seekEnd();
+        this->size = this->getSeek64();
+        this->seekStart(position);
         //}
         return this->size;
     }
@@ -2665,7 +2665,18 @@ bool edk::FileStream::openFileStreamNonBlock(edk::char8* name){
     //close the stream
     this->closeFileStream();
     if(name){
+#ifdef _WIN32
+        this->arq = _open(name, O_RDONLY | FIONBIO);
+#endif
+#ifdef _WIN64
+        this->arq = _open(name, O_RDONLY | FIONBIO);
+#endif
+#ifdef __linux__
         this->arq = open(name, O_RDONLY | O_NONBLOCK);
+#endif
+#ifdef __APPLE__
+        this->arq = open(name, O_RDONLY | O_NONBLOCK);
+#endif
         if(this->arq>=0){
             this->name.setName(name);
             return true;
@@ -2762,7 +2773,18 @@ edk::int32 edk::FileStream::ioControl(edk::uint32 __request,void* value){
     edk::int32 ret = -1;
     if(this->isOpened()){
         if(value){
+#ifdef _WIN32
+
+#endif
+#ifdef _WIN64
+
+#endif
+#ifdef __linux__
             ret = ioctl(this->arq,__request,value);
+#endif
+#ifdef __APPLE__
+            ret = ioctl(this->arq,__request,value);
+#endif
         }
     }
     return ret;

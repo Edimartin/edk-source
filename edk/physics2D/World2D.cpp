@@ -2090,7 +2090,7 @@ bool edk::physics2D::World2D::updateObjectVelocity(edk::physics2D::PhysicObject2
                 temp->SetAngularVelocity((edk::float32)object->getAngularVelocity() / (180.f / b2_pi));
             }
             if(object->haveSettedLinearVelocity()){
-                temp->SetLinearVelocity(b2Vec2(object->getLinearVelocity().x,object->getLinearVelocity().y));
+                temp->SetLinearVelocity(b2Vec2(object->getLinearVelocity().x * this->percentIn,object->getLinearVelocity().y * this->percentIn));
             }
             return true;
         }
@@ -2122,7 +2122,7 @@ bool edk::physics2D::World2D::updateObjectLinearVelocity(edk::physics2D::PhysicO
         }
         if(temp){
             if(object->haveSettedLinearVelocity()){
-                temp->SetLinearVelocity(b2Vec2(object->getLinearVelocity().x,object->getLinearVelocity().y));
+                temp->SetLinearVelocity(b2Vec2(object->getLinearVelocity().x * this->percentIn,object->getLinearVelocity().y * this->percentIn));
             }
             return true;
         }

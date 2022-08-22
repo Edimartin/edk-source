@@ -2,7 +2,7 @@
 #define EDK_TYPEVEC2_H
 
 /*
-Library C++ typeVec2 - 2D edk::vectors used in Edk Game Engine
+Library C++ typeVec2 - 2D vectors used in Edk Game Engine
 Copyright 2013 Eduardo Moura Sales Martins (edimartin@gmail.com)
 
 Permission is hereby granted, free of charge, to any person obtaining

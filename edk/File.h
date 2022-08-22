@@ -35,57 +35,58 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <sys/ioctl.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
 #include "NameClass.h"
 
 #ifdef _WIN32
-    //Windows 32
-    #ifdef _MSC_VER
-        //Visual C
-    #endif
-    #ifdef __GNUC__
-        #ifdef __cplusplus
-            //G++
-        #else
-            //GCC
-        #endif
-    #endif
+//Windows 32
+#ifdef _MSC_VER
+//Visual C
+#endif
+#ifdef __GNUC__
+#ifdef __cplusplus
+//G++
+#else
+//GCC
+#endif
+#endif
 #endif
 #ifdef _WIN64
-    //Windows 64
-    #ifdef _MSC_VER
-        //Visual C
-    #endif
-    #ifdef __GNUC__
-        #ifdef __cplusplus
-            //G++
-        #else
-            //GCC
-        #endif
-    #endif
+//Windows 64
+#ifdef _MSC_VER
+//Visual C
+#endif
+#ifdef __GNUC__
+#ifdef __cplusplus
+//G++
+#else
+//GCC
+#endif
+#endif
 #endif
 #ifdef __linux__
-    //LINUX
-    #ifdef __GNUC__
-        #ifdef __cplusplus
-            //G++
-        #else
-            //GCC
-        #endif
-    #endif
+//LINUX
+#include <sys/ioctl.h>
+#ifdef __GNUC__
+#ifdef __cplusplus
+//G++
+#else
+//GCC
+#endif
+#endif
 #endif
 #ifdef __APPLE__
-    //MACOS
-    #ifdef __GNUC__
-        #ifdef __cplusplus
-            //G++
-        #else
-            //GCC
-        #endif
-    #endif
+//MACOS
+#include <sys/ioctl.h>
+#ifdef __GNUC__
+#ifdef __cplusplus
+//G++
+#else
+//GCC
+#endif
+#endif
 #endif
 
 #ifdef printMessages
@@ -94,7 +95,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 namespace edk{
 class File{
- public:
+public:
     File();
     ~File();
 
@@ -341,7 +342,7 @@ class File{
 
     bool isOpened();
 
- private:
+private:
     //Read the string from the file
     edk::char8* readStringFromTheFile(FILE* arq,edk::char8 limit,edk::uint32 count,bool use = false);
     edk::char8* readStringFromTheFile(FILE* arq,edk::char8* limits,edk::uint32 count,bool use = false);
@@ -349,7 +350,7 @@ class File{
     edk::char8* readStringFromTheBinFile(FILE* arq,edk::char8* limits,edk::uint32 count,bool use = false);
 
 
-     //Pointer to the FILE.
+    //Pointer to the FILE.
     FILE* arq;
 
 

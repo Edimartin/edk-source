@@ -48,6 +48,8 @@ public:
     //ANIMATIONS
     //create a new animation in a polygon
     bool setAnimationFramesToPolygon(edk::uint32 position);
+    bool newAnimationFramesToPolygon(edk::uint32 position);
+    bool createAnimationFramesToPolygon(edk::uint32 position);
     //copy an animation to another polygon
     bool copyAnimationFramesToPolygon(edk::uint32 position,edk::uint32 dest);
     bool copyThisAnimationFramesToPolygon(edk::animation::Interpolation1DGroup*,edk::uint32 dest);

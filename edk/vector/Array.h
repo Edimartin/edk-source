@@ -2,7 +2,7 @@
 #define EDK_VECTOR_ARRAY_H
 
 /*
-Library Array - Create a Array in EDK Game Engine
+Library Array - Create an Array in EDK Game Engine
 Copyright 2013 Eduardo Moura Sales Martins (edimartin@gmail.com)
 
 Permission is hereby granted, free of charge, to any person obtaining
@@ -66,12 +66,8 @@ class Array{
             if(this->canDeleteVector){
                 //
                 this->deleteArray();
-                this->canDeleteVector=false;
             }
-            else{
-                //
-                this->canDeleteVector=true;
-            }
+            this->canDeleteVector=false;
         }
 
         //create the array
@@ -187,7 +183,6 @@ class Array{
             return false;
         }
 
-    protected:
     private:
     //the vector
     typeTemplate* vector;

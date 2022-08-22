@@ -3,6 +3,7 @@
 
 #include "Object2D.h"
 #include "vector/Stack.h"
+#include "vector/Matrix.h"
 #include "Random.h"
 #include "edk/watch/Time.h"
 

@@ -280,22 +280,66 @@ public:
     virtual bool writeToXML(edk::XML* xml,edk::uint32 id);
     virtual bool writeToXML(const edk::char8* fileName,edk::uint32 id);
     virtual bool writeToXML(edk::char8* fileName,edk::uint32 id);
+    //read from XML
     virtual bool readFromXML(edk::XML* xml,edk::uint32 id);
     virtual bool readFromXML(const edk::char8* fileName,edk::uint32 id);
     virtual bool readFromXML(edk::char8* fileName,edk::uint32 id);
     virtual bool readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id);
     virtual bool readFromXMLFromPack(edk::pack::FilePackage* pack,const edk::char8* fileName,edk::uint32 id);
     virtual bool readFromXMLFromPack(edk::pack::FilePackage* pack,edk::char8* fileName,edk::uint32 id);
+    //read level from XML
+    virtual bool readLevelFromXML(edk::XML* xml,edk::uint32 level,edk::uint32 id);
+    virtual bool readLevelFromXML(const edk::char8* fileName,edk::uint32 level,edk::uint32 id);
+    virtual bool readLevelFromXML(edk::char8* fileName,edk::uint32 level,edk::uint32 id);
+    virtual bool readLevelFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 level,edk::uint32 id);
+    virtual bool readLevelFromXMLFromPack(edk::pack::FilePackage* pack,const edk::char8* fileName,edk::uint32 level,edk::uint32 id);
+    virtual bool readLevelFromXMLFromPack(edk::pack::FilePackage* pack,edk::char8* fileName,edk::uint32 level,edk::uint32 id);
+    //read from XML without load physics objects in to the world
+    virtual bool readFromXMLWithoutLoadPhysics(edk::XML* xml,edk::uint32 id);
+    virtual bool readFromXMLWithoutLoadPhysics(const edk::char8* fileName,edk::uint32 id);
+    virtual bool readFromXMLWithoutLoadPhysics(edk::char8* fileName,edk::uint32 id);
+    virtual bool readFromXMLFromPackWithoutLoadPhysics(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id);
+    virtual bool readFromXMLFromPackWithoutLoadPhysics(edk::pack::FilePackage* pack,const edk::char8* fileName,edk::uint32 id);
+    virtual bool readFromXMLFromPackWithoutLoadPhysics(edk::pack::FilePackage* pack,edk::char8* fileName,edk::uint32 id);
+    //read level from XML without load physics objects in to the world
+    virtual bool readLevelFromXMLWithoutLoadPhysics(edk::XML* xml,edk::uint32 level,edk::uint32 id);
+    virtual bool readLevelFromXMLWithoutLoadPhysics(const edk::char8* fileName,edk::uint32 level,edk::uint32 id);
+    virtual bool readLevelFromXMLWithoutLoadPhysics(edk::char8* fileName,edk::uint32 level,edk::uint32 id);
+    virtual bool readLevelFromXMLFromPackWithoutLoadPhysics(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 level,edk::uint32 id);
+    virtual bool readLevelFromXMLFromPackWithoutLoadPhysics(edk::pack::FilePackage* pack,const edk::char8* fileName,edk::uint32 level,edk::uint32 id);
+    virtual bool readLevelFromXMLFromPackWithoutLoadPhysics(edk::pack::FilePackage* pack,edk::char8* fileName,edk::uint32 level,edk::uint32 id);
     //Without id
     virtual bool writeToXML(edk::XML* xml);
     virtual bool writeToXML(const edk::char8* fileName);
     virtual bool writeToXML(edk::char8* fileName);
+    //read from XML
     virtual bool readFromXML(edk::XML* xml);
     virtual bool readFromXML(const edk::char8* fileName);
     virtual bool readFromXML(edk::char8* fileName);
     virtual bool readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml);
     virtual bool readFromXMLFromPack(edk::pack::FilePackage* pack,const edk::char8* fileName);
     virtual bool readFromXMLFromPack(edk::pack::FilePackage* pack,edk::char8* fileName);
+    //read level from XML
+    virtual bool readLevelFromXML(edk::XML* xml,edk::uint32 level);
+    virtual bool readLevelFromXML(const edk::char8* fileName,edk::uint32 level);
+    virtual bool readLevelFromXML(edk::char8* fileName,edk::uint32 level);
+    virtual bool readLevelFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 level);
+    virtual bool readLevelFromXMLFromPack(edk::pack::FilePackage* pack,const edk::char8* fileName,edk::uint32 level);
+    virtual bool readLevelFromXMLFromPack(edk::pack::FilePackage* pack,edk::char8* fileName,edk::uint32 level);
+    //read from XML without load physics objects in to the world
+    virtual bool readFromXMLWithoutLoadPhysics(edk::XML* xml);
+    virtual bool readFromXMLWithoutLoadPhysics(const edk::char8* fileName);
+    virtual bool readFromXMLWithoutLoadPhysics(edk::char8* fileName);
+    virtual bool readFromXMLFromPackWithoutLoadPhysics(edk::pack::FilePackage* pack,edk::XML* xml);
+    virtual bool readFromXMLFromPackWithoutLoadPhysics(edk::pack::FilePackage* pack,const edk::char8* fileName);
+    virtual bool readFromXMLFromPackWithoutLoadPhysics(edk::pack::FilePackage* pack,edk::char8* fileName);
+    //read level from XML without load physics objects in to the world
+    virtual bool readLevelFromXMLWithoutLoadPhysics(edk::XML* xml,edk::uint32 level);
+    virtual bool readLevelFromXMLWithoutLoadPhysics(const edk::char8* fileName,edk::uint32 level);
+    virtual bool readLevelFromXMLWithoutLoadPhysics(edk::char8* fileName,edk::uint32 level);
+    virtual bool readLevelFromXMLFromPackWithoutLoadPhysics(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 level);
+    virtual bool readLevelFromXMLFromPackWithoutLoadPhysics(edk::pack::FilePackage* pack,const edk::char8* fileName,edk::uint32 level);
+    virtual bool readLevelFromXMLFromPackWithoutLoadPhysics(edk::pack::FilePackage* pack,edk::char8* fileName,edk::uint32 level);
 
     edk::physics2D::World2D world;
     edk::tiles::TileSet2D tileSet;
