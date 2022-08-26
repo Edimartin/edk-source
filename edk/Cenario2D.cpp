@@ -3714,8 +3714,8 @@ bool edk::Cenario2D::writeToXML(edk::XML* xml,edk::uint32 id){
                                                                         }
                                                                     }
                                                                     break;
-                                                                //REMOVE IN NEW BOX2D
-                                                                /*
+                                                                    //REMOVE IN NEW BOX2D
+                                                                    /*
                                                                 case EDK_ROPE_JOINT:
                                                                     //
                                                                     //xml->setSelectedString("ROPE_JOINT");
@@ -5407,7 +5407,7 @@ bool edk::Cenario2D::readFromXMLWithoutLoadPhysics(edk::XML* xml,edk::uint32 id)
                         //this->loadPhysicObjectsToWorld();
                         xml->selectFather();
                     }
-/*
+                    /*
                     //JOINTS
                     if(xml->selectChild("joints")){
                         edk::uint32 size = 0u;
@@ -5782,7 +5782,7 @@ bool edk::Cenario2D::readFromXMLFromPackWithoutLoadPhysics(edk::pack::FilePackag
                         //this->loadPhysicObjectsToWorld();
                         xml->selectFather();
                     }
-/*
+                    /*
                     //JOINTS
                     if(xml->selectChild("joints")){
                         edk::uint32 size = 0u;
@@ -6195,7 +6195,7 @@ bool edk::Cenario2D::readLevelFromXMLWithoutLoadPhysics(edk::XML* xml,edk::uint3
                         //this->loadPhysicObjectsToWorld();
                         xml->selectFather();
                     }
-/*
+                    /*
                     //JOINTS
                     if(xml->selectChild("joints")){
                         edk::uint32 size = 0u;
@@ -6605,7 +6605,7 @@ bool edk::Cenario2D::readLevelFromXMLFromPackWithoutLoadPhysics(edk::pack::FileP
                         //this->loadPhysicObjectsToWorld();
                         xml->selectFather();
                     }
-/*
+                    /*
                     //JOINTS
                     if(xml->selectChild("joints")){
                         edk::uint32 size = 0u;

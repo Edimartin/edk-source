@@ -38,8 +38,18 @@ public:
     void setSpeedX(edk::float32 speedX);
     void setSpeedY(edk::float32 speedY);
 
+    //set the sizeLimit
+    void setLimit(edk::size2ui32 size);
+    void setLimitWidth(edk::uint32 width);
+    void setLimitHeight(edk::uint32 height);
+    void cleanLimit();
+    void cleanLimitWidth();
+    void cleanLimitHeight();
+
     void update(edk::float32 runMove,edk::float32 seconds);
     void update(edk::float32 runMove);
+    void update(edk::vec2f32 runMove,edk::float32 seconds);
+    void update(edk::vec2f32 runMove);
 
     //draw the wallpaper
     void drawInsideRect(edk::rectf32 rect);
@@ -58,6 +68,8 @@ private:
     edk::watch::Time clock;
     //matrix with the position values
     edk::vector::Matrix<edk::uint32> matrix;
+    //limit of matrix size
+    edk::size2ui32 sizeLimit;
     //object pointer to be rendered
     edk::Object2D obj;
     //change the status

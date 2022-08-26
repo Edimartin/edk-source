@@ -459,6 +459,7 @@ public:
         typeTemplate ret;
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+        memset(&ret,0u,sizeof(typeTemplate));
         return ret;
 #pragma GCC diagnostic pop
     }
