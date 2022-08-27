@@ -7,6 +7,8 @@
 #include "Random.h"
 #include "edk/watch/Time.h"
 
+//#define EDK_INFITINE_WALLPAPER_DEBUG_ON
+
 namespace edk{
 class InfiniteWallpaper{
 public:
@@ -23,14 +25,14 @@ public:
     //GU_NEAREST_MIPMAP_LINEAR
     //GU_LINEAR_MIPMAP_NEAREST
     //GU_LINEAR_MIPMAP_LINEAR
-    bool newWallpaper(edk::char8* name,edk::uint32 filter = GU_NEAREST);
-    bool newWallpaper(const edk::char8* name,edk::uint32 filter = GU_NEAREST);
-    bool newWallpaperFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
-    bool newWallpaperFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
-    bool newWallpaperFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter = GU_NEAREST);
-    bool newWallpaperFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 filter = GU_NEAREST);
+    bool newWallpaper(edk::char8* name,edk::uint32 drawTimes=0u,edk::uint32 filter = GU_NEAREST);
+    bool newWallpaper(const edk::char8* name,edk::uint32 drawTimes=0u,edk::uint32 filter = GU_NEAREST);
+    bool newWallpaperFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 drawTimes=0u,edk::uint32 filter = GU_NEAREST);
+    bool newWallpaperFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 drawTimes=0u,edk::uint32 filter = GU_NEAREST);
+    bool newWallpaperFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 drawTimes=0u,edk::uint32 filter = GU_NEAREST);
+    bool newWallpaperFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 drawTimes=0u,edk::uint32 filter = GU_NEAREST);
     //clone a wallpaper from an object
-    bool newWallpaperFromObject2D(edk::Object2D* obj);
+    bool newWallpaperFromObject2D(edk::Object2D* obj,edk::uint32 drawTimes=0u);
 
     //set the speed of the wallpaper
     void setSpeed(edk::vec2f32 speed);
@@ -58,7 +60,74 @@ public:
     edk::size2f32 size;
     edk::vec2f32 position;
 private:
-    edk::vector::Stack<edk::Object2D*> stack;
+    class WallpaperObject{
+    public:
+        WallpaperObject(edk::uint32 drawTimes){
+            this->drawTimes = drawTimes;
+            this->cleanDraw();
+        }
+        ~WallpaperObject(){
+            this->obj.cleanMeshes();
+        }
+        //return true if can draw
+        bool canDraw(){
+            if(this->drawTimes){
+                if(this->drawCounter<this->drawTimes
+                        &&
+                        this->drawCounter>(edk::int64)this->drawTimes*-1){
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
+            return true;
+        }
+        //increment and decrement the drawCounter
+        bool incrementDraw(){
+            bool ret=false;
+            if(this->canDraw()){
+                ret=true;
+            }
+            this->drawCounter++;
+#if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
+            if(this->drawTimes){
+                printf("\n%u %s %s increment %ld",__LINE__,__FILE__,__func__,this->drawCounter);fflush(stdout);
+            }
+#endif
+            return ret;
+        }
+        bool decrementDraw(){
+            bool ret=false;
+            if(this->canDraw()){
+                ret=true;
+            }
+            this->drawCounter--;
+#if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
+            if(this->drawTimes){
+                printf("\n%u %s %s decrement %ld",__LINE__,__FILE__,__func__,this->drawCounter);fflush(stdout);
+            }
+#endif
+            return ret;
+        }
+        bool isMinusDraw(){
+            if(this->drawCounter<0) return true;
+            return false;
+        }
+        void cleanDraw(){
+            this->drawCounter=0;
+            this->haveRemoved=false;
+        }
+        edk::uint32 getDrawTimes(){
+            return this->drawTimes;
+        }
+        edk::Object2D obj;
+        bool haveRemoved;
+    private:
+        edk::uint32 drawTimes;
+        edk::int64 drawCounter;
+    };
+    edk::vector::Stack<edk::InfiniteWallpaper::WallpaperObject*> stack;
     edk::size2f32 saveSize;
     edk::vec2f32 savePosition;
     edk::vec2i32 saveLenght;
