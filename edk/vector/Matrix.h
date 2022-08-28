@@ -64,9 +64,9 @@ public:
     }
     ~Matrix(){
         //
-        if(this->canDeleteVector){
+        //if(this->canDeleteVector){
             this->deleteMatrix();
-        }
+        //}
         this->canDeleteVector=false;
     }
 
@@ -81,7 +81,7 @@ public:
             this->matrix = new typeTemplate*[size.height];
             if(this->matrix){
                 memset(this->matrix,0u,sizeof(typeTemplate)*size.height);
-                for(edk::uint32 i=0u;i<size.width;i++){
+                for(edk::uint32 i=0u;i<size.height;i++){
                     this->matrix[i] = new typeTemplate[size.width];
                     if(this->matrix[i]){
                         memset(this->matrix[i],0u,sizeof(typeTemplate)*size.width);

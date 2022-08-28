@@ -190,7 +190,7 @@ bool edk::pack::FileNode::readFile(edk::File* file){
                     file->readBin(temp,strSize);
                     //copy the string
                     this->setFileName(temp);
-                    delete temp;
+                    delete[] temp;
                 }
 
                 //read the position

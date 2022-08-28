@@ -1016,10 +1016,10 @@ void edk::InfiniteWallpaper::drawInsideRect(edk::rectf32 rect){
         for(edk::uint32 x=0u;x<size.width;x++){
             for(edk::uint32 y=0;y<size.height;y++){
                 this->matrix.set(x,y,value);
-            }
-            value++;
-            if(value>=this->stack.size()){
-                value=0u;
+                value++;
+                if(value>=this->stack.size()){
+                    value=0u;
+                }
             }
         }
     }

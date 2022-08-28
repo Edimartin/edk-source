@@ -2210,7 +2210,7 @@ edk::int8 edk::File::readBinInt8(){
         n = *temp;
 
         //delete temp
-        delete temp;
+        delete[] temp;
     }
     temp=NULL;
 
@@ -2239,7 +2239,7 @@ edk::uint8 edk::File::readBinUInt8(){
         n = *temp;
 
         //delete temp
-        delete temp;
+        delete[] temp;
     }
     temp=NULL;
 
@@ -2268,7 +2268,7 @@ edk::int16 edk::File::readBinInt16(){
         n = *temp;
 
         //delete temp
-        delete temp;
+        delete[] temp;
     }
     temp=NULL;
 
@@ -2297,7 +2297,7 @@ edk::uint16 edk::File::readBinUInt16(){
         n = *temp;
 
         //delete temp
-        delete temp;
+        delete[] temp;
     }
     temp=NULL;
 
@@ -2326,7 +2326,7 @@ edk::int32 edk::File::readBinInt32(){
         n = *temp;
 
         //delete temp
-        delete temp;
+        delete[] temp;
     }
     temp=NULL;
 
@@ -2355,7 +2355,7 @@ edk::uint32 edk::File::readBinUInt32(){
         n = *temp;
 
         //delete temp
-        delete temp;
+        delete[] temp;
     }
     temp=NULL;
 
@@ -2384,7 +2384,7 @@ edk::int64 edk::File::readBinInt64(){
         n = *temp;
 
         //delete temp
-        delete temp;
+        delete[] temp;
     }
     temp=NULL;
 
@@ -2413,7 +2413,7 @@ edk::uint64 edk::File::readBinUInt64(){
         n = *temp;
 
         //delete temp
-        delete temp;
+        delete[] temp;
     }
     temp=NULL;
 
@@ -2442,7 +2442,7 @@ edk::float32 edk::File::readBinFloat(){
         n = *temp;
 
         //delete temp
-        delete temp;
+        delete[] temp;
     }
     temp=NULL;
 
@@ -2471,7 +2471,7 @@ edk::int64 edk::File::readBinLongInt(){
         n = *temp;
 
         //delete temp
-        delete temp;
+        delete[] temp;
     }
     temp=NULL;
 
