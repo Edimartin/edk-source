@@ -417,13 +417,13 @@ bool edk::watch::Time::clockWriteStr(edk::char8* str){
 }
 bool edk::watch::Time::clockLoadStr(){
     this->cleanStr();
-    return this->writeStr(this->str);
+    return this->clockWriteStr(this->str);
 }
 edk::char8* edk::watch::Time::clockGetStr(){
     return this->str;
 }
 void edk::watch::Time::clockPrintStr(){
-    this->loadStr();
+    this->clockLoadStr();
     //write the string
     printf("%s",this->str);fflush(stdout);
 }
