@@ -36,8 +36,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //to get current time in milliseconds
 #include <sys/timeb.h>
 
-/*TEMP*/
 #include <stdio.h>
+#include <string.h>
 
 //Windows.h to the Sleep function
 #ifdef _WIN32 //Windows 32bits
@@ -83,6 +83,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 namespace edk {
 namespace watch {
 
+//define the string name
+#define SIZE_EDK_WATCH_TIME_STRING sizeof("YYYY-MM-DD ss:mm:hh 4294967295         ")
+
 //multiplication to get float
 
 #if defined(_WIN32) || defined(_WIN64)
@@ -108,14 +111,14 @@ class Time {
 
     void start();
 
-    void remove(uint32 microseconds);
+    void remove(edk::uint32 microseconds);
     void removeSeconds(edk::float32 seconds);
 
-    void increase(uint32 microseconds);
+    void increase(edk::uint32 microseconds);
     void increaseSeconds(edk::float32 seconds);
 
-    uint32 getMicroseconds();
-    static uint32 getMicrosecondsReal();
+    edk::uint32 getMicroseconds();
+    static edk::uint32 getMicrosecondsReal();
 
     //return the seconds in float
     edk::float32 getSeconds();
@@ -130,8 +133,8 @@ class Time {
     //paste the distance
     void pasteDistance();
 
-    static void sleepProcessMiliseconds(uint32 Milliseconds);
-    static void sleepProcessMicroseconds(uint32 Microseconds);
+    static void sleepProcessMiliseconds(edk::uint32 Milliseconds);
+    static void sleepProcessMicroseconds(edk::uint32 Microseconds);
 
     //get seconds since epoch
     static edk::uint64 getTimeSinceEpoch();
@@ -146,33 +149,45 @@ class Time {
 
     void clockLoadLocalTime(edk::uint64 timeSinceEpoch);
 
-    uint32 clockGetMillisecond();
+    edk::uint32 clockGetMillisecond();
 
-    uint8 clockGetSecond();
+    edk::uint8 clockGetSecond();
 
-    uint8 clockGetMinute();
+    edk::uint8 clockGetMinute();
 
-    uint8 clockGetHour();
+    edk::uint8 clockGetHour();
 
-    uint8 clockGetDayOfMonth();
+    edk::uint8 clockGetDayOfMonth();
 
-    uint8 clockGetDayOfWeek();
+    edk::uint8 clockGetDayOfWeek();
 
-    uint32 clockGetDayOfYear();
+    edk::uint32 clockGetDayOfYear();
 
-    uint8 clockGetMonth();
+    edk::uint8 clockGetMonth();
 
-    uint32 clockGetYear();
+    edk::uint32 clockGetYear();
 
     edk::int32 clockGetGMTOff();
 
     edk::char8* clockGetTimezoneAbreviation();
+
+    //functions to generate a string
+    static edk::uint32 strSizeof();
+    bool clockWriteStr(edk::char8* str);
+    bool clockLoadStr();
+    edk::char8* clockGetStr();
+    void clockPrintStr();
 
  private:
 
      //get day of the year
      static edk::uint32 getDayOfYear(edk::uint8 dayOfMonth,edk::uint8 month,edk::uint32 year);
      static bool isBisext(edk::uint32 year);
+
+     //clean the str
+     inline void cleanStr(){
+         memset(this->str,0u,SIZE_EDK_WATCH_TIME_STRING);
+     }
 
 
     #if defined(_WIN32) || defined(_WIN64)
@@ -192,6 +207,9 @@ class Time {
 
     //set if occur overflow
     bool overflow;
+
+    //string to write the time
+    edk::char8 str[SIZE_EDK_WATCH_TIME_STRING];
 
     //
 #ifdef _MSC_VER

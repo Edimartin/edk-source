@@ -1120,6 +1120,9 @@ void edk::animation::InterpolationGroup::playForwardIn(edk::float32 second){
     //else stop
     this->stop();
 }
+void edk::animation::InterpolationGroup::restartForward(){
+    return playForwardIn(this->frameStart);
+}
 void edk::animation::InterpolationGroup::playRewind(){
     //
     return playRewindIn(this->animationSecond);
@@ -1146,6 +1149,9 @@ void edk::animation::InterpolationGroup::pause(){
         this->playing=true;
     }
     this->paused = !this->paused;
+}
+void edk::animation::InterpolationGroup::restartRewind(){
+    this->playRewindIn(this->frameEnd);
 }
 void edk::animation::InterpolationGroup::pauseOn(){
     //test if wasn't playing
@@ -1221,6 +1227,34 @@ edk::float32 edk::animation::InterpolationGroup::getAnimationMissingSecond(){
         return this->frameEnd - this->animationSecond;
     }
     return 0.f;
+}
+//get the animation start and end
+edk::float32 edk::animation::InterpolationGroup::getAnimationStart(){
+    return this->frameStart;
+}
+edk::float32 edk::animation::InterpolationGroup::getAnimationEnd(){
+    return this->frameEnd;
+}
+edk::float32 edk::animation::InterpolationGroup::getAnimationLenght(){
+    edk::float32 ret;
+    if(this->frameEnd<0.f){
+        if(this->frameStart<0.f){
+            ret = this->frameEnd - this->frameStart;
+        }
+        else{
+            ret = (this->frameEnd*-1.f) + this->frameStart;
+        }
+    }
+    else{
+        if(this->frameStart<0.f){
+            ret = (this->frameStart*-1.f) + this->frameEnd;
+        }
+        else{
+            ret = this->frameEnd - this->frameStart;
+        }
+    }
+    if(ret<0.f)ret*=-1.f;
+    return ret;
 }
 //return if are playing
 bool edk::animation::InterpolationGroup::isPlaying(){

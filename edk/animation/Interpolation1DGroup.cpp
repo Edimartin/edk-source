@@ -129,6 +129,12 @@ bool edk::animation::Interpolation1DGroup::addFirstInterpolationLine(edk::animat
     //else return false
     return false;
 }
+bool edk::animation::Interpolation1DGroup::addFirstInterpolationLine(edk::float32 startSecond,edk::float32 endSecond){
+    return this->addFirstInterpolationLine(edk::animation::Frame1D(startSecond,startSecond),edk::animation::Frame1D(endSecond,endSecond));
+}
+bool edk::animation::Interpolation1DGroup::addFirstInterpolationLine(edk::animation::Frame start,edk::animation::Frame end){
+    return this->addFirstInterpolationLine(edk::animation::Frame1D(start.second,start.second),edk::animation::Frame1D(end.second,end.second));
+}
 
 //Add New Interpolation
 bool edk::animation::Interpolation1DGroup::addNewInterpolationLine(edk::float32 second,edk::float32 x){

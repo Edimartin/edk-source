@@ -43,6 +43,7 @@ edk::uint8 edk::watch::Time::monthDays[12u]={31,28,31,30,31,30,31,31,30,31,30,31
 
 
 edk::watch::Time::Time(){
+    this->cleanStr();
     this->timeStart=0u;
     this->saveTimeDistance=0u;
 #if defined(WIN32) || defined(WIN64)
@@ -393,4 +394,36 @@ edk::char8* edk::watch::Time::clockGetTimezoneAbreviation(){
 # endif
     return NULL;
 #endif
+}
+
+//functions to generate a string
+edk::uint32 edk::watch::Time::strSizeof(){
+    return SIZE_EDK_WATCH_TIME_STRING;
+}
+bool edk::watch::Time::clockWriteStr(edk::char8* str){
+    if(str){
+        sprintf(str,"%04u-%02u-%02u %02u:%02u:%02u %10u"
+                ,this->clockGetYear()
+                ,this->clockGetMonth()
+                ,this->clockGetDayOfMonth()
+                ,this->clockGetSecond()
+                ,this->clockGetMinute()
+                ,this->clockGetHour()
+                ,this->clockGetMillisecond()
+                );
+        return true;
+    }
+    return false;
+}
+bool edk::watch::Time::clockLoadStr(){
+    this->cleanStr();
+    return this->writeStr(this->str);
+}
+edk::char8* edk::watch::Time::clockGetStr(){
+    return this->str;
+}
+void edk::watch::Time::clockPrintStr(){
+    this->loadStr();
+    //write the string
+    printf("%s",this->str);fflush(stdout);
 }

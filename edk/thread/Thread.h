@@ -112,7 +112,9 @@ class Thread {
     //return the thread core
     static edk::uint32 getThisThreadCore();
 
+    //return the number of cores in the system
     static edk::uint32 numberOfCores();
+    static edk::uint32 getNumberOfCores();
 
 
  private:

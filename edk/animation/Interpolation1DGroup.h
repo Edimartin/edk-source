@@ -49,6 +49,8 @@ class Interpolation1DGroup: public edk::animation::InterpolationGroup{
         //Add a first interpolation
         bool addFirstInterpolationLine(edk::float32 startSecond, edk::float32 startX, edk::float32 endSecond,edk::float32 endX);
         bool addFirstInterpolationLine(edk::animation::Frame1D start,edk::animation::Frame1D end);
+        bool addFirstInterpolationLine(edk::float32 startSecond,edk::float32 endSecond);
+        bool addFirstInterpolationLine(edk::animation::Frame start,edk::animation::Frame end);
 
         //Add New Interpolation
         bool addNewInterpolationLine(edk::float32 second,edk::float32 x);

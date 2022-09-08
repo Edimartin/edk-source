@@ -587,6 +587,10 @@ edk::uint32 edk::multi::Thread::getThisThreadCore(){
 #endif
 }
 
+//return the number of cores in the system
 edk::uint32 edk::multi::Thread::numberOfCores(){
+    return edk::multi::Thread::cores;
+}
+edk::uint32 edk::multi::Thread::getNumberOfCores(){
     return edk::multi::Thread::cores;
 }

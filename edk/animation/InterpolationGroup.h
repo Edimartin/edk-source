@@ -227,8 +227,10 @@ public:
     //animation controllers
     void playForward();
     void playForwardIn(edk::float32 second);
+    void restartForward();
     void playRewind();
     void playRewindIn(edk::float32 second);
+    void restartRewind();
     void pause();
     void pauseOn();
     void pauseOff();
@@ -250,6 +252,10 @@ public:
     edk::float32 getAnimationSecond();
     //return the missingTime
     edk::float32 getAnimationMissingSecond();
+    //get the animation start and end
+    edk::float32 getAnimationStart();
+    edk::float32 getAnimationEnd();
+    edk::float32 getAnimationLenght();
     //return the interpolation seconds
     edk::float32 getInterpolationStartSecond(edk::float32 position);
     edk::float32 getInterpolationEndSecond(edk::float32 position);

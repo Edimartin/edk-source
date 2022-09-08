@@ -32,6 +32,7 @@ edk::ViewText::ViewText()
 {
     this->textLine=0u;
     this->saveLine=0u;
+    this->text.setColor(0.f,0.f,0.f,1.f);
     this->cleanString();
 }
 edk::ViewText::~ViewText()

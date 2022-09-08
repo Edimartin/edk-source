@@ -471,7 +471,7 @@ private:
             //test if dont have the button
             if(temp){
                 //return the size
-                return temp->axisValue.getAxisValueInPosition(position);
+                return temp->axisValue.getAxisValueByID(position);
             }
             return 0.f;
         }
