@@ -133,15 +133,15 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
 
                     //get objectA position
                     vertex = edk::Math::rotatePlus(contactTemp->worldPositions[i]-contactTemp->objectA->position,
-                                                     contactTemp->objectA->angle * -1.f
-                                                     );
+                                                   contactTemp->objectA->angle * -1.f
+                                                   );
                     if(contactTemp->objectA->size.width) vertex.x/=contactTemp->objectA->size.width;
                     if(contactTemp->objectA->size.height) vertex.y/=contactTemp->objectA->size.height;
                     contactTemp->objectAPositions.set(i,vertex);
                     //get objectB position
                     vertex = edk::Math::rotatePlus(contactTemp->worldPositions[i]-contactTemp->objectB->position,
-                                                     contactTemp->objectB->angle * -1.f
-                                                     );
+                                                   contactTemp->objectB->angle * -1.f
+                                                   );
                     if(contactTemp->objectB->size.width)vertex.x/=contactTemp->objectB->size.width;
                     if(contactTemp->objectB->size.height)vertex.y/=contactTemp->objectB->size.height;
                     contactTemp->objectBPositions.set(i,vertex);
@@ -303,15 +303,15 @@ void edk::physics2D::World2D::MyContactListener::EndContact(b2Contact* contact){
 
             //get objectA position
             vertex = edk::Math::rotatePlus(contactTemp->worldPositions[i]-contactTemp->objectA->position,
-                                             contactTemp->objectA->angle * -1.f
-                                             );
+                                           contactTemp->objectA->angle * -1.f
+                                           );
             if(contactTemp->objectA->size.width) vertex.x/=contactTemp->objectA->size.width;
             if(contactTemp->objectA->size.height) vertex.y/=contactTemp->objectA->size.height;
             contactTemp->objectAPositions.set(i,vertex);
             //get objectB position
             vertex = edk::Math::rotatePlus(contactTemp->worldPositions[i]-contactTemp->objectB->position,
-                                             contactTemp->objectB->angle * -1.f
-                                             );
+                                           contactTemp->objectB->angle * -1.f
+                                           );
             if(contactTemp->objectB->size.width) vertex.x/=contactTemp->objectB->size.width;
             if(contactTemp->objectB->size.height) vertex.y/=contactTemp->objectB->size.height;
             contactTemp->objectBPositions.set(i,vertex);
@@ -320,45 +320,45 @@ void edk::physics2D::World2D::MyContactListener::EndContact(b2Contact* contact){
         //process the contactEnd
 
         //if(contactTemp->isEnabled()){
-            //test if the objectA is a sensor
-            if(contactTemp->objectA->isSensor()){
-                //load the sensor
-                edk::physics2D::StaticSensor2D* sensor = (edk::physics2D::StaticSensor2D*)contactTemp->objectA;
-                //test if the sensor have objects
-                if(sensor->getActivateSize()){
-                    //test if have the object in the sensor tree
-                    if(sensor->haveActivateObject(contactTemp->objectB)){
-                        //this->world->sensorEnd(contactTemp);
-                        this->world->physicsSensorEnd(contactTemp);
-                    }
-                }
-                else{
-                    //test if the object is in the sensor
-                    //this->world->sensorEnd(contactTemp);
-                    this->world->physicsSensorEnd(contactTemp);
-                }
-            }
-            else if(contactTemp->objectB->isSensor()){
-                //load the sensor
-                edk::physics2D::StaticSensor2D* sensor = (edk::physics2D::StaticSensor2D*)contactTemp->objectB;
-                //test if the sensor have objects
-                if(sensor->getActivateSize()){
-                    //test if have the object in the sensor tree
-                    if(sensor->haveActivateObject(contactTemp->objectA)){
-                        //this->world->sensorEnd(contactTemp);
-                        this->world->physicsSensorEnd(contactTemp);
-                    }
-                }
-                else{
-                    //test if the object is in the sensor
+        //test if the objectA is a sensor
+        if(contactTemp->objectA->isSensor()){
+            //load the sensor
+            edk::physics2D::StaticSensor2D* sensor = (edk::physics2D::StaticSensor2D*)contactTemp->objectA;
+            //test if the sensor have objects
+            if(sensor->getActivateSize()){
+                //test if have the object in the sensor tree
+                if(sensor->haveActivateObject(contactTemp->objectB)){
                     //this->world->sensorEnd(contactTemp);
                     this->world->physicsSensorEnd(contactTemp);
                 }
             }
             else{
-                //this->world->contactEnd(contactTemp);
-                this->world->physicsContactEnd(contactTemp);
+                //test if the object is in the sensor
+                //this->world->sensorEnd(contactTemp);
+                this->world->physicsSensorEnd(contactTemp);
             }
+        }
+        else if(contactTemp->objectB->isSensor()){
+            //load the sensor
+            edk::physics2D::StaticSensor2D* sensor = (edk::physics2D::StaticSensor2D*)contactTemp->objectB;
+            //test if the sensor have objects
+            if(sensor->getActivateSize()){
+                //test if have the object in the sensor tree
+                if(sensor->haveActivateObject(contactTemp->objectA)){
+                    //this->world->sensorEnd(contactTemp);
+                    this->world->physicsSensorEnd(contactTemp);
+                }
+            }
+            else{
+                //test if the object is in the sensor
+                //this->world->sensorEnd(contactTemp);
+                this->world->physicsSensorEnd(contactTemp);
+            }
+        }
+        else{
+            //this->world->contactEnd(contactTemp);
+            this->world->physicsContactEnd(contactTemp);
+        }
         //}
 
         //remove contactTemp from the tree
@@ -409,15 +409,15 @@ void edk::physics2D::World2D::MyContactListener::PreSolve(b2Contact* contact, co
 
             //get objectA position
             vertex = edk::Math::rotatePlus(contactTemp->worldPositions[i]-contactTemp->objectA->position,
-                                             contactTemp->objectA->angle * -1.f
-                                             );
+                                           contactTemp->objectA->angle * -1.f
+                                           );
             if(contactTemp->objectA->size.width) vertex.x/=contactTemp->objectA->size.width;
             if(contactTemp->objectA->size.height) vertex.y/=contactTemp->objectA->size.height;
             contactTemp->objectAPositions.set(i,vertex);
             //get objectB position
             vertex = edk::Math::rotatePlus(contactTemp->worldPositions[i]-contactTemp->objectB->position,
-                                             contactTemp->objectB->angle * -1.f
-                                             );
+                                           contactTemp->objectB->angle * -1.f
+                                           );
             if(contactTemp->objectB->size.width) vertex.x/=contactTemp->objectB->size.width;
             if(contactTemp->objectB->size.height) vertex.y/=contactTemp->objectB->size.height;
             contactTemp->objectBPositions.set(i,vertex);
@@ -521,15 +521,15 @@ void edk::physics2D::World2D::MyContactListener::PostSolve(b2Contact* contact, c
 
             //get objectA position
             vertex = edk::Math::rotatePlus(contactTemp->worldPositions[i]-contactTemp->objectA->position,
-                                             contactTemp->objectA->angle * -1.f
-                                             );
+                                           contactTemp->objectA->angle * -1.f
+                                           );
             if(contactTemp->objectA->size.width) vertex.x/=contactTemp->objectA->size.width;
             if(contactTemp->objectA->size.height) vertex.y/=contactTemp->objectA->size.height;
             contactTemp->objectAPositions.set(i,vertex);
             //get objectB position
             vertex = edk::Math::rotatePlus(contactTemp->worldPositions[i]-contactTemp->objectB->position,
-                                             contactTemp->objectB->angle * -1.f
-                                             );
+                                           contactTemp->objectB->angle * -1.f
+                                           );
             if(contactTemp->objectB->size.width) vertex.x/=contactTemp->objectB->size.width;
             if(contactTemp->objectB->size.height) vertex.y/=contactTemp->objectB->size.height;
             contactTemp->objectBPositions.set(i,vertex);
@@ -1561,10 +1561,10 @@ bool edk::physics2D::World2D::addObject(edk::physics2D::PhysicObject2D* object){
                                 vertex1.y = (object->physicMesh.selectedGetVertexPosition(0u).y * scale.height);
                                 //rotate
                                 vertex1 = edk::Math::rotate(vertex1,
-                                                              edk::Math::getAngle(vertex1)
-                                                              +
-                                                              object->physicMesh.selectedGetAngle()
-                                                              );
+                                                            edk::Math::getAngle(vertex1)
+                                                            +
+                                                            object->physicMesh.selectedGetAngle()
+                                                            );
                                 //Translate
                                 vertex1+=translate;
                                 //process the line
@@ -1572,10 +1572,10 @@ bool edk::physics2D::World2D::addObject(edk::physics2D::PhysicObject2D* object){
                                 vertex2.y = (object->physicMesh.selectedGetVertexPosition(0u).y * scale.height);
                                 //rotate
                                 vertex2 = edk::Math::rotate(vertex2,
-                                                              edk::Math::getAngle(vertex2)
-                                                              +
-                                                              object->physicMesh.selectedGetAngle()
-                                                              );
+                                                            edk::Math::getAngle(vertex2)
+                                                            +
+                                                            object->physicMesh.selectedGetAngle()
+                                                            );
                                 //Translate
                                 vertex2+=translate;
 
@@ -1628,10 +1628,10 @@ bool edk::physics2D::World2D::addObject(edk::physics2D::PhysicObject2D* object){
                                     vertex.x = (object->physicMesh.selectedGetVertexPosition(p).x * scale.width);
                                     vertex.y = (object->physicMesh.selectedGetVertexPosition(p).y * scale.height);
                                     vertex = edk::Math::rotate(vertex,
-                                                                 edk::Math::getAngle(vertex)
-                                                                 +
-                                                                 object->physicMesh.selectedGetAngle()
-                                                                 );
+                                                               edk::Math::getAngle(vertex)
+                                                               +
+                                                               object->physicMesh.selectedGetAngle()
+                                                               );
                                     vertexs[p].x = vertex.x + translate.x;
                                     vertexs[p].y = vertex.y + translate.y;
                                 }
@@ -1721,10 +1721,10 @@ bool edk::physics2D::World2D::addObject(edk::physics2D::PhysicObject2D* object){
                                     vertex.y = rectVec[0u].y;
                                     //rotate
                                     vertex = edk::Math::rotate(vertex,
-                                                                 edk::Math::getAngle(vertex)
-                                                                 +
-                                                                 object->physicMesh.selectedGetAngle()
-                                                                 ) + translate;
+                                                               edk::Math::getAngle(vertex)
+                                                               +
+                                                               object->physicMesh.selectedGetAngle()
+                                                               ) + translate;
                                     vertexs[0u].x = vertex.x;
                                     vertexs[0u].y = vertex.y;
 
@@ -1732,10 +1732,10 @@ bool edk::physics2D::World2D::addObject(edk::physics2D::PhysicObject2D* object){
                                     vertex.y = rectVec[0u].y;
                                     //rotate
                                     vertex = edk::Math::rotate(vertex,
-                                                                 edk::Math::getAngle(vertex)
-                                                                 +
-                                                                 object->physicMesh.selectedGetAngle()
-                                                                 ) + translate;
+                                                               edk::Math::getAngle(vertex)
+                                                               +
+                                                               object->physicMesh.selectedGetAngle()
+                                                               ) + translate;
                                     vertexs[1u].x = vertex.x;
                                     vertexs[1u].y = vertex.y;
 
@@ -1743,10 +1743,10 @@ bool edk::physics2D::World2D::addObject(edk::physics2D::PhysicObject2D* object){
                                     vertex.y = rectVec[1u].y;
                                     //rotate
                                     vertex = edk::Math::rotate(vertex,
-                                                                 edk::Math::getAngle(vertex)
-                                                                 +
-                                                                 object->physicMesh.selectedGetAngle()
-                                                                 ) + translate;
+                                                               edk::Math::getAngle(vertex)
+                                                               +
+                                                               object->physicMesh.selectedGetAngle()
+                                                               ) + translate;
                                     vertexs[2u].x = vertex.x;
                                     vertexs[2u].y = vertex.y;
 
@@ -1754,10 +1754,10 @@ bool edk::physics2D::World2D::addObject(edk::physics2D::PhysicObject2D* object){
                                     vertex.y = rectVec[1u].y;
                                     //rotate
                                     vertex = edk::Math::rotate(vertex,
-                                                                 edk::Math::getAngle(vertex)
-                                                                 +
-                                                                 object->physicMesh.selectedGetAngle()
-                                                                 ) + translate;
+                                                               edk::Math::getAngle(vertex)
+                                                               +
+                                                               object->physicMesh.selectedGetAngle()
+                                                               ) + translate;
                                     vertexs[3u].x = vertex.x;
                                     vertexs[3u].y = vertex.y;
 
@@ -1791,10 +1791,10 @@ bool edk::physics2D::World2D::addObject(edk::physics2D::PhysicObject2D* object){
                                     //vertexs[p].x = (object->physicMesh.selectedGetVertexPosition(p).x * scale.width) + translate.x;
                                     //vertexs[p].y = (object->physicMesh.selectedGetVertexPosition(p).y * scale.height) + translate.y;
                                     vertex = edk::Math::rotate(vertex,
-                                                                 edk::Math::getAngle(vertex)
-                                                                 +
-                                                                 object->physicMesh.selectedGetAngle()
-                                                                 );
+                                                               edk::Math::getAngle(vertex)
+                                                               +
+                                                               object->physicMesh.selectedGetAngle()
+                                                               );
                                     vertexs[p].x = vertex.x + translate.x;
                                     vertexs[p].y = vertex.y + translate.y;
                                 }
@@ -2506,6 +2506,94 @@ edk::physics2D::Contact2D* edk::physics2D::World2D::getContact(edk::uint32 posit
 
 
 //joints
+//MOUSE
+edk::physics2D::MouseJoint2D* edk::physics2D::World2D::createMouseJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA,edk::vec2f32 positionB){
+    //test the object
+    if(objectA){
+        //test the objectType
+        if(objectA->getType()!=edk::physics::StaticBody){
+            //create a ground body
+            edk::physics2D::KinematicObject2D* ground = new edk::physics2D::KinematicObject2D;
+            if(ground){
+                edk::shape::Rectangle2D rect;
+                rect.setPivoToCenter();
+                ground->physicMesh.addPolygon(rect);
+
+                ground->position=positionB;
+
+                if(this->addObject(ground)){
+                    //
+
+
+                    //load the objects
+                    b2Body* bodyA = this->getBody(ground);
+                    b2Body* bodyB = this->getBody(objectA);
+
+                    //create the joint
+                    if(bodyA && bodyB){
+                        edk::physics2D::MouseJoint2D *edkJoint = NULL;
+                        //create the revolute def
+                        b2MouseJointDef jointDef;
+                        jointDef.collideConnected=false;
+                        jointDef.bodyA = bodyA;
+                        jointDef.bodyB = bodyB;
+                        //jointDef.target = b2Vec2(positionB.x * this->percentIn,positionB.y * this->percentIn);
+
+                        //create the edkJoint
+                        edkJoint = new edk::physics2D::MouseJoint2D(false);
+                        if(edkJoint){
+                            //in the new version of box2D the userData are setted in jointDef
+                            jointDef.userData.pointer = (uintptr_t)edkJoint;
+
+                            edkJoint->objectA = ground;
+                            edkJoint->objectB = objectA;
+                            edkJoint->positionA = positionA;
+                            edkJoint->positionB = 0.f;
+                            edkJoint->worldPositionA
+                                    =
+                                    edk::physics2D::World2D::JointTreeObject::getJointWorldPosition(objectA,positionA)
+                                    ;
+                            edkJoint->positionB = positionB;
+
+                            //create the edkJoint
+                            if(this->addJoint(edkJoint)){
+                                //
+                                b2Joint* joint = (b2Joint*) this->world.CreateJoint(&jointDef);
+                                if(joint){
+                                    b2MouseJoint* mouseJoint = (b2MouseJoint*)joint;
+                                    mouseJoint->SetTarget(b2Vec2(positionB.x,positionB.y));
+                                    //removed from the old box2D version. In the new box2D version the userData is in JointDef
+                                    //joint->SetUserData(edkJoint);
+                                    //add the joint in the tree
+                                    if(this->treeJoint.addJoint(edkJoint,joint)){
+                                        return edkJoint;
+                                    }
+                                    //else destroy the joint
+                                    this->world.DestroyJoint(joint);
+                                }
+                                this->destroyJoint(edkJoint);
+                            }
+                        }
+                    }
+                    this->removeObject(ground);
+                }
+                delete ground;
+            }
+        }
+    }
+    return NULL;
+}
+edk::physics2D::MouseJoint2D* edk::physics2D::World2D::createMouseJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 worldPosition){
+    //test the object
+    if(objectA){
+        return this->createMouseJoint(objectA,
+                                      edk::physics2D::World2D::JointTreeObject::getJointPosition(objectA,worldPosition),
+                                      worldPosition
+                                      );
+    }
+    return NULL;
+}
+
 //REVOLUTE
 edk::physics2D::RevoluteJoint2D* edk::physics2D::World2D::createRevoluteJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA,
                                                                               edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 positionB,
@@ -3699,6 +3787,13 @@ bool edk::physics2D::World2D::destroyJoint(edk::physics2D::Joint2D* joint){
 
             //destroy the joint
             this->world.DestroyJoint(boxJoint);
+
+            if(joint->getType() == EDK_REVOLUTE_JOINT){
+                //delete the ground
+                if(this->removeObject(joint->objectA)){
+                    delete joint->objectA;
+                }
+            }
             //delete the joint
             delete joint;
             return true;
@@ -3863,6 +3958,30 @@ edk::float32 edk::physics2D::World2D::getMotorJointSpeed(edk::physics2D::Joint2D
         }
     }
     return 0.f;
+}
+//set the mouse target
+bool edk::physics2D::World2D::setMouseJointTarget(edk::physics2D::MouseJoint2D* mouseJoint,edk::vec2f32 target){
+    if(mouseJoint){
+        //get the b2Jointt
+        b2Joint *boxJoint = this->treeJoint.getJoint(mouseJoint);
+        if(boxJoint){
+            switch(boxJoint->GetType()){
+            case e_mouseJoint:
+                //
+            {
+                b2MouseJoint* temp = (b2MouseJoint*)boxJoint;
+                temp->SetTarget(b2Vec2(target.x,target.y));
+                return true;
+            }
+            default:
+                break;
+            }//end switch
+        }
+    }
+    return false;
+}
+bool edk::physics2D::World2D::setMouseJointTarget(edk::physics2D::MouseJoint2D* mouseJoint,edk::float32 x,edk::float32 y){
+    return this->setMouseJointTarget(mouseJoint,edk::vec2f32(x,y));
 }
 
 //contact functions

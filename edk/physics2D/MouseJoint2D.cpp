@@ -1,7 +1,7 @@
-#include "RevoluteJoint2D.h"
+#include "MouseJoint2D.h"
 
 /*
-Library RevoluteJoint2D - Physics revolute joints used with PhysicsObjects
+Library MouseJoint2D - Physics mouse joints used with PhysicsObjects
 Copyright 2013 Eduardo Moura Sales Martins (edimartin@gmail.com)
 
 Permission is hereby granted, free of charge, to any person obtaining
@@ -24,50 +24,15 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-edk::physics2D::RevoluteJoint2D::RevoluteJoint2D(bool collide)
+edk::physics2D::MouseJoint2D::MouseJoint2D(bool collide)
     :
       edk::physics2D::Joint2D(collide)
 {
     this->type = EDK_REVOLUTE_JOINT;
-    this->revoluteType = 0u;
-    this->removeType();
-}
-
-void edk::physics2D::RevoluteJoint2D::setAngle(edk::float32 lowerAngle,edk::float32 upperAngle){
-    this->lowerAngle = lowerAngle;
-    this->upperAngle = upperAngle;
-    this->revoluteType = EDK_JOINT_ANGLE;
-}
-//set motor
-void edk::physics2D::RevoluteJoint2D::setMotor(edk::float32 maxTorque,edk::float32 speed){
-    this->maxTorque = maxTorque;
-    this->speed = speed;
-    this->revoluteType = EDK_JOINT_MOTOR;
-}
-//remove type
-void edk::physics2D::RevoluteJoint2D::removeType(){
-    this->revoluteType=0u;
-}
-
-//GETERS
-edk::uint8 edk::physics2D::RevoluteJoint2D::getRevoluteType(){
-    return this->revoluteType;
-}
-edk::float32 edk::physics2D::RevoluteJoint2D::getLowerAngle(){
-    return this->lowerAngle;
-}
-edk::float32 edk::physics2D::RevoluteJoint2D::getUpperAngle(){
-    return this->upperAngle;
-}
-edk::float32 edk::physics2D::RevoluteJoint2D::getMaxTorque(){
-    return this->maxTorque;
-}
-edk::float32 edk::physics2D::RevoluteJoint2D::getSpeed(){
-    return this->speed;
 }
 
 //draw the joint in debug mode
-void edk::physics2D::RevoluteJoint2D::draw(edk::size2f32 size,edk::color3f32 color){
+void edk::physics2D::MouseJoint2D::draw(edk::size2f32 size,edk::color3f32 color){
     //
     size*=0.5;
     edk::GU::guColor3f32(color);
