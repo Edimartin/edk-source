@@ -233,6 +233,14 @@ public:
 	/// @param wake also wake up the body
 	void ApplyAngularImpulse(float impulse, bool wake);
 
+	/// Apply position update
+	/// @param position the new position to the object be moved in the world
+	void ApplyUpdatePosition(const b2Vec2& position);
+
+	/// Apply angle update
+	/// @param angle the new angle to the object be rotated in the world
+	void ApplyUpdateAngle(float angle);
+
 	/// Get the total mass of the body.
 	/// @return the mass, usually in kilograms (kg).
 	float GetMass() const;
@@ -437,6 +445,11 @@ private:
 
 	b2Transform m_xf;		// the body origin transform
 	b2Sweep m_sweep;		// the swept motion for CCD
+
+	b2Vec2 upC;			//update Position
+	bool runUpC;			//save if need update the position
+	float upA;			//update the angle
+	bool runUpA;			//save if need update the angle
 
 	b2Vec2 m_linearVelocity;
 	float m_angularVelocity;
@@ -854,6 +867,18 @@ inline void b2Body::ApplyAngularImpulse(float impulse, bool wake)
 	{
 		m_angularVelocity += m_invI * impulse;
 	}
+}
+
+inline void b2Body::ApplyUpdatePosition(const b2Vec2& position)
+{
+	this->upC = position;
+	this->runUpC=true;
+}
+
+inline void b2Body::ApplyUpdateAngle(float angle)
+{
+	this->upA = angle;
+	this->runUpA=true;
 }
 
 inline void b2Body::SynchronizeTransform()

@@ -83,6 +83,7 @@ public:
 	b2Joint** m_joints;
 
 	b2Position* m_positions;
+	b2UpdatePosition* m_upositions;
 	b2Velocity* m_velocities;
 
 	int32 m_bodyCount;

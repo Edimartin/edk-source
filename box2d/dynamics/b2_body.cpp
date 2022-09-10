@@ -101,6 +101,13 @@ b2Body::b2Body(const b2BodyDef* bd, b2World* world)
 
 	m_fixtureList = nullptr;
 	m_fixtureCount = 0;
+
+	//update the position and angle
+	this->upC.x = 0.f;
+	this->upC.y = 0.f;
+	this->runUpC=false;
+	this->upA = 0.f;
+	this->runUpA=false;
 }
 
 b2Body::~b2Body()

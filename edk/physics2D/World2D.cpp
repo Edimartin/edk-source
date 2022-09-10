@@ -2212,6 +2212,89 @@ bool edk::physics2D::World2D::updateObjectStatus(edk::physics2D::PhysicObject2D*
     }
     return false;
 }
+bool edk::physics2D::World2D::updateObjectPosition(edk::physics2D::PhysicObject2D* object){
+    //test the object
+    if(object){
+        //load the box2D object
+        b2Body* temp=NULL;
+        switch(object->getType()){
+        case edk::physics::StaticBody:
+            temp = this->treeStatic.getBody(object);
+            break;
+        case edk::physics::DynamicBody:
+            temp = this->treeDynamic.getBody(object);
+            break;
+        case edk::physics::KinematicBody:
+            temp = this->treeKinematic.getBody(object);
+            break;
+        }
+        if(temp){
+            temp->ApplyUpdatePosition(b2Vec2(object->position.x,object->position.y));
+            temp->SetAwake(true);
+            temp->SetLinearVelocity(b2Vec2(object->position.x - temp->GetPosition().x
+                                           ,object->position.y - temp->GetPosition().y
+                                           )
+                                    );
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::physics2D::World2D::updateObjectAngle(edk::physics2D::PhysicObject2D* object){
+    //test the object
+    if(object){
+        //load the box2D object
+        b2Body* temp=NULL;
+        switch(object->getType()){
+        case edk::physics::StaticBody:
+            temp = this->treeStatic.getBody(object);
+            break;
+        case edk::physics::DynamicBody:
+            temp = this->treeDynamic.getBody(object);
+            break;
+        case edk::physics::KinematicBody:
+            temp = this->treeKinematic.getBody(object);
+            break;
+        }
+        if(temp){
+            temp->ApplyUpdateAngle(object->angle);
+            temp->SetAngularVelocity(object->angle - temp->GetAngle());
+            temp->SetAwake(true);
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::physics2D::World2D::updateObjectPositionAndAngle(edk::physics2D::PhysicObject2D* object){
+    //test the object
+    if(object){
+        //load the box2D object
+        b2Body* temp=NULL;
+        switch(object->getType()){
+        case edk::physics::StaticBody:
+            temp = this->treeStatic.getBody(object);
+            break;
+        case edk::physics::DynamicBody:
+            temp = this->treeDynamic.getBody(object);
+            break;
+        case edk::physics::KinematicBody:
+            temp = this->treeKinematic.getBody(object);
+            break;
+        }
+        if(temp){
+            temp->ApplyUpdatePosition(b2Vec2(object->position.x,object->position.y));
+            temp->SetLinearVelocity(b2Vec2(object->position.x - temp->GetPosition().x
+                                           ,object->position.y - temp->GetPosition().y
+                                           )
+                                    );
+            temp->ApplyUpdateAngle(object->angle);
+            temp->SetAngularVelocity(object->angle - temp->GetAngle());
+            temp->SetAwake(true);
+            return true;
+        }
+    }
+    return false;
+}
 //move the object to a position
 bool edk::physics2D::World2D::moveObject(edk::physics2D::PhysicObject2D* object,edk::vec2f32 move){
     //test the object

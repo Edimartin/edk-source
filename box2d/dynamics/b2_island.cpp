@@ -173,11 +173,13 @@ b2Island::b2Island(
 
 	m_velocities = (b2Velocity*)m_allocator->Allocate(m_bodyCapacity * sizeof(b2Velocity));
 	m_positions = (b2Position*)m_allocator->Allocate(m_bodyCapacity * sizeof(b2Position));
+	m_upositions = (b2UpdatePosition*)m_allocator->Allocate(m_bodyCapacity * sizeof(b2UpdatePosition));
 }
 
 b2Island::~b2Island()
 {
 	// Warning: the order should reverse the constructor order.
+	m_allocator->Free(m_upositions);
 	m_allocator->Free(m_positions);
 	m_allocator->Free(m_velocities);
 	m_allocator->Free(m_joints);
@@ -220,6 +222,31 @@ void b2Island::Solve(b2Profile* profile, const b2TimeStep& step, const b2Vec2& g
 			// v2 = v1 * 1 / (1 + c * dt)
 			v *= 1.0f / (1.0f + h * b->m_linearDamping);
 			w *= 1.0f / (1.0f + h * b->m_angularDamping);
+
+			if(b->runUpC){
+				m_upositions[i].c = b->upC;
+				m_upositions[i].uc = true;
+				//
+				b->runUpC=false;
+			}
+			else{
+				m_upositions[i].uc = false;
+			}
+			if(b->runUpA){
+				//
+				m_upositions[i].a = b->upA;
+				m_upositions[i].ua = true;
+				//
+				b->runUpA=false;
+			}
+			else{
+				m_upositions[i].ua = false;
+			}
+
+		}
+		else{
+			m_upositions[i].uc = false;
+			m_upositions[i].ua = false;
 		}
 
 		m_positions[i].c = c;
@@ -302,6 +329,15 @@ void b2Island::Solve(b2Profile* profile, const b2TimeStep& step, const b2Vec2& g
 		// Integrate
 		c += h * v;
 		a += h * w;
+
+		if(m_upositions[i].uc){
+		//
+		c = m_upositions[i].c;
+		}
+		if(m_upositions[i].ua){
+		//
+		a = m_upositions[i].a;
+		}
 
 		m_positions[i].c = c;
 		m_positions[i].a = a;

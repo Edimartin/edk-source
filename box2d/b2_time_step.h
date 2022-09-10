@@ -62,6 +62,13 @@ struct B2_API b2Velocity
 	b2Vec2 v;
 	float w;
 };
+struct B2_API b2UpdatePosition
+{
+	b2Vec2 c;
+	bool uc;
+	float a;
+	bool ua;
+};
 
 /// Solver Data
 struct B2_API b2SolverData

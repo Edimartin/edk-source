@@ -113,6 +113,9 @@ public:
     bool updateObjectAngularVelocity(edk::physics2D::PhysicObject2D* object);
     bool cleanObjectVelocity(edk::physics2D::PhysicObject2D* object);
     bool updateObjectStatus(edk::physics2D::PhysicObject2D* object);
+    bool updateObjectPosition(edk::physics2D::PhysicObject2D* object);
+    bool updateObjectAngle(edk::physics2D::PhysicObject2D* object);
+    bool updateObjectPositionAndAngle(edk::physics2D::PhysicObject2D* object);
     //move the object to a position
     bool moveObject(edk::physics2D::PhysicObject2D* object,edk::vec2f32 move);
     bool moveObject(edk::physics2D::PhysicObject2D* object,edk::float32 x,edk::float32 y);
