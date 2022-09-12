@@ -223,14 +223,23 @@ void b2Island::Solve(b2Profile* profile, const b2TimeStep& step, const b2Vec2& g
 			v *= 1.0f / (1.0f + h * b->m_linearDamping);
 			w *= 1.0f / (1.0f + h * b->m_angularDamping);
 
-			if(b->runUpC){
-				m_upositions[i].c = b->upC;
-				m_upositions[i].uc = true;
+			if(b->runUpCX){
+				m_upositions[i].c.x = b->upC.x;
+				m_upositions[i].ucx = true;
 				//
-				b->runUpC=false;
+				b->runUpCX=false;
 			}
 			else{
-				m_upositions[i].uc = false;
+				m_upositions[i].ucx = false;
+			}
+			if(b->runUpCY){
+				m_upositions[i].c.y = b->upC.y;
+				m_upositions[i].ucy = true;
+				//
+				b->runUpCY=false;
+			}
+			else{
+				m_upositions[i].ucy = false;
 			}
 			if(b->runUpA){
 				//
@@ -245,7 +254,8 @@ void b2Island::Solve(b2Profile* profile, const b2TimeStep& step, const b2Vec2& g
 
 		}
 		else{
-			m_upositions[i].uc = false;
+			m_upositions[i].ucx = false;
+			m_upositions[i].ucy = false;
 			m_upositions[i].ua = false;
 		}
 
@@ -330,13 +340,17 @@ void b2Island::Solve(b2Profile* profile, const b2TimeStep& step, const b2Vec2& g
 		c += h * v;
 		a += h * w;
 
-		if(m_upositions[i].uc){
-		//
-		c = m_upositions[i].c;
+		if(m_upositions[i].ucx)
+		{
+			c.x = m_upositions[i].c.x;
 		}
-		if(m_upositions[i].ua){
-		//
-		a = m_upositions[i].a;
+		if(m_upositions[i].ucy)
+		{
+			c.y = m_upositions[i].c.y;
+		}
+		if(m_upositions[i].ua)
+		{
+			a = m_upositions[i].a;
 		}
 
 		m_positions[i].c = c;

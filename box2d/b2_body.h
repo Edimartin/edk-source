@@ -237,6 +237,14 @@ public:
 	/// @param position the new position to the object be moved in the world
 	void ApplyUpdatePosition(const b2Vec2& position);
 
+	/// Apply position update in X
+	/// @param position the new position to the object be moved in the world in X
+	void ApplyUpdatePositionX(float positionX);
+
+	/// Apply position update in Y
+	/// @param position the new position to the object be moved in the world in Y
+	void ApplyUpdatePositionY(float positionY);
+
 	/// Apply angle update
 	/// @param angle the new angle to the object be rotated in the world
 	void ApplyUpdateAngle(float angle);
@@ -447,7 +455,8 @@ private:
 	b2Sweep m_sweep;		// the swept motion for CCD
 
 	b2Vec2 upC;			//update Position
-	bool runUpC;			//save if need update the position
+	bool runUpCX;			//save if need update the position
+	bool runUpCY;			//save if need update the position
 	float upA;			//update the angle
 	bool runUpA;			//save if need update the angle
 
@@ -872,7 +881,20 @@ inline void b2Body::ApplyAngularImpulse(float impulse, bool wake)
 inline void b2Body::ApplyUpdatePosition(const b2Vec2& position)
 {
 	this->upC = position;
-	this->runUpC=true;
+	this->runUpCX=true;
+	this->runUpCY=true;
+}
+
+inline void b2Body::ApplyUpdatePositionX(float positionX)
+{
+	this->upC.x = positionX;
+	this->runUpCX=true;
+}
+
+inline void b2Body::ApplyUpdatePositionY(float positionY)
+{
+	this->upC.y = positionY;
+	this->runUpCY=true;
 }
 
 inline void b2Body::ApplyUpdateAngle(float angle)

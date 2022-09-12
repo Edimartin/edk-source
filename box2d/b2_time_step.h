@@ -65,7 +65,8 @@ struct B2_API b2Velocity
 struct B2_API b2UpdatePosition
 {
 	b2Vec2 c;
-	bool uc;
+	bool ucx;
+	bool ucy;
 	float a;
 	bool ua;
 };

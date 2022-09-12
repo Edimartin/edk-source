@@ -105,7 +105,8 @@ b2Body::b2Body(const b2BodyDef* bd, b2World* world)
 	//update the position and angle
 	this->upC.x = 0.f;
 	this->upC.y = 0.f;
-	this->runUpC=false;
+	this->runUpCX=false;
+	this->runUpCY=false;
 	this->upA = 0.f;
 	this->runUpA=false;
 }
