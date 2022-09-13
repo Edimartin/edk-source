@@ -86,6 +86,9 @@ class Interpolation1DGroup: public edk::animation::InterpolationGroup{
         //return the interpolation seconds
         edk::float32 getInterpolationStartX(edk::float32 position);
         edk::float32 getInterpolationEndX(edk::float32 position);
+        //return the animation start and end in X
+        edk::float32 getAnimationStartX();
+        edk::float32 getAnimationEndX();
         //write to XML
         virtual bool writeToXML(edk::XML* xml,edk::uint32 id);
         //read XML

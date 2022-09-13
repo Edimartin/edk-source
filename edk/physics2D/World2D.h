@@ -116,6 +116,9 @@ public:
     bool updateObjectPosition(edk::physics2D::PhysicObject2D* object);
     bool updateObjectPositionX(edk::physics2D::PhysicObject2D* object);
     bool updateObjectPositionY(edk::physics2D::PhysicObject2D* object);
+    bool updateObjectSyncronizePosition(edk::physics2D::PhysicObject2D* object);
+    bool updateObjectSyncronizePositionX(edk::physics2D::PhysicObject2D* object);
+    bool updateObjectSyncronizePositionY(edk::physics2D::PhysicObject2D* object);
     bool updateObjectAngle(edk::physics2D::PhysicObject2D* object);
     bool updateObjectPositionAndAngle(edk::physics2D::PhysicObject2D* object);
     bool updateObjectPositionXAndAngle(edk::physics2D::PhysicObject2D* object);

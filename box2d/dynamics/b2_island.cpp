@@ -241,6 +241,22 @@ void b2Island::Solve(b2Profile* profile, const b2TimeStep& step, const b2Vec2& g
 			else{
 				m_upositions[i].ucy = false;
 			}
+			if(b->runUpSCX){
+				m_upositions[i].scx = true;
+				//
+				b->runUpSCX=false;
+			}
+			else{
+				m_upositions[i].scx = false;
+			}
+			if(b->runUpSCY){
+				m_upositions[i].scy = true;
+				//
+				b->runUpSCY=false;
+			}
+			else{
+				m_upositions[i].scy = false;
+			}
 			if(b->runUpA){
 				//
 				m_upositions[i].a = b->upA;
@@ -256,6 +272,8 @@ void b2Island::Solve(b2Profile* profile, const b2TimeStep& step, const b2Vec2& g
 		else{
 			m_upositions[i].ucx = false;
 			m_upositions[i].ucy = false;
+			m_upositions[i].scx = false;
+			m_upositions[i].scy = false;
 			m_upositions[i].ua = false;
 		}
 
@@ -390,6 +408,14 @@ void b2Island::Solve(b2Profile* profile, const b2TimeStep& step, const b2Vec2& g
 		body->m_linearVelocity = m_velocities[i].v;
 		body->m_angularVelocity = m_velocities[i].w;
 		body->SynchronizeTransform();
+		if(m_upositions[i].ucx || m_upositions[i].scx)
+		{
+			body->SynchronizeUpdateX(body->m_sweep.c.x);
+		}
+		if(m_upositions[i].ucy || m_upositions[i].scy)
+		{
+			body->SynchronizeUpdateY(body->m_sweep.c.y);
+		}
 	}
 
 	profile->solvePosition = timer.GetMilliseconds();

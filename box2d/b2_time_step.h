@@ -67,6 +67,8 @@ struct B2_API b2UpdatePosition
 	b2Vec2 c;
 	bool ucx;
 	bool ucy;
+	bool scx;
+	bool scy;
 	float a;
 	bool ua;
 };

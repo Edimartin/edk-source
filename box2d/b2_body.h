@@ -245,6 +245,15 @@ public:
 	/// @param position the new position to the object be moved in the world in Y
 	void ApplyUpdatePositionY(float positionY);
 
+	/// Apply position update synchronize
+	void ApplySynchronizePosition();
+
+	/// Apply position update synchronize in X
+	void ApplySynchronizePositionX();
+
+	/// Apply position update synchronize in Y
+	void ApplySynchronizePositionY();
+
 	/// Apply angle update
 	/// @param angle the new angle to the object be rotated in the world
 	void ApplyUpdateAngle(float angle);
@@ -438,6 +447,8 @@ private:
 
 	void SynchronizeFixtures();
 	void SynchronizeTransform();
+	void SynchronizeUpdateX(float x);
+	void SynchronizeUpdateY(float y);
 
 	// This is used to prevent connected bodies from colliding.
 	// It may lie, depending on the collideConnected flag.
@@ -457,6 +468,8 @@ private:
 	b2Vec2 upC;			//update Position
 	bool runUpCX;			//save if need update the position
 	bool runUpCY;			//save if need update the position
+	bool runUpSCX;			//save if need update the synchronize position
+	bool runUpSCY;			//save if need update the ynchronize position
 	float upA;			//update the angle
 	bool runUpA;			//save if need update the angle
 
@@ -897,6 +910,22 @@ inline void b2Body::ApplyUpdatePositionY(float positionY)
 	this->runUpCY=true;
 }
 
+inline void b2Body::ApplySynchronizePosition()
+{
+	this->runUpSCX=true;
+	this->runUpSCY=true;
+}
+
+inline void b2Body::ApplySynchronizePositionX()
+{
+	this->runUpSCX=true;
+}
+
+inline void b2Body::ApplySynchronizePositionY()
+{
+	this->runUpSCY=true;
+}
+
 inline void b2Body::ApplyUpdateAngle(float angle)
 {
 	this->upA = angle;
@@ -907,6 +936,12 @@ inline void b2Body::SynchronizeTransform()
 {
 	m_xf.q.Set(m_sweep.a);
 	m_xf.p = m_sweep.c - b2Mul(m_xf.q, m_sweep.localCenter);
+}
+inline void b2Body::SynchronizeUpdateX(float x){
+	m_xf.p.x = x;
+}
+inline void b2Body::SynchronizeUpdateY(float y){
+	m_xf.p.y = y;
 }
 
 inline void b2Body::Advance(float alpha)

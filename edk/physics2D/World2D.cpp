@@ -2291,6 +2291,80 @@ bool edk::physics2D::World2D::updateObjectPositionY(edk::physics2D::PhysicObject
                                            object->position.y - temp->GetPosition().y
                                            )
                                     );
+            object->setLinearVelocity(temp->GetLinearVelocity().x,
+                                      (object->position.y - temp->GetPosition().y) * 0.f);
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::physics2D::World2D::updateObjectSyncronizePosition(edk::physics2D::PhysicObject2D* object){
+    //test the object
+    if(object){
+        //load the box2D object
+        b2Body* temp=NULL;
+        switch(object->getType()){
+        case edk::physics::StaticBody:
+            temp = this->treeStatic.getBody(object);
+            break;
+        case edk::physics::DynamicBody:
+            temp = this->treeDynamic.getBody(object);
+            break;
+        case edk::physics::KinematicBody:
+            temp = this->treeKinematic.getBody(object);
+            break;
+        }
+        if(temp){
+            temp->ApplySynchronizePosition();
+            temp->SetAwake(true);
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::physics2D::World2D::updateObjectSyncronizePositionX(edk::physics2D::PhysicObject2D* object){
+    //test the object
+    if(object){
+        //load the box2D object
+        b2Body* temp=NULL;
+        switch(object->getType()){
+        case edk::physics::StaticBody:
+            temp = this->treeStatic.getBody(object);
+            break;
+        case edk::physics::DynamicBody:
+            temp = this->treeDynamic.getBody(object);
+            break;
+        case edk::physics::KinematicBody:
+            temp = this->treeKinematic.getBody(object);
+            break;
+        }
+        if(temp){
+            temp->ApplySynchronizePositionX();
+            temp->SetAwake(true);
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::physics2D::World2D::updateObjectSyncronizePositionY(edk::physics2D::PhysicObject2D* object){
+    //test the object
+    if(object){
+        //load the box2D object
+        b2Body* temp=NULL;
+        switch(object->getType()){
+        case edk::physics::StaticBody:
+            temp = this->treeStatic.getBody(object);
+            break;
+        case edk::physics::DynamicBody:
+            temp = this->treeDynamic.getBody(object);
+            break;
+        case edk::physics::KinematicBody:
+            temp = this->treeKinematic.getBody(object);
+            break;
+        }
+        if(temp){
+            temp->ApplySynchronizePositionY();
+            temp->SetAwake(true);
             return true;
         }
     }

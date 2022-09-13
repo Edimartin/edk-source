@@ -469,6 +469,25 @@ edk::float32 edk::animation::Interpolation2DGroup::getInterpolationEndY(edk::flo
     }
     return 0u;
 }
+//return the animation start and end in Y
+edk::float32 edk::animation::Interpolation2DGroup::getAnimationStartY(){
+    if(this->animations.size()){
+        edk::animation::InterpolationLine2D* temp = (edk::animation::InterpolationLine2D*)this->animations[0u];
+        if(temp){
+            return temp->getStart2D().y;
+        }
+    }
+    return 0.f;
+}
+edk::float32 edk::animation::Interpolation2DGroup::getAnimationEndY(){
+    if(this->animations.size()){
+        edk::animation::InterpolationLine2D* temp = (edk::animation::InterpolationLine2D*)this->animations[this->animations.size()-1u];
+        if(temp){
+            return temp->getEnd2D().y;
+        }
+    }
+    return 0.f;
+}
 //write to XML
 bool edk::animation::Interpolation2DGroup::writeToXML(edk::XML* xml,edk::uint32 id){
     //test the XML

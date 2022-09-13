@@ -392,6 +392,25 @@ edk::float32 edk::animation::Interpolation3DGroup::getInterpolationEndZ(edk::flo
     }
     return 0u;
 }
+//return the animation start and end in Z
+edk::float32 edk::animation::Interpolation3DGroup::getAnimationStartZ(){
+    if(this->animations.size()){
+        edk::animation::InterpolationLine3D* temp = (edk::animation::InterpolationLine3D*)this->animations[0u];
+        if(temp){
+            return temp->getStart3D().z;
+        }
+    }
+    return 0.f;
+}
+edk::float32 edk::animation::Interpolation3DGroup::getAnimationEndZ(){
+    if(this->animations.size()){
+        edk::animation::InterpolationLine3D* temp = (edk::animation::InterpolationLine3D*)this->animations[this->animations.size()-1u];
+        if(temp){
+            return temp->getEnd3D().z;
+        }
+    }
+    return 0.f;
+}
 //write to XML
 bool edk::animation::Interpolation3DGroup::writeToXML(edk::XML* xml,edk::uint32 id){
     //test the XML
