@@ -2292,7 +2292,7 @@ bool edk::physics2D::World2D::updateObjectPositionY(edk::physics2D::PhysicObject
                                            )
                                     );
             object->setLinearVelocity(temp->GetLinearVelocity().x,
-                                      (object->position.y - temp->GetPosition().y) * 0.f);
+                                      object->position.y - temp->GetPosition().y);
             return true;
         }
     }

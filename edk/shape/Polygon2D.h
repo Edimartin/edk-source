@@ -80,6 +80,10 @@ class Polygon2D{
         bool setPolygonColor(edk::color3f32 color);
         bool setPolygonColor(edk::float32 r,edk::float32 g,edk::float32 b);
         bool setPolygonColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
+        bool setPolygonColorR(edk::float32 r);
+        bool setPolygonColorG(edk::float32 g);
+        bool setPolygonColorB(edk::float32 b);
+        bool setPolygonColorA(edk::float32 a);
         //set the UVMap of the vertex
         bool setVertexUV(edk::uint32 vertex,edk::vec2f32 uv);
         bool setVertexUV(edk::uint32 vertex,edk::float32 x,edk::float32 y);

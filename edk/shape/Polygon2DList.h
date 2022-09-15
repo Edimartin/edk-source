@@ -56,6 +56,10 @@ public:
     bool setPolygonsColor(edk::color3f32 color);
     bool setPolygonsColor(edk::float32 r,edk::float32 g,edk::float32 b);
     bool setPolygonsColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
+    bool setPolygonsColorR(edk::float32 r);
+    bool setPolygonsColorG(edk::float32 g);
+    bool setPolygonsColorB(edk::float32 b);
+    bool setPolygonsColorA(edk::float32 a);
     //set physics
     bool setPolygonDensity(edk::uint32 position,edk::float32 density);
     void setDensity(edk::float32 density);

@@ -85,6 +85,10 @@ public:
     bool setPolygonColor(edk::uint32 position,edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
     void setPolygonsColor(edk::color4f32 color);
     void setPolygonsColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
+    void setPolygonsColorR(edk::float32 r);
+    void setPolygonsColorG(edk::float32 g);
+    void setPolygonsColorB(edk::float32 b);
+    void setPolygonsColorA(edk::float32 a);
 
     //LIGHT
     bool setLight(edk::uint32 position,edk::light::Light light);

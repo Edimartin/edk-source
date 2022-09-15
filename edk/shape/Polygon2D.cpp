@@ -292,6 +292,66 @@ bool edk::shape::Polygon2D::setPolygonColor(edk::float32 r,edk::float32 g,edk::f
     //
     return this->setPolygonColor(edk::color4f32 (r,g,b,a));
 }
+bool edk::shape::Polygon2D::setPolygonColorR(edk::float32 r){
+    //first set the polygonColor
+    this->polygonColor.r = r;
+    if(this->getVertexCount()){
+        //set the color of the vertexPolygons
+        for(edk::uint32 i=0u;i<this->getVertexCount();i++){
+            //set the color
+            this->vertexs[i]->color.r = this->polygonColor.r;
+        }
+        //then return true
+        return true;
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::Polygon2D::setPolygonColorG(edk::float32 g){
+    //first set the polygonColor
+    this->polygonColor.g = g;
+    if(this->getVertexCount()){
+        //set the color of the vertexPolygons
+        for(edk::uint32 i=0u;i<this->getVertexCount();i++){
+            //set the color
+            this->vertexs[i]->color.g = this->polygonColor.g;
+        }
+        //then return true
+        return true;
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::Polygon2D::setPolygonColorB(edk::float32 b){
+    //first set the polygonColor
+    this->polygonColor.b = b;
+    if(this->getVertexCount()){
+        //set the color of the vertexPolygons
+        for(edk::uint32 i=0u;i<this->getVertexCount();i++){
+            //set the color
+            this->vertexs[i]->color.b = this->polygonColor.b;
+        }
+        //then return true
+        return true;
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::Polygon2D::setPolygonColorA(edk::float32 a){
+    //first set the polygonColor
+    this->polygonColor.a = a;
+    if(this->getVertexCount()){
+        //set the color of the vertexPolygons
+        for(edk::uint32 i=0u;i<this->getVertexCount();i++){
+            //set the color
+            this->vertexs[i]->color.a = this->polygonColor.a;
+        }
+        //then return true
+        return true;
+    }
+    //else return false
+    return false;
+}
 //set the UVMap of the vertex
 bool edk::shape::Polygon2D::setVertexUV(edk::uint32 vertex,edk::vec2f32 uv){
     this->frameUsing=edk::vec2ui32(0u,0u);

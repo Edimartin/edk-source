@@ -756,6 +756,38 @@ void edk::Object2D::setPolygonsColor(edk::color4f32 color){
 void edk::Object2D::setPolygonsColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
     this->setPolygonsColor(edk::color4f32(r,g,b,a));
 }
+void edk::Object2D::setPolygonsColorR(edk::float32 r){
+    edk::uint32 size = this->meshes.size();
+    for(edk::uint32 i=0u;i<size;i++){
+        if(this->meshes.getMesh(i)){
+            this->meshes.getMesh(i)->setPolygonsColorR(r);
+        }
+    }
+}
+void edk::Object2D::setPolygonsColorG(edk::float32 g){
+    edk::uint32 size = this->meshes.size();
+    for(edk::uint32 i=0u;i<size;i++){
+        if(this->meshes.getMesh(i)){
+            this->meshes.getMesh(i)->setPolygonsColorG(g);
+        }
+    }
+}
+void edk::Object2D::setPolygonsColorB(edk::float32 b){
+    edk::uint32 size = this->meshes.size();
+    for(edk::uint32 i=0u;i<size;i++){
+        if(this->meshes.getMesh(i)){
+            this->meshes.getMesh(i)->setPolygonsColorB(b);
+        }
+    }
+}
+void edk::Object2D::setPolygonsColorA(edk::float32 a){
+    edk::uint32 size = this->meshes.size();
+    for(edk::uint32 i=0u;i<size;i++){
+        if(this->meshes.getMesh(i)){
+            this->meshes.getMesh(i)->setPolygonsColorA(a);
+        }
+    }
+}
 
 //LIGHT
 //EDK_LIGHT_LIMIT

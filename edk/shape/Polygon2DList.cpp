@@ -94,6 +94,66 @@ bool edk::shape::Polygon2DList::setPolygonsColor(edk::float32 r,edk::float32 g,e
     }
     return false;
 }
+bool edk::shape::Polygon2DList::setPolygonsColorR(edk::float32 r){
+    //test if have polygons
+    if(this->polygons.size()){
+        edk::shape::Polygon2D* polygon=NULL;
+        //set the polygonColors
+        for(edk::uint32 i=0u;i<this->polygons.size();i++){
+            polygon = this->polygons.get(i);
+            if(polygon){
+                polygon->setPolygonColorR(r);
+            }
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon2DList::setPolygonsColorG(edk::float32 g){
+    //test if have polygons
+    if(this->polygons.size()){
+        edk::shape::Polygon2D* polygon=NULL;
+        //set the polygonColors
+        for(edk::uint32 i=0u;i<this->polygons.size();i++){
+            polygon = this->polygons.get(i);
+            if(polygon){
+                polygon->setPolygonColorG(g);
+            }
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon2DList::setPolygonsColorB(edk::float32 b){
+    //test if have polygons
+    if(this->polygons.size()){
+        edk::shape::Polygon2D* polygon=NULL;
+        //set the polygonColors
+        for(edk::uint32 i=0u;i<this->polygons.size();i++){
+            polygon = this->polygons.get(i);
+            if(polygon){
+                polygon->setPolygonColorB(b);
+            }
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon2DList::setPolygonsColorA(edk::float32 a){
+    //test if have polygons
+    if(this->polygons.size()){
+        edk::shape::Polygon2D* polygon=NULL;
+        //set the polygonColors
+        for(edk::uint32 i=0u;i<this->polygons.size();i++){
+            polygon = this->polygons.get(i);
+            if(polygon){
+                polygon->setPolygonColorA(a);
+            }
+        }
+        return true;
+    }
+    return false;
+}
 //set physics
 bool edk::shape::Polygon2DList::setPolygonDensity(edk::uint32 position,edk::float32 density){
     if(this->polygons.havePos(position)){
