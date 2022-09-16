@@ -56,7 +56,7 @@ void edk::animation::Interpolation3DGroup::printInterpolationLine(edk::animation
     //
     if(interpolation){
         edk::animation::InterpolationLine3D* temp = (edk::animation::InterpolationLine3D*)interpolation;
-        printf("Start second %.2f X %.2f Y %.2f Z %.2f end second %.2f X %.2f Y %.2f Z %.2f"
+        printf("Start second %.4f X %.4f Y %.4f Z %.4f end second %.4f X %.4f Y %.4f Z %.4f"
                ,temp->getStart3D().second
                ,temp->getStart3D().x
                ,temp->getStart3D().y

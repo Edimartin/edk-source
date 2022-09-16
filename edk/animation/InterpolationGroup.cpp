@@ -89,7 +89,7 @@ void edk::animation::InterpolationGroup::printInterpolationLine(edk::animation::
     //test the frame
     if(interpolation){
         //
-        printf("Start second %.2f end second %.2f"
+        printf("Start second %.4f end second %.4f"
                ,interpolation->getStart().second
                ,interpolation->getEnd().second
                );
@@ -137,24 +137,30 @@ edk::uint32 edk::animation::InterpolationGroup::searchBackInterpoaltion(edk::flo
                 return size-1u;
             }
         }
-        //test if the second are bigger then the frames
-        for(edk::uint32 i=this->animations.size();i>0;i--){
-            //test if have the frame
-            if(this->animations.havePos(i-1u)){
-                temp = this->animations[i-1u];
-                //test if the second is inside the interpolation line
-                if(second<=temp->getEnd().second && second>temp->getStart().second){
-                    //then return i
-                    return i-1u;
+        if(size>1u){
+            //test if the second are bigger then the frames
+            for(edk::uint32 i=this->animations.size();i>0;i--){
+                //test if have the frame
+                if(this->animations.havePos(i-1u)){
+                    temp = this->animations[i-1u];
+                    //test if the second is inside the interpolation line
+                    if(second<=temp->getEnd().second && second>temp->getStart().second){
+                        //then return i
+                        if(i-1u){
+                            return i-2u;
+                        }
+                        else{
+                            return i-1u;
+                        }
+                    }
+                }
+                else{
+                    //move the interpolation to the end
+                    this->animations.bringPositionTo(i-1u,this->animations.size()-1u);
+                    //remove the position
+                    this->animations.remove(this->animations.size()-1u);
                 }
             }
-            else{
-                //move the interpolation to the end
-                this->animations.bringPositionTo(i-1u,this->animations.size()-1u);
-                //remove the position
-                this->animations.remove(this->animations.size()-1u);
-            }
-            //test if the last second are smaller
         }
     }
     //else return 0u
@@ -178,7 +184,7 @@ bool edk::animation::InterpolationGroup::insertLineFrameAfter(edk::uint32 positi
                 this->animations.bringPositionTo(size,position+1u);
 
                 //set the end frame
-                temp->setStart(frame.second-0.1f);
+                temp->setStart(frame.second-0.0001f);
                 temp->setEnd(frame.second);
 
                 //if(this->animations[position]){
@@ -226,7 +232,7 @@ bool edk::animation::InterpolationGroup::insertLineFrameInside(edk::uint32 posit
                 this->animations.bringPositionTo(size,position+1u);
 
                 //set the end frame
-                temp->setEnd(frame.second+0.1f);
+                temp->setEnd(frame.second+0.0001f);
                 temp->setStart(frame.second);
 
                 if(this->animations[position]){
@@ -535,7 +541,7 @@ bool edk::animation::InterpolationGroup::addNewInterpolationLine(edk::animation:
         else{
             //intert the interpolation in the first interpolation
 
-            //test if second are bigger que first frame
+            //test if second are bigger than the first frame
             if(frame.second>this->animations[0u]->getStart().second){
                 //test if need insert the frame after the first frame
                 if(frame.second>this->animations[0u]->getEnd().second){
