@@ -44,6 +44,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #warning "    Compiling Math"
 #endif
 
+#define EDK_MATH_EVEN(n) ((n<<((sizeof(n)*8u)-1u))==0u)
+
 namespace edk{
 class Math{
 public:
@@ -73,6 +75,45 @@ public:
     static inline bool equal(edk::uint64 n1,edk::uint64 n2){return (n1==n2);}
     static inline bool equal(edk::float32 n1,edk::float32 n2){return (n1>=n2-0.0001f && n1<=n2+0.0001f);}
     static inline bool equal(edk::float64 n1,edk::float64 n2){return (n1>=n2-0.000001f && n1<=n2+0.000001f);}
+
+    static inline bool isEven(edk::char8  n){if(EDK_MATH_EVEN(n))return true;return false;}
+    static inline bool isEven(edk::int8   n){if(EDK_MATH_EVEN(n))return true;return false;}
+    static inline bool isEven(edk::int16  n){if(EDK_MATH_EVEN(n))return true;return false;}
+    static inline bool isEven(edk::int32  n){if(EDK_MATH_EVEN(n))return true;return false;}
+    static inline bool isEven(edk::int64  n){if(EDK_MATH_EVEN(n))return true;return false;}
+    static inline bool isEven(edk::uint8  n){if(EDK_MATH_EVEN(n))return true;return false;}
+    static inline bool isEven(edk::uint16 n){if(EDK_MATH_EVEN(n))return true;return false;}
+    static inline bool isEven(edk::uint32 n){if(EDK_MATH_EVEN(n))return true;return false;}
+    static inline bool isEven(edk::uint64 n){if(EDK_MATH_EVEN(n))return true;return false;}
+    static inline bool even(  edk::char8  n){if(EDK_MATH_EVEN(n))return true;return false;}
+    static inline bool even(  edk::int8   n){if(EDK_MATH_EVEN(n))return true;return false;}
+    static inline bool even(  edk::int16  n){if(EDK_MATH_EVEN(n))return true;return false;}
+    static inline bool even(  edk::int32  n){if(EDK_MATH_EVEN(n))return true;return false;}
+    static inline bool even(  edk::int64  n){if(EDK_MATH_EVEN(n))return true;return false;}
+    static inline bool even(  edk::uint8  n){if(EDK_MATH_EVEN(n))return true;return false;}
+    static inline bool even(  edk::uint16 n){if(EDK_MATH_EVEN(n))return true;return false;}
+    static inline bool even(  edk::uint32 n){if(EDK_MATH_EVEN(n))return true;return false;}
+    static inline bool even(  edk::uint64 n){if(EDK_MATH_EVEN(n))return true;return false;}
+
+    static inline bool isOdd( edk::char8  n){if(EDK_MATH_EVEN(n))return false;return true;}
+    static inline bool isOdd( edk::int8   n){if(EDK_MATH_EVEN(n))return false;return true;}
+    static inline bool isOdd( edk::int16  n){if(EDK_MATH_EVEN(n))return false;return true;}
+    static inline bool isOdd( edk::int32  n){if(EDK_MATH_EVEN(n))return false;return true;}
+    static inline bool isOdd( edk::int64  n){if(EDK_MATH_EVEN(n))return false;return true;}
+    static inline bool isOdd( edk::uint8  n){if(EDK_MATH_EVEN(n))return false;return true;}
+    static inline bool isOdd( edk::uint16 n){if(EDK_MATH_EVEN(n))return false;return true;}
+    static inline bool isOdd( edk::uint32 n){if(EDK_MATH_EVEN(n))return false;return true;}
+    static inline bool isOdd( edk::uint64 n){if(EDK_MATH_EVEN(n))return false;return true;}
+    static inline bool odd(   edk::char8  n){if(EDK_MATH_EVEN(n))return false;return true;}
+    static inline bool odd(   edk::int8   n){if(EDK_MATH_EVEN(n))return false;return true;}
+    static inline bool odd(   edk::int16  n){if(EDK_MATH_EVEN(n))return false;return true;}
+    static inline bool odd(   edk::int32  n){if(EDK_MATH_EVEN(n))return false;return true;}
+    static inline bool odd(   edk::int64  n){if(EDK_MATH_EVEN(n))return false;return true;}
+    static inline bool odd(   edk::uint8  n){if(EDK_MATH_EVEN(n))return false;return true;}
+    static inline bool odd(   edk::uint16 n){if(EDK_MATH_EVEN(n))return false;return true;}
+    static inline bool odd(   edk::uint32 n){if(EDK_MATH_EVEN(n))return false;return true;}
+    static inline bool odd(   edk::uint64 n){if(EDK_MATH_EVEN(n))return false;return true;}
+
 
     //SquareRoot of the number
     static edk::float32 squareRoot(edk::float32 n);

@@ -75,6 +75,18 @@ public:
         }
         return false;
     }
+    //Load
+    virtual void loadElement(obj* value){
+        printf("\nElement %u"
+               ,(edk::uint32)value
+               );
+    }
+    //Unload
+    virtual void unloadElement(obj* value){
+        printf("\nElement %u"
+               ,(edk::uint32)value
+               );
+    }
     //Print
     virtual void printElement(obj* value){
         printf("\nElement %u"
@@ -92,6 +104,14 @@ public:
         value++;
     }
 
+    //Load the elements
+    virtual void load(){
+        edk::vector::BinaryTree<obj*>::load();
+    }
+    //Unload the elements
+    virtual void unload(){
+        edk::vector::BinaryTree<obj*>::unload();
+    }
     //Print the elements
     virtual void print(){
         edk::vector::BinaryTree<obj*>::print();
@@ -258,6 +278,22 @@ public:
         return false;
     }
 
+    //Load the elements
+    virtual void load(){
+        //test if have root
+        if(this->root){
+            //
+            this->loadRecursively(this->root);
+        }
+    }
+    //Unload the elements
+    virtual void unload(){
+        //test if have root
+        if(this->root){
+            //
+            this->unloadRecursively(this->root);
+        }
+    }
     //Print the elements
     virtual void print(){
         //test if have root
@@ -630,6 +666,10 @@ protected:
         }
         return false;
     }
+    //Load
+    virtual void loadElement(typeTemplate){}
+    //Unload
+    virtual void unloadElement(typeTemplate){}
     //Print
     virtual void printElement(typeTemplate){}
     //created for draw the object
@@ -791,6 +831,36 @@ private:
         return false;
     }
 
+    //recursively to load
+    void loadRecursively(BinaryLeaf<typeTemplate>* temp){
+        //test if have temp
+        if(temp){
+            //
+            if(temp->left){
+                this->loadRecursively(temp->left);
+            }
+            //update
+            this->loadElement(temp->value);
+            if(temp->right){
+                this->loadRecursively(temp->right);
+            }
+        }
+    }
+    //recursively to unload
+    void unloadRecursively(BinaryLeaf<typeTemplate>* temp){
+        //test if have temp
+        if(temp){
+            //
+            if(temp->left){
+                this->unloadRecursively(temp->left);
+            }
+            //update
+            this->unloadElement(temp->value);
+            if(temp->right){
+                this->unloadRecursively(temp->right);
+            }
+        }
+    }
     //update the values runing the update function
     void updateRecursively(BinaryLeaf<typeTemplate>* temp){
         //test if have temp
