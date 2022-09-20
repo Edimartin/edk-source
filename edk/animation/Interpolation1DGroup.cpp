@@ -620,22 +620,17 @@ bool edk::animation::Interpolation1DGroup::setSecondByX(edk::float32 oldSecond,e
 
 //GETERS
 //return the animationPosition
-edk::float32 edk::animation::Interpolation1DGroup::getClockX(bool* success){
+edk::float32 edk::animation::Interpolation1DGroup::getClockX(){
     //test if is playing
     if(this->isPlaying()){
         //load the interpolation
         edk::animation::InterpolationLine1D* temp = (edk::animation::InterpolationLine1D*)edk::animation::InterpolationGroup::getSelectedInterpolation();
-        //set success
-        if(success) *success=true;
         //load the position
         if(temp){
             //
-
             return temp->getPositionX(this->animationSecond) + this->incrementX;
         }
     }
-    //set success
-    else if(success) *success=false;
     //else return 0.0f;
     return 0.0f;
 }

@@ -878,8 +878,9 @@ edk::Cenario2D::ActionObjectMove::ActionObjectMove(edk::Cenario2D* cenario,edk::
 void edk::Cenario2D::ActionObjectMove::runAction(){
     edk::Object2D* temp = this->cenario->getObject(this->levelPosition,this->depth);
     if(temp){
-        temp->animationPosition.cleanAnimations();
-        temp->animationPosition.addFirstInterpolationLine(0u,temp->position.x,temp->position.y,this->duration,this->position.x,this->position.y);
+        temp->animationPosition.cleanTracks();
+        edk::uint32 track = temp->animationPosition.newTrack();
+        temp->animationPosition.addFirstInterpolationLine(track,0u,temp->position.x,temp->position.y,this->duration,this->position.x,this->position.y);
         temp->animationPosition.playForward();
         this->cenario->setObjectAnimated(this->levelPosition,this->depth);
     }

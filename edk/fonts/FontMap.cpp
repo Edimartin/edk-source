@@ -3750,126 +3750,108 @@ void edk::fonts::FontMap::forceSpeedInLast(edk::float32 speed){
 bool edk::fonts::FontMap::updateAnimations(){
     bool ret=false;
     edk::uint32 tileID;
-    bool success = false;
+    //test if need force speed
+    if(this->forceSpeedOrigin){
+        this->forceSpeedOrigin = false;
+        //set the update speed
+        this->animOrigin.setSpeed(this->forceSpeedOriginValue);
+    }
+    this->animOrigin.updateClockAnimation();
+    //test if need force speed
+    if(this->forceSpeedLast){
+        this->forceSpeedLast = false;
+        //set the update speed
+        this->animLast.setSpeed(this->forceSpeedLastValue);
+    }
+    this->animLast.updateClockAnimation();
+    this->animationPosition.updateClockAnimation();
+    this->animationSize.updateClockAnimation();
     //test if is animating
     if(this->animOrigin.isPlaying()){
-
-        //test if need force speed
-        if(this->forceSpeedOrigin){
-            this->forceSpeedOrigin = false;
-            //set the update speed
-            this->animOrigin.setSpeed(this->forceSpeedOriginValue);
-        }
-
-        this->animOrigin.updateClockAnimation();
-
         //get the value
-        edk::float32 clockX = this->animLast.getClockX(&success);
-        if(success){
-            this->originID = (edk::uint32)clockX;
-            //update the origin
-            this->origin = this->getCharacterPosition(this->originID);
+        edk::float32 clockX = this->animOrigin.getClockX();
+        this->originID = (edk::uint32)clockX;
+        //update the origin
+        this->origin = this->getCharacterPosition(this->originID);
 
-            tileID = this->map.getTileID(this->origin);
-            if(tileID == 0u || tileID == ' '){
-                //test if found enter
-                if(tileID == 0u){
-                    //found enter
-                    if(!this->enterOrigin){
-                        this->enterOrigin=true;
-                        //Run found Enter
-                        edk::uint32 size = this->treeCallbacks.size();
-                        for(edk::uint32 i=0u;i<size;i++){
-                            this->treeCallbacks.getElementInPosition(i)->originFoundEnd();
-                        }
+        tileID = this->map.getTileID(this->origin);
+        if(tileID == 0u || tileID == ' '){
+            //test if found enter
+            if(tileID == 0u){
+                //found enter
+                if(!this->enterOrigin){
+                    this->enterOrigin=true;
+                    //Run found Enter
+                    edk::uint32 size = this->treeCallbacks.size();
+                    for(edk::uint32 i=0u;i<size;i++){
+                        this->treeCallbacks.getElementInPosition(i)->originFoundEnd();
                     }
                 }
-                else{
-                    this->enterOrigin=false;
-                }
-                //speed the animation
-                this->animOrigin.setSpeed(this->fasterOrigin);//faster
             }
             else{
-                this->animOrigin.setSpeed(this->speedOrigin);//normal
                 this->enterOrigin=false;
             }
-
-            ret=true;
+            //speed the animation
+            this->animOrigin.setSpeed(this->fasterOrigin);//faster
         }
+        else{
+            this->animOrigin.setSpeed(this->speedOrigin);//normal
+            this->enterOrigin=false;
+        }
+
+        ret=true;
     }
     if(this->animLast.isPlaying()){
-
-        //test if need force speed
-        if(this->forceSpeedLast){
-            this->forceSpeedLast = false;
-            //set the update speed
-            this->animLast.setSpeed(this->forceSpeedLastValue);
-        }
-
         //test the character
-        this->animLast.updateClockAnimation();
         //get the value
-        edk::float32 clockX = this->animLast.getClockX(&success);
-        if(success){
-            this->lastID = (edk::uint32)clockX;
-            //update last
-            this->last = this->getCharacterPosition(this->lastID);
+        edk::float32 clockX = this->animLast.getClockX();
+        this->lastID = (edk::uint32)clockX;
+        //update last
+        this->last = this->getCharacterPosition(this->lastID);
 
-            //update the last speed
-            tileID = this->map.getTileID(this->last);
-            if(tileID == 0u || tileID == ' '){
-                //test if found enter
-                if(tileID == 0u){
-                    //found enter
-                    if(!this->enterOrigin){
-                        this->enterOrigin=true;
-                        //Run found Enter
-                        edk::uint32 size = this->treeCallbacks.size();
-                        for(edk::uint32 i=0u;i<size;i++){
-                            this->treeCallbacks.getElementInPosition(i)->lastFoundEnd();
-                        }
+        //update the last speed
+        tileID = this->map.getTileID(this->last);
+        if(tileID == 0u || tileID == ' '){
+            //test if found enter
+            if(tileID == 0u){
+                //found enter
+                if(!this->enterOrigin){
+                    this->enterOrigin=true;
+                    //Run found Enter
+                    edk::uint32 size = this->treeCallbacks.size();
+                    for(edk::uint32 i=0u;i<size;i++){
+                        this->treeCallbacks.getElementInPosition(i)->lastFoundEnd();
                     }
                 }
-                else{
-                    this->enterOrigin=false;
-                }
-                //speed the animation
-                this->animLast.setSpeed(this->fasterLast);//faster
             }
             else{
-                this->animLast.setSpeed(this->speedLast);//normal
                 this->enterOrigin=false;
             }
-
-            ret=true;
+            //speed the animation
+            this->animLast.setSpeed(this->fasterLast);//faster
         }
+        else{
+            this->animLast.setSpeed(this->speedLast);//normal
+            this->enterOrigin=false;
+        }
+
+        ret=true;
     }
 
     //update the position
     if(this->animationPosition.isPlaying()){
-        this->animationPosition.updateClockAnimation();
         edk::vec2f32 posTemp;
-        posTemp.x = this->animationPosition.getClockX(&success);
-        if(success){
-            posTemp.y = this->animationPosition.getClockY(&success);
-            if(success){
-                this->setPosition(posTemp);
-            }
-        }
+        posTemp.x = this->animationPosition.getClockX();
+        posTemp.y = this->animationPosition.getClockY();
+        this->setPosition(posTemp);
     }
 
     //update the position
     if(this->animationSize.isPlaying()){
-        this->animationSize.updateClockAnimation();
         edk::size2f32 sizeTemp;
-        sizeTemp.width = this->animationSize.getClockX(&success);
-        if(success){
-            sizeTemp.height = this->animationSize.getClockY(&success);
-            if(success){
-                this->setScale(sizeTemp);
-            }
-        }
+        sizeTemp.width = this->animationSize.getClockX();
+        sizeTemp.height = this->animationSize.getClockY();
+        this->setScale(sizeTemp);
     }
 
     return ret;
@@ -3877,128 +3859,108 @@ bool edk::fonts::FontMap::updateAnimations(){
 bool edk::fonts::FontMap::updateAnimations(edk::float32 seconds){
     bool ret=false;
     edk::uint32 tileID;
-    bool success = false;
+    //test if need force speed
+    if(this->forceSpeedOrigin){
+        this->forceSpeedOrigin = false;
+        //set the update speed
+        this->animOrigin.setSpeed(this->forceSpeedOriginValue);
+    }
     //test if is animating
+    this->animOrigin.updateClockAnimation(seconds);
+    //test if need force speed
+    if(this->forceSpeedLast){
+        this->forceSpeedLast = false;
+        //set the update speed
+        this->animLast.setSpeed(this->forceSpeedLastValue);
+    }
+    this->animLast.updateClockAnimation(seconds);
     if(this->animOrigin.isPlaying()){
-
-        //test if need force speed
-        if(this->forceSpeedOrigin){
-            this->forceSpeedOrigin = false;
-            //set the update speed
-            this->animOrigin.setSpeed(this->forceSpeedOriginValue);
-        }
-
-        this->animOrigin.updateClockAnimation(seconds);
-
         //get the value
-        edk::float32 clockX = this->animLast.getClockX(&success);
-        if(success){
-            this->originID = (edk::uint32)clockX;
-            //update the origin
-            this->origin = this->getCharacterPosition(this->originID);
+        edk::float32 clockX = this->animOrigin.getClockX();
+        this->originID = (edk::uint32)clockX;
+        //update the origin
+        this->origin = this->getCharacterPosition(this->originID);
 
-            tileID = this->map.getTileID(this->origin);
-            if(tileID == 0u || tileID == ' '){
-                //test if found enter
-                if(tileID == 0u){
-                    //found enter
-                    if(!this->enterOrigin){
-                        this->enterOrigin=true;
-                        //Run found Enter
-                        edk::uint32 size = this->treeCallbacks.size();
-                        for(edk::uint32 i=0u;i<size;i++){
-                            this->treeCallbacks.getElementInPosition(i)->originFoundEnd();
-                        }
+        tileID = this->map.getTileID(this->origin);
+        if(tileID == 0u || tileID == ' '){
+            //test if found enter
+            if(tileID == 0u){
+                //found enter
+                if(!this->enterOrigin){
+                    this->enterOrigin=true;
+                    //Run found Enter
+                    edk::uint32 size = this->treeCallbacks.size();
+                    for(edk::uint32 i=0u;i<size;i++){
+                        this->treeCallbacks.getElementInPosition(i)->originFoundEnd();
                     }
                 }
-                else{
-                    this->enterOrigin=false;
-                }
-                //speed the animation
-                this->animOrigin.setSpeed(this->fasterOrigin);//faster
             }
             else{
-                this->animOrigin.setSpeed(this->speedOrigin);//normal
                 this->enterOrigin=false;
             }
-
-            ret=true;
+            //speed the animation
+            this->animOrigin.setSpeed(this->fasterOrigin);//faster
         }
+        else{
+            this->animOrigin.setSpeed(this->speedOrigin);//normal
+            this->enterOrigin=false;
+        }
+
+        ret=true;
     }
     if(this->animLast.isPlaying()){
-
-        //test if need force speed
-        if(this->forceSpeedLast){
-            this->forceSpeedLast = false;
-            //set the update speed
-            this->animLast.setSpeed(this->forceSpeedLastValue);
-        }
-
-        //test the character
-        this->animLast.updateClockAnimation(seconds);
         //get the value
-        edk::float32 clockX = this->animLast.getClockX(&success);
-        if(success){
-            this->lastID = (edk::uint32)clockX;
-            //update last
-            this->last = this->getCharacterPosition(this->lastID);
+        edk::float32 clockX = this->animLast.getClockX();
+        this->lastID = (edk::uint32)clockX;
+        //update last
+        this->last = this->getCharacterPosition(this->lastID);
 
-            //update the last speed
-            tileID = this->map.getTileID(this->last);
-            if(tileID == 0u || tileID == ' '){
-                //test if found enter
-                if(tileID == 0u){
-                    //found enter
-                    if(!this->enterOrigin){
-                        this->enterOrigin=true;
-                        //Run found Enter
-                        edk::uint32 size = this->treeCallbacks.size();
-                        for(edk::uint32 i=0u;i<size;i++){
-                            this->treeCallbacks.getElementInPosition(i)->lastFoundEnd();
-                        }
+        //update the last speed
+        tileID = this->map.getTileID(this->last);
+        if(tileID == 0u || tileID == ' '){
+            //test if found enter
+            if(tileID == 0u){
+                //found enter
+                if(!this->enterOrigin){
+                    this->enterOrigin=true;
+                    //Run found Enter
+                    edk::uint32 size = this->treeCallbacks.size();
+                    for(edk::uint32 i=0u;i<size;i++){
+                        this->treeCallbacks.getElementInPosition(i)->lastFoundEnd();
                     }
                 }
-                else{
-                    this->enterOrigin=false;
-                }
-                //speed the animation
-                this->animLast.setSpeed(this->fasterLast);//faster
             }
             else{
-                this->animLast.setSpeed(this->speedLast);//normal
                 this->enterOrigin=false;
             }
-
-            ret=true;
+            //speed the animation
+            this->animLast.setSpeed(this->fasterLast);//faster
         }
+        else{
+            this->animLast.setSpeed(this->speedLast);//normal
+            this->enterOrigin=false;
+        }
+
+        ret=true;
     }
 
     //update the position
     if(this->animationPosition.isPlaying()){
         this->animationPosition.updateClockAnimation(seconds);
         edk::vec2f32 posTemp;
-        posTemp.x = this->animationPosition.getClockX(&success);
-        if(success){
-            posTemp.y = this->animationPosition.getClockY(&success);
-            if(success){
-                this->setPosition(posTemp);
-            }
-        }
+        posTemp.x = this->animationPosition.getClockX();
+        posTemp.y = this->animationPosition.getClockY();
+        this->setPosition(posTemp);
     }
 
     //update the position
     if(this->animationSize.isPlaying()){
         this->animationSize.updateClockAnimation(seconds);
         edk::size2f32 sizeTemp;
-        sizeTemp.width = this->animationSize.getClockX(&success);
-        if(success){
-            sizeTemp.height = this->animationSize.getClockY(&success);
-            if(success){
-                this->setScale(sizeTemp);
-            }
-        }
+        sizeTemp.width = this->animationSize.getClockX();
+        sizeTemp.height = this->animationSize.getClockY();
+        this->setScale(sizeTemp);
     }
-
     return ret;
 }
 

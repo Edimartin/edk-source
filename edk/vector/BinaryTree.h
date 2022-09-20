@@ -602,7 +602,8 @@ public:
             return ret->value;
         }
         //else return zero
-        return (typeTemplate)0u;
+        typeTemplate retZero; memset((void*)&retZero,0u,sizeof(typeTemplate));
+        return retZero;
     }
     //return the element in the Position
     typeTemplate getElementInPosition(edk::uint32 position){

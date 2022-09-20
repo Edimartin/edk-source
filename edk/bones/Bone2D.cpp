@@ -46,7 +46,7 @@ edk::bones::Bone2D::Bone2D(const edk::char8* name)
 edk::bones::Bone2D::~Bone2D(){
     //
     if(this->canDeleteBone){
-    this->cleanBone();
+        this->cleanBone();
     }
     else{
         //cant delete animations
@@ -350,53 +350,36 @@ void edk::bones::Bone2D::updateAnimations(edk::float32 seconds){
     }
 }
 void edk::bones::Bone2D::updateAnimationsThis(){
-    bool success;
     //test if is playng the animations
     if(this->animationPosition.isPlaying()){
         this->animationPosition.updateClockAnimation();
-
         edk::vec2f32 posTemp;
-        posTemp.x = this->animationPosition.getClockX(&success);
-        if(success){
-            posTemp.y = this->animationPosition.getClockY(&success);
-            if(success){
-                //
-                this->position = posTemp;
-            }
-        }
+        posTemp.x = this->animationPosition.getClockX();
+        posTemp.y = this->animationPosition.getClockY();
+        //
+        this->position = posTemp;
     }
     if(this->animationAngle.isPlaying()){
         this->animationAngle.updateClockAnimation();
 
-        edk::float32 angleTemp = this->animationAngle.getClockX(&success);
-        if(success){
-            this->angle = angleTemp;
-        }
+        edk::float32 angleTemp = this->animationAngle.getClockX();
+        this->angle = angleTemp;
     }
 }
 void edk::bones::Bone2D::updateAnimationsThis(edk::float32 seconds){
-    bool success;
     //test if is playng the animations
     if(this->animationPosition.isPlaying()){
         this->animationPosition.updateClockAnimation(seconds);
-
         edk::vec2f32 posTemp;
-        posTemp.x = this->animationPosition.getClockX(&success);
-        if(success){
-            posTemp.y = this->animationPosition.getClockY(&success);
-            if(success){
-                //
-                this->position = posTemp;
-            }
-        }
+        posTemp.x = this->animationPosition.getClockX();
+        posTemp.y = this->animationPosition.getClockY();
+        //
+        this->position = posTemp;
     }
     if(this->animationAngle.isPlaying()){
         this->animationAngle.updateClockAnimation(seconds);
-
-        edk::float32 angleTemp = this->animationAngle.getClockX(&success);
-        if(success){
-            this->angle = angleTemp;
-        }
+        edk::float32 angleTemp = this->animationAngle.getClockX();
+        this->angle = angleTemp;
     }
 }
 //scale animations

@@ -41,6 +41,7 @@ edk::animation::PathGroup::PathGroup(){
     this->step = 0.f;
     this->active=false;
     this->nameSelected=NULL;
+    this->speed=1.f;
 }
 edk::animation::PathGroup::~PathGroup(){
     //
@@ -313,6 +314,19 @@ bool edk::animation::PathGroup::setAnimationEndPosition(edk::uint32 position){
 }
 bool edk::animation::PathGroup::setAnimationEndSecond(edk::float32 second){
     return this->setAnimationEndPosition(this->getPositionFromSecond(second));
+}
+
+//Set the speed
+bool edk::animation::PathGroup::setSpeed(edk::float32 speed){
+    if(speed>0.f){
+        this->speed=speed;
+        return true;
+    }
+    this->speed=1.f;
+    return false;
+}
+edk::float32 edk::animation::PathGroup::getSpeed(){
+    return this->speed;
 }
 
 //CONTROLS
@@ -636,6 +650,7 @@ edk::float32 edk::animation::PathGroup::updateClockAnimation(){
 edk::float32 edk::animation::PathGroup::updateClockAnimation(edk::float32 distance){
     //test if is playing
     if(this->playing){
+        distance*=this->speed;
         //load the clock
         if(distance>0.f){
             this->clock.start();

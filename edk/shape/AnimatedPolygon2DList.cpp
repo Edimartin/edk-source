@@ -165,7 +165,6 @@ void edk::shape::AnimatedPolygon2DList::updateFramesAnimations(){
     }
     //after update all polygons
 
-    bool success;
     edk::float32 frameTemp = 0.f;
 
     for(edk::uint32 i=0u;i<this->polygons.size();i++){
@@ -174,10 +173,8 @@ void edk::shape::AnimatedPolygon2DList::updateFramesAnimations(){
             //carrega a animation
             if(this->polygons[i]->framesGetAnimation()){
                 //
-                frameTemp = this->polygons[i]->framesGetAnimation()->getClockX(&success);
-                if(success){
-                    this->polygons[i]->usePolygonUVFramePosition(frameTemp);
-                }
+                frameTemp = this->polygons[i]->framesGetAnimation()->getClockX();
+                this->polygons[i]->usePolygonUVFramePosition(frameTemp);
             }
         }
     }
@@ -195,9 +192,6 @@ void edk::shape::AnimatedPolygon2DList::updateFramesAnimations(edk::float32 seco
         }
     }
     //after update all polygons
-
-    bool success;
-
     edk::float32 frameTemp = 0.f;
     for(edk::uint32 i=0u;i<this->polygons.size();i++){
         //
@@ -205,10 +199,8 @@ void edk::shape::AnimatedPolygon2DList::updateFramesAnimations(edk::float32 seco
             //carrega a animation
             if(this->polygons[i]->framesGetAnimation()){
                 //
-                frameTemp = this->polygons[i]->framesGetAnimation()->getClockX(&success);
-                if(success){
-                    this->polygons[i]->usePolygonUVFramePosition(frameTemp);
-                }
+                frameTemp = this->polygons[i]->framesGetAnimation()->getClockX();
+                this->polygons[i]->usePolygonUVFramePosition(frameTemp);
             }
         }
     }

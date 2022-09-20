@@ -218,7 +218,7 @@ edk::vec4ui64 edk::Math::square(edk::uint64 n1,edk::uint64 n2,edk::uint64 n3,edk
 edk::vec4ui64 edk::Math::square(edk::vec4ui64 vec){ return vec*vec; }
 
 //MODULE OF A NUMBER
-edk::float32 edk::Math::module(edk::float32 n){ if(n<0) return n*-1; else return n; }
+edk::float32 edk::Math::module(edk::float32 n){ if(n<0.f) return n*-1.f; else return n; }
 edk::int8 edk::Math::module(edk::int8 n){ if(n<0) return n*-1; else return n; }
 edk::int16 edk::Math::module(edk::int16 n){ if(n<0) return n*-1; else return n; }
 edk::int32 edk::Math::module(edk::int32 n){ if(n<0) return n*-1; else return n; }

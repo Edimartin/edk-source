@@ -36,9 +36,6 @@ edk::physics2D::PhysicObject2D::PhysicObject2D(){
     this->angularVelocitySetted=false;
     this->direction = edk::vec2f32(0,0);
     this->physType=0u;
-
-    this->wasAnimatingPosition=false;
-    this->wasAnimatingRotation=false;
 }
 edk::physics2D::PhysicObject2D::~PhysicObject2D(){
     if(!this->canDeleteObject){
@@ -201,94 +198,40 @@ void edk::physics2D::PhysicObject2D::drawWirePhysics(){
 //update all animations
 bool edk::physics2D::PhysicObject2D::updateAnimations(){
     bool ret=false;
-    //bool success;
+    this->animationPosition.updateClockAnimation();
+    this->animationRotation.updateClockAnimation();
     //test if are playing the animations
     if(this->animationPosition.isPlaying()){
-        //set the X and Y
-        this->animationPosition.setX(this->position.x);
-        this->animationPosition.setY(this->position.y);
-        this->animationPosition.updateClockAnimation();
         //get X and Y
-        edk::vec2f32 positionAnim = edk::vec2f32(this->animationPosition.getX(),
-                                      this->animationPosition.getY()
+        this->position = edk::vec2f32(this->animationPosition.getClockX(),
+                                      this->animationPosition.getClockY()
                                       );
-        this->setLinearVelocity((positionAnim.x - this->position.x)*100.f,(positionAnim.y - this->position.y)*100.f);
-        //this->position = positionAnim;
         ret=true;
-
-        this->wasAnimatingPosition=true;
-    }
-    else{
-        //remove the linearVelocity
-        if(this->wasAnimatingPosition){
-            this->setLinearVelocity(0.f,0.f);
-        }
-        this->wasAnimatingPosition=false;
     }
     if(this->animationRotation.isPlaying()){
-        //set the angle
-        this->animationRotation.setX(this->angle);
-        //update
-        this->animationRotation.updateClockAnimation();
-        //get the new X
-        edk::float32 angleAnim = this->animationRotation.getX();
-        this->setAngularVelocity((angleAnim - this->angle)*50.f);
+        //get the new Angle
+        this->angle = this->animationRotation.getClockX();
         ret=true;
-        this->wasAnimatingRotation=true;
-    }
-    else{
-        //
-        if(this->wasAnimatingRotation){
-            this->setAngularVelocity(0.f);
-        }
-        this->wasAnimatingRotation=false;
     }
     this->updateMeshAnimations();
     return ret;
 }
 bool edk::physics2D::PhysicObject2D::updateAnimations(edk::float32 seconds){
     bool ret=false;
-    //bool success;
+    this->animationPosition.updateClockAnimation(seconds);
+    this->animationRotation.updateClockAnimation(seconds);
     //test if are playing the animations
     if(this->animationPosition.isPlaying()){
-        //set the X and Y
-        this->animationPosition.setX(this->position.x);
-        this->animationPosition.setY(this->position.y);
-        this->animationPosition.updateClockAnimation(seconds);
         //get X and Y
-        edk::vec2f32 positionAnim = edk::vec2f32(this->animationPosition.getX(),
-                                      this->animationPosition.getY()
+        this->position = edk::vec2f32(this->animationPosition.getClockX(),
+                                      this->animationPosition.getClockY()
                                       );
-        this->setLinearVelocity((positionAnim.x - this->position.x)*75.f,(positionAnim.y - this->position.y)*75.f);
-        //this->position = positionAnim;
         ret=true;
-
-        this->wasAnimatingPosition=true;
-    }
-    else{
-        //remove the linearVelocity
-        if(this->wasAnimatingPosition){
-            this->setLinearVelocity(0.f,0.f);
-        }
-        this->wasAnimatingPosition=false;
     }
     if(this->animationRotation.isPlaying()){
-        //set the angle
-        this->animationRotation.setX(this->angle);
-        //update
-        this->animationRotation.updateClockAnimation(seconds);
-        //get the new X
-        edk::float32 angleAnim = this->animationRotation.getX();
-        this->setAngularVelocity((angleAnim - this->angle)*50.f);
+        //get the new Angle
+        this->angle = this->animationRotation.getClockX();
         ret=true;
-        this->wasAnimatingRotation=true;
-    }
-    else{
-        //
-        if(this->wasAnimatingRotation){
-            this->setAngularVelocity(0.f);
-        }
-        this->wasAnimatingRotation=false;
     }
     this->updateMeshAnimations(seconds);
     return ret;
@@ -392,6 +335,8 @@ bool edk::physics2D::PhysicObject2D::writeToXML(edk::XML* xml,edk::uint32 id,boo
                         }
                         //write physics animations
                         this->animationPosition.writeToXML(xml,0u);
+                        //this->animationPositionX.writeToXML(xml,0u);
+                        //this->animationPositionY.writeToXML(xml,0u);
                         this->animationRotation.writeToXML(xml,1u);
 
                         ret=true;
@@ -483,6 +428,8 @@ bool edk::physics2D::PhysicObject2D::readFromXML(edk::XML* xml,edk::uint32 id){
                     }
                     //write physics animations
                     this->animationPosition.readFromXML(xml,0u);
+                    //this->animationPositionX.readFromXML(xml,0u);
+                    //this->animationPositionY.readFromXML(xml,0u);
                     this->animationRotation.readFromXML(xml,1u);
 
                     ret=true;
@@ -573,6 +520,8 @@ bool edk::physics2D::PhysicObject2D::readFromXMLFromPack(edk::pack::FilePackage*
                     }
                     //write physics animations
                     this->animationPosition.readFromXML(xml,0u);
+                    //this->animationPositionX.readFromXML(xml,0u);
+                    //this->animationPositionY.readFromXML(xml,0u);
                     this->animationRotation.readFromXML(xml,1u);
 
                     ret=true;
@@ -621,7 +570,6 @@ bool edk::physics2D::PhysicObject2D::cloneFrom(edk::physics2D::PhysicObject2D* o
         this->physicMesh.cloneFrom(&obj->physicMesh);
         this->canSleep = obj->canSleep;
         this->fixedRotation = obj->fixedRotation;
-        //this->animationPosition = obj->animationPosition;
         this->animationPosition.cloneFrom(&obj->animationPosition);
         //this->animationRotation = obj->animationRotation;
         this->animationRotation.cloneFrom(&obj->animationRotation);

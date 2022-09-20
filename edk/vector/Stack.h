@@ -49,6 +49,12 @@ Create a multiple array
 */
 
 /*
+void loadElement(typeTemplate value){
+    //
+}
+void unloadElement(typeTemplate value){
+    //
+}
 void updateElement(typeTemplate value){
     //
 }
@@ -57,6 +63,22 @@ void printElement(typeTemplate value){
 }
 void renderElement(typeTemplate value){
     //
+}
+
+bool load(){
+    return edk::vector::Stack<typeTemplate>::load();
+}
+bool unload(){
+    return edk::vector::Stack<typeTemplate>::unload();
+}
+bool update(){
+    return edk::vector::Stack<typeTemplate>::update();
+}
+bool print(){
+    return edk::vector::Stack<typeTemplate>::print();
+}
+bool render(){
+    return edk::vector::Stack<typeTemplate>::render();
 }
 */
 
@@ -387,8 +409,9 @@ public:
             }
             //get the element value
             typeTemplate ret = this->get(pos);
+            typeTemplate set; memset((void*)&set,0u,sizeof(typeTemplate));
             //then clean the pos
-            if(this->set(pos,0u)){
+            if(this->set(pos,set)){
                 //and add the pos in to removed
                 this->removed.add(pos);
 
@@ -397,11 +420,8 @@ public:
             }
         }
         //else return false
-        typeTemplate ret;
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+        typeTemplate ret; memset((void*)&ret,0u,sizeof(typeTemplate));
         return ret;
-#pragma GCC diagnostic pop
     }
 
     //SETTERS
@@ -456,12 +476,73 @@ public:
             }
         }
         //else return false
-        typeTemplate ret;
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
-        memset(&ret,0u,sizeof(typeTemplate));
+        typeTemplate ret; memset((void*)&ret,0u,sizeof(typeTemplate));
         return ret;
-#pragma GCC diagnostic pop
+    }
+    //load the objects inside the stack
+    virtual bool load(){
+        edk::uint32 increment=0u;
+        edk::vector::StackCel<typeTemplate> *temp=this->first;
+        if(temp){
+            while(temp){
+                if(!temp->next){
+                    edk::uint32 size = this->stackSize - increment;
+                    for(edk::uint32 i=0u;i<size;i++){
+                        //test if have the element
+                        if(!this->removed.haveElement(i)){
+                            //update element
+                            this->loadElement(temp->get(i));
+                        }
+                    }
+                }
+                else{
+                    for(edk::uint32 i=0u;i<this->StackArraySize;i++){
+                        //test if have the element
+                        if(!this->removed.haveElement(i)){
+                            //update element
+                            this->loadElement(temp->get(i));
+                        }
+                    }
+                }
+                temp=temp->next;
+                increment+=this->StackArraySize;
+            }
+            return true;
+        }
+        return false;
+    }
+    //unload
+    //update the objects inside the stack
+    virtual bool unload(){
+        edk::uint32 increment=0u;
+        edk::vector::StackCel<typeTemplate> *temp=this->first;
+        if(temp){
+            while(temp){
+                if(!temp->next){
+                    edk::uint32 size = this->stackSize - increment;
+                    for(edk::uint32 i=0u;i<size;i++){
+                        //test if have the element
+                        if(!this->removed.haveElement(i)){
+                            //update element
+                            this->unloadElement(temp->get(i));
+                        }
+                    }
+                }
+                else{
+                    for(edk::uint32 i=0u;i<this->StackArraySize;i++){
+                        //test if have the element
+                        if(!this->removed.haveElement(i)){
+                            //update element
+                            this->unloadElement(temp->get(i));
+                        }
+                    }
+                }
+                temp=temp->next;
+                increment+=this->StackArraySize;
+            }
+            return true;
+        }
+        return false;
     }
     //UPDATE
     //update the objects inside the stack
@@ -750,9 +831,9 @@ public:
         }
         return false;
     }
-
-
 protected:
+    virtual void loadElement(typeTemplate){}
+    virtual void unloadElement(typeTemplate){}
     virtual void updateElement(typeTemplate){}
     virtual void printElement(typeTemplate){}
     virtual void renderElement(typeTemplate){}

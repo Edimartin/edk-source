@@ -183,8 +183,9 @@ edk::Object2D::ActionMove::ActionMove(edk::Object2D* object,edk::float32 duratio
 }
 //run action function
 void edk::Object2D::ActionMove::runAction(){
-    this->object->animationPosition.cleanAnimations();
-    this->object->animationPosition.addFirstInterpolationLine(0,this->object->position.x,this->object->position.y,this->duration,this->position.x,this->position.y);
+    this->object->animationPosition.cleanTracks();
+    edk::uint32 track = this->object->animationPosition.newTrack();
+    this->object->animationPosition.addFirstInterpolationLine(track,0,this->object->position.x,this->object->position.y,this->duration,this->position.x,this->position.y);
     this->object->animationPosition.playForward();
 }
 //write to XML
@@ -928,90 +929,68 @@ bool edk::Object2D::updateMeshAnimationsFromPosition(edk::uchar32 position,edk::
 //update all animations
 bool edk::Object2D::updateAnimations(){
     bool ret=false;
-    bool success;
+    this->animationPosition.updateClockAnimation();
+    this->animationRotation.updateClockAnimation();
+    this->animationSize.updateClockAnimation();
     //test if are playing the animations
     if(this->animationPosition.isPlaying()){
         //
-        this->animationPosition.updateClockAnimation();
         edk::vec2f32 posTemp;
-        posTemp.x = this->animationPosition.getClockX(&success);
-        if(success){
-            posTemp.y = this->animationPosition.getClockY(&success);
-            if(success){
-                //set the value
-                this->position = posTemp;
-                ret=true;
-            }
-        }
+        posTemp.x = this->animationPosition.getClockX();
+        posTemp.y = this->animationPosition.getClockY();
+        //set the value
+        this->position = posTemp;
+        ret=true;
     }
     if(this->animationRotation.isPlaying()){
         //
-        this->animationRotation.updateClockAnimation();
-        edk::float32 angleTemp = this->animationRotation.getClockX(&success);
-        if(success){
-            //set the value
-            this->angle = angleTemp;
-            ret=true;
-        }
+        edk::float32 angleTemp = this->animationRotation.getClockX();
+        //set the value
+        this->angle = angleTemp;
+        ret=true;
     }
     if(this->animationSize.isPlaying()){
         //
-        this->animationSize.updateClockAnimation();
         edk::size2f32 sizeTemp;
-        sizeTemp.width = this->animationSize.getClockX(&success);
-        if(success){
-            sizeTemp.height = this->animationSize.getClockY(&success);
-            if(success){
-                //set the value
-                this->size = sizeTemp;
-                ret=true;
-            }
-        }
+        sizeTemp.width = this->animationSize.getClockX();
+        sizeTemp.height = this->animationSize.getClockY();
+        //set the value
+        this->size = sizeTemp;
+        ret=true;
     }
     this->updateMeshAnimations();
     return ret;
 }
 bool edk::Object2D::updateAnimations(edk::float32 seconds){
     bool ret=false;
-    bool success;
+    this->animationPosition.updateClockAnimation(seconds);
+    this->animationRotation.updateClockAnimation(seconds);
+    this->animationSize.updateClockAnimation(seconds);
     //test if are playing the animations
     if(this->animationPosition.isPlaying()){
         //
-        this->animationPosition.updateClockAnimation(seconds);
         edk::vec2f32 posTemp;
-        posTemp.x = this->animationPosition.getClockX(&success);
-        if(success){
-            posTemp.y = this->animationPosition.getClockY(&success);
-            if(success){
-                //set the value
-                this->position = posTemp;
-                ret=true;
-            }
-        }
+        posTemp.x = this->animationPosition.getClockX();
+        posTemp.y = this->animationPosition.getClockY();
+        //set the value
+        this->position = posTemp;
+        ret=true;
     }
     if(this->animationRotation.isPlaying()){
         //
-        this->animationRotation.updateClockAnimation(seconds);
-        edk::float32 angleTemp = this->animationRotation.getClockX(&success);
-        if(success){
-            //set the value
-            this->angle = angleTemp;
-            ret=true;
-        }
+        edk::float32 angleTemp = this->animationRotation.getClockX();
+        //set the value
+        this->angle = angleTemp;
+        ret=true;
     }
     if(this->animationSize.isPlaying()){
         //
-        this->animationSize.updateClockAnimation(seconds);
         edk::size2f32 sizeTemp;
-        sizeTemp.width = this->animationSize.getClockX(&success);
-        if(success){
-            sizeTemp.height = this->animationSize.getClockY(&success);
-            if(success){
-                //set the value
-                this->size = sizeTemp;
-                ret=true;
-            }
-        }
+        sizeTemp.width = this->animationSize.getClockX();
+        sizeTemp.height = this->animationSize.getClockY();
+        //set the value
+        this->size = sizeTemp;
+        ret=true;
     }
     this->updateMeshAnimations(seconds);
     return ret;

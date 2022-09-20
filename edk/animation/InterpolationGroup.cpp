@@ -676,8 +676,13 @@ bool edk::animation::InterpolationGroup::scaleFrames(edk::float32 scale){
     return false;
 }
 //Speed
-void edk::animation::InterpolationGroup::setSpeed(edk::float32 speed){
-    this->speed = speed;
+bool edk::animation::InterpolationGroup::setSpeed(edk::float32 speed){
+    if(speed>0.f){
+        this->speed = speed;
+        return true;
+    }
+    this->speed = 1.f;
+    return false;
 }
 edk::float32 edk::animation::InterpolationGroup::getSpeed(){
     return this->speed;
@@ -1127,11 +1132,11 @@ void edk::animation::InterpolationGroup::playForwardIn(edk::float32 second){
     this->stop();
 }
 void edk::animation::InterpolationGroup::restartForward(){
-    return playForwardIn(this->frameStart);
+    this->playForwardIn(this->frameStart);
 }
 void edk::animation::InterpolationGroup::playRewind(){
     //
-    return playRewindIn(this->animationSecond);
+    this->playRewindIn(this->animationSecond);
 }
 void edk::animation::InterpolationGroup::playRewindIn(edk::float32 second){
     //set play forward

@@ -355,21 +355,17 @@ bool edk::animation::Interpolation3DGroup::setInterpolationP2Z(edk::uint32 posit
 
 //GETERS
 //return the animationPosition
-edk::float32 edk::animation::Interpolation3DGroup::getClockZ(bool* success){
+edk::float32 edk::animation::Interpolation3DGroup::getClockZ(){
     //test if is playing
     if(this->isPlaying()){
         //load the interpolation
         edk::animation::InterpolationLine3D* temp = (edk::animation::InterpolationLine3D*)edk::animation::InterpolationGroup::getSelectedInterpolation();
-        //set success
-        if(success) *success=true;
         //load the position
         if(temp){
             //
             return temp->getPositionZ(this->animationSecond) + this->incrementZ;
         }
     }
-    //set success
-    else if(success) *success=false;
     //else return 0.0f;
     return 0.0f;
 }

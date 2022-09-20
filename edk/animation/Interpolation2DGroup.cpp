@@ -432,21 +432,17 @@ edk::float32 edk::animation::Interpolation2DGroup::addShakingFramesXY(edk::vec2f
 
 //GETERS
 //return the animationPosition
-edk::float32 edk::animation::Interpolation2DGroup::getClockY(bool* success){
+edk::float32 edk::animation::Interpolation2DGroup::getClockY(){
     //test if is playing
     if(this->isPlaying()){
         //load the interpolation
         edk::animation::InterpolationLine2D* temp = (edk::animation::InterpolationLine2D*)edk::animation::InterpolationGroup::getSelectedInterpolation();
-        //set success
-        if(success) *success=true;
         //load the position
         if(temp){
             //
             return temp->getPositionY(this->animationSecond) + this->incrementY;
         }
     }
-    //set success
-    else if(success) *success=false;
     //else return 0.0f;
     return 0.0f;
 }

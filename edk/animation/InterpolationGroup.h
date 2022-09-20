@@ -179,7 +179,7 @@ public:
     //scale the frames
     bool scaleFrames(edk::float32 scale);
     //Speed
-    void setSpeed(edk::float32 speed);
+    bool setSpeed(edk::float32 speed);
     edk::float32 getSpeed();
 
     //set the animationStartFrame

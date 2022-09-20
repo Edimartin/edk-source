@@ -205,52 +205,42 @@ void edk::View::unpause(){
     //unpause the view
 }
 void edk::View::updateAnimations(){
-    bool success;
     if(!this->animationPosition.isPaused()){
         //clean the animatedFrame
         this->animatedFrame=this->frame;
+        this->animationPosition.updateClockAnimation();
         if(this->animationPosition.isPlaying()){
             //update
             //printf("\n                     Second %.2f",this->animationPosition.updateClockAnimation());
-            this->animationPosition.updateClockAnimation();
             edk::vec2f32 posTemp;
-            posTemp.x = this->animationPosition.getClockX(&success);
-            if(success){
-                posTemp.y = this->animationPosition.getClockY(&success);
-                if(success){
-                    //update the position
-                    /*
+            posTemp.x = this->animationPosition.getClockX();
+            posTemp.y = this->animationPosition.getClockY();
+            //update the position
+            /*
                 this->animatedFrame.origin.x += this->animationPosition.getClockX(&success);
                 this->animatedFrame.origin.y += this->animationPosition.getClockY(&success);
                 */
-                    this->animatedFrame.origin += posTemp;
-                }
-            }
+            this->animatedFrame.origin += posTemp;
         }
     }
 }
 void edk::View::updateAnimations(edk::float32 seconds){
-    bool success;
     if(!this->animationPosition.isPaused()){
         //clean the animatedFrame
+        this->animationPosition.updateClockAnimation(seconds);
         this->animatedFrame=this->frame;
         if(this->animationPosition.isPlaying()){
             //update
             //printf("\n                     Second %.2f",this->animationPosition.updateClockAnimation());
-            this->animationPosition.updateClockAnimation(seconds);
             edk::vec2f32 posTemp;
-            posTemp.x = this->animationPosition.getClockX(&success);
-            if(success){
-                posTemp.y = this->animationPosition.getClockY(&success);
-                if(success){
-                    //update the position
-                    /*
+            posTemp.x = this->animationPosition.getClockX();
+            posTemp.y = this->animationPosition.getClockY();
+            //update the position
+            /*
                 this->animatedFrame.origin.x += this->animationPosition.getClockX(&success);
                 this->animatedFrame.origin.y += this->animationPosition.getClockY(&success);
                 */
-                    this->animatedFrame.origin += posTemp;
-                }
-            }
+            this->animatedFrame.origin += posTemp;
         }
     }
 }

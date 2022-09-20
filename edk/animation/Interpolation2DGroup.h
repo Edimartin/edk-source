@@ -85,7 +85,7 @@ class Interpolation2DGroup: public edk::animation::Interpolation1DGroup{
 
         //GETERS
         //return the animationPosition
-        edk::float32 getClockY(bool* success=NULL);
+        edk::float32 getClockY();
         //return the interpolation Y
         edk::float32 getInterpolationStartY(edk::float32 position);
         edk::float32 getInterpolationEndY(edk::float32 position);

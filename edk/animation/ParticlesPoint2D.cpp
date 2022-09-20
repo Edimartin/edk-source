@@ -95,12 +95,9 @@ void edk::animation::ParticlesPoint2D::ParticleObject::update(edk::float32 secon
     this->life.updateClockAnimation(second);
     this->animFrame.updateClockAnimation(second);
     edk::float32 temp;
-    bool success=false;
     //frame
-    temp = this->animFrame.getClockX(&success);
-    if(success){
-        this->frame = temp;
-    }
+    temp = this->animFrame.getClockX();
+    this->frame = temp;
     //update the position
     edk::float32 percent = second * this->speed;
     this->position += (this->direction * percent);

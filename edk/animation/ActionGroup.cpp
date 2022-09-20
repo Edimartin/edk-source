@@ -144,16 +144,13 @@ void edk::animation::ActionGroup::update(){
         //update the clock
         this->anim.updateClockAnimation();
         //get the value
-        bool success = false;
-        edk::float32 value = this->anim.getClockX(&success);
-        if(success){
-            //tets if the value is diferent than the last value
-            if(value!=this->valueTemp){
-                //then run the actions
-                //printf("\nUpdate Tree %.2f",value);
-                this->tree.updateSecond(value);
-                this->valueTemp = value;
-            }
+        edk::float32 value = this->anim.getClockX();
+        //tets if the value is diferent than the last value
+        if(value!=this->valueTemp){
+            //then run the actions
+            //printf("\nUpdate Tree %.2f",value);
+            this->tree.updateSecond(value);
+            this->valueTemp = value;
         }
     }
 }
@@ -162,16 +159,13 @@ void edk::animation::ActionGroup::update(edk::float32 seconds){
         //update the clock
         this->anim.updateClockAnimation(seconds);
         //get the value
-        bool success = false;
-        edk::float32 value = this->anim.getClockX(&success);
-        if(success){
-            //tets if the value is diferent than the last value
-            if(value!=this->valueTemp){
-                //then run the actions
-                //printf("\nUpdate Tree %.2f",value);
-                this->tree.updateSecond(value);
-                this->valueTemp = value;
-            }
+        edk::float32 value = this->anim.getClockX();
+        //tets if the value is diferent than the last value
+        if(value!=this->valueTemp){
+            //then run the actions
+            //printf("\nUpdate Tree %.2f",value);
+            this->tree.updateSecond(value);
+            this->valueTemp = value;
         }
     }
 }

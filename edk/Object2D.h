@@ -45,6 +45,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "animation/Interpolation1DGroup.h"
 #include "animation/Interpolation2DGroup.h"
 #include "animation/Interpolation3DGroup.h"
+#include "animation/Interpolation2DTracks.h"
 #include "animation/ActionGroup.h"
 
 #include "pack/FilePackage.h"
@@ -190,7 +191,7 @@ public:
     //PolygonList selected
     edk::shape::Mesh2D *selected;
     //animarion position
-    edk::animation::Interpolation2DGroup animationPosition;
+    edk::animation::Interpolation2DTracks animationPosition;
     //Animation rotation
     edk::animation::Interpolation1DGroup animationRotation;
     //animationSize

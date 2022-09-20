@@ -74,6 +74,10 @@ public:
     bool setAnimationEndPosition(edk::uint32 position);
     bool setAnimationEndSecond(edk::float32 second);
 
+    //Set the speed
+    bool setSpeed(edk::float32 speed);
+    edk::float32 getSpeed();
+
     //CONTROLS
     //animation controllers
     void playForward();
@@ -183,6 +187,8 @@ private:
     bool incrementing;
     //processor clock
     edk::watch::Time clock;
+    //speed
+    edk::float32 speed;
     //callbacks
     //edk::animation::AnimationCallback* callback;
 

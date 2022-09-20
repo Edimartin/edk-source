@@ -44,12 +44,34 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define SH_PROGRAM                                     0x0103//O SH_PROGRAM e um program   shader
 #define SH_NULL                                        0x0104//O SH_NULL nao aloca nenhum  shader
 
+//WINDOW
+#define EDK_WINDOW_BAR         0b00000001
+#define EDK_WINDOW_RESIZE      0b00000010
+#define EDK_WINDOW_BUTTONS     0b00000100
+#define EDK_WINDOW_NOBAR       0b00001000
+#define EDK_WINDOW_FULLSCREEN  0b00010000
 
-#define EDK_WINDOW_BAR         1u
-#define EDK_WINDOW_RESIZE      2u
-#define EDK_WINDOW_BUTTONS     4u
-#define EDK_WINDOW_NOBAR       8u
-#define EDK_WINDOW_FULLSCREEN  16u
+//ANIMATION TRACKS
+#define EDK_TRACK_ADD                               0b0000000000000111
+#define EDK_TRACK_ADD_X                             0b0000000000000001
+#define EDK_TRACK_ADD_Y                             0b0000000000000010
+#define EDK_TRACK_ADD_Z                             0b0000000000000100
+#define EDK_TRACK_SUB                               0b0000000000111000
+#define EDK_TRACK_SUB_X                             0b0000000000001000
+#define EDK_TRACK_SUB_Y                             0b0000000000010000
+#define EDK_TRACK_SUB_Z                             0b0000000000100000
+#define EDK_TRACK_MULTIPLY                          0b0000000111000000
+#define EDK_TRACK_MULTIPLY_X                        0b0000000001000000
+#define EDK_TRACK_MULTIPLY_Y                        0b0000000010000000
+#define EDK_TRACK_MULTIPLY_Z                        0b0000000100000000
+#define EDK_TRACK_DIVIDE                            0b0000111000000000
+#define EDK_TRACK_DIVIDE_X                          0b0000001000000000
+#define EDK_TRACK_DIVIDE_Y                          0b0000010000000000
+#define EDK_TRACK_DIVIDE_Z                          0b0000100000000000
+#define EDK_TRACK_REPLACE                           0b0111000000000000
+#define EDK_TRACK_REPLACE_X                         0b0001000000000000
+#define EDK_TRACK_REPLACE_Y                         0b0010000000000000
+#define EDK_TRACK_REPLACE_Z                         0b0100000000000000
 
 //CODECS
 #define EDK_CODEC_NO   0x00
