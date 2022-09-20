@@ -103,20 +103,20 @@ public:
         //clean frames
         this->cleanTracks();
         if(tracks){
-            edk::uint32 size = tracks->tracks.size();
+            edk::uint32 size = tracks->stack.size();
             edk::animation::InterpolationTracks::AnimationAndPosition temp;
             edk::animation::InterpolationTracks::AnimationAndPosition set;
             edk::animation::Interpolation2DGroup* tempGroup;
             edk::animation::Interpolation2DGroup* setGroup;
             edk::uint32 position=0u;
             for(edk::uint32 i=0u;i<size;i++){
-                temp = tracks->tracks.get(i);
+                temp = tracks->stack.get(i);
                 tempGroup = (edk::animation::Interpolation2DGroup*)temp.animation;
                 if(tempGroup){
                     //create a new animation
                     position = this->newTrack(temp.number);
-                    if(position<this->tracks.size()){
-                        set = this->tracks.get(position);
+                    if(position<this->stack.size()){
+                        set = this->stack.get(position);
                         setGroup = (edk::animation::Interpolation2DGroup*)set.animation;
                         if(setGroup){
                             setGroup->cloneFrom(tempGroup);
@@ -152,7 +152,7 @@ protected:
             }
         }
         edk::float32 y;
-    }tracks;
+    }stack;
     //
     virtual edk::animation::InterpolationGroup* newInterpolationGroup();
 };

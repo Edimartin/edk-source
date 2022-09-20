@@ -767,14 +767,7 @@ edk::vec2ui32 edk::shape::Polygon2D::getFrameUsed(){
 }
 edk::uint32 edk::shape::Polygon2D::getFramePositionUsed(){
     if(this->frames.x && this->frames.y){
-        edk::uint32 yTemp = this->frameUsing.y;
-        if(yTemp){
-            yTemp--;
-            return (this->frameUsing.y * yTemp) + this->frameUsing.x;
-        }
-        else{
-            return this->frameUsing.x;
-        }
+        return (this->frames.x * this->frameUsing.y) + this->frameUsing.x;
     }
     return 0u;
 }
@@ -1166,16 +1159,16 @@ bool edk::shape::Polygon2D::cloneFrom(edk::shape::Polygon2D* poly){
                     //this->setVertexUVFrames(i,poly->getFrames());
                     //get vertexType
                     switch(poly->getVertexType(i)){
+                    //
+                    case EDK_SHAPE_ANIMATED_UV:
                         //
-                        case EDK_SHAPE_ANIMATED_UV:
-                            //
-                            this->setVertexUV(i,poly->getVertexUV(i));
-                            this->setVertexUVFrames(i,poly->getFrames());
-                            break;
-                        case EDK_SHAPE_UV:
-                            //
-                            this->setVertexUV(i,poly->getVertexUV(i));
-                            break;
+                        this->setVertexUV(i,poly->getVertexUV(i));
+                        this->setVertexUVFrames(i,poly->getFrames());
+                        break;
+                    case EDK_SHAPE_UV:
+                        //
+                        this->setVertexUV(i,poly->getVertexUV(i));
+                        break;
                     };
                 }
             }

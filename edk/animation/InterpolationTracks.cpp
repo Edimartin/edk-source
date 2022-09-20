@@ -27,6 +27,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 edk::animation::InterpolationTracks::InterpolationTracks(){
     //
     this->time.start();
+    this->tracks = &this->stack;
 }
 edk::animation::InterpolationTracks::~InterpolationTracks(){
     //
@@ -39,7 +40,7 @@ void edk::animation::InterpolationTracks::animationEnd(edk::animation::Interpola
     edk::animation::InterpolationTracks::AnimationAndPosition find;
     find.animation = animation;
     edk::animation::InterpolationTracks::AnimationAndPosition temp = this->positions.getElement(find);
-    if(temp.animation == animation && this->tracks.havePos(temp.number)){
+    if(temp.animation == animation && this->tracks->havePos(temp.number)){
         edk::uint32 size = this->callbacks.size();
         edk::animation::AnimationTracksCallback* callback;
         //run the callbacks
@@ -71,21 +72,21 @@ bool edk::animation::InterpolationTracks::removeAnimationCallback(edk::animation
 
 //get size
 edk::uint32 edk::animation::InterpolationTracks::getSize(){
-    return this->tracks.size();
+    return this->tracks->size();
 }
 edk::uint32 edk::animation::InterpolationTracks::size(){
-    return this->tracks.size();
+    return this->tracks->size();
 }
 
 //clean all tracks
 void edk::animation::InterpolationTracks::cleanTracks(){
-    edk::uint32 size = this->tracks.size();
+    edk::uint32 size = this->tracks->size();
     edk::animation::InterpolationTracks::AnimationAndPosition temp;
     for(edk::uint32 i=0u;i<size;i++){
-        temp = this->tracks.get(i);
+        temp = this->tracks->get(i);
         if(temp.animation) delete temp.animation;
     }
-    this->tracks.clean();
+    this->tracks->clean();
     this->positions.clean();
 }
 
@@ -93,17 +94,17 @@ void edk::animation::InterpolationTracks::cleanTracks(){
 edk::uint32 edk::animation::InterpolationTracks::newTrack(edk::typeID type){
     edk::uint32 ret = 0u;
     //get the size
-    edk::uint32 size = this->tracks.size();
+    edk::uint32 size = this->tracks->size();
     //if the size is zero, then the type is aways be ADD
-    if(!size) type = EDK_TRACK_ADD;
+    if(!size) type = EDK_TRACK_REPLACE;
     //create a new interpolationTrack
     edk::animation::InterpolationTracks::AnimationAndPosition track;
     track.animation = this->newInterpolationGroup();
     if(track.animation){
         track.number = type;
-        ret = this->tracks.pushBack(track);
+        ret = this->tracks->pushBack(track);
         //add the track into tracks stack
-        if(size>=this->tracks.size()){
+        if(size>=this->tracks->size()){
             //then delete the track and return zero
             delete track.animation;
             ret=0u;
@@ -117,7 +118,7 @@ bool edk::animation::InterpolationTracks::removeTrack(edk::uint32 position){
     //first test if have the track
     if(this->haveTrack(position)){
         //then remove the track
-        edk::animation::InterpolationTracks::AnimationAndPosition temp =  this->tracks.remove(position);
+        edk::animation::InterpolationTracks::AnimationAndPosition temp =  this->tracks->remove(position);
         if(temp.animation){
             delete temp.animation;
             return true;
@@ -127,28 +128,28 @@ bool edk::animation::InterpolationTracks::removeTrack(edk::uint32 position){
 }
 //return true if have a track in a position
 bool edk::animation::InterpolationTracks::haveTrack(edk::uint32 position){
-    return this->tracks.havePos(position);
+    return this->tracks->havePos(position);
 }
 
 //move tracks
 bool edk::animation::InterpolationTracks::squapTrack(edk::uint32 position1,edk::uint32 position2){
-    return this->tracks.swap(position1,position2);
+    return this->tracks->swap(position1,position2);
 }
 bool edk::animation::InterpolationTracks::moveTrack(edk::uint32 start,edk::uint32 dest){
-    return this->tracks.bringPositionTo(start,dest);
+    return this->tracks->bringPositionTo(start,dest);
 }
 bool edk::animation::InterpolationTracks::moveToEnd(edk::uint32 position){
-    return this->tracks.bringPositionTo(position,this->tracks.size()-1u);
+    return this->tracks->bringPositionTo(position,this->tracks->size()-1u);
 }
 bool edk::animation::InterpolationTracks::moveToBegin(edk::uint32 position){
-    return this->tracks.bringPositionTo(position,0u);
+    return this->tracks->bringPositionTo(position,0u);
 }
 
 //ANIMATION FUNCTIONS
 //Add a first interpolation
 bool edk::animation::InterpolationTracks::addFirstInterpolationLine(edk::uint32 trackPosition,edk::float32 startSecond,edk::float32 endSecond){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->addFirstInterpolationLine(startSecond,endSecond);
     }
@@ -156,7 +157,7 @@ bool edk::animation::InterpolationTracks::addFirstInterpolationLine(edk::uint32 
 }
 bool edk::animation::InterpolationTracks::addFirstInterpolationLine(edk::uint32 trackPosition,edk::animation::Frame start,edk::animation::Frame end){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->addFirstInterpolationLine(start,end);
     }
@@ -166,7 +167,7 @@ bool edk::animation::InterpolationTracks::addFirstInterpolationLine(edk::uint32 
 //Add New Interpolation
 bool edk::animation::InterpolationTracks::addNewInterpolationLine(edk::uint32 trackPosition,edk::float32 second){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->addNewInterpolationLine(second);
     }
@@ -174,7 +175,7 @@ bool edk::animation::InterpolationTracks::addNewInterpolationLine(edk::uint32 tr
 }
 bool edk::animation::InterpolationTracks::addNewInterpolationLine(edk::uint32 trackPosition,edk::animation::Frame frame){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->addNewInterpolationLine(frame);
     }
@@ -184,7 +185,7 @@ bool edk::animation::InterpolationTracks::addNewInterpolationLine(edk::uint32 tr
 //Select the frame
 bool edk::animation::InterpolationTracks::selectFrame(edk::uint32 trackPosition,edk::float32 second){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->selectFrame(second);
     }
@@ -193,7 +194,7 @@ bool edk::animation::InterpolationTracks::selectFrame(edk::uint32 trackPosition,
 //clean the selected
 bool edk::animation::InterpolationTracks::cleanFrameSelected(edk::uint32 trackPosition){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         temp.animation->cleanFrameSelected();
         return true;
@@ -204,7 +205,7 @@ bool edk::animation::InterpolationTracks::cleanFrameSelected(edk::uint32 trackPo
 //test if have a tempFrame
 bool edk::animation::InterpolationTracks::haveTempFrame(edk::uint32 trackPosition){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->haveTempFrame();
     }
@@ -212,7 +213,7 @@ bool edk::animation::InterpolationTracks::haveTempFrame(edk::uint32 trackPositio
 }
 bool edk::animation::InterpolationTracks::selectTempFrame(edk::uint32 trackPosition,edk::float32 second){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->selectTempFrame(second);
     }
@@ -222,7 +223,7 @@ bool edk::animation::InterpolationTracks::selectTempFrame(edk::uint32 trackPosit
 //scale the frames
 bool edk::animation::InterpolationTracks::scaleFrames(edk::uint32 trackPosition,edk::float32 scale){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->scaleFrames(scale);
     }
@@ -231,7 +232,7 @@ bool edk::animation::InterpolationTracks::scaleFrames(edk::uint32 trackPosition,
 //Speed
 bool edk::animation::InterpolationTracks::setSpeedAllTracks(edk::float32 speed){
     bool ret=false;
-    edk::uint32 size = this->tracks.size();
+    edk::uint32 size = this->tracks->size();
     if(size){
         edk::animation::InterpolationTracks::AnimationAndPosition temp;
         for(edk::uint32 i=0u;i<size;i++){
@@ -244,7 +245,7 @@ bool edk::animation::InterpolationTracks::setSpeedAllTracks(edk::float32 speed){
 }
 bool edk::animation::InterpolationTracks::setSpeed(edk::uint32 trackPosition,edk::float32 speed){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         temp.animation->setSpeed(speed);
         return true;
@@ -253,7 +254,7 @@ bool edk::animation::InterpolationTracks::setSpeed(edk::uint32 trackPosition,edk
 }
 edk::float32 edk::animation::InterpolationTracks::getSpeed(edk::uint32 trackPosition){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->getSpeed();
     }
@@ -263,7 +264,7 @@ edk::float32 edk::animation::InterpolationTracks::getSpeed(edk::uint32 trackPosi
 //set the animationStartFrame
 bool edk::animation::InterpolationTracks::setAllTracksStartInterpolation(edk::uint32 animationInterpolation){
     bool ret=false;
-    edk::uint32 size = this->tracks.size();
+    edk::uint32 size = this->tracks->size();
     if(size){
         edk::animation::InterpolationTracks::AnimationAndPosition temp;
         for(edk::uint32 i=0u;i<size;i++){
@@ -276,7 +277,7 @@ bool edk::animation::InterpolationTracks::setAllTracksStartInterpolation(edk::ui
 }
 bool edk::animation::InterpolationTracks::setAllTracksStartSecond(edk::float32 second){
     bool ret=false;
-    edk::uint32 size = this->tracks.size();
+    edk::uint32 size = this->tracks->size();
     if(size){
         edk::animation::InterpolationTracks::AnimationAndPosition temp;
         for(edk::uint32 i=0u;i<size;i++){
@@ -289,7 +290,7 @@ bool edk::animation::InterpolationTracks::setAllTracksStartSecond(edk::float32 s
 }
 bool edk::animation::InterpolationTracks::setAnimationStartInterpolation(edk::uint32 trackPosition,edk::uint32 animationInterpolation){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->setAnimationStartInterpolation(animationInterpolation);
     }
@@ -297,7 +298,7 @@ bool edk::animation::InterpolationTracks::setAnimationStartInterpolation(edk::ui
 }
 bool edk::animation::InterpolationTracks::setAnimationStartSecond(edk::uint32 trackPosition,edk::float32 second){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->setAnimationStartSecond(second);
     }
@@ -306,7 +307,7 @@ bool edk::animation::InterpolationTracks::setAnimationStartSecond(edk::uint32 tr
 //set the animationEndFrame
 bool edk::animation::InterpolationTracks::setAllTracksEndInterpolation(edk::uint32 animationInterpolation){
     bool ret=false;
-    edk::uint32 size = this->tracks.size();
+    edk::uint32 size = this->tracks->size();
     if(size){
         edk::animation::InterpolationTracks::AnimationAndPosition temp;
         for(edk::uint32 i=0u;i<size;i++){
@@ -319,7 +320,7 @@ bool edk::animation::InterpolationTracks::setAllTracksEndInterpolation(edk::uint
 }
 bool edk::animation::InterpolationTracks::setAllTracksEndSecond(edk::float32 second){
     bool ret=false;
-    edk::uint32 size = this->tracks.size();
+    edk::uint32 size = this->tracks->size();
     if(size){
         edk::animation::InterpolationTracks::AnimationAndPosition temp;
         for(edk::uint32 i=0u;i<size;i++){
@@ -334,7 +335,7 @@ bool edk::animation::InterpolationTracks::setAllTracksEndSecond(edk::float32 sec
 //ANIMATIONNAMES
 bool edk::animation::InterpolationTracks::addNewAnimationName(edk::uint32 trackPosition,const edk::char8* name, edk::float32 start,edk::float32 end){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->addNewAnimationName(name, start,end);
     }
@@ -342,7 +343,7 @@ bool edk::animation::InterpolationTracks::addNewAnimationName(edk::uint32 trackP
 }
 bool edk::animation::InterpolationTracks::addNewAnimationName(edk::uint32 trackPosition,edk::char8* name, edk::float32 start,edk::float32 end){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->addNewAnimationName(name, start,end);
     }
@@ -350,7 +351,7 @@ bool edk::animation::InterpolationTracks::addNewAnimationName(edk::uint32 trackP
 }
 bool edk::animation::InterpolationTracks::addNewAnimationNameAllTracks(const edk::char8* name, edk::float32 start,edk::float32 end){
     bool ret=false;
-    edk::uint32 size = this->tracks.size();
+    edk::uint32 size = this->tracks->size();
     if(size){
         edk::animation::InterpolationTracks::AnimationAndPosition temp;
         for(edk::uint32 i=0u;i<size;i++){
@@ -363,7 +364,7 @@ bool edk::animation::InterpolationTracks::addNewAnimationNameAllTracks(const edk
 }
 bool edk::animation::InterpolationTracks::addNewAnimationNameAllTracks(edk::char8* name, edk::float32 start,edk::float32 end){
     bool ret=false;
-    edk::uint32 size = this->tracks.size();
+    edk::uint32 size = this->tracks->size();
     if(size){
         edk::animation::InterpolationTracks::AnimationAndPosition temp;
         for(edk::uint32 i=0u;i<size;i++){
@@ -377,7 +378,7 @@ bool edk::animation::InterpolationTracks::addNewAnimationNameAllTracks(edk::char
 //get the animationName seconds
 edk::float32 edk::animation::InterpolationTracks::getAnimationNameStart(edk::uint32 trackPosition,const edk::char8* name){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->getAnimationNameStart(name);
     }
@@ -385,7 +386,7 @@ edk::float32 edk::animation::InterpolationTracks::getAnimationNameStart(edk::uin
 }
 edk::float32 edk::animation::InterpolationTracks::getAnimationNameStart(edk::uint32 trackPosition,edk::char8* name){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->getAnimationNameStart(name);
     }
@@ -393,7 +394,7 @@ edk::float32 edk::animation::InterpolationTracks::getAnimationNameStart(edk::uin
 }
 edk::float32 edk::animation::InterpolationTracks::getAnimationNameEnd(edk::uint32 trackPosition,const edk::char8* name){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->getAnimationNameEnd(name);
     }
@@ -401,7 +402,7 @@ edk::float32 edk::animation::InterpolationTracks::getAnimationNameEnd(edk::uint3
 }
 edk::float32 edk::animation::InterpolationTracks::getAnimationNameEnd(edk::uint32 trackPosition,edk::char8* name){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->getAnimationNameEnd(name);
     }
@@ -410,7 +411,7 @@ edk::float32 edk::animation::InterpolationTracks::getAnimationNameEnd(edk::uint3
 //select the animationName
 bool edk::animation::InterpolationTracks::selectAnimationName(edk::uint32 trackPosition,const edk::char8* name){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->selectAnimationName(name);
     }
@@ -418,7 +419,7 @@ bool edk::animation::InterpolationTracks::selectAnimationName(edk::uint32 trackP
 }
 bool edk::animation::InterpolationTracks::selectAnimationName(edk::uint32 trackPosition,edk::char8* name){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->selectAnimationName(name);
     }
@@ -427,7 +428,7 @@ bool edk::animation::InterpolationTracks::selectAnimationName(edk::uint32 trackP
 //test if have the animationName
 bool edk::animation::InterpolationTracks::haveAnimationName(edk::uint32 trackPosition,const edk::char8* name){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->haveAnimationName(name);
     }
@@ -435,7 +436,7 @@ bool edk::animation::InterpolationTracks::haveAnimationName(edk::uint32 trackPos
 }
 bool edk::animation::InterpolationTracks::haveAnimationName(edk::uint32 trackPosition,edk::char8* name){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->haveAnimationName(name);
     }
@@ -444,7 +445,7 @@ bool edk::animation::InterpolationTracks::haveAnimationName(edk::uint32 trackPos
 //Play the animationName
 bool edk::animation::InterpolationTracks::playNameForwardAllTracks(const edk::char8* name){
     bool ret=false;
-    edk::uint32 size = this->tracks.size();
+    edk::uint32 size = this->tracks->size();
     if(size){
         edk::animation::InterpolationTracks::AnimationAndPosition temp;
         for(edk::uint32 i=0u;i<size;i++){
@@ -458,7 +459,7 @@ bool edk::animation::InterpolationTracks::playNameForwardAllTracks(const edk::ch
 }
 bool edk::animation::InterpolationTracks::playNameForwardAllTracks(edk::char8* name){
     bool ret=false;
-    edk::uint32 size = this->tracks.size();
+    edk::uint32 size = this->tracks->size();
     if(size){
         edk::animation::InterpolationTracks::AnimationAndPosition temp;
         for(edk::uint32 i=0u;i<size;i++){
@@ -472,7 +473,7 @@ bool edk::animation::InterpolationTracks::playNameForwardAllTracks(edk::char8* n
 }
 bool edk::animation::InterpolationTracks::playNameForward(edk::uint32 trackPosition,const edk::char8* name){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->playNameForward(name);
     }
@@ -481,7 +482,7 @@ bool edk::animation::InterpolationTracks::playNameForward(edk::uint32 trackPosit
 }
 bool edk::animation::InterpolationTracks::playNameForward(edk::uint32 trackPosition,edk::char8* name){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->playNameForward(name);
     }
@@ -490,7 +491,7 @@ bool edk::animation::InterpolationTracks::playNameForward(edk::uint32 trackPosit
 }
 bool edk::animation::InterpolationTracks::playNameRewindAllTracks(const edk::char8* name){
     bool ret=false;
-    edk::uint32 size = this->tracks.size();
+    edk::uint32 size = this->tracks->size();
     if(size){
         edk::animation::InterpolationTracks::AnimationAndPosition temp;
         for(edk::uint32 i=0u;i<size;i++){
@@ -504,7 +505,7 @@ bool edk::animation::InterpolationTracks::playNameRewindAllTracks(const edk::cha
 }
 bool edk::animation::InterpolationTracks::playNameRewindAllTracks(edk::char8* name){
     bool ret=false;
-    edk::uint32 size = this->tracks.size();
+    edk::uint32 size = this->tracks->size();
     if(size){
         edk::animation::InterpolationTracks::AnimationAndPosition temp;
         for(edk::uint32 i=0u;i<size;i++){
@@ -518,7 +519,7 @@ bool edk::animation::InterpolationTracks::playNameRewindAllTracks(edk::char8* na
 }
 bool edk::animation::InterpolationTracks::playNameRewind(edk::uint32 trackPosition,const edk::char8* name){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->playNameRewind(name);
     }
@@ -527,7 +528,7 @@ bool edk::animation::InterpolationTracks::playNameRewind(edk::uint32 trackPositi
 }
 bool edk::animation::InterpolationTracks::playNameRewind(edk::uint32 trackPosition,edk::char8* name){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->playNameRewind(name);
     }
@@ -537,7 +538,7 @@ bool edk::animation::InterpolationTracks::playNameRewind(edk::uint32 trackPositi
 //remove the animationName
 bool edk::animation::InterpolationTracks::removeAnimationName(edk::uint32 trackPosition,const edk::char8* name){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->removeAnimationName(name);
     }
@@ -545,7 +546,7 @@ bool edk::animation::InterpolationTracks::removeAnimationName(edk::uint32 trackP
 }
 bool edk::animation::InterpolationTracks::removeAnimationName(edk::uint32 trackPosition,edk::char8* name){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->removeAnimationName(name);
     }
@@ -554,7 +555,7 @@ bool edk::animation::InterpolationTracks::removeAnimationName(edk::uint32 trackP
 //remove a keyframe
 bool edk::animation::InterpolationTracks::removeKeyFrame(edk::uint32 trackPosition,edk::float32 second){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->removeKeyFrame(second);
     }
@@ -563,7 +564,7 @@ bool edk::animation::InterpolationTracks::removeKeyFrame(edk::uint32 trackPositi
 //clean animationName selected
 bool edk::animation::InterpolationTracks::cleanAnimationNameSelected(edk::uint32 trackPosition){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         temp.animation->cleanAnimationNameSelected();
         return true;
@@ -573,7 +574,7 @@ bool edk::animation::InterpolationTracks::cleanAnimationNameSelected(edk::uint32
 //clean all animation Names
 bool edk::animation::InterpolationTracks::cleanAnimationNamesAllTracks(){
     bool ret=false;
-    edk::uint32 size = this->tracks.size();
+    edk::uint32 size = this->tracks->size();
     if(size){
         edk::animation::InterpolationTracks::AnimationAndPosition temp;
         for(edk::uint32 i=0u;i<size;i++){
@@ -587,7 +588,7 @@ bool edk::animation::InterpolationTracks::cleanAnimationNamesAllTracks(){
 }
 bool edk::animation::InterpolationTracks::cleanAnimationNames(edk::uint32 trackPosition){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         temp.animation->cleanAnimationNames();
         return true;
@@ -597,7 +598,7 @@ bool edk::animation::InterpolationTracks::cleanAnimationNames(edk::uint32 trackP
 
 bool edk::animation::InterpolationTracks::setActive(edk::uint32 trackPosition,bool active){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         temp.animation->active=active;
         return true;
@@ -606,7 +607,7 @@ bool edk::animation::InterpolationTracks::setActive(edk::uint32 trackPosition,bo
 }
 bool edk::animation::InterpolationTracks::getActive(edk::uint32 trackPosition){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->active;
     }
@@ -616,7 +617,7 @@ bool edk::animation::InterpolationTracks::getActive(edk::uint32 trackPosition){
 //get Loop
 bool edk::animation::InterpolationTracks::getLoop(edk::uint32 trackPosition){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->getLoop();
     }
@@ -625,7 +626,7 @@ bool edk::animation::InterpolationTracks::getLoop(edk::uint32 trackPosition){
 //get Increment
 bool edk::animation::InterpolationTracks::getIncrement(edk::uint32 trackPosition){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->getIncrement();
     }
@@ -636,10 +637,11 @@ bool edk::animation::InterpolationTracks::getIncrement(edk::uint32 trackPosition
 //animation controllers
 bool edk::animation::InterpolationTracks::playForward(){
     bool ret=false;
-    edk::uint32 size = this->tracks.size();
+    edk::uint32 size = this->tracks->size();
     if(size){
         edk::animation::InterpolationTracks::AnimationAndPosition temp;
         for(edk::uint32 i=0u;i<size;i++){
+            temp = this->tracks->get(i);
             if(temp.animation){
                 temp.animation->playForward();
             }
@@ -651,7 +653,7 @@ bool edk::animation::InterpolationTracks::playForward(){
 }
 bool edk::animation::InterpolationTracks::playForwardTrack(edk::uint32 trackPosition){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         temp.animation->playForward();
         this->time.start();
@@ -662,10 +664,11 @@ bool edk::animation::InterpolationTracks::playForwardTrack(edk::uint32 trackPosi
 }
 bool edk::animation::InterpolationTracks::playForwardIn(edk::float32 second){
     bool ret=false;
-    edk::uint32 size = this->tracks.size();
+    edk::uint32 size = this->tracks->size();
     if(size){
         edk::animation::InterpolationTracks::AnimationAndPosition temp;
         for(edk::uint32 i=0u;i<size;i++){
+            temp = this->tracks->get(i);
             if(temp.animation){
                 temp.animation->playForwardIn(second);
             }
@@ -677,7 +680,7 @@ bool edk::animation::InterpolationTracks::playForwardIn(edk::float32 second){
 }
 bool edk::animation::InterpolationTracks::playForwardTrackIn(edk::uint32 trackPosition,edk::float32 second){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         temp.animation->playForwardIn(second);
         this->time.start();
@@ -688,10 +691,11 @@ bool edk::animation::InterpolationTracks::playForwardTrackIn(edk::uint32 trackPo
 }
 bool edk::animation::InterpolationTracks::restartForward(){
     bool ret=false;
-    edk::uint32 size = this->tracks.size();
+    edk::uint32 size = this->tracks->size();
     if(size){
         edk::animation::InterpolationTracks::AnimationAndPosition temp;
         for(edk::uint32 i=0u;i<size;i++){
+            temp = this->tracks->get(i);
             if(temp.animation){
                 temp.animation->restartForward();
             }
@@ -703,7 +707,7 @@ bool edk::animation::InterpolationTracks::restartForward(){
 }
 bool edk::animation::InterpolationTracks::restartForwardTrack(edk::uint32 trackPosition){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         temp.animation->restartForward();
         this->time.start();
@@ -714,10 +718,11 @@ bool edk::animation::InterpolationTracks::restartForwardTrack(edk::uint32 trackP
 }
 bool edk::animation::InterpolationTracks::playRewind(){
     bool ret=false;
-    edk::uint32 size = this->tracks.size();
+    edk::uint32 size = this->tracks->size();
     if(size){
         edk::animation::InterpolationTracks::AnimationAndPosition temp;
         for(edk::uint32 i=0u;i<size;i++){
+            temp = this->tracks->get(i);
             if(temp.animation){
                 temp.animation->playRewind();
             }
@@ -729,7 +734,7 @@ bool edk::animation::InterpolationTracks::playRewind(){
 }
 bool edk::animation::InterpolationTracks::playRewindTrack(edk::uint32 trackPosition){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         temp.animation->playRewind();
         this->time.start();
@@ -740,10 +745,11 @@ bool edk::animation::InterpolationTracks::playRewindTrack(edk::uint32 trackPosit
 }
 bool edk::animation::InterpolationTracks::playRewindIn(edk::float32 second){
     bool ret=false;
-    edk::uint32 size = this->tracks.size();
+    edk::uint32 size = this->tracks->size();
     if(size){
         edk::animation::InterpolationTracks::AnimationAndPosition temp;
         for(edk::uint32 i=0u;i<size;i++){
+            temp = this->tracks->get(i);
             if(temp.animation){
                 temp.animation->playRewindIn(second);
             }
@@ -755,7 +761,7 @@ bool edk::animation::InterpolationTracks::playRewindIn(edk::float32 second){
 }
 bool edk::animation::InterpolationTracks::playRewindTrackIn(edk::uint32 trackPosition,edk::float32 second){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         temp.animation->playRewindIn(second);
         this->time.start();
@@ -766,10 +772,11 @@ bool edk::animation::InterpolationTracks::playRewindTrackIn(edk::uint32 trackPos
 }
 bool edk::animation::InterpolationTracks::restartRewind(){
     bool ret=false;
-    edk::uint32 size = this->tracks.size();
+    edk::uint32 size = this->tracks->size();
     if(size){
         edk::animation::InterpolationTracks::AnimationAndPosition temp;
         for(edk::uint32 i=0u;i<size;i++){
+            temp = this->tracks->get(i);
             if(temp.animation){
                 temp.animation->restartRewind();
             }
@@ -781,7 +788,7 @@ bool edk::animation::InterpolationTracks::restartRewind(){
 }
 bool edk::animation::InterpolationTracks::restartRewindTrack(edk::uint32 trackPosition){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         temp.animation->restartRewind();
         this->time.start();
@@ -792,10 +799,11 @@ bool edk::animation::InterpolationTracks::restartRewindTrack(edk::uint32 trackPo
 }
 bool edk::animation::InterpolationTracks::pause(){
     bool ret=false;
-    edk::uint32 size = this->tracks.size();
+    edk::uint32 size = this->tracks->size();
     if(size){
         edk::animation::InterpolationTracks::AnimationAndPosition temp;
         for(edk::uint32 i=0u;i<size;i++){
+            temp = this->tracks->get(i);
             if(temp.animation){
                 temp.animation->pause();
             }
@@ -807,7 +815,7 @@ bool edk::animation::InterpolationTracks::pause(){
 }
 bool edk::animation::InterpolationTracks::pauseTrack(edk::uint32 trackPosition){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         temp.animation->pause();
         this->time.start();
@@ -818,10 +826,11 @@ bool edk::animation::InterpolationTracks::pauseTrack(edk::uint32 trackPosition){
 }
 bool edk::animation::InterpolationTracks::pauseOn(){
     bool ret=false;
-    edk::uint32 size = this->tracks.size();
+    edk::uint32 size = this->tracks->size();
     if(size){
         edk::animation::InterpolationTracks::AnimationAndPosition temp;
         for(edk::uint32 i=0u;i<size;i++){
+            temp = this->tracks->get(i);
             if(temp.animation){
                 temp.animation->pauseOn();
             }
@@ -833,7 +842,7 @@ bool edk::animation::InterpolationTracks::pauseOn(){
 }
 bool edk::animation::InterpolationTracks::pauseTrackOn(edk::uint32 trackPosition){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         temp.animation->pauseOn();
         this->time.start();
@@ -843,10 +852,11 @@ bool edk::animation::InterpolationTracks::pauseTrackOn(edk::uint32 trackPosition
 }
 bool edk::animation::InterpolationTracks::pauseOff(){
     bool ret=false;
-    edk::uint32 size = this->tracks.size();
+    edk::uint32 size = this->tracks->size();
     if(size){
         edk::animation::InterpolationTracks::AnimationAndPosition temp;
         for(edk::uint32 i=0u;i<size;i++){
+            temp = this->tracks->get(i);
             if(temp.animation){
                 temp.animation->pauseOff();
             }
@@ -858,7 +868,7 @@ bool edk::animation::InterpolationTracks::pauseOff(){
 }
 bool edk::animation::InterpolationTracks::pauseTrackOff(edk::uint32 trackPosition){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         temp.animation->pauseOff();
         this->time.start();
@@ -868,10 +878,11 @@ bool edk::animation::InterpolationTracks::pauseTrackOff(edk::uint32 trackPositio
 }
 bool edk::animation::InterpolationTracks::stop(){
     bool ret=false;
-    edk::uint32 size = this->tracks.size();
+    edk::uint32 size = this->tracks->size();
     if(size){
         edk::animation::InterpolationTracks::AnimationAndPosition temp;
         for(edk::uint32 i=0u;i<size;i++){
+            temp = this->tracks->get(i);
             if(temp.animation){
                 temp.animation->stop();
             }
@@ -883,7 +894,7 @@ bool edk::animation::InterpolationTracks::stop(){
 }
 bool edk::animation::InterpolationTracks::stopTrack(edk::uint32 trackPosition){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         temp.animation->stop();
         this->time.start();
@@ -895,10 +906,11 @@ bool edk::animation::InterpolationTracks::stopTrack(edk::uint32 trackPosition){
 //set loop
 bool edk::animation::InterpolationTracks::setLoopAllTracks(bool loop){
     bool ret=false;
-    edk::uint32 size = this->tracks.size();
+    edk::uint32 size = this->tracks->size();
     if(size){
         edk::animation::InterpolationTracks::AnimationAndPosition temp;
         for(edk::uint32 i=0u;i<size;i++){
+            temp = this->tracks->get(i);
             if(temp.animation){
                 temp.animation->setLoop(loop);
             }
@@ -909,7 +921,7 @@ bool edk::animation::InterpolationTracks::setLoopAllTracks(bool loop){
 }
 bool edk::animation::InterpolationTracks::setLoop(edk::uint32 trackPosition,bool loop){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         temp.animation->setLoop(loop);
         return true;
@@ -918,10 +930,11 @@ bool edk::animation::InterpolationTracks::setLoop(edk::uint32 trackPosition,bool
 }
 bool edk::animation::InterpolationTracks::loopOnAllTracks(){
     bool ret=false;
-    edk::uint32 size = this->tracks.size();
+    edk::uint32 size = this->tracks->size();
     if(size){
         edk::animation::InterpolationTracks::AnimationAndPosition temp;
         for(edk::uint32 i=0u;i<size;i++){
+            temp = this->tracks->get(i);
             if(temp.animation){
                 temp.animation->loopOn();
             }
@@ -932,7 +945,7 @@ bool edk::animation::InterpolationTracks::loopOnAllTracks(){
 }
 bool edk::animation::InterpolationTracks::loopOn(edk::uint32 trackPosition){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         temp.animation->loopOn();
         return true;
@@ -941,10 +954,11 @@ bool edk::animation::InterpolationTracks::loopOn(edk::uint32 trackPosition){
 }
 bool edk::animation::InterpolationTracks::loopOffAllTracks(){
     bool ret=false;
-    edk::uint32 size = this->tracks.size();
+    edk::uint32 size = this->tracks->size();
     if(size){
         edk::animation::InterpolationTracks::AnimationAndPosition temp;
         for(edk::uint32 i=0u;i<size;i++){
+            temp = this->tracks->get(i);
             if(temp.animation){
                 temp.animation->loopOff();
             }
@@ -955,7 +969,7 @@ bool edk::animation::InterpolationTracks::loopOffAllTracks(){
 }
 bool edk::animation::InterpolationTracks::loopOff(edk::uint32 trackPosition){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         temp.animation->loopOff();
         return true;
@@ -965,10 +979,11 @@ bool edk::animation::InterpolationTracks::loopOff(edk::uint32 trackPosition){
 //set increment - The animation will run in looping but incrementing the values
 bool edk::animation::InterpolationTracks::setIncrementAllTracks(bool incrementing){
     bool ret=false;
-    edk::uint32 size = this->tracks.size();
+    edk::uint32 size = this->tracks->size();
     if(size){
         edk::animation::InterpolationTracks::AnimationAndPosition temp;
         for(edk::uint32 i=0u;i<size;i++){
+            temp = this->tracks->get(i);
             if(temp.animation){
                 temp.animation->setIncrement(incrementing);
             }
@@ -979,7 +994,7 @@ bool edk::animation::InterpolationTracks::setIncrementAllTracks(bool incrementin
 }
 bool edk::animation::InterpolationTracks::setIncrement(edk::uint32 trackPosition,bool incrementing){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         temp.animation->setIncrement(incrementing);
         return true;
@@ -988,10 +1003,11 @@ bool edk::animation::InterpolationTracks::setIncrement(edk::uint32 trackPosition
 }
 bool edk::animation::InterpolationTracks::incrementAllTracksOn(){
     bool ret=false;
-    edk::uint32 size = this->tracks.size();
+    edk::uint32 size = this->tracks->size();
     if(size){
         edk::animation::InterpolationTracks::AnimationAndPosition temp;
         for(edk::uint32 i=0u;i<size;i++){
+            temp = this->tracks->get(i);
             if(temp.animation){
                 temp.animation->incrementOn();
             }
@@ -1002,7 +1018,7 @@ bool edk::animation::InterpolationTracks::incrementAllTracksOn(){
 }
 bool edk::animation::InterpolationTracks::incrementOn(edk::uint32 trackPosition){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         temp.animation->incrementOn();
         return true;
@@ -1011,10 +1027,11 @@ bool edk::animation::InterpolationTracks::incrementOn(edk::uint32 trackPosition)
 }
 bool edk::animation::InterpolationTracks::incrementAllTracksOff(){
     bool ret=false;
-    edk::uint32 size = this->tracks.size();
+    edk::uint32 size = this->tracks->size();
     if(size){
         edk::animation::InterpolationTracks::AnimationAndPosition temp;
         for(edk::uint32 i=0u;i<size;i++){
+            temp = this->tracks->get(i);
             if(temp.animation){
                 temp.animation->incrementOff();
             }
@@ -1025,7 +1042,7 @@ bool edk::animation::InterpolationTracks::incrementAllTracksOff(){
 }
 bool edk::animation::InterpolationTracks::incrementOff(edk::uint32 trackPosition){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         temp.animation->incrementOff();
         return true;
@@ -1037,7 +1054,7 @@ bool edk::animation::InterpolationTracks::incrementOff(edk::uint32 trackPosition
 //return the number of animations
 edk::uint32 edk::animation::InterpolationTracks::getInterpolationSize(edk::uint32 trackPosition){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->getInterpolationSize();
     }
@@ -1045,7 +1062,7 @@ edk::uint32 edk::animation::InterpolationTracks::getInterpolationSize(edk::uint3
 }
 edk::uint32 edk::animation::InterpolationTracks::getInterpolations(edk::uint32 trackPosition){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->getInterpolations();
     }
@@ -1054,7 +1071,7 @@ edk::uint32 edk::animation::InterpolationTracks::getInterpolations(edk::uint32 t
 //get the second
 edk::float32 edk::animation::InterpolationTracks::getAnimationSecond(edk::uint32 trackPosition){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->getAnimationSecond();
     }
@@ -1063,7 +1080,7 @@ edk::float32 edk::animation::InterpolationTracks::getAnimationSecond(edk::uint32
 //return the missingTime
 edk::float32 edk::animation::InterpolationTracks::getAnimationMissingSecond(edk::uint32 trackPosition){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->getAnimationMissingSecond();
     }
@@ -1072,7 +1089,7 @@ edk::float32 edk::animation::InterpolationTracks::getAnimationMissingSecond(edk:
 //get the animation start and end
 edk::float32 edk::animation::InterpolationTracks::getAnimationStart(edk::uint32 trackPosition){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->getAnimationStart();
     }
@@ -1080,7 +1097,7 @@ edk::float32 edk::animation::InterpolationTracks::getAnimationStart(edk::uint32 
 }
 edk::float32 edk::animation::InterpolationTracks::getAnimationEnd(edk::uint32 trackPosition){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->getAnimationEnd();
     }
@@ -1088,7 +1105,7 @@ edk::float32 edk::animation::InterpolationTracks::getAnimationEnd(edk::uint32 tr
 }
 edk::float32 edk::animation::InterpolationTracks::getAnimationLenght(edk::uint32 trackPosition){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->getAnimationLenght();
     }
@@ -1097,7 +1114,7 @@ edk::float32 edk::animation::InterpolationTracks::getAnimationLenght(edk::uint32
 //return the interpolation seconds
 edk::float32 edk::animation::InterpolationTracks::getInterpolationStartSecond(edk::uint32 trackPosition,edk::float32 position){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->getInterpolationStartSecond(position);
     }
@@ -1105,7 +1122,7 @@ edk::float32 edk::animation::InterpolationTracks::getInterpolationStartSecond(ed
 }
 edk::float32 edk::animation::InterpolationTracks::getInterpolationEndSecond(edk::uint32 trackPosition,edk::float32 position){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->getInterpolationEndSecond(position);
     }
@@ -1114,10 +1131,11 @@ edk::float32 edk::animation::InterpolationTracks::getInterpolationEndSecond(edk:
 //return if are playing
 bool edk::animation::InterpolationTracks::isPlaying(){
     bool ret=false;
-    edk::uint32 size = this->tracks.size();
+    edk::uint32 size = this->tracks->size();
     if(size){
         edk::animation::InterpolationTracks::AnimationAndPosition temp;
         for(edk::uint32 i=0u;i<size;i++){
+            temp = this->tracks->get(i);
             if(temp.animation){
                 if(temp.animation->isPlaying()){
                     ret=true;
@@ -1130,7 +1148,7 @@ bool edk::animation::InterpolationTracks::isPlaying(){
 }
 bool edk::animation::InterpolationTracks::isPlayingTrack(edk::uint32 trackPosition){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->isPlaying();
     }
@@ -1138,10 +1156,11 @@ bool edk::animation::InterpolationTracks::isPlayingTrack(edk::uint32 trackPositi
 }
 bool edk::animation::InterpolationTracks::isPaused(){
     bool ret=false;
-    edk::uint32 size = this->tracks.size();
+    edk::uint32 size = this->tracks->size();
     if(size){
         edk::animation::InterpolationTracks::AnimationAndPosition temp;
         for(edk::uint32 i=0u;i<size;i++){
+            temp = this->tracks->get(i);
             if(temp.animation){
                 if(temp.animation->isPaused()){
                     ret=true;
@@ -1154,7 +1173,7 @@ bool edk::animation::InterpolationTracks::isPaused(){
 }
 bool edk::animation::InterpolationTracks::isPausedTrack(edk::uint32 trackPosition){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->isPaused();
     }
@@ -1163,10 +1182,11 @@ bool edk::animation::InterpolationTracks::isPausedTrack(edk::uint32 trackPositio
 //return true if is rewind
 bool edk::animation::InterpolationTracks::isRewind(){
     bool ret=false;
-    edk::uint32 size = this->tracks.size();
+    edk::uint32 size = this->tracks->size();
     if(size){
         edk::animation::InterpolationTracks::AnimationAndPosition temp;
         for(edk::uint32 i=0u;i<size;i++){
+            temp = this->tracks->get(i);
             if(temp.animation){
                 if(temp.animation->isRewind()){
                     ret=true;
@@ -1179,7 +1199,7 @@ bool edk::animation::InterpolationTracks::isRewind(){
 }
 bool edk::animation::InterpolationTracks::isRewindTrack(edk::uint32 trackPosition){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->isRewind();
     }
@@ -1192,14 +1212,14 @@ edk::float32 edk::animation::InterpolationTracks::updateClockAnimation(){
     return this->updateClockAnimation(distance);
 }
 edk::float32 edk::animation::InterpolationTracks::updateClockAnimation(edk::float32 distance){
-    this->tracks.seconds = distance;
-    this->tracks.update();
+    this->tracks->seconds = distance;
+    this->tracks->update();
     return distance;
 }
 //test if have the keyframe
 bool edk::animation::InterpolationTracks::haveKeyframe(edk::uint32 trackPosition,edk::float32 second){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->haveKeyframe(second);
     }
@@ -1209,7 +1229,7 @@ bool edk::animation::InterpolationTracks::haveKeyframe(edk::uint32 trackPosition
 //Print the frames
 bool edk::animation::InterpolationTracks::printFrames(edk::uint32 trackPosition){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         temp.animation->printFrames();
         return true;
@@ -1218,10 +1238,11 @@ bool edk::animation::InterpolationTracks::printFrames(edk::uint32 trackPosition)
 }
 bool edk::animation::InterpolationTracks::printFramesAllTracks(){
     bool ret=false;
-    edk::uint32 size = this->tracks.size();
+    edk::uint32 size = this->tracks->size();
     if(size){
         edk::animation::InterpolationTracks::AnimationAndPosition temp;
         for(edk::uint32 i=0u;i<size;i++){
+            temp = this->tracks->get(i);
             if(temp.animation){
                 temp.animation->printFrames();
             }
@@ -1233,7 +1254,7 @@ bool edk::animation::InterpolationTracks::printFramesAllTracks(){
 //Print the frames from start and end
 bool edk::animation::InterpolationTracks::printSelectedFrames(edk::uint32 trackPosition){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->printSelectedFrames();
     }
@@ -1243,10 +1264,11 @@ bool edk::animation::InterpolationTracks::printSelectedFrames(edk::uint32 trackP
 //cand delete
 bool edk::animation::InterpolationTracks::cantDeleteGroup(){
     bool ret=false;
-    edk::uint32 size = this->tracks.size();
+    edk::uint32 size = this->tracks->size();
     if(size){
         edk::animation::InterpolationTracks::AnimationAndPosition temp;
         for(edk::uint32 i=0u;i<size;i++){
+            temp = this->tracks->get(i);
             if(temp.animation){
                 temp.animation->cantDeleteGroup();
             }
@@ -1257,7 +1279,7 @@ bool edk::animation::InterpolationTracks::cantDeleteGroup(){
 }
 bool edk::animation::InterpolationTracks::cantDeleteGroupTrack(edk::uint32 trackPosition){
     //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         temp.animation->cantDeleteGroup();
         return true;
@@ -1278,14 +1300,14 @@ bool edk::animation::InterpolationTracks::writeToXML(edk::XML* xml,edk::uint32 i
                 //create the name
                 if(xml->addSelectedNextChild(name)){
                     if(xml->selectChild(name)){
-                        edk::uint32 size = this->tracks.size();
+                        edk::uint32 size = this->tracks->size();
                         if(size){
                             edk::animation::InterpolationTracks::AnimationAndPosition temp;
                             edk::char8* trackID = NULL;
                             edk::char8* trackName = NULL;
                             edk::uint32 counter=0u;
                             for(edk::uint32 i=0u;i<size;i++){
-                                temp = this->tracks.get(i);
+                                temp = this->tracks->get(i);
                                 if(temp.animation){
                                     trackID = edk::String::int64ToStr(counter);
                                     if(trackID){
@@ -1350,9 +1372,9 @@ bool edk::animation::InterpolationTracks::readFromXML(edk::XML* xml,edk::uint32 
                                     temp.number = xml->getSelectedStringAsUint32();
                                     //create a new track
                                     position = this->newTrack(temp.number);
-                                    if(position<this->tracks.size()){
+                                    if(position<this->tracks->size()){
                                         //get the track and read the XML
-                                        temp=this->tracks.get(position);
+                                        temp=this->tracks->get(position);
                                         if(temp.animation){
                                             temp.animation->readFromXML(xml,counter);
                                         }

@@ -68,6 +68,28 @@ public:
     //clean all tracks
     void cleanTracks();
 
+    /* type
+    EDK_TRACK_ADD
+    EDK_TRACK_ADD_X
+    EDK_TRACK_ADD_Y
+    EDK_TRACK_ADD_Z
+    EDK_TRACK_SUB
+    EDK_TRACK_SUB_X
+    EDK_TRACK_SUB_Y
+    EDK_TRACK_SUB_Z
+    EDK_TRACK_MULTIPLY
+    EDK_TRACK_MULTIPLY_X
+    EDK_TRACK_MULTIPLY_Y
+    EDK_TRACK_MULTIPLY_Z
+    EDK_TRACK_DIVIDE
+    EDK_TRACK_DIVIDE_X
+    EDK_TRACK_DIVIDE_Y
+    EDK_TRACK_DIVIDE_Z
+    EDK_TRACK_REPLACE
+    EDK_TRACK_REPLACE_X
+    EDK_TRACK_REPLACE_Y
+    EDK_TRACK_REPLACE_Z
+*/
     //create a new track and put it into the stack
     edk::uint32 newTrack(edk::typeID type = EDK_TRACK_ADD);
     //set track type in a position
@@ -248,17 +270,17 @@ public:
         //clean frames
         this->cleanTracks();
         if(tracks){
-            edk::uint32 size = tracks->tracks.size();
+            edk::uint32 size = tracks->stack.size();
             edk::animation::InterpolationTracks::AnimationAndPosition temp;
             edk::animation::InterpolationTracks::AnimationAndPosition set;
             edk::uint32 position=0u;
             for(edk::uint32 i=0u;i<size;i++){
-                temp = tracks->tracks.get(i);
+                temp = tracks->stack.get(i);
                 if(temp.animation){
                     //create a new animation
                     position = this->newTrack(temp.number);
-                    if(position<this->tracks.size()){
-                        set = this->tracks.get(position);
+                    if(position<this->stack.size()){
+                        set = this->stack.get(position);
                         if(set.animation){
                             set.animation->cloneFrom(temp.animation);
                         }
@@ -342,7 +364,9 @@ protected:
         }
         */
         edk::float32 seconds;
-    }tracks;
+    }stack;
+    //track temp
+    edk::animation::InterpolationTracks::StackTracks* tracks;
 private:
     edk::watch::Time time;
     //animation callback

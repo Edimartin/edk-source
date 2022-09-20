@@ -26,6 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 edk::animation::Interpolation1DTracks::Interpolation1DTracks(){
     //
+    this->tracks = &this->stack;
 }
 edk::animation::Interpolation1DTracks::~Interpolation1DTracks(){
     //
@@ -38,7 +39,7 @@ edk::animation::InterpolationGroup* edk::animation::Interpolation1DTracks::newIn
 
 //Add a first interpolation
 bool edk::animation::Interpolation1DTracks::addFirstInterpolationLine(edk::uint32 trackPosition,edk::float32 startSecond, edk::float32 startX, edk::float32 endSecond,edk::float32 endX){
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         edk::animation::Interpolation1DGroup* group = (edk::animation::Interpolation1DGroup*)temp.animation;
         return group->addFirstInterpolationLine(startSecond,startX, endSecond,endX);
@@ -46,7 +47,7 @@ bool edk::animation::Interpolation1DTracks::addFirstInterpolationLine(edk::uint3
     return false;
 }
 bool edk::animation::Interpolation1DTracks::addFirstInterpolationLine(edk::uint32 trackPosition,edk::animation::Frame1D start,edk::animation::Frame1D end){
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         edk::animation::Interpolation1DGroup* group = (edk::animation::Interpolation1DGroup*)temp.animation;
         return group->addFirstInterpolationLine(start,end);
@@ -54,7 +55,7 @@ bool edk::animation::Interpolation1DTracks::addFirstInterpolationLine(edk::uint3
     return false;
 }
 bool edk::animation::Interpolation1DTracks::addFirstInterpolationLine(edk::uint32 trackPosition,edk::float32 startSecond,edk::float32 endSecond){
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         edk::animation::Interpolation1DGroup* group = (edk::animation::Interpolation1DGroup*)temp.animation;
         return group->addFirstInterpolationLine(startSecond,endSecond);
@@ -62,7 +63,7 @@ bool edk::animation::Interpolation1DTracks::addFirstInterpolationLine(edk::uint3
     return false;
 }
 bool edk::animation::Interpolation1DTracks::addFirstInterpolationLine(edk::uint32 trackPosition,edk::animation::Frame start,edk::animation::Frame end){
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         edk::animation::Interpolation1DGroup* group = (edk::animation::Interpolation1DGroup*)temp.animation;
         return group->addFirstInterpolationLine(start,end);
@@ -72,7 +73,7 @@ bool edk::animation::Interpolation1DTracks::addFirstInterpolationLine(edk::uint3
 
 //Add New Interpolation
 bool edk::animation::Interpolation1DTracks::addNewInterpolationLine(edk::uint32 trackPosition,edk::float32 second,edk::float32 x){
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         edk::animation::Interpolation1DGroup* group = (edk::animation::Interpolation1DGroup*)temp.animation;
         return group->addNewInterpolationLine(second,x);
@@ -80,7 +81,7 @@ bool edk::animation::Interpolation1DTracks::addNewInterpolationLine(edk::uint32 
     return false;
 }
 bool edk::animation::Interpolation1DTracks::addNewInterpolationLine(edk::uint32 trackPosition,edk::animation::Frame1D frame){
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         edk::animation::Interpolation1DGroup* group = (edk::animation::Interpolation1DGroup*)temp.animation;
         return group->addNewInterpolationLine(frame);
@@ -90,7 +91,7 @@ bool edk::animation::Interpolation1DTracks::addNewInterpolationLine(edk::uint32 
 
 //Set the frame value
 bool edk::animation::Interpolation1DTracks::setFrameX(edk::uint32 trackPosition,edk::float32 second,edk::float32 x){
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         edk::animation::Interpolation1DGroup* group = (edk::animation::Interpolation1DGroup*)temp.animation;
         return group->setFrameX(second,x);
@@ -100,7 +101,7 @@ bool edk::animation::Interpolation1DTracks::setFrameX(edk::uint32 trackPosition,
 
 //Set one interpolation X as a curve
 bool edk::animation::Interpolation1DTracks::setInterpolationCurveX(edk::uint32 trackPosition,edk::uint32 position){
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         edk::animation::Interpolation1DGroup* group = (edk::animation::Interpolation1DGroup*)temp.animation;
         return group->setInterpolationCurveX(position);
@@ -108,7 +109,7 @@ bool edk::animation::Interpolation1DTracks::setInterpolationCurveX(edk::uint32 t
     return false;
 }
 bool edk::animation::Interpolation1DTracks::setInterpolationNotCurveX(edk::uint32 trackPosition,edk::uint32 position){
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         edk::animation::Interpolation1DGroup* group = (edk::animation::Interpolation1DGroup*)temp.animation;
         return group->setInterpolationNotCurveX(position);
@@ -116,7 +117,7 @@ bool edk::animation::Interpolation1DTracks::setInterpolationNotCurveX(edk::uint3
     return false;
 }
 bool edk::animation::Interpolation1DTracks::getInterpolationIsCurveX(edk::uint32 trackPosition,edk::uint32 position){
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         edk::animation::Interpolation1DGroup* group = (edk::animation::Interpolation1DGroup*)temp.animation;
         return group->getInterpolationIsCurveX(position);
@@ -125,7 +126,7 @@ bool edk::animation::Interpolation1DTracks::getInterpolationIsCurveX(edk::uint32
 }
 //set as constant interpolation
 bool edk::animation::Interpolation1DTracks::setConstantX(edk::uint32 trackPosition,edk::uint32 position){
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         edk::animation::Interpolation1DGroup* group = (edk::animation::Interpolation1DGroup*)temp.animation;
         return group->setConstantX(position);
@@ -133,7 +134,7 @@ bool edk::animation::Interpolation1DTracks::setConstantX(edk::uint32 trackPositi
     return false;
 }
 bool edk::animation::Interpolation1DTracks::setLinearX(edk::uint32 trackPosition,edk::uint32 position){
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         edk::animation::Interpolation1DGroup* group = (edk::animation::Interpolation1DGroup*)temp.animation;
         return group->setLinearX(position);
@@ -142,7 +143,7 @@ bool edk::animation::Interpolation1DTracks::setLinearX(edk::uint32 trackPosition
 }
 //set all as constant interpolation
 bool edk::animation::Interpolation1DTracks::setAllConstantX(edk::uint32 trackPosition){
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         edk::animation::Interpolation1DGroup* group = (edk::animation::Interpolation1DGroup*)temp.animation;
         group->setAllConstantX();
@@ -151,7 +152,7 @@ bool edk::animation::Interpolation1DTracks::setAllConstantX(edk::uint32 trackPos
     return false;
 }
 bool edk::animation::Interpolation1DTracks::setAllLinearX(edk::uint32 trackPosition){
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         edk::animation::Interpolation1DGroup* group = (edk::animation::Interpolation1DGroup*)temp.animation;
         group->setAllLinearX();
@@ -161,7 +162,7 @@ bool edk::animation::Interpolation1DTracks::setAllLinearX(edk::uint32 trackPosit
 }
 //Set the interpolation curve points
 bool edk::animation::Interpolation1DTracks::setInterpolationP1X(edk::uint32 trackPosition,edk::uint32 position,edk::float32 second,edk::float32 x){
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         edk::animation::Interpolation1DGroup* group = (edk::animation::Interpolation1DGroup*)temp.animation;
         return group->setInterpolationP1X(position,second,x);
@@ -169,7 +170,7 @@ bool edk::animation::Interpolation1DTracks::setInterpolationP1X(edk::uint32 trac
     return false;
 }
 bool edk::animation::Interpolation1DTracks::setInterpolationP2X(edk::uint32 trackPosition,edk::uint32 position,edk::float32 second,edk::float32 x){
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         edk::animation::Interpolation1DGroup* group = (edk::animation::Interpolation1DGroup*)temp.animation;
         return group->setInterpolationP2X(position,second,x);
@@ -180,7 +181,7 @@ bool edk::animation::Interpolation1DTracks::setInterpolationP2X(edk::uint32 trac
 //create random animations
 //shake
 edk::float32 edk::animation::Interpolation1DTracks::addShakingFramesX(edk::uint32 trackPosition,edk::float32 position,edk::float32 percent,edk::float32 interpolationDistance){
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         edk::animation::Interpolation1DGroup* group = (edk::animation::Interpolation1DGroup*)temp.animation;
         return group->addShakingFramesX(position,percent,interpolationDistance);
@@ -190,7 +191,7 @@ edk::float32 edk::animation::Interpolation1DTracks::addShakingFramesX(edk::uint3
 
 //set the animationSecond by the X
 bool edk::animation::Interpolation1DTracks::setSecondByX(edk::uint32 trackPosition,edk::float32 oldSecond,edk::float32 x){
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         edk::animation::Interpolation1DGroup* group = (edk::animation::Interpolation1DGroup*)temp.animation;
         return group->setSecondByX(oldSecond,x);
@@ -201,15 +202,16 @@ bool edk::animation::Interpolation1DTracks::setSecondByX(edk::uint32 trackPositi
 //GETERS
 //return the animationPosition
 edk::float32 edk::animation::Interpolation1DTracks::getClockX(){
-    this->tracks.x = 0.f;
+    edk::animation::Interpolation1DTracks::StackTracks1D* temp = (edk::animation::Interpolation1DTracks::StackTracks1D*)this->tracks;
+    temp->x = 0.f;
     //update the calculate all X from the tracks
-    this->tracks.load();
+    temp->load();
     //return the X
-    return this->tracks.x;
+    return temp->x;
 }
 //return the interpolation seconds
 edk::float32 edk::animation::Interpolation1DTracks::getInterpolationStartX(edk::uint32 trackPosition,edk::float32 position){
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         edk::animation::Interpolation1DGroup* group = (edk::animation::Interpolation1DGroup*)temp.animation;
         return group->getInterpolationStartX(position);
@@ -217,7 +219,7 @@ edk::float32 edk::animation::Interpolation1DTracks::getInterpolationStartX(edk::
     return false;
 }
 edk::float32 edk::animation::Interpolation1DTracks::getInterpolationEndX(edk::uint32 trackPosition,edk::float32 position){
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         edk::animation::Interpolation1DGroup* group = (edk::animation::Interpolation1DGroup*)temp.animation;
         return group->getInterpolationEndX(position);
@@ -226,7 +228,7 @@ edk::float32 edk::animation::Interpolation1DTracks::getInterpolationEndX(edk::ui
 }
 //return the animation start and end in X
 edk::float32 edk::animation::Interpolation1DTracks::getAnimationStartX(edk::uint32 trackPosition){
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         edk::animation::Interpolation1DGroup* group = (edk::animation::Interpolation1DGroup*)temp.animation;
         return group->getAnimationStartX();
@@ -234,7 +236,7 @@ edk::float32 edk::animation::Interpolation1DTracks::getAnimationStartX(edk::uint
     return false;
 }
 edk::float32 edk::animation::Interpolation1DTracks::getAnimationEndX(edk::uint32 trackPosition){
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks.get(trackPosition);
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         edk::animation::Interpolation1DGroup* group = (edk::animation::Interpolation1DGroup*)temp.animation;
         return group->getAnimationEndX();
@@ -255,7 +257,7 @@ bool edk::animation::Interpolation1DTracks::writeToXML(edk::XML* xml,edk::uint32
                 //create the name
                 if(xml->addSelectedNextChild(name)){
                     if(xml->selectChild(name)){
-                        edk::uint32 size = this->tracks.size();
+                        edk::uint32 size = this->tracks->size();
                         if(size){
                             edk::animation::InterpolationTracks::AnimationAndPosition temp;
                             edk::animation::Interpolation1DGroup* group;
@@ -263,7 +265,7 @@ bool edk::animation::Interpolation1DTracks::writeToXML(edk::XML* xml,edk::uint32
                             edk::char8* trackName = NULL;
                             edk::uint32 counter=0u;
                             for(edk::uint32 i=0u;i<size;i++){
-                                temp = this->tracks.get(i);
+                                temp = this->tracks->get(i);
                                 group = (edk::animation::Interpolation1DGroup*)temp.animation;
                                 if(group){
                                     trackID = edk::String::int64ToStr(counter);
@@ -330,9 +332,9 @@ bool edk::animation::Interpolation1DTracks::readFromXML(edk::XML* xml,edk::uint3
                                     temp.number = xml->getSelectedStringAsUint32();
                                     //create a new track
                                     position = this->newTrack(temp.number);
-                                    if(position<this->tracks.size()){
+                                    if(position<this->tracks->size()){
                                         //get the track and read the XML
-                                        temp=this->tracks.get(position);
+                                        temp=this->tracks->get(position);
                                         group = (edk::animation::Interpolation1DGroup*)temp.animation;
                                         if(group){
                                             temp.animation->readFromXML(xml,counter);
