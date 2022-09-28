@@ -77,6 +77,12 @@ public:
     virtual void drawMultiTexture();
     virtual bool selectedDrawMultiTexture();
     virtual void drawWire();
+    virtual bool drawPolygonWithoutMaterial(edk::uint32 polygon);
+    virtual bool drawPolygonNoTexture(edk::uint32 polygon);
+    virtual bool drawPolygonOneTexture(edk::uint32 polygon);
+    virtual bool drawPolygonOneTexture(edk::uint32 polygon, edk::uint32 position);
+    virtual bool drawPolygonMultiTexture(edk::uint32 polygon);
+    virtual bool drawPolygonWire(edk::uint32 polygon);
 
     bool triangularizateFromVertex(edk::vector::Stack<edk::vec2f32>* vertexes);
     bool triangularizateFromPolygon(edk::shape::Polygon2D polygon);

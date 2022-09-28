@@ -223,8 +223,8 @@ bool edk::physics2D::PhysicObject2D::updateAnimations(edk::float32 seconds){
     //test if are playing the animations
     if(this->animationPosition.isPlaying()){
         //get X and Y
-        this->position = edk::vec2f32(this->animationPosition.getClockX(),
-                                      this->animationPosition.getClockY()
+        this->position = edk::vec2f32(this->animationPosition.getClockX(this->position.x),
+                                      this->animationPosition.getClockY(this->position.y)
                                       );
         ret=true;
     }

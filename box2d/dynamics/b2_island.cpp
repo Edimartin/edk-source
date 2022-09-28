@@ -269,6 +269,53 @@ void b2Island::Solve(b2Profile* profile, const b2TimeStep& step, const b2Vec2& g
 			}
 
 		}
+		else if(b->m_type == b2_kinematicBody){
+			//
+			if(b->runUpCX){
+				m_upositions[i].c.x = b->upC.x;
+				m_upositions[i].ucx = true;
+				//
+				b->runUpCX=false;
+			}
+			else{
+				m_upositions[i].ucx = false;
+			}
+			if(b->runUpCY){
+				m_upositions[i].c.y = b->upC.y;
+				m_upositions[i].ucy = true;
+				//
+				b->runUpCY=false;
+			}
+			else{
+				m_upositions[i].ucy = false;
+			}
+			if(b->runUpSCX){
+				m_upositions[i].scx = true;
+				//
+				b->runUpSCX=false;
+			}
+			else{
+				m_upositions[i].scx = false;
+			}
+			if(b->runUpSCY){
+				m_upositions[i].scy = true;
+				//
+				b->runUpSCY=false;
+			}
+			else{
+				m_upositions[i].scy = false;
+			}
+			if(b->runUpA){
+				//
+				m_upositions[i].a = b->upA;
+				m_upositions[i].ua = true;
+				//
+				b->runUpA=false;
+			}
+			else{
+				m_upositions[i].ua = false;
+			}
+		}
 		else{
 			m_upositions[i].ucx = false;
 			m_upositions[i].ucy = false;
@@ -411,10 +458,12 @@ void b2Island::Solve(b2Profile* profile, const b2TimeStep& step, const b2Vec2& g
 		if(m_upositions[i].ucx || m_upositions[i].scx)
 		{
 			body->SynchronizeUpdateX(body->m_sweep.c.x);
+			body->m_linearVelocity.x = m_velocities[i].v.x;
 		}
 		if(m_upositions[i].ucy || m_upositions[i].scy)
 		{
 			body->SynchronizeUpdateY(body->m_sweep.c.y);
+			body->m_linearVelocity.y = m_velocities[i].v.y;
 		}
 	}
 

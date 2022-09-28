@@ -175,6 +175,18 @@ public:
     virtual void drawWithoutMaterial();
     virtual void drawWithoutMaterialWithLight();
     virtual void drawWire();
+    virtual bool drawMesh(edk::uint32 meshPosition);
+    virtual bool drawPolygon(edk::uint32 meshPosition,edk::uint32 polygon);
+    virtual bool drawMeshOneTexture(edk::uint32 meshPosition);
+    virtual bool drawPolygonOneTexture(edk::uint32 meshPosition,edk::uint32 polygon);
+    virtual bool drawMeshOneTextureWithLight(edk::uint32 meshPosition);
+    virtual bool drawPolygonOneTextureWithLight(edk::uint32 meshPosition,edk::uint32 polygon);
+    virtual bool drawMeshWithoutMaterial(edk::uint32 meshPosition);
+    virtual bool drawPolygonWithoutMaterial(edk::uint32 meshPosition,edk::uint32 polygon);
+    virtual bool drawMeshWithoutMaterialWithLight(edk::uint32 meshPosition);
+    virtual bool drawPolygonWithoutMaterialWithLight(edk::uint32 meshPosition,edk::uint32 polygon);
+    virtual bool drawMeshWire(edk::uint32 meshPosition);
+    virtual bool drawPolygonWire(edk::uint32 meshPosition,edk::uint32 polygon);
     //draw the pivo
     void drawPivo(edk::float32 size,edk::color3f32 color);
 

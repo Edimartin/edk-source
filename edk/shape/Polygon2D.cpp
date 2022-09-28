@@ -761,6 +761,9 @@ edk::vec2ui32 edk::shape::Polygon2D::getFrames(){
     //
     return this->frames;
 }
+edk::uint32 edk::shape::Polygon2D::getFramesPosition(){
+    return this->framesSize;
+}
 //return the frameUseds
 edk::vec2ui32 edk::shape::Polygon2D::getFrameUsed(){
     return this->frameUsing;

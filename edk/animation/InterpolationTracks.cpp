@@ -95,8 +95,6 @@ edk::uint32 edk::animation::InterpolationTracks::newTrack(edk::typeID type){
     edk::uint32 ret = 0u;
     //get the size
     edk::uint32 size = this->tracks->size();
-    //if the size is zero, then the type is aways be ADD
-    if(!size) type = EDK_TRACK_REPLACE;
     //create a new interpolationTrack
     edk::animation::InterpolationTracks::AnimationAndPosition track;
     track.animation = this->newInterpolationGroup();

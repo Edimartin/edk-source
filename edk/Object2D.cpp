@@ -1193,7 +1193,8 @@ void edk::Object2D::draw(){
 
     edk::shape::Mesh2D* mesh;
     if(haveLight){
-        for(edk::uint32 i=this->meshes.size();i>0u;i--){
+        edk::uint32 size = this->meshes.size();
+        for(edk::uint32 i=size;i>0u;i--){
             //
             mesh = this->meshes.getMesh(i-1u);
             if(mesh){
@@ -1207,7 +1208,8 @@ void edk::Object2D::draw(){
         }
     }
     else{
-        for(edk::uint32 i=this->meshes.size();i>0u;i--){
+        edk::uint32 size = this->meshes.size();
+        for(edk::uint32 i=size;i>0u;i--){
             //
             mesh = this->meshes.getMesh(i-1u);
             if(mesh){
@@ -1396,6 +1398,501 @@ void edk::Object2D::drawWire(){
         }
     }
     edk::GU::guPopMatrix();
+}
+bool edk::Object2D::drawMesh(edk::uint32 meshPosition){
+    bool ret=false;
+    //put the transformation on a stack
+    edk::GU::guPushMatrix();
+
+
+    edk::GU::guEnable(GU_LIGHTING);
+    //glEnable(GL_RESCALE_NORMAL);
+
+    bool haveLight=false;
+
+    {
+        for(edk::uint32 i=0u;i<EDK_LIGHT_LIMIT;i++){
+            if(this->lights[i].on){
+                edk::GU::guEnable(GU_LIGHT0+i);
+                this->lights[i].draw(i);
+                haveLight=true;
+
+            }
+            else{
+                edk::GU::guDisable(GU_LIGHT0+i);
+            }
+        }
+    }
+
+    //add translate
+    edk::GU::guTranslate2f32(this->position);
+    //add rotation
+    edk::GU::guRotateZf32(this->angle);
+    //add scale
+    edk::GU::guScale2f32(this->size);
+    //set the pivo
+    edk::GU::guTranslate2f32(this->pivo*-1.0f);
+
+    edk::shape::Mesh2D* mesh;
+    if(haveLight){
+        if(meshPosition < this->meshes.size()){
+            mesh = this->meshes.getMesh(meshPosition);
+            if(mesh){
+                if(mesh->material.haveOneTexture()){
+                    mesh->drawOneTexture();
+                }
+                else{
+                    mesh->drawMultiTexture();
+                }
+                ret=true;
+            }
+        }
+    }
+    else{
+        if(meshPosition < this->meshes.size()){
+            mesh = this->meshes.getMesh(meshPosition);
+            if(mesh){
+                if(mesh->material.haveOneTexture()){
+                    mesh->drawOneTexture();
+                }
+                else{
+                    mesh->drawMultiTexture();
+                }
+                ret=true;
+            }
+        }
+    }
+    //glEnable(GL_RESCALE_NORMAL);
+    edk::GU::guDisable(GU_LIGHTING);
+    edk::GU::guPopMatrix();
+    return ret;
+}
+bool edk::Object2D::drawPolygon(edk::uint32 meshPosition,edk::uint32 polygon){
+    bool ret=false;
+    //put the transformation on a stack
+    edk::GU::guPushMatrix();
+
+
+    edk::GU::guEnable(GU_LIGHTING);
+    //glEnable(GL_RESCALE_NORMAL);
+
+    bool haveLight=false;
+
+    {
+        for(edk::uint32 i=0u;i<EDK_LIGHT_LIMIT;i++){
+            if(this->lights[i].on){
+                edk::GU::guEnable(GU_LIGHT0+i);
+                this->lights[i].draw(i);
+                haveLight=true;
+
+            }
+            else{
+                edk::GU::guDisable(GU_LIGHT0+i);
+            }
+        }
+    }
+
+    //add translate
+    edk::GU::guTranslate2f32(this->position);
+    //add rotation
+    edk::GU::guRotateZf32(this->angle);
+    //add scale
+    edk::GU::guScale2f32(this->size);
+    //set the pivo
+    edk::GU::guTranslate2f32(this->pivo*-1.0f);
+
+    edk::shape::Mesh2D* mesh;
+    if(haveLight){
+        if(meshPosition < this->meshes.size()){
+            mesh = this->meshes.getMesh(meshPosition);
+            if(mesh){
+                if(mesh->material.haveOneTexture()){
+                    ret = mesh->drawPolygonOneTexture(polygon);
+                }
+                else{
+                    ret = mesh->drawPolygonMultiTexture(polygon);
+                }
+            }
+        }
+    }
+    else{
+        if(meshPosition < this->meshes.size()){
+            mesh = this->meshes.getMesh(meshPosition);
+            if(mesh){
+                if(mesh->material.haveOneTexture()){
+                    ret = mesh->drawPolygonOneTexture(polygon);
+                }
+                else{
+                    ret = mesh->drawPolygonMultiTexture(polygon);
+                }
+            }
+        }
+    }
+    //glEnable(GL_RESCALE_NORMAL);
+    edk::GU::guDisable(GU_LIGHTING);
+    edk::GU::guPopMatrix();
+    return ret;
+}
+bool edk::Object2D::drawMeshOneTexture(edk::uint32 meshPosition){
+    bool ret = false;
+    //put the transformation on a stack
+    edk::GU::guPushMatrix();
+    //add translate
+    edk::GU::guTranslate2f32(this->position);
+    //add rotation
+    edk::GU::guRotateZf32(this->angle);
+    //add scale
+    edk::GU::guScale2f32(this->size);
+    //set the pivo
+    edk::GU::guTranslate2f32(this->pivo*-1.0f);
+
+    edk::shape::Mesh2D* mesh;
+    //
+    if(meshPosition<this->meshes.size()){
+        mesh = this->meshes.getMesh(meshPosition);
+        if(mesh){
+            mesh->drawOneTexture();
+            ret = true;
+        }
+    }
+    edk::GU::guPopMatrix();
+    return ret;
+}
+bool edk::Object2D::drawPolygonOneTexture(edk::uint32 meshPosition,edk::uint32 polygon){
+    bool ret = false;
+    //put the transformation on a stack
+    edk::GU::guPushMatrix();
+    //add translate
+    edk::GU::guTranslate2f32(this->position);
+    //add rotation
+    edk::GU::guRotateZf32(this->angle);
+    //add scale
+    edk::GU::guScale2f32(this->size);
+    //set the pivo
+    edk::GU::guTranslate2f32(this->pivo*-1.0f);
+
+    edk::shape::Mesh2D* mesh;
+    //
+    if(meshPosition<this->meshes.size()){
+        mesh = this->meshes.getMesh(meshPosition);
+        if(mesh){
+            ret = mesh->drawPolygonOneTexture(polygon);
+        }
+    }
+    edk::GU::guPopMatrix();
+    return ret;
+}
+bool edk::Object2D::drawMeshOneTextureWithLight(edk::uint32 meshPosition){
+    bool ret = false;
+    //put the transformation on a stack
+    edk::GU::guPushMatrix();
+
+    edk::GU::guEnable(GU_LIGHTING);
+
+    bool haveLight=false;
+
+    {
+        for(edk::uint32 i=0u;i<EDK_LIGHT_LIMIT;i++){
+            if(this->lights[i].on){
+                edk::GU::guEnable(GU_LIGHT0+i);
+                this->lights[i].draw(i);
+                haveLight=true;
+
+            }
+            else{
+                edk::GU::guDisable(GU_LIGHT0+i);
+            }
+        }
+    }
+    //add translate
+    edk::GU::guTranslate2f32(this->position);
+    //add rotation
+    edk::GU::guRotateZf32(this->angle);
+    //add scale
+    edk::GU::guScale2f32(this->size);
+    //set the pivo
+    edk::GU::guTranslate2f32(this->pivo*-1.0f);
+
+    edk::shape::Mesh2D* mesh;
+    if(haveLight){
+        if(meshPosition < this->meshes.size()){
+            mesh = this->meshes.getMesh(meshPosition);
+            if(mesh){
+                mesh->drawOneTexture();
+                ret = true;
+            }
+        }
+    }
+    else{
+        for(edk::uint32 i=this->meshes.size();i>0u;i--){
+            //
+            mesh = this->meshes.getMesh(i-1u);
+            if(mesh){
+                mesh->drawOneTexture();
+                ret = true;
+            }
+        }
+    }
+    edk::GU::guDisable(GU_LIGHTING);
+    edk::GU::guPopMatrix();
+    return ret;
+}
+bool edk::Object2D::drawPolygonOneTextureWithLight(edk::uint32 meshPosition,edk::uint32 polygon){
+    bool ret = false;
+    //put the transformation on a stack
+    edk::GU::guPushMatrix();
+
+    edk::GU::guEnable(GU_LIGHTING);
+
+    bool haveLight=false;
+
+    {
+        for(edk::uint32 i=0u;i<EDK_LIGHT_LIMIT;i++){
+            if(this->lights[i].on){
+                edk::GU::guEnable(GU_LIGHT0+i);
+                this->lights[i].draw(i);
+                haveLight=true;
+
+            }
+            else{
+                edk::GU::guDisable(GU_LIGHT0+i);
+            }
+        }
+    }
+    //add translate
+    edk::GU::guTranslate2f32(this->position);
+    //add rotation
+    edk::GU::guRotateZf32(this->angle);
+    //add scale
+    edk::GU::guScale2f32(this->size);
+    //set the pivo
+    edk::GU::guTranslate2f32(this->pivo*-1.0f);
+
+    edk::shape::Mesh2D* mesh;
+    if(haveLight){
+        if(meshPosition < this->meshes.size()){
+            mesh = this->meshes.getMesh(meshPosition);
+            if(mesh){
+                ret = mesh->drawPolygonOneTexture(polygon);
+            }
+        }
+    }
+    else{
+        for(edk::uint32 i=this->meshes.size();i>0u;i--){
+            //
+            mesh = this->meshes.getMesh(i-1u);
+            if(mesh){
+                ret = mesh->drawPolygonOneTexture(polygon);
+            }
+        }
+    }
+    edk::GU::guDisable(GU_LIGHTING);
+    edk::GU::guPopMatrix();
+    return ret;
+}
+bool edk::Object2D::drawMeshWithoutMaterial(edk::uint32 meshPosition){
+    bool ret = false;
+    //put the transformation on a stack
+    edk::GU::guPushMatrix();
+    //add translate
+    edk::GU::guTranslate2f32(this->position);
+    //add rotation
+    edk::GU::guRotateZf32(this->angle);
+    //add scale
+    edk::GU::guScale2f32(this->size);
+    //set the pivo
+    edk::GU::guTranslate2f32(this->pivo*-1.0f);
+
+    edk::shape::Mesh2D* mesh;
+    //print all polygonList
+    if(meshPosition<this->meshes.size()){
+        mesh = this->meshes.getMesh(meshPosition);
+        if(mesh){
+            mesh->drawWithoutMaterial();
+            ret = true;
+        }
+    }
+    edk::GU::guPopMatrix();
+    return ret;
+}
+bool edk::Object2D::drawPolygonWithoutMaterial(edk::uint32 meshPosition,edk::uint32 polygon){
+    bool ret = false;
+    //put the transformation on a stack
+    edk::GU::guPushMatrix();
+    //add translate
+    edk::GU::guTranslate2f32(this->position);
+    //add rotation
+    edk::GU::guRotateZf32(this->angle);
+    //add scale
+    edk::GU::guScale2f32(this->size);
+    //set the pivo
+    edk::GU::guTranslate2f32(this->pivo*-1.0f);
+
+    edk::shape::Mesh2D* mesh;
+    //print all polygonList
+    if(meshPosition<this->meshes.size()){
+        mesh = this->meshes.getMesh(meshPosition);
+        if(mesh){
+            ret = mesh->drawPolygonWithoutMaterial(polygon);
+        }
+    }
+    edk::GU::guPopMatrix();
+    return ret;
+}
+bool edk::Object2D::drawMeshWithoutMaterialWithLight(edk::uint32 meshPosition){
+    bool ret = false;
+    //put the transformation on a stack
+    edk::GU::guPushMatrix();
+
+    edk::GU::guEnable(GU_LIGHTING);
+
+    bool haveLight=false;
+
+    {
+        for(edk::uint32 i=0u;i<EDK_LIGHT_LIMIT;i++){
+            if(this->lights[i].on){
+                edk::GU::guEnable(GU_LIGHT0+i);
+                this->lights[i].draw(i);
+                haveLight=true;
+
+            }
+            else{
+                edk::GU::guDisable(GU_LIGHT0+i);
+            }
+        }
+    }
+    //add translate
+    edk::GU::guTranslate2f32(this->position);
+    //add rotation
+    edk::GU::guRotateZf32(this->angle);
+    //add scale
+    edk::GU::guScale2f32(this->size);
+    //set the pivo
+    edk::GU::guTranslate2f32(this->pivo*-1.0f);
+
+    edk::shape::Mesh2D* mesh;
+    if(haveLight){
+        if(meshPosition<this->meshes.size()){
+            mesh = this->meshes.getMesh(meshPosition);
+            if(mesh){
+                mesh->drawWithoutMaterial();
+                ret=true;
+            }
+        }
+    }
+    else{
+        if(meshPosition<this->meshes.size()){
+            mesh = this->meshes.getMesh(meshPosition);
+            if(mesh){
+                mesh->drawWithoutMaterial();
+                ret=true;
+            }
+        }
+    }
+    edk::GU::guDisable(GU_LIGHTING);
+    edk::GU::guPopMatrix();
+    return ret;
+}
+bool edk::Object2D::drawPolygonWithoutMaterialWithLight(edk::uint32 meshPosition,edk::uint32 polygon){
+    bool ret = false;
+    //put the transformation on a stack
+    edk::GU::guPushMatrix();
+
+    edk::GU::guEnable(GU_LIGHTING);
+
+    bool haveLight=false;
+
+    {
+        for(edk::uint32 i=0u;i<EDK_LIGHT_LIMIT;i++){
+            if(this->lights[i].on){
+                edk::GU::guEnable(GU_LIGHT0+i);
+                this->lights[i].draw(i);
+                haveLight=true;
+
+            }
+            else{
+                edk::GU::guDisable(GU_LIGHT0+i);
+            }
+        }
+    }
+    //add translate
+    edk::GU::guTranslate2f32(this->position);
+    //add rotation
+    edk::GU::guRotateZf32(this->angle);
+    //add scale
+    edk::GU::guScale2f32(this->size);
+    //set the pivo
+    edk::GU::guTranslate2f32(this->pivo*-1.0f);
+
+    edk::shape::Mesh2D* mesh;
+    if(haveLight){
+        if(meshPosition<this->meshes.size()){
+            mesh = this->meshes.getMesh(meshPosition);
+            if(mesh){
+                ret = mesh->drawPolygonWithoutMaterial(polygon);
+            }
+        }
+    }
+    else{
+        if(meshPosition<this->meshes.size()){
+            mesh = this->meshes.getMesh(meshPosition);
+            if(mesh){
+                ret = mesh->drawPolygonWithoutMaterial(polygon);
+            }
+        }
+    }
+    edk::GU::guDisable(GU_LIGHTING);
+    edk::GU::guPopMatrix();
+    return ret;
+}
+bool edk::Object2D::drawMeshWire(edk::uint32 meshPosition){
+    bool ret=false;
+    //put the transformation on a stack
+    edk::GU::guPushMatrix();
+    //add translate
+    edk::GU::guTranslate2f32(this->position);
+    //add rotation
+    edk::GU::guRotateZf32(this->angle);
+    //add scale
+    edk::GU::guScale2f32(this->size);
+    //set the pivo
+    edk::GU::guTranslate2f32(this->pivo*-1.0f);
+
+    edk::shape::Mesh2D* mesh;
+    //print all polygonList
+    if(meshPosition<this->meshes.size()){
+        mesh = this->meshes.getMesh(meshPosition);
+        if(mesh){
+            mesh->drawWirePolygons();
+            ret = true;
+        }
+    }
+    edk::GU::guPopMatrix();
+    return ret;
+}
+bool edk::Object2D::drawPolygonWire(edk::uint32 meshPosition,edk::uint32 polygon){
+    bool ret=false;
+    //put the transformation on a stack
+    edk::GU::guPushMatrix();
+    //add translate
+    edk::GU::guTranslate2f32(this->position);
+    //add rotation
+    edk::GU::guRotateZf32(this->angle);
+    //add scale
+    edk::GU::guScale2f32(this->size);
+    //set the pivo
+    edk::GU::guTranslate2f32(this->pivo*-1.0f);
+
+    edk::shape::Mesh2D* mesh;
+    //print all polygonList
+    if(meshPosition<this->meshes.size()){
+        mesh = this->meshes.getMesh(meshPosition);
+        if(mesh){
+            ret = mesh->drawWirePolygon(polygon);
+        }
+    }
+    edk::GU::guPopMatrix();
+    return ret;
 }
 
 //draw the pivo

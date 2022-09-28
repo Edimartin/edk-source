@@ -683,11 +683,18 @@ edk::vec2f32 edk::shape::Polygon2DList::selectedGetVertexUV(edk::uint32 pos){
 edk::vec2ui32 edk::shape::Polygon2DList::selectedGetFrames(){
     //test if have selected
     if(this->selected){
-        //
         return this->selected->getFrames();
     }
     //else return zero
     return edk::vec2ui32(0u,0u);
+}
+edk::uint32 edk::shape::Polygon2DList::selectedGetFramesPosition(){
+    //test if have selected
+    if(this->selected){
+        return this->selected->getFramesPosition();
+    }
+    //else return zero
+    return 0u;
 }
 //return the frameUsed
 edk::vec2ui32 edk::shape::Polygon2DList::selectedGetFrameUsed(){
@@ -930,9 +937,7 @@ bool edk::shape::Polygon2DList::cloneFrom(edk::shape::Polygon2DList* list){
 void edk::shape::Polygon2DList::printPolygons(){
     //print the polygons
     for(edk::uint32 i=0u;i<this->polygons.size();i++){
-        //
         if(this->polygons.havePos(i)){
-            //
             printf("\nPolygon %u"
                    ,i
                    );
@@ -940,39 +945,77 @@ void edk::shape::Polygon2DList::printPolygons(){
         }
     }
 }
+bool edk::shape::Polygon2DList::printPolygon(edk::uint32 polygon){
+    //print the polygons
+    if(polygon<this->polygons.size()){
+        if(this->polygons.havePos(polygon)){
+            printf("\nPolygon %u"
+                   ,polygon
+                   );
+            this->polygons[polygon]->print();
+            return true;
+        }
+    }
+    return false;
+}
 
 //draw the mesh
 void edk::shape::Polygon2DList::drawPolygons(){
     //draw the polygons
     for(edk::uint32 i=0u;i<this->polygons.size();i++){
-        //
         if(this->polygons.havePos(i)){
-            //
             this->polygons[i]->draw();
         }
     }
+}
+bool edk::shape::Polygon2DList::drawPolygon(edk::uint32 polygon){
+    //draw the polygon
+    if(polygon<this->polygons.size()){
+        if(this->polygons.havePos(polygon)){
+            this->polygons[polygon]->draw();
+            return true;
+        }
+    }
+    return false;
 }
 //draw the polygons in wireframe
 void edk::shape::Polygon2DList::drawWirePolygons(){
     //draw the polygons
     for(edk::uint32 i=0u;i<this->polygons.size();i++){
-        //
         if(this->polygons.havePos(i)){
-            //
             this->polygons[i]->drawWire();
         }
     }
+}
+bool edk::shape::Polygon2DList::drawWirePolygon(edk::uint32 polygon){
+    //draw the polygons
+    if(polygon<this->polygons.size()){
+        if(this->polygons.havePos(polygon)){
+            this->polygons[polygon]->drawWire();
+            return true;
+        }
+    }
+    return false;
 }
 void edk::shape::Polygon2DList::drawVertexs(edk::color3f32 color){
     edk::GU::guColor3f32(color);
     //draw the polygons
     for(edk::uint32 i=0u;i<this->polygons.size();i++){
-        //
         if(this->polygons.havePos(i)){
-            //
             this->polygons[i]->drawPolygonVertexs(edk::color4f32(color.r,color.g,color.b,1.f));
         }
     }
+}
+bool edk::shape::Polygon2DList::drawPolygonVertexs(edk::uint32 polygon,edk::color3f32 color){
+    //draw the polygons
+    if(polygon<this->polygons.size()){
+        if(this->polygons.havePos(polygon)){
+            edk::GU::guColor3f32(color);
+            this->polygons[polygon]->drawPolygonVertexs(edk::color4f32(color.r,color.g,color.b,1.f));
+            return true;
+        }
+    }
+    return false;
 }
 
 //Set to cant delete the polygon

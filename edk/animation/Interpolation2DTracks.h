@@ -88,6 +88,7 @@ public:
     //GETERS
     //return the animationPosition
     edk::float32 getClockY();
+    edk::float32 getClockY(edk::float32 y);
     //return the interpolation Y
     edk::float32 getInterpolationStartY(edk::uint32 trackPosition,edk::float32 position);
     edk::float32 getInterpolationEndY(edk::uint32 trackPosition,edk::float32 position);

@@ -140,6 +140,7 @@ public:
     edk::vec2f32 selectedGetVertexUV(edk::uint32 pos);
     //return the frames
     edk::vec2ui32 selectedGetFrames();
+    edk::uint32 selectedGetFramesPosition();
     //return the frameUsed
     edk::vec2ui32 selectedGetFrameUsed();
     edk::uint32 selectedGetFramePositionUsed();
@@ -176,11 +177,15 @@ public:
     //DRAW
     //print the mesh
     virtual void printPolygons();
+    virtual bool printPolygon(edk::uint32 polygon);
     //draw the mesh
     virtual void drawPolygons();
+    virtual bool drawPolygon(edk::uint32 polygon);
     //draw the polygons in wireframe
     virtual void drawWirePolygons();
+    virtual bool drawWirePolygon(edk::uint32 polygon);
     virtual void drawVertexs(edk::color3f32 color = edk::color3f32(1,1,1));
+    virtual bool drawPolygonVertexs(edk::uint32 polygon,edk::color3f32 color = edk::color3f32(1,1,1));
 
     //Set to cant delete the polygon
     void cantDeleteList();

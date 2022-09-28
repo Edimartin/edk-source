@@ -164,6 +164,7 @@ class Polygon2D{
         edk::vec2f32 getVertexUV(edk::uint32 pos);
         //return the frames
         edk::vec2ui32 getFrames();
+        edk::uint32 getFramesPosition();
         //return the frameUseds
         edk::vec2ui32 getFrameUsed();
         edk::uint32 getFramePositionUsed();

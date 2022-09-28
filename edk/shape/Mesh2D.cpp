@@ -246,6 +246,70 @@ void edk::shape::Mesh2D::drawWire(){
     //else just draw the mesh
     this->drawWirePolygons();
 }
+bool edk::shape::Mesh2D::drawPolygonWithoutMaterial(edk::uint32 polygon){
+    //
+    return this->drawPolygon(polygon);
+}
+bool edk::shape::Mesh2D::drawPolygonNoTexture(edk::uint32 polygon){
+    this->material.drawNoTexture();
+    return this->drawPolygon(polygon);
+}
+bool edk::shape::Mesh2D::drawPolygonOneTexture(edk::uint32 polygon){
+    bool ret = false;
+    //set the texture if have one
+    if(this->material.haveTexture()){
+        this->material.drawStartWithOneTexture();
+        //Draw the mesh
+        ret = this->drawPolygon(polygon);
+
+        this->material.drawEndWithTexture();
+    }
+    else{
+        this->material.drawNoTexture();
+        //else just draw the mesh
+        ret = this->drawPolygon(polygon);
+    }
+    return ret;
+}
+bool edk::shape::Mesh2D::drawPolygonOneTexture(edk::uint32 polygon, edk::uint32 position){
+    bool ret = false;
+    //set the texture if have one
+    if(this->material.haveTexture()){
+        this->material.drawStartWithOneTexture(position);
+        //Draw the mesh
+        ret = this->drawPolygon(polygon);
+
+        this->material.drawEndWithTexture();
+    }
+    else{
+        this->material.drawNoTexture();
+        //else just draw the mesh
+        ret = this->drawPolygon(polygon);
+    }
+    return ret;
+}
+bool edk::shape::Mesh2D::drawPolygonMultiTexture(edk::uint32 polygon){
+    bool ret = false;
+    //set the texture if have one
+    if(this->material.haveTexture()){
+        this->material.drawStartWithMultiTexture();
+        //Draw the mesh
+        ret = this->drawPolygon(polygon);
+
+        this->material.drawEndWithTexture();
+    }
+    else{
+        this->material.drawNoTexture();
+        //else just draw the mesh
+        ret = this->drawPolygon(polygon);
+    }
+    return ret;
+}
+bool edk::shape::Mesh2D::drawPolygonWire(edk::uint32 polygon){
+    this->material.drawNoTexture();
+    //else just draw the mesh
+    return this->drawWirePolygon(polygon);
+}
 
 bool edk::shape::Mesh2D::triangularizateFromVertex(edk::vector::Stack<edk::vec2f32>* vertexes){
     return edk::shape::Mesh2D::vertexTriangularization(vertexes,this);

@@ -84,6 +84,7 @@ public:
     //GETERS
     //return the animationPosition
     edk::float32 getClockZ();
+    edk::float32 getClockZ(edk::float32 z);
     //return the interpolation Z
     edk::float32 getInterpolationStartZ(edk::uint32 trackPosition,edk::float32 position);
     edk::float32 getInterpolationEndZ(edk::uint32 trackPosition,edk::float32 position);

@@ -221,6 +221,14 @@ edk::float32 edk::animation::Interpolation2DTracks::getClockY(){
     //return the Y
     return temp->y;
 }
+edk::float32 edk::animation::Interpolation2DTracks::getClockY(edk::float32 y){
+    edk::animation::Interpolation2DTracks::StackTracks2D* temp = (edk::animation::Interpolation2DTracks::StackTracks2D*)this->tracks;
+    temp->y = y;
+    //update the calculate all X from the tracks
+    temp->print();
+    //return the Y
+    return temp->y;
+}
 //return the interpolation Y
 edk::float32 edk::animation::Interpolation2DTracks::getInterpolationStartY(edk::uint32 trackPosition,edk::float32 position){
     edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);

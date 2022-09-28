@@ -209,6 +209,14 @@ edk::float32 edk::animation::Interpolation1DTracks::getClockX(){
     //return the X
     return temp->x;
 }
+edk::float32 edk::animation::Interpolation1DTracks::getClockX(edk::float32 x){
+    edk::animation::Interpolation1DTracks::StackTracks1D* temp = (edk::animation::Interpolation1DTracks::StackTracks1D*)this->tracks;
+    temp->x = x;
+    //update the calculate all X from the tracks
+    temp->load();
+    //return the X
+    return temp->x;
+}
 //return the interpolation seconds
 edk::float32 edk::animation::Interpolation1DTracks::getInterpolationStartX(edk::uint32 trackPosition,edk::float32 position){
     edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
