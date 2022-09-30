@@ -97,6 +97,10 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
                 }
             }
             if(contactTemp){
+                if(!contactTemp->isEnabled()){
+                    contact->SetEnabled(false);
+                    return;
+                }
                 //update the values
                 contactTemp->objectA = (edk::physics2D::PhysicObject2D*)bodyA->GetUserData().pointer;
                 contactTemp->objectB = (edk::physics2D::PhysicObject2D*)bodyB->GetUserData().pointer;
@@ -191,6 +195,8 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
                         case edk::shape::collisionUP:
                             if(contactTemp->objectB->position.y>=contactTemp->worldPositions[0u].y){
                                 this->world->physicsContactBegin(contactTemp);
+                                if(!contactTemp->isEnabled())
+                                    contact->SetEnabled(false);
                             }
                             else{
                                 if(this->world->treeConcacts.remove((contactTemp))){
@@ -201,6 +207,8 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
                         case edk::shape::collisionDOWN:
                             if(contactTemp->objectB->position.y<contactTemp->worldPositions[0u].y){
                                 this->world->physicsContactBegin(contactTemp);
+                                if(!contactTemp->isEnabled())
+                                    contact->SetEnabled(false);
                             }
                             else{
                                 if(this->world->treeConcacts.remove((contactTemp))){
@@ -210,6 +218,8 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
                             break;
                         default:
                             this->world->physicsContactBegin(contactTemp);
+                            if(!contactTemp->isEnabled())
+                                contact->SetEnabled(false);
                             break;
                         }
                     }
@@ -222,6 +232,8 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
                         case edk::shape::collisionUP:
                             if(contactTemp->objectA->position.y>=contactTemp->worldPositions[0u].y){
                                 this->world->physicsContactBegin(contactTemp);
+                                if(!contactTemp->isEnabled())
+                                    contact->SetEnabled(false);
                             }
                             else{
                                 if(this->world->treeConcacts.remove((contactTemp))){
@@ -232,6 +244,8 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
                         case edk::shape::collisionDOWN:
                             if(contactTemp->objectA->position.y<contactTemp->worldPositions[0u].y){
                                 this->world->physicsContactBegin(contactTemp);
+                                if(!contactTemp->isEnabled())
+                                    contact->SetEnabled(false);
                             }
                             else{
                                 if(this->world->treeConcacts.remove((contactTemp))){
@@ -241,6 +255,8 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
                             break;
                         default:
                             this->world->physicsContactBegin(contactTemp);
+                            if(!contactTemp->isEnabled())
+                                contact->SetEnabled(false);
                             break;
                         }
                     }
@@ -248,6 +264,8 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
                 else{
                     //this->world->contactbegin(contactTemp);
                     this->world->physicsContactBegin(contactTemp);
+                    if(!contactTemp->isEnabled())
+                        contact->SetEnabled(false);
                 }
             }
         }
@@ -319,7 +337,6 @@ void edk::physics2D::World2D::MyContactListener::EndContact(b2Contact* contact){
 
         //process the contactEnd
 
-        //if(contactTemp->isEnabled()){
         //test if the objectA is a sensor
         if(contactTemp->objectA->isSensor()){
             //load the sensor
@@ -359,7 +376,6 @@ void edk::physics2D::World2D::MyContactListener::EndContact(b2Contact* contact){
             //this->world->contactEnd(contactTemp);
             this->world->physicsContactEnd(contactTemp);
         }
-        //}
 
         //remove contactTemp from the tree
         this->world->treeConcacts.remove(contactTemp);
@@ -389,6 +405,10 @@ void edk::physics2D::World2D::MyContactListener::PreSolve(b2Contact* contact, co
 
     edk::physics2D::Contact2D* contactTemp = this->world->treeConcacts.getContact(contact);
     if(contactTemp){
+        if(!contactTemp->isEnabled()){
+            contact->SetEnabled(false);
+            return;
+        }
         contactTemp->objectA->setLinearVelocity(bodyA->GetLinearVelocity().x * this->percentOut,bodyA->GetLinearVelocity().y * this->percentOut);
         contactTemp->objectA->setAngularVelocity(bodyA->GetAngularVelocity() * (180.f / b2_pi));
         contactTemp->objectB->setLinearVelocity(bodyB->GetLinearVelocity().x * this->percentOut,bodyB->GetLinearVelocity().y * this->percentOut);
@@ -465,7 +485,8 @@ void edk::physics2D::World2D::MyContactListener::PreSolve(b2Contact* contact, co
             else{
                 //this->world->contactKeepBegin(contactTemp);
                 this->world->physicsContactKeepBegin(contactTemp);
-                contact->SetEnabled(contactTemp->isEnabled());
+                if(!contactTemp->isEnabled())
+                    contact->SetEnabled(false);
             }
         }
         else{

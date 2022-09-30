@@ -753,6 +753,9 @@ void b2World::SolveTOI(const b2TimeStep& step)
 			bB->m_sweep = backup2;
 			bA->SynchronizeTransform();
 			bB->SynchronizeTransform();
+			//Set the objects old position if it's not collide.
+			bA->m_xf.p = backup1.c;
+			bB->m_xf.p = backup2.c;
 			continue;
 		}
 
