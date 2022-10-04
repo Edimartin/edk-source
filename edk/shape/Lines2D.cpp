@@ -24,8 +24,8 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-edk::shape::Lines2D::Lines2D()
-{
+edk::shape::Lines2D::Lines2D(){
+    this->type = edk::shape::line2D;
     this->polygonLine=true;
 }
 //return true if it's lines

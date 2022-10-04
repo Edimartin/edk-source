@@ -53,6 +53,10 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 QMAKE_CXXFLAGS += -Wno-deprecated-declarations
 QMAKE_CXXFLAGS += -Wno-deprecated-copy
+#with no pie it will not run in terminal
+win32: QMAKE_LFLAGS   += -mwindows
+else:unix: QMAKE_LFLAGS   += -no-pie
+
 
 LIBS += -lsfml-system -lsfml-window -lsfml-graphics -lsfml-audio
 

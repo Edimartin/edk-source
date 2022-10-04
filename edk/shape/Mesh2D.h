@@ -86,6 +86,8 @@ public:
 
     bool triangularizateFromVertex(edk::vector::Stack<edk::vec2f32>* vertexes);
     bool triangularizateFromPolygon(edk::shape::Polygon2D polygon);
+    bool putHoleInPolygon(edk::shape::Polygon2D outside,edk::shape::Polygon2D inside);
+    bool putHoleInRectangle(edk::rectf32 rect,edk::shape::Polygon2D inside);
 
     //vertexTriangularization the mesh with the triangles
     static bool vertexTriangularization(edk::vector::Stack<edk::vec2f32>* vertexes,edk::shape::Mesh2D *mesh);

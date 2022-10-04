@@ -29,6 +29,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::shape::Polygon2D::Polygon2D(){
+    this->type = edk::shape::polygon2D;
     this->angle=0.f;
     this->radius = 1.f;
     //init the polygonCOlor
@@ -718,6 +719,28 @@ edk::vec2f32 edk::shape::Polygon2D::getVertexPosition(edk::uint32 pos){
     //else return a zero vertex
     return edk::vec2f32(0,0);
 }
+//return the vertex with all transformations
+edk::vec2f32 edk::shape::Polygon2D::getVertexPositionTransformed(edk::uint32 pos){
+    //test if have the vertex
+    if(pos<this->getVertexCount()){
+        if(this->vertexs[pos]){
+            //apply the transformations
+            edk::vec2f32 ret;
+            //scale
+            ret.x = this->vertexs[pos]->position.x * this->scale.width;
+            ret.y = this->vertexs[pos]->position.y * this->scale.height;
+            //rotate
+            ret = edk::Math::rotatePlus(ret,this->angle);
+            //translate
+            ret.x += this->translate.x;
+            ret.y += this->translate.y;
+            //return the vertex
+            return ret;
+        }
+    }
+    //else return a zero vertex
+    return edk::vec2f32(0,0);
+}
 //return the vertex color
 edk::color4f32 edk::shape::Polygon2D::getVertexColor(edk::uint32 pos){
 
@@ -801,19 +824,25 @@ edk::float32 edk::shape::Polygon2D::getRestitution(){
 
 //return true if the polygon is a circle
 bool edk::shape::Polygon2D::isCircle(){
-    return this->polygonCircle;
+    if(this->type == edk::shape::circle2D) return true;
+    return false;
+    //return this->polygonCircle;
 }
 //return the circleRadius only if is a circle
 edk::float32 edk::shape::Polygon2D::getCircleRadius(){
-    return this->radius;
+    if(this->type == edk::shape::circle2D) return this->radius;
+    return 0.f;
 }
 //return true if it's a Rectangle
 bool edk::shape::Polygon2D::isRect(){
+    if(this->type == edk::shape::rectangle2D) return true;
     return false;
 }
 //return true if it's lines
 bool edk::shape::Polygon2D::isLine(){
-    return this->polygonLine;
+    if(this->type == edk::shape::line2D) return true;
+    return false;
+    //return this->polygonLine;
 }
 //get line ID
 edk::uint8 edk::shape::Polygon2D::getCollisionID(){
@@ -880,7 +909,7 @@ bool edk::shape::Polygon2D::writeToXML(edk::XML* xml,edk::uint32 polygonID){
                         ret=true;
                         edk::char8* temp = NULL;
                         //test if it's circle
-                        if(this->polygonCircle){
+                        if(this->polygonCircle || this->type==edk::shape::circle2D){
                             //set the string
                             xml->setSelectedString("circle");
                             temp = edk::String::float32ToStr(this->getCircleRadius());
@@ -889,7 +918,7 @@ bool edk::shape::Polygon2D::writeToXML(edk::XML* xml,edk::uint32 polygonID){
                                 delete[] temp;
                             }
                         }
-                        else if(this->polygonLine){
+                        else if(this->polygonLine || this->type==edk::shape::line2D){
                             //set the string
                             xml->setSelectedString("line");
                             temp = edk::String::int32ToStr(this->getCollisionID());
@@ -897,6 +926,10 @@ bool edk::shape::Polygon2D::writeToXML(edk::XML* xml,edk::uint32 polygonID){
                                 xml->addSelectedNextAttribute((edk::char8*)"collisionID",temp);
                                 delete[] temp;
                             }
+                        }
+                        else if(this->type==edk::shape::rectangle2D){
+                            //set the string
+                            xml->setSelectedString("rectangle");
                         }
                         else{
                             //set the string
@@ -1033,14 +1066,26 @@ bool edk::shape::Polygon2D::readFromXML(edk::XML* xml,edk::uint32 polygonID){
                             this->polygonCircle = true;
                             this->polygonLine = false;
                             this->radius = edk::String::strToFloat32(xml->getSelectedAttributeValueByName("radius"));
+                            this->collisionID = 0u;
+                            this->type = edk::shape::circle2D;
                         }
                         else if(edk::String::strCompare(temp,"line")){
                             this->polygonLine = true;
                             this->polygonCircle = false;
+                            this->radius = 0.f;
                             this->collisionID = edk::String::strToInt32(xml->getSelectedAttributeValueByName("collisionID"));
+                            this->type = edk::shape::line2D;
+                        }
+                        else if(edk::String::strCompare(temp,"rectangle")){
+                            this->polygonLine = false;
+                            this->polygonCircle = false;
+                            this->radius = 0.f;
+                            this->collisionID = 0u;
+                            this->type = edk::shape::rectangle2D;
                         }
                         else if(edk::String::strCompare(temp,"polygon")){
                             //
+                            this->type = edk::shape::polygon2D;
                         }
                         delete[] temp;
                     }
@@ -1188,6 +1233,7 @@ bool edk::shape::Polygon2D::cloneFrom(edk::shape::Polygon2D* poly){
         this->setFriction(poly->getFriction());
         this->setRestitution(poly->getRestitution());
         //
+        this->type = poly->type;
         this->polygonCircle = poly->polygonCircle;
         this->radius=poly->radius;
         this->polygonLine = poly->polygonLine;

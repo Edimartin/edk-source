@@ -54,6 +54,15 @@ enum collisionCode{
     collisionUP = 0x0F,
     collisionDOWN = 0xF0,
 };
+//polygon type
+enum EDKpolygon2DType{
+    polygon2D = 1u,
+    line2D,
+    rectangle2D,
+    circle2D,
+
+    polygon2DTypeSize
+};
 
 class Polygon2D{
     public:
@@ -158,6 +167,8 @@ class Polygon2D{
         edk::uint8 getVertexType(edk::uint32 pos);
         //return the vertex
         edk::vec2f32 getVertexPosition(edk::uint32 pos);
+        //return the vertex with all transformations
+        edk::vec2f32 getVertexPositionTransformed(edk::uint32 pos);
         //return the vertex color
         edk::color4f32 getVertexColor(edk::uint32 pos);
         //return the vertex UV
@@ -243,6 +254,9 @@ class Polygon2D{
         edk::float32 density;
         edk::float32 friction;
         edk::float32 restitution;
+
+        //polygon type
+        edk::shape::EDKpolygon2DType type;
     private:
         //load the vertex
         edk::shape::Vertex2D* getVertexPointer(edk::uint32 vertex);
@@ -303,6 +317,7 @@ private:
             this->setFriction(poly.getFriction());
             this->setRestitution(poly.getRestitution());
             //
+            this->type = poly.type;
             this->polygonCircle = poly.polygonCircle;
             this->radius=poly.radius;
             this->polygonLine = poly.polygonLine;

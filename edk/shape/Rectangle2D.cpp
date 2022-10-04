@@ -28,8 +28,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #warning "            Inside Rectangle2D.cpp"
 #endif
 
-edk::shape::Rectangle2D::Rectangle2D::Rectangle2D()
-{
+edk::shape::Rectangle2D::Rectangle2D::Rectangle2D(){
+    this->type = edk::shape::rectangle2D;
     this->polygonColor.a=1.f;
     //create the polygon
     this->createPolygon();
