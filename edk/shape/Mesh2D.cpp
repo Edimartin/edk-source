@@ -349,6 +349,10 @@ bool edk::shape::Mesh2D::putHoleInPolygon(edk::shape::Polygon2D outside,edk::sha
             outTemp.setVertexPosition(3u,outside.getVertexPosition(0u).x,outside.getVertexPosition(1u).y);
             outTemp.setVertexUV(3u,outside.getVertexUV(0u).x,outside.getVertexUV(1u).y);
             outTemp.setVertexColor(3u,outside.getVertexColor(1u));
+            //
+            outTemp.setScale(outside.getScale());
+            outTemp.setAngle(outside.getAngle());
+            outTemp.setTranslate(outside.getTranslate());
             haveOut=true;
             out = &outTemp;
         }
@@ -373,6 +377,10 @@ bool edk::shape::Mesh2D::putHoleInPolygon(edk::shape::Polygon2D outside,edk::sha
             inTemp.setVertexPosition(3u,inside.getVertexPosition(0u).x,inside.getVertexPosition(1u).y);
             inTemp.setVertexUV(3u,inside.getVertexUV(0u).x,inside.getVertexUV(1u).y);
             inTemp.setVertexColor(3u,inside.getVertexColor(1u));
+            //
+            inTemp.setScale(inside.getScale());
+            inTemp.setAngle(inside.getAngle());
+            inTemp.setTranslate(inside.getTranslate());
             haveIn=true;
             in = &inTemp;
         }
@@ -390,7 +398,7 @@ bool edk::shape::Mesh2D::putHoleInPolygon(edk::shape::Polygon2D outside,edk::sha
             edk::uint32 j;
             edk::uint32 size;
             edk::uint32 insideFirstPosition = 0u;
-            edk::uint32 outsideLastPolygon = 0u;
+            edk::uint32 outsideFirstPosition = 0u;
             edk::float32 angle = 360.f;
             edk::float32 angleNew = 360.f;
             angle = edk::Math::getAngle(in->getVertexPositionTransformed(insideFirstPosition));
@@ -404,53 +412,79 @@ bool edk::shape::Mesh2D::putHoleInPolygon(edk::shape::Polygon2D outside,edk::sha
             }
 
             //then get the outside last position
-            angle = edk::Math::getAngle(out->getVertexPositionTransformed(outsideLastPolygon));
+            angle = edk::Math::getAngle(out->getVertexPositionTransformed(outsideFirstPosition));
             size = countOutside;
             for(edk::uint32 i=1u;i<size;i++){
                 //test the other vertexes
-                if((angleNew = edk::Math::getAngle(out->getVertexPositionTransformed(i)))>angle){
+                if((angleNew = edk::Math::getAngle(out->getVertexPositionTransformed(i)))<angle){
                     angle = angleNew;
-                    outsideLastPolygon = i;
+                    outsideFirstPosition = i;
                 }
             }
             //copy the inside vertexes in to the new polygon
             j=insideFirstPosition;
             size = countInside;
-            for(edk::uint32 i=0u;i<size;i++){
-                //copy yhe vertex
-                poly.setVertexPosition(i,in->getVertexPositionTransformed(j));
-                poly.setVertexUV(i,in->getVertexUV(j));
-                poly.setVertexColor(i,in->getVertexColor(j));
-                j++;
-                if(j>=countInside){
-                    j=0u;
+            if(in->isCounterclockwise()){
+                for(edk::uint32 i=0u;i<size;i++){
+                    //copy yhe vertex
+                    poly.setVertexPosition(i,in->getVertexPositionTransformed(j));
+                    poly.setVertexUV(i,in->getVertexUV(j));
+                    poly.setVertexColor(i,in->getVertexColor(j));
+                    if(!j){
+                        j=countInside;
+                    }
+                    j--;
+                }
+            }
+            else{
+                for(edk::uint32 i=0u;i<size;i++){
+                    //copy yhe vertex
+                    poly.setVertexPosition(i,in->getVertexPositionTransformed(j));
+                    poly.setVertexUV(i,in->getVertexUV(j));
+                    poly.setVertexColor(i,in->getVertexColor(j));
+                    j++;
+                    if(j>=countInside){
+                        j=0u;
+                    }
                 }
             }
             //copy the first vertex inside
-            poly.setVertexPosition(size,in->getVertexPositionTransformed(insideFirstPosition));
-            poly.setVertexUV(size,in->getVertexUV(insideFirstPosition));
+            poly.setVertexPosition(size,in->getVertexPositionTransformed(insideFirstPosition)+vertexDistanceIncrement);
+            poly.setVertexUV(size,in->getVertexUV(insideFirstPosition)+vertexDistanceIncrement);
             poly.setVertexColor(size,in->getVertexColor(insideFirstPosition));
 
-            //OK. Now it will copy the outside polygons in decresent order
-            j=outsideLastPolygon;
+            //Now it will copy the outside polygons in decresent order
+            j=outsideFirstPosition;
             size = countInside+1u+countOutside;
-            for(edk::uint32 i=countInside+1u;i<size;i++){
-                //copy yhe vertex
-                poly.setVertexPosition(i,out->getVertexPositionTransformed(j));
-                poly.setVertexUV(i,out->getVertexUV(j));
-                poly.setVertexColor(i,out->getVertexColor(j));
-                if(!j){
-                    j=countOutside;
+            if(out->isCounterclockwise()){
+                for(edk::uint32 i=countInside+1u;i<size;i++){
+                    //copy yhe vertex
+                    poly.setVertexPosition(i,out->getVertexPositionTransformed(j));
+                    poly.setVertexUV(i,out->getVertexUV(j));
+                    poly.setVertexColor(i,out->getVertexColor(j));
+                    j++;
+                    if(j>=countOutside){
+                        j=0u;
+                    }
                 }
-                j--;
+            }
+            else{
+                for(edk::uint32 i=countInside+1u;i<size;i++){
+                    //copy yhe vertex
+                    poly.setVertexPosition(i,out->getVertexPositionTransformed(j));
+                    poly.setVertexUV(i,out->getVertexUV(j));
+                    poly.setVertexColor(i,out->getVertexColor(j));
+                    if(!j){
+                        j=countOutside;
+                    }
+                    j--;
+                }
             }
 
             //in the end it copy the past vertex for outside
-            poly.setVertexPosition(size,out->getVertexPositionTransformed(outsideLastPolygon));
-            poly.setVertexUV(size,out->getVertexUV(outsideLastPolygon));
-            poly.setVertexColor(size,out->getVertexColor(outsideLastPolygon));
-
-            //this->addPolygon(poly);
+            poly.setVertexPosition(size,out->getVertexPositionTransformed(outsideFirstPosition)+vertexDistanceIncrement);
+            poly.setVertexUV(size,out->getVertexUV(outsideFirstPosition)+vertexDistanceIncrement);
+            poly.setVertexColor(size,out->getVertexColor(outsideFirstPosition));
 
             //then generate the triangularization for the polygon
             ret = edk::shape::Mesh2D::polygonTriangularization(poly,this);

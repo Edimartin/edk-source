@@ -54,6 +54,8 @@ namespace shape{
 class Mesh2D: public edk::shape::AnimatedPolygon2DList{
     //number of textures
 #define texturesCount 7u
+    //distance definition to not have two vertexes in the same position
+#define vertexDistanceIncrement 0.0001f
 public:
     Mesh2D();
     virtual ~Mesh2D();
