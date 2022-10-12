@@ -681,6 +681,19 @@ bool edk::bones::Bone2D::isPlaying(){
     }
     return false;
 }
+bool edk::bones::Bone2D::isPlayingName(const edk::char8* name){
+    return this->isPlayingName((edk::char8*) name);
+}
+bool edk::bones::Bone2D::isPlayingName(edk::char8* name){
+    if(name){
+        //update the son's
+        for(edk::uint32 i=0u;i<this->nexts.size();i++){
+            edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+            if(temp->isPlayingName(name)) return true;
+        }
+    }
+    return false;
+}
 //This Bone
 void edk::bones::Bone2D::playForwardThis(){
     this->animationPosition.playForward();

@@ -1144,11 +1144,46 @@ bool edk::animation::InterpolationTracks::isPlaying(){
     }
     return ret;
 }
+bool edk::animation::InterpolationTracks::isPlayingName(const edk::char8* name){
+    return this->isPlayingName((edk::char8*) name);
+}
+bool edk::animation::InterpolationTracks::isPlayingName(edk::char8* name){
+    bool ret=false;
+    if(name){
+        edk::uint32 size = this->tracks->size();
+        if(size){
+            edk::animation::InterpolationTracks::AnimationAndPosition temp;
+            for(edk::uint32 i=0u;i<size;i++){
+                temp = this->tracks->get(i);
+                if(temp.animation){
+                    if(temp.animation->isPlayingName(name)){
+                        ret=true;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    return ret;
+}
 bool edk::animation::InterpolationTracks::isPlayingTrack(edk::uint32 trackPosition){
     //get track in position
     edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
     if(temp.animation){
         return temp.animation->isPlaying();
+    }
+    return false;
+}
+bool edk::animation::InterpolationTracks::isPlayingNameTrack(edk::uint32 trackPosition,const edk::char8* name){
+    return this->isPlayingNameTrack(trackPosition,(edk::char8*) name);
+}
+bool edk::animation::InterpolationTracks::isPlayingNameTrack(edk::uint32 trackPosition,edk::char8* name){
+    if(name){
+        //get track in position
+        edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);
+        if(temp.animation){
+            return temp.animation->isPlayingName(name);
+        }
     }
     return false;
 }

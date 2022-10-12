@@ -383,6 +383,18 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationIsPlaying(){
     //else return false
     return false;
 }
+bool edk::shape::AnimatedPolygon2DList::selectedAnimationIsPlayingName(const edk::char8* name){
+    return this->selectedAnimationIsPlayingName((edk::char8*) name);
+}
+bool edk::shape::AnimatedPolygon2DList::selectedAnimationIsPlayingName(edk::char8* name){
+    //test if have a animationSelected
+    if(this->selectedAnimation){
+        //add new interpolationLine
+        return this->selectedAnimation->isPlayingName(name);
+    }
+    //else return false
+    return false;
+}
 //animationNames
 bool edk::shape::AnimatedPolygon2DList::selectedAnimationAddAnimationName(const edk::char8* name, edk::float32 start,edk::float32 end){
     //test if have a animationSelected

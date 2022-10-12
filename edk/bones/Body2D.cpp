@@ -1155,6 +1155,12 @@ void edk::bones::Body2D::removeAllAnimationNames(){
 bool edk::bones::Body2D::isPlaying(){
     return this->root.isPlaying();
 }
+bool edk::bones::Body2D::isPlayingName(const edk::char8* name){
+    return this->isPlayingName((edk::char8*) name);
+}
+bool edk::bones::Body2D::isPlayingName(edk::char8* name){
+    return this->root.isPlayingName(name);
+}
 
 //load the BVH
 bool edk::bones::Body2D::loadBVHXY(const edk::char8* name){

@@ -131,6 +131,15 @@ bool edk::animation::ParticlesPoint2D::ParticleObject::isPlaying(){
     }
     return false;
 }
+bool edk::animation::ParticlesPoint2D::ParticleObject::isPlayingName(const edk::char8* name){
+    return this->isPlayingName((edk::char8*) name);
+}
+bool edk::animation::ParticlesPoint2D::ParticleObject::isPlayingName(edk::char8* name){
+    if(this->life.isPlayingName(name)){
+        return true;
+    }
+    return false;
+}
 bool edk::animation::ParticlesPoint2D::ParticleObject::isStoped(){
     if(!this->life.isPlaying() && !this->life.isPaused())
         return true;

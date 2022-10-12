@@ -94,6 +94,8 @@ public:
     edk::float32 selectedAnimationGetSecond();
     //return if are playing
     bool selectedAnimationIsPlaying();
+    bool selectedAnimationIsPlayingName(const edk::char8* name);
+    bool selectedAnimationIsPlayingName(edk::char8* name);
     //animationNames
     bool selectedAnimationAddAnimationName(const edk::char8* name, edk::float32 start,edk::float32 end);
     bool selectedAnimationAddAnimationName(edk::char8* name, edk::float32 start,edk::float32 end);

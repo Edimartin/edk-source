@@ -331,6 +331,16 @@ bool edk::tiles::Tile2D::isPlaying(){
     this->selectAnimation();
     return this->mesh.selectedAnimationIsPlaying();
 }
+bool edk::tiles::Tile2D::isPlayingName(const edk::char8* name){
+    return this->isPlayingName((edk::char8*) name);
+}
+bool edk::tiles::Tile2D::isPlayingName(edk::char8* name){
+    if(name){
+        this->selectAnimation();
+        return this->mesh.selectedAnimationIsPlayingName(name);
+    }
+    return false;
+}
 //animationNames
 bool edk::tiles::Tile2D::addAnimationName(const edk::char8* name, edk::float32 start,edk::float32 end){
     return this->addAnimationName((edk::char8*) name,start,end);

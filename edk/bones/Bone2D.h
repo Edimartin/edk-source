@@ -139,6 +139,8 @@ public:
     void removeAllAnimationNames();
     //return if are playing
     bool isPlaying();
+    bool isPlayingName(const edk::char8* name);
+    bool isPlayingName(edk::char8* name);
 
     //This Bone
     void playForwardThis();

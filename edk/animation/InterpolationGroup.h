@@ -261,6 +261,8 @@ public:
     edk::float32 getInterpolationEndSecond(edk::float32 position);
     //return if are playing
     bool isPlaying();
+    bool isPlayingName(const edk::char8* name);
+    bool isPlayingName(edk::char8* name);
     bool isPaused();
     //return true if is rewind
     bool isRewind();

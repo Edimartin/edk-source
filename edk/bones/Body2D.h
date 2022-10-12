@@ -161,6 +161,8 @@ public:
     void removeAllAnimationNames();
     //return if are playing
     bool isPlaying();
+    bool isPlayingName(const edk::char8* name);
+    bool isPlayingName(edk::char8* name);
 
     //load the BVH
     bool loadBVHXY(const edk::char8* name);

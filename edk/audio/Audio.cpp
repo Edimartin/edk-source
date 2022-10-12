@@ -30,8 +30,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 edk::Audio::Audio(){
     //ctor
-   this->buffer=NULL;
-   this->sound=NULL;
+    this->buffer=NULL;
+    this->sound=NULL;
 }
 
 edk::Audio::~Audio()
@@ -164,9 +164,9 @@ bool edk::Audio::setSecond(edk::float32 second){
 //Set if audio reproduce looping
 void edk::Audio::setLoop(bool loop){
     //
-   if(this->sound)
-      //this->sound->SetLoop(loop);//1.6
-      this->sound->setLoop(loop);//2.0
+    if(this->sound)
+        //this->sound->SetLoop(loop);//1.6
+        this->sound->setLoop(loop);//2.0
 }
 void edk::Audio::loopOn(){
     this->setLoop(true);

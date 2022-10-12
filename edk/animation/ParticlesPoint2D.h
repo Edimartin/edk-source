@@ -148,6 +148,8 @@ private:
         void update(edk::float32 second);
         void draw();
         bool isPlaying();
+        bool isPlayingName(const edk::char8* name);
+        bool isPlayingName(edk::char8* name);
         bool isStoped();
         void play();
         void pause();

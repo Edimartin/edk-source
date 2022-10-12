@@ -1277,6 +1277,16 @@ bool edk::animation::InterpolationGroup::isPlaying(){
     //else return false
     return false;
 }
+bool edk::animation::InterpolationGroup::isPlayingName(const edk::char8* name){
+    return this->isPlayingName((edk::char8*) name);
+}
+bool edk::animation::InterpolationGroup::isPlayingName(edk::char8* name){
+    if(name && this->isPlaying() && this->nameSelected){
+        //test if is playing the name
+        return this->nameSelected->nameEqual(name);
+    }
+    return false;
+}
 bool edk::animation::InterpolationGroup::isPaused(){
     return this->paused;
 }

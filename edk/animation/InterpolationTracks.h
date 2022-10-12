@@ -240,7 +240,11 @@ public:
     edk::float32 getInterpolationEndSecond(edk::uint32 trackPosition,edk::float32 position);
     //return if are playing
     bool isPlaying();
+    bool isPlayingName(const edk::char8* name);
+    bool isPlayingName(edk::char8* name);
     bool isPlayingTrack(edk::uint32 trackPosition);
+    bool isPlayingNameTrack(edk::uint32 trackPosition,const edk::char8* name);
+    bool isPlayingNameTrack(edk::uint32 trackPosition,edk::char8* name);
     bool isPaused();
     bool isPausedTrack(edk::uint32 trackPosition);
     //return true if is rewind
