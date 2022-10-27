@@ -421,8 +421,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationHaveAnimationName(const
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        this->selectedAnimation->haveAnimationName(name);
-        return true;
+        return this->selectedAnimation->haveAnimationName(name);
     }
     //else return false
     return false;
@@ -431,8 +430,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationHaveAnimationName(edk::
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        this->selectedAnimation->haveAnimationName(name);
-        return true;
+        return this->selectedAnimation->haveAnimationName(name);
     }
     //else return false
     return false;
