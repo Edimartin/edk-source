@@ -1190,7 +1190,7 @@ void edk::bones::Body2D::print(){
 void edk::bones::Body2D::draw(){
     edk::GU::guPushMatrix();
     edk::GU::guTranslate2f32(this->position);
-    edk::GU::guRotateYf32(this->angle);
+    edk::GU::guRotateZf32(this->angle);
     edk::GU::guScale2f32(this->size);
     this->root.draw();
     edk::GU::guPopMatrix();
@@ -1287,6 +1287,7 @@ void edk::bones::Body2D::calculateInverseKinematic(edk::char8* name,edk::vec2f32
 }
 void edk::bones::Body2D::calculateInverseKinematic(edk::bones::Bone2D* bone,edk::vec2f32 worldPoint,edk::uint32 tail,edk::uint32 times){
     if(bone){
+        bool found=false;
         for(edk::uint32 i=0u;i<times;i++){
             //TRANSLATE AND ROTATE DE BONE POSITION
             edk::float32 translate[3u][3u];
@@ -1310,7 +1311,7 @@ void edk::bones::Body2D::calculateInverseKinematic(edk::bones::Bone2D* bone,edk:
             edk::bones::Bone2D::multiplyMatrix(&translate,&newMat);
 
             //get the position
-            bool found=false;
+            found=false;
             edk::uint32 count;
             this->root.calculateInverseKinematic(bone,&found,worldPoint,tail,&count,this->angle,this->size,&newMat);
         }

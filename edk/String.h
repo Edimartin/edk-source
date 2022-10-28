@@ -198,11 +198,19 @@ public:
 
     static edk::char8* int32ToStr(edk::int32 value);
 
+    static edk::char8* int32ToStr(edk::int32 value,edk::uint32 digits);
+
     static edk::char8* int64ToStr(edk::int64 value);
+
+    static edk::char8* int64ToStr(edk::int64 value,edk::uint32 digits);
 
     static bool int32ToStr(edk::int32 value,edk::char8* dest);
 
+    static bool int32ToStr(edk::int32 value,edk::char8* dest,edk::uint32 digits);
+
     static bool int64ToStr(edk::int64 value,edk::char8* dest);
+
+    static bool int64ToStr(edk::int64 value,edk::char8* dest,edk::uint32 digits);
 
     static edk::char8* vecInt8toStr(edk::int8* vec,edk::uint32 size);
 
@@ -234,13 +242,31 @@ public:
 
     static edk::char8* float32ToStr(edk::float32 value);
 
-    static edk::char8* float32ToStr(edk::float32 value, edk::int32 digits);
+    static bool float32ToStr(edk::float32 value,edk::char8* dest);
 
-    static edk::char8* float64ToStr(edk::float64 value, edk::int32 digits);
+    static edk::char8* float32ToStr(edk::float32 value, edk::uint32 digits);
+
+    static bool float32ToStr(edk::float32 value,edk::char8* dest,edk::uint32 digits);
+
+    static edk::char8* float64ToStr(edk::float64 value, edk::uint32 digits);
+
+    static bool float64ToStr(edk::float64 value,edk::char8* dest, edk::uint32 digits);
 
     static edk::char8* uint32ToStr(edk::uint32 value);
 
+    static edk::char8* uint32ToStr(edk::uint32 value,edk::uint32 digits);
+
+    static bool uint32ToStr(edk::uint32 value,edk::char8* dest);
+
+    static bool uint32ToStr(edk::uint32 value,edk::char8* dest,edk::uint32 digits);
+
     static edk::char8* uint64ToStr(edk::uint64 value);
+
+    static edk::char8* uint64ToStr(edk::uint64 value,edk::uint32 digits);
+
+    static bool uint64ToStr(edk::uint64 value,edk::char8* dest);
+
+    static bool uint64ToStr(edk::uint64 value,edk::char8* dest,edk::uint32 digits);
 
     static edk::char8* strCat(edk::char8 *str1, edk::char8 *str2);
 
@@ -451,8 +477,10 @@ public:
     static edk::char8* uriUnescape(const edk::char8* str);
 private:
     static edk::char8* int32ToMinusStr(edk::int32 value);
+    static bool int32ToMinusStr(edk::int32 value,edk::char8* dest);
 
     static edk::char8* int64ToMinusStr(edk::int64 value);
+    static bool int64ToMinusStr(edk::int64 value,edk::char8* dest);
 
     //copy the number to the string
     static bool copyInt32ToStr(edk::int32 value,edk::char8* str,edk::int32 size);

@@ -1058,14 +1058,30 @@ edk::GU::~GU(){
 }
 
 //Color
-void edk::GU::guColor3f32(edk::color3f32 color){glColor3f(color.r,color.g,color.b);}
-void edk::GU::guColor3f64(edk::color3f64 color){glColor3d(color.r,color.g,color.b);}
-void edk::GU::guColor3f32(edk::float32 r,edk::float32 g,edk::float32 b){glColor3f(r,g,b);}
-void edk::GU::guColor3f64(edk::float64 r,edk::float64 g,edk::float64 b){glColor3d(r,g,b);}
-void edk::GU::guColor4f32(edk::color4f32 color){glColor4f(color.r,color.g,color.b,color.a);}
-void edk::GU::guColor4f64(edk::color4f64 color){glColor4d(color.r,color.g,color.b,color.a);}
-void edk::GU::guColor4f32(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){glColor4f(r,g,b,a);}
-void edk::GU::guColor4f64(edk::float64 r,edk::float64 g,edk::float64 b,edk::float64 a){glColor4d(r,g,b,a);}
+void edk::GU::guColor3f32(edk::color3f32 color){
+    glColor3f(color.r,color.g,color.b);
+}
+void edk::GU::guColor3f64(edk::color3f64 color){
+    glColor3d(color.r,color.g,color.b);
+}
+void edk::GU::guColor3f32(edk::float32 r,edk::float32 g,edk::float32 b){
+    glColor3f(r,g,b);
+}
+void edk::GU::guColor3f64(edk::float64 r,edk::float64 g,edk::float64 b){
+    glColor3d(r,g,b);
+}
+void edk::GU::guColor4f32(edk::color4f32 color){
+    glColor4f(color.r,color.g,color.b,color.a);
+}
+void edk::GU::guColor4f64(edk::color4f64 color){
+    glColor4d(color.r,color.g,color.b,color.a);
+}
+void edk::GU::guColor4f32(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
+    glColor4f(r,g,b,a);
+}
+void edk::GU::guColor4f64(edk::float64 r,edk::float64 g,edk::float64 b,edk::float64 a){
+    glColor4d(r,g,b,a);
+}
 
 //clear dome buffer
 void edk::GU::guClear(edk::uint32 mask){
@@ -1073,7 +1089,9 @@ void edk::GU::guClear(edk::uint32 mask){
 }
 
 //return the openGL matrix are using
-bool edk::GU::guUsingMatrix(edk::uint32 mode){ return matrixMode==mode; }
+bool edk::GU::guUsingMatrix(edk::uint32 mode){
+    return matrixMode==mode;
+}
 //set the usingMatrix
 void edk::GU::guUseMatrix(edk::uint32 mode){
     //test if aready using the matrix
@@ -1081,19 +1099,34 @@ void edk::GU::guUseMatrix(edk::uint32 mode){
         //then set the matrixMode
         glMatrixMode(mode);
     }
-};
+}
 //load the identity matrix
-void edk::GU::guLoadIdentity(){glLoadIdentity();}
+void edk::GU::guLoadIdentity(){
+    glLoadIdentity();
+}
 //Push Matrix
-void edk::GU::guPushMatrix(){glPushMatrix();}
-void edk::GU::guPopMatrix(){glPopMatrix();}
+void edk::GU::guPushMatrix(){
+    glPushMatrix();
+}
+void edk::GU::guPopMatrix(){
+    glPopMatrix();
+}
 //setViewport
-void edk::GU::guSetViewport(edk::uint32 x,edk::uint32 y,edk::uint32 width,edk::uint32 height){glViewport(x,y,width,height);}
-void edk::GU::guSetViewportRect(edk::rectui32 rect){glViewport(rect.origin.x,rect.origin.y,rect.size.width,rect.size.height);}
-void edk::GU::guUseOrtho(edk::float32 left, edk::float32 right, edk::float32 botton, edk::float32 top, edk::float32 near, edk::float32 far){glOrtho(left,right,botton,top,near,far);}
-void edk::GU::guUsePerspective(edk::float32 fovy, edk::float32 aspect, edk::float32 near, edk::float32 far){gluPerspective(fovy, aspect, near, far);}
+void edk::GU::guSetViewport(edk::uint32 x,edk::uint32 y,edk::uint32 width,edk::uint32 height){
+    glViewport(x,y,width,height);
+}
+void edk::GU::guSetViewportRect(edk::rectui32 rect){
+    glViewport(rect.origin.x,rect.origin.y,rect.size.width,rect.size.height);
+}
+void edk::GU::guUseOrtho(edk::float32 left, edk::float32 right, edk::float32 botton, edk::float32 top, edk::float32 near, edk::float32 far){
+    glOrtho(left,right,botton,top,near,far);
+}
+void edk::GU::guUsePerspective(edk::float32 fovy, edk::float32 aspect, edk::float32 near, edk::float32 far){
+    gluPerspective(fovy, aspect, near, far);
+}
 void edk::GU::guLookAt(edk::float64 eyeX, edk::float64 eyeY, edk::float64 eyeZ, edk::float64 centerX, edk::float64 centerY, edk::float64 centerZ, edk::float64 upX, edk::float64 upY, edk::float64 upZ){
-    gluLookAt(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ);
+    gluLookAt(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ)
+            ;
 }
 void edk::GU::guLookAt(edk::float32 eyeX, edk::float32 eyeY, edk::float32 eyeZ, edk::float32 centerX, edk::float32 centerY, edk::float32 centerZ, edk::float32 upX, edk::float32 upY, edk::float32 upZ){
     gluLookAt(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ);
@@ -1207,12 +1240,18 @@ bool edk::GU::guDrawToTexture(edk::uint32 ID,edk::uint32 width, edk::uint32 heig
 }
 
 //delete texture
-void edk::GU::guDeleteTexture(edk::uint32 ID){glDeleteTextures(1u,&ID);}
+void edk::GU::guDeleteTexture(edk::uint32 ID){
+    glDeleteTextures(1u,&ID);
+}
 
 void edk::GU::guBlendFunc( edk::uint32 sfactor, edk::uint32 dfactor ){ glBlendFunc( sfactor, dfactor ); }
 //ENABLE_DISABLE
-void edk::GU::guEnable( edk::uint32 cap ){glEnable(cap);}
-void edk::GU::guDisable( edk::uint32 cap ){glDisable(cap);}
+void edk::GU::guEnable( edk::uint32 cap ){
+    glEnable(cap);
+}
+void edk::GU::guDisable( edk::uint32 cap ){
+    glDisable(cap);
+}
 //disable all lights
 void edk::GU::guDisableAllLights(){
     for(edk::uint32 i=GU_LIGHT0;i<=GU_LIGHT7;i++){
@@ -1387,87 +1426,228 @@ void edk::GU::guTranslateZf64( edk::float64 z ){
     edk::GU::guTranslate3f64(0.0,0.0,z);
 }
 //SIZES
-void edk::GU::guPointSize(edk::float32 size){glPointSize(size);}
-void edk::GU::guPointSize(edk::float64 size){glPointSize(size);}
-void edk::GU::guPointSize(edk::int8 size){glPointSize((edk::float32)size);}
-void edk::GU::guPointSize(edk::int16 size){glPointSize((edk::float32)size);}
-void edk::GU::guPointSize(edk::int32 size){glPointSize((edk::float32)size);}
-void edk::GU::guPointSize(edk::int64 size){glPointSize((edk::float32)size);}
-void edk::GU::guPointSize(edk::uint8 size){glPointSize((edk::float32)size);}
-void edk::GU::guPointSize(edk::uint16 size){glPointSize((edk::float32)size);}
-void edk::GU::guPointSize(edk::uint32 size){glPointSize((edk::float32)size);}
-void edk::GU::guPointSize(edk::uint64 size){glPointSize((edk::float32)size);}
-void edk::GU::guLineWidth(edk::float32 size){glLineWidth(size);}
-void edk::GU::guLineWidth(edk::float64 size){glLineWidth(size);}
-void edk::GU::guLineWidth(edk::int8 size){glLineWidth((edk::float32)size);}
-void edk::GU::guLineWidth(edk::int16 size){glLineWidth((edk::float32)size);}
-void edk::GU::guLineWidth(edk::int32 size){glLineWidth((edk::float32)size);}
-void edk::GU::guLineWidth(edk::int64 size){glLineWidth((edk::float32)size);}
-void edk::GU::guLineWidth(edk::uint8 size){glLineWidth((edk::float32)size);}
-void edk::GU::guLineWidth(edk::uint16 size){glLineWidth((edk::float32)size);}
-void edk::GU::guLineWidth(edk::uint32 size){glLineWidth((edk::float32)size);}
-void edk::GU::guLineWidth(edk::uint64 size){glLineWidth((edk::float32)size);}
+void edk::GU::guPointSize(edk::float32 size){
+    glPointSize(size);}
+void edk::GU::guPointSize(edk::float64 size){
+    glPointSize(size);}
+void edk::GU::guPointSize(edk::int8 size){
+    glPointSize((edk::float32)size);
+}
+void edk::GU::guPointSize(edk::int16 size){
+    glPointSize((edk::float32)size);
+}
+void edk::GU::guPointSize(edk::int32 size){
+    glPointSize((edk::float32)size);
+}
+void edk::GU::guPointSize(edk::int64 size){
+    glPointSize((edk::float32)size);
+}
+void edk::GU::guPointSize(edk::uint8 size){
+    glPointSize((edk::float32)size);
+}
+void edk::GU::guPointSize(edk::uint16 size){
+    glPointSize((edk::float32)size);
+}
+void edk::GU::guPointSize(edk::uint32 size){
+    glPointSize((edk::float32)size);
+}
+void edk::GU::guPointSize(edk::uint64 size){
+    glPointSize((edk::float32)size);
+}
+void edk::GU::guLineWidth(edk::float32 size){
+    glLineWidth(size);
+}
+void edk::GU::guLineWidth(edk::float64 size){
+    glLineWidth(size);
+}
+void edk::GU::guLineWidth(edk::int8 size){
+    glLineWidth((edk::float32)size);
+}
+void edk::GU::guLineWidth(edk::int16 size){
+    glLineWidth((edk::float32)size);
+}
+void edk::GU::guLineWidth(edk::int32 size){
+    glLineWidth((edk::float32)size);
+}
+void edk::GU::guLineWidth(edk::int64 size){
+    glLineWidth((edk::float32)size);
+}
+void edk::GU::guLineWidth(edk::uint8 size){
+    glLineWidth((edk::float32)size);
+}
+void edk::GU::guLineWidth(edk::uint16 size){
+    glLineWidth((edk::float32)size);
+}
+void edk::GU::guLineWidth(edk::uint32 size){
+    glLineWidth((edk::float32)size);
+}
+void edk::GU::guLineWidth(edk::uint64 size){
+    glLineWidth((edk::float32)size);
+}
 //DRAW functions
-void edk::GU::guBegin(edk::uint32 mode){glBegin( mode );}
-void edk::GU::guEnd(){glEnd();}
-void edk::GU::guVertex2f32(edk::vec2f32 vec){glVertex2f(vec.x,vec.y);}
-void edk::GU::guVertex2f64(edk::vec2f64 vec){glVertex2d(vec.x,vec.y);}
-void edk::GU::guVertex2f32(edk::float32 x,edk::float32 y){glVertex2f(x,y);}
-void edk::GU::guVertex2f64(edk::float64 x,edk::float64 y){glVertex2d(x,y);}
-void edk::GU::guVertex3f32(edk::vec3f32 vec){glVertex3f(vec.x,vec.y,vec.z);}
-void edk::GU::guVertex3f64(edk::vec3f64 vec){glVertex3d(vec.x,vec.y,vec.z);}
-void edk::GU::guVertex3f32(edk::float32 x,edk::float32 y,edk::float32 z){glVertex3f(x,y,z);}
-void edk::GU::guVertex3f64(edk::float64 x,edk::float64 y,edk::float64 z){glVertex3d(x,y,z);}
-void edk::GU::guVertex4f32(edk::vec4f32 vec){glVertex4f(vec.x,vec.y,vec.z,vec.w);}
-void edk::GU::guVertex4f64(edk::vec4f64 vec){glVertex4d(vec.x,vec.y,vec.z,vec.w);}
-void edk::GU::guVertex4f32(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 w){glVertex4f(x,y,z,w);}
-void edk::GU::guVertex4f64(edk::float64 x,edk::float64 y,edk::float64 z,edk::float64 w){glVertex4d(x,y,z,w);}
-void edk::GU::guVertexNormal3f32(edk::vec3f32 vec){glNormal3f(vec.x,vec.y,vec.z);}
-void edk::GU::guVertexNormal3f64(edk::vec3f64 vec){glNormal3d(vec.x,vec.y,vec.z);}
-void edk::GU::guVertexNormal3f32(edk::float32 x,edk::float32 y,edk::float32 z){glNormal3f(x,y,z);}
-void edk::GU::guVertexNormal3f64(edk::float64 x,edk::float64 y,edk::float64 z){glNormal3d(x,y,z);}
+void edk::GU::guBegin(edk::uint32 mode){
+    glBegin( mode );}
+void edk::GU::guEnd(){
+    glEnd();
+}
+void edk::GU::guVertex2f32(edk::vec2f32 vec){
+    glVertex2f(vec.x,vec.y);
+}
+void edk::GU::guVertex2f64(edk::vec2f64 vec){
+    glVertex2d(vec.x,vec.y);
+}
+void edk::GU::guVertex2f32(edk::float32 x,edk::float32 y){
+    glVertex2f(x,y);
+}
+void edk::GU::guVertex2f64(edk::float64 x,edk::float64 y){
+    glVertex2d(x,y);
+}
+void edk::GU::guVertex3f32(edk::vec3f32 vec){
+    glVertex3f(vec.x,vec.y,vec.z);
+}
+void edk::GU::guVertex3f64(edk::vec3f64 vec){
+    glVertex3d(vec.x,vec.y,vec.z);
+}
+void edk::GU::guVertex3f32(edk::float32 x,edk::float32 y,edk::float32 z){
+    glVertex3f(x,y,z);
+}
+void edk::GU::guVertex3f64(edk::float64 x,edk::float64 y,edk::float64 z){
+    glVertex3d(x,y,z);
+}
+void edk::GU::guVertex4f32(edk::vec4f32 vec){
+    glVertex4f(vec.x,vec.y,vec.z,vec.w);
+}
+void edk::GU::guVertex4f64(edk::vec4f64 vec){
+    glVertex4d(vec.x,vec.y,vec.z,vec.w);
+}
+void edk::GU::guVertex4f32(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 w){
+    glVertex4f(x,y,z,w);
+}
+void edk::GU::guVertex4f64(edk::float64 x,edk::float64 y,edk::float64 z,edk::float64 w){
+    glVertex4d(x,y,z,w);
+}
+void edk::GU::guVertexNormal3f32(edk::vec3f32 vec){
+    glNormal3f(vec.x,vec.y,vec.z);
+}
+void edk::GU::guVertexNormal3f64(edk::vec3f64 vec){
+    glNormal3d(vec.x,vec.y,vec.z);
+}
+void edk::GU::guVertexNormal3f32(edk::float32 x,edk::float32 y,edk::float32 z){
+    glNormal3f(x,y,z);
+}
+void edk::GU::guVertexNormal3f64(edk::float64 x,edk::float64 y,edk::float64 z){
+    glNormal3d(x,y,z);
+}
 
 // LIGHTING
-void edk::GU::guShadeModel( edk::uint32 model ){ glShadeModel(model);}
-void edk::GU::guLightf32( edk::uint32 light, edk::uint32 pname, edk::float32 param ){ glLightf(light,pname,param); }
-void edk::GU::guLighti32( edk::uint32 light, edk::uint32 pname, edk::int32 param ){ glLighti(light,pname,param); }
-void edk::GU::guLightfv32( edk::uint32 light, edk::uint32 pname, const edk::float32 *params ){ glLightfv(light,pname,params); }
-void edk::GU::guLightiv32( edk::uint32 light, edk::uint32 pname, const edk::int32 *params ){ glLightiv(light,pname,params); }
-void edk::GU::guGetLightfv32( edk::uint32 light, edk::uint32 pname, edk::float32 *params ){ glGetLightfv(light,pname,params); }
-void edk::GU::guGetLightiv32( edk::uint32 light, edk::uint32 pname, edk::int32 *params ){ glGetLightiv(light,pname,params); }
+void edk::GU::guShadeModel( edk::uint32 model ){
+    glShadeModel(model);
+}
+void edk::GU::guLightf32( edk::uint32 light, edk::uint32 pname, edk::float32 param ){
+    glLightf(light,pname,param);
+}
+void edk::GU::guLighti32( edk::uint32 light, edk::uint32 pname, edk::int32 param ){
+    glLighti(light,pname,param);
+}
+void edk::GU::guLightfv32( edk::uint32 light, edk::uint32 pname, const edk::float32 *params ){
+    glLightfv(light,pname,params);
+}
+void edk::GU::guLightiv32( edk::uint32 light, edk::uint32 pname, const edk::int32 *params ){
+    glLightiv(light,pname,params);
+}
+void edk::GU::guGetLightfv32( edk::uint32 light, edk::uint32 pname, edk::float32 *params ){
+    glGetLightfv(light,pname,params);
+}
+void edk::GU::guGetLightiv32( edk::uint32 light, edk::uint32 pname, edk::int32 *params ){
+    glGetLightiv(light,pname,params);
+}
 
 //MATERIAL
-void edk::GU::guMaterialf32( edk::uint32 face, edk::uint32 pname, edk::float32 param ){glMaterialf(face,pname,param);}
-void edk::GU::guMateriali32( edk::uint32 face, edk::uint32 pname, edk::int32 param ){glMateriali(face,pname,param);}
-void edk::GU::guMaterialfv32( edk::uint32 face, edk::uint32 pname, const edk::float32 *params ){glMaterialfv(face,pname,params);}
-void edk::GU::guMaterialiv32( edk::uint32 face, edk::uint32 pname, const edk::int32 *params ){glMaterialiv(face,pname,params);}
-void edk::GU::guGetMaterialfv32( edk::uint32 face, edk::uint32 pname, edk::float32 *params ){glGetMaterialfv(face,pname,params);}
-void edk::GU::guGetMaterialiv32( edk::uint32 face, edk::uint32 pname, edk::int32 *params ){glGetMaterialiv(face,pname,params);}
-void edk::GU::guColorMaterial( edk::uint32 face, edk::uint32 mode ){glColorMaterial(face,mode);}
+void edk::GU::guMaterialf32( edk::uint32 face, edk::uint32 pname, edk::float32 param ){
+    glMaterialf(face,pname,param);
+}
+void edk::GU::guMateriali32( edk::uint32 face, edk::uint32 pname, edk::int32 param ){
+    glMateriali(face,pname,param);
+}
+void edk::GU::guMaterialfv32( edk::uint32 face, edk::uint32 pname, const edk::float32 *params ){
+    glMaterialfv(face,pname,params);
+}
+void edk::GU::guMaterialiv32( edk::uint32 face, edk::uint32 pname, const edk::int32 *params ){
+    glMaterialiv(face,pname,params);
+}
+void edk::GU::guGetMaterialfv32( edk::uint32 face, edk::uint32 pname, edk::float32 *params ){
+    glGetMaterialfv(face,pname,params);
+}
+void edk::GU::guGetMaterialiv32( edk::uint32 face, edk::uint32 pname, edk::int32 *params ){
+    glGetMaterialiv(face,pname,params);
+}
+void edk::GU::guColorMaterial( edk::uint32 face, edk::uint32 mode ){
+    glColorMaterial(face,mode);
+}
 
 //DEPTH
-void edk::GU::guDepthFunc(edk::uint32 func){ glDepthFunc( func ); }
-void edk::GU::guDepthRange( edk::float64 near_val, edk::float64 far_val ){glDepthRange(near_val,far_val);}
+void edk::GU::guDepthFunc(edk::uint32 func){
+    glDepthFunc( func );
+}
+void edk::GU::guDepthRange( edk::float64 near_val, edk::float64 far_val ){
+    glDepthRange(near_val,far_val);
+}
 
 //TEXTURE
-void edk::GU::guUseTexture(edk::uint32 target, edk::uint32 texture){ glBindTexture( target, texture ); }
-void edk::GU::guUseTexture1D(edk::uint32 texture){ glBindTexture( GU_TEXTURE_1D, texture ); }
-void edk::GU::guUseTexture2D(edk::uint32 texture){ glBindTexture( GU_TEXTURE_2D, texture ); }
-void edk::GU::guUseTexture3D(edk::uint32 texture){ glBindTexture( GU_TEXTURE_3D, texture ); }
-void edk::GU::guVertexTex1f32(edk::float32 n){glTexCoord1f(n);}
-void edk::GU::guVertexTex1f64(edk::float64 n){glTexCoord1d(n);}
-void edk::GU::guVertexTex2f32(edk::vec2f32 vec){glTexCoord2f(vec.x,vec.y);}
-void edk::GU::guVertexTex2f64(edk::vec2f64 vec){glTexCoord2d(vec.x,vec.y);}
-void edk::GU::guVertexTex2f32(edk::float32 x,edk::float32 y){glTexCoord2f(x,y);}
-void edk::GU::guVertexTex2f64(edk::float64 x,edk::float64 y){glTexCoord2d(x,y);}
-void edk::GU::guVertexTex3f32(edk::vec3f32 vec){glTexCoord3f(vec.x,vec.y,vec.z);}
-void edk::GU::guVertexTex3f64(edk::vec3f64 vec){glTexCoord3d(vec.x,vec.y,vec.z);}
-void edk::GU::guVertexTex3f32(edk::float32 x,edk::float32 y,edk::float32 z){glTexCoord3f(x,y,z);}
-void edk::GU::guVertexTex3f64(edk::float64 x,edk::float64 y,edk::float64 z){glTexCoord3d(x,y,z);}
-void edk::GU::guVertexTex4f32(edk::vec4f32 vec){glTexCoord4f(vec.x,vec.y,vec.z,vec.w);}
-void edk::GU::guVertexTex4f64(edk::vec4f64 vec){glTexCoord4d(vec.x,vec.y,vec.z,vec.w);}
-void edk::GU::guVertexTex4f32(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 w){glTexCoord4f(x,y,z,w);}
-void edk::GU::guVertexTex4f64(edk::float64 x,edk::float64 y,edk::float64 z,edk::float64 w){glTexCoord4d(x,y,z,w);}
+void edk::GU::guUseTexture(edk::uint32 target, edk::uint32 texture){
+    glBindTexture( target, texture );
+}
+void edk::GU::guUseTexture1D(edk::uint32 texture){
+    glBindTexture( GU_TEXTURE_1D, texture );
+}
+void edk::GU::guUseTexture2D(edk::uint32 texture){
+    glBindTexture( GU_TEXTURE_2D, texture );
+}
+void edk::GU::guUseTexture3D(edk::uint32 texture){
+    glBindTexture( GU_TEXTURE_3D, texture );
+}
+void edk::GU::guVertexTex1f32(edk::float32 n){
+    glTexCoord1f(n);
+}
+void edk::GU::guVertexTex1f64(edk::float64 n){
+    glTexCoord1d(n);
+}
+void edk::GU::guVertexTex2f32(edk::vec2f32 vec){
+    glTexCoord2f(vec.x,vec.y);
+}
+void edk::GU::guVertexTex2f64(edk::vec2f64 vec){
+    glTexCoord2d(vec.x,vec.y);
+}
+void edk::GU::guVertexTex2f32(edk::float32 x,edk::float32 y){
+    glTexCoord2f(x,y);
+}
+void edk::GU::guVertexTex2f64(edk::float64 x,edk::float64 y){
+    glTexCoord2d(x,y);
+}
+void edk::GU::guVertexTex3f32(edk::vec3f32 vec){
+    glTexCoord3f(vec.x,vec.y,vec.z);
+}
+void edk::GU::guVertexTex3f64(edk::vec3f64 vec){
+    glTexCoord3d(vec.x,vec.y,vec.z);
+}
+void edk::GU::guVertexTex3f32(edk::float32 x,edk::float32 y,edk::float32 z){
+    glTexCoord3f(x,y,z);
+}
+void edk::GU::guVertexTex3f64(edk::float64 x,edk::float64 y,edk::float64 z){
+    glTexCoord3d(x,y,z);
+}
+void edk::GU::guVertexTex4f32(edk::vec4f32 vec){
+    glTexCoord4f(vec.x,vec.y,vec.z,vec.w);
+}
+void edk::GU::guVertexTex4f64(edk::vec4f64 vec){
+    glTexCoord4d(vec.x,vec.y,vec.z,vec.w);
+}
+void edk::GU::guVertexTex4f32(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 w){
+    glTexCoord4f(x,y,z,w);
+}
+void edk::GU::guVertexTex4f64(edk::float64 x,edk::float64 y,edk::float64 z,edk::float64 w){
+    glTexCoord4d(x,y,z,w);
+}
 
 //SELET BUFFER
 //alloc the buffer

@@ -872,7 +872,7 @@ void edk::bones::Bone2D::draw(){
 
     //edk::GU::guTranslate2f32(this->position);
     edk::GU::guTranslate2f32(this->position.x,this->position.y);
-    edk::GU::guRotateYf32(this->angle);
+    edk::GU::guRotateZf32(this->angle);
 
     edk::GU::guBegin(GU_LINES);
     //edk::GU::guVertex2f32(this->position.x,this->position.y);
@@ -887,7 +887,7 @@ void edk::bones::Bone2D::draw(){
         temp->draw();
     }
 
-    edk::GU::guRotateYf32(this->angle*-1.f);
+    edk::GU::guRotateZf32(this->angle*-1.f);
     edk::GU::guTranslate2f32(this->position*-1.f);
 }
 //update the objects

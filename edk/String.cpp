@@ -598,6 +598,49 @@ edk::char8* edk::String::int32ToMinusStr(edk::int32 value){
     }
     return str;
 }
+bool edk::String::int32ToMinusStr(edk::int32 value,edk::char8* dest){
+    //use the module of the number
+    edk::int32 module;
+
+    //count the number
+    edk::uint32 size = edk::String::sizeOfInt32(value);
+
+    //test if the size is bigger then 0u
+    if(size>0u){
+        //then convert
+        module = edkModuleInt32(value);
+        //begin
+        edk::uint32 begin=0u;
+        //Negative
+        size=size+1u;
+        begin=1u;
+        dest = new edk::char8[size+1u];
+        if(dest){
+            dest[0u]='-';
+            dest[size]='\0';
+            //then convert the number
+            for(edk::uint32 j=size;j>begin;j--){
+                //
+                edk::uint32 i=j-1u;
+                //convert in this line
+                dest[i]=(module%10)+48;
+                module=module/10;
+            }
+            return true;
+        }
+    }
+    else{
+        //create a zero
+        dest = new edk::char8[3u];
+        if(dest){
+            dest[0u]='-';
+            dest[1u]='0';
+            dest[2u]='\0';
+            return true;
+        }
+    }
+    return false;
+}
 edk::char8* edk::String::int64ToMinusStr(edk::int64 value){
 
     edk::char8* str = 0u;
@@ -651,6 +694,46 @@ edk::char8* edk::String::int64ToMinusStr(edk::int64 value){
         }
     }
     return str;
+}
+bool edk::String::int64ToMinusStr(edk::int64 value,edk::char8* dest){
+    //use the module of the number
+    edk::int64 module;
+
+    //count the number
+    edk::uint32 size = edk::String::sizeOfInt64(value);
+
+    //test if the size is bigger then 0u
+    if(size>0u){
+        //then convert
+        module = edkModuleInt64(value);
+        //begin
+        edk::uint32 begin=0u;
+        //Negative
+        size=size+1u;
+        begin=1u;
+        if(dest){
+            dest[0u]='-';
+            dest[size]='\0';
+            //then convert the number
+            for(edk::uint32 j=size;j>begin;j--){
+                //
+                edk::uint32 i=j-1u;
+                //convert in this line
+                dest[i]=(module%10)+48;
+                module=module/10;
+            }
+            return true;
+        }
+    }
+    else{
+        if(dest){
+            dest[0u]='-';
+            dest[1u]='0';
+            dest[2u]='\0';
+            return true;
+        }
+    }
+    return false;
 }
 
 //copy the number to the string
@@ -2485,6 +2568,62 @@ edk::char8* edk::String::int32ToStr(edk::int32 value){
     return str;
 }
 
+edk::char8* edk::String::int32ToStr(edk::int32 value,edk::uint32 digits){
+    edk::char8* str = 0u;
+
+    //count the number
+    edk::uint32 size = edk::String::sizeOfInt32(value);
+
+    //test if the size is bigger then 0u
+    if(size>0u){
+        if(size>digits) size=digits;
+        //begin
+        edk::uint32 begin=0u;
+        if(value>=0){
+            //Positive
+            str = new edk::char8[size+1u];
+            if(str){
+                str[size]='\0';
+            }
+            else{
+                //else set NULL
+                str=0u;
+            }
+        }
+        else{
+            //Negative
+            size=size+1u;
+            begin=1u;
+            str = new edk::char8[size+1u];
+            if(str){
+                str[0u]='-';
+                str[size]='\0';
+            }
+            else{
+                //else set NULL
+                str=0u;
+            }
+        }
+        //test if alloc the str
+        if(str){
+            edk::String::copyInt32ToStr(value,&str[begin],size-begin);
+        }
+    }
+    else{
+        //create a zero
+        str = new edk::char8[2u];
+        if(str){
+            str[0u]='0';
+            str[1u]='\0';
+        }
+        else{
+            //else set NULL
+            str=0u;
+        }
+    }
+    return str;
+}
+
 edk::char8* edk::String::int64ToStr(edk::int64 value){
     edk::char8* str = 0u;
 
@@ -2493,6 +2632,64 @@ edk::char8* edk::String::int64ToStr(edk::int64 value){
 
     //test if the size is bigger then 0u
     if(size>0u){
+        //begin
+        edk::uint32 begin=0u;
+        if(value>=0){
+            //Positive
+            str = new edk::char8[size+1u];
+            if(str){
+                str[size]='\0';
+            }
+            else{
+                //else set NULL
+                str=0u;
+            }
+        }
+        else{
+            //Negative
+            size=size+1u;
+            begin=1u;
+            str = new edk::char8[size+1u];
+            if(str){
+                str[0u]='-';
+                str[size]='\0';
+            }
+            else{
+                //else set NULL
+                str=0u;
+            }
+        }
+        //test if alloc the str
+        if(str){
+            edk::String::copyInt64ToStr(value,&str[begin],size-begin);
+        }
+    }
+    else{
+        //create a zero
+        str = new edk::char8[2u];
+        if(str){
+            str[0u]='0';
+            str[1u]='\0';
+        }
+        else{
+            //else set NULL
+            str=0u;
+        }
+    }
+    return str;
+}
+
+edk::char8* edk::String::int64ToStr(edk::int64 value,edk::uint32 digits){
+
+    edk::char8* str = 0u;
+
+    //count the number
+    edk::uint32 size = edk::String::sizeOfInt64(value);
+
+    //test if the size is bigger then 0u
+    if(size>0u){
+        if(size>digits)
+            size=digits;
         //begin
         edk::uint32 begin=0u;
         if(value>=0){
@@ -2572,6 +2769,41 @@ bool edk::String::int32ToStr(edk::int32 value,edk::char8* dest){
     return false;
 }
 
+bool edk::String::int32ToStr(edk::int32 value,edk::char8* dest,edk::uint32 digits){
+    if(dest){
+        //count the number
+        edk::uint32 size = edk::String::sizeOfInt32(value);
+
+        //test if the size is bigger then 0u
+        if(size>0u){
+            if(size>digits){
+                size=digits;
+            }
+            //begin
+            edk::uint32 begin=0u;
+            if(value>=0){
+                //Positive
+                dest[size]='\0';
+            }
+            else{
+                //Negative
+                size=size+1u;
+                begin=1u;
+                dest[0u]='-';
+                dest[size]='\0';
+            }
+            return edk::String::copyInt32ToStr(value,&dest[begin],size-begin);
+        }
+        else{
+            //create a zero
+            dest[0u]='0';
+            dest[1u]='\0';
+        }
+        return true;
+    }
+    return false;
+}
+
 bool edk::String::int64ToStr(edk::int64 value,edk::char8* dest){
     if(dest){
         //count the number
@@ -2579,6 +2811,40 @@ bool edk::String::int64ToStr(edk::int64 value,edk::char8* dest){
 
         //test if the size is bigger then 0u
         if(size>0u){
+            //begin
+            edk::uint32 begin=0u;
+            if(value>=0){
+                //Positive
+                dest[size]='\0';
+            }
+            else{
+                //Negative
+                size=size+1u;
+                begin=1u;
+                dest[0u]='-';
+                dest[size]='\0';
+            }
+            return edk::String::copyInt64ToStr(value,&dest[begin],size-begin);
+        }
+        else{
+            //create a zero
+            dest[0u]='0';
+            dest[1u]='\0';
+        }
+        return true;
+    }
+    return false;
+}
+
+bool edk::String::int64ToStr(edk::int64 value,edk::char8* dest,edk::uint32 digits){
+    if(dest){
+        //count the number
+        edk::uint32 size = edk::String::sizeOfInt64(value);
+
+        //test if the size is bigger then 0u
+        if(size>0u){
+            if(size>digits)
+                size=digits;
             //begin
             edk::uint32 begin=0u;
             if(value>=0){
@@ -3125,7 +3391,37 @@ edk::char8* edk::String::float32ToStr(edk::float32 value){
     return ret;
 }
 
-edk::char8* edk::String::float32ToStr(edk::float32 value, edk::int32 digits){
+bool edk::String::float32ToStr(edk::float32 value,edk::char8* dest){
+    //first divide the value in two. After the point and before the poinf
+    edk::int32 before = (edk::int32)value;
+    edk::float32 after= edkModuleFloat32(value-(edk::float32)before);
+    bool haveTrue = false;
+    if(value<0.f)
+        haveTrue = edk::String::int32ToMinusStr(before,dest);
+    else
+        haveTrue = edk::String::int32ToStr(before,dest);
+
+    if(haveTrue){
+        //get the size of the before number
+        edk::uint32 size = edk::String::int32ToStrSize(before);
+        if(size && after>0.0001f){
+            //copy the after
+            return edk::String::int32ToStr(before,&dest[size]);
+        }
+        else if(size){
+            dest[size]='\0';
+            return true;
+        }
+        else{
+            dest[0u]='0';
+            dest[1u]='\0';
+            return true;
+        }
+    }
+    return false;
+}
+
+edk::char8* edk::String::float32ToStr(edk::float32 value, edk::uint32 digits){
     //first divide the value in two. After the point and before the poinf
     edk::int32 before = (edk::int32)value;
     edk::float32 after= edkModuleFloat32(value-(edk::float32)before);
@@ -3187,7 +3483,37 @@ edk::char8* edk::String::float32ToStr(edk::float32 value, edk::int32 digits){
     return ret;
 }
 
-edk::char8* edk::String::float64ToStr(edk::float64 value, edk::int32 digits){
+bool edk::String::float32ToStr(edk::float32 value,edk::char8* dest,edk::uint32 digits){
+    //first divide the value in two. After the point and before the poinf
+    edk::int32 before = (edk::int32)value;
+    edk::float32 after= edkModuleFloat32(value-(edk::float32)before);
+    bool haveTrue = false;
+    if(value<0.f)
+        haveTrue = edk::String::int32ToMinusStr(before,dest);
+    else
+        haveTrue = edk::String::int32ToStr(before,dest);
+
+    if(haveTrue){
+        //get the size of the before number
+        edk::uint32 size = edk::String::int32ToStrSize(before);
+        if(size && after>0.0001f){
+            //copy the after
+            return edk::String::int32ToStr(before,&dest[size],digits);
+        }
+        else if(size){
+            dest[size]='\0';
+            return true;
+        }
+        else{
+            dest[0u]='0';
+            dest[1u]='\0';
+            return true;
+        }
+    }
+    return false;
+}
+
+edk::char8* edk::String::float64ToStr(edk::float64 value, edk::uint32 digits){
     //first divide the value in two. After the point and before the poinf
     edk::int32 before = (edk::int32)value;
     edk::float64 after= edkModuleFloat64(value-(edk::float64)before);
@@ -3243,6 +3569,36 @@ edk::char8* edk::String::float64ToStr(edk::float64 value, edk::int32 digits){
 
     //return the ret
     return ret;
+}
+
+bool edk::String::float64ToStr(edk::float64 value,edk::char8* dest, edk::uint32 digits){
+    //first divide the value in two. After the point and before the poinf
+    edk::int64 before = (edk::int32)value;
+    edk::float64 after= edkModuleFloat32(value-(edk::float64)before);
+    bool haveTrue = false;
+    if(value<0.f)
+        haveTrue = edk::String::int64ToMinusStr(before,dest);
+    else
+        haveTrue = edk::String::int64ToStr(before,dest);
+
+    if(haveTrue){
+        //get the size of the before number
+        edk::uint32 size = edk::String::int64ToStrSize(before);
+        if(size && after>0.0001f){
+            //copy the after
+            return edk::String::int64ToStr(before,&dest[size],digits);
+        }
+        else if(size){
+            dest[size]='\0';
+            return true;
+        }
+        else{
+            dest[0u]='0';
+            dest[1u]='\0';
+            return true;
+        }
+    }
+    return false;
 }
 
 edk::char8* edk::String::uint32ToStr(edk::uint32 value){
@@ -3306,6 +3662,170 @@ edk::char8* edk::String::uint32ToStr(edk::uint32 value){
     return str;
 }
 
+edk::char8* edk::String::uint32ToStr(edk::uint32 value,edk::uint32 digits){
+    edk::char8* str = NULL;
+    //use the module of the number
+    edk::uint32 module = value;
+
+    //count the number
+    edk::uint32 size = 0;
+
+
+    while(true){
+        //
+        if(module<=0){
+            //
+            break;
+        }
+        module=module/10;
+        size++;
+    }
+
+    //test if the size is bigger then 0u
+    if(size>0u){
+        if(size>digits)
+            size=digits;
+        //then convert
+        module = value;
+        //begin
+        edk::uint32 begin=0u;
+        //Positive
+        str = new edk::char8[size+1u];
+        if(str){
+            str[size]='\0';
+        }
+        else{
+            //else set NULL
+            str=0u;
+        }
+        //test if alloc the str
+        if(str){
+            //then convert the number
+            for(edk::uint32 j=size;j>begin;j--){
+                //
+                edk::uint32 i=j-1u;
+                //convert in this line
+                str[i]=(module%10)+48;
+                module=module/10;
+            }
+        }
+    }
+    else{
+        //create a zero
+        str = new edk::char8[2u];
+        if(str){
+            str[0u]='0';
+            str[1u]='\0';
+        }
+        else{
+            //else set NULL
+            str=0u;
+        }
+    }
+    return str;
+}
+
+bool edk::String::uint32ToStr(edk::uint32 value,edk::char8* dest){
+    //use the module of the number
+    edk::uint32 module = value;
+
+    //count the number
+    edk::uint32 size = 0;
+
+    //first calculate the size of the string
+    while(true){
+        //
+        if(module<=0){
+            //
+            break;
+        }
+        module=module/10;
+        size++;
+    }
+
+    //test if the size is bigger then 0u
+    if(size>0u){
+        //then convert
+        module = value;
+        //begin
+        edk::uint32 begin=0u;
+        //test if alloc the str
+        if(dest){
+            dest[size]='\0';
+            //then convert the number
+            for(edk::uint32 j=size;j>begin;j--){
+                //
+                edk::uint32 i=j-1u;
+                //convert in this line
+                dest[i]=(module%10)+48;
+                module=module/10;
+            }
+            return true;
+        }
+    }
+    else{
+        //create a zero
+        if(dest){
+            dest[0u]='0';
+            dest[1u]='\0';
+            return true;
+        }
+    }
+    return false;
+}
+
+bool edk::String::uint32ToStr(edk::uint32 value,edk::char8* dest,edk::uint32 digits){
+
+    //use the module of the number
+    edk::uint32 module = value;
+
+    //count the number
+    edk::uint32 size = 0;
+
+    //first calculate the size of the string
+    while(true){
+        //
+        if(module<=0){
+            //
+            break;
+        }
+        module=module/10;
+        size++;
+    }
+
+    //test if the size is bigger then 0u
+    if(size>0u){
+        if(size>digits)
+            size=digits;
+        //then convert
+        module = value;
+        //begin
+        edk::uint32 begin=0u;
+        //test if alloc the str
+        if(dest){
+            dest[size]='\0';
+            //then convert the number
+            for(edk::uint32 j=size;j>begin;j--){
+                //
+                edk::uint32 i=j-1u;
+                //convert in this line
+                dest[i]=(module%10)+48;
+                module=module/10;
+            }
+            return true;
+        }
+    }
+    else{
+        //create a zero
+        if(dest){
+            dest[0u]='0';
+            dest[1u]='\0';
+            return true;
+        }
+    }
+    return false;
+}
+
 edk::char8* edk::String::uint64ToStr(edk::uint64 value){
     edk::char8* str = NULL;
     //use the module of the number
@@ -3365,6 +3885,169 @@ edk::char8* edk::String::uint64ToStr(edk::uint64 value){
         }
     }
     return str;
+}
+
+edk::char8* edk::String::uint64ToStr(edk::uint64 value,edk::uint32 digits){
+    edk::char8* str = NULL;
+    //use the module of the number
+    edk::uint64 module = value;
+
+    //count the number
+    edk::uint64 size = 0;
+
+
+    while(true){
+        //
+        if(module<=0){
+            //
+            break;
+        }
+        module=module/10;
+        size++;
+    }
+
+    //test if the size is bigger then 0u
+    if(size>0u){
+        if(size>digits)
+            size=digits;
+        //then convert
+        module = value;
+        //begin
+        edk::uint64 begin=0u;
+        //Positive
+        str = new edk::char8[size+1u];
+        if(str){
+            str[size]='\0';
+        }
+        else{
+            //else set NULL
+            str=0u;
+        }
+        //test if alloc the str
+        if(str){
+            //then convert the number
+            for(edk::uint64 j=size;j>begin;j--){
+                //
+                edk::uint64 i=j-1u;
+                //convert in this line
+                str[i]=(module%10)+48;
+                module=module/10;
+            }
+        }
+    }
+    else{
+        //create a zero
+        str = new edk::char8[2u];
+        if(str){
+            str[0u]='0';
+            str[1u]='\0';
+        }
+        else{
+            //else set NULL
+            str=0u;
+        }
+    }
+    return str;
+}
+
+bool edk::String::uint64ToStr(edk::uint64 value,edk::char8* dest){
+    //use the module of the number
+    edk::uint64 module = value;
+
+    //count the number
+    edk::uint64 size = 0;
+
+
+    while(true){
+        //
+        if(module<=0){
+            //
+            break;
+        }
+        module=module/10;
+        size++;
+    }
+
+    //test if the size is bigger then 0u
+    if(size>0u){
+        //then convert
+        module = value;
+        //begin
+        edk::uint64 begin=0u;
+        //Positive
+        if(dest){
+            dest[size]='\0';
+            //then convert the number
+            for(edk::uint64 j=size;j>begin;j--){
+                //
+                edk::uint64 i=j-1u;
+                //convert in this line
+                dest[i]=(module%10)+48;
+                module=module/10;
+            }
+            return true;
+        }
+    }
+    else{
+        //set a zero
+        if(dest){
+            dest[0u]='0';
+            dest[1u]='\0';
+            return true;
+        }
+    }
+    return false;
+}
+
+bool edk::String::uint64ToStr(edk::uint64 value,edk::char8* dest,edk::uint32 digits){
+    //use the module of the number
+    edk::uint64 module = value;
+
+    //count the number
+    edk::uint64 size = 0;
+
+
+    while(true){
+        //
+        if(module<=0){
+            //
+            break;
+        }
+        module=module/10;
+        size++;
+    }
+
+    //test if the size is bigger then 0u
+    if(size>0u){
+        if(size>digits)
+            size=digits;
+        //then convert
+        module = value;
+        //begin
+        edk::uint64 begin=0u;
+        //Positive
+        if(dest){
+            dest[size]='\0';
+            //then convert the number
+            for(edk::uint64 j=size;j>begin;j--){
+                //
+                edk::uint64 i=j-1u;
+                //convert in this line
+                dest[i]=(module%10)+48;
+                module=module/10;
+            }
+            return true;
+        }
+    }
+    else{
+        //set a zero
+        if(dest){
+            dest[0u]='0';
+            dest[1u]='\0';
+            return true;
+        }
+    }
+    return false;
 }
 
 edk::char8* edk::String::strCat(edk::char8 *str1, edk::char8 *str2){
