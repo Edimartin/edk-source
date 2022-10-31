@@ -240,12 +240,22 @@ edk::uint32 edk::shape::AnimatedPolygon2DList::selectedAnimationGetInterpolation
     return 0u;
 }
 
-//cleanFrames
+//cleanFrames and Names
 bool edk::shape::AnimatedPolygon2DList::selectedAnimationCleanFrames(){
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
         this->selectedAnimation->cleanAnimations();
+        return true;
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::AnimatedPolygon2DList::selectedAnimationCleanAnimationNames(){
+    //test if have a animationSelected
+    if(this->selectedAnimation){
+        //add new interpolationLine
+        this->selectedAnimation->cleanAnimationNames();
         return true;
     }
     //else return false

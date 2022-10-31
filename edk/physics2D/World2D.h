@@ -465,7 +465,8 @@ private:
                 if(obj){
                     obj->position.x = value->body->GetPosition().x * this->percentOut;
                     obj->position.y = value->body->GetPosition().y * this->percentOut;
-                    obj->angle = value->body->GetAngle() * (180.f / b2_pi);
+                    if(!obj->fixedRotation)
+                        obj->angle = value->body->GetAngle() * (180.f / b2_pi);
                     obj->setLinearVelocity(value->body->GetLinearVelocity().x * this->percentOut,value->body->GetLinearVelocity().y);
                     obj->getLinearVelocity();
                     obj->setAngularVelocity(value->body->GetAngularVelocity() * (180.f / b2_pi));

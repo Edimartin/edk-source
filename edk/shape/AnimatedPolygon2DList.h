@@ -75,8 +75,9 @@ public:
     bool selectedAnimationAddInterpolationLine(edk::float32 second,edk::float32 x);
     //return frames size
     edk::uint32 selectedAnimationGetInterpolationSize();
-    //cleanFrames
+    //cleanFrames and Names
     bool selectedAnimationCleanFrames();
+    bool selectedAnimationCleanAnimationNames();
     //controls
     bool selectedAnimationPlayForward();
     bool selectedAnimationPlayForwardIn(edk::float32 second);

@@ -49,6 +49,9 @@ public:
     //physics meshs
     edk::physics2D::PhysicsMesh2D physicMesh;
 
+    //clean the obect
+    virtual void clean();
+
     //set the lonearVelocity
     void setLinearVelocity(edk::vec2f32 velocity);
     void setLinearVelocity(edk::float32 x,edk::float32 y);

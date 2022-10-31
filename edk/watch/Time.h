@@ -108,6 +108,7 @@ class Time {
  public:
 
     Time();
+    ~Time();
 
     void start();
 

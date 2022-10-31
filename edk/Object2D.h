@@ -60,6 +60,9 @@ public:
     Object2D();
     virtual ~Object2D();
 
+    //clean the obect
+    virtual void clean();
+
     //create a new mesh and add to the meshs stack
     edk::shape::Mesh2D* newMesh(edk::uint32* position=NULL);
     //Add a list to the Object2D
@@ -132,6 +135,7 @@ public:
     void updateActions();
     //remove actions
     void removeAllActions();
+    void cleanAllActions();
     bool removeActionSecond(edk::float32 second);
     //Add zero action
     bool actionZero(edk::float32 second);

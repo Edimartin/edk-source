@@ -58,6 +58,9 @@ edk::watch::Time::Time(){
     //load the time
     this->clockLoadLocalTime();
 }
+edk::watch::Time::~Time(){
+    this->cleanStr();
+}
 
 
 //get day of the year

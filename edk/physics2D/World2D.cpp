@@ -1923,34 +1923,36 @@ bool edk::physics2D::World2D::addObject(edk::physics2D::PhysicObject2D* object){
 bool edk::physics2D::World2D::removeObject(edk::physics2D::PhysicObject2D* object){
     //test the object
     if(object){
-        //remove all the object joints
-        this->removeObjectJoints(object);
-        //load the box2D object
-        b2Body* temp=NULL;
-        switch(object->getType()){
-        case edk::physics::StaticBody:
-            temp = this->treeStatic.getBody(object);
-            if(temp) this->treeStatic.removeBody(temp);
-            break;
-        case edk::physics::DynamicBody:
-            temp = this->treeDynamic.getBody(object);
-            if(temp) this->treeDynamic.removeBody(temp);
-            break;
-        case edk::physics::KinematicBody:
-            temp = this->treeKinematic.getBody(object);
-            if(temp) this->treeKinematic.removeBody(temp);
-            break;
-        }
-        if(temp){
-            if(this->runNextStep){
-                //save the object on the deleted tree
-                temp->GetUserData().pointer = 0;
-                this->treeDeleted.add(temp);
+        if(this->haveObject(object)){
+            //remove all the object joints
+            this->removeObjectJoints(object);
+            //load the box2D object
+            b2Body* temp=NULL;
+            switch(object->getType()){
+            case edk::physics::StaticBody:
+                temp = this->treeStatic.getBody(object);
+                if(temp) this->treeStatic.removeBody(temp);
+                break;
+            case edk::physics::DynamicBody:
+                temp = this->treeDynamic.getBody(object);
+                if(temp) this->treeDynamic.removeBody(temp);
+                break;
+            case edk::physics::KinematicBody:
+                temp = this->treeKinematic.getBody(object);
+                if(temp) this->treeKinematic.removeBody(temp);
+                break;
             }
-            else{
-                this->world.DestroyBody(temp);
+            if(temp){
+                if(this->runNextStep){
+                    //save the object on the deleted tree
+                    temp->GetUserData().pointer = 0;
+                    this->treeDeleted.add(temp);
+                }
+                else{
+                    this->world.DestroyBody(temp);
+                }
+                return true;
             }
-            return true;
         }
     }
     return false;

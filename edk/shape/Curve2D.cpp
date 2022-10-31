@@ -45,6 +45,27 @@ edk::shape::Curve2D::~Curve2D()
     //dtor
 }
 
+//set one point position
+bool edk::shape::Curve2D::setPoint(edk::uint8 position,edk::vec2f32 point){
+    switch(position){
+    case 0u:
+        this->point1 = point;
+        return true;
+    case 1u:
+        this->point2 = point;
+        return true;
+    case 2u:
+        this->point3 = point;
+        return true;
+    case 3u:
+        this->point4 = point;
+        return true;
+    default:
+        break;
+    }
+    return false;
+}
+
 
 //return the point
 edk::vec2f32 edk::shape::Curve2D::getPoint(edk::float32 percent){

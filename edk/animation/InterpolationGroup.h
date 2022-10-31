@@ -158,6 +158,7 @@ public:
 
     //clean the animations
     void cleanAnimations();
+    void clean();
 
     //Add a first interpolation
     bool addFirstInterpolationLine(edk::float32 startSecond,edk::float32 endSecond);

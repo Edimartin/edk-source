@@ -670,6 +670,27 @@ edk::uint32 edk::Object2D::ActionMeshStop::getId(){
 edk::shape::Mesh2D* edk::Object2D::newMesh(edk::uint32* position){
     return this->meshes.pushNewMesh(position);
 }
+
+//clean the obect
+void edk::Object2D::clean(){
+    //
+    this->cleanSelected();
+    this->cleanMeshes();
+    this->pivo = 0.f;
+    this->animationPosition.cleanTracks();
+    this->animationRotation.cleanAnimationNameSelected();
+    this->animationRotation.cleanAnimationNames();
+    this->animationRotation.cleanAnimations();
+    this->animationSize.cleanAnimationNameSelected();
+    this->animationSize.cleanAnimationNames();
+    this->animationSize.cleanAnimations();
+
+    this->position = 0.f;
+    this->angle = 0.f;
+    this->size = 0.f;
+
+    this->removeAllActions();
+}
 //Add a list to the Object2D
 edk::uint32 edk::Object2D::addMesh(edk::shape::Mesh2D* mesh){
     //test if the list exist
@@ -1034,6 +1055,9 @@ void edk::Object2D::updateActions(){
 }
 //remove actions
 void edk::Object2D::removeAllActions(){
+    this->actions.clean();
+}
+void edk::Object2D::cleanAllActions(){
     this->actions.clean();
 }
 bool edk::Object2D::removeActionSecond(edk::float32 second){

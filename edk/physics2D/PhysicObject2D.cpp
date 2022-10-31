@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 edk::physics2D::PhysicObject2D::PhysicObject2D(){
     this->fixedRotation=false;
-    this->canSleep=true;
+    this->canSleep=false;
     this->isObjectSensor=false;
 
     this->speed=0.f;
@@ -38,7 +38,12 @@ edk::physics2D::PhysicObject2D::PhysicObject2D(){
     this->physType=0u;
 }
 edk::physics2D::PhysicObject2D::~PhysicObject2D(){
-    if(!this->canDeleteObject){
+    if(this->canDeleteObject){
+        this->physicMesh.cleanPolygons();
+        this->treeCollisionGroups.clean();
+        this->treeNotCollisionGroups.clean();
+    }
+    else{
         //set the mesh to not delete
         this->physicMesh.cantDeleteList();
         this->animationPosition.cantDeleteGroup();
@@ -47,6 +52,21 @@ edk::physics2D::PhysicObject2D::~PhysicObject2D(){
         this->treeNotCollisionGroups.cantDestruct();
         edk::Object2D::cantDeleteObject2D();
     }
+}
+
+//clean the obect
+void edk::physics2D::PhysicObject2D::clean(){
+    this->physicMesh.cleanPolygons();
+    this->treeCollisionGroups.clean();
+    this->treeNotCollisionGroups.clean();
+    this->canSleep=false;
+    this->speed=0.f;
+    this->direction=0.f;
+    this->linearVelocity=0.f;
+    this->angularVelocity=0.f;
+    this->linearVelocitySetted=false;
+    this->angularVelocitySetted=false;
+    edk::Object2D::clean();
 }
 
 //set the lonearVelocity

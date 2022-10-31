@@ -29,6 +29,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::animation::InterpolationGroup::InterpolationGroup(){
+    this->frameSelectedStart=false;
     this->animationSecond=0.f;
     this->tempFrame=NULL;
     this->playing=false;
@@ -472,6 +473,30 @@ void edk::animation::InterpolationGroup::cleanAnimations(){
     this->animationSecond=0.f;
     this->saveAnimationSecond = this->animationSecond;
     this->deleteTempFrame();
+}
+void edk::animation::InterpolationGroup::clean(){
+    this->cleanAnimations();
+
+    this->frameSelectedStart=false;
+    this->tempFrame=NULL;
+    this->playing=false;
+    this->paused=false;
+    this->looping=false;
+    this->incrementing=false;
+    this->interpolationSelect=0u;
+    this->interpolationStart=this->interpolationEnd=0u;
+    this->frameStart=this->frameEnd=0.0f;
+    this->tempInterpolation=NULL;
+    this->setStart=false;
+    this->rewind=false;
+    this->nameSelected=NULL;
+    this->callback=NULL;
+    this->frameSelected=NULL;
+    this->canDeleteGroup=true;
+    this->setfirstInterpolation=false;
+    this->speed = 1.f;
+    this->active=false;
+    this->clock.start();
 }
 
 //Add a first interpolation

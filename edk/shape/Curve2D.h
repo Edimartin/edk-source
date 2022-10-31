@@ -45,6 +45,9 @@ class Curve2D{
         Curve2D(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4);
         virtual ~Curve2D();
 
+        //set one point position
+        bool setPoint(edk::uint8 position,edk::vec2f32 point);
+
         //return the point
         virtual edk::vec2f32 getPoint(edk::float32 percent);
 
