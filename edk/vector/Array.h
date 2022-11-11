@@ -31,6 +31,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #pragma once
 #include <stdio.h>
+#include <string.h>
 #include "../TypeVars.h"
 
 #ifdef printMessages
@@ -96,7 +97,8 @@ class Array{
             //test if have the pos
             if(pos<this->getSize()){
                 //set the object
-                this->vector[pos]=obj;
+                memcpy((void*)&this->vector[pos],(void*)&obj,sizeof(typeTemplate));
+                //this->vector[pos]=obj;
                 //return true
                 return true;
             }
@@ -175,7 +177,8 @@ class Array{
                     //
                     for(edk::uint32 i=0u;i<vec->size();i++){
                         //
-                        this->vector[i]=vec->get(i);
+                        memcpy((void*)&this->vector[i],(void*)&vec->vector[i],sizeof(typeTemplate));
+                        //this->vector[i]=vec->get(i);
                     }
                 }
                 return true;

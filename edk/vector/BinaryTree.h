@@ -30,6 +30,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 #pragma once
+#include <stdio.h>
+#include <string.h>
 #include "../TypeVars.h"
 #include "../NameClass.h"
 #include "../String.h"
@@ -137,14 +139,16 @@ class UnaryLeaf{
 public:
     UnaryLeaf(){
         //
-        next=NULL;
-        value=0u;
+        this->next=NULL;
+        memset(&this->value,0u,sizeof(typeTemplate));
+        //this->value=0u;
     }
     //Destrutor
     ~UnaryLeaf(){
         //
-        next=NULL;
-        value=0u;
+        this->next=NULL;
+        memset(&this->value,0u,sizeof(typeTemplate));
+        //this->value=0u;
     }
     //LEFT
     UnaryLeaf* next;
@@ -160,16 +164,16 @@ public:
         //
         this->left=NULL;
         this->right=NULL;
-        typeTemplate value; memset((void*)&value,0u,sizeof(typeTemplate));
-        this->value=value;
+        memset(&this->value,0u,sizeof(typeTemplate));
+        //this->value=0u;
     }
     //Destrutor
     ~BinaryLeaf(){
         //
         this->left=NULL;
         this->right=NULL;
-        typeTemplate value; memset((void*)&value,0u,sizeof(typeTemplate));
-        this->value=value;
+        memset(&this->value,0u,sizeof(typeTemplate));
+        //this->value=0u;
     }
     //RIGHT
     BinaryLeaf* left;
@@ -209,7 +213,8 @@ public:
             this->root = new BinaryLeaf<typeTemplate>;
             if(this->root){
                 //set the value
-                this->root->value = value;
+                memcpy((void*)&this->root->value,(void*)&value,sizeof(typeTemplate));
+                //this->root->value = value;
                 //increment the sizeTree
                 this->incrementSize();
                 //then return true
@@ -223,7 +228,8 @@ public:
             BinaryLeaf<typeTemplate>* newValue = new BinaryLeaf<typeTemplate>;
             //Test if create the newValue
             if(newValue){
-                newValue->value=value;
+                memcpy((void*)&newValue->value,(void*)&value,sizeof(typeTemplate));
+                //newValue->value=value;
                 //Find the position
                 //test if the temp exist
                 while(temp){
@@ -323,7 +329,8 @@ public:
         //first find the element mother
         BinaryLeaf<typeTemplate>* mother = this->findMother(value);
         BinaryLeaf<typeTemplate> element;
-        element.value=value;
+        memcpy((void*)&element.value,(void*)&value,sizeof(typeTemplate));
+        //element.value=value;
         if(mother){
             //if find the mother search who is the element
             if(mother->left){
@@ -691,7 +698,8 @@ private:
         if(this->root){
             //then create a temporary element
             BinaryLeaf<typeTemplate> element;
-            element.value=value;
+            memcpy((void*)&element.value,(void*)&value,sizeof(typeTemplate));
+            //element.value=value;
             //find the mother
             BinaryLeaf<typeTemplate>* temp = this->findMother(value);
             if(temp){
@@ -727,7 +735,8 @@ private:
         if(this->root){
             //then create a temporary element
             BinaryLeaf<typeTemplate> element;
-            element.value=value;
+            memcpy((void*)&element.value,(void*)&value,sizeof(typeTemplate));
+            //element.value=value;
             //tets if is equal root
             if(this->firstEqualSecond(this->root->value,element.value)){
                 //the return root

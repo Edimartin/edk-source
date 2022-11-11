@@ -31,6 +31,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #pragma once
 #include <stdio.h>
+#include <string.h>
 #include "../TypeRect.h"
 #include "Stack.h"
 
@@ -55,6 +56,7 @@ public:
         this->id = id;
         //
         this->quad[0u] = this->quad[1u] = this->quad[2u] = this->quad[3u] = NULL;
+        memset(&this->value,0u,sizeof(typeTemplate));
         //this->value=(typeTemplate)0u;
         this->thisHaveValue = false;
     }
@@ -212,7 +214,8 @@ public:
                     this->newQuads(position);
                 }
                 else{
-                    this->value = value;
+                    memcpy((void*)&this->value,(void*)&value,sizeof(typeTemplate));
+                    //this->value = value;
                     this->position = position;
                     this->thisHaveValue=true;
                     return true;
