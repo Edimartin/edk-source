@@ -232,6 +232,8 @@ public:
     void playRewind();
     void playRewindIn(edk::float32 second);
     void restartRewind();
+    bool changeToForward();
+    bool changeToRewind();
     void pause();
     void pauseOn();
     void pauseOff();
@@ -394,6 +396,7 @@ private:
     //delete tempFrame
     void deleteTempFrame();
     //search the backInterpolation for the frame
+    edk::uint32 searchBackInterpoaltionMinusOne(edk::float32 second);
     edk::uint32 searchBackInterpoaltion(edk::float32 second);
     //insert the frame after the position interpolation
     bool insertLineFrameAfter(edk::uint32 position,edk::animation::Frame frame);

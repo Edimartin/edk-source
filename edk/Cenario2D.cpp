@@ -263,7 +263,7 @@ bool edk::Cenario2D::TreeObjDepth::readFromXML(edk::XML* xml,edk::uint32 id,bool
                                                         delete obj;
                                                     }
                                                     obj->playMeshAnimations();
-                                                    obj->animationPosition.playForward();
+                                                    obj->animationPosition.playForwardAllTracks();
                                                     obj->animationRotation.playForward();
                                                     obj->animationSize.playForward();
                                                 }
@@ -308,7 +308,7 @@ bool edk::Cenario2D::TreeObjDepth::readFromXML(edk::XML* xml,edk::uint32 id,bool
                                                         delete obj;
                                                     }
                                                     obj->playMeshAnimations();
-                                                    obj->animationPosition.playForward();
+                                                    obj->animationPosition.playForwardAllTracks();
                                                     obj->animationRotation.playForward();
                                                     obj->animationSize.playForward();
                                                 }
@@ -396,7 +396,7 @@ bool edk::Cenario2D::TreeObjDepth::readFromXMLFromPack(edk::pack::FilePackage* p
                                                         delete obj;
                                                     }
                                                     obj->playMeshAnimations();
-                                                    obj->animationPosition.playForward();
+                                                    obj->animationPosition.playForwardAllTracks();
                                                     obj->animationRotation.playForward();
                                                     obj->animationSize.playForward();
                                                 }
@@ -441,7 +441,7 @@ bool edk::Cenario2D::TreeObjDepth::readFromXMLFromPack(edk::pack::FilePackage* p
                                                         delete obj;
                                                     }
                                                     obj->playMeshAnimations();
-                                                    obj->animationPosition.playForward();
+                                                    obj->animationPosition.playForwardAllTracks();
                                                     obj->animationRotation.playForward();
                                                     obj->animationSize.playForward();
                                                 }
@@ -881,7 +881,7 @@ void edk::Cenario2D::ActionObjectMove::runAction(){
         temp->animationPosition.cleanTracks();
         edk::uint32 track = temp->animationPosition.newTrack();
         temp->animationPosition.addFirstInterpolationLine(track,0u,temp->position.x,temp->position.y,this->duration,this->position.x,this->position.y);
-        temp->animationPosition.playForward();
+        temp->animationPosition.playForwardAllTracks();
         this->cenario->setObjectAnimated(this->levelPosition,this->depth);
     }
 }

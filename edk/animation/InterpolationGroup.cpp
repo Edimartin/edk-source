@@ -127,14 +127,14 @@ void edk::animation::InterpolationGroup::deleteTempFrame(){
     this->tempFrame=NULL;
 }
 //search the beckInterpolation for the frame
-edk::uint32 edk::animation::InterpolationGroup::searchBackInterpoaltion(edk::float32 second){
+edk::uint32 edk::animation::InterpolationGroup::searchBackInterpoaltionMinusOne(edk::float32 second){
     //test if is in the last interpolation
     edk::uint32 size = this->animations.size();
     if(size){
         edk::animation::InterpolationLine* temp = NULL;
         if(this->animations.havePos(size-1u)){
             temp = this->animations[size-1u];
-            if(second >= temp->getEnd().second){
+            if(second > temp->getEnd().second){
                 return size-1u;
             }
         }
@@ -153,6 +153,41 @@ edk::uint32 edk::animation::InterpolationGroup::searchBackInterpoaltion(edk::flo
                         else{
                             return i-1u;
                         }
+                    }
+                }
+                else{
+                    //move the interpolation to the end
+                    this->animations.bringPositionTo(i-1u,this->animations.size()-1u);
+                    //remove the position
+                    this->animations.remove(this->animations.size()-1u);
+                }
+            }
+        }
+    }
+    //else return 0u
+    return 0u;
+}
+edk::uint32 edk::animation::InterpolationGroup::searchBackInterpoaltion(edk::float32 second){
+    //test if is in the last interpolation
+    edk::uint32 size = this->animations.size();
+    if(size){
+        edk::animation::InterpolationLine* temp = NULL;
+        if(this->animations.havePos(size-1u)){
+            temp = this->animations[size-1u];
+            if(second > temp->getEnd().second){
+                return size-1u;
+            }
+        }
+        if(size>1u){
+            //test if the second are bigger then the frames
+            for(edk::uint32 i=this->animations.size();i>0;i--){
+                //test if have the frame
+                if(this->animations.havePos(i-1u)){
+                    temp = this->animations[i-1u];
+                    //test if the second is inside the interpolation line
+                    if(second<=temp->getEnd().second && second>temp->getStart().second){
+                        //then return i
+                        return i-1u;
                     }
                 }
                 else{
@@ -327,7 +362,7 @@ bool edk::animation::InterpolationGroup::selectInterpolationBySecond(edk::float3
         }
         //test with all interpolations
         for(edk::uint32 i=0u;i<size;i++){
-            if(second>=this->animations[i]->getStart().second && second<this->animations[i]->getEnd().second){
+            if(second>=this->animations[i]->getStart().second && second<=this->animations[i]->getEnd().second){
                 //find it
                 this->interpolationSelect=i;
                 this->filterSelectInterpolation();
@@ -558,7 +593,7 @@ bool edk::animation::InterpolationGroup::addNewInterpolationLine(edk::animation:
         //remove the interpolationTemp
         this->deleteTempFrame();
         //then search for the back interpolation
-        edk::uint32 search = this->searchBackInterpoaltion(frame.second);
+        edk::uint32 search = this->searchBackInterpoaltionMinusOne(frame.second);
         if(search>0u){
             //intert the the interpolation before the search-1 interpolation
             ret=insertLineFrameAfter(search,frame);
@@ -618,7 +653,7 @@ bool edk::animation::InterpolationGroup::addNewInterpolationLine(edk::animation:
 //Select the frame
 bool edk::animation::InterpolationGroup::selectFrame(edk::float32 second){
     //
-    edk::uint32 search = this->searchBackInterpoaltion(second);
+    edk::uint32 search = this->searchBackInterpoaltionMinusOne(second);
     if(this->animations.havePos(search)){
         //load the interpolation
         edk::animation::InterpolationLine* temp = this->animations[search];
@@ -749,7 +784,7 @@ bool edk::animation::InterpolationGroup::setAnimationStartSecond(edk::float32 se
         //then set the frameStart
         this->frameStart=second;
         //load the frameStart interpolation
-        this->interpolationStart = this->searchBackInterpoaltion(this->frameStart);
+        this->interpolationStart = this->searchBackInterpoaltionMinusOne(this->frameStart);
         //set the animation second
         this->animationSecond = second;
         //return true
@@ -999,7 +1034,7 @@ bool edk::animation::InterpolationGroup::removeKeyFrame(edk::float32 second){
     bool ret=false;
     if(this->animations.size()){
         //search the interpolation
-        edk::uint32 search = this->searchBackInterpoaltion(second);
+        edk::uint32 search = this->searchBackInterpoaltionMinusOne(second);
         if(this->animations.havePos(search)){
             //load the interpolation
             edk::animation::InterpolationLine* temp = this->animations[search];
@@ -1188,6 +1223,22 @@ void edk::animation::InterpolationGroup::pause(){
 }
 void edk::animation::InterpolationGroup::restartRewind(){
     this->playRewindIn(this->frameEnd);
+}
+bool edk::animation::InterpolationGroup::changeToForward(){
+    //test if is playing the animation
+    if(this->isPlaying()){
+        //change the animation way
+        this->rewind=false;
+    }
+    return false;
+}
+bool edk::animation::InterpolationGroup::changeToRewind(){
+    //test if is playing the animation
+    if(this->isPlaying()){
+        //change the animation way
+        this->rewind=true;
+    }
+    return false;
 }
 void edk::animation::InterpolationGroup::pauseOn(){
     //test if wasn't playing
@@ -1514,7 +1565,7 @@ edk::float32 edk::animation::InterpolationGroup::updateClockAnimation(edk::float
 bool edk::animation::InterpolationGroup::haveKeyframe(edk::float32 second){
     if(this->animations.size()){
         //search the interpolation
-        edk::uint32 search = this->searchBackInterpoaltion(second);
+        edk::uint32 search = this->searchBackInterpoaltionMinusOne(second);
         if(this->animations.havePos(search)){
             //load the interpolation
             edk::animation::InterpolationLine* temp = this->animations[search];

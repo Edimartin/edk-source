@@ -186,7 +186,7 @@ void edk::Object2D::ActionMove::runAction(){
     this->object->animationPosition.cleanTracks();
     edk::uint32 track = this->object->animationPosition.newTrack();
     this->object->animationPosition.addFirstInterpolationLine(track,0,this->object->position.x,this->object->position.y,this->duration,this->position.x,this->position.y);
-    this->object->animationPosition.playForward();
+    this->object->animationPosition.playForwardAllTracks();
 }
 //write to XML
 bool edk::Object2D::ActionMove::writeToXML(edk::XML* xml,edk::uint32 id){

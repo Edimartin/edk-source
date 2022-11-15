@@ -188,25 +188,29 @@ public:
 
     //CONTROLS
     //animation controllers
-    bool playForward();
+    bool playForwardAllTracks();
     bool playForwardTrack(edk::uint32 trackPosition);
     bool playForwardIn(edk::float32 second);
     bool playForwardTrackIn(edk::uint32 trackPosition,edk::float32 second);
-    bool restartForward();
+    bool changeToForwardAllTracks();
+    bool changeToForwardTrack(edk::uint32 trackPosition);
+    bool restartForwardAllTracks();
     bool restartForwardTrack(edk::uint32 trackPosition);
-    bool playRewind();
+    bool playRewindAllTracks();
     bool playRewindTrack(edk::uint32 trackPosition);
     bool playRewindIn(edk::float32 second);
     bool playRewindTrackIn(edk::uint32 trackPosition,edk::float32 second);
-    bool restartRewind();
+    bool changeToRewindAllTracks();
+    bool changeToRewindTrack(edk::uint32 trackPosition);
+    bool restartRewindAllTracks();
     bool restartRewindTrack(edk::uint32 trackPosition);
-    bool pause();
+    bool pauseAllTracks();
     bool pauseTrack(edk::uint32 trackPosition);
-    bool pauseOn();
+    bool pauseOnAllTracks();
     bool pauseTrackOn(edk::uint32 trackPosition);
-    bool pauseOff();
+    bool pauseOffAllTracks();
     bool pauseTrackOff(edk::uint32 trackPosition);
-    bool stop();
+    bool stopAllTracks();
     bool stopTrack(edk::uint32 trackPosition);
     //set loop
     bool setLoopAllTracks(bool loop);
