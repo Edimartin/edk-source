@@ -28,6 +28,58 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #warning "            Inside File.cpp"
 #endif
 
+
+
+//Just to save the defines to test witch define is used
+#ifdef _WIN32
+//Windows 32
+#ifdef _MSC_VER
+#endif//endif _MSC_VER
+
+#ifdef __GNUC__
+//MinGW
+#ifdef __cplusplus
+//G++
+#else
+//GCC
+#endif//endif __cpluscplus
+#endif//endif __GNUC__
+#endif//endif _WIN32
+#ifdef _WIN64
+//Windows 64
+#ifdef _MSC_VER
+#endif//endif _MSC_VER
+#ifdef __GNUC__
+#ifdef __cplusplus
+//G++
+#else
+//GCC
+#endif//endif __cplusplus
+#endif//endif__GNUC__
+#endif//endif _WIN64
+#ifdef __linux__
+//LINUX
+#ifdef __GNUC__
+#ifdef __cplusplus
+//G++
+#else
+//GCC
+#endif//endif __cplusplus
+#endif//endif __GNUC__
+#endif//endif __linux__
+#ifdef __APPLE__
+//MACOS
+#ifdef __GNUC__
+#ifdef __cplusplus
+//G++
+#else
+//GCC
+#endif//endif __cplusplus
+#endif//endif __GNUC__
+#endif//endif __APPLE__
+
+
+
 //Test if the edk::char8 is equal to some characters
 bool testLimits(edk::char8 c,edk::char8* limits){
     //
@@ -1469,7 +1521,42 @@ bool edk::File::writeText(edk::int64 n){
     //Test if the file is opened
     if(this->isOpened()){
         //Then write in the file
-        fprintf(this->arq,"%ld",n);
+
+#if defined(_WIN32) || defined(_WIN64)
+//Windows 32 and 64
+#ifdef _MSC_VER
+#endif//endif _MSC_VER
+#ifdef __GNUC__
+#ifdef __cplusplus
+//G++
+        fprintf(this->arq,"%I64d",n);
+#else
+//GCC
+#endif//endif __cplusplus
+#endif//endif__GNUC__
+#endif//endif _WIN64
+#ifdef __linux__
+//LINUX
+#ifdef __GNUC__
+#ifdef __cplusplus
+//G++
+        fprintf(this->arq,"%lld",n);
+#else
+//GCC
+#endif//endif __cplusplus
+#endif//endif __GNUC__
+#endif//endif __linux__
+#ifdef __APPLE__
+//MACOS
+#ifdef __GNUC__
+#ifdef __cplusplus
+//G++
+        fprintf(this->arq,"%lld",n);
+#else
+//GCC
+#endif//endif __cplusplus
+#endif//endif __GNUC__
+#endif//endif __APPLE__
         //return true
         return true;
     }
@@ -1480,7 +1567,41 @@ bool edk::File::writeText(edk::uint64 n){
     //Test if the file is opened
     if(this->isOpened()){
         //Then write in the file
-        fprintf(this->arq,"%lu",n);
+#if defined(_WIN32) || defined(_WIN64)
+//Windows 32 and 64
+#ifdef _MSC_VER
+#endif//endif _MSC_VER
+#ifdef __GNUC__
+#ifdef __cplusplus
+//G++
+        fprintf(this->arq,"%I64u",n);
+#else
+//GCC
+#endif//endif __cplusplus
+#endif//endif__GNUC__
+#endif//endif _WIN64
+#ifdef __linux__
+//LINUX
+#ifdef __GNUC__
+#ifdef __cplusplus
+//G++
+        fprintf(this->arq,"%llu",n);
+#else
+//GCC
+#endif//endif __cplusplus
+#endif//endif __GNUC__
+#endif//endif __linux__
+#ifdef __APPLE__
+//MACOS
+#ifdef __GNUC__
+#ifdef __cplusplus
+//G++
+        fprintf(this->arq,"%llu",n);
+#else
+//GCC
+#endif//endif __cplusplus
+#endif//endif __GNUC__
+#endif//endif __APPLE__
         //return true
         return true;
     }
@@ -2769,7 +2890,19 @@ edk::float64 edk::FileStream::readFloat64(){
     return ret;
 }
 
-edk::int32 edk::FileStream::ioControl(edk::uint32 __request,void* value){
+edk::int32 edk::FileStream::ioControl(edk::uint32
+                                      #ifdef _WIN32
+                                      #endif
+                                      #ifdef _WIN64
+                                      #endif
+                                      #ifdef __linux__
+                                      __request
+                                      #endif
+                                      #ifdef __APPLE__
+                                      __request
+                                      #endif
+                                      ,void* value
+                                      ){
     edk::int32 ret = -1;
     if(this->isOpened()){
         if(value){

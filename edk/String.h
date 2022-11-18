@@ -41,6 +41,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #if defined(_WIN32) || defined(_WIN64)
 #include <conio.h>
 //windows.h para clipboard
+#include <tchar.h>
 #include <windows.h>
 #if defined(_MSC_VER)
 //
@@ -121,6 +122,12 @@ public:
     static edk::int32 strToInt32(edk::char8 *str);
 
     static edk::int32 strToInt32(const edk::char8 *str);
+
+#if defined(_WIN32) || defined(_WIN64)
+    //Convert String to TCHAR from Windows
+    static TCHAR* strToTCHAR(const edk::char8* str);
+    static TCHAR* strToTCHAR(edk::char8* str);
+#endif
 
     //str32ToStr convert a vector with 32bit characters to a string UTF8
     static bool str32ToUtf8(edk::char32 *str32,edk::char8* str);

@@ -339,7 +339,12 @@ enum code{
     F13,
     F14,
     F15,
-    pause
+    pause,
+    lSuper,
+    rSuper,
+    hyphen,
+
+    edkKeyCodeSize
 };
 namespace state{
 enum id{

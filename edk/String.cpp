@@ -1201,6 +1201,21 @@ edk::int32 edk::String::strToInt32(const edk::char8 *str){
     return edk::String::strToInt32((edk::char8*)str);
 }
 
+#if defined(_WIN32) || defined(_WIN64)
+//Convert String to TCHAR from Windows
+TCHAR* edk::String::strToTCHAR(const edk::char8* str){
+    return edk::String::strToTCHAR((edk::char8*) str);
+}
+TCHAR* edk::String::strToTCHAR(edk::char8* str){
+    edk::int32 size = edk::String::strSize(str);
+    TCHAR* ret = new TCHAR[size+1u];
+    for(int i = 0; i< size+1; i++){
+        ret[i]=str[i];
+    }
+    return ret;
+}
+#endif
+
 bool edk::String::str32ToUtf8(edk::char32 *str32,edk::char8* str){
     //
     return edk::String::str32ToUtf8(str32,edk::String::str32Size(str32),str);
