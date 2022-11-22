@@ -2286,6 +2286,73 @@ bool edk::Cenario2D::setObjectAnimated(edk::uint32 levelPosition,edk::float32 de
     }
     return false;
 }
+//remove object from be animated
+bool edk::Cenario2D::removeObjectAnimated(edk::uint32 levelPosition,edk::Object2D* obj){
+    //test the level position
+    if(levelPosition){
+        levelPosition--;
+        //load the level
+        edk::Cenario2D::LevelObj* level = this->levels[levelPosition];
+        if(level){
+            //test if have objects
+            if(level->objs){
+                //load the object
+                edk::Object2D* temp = level->objs->getObject(obj);
+                if(temp){
+                    //add the object to the animation tree
+                    if(this->treeAnim.haveElement(temp)){
+                        return this->treeAnim.remove(temp);
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
+bool edk::Cenario2D::removeObjectAnimated(edk::uint32 levelPosition,edk::uint32 position){
+    //test the level position
+    if(levelPosition){
+        levelPosition--;
+        //load the level
+        edk::Cenario2D::LevelObj* level = this->levels[levelPosition];
+        if(level){
+            //test if have objects
+            if(level->objs){
+                //load the object
+                edk::Object2D* temp = level->objs->getObjectInPosition(position);
+                if(temp){
+                    //add the object to the animation tree
+                    if(this->treeAnim.haveElement(temp)){
+                        return this->treeAnim.remove(temp);
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
+bool edk::Cenario2D::removeObjectAnimated(edk::uint32 levelPosition,edk::float32 depth){
+    //test the level position
+    if(levelPosition){
+        levelPosition--;
+        //load the level
+        edk::Cenario2D::LevelObj* level = this->levels[levelPosition];
+        if(level){
+            //test if have objects
+            if(level->objs){
+                //load the object
+                edk::Object2D* temp = level->objs->getObjectFromDepth(depth);
+                if(temp){
+                    //add the object to the animation tree
+                    if(this->treeAnim.haveElement(temp)){
+                        return this->treeAnim.remove(temp);
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
 
 //OBJECTS_PHYSICS
 //add a object to the tree
@@ -2780,6 +2847,79 @@ bool edk::Cenario2D::setPhysicObjectAnimated(edk::uint32 levelPosition,edk::floa
                         }
                         else{
                             return this->treeAnimPhys.add(temp);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
+//remove physic object from be animated
+bool edk::Cenario2D::removePhysicObjectAnimated(edk::uint32 levelPosition,edk::physics2D::KinematicObject2D* obj){
+    //test the level position
+    if(levelPosition){
+        levelPosition--;
+        //load the level
+        edk::Cenario2D::LevelObj* level = this->levels[levelPosition];
+        if(level){
+            //test if have objects
+            if(level->objsPhys){
+                //load the object
+                edk::physics2D::PhysicObject2D* temp = (edk::physics2D::PhysicObject2D*)level->objsPhys->getObject(obj);
+                if(temp){
+                    if(temp->getType() == edk::physics::KinematicBody){
+                        //add the object to the animation tree
+                        if(this->treeAnimPhys.haveElement(temp)){
+                            return this->treeAnimPhys.remove(temp);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
+bool edk::Cenario2D::removePhysicObjectAnimated(edk::uint32 levelPosition,edk::uint32 position){
+    //test the level position
+    if(levelPosition){
+        levelPosition--;
+        //load the level
+        edk::Cenario2D::LevelObj* level = this->levels[levelPosition];
+        if(level){
+            //test if have objects
+            if(level->objsPhys){
+                //load the object
+                edk::physics2D::PhysicObject2D* temp = (edk::physics2D::PhysicObject2D*)level->objsPhys->getObjectInPosition(position);
+                if(temp){
+                    if(temp->getType() == edk::physics::KinematicBody){
+                        //add the object to the animation tree
+                        if(this->treeAnimPhys.haveElement(temp)){
+                            return this->treeAnimPhys.remove(temp);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
+bool edk::Cenario2D::removePhysicObjectAnimated(edk::uint32 levelPosition,edk::float32 depth){
+    //test the level position
+    if(levelPosition){
+        levelPosition--;
+        //load the level
+        edk::Cenario2D::LevelObj* level = this->levels[levelPosition];
+        if(level){
+            //test if have objects
+            if(level->objsPhys){
+                //load the object
+                edk::physics2D::PhysicObject2D* temp = (edk::physics2D::PhysicObject2D*)level->objsPhys->getObjectFromDepth(depth);
+                if(temp){
+                    if(temp->getType() == edk::physics::KinematicBody){
+                        //add the object to the animation tree
+                        if(this->treeAnimPhys.haveElement(temp)){
+                            return this->treeAnimPhys.remove(temp);
                         }
                     }
                 }
@@ -3416,6 +3556,56 @@ bool edk::Cenario2D::moveLevelFront(edk::uint32 levelPosition){
         }
     }
     return false;
+}
+
+//set level translate
+bool edk::Cenario2D::setLevelPosition(edk::uint32 levelPosition,edk::vec2f32 position){
+    if(levelPosition){
+        levelPosition--;
+        if(this->levels.havePos(levelPosition)){
+            edk::Cenario2D::LevelObj* level =this->levels[levelPosition];
+            if(level){
+                level->transform.position = position;
+                return true;
+            }
+        }
+    }
+    return false;
+}
+bool edk::Cenario2D::setLevelPosition(edk::uint32 levelPosition,edk::float32 x,edk::float32 y){
+    return setLevelPosition(levelPosition,edk::vec2f32(x,y));
+}
+//set level rotate angle
+bool edk::Cenario2D::setLevelAngle(edk::uint32 levelPosition,edk::float32 angle){
+    if(levelPosition){
+        levelPosition--;
+        if(this->levels.havePos(levelPosition)){
+            edk::Cenario2D::LevelObj* level =this->levels[levelPosition];
+            if(level){
+                level->transform.angle = angle;
+                return true;
+            }
+        }
+    }
+    return false;
+}
+//set level size
+bool edk::Cenario2D::setLevelSize(edk::uint32 levelPosition,edk::size2f32 size){
+    if(levelPosition){
+        levelPosition--;
+        if(this->levels.havePos(levelPosition)){
+            edk::Cenario2D::LevelObj* level =this->levels[levelPosition];
+            if(level){
+                level->transform.size = size;
+                return true;
+            }
+        }
+    }
+    return false;
+}
+bool edk::Cenario2D::setLevelSize(edk::uint32 levelPosition,edk::float32 width,edk::float32 height){
+    //
+    return this->setLevelSize(levelPosition,edk::size2f32(width,height));
 }
 
 //XML

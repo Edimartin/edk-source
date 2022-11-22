@@ -125,6 +125,10 @@ public:
     bool setObjectAnimated(edk::uint32 levelPosition,edk::Object2D* obj);
     bool setObjectAnimated(edk::uint32 levelPosition,edk::uint32 position);
     bool setObjectAnimated(edk::uint32 levelPosition,edk::float32 depth);
+    //remove object from be animated
+    bool removeObjectAnimated(edk::uint32 levelPosition,edk::Object2D* obj);
+    bool removeObjectAnimated(edk::uint32 levelPosition,edk::uint32 position);
+    bool removeObjectAnimated(edk::uint32 levelPosition,edk::float32 depth);
 
     //OBJECTS_PHYSICS
     //add a object to the tree
@@ -166,6 +170,10 @@ public:
     bool setPhysicObjectAnimated(edk::uint32 levelPosition,edk::physics2D::KinematicObject2D* obj);
     bool setPhysicObjectAnimated(edk::uint32 levelPosition,edk::uint32 position);
     bool setPhysicObjectAnimated(edk::uint32 levelPosition,edk::float32 depth);
+    //remove physic object from be animated
+    bool removePhysicObjectAnimated(edk::uint32 levelPosition,edk::physics2D::KinematicObject2D* obj);
+    bool removePhysicObjectAnimated(edk::uint32 levelPosition,edk::uint32 position);
+    bool removePhysicObjectAnimated(edk::uint32 levelPosition,edk::float32 depth);
 
 
     //DELETE ALL LEVELS
@@ -275,6 +283,15 @@ public:
     //move the level to back
     bool moveLevelBack(edk::uint32 levelPosition);
     bool moveLevelFront(edk::uint32 levelPosition);
+
+    //set level translate
+    bool setLevelPosition(edk::uint32 levelPosition,edk::vec2f32 position);
+    bool setLevelPosition(edk::uint32 levelPosition,edk::float32 x,edk::float32 y);
+    //set level rotate angle
+    bool setLevelAngle(edk::uint32 levelPosition,edk::float32 angle);
+    //set level size
+    bool setLevelSize(edk::uint32 levelPosition,edk::size2f32 size);
+    bool setLevelSize(edk::uint32 levelPosition,edk::float32 width,edk::float32 height);
 
     //XML
     virtual bool writeToXML(edk::XML* xml,edk::uint32 id);
@@ -889,7 +906,15 @@ private:
     //Save objects in a Level
     class LevelObj{
     public:
-        LevelObj(edk::Cenario2D::TreeObjDepth* objs,edk::Cenario2D::TreePhysObjDepth* objsPhys){this->clean();this->objs = objs;this->objsPhys = objsPhys;this->show=true;}
+        LevelObj(edk::Cenario2D::TreeObjDepth* objs,edk::Cenario2D::TreePhysObjDepth* objsPhys){
+            this->clean();
+            this->objs = objs;
+            this->objsPhys = objsPhys;
+            this->show=true;
+            this->transform.position = 0.f;
+            this->transform.angle = 0.f;
+            this->transform.size = 1.f;
+        }
         LevelObj(edk::tiles::TileMap2D* tileMap){this->clean();this->tileMap = tileMap;this->show=true;}
         LevelObj(){this->clean();this->show=true;}
         ~LevelObj(){}
@@ -902,18 +927,45 @@ private:
             if(this->show){
                 if(this->objs){
                     edk::GU::guEnable(GU_LIGHTING);
+                    //apply tranformations
+                    edk::GU::guPushMatrix();
+                    //add translate
+                    edk::GU::guTranslate2f32(this->transform.position);
+                    //add rotation
+                    edk::GU::guRotateZf32(this->transform.angle);
+                    //add scale
+                    edk::GU::guScale2f32(this->transform.size);
                     this->objs->cleanNames();
                     this->objs->render();
+                    edk::GU::guPopMatrix();
                     edk::GU::guDisable(GU_LIGHTING);
                 }
                 else if(this->objsPhys){
                     edk::GU::guEnable(GU_LIGHTING);
+                    //apply tranformations
+                    edk::GU::guPushMatrix();
+                    //add translate
+                    edk::GU::guTranslate2f32(this->transform.position);
+                    //add rotation
+                    edk::GU::guRotateZf32(this->transform.angle);
+                    //add scale
+                    edk::GU::guScale2f32(this->transform.size);
                     this->objsPhys->cleanNames();
                     this->objsPhys->render();
+                    edk::GU::guPopMatrix();
                     edk::GU::guDisable(GU_LIGHTING);
                 }
                 else if(this->tileMap){
+                    //apply tranformations
+                    edk::GU::guPushMatrix();
+                    //add translate
+                    edk::GU::guTranslate2f32(this->transform.position);
+                    //add rotation
+                    edk::GU::guRotateZf32(this->transform.angle);
+                    //add scale
+                    edk::GU::guScale2f32(this->transform.size);
                     this->tileMap->draw();
+                    edk::GU::guPopMatrix();
                 }
             }
         }
@@ -921,18 +973,45 @@ private:
             if(this->show){
                 if(this->objs){
                     edk::GU::guEnable(GU_LIGHTING);
+                    //apply tranformations
+                    edk::GU::guPushMatrix();
+                    //add translate
+                    edk::GU::guTranslate2f32(this->transform.position);
+                    //add rotation
+                    edk::GU::guRotateZf32(this->transform.angle);
+                    //add scale
+                    edk::GU::guScale2f32(this->transform.size);
                     this->objs->cleanNames();
                     this->objs->render();
+                    edk::GU::guPopMatrix();
                     edk::GU::guDisable(GU_LIGHTING);
                 }
                 else if(this->objsPhys){
                     edk::GU::guEnable(GU_LIGHTING);
+                    //apply tranformations
+                    edk::GU::guPushMatrix();
+                    //add translate
+                    edk::GU::guTranslate2f32(this->transform.position);
+                    //add rotation
+                    edk::GU::guRotateZf32(this->transform.angle);
+                    //add scale
+                    edk::GU::guScale2f32(this->transform.size);
                     this->objsPhys->cleanNames();
                     this->objsPhys->render();
+                    edk::GU::guPopMatrix();
                     edk::GU::guDisable(GU_LIGHTING);
                 }
                 else if(this->tileMap){
+                    //apply tranformations
+                    edk::GU::guPushMatrix();
+                    //add translate
+                    edk::GU::guTranslate2f32(this->transform.position);
+                    //add rotation
+                    edk::GU::guRotateZf32(this->transform.angle);
+                    //add scale
+                    edk::GU::guScale2f32(this->transform.size);
                     this->tileMap->drawInsideWorldRect(rect);
+                    edk::GU::guPopMatrix();
                 }
             }
         }
@@ -940,17 +1019,44 @@ private:
             if(this->show){
                 if(this->objs){
                     edk::GU::guDisable(GU_LIGHTING);
+                    //apply tranformations
+                    edk::GU::guPushMatrix();
+                    //add translate
+                    edk::GU::guTranslate2f32(this->transform.position);
+                    //add rotation
+                    edk::GU::guRotateZf32(this->transform.angle);
+                    //add scale
+                    edk::GU::guScale2f32(this->transform.size);
                     this->objs->selectionID = id;
                     this->objs->print();
+                    edk::GU::guPopMatrix();
                 }
                 else if(this->objsPhys){
                     edk::GU::guDisable(GU_LIGHTING);
+                    //apply tranformations
+                    edk::GU::guPushMatrix();
+                    //add translate
+                    edk::GU::guTranslate2f32(this->transform.position);
+                    //add rotation
+                    edk::GU::guRotateZf32(this->transform.angle);
+                    //add scale
+                    edk::GU::guScale2f32(this->transform.size);
                     this->objsPhys->selectionID = id;
                     this->objsPhys->print();
+                    edk::GU::guPopMatrix();
                 }
                 else if(this->tileMap){
                     edk::GU::guDisable(GU_LIGHTING);
+                    //apply tranformations
+                    edk::GU::guPushMatrix();
+                    //add translate
+                    edk::GU::guTranslate2f32(this->transform.position);
+                    //add rotation
+                    edk::GU::guRotateZf32(this->transform.angle);
+                    //add scale
+                    edk::GU::guScale2f32(this->transform.size);
                     this->tileMap->drawSelectionWithID(id);
+                    edk::GU::guPopMatrix();
                 }
             }
         }
@@ -958,16 +1064,46 @@ private:
             if(this->show){
                 if(this->objs){
                     edk::GU::guDisable(GU_LIGHTING);
+                    edk::GU::guDisable(GU_LIGHTING);
+                    //apply tranformations
+                    edk::GU::guPushMatrix();
+                    //add translate
+                    edk::GU::guTranslate2f32(this->transform.position);
+                    //add rotation
+                    edk::GU::guRotateZf32(this->transform.angle);
+                    //add scale
+                    edk::GU::guScale2f32(this->transform.size);
                     this->objs->selectionID = id;
                     this->objs->print();
+                    edk::GU::guPopMatrix();
                 }
                 else if(this->objsPhys){
                     edk::GU::guDisable(GU_LIGHTING);
+                    edk::GU::guDisable(GU_LIGHTING);
+                    //apply tranformations
+                    edk::GU::guPushMatrix();
+                    //add translate
+                    edk::GU::guTranslate2f32(this->transform.position);
+                    //add rotation
+                    edk::GU::guRotateZf32(this->transform.angle);
+                    //add scale
+                    edk::GU::guScale2f32(this->transform.size);
                     this->objsPhys->selectionID = id;
                     this->objsPhys->print();
+                    edk::GU::guPopMatrix();
                 }
                 else if(this->tileMap){
+                    edk::GU::guDisable(GU_LIGHTING);
+                    //apply tranformations
+                    edk::GU::guPushMatrix();
+                    //add translate
+                    edk::GU::guTranslate2f32(this->transform.position);
+                    //add rotation
+                    edk::GU::guRotateZf32(this->transform.angle);
+                    //add scale
+                    edk::GU::guScale2f32(this->transform.size);
                     this->tileMap->drawInsideWorldRectSelectionWithID(rect,id);
+                    edk::GU::guPopMatrix();
                 }
             }
         }
@@ -989,6 +1125,8 @@ private:
         edk::Cenario2D::TreeObjDepth* objs;
         edk::Cenario2D::TreePhysObjDepth* objsPhys;
         edk::tiles::TileMap2D* tileMap;
+        //add a transformation in to the level
+        edk::Object2DValues transform;
         bool show;
     };
 

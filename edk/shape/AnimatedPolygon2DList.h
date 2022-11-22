@@ -81,8 +81,12 @@ public:
     //controls
     bool selectedAnimationPlayForward();
     bool selectedAnimationPlayForwardIn(edk::float32 second);
+    bool selectedAnimationRestartForward();
     bool selectedAnimationPlayRewind();
     bool selectedAnimationPlayRewindIn(edk::float32 second);
+    bool selectedAnimationRestartRewind();
+    bool selectedAnimationChangeToForward();
+    bool selectedAnimationChangeToRewind();
     bool selectedAnimationPause();
     bool selectedAnimationPauseOn();
     bool selectedAnimationPauseOff();

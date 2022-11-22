@@ -282,6 +282,16 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationPlayForwardIn(edk::floa
     //else return false
     return false;
 }
+bool edk::shape::AnimatedPolygon2DList::selectedAnimationRestartForward(){
+    //test if have a animationSelected
+    if(this->selectedAnimation){
+        //add new interpolationLine
+        this->selectedAnimation->restartForward();
+        return true;
+    }
+    //else return false
+    return false;
+}
 bool edk::shape::AnimatedPolygon2DList::selectedAnimationPlayRewind(){
     //test if have a animationSelected
     if(this->selectedAnimation){
@@ -297,6 +307,36 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationPlayRewindIn(edk::float
     if(this->selectedAnimation){
         //add new interpolationLine
         this->selectedAnimation->playRewindIn(second);
+        return true;
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::AnimatedPolygon2DList::selectedAnimationRestartRewind(){
+    //test if have a animationSelected
+    if(this->selectedAnimation){
+        //add new interpolationLine
+        this->selectedAnimation->restartRewind();
+        return true;
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::AnimatedPolygon2DList::selectedAnimationChangeToForward(){
+    //test if have a animationSelected
+    if(this->selectedAnimation){
+        //add new interpolationLine
+        this->selectedAnimation->changeToForward();
+        return true;
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::AnimatedPolygon2DList::selectedAnimationChangeToRewind(){
+    //test if have a animationSelected
+    if(this->selectedAnimation){
+        //add new interpolationLine
+        this->selectedAnimation->changeToRewind();
         return true;
     }
     //else return false

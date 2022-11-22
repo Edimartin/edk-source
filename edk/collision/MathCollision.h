@@ -55,18 +55,28 @@ public:
     static bool boundingContact3D(edk::vec3f32 point,edk::vec3f32 vec1,edk::vec3f32 vec2);
     static bool boundingContact2D(edk::vec2f32 point,edk::vec2f32 vec1,edk::vec2f32 vec2);
 
-    //2D
+    //AABB 2D
     static bool aabb(edk::float32 x1,edk::float32 y1,edk::float32 width1,edk::float32 height1,
                      edk::float32 x2,edk::float32 y2,edk::float32 width2,edk::float32 height2
                      );
     static bool aabb(edk::vec2f32 position1,edk::size2f32 size1,edk::vec2f32 position2,edk::size2f32 size2);
     static bool aabb(edk::rectf32 rect1,edk::rectf32 rect2);
-    //3D
+    static bool aabbPoints(edk::float32 x1_1,edk::float32 y1_1,edk::float32 x1_2,edk::float32 y1_2,
+                           edk::float32 x2_1,edk::float32 y2_1,edk::float32 x2_2,edk::float32 y2_2
+                           );
+    static bool aabbPoints(edk::vec2f32 position1_1,edk::vec2f32 position1_2,edk::vec2f32 position2_1,edk::vec2f32 position2_2);
+    static bool aabbPoints(edk::rectf32 rect1,edk::rectf32 rect2);
+    //AABB 3D
     static bool aabb(edk::float32 x1,edk::float32 y1,edk::float32 z1,edk::float32 width1,edk::float32 height1,edk::float32 length1,
                      edk::float32 x2,edk::float32 y2,edk::float32 z2,edk::float32 width2,edk::float32 height2,edk::float32 length2
                      );
     static bool aabb(edk::vec3f32 position1,edk::size3f32 size1,edk::vec3f32 position2,edk::size3f32 size2);
     static bool aabb(edk::cubef32 cube1,edk::cubef32 cube2);
+    static bool aabbPoints(edk::float32 x1_1,edk::float32 y1_1,edk::float32 z1_1,edk::float32 x1_2,edk::float32 y1_2,edk::float32 z1_2,
+                           edk::float32 x2_1,edk::float32 y2_1,edk::float32 z2_1,edk::float32 x2_2,edk::float32 y2_2,edk::float32 z2_2
+                           );
+    static bool aabbPoints(edk::vec3f32 position1_1,edk::vec3f32 position1_2,edk::vec3f32 position2_1,edk::vec3f32 position2_2);
+    static bool aabbPoints(edk::cubef32 cube1,edk::cubef32 cube2);
 
     //POINT STRAIGHT
     static bool pointStraigh2D(edk::float32 pointX,edk::float32 pointY,float32 lineX1,float32 lineY1,float32 lineX2,float32 lineY2, edk::float32 radius=0.01f);

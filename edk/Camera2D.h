@@ -67,11 +67,20 @@ class Camera2D{
         //Set the points of the camera in the world
         bool setPoints(edk::vec2f32 p1, edk::vec2f32 p2);
         bool setPoints(edk::float32 p1X,edk::float32 p1Y,edk::float32 p2X,edk::float32 p2Y);
+        //save the position in the save buffer to calculate the distance
+        void savePosition();
+        void pastePosition();
+
         //GETTERS
         //get the size
         edk::size2f32 getSize();
         //return the camera rect
         edk::rectf32 getRect();
+
+        //get the distance beetween the position and save distance
+        edk::float32 getDistanceFromSave();
+        //get the camera translate from saveDistance
+        edk::vec2f32 getTranslateFromSave();
 
         //draw the camera
         void draw();
@@ -122,6 +131,10 @@ class Camera2D{
         edk::vec2f32 up;
         edk::vec2f32 tempPosition;
         edk::float32 angle;
+
+        //save the camera positon to calculate the distance
+        edk::vec2f32 positionSave;
+
         //animated position
         edk::animation::Interpolation2DGroup animShakingPosition;
         //animated angle

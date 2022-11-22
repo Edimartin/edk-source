@@ -133,6 +133,28 @@ bool edk::collision::MathCollision::aabb(edk::rectf32 rect1,edk::rectf32 rect2){
         return true;
     return false;
 }
+bool edk::collision::MathCollision::aabbPoints(edk::float32 x1_1,edk::float32 y1_1,edk::float32 x1_2,edk::float32 y1_2,
+                                               edk::float32 x2_1,edk::float32 y2_1,edk::float32 x2_2,edk::float32 y2_2
+                                               ){
+    return edk::collision::MathCollision::aabbPoints(edk::vec2f32(x1_1,y1_1),edk::vec2f32(x1_2,y1_2),edk::vec2f32(x2_1,y2_1),edk::vec2f32(x2_2,y2_2));
+}
+bool edk::collision::MathCollision::aabbPoints(edk::vec2f32 position1_1,edk::vec2f32 position1_2,edk::vec2f32 position2_1,edk::vec2f32 position2_2){
+    return edk::collision::MathCollision::aabbPoints(edk::rectf32(position1_1.x,position1_1.y,position1_2.x,position1_2.y),
+                                                     edk::rectf32(position2_1.x,position2_1.y,position2_2.x,position2_2.y)
+                                                     );
+}
+bool edk::collision::MathCollision::aabbPoints(edk::rectf32 rect1,edk::rectf32 rect2){
+    if(rect2.origin.x <= rect1.size.width
+            &&
+            rect2.size.width >= rect1.origin.x
+            &&
+            rect2.origin.y <= rect1.size.height
+            &&
+            rect2.size.height >= rect1.origin.y
+            )
+        return true;
+    return false;
+}
 //3D
 bool edk::collision::MathCollision::aabb(edk::float32 x1,edk::float32 y1,edk::float32 z1,edk::float32 width1,edk::float32 height1,edk::float32 length1,
                                          edk::float32 x2,edk::float32 y2,edk::float32 z2,edk::float32 width2,edk::float32 height2,edk::float32 length2
@@ -158,6 +180,34 @@ bool edk::collision::MathCollision::aabb(edk::cubef32 cube1,edk::cubef32 cube2){
             cube2.origin.z <= cube1.origin.z + cube1.size.length
             &&
             cube2.origin.z + cube2.size.length >= cube1.origin.z
+            )
+        return true;
+    return false;
+}
+bool edk::collision::MathCollision::aabbPoints(edk::float32 x1_1,edk::float32 y1_1,edk::float32 z1_1,edk::float32 x1_2,edk::float32 y1_2,edk::float32 z1_2,
+                                               edk::float32 x2_1,edk::float32 y2_1,edk::float32 z2_1,edk::float32 x2_2,edk::float32 y2_2,edk::float32 z2_2
+                                               ){
+    return edk::collision::MathCollision::aabbPoints(edk::vec3f32(x1_1,y1_1,z1_1),edk::vec3f32(x1_2,y1_2,z1_2),
+                                                     edk::vec3f32(x2_1,y2_1,z2_1),edk::vec3f32(x2_2,y2_2,z2_2)
+                                                     );
+}
+bool edk::collision::MathCollision::aabbPoints(edk::vec3f32 position1_1,edk::vec3f32 position1_2,edk::vec3f32 position2_1,edk::vec3f32 position2_2){
+    return edk::collision::MathCollision::aabb(edk::cubef32(position1_1.x,position1_1.y,position1_1.z,position1_2.x,position1_2.y,position1_2.z),
+                                               edk::cubef32(position2_1.x,position2_1.y,position2_1.z,position2_2.x,position2_2.y,position2_2.z)
+                                               );
+}
+bool edk::collision::MathCollision::aabbPoints(edk::cubef32 cube1,edk::cubef32 cube2){
+    if(cube2.origin.x <= cube1.size.width
+            &&
+            cube2.size.width >= cube1.origin.x
+            &&
+            cube2.origin.y <= cube1.size.height
+            &&
+            cube2.size.height >= cube1.origin.y
+            &&
+            cube2.origin.z <= cube1.size.length
+            &&
+            cube2.size.length >= cube1.origin.z
             )
         return true;
     return false;

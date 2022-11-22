@@ -36,13 +36,13 @@ edk::Camera2D::Camera2D(edk::vec2f32 position){
     //
     this->start();
     //set the position
-    this->position = position;
+    this->positionSave = this->position = position;
 }
 edk::Camera2D::Camera2D(edk::float32 posX,edk::float32 posY){
     //
     this->start();
     //set the position
-    this->position = edk::vec2f32(posX,posY);
+    this->positionSave = this->position = edk::vec2f32(posX,posY);
 }
 
 edk::Camera2D::~Camera2D(){
@@ -50,7 +50,7 @@ edk::Camera2D::~Camera2D(){
 }
 void edk::Camera2D::start(){
     //set the start position of the camera
-    this->position = edk::vec2f32(0.0f,0.0f);
+    this->positionSave = this->position = edk::vec2f32(0.0f,0.0f);
     //set the screen to -1 1;
     this->setSize(1.0f,1.0f);
     //set the up
@@ -116,6 +116,14 @@ bool edk::Camera2D::setPoints(edk::float32 p1X,edk::float32 p1Y,edk::float32 p2X
     //
     return setPoints(edk::vec2f32(p1X,p1Y), edk::vec2f32(p2X,p2Y));
 }
+//save the position in the save buffer to calculate the distance
+void edk::Camera2D::savePosition(){
+    this->positionSave = this->position;
+}
+void edk::Camera2D::pastePosition(){
+    this->position = this->positionSave;
+}
+
 //GETTERS
 //get the size
 edk::size2f32 edk::Camera2D::getSize(){
@@ -127,6 +135,15 @@ edk::rectf32 edk::Camera2D::getRect(){
     return edk::rectf32(this->position.x - (this->size.width),this->position.y - (this->size.height),
                         this->size.width*2.f,this->size.height*2.f
                         );
+}
+
+//get the distance beetween the position and save distance
+edk::float32 edk::Camera2D::getDistanceFromSave(){
+    return edk::Math::pythagoras(this->getTranslateFromSave());
+}
+//get the camera translate from saveDistance
+edk::vec2f32 edk::Camera2D::getTranslateFromSave(){
+    return this->position - this->positionSave;
 }
 
 
