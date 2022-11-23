@@ -522,7 +522,7 @@ void edk::gui2d::ViewMenu2d::updatePositions(){
     }
 }
 //process the selection
-void edk::gui2d::ViewMenu2d::selectObject(edk::uint32 ,edk::uint32 ,edk::float32 ,edk::float32 ,edk::vector::Stack<edk::uint32>* names){
+void edk::gui2d::ViewMenu2d::selectObject(edk::uint32 ,edk::int32 ,edk::float32 ,edk::float32 ,edk::vector::Stack<edk::uint32>* names){
     //
     if(names->size()){
         //add to the select tree

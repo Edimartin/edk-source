@@ -32,6 +32,7 @@ edk::ViewGU::ViewGU()
 {
     //ctor
     this->runSelection=false;
+    this->sizeBuffer = sizeof(this->buffer)/sizeof(edk::uint32);
 }
 
 edk::ViewGU::~ViewGU()
@@ -80,8 +81,9 @@ void edk::ViewGU::selectionPopName(){
     edk::GU::guPopName();
 }
 //process the selection
-void edk::ViewGU::processHits(edk::uint32 hits, edk::uint32 buffer[]){
-    edk::uint32 i, j;
+void edk::ViewGU::processHits(edk::int32 hits, edk::uint32 buffer[]){
+    edk::int32 i;
+    edk::uint32 j;
     edk::uint32 names=0u, *ptr=NULL;
     edk::float32 sNear = 0.f;
     edk::float32 sFar = 0.f;
@@ -107,11 +109,11 @@ void edk::ViewGU::processHits(edk::uint32 hits, edk::uint32 buffer[]){
         }
     }
     else{
-        this->selectObject(0,hits,0,0,&nameStack);
+        this->selectObject(0,0,0,0,&nameStack);
     }
 }
 //process the selection
-void edk::ViewGU::selectObject(edk::uint32 ,edk::uint32 ,edk::float32 ,edk::float32 ,edk::vector::Stack<edk::uint32>* ){
+void edk::ViewGU::selectObject(edk::uint32 ,edk::int32 ,edk::float32 ,edk::float32 ,edk::vector::Stack<edk::uint32>* ){
     //
 }
 //run selection function
@@ -121,8 +123,8 @@ void edk::ViewGU::runSelectionFunction(){
         //
         this->runSelection=false;
 
-        edk::uint32 buffer[100u];
-        edk::GU::guSetSelectionBuffer(100u,buffer);
+
+        edk::GU::guSetSelectionBuffer(this->sizeBuffer,this->buffer);
 
         edk::GU::guUseMatrix(GU_PROJECTION);
         edk::GU::guLoadIdentity();

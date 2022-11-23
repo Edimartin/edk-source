@@ -94,7 +94,7 @@ public:
 protected:
 
     void drawSelectionScene();
-    void selectObject(edk::uint32 position,edk::uint32 objects,edk::float32 near,edk::float32 far,edk::vector::Stack<edk::uint32>* names);
+    void selectObject(edk::uint32 position,edk::int32 objects,edk::float32 near,edk::float32 far,edk::vector::Stack<edk::uint32>* names);
 
 private:
     edk::uint64 idCounter;

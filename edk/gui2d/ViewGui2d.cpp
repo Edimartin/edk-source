@@ -120,7 +120,7 @@ void edk::gui2d::ViewGui2d::drawSelectionScene(){
     this->list.print();
 }
 edk::uint32 gui2dIdCounter=0u;
-void edk::gui2d::ViewGui2d::selectObject(edk::uint32 ,edk::uint32 ,edk::float32 ,edk::float32 ,edk::vector::Stack<edk::uint32>* names){
+void edk::gui2d::ViewGui2d::selectObject(edk::uint32 ,edk::int32 ,edk::float32 ,edk::float32 ,edk::vector::Stack<edk::uint32>* names){
     //
     edk::uint32 id=0u;
     edk::gui2d::ObjectGui2d* obj=NULL;

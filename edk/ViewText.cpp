@@ -34,6 +34,9 @@ edk::ViewText::ViewText()
     this->saveLine=0u;
     this->text.setColor(0.f,0.f,0.f,1.f);
     this->cleanString();
+
+    //set the text to black color
+    this->text.setColor(0.f,0.f,0.f,1.f);
 }
 edk::ViewText::~ViewText()
 {

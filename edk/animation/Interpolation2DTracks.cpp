@@ -365,6 +365,7 @@ bool edk::animation::Interpolation2DTracks::readFromXML(edk::XML* xml,edk::uint3
                                     }
                                     xml->selectFather();
                                 }
+                                running=false;
                                 delete[] trackName;
                             }
                             delete[] trackID;

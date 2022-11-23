@@ -113,9 +113,9 @@ class ViewGU: public edk::ViewSpriteController{
     void selectionPushName(edk::uint32 id);
     void selectionPopName();
     //process the selection
-    virtual void processHits(edk::uint32 hits, edk::uint32 buffer[]);
+    virtual void processHits(edk::int32 hits, edk::uint32 buffer[]);
     //process the selection
-    virtual void selectObject(edk::uint32 position,edk::uint32 objects,edk::float32 near,edk::float32 far,edk::vector::Stack<edk::uint32>* names);
+    virtual void selectObject(edk::uint32 position,edk::int32 objects,edk::float32 near,edk::float32 far,edk::vector::Stack<edk::uint32>* names);
     //run selection function
     void runSelectionFunction();
     //get true if go run selection
@@ -127,6 +127,9 @@ class ViewGU: public edk::ViewSpriteController{
     edk::vec2f32 selectionPosition;
     edk::size2f32 selectionSize;
     bool runSelection;
+
+    edk::uint32 buffer[1024];
+    edk::uint32 sizeBuffer;
 };
 }//end namespace
 

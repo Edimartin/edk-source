@@ -3962,7 +3962,7 @@ edk::physics2D::RopeJoint2D* edk::physics2D::World2D::createRopeJoint(edk::physi
                                                    worldPositionA,
                                                    objectB,
                                                    worldPositionB,
-                                                   edk::Math::moduleFloat(edk::Math::pythagoras(worldPositionA - worldPositionB)),
+                                                   edk::Math::module(edk::Math::pythagoras(worldPositionA - worldPositionB)),
                                                    collide
                                                    );
     }

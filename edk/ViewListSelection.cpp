@@ -38,6 +38,9 @@ edk::ViewListSelection::ListCell::ListCell(edk::uint32* lineSize){
     this->drawColor = this->backgroundColor;
     this->backgroundColorSelected = edk::color4f32(0.75f,0.75f,1.0f,1.f);
     this->id = 0u;
+
+    //set the text to black color
+    this->text.setColor(0.f,0.f,0.f,1.f);
 }
 edk::ViewListSelection::ListCell::~ListCell(){
     this->lineSize = &this->sizeTemp;
@@ -461,7 +464,7 @@ void edk::ViewListSelection::drawSelectionScene(){
     }
 }
 //process the selection
-void edk::ViewListSelection::selectObject(edk::uint32 object,edk::uint32 ,edk::float32 ,edk::float32 ,edk::vector::Stack<edk::uint32>* names){
+void edk::ViewListSelection::selectObject(edk::uint32 object,edk::int32 ,edk::float32 ,edk::float32 ,edk::vector::Stack<edk::uint32>* names){
     //select the object
     if(names[0u].size() && !object){
         this->clickedPosition = names[0u][0u];

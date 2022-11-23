@@ -176,6 +176,9 @@ edk::ViewButton::ViewButton()
     this->buttonOn = true;
     this->symbolSize = edk::size2ui32(0u,0u);
     this->insideScale = edk::size2f32(1,1);
+
+    //set the text to black color
+    this->text.setColor(0.f,0.f,0.f,1.f);
 }
 
 edk::ViewButton::~ViewButton()
