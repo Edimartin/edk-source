@@ -184,7 +184,11 @@ public:
 
     bool writeText(edk::float32 f);
 
+    bool writeText(edk::float32 f,edk::uint8 digits);
+
     bool writeText(edk::float64 f);
+
+    bool writeText(edk::float64 f,edk::uint8 digits);
 
     bool writeBin(edk::classID w, edk::uint32 size);
 

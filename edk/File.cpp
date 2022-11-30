@@ -1523,37 +1523,37 @@ bool edk::File::writeText(edk::int64 n){
         //Then write in the file
 
 #if defined(_WIN32) || defined(_WIN64)
-//Windows 32 and 64
+        //Windows 32 and 64
 #ifdef _MSC_VER
 #endif//endif _MSC_VER
 #ifdef __GNUC__
 #ifdef __cplusplus
-//G++
+        //G++
         fprintf(this->arq,"%I64d",n);
 #else
-//GCC
+        //GCC
 #endif//endif __cplusplus
 #endif//endif__GNUC__
 #endif//endif _WIN64
 #ifdef __linux__
-//LINUX
+        //LINUX
 #ifdef __GNUC__
 #ifdef __cplusplus
-//G++
-        fprintf(this->arq,"%lld",n);
+        //G++
+        fprintf(this->arq,"%ld",n);
 #else
-//GCC
+        //GCC
 #endif//endif __cplusplus
 #endif//endif __GNUC__
 #endif//endif __linux__
 #ifdef __APPLE__
-//MACOS
+        //MACOS
 #ifdef __GNUC__
 #ifdef __cplusplus
-//G++
+        //G++
         fprintf(this->arq,"%lld",n);
 #else
-//GCC
+        //GCC
 #endif//endif __cplusplus
 #endif//endif __GNUC__
 #endif//endif __APPLE__
@@ -1568,37 +1568,37 @@ bool edk::File::writeText(edk::uint64 n){
     if(this->isOpened()){
         //Then write in the file
 #if defined(_WIN32) || defined(_WIN64)
-//Windows 32 and 64
+        //Windows 32 and 64
 #ifdef _MSC_VER
 #endif//endif _MSC_VER
 #ifdef __GNUC__
 #ifdef __cplusplus
-//G++
+        //G++
         fprintf(this->arq,"%I64u",n);
 #else
-//GCC
+        //GCC
 #endif//endif __cplusplus
 #endif//endif__GNUC__
 #endif//endif _WIN64
 #ifdef __linux__
-//LINUX
+        //LINUX
 #ifdef __GNUC__
 #ifdef __cplusplus
-//G++
-        fprintf(this->arq,"%llu",n);
+        //G++
+        fprintf(this->arq,"%lu",n);
 #else
-//GCC
+        //GCC
 #endif//endif __cplusplus
 #endif//endif __GNUC__
 #endif//endif __linux__
 #ifdef __APPLE__
-//MACOS
+        //MACOS
 #ifdef __GNUC__
 #ifdef __cplusplus
-//G++
+        //G++
         fprintf(this->arq,"%llu",n);
 #else
-//GCC
+        //GCC
 #endif//endif __cplusplus
 #endif//endif __GNUC__
 #endif//endif __APPLE__
@@ -1619,6 +1619,25 @@ bool edk::File::writeText(edk::float32 f){
     return false;
 }
 
+bool edk::File::writeText(edk::float32 f,edk::uint8 digits){
+    bool ret = false;
+    //Test if the file is opened
+    if(this->isOpened()){
+        edk::char8* strDigits = edk::String::uint32ToStr(digits);
+        if(strDigits){
+            edk::char8* str = edk::String::strCatMulti("%.",strDigits,"f",NULL);
+            if(str){
+                //Then write in the file
+                fprintf(this->arq,str,f);
+                ret = true;
+                delete[] str;
+            }
+            delete[] strDigits;
+        }
+    }
+    return ret;
+}
+
 bool edk::File::writeText(edk::float64 f){
     //Test if the file is opened
     if(this->isOpened()){
@@ -1628,6 +1647,25 @@ bool edk::File::writeText(edk::float64 f){
         return true;
     }
     return false;
+}
+
+bool edk::File::writeText(edk::float64 f,edk::uint8 digits){
+    bool ret = false;
+    //Test if the file is opened
+    if(this->isOpened()){
+        edk::char8* strDigits = edk::String::uint32ToStr(digits);
+        if(strDigits){
+            edk::char8* str = edk::String::strCatMulti("%.",strDigits,"lf",NULL);
+            if(str){
+                //Then write in the file
+                fprintf(this->arq,str,f);
+                ret = true;
+                delete[] str;
+            }
+            delete[] strDigits;
+        }
+    }
+    return ret;
 }
 
 bool edk::File::writeBin(edk::classID w, edk::uint32 size){

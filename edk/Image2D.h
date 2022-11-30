@@ -88,11 +88,17 @@ public:
 
     bool loadFromFile(const char *imageFileName);
 
+    bool loadFromFileToRGB(char8 *imageFileName);
+
+    bool loadFromFileToRGB(const char *imageFileName);
+
     bool loadFromFileToRGBA(char8 *imageFileName);
 
     bool loadFromFileToRGBA(const char *imageFileName);
 
     bool loadFromMemory(uint8 *image, edk::uint32 vecSize);
+
+    bool loadFromMemoryToRGB(uint8 *image, edk::uint32 vecSize);
 
     bool loadFromMemoryToRGBA(uint8 *image, edk::uint32 vecSize);
 

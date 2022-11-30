@@ -354,6 +354,43 @@ bool edk::Image2D::loadFromFile(const char *imageFileName){
     return this->loadFromFile((edk::char8*)imageFileName);
 }
 
+bool edk::Image2D::loadFromFileToRGB(char8 *imageFileName){
+    //open the file
+    edk::File file;
+    if(file.openBinFile(imageFileName)){
+        if(file.getFileSize()){
+            bool ret=false;
+            //copy the file
+            edk::uint8* fileVector = new edk::uint8[file.getFileSize()];
+            if(fileVector){
+                //copy the file
+                if(file.readBin(fileVector,file.getFileSize())){
+                    //process the decoder
+                    ret = this->loadFromMemoryToRGB(fileVector,file.getFileSize());
+                }
+                delete[] fileVector;
+                //test if neet delete the name
+                if(ret){
+                    if(!this->setName(imageFileName)){
+                        ret=false;
+                    }
+                }
+            }
+            return ret;
+        }
+    }
+    //delete the last image
+    this->deleteImage();
+    //delete the imageFileName
+    this->deleteFileName();
+    //else return false
+    return false;
+}
+
+bool edk::Image2D::loadFromFileToRGB(const char *imageFileName){
+    return this->loadFromFileToRGB((edk::char8*)imageFileName);
+}
+
 bool edk::Image2D::loadFromFileToRGBA(char8 *imageFileName){
     //open the file
     edk::File file;
@@ -404,7 +441,7 @@ bool edk::Image2D::loadFromMemory(uint8 *image, edk::uint32 vecSize){
             edk::codecs::DecoderJPEG decoder;
             if(decoder.decode(image,vecSize)){
                 this->vec = decoder.getFrame();
-                if(vec){
+                if(this->vec){
                     //get size
                     this->size = edk::size2ui32(decoder.getFrameWidth(),decoder.getFrameHeight());
                     //get channels
@@ -421,7 +458,7 @@ bool edk::Image2D::loadFromMemory(uint8 *image, edk::uint32 vecSize){
             edk::codecs::DecoderPNG decoder;
             if(decoder.decode(image,vecSize)){
                 this->vec = decoder.getFrame();
-                if(vec){
+                if(this->vec){
                     //get size
                     this->size = edk::size2ui32(decoder.getFrameWidth(),decoder.getFrameHeight());
                     //get channels
@@ -429,6 +466,141 @@ bool edk::Image2D::loadFromMemory(uint8 *image, edk::uint32 vecSize){
                     decoder.cleanFrame();
                     return true;
                 }
+            }
+        }
+            break;
+        }
+    }
+    return false;
+}
+
+bool edk::Image2D::loadFromMemoryToRGB(uint8 *image, edk::uint32 vecSize){
+    //delete the vector
+    this->deleteImage();
+    //this->deleteName();
+    if(image && vecSize){
+        edk::uint8 type = this->getStreamType(image);
+
+#ifdef _WIN64
+        type = EDK_CODEC_PNG;
+#endif // WIN64_
+
+        switch(type){
+        case EDK_CODEC_JPEG:
+        {
+            //decode using jpegCodec
+            edk::codecs::DecoderJPEG decoder;
+            if(decoder.decode(image,vecSize)){
+                edk::uint32 imageSize = decoder.getFrameWidth()*decoder.getFrameHeight();
+                if(imageSize){
+                    this->vec = new edk::uint8[imageSize*3u];
+                    if(this->vec){
+                        //get channels
+                        this->channels = decoder.getFrameChannels();
+                        if(this->channels==1u || this->channels == 3u){
+                            //get size
+                            this->size = edk::size2ui32(decoder.getFrameWidth(),decoder.getFrameHeight());
+                            //Convert the frame to RGBA
+                            edk::uint8* rgbaTemp = this->vec;
+                            edk::uint8* frameTemp = decoder.getFrame();
+                            switch(this->channels){
+                            case 1:
+                                for(edk::uint32 i=0u;i<imageSize;i++){
+                                    rgbaTemp[0u] = frameTemp[0u];
+                                    rgbaTemp[1u] = frameTemp[0u];
+                                    rgbaTemp[2u] = frameTemp[0u];
+                                    rgbaTemp+=3u;
+                                    frameTemp+=1u;
+                                }
+                                decoder.deleteFrame();
+                                this->channels=3u;
+                                return true;
+                            case 3:
+                                if(this->vec){
+                                    this->size = edk::size2ui32(decoder.getFrameWidth(),decoder.getFrameHeight());
+                                    //just copy the frame in to the vec
+                                    memcpy(this->vec,decoder.getFrame(),imageSize*3u);
+                                    decoder.deleteFrame();
+                                    this->channels=3u;
+                                    return true;
+                                }
+                            }
+                        }
+                        delete[] this->vec;
+                        this->vec=NULL;
+                    }
+                }
+            }
+        }
+            break;
+        case EDK_CODEC_PNG:
+        {
+            //decode using jpegCodec
+            edk::codecs::DecoderPNG decoder;
+            if(decoder.decode(image,vecSize)){
+                edk::uint32 imageSize = decoder.getFrameWidth()*decoder.getFrameHeight();
+                if(imageSize){
+                    this->vec = new edk::uint8[imageSize*3u];
+                    if(this->vec){
+                        //get channels
+                        this->channels = decoder.getFrameChannels();
+                        if(this->channels==1u || this->channels==2u || this->channels == 4u){
+                            //get size
+                            this->size = edk::size2ui32(decoder.getFrameWidth(),decoder.getFrameHeight());
+                            //Convert the frame to RGBA
+                            edk::uint8* rgbaTemp = this->vec;
+                            edk::uint8* frameTemp = decoder.getFrame();
+                            switch(this->channels){
+                            case 1:
+                                for(edk::uint32 i=0u;i<imageSize;i++){
+                                    rgbaTemp[0u] = frameTemp[0u];
+                                    rgbaTemp[1u] = frameTemp[0u];
+                                    rgbaTemp[2u] = frameTemp[0u];
+                                    rgbaTemp+=3u;
+                                    frameTemp+=1u;
+                                }
+                                decoder.deleteFrame();
+                                this->channels=3u;
+                                return true;
+                            case 2:
+                                for(edk::uint32 i=0u;i<imageSize;i++){
+                                    rgbaTemp[0u] = frameTemp[0u];
+                                    rgbaTemp[1u] = frameTemp[0u];
+                                    rgbaTemp[2u] = frameTemp[0u];
+                                    rgbaTemp+=3u;
+                                    frameTemp+=2u;
+                                }
+                                decoder.deleteFrame();
+                                this->channels=3u;
+                                return true;
+                            case 4:
+                                for(edk::uint32 i=0u;i<imageSize;i++){
+                                    rgbaTemp[0u] = frameTemp[0u];
+                                    rgbaTemp[1u] = frameTemp[1u];
+                                    rgbaTemp[2u] = frameTemp[2u];
+                                    rgbaTemp+=3u;
+                                    frameTemp+=4u;
+                                }
+                                decoder.deleteFrame();
+                                this->channels=3u;
+                                return true;
+                            }
+                        }
+                    }
+                    else if(this->channels==3u){
+                        //The image aready have 3 channels
+                        if(this->vec){
+                            this->size = edk::size2ui32(decoder.getFrameWidth(),decoder.getFrameHeight());
+                            //just copy the frame in to the vec
+                            memcpy(this->vec,decoder.getFrame(),imageSize*3u);
+                            decoder.deleteFrame();
+                            this->channels=3u;
+                            return true;
+                        }
+                    }
+                }
+                delete[] this->vec;
+                this->vec=NULL;
             }
         }
             break;
@@ -457,10 +629,10 @@ bool edk::Image2D::loadFromMemoryToRGBA(uint8 *image, edk::uint32 vecSize){
                 edk::uint32 imageSize = decoder.getFrameWidth()*decoder.getFrameHeight();
                 if(imageSize){
                     this->vec = new edk::uint8[imageSize*4u];
-                    //get channels
-                    this->channels = decoder.getFrameChannels();
-                    if(this->channels==1u || this->channels == 3u){
-                        if(vec){
+                    if(this->vec){
+                        //get channels
+                        this->channels = decoder.getFrameChannels();
+                        if(this->channels==1u || this->channels == 3u){
                             //get size
                             this->size = edk::size2ui32(decoder.getFrameWidth(),decoder.getFrameHeight());
                             //Convert the frame to RGBA
@@ -472,7 +644,7 @@ bool edk::Image2D::loadFromMemoryToRGBA(uint8 *image, edk::uint32 vecSize){
                                     rgbaTemp[0u] = frameTemp[0u];
                                     rgbaTemp[1u] = frameTemp[0u];
                                     rgbaTemp[2u] = frameTemp[0u];
-                                    rgbaTemp[3u] = 255;
+                                    rgbaTemp[3u] = 255u;
                                     rgbaTemp+=4u;
                                     frameTemp+=1u;
                                 }
@@ -484,7 +656,7 @@ bool edk::Image2D::loadFromMemoryToRGBA(uint8 *image, edk::uint32 vecSize){
                                     rgbaTemp[0u] = frameTemp[0u];
                                     rgbaTemp[1u] = frameTemp[1u];
                                     rgbaTemp[2u] = frameTemp[2u];
-                                    rgbaTemp[3u] = 255;
+                                    rgbaTemp[3u] = 255u;
                                     rgbaTemp+=4u;
                                     frameTemp+=3u;
                                 }
@@ -492,8 +664,9 @@ bool edk::Image2D::loadFromMemoryToRGBA(uint8 *image, edk::uint32 vecSize){
                                 this->channels=4u;
                                 return true;
                             }
-                            delete vec;
                         }
+                        delete this->vec;
+                        this->vec=NULL;
                     }
                 }
             }
@@ -507,10 +680,10 @@ bool edk::Image2D::loadFromMemoryToRGBA(uint8 *image, edk::uint32 vecSize){
                 edk::uint32 imageSize = decoder.getFrameWidth()*decoder.getFrameHeight();
                 if(imageSize){
                     this->vec = new edk::uint8[imageSize*4u];
-                    //get channels
-                    this->channels = decoder.getFrameChannels();
-                    if(this->channels==1u || this->channels==2u || this->channels == 3u){
-                        if(vec){
+                    if(this->vec){
+                        //get channels
+                        this->channels = decoder.getFrameChannels();
+                        if(this->channels==1u || this->channels==2u || this->channels == 3u){
                             //get size
                             this->size = edk::size2ui32(decoder.getFrameWidth(),decoder.getFrameHeight());
                             //Convert the frame to RGBA
@@ -522,7 +695,7 @@ bool edk::Image2D::loadFromMemoryToRGBA(uint8 *image, edk::uint32 vecSize){
                                     rgbaTemp[0u] = frameTemp[0u];
                                     rgbaTemp[1u] = frameTemp[0u];
                                     rgbaTemp[2u] = frameTemp[0u];
-                                    rgbaTemp[3u] = 255;
+                                    rgbaTemp[3u] = 255u;
                                     rgbaTemp+=4u;
                                     frameTemp+=1u;
                                 }
@@ -546,7 +719,7 @@ bool edk::Image2D::loadFromMemoryToRGBA(uint8 *image, edk::uint32 vecSize){
                                     rgbaTemp[0u] = frameTemp[0u];
                                     rgbaTemp[1u] = frameTemp[1u];
                                     rgbaTemp[2u] = frameTemp[2u];
-                                    rgbaTemp[3u] = 255;
+                                    rgbaTemp[3u] = 255u;
                                     rgbaTemp+=4u;
                                     frameTemp+=3u;
                                 }
@@ -554,19 +727,20 @@ bool edk::Image2D::loadFromMemoryToRGBA(uint8 *image, edk::uint32 vecSize){
                                 this->channels=4u;
                                 return true;
                             }
-                            delete vec;
                         }
-                    }
-                    else if(this->channels==4u){
-                        //The image aready have 4 channels
-                        if(vec){
-                            this->size = edk::size2ui32(decoder.getFrameWidth(),decoder.getFrameHeight());
-                            //just copy the frame in to the vec
-                            memcpy(this->vec,decoder.getFrame(),imageSize*4u);
-                            decoder.deleteFrame();
-                            this->channels=4u;
-                            return true;
+                        else if(this->channels==4u){
+                            //The image aready have 4 channels
+                            if(this->vec){
+                                this->size = edk::size2ui32(decoder.getFrameWidth(),decoder.getFrameHeight());
+                                //just copy the frame in to the vec
+                                memcpy(this->vec,decoder.getFrame(),imageSize*4u);
+                                decoder.deleteFrame();
+                                this->channels=4u;
+                                return true;
+                            }
                         }
+                        delete this->vec;
+                        this->vec=NULL;
                     }
                 }
             }
