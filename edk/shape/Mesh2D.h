@@ -60,6 +60,8 @@ public:
     Mesh2D();
     virtual ~Mesh2D();
     //DELETE
+    //clean Mesh
+    void clean();
     //remove the rextures
     void cleanTextures();
     //remove the texture

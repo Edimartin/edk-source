@@ -83,6 +83,7 @@ public:
         //this->mouseMoving.clean();
         this->mouseScrollWheel = 0u;
         this->secondPassed = 0.f;
+        this->secondsGlobal = 0.f;
         this->controllerPressed.clean();
         //this->controllerHolded.clean();
         this->controllerReleased.clean();
@@ -124,6 +125,8 @@ public:
     edk::int32 mouseScrollWheel;
     //percent of the seconds in the time
     edk::float32 secondPassed;
+    //percent of the seconds in the time
+    edk::float32 secondsGlobal;
 protected:
 private:
 

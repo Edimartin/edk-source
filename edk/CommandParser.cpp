@@ -31,6 +31,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 edk::CommandParser::Command::Command(){
     //
+    this->position=0u;
 }
 edk::CommandParser::Command::~Command(){
     //
@@ -50,7 +51,7 @@ void edk::CommandParser::TreeCommand::printElement(edk::Name* value){
     edk::CommandParser::Command* temp = (edk::CommandParser::Command*)value;
     printf("\n%s %s"
            ,temp->getName()
-           ,temp->value.getName()
+           ,temp->value.getName()?temp->value.getName():" "
            );
 }
 //print only the command name
@@ -59,6 +60,34 @@ void edk::CommandParser::TreeCommand::renderElement(edk::Name* value){
            ,value->getName()
            );
 }
+
+//print
+void edk::CommandParser::TreeCommand::printElements(){
+    edk::uint32 size = this->stack.size();
+    edk::CommandParser::Command* temp = NULL;
+    for(edk::uint32 i=0u;i<size;i++){
+        temp = (edk::CommandParser::Command*)this->stack.get(i);
+        if(temp){
+            printf("\n%s"
+                   ,temp->getName()
+                   );
+        }
+    }
+}
+void edk::CommandParser::TreeCommand::printElementsWithValues(){
+    edk::uint32 size = this->stack.size();
+    edk::CommandParser::Command* temp = NULL;
+    for(edk::uint32 i=0u;i<size;i++){
+        temp = (edk::CommandParser::Command*)this->stack.get(i);
+        if(temp){
+            printf("\n%s %s"
+                   ,temp->getName()
+                   ,temp->value.getName()?temp->value.getName():" "
+                   );
+        }
+    }
+}
+
 //add the command
 bool edk::CommandParser::TreeCommand::addCommand(edk::char8* command,edk::char8* value){
     //test if have the command
@@ -72,7 +101,15 @@ bool edk::CommandParser::TreeCommand::addCommand(edk::char8* command,edk::char8*
                     if(temp->value.setName(value)){
                         //add the command to the tree
                         if(this->add(temp)){
-                            return true;
+
+                            //add the command in the stack
+                            edk::uint32 size = this->stack.size();
+                            temp->position = this->stack.pushBack((edk::Name*)temp);
+                            if(size<this->stack.size()){
+                                return true;
+                            }
+                            //else remove the temp from the tree
+                            this->remove(temp);
                         }
                     }
                 }
@@ -88,10 +125,30 @@ bool edk::CommandParser::TreeCommand::removeCommand(edk::char8* command){
     if(command){
         edk::CommandParser::Command* temp = (edk::CommandParser::Command*)this->getElementByName(command);
         if(temp){
-            //remove the command
-            if(this->remove(temp)){
-                delete temp;
-                return true;
+            edk::uint32 size = this->stack.size();
+            if(size){
+                if(this->stack.havePos(temp->position)){
+                    //set the position into the last position
+                    this->stack.bringPositionTo(temp->position,size-1u);
+                    //remove the temp
+                    this->stack.remove(size-1u);
+                    size--;
+
+                    edk::CommandParser::Command* tempCommand = NULL;
+                    //update the positions
+                    for(edk::uint32 i=temp->position;i<size;i++){
+                        tempCommand = (edk::CommandParser::Command*)this->stack.get(i);
+                        if(tempCommand){
+                            tempCommand->position = i;
+                        }
+                    }
+
+                    //remove the command
+                    if(this->remove(temp)){
+                        delete temp;
+                        return true;
+                    }
+                }
             }
         }
     }
@@ -104,7 +161,7 @@ bool edk::CommandParser::TreeCommand::haveCommand(edk::char8* command){
 //return the command istring in a position
 edk::char8* edk::CommandParser::TreeCommand::getCommandInPosition(edk::uint32 position){
     //test if have the position
-    edk::CommandParser::Command* temp = (edk::CommandParser::Command*)this->getElementInPosition(position);
+    edk::CommandParser::Command* temp = (edk::CommandParser::Command*)this->stack.get(position);
     if(temp){
         //return the value
         return temp->getName();
@@ -114,15 +171,7 @@ edk::char8* edk::CommandParser::TreeCommand::getCommandInPosition(edk::uint32 po
 }
 //remove all commands on the tree
 void edk::CommandParser::TreeCommand::clean(){
-    edk::uint32 size = this->size();
-    edk::CommandParser::Command* temp=NULL;
-    for(edk::uint32 i=0u;i<size;i++){
-        temp = (edk::CommandParser::Command*)this->getElementInPosition(i);
-        if(temp){
-            delete temp;
-        }
-    }
-    edk::vector::NameTree::clean();
+    this->cleanCommands();
 }
 //get command value
 edk::char8* edk::CommandParser::TreeCommand::getValue(edk::char8* command){
@@ -138,7 +187,7 @@ edk::char8* edk::CommandParser::TreeCommand::getValue(edk::char8* command){
 //get command value in position
 edk::char8* edk::CommandParser::TreeCommand::getValueInPosition(edk::uint32 position){
     //test if have the position
-    edk::CommandParser::Command* temp = (edk::CommandParser::Command*)this->getElementInPosition(position);
+    edk::CommandParser::Command* temp = (edk::CommandParser::Command*)this->stack.get(position);
     if(temp){
         //return the value
         return temp->value.getName();
@@ -148,18 +197,18 @@ edk::char8* edk::CommandParser::TreeCommand::getValueInPosition(edk::uint32 posi
 }
 //clean commands
 void edk::CommandParser::TreeCommand::cleanCommands(){
-    edk::uint32 position = 0u;
-    edk::uint32 treeSize = this->size();
-    edk::CommandParser::Command* temp = NULL;
-    for(edk::uint32 i=0u;i<treeSize;i++){
-        temp = (edk::CommandParser::Command*)this->getElementInPosition(position);
-        if(this->remove(temp)){
+    //clean the stack first
+    this->stack.clean();
+    //delete from tree
+    edk::uint32 size = this->size();
+    edk::CommandParser::Command* temp=NULL;
+    for(edk::uint32 i=0u;i<size;i++){
+        temp = (edk::CommandParser::Command*)this->getElementInPosition(i);
+        if(temp){
             delete temp;
         }
-        else{
-            position++;
-        }
     }
+    edk::vector::NameTree::clean();
 }
 
 edk::CommandParser::CommandParser(){
@@ -171,6 +220,7 @@ edk::CommandParser::CommandParser(edk::int32 argc,edk::char8* argv[]){
 
 edk::CommandParser::~CommandParser(){
     //
+    this->tree.clean();
 }
 
 //new command
@@ -220,10 +270,10 @@ edk::uint32 edk::CommandParser::getCommandsSize(){
 
 //print commands
 void edk::CommandParser::printCommands(){
-    this->tree.render();
+    this->tree.printElements();
 }
 void edk::CommandParser::printCommandsWithValues(){
-    this->tree.print();
+    this->tree.printElementsWithValues();
 }
 
 //parse ARGC and ARGV

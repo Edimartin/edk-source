@@ -4217,31 +4217,76 @@ bool edk::String::strCompare(const edk::char8 *str1, const edk::char8 *str2){
     return edk::String::strCompare((edk::char8*)str1,(edk::char8*)str2);
 }
 
-bool edk::String::strCompareBeggin(edk::char8 *str1, edk::char8 *str2){
-    if(str1 && str2){
-        while(*str1 && *str2){
-            if (*str1!=*str2){
+bool edk::String::strCompareBeggin(edk::char8 *beggin, edk::char8 *str){
+    if(beggin && str){
+        while(*beggin && *str){
+            if (*beggin!=*str){
                 return false;
             }
-            str1++;
-            str2++;
+            beggin++;
+            str++;
         }
-        if(*str1=='\0'){
+        if(*beggin=='\0'){
             return true;
         }
     }
     return false;
 }
-bool edk::String::strCompareBeggin(const edk::char8 *str1, edk::char8 *str2){
-    return edk::String::strCompareBeggin((edk::char8 *)str1, (edk::char8 *)str2);
+bool edk::String::strCompareBeggin(const edk::char8 *beggin, edk::char8 *str){
+    return edk::String::strCompareBeggin((edk::char8 *)beggin, (edk::char8 *)str);
 }
-bool edk::String::strCompareBeggin(edk::char8 *str1, const edk::char8 *str2){
-    return edk::String::strCompareBeggin((edk::char8 *)str1, (edk::char8 *)str2);
+bool edk::String::strCompareBeggin(edk::char8 *beggin, const edk::char8 *str){
+    return edk::String::strCompareBeggin((edk::char8 *)beggin, (edk::char8 *)str);
 }
 
 
-bool edk::String::strCompareBeggin(const edk::char8 *str1, const edk::char8 *str2){
-    return edk::String::strCompareBeggin((edk::char8*)str1,(edk::char8*)str2);
+bool edk::String::strCompareBeggin(const edk::char8 *beggin, const edk::char8 *str){
+    return edk::String::strCompareBeggin((edk::char8*)beggin,(edk::char8*)str);
+}
+
+bool edk::String::strCompareEnd(edk::char8 *end, edk::char8 *str){
+    if(end && str){
+        //save the str1
+        if(*end){
+            edk::char8* save = end;
+            //find the str1 inside the str2
+            while(*str){
+                if (*end==*str){
+                    //test the string if are equal
+                    while(*end && *str){
+                        if (*end!=*str){
+                            break;
+                        }
+                        end++;
+                        str++;
+                    }
+                    //if go out it find the end
+                    if(*end=='\0' && *str=='\0'){
+                        return true;
+                    }
+                    else{
+                        //else continue searching
+                        end = save;
+                    }
+                }
+                else{
+                    str++;
+                }
+            }
+        }
+    }
+    return false;
+}
+bool edk::String::strCompareEnd(const edk::char8 *end, edk::char8 *str){
+    return edk::String::strCompareEnd((edk::char8 *)end, (edk::char8 *)str);
+}
+bool edk::String::strCompareEnd(edk::char8 *end, const edk::char8 *str){
+    return edk::String::strCompareEnd((edk::char8 *)end, (edk::char8 *)str);
+}
+
+
+bool edk::String::strCompareEnd(const edk::char8 *end, const edk::char8 *str){
+    return edk::String::strCompareEnd((edk::char8*)end,(edk::char8*)str);
 }
 
 //Compare string removing some characters with filter

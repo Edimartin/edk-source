@@ -294,12 +294,19 @@ public:
 
     static bool strCompare(const edk::char8 *str1, const edk::char8 *str2);
 
-    static bool strCompareBeggin(edk::char8 *str1, edk::char8 *str2);
+    static bool strCompareBeggin(edk::char8 *beggin, edk::char8 *str);
 
-    static bool strCompareBeggin(const edk::char8 *str1, edk::char8 *str2);
-    static bool strCompareBeggin(edk::char8 *str1, const edk::char8 *str2);
+    static bool strCompareBeggin(const edk::char8 *beggin, edk::char8 *str);
+    static bool strCompareBeggin(edk::char8 *beggin, const edk::char8 *str);
 
-    static bool strCompareBeggin(const edk::char8 *str1, const edk::char8 *str2);
+    static bool strCompareBeggin(const edk::char8 *beggin, const edk::char8 *str);
+
+    static bool strCompareEnd(edk::char8 *end, edk::char8 *str);
+
+    static bool strCompareEnd(const edk::char8 *end, edk::char8 *str);
+    static bool strCompareEnd(edk::char8 *end, const edk::char8 *str);
+
+    static bool strCompareEnd(const edk::char8 *end, const edk::char8 *str);
 
     //Compare string removing some characters with filter
     static bool strCompareWithFilter(edk::char8 *str1, edk::char8 *str2,edk::char8 *filter);

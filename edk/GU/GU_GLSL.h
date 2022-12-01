@@ -240,10 +240,10 @@ class GU_GLSL{
     static void guVertexData4f32(edk::int32 id,edk::float32 d0,edk::float32 d1,edk::float32 d2,edk::float32 d3);
 
     //return the data location
-    static edk::int32 guGetDataLocation(edk::uint32 program, const char *name);
+    static edk::int32 guGetDataLocation(edk::uint32 program, const edk::char8 *name);
     static edk::int32 guGetDataLocation(edk::uint32 program, edk::char8* name);
     //return the bertexData location
-    static edk::int32 guGetVertexDataLocation(edk::uint32 program, const char *name);
+    static edk::int32 guGetVertexDataLocation(edk::uint32 program, const edk::char8 *name);
     static edk::int32 guGetVertexDataLocation(edk::uint32 program, edk::char8* name);
 
     //Errors

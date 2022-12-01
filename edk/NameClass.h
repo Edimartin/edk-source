@@ -103,6 +103,9 @@ public:
         //
         return this->_name;
     }
+    bool haveName(){
+        return this->_name && this->_size;
+    }
     //return the name size
     edk::uint32 getSize(){
         return this->size();

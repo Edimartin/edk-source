@@ -31,6 +31,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #pragma once
 #include "vector/BinaryTree.h"
+#include "vector/Stack.h"
 
 #ifdef printMessages
 #warning "    Compiling CommandParser"
@@ -82,6 +83,9 @@ private:
         edk::Name value;
         //command explanation
         //create in the future
+
+        //command position in the stack
+        edk::uint32 position;
     };
     //command tree
     class TreeCommand:public edk::vector::NameTree{
@@ -92,6 +96,10 @@ private:
         void printElement(edk::Name* value);
         //print only the command name
         void renderElement(edk::Name* value);
+
+        //print
+        void printElements();
+        void printElementsWithValues();
 
         //add the command
         bool addCommand(edk::char8* command,edk::char8* value);
@@ -109,6 +117,9 @@ private:
         edk::char8* getValueInPosition(edk::uint32 position);
         //clean commands
         void cleanCommands();
+    private:
+        //stack with the commands
+        edk::vector::StackNames stack;
     }tree;
 };
 }//end namespace edk

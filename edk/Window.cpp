@@ -813,6 +813,7 @@ bool edk::Window::loadEvents(){
 
     //load the time passed since the last frame
     this->events.secondPassed = this->time.getMicroseconds() * edk::watch::microsecond;
+    this->events.secondsGlobal = this->time.getMicrosecondsReal() * edk::watch::microsecond;
 
     this->time.start();
 

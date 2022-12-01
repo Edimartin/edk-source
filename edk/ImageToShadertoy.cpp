@@ -32,7 +32,6 @@ edk::ImageToShadertoy::~ImageToShadertoy(){
 }
 //
 bool edk::ImageToShadertoy::writeToFile(edk::char8* imageName,edk::uint32 lineSize){
-    printf("\n%u %s %s",__LINE__,__FILE__,__func__);fflush(stdout);
     if(!lineSize) lineSize=10u;
     //test the name
     if(imageName){
@@ -40,10 +39,6 @@ bool edk::ImageToShadertoy::writeToFile(edk::char8* imageName,edk::uint32 lineSi
         edk::Image2D image;
         edk::char8* nameVec = edk::FileToH::readFileName(imageName);
         if(nameVec){
-            printf("\n%u %s %s name == '%s'",__LINE__,__FILE__,__func__
-                   ,nameVec
-                   );fflush(stdout);
-
             edk::char8* className = nameVec;
             {
                 edk::char8* temp = className;

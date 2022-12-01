@@ -40,7 +40,7 @@ edk::shape::Mesh2D::Mesh2D()
 edk::shape::Mesh2D::~Mesh2D()
 {
     if(this->canDeleteMesh){
-        this->cleanTextures();
+        this->clean();
     }
     else{
         this->material.cantDelete();
@@ -114,6 +114,11 @@ bool edk::shape::Mesh2D::pointInsideLine(edk::vec2f32 point,edk::vec2f32 lineSta
     return false;
 }
 
+//clean Mesh
+void edk::shape::Mesh2D::clean(){
+    this->cleanTextures();
+    this->cleanPolygons();
+}
 //remove the rextures
 void edk::shape::Mesh2D::cleanTextures(){
     this->material.removeAllTextures();

@@ -247,7 +247,7 @@ public:
         this->deleteLastCel=NULL;
 
         //the return
-        typeTemplate ret;
+        typeTemplate ret; memset((void*)&ret,0u,sizeof(typeTemplate));
         bool getRet=false;
 
         //test if have elements on the Stack
@@ -267,7 +267,8 @@ public:
                 else{
                     //else return the element
                     if(!getRet){
-                        ret = this->end->get(arrayPos);
+                        //memcpy((void*)&ret,(void*)&this->get(arrayPos),sizeof(typeTemplate));
+                        ret = this->get(arrayPos);
                         getRet = true;
                     }
                     else{
@@ -400,6 +401,7 @@ public:
 
     //remove the element
     typeTemplate remove(edk::uint32 pos){
+        typeTemplate ret;
         //Test if don't have the element
         if(this->havePos(pos)){
             //tets if pos is the last
@@ -408,7 +410,8 @@ public:
                 return this->popBack();
             }
             //get the element value
-            typeTemplate ret = this->get(pos);
+            //memcpy((void*)&ret,(void*)&this->get(arrayPos),sizeof(typeTemplate));
+            ret = this->get(pos);
             typeTemplate set; memset((void*)&set,0u,sizeof(typeTemplate));
             //then clean the pos
             if(this->set(pos,set)){
@@ -418,9 +421,10 @@ public:
                 //return the ret
                 return ret;
             }
+            //else clean the ret
         }
         //else return false
-        typeTemplate ret; memset((void*)&ret,0u,sizeof(typeTemplate));
+        memset((void*)&ret,0u,sizeof(typeTemplate));
         return ret;
     }
 
@@ -947,6 +951,8 @@ public:
                     edk::uint32 size = edk::vector::Stack<edk::Name*>::size();
                     edk::uint32 pos= edk::vector::Stack<edk::Name*>::pushBack(name);
                     if(size<edk::vector::Stack<edk::Name*>::size()){
+                        //push the position
+                        this->tree.add(pos);
                         return pos;
                     }
                 }
@@ -956,6 +962,9 @@ public:
         //else return false
         return 0u;
     }
+    edk::uint32 pushBack(edk::Name* name){
+        return edk::vector::Stack<edk::Name*>::pushBack(name);
+    }
 
     //DELETE
     //Remove the top
@@ -963,8 +972,12 @@ public:
         if(edk::vector::Stack<edk::Name*>::size()){
             edk::Name* name = edk::vector::Stack<edk::Name*>::popBack();
             if(name){
-                //delete the last name removed
-                delete name;
+                //test if need remove the name
+                if(this->tree.haveElement(edk::vector::Stack<edk::Name*>::size())){
+                    this->tree.remove(edk::vector::Stack<edk::Name*>::size());
+                    //delete the last name removed
+                    delete name;
+                }
                 return true;
             }
         }
@@ -998,8 +1011,12 @@ public:
         if(name){
             //remove
             if(edk::vector::Stack<edk::Name*>::remove(pos)){
-                //delete the name
-                delete name;
+                //test if have the name position to delete
+                if(this->tree.haveElement(pos)){
+                    this->tree.remove(pos);
+                    //delete the name
+                    delete name;
+                }
                 return true;
             }
         }
@@ -1016,8 +1033,34 @@ public:
             //get the name in the position
             edk::Name* name = edk::vector::Stack<edk::Name*>::get(pos);
             if(name){
-                //set the new string
-                return name->setName(str);
+                //test if have the position in the tree
+                if(this->tree.haveElement(pos)){
+                    //set the new string
+                    return name->setName(str);
+                }
+            }
+        }
+        //else return NULL
+        return false;
+    }
+    bool set(edk::uint32 pos,edk::Name* nameObject){
+        if(nameObject){
+            //get the name in the position
+            edk::Name* name = edk::vector::Stack<edk::Name*>::get(pos);
+            if(name){
+                //test if have the position in the tree
+                if(this->tree.haveElement(pos)){
+                    this->tree.remove(pos);
+                    //set the new object
+                    if(edk::vector::Stack<edk::Name*>::set(pos,nameObject)){
+                        //delete the temp
+                        delete name;
+                    }
+                }
+                else{
+                    //else just set the object
+                    return edk::vector::Stack<edk::Name*>::set(pos,nameObject);
+                }
             }
         }
         //else return NULL
@@ -1026,7 +1069,21 @@ public:
 
     //GETTERS
     //get the object
-    edk::char8* get(edk::uint32 pos){
+    edk::Name* get(edk::uint32 pos){
+        //else return false
+        if(this->havePos(pos)){
+            //get the name in the position
+            edk::Name* name = edk::vector::Stack<edk::Name*>::get(pos);
+            if(name){
+                //return the string
+                return name;
+            }
+        }
+        //else return NULL
+        return NULL;
+    }
+    //get the object
+    edk::char8* getName(edk::uint32 pos){
         //else return false
         edk::char8* ret=NULL;
         if(this->havePos(pos)){
@@ -1107,25 +1164,103 @@ public:
 
     //SWAP two objects
     bool swap(edk::uint32 pos1,edk::uint32 pos2){
+        //test if have created some position
+        if(this->tree.haveElement(pos1) && !this->tree.haveElement(pos2)){
+            if(edk::vector::Stack<edk::Name*>::swap(pos1,pos2)){
+                //swap the positions in the tree
+                this->tree.remove(pos1);
+                this->tree.add(pos2);
+                return true;
+            }
+        }
+        else if(this->tree.haveElement(pos2)){
+            if(edk::vector::Stack<edk::Name*>::swap(pos1,pos2)){
+                //swap the positions in the tree
+                this->tree.remove(pos2);
+                this->tree.add(pos1);
+                return true;
+            }
+        }
+        //else just swap
         return edk::vector::Stack<edk::Name*>::swap(pos1,pos2);
     }
 
     //Move position object
     bool bringPositionPlusOne(edk::uint32 position){
+        if(edk::vector::Stack<edk::Name*>::size()>position+1u){
+            //test if have created some position
+            if(this->tree.haveElement(position) && !this->tree.haveElement(position+1u)){
+                if(edk::vector::Stack<edk::Name*>::bringPositionPlusOne(position)){
+                    //swap the positions in the tree
+                    this->tree.remove(position);
+                    this->tree.add(position+1u);
+                    return true;
+                }
+            }
+            else if(this->tree.haveElement(position+1u)){
+                if(edk::vector::Stack<edk::Name*>::bringPositionPlusOne(position)){
+                    //swap the positions in the tree
+                    this->tree.remove(position+1u);
+                    this->tree.add(position);
+                    return true;
+                }
+            }
+        }
+        //else just swap
         return edk::vector::Stack<edk::Name*>::bringPositionPlusOne(position);
     }
     bool bringPositionMinusOne(edk::uint32 position){
+        if(position && edk::vector::Stack<edk::Name*>::size()>position){
+            //test if have created some position
+            if(this->tree.haveElement(position) && !this->tree.haveElement(position-1u)){
+                if(edk::vector::Stack<edk::Name*>::bringPositionMinusOne(position)){
+                    //swap the positions in the tree
+                    this->tree.remove(position);
+                    this->tree.add(position-1u);
+                    return true;
+                }
+            }
+            else if(this->tree.haveElement(position-1u)){
+                if(edk::vector::Stack<edk::Name*>::bringPositionMinusOne(position)){
+                    //swap the positions in the tree
+                    this->tree.remove(position-1u);
+                    this->tree.add(position);
+                    return true;
+                }
+            }
+        }
+        //else just swap
         return edk::vector::Stack<edk::Name*>::bringPositionMinusOne(position);
     }
     //Move a count
     bool bringPositionPlusTimes(edk::uint32 position,edk::uint32 times){
-        return edk::vector::Stack<edk::Name*>::bringPositionPlusTimes(position,times);
+        if(edk::vector::Stack<edk::Name*>::size()>position+times){
+            edk::uint32 size = position+times;
+            for(edk::uint32 i=position;i<size;i++){
+                this->bringPositionPlusOne(i);
+            }
+            return true;
+        }
+        return false;
     }
     bool bringPositionMinusTimes(edk::uint32 position,edk::uint32 times){
-        return edk::vector::Stack<edk::Name*>::bringPositionMinusTimes(position,times);
+        if(position>times && edk::vector::Stack<edk::Name*>::size()>position){
+            edk::uint32 limit = position - times;
+            for(edk::uint32 i=position;i>limit;i--){
+                this->bringPositionMinusOne(i-1u);
+            }
+            return true;
+        }
+        return false;
     }
     bool bringPositionTo(edk::uint32 position,edk::uint32 position2){
-        return edk::vector::Stack<edk::Name*>::bringPositionTo(position,position2);
+        if(position>position2){
+            return this->bringPositionMinusTimes(position2,position-position2);
+        }
+        else if(position<position2){
+            return this->bringPositionPlusTimes(position,position2-position);
+        }
+        return false;
     }
 
     //cant
@@ -1135,7 +1270,7 @@ public:
 
     //OPERATORS
     //[] //To return the object in the pos
-    edk::char8* operator[](edk::uint32 pos){
+    edk::Name* operator[](edk::uint32 pos){
         //
         return this->get(pos);
     }
@@ -1160,10 +1295,17 @@ private:
         for(edk::uint32 i=0u;i<size;i++){
             name = edk::vector::Stack<edk::Name*>::get(i);
             if(name){
-                delete name;
+                //test if need delete the name
+                if(this->tree.haveElement(i)){
+                    delete name;
+                }
             }
         }
+        //delete all positions
+        this->tree.clean();
     }
+    //tree with the positions created by the stack
+    edk::vector::BinaryTree<edk::uint32>tree;
 };
 
 }//end namespace vector
