@@ -167,11 +167,11 @@ public:
     bool removePhysicObjects(edk::uint32 levelPosition);
     void removePhysicObjects();
     //set physic object to be animated
-    bool setPhysicObjectAnimated(edk::uint32 levelPosition,edk::physics2D::KinematicObject2D* obj);
+    bool setPhysicObjectAnimated(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj);
     bool setPhysicObjectAnimated(edk::uint32 levelPosition,edk::uint32 position);
     bool setPhysicObjectAnimated(edk::uint32 levelPosition,edk::float32 depth);
     //remove physic object from be animated
-    bool removePhysicObjectAnimated(edk::uint32 levelPosition,edk::physics2D::KinematicObject2D* obj);
+    bool removePhysicObjectAnimated(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj);
     bool removePhysicObjectAnimated(edk::uint32 levelPosition,edk::uint32 position);
     bool removePhysicObjectAnimated(edk::uint32 levelPosition,edk::float32 depth);
 

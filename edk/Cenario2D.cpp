@@ -2774,7 +2774,7 @@ void edk::Cenario2D::removePhysicObjects(){
     }
 }
 //set physic object to be animated
-bool edk::Cenario2D::setPhysicObjectAnimated(edk::uint32 levelPosition,edk::physics2D::KinematicObject2D* obj){
+bool edk::Cenario2D::setPhysicObjectAnimated(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj){
     //test the level position
     if(levelPosition){
         levelPosition--;
@@ -2786,7 +2786,12 @@ bool edk::Cenario2D::setPhysicObjectAnimated(edk::uint32 levelPosition,edk::phys
                 //load the object
                 edk::physics2D::PhysicObject2D* temp = (edk::physics2D::PhysicObject2D*)level->objsPhys->getObject(obj);
                 if(temp){
-                    if(temp->getType() == edk::physics::KinematicBody){
+                    if(temp->getType() == edk::physics::StaticBody
+                            ||
+                            temp->getType() == edk::physics::DynamicBody
+                            ||
+                            temp->getType() == edk::physics::KinematicBody
+                            ){
                         //add the object to the animation tree
                         if(this->treeAnimPhys.haveElement(temp)){
                             return true;
@@ -2856,7 +2861,7 @@ bool edk::Cenario2D::setPhysicObjectAnimated(edk::uint32 levelPosition,edk::floa
     return false;
 }
 //remove physic object from be animated
-bool edk::Cenario2D::removePhysicObjectAnimated(edk::uint32 levelPosition,edk::physics2D::KinematicObject2D* obj){
+bool edk::Cenario2D::removePhysicObjectAnimated(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj){
     //test the level position
     if(levelPosition){
         levelPosition--;
@@ -2868,7 +2873,12 @@ bool edk::Cenario2D::removePhysicObjectAnimated(edk::uint32 levelPosition,edk::p
                 //load the object
                 edk::physics2D::PhysicObject2D* temp = (edk::physics2D::PhysicObject2D*)level->objsPhys->getObject(obj);
                 if(temp){
-                    if(temp->getType() == edk::physics::KinematicBody){
+                    if(temp->getType() == edk::physics::StaticBody
+                            ||
+                            temp->getType() == edk::physics::DynamicBody
+                            ||
+                            temp->getType() == edk::physics::KinematicBody
+                            ){
                         //add the object to the animation tree
                         if(this->treeAnimPhys.haveElement(temp)){
                             return this->treeAnimPhys.remove(temp);
