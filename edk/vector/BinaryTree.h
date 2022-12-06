@@ -140,6 +140,7 @@ public:
     UnaryLeaf(){
         //
         this->next=NULL;
+        this->father=NULL;
         memset(&this->value,0u,sizeof(typeTemplate));
         //this->value=0u;
     }
@@ -147,11 +148,14 @@ public:
     ~UnaryLeaf(){
         //
         this->next=NULL;
+        this->father=NULL;
         memset(&this->value,0u,sizeof(typeTemplate));
         //this->value=0u;
     }
     //LEFT
     UnaryLeaf* next;
+    //add the father
+    UnaryLeaf* father;
 
     //Value of the leaf
     typeTemplate value;
@@ -164,6 +168,9 @@ public:
         //
         this->left=NULL;
         this->right=NULL;
+        this->father=NULL;
+        this->counter=0;
+        this->readed=0u;
         memset(&this->value,0u,sizeof(typeTemplate));
         //this->value=0u;
     }
@@ -172,12 +179,21 @@ public:
         //
         this->left=NULL;
         this->right=NULL;
+        this->father=NULL;
+        this->counter=0;
+        this->readed=0u;
         memset(&this->value,0u,sizeof(typeTemplate));
         //this->value=0u;
     }
     //RIGHT
     BinaryLeaf* left;
     BinaryLeaf* right;
+    //add the father
+    BinaryLeaf* father;
+
+    //counter to balance the tree
+    edk::int32 counter;
+    edk::uint8 readed;
 
     //Value of the leaf
     typeTemplate value;
@@ -253,9 +269,12 @@ public:
                             else{
                                 //else add the value in right
                                 temp->right = newValue; newValue=NULL;
+                                temp->right->father = temp;
                                 //increment the sizeTree
                                 this->incrementSize();
-                                //return the right
+                                //balance the tree
+                                this->balance(temp->right);
+                                //return true
                                 return true;
                             }
                         }
@@ -268,9 +287,12 @@ public:
                             else{
                                 //else add the value in left
                                 temp->left = newValue; newValue=NULL;
+                                temp->left->father = temp;
                                 //increment the sizeTree
                                 this->incrementSize();
-                                //return tempLeft
+                                //balance the tree
+                                this->balance(temp->left);
+                                //return true
                                 return true;
                             }
                         }
@@ -289,7 +311,7 @@ public:
         //test if have root
         if(this->root){
             //
-            this->loadRecursively(this->root);
+            this->loadNoRecursively(this->root);
         }
     }
     //Unload the elements
@@ -297,7 +319,7 @@ public:
         //test if have root
         if(this->root){
             //
-            this->unloadRecursively(this->root);
+            this->unloadNoRecursively(this->root);
         }
     }
     //Print the elements
@@ -305,7 +327,7 @@ public:
         //test if have root
         if(this->root){
             //
-            this->printRecursively(this->root);
+            this->printNoRecursively(this->root);
         }
     }
     //render the elements
@@ -313,14 +335,14 @@ public:
         //test if have root
         if(this->root){
             //
-            this->renderRecursively(this->root);
+            this->renderNoRecursively(this->root);
         }
     }
     virtual void update(){
         //test if have root
         if(this->root){
-            //then update recursively
-            this->updateRecursively(this->root);
+            //then update
+            this->updateNoRecursively(this->root);
         }
     }
 
@@ -345,17 +367,29 @@ public:
                         if((leaf = this->findMotherLeftLeaf(mother->left->right))){
                             //then pull the leaf to the mother->left
                             mother->left = leaf->left;
+                            if(mother->left)
+                                mother->left->father = mother;
                             //arrage the leaf
                             leaf->left = leaf->left->right;
+                            if(leaf->left)
+                                leaf->left->father = leaf;
                             //then the new mother->left receive the two temps.
                             mother->left->left = temp->left;
+                            if(mother->left->left)
+                                mother->left->left->father = mother->left;
                             mother->left->right = temp->right;
+                            if(mother->left->right)
+                                mother->left->right->father = mother->left;
                         }
                         else{
                             //else just get the right
                             //pull the right
                             mother->left=mother->left->right;
+                            if(mother->left)
+                                mother->left->father = mother;
                             mother->left->left = temp->left;
+                            if(mother->left->left)
+                                mother->left->left->father = mother->left;
                         }
                         //delete the element
                         delete temp;
@@ -372,17 +406,29 @@ public:
                         if((leaf = this->findMotherRightLeaf(mother->left->left))){
                             //then pull the leaf to the mother->left
                             mother->left = leaf->right;
+                            if(mother->left)
+                                mother->left->father = mother;
                             //arrage the leaf
                             leaf->right = leaf->right->left;
+                            if(leaf->right)
+                                leaf->right->father = leaf;
                             //then the new mother->left receive the two temps.
                             mother->left->left = temp->left;
+                            if(mother->left->left)
+                                mother->left->left->father = mother->left;
                             mother->left->right = temp->right;
+                            if(mother->left->right)
+                                mother->left->right->father = mother->left;
                         }
                         else{
                             //else just get the right
                             //pull the right
                             mother->left=mother->left->left;
+                            if(mother->left)
+                                mother->left->father = mother;
                             mother->left->right = temp->right;
+                            if(mother->left->right)
+                                mother->left->right->father = mother->left;
                         }
                         //delete the element
                         delete temp;
@@ -419,17 +465,29 @@ public:
                         if((leaf = this->findMotherLeftLeaf(mother->right->right))){
                             //then pull the leaf to the mother->right
                             mother->right = leaf->left;
+                            if(mother->right)
+                                mother->right->father = mother;
                             //arrage the leaf
                             leaf->left = leaf->left->right;
+                            if(leaf->left)
+                                leaf->left->father = leaf;
                             //then the new mother->right receive the two temps.
                             mother->right->left = temp->left;
+                            if(mother->right->left)
+                                mother->right->left->father = mother->right;
                             mother->right->right = temp->right;
+                            if(mother->right->right)
+                                mother->right->right->father = mother->right;
                         }
                         else{
                             //else just get the right
                             //pull the right
                             mother->right=mother->right->right;
+                            if(mother->right)
+                                mother->right->father = mother;
                             mother->right->left = temp->left;
+                            if(mother->right->left)
+                                mother->right->left->father = mother->right;
                         }
                         //delete the element
                         delete temp;
@@ -446,17 +504,29 @@ public:
                         if((leaf = this->findMotherRightLeaf(mother->right->left))){
                             //then pull the leaf to the mother->right
                             mother->right = leaf->right;
+                            if(mother->right)
+                                mother->right->father = mother;
                             //arrage the leaf
                             leaf->right = leaf->right->left;
+                            if(leaf->right)
+                                leaf->right->father = leaf;
                             //then the new mother->right receive the two temps.
                             mother->right->left = temp->left;
+                            if(mother->right->left)
+                                mother->right->left->father = mother->right;
                             mother->right->right = temp->right;
+                            if(mother->right->right)
+                                mother->right->right->father = mother->right;
                         }
                         else{
                             //else just get the right
                             //pull the right
                             mother->right=mother->right->left;
+                            if(mother->right)
+                                mother->right->father = mother;
                             mother->right->right = temp->right;
+                            if(mother->right->right)
+                                mother->right->right->father = mother->right;
                         }
                         //delete the element
                         delete temp;
@@ -491,17 +561,29 @@ public:
                     if((leaf = this->findMotherLeftLeaf(this->root->right))){
                         //then pull the leaf to the this->root
                         this->root = leaf->left;
+                        if(this->root)
+                            this->root->father=NULL;
                         //arrage the leaf
                         leaf->left = leaf->left->right;
+                        if(leaf->left)
+                            leaf->left->father = leaf;
                         //then the new this->root receive the two temps.
                         this->root->left = temp->left;
+                        if(this->root->left)
+                            this->root->left->father = this->root;
                         this->root->right = temp->right;
+                        if(this->root->right)
+                            this->root->right->father = this->root;
                     }
                     else{
                         //else just get the right
                         //pull the right
                         this->root=this->root->right;
+                        if(this->root)
+                            this->root->father=NULL;
                         this->root->left = temp->left;
+                        if(this->root->left)
+                            this->root->left->father = this->root;
                     }
                     //delete the element
                     delete temp;
@@ -518,17 +600,29 @@ public:
                     if((leaf = this->findMotherRightLeaf(this->root->left))){
                         //then pull the leaf to the this->root
                         this->root = leaf->right;
+                        if(this->root)
+                            this->root->father=NULL;
                         //arrage the leaf
                         leaf->right = leaf->right->left;
+                        if(leaf->right)
+                            leaf->right->father = leaf;
                         //then the new this->root receive the two temps.
                         this->root->left = temp->left;
+                        if(this->root->left)
+                            this->root->left->father = this->root;
                         this->root->right = temp->right;
+                        if(this->root->right)
+                            this->root->right->father = this->root;
                     }
                     else{
                         //else just get the right
                         //pull the right
                         this->root=this->root->left;
+                        if(this->root)
+                            this->root->father = NULL;
                         this->root->right = temp->right;
+                        if(this->root->right)
+                            this->root->right->father = this->root;
                     }
                     //delete the element
                     delete temp;
@@ -618,8 +712,8 @@ public:
         if(position < this->size()){
             //then find the element pointer
             //create a count
-            edk::uint32 count = 0u;
-            BinaryLeaf<typeTemplate>* ret = this->getRecursively(this->root,&count,position);
+            //edk::uint32 count = 0u;
+            BinaryLeaf<typeTemplate>* ret = this->getNoRecursively(this->root/*,&count*/,position);
             //test if the element is founded
             if(ret){
                 //return the value
@@ -646,7 +740,7 @@ public:
         if(this->root){
             //
             this->sizeTree=0u;
-            this->cleanRecursively(this->root);
+            this->cleanNoRecursively(this->root);
         }
         this->root=NULL;
     }
@@ -856,6 +950,31 @@ private:
             }
         }
     }
+    void loadNoRecursively(BinaryLeaf<typeTemplate>* temp){
+        //test if have temp
+        while(temp){
+            if(temp->readed==0u){
+                temp->readed=1u;
+                if(temp->left){
+                    temp = temp->left;
+                    continue;
+                }
+            }
+            if(temp->readed==1u){
+                //load
+                this->loadElement(temp->value);
+                temp->readed=2u;
+                if(temp->right){
+                    temp = temp->right;
+                    continue;
+                }
+            }
+            if(temp->readed==2u){
+                temp->readed=0u;
+                temp = temp->father;
+            }
+        }
+    }
     //recursively to unload
     void unloadRecursively(BinaryLeaf<typeTemplate>* temp){
         //test if have temp
@@ -871,6 +990,31 @@ private:
             }
         }
     }
+    void unloadNoRecursively(BinaryLeaf<typeTemplate>* temp){
+        //test if have temp
+        while(temp){
+            if(temp->readed==0u){
+                temp->readed=1u;
+                if(temp->left){
+                    temp = temp->left;
+                    continue;
+                }
+            }
+            if(temp->readed==1u){
+                //unload
+                this->unloadElement(temp->value);
+                temp->readed=2u;
+                if(temp->right){
+                    temp = temp->right;
+                    continue;
+                }
+            }
+            if(temp->readed==2u){
+                temp->readed=0u;
+                temp = temp->father;
+            }
+        }
+    }
     //update the values runing the update function
     void updateRecursively(BinaryLeaf<typeTemplate>* temp){
         //test if have temp
@@ -883,6 +1027,31 @@ private:
             this->updateElement(temp->value);
             if(temp->right){
                 this->updateRecursively(temp->right);
+            }
+        }
+    }
+    void updateNoRecursively(BinaryLeaf<typeTemplate>* temp){
+        //test if have temp
+        while(temp){
+            if(temp->readed==0u){
+                temp->readed=1u;
+                if(temp->left){
+                    temp = temp->left;
+                    continue;
+                }
+            }
+            if(temp->readed==1u){
+                //update
+                this->updateElement(temp->value);
+                temp->readed=2u;
+                if(temp->right){
+                    temp = temp->right;
+                    continue;
+                }
+            }
+            if(temp->readed==2u){
+                temp->readed=0u;
+                temp = temp->father;
             }
         }
     }
@@ -903,6 +1072,31 @@ private:
             }
         }
     }
+    void printNoRecursively(BinaryLeaf<typeTemplate>* temp){
+        //test if have temp
+        while(temp){
+            if(temp->readed==0u){
+                temp->readed=1u;
+                if(temp->left){
+                    temp = temp->left;
+                    continue;
+                }
+            }
+            if(temp->readed==1u){
+                //print
+                this->printElement(temp->value);
+                temp->readed=2u;
+                if(temp->right){
+                    temp = temp->right;
+                    continue;
+                }
+            }
+            if(temp->readed==2u){
+                temp->readed=0u;
+                temp = temp->father;
+            }
+        }
+    }
     //recursively to print
     void renderRecursively(BinaryLeaf<typeTemplate>* temp){
         //
@@ -920,8 +1114,33 @@ private:
             }
         }
     }
+    void renderNoRecursively(BinaryLeaf<typeTemplate>* temp){
+        //test if have temp
+        while(temp){
+            if(temp->readed==0u){
+                temp->readed=1u;
+                if(temp->left){
+                    temp = temp->left;
+                    continue;
+                }
+            }
+            if(temp->readed==1u){
+                //render
+                this->renderElement(temp->value);
+                temp->readed=2u;
+                if(temp->right){
+                    temp = temp->right;
+                    continue;
+                }
+            }
+            if(temp->readed==2u){
+                temp->readed=0u;
+                temp = temp->father;
+            }
+        }
+    }
     //set if find it
-    BinaryLeaf<typeTemplate>*  getRecursively(BinaryLeaf<typeTemplate>* temp,edk::uint32* count, edk::uint32 pos){
+    BinaryLeaf<typeTemplate>* getRecursively(BinaryLeaf<typeTemplate>* temp,edk::uint32* count, edk::uint32 pos){
         //the return
         BinaryLeaf<typeTemplate>* ret=NULL;
         if(temp){
@@ -951,23 +1170,353 @@ private:
         //return the ret
         return ret;
     }
+    BinaryLeaf<typeTemplate>* getNoRecursively(BinaryLeaf<typeTemplate>* temp,edk::uint32 pos){
+        edk::uint32 count = 0u;
+        BinaryLeaf<typeTemplate>* ret = NULL;
+        bool find=false;
+        //test if have temp
+        while(temp){
+            if(!find){
+                if(temp->readed==0u){
+                    temp->readed=1u;
+                    if(temp->left){
+                        temp = temp->left;
+                        continue;
+                    }
+                }
+                if(temp->readed==1u){
+                    //test if count is == position
+                    if(count==pos){
+                        //then return the typeTemplate
+                        ret = temp;
+                        find=true;
+                    }
+                    else{
+                        //increment count
+                        ++count;
+                    }
+                    temp->readed=2u;
+                    if(temp->right){
+                        temp = temp->right;
+                        continue;
+                    }
+                }
+                if(temp->readed==2u){
+                    temp->readed=0u;
+                    temp = temp->father;
+                }
+            }
+            else{
+                temp->readed=0u;
+                temp = temp->father;
+            }
+        }
+        return ret;
+    }
     //clean recursively
     void cleanRecursively(BinaryLeaf<typeTemplate>* temp){
         //
         if(temp){
             //
             if(temp->right){
-                //
                 this->cleanRecursively(temp->right);
             }
             temp->right=NULL;
             if(temp->left){
-                //
                 this->cleanRecursively(temp->left);
             }
             temp->left=NULL;
             delete temp;
-            //temp=NULL;
+        }
+    }
+    void cleanNoRecursively(BinaryLeaf<typeTemplate>* temp){
+        BinaryLeaf<typeTemplate>* tempDelete;
+        //test if have temp
+        while(temp){
+            if(temp->readed==0u){
+                temp->readed=1u;
+                if(temp->left){
+                    temp = temp->left;
+                    continue;
+                }
+            }
+            if(temp->readed==1u){
+                temp->left=NULL;
+                temp->readed=2u;
+                if(temp->right){
+                    temp = temp->right;
+                    continue;
+                }
+            }
+            if(temp->readed==2u){
+                temp->right=NULL;
+                temp->readed=0u;
+                tempDelete = temp;
+                temp = temp->father;
+                delete tempDelete;
+            }
+        }
+    }
+    //balance the tree starting from a new leaf
+    void balance(BinaryLeaf<typeTemplate>* leaf){
+        //test the temp
+        if(leaf){
+            BinaryLeaf<typeTemplate>* temp = leaf;
+            //increment the counters
+            while(temp){
+                //test if havethe father
+                if(temp->father){
+                    //test witch side is the temp
+                    if(temp->father->left == temp){
+                        //increment the counter
+                        temp->father->counter--;
+                    }
+                    else if(temp->father->right == temp){
+                        //decrement the counter
+                        temp->father->counter++;
+                    }
+                }
+                //then select the father
+                temp = temp->father;
+            }
+            //now balance the tree
+            temp = leaf;
+            BinaryLeaf<typeTemplate>* temp2;
+            BinaryLeaf<typeTemplate>* father;
+            bool continuing = false;
+            while(temp){
+                //test if the counter is bigger then 1 or -1
+                if(temp->counter>1){
+                    //test if have the father
+                    if(temp->father){
+                        //need balance the leaf
+                        if(temp->right){
+                            //have only the right
+                            temp2 = temp->right;
+                            if(temp2->right){
+                                if(temp2->left){
+                                    //do nothing
+                                }
+                                else{
+                                    //have only the right2
+                                    //rotate left
+                                    father = temp->father;
+                                    //left right
+                                    if(father->left == temp){
+                                        //
+                                        father->left = temp->right;
+                                        father->left->counter--;
+                                        father->left->left = temp;
+                                        father->left->left->father = father->left->right->father = father->left;
+                                        father->left->father = father;
+                                        father->left->right->counter--;
+                                    }
+                                    else if(father->right == temp){
+                                        //
+                                        father->right = temp->right;
+                                        father->right->counter--;
+                                        father->right->left = temp;
+                                        father->right->left->father = father->right->right->father = father->right;
+                                        father->right->father = father;
+                                        father->right->right->counter--;
+                                    }
+                                    temp->right=NULL;
+                                    temp->counter--;
+                                }
+                            }
+                            else if(temp2->left){
+                                BinaryLeaf<typeTemplate>*  newRoot = temp2;
+                                temp2 = temp2->left;
+                                if(temp2->right){
+                                    //do nothing
+                                }
+                                else{
+                                    //
+                                    //rotate right
+                                    temp2->right = newRoot;
+                                    newRoot->father = temp2;
+                                    newRoot->left = NULL;
+                                    newRoot->counter--;
+                                    //
+                                    temp->right = temp2;
+                                    temp2->father=temp;
+                                    temp2->counter--;
+                                    if(!continuing){
+                                        continuing = true;
+                                        continue;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else if(temp == this->root){
+                        //need change the root
+                        if(temp->right){
+                            //have only the right
+                            temp2 = temp->right;
+                            if(temp2->right){
+                                if(temp2->left){
+                                    //do nothing
+                                }
+                                else{
+                                    //have only the right2
+                                    //rotate left
+                                    this->root = temp->right;
+                                    this->root->father = NULL;
+                                    this->root->counter--;
+                                    //
+                                    this->root->left = temp;
+                                    this->root->left->father = this->root->right->father = this->root;
+                                    temp->right=NULL;
+                                    temp->counter--;
+                                    //
+                                    this->root->right->counter--;
+                                }
+                            }
+                            else if(temp2->left){
+                                BinaryLeaf<typeTemplate>*  newRoot = temp2;
+                                temp2 = temp2->left;
+                                if(temp2->right){
+                                    //do nothing
+                                }
+                                else{
+                                    //
+                                    //rotate right
+                                    temp2->right = newRoot;
+                                    newRoot->father = temp2;
+                                    newRoot->left = NULL;
+                                    newRoot->counter--;
+                                    //
+                                    temp->right = temp2;
+                                    temp2->father=temp;
+                                    temp2->counter--;
+                                    if(!continuing){
+                                        continuing = true;
+                                        continue;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                else if(temp->counter<-1){
+                    //test if have the father
+                    if(temp->father){
+                        //need balance the leaf
+                        if(temp->left){
+                            //have only the left
+                            temp2 = temp->left;
+                            if(temp2->left){
+                                if(temp2->right){
+                                    //do nothing
+                                }
+                                else{
+                                    //have only the left2
+                                    //rotate right
+                                    father = temp->father;
+                                    //right left
+                                    if(father->right == temp){
+                                        //
+                                        father->right = temp->left;
+                                        father->right->counter--;
+                                        father->right->right = temp;
+                                        father->right->right->father = father->right->left->father = father->right;
+                                        father->right->father = father;
+                                        father->right->left->counter--;
+                                    }
+                                    else if(father->left == temp){
+                                        //
+                                        father->left = temp->left;
+                                        father->left->counter--;
+                                        father->left->right = temp;
+                                        father->left->right->father = father->left->left->father = father->left;
+                                        father->left->father = father;
+                                        father->left->left->counter--;
+                                    }
+                                    temp->left=NULL;
+                                    temp->counter--;
+                                }
+                            }
+                            else if(temp2->right){
+                                BinaryLeaf<typeTemplate>*  newRoot = temp2;
+                                temp2 = temp2->right;
+                                if(temp2->left){
+                                    //do nothing
+                                }
+                                else{
+                                    //
+                                    //rotate left
+                                    temp2->left = newRoot;
+                                    newRoot->father = temp2;
+                                    newRoot->right = NULL;
+                                    newRoot->counter--;
+                                    //
+                                    temp->left = temp2;
+                                    temp2->father=temp;
+                                    temp2->counter--;
+                                    if(!continuing){
+                                        continuing = true;
+                                        continue;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else if(temp == this->root){
+                        //need change the root
+                        if(temp->left){
+                            //have only the left
+                            temp2 = temp->left;
+                            if(temp2->left){
+                                if(temp2->right){
+                                    //do nothing
+                                }
+                                else{
+                                    //have only the left2
+                                    //rotate right
+                                    this->root = temp->left;
+                                    this->root->father = NULL;
+                                    this->root->counter--;
+                                    //
+                                    this->root->right = temp;
+                                    this->root->right->father = this->root->left->father = this->root;
+                                    temp->left=NULL;
+                                    temp->counter--;
+                                    //
+                                    this->root->left->counter--;
+                                }
+                            }
+                            else if(temp2->right){
+                                BinaryLeaf<typeTemplate>*  newRoot = temp2;
+                                temp2 = temp2->right;
+                                if(temp2->left){
+                                    //do nothing
+                                }
+                                else{
+                                    //
+                                    //rotate left
+                                    temp2->left = newRoot;
+                                    newRoot->father = temp2;
+                                    newRoot->right = NULL;
+                                    newRoot->counter--;
+                                    //
+                                    temp->left = temp2;
+                                    temp2->father=temp;
+                                    temp2->counter--;
+                                    if(!continuing){
+                                        continuing = true;
+                                        continue;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                //then select the father
+                temp = temp->father;
+                continuing = false;
+            }
         }
     }
 };
