@@ -3247,6 +3247,19 @@ void edk::Cenario2D::draw(){
     }
     this->transformEnd();
 }
+void edk::Cenario2D::drawWire(){
+    //draw the levels
+    edk::uint32 size = this->levels.size();
+    edk::Cenario2D::LevelObj* level=NULL;
+    this->transformBeggin();
+    for(edk::uint32 i=0u;i<size;i++){
+        level=this->levels[i];
+        if(level){
+            level->drawWire();
+        }
+    }
+    this->transformEnd();
+}
 void edk::Cenario2D::drawInsideRect(edk::rectf32 rect){
     //draw the levels
     edk::uint32 size = this->levels.size();
@@ -3274,6 +3287,20 @@ bool edk::Cenario2D::drawLevel(edk::uint32 levelPosition){
     }
     return false;
 }
+bool edk::Cenario2D::drawLevelWire(edk::uint32 levelPosition){
+    //draw the levelPosition
+    if(levelPosition){
+        levelPosition--;
+        if(this->levels.havePos(levelPosition)){
+            this->transformBeggin();
+            edk::Cenario2D::LevelObj* level=this->levels[levelPosition];
+            level->drawWire();
+            this->transformEnd();
+            return true;
+        }
+    }
+    return false;
+}
 bool edk::Cenario2D::drawLevelInsideRect(edk::uint32 levelPosition,edk::rectf32 rect){
     //draw the levelPosition
     if(levelPosition){
@@ -3282,6 +3309,20 @@ bool edk::Cenario2D::drawLevelInsideRect(edk::uint32 levelPosition,edk::rectf32 
             this->transformBeggin();
             edk::Cenario2D::LevelObj* level=this->levels[levelPosition];
             level->drawInsideRect(rect);
+            this->transformEnd();
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::Cenario2D::drawLevelWireInsideRect(edk::uint32 levelPosition,edk::rectf32 rect){
+    //draw the levelPosition
+    if(levelPosition){
+        levelPosition--;
+        if(this->levels.havePos(levelPosition)){
+            this->transformBeggin();
+            edk::Cenario2D::LevelObj* level=this->levels[levelPosition];
+            level->drawWireInsideRect(rect);
             this->transformEnd();
             return true;
         }
@@ -3325,6 +3366,42 @@ bool edk::Cenario2D::drawLevels(edk::uint32 startPosition,edk::uint32 endPositio
     }
     return false;
 }
+bool edk::Cenario2D::drawLevelsWire(edk::uint32 startPosition,edk::uint32 endPosition){
+    bool ret=true;
+    //find the positions
+    if(startPosition && endPosition && startPosition<=endPosition){
+        startPosition--;
+        endPosition--;
+        //test if have the positions
+        if(!this->levels.havePos(startPosition)){
+            //set the start and end to the last
+            if(this->levels.getSize()){
+                startPosition = endPosition = this->levels.getSize()-1u;
+            }
+            else{
+                startPosition = endPosition = 0u;
+            }
+            ret=false;
+        }
+        else if(!this->levels.havePos(endPosition)){
+            //set the end to the last
+            endPosition = this->levels.getSize()-1u;
+            ret=false;
+        }
+        edk::Cenario2D::LevelObj* level=NULL;
+        //daw the rects
+        this->transformBeggin();
+        for(edk::uint32 i=startPosition;i<=endPosition;i++){
+            level=this->levels[i];
+            if(level){
+                level->drawWire();
+            }
+        }
+        this->transformEnd();
+        return ret;
+    }
+    return false;
+}
 bool edk::Cenario2D::drawLevelsInsideRect(edk::uint32 startPosition,edk::uint32 endPosition,edk::rectf32 rect){
     bool ret=true;
     //find the positions
@@ -3354,6 +3431,42 @@ bool edk::Cenario2D::drawLevelsInsideRect(edk::uint32 startPosition,edk::uint32 
             level=this->levels[i];
             if(level){
                 level->drawInsideRect(rect);
+            }
+        }
+        this->transformEnd();
+        return ret;
+    }
+    return false;
+}
+bool edk::Cenario2D::drawLevelsWireInsideRect(edk::uint32 startPosition,edk::uint32 endPosition,edk::rectf32 rect){
+    bool ret=true;
+    //find the positions
+    if(startPosition && endPosition && startPosition<=endPosition){
+        startPosition--;
+        endPosition--;
+        //test if have the positions
+        if(!this->levels.havePos(startPosition)){
+            //set the start and end to the last
+            if(this->levels.getSize()){
+                startPosition = endPosition = this->levels.getSize()-1u;
+            }
+            else{
+                startPosition = endPosition = 0u;
+            }
+            ret=false;
+        }
+        else if(!this->levels.havePos(endPosition)){
+            //set the end to the last
+            endPosition = this->levels.getSize()-1u;
+            ret=false;
+        }
+        edk::Cenario2D::LevelObj* level=NULL;
+        //daw the rects
+        this->transformBeggin();
+        for(edk::uint32 i=startPosition;i<=endPosition;i++){
+            level=this->levels[i];
+            if(level){
+                level->drawWireInsideRect(rect);
             }
         }
         this->transformEnd();

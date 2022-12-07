@@ -252,12 +252,17 @@ public:
     void updateAnimations(edk::float32 seconds);
     //draw the cenario with all the objects
     void draw();
+    void drawWire();
     void drawInsideRect(edk::rectf32 rect);
     bool drawLevel(edk::uint32 levelPosition);
+    bool drawLevelWire(edk::uint32 levelPosition);
     bool drawLevelInsideRect(edk::uint32 levelPosition,edk::rectf32 rect);
+    bool drawLevelWireInsideRect(edk::uint32 levelPosition,edk::rectf32 rect);
     //draw levels from start and end
     bool drawLevels(edk::uint32 startPosition,edk::uint32 endPosition);
+    bool drawLevelsWire(edk::uint32 startPosition,edk::uint32 endPosition);
     bool drawLevelsInsideRect(edk::uint32 startPosition,edk::uint32 endPosition,edk::rectf32 rect);
+    bool drawLevelsWireInsideRect(edk::uint32 startPosition,edk::uint32 endPosition,edk::rectf32 rect);
     void drawSelection();
     bool drawSelectionLevel(edk::uint32 levelPosition);
     bool drawSelectionLevels(edk::uint32 startPosition,edk::uint32 endPosition);
@@ -611,10 +616,15 @@ private:
             }
             return false;
         }
-        //Render
-        virtual void renderElement(ObjClass* value){
+        //Draw
+        virtual void drawElement(ObjClass* value){
             if(value->getObject()){
                 value->getObject()->draw();
+            }
+        }
+        virtual void drawWireElement(ObjClass* value){
+            if(value->getObject()){
+                value->getObject()->drawWire();
             }
         }
         //UPDATE
@@ -936,7 +946,7 @@ private:
                     //add scale
                     edk::GU::guScale2f32(this->transform.size);
                     this->objs->cleanNames();
-                    this->objs->render();
+                    this->objs->draw();
                     edk::GU::guPopMatrix();
                     edk::GU::guDisable(GU_LIGHTING);
                 }
@@ -951,7 +961,7 @@ private:
                     //add scale
                     edk::GU::guScale2f32(this->transform.size);
                     this->objsPhys->cleanNames();
-                    this->objsPhys->render();
+                    this->objsPhys->draw();
                     edk::GU::guPopMatrix();
                     edk::GU::guDisable(GU_LIGHTING);
                 }
@@ -969,7 +979,7 @@ private:
                 }
             }
         }
-        void drawInsideRect(edk::rectf32 rect){
+        void drawWire(){
             if(this->show){
                 if(this->objs){
                     edk::GU::guEnable(GU_LIGHTING);
@@ -982,7 +992,7 @@ private:
                     //add scale
                     edk::GU::guScale2f32(this->transform.size);
                     this->objs->cleanNames();
-                    this->objs->render();
+                    this->objs->drawWire();
                     edk::GU::guPopMatrix();
                     edk::GU::guDisable(GU_LIGHTING);
                 }
@@ -997,7 +1007,99 @@ private:
                     //add scale
                     edk::GU::guScale2f32(this->transform.size);
                     this->objsPhys->cleanNames();
-                    this->objsPhys->render();
+                    this->objsPhys->drawWire();
+                    edk::GU::guPopMatrix();
+                    edk::GU::guDisable(GU_LIGHTING);
+                }
+                else if(this->tileMap){
+                    //apply tranformations
+                    edk::GU::guPushMatrix();
+                    //add translate
+                    edk::GU::guTranslate2f32(this->transform.position);
+                    //add rotation
+                    edk::GU::guRotateZf32(this->transform.angle);
+                    //add scale
+                    edk::GU::guScale2f32(this->transform.size);
+                    this->tileMap->drawWire();
+                    edk::GU::guPopMatrix();
+                }
+            }
+        }
+        void drawInsideRect(edk::rectf32 rect){
+            if(this->show){
+                if(this->objs){
+                    edk::GU::guEnable(GU_LIGHTING);
+                    //apply tranformations
+                    edk::GU::guPushMatrix();
+                    //add translate
+                    edk::GU::guTranslate2f32(this->transform.position);
+                    //add rotation
+                    edk::GU::guRotateZf32(this->transform.angle);
+                    //add scale
+                    edk::GU::guScale2f32(this->transform.size);
+                    this->objs->cleanNames();
+                    this->objs->draw();
+                    edk::GU::guPopMatrix();
+                    edk::GU::guDisable(GU_LIGHTING);
+                }
+                else if(this->objsPhys){
+                    edk::GU::guEnable(GU_LIGHTING);
+                    //apply tranformations
+                    edk::GU::guPushMatrix();
+                    //add translate
+                    edk::GU::guTranslate2f32(this->transform.position);
+                    //add rotation
+                    edk::GU::guRotateZf32(this->transform.angle);
+                    //add scale
+                    edk::GU::guScale2f32(this->transform.size);
+                    this->objsPhys->cleanNames();
+                    this->objsPhys->draw();
+                    edk::GU::guPopMatrix();
+                    edk::GU::guDisable(GU_LIGHTING);
+                }
+                else if(this->tileMap){
+                    //apply tranformations
+                    edk::GU::guPushMatrix();
+                    //add translate
+                    edk::GU::guTranslate2f32(this->transform.position);
+                    //add rotation
+                    edk::GU::guRotateZf32(this->transform.angle);
+                    //add scale
+                    edk::GU::guScale2f32(this->transform.size);
+                    this->tileMap->drawInsideWorldRect(rect);
+                    edk::GU::guPopMatrix();
+                }
+            }
+        }
+        void drawWireInsideRect(edk::rectf32 rect){
+            if(this->show){
+                if(this->objs){
+                    edk::GU::guEnable(GU_LIGHTING);
+                    //apply tranformations
+                    edk::GU::guPushMatrix();
+                    //add translate
+                    edk::GU::guTranslate2f32(this->transform.position);
+                    //add rotation
+                    edk::GU::guRotateZf32(this->transform.angle);
+                    //add scale
+                    edk::GU::guScale2f32(this->transform.size);
+                    this->objs->cleanNames();
+                    this->objs->drawWire();
+                    edk::GU::guPopMatrix();
+                    edk::GU::guDisable(GU_LIGHTING);
+                }
+                else if(this->objsPhys){
+                    edk::GU::guEnable(GU_LIGHTING);
+                    //apply tranformations
+                    edk::GU::guPushMatrix();
+                    //add translate
+                    edk::GU::guTranslate2f32(this->transform.position);
+                    //add rotation
+                    edk::GU::guRotateZf32(this->transform.angle);
+                    //add scale
+                    edk::GU::guScale2f32(this->transform.size);
+                    this->objsPhys->cleanNames();
+                    this->objsPhys->drawWire();
                     edk::GU::guPopMatrix();
                     edk::GU::guDisable(GU_LIGHTING);
                 }

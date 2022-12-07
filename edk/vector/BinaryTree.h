@@ -100,6 +100,21 @@ public:
                ,(edk::uint32)value
                );
     }
+    virtual void renderWireElement(obj* value){
+        printf("\nElement %u"
+               ,(edk::uint32)value
+               );
+    }
+    virtual void drawElement(obj* value){
+        printf("\nElement %u"
+               ,(edk::uint32)value
+               );
+    }
+    virtual void drawWireElement(obj* value){
+        printf("\nElement %u"
+               ,(edk::uint32)value
+               );
+    }
     //UPDATE
     virtual void updateElement(obj* value){
         //update the value
@@ -336,6 +351,30 @@ public:
         if(this->root){
             //
             this->renderNoRecursively(this->root);
+        }
+    }
+    //render the elements in wire mode
+    virtual void renderWire(){
+        //test if have root
+        if(this->root){
+            //
+            this->renderWireNoRecursively(this->root);
+        }
+    }
+    //draw the elements
+    virtual void draw(){
+        //test if have root
+        if(this->root){
+            //
+            this->drawNoRecursively(this->root);
+        }
+    }
+    //draw the elements in wire mode
+    virtual void drawWire(){
+        //test if have root
+        if(this->root){
+            //
+            this->drawWireNoRecursively(this->root);
         }
     }
     virtual void update(){
@@ -774,8 +813,14 @@ protected:
     virtual void unloadElement(typeTemplate){}
     //Print
     virtual void printElement(typeTemplate){}
-    //created for draw the object
+    //created for render the object
     virtual void renderElement(typeTemplate){}
+    //created for render the object in wire mode
+    virtual void renderWireElement(typeTemplate){}
+    //created for draw the object
+    virtual void drawElement(typeTemplate){}
+    //created for draw the object in wire mode
+    virtual void drawWireElement(typeTemplate){}
     //UPDATE
     virtual void updateElement(typeTemplate){}
 private:
@@ -1097,7 +1142,7 @@ private:
             }
         }
     }
-    //recursively to print
+    //recursively to render
     void renderRecursively(BinaryLeaf<typeTemplate>* temp){
         //
         if(temp){
@@ -1127,6 +1172,132 @@ private:
             if(temp->readed==1u){
                 //render
                 this->renderElement(temp->value);
+                temp->readed=2u;
+                if(temp->right){
+                    temp = temp->right;
+                    continue;
+                }
+            }
+            if(temp->readed==2u){
+                temp->readed=0u;
+                temp = temp->father;
+            }
+        }
+    }
+    //recursively to renderWire
+    void renderWireRecursively(BinaryLeaf<typeTemplate>* temp){
+        //
+        if(temp){
+            //
+            if(temp->left){
+                //
+                this->renderRecursively(temp->left);
+            }
+            //print
+            this->renderElement(temp->value);
+            if(temp->right){
+                //
+                this->renderRecursively(temp->right);
+            }
+        }
+    }
+    void renderWireNoRecursively(BinaryLeaf<typeTemplate>* temp){
+        //test if have temp
+        while(temp){
+            if(temp->readed==0u){
+                temp->readed=1u;
+                if(temp->left){
+                    temp = temp->left;
+                    continue;
+                }
+            }
+            if(temp->readed==1u){
+                //render
+                this->renderWireElement(temp->value);
+                temp->readed=2u;
+                if(temp->right){
+                    temp = temp->right;
+                    continue;
+                }
+            }
+            if(temp->readed==2u){
+                temp->readed=0u;
+                temp = temp->father;
+            }
+        }
+    }
+    //recursively to draw
+    void drawRecursively(BinaryLeaf<typeTemplate>* temp){
+        //
+        if(temp){
+            //
+            if(temp->left){
+                //
+                this->renderRecursively(temp->left);
+            }
+            //print
+            this->drawElement(temp->value);
+            if(temp->right){
+                //
+                this->renderRecursively(temp->right);
+            }
+        }
+    }
+    void drawNoRecursively(BinaryLeaf<typeTemplate>* temp){
+        //test if have temp
+        while(temp){
+            if(temp->readed==0u){
+                temp->readed=1u;
+                if(temp->left){
+                    temp = temp->left;
+                    continue;
+                }
+            }
+            if(temp->readed==1u){
+                //render
+                this->drawElement(temp->value);
+                temp->readed=2u;
+                if(temp->right){
+                    temp = temp->right;
+                    continue;
+                }
+            }
+            if(temp->readed==2u){
+                temp->readed=0u;
+                temp = temp->father;
+            }
+        }
+    }
+    //recursively to drawWire
+    void drawWireRecursively(BinaryLeaf<typeTemplate>* temp){
+        //
+        if(temp){
+            //
+            if(temp->left){
+                //
+                this->renderRecursively(temp->left);
+            }
+            //print
+            this->drawWireElement(temp->value);
+            if(temp->right){
+                //
+                this->renderRecursively(temp->right);
+            }
+        }
+    }
+    void drawWireNoRecursively(BinaryLeaf<typeTemplate>* temp){
+        //test if have temp
+        while(temp){
+            if(temp->readed==0u){
+                temp->readed=1u;
+                if(temp->left){
+                    temp = temp->left;
+                    continue;
+                }
+            }
+            if(temp->readed==1u){
+                //render
+                this->drawWireElement(temp->value);
                 temp->readed=2u;
                 if(temp->right){
                     temp = temp->right;
