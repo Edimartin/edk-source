@@ -555,6 +555,170 @@ void edk::shape::Polygon2D::setRestitution(edk::float32 restitution){
     this->restitution=restitution;
 }
 
+//function to calculate boundingBox
+bool edk::shape::Polygon2D::calculateBoundingBox(edk::rectf32* rectangle,edk::vector::Matrix<edk::float32,3,3>* transformMat){
+    if(transformMat && rectangle && this->getVertexCount()){
+        //generate the boundingBox
+        edk::rectf32 temp = this->generateBoundingBox(transformMat);
+
+        //filter the rectangle size
+        temp.size.width+=temp.origin.x;
+        temp.size.height+=temp.origin.y;
+        rectangle->size.width+=rectangle->origin.x;
+        rectangle->size.height+=rectangle->origin.y;
+
+        if(rectangle->origin.x>temp.origin.x)
+            rectangle->origin.x=temp.origin.x;
+        if(rectangle->origin.y>temp.origin.y)
+            rectangle->origin.y=temp.origin.y;
+        if(rectangle->size.width<temp.size.width)
+            rectangle->size.width=temp.size.width;
+        if(rectangle->size.height<temp.size.height)
+            rectangle->size.height=temp.size.height;
+
+        //filter the rectangle size
+        rectangle->size.width-=rectangle->origin.x;
+        rectangle->size.height-=rectangle->origin.y;
+
+        return true;
+    }
+    return false;
+}
+edk::rectf32 edk::shape::Polygon2D::generateBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat){
+    edk::rectf32 ret;
+
+    edk::uint32 size = this->getVertexCount();
+    if(size){
+        //first copy the matrix
+        if(this->matrixTransform.cloneFrom(transformMat)){
+            //generate transform matrices
+            edk::Math::generateTranslateMatrix(this->translate,&this->matrixTranslate);
+            edk::Math::generateRotateMatrix(this->angle,&this->matrixTranslate);
+            edk::Math::generateScaleMatrix(this->scale,&this->matrixTranslate);
+            //multiply the matrix by
+
+            //scale
+            this->matrixTransform.multiply(&this->matrixScale);
+            //angle
+            this->matrixTransform.multiply(&this->matrixRotate);
+            //translate
+            this->matrixTransform.multiply(&this->matrixTranslate);
+
+            //transform all the vertices
+            if(this->matrixPosition.createMatrix(3u,1u)){
+                //transform the first vertex
+                if(vertexs.get(0u)){
+                    edk::vec2f32 vexPosition;
+                    //
+                    this->matrixPosition.set(0u,0u,vertexs.get(0u)->position.x);
+                    this->matrixPosition.set(1u,0u,vertexs.get(0u)->position.y);
+                    this->matrixPosition.set(2u,0u,1.f);
+
+                    //multiply the matrix
+                    this->matrixPosition.multiply((edk::vector::MatrixDynamic<edk::float32>*)&this->matrixTransform);
+
+                    ret.origin.x = this->matrixPosition.get(0u,0u);
+                    ret.origin.y = this->matrixPosition.get(1u,0u);
+                    ret.size.width = ret.origin.x;
+                    ret.size.height = ret.origin.y;
+                    if(size==2u){
+                        //process the rectangle or line
+                        if(vertexs.get(1u)){
+                            //V0x1
+                            this->matrixPosition.set(0u,0u,vertexs.get(0u)->position.x);
+                            this->matrixPosition.set(1u,0u,vertexs.get(1u)->position.y);
+                            this->matrixPosition.set(2u,0u,1.f);
+
+                            //multiply the matrix
+                            this->matrixPosition.multiply((edk::vector::MatrixDynamic<edk::float32>*)&this->matrixTransform);
+
+                            vexPosition.x = this->matrixPosition.get(0u,0u);
+                            vexPosition.y = this->matrixPosition.get(1u,0u);
+
+                            if(ret.origin.x > vexPosition.x)
+                                ret.origin.x = vexPosition.x;
+                            if(ret.origin.x > vexPosition.y)
+                                ret.origin.x = vexPosition.y;
+                            if(ret.size.width < vexPosition.x)
+                                ret.size.width = vexPosition.x;
+                            if(ret.size.height < vexPosition.y)
+                                ret.size.height = vexPosition.y;
+
+                            //V1x0
+                            this->matrixPosition.set(0u,0u,vertexs.get(1u)->position.x);
+                            this->matrixPosition.set(1u,0u,vertexs.get(0u)->position.y);
+                            this->matrixPosition.set(2u,0u,1.f);
+
+                            //multiply the matrix
+                            this->matrixPosition.multiply((edk::vector::MatrixDynamic<edk::float32>*)&this->matrixTransform);
+
+                            vexPosition.x = this->matrixPosition.get(0u,0u);
+                            vexPosition.y = this->matrixPosition.get(1u,0u);
+
+                            if(ret.origin.x > vexPosition.x)
+                                ret.origin.x = vexPosition.x;
+                            if(ret.origin.x > vexPosition.y)
+                                ret.origin.x = vexPosition.y;
+                            if(ret.size.width < vexPosition.x)
+                                ret.size.width = vexPosition.x;
+                            if(ret.size.height < vexPosition.y)
+                                ret.size.height = vexPosition.y;
+
+                            //V1x1
+                            this->matrixPosition.set(0u,0u,vertexs.get(1u)->position.x);
+                            this->matrixPosition.set(1u,0u,vertexs.get(1u)->position.y);
+                            this->matrixPosition.set(2u,0u,1.f);
+
+                            //multiply the matrix
+                            this->matrixPosition.multiply((edk::vector::MatrixDynamic<edk::float32>*)&this->matrixTransform);
+
+                            vexPosition.x = this->matrixPosition.get(0u,0u);
+                            vexPosition.y = this->matrixPosition.get(1u,0u);
+
+                            if(ret.origin.x > vexPosition.x)
+                                ret.origin.x = vexPosition.x;
+                            if(ret.origin.x > vexPosition.y)
+                                ret.origin.x = vexPosition.y;
+                            if(ret.size.width < vexPosition.x)
+                                ret.size.width = vexPosition.x;
+                            if(ret.size.height < vexPosition.y)
+                                ret.size.height = vexPosition.y;
+                        }
+                    }
+                    else{
+                        for(edk::uint32 i=0u;i<size;i++){
+                            if(vertexs.get(i)){
+                                this->matrixPosition.set(0u,0u,vertexs.get(i)->position.x);
+                                this->matrixPosition.set(1u,0u,vertexs.get(i)->position.y);
+                                this->matrixPosition.set(2u,0u,1.f);
+
+                                //multiply the matrix
+                                this->matrixPosition.multiply((edk::vector::MatrixDynamic<edk::float32>*)&this->matrixTransform);
+
+                                vexPosition.x = this->matrixPosition.get(0u,0u);
+                                vexPosition.y = this->matrixPosition.get(1u,0u);
+
+                                if(ret.origin.x > vexPosition.x)
+                                    ret.origin.x = vexPosition.x;
+                                if(ret.origin.x > vexPosition.y)
+                                    ret.origin.x = vexPosition.y;
+                                if(ret.size.width < vexPosition.x)
+                                    ret.size.width = vexPosition.x;
+                                if(ret.size.height < vexPosition.y)
+                                    ret.size.height = vexPosition.y;
+                            }
+                        }
+                    }
+                    //filter the rectangle size
+                    ret.size.width-=ret.origin.x;
+                    ret.size.height-=ret.origin.y;
+                }
+            }
+        }
+    }
+    return ret;
+}
+
 //delete the polygonVertex
 void edk::shape::Polygon2D::deletePolygon(){
     if(this->canDeletePolygon){
@@ -853,6 +1017,12 @@ edk::uint8 edk::shape::Polygon2D::getCollisionID(){
 void edk::shape::Polygon2D::cantDeletePolygon(){
     //
     this->canDeletePolygon=false;
+    //set matrices can't delete the matrix and vector
+    this->matrixPosition.cantDeleteVector();
+    this->matrixTranslate.cantDeleteMatrix();
+    this->matrixRotate.cantDeleteMatrix();
+    this->matrixScale.cantDeleteMatrix();
+    this->matrixTransform.cantDeleteMatrix();
 }
 
 //print the polygon
@@ -1241,6 +1411,12 @@ bool edk::shape::Polygon2D::cloneFrom(edk::shape::Polygon2D* poly){
         //set the animation
         this->framesSetAnimation(poly->framesGetAnimation());
         this->createAnimationFrames = poly->createAnimationFrames;
+        //copy the matrices
+        this->matrixTranslate.cloneFrom(&poly->matrixTranslate);
+        this->matrixRotate.cloneFrom(&poly->matrixRotate);
+        this->matrixScale.cloneFrom(&poly->matrixScale);
+        this->matrixTransform.cloneFrom(&poly->matrixTransform);
+        //
         return true;
     }
     return false;

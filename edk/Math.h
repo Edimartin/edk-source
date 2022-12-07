@@ -39,6 +39,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "TypeVec2.h"
 #include "TypeVec3.h"
 #include "TypeVec4.h"
+#include "vector/Matrix.h"
 
 #ifdef printMessages
 #warning "    Compiling Math"
@@ -380,6 +381,15 @@ public:
                                          edk::float32 x2,edk::float32 y2
                                          );
     static edk::float32 getAngleDistance(edk::vec2f32 vec1,edk::vec2f32 vec2);
+
+    //generate matrices
+    //2D
+    //translate matrix
+    static bool generateTranslateMatrix(edk::vec2f32 position,edk::vector::Matrix<edk::float32,3u,3u>* dest);
+    //rotate matrix
+    static bool generateRotateMatrix(edk::float32 angle,edk::vector::Matrix<edk::float32,3u,3u>* dest);
+    //scale matrix
+    static bool generateScaleMatrix(edk::size2f32 size,edk::vector::Matrix<edk::float32,3u,3u>* dest);
 
     //Rotate de vectors
     static edk::float32 rotateX(edk::float32 radius, edk::float32 angle);

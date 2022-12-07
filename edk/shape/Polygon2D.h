@@ -34,6 +34,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "Vertex2D.h"
 #include "../vector/Array.h"
 #include "../animation/Interpolation1DGroup.h"
+#include "../vector/Matrix.h"
 #include "../Math.h"
 #include "../xml/XML.h"
 #include "../light/Light.h"
@@ -123,6 +124,10 @@ class Polygon2D{
         void setDensity(edk::float32 density);
         void setFriction(edk::float32 friction);
         void setRestitution(edk::float32 restitution);
+
+        //function to calculate boundingBox
+        bool calculateBoundingBox(edk::rectf32* rectangle,edk::vector::Matrix<edk::float32,3,3>* transformMat);
+        edk::rectf32 generateBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat);
 
         //delete the polygonVertex
         virtual void deletePolygon();
@@ -270,6 +275,12 @@ class Polygon2D{
         edk::animation::Interpolation1DGroup* animationFrame;
         //save true if this polygon create the animationFrames
         bool createAnimationFrames;
+        //transform matrices
+        edk::vector::Matrix<edk::float32,3u,3u> matrixTranslate;
+        edk::vector::Matrix<edk::float32,3u,3u> matrixRotate;
+        edk::vector::Matrix<edk::float32,3u,3u> matrixScale;
+        edk::vector::Matrix<edk::float32,3,3> matrixTransform;
+        edk::vector::MatrixDynamic<edk::float32> matrixPosition;
 
 private:
         //Operator =

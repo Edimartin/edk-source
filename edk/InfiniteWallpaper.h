@@ -136,7 +136,7 @@ private:
     edk::vec2f32 translate;
     edk::watch::Time clock;
     //matrix with the position values
-    edk::vector::Matrix<edk::uint32> matrix;
+    edk::vector::MatrixDynamic<edk::uint32> matrix;
     //limit of matrix size
     edk::size2ui32 sizeLimit;
     //object pointer to be rendered

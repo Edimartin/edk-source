@@ -463,6 +463,48 @@ edk::float32 edk::Math::getAngleDistance(edk::vec2f32 vec1,edk::vec2f32 vec2){
     return ret;
 }
 
+//generate matrices
+//2D
+//translate matrix
+bool edk::Math::generateTranslateMatrix(edk::vec2f32 position,edk::vector::Matrix<edk::float32,3u,3u>* dest){
+    if(dest){
+        //clean the matrix
+        dest->setIdentity(1.f,0.f);
+        //set the values
+        dest->set(2u,0u,position.x);
+        dest->set(2u,1u,position.y);
+        dest->set(2u,2u,1.f);
+        return true;
+    }
+    return false;
+}
+//rotate matrix
+bool edk::Math::generateRotateMatrix(edk::float32 angle,edk::vector::Matrix<edk::float32,3u,3u>* dest){
+    if(dest){
+        //clean the matrix
+        dest->setIdentity(1.f,0.f);
+        //set the values
+        dest->set(0u,0u,edk::Math::getCosin(angle));//cos
+        dest->set(1u,0u,edk::Math::getSin(angle)*-1.f);//-sin
+        dest->set(0u,1u,edk::Math::getSin(angle));//sin
+        dest->set(1u,1u,edk::Math::getCosin(angle));//cos
+        return true;
+    }
+    return false;
+}
+//scale matrix
+bool edk::Math::generateScaleMatrix(edk::size2f32 size,edk::vector::Matrix<edk::float32,3u,3u>* dest){
+    if(dest){
+        //clean the matrix
+        dest->setIdentity(1.f,0.f);
+        //set the values
+        dest->set(0u,0u,size.width);
+        dest->set(1u,1u,size.height);
+        return true;
+    }
+    return false;
+}
+
 //Rotate de vector
 edk::float32 edk::Math::rotateX(edk::float32 radius, edk::float32 angle){
     //
