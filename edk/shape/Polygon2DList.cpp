@@ -223,6 +223,46 @@ edk::float32 edk::shape::Polygon2DList::getPolygonRestitution(edk::uint32 positi
     return 0.f;
 }
 
+//function to calculate boundingBox
+bool edk::shape::Polygon2DList::calculateBoundingBox(edk::rectf32* rectangle,edk::vector::Matrix<edk::float32,3,3>* transformMat){
+    if(rectangle && transformMat){
+        edk::uint32 size = this->polygons.size();
+        if(size){
+            //copy the first rectangle
+            if(this->polygons.havePos(0u)){
+                *rectangle = this->polygons[0u]->generateBoundingBox(transformMat);
+                //draw the polygons
+                for(edk::uint32 i=1u;i<size;i++){
+                    if(this->polygons.havePos(i)){
+                        this->polygons[i]->calculateBoundingBox(rectangle,transformMat);
+                    }
+                }
+                return true;
+            }
+        }
+    }
+    return false;
+}
+edk::rectf32 edk::shape::Polygon2DList::generateBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat){
+    edk::rectf32 ret;
+    if(transformMat){
+        edk::uint32 size = this->polygons.size();
+        if(size){
+            //copy the first rectangle
+            if(this->polygons.havePos(0u)){
+                ret = this->polygons[0u]->generateBoundingBox(transformMat);
+                //draw the polygons
+                for(edk::uint32 i=1u;i<size;i++){
+                    if(this->polygons.havePos(i)){
+                        this->polygons[i]->calculateBoundingBox(&ret,transformMat);
+                    }
+                }
+            }
+        }
+    }
+    return ret;
+}
+
 //ADD
 //add a polygon to the mesh
 edk::uint32 edk::shape::Polygon2DList::addPolygon(edk::shape::Polygon2D polygon){

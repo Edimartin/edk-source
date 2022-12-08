@@ -72,6 +72,9 @@ public:
     //remove all meshes
     virtual void cleanMeshes();
 
+    //function to calculate boundingBox
+    bool calculateBoundingBox(edk::rectf32* rectangle);
+
     //Select the polygonList
     bool selectMesh(edk::uint32 position);
     //return the selected textureID
@@ -344,6 +347,12 @@ private:
     edk::light::Light lights[EDK_LIGHT_LIMIT];
     //action group
     edk::animation::ActionGroup actions;
+    //transform matrices
+    edk::vector::Matrix<edk::float32,3u,3u> matrixPosition;
+    edk::vector::Matrix<edk::float32,3u,3u> matrixPivo;
+    edk::vector::Matrix<edk::float32,3u,3u> matrixAngle;
+    edk::vector::Matrix<edk::float32,3u,3u> matrixSize;
+    edk::vector::Matrix<edk::float32,3,3> matrixTransform;
 
     //Function to read the actions
     static edk::Action* readXMLAction(edk::classID thisPointer,edk::uint32 actionCode);

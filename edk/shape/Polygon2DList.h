@@ -72,6 +72,10 @@ public:
     edk::float32 getPolygonFriction(edk::uint32 position);
     edk::float32 getPolygonRestitution(edk::uint32 position);
 
+    //function to calculate boundingBox
+    bool calculateBoundingBox(edk::rectf32* rectangle,edk::vector::Matrix<edk::float32,3,3>* transformMat);
+    edk::rectf32 generateBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat);
+
     //ADD
     //add a polygon to the mesh
     virtual edk::uint32 addPolygon(edk::shape::Polygon2D polygon);

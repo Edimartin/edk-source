@@ -51,12 +51,14 @@ public:
         this->matrixSize = 0u;
         //set the matrix to NULL
         this->matrix=NULL;
+        this->matrixDest=NULL;
         //set can delete vector
     }
     MatrixDynamic(edk::size2f32 size){
         this->canDeleteVector=true;
         //set the matrix to NULL
         this->matrix=NULL;
+        this->matrixDest=NULL;
         //create a new matrix
         this->createMatrix(size);
     }
@@ -64,11 +66,11 @@ public:
         this->canDeleteVector=true;
         //set the matrix to NULL
         this->matrix=NULL;
+        this->matrixDest=NULL;
         //create a new matrix
         this->createMatrix(width,height);
     }
     ~MatrixDynamic(){
-        //
         if(this->canDeleteVector){
             this->deleteMatrix();
         }
@@ -283,7 +285,7 @@ public:
         return false;
     }
     //return true if can multiply
-    inline bool canMultiply(edk::vector::MatrixDynamic<typeTemplate>* matrix){
+    inline bool canMultiplyThisWithMatrix(edk::vector::MatrixDynamic<typeTemplate>* matrix){
         if(this->matrix && this->matrixSize.width && this->matrixSize.height
                 &&
                 matrix->matrix && matrix->matrixSize.width && matrix->matrixSize.height
@@ -295,44 +297,156 @@ public:
         }
         return false;
     }
-    bool multiply(edk::vector::MatrixDynamic<typeTemplate>* matrix){
-        if(canMultiply(matrix)){
-            //alloc the new matrix
-            edk::size2ui32 size = edk::size2ui32(matrix->matrixSize.width,this->matrixSize.height);
-
-            typeTemplate** newMatrix = new typeTemplate*[size.height];
-            typeTemplate value;
-            if(newMatrix){
-                memset(newMatrix,0u,sizeof(typeTemplate)*size.height);
-                for(edk::uint32 y=0u;y<size.height;y++){
-                    newMatrix[y] = new typeTemplate[size.width];
-                    if(newMatrix[y]){
-                        memset(newMatrix[y],0u,sizeof(typeTemplate)*size.width);
-                        for(edk::uint32 x=0u;x<size.width;x++){
+    inline bool canMultiplyMatrixWithThis(edk::vector::MatrixDynamic<typeTemplate>* matrix){
+        if(this->matrix && this->matrixSize.width && this->matrixSize.height
+                &&
+                matrix->matrix && matrix->matrixSize.width && matrix->matrixSize.height
+                ){
+            //first compare if can have the product of the matrix
+            if(matrix->matrixSize.width == this->matrixSize.height){
+                return true;
+            }
+        }
+        return false;
+    }
+    bool multiplyThisWithMatrix(edk::vector::MatrixDynamic<typeTemplate>* matrix){
+        if(this->canMultiplyThisWithMatrix(matrix)){
+            typeTemplate destSum;
+            typeTemplate destMultiply;
+            if(this->matrixSize.width==matrix->matrixSize.width){
+                //test if have the matrixDest
+                if(!this->matrixDest){
+                    //create the matrixDest
+                    this->createMatrixDest();
+                }
+                if(this->matrixDest){
+                    //copy the values
+                    for(edk::uint32 y=0u;y<this->matrixSize.height;y++){
+                        for(edk::uint32 x=0u;x<this->matrixSize.width;x++){
                             //clean the value
-                            memset((void*)&value,0u,sizeof(typeTemplate));
+                            memset((void*)&destSum,0u,sizeof(typeTemplate));
                             //multiply
                             for(edk::uint32 i=0u;i<this->matrixSize.width;i++){
-                                value = value + (this->matrix[y][i] * matrix->matrix[i][x]);
+                                this->multiplyElement(&this->matrix[y][i],&matrix->matrix[i][x],&destMultiply);
+                                this->sumElement(&destMultiply,&destSum,&destSum);
                             }
                             //set the value
-                            newMatrix[y][x]=value;
+                            memcpy((void*)&matrixDest[y][x],&destSum,sizeof(typeTemplate));
                         }
                     }
-                    else{
-                        for(edk::uint32 j=y+1u;y>0u;j--){
-                            //delete the matrix
-                            delete[] newMatrix[j];
-                        }
-                        delete[] newMatrix;
-                        return false;
-                    }
+                    this->flipMatrix();
+                    return true;
                 }
-                //in the end. delete the old matrix and copy the new matrix
-                this->deleteMatrix();
-                this->matrix = newMatrix;
-                this->matrixSize = size;
-                return true;
+            }
+            else{
+                //alloc the new matrix
+                edk::size2ui32 size = edk::size2ui32(matrix->matrixSize.width,this->matrixSize.height);
+
+                typeTemplate** newMatrix = new typeTemplate*[size.height];
+                if(newMatrix){
+                    memset(newMatrix,0u,sizeof(typeTemplate)*size.height);
+                    for(edk::uint32 y=0u;y<size.height;y++){
+                        newMatrix[y] = new typeTemplate[size.width];
+                        if(newMatrix[y]){
+                            memset(newMatrix[y],0u,sizeof(typeTemplate)*size.width);
+                            for(edk::uint32 x=0u;x<size.width;x++){
+                                //clean the value
+                                memset((void*)&destSum,0u,sizeof(typeTemplate));
+                                //multiply
+                                for(edk::uint32 i=0u;i<this->matrixSize.width;i++){
+                                    this->multiplyElement(&this->matrix[y][i],&matrix->matrix[i][x],&destMultiply);
+                                    this->sumElement(&destMultiply,&destSum,&destSum);
+                                }
+                                //set the value
+                                memcpy((void*)&newMatrix[y][x],&destSum,sizeof(typeTemplate));
+                            }
+                        }
+                        else{
+                            for(edk::uint32 j=y+1u;y>0u;j--){
+                                //delete the matrix
+                                delete[] newMatrix[j];
+                            }
+                            delete[] newMatrix;
+                            return false;
+                        }
+                    }
+                    //in the end. delete the old matrix and copy the new matrix
+                    this->deleteMatrix();
+                    this->matrix = newMatrix;
+                    this->matrixSize = size;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    bool multiplyMatrixWithThis(edk::vector::MatrixDynamic<typeTemplate>* matrix){
+        if(this->canMultiplyMatrixWithThis(matrix)){
+            typeTemplate destSum;
+            typeTemplate destMultiply;
+            if(this->matrixSize.height==matrix->matrixSize.height){
+                //test if have the matrixDest
+                if(!this->matrixDest){
+                    //create the matrixDest
+                    this->createMatrixDest();
+                }
+                if(this->matrixDest){
+                    //copy the values
+                    for(edk::uint32 y=0u;y<this->matrixSize.height;y++){
+                        for(edk::uint32 x=0u;x<this->matrixSize.width;x++){
+                            //clean the value
+                            memset((void*)&destSum,0u,sizeof(typeTemplate));
+                            //multiply
+                            for(edk::uint32 i=0u;i<matrix->matrixSize.width;i++){
+                                this->multiplyElement(&matrix->matrix[y][i],&this->matrix[i][x],&destMultiply);
+                                this->sumElement(&destMultiply,&destSum,&destSum);
+                            }
+                            //set the value
+                            memcpy((void*)&matrixDest[y][x],&destSum,sizeof(typeTemplate));
+                        }
+                    }
+                    this->flipMatrix();
+                    return true;
+                }
+            }
+            else{
+                //alloc the new matrix
+                edk::size2ui32 size = edk::size2ui32(this->matrixSize.width,matrix->matrixSize.height);
+
+                typeTemplate** newMatrix = new typeTemplate*[size.height];
+                if(newMatrix){
+                    memset(newMatrix,0u,sizeof(typeTemplate)*size.height);
+                    for(edk::uint32 y=0u;y<size.height;y++){
+                        newMatrix[y] = new typeTemplate[size.width];
+                        if(newMatrix[y]){
+                            memset(newMatrix[y],0u,sizeof(typeTemplate)*size.width);
+                            for(edk::uint32 x=0u;x<size.width;x++){
+                                //clean the value
+                                memset((void*)&destSum,0u,sizeof(typeTemplate));
+                                //multiply
+                                for(edk::uint32 i=0u;i<matrix->matrixSize.width;i++){
+                                    this->multiplyElement(&matrix->matrix[y][i],&this->matrix[i][x],&destMultiply);
+                                    this->sumElement(&destMultiply,&destSum,&destSum);
+                                }
+                                //set the value
+                                memcpy((void*)&newMatrix[y][x],&destSum,sizeof(typeTemplate));
+                            }
+                        }
+                        else{
+                            for(edk::uint32 j=y+1u;y>0u;j--){
+                                //delete the matrix
+                                delete[] newMatrix[j];
+                            }
+                            delete[] newMatrix;
+                            return false;
+                        }
+                    }
+                    //in the end. delete the old matrix and copy the new matrix
+                    this->deleteMatrix();
+                    this->matrix = newMatrix;
+                    this->matrixSize = size;
+                    return true;
+                }
             }
         }
         return false;
@@ -355,42 +469,69 @@ public:
 
     bool multiply(edk::vector::MatrixDynamic<typeTemplate>* matrix1,edk::vector::MatrixDynamic<typeTemplate>* matrix2){
         if(this->canMultiply(matrix1,matrix2)){
-            //alloc the new matrix
-            edk::size2ui32 size = edk::size2ui32(matrix2->matrixSize.width,matrix1->matrixSize.height);
-
-            typeTemplate** newMatrix = new typeTemplate*[size.height];
-            typeTemplate value;
-            if(newMatrix){
-                memset(newMatrix,0u,sizeof(typeTemplate)*size.height);
-                for(edk::uint32 y=0u;y<size.height;y++){
-                    newMatrix[y] = new typeTemplate[size.width];
-                    if(newMatrix[y]){
-                        memset(newMatrix[y],0u,sizeof(typeTemplate)*size.width);
-                        for(edk::uint32 x=0u;x<size.width;x++){
-                            //clean the value
-                            memset((void*)&value,0u,sizeof(typeTemplate));
+            typeTemplate destSum;
+            typeTemplate destMultiply;
+            if(this->matrixSize.width == matrix2->matrixSize.width && this->matrixSize.height == matrix1->matrixSize.height){
+                //test if have the matrixDest
+                if(!this->matrixDest){
+                    //create the matrixDest
+                    this->createMatrixDest();
+                }
+                if(this->matrixDest){
+                    //copy the values
+                    for(edk::uint32 y=0u;y<this->matrixSize.height;y++){
+                        for(edk::uint32 x=0u;x<this->matrixSize.width;x++){
+                            memset((void*)&destSum,0u,sizeof(typeTemplate));
                             //multiply
                             for(edk::uint32 i=0u;i<matrix1->matrixSize.width;i++){
-                                value = value + (matrix1->matrix[y][i] * matrix2->matrix[i][x]);
+                                this->multiplyElement(&matrix1->matrix[y][i],&matrix2->matrix[i][x],&destMultiply);
+                                this->sumElement(&destMultiply,&destSum,&destSum);
                             }
                             //set the value
-                            newMatrix[y][x]=value;
+                            memcpy((void*)&this->matrixDest[y][x],&destSum,sizeof(typeTemplate));
                         }
                     }
-                    else{
-                        for(edk::uint32 j=y+1u;y>0u;j--){
-                            //delete the matrix
-                            delete[] newMatrix[j];
-                        }
-                        delete[] newMatrix;
-                        return false;
-                    }
+                    this->flipMatrix();
                 }
-                //in the end. delete the old matrix and copy the new matrix
-                this->deleteMatrix();
-                this->matrix = newMatrix;
-                this->matrixSize = size;
-                return true;
+            }
+            else{
+                //alloc the new matrix
+                edk::size2ui32 size = edk::size2ui32(matrix2->matrixSize.width,matrix1->matrixSize.height);
+
+                typeTemplate** newMatrix = new typeTemplate*[size.height];
+                if(newMatrix){
+                    memset(newMatrix,0u,sizeof(typeTemplate)*size.height);
+                    for(edk::uint32 y=0u;y<size.height;y++){
+                        newMatrix[y] = new typeTemplate[size.width];
+                        if(newMatrix[y]){
+                            memset(newMatrix[y],0u,sizeof(typeTemplate)*size.width);
+                            for(edk::uint32 x=0u;x<size.width;x++){
+                                //clean the value
+                                memset((void*)&destSum,0u,sizeof(typeTemplate));
+                                //multiply
+                                for(edk::uint32 i=0u;i<matrix1->matrixSize.width;i++){
+                                    this->multiplyElement(&matrix1->matrix[y][i],&matrix2->matrix[i][x],&destMultiply);
+                                    this->sumElement(&destMultiply,&destSum,&destSum);
+                                }
+                                //set the value
+                                memcpy((void*)&newMatrix[y][x],&destSum,sizeof(typeTemplate));
+                            }
+                        }
+                        else{
+                            for(edk::uint32 j=y+1u;y>0u;j--){
+                                //delete the matrix
+                                delete[] newMatrix[j];
+                            }
+                            delete[] newMatrix;
+                            return false;
+                        }
+                    }
+                    //in the end. delete the old matrix and copy the new matrix
+                    this->deleteMatrix();
+                    this->matrix = newMatrix;
+                    this->matrixSize = size;
+                    return true;
+                }
             }
         }
         return false;
@@ -419,21 +560,34 @@ public:
                 delete[] this->matrix[i];
             }
             delete[] this->matrix;
+
+            this->deleteMatrixDest();
         }
         this->matrix=NULL;
         this->matrixSize=0u;
     }
 
     bool cloneFrom(edk::vector::MatrixDynamic<typeTemplate>* matrix){
-        this->deleteMatrix();
         if(matrix){
             if(matrix->matrixSize.width && matrix->matrixSize.height){
-                if(this->createMatrix(matrix->matrixSize.width,matrix->matrixSize.height)){
-                    //copy the values
-                    for(edk::uint32 y=0u;y<matrix->matrixSize.height;y++){
-                        memcpy(this->matrix[y],matrix->matrix[y],sizeof(typeTemplate)*matrix->matrixSize.width);
+                if(this->matrixSize.width == matrix->width() && this->matrixSize.height == matrix->height()){
+                    if(matrix){
+                        //copy the values
+                        for(edk::uint32 y=0u;y<matrix->matrixSize.height;y++){
+                            memcpy(this->matrix[y],matrix->matrix[y],sizeof(typeTemplate)*matrix->matrixSize.width);
+                        }
+                        return true;
                     }
-                    return true;
+                }
+                else{
+                    this->deleteMatrix();
+                    if(this->createMatrix(matrix->matrixSize.width,matrix->matrixSize.height)){
+                        //copy the values
+                        for(edk::uint32 y=0u;y<matrix->matrixSize.height;y++){
+                            memcpy(this->matrix[y],matrix->matrix[y],sizeof(typeTemplate)*matrix->matrixSize.width);
+                        }
+                        return true;
+                    }
                 }
             }
         }
@@ -491,16 +645,23 @@ private:
         return ret;
     }
     edk::vector::MatrixDynamic<typeTemplate> operator*=(edk::vector::MatrixDynamic<typeTemplate> matrix){
-        this->multiply(&matrix);
+        this->multiplyThisWithMatrix(&matrix);
         return *this;
     }
 protected:
-    void printElement(edk::uint32 x,edk::uint32 y,typeTemplate* value){
+    virtual void printElement(edk::uint32 x,edk::uint32 y,typeTemplate* value){
         printf("\n[%u][%u] == [%ld]",x,y,(edk::int64)*value);
+    }
+    virtual void multiplyElement(typeTemplate* value1,typeTemplate* value2,typeTemplate* dest){
+        *dest = (*value1)*(*value2);
+    }
+    virtual void sumElement(typeTemplate* value1,typeTemplate* value2,typeTemplate* dest){
+        *dest = (*value1)+(*value2);
     }
 
 private:
     typeTemplate** matrix;
+    typeTemplate** matrixDest;
     //size of the vector
     edk::size2ui32 matrixSize;
     //test if can delete the vector
@@ -509,6 +670,55 @@ public:
     //cant
     void cantDeleteVector(){
         this->canDeleteVector=false;
+    }
+    //delete the array
+    void deleteMatrixDest(){
+        //test if is alloc
+        if(this->matrixDest){
+            //
+            for(edk::uint32 i=0u;i<this->matrixSize.height;i++){
+                delete[] this->matrixDest[i];
+            }
+            delete[] this->matrixDest;
+        }
+        this->matrixDest=NULL;
+    }
+
+    //create the matrix Dest
+    bool createMatrixDest(){
+        //first delete
+        this->deleteMatrixDest();
+
+        //Test the size
+        if(this->matrixSize.width && this->matrixSize.height){
+            this->matrixDest = new typeTemplate*[this->matrixSize.height];
+            if(this->matrixDest){
+                memset(this->matrixDest,0u,sizeof(typeTemplate)*this->matrixSize.height);
+                for(edk::uint32 i=0u;i<matrixSize.height;i++){
+                    this->matrixDest[i] = new typeTemplate[this->matrixSize.width];
+                    if(this->matrixDest[i]){
+                        memset(this->matrixDest[i],0u,sizeof(typeTemplate)*this->matrixSize.width);
+                    }
+                    else{
+                        for(edk::uint32 j=i+1u;i>0u;j--){
+                            //delete the matrix
+                            delete[] this->matrixDest[j];
+                        }
+                        delete[] this->matrixDest;
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+        //else return false
+        return false;
+    }
+    //flip matrices
+    void flipMatrix(){
+        typeTemplate** matrixTemp = this->matrix;
+        this->matrix = this->matrixDest;
+        this->matrixDest = matrixTemp;
     }
 };
 //Use a template to alloc whatever
@@ -607,19 +817,36 @@ public:
     }
 
     //return true if can multiply
-    inline bool canMultiply(){
+    inline bool canMultiplyThis(){
         return this->canMultiplyMatrix;
     }
-    inline bool canMultiply(edk::vector::MatrixDynamic<typeTemplate>*){
+    inline bool canMultiplyThisWithMatrix(edk::vector::Matrix<typeTemplate,m,n>*){
         return this->canMultiplyMatrix;
     }
-    inline bool multiply(edk::vector::Matrix<typeTemplate,m,n>* matrix){
+    inline bool canMultiplyThisWithMatrix(edk::vector::MatrixDynamic<typeTemplate>* matrix){
+        return edk::vector::MatrixDynamic<typeTemplate>::canMultiplyThisWithMatrix(matrix);
+    }
+    inline bool canMultiplyMatrixWithThis(edk::vector::Matrix<typeTemplate,m,n>*){
+        return this->canMultiplyMatrix;
+    }
+    inline bool canMultiplyMatrixWithThis(edk::vector::MatrixDynamic<typeTemplate>* matrix){
+        return edk::vector::MatrixDynamic<typeTemplate>::canMultiplyMatrixWithThis(matrix);
+    }
+    inline bool multiplyThisWithMatrix(edk::vector::Matrix<typeTemplate,m,n>* matrix){
         if(this->canMultiplyMatrix)
-            return edk::vector::MatrixDynamic<typeTemplate>::multiply(matrix);
+            return edk::vector::MatrixDynamic<typeTemplate>::multiplyThisWithMatrix(matrix);
+        return false;
+    }
+    inline bool multiplyMatrixWithThis(edk::vector::Matrix<typeTemplate,m,n>* matrix){
+        if(this->canMultiplyMatrix)
+            return edk::vector::MatrixDynamic<typeTemplate>::multiplyMatrixWithThis(matrix);
         return false;
     }
     //return true if can multiply
-    inline bool canMultiply(edk::vector::MatrixDynamic<typeTemplate>*,edk::vector::MatrixDynamic<typeTemplate>*){
+    inline bool canMultiply(edk::vector::MatrixDynamic<typeTemplate>* matrix1,edk::vector::MatrixDynamic<typeTemplate>* matrix2){
+        return edk::vector::MatrixDynamic<typeTemplate>::multiply(matrix1,matrix2);
+    }
+    inline bool canMultiply(edk::vector::Matrix<typeTemplate,m,n>*,edk::vector::Matrix<typeTemplate,m,n>*){
         return this->canMultiplyMatrix;
     }
     inline bool multiply(edk::vector::Matrix<typeTemplate,m,n>* matrix1,edk::vector::Matrix<typeTemplate,m,n>* matrix2){
@@ -685,13 +912,13 @@ private:
         matrix.cantDeleteMatrix();
     }
     inline edk::vector::Matrix<typeTemplate,m,n> operator*(edk::vector::Matrix<typeTemplate,m,n> matrix){
-        this->multiply(&matrix);
+        this->multiplyThisWithMatrix(&matrix);
         matrix.cantDeleteMatrix();
         this->cantDeleteMatrix();
         return *this;
     }
     inline edk::vector::Matrix<typeTemplate,m,n> operator*=(edk::vector::Matrix<typeTemplate,m,n> matrix){
-        this->multiply(&matrix);
+        this->multiplyThisWithMatrix(&matrix);
         matrix.cantDeleteMatrix();
         this->cantDeleteMatrix();
         return *this;
