@@ -55,10 +55,10 @@ binaryTree was created to order elements in the memory
 //code sample
 
 //Binary Tree
-class treeInt:public edk::vector::BinaryTree<obj*>{
+class treeObj:public edk::vector::BinaryTree<obj*>{
 public:
-    treeInt(){}
-    virtual ~treeInt(){}
+    treeObj(){}
+    virtual ~treeObj(){}
     //compare if the value is bigger
     virtual bool firstBiggerSecond(obj* first,obj* second){
         //
