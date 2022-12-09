@@ -137,6 +137,17 @@ public:
     virtual void render(){
         edk::vector::BinaryTree<obj*>::render();
     }
+    virtual void renderWire(){
+        edk::vector::BinaryTree<obj*>::render();
+    }
+    //draw the elements
+    virtual void draw(){
+        edk::vector::BinaryTree<obj*>::render();
+    }
+    virtual void drawWire(){
+        edk::vector::BinaryTree<obj*>::render();
+    }
+    //update the elements
     virtual void update(){
         edk::vector::BinaryTree<obj*>::update();
     }
@@ -148,6 +159,20 @@ public:
 //namespaces
 namespace edk{
 namespace vector{
+//Tree callbacks
+template <class typeTemplate>
+class BinaryTreeCallback{
+public:
+    BinaryTreeCallback(){}
+    virtual void callbackLoadElement(typeTemplate){}
+    virtual void callbackUnloadElement(typeTemplate){}
+    virtual void callbackPrintElement(typeTemplate){}
+    virtual void callbackRenderElement(typeTemplate){}
+    virtual void callbackRenderWireElement(typeTemplate){}
+    virtual void callbackDrawElement(typeTemplate){}
+    virtual void callbackDrawWireElement(typeTemplate){}
+    virtual void callbackUpdateElement(typeTemplate){}
+};
 template <class typeTemplate>
 class UnaryLeaf{
     //Construtor
@@ -186,7 +211,7 @@ public:
         this->father=NULL;
         this->counter=0;
         this->readed=0u;
-        memset(&this->value,0u,sizeof(typeTemplate));
+        memset((void*)&this->value,0u,sizeof(typeTemplate));
         //this->value=0u;
     }
     //Destrutor
@@ -197,7 +222,7 @@ public:
         this->father=NULL;
         this->counter=0;
         this->readed=0u;
-        memset(&this->value,0u,sizeof(typeTemplate));
+        memset((void*)&this->value,0u,sizeof(typeTemplate));
         //this->value=0u;
     }
     //RIGHT
@@ -225,11 +250,14 @@ public:
         this->errorCode=0u;
         this->sizeTree=0u;
         this->dontDestruct = false;
+        this->calls=&this->call1;
     }
     //Destrutor
     virtual ~BinaryTree(){
         //
         if(!this->dontDestruct){
+            this->call1.deleteArray();
+            this->call2.deleteArray();
             this->clean();
             this->root=NULL;
             this->sizeTree=0u;
@@ -789,6 +817,99 @@ public:
         this->dontDestruct=true;
     }
 
+    //add a callback
+    bool addCallback(edk::vector::BinaryTreeCallback<typeTemplate>* call){
+        //test the call
+        if(call){
+            //test if have NOT allocate the array
+            if(!this->calls->size()){
+                //create the new array
+                this->calls->createArray(2u);
+            }
+
+            if(this->calls->size()){
+                bool find = false;
+                //test if have the call
+                edk::uint32 size = this->calls->size();
+                edk::uint32 i=0u;
+                for(;i<size;i++){
+                    if(this->calls->get(i)){
+                        if(this->calls->get(i) == call){
+                            find = true;
+                            break;
+                        }
+                    }
+                    else{
+                        break;
+                    }
+                }
+                //test if find
+                if(find){
+                    //then return true
+                    return true;
+                }
+                else{
+                    //else test if DON'T reach the end of the array
+                    if(i<size){
+                        //then add the call in the position
+                        return this->calls->set(i,call);
+                    }
+                    else{
+                        //else need create a new array wih a bigger size
+                        if(this->calls == &this->call1){
+                            if(this->call2.createArray(size*2u)){
+                                //copy the calls
+                                for(i=0u;i<size;i++){
+                                    if(!this->call2.set(i,this->call1.get(i))){
+                                        //else delete the call2 and return false;
+                                        this->call2.deleteArray();
+                                        return false;
+                                    }
+                                }
+                                //delete the call1 and swap the calls
+                                this->call1.deleteArray();
+                                this->calls = &this->call2;
+                                return true;
+                            }
+                        }
+                        else if(this->calls == &this->call2){
+                            if(this->call1.createArray(size*2u)){
+                                //copy the calls
+                                for(i=0u;i<size;i++){
+                                    if(!this->call1.set(i,this->call2.get(i))){
+                                        //else delete the call1 and return false;
+                                        this->call1.deleteArray();
+                                        return false;
+                                    }
+                                }
+                                //delete the call2 and swap the calls
+                                this->call2.deleteArray();
+                                this->calls = &this->call1;
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    //remove a callback
+    bool removeCallback(edk::vector::BinaryTreeCallback<typeTemplate>* call){
+        //find and remove the call
+        if(call){
+            edk::uint32 size = this->calls->size();
+            for(edk::uint32 i=0u;i<size;i++){
+                if(this->calls->get(i) == call){
+                    //remove it
+                    this->calls->set(i,NULL);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 protected:
     //compare if the value is bigger
     virtual bool firstBiggerSecond(typeTemplate first,typeTemplate second){
@@ -830,6 +951,9 @@ private:
     edk::uint32 sizeTree;
     //set if cant run the destructor
     bool dontDestruct;
+
+    //callbacks arrays
+    edk::vector::Array<edk::vector::BinaryTreeCallback<typeTemplate>*> call1,call2,*calls;
 
     //Find the element
     BinaryLeaf<typeTemplate>* find(typeTemplate value){
@@ -983,6 +1107,8 @@ private:
     //recursively to load
     void loadRecursively(BinaryLeaf<typeTemplate>* temp){
         //test if have temp
+        edk::vector::BinaryTreeCallback<typeTemplate>* call;
+        edk::uint32 size = this->calls->size();
         if(temp){
             //
             if(temp->left){
@@ -990,12 +1116,21 @@ private:
             }
             //update
             this->loadElement(temp->value);
+            //run the callback functions
+            for(edk::uint32 i=0u;i<size;i++){
+                call = this->calls->get(i);
+                if(call){
+                    call->callbackLoadElement(temp->value);
+                }
+            }
             if(temp->right){
                 this->loadRecursively(temp->right);
             }
         }
     }
     void loadNoRecursively(BinaryLeaf<typeTemplate>* temp){
+        edk::vector::BinaryTreeCallback<typeTemplate>* call;
+        edk::uint32 size = this->calls->size();
         //test if have temp
         while(temp){
             if(temp->readed==0u){
@@ -1008,6 +1143,13 @@ private:
             if(temp->readed==1u){
                 //load
                 this->loadElement(temp->value);
+                //run the callback functions
+                for(edk::uint32 i=0u;i<size;i++){
+                    call = this->calls->get(i);
+                    if(call){
+                        call->callbackLoadElement(temp->value);
+                    }
+                }
                 temp->readed=2u;
                 if(temp->right){
                     temp = temp->right;
@@ -1022,6 +1164,8 @@ private:
     }
     //recursively to unload
     void unloadRecursively(BinaryLeaf<typeTemplate>* temp){
+        edk::vector::BinaryTreeCallback<typeTemplate>* call;
+        edk::uint32 size = this->calls->size();
         //test if have temp
         if(temp){
             //
@@ -1030,12 +1174,21 @@ private:
             }
             //update
             this->unloadElement(temp->value);
+            //run the callback functions
+            for(edk::uint32 i=0u;i<size;i++){
+                call = this->calls->get(i);
+                if(call){
+                    call->callbackUnloadElement(temp->value);
+                }
+            }
             if(temp->right){
                 this->unloadRecursively(temp->right);
             }
         }
     }
     void unloadNoRecursively(BinaryLeaf<typeTemplate>* temp){
+        edk::vector::BinaryTreeCallback<typeTemplate>* call;
+        edk::uint32 size = this->calls->size();
         //test if have temp
         while(temp){
             if(temp->readed==0u){
@@ -1048,6 +1201,13 @@ private:
             if(temp->readed==1u){
                 //unload
                 this->unloadElement(temp->value);
+                //run the callback functions
+                for(edk::uint32 i=0u;i<size;i++){
+                    call = this->calls->get(i);
+                    if(call){
+                        call->callbackUnloadElement(temp->value);
+                    }
+                }
                 temp->readed=2u;
                 if(temp->right){
                     temp = temp->right;
@@ -1062,6 +1222,8 @@ private:
     }
     //update the values runing the update function
     void updateRecursively(BinaryLeaf<typeTemplate>* temp){
+        edk::vector::BinaryTreeCallback<typeTemplate>* call;
+        edk::uint32 size = this->calls->size();
         //test if have temp
         if(temp){
             //
@@ -1070,12 +1232,21 @@ private:
             }
             //update
             this->updateElement(temp->value);
+            //run the callback functions
+            for(edk::uint32 i=0u;i<size;i++){
+                call = this->calls->get(i);
+                if(call){
+                    call->callbackUpdateElement(temp->value);
+                }
+            }
             if(temp->right){
                 this->updateRecursively(temp->right);
             }
         }
     }
     void updateNoRecursively(BinaryLeaf<typeTemplate>* temp){
+        edk::vector::BinaryTreeCallback<typeTemplate>* call;
+        edk::uint32 size = this->calls->size();
         //test if have temp
         while(temp){
             if(temp->readed==0u){
@@ -1088,6 +1259,13 @@ private:
             if(temp->readed==1u){
                 //update
                 this->updateElement(temp->value);
+                //run the callback functions
+                for(edk::uint32 i=0u;i<size;i++){
+                    call = this->calls->get(i);
+                    if(call){
+                        call->callbackUpdateElement(temp->value);
+                    }
+                }
                 temp->readed=2u;
                 if(temp->right){
                     temp = temp->right;
@@ -1102,6 +1280,8 @@ private:
     }
     //recursively to print
     void printRecursively(BinaryLeaf<typeTemplate>* temp){
+        edk::vector::BinaryTreeCallback<typeTemplate>* call;
+        edk::uint32 size = this->calls->size();
         //
         if(temp){
             //
@@ -1111,6 +1291,13 @@ private:
             }
             //print
             this->printElement(temp->value);
+            //run the callback functions
+            for(edk::uint32 i=0u;i<size;i++){
+                call = this->calls->get(i);
+                if(call){
+                    call->callbackPrintElement(temp->value);
+                }
+            }
             if(temp->right){
                 //
                 this->printRecursively(temp->right);
@@ -1118,6 +1305,8 @@ private:
         }
     }
     void printNoRecursively(BinaryLeaf<typeTemplate>* temp){
+        edk::vector::BinaryTreeCallback<typeTemplate>* call;
+        edk::uint32 size = this->calls->size();
         //test if have temp
         while(temp){
             if(temp->readed==0u){
@@ -1130,6 +1319,13 @@ private:
             if(temp->readed==1u){
                 //print
                 this->printElement(temp->value);
+                //run the callback functions
+                for(edk::uint32 i=0u;i<size;i++){
+                    call = this->calls->get(i);
+                    if(call){
+                        call->callbackPrintElement(temp->value);
+                    }
+                }
                 temp->readed=2u;
                 if(temp->right){
                     temp = temp->right;
@@ -1144,6 +1340,8 @@ private:
     }
     //recursively to render
     void renderRecursively(BinaryLeaf<typeTemplate>* temp){
+        edk::vector::BinaryTreeCallback<typeTemplate>* call;
+        edk::uint32 size = this->calls->size();
         //
         if(temp){
             //
@@ -1153,6 +1351,13 @@ private:
             }
             //print
             this->renderElement(temp->value);
+            //run the callback functions
+            for(edk::uint32 i=0u;i<size;i++){
+                call = this->calls->get(i);
+                if(call){
+                    call->callbackRenderElement(temp->value);
+                }
+            }
             if(temp->right){
                 //
                 this->renderRecursively(temp->right);
@@ -1160,6 +1365,8 @@ private:
         }
     }
     void renderNoRecursively(BinaryLeaf<typeTemplate>* temp){
+        edk::vector::BinaryTreeCallback<typeTemplate>* call;
+        edk::uint32 size = this->calls->size();
         //test if have temp
         while(temp){
             if(temp->readed==0u){
@@ -1172,6 +1379,13 @@ private:
             if(temp->readed==1u){
                 //render
                 this->renderElement(temp->value);
+                //run the callback functions
+                for(edk::uint32 i=0u;i<size;i++){
+                    call = this->calls->get(i);
+                    if(call){
+                        call->callbackRenderElement(temp->value);
+                    }
+                }
                 temp->readed=2u;
                 if(temp->right){
                     temp = temp->right;
@@ -1186,6 +1400,8 @@ private:
     }
     //recursively to renderWire
     void renderWireRecursively(BinaryLeaf<typeTemplate>* temp){
+        edk::vector::BinaryTreeCallback<typeTemplate>* call;
+        edk::uint32 size = this->calls->size();
         //
         if(temp){
             //
@@ -1195,6 +1411,13 @@ private:
             }
             //print
             this->renderElement(temp->value);
+            //run the callback functions
+            for(edk::uint32 i=0u;i<size;i++){
+                call = this->calls->get(i);
+                if(call){
+                    call->callbackRenderWireElement(temp->value);
+                }
+            }
             if(temp->right){
                 //
                 this->renderRecursively(temp->right);
@@ -1202,6 +1425,8 @@ private:
         }
     }
     void renderWireNoRecursively(BinaryLeaf<typeTemplate>* temp){
+        edk::vector::BinaryTreeCallback<typeTemplate>* call;
+        edk::uint32 size = this->calls->size();
         //test if have temp
         while(temp){
             if(temp->readed==0u){
@@ -1214,6 +1439,13 @@ private:
             if(temp->readed==1u){
                 //render
                 this->renderWireElement(temp->value);
+                //run the callback functions
+                for(edk::uint32 i=0u;i<size;i++){
+                    call = this->calls->get(i);
+                    if(call){
+                        call->callbackRenderWireElement(temp->value);
+                    }
+                }
                 temp->readed=2u;
                 if(temp->right){
                     temp = temp->right;
@@ -1228,6 +1460,8 @@ private:
     }
     //recursively to draw
     void drawRecursively(BinaryLeaf<typeTemplate>* temp){
+        edk::vector::BinaryTreeCallback<typeTemplate>* call;
+        edk::uint32 size = this->calls->size();
         //
         if(temp){
             //
@@ -1237,6 +1471,13 @@ private:
             }
             //print
             this->drawElement(temp->value);
+            //run the callback functions
+            for(edk::uint32 i=0u;i<size;i++){
+                call = this->calls->get(i);
+                if(call){
+                    call->callbackDrawElement(temp->value);
+                }
+            }
             if(temp->right){
                 //
                 this->renderRecursively(temp->right);
@@ -1244,6 +1485,8 @@ private:
         }
     }
     void drawNoRecursively(BinaryLeaf<typeTemplate>* temp){
+        edk::vector::BinaryTreeCallback<typeTemplate>* call;
+        edk::uint32 size = this->calls->size();
         //test if have temp
         while(temp){
             if(temp->readed==0u){
@@ -1256,6 +1499,13 @@ private:
             if(temp->readed==1u){
                 //render
                 this->drawElement(temp->value);
+                //run the callback functions
+                for(edk::uint32 i=0u;i<size;i++){
+                    call = this->calls->get(i);
+                    if(call){
+                        call->callbackDrawElement(temp->value);
+                    }
+                }
                 temp->readed=2u;
                 if(temp->right){
                     temp = temp->right;
@@ -1270,6 +1520,8 @@ private:
     }
     //recursively to drawWire
     void drawWireRecursively(BinaryLeaf<typeTemplate>* temp){
+        edk::vector::BinaryTreeCallback<typeTemplate>* call;
+        edk::uint32 size = this->calls->size();
         //
         if(temp){
             //
@@ -1279,6 +1531,13 @@ private:
             }
             //print
             this->drawWireElement(temp->value);
+            //run the callback functions
+            for(edk::uint32 i=0u;i<size;i++){
+                call = this->calls->get(i);
+                if(call){
+                    call->callbackDrawWireElement(temp->value);
+                }
+            }
             if(temp->right){
                 //
                 this->renderRecursively(temp->right);
@@ -1286,6 +1545,8 @@ private:
         }
     }
     void drawWireNoRecursively(BinaryLeaf<typeTemplate>* temp){
+        edk::vector::BinaryTreeCallback<typeTemplate>* call;
+        edk::uint32 size = this->calls->size();
         //test if have temp
         while(temp){
             if(temp->readed==0u){
@@ -1298,6 +1559,13 @@ private:
             if(temp->readed==1u){
                 //render
                 this->drawWireElement(temp->value);
+                //run the callback functions
+                for(edk::uint32 i=0u;i<size;i++){
+                    call = this->calls->get(i);
+                    if(call){
+                        call->callbackDrawWireElement(temp->value);
+                    }
+                }
                 temp->readed=2u;
                 if(temp->right){
                     temp = temp->right;

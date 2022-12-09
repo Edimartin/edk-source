@@ -84,6 +84,8 @@ class Array{
                     this->vectorSize=size;
                     //can delete the vector
                     this->canDeleteVector=true;
+                    //set with nulls
+                    memset((void*)this->vector,0u,sizeof(typeTemplate)*size);
                     //return true
                     return true;
                 }

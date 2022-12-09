@@ -202,62 +202,90 @@ public:
     }
     //Operator >
     bool operator>(edk::recti8 rect){
-        if(this->origin.x>rect.origin.x)
+        if(this->origin.x>rect.origin.x){
             return true;
-        else if(this->origin.x==rect.origin.x)
-            if(this->origin.y>rect.origin.y)
+        }
+        else if(this->origin.x==rect.origin.x){
+            if(this->origin.y>rect.origin.y){
                 return true;
-            else if(this->origin.y==rect.origin.y)
-                if(this->size.width>rect.size.width)
+            }
+            else if(this->origin.y==rect.origin.y){
+                if(this->size.width>rect.size.width){
                     return true;
-                else if(this->size.width==rect.size.width)
-                    if(this->size.height>rect.size.height)
+                }
+                else if(this->size.width==rect.size.width){
+                    if(this->size.height>rect.size.height){
                         return true;
+                    }
+                }
+            }
+        }
         return false;
     }
     //Operator >=
     bool operator>=(edk::recti8 rect){
-        if(this->origin.x>rect.origin.x)
+        if(this->origin.x>rect.origin.x){
             return true;
-        else if(this->origin.x==rect.origin.x)
-            if(this->origin.y>=rect.origin.y)
+        }
+        else if(this->origin.x==rect.origin.x){
+            if(this->origin.y>=rect.origin.y){
                 return true;
-            else if(this->origin.y==rect.origin.y)
-                if(this->size.width>=rect.size.width)
+            }
+            else if(this->origin.y==rect.origin.y){
+                if(this->size.width>=rect.size.width){
                     return true;
-                else if(this->size.width==rect.size.width)
-                    if(this->size.height>=rect.size.height)
+                }
+                else if(this->size.width==rect.size.width){
+                    if(this->size.height>=rect.size.height){
                         return true;
+                    }
+                }
+            }
+        }
         return false;
     }
     //Operator <
     bool operator<(edk::recti8 rect){
-        if(this->origin.x<rect.origin.x)
+        if(this->origin.x<rect.origin.x){
             return true;
-        else if(this->origin.x==rect.origin.x)
-            if(this->origin.y<rect.origin.y)
+        }
+        else if(this->origin.x==rect.origin.x){
+            if(this->origin.y<rect.origin.y){
                 return true;
-            else if(this->origin.y==rect.origin.y)
-                if(this->size.width<rect.size.width)
+            }
+            else if(this->origin.y==rect.origin.y){
+                if(this->size.width<rect.size.width){
                     return true;
-                else if(this->size.width==rect.size.width)
-                    if(this->size.height<rect.size.height)
+                }
+                else if(this->size.width==rect.size.width){
+                    if(this->size.height<rect.size.height){
                         return true;
+                    }
+                }
+            }
+        }
         return false;
     }
     //Operator <=
     bool operator<=(edk::recti8 rect){
-        if(this->origin.x<rect.origin.x)
+        if(this->origin.x<rect.origin.x){
             return true;
-        else if(this->origin.x==rect.origin.x)
-            if(this->origin.y<=rect.origin.y)
+        }
+        else if(this->origin.x==rect.origin.x){
+            if(this->origin.y<=rect.origin.y){
                 return true;
-            else if(this->origin.y==rect.origin.y)
-                if(this->size.width<=rect.size.width)
+            }
+            else if(this->origin.y==rect.origin.y){
+                if(this->size.width<=rect.size.width){
                     return true;
-                else if(this->size.width==rect.size.width)
-                    if(this->size.height<=rect.size.height)
+                }
+                else if(this->size.width==rect.size.width){
+                    if(this->size.height<=rect.size.height){
                         return true;
+                    }
+                }
+            }
+        }
         return false;
     }
     edk::recti8 operator+(edk::recti8 rect){
@@ -978,62 +1006,90 @@ public:
     }
     //Operator >
     bool operator>(edk::recti16 rect){
-        if(this->origin.x>rect.origin.x)
+        if(this->origin.x>rect.origin.x){
             return true;
-        else if(this->origin.x==rect.origin.x)
-            if(this->origin.y>rect.origin.y)
+        }
+        else if(this->origin.x==rect.origin.x){
+            if(this->origin.y>rect.origin.y){
                 return true;
-            else if(this->origin.y==rect.origin.y)
-                if(this->size.width>rect.size.width)
+            }
+            else if(this->origin.y==rect.origin.y){
+                if(this->size.width>rect.size.width){
                     return true;
-                else if(this->size.width==rect.size.width)
-                    if(this->size.height>rect.size.height)
+                }
+                else if(this->size.width==rect.size.width){
+                    if(this->size.height>rect.size.height){
                         return true;
+                    }
+                }
+            }
+        }
         return false;
     }
     //Operator >=
     bool operator>=(edk::recti16 rect){
-        if(this->origin.x>rect.origin.x)
+        if(this->origin.x>rect.origin.x){
             return true;
-        else if(this->origin.x==rect.origin.x)
-            if(this->origin.y>=rect.origin.y)
+        }
+        else if(this->origin.x==rect.origin.x){
+            if(this->origin.y>=rect.origin.y){
                 return true;
-            else if(this->origin.y==rect.origin.y)
-                if(this->size.width>=rect.size.width)
+            }
+            else if(this->origin.y==rect.origin.y){
+                if(this->size.width>=rect.size.width){
                     return true;
-                else if(this->size.width==rect.size.width)
-                    if(this->size.height>=rect.size.height)
+                }
+                else if(this->size.width==rect.size.width){
+                    if(this->size.height>=rect.size.height){
                         return true;
+                    }
+                }
+            }
+        }
         return false;
     }
     //Operator <
     bool operator<(edk::recti16 rect){
-        if(this->origin.x<rect.origin.x)
+        if(this->origin.x<rect.origin.x){
             return true;
-        else if(this->origin.x==rect.origin.x)
-            if(this->origin.y<rect.origin.y)
+        }
+        else if(this->origin.x==rect.origin.x){
+            if(this->origin.y<rect.origin.y){
                 return true;
-            else if(this->origin.y==rect.origin.y)
-                if(this->size.width<rect.size.width)
+            }
+            else if(this->origin.y==rect.origin.y){
+                if(this->size.width<rect.size.width){
                     return true;
-                else if(this->size.width==rect.size.width)
-                    if(this->size.height<rect.size.height)
+                }
+                else if(this->size.width==rect.size.width){
+                    if(this->size.height<rect.size.height){
                         return true;
+                    }
+                }
+            }
+        }
         return false;
     }
     //Operator <=
     bool operator<=(edk::recti16 rect){
-        if(this->origin.x<rect.origin.x)
+        if(this->origin.x<rect.origin.x){
             return true;
-        else if(this->origin.x==rect.origin.x)
-            if(this->origin.y<=rect.origin.y)
+        }
+        else if(this->origin.x==rect.origin.x){
+            if(this->origin.y<=rect.origin.y){
                 return true;
-            else if(this->origin.y==rect.origin.y)
-                if(this->size.width<=rect.size.width)
+            }
+            else if(this->origin.y==rect.origin.y){
+                if(this->size.width<=rect.size.width){
                     return true;
-                else if(this->size.width==rect.size.width)
-                    if(this->size.height<=rect.size.height)
+                }
+                else if(this->size.width==rect.size.width){
+                    if(this->size.height<=rect.size.height){
                         return true;
+                    }
+                }
+            }
+        }
         return false;
     }
     edk::recti16 operator+(edk::recti8 rect){
@@ -1826,62 +1882,90 @@ public:
     }
     //Operator >
     bool operator>(edk::recti32 rect){
-        if(this->origin.x>rect.origin.x)
+        if(this->origin.x>rect.origin.x){
             return true;
-        else if(this->origin.x==rect.origin.x)
-            if(this->origin.y>rect.origin.y)
+        }
+        else if(this->origin.x==rect.origin.x){
+            if(this->origin.y>rect.origin.y){
                 return true;
-            else if(this->origin.y==rect.origin.y)
-                if(this->size.width>rect.size.width)
+            }
+            else if(this->origin.y==rect.origin.y){
+                if(this->size.width>rect.size.width){
                     return true;
-                else if(this->size.width==rect.size.width)
-                    if(this->size.height>rect.size.height)
+                }
+                else if(this->size.width==rect.size.width){
+                    if(this->size.height>rect.size.height){
                         return true;
+                    }
+                }
+            }
+        }
         return false;
     }
     //Operator >=
     bool operator>=(edk::recti32 rect){
-        if(this->origin.x>rect.origin.x)
+        if(this->origin.x>rect.origin.x){
             return true;
-        else if(this->origin.x==rect.origin.x)
-            if(this->origin.y>=rect.origin.y)
+        }
+        else if(this->origin.x==rect.origin.x){
+            if(this->origin.y>=rect.origin.y){
                 return true;
-            else if(this->origin.y==rect.origin.y)
-                if(this->size.width>=rect.size.width)
+            }
+            else if(this->origin.y==rect.origin.y){
+                if(this->size.width>=rect.size.width){
                     return true;
-                else if(this->size.width==rect.size.width)
-                    if(this->size.height>=rect.size.height)
+                }
+                else if(this->size.width==rect.size.width){
+                    if(this->size.height>=rect.size.height){
                         return true;
+                    }
+                }
+            }
+        }
         return false;
     }
     //Operator <
     bool operator<(edk::recti32 rect){
-        if(this->origin.x<rect.origin.x)
+        if(this->origin.x<rect.origin.x){
             return true;
-        else if(this->origin.x==rect.origin.x)
-            if(this->origin.y<rect.origin.y)
+        }
+        else if(this->origin.x==rect.origin.x){
+            if(this->origin.y<rect.origin.y){
                 return true;
-            else if(this->origin.y==rect.origin.y)
-                if(this->size.width<rect.size.width)
+            }
+            else if(this->origin.y==rect.origin.y){
+                if(this->size.width<rect.size.width){
                     return true;
-                else if(this->size.width==rect.size.width)
-                    if(this->size.height<rect.size.height)
+                }
+                else if(this->size.width==rect.size.width){
+                    if(this->size.height<rect.size.height){
                         return true;
+                    }
+                }
+            }
+        }
         return false;
     }
     //Operator <=
     bool operator<=(edk::recti32 rect){
-        if(this->origin.x<rect.origin.x)
+        if(this->origin.x<rect.origin.x){
             return true;
-        else if(this->origin.x==rect.origin.x)
-            if(this->origin.y<=rect.origin.y)
+        }
+        else if(this->origin.x==rect.origin.x){
+            if(this->origin.y<=rect.origin.y){
                 return true;
-            else if(this->origin.y==rect.origin.y)
-                if(this->size.width<=rect.size.width)
+            }
+            else if(this->origin.y==rect.origin.y){
+                if(this->size.width<=rect.size.width){
                     return true;
-                else if(this->size.width==rect.size.width)
-                    if(this->size.height<=rect.size.height)
+                }
+                else if(this->size.width==rect.size.width){
+                    if(this->size.height<=rect.size.height){
                         return true;
+                    }
+                }
+            }
+        }
         return false;
     }
     edk::recti32 operator+(edk::recti8 rect){
@@ -2746,62 +2830,90 @@ public:
     }
     //Operator >
     bool operator>(edk::recti64 rect){
-        if(this->origin.x>rect.origin.x)
+        if(this->origin.x>rect.origin.x){
             return true;
-        else if(this->origin.x==rect.origin.x)
-            if(this->origin.y>rect.origin.y)
+        }
+        else if(this->origin.x==rect.origin.x){
+            if(this->origin.y>rect.origin.y){
                 return true;
-            else if(this->origin.y==rect.origin.y)
-                if(this->size.width>rect.size.width)
+            }
+            else if(this->origin.y==rect.origin.y){
+                if(this->size.width>rect.size.width){
                     return true;
-                else if(this->size.width==rect.size.width)
-                    if(this->size.height>rect.size.height)
+                }
+                else if(this->size.width==rect.size.width){
+                    if(this->size.height>rect.size.height){
                         return true;
+                    }
+                }
+            }
+        }
         return false;
     }
     //Operator >=
     bool operator>=(edk::recti64 rect){
-        if(this->origin.x>rect.origin.x)
+        if(this->origin.x>rect.origin.x){
             return true;
-        else if(this->origin.x==rect.origin.x)
-            if(this->origin.y>=rect.origin.y)
+        }
+        else if(this->origin.x==rect.origin.x){
+            if(this->origin.y>=rect.origin.y){
                 return true;
-            else if(this->origin.y==rect.origin.y)
-                if(this->size.width>=rect.size.width)
+            }
+            else if(this->origin.y==rect.origin.y){
+                if(this->size.width>=rect.size.width){
                     return true;
-                else if(this->size.width==rect.size.width)
-                    if(this->size.height>=rect.size.height)
+                }
+                else if(this->size.width==rect.size.width){
+                    if(this->size.height>=rect.size.height){
                         return true;
+                    }
+                }
+            }
+        }
         return false;
     }
     //Operator <
     bool operator<(edk::recti64 rect){
-        if(this->origin.x<rect.origin.x)
+        if(this->origin.x<rect.origin.x){
             return true;
-        else if(this->origin.x==rect.origin.x)
-            if(this->origin.y<rect.origin.y)
+        }
+        else if(this->origin.x==rect.origin.x){
+            if(this->origin.y<rect.origin.y){
                 return true;
-            else if(this->origin.y==rect.origin.y)
-                if(this->size.width<rect.size.width)
+            }
+            else if(this->origin.y==rect.origin.y){
+                if(this->size.width<rect.size.width){
                     return true;
-                else if(this->size.width==rect.size.width)
-                    if(this->size.height<rect.size.height)
+                }
+                else if(this->size.width==rect.size.width){
+                    if(this->size.height<rect.size.height){
                         return true;
+                    }
+                }
+            }
+        }
         return false;
     }
     //Operator <=
     bool operator<=(edk::recti64 rect){
-        if(this->origin.x<rect.origin.x)
+        if(this->origin.x<rect.origin.x){
             return true;
-        else if(this->origin.x==rect.origin.x)
-            if(this->origin.y<=rect.origin.y)
+        }
+        else if(this->origin.x==rect.origin.x){
+            if(this->origin.y<=rect.origin.y){
                 return true;
-            else if(this->origin.y==rect.origin.y)
-                if(this->size.width<=rect.size.width)
+            }
+            else if(this->origin.y==rect.origin.y){
+                if(this->size.width<=rect.size.width){
                     return true;
-                else if(this->size.width==rect.size.width)
-                    if(this->size.height<=rect.size.height)
+                }
+                else if(this->size.width==rect.size.width){
+                    if(this->size.height<=rect.size.height){
                         return true;
+                    }
+                }
+            }
+        }
         return false;
     }
     edk::recti64 operator+(edk::recti8 rect){
@@ -3582,62 +3694,90 @@ public:
     }
     //Operator >
     bool operator>(edk::rectui8 rect){
-        if(this->origin.x>rect.origin.x)
+        if(this->origin.x>rect.origin.x){
             return true;
-        else if(this->origin.x==rect.origin.x)
-            if(this->origin.y>rect.origin.y)
+        }
+        else if(this->origin.x==rect.origin.x){
+            if(this->origin.y>rect.origin.y){
                 return true;
-            else if(this->origin.y==rect.origin.y)
-                if(this->size.width>rect.size.width)
+            }
+            else if(this->origin.y==rect.origin.y){
+                if(this->size.width>rect.size.width){
                     return true;
-                else if(this->size.width==rect.size.width)
-                    if(this->size.height>rect.size.height)
+                }
+                else if(this->size.width==rect.size.width){
+                    if(this->size.height>rect.size.height){
                         return true;
+                    }
+                }
+            }
+        }
         return false;
     }
     //Operator >=
     bool operator>=(edk::rectui8 rect){
-        if(this->origin.x>rect.origin.x)
+        if(this->origin.x>rect.origin.x){
             return true;
-        else if(this->origin.x==rect.origin.x)
-            if(this->origin.y>=rect.origin.y)
+        }
+        else if(this->origin.x==rect.origin.x){
+            if(this->origin.y>=rect.origin.y){
                 return true;
-            else if(this->origin.y==rect.origin.y)
-                if(this->size.width>=rect.size.width)
+            }
+            else if(this->origin.y==rect.origin.y){
+                if(this->size.width>=rect.size.width){
                     return true;
-                else if(this->size.width==rect.size.width)
-                    if(this->size.height>=rect.size.height)
+                }
+                else if(this->size.width==rect.size.width){
+                    if(this->size.height>=rect.size.height){
                         return true;
+                    }
+                }
+            }
+        }
         return false;
     }
     //Operator <
     bool operator<(edk::rectui8 rect){
-        if(this->origin.x<rect.origin.x)
+        if(this->origin.x<rect.origin.x){
             return true;
-        else if(this->origin.x==rect.origin.x)
-            if(this->origin.y<rect.origin.y)
+        }
+        else if(this->origin.x==rect.origin.x){
+            if(this->origin.y<rect.origin.y){
                 return true;
-            else if(this->origin.y==rect.origin.y)
-                if(this->size.width<rect.size.width)
+            }
+            else if(this->origin.y==rect.origin.y){
+                if(this->size.width<rect.size.width){
                     return true;
-                else if(this->size.width==rect.size.width)
-                    if(this->size.height<rect.size.height)
+                }
+                else if(this->size.width==rect.size.width){
+                    if(this->size.height<rect.size.height){
                         return true;
+                    }
+                }
+            }
+        }
         return false;
     }
     //Operator <=
     bool operator<=(edk::rectui8 rect){
-        if(this->origin.x<rect.origin.x)
+        if(this->origin.x<rect.origin.x){
             return true;
-        else if(this->origin.x==rect.origin.x)
-            if(this->origin.y<=rect.origin.y)
+        }
+        else if(this->origin.x==rect.origin.x){
+            if(this->origin.y<=rect.origin.y){
                 return true;
-            else if(this->origin.y==rect.origin.y)
-                if(this->size.width<=rect.size.width)
+            }
+            else if(this->origin.y==rect.origin.y){
+                if(this->size.width<=rect.size.width){
                     return true;
-                else if(this->size.width==rect.size.width)
-                    if(this->size.height<=rect.size.height)
+                }
+                else if(this->size.width==rect.size.width){
+                    if(this->size.height<=rect.size.height){
                         return true;
+                    }
+                }
+            }
+        }
         return false;
     }
     edk::rectui8 operator+(edk::rectui8 rect){
@@ -4074,62 +4214,90 @@ public:
     }
     //Operator >
     bool operator>(edk::rectui16 rect){
-        if(this->origin.x>rect.origin.x)
+        if(this->origin.x>rect.origin.x){
             return true;
-        else if(this->origin.x==rect.origin.x)
-            if(this->origin.y>rect.origin.y)
+        }
+        else if(this->origin.x==rect.origin.x){
+            if(this->origin.y>rect.origin.y){
                 return true;
-            else if(this->origin.y==rect.origin.y)
-                if(this->size.width>rect.size.width)
+            }
+            else if(this->origin.y==rect.origin.y){
+                if(this->size.width>rect.size.width){
                     return true;
-                else if(this->size.width==rect.size.width)
-                    if(this->size.height>rect.size.height)
+                }
+                else if(this->size.width==rect.size.width){
+                    if(this->size.height>rect.size.height){
                         return true;
+                    }
+                }
+            }
+        }
         return false;
     }
     //Operator >=
     bool operator>=(edk::rectui16 rect){
-        if(this->origin.x>rect.origin.x)
+        if(this->origin.x>rect.origin.x){
             return true;
-        else if(this->origin.x==rect.origin.x)
-            if(this->origin.y>=rect.origin.y)
+        }
+        else if(this->origin.x==rect.origin.x){
+            if(this->origin.y>=rect.origin.y){
                 return true;
-            else if(this->origin.y==rect.origin.y)
-                if(this->size.width>=rect.size.width)
+            }
+            else if(this->origin.y==rect.origin.y){
+                if(this->size.width>=rect.size.width){
                     return true;
-                else if(this->size.width==rect.size.width)
-                    if(this->size.height>=rect.size.height)
+                }
+                else if(this->size.width==rect.size.width){
+                    if(this->size.height>=rect.size.height){
                         return true;
+                    }
+                }
+            }
+        }
         return false;
     }
     //Operator <
     bool operator<(edk::rectui16 rect){
-        if(this->origin.x<rect.origin.x)
+        if(this->origin.x<rect.origin.x){
             return true;
-        else if(this->origin.x==rect.origin.x)
-            if(this->origin.y<rect.origin.y)
+        }
+        else if(this->origin.x==rect.origin.x){
+            if(this->origin.y<rect.origin.y){
                 return true;
-            else if(this->origin.y==rect.origin.y)
-                if(this->size.width<rect.size.width)
+            }
+            else if(this->origin.y==rect.origin.y){
+                if(this->size.width<rect.size.width){
                     return true;
-                else if(this->size.width==rect.size.width)
-                    if(this->size.height<rect.size.height)
+                }
+                else if(this->size.width==rect.size.width){
+                    if(this->size.height<rect.size.height){
                         return true;
+                    }
+                }
+            }
+        }
         return false;
     }
     //Operator <=
     bool operator<=(edk::rectui16 rect){
-        if(this->origin.x<rect.origin.x)
+        if(this->origin.x<rect.origin.x){
             return true;
-        else if(this->origin.x==rect.origin.x)
-            if(this->origin.y<=rect.origin.y)
+        }
+        else if(this->origin.x==rect.origin.x){
+            if(this->origin.y<=rect.origin.y){
                 return true;
-            else if(this->origin.y==rect.origin.y)
-                if(this->size.width<=rect.size.width)
+            }
+            else if(this->origin.y==rect.origin.y){
+                if(this->size.width<=rect.size.width){
                     return true;
-                else if(this->size.width==rect.size.width)
-                    if(this->size.height<=rect.size.height)
+                }
+                else if(this->size.width==rect.size.width){
+                    if(this->size.height<=rect.size.height){
                         return true;
+                    }
+                }
+            }
+        }
         return false;
     }
     edk::rectui16 operator+(edk::rectui8 rect){
@@ -4638,62 +4806,90 @@ public:
     }
     //Operator >
     bool operator>(edk::rectui32 rect){
-        if(this->origin.x>rect.origin.x)
+        if(this->origin.x>rect.origin.x){
             return true;
-        else if(this->origin.x==rect.origin.x)
-            if(this->origin.y>rect.origin.y)
+        }
+        else if(this->origin.x==rect.origin.x){
+            if(this->origin.y>rect.origin.y){
                 return true;
-            else if(this->origin.y==rect.origin.y)
-                if(this->size.width>rect.size.width)
+            }
+            else if(this->origin.y==rect.origin.y){
+                if(this->size.width>rect.size.width){
                     return true;
-                else if(this->size.width==rect.size.width)
-                    if(this->size.height>rect.size.height)
+                }
+                else if(this->size.width==rect.size.width){
+                    if(this->size.height>rect.size.height){
                         return true;
+                    }
+                }
+            }
+        }
         return false;
     }
     //Operator >=
     bool operator>=(edk::rectui32 rect){
-        if(this->origin.x>rect.origin.x)
+        if(this->origin.x>rect.origin.x){
             return true;
-        else if(this->origin.x==rect.origin.x)
-            if(this->origin.y>=rect.origin.y)
+        }
+        else if(this->origin.x==rect.origin.x){
+            if(this->origin.y>=rect.origin.y){
                 return true;
-            else if(this->origin.y==rect.origin.y)
-                if(this->size.width>=rect.size.width)
+            }
+            else if(this->origin.y==rect.origin.y){
+                if(this->size.width>=rect.size.width){
                     return true;
-                else if(this->size.width==rect.size.width)
-                    if(this->size.height>=rect.size.height)
+                }
+                else if(this->size.width==rect.size.width){
+                    if(this->size.height>=rect.size.height){
                         return true;
+                    }
+                }
+            }
+        }
         return false;
     }
     //Operator <
     bool operator<(edk::rectui32 rect){
-        if(this->origin.x<rect.origin.x)
+        if(this->origin.x<rect.origin.x){
             return true;
-        else if(this->origin.x==rect.origin.x)
-            if(this->origin.y<rect.origin.y)
+        }
+        else if(this->origin.x==rect.origin.x){
+            if(this->origin.y<rect.origin.y){
                 return true;
-            else if(this->origin.y==rect.origin.y)
-                if(this->size.width<rect.size.width)
+            }
+            else if(this->origin.y==rect.origin.y){
+                if(this->size.width<rect.size.width){
                     return true;
-                else if(this->size.width==rect.size.width)
-                    if(this->size.height<rect.size.height)
+                }
+                else if(this->size.width==rect.size.width){
+                    if(this->size.height<rect.size.height){
                         return true;
+                    }
+                }
+            }
+        }
         return false;
     }
     //Operator <=
     bool operator<=(edk::rectui32 rect){
-        if(this->origin.x<rect.origin.x)
+        if(this->origin.x<rect.origin.x){
             return true;
-        else if(this->origin.x==rect.origin.x)
-            if(this->origin.y<=rect.origin.y)
+        }
+        else if(this->origin.x==rect.origin.x){
+            if(this->origin.y<=rect.origin.y){
                 return true;
-            else if(this->origin.y==rect.origin.y)
-                if(this->size.width<=rect.size.width)
+            }
+            else if(this->origin.y==rect.origin.y){
+                if(this->size.width<=rect.size.width){
                     return true;
-                else if(this->size.width==rect.size.width)
-                    if(this->size.height<=rect.size.height)
+                }
+                else if(this->size.width==rect.size.width){
+                    if(this->size.height<=rect.size.height){
                         return true;
+                    }
+                }
+            }
+        }
         return false;
     }
     edk::rectui32 operator+(edk::rectui8 rect){
@@ -5274,62 +5470,90 @@ public:
     }
     //Operator >
     bool operator>(edk::rectui64 rect){
-        if(this->origin.x>rect.origin.x)
+        if(this->origin.x>rect.origin.x){
             return true;
-        else if(this->origin.x==rect.origin.x)
-            if(this->origin.y>rect.origin.y)
+        }
+        else if(this->origin.x==rect.origin.x){
+            if(this->origin.y>rect.origin.y){
                 return true;
-            else if(this->origin.y==rect.origin.y)
-                if(this->size.width>rect.size.width)
+            }
+            else if(this->origin.y==rect.origin.y){
+                if(this->size.width>rect.size.width){
                     return true;
-                else if(this->size.width==rect.size.width)
-                    if(this->size.height>rect.size.height)
+                }
+                else if(this->size.width==rect.size.width){
+                    if(this->size.height>rect.size.height){
                         return true;
+                    }
+                }
+            }
+        }
         return false;
     }
     //Operator >=
     bool operator>=(edk::rectui64 rect){
-        if(this->origin.x>rect.origin.x)
+        if(this->origin.x>rect.origin.x){
             return true;
-        else if(this->origin.x==rect.origin.x)
-            if(this->origin.y>=rect.origin.y)
+        }
+        else if(this->origin.x==rect.origin.x){
+            if(this->origin.y>=rect.origin.y){
                 return true;
-            else if(this->origin.y==rect.origin.y)
-                if(this->size.width>=rect.size.width)
+            }
+            else if(this->origin.y==rect.origin.y){
+                if(this->size.width>=rect.size.width){
                     return true;
-                else if(this->size.width==rect.size.width)
-                    if(this->size.height>=rect.size.height)
+                }
+                else if(this->size.width==rect.size.width){
+                    if(this->size.height>=rect.size.height){
                         return true;
+                    }
+                }
+            }
+        }
         return false;
     }
     //Operator <
     bool operator<(edk::rectui64 rect){
-        if(this->origin.x<rect.origin.x)
+        if(this->origin.x<rect.origin.x){
             return true;
-        else if(this->origin.x==rect.origin.x)
-            if(this->origin.y<rect.origin.y)
+        }
+        else if(this->origin.x==rect.origin.x){
+            if(this->origin.y<rect.origin.y){
                 return true;
-            else if(this->origin.y==rect.origin.y)
-                if(this->size.width<rect.size.width)
+            }
+            else if(this->origin.y==rect.origin.y){
+                if(this->size.width<rect.size.width){
                     return true;
-                else if(this->size.width==rect.size.width)
-                    if(this->size.height<rect.size.height)
+                }
+                else if(this->size.width==rect.size.width){
+                    if(this->size.height<rect.size.height){
                         return true;
+                    }
+                }
+            }
+        }
         return false;
     }
     //Operator <=
     bool operator<=(edk::rectui64 rect){
-        if(this->origin.x<rect.origin.x)
+        if(this->origin.x<rect.origin.x){
             return true;
-        else if(this->origin.x==rect.origin.x)
-            if(this->origin.y<=rect.origin.y)
+        }
+        else if(this->origin.x==rect.origin.x){
+            if(this->origin.y<=rect.origin.y){
                 return true;
-            else if(this->origin.y==rect.origin.y)
-                if(this->size.width<=rect.size.width)
+            }
+            else if(this->origin.y==rect.origin.y){
+                if(this->size.width<=rect.size.width){
                     return true;
-                else if(this->size.width==rect.size.width)
-                    if(this->size.height<=rect.size.height)
+                }
+                else if(this->size.width==rect.size.width){
+                    if(this->size.height<=rect.size.height){
                         return true;
+                    }
+                }
+            }
+        }
         return false;
     }
     edk::rectui64 operator+(edk::rectui8 rect){
@@ -5976,62 +6200,90 @@ public:
     }
     //Operator >
     bool operator>(edk::rectf32 rect){
-        if(this->origin.x>rect.origin.x)
+        if(this->origin.x>rect.origin.x){
             return true;
-        else if(this->origin.x==rect.origin.x)
-            if(this->origin.y>rect.origin.y)
+        }
+        else if(this->origin.x==rect.origin.x){
+            if(this->origin.y>rect.origin.y){
                 return true;
-            else if(this->origin.y==rect.origin.y)
-                if(this->size.width>rect.size.width)
+            }
+            else if(this->origin.y==rect.origin.y){
+                if(this->size.width>rect.size.width){
                     return true;
-                else if(this->size.width==rect.size.width)
-                    if(this->size.height>rect.size.height)
+                }
+                else if(this->size.width==rect.size.width){
+                    if(this->size.height>rect.size.height){
                         return true;
+                    }
+                }
+            }
+        }
         return false;
     }
     //Operator >=
     bool operator>=(edk::rectf32 rect){
-        if(this->origin.x>rect.origin.x)
+        if(this->origin.x>rect.origin.x){
             return true;
-        else if(this->origin.x==rect.origin.x)
-            if(this->origin.y>=rect.origin.y)
+        }
+        else if(this->origin.x==rect.origin.x){
+            if(this->origin.y>=rect.origin.y){
                 return true;
-            else if(this->origin.y==rect.origin.y)
-                if(this->size.width>=rect.size.width)
+            }
+            else if(this->origin.y==rect.origin.y){
+                if(this->size.width>=rect.size.width){
                     return true;
-                else if(this->size.width==rect.size.width)
-                    if(this->size.height>=rect.size.height)
+                }
+                else if(this->size.width==rect.size.width){
+                    if(this->size.height>=rect.size.height){
                         return true;
+                    }
+                }
+            }
+        }
         return false;
     }
     //Operator <
     bool operator<(edk::rectf32 rect){
-        if(this->origin.x<rect.origin.x)
+        if(this->origin.x<rect.origin.x){
             return true;
-        else if(this->origin.x==rect.origin.x)
-            if(this->origin.y<rect.origin.y)
+        }
+        else if(this->origin.x==rect.origin.x){
+            if(this->origin.y<rect.origin.y){
                 return true;
-            else if(this->origin.y==rect.origin.y)
-                if(this->size.width<rect.size.width)
+            }
+            else if(this->origin.y==rect.origin.y){
+                if(this->size.width<rect.size.width){
                     return true;
-                else if(this->size.width==rect.size.width)
-                    if(this->size.height<rect.size.height)
+                }
+                else if(this->size.width==rect.size.width){
+                    if(this->size.height<rect.size.height){
                         return true;
+                    }
+                }
+            }
+        }
         return false;
     }
     //Operator <=
     bool operator<=(edk::rectf32 rect){
-        if(this->origin.x<rect.origin.x)
+        if(this->origin.x<rect.origin.x){
             return true;
-        else if(this->origin.x==rect.origin.x)
-            if(this->origin.y<=rect.origin.y)
+        }
+        else if(this->origin.x==rect.origin.x){
+            if(this->origin.y<=rect.origin.y){
                 return true;
-            else if(this->origin.y==rect.origin.y)
-                if(this->size.width<=rect.size.width)
+            }
+            else if(this->origin.y==rect.origin.y){
+                if(this->size.width<=rect.size.width){
                     return true;
-                else if(this->size.width==rect.size.width)
-                    if(this->size.height<=rect.size.height)
+                }
+                else if(this->size.width==rect.size.width){
+                    if(this->size.height<=rect.size.height){
                         return true;
+                    }
+                }
+            }
+        }
         return false;
     }
     edk::rectf32 operator+(edk::rectf32 rect){
@@ -6870,62 +7122,90 @@ public:
     }
     //Operator >
     bool operator>(edk::rectf64 rect){
-        if(this->origin.x>rect.origin.x)
+        if(this->origin.x>rect.origin.x){
             return true;
-        else if(this->origin.x==rect.origin.x)
-            if(this->origin.y>rect.origin.y)
+        }
+        else if(this->origin.x==rect.origin.x){
+            if(this->origin.y>rect.origin.y){
                 return true;
-            else if(this->origin.y==rect.origin.y)
-                if(this->size.width>rect.size.width)
+            }
+            else if(this->origin.y==rect.origin.y){
+                if(this->size.width>rect.size.width){
                     return true;
-                else if(this->size.width==rect.size.width)
-                    if(this->size.height>rect.size.height)
+                }
+                else if(this->size.width==rect.size.width){
+                    if(this->size.height>rect.size.height){
                         return true;
+                    }
+                }
+            }
+        }
         return false;
     }
     //Operator >=
     bool operator>=(edk::rectf64 rect){
-        if(this->origin.x>rect.origin.x)
+        if(this->origin.x>rect.origin.x){
             return true;
-        else if(this->origin.x==rect.origin.x)
-            if(this->origin.y>=rect.origin.y)
+        }
+        else if(this->origin.x==rect.origin.x){
+            if(this->origin.y>=rect.origin.y){
                 return true;
-            else if(this->origin.y==rect.origin.y)
-                if(this->size.width>=rect.size.width)
+            }
+            else if(this->origin.y==rect.origin.y){
+                if(this->size.width>=rect.size.width){
                     return true;
-                else if(this->size.width==rect.size.width)
-                    if(this->size.height>=rect.size.height)
+                }
+                else if(this->size.width==rect.size.width){
+                    if(this->size.height>=rect.size.height){
                         return true;
+                    }
+                }
+            }
+        }
         return false;
     }
     //Operator <
     bool operator<(edk::rectf64 rect){
-        if(this->origin.x<rect.origin.x)
+        if(this->origin.x<rect.origin.x){
             return true;
-        else if(this->origin.x==rect.origin.x)
-            if(this->origin.y<rect.origin.y)
+        }
+        else if(this->origin.x==rect.origin.x){
+            if(this->origin.y<rect.origin.y){
                 return true;
-            else if(this->origin.y==rect.origin.y)
-                if(this->size.width<rect.size.width)
+            }
+            else if(this->origin.y==rect.origin.y){
+                if(this->size.width<rect.size.width){
                     return true;
-                else if(this->size.width==rect.size.width)
-                    if(this->size.height<rect.size.height)
+                }
+                else if(this->size.width==rect.size.width){
+                    if(this->size.height<rect.size.height){
                         return true;
+                    }
+                }
+            }
+        }
         return false;
     }
     //Operator <=
     bool operator<=(edk::rectf64 rect){
-        if(this->origin.x<rect.origin.x)
+        if(this->origin.x<rect.origin.x){
             return true;
-        else if(this->origin.x==rect.origin.x)
-            if(this->origin.y<=rect.origin.y)
+        }
+        else if(this->origin.x==rect.origin.x){
+            if(this->origin.y<=rect.origin.y){
                 return true;
-            else if(this->origin.y==rect.origin.y)
-                if(this->size.width<=rect.size.width)
+            }
+            else if(this->origin.y==rect.origin.y){
+                if(this->size.width<=rect.size.width){
                     return true;
-                else if(this->size.width==rect.size.width)
-                    if(this->size.height<=rect.size.height)
+                }
+                else if(this->size.width==rect.size.width){
+                    if(this->size.height<=rect.size.height){
                         return true;
+                    }
+                }
+            }
+        }
         return false;
     }
     edk::rectf64 operator+(edk::rectf64 rect){
