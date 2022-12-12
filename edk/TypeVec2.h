@@ -5203,12 +5203,16 @@ public:
     //==
     bool operator==(edk::vec2f32 vec){
         //
-        return (this->x==vec.x&&this->y==vec.y);
+        return (this->x>(vec.x-0.0001f) && this->x<(vec.x+0.0001f) &&
+                this->y>(vec.y-0.0001f) && this->y<(vec.y+0.0001f)
+                );
     }
     //!=
     bool operator!=(edk::vec2f32 vec){
         //
-        return (this->x!=vec.x||this->y!=vec.y);
+        return (this->x<(vec.x-0.0001f) || this->x>(vec.x+0.0001f) ||
+                this->y<(vec.y-0.0001f) || this->y>(vec.y+0.0001f)
+                );
     }
 
     //Operator >
@@ -6035,12 +6039,16 @@ public:
     //==
     bool operator==(edk::vec2f64 vec){
         //
-        return (this->x==vec.x&&this->y==vec.y);
+        return (this->x>(vec.x-0.000001f) && this->x<(vec.x+0.000001f) &&
+                this->y>(vec.y-0.000001f) && this->y<(vec.y+0.000001f)
+                );
     }
     //!=
     bool operator!=(edk::vec2f64 vec){
         //
-        return (this->x!=vec.x||this->y!=vec.y);
+        return (this->x<(vec.x-0.000001f) || this->x>(vec.x+0.000001f) ||
+                this->y<(vec.y-0.000001f) || this->y>(vec.y+0.000001f)
+                );
     }
 
     //Operator >

@@ -551,9 +551,16 @@ bool edk::Cenario2D::LevelObj::readFromXML(edk::XML* xml,edk::uint32 id,edk::til
                             //read the objects
                             this->objs = new edk::Cenario2D::TreeObjDepth;
                             if(this->objs){
-                                if(!this->objs->readFromXML(xml,0u)){
+                                this->quadObjs = new edk::Cenario2D::QuadObjs;
+                                if(this->quadObjs){
+                                    if(!this->objs->readFromXML(xml,0u)){
+                                        delete this->quadObjs;
+                                        delete this->objs;
+                                        this->clean();
+                                    }
+                                }
+                                else{
                                     delete this->objs;
-                                    this->clean();
                                 }
                             }
                         }
@@ -561,9 +568,16 @@ bool edk::Cenario2D::LevelObj::readFromXML(edk::XML* xml,edk::uint32 id,edk::til
                             //read the physics objects
                             this->objsPhys = new edk::Cenario2D::TreePhysObjDepth(world);
                             if(this->objsPhys){
-                                if(!this->objsPhys->readFromXML(xml,0u,true)){
+                                this->quadPhysicObjs = new edk::Cenario2D::QuadPhyicObjs(world);
+                                if(quadPhysicObjs){
+                                    if(!this->objsPhys->readFromXML(xml,0u,true)){
+                                        delete this->quadPhysicObjs;
+                                        delete this->objsPhys;
+                                        this->clean();
+                                    }
+                                }
+                                else{
                                     delete this->objsPhys;
-                                    this->clean();
                                 }
                             }
                         }
@@ -633,9 +647,16 @@ bool edk::Cenario2D::LevelObj::readFromXMLFromPack(edk::pack::FilePackage* pack,
                             //read the objects
                             this->objs = new edk::Cenario2D::TreeObjDepth;
                             if(this->objs){
-                                if(!this->objs->readFromXMLFromPack(pack,xml,0u)){
+                                this->quadObjs = new edk::Cenario2D::QuadObjs;
+                                if(this->quadObjs){
+                                    if(!this->objs->readFromXMLFromPack(pack,xml,0u)){
+                                        delete this->quadObjs;
+                                        delete this->objs;
+                                        this->clean();
+                                    }
+                                }
+                                else{
                                     delete this->objs;
-                                    this->clean();
                                 }
                             }
                         }
@@ -643,9 +664,16 @@ bool edk::Cenario2D::LevelObj::readFromXMLFromPack(edk::pack::FilePackage* pack,
                             //read the physics objects
                             this->objsPhys = new edk::Cenario2D::TreePhysObjDepth(world);
                             if(this->objsPhys){
-                                if(!this->objsPhys->readFromXMLFromPack(pack,xml,0u,true)){
+                                this->quadPhysicObjs = new edk::Cenario2D::QuadPhyicObjs(world);
+                                if(quadPhysicObjs){
+                                    if(!this->objsPhys->readFromXMLFromPack(pack,xml,0u,true)){
+                                        delete this->quadPhysicObjs;
+                                        delete this->objsPhys;
+                                        this->clean();
+                                    }
+                                }
+                                else{
                                     delete this->objsPhys;
-                                    this->clean();
                                 }
                             }
                         }
@@ -1432,12 +1460,22 @@ bool edk::Cenario2D::addObjectToLevel(edk::Object2D* obj,edk::Object2D* objPhys,
                             //else create a new objs tree
                             temp->objs = new edk::Cenario2D::TreeObjDepth;
                             if(temp->objs){
-                                canCreate=true;
+                                temp->quadObjs = new edk::Cenario2D::QuadObjs;
+                                if(temp->quadObjs){
+                                    canCreate=true;
+                                }
+                                else{
+                                    delete temp->objs;
+                                    temp->objs=NULL;
+                                }
                             }
                         }
                         if(canCreate){
                             //add the object
                             if(temp->objs->addObject(created,obj,depth)){
+                                //add the object into the quad
+                                edk::Cenario2D::ObjClass* tempClass = temp->objs->getObjectClassFromObject(obj);
+                                temp->quadObjs->add(tempClass);
                                 //return true
                                 return true;
                             }
@@ -1466,12 +1504,23 @@ bool edk::Cenario2D::addObjectToLevel(edk::Object2D* obj,edk::Object2D* objPhys,
                             //else create a new objs tree
                             temp->objsPhys = new edk::Cenario2D::TreePhysObjDepth(&this->world);
                             if(temp->objsPhys){
-                                canCreate=true;
+                                temp->quadPhysicObjs = new edk::Cenario2D::QuadPhyicObjs(&this->world);
+                                if(temp->quadPhysicObjs){
+                                    canCreate=true;
+                                }
+                                else{
+                                    delete temp->objsPhys;
+                                    temp->objsPhys=NULL;
+                                }
                             }
                         }
                         if(canCreate){
                             //add the object
                             if(temp->objsPhys->addObject(created,objPhys,depth)){
+                                //add the object into the quad
+                                edk::Cenario2D::ObjClass* tempClass = temp->objsPhys->getObjectClassFromObject(obj);
+                                if(temp)
+                                    temp->quadPhysicObjs->add(tempClass);
                                 //return true
                                 return true;
                             }
@@ -2160,6 +2209,8 @@ void edk::Cenario2D::deleteAllObjects(edk::uint32 levelPosition){
             edk::Cenario2D::LevelObj* level =this->levels[levelPosition];
             if(level){
                 if(level->objs){
+                    if(level->quadObjs)
+                        delete level->quadObjs;
                     edk::uint32 size = level->objs->size();
                     for(edk::uint32 i=0u;i<size;i++){
                         this->treeAnim.remove(level->objs->getObjectInPosition(0u));
@@ -2197,12 +2248,19 @@ bool edk::Cenario2D::removeObject(edk::uint32 levelPosition,edk::Object2D* obj){
                     //remove object from tree
                     this->treeAnim.remove(obj);
                     if(level->objs){
-                        bool ret = level->objs->removeObj(obj);
-                        if(!level->objs->size()){
-                            delete level->objs;
-                            level->clean();
+                        edk::Cenario2D::ObjClass* temp = level->objs->getObjectClassFromObject(obj);
+                        if(temp){
+                            level->quadObjs->remove(temp);
+                            bool ret = level->objs->remove(temp);
+                            if(!level->objs->size()){
+                                if(level->quadObjs){
+                                    delete level->quadObjs;
+                                }
+                                delete level->objs;
+                                level->clean();
+                            }
+                            return ret;
                         }
-                        return ret;
                     }
                 }
             }
@@ -2649,6 +2707,9 @@ bool edk::Cenario2D::deletePhysicObject(edk::uint32 levelPosition,edk::physics2D
                         if(!level->objsPhys->size()){
                             //remove from world
                             delete level->objsPhys;
+                            if(level->quadPhysicObjs){
+                                delete level->quadPhysicObjs;
+                            }
                             level->clean();
                         }
                         return ret;
@@ -2686,6 +2747,9 @@ void edk::Cenario2D::deleteAllPhysicObjects(){
         level = this->levels[i];
         if(level){
             if(level->objsPhys){
+                if(level->quadPhysicObjs){
+                    delete level->quadPhysicObjs;
+                }
                 //remove the objPhys from world
                 edk::uint32 sizePhys = level->objsPhys->size();
                 for(edk::uint32 j=0u;j<sizePhys;j++){
@@ -2710,13 +2774,20 @@ bool edk::Cenario2D::removePhysicObject(edk::uint32 levelPosition,edk::physics2D
                         this->treeAnimPhys.remove(obj);
                         //remove from world
                         this->world.removeObject(obj);
-                        bool ret = level->objsPhys->removeObj((edk::Object2D*)obj);
-                        if(!level->objsPhys->size()){
-                            //remove from world
-                            delete level->objsPhys;
-                            level->clean();
+                        edk::Cenario2D::ObjClass* temp = level->objsPhys->getObjectClassFromObject((edk::Object2D*)obj);
+                        if(temp){
+                            level->quadPhysicObjs->remove(temp);
+                            bool ret = level->objsPhys->remove(temp);
+                            if(!level->objsPhys->size()){
+                                //remove from world
+                                if(level->quadPhysicObjs){
+                                    delete level->quadPhysicObjs;
+                                }
+                                delete level->objsPhys;
+                                level->clean();
+                            }
+                            return ret;
                         }
-                        return ret;
                     }
                 }
             }
@@ -2954,6 +3025,9 @@ void edk::Cenario2D::deleteLevel(edk::uint32 levelPosition){
                     this->deleteAllObjects(levelPosition+1u);
                 }
                 if(level->objsPhys){
+                    if(level->quadPhysicObjs){
+                        delete level->quadPhysicObjs;
+                    }
                     //remove the objPhys from world
                     edk::uint32 sizePhys = level->objsPhys->size();
                     for(edk::uint32 j=0u;j<sizePhys;j++){
@@ -2982,6 +3056,9 @@ void edk::Cenario2D::deleteAllLevels(){
                     this->deleteAllObjects(i+1u);
                 }
                 if(level->objsPhys){
+                    if(level->quadPhysicObjs){
+                        delete level->quadPhysicObjs;
+                    }
                     //remove the objPhys from world
                     edk::uint32 sizePhys = level->objsPhys->size();
                     for(edk::uint32 j=0u;j<sizePhys;j++){
@@ -4450,6 +4527,19 @@ bool edk::Cenario2D::readFromXML(edk::XML* xml,edk::uint32 id){
 
                     ret=true;
                     xml->selectFather();
+
+                    //generate the quadtree position and size
+                    {
+                        edk::uint32 size = this->levels.size();
+                        edk::Cenario2D::LevelObj* level=NULL;
+                        for(edk::uint32 i=0u;i<size;i++){
+                            level=this->levels[i];
+                            if(level){
+                                level->generateLevelRect();
+                                level->addObjectsToQuad();
+                            }
+                        }
+                    }
                 }
                 delete[] name;
             }
@@ -4825,6 +4915,19 @@ bool edk::Cenario2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* 
 
                     ret=true;
                     xml->selectFather();
+
+                    //generate the quadtree position and size
+                    {
+                        edk::uint32 size = this->levels.size();
+                        edk::Cenario2D::LevelObj* level=NULL;
+                        for(edk::uint32 i=0u;i<size;i++){
+                            level=this->levels[i];
+                            if(level){
+                                level->generateLevelRect();
+                                level->addObjectsToQuad();
+                            }
+                        }
+                    }
                 }
                 delete[] name;
             }
@@ -5238,6 +5341,19 @@ bool edk::Cenario2D::readLevelFromXML(edk::XML* xml,edk::uint32 level,edk::uint3
 
                     ret=true;
                     xml->selectFather();
+
+                    //generate the quadtree position and size
+                    {
+                        edk::uint32 size = this->levels.size();
+                        edk::Cenario2D::LevelObj* level=NULL;
+                        for(edk::uint32 i=0u;i<size;i++){
+                            level=this->levels[i];
+                            if(level){
+                                level->generateLevelRect();
+                                level->addObjectsToQuad();
+                            }
+                        }
+                    }
                 }
                 delete[] name;
             }
@@ -5648,6 +5764,19 @@ bool edk::Cenario2D::readLevelFromXMLFromPack(edk::pack::FilePackage* pack,edk::
 
                     ret=true;
                     xml->selectFather();
+
+                    //generate the quadtree position and size
+                    {
+                        edk::uint32 size = this->levels.size();
+                        edk::Cenario2D::LevelObj* level=NULL;
+                        for(edk::uint32 i=0u;i<size;i++){
+                            level=this->levels[i];
+                            if(level){
+                                level->generateLevelRect();
+                                level->addObjectsToQuad();
+                            }
+                        }
+                    }
                 }
                 delete[] name;
             }
@@ -6026,6 +6155,19 @@ bool edk::Cenario2D::readFromXMLWithoutLoadPhysics(edk::XML* xml,edk::uint32 id)
 
                     ret=true;
                     xml->selectFather();
+
+                    //generate the quadtree position and size
+                    {
+                        edk::uint32 size = this->levels.size();
+                        edk::Cenario2D::LevelObj* level=NULL;
+                        for(edk::uint32 i=0u;i<size;i++){
+                            level=this->levels[i];
+                            if(level){
+                                level->generateLevelRect();
+                                level->addObjectsToQuad();
+                            }
+                        }
+                    }
                 }
                 delete[] name;
             }
@@ -6401,6 +6543,19 @@ bool edk::Cenario2D::readFromXMLFromPackWithoutLoadPhysics(edk::pack::FilePackag
 
                     ret=true;
                     xml->selectFather();
+
+                    //generate the quadtree position and size
+                    {
+                        edk::uint32 size = this->levels.size();
+                        edk::Cenario2D::LevelObj* level=NULL;
+                        for(edk::uint32 i=0u;i<size;i++){
+                            level=this->levels[i];
+                            if(level){
+                                level->generateLevelRect();
+                                level->addObjectsToQuad();
+                            }
+                        }
+                    }
                 }
                 delete[] name;
             }
@@ -6814,6 +6969,19 @@ bool edk::Cenario2D::readLevelFromXMLWithoutLoadPhysics(edk::XML* xml,edk::uint3
 
                     ret=true;
                     xml->selectFather();
+
+                    //generate the quadtree position and size
+                    {
+                        edk::uint32 size = this->levels.size();
+                        edk::Cenario2D::LevelObj* level=NULL;
+                        for(edk::uint32 i=0u;i<size;i++){
+                            level=this->levels[i];
+                            if(level){
+                                level->generateLevelRect();
+                                level->addObjectsToQuad();
+                            }
+                        }
+                    }
                 }
                 delete[] name;
             }
@@ -7224,6 +7392,19 @@ bool edk::Cenario2D::readLevelFromXMLFromPackWithoutLoadPhysics(edk::pack::FileP
 
                     ret=true;
                     xml->selectFather();
+
+                    //generate the quadtree position and size
+                    {
+                        edk::uint32 size = this->levels.size();
+                        edk::Cenario2D::LevelObj* level=NULL;
+                        for(edk::uint32 i=0u;i<size;i++){
+                            level=this->levels[i];
+                            if(level){
+                                level->generateLevelRect();
+                                level->addObjectsToQuad();
+                            }
+                        }
+                    }
                 }
                 delete[] name;
             }

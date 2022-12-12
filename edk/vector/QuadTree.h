@@ -1,8 +1,8 @@
-#ifndef QUADTREE64_H
-#define QUADTREE64_H
+#ifndef QUADTREE_H
+#define QUADTREE_H
 
 /*
-Library QuadTree64 - Create a quadTree with 64 bits rect in EDK Game Engine
+Library QuadTree - Create a quadTree in EDK Game Engine
 Copyright 2013 Eduardo Moura Sales Martins (edimartin@gmail.com)
 
 Permission is hereby granted, free of charge, to any person obtaining
@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside QuadTree64"
+#warning "Inside QuadTree"
 #endif
 
 #pragma once
@@ -40,7 +40,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 #ifdef printMessages
-#warning "    Compiling QuadTree64"
+#warning "    Compiling QuadTree"
 #endif
 
 
@@ -214,6 +214,10 @@ public:
         }
         this->tree = &this->treeThis;
         return false;
+    }
+    //get the tree pointer
+    edk::vector::BinaryTree<typeTemplate>* getTreePointer(){
+        return this->tree;
     }
     //add an element into the tree
     bool addToTree(typeTemplate value){
@@ -579,12 +583,13 @@ public:
     }
 
     //add a object
-    bool add(typeTemplate value){
+    bool add(typeTemplate value, edk::uint32 depthLimit=0xFFFFFFFF){
         //test if have quads inside
         edk::vector::QuadLeaf32<typeTemplate>* temp = &this->root;
         edk::uint8 id=0u;
         bool createNewQuads=true;
         bool ret=false;
+        edk::uint32 depth=0u;
         while(temp){
             //test if the value is inside
             if(this->isElementInside(value,
@@ -655,6 +660,7 @@ public:
                 if(temp->haveQuads()){
                     temp = temp->getQuad(0u);
                     id++;
+                    depth++;
                 }
                 else{
                     temp=NULL;
@@ -663,27 +669,37 @@ public:
             case 1u:
                 //go to the quad 1
                 temp = temp->getFather();
+                depth--;
                 if(temp){
                     temp = temp->getQuad(1u);
                     id++;
+                    depth++;
                 }
                 break;
             case 2u:
                 //go to the quad 2
                 temp = temp->getFather();
+                depth--;
                 if(temp){
                     temp = temp->getQuad(2u);
                     id++;
+                    depth++;
                 }
                 break;
             case 3u:
                 //go to the quad 3
                 temp = temp->getFather();
+                depth--;
                 if(temp){
                     temp = temp->getQuad(3u);
                     id=0u;
+                    depth++;
                 }
                 break;
+            }
+            //test if the depth is bigger then limit
+            if(depth>depthLimit){
+                temp=NULL;
             }
         }
         return ret;
@@ -707,7 +723,7 @@ public:
                     ){
                 //remove the value from the tree
                 if(temp->removeFromTree(value)){
-                        ret=true;
+                    ret=true;
                 }
                 id=0u;
             }
@@ -761,78 +777,87 @@ public:
 
     //select a leaf
     bool selectLeafIWithValue(typeTemplate value){
-        //test if have quads inside
-        edk::vector::QuadLeaf32<typeTemplate>* temp = &this->root;
-        edk::uint8 id=0u;
         bool ret=false;
-        while(temp){
-            //test if the value is inside
-            if(this->isElementInside(value,
-                                     edk::vec2f32(temp->origin.x,
-                                                  temp->origin.y
-                                                  ),
-                                     edk::vec2f32(temp->size.width,
-                                                  temp->size.height
-                                                  )
-                                     )
-                    ){
-                //select the leaf
-                this->selected = temp;
-                id=0u;
-                ret=true;
-            }
-            else{
-                //test if the id is zero
-                if(!id){
-                    //finish the new quads
+        if(this->isRectColliding(value,
+                                 edk::vec2f32(this->root.origin.x,
+                                              this->root.origin.y
+                                              ),
+                                 edk::vec2f32(this->root.size.width,
+                                              this->root.size.height
+                                              )
+                                 )
+                ){
+            ret=true;
+            //test if have quads inside
+            edk::vector::QuadLeaf32<typeTemplate>* temp = &this->root;
+            edk::uint8 id=0u;
+            while(temp){
+                //test if the value is inside
+                if(this->isElementInside(value,
+                                         edk::vec2f32(temp->origin.x,
+                                                      temp->origin.y
+                                                      ),
+                                         edk::vec2f32(temp->size.width,
+                                                      temp->size.height
+                                                      )
+                                         )
+                        ){
+                    //select the leaf
+                    this->selected = temp;
+                    id=0u;
+                }
+                else{
+                    //test if the id is zero
+                    if(!id){
+                        //finish the new quads
+                        break;
+                    }
+                }
+                //searh for the quads
+                switch(id){
+                case 0u:
+                    //go to the quad 0
+                    if(temp->haveQuads()){
+                        temp = temp->getQuad(0u);
+                        id++;
+                    }
+                    else{
+                        temp=NULL;
+                    }
+                    break;
+                case 1u:
+                    //go to the quad 1
+                    temp = temp->getFather();
+                    if(temp){
+                        temp = temp->getQuad(1u);
+                        id++;
+                    }
+                    break;
+                case 2u:
+                    //go to the quad 2
+                    temp = temp->getFather();
+                    if(temp){
+                        temp = temp->getQuad(2u);
+                        id++;
+                    }
+                    break;
+                case 3u:
+                    //go to the quad 3
+                    temp = temp->getFather();
+                    if(temp){
+                        temp = temp->getQuad(3u);
+                        id=0u;
+                    }
                     break;
                 }
             }
-            //searh for the quads
-            switch(id){
-            case 0u:
-                //go to the quad 0
-                if(temp->haveQuads()){
-                    temp = temp->getQuad(0u);
-                    id++;
-                }
-                else{
-                    temp=NULL;
-                }
-                break;
-            case 1u:
-                //go to the quad 1
-                temp = temp->getFather();
-                if(temp){
-                    temp = temp->getQuad(1u);
-                    id++;
-                }
-                break;
-            case 2u:
-                //go to the quad 2
-                temp = temp->getFather();
-                if(temp){
-                    temp = temp->getQuad(2u);
-                    id++;
-                }
-                break;
-            case 3u:
-                //go to the quad 3
-                temp = temp->getFather();
-                if(temp){
-                    temp = temp->getQuad(3u);
-                    id=0u;
-                }
-                break;
+            if(!ret){
+                //select the root
+                this->selected = &this->root;
             }
         }
-        if(!ret){
-            //select the root
-            this->selected = &this->root;
-        }
-        return false;
+        return ret;
     }
-
     bool selectLeafInPoint(edk::vec2f32 point){
         //test if have quads inside
         edk::vector::QuadLeaf32<typeTemplate>* temp = &this->root;
@@ -906,81 +931,94 @@ public:
         return false;
     }
     bool selectLeafInRect(edk::rectf32 rect){
-        //test if have quads inside
         edk::vector::QuadLeaf32<typeTemplate>* temp = &this->root;
-        edk::uint8 id=0u;
+        //first test if the rect is colliding with the root
         bool ret=false;
-        while(temp){
-            //test if the value is inside
-            if(this->isRectInside(rect,
-                                  edk::vec2f32(temp->origin.x,
-                                               temp->origin.y
-                                               ),
-                                  edk::vec2f32(temp->size.width,
-                                               temp->size.height
-                                               )
-                                  )
-                    ){
-                //select the leaf
-                this->selected = temp;
-                id=0u;
-                ret=true;
-            }
-            else{
-                //test if the id is zero
-                if(!id){
-                    //finish the new quads
+        if(this->isRectColliding(rect,
+                                 edk::vec2f32(this->root.origin.x,
+                                              this->root.origin.y
+                                              ),
+                                 edk::vec2f32(this->root.size.width,
+                                              this->root.size.height
+                                              )
+                                 )
+                ){
+            ret=true;
+
+            //test if have quads inside
+            edk::uint8 id=0u;
+            while(temp){
+                //test if the value is inside
+                if(this->isRectInside(rect,
+                                      edk::vec2f32(temp->origin.x,
+                                                   temp->origin.y
+                                                   ),
+                                      edk::vec2f32(temp->size.width,
+                                                   temp->size.height
+                                                   )
+                                      )
+                        ){
+                    //select the leaf
+                    this->selected = temp;
+                    id=0u;
+                }
+                else{
+                    //test if the id is zero
+                    if(!id){
+                        //finish the new quads
+                        break;
+                    }
+                }
+                //searh for the quads
+                switch(id){
+                case 0u:
+                    //go to the quad 0
+                    if(temp->haveQuads()){
+                        temp = temp->getQuad(0u);
+                        id++;
+                    }
+                    else{
+                        temp=NULL;
+                    }
+                    break;
+                case 1u:
+                    //go to the quad 1
+                    temp = temp->getFather();
+                    if(temp){
+                        temp = temp->getQuad(1u);
+                        id++;
+                    }
+                    break;
+                case 2u:
+                    //go to the quad 2
+                    temp = temp->getFather();
+                    if(temp){
+                        temp = temp->getQuad(2u);
+                        id++;
+                    }
+                    break;
+                case 3u:
+                    //go to the quad 3
+                    temp = temp->getFather();
+                    if(temp){
+                        temp = temp->getQuad(3u);
+                        id=0u;
+                    }
                     break;
                 }
             }
-            //searh for the quads
-            switch(id){
-            case 0u:
-                //go to the quad 0
-                if(temp->haveQuads()){
-                    temp = temp->getQuad(0u);
-                    id++;
-                }
-                else{
-                    temp=NULL;
-                }
-                break;
-            case 1u:
-                //go to the quad 1
-                temp = temp->getFather();
-                if(temp){
-                    temp = temp->getQuad(1u);
-                    id++;
-                }
-                break;
-            case 2u:
-                //go to the quad 2
-                temp = temp->getFather();
-                if(temp){
-                    temp = temp->getQuad(2u);
-                    id++;
-                }
-                break;
-            case 3u:
-                //go to the quad 3
-                temp = temp->getFather();
-                if(temp){
-                    temp = temp->getQuad(3u);
-                    id=0u;
-                }
-                break;
+            if(!ret){
+                //select the root
+                this->selected = &this->root;
             }
         }
-        if(!ret){
-            //select the root
-            this->selected = &this->root;
-        }
-        return false;
+        return ret;
     }
 
     //clean the tree
     void clean(edk::rectf32 rect = edk::rectf32(0.f,0.f,1.f,1.f)){
         this->root.clean();
+        this->root.setTree(this->newTree());
         this->root.origin = rect.origin;
         this->root.size = rect.size;
         this->selected=&this->root;
@@ -1000,6 +1038,9 @@ public:
     }
     typeTemplate selectedGetElementInPosition(edk::uint32 position){
         return this->selected->getValueFromTreeInPosition(position);
+    }
+    edk::vector::BinaryTree<typeTemplate>* selectedGetTreePointer(){
+        return this->selected->getTreePointer();
     }
     //Load the elements
     virtual void selectedLoad(){
@@ -1060,7 +1101,7 @@ private:
     edk::vector::QuadLeaf32<typeTemplate> root;
     edk::vector::QuadLeaf32<typeTemplate>* selected;
 
-    virtual bool isRectInside(edk::rectf32 rect,edk::vec2f32 point1,edk::vec2f32 point2){
+    bool isRectInside(edk::rectf32 rect,edk::vec2f32 point1,edk::vec2f32 point2){
         if(rect.origin.x >= point1.x
                 &&
                 rect.origin.y >= point1.y
@@ -1081,7 +1122,19 @@ private:
         }
         return false;
     }
-    virtual bool isPointInside(edk::vec2f32 point,edk::vec2f32 point1,edk::vec2f32 point2){
+    bool isRectColliding(edk::rectf32 rect,edk::vec2f32 point1,edk::vec2f32 point2){
+        if(point1.x <= rect.size.width
+                &&
+                point2.x>= rect.origin.x
+                &&
+                point1.y <= rect.size.height
+                &&
+                point2.y >= rect.origin.y
+                )
+            return true;
+        return false;
+    }
+    bool isPointInside(edk::vec2f32 point,edk::vec2f32 point1,edk::vec2f32 point2){
         if(point.x >= point1.x
                 &&
                 point.y >= point1.y
@@ -1129,12 +1182,13 @@ public:
     }
 
     //add a object
-    bool add(typeTemplate value){
+    bool add(typeTemplate value, edk::uint64 depthLimit=0xFFFFFFFFFFFFFFFF){
         //test if have quads inside
         edk::vector::QuadLeaf64<typeTemplate>* temp = &this->root;
         edk::uint8 id=0u;
         bool createNewQuads=true;
         bool ret=false;
+        edk::uint64 depth = 0u;
         while(temp){
             //test if the value is inside
             if(this->isElementInside(value,
@@ -1205,6 +1259,7 @@ public:
                 if(temp->haveQuads()){
                     temp = temp->getQuad(0u);
                     id++;
+                    depth++;
                 }
                 else{
                     temp=NULL;
@@ -1213,27 +1268,37 @@ public:
             case 1u:
                 //go to the quad 1
                 temp = temp->getFather();
+                depth--;
                 if(temp){
                     temp = temp->getQuad(1u);
                     id++;
+                    depth++;
                 }
                 break;
             case 2u:
                 //go to the quad 2
                 temp = temp->getFather();
+                depth--;
                 if(temp){
                     temp = temp->getQuad(2u);
                     id++;
+                    depth++;
                 }
                 break;
             case 3u:
                 //go to the quad 3
                 temp = temp->getFather();
+                depth--;
                 if(temp){
                     temp = temp->getQuad(3u);
                     id=0u;
+                    depth++;
                 }
                 break;
+            }
+            //test if the depth is bigger then limit
+            if(depth>depthLimit){
+                temp=NULL;
             }
         }
         return ret;
@@ -1257,7 +1322,7 @@ public:
                     ){
                 //remove the value from the tree
                 if(temp->removeFromTree(value)){
-                        ret=true;
+                    ret=true;
                 }
                 id=0u;
             }
@@ -1311,78 +1376,87 @@ public:
 
     //select a leaf
     bool selectLeafIWithValue(typeTemplate value){
-        //test if have quads inside
-        edk::vector::QuadLeaf64<typeTemplate>* temp = &this->root;
-        edk::uint8 id=0u;
         bool ret=false;
-        while(temp){
-            //test if the value is inside
-            if(this->isElementInside(value,
-                                     edk::vec2f64(temp->origin.x,
-                                                  temp->origin.y
-                                                  ),
-                                     edk::vec2f64(temp->size.width,
-                                                  temp->size.height
-                                                  )
-                                     )
-                    ){
-                //select the leaf
-                this->selected = temp;
-                id=0u;
-                ret=true;
-            }
-            else{
-                //test if the id is zero
-                if(!id){
-                    //finish the new quads
+        if(this->isRectColliding(value,
+                                 edk::vec2f64(this->root.origin.x,
+                                              this->root.origin.y
+                                              ),
+                                 edk::vec2f64(this->root.size.width,
+                                              this->root.size.height
+                                              )
+                                 )
+                ){
+            ret=true;
+            //test if have quads inside
+            edk::vector::QuadLeaf64<typeTemplate>* temp = &this->root;
+            edk::uint8 id=0u;
+            while(temp){
+                //test if the value is inside
+                if(this->isElementInside(value,
+                                         edk::vec2f64(temp->origin.x,
+                                                      temp->origin.y
+                                                      ),
+                                         edk::vec2f64(temp->size.width,
+                                                      temp->size.height
+                                                      )
+                                         )
+                        ){
+                    //select the leaf
+                    this->selected = temp;
+                    id=0u;
+                }
+                else{
+                    //test if the id is zero
+                    if(!id){
+                        //finish the new quads
+                        break;
+                    }
+                }
+                //searh for the quads
+                switch(id){
+                case 0u:
+                    //go to the quad 0
+                    if(temp->haveQuads()){
+                        temp = temp->getQuad(0u);
+                        id++;
+                    }
+                    else{
+                        temp=NULL;
+                    }
+                    break;
+                case 1u:
+                    //go to the quad 1
+                    temp = temp->getFather();
+                    if(temp){
+                        temp = temp->getQuad(1u);
+                        id++;
+                    }
+                    break;
+                case 2u:
+                    //go to the quad 2
+                    temp = temp->getFather();
+                    if(temp){
+                        temp = temp->getQuad(2u);
+                        id++;
+                    }
+                    break;
+                case 3u:
+                    //go to the quad 3
+                    temp = temp->getFather();
+                    if(temp){
+                        temp = temp->getQuad(3u);
+                        id=0u;
+                    }
                     break;
                 }
             }
-            //searh for the quads
-            switch(id){
-            case 0u:
-                //go to the quad 0
-                if(temp->haveQuads()){
-                    temp = temp->getQuad(0u);
-                    id++;
-                }
-                else{
-                    temp=NULL;
-                }
-                break;
-            case 1u:
-                //go to the quad 1
-                temp = temp->getFather();
-                if(temp){
-                    temp = temp->getQuad(1u);
-                    id++;
-                }
-                break;
-            case 2u:
-                //go to the quad 2
-                temp = temp->getFather();
-                if(temp){
-                    temp = temp->getQuad(2u);
-                    id++;
-                }
-                break;
-            case 3u:
-                //go to the quad 3
-                temp = temp->getFather();
-                if(temp){
-                    temp = temp->getQuad(3u);
-                    id=0u;
-                }
-                break;
+            if(!ret){
+                //select the root
+                this->selected = &this->root;
             }
         }
-        if(!ret){
-            //select the root
-            this->selected = &this->root;
-        }
-        return false;
+        return ret;
     }
-
     bool selectLeafInPoint(edk::vec2f64 point){
         //test if have quads inside
         edk::vector::QuadLeaf64<typeTemplate>* temp = &this->root;
@@ -1456,76 +1530,88 @@ public:
         return false;
     }
     bool selectLeafInRect(edk::rectf64 rect){
-        //test if have quads inside
-        edk::vector::QuadLeaf64<typeTemplate>* temp = &this->root;
-        edk::uint8 id=0u;
+        //first test if the rect is colliding with the root
         bool ret=false;
-        while(temp){
-            //test if the value is inside
-            if(this->isRectInside(rect,
-                                  edk::vec2f64(temp->origin.x,
-                                               temp->origin.y
-                                               ),
-                                  edk::vec2f64(temp->size.width,
-                                               temp->size.height
-                                               )
-                                  )
-                    ){
-                //select the leaf
-                this->selected = temp;
-                id=0u;
-                ret=true;
-            }
-            else{
-                //test if the id is zero
-                if(!id){
-                    //finish the new quads
+        if(this->isRectColliding(rect,
+                                 edk::vec2f64(this->root.origin.x,
+                                              this->root.origin.y
+                                              ),
+                                 edk::vec2f64(this->root.size.width,
+                                              this->root.size.height
+                                              )
+                                 )
+                ){
+            ret=true;
+
+            //test if have quads inside
+            edk::vector::QuadLeaf64<typeTemplate>* temp = &this->root;
+            edk::uint8 id=0u;
+            while(temp){
+                //test if the value is inside
+                if(this->isRectInside(rect,
+                                      edk::vec2f64(temp->origin.x,
+                                                   temp->origin.y
+                                                   ),
+                                      edk::vec2f64(temp->size.width,
+                                                   temp->size.height
+                                                   )
+                                      )
+                        ){
+                    //select the leaf
+                    this->selected = temp;
+                    id=0u;
+                }
+                else{
+                    //test if the id is zero
+                    if(!id){
+                        //finish the new quads
+                        break;
+                    }
+                }
+                //searh for the quads
+                switch(id){
+                case 0u:
+                    //go to the quad 0
+                    if(temp->haveQuads()){
+                        temp = temp->getQuad(0u);
+                        id++;
+                    }
+                    else{
+                        temp=NULL;
+                    }
+                    break;
+                case 1u:
+                    //go to the quad 1
+                    temp = temp->getFather();
+                    if(temp){
+                        temp = temp->getQuad(1u);
+                        id++;
+                    }
+                    break;
+                case 2u:
+                    //go to the quad 2
+                    temp = temp->getFather();
+                    if(temp){
+                        temp = temp->getQuad(2u);
+                        id++;
+                    }
+                    break;
+                case 3u:
+                    //go to the quad 3
+                    temp = temp->getFather();
+                    if(temp){
+                        temp = temp->getQuad(3u);
+                        id=0u;
+                    }
                     break;
                 }
             }
-            //searh for the quads
-            switch(id){
-            case 0u:
-                //go to the quad 0
-                if(temp->haveQuads()){
-                    temp = temp->getQuad(0u);
-                    id++;
-                }
-                else{
-                    temp=NULL;
-                }
-                break;
-            case 1u:
-                //go to the quad 1
-                temp = temp->getFather();
-                if(temp){
-                    temp = temp->getQuad(1u);
-                    id++;
-                }
-                break;
-            case 2u:
-                //go to the quad 2
-                temp = temp->getFather();
-                if(temp){
-                    temp = temp->getQuad(2u);
-                    id++;
-                }
-                break;
-            case 3u:
-                //go to the quad 3
-                temp = temp->getFather();
-                if(temp){
-                    temp = temp->getQuad(3u);
-                    id=0u;
-                }
-                break;
+            if(!ret){
+                //select the root
+                this->selected = &this->root;
             }
         }
-        if(!ret){
-            //select the root
-            this->selected = &this->root;
-        }
-        return false;
+        return ret;
     }
 
     //clean the tree
@@ -1610,7 +1696,7 @@ private:
     edk::vector::QuadLeaf64<typeTemplate> root;
     edk::vector::QuadLeaf64<typeTemplate>* selected;
 
-    virtual bool isRectInside(edk::rectf64 rect,edk::vec2f64 point1,edk::vec2f64 point2){
+    bool isRectInside(edk::rectf64 rect,edk::vec2f64 point1,edk::vec2f64 point2){
         if(rect.origin.x >= point1.x
                 &&
                 rect.origin.y >= point1.y
@@ -1631,7 +1717,19 @@ private:
         }
         return false;
     }
-    virtual bool isPointInside(edk::vec2f64 point,edk::vec2f64 point1,edk::vec2f64 point2){
+    bool isRectColliding(edk::rectf64 rect,edk::vec2f64 point1,edk::vec2f64 point2){
+        if(point1.x <= rect.size.width
+                &&
+                point2.x>= rect.origin.x
+                &&
+                point1.y <= rect.size.height
+                &&
+                point2.y >= rect.origin.y
+                )
+            return true;
+        return false;
+    }
+    bool isPointInside(edk::vec2f64 point,edk::vec2f64 point1,edk::vec2f64 point2){
         if(point.x >= point1.x
                 &&
                 point.y >= point1.y
@@ -1650,4 +1748,4 @@ private:
 }//edn namespace vector
 }//end namespace edk
 
-#endif // QUADTREE64_H
+#endif // QUADTREE_H

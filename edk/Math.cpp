@@ -341,24 +341,110 @@ edk::float32 edk::Math::pythagoras(edk::vec4ui64 vec){return (edk::float32)edk::
                                                                                                  edk::Math::square(vec.z)+edk::Math::square(vec.w));}
 
 //Return sin and cosin of angle.
-edk::float32 edk::Math::getSin(edk::float32 angle){if (angle == 180)return 0;else	return sin(angle*PI/180.f);}
-edk::float32 edk::Math::getCosin(edk::float32 angle){if (angle == 90 || angle == 270)return 0;else return cos(angle*PI/180.f);}
-edk::float32 edk::Math::getSin(edk::int8 angle){/*if (angle == 180)return 0;else	*/return sin((angle*PI)/180.f);}
-edk::float32 edk::Math::getCosin(edk::int8 angle){if (angle == 90/* || angle == 270*/)return 0;else return cos(angle*PI/180.f);}
-edk::float32 edk::Math::getSin(edk::int16 angle){if (angle == 180)return 0;else	return sin(angle*PI/180.f);}
-edk::float32 edk::Math::getCosin(edk::int16 angle){if (angle == 90 || angle == 270)return 0;else return cos(angle*PI/180.f);}
-edk::float32 edk::Math::getSin(edk::int32 angle){if (angle == 180)return 0;else	return sin((angle*PI)/180.f);}
-edk::float32 edk::Math::getCosin(edk::int32 angle){if (angle == 90 || angle == 270)return 0;else return cos(angle*PI/180.f);}
-edk::float32 edk::Math::getSin(edk::int64 angle){if (angle == 180)return 0;else	return sin(angle*PI/180.f);}
-edk::float32 edk::Math::getCosin(edk::int64 angle){if (angle == 90 || angle == 270)return 0;else return cos(angle*PI/180.f);}
-edk::float32 edk::Math::getSin(edk::uint8 angle){if (angle == 180)return 0;else	return sin(angle*PI/180.f);}
-edk::float32 edk::Math::getCosin(edk::uint8 angle){if (angle == 90/* || angle == 270*/)return 0;else return cos(angle*PI/180.f);}
-edk::float32 edk::Math::getSin(edk::uint16 angle){if (angle == 180)return 0;else	return sin(angle*PI/180.f);}
-edk::float32 edk::Math::getCosin(edk::uint16 angle){if (angle == 90 || angle == 270)return 0;else return cos(angle*PI/180.f);}
-edk::float32 edk::Math::getSin(edk::uint32 angle){if (angle == 180)return 0;else	return sin(angle*PI/180.f);}
-edk::float32 edk::Math::getCosin(edk::uint32 angle){if (angle == 90 || angle == 270)return 0;else return cos(angle*PI/180.f);}
-edk::float32 edk::Math::getSin(edk::uint64 angle){if (angle == 180)return 0;else	return sin(angle*PI/180.f);}
-edk::float32 edk::Math::getCosin(edk::uint64 angle){if (angle == 90 || angle == 270)return 0;else return cos(angle*PI/180.f);}
+edk::float32 edk::Math::getSin(edk::float32 angle){
+    if(angle == 180)
+        return 0;
+    else
+        return sin(angle*PI/180.f);
+}
+edk::float32 edk::Math::getCosin(edk::float32 angle){
+    if(angle == 90 || angle == 270)
+        return 0;
+    else
+        return cos(angle*PI/180.f);
+}
+edk::float32 edk::Math::getSin(edk::int8 angle){
+    return sin((angle*PI)/180.f);
+}
+edk::float32 edk::Math::getCosin(edk::int8 angle){
+    if(angle == 90)
+        return 0;
+    else
+        return cos(angle*PI/180.f);
+}
+edk::float32 edk::Math::getSin(edk::int16 angle){
+    if(angle == 180)
+        return 0;
+    else
+        return sin(angle*PI/180.f);
+}
+edk::float32 edk::Math::getCosin(edk::int16 angle){
+    if(angle == 90 || angle == 270)
+        return 0;
+    else
+        return cos(angle*PI/180.f);
+}
+edk::float32 edk::Math::getSin(edk::int32 angle){
+    if(angle == 180)
+        return 0;
+    else
+        return sin((angle*PI)/180.f);
+}
+edk::float32 edk::Math::getCosin(edk::int32 angle){
+    if(angle == 90 || angle == 270)
+        return 0;
+    else
+        return cos(angle*PI/180.f);
+}
+edk::float32 edk::Math::getSin(edk::int64 angle){
+    if(angle == 180)
+        return 0;
+    else
+        return sin(angle*PI/180.f);
+}
+edk::float32 edk::Math::getCosin(edk::int64 angle){
+    if(angle == 90 || angle == 270)
+        return 0;
+    else
+        return cos(angle*PI/180.f);
+}
+edk::float32 edk::Math::getSin(edk::uint8 angle){
+    if(angle == 180)
+        return 0;
+    else
+        return sin(angle*PI/180.f);
+}
+edk::float32 edk::Math::getCosin(edk::uint8 angle){
+    if(angle == 90)return 0;
+    else
+        return cos(angle*PI/180.f);
+}
+edk::float32 edk::Math::getSin(edk::uint16 angle){
+    if(angle == 180)
+        return 0;
+    else
+        return sin(angle*PI/180.f);
+}
+edk::float32 edk::Math::getCosin(edk::uint16 angle){
+    if(angle == 90 || angle == 270)
+        return 0;
+    else
+        return cos(angle*PI/180.f);
+}
+edk::float32 edk::Math::getSin(edk::uint32 angle){
+    if(angle == 180)
+        return 0;
+    else
+        return sin(angle*PI/180.f);
+}
+edk::float32 edk::Math::getCosin(edk::uint32 angle){
+    if(angle == 90 || angle == 270)
+        return 0;
+    else
+        return cos(angle*PI/180.f);
+}
+edk::float32 edk::Math::getSin(edk::uint64 angle){
+    if(angle == 180)
+        return 0;
+    else
+        return sin(angle*PI/180.f);
+}
+edk::float32 edk::Math::getCosin(edk::uint64 angle){
+    if(angle == 90 || angle == 270)
+        return 0;
+    else
+        return cos(angle*PI/180.f);
+}
 
 //Return asin and acosin of angle.
 //edk::float32 edk::Math::arcSin(edk::float32 radius,edk::float32 y){if(radius==0)radius=0.000001f;return edk::Math::arcSin((edk::float32)y/radius);}

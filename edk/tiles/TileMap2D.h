@@ -285,6 +285,9 @@ private:
     void startDrawTiles(edk::vec2ui32 origin,edk::size2ui32 last);
     void endDrawTiles(edk::vec2ui32 origin,edk::size2ui32 last);
 
+    //calculate the draw position from worldRect
+    edk::rectui32 calculateDrawPosition(edk::rectf32 rect);
+
     //PhysicsTiles
     class PhysicsTiles{
     public:

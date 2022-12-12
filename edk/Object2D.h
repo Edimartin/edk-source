@@ -74,6 +74,7 @@ public:
 
     //function to calculate boundingBox
     bool calculateBoundingBox(edk::rectf32* rectangle);
+    bool calculateBoundingBox(edk::rectf32* rectangle,edk::vector::Matrix<edk::float32,3,3>* transformMat);
 
     //Select the polygonList
     bool selectMesh(edk::uint32 position);

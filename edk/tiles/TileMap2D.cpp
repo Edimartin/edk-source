@@ -509,6 +509,66 @@ void edk::tiles::TileMap2D::endDrawTiles(edk::vec2ui32 origin,edk::size2ui32 las
     }
 }
 
+//calculate the draw position from worldRect
+edk::rectui32 edk::tiles::TileMap2D::calculateDrawPosition(edk::rectf32 rect){
+    edk::rectui32 ret;
+    edk::vec2f32 position = this->getPosition();
+    //first translate the rect
+    rect.origin-=position;
+    rect.size.width-=position.x;
+    rect.size.height-=position.y;
+
+    rect.origin.x += this->scaleMap.width*0.5f;
+    rect.origin.y += this->scaleMap.height*0.5f;
+    rect.size.width += this->scaleMap.width*0.5f;
+    rect.size.height += this->scaleMap.height*0.5f;
+
+    //now normalize the rect to fit inside the tileMap
+    rect.origin.x /= this->scaleMap.width;
+    rect.origin.y /= this->scaleMap.height;
+    rect.size /= this->scaleMap;
+
+    //rect.origin += 0.5f;
+    //rect.size += 0.5f;
+
+    //convert it into positive values
+
+
+    if(rect.size.width<0.f){
+        rect.size.width=0.f;
+        rect.origin.x=0.f;
+    }
+    else{
+        if(rect.origin.x<0.f)
+            rect.origin.x=0.f;
+    }
+    if(rect.size.height<0.f){
+        rect.size.height=0.f;
+        rect.origin.y=0.f;
+    }
+    else{
+        if(rect.origin.y<0.f)
+            rect.origin.y=0.f;
+    }
+
+    //convert it to unsigned int and return it
+    ret.origin.x = (edk::uint32)rect.origin.x;
+    ret.origin.y = (edk::uint32)rect.origin.y;
+    ret.size.width = (edk::uint32)rect.size.width;
+    ret.size.height = (edk::uint32)rect.size.height;
+
+    //increment the size to draw the tileMap
+    ret.size.width++;
+    ret.size.height++;
+
+    if(ret.size.width>this->sizeMap.width)
+        ret.size.width=this->sizeMap.width;
+    if(ret.size.height>this->sizeMap.height)
+        ret.size.height=this->sizeMap.height;
+
+    return ret;
+}
+
 //set the tileSet
 bool edk::tiles::TileMap2D::setTileSet(edk::tiles::TileSet2D* tileSet){
     //remove all physics objects
@@ -1695,49 +1755,8 @@ void edk::tiles::TileMap2D::drawWithoutMaterial(edk::vec2ui32 origin,edk::size2u
     }
 }
 void edk::tiles::TileMap2D::drawInsideWorldRect(edk::rectf32 rect,edk::color4f32 color){
-    //scale the points
-    rect.origin.x /= this->scaleMap.width;
-    rect.origin.y /= this->scaleMap.height;
-    rect.size /= this->scaleMap;
-
-    rect.origin.y+=0.5;
-    rect.origin.x+=0.5;
-
-    edk::vec2f32 first = rect.origin;
-    //
-    rect.origin.x +=rect.size.width;
-    first.y +=rect.size.height;
-
-    //translate the origin
-    rect.origin.x -= (this->positionMap.x);
-    rect.origin.y -= (this->positionMap.y);
-    first.x -= (this->positionMap.x);
-    first.y -= (this->positionMap.y);
-
-    //mirror the y
-    rect.origin.y= (rect.origin.y*-1.f) + this->sizeMap.height;
-    first.y= (first.y*-1.f) + this->sizeMap.height;
-
-    //increment the last pointer
-    rect.origin+=1.f;
-
-    //filter the last pointer
-    if(rect.origin.x>this->sizeMap.width) rect.origin.x=this->sizeMap.width;
-    if(rect.origin.y>this->sizeMap.height) rect.origin.y=this->sizeMap.height;
-    //filter the first pointer
-    if(first.x<0.f) first.x=0.f;
-    if(first.y<0.f) first.y=0.f;
-
-    //generate origin only if it was bigger then zero
-    edk::vec2ui32 origin = edk::vec2ui32(first.x>0.f?(edk::uint32)first.x:0u,
-                                         first.y>0.f?(edk::uint32)first.y:0u
-                                                     );
-    //generate the size only if it was bigger then zero
-    edk::size2ui32 size = edk::size2ui32(rect.origin.x>0.f?(edk::uint32)rect.origin.x:0u,
-                                         rect.origin.y>0.f?(edk::uint32)rect.origin.y:0u
-                                                           );
-
-    this->draw(origin,size,color);
+    edk::rectui32 newRect = this->calculateDrawPosition(rect);
+    this->draw(newRect.origin,newRect.size,color);
 }
 void edk::tiles::TileMap2D::drawIsometric(edk::color4f32 color){
     if(this->tileSet){
@@ -1981,49 +2000,8 @@ void edk::tiles::TileMap2D::drawWithoutMaterial(edk::vec2ui32 origin,edk::size2u
     }
 }
 void edk::tiles::TileMap2D::drawInsideWorldRect(edk::rectf32 rect){
-    //scale the points
-    rect.origin.x /= this->scaleMap.width;
-    rect.origin.y /= this->scaleMap.height;
-    rect.size /= this->scaleMap;
-
-    rect.origin.y+=0.5;
-    rect.origin.x+=0.5;
-
-    edk::vec2f32 first = rect.origin;
-    //
-    rect.origin.x +=rect.size.width;
-    first.y +=rect.size.height;
-
-    //translate the origin
-    rect.origin.x -= (this->positionMap.x);
-    rect.origin.y -= (this->positionMap.y);
-    first.x -= (this->positionMap.x);
-    first.y -= (this->positionMap.y);
-
-    //mirror the y
-    rect.origin.y= (rect.origin.y*-1.f) + this->sizeMap.height;
-    first.y= (first.y*-1.f) + this->sizeMap.height;
-
-    //increment the last pointer
-    rect.origin+=1.f;
-
-    //filter the last pointer
-    if(rect.origin.x>this->sizeMap.width) rect.origin.x=this->sizeMap.width;
-    if(rect.origin.y>this->sizeMap.height) rect.origin.y=this->sizeMap.height;
-    //filter the first pointer
-    if(first.x<0.f) first.x=0.f;
-    if(first.y<0.f) first.y=0.f;
-
-    //generate origin only if it was bigger then zero
-    edk::vec2ui32 origin = edk::vec2ui32(first.x>0.f?(edk::uint32)first.x:0u,
-                                         first.y>0.f?(edk::uint32)first.y:0u
-                                                     );
-    //generate the size only if it was bigger then zero
-    edk::size2ui32 size = edk::size2ui32(rect.origin.x>0.f?(edk::uint32)rect.origin.x:0u,
-                                         rect.origin.y>0.f?(edk::uint32)rect.origin.y:0u
-                                                           );
-
-    this->draw(origin,size);
+    edk::rectui32 newRect = this->calculateDrawPosition(rect);
+    this->draw(newRect.origin,newRect.size);
 }
 void edk::tiles::TileMap2D::drawIsometric(){
     if(this->tileSet){
@@ -2191,49 +2169,8 @@ void edk::tiles::TileMap2D::drawWire(edk::vec2ui32 origin,edk::size2ui32 last,ed
     }
 }
 void edk::tiles::TileMap2D::drawWireInsideWorldRect(edk::rectf32 rect,edk::color4f32 color){
-    //scale the points
-    rect.origin.x /= this->scaleMap.width;
-    rect.origin.y /= this->scaleMap.height;
-    rect.size /= this->scaleMap;
-
-    rect.origin.y+=0.5;
-    rect.origin.x+=0.5;
-
-    edk::vec2f32 first = rect.origin;
-    //
-    rect.origin.x +=rect.size.width;
-    first.y +=rect.size.height;
-
-    //translate the origin
-    rect.origin.x -= (this->positionMap.x);
-    rect.origin.y -= (this->positionMap.y);
-    first.x -= (this->positionMap.x);
-    first.y -= (this->positionMap.y);
-
-    //mirror the y
-    rect.origin.y= (rect.origin.y*-1.f) + this->sizeMap.height;
-    first.y= (first.y*-1.f) + this->sizeMap.height;
-
-    //increment the last pointer
-    rect.origin+=1.f;
-
-    //filter the last pointer
-    if(rect.origin.x>this->sizeMap.width) rect.origin.x=this->sizeMap.width;
-    if(rect.origin.y>this->sizeMap.height) rect.origin.y=this->sizeMap.height;
-    //filter the first pointer
-    if(first.x<0.f) first.x=0.f;
-    if(first.y<0.f) first.y=0.f;
-
-    //generate origin only if it was bigger then zero
-    edk::vec2ui32 origin = edk::vec2ui32(first.x>0.f?(edk::uint32)first.x:0u,
-                                         first.y>0.f?(edk::uint32)first.y:0u
-                                                     );
-    //generate the size only if it was bigger then zero
-    edk::size2ui32 size = edk::size2ui32(rect.origin.x>0.f?(edk::uint32)rect.origin.x:0u,
-                                         rect.origin.y>0.f?(edk::uint32)rect.origin.y:0u
-                                                           );
-
-    this->drawWire(origin,size,color);
+    edk::rectui32 newRect = this->calculateDrawPosition(rect);
+    this->drawWire(newRect.origin,newRect.size,color);
 }
 void edk::tiles::TileMap2D::drawIsometricWire(edk::color4f32 color){
     if(this->tileSet){
@@ -2386,49 +2323,8 @@ void edk::tiles::TileMap2D::drawWire(edk::vec2ui32 origin,edk::size2ui32 last){
     }
 }
 void edk::tiles::TileMap2D::drawWireInsideWorldRect(edk::rectf32 rect){
-    //scale the points
-    rect.origin.x /= this->scaleMap.width;
-    rect.origin.y /= this->scaleMap.height;
-    rect.size /= this->scaleMap;
-
-    rect.origin.y+=0.5;
-    rect.origin.x+=0.5;
-
-    edk::vec2f32 first = rect.origin;
-    //
-    rect.origin.x +=rect.size.width;
-    first.y +=rect.size.height;
-
-    //translate the origin
-    rect.origin.x -= (this->positionMap.x);
-    rect.origin.y -= (this->positionMap.y);
-    first.x -= (this->positionMap.x);
-    first.y -= (this->positionMap.y);
-
-    //mirror the y
-    rect.origin.y= (rect.origin.y*-1.f) + this->sizeMap.height;
-    first.y= (first.y*-1.f) + this->sizeMap.height;
-
-    //increment the last pointer
-    rect.origin+=1.f;
-
-    //filter the last pointer
-    if(rect.origin.x>this->sizeMap.width) rect.origin.x=this->sizeMap.width;
-    if(rect.origin.y>this->sizeMap.height) rect.origin.y=this->sizeMap.height;
-    //filter the first pointer
-    if(first.x<0.f) first.x=0.f;
-    if(first.y<0.f) first.y=0.f;
-
-    //generate origin only if it was bigger then zero
-    edk::vec2ui32 origin = edk::vec2ui32(first.x>0.f?(edk::uint32)first.x:0u,
-                                         first.y>0.f?(edk::uint32)first.y:0u
-                                                     );
-    //generate the size only if it was bigger then zero
-    edk::size2ui32 size = edk::size2ui32(rect.origin.x>0.f?(edk::uint32)rect.origin.x:0u,
-                                         rect.origin.y>0.f?(edk::uint32)rect.origin.y:0u
-                                                           );
-
-    this->drawWire(origin,size);
+    edk::rectui32 newRect = this->calculateDrawPosition(rect);
+    this->drawWire(newRect.origin,newRect.size);
 }
 void edk::tiles::TileMap2D::drawIsometricWire(){
     if(this->tileSet){
@@ -2586,49 +2482,8 @@ void edk::tiles::TileMap2D::drawWirePhysics(edk::vec2ui32 origin,edk::size2ui32 
     }
 }
 void edk::tiles::TileMap2D::drawWirePhysicsInsideWorldRect(edk::rectf32 rect,edk::color4f32 color){
-    //scale the points
-    rect.origin.x /= this->scaleMap.width;
-    rect.origin.y /= this->scaleMap.height;
-    rect.size /= this->scaleMap;
-
-    rect.origin.y+=0.5;
-    rect.origin.x+=0.5;
-
-    edk::vec2f32 first = rect.origin;
-    //
-    rect.origin.x +=rect.size.width;
-    first.y +=rect.size.height;
-
-    //translate the origin
-    rect.origin.x -= (this->positionMap.x);
-    rect.origin.y -= (this->positionMap.y);
-    first.x -= (this->positionMap.x);
-    first.y -= (this->positionMap.y);
-
-    //mirror the y
-    rect.origin.y= (rect.origin.y*-1.f) + this->sizeMap.height;
-    first.y= (first.y*-1.f) + this->sizeMap.height;
-
-    //increment the last pointer
-    rect.origin+=1.f;
-
-    //filter the last pointer
-    if(rect.origin.x>this->sizeMap.width) rect.origin.x=this->sizeMap.width;
-    if(rect.origin.y>this->sizeMap.height) rect.origin.y=this->sizeMap.height;
-    //filter the first pointer
-    if(first.x<0.f) first.x=0.f;
-    if(first.y<0.f) first.y=0.f;
-
-    //generate origin only if it was bigger then zero
-    edk::vec2ui32 origin = edk::vec2ui32(first.x>0.f?(edk::uint32)first.x:0u,
-                                         first.y>0.f?(edk::uint32)first.y:0u
-                                                     );
-    //generate the size only if it was bigger then zero
-    edk::size2ui32 size = edk::size2ui32(rect.origin.x>0.f?(edk::uint32)rect.origin.x:0u,
-                                         rect.origin.y>0.f?(edk::uint32)rect.origin.y:0u
-                                                           );
-
-    this->drawWirePhysics(origin,size,color);
+    edk::rectui32 newRect = this->calculateDrawPosition(rect);
+    this->drawWirePhysics(newRect.origin,newRect.size,color);
 }
 //draw wireTiles without passing a color
 void edk::tiles::TileMap2D::drawWirePhysics(){
@@ -2687,49 +2542,8 @@ void edk::tiles::TileMap2D::drawWirePhysics(edk::vec2ui32 origin,edk::size2ui32 
     }
 }
 void edk::tiles::TileMap2D::drawWirePhysicsInsideWorldRect(edk::rectf32 rect){
-    //scale the points
-    rect.origin.x /= this->scaleMap.width;
-    rect.origin.y /= this->scaleMap.height;
-    rect.size /= this->scaleMap;
-
-    rect.origin.y+=0.5;
-    rect.origin.x+=0.5;
-
-    edk::vec2f32 first = rect.origin;
-    //
-    rect.origin.x +=rect.size.width;
-    first.y +=rect.size.height;
-
-    //translate the origin
-    rect.origin.x -= (this->positionMap.x);
-    rect.origin.y -= (this->positionMap.y);
-    first.x -= (this->positionMap.x);
-    first.y -= (this->positionMap.y);
-
-    //mirror the y
-    rect.origin.y= (rect.origin.y*-1.f) + this->sizeMap.height;
-    first.y= (first.y*-1.f) + this->sizeMap.height;
-
-    //increment the last pointer
-    rect.origin+=1.f;
-
-    //filter the last pointer
-    if(rect.origin.x>this->sizeMap.width) rect.origin.x=this->sizeMap.width;
-    if(rect.origin.y>this->sizeMap.height) rect.origin.y=this->sizeMap.height;
-    //filter the first pointer
-    if(first.x<0.f) first.x=0.f;
-    if(first.y<0.f) first.y=0.f;
-
-    //generate origin only if it was bigger then zero
-    edk::vec2ui32 origin = edk::vec2ui32(first.x>0.f?(edk::uint32)first.x:0u,
-                                         first.y>0.f?(edk::uint32)first.y:0u
-                                                     );
-    //generate the size only if it was bigger then zero
-    edk::size2ui32 size = edk::size2ui32(rect.origin.x>0.f?(edk::uint32)rect.origin.x:0u,
-                                         rect.origin.y>0.f?(edk::uint32)rect.origin.y:0u
-                                                           );
-
-    this->drawWirePhysics(origin,size);
+    edk::rectui32 newRect = this->calculateDrawPosition(rect);
+    this->drawWirePhysics(newRect.origin,newRect.size);
 }
 
 //draw wireWitPhysics
@@ -2801,49 +2615,8 @@ void edk::tiles::TileMap2D::drawWireWithPhysics(edk::vec2ui32 origin,edk::size2u
     }
 }
 void edk::tiles::TileMap2D::drawWireWithPhysicsInsideWorldRect(edk::rectf32 rect,edk::color4f32 color,edk::color4f32 physColor){
-    //scale the points
-    rect.origin.x /= this->scaleMap.width;
-    rect.origin.y /= this->scaleMap.height;
-    rect.size /= this->scaleMap;
-
-    rect.origin.y+=0.5;
-    rect.origin.x+=0.5;
-
-    edk::vec2f32 first = rect.origin;
-    //
-    rect.origin.x +=rect.size.width;
-    first.y +=rect.size.height;
-
-    //translate the origin
-    rect.origin.x -= (this->positionMap.x);
-    rect.origin.y -= (this->positionMap.y);
-    first.x -= (this->positionMap.x);
-    first.y -= (this->positionMap.y);
-
-    //mirror the y
-    rect.origin.y= (rect.origin.y*-1.f) + this->sizeMap.height;
-    first.y= (first.y*-1.f) + this->sizeMap.height;
-
-    //increment the last pointer
-    rect.origin+=1.f;
-
-    //filter the last pointer
-    if(rect.origin.x>this->sizeMap.width) rect.origin.x=this->sizeMap.width;
-    if(rect.origin.y>this->sizeMap.height) rect.origin.y=this->sizeMap.height;
-    //filter the first pointer
-    if(first.x<0.f) first.x=0.f;
-    if(first.y<0.f) first.y=0.f;
-
-    //generate origin only if it was bigger then zero
-    edk::vec2ui32 origin = edk::vec2ui32(first.x>0.f?(edk::uint32)first.x:0u,
-                                         first.y>0.f?(edk::uint32)first.y:0u
-                                                     );
-    //generate the size only if it was bigger then zero
-    edk::size2ui32 size = edk::size2ui32(rect.origin.x>0.f?(edk::uint32)rect.origin.x:0u,
-                                         rect.origin.y>0.f?(edk::uint32)rect.origin.y:0u
-                                                           );
-
-    this->drawWireWithPhysics(origin,size,color,physColor);
+    edk::rectui32 newRect = this->calculateDrawPosition(rect);
+    this->drawWireWithPhysics(newRect.origin,newRect.size,color,physColor);
 }
 //draw one especific tile in wirte
 bool edk::tiles::TileMap2D::drawTileWire(edk::vec2ui32 position,edk::color4f32 color){
@@ -3038,94 +2811,12 @@ void edk::tiles::TileMap2D::drawSelection(edk::vec2ui32 origin,edk::size2ui32 la
     }
 }
 void edk::tiles::TileMap2D::drawInsideWorldRectSelectionWithID(edk::rectf32 rect,edk::uint8 id){
-    //scale the points
-    rect.origin.x /= this->scaleMap.width;
-    rect.origin.y /= this->scaleMap.height;
-    rect.size /= this->scaleMap;
-
-    rect.origin.y+=0.5;
-    rect.origin.x+=0.5;
-
-    edk::vec2f32 first = rect.origin;
-    //
-    rect.origin.x +=rect.size.width;
-    first.y +=rect.size.height;
-
-    //translate the origin
-    rect.origin.x -= (this->positionMap.x);
-    rect.origin.y -= (this->positionMap.y);
-    first.x -= (this->positionMap.x);
-    first.y -= (this->positionMap.y);
-
-    //mirror the y
-    rect.origin.y= (rect.origin.y*-1.f) + this->sizeMap.height;
-    first.y= (first.y*-1.f) + this->sizeMap.height;
-
-    //increment the last pointer
-    rect.origin+=1.f;
-
-    //filter the last pointer
-    if(rect.origin.x>this->sizeMap.width) rect.origin.x=this->sizeMap.width;
-    if(rect.origin.y>this->sizeMap.height) rect.origin.y=this->sizeMap.height;
-    //filter the first pointer
-    if(first.x<0.f) first.x=0.f;
-    if(first.y<0.f) first.y=0.f;
-
-    //generate origin only if it was bigger then zero
-    edk::vec2ui32 origin = edk::vec2ui32(first.x>0.f?(edk::uint32)first.x:0u,
-                                         first.y>0.f?(edk::uint32)first.y:0u
-                                                     );
-    //generate the size only if it was bigger then zero
-    edk::size2ui32 size = edk::size2ui32(rect.origin.x>0.f?(edk::uint32)rect.origin.x:0u,
-                                         rect.origin.y>0.f?(edk::uint32)rect.origin.y:0u
-                                                           );
-
-    this->drawSelectionWithID(origin,size,id);
+    edk::rectui32 newRect = this->calculateDrawPosition(rect);
+    this->drawSelectionWithID(newRect.origin,newRect.size,id);
 }
 void edk::tiles::TileMap2D::drawInsideWorldRectSelection(edk::rectf32 rect){
-    //scale the points
-    rect.origin.x /= this->scaleMap.width;
-    rect.origin.y /= this->scaleMap.height;
-    rect.size /= this->scaleMap;
-
-    rect.origin.y+=0.5;
-    rect.origin.x+=0.5;
-
-    edk::vec2f32 first = rect.origin;
-    //
-    rect.origin.x +=rect.size.width;
-    first.y +=rect.size.height;
-
-    //translate the origin
-    rect.origin.x -= (this->positionMap.x);
-    rect.origin.y -= (this->positionMap.y);
-    first.x -= (this->positionMap.x);
-    first.y -= (this->positionMap.y);
-
-    //mirror the y
-    rect.origin.y= (rect.origin.y*-1.f) + this->sizeMap.height;
-    first.y= (first.y*-1.f) + this->sizeMap.height;
-
-    //increment the last pointer
-    rect.origin+=1.f;
-
-    //filter the last pointer
-    if(rect.origin.x>this->sizeMap.width) rect.origin.x=this->sizeMap.width;
-    if(rect.origin.y>this->sizeMap.height) rect.origin.y=this->sizeMap.height;
-    //filter the first pointer
-    if(first.x<0.f) first.x=0.f;
-    if(first.y<0.f) first.y=0.f;
-
-    //generate origin only if it was bigger then zero
-    edk::vec2ui32 origin = edk::vec2ui32(first.x>0.f?(edk::uint32)first.x:0u,
-                                         first.y>0.f?(edk::uint32)first.y:0u
-                                                     );
-    //generate the size only if it was bigger then zero
-    edk::size2ui32 size = edk::size2ui32(rect.origin.x>0.f?(edk::uint32)rect.origin.x:0u,
-                                         rect.origin.y>0.f?(edk::uint32)rect.origin.y:0u
-                                                           );
-
-    this->drawSelection(origin,size);
+    edk::rectui32 newRect = this->calculateDrawPosition(rect);
+    this->drawSelection(newRect.origin,newRect.size);
 }
 void edk::tiles::TileMap2D::drawIsometricSelectionWithID(edk::uint8 id){
     if(this->tileSet){

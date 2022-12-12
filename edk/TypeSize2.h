@@ -4493,12 +4493,16 @@ public:
     //==
     bool operator==(size2f32 size){
         //
-        return (this->width==size.width&&this->height==size.height);
+        return (this->width>(size.width-0.0001f) && this->width<(size.width+0.0001f) &&
+                this->height>(size.height-0.0001f) && this->height<(size.height+0.0001f)
+                );
     }
     //!=
     bool operator!=(size2f32 size){
         //
-        return (this->width!=size.width||this->height!=size.height);
+        return (this->width<(size.width-0.0001f) || this->width>(size.width+0.0001f) ||
+                this->height<(size.height-0.0001f) || this->height>(size.height+0.0001f)
+                );
     }
 
     //+
@@ -5321,12 +5325,16 @@ public:
     //==
     bool operator==(size2f64 size){
         //
-        return (this->width==size.width&&this->height==size.height);
+        return (this->width>(size.width-0.000001f) && this->width<(size.width+0.000001f) &&
+                this->height>(size.height-0.000001f) && this->height<(size.height+0.000001f)
+                );
     }
     //!=
     bool operator!=(size2f64 size){
         //
-        return (this->width!=size.width||this->height!=size.height);
+        return (this->width<(size.width-0.000001f) || this->width>(size.width+0.000001f) ||
+                this->height<(size.height-0.000001f) || this->height>(size.height+0.000001f)
+                );
     }
 
     //+

@@ -761,6 +761,47 @@ bool edk::Object2D::calculateBoundingBox(edk::rectf32* rectangle){
     }
     return false;
 }
+bool edk::Object2D::calculateBoundingBox(edk::rectf32* rectangle,edk::vector::Matrix<edk::float32,3,3>* transformMat){
+    if(rectangle){
+        //first copy the matrix
+        if(this->matrixTransform.cloneFrom(transformMat)){
+            //generate transform matrices
+            edk::Math::generateTranslateMatrix(this->position,&this->matrixPosition);
+            edk::Math::generateRotateMatrix(this->angle,&this->matrixAngle);
+            edk::Math::generateScaleMatrix(this->size,&this->matrixSize);
+            edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->matrixPivo);
+
+            //multiply the matrix by
+            //translate
+            this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);
+            //angle
+            this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);
+            //scale
+            this->matrixTransform.multiplyThisWithMatrix(&this->matrixSize);
+            //Pivo
+            this->matrixTransform.multiplyThisWithMatrix(&this->matrixPivo);
+
+            edk::shape::Mesh2D* mesh;
+            edk::uint32 size = this->meshes.size();
+            if(size){
+
+                mesh = this->meshes.getMesh(0u);
+                if(mesh){
+                    *rectangle = mesh->generateBoundingBox(&this->matrixTransform);
+                }
+                for(edk::uint32 i=1u;i<size;i++){
+                    //
+                    mesh = this->meshes.getMesh(i);
+                    if(mesh){
+                        mesh->calculateBoundingBox(rectangle,&this->matrixTransform);
+                    }
+                }
+            }
+        }
+        return true;
+    }
+    return false;
+}
 
 //Select the polygonList
 bool edk::Object2D::selectMesh(edk::uint32 position){

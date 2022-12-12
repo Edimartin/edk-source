@@ -46,27 +46,23 @@ public:
     edk::size2f32 size;
     bool fixedRotation;
     void loadIdentityValues();
-/*
-    //save the values
-    void saveValues();
-    //clean the saved values
-    void cleanSaved();
-    //return the saved values
-    edk::vec2f32 getSavedPosition();
-    edk::float32 getSavedPositionX();
-    edk::float32 getSavedPositionY();
-    //return the saved size
-    edk::size2f32 getSavedSize();
-    edk::float32 getSavedSizeWidth();
-    edk::float32 getSavedSizeHeight();
-    //return the savedAngle
-    edk::float32 getSavedAngle();
-private:
-    //save the atual values
-    edk::vec2f32 savePosition;
-    edk::float32 saveAngle;
-    edk::size2f32 saveSize;
-*/
+    //operators
+    // =
+    edk::Object2DValues operator=(edk::Object2DValues values){
+        this->position = values.position;
+        this->angle = values.angle;
+        this->size = values.size;
+        return *this;
+    }
+
+    // ==
+    bool operator==(edk::Object2DValues values){
+        return (this->position==values.position && this->angle==values.angle && this->size == values.size);
+    }
+    // !=
+    bool operator!=(edk::Object2DValues values){
+        return (this->position!=values.position || this->angle!=values.angle || this->size != values.size);
+    }
 };
 }
 
