@@ -283,38 +283,27 @@ public:
                   ){
         this->deleteQuads();
 
-        if((this->quad[0u] = new edk::vector::QuadLeaf32<typeTemplate>(this,edk::rectf32(this->origin.x,
-                                                                                         this->origin.y,
-                                                                                         this->origin.x+((this->size.width - this->origin.x)*0.5),
-                                                                                         this->origin.y+((this->size.height - this->origin.y)*0.5)
-                                                                                         )
-                                                                       )
-            )
-                ){
-            if((this->quad[1u] = new edk::vector::QuadLeaf32<typeTemplate>(this,edk::rectf32(this->origin.x+((this->size.width - this->origin.x)*0.5),
-                                                                                             this->origin.y,
-                                                                                             this->size.width,
-                                                                                             this->origin.y+((this->size.height - this->origin.y)*0.5)
-                                                                                             )
-                                                                           )
-                )
-                    ){
-                if((this->quad[2u] = new edk::vector::QuadLeaf32<typeTemplate>(this,edk::rectf32(this->origin.x+((this->size.width - this->origin.x)*0.5),
-                                                                                                 this->origin.y+((this->size.height - this->origin.y)*0.5),
-                                                                                                 this->size.width,
-                                                                                                 this->size.height
-                                                                                                 )
-                                                                               )
-                    )
-                        ){
-                    if((this->quad[3u] = new edk::vector::QuadLeaf32<typeTemplate>(this,edk::rectf32(this->origin.x,
-                                                                                                     this->origin.y+((this->size.height - this->origin.y)*0.5),
-                                                                                                     this->origin.x+((this->size.width - this->origin.x)*0.5),
-                                                                                                     this->size.height
-                                                                                                     )
-                                                                                   )
-                        )
-                            ){
+        edk::rectf32 rect;
+        rect.origin.x = this->origin.x;
+        rect.origin.y = this->origin.y;
+        rect.size.width = this->origin.x+((this->size.width - this->origin.x)*0.5);
+        rect.size.height = this->origin.y+((this->size.height - this->origin.y)*0.5);
+        if((this->quad[0u] = new edk::vector::QuadLeaf32<typeTemplate>(this,rect))){
+            rect.origin.x = this->origin.x+((this->size.width - this->origin.x)*0.5);
+            rect.origin.y = this->origin.y;
+            rect.size.width = this->size.width;
+            rect.size.height = this->origin.y+((this->size.height - this->origin.y)*0.5);
+            if((this->quad[1u] = new edk::vector::QuadLeaf32<typeTemplate>(this,rect))){
+                rect.origin.x = this->origin.x+((this->size.width - this->origin.x)*0.5);
+                rect.origin.y = this->origin.y+((this->size.height - this->origin.y)*0.5);
+                rect.size.width = this->size.width;
+                rect.size.height = this->size.height;
+                if((this->quad[2u] = new edk::vector::QuadLeaf32<typeTemplate>(this,rect))){
+                    rect.origin.x = this->origin.x;
+                    rect.origin.y = this->origin.y+((this->size.height - this->origin.y)*0.5);
+                    rect.size.width = this->origin.x+((this->size.width - this->origin.x)*0.5);
+                    rect.size.height = this->size.height;
+                    if((this->quad[3u] = new edk::vector::QuadLeaf32<typeTemplate>(this,rect))){
                         this->quad[0u]->setTree(tree0);
                         this->quad[1u]->setTree(tree1);
                         this->quad[2u]->setTree(tree2);
@@ -510,38 +499,27 @@ public:
                   ){
         this->deleteQuads();
 
-        if((this->quad[0u] = new edk::vector::QuadLeaf64<typeTemplate>(this,edk::rectf64(this->origin.x,
-                                                                                         this->origin.y,
-                                                                                         this->origin.x+((this->size.width - this->origin.x)*0.5),
-                                                                                         this->origin.y+((this->size.height - this->origin.y)*0.5)
-                                                                                         )
-                                                                       )
-            )
-                ){
-            if((this->quad[1u] = new edk::vector::QuadLeaf64<typeTemplate>(this,edk::rectf64(this->origin.x+((this->size.width - this->origin.x)*0.5),
-                                                                                             this->origin.y,
-                                                                                             this->size.width,
-                                                                                             this->origin.y+((this->size.height - this->origin.y)*0.5)
-                                                                                             )
-                                                                           )
-                )
-                    ){
-                if((this->quad[2u] = new edk::vector::QuadLeaf64<typeTemplate>(this,edk::rectf64(this->origin.x+((this->size.width - this->origin.x)*0.5),
-                                                                                                 this->origin.y+((this->size.height - this->origin.y)*0.5),
-                                                                                                 this->size.width,
-                                                                                                 this->size.height
-                                                                                                 )
-                                                                               )
-                    )
-                        ){
-                    if((this->quad[3u] = new edk::vector::QuadLeaf64<typeTemplate>(this,edk::rectf64(this->origin.x,
-                                                                                                     this->origin.y+((this->size.height - this->origin.y)*0.5),
-                                                                                                     this->origin.x+((this->size.width - this->origin.x)*0.5),
-                                                                                                     this->size.height
-                                                                                                     )
-                                                                                   )
-                        )
-                            ){
+        edk::rectf64 rect;
+        rect.origin.x = this->origin.x;
+        rect.origin.y = this->origin.y;
+        rect.size.width = this->origin.x+((this->size.width - this->origin.x)*0.5);
+        rect.size.height = this->origin.y+((this->size.height - this->origin.y)*0.5);
+        if((this->quad[0u] = new edk::vector::QuadLeaf64<typeTemplate>(this,rect))){
+            rect.origin.x = this->origin.x+((this->size.width - this->origin.x)*0.5);
+            rect.origin.y = this->origin.y;
+            rect.size.width = this->size.width;
+            rect.size.height = this->origin.y+((this->size.height - this->origin.y)*0.5);
+            if((this->quad[1u] = new edk::vector::QuadLeaf64<typeTemplate>(this,rect))){
+                rect.origin.x = this->origin.x+((this->size.width - this->origin.x)*0.5);
+                rect.origin.y = this->origin.y+((this->size.height - this->origin.y)*0.5);
+                rect.size.width = this->size.width;
+                rect.size.height = this->size.height;
+                if((this->quad[2u] = new edk::vector::QuadLeaf64<typeTemplate>(this,rect))){
+                    rect.origin.x = this->origin.x;
+                    rect.origin.y = this->origin.y+((this->size.height - this->origin.y)*0.5);
+                    rect.size.width = this->origin.x+((this->size.width - this->origin.x)*0.5);
+                    rect.size.height = this->size.height;
+                    if((this->quad[3u] = new edk::vector::QuadLeaf64<typeTemplate>(this,rect))){
                         this->quad[0u]->setTree(tree0);
                         this->quad[1u]->setTree(tree1);
                         this->quad[2u]->setTree(tree2);
@@ -1035,7 +1013,7 @@ public:
             }
         }
         if(ret){
-            this->updateGets();
+            this->updateGets(edk::rectf32(point.x,point.y,point.x,point.y));
         }
         return ret;
     }
@@ -1098,7 +1076,7 @@ public:
             }
         }
         if(ret){
-            this->updateGets();
+            this->updateGets(rect);
         }
         return ret;
     }
@@ -1132,33 +1110,33 @@ public:
     }
     //Load the elements
     virtual void selectedLoad(){
-        this->selected->treeLoad();
+        this->treeGets.load();
     }
     //Unload the elements
     virtual void selectedUnload(){
-        this->selected->treeUnload();
+        this->treeGets.unload();
     }
     //Print the elements
     virtual void selectedPrint(){
-        this->selected->treePrint();
+        this->treeGets.print();
     }
     //render the elements
     virtual void selectedRender(){
-        this->selected->treeRender();
+        this->treeGets.render();
     }
     virtual void selectedRenderWire(){
-        this->selected->treeRenderWire();
+        this->treeGets.renderWire();
     }
     //draw the elements
     virtual void selectedDraw(){
-        this->selected->treeDraw();
+        this->treeGets.draw();
     }
     virtual void selectedDrawWire(){
-        this->selected->treeDrawWire();
+        this->treeGets.drawWire();
     }
     //update the elements
     virtual void selectedUpdate(){
-        this->selected->treeUpdate();
+        this->treeGets.update();
     }
 
     void drawQuads(){
@@ -1251,6 +1229,89 @@ private:
         return false;
     }
     //update the gets
+    void updateGets(edk::rectf32 rect){
+        edk::vector::BinaryTree<typeTemplate>* tree = this->selected->getTreePointer();
+        if(tree){
+            //first remove the last objects
+            edk::uint32 size;
+            typeTemplate temp;
+            bool decrement = false;
+            size = this->treeGets.size();
+            for(edk::uint32 i=0u;i<size;i++){
+                if(decrement){
+                    decrement=false;
+                    i--;
+                    size--;
+                }
+                temp = this->treeGets.getElementInPosition(i);
+                //test if DON'T have the object inside the temp
+                if(!tree->haveElement(temp)
+                        &&
+                        !this->isElementColliding(temp,
+                                                  edk::vec2f32(rect.origin.x,rect.origin.y),
+                                                  edk::vec2f32(rect.size.width,rect.size.height)
+                                                  )
+                        ){
+                    //remove the object from the treeGets
+                    if(this->treeGets.remove(temp)){
+                        //decrement
+                        decrement=true;
+
+                        ///RUN GETOUT
+                        this->elementGetOut(temp);
+                    }
+                }
+            }
+            size = this->treeGets.size();
+            decrement = false;
+            for(edk::uint32 i=0u;i<size;i++){
+                if(decrement){
+                    decrement=false;
+                    i--;
+                    size--;
+                }
+                temp = this->treeGets.getElementInPosition(i);
+                if(temp){
+                    if(this->isElementColliding(temp,
+                                                edk::vec2f32(rect.origin.x,rect.origin.y),
+                                                edk::vec2f32(rect.size.width,rect.size.height)
+                                                )
+                            ){
+                        ///RUN UPDATING
+                        this->elementUpdating(temp);
+                    }
+                    else{
+                        //remove the object from the treeGets
+                        if(this->treeGets.remove(temp)){
+                            //decrement
+                            decrement=true;
+
+                            ///RUN GETOUT
+                            this->elementGetOut(temp);
+                        }
+                    }
+                }
+            }
+            size = tree->size();
+            for(edk::uint32 i=0u;i<size;i++){
+                temp = tree->getElementInPosition(i);
+                //test if have the object inside the temp
+                if(!this->treeGets.haveElement(temp)
+                        &&
+                        this->isElementColliding(temp,
+                                                 edk::vec2f32(rect.origin.x,rect.origin.y),
+                                                 edk::vec2f32(rect.size.width,rect.size.height)
+                                                 )
+                        ){
+                    //add the element
+                    if(this->treeGets.add(temp)){
+                        ///RUN GETIN
+                        this->elementGetIn(temp);
+                    }
+                }
+            }
+        }
+    }
     void updateGets(){
         edk::vector::BinaryTree<typeTemplate>* tree = this->selected->getTreePointer();
         if(tree){
@@ -1281,7 +1342,6 @@ private:
             size = this->treeGets.size();
             for(edk::uint32 i=0u;i<size;i++){
                 temp = this->treeGets.getElementInPosition(i);
-                //test if DON'T have the object inside the temp
                 if(temp){
                     ///RUN UPDATING
                     this->elementUpdating(temp);
@@ -1645,7 +1705,7 @@ public:
             }
         }
         if(ret){
-            this->updateGets();
+            this->updateGets(edk::rectf64(point.x,point.y,point.x,point.y));
         }
         return ret;
     }
@@ -1708,7 +1768,7 @@ public:
             }
         }
         if(ret){
-            this->updateGets();
+            this->updateGets(rect);
         }
         return ret;
     }
@@ -1742,33 +1802,33 @@ public:
     }
     //Load the elements
     virtual void selectedLoad(){
-        this->selected->treeLoad();
+        this->treeGets.load();
     }
     //Unload the elements
     virtual void selectedUnload(){
-        this->selected->treeUnload();
+        this->treeGets.unload();
     }
     //Print the elements
     virtual void selectedPrint(){
-        this->selected->treePrint();
+        this->treeGets.print();
     }
     //render the elements
     virtual void selectedRender(){
-        this->selected->treeRender();
+        this->treeGets.render();
     }
     virtual void selectedRenderWire(){
-        this->selected->treeRenderWire();
+        this->treeGets.renderWire();
     }
     //draw the elements
     virtual void selectedDraw(){
-        this->selected->treeDraw();
+        this->treeGets.draw();
     }
     virtual void selectedDrawWire(){
-        this->selected->treeDrawWire();
+        this->treeGets.drawWire();
     }
     //update the elements
     virtual void selectedUpdate(){
-        this->selected->treeUpdate();
+        this->treeGets.update();
     }
 
     void drawQuads(){
@@ -1861,6 +1921,89 @@ private:
         return false;
     }
     //update the gets
+    void updateGets(edk::rectf64 rect){
+        edk::vector::BinaryTree<typeTemplate>* tree = this->selected->getTreePointer();
+        if(tree){
+            //first remove the last objects
+            edk::uint64 size;
+            typeTemplate temp;
+            bool decrement = false;
+            size = this->treeGets.size();
+            for(edk::uint64 i=0u;i<size;i++){
+                if(decrement){
+                    decrement=false;
+                    i--;
+                    size--;
+                }
+                temp = this->treeGets.getElementInPosition(i);
+                //test if DON'T have the object inside the temp
+                if(!tree->haveElement(temp)
+                        &&
+                        !this->isElementColliding(temp,
+                                                  edk::vec2f64(rect.origin.x,rect.origin.y),
+                                                  edk::vec2f64(rect.size.width,rect.size.height)
+                                                  )
+                        ){
+                    //remove the object from the treeGets
+                    if(this->treeGets.remove(temp)){
+                        //decrement
+                        decrement=true;
+
+                        ///RUN GETOUT
+                        this->elementGetOut(temp);
+                    }
+                }
+            }
+            size = this->treeGets.size();
+            decrement = false;
+            for(edk::uint64 i=0u;i<size;i++){
+                if(decrement){
+                    decrement=false;
+                    i--;
+                    size--;
+                }
+                temp = this->treeGets.getElementInPosition(i);
+                if(temp){
+                    if(this->isElementColliding(temp,
+                                                edk::vec2f64(rect.origin.x,rect.origin.y),
+                                                edk::vec2f64(rect.size.width,rect.size.height)
+                                                )
+                            ){
+                        ///RUN UPDATING
+                        this->elementUpdating(temp);
+                    }
+                    else{
+                        //remove the object from the treeGets
+                        if(this->treeGets.remove(temp)){
+                            //decrement
+                            decrement=true;
+
+                            ///RUN GETOUT
+                            this->elementGetOut(temp);
+                        }
+                    }
+                }
+            }
+            size = tree->size();
+            for(edk::uint64 i=0u;i<size;i++){
+                temp = tree->getElementInPosition(i);
+                //test if have the object inside the temp
+                if(!this->treeGets.haveElement(temp)
+                        &&
+                        this->isElementColliding(temp,
+                                                 edk::vec2f64(rect.origin.x,rect.origin.y),
+                                                 edk::vec2f64(rect.size.width,rect.size.height)
+                                                 )
+                        ){
+                    //add the element
+                    if(this->treeGets.add(temp)){
+                        ///RUN GETIN
+                        this->elementGetIn(temp);
+                    }
+                }
+            }
+        }
+    }
     void updateGets(){
         edk::vector::BinaryTree<typeTemplate>* tree = this->selected->getTreePointer();
         if(tree){
@@ -1891,7 +2034,6 @@ private:
             size = this->treeGets.size();
             for(edk::uint64 i=0u;i<size;i++){
                 temp = this->treeGets.getElementInPosition(i);
-                //test if DON'T have the object inside the temp
                 if(temp){
                     ///RUN UPDATING
                     this->elementUpdating(temp);

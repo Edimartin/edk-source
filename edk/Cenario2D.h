@@ -1138,7 +1138,7 @@ private:
                 edk::Cenario2DCallback* call;
                 for(edk::uint32 i=0u;i<size;i++){
                     call = this->calls->getElementInPosition(i);
-                    call->objectGetIn((edk::physics2D::PhysicObject2D*)obj->getObject(),this->levelId);
+                    call->physicObjectGetIn((edk::physics2D::PhysicObject2D*)obj->getObject(),this->levelId);
                 }
             }
         }
@@ -1149,7 +1149,7 @@ private:
                 edk::Cenario2DCallback* call;
                 for(edk::uint32 i=0u;i<size;i++){
                     call = this->calls->getElementInPosition(i);
-                    call->objectUpdating((edk::physics2D::PhysicObject2D*)obj->getObject(),this->levelId);
+                    call->physicObjectUpdating((edk::physics2D::PhysicObject2D*)obj->getObject(),this->levelId);
                 }
             }
         }
@@ -1160,7 +1160,7 @@ private:
                 edk::Cenario2DCallback* call;
                 for(edk::uint32 i=0u;i<size;i++){
                     call = this->calls->getElementInPosition(i);
-                    call->objectGetOut((edk::physics2D::PhysicObject2D*)obj->getObject(),this->levelId);
+                    call->physicObjectGetOut((edk::physics2D::PhysicObject2D*)obj->getObject(),this->levelId);
                 }
             }
         }
@@ -1424,6 +1424,7 @@ private:
             if(this->show){
                 if(this->objs){
                     rect = this->updateRect(rect);
+                    this->quadObjs->levelId = levelID;
                     if(this->quadObjs->selectLeafInRect(rect)){
                         edk::GU::guEnable(GU_LIGHTING);
                         //apply tranformations
@@ -1434,7 +1435,6 @@ private:
                         edk::GU::guRotateZf32(this->transform.angle);
                         //add scale
                         edk::GU::guScale2f32(this->transform.size);
-                        this->quadObjs->levelId = levelID;
                         edk::Cenario2D::TreeObjDepth* temp = (edk::Cenario2D::TreeObjDepth*)this->quadObjs->selectedGetTreePointer();
                         temp->cleanNames();
                         temp->draw();
@@ -1444,6 +1444,7 @@ private:
                 }
                 else if(this->objsPhys){
                     rect = this->updateRect(rect);
+                    this->quadPhysicObjs->levelId = levelID;
                     if(this->quadPhysicObjs->selectLeafInRect(rect)){
                         edk::GU::guEnable(GU_LIGHTING);
                         //apply tranformations
@@ -1454,7 +1455,6 @@ private:
                         edk::GU::guRotateZf32(this->transform.angle);
                         //add scale
                         edk::GU::guScale2f32(this->transform.size);
-                        this->quadPhysicObjs->levelId = levelID;
                         edk::Cenario2D::TreePhysObjDepth* temp = (edk::Cenario2D::TreePhysObjDepth*)this->quadPhysicObjs->selectedGetTreePointer();
                         temp->cleanNames();
                         temp->draw();
@@ -1481,6 +1481,7 @@ private:
             if(this->show){
                 if(this->objs){
                     rect = this->updateRect(rect);
+                    this->quadObjs->levelId = levelID;
                     if(this->quadObjs->selectLeafInRect(rect)){
                         edk::GU::guEnable(GU_LIGHTING);
                         //apply tranformations
@@ -1491,7 +1492,6 @@ private:
                         edk::GU::guRotateZf32(this->transform.angle);
                         //add scale
                         edk::GU::guScale2f32(this->transform.size);
-                        this->quadObjs->levelId = levelID;
                         edk::Cenario2D::TreeObjDepth* temp = (edk::Cenario2D::TreeObjDepth*)this->quadObjs->selectedGetTreePointer();
                         temp->cleanNames();
                         temp->drawWire();
@@ -1501,6 +1501,7 @@ private:
                 }
                 else if(this->objsPhys){
                     rect = this->updateRect(rect);
+                    this->quadPhysicObjs->levelId = levelID;
                     if(this->quadPhysicObjs->selectLeafInRect(rect)){
                         edk::GU::guEnable(GU_LIGHTING);
                         //apply tranformations
@@ -1511,7 +1512,6 @@ private:
                         edk::GU::guRotateZf32(this->transform.angle);
                         //add scale
                         edk::GU::guScale2f32(this->transform.size);
-                        this->quadPhysicObjs->levelId = levelID;
                         edk::Cenario2D::TreePhysObjDepth* temp = (edk::Cenario2D::TreePhysObjDepth*)this->quadPhysicObjs->selectedGetTreePointer();
                         temp->cleanNames();
                         temp->drawWire();
@@ -1583,6 +1583,7 @@ private:
             if(this->show){
                 if(this->objs){
                     rect = this->updateRect(rect);
+                    this->quadObjs->levelId = levelID;
                     if(this->quadObjs->selectLeafInRect(rect)){
                         edk::GU::guDisable(GU_LIGHTING);
                         //apply tranformations
@@ -1593,7 +1594,6 @@ private:
                         edk::GU::guRotateZf32(this->transform.angle);
                         //add scale
                         edk::GU::guScale2f32(this->transform.size);
-                        this->quadObjs->levelId = levelID;
                         edk::Cenario2D::TreeObjDepth* temp = (edk::Cenario2D::TreeObjDepth*)this->quadObjs->selectedGetTreePointer();
                         temp->selectionID = levelID;
                         temp->print();
@@ -1602,6 +1602,7 @@ private:
                 }
                 else if(this->objsPhys){
                     rect = this->updateRect(rect);
+                    this->quadPhysicObjs->levelId = levelID;
                     if(this->quadPhysicObjs->selectLeafInRect(rect)){
                         edk::GU::guDisable(GU_LIGHTING);
                         //apply tranformations
@@ -1612,7 +1613,6 @@ private:
                         edk::GU::guRotateZf32(this->transform.angle);
                         //add scale
                         edk::GU::guScale2f32(this->transform.size);
-                        this->quadPhysicObjs->levelId = levelID;
                         edk::Cenario2D::TreePhysObjDepth* temp = (edk::Cenario2D::TreePhysObjDepth*)this->quadPhysicObjs->selectedGetTreePointer();
                         temp->selectionID = levelID;
                         temp->print();
