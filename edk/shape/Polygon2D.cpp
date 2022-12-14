@@ -562,12 +562,6 @@ bool edk::shape::Polygon2D::calculateBoundingBox(edk::rectf32* rectangle,edk::ve
         //generate the boundingBox
         edk::rectf32 temp = this->generateBoundingBox(transformMat);
 
-        //filter the rectangle size
-        temp.size.width+=temp.origin.x;
-        temp.size.height+=temp.origin.y;
-        rectangle->size.width+=rectangle->origin.x;
-        rectangle->size.height+=rectangle->origin.y;
-
         if(rectangle->origin.x>temp.origin.x)
             rectangle->origin.x=temp.origin.x;
         if(rectangle->origin.y>temp.origin.y)
@@ -576,10 +570,6 @@ bool edk::shape::Polygon2D::calculateBoundingBox(edk::rectf32* rectangle,edk::ve
             rectangle->size.width=temp.size.width;
         if(rectangle->size.height<temp.size.height)
             rectangle->size.height=temp.size.height;
-
-        //filter the rectangle size
-        rectangle->size.width-=rectangle->origin.x;
-        rectangle->size.height-=rectangle->origin.y;
 
         return true;
     }
@@ -710,9 +700,6 @@ edk::rectf32 edk::shape::Polygon2D::generateBoundingBox(edk::vector::Matrix<edk:
                             }
                         }
                     }
-                    //filter the rectangle size
-                    ret.size.width-=ret.origin.x;
-                    ret.size.height-=ret.origin.y;
                 }
             }
         }

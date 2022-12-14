@@ -600,18 +600,16 @@ private:
         //function to calculate the boundingBox
         edk::rectf32 calculateBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat){
             if(this->obj){
-                this->obj->calculateBoundingBox(&this->boundingBox,transformMat);
-                this->boundingBox.size.width += this->boundingBox.origin.x;
-                this->boundingBox.size.height += this->boundingBox.origin.y;
+                this->obj->calculateBoundingBox(transformMat);
+                this->boundingBox = this->obj->getBoundingBox();
                 return this->boundingBox;
             }
             return edk::rectf32(0.f,0.f,0.f,0.f);
         }
         edk::rectf32 calculateBoundingBox(){
             if(this->obj){
-                this->obj->calculateBoundingBox(&this->boundingBox);
-                this->boundingBox.size.width += this->boundingBox.origin.x;
-                this->boundingBox.size.height += this->boundingBox.origin.y;
+                this->obj->calculateBoundingBox();
+                this->boundingBox = this->obj->getBoundingBox();
                 return this->boundingBox;
             }
             return edk::rectf32(0.f,0.f,0.f,0.f);

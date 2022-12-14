@@ -73,8 +73,10 @@ public:
     virtual void cleanMeshes();
 
     //function to calculate boundingBox
-    bool calculateBoundingBox(edk::rectf32* rectangle);
-    bool calculateBoundingBox(edk::rectf32* rectangle,edk::vector::Matrix<edk::float32,3,3>* transformMat);
+    bool calculateBoundingBox();
+    bool calculateBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat);
+    //return a copy of the boundingBox
+    edk::rectf32 getBoundingBox();
 
     //Select the polygonList
     bool selectMesh(edk::uint32 position);
@@ -177,6 +179,7 @@ public:
     //print the mesh
     virtual void print();
     //draw the mesh
+    virtual void drawBoundingBox();
     virtual void draw();
     virtual void drawOneTexture();
     virtual void drawOneTextureWithLight();
@@ -354,6 +357,9 @@ private:
     edk::vector::Matrix<edk::float32,3u,3u> matrixAngle;
     edk::vector::Matrix<edk::float32,3u,3u> matrixSize;
     edk::vector::Matrix<edk::float32,3,3> matrixTransform;
+
+    //object boundingBox
+    edk::rectf32 boundingBox;
 
     //Function to read the actions
     static edk::Action* readXMLAction(edk::classID thisPointer,edk::uint32 actionCode);

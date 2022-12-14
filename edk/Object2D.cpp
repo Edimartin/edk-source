@@ -720,18 +720,54 @@ void edk::Object2D::cleanMeshes(){
 }
 
 //function to calculate boundingBox
-bool edk::Object2D::calculateBoundingBox(edk::rectf32* rectangle){
-    if(rectangle){
-        //first copy the matrix
+bool edk::Object2D::calculateBoundingBox(){
+    //first copy the matrix
+    //generate transform matrices
+    edk::Math::generateTranslateMatrix(this->position,&this->matrixPosition);
+    edk::Math::generateRotateMatrix(this->angle,&this->matrixAngle);
+    edk::Math::generateScaleMatrix(this->size,&this->matrixSize);
+    edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->matrixPivo);
+    //multiply the matrix by
+
+    this->matrixTransform.setIdentity(1.f,0.f);
+
+    //translate
+    this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);
+    //angle
+    this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);
+    //scale
+    this->matrixTransform.multiplyThisWithMatrix(&this->matrixSize);
+    //Pivo
+    this->matrixTransform.multiplyThisWithMatrix(&this->matrixPivo);
+
+    edk::shape::Mesh2D* mesh;
+    edk::uint32 size = this->meshes.size();
+    if(size){
+        mesh = this->meshes.getMesh(0u);
+        if(mesh){
+            this->boundingBox = mesh->generateBoundingBox(&this->matrixTransform);
+        }
+        for(edk::uint32 i=1u;i<size;i++){
+            //
+            mesh = this->meshes.getMesh(i);
+            if(mesh){
+                mesh->calculateBoundingBox(&this->boundingBox,&this->matrixTransform);
+            }
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::Object2D::calculateBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat){
+    //first copy the matrix
+    if(this->matrixTransform.cloneFrom(transformMat)){
         //generate transform matrices
         edk::Math::generateTranslateMatrix(this->position,&this->matrixPosition);
         edk::Math::generateRotateMatrix(this->angle,&this->matrixAngle);
         edk::Math::generateScaleMatrix(this->size,&this->matrixSize);
         edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->matrixPivo);
+
         //multiply the matrix by
-
-        this->matrixTransform.setIdentity(1.f,0.f);
-
         //translate
         this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);
         //angle
@@ -747,60 +783,22 @@ bool edk::Object2D::calculateBoundingBox(edk::rectf32* rectangle){
 
             mesh = this->meshes.getMesh(0u);
             if(mesh){
-                *rectangle = mesh->generateBoundingBox(&this->matrixTransform);
+                this->boundingBox = mesh->generateBoundingBox(&this->matrixTransform);
             }
             for(edk::uint32 i=1u;i<size;i++){
                 //
                 mesh = this->meshes.getMesh(i);
                 if(mesh){
-                    mesh->calculateBoundingBox(rectangle,&this->matrixTransform);
+                    mesh->calculateBoundingBox(&this->boundingBox,&this->matrixTransform);
                 }
             }
         }
-        return true;
     }
-    return false;
+    return true;
 }
-bool edk::Object2D::calculateBoundingBox(edk::rectf32* rectangle,edk::vector::Matrix<edk::float32,3,3>* transformMat){
-    if(rectangle){
-        //first copy the matrix
-        if(this->matrixTransform.cloneFrom(transformMat)){
-            //generate transform matrices
-            edk::Math::generateTranslateMatrix(this->position,&this->matrixPosition);
-            edk::Math::generateRotateMatrix(this->angle,&this->matrixAngle);
-            edk::Math::generateScaleMatrix(this->size,&this->matrixSize);
-            edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->matrixPivo);
-
-            //multiply the matrix by
-            //translate
-            this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);
-            //angle
-            this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);
-            //scale
-            this->matrixTransform.multiplyThisWithMatrix(&this->matrixSize);
-            //Pivo
-            this->matrixTransform.multiplyThisWithMatrix(&this->matrixPivo);
-
-            edk::shape::Mesh2D* mesh;
-            edk::uint32 size = this->meshes.size();
-            if(size){
-
-                mesh = this->meshes.getMesh(0u);
-                if(mesh){
-                    *rectangle = mesh->generateBoundingBox(&this->matrixTransform);
-                }
-                for(edk::uint32 i=1u;i<size;i++){
-                    //
-                    mesh = this->meshes.getMesh(i);
-                    if(mesh){
-                        mesh->calculateBoundingBox(rectangle,&this->matrixTransform);
-                    }
-                }
-            }
-        }
-        return true;
-    }
-    return false;
+//return a copy of the boundingBox
+edk::rectf32 edk::Object2D::getBoundingBox(){
+    return this->boundingBox;
 }
 
 //Select the polygonList
@@ -1266,6 +1264,21 @@ void edk::Object2D::print(){
     }
 }
 //draw the mesh
+void edk::Object2D::drawBoundingBox(){
+    //put the transformation on a stack
+    edk::GU::guPushMatrix();
+
+    edk::GU::guColor4f32(1.0,1.0,1.0,1.0);
+
+    edk::GU::guBegin(GU_LINE_LOOP);
+    edk::GU::guVertex2f32(this->boundingBox.origin.x  ,this->boundingBox.origin.y   );
+    edk::GU::guVertex2f32(this->boundingBox.origin.x  ,this->boundingBox.size.height);
+    edk::GU::guVertex2f32(this->boundingBox.size.width,this->boundingBox.size.height);
+    edk::GU::guVertex2f32(this->boundingBox.size.width,this->boundingBox.origin.y   );
+    edk::GU::guEnd();
+
+    edk::GU::guPopMatrix();
+}
 void edk::Object2D::draw(){
     //put the transformation on a stack
     edk::GU::guPushMatrix();
