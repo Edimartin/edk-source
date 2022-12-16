@@ -213,6 +213,105 @@ bool edk::collision::MathCollision::aabbPoints(edk::cubef32 cube1,edk::cubef32 c
     return false;
 }
 
+//test if a bounsingBox2D is inside other boundingBox2D
+bool edk::collision::MathCollision::boundingBox2DFirstInsideSecond(edk::float32 x1,edk::float32 y1,edk::float32 width1,edk::float32 height1,
+                                                                   edk::float32 x2,edk::float32 y2,edk::float32 width2,edk::float32 height2
+                                                                   ){
+    return edk::collision::MathCollision::boundingBox2DFirstInsideSecond(edk::vec2f32(x1,y1),edk::size2f32(width1,height1),edk::vec2f32(x2,y2),edk::size2f32(width2,height2));
+}
+bool edk::collision::MathCollision::boundingBox2DFirstInsideSecond(edk::vec2f32 position1,edk::size2f32 size1,edk::vec2f32 position2,edk::size2f32 size2){
+    return edk::collision::MathCollision::boundingBox2DFirstInsideSecond(edk::rectf32(position1,size1),edk::rectf32(position2,size2));
+}
+bool edk::collision::MathCollision::boundingBox2DFirstInsideSecond(edk::rectf32 rect1,edk::rectf32 rect2){
+    if(rect1.origin.x >= rect2.origin.x
+            &&
+            rect1.origin.y >= rect2.origin.y
+            &&
+            rect1.origin.x + rect1.size.width < rect2.size.width + rect2.origin.x
+            &&
+            rect1.origin.x + rect1.size.height < rect2.size.height + rect2.origin.y
+            ){
+        return true;
+    }
+    return false;
+}
+bool edk::collision::MathCollision::boundingBox2DPointsFirstInsideSecond(edk::float32 x1_1,edk::float32 y1_1,edk::float32 x1_2,edk::float32 y1_2,
+                                                                         edk::float32 x2_1,edk::float32 y2_1,edk::float32 x2_2,edk::float32 y2_2
+                                                                         ){
+    return edk::collision::MathCollision::boundingBox2DPointsFirstInsideSecond(edk::vec2f32(x1_1,y1_1),edk::vec2f32(x1_2,y1_2),edk::vec2f32(x2_1,y2_1),edk::vec2f32(x2_2,y2_2));
+}
+bool edk::collision::MathCollision::boundingBox2DPointsFirstInsideSecond(edk::vec2f32 position1_1,edk::vec2f32 position1_2,edk::vec2f32 position2_1,edk::vec2f32 position2_2){
+    return edk::collision::MathCollision::boundingBox2DPointsFirstInsideSecond(edk::rectf32(position1_1.x,position1_1.y,position1_2.x,position1_2.y),
+                                                                               edk::rectf32(position2_1.x,position2_1.y,position2_2.x,position2_2.y)
+                                                                               );
+}
+bool edk::collision::MathCollision::boundingBox2DPointsFirstInsideSecond(edk::rectf32 rect1,edk::rectf32 rect2){
+    if(rect1.origin.x >= rect2.origin.x
+            &&
+            rect1.origin.y >= rect2.origin.y
+            &&
+            rect1.size.width < rect2.size.width
+            &&
+            rect1.size.height < rect2.size.height
+            ){
+        return true;
+    }
+    return false;
+}
+//test if a bounsingBox3D is inside other boundingBox3D
+bool edk::collision::MathCollision::boundingBox3DFirstInsideSecond(edk::float32 x1,edk::float32 y1,edk::float32 z1,edk::float32 width1,edk::float32 height1,edk::float32 lenght1,
+                                                                   edk::float32 x2,edk::float32 y2,edk::float32 z2,edk::float32 width2,edk::float32 height2,edk::float32 lenght2
+                                                                   ){
+    return edk::collision::MathCollision::boundingBox3DFirstInsideSecond(edk::vec3f32(x1,y1,z1),edk::size3f32(width1,height1,lenght1),edk::vec3f32(x2,y2,z2),edk::size3f32(width2,height2,lenght2));
+}
+bool edk::collision::MathCollision::boundingBox3DFirstInsideSecond(edk::vec3f32 position1,edk::size3f32 size1,edk::vec3f32 position2,edk::size3f32 size2){
+    return edk::collision::MathCollision::boundingBox3DFirstInsideSecond(edk::cubef32(position1,size1),edk::cubef32(position2,size2));
+}
+bool edk::collision::MathCollision::boundingBox3DFirstInsideSecond(edk::cubef32 cube1,edk::cubef32 cube2){
+    if(cube1.origin.x >= cube2.origin.x
+            &&
+            cube1.origin.y >= cube2.origin.y
+            &&
+            cube1.origin.z >= cube2.origin.z
+            &&
+            cube1.origin.x + cube1.size.width < cube2.size.width + cube2.origin.x
+            &&
+            cube1.origin.x + cube1.size.height < cube2.size.height + cube2.origin.y
+            &&
+            cube1.origin.z + cube1.size.length < cube2.size.length + cube2.origin.z
+            ){
+        return true;
+    }
+    return false;
+}
+bool edk::collision::MathCollision::boundingBox3DPointsFirstInsideSecond(edk::float32 x1_1,edk::float32 y1_1,edk::float32 z1_1,edk::float32 x1_2,edk::float32 y1_2,edk::float32 z1_2,
+                                                                         edk::float32 x2_1,edk::float32 y2_1,edk::float32 z2_1,edk::float32 x2_2,edk::float32 y2_2,edk::float32 z2_2
+                                                                         ){
+    return edk::collision::MathCollision::boundingBox3DPointsFirstInsideSecond(edk::vec3f32(x1_1,y1_1,z1_1),edk::vec3f32(x1_2,y1_2,z1_2),edk::vec3f32(x2_1,y2_1,z2_1),edk::vec3f32(x2_2,y2_2,z2_2));
+}
+bool edk::collision::MathCollision::boundingBox3DPointsFirstInsideSecond(edk::vec3f32 position1_1,edk::vec3f32 position1_2,edk::vec3f32 position2_1,edk::vec3f32 position2_2){
+    return edk::collision::MathCollision::boundingBox3DPointsFirstInsideSecond(edk::cubef32(position1_1.x,position1_1.y,position1_1.z,position1_2.x,position1_2.y,position1_2.z),
+                                                                               edk::cubef32(position2_1.x,position2_1.y,position2_1.z,position2_2.x,position2_2.y,position2_2.z)
+                                                                               );
+}
+bool edk::collision::MathCollision::boundingBox3DPointsFirstInsideSecond(edk::cubef32 cube1,edk::cubef32 cube2){
+    if(cube1.origin.x >= cube2.origin.x
+            &&
+            cube1.origin.y >= cube2.origin.y
+            &&
+            cube1.origin.z >= cube2.origin.z
+            &&
+            cube1.size.width < cube2.size.width
+            &&
+            cube1.size.height < cube2.size.height
+            &&
+            cube1.size.length < cube2.size.length
+            ){
+        return true;
+    }
+    return false;
+}
+
 //POINT STRAIGHT
 bool edk::collision::MathCollision::pointStraigh2D(edk::float32 pointX,edk::float32 pointY,float32 lineX1,float32 lineY1,float32 lineX2,float32 lineY2, edk::float32 radius){
     return edk::collision::MathCollision::pointStraigh2D(edk::vec2f32(pointX,pointY),vec2f32(lineX1,lineY1),vec2f32(lineX2,lineY2), radius);

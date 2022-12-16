@@ -128,6 +128,79 @@ public:
         this->size.height=(edk::int8)height;
         this->size.length=(edk::int8)length;
     }
+    cubei8(edk::vec3ui8 origin,edk::size3ui8 size){
+        //
+        this->origin.x=(edk::int8)origin.x;
+        this->origin.y=(edk::int8)origin.y;
+        this->origin.z=(edk::int8)origin.z;
+        this->size.width=(edk::int8)size.width;
+        this->size.height=(edk::int8)size.height;
+        this->size.length=(edk::int8)size.length;
+    }
+    cubei8(edk::vec3ui16 origin,edk::size3ui16 size){
+        //
+        this->origin.x=(edk::int8)origin.x;
+        this->origin.y=(edk::int8)origin.y;
+        this->origin.z=(edk::int8)origin.z;
+        this->size.width=(edk::int8)size.width;
+        this->size.height=(edk::int8)size.height;
+        this->size.length=(edk::int8)size.length;
+    }
+    cubei8(edk::vec3ui32 origin,edk::size3ui32 size){
+        //
+        this->origin.x=(edk::int8)origin.x;
+        this->origin.y=(edk::int8)origin.y;
+        this->origin.z=(edk::int8)origin.z;
+        this->size.width=(edk::int8)size.width;
+        this->size.height=(edk::int8)size.height;
+        this->size.length=(edk::int8)size.length;
+    }
+    cubei8(edk::vec3ui64 origin,edk::size3ui64 size){
+        //
+        this->origin.x=(edk::int8)origin.x;
+        this->origin.y=(edk::int8)origin.y;
+        this->origin.z=(edk::int8)origin.z;
+        this->size.width=(edk::int8)size.width;
+        this->size.height=(edk::int8)size.height;
+        this->size.length=(edk::int8)size.length;
+    }
+    cubei8(edk::vec3i16 origin,edk::size3i16 size){
+        //
+        this->origin.x=(edk::int8)origin.x;
+        this->origin.y=(edk::int8)origin.y;
+        this->origin.z=(edk::int8)origin.z;
+        this->size.width=(edk::int8)size.width;
+        this->size.height=(edk::int8)size.height;
+        this->size.length=(edk::int8)size.length;
+    }
+    cubei8(edk::vec3i8 origin,edk::size3i8 size){
+        //
+        this->origin.x=(edk::int8)origin.x;
+        this->origin.y=(edk::int8)origin.y;
+        this->origin.z=(edk::int8)origin.z;
+        this->size.width=(edk::int8)size.width;
+        this->size.height=(edk::int8)size.height;
+        this->size.length=(edk::int8)size.length;
+    }
+    cubei8(edk::vec3i32 origin,edk::size3i32 size){
+        //
+        this->origin.x=(edk::int8)origin.x;
+        this->origin.y=(edk::int8)origin.y;
+        this->origin.z=(edk::int8)origin.z;
+        this->size.width=(edk::int8)size.width;
+        this->size.height=(edk::int8)size.height;
+        this->size.length=(edk::int8)size.length;
+    }
+    cubei8(edk::vec3i64 origin,edk::size3i64 size){
+        //
+        this->origin.x=(edk::int8)origin.x;
+        this->origin.y=(edk::int8)origin.y;
+        this->origin.z=(edk::int8)origin.z;
+        this->size.width=(edk::int8)size.width;
+        this->size.height=(edk::int8)size.height;
+        this->size.length=(edk::int8)size.length;
+    }
+
     //operators
     cubei8 operator=(cubei8 cube){
         //
@@ -991,6 +1064,79 @@ public:
         this->size.height=(edk::int16)height;
         this->size.length=(edk::int16)length;
     }
+    cubei16(edk::vec3ui8 origin,edk::size3ui8 size){
+        //
+        this->origin.x=(edk::int16)origin.x;
+        this->origin.y=(edk::int16)origin.y;
+        this->origin.z=(edk::int16)origin.z;
+        this->size.width=(edk::int16)size.width;
+        this->size.height=(edk::int16)size.height;
+        this->size.length=(edk::int16)size.length;
+    }
+    cubei16(edk::vec3ui16 origin,edk::size3ui16 size){
+        //
+        this->origin.x=(edk::int16)origin.x;
+        this->origin.y=(edk::int16)origin.y;
+        this->origin.z=(edk::int16)origin.z;
+        this->size.width=(edk::int16)size.width;
+        this->size.height=(edk::int16)size.height;
+        this->size.length=(edk::int16)size.length;
+    }
+    cubei16(edk::vec3ui32 origin,edk::size3ui32 size){
+        //
+        this->origin.x=(edk::int16)origin.x;
+        this->origin.y=(edk::int16)origin.y;
+        this->origin.z=(edk::int16)origin.z;
+        this->size.width=(edk::int16)size.width;
+        this->size.height=(edk::int16)size.height;
+        this->size.length=(edk::int16)size.length;
+    }
+    cubei16(edk::vec3ui64 origin,edk::size3ui64 size){
+        //
+        this->origin.x=(edk::int16)origin.x;
+        this->origin.y=(edk::int16)origin.y;
+        this->origin.z=(edk::int16)origin.z;
+        this->size.width=(edk::int16)size.width;
+        this->size.height=(edk::int16)size.height;
+        this->size.length=(edk::int16)size.length;
+    }
+    cubei16(edk::vec3i8 origin,edk::size3i8 size){
+        //
+        this->origin.x=(edk::int16)origin.x;
+        this->origin.y=(edk::int16)origin.y;
+        this->origin.z=(edk::int16)origin.z;
+        this->size.width=(edk::int16)size.width;
+        this->size.height=(edk::int16)size.height;
+        this->size.length=(edk::int16)size.length;
+    }
+    cubei16(edk::vec3i16 origin,edk::size3i16 size){
+        //
+        this->origin.x=(edk::int16)origin.x;
+        this->origin.y=(edk::int16)origin.y;
+        this->origin.z=(edk::int16)origin.z;
+        this->size.width=(edk::int16)size.width;
+        this->size.height=(edk::int16)size.height;
+        this->size.length=(edk::int16)size.length;
+    }
+    cubei16(edk::vec3i32 origin,edk::size3i32 size){
+        //
+        this->origin.x=(edk::int16)origin.x;
+        this->origin.y=(edk::int16)origin.y;
+        this->origin.z=(edk::int16)origin.z;
+        this->size.width=(edk::int16)size.width;
+        this->size.height=(edk::int16)size.height;
+        this->size.length=(edk::int16)size.length;
+    }
+    cubei16(edk::vec3i64 origin,edk::size3i64 size){
+        //
+        this->origin.x=(edk::int16)origin.x;
+        this->origin.y=(edk::int16)origin.y;
+        this->origin.z=(edk::int16)origin.z;
+        this->size.width=(edk::int16)size.width;
+        this->size.height=(edk::int16)size.height;
+        this->size.length=(edk::int16)size.length;
+    }
+
     //operators
     cubei16 operator=(cubei16 cube){
         //
@@ -1854,6 +2000,79 @@ public:
         this->size.height=(edk::int32)height;
         this->size.length=(edk::int32)length;
     }
+    cubei32(edk::vec3ui8 origin,edk::size3ui8 size){
+        //
+        this->origin.x=(edk::int32)origin.x;
+        this->origin.y=(edk::int32)origin.y;
+        this->origin.z=(edk::int32)origin.z;
+        this->size.width=(edk::int32)size.width;
+        this->size.height=(edk::int32)size.height;
+        this->size.length=(edk::int32)size.length;
+    }
+    cubei32(edk::vec3ui16 origin,edk::size3ui16 size){
+        //
+        this->origin.x=(edk::int32)origin.x;
+        this->origin.y=(edk::int32)origin.y;
+        this->origin.z=(edk::int32)origin.z;
+        this->size.width=(edk::int32)size.width;
+        this->size.height=(edk::int32)size.height;
+        this->size.length=(edk::int32)size.length;
+    }
+    cubei32(edk::vec3ui32 origin,edk::size3ui32 size){
+        //
+        this->origin.x=(edk::int32)origin.x;
+        this->origin.y=(edk::int32)origin.y;
+        this->origin.z=(edk::int32)origin.z;
+        this->size.width=(edk::int32)size.width;
+        this->size.height=(edk::int32)size.height;
+        this->size.length=(edk::int32)size.length;
+    }
+    cubei32(edk::vec3ui64 origin,edk::size3ui64 size){
+        //
+        this->origin.x=(edk::int32)origin.x;
+        this->origin.y=(edk::int32)origin.y;
+        this->origin.z=(edk::int32)origin.z;
+        this->size.width=(edk::int32)size.width;
+        this->size.height=(edk::int32)size.height;
+        this->size.length=(edk::int32)size.length;
+    }
+    cubei32(edk::vec3i8 origin,edk::size3i8 size){
+        //
+        this->origin.x=(edk::int32)origin.x;
+        this->origin.y=(edk::int32)origin.y;
+        this->origin.z=(edk::int32)origin.z;
+        this->size.width=(edk::int32)size.width;
+        this->size.height=(edk::int32)size.height;
+        this->size.length=(edk::int32)size.length;
+    }
+    cubei32(edk::vec3i16 origin,edk::size3i16 size){
+        //
+        this->origin.x=(edk::int32)origin.x;
+        this->origin.y=(edk::int32)origin.y;
+        this->origin.z=(edk::int32)origin.z;
+        this->size.width=(edk::int32)size.width;
+        this->size.height=(edk::int32)size.height;
+        this->size.length=(edk::int32)size.length;
+    }
+    cubei32(edk::vec3i32 origin,edk::size3i32 size){
+        //
+        this->origin.x=(edk::int32)origin.x;
+        this->origin.y=(edk::int32)origin.y;
+        this->origin.z=(edk::int32)origin.z;
+        this->size.width=(edk::int32)size.width;
+        this->size.height=(edk::int32)size.height;
+        this->size.length=(edk::int32)size.length;
+    }
+    cubei32(edk::vec3i64 origin,edk::size3i64 size){
+        //
+        this->origin.x=(edk::int32)origin.x;
+        this->origin.y=(edk::int32)origin.y;
+        this->origin.z=(edk::int32)origin.z;
+        this->size.width=(edk::int32)size.width;
+        this->size.height=(edk::int32)size.height;
+        this->size.length=(edk::int32)size.length;
+    }
+
     //operators
     cubei32 operator=(cubei32 cube){
         //
@@ -2717,6 +2936,79 @@ public:
         this->size.height=(edk::int64)height;
         this->size.length=(edk::int64)length;
     }
+    cubei64(edk::vec3ui8 origin,edk::size3ui8 size){
+        //
+        this->origin.x=(edk::int64)origin.x;
+        this->origin.y=(edk::int64)origin.y;
+        this->origin.z=(edk::int64)origin.z;
+        this->size.width=(edk::int64)size.width;
+        this->size.height=(edk::int64)size.height;
+        this->size.length=(edk::int64)size.length;
+    }
+    cubei64(edk::vec3ui16 origin,edk::size3ui16 size){
+        //
+        this->origin.x=(edk::int64)origin.x;
+        this->origin.y=(edk::int64)origin.y;
+        this->origin.z=(edk::int64)origin.z;
+        this->size.width=(edk::int64)size.width;
+        this->size.height=(edk::int64)size.height;
+        this->size.length=(edk::int64)size.length;
+    }
+    cubei64(edk::vec3ui32 origin,edk::size3ui32 size){
+        //
+        this->origin.x=(edk::int64)origin.x;
+        this->origin.y=(edk::int64)origin.y;
+        this->origin.z=(edk::int64)origin.z;
+        this->size.width=(edk::int64)size.width;
+        this->size.height=(edk::int64)size.height;
+        this->size.length=(edk::int64)size.length;
+    }
+    cubei64(edk::vec3ui64 origin,edk::size3ui64 size){
+        //
+        this->origin.x=(edk::int64)origin.x;
+        this->origin.y=(edk::int64)origin.y;
+        this->origin.z=(edk::int64)origin.z;
+        this->size.width=(edk::int64)size.width;
+        this->size.height=(edk::int64)size.height;
+        this->size.length=(edk::int64)size.length;
+    }
+    cubei64(edk::vec3i8 origin,edk::size3i8 size){
+        //
+        this->origin.x=(edk::int64)origin.x;
+        this->origin.y=(edk::int64)origin.y;
+        this->origin.z=(edk::int64)origin.z;
+        this->size.width=(edk::int64)size.width;
+        this->size.height=(edk::int64)size.height;
+        this->size.length=(edk::int64)size.length;
+    }
+    cubei64(edk::vec3i16 origin,edk::size3i16 size){
+        //
+        this->origin.x=(edk::int64)origin.x;
+        this->origin.y=(edk::int64)origin.y;
+        this->origin.z=(edk::int64)origin.z;
+        this->size.width=(edk::int64)size.width;
+        this->size.height=(edk::int64)size.height;
+        this->size.length=(edk::int64)size.length;
+    }
+    cubei64(edk::vec3i32 origin,edk::size3i32 size){
+        //
+        this->origin.x=(edk::int64)origin.x;
+        this->origin.y=(edk::int64)origin.y;
+        this->origin.z=(edk::int64)origin.z;
+        this->size.width=(edk::int64)size.width;
+        this->size.height=(edk::int64)size.height;
+        this->size.length=(edk::int64)size.length;
+    }
+    cubei64(edk::vec3i64 origin,edk::size3i64 size){
+        //
+        this->origin.x=(edk::int64)origin.x;
+        this->origin.y=(edk::int64)origin.y;
+        this->origin.z=(edk::int64)origin.z;
+        this->size.width=(edk::int64)size.width;
+        this->size.height=(edk::int64)size.height;
+        this->size.length=(edk::int64)size.length;
+    }
+
     //operators
     cubei64 operator=(cubei64 cube){
         //
@@ -3544,6 +3836,42 @@ public:
         this->size.height=(edk::uint8)height;
         this->size.length=(edk::uint8)length;
     }
+    cubeui8(edk::vec3ui8 origin,edk::size3ui8 size){
+        //
+        this->origin.x=(edk::uint8)origin.x;
+        this->origin.y=(edk::uint8)origin.y;
+        this->origin.z=(edk::uint8)origin.z;
+        this->size.width=(edk::uint8)size.width;
+        this->size.height=(edk::uint8)size.height;
+        this->size.length=(edk::uint8)size.length;
+    }
+    cubeui8(edk::vec3ui16 origin,edk::size3ui16 size){
+        //
+        this->origin.x=(edk::uint8)origin.x;
+        this->origin.y=(edk::uint8)origin.y;
+        this->origin.z=(edk::uint8)origin.z;
+        this->size.width=(edk::uint8)size.width;
+        this->size.height=(edk::uint8)size.height;
+        this->size.length=(edk::uint8)size.length;
+    }
+    cubeui8(edk::vec3ui32 origin,edk::size3ui32 size){
+        //
+        this->origin.x=(edk::uint8)origin.x;
+        this->origin.y=(edk::uint8)origin.y;
+        this->origin.z=(edk::uint8)origin.z;
+        this->size.width=(edk::uint8)size.width;
+        this->size.height=(edk::uint8)size.height;
+        this->size.length=(edk::uint8)size.length;
+    }
+    cubeui8(edk::vec3ui64 origin,edk::size3ui64 size){
+        //
+        this->origin.x=(edk::uint8)origin.x;
+        this->origin.y=(edk::uint8)origin.y;
+        this->origin.z=(edk::uint8)origin.z;
+        this->size.width=(edk::uint8)size.width;
+        this->size.height=(edk::uint8)size.height;
+        this->size.length=(edk::uint8)size.length;
+    }
 
     //operators
     cubeui8 operator=(cubeui8 cube){
@@ -4051,6 +4379,42 @@ public:
         this->size.width=(edk::uint16)width;
         this->size.height=(edk::uint16)height;
         this->size.length=(edk::uint16)length;
+    }
+    cubeui16(edk::vec3ui8 origin,edk::size3ui8 size){
+        //
+        this->origin.x=(edk::uint16)origin.x;
+        this->origin.y=(edk::uint16)origin.y;
+        this->origin.z=(edk::uint16)origin.z;
+        this->size.width=(edk::uint16)size.width;
+        this->size.height=(edk::uint16)size.height;
+        this->size.length=(edk::uint16)size.length;
+    }
+    cubeui16(edk::vec3ui16 origin,edk::size3ui16 size){
+        //
+        this->origin.x=(edk::uint16)origin.x;
+        this->origin.y=(edk::uint16)origin.y;
+        this->origin.z=(edk::uint16)origin.z;
+        this->size.width=(edk::uint16)size.width;
+        this->size.height=(edk::uint16)size.height;
+        this->size.length=(edk::uint16)size.length;
+    }
+    cubeui16(edk::vec3ui32 origin,edk::size3ui32 size){
+        //
+        this->origin.x=(edk::uint16)origin.x;
+        this->origin.y=(edk::uint16)origin.y;
+        this->origin.z=(edk::uint16)origin.z;
+        this->size.width=(edk::uint16)size.width;
+        this->size.height=(edk::uint16)size.height;
+        this->size.length=(edk::uint16)size.length;
+    }
+    cubeui16(edk::vec3ui64 origin,edk::size3ui64 size){
+        //
+        this->origin.x=(edk::uint16)origin.x;
+        this->origin.y=(edk::uint16)origin.y;
+        this->origin.z=(edk::uint16)origin.z;
+        this->size.width=(edk::uint16)size.width;
+        this->size.height=(edk::uint16)size.height;
+        this->size.length=(edk::uint16)size.length;
     }
 
     //operators
@@ -4560,6 +4924,42 @@ public:
         this->size.height=(edk::uint32)height;
         this->size.length=(edk::uint32)length;
     }
+    cubeui32(edk::vec3ui8 origin,edk::size3ui8 size){
+        //
+        this->origin.x=(edk::uint32)origin.x;
+        this->origin.y=(edk::uint32)origin.y;
+        this->origin.z=(edk::uint32)origin.z;
+        this->size.width=(edk::uint32)size.width;
+        this->size.height=(edk::uint32)size.height;
+        this->size.length=(edk::uint32)size.length;
+    }
+    cubeui32(edk::vec3ui16 origin,edk::size3ui16 size){
+        //
+        this->origin.x=(edk::uint32)origin.x;
+        this->origin.y=(edk::uint32)origin.y;
+        this->origin.z=(edk::uint32)origin.z;
+        this->size.width=(edk::uint32)size.width;
+        this->size.height=(edk::uint32)size.height;
+        this->size.length=(edk::uint32)size.length;
+    }
+    cubeui32(edk::vec3ui32 origin,edk::size3ui32 size){
+        //
+        this->origin.x=(edk::uint32)origin.x;
+        this->origin.y=(edk::uint32)origin.y;
+        this->origin.z=(edk::uint32)origin.z;
+        this->size.width=(edk::uint32)size.width;
+        this->size.height=(edk::uint32)size.height;
+        this->size.length=(edk::uint32)size.length;
+    }
+    cubeui32(edk::vec3ui64 origin,edk::size3ui64 size){
+        //
+        this->origin.x=(edk::uint32)origin.x;
+        this->origin.y=(edk::uint32)origin.y;
+        this->origin.z=(edk::uint32)origin.z;
+        this->size.width=(edk::uint32)size.width;
+        this->size.height=(edk::uint32)size.height;
+        this->size.length=(edk::uint32)size.length;
+    }
 
     //operators
     cubeui32 operator=(cubeui32 cube){
@@ -5067,6 +5467,42 @@ public:
         this->size.width=(edk::uint64)width;
         this->size.height=(edk::uint64)height;
         this->size.length=(edk::uint64)length;
+    }
+    cubeui64(edk::vec3ui8 origin,edk::size3ui8 size){
+        //
+        this->origin.x=(edk::uint64)origin.x;
+        this->origin.y=(edk::uint64)origin.y;
+        this->origin.z=(edk::uint64)origin.z;
+        this->size.width=(edk::uint64)size.width;
+        this->size.height=(edk::uint64)size.height;
+        this->size.length=(edk::uint64)size.length;
+    }
+    cubeui64(edk::vec3ui16 origin,edk::size3ui16 size){
+        //
+        this->origin.x=(edk::uint64)origin.x;
+        this->origin.y=(edk::uint64)origin.y;
+        this->origin.z=(edk::uint64)origin.z;
+        this->size.width=(edk::uint64)size.width;
+        this->size.height=(edk::uint64)size.height;
+        this->size.length=(edk::uint64)size.length;
+    }
+    cubeui64(edk::vec3ui32 origin,edk::size3ui32 size){
+        //
+        this->origin.x=(edk::uint64)origin.x;
+        this->origin.y=(edk::uint64)origin.y;
+        this->origin.z=(edk::uint64)origin.z;
+        this->size.width=(edk::uint64)size.width;
+        this->size.height=(edk::uint64)size.height;
+        this->size.length=(edk::uint64)size.length;
+    }
+    cubeui64(edk::vec3ui64 origin,edk::size3ui64 size){
+        //
+        this->origin.x=(edk::uint64)origin.x;
+        this->origin.y=(edk::uint64)origin.y;
+        this->origin.z=(edk::uint64)origin.z;
+        this->size.width=(edk::uint64)size.width;
+        this->size.height=(edk::uint64)size.height;
+        this->size.length=(edk::uint64)size.length;
     }
 
     //operators
@@ -5629,6 +6065,96 @@ public:
         this->size.width=(edk::float32)width;
         this->size.height=(edk::float32)height;
         this->size.length=(edk::float32)length;
+    }
+    cubef32(edk::vec3ui8 origin,edk::size3ui8 size){
+        //
+        this->origin.x=(edk::float32)origin.x;
+        this->origin.y=(edk::float32)origin.y;
+        this->origin.z=(edk::float32)origin.z;
+        this->size.width=(edk::float32)size.width;
+        this->size.height=(edk::float32)size.height;
+        this->size.length=(edk::float32)size.length;
+    }
+    cubef32(edk::vec3ui16 origin,edk::size3ui16 size){
+        //
+        this->origin.x=(edk::float32)origin.x;
+        this->origin.y=(edk::float32)origin.y;
+        this->origin.z=(edk::float32)origin.z;
+        this->size.width=(edk::float32)size.width;
+        this->size.height=(edk::float32)size.height;
+        this->size.length=(edk::float32)size.length;
+    }
+    cubef32(edk::vec3ui32 origin,edk::size3ui32 size){
+        //
+        this->origin.x=(edk::float32)origin.x;
+        this->origin.y=(edk::float32)origin.y;
+        this->origin.z=(edk::float32)origin.z;
+        this->size.width=(edk::float32)size.width;
+        this->size.height=(edk::float32)size.height;
+        this->size.length=(edk::float32)size.length;
+    }
+    cubef32(edk::vec3ui64 origin,edk::size3ui64 size){
+        //
+        this->origin.x=(edk::float32)origin.x;
+        this->origin.y=(edk::float32)origin.y;
+        this->origin.z=(edk::float32)origin.z;
+        this->size.width=(edk::float32)size.width;
+        this->size.height=(edk::float32)size.height;
+        this->size.length=(edk::float32)size.length;
+    }
+    cubef32(edk::vec3i8 origin,edk::size3i8 size){
+        //
+        this->origin.x=(edk::float32)origin.x;
+        this->origin.y=(edk::float32)origin.y;
+        this->origin.z=(edk::float32)origin.z;
+        this->size.width=(edk::float32)size.width;
+        this->size.height=(edk::float32)size.height;
+        this->size.length=(edk::float32)size.length;
+    }
+    cubef32(edk::vec3i16 origin,edk::size3i16 size){
+        //
+        this->origin.x=(edk::float32)origin.x;
+        this->origin.y=(edk::float32)origin.y;
+        this->origin.z=(edk::float32)origin.z;
+        this->size.width=(edk::float32)size.width;
+        this->size.height=(edk::float32)size.height;
+        this->size.length=(edk::float32)size.length;
+    }
+    cubef32(edk::vec3i32 origin,edk::size3i32 size){
+        //
+        this->origin.x=(edk::float32)origin.x;
+        this->origin.y=(edk::float32)origin.y;
+        this->origin.z=(edk::float32)origin.z;
+        this->size.width=(edk::float32)size.width;
+        this->size.height=(edk::float32)size.height;
+        this->size.length=(edk::float32)size.length;
+    }
+    cubef32(edk::vec3i64 origin,edk::size3i64 size){
+        //
+        this->origin.x=(edk::float32)origin.x;
+        this->origin.y=(edk::float32)origin.y;
+        this->origin.z=(edk::float32)origin.z;
+        this->size.width=(edk::float32)size.width;
+        this->size.height=(edk::float32)size.height;
+        this->size.length=(edk::float32)size.length;
+    }
+    cubef32(edk::vec3f32 origin,edk::size3f32 size){
+        //
+        this->origin.x=origin.x;
+        this->origin.y=origin.y;
+        this->origin.z=origin.z;
+        this->size.width=size.width;
+        this->size.height=size.height;
+        this->size.length=size.length;
+    }
+    cubef32(edk::vec3f64 origin,edk::size3f64 size){
+        //
+        this->origin.x=(edk::float32)origin.x;
+        this->origin.y=(edk::float32)origin.y;
+        this->origin.z=(edk::float32)origin.z;
+        this->size.width=(edk::float32)size.width;
+        this->size.height=(edk::float32)size.height;
+        this->size.length=(edk::float32)size.length;
     }
 
     //operators
@@ -6669,6 +7195,96 @@ public:
         this->size.width=(edk::float64)width;
         this->size.height=(edk::float64)height;
         this->size.length=(edk::float64)length;
+    }
+    cubef64(edk::vec3ui8 origin,edk::size3ui8 size){
+        //
+        this->origin.x=(edk::float64)origin.x;
+        this->origin.y=(edk::float64)origin.y;
+        this->origin.z=(edk::float64)origin.z;
+        this->size.width=(edk::float64)size.width;
+        this->size.height=(edk::float64)size.height;
+        this->size.length=(edk::float64)size.length;
+    }
+    cubef64(edk::vec3ui16 origin,edk::size3ui16 size){
+        //
+        this->origin.x=(edk::float64)origin.x;
+        this->origin.y=(edk::float64)origin.y;
+        this->origin.z=(edk::float64)origin.z;
+        this->size.width=(edk::float64)size.width;
+        this->size.height=(edk::float64)size.height;
+        this->size.length=(edk::float64)size.length;
+    }
+    cubef64(edk::vec3ui32 origin,edk::size3ui32 size){
+        //
+        this->origin.x=(edk::float64)origin.x;
+        this->origin.y=(edk::float64)origin.y;
+        this->origin.z=(edk::float64)origin.z;
+        this->size.width=(edk::float64)size.width;
+        this->size.height=(edk::float64)size.height;
+        this->size.length=(edk::float64)size.length;
+    }
+    cubef64(edk::vec3ui64 origin,edk::size3ui64 size){
+        //
+        this->origin.x=(edk::float64)origin.x;
+        this->origin.y=(edk::float64)origin.y;
+        this->origin.z=(edk::float64)origin.z;
+        this->size.width=(edk::float64)size.width;
+        this->size.height=(edk::float64)size.height;
+        this->size.length=(edk::float64)size.length;
+    }
+    cubef64(edk::vec3i8 origin,edk::size3i8 size){
+        //
+        this->origin.x=(edk::float64)origin.x;
+        this->origin.y=(edk::float64)origin.y;
+        this->origin.z=(edk::float64)origin.z;
+        this->size.width=(edk::float64)size.width;
+        this->size.height=(edk::float64)size.height;
+        this->size.length=(edk::float64)size.length;
+    }
+    cubef64(edk::vec3i16 origin,edk::size3i16 size){
+        //
+        this->origin.x=(edk::float64)origin.x;
+        this->origin.y=(edk::float64)origin.y;
+        this->origin.z=(edk::float64)origin.z;
+        this->size.width=(edk::float64)size.width;
+        this->size.height=(edk::float64)size.height;
+        this->size.length=(edk::float64)size.length;
+    }
+    cubef64(edk::vec3i32 origin,edk::size3i32 size){
+        //
+        this->origin.x=(edk::float64)origin.x;
+        this->origin.y=(edk::float64)origin.y;
+        this->origin.z=(edk::float64)origin.z;
+        this->size.width=(edk::float64)size.width;
+        this->size.height=(edk::float64)size.height;
+        this->size.length=(edk::float64)size.length;
+    }
+    cubef64(edk::vec3i64 origin,edk::size3i64 size){
+        //
+        this->origin.x=(edk::float64)origin.x;
+        this->origin.y=(edk::float64)origin.y;
+        this->origin.z=(edk::float64)origin.z;
+        this->size.width=(edk::float64)size.width;
+        this->size.height=(edk::float64)size.height;
+        this->size.length=(edk::float64)size.length;
+    }
+    cubef64(edk::vec3f32 origin,edk::size3f32 size){
+        //
+        this->origin.x=(edk::float64)origin.x;
+        this->origin.y=(edk::float64)origin.y;
+        this->origin.z=(edk::float64)origin.z;
+        this->size.width=(edk::float64)size.width;
+        this->size.height=(edk::float64)size.height;
+        this->size.length=(edk::float64)size.length;
+    }
+    cubef64(edk::vec3f64 origin,edk::size3f64 size){
+        //
+        this->origin.x=origin.x;
+        this->origin.y=origin.y;
+        this->origin.z=origin.z;
+        this->size.width=size.width;
+        this->size.height=size.height;
+        this->size.length=size.length;
     }
 
     //operators
