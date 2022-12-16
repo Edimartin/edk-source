@@ -743,6 +743,23 @@ public:
     void setRect(edk::float32 positionX,edk::float32 positionY,edk::float32 width,edk::float32 height){
         this->clean(edk::rectf32(positionX,positionY,width,height));
     }
+    void incrementRect(edk::rectf32 rect){
+        if(rect.origin.x > this->root.origin.x)
+            rect.origin.x = this->root.origin.x;
+        if(rect.origin.y > this->root.origin.y)
+            rect.origin.y = this->root.origin.y;
+        if(rect.size.width < this->root.size.width)
+            rect.size.width = this->root.size.width;
+        if(rect.size.height < this->root.size.height)
+            rect.size.height = this->root.size.height;
+        this->clean(rect);
+    }
+    void incrementRect(edk::vec2f32 position,edk::size2f32 size){
+        this->incrementRect(edk::rectf32(position,size));
+    }
+    void incrementRect(edk::float32 positionX,edk::float32 positionY,edk::float32 width,edk::float32 height){
+        this->incrementRect(edk::rectf32(positionX,positionY,width,height));
+    }
 
     //add a object
     bool add(typeTemplate value, edk::uint32 depthLimit=0xFFFFFFFF){
@@ -920,6 +937,37 @@ public:
                 return true;
             }
             this->setRect(rectangle);
+        }
+        return false;
+    }
+    bool incrementRectFromTree(edk::vector::BinaryTree<typeTemplate>* tree){
+        if(tree){
+            edk::uint32 size = tree->size();
+            edk::rectf32 rectangle = edk::rectf32(0,0,1,1);
+            edk::rectf32 rectTemp;
+            if(size){
+                rectangle = this->getElementRectangle(tree->getElementInPosition(0u));
+                for(edk::uint32 i=0u;i<size;i++){
+                    rectTemp = this->getElementRectangle(tree->getElementInPosition(i));
+                    //test if need to update the rectangle
+                    if(rectangle.origin.x >= rectTemp.origin.x)
+                        rectangle.origin.x = rectTemp.origin.x;
+                    if(rectangle.origin.y >= rectTemp.origin.y)
+                        rectangle.origin.y = rectTemp.origin.y;
+                    if(rectangle.size.width <= rectTemp.size.width)
+                        rectangle.size.width = rectTemp.size.width;
+                    if(rectangle.size.height <= rectTemp.size.height)
+                        rectangle.size.height = rectTemp.size.height;
+                    //increment the size of the rectangle
+                    rectangle.origin.x -= (rectangle.size.width - rectangle.origin.x)*0.025f;
+                    rectangle.origin.y -= (rectangle.size.height - rectangle.origin.y)*0.025f;
+                    rectangle.size.width += (rectangle.size.width - rectangle.origin.x)*0.025f;
+                    rectangle.size.height += (rectangle.size.height - rectangle.origin.y)*0.025f;
+                }
+                //set the rectangle
+                this->incrementRect(rectangle);
+                return true;
+            }
         }
         return false;
     }
@@ -1546,6 +1594,23 @@ public:
     void setRect(edk::float64 positionX,edk::float64 positionY,edk::float64 width,edk::float64 height){
         this->clean(edk::rectf64(positionX,positionY,width,height));
     }
+    void incrementRect(edk::rectf64 rect){
+        if(rect.origin.x > this->root.origin.x)
+            rect.origin.x = this->root.origin.x;
+        if(rect.origin.y > this->root.origin.y)
+            rect.origin.y = this->root.origin.y;
+        if(rect.size.width < this->root.size.width)
+            rect.size.width = this->root.size.width;
+        if(rect.size.height < this->root.size.height)
+            rect.size.height = this->root.size.height;
+        this->clean(rect);
+    }
+    void incrementRect(edk::vec2f64 position,edk::size2f64 size){
+        this->incrementRect(edk::rectf64(position,size));
+    }
+    void incrementRect(edk::float64 positionX,edk::float64 positionY,edk::float64 width,edk::float64 height){
+        this->incrementRect(edk::rectf64(positionX,positionY,width,height));
+    }
 
     //add a object
     bool add(typeTemplate value, edk::uint64 depthLimit=0xFFFFFFFF){
@@ -1723,6 +1788,37 @@ public:
                 return true;
             }
             this->setRect(rectangle);
+        }
+        return false;
+    }
+    bool incrementRectFromTree(edk::vector::BinaryTree<typeTemplate>* tree){
+        if(tree){
+            edk::uint64 size = tree->size();
+            edk::rectf64 rectangle = edk::rectf64(0,0,1,1);
+            edk::rectf64 rectTemp;
+            if(size){
+                rectangle = this->getElementRectangle(tree->getElementInPosition(0u));
+                for(edk::uint64 i=0u;i<size;i++){
+                    rectTemp = this->getElementRectangle(tree->getElementInPosition(i));
+                    //test if need to update the rectangle
+                    if(rectangle.origin.x >= rectTemp.origin.x)
+                        rectangle.origin.x = rectTemp.origin.x;
+                    if(rectangle.origin.y >= rectTemp.origin.y)
+                        rectangle.origin.y = rectTemp.origin.y;
+                    if(rectangle.size.width <= rectTemp.size.width)
+                        rectangle.size.width = rectTemp.size.width;
+                    if(rectangle.size.height <= rectTemp.size.height)
+                        rectangle.size.height = rectTemp.size.height;
+                    //increment the size of the rectangle
+                    rectangle.origin.x -= (rectangle.size.width - rectangle.origin.x)*0.025f;
+                    rectangle.origin.y -= (rectangle.size.height - rectangle.origin.y)*0.025f;
+                    rectangle.size.width += (rectangle.size.width - rectangle.origin.x)*0.025f;
+                    rectangle.size.height += (rectangle.size.height - rectangle.origin.y)*0.025f;
+                }
+                //set the rectangle
+                this->incrementRect(rectangle);
+                return true;
+            }
         }
         return false;
     }
