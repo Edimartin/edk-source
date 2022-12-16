@@ -524,7 +524,6 @@ void edk::Window::drawView(){
                                      this->cleanColor.b,
                                      1.f
                                      );
-
     //draw the view
     this->viewWindow.draw(
                 this->viewWindow.frame

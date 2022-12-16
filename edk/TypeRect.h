@@ -6591,18 +6591,18 @@ public:
 
     bool operator==(edk::rectf32 rect){
         //
-        return (this->origin.x>rect.origin.x-0.000001f && this->origin.x<rect.origin.x+0.000001f
-                && this->origin.y>rect.origin.y-0.000001f && this->origin.y<rect.origin.y+0.000001f
-                && this->size.width>rect.size.width-0.000001f && this->size.width<rect.size.width+0.000001f
-                && this->size.height>rect.size.height-0.000001f && this->size.height<rect.size.height+0.000001f
+        return (this->origin.x>rect.origin.x-0.0001f && this->origin.x<rect.origin.x+0.0001f
+                && this->origin.y>rect.origin.y-0.0001f && this->origin.y<rect.origin.y+0.0001f
+                && this->size.width>rect.size.width-0.0001f && this->size.width<rect.size.width+0.0001f
+                && this->size.height>rect.size.height-0.0001f && this->size.height<rect.size.height+0.0001f
                 );
     }
     bool operator!=(edk::rectf32 rect){
         //
-        return ((this->origin.x<rect.origin.x-0.000001f && this->origin.x>rect.origin.x+0.000001f)
-                || (this->origin.y<rect.origin.y-0.000001f && this->origin.y>rect.origin.y+0.000001f)
-                || (this->size.width<rect.size.width-0.000001f && this->size.width>rect.size.width+0.000001f)
-                || (this->size.height<rect.size.height-0.000001f && this->size.height>rect.size.height+0.000001f)
+        return ((this->origin.x<rect.origin.x-0.0001f || this->origin.x>rect.origin.x+0.0001f)
+                || (this->origin.y<rect.origin.y-0.0001f || this->origin.y>rect.origin.y+0.0001f)
+                || (this->size.width<rect.size.width-0.0001f || this->size.width>rect.size.width+0.0001f)
+                || (this->size.height<rect.size.height-0.0001f || this->size.height>rect.size.height+0.0001f)
                 );
     }
     //Operator >
@@ -7591,10 +7591,10 @@ public:
     }
     bool operator!=(edk::rectf64 rect){
         //
-        return ((this->origin.x<rect.origin.x-0.000001f && this->origin.x>rect.origin.x+0.000001f)
-                || (this->origin.y<rect.origin.y-0.000001f && this->origin.y>rect.origin.y+0.000001f)
-                || (this->size.width<rect.size.width-0.000001f && this->size.width>rect.size.width+0.000001f)
-                || (this->size.height<rect.size.height-0.000001f && this->size.height>rect.size.height+0.000001f)
+        return ((this->origin.x<rect.origin.x-0.000001f || this->origin.x>rect.origin.x+0.000001f)
+                || (this->origin.y<rect.origin.y-0.000001f || this->origin.y>rect.origin.y+0.000001f)
+                || (this->size.width<rect.size.width-0.000001f || this->size.width>rect.size.width+0.000001f)
+                || (this->size.height<rect.size.height-0.000001f || this->size.height>rect.size.height+0.000001f)
                 );
     }
     //Operator >
