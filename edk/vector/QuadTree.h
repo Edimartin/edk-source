@@ -915,7 +915,7 @@ public:
             edk::rectf32 rectTemp;
             if(size){
                 rectangle = this->getElementRectangle(tree->getElementInPosition(0u));
-                for(edk::uint32 i=0u;i<size;i++){
+                for(edk::uint32 i=1u;i<size;i++){
                     rectTemp = this->getElementRectangle(tree->getElementInPosition(i));
                     //test if need to update the rectangle
                     if(rectangle.origin.x >= rectTemp.origin.x)
@@ -926,12 +926,12 @@ public:
                         rectangle.size.width = rectTemp.size.width;
                     if(rectangle.size.height <= rectTemp.size.height)
                         rectangle.size.height = rectTemp.size.height;
-                    //increment the size of the rectangle
-                    rectangle.origin.x -= (rectangle.size.width - rectangle.origin.x)*0.025f;
-                    rectangle.origin.y -= (rectangle.size.height - rectangle.origin.y)*0.025f;
-                    rectangle.size.width += (rectangle.size.width - rectangle.origin.x)*0.025f;
-                    rectangle.size.height += (rectangle.size.height - rectangle.origin.y)*0.025f;
                 }
+                //increment the size of the rectangle
+                rectangle.origin.x -= (rectangle.size.width - rectangle.origin.x)*0.025f;
+                rectangle.origin.y -= (rectangle.size.height - rectangle.origin.y)*0.025f;
+                rectangle.size.width += (rectangle.size.width - rectangle.origin.x)*0.025f;
+                rectangle.size.height += (rectangle.size.height - rectangle.origin.y)*0.025f;
                 //set the rectangle
                 this->setRect(rectangle);
                 return true;
@@ -1766,7 +1766,7 @@ public:
             edk::rectf64 rectTemp;
             if(size){
                 rectangle = this->getElementRectangle(tree->getElementInPosition(0u));
-                for(edk::uint64 i=0u;i<size;i++){
+                for(edk::uint64 i=1u;i<size;i++){
                     rectTemp = this->getElementRectangle(tree->getElementInPosition(i));
                     //test if need to update the rectangle
                     if(rectangle.origin.x >= rectTemp.origin.x)
@@ -1777,12 +1777,12 @@ public:
                         rectangle.size.width = rectTemp.size.width;
                     if(rectangle.size.height <= rectTemp.size.height)
                         rectangle.size.height = rectTemp.size.height;
-                    //increment the size of the rectangle
-                    rectangle.origin.x -= (rectangle.size.width - rectangle.origin.x)*0.025f;
-                    rectangle.origin.y -= (rectangle.size.height - rectangle.origin.y)*0.025f;
-                    rectangle.size.width += (rectangle.size.width - rectangle.origin.x)*0.025f;
-                    rectangle.size.height += (rectangle.size.height - rectangle.origin.y)*0.025f;
                 }
+                //increment the size of the rectangle
+                rectangle.origin.x -= (rectangle.size.width - rectangle.origin.x)*0.025f;
+                rectangle.origin.y -= (rectangle.size.height - rectangle.origin.y)*0.025f;
+                rectangle.size.width += (rectangle.size.width - rectangle.origin.x)*0.025f;
+                rectangle.size.height += (rectangle.size.height - rectangle.origin.y)*0.025f;
                 //set the rectangle
                 this->setRect(rectangle);
                 return true;
@@ -2402,6 +2402,7 @@ private:
         this->treeTemp->clean();
     }
 };
+
 
 }//edn namespace vector
 }//end namespace edk
