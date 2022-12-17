@@ -705,8 +705,8 @@ template <class typeTemplate>
 class QuadTree32 : public edk::vector::BinaryTreeCallback<typeTemplate>{
 public:
     QuadTree32(){
-        this->selected=&this->root;
-        this->treeTemp=&this->treeUpdate;
+        this->selected = &this->root;
+        this->treeTemp = &this->treeUpdate;
         this->clean(edk::rectf32(0,0,1,1));
     }
     virtual ~QuadTree32(){
@@ -1253,6 +1253,8 @@ public:
             this->treeTemp = &this->treeUpdate;
         //REMOVED
         this->treeOutside.clean();
+
+        this->treeGets.clean();
     }
     void cleanAndSetRectangleFromTree(edk::vector::BinaryTree<typeTemplate>* tree){
         this->setRectFromTree(tree);
@@ -1346,6 +1348,9 @@ protected:
     virtual void elementGetOut(typeTemplate){
         //elementGetOut
     }
+
+    //get the quadtree binaryTreePointer
+    edk::vector::BinaryTree<typeTemplate>* getTreePointer(){return this->treeTemp;}
 
 private:
     //quadtree Root
@@ -1460,15 +1465,9 @@ private:
                 }
             }
             //update the elements
-            size = this->treeGets.size();
-            decrement = false;
+            size = this->treeTemp->size();
             for(edk::uint32 i=0u;i<size;i++){
-                if(decrement){
-                    decrement=false;
-                    i--;
-                    size--;
-                }
-                this->elementUpdating(this->treeGets.getElementInPosition(i));
+                this->elementUpdating(this->treeTemp->getElementInPosition(i));
             }
             //add new elements.
             size = tree->size();
@@ -1556,8 +1555,8 @@ template <class typeTemplate>
 class QuadTree64 : public edk::vector::BinaryTreeCallback<typeTemplate>{
 public:
     QuadTree64(){
-        this->selected=&this->root;
-        this->treeTemp=&this->treeUpdate;
+        this->selected = &this->root;
+        this->treeTemp = &this->treeUpdate;
         this->clean(edk::rectf64(0,0,1,1));
     }
     virtual ~QuadTree64(){
@@ -2104,6 +2103,8 @@ public:
             this->treeTemp = &this->treeUpdate;
         //REMOVED
         this->treeOutside.clean();
+
+        this->treeGets.clean();
     }
     void cleanAndSetRectangleFromTree(edk::vector::BinaryTree<typeTemplate>* tree){
         this->setRectFromTree(tree);
@@ -2197,6 +2198,9 @@ protected:
     virtual void elementGetOut(typeTemplate){
         //elementGetOut
     }
+
+    //get the quadtree binaryTreePointer
+    edk::vector::BinaryTree<typeTemplate>* getTreePointer(){return this->treeTemp;}
 
 private:
     //quadtree Root
@@ -2311,15 +2315,9 @@ private:
                 }
             }
             //update the elements
-            size = this->treeGets.size();
-            decrement = false;
+            size = this->treeTemp->size();
             for(edk::uint64 i=0u;i<size;i++){
-                if(decrement){
-                    decrement=false;
-                    i--;
-                    size--;
-                }
-                this->elementUpdating(this->treeGets.getElementInPosition(i));
+                this->elementUpdating(this->treeTemp->getElementInPosition(i));
             }
             //add new elements.
             size = tree->size();
