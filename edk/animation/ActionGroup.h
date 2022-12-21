@@ -136,20 +136,20 @@ private:
     class ActionsTree : public edk::vector::BinaryTree<edk::Action*>{
     public:
         ActionsTree(edk::float32 second){
-            this->second = second;
+            this->second = second;edkEnd();
         }
         ~ActionsTree(){
-            this->clean();
+            this->clean();edkEnd();
         }
         //return the second
         edk::float32 getSecond(){
-            return this->second;
+            return this->second;edkEnd();
         }
 
         //UPDATE
         void updateElement(edk::Action* value){
             //update the value
-            value->runAction();
+            value->runAction();edkEnd();
         }
     private:
         edk::float32 second;
@@ -157,25 +157,26 @@ private:
     class ActionReferenceCount{
     public:
         ActionReferenceCount(edk::Action* action){
-            count=0u;
-            this->action=action;
+            count=0u;edkEnd();
+            this->action=action;edkEnd();
         }
         ~ActionReferenceCount(){
             //
+            edkEnd();
         }
         void retain(){
-            this->count++;
+            this->count++;edkEnd();
         }
         bool release(){
             if(this->count){
-                this->count--;
+                this->count--;edkEnd();
                 if(this->count){
                     return true;
                 }
             }
             return false;
         }
-        edk::Action* getAction(){return this->action;}
+        edk::Action* getAction(){return this->action;edkEnd();}
     private:
         edk::uint32 count;
         edk::Action* action;
@@ -185,24 +186,25 @@ private:
     class ActionStackTree: public edk::vector::BinaryTree<edk::animation::ActionGroup::ActionsTree*>{
     public:
         ActionStackTree(){
-            this->canDeleteTree=true;
+            this->canDeleteTree=true;edkEnd();
         }
         ~ActionStackTree(){
             if(this->canDeleteTree){
-            this->cleanActions();
+            this->cleanActions();edkEnd();
             }
             else{
-                this->cantDestruct();
-                this->actionsTree.cantDestruct();
-                edk::uint32 size = this->size();
-                edk::animation::ActionGroup::ActionsTree* temp;
+                this->cantDestruct();edkEnd();
+                this->actionsTree.cantDestruct();edkEnd();
+                edk::uint32 size = this->size();edkEnd();
+                edk::animation::ActionGroup::ActionsTree* temp;edkEnd();
                 for(edk::uint32 i=0u;i<size;i++){
-                    temp = this->getElementInPosition(i);
-                    if(temp)
-                        temp->cantDestruct();
+                    temp = this->getElementInPosition(i);edkEnd();
+                    if(temp){
+                        temp->cantDestruct();edkEnd();
+                    }
                 }
             }
-            this->canDeleteTree=true;
+            this->canDeleteTree=true;edkEnd();
         }
 
         //compare if the value is bigger
@@ -223,9 +225,9 @@ private:
 
         //update the second
         bool updateSecond(edk::float32 second){
-            edk::animation::ActionGroup::ActionsTree* tree = this->getActionTree(second);
+            edk::animation::ActionGroup::ActionsTree* tree = this->getActionTree(second);edkEnd();
             if(tree){
-                tree->update();
+                tree->update();edkEnd();
             }
             return false;
         }
@@ -233,60 +235,61 @@ private:
         //cant delete the tree
         void cantDeleteTrees(){
             /*
-            this->cantDestruct();
-            edk::uint32 size = this->size();
-            edk::animation::ActionGroup::ActionsTree* temp;
+            this->cantDestruct();edkEnd();
+            edk::uint32 size = this->size();edkEnd();
+            edk::animation::ActionGroup::ActionsTree* temp;edkEnd();
             for(edk::uint32 i=0u;i<size;i++){
-                temp = this->getElementInPosition(i);
-                if(temp)
-              temp->cantDestruct();
+                temp = this->getElementInPosition(i);edkEnd();
+                if(temp){
+              temp->cantDestruct();edkEnd();
+              }
             }
             */
-            this->canDeleteTree=false;
+            this->canDeleteTree=false;edkEnd();
         }
 
         //Add a new Action
         bool addAction(edk::float32 second,edk::Action* action){
             if(action){
                 //load the action stack
-                edk::animation::ActionGroup::ActionsTree* tree = this->getActionTree(second);
+                edk::animation::ActionGroup::ActionsTree* tree = this->getActionTree(second);edkEnd();
                 if(tree){
                     //add the action to the tree
                     if(tree->add(action)){
                         //add the action to the reference count
-                        this->actionsTree.addAction(action);
+                        this->actionsTree.addAction(action);edkEnd();
                         return true;
                     }
                 }
                 //else create a new tree to the second
-                tree = new edk::animation::ActionGroup::ActionsTree(second);
+                tree = new edk::animation::ActionGroup::ActionsTree(second);edkEnd();
                 if(tree){
                     //add the tree to the tree
                     if(this->add(tree)){
                         //add the action to the tree
                         if(tree->add(action)){
                             //add the action to the reference count
-                            this->actionsTree.addAction(action);
+                            this->actionsTree.addAction(action);edkEnd();
                             return true;
                         }
                     }
                     //else delete the tree
-                    delete tree;
+                    delete tree;edkEnd();
                 }
             }
             return false;
         }
         //get the second in the position
         edk::float32 getSecond(edk::uint32 position){
-            edk::animation::ActionGroup::ActionsTree* tree = this->getElementInPosition(position);
+            edk::animation::ActionGroup::ActionsTree* tree = this->getElementInPosition(position);edkEnd();
             if(tree){
-                return tree->getSecond();
+                return tree->getSecond();edkEnd();
             }
-            return 0.f;
+            return 0.f;edkEnd();
         }
         //test if have the position
         bool havePosition(edk::uint32 position){
-            edk::animation::ActionGroup::ActionsTree* tree = this->getElementInPosition(position);
+            edk::animation::ActionGroup::ActionsTree* tree = this->getElementInPosition(position);edkEnd();
             if(tree){
                 return true;
             }
@@ -294,66 +297,66 @@ private:
         }
         //find the action second
         edk::float32 getActionSecond(edk::Action* action){
-            edk::uint32 size = this->size();
-            edk::animation::ActionGroup::ActionsTree* tree=NULL;
+            edk::uint32 size = this->size();edkEnd();
+            edk::animation::ActionGroup::ActionsTree* tree=NULL;edkEnd();
             for(edk::uint32 i=0u;i<size;i++){
-                tree = this->getElementInPosition(i);
+                tree = this->getElementInPosition(i);edkEnd();
                 if(tree->haveElement(action)){
                     //return the second
-                    return tree->getSecond();
+                    return tree->getSecond();edkEnd();
                 }
             }
-            return 0.f;
+            return 0.f;edkEnd();
         }
         //remove the action
         bool removeAction(edk::Action* action){
-            return this->removeActionInSecond(this->getActionSecond(action),action);
+            return this->removeActionInSecond(this->getActionSecond(action),action);edkEnd();
         }
         //get actions in second
         edk::uint32 getActionSizeInSecond(edk::float32 second){
-            edk::animation::ActionGroup::ActionsTree* tree = this->getActionTree(second);
+            edk::animation::ActionGroup::ActionsTree* tree = this->getActionTree(second);edkEnd();
             if(tree){
-                return tree->size();
+                return tree->size();edkEnd();
             }
-            return 0u;
+            return 0u;edkEnd();
         }
         edk::uint32 getActionSizeInPosition(edk::uint32 position){
-            edk::animation::ActionGroup::ActionsTree* tree = this->getElementInPosition(position);
+            edk::animation::ActionGroup::ActionsTree* tree = this->getElementInPosition(position);edkEnd();
             if(tree){
-                return tree->size();
+                return tree->size();edkEnd();
             }
-            return 0u;
+            return 0u;edkEnd();
         }
         //get the action
         edk::Action* getActionInSecond(edk::float32 second,edk::uint32 position){
-            edk::animation::ActionGroup::ActionsTree* tree = this->getActionTree(second);
+            edk::animation::ActionGroup::ActionsTree* tree = this->getActionTree(second);edkEnd();
             if(tree){
                 //return the action in position
-                return tree->getElementInPosition(position);
+                return tree->getElementInPosition(position);edkEnd();
             }
-            return NULL;
+            return NULL;edkEnd();
         }
         edk::Action* getActionInPosition(edk::uint32 secondPosition,edk::uint32 position){
-            edk::animation::ActionGroup::ActionsTree* tree = this->getElementInPosition(secondPosition);
+            edk::animation::ActionGroup::ActionsTree* tree = this->getElementInPosition(secondPosition);edkEnd();
             if(tree){
                 //return the action in position
-                return tree->getElementInPosition(position);
+                return tree->getElementInPosition(position);edkEnd();
             }
-            return NULL;
+            return NULL;edkEnd();
         }
 
         //remove the action
         bool removeActionInSecond(edk::float32 second,edk::Action* action){
             //test the action
             if(action){
-                edk::animation::ActionGroup::ActionsTree* tree = this->getActionTree(second);
+                edk::animation::ActionGroup::ActionsTree* tree = this->getActionTree(second);edkEnd();
                 if(tree){
                     //remove the action
                     if(tree->remove(action)){
                         //release the action
-                        this->actionsTree.releaseAction(action);
+                        this->actionsTree.releaseAction(action);edkEnd();
                         //test if the tree have nothing
-                        this->removeTree(tree);
+                        this->removeTree(tree);edkEnd();
                         return true;
                     }
                 }
@@ -362,16 +365,16 @@ private:
         }
         //remove the action in position
         bool removeActionInPosition(edk::float32 second,edk::uint32 position){
-            edk::animation::ActionGroup::ActionsTree* tree = this->getActionTree(second);
+            edk::animation::ActionGroup::ActionsTree* tree = this->getActionTree(second);edkEnd();
             if(tree){
                 //remove the second
-                edk::Action* temp = tree->getElementInPosition(position);
+                edk::Action* temp = tree->getElementInPosition(position);edkEnd();
                 if(temp){
                     if(tree->remove(temp)){
                         //release the action
-                        this->actionsTree.releaseAction(temp);
+                        this->actionsTree.releaseAction(temp);edkEnd();
                         //test if the tree have nothing
-                        this->removeTree(tree);
+                        this->removeTree(tree);edkEnd();
                         return true;
                     }
                 }
@@ -380,22 +383,23 @@ private:
         }
         //remove the second
         bool cleanActionsInSecond(edk::float32 second){
-            edk::animation::ActionGroup::ActionsTree* tree = this->getActionTree(second);
+            edk::animation::ActionGroup::ActionsTree* tree = this->getActionTree(second);edkEnd();
             if(tree){
-                edk::float32 size = tree->size();
-                edk::uint32 position=0u;
-                edk::Action* temp = NULL;
+                edk::float32 size = tree->size();edkEnd();
+                edk::uint32 position=0u;edkEnd();
+                edk::Action* temp = NULL;edkEnd();
                 for(edk::uint32 i=0u;i<size;i++){
-                    temp = tree->getElementInPosition(position);
+                    temp = tree->getElementInPosition(position);edkEnd();
                     if(temp){
-                        if(!tree->remove(temp))
-                            position++;
-                        this->actionsTree.releaseAction(temp);
+                        if(!tree->remove(temp)){
+                            position++;edkEnd();
+                        }
+                        this->actionsTree.releaseAction(temp);edkEnd();
                     }
                 }
-                tree->clean();
+                tree->clean();edkEnd();
                 if(this->remove(tree)){
-                    delete tree;
+                    delete tree;edkEnd();
                     return true;
                 }
             }
@@ -403,14 +407,14 @@ private:
         }
         //clean all actions in all seconds
         void cleanActions(){
-            edk::uint32 size = this->size();
-            edk::uint32 position = 0u;
-            edk::animation::ActionGroup::ActionsTree* tree = NULL;
+            edk::uint32 size = this->size();edkEnd();
+            edk::uint32 position = 0u;edkEnd();
+            edk::animation::ActionGroup::ActionsTree* tree = NULL;edkEnd();
             for(edk::uint32 i=0u;i<size;i++){
-                tree = this->getElementInPosition(position);
+                tree = this->getElementInPosition(position);edkEnd();
                 if(tree){
                     if(!this->cleanActionsInSecond(tree->getSecond())){
-                        position++;
+                        position++;edkEnd();
                     }
                 }
             }
@@ -419,14 +423,14 @@ private:
     private:
         bool canDeleteTree;
         edk::animation::ActionGroup::ActionsTree* getActionTree(edk::float32 second){
-            edk::animation::ActionGroup::ActionsTree find(second);
-            return this->getElement(&find);
+            edk::animation::ActionGroup::ActionsTree find(second);edkEnd();
+            return this->getElement(&find);edkEnd();
         }
         //remove the tree if have nothing
         void removeTree(edk::animation::ActionGroup::ActionsTree* tree){
             if(!tree->size()){
                 if(this->remove(tree)){
-                    delete tree;
+                    delete tree;edkEnd();
                 }
             }
         }
@@ -439,13 +443,15 @@ private:
 
             //compare if the value is bigger
             virtual bool firstBiggerSecond(edk::animation::ActionGroup::ActionReferenceCount* first,edk::animation::ActionGroup::ActionReferenceCount* second){
-                if(first->getAction()>second->getAction())
+                if(first->getAction()>second->getAction()){
                     return true;
+                }
                 return false;
             }
             bool firstEqualSecond(edk::animation::ActionGroup::ActionReferenceCount* first,edk::animation::ActionGroup::ActionReferenceCount* second){
-                if(first->getAction()==second->getAction())
+                if(first->getAction()==second->getAction()){
                     return true;
+                }
                 return false;
             }
 
@@ -453,22 +459,22 @@ private:
             bool addAction(edk::Action* action){
                 if(action){
                     //find the action
-                    edk::animation::ActionGroup::ActionReferenceCount* temp = this->getReferenceCount(action);
+                    edk::animation::ActionGroup::ActionReferenceCount* temp = this->getReferenceCount(action);edkEnd();
                     if(temp){
                         //just increment the reference count
-                        temp->retain();
+                        temp->retain();edkEnd();
                         return true;
                     }
                     else{
                         //else create a new temp
-                        temp = new edk::animation::ActionGroup::ActionReferenceCount(action);
+                        temp = new edk::animation::ActionGroup::ActionReferenceCount(action);edkEnd();
                         if(temp){
                             //add the temp to the tree
                             if(this->add(temp)){
-                                temp->retain();
+                                temp->retain();edkEnd();
                                 return true;
                             }
-                            delete temp;
+                            delete temp;edkEnd();
                         }
                     }
                 }
@@ -478,15 +484,17 @@ private:
             bool releaseAction(edk::Action* action){
                 //test the action
                 if(action){
-                    edk::animation::ActionGroup::ActionReferenceCount* temp = this->getReferenceCount(action);
+                    edk::animation::ActionGroup::ActionReferenceCount* temp = this->getReferenceCount(action);edkEnd();
                     if(temp){
                         //release the temp
                         if(!temp->release()){
-                            this->remove(temp);
+                            this->remove(temp);edkEnd();
                             //then need to be deleted
-                            edk::Action* action = temp->getAction();
-                            if(action) delete action;
-                            delete temp;
+                            edk::Action* action = temp->getAction();edkEnd();
+                            if(action){
+                                delete action;edkEnd();
+                            }
+                            delete temp;edkEnd();
                         }
                         return true;
                     }
@@ -496,11 +504,11 @@ private:
             bool removeAction(edk::Action* action){
                 //test the action
                 if(action){
-                    edk::animation::ActionGroup::ActionReferenceCount* temp = this->getReferenceCount(action);
+                    edk::animation::ActionGroup::ActionReferenceCount* temp = this->getReferenceCount(action);edkEnd();
                     if(temp){
                         //release the temp
-                        this->remove(temp);
-                        delete temp;
+                        this->remove(temp);edkEnd();
+                        delete temp;edkEnd();
                         return true;
                     }
                 }
@@ -509,8 +517,8 @@ private:
 
         private:
             edk::animation::ActionGroup::ActionReferenceCount* getReferenceCount(edk::Action* action){
-                edk::animation::ActionGroup::ActionReferenceCount find(action);
-                return this->getElement(&find);
+                edk::animation::ActionGroup::ActionReferenceCount find(action);edkEnd();
+                return this->getElement(&find);edkEnd();
             }
         }actionsTree;
     }tree;

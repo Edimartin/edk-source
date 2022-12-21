@@ -33,8 +33,8 @@ edk::shape::Line2D::Line2D(){
 }
 edk::shape::Line2D::Line2D(edk::vec2f32 start,edk::vec2f32 end){
     //
-    this->start.position=start;
-    this->end.position=end;
+    this->start.position=start;edkEnd();
+    this->end.position=end;edkEnd();
 }
 
 edk::shape::Line2D::~Line2D(){
@@ -44,11 +44,11 @@ edk::shape::Line2D::~Line2D(){
 //print the line
 void edk::shape::Line2D::print(){
     //
-    printf("\nLine");
+    printf("\nLine");edkEnd();
 }
 //Draw the line
 void edk::shape::Line2D::draw(){
     //
-    this->start.draw();
-    this->end.draw();
+    this->start.draw();edkEnd();
+    this->end.draw();edkEnd();
 }

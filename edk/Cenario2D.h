@@ -562,7 +562,7 @@ private:
     //Class to save the object position in level, tileMap or physicsObjects
     class PhysicsPosition{
     public:
-        PhysicsPosition(){this->level=0u;this->levelID=EDK_LEVEL_NOTHING;this->depth=0.f;this->mapPosition = edk::vec2ui32(0u,0u);}
+        PhysicsPosition(){this->level=0u;edkEnd();this->levelID=EDK_LEVEL_NOTHING;edkEnd();this->depth=0.f;edkEnd();this->mapPosition = edk::vec2ui32(0u,0u);edkEnd();}
         ~PhysicsPosition(){}
         edk::uint32 level;
         edk::uint8 levelID;
@@ -570,11 +570,11 @@ private:
         edk::float32 depth;
         edk::vec2ui32 mapPosition;
         PhysicsPosition operator=(PhysicsPosition position){
-            this->level = position.level;
-            this->levelID = position.levelID;
-            this->depth = position.depth;
-            this->mapPosition = position.mapPosition;
-            return position;
+            this->level = position.level;edkEnd();
+            this->levelID = position.levelID;edkEnd();
+            this->depth = position.depth;edkEnd();
+            this->mapPosition = position.mapPosition;edkEnd();
+            return position;edkEnd();
         }
         //XML
         bool writeToXML(edk::XML* xml,bool id);
@@ -586,49 +586,49 @@ private:
     //objects class save one object with depth
     class ObjClass{
     public:
-        //ObjClass(){this->created=false;this->obj=NULL;}
-        ObjClass(bool created,edk::Object2D* obj,edk::float64 depth){this->created=created;this->obj=obj;this->depth = depth;this->animating=false;this->boundingBox=0.f;}
+        //ObjClass(){this->created=false;edkEnd();this->obj=NULL;edkEnd();}
+        ObjClass(bool created,edk::Object2D* obj,edk::float64 depth){this->created=created;edkEnd();this->obj=obj;edkEnd();this->depth = depth;edkEnd();this->animating=false;edkEnd();this->boundingBox=0.f;edkEnd();}
         ~ObjClass(){}
         ObjClass operator =(ObjClass objClass){
-            this->created=objClass.created;
-            this->obj=objClass.obj;
-            this->depth = objClass.depth;
-            return objClass;
+            this->created=objClass.created;edkEnd();
+            this->obj=objClass.obj;edkEnd();
+            this->depth = objClass.depth;edkEnd();
+            return objClass;edkEnd();
         }
-        bool haveCreated(){return this->created;}
-        edk::Object2D* getObject(){return this->obj;}
+        bool haveCreated(){return this->created;edkEnd();}
+        edk::Object2D* getObject(){return this->obj;edkEnd();}
         //function to calculate the boundingBox
         edk::rectf32 calculateBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat){
             if(this->obj){
-                this->obj->calculateBoundingBox(transformMat);
-                this->boundingBox = this->obj->getBoundingBox();
-                return this->boundingBox;
+                this->obj->calculateBoundingBox(transformMat);edkEnd();
+                this->boundingBox = this->obj->getBoundingBox();edkEnd();
+                return this->boundingBox;edkEnd();
             }
-            return edk::rectf32(0.f,0.f,0.f,0.f);
+            return edk::rectf32(0.f,0.f,0.f,0.f);edkEnd();
         }
         edk::rectf32 calculateBoundingBox(){
             if(this->obj){
-                this->obj->calculateBoundingBox();
-                this->boundingBox = this->obj->getBoundingBox();
-                return this->boundingBox;
+                this->obj->calculateBoundingBox();edkEnd();
+                this->boundingBox = this->obj->getBoundingBox();edkEnd();
+                return this->boundingBox;edkEnd();
             }
-            return edk::rectf32(0.f,0.f,0.f,0.f);
+            return edk::rectf32(0.f,0.f,0.f,0.f);edkEnd();
         }
         //get the boundingBox
-        edk::rectf32 getBoundingBox(){return this->boundingBox;}
-        edk::vec2f32 getBoundingBoxPoint1(){return this->boundingBox.origin;}
-        edk::vec2f32 getBoundingBoxPoint2(){return edk::vec2f32(this->boundingBox.size.width,this->boundingBox.size.height);}
+        edk::rectf32 getBoundingBox(){return this->boundingBox;edkEnd();}
+        edk::vec2f32 getBoundingBoxPoint1(){return this->boundingBox.origin;edkEnd();}
+        edk::vec2f32 getBoundingBoxPoint2(){return edk::vec2f32(this->boundingBox.size.width,this->boundingBox.size.height);edkEnd();}
 
         //draw the boundingBox
         void drawBoundingBox(){
-            edk::GU::guVertex2f32(this->boundingBox.origin.x,this->boundingBox.origin.y);
-            edk::GU::guVertex2f32(this->boundingBox.size.width,this->boundingBox.origin.y);
-            edk::GU::guVertex2f32(this->boundingBox.size.width,this->boundingBox.origin.y);
-            edk::GU::guVertex2f32(this->boundingBox.size.width,this->boundingBox.size.height);
-            edk::GU::guVertex2f32(this->boundingBox.size.width,this->boundingBox.size.height);
-            edk::GU::guVertex2f32(this->boundingBox.origin.x,this->boundingBox.size.height);
-            edk::GU::guVertex2f32(this->boundingBox.origin.x,this->boundingBox.size.height);
-            edk::GU::guVertex2f32(this->boundingBox.origin.x,this->boundingBox.origin.y);
+            edk::GU::guVertex2f32(this->boundingBox.origin.x,this->boundingBox.origin.y);edkEnd();
+            edk::GU::guVertex2f32(this->boundingBox.size.width,this->boundingBox.origin.y);edkEnd();
+            edk::GU::guVertex2f32(this->boundingBox.size.width,this->boundingBox.origin.y);edkEnd();
+            edk::GU::guVertex2f32(this->boundingBox.size.width,this->boundingBox.size.height);edkEnd();
+            edk::GU::guVertex2f32(this->boundingBox.size.width,this->boundingBox.size.height);edkEnd();
+            edk::GU::guVertex2f32(this->boundingBox.origin.x,this->boundingBox.size.height);edkEnd();
+            edk::GU::guVertex2f32(this->boundingBox.origin.x,this->boundingBox.size.height);edkEnd();
+            edk::GU::guVertex2f32(this->boundingBox.origin.x,this->boundingBox.origin.y);edkEnd();
         }
 
         edk::float64 depth;
@@ -645,15 +645,15 @@ private:
     public:
         TreeObjDepth(){
             //
-            this->names=0u;
-            this->selectionID =0u;
-            this->seconds=0.f;
-            this->time.start();
+            this->names=0u;edkEnd();
+            this->selectionID =0u;edkEnd();
+            this->seconds=0.f;edkEnd();
+            this->time.start();edkEnd();
         }
         ~TreeObjDepth(){
-            edk::uint32 size = this->size();
+            edk::uint32 size = this->size();edkEnd();
             for(edk::uint32 i=0u;i<size;i++){
-                this->deleteObjInPosition(0u);
+                this->deleteObjInPosition(0u);edkEnd();
             }
         }
 
@@ -661,7 +661,7 @@ private:
 
         //clean names
         void cleanNames(){
-            this->names = 0;
+            this->names = 0;edkEnd();
         }
 
         //XML
@@ -685,70 +685,70 @@ private:
         //Draw
         virtual void drawElement(edk::Cenario2D::ObjClass* value){
             if(value->getObject()){
-                value->getObject()->draw();
+                value->getObject()->draw();edkEnd();
             }
         }
         virtual void drawWireElement(edk::Cenario2D::ObjClass* value){
             if(value->getObject()){
-                value->getObject()->drawWire();
+                value->getObject()->drawWire();edkEnd();
             }
         }
         //UPDATE
         virtual void updateElement(edk::Cenario2D::ObjClass* value){
             if(value->getObject()){
-                value->getObject()->updateAnimations(this->seconds);
+                value->getObject()->updateAnimations(this->seconds);edkEnd();
             }
         }
         //Print
         virtual void printElement(edk::Cenario2D::ObjClass* value){
             if(value->getObject()){
-                edk::GU::guPushName(this->selectionID);
-                edk::GU::guPushName(this->names++);
-                value->getObject()->drawWithoutMaterial();
-                edk::GU::guPopName();
-                edk::GU::guPopName();
+                edk::GU::guPushName(this->selectionID);edkEnd();
+                edk::GU::guPushName(this->names++);edkEnd();
+                value->getObject()->drawWithoutMaterial();edkEnd();
+                edk::GU::guPopName();edkEnd();
+                edk::GU::guPopName();edkEnd();
             }
         }
         //render wire
         virtual void renderWireElement(edk::Cenario2D::ObjClass* value){
             if(value->getObject()){
-                value->drawBoundingBox();
+                value->drawBoundingBox();edkEnd();
             }
         }
 
         virtual void callbackDrawElement(edk::Cenario2D::ObjClass* value){
-            this->drawElement(value);
+            this->drawElement(value);edkEnd();
         }
         virtual void callbackDrawWireElement(edk::Cenario2D::ObjClass* value){
-            this->drawWireElement(value);
+            this->drawWireElement(value);edkEnd();
         }
         virtual void callbackUpdateElement(edk::Cenario2D::ObjClass* value){
-            this->updateElement(value);
+            this->updateElement(value);edkEnd();
         }
         virtual void callbackPrintElement(edk::Cenario2D::ObjClass* value){
-            this->printElement(value);
+            this->printElement(value);edkEnd();
         }
 
         //SET
         bool setSeconds(edk::float32 seconds){
             if(seconds>0.f){
-                this->seconds=seconds;
+                this->seconds=seconds;edkEnd();
                 return true;
             }
             else{
-                this->seconds=0.f;
+                this->seconds=0.f;edkEnd();
             }
             return false;
         }
         bool loadSeconds(){
-            bool ret = this->setSeconds(this->time.getSeconds());
-            this->time.start();
+            bool ret = this->setSeconds(this->time.getSeconds());edkEnd();
+            this->time.start();edkEnd();
             return ret;
         }
         //add object
         bool addObject(bool created,edk::Object2D* obj,edk::float64 depth){
             if(obj){
-                edk::Cenario2D::ObjClass* temp = new edk::Cenario2D::ObjClass(created,obj,depth);
+                edk::Cenario2D::ObjClass* temp = new edk::Cenario2D::ObjClass(created,obj,depth);edkEnd();
                 if(temp){
                     if(this->add(temp)){
                         //add the object to the treeObj
@@ -756,99 +756,99 @@ private:
                             //return true
                             return true;
                         }
-                        //else remove temp;
-                        this->remove(temp);
+                        //else remove temp;edkEnd();
+                        this->remove(temp);edkEnd();
                     }
-                    delete temp;
+                    delete temp;edkEnd();
                 }
             }
             return false;
         }
         //get the object from depth
         edk::Object2D* getObjectFromDepth(edk::float64 depth){
-            edk::Cenario2D::ObjClass* objClass = this->getObjClassFromDepth(depth);
+            edk::Cenario2D::ObjClass* objClass = this->getObjClassFromDepth(depth);edkEnd();
             if(objClass){
-                return objClass->getObject();
+                return objClass->getObject();edkEnd();
             }
-            return NULL;
+            return NULL;edkEnd();
         }
         edk::float32 getObjectDepthInPosition(edk::uint32 position){
             //get the object
-            edk::Cenario2D::ObjClass* objClass = NULL;
-            objClass = this->getElementInPosition(position);
+            edk::Cenario2D::ObjClass* objClass = NULL;edkEnd();
+            objClass = this->getElementInPosition(position);edkEnd();
             if(objClass){
-                return objClass->depth;
+                return objClass->depth;edkEnd();
             }
-            return 0.f;
+            return 0.f;edkEnd();
         }
         edk::float32 getObjectDepth(edk::Object2D* obj){
             if(obj){
                 //get the object
-                edk::Cenario2D::ObjClass* objClass = this->getObjClass(obj);
+                edk::Cenario2D::ObjClass* objClass = this->getObjClass(obj);edkEnd();
                 if(objClass){
                     if(objClass->getObject() == obj){
-                        return objClass->depth;
+                        return objClass->depth;edkEnd();
                     }
                 }
             }
-            return 0.f;
+            return 0.f;edkEnd();
         }
         //return object in position
         edk::Object2D* getObjectInPosition(edk::uint32 position){
             //get the object
-            edk::Cenario2D::ObjClass* objClass = NULL;
-            objClass = this->getElementInPosition(position);
+            edk::Cenario2D::ObjClass* objClass = NULL;edkEnd();
+            objClass = this->getElementInPosition(position);edkEnd();
             if(objClass){
-                return objClass->getObject();
+                return objClass->getObject();edkEnd();
             }
-            return NULL;
+            return NULL;edkEnd();
         }
         //return the object
         edk::Object2D* getObject(edk::Object2D* obj){
             if(obj){
                 //get the object
-                edk::Cenario2D::ObjClass* objClass = this->getObjClass(obj);
+                edk::Cenario2D::ObjClass* objClass = this->getObjClass(obj);edkEnd();
                 if(objClass){
                     if(objClass->getObject() == obj){
-                        return objClass->getObject();
+                        return objClass->getObject();edkEnd();
                     }
                 }
             }
-            return NULL;
+            return NULL;edkEnd();
         }
         edk::Cenario2D::ObjClass* getObjectClassFromDepth(edk::float64 depth){
-            edk::Cenario2D::ObjClass* objClass = this->getObjClassFromDepth(depth);
+            edk::Cenario2D::ObjClass* objClass = this->getObjClassFromDepth(depth);edkEnd();
             if(objClass){
-                return objClass;
+                return objClass;edkEnd();
             }
-            return NULL;
+            return NULL;edkEnd();
         }
         edk::Cenario2D::ObjClass* getObjectClassInPosition(edk::uint32 position){
             //get the object
-            edk::Cenario2D::ObjClass* objClass = NULL;
-            objClass = this->getElementInPosition(position);
+            edk::Cenario2D::ObjClass* objClass = NULL;edkEnd();
+            objClass = this->getElementInPosition(position);edkEnd();
             if(objClass){
-                return objClass;
+                return objClass;edkEnd();
             }
-            return NULL;
+            return NULL;edkEnd();
         }
         edk::Cenario2D::ObjClass* getObjectClassFromObject(edk::Object2D* obj){
             if(obj){
                 //get the object
-                edk::Cenario2D::ObjClass* objClass = this->getObjClass(obj);
+                edk::Cenario2D::ObjClass* objClass = this->getObjClass(obj);edkEnd();
                 if(objClass){
                     if(objClass->getObject() == obj){
-                        return objClass;
+                        return objClass;edkEnd();
                     }
                 }
             }
-            return NULL;
+            return NULL;edkEnd();
         }
         //test if have the object
         bool haveObject(edk::Object2D* obj){
             if(obj){
                 //get the object
-                edk::Cenario2D::ObjClass* objClass = this->getObjClass(obj);
+                edk::Cenario2D::ObjClass* objClass = this->getObjClass(obj);edkEnd();
                 if(objClass){
                     if(objClass->getObject() == obj){
                         return true;
@@ -862,17 +862,17 @@ private:
         bool deleteObj(edk::Object2D* obj){
             if(obj){
                 //get the object
-                edk::Cenario2D::ObjClass* objClass = this->getObjClass(obj);
+                edk::Cenario2D::ObjClass* objClass = this->getObjClass(obj);edkEnd();
                 if(objClass){
                     if(objClass->getObject()){
                         //remove
                         if(this->treeObj.remove(objClass)){
-                            this->remove(objClass);
+                            this->remove(objClass);edkEnd();
                             //test if can deleteIt
                             if(objClass->haveCreated()){
-                                delete objClass->getObject();
+                                delete objClass->getObject();edkEnd();
                             }
-                            delete objClass;
+                            delete objClass;edkEnd();
                             return true;
                         }
                     }
@@ -884,14 +884,14 @@ private:
         bool removeObj(edk::Object2D* obj){
             if(obj){
                 //get the object
-                edk::Cenario2D::ObjClass* objClass = this->getObjClass(obj);
+                edk::Cenario2D::ObjClass* objClass = this->getObjClass(obj);edkEnd();
                 if(objClass){
                     if(objClass->getObject()){
                         //remove
                         if(this->treeObj.remove(objClass)){
-                            this->remove(objClass);
+                            this->remove(objClass);edkEnd();
                             //
-                            delete objClass;
+                            delete objClass;edkEnd();
                             return true;
                         }
                     }
@@ -902,17 +902,17 @@ private:
         //delete the depth
         bool deleteObjInDepth(edk::float64 depth){
             //get the object
-            edk::Cenario2D::ObjClass* objClass = this->getObjClassFromDepth(depth);
+            edk::Cenario2D::ObjClass* objClass = this->getObjClassFromDepth(depth);edkEnd();
             if(objClass){
                 if(objClass->getObject()){
                     //remove
                     if(this->remove(objClass)){
-                        this->treeObj.remove(objClass);
+                        this->treeObj.remove(objClass);edkEnd();
                         //test if can deleteIt
                         if(objClass->haveCreated()){
-                            delete objClass->getObject();
+                            delete objClass->getObject();edkEnd();
                         }
-                        delete objClass;
+                        delete objClass;edkEnd();
                         return true;
                     }
                 }
@@ -921,17 +921,17 @@ private:
         }
         bool deleteObjInPosition(edk::uint32 position){
             //get the object
-            edk::Cenario2D::ObjClass* objClass = this->getElementInPosition(position);
+            edk::Cenario2D::ObjClass* objClass = this->getElementInPosition(position);edkEnd();
             if(objClass){
                 if(objClass->getObject()){
                     //remove
                     if(this->treeObj.remove(objClass)){
-                        this->remove(objClass);
+                        this->remove(objClass);edkEnd();
                         //test if can deleteIt
                         if(objClass->haveCreated()){
-                            delete objClass->getObject();
+                            delete objClass->getObject();edkEnd();
                         }
-                        delete objClass;
+                        delete objClass;edkEnd();
                         return true;
                     }
                 }
@@ -940,28 +940,28 @@ private:
         }
         //delete all objects
         void deleteAllObjects(){
-            //clean treeObj;
-            this->treeObj.clean();
-            edk::uint32 size = this->size();
-            edk::Cenario2D::ObjClass* temp = NULL;
+            //clean treeObj;edkEnd();
+            this->treeObj.clean();edkEnd();
+            edk::uint32 size = this->size();edkEnd();
+            edk::Cenario2D::ObjClass* temp = NULL;edkEnd();
             for(edk::uint32 i=0u;i<size;i++){
-                temp = this->getElementInPosition(i);
+                temp = this->getElementInPosition(i);edkEnd();
                 if(temp){
                     if(temp->getObject() && temp->haveCreated()){
-                        delete temp->getObject();
+                        delete temp->getObject();edkEnd();
                     }
-                    delete temp;
+                    delete temp;edkEnd();
                 }
             }
         }
         edk::float64 getLastLevel(){
             if(this->size()){
-                edk::Cenario2D::ObjClass* objClass = this->getElementInPosition(this->size()-1u);
+                edk::Cenario2D::ObjClass* objClass = this->getElementInPosition(this->size()-1u);edkEnd();
                 if(objClass){
-                    return objClass->depth;
+                    return objClass->depth;edkEnd();
                 }
             }
-            return 0.0;
+            return 0.0;edkEnd();
         }
     protected:
         edk::float32 seconds;
@@ -971,12 +971,12 @@ private:
         edk::uint32 names;
 
         edk::Cenario2D::ObjClass* getObjClass(edk::Object2D* obj){
-            edk::Cenario2D::ObjClass find(false,obj,0.f);
-            return this->treeObj.getElement(&find);
+            edk::Cenario2D::ObjClass find(false,obj,0.f);edkEnd();
+            return this->treeObj.getElement(&find);edkEnd();
         }
         edk::Cenario2D::ObjClass* getObjClassFromDepth(edk::float64 depth){
-            edk::Cenario2D::ObjClass find(false,NULL,depth);
-            return this->getElement(&find);
+            edk::Cenario2D::ObjClass find(false,NULL,depth);edkEnd();
+            return this->getElement(&find);edkEnd();
         }
 
         class TreeObj:public edk::vector::BinaryTree<ObjClass*>{
@@ -999,13 +999,13 @@ private:
 
     class QuadObjs : public edk::vector::QuadTree32<edk::Cenario2D::ObjClass*>{
     public:
-        QuadObjs(edk::vector::BinaryTree<edk::Cenario2DCallback*>* calls){this->levelId=0u;this->calls=calls;}
+        QuadObjs(edk::vector::BinaryTree<edk::Cenario2DCallback*>* calls){this->levelId=0u;edkEnd();this->calls=calls;edkEnd();}
         ~QuadObjs(){}
         edk::uint32 levelId;
     protected:
         //test if the object is inside the leaf
         virtual bool isElementInside(edk::Cenario2D::ObjClass* obj,edk::vec2f32 point1,edk::vec2f32 point2){
-            edk::rectf32 box = obj->getBoundingBox();
+            edk::rectf32 box = obj->getBoundingBox();edkEnd();
             if(box.origin.x >= point1.x
                     &&
                     box.origin.y >= point1.y
@@ -1027,7 +1027,7 @@ private:
             return false;
         }
         virtual bool isElementColliding(edk::Cenario2D::ObjClass* obj,edk::vec2f32 point1,edk::vec2f32 point2){
-            edk::rectf32 box = obj->getBoundingBox();
+            edk::rectf32 box = obj->getBoundingBox();edkEnd();
             if(point1.x <= box.size.width
                     &&
                     point2.x>= box.origin.x
@@ -1035,44 +1035,45 @@ private:
                     point1.y <= box.size.height
                     &&
                     point2.y >= box.origin.y
-                    )
+                    ){
                 return true;
+            }
             return false;
         }
         //function to create a new tree
         virtual edk::vector::BinaryTree<edk::Cenario2D::ObjClass*>* newTree(){
-            return (edk::vector::BinaryTree<edk::Cenario2D::ObjClass*>*)new edk::Cenario2D::TreeObjDepth;
+            return (edk::vector::BinaryTree<edk::Cenario2D::ObjClass*>*)new edk::Cenario2D::TreeObjDepth;edkEnd();
         }
         virtual void elementGetIn(edk::Cenario2D::ObjClass* obj){
             //elementGetIn
             if(obj->getObject()){
-                edk::uint32 size = this->calls->size();
-                edk::Cenario2DCallback* call;
+                edk::uint32 size = this->calls->size();edkEnd();
+                edk::Cenario2DCallback* call;edkEnd();
                 for(edk::uint32 i=0u;i<size;i++){
-                    call = this->calls->getElementInPosition(i);
-                    call->objectGetIn(obj->getObject(),this->levelId);
+                    call = this->calls->getElementInPosition(i);edkEnd();
+                    call->objectGetIn(obj->getObject(),this->levelId);edkEnd();
                 }
             }
         }
         virtual void elementUpdating(edk::Cenario2D::ObjClass* obj){
             //elementUpdating
             if(obj->getObject()){
-                edk::uint32 size = this->calls->size();
-                edk::Cenario2DCallback* call;
+                edk::uint32 size = this->calls->size();edkEnd();
+                edk::Cenario2DCallback* call;edkEnd();
                 for(edk::uint32 i=0u;i<size;i++){
-                    call = this->calls->getElementInPosition(i);
-                    call->objectUpdating(obj->getObject(),this->levelId);
+                    call = this->calls->getElementInPosition(i);edkEnd();
+                    call->objectUpdating(obj->getObject(),this->levelId);edkEnd();
                 }
             }
         }
         virtual void elementGetOut(edk::Cenario2D::ObjClass* obj){
             //elementGetOut
             if(obj->getObject()){
-                edk::uint32 size = this->calls->size();
-                edk::Cenario2DCallback* call;
+                edk::uint32 size = this->calls->size();edkEnd();
+                edk::Cenario2DCallback* call;edkEnd();
                 for(edk::uint32 i=0u;i<size;i++){
-                    call = this->calls->getElementInPosition(i);
-                    call->objectGetOut(obj->getObject(),this->levelId);
+                    call = this->calls->getElementInPosition(i);edkEnd();
+                    call->objectGetOut(obj->getObject(),this->levelId);edkEnd();
                 }
             }
         }
@@ -1084,17 +1085,17 @@ private:
     class TreePhysObjDepth:public edk::Cenario2D::TreeObjDepth{
     public:
         TreePhysObjDepth(edk::physics2D::World2D* world){
-            this->world=world;
-            this->seconds=0.f;
+            this->world=world;edkEnd();
+            this->seconds=0.f;edkEnd();
         }
         //UPDATE
         virtual void updateElement(edk::Cenario2D::ObjClass* value){
-            edk::physics2D::PhysicObject2D* temp = (edk::physics2D::PhysicObject2D*)value->getObject();
+            edk::physics2D::PhysicObject2D* temp = (edk::physics2D::PhysicObject2D*)value->getObject();edkEnd();
             if(value->getObject()){
                 if(value->getObject()->updateAnimations(this->seconds)){
                     //update the object in the physics world
-                    this->world->updateObjectVelocity(temp);
-                    value->animating=true;
+                    this->world->updateObjectVelocity(temp);edkEnd();
+                    value->animating=true;edkEnd();
                 }
                 else{
                     //test if was animating
@@ -1102,15 +1103,15 @@ private:
                         //then test if is kinematic
                         if(temp->getType() == edk::physics::KinematicBody){
                             //clean the velocity
-                            this->world->cleanObjectVelocity(temp);
+                            this->world->cleanObjectVelocity(temp);edkEnd();
                         }
                     }
-                    value->animating=false;
+                    value->animating=false;edkEnd();
                 }
             }
         }
         virtual void callbackUpdateElement(edk::Cenario2D::ObjClass* value){
-            this->updateElement(value);
+            this->updateElement(value);edkEnd();
         }
     private:
         edk::physics2D::World2D* world;
@@ -1121,44 +1122,44 @@ private:
         QuadPhyicObjs(edk::physics2D::World2D* world,edk::vector::BinaryTree<edk::Cenario2DCallback*>* calls)
             :edk::Cenario2D::QuadObjs(calls)
         {
-            this->world=world;
+            this->world=world;edkEnd();
         }
         ~QuadPhyicObjs(){}
     protected:
         //function to create a new tree
         virtual edk::vector::BinaryTree<edk::Cenario2D::ObjClass*>* newTree(){
-            return (edk::vector::BinaryTree<edk::Cenario2D::ObjClass*>*)new edk::Cenario2D::TreePhysObjDepth(this->world);
+            return (edk::vector::BinaryTree<edk::Cenario2D::ObjClass*>*)new edk::Cenario2D::TreePhysObjDepth(this->world);edkEnd();
         }
         virtual void elementGetIn(edk::Cenario2D::ObjClass* obj){
             //elementGetIn
             if(obj->getObject()){
-                edk::uint32 size = this->calls->size();
-                edk::Cenario2DCallback* call;
+                edk::uint32 size = this->calls->size();edkEnd();
+                edk::Cenario2DCallback* call;edkEnd();
                 for(edk::uint32 i=0u;i<size;i++){
-                    call = this->calls->getElementInPosition(i);
-                    call->physicObjectGetIn((edk::physics2D::PhysicObject2D*)obj->getObject(),this->levelId);
+                    call = this->calls->getElementInPosition(i);edkEnd();
+                    call->physicObjectGetIn((edk::physics2D::PhysicObject2D*)obj->getObject(),this->levelId);edkEnd();
                 }
             }
         }
         virtual void elementUpdating(edk::Cenario2D::ObjClass* obj){
             //elementUpdating
             if(obj->getObject()){
-                edk::uint32 size = this->calls->size();
-                edk::Cenario2DCallback* call;
+                edk::uint32 size = this->calls->size();edkEnd();
+                edk::Cenario2DCallback* call;edkEnd();
                 for(edk::uint32 i=0u;i<size;i++){
-                    call = this->calls->getElementInPosition(i);
-                    call->physicObjectUpdating((edk::physics2D::PhysicObject2D*)obj->getObject(),this->levelId);
+                    call = this->calls->getElementInPosition(i);edkEnd();
+                    call->physicObjectUpdating((edk::physics2D::PhysicObject2D*)obj->getObject(),this->levelId);edkEnd();
                 }
             }
         }
         virtual void elementGetOut(edk::Cenario2D::ObjClass* obj){
             //elementGetOut
             if(obj->getObject()){
-                edk::uint32 size = this->calls->size();
-                edk::Cenario2DCallback* call;
+                edk::uint32 size = this->calls->size();edkEnd();
+                edk::Cenario2DCallback* call;edkEnd();
                 for(edk::uint32 i=0u;i<size;i++){
-                    call = this->calls->getElementInPosition(i);
-                    call->physicObjectGetOut((edk::physics2D::PhysicObject2D*)obj->getObject(),this->levelId);
+                    call = this->calls->getElementInPosition(i);edkEnd();
+                    call->physicObjectGetOut((edk::physics2D::PhysicObject2D*)obj->getObject(),this->levelId);edkEnd();
                 }
             }
         }
@@ -1170,50 +1171,50 @@ private:
     class LevelObj{
     public:
         LevelObj(edk::Cenario2D::TreeObjDepth* objs,edk::Cenario2D::TreePhysObjDepth* objsPhys,edk::vector::BinaryTree<edk::Cenario2DCallback*>* calls){
-            this->clean();
-            this->calls = calls;
-            this->objs = objs;
-            this->objsPhys = objsPhys;
-            this->show=true;
-            this->transform.position = 0.f;
-            this->transform.angle = 0.f;
-            this->transform.size = 1.f;
-            this->saveTransform=this->transform;
-            this->matrixNewPosition.createMatrix(1u,3u);
-            this->matrixTransform.setIdentity(1.f,0.f);
-            this->matrixTransformNegative.setIdentity(1.f,0.f);
+            this->clean();edkEnd();
+            this->calls = calls;edkEnd();
+            this->objs = objs;edkEnd();
+            this->objsPhys = objsPhys;edkEnd();
+            this->show=true;edkEnd();
+            this->transform.position = 0.f;edkEnd();
+            this->transform.angle = 0.f;edkEnd();
+            this->transform.size = 1.f;edkEnd();
+            this->saveTransform=this->transform;edkEnd();
+            this->matrixNewPosition.createMatrix(1u,3u);edkEnd();
+            this->matrixTransform.setIdentity(1.f,0.f);edkEnd();
+            this->matrixTransformNegative.setIdentity(1.f,0.f);edkEnd();
         }
         LevelObj(edk::tiles::TileMap2D* tileMap,edk::vector::BinaryTree<edk::Cenario2DCallback*>* calls){
-            this->clean();
-            this->calls = calls;
-            this->tileMap = tileMap;this->show=true;
-            this->transform.position = 0.f;
-            this->transform.angle = 0.f;
-            this->transform.size = 1.f;
-            this->saveTransform=this->transform;
-            this->matrixNewPosition.createMatrix(1u,3u);
-            this->matrixTransform.setIdentity(1.f,0.f);
-            this->matrixTransformNegative.setIdentity(1.f,0.f);
+            this->clean();edkEnd();
+            this->calls = calls;edkEnd();
+            this->tileMap = tileMap;edkEnd();this->show=true;edkEnd();
+            this->transform.position = 0.f;edkEnd();
+            this->transform.angle = 0.f;edkEnd();
+            this->transform.size = 1.f;edkEnd();
+            this->saveTransform=this->transform;edkEnd();
+            this->matrixNewPosition.createMatrix(1u,3u);edkEnd();
+            this->matrixTransform.setIdentity(1.f,0.f);edkEnd();
+            this->matrixTransformNegative.setIdentity(1.f,0.f);edkEnd();
         }
         LevelObj(edk::vector::BinaryTree<edk::Cenario2DCallback*>* calls){
-            this->clean();
-            this->calls = calls;
-            this->show=true;
-            this->transform.position = 0.f;
-            this->transform.angle = 0.f;
-            this->transform.size = 1.f;
-            this->saveTransform=this->transform;
-            this->matrixNewPosition.createMatrix(1u,3u);
-            this->matrixTransform.setIdentity(1.f,0.f);
-            this->matrixTransformNegative.setIdentity(1.f,0.f);
+            this->clean();edkEnd();
+            this->calls = calls;edkEnd();
+            this->show=true;edkEnd();
+            this->transform.position = 0.f;edkEnd();
+            this->transform.angle = 0.f;edkEnd();
+            this->transform.size = 1.f;edkEnd();
+            this->saveTransform=this->transform;edkEnd();
+            this->matrixNewPosition.createMatrix(1u,3u);edkEnd();
+            this->matrixTransform.setIdentity(1.f,0.f);edkEnd();
+            this->matrixTransformNegative.setIdentity(1.f,0.f);edkEnd();
         }
         ~LevelObj(){}
 
         //update the matrices if need
         inline void updateMatrices(){
             if(this->saveTransform!=this->transform){
-                this->saveTransform=this->transform;
-                this->calculateMatrices();
+                this->saveTransform=this->transform;edkEnd();
+                this->calculateMatrices();edkEnd();
             }
         }
 
@@ -1224,417 +1225,417 @@ private:
 
         void updateQuads(edk::rectf32 rect,edk::uint32 levelID){
             if(this->objs){
-                rect = this->updateRect(rect);
-                this->quadObjs->levelId = levelID;
-                this->quadObjs->selectLeafInRect(rect);
+                rect = this->updateRect(rect);edkEnd();
+                this->quadObjs->levelId = levelID;edkEnd();
+                this->quadObjs->selectLeafInRect(rect);edkEnd();
             }
             else if(this->objsPhys){
-                rect = this->updateRect(rect);
-                this->quadPhysicObjs->levelId = levelID;
-                this->quadPhysicObjs->selectLeafInRect(rect);
+                rect = this->updateRect(rect);edkEnd();
+                this->quadPhysicObjs->levelId = levelID;edkEnd();
+                this->quadPhysicObjs->selectLeafInRect(rect);edkEnd();
             }
         }
         void draw(){
             if(this->show){
                 if(this->objs){
-                    edk::GU::guEnable(GU_LIGHTING);
+                    edk::GU::guEnable(GU_LIGHTING);edkEnd();
                     //apply tranformations
-                    edk::GU::guPushMatrix();
+                    edk::GU::guPushMatrix();edkEnd();
                     //add translate
-                    edk::GU::guTranslate2f32(this->transform.position);
+                    edk::GU::guTranslate2f32(this->transform.position);edkEnd();
                     //add rotation
-                    edk::GU::guRotateZf32(this->transform.angle);
+                    edk::GU::guRotateZf32(this->transform.angle);edkEnd();
                     //add scale
-                    edk::GU::guScale2f32(this->transform.size);
-                    this->objs->cleanNames();
-                    this->objs->draw();
-                    edk::GU::guPopMatrix();
-                    edk::GU::guDisable(GU_LIGHTING);
+                    edk::GU::guScale2f32(this->transform.size);edkEnd();
+                    this->objs->cleanNames();edkEnd();
+                    this->objs->draw();edkEnd();
+                    edk::GU::guPopMatrix();edkEnd();
+                    edk::GU::guDisable(GU_LIGHTING);edkEnd();
                 }
                 else if(this->objsPhys){
-                    edk::GU::guEnable(GU_LIGHTING);
+                    edk::GU::guEnable(GU_LIGHTING);edkEnd();
                     //apply tranformations
-                    edk::GU::guPushMatrix();
+                    edk::GU::guPushMatrix();edkEnd();
                     //add translate
-                    edk::GU::guTranslate2f32(this->transform.position);
+                    edk::GU::guTranslate2f32(this->transform.position);edkEnd();
                     //add rotation
-                    edk::GU::guRotateZf32(this->transform.angle);
+                    edk::GU::guRotateZf32(this->transform.angle);edkEnd();
                     //add scale
-                    edk::GU::guScale2f32(this->transform.size);
-                    this->objsPhys->cleanNames();
-                    this->objsPhys->draw();
-                    edk::GU::guPopMatrix();
-                    edk::GU::guDisable(GU_LIGHTING);
+                    edk::GU::guScale2f32(this->transform.size);edkEnd();
+                    this->objsPhys->cleanNames();edkEnd();
+                    this->objsPhys->draw();edkEnd();
+                    edk::GU::guPopMatrix();edkEnd();
+                    edk::GU::guDisable(GU_LIGHTING);edkEnd();
                 }
                 else if(this->tileMap){
                     //apply tranformations
-                    edk::GU::guPushMatrix();
+                    edk::GU::guPushMatrix();edkEnd();
                     //add translate
-                    edk::GU::guTranslate2f32(this->transform.position);
+                    edk::GU::guTranslate2f32(this->transform.position);edkEnd();
                     //add rotation
-                    edk::GU::guRotateZf32(this->transform.angle);
+                    edk::GU::guRotateZf32(this->transform.angle);edkEnd();
                     //add scale
-                    edk::GU::guScale2f32(this->transform.size);
-                    this->tileMap->draw();
-                    edk::GU::guPopMatrix();
+                    edk::GU::guScale2f32(this->transform.size);edkEnd();
+                    this->tileMap->draw();edkEnd();
+                    edk::GU::guPopMatrix();edkEnd();
                 }
             }
         }
         void drawWire(){
             if(this->show){
                 if(this->objs){
-                    edk::GU::guEnable(GU_LIGHTING);
+                    edk::GU::guEnable(GU_LIGHTING);edkEnd();
                     //apply tranformations
-                    edk::GU::guPushMatrix();
+                    edk::GU::guPushMatrix();edkEnd();
                     //add translate
-                    edk::GU::guTranslate2f32(this->transform.position);
+                    edk::GU::guTranslate2f32(this->transform.position);edkEnd();
                     //add rotation
-                    edk::GU::guRotateZf32(this->transform.angle);
+                    edk::GU::guRotateZf32(this->transform.angle);edkEnd();
                     //add scale
-                    edk::GU::guScale2f32(this->transform.size);
-                    this->objs->cleanNames();
-                    this->objs->drawWire();
-                    edk::GU::guPopMatrix();
-                    edk::GU::guDisable(GU_LIGHTING);
+                    edk::GU::guScale2f32(this->transform.size);edkEnd();
+                    this->objs->cleanNames();edkEnd();
+                    this->objs->drawWire();edkEnd();
+                    edk::GU::guPopMatrix();edkEnd();
+                    edk::GU::guDisable(GU_LIGHTING);edkEnd();
                 }
                 else if(this->objsPhys){
-                    edk::GU::guEnable(GU_LIGHTING);
+                    edk::GU::guEnable(GU_LIGHTING);edkEnd();
                     //apply tranformations
-                    edk::GU::guPushMatrix();
+                    edk::GU::guPushMatrix();edkEnd();
                     //add translate
-                    edk::GU::guTranslate2f32(this->transform.position);
+                    edk::GU::guTranslate2f32(this->transform.position);edkEnd();
                     //add rotation
-                    edk::GU::guRotateZf32(this->transform.angle);
+                    edk::GU::guRotateZf32(this->transform.angle);edkEnd();
                     //add scale
-                    edk::GU::guScale2f32(this->transform.size);
-                    this->objsPhys->cleanNames();
-                    this->objsPhys->drawWire();
-                    edk::GU::guPopMatrix();
-                    edk::GU::guDisable(GU_LIGHTING);
+                    edk::GU::guScale2f32(this->transform.size);edkEnd();
+                    this->objsPhys->cleanNames();edkEnd();
+                    this->objsPhys->drawWire();edkEnd();
+                    edk::GU::guPopMatrix();edkEnd();
+                    edk::GU::guDisable(GU_LIGHTING);edkEnd();
                 }
                 else if(this->tileMap){
                     //apply tranformations
-                    edk::GU::guPushMatrix();
+                    edk::GU::guPushMatrix();edkEnd();
                     //add translate
-                    edk::GU::guTranslate2f32(this->transform.position);
+                    edk::GU::guTranslate2f32(this->transform.position);edkEnd();
                     //add rotation
-                    edk::GU::guRotateZf32(this->transform.angle);
+                    edk::GU::guRotateZf32(this->transform.angle);edkEnd();
                     //add scale
-                    edk::GU::guScale2f32(this->transform.size);
-                    this->tileMap->drawWire();
-                    edk::GU::guPopMatrix();
+                    edk::GU::guScale2f32(this->transform.size);edkEnd();
+                    this->tileMap->drawWire();edkEnd();
+                    edk::GU::guPopMatrix();edkEnd();
                 }
             }
         }
         void drawQuads(){
             if(this->show){
                 if(this->quadObjs){
-                    edk::GU::guEnable(GU_LIGHTING);
+                    edk::GU::guEnable(GU_LIGHTING);edkEnd();
                     //apply tranformations
-                    edk::GU::guPushMatrix();
+                    edk::GU::guPushMatrix();edkEnd();
                     //add translate
-                    edk::GU::guTranslate2f32(this->transform.position);
+                    edk::GU::guTranslate2f32(this->transform.position);edkEnd();
                     //add rotation
-                    edk::GU::guRotateZf32(this->transform.angle);
+                    edk::GU::guRotateZf32(this->transform.angle);edkEnd();
                     //add scale
-                    edk::GU::guScale2f32(this->transform.size);
-                    this->quadObjs->drawQuads();
-                    edk::GU::guPopMatrix();
-                    edk::GU::guDisable(GU_LIGHTING);
+                    edk::GU::guScale2f32(this->transform.size);edkEnd();
+                    this->quadObjs->drawQuads();edkEnd();
+                    edk::GU::guPopMatrix();edkEnd();
+                    edk::GU::guDisable(GU_LIGHTING);edkEnd();
                 }
                 else if(this->quadPhysicObjs){
-                    edk::GU::guEnable(GU_LIGHTING);
+                    edk::GU::guEnable(GU_LIGHTING);edkEnd();
                     //apply tranformations
-                    edk::GU::guPushMatrix();
+                    edk::GU::guPushMatrix();edkEnd();
                     //add translate
-                    edk::GU::guTranslate2f32(this->transform.position);
+                    edk::GU::guTranslate2f32(this->transform.position);edkEnd();
                     //add rotation
-                    edk::GU::guRotateZf32(this->transform.angle);
+                    edk::GU::guRotateZf32(this->transform.angle);edkEnd();
                     //add scale
-                    edk::GU::guScale2f32(this->transform.size);
-                    this->quadPhysicObjs->drawQuads();
-                    edk::GU::guPopMatrix();
-                    edk::GU::guDisable(GU_LIGHTING);
+                    edk::GU::guScale2f32(this->transform.size);edkEnd();
+                    this->quadPhysicObjs->drawQuads();edkEnd();
+                    edk::GU::guPopMatrix();edkEnd();
+                    edk::GU::guDisable(GU_LIGHTING);edkEnd();
                 }
                 else if(this->tileMap){
                     //apply tranformations
-                    edk::GU::guPushMatrix();
+                    edk::GU::guPushMatrix();edkEnd();
                     //add translate
-                    edk::GU::guTranslate2f32(this->transform.position);
+                    edk::GU::guTranslate2f32(this->transform.position);edkEnd();
                     //add rotation
-                    edk::GU::guRotateZf32(this->transform.angle);
+                    edk::GU::guRotateZf32(this->transform.angle);edkEnd();
                     //add scale
-                    edk::GU::guScale2f32(this->transform.size);
-                    this->tileMap->drawWire();
-                    edk::GU::guPopMatrix();
+                    edk::GU::guScale2f32(this->transform.size);edkEnd();
+                    this->tileMap->drawWire();edkEnd();
+                    edk::GU::guPopMatrix();edkEnd();
                 }
             }
         }
         void drawBoxes(){
             if(this->show){
                 if(this->objs){
-                    edk::GU::guEnable(GU_LIGHTING);
+                    edk::GU::guEnable(GU_LIGHTING);edkEnd();
                     //apply tranformations
-                    edk::GU::guPushMatrix();
+                    edk::GU::guPushMatrix();edkEnd();
                     //add translate
-                    edk::GU::guTranslate2f32(this->transform.position);
+                    edk::GU::guTranslate2f32(this->transform.position);edkEnd();
                     //add rotation
-                    edk::GU::guRotateZf32(this->transform.angle);
+                    edk::GU::guRotateZf32(this->transform.angle);edkEnd();
                     //add scale
-                    edk::GU::guScale2f32(this->transform.size);
-                    edk::GU::guBegin(GU_LINES);
-                    this->objs->renderWire();
-                    edk::GU::guEnd();
-                    edk::GU::guPopMatrix();
-                    edk::GU::guDisable(GU_LIGHTING);
+                    edk::GU::guScale2f32(this->transform.size);edkEnd();
+                    edk::GU::guBegin(GU_LINES);edkEnd();
+                    this->objs->renderWire();edkEnd();
+                    edk::GU::guEnd();edkEnd();
+                    edk::GU::guPopMatrix();edkEnd();
+                    edk::GU::guDisable(GU_LIGHTING);edkEnd();
                 }
                 else if(this->objsPhys){
-                    edk::GU::guEnable(GU_LIGHTING);
+                    edk::GU::guEnable(GU_LIGHTING);edkEnd();
                     //apply tranformations
-                    edk::GU::guPushMatrix();
+                    edk::GU::guPushMatrix();edkEnd();
                     //add translate
-                    edk::GU::guTranslate2f32(this->transform.position);
+                    edk::GU::guTranslate2f32(this->transform.position);edkEnd();
                     //add rotation
-                    edk::GU::guRotateZf32(this->transform.angle);
+                    edk::GU::guRotateZf32(this->transform.angle);edkEnd();
                     //add scale
-                    edk::GU::guScale2f32(this->transform.size);
-                    edk::GU::guBegin(GU_LINES);
-                    this->objsPhys->renderWire();
-                    edk::GU::guEnd();
-                    edk::GU::guPopMatrix();
-                    edk::GU::guDisable(GU_LIGHTING);
+                    edk::GU::guScale2f32(this->transform.size);edkEnd();
+                    edk::GU::guBegin(GU_LINES);edkEnd();
+                    this->objsPhys->renderWire();edkEnd();
+                    edk::GU::guEnd();edkEnd();
+                    edk::GU::guPopMatrix();edkEnd();
+                    edk::GU::guDisable(GU_LIGHTING);edkEnd();
                 }
                 else if(this->tileMap){
                     //apply tranformations
-                    edk::GU::guPushMatrix();
+                    edk::GU::guPushMatrix();edkEnd();
                     //add translate
-                    edk::GU::guTranslate2f32(this->transform.position);
+                    edk::GU::guTranslate2f32(this->transform.position);edkEnd();
                     //add rotation
-                    edk::GU::guRotateZf32(this->transform.angle);
+                    edk::GU::guRotateZf32(this->transform.angle);edkEnd();
                     //add scale
-                    edk::GU::guScale2f32(this->transform.size);
-                    this->tileMap->drawWire();
-                    edk::GU::guPopMatrix();
+                    edk::GU::guScale2f32(this->transform.size);edkEnd();
+                    this->tileMap->drawWire();edkEnd();
+                    edk::GU::guPopMatrix();edkEnd();
                 }
             }
         }
         void drawInsideRect(edk::rectf32 rect,edk::uint32 levelID){
             if(this->show){
                 if(this->objs){
-                    rect = this->updateRect(rect);
-                    this->quadObjs->levelId = levelID;
+                    rect = this->updateRect(rect);edkEnd();
+                    this->quadObjs->levelId = levelID;edkEnd();
                     if(this->quadObjs->selectLeafInRect(rect)){
-                        edk::GU::guEnable(GU_LIGHTING);
+                        edk::GU::guEnable(GU_LIGHTING);edkEnd();
                         //apply tranformations
-                        edk::GU::guPushMatrix();
+                        edk::GU::guPushMatrix();edkEnd();
                         //add translate
-                        edk::GU::guTranslate2f32(this->transform.position);
+                        edk::GU::guTranslate2f32(this->transform.position);edkEnd();
                         //add rotation
-                        edk::GU::guRotateZf32(this->transform.angle);
+                        edk::GU::guRotateZf32(this->transform.angle);edkEnd();
                         //add scale
-                        edk::GU::guScale2f32(this->transform.size);
-                        edk::Cenario2D::TreeObjDepth* temp = (edk::Cenario2D::TreeObjDepth*)this->quadObjs->selectedGetTreePointer();
-                        temp->cleanNames();
-                        temp->draw();
-                        edk::GU::guPopMatrix();
-                        edk::GU::guDisable(GU_LIGHTING);
+                        edk::GU::guScale2f32(this->transform.size);edkEnd();
+                        edk::Cenario2D::TreeObjDepth* temp = (edk::Cenario2D::TreeObjDepth*)this->quadObjs->selectedGetTreePointer();edkEnd();
+                        temp->cleanNames();edkEnd();
+                        temp->draw();edkEnd();
+                        edk::GU::guPopMatrix();edkEnd();
+                        edk::GU::guDisable(GU_LIGHTING);edkEnd();
                     }
                 }
                 else if(this->objsPhys){
-                    rect = this->updateRect(rect);
-                    this->quadPhysicObjs->levelId = levelID;
+                    rect = this->updateRect(rect);edkEnd();
+                    this->quadPhysicObjs->levelId = levelID;edkEnd();
                     if(this->quadPhysicObjs->selectLeafInRect(rect)){
-                        edk::GU::guEnable(GU_LIGHTING);
+                        edk::GU::guEnable(GU_LIGHTING);edkEnd();
                         //apply tranformations
-                        edk::GU::guPushMatrix();
+                        edk::GU::guPushMatrix();edkEnd();
                         //add translate
-                        edk::GU::guTranslate2f32(this->transform.position);
+                        edk::GU::guTranslate2f32(this->transform.position);edkEnd();
                         //add rotation
-                        edk::GU::guRotateZf32(this->transform.angle);
+                        edk::GU::guRotateZf32(this->transform.angle);edkEnd();
                         //add scale
-                        edk::GU::guScale2f32(this->transform.size);
-                        edk::Cenario2D::TreePhysObjDepth* temp = (edk::Cenario2D::TreePhysObjDepth*)this->quadPhysicObjs->selectedGetTreePointer();
-                        temp->cleanNames();
-                        temp->draw();
-                        edk::GU::guPopMatrix();
-                        edk::GU::guDisable(GU_LIGHTING);
+                        edk::GU::guScale2f32(this->transform.size);edkEnd();
+                        edk::Cenario2D::TreePhysObjDepth* temp = (edk::Cenario2D::TreePhysObjDepth*)this->quadPhysicObjs->selectedGetTreePointer();edkEnd();
+                        temp->cleanNames();edkEnd();
+                        temp->draw();edkEnd();
+                        edk::GU::guPopMatrix();edkEnd();
+                        edk::GU::guDisable(GU_LIGHTING);edkEnd();
                     }
                 }
                 else if(this->tileMap){
-                    rect = this->updateRect(rect);
+                    rect = this->updateRect(rect);edkEnd();
                     //apply tranformations
-                    edk::GU::guPushMatrix();
+                    edk::GU::guPushMatrix();edkEnd();
                     //add translate
-                    edk::GU::guTranslate2f32(this->transform.position);
+                    edk::GU::guTranslate2f32(this->transform.position);edkEnd();
                     //add rotation
-                    edk::GU::guRotateZf32(this->transform.angle);
+                    edk::GU::guRotateZf32(this->transform.angle);edkEnd();
                     //add scale
-                    edk::GU::guScale2f32(this->transform.size);
-                    this->tileMap->drawInsideWorldRect(rect);
-                    edk::GU::guPopMatrix();
+                    edk::GU::guScale2f32(this->transform.size);edkEnd();
+                    this->tileMap->drawInsideWorldRect(rect);edkEnd();
+                    edk::GU::guPopMatrix();edkEnd();
                 }
             }
         }
         void drawWireInsideRect(edk::rectf32 rect,edk::uint32 levelID){
             if(this->show){
                 if(this->objs){
-                    rect = this->updateRect(rect);
-                    this->quadObjs->levelId = levelID;
+                    rect = this->updateRect(rect);edkEnd();
+                    this->quadObjs->levelId = levelID;edkEnd();
                     if(this->quadObjs->selectLeafInRect(rect)){
-                        edk::GU::guEnable(GU_LIGHTING);
+                        edk::GU::guEnable(GU_LIGHTING);edkEnd();
                         //apply tranformations
-                        edk::GU::guPushMatrix();
+                        edk::GU::guPushMatrix();edkEnd();
                         //add translate
-                        edk::GU::guTranslate2f32(this->transform.position);
+                        edk::GU::guTranslate2f32(this->transform.position);edkEnd();
                         //add rotation
-                        edk::GU::guRotateZf32(this->transform.angle);
+                        edk::GU::guRotateZf32(this->transform.angle);edkEnd();
                         //add scale
-                        edk::GU::guScale2f32(this->transform.size);
-                        edk::Cenario2D::TreeObjDepth* temp = (edk::Cenario2D::TreeObjDepth*)this->quadObjs->selectedGetTreePointer();
-                        temp->cleanNames();
-                        temp->drawWire();
-                        edk::GU::guPopMatrix();
-                        edk::GU::guDisable(GU_LIGHTING);
+                        edk::GU::guScale2f32(this->transform.size);edkEnd();
+                        edk::Cenario2D::TreeObjDepth* temp = (edk::Cenario2D::TreeObjDepth*)this->quadObjs->selectedGetTreePointer();edkEnd();
+                        temp->cleanNames();edkEnd();
+                        temp->drawWire();edkEnd();
+                        edk::GU::guPopMatrix();edkEnd();
+                        edk::GU::guDisable(GU_LIGHTING);edkEnd();
                     }
                 }
                 else if(this->objsPhys){
-                    rect = this->updateRect(rect);
-                    this->quadPhysicObjs->levelId = levelID;
+                    rect = this->updateRect(rect);edkEnd();
+                    this->quadPhysicObjs->levelId = levelID;edkEnd();
                     if(this->quadPhysicObjs->selectLeafInRect(rect)){
-                        edk::GU::guEnable(GU_LIGHTING);
+                        edk::GU::guEnable(GU_LIGHTING);edkEnd();
                         //apply tranformations
-                        edk::GU::guPushMatrix();
+                        edk::GU::guPushMatrix();edkEnd();
                         //add translate
-                        edk::GU::guTranslate2f32(this->transform.position);
+                        edk::GU::guTranslate2f32(this->transform.position);edkEnd();
                         //add rotation
-                        edk::GU::guRotateZf32(this->transform.angle);
+                        edk::GU::guRotateZf32(this->transform.angle);edkEnd();
                         //add scale
-                        edk::GU::guScale2f32(this->transform.size);
-                        edk::Cenario2D::TreePhysObjDepth* temp = (edk::Cenario2D::TreePhysObjDepth*)this->quadPhysicObjs->selectedGetTreePointer();
-                        temp->cleanNames();
-                        temp->drawWire();
-                        edk::GU::guPopMatrix();
-                        edk::GU::guDisable(GU_LIGHTING);
+                        edk::GU::guScale2f32(this->transform.size);edkEnd();
+                        edk::Cenario2D::TreePhysObjDepth* temp = (edk::Cenario2D::TreePhysObjDepth*)this->quadPhysicObjs->selectedGetTreePointer();edkEnd();
+                        temp->cleanNames();edkEnd();
+                        temp->drawWire();edkEnd();
+                        edk::GU::guPopMatrix();edkEnd();
+                        edk::GU::guDisable(GU_LIGHTING);edkEnd();
                     }
                 }
                 else if(this->tileMap){
-                    rect = this->updateRect(rect);
+                    rect = this->updateRect(rect);edkEnd();
                     //apply tranformations
-                    edk::GU::guPushMatrix();
+                    edk::GU::guPushMatrix();edkEnd();
                     //add translate
-                    edk::GU::guTranslate2f32(this->transform.position);
+                    edk::GU::guTranslate2f32(this->transform.position);edkEnd();
                     //add rotation
-                    edk::GU::guRotateZf32(this->transform.angle);
+                    edk::GU::guRotateZf32(this->transform.angle);edkEnd();
                     //add scale
-                    edk::GU::guScale2f32(this->transform.size);
-                    this->tileMap->drawWireInsideWorldRect(rect);
-                    edk::GU::guPopMatrix();
+                    edk::GU::guScale2f32(this->transform.size);edkEnd();
+                    this->tileMap->drawWireInsideWorldRect(rect);edkEnd();
+                    edk::GU::guPopMatrix();edkEnd();
                 }
             }
         }
         void drawSelection(edk::uint8 id=0u){
             if(this->show){
                 if(this->objs){
-                    edk::GU::guDisable(GU_LIGHTING);
+                    edk::GU::guDisable(GU_LIGHTING);edkEnd();
                     //apply tranformations
-                    edk::GU::guPushMatrix();
+                    edk::GU::guPushMatrix();edkEnd();
                     //add translate
-                    edk::GU::guTranslate2f32(this->transform.position);
+                    edk::GU::guTranslate2f32(this->transform.position);edkEnd();
                     //add rotation
-                    edk::GU::guRotateZf32(this->transform.angle);
+                    edk::GU::guRotateZf32(this->transform.angle);edkEnd();
                     //add scale
-                    edk::GU::guScale2f32(this->transform.size);
-                    this->objs->selectionID = id;
-                    this->objs->print();
-                    edk::GU::guPopMatrix();
+                    edk::GU::guScale2f32(this->transform.size);edkEnd();
+                    this->objs->selectionID = id;edkEnd();
+                    this->objs->print();edkEnd();
+                    edk::GU::guPopMatrix();edkEnd();
                 }
                 else if(this->objsPhys){
-                    edk::GU::guDisable(GU_LIGHTING);
+                    edk::GU::guDisable(GU_LIGHTING);edkEnd();
                     //apply tranformations
-                    edk::GU::guPushMatrix();
+                    edk::GU::guPushMatrix();edkEnd();
                     //add translate
-                    edk::GU::guTranslate2f32(this->transform.position);
+                    edk::GU::guTranslate2f32(this->transform.position);edkEnd();
                     //add rotation
-                    edk::GU::guRotateZf32(this->transform.angle);
+                    edk::GU::guRotateZf32(this->transform.angle);edkEnd();
                     //add scale
-                    edk::GU::guScale2f32(this->transform.size);
-                    this->objsPhys->selectionID = id;
-                    this->objsPhys->print();
-                    edk::GU::guPopMatrix();
+                    edk::GU::guScale2f32(this->transform.size);edkEnd();
+                    this->objsPhys->selectionID = id;edkEnd();
+                    this->objsPhys->print();edkEnd();
+                    edk::GU::guPopMatrix();edkEnd();
                 }
                 else if(this->tileMap){
-                    edk::GU::guDisable(GU_LIGHTING);
+                    edk::GU::guDisable(GU_LIGHTING);edkEnd();
                     //apply tranformations
-                    edk::GU::guPushMatrix();
+                    edk::GU::guPushMatrix();edkEnd();
                     //add translate
-                    edk::GU::guTranslate2f32(this->transform.position);
+                    edk::GU::guTranslate2f32(this->transform.position);edkEnd();
                     //add rotation
-                    edk::GU::guRotateZf32(this->transform.angle);
+                    edk::GU::guRotateZf32(this->transform.angle);edkEnd();
                     //add scale
-                    edk::GU::guScale2f32(this->transform.size);
-                    this->tileMap->drawSelectionWithID(id);
-                    edk::GU::guPopMatrix();
+                    edk::GU::guScale2f32(this->transform.size);edkEnd();
+                    this->tileMap->drawSelectionWithID(id);edkEnd();
+                    edk::GU::guPopMatrix();edkEnd();
                 }
             }
         }
         void drawSelectionInsideRect(edk::rectf32 rect,edk::uint32 levelID){
             if(this->show){
                 if(this->objs){
-                    rect = this->updateRect(rect);
-                    this->quadObjs->levelId = levelID;
+                    rect = this->updateRect(rect);edkEnd();
+                    this->quadObjs->levelId = levelID;edkEnd();
                     if(this->quadObjs->selectLeafInRect(rect)){
-                        edk::GU::guDisable(GU_LIGHTING);
+                        edk::GU::guDisable(GU_LIGHTING);edkEnd();
                         //apply tranformations
-                        edk::GU::guPushMatrix();
+                        edk::GU::guPushMatrix();edkEnd();
                         //add translate
-                        edk::GU::guTranslate2f32(this->transform.position);
+                        edk::GU::guTranslate2f32(this->transform.position);edkEnd();
                         //add rotation
-                        edk::GU::guRotateZf32(this->transform.angle);
+                        edk::GU::guRotateZf32(this->transform.angle);edkEnd();
                         //add scale
-                        edk::GU::guScale2f32(this->transform.size);
-                        edk::Cenario2D::TreeObjDepth* temp = (edk::Cenario2D::TreeObjDepth*)this->quadObjs->selectedGetTreePointer();
-                        temp->selectionID = levelID;
-                        temp->print();
-                        edk::GU::guPopMatrix();
+                        edk::GU::guScale2f32(this->transform.size);edkEnd();
+                        edk::Cenario2D::TreeObjDepth* temp = (edk::Cenario2D::TreeObjDepth*)this->quadObjs->selectedGetTreePointer();edkEnd();
+                        temp->selectionID = levelID;edkEnd();
+                        temp->print();edkEnd();
+                        edk::GU::guPopMatrix();edkEnd();
                     }
                 }
                 else if(this->objsPhys){
-                    rect = this->updateRect(rect);
-                    this->quadPhysicObjs->levelId = levelID;
+                    rect = this->updateRect(rect);edkEnd();
+                    this->quadPhysicObjs->levelId = levelID;edkEnd();
                     if(this->quadPhysicObjs->selectLeafInRect(rect)){
-                        edk::GU::guDisable(GU_LIGHTING);
+                        edk::GU::guDisable(GU_LIGHTING);edkEnd();
                         //apply tranformations
-                        edk::GU::guPushMatrix();
+                        edk::GU::guPushMatrix();edkEnd();
                         //add translate
-                        edk::GU::guTranslate2f32(this->transform.position);
+                        edk::GU::guTranslate2f32(this->transform.position);edkEnd();
                         //add rotation
-                        edk::GU::guRotateZf32(this->transform.angle);
+                        edk::GU::guRotateZf32(this->transform.angle);edkEnd();
                         //add scale
-                        edk::GU::guScale2f32(this->transform.size);
-                        edk::Cenario2D::TreePhysObjDepth* temp = (edk::Cenario2D::TreePhysObjDepth*)this->quadPhysicObjs->selectedGetTreePointer();
-                        temp->selectionID = levelID;
-                        temp->print();
-                        edk::GU::guPopMatrix();
+                        edk::GU::guScale2f32(this->transform.size);edkEnd();
+                        edk::Cenario2D::TreePhysObjDepth* temp = (edk::Cenario2D::TreePhysObjDepth*)this->quadPhysicObjs->selectedGetTreePointer();edkEnd();
+                        temp->selectionID = levelID;edkEnd();
+                        temp->print();edkEnd();
+                        edk::GU::guPopMatrix();edkEnd();
                     }
                 }
                 else if(this->tileMap){
-                    rect = this->updateRect(rect);
-                    edk::GU::guDisable(GU_LIGHTING);
+                    rect = this->updateRect(rect);edkEnd();
+                    edk::GU::guDisable(GU_LIGHTING);edkEnd();
                     //apply tranformations
-                    edk::GU::guPushMatrix();
+                    edk::GU::guPushMatrix();edkEnd();
                     //add translate
-                    edk::GU::guTranslate2f32(this->transform.position);
+                    edk::GU::guTranslate2f32(this->transform.position);edkEnd();
                     //add rotation
-                    edk::GU::guRotateZf32(this->transform.angle);
+                    edk::GU::guRotateZf32(this->transform.angle);edkEnd();
                     //add scale
-                    edk::GU::guScale2f32(this->transform.size);
-                    this->tileMap->drawInsideWorldRectSelectionWithID(rect,levelID);
-                    edk::GU::guPopMatrix();
+                    edk::GU::guScale2f32(this->transform.size);edkEnd();
+                    this->tileMap->drawInsideWorldRectSelectionWithID(rect,levelID);edkEnd();
+                    edk::GU::guPopMatrix();edkEnd();
                 }
             }
         }
 
-        void clean(){this->objs = NULL;this->objsPhys = NULL;this->tileMap = NULL;this->quadObjs = NULL;this->quadPhysicObjs = NULL;}
+        void clean(){this->objs = NULL;edkEnd();this->objsPhys = NULL;edkEnd();this->tileMap = NULL;edkEnd();this->quadObjs = NULL;edkEnd();this->quadPhysicObjs = NULL;edkEnd();}
         bool haveSome(){
             if(this->objs){
                 return true;
@@ -1650,152 +1651,164 @@ private:
 
         //update the rect with the matrices
         inline edk::rectf32 updateRect(edk::rectf32 rect){
-            this->updateMatrices();
+            this->updateMatrices();edkEnd();
             if(this->matrixNewPosition.haveMatrix()){
-                edk::vec2f32 newPosition;
+                edk::vec2f32 newPosition;edkEnd();
                 //
-                this->matrixNewPosition.set(0u,0u,rect.origin.x);
-                this->matrixNewPosition.set(0u,1u,rect.origin.y);
-                this->matrixNewPosition.set(0u,2u,1.f);
-                this->matrixNewPosition.multiplyMatrixWithThis((edk::vector::MatrixDynamic<edk::float32>*)&this->matrixTransformNegative);
-                newPosition.x = this->matrixNewPosition.get(0u,0u);
-                newPosition.y = this->matrixNewPosition.get(0u,1u);
-                if(rect.origin.x > newPosition.x)
-                    rect.origin.x = newPosition.x;
-                if(rect.origin.y > newPosition.y)
-                    rect.origin.y = newPosition.y;
+                this->matrixNewPosition.set(0u,0u,rect.origin.x);edkEnd();
+                this->matrixNewPosition.set(0u,1u,rect.origin.y);edkEnd();
+                this->matrixNewPosition.set(0u,2u,1.f);edkEnd();
+                this->matrixNewPosition.multiplyMatrixWithThis((edk::vector::MatrixDynamic<edk::float32>*)&this->matrixTransformNegative);edkEnd();
+                newPosition.x = this->matrixNewPosition.get(0u,0u);edkEnd();
+                newPosition.y = this->matrixNewPosition.get(0u,1u);edkEnd();
+                if(rect.origin.x > newPosition.x){
+                    rect.origin.x = newPosition.x;edkEnd();
+                }
+                if(rect.origin.y > newPosition.y){
+                    rect.origin.y = newPosition.y;edkEnd();
+                }
                 //
-                this->matrixNewPosition.set(0u,0u,rect.size.width);
-                this->matrixNewPosition.set(0u,1u,rect.size.height);
-                this->matrixNewPosition.set(0u,2u,1.f);
-                this->matrixNewPosition.multiplyMatrixWithThis((edk::vector::MatrixDynamic<edk::float32>*)&this->matrixTransformNegative);
-                newPosition.x = this->matrixNewPosition.get(0u,0u);
-                newPosition.y = this->matrixNewPosition.get(0u,1u);
-                if(rect.size.width > newPosition.x)
-                    rect.size.width = newPosition.x;
-                if(rect.size.height > newPosition.y)
-                    rect.size.height = newPosition.y;
-                return rect;
+                this->matrixNewPosition.set(0u,0u,rect.size.width);edkEnd();
+                this->matrixNewPosition.set(0u,1u,rect.size.height);edkEnd();
+                this->matrixNewPosition.set(0u,2u,1.f);edkEnd();
+                this->matrixNewPosition.multiplyMatrixWithThis((edk::vector::MatrixDynamic<edk::float32>*)&this->matrixTransformNegative);edkEnd();
+                newPosition.x = this->matrixNewPosition.get(0u,0u);edkEnd();
+                newPosition.y = this->matrixNewPosition.get(0u,1u);edkEnd();
+                if(rect.size.width > newPosition.x){
+                    rect.size.width = newPosition.x;edkEnd();
+                }
+                if(rect.size.height > newPosition.y){
+                    rect.size.height = newPosition.y;edkEnd();
+                }
+                return rect;edkEnd();
             }
-            return rect;
+            return rect;edkEnd();
         }
 
         //calculate matrices
         void calculateMatrices(){
             //generate transform matrices
-            edk::Math::generateTranslateMatrix(this->transform.position,&this->matrixPosition);
-            edk::Math::generateRotateMatrix(this->transform.angle,&this->matrixAngle);
-            edk::Math::generateScaleMatrix(this->transform.size,&this->matrixSize);
+            edk::Math::generateTranslateMatrix(this->transform.position,&this->matrixPosition);edkEnd();
+            edk::Math::generateRotateMatrix(this->transform.angle,&this->matrixAngle);edkEnd();
+            edk::Math::generateScaleMatrix(this->transform.size,&this->matrixSize);edkEnd();
 
-            this->matrixTransform.setIdentity(1.f,0.f);
+            this->matrixTransform.setIdentity(1.f,0.f);edkEnd();
             //multiply the matrix by
             //translate
-            this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);
+            this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);edkEnd();
             //angle
-            this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);
+            this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
             //scale
-            this->matrixTransform.multiplyThisWithMatrix(&this->matrixSize);
+            this->matrixTransform.multiplyThisWithMatrix(&this->matrixSize);edkEnd();
 
             //generate negative transform matrices
-            edk::Math::generateTranslateMatrix(this->transform.position*-1.f,&this->matrixPosition);
-            edk::Math::generateRotateMatrix(this->transform.angle*-1.f,&this->matrixAngle);
-            edk::Math::generateScaleMatrix(this->transform.size/1.f,&this->matrixSize);
+            edk::Math::generateTranslateMatrix(this->transform.position*-1.f,&this->matrixPosition);edkEnd();
+            edk::Math::generateRotateMatrix(this->transform.angle*-1.f,&this->matrixAngle);edkEnd();
+            edk::Math::generateScaleMatrix(this->transform.size/1.f,&this->matrixSize);edkEnd();
 
-            this->matrixTransformNegative.setIdentity(1.f,0.f);
+            this->matrixTransformNegative.setIdentity(1.f,0.f);edkEnd();
             //multiply the matrix by
             //translate
-            this->matrixTransformNegative.multiplyThisWithMatrix(&this->matrixPosition);
+            this->matrixTransformNegative.multiplyThisWithMatrix(&this->matrixPosition);edkEnd();
             //angle
-            this->matrixTransformNegative.multiplyThisWithMatrix(&this->matrixAngle);
+            this->matrixTransformNegative.multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
             //scale
-            this->matrixTransformNegative.multiplyThisWithMatrix(&this->matrixSize);
+            this->matrixTransformNegative.multiplyThisWithMatrix(&this->matrixSize);edkEnd();
         }
 
         //generate the level rectangle
         bool generateLevelRect(){
             if(this->objs){
-                this->calculateMatrices();
-                edk::uint32 size = this->objs->size();
-                edk::Cenario2D::ObjClass* temp;
-                edk::rectf32 rect,rectTemp;
-                rect = 0.f;
+                this->calculateMatrices();edkEnd();
+                edk::uint32 size = this->objs->size();edkEnd();
+                edk::Cenario2D::ObjClass* temp;edkEnd();
+                edk::rectf32 rect,rectTemp;edkEnd();
+                rect = 0.f;edkEnd();
                 if(size){
-                    edk::uint32 i=0u;
+                    edk::uint32 i=0u;edkEnd();
                     //get the first rectagle
                     for(;i<size;i++){
-                        temp=this->objs->getElementInPosition(i);
+                        temp=this->objs->getElementInPosition(i);edkEnd();
                         if(temp){
-                            rectTemp = temp->calculateBoundingBox();
-                            rect=rectTemp;
-                            i++;
-                            break;
+                            rectTemp = temp->calculateBoundingBox();edkEnd();
+                            rect=rectTemp;edkEnd();
+                            i++;edkEnd();
+                            break;edkEnd();
                         }
                     }
                     //get the other rectagles
                     for(;i<size;i++){
-                        temp=this->objs->getElementInPosition(i);
+                        temp=this->objs->getElementInPosition(i);edkEnd();
                         if(temp){
-                            rectTemp = temp->calculateBoundingBox();
-                            if(rect.origin.x > rectTemp.origin.x)
-                                rect.origin.x = rectTemp.origin.x;
-                            if(rect.origin.y > rectTemp.origin.y)
-                                rect.origin.y = rectTemp.origin.y;
-                            if(rect.size.width < rectTemp.size.width)
-                                rect.size.width = rectTemp.size.width;
-                            if(rect.size.height < rectTemp.size.height)
-                                rect.size.height = rectTemp.size.height;
+                            rectTemp = temp->calculateBoundingBox();edkEnd();
+                            if(rect.origin.x > rectTemp.origin.x){
+                                rect.origin.x = rectTemp.origin.x;edkEnd();
+                            }
+                            if(rect.origin.y > rectTemp.origin.y){
+                                rect.origin.y = rectTemp.origin.y;edkEnd();
+                            }
+                            if(rect.size.width < rectTemp.size.width){
+                                rect.size.width = rectTemp.size.width;edkEnd();
+                            }
+                            if(rect.size.height < rectTemp.size.height){
+                                rect.size.height = rectTemp.size.height;edkEnd();
+                            }
                         }
                     }
                     //in the end set the level rectangle
                     //increment the rect
-                    rect.origin.x -= (rect.size.width - rect.origin.x)*0.1f;
-                    rect.origin.y -= (rect.size.height - rect.origin.y)*0.1f;
-                    rect.size.width += (rect.size.width - rect.origin.x)*0.1f;
-                    rect.size.height += (rect.size.height - rect.origin.y)*0.1f;
-                    this->quadObjs->setRect(rect);
+                    rect.origin.x -= (rect.size.width - rect.origin.x)*0.1f;edkEnd();
+                    rect.origin.y -= (rect.size.height - rect.origin.y)*0.1f;edkEnd();
+                    rect.size.width += (rect.size.width - rect.origin.x)*0.1f;edkEnd();
+                    rect.size.height += (rect.size.height - rect.origin.y)*0.1f;edkEnd();
+                    this->quadObjs->setRect(rect);edkEnd();
                 }
                 return true;
             }
             else if(this->objsPhys){
-                this->calculateMatrices();
-                edk::uint32 size = this->objsPhys->size();
-                edk::Cenario2D::ObjClass* temp;
-                edk::rectf32 rect,rectTemp;
-                rect = 0.f;
+                this->calculateMatrices();edkEnd();
+                edk::uint32 size = this->objsPhys->size();edkEnd();
+                edk::Cenario2D::ObjClass* temp;edkEnd();
+                edk::rectf32 rect,rectTemp;edkEnd();
+                rect = 0.f;edkEnd();
                 if(size){
-                    edk::uint32 i=0u;
+                    edk::uint32 i=0u;edkEnd();
                     //get the first rectagle
                     for(;i<size;i++){
-                        temp=this->objsPhys->getElementInPosition(i);
+                        temp=this->objsPhys->getElementInPosition(i);edkEnd();
                         if(temp){
-                            rectTemp = temp->calculateBoundingBox();
-                            rect=rectTemp;
-                            i++;
-                            break;
+                            rectTemp = temp->calculateBoundingBox();edkEnd();
+                            rect=rectTemp;edkEnd();
+                            i++;edkEnd();
+                            break;edkEnd();
                         }
                     }
                     //get the other rectagles
                     for(;i<size;i++){
-                        temp=this->objsPhys->getElementInPosition(i);
+                        temp=this->objsPhys->getElementInPosition(i);edkEnd();
                         if(temp){
-                            rectTemp = temp->calculateBoundingBox();
-                            if(rect.origin.x > rectTemp.origin.x)
-                                rect.origin.x = rectTemp.origin.x;
-                            if(rect.origin.y > rectTemp.origin.y)
-                                rect.origin.y = rectTemp.origin.y;
-                            if(rect.size.width < rectTemp.size.width)
-                                rect.size.width = rectTemp.size.width;
-                            if(rect.size.height < rectTemp.size.height)
-                                rect.size.height = rectTemp.size.height;
+                            rectTemp = temp->calculateBoundingBox();edkEnd();
+                            if(rect.origin.x > rectTemp.origin.x){
+                                rect.origin.x = rectTemp.origin.x;edkEnd();
+                            }
+                            if(rect.origin.y > rectTemp.origin.y){
+                                rect.origin.y = rectTemp.origin.y;edkEnd();
+                            }
+                            if(rect.size.width < rectTemp.size.width){
+                                rect.size.width = rectTemp.size.width;edkEnd();
+                            }
+                            if(rect.size.height < rectTemp.size.height){
+                                rect.size.height = rectTemp.size.height;edkEnd();
+                            }
                         }
                     }
                     //in the end set the level rectangle
                     //increment the rect
-                    rect.origin.x -= (rect.size.width - rect.origin.x)*0.1f;
-                    rect.origin.y -= (rect.size.height - rect.origin.y)*0.1f;
-                    rect.size.width += (rect.size.width - rect.origin.x)*0.1f;
-                    rect.size.height += (rect.size.height - rect.origin.y)*0.1f;
-                    this->quadPhysicObjs->setRect(rect);
+                    rect.origin.x -= (rect.size.width - rect.origin.x)*0.1f;edkEnd();
+                    rect.origin.y -= (rect.size.height - rect.origin.y)*0.1f;edkEnd();
+                    rect.size.width += (rect.size.width - rect.origin.x)*0.1f;edkEnd();
+                    rect.size.height += (rect.size.height - rect.origin.y)*0.1f;edkEnd();
+                    this->quadPhysicObjs->setRect(rect);edkEnd();
                 }
                 return true;
             }
@@ -1806,27 +1819,27 @@ private:
         bool addObjectsToQuad(){
             //test if have the objects
             if(this->objs){
-                //this->calculateMatrices();
-                edk::uint32 size = this->objs->size();
-                edk::Cenario2D::ObjClass* temp;
+                //this->calculateMatrices();edkEnd();
+                edk::uint32 size = this->objs->size();edkEnd();
+                edk::Cenario2D::ObjClass* temp;edkEnd();
                 for(edk::uint32 i=0u;i<size;i++){
-                    temp=this->objs->getElementInPosition(i);
+                    temp=this->objs->getElementInPosition(i);edkEnd();
                     if(temp){
                         //add the temp into quad
-                        this->quadObjs->add(temp,size);
+                        this->quadObjs->add(temp,size);edkEnd();
                     }
                 }
                 return true;
             }
             else if(this->objsPhys){
-                //this->calculateMatrices();
-                edk::uint32 size = this->objsPhys->size();
-                edk::Cenario2D::ObjClass* temp;
+                //this->calculateMatrices();edkEnd();
+                edk::uint32 size = this->objsPhys->size();edkEnd();
+                edk::Cenario2D::ObjClass* temp;edkEnd();
                 for(edk::uint32 i=0u;i<size;i++){
-                    temp=this->objsPhys->getElementInPosition(i);
+                    temp=this->objsPhys->getElementInPosition(i);edkEnd();
                     if(temp){
                         //add the temp into quad
-                        this->quadPhysicObjs->add(temp,size);
+                        this->quadPhysicObjs->add(temp,size);edkEnd();
                     }
                 }
                 return true;
@@ -1858,28 +1871,28 @@ private:
     //objects animation tree
     class TreeAnim: public edk::vector::BinaryTree<edk::Object2D*>{
     public:
-        TreeAnim(){this->seconds=0.f;this->time.start();}
-        ~TreeAnim(){this->seconds=0.f;}
+        TreeAnim(){this->seconds=0.f;edkEnd();this->time.start();edkEnd();}
+        ~TreeAnim(){this->seconds=0.f;edkEnd();}
         //SET
         bool setSeconds(edk::float32 seconds){
             if(seconds>0.f){
-                this->seconds=seconds;
+                this->seconds=seconds;edkEnd();
                 return true;
             }
             else{
-                this->seconds=0.f;
+                this->seconds=0.f;edkEnd();
             }
             return false;
         }
         bool loadSeconds(){
-            bool ret = this->setSeconds(this->time.getSeconds());
-            this->time.start();
+            bool ret = this->setSeconds(this->time.getSeconds());edkEnd();
+            this->time.start();edkEnd();
             return ret;
         }
         //UPDATE
         virtual void updateElement(edk::Object2D* value){
             //update the value
-            value->updateAnimations(this->seconds);
+            value->updateAnimations(this->seconds);edkEnd();
         }
     private:
         edk::float32 seconds;
@@ -1889,29 +1902,29 @@ private:
     //objects animation tree
     class TreeAnimPhys: public edk::vector::BinaryTree<edk::physics2D::PhysicObject2D*>{
     public:
-        TreeAnimPhys(edk::physics2D::World2D* world){this->world = world;this->seconds=0.f;this->time.start();}
+        TreeAnimPhys(edk::physics2D::World2D* world){this->world = world;edkEnd();this->seconds=0.f;edkEnd();this->time.start();edkEnd();}
         ~TreeAnimPhys(){}
         //SET
         bool setSeconds(edk::float32 seconds){
             if(seconds>0.f){
-                this->seconds=seconds;
+                this->seconds=seconds;edkEnd();
                 return true;
             }
             else{
-                this->seconds=0.f;
+                this->seconds=0.f;edkEnd();
             }
             return false;
         }
         bool loadSeconds(){
-            bool ret = this->setSeconds(this->time.getSeconds());
-            this->time.start();
+            bool ret = this->setSeconds(this->time.getSeconds());edkEnd();
+            this->time.start();edkEnd();
             return ret;
         }
         //UPDATE
         virtual void updateElement(edk::physics2D::PhysicObject2D* value){
             //update the value
-            value->updateAnimations(this->seconds);
-            this->world->updateObjectLinearVelocity(value);
+            value->updateAnimations(this->seconds);edkEnd();
+            this->world->updateObjectLinearVelocity(value);edkEnd();
         }
     private:
         edk::physics2D::World2D* world;

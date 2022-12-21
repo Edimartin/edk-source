@@ -31,13 +31,13 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 edk::codecs::EncoderImage::EncoderImage()
 //: edk::codecs::CodecImage()
 {
-    //printf("\nEncoderImage Construtor");fflush(stdout);
+    //printf("\nEncoderImage Construtor");edkEnd();fflush(stdout);edkEnd();
 }
 
 edk::codecs::EncoderImage::~EncoderImage()
 {
-    //printf("\nEncoderImage Destrutor");fflush(stdout);
-    this->deleteEncoded();
+    //printf("\nEncoderImage Destrutor");edkEnd();fflush(stdout);edkEnd();
+    this->deleteEncoded();edkEnd();
 }
 
 //process the encoder
@@ -49,72 +49,72 @@ bool edk::codecs::EncoderImage::encode(edk::uint8* frame,edk::size2ui32 size,edk
     return false;
 }
 bool edk::codecs::EncoderImage::encode(edk::uint8* frame,edk::uint32 width,edk::uint32 height,edk::uint8 channels,edk::uint32 quality){
-    return this->encode(frame,edk::size2ui32(width,height),channels,quality);
+    return this->encode(frame,edk::size2ui32(width,height),channels,quality);edkEnd();
 }
 bool edk::codecs::EncoderImage::encode(const unsigned char* frame,edk::size2ui32 size,edk::uint8 channels,edk::uint32 quality){
-    return this->encode((edk::uint8*) frame,size,channels,quality);
+    return this->encode((edk::uint8*) frame,size,channels,quality);edkEnd();
 }
 bool edk::codecs::EncoderImage::encode(const unsigned char* frame,edk::uint32 width,edk::uint32 height,edk::uint8 channels,edk::uint32 quality){
-    return this->encode((edk::uint8*) frame,width,height,channels,quality);
+    return this->encode((edk::uint8*) frame,width,height,channels,quality);edkEnd();
 }
 
 //process the encoder and save to a file
 bool edk::codecs::EncoderImage::encodeToFile(edk::uint8* frame,edk::size2ui32 size,edk::uint8 channels,edk::uint32 quality,const edk::char8* fileName){
-    return this->encodeToFile(frame,size,channels,quality,(edk::char8*) fileName);
+    return this->encodeToFile(frame,size,channels,quality,(edk::char8*) fileName);edkEnd();
 }
 bool edk::codecs::EncoderImage::encodeToFile(edk::uint8* frame,edk::size2ui32 size,edk::uint8 channels,edk::uint32 quality,edk::char8* fileName){
     //test the frame and the size
     if(frame && size.width && size.height && fileName && quality){
-        bool ret = false;
+        bool ret = false;edkEnd();
         //create the file
         if(this->file.createAndOpenBinFile(fileName)){
             //process the encoder
             if(this->encode(frame,size,channels,quality)){
                 if(edk::codecs::CodecImage::getEncoded() && edk::codecs::CodecImage::getEncodedSize()){
                     //write the encoded in the file
-                    this->file.writeBin(this->getEncoded(),this->getEncodedSize());
+                    this->file.writeBin(this->getEncoded(),this->getEncodedSize());edkEnd();
                     //delete the encoded
-                    this->deleteEncoded();
+                    this->deleteEncoded();edkEnd();
                     //return true
-                    ret=true;
+                    ret=true;edkEnd();
                 }
             }
 
             //close the file
-            this->file.closeFile();
+            this->file.closeFile();edkEnd();
         }
         return ret;
     }
     return false;
 }
 bool edk::codecs::EncoderImage::encodeToFile(edk::uint8* frame,edk::uint32 width,edk::uint32 height,edk::uint8 channels,edk::uint32 quality,const edk::char8* fileName){
-    return this->encodeToFile(frame,width,height,channels,quality,(edk::char8*) fileName);
+    return this->encodeToFile(frame,width,height,channels,quality,(edk::char8*) fileName);edkEnd();
 }
 bool edk::codecs::EncoderImage::encodeToFile(edk::uint8* frame,edk::uint32 width,edk::uint32 height,edk::uint8 channels,edk::uint32 quality,edk::char8* fileName){
-    return this->encodeToFile(frame,edk::size2ui32(width,height),channels,quality,fileName);
+    return this->encodeToFile(frame,edk::size2ui32(width,height),channels,quality,fileName);edkEnd();
 }
 
 bool edk::codecs::EncoderImage::encodeToFile(const unsigned char* frame,edk::size2ui32 size,edk::uint8 channels,edk::uint32 quality,const edk::char8* fileName){
-    return this->encodeToFile((edk::uint8*) frame,size,channels,quality,fileName);
+    return this->encodeToFile((edk::uint8*) frame,size,channels,quality,fileName);edkEnd();
 }
 bool edk::codecs::EncoderImage::encodeToFile(const unsigned char* frame,edk::size2ui32 size,edk::uint8 channels,edk::uint32 quality,edk::char8* fileName){
-    return this->encodeToFile((edk::uint8*) frame,size,channels,quality,fileName);
+    return this->encodeToFile((edk::uint8*) frame,size,channels,quality,fileName);edkEnd();
 }
 bool edk::codecs::EncoderImage::encodeToFile(const unsigned char* frame,edk::uint32 width,edk::uint32 height,edk::uint8 channels,edk::uint32 quality,const edk::char8* fileName){
-    return this->encodeToFile((edk::uint8*) frame,width,height,channels,quality,fileName);
+    return this->encodeToFile((edk::uint8*) frame,width,height,channels,quality,fileName);edkEnd();
 }
 bool edk::codecs::EncoderImage::encodeToFile(const unsigned char* frame,edk::uint32 width,edk::uint32 height,edk::uint8 channels,edk::uint32 quality,edk::char8* fileName){
-    return this->encodeToFile((edk::uint8*) frame,width,height,channels,quality,fileName);
+    return this->encodeToFile((edk::uint8*) frame,width,height,channels,quality,fileName);edkEnd();
 }
 
 //return the frame encoded
 edk::uint8* edk::codecs::EncoderImage::getEncoded(){
-    return edk::codecs::CodecImage::getEncoded();
+    return edk::codecs::CodecImage::getEncoded();edkEnd();
 }
 edk::uint32 edk::codecs::EncoderImage::getEncodedSize(){
-    return edk::codecs::CodecImage::getEncodedSize();
+    return edk::codecs::CodecImage::getEncodedSize();edkEnd();
 }
 //delete the encoded
 void edk::codecs::EncoderImage::deleteEncoded(){
-    edk::codecs::CodecImage::deleteEncoded();
+    edk::codecs::CodecImage::deleteEncoded();edkEnd();
 }

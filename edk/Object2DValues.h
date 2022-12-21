@@ -49,19 +49,19 @@ public:
     //operators
     // =
     edk::Object2DValues operator=(edk::Object2DValues values){
-        this->position = values.position;
-        this->angle = values.angle;
-        this->size = values.size;
-        return *this;
+        this->position = values.position;edkEnd();
+        this->angle = values.angle;edkEnd();
+        this->size = values.size;edkEnd();
+        return *this;edkEnd();
     }
 
     // ==
     bool operator==(edk::Object2DValues values){
-        return (this->position==values.position && this->angle==values.angle && this->size == values.size);
+        return (this->position==values.position && this->angle==values.angle && this->size == values.size);edkEnd();
     }
     // !=
     bool operator!=(edk::Object2DValues values){
-        return (this->position!=values.position || this->angle!=values.angle || this->size != values.size);
+        return (this->position!=values.position || this->angle!=values.angle || this->size != values.size);edkEnd();
     }
 };
 }

@@ -26,25 +26,25 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 edk::tiles::TileIsometricFlat2D::TileIsometricFlat2D(){
     //first remove the polygon in the mesh
-    this->mesh.cleanPolygons();
+    this->mesh.cleanPolygons();edkEnd();
     //create the new polygon
-    edk::shape::Quadrangle2D lozenge;
-    this->middle = edk::vec2f32(0,0);
+    edk::shape::Quadrangle2D lozenge;edkEnd();
+    this->middle = edk::vec2f32(0,0);edkEnd();
     //Set the color to white
-    lozenge.setPolygonColor(1,1,1,1);
+    lozenge.setPolygonColor(1,1,1,1);edkEnd();
     //Set all the quadrangle vertexs
-    lozenge.setVertexPosition(0u,+0.0,-0.25);
-    lozenge.setVertexPosition(1u,-0.5,+0.0);
-    lozenge.setVertexPosition(2u,+0.0,+0.25);
-    lozenge.setVertexPosition(3u,+0.5,+0.0);
+    lozenge.setVertexPosition(0u,+0.0,-0.25);edkEnd();
+    lozenge.setVertexPosition(1u,-0.5,+0.0);edkEnd();
+    lozenge.setVertexPosition(2u,+0.0,+0.25);edkEnd();
+    lozenge.setVertexPosition(3u,+0.5,+0.0);edkEnd();
     //set the UV'S
-    lozenge.setVertexUV(0u,0,1);
-    lozenge.setVertexUV(1u,0,0);
-    lozenge.setVertexUV(2u,1,0);
-    lozenge.setVertexUV(3u,1,1);
+    lozenge.setVertexUV(0u,0,1);edkEnd();
+    lozenge.setVertexUV(1u,0,0);edkEnd();
+    lozenge.setVertexUV(2u,1,0);edkEnd();
+    lozenge.setVertexUV(3u,1,1);edkEnd();
     //Use a lozengePolygon on the mesh
-    this->mesh.addPolygon(lozenge);
-    this->mesh.selectPolygon(0u);
+    this->mesh.addPolygon(lozenge);edkEnd();
+    this->mesh.selectPolygon(0u);edkEnd();
 }
 edk::tiles::TileIsometricFlat2D::~TileIsometricFlat2D(){
     //
@@ -52,6 +52,6 @@ edk::tiles::TileIsometricFlat2D::~TileIsometricFlat2D(){
 
 //return the type of the tile to the tileSet know witch tile is before delete it
 edk::tiles::tile2DType edk::tiles::TileIsometricFlat2D::getType(){
-    return edk::tiles::tile2DTypeIsometricFlat;
+    return edk::tiles::tile2DTypeIsometricFlat;edkEnd();
 }
 

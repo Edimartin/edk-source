@@ -30,43 +30,43 @@ edk::OpenLamp::OpenLamp()
 
 //convert one pixel
 edk::color3ui8 edk::OpenLamp::pixelToNormal(edk::uint8 up,edk::uint8 down,edk::uint8 left,edk::uint8 right,edk::uint8 front){
-    edk::color3ui8 ret;
+    edk::color3ui8 ret;edkEnd();
     //get the vertical and horizontal angles
-    edk::int32 angleH = (edk::int32)((((edk::int32)right-(edk::int32)left)/255.f)*90u);
-    edk::int32 angleV = (edk::int32)((((edk::int32)up-(edk::int32)down)/255.f)*90u);
-    //load the R and G using sen 0 to 255 (0 == -128; 255 == 128)
-    ret.r = (edk::uint32)((sin ( ( angleH * PI)/180)     * 127) + 127);
-    ret.r = (edk::uint32)((edk::Math::getSin(angleH) * 127) + 127);
-    ret.g = (edk::uint32)((sin ( ( angleV * PI)/180)     * 127) + 127);
-    ret.g = (edk::uint32)((edk::Math::getSin(angleV) * 127) + 127);
-    ret.b = front;
+    edk::int32 angleH = (edk::int32)((((edk::int32)right-(edk::int32)left)/255.f)*90u);edkEnd();
+    edk::int32 angleV = (edk::int32)((((edk::int32)up-(edk::int32)down)/255.f)*90u);edkEnd();
+    //load the R and G using sen 0 to 255 (0 == -128;edkEnd(); 255 == 128)
+    ret.r = (edk::uint32)((sin ( ( angleH * PI)/180)     * 127) + 127);edkEnd();
+    ret.r = (edk::uint32)((edk::Math::getSin(angleH) * 127) + 127);edkEnd();
+    ret.g = (edk::uint32)((sin ( ( angleV * PI)/180)     * 127) + 127);edkEnd();
+    ret.g = (edk::uint32)((edk::Math::getSin(angleV) * 127) + 127);edkEnd();
+    ret.b = front;edkEnd();
 
     return ret;
 }
 edk::color3ui8 edk::OpenLamp::pixelToNormal(edk::uint8 up,edk::uint8 down,edk::uint8 left,edk::uint8 right){
-    edk::color3ui8 ret;
+    edk::color3ui8 ret;edkEnd();
     //get the vertical and horizontal angles
-    edk::int32 angleH = (edk::int32)((((edk::int32)right-(edk::int32)left)/255.f)*90u);
-    edk::int32 angleV = (edk::int32)((((edk::int32)up-(edk::int32)down)/255.f)*90u);
-    //load the R and G using sen 0 to 255 (0 == -128; 255 == 128)
-    ret.r = (edk::uint32)((sin ( ( angleH * PI)/180)     * 127) + 127);
-    ret.r = (edk::uint32)((edk::Math::getSin(angleH) * 127) + 127);
-    ret.g = (edk::uint32)((sin ( ( angleV * PI)/180)     * 127) + 127);
-    ret.g = (edk::uint32)((edk::Math::getSin(angleV) * 127) + 127);
+    edk::int32 angleH = (edk::int32)((((edk::int32)right-(edk::int32)left)/255.f)*90u);edkEnd();
+    edk::int32 angleV = (edk::int32)((((edk::int32)up-(edk::int32)down)/255.f)*90u);edkEnd();
+    //load the R and G using sen 0 to 255 (0 == -128;edkEnd(); 255 == 128)
+    ret.r = (edk::uint32)((sin ( ( angleH * PI)/180)     * 127) + 127);edkEnd();
+    ret.r = (edk::uint32)((edk::Math::getSin(angleH) * 127) + 127);edkEnd();
+    ret.g = (edk::uint32)((sin ( ( angleV * PI)/180)     * 127) + 127);edkEnd();
+    ret.g = (edk::uint32)((edk::Math::getSin(angleV) * 127) + 127);edkEnd();
 
     //load the two depth of the angles using cosin
-    //edk::float32 depthV = cos ( ( angleV * PI)/180);
-    edk::float32 depthV = edk::Math::getCosin(angleV);
-    //edk::float32 depthH = cos ( ( angleH * PI)/180);
-    edk::float32 depthH = edk::Math::getCosin(angleH);
+    //edk::float32 depthV = cos ( ( angleV * PI)/180);edkEnd();
+    edk::float32 depthV = edk::Math::getCosin(angleV);edkEnd();
+    //edk::float32 depthH = cos ( ( angleH * PI)/180);edkEnd();
+    edk::float32 depthH = edk::Math::getCosin(angleH);edkEnd();
     //test with depth is higher to calculate the middle poinst
     if(depthV > depthH){
         //calculate the mittle point
-        ret.b = (edk::uint32)(((edk::int32)((depthV - depthH)*0.5f)+depthH)* 128) + 127u;
+        ret.b = (edk::uint32)(((edk::int32)((depthV - depthH)*0.5f)+depthH)* 128) + 127u;edkEnd();
     }
     else{
         //calculate the mittle point
-        ret.b = (edk::uint32)((edk::int32)(((depthH - depthV)*0.5f)+depthV)* 128) + 127u;
+        ret.b = (edk::uint32)((edk::int32)(((depthH - depthV)*0.5f)+depthV)* 128) + 127u;edkEnd();
     }
 
     return ret;
@@ -81,7 +81,7 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                                    edk::uint8* normal,edk::uint32 pixelsSize
                                    ){
     //test if have the full vectors
-    edk::color3ui8 temp;
+    edk::color3ui8 temp;edkEnd();
     if(normal && pixelsSize){
         //try the front
         if(front && frontChannels){
@@ -101,13 +101,13 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                                 edk::Image2D::rgbToV(left[0],left[1],left[2]),
                                 edk::Image2D::rgbToV(right[0],right[1],right[2]),
                                 edk::Image2D::rgbToV(front[0],front[1],front[2])
-                                );
-                        normal[0u]=temp.r;
-                        normal[1u]=temp.g;
-                        normal[2u]=temp.b;
+                                );edkEnd();
+                        normal[0u]=temp.r;edkEnd();
+                        normal[1u]=temp.g;edkEnd();
+                        normal[2u]=temp.b;edkEnd();
                         //increment the vectors
-                        up+=upChannels;down+=downChannels;left+=leftChannels;right+=rightChannels;front+=frontChannels;
-                        normal+=3u;
+                        up+=upChannels;edkEnd();down+=downChannels;left+=leftChannels;edkEnd();right+=rightChannels;edkEnd();front+=frontChannels;edkEnd();
+                        normal+=3u;edkEnd();
                     }
                     return true;
                 }
@@ -120,13 +120,13 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                                 edk::Image2D::rgbToV(left[0],left[1],left[2]),
                                 128,
                                 edk::Image2D::rgbToV(front[0],front[1],front[2])
-                                );
-                        normal[0u]=temp.r;
-                        normal[1u]=temp.g;
-                        normal[2u]=temp.b;
+                                );edkEnd();
+                        normal[0u]=temp.r;edkEnd();
+                        normal[1u]=temp.g;edkEnd();
+                        normal[2u]=temp.b;edkEnd();
                         //increment the vectors
-                        up+=upChannels;down+=downChannels;left+=leftChannels;front+=frontChannels;
-                        normal+=3u;
+                        up+=upChannels;edkEnd();down+=downChannels;left+=leftChannels;edkEnd();front+=frontChannels;edkEnd();
+                        normal+=3u;edkEnd();
                     }
                     return true;
                 }
@@ -139,13 +139,13 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                                 128,
                                 edk::Image2D::rgbToV(right[0],right[1],right[2]),
                                 edk::Image2D::rgbToV(front[0],front[1],front[2])
-                                );
-                        normal[0u]=temp.r;
-                        normal[1u]=temp.g;
-                        normal[2u]=temp.b;
+                                );edkEnd();
+                        normal[0u]=temp.r;edkEnd();
+                        normal[1u]=temp.g;edkEnd();
+                        normal[2u]=temp.b;edkEnd();
                         //increment the vectors
-                        up+=upChannels;down+=downChannels;right+=rightChannels;front+=frontChannels;
-                        normal+=3u;
+                        up+=upChannels;edkEnd();down+=downChannels;edkEnd();right+=rightChannels;edkEnd();front+=frontChannels;edkEnd();
+                        normal+=3u;edkEnd();
                     }
                     return true;
                 }
@@ -163,13 +163,13 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                                 edk::Image2D::rgbToV(left[0],left[1],left[2]),
                                 edk::Image2D::rgbToV(right[0],right[1],right[2]),
                                 edk::Image2D::rgbToV(front[0],front[1],front[2])
-                                );
-                        normal[0u]=temp.r;
-                        normal[1u]=temp.g;
-                        normal[2u]=temp.b;
+                                );edkEnd();
+                        normal[0u]=temp.r;edkEnd();
+                        normal[1u]=temp.g;edkEnd();
+                        normal[2u]=temp.b;edkEnd();
                         //increment the vectors
-                        up+=upChannels;left+=leftChannels;right+=rightChannels;front+=frontChannels;
-                        normal+=3u;
+                        up+=upChannels;left+=leftChannels;edkEnd();right+=rightChannels;edkEnd();front+=frontChannels;edkEnd();
+                        normal+=3u;edkEnd();
                     }
                     return true;
                 }
@@ -182,13 +182,13 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                                 edk::Image2D::rgbToV(left[0],left[1],left[2]),
                                 128,
                                 edk::Image2D::rgbToV(front[0],front[1],front[2])
-                                );
-                        normal[0u]=temp.r;
-                        normal[1u]=temp.g;
-                        normal[2u]=temp.b;
+                                );edkEnd();
+                        normal[0u]=temp.r;edkEnd();
+                        normal[1u]=temp.g;edkEnd();
+                        normal[2u]=temp.b;edkEnd();
                         //increment the vectors
-                        up+=upChannels;left+=leftChannels;front+=frontChannels;
-                        normal+=3u;
+                        up+=upChannels;left+=leftChannels;edkEnd();front+=frontChannels;edkEnd();
+                        normal+=3u;edkEnd();
                     }
                     return true;
                 }
@@ -201,13 +201,13 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                                 128,
                                 edk::Image2D::rgbToV(right[0],right[1],right[2]),
                                 edk::Image2D::rgbToV(front[0],front[1],front[2])
-                                );
-                        normal[0u]=temp.r;
-                        normal[1u]=temp.g;
-                        normal[2u]=temp.b;
+                                );edkEnd();
+                        normal[0u]=temp.r;edkEnd();
+                        normal[1u]=temp.g;edkEnd();
+                        normal[2u]=temp.b;edkEnd();
                         //increment the vectors
-                        up+=upChannels;right+=rightChannels;front+=frontChannels;
-                        normal+=3u;
+                        up+=upChannels;edkEnd();right+=rightChannels;edkEnd();front+=frontChannels;edkEnd();
+                        normal+=3u;edkEnd();
                     }
                     return true;
                 }
@@ -225,13 +225,13 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                                 edk::Image2D::rgbToV(left[0],left[1],left[2]),
                                 edk::Image2D::rgbToV(right[0],right[1],right[2]),
                                 edk::Image2D::rgbToV(front[0],front[1],front[2])
-                                );
-                        normal[0u]=temp.r;
-                        normal[1u]=temp.g;
-                        normal[2u]=temp.b;
+                                );edkEnd();
+                        normal[0u]=temp.r;edkEnd();
+                        normal[1u]=temp.g;edkEnd();
+                        normal[2u]=temp.b;edkEnd();
                         //increment the vectors
-                        down+=downChannels;left+=leftChannels;right+=rightChannels;front+=frontChannels;
-                        normal+=3u;
+                        down+=downChannels;left+=leftChannels;edkEnd();right+=rightChannels;edkEnd();front+=frontChannels;edkEnd();
+                        normal+=3u;edkEnd();
                     }
                     return true;
                 }
@@ -244,13 +244,13 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                                 edk::Image2D::rgbToV(left[0],left[1],left[2]),
                                 128,
                                 edk::Image2D::rgbToV(front[0],front[1],front[2])
-                                );
-                        normal[0u]=temp.r;
-                        normal[1u]=temp.g;
-                        normal[2u]=temp.b;
+                                );edkEnd();
+                        normal[0u]=temp.r;edkEnd();
+                        normal[1u]=temp.g;edkEnd();
+                        normal[2u]=temp.b;edkEnd();
                         //increment the vectors
-                        down+=downChannels;left+=leftChannels;front+=frontChannels;
-                        normal+=3u;
+                        down+=downChannels;left+=leftChannels;edkEnd();front+=frontChannels;edkEnd();
+                        normal+=3u;edkEnd();
                     }
                     return true;
                 }
@@ -263,13 +263,13 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                                 128,
                                 edk::Image2D::rgbToV(right[0],right[1],right[2]),
                                 edk::Image2D::rgbToV(front[0],front[1],front[2])
-                                );
-                        normal[0u]=temp.r;
-                        normal[1u]=temp.g;
-                        normal[2u]=temp.b;
+                                );edkEnd();
+                        normal[0u]=temp.r;edkEnd();
+                        normal[1u]=temp.g;edkEnd();
+                        normal[2u]=temp.b;edkEnd();
                         //increment the vectors
-                        down+=downChannels;right+=rightChannels;front+=frontChannels;
-                        normal+=3u;
+                        down+=downChannels;edkEnd();right+=rightChannels;edkEnd();front+=frontChannels;edkEnd();
+                        normal+=3u;edkEnd();
                     }
                     return true;
                 }
@@ -294,13 +294,13 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                                 edk::Image2D::rgbToV(down[0],down[1],down[2]),
                                 edk::Image2D::rgbToV(left[0],left[1],left[2]),
                                 edk::Image2D::rgbToV(right[0],right[1],right[2])
-                                );
-                        normal[0u]=temp.r;
-                        normal[1u]=temp.g;
-                        normal[2u]=temp.b;
+                                );edkEnd();
+                        normal[0u]=temp.r;edkEnd();
+                        normal[1u]=temp.g;edkEnd();
+                        normal[2u]=temp.b;edkEnd();
                         //increment the vectors
-                        up+=upChannels;down+=downChannels;left+=leftChannels;right+=rightChannels;
-                        normal+=3u;
+                        up+=upChannels;edkEnd();down+=downChannels;left+=leftChannels;edkEnd();right+=rightChannels;edkEnd();
+                        normal+=3u;edkEnd();
                     }
                     return true;
                 }
@@ -312,13 +312,13 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                                 edk::Image2D::rgbToV(down[0],down[1],down[2]),
                                 edk::Image2D::rgbToV(left[0],left[1],left[2]),
                                 128
-                                );
-                        normal[0u]=temp.r;
-                        normal[1u]=temp.g;
-                        normal[2u]=temp.b;
+                                );edkEnd();
+                        normal[0u]=temp.r;edkEnd();
+                        normal[1u]=temp.g;edkEnd();
+                        normal[2u]=temp.b;edkEnd();
                         //increment the vectors
-                        up+=upChannels;down+=downChannels;left+=leftChannels;
-                        normal+=3u;
+                        up+=upChannels;edkEnd();down+=downChannels;left+=leftChannels;edkEnd();
+                        normal+=3u;edkEnd();
                     }
                     return true;
                 }
@@ -330,13 +330,13 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                                 edk::Image2D::rgbToV(down[0],down[1],down[2]),
                                 128,
                                 edk::Image2D::rgbToV(right[0],right[1],right[2])
-                                );
-                        normal[0u]=temp.r;
-                        normal[1u]=temp.g;
-                        normal[2u]=temp.b;
+                                );edkEnd();
+                        normal[0u]=temp.r;edkEnd();
+                        normal[1u]=temp.g;edkEnd();
+                        normal[2u]=temp.b;edkEnd();
                         //increment the vectors
-                        up+=upChannels;down+=downChannels;right+=rightChannels;
-                        normal+=3u;
+                        up+=upChannels;edkEnd();down+=downChannels;edkEnd();right+=rightChannels;edkEnd();
+                        normal+=3u;edkEnd();
                     }
                     return true;
                 }
@@ -353,13 +353,13 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                                 128,
                                 edk::Image2D::rgbToV(left[0],left[1],left[2]),
                                 edk::Image2D::rgbToV(right[0],right[1],right[2])
-                                );
-                        normal[0u]=temp.r;
-                        normal[1u]=temp.g;
-                        normal[2u]=temp.b;
+                                );edkEnd();
+                        normal[0u]=temp.r;edkEnd();
+                        normal[1u]=temp.g;edkEnd();
+                        normal[2u]=temp.b;edkEnd();
                         //increment the vectors
-                        up+=upChannels;left+=leftChannels;right+=rightChannels;
-                        normal+=3u;
+                        up+=upChannels;left+=leftChannels;edkEnd();right+=rightChannels;edkEnd();
+                        normal+=3u;edkEnd();
                     }
                     return true;
                 }
@@ -371,13 +371,13 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                                 128,
                                 edk::Image2D::rgbToV(left[0],left[1],left[2]),
                                 128
-                                );
-                        normal[0u]=temp.r;
-                        normal[1u]=temp.g;
-                        normal[2u]=temp.b;
+                                );edkEnd();
+                        normal[0u]=temp.r;edkEnd();
+                        normal[1u]=temp.g;edkEnd();
+                        normal[2u]=temp.b;edkEnd();
                         //increment the vectors
-                        up+=upChannels;left+=leftChannels;
-                        normal+=3u;
+                        up+=upChannels;left+=leftChannels;edkEnd();
+                        normal+=3u;edkEnd();
                     }
                     return true;
                 }
@@ -389,13 +389,13 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                                 128,
                                 128,
                                 edk::Image2D::rgbToV(right[0],right[1],right[2])
-                                );
-                        normal[0u]=temp.r;
-                        normal[1u]=temp.g;
-                        normal[2u]=temp.b;
+                                );edkEnd();
+                        normal[0u]=temp.r;edkEnd();
+                        normal[1u]=temp.g;edkEnd();
+                        normal[2u]=temp.b;edkEnd();
                         //increment the vectors
-                        up+=upChannels;right+=rightChannels;
-                        normal+=3u;
+                        up+=upChannels;edkEnd();right+=rightChannels;edkEnd();
+                        normal+=3u;edkEnd();
                     }
                     return true;
                 }
@@ -412,13 +412,13 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                                                             edk::Image2D::rgbToV(down[0],down[1],down[2]),
                                 edk::Image2D::rgbToV(left[0],left[1],left[2]),
                                 edk::Image2D::rgbToV(right[0],right[1],right[2])
-                                );
-                        normal[0u]=temp.r;
-                        normal[1u]=temp.g;
-                        normal[2u]=temp.b;
+                                );edkEnd();
+                        normal[0u]=temp.r;edkEnd();
+                        normal[1u]=temp.g;edkEnd();
+                        normal[2u]=temp.b;edkEnd();
                         //increment the vectors
-                        down+=downChannels;left+=leftChannels;right+=rightChannels;
-                        normal+=3u;
+                        down+=downChannels;left+=leftChannels;edkEnd();right+=rightChannels;edkEnd();
+                        normal+=3u;edkEnd();
                     }
                     return true;
                 }
@@ -430,13 +430,13 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                                                             edk::Image2D::rgbToV(down[0],down[1],down[2]),
                                 edk::Image2D::rgbToV(left[0],left[1],left[2]),
                                 128
-                                );
-                        normal[0u]=temp.r;
-                        normal[1u]=temp.g;
-                        normal[2u]=temp.b;
+                                );edkEnd();
+                        normal[0u]=temp.r;edkEnd();
+                        normal[1u]=temp.g;edkEnd();
+                        normal[2u]=temp.b;edkEnd();
                         //increment the vectors
-                        down+=downChannels;left+=leftChannels;
-                        normal+=3u;
+                        down+=downChannels;left+=leftChannels;edkEnd();
+                        normal+=3u;edkEnd();
                     }
                     return true;
                 }
@@ -448,13 +448,13 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
                                                             edk::Image2D::rgbToV(down[0],down[1],down[2]),
                                 128,
                                 edk::Image2D::rgbToV(right[0],right[1],right[2])
-                                );
-                        normal[0u]=temp.r;
-                        normal[1u]=temp.g;
-                        normal[2u]=temp.b;
+                                );edkEnd();
+                        normal[0u]=temp.r;edkEnd();
+                        normal[1u]=temp.g;edkEnd();
+                        normal[2u]=temp.b;edkEnd();
                         //increment the vectors
-                        down+=downChannels;right+=rightChannels;
-                        normal+=3u;
+                        down+=downChannels;edkEnd();right+=rightChannels;edkEnd();
+                        normal+=3u;edkEnd();
                     }
                     return true;
                 }
@@ -464,12 +464,12 @@ bool edk::OpenLamp::vectorToNormal(edk::uint8* up,edk::uint8 upChannels,
     return false;
 }
 bool edk::OpenLamp::imageToNormal(edk::Image2D* up,edk::Image2D* down,edk::Image2D* left,edk::Image2D* right,edk::Image2D* front,edk::Image2D* normal){
-    edk::uint8* upTemp=NULL;
-    edk::uint8* downTemp=NULL;
-    edk::uint8* leftTemp=NULL;
-    edk::uint8* rightTemp=NULL;
-    edk::uint8* frontTemp=NULL;
-    edk::uint8* normalTemp=NULL;
+    edk::uint8* upTemp=NULL;edkEnd();
+    edk::uint8* downTemp=NULL;edkEnd();
+    edk::uint8* leftTemp=NULL;edkEnd();
+    edk::uint8* rightTemp=NULL;edkEnd();
+    edk::uint8* frontTemp=NULL;edkEnd();
+    edk::uint8* normalTemp=NULL;edkEnd();
     edk::uint8 upChannels=0;
     edk::uint8 downChannels=0;
     edk::uint8 leftChannels=0;
@@ -482,10 +482,10 @@ bool edk::OpenLamp::imageToNormal(edk::Image2D* up,edk::Image2D* down,edk::Image
     //load the up
     if(up){
         if(up->haveImage()){
-            width = up->getWidth();
-            height = up->getHeight();
-            upTemp = up->getPixels();
-            upChannels = up->getChannels();
+            width = up->getWidth();edkEnd();
+            height = up->getHeight();edkEnd();
+            upTemp = up->getPixels();edkEnd();
+            upChannels = up->getChannels();edkEnd();
         }
     }
 
@@ -495,8 +495,8 @@ bool edk::OpenLamp::imageToNormal(edk::Image2D* up,edk::Image2D* down,edk::Image
             if(width == down->getWidth()
                     &&
                     height == down->getHeight()){
-                downTemp = down->getPixels();
-                downChannels = down->getChannels();
+                downTemp = down->getPixels();edkEnd();
+                downChannels = down->getChannels();edkEnd();
             }
         }
     }
@@ -507,8 +507,8 @@ bool edk::OpenLamp::imageToNormal(edk::Image2D* up,edk::Image2D* down,edk::Image
             if(width == left->getWidth()
                     &&
                     height == left->getHeight()){
-                leftTemp = left->getPixels();
-                leftChannels = left->getChannels();
+                leftTemp = left->getPixels();edkEnd();
+                leftChannels = left->getChannels();edkEnd();
             }
         }
     }
@@ -519,8 +519,8 @@ bool edk::OpenLamp::imageToNormal(edk::Image2D* up,edk::Image2D* down,edk::Image
             if(width == right->getWidth()
                     &&
                     height == right->getHeight()){
-                rightTemp = right->getPixels();
-                rightChannels = right->getChannels();
+                rightTemp = right->getPixels();edkEnd();
+                rightChannels = right->getChannels();edkEnd();
             }
         }
     }
@@ -531,19 +531,19 @@ bool edk::OpenLamp::imageToNormal(edk::Image2D* up,edk::Image2D* down,edk::Image
             if(width == front->getWidth()
                     &&
                     height == front->getHeight()){
-                frontTemp = front->getPixels();
-                frontChannels = front->getChannels();
+                frontTemp = front->getPixels();edkEnd();
+                frontChannels = front->getChannels();edkEnd();
             }
         }
     }
 
     //create the image
     if(normal->newImage("normalMap",width,height,3u)){
-        normalTemp = normal->getPixels();
+        normalTemp = normal->getPixels();edkEnd();
     }
 
     //set the pixelSize
-    edk::uint32 pixelsSize= width * height;
+    edk::uint32 pixelsSize= width * height;edkEnd();
 
     return edk::OpenLamp::vectorToNormal(upTemp,upChannels,
                                          downTemp,downChannels,
@@ -551,5 +551,5 @@ bool edk::OpenLamp::imageToNormal(edk::Image2D* up,edk::Image2D* down,edk::Image
                                          rightTemp,rightChannels,
                                          frontTemp,frontChannels,
                                          normalTemp,pixelsSize
-                                         );
+                                         );edkEnd();
 }

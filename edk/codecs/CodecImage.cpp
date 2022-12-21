@@ -29,21 +29,21 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::codecs::CodecImage::CodecImage(){
-    //printf("\nCodecImage Construtor");fflush(stdout);
-    this->frame=NULL;
-    this->encoded=NULL;
-    this->frameSize = edk::size2ui32(0u,0u);
-    this->encodedSize = 0u;
-    this->encodedQuality = 0u;
-    this->frameChannels = 0.f;
+    //printf("\nCodecImage Construtor");edkEnd();fflush(stdout);edkEnd();
+    this->frame=NULL;edkEnd();
+    this->encoded=NULL;edkEnd();
+    this->frameSize = edk::size2ui32(0u,0u);edkEnd();
+    this->encodedSize = 0u;edkEnd();
+    this->encodedQuality = 0u;edkEnd();
+    this->frameChannels = 0.f;edkEnd();
     this->vectorFrameSize=0u;
 }
 
 edk::codecs::CodecImage::~CodecImage(){
-    //printf("\nCodecImage Destrutor");fflush(stdout);
+    //printf("\nCodecImage Destrutor");edkEnd();fflush(stdout);edkEnd();
     //delete the vectors
-    this->deleteEncoded();
-    this->deleteFrame();
+    this->deleteEncoded();edkEnd();
+    this->deleteFrame();edkEnd();
 }
 
 //create a new frame
@@ -56,45 +56,47 @@ bool edk::codecs::CodecImage::newFrame(edk::size2ui32 size,edk::uint8 channels){
                 this->frameChannels == channels
                 ){
             //return true if have the vector
-            if(this->frame) return true;
+            if(this->frame){
+                return true;
+            }
         }
         //else create a new frame
 
         //first delete the last frame
-        this->deleteFrame();
+        this->deleteFrame();edkEnd();
 
         //set the size of the vector frame
-        this->vectorFrameSize = (edk::uint32)(size.width * size.height * channels);
+        this->vectorFrameSize = (edk::uint32)(size.width * size.height * channels);edkEnd();
 
         //create the new frame
         if(this->vectorFrameSize){
             if( ( this->frame = new edk::uint8[this->vectorFrameSize] ) ){
                 //save the new size
-                this->frameSize = size;
-                this->frameChannels = channels;
+                this->frameSize = size;edkEnd();
+                this->frameChannels = channels;edkEnd();
                 //return true
                 return true;
             }
         }
     }
     //else delete the frame
-    this->deleteFrame();
+    this->deleteFrame();edkEnd();
     //else return false
     return false;
 }
 bool edk::codecs::CodecImage::newFrame(edk::uint32 width,edk::uint32 height,edk::uint8 channels){
-    return this->newFrame(edk::size2ui32(width,height),channels);
+    return this->newFrame(edk::size2ui32(width,height),channels);edkEnd();
 }
 //delete the frame
 void edk::codecs::CodecImage::deleteFrame(){
     //test if have the frame
     if(this->frame){
-        delete[] this->frame;
-        this->frame=NULL;
+        delete[] this->frame;edkEnd();
+        this->frame=NULL;edkEnd();
     }
     //clean the size
-    this->frameSize = edk::size2ui32(0u,0u);
-    this->frameChannels=0.f;
+    this->frameSize = edk::size2ui32(0u,0u);edkEnd();
+    this->frameChannels=0.f;edkEnd();
     this->vectorFrameSize=0u;
 }
 //alloc a new frameEncoded
@@ -104,31 +106,33 @@ bool edk::codecs::CodecImage::newFrameEncoded(edk::uint32 size){
         //test if the size is are the same
         if(this->encodedSize == size){
             //return true if have the encoded
-            if(this->encoded) return true;
+            if(this->encoded){
+                return true;
+            }
         }
         //else delete the last encoded
-        this->deleteEncoded();
+        this->deleteEncoded();edkEnd();
 
         //create a new encoded
         if((this->encoded = new edk::uint8[size])){
             //save the encodedSize
-            this->encodedSize = size;
+            this->encodedSize = size;edkEnd();
             return true;
         }
     }
     //else delete the encoded
-    this->deleteEncoded();
+    this->deleteEncoded();edkEnd();
     return false;
 }
 //delete the encoded
 void edk::codecs::CodecImage::deleteEncoded(){
     //test if have the encoded
     if(this->encoded){
-        delete[] this->encoded;
-        this->encoded=NULL;
+        delete[] this->encoded;edkEnd();
+        this->encoded=NULL;edkEnd();
     }
     //clean the size
-    this->encodedSize = 0u;
+    this->encodedSize = 0u;edkEnd();
 }
 
 //draw a image in the frame
@@ -136,21 +140,21 @@ bool edk::codecs::CodecImage::drawFrame(edk::uint8* frame,edk::size2ui32 size,ed
     //create a new frame
     if(this->newFrame(size,channels)){
         //copy the frame
-        memcpy(this->frame,frame,this->vectorFrameSize);
+        memcpy(this->frame,frame,this->vectorFrameSize);edkEnd();
         //then return true
         return true;
     }
     return false;
 }
 bool edk::codecs::CodecImage::drawFrame(edk::uint8* frame,edk::uint32 width,edk::uint32 height,edk::uint8 channels){
-    return this->drawFrame(frame,edk::size2ui32(width,height),channels);
+    return this->drawFrame(frame,edk::size2ui32(width,height),channels);edkEnd();
 }
 //write in the frame encoded
 bool edk::codecs::CodecImage::writeEncoded(edk::uint8* frame){
     //test if have the frameEncoded
     if(this->encoded && this->encodedSize){
         //copy the frame
-        memcpy(this->encoded,frame,this->encodedSize);
+        memcpy(this->encoded,frame,this->encodedSize);edkEnd();
         return true;
     }
     return false;
@@ -158,149 +162,155 @@ bool edk::codecs::CodecImage::writeEncoded(edk::uint8* frame){
 //set the quality
 bool edk::codecs::CodecImage::setQuality(edk::uint32 quality){
     //clean the quality
-    this->encodedQuality=1u;
+    this->encodedQuality=1u;edkEnd();
     if(quality){
-        this->encodedQuality=quality;
+        this->encodedQuality=quality;edkEnd();
         return true;
     }
     return false;
 }
 //get the frames
 edk::uint8* edk::codecs::CodecImage::getFrame(){
-    return this->frame;
+    return this->frame;edkEnd();
 }
 edk::uint8* edk::codecs::CodecImage::getEncoded(){
-    return this->encoded;
+    return this->encoded;edkEnd();
 }
 edk::uint8** edk::codecs::CodecImage::getEncodedPosition(){
-    return &this->encoded;
+    return &this->encoded;edkEnd();
 }
 
 //clean the pointers
 edk::uint8* edk::codecs::CodecImage::cleanFrame(){
-    edk::uint8* ret = this->frame;
+    edk::uint8* ret = this->frame;edkEnd();
 
-    this->frame=NULL;
+    this->frame=NULL;edkEnd();
     //clean the size
-    this->frameSize = edk::size2ui32(0u,0u);
+    this->frameSize = edk::size2ui32(0u,0u);edkEnd();
     this->frameChannels=0u;
     this->vectorFrameSize=0u;
 
     return ret;
 }
 edk::uint8* edk::codecs::CodecImage::cleanEncoded(){
-    edk::uint8* ret = this->encoded;
+    edk::uint8* ret = this->encoded;edkEnd();
 
-    this->encoded=NULL;
+    this->encoded=NULL;edkEnd();
     //clean the size
-    this->encodedSize = 0u;
+    this->encodedSize = 0u;edkEnd();
 
     return ret;
 }
 
 //return the size of the frame
 edk::size2ui32 edk::codecs::CodecImage::getFrameSize(){
-    return this->frameSize;
+    return this->frameSize;edkEnd();
 }
 edk::uint32 edk::codecs::CodecImage::getFrameWidth(){
-    return this->frameSize.width;
+    return this->frameSize.width;edkEnd();
 }
 edk::uint32 edk::codecs::CodecImage::getFrameHeight(){
-    return this->frameSize.height;
+    return this->frameSize.height;edkEnd();
 }
 edk::uint32 edk::codecs::CodecImage::getFrameChannels(){
-    return this->frameChannels;
+    return this->frameChannels;edkEnd();
 }
 edk::uint32 edk::codecs::CodecImage::getFrameVectorSize(){
-    return this->vectorFrameSize;
+    return this->vectorFrameSize;edkEnd();
 }
 //return the size of the encoded
 edk::uint32 edk::codecs::CodecImage::getEncodedSize(){
-    return this->encodedSize;
+    return this->encodedSize;edkEnd();
 }
 edk::uint32* edk::codecs::CodecImage::getEncodedSizePosition(){
-    return &this->encodedSize;
+    return &this->encodedSize;edkEnd();
 }
 edk::uint32 edk::codecs::CodecImage::getQuality(){
-    return this->encodedQuality;
+    return this->encodedQuality;edkEnd();
 }
 
 
 //Convertions
 //RGB to HSV
 edk::color3f32 edk::codecs::CodecImage::rgbTohsv(edk::uint8 r,edk::uint8 g,edk::uint8 b){
-    edk::color3f32 hsv;
-    edk::float32 min, max, delta;
+    edk::color3f32 hsv;edkEnd();
+    edk::float32 min, max, delta;edkEnd();
 
-    min = r < g ? r : g;
-    min = min  < b ? min  : b;
+    min = r < g ? r : g;edkEnd();
+    min = min  < b ? min  : b;edkEnd();
 
-    max = r > g ? r : g;
-    max = max  > b ? max  : b;
+    max = r > g ? r : g;edkEnd();
+    max = max  > b ? max  : b;edkEnd();
 
-    hsv.b = max/255; // v
-    //hsv.b = max*0.003921569; // v
+    hsv.b = max/255;edkEnd(); // v
+    //hsv.b = max*0.003921569;edkEnd(); // v
 
 
-    delta = max - min;
+    delta = max - min;edkEnd();
     if( max > 0.f ) { // NOTE: if Max is == 0, this divide would cause a crash
-        hsv.g = (delta / max);// s
+        hsv.g = (delta / max);edkEnd();// s
     } else {
         // if max is 0, then r = g = b = 0
         // s = 0, v is undefined
-        hsv.g = 0.f; // s
-        hsv.r = 0.f;//NAN; // h its now undefined
-        return hsv;
+        hsv.g = 0.f;edkEnd(); // s
+        hsv.r = 0.f;edkEnd();//NAN;edkEnd(); // h its now undefined
+        return hsv;edkEnd();
     }
 
     if(delta){
-        if( r >= max )                        // > is bogus, just keeps compilor happy
-            hsv.r = ( g - b ) / delta;        // between yellow & magenta
-        else
-            if( g >= max )
-                hsv.r = 2.0 + ( b - r ) / delta;  // between cyan & yellow
-            else
-                hsv.r = 4.0 + ( r - g ) / delta;  // between magenta & cyan
+        if( r >= max ){                        // > is bogus, just keeps compilor happy
+            hsv.r = ( g - b ) / delta;edkEnd();        // between yellow & magenta
+        }
+        else{
+            if( g >= max ){
+                hsv.r = 2.0 + ( b - r ) / delta;edkEnd();  // between cyan & yellow
+            }
+            else{
+                hsv.r = 4.0 + ( r - g ) / delta;edkEnd();  // between magenta & cyan
+            }
+        }
+
 
         hsv.r *= 60.0;                              // degrees
 
         if( hsv.r  < 0.0 )
             hsv.r  += 360.0;
     }
-    else
-        hsv.r=0.f;
+    else{
+        hsv.r=0.f;edkEnd();
+    }
 
-    return hsv;
+    return hsv;edkEnd();
 }
 edk::color3f32 edk::codecs::CodecImage::rgbTohsv(edk::color3ui8 rgb){
-    return edk::codecs::CodecImage::rgbTohsv(rgb.r,rgb.g,rgb.b);
+    return edk::codecs::CodecImage::rgbTohsv(rgb.r,rgb.g,rgb.b);edkEnd();
 }
 edk::color3f32 edk::codecs::CodecImage::rgbTohsv(edk::color4ui8 rgba){
-    return edk::codecs::CodecImage::rgbTohsv(rgba.r,rgba.g,rgba.b);
+    return edk::codecs::CodecImage::rgbTohsv(rgba.r,rgba.g,rgba.b);edkEnd();
 }
 edk::uint8 edk::codecs::CodecImage::rgbToV(edk::uint8 r,edk::uint8 g,edk::uint8 b){
-    edk::uint8 max;
+    edk::uint8 max;edkEnd();
 
-    max = r > g ? r : g;
-    max = max  > b ? max  : b;
+    max = r > g ? r : g;edkEnd();
+    max = max  > b ? max  : b;edkEnd();
 
-    return max; // v
+    return max;edkEnd(); // v
 }
 edk::uint8 edk::codecs::CodecImage::rgbToV(edk::color3ui8 rgb){
-    return edk::codecs::CodecImage::rgbToV(rgb.r,rgb.g,rgb.b);
+    return edk::codecs::CodecImage::rgbToV(rgb.r,rgb.g,rgb.b);edkEnd();
 }
 edk::uint8 edk::codecs::CodecImage::rgbaToV(edk::color4ui8 rgba){
-    return edk::codecs::CodecImage::rgbToV(rgba.r,rgba.g,rgba.b);
+    return edk::codecs::CodecImage::rgbToV(rgba.r,rgba.g,rgba.b);edkEnd();
 }
 //vector
 bool edk::codecs::CodecImage::rgbToV(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest){
     if(vector && size.width && size.height && dest){
-        edk::uint32 vecSize = size.width * size.height;
+        edk::uint32 vecSize = size.width * size.height;edkEnd();
         for(edk::uint32 i=0u;i<vecSize;i++){
-            *dest = edk::codecs::CodecImage::rgbToV(vector[0u],vector[1u],vector[2u]);
+            *dest = edk::codecs::CodecImage::rgbToV(vector[0u],vector[1u],vector[2u]);edkEnd();
 
-            vector+=3u;
-            dest++;
+            vector+=3u;edkEnd();
+            dest++;edkEnd();
         }
         return true;
     }
@@ -308,33 +318,33 @@ bool edk::codecs::CodecImage::rgbToV(edk::uint8* vector,edk::size2ui32 size,edk:
 }
 edk::uint8* edk::codecs::CodecImage::rgbToV(edk::uint8* vector,edk::size2ui32 size){
     if(vector && size.width && size.height){
-        edk::uint32 vecSize = size.width * size.height;
+        edk::uint32 vecSize = size.width * size.height;edkEnd();
         //create the return
-        edk::uint8* ret = new edk::uint8[vecSize];
+        edk::uint8* ret = new edk::uint8[vecSize];edkEnd();
         if(ret){
             if(edk::codecs::CodecImage::rgbToV(vector,size,ret)){
                 return ret;
             }
             //
-            delete[] ret;
+            delete[] ret;edkEnd();
         }
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 bool edk::codecs::CodecImage::rgbToV(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest){
-    return edk::codecs::CodecImage::rgbToV(vector,edk::size2ui32(width,height),dest);
+    return edk::codecs::CodecImage::rgbToV(vector,edk::size2ui32(width,height),dest);edkEnd();
 }
 edk::uint8* edk::codecs::CodecImage::rgbToV(edk::uint8* vector,edk::uint32 width,edk::uint32 height){
-    return edk::codecs::CodecImage::rgbToV(vector,edk::size2ui32(width,height));
+    return edk::codecs::CodecImage::rgbToV(vector,edk::size2ui32(width,height));edkEnd();
 }
 bool edk::codecs::CodecImage::rgbaToV(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest){
     if(vector && size.width && size.height && dest){
-        edk::uint32 vecSize = size.width * size.height;
+        edk::uint32 vecSize = size.width * size.height;edkEnd();
         for(edk::uint32 i=0u;i<vecSize;i++){
-            *dest = edk::codecs::CodecImage::rgbToV(vector[0u],vector[1u],vector[2u]);
+            *dest = edk::codecs::CodecImage::rgbToV(vector[0u],vector[1u],vector[2u]);edkEnd();
 
-            vector+=4u;
-            dest++;
+            vector+=4u;edkEnd();
+            dest++;edkEnd();
         }
         return true;
     }
@@ -342,170 +352,174 @@ bool edk::codecs::CodecImage::rgbaToV(edk::uint8* vector,edk::size2ui32 size,edk
 }
 edk::uint8* edk::codecs::CodecImage::rgbaToV(edk::uint8* vector,edk::size2ui32 size){
     if(vector && size.width && size.height){
-        edk::uint32 vecSize = size.width * size.height;
+        edk::uint32 vecSize = size.width * size.height;edkEnd();
         //create the return
-        edk::uint8* ret = new edk::uint8[vecSize];
+        edk::uint8* ret = new edk::uint8[vecSize];edkEnd();
         if(ret){
             if(edk::codecs::CodecImage::rgbaToV(vector,size,ret)){
                 return ret;
             }
             //
-            delete[] ret;
+            delete[] ret;edkEnd();
         }
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 bool edk::codecs::CodecImage::rgbaToV(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest){
-    return edk::codecs::CodecImage::rgbaToV(vector,edk::size2ui32(width,height),dest);
+    return edk::codecs::CodecImage::rgbaToV(vector,edk::size2ui32(width,height),dest);edkEnd();
 }
 edk::uint8* edk::codecs::CodecImage::rgbaToV(edk::uint8* vector,edk::uint32 width,edk::uint32 height){
-    return edk::codecs::CodecImage::rgbaToV(vector,edk::size2ui32(width,height));
+    return edk::codecs::CodecImage::rgbaToV(vector,edk::size2ui32(width,height));edkEnd();
 }
 //HSV to RGB
 edk::color3ui8 edk::codecs::CodecImage::hsvTorgb(edk::float32 h,edk::float32 s,edk::float32 v){
-    edk::color3ui8 rgb;
+    edk::color3ui8 rgb;edkEnd();
 
-    v*=255;
+    v*=255;edkEnd();
 
-    edk::float64      hh, p, q, t, ff;
-    edk::int64        i;
+    edk::float64      hh, p, q, t, ff;edkEnd();
+    edk::int64        i;edkEnd();
 
     if(s <= 0.0) {       // < is bogus, just shuts up warnings
-        rgb.r = v;
-        rgb.g = v;
-        rgb.b = v;
-        return rgb;
+        rgb.r = v;edkEnd();
+        rgb.g = v;edkEnd();
+        rgb.b = v;edkEnd();
+        return rgb;edkEnd();
     }
-    hh = h;
-    if(hh >= 360.0) hh = 0.0;
+    hh = h;edkEnd();
+    if(hh >= 360.0){
+        hh = 0.0;edkEnd();
+    }
     hh /= 60.0;
-    i = (edk::int64)hh;
-    ff = hh - i;
-    p = v * (1.0 -  s);
-    q = v * (1.0 - (s * ff));
-    t = v * (1.0 - (s * (1.0 - ff)));
+    i = (edk::int64)hh;edkEnd();
+    ff = hh - i;edkEnd();
+    p = v * (1.0 -  s);edkEnd();
+    q = v * (1.0 - (s * ff));edkEnd();
+    t = v * (1.0 - (s * (1.0 - ff)));edkEnd();
 
     switch(i) {
     case 0:
-        rgb.r = v;
-        rgb.g = t;
-        rgb.b = p;
-        break;
+        rgb.r = v;edkEnd();
+        rgb.g = t;edkEnd();
+        rgb.b = p;edkEnd();
+        break;edkEnd();
     case 1:
-        rgb.r = q;
-        rgb.g = v;
-        rgb.b = p;
-        break;
+        rgb.r = q;edkEnd();
+        rgb.g = v;edkEnd();
+        rgb.b = p;edkEnd();
+        break;edkEnd();
     case 2:
-        rgb.r = p;
-        rgb.g = v;
-        rgb.b = t;
-        break;
+        rgb.r = p;edkEnd();
+        rgb.g = v;edkEnd();
+        rgb.b = t;edkEnd();
+        break;edkEnd();
 
     case 3:
-        rgb.r = p;
-        rgb.g = q;
-        rgb.b = v;
-        break;
+        rgb.r = p;edkEnd();
+        rgb.g = q;edkEnd();
+        rgb.b = v;edkEnd();
+        break;edkEnd();
     case 4:
-        rgb.r = t;
-        rgb.g = p;
-        rgb.b = v;
-        break;
+        rgb.r = t;edkEnd();
+        rgb.g = p;edkEnd();
+        rgb.b = v;edkEnd();
+        break;edkEnd();
     case 5:
     default:
-        rgb.r = v;
-        rgb.g = p;
-        rgb.b = q;
-        break;
+        rgb.r = v;edkEnd();
+        rgb.g = p;edkEnd();
+        rgb.b = q;edkEnd();
+        break;edkEnd();
     }
 
-    return rgb;
+    return rgb;edkEnd();
 }
 edk::color3ui8 edk::codecs::CodecImage::hsvTorgb(edk::color3f32 hsv){
-    return edk::codecs::CodecImage::hsvTorgb(hsv.r,hsv.g,hsv.b);
+    return edk::codecs::CodecImage::hsvTorgb(hsv.r,hsv.g,hsv.b);edkEnd();
 }
 //RGB to HSL
 edk::color3f32 edk::codecs::CodecImage::rgbTohsl(edk::uint8 r,edk::uint8 g,edk::uint8 b){
-    edk::color3f32 hsl;
-    edk::float32 dr = r/255.f,dg = g/255.f,db = b/255.f;
-    edk::float64 min, max;
+    edk::color3f32 hsl;edkEnd();
+    edk::float32 dr = r/255.f,dg = g/255.f,db = b/255.f;edkEnd();
+    edk::float64 min, max;edkEnd();
 
-    min = dr < dg ? dr : dg;
-    min = min  < db ? min  : db;
+    min = dr < dg ? dr : dg;edkEnd();
+    min = min  < db ? min  : db;edkEnd();
 
-    max = dr > dg ? dr : dg;
-    max = max  > db ? max  : db;
+    max = dr > dg ? dr : dg;edkEnd();
+    max = max  > db ? max  : db;edkEnd();
 
-    hsl.b = (max + min) / 2.f; // l
+    hsl.b = (max + min) / 2.f;edkEnd(); // l
 
     if(max == min){
         hsl.r = hsl.g= 0; // achromatic
     }else{
-        edk::float64  delta = max - min;
-        hsl.g = hsl.b > 0.5f ? delta / (2.f - max - min) : delta / (max + min);
+        edk::float64  delta = max - min;edkEnd();
+        hsl.g = hsl.b > 0.5f ? delta / (2.f - max - min) : delta / (max + min);edkEnd();
 
         if(delta){
             if(max==dr){
-                hsl.r = (dg - db) / delta + (dg < db ? 6.f : 0.f);
+                hsl.r = (dg - db) / delta + (dg < db ? 6.f : 0.f);edkEnd();
             }
-            else if(max==dg)
-                hsl.r = (db - dr) / delta + 2.f;
-            else if(max==db)
-                hsl.r = (dr - dg) / delta + 4.f;
+            else if(max==dg){
+                hsl.r = (db - dr) / delta + 2.f;edkEnd();
+            }
+            else if(max==db){
+                hsl.r = (dr - dg) / delta + 4.f;edkEnd();
+            }
 
-            hsl.r/= 6.f;
-            //hsl.r*=360.f;
+            hsl.r/= 6.f;edkEnd();
+            //hsl.r*=360.f;edkEnd();
         }
         else{
-            hsl.r=0.f;
+            hsl.r=0.f;edkEnd();
         }
     }
-    return hsl;
+    return hsl;edkEnd();
 }
 edk::color3f32 edk::codecs::CodecImage::rgbTohsl(edk::color3ui8 rgb){
-    return edk::codecs::CodecImage::rgbTohsl(rgb.r,rgb.g,rgb.b);
+    return edk::codecs::CodecImage::rgbTohsl(rgb.r,rgb.g,rgb.b);edkEnd();
 }
 edk::color3f32 edk::codecs::CodecImage::rgbaTohsl(edk::color4ui8 rgba){
-    return edk::codecs::CodecImage::rgbTohsl(rgba.r,rgba.g,rgba.b);
+    return edk::codecs::CodecImage::rgbTohsl(rgba.r,rgba.g,rgba.b);edkEnd();
 }
 edk::float32 edk::codecs::CodecImage::rgbToL(edk::uint8 r,edk::uint8 g,edk::uint8 b){
     //
-    edk::float32 dr = r/255.f,dg = g/255.f,db = b/255.f;
-    edk::float32 min, max;
+    edk::float32 dr = r/255.f,dg = g/255.f,db = b/255.f;edkEnd();
+    edk::float32 min, max;edkEnd();
 
-    min = dr < dg ? dr : dg;
-    min = min  < db ? min  : db;
+    min = dr < dg ? dr : dg;edkEnd();
+    min = min  < db ? min  : db;edkEnd();
 
-    max = dr > dg ? dr : dg;
-    max = max  > db ? max  : db;
+    max = dr > dg ? dr : dg;edkEnd();
+    max = max  > db ? max  : db;edkEnd();
 
-    return (max + min) / 2.f; // l
+    return (max + min) / 2.f;edkEnd(); // l
 }
 edk::float32 edk::codecs::CodecImage::rgbToL(edk::color3ui8 rgb){
-    return edk::codecs::CodecImage::rgbToL(rgb.r,rgb.g,rgb.b);
+    return edk::codecs::CodecImage::rgbToL(rgb.r,rgb.g,rgb.b);edkEnd();
 }
 edk::float32 edk::codecs::CodecImage::rgbaToL(edk::color4ui8 rgba){
-    return edk::codecs::CodecImage::rgbToL(rgba.r,rgba.g,rgba.b);
+    return edk::codecs::CodecImage::rgbToL(rgba.r,rgba.g,rgba.b);edkEnd();
 }
 edk::uint8 edk::codecs::CodecImage::rgbToLui8(edk::uint8 r,edk::uint8 g,edk::uint8 b){
-    return (edk::uint8)(edk::codecs::CodecImage::rgbToL(r,g,b) * 255.f);
+    return (edk::uint8)(edk::codecs::CodecImage::rgbToL(r,g,b) * 255.f);edkEnd();
 }
 edk::uint8 edk::codecs::CodecImage::rgbToLui8(edk::color3ui8 rgb){
-    return edk::codecs::CodecImage::rgbToLui8(rgb.r,rgb.g,rgb.b);
+    return edk::codecs::CodecImage::rgbToLui8(rgb.r,rgb.g,rgb.b);edkEnd();
 }
 edk::uint8 edk::codecs::CodecImage::rgbaToLui8(edk::color4ui8 rgba){
-    return edk::codecs::CodecImage::rgbToLui8(rgba.r,rgba.g,rgba.b);
+    return edk::codecs::CodecImage::rgbToLui8(rgba.r,rgba.g,rgba.b);edkEnd();
 }
 //vector
 bool edk::codecs::CodecImage::rgbToLui8(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest){
     if(vector && size.width && size.height && dest){
-        edk::uint32 vecSize = size.width * size.height;
+        edk::uint32 vecSize = size.width * size.height;edkEnd();
         for(edk::uint32 i=0u;i<vecSize;i++){
-            *dest = edk::codecs::CodecImage::rgbToLui8(vector[0u],vector[1u],vector[2u]);
+            *dest = edk::codecs::CodecImage::rgbToLui8(vector[0u],vector[1u],vector[2u]);edkEnd();
 
-            vector+=3u;
-            dest++;
+            vector+=3u;edkEnd();
+            dest++;edkEnd();
         }
         return true;
     }
@@ -513,34 +527,34 @@ bool edk::codecs::CodecImage::rgbToLui8(edk::uint8* vector,edk::size2ui32 size,e
 }
 edk::uint8* edk::codecs::CodecImage::rgbToLui8(edk::uint8* vector,edk::size2ui32 size){
     if(vector && size.width && size.height){
-        edk::uint32 vecSize = size.width * size.height;
+        edk::uint32 vecSize = size.width * size.height;edkEnd();
         //create the return
-        edk::uint8* ret = new edk::uint8[vecSize];
+        edk::uint8* ret = new edk::uint8[vecSize];edkEnd();
         if(ret){
             if(edk::codecs::CodecImage::rgbToLui8(vector,size,ret)){
                 return ret;
             }
             //
-            delete[] ret;
+            delete[] ret;edkEnd();
         }
-        ret=NULL;
+        ret=NULL;edkEnd();
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 bool edk::codecs::CodecImage::rgbToLui8(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest){
-    return edk::codecs::CodecImage::rgbToLui8(vector,edk::size2ui32(width,height),dest);
+    return edk::codecs::CodecImage::rgbToLui8(vector,edk::size2ui32(width,height),dest);edkEnd();
 }
 edk::uint8* edk::codecs::CodecImage::rgbToLui8(edk::uint8* vector,edk::uint32 width,edk::uint32 height){
-    return edk::codecs::CodecImage::rgbToLui8(vector,edk::size2ui32(width,height));
+    return edk::codecs::CodecImage::rgbToLui8(vector,edk::size2ui32(width,height));edkEnd();
 }
 bool edk::codecs::CodecImage::rgbaToLui8(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest){
     if(vector && size.width && size.height && dest){
-        edk::uint32 vecSize = size.width * size.height;
+        edk::uint32 vecSize = size.width * size.height;edkEnd();
         for(edk::uint32 i=0u;i<vecSize;i++){
-            *dest = edk::codecs::CodecImage::rgbToLui8(vector[0u],vector[1u],vector[2u]);
+            *dest = edk::codecs::CodecImage::rgbToLui8(vector[0u],vector[1u],vector[2u]);edkEnd();
 
-            vector+=4u;
-            dest++;
+            vector+=4u;edkEnd();
+            dest++;edkEnd();
         }
         return true;
     }
@@ -548,68 +562,78 @@ bool edk::codecs::CodecImage::rgbaToLui8(edk::uint8* vector,edk::size2ui32 size,
 }
 edk::uint8* edk::codecs::CodecImage::rgbaToLui8(edk::uint8* vector,edk::size2ui32 size){
     if(vector && size.width && size.height){
-        edk::uint32 vecSize = size.width * size.height;
+        edk::uint32 vecSize = size.width * size.height;edkEnd();
         //create the return
-        edk::uint8* ret = new edk::uint8[vecSize];
+        edk::uint8* ret = new edk::uint8[vecSize];edkEnd();
         if(ret){
             if(edk::codecs::CodecImage::rgbaToLui8(vector,size,ret)){
                 return ret;
             }
             //
-            delete[] ret;
+            delete[] ret;edkEnd();
         }
-        ret=NULL;
+        ret=NULL;edkEnd();
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 bool edk::codecs::CodecImage::rgbaToLui8(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest){
-    return edk::codecs::CodecImage::rgbaToLui8(vector,edk::size2ui32(width,height),dest);
+    return edk::codecs::CodecImage::rgbaToLui8(vector,edk::size2ui32(width,height),dest);edkEnd();
 }
 edk::uint8* edk::codecs::CodecImage::rgbaToLui8(edk::uint8* vector,edk::uint32 width,edk::uint32 height){
-    return edk::codecs::CodecImage::rgbaToLui8(vector,edk::size2ui32(width,height));
+    return edk::codecs::CodecImage::rgbaToLui8(vector,edk::size2ui32(width,height));edkEnd();
 }
 //HSL to RGB
 inline edk::float32 EDKhue2rgb(edk::float32 p, edk::float32 q, edk::float32 t){
-    if(t < 0.f) t += 1.f;
-    if(t > 1.f) t -= 1.f;
-    if(t < 1.f/6.f) return p + (q - p) * 6.f * t;
-    if(t < 1.f/2.f) return q;
-    if(t < 2.f/3.f) return p + (q - p) * (2.f/3.f - t) * 6.f;
-    return p;
+    if(t < 0.f){
+        t += 1.f;edkEnd();
+    }
+    if(t > 1.f){
+        t -= 1.f;edkEnd();
+    }
+    if(t < 1.f/6.f){
+        return p + (q - p) * 6.f * t;edkEnd();
+    }
+    if(t < 1.f/2.f){
+        return q;edkEnd();
+    }
+    if(t < 2.f/3.f){
+        return p + (q - p) * (2.f/3.f - t) * 6.f;edkEnd();
+    }
+    return p;edkEnd();
 }
 edk::color3ui8 edk::codecs::CodecImage::hslTorgb(edk::float32 h,edk::float32 s,edk::float32 l){
 
-    edk::float32 r,g,b;
+    edk::float32 r,g,b;edkEnd();
 
 
     if(s == 0.f){
-        r = g = b = l; // achromatic
+        r = g = b = l;edkEnd(); // achromatic
     }else{
-        edk::float32 q = l < 0.5f ? l * (1.f + s) : l + s - l * s;
-        edk::float32 p = 2.f * l - q;
-        r = EDKhue2rgb(p, q, h + (1.f/3.f));
-        g = EDKhue2rgb(p, q, h);
-        b = EDKhue2rgb(p, q, h - (1.f/3.f));
+        edk::float32 q = l < 0.5f ? l * (1.f + s) : l + s - l * s;edkEnd();
+        edk::float32 p = 2.f * l - q;edkEnd();
+        r = EDKhue2rgb(p, q, h + (1.f/3.f));edkEnd();
+        g = EDKhue2rgb(p, q, h);edkEnd();
+        b = EDKhue2rgb(p, q, h - (1.f/3.f));edkEnd();
     }
     edk::color3ui8 rgb((edk::uint8)(r*255.f),
                        (edk::uint8)(g*255.f),
                        (edk::uint8)(b*255.f)
-                       );
+                       );edkEnd();
     /*
     if((r-rgb.r)>0.5f){
-        rgb.r++;
+        rgb.r++;edkEnd();
     }
     if((g-rgb.g)>0.5f){
-        rgb.g++;
+        rgb.g++;edkEnd();
     }
     if((b-rgb.b)>0.5f){
-        rgb.b++;
+        rgb.b++;edkEnd();
     }
 */
-    return rgb;
+    return rgb;edkEnd();
 }
 edk::color3ui8 edk::codecs::CodecImage::hslTorgb(edk::color3f32 hsl){
-    return edk::codecs::CodecImage::hslTorgb(hsl.r,hsl.g,hsl.b);
+    return edk::codecs::CodecImage::hslTorgb(hsl.r,hsl.g,hsl.b);edkEnd();
 }
 //RGB to YUV
 edk::vec3ui8 edk::codecs::CodecImage::rgbToyuv(edk::uint8 r,edk::uint8 g,edk::uint8 b){
@@ -617,29 +641,29 @@ edk::vec3ui8 edk::codecs::CodecImage::rgbToyuv(edk::uint8 r,edk::uint8 g,edk::ui
                 (edk::uint8)(r *  0.299000 + g *  0.587000 + b *  0.114000),
                 (edk::uint8)(r * -0.168736 + g * -0.331264 + b *  0.500000 + 128),
                 (edk::uint8)(r *  0.500000 + g * -0.418688 + b * -0.081312 + 128)
-                );
+                );edkEnd();
 }
 edk::vec3ui8 edk::codecs::CodecImage::rgbToyuv(edk::color3ui8 color){
-    return edk::codecs::CodecImage::rgbToyuv(color.r,color.g,color.b);
+    return edk::codecs::CodecImage::rgbToyuv(color.r,color.g,color.b);edkEnd();
 }
 edk::vec3ui8 grayToyuv(edk::uint8 gray){
     return edk::vec3ui8(
                 (edk::uint8)(gray *  0.299000 + gray *  0.587000 + gray *  0.114000),
                 (edk::uint8)(gray * -0.168736 + gray * -0.331264 + gray *  0.500000 + 128),
                 (edk::uint8)(gray *  0.500000 + gray * -0.418688 + gray * -0.081312 + 128)
-                );
+                );edkEnd();
 }
 //vector
 bool edk::codecs::CodecImage::rgbToyuv(edk::uint8* rgb,edk::size2ui32 size,edk::uint8* yuv){
     if(rgb && size.width && size.height && yuv){
-        edk::uint32 vecSize = size.width * size.height;
+        edk::uint32 vecSize = size.width * size.height;edkEnd();
         for(edk::uint32 i=0u;i<vecSize;i++){
-            yuv[0u] = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);
-            yuv[1u] = (edk::uint8)(rgb[0u] * -0.168736 + rgb[1u]* -0.331264 + rgb[2u] *  0.500000 + 128);
-            yuv[2u] = (edk::uint8)(rgb[0u] *  0.500000 + rgb[1u]* -0.418688 + rgb[2u]* -0.081312 + 128);
+            yuv[0u] = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);edkEnd();
+            yuv[1u] = (edk::uint8)(rgb[0u] * -0.168736 + rgb[1u]* -0.331264 + rgb[2u] *  0.500000 + 128);edkEnd();
+            yuv[2u] = (edk::uint8)(rgb[0u] *  0.500000 + rgb[1u]* -0.418688 + rgb[2u]* -0.081312 + 128);edkEnd();
 
-            rgb+=3u;
-            yuv+=3u;
+            rgb+=3u;edkEnd();
+            yuv+=3u;edkEnd();
         }
         return true;
     }
@@ -647,16 +671,16 @@ bool edk::codecs::CodecImage::rgbToyuv(edk::uint8* rgb,edk::size2ui32 size,edk::
 }
 bool edk::codecs::CodecImage::rgbToyuv(edk::uint8* rgb,edk::size2ui32 size,edk::uint8* y,edk::uint8* u,edk::uint8* v){
     if(rgb && size.width && size.height && y && u && v){
-        edk::uint32 vecSize = size.width * size.height;
+        edk::uint32 vecSize = size.width * size.height;edkEnd();
         for(edk::uint32 i=0u;i<vecSize;i++){
-            *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u] *  0.587000 + rgb[2u] *  0.114000);
-            *u = (edk::uint8)(rgb[0u] * -0.168736 + rgb[1u] * -0.331264 + rgb[2u] *  0.500000 + 128);
-            *v = (edk::uint8)(rgb[0u] *  0.500000 + rgb[1u] * -0.418688 + rgb[2u]* -0.081312 + 128);
+            *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u] *  0.587000 + rgb[2u] *  0.114000);edkEnd();
+            *u = (edk::uint8)(rgb[0u] * -0.168736 + rgb[1u] * -0.331264 + rgb[2u] *  0.500000 + 128);edkEnd();
+            *v = (edk::uint8)(rgb[0u] *  0.500000 + rgb[1u] * -0.418688 + rgb[2u]* -0.081312 + 128);edkEnd();
 
-            rgb+=3u;
-            y++;
-            u++;
-            v++;
+            rgb+=3u;edkEnd();
+            y++;edkEnd();
+            u++;edkEnd();
+            v++;edkEnd();
         }
         return true;
     }
@@ -664,16 +688,16 @@ bool edk::codecs::CodecImage::rgbToyuv(edk::uint8* rgb,edk::size2ui32 size,edk::
 }
 bool edk::codecs::CodecImage::grayToyuv(edk::uint8* gray,edk::size2ui32 size,edk::uint8* y,edk::uint8* u,edk::uint8* v){
     if(gray && size.width && size.height && y && u && v){
-        edk::uint32 vecSize = size.width * size.height;
+        edk::uint32 vecSize = size.width * size.height;edkEnd();
         for(edk::uint32 i=0u;i<vecSize;i++){
-            *y = (edk::uint8)(*gray *  0.299000 + *gray *  0.587000 + *gray *  0.114000);
-            *u = (edk::uint8)(*gray * -0.168736 + *gray * -0.331264 + *gray *  0.500000 + 128);
-            *v = (edk::uint8)(*gray *  0.500000 + *gray * -0.418688 + *gray * -0.081312 + 128);
+            *y = (edk::uint8)(*gray *  0.299000 + *gray *  0.587000 + *gray *  0.114000);edkEnd();
+            *u = (edk::uint8)(*gray * -0.168736 + *gray * -0.331264 + *gray *  0.500000 + 128);edkEnd();
+            *v = (edk::uint8)(*gray *  0.500000 + *gray * -0.418688 + *gray * -0.081312 + 128);edkEnd();
 
-            gray++;
-            y++;
-            u++;
-            v++;
+            gray++;edkEnd();
+            y++;edkEnd();
+            u++;edkEnd();
+            v++;edkEnd();
         }
         return true;
     }
@@ -693,25 +717,25 @@ bool edk::codecs::CodecImage::rgbToi240(edk::uint8* rgb,edk::size2ui32 size,edk:
                 for(i=0u;i<size.height;i+=2u){
                     //process the line even
                     for(j=0u;j<size.width;j+=2u){
-                        *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);
-                        y++;
-                        rgb+=3u;
-                        *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);
-                        *u = (edk::uint8)(rgb[0u] * -0.168736 + rgb[1u]* -0.331264 + rgb[2u] *  0.500000 + 128);
-                        *v = (edk::uint8)(rgb[0u] *  0.500000 + rgb[1u]* -0.418688 + rgb[2u]* -0.081312 + 128);
-                        y++;
-                        rgb+=3u;
-                        u++;
-                        v++;
+                        *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);edkEnd();
+                        y++;edkEnd();
+                        rgb+=3u;edkEnd();
+                        *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);edkEnd();
+                        *u = (edk::uint8)(rgb[0u] * -0.168736 + rgb[1u]* -0.331264 + rgb[2u] *  0.500000 + 128);edkEnd();
+                        *v = (edk::uint8)(rgb[0u] *  0.500000 + rgb[1u]* -0.418688 + rgb[2u]* -0.081312 + 128);edkEnd();
+                        y++;edkEnd();
+                        rgb+=3u;edkEnd();
+                        u++;edkEnd();
+                        v++;edkEnd();
                     }
                     //process the line odd
                     for(j=0u;j<size.width;j+=2u){
-                        *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);
-                        y++;
-                        rgb+=3u;
-                        *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);
-                        y++;
-                        rgb+=3u;
+                        *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);edkEnd();
+                        y++;edkEnd();
+                        rgb+=3u;edkEnd();
+                        *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);edkEnd();
+                        y++;edkEnd();
+                        rgb+=3u;edkEnd();
                     }
                 }
             }
@@ -719,45 +743,45 @@ bool edk::codecs::CodecImage::rgbToi240(edk::uint8* rgb,edk::size2ui32 size,edk:
                 //odd
 
                 //run the algorith for height-2 because the counter go twice
-                size.height-=2u;
+                size.height-=2u;edkEnd();
                 register edk::uint32 i=0u;
                 register edk::uint32 j=0u;
                 for(i=0u;i<size.height;i+=2u){
                     //process the line even
                     for(j=0u;j<size.width;j+=2u){
-                        *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);
-                        y++;
-                        rgb+=3u;
-                        *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);
-                        *u = (edk::uint8)(rgb[0u] * -0.168736 + rgb[1u]* -0.331264 + rgb[2u] *  0.500000 + 128);
-                        *v = (edk::uint8)(rgb[0u] *  0.500000 + rgb[1u]* -0.418688 + rgb[2u]* -0.081312 + 128);
-                        y++;
-                        rgb+=3u;
-                        u++;
-                        v++;
+                        *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);edkEnd();
+                        y++;edkEnd();
+                        rgb+=3u;edkEnd();
+                        *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);edkEnd();
+                        *u = (edk::uint8)(rgb[0u] * -0.168736 + rgb[1u]* -0.331264 + rgb[2u] *  0.500000 + 128);edkEnd();
+                        *v = (edk::uint8)(rgb[0u] *  0.500000 + rgb[1u]* -0.418688 + rgb[2u]* -0.081312 + 128);edkEnd();
+                        y++;edkEnd();
+                        rgb+=3u;edkEnd();
+                        u++;edkEnd();
+                        v++;edkEnd();
                     }
                     //process the line odd
                     for(j=0u;j<size.width;j+=2u){
-                        *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);
-                        y++;
-                        rgb+=3u;
-                        *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);
-                        y++;
-                        rgb+=3u;
+                        *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);edkEnd();
+                        y++;edkEnd();
+                        rgb+=3u;edkEnd();
+                        *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);edkEnd();
+                        y++;edkEnd();
+                        rgb+=3u;edkEnd();
                     }
                 }
                 //process the last odd line
                 for(j=0u;j<size.width;j+=2u){
-                    *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);
-                    y++;
-                    rgb+=3u;
-                    *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);
-                    *u = (edk::uint8)(rgb[0u] * -0.168736 + rgb[1u]* -0.331264 + rgb[2u] *  0.500000 + 128);
-                    *v = (edk::uint8)(rgb[0u] *  0.500000 + rgb[1u]* -0.418688 + rgb[2u]* -0.081312 + 128);
-                    y++;
-                    rgb+=3u;
-                    u++;
-                    v++;
+                    *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);edkEnd();
+                    y++;edkEnd();
+                    rgb+=3u;edkEnd();
+                    *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);edkEnd();
+                    *u = (edk::uint8)(rgb[0u] * -0.168736 + rgb[1u]* -0.331264 + rgb[2u] *  0.500000 + 128);edkEnd();
+                    *v = (edk::uint8)(rgb[0u] *  0.500000 + rgb[1u]* -0.418688 + rgb[2u]* -0.081312 + 128);edkEnd();
+                    y++;edkEnd();
+                    rgb+=3u;edkEnd();
+                    u++;edkEnd();
+                    v++;edkEnd();
                 }
             }
         }
@@ -767,99 +791,99 @@ bool edk::codecs::CodecImage::rgbToi240(edk::uint8* rgb,edk::size2ui32 size,edk:
                 //even
 
                 //run the algorith for width-2 because the counter go twice
-                size.width-=2u;
+                size.width-=2u;edkEnd();
                 register edk::uint32 i=0u;
                 register edk::uint32 j=0u;
                 for(i=0u;i<size.height;i+=2u){
                     //start the line even
                     for(j=0u;j<size.width;j+=2u){
-                        *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);
-                        y++;
-                        rgb+=3u;
-                        *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);
-                        *u = (edk::uint8)(rgb[0u] * -0.168736 + rgb[1u]* -0.331264 + rgb[2u] *  0.500000 + 128);
-                        *v = (edk::uint8)(rgb[0u] *  0.500000 + rgb[1u]* -0.418688 + rgb[2u]* -0.081312 + 128);
-                        y++;
-                        rgb+=3u;
-                        u++;
-                        v++;
+                        *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);edkEnd();
+                        y++;edkEnd();
+                        rgb+=3u;edkEnd();
+                        *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);edkEnd();
+                        *u = (edk::uint8)(rgb[0u] * -0.168736 + rgb[1u]* -0.331264 + rgb[2u] *  0.500000 + 128);edkEnd();
+                        *v = (edk::uint8)(rgb[0u] *  0.500000 + rgb[1u]* -0.418688 + rgb[2u]* -0.081312 + 128);edkEnd();
+                        y++;edkEnd();
+                        rgb+=3u;edkEnd();
+                        u++;edkEnd();
+                        v++;edkEnd();
                     }
                     //process the last pixel odd
-                    *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);
-                    y++;
-                    rgb+=3u;
+                    *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);edkEnd();
+                    y++;edkEnd();
+                    rgb+=3u;edkEnd();
                     //start the line odd
                     for(j=0u;j<size.width;j+=2u){
-                        *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);
-                        y++;
-                        rgb+=3u;
-                        *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);
-                        y++;
-                        rgb+=3u;
+                        *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);edkEnd();
+                        y++;edkEnd();
+                        rgb+=3u;edkEnd();
+                        *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);edkEnd();
+                        y++;edkEnd();
+                        rgb+=3u;edkEnd();
                     }
                     //process the last pixel odd
-                    *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);
-                    y++;
-                    rgb+=3u;
+                    *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);edkEnd();
+                    y++;edkEnd();
+                    rgb+=3u;edkEnd();
                 }
             }
             else{
                 //odd
 
                 //run the algorith for width-2 and heigth-2 because the counter go twice
-                size.height-=2u;
-                size.width-=2u;
+                size.height-=2u;edkEnd();
+                size.width-=2u;edkEnd();
                 register edk::uint32 i=0u;
                 register edk::uint32 j=0u;
                 for(i=0u;i<size.height;i+=2u){
                     //process the line even
                     for(j=0u;j<size.width;j+=2u){
-                        *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);
-                        y++;
-                        rgb+=3u;
-                        *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);
-                        *u = (edk::uint8)(rgb[0u] * -0.168736 + rgb[1u]* -0.331264 + rgb[2u] *  0.500000 + 128);
-                        *v = (edk::uint8)(rgb[0u] *  0.500000 + rgb[1u]* -0.418688 + rgb[2u]* -0.081312 + 128);
-                        y++;
-                        rgb+=3u;
-                        u++;
-                        v++;
+                        *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);edkEnd();
+                        y++;edkEnd();
+                        rgb+=3u;edkEnd();
+                        *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);edkEnd();
+                        *u = (edk::uint8)(rgb[0u] * -0.168736 + rgb[1u]* -0.331264 + rgb[2u] *  0.500000 + 128);edkEnd();
+                        *v = (edk::uint8)(rgb[0u] *  0.500000 + rgb[1u]* -0.418688 + rgb[2u]* -0.081312 + 128);edkEnd();
+                        y++;edkEnd();
+                        rgb+=3u;edkEnd();
+                        u++;edkEnd();
+                        v++;edkEnd();
                     }
                     //process the last pixel even
-                    *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);
-                    y++;
-                    rgb+=3u;
+                    *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);edkEnd();
+                    y++;edkEnd();
+                    rgb+=3u;edkEnd();
                     //process the line odd
                     for(j=0u;j<size.width;j+=2u){
-                        *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);
-                        y++;
-                        rgb+=3u;
-                        *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);
-                        y++;
-                        rgb+=3u;
+                        *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);edkEnd();
+                        y++;edkEnd();
+                        rgb+=3u;edkEnd();
+                        *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);edkEnd();
+                        y++;edkEnd();
+                        rgb+=3u;edkEnd();
                     }
                     //process the last pixel odd
-                    *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);
-                    y++;
-                    rgb+=3u;
+                    *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);edkEnd();
+                    y++;edkEnd();
+                    rgb+=3u;edkEnd();
                 }
                 //process the last line odd
                 for(j=0u;j<size.width;j+=2u){
-                    *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);
-                    y++;
-                    rgb+=3u;
-                    *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);
-                    *u = (edk::uint8)(rgb[0u] * -0.168736 + rgb[1u]* -0.331264 + rgb[2u] *  0.500000 + 128);
-                    *v = (edk::uint8)(rgb[0u] *  0.500000 + rgb[1u]* -0.418688 + rgb[2u]* -0.081312 + 128);
-                    y++;
-                    rgb+=3u;
-                    u++;
-                    v++;
+                    *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);edkEnd();
+                    y++;edkEnd();
+                    rgb+=3u;edkEnd();
+                    *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);edkEnd();
+                    *u = (edk::uint8)(rgb[0u] * -0.168736 + rgb[1u]* -0.331264 + rgb[2u] *  0.500000 + 128);edkEnd();
+                    *v = (edk::uint8)(rgb[0u] *  0.500000 + rgb[1u]* -0.418688 + rgb[2u]* -0.081312 + 128);edkEnd();
+                    y++;edkEnd();
+                    rgb+=3u;edkEnd();
+                    u++;edkEnd();
+                    v++;edkEnd();
                 }
                 //process the last pixel odd
-                *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);
-                y++;
-                rgb+=3u;
+                *y = (edk::uint8)(rgb[0u] *  0.299000 + rgb[1u]*  0.587000 + rgb[2u] *  0.114000);edkEnd();
+                y++;edkEnd();
+                rgb+=3u;edkEnd();
             }
         }
         return true;
@@ -880,25 +904,25 @@ bool edk::codecs::CodecImage::grayToi240(edk::uint8* gray,edk::size2ui32 size,ed
                 for(i=0u;i<size.height;i+=2u){
                     //process the line even
                     for(j=0u;j<size.width;j+=2u){
-                        *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);
-                        y++;
-                        gray++;
-                        *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);
-                        *u = (edk::uint8)(*gray * -0.168736 + *gray* -0.331264 + *gray *  0.500000 + 128);
-                        *v = (edk::uint8)(*gray *  0.500000 + *gray* -0.418688 + *gray* -0.081312 + 128);
-                        y++;
-                        gray++;
-                        u++;
-                        v++;
+                        *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);edkEnd();
+                        y++;edkEnd();
+                        gray++;edkEnd();
+                        *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);edkEnd();
+                        *u = (edk::uint8)(*gray * -0.168736 + *gray* -0.331264 + *gray *  0.500000 + 128);edkEnd();
+                        *v = (edk::uint8)(*gray *  0.500000 + *gray* -0.418688 + *gray* -0.081312 + 128);edkEnd();
+                        y++;edkEnd();
+                        gray++;edkEnd();
+                        u++;edkEnd();
+                        v++;edkEnd();
                     }
                     //process the line odd
                     for(j=0u;j<size.width;j+=2u){
-                        *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);
-                        y++;
-                        gray++;
-                        *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);
-                        y++;
-                        gray++;
+                        *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);edkEnd();
+                        y++;edkEnd();
+                        gray++;edkEnd();
+                        *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);edkEnd();
+                        y++;edkEnd();
+                        gray++;edkEnd();
                     }
                 }
             }
@@ -906,45 +930,45 @@ bool edk::codecs::CodecImage::grayToi240(edk::uint8* gray,edk::size2ui32 size,ed
                 //odd
 
                 //run the algorith for height-2 because the counter go twice
-                size.height-=2u;
+                size.height-=2u;edkEnd();
                 register edk::uint32 i=0u;
                 register edk::uint32 j=0u;
                 for(i=0u;i<size.height;i+=2u){
                     //process the line even
                     for(j=0u;j<size.width;j+=2u){
-                        *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);
-                        y++;
-                        gray++;
-                        *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);
-                        *u = (edk::uint8)(*gray * -0.168736 + *gray* -0.331264 + *gray *  0.500000 + 128);
-                        *v = (edk::uint8)(*gray *  0.500000 + *gray* -0.418688 + *gray* -0.081312 + 128);
-                        y++;
-                        gray++;
-                        u++;
-                        v++;
+                        *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);edkEnd();
+                        y++;edkEnd();
+                        gray++;edkEnd();
+                        *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);edkEnd();
+                        *u = (edk::uint8)(*gray * -0.168736 + *gray* -0.331264 + *gray *  0.500000 + 128);edkEnd();
+                        *v = (edk::uint8)(*gray *  0.500000 + *gray* -0.418688 + *gray* -0.081312 + 128);edkEnd();
+                        y++;edkEnd();
+                        gray++;edkEnd();
+                        u++;edkEnd();
+                        v++;edkEnd();
                     }
                     //process the line odd
                     for(j=0u;j<size.width;j+=2u){
-                        *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);
-                        y++;
-                        gray++;
-                        *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);
-                        y++;
-                        gray++;
+                        *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);edkEnd();
+                        y++;edkEnd();
+                        gray++;edkEnd();
+                        *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);edkEnd();
+                        y++;edkEnd();
+                        gray++;edkEnd();
                     }
                 }
                 //process the last odd line
                 for(j=0u;j<size.width;j+=2u){
-                    *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);
-                    y++;
-                    gray++;
-                    *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);
-                    *u = (edk::uint8)(*gray * -0.168736 + *gray* -0.331264 + *gray *  0.500000 + 128);
-                    *v = (edk::uint8)(*gray *  0.500000 + *gray* -0.418688 + *gray* -0.081312 + 128);
-                    y++;
-                    gray++;
-                    u++;
-                    v++;
+                    *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);edkEnd();
+                    y++;edkEnd();
+                    gray++;edkEnd();
+                    *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);edkEnd();
+                    *u = (edk::uint8)(*gray * -0.168736 + *gray* -0.331264 + *gray *  0.500000 + 128);edkEnd();
+                    *v = (edk::uint8)(*gray *  0.500000 + *gray* -0.418688 + *gray* -0.081312 + 128);edkEnd();
+                    y++;edkEnd();
+                    gray++;edkEnd();
+                    u++;edkEnd();
+                    v++;edkEnd();
                 }
             }
         }
@@ -954,99 +978,99 @@ bool edk::codecs::CodecImage::grayToi240(edk::uint8* gray,edk::size2ui32 size,ed
                 //even
 
                 //run the algorith for width-2 because the counter go twice
-                size.width-=2u;
+                size.width-=2u;edkEnd();
                 register edk::uint32 i=0u;
                 register edk::uint32 j=0u;
                 for(i=0u;i<size.height;i+=2u){
                     //start the line even
                     for(j=0u;j<size.width;j+=2u){
-                        *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);
-                        y++;
-                        gray++;
-                        *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);
-                        *u = (edk::uint8)(*gray * -0.168736 + *gray* -0.331264 + *gray *  0.500000 + 128);
-                        *v = (edk::uint8)(*gray *  0.500000 + *gray* -0.418688 + *gray* -0.081312 + 128);
-                        y++;
-                        gray++;
-                        u++;
-                        v++;
+                        *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);edkEnd();
+                        y++;edkEnd();
+                        gray++;edkEnd();
+                        *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);edkEnd();
+                        *u = (edk::uint8)(*gray * -0.168736 + *gray* -0.331264 + *gray *  0.500000 + 128);edkEnd();
+                        *v = (edk::uint8)(*gray *  0.500000 + *gray* -0.418688 + *gray* -0.081312 + 128);edkEnd();
+                        y++;edkEnd();
+                        gray++;edkEnd();
+                        u++;edkEnd();
+                        v++;edkEnd();
                     }
                     //process the last pixel odd
-                    *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);
-                    y++;
-                    gray++;
+                    *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);edkEnd();
+                    y++;edkEnd();
+                    gray++;edkEnd();
                     //start the line odd
                     for(j=0u;j<size.width;j+=2u){
-                        *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);
-                        y++;
-                        gray++;
-                        *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);
-                        y++;
-                        gray++;
+                        *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);edkEnd();
+                        y++;edkEnd();
+                        gray++;edkEnd();
+                        *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);edkEnd();
+                        y++;edkEnd();
+                        gray++;edkEnd();
                     }
                     //process the last pixel odd
-                    *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);
-                    y++;
-                    gray++;
+                    *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);edkEnd();
+                    y++;edkEnd();
+                    gray++;edkEnd();
                 }
             }
             else{
                 //odd
 
                 //run the algorith for width-2 and heigth-2 because the counter go twice
-                size.height-=2u;
-                size.width-=2u;
+                size.height-=2u;edkEnd();
+                size.width-=2u;edkEnd();
                 register edk::uint32 i=0u;
                 register edk::uint32 j=0u;
                 for(i=0u;i<size.height;i+=2u){
                     //process the line even
                     for(j=0u;j<size.width;j+=2u){
-                        *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);
-                        y++;
-                        gray++;
-                        *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);
-                        *u = (edk::uint8)(*gray * -0.168736 + *gray* -0.331264 + *gray *  0.500000 + 128);
-                        *v = (edk::uint8)(*gray *  0.500000 + *gray* -0.418688 + *gray* -0.081312 + 128);
-                        y++;
-                        gray++;
-                        u++;
-                        v++;
+                        *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);edkEnd();
+                        y++;edkEnd();
+                        gray++;edkEnd();
+                        *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);edkEnd();
+                        *u = (edk::uint8)(*gray * -0.168736 + *gray* -0.331264 + *gray *  0.500000 + 128);edkEnd();
+                        *v = (edk::uint8)(*gray *  0.500000 + *gray* -0.418688 + *gray* -0.081312 + 128);edkEnd();
+                        y++;edkEnd();
+                        gray++;edkEnd();
+                        u++;edkEnd();
+                        v++;edkEnd();
                     }
                     //process the last pixel even
-                    *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);
-                    y++;
-                    gray++;
+                    *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);edkEnd();
+                    y++;edkEnd();
+                    gray++;edkEnd();
                     //process the line odd
                     for(j=0u;j<size.width;j+=2u){
-                        *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);
-                        y++;
-                        gray++;
-                        *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);
-                        y++;
-                        gray++;
+                        *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);edkEnd();
+                        y++;edkEnd();
+                        gray++;edkEnd();
+                        *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);edkEnd();
+                        y++;edkEnd();
+                        gray++;edkEnd();
                     }
                     //process the last pixel odd
-                    *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);
-                    y++;
-                    gray+=1u;
+                    *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);edkEnd();
+                    y++;edkEnd();
+                    gray+=1u;edkEnd();
                 }
                 //process the last line odd
                 for(j=0u;j<size.width;j+=2u){
-                    *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);
-                    y++;
-                    gray++;
-                    *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);
-                    *u = (edk::uint8)(*gray * -0.168736 + *gray* -0.331264 + *gray *  0.500000 + 128);
-                    *v = (edk::uint8)(*gray *  0.500000 + *gray* -0.418688 + *gray* -0.081312 + 128);
-                    y++;
-                    gray++;
-                    u++;
-                    v++;
+                    *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);edkEnd();
+                    y++;edkEnd();
+                    gray++;edkEnd();
+                    *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);edkEnd();
+                    *u = (edk::uint8)(*gray * -0.168736 + *gray* -0.331264 + *gray *  0.500000 + 128);edkEnd();
+                    *v = (edk::uint8)(*gray *  0.500000 + *gray* -0.418688 + *gray* -0.081312 + 128);edkEnd();
+                    y++;edkEnd();
+                    gray++;edkEnd();
+                    u++;edkEnd();
+                    v++;edkEnd();
                 }
                 //process the last pixel odd
-                *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);
-                y++;
-                gray++;
+                *y = (edk::uint8)(*gray *  0.299000 + *gray*  0.587000 + *gray *  0.114000);edkEnd();
+                y++;edkEnd();
+                gray++;edkEnd();
             }
         }
         return true;
@@ -1055,31 +1079,31 @@ bool edk::codecs::CodecImage::grayToi240(edk::uint8* gray,edk::size2ui32 size,ed
 }
 //YUV to RGB
 edk::color3ui8 edk::codecs::CodecImage::yuvTorgb(edk::uint8 y,edk::uint8 u,edk::uint8 v){
-    edk::float32 r,g,b;
-    r = y + 1.4075 *                        (v - 128) ;
-    g = y - 0.3455 * (u - 128) - (0.7169 * (v - 128));
-    b = y + 1.7790 * (u - 128);
+    edk::float32 r,g,b;edkEnd();
+    r = y + 1.4075 *                        (v - 128) ;edkEnd();
+    g = y - 0.3455 * (u - 128) - (0.7169 * (v - 128));edkEnd();
+    b = y + 1.7790 * (u - 128);edkEnd();
 
     if (r<0) r=0;
-    else if (r>255) r=255;
+    else if (r>255) r=255;edkEnd();
 
     if (g<0) g=0;
-    else if (g>255) g=255;
+    else if (g>255) g=255;edkEnd();
 
     if (b<0) b=0;
-    else if (b>255) b=255;
+    else if (b>255) b=255;edkEnd();
     return edk::color3ui8(
                 (edk::uint8)(r),
                 (edk::uint8)(g),
                 (edk::uint8)(b)
-                );
+                );edkEnd();
 }
 edk::color3ui8 edk::codecs::CodecImage::yuvTorgb(edk::vec3ui8 color){
-    return edk::codecs::CodecImage::yuvTorgb(color.x,color.y,color.z);
+    return edk::codecs::CodecImage::yuvTorgb(color.x,color.y,color.z);edkEnd();
 }
 bool edk::codecs::CodecImage::i240Torgb(edk::uint8* y,edk::uint8* u,edk::uint8* v,edk::size2ui32 size,edk::uint8* rgb){
     if(rgb && size.width && size.height && y && u && v){
-        edk::float32 r,g,b;
+        edk::float32 r,g,b;edkEnd();
         //test the lenght (even or odd)
         if(!(size.width<<((sizeof(size.width)*8u)-1u))){
             //even
@@ -1090,220 +1114,220 @@ bool edk::codecs::CodecImage::i240Torgb(edk::uint8* y,edk::uint8* u,edk::uint8* 
                 register edk::uint32 j=0u;
                 for(i=0u;i<size.height;i+=2u){
                     for(j=0u;j<size.width;j+=2u){
-                        r = *y + 1.4075 *                        (*v - 128) ;
-                        g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));
-                        b = *y + 1.7790 * (*u - 128);
+                        r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
+                        g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
+                        b = *y + 1.7790 * (*u - 128);edkEnd();
                         if (r<0) r=0;
-                        else if (r>255) r=255;
+                        else if (r>255) r=255;edkEnd();
                         if (g<0) g=0;
-                        else if (g>255) g=255;
+                        else if (g>255) g=255;edkEnd();
                         if (b<0) b=0;
-                        else if (b>255) b=255;
+                        else if (b>255) b=255;edkEnd();
 
-                        rgb[0u]=(edk::uint8)r;
-                        rgb[1u]=(edk::uint8)g;
-                        rgb[2u]=(edk::uint8)b;
+                        rgb[0u]=(edk::uint8)r;edkEnd();
+                        rgb[1u]=(edk::uint8)g;edkEnd();
+                        rgb[2u]=(edk::uint8)b;edkEnd();
 
                         //increment the rgb and y
-                        rgb+=3u;
-                        y++;
+                        rgb+=3u;edkEnd();
+                        y++;edkEnd();
 
-                        r = *y + 1.4075 *                        (*v - 128) ;
-                        g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));
-                        b = *y + 1.7790 * (*u - 128);
+                        r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
+                        g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
+                        b = *y + 1.7790 * (*u - 128);edkEnd();
                         if (r<0) r=0;
-                        else if (r>255) r=255;
+                        else if (r>255) r=255;edkEnd();
                         if (g<0) g=0;
-                        else if (g>255) g=255;
+                        else if (g>255) g=255;edkEnd();
                         if (b<0) b=0;
-                        else if (b>255) b=255;
+                        else if (b>255) b=255;edkEnd();
 
-                        rgb[0u]=(edk::uint8)r;
-                        rgb[1u]=(edk::uint8)g;
-                        rgb[2u]=(edk::uint8)b;
+                        rgb[0u]=(edk::uint8)r;edkEnd();
+                        rgb[1u]=(edk::uint8)g;edkEnd();
+                        rgb[2u]=(edk::uint8)b;edkEnd();
 
                         //increment the rgb and y
-                        rgb+=3u;
-                        y++;
+                        rgb+=3u;edkEnd();
+                        y++;edkEnd();
                         //increment the u v
-                        u++;
-                        v++;
+                        u++;edkEnd();
+                        v++;edkEnd();
                     }
                     //decrement the y
-                    u-=size.width>>1;
-                    v-=size.width>>1;
+                    u-=size.width>>1;edkEnd();
+                    v-=size.width>>1;edkEnd();
                     for(j=0u;j<size.width;j+=2u){
-                        r = *y + 1.4075 *                        (*v - 128) ;
-                        g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));
-                        b = *y + 1.7790 * (*u - 128);
+                        r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
+                        g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
+                        b = *y + 1.7790 * (*u - 128);edkEnd();
                         if (r<0) r=0;
-                        else if (r>255) r=255;
+                        else if (r>255) r=255;edkEnd();
                         if (g<0) g=0;
-                        else if (g>255) g=255;
+                        else if (g>255) g=255;edkEnd();
                         if (b<0) b=0;
-                        else if (b>255) b=255;
+                        else if (b>255) b=255;edkEnd();
 
-                        rgb[0u]=(edk::uint8)r;
-                        rgb[1u]=(edk::uint8)g;
-                        rgb[2u]=(edk::uint8)b;
+                        rgb[0u]=(edk::uint8)r;edkEnd();
+                        rgb[1u]=(edk::uint8)g;edkEnd();
+                        rgb[2u]=(edk::uint8)b;edkEnd();
 
                         //increment the rgb and the y
-                        rgb+=3u;
-                        y++;
+                        rgb+=3u;edkEnd();
+                        y++;edkEnd();
 
-                        r = *y + 1.4075 *                        (*v - 128) ;
-                        g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));
-                        b = *y + 1.7790 * (*u - 128);
+                        r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
+                        g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
+                        b = *y + 1.7790 * (*u - 128);edkEnd();
                         if (r<0) r=0;
-                        else if (r>255) r=255;
+                        else if (r>255) r=255;edkEnd();
                         if (g<0) g=0;
-                        else if (g>255) g=255;
+                        else if (g>255) g=255;edkEnd();
                         if (b<0) b=0;
-                        else if (b>255) b=255;
+                        else if (b>255) b=255;edkEnd();
 
-                        rgb[0u]=(edk::uint8)r;
-                        rgb[1u]=(edk::uint8)g;
-                        rgb[2u]=(edk::uint8)b;
+                        rgb[0u]=(edk::uint8)r;edkEnd();
+                        rgb[1u]=(edk::uint8)g;edkEnd();
+                        rgb[2u]=(edk::uint8)b;edkEnd();
 
                         //increment the rgb and the y
-                        rgb+=3u;
-                        y++;
+                        rgb+=3u;edkEnd();
+                        y++;edkEnd();
                         //increment the u v
-                        u++;
-                        v++;
+                        u++;edkEnd();
+                        v++;edkEnd();
                     }
                 }
             }
             else{
                 //odd
-                size.height-=2u;
+                size.height-=2u;edkEnd();
                 register edk::uint32 i=0u;
                 register edk::uint32 j=0u;
                 for(i=0u;i<size.height;i+=2u){
                     for(j=0u;j<size.width;j+=2u){
-                        r = *y + 1.4075 *                        (*v - 128) ;
-                        g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));
-                        b = *y + 1.7790 * (*u - 128);
+                        r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
+                        g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
+                        b = *y + 1.7790 * (*u - 128);edkEnd();
                         if (r<0) r=0;
-                        else if (r>255) r=255;
+                        else if (r>255) r=255;edkEnd();
                         if (g<0) g=0;
-                        else if (g>255) g=255;
+                        else if (g>255) g=255;edkEnd();
                         if (b<0) b=0;
-                        else if (b>255) b=255;
+                        else if (b>255) b=255;edkEnd();
 
-                        rgb[0u]=(edk::uint8)r;
-                        rgb[1u]=(edk::uint8)g;
-                        rgb[2u]=(edk::uint8)b;
+                        rgb[0u]=(edk::uint8)r;edkEnd();
+                        rgb[1u]=(edk::uint8)g;edkEnd();
+                        rgb[2u]=(edk::uint8)b;edkEnd();
 
                         //increment the rgb and y
-                        rgb+=3u;
-                        y++;
+                        rgb+=3u;edkEnd();
+                        y++;edkEnd();
 
-                        r = *y + 1.4075 *                        (*v - 128) ;
-                        g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));
-                        b = *y + 1.7790 * (*u - 128);
+                        r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
+                        g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
+                        b = *y + 1.7790 * (*u - 128);edkEnd();
                         if (r<0) r=0;
-                        else if (r>255) r=255;
+                        else if (r>255) r=255;edkEnd();
                         if (g<0) g=0;
-                        else if (g>255) g=255;
+                        else if (g>255) g=255;edkEnd();
                         if (b<0) b=0;
-                        else if (b>255) b=255;
+                        else if (b>255) b=255;edkEnd();
 
-                        rgb[0u]=(edk::uint8)r;
-                        rgb[1u]=(edk::uint8)g;
-                        rgb[2u]=(edk::uint8)b;
+                        rgb[0u]=(edk::uint8)r;edkEnd();
+                        rgb[1u]=(edk::uint8)g;edkEnd();
+                        rgb[2u]=(edk::uint8)b;edkEnd();
 
                         //increment the rgb and y
-                        rgb+=3u;
-                        y++;
+                        rgb+=3u;edkEnd();
+                        y++;edkEnd();
                         //increment the u v
-                        u++;
-                        v++;
+                        u++;edkEnd();
+                        v++;edkEnd();
                     }
                     //decrement the y
-                    u-=size.width>>1;
-                    v-=size.width>>1;
+                    u-=size.width>>1;edkEnd();
+                    v-=size.width>>1;edkEnd();
                     for(j=0u;j<size.width;j+=2u){
-                        r = *y + 1.4075 *                        (*v - 128) ;
-                        g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));
-                        b = *y + 1.7790 * (*u - 128);
+                        r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
+                        g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
+                        b = *y + 1.7790 * (*u - 128);edkEnd();
                         if (r<0) r=0;
-                        else if (r>255) r=255;
+                        else if (r>255) r=255;edkEnd();
                         if (g<0) g=0;
-                        else if (g>255) g=255;
+                        else if (g>255) g=255;edkEnd();
                         if (b<0) b=0;
-                        else if (b>255) b=255;
+                        else if (b>255) b=255;edkEnd();
 
-                        rgb[0u]=(edk::uint8)r;
-                        rgb[1u]=(edk::uint8)g;
-                        rgb[2u]=(edk::uint8)b;
+                        rgb[0u]=(edk::uint8)r;edkEnd();
+                        rgb[1u]=(edk::uint8)g;edkEnd();
+                        rgb[2u]=(edk::uint8)b;edkEnd();
 
                         //increment the rgb and the y
-                        rgb+=3u;
-                        y++;
+                        rgb+=3u;edkEnd();
+                        y++;edkEnd();
 
-                        r = *y + 1.4075 *                        (*v - 128) ;
-                        g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));
-                        b = *y + 1.7790 * (*u - 128);
+                        r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
+                        g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
+                        b = *y + 1.7790 * (*u - 128);edkEnd();
                         if (r<0) r=0;
-                        else if (r>255) r=255;
+                        else if (r>255) r=255;edkEnd();
                         if (g<0) g=0;
-                        else if (g>255) g=255;
+                        else if (g>255) g=255;edkEnd();
                         if (b<0) b=0;
-                        else if (b>255) b=255;
+                        else if (b>255) b=255;edkEnd();
 
-                        rgb[0u]=(edk::uint8)r;
-                        rgb[1u]=(edk::uint8)g;
-                        rgb[2u]=(edk::uint8)b;
+                        rgb[0u]=(edk::uint8)r;edkEnd();
+                        rgb[1u]=(edk::uint8)g;edkEnd();
+                        rgb[2u]=(edk::uint8)b;edkEnd();
 
                         //increment the rgb and the y
-                        rgb+=3u;
-                        y++;
+                        rgb+=3u;edkEnd();
+                        y++;edkEnd();
                         //increment the u v
-                        u++;
-                        v++;
+                        u++;edkEnd();
+                        v++;edkEnd();
                     }
                 }
                 //process the last line odd
                 for(j=0u;j<size.width;j+=2u){
-                    r = *y + 1.4075 *                        (*v - 128) ;
-                    g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));
-                    b = *y + 1.7790 * (*u - 128);
+                    r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
+                    g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
+                    b = *y + 1.7790 * (*u - 128);edkEnd();
                     if (r<0) r=0;
-                    else if (r>255) r=255;
+                    else if (r>255) r=255;edkEnd();
                     if (g<0) g=0;
-                    else if (g>255) g=255;
+                    else if (g>255) g=255;edkEnd();
                     if (b<0) b=0;
-                    else if (b>255) b=255;
+                    else if (b>255) b=255;edkEnd();
 
-                    rgb[0u]=(edk::uint8)r;
-                    rgb[1u]=(edk::uint8)g;
-                    rgb[2u]=(edk::uint8)b;
+                    rgb[0u]=(edk::uint8)r;edkEnd();
+                    rgb[1u]=(edk::uint8)g;edkEnd();
+                    rgb[2u]=(edk::uint8)b;edkEnd();
 
                     //increment the rgb and y
-                    rgb+=3u;
-                    y++;
+                    rgb+=3u;edkEnd();
+                    y++;edkEnd();
 
-                    r = *y + 1.4075 *                        (*v - 128) ;
-                    g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));
-                    b = *y + 1.7790 * (*u - 128);
+                    r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
+                    g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
+                    b = *y + 1.7790 * (*u - 128);edkEnd();
                     if (r<0) r=0;
-                    else if (r>255) r=255;
+                    else if (r>255) r=255;edkEnd();
                     if (g<0) g=0;
-                    else if (g>255) g=255;
+                    else if (g>255) g=255;edkEnd();
                     if (b<0) b=0;
-                    else if (b>255) b=255;
+                    else if (b>255) b=255;edkEnd();
 
-                    rgb[0u]=(edk::uint8)r;
-                    rgb[1u]=(edk::uint8)g;
-                    rgb[2u]=(edk::uint8)b;
+                    rgb[0u]=(edk::uint8)r;edkEnd();
+                    rgb[1u]=(edk::uint8)g;edkEnd();
+                    rgb[2u]=(edk::uint8)b;edkEnd();
 
                     //increment the rgb and y
-                    rgb+=3u;
-                    y++;
+                    rgb+=3u;edkEnd();
+                    y++;edkEnd();
                     //increment the u v
-                    u++;
-                    v++;
+                    u++;edkEnd();
+                    v++;edkEnd();
                 }
             }
         }
@@ -1312,321 +1336,321 @@ bool edk::codecs::CodecImage::i240Torgb(edk::uint8* y,edk::uint8* u,edk::uint8* 
             if(!(size.height<<((sizeof(size.height)*8u)-1u))){
                 //even
 
-                size.width-=2u;
+                size.width-=2u;edkEnd();
                 register edk::uint32 i=0u;
                 register edk::uint32 j=0u;
                 for(i=0u;i<size.height;i+=2u){
                     for(j=0u;j<size.width;j+=2u){
-                        r = *y + 1.4075 *                        (*v - 128) ;
-                        g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));
-                        b = *y + 1.7790 * (*u - 128);
+                        r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
+                        g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
+                        b = *y + 1.7790 * (*u - 128);edkEnd();
                         if (r<0) r=0;
-                        else if (r>255) r=255;
+                        else if (r>255) r=255;edkEnd();
                         if (g<0) g=0;
-                        else if (g>255) g=255;
+                        else if (g>255) g=255;edkEnd();
                         if (b<0) b=0;
-                        else if (b>255) b=255;
+                        else if (b>255) b=255;edkEnd();
 
-                        rgb[0u]=(edk::uint8)r;
-                        rgb[1u]=(edk::uint8)g;
-                        rgb[2u]=(edk::uint8)b;
+                        rgb[0u]=(edk::uint8)r;edkEnd();
+                        rgb[1u]=(edk::uint8)g;edkEnd();
+                        rgb[2u]=(edk::uint8)b;edkEnd();
 
                         //increment the rgb and y
-                        rgb+=3u;
-                        y++;
+                        rgb+=3u;edkEnd();
+                        y++;edkEnd();
 
-                        r = *y + 1.4075 *                        (*v - 128) ;
-                        g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));
-                        b = *y + 1.7790 * (*u - 128);
+                        r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
+                        g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
+                        b = *y + 1.7790 * (*u - 128);edkEnd();
                         if (r<0) r=0;
-                        else if (r>255) r=255;
+                        else if (r>255) r=255;edkEnd();
                         if (g<0) g=0;
-                        else if (g>255) g=255;
+                        else if (g>255) g=255;edkEnd();
                         if (b<0) b=0;
-                        else if (b>255) b=255;
+                        else if (b>255) b=255;edkEnd();
 
-                        rgb[0u]=(edk::uint8)r;
-                        rgb[1u]=(edk::uint8)g;
-                        rgb[2u]=(edk::uint8)b;
+                        rgb[0u]=(edk::uint8)r;edkEnd();
+                        rgb[1u]=(edk::uint8)g;edkEnd();
+                        rgb[2u]=(edk::uint8)b;edkEnd();
 
                         //increment the rgb and y
-                        rgb+=3u;
-                        y++;
+                        rgb+=3u;edkEnd();
+                        y++;edkEnd();
                         //increment the u v
-                        u++;
-                        v++;
+                        u++;edkEnd();
+                        v++;edkEnd();
                     }
                     //process the last pixel odd
-                    r = *y + 1.4075 *                        (*v - 128) ;
-                    g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));
-                    b = *y + 1.7790 * (*u - 128);
+                    r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
+                    g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
+                    b = *y + 1.7790 * (*u - 128);edkEnd();
                     if (r<0) r=0;
-                    else if (r>255) r=255;
+                    else if (r>255) r=255;edkEnd();
                     if (g<0) g=0;
-                    else if (g>255) g=255;
+                    else if (g>255) g=255;edkEnd();
                     if (b<0) b=0;
-                    else if (b>255) b=255;
+                    else if (b>255) b=255;edkEnd();
 
-                    rgb[0u]=(edk::uint8)r;
-                    rgb[1u]=(edk::uint8)g;
-                    rgb[2u]=(edk::uint8)b;
+                    rgb[0u]=(edk::uint8)r;edkEnd();
+                    rgb[1u]=(edk::uint8)g;edkEnd();
+                    rgb[2u]=(edk::uint8)b;edkEnd();
 
                     //increment the rgb and y
-                    rgb+=3u;
-                    y++;
+                    rgb+=3u;edkEnd();
+                    y++;edkEnd();
 
                     //decrement the y
-                    u-=(size.width>>1)+1u;
-                    v-=(size.width>>1)+1u;
+                    u-=(size.width>>1)+1u;edkEnd();
+                    v-=(size.width>>1)+1u;edkEnd();
                     for(j=0u;j<size.width;j+=2u){
-                        r = *y + 1.4075 *                        (*v - 128) ;
-                        g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));
-                        b = *y + 1.7790 * (*u - 128);
+                        r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
+                        g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
+                        b = *y + 1.7790 * (*u - 128);edkEnd();
                         if (r<0) r=0;
-                        else if (r>255) r=255;
+                        else if (r>255) r=255;edkEnd();
                         if (g<0) g=0;
-                        else if (g>255) g=255;
+                        else if (g>255) g=255;edkEnd();
                         if (b<0) b=0;
-                        else if (b>255) b=255;
+                        else if (b>255) b=255;edkEnd();
 
-                        rgb[0u]=(edk::uint8)r;
-                        rgb[1u]=(edk::uint8)g;
-                        rgb[2u]=(edk::uint8)b;
+                        rgb[0u]=(edk::uint8)r;edkEnd();
+                        rgb[1u]=(edk::uint8)g;edkEnd();
+                        rgb[2u]=(edk::uint8)b;edkEnd();
 
                         //increment the rgb and the y
-                        rgb+=3u;
-                        y++;
+                        rgb+=3u;edkEnd();
+                        y++;edkEnd();
 
-                        r = *y + 1.4075 *                        (*v - 128) ;
-                        g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));
-                        b = *y + 1.7790 * (*u - 128);
+                        r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
+                        g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
+                        b = *y + 1.7790 * (*u - 128);edkEnd();
                         if (r<0) r=0;
-                        else if (r>255) r=255;
+                        else if (r>255) r=255;edkEnd();
                         if (g<0) g=0;
-                        else if (g>255) g=255;
+                        else if (g>255) g=255;edkEnd();
                         if (b<0) b=0;
-                        else if (b>255) b=255;
+                        else if (b>255) b=255;edkEnd();
 
-                        rgb[0u]=(edk::uint8)r;
-                        rgb[1u]=(edk::uint8)g;
-                        rgb[2u]=(edk::uint8)b;
+                        rgb[0u]=(edk::uint8)r;edkEnd();
+                        rgb[1u]=(edk::uint8)g;edkEnd();
+                        rgb[2u]=(edk::uint8)b;edkEnd();
 
                         //increment the rgb and the y
-                        rgb+=3u;
-                        y++;
+                        rgb+=3u;edkEnd();
+                        y++;edkEnd();
                         //increment the u v
-                        u++;
-                        v++;
+                        u++;edkEnd();
+                        v++;edkEnd();
                     }
                     //process the last pixel odd
-                    r = *y + 1.4075 *                        (*v - 128) ;
-                    g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));
-                    b = *y + 1.7790 * (*u - 128);
+                    r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
+                    g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
+                    b = *y + 1.7790 * (*u - 128);edkEnd();
                     if (r<0) r=0;
-                    else if (r>255) r=255;
+                    else if (r>255) r=255;edkEnd();
                     if (g<0) g=0;
-                    else if (g>255) g=255;
+                    else if (g>255) g=255;edkEnd();
                     if (b<0) b=0;
-                    else if (b>255) b=255;
+                    else if (b>255) b=255;edkEnd();
 
-                    rgb[0u]=(edk::uint8)r;
-                    rgb[1u]=(edk::uint8)g;
-                    rgb[2u]=(edk::uint8)b;
+                    rgb[0u]=(edk::uint8)r;edkEnd();
+                    rgb[1u]=(edk::uint8)g;edkEnd();
+                    rgb[2u]=(edk::uint8)b;edkEnd();
 
                     //increment the rgb and the y
-                    rgb+=3u;
-                    y++;
+                    rgb+=3u;edkEnd();
+                    y++;edkEnd();
                 }
             }
             else{
                 //odd
 
-                size.width-=2u;
-                size.height-=2u;
+                size.width-=2u;edkEnd();
+                size.height-=2u;edkEnd();
                 register edk::uint32 i=0u;
                 register edk::uint32 j=0u;
                 for(i=0u;i<size.height;i+=2u){
                     for(j=0u;j<size.width;j+=2u){
-                        r = *y + 1.4075 *                        (*v - 128) ;
-                        g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));
-                        b = *y + 1.7790 * (*u - 128);
+                        r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
+                        g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
+                        b = *y + 1.7790 * (*u - 128);edkEnd();
                         if (r<0) r=0;
-                        else if (r>255) r=255;
+                        else if (r>255) r=255;edkEnd();
                         if (g<0) g=0;
-                        else if (g>255) g=255;
+                        else if (g>255) g=255;edkEnd();
                         if (b<0) b=0;
-                        else if (b>255) b=255;
+                        else if (b>255) b=255;edkEnd();
 
-                        rgb[0u]=(edk::uint8)r;
-                        rgb[1u]=(edk::uint8)g;
-                        rgb[2u]=(edk::uint8)b;
+                        rgb[0u]=(edk::uint8)r;edkEnd();
+                        rgb[1u]=(edk::uint8)g;edkEnd();
+                        rgb[2u]=(edk::uint8)b;edkEnd();
 
                         //increment the rgb and y
-                        rgb+=3u;
-                        y++;
+                        rgb+=3u;edkEnd();
+                        y++;edkEnd();
 
-                        r = *y + 1.4075 *                        (*v - 128) ;
-                        g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));
-                        b = *y + 1.7790 * (*u - 128);
+                        r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
+                        g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
+                        b = *y + 1.7790 * (*u - 128);edkEnd();
                         if (r<0) r=0;
-                        else if (r>255) r=255;
+                        else if (r>255) r=255;edkEnd();
                         if (g<0) g=0;
-                        else if (g>255) g=255;
+                        else if (g>255) g=255;edkEnd();
                         if (b<0) b=0;
-                        else if (b>255) b=255;
+                        else if (b>255) b=255;edkEnd();
 
-                        rgb[0u]=(edk::uint8)r;
-                        rgb[1u]=(edk::uint8)g;
-                        rgb[2u]=(edk::uint8)b;
+                        rgb[0u]=(edk::uint8)r;edkEnd();
+                        rgb[1u]=(edk::uint8)g;edkEnd();
+                        rgb[2u]=(edk::uint8)b;edkEnd();
 
                         //increment the rgb and y
-                        rgb+=3u;
-                        y++;
+                        rgb+=3u;edkEnd();
+                        y++;edkEnd();
                         //increment the u v
-                        u++;
-                        v++;
+                        u++;edkEnd();
+                        v++;edkEnd();
                     }
                     //process the last pixel odd
-                    r = *y + 1.4075 *                        (*v - 128) ;
-                    g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));
-                    b = *y + 1.7790 * (*u - 128);
+                    r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
+                    g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
+                    b = *y + 1.7790 * (*u - 128);edkEnd();
                     if (r<0) r=0;
-                    else if (r>255) r=255;
+                    else if (r>255) r=255;edkEnd();
                     if (g<0) g=0;
-                    else if (g>255) g=255;
+                    else if (g>255) g=255;edkEnd();
                     if (b<0) b=0;
-                    else if (b>255) b=255;
+                    else if (b>255) b=255;edkEnd();
 
-                    rgb[0u]=(edk::uint8)r;
-                    rgb[1u]=(edk::uint8)g;
-                    rgb[2u]=(edk::uint8)b;
+                    rgb[0u]=(edk::uint8)r;edkEnd();
+                    rgb[1u]=(edk::uint8)g;edkEnd();
+                    rgb[2u]=(edk::uint8)b;edkEnd();
 
                     //increment the rgb and y
-                    rgb+=3u;
-                    y++;
+                    rgb+=3u;edkEnd();
+                    y++;edkEnd();
 
                     //decrement the y
-                    u-=(size.width>>1)+1u;
-                    v-=(size.width>>1)+1u;
+                    u-=(size.width>>1)+1u;edkEnd();
+                    v-=(size.width>>1)+1u;edkEnd();
                     for(j=0u;j<size.width;j+=2u){
-                        r = *y + 1.4075 *                        (*v - 128) ;
-                        g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));
-                        b = *y + 1.7790 * (*u - 128);
+                        r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
+                        g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
+                        b = *y + 1.7790 * (*u - 128);edkEnd();
                         if (r<0) r=0;
-                        else if (r>255) r=255;
+                        else if (r>255) r=255;edkEnd();
                         if (g<0) g=0;
-                        else if (g>255) g=255;
+                        else if (g>255) g=255;edkEnd();
                         if (b<0) b=0;
-                        else if (b>255) b=255;
+                        else if (b>255) b=255;edkEnd();
 
-                        rgb[0u]=(edk::uint8)r;
-                        rgb[1u]=(edk::uint8)g;
-                        rgb[2u]=(edk::uint8)b;
+                        rgb[0u]=(edk::uint8)r;edkEnd();
+                        rgb[1u]=(edk::uint8)g;edkEnd();
+                        rgb[2u]=(edk::uint8)b;edkEnd();
 
                         //increment the rgb and the y
-                        rgb+=3u;
-                        y++;
+                        rgb+=3u;edkEnd();
+                        y++;edkEnd();
 
-                        r = *y + 1.4075 *                        (*v - 128) ;
-                        g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));
-                        b = *y + 1.7790 * (*u - 128);
+                        r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
+                        g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
+                        b = *y + 1.7790 * (*u - 128);edkEnd();
                         if (r<0) r=0;
-                        else if (r>255) r=255;
+                        else if (r>255) r=255;edkEnd();
                         if (g<0) g=0;
-                        else if (g>255) g=255;
+                        else if (g>255) g=255;edkEnd();
                         if (b<0) b=0;
-                        else if (b>255) b=255;
+                        else if (b>255) b=255;edkEnd();
 
-                        rgb[0u]=(edk::uint8)r;
-                        rgb[1u]=(edk::uint8)g;
-                        rgb[2u]=(edk::uint8)b;
+                        rgb[0u]=(edk::uint8)r;edkEnd();
+                        rgb[1u]=(edk::uint8)g;edkEnd();
+                        rgb[2u]=(edk::uint8)b;edkEnd();
 
                         //increment the rgb and the y
-                        rgb+=3u;
-                        y++;
+                        rgb+=3u;edkEnd();
+                        y++;edkEnd();
                         //increment the u v
-                        u++;
-                        v++;
+                        u++;edkEnd();
+                        v++;edkEnd();
                     }
                     //process the last pixel odd
-                    r = *y + 1.4075 *                        (*v - 128) ;
-                    g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));
-                    b = *y + 1.7790 * (*u - 128);
+                    r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
+                    g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
+                    b = *y + 1.7790 * (*u - 128);edkEnd();
                     if (r<0) r=0;
-                    else if (r>255) r=255;
+                    else if (r>255) r=255;edkEnd();
                     if (g<0) g=0;
-                    else if (g>255) g=255;
+                    else if (g>255) g=255;edkEnd();
                     if (b<0) b=0;
-                    else if (b>255) b=255;
+                    else if (b>255) b=255;edkEnd();
 
-                    rgb[0u]=(edk::uint8)r;
-                    rgb[1u]=(edk::uint8)g;
-                    rgb[2u]=(edk::uint8)b;
+                    rgb[0u]=(edk::uint8)r;edkEnd();
+                    rgb[1u]=(edk::uint8)g;edkEnd();
+                    rgb[2u]=(edk::uint8)b;edkEnd();
 
                     //increment the rgb and the y
-                    rgb+=3u;
-                    y++;
+                    rgb+=3u;edkEnd();
+                    y++;edkEnd();
 
                 }
                 //process the last line odd
                 for(j=0u;j<size.width;j+=2u){
-                    r = *y + 1.4075 *                        (*v - 128) ;
-                    g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));
-                    b = *y + 1.7790 * (*u - 128);
+                    r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
+                    g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
+                    b = *y + 1.7790 * (*u - 128);edkEnd();
                     if (r<0) r=0;
-                    else if (r>255) r=255;
+                    else if (r>255) r=255;edkEnd();
                     if (g<0) g=0;
-                    else if (g>255) g=255;
+                    else if (g>255) g=255;edkEnd();
                     if (b<0) b=0;
-                    else if (b>255) b=255;
+                    else if (b>255) b=255;edkEnd();
 
-                    rgb[0u]=(edk::uint8)r;
-                    rgb[1u]=(edk::uint8)g;
-                    rgb[2u]=(edk::uint8)b;
+                    rgb[0u]=(edk::uint8)r;edkEnd();
+                    rgb[1u]=(edk::uint8)g;edkEnd();
+                    rgb[2u]=(edk::uint8)b;edkEnd();
 
                     //increment the rgb and y
-                    rgb+=3u;
-                    y++;
+                    rgb+=3u;edkEnd();
+                    y++;edkEnd();
 
-                    r = *y + 1.4075 *                        (*v - 128) ;
-                    g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));
-                    b = *y + 1.7790 * (*u - 128);
+                    r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
+                    g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
+                    b = *y + 1.7790 * (*u - 128);edkEnd();
                     if (r<0) r=0;
-                    else if (r>255) r=255;
+                    else if (r>255) r=255;edkEnd();
                     if (g<0) g=0;
-                    else if (g>255) g=255;
+                    else if (g>255) g=255;edkEnd();
                     if (b<0) b=0;
-                    else if (b>255) b=255;
+                    else if (b>255) b=255;edkEnd();
 
-                    rgb[0u]=(edk::uint8)r;
-                    rgb[1u]=(edk::uint8)g;
-                    rgb[2u]=(edk::uint8)b;
+                    rgb[0u]=(edk::uint8)r;edkEnd();
+                    rgb[1u]=(edk::uint8)g;edkEnd();
+                    rgb[2u]=(edk::uint8)b;edkEnd();
 
                     //increment the rgb and y
-                    rgb+=3u;
-                    y++;
+                    rgb+=3u;edkEnd();
+                    y++;edkEnd();
                     //increment the u v
-                    u++;
-                    v++;
+                    u++;edkEnd();
+                    v++;edkEnd();
                 }
                 //process the last pixel odd
-                r = *y + 1.4075 *                        (*v - 128) ;
-                g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));
-                b = *y + 1.7790 * (*u - 128);
+                r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
+                g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
+                b = *y + 1.7790 * (*u - 128);edkEnd();
                 if (r<0) r=0;
-                else if (r>255) r=255;
+                else if (r>255) r=255;edkEnd();
                 if (g<0) g=0;
-                else if (g>255) g=255;
+                else if (g>255) g=255;edkEnd();
                 if (b<0) b=0;
-                else if (b>255) b=255;
+                else if (b>255) b=255;edkEnd();
 
-                rgb[0u]=(edk::uint8)r;
-                rgb[1u]=(edk::uint8)g;
-                rgb[2u]=(edk::uint8)b;
+                rgb[0u]=(edk::uint8)r;edkEnd();
+                rgb[1u]=(edk::uint8)g;edkEnd();
+                rgb[2u]=(edk::uint8)b;edkEnd();
 
                 //increment the rgb and y
-                rgb+=3u;
-                y++;
+                rgb+=3u;edkEnd();
+                y++;edkEnd();
 
             }
         }

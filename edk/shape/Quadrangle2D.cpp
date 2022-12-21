@@ -31,15 +31,15 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 edk::shape::Quadrangle2D::Quadrangle2D()
 {
     //ctor
-    this->polygonColor.a=1.f;
+    this->polygonColor.a=1.f;edkEnd();
     //create a new polygon with 3 vertex
-    edk::shape::Polygon2D::createPolygon(4u);
+    edk::shape::Polygon2D::createPolygon(4u);edkEnd();
 }
 
 edk::shape::Quadrangle2D::~Quadrangle2D()
 {
     //dtor
-    edk::shape::Polygon2D::deletePolygon();
+    edk::shape::Polygon2D::deletePolygon();edkEnd();
 }
 //createPolygon
 bool edk::shape::Quadrangle2D::createPolygon(){
@@ -51,8 +51,9 @@ bool edk::shape::Quadrangle2D::createPolygon(){
 //Virtual Functions
 bool edk::shape::Quadrangle2D::createPolygon(edk::uint32 vertexCount){
     //the fundtion do nothing
-    if(vertexCount)
+    if(vertexCount){
         return true;
+    }
     return false;
 }
 void edk::shape::Quadrangle2D::deletePolygon(){
@@ -62,30 +63,30 @@ void edk::shape::Quadrangle2D::deletePolygon(){
 //print the triangle
 void edk::shape::Quadrangle2D::print(){
     //
-    printf("\nQuadrangle");
-    edk::shape::Polygon2D::print();
+    printf("\nQuadrangle");edkEnd();
+    edk::shape::Polygon2D::print();edkEnd();
 }
 
 //Draw the triangle
 void edk::shape::Quadrangle2D::draw(){
     //
-    edk::GU::guPushMatrix();
-    edk::GU::guTranslate2f32(this->translate);
-    edk::GU::guRotateZf32(this->angle);
-    edk::GU::guScale2f32(this->scale);
-    edk::GU::guBegin(GU_QUADS);
-        this->drawVertexs();
-    edk::GU::guEnd();
-    edk::GU::guPopMatrix();
+    edk::GU::guPushMatrix();edkEnd();
+    edk::GU::guTranslate2f32(this->translate);edkEnd();
+    edk::GU::guRotateZf32(this->angle);edkEnd();
+    edk::GU::guScale2f32(this->scale);edkEnd();
+    edk::GU::guBegin(GU_QUADS);edkEnd();
+        this->drawVertexs();edkEnd();
+    edk::GU::guEnd();edkEnd();
+    edk::GU::guPopMatrix();edkEnd();
 }
 void edk::shape::Quadrangle2D::drawWire(){
 
-    edk::GU::guPushMatrix();
-    edk::GU::guTranslate2f32(this->translate);
-    edk::GU::guRotateZf32(this->angle);
-    edk::GU::guScale2f32(this->scale);
-    edk::GU::guBegin(GU_LINES);
-        this->drawVertexs();
-    edk::GU::guEnd();
-    edk::GU::guPopMatrix();
+    edk::GU::guPushMatrix();edkEnd();
+    edk::GU::guTranslate2f32(this->translate);edkEnd();
+    edk::GU::guRotateZf32(this->angle);edkEnd();
+    edk::GU::guScale2f32(this->scale);edkEnd();
+    edk::GU::guBegin(GU_LINES);edkEnd();
+        this->drawVertexs();edkEnd();
+    edk::GU::guEnd();edkEnd();
+    edk::GU::guPopMatrix();edkEnd();
 }

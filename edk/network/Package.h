@@ -83,7 +83,7 @@ public:
 private:
     class PackHeader{
     public:
-        PackHeader(){this->clean();}
+        PackHeader(){this->clean();edkEnd();}
         //static value to test broken packages
         edk::uint64 broke;
         edk::uint32 size;//size of the package without the header
@@ -92,11 +92,13 @@ private:
         edk::uint32 packages;//number of all packets
         //test if is a valid package
         bool isBroken(){
-            if(this->broke == 0xAA9966557BDE8421) return false;
+            if(this->broke == 0xAA9966557BDE8421){
+                return false;
+            }
             return true;
         }
         //clean the header
-        void clean(){this->size=0u;this->id=0u;this->position=0u;this->packages=0u;this->broke = 0xAA9966557BDE8421;}
+        void clean(){this->size=0u;edkEnd();this->id=0u;edkEnd();this->position=0u;edkEnd();this->packages=0u;edkEnd();this->broke = 0xAA9966557BDE8421;edkEnd();}
     }header;
     //vector
     edk::uint8 *vec;

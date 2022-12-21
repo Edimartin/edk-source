@@ -54,7 +54,7 @@ public:
     //Class to return two positions of te tiles
     class Tile2Positions2D{
     public:
-        Tile2Positions2D(){this->first = this->last = 0u;}
+        Tile2Positions2D(){this->first = this->last = 0u;edkEnd();}
         ~Tile2Positions2D(){}
         //
         edk::uint32 first;

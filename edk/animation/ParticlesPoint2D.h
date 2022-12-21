@@ -212,7 +212,7 @@ private:
             //update particles
             void updateElement(edk::animation::ParticlesPoint2D::ParticleObject* value){
                 //remove the element from treeTemp
-                this->treeTemp->remove(value);
+                this->treeTemp->remove(value);edkEnd();
             }
             edk::vector::BinaryTree<edk::animation::ParticlesPoint2D::ParticleObject*>* treeTemp;
         }treeRemove;

@@ -201,10 +201,10 @@ protected:
     //Animation Names
     class AnimationPathNames:public edk::Name{
     public:
-        AnimationPathNames(){this->start = this->end = 0u;}
+        AnimationPathNames(){this->start = this->end = 0u;edkEnd();}
         AnimationPathNames(edk::char8* name)
             :edk::Name(name){
-            this->start = this->end = 0u;
+            this->start = this->end = 0u;edkEnd();
         }
         ~AnimationPathNames(){
             //
@@ -215,35 +215,35 @@ protected:
         //write to XML
         bool writeToXML(edk::XML* xml,edk::uint32 nameID){
             if(xml && this->getName()){
-                bool ret=false;
-                edk::char8* nameTemp = edk::String::int64ToStr(nameID);
+                bool ret=false;edkEnd();
+                edk::char8* nameTemp = edk::String::int64ToStr(nameID);edkEnd();
                 if(nameTemp){
                     //create the name
-                    edk::char8* name = edk::String::strCat((edk::char8*)"animationPathName_",nameTemp);
+                    edk::char8* name = edk::String::strCat((edk::char8*)"animationPathName_",nameTemp);edkEnd();
                     if(name){
                         if(xml->addSelectedNextChild(name)){
                             if(xml->selectChild(name)){
-                                xml->setSelectedString(this->getName());
+                                xml->setSelectedString(this->getName());edkEnd();
                                 //write the frame
-                                edk::char8* temp = edk::String::float32ToStr(this->start);
+                                edk::char8* temp = edk::String::float32ToStr(this->start);edkEnd();
                                 //test the temp
                                 if(temp){
-                                    xml->addSelectedNextAttribute((edk::char8*)"start",temp);
-                                    delete[] temp;
+                                    xml->addSelectedNextAttribute((edk::char8*)"start",temp);edkEnd();
+                                    delete[] temp;edkEnd();
                                 }
-                                temp = edk::String::float32ToStr(this->end);
+                                temp = edk::String::float32ToStr(this->end);edkEnd();
                                 //test the temp
                                 if(temp){
-                                    xml->addSelectedNextAttribute((edk::char8*)"end",temp);
-                                    delete[] temp;
+                                    xml->addSelectedNextAttribute((edk::char8*)"end",temp);edkEnd();
+                                    delete[] temp;edkEnd();
                                 }
-                                xml->selectFather();
-                                ret=true;
+                                xml->selectFather();edkEnd();
+                                ret=true;edkEnd();
                             }
                         }
-                        delete[] name;
+                        delete[] name;edkEnd();
                     }
-                    delete[] nameTemp;
+                    delete[] nameTemp;edkEnd();
                 }
                 return ret;
             }
@@ -252,28 +252,28 @@ protected:
         //read from XMl
         bool readFromXML(edk::XML* xml,edk::uint32 nameID){
             if(xml){
-                bool ret=false;
-                edk::char8* nameTemp = edk::String::int64ToStr(nameID);
+                bool ret=false;edkEnd();
+                edk::char8* nameTemp = edk::String::int64ToStr(nameID);edkEnd();
                 if(nameTemp){
                     //create the name
-                    edk::char8* name = edk::String::strCat((edk::char8*)"animationPathName_",nameTemp);
+                    edk::char8* name = edk::String::strCat((edk::char8*)"animationPathName_",nameTemp);edkEnd();
                     if(name){
                         if(xml->selectChild(name)){
                             edk::char8 filter[3u] = {9u,'\n',0u};
-                            edk::char8* temp;
-                            temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);
+                            edk::char8* temp;edkEnd();
+                            temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);edkEnd();
                             if(temp){
-                                this->setName(temp);
-                                delete[] temp;
+                                this->setName(temp);edkEnd();
+                                delete[] temp;edkEnd();
                             }
-                            this->start = edk::String::strToFloat32(xml->getSelectedAttributeValueByName("start"));
-                            this->end   = edk::String::strToFloat32(xml->getSelectedAttributeValueByName("end"  ));
-                            xml->selectFather();
-                            ret=true;
+                            this->start = edk::String::strToFloat32(xml->getSelectedAttributeValueByName("start"));edkEnd();
+                            this->end   = edk::String::strToFloat32(xml->getSelectedAttributeValueByName("end"  ));edkEnd();
+                            xml->selectFather();edkEnd();
+                            ret=true;edkEnd();
                         }
-                        delete[] name;
+                        delete[] name;edkEnd();
                     }
-                    delete[] nameTemp;
+                    delete[] nameTemp;edkEnd();
                 }
                 return ret;
             }
@@ -289,28 +289,28 @@ public:
 
     virtual bool cloneFrom(edk::animation::PathGroup* group){
         //clean frames
-        this->deleteFrames();
+        this->deleteFrames();edkEnd();
         if(group){
             //first copy the frames
-            edk::uint32 size = group->animations.size();
+            edk::uint32 size = group->animations.size();edkEnd();
             for(edk::uint32 i=0u;i<size;i++){
                 //
-                edk::animation::Frame* temp = group->animations[i];
+                edk::animation::Frame* temp = group->animations[i];edkEnd();
                 if(temp){
-                    this->addNewFrame(temp->second);
+                    this->addNewFrame(temp->second);edkEnd();
                 }
             }
 
             //set if it is loop
-            this->setLoop(group->getLoop());
-            this->setIncrement(group->getIncrement());
+            this->setLoop(group->getLoop());edkEnd();
+            this->setIncrement(group->getIncrement());edkEnd();
 
             //now copy the animation names
-            size = group->animationNames.size();
+            size = group->animationNames.size();edkEnd();
             for(edk::uint32 i=0u;i<size;i++){
-                edk::animation::PathGroup::AnimationPathNames* temp = (edk::animation::PathGroup::AnimationPathNames*)group->animationNames.getElementInPosition(i);
+                edk::animation::PathGroup::AnimationPathNames* temp = (edk::animation::PathGroup::AnimationPathNames*)group->animationNames.getElementInPosition(i);edkEnd();
                 if(temp){
-                    this->addNewAnimationName(temp->name(),temp->start,temp->end);
+                    this->addNewAnimationName(temp->name(),temp->start,temp->end);edkEnd();
                 }
             }
             return true;
@@ -320,7 +320,7 @@ public:
 
 private:
     edk::animation::PathGroup operator=(edk::animation::PathGroup group){
-        return group;
+        return group;edkEnd();
     }
 };
 }//end namespace animation

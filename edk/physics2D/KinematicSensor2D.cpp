@@ -26,5 +26,5 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 edk::physics2D::KinematicSensor2D::KinematicSensor2D()
 {
-    this->physType = edk::physics::KinematicBody;
+    this->physType = edk::physics::KinematicBody;edkEnd();
 }

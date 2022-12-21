@@ -33,91 +33,91 @@ edk::light::Light3D::~Light3D(){
 
 //Set Vectors
 void edk::light::Light3D::setPosition(edk::float32 x,edk::float32 y,edk::float32 z){
-    edk::light::Light::setPosition(x,y,z);
+    edk::light::Light::setPosition(x,y,z);edkEnd();
 }
 void edk::light::Light3D::setPosition(edk::float32 x,edk::float32 y){
-    edk::light::Light::setPosition(x,y);
+    edk::light::Light::setPosition(x,y);edkEnd();
 }
 void edk::light::Light3D::setPosition(edk::vec3f32 position){
-    edk::light::Light::setPosition(position);
+    edk::light::Light::setPosition(position);edkEnd();
 }
 void edk::light::Light3D::setPosition(edk::vec2f32 position){
-    edk::light::Light::setPosition(position);
+    edk::light::Light::setPosition(position);edkEnd();
 }
 void edk::light::Light3D::setDirection(edk::float32 x,edk::float32 y,edk::float32 z){
-    edk::light::Light::setDirection(x,y,z);
+    edk::light::Light::setDirection(x,y,z);edkEnd();
 }
 void edk::light::Light3D::setDirection(edk::float32 x,edk::float32 y){
-    edk::light::Light::setDirection(x,y);
+    edk::light::Light::setDirection(x,y);edkEnd();
 }
 void edk::light::Light3D::setDirection(edk::vec3f32 direction){
-    edk::light::Light::setDirection(direction);
+    edk::light::Light::setDirection(direction);edkEnd();
 }
 void edk::light::Light3D::setDirection(edk::vec2f32 direction){
-    edk::light::Light::setDirection(direction);
+    edk::light::Light::setDirection(direction);edkEnd();
 }
 //Spot Values
 void edk::light::Light3D::setExponent(edk::float32 exponent){
-    edk::light::Light::setExponent(exponent);
+    edk::light::Light::setExponent(exponent);edkEnd();
 }
 void edk::light::Light3D::setCutoff(edk::float32 cutoff){
-    edk::light::Light::setCutoff(cutoff);
+    edk::light::Light::setCutoff(cutoff);edkEnd();
 }
 void edk::light::Light3D::setConstantAttenuation(edk::float32 constantAttenuation){
-    edk::light::Light::setConstantAttenuation(constantAttenuation);
+    edk::light::Light::setConstantAttenuation(constantAttenuation);edkEnd();
 }
 void edk::light::Light3D::setLinearAttenuation(edk::float32 linearAttenuation){
-    edk::light::Light::setLinearAttenuation(linearAttenuation);
+    edk::light::Light::setLinearAttenuation(linearAttenuation);edkEnd();
 }
 void edk::light::Light3D::setQuadraticAttenuation(edk::float32 quadraticAttenuation){
-    edk::light::Light::setQuadraticAttenuation(quadraticAttenuation);
+    edk::light::Light::setQuadraticAttenuation(quadraticAttenuation);edkEnd();
 }
 
 //get Position
 edk::float32 edk::light::Light3D::getPositionX(){
-    return edk::light::Light::getPositionX();
+    return edk::light::Light::getPositionX();edkEnd();
 }
 edk::float32 edk::light::Light3D::getPositionY(){
-    return edk::light::Light::getPositionY();
+    return edk::light::Light::getPositionY();edkEnd();
 }
 edk::float32 edk::light::Light3D::getPositionZ(){
-    return edk::light::Light::getPositionZ();
+    return edk::light::Light::getPositionZ();edkEnd();
 }
 edk::vec2f32 edk::light::Light3D::getPosition2f(){
-    return edk::light::Light::getPosition2f();
+    return edk::light::Light::getPosition2f();edkEnd();
 }
 edk::vec3f32 edk::light::Light3D::getPosition3f(){
-    return edk::light::Light::getPosition3f();
+    return edk::light::Light::getPosition3f();edkEnd();
 }
 edk::float32 edk::light::Light3D::getDirectionX(){
-    return edk::light::Light::getDirectionX();
+    return edk::light::Light::getDirectionX();edkEnd();
 }
 edk::float32 edk::light::Light3D::getDirectionY(){
-    return edk::light::Light::getDirectionY();
+    return edk::light::Light::getDirectionY();edkEnd();
 }
 edk::float32 edk::light::Light3D::getDirectionZ(){
-    return edk::light::Light::getDirectionZ();
+    return edk::light::Light::getDirectionZ();edkEnd();
 }
 edk::vec2f32 edk::light::Light3D::getDirection2f(){
-    return edk::light::Light::getDirection2f();
+    return edk::light::Light::getDirection2f();edkEnd();
 }
 edk::vec3f32 edk::light::Light3D::getDirection3f(){
-    return edk::light::Light::getDirection3f();
+    return edk::light::Light::getDirection3f();edkEnd();
 }
 
 //Spot Values
 edk::float32 edk::light::Light3D::getExponent(){
-    return edk::light::Light::getExponent();
+    return edk::light::Light::getExponent();edkEnd();
 }
 edk::float32 edk::light::Light3D::getCutoff(){
-    return edk::light::Light::getCutoff();
+    return edk::light::Light::getCutoff();edkEnd();
 }
 edk::float32 edk::light::Light3D::getConstantAttenuation(){
-    return edk::light::Light::getConstantAttenuation();
+    return edk::light::Light::getConstantAttenuation();edkEnd();
 }
 edk::float32 edk::light::Light3D::getLinearAttenuation(){
-    return edk::light::Light::getLinearAttenuation();
+    return edk::light::Light::getLinearAttenuation();edkEnd();
 }
 edk::float32 edk::light::Light3D::getQuadraticAttenuation(){
-    return edk::light::Light::getQuadraticAttenuation();
+    return edk::light::Light::getQuadraticAttenuation();edkEnd();
 }

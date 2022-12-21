@@ -44,8 +44,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 namespace edk{
 namespace animation{
-class Interpolation3DGroup: public Interpolation2DGroup
-{
+class Interpolation3DGroup: public Interpolation2DGroup{
     public:
         Interpolation3DGroup();
         virtual ~Interpolation3DGroup();
@@ -95,38 +94,38 @@ class Interpolation3DGroup: public Interpolation2DGroup
 
         virtual bool cloneFrom(edk::animation::Interpolation3DGroup* group){
             //clean frames
-            this->cleanAnimations();
+            this->cleanAnimations();edkEnd();
             if(group){
                 //first copy the frames
-                edk::uint32 size = group->animations.size();
+                edk::uint32 size = group->animations.size();edkEnd();
                 for(edk::uint32 i=0u;i<size;i++){
                     //
-                    edk::animation::InterpolationLine3D* temp = (edk::animation::InterpolationLine3D*)group->animations[i];
+                    edk::animation::InterpolationLine3D* temp = (edk::animation::InterpolationLine3D*)group->animations[i];edkEnd();
                     if(temp){
                         //test if it create the start frame
                         if(temp->getCreateStart()){
                             //copy the frame to the animation
-                            this->addNewInterpolationLine(temp->getStart3D());
+                            this->addNewInterpolationLine(temp->getStart3D());edkEnd();
                         }
                         //test if it create the end frame
                         if(temp->getCreateEnd()){
                             //copy the frame to the animation
-                            this->addNewInterpolationLine(temp->getEnd3D());
+                            this->addNewInterpolationLine(temp->getEnd3D());edkEnd();
                         }
                     }
                 }
 
                 //now copy the animation names
-                size = group->animationNames.size();
+                size = group->animationNames.size();edkEnd();
                 for(edk::uint32 i=0u;i<size;i++){
-                    edk::animation::AnimationName* temp = (edk::animation::AnimationName*)group->animationNames.getElementInPosition(i);
+                    edk::animation::AnimationName* temp = (edk::animation::AnimationName*)group->animationNames.getElementInPosition(i);edkEnd();
                     if(temp){
-                        this->addNewAnimationName(temp->name(),temp->start,temp->end);
+                        this->addNewAnimationName(temp->name(),temp->start,temp->end);edkEnd();
                     }
                 }
 
-                this->setLoop(group->getLoop());
-                this->setIncrement(group->getIncrement());
+                this->setLoop(group->getLoop());edkEnd();
+                this->setIncrement(group->getIncrement());edkEnd();
                 return true;
             }
             return false;

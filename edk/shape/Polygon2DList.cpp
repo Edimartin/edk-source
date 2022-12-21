@@ -30,31 +30,31 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 edk::shape::Polygon2DList::Polygon2DList(){
     //clean the selected
-    this->freeSelected();
-    this->canDeleteList=true;
+    this->freeSelected();edkEnd();
+    this->canDeleteList=true;edkEnd();
 }
 
 edk::shape::Polygon2DList::~Polygon2DList(){
     //clean the polygons
     if(this->canDeleteList){
-        this->cleanPolygons();
+        this->cleanPolygons();edkEnd();
     }
     else{
-        this->polygons.cantDestroy();
+        this->polygons.cantDestroy();edkEnd();
     }
-    this->canDeleteList=true;
+    this->canDeleteList=true;edkEnd();
 }
 
 //Set polygons color
 bool edk::shape::Polygon2DList::setPolygonsColor(edk::color4f32 color){
     //test if have polygons
     if(this->polygons.size()){
-        edk::shape::Polygon2D* polygon=NULL;
+        edk::shape::Polygon2D* polygon=NULL;edkEnd();
         //set the polygonColors
         for(edk::uint32 i=0u;i<this->polygons.size();i++){
-            polygon = this->polygons.get(i);
+            polygon = this->polygons.get(i);edkEnd();
             if(polygon){
-                polygon->setPolygonColor(color);
+                polygon->setPolygonColor(color);edkEnd();
             }
         }
         return true;
@@ -62,17 +62,17 @@ bool edk::shape::Polygon2DList::setPolygonsColor(edk::color4f32 color){
     return false;
 }
 bool edk::shape::Polygon2DList::setPolygonsColor(edk::color3f32 color){
-    return setPolygonsColor(color.r,color.g,color.b);
+    return setPolygonsColor(color.r,color.g,color.b);edkEnd();
 }
 bool edk::shape::Polygon2DList::setPolygonsColor(edk::float32 r,edk::float32 g,edk::float32 b){
     //test if have polygons
     if(this->polygons.size()){
-        edk::shape::Polygon2D* polygon=NULL;
+        edk::shape::Polygon2D* polygon=NULL;edkEnd();
         //set the polygonColors
         for(edk::uint32 i=0u;i<this->polygons.size();i++){
-            polygon = this->polygons.get(i);
+            polygon = this->polygons.get(i);edkEnd();
             if(polygon){
-                polygon->setPolygonColor(r,g,b);
+                polygon->setPolygonColor(r,g,b);edkEnd();
             }
         }
         return true;
@@ -82,12 +82,12 @@ bool edk::shape::Polygon2DList::setPolygonsColor(edk::float32 r,edk::float32 g,e
 bool edk::shape::Polygon2DList::setPolygonsColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
     //test if have polygons
     if(this->polygons.size()){
-        edk::shape::Polygon2D* polygon=NULL;
+        edk::shape::Polygon2D* polygon=NULL;edkEnd();
         //set the polygonColors
         for(edk::uint32 i=0u;i<this->polygons.size();i++){
-            polygon = this->polygons.get(i);
+            polygon = this->polygons.get(i);edkEnd();
             if(polygon){
-                polygon->setPolygonColor(r,g,b,a);
+                polygon->setPolygonColor(r,g,b,a);edkEnd();
             }
         }
         return true;
@@ -97,12 +97,12 @@ bool edk::shape::Polygon2DList::setPolygonsColor(edk::float32 r,edk::float32 g,e
 bool edk::shape::Polygon2DList::setPolygonsColorR(edk::float32 r){
     //test if have polygons
     if(this->polygons.size()){
-        edk::shape::Polygon2D* polygon=NULL;
+        edk::shape::Polygon2D* polygon=NULL;edkEnd();
         //set the polygonColors
         for(edk::uint32 i=0u;i<this->polygons.size();i++){
-            polygon = this->polygons.get(i);
+            polygon = this->polygons.get(i);edkEnd();
             if(polygon){
-                polygon->setPolygonColorR(r);
+                polygon->setPolygonColorR(r);edkEnd();
             }
         }
         return true;
@@ -112,12 +112,12 @@ bool edk::shape::Polygon2DList::setPolygonsColorR(edk::float32 r){
 bool edk::shape::Polygon2DList::setPolygonsColorG(edk::float32 g){
     //test if have polygons
     if(this->polygons.size()){
-        edk::shape::Polygon2D* polygon=NULL;
+        edk::shape::Polygon2D* polygon=NULL;edkEnd();
         //set the polygonColors
         for(edk::uint32 i=0u;i<this->polygons.size();i++){
-            polygon = this->polygons.get(i);
+            polygon = this->polygons.get(i);edkEnd();
             if(polygon){
-                polygon->setPolygonColorG(g);
+                polygon->setPolygonColorG(g);edkEnd();
             }
         }
         return true;
@@ -127,12 +127,12 @@ bool edk::shape::Polygon2DList::setPolygonsColorG(edk::float32 g){
 bool edk::shape::Polygon2DList::setPolygonsColorB(edk::float32 b){
     //test if have polygons
     if(this->polygons.size()){
-        edk::shape::Polygon2D* polygon=NULL;
+        edk::shape::Polygon2D* polygon=NULL;edkEnd();
         //set the polygonColors
         for(edk::uint32 i=0u;i<this->polygons.size();i++){
-            polygon = this->polygons.get(i);
+            polygon = this->polygons.get(i);edkEnd();
             if(polygon){
-                polygon->setPolygonColorB(b);
+                polygon->setPolygonColorB(b);edkEnd();
             }
         }
         return true;
@@ -142,12 +142,12 @@ bool edk::shape::Polygon2DList::setPolygonsColorB(edk::float32 b){
 bool edk::shape::Polygon2DList::setPolygonsColorA(edk::float32 a){
     //test if have polygons
     if(this->polygons.size()){
-        edk::shape::Polygon2D* polygon=NULL;
+        edk::shape::Polygon2D* polygon=NULL;edkEnd();
         //set the polygonColors
         for(edk::uint32 i=0u;i<this->polygons.size();i++){
-            polygon = this->polygons.get(i);
+            polygon = this->polygons.get(i);edkEnd();
             if(polygon){
-                polygon->setPolygonColorA(a);
+                polygon->setPolygonColorA(a);edkEnd();
             }
         }
         return true;
@@ -157,84 +157,84 @@ bool edk::shape::Polygon2DList::setPolygonsColorA(edk::float32 a){
 //set physics
 bool edk::shape::Polygon2DList::setPolygonDensity(edk::uint32 position,edk::float32 density){
     if(this->polygons.havePos(position)){
-        this->polygons[position]->setDensity(density);
+        this->polygons[position]->setDensity(density);edkEnd();
         return true;
     }
     return false;
 }
 void edk::shape::Polygon2DList::setDensity(edk::float32 density){
-    edk::uint32 size = this->polygons.size();
+    edk::uint32 size = this->polygons.size();edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
         if(this->polygons.havePos(i)){
-            this->polygons[i]->setDensity(density);
+            this->polygons[i]->setDensity(density);edkEnd();
         }
     }
 }
 bool edk::shape::Polygon2DList::setPolygonFriction(edk::uint32 position,edk::float32 friction){
     if(this->polygons.havePos(position)){
-        this->polygons[position]->setFriction(friction);
+        this->polygons[position]->setFriction(friction);edkEnd();
         return true;
     }
     return false;
 }
 void edk::shape::Polygon2DList::setFriction(edk::float32 friction){
-    edk::uint32 size = this->polygons.size();
+    edk::uint32 size = this->polygons.size();edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
         if(this->polygons.havePos(i)){
-            this->polygons[i]->setFriction(friction);
+            this->polygons[i]->setFriction(friction);edkEnd();
         }
     }
 }
 bool edk::shape::Polygon2DList::setPolygonRestitution(edk::uint32 position,edk::float32 restitution){
     if(this->polygons.havePos(position)){
-        this->polygons[position]->setRestitution(restitution);
+        this->polygons[position]->setRestitution(restitution);edkEnd();
         return true;
     }
     return false;
 }
 void edk::shape::Polygon2DList::setRestitution(edk::float32 restitution){
-    edk::uint32 size = this->polygons.size();
+    edk::uint32 size = this->polygons.size();edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
         if(this->polygons.havePos(i)){
-            this->polygons[i]->setRestitution(restitution);
+            this->polygons[i]->setRestitution(restitution);edkEnd();
         }
     }
 }
 //getPhysics
 edk::float32 edk::shape::Polygon2DList::getPolygonDensity(edk::uint32 position){
     if(this->polygons.havePos(position)){
-        return this->polygons[position]->getDensity();
+        return this->polygons[position]->getDensity();edkEnd();
     }
     //return initial value
-    return 1.f;
+    return 1.f;edkEnd();
 }
 edk::float32 edk::shape::Polygon2DList::getPolygonFriction(edk::uint32 position){
     if(this->polygons.havePos(position)){
-        return this->polygons[position]->getFriction();
+        return this->polygons[position]->getFriction();edkEnd();
     }
     //return initial value
-    return 0.f;
+    return 0.f;edkEnd();
 }
 edk::float32 edk::shape::Polygon2DList::getPolygonRestitution(edk::uint32 position){
     if(this->polygons.havePos(position)){
-        return this->polygons[position]->getRestitution();
+        return this->polygons[position]->getRestitution();edkEnd();
     }
     //return initial value
-    return 0.f;
+    return 0.f;edkEnd();
 }
 
 //function to calculate boundingBox
 bool edk::shape::Polygon2DList::calculateBoundingBox(edk::rectf32* rectangle,edk::vector::Matrix<edk::float32,3,3>* transformMat){
     if(rectangle && transformMat){
-        edk::uint32 size = this->polygons.size();
+        edk::uint32 size = this->polygons.size();edkEnd();
         if(size){
             //copy the first rectangle
             if(this->polygons.havePos(0u)){
-                *rectangle = this->polygons[0u]->generateBoundingBox(transformMat);
+                *rectangle = this->polygons[0u]->generateBoundingBox(transformMat);edkEnd();
                 //draw the polygons
                 for(edk::uint32 i=1u;i<size;i++){
                     if(this->polygons.havePos(i)){
-                        this->polygons[i]->calculateBoundingBox(rectangle,transformMat);
+                        this->polygons[i]->calculateBoundingBox(rectangle,transformMat);edkEnd();
                     }
                 }
                 return true;
@@ -244,17 +244,17 @@ bool edk::shape::Polygon2DList::calculateBoundingBox(edk::rectf32* rectangle,edk
     return false;
 }
 edk::rectf32 edk::shape::Polygon2DList::generateBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat){
-    edk::rectf32 ret;
+    edk::rectf32 ret;edkEnd();
     if(transformMat){
-        edk::uint32 size = this->polygons.size();
+        edk::uint32 size = this->polygons.size();edkEnd();
         if(size){
             //copy the first rectangle
             if(this->polygons.havePos(0u)){
-                ret = this->polygons[0u]->generateBoundingBox(transformMat);
+                ret = this->polygons[0u]->generateBoundingBox(transformMat);edkEnd();
                 //draw the polygons
                 for(edk::uint32 i=1u;i<size;i++){
                     if(this->polygons.havePos(i)){
-                        this->polygons[i]->calculateBoundingBox(&ret,transformMat);
+                        this->polygons[i]->calculateBoundingBox(&ret,transformMat);edkEnd();
                     }
                 }
             }
@@ -269,10 +269,10 @@ edk::uint32 edk::shape::Polygon2DList::addPolygon(edk::shape::Polygon2D polygon)
     //return
     edk::uint32 ret=0u;
     //polygon to be added
-    edk::shape::Polygon2D* temp=NULL;
+    edk::shape::Polygon2D* temp=NULL;edkEnd();
     //test if it's a line
     if(polygon.isLine()){
-        temp=new edk::shape::Lines2D;
+        temp=new edk::shape::Lines2D;edkEnd();
     }
     //test al much vertex have the polygon. Test if are a polygon or Rectangle.
     else if(polygon.getVertexCount()>=2u){
@@ -280,83 +280,83 @@ edk::uint32 edk::shape::Polygon2DList::addPolygon(edk::shape::Polygon2D polygon)
             //it's a polygon
 
             //create the polygon
-            temp=new edk::shape::Polygon2D();
+            temp=new edk::shape::Polygon2D();edkEnd();
         }
         else{
             //it's a rectangle
 
             //create a rectangle
-            temp=(edk::shape::Polygon2D*) new edk::shape::Rectangle2D();
+            temp=(edk::shape::Polygon2D*) new edk::shape::Rectangle2D();edkEnd();
         }
     }
 
     //test if have created the polygon
     if(temp){
         //copy the polygon
-        //*temp = polygon;
-        temp->cloneFrom(&polygon);
+        //*temp = polygon;edkEnd();
+        temp->cloneFrom(&polygon);edkEnd();
 
         //load the size of the polygons
-        edk::uint32 size = this->polygons.size() - this->polygons.sizeRemoved();
+        edk::uint32 size = this->polygons.size() - this->polygons.sizeRemoved();edkEnd();
         //add the polygon
-        ret = this->polygons.pushBack(temp);
+        ret = this->polygons.pushBack(temp);edkEnd();
         //now compare the size in the list
         if(size<(this->polygons.size() - this->polygons.sizeRemoved())){
             //polygon added
 
             //select the ret
-            this->selectPolygon(ret);
+            this->selectPolygon(ret);edkEnd();
         }
         else{
             //polygon dont added. Delete the temp
-            delete temp;
+            delete temp;edkEnd();
             //clean the ret
             ret=0u;
         }
     }
     //set temp NULL
-    temp=NULL;
+    temp=NULL;edkEnd();
 
     //remove the delete from the polygon. This dont delete polygon in the next destrutor
-    polygon.cantDeletePolygon();
-    //else return 0u;
+    polygon.cantDeletePolygon();edkEnd();
+    //else return 0u;edkEnd();
     return ret;
 }
 //GETERS
 //return the polygonSize
 edk::uint32 edk::shape::Polygon2DList::getPolygonSize(){
     //
-    return this->polygons.size();
+    return this->polygons.size();edkEnd();
 }
 //return true if have a polygon selected
 bool edk::shape::Polygon2DList::haveSelected(){
     //
-    return (bool) this->selected;
+    return (bool) this->selected;edkEnd();
 }
 
 //DELETE
 //clean the polygons
 void edk::shape::Polygon2DList::cleanPolygons(){
-    this->freeSelected();
+    this->freeSelected();edkEnd();
     //remove all the polygons
     for(edk::uint32 i=0u;i<this->polygons.size();i++){
         //
-        this->removePolygon(i);
+        this->removePolygon(i);edkEnd();
     }
-    this->polygons.clean();
+    this->polygons.clean();edkEnd();
 }
 //delete the polygon
 bool edk::shape::Polygon2DList::removePolygon(edk::uint32 position){
     //test if have this polygon
     if(this->polygons.havePos(position)){
         //then get the element in the position
-        edk::shape::Polygon2D* temp = this->polygons.remove(position);
+        edk::shape::Polygon2D* temp = this->polygons.remove(position);edkEnd();
         //test if have the temp
         if(temp){
             //delete the polygon
-            delete temp;
+            delete temp;edkEnd();
         }
-        temp=NULL;
+        temp=NULL;edkEnd();
         //return true
         return true;
     }
@@ -366,7 +366,7 @@ bool edk::shape::Polygon2DList::removePolygon(edk::uint32 position){
 //free de selected
 void edk::shape::Polygon2DList::freeSelected(){
     //
-    this->selected=NULL;
+    this->selected=NULL;edkEnd();
 }
 
 //SELECTED
@@ -374,11 +374,12 @@ bool edk::shape::Polygon2DList::selectPolygon(edk::uint32 position){
     //test if have the position
     if(this->polygons.havePos(position)){
         //select the polygon
-        this->selected = this->polygons[position];
+        this->selected = this->polygons[position];edkEnd();
         //test if have selected some polygon
-        if(this->selected)
+        if(this->selected){
             //then return true
             return true;
+        }
     }
     //else return false
     return false;
@@ -390,7 +391,7 @@ bool edk::shape::Polygon2DList::selectedSetVertexPosition(edk::uint32 vertex,edk
         //
 
         //return true
-        return this->selected->setVertexPosition(vertex,position);
+        return this->selected->setVertexPosition(vertex,position);edkEnd();
     }
     //else return false
     return false;
@@ -401,7 +402,7 @@ bool edk::shape::Polygon2DList::selectedSetVertexPosition(edk::uint32 vertex,edk
         //
 
         //return true
-        return this->selected->setVertexPosition(vertex,x,y);
+        return this->selected->setVertexPosition(vertex,x,y);edkEnd();
     }
     //else return false
     return false;
@@ -413,7 +414,7 @@ bool edk::shape::Polygon2DList::selectedSetVertexColor(edk::uint32 vertex,edk::c
         //
 
         //return true
-        return this->selected->setVertexColor(vertex,color);
+        return this->selected->setVertexColor(vertex,color);edkEnd();
     }
     //else return false
     return false;
@@ -424,7 +425,7 @@ bool edk::shape::Polygon2DList::selectedSetVertexColor(edk::uint32 vertex,edk::f
         //
 
         //return true
-        return this->selected->setVertexColor(vertex,r,g,b);
+        return this->selected->setVertexColor(vertex,r,g,b);edkEnd();
     }
     //else return false
     return false;
@@ -435,7 +436,7 @@ bool edk::shape::Polygon2DList::selectedSetVertexColor(edk::uint32 vertex,edk::f
         //
 
         //return true
-        return this->selected->setVertexColor(vertex,r,g,b,a);
+        return this->selected->setVertexColor(vertex,r,g,b,a);edkEnd();
     }
     //else return false
     return false;
@@ -447,7 +448,7 @@ bool edk::shape::Polygon2DList::selectedSetPolygonColor(edk::color4f32 color){
         //
 
         //return true
-        return this->selected->setPolygonColor(color);
+        return this->selected->setPolygonColor(color);edkEnd();
     }
     //else return false
     return false;
@@ -458,7 +459,7 @@ bool edk::shape::Polygon2DList::selectedSetPolygonColor(edk::float32 r,edk::floa
         //
 
         //return true
-        return this->selected->setPolygonColor(r,g,b);
+        return this->selected->setPolygonColor(r,g,b);edkEnd();
     }
     //else return false
     return false;
@@ -469,7 +470,7 @@ bool edk::shape::Polygon2DList::selectedSetPolygonColor(edk::float32 r,edk::floa
         //
 
         //return true
-        return this->selected->setPolygonColor(r,g,b,a);
+        return this->selected->setPolygonColor(r,g,b,a);edkEnd();
     }
     //else return false
     return false;
@@ -481,7 +482,7 @@ bool edk::shape::Polygon2DList::selectedSetVertexUV(edk::uint32 vertex,edk::vec2
         //
 
         //return true
-        return this->selected->setVertexUV(vertex,uv);
+        return this->selected->setVertexUV(vertex,uv);edkEnd();
     }
     //else return false
     return false;
@@ -492,7 +493,7 @@ bool edk::shape::Polygon2DList::selectedSetVertexUV(edk::uint32 vertex,edk::floa
         //
 
         //return true
-        return this->selected->setVertexUV(vertex,x,y);
+        return this->selected->setVertexUV(vertex,x,y);edkEnd();
     }
     //else return false
     return false;
@@ -504,7 +505,7 @@ bool edk::shape::Polygon2DList::selectedSetPolygonUVFrames(edk::vec2ui32 frames)
         //
 
         //return true
-        return this->selected->setPolygonUVFrames(frames);
+        return this->selected->setPolygonUVFrames(frames);edkEnd();
     }
     //else return false
     return false;
@@ -515,7 +516,7 @@ bool edk::shape::Polygon2DList::selectedSetPolygonUVFrames(edk::uint32 x,edk::ui
         //
 
         //return true
-        return this->selected->setPolygonUVFrames(x,y);
+        return this->selected->setPolygonUVFrames(x,y);edkEnd();
     }
     //else return false
     return false;
@@ -526,7 +527,7 @@ bool edk::shape::Polygon2DList::selectedSetPolygonUVFramesX(edk::uint32 x){
         //
 
         //return true
-        return this->selected->setPolygonUVFramesX(x);
+        return this->selected->setPolygonUVFramesX(x);edkEnd();
     }
     //else return false
     return false;
@@ -537,7 +538,7 @@ bool edk::shape::Polygon2DList::selectedSetPolygonUVFramesY(edk::uint32 y){
         //
 
         //return true
-        return this->selected->setPolygonUVFramesY(y);
+        return this->selected->setPolygonUVFramesY(y);edkEnd();
     }
     //else return false
     return false;
@@ -547,7 +548,7 @@ bool edk::shape::Polygon2DList::selectedUsePolygonUVFrame(edk::vec2ui32 frame){
     //test if have selected
     if(this->selected){
         //
-        this->selected->usePolygonUVFrame(frame);
+        this->selected->usePolygonUVFrame(frame);edkEnd();
 
         //return true
         return true;
@@ -556,13 +557,13 @@ bool edk::shape::Polygon2DList::selectedUsePolygonUVFrame(edk::vec2ui32 frame){
     return false;
 }
 bool edk::shape::Polygon2DList::selectedUsePolygonUVFrame(edk::uint32 x,edk::uint32 y){
-    return this->selectedUsePolygonUVFrame(edk::vec2ui32 (x,y));
+    return this->selectedUsePolygonUVFrame(edk::vec2ui32 (x,y));edkEnd();
 }
 bool edk::shape::Polygon2DList::selectedUsePolygonUVFramePosition(edk::uint32 position){
     //test if have selcted
     if(this->selected){
         //
-        this->selected->usePolygonUVFramePosition(position);
+        this->selected->usePolygonUVFramePosition(position);edkEnd();
 
         //return true
         return true;
@@ -574,7 +575,7 @@ bool edk::shape::Polygon2DList::selectedUsePolygonUVFrameX(edk::uint32 x){
     //test if have selected
     if(this->selected){
         //
-        this->selected->usePolygonUVFrameX(x);
+        this->selected->usePolygonUVFrameX(x);edkEnd();
 
         //return true
         return true;
@@ -586,7 +587,7 @@ bool edk::shape::Polygon2DList::selectedUsePolygonUVFrameY(edk::uint32 y){
     //test if have selected
     if(this->selected){
         //
-        this->selected->usePolygonUVFrameY(y);
+        this->selected->usePolygonUVFrameY(y);edkEnd();
 
         //return true
         return true;
@@ -599,7 +600,7 @@ bool edk::shape::Polygon2DList::selectedSetDensity(edk::float32 density){
     //test if have selected
     if(this->selected){
         //
-        this->selected->setDensity(density);
+        this->selected->setDensity(density);edkEnd();
 
         //return true
         return true;
@@ -611,7 +612,7 @@ bool edk::shape::Polygon2DList::selectedSetFriction(edk::float32 friction){
     //test if have selected
     if(this->selected){
         //
-        this->selected->setFriction(friction);
+        this->selected->setFriction(friction);edkEnd();
 
         //return true
         return true;
@@ -623,7 +624,7 @@ bool edk::shape::Polygon2DList::selectedSetRestitution(edk::float32 restitution)
     //test if have selected
     if(this->selected){
         //
-        this->selected->setRestitution(restitution);
+        this->selected->setRestitution(restitution);edkEnd();
 
         //return true
         return true;
@@ -638,7 +639,7 @@ bool edk::shape::Polygon2DList::selectedRemoveVertexUV(edk::uint32 vertex){
     //test if have selected
     if(this->selected){
         //
-        return this->selected->removeVertexUV(vertex);
+        return this->selected->removeVertexUV(vertex);edkEnd();
     }
     //else return false
     return false;
@@ -648,7 +649,7 @@ bool edk::shape::Polygon2DList::selectedRemovePolygonUV(){
     //test if have selected
     if(this->selected){
         //
-        this->selected->removePolygonUV();
+        this->selected->removePolygonUV();edkEnd();
 
         //return true
         return true;
@@ -661,7 +662,7 @@ bool edk::shape::Polygon2DList::selectedCleanPolygonUVAnimation(){
     //test if have selected
     if(this->selected){
         //
-        this->selected->cleanPolygonUVAnimation();
+        this->selected->cleanPolygonUVAnimation();edkEnd();
 
         //return true
         return true;
@@ -674,86 +675,86 @@ edk::uint32 edk::shape::Polygon2DList::selectedGetVertexCount(){
     //test if have selected
     if(this->selected){
         //
-        return this->selected->getVertexCount();
+        return this->selected->getVertexCount();edkEnd();
     }
     //else return zero
-    return 0u;
+    return 0u;edkEnd();
 }
 //return if the vertex have UV
 edk::uint8 edk::shape::Polygon2DList::selectedGetVertexType(edk::uint32 pos){
     //test if have selected
     if(this->selected){
         //
-        return this->selected->getVertexType(pos);
+        return this->selected->getVertexType(pos);edkEnd();
     }
     //else return zero
-    return 0u;
+    return 0u;edkEnd();
 }
 //return the vertex
 edk::vec2f32 edk::shape::Polygon2DList::selectedGetVertexPosition(edk::uint32 pos){
     //test if have selected
     if(this->selected){
         //
-        return this->selected->getVertexPosition(pos);
+        return this->selected->getVertexPosition(pos);edkEnd();
     }
     //else return zero
-    return edk::vec2f32(0,0);
+    return edk::vec2f32(0,0);edkEnd();
 }
 //return the vertex color
 edk::color4f32 edk::shape::Polygon2DList::selectedGetVertexColor(edk::uint32 pos){
     //test if have selected
     if(this->selected){
         //
-        return this->selected->getVertexColor(pos);
+        return this->selected->getVertexColor(pos);edkEnd();
     }
     //else return zero
-    return edk::color4f32(0,0,0,0);
+    return edk::color4f32(0,0,0,0);edkEnd();
 }
 //return the vertex UV
 edk::vec2f32 edk::shape::Polygon2DList::selectedGetVertexUV(edk::uint32 pos){
     //test if have selected
     if(this->selected){
         //
-        return this->selected->getVertexUV(pos);
+        return this->selected->getVertexUV(pos);edkEnd();
     }
     //else return zero
-    return edk::vec2f32();
+    return edk::vec2f32();edkEnd();
 }
 //return the frames
 edk::vec2ui32 edk::shape::Polygon2DList::selectedGetFrames(){
     //test if have selected
     if(this->selected){
-        return this->selected->getFrames();
+        return this->selected->getFrames();edkEnd();
     }
     //else return zero
-    return edk::vec2ui32(0u,0u);
+    return edk::vec2ui32(0u,0u);edkEnd();
 }
 edk::uint32 edk::shape::Polygon2DList::selectedGetFramesPosition(){
     //test if have selected
     if(this->selected){
-        return this->selected->getFramesPosition();
+        return this->selected->getFramesPosition();edkEnd();
     }
     //else return zero
-    return 0u;
+    return 0u;edkEnd();
 }
 //return the frameUsed
 edk::vec2ui32 edk::shape::Polygon2DList::selectedGetFrameUsed(){
     //test if have selected
     if(this->selected){
         //
-        return this->selected->getFrameUsed();
+        return this->selected->getFrameUsed();edkEnd();
     }
     //else return zero
-    return edk::vec2ui32(0u,0u);
+    return edk::vec2ui32(0u,0u);edkEnd();
 }
 edk::uint32 edk::shape::Polygon2DList::selectedGetFramePositionUsed(){
     //test if have selected
     if(this->selected){
         //
-        return this->selected->getFramePositionUsed();
+        return this->selected->getFramePositionUsed();edkEnd();
     }
     //else return zero
-    return 0u;
+    return 0u;edkEnd();
 }
 
 //get Transate
@@ -761,37 +762,37 @@ edk::vec2f32 edk::shape::Polygon2DList::selectedGetTranslate(){
     //test if have selected
     if(this->selected){
         //
-        return this->selected->getTranslate();
+        return this->selected->getTranslate();edkEnd();
     }
     //else return zero
-    return edk::vec2f32(0u,0u);
+    return edk::vec2f32(0u,0u);edkEnd();
 }
 //get scale
 edk::size2f32 edk::shape::Polygon2DList::selectedGetScale(){
     //test if have selected
     if(this->selected){
         //
-        return this->selected->getScale();
+        return this->selected->getScale();edkEnd();
     }
     //else return zero
-    return edk::size2f32(0u,0u);
+    return edk::size2f32(0u,0u);edkEnd();
 }
 //get angle
 edk::float32 edk::shape::Polygon2DList::selectedGetAngle(){
     //test if have selected
     if(this->selected){
         //
-        return this->selected->getAngle();
+        return this->selected->getAngle();edkEnd();
     }
     //else return zero
-    return 0u;
+    return 0u;edkEnd();
 }
 //return if is a circle
 bool edk::shape::Polygon2DList::selectedIsCircle(){
     //test if have selected
     if(this->selected){
         //
-        return this->selected->isCircle();
+        return this->selected->isCircle();edkEnd();
     }
     return false;
 }
@@ -800,7 +801,7 @@ bool edk::shape::Polygon2DList::selectedIsLine(){
     //test if have selected
     if(this->selected){
         //
-        return this->selected->isLine();
+        return this->selected->isLine();edkEnd();
     }
     return false;
 }
@@ -809,50 +810,50 @@ edk::uint8 edk::shape::Polygon2DList::selectedGetCollisionID(){
     //test if have selected
     if(this->selected){
         //
-        return this->selected->getCollisionID();
+        return this->selected->getCollisionID();edkEnd();
     }
-    return 0u;
+    return 0u;edkEnd();
 }
 //return the circle radius
 edk::float32 edk::shape::Polygon2DList::selectedGetCircleRadius(){
     //test if have selected
     if(this->selected){
         //
-        return this->selected->getCircleRadius();
+        return this->selected->getCircleRadius();edkEnd();
     }
-    return 0.f;
+    return 0.f;edkEnd();
 }
 //get Physics
 edk::float32 edk::shape::Polygon2DList::selectedGetDensity(){
     //test if have selected
     if(this->selected){
         //
-        return this->selected->getDensity();
+        return this->selected->getDensity();edkEnd();
     }
-    return 0.f;
+    return 0.f;edkEnd();
 }
 edk::float32 edk::shape::Polygon2DList::selectedGetFriction(){
     //test if have selected
     if(this->selected){
         //
-        return this->selected->getFriction();
+        return this->selected->getFriction();edkEnd();
     }
-    return 0.f;
+    return 0.f;edkEnd();
 }
 edk::float32 edk::shape::Polygon2DList::selectedGetRestitution(){
     //test if have selected
     if(this->selected){
         //
-        return this->selected->getRestitution();
+        return this->selected->getRestitution();edkEnd();
     }
-    return 0.f;
+    return 0.f;edkEnd();
 }
 //draw the selectedPolygon
 bool edk::shape::Polygon2DList::selectedDrawPolygon(){
     //test if have selected
     if(this->selected){
         //
-        this->selected->draw();
+        this->selected->draw();edkEnd();
         return true;
     }
     return false;
@@ -861,7 +862,7 @@ bool edk::shape::Polygon2DList::selectedDrawWirePolygon(){
     //test if have selected
     if(this->selected){
         //
-        this->selected->drawWire();
+        this->selected->drawWire();edkEnd();
         return true;
     }
     return false;
@@ -870,7 +871,7 @@ bool edk::shape::Polygon2DList::selectedDrawVertexs(edk::color3f32 color){
     //test if have selected
     if(this->selected){
         //
-        this->selected->drawPolygonVertexs(edk::color4f32(color.r,color.g,color.b,1.f));
+        this->selected->drawPolygonVertexs(edk::color4f32(color.r,color.g,color.b,1.f));edkEnd();
         return true;
     }
     return false;
@@ -879,39 +880,39 @@ bool edk::shape::Polygon2DList::selectedDrawVertexs(edk::color3f32 color){
 //XML
 bool edk::shape::Polygon2DList::writeToXML(edk::XML* xml,edk::uint32 id){
     if(xml){
-        bool ret=false;
+        bool ret=false;edkEnd();
         //create the nameID
-        edk::char8* nameID = edk::String::int64ToStr(id);
+        edk::char8* nameID = edk::String::int64ToStr(id);edkEnd();
         if(nameID){
             //concat
-            edk::char8* name = edk::String::strCat((edk::char8*)"mesh_",nameID);
+            edk::char8* name = edk::String::strCat((edk::char8*)"mesh_",nameID);edkEnd();
             if(name){
                 //create the name
                 if(xml->addSelectedNextChild(name)){
                     if(xml->selectChild(name)){
-                        edk::uint32 size = this->polygons.size();
-                        edk::char8* temp = edk::String::int64ToStr((edk::int64)size);
+                        edk::uint32 size = this->polygons.size();edkEnd();
+                        edk::char8* temp = edk::String::int64ToStr((edk::int64)size);edkEnd();
                         if(temp){
-                            xml->addSelectedNextAttribute((edk::char8*)"pCount",temp);
-                            delete[] temp;
+                            xml->addSelectedNextAttribute((edk::char8*)"pCount",temp);edkEnd();
+                            delete[] temp;edkEnd();
                         }
-                        edk::shape::Polygon2D* poly;
+                        edk::shape::Polygon2D* poly;edkEnd();
                         //write the polygons
                         for(edk::uint32 i=0u;i<size;i++){
                             if(this->polygons.havePos(i)){
-                                poly=this->polygons[i];
+                                poly=this->polygons[i];edkEnd();
                                 if(poly){
-                                    poly->writeToXML(xml,i);
+                                    poly->writeToXML(xml,i);edkEnd();
                                 }
                             }
                         }
-                        ret=true;
-                        xml->selectFather();
+                        ret=true;edkEnd();
+                        xml->selectFather();edkEnd();
                     }
                 }
-                delete[] name;
+                delete[] name;edkEnd();
             }
-            delete[] nameID;
+            delete[] nameID;edkEnd();
         }
         return ret;
     }
@@ -919,31 +920,31 @@ bool edk::shape::Polygon2DList::writeToXML(edk::XML* xml,edk::uint32 id){
 }
 bool edk::shape::Polygon2DList::readFromXML(edk::XML* xml,edk::uint32 id){
     if(xml){
-        bool ret=false;
+        bool ret=false;edkEnd();
         //create the nameID
-        edk::char8* nameID = edk::String::int64ToStr(id);
+        edk::char8* nameID = edk::String::int64ToStr(id);edkEnd();
         if(nameID){
             //concat
-            edk::char8* name = edk::String::strCat((edk::char8*)"mesh_",nameID);
+            edk::char8* name = edk::String::strCat((edk::char8*)"mesh_",nameID);edkEnd();
             if(name){
                 //select the name
                 if(xml->selectChild(name)){
-                    this->cleanPolygons();
-                    edk::uint32 size = edk::String::strToInt64(xml->getSelectedAttributeValueByName("pCount"));
-                    edk::shape::Polygon2D poly;
+                    this->cleanPolygons();edkEnd();
+                    edk::uint32 size = edk::String::strToInt64(xml->getSelectedAttributeValueByName("pCount"));edkEnd();
+                    edk::shape::Polygon2D poly;edkEnd();
                     //READ the polygons
                     for(edk::uint32 i=0u;i<size;i++){
-                        poly.deletePolygon();
-                        poly.readFromXML(xml,i);
+                        poly.deletePolygon();edkEnd();
+                        poly.readFromXML(xml,i);edkEnd();
                         //add the poly
-                        this->addPolygon(poly);
+                        this->addPolygon(poly);edkEnd();
                     }
-                    ret=true;
-                    xml->selectFather();
+                    ret=true;edkEnd();
+                    xml->selectFather();edkEnd();
                 }
-                delete[] name;
+                delete[] name;edkEnd();
             }
-            delete[] nameID;
+            delete[] nameID;edkEnd();
         }
         return ret;
     }
@@ -951,22 +952,22 @@ bool edk::shape::Polygon2DList::readFromXML(edk::XML* xml,edk::uint32 id){
 }
 bool edk::shape::Polygon2DList::cloneFrom(edk::shape::Polygon2DList* list){
     //delete the polygons
-    this->cleanPolygons();
+    this->cleanPolygons();edkEnd();
     if(list){
         //read the polygons
-        register edk::uint32 size = list->polygons.size();
+        register edk::uint32 size = list->polygons.size();edkEnd();
         edk::uint32 select=0u;
-        edk::shape::Polygon2D* temp = NULL;
+        edk::shape::Polygon2D* temp = NULL;edkEnd();
         for(edk::uint32 i=0u;i<size;i++){
-            temp=list->polygons[i];
+            temp=list->polygons[i];edkEnd();
             if(temp){
                 if(temp==list->selected){
-                    select=i;
+                    select=i;edkEnd();
                 }
-                this->addPolygon(*temp);
+                this->addPolygon(*temp);edkEnd();
             }
         }
-        this->selectPolygon(select);
+        this->selectPolygon(select);edkEnd();
         return true;
     }
     return false;
@@ -980,8 +981,8 @@ void edk::shape::Polygon2DList::printPolygons(){
         if(this->polygons.havePos(i)){
             printf("\nPolygon %u"
                    ,i
-                   );
-            this->polygons[i]->print();
+                   );edkEnd();
+            this->polygons[i]->print();edkEnd();
         }
     }
 }
@@ -991,8 +992,8 @@ bool edk::shape::Polygon2DList::printPolygon(edk::uint32 polygon){
         if(this->polygons.havePos(polygon)){
             printf("\nPolygon %u"
                    ,polygon
-                   );
-            this->polygons[polygon]->print();
+                   );edkEnd();
+            this->polygons[polygon]->print();edkEnd();
             return true;
         }
     }
@@ -1004,7 +1005,7 @@ void edk::shape::Polygon2DList::drawPolygons(){
     //draw the polygons
     for(edk::uint32 i=0u;i<this->polygons.size();i++){
         if(this->polygons.havePos(i)){
-            this->polygons[i]->draw();
+            this->polygons[i]->draw();edkEnd();
         }
     }
 }
@@ -1012,7 +1013,7 @@ bool edk::shape::Polygon2DList::drawPolygon(edk::uint32 polygon){
     //draw the polygon
     if(polygon<this->polygons.size()){
         if(this->polygons.havePos(polygon)){
-            this->polygons[polygon]->draw();
+            this->polygons[polygon]->draw();edkEnd();
             return true;
         }
     }
@@ -1023,7 +1024,7 @@ void edk::shape::Polygon2DList::drawWirePolygons(){
     //draw the polygons
     for(edk::uint32 i=0u;i<this->polygons.size();i++){
         if(this->polygons.havePos(i)){
-            this->polygons[i]->drawWire();
+            this->polygons[i]->drawWire();edkEnd();
         }
     }
 }
@@ -1031,18 +1032,18 @@ bool edk::shape::Polygon2DList::drawWirePolygon(edk::uint32 polygon){
     //draw the polygons
     if(polygon<this->polygons.size()){
         if(this->polygons.havePos(polygon)){
-            this->polygons[polygon]->drawWire();
+            this->polygons[polygon]->drawWire();edkEnd();
             return true;
         }
     }
     return false;
 }
 void edk::shape::Polygon2DList::drawVertexs(edk::color3f32 color){
-    edk::GU::guColor3f32(color);
+    edk::GU::guColor3f32(color);edkEnd();
     //draw the polygons
     for(edk::uint32 i=0u;i<this->polygons.size();i++){
         if(this->polygons.havePos(i)){
-            this->polygons[i]->drawPolygonVertexs(edk::color4f32(color.r,color.g,color.b,1.f));
+            this->polygons[i]->drawPolygonVertexs(edk::color4f32(color.r,color.g,color.b,1.f));edkEnd();
         }
     }
 }
@@ -1050,8 +1051,8 @@ bool edk::shape::Polygon2DList::drawPolygonVertexs(edk::uint32 polygon,edk::colo
     //draw the polygons
     if(polygon<this->polygons.size()){
         if(this->polygons.havePos(polygon)){
-            edk::GU::guColor3f32(color);
-            this->polygons[polygon]->drawPolygonVertexs(edk::color4f32(color.r,color.g,color.b,1.f));
+            edk::GU::guColor3f32(color);edkEnd();
+            this->polygons[polygon]->drawPolygonVertexs(edk::color4f32(color.r,color.g,color.b,1.f));edkEnd();
             return true;
         }
     }
@@ -1060,6 +1061,6 @@ bool edk::shape::Polygon2DList::drawPolygonVertexs(edk::uint32 polygon,edk::colo
 
 //Set to cant delete the polygon
 void edk::shape::Polygon2DList::cantDeleteList(){
-    this->canDeleteList=false;
-    this->polygons.cantDestroy();
+    this->canDeleteList=false;edkEnd();
+    this->polygons.cantDestroy();edkEnd();
 }

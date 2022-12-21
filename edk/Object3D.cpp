@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 edk::Object3D::Object3D(){
     //
-    this->loadIdentityValues();
+    this->loadIdentityValues();edkEnd();
 }
 edk::Object3D::~Object3D(){
     //
@@ -34,40 +34,42 @@ edk::Object3D::~Object3D(){
 
 //create a new mesh and add to the meshs stack
 edk::shape::Mesh3D* edk::Object3D::newMesh(edk::uint32* position){
-    return this->meshes.pushNewMesh(position);
+    return this->meshes.pushNewMesh(position);edkEnd();
 }
 //Add a list to the Object2D
 edk::uint32 edk::Object3D::addMesh(edk::shape::Mesh3D* mesh){
     //test if the list exist
     if(mesh){
-        edk::uint32 ret = 0u;
+        edk::uint32 ret = 0u;edkEnd();
         //then add the mesh to the list
-        ret = this->meshes.pushBackMesh(mesh,false);
+        ret = this->meshes.pushBackMesh(mesh,false);edkEnd();
         if(ret<this->meshes.size()){
             //test if select the first
-            if(this->meshes.size()==1u) this->selectMesh(0u);
+            if(this->meshes.size()==1u){
+                this->selectMesh(0u);edkEnd();
+            }
             return ret;
         }
     }
 
     //else return falses
-    return 0u;
+    return 0u;edkEnd();
 }
 //remove a polygonlist
 bool edk::Object3D::removeMesh(edk::uint32 position){
     //remove the mesh
-    return this->meshes.removeMesh(position);
+    return this->meshes.removeMesh(position);edkEnd();
 }
 //remove all meshes
 void edk::Object3D::cleanMeshes(){
-    this->cleanSelected();
-    this->meshes.removeAllMeshes();
+    this->cleanSelected();edkEnd();
+    this->meshes.removeAllMeshes();edkEnd();
 }
 
 //Select the polygonList
 bool edk::Object3D::selectMesh(edk::uint32 position){
     //free the selected
-    this->cleanSelected();
+    this->cleanSelected();edkEnd();
     if((this->selected = this->meshes.getMesh(position))){
         return true;
     }
@@ -79,46 +81,46 @@ edk::uint32 edk::Object3D::selectedGetTextureID(edk::uint8 number){
     //test if have one selected mesh
     if(this->selected){
         //return the number
-        return this->selected->material.getTexture(number);
+        return this->selected->material.getTexture(number);edkEnd();
     }
     //else return false
-    return 0u;
+    return 0u;edkEnd();
 }
 //free the selected
 void edk::Object3D::cleanSelected(){
-    this->selected=NULL;
+    this->selected=NULL;edkEnd();
 }
 //return the number of meshs
 edk::uint32 edk::Object3D::getMeshSize(){
-    return this->meshes.size();
+    return this->meshes.size();edkEnd();
 }
 //return the mesh pointer
 edk::shape::Mesh3D* edk::Object3D::getMesh(edk::uint32 position){
-    return this->meshes.getMesh(position);
+    return this->meshes.getMesh(position);edkEnd();
 }
 //remove all meshes
 void edk::Object3D::removeAllMesh(){
-    this->cleanMeshes();
+    this->cleanMeshes();edkEnd();
 }
 
 //set the polygonsColor
 bool edk::Object3D::setPolygonColor(edk::uint32 position,edk::color4f32 color){
     if(this->meshes.getMesh(position)){
-        this->meshes.getMesh(position)->setPolygonsColor(color);
+        this->meshes.getMesh(position)->setPolygonsColor(color);edkEnd();
     }
     return false;
 }
 bool edk::Object3D::setPolygonColor(edk::uint32 position,edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
-    return this->setPolygonColor(position,edk::color4f32(r,g,b,a));
+    return this->setPolygonColor(position,edk::color4f32(r,g,b,a));edkEnd();
 }
 bool edk::Object3D::setPolygonsColor(edk::color4f32 color){
-    edk::uint32 size = this->meshes.size();
-    edk::shape::Mesh3D* temp;
+    edk::uint32 size = this->meshes.size();edkEnd();
+    edk::shape::Mesh3D* temp;edkEnd();
     if(size){
         for(edk::uint32 i=0u;i<size;i++){
-            temp = this->meshes.getMesh(i);
+            temp = this->meshes.getMesh(i);edkEnd();
             if(temp){
-                temp->setPolygonsColor(color);
+                temp->setPolygonsColor(color);edkEnd();
             }
         }
         return true;
@@ -126,17 +128,17 @@ bool edk::Object3D::setPolygonsColor(edk::color4f32 color){
     return false;
 }
 bool edk::Object3D::setPolygonsColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
-    return this->setPolygonsColor(edk::color4f32(r,g,b,a));
+    return this->setPolygonsColor(edk::color4f32(r,g,b,a));edkEnd();
 }
 //Set the polygons smooth
 bool edk::Object3D::setPolygonsSmooth(bool smooth){
-    edk::uint32 size = this->meshes.size();
-    edk::shape::Mesh3D* temp;
+    edk::uint32 size = this->meshes.size();edkEnd();
+    edk::shape::Mesh3D* temp;edkEnd();
     if(size){
         for(edk::uint32 i=0u;i<size;i++){
-            temp = this->meshes.getMesh(i);
+            temp = this->meshes.getMesh(i);edkEnd();
             if(temp){
-                temp->setPolygonsSmooth(smooth);
+                temp->setPolygonsSmooth(smooth);edkEnd();
             }
         }
         return true;
@@ -144,13 +146,13 @@ bool edk::Object3D::setPolygonsSmooth(bool smooth){
     return false;
 }
 bool edk::Object3D::setPolygonsSmoothOn(){
-    edk::uint32 size = this->meshes.size();
-    edk::shape::Mesh3D* temp;
+    edk::uint32 size = this->meshes.size();edkEnd();
+    edk::shape::Mesh3D* temp;edkEnd();
     if(size){
         for(edk::uint32 i=0u;i<size;i++){
-            temp = this->meshes.getMesh(i);
+            temp = this->meshes.getMesh(i);edkEnd();
             if(temp){
-                temp->setPolygonsSmoothOn();
+                temp->setPolygonsSmoothOn();edkEnd();
             }
         }
         return true;
@@ -158,13 +160,13 @@ bool edk::Object3D::setPolygonsSmoothOn(){
     return false;
 }
 bool edk::Object3D::setPolygonsSmoothOff(){
-    edk::uint32 size = this->meshes.size();
-    edk::shape::Mesh3D* temp;
+    edk::uint32 size = this->meshes.size();edkEnd();
+    edk::shape::Mesh3D* temp;edkEnd();
     if(size){
         for(edk::uint32 i=0u;i<size;i++){
-            temp = this->meshes.getMesh(i);
+            temp = this->meshes.getMesh(i);edkEnd();
             if(temp){
-                temp->setPolygonsSmoothOff();
+                temp->setPolygonsSmoothOff();edkEnd();
             }
         }
         return true;
@@ -173,13 +175,13 @@ bool edk::Object3D::setPolygonsSmoothOff(){
 }
 //update the polygons normals
 bool edk::Object3D::updatePolygonsNormals(){
-    edk::uint32 size = this->meshes.size();
-    edk::shape::Mesh3D* temp;
+    edk::uint32 size = this->meshes.size();edkEnd();
+    edk::shape::Mesh3D* temp;edkEnd();
     if(size){
         for(edk::uint32 i=0u;i<size;i++){
-            temp = this->meshes.getMesh(i);
+            temp = this->meshes.getMesh(i);edkEnd();
             if(temp){
-                temp->updatePolygonsNormals();
+                temp->updatePolygonsNormals();edkEnd();
             }
         }
         return true;
@@ -189,26 +191,26 @@ bool edk::Object3D::updatePolygonsNormals(){
 
 //rotate the object to look at the camera
 void edk::Object3D::lookAtPoint(edk::float32 x,edk::float32 y,edk::float32 z){
-    this->lookAtPoint(edk::vec3f32(x,y,z));
+    this->lookAtPoint(edk::vec3f32(x,y,z));edkEnd();
 }
 void edk::Object3D::lookAtPoint(edk::vec3f32 point){
     //get the point angle
-    point-=this->position;
-    this->angle.x = 0.f;
-    this->angle.y = 0.f;
-    this->angle.z = 0.f;
+    point-=this->position;edkEnd();
+    this->angle.x = 0.f;edkEnd();
+    this->angle.y = 0.f;edkEnd();
+    this->angle.z = 0.f;edkEnd();
 
     //get the base angle
-    this->angle.y = edk::Math::getAngle(point.x,point.z) *-1.f;
+    this->angle.y = edk::Math::getAngle(point.x,point.z) *-1.f;edkEnd();
     //get the height angle
-    edk::vec2f32 newPosition = edk::Math::rotatePlus(edk::vec2f32(point.x,point.z),this->angle.y);
-    this->angle.z = edk::Math::getAngle(newPosition.x,point.y);
+    edk::vec2f32 newPosition = edk::Math::rotatePlus(edk::vec2f32(point.x,point.z),this->angle.y);edkEnd();
+    this->angle.z = edk::Math::getAngle(newPosition.x,point.y);edkEnd();
 }
 
 //LIGHT
 bool edk::Object3D::setLight(edk::uint32 position,edk::light::Light light){
     if(position<EDK_LIGHT_LIMIT){
-        this->lights[position] = light;
+        this->lights[position] = light;edkEnd();
         return true;
     }
     return false;
@@ -216,7 +218,7 @@ bool edk::Object3D::setLight(edk::uint32 position,edk::light::Light light){
 bool edk::Object3D::cleanLight(edk::uint32 position){
     if(position<EDK_LIGHT_LIMIT){
         //
-        this->lights[position].clean();
+        this->lights[position].clean();edkEnd();
         return true;
     }
     return false;
@@ -224,7 +226,7 @@ bool edk::Object3D::cleanLight(edk::uint32 position){
 bool edk::Object3D::lightOn(edk::uint32 position){
     if(position<EDK_LIGHT_LIMIT){
         //add the light on the tree
-        this->lights[position].on=true;
+        this->lights[position].on=true;edkEnd();
         return true;
     }
     return false;
@@ -232,7 +234,7 @@ bool edk::Object3D::lightOn(edk::uint32 position){
 bool edk::Object3D::lightOff(edk::uint32 position){
     if(position<EDK_LIGHT_LIMIT){
         //remove the position from the tree
-        this->lights[position].on=false;
+        this->lights[position].on=false;edkEnd();
         return true;
     }
     return false;
@@ -240,41 +242,41 @@ bool edk::Object3D::lightOff(edk::uint32 position){
 
 //OBJ
 bool edk::Object3D::addObj(const edk::char8* fileName){
-    return this->addObj((edk::char8*) fileName);
+    return this->addObj((edk::char8*) fileName);edkEnd();
 }
 bool edk::Object3D::addObj(edk::char8* fileName){
     if(fileName){
         //open the file
-        edk::File file;
+        edk::File file;edkEnd();
         if(file.openTextFile(fileName)){
-            bool ret = true;
-            edk::char8 c;
-            edk::char8* str;
-            edk::char8* temp;
-            edk::char8* ve;
-            edk::uint8 read;
-            edk::uint32 v,n,p;
+            bool ret = true;edkEnd();
+            edk::char8 c;edkEnd();
+            edk::char8* str;edkEnd();
+            edk::char8* temp;edkEnd();
+            edk::char8* ve;edkEnd();
+            edk::uint8 read;edkEnd();
+            edk::uint32 v,n,p;edkEnd();
             edk::uint32 countV=0u;
             edk::uint32 countP=0u;
             edk::uint32 countN=0u;
-            edk::float32 x,y,z;
+            edk::float32 x,y,z;edkEnd();
 
-            edk::vector::Stack<edk::uint32> sv,sp,sn;
+            edk::vector::Stack<edk::uint32> sv,sp,sn;edkEnd();
 
-            edk::shape::Mesh3D* mesh = NULL;
-            bool smooth = true;
+            edk::shape::Mesh3D* mesh = NULL;edkEnd();
+            bool smooth = true;edkEnd();
 
             while(!file.endOfFile()){
-                c = file.readTextChar();
+                c = file.readTextChar();edkEnd();
                 switch(c){
                 case '#':
                     //comentario
-                    str = file.readTextString("\n",false);
+                    str = file.readTextString("\n",false);edkEnd();
                     if(str){
-                        delete[] str;
+                        delete[] str;edkEnd();
                     }
-                    //printf("\nComentario");fflush(stdout);
-                    break;
+                    //printf("\nComentario");edkEnd();fflush(stdout);edkEnd();
+                    break;edkEnd();
                     //mtllib cubes.mtl
                 case 'm':
                     if(file.readTextChar() == 't'){
@@ -284,10 +286,10 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                                     if(file.readTextChar() == 'b'){
                                         if(file.readTextChar() == ' '){
                                             //readthe mtlFile
-                                            str = file.readTextString("\n",false);
+                                            str = file.readTextString("\n",false);edkEnd();
                                             if(str){
-                                                //printf("\nMTL LIB == '%s'",str);fflush(stdout);
-                                                delete[] str;
+                                                //printf("\nMTL LIB == '%s'",str);edkEnd();fflush(stdout);edkEnd();
+                                                delete[] str;edkEnd();
                                             }
                                         }
                                     }
@@ -295,133 +297,133 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                             }
                         }
                     }
-                    break;
+                    break;edkEnd();
                 case 'o':
                     if(file.readTextChar() == ' '){
-                        str = file.readTextString("\n",false);
+                        str = file.readTextString("\n",false);edkEnd();
                         if(str){
-                            //printf("\nNEW OBJECT NAME == '%s'",str);fflush(stdout);
-                            delete[] str;
+                            //printf("\nNEW OBJECT NAME == '%s'",str);edkEnd();fflush(stdout);edkEnd();
+                            delete[] str;edkEnd();
 
                             if(mesh){
-                                countV += mesh->getVertexSize();
-                                countP += mesh->getUVSize();
-                                countN += mesh->getNormalSize();
+                                countV += mesh->getVertexSize();edkEnd();
+                                countP += mesh->getUVSize();edkEnd();
+                                countN += mesh->getNormalSize();edkEnd();
                             }
                             //new mesh
-                            mesh = this->newMesh();
+                            mesh = this->newMesh();edkEnd();
                         }
                     }
-                    break;
+                    break;edkEnd();
                 case 'v':
                     if(!mesh){
-                        mesh=this->newMesh();
+                        mesh=this->newMesh();edkEnd();
                     }
-                    c = file.readTextChar();
+                    c = file.readTextChar();edkEnd();
                     if(c == ' '){
-                        str = file.readTextString(" ",false);
+                        str = file.readTextString(" ",false);edkEnd();
                         if(str){
-                            x = edk::String::strToFloat32(str);
-                            delete[] str;
+                            x = edk::String::strToFloat32(str);edkEnd();
+                            delete[] str;edkEnd();
                         }
-                        str = file.readTextString(" ",false);
+                        str = file.readTextString(" ",false);edkEnd();
                         if(str){
-                            y = edk::String::strToFloat32(str);
-                            delete[] str;
+                            y = edk::String::strToFloat32(str);edkEnd();
+                            delete[] str;edkEnd();
                         }
-                        str = file.readTextString("\n",false);
+                        str = file.readTextString("\n",false);edkEnd();
                         if(str){
-                            z = edk::String::strToFloat32(str);
-                            delete[] str;
+                            z = edk::String::strToFloat32(str);edkEnd();
+                            delete[] str;edkEnd();
                         }
-                        //printf("\nNEW Vertex %.2f %.2f %.2f",x,y,z);fflush(stdout);
-                        mesh->newVertex(x,y,z,1,1,1,1);
-                        //mesh->newVertex(x,y,z,0,0,0,1);
+                        //printf("\nNEW Vertex %.2f %.2f %.2f",x,y,z);edkEnd();fflush(stdout);edkEnd();
+                        mesh->newVertex(x,y,z,1,1,1,1);edkEnd();
+                        //mesh->newVertex(x,y,z,0,0,0,1);edkEnd();
                     }
                     else if(c == 't'){
                         if(file.readTextChar() == ' '){
                             //
-                            str = file.readTextString(" ",false);
+                            str = file.readTextString(" ",false);edkEnd();
                             if(str){
-                                x = edk::String::strToFloat32(str);
-                                delete[] str;
+                                x = edk::String::strToFloat32(str);edkEnd();
+                                delete[] str;edkEnd();
                             }
-                            str = file.readTextString("\n",false);
+                            str = file.readTextString("\n",false);edkEnd();
                             if(str){
-                                y = edk::String::strToFloat32(str);
-                                delete[] str;
+                                y = edk::String::strToFloat32(str);edkEnd();
+                                delete[] str;edkEnd();
                             }
-                            //printf("\nNEW Vertex Texture %.2f %.2f",x,y);fflush(stdout);
-                            mesh->newUV(x,y);
+                            //printf("\nNEW Vertex Texture %.2f %.2f",x,y);edkEnd();fflush(stdout);edkEnd();
+                            mesh->newUV(x,y);edkEnd();
                         }
                     }
                     else if(c == 'n'){
                         if(file.readTextChar() == ' '){
                             //
-                            str = file.readTextString(" ",false);
+                            str = file.readTextString(" ",false);edkEnd();
                             if(str){
-                                x = edk::String::strToFloat32(str);
-                                delete[] str;
+                                x = edk::String::strToFloat32(str);edkEnd();
+                                delete[] str;edkEnd();
                             }
-                            str = file.readTextString(" ",false);
+                            str = file.readTextString(" ",false);edkEnd();
                             if(str){
-                                y = edk::String::strToFloat32(str);
-                                delete[] str;
+                                y = edk::String::strToFloat32(str);edkEnd();
+                                delete[] str;edkEnd();
                             }
-                            str = file.readTextString("\n",false);
+                            str = file.readTextString("\n",false);edkEnd();
                             if(str){
-                                z = edk::String::strToFloat32(str);
-                                delete[] str;
+                                z = edk::String::strToFloat32(str);edkEnd();
+                                delete[] str;edkEnd();
                             }
-                            //printf("\nNEW Vertex Normal %.2f %.2f %.2f",x,y,z);fflush(stdout);
-                            mesh->newNormal(x,y,z);
+                            //printf("\nNEW Vertex Normal %.2f %.2f %.2f",x,y,z);edkEnd();fflush(stdout);edkEnd();
+                            mesh->newNormal(x,y,z);edkEnd();
                         }
                     }
-                    break;
+                    break;edkEnd();
                 case 's':
                     if(!mesh){
-                        mesh=this->newMesh();
+                        mesh=this->newMesh();edkEnd();
                     }
                     if(file.readTextChar() == ' '){
-                        str = file.readTextString("\n",false);
+                        str = file.readTextString("\n",false);edkEnd();
                         if(str){
                             if(str[0u]=='o'){
                                 if(str[1u]=='f'){
                                     if(str[2u]=='f'){
                                         //
-                                        //printf("\nSMOOTH FALSE '%s'",str);fflush(stdout);
-                                        smooth=false;
+                                        //printf("\nSMOOTH FALSE '%s'",str);edkEnd();fflush(stdout);edkEnd();
+                                        smooth=false;edkEnd();
                                     }
                                 }
                             }
                             else{
                                 if(str[0u]=='1'){
                                     //
-                                    //printf("\nSMOOTH TRUE '%s'",str);fflush(stdout);
-                                    smooth=true;
+                                    //printf("\nSMOOTH TRUE '%s'",str);edkEnd();fflush(stdout);edkEnd();
+                                    smooth=true;edkEnd();
                                 }
                             }
-                            delete[] str;
+                            delete[] str;edkEnd();
                         }
                     }
                     else{
-                        str = file.readTextString("\n",false);
+                        str = file.readTextString("\n",false);edkEnd();
                         if(str){
-                            delete[] str;
+                            delete[] str;edkEnd();
                         }
                     }
-                    break;
+                    break;edkEnd();
                 case 'f':
                     if(!mesh){
-                        mesh=this->newMesh();
+                        mesh=this->newMesh();edkEnd();
                     }
                     if(file.readTextChar() == ' '){
                         //
-                        str = file.readTextString("\n",true);
+                        str = file.readTextString("\n",true);edkEnd();
                         if(str){
-                            ve = temp = str;
-                            read = 0u;
-                            //printf("\n");
+                            ve = temp = str;edkEnd();
+                            read = 0u;edkEnd();
+                            //printf("\n");edkEnd();
 
 
 
@@ -429,54 +431,54 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                                 switch(*temp){
                                 case '/':
                                     //set the end of the string
-                                    *temp = '\0';
+                                    *temp = '\0';edkEnd();
                                     if(ve<temp){
                                         switch(read){
                                         case 0u:
-                                            v = edk::String::strToInt64(ve);
-                                            break;
+                                            v = edk::String::strToInt64(ve);edkEnd();
+                                            break;edkEnd();
                                         case 1u:
-                                            p = edk::String::strToInt64(ve);
-                                            break;
+                                            p = edk::String::strToInt64(ve);edkEnd();
+                                            break;edkEnd();
                                         case 2u:
-                                            n = edk::String::strToInt64(ve);
-                                            break;
+                                            n = edk::String::strToInt64(ve);edkEnd();
+                                            break;edkEnd();
                                         }
                                     }
-                                    *temp = '/';
+                                    *temp = '/';edkEnd();
                                     //
                                     switch(read){
                                     case 0u:
-                                        read = 1u;
-                                        break;
+                                        read = 1u;edkEnd();
+                                        break;edkEnd();
                                     case 1u:
-                                        read = 2u;
-                                        break;
+                                        read = 2u;edkEnd();
+                                        break;edkEnd();
                                     case 2u:
-                                        read = 3u;
-                                        break;
+                                        read = 3u;edkEnd();
+                                        break;edkEnd();
                                     }
 
 
-                                    ve = temp+1u;
-                                    break;
+                                    ve = temp+1u;edkEnd();
+                                    break;edkEnd();
                                 case ' ':
                                 case '\n':
-                                    *temp = '\0';
+                                    *temp = '\0';edkEnd();
                                     if(ve<temp){
                                         switch(read){
                                         case 0u:
-                                            v = edk::String::strToInt64(ve);
-                                            read = 1u;
-                                            break;
+                                            v = edk::String::strToInt64(ve);edkEnd();
+                                            read = 1u;edkEnd();
+                                            break;edkEnd();
                                         case 1u:
-                                            p = edk::String::strToInt64(ve);
-                                            read = 2u;
-                                            break;
+                                            p = edk::String::strToInt64(ve);edkEnd();
+                                            read = 2u;edkEnd();
+                                            break;edkEnd();
                                         case 2u:
-                                            n = edk::String::strToInt64(ve);
-                                            read = 3u;
-                                            break;
+                                            n = edk::String::strToInt64(ve);edkEnd();
+                                            read = 3u;edkEnd();
+                                            break;edkEnd();
                                         }
 
 
@@ -485,99 +487,99 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                                             /*
                                             printf(" Face %u"
                                                    ,v
-                                                   );fflush(stdout);
+                                                   );edkEnd();fflush(stdout);edkEnd();
                                                    */
-                                            sv.pushBack(v);
-                                            sp.pushBack(0u);
-                                            sn.pushBack(0u);
-                                            break;
+                                            sv.pushBack(v);edkEnd();
+                                            sp.pushBack(0u);edkEnd();
+                                            sn.pushBack(0u);edkEnd();
+                                            break;edkEnd();
                                         case 2u:
                                             /*
                                             printf(" Face %u/%u"
                                                    ,v
                                                    ,p
-                                                   );fflush(stdout);
+                                                   );edkEnd();fflush(stdout);edkEnd();
                                             */
-                                            sv.pushBack(v);
-                                            sp.pushBack(p);
-                                            sn.pushBack(0u);
-                                            break;
+                                            sv.pushBack(v);edkEnd();
+                                            sp.pushBack(p);edkEnd();
+                                            sn.pushBack(0u);edkEnd();
+                                            break;edkEnd();
                                         case 3u:
                                             /*
                                             printf(" Face %u/%u/%u"
                                                    ,v
                                                    ,p
                                                    ,n
-                                                   );fflush(stdout);
+                                                   );edkEnd();fflush(stdout);edkEnd();
                                             */
-                                            sv.pushBack(v);
-                                            sp.pushBack(p);
-                                            sn.pushBack(n);
-                                            break;
+                                            sv.pushBack(v);edkEnd();
+                                            sp.pushBack(p);edkEnd();
+                                            sn.pushBack(n);edkEnd();
+                                            break;edkEnd();
                                         }
                                         v=p=n=0u;
                                         read=0u;
                                     }
-                                    *temp = ' ';
+                                    *temp = ' ';edkEnd();
 
-                                    ve = temp+1u;
-                                    break;
+                                    ve = temp+1u;edkEnd();
+                                    break;edkEnd();
                                 default:
-                                    break;
+                                    break;edkEnd();
                                 }
 
-                                temp++;
+                                temp++;edkEnd();
                             }
 
-                            edk::uint32 size = sv.size();
+                            edk::uint32 size = sv.size();edkEnd();
                             if(size){
-                                //printf(" NEW FACE");fflush(stdout);
-                                edk::uint32 po = mesh->newPolygon(size);
-                                mesh->selectPolygon(po);
-                                mesh->selectedPolygonSetSmooth(smooth);
+                                //printf(" NEW FACE");edkEnd();fflush(stdout);edkEnd();
+                                edk::uint32 po = mesh->newPolygon(size);edkEnd();
+                                mesh->selectPolygon(po);edkEnd();
+                                mesh->selectedPolygonSetSmooth(smooth);edkEnd();
                                 if(smooth){
-                                    mesh->selectedPolygonUpdateNormal();
+                                    mesh->selectedPolygonUpdateNormal();edkEnd();
                                 }
                                 else{
-                                    mesh->selectedPolygonSetNormalFlat(mesh->getNormal(sn[0u]-1u-countN));
+                                    mesh->selectedPolygonSetNormalFlat(mesh->getNormal(sn[0u]-1u-countN));edkEnd();
                                 }
                                 for(edk::uint32 i=0u;i<size;i++){
-                                    v = sv[i];
-                                    p = sp[i];
-                                    n = sn[i];
+                                    v = sv[i];edkEnd();
+                                    p = sp[i];edkEnd();
+                                    n = sn[i];edkEnd();
                                     if(v){
-                                        mesh->selectedPolygonSetVertex(i,v-1u-countV);
+                                        mesh->selectedPolygonSetVertex(i,v-1u-countV);edkEnd();
                                         if(p){
-                                            mesh->selectedPolygonSetUV(i,p-1u-countP);
+                                            mesh->selectedPolygonSetUV(i,p-1u-countP);edkEnd();
                                             if(n){
                                                 //
-                                                mesh->selectedPolygonSetNormal(i,n-1u-countN);
+                                                mesh->selectedPolygonSetNormal(i,n-1u-countN);edkEnd();
                                             }
                                         }
                                         else{
                                             if(n){
                                                 //
-                                                mesh->selectedPolygonSetNormal(i,n-1u-countN);
+                                                mesh->selectedPolygonSetNormal(i,n-1u-countN);edkEnd();
                                             }
                                         }
                                     }
                                 }
                             }
 
-                            sv.clean();
-                            sp.clean();
-                            sn.clean();
+                            sv.clean();edkEnd();
+                            sp.clean();edkEnd();
+                            sn.clean();edkEnd();
 
-                            delete[] str;
+                            delete[] str;edkEnd();
                         }
                     }
                     else{
-                        str = file.readTextString("\n",false);
+                        str = file.readTextString("\n",false);edkEnd();
                         if(str){
-                            delete[] str;
+                            delete[] str;edkEnd();
                         }
                     }
-                    break;
+                    break;edkEnd();
                 case 'u':
                     if(file.readTextChar() == 's'){
                         if(file.readTextChar() == 'e'){
@@ -586,10 +588,10 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                                     if(file.readTextChar() == 'l'){
                                         if(file.readTextChar() == ' '){
                                             //readthe mtlFile
-                                            str = file.readTextString("\n",false);
+                                            str = file.readTextString("\n",false);edkEnd();
                                             if(str){
-                                                //printf("\nUSE MTL == '%s'",str);fflush(stdout);
-                                                delete[] str;
+                                                //printf("\nUSE MTL == '%s'",str);edkEnd();fflush(stdout);edkEnd();
+                                                delete[] str;edkEnd();
                                             }
                                         }
                                     }
@@ -597,22 +599,22 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                             }
                         }
                     }
-                    break;
+                    break;edkEnd();
                 }
             }
 
-            file.closeFile();
+            file.closeFile();edkEnd();
             return ret;
         }
     }
     return false;
 }
 bool edk::Object3D::loadOBJ(const edk::char8* fileName){
-    return this->loadOBJ((edk::char8*) fileName);
+    return this->loadOBJ((edk::char8*) fileName);edkEnd();
 }
 bool edk::Object3D::loadOBJ(edk::char8* fileName){
-    this->cleanMeshes();
-    return this->addObj(fileName);
+    this->cleanMeshes();edkEnd();
+    return this->addObj(fileName);edkEnd();
 }
 
 //DRAW
@@ -624,196 +626,196 @@ void edk::Object3D::print(){
 void edk::Object3D::draw(){
 
     //put the transformation on a stack
-    edk::GU::guPushMatrix();
+    edk::GU::guPushMatrix();edkEnd();
 
-    bool haveLight=false;
+    bool haveLight=false;edkEnd();
 
     {
-        //edk::vec3f32 temp;
+        //edk::vec3f32 temp;edkEnd();
         for(edk::uint32 i=0u;i<EDK_LIGHT_LIMIT;i++){
             if(this->lights[i].on){
-                edk::GU::guEnable(GU_LIGHT0+i);
-                this->lights[i].draw(i);
-                haveLight=true;
+                edk::GU::guEnable(GU_LIGHT0+i);edkEnd();
+                this->lights[i].draw(i);edkEnd();
+                haveLight=true;edkEnd();
             }
             else{
-                edk::GU::guDisable(GU_LIGHT0+i);
+                edk::GU::guDisable(GU_LIGHT0+i);edkEnd();
             }
         }
     }
 
     //add translate
-    edk::GU::guTranslate3f32(this->position);
+    edk::GU::guTranslate3f32(this->position);edkEnd();
     //add rotation
-    edk::GU::guRotateXf32(this->angle.x);
-    edk::GU::guRotateYf32(this->angle.y);
-    edk::GU::guRotateZf32(this->angle.z);
+    edk::GU::guRotateXf32(this->angle.x);edkEnd();
+    edk::GU::guRotateYf32(this->angle.y);edkEnd();
+    edk::GU::guRotateZf32(this->angle.z);edkEnd();
     //add scale
-    edk::GU::guScale3f32(this->size);
+    edk::GU::guScale3f32(this->size);edkEnd();
     //set the pivo
-    edk::GU::guTranslate3f32(this->pivo*-1.0f);
+    edk::GU::guTranslate3f32(this->pivo*-1.0f);edkEnd();
 
 
     if(haveLight){
         //
-        edk::GU::guEnable(GU_LIGHTING);
-        this->meshes.render();
-        edk::GU::guDisable(GU_LIGHTING);
+        edk::GU::guEnable(GU_LIGHTING);edkEnd();
+        this->meshes.render();edkEnd();
+        edk::GU::guDisable(GU_LIGHTING);edkEnd();
     }
     else{
-        this->meshes.render();
+        this->meshes.render();edkEnd();
     }
-    edk::GU::guPopMatrix();
+    edk::GU::guPopMatrix();edkEnd();
 }
 void edk::Object3D::drawWithoutMaterial(){
     //put the transformation on a stack
-    edk::GU::guPushMatrix();
+    edk::GU::guPushMatrix();edkEnd();
     //add translate
-    edk::GU::guTranslate3f32(this->position);
+    edk::GU::guTranslate3f32(this->position);edkEnd();
     //add rotation
-    edk::GU::guRotateXf32(this->angle.x);
-    edk::GU::guRotateYf32(this->angle.y);
-    edk::GU::guRotateZf32(this->angle.z);
+    edk::GU::guRotateXf32(this->angle.x);edkEnd();
+    edk::GU::guRotateYf32(this->angle.y);edkEnd();
+    edk::GU::guRotateZf32(this->angle.z);edkEnd();
     //add scale
-    edk::GU::guScale3f32(this->size);
+    edk::GU::guScale3f32(this->size);edkEnd();
     //set the pivo
-    edk::GU::guTranslate3f32(this->pivo*-1.0f);
+    edk::GU::guTranslate3f32(this->pivo*-1.0f);edkEnd();
 
-    this->meshes.drawWithoutMaterial();
+    this->meshes.drawWithoutMaterial();edkEnd();
 
-    edk::GU::guPopMatrix();
+    edk::GU::guPopMatrix();edkEnd();
 }
 void edk::Object3D::drawWithoutMaterialWithLight(){
     //put the transformation on a stack
-    edk::GU::guPushMatrix();
+    edk::GU::guPushMatrix();edkEnd();
 
 
-    bool haveLight=false;
+    bool haveLight=false;edkEnd();
 
     {
-        //edk::vec3f32 temp;
+        //edk::vec3f32 temp;edkEnd();
         for(edk::uint32 i=0u;i<EDK_LIGHT_LIMIT;i++){
             if(this->lights[i].on){
-                edk::GU::guEnable(GU_LIGHT0+i);
-                this->lights[i].draw(i);
-                haveLight=true;
+                edk::GU::guEnable(GU_LIGHT0+i);edkEnd();
+                this->lights[i].draw(i);edkEnd();
+                haveLight=true;edkEnd();
 
             }
             else{
-                edk::GU::guDisable(GU_LIGHT0+i);
+                edk::GU::guDisable(GU_LIGHT0+i);edkEnd();
             }
         }
     }
 
     //add translate
-    edk::GU::guTranslate3f32(this->position);
+    edk::GU::guTranslate3f32(this->position);edkEnd();
     //add rotation
-    edk::GU::guRotateXf32(this->angle.x);
-    edk::GU::guRotateYf32(this->angle.y);
-    edk::GU::guRotateZf32(this->angle.z);
+    edk::GU::guRotateXf32(this->angle.x);edkEnd();
+    edk::GU::guRotateYf32(this->angle.y);edkEnd();
+    edk::GU::guRotateZf32(this->angle.z);edkEnd();
     //add scale
-    edk::GU::guScale3f32(this->size);
+    edk::GU::guScale3f32(this->size);edkEnd();
     //set the pivo
-    edk::GU::guTranslate3f32(this->pivo*-1.0f);
+    edk::GU::guTranslate3f32(this->pivo*-1.0f);edkEnd();
 
     if(haveLight){
-        edk::GU::guEnable(GU_LIGHTING);
-        this->meshes.drawWithoutMaterial();
-        edk::GU::guDisable(GU_LIGHTING);
+        edk::GU::guEnable(GU_LIGHTING);edkEnd();
+        this->meshes.drawWithoutMaterial();edkEnd();
+        edk::GU::guDisable(GU_LIGHTING);edkEnd();
     }
     else{
-        this->meshes.drawWithoutMaterial();
+        this->meshes.drawWithoutMaterial();edkEnd();
     }
 
-    edk::GU::guPopMatrix();
+    edk::GU::guPopMatrix();edkEnd();
 }
 void edk::Object3D::drawWire(){
     //put the transformation on a stack
-    edk::GU::guPushMatrix();
+    edk::GU::guPushMatrix();edkEnd();
     //add translate
-    edk::GU::guTranslate3f32(this->position);
+    edk::GU::guTranslate3f32(this->position);edkEnd();
     //add rotation
-    edk::GU::guRotateXf32(this->angle.x);
-    edk::GU::guRotateYf32(this->angle.y);
-    edk::GU::guRotateZf32(this->angle.z);
+    edk::GU::guRotateXf32(this->angle.x);edkEnd();
+    edk::GU::guRotateYf32(this->angle.y);edkEnd();
+    edk::GU::guRotateZf32(this->angle.z);edkEnd();
     //add scale
-    edk::GU::guScale3f32(this->size);
+    edk::GU::guScale3f32(this->size);edkEnd();
     //set the pivo
-    edk::GU::guTranslate3f32(this->pivo*-1.0f);
+    edk::GU::guTranslate3f32(this->pivo*-1.0f);edkEnd();
 
-    this->meshes.drawWire();
+    this->meshes.drawWire();edkEnd();
 
-    edk::GU::guPopMatrix();
+    edk::GU::guPopMatrix();edkEnd();
 }
 void edk::Object3D::drawNormals(){
     //put the transformation on a stack
-    edk::GU::guPushMatrix();
+    edk::GU::guPushMatrix();edkEnd();
     //add translate
-    edk::GU::guTranslate3f32(this->position);
+    edk::GU::guTranslate3f32(this->position);edkEnd();
     //add rotation
-    edk::GU::guRotateXf32(this->angle.x);
-    edk::GU::guRotateYf32(this->angle.y);
-    edk::GU::guRotateZf32(this->angle.z);
+    edk::GU::guRotateXf32(this->angle.x);edkEnd();
+    edk::GU::guRotateYf32(this->angle.y);edkEnd();
+    edk::GU::guRotateZf32(this->angle.z);edkEnd();
     //add scale
-    edk::GU::guScale3f32(this->size);
+    edk::GU::guScale3f32(this->size);edkEnd();
     //set the pivo
-    edk::GU::guTranslate3f32(this->pivo*-1.0f);
+    edk::GU::guTranslate3f32(this->pivo*-1.0f);edkEnd();
 
-    this->meshes.drawNormals();
+    this->meshes.drawNormals();edkEnd();
 
-    edk::GU::guPopMatrix();
+    edk::GU::guPopMatrix();edkEnd();
 }
 void edk::Object3D::drawNormalsWithColor(edk::color3f32 color){
     //put the transformation on a stack
-    edk::GU::guPushMatrix();
+    edk::GU::guPushMatrix();edkEnd();
     //add translate
-    edk::GU::guTranslate3f32(this->position);
+    edk::GU::guTranslate3f32(this->position);edkEnd();
     //add rotation
-    edk::GU::guRotateXf32(this->angle.x);
-    edk::GU::guRotateYf32(this->angle.y);
-    edk::GU::guRotateZf32(this->angle.z);
+    edk::GU::guRotateXf32(this->angle.x);edkEnd();
+    edk::GU::guRotateYf32(this->angle.y);edkEnd();
+    edk::GU::guRotateZf32(this->angle.z);edkEnd();
     //add scale
-    edk::GU::guScale3f32(this->size);
+    edk::GU::guScale3f32(this->size);edkEnd();
     //set the pivo
-    edk::GU::guTranslate3f32(this->pivo*-1.0f);
+    edk::GU::guTranslate3f32(this->pivo*-1.0f);edkEnd();
 
-    this->meshes.drawNormalsWithColor(color);
+    this->meshes.drawNormalsWithColor(color);edkEnd();
 
-    edk::GU::guPopMatrix();
+    edk::GU::guPopMatrix();edkEnd();
 }
 //draw the pivo
 void edk::Object3D::drawPivo(edk::float32 size,edk::color3f32 color){
     //
-    edk::GU::guPushMatrix();
+    edk::GU::guPushMatrix();edkEnd();
     //add translate
-    edk::GU::guTranslate3f32(this->position);
+    edk::GU::guTranslate3f32(this->position);edkEnd();
     //add scale
-    edk::GU::guScale3f32(edk::size3f32(size,size,size));
+    edk::GU::guScale3f32(edk::size3f32(size,size,size));edkEnd();
 
     //lineSize
-    edk::GU::guLineWidth(3);
+    edk::GU::guLineWidth(3);edkEnd();
 
     //set the colors
-    edk::GU::guColor3f32(color);
+    edk::GU::guColor3f32(color);edkEnd();
     //draw the lines
-    edk::GU::guBegin(GU_LINES);
+    edk::GU::guBegin(GU_LINES);edkEnd();
     //LINE 1
-    edk::GU::guVertex3f32(-0.5f,-0.5f,0.f);
-    edk::GU::guVertex3f32( 0.5f, 0.5f,0.f);
+    edk::GU::guVertex3f32(-0.5f,-0.5f,0.f);edkEnd();
+    edk::GU::guVertex3f32( 0.5f, 0.5f,0.f);edkEnd();
     //LINE 2
-    edk::GU::guVertex3f32(-0.5f, 0.5f,0.f);
-    edk::GU::guVertex3f32( 0.5f,-0.5f,0.f);
+    edk::GU::guVertex3f32(-0.5f, 0.5f,0.f);edkEnd();
+    edk::GU::guVertex3f32( 0.5f,-0.5f,0.f);edkEnd();
     //LINE 3
-    edk::GU::guVertex3f32(0.0f, 0.5f,-0.5f);
-    edk::GU::guVertex3f32(0.0f,-0.5f, 0.5f);
+    edk::GU::guVertex3f32(0.0f, 0.5f,-0.5f);edkEnd();
+    edk::GU::guVertex3f32(0.0f,-0.5f, 0.5f);edkEnd();
     //LINE 4
-    edk::GU::guVertex3f32(0.0f, 0.5f, 0.5f);
-    edk::GU::guVertex3f32(0.0f,-0.5f,-0.5f);
-    edk::GU::guEnd();
+    edk::GU::guVertex3f32(0.0f, 0.5f, 0.5f);edkEnd();
+    edk::GU::guVertex3f32(0.0f,-0.5f,-0.5f);edkEnd();
+    edk::GU::guEnd();edkEnd();
 
     //lineSize
-    edk::GU::guLineWidth(1);
+    edk::GU::guLineWidth(1);edkEnd();
 
     //
-    edk::GU::guPopMatrix();
+    edk::GU::guPopMatrix();edkEnd();
 }

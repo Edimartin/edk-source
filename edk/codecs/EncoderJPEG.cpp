@@ -36,56 +36,56 @@ edk::codecs::EncoderJPEG::EncoderJPEG()
 edk::codecs::EncoderJPEG::~EncoderJPEG()
 {
     //dtor
-    this->deleteEncoded();
+    this->deleteEncoded();edkEnd();
 }
 //Functions to write the data
 void edk::codecs::EncoderJPEG::startWriteData(){
     //
-    this->stack.clean(1000u);
+    this->stack.clean(1000u);edkEnd();
 }
 void edk::codecs::EncoderJPEG::writeData(void *data, edk::uint32 size){
-    edk::uint8* temp = (edk::uint8*)data;
+    edk::uint8* temp = (edk::uint8*)data;edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
         //copy the bytes
-        this->stack.pushBack(temp[i]);
+        this->stack.pushBack(temp[i]);edkEnd();
     }
 }
 bool edk::codecs::EncoderJPEG::endWriteData(){
-    bool ret=false;
+    bool ret=false;edkEnd();
     //create the buffer with the size of the stack
     if(this->newFrameEncoded(this->stack.size())){
-        edk::uint8* temp = edk::codecs::CodecImage::getEncoded();
+        edk::uint8* temp = edk::codecs::CodecImage::getEncoded();edkEnd();
         if(temp){
-            this->stack.copyToVector(temp);
-            ret=true;
+            this->stack.copyToVector(temp);edkEnd();
+            ret=true;edkEnd();
         }
     }
 
     //clean the stack
-    this->stack.clean();
+    this->stack.clean();edkEnd();
     return ret;
 }
 
 inline void edk::codecs::EncoderJPEG::jpg_write_func(void *context, void *data, int size){
     if(context){
-        edk::codecs::EncoderJPEG* encoder = (edk::codecs::EncoderJPEG*)context;
-        encoder->writeData(data,(edk::uint32)size);
+        edk::codecs::EncoderJPEG* encoder = (edk::codecs::EncoderJPEG*)context;edkEnd();
+        encoder->writeData(data,(edk::uint32)size);edkEnd();
     }
 }
 
 //process the encoder
 bool edk::codecs::EncoderJPEG::encode(edk::uint8* frame,edk::size2ui32 size,edk::uint8 channels,edk::uint32 quality){
-    this->deleteEncoded();
+    this->deleteEncoded();edkEnd();
     //process the father encoder
     if(edk::codecs::EncoderImage::encode(frame,size,channels,quality)){
         //test if the channels can be writed in jpeg
         if(channels == 1u || channels == 3u){
-            bool ret=false;
+            bool ret=false;edkEnd();
             //
-            stbi__write_context s;
+            stbi__write_context s;edkEnd();
 
-            s.func=NULL;
-            s.context=NULL;
+            s.func=NULL;edkEnd();
+            s.context=NULL;edkEnd();
             s.buf_used=0;
 
             //contruct the context
@@ -94,31 +94,31 @@ bool edk::codecs::EncoderJPEG::encode(edk::uint8* frame,edk::size2ui32 size,edk:
             }
 
             //Set the fuunction and ontext
-            s.func = (void (*)(void*, void*, int))&this->jpg_write_func;
-            s.context = this;
+            s.func = (void (*)(void*, void*, int))&this->jpg_write_func;edkEnd();
+            s.context = this;edkEnd();
 
             //start write the stack
-            this->startWriteData();
+            this->startWriteData();edkEnd();
 
             if(stbi_write_jpg_core(&s, (int) size.width, (int) size.height, (int)channels, (const void*) frame, quality)){
                 //
                 if(!this->endWriteData()){
-                    this->cleanEncoded();
+                    this->cleanEncoded();edkEnd();
                 }
             }
             else{
                 //start write the data just to clean the stack
-                this->startWriteData();
+                this->startWriteData();edkEnd();
             }
 
             //calcula o tamanho do vetor
             if (this->getEncodedSize() && this->getEncoded()){
                 //retorna true
-                ret=true;
+                ret=true;edkEnd();
             }
             else{
                 if(this->getEncodedSize()){
-                    this->deleteEncoded();
+                    this->deleteEncoded();edkEnd();
                 }
             }
 
@@ -128,12 +128,12 @@ bool edk::codecs::EncoderJPEG::encode(edk::uint8* frame,edk::size2ui32 size,edk:
     return false;
 }
 bool edk::codecs::EncoderJPEG::encode(edk::uint8* frame,edk::uint32 width,edk::uint32 height,edk::uint8 channels,edk::uint32 quality){
-    return this->encode(frame,edk::size2ui32(width,height),channels,quality);
+    return this->encode(frame,edk::size2ui32(width,height),channels,quality);edkEnd();
 }
 //delete the encoded
 void edk::codecs::EncoderJPEG::deleteEncoded(){
     if(this->getEncoded()){
-        //jpeg_destroy_compress(&this->cinfo);
-        this->cleanEncoded();
+        //jpeg_destroy_compress(&this->cinfo);edkEnd();
+        this->cleanEncoded();edkEnd();
     }
 }

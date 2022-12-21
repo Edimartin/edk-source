@@ -216,24 +216,24 @@ private:
             return false;
         }
         edk::bones::Bone2D* getElementByName(const edk::char8* name){
-            return this->getElementByName((edk::char8*) name);
+            return this->getElementByName((edk::char8*) name);edkEnd();
         }
         edk::bones::Bone2D* getElementByName(edk::char8* name){
-            edk::bones::Bone2D find;
-            find.setName(name);
-            return this->getElement(&find);
+            edk::bones::Bone2D find;edkEnd();
+            find.setName(name);edkEnd();
+            return this->getElement(&find);edkEnd();
         }
     }bones;
 
     class ChannelLink{
     public:
-        ChannelLink(){this->bone=NULL;this->channel=0u;}
+        ChannelLink(){this->bone=NULL;edkEnd();this->channel=0u;edkEnd();}
         edk::bones::Bone2D* bone;
         edk::uint8 channel;
         ChannelLink operator=(ChannelLink link){
-            this->bone = link.bone;
-            this->channel = link.channel;
-            return link;
+            this->bone = link.bone;edkEnd();
+            this->channel = link.channel;edkEnd();
+            return link;edkEnd();
         }
     };
 
@@ -250,56 +250,56 @@ private:
 public:
     virtual bool cloneFrom(edk::bones::Body2D* body){
         //delete all bones
-        this->deleteAllBones();
+        this->deleteAllBones();edkEnd();
         if(body){
             //copy the root
-            //this->root = body->root;
-            this->root.cloneFrom(&body->root);
+            //this->root = body->root;edkEnd();
+            this->root.cloneFrom(&body->root);edkEnd();
 
             //copy the bonesTree
-            edk::uint32 size = body->bones.size();
-            edk::bones::Bone2D* temp;
-            edk::bones::Bone2D* newBone;
-            edk::bones::Bone2D* nextTemp;
+            edk::uint32 size = body->bones.size();edkEnd();
+            edk::bones::Bone2D* temp;edkEnd();
+            edk::bones::Bone2D* newBone;edkEnd();
+            edk::bones::Bone2D* nextTemp;edkEnd();
             for(edk::uint32 i=0u;i<size;i++){
                 if((temp = body->bones.getElementInPosition(i))){
                     //create a new bone
                     if((newBone = new edk::bones::Bone2D)){
                         //copy the temp
-                        //*newBone = *temp;
-                        newBone->cloneFrom(temp);
+                        //*newBone = *temp;edkEnd();
+                        newBone->cloneFrom(temp);edkEnd();
                         //add the newBone to the tree
                         if(!this->bones.add(newBone)){
                             //
-                            delete newBone;
-                            newBone = NULL;
+                            delete newBone;edkEnd();
+                            newBone = NULL;edkEnd();
                         }
                     }
                 }
             }
-            edk::uint32 nextsSize;
+            edk::uint32 nextsSize;edkEnd();
             //copy root nexts
-            nextsSize = body->root.getNextsSize();
+            nextsSize = body->root.getNextsSize();edkEnd();
             //copy the root nexts
             for(edk::uint32 j=0u;j<nextsSize;j++){
                 if((nextTemp = body->root.getNextInPosition(j))){
                     //add the next to the next bone
-                    this->root.addNext(this->bones.getElementByName(nextTemp->getName()));
+                    this->root.addNext(this->bones.getElementByName(nextTemp->getName()));edkEnd();
                 }
             }
 
             //copy the nexts bones
-            size = this->bones.size();
+            size = this->bones.size();edkEnd();
             for(edk::uint32 i=0u;i<size;i++){
                 if((newBone = this->bones.getElementInPosition(i))){
                     //load the bone in body
                     if((temp = body->bones.getElementByName(newBone->getName()))){
                         //copy the nexts pointers
-                        nextsSize = temp->getNextsSize();
+                        nextsSize = temp->getNextsSize();edkEnd();
                         for(edk::uint32 j=0u;j<nextsSize;j++){
                             if((nextTemp = temp->getNextInPosition(j))){
                                 //add the next to the next bone
-                                newBone->addNext(this->bones.getElementByName(nextTemp->getName()));
+                                newBone->addNext(this->bones.getElementByName(nextTemp->getName()));edkEnd();
                             }
                         }
                     }
@@ -308,15 +308,15 @@ public:
 
             //select the bone
             if(body->selected){
-                this->selected = this->bones.getElementByName(body->selected->getName());
+                this->selected = this->bones.getElementByName(body->selected->getName());edkEnd();
             }
             else{
-                this->cleanSelected();
+                this->cleanSelected();edkEnd();
             }
-            this->position = body->position;
-            this->size = body->size;
-            this->angle = body->angle;
-            this->fixedRotation = body->fixedRotation;
+            this->position = body->position;edkEnd();
+            this->size = body->size;edkEnd();
+            this->angle = body->angle;edkEnd();
+            this->fixedRotation = body->fixedRotation;edkEnd();
             return false;
         }
         return false;
@@ -326,55 +326,55 @@ private:
 
     edk::bones::Body2D operator=(edk::bones::Body2D body){
         //delete all bones
-        this->deleteAllBones();
+        this->deleteAllBones();edkEnd();
         //copy the root
-        //this->root = body.root;
-        this->root.cloneFrom(&body.root);
+        //this->root = body.root;edkEnd();
+        this->root.cloneFrom(&body.root);edkEnd();
 
         //copy the bonesTree
-        edk::uint32 size = body.bones.size();
-        edk::bones::Bone2D* temp;
-        edk::bones::Bone2D* newBone;
-        edk::bones::Bone2D* nextTemp;
+        edk::uint32 size = body.bones.size();edkEnd();
+        edk::bones::Bone2D* temp;edkEnd();
+        edk::bones::Bone2D* newBone;edkEnd();
+        edk::bones::Bone2D* nextTemp;edkEnd();
         for(edk::uint32 i=0u;i<size;i++){
             if((temp = body.bones.getElementInPosition(i))){
                 //create a new bone
                 if((newBone = new edk::bones::Bone2D)){
                     //copy the temp
-                    //*newBone = *temp;
-                    newBone->cloneFrom(temp);
+                    //*newBone = *temp;edkEnd();
+                    newBone->cloneFrom(temp);edkEnd();
                     //add the newBone to the tree
                     if(!this->bones.add(newBone)){
                         //
-                        delete newBone;
-                        newBone = NULL;
+                        delete newBone;edkEnd();
+                        newBone = NULL;edkEnd();
                     }
                 }
             }
         }
-        edk::uint32 nextsSize;
+        edk::uint32 nextsSize;edkEnd();
         //copy root nexts
-        nextsSize = body.root.getNextsSize();
+        nextsSize = body.root.getNextsSize();edkEnd();
         //copy the root nexts
         for(edk::uint32 j=0u;j<nextsSize;j++){
             if((nextTemp = body.root.getNextInPosition(j))){
                 //add the next to the next bone
-                this->root.addNext(this->bones.getElementByName(nextTemp->getName()));
+                this->root.addNext(this->bones.getElementByName(nextTemp->getName()));edkEnd();
             }
         }
 
         //copy the nexts bones
-        size = this->bones.size();
+        size = this->bones.size();edkEnd();
         for(edk::uint32 i=0u;i<size;i++){
             if((newBone = this->bones.getElementInPosition(i))){
                 //load the bone in body
                 if((temp = body.bones.getElementByName(newBone->getName()))){
                     //copy the nexts pointers
-                    nextsSize = temp->getNextsSize();
+                    nextsSize = temp->getNextsSize();edkEnd();
                     for(edk::uint32 j=0u;j<nextsSize;j++){
                         if((nextTemp = temp->getNextInPosition(j))){
                             //add the next to the next bone
-                            newBone->addNext(this->bones.getElementByName(nextTemp->getName()));
+                            newBone->addNext(this->bones.getElementByName(nextTemp->getName()));edkEnd();
                         }
                     }
                 }
@@ -383,19 +383,19 @@ private:
 
         //select the bone
         if(body.selected){
-            this->selected = this->bones.getElementByName(body.selected->getName());
+            this->selected = this->bones.getElementByName(body.selected->getName());edkEnd();
         }
         else{
-            this->cleanSelected();
+            this->cleanSelected();edkEnd();
         }
-        this->position = body.position;
-        this->size = body.size;
-        this->angle = body.angle;
-        this->fixedRotation = body.fixedRotation;
+        this->position = body.position;edkEnd();
+        this->size = body.size;edkEnd();
+        this->angle = body.angle;edkEnd();
+        this->fixedRotation = body.fixedRotation;edkEnd();
 
         //
-        body.cantDelete();
-        return body;
+        body.cantDelete();edkEnd();
+        return body;edkEnd();
     }
 };
 }//end namespace bones

@@ -26,39 +26,39 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 edk::sql::MariaDB::MariaDB(){
 #ifdef EDK_USE_MARIADB
-    this->con=NULL;
-    this->res=NULL;
-    this->field=NULL;
+    this->con=NULL;edkEnd();
+    this->res=NULL;edkEnd();
+    this->field=NULL;edkEnd();
 #endif
-    this->error.setName(" ");
+    this->error.setName(" ");edkEnd();
 }
 edk::sql::MariaDB::~MariaDB(){
     //
-    this->closeDataBase();
+    this->closeDataBase();edkEnd();
 }
 
 //open dataBase
 bool edk::sql::MariaDB::openDataBase(const edk::char8* database,const edk::char8* user,const edk::char8* password){
-    return this->openDataBase((edk::char8*) database,(edk::char8*) user,(edk::char8*) password);
+    return this->openDataBase((edk::char8*) database,(edk::char8*) user,(edk::char8*) password);edkEnd();
 }
 bool edk::sql::MariaDB::openDataBase(edk::char8* database,edk::char8* user,edk::char8* password){
-    return this->openDataBase(database,user,password,(edk::char8*)"127.0.0.1",3306u);
+    return this->openDataBase(database,user,password,(edk::char8*)"127.0.0.1",3306u);edkEnd();
 }
 bool edk::sql::MariaDB::openDataBase(const edk::char8* database,const edk::char8* user,const edk::char8* password,const edk::char8* host){
-    return this->openDataBase((edk::char8*) database,(edk::char8*) user,(edk::char8*) password,(edk::char8*) host);
+    return this->openDataBase((edk::char8*) database,(edk::char8*) user,(edk::char8*) password,(edk::char8*) host);edkEnd();
 }
 bool edk::sql::MariaDB::openDataBase(edk::char8* database,edk::char8* user,edk::char8* password,edk::char8* host){
-    return this->openDataBase(database,user,password,host,3306u);
+    return this->openDataBase(database,user,password,host,3306u);edkEnd();
 }
 bool edk::sql::MariaDB::openDataBase(const edk::char8* database,const edk::char8* user,const edk::char8* password,const edk::char8* host,edk::uint32 port){
-    return this->openDataBase((edk::char8*) database,(edk::char8*) user,(edk::char8*) password,(edk::char8*) host,port);
+    return this->openDataBase((edk::char8*) database,(edk::char8*) user,(edk::char8*) password,(edk::char8*) host,port);edkEnd();
 }
 bool edk::sql::MariaDB::openDataBase(edk::char8* database,edk::char8* user,edk::char8* password,edk::char8* host,edk::uint32 port){
-    this->closeDataBase();
+    this->closeDataBase();edkEnd();
 
     if(database && user && password && host && port){
 #ifdef EDK_USE_MARIADB
-        this->con = mysql_init(NULL); // mysql instance
+        this->con = mysql_init(NULL);edkEnd(); // mysql instance
         if(this->con){
             // connect to the mysql database
             if(mysql_real_connect(this->con, host, user, password, database, port, NULL, 0)){
@@ -66,13 +66,13 @@ bool edk::sql::MariaDB::openDataBase(edk::char8* database,edk::char8* user,edk::
             }
             else{
                 //if error then copy the error
-                this->error.setName(mysql_error(this->con));
+                this->error.setName(mysql_error(this->con));edkEnd();
 
-                this->closeDataBase();
+                this->closeDataBase();edkEnd();
             }
         }
 #else
-        printf("\nYou must define EDK_USE_MARIADB before use");fflush(stdout);
+        printf("\nYou must define EDK_USE_MARIADB before use");edkEnd();fflush(stdout);edkEnd();
 #endif
     }
 
@@ -81,56 +81,56 @@ bool edk::sql::MariaDB::openDataBase(edk::char8* database,edk::char8* user,edk::
 
 //execute a command
 bool edk::sql::MariaDB::execute(const edk::char8* command,edk::sql::SQLGroup* callback){
-    return this->execute((edk::char8*) command,callback);
+    return this->execute((edk::char8*) command,callback);edkEnd();
 }
 bool edk::sql::MariaDB::execute(edk::char8* command,edk::sql::SQLGroup* callback){
-    this->error.setName(" ");
+    this->error.setName(" ");edkEnd();
     if(this->haveOpenedDataBase()){
         //
         if(command){
 #ifdef EDK_USE_MARIADB
             if(mysql_query(this->con, command)){
                 //if error then copy the error
-                this->error.setName(mysql_error(this->con));
+                this->error.setName(mysql_error(this->con));edkEnd();
             }
             else{
-                this->res = mysql_store_result(this->con);
+                this->res = mysql_store_result(this->con);edkEnd();
                 if(this->res){
-                    edk::int32 num_fields = mysql_num_fields(this->res);
+                    edk::int32 num_fields = mysql_num_fields(this->res);edkEnd();
                     if(callback){
-                        edk::sql::SQLNodes* group=NULL;
+                        edk::sql::SQLNodes* group=NULL;edkEnd();
                         /* List down all the records */
                         while(this->field = mysql_fetch_field(this->res)){
                             //add the field into the stack
-                            this->fields.pushBack(this->field->name);
+                            this->fields.pushBack(this->field->name);edkEnd();
                         }
-                        this->field=NULL;
+                        this->field=NULL;edkEnd();
                         while ((this->row = mysql_fetch_row(this->res)) != NULL){
-                            group = callback->getNewGroup();
+                            group = callback->getNewGroup();edkEnd();
                             if(group){
                                 for(int i = 0; i < num_fields; i++){
                                     //test if have the field in the stack
                                     if(this->fields.havePos(i)){
                                         //
-                                        group->addNode((edk::char8*)this->fields.get(i),(edk::char8*)this->row[i]);
+                                        group->addNode((edk::char8*)this->fields.get(i),(edk::char8*)this->row[i]);edkEnd();
                                     }
                                     else{
 
-                                        group->addNode((edk::char8*)this->row[i],(edk::char8*)this->row[i]);
+                                        group->addNode((edk::char8*)this->row[i],(edk::char8*)this->row[i]);edkEnd();
                                     }
                                 }
                             }
                         }
-                        this->row=NULL;
+                        this->row=NULL;edkEnd();
 
-                        this->fields.clean();
+                        this->fields.clean();edkEnd();
                     }
-                    mysql_free_result(this->res);
+                    mysql_free_result(this->res);edkEnd();
                 }
                 return true;
             }
 #else
-            printf("\nYou must define EDK_USE_MARIADB before use");fflush(stdout);
+            printf("\nYou must define EDK_USE_MARIADB before use");edkEnd();fflush(stdout);edkEnd();
 #endif
         }
     }
@@ -144,7 +144,7 @@ bool edk::sql::MariaDB::haveOpenedDataBase(){
         return true;
     }
 #else
-    printf("\nYou must define EDK_USE_MARIADB before use");fflush(stdout);
+    printf("\nYou must define EDK_USE_MARIADB before use");edkEnd();fflush(stdout);edkEnd();
 #endif
     return false;
 }
@@ -154,20 +154,20 @@ void edk::sql::MariaDB::closeDataBase(){
 #ifdef EDK_USE_MARIADB
     if(this->con){
         // close database connection
-        mysql_close(this->con);
+        mysql_close(this->con);edkEnd();
     }
 
-    this->con=NULL;
-    this->res=NULL;
-    this->field=NULL;
+    this->con=NULL;edkEnd();
+    this->res=NULL;edkEnd();
+    this->field=NULL;edkEnd();
 
-    this->fields.clean();
+    this->fields.clean();edkEnd();
 #else
-    printf("\nYou must define EDK_USE_MARIADB before use");fflush(stdout);
+    printf("\nYou must define EDK_USE_MARIADB before use");edkEnd();fflush(stdout);edkEnd();
 #endif
 }
 
 //return the error string
 edk::char8* edk::sql::MariaDB::getError(){
-    return this->error.getName();
+    return this->error.getName();edkEnd();
 }

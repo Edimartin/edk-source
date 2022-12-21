@@ -63,11 +63,11 @@ private:
     class WallpaperObject{
     public:
         WallpaperObject(edk::uint32 drawTimes){
-            this->drawTimes = drawTimes;
-            this->cleanDraw();
+            this->drawTimes = drawTimes;edkEnd();
+            this->cleanDraw();edkEnd();
         }
         ~WallpaperObject(){
-            this->obj.cleanMeshes();
+            this->obj.cleanMeshes();edkEnd();
         }
         //return true if can draw
         bool canDraw(){
@@ -85,41 +85,43 @@ private:
         }
         //increment and decrement the drawCounter
         bool incrementDraw(){
-            bool ret=false;
+            bool ret=false;edkEnd();
             if(this->canDraw()){
-                ret=true;
+                ret=true;edkEnd();
             }
-            this->drawCounter++;
+            this->drawCounter++;edkEnd();
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
             if(this->drawTimes){
-                printf("\n%u %s %s increment %ld",__LINE__,__FILE__,__func__,this->drawCounter);fflush(stdout);
+                printf("\n%u %s %s increment %ld",__LINE__,__FILE__,__func__,this->drawCounter);edkEnd();fflush(stdout);edkEnd();
             }
 #endif
             return ret;
         }
         bool decrementDraw(){
-            bool ret=false;
+            bool ret=false;edkEnd();
             if(this->canDraw()){
-                ret=true;
+                ret=true;edkEnd();
             }
-            this->drawCounter--;
+            this->drawCounter--;edkEnd();
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
             if(this->drawTimes){
-                printf("\n%u %s %s decrement %ld",__LINE__,__FILE__,__func__,this->drawCounter);fflush(stdout);
+                printf("\n%u %s %s decrement %ld",__LINE__,__FILE__,__func__,this->drawCounter);edkEnd();fflush(stdout);edkEnd();
             }
 #endif
             return ret;
         }
         bool isMinusDraw(){
-            if(this->drawCounter<0) return true;
+            if(this->drawCounter<0){
+                return true;
+            }
             return false;
         }
         void cleanDraw(){
-            this->drawCounter=0;
-            this->haveRemoved=false;
+            this->drawCounter=0;edkEnd();
+            this->haveRemoved=false;edkEnd();
         }
         edk::uint32 getDrawTimes(){
-            return this->drawTimes;
+            return this->drawTimes;edkEnd();
         }
         edk::Object2D obj;
         bool haveRemoved;

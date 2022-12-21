@@ -158,15 +158,15 @@ private:
     class MeshVertex{
     public:
         MeshVertex(){
-            this->use = 0u;
-            this->pointer = &this->vertex;
+            this->use = 0u;edkEnd();
+            this->pointer = &this->vertex;edkEnd();
         }
         void incrementUse(){
-            this->use++;
+            this->use++;edkEnd();
         }
         bool decrementUse(){
             if(this->use){
-                this->use--;
+                this->use--;edkEnd();
             }
             if(this->use){
                 return true;
@@ -209,15 +209,15 @@ private:
     class MeshNormal{
     public:
         MeshNormal(){
-            this->use = 0u;
-            this->pointer = &this->normal;
+            this->use = 0u;edkEnd();
+            this->pointer = &this->normal;edkEnd();
         }
         void incrementUse(){
-            this->use++;
+            this->use++;edkEnd();
         }
         bool decrementUse(){
             if(this->use){
-                this->use--;
+                this->use--;edkEnd();
             }
             if(this->use){
                 return true;
@@ -258,15 +258,15 @@ private:
     class MeshUV{
     public:
         MeshUV(){
-            this->use = 0u;
-            this->pointer = &this->uv;
+            this->use = 0u;edkEnd();
+            this->pointer = &this->uv;edkEnd();
         }
         void incrementUse(){
-            this->use++;
+            this->use++;edkEnd();
         }
         bool decrementUse(){
             if(this->use){
-                this->use--;
+                this->use--;edkEnd();
             }
             if(this->use){
                 return true;
@@ -310,60 +310,60 @@ protected:
         PolygonList(){}
         ~PolygonList(){}
         void updateElement(edk::shape::Polygon3D* value){
-            this->func(this,value);
+            this->func(this,value);edkEnd();
         }
         void printElement(edk::shape::Polygon3D* value){
-            value->print();
+            value->print();edkEnd();
         }
         void renderElement(edk::shape::Polygon3D* value){
-            value->draw();
+            value->draw();edkEnd();
         }
         //Draw the polygon with lines
         void drawWire(){
-            this->func = edk::shape::Mesh3D::PolygonList::runDrawWire;
-            this->update();
+            this->func = edk::shape::Mesh3D::PolygonList::runDrawWire;edkEnd();
+            this->update();edkEnd();
         }
         static void runDrawWire(edk::shape::Mesh3D::PolygonList*,edk::shape::Polygon3D* value){
-            value->drawWire();
+            value->drawWire();edkEnd();
         }
         /*
-        void drawWireWithColor(edk::color4f32 color=edk::color4f32(1,1,1,1));
+        void drawWireWithColor(edk::color4f32 color=edk::color4f32(1,1,1,1));edkEnd();
         */
         //Draw the polygon with lines
         void drawWireWithColor(edk::color4f32 color=edk::color4f32(1,1,1,1)){
-            this->func = edk::shape::Mesh3D::PolygonList::runDrawWireWithColor;
-            this->color = color;
-            this->update();
+            this->func = edk::shape::Mesh3D::PolygonList::runDrawWireWithColor;edkEnd();
+            this->color = color;edkEnd();
+            this->update();edkEnd();
         }
         static void runDrawWireWithColor(edk::shape::Mesh3D::PolygonList* list,edk::shape::Polygon3D* value){
-            value->drawWireWithColor(list->color);
+            value->drawWireWithColor(list->color);edkEnd();
         }
         //Draw the polygon with lines
         void drawPolygonVertexs(edk::color4f32 color=edk::color4f32(1,1,1,1)){
-            this->func = edk::shape::Mesh3D::PolygonList::runDrawPolygonVertexs;
-            this->color = color;
-            this->update();
+            this->func = edk::shape::Mesh3D::PolygonList::runDrawPolygonVertexs;edkEnd();
+            this->color = color;edkEnd();
+            this->update();edkEnd();
         }
         static void runDrawPolygonVertexs(edk::shape::Mesh3D::PolygonList* list,edk::shape::Polygon3D* value){
-            value->drawPolygonVertexs(list->color);
+            value->drawPolygonVertexs(list->color);edkEnd();
         }
 
         //Draw the polygon normals
         void drawPolygonNormals(){
-            this->func = edk::shape::Mesh3D::PolygonList::runDrawPolygonNormals;
-            this->update();
+            this->func = edk::shape::Mesh3D::PolygonList::runDrawPolygonNormals;edkEnd();
+            this->update();edkEnd();
         }
         static void runDrawPolygonNormals(edk::shape::Mesh3D::PolygonList*,edk::shape::Polygon3D* value){
-            value->drawPolygonNormals();
+            value->drawPolygonNormals();edkEnd();
         }
         //Draw the polygon with lines
         void drawPolygonNormalsWithColor(edk::color3f32 color=edk::color3f32(1,1,1)){
-            this->func = edk::shape::Mesh3D::PolygonList::runDrawPolygonNormalsWithColor;
-            this->color = color;
-            this->update();
+            this->func = edk::shape::Mesh3D::PolygonList::runDrawPolygonNormalsWithColor;edkEnd();
+            this->color = color;edkEnd();
+            this->update();edkEnd();
         }
         static void runDrawPolygonNormalsWithColor(edk::shape::Mesh3D::PolygonList* list,edk::shape::Polygon3D* value){
-            value->drawPolygonNormalsWithColor(list->color);
+            value->drawPolygonNormalsWithColor(list->color);edkEnd();
         }
 
         void (*func)(edk::shape::Mesh3D::PolygonList* list,edk::shape::Polygon3D* value);

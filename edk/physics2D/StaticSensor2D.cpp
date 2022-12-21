@@ -26,11 +26,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 edk::physics2D::StaticSensor2D::StaticSensor2D()
 {
-    this->isObjectSensor=true;
-    this->physType = edk::physics::StaticBody;
+    this->isObjectSensor=true;edkEnd();
+    this->physType = edk::physics::StaticBody;edkEnd();
 }
 edk::physics2D::StaticSensor2D::~StaticSensor2D(){
-    this->tree.clean();
+    this->tree.clean();edkEnd();
 }
 
 //return if it's a sensor
@@ -41,21 +41,21 @@ bool edk::physics2D::StaticSensor2D::isSensor(){
 //Objects to activate the sensor
 //add
 bool edk::physics2D::StaticSensor2D::addActivateObject(edk::physics2D::PhysicObject2D* object){
-    return this->tree.add(object);
+    return this->tree.add(object);edkEnd();
 }
 //remove
 bool edk::physics2D::StaticSensor2D::removeActivateObject(edk::physics2D::PhysicObject2D* object){
-    return this->tree.remove(object);
+    return this->tree.remove(object);edkEnd();
 }
 //clean the activateObject
 void edk::physics2D::StaticSensor2D::cleanActivateObjects(){
-    this->tree.clean();
+    this->tree.clean();edkEnd();
 }
 //test if have the object
 bool edk::physics2D::StaticSensor2D::haveActivateObject(edk::physics2D::PhysicObject2D* object){
-    return this->tree.haveElement(object);
+    return this->tree.haveElement(object);edkEnd();
 }
 //getSize
 edk::uint32 edk::physics2D::StaticSensor2D::getActivateSize(){
-    return this->tree.size();
+    return this->tree.size();edkEnd();
 }

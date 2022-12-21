@@ -25,26 +25,26 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::network::Package::Package(){
-    this->vec=NULL;
-    this->headerSize = (edk::uint32)(sizeof(edk::network::Package::PackHeader));
+    this->vec=NULL;edkEnd();
+    this->headerSize = (edk::uint32)(sizeof(edk::network::Package::PackHeader));edkEnd();
     this->vectorSize=0u;
 }
 edk::network::Package::~Package(){
-    this->deleteVector();
+    this->deleteVector();edkEnd();
 }
 
 //create a new package
 bool edk::network::Package::newVector(edk::uint32 size){
     //delete the lastPackage
-    this->deleteVector();
+    this->deleteVector();edkEnd();
     if(size){
         this->header.size=0u;
-        this->vectorSize = size;
+        this->vectorSize = size;edkEnd();
         //create a new vec
-        this->vec = new edk::uint8[this->vectorSize + this->headerSize];
+        this->vec = new edk::uint8[this->vectorSize + this->headerSize];edkEnd();
         if(this->vec){
             //update the header
-            this->updateVector();
+            this->updateVector();edkEnd();
             return true;
         }
     }
@@ -55,7 +55,7 @@ bool edk::network::Package::updateVector(){
     //test if have a vector
     if(this->vec){
         //copy the header
-        memcpy(this->vec,&this->header,this->headerSize);
+        memcpy(this->vec,&this->header,this->headerSize);edkEnd();
         return true;
     }
     return false;
@@ -63,9 +63,10 @@ bool edk::network::Package::updateVector(){
 
 //delete the vector
 void edk::network::Package::deleteVector(){
-    if(this->vec)
-        delete[] this->vec;
-    this->vec=NULL;
+    if(this->vec){
+        delete[] this->vec;edkEnd();
+    }
+    this->vec=NULL;edkEnd();
     //clean the header
     this->header.size=0u;
     this->vectorSize=0u;
@@ -78,22 +79,22 @@ bool edk::network::Package::drawVector(edk::classID vec,edk::uint32 size,edk::ui
         if(vecSize){
             if(this->vectorSize != vecSize){
                 //create a new vec
-                this->newVector(size);
+                this->newVector(size);edkEnd();
             }
         }
         else{
             if(this->vectorSize != size){
                 //create a new vec
-                this->newVector(size);
+                this->newVector(size);edkEnd();
             }
         }
         //test the package
         if(this->vec && this->vectorSize && size<=this->vectorSize){
-            this->header.size = size;
+            this->header.size = size;edkEnd();
             //copy the data to the vector
             //TODO: ERROR memcpy
-            memcpy(&this->vec[this->headerSize],vec,this->header.size);
-            this->updateVector();
+            memcpy(&this->vec[this->headerSize],vec,this->header.size);edkEnd();
+            this->updateVector();edkEnd();
             return true;
         }
     }
@@ -101,21 +102,21 @@ bool edk::network::Package::drawVector(edk::classID vec,edk::uint32 size,edk::ui
 }
 bool edk::network::Package::drawVector(edk::classID vec,edk::uint32 size,edk::uint32 vecSize,edk::uint32 position,edk::uint32 id,edk::uint32 total){
     //set the header
-    this->setHeader(position,id,total);
-    return this->drawVector(vec,size,vecSize);
+    this->setHeader(position,id,total);edkEnd();
+    return this->drawVector(vec,size,vecSize);edkEnd();
 }
 //add the vector with the header
 bool edk::network::Package::addPackage(edk::classID vec,edk::uint32 size){
     //test the vec and size
     if(vec && size && size>this->headerSize+1u){
-        edk::uint8* temp = (edk::uint8*)vec;
-        edk::network::Package::PackHeader header;
+        edk::uint8* temp = (edk::uint8*)vec;edkEnd();
+        edk::network::Package::PackHeader header;edkEnd();
         //load the header
-        memcpy(&header,temp,this->headerSize);
+        memcpy(&header,temp,this->headerSize);edkEnd();
         //test if it's not bloken
         if(!header.isBroken()){
             //copy the vector
-            return this->drawVector(&temp[this->headerSize],header.size,size-this->headerSize,header.position,header.id,header.packages);
+            return this->drawVector(&temp[this->headerSize],header.size,size-this->headerSize,header.position,header.id,header.packages);edkEnd();
         }
     }
     return false;
@@ -123,50 +124,50 @@ bool edk::network::Package::addPackage(edk::classID vec,edk::uint32 size){
 //set the package header
 void edk::network::Package::setHeader(edk::uint32 position,edk::uint32 id,edk::uint32 total){
     //set the header
-    this->header.id = id;
-    this->header.position = position;
-    this->header.packages = total;
+    this->header.id = id;edkEnd();
+    this->header.position = position;edkEnd();
+    this->header.packages = total;edkEnd();
     //update the header
-    this->updateVector();
+    this->updateVector();edkEnd();
 }
 void edk::network::Package::setHeader(edk::classID vec){
     //create a headerTemp
-    edk::network::Package::PackHeader header;
+    edk::network::Package::PackHeader header;edkEnd();
     if(!header.isBroken()){
-        memcpy(&header,vec,this->headerSize);
-        this->setHeader(header.position,header.id,header.packages);
+        memcpy(&header,vec,this->headerSize);edkEnd();
+        this->setHeader(header.position,header.id,header.packages);edkEnd();
     }
 }
 //return the id of the packet
 edk::uint32 edk::network::Package::getID(){
-    return this->header.id;
+    return this->header.id;edkEnd();
 }
 //return the id of the packet
 edk::uint32 edk::network::Package::getPosition(){
-    return this->header.position;
+    return this->header.position;edkEnd();
 }
 //get the total number of packages
 edk::uint32 edk::network::Package::getPackages(){
-    return this->header.packages;
+    return this->header.packages;edkEnd();
 }
 //return the size of the package
 edk::uint32 edk::network::Package::getPackageSize(){
-    return this->header.size;
+    return this->header.size;edkEnd();
 }
 
 //return the vector
 edk::uint8* edk::network::Package::getVec(){
-    return this->vec;
+    return this->vec;edkEnd();
 }
 edk::uint8* edk::network::Package::getPackageVector(){
     if(this->vec){
-        return &this->vec[this->headerSize];
+        return &this->vec[this->headerSize];edkEnd();
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 
 edk::uint32 edk::network::Package::getVecSize(){
-    return this->headerSize + this->vectorSize;
+    return this->headerSize + this->vectorSize;edkEnd();
 }
 
 //test if the header is broked
@@ -174,10 +175,10 @@ bool edk::network::Package::headerIsBroken(edk::classID vec){
     //test the vec
     if(vec){
         //copy the header
-        edk::network::Package::PackHeader header;
-        memcpy(&header,vec,sizeof(edk::network::Package::PackHeader));
+        edk::network::Package::PackHeader header;edkEnd();
+        memcpy(&header,vec,sizeof(edk::network::Package::PackHeader));edkEnd();
         //test if it's broken
-        return header.isBroken();
+        return header.isBroken();edkEnd();
     }
     return false;
 }
@@ -186,42 +187,42 @@ edk::uint32 edk::network::Package::getHeaderFullSize(edk::classID vec){
     //test the vec
     if(vec){
         //copy the header
-        edk::network::Package::PackHeader header;
-        memcpy(&header,vec,sizeof(edk::network::Package::PackHeader));
-        return header.size + sizeof(edk::network::Package::PackHeader);
+        edk::network::Package::PackHeader header;edkEnd();
+        memcpy(&header,vec,sizeof(edk::network::Package::PackHeader));edkEnd();
+        return header.size + sizeof(edk::network::Package::PackHeader);edkEnd();
     }
-    return 0u;
+    return 0u;edkEnd();
 }
 //get the position by the header
 edk::uint32 edk::network::Package::getHeaderPosition(edk::classID vec){
     //test the vec
     if(vec){
         //copy the header
-        edk::network::Package::PackHeader header;
-        memcpy(&header,vec,sizeof(edk::network::Package::PackHeader));
-        return header.position;
+        edk::network::Package::PackHeader header;edkEnd();
+        memcpy(&header,vec,sizeof(edk::network::Package::PackHeader));edkEnd();
+        return header.position;edkEnd();
     }
-    return 0u;
+    return 0u;edkEnd();
 }
 //get the ID by the header
 edk::uint32 edk::network::Package::getHeaderId(edk::classID vec){
     //test the vec
     if(vec){
         //copy the header
-        edk::network::Package::PackHeader header;
-        memcpy(&header,vec,sizeof(edk::network::Package::PackHeader));
-        return header.id;
+        edk::network::Package::PackHeader header;edkEnd();
+        memcpy(&header,vec,sizeof(edk::network::Package::PackHeader));edkEnd();
+        return header.id;edkEnd();
     }
-    return 0u;
+    return 0u;edkEnd();
 }
 //get the packages by the header
 edk::uint32 edk::network::Package::getHeaderPackages(edk::classID vec){
     //test the vec
     if(vec){
         //copy the header
-        edk::network::Package::PackHeader header;
-        memcpy(&header,vec,sizeof(edk::network::Package::PackHeader));
-        return header.packages;
+        edk::network::Package::PackHeader header;edkEnd();
+        memcpy(&header,vec,sizeof(edk::network::Package::PackHeader));edkEnd();
+        return header.packages;edkEnd();
     }
-    return 0u;
+    return 0u;edkEnd();
 }

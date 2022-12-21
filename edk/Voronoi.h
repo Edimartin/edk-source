@@ -45,29 +45,29 @@ namespace edk{
 class vec2f32ColorRGB{
 public:
     vec2f32ColorRGB(){
-        this->position.x = this->position.y = 0.f;
-        this->color.r = this->color.g = this->color.b = 0u;
+        this->position.x = this->position.y = 0.f;edkEnd();
+        this->color.r = this->color.g = this->color.b = 0u;edkEnd();
     }
     vec2f32ColorRGB(edk::vec2f32 position,edk::color3ui8 color){
-        this->position = position;
-        this->color = color;
+        this->position = position;edkEnd();
+        this->color = color;edkEnd();
     }
     vec2f32ColorRGB(edk::float32 x,edk::float32 y,edk::uint8 r,edk::uint8 g,edk::uint8 b){
-        this->position.x = x;
-        this->position.y = y;
-        this->color.r = r;
-        this->color.g = g;
-        this->color.b = b;
+        this->position.x = x;edkEnd();
+        this->position.y = y;edkEnd();
+        this->color.r = r;edkEnd();
+        this->color.g = g;edkEnd();
+        this->color.b = b;edkEnd();
     }
     virtual ~vec2f32ColorRGB(){}
     //operator =
     edk::vec2f32ColorRGB operator=(edk::vec2f32ColorRGB vecColor){
-        this->position.x= vecColor.position.x;
-        this->position.y= vecColor.position.y;
-        this->color.r = vecColor.color.r;
-        this->color.g = vecColor.color.g;
-        this->color.b = vecColor.color.b;
-        return *this;
+        this->position.x= vecColor.position.x;edkEnd();
+        this->position.y= vecColor.position.y;edkEnd();
+        this->color.r = vecColor.color.r;edkEnd();
+        this->color.g = vecColor.color.g;edkEnd();
+        this->color.b = vecColor.color.b;edkEnd();
+        return *this;edkEnd();
     }
     edk::vec2f32 position;
     edk::color3ui8 color;
@@ -75,25 +75,25 @@ public:
 class vec2f32ColorGray{
 public:
     vec2f32ColorGray(){
-        this->position.x = this->position.y = 0.f;
-        this->grayscale = 0u;
+        this->position.x = this->position.y = 0.f;edkEnd();
+        this->grayscale = 0u;edkEnd();
     }
     vec2f32ColorGray(edk::vec2f32 position,edk::uint8 grayscale){
-        this->position = position;
-        this->grayscale = grayscale;
+        this->position = position;edkEnd();
+        this->grayscale = grayscale;edkEnd();
     }
     vec2f32ColorGray(edk::float32 x,edk::float32 y,edk::uint8 grayscale){
-        this->position.x = x;
-        this->position.y = y;
-        this->grayscale = grayscale;
+        this->position.x = x;edkEnd();
+        this->position.y = y;edkEnd();
+        this->grayscale = grayscale;edkEnd();
     }
     virtual ~vec2f32ColorGray(){}
     //operator =
     edk::vec2f32ColorGray operator=(edk::vec2f32ColorGray vecColor){
-        this->position.x= vecColor.position.x;
-        this->position.y= vecColor.position.y;
-        this->grayscale = vecColor.grayscale;
-        return *this;
+        this->position.x= vecColor.position.x;edkEnd();
+        this->position.y= vecColor.position.y;edkEnd();
+        this->grayscale = vecColor.grayscale;edkEnd();
+        return *this;edkEnd();
     }
     edk::vec2f32 position;
     edk::uint8 grayscale;
@@ -157,14 +157,14 @@ private:
     class ImageRGB{
     public:
         ImageRGB(){
-            this->image=NULL;
-            this->width=0u;
-            this->height=0u;
-            this->start=0u;
-            this->end=0u;
+            this->image=NULL;edkEnd();
+            this->width=0u;edkEnd();
+            this->height=0u;edkEnd();
+            this->start=0u;edkEnd();
+            this->end=0u;edkEnd();
         }
         virtual ~ImageRGB(){
-            this->points.deleteArray();
+            this->points.deleteArray();edkEnd();
         }
         edk::vector::Array<edk::vec2f32ColorRGB> points;
         edk::uint8* image;
@@ -176,14 +176,14 @@ private:
     class ImageGray{
     public:
         ImageGray(){
-            this->image=NULL;
-            this->width=0u;
-            this->height=0u;
-            this->start=0u;
-            this->end=0u;
+            this->image=NULL;edkEnd();
+            this->width=0u;edkEnd();
+            this->height=0u;edkEnd();
+            this->start=0u;edkEnd();
+            this->end=0u;edkEnd();
         }
         virtual ~ImageGray(){
-            this->points.deleteArray();
+            this->points.deleteArray();edkEnd();
         }
         edk::vector::Array<edk::vec2f32ColorGray> points;
         edk::uint8* image;

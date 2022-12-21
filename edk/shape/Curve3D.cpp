@@ -34,10 +34,10 @@ edk::shape::Curve3D::Curve3D()
 }
 edk::shape::Curve3D::Curve3D(edk::vec3f32 p1,edk::vec3f32 p2,edk::vec3f32 p3,edk::vec3f32 p4){
     //
-    this->point1=p1;
-    this->point2=p2;
-    this->point3=p3;
-    this->point4=p4;
+    this->point1=p1;edkEnd();
+    this->point2=p2;edkEnd();
+    this->point3=p3;edkEnd();
+    this->point4=p4;edkEnd();
 }
 edk::shape::Curve3D::~Curve3D()
 {
@@ -48,7 +48,8 @@ edk::shape::Curve3D::~Curve3D()
 //return the point
 edk::vec3f32 edk::shape::Curve3D::getPoint(edk::float32 percent){
     //
-    if(percent)
-    return edk::vec3f32();
-    return edk::vec3f32();
+    if(percent){
+        return edk::vec3f32();edkEnd();
+    }
+    return edk::vec3f32();edkEnd();
 }

@@ -142,8 +142,8 @@ private:
     class ObjGui2dID{
     public:
         ObjGui2dID(edk::gui2d::ObjectGui2d* pointer,edk::uint64 id){
-            this->pointer = pointer;
-            this->id = id;
+            this->pointer = pointer;edkEnd();
+            this->id = id;edkEnd();
         }
         ~ObjGui2dID(){}
         //pointe
@@ -190,17 +190,17 @@ private:
         //get the object by the object
         edk::gui2d::ViewGui2d::ObjGui2dID* getObjectByPointer(edk::gui2d::ObjectGui2d* pointer){
             if(pointer){
-                edk::gui2d::ViewGui2d::ObjGui2dID search(pointer,0u);
-                return this->getElement(&search);
+                edk::gui2d::ViewGui2d::ObjGui2dID search(pointer,0u);edkEnd();
+                return this->getElement(&search);edkEnd();
             }
-            return NULL;
+            return NULL;edkEnd();
         }
     };
     //tree with objects
     class ObjGui2dIDTree : public edk::vector::BinaryTree<edk::gui2d::ViewGui2d::ObjGui2dID*>{
     public:
-        ObjGui2dIDTree(){this->cleanPressed=false;this->startUpdateVolume=false;}
-        ~ObjGui2dIDTree(){this->removeAll();}
+        ObjGui2dIDTree(){this->cleanPressed=false;edkEnd();this->startUpdateVolume=false;edkEnd();}
+        ~ObjGui2dIDTree(){this->removeAll();edkEnd();}
         //compare if the value is bigger
         virtual bool firstBiggerSecond(edk::gui2d::ViewGui2d::ObjGui2dID* first,edk::gui2d::ViewGui2d::ObjGui2dID* second){
             if(first && second){
@@ -225,21 +225,21 @@ private:
         virtual void printElement(edk::gui2d::ViewGui2d::ObjGui2dID* value){
             if(value->pointer->getType() != edk::gui2d::gui2dTypeText){
                 //draw the element for selection
-                edk::GU::guPushName(value->id);
-                value->pointer->drawSelection();
-                edk::GU::guPopName();
+                edk::GU::guPushName(value->id);edkEnd();
+                value->pointer->drawSelection();edkEnd();
+                edk::GU::guPopName();edkEnd();
             }
         }
         virtual void renderElement(edk::gui2d::ViewGui2d::ObjGui2dID* value){
             //
-            value->pointer->draw();
+            value->pointer->draw();edkEnd();
         }
         //UPDATE
         virtual void updateElement(edk::gui2d::ViewGui2d::ObjGui2dID* value){
             //
-            value->pointer->update();
+            value->pointer->update();edkEnd();
             if(this->cleanPressed){
-                value->pointer->pressed = false;
+                value->pointer->pressed = false;edkEnd();
             }
 
             //test if are updating the volume for the first time
@@ -249,36 +249,36 @@ private:
                                                  value->pointer->position.y - (value->pointer->size.height * 0.5f),
                                                  value->pointer->position.x + (value->pointer->size.width * 0.5f),
                                                  value->pointer->position.y + (value->pointer->size.height * 0.5f)
-                                                 );
+                                                 );edkEnd();
                 if(temp.origin.x<this->volume.origin.x){
-                    this->volume.origin.x = temp.origin.x;
+                    this->volume.origin.x = temp.origin.x;edkEnd();
                 }
                 if(temp.origin.y<this->volume.origin.y){
-                    this->volume.origin.y = temp.origin.y;
+                    this->volume.origin.y = temp.origin.y;edkEnd();
                 }
-                temp.size.width = temp.size.width-this->volume.origin.x;
+                temp.size.width = temp.size.width-this->volume.origin.x;edkEnd();
                 if(temp.size.width>this->volume.size.width){
-                    this->volume.size.width = temp.size.width;
+                    this->volume.size.width = temp.size.width;edkEnd();
                 }
-                temp.size.height = temp.size.height-this->volume.origin.y;
+                temp.size.height = temp.size.height-this->volume.origin.y;edkEnd();
                 if(temp.size.height>this->volume.size.height){
-                    this->volume.size.height = temp.size.height;
+                    this->volume.size.height = temp.size.height;edkEnd();
                 }
             }
             else{
-                this->startUpdateVolume = true;
+                this->startUpdateVolume = true;edkEnd();
                 this->volume = edk::rectf32(value->pointer->position.x - (value->pointer->size.width * 0.5f),
                                             value->pointer->position.y - (value->pointer->size.height * 0.5f),
                                             value->pointer->size.width,
                                             value->pointer->size.height
-                                            );
+                                            );edkEnd();
             }
         }
         //add a new ObjectGui2d to the tree
         bool addNewObj(edk::gui2d::ObjectGui2d* obj,edk::uint64 id){
             if(obj){
                 //create a new objectID
-                edk::gui2d::ViewGui2d::ObjGui2dID* objID = new edk::gui2d::ViewGui2d::ObjGui2dID(obj,id);
+                edk::gui2d::ViewGui2d::ObjGui2dID* objID = new edk::gui2d::ViewGui2d::ObjGui2dID(obj,id);edkEnd();
                 if(objID){
                     //first add to the tree
                     if(this->tree.add(objID)){
@@ -287,82 +287,82 @@ private:
                             return true;
                         }
                     }
-                    delete objID;
+                    delete objID;edkEnd();
                 }
             }
             return false;
         }
         //test if have a object
         bool haveObjByID(edk::uint64 id){
-            edk::gui2d::ViewGui2d::ObjGui2dID search(NULL,id);
-            edk::gui2d::ViewGui2d::ObjGui2dID* have = this->getElement(&search);
+            edk::gui2d::ViewGui2d::ObjGui2dID search(NULL,id);edkEnd();
+            edk::gui2d::ViewGui2d::ObjGui2dID* have = this->getElement(&search);edkEnd();
             if(have){
-                return this->tree.haveElement(have);
+                return this->tree.haveElement(have);edkEnd();
             }
             return false;
         }
         bool haveObjByPointer(edk::gui2d::ObjectGui2d* obj){
-            edk::gui2d::ViewGui2d::ObjGui2dID search(obj,0u);
-            edk::gui2d::ViewGui2d::ObjGui2dID* have = this->tree.getElement(&search);
+            edk::gui2d::ViewGui2d::ObjGui2dID search(obj,0u);edkEnd();
+            edk::gui2d::ViewGui2d::ObjGui2dID* have = this->tree.getElement(&search);edkEnd();
             if(have){
-                return this->haveElement(have);
+                return this->haveElement(have);edkEnd();
             }
             return false;
         }
         //get the object
         edk::gui2d::ViewGui2d::ObjGui2dID* getObjectByID(edk::uint64 id){
-            edk::gui2d::ViewGui2d::ObjGui2dID search(NULL,id);
-            return this->getElement(&search);
+            edk::gui2d::ViewGui2d::ObjGui2dID search(NULL,id);edkEnd();
+            return this->getElement(&search);edkEnd();
         }
         edk::gui2d::ViewGui2d::ObjGui2dID* getObjectByPointer(edk::gui2d::ObjectGui2d* obj){
-            edk::gui2d::ViewGui2d::ObjGui2dID search(obj,0u);
-            return this->tree.getElement(&search);
+            edk::gui2d::ViewGui2d::ObjGui2dID search(obj,0u);edkEnd();
+            return this->tree.getElement(&search);edkEnd();
         }
         //get pointer and id
         edk::gui2d::ObjectGui2d* getPointerByID(edk::uint64 id){
-            edk::gui2d::ViewGui2d::ObjGui2dID search(NULL,id);
-            edk::gui2d::ViewGui2d::ObjGui2dID* ret = this->getElement(&search);
+            edk::gui2d::ViewGui2d::ObjGui2dID search(NULL,id);edkEnd();
+            edk::gui2d::ViewGui2d::ObjGui2dID* ret = this->getElement(&search);edkEnd();
             if(ret){
-                return ret->pointer;
+                return ret->pointer;edkEnd();
             }
-            return NULL;
+            return NULL;edkEnd();
         }
         //get pointer and id
         edk::gui2d::ObjectGui2d* getPointerInPosition(edk::uint32 position){
-            edk::gui2d::ViewGui2d::ObjGui2dID* ret = this->getElementInPosition(position);
+            edk::gui2d::ViewGui2d::ObjGui2dID* ret = this->getElementInPosition(position);edkEnd();
             if(ret){
-                return ret->pointer;
+                return ret->pointer;edkEnd();
             }
-            return NULL;
+            return NULL;edkEnd();
         }
         edk::uint64 getIdByPointer(edk::gui2d::ObjectGui2d* obj){
-            edk::gui2d::ViewGui2d::ObjGui2dID search(obj,0u);
-            edk::gui2d::ViewGui2d::ObjGui2dID* ret = this->tree.getElement(&search);
+            edk::gui2d::ViewGui2d::ObjGui2dID search(obj,0u);edkEnd();
+            edk::gui2d::ViewGui2d::ObjGui2dID* ret = this->tree.getElement(&search);edkEnd();
             if(ret){
-                return ret->id;
+                return ret->id;edkEnd();
             }
-            return 0u;
+            return 0u;edkEnd();
         }
         //remove the object
         bool removeByPointer(edk::gui2d::ObjectGui2d* obj){
-            return this->removeObj(this->getObjectByPointer(obj));
+            return this->removeObj(this->getObjectByPointer(obj));edkEnd();
         }
         bool removeByID(edk::uint64 id){
-            return this->removeObj(this->getObjectByID(id));
+            return this->removeObj(this->getObjectByID(id));edkEnd();
         }
         //remove all objectID's
         void removeAll(){
-            edk::uint32 size = this->getSize();
-            edk::gui2d::ViewGui2d::ObjGui2dID* obj = NULL;
+            edk::uint32 size = this->getSize();edkEnd();
+            edk::gui2d::ViewGui2d::ObjGui2dID* obj = NULL;edkEnd();
             for(edk::uint32 i=0u;i<size;i++){
                 //
-                obj = this->getElementInPosition(0u);
+                obj = this->getElementInPosition(0u);edkEnd();
                 if(obj){
-                    this->removeByPointer(obj->pointer);
+                    this->removeByPointer(obj->pointer);edkEnd();
                 }
             }
-            this->clean();
-            this->tree.clean();
+            this->clean();edkEnd();
+            this->tree.clean();edkEnd();
         }
         bool cleanPressed;
         //volume rectangle to fill al the objects inside
@@ -373,9 +373,9 @@ private:
         edk::gui2d::ViewGui2d::ObjGui2dPointerTree tree;
         bool removeObj(edk::gui2d::ViewGui2d::ObjGui2dID* obj){
             if(obj){
-                this->remove(obj);
-                this->tree.remove(obj);
-                delete obj;
+                this->remove(obj);edkEnd();
+                this->tree.remove(obj);edkEnd();
+                delete obj;edkEnd();
                 return true;
             }
             return false;

@@ -28,7 +28,7 @@ edk::ViewGU2DTexture::ViewGU2DTexture(edk::size2ui32 size)
     :edk::ViewGUTexture(size)
 {
     //
-    this->camera.position=edk::vec2f32(0u,0u);
+    this->camera.position=edk::vec2f32(0u,0u);edkEnd();
 }
 edk::ViewGU2DTexture::ViewGU2DTexture(edk::uint32 width,edk::uint32 height)
     :edk::ViewGUTexture(width,height)
@@ -41,19 +41,19 @@ edk::ViewGU2DTexture::~ViewGU2DTexture(){
 //draw the 2Dcamera
 void edk::ViewGU2DTexture::drawCamera2D(){
     //
-    edk::GU::guUseMatrix(GU_PROJECTION);
+    edk::GU::guUseMatrix(GU_PROJECTION);edkEnd();
     //draw the camera2D
-    this->camera.draw();
+    this->camera.draw();edkEnd();
 }
 //draw the polygon on the scene
 void edk::ViewGU2DTexture::drawPolygon(rectf32 outsideViewOrigin){
     //
-    edk::ViewSpriteController::drawPolygon(outsideViewOrigin);
-    this->drawCamera2D();
+    edk::ViewSpriteController::drawPolygon(outsideViewOrigin);edkEnd();
+    this->drawCamera2D();edkEnd();
 
     //set the matrix before draw the scene
-    edk::GU::guUseMatrix(GU_MODELVIEW);
+    edk::GU::guUseMatrix(GU_MODELVIEW);edkEnd();
 
     //draw the GU scene
-    this->drawScene(outsideViewOrigin);
+    this->drawScene(outsideViewOrigin);edkEnd();
 }

@@ -32,7 +32,7 @@ edk::codecs::DecoderVideo::DecoderVideo(){
     //
 }
 edk::codecs::DecoderVideo::~DecoderVideo(){
-    this->finishDecoder();
+    this->finishDecoder();edkEnd();
 }
 
 //start the encoder
@@ -40,18 +40,18 @@ bool edk::codecs::DecoderVideo::startDecoder(edk::uint32 spaceDecodeSize){
     //test the deconderSize
     if(spaceDecodeSize){
         //create the space decode size
-        return edk::codecs::CodecVideo::newSpaceEncoded(spaceDecodeSize);
+        return edk::codecs::CodecVideo::newSpaceEncoded(spaceDecodeSize);edkEnd();
     }
     return false;
 }
 
 //alloc a new frameEncoded
 bool edk::codecs::DecoderVideo::newSpaceEncoded(edk::uint32 size){
-    return edk::codecs::CodecVideo::newSpaceEncoded(size);
+    return edk::codecs::CodecVideo::newSpaceEncoded(size);edkEnd();
 }
 //delete the encoded
 void edk::codecs::DecoderVideo::deleteSpaceEncoded(){
-    edk::codecs::CodecVideo::deleteSpaceEncoded();
+    edk::codecs::CodecVideo::deleteSpaceEncoded();edkEnd();
 }
 
 //process the decoder
@@ -63,39 +63,39 @@ bool edk::codecs::DecoderVideo::decode(edk::uint8* encoded,edk::uint32 size){
     return false;
 }
 bool edk::codecs::DecoderVideo::decode(const unsigned char* encoded,edk::uint32 size){
-    return this->decode((edk::uint8*) encoded,size);
+    return this->decode((edk::uint8*) encoded,size);edkEnd();
 }
 
 //Return the frame
 edk::uint8* edk::codecs::DecoderVideo::getFrame(){
-    return edk::codecs::CodecVideo::getFrame();
+    return edk::codecs::CodecVideo::getFrame();edkEnd();
 }
 edk::size2ui32 edk::codecs::DecoderVideo::getFrameSize(){
-    return edk::codecs::CodecVideo::getFrameSize();
+    return edk::codecs::CodecVideo::getFrameSize();edkEnd();
 }
 edk::uint32 edk::codecs::DecoderVideo::getFrameWidth(){
-    return edk::codecs::CodecVideo::getFrameWidth();
+    return edk::codecs::CodecVideo::getFrameWidth();edkEnd();
 }
 edk::uint32 edk::codecs::DecoderVideo::getFrameHeight(){
-    return edk::codecs::CodecVideo::getFrameHeight();
+    return edk::codecs::CodecVideo::getFrameHeight();edkEnd();
 }
 edk::uint32 edk::codecs::DecoderVideo::getFrameChannels(){
-    return edk::codecs::CodecVideo::getFrameChannels();
+    return edk::codecs::CodecVideo::getFrameChannels();edkEnd();
 }
 edk::uint32 edk::codecs::DecoderVideo::getFrameVectorSize(){
-    return edk::codecs::CodecVideo::getFrameVectorSize();
+    return edk::codecs::CodecVideo::getFrameVectorSize();edkEnd();
 }
 //delete the frame
 void edk::codecs::DecoderVideo::deleteFrame(){
-    edk::codecs::CodecVideo::deleteFrame();
+    edk::codecs::CodecVideo::deleteFrame();edkEnd();
 }
 //clean the frame
 edk::uint8* edk::codecs::DecoderVideo::cleanFrame(){
-    return edk::codecs::CodecVideo::cleanFrame();
+    return edk::codecs::CodecVideo::cleanFrame();edkEnd();
 }
 
 //finish the encoder
 void edk::codecs::DecoderVideo::finishDecoder(){
-    edk::codecs::CodecVideo::deleteFrame();
-    edk::codecs::CodecVideo::deleteSpaceEncoded();
+    edk::codecs::CodecVideo::deleteFrame();edkEnd();
+    edk::codecs::CodecVideo::deleteSpaceEncoded();edkEnd();
 }

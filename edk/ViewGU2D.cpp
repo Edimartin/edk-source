@@ -31,7 +31,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 edk::ViewGU2D::ViewGU2D()
 {
     //ctor
-    this->camera.position=edk::vec2f32(0u,0u);
+    this->camera.position=edk::vec2f32(0u,0u);edkEnd();
 }
 
 edk::ViewGU2D::~ViewGU2D()
@@ -41,29 +41,29 @@ edk::ViewGU2D::~ViewGU2D()
 //draw the 2Dcamera
 void edk::ViewGU2D::drawCamera2D(){
     //draw the camera2D
-    this->camera.draw();
+    this->camera.draw();edkEnd();
 }
 //draw selection camera
 void edk::ViewGU2D::drawSelectionCamera(){
-    this->camera.drawOrthoOnly();
+    this->camera.drawOrthoOnly();edkEnd();
 }
 
 //draw the polygon on the scene
 void edk::ViewGU2D::drawPolygon(edk::rectf32 outsideViewOrigin){
-    edk::ViewSpriteController::drawPolygon(outsideViewOrigin);
+    edk::ViewSpriteController::drawPolygon(outsideViewOrigin);edkEnd();
 
     //run selection function before draw the scene
-    this->runSelectionFunction();
+    this->runSelectionFunction();edkEnd();
 
-    this->drawCamera2D();
+    this->drawCamera2D();edkEnd();
 
     //set the matrix before draw the scene
-    edk::GU::guUseMatrix(GU_MODELVIEW);
+    edk::GU::guUseMatrix(GU_MODELVIEW);edkEnd();
 
     //draw the GU scene
-    this->drawScene(outsideViewOrigin);
+    this->drawScene(outsideViewOrigin);edkEnd();
 
-    edk::GU::guDisableAllLights();
+    edk::GU::guDisableAllLights();edkEnd();
 }
 
 

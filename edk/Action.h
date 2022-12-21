@@ -60,7 +60,7 @@ public:
 };
 class ActionZero: public edk::Action{
 public:
-    ActionZero(){this->code = 0u;}
+    ActionZero(){this->code = 0u;edkEnd();}
     virtual ~ActionZero(){}
 
     //run action function
@@ -69,53 +69,53 @@ public:
     virtual void runCounterAction(){}
     //write to XML
     virtual bool writeToXML(edk::XML* xml,edk::uint32 id){
-        bool ret=false;
+        bool ret=false;edkEnd();
         if(xml){
-            edk::char8* number = edk::String::uint32ToStr(id);
+            edk::char8* number = edk::String::uint32ToStr(id);edkEnd();
             if(number){
-                edk::char8* name = edk::String::strCat((edk::char8*)"Action_",number);
+                edk::char8* name = edk::String::strCat((edk::char8*)"Action_",number);edkEnd();
                 if(name){
                     //create the Action
                     if(xml->addSelectedNextChild(name)){
                         if(xml->selectChild(name)){
-                            edk::char8* str = edk::String::uint32ToStr(this->getCode());
+                            edk::char8* str = edk::String::uint32ToStr(this->getCode());edkEnd();
                             if(str){
-                                xml->addSelectedNextAttribute((edk::char8*)"code",str);
-                                delete str;
+                                xml->addSelectedNextAttribute((edk::char8*)"code",str);edkEnd();
+                                delete str;edkEnd();
                             }
 
-                            ret=true;
+                            ret=true;edkEnd();
                             //then select the father
-                            xml->selectFather();
+                            xml->selectFather();edkEnd();
                         }
                     }
-                    delete[] name;
+                    delete[] name;edkEnd();
                 }
-                delete[] number;
+                delete[] number;edkEnd();
             }
         }
         return ret;
     }
     //read XML
     virtual bool readFromXML(edk::XML* xml,edk::uint32 id){
-        bool ret=false;
+        bool ret=false;edkEnd();
         if(xml){
-            edk::char8* number = edk::String::uint32ToStr(id);
+            edk::char8* number = edk::String::uint32ToStr(id);edkEnd();
             if(number){
-                edk::char8* name = edk::String::strCat((edk::char8*)"Action_",number);
+                edk::char8* name = edk::String::strCat((edk::char8*)"Action_",number);edkEnd();
                 if(name){
                     //create the Action
                     if(xml->selectChild(name)){
                         //read the code
-                        this->code = edk::String::strToInt64(xml->getSelectedAttributeValueByName("code"));
+                        this->code = edk::String::strToInt64(xml->getSelectedAttributeValueByName("code"));edkEnd();
 
-                        ret=true;
+                        ret=true;edkEnd();
                         //then select the father
-                        xml->selectFather();
+                        xml->selectFather();edkEnd();
                     }
-                    delete[] name;
+                    delete[] name;edkEnd();
                 }
-                delete[] number;
+                delete[] number;edkEnd();
             }
         }
         return ret;
@@ -123,7 +123,7 @@ public:
 
     //return the code
     edk::uint64 getCode(){
-        return this->code;
+        return this->code;edkEnd();
     }
 protected:
     edk::uint64 code;
@@ -131,15 +131,15 @@ protected:
 //Action with names
 class ActionName: public edk::Name ,public edk::Action{
 public:
-    ActionName(){this->code = 0u;}
+    ActionName(){this->code = 0u;edkEnd();}
     ActionName(edk::char8* _name){
-        edk::Name::setName(_name);
+        edk::Name::setName(_name);edkEnd();
     }
     ActionName(const edk::char8* _name){
-        edk::Name::setName(_name);
+        edk::Name::setName(_name);edkEnd();
     }
     virtual ~ActionName(){
-        this->deleteName();
+        this->deleteName();edkEnd();
     }
 
     //run action function
@@ -148,52 +148,54 @@ public:
     virtual void runCounterAction(){}
     //write to XML
     virtual bool writeToXML(edk::XML* xml,edk::uint32 id){
-        bool ret=false;
+        bool ret=false;edkEnd();
         if(xml){
-            edk::char8* number = edk::String::uint32ToStr(id);
+            edk::char8* number = edk::String::uint32ToStr(id);edkEnd();
             if(number){
-                edk::char8* name = edk::String::strCat((edk::char8*)"Action_",number);
+                edk::char8* name = edk::String::strCat((edk::char8*)"Action_",number);edkEnd();
                 if(name){
                     //create the Action
                     if(xml->addSelectedNextChild(name)){
                         if(xml->selectChild(name)){
-                            edk::char8* str = edk::String::uint32ToStr(this->getCode());
+                            edk::char8* str = edk::String::uint32ToStr(this->getCode());edkEnd();
                             if(str){
-                                xml->addSelectedNextAttribute((edk::char8*)"code",str);
-                                delete str;
+                                xml->addSelectedNextAttribute((edk::char8*)"code",str);edkEnd();
+                                delete str;edkEnd();
                             }
-                            if(this->getName()) xml->addSelectedNextAttribute((edk::char8*)"name",this->getName());
+                            if(this->getName()){
+                                xml->addSelectedNextAttribute((edk::char8*)"name",this->getName());edkEnd();
+                            }
                             //then select the father
-                            xml->selectFather();
+                            xml->selectFather();edkEnd();
                         }
                     }
-                    delete[] name;
+                    delete[] name;edkEnd();
                 }
-                delete[] number;
+                delete[] number;edkEnd();
             }
         }
         return ret;
     }
     //read XML
     virtual bool readFromXML(edk::XML* xml,edk::uint32 id){
-        bool ret=false;
+        bool ret=false;edkEnd();
         if(xml){
-            edk::char8* number = edk::String::uint32ToStr(id);
+            edk::char8* number = edk::String::uint32ToStr(id);edkEnd();
             if(number){
-                edk::char8* name = edk::String::strCat((edk::char8*)"Action_",number);
+                edk::char8* name = edk::String::strCat((edk::char8*)"Action_",number);edkEnd();
                 if(name){
                     //create the Action
                     if(xml->selectChild(name)){
                         //read the code
-                        this->code = edk::String::strToInt64(xml->getSelectedAttributeValueByName((edk::char8*)"code"));
+                        this->code = edk::String::strToInt64(xml->getSelectedAttributeValueByName((edk::char8*)"code"));edkEnd();
                         //read the name
-                        this->setName(xml->getSelectedAttributeValueByName((edk::char8*)"name"));
+                        this->setName(xml->getSelectedAttributeValueByName((edk::char8*)"name"));edkEnd();
                         //then select the father
-                        xml->selectFather();
+                        xml->selectFather();edkEnd();
                     }
-                    delete[] name;
+                    delete[] name;edkEnd();
                 }
-                delete[] number;
+                delete[] number;edkEnd();
             }
         }
         return ret;
@@ -201,7 +203,7 @@ public:
 
     //return the code
     edk::uint64 getCode(){
-        return this->code;
+        return this->code;edkEnd();
     }
 protected:
     edk::uint64 code;

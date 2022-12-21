@@ -41,41 +41,41 @@ namespace edk{
 	//
     typedef void* classID;
 
-	typedef unsigned int    typeID;
+    typedef unsigned int    typeID;
 
     typedef unsigned char socketType;
 
-	typedef signed   char          int8;
-	typedef unsigned char          uint8;
-	typedef signed   short int     int16;
-	typedef unsigned short int     uint16;
+    typedef signed   char          int8;
+    typedef unsigned char          uint8;
+    typedef signed   short int     int16;
+    typedef unsigned short int     uint16;
 
-	typedef float                  float32;
-	typedef double                 float64;
+    typedef float                  float32;
+    typedef double                 float64;
 
-	typedef int                    int32;
-	typedef unsigned int           uint32;
+    typedef int                    int32;
+    typedef unsigned int           uint32;
 	#if defined(__arch64__) || defined(_LP64)
-	typedef signed long int        int64;
-	typedef unsigned long int      uint64;
+    typedef signed long int        int64;
+    typedef unsigned long int      uint64;
 	#else
     typedef signed long long int   int64;
-	typedef unsigned long long int uint64;
+    typedef unsigned long long int uint64;
 	#endif
 
     typedef /*signed*/   char          char8;
     typedef unsigned char          uchar8;
     typedef /*signed*/   short int     char16;
-	typedef unsigned short int     uchar16;
+    typedef unsigned short int     uchar16;
 
-	typedef int                    char32;
-	typedef unsigned int           uchar32;
+    typedef int                    char32;
+    typedef unsigned int           uchar32;
 	#if defined(__arch64__) || defined(_LP64)
-	typedef signed long int        char64;
-	typedef unsigned long int      uchar64;
+    typedef signed long int        char64;
+    typedef unsigned long int      uchar64;
 	#else
-	typedef signed long int        char64;
-	typedef unsigned long long int uchar64;
+    typedef signed long int        char64;
+    typedef unsigned long long int uchar64;
 	#endif
 
 }//end namespace
@@ -105,5 +105,12 @@ public:
 #define edkPrintf(str,args...) \
     edk::NothingClass::edk_lffprint(__LINE__,__FILE__,__func__,str,##args); \
     edk::NothingClass::edk_nothing()
+
+#if defined(EDK_DEBUGGER)
+#define edkEnd() printf("\n%u %s %s",__LINE__,__FILE__,__func__); \
+    fflush(stdout)
+#else
+#define edkEnd() edk::NothingClass::edk_nothing()
+#endif
 
 #endif // TYPEVARS_H

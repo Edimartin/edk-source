@@ -54,18 +54,18 @@ public:
     //construtor
     QueueCel(){
         //clean the next
-        this->next=NULL;
+        this->next=NULL;edkEnd();
     }
     QueueCel(edk::uint32 size){
         //clean the next
-        this->next=NULL;
+        this->next=NULL;edkEnd();
         //
-        this->createArray(size);
+        this->createArray(size);edkEnd();
     }
     //Destrutor
     ~QueueCel(){
         //clean the next
-        this->next=NULL;
+        this->next=NULL;edkEnd();
     }
 
     //Next array
@@ -79,22 +79,22 @@ class Queue{
 public:
     Queue(){
         //
-        this->first = this->last = NULL;
-        this->arraySize = PatternArraySize;
-        this->start = this->end = 0u;
-        this->_size = 0u;
+        this->first = this->last = NULL;edkEnd();
+        this->arraySize = PatternArraySize;edkEnd();
+        this->start = this->end = 0u;edkEnd();
+        this->_size = 0u;edkEnd();
     }
     Queue(edk::uint32 size){
         //
-        this->first = this->last = NULL;
+        this->first = this->last = NULL;edkEnd();
         if(size){
-            this->arraySize = size;
+            this->arraySize = size;edkEnd();
         }
         else{
-            this->arraySize = PatternArraySize;
+            this->arraySize = PatternArraySize;edkEnd();
         }
-        this->start = this->end = 0u;
-        this->_size = 0u;
+        this->start = this->end = 0u;edkEnd();
+        this->_size = 0u;edkEnd();
     }
     ~Queue(){
     }
@@ -104,29 +104,29 @@ public:
         //test the arraySiIze
         if(size){
             //set the arraySize
-            this->arraySize=size;
+            this->arraySize=size;edkEnd();
         }
         else{
-            this->arraySize=PatternArraySize;
+            this->arraySize=PatternArraySize;edkEnd();
         }
 
         //clean the vectors
-        edk::vector::QueueCel<typeTemplate>* temp = NULL;
-        edk::vector::QueueCel<typeTemplate>* tempDelete = this->first;
+        edk::vector::QueueCel<typeTemplate>* temp = NULL;edkEnd();
+        edk::vector::QueueCel<typeTemplate>* tempDelete = this->first;edkEnd();
         while(tempDelete){
             //
             if(tempDelete->next){
-                temp=tempDelete->next;
+                temp=tempDelete->next;edkEnd();
             }
             else{
-                temp=NULL;
+                temp=NULL;edkEnd();
             }
 
             //delete the tempDelete
-            delete tempDelete;
-            tempDelete = temp;
+            delete tempDelete;edkEnd();
+            tempDelete = temp;edkEnd();
         }
-        this->first=this->last=NULL;
+        this->first=this->last=NULL;edkEnd();
     }
 
     //push back a value
@@ -134,29 +134,29 @@ public:
         //test if have the end
         if(!this->last){
             //create a new first and last
-            this->first = new edk::vector::QueueCel<typeTemplate>(this->arraySize);
+            this->first = new edk::vector::QueueCel<typeTemplate>(this->arraySize);edkEnd();
             if(this->first){
                 //set the last
-                this->last = this->first;
+                this->last = this->first;edkEnd();
             }
-            this->start = this->end = 0u;
-            this->_size = 0u;
+            this->start = this->end = 0u;edkEnd();
+            this->_size = 0u;edkEnd();
         }
         if(this->last){
             //add the value
-            this->last->set(this->end,value);
+            this->last->set(this->end,value);edkEnd();
             //increment the end
-            this->end++;
+            this->end++;edkEnd();
             //test if the increment is passing the size
             if(this->end>=this->arraySize){
                 //create the next last
-                this->last->next = new edk::vector::QueueCel<typeTemplate>(this->arraySize);
+                this->last->next = new edk::vector::QueueCel<typeTemplate>(this->arraySize);edkEnd();
                 if(this->last->next){
-                    this->last = this->last->next;
+                    this->last = this->last->next;edkEnd();
                 }
-                this->end=0u;
+                this->end=0u;edkEnd();
             }
-            this->_size++;
+            this->_size++;edkEnd();
             return true;
         }
         return false;
@@ -164,7 +164,7 @@ public:
 
     //pop front
     typeTemplate popFront(){
-        typeTemplate ret;
+        typeTemplate ret;edkEnd();
         //test if have the first
         if(this->first){
             //test if the first and the last are equal
@@ -172,41 +172,41 @@ public:
                 //only get the value if the start is smaller then the end
                 if(this->start<this->end){
                     //get the value
-                    ret = this->first->get(this->start);
+                    ret = this->first->get(this->start);edkEnd();
                     //increment the start
-                    this->start++;
+                    this->start++;edkEnd();
                 }
                 if(this->start>=this->end){
                     //get the last value. Delete the cel's
-                    delete first;
-                    this->first = this->last = NULL;
-                    this->start = this->end = 0u;
-                    this->_size = 0u;
+                    delete first;edkEnd();
+                    this->first = this->last = NULL;edkEnd();
+                    this->start = this->end = 0u;edkEnd();
+                    this->_size = 0u;edkEnd();
                 }
             }
             else{
                 //get the value
-                ret = this->first->get(this->start);
+                ret = this->first->get(this->start);edkEnd();
                 //increment the start
-                this->start++;
-                this->_size--;
+                this->start++;edkEnd();
+                this->_size--;edkEnd();
 
                 //test if reach the end
                 if(this->start>=this->arraySize){
                     //delete the first and go to the next
-                    edk::vector::QueueCel<typeTemplate>* temp = this->first;
-                    this->first = this->first->next;
-                    delete temp;
-                    this->start = 0u;
+                    edk::vector::QueueCel<typeTemplate>* temp = this->first;edkEnd();
+                    this->first = this->first->next;edkEnd();
+                    delete temp;edkEnd();
+                    this->start = 0u;edkEnd();
 
 
                     //tes if reach the last
                     if(this->first==this->last && !this->end){
                         //delete the first and last
-                        delete first;
-                        this->first = this->last = NULL;
-                        this->start = this->end = 0u;
-                        this->_size = 0u;
+                        delete first;edkEnd();
+                        this->first = this->last = NULL;edkEnd();
+                        this->start = this->end = 0u;edkEnd();
+                        this->_size = 0u;edkEnd();
                     }
                 }
             }
@@ -217,47 +217,47 @@ public:
     //GETTERS
     //returrn the vector size
     edk::uint32  size(){
-        return this->_size;
+        return this->_size;edkEnd();
     }
     edk::uint32  getSize(){
-        return this->size();
+        return this->size();edkEnd();
     }
     //return the object
     typeTemplate get(edk::uint32 pos){
-        typeTemplate ret;
+        typeTemplate ret;edkEnd();
         //first test if have the first cell
         if(this->first && pos<this->_size){
             //test if the position is in the first cel
             if(pos+this->start<this->arraySize){
                 //get the value
-                ret = this->first->get(this->start+pos);
+                ret = this->first->get(this->start+pos);edkEnd();
             }
             else{
-                pos-=this->arraySize-this->start;
+                pos-=this->arraySize-this->start;edkEnd();
                 //else search for the value in other cel's
-                edk::vector::QueueCel<typeTemplate>* temp = this->first->next;
+                edk::vector::QueueCel<typeTemplate>* temp = this->first->next;edkEnd();
                 while(temp){
                     //test if the value is in this cel
                     if(pos<this->arraySize){
                         if(temp==this->last){
                             if(pos<this->end){
-                                ret = temp->get(pos);
-                                break;
+                                ret = temp->get(pos);edkEnd();
+                                break;edkEnd();
                             }
                             else{
-                                break;
+                                break;edkEnd();
                             }
                         }
                         else{
-                            ret = temp->get(pos);
-                            break;
+                            ret = temp->get(pos);edkEnd();
+                            break;edkEnd();
                         }
                     }
                     else{
                         //else go to the next
-                        temp=temp->next;
-                        ret+=this->arraySize;
-                        pos-=this->arraySize;
+                        temp=temp->next;edkEnd();
+                        ret+=this->arraySize;edkEnd();
+                        pos-=this->arraySize;edkEnd();
                     }
                 }
             }

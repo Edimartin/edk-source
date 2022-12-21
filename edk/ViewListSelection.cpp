@@ -30,111 +30,115 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 edk::ViewListSelection::ListCell::ListCell(edk::uint32* lineSize){
     //
-    this->selected = false;
-    if(lineSize)
-        this->lineSize = lineSize;
-    else
-        this->lineSize = &this->sizeTemp;
-    this->drawColor = this->backgroundColor;
-    this->backgroundColorSelected = edk::color4f32(0.75f,0.75f,1.0f,1.f);
-    this->id = 0u;
+    this->selected = false;edkEnd();
+    if(lineSize){
+        this->lineSize = lineSize;edkEnd();
+    }
+    else{
+        this->lineSize = &this->sizeTemp;edkEnd();
+    }
+    this->drawColor = this->backgroundColor;edkEnd();
+    this->backgroundColorSelected = edk::color4f32(0.75f,0.75f,1.0f,1.f);edkEnd();
+    this->id = 0u;edkEnd();
 
     //set the text to black color
-    this->text.setColor(0.f,0.f,0.f,1.f);
+    this->text.setColor(0.f,0.f,0.f,1.f);edkEnd();
 }
 edk::ViewListSelection::ListCell::~ListCell(){
-    this->lineSize = &this->sizeTemp;
-    this->cleanText();
+    this->lineSize = &this->sizeTemp;edkEnd();
+    this->cleanText();edkEnd();
 }
 
 //draw the rectangle
 void edk::ViewListSelection::ListCell::drawRect(){
     //draw a rectangle in the text position and size
-    edk::GU::guBegin(GU_QUADS);
-    edk::GU::guVertex2f32((this->text.getPositionX()-0.5f),(this->text.getPositionY()-0.5f));
-    edk::GU::guVertex2f32((this->text.getPositionX()-0.5f)+*this->lineSize,(this->text.getPositionY()-0.5f));
-    edk::GU::guVertex2f32((this->text.getPositionX()-0.5f)+*this->lineSize,(this->text.getPositionY()-0.5f)+1);
-    edk::GU::guVertex2f32((this->text.getPositionX()-0.5f),(this->text.getPositionY()-0.5f)+1);
-    edk::GU::guEnd();
+    edk::GU::guBegin(GU_QUADS);edkEnd();
+    edk::GU::guVertex2f32((this->text.getPositionX()-0.5f),(this->text.getPositionY()-0.5f));edkEnd();
+    edk::GU::guVertex2f32((this->text.getPositionX()-0.5f)+*this->lineSize,(this->text.getPositionY()-0.5f));edkEnd();
+    edk::GU::guVertex2f32((this->text.getPositionX()-0.5f)+*this->lineSize,(this->text.getPositionY()-0.5f)+1);edkEnd();
+    edk::GU::guVertex2f32((this->text.getPositionX()-0.5f),(this->text.getPositionY()-0.5f)+1);edkEnd();
+    edk::GU::guEnd();edkEnd();
 }
 
 //create the text
 bool edk::ViewListSelection::ListCell::createText(edk::char8* text){
     //
     if(this->text.createStringMap(text)){
-        this->sizeTemp = (edk::float32)this->text.getMapSizeWidth();
+        this->sizeTemp = (edk::float32)this->text.getMapSizeWidth();edkEnd();
         return true;
     }
     return false;
 }
 //delete the text
 void edk::ViewListSelection::ListCell::cleanText(){
-    this->text.deleteMap();
-    this->selected = false;
-    this->sizeTemp=0.f;
+    this->text.deleteMap();edkEnd();
+    this->selected = false;edkEnd();
+    this->sizeTemp=0.f;edkEnd();
 }
 //get textSize
 edk::uint32 edk::ViewListSelection::ListCell::getTextWidth(){
-    return this->sizeTemp;
+    return this->sizeTemp;edkEnd();
 }
 //select the cell
 bool edk::ViewListSelection::ListCell::select(){
-    this->selected = !this->selected;
+    this->selected = !this->selected;edkEnd();
     if(this->selected){
-        this->drawColor = this->backgroundColorSelected;
+        this->drawColor = this->backgroundColorSelected;edkEnd();
         return true;
     }
-    this->drawColor = this->backgroundColor;
+    this->drawColor = this->backgroundColor;edkEnd();
     return false;
 }
 void edk::ViewListSelection::ListCell::setSelect(bool set){
-    this->selected = set;
-    if(this->selected)
-        this->drawColor = this->backgroundColorSelected;
-    else
-        this->drawColor = this->backgroundColor;
+    this->selected = set;edkEnd();
+    if(this->selected){
+        this->drawColor = this->backgroundColorSelected;edkEnd();
+    }
+    else{
+        this->drawColor = this->backgroundColor;edkEnd();
+    }
 }
 
-//return true if the cell is celected;
+//return true if the cell is celected;edkEnd();
 bool edk::ViewListSelection::ListCell::isSelected(){
-    return this->selected;
+    return this->selected;edkEnd();
 }
 //draw the cell
 void edk::ViewListSelection::ListCell::draw(){
-    edk::GU::guColor4f32(this->drawColor);
-    this->drawRect();
-    this->text.draw();
+    edk::GU::guColor4f32(this->drawColor);edkEnd();
+    this->drawRect();edkEnd();
+    this->text.draw();edkEnd();
 }
 //draw for selection
 void edk::ViewListSelection::ListCell::drawSelection(){
-    edk::GU::guColor4f32(1,1,1,1);
-    this->drawRect();
+    edk::GU::guColor4f32(1,1,1,1);edkEnd();
+    this->drawRect();edkEnd();
 }
 //set position
 void edk::ViewListSelection::ListCell::setPosition(edk::float32 y){
-    this->text.setPosition(0.f,y);
+    this->text.setPosition(0.f,y);edkEnd();
 }
 
 edk::ViewListSelection::ViewListSelection(){
     //cameraSize
-    this->cameraWidth=1u;
-    this->cameraHeight=1u;
-    this->moveScroll = 0.1f;
-    this->clicked = NULL;
+    this->cameraWidth=1u;edkEnd();
+    this->cameraHeight=1u;edkEnd();
+    this->moveScroll = 0.1f;edkEnd();
+    this->clicked = NULL;edkEnd();
     this->clickedPosition=0u;
 }
 edk::ViewListSelection::~ViewListSelection(){
     //
-    this->cleanCells();
+    this->cleanCells();edkEnd();
 }
 
 //update the cells position
 void edk::ViewListSelection::updateCellPosition(){
     //clean all the cells
-    edk::uint32 size = this->cells.size();
+    edk::uint32 size = this->cells.size();edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
         //move the cell to the position in the world
-        this->cells[i]->setPosition(i*-1.f);
+        this->cells[i]->setPosition(i*-1.f);edkEnd();
     }
 }
 //test the scroll
@@ -143,23 +147,23 @@ void edk::ViewListSelection::testScroll(){
     if(this->cells.getSize()>this->cameraHeight){
         if(!this->getCount()){
             //add the scroll
-            this->addSubview(&this->scroll);
+            this->addSubview(&this->scroll);edkEnd();
         }
 
         //set the insideSize
         if(this->cells.size()){
-            this->scroll.setForegroundSize(1.f,(edk::float32)this->cameraHeight / (edk::float32)this->cells.size());
+            this->scroll.setForegroundSize(1.f,(edk::float32)this->cameraHeight / (edk::float32)this->cells.size());edkEnd();
         }
         else{
-            this->scroll.setForegroundSize(1.f,1.f);
+            this->scroll.setForegroundSize(1.f,1.f);edkEnd();
         }
     }
     else{
         //remove the view
         if(this->getCount()){
             //remove the subview
-            this->removeSubview(&this->scroll);
-            this->scroll.setPercentY(0.f);
+            this->removeSubview(&this->scroll);edkEnd();
+            this->scroll.setPercentY(0.f);edkEnd();
         }
     }
 }
@@ -167,10 +171,12 @@ void edk::ViewListSelection::testScroll(){
 //Events
 void edk::ViewListSelection::eventMousePressed(edk::vec2f32 point,edk::uint32 button){
     if(button){
-        this->testSelection(point);
+        this->testSelection(point);edkEnd();
         //save the mouseButton
-        this->mouseButtonsNew.add(button);
-        if(button == edk::mouse::left) this->clickLeft = true;
+        this->mouseButtonsNew.add(button);edkEnd();
+        if(button == edk::mouse::left){
+            this->clickLeft = true;edkEnd();
+        }
     }
 }
 //Mouse go Inside Outside
@@ -183,29 +189,29 @@ void edk::ViewListSelection::eventMouseLeftView(edk::vec2f32){
 
 //unload the mouseInside
 void edk::ViewListSelection::unload(){
-    this->mouseInside = false;
-    this->scroll.mouseInside = false;
+    this->mouseInside = false;edkEnd();
+    this->scroll.mouseInside = false;edkEnd();
 }
 
 void edk::ViewListSelection::update(edk::WindowEvents* events){
     if(this->saveFrame!=this->frame){
-        this->saveFrame=this->frame;
+        this->saveFrame=this->frame;edkEnd();
         //update the scroll
         this->scroll.frame = edk::rectf32(this->frame.size.width - 20.f,
                                           0.f,
                                           20.f,
                                           this->frame.size.height
-                                          );
+                                          );edkEnd();
     }
-    this->camera.setRect(-0.5f,-0.5f,this->cameraWidth,this->cameraHeight);
-    this->camera.position.y-=(this->camera.getSize().height-1.f);
+    this->camera.setRect(-0.5f,-0.5f,this->cameraWidth,this->cameraHeight);edkEnd();
+    this->camera.position.y-=(this->camera.getSize().height-1.f);edkEnd();
     //move the percent
-    this->camera.position.y-= (this->cells.size() - this->camera.getSize().height) * this->scroll.getPercentY();
+    this->camera.position.y-= (this->cells.size() - this->camera.getSize().height) * this->scroll.getPercentY();edkEnd();
 
     //move the mouseScroll
     //if(this->pointInside(edk::vec2f32(events->mousePos.x,events->mousePos.y))){
     if(this->isMouseInside()){
-        this->scroll.setPercentY(this->scroll.getPercentY() + (events->mouseScrollWheel * this->moveScroll * -1));
+        this->scroll.setPercentY(this->scroll.getPercentY() + (events->mouseScrollWheel * this->moveScroll * -1));edkEnd();
     }
 }
 
@@ -222,96 +228,96 @@ bool edk::ViewListSelection::setMoveScrollPercent(edk::float32 moveScroll){
     if(moveScroll>=0.f){
         if(moveScroll<=1.f){
             //
-            this->moveScroll = moveScroll;
+            this->moveScroll = moveScroll;edkEnd();
             return true;
         }
         else{
-            this->moveScroll = 1.f;
+            this->moveScroll = 1.f;edkEnd();
         }
     }
     else{
-        this->moveScroll = 0.f;
+        this->moveScroll = 0.f;edkEnd();
     }
     return false;
 }
 
 //set camera Size
 void edk::ViewListSelection::setCameraSize(edk::size2ui32 size){
-    this->setCameraSize(size.width,size.height);
+    this->setCameraSize(size.width,size.height);edkEnd();
 }
 void edk::ViewListSelection::setCameraSize(edk::uint32 width,edk::uint32 height){
-    this->cameraWidth = 1u;
-    this->cameraHeight = 1u;
+    this->cameraWidth = 1u;edkEnd();
+    this->cameraHeight = 1u;edkEnd();
     if(width){
-        this->cameraWidth = width;
+        this->cameraWidth = width;edkEnd();
     }
     if(height){
-        this->cameraHeight= height;
+        this->cameraHeight= height;edkEnd();
     }
-    this->testScroll();
+    this->testScroll();edkEnd();
 }
 
 //set color
 void edk::ViewListSelection::setScrollBackColor(edk::color4f32 color){
-    this->scroll.setBackColor(color);
+    this->scroll.setBackColor(color);edkEnd();
 }
 void edk::ViewListSelection::setScrollBackColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
-    this->setScrollBackColor(edk::color4f32(r,g,b,a));
+    this->setScrollBackColor(edk::color4f32(r,g,b,a));edkEnd();
 }
 void edk::ViewListSelection::setScrollFrontColor(edk::color4f32 color){
-    this->scroll.setFrontColor(color);
+    this->scroll.setFrontColor(color);edkEnd();
 }
 void edk::ViewListSelection::setScrollFrontColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
-    this->setScrollFrontColor(edk::color4f32(r,g,b,a));
+    this->setScrollFrontColor(edk::color4f32(r,g,b,a));edkEnd();
 }
 
 //add a cell
 edk::uint32 edk::ViewListSelection::addCell(const edk::char8* name,edk::uint32 id,edk::color4f32 cellColor){
-    return this->addCell((edk::char8*) name,id,cellColor);
+    return this->addCell((edk::char8*) name,id,cellColor);edkEnd();
 }
 edk::uint32 edk::ViewListSelection::addCell(edk::char8* name,edk::uint32 id,edk::color4f32 cellColor){
     if(name){
         //create the new cell
-        edk::ViewListSelection::ListCell* cell = new edk::ViewListSelection::ListCell(&this->cameraWidth);
+        edk::ViewListSelection::ListCell* cell = new edk::ViewListSelection::ListCell(&this->cameraWidth);edkEnd();
         if(cell){
             //set the cell text
             if(cell->createText(name)){
                 //set the cell color
-                cell->backgroundColor = cellColor;
-                cell->setSelect(false);
-                edk::uint32 size = this->cells.size();
+                cell->backgroundColor = cellColor;edkEnd();
+                cell->setSelect(false);edkEnd();
+                edk::uint32 size = this->cells.size();edkEnd();
                 //add the cell to the stack
-                edk::uint32 position = this->cells.pushBack(cell);
-                this->testScroll();
+                edk::uint32 position = this->cells.pushBack(cell);edkEnd();
+                this->testScroll();edkEnd();
                 if(this->cells.size()>size){
                     //move the cell to the position
-                    cell->setPosition(position*-1.f);
-                    cell->id = id;
-                    return size;
+                    cell->setPosition(position*-1.f);edkEnd();
+                    cell->id = id;edkEnd();
+                    return size;edkEnd();
                 }
             }
             //else delete the cell
-            delete cell;
+            delete cell;edkEnd();
         }
     }
-    return 0u;
+    return 0u;edkEnd();
 }
 //set cell string
 bool edk::ViewListSelection::setCellString(edk::uint32 position,const edk::char8* string){
-    return this->setCellString(position,(edk::char8*) string);
+    return this->setCellString(position,(edk::char8*) string);edkEnd();
 }
 bool edk::ViewListSelection::setCellString(edk::uint32 position,edk::char8* string){
-    edk::ViewListSelection::ListCell* cell = this->cells[position];
+    edk::ViewListSelection::ListCell* cell = this->cells[position];edkEnd();
     if(cell){
-        return cell->createText(string);
+        return cell->createText(string);edkEnd();
     }
     return false;
 }
 //set the cellID
 bool edk::ViewListSelection::setCellID(edk::uint32 position,edk::uint32 id){
-    edk::ViewListSelection::ListCell* cell = this->cells[position];
+    edk::ViewListSelection::ListCell* cell = this->cells[position];edkEnd();
     if(cell){
-        cell->id = id;
+        cell->id = id;edkEnd();
         return true;
     }
     return false;
@@ -321,17 +327,17 @@ bool edk::ViewListSelection::removeCell(edk::uint32 position){
     //test if have the cell
     if(position<this->cells.size()){
         //get the cell
-        edk::ViewListSelection::ListCell* cell = this->cells[position];
+        edk::ViewListSelection::ListCell* cell = this->cells[position];edkEnd();
         if(cell){
             //move the the end
-            this->cells.bringPositionTo(position,this->cells.size()-1u);
+            this->cells.bringPositionTo(position,this->cells.size()-1u);edkEnd();
             //popBack
-            this->cells.popBack();
+            this->cells.popBack();edkEnd();
             //delete cell
-            delete cell;
+            delete cell;edkEnd();
             //update the cells Position
-            this->updateCellPosition();
-            this->testScroll();
+            this->updateCellPosition();edkEnd();
+            this->testScroll();edkEnd();
             return true;
         }
     }
@@ -340,44 +346,44 @@ bool edk::ViewListSelection::removeCell(edk::uint32 position){
 //clean the cells
 void edk::ViewListSelection::cleanCells(){
     //clean all the cells
-    edk::uint32 size = this->cells.size();
-    edk::ViewListSelection::ListCell* cell;
+    edk::uint32 size = this->cells.size();edkEnd();
+    edk::ViewListSelection::ListCell* cell;edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        cell = this->cells[i];
+        cell = this->cells[i];edkEnd();
         if(cell){
-            delete cell;
+            delete cell;edkEnd();
         }
     }
-    this->cells.clean();
-    this->testScroll();
+    this->cells.clean();edkEnd();
+    this->testScroll();edkEnd();
 }
 //return the cell size
 edk::uint32 edk::ViewListSelection::getCellSize(){
-    return this->cells.size();
+    return this->cells.size();edkEnd();
 }
 //return true if have the cell
 bool edk::ViewListSelection::haveCell(edk::uint32 position){
     if(position < this->cells.size()){
-        return (bool)this->cells[position];
+        return (bool)this->cells[position];edkEnd();
     }
     return false;
 }
 //return the cell ID
 edk::uint32 edk::ViewListSelection::getCellID(edk::uint32 position){
     if(position < this->cells.size()){
-        edk::ViewListSelection::ListCell* cell = this->cells[position];
+        edk::ViewListSelection::ListCell* cell = this->cells[position];edkEnd();
         if(cell){
-            return cell->id;
+            return cell->id;edkEnd();
         }
     }
-    return 0u;
+    return 0u;edkEnd();
 }
 //test if the cell is selected
 bool edk::ViewListSelection::isCellSelected(edk::uint32 position){
     if(position < this->cells.size()){
-        edk::ViewListSelection::ListCell* cell = this->cells[position];
+        edk::ViewListSelection::ListCell* cell = this->cells[position];edkEnd();
         if(cell){
-            return cell->isSelected();
+            return cell->isSelected();edkEnd();
         }
     }
     return false;
@@ -385,9 +391,9 @@ bool edk::ViewListSelection::isCellSelected(edk::uint32 position){
 //set the cell select
 bool edk::ViewListSelection::setCellSelect(edk::uint32 position,bool select){
     if(position < this->cells.size()){
-        edk::ViewListSelection::ListCell* cell = this->cells[position];
+        edk::ViewListSelection::ListCell* cell = this->cells[position];edkEnd();
         if(cell){
-            cell->setSelect(select);
+            cell->setSelect(select);edkEnd();
             return true;
         }
     }
@@ -395,95 +401,97 @@ bool edk::ViewListSelection::setCellSelect(edk::uint32 position,bool select){
 }
 //select all cells
 void edk::ViewListSelection::selectAllCells(){
-    edk::uint32 size = this->cells.size();
+    edk::uint32 size = this->cells.size();edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        this->cells[i]->setSelect(true);
+        this->cells[i]->setSelect(true);edkEnd();
     }
 }
 void edk::ViewListSelection::deselectAllCells(){
-    edk::uint32 size = this->cells.size();
+    edk::uint32 size = this->cells.size();edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        this->cells[i]->setSelect(false);
+        this->cells[i]->setSelect(false);edkEnd();
     }
 }
 //get cell clicked
 bool edk::ViewListSelection::haveClickCell(){
-    if(this->clicked)
+    if(this->clicked){
         return true;
+    }
     return false;
 }
 //return the cell click position
 edk::uint32 edk::ViewListSelection::getClickPosition(){
     if(this->clicked){
-        this->clicked = NULL;
-        return this->clickedPosition;
+        this->clicked = NULL;edkEnd();
+        return this->clickedPosition;edkEnd();
     }
-    return 0u;
+    return 0u;edkEnd();
 }
 //test if have clicled one button
 bool edk::ViewListSelection::haveClickedButton(edk::uint32 button){
     if(this->mouseButtons.haveElement(button)){
-        this->mouseButtons.remove(button);
+        this->mouseButtons.remove(button);edkEnd();
         return true;
     }
     return false;
 }
 bool edk::ViewListSelection::haveClickedLeftButton(){
-    return this->haveClickedButton(edk::mouse::left);
+    return this->haveClickedButton(edk::mouse::left);edkEnd();
 }
 bool edk::ViewListSelection::haveClickedRightButton(){
-    return this->haveClickedButton(edk::mouse::right);
+    return this->haveClickedButton(edk::mouse::right);edkEnd();
 }
 bool edk::ViewListSelection::haveClickedMiddleButton(){
-    return this->haveClickedButton(edk::mouse::middle);
+    return this->haveClickedButton(edk::mouse::middle);edkEnd();
 }
 //clean the mouseButtons
 void edk::ViewListSelection::cleanClickedButtons(){
-    this->mouseButtons.clean();
+    this->mouseButtons.clean();edkEnd();
 }
 
 //draw the GU scene
 void edk::ViewListSelection::drawScene(edk::rectf32){
     //draw the cells
-    edk::uint32 size = this->cells.size();
+    edk::uint32 size = this->cells.size();edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
         //draw the cell
-        this->cells[i]->draw();
+        this->cells[i]->draw();edkEnd();
     }
 }
 
 void edk::ViewListSelection::drawSelectionScene(){
 
     //draw the cells
-    edk::uint32 size = this->cells.size();
+    edk::uint32 size = this->cells.size();edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        edk::GU::guPushName(i);
+        edk::GU::guPushName(i);edkEnd();
         //draw the cell
-        this->cells[i]->drawSelection();
-        edk::GU::guPopName();
+        this->cells[i]->drawSelection();edkEnd();
+        edk::GU::guPopName();edkEnd();
     }
 }
 //process the selection
 void edk::ViewListSelection::selectObject(edk::uint32 object,edk::int32 ,edk::float32 ,edk::float32 ,edk::vector::Stack<edk::uint32>* names){
     //select the object
     if(names[0u].size() && !object){
-        this->clickedPosition = names[0u][0u];
-        this->clicked = this->cells[this->clickedPosition];
+        this->clickedPosition = names[0u][0u];edkEnd();
+        this->clicked = this->cells[this->clickedPosition];edkEnd();
 
         //copy the mouseButtons
-        edk::uint32 size = this->mouseButtonsNew.size();
+        edk::uint32 size = this->mouseButtonsNew.size();edkEnd();
         for(edk::uint32 i=0u;i<size;i++){
-            this->mouseButtons.add(this->mouseButtonsNew.getElementInPosition(i));
+            this->mouseButtons.add(this->mouseButtonsNew.getElementInPosition(i));edkEnd();
         }
 
         //test if have clicked the left mouseButton
         if(this->clickLeft){
             //select the cell
-            if(this->clicked)
-                this->clicked->select();
-            this->clickLeft=false;
+            if(this->clicked){
+                this->clicked->select();edkEnd();
+            }
+            this->clickLeft=false;edkEnd();
         }
     }
-    this->clickLeft = false;
-    this->mouseButtonsNew.clean();
+    this->clickLeft = false;edkEnd();
+    this->mouseButtonsNew.clean();edkEnd();
 }

@@ -28,20 +28,20 @@ edk::physics2D::PulleyJoint2D::PulleyJoint2D(bool collide)
     :
         edk::physics2D::DistanceJoint2D(collide)
 {
-    this->type = EDK_PULLEY_JOINT;
-    this->lenghtA=0.f;
-    this->lenghtB=0.f;
+    this->type = EDK_PULLEY_JOINT;edkEnd();
+    this->lenghtA=0.f;edkEnd();
+    this->lenghtB=0.f;edkEnd();
 }
 
 //draw the joint in debug mode
 void edk::physics2D::PulleyJoint2D::draw(edk::size2f32,edk::color3f32 color){
-    edk::GU::guColor3f32(color);
-    edk::GU::guPushMatrix();
-    edk::GU::guBegin(GU_LINE_STRIP);
-    edk::GU::guVertex2f32(this->worldPositionA.x,this->worldPositionA.y);
-    edk::GU::guVertex2f32(this->pulleyPositionA.x,this->pulleyPositionA.y);
-    edk::GU::guVertex2f32(this->pulleyPositionB.x,this->pulleyPositionB.y);
-    edk::GU::guVertex2f32(this->worldPositionB.x,this->worldPositionB.y);
-    edk::GU::guEnd();
-    edk::GU::guPopMatrix();
+    edk::GU::guColor3f32(color);edkEnd();
+    edk::GU::guPushMatrix();edkEnd();
+    edk::GU::guBegin(GU_LINE_STRIP);edkEnd();
+    edk::GU::guVertex2f32(this->worldPositionA.x,this->worldPositionA.y);edkEnd();
+    edk::GU::guVertex2f32(this->pulleyPositionA.x,this->pulleyPositionA.y);edkEnd();
+    edk::GU::guVertex2f32(this->pulleyPositionB.x,this->pulleyPositionB.y);edkEnd();
+    edk::GU::guVertex2f32(this->worldPositionB.x,this->worldPositionB.y);edkEnd();
+    edk::GU::guEnd();edkEnd();
+    edk::GU::guPopMatrix();edkEnd();
 }

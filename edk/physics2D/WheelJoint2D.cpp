@@ -27,39 +27,39 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 edk::physics2D::WheelJoint2D::WheelJoint2D(bool collide)
     : edk::physics2D::Joint2D(collide)
 {
-    this->type = EDK_WHEEL_JOINT;
-    this->removeType();
+    this->type = EDK_WHEEL_JOINT;edkEnd();
+    this->removeType();edkEnd();
 }
 
 //set motor
 void edk::physics2D::WheelJoint2D::setMotor(edk::float32 maxTorque,edk::float32 speed){
-    this->maxTorque = maxTorque;
-    this->speed = speed;
-    this->WheelType = EDK_JOINT_MOTOR;
+    this->maxTorque = maxTorque;edkEnd();
+    this->speed = speed;edkEnd();
+    this->WheelType = EDK_JOINT_MOTOR;edkEnd();
 }
 //remove type
 void edk::physics2D::WheelJoint2D::removeType(){
-    this->WheelType = 0u;
+    this->WheelType = 0u;edkEnd();
 }
 //GETERS
 edk::uint8 edk::physics2D::WheelJoint2D::getWheelType(){
-    return this->WheelType;
+    return this->WheelType;edkEnd();
 }
 edk::float32 edk::physics2D::WheelJoint2D::getMaxTorque(){
-    return this->getMaxTorque();
+    return this->getMaxTorque();edkEnd();
 }
 edk::float32 edk::physics2D::WheelJoint2D::getSpeed(){
-    return this->speed;
+    return this->speed;edkEnd();
 }
 //draw the joint in debug mode
 void edk::physics2D::WheelJoint2D::draw(edk::size2f32,edk::color3f32 color){
-    edk::GU::guColor3f32(color);
-    edk::GU::guPushMatrix();
-    edk::GU::guBegin(GU_LINE_STRIP);
+    edk::GU::guColor3f32(color);edkEnd();
+    edk::GU::guPushMatrix();edkEnd();
+    edk::GU::guBegin(GU_LINE_STRIP);edkEnd();
     //
-    edk::GU::guVertex2f32(this->objectA->position.x,this->objectA->position.y);
-    edk::GU::guVertex2f32(this->objectB->position.x,this->objectB->position.y);
-    edk::GU::guVertex2f32(this->worldPositionA.x,this->worldPositionA.y);
-    edk::GU::guEnd();
-    edk::GU::guPopMatrix();
+    edk::GU::guVertex2f32(this->objectA->position.x,this->objectA->position.y);edkEnd();
+    edk::GU::guVertex2f32(this->objectB->position.x,this->objectB->position.y);edkEnd();
+    edk::GU::guVertex2f32(this->worldPositionA.x,this->worldPositionA.y);edkEnd();
+    edk::GU::guEnd();edkEnd();
+    edk::GU::guPopMatrix();edkEnd();
 }

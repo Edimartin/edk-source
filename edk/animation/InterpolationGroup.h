@@ -72,7 +72,7 @@ public:
     }
     virtual ~AnimationName(){
         //
-        this->deleteName();
+        this->deleteName();edkEnd();
     }
     //start and end seconds
     edk::float32 start;
@@ -81,35 +81,35 @@ public:
     //write to XML
     bool writeToXML(edk::XML* xml,edk::uint32 nameID){
         if(xml && this->getName()){
-            bool ret=false;
-            edk::char8* nameTemp = edk::String::int64ToStr(nameID);
+            bool ret=false;edkEnd();
+            edk::char8* nameTemp = edk::String::int64ToStr(nameID);edkEnd();
             if(nameTemp){
                 //create the name
-                edk::char8* name = edk::String::strCat((edk::char8*)"animationName_",nameTemp);
+                edk::char8* name = edk::String::strCat((edk::char8*)"animationName_",nameTemp);edkEnd();
                 if(name){
                     if(xml->addSelectedNextChild(name)){
                         if(xml->selectChild(name)){
-                            xml->setSelectedString(this->getName());
+                            xml->setSelectedString(this->getName());edkEnd();
                             //write the frame
-                            edk::char8* temp = edk::String::float32ToStr(this->start);
+                            edk::char8* temp = edk::String::float32ToStr(this->start);edkEnd();
                             //test the temp
                             if(temp){
-                                xml->addSelectedNextAttribute((edk::char8*)"start",temp);
-                                delete[] temp;
+                                xml->addSelectedNextAttribute((edk::char8*)"start",temp);edkEnd();
+                                delete[] temp;edkEnd();
                             }
-                            temp = edk::String::float32ToStr(this->end);
+                            temp = edk::String::float32ToStr(this->end);edkEnd();
                             //test the temp
                             if(temp){
-                                xml->addSelectedNextAttribute((edk::char8*)"end",temp);
-                                delete[] temp;
+                                xml->addSelectedNextAttribute((edk::char8*)"end",temp);edkEnd();
+                                delete[] temp;edkEnd();
                             }
-                            xml->selectFather();
-                            ret=true;
+                            xml->selectFather();edkEnd();
+                            ret=true;edkEnd();
                         }
                     }
-                    delete[] name;
+                    delete[] name;edkEnd();
                 }
-                delete[] nameTemp;
+                delete[] nameTemp;edkEnd();
             }
             return ret;
         }
@@ -118,28 +118,28 @@ public:
     //read from XMl
     bool readFromXML(edk::XML* xml,edk::uint32 nameID){
         if(xml){
-            bool ret=false;
-            edk::char8* nameTemp = edk::String::int64ToStr(nameID);
+            bool ret=false;edkEnd();
+            edk::char8* nameTemp = edk::String::int64ToStr(nameID);edkEnd();
             if(nameTemp){
                 //create the name
-                edk::char8* name = edk::String::strCat((edk::char8*)"animationName_",nameTemp);
+                edk::char8* name = edk::String::strCat((edk::char8*)"animationName_",nameTemp);edkEnd();
                 if(name){
                     if(xml->selectChild(name)){
                         edk::char8 filter[3u] = {9u,'\n',0u};
-                        edk::char8* temp;
-                        temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);
+                        edk::char8* temp;edkEnd();
+                        temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);edkEnd();
                         if(temp){
-                            this->setName(temp);
-                            delete[] temp;
+                            this->setName(temp);edkEnd();
+                            delete[] temp;edkEnd();
                         }
-                        this->start = edk::String::strToFloat32(xml->getSelectedAttributeValueByName("start"));
-                        this->end   = edk::String::strToFloat32(xml->getSelectedAttributeValueByName("end"  ));
-                        xml->selectFather();
-                        ret=true;
+                        this->start = edk::String::strToFloat32(xml->getSelectedAttributeValueByName("start"));edkEnd();
+                        this->end   = edk::String::strToFloat32(xml->getSelectedAttributeValueByName("end"  ));edkEnd();
+                        xml->selectFather();edkEnd();
+                        ret=true;edkEnd();
                     }
-                    delete[] name;
+                    delete[] name;edkEnd();
                 }
-                delete[] nameTemp;
+                delete[] nameTemp;edkEnd();
             }
             return ret;
         }
@@ -289,38 +289,38 @@ public:
 
     virtual bool cloneFrom(edk::animation::InterpolationGroup* group){
         //clean frames
-        this->cleanAnimations();
+        this->cleanAnimations();edkEnd();
         if(group){
             //first copy the frames
-            edk::uint32 size = group->animations.size();
+            edk::uint32 size = group->animations.size();edkEnd();
             for(edk::uint32 i=0u;i<size;i++){
                 //
-                edk::animation::InterpolationLine* temp = group->animations[i];
+                edk::animation::InterpolationLine* temp = group->animations[i];edkEnd();
                 if(temp){
                     //test if it create the start frame
                     if(temp->getCreateStart()){
                         //copy the frame to the animation
-                        this->addNewInterpolationLine(temp->getStart());
+                        this->addNewInterpolationLine(temp->getStart());edkEnd();
                     }
                     //test if it create the end frame
                     if(temp->getCreateEnd()){
                         //copy the frame to the animation
-                        this->addNewInterpolationLine(temp->getEnd());
+                        this->addNewInterpolationLine(temp->getEnd());edkEnd();
                     }
                 }
             }
 
             //now copy the animation names
-            size = group->animationNames.size();
+            size = group->animationNames.size();edkEnd();
             for(edk::uint32 i=0u;i<size;i++){
-                edk::animation::AnimationName* temp = (edk::animation::AnimationName*)group->animationNames.getElementInPosition(i);
+                edk::animation::AnimationName* temp = (edk::animation::AnimationName*)group->animationNames.getElementInPosition(i);edkEnd();
                 if(temp){
-                    this->addNewAnimationName(temp->name(),temp->start,temp->end);
+                    this->addNewAnimationName(temp->name(),temp->start,temp->end);edkEnd();
                 }
             }
 
-            this->setLoop(group->getLoop());
-            this->setIncrement(group->getIncrement());
+            this->setLoop(group->getLoop());edkEnd();
+            this->setIncrement(group->getIncrement());edkEnd();
             return true;
         }
         return false;
@@ -418,37 +418,37 @@ private:
 private:
     edk::animation::InterpolationGroup operator=(edk::animation::InterpolationGroup group){
         //clean frames
-        this->cleanAnimations();
+        this->cleanAnimations();edkEnd();
         //first copy the frames
-        edk::uint32 size = group.animations.size();
+        edk::uint32 size = group.animations.size();edkEnd();
         for(edk::uint32 i=0u;i<size;i++){
             //
-            edk::animation::InterpolationLine* temp = group.animations[i];
+            edk::animation::InterpolationLine* temp = group.animations[i];edkEnd();
             if(temp){
                 //test if it create the start frame
                 if(temp->getCreateStart()){
                     //copy the frame to the animation
-                    this->addNewInterpolationLine(temp->getStart());
+                    this->addNewInterpolationLine(temp->getStart());edkEnd();
                 }
                 //test if it create the end frame
                 if(temp->getCreateEnd()){
                     //copy the frame to the animation
-                    this->addNewInterpolationLine(temp->getEnd());
+                    this->addNewInterpolationLine(temp->getEnd());edkEnd();
                 }
             }
         }
 
         //now copy the animation names
-        size = group.animationNames.size();
+        size = group.animationNames.size();edkEnd();
         for(edk::uint32 i=0u;i<size;i++){
-            edk::animation::AnimationName* temp = (edk::animation::AnimationName*)group.animationNames.getElementInPosition(i);
+            edk::animation::AnimationName* temp = (edk::animation::AnimationName*)group.animationNames.getElementInPosition(i);edkEnd();
             if(temp){
-                this->addNewAnimationName(temp->name(),temp->start,temp->end);
+                this->addNewAnimationName(temp->name(),temp->start,temp->end);edkEnd();
             }
         }
         //
-        group.cantDeleteGroup();
-        return group;
+        group.cantDeleteGroup();edkEnd();
+        return group;edkEnd();
     }
 };
 }//end namespace animation

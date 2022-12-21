@@ -44,23 +44,23 @@ class Vecs3f32: private edk::vector::Stack<edk::vec3f32*>{
 public:
     Vecs3f32(){
         //
-        canDeleteVecs=false;
+        canDeleteVecs=false;edkEnd();
     }
     Vecs3f32(edk::uint32 size):
         edk::vector::Stack<edk::vec3f32*>::Stack(size) {
         //
-        canDeleteVecs=false;
+        canDeleteVecs=false;edkEnd();
     }
     ~Vecs3f32(){
         //
         //delete the array
         if(this->canDeleteVecs){
-            this->clean();
-            this->canDeleteVecs=false;
+            this->clean();edkEnd();
+            this->canDeleteVecs=false;edkEnd();
         }
         else{
             //
-            this->canDeleteVecs=true;
+            this->canDeleteVecs=true;edkEnd();
         }
     }
     void clean(){
@@ -69,37 +69,37 @@ public:
             //
             if(edk::vector::Stack<edk::vec3f32*>::get(i)){
                 //
-                delete edk::vector::Stack<edk::vec3f32*>::get(i);
+                delete edk::vector::Stack<edk::vec3f32*>::get(i);edkEnd();
             }
         }
-        edk::vector::Stack<edk::vec3f32*>::clean();
+        edk::vector::Stack<edk::vec3f32*>::clean();edkEnd();
     }
     edk::uint32 pushBack(edk::vec3f32 vec){
         //first create the vector
-        edk::vec3f32* temp=new edk::vec3f32(vec.x,vec.y,vec.z);
+        edk::vec3f32* temp=new edk::vec3f32(vec.x,vec.y,vec.z);edkEnd();
         if(temp){
             //
-            return edk::vector::Stack<edk::vec3f32*>::pushBack(temp);
+            return edk::vector::Stack<edk::vec3f32*>::pushBack(temp);edkEnd();
         }
         //else return zero
-        return 0u;
+        return 0u;edkEnd();
     }
 
     bool set(edk::vec3f32 vec,edk::uint32 pos){
         //test if have one vector in the position
-        edk::vec3f32* temp = edk::vector::Stack<edk::vec3f32*>::get(pos);
+        edk::vec3f32* temp = edk::vector::Stack<edk::vec3f32*>::get(pos);edkEnd();
         if(temp){
             //
             //set
-            temp->x=vec.x;
-            temp->y=vec.y;
-            temp->z=vec.z;
+            temp->x=vec.x;edkEnd();
+            temp->y=vec.y;edkEnd();
+            temp->z=vec.z;edkEnd();
             //return true
             return true;
         }
         else{
             //delete the temp
-            temp=new edk::vec3f32(vec.x,vec.y,vec.z);
+            temp=new edk::vec3f32(vec.x,vec.y,vec.z);edkEnd();
 
             if(edk::vector::Stack<edk::vec3f32*>::set(pos,temp)){
                 //
@@ -107,10 +107,10 @@ public:
             }
             else{
                 //
-                delete temp;
+                delete temp;edkEnd();
             }
         }
-        temp=NULL;
+        temp=NULL;edkEnd();
         return false;
     }
 
@@ -118,34 +118,34 @@ public:
     //returrn the vector size
     edk::uint32  size(){
         //
-        return edk::vector::Stack<edk::vec3f32*>::size();
+        return edk::vector::Stack<edk::vec3f32*>::size();edkEnd();
     }
     edk::uint32  getSize(){
         //
-        return this->size();
+        return this->size();edkEnd();
     }
     //return the object
     edk::vec3f32 get(edk::uint32 pos){
         //
-        edk::vec3f32* temp = edk::vector::Stack<edk::vec3f32*>::get(pos);
+        edk::vec3f32* temp = edk::vector::Stack<edk::vec3f32*>::get(pos);edkEnd();
         if(temp){
             //
-            return edk::vec3f32(temp->x,temp->y,temp->z);
+            return edk::vec3f32(temp->x,temp->y,temp->z);edkEnd();
         }
         //else return zero vector
-        return edk::vec3f32(0,0,0);
+        return edk::vec3f32(0,0,0);edkEnd();
     }
 
     //cant
     void cantDeleteVector(){
         //
-        edk::vector::Stack<edk::vec3f32*>::cantDestroy();
+        edk::vector::Stack<edk::vec3f32*>::cantDestroy();edkEnd();
     }
     //OPERATORS
     //[]
     edk::vec3f32 operator[](edk::uint32 n){
         //
-        return this->get(n);
+        return this->get(n);edkEnd();
     }
     virtual bool cloneFrom(edk::collision::Vecs3f32* vec){
         if(vec){
@@ -154,15 +154,15 @@ public:
                 //
                 if(edk::vector::Stack<edk::vec3f32*>::get(i)){
                     //
-                    delete edk::vector::Stack<edk::vec3f32*>::get(i);
+                    delete edk::vector::Stack<edk::vec3f32*>::get(i);edkEnd();
                 }
             }
-            edk::vector::Stack<edk::vec3f32*>::clean();
+            edk::vector::Stack<edk::vec3f32*>::clean();edkEnd();
 
             //Then add the new vectors
             for(edk::uint32 i=0u;i<vec->size();i++){
                 //copy the vectors
-                this->pushBack( edk::vec3f32(vec->get(i).x ,vec->get(i).y ,vec->get(i).z ) );
+                this->pushBack( edk::vec3f32(vec->get(i).x ,vec->get(i).y ,vec->get(i).z ) );edkEnd();
             }
             return true;
         }
@@ -173,7 +173,7 @@ public:
             //Just add new vectors
             for(edk::uint32 i=0u;i<vec->size();i++){
                 //copy the vectors
-                this->pushBack( edk::vec3f32(vec->get(i).x ,vec->get(i).y ,vec->get(i).z ) );
+                this->pushBack( edk::vec3f32(vec->get(i).x ,vec->get(i).y ,vec->get(i).z ) );edkEnd();
             }
             return true;
         }
@@ -189,19 +189,19 @@ private:
             //
             if(edk::vector::Stack<edk::vec3f32*>::get(i)){
                 //
-                delete edk::vector::Stack<edk::vec3f32*>::get(i);
+                delete edk::vector::Stack<edk::vec3f32*>::get(i);edkEnd();
             }
         }
-        edk::vector::Stack<edk::vec3f32*>::clean();
+        edk::vector::Stack<edk::vec3f32*>::clean();edkEnd();
 
         //Then add the new vectors
         for(edk::uint32 i=0u;i<vec.size();i++){
             //copy the vectors
-            this->pushBack( edk::vec3f32(vec[i].x ,vec[i].y ,vec[i].z ) );
+            this->pushBack( edk::vec3f32(vec[i].x ,vec[i].y ,vec[i].z ) );edkEnd();
         }
         //set to cant delete the vector
-        vec.cantDeleteVector();
-        return vec;
+        vec.cantDeleteVector();edkEnd();
+        return vec;edkEnd();
     }
     //Operator increment
     edk::collision::Vecs3f32 operator+=(edk::collision::Vecs3f32 vec){
@@ -211,20 +211,20 @@ private:
                 //
                 if(edk::vector::Stack<edk::vec3f32*>::get(i)){
                         //
-                    delete edk::vector::Stack<edk::vec3f32*>::get(i);
+                    delete edk::vector::Stack<edk::vec3f32*>::get(i);edkEnd();
                 }
             }
-            edk::vector::Stack<edk::vec3f32*>::clean();
+            edk::vector::Stack<edk::vec3f32*>::clean();edkEnd();
             */
 
         //Just add new vectors
         for(edk::uint32 i=0u;i<vec.size();i++){
             //copy the vectors
-            this->pushBack( edk::vec3f32(vec[i].x ,vec[i].y ,vec[i].z ) );
+            this->pushBack( edk::vec3f32(vec[i].x ,vec[i].y ,vec[i].z ) );edkEnd();
         }
         //set to cant delete the vector
-        vec.cantDeleteVector();
-        return vec;
+        vec.cantDeleteVector();edkEnd();
+        return vec;edkEnd();
     }
 };
 

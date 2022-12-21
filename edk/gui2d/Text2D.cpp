@@ -24,7 +24,7 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 edk::gui2d::Text2D::Text2D(){
-    edk::gui2d::ObjectGui2d::setBorderSize(0.01f);
+    edk::gui2d::ObjectGui2d::setBorderSize(0.01f);edkEnd();
 }
 edk::gui2d::Text2D::~Text2D(){
     //
@@ -32,7 +32,7 @@ edk::gui2d::Text2D::~Text2D(){
 
 //get the type
 edk::gui2d::gui2dTypes edk::gui2d::Text2D::getType(){
-    return edk::gui2d::gui2dTypeText;
+    return edk::gui2d::gui2dTypeText;edkEnd();
 }
 
 //load the button textures and meshes
@@ -44,10 +44,10 @@ bool edk::gui2d::Text2D::load(){
     return false;
 }
 void edk::gui2d::Text2D::unload(){
-    edk::gui2d::ObjectGui2d::unload();
+    edk::gui2d::ObjectGui2d::unload();edkEnd();
 }
 void edk::gui2d::Text2D::update(){
-    edk::gui2d::ObjectGui2d::update();
+    edk::gui2d::ObjectGui2d::update();edkEnd();
 }
 
 //set border size
@@ -57,10 +57,10 @@ bool edk::gui2d::Text2D::setBorderSize(edk::float32){
 
 //draw the button
 void edk::gui2d::Text2D::draw(){
-    this->drawStart();
+    this->drawStart();edkEnd();
     if(this->text.haveText() && this->drawText){
         //
-        this->text.draw(edk::color4f32(0,0,0,1));
+        this->text.draw(edk::color4f32(0,0,0,1));edkEnd();
     }
-    this->drawEnd();
+    this->drawEnd();edkEnd();
 }

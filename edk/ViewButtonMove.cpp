@@ -26,8 +26,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 edk::ViewButtonMove::ViewButtonMove()
 {
-    this->saveFirst = false;
-    this->holdedMouse = false;
+    this->saveFirst = false;edkEnd();
+    this->holdedMouse = false;edkEnd();
 }
 edk::ViewButtonMove::~ViewButtonMove()
 {
@@ -37,49 +37,49 @@ void edk::ViewButtonMove::updateView(edk::WindowEvents* events){
     //test if is holding the mouse
     if(this->holdedMouse){
         //load the new position
-        edk::vec2f32 newPosition = edk::vec2f32((edk::float32)events->mousePos.x,(edk::float32)events->mousePos.y);
+        edk::vec2f32 newPosition = edk::vec2f32((edk::float32)events->mousePos.x,(edk::float32)events->mousePos.y);edkEnd();
         //save the first position
         if(!this->saveFirst){
-            this->saveMousePos = newPosition;
-            this->saveFirst=true;
+            this->saveMousePos = newPosition;edkEnd();
+            this->saveFirst=true;edkEnd();
         }
         //calculate the distance
-        edk::vec2f32 distance = newPosition - this->saveMousePos;
-        this->setPosition(distance + this->savePosition);
+        edk::vec2f32 distance = newPosition - this->saveMousePos;edkEnd();
+        this->setPosition(distance + this->savePosition);edkEnd();
     }
     else{
-        this->saveFirst=false;
+        this->saveFirst=false;edkEnd();
     }
 
     //update the view
-    edk::View::updateView(events);
+    edk::View::updateView(events);edkEnd();
 }
 //Function to set button position
 void edk::ViewButtonMove::setPosition(edk::vec2f32 position){
-    this->frame.origin = position;
+    this->frame.origin = position;edkEnd();
 }
 
 //mouse events
 void edk::ViewButtonMove::eventMousePressed(edk::vec2f32 point,edk::uint32 button){
-    edk::ViewButton::eventMousePressed(point,button);
+    edk::ViewButton::eventMousePressed(point,button);edkEnd();
 
     //test the left buttons
     if(button == edk::mouse::left){
         //hold the mouse
-        this->holdedMouse=true;
+        this->holdedMouse=true;edkEnd();
         //save the position
-        this->savePosition = this->frame.origin;
+        this->savePosition = this->frame.origin;edkEnd();
     }
 }
 void edk::ViewButtonMove::eventMouseMoved(edk::vec2f32 point,edk::uint32 button){
-    edk::ViewButton::eventMouseMoved(point,button);
+    edk::ViewButton::eventMouseMoved(point,button);edkEnd();
 }
 void edk::ViewButtonMove::eventMouseReleased(edk::vec2f32 position,edk::uint32 button){
-    edk::ViewButton::eventMouseReleased(position,button);
+    edk::ViewButton::eventMouseReleased(position,button);edkEnd();
 
     //test the left buttons
     if(button == edk::mouse::left){
         //remove hold the mouse
-        this->holdedMouse=false;
+        this->holdedMouse=false;edkEnd();
     }
 }

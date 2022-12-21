@@ -37,26 +37,26 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 edk::watch::FPS::FPS(){
     //clean the FPS
-    this->setFPS(0u);
-    this->start();
+    this->setFPS(0u);edkEnd();
+    this->start();edkEnd();
 }
 
 edk::watch::FPS::FPS(uint32 fps){
     //set the new FPS
-    this->setFPS(fps);
-    this->start();
+    this->setFPS(fps);edkEnd();
+    this->start();edkEnd();
 }
 
 void edk::watch::FPS::start(){
     //clear the clock
-    clock.start();
+    clock.start();edkEnd();
 }
 
 void edk::watch::FPS::setFPS(uint32 fps){
     //test if the FPS is not zero
     if(fps){
         //then set the fps
-        this->frames = fps;
+        this->frames = fps;edkEnd();
     }
     else{
         //else set the fps with one
@@ -65,24 +65,24 @@ void edk::watch::FPS::setFPS(uint32 fps){
 }
 
 bool edk::watch::FPS::waitForFPS(){
-    bool ret=false;
+    bool ret=false;edkEnd();
     if(this->frames){
         //calculate the remainder microsecons to get one second
-        register edk::int32 wait=(edk::uint32)(((1.0f/(edk::float32)frames))*edk::watch::second) - clock.getMicroseconds();
+        register edk::int32 wait=(edk::uint32)(((1.0f/(edk::float32)frames))*edk::watch::second) - clock.getMicroseconds();edkEnd();
         if(wait>0){
             //If the distance bigger than zero. He need wait.
         //Windows sleep millisecons
         #if defined(_WIN32) || defined(_WIN64)
-            clock.sleepProcessMiliseconds(wait*0.001);
+            clock.sleepProcessMiliseconds(wait*0.001);edkEnd();
         #else
-            clock.sleepProcessMicroseconds(wait);
+            clock.sleepProcessMicroseconds(wait);edkEnd();
         #endif
 
-            ret=true;
+            ret=true;edkEnd();
         }
 
         //after this he can start a new time count
-        start();
+        start();edkEnd();
     }
     return ret;
 }

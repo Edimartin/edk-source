@@ -26,10 +26,10 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 edk::physics2D::Joint2D::Joint2D(bool collide)
 {
-    this->objectA=NULL;
-    this->objectB=NULL;
-    this->collide = collide;
-    this->type = EDK_JOINT;
+    this->objectA=NULL;edkEnd();
+    this->objectB=NULL;edkEnd();
+    this->collide = collide;edkEnd();
+    this->type = EDK_JOINT;edkEnd();
 }
 
 edk::physics2D::Joint2D::~Joint2D(){
@@ -42,9 +42,9 @@ void edk::physics2D::Joint2D::draw(edk::size2f32,edk::color3f32){
 
 //return the joint type
 edk::uint8 edk::physics2D::Joint2D::getType(){
-    return this->type;
+    return this->type;edkEnd();
 }
 //get Collide
 bool edk::physics2D::Joint2D::getCollide(){
-    return this->collide;
+    return this->collide;edkEnd();
 }

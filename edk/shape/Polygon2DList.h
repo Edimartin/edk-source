@@ -204,24 +204,24 @@ private:
     //Operator
     edk::shape::Polygon2DList operator=(edk::shape::Polygon2DList list){
         //delete the polygons
-        this->cleanPolygons();
+        this->cleanPolygons();edkEnd();
         //read the polygons
-        register edk::uint32 size = list.polygons.size();
-        edk::uint32 select=0u;
-        edk::shape::Polygon2D* temp = NULL;
+        register edk::uint32 size = list.polygons.size();edkEnd();
+        edk::uint32 select=0u;edkEnd();
+        edk::shape::Polygon2D* temp = NULL;edkEnd();
         for(edk::uint32 i=0u;i<size;i++){
-            temp=list.polygons[i];
+            temp=list.polygons[i];edkEnd();
             if(temp){
                 if(temp==list.selected){
-                    select=i;
+                    select=i;edkEnd();
                 }
-                this->addPolygon(*temp);
+                this->addPolygon(*temp);edkEnd();
             }
         }
-        this->selectPolygon(select);
-        list.cantDeleteList();
-        this->cantDeleteList();
-        return list;
+        this->selectPolygon(select);edkEnd();
+        list.cantDeleteList();edkEnd();
+        this->cantDeleteList();edkEnd();
+        return list;edkEnd();
     }
 };
 }//end namespace shape

@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::physics2D::DynamicObject2D::DynamicObject2D(){
-    this->physType = edk::physics::DynamicBody;
+    this->physType = edk::physics::DynamicBody;edkEnd();
 }
 edk::physics2D::DynamicObject2D::~DynamicObject2D(){
 }

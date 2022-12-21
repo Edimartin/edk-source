@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 edk::multi::Mutex::Mutex(){
 #if defined( WIN32) || defined( WIN64)
-    this->mut = CreateMutex( NULL, FALSE, NULL);
+    this->mut = CreateMutex( NULL, FALSE, NULL);edkEnd();
     if (this->mut == NULL)
         {
             //
@@ -40,29 +40,30 @@ edk::multi::Mutex::Mutex(){
 }
 edk::multi::Mutex::~Mutex(){
 #if defined( WIN32) || defined( WIN64)
-    if(this->mut)
-        CloseHandle(this->mut);
+    if(this->mut){
+        CloseHandle(this->mut);edkEnd();
+    }
 #endif
 #if defined(__linux__)/*LINUX*/ || defined(__APPLE__)//MAC OS
-    pthread_mutex_destroy(&this->mut);
+    pthread_mutex_destroy(&this->mut);edkEnd();
 #endif
 }
 //lock this mutex to another don't run the code
 void edk::multi::Mutex::lock(){
 #if defined( WIN32) || defined( WIN64)
-    WaitForSingleObject(this->mut,INFINITE);
+    WaitForSingleObject(this->mut,INFINITE);edkEnd();
 #endif
 #if defined(__linux__)/*LINUX*/ || defined(__APPLE__)//MAC OS
-    pthread_mutex_lock(&this->mut);
+    pthread_mutex_lock(&this->mut);edkEnd();
 #endif
 }
 //unlock this mutex
 void edk::multi::Mutex::unlock(){
 #if defined( WIN32) || defined( WIN64)
-    ReleaseMutex(this->mut);
+    ReleaseMutex(this->mut);edkEnd();
 #endif
 #if defined(__linux__)/*LINUX*/ || defined(__APPLE__)//MAC OS
-    pthread_mutex_unlock(&this->mut);
+    pthread_mutex_unlock(&this->mut);edkEnd();
 #endif
 }
 //try lock the mutex (if true it's locked)

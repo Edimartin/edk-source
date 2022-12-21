@@ -57,7 +57,7 @@ class WindowEvents{
 public:
     WindowEvents(){
         //
-        this->focus=true;
+        this->focus=true;edkEnd();
     }
     virtual ~WindowEvents(){
         //
@@ -66,28 +66,28 @@ public:
     //clean the events
     void clean(){
         //
-        this->buttonExit = this->lostFocus = this->gainedFocus = this->resize = this->mouseMoved = mouseEnter = mouseExit = false;
-        this->resizePos = edk::size2i32(0,0);
-        this->windowSize = edk::size2ui32(0u,0u);
-        this->mousePos = edk::vec2i32(0,0);
-        this->mousePosWorld = edk::vec2i32(0,0);
-        this->mousePosWindow = edk::vec2i32(0,0);
-        this->mouseMove = edk::vec2i32(0,0);
-        this->keyPressed.clean();
-        this->keyRelease.clean();
-        this->keyHolded.clean();
-        this->keyText.clean();
-        this->mousePressed.clean();
-        this->mouseRelease.clean();
-        this->mouseHolded.clean();
-        //this->mouseMoving.clean();
-        this->mouseScrollWheel = 0u;
-        this->secondPassed = 0.f;
-        this->secondsGlobal = 0.f;
-        this->controllerPressed.clean();
-        //this->controllerHolded.clean();
-        this->controllerReleased.clean();
-        this->controllerAxisMoved.clean();
+        this->buttonExit = this->lostFocus = this->gainedFocus = this->resize = this->mouseMoved = mouseEnter = mouseExit = false;edkEnd();
+        this->resizePos = edk::size2i32(0,0);edkEnd();
+        this->windowSize = edk::size2ui32(0u,0u);edkEnd();
+        this->mousePos = edk::vec2i32(0,0);edkEnd();
+        this->mousePosWorld = edk::vec2i32(0,0);edkEnd();
+        this->mousePosWindow = edk::vec2i32(0,0);edkEnd();
+        this->mouseMove = edk::vec2i32(0,0);edkEnd();
+        this->keyPressed.clean();edkEnd();
+        this->keyRelease.clean();edkEnd();
+        this->keyHolded.clean();edkEnd();
+        this->keyText.clean();edkEnd();
+        this->mousePressed.clean();edkEnd();
+        this->mouseRelease.clean();edkEnd();
+        this->mouseHolded.clean();edkEnd();
+        //this->mouseMoving.clean();edkEnd();
+        this->mouseScrollWheel = 0u;edkEnd();
+        this->secondPassed = 0.f;edkEnd();
+        this->secondsGlobal = 0.f;edkEnd();
+        this->controllerPressed.clean();edkEnd();
+        //this->controllerHolded.clean();edkEnd();
+        this->controllerReleased.clean();edkEnd();
+        this->controllerAxisMoved.clean();edkEnd();
     }
 
     //Eventos
@@ -133,8 +133,8 @@ private:
     //Controller
     class ControllerButtons{
     public:
-        ControllerButtons(){this->controller=0u;}
-        virtual ~ControllerButtons(){this->buttons.clean();}
+        ControllerButtons(){this->controller=0u;edkEnd();}
+        virtual ~ControllerButtons(){this->buttons.clean();edkEnd();}
         edk::uint32 controller;
         edk::vector::BinaryTree<edk::uint32> buttons;
     };
@@ -142,124 +142,124 @@ private:
     class ControllerButtonsEvent{
     public:
         ControllerButtonsEvent(){}
-        virtual ~ControllerButtonsEvent(){this->clean();}
+        virtual ~ControllerButtonsEvent(){this->clean();edkEnd();}
 
         //clean the controllers
         void clean(){
-            edk::uint32 size = this->buttons.size();
-            edk::WindowEvents::ControllerButtons* temp=NULL;
+            edk::uint32 size = this->buttons.size();edkEnd();
+            edk::WindowEvents::ControllerButtons* temp=NULL;edkEnd();
             for(edk::uint32 i=0u;i<size;i++){
-                temp = this->buttons.getElementInPosition(i);
+                temp = this->buttons.getElementInPosition(i);edkEnd();
                 if(temp){
-                    delete temp;
+                    delete temp;edkEnd();
                 }
             }
-            this->buttons.clean();
+            this->buttons.clean();edkEnd();
         }
         //get the controllers size
         edk::uint32 getControllerSize(){
-            return this->buttons.size();
+            return this->buttons.size();edkEnd();
         }
         //get the controller buttons size
         edk::uint32 getControllerButtonSizeByID(edk::uint32 controller){
             //get the controller
-            edk::WindowEvents::ControllerButtons* temp = getButtons(controller);
+            edk::WindowEvents::ControllerButtons* temp = getButtons(controller);edkEnd();
             if(temp){
-                return temp->buttons.size();
+                return temp->buttons.size();edkEnd();
             }
-            return 0u;
+            return 0u;edkEnd();
         }
         //get the controller buttons size in position
         edk::uint32 getControllerButtonSizeInPosition(edk::uint32 position){
             //get the controller
-            edk::WindowEvents::ControllerButtons* temp = this->getButtonsInPosition(position);
+            edk::WindowEvents::ControllerButtons* temp = this->getButtonsInPosition(position);edkEnd();
             if(temp){
-                return temp->buttons.size();
+                return temp->buttons.size();edkEnd();
             }
-            return 0u;
+            return 0u;edkEnd();
         }
         //get the controller button by ID
         edk::uint32 getControllerButtonByID(edk::uint32 controller,edk::uint32 position){
-            edk::WindowEvents::ControllerButtons* temp = this->getButtons(controller);
+            edk::WindowEvents::ControllerButtons* temp = this->getButtons(controller);edkEnd();
             if(temp){
-                return temp->buttons.getElementInPosition(position);
+                return temp->buttons.getElementInPosition(position);edkEnd();
             }
-            return 0u;
+            return 0u;edkEnd();
         }
         //get the controller button in position
         edk::uint32 getControllerButtonInPosition(edk::uint32 controllerPosition,edk::uint32 position){
-            edk::WindowEvents::ControllerButtons* temp = this->getButtonsInPosition(controllerPosition);
+            edk::WindowEvents::ControllerButtons* temp = this->getButtonsInPosition(controllerPosition);edkEnd();
             if(temp){
-                return temp->buttons.getElementInPosition(position);
+                return temp->buttons.getElementInPosition(position);edkEnd();
             }
-            return 0u;
+            return 0u;edkEnd();
         }
         //return the controller ID
         edk::uint32 getControllerIDInPosition(edk::uint32 controllerPosition){
-            edk::WindowEvents::ControllerButtons* temp = this->getButtonsInPosition(controllerPosition);
+            edk::WindowEvents::ControllerButtons* temp = this->getButtonsInPosition(controllerPosition);edkEnd();
             if(temp){
-                return temp->controller;
+                return temp->controller;edkEnd();
             }
-            return 0u;
+            return 0u;edkEnd();
         }
         //add a button pressed
         bool addButton(edk::uint32 controllerID,edk::uint32 button){
             //test if have the controller
-            edk::WindowEvents::ControllerButtons* temp = this->getButtons(controllerID);
+            edk::WindowEvents::ControllerButtons* temp = this->getButtons(controllerID);edkEnd();
             //test if dont have the button
             if(!temp){
                 //create a new button
-                temp = new edk::WindowEvents::ControllerButtons;
+                temp = new edk::WindowEvents::ControllerButtons;edkEnd();
                 if(temp){
-                    temp->controller = controllerID;
+                    temp->controller = controllerID;edkEnd();
                     //add the button
                     if(!this->buttons.add(temp)){
                         //cant add the temp
-                        delete temp;
+                        delete temp;edkEnd();
                         return false;
                     }
                 }
             }
             if(temp){
                 //add the button
-                temp->buttons.add(button);
+                temp->buttons.add(button);edkEnd();
                 return true;
             }
             return false;
         }
         bool removeControllerButtonByID(edk::uint32 controllerID,edk::uint32 button){
-            edk::WindowEvents::ControllerButtons* temp = getButtons(controllerID);
+            edk::WindowEvents::ControllerButtons* temp = getButtons(controllerID);edkEnd();
             if(temp){
-                return temp->buttons.remove(button);
+                return temp->buttons.remove(button);edkEnd();
             }
             return false;
         }
         bool removeControllerButtonInPosition(edk::uint32 controllerPosition,edk::uint32 button){
-            edk::WindowEvents::ControllerButtons* temp = this->getButtonsInPosition(controllerPosition);
+            edk::WindowEvents::ControllerButtons* temp = this->getButtonsInPosition(controllerPosition);edkEnd();
             if(temp){
-                return temp->buttons.remove(button);
+                return temp->buttons.remove(button);edkEnd();
             }
             return false;
         }
         //clean controller buttons
         bool cleanControllerButtonsByID(edk::uint32 controllerID){
-            edk::WindowEvents::ControllerButtons* temp = getButtons(controllerID);
+            edk::WindowEvents::ControllerButtons* temp = getButtons(controllerID);edkEnd();
             if(temp){
                 //remove this controller
-                temp->buttons.clean();
+                temp->buttons.clean();edkEnd();
                 if(this->buttons.remove(temp)){
-                    delete temp;
+                    delete temp;edkEnd();
                     return true;
                 }
             }
             return false;
         }
         bool cleanControllerButtonsInPosition(edk::uint32 controllerPosition){
-            edk::WindowEvents::ControllerButtons* temp = this->getButtonsInPosition(controllerPosition);
+            edk::WindowEvents::ControllerButtons* temp = this->getButtonsInPosition(controllerPosition);edkEnd();
             if(temp){
-                temp->buttons.clean();
+                temp->buttons.clean();edkEnd();
                 if(this->buttons.remove(temp)){
-                    delete temp;
+                    delete temp;edkEnd();
                     return true;
                 }
             }
@@ -273,38 +273,46 @@ private:
             ~ButtonTree(){}
             //compare if the value is bigger
             bool firstBiggerSecond(edk::WindowEvents::ControllerButtons* first,edk::WindowEvents::ControllerButtons* second){
-                if(first&&second) if(first->controller>second->controller) return true;
+                if(first&&second){
+                    if(first->controller>second->controller){
+                        return true;
+                    }
+                }
                 return false;
             }
             bool firstEqualSecond(edk::WindowEvents::ControllerButtons* first,edk::WindowEvents::ControllerButtons* second){
-                if(first&&second) if(first->controller==second->controller) return true;
+                if(first&&second){
+                    if(first->controller==second->controller){
+                        return true;
+                    }
+                }
                 return false;
             }
         }buttons;
 
         //get the controller by ID
         edk::WindowEvents::ControllerButtons* getButtons(edk::uint32 controller){
-            edk::WindowEvents::ControllerButtons find;
-            find.controller = controller;
-            return this->buttons.getElement(&find);
+            edk::WindowEvents::ControllerButtons find;edkEnd();
+            find.controller = controller;edkEnd();
+            return this->buttons.getElement(&find);edkEnd();
         }
         edk::WindowEvents::ControllerButtons* getButtonsInPosition(edk::uint32 position){
-            return this->buttons.getElementInPosition(position);
+            return this->buttons.getElementInPosition(position);edkEnd();
         }
         //test if have Buttons
         bool haveButtons(edk::uint32 controller){
-            edk::WindowEvents::ControllerButtons find;
-            find.controller = controller;
-            return this->buttons.haveElement(&find);
+            edk::WindowEvents::ControllerButtons find;edkEnd();
+            find.controller = controller;edkEnd();
+            return this->buttons.haveElement(&find);edkEnd();
         }
     };
     class ControllerAxis: public edk::WindowEvents::ControllerButtons{
     public:
-        ControllerAxis(){this->controller=0u;}
-        virtual ~ControllerAxis(){this->axisValue.clean();}
+        ControllerAxis(){this->controller=0u;edkEnd();}
+        virtual ~ControllerAxis(){this->axisValue.clean();edkEnd();}
         class AxisValue{
         public:
-            AxisValue(){this->value=0.f;this->id=0u;}
+            AxisValue(){this->value=0.f;edkEnd();this->id=0u;edkEnd();}
             ~AxisValue(){}
             edk::float32 value;
             edk::uint32 id;
@@ -315,30 +323,38 @@ private:
             AxisValueTree(){}
             ~AxisValueTree(){}
             bool firstBiggerSecond(edk::WindowEvents::ControllerAxis::AxisValue* first,edk::WindowEvents::ControllerAxis::AxisValue* second){
-                if(first&&second) if(first->id>second->id) return true;
+                if(first&&second){
+                    if(first->id>second->id){
+                        return true;
+                    }
+                }
                 return false;
             }
             bool firstEqualSecond(edk::WindowEvents::ControllerAxis::AxisValue* first,edk::WindowEvents::ControllerAxis::AxisValue* second){
-                if(first&&second) if(first->id==second->id) return true;
+                if(first&&second){
+                    if(first->id==second->id){
+                        return true;
+                    }
+                }
                 return false;
             }
             //add the value
             bool addAxis(edk::uint32 axis,edk::float32 value){
-                edk::WindowEvents::ControllerAxis::AxisValue* temp = this->getAxis(axis);
+                edk::WindowEvents::ControllerAxis::AxisValue* temp = this->getAxis(axis);edkEnd();
                 if(!temp){
                     //create a new axis
-                    temp = new edk::WindowEvents::ControllerAxis::AxisValue;
+                    temp = new edk::WindowEvents::ControllerAxis::AxisValue;edkEnd();
                     if(temp){
-                        temp->id=axis;
+                        temp->id=axis;edkEnd();
                         if(!this->add(temp)){
-                            delete temp;
+                            delete temp;edkEnd();
                             return false;
                         }
                     }
                 }
                 if(temp){
                     //set the value
-                    temp->value = value;
+                    temp->value = value;edkEnd();
                     return true;
                 }
                 //test if have the axisID
@@ -346,12 +362,12 @@ private:
             }
             //remove the axis
             bool removeAxisByID(edk::uint32 axis){
-                edk::WindowEvents::ControllerAxis::AxisValue* temp = this->getAxis(axis);
+                edk::WindowEvents::ControllerAxis::AxisValue* temp = this->getAxis(axis);edkEnd();
                 if(temp){
                     //remove the temp
                     if(this->remove(temp)){
                         //delete the temp
-                        delete temp;
+                        delete temp;edkEnd();
                         return true;
                     }
                 }
@@ -359,12 +375,12 @@ private:
             }
             //remove the axis
             bool removeAxisInPosition(edk::uint32 position){
-                edk::WindowEvents::ControllerAxis::AxisValue* temp = this->getElementInPosition(position);
+                edk::WindowEvents::ControllerAxis::AxisValue* temp = this->getElementInPosition(position);edkEnd();
                 if(temp){
                     //remove the temp
                     if(this->remove(temp)){
                         //delete the temp
-                        delete temp;
+                        delete temp;edkEnd();
                         return true;
                     }
                 }
@@ -372,41 +388,43 @@ private:
             }
             //return the axis id
             edk::uint32 getAxisID(edk::uint32 position){
-                edk::WindowEvents::ControllerAxis::AxisValue* temp = this->getElementInPosition(position);
+                edk::WindowEvents::ControllerAxis::AxisValue* temp = this->getElementInPosition(position);edkEnd();
                 if(temp){
-                    return temp->id;
+                    return temp->id;edkEnd();
                 }
-                return 0u;
+                return 0u;edkEnd();
             }
             edk::float32 getAxisValueByID(edk::uint32 axisID){
-                edk::WindowEvents::ControllerAxis::AxisValue* temp = this->getAxis(axisID);
+                edk::WindowEvents::ControllerAxis::AxisValue* temp = this->getAxis(axisID);edkEnd();
                 if(temp){
-                    return temp->value;
+                    return temp->value;edkEnd();
                 }
-                return 0.f;
+                return 0.f;edkEnd();
             }
             edk::float32 getAxisValueInPosition(edk::uint32 position){
-                edk::WindowEvents::ControllerAxis::AxisValue* temp = this->getElementInPosition(position);
+                edk::WindowEvents::ControllerAxis::AxisValue* temp = this->getElementInPosition(position);edkEnd();
                 if(temp){
-                    return temp->value;
+                    return temp->value;edkEnd();
                 }
-                return 0.f;
+                return 0.f;edkEnd();
             }
             //clean axis
             void cleanAxis(){
-                edk::WindowEvents::ControllerAxis::AxisValue* temp = NULL;
-                edk::uint32 size = this->getSize();
+                edk::WindowEvents::ControllerAxis::AxisValue* temp = NULL;edkEnd();
+                edk::uint32 size = this->getSize();edkEnd();
                 for(edk::uint32 i=0u;i<size;i++){
-                    temp = this->getElementInPosition(i);
-                    if(temp) delete temp;
+                    temp = this->getElementInPosition(i);edkEnd();
+                    if(temp){
+                        delete temp;edkEnd();
+                    }
                 }
             }
         private:
             //get the Axis
             edk::WindowEvents::ControllerAxis::AxisValue* getAxis(edk::uint32 axis){
-                edk::WindowEvents::ControllerAxis::AxisValue find;
-                find.id = axis;
-                return this->getElement(&find);
+                edk::WindowEvents::ControllerAxis::AxisValue find;edkEnd();
+                find.id = axis;edkEnd();
+                return this->getElement(&find);edkEnd();
             }
         }axisValue;
     };
@@ -415,103 +433,103 @@ private:
         ControllerAxisEvent(){}
         ~ControllerAxisEvent(){}
         void clean(){
-            edk::WindowEvents::ControllerButtonsEvent::clean();
+            edk::WindowEvents::ControllerButtonsEvent::clean();edkEnd();
         }
         edk::uint32 getControllerSize(){
-            return this->buttons.size();
+            return this->buttons.size();edkEnd();
         }
         //return the controller ID
         edk::uint32 getControllerIDInPosition(edk::uint32 controllerPosition){
-            return edk::WindowEvents::ControllerButtonsEvent::getControllerIDInPosition(controllerPosition);
+            return edk::WindowEvents::ControllerButtonsEvent::getControllerIDInPosition(controllerPosition);edkEnd();
         }
         //get the controller buttons size
         edk::uint32 getControllerButtonSizeByID(edk::uint32 controllerID){
             //test if have the controller
-            edk::WindowEvents::ControllerAxis* temp = (edk::WindowEvents::ControllerAxis*)this->getButtons(controllerID);
+            edk::WindowEvents::ControllerAxis* temp = (edk::WindowEvents::ControllerAxis*)this->getButtons(controllerID);edkEnd();
             //test if dont have the button
             if(temp){
                 //return the size
-                return temp->axisValue.size();
+                return temp->axisValue.size();edkEnd();
             }
-            return 0u;
+            return 0u;edkEnd();
         }
         //get the controller buttons size in position
         edk::uint32 getControllerButtonSizeInPosition(edk::uint32 controllerPosition){
             //test if have the controller
-            edk::WindowEvents::ControllerAxis* temp = (edk::WindowEvents::ControllerAxis*)this->getButtonsInPosition(controllerPosition);
+            edk::WindowEvents::ControllerAxis* temp = (edk::WindowEvents::ControllerAxis*)this->getButtonsInPosition(controllerPosition);edkEnd();
             //test if dont have the button
             if(temp){
                 //return the size
-                return temp->axisValue.size();
+                return temp->axisValue.size();edkEnd();
             }
-            return 0u;
+            return 0u;edkEnd();
         }
         //get the controller button by ID
         edk::uint32 getControllerAxisByID(edk::uint32 controllerID,edk::uint32 position){
             //test if have the controller
-            edk::WindowEvents::ControllerAxis* temp = (edk::WindowEvents::ControllerAxis*)this->getButtons(controllerID);
+            edk::WindowEvents::ControllerAxis* temp = (edk::WindowEvents::ControllerAxis*)this->getButtons(controllerID);edkEnd();
             //test if dont have the button
             if(temp){
                 //return the size
-                return temp->axisValue.getAxisID(position);
+                return temp->axisValue.getAxisID(position);edkEnd();
             }
-            return 0u;
+            return 0u;edkEnd();
         }//get the controller button in position
         edk::uint32 getControllerAxisInPosition(edk::uint32 controllerPosition,edk::uint32 position){
             //test if have the controller
-            edk::WindowEvents::ControllerAxis* temp = (edk::WindowEvents::ControllerAxis*)this->getButtonsInPosition(controllerPosition);
+            edk::WindowEvents::ControllerAxis* temp = (edk::WindowEvents::ControllerAxis*)this->getButtonsInPosition(controllerPosition);edkEnd();
             //test if dont have the button
             if(temp){
                 //return the size
-                return temp->axisValue.getAxisID(position);
+                return temp->axisValue.getAxisID(position);edkEnd();
             }
-            return 0u;
+            return 0u;edkEnd();
         }
         //return the controller axisValue by ID
         edk::float32 getControllerAxisValueByID(edk::uint32 controllerID,edk::uint32 position){
             //test if have the controller
-            edk::WindowEvents::ControllerAxis* temp = (edk::WindowEvents::ControllerAxis*)this->getButtons(controllerID);
+            edk::WindowEvents::ControllerAxis* temp = (edk::WindowEvents::ControllerAxis*)this->getButtons(controllerID);edkEnd();
             //test if dont have the button
             if(temp){
                 //return the size
-                return temp->axisValue.getAxisValueByID(position);
+                return temp->axisValue.getAxisValueByID(position);edkEnd();
             }
-            return 0.f;
+            return 0.f;edkEnd();
         }
         //return the controller axisValue in position
         edk::float32 getControllerAxisValueInPosition(edk::uint32 controllerPosition,edk::uint32 position){
             //test if have the controller
-            edk::WindowEvents::ControllerAxis* temp = (edk::WindowEvents::ControllerAxis*)this->getButtonsInPosition(controllerPosition);
+            edk::WindowEvents::ControllerAxis* temp = (edk::WindowEvents::ControllerAxis*)this->getButtonsInPosition(controllerPosition);edkEnd();
             //test if dont have the button
             if(temp){
                 //return the size
-                return temp->axisValue.getAxisValueInPosition(position);
+                return temp->axisValue.getAxisValueInPosition(position);edkEnd();
             }
-            return 0.f;
+            return 0.f;edkEnd();
         }
 
         //add a button pressed
         bool addAxis(edk::uint32 controllerID,edk::uint32 axisID,edk::float32 axisValue){
             //test if have the controller
-            edk::WindowEvents::ControllerAxis* temp = (edk::WindowEvents::ControllerAxis*)this->getButtons(controllerID);
+            edk::WindowEvents::ControllerAxis* temp = (edk::WindowEvents::ControllerAxis*)this->getButtons(controllerID);edkEnd();
             //test if dont have the button
             if(!temp){
                 //create a new button
-                temp = new edk::WindowEvents::ControllerAxis;
+                temp = new edk::WindowEvents::ControllerAxis;edkEnd();
                 if(temp){
-                    temp->controller = controllerID;
+                    temp->controller = controllerID;edkEnd();
                     //add the button
                     if(!this->buttons.add(temp)){
                         //cant add the temp
-                        delete temp;
+                        delete temp;edkEnd();
                         return false;
                     }
                 }
             }
             if(temp){
                 //add the button
-                temp->buttons.add(axisID);
-                temp->axisValue.addAxis(axisID,axisValue);
+                temp->buttons.add(axisID);edkEnd();
+                temp->axisValue.addAxis(axisID,axisValue);edkEnd();
                 return true;
             }
             return false;

@@ -30,15 +30,15 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 edk::shape::Triangle2D::Triangle2D()
 {
-    this->polygonColor.a=1.f;
+    this->polygonColor.a=1.f;edkEnd();
     //create a new polygon with 3 vertex
-    edk::shape::Polygon2D::createPolygon(3u);
+    edk::shape::Polygon2D::createPolygon(3u);edkEnd();
 }
 
 edk::shape::Triangle2D::~Triangle2D()
 {
     //delete the polygon
-    edk::shape::Polygon2D::deletePolygon();
+    edk::shape::Polygon2D::deletePolygon();edkEnd();
 }
 
 //createPolygon
@@ -50,8 +50,9 @@ bool edk::shape::Triangle2D::createPolygon(){
 //Virtual Functions
 bool edk::shape::Triangle2D::createPolygon(edk::uint32 vertexCount){
     //set the function no do nothing
-    if(vertexCount)
+    if(vertexCount){
         return true;
+    }
     return false;
 }
 void edk::shape::Triangle2D::deletePolygon(){
@@ -67,9 +68,9 @@ bool edk::shape::Triangle2D::calculateCounterClockwise(){
                 this->vertexs[2u]
                 ){
             if(!this->isCounterclockwise()){
-                edk::shape::Vertex2D* temp = this->vertexs[1u];
-                this->vertexs.set(1u,this->vertexs[2u]);
-                this->vertexs.set(2u,temp);
+                edk::shape::Vertex2D* temp = this->vertexs[1u];edkEnd();
+                this->vertexs.set(1u,this->vertexs[2u]);edkEnd();
+                this->vertexs.set(2u,temp);edkEnd();
             }
             return true;
         }
@@ -79,31 +80,31 @@ bool edk::shape::Triangle2D::calculateCounterClockwise(){
 //print the triangle
 void edk::shape::Triangle2D::print(){
     //
-    printf("\nTriangle");
-    edk::shape::Polygon2D::print();
+    printf("\nTriangle");edkEnd();
+    edk::shape::Polygon2D::print();edkEnd();
 }
 
 //Draw the triangle
 void edk::shape::Triangle2D::draw(){
     //draw the polygon
-    edk::GU::guPushMatrix();
-    edk::GU::guTranslate2f32(this->translate);
-    edk::GU::guRotateZf32(this->angle);
-    edk::GU::guScale2f32(this->scale);
-    edk::GU::guBegin(GU_TRIANGLES);
-        this->drawVertexs();
-    edk::GU::guEnd();
-    edk::GU::guPopMatrix();
+    edk::GU::guPushMatrix();edkEnd();
+    edk::GU::guTranslate2f32(this->translate);edkEnd();
+    edk::GU::guRotateZf32(this->angle);edkEnd();
+    edk::GU::guScale2f32(this->scale);edkEnd();
+    edk::GU::guBegin(GU_TRIANGLES);edkEnd();
+        this->drawVertexs();edkEnd();
+    edk::GU::guEnd();edkEnd();
+    edk::GU::guPopMatrix();edkEnd();
 }
 void edk::shape::Triangle2D::drawWire(){
     //draw the polygon
-    edk::GU::guPushMatrix();
-    edk::GU::guTranslate2f32(this->translate);
-    edk::GU::guRotateZf32(this->angle);
-    edk::GU::guScale2f32(this->scale);
-    edk::GU::guBegin(GU_LINES);
-        this->drawVertexs();
-    edk::GU::guEnd();
-    edk::GU::guPopMatrix();
+    edk::GU::guPushMatrix();edkEnd();
+    edk::GU::guTranslate2f32(this->translate);edkEnd();
+    edk::GU::guRotateZf32(this->angle);edkEnd();
+    edk::GU::guScale2f32(this->scale);edkEnd();
+    edk::GU::guBegin(GU_LINES);edkEnd();
+        this->drawVertexs();edkEnd();
+    edk::GU::guEnd();edkEnd();
+    edk::GU::guPopMatrix();edkEnd();
 }
 

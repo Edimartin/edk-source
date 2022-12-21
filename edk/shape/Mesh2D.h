@@ -113,8 +113,8 @@ private:
     class AnimationDouble{
     public:
         AnimationDouble(edk::animation::Interpolation1DGroup* first,edk::uint32 id){
-            this->first = first;
-            this->id=id;
+            this->first = first;edkEnd();
+            this->id=id;edkEnd();
         }
         ~AnimationDouble(){}
         edk::animation::Interpolation1DGroup* first;
@@ -128,17 +128,19 @@ private:
             //
         }
         ~TreeAnimations(){
-            this->cleanAllAnimations();
+            this->cleanAllAnimations();edkEnd();
         }
         //compare if the value is bigger
         virtual bool firstBiggerSecond(edk::shape::Mesh2D::AnimationDouble* first,edk::shape::Mesh2D::AnimationDouble* second){
-            if(first->first>second->first)
+            if(first->first>second->first){
                 return true;
+            }
             return false;
         }
         virtual bool firstEqualSecond(edk::shape::Mesh2D::AnimationDouble* first,edk::shape::Mesh2D::AnimationDouble* second){
-            if(first->first==second->first)
+            if(first->first==second->first){
                 return true;
+            }
             return false;
         }
 
@@ -148,13 +150,13 @@ private:
                 //test if have the first
                 if(!this->haveAnimation(first)){
                     //create the new double
-                    edk::shape::Mesh2D::AnimationDouble* temp = new edk::shape::Mesh2D::AnimationDouble(first,id);
+                    edk::shape::Mesh2D::AnimationDouble* temp = new edk::shape::Mesh2D::AnimationDouble(first,id);edkEnd();
                     if(temp){
                         //add the temp
                         if(this->add(temp)){
                             return true;
                         }
-                        delete temp;
+                        delete temp;edkEnd();
                     }
                 }
             }
@@ -162,30 +164,30 @@ private:
         }
         //test if have the animation
         bool haveAnimation(edk::animation::Interpolation1DGroup* first){
-            edk::shape::Mesh2D::AnimationDouble find(first,0u);
-            return this->haveElement(&find);
+            edk::shape::Mesh2D::AnimationDouble find(first,0u);edkEnd();
+            return this->haveElement(&find);edkEnd();
         }
         //return the second animation
         edk::uint32 getAnimationID(edk::animation::Interpolation1DGroup* first){
-            edk::shape::Mesh2D::AnimationDouble* temp = this->getDouble(first);
+            edk::shape::Mesh2D::AnimationDouble* temp = this->getDouble(first);edkEnd();
             if(temp){
-                return temp->id;
+                return temp->id;edkEnd();
             }
-            return 0u;
+            return 0u;edkEnd();
         }
         //clean all animations
         void cleanAllAnimations(){
-            edk::shape::Mesh2D::AnimationDouble* temp = NULL;
-            edk::uint32 size = 0u;
-            edk::uint32 position = 0u;
+            edk::shape::Mesh2D::AnimationDouble* temp = NULL;edkEnd();
+            edk::uint32 size = 0u;edkEnd();
+            edk::uint32 position = 0u;edkEnd();
             for(edk::uint32 i=0u;i<size;i++){
-                temp = this->getElementInPosition(position);
+                temp = this->getElementInPosition(position);edkEnd();
                 if(temp){
-                    this->remove(temp);
-                    delete temp;
+                    this->remove(temp);edkEnd();
+                    delete temp;edkEnd();
                 }
                 else{
-                    position++;
+                    position++;edkEnd();
                 }
             }
         }
@@ -193,15 +195,15 @@ private:
     private:
         //return the double
         edk::shape::Mesh2D::AnimationDouble* getDouble(edk::animation::Interpolation1DGroup* first){
-            edk::shape::Mesh2D::AnimationDouble find(first,0u);
-            return this->getElement(&find);
+            edk::shape::Mesh2D::AnimationDouble find(first,0u);edkEnd();
+            return this->getElement(&find);edkEnd();
         }
     };
 private:
     //functions to vertex triangularization
     class TriangleValues{
     public:
-        TriangleValues(edk::uint32 i,edk::uint32 j,edk::uint32 w){this->i=i;this->j=j;this->k=w;}
+        TriangleValues(edk::uint32 i,edk::uint32 j,edk::uint32 w){this->i=i;edkEnd();this->j=j;edkEnd();this->k=w;edkEnd();}
         ~TriangleValues(){}
         edk::uint32 i,j,k;
     };
@@ -225,7 +227,7 @@ private:
         }
         //compare if the value is equal
         bool firstEqualSecond(TriangleValues* first,TriangleValues* second){
-            if(first&&second)
+            if(first&&second){
                 if((first->i==second->i || first->i==second->j || first->i==second->k)
                         &&
                         (first->j==second->i || first->j==second->j || first->j==second->k)
@@ -234,12 +236,13 @@ private:
                         ){
                     return true;
                 }
+            }
             return false;
         }
         bool haveTriangle(edk::uint32 i,edk::uint32 j,edk::uint32 k){
             if(i != j && i != k && j != k){
-                TriangleValues triangle(i,j,k);
-                return this->haveElement(&triangle);
+                TriangleValues triangle(i,j,k);edkEnd();
+                return this->haveElement(&triangle);edkEnd();
             }
             return false;
         }
@@ -248,12 +251,12 @@ private:
             if(i != j && i != k && j != k){
                 if(!this->haveTriangle(i,j,k)){
                     //create a new triangle
-                    TriangleValues* temp = new TriangleValues(i,j,k);
+                    TriangleValues* temp = new TriangleValues(i,j,k);edkEnd();
                     if(temp){
                         if(this->add(temp)){
                             return true;
                         }
-                        delete temp;
+                        delete temp;edkEnd();
                     }
                 }
             }
@@ -266,32 +269,32 @@ private:
 
     edk::shape::Mesh2D operator=(edk::shape::Mesh2D mesh){
         //
-        edk::shape::Mesh2D::TreeAnimations tree;
+        edk::shape::Mesh2D::TreeAnimations tree;edkEnd();
 
         //delete the polygons
-        this->cleanPolygons();
+        this->cleanPolygons();edkEnd();
         //read the polygons
-        register edk::uint32 size = mesh.polygons.size();
-        edk::uint32 select=0u;
-        edk::shape::Polygon2D* temp = NULL;
-        edk::uint32 id;
-        edk::animation::Interpolation1DGroup* animTemp=NULL;
+        register edk::uint32 size = mesh.polygons.size();edkEnd();
+        edk::uint32 select=0u;edkEnd();
+        edk::shape::Polygon2D* temp = NULL;edkEnd();
+        edk::uint32 id;edkEnd();
+        edk::animation::Interpolation1DGroup* animTemp=NULL;edkEnd();
         for(edk::uint32 i=0u;i<size;i++){
             //
-            temp=mesh.polygons[i];
+            temp=mesh.polygons[i];edkEnd();
             if(temp){
                 if(temp==mesh.selected){
-                    select=i;
+                    select=i;edkEnd();
                 }
-                id=this->addPolygon(*temp);
+                id=this->addPolygon(*temp);edkEnd();
 
                 //test the animation
-                animTemp = temp->framesGetAnimation();
+                animTemp = temp->framesGetAnimation();edkEnd();
                 if(animTemp){
                     //test if already have the animation on the tree
                     if(tree.haveAnimation(animTemp)){
                         //set the animation to the polygon in the mesh
-                        this->copyAnimationFramesToPolygon(tree.getAnimationID(animTemp),id);
+                        this->copyAnimationFramesToPolygon(tree.getAnimationID(animTemp),id);edkEnd();
                     }
                     else{
                         //add the animation on the tree
@@ -299,25 +302,25 @@ private:
                             //create a new animation in the polygon
                             if(this->setAnimationFramesToPolygon(id)){
                                 //copy the animation
-                                this->copyThisAnimationFramesToPolygon(animTemp,id);
+                                this->copyThisAnimationFramesToPolygon(animTemp,id);edkEnd();
                             }
                         }
                     }
                 }
             }
         }
-        this->selectPolygon(select);
+        this->selectPolygon(select);edkEnd();
         //test if have animation selected
         if(mesh.haveSelectedAnimation()){
             //Set the ID of the animation selected
-            this->selectAnimationFramesFromPolygon(mesh.getAnimationFramesSelectedID());
+            this->selectAnimationFramesFromPolygon(mesh.getAnimationFramesSelectedID());edkEnd();
         }
-        mesh.cantDeleteList();
+        mesh.cantDeleteList();edkEnd();
 
-        this->material = mesh.material;
-        mesh.cantDeleteList();
-        mesh.cantDeleteMesh();
-        return mesh;
+        this->material = mesh.material;edkEnd();
+        mesh.cantDeleteList();edkEnd();
+        mesh.cantDeleteMesh();edkEnd();
+        return mesh;edkEnd();
     }
 };
 }//end namespace shape

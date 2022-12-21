@@ -43,28 +43,28 @@ edk::Random::~Random(){
 //set the seed
 void edk::Random::setSeed(edk::uint32 seed){
     //
-    edk::Random::seed = seed;
+    edk::Random::seed = seed;edkEnd();
 }
 
 //load the seed
 edk::uint32 edk::Random::loadSeed(){
     //load from clock
-    edk::uint32 seed = edk::watch::Time::getMicrosecondsReal();
-    edk::Random::setSeed(seed);
-    return seed;
+    edk::uint32 seed = edk::watch::Time::getMicrosecondsReal();edkEnd();
+    edk::Random::setSeed(seed);edkEnd();
+    return seed;edkEnd();
 }
 //return the seed value
 edk::uint32 edk::Random::getSeed(){
-    return edk::Random::seed;
+    return edk::Random::seed;edkEnd();
 }
 //get the rand number
 edk::uint32 edk::Random::getRandNumber(){
-    return ((edk::Random::seed = edkRandom(edk::Random::seed)));
+    return ((edk::Random::seed = edkRandom(edk::Random::seed)));edkEnd();
 }
 edk::uint32 edk::Random::getRandNumber(edk::uint32 limit){
-    return edk::Random::getRandNumber()%limit;
+    return edk::Random::getRandNumber()%limit;edkEnd();
 }
 //4294967295
 edk::float32 edk::Random::getRandPercent(){
-    return ((edk::float32)edk::Random::getRandNumber() / 0xFFFFFFFF);
+    return ((edk::float32)edk::Random::getRandNumber() / 0xFFFFFFFF);edkEnd();
 }

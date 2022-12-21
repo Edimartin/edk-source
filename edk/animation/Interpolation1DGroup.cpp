@@ -32,9 +32,9 @@ edk::animation::Interpolation1DGroup::Interpolation1DGroup()
     :edk::animation::InterpolationGroup()
 {
     //ctor
-    this->incrementX=0.f;
-    this->incrementXValue=0.f;
-    this->tempX=0.f;
+    this->incrementX=0.f;edkEnd();
+    this->incrementXValue=0.f;edkEnd();
+    this->tempX=0.f;edkEnd();
 }
 
 edk::animation::Interpolation1DGroup::~Interpolation1DGroup()
@@ -44,66 +44,66 @@ edk::animation::Interpolation1DGroup::~Interpolation1DGroup()
 //create the interpolation
 edk::animation::InterpolationLine* edk::animation::Interpolation1DGroup::newLineInterpolation(){
     //
-    return (edk::animation::InterpolationLine*)new edk::animation::InterpolationLine1D();
+    return (edk::animation::InterpolationLine*)new edk::animation::InterpolationLine1D();edkEnd();
 }
 //create the frame
 edk::animation::Frame* edk::animation::Interpolation1DGroup::newFrame(){
     //
-    return new edk::animation::Frame1D();
+    return new edk::animation::Frame1D();edkEnd();
 }
 //print the frame
 void edk::animation::Interpolation1DGroup::printInterpolationLine(edk::animation::InterpolationLine *interpolation){
     //
     if(interpolation){
-        edk::animation::InterpolationLine1D* temp = (edk::animation::InterpolationLine1D*)interpolation;
+        edk::animation::InterpolationLine1D* temp = (edk::animation::InterpolationLine1D*)interpolation;edkEnd();
         //
         printf("Start second %.4f X %.4f end second %.4f X %.4f"
                ,temp->getStart1D().second
                ,temp->getStart1D().x
                ,temp->getEnd1D().second
                ,temp->getEnd1D().x
-               );
+               );edkEnd();
     }
 }
 
 //copy interpolation frame
 void edk::animation::Interpolation1DGroup::copyStartToStart(edk::animation::InterpolationLine* first,edk::animation::InterpolationLine* second){
-    edk::animation::InterpolationLine1D* f = (edk::animation::InterpolationLine1D*) first;
-    edk::animation::InterpolationLine1D* s = (edk::animation::InterpolationLine1D*) second;
-    s->setStart(f->getStart1D().second,f->getStart1D().x);
+    edk::animation::InterpolationLine1D* f = (edk::animation::InterpolationLine1D*) first;edkEnd();
+    edk::animation::InterpolationLine1D* s = (edk::animation::InterpolationLine1D*) second;edkEnd();
+    s->setStart(f->getStart1D().second,f->getStart1D().x);edkEnd();
 }
 void edk::animation::Interpolation1DGroup::copyEndToEnd(edk::animation::InterpolationLine* first,edk::animation::InterpolationLine* second){
-    edk::animation::InterpolationLine1D* f = (edk::animation::InterpolationLine1D*) first;
-    edk::animation::InterpolationLine1D* s = (edk::animation::InterpolationLine1D*) second;
-    s->setEnd(f->getEnd1D().second,f->getEnd1D().x);
+    edk::animation::InterpolationLine1D* f = (edk::animation::InterpolationLine1D*) first;edkEnd();
+    edk::animation::InterpolationLine1D* s = (edk::animation::InterpolationLine1D*) second;edkEnd();
+    s->setEnd(f->getEnd1D().second,f->getEnd1D().x);edkEnd();
 }
 
 //increment functions to run the increment for the values
 void edk::animation::Interpolation1DGroup::runIncrementForward(){
-    edk::animation::InterpolationGroup::runIncrementForward();
+    edk::animation::InterpolationGroup::runIncrementForward();edkEnd();
     //run the increment value
-    this->incrementX+=this->incrementXValue;
+    this->incrementX+=this->incrementXValue;edkEnd();
 }
 void edk::animation::Interpolation1DGroup::runIncrementRewind(){
-    edk::animation::InterpolationGroup::runIncrementRewind();
+    edk::animation::InterpolationGroup::runIncrementRewind();edkEnd();
     //run the increment value
-    this->incrementX-=this->incrementXValue;
+    this->incrementX-=this->incrementXValue;edkEnd();
 }
 void edk::animation::Interpolation1DGroup::cleanIncrement(){
-    edk::animation::InterpolationGroup::cleanIncrement();
+    edk::animation::InterpolationGroup::cleanIncrement();edkEnd();
     //clean the increment value
-    this->incrementX = this->incrementXValue = 0.f;
+    this->incrementX = this->incrementXValue = 0.f;edkEnd();
 }
 void edk::animation::Interpolation1DGroup::startIncrement(){
-    edk::animation::InterpolationGroup::startIncrement();
-    this->incrementX = 0.f;
+    edk::animation::InterpolationGroup::startIncrement();edkEnd();
+    this->incrementX = 0.f;edkEnd();
     //get the last Interpolation Line
-    edk::uint32 size = this->animations.size();
+    edk::uint32 size = this->animations.size();edkEnd();
     if(size){
         edk::animation::InterpolationLine1D* temp =
-                (edk::animation::InterpolationLine1D*)this->animations.get(size-1u);
+                (edk::animation::InterpolationLine1D*)this->animations.get(size-1u);edkEnd();
         if(temp){
-            this->incrementXValue = temp->getEnd1D().x;
+            this->incrementXValue = temp->getEnd1D().x;edkEnd();
         }
     }
 }
@@ -111,17 +111,17 @@ void edk::animation::Interpolation1DGroup::startIncrement(){
 
 //Add a first interpolation
 bool edk::animation::Interpolation1DGroup::addFirstInterpolationLine(edk::float32 startSecond, edk::float32 startX, edk::float32 endSecond,edk::float32 endX){
-    return this->addFirstInterpolationLine(edk::animation::Frame1D(startSecond,startX),edk::animation::Frame1D(endSecond,endX));
+    return this->addFirstInterpolationLine(edk::animation::Frame1D(startSecond,startX),edk::animation::Frame1D(endSecond,endX));edkEnd();
 }
 bool edk::animation::Interpolation1DGroup::addFirstInterpolationLine(edk::animation::Frame1D start,edk::animation::Frame1D end){
     //first create the frame
     if(edk::animation::InterpolationGroup::addFirstInterpolationLine((edk::animation::Frame)start,(edk::animation::Frame)end)){
         //set the positions if have the interpolationLine
-        edk::animation::InterpolationLine1D* temp = (edk::animation::InterpolationLine1D*)this->tempInterpolation;
+        edk::animation::InterpolationLine1D* temp = (edk::animation::InterpolationLine1D*)this->tempInterpolation;edkEnd();
         if(temp){
             //
-            temp->setStartValue(start.x);
-            temp->setEndValue(end.x);
+            temp->setStartValue(start.x);edkEnd();
+            temp->setEndValue(end.x);edkEnd();
         }
         //return true
         return true;
@@ -130,52 +130,52 @@ bool edk::animation::Interpolation1DGroup::addFirstInterpolationLine(edk::animat
     return false;
 }
 bool edk::animation::Interpolation1DGroup::addFirstInterpolationLine(edk::float32 startSecond,edk::float32 endSecond){
-    return this->addFirstInterpolationLine(edk::animation::Frame1D(startSecond,startSecond),edk::animation::Frame1D(endSecond,endSecond));
+    return this->addFirstInterpolationLine(edk::animation::Frame1D(startSecond,startSecond),edk::animation::Frame1D(endSecond,endSecond));edkEnd();
 }
 bool edk::animation::Interpolation1DGroup::addFirstInterpolationLine(edk::animation::Frame start,edk::animation::Frame end){
-    return this->addFirstInterpolationLine(edk::animation::Frame1D(start.second,start.second),edk::animation::Frame1D(end.second,end.second));
+    return this->addFirstInterpolationLine(edk::animation::Frame1D(start.second,start.second),edk::animation::Frame1D(end.second,end.second));edkEnd();
 }
 
 //Add New Interpolation
 bool edk::animation::Interpolation1DGroup::addNewInterpolationLine(edk::float32 second,edk::float32 x){
-    return this->addNewInterpolationLine(edk::animation::Frame1D(second,x));
+    return this->addNewInterpolationLine(edk::animation::Frame1D(second,x));edkEnd();
 }
 bool edk::animation::Interpolation1DGroup::addNewInterpolationLine(edk::animation::Frame1D frame){
     //first create the frame
     if(edk::animation::InterpolationGroup::addNewInterpolationLine((edk::animation::Frame)frame)){
         //set the positions if have the interpolationLine
-        edk::animation::InterpolationLine1D* temp = (edk::animation::InterpolationLine1D*)this->tempInterpolation;
+        edk::animation::InterpolationLine1D* temp = (edk::animation::InterpolationLine1D*)this->tempInterpolation;edkEnd();
         if(temp){
             //test if set start or end
             if(this->setStart){
                 //
-                temp->setStartValue(frame.x);
+                temp->setStartValue(frame.x);edkEnd();
             }
             else{
                 //
-                temp->setEndValue(frame.x);
+                temp->setEndValue(frame.x);edkEnd();
                 //test if have a tempFrame
-                edk::animation::Frame1D* frameTemp = (edk::animation::Frame1D*)this->tempFrame;
+                edk::animation::Frame1D* frameTemp = (edk::animation::Frame1D*)this->tempFrame;edkEnd();
                 if(frameTemp){
                     //
-                    temp->setStartValue(frameTemp->x);
+                    temp->setStartValue(frameTemp->x);edkEnd();
                 }
                 else if(this->setfirstInterpolation){
-                    temp->setStartValue(tempX);
+                    temp->setStartValue(tempX);edkEnd();
                 }
             }
         }
         else{
             //test if have a tempFrame
-            edk::animation::Frame1D* frameTemp = (edk::animation::Frame1D*)this->tempFrame;
+            edk::animation::Frame1D* frameTemp = (edk::animation::Frame1D*)this->tempFrame;edkEnd();
             if(frameTemp){
                 //
-                frameTemp->x=frame.x;
-                this->tempX = frame.x;
+                frameTemp->x=frame.x;edkEnd();
+                this->tempX = frame.x;edkEnd();
             }
         }
         //clean the tempInterpolation
-        //this->tempInterpolation=NULL;
+        //this->tempInterpolation=NULL;edkEnd();
 
         //return true
         return true;
@@ -189,14 +189,14 @@ bool edk::animation::Interpolation1DGroup::setFrameX(edk::float32 second,edk::fl
     //select the frame
     if(this->selectFrame(second)){
         //set the X value
-        edk::animation::InterpolationLine1D* temp = (edk::animation::InterpolationLine1D*)this->frameSelected;
+        edk::animation::InterpolationLine1D* temp = (edk::animation::InterpolationLine1D*)this->frameSelected;edkEnd();
         if(temp){
             //set the X value
             if(this->frameSelectedStart){
-                temp->setStartValue(x);
+                temp->setStartValue(x);edkEnd();
             }
             else{
-                temp->setEndValue(x);
+                temp->setEndValue(x);edkEnd();
             }
             return true;
         }
@@ -204,10 +204,10 @@ bool edk::animation::Interpolation1DGroup::setFrameX(edk::float32 second,edk::fl
     else{
         //test if have the temp animation
         if(this->tempFrame){
-            edk::animation::Frame1D* temp = (edk::animation::Frame1D*)this->tempFrame;
+            edk::animation::Frame1D* temp = (edk::animation::Frame1D*)this->tempFrame;edkEnd();
             //test if temp frame have the second
             if(temp->second == second){
-                temp->x = x;
+                temp->x = x;edkEnd();
             }
         }
     }
@@ -219,9 +219,9 @@ bool edk::animation::Interpolation1DGroup::setInterpolationCurveX(edk::uint32 po
     //test if have the interpolation
     if(position < this->getInterpolationSize()){
         //load the interpolation
-        edk::animation::InterpolationLine1D* temp = (edk::animation::InterpolationLine1D*)this->animations[position];
+        edk::animation::InterpolationLine1D* temp = (edk::animation::InterpolationLine1D*)this->animations[position];edkEnd();
         if(temp){
-            temp->isCurveX();
+            temp->isCurveX();edkEnd();
             return true;
         }
     }
@@ -231,9 +231,9 @@ bool edk::animation::Interpolation1DGroup::setInterpolationNotCurveX(edk::uint32
     //test if have the interpolation
     if(position < this->getInterpolationSize()){
         //load the interpolation
-        edk::animation::InterpolationLine1D* temp = (edk::animation::InterpolationLine1D*)this->animations[position];
+        edk::animation::InterpolationLine1D* temp = (edk::animation::InterpolationLine1D*)this->animations[position];edkEnd();
         if(temp){
-            temp->isNotCurveX();
+            temp->isNotCurveX();edkEnd();
             return true;
         }
     }
@@ -243,9 +243,9 @@ bool edk::animation::Interpolation1DGroup::getInterpolationIsCurveX(edk::uint32 
     //test if have the interpolation
     if(position < this->getInterpolationSize()){
         //load the interpolation
-        edk::animation::InterpolationLine1D* temp = (edk::animation::InterpolationLine1D*)this->animations[position];
+        edk::animation::InterpolationLine1D* temp = (edk::animation::InterpolationLine1D*)this->animations[position];edkEnd();
         if(temp){
-            return temp->getCurveX();
+            return temp->getCurveX();edkEnd();
         }
     }
     return false;
@@ -255,9 +255,9 @@ bool edk::animation::Interpolation1DGroup::setConstantX(edk::uint32 position){
     //test if have the interpolation
     if(position < this->getInterpolationSize()){
         //load the interpolation
-        edk::animation::InterpolationLine1D* temp = (edk::animation::InterpolationLine1D*)this->animations[position];
+        edk::animation::InterpolationLine1D* temp = (edk::animation::InterpolationLine1D*)this->animations[position];edkEnd();
         if(temp){
-            temp->setConstantX();
+            temp->setConstantX();edkEnd();
             return true;
         }
     }
@@ -267,9 +267,9 @@ bool edk::animation::Interpolation1DGroup::setLinearX(edk::uint32 position){
     //test if have the interpolation
     if(position < this->getInterpolationSize()){
         //load the interpolation
-        edk::animation::InterpolationLine1D* temp = (edk::animation::InterpolationLine1D*)this->animations[position];
+        edk::animation::InterpolationLine1D* temp = (edk::animation::InterpolationLine1D*)this->animations[position];edkEnd();
         if(temp){
-            temp->setLinearX();
+            temp->setLinearX();edkEnd();
             return true;
         }
     }
@@ -277,19 +277,19 @@ bool edk::animation::Interpolation1DGroup::setLinearX(edk::uint32 position){
 }
 //set all as constant interpolation
 void edk::animation::Interpolation1DGroup::setAllConstantX(){
-    edk::uint32 size = this->animations.size();
-    edk::animation::InterpolationLine1D* temp = NULL;
+    edk::uint32 size = this->animations.size();edkEnd();
+    edk::animation::InterpolationLine1D* temp = NULL;edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        temp = (edk::animation::InterpolationLine1D*)this->animations[i];
-        temp->setConstantX();
+        temp = (edk::animation::InterpolationLine1D*)this->animations[i];edkEnd();
+        temp->setConstantX();edkEnd();
     }
 }
 void edk::animation::Interpolation1DGroup::setAllLinearX(){
-    edk::uint32 size = this->animations.size();
-    edk::animation::InterpolationLine1D* temp = NULL;
+    edk::uint32 size = this->animations.size();edkEnd();
+    edk::animation::InterpolationLine1D* temp = NULL;edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        temp = (edk::animation::InterpolationLine1D*)this->animations[i];
-        temp->setLinearX();
+        temp = (edk::animation::InterpolationLine1D*)this->animations[i];edkEnd();
+        temp->setLinearX();edkEnd();
     }
 }
 //Set the interpolation curve points
@@ -297,14 +297,14 @@ bool edk::animation::Interpolation1DGroup::setInterpolationP1X(edk::uint32 posit
     //test if have the interpolation
     if(position < this->getInterpolationSize()){
         //load the interpolation
-        edk::animation::InterpolationLine1D* temp = (edk::animation::InterpolationLine1D*)this->animations[position];
+        edk::animation::InterpolationLine1D* temp = (edk::animation::InterpolationLine1D*)this->animations[position];edkEnd();
         if(temp){
             //test if is a curve
             if(!temp->getCurveX()){
                 //set as curve
-                temp->isCurveX();
+                temp->isCurveX();edkEnd();
             }
-            return temp->setP1X(second,x);
+            return temp->setP1X(second,x);edkEnd();
         }
     }
     return false;
@@ -313,14 +313,14 @@ bool edk::animation::Interpolation1DGroup::setInterpolationP2X(edk::uint32 posit
     //test if have the interpolation
     if(position < this->getInterpolationSize()){
         //load the interpolation
-        edk::animation::InterpolationLine1D* temp = (edk::animation::InterpolationLine1D*)this->animations[position];
+        edk::animation::InterpolationLine1D* temp = (edk::animation::InterpolationLine1D*)this->animations[position];edkEnd();
         if(temp){
             //test if is a curve
             if(!temp->getCurveX()){
                 //set as curve
-                temp->isCurveX();
+                temp->isCurveX();edkEnd();
             }
-            return temp->setP2X(second,x);
+            return temp->setP2X(second,x);edkEnd();
         }
     }
     return false;
@@ -333,64 +333,64 @@ edk::float32 edk::animation::Interpolation1DGroup::addShakingFramesX(edk::float3
     if(interpolationDistance>0.f
             &&
             percent<1.f){
-        edk::float32 translate = 0.f;
-        edk::float32 second = 0.f;
+        edk::float32 translate = 0.f;edkEnd();
+        edk::float32 second = 0.f;edkEnd();
         edk::uint32 interpolation=0u;
         //get the last animation position
         if(this->animations.size()){
             //get the last animation frame
-            interpolation = this->animations.size()-1u;
-            translate = this->getInterpolationEndX(interpolation);
-            second = this->getInterpolationEndSecond(interpolation);
-            interpolation++;
+            interpolation = this->animations.size()-1u;edkEnd();
+            translate = this->getInterpolationEndX(interpolation);edkEnd();
+            second = this->getInterpolationEndSecond(interpolation);edkEnd();
+            interpolation++;edkEnd();
         }
         else if(this->tempFrame){
-            edk::animation::Frame1D* temp = (edk::animation::Frame1D*)this->tempFrame;
-            translate = temp->x;
-            second = temp->second;;
+            edk::animation::Frame1D* temp = (edk::animation::Frame1D*)this->tempFrame;edkEnd();
+            translate = temp->x;edkEnd();
+            second = temp->second;edkEnd();;
         }
         else{
             //else add the first frame
-            this->addNewInterpolationLine(second,translate);
+            this->addNewInterpolationLine(second,translate);edkEnd();
         }
 
 
         //increment the second
-        second+=interpolationDistance;
+        second+=interpolationDistance;edkEnd();
         while(position>0.1f
                ||
                position<-0.1f
               ){
             //add the interpolation
-            this->addNewInterpolationLine(second,position + translate);
+            this->addNewInterpolationLine(second,position + translate);edkEnd();
 
             //set the curve
-            this->setInterpolationCurveX(interpolation);
+            this->setInterpolationCurveX(interpolation);edkEnd();
             //set the curve points
-            this->setInterpolationP1X(interpolation,second,position + translate);
-            this->setInterpolationP2X(interpolation,second,position + translate);
+            this->setInterpolationP1X(interpolation,second,position + translate);edkEnd();
+            this->setInterpolationP2X(interpolation,second,position + translate);edkEnd();
 
             //increment the second
-            second+=interpolationDistance;
+            second+=interpolationDistance;edkEnd();
 
             //translate the percent
-            position = position*percent*-1.f;
+            position = position*percent*-1.f;edkEnd();
             //increment the interpolation
-            interpolation++;
+            interpolation++;edkEnd();
         }
         //add the last interpolation to position zero
-        this->addNewInterpolationLine(second,translate);
+        this->addNewInterpolationLine(second,translate);edkEnd();
 
         //set the curve
-        this->setInterpolationCurveX(interpolation);
+        this->setInterpolationCurveX(interpolation);edkEnd();
         //set the curve points
-        this->setInterpolationP1X(interpolation,second,translate);
-        this->setInterpolationP2X(interpolation,second,translate);
+        this->setInterpolationP1X(interpolation,second,translate);edkEnd();
+        this->setInterpolationP2X(interpolation,second,translate);edkEnd();
 
         //return how many seconds the animation have
-        return second;
+        return second;edkEnd();
     }
-    return 0.f;
+    return 0.f;edkEnd();
 }
 
 //set the animationSecond by the X
@@ -402,212 +402,224 @@ bool edk::animation::Interpolation1DGroup::setSecondByX(edk::float32 oldSecond,e
             &&
             oldSecond>=this->frameStart
             ){
-        edk::animation::InterpolationLine1D* temp = (edk::animation::InterpolationLine1D*)edk::animation::InterpolationGroup::getSelectedInterpolation();
+        edk::animation::InterpolationLine1D* temp = (edk::animation::InterpolationLine1D*)edk::animation::InterpolationGroup::getSelectedInterpolation();edkEnd();
         if(temp){
             //
-            edk::uint32 select;
-            edk::uint32 saveSelect;
+            edk::uint32 select;edkEnd();
+            edk::uint32 saveSelect;edkEnd();
             //test if the X perence to the atual interpolation
             if(temp->haveSecond(oldSecond)){
                 //
-                //printf(" oldSec %.2f true",oldSecond);
+                //printf(" oldSec %.2f true",oldSecond);edkEnd();
                 //test if have the X
                 if(temp->haveX(x)){
                     //set the second
-                    this->animationSecond = temp->getSecond(x);
-                    //printf(" returnTrue1 %.2f",this->animationSecond);
+                    this->animationSecond = temp->getSecond(x);edkEnd();
+                    //printf(" returnTrue1 %.2f",this->animationSecond);edkEnd();
                     return true;
                 }
                 else{
                     //find next
-                    saveSelect = select = this->interpolationSelect;
+                    saveSelect = select = this->interpolationSelect;edkEnd();
                     if(this->isRewind()){
                         while(true){
-                            temp = (edk::animation::InterpolationLine1D*)this->animations[select];
+                            temp = (edk::animation::InterpolationLine1D*)this->animations[select];edkEnd();
                             if(temp){
                                 //test if have the x
                                 if(temp->haveX(x)){
                                     //set the second
-                                    this->animationSecond = temp->getSecond(x);
-                                    this->interpolationSelect = select;
-                                    //printf(" returnTrue2");
+                                    this->animationSecond = temp->getSecond(x);edkEnd();
+                                    this->interpolationSelect = select;edkEnd();
+                                    //printf(" returnTrue2");edkEnd();
                                     return true;
                                 }
                             }
-                            else break;
+                            else{
+                                break;edkEnd();
+                            }
 
                             //decrement the select
                             if(select){
-                                select--;
+                                select--;edkEnd();
                                 if(select<=this->interpolationStart){
-                                    select = this->interpolationEnd;
+                                    select = this->interpolationEnd;edkEnd();
                                 }
                                 if(select==saveSelect){
-                                    break;
+                                    break;edkEnd();
                                 }
                             }
                             else{
                                 if(select==this->interpolationStart){
-                                    select = this->interpolationEnd;
+                                    select = this->interpolationEnd;edkEnd();
                                 }
                             }
                         }
                     }
                     else{
                         while(true){
-                            temp = (edk::animation::InterpolationLine1D*)this->animations[select];
+                            temp = (edk::animation::InterpolationLine1D*)this->animations[select];edkEnd();
                             if(temp){
                                 //test if have the x
                                 if(temp->haveX(x)){
                                     //set the second
-                                    this->animationSecond = temp->getSecond(x);
-                                    this->interpolationSelect = select;
-                                    //printf(" returnTrue3");
+                                    this->animationSecond = temp->getSecond(x);edkEnd();
+                                    this->interpolationSelect = select;edkEnd();
+                                    //printf(" returnTrue3");edkEnd();
                                     return true;
                                 }
                             }
-                            else break;
+                            else{
+                                break;edkEnd();
+                            }
 
                             //increment select
-                            select++;
+                            select++;edkEnd();
                             if(select>=this->interpolationEnd){
-                                select=this->interpolationStart;
+                                select=this->interpolationStart;edkEnd();
                             }
                             if(select==saveSelect){
-                                break;
+                                break;edkEnd();
                             }
                         }
                     }
                 }
             }
             else{
-                saveSelect = select = this->interpolationSelect;
-                //printf(" oldSec false");
+                saveSelect = select = this->interpolationSelect;edkEnd();
+                //printf(" oldSec false");edkEnd();
                 //test if is foward or backward
                 if(this->isRewind()){
                     //
-                    //printf(" rew");
+                    //printf(" rew");edkEnd();
                     //find the next second
                     while(true){
-                        temp = (edk::animation::InterpolationLine1D*)this->animations[select];
+                        temp = (edk::animation::InterpolationLine1D*)this->animations[select];edkEnd();
                         if(temp){
                             //test if have the x
                             if(temp->haveSecond(oldSecond)){
                                 if(temp->haveX(x)){
                                     //set the second
-                                    this->animationSecond = temp->getSecond(x);
-                                    this->interpolationSelect = select;
-                                    //printf(" returnTrue4");
+                                    this->animationSecond = temp->getSecond(x);edkEnd();
+                                    this->interpolationSelect = select;edkEnd();
+                                    //printf(" returnTrue4");edkEnd();
                                     return true;
                                 }
                                 else{
                                     //else find the X
-                                    saveSelect = select;
+                                    saveSelect = select;edkEnd();
                                     while(true){
-                                        temp = (edk::animation::InterpolationLine1D*)this->animations[select];
+                                        temp = (edk::animation::InterpolationLine1D*)this->animations[select];edkEnd();
                                         if(temp){
                                             //test if have the x
                                             if(temp->haveX(x)){
                                                 //set the second
-                                                this->animationSecond = temp->getSecond(x);
-                                                this->interpolationSelect = select;
-                                                //printf(" returnTrue5");
+                                                this->animationSecond = temp->getSecond(x);edkEnd();
+                                                this->interpolationSelect = select;edkEnd();
+                                                //printf(" returnTrue5");edkEnd();
                                                 return true;
                                             }
                                         }
-                                        else break;
+                                        else{
+                                            break;edkEnd();
+                                        }
 
                                         //decrement the select
                                         if(select){
-                                            select--;
+                                            select--;edkEnd();
                                             if(select<=this->interpolationStart){
-                                                select = this->interpolationEnd;
+                                                select = this->interpolationEnd;edkEnd();
                                             }
                                             if(select==saveSelect){
-                                                break;
+                                                break;edkEnd();
                                             }
                                         }
                                         else{
                                             if(select==this->interpolationStart){
-                                                select = this->interpolationEnd;
+                                                select = this->interpolationEnd;edkEnd();
                                             }
                                         }
                                     }
                                 }
-                                break;
+                                break;edkEnd();
                             }
                         }
-                        else break;
+                        else{
+                            break;edkEnd();
+                        }
 
                         //increment select
-                        select++;
+                        select++;edkEnd();
                         if(select>=this->interpolationEnd){
-                            select=this->interpolationStart;
+                            select=this->interpolationStart;edkEnd();
                         }
                         if(select==saveSelect){
-                            break;
+                            break;edkEnd();
                         }
                     }
                 }
                 else{
                     //
-                    //printf(" fow");
+                    //printf(" fow");edkEnd();
                     while(true){
-                        temp = (edk::animation::InterpolationLine1D*)this->animations[select];
+                        temp = (edk::animation::InterpolationLine1D*)this->animations[select];edkEnd();
                         if(temp){
                             //test if have the x
                             if(temp->haveSecond(oldSecond)){
                                 if(temp->haveX(x)){
                                     //set the second
-                                    this->animationSecond = temp->getSecond(x);
-                                    this->interpolationSelect = select;
-                                    //printf(" returnTrue6");
+                                    this->animationSecond = temp->getSecond(x);edkEnd();
+                                    this->interpolationSelect = select;edkEnd();
+                                    //printf(" returnTrue6");edkEnd();
                                     return true;
                                 }
                                 else{
                                     //else find the X
-                                    saveSelect = select;while(true){
-                                        temp = (edk::animation::InterpolationLine1D*)this->animations[select];
+                                    saveSelect = select;edkEnd();while(true){
+                                        temp = (edk::animation::InterpolationLine1D*)this->animations[select];edkEnd();
                                         if(temp){
                                             //test if have the x
                                             if(temp->haveX(x)){
                                                 //set the second
-                                                this->animationSecond = temp->getSecond(x);
-                                                this->interpolationSelect = select;
-                                                //printf(" returnTrue7");
+                                                this->animationSecond = temp->getSecond(x);edkEnd();
+                                                this->interpolationSelect = select;edkEnd();
+                                                //printf(" returnTrue7");edkEnd();
                                                 return true;
                                             }
                                         }
-                                        else break;
+                                        else{
+                                            break;edkEnd();
+                                        }
 
                                         //increment select
-                                        select++;
+                                        select++;edkEnd();
                                         if(select>=this->interpolationEnd){
-                                            select=this->interpolationStart;
+                                            select=this->interpolationStart;edkEnd();
                                         }
                                         if(select==saveSelect){
-                                            break;
+                                            break;edkEnd();
                                         }
                                     }
                                 }
-                                break;
+                                break;edkEnd();
                             }
                         }
-                        else break;
+                        else{
+                            break;edkEnd();
+                        }
 
                         //decrement the select
                         if(select){
-                            select--;
+                            select--;edkEnd();
                             if(select<=this->interpolationStart){
-                                select = this->interpolationEnd;
+                                select = this->interpolationEnd;edkEnd();
                             }
                             if(select==saveSelect){
-                                break;
+                                break;edkEnd();
                             }
                         }
                         else{
                             if(select==this->interpolationStart){
-                                select = this->interpolationEnd;
+                                select = this->interpolationEnd;edkEnd();
                             }
                         }
                     }
@@ -624,114 +636,122 @@ edk::float32 edk::animation::Interpolation1DGroup::getClockX(){
     //test if is playing
     if(this->isPlaying()){
         //load the interpolation
-        edk::animation::InterpolationLine1D* temp = (edk::animation::InterpolationLine1D*)edk::animation::InterpolationGroup::getSelectedInterpolation();
+        edk::animation::InterpolationLine1D* temp = (edk::animation::InterpolationLine1D*)edk::animation::InterpolationGroup::getSelectedInterpolation();edkEnd();
         //load the position
         if(temp){
             //
-            return temp->getPositionX(this->animationSecond) + this->incrementX;
+            return temp->getPositionX(this->animationSecond) + this->incrementX;edkEnd();
         }
     }
-    //else return 0.0f;
-    return 0.0f;
+    //else return 0.0f;edkEnd();
+    return 0.0f;edkEnd();
 }
 //return the interpolation seconds
 edk::float32 edk::animation::Interpolation1DGroup::getInterpolationStartX(edk::float32 position){
     if(position < this->animations.size()){
-        edk::animation::InterpolationLine1D* temp = (edk::animation::InterpolationLine1D*)this->animations[position];
+        edk::animation::InterpolationLine1D* temp = (edk::animation::InterpolationLine1D*)this->animations[position];edkEnd();
         if(temp){
-            return temp->getStart1D().x;
+            return temp->getStart1D().x;edkEnd();
         }
     }
-    return 0u;
+    return 0u;edkEnd();
 }
 edk::float32 edk::animation::Interpolation1DGroup::getInterpolationEndX(edk::float32 position){
     if(position < this->animations.size()){
-        edk::animation::InterpolationLine1D* temp = (edk::animation::InterpolationLine1D*)this->animations[position];
+        edk::animation::InterpolationLine1D* temp = (edk::animation::InterpolationLine1D*)this->animations[position];edkEnd();
         if(temp){
-            return temp->getEnd1D().x;
+            return temp->getEnd1D().x;edkEnd();
         }
     }
-    return 0u;
+    return 0u;edkEnd();
 }
 //return the animation start and end in X
 edk::float32 edk::animation::Interpolation1DGroup::getAnimationStartX(){
     if(this->animations.size()){
-        edk::animation::InterpolationLine1D* temp = (edk::animation::InterpolationLine1D*)this->animations[0u];
+        edk::animation::InterpolationLine1D* temp = (edk::animation::InterpolationLine1D*)this->animations[0u];edkEnd();
         if(temp){
-            return temp->getStart1D().x;
+            return temp->getStart1D().x;edkEnd();
         }
     }
-    return 0.f;
+    return 0.f;edkEnd();
 }
 edk::float32 edk::animation::Interpolation1DGroup::getAnimationEndX(){
     if(this->animations.size()){
-        edk::animation::InterpolationLine1D* temp = (edk::animation::InterpolationLine1D*)this->animations[this->animations.size()-1u];
+        edk::animation::InterpolationLine1D* temp = (edk::animation::InterpolationLine1D*)this->animations[this->animations.size()-1u];edkEnd();
         if(temp){
-            return temp->getEnd1D().x;
+            return temp->getEnd1D().x;edkEnd();
         }
     }
-    return 0.f;
+    return 0.f;edkEnd();
 }
 //write to XML
 bool edk::animation::Interpolation1DGroup::writeToXML(edk::XML* xml,edk::uint32 id){
     //test the XML
     if(xml){
-        bool ret=false;
+        bool ret=false;edkEnd();
         //create the nameID
-        edk::char8* nameID = edk::String::int64ToStr(id);
+        edk::char8* nameID = edk::String::int64ToStr(id);edkEnd();
         if(nameID){
             //concat
-            edk::char8* name = edk::String::strCat((edk::char8*)"anim_",nameID);
+            edk::char8* name = edk::String::strCat((edk::char8*)"anim_",nameID);edkEnd();
             if(name){
                 //create the name
                 if(xml->addSelectedNextChild(name)){
                     if(xml->selectChild(name)){
                         //save the looping
-                        if(this->getLoop()) xml->addSelectedNextAttribute("loop","on");
-                        else                xml->addSelectedNextAttribute("loop","off");
+                        if(this->getLoop()){
+                            xml->addSelectedNextAttribute("loop","on");edkEnd();
+                        }
+                        else{
+                            xml->addSelectedNextAttribute("loop","off");edkEnd();
+                        }
                         //save the incrementing
-                        if(this->getIncrement()) xml->addSelectedNextAttribute("increment","on");
-                        else                     xml->addSelectedNextAttribute("increment","off");
-                        edk::uint32 count = 0u;
-                        edk::animation::InterpolationLine1D* temp = NULL;
-                        edk::animation::Frame1D* frameTemp=(edk::animation::Frame1D*)this->tempFrame;
+                        if(this->getIncrement()){
+                            xml->addSelectedNextAttribute("increment","on");edkEnd();
+                        }
+                        else{
+                            xml->addSelectedNextAttribute("increment","off");edkEnd();
+                        }
+                        edk::uint32 count = 0u;edkEnd();
+                        edk::animation::InterpolationLine1D* temp = NULL;edkEnd();
+                        edk::animation::Frame1D* frameTemp=(edk::animation::Frame1D*)this->tempFrame;edkEnd();
                         if(frameTemp){
                             //add the tempFrame
-                            frameTemp->writeToXML(xml,count);
-                            count++;
+                            frameTemp->writeToXML(xml,count);edkEnd();
+                            count++;edkEnd();
                         }
                         //write the animationFrames
-                        edk::uint32 size = this->animations.size();
+                        edk::uint32 size = this->animations.size();edkEnd();
                         for(edk::uint32 i=0u;i<size;i++){
-                            temp = (edk::animation::InterpolationLine1D*)this->animations[i];
+                            temp = (edk::animation::InterpolationLine1D*)this->animations[i];edkEnd();
                             if(temp){
                                 if(!i){
                                     //write the first
-                                    temp->writeToXMLStart(xml,count);
-                                    count++;
+                                    temp->writeToXMLStart(xml,count);edkEnd();
+                                    count++;edkEnd();
                                 }
-                                temp->writeToXMLEnd(xml,count);
-                                count++;
+                                temp->writeToXMLEnd(xml,count);edkEnd();
+                                count++;edkEnd();
                             }
                         }
                         //write the curvers
                         for(edk::uint32 i=0u;i<size;i++){
-                            temp = (edk::animation::InterpolationLine1D*)this->animations[i];
+                            temp = (edk::animation::InterpolationLine1D*)this->animations[i];edkEnd();
                             if(temp){
-                                temp->writeCurveToXML(xml,i);
+                                temp->writeCurveToXML(xml,i);edkEnd();
                             }
                         }
                         //write the animationNames
-                        size = this->animationNames.size();
-                        edk::animation::AnimationName *animationTemp = NULL;
+                        size = this->animationNames.size();edkEnd();
+                        edk::animation::AnimationName *animationTemp = NULL;edkEnd();
                         for(edk::uint32 i=0u;i<size;i++){
-                            animationTemp = (edk::animation::AnimationName *)this->animationNames.getElementInPosition(i);
+                            animationTemp = (edk::animation::AnimationName *)this->animationNames.getElementInPosition(i);edkEnd();
                             if(animationTemp){
-                                animationTemp->writeToXML(xml,i);
+                                animationTemp->writeToXML(xml,i);edkEnd();
                             }
                         }
                         //
-                        xml->selectFather();
+                        xml->selectFather();edkEnd();
                     }
                 }
                 delete[] name;
@@ -746,72 +766,72 @@ bool edk::animation::Interpolation1DGroup::writeToXML(edk::XML* xml,edk::uint32 
 bool edk::animation::Interpolation1DGroup::readFromXML(edk::XML* xml,edk::uint32 id){
     //test the XML
     if(xml){
-        bool ret=false;
+        bool ret=false;edkEnd();
         //create the nameID
-        edk::char8* nameID = edk::String::int64ToStr(id);
+        edk::char8* nameID = edk::String::int64ToStr(id);edkEnd();
         if(nameID){
             //concat
-            edk::char8* name = edk::String::strCat((edk::char8*)"anim_",nameID);
+            edk::char8* name = edk::String::strCat((edk::char8*)"anim_",nameID);edkEnd();
             if(name){
                 //create the name
                 if(xml->selectChild(name)){
-                    this->cleanAnimations();
+                    this->cleanAnimations();edkEnd();
                     //read the loop
                     if(edk::String::strCompare(xml->getSelectedAttributeValueByName("loop"),(edk::char8*)"on")){
-                        this->loopOn();
+                        this->loopOn();edkEnd();
                     }
                     else if(edk::String::strCompare(xml->getSelectedAttributeValueByName("loop"),(edk::char8*)"off")){
-                        this->loopOff();
+                        this->loopOff();edkEnd();
                     }
                     //read the increment
                     if(edk::String::strCompare(xml->getSelectedAttributeValueByName("increment"),(edk::char8*)"on")){
-                        this->incrementOn();
+                        this->incrementOn();edkEnd();
                     }
                     else if(edk::String::strCompare(xml->getSelectedAttributeValueByName("increment"),(edk::char8*)"off")){
-                        this->incrementOff();
+                        this->incrementOff();edkEnd();
                     }
-                    edk::uint32 count = 0u;
-                    edk::animation::Frame1D frameTemp;
-                    edk::animation::InterpolationLine1D* interpolationTemp=NULL;
+                    edk::uint32 count = 0u;edkEnd();
+                    edk::animation::Frame1D frameTemp;edkEnd();
+                    edk::animation::InterpolationLine1D* interpolationTemp=NULL;edkEnd();
                     //read the frames
                     while(frameTemp.readFromXML(xml,count)){
                         //add the frame to the interpolation
-                        this->addNewInterpolationLine(frameTemp);
+                        this->addNewInterpolationLine(frameTemp);edkEnd();
                         //
-                        count++;
+                        count++;edkEnd();
                         //clean the frame
-                        frameTemp.second = 0.f;
+                        frameTemp.second = 0.f;edkEnd();
                         //return true
-                        ret=true;
+                        ret=true;edkEnd();
                     }
-                    edk::uint32 size = this->animations.size();
+                    edk::uint32 size = this->animations.size();edkEnd();
                     //read the curves
                     for(edk::uint32 i=0u;i<size;i++){
                         //read the XML
-                        interpolationTemp = (edk::animation::InterpolationLine1D*)this->animations[i];
+                        interpolationTemp = (edk::animation::InterpolationLine1D*)this->animations[i];edkEnd();
                         if(interpolationTemp){
-                            interpolationTemp->readCurveFromXML(xml,i);
+                            interpolationTemp->readCurveFromXML(xml,i);edkEnd();
                         }
                     }
                     count = 0;
                     //read the names
-                    edk::animation::AnimationName nameTemp;
+                    edk::animation::AnimationName nameTemp;edkEnd();
                     while(nameTemp.readFromXML(xml,count)){
                         //add the animationName
-                        this->addNewAnimationName(nameTemp.getName(),nameTemp.start,nameTemp.end);
+                        this->addNewAnimationName(nameTemp.getName(),nameTemp.start,nameTemp.end);edkEnd();
 
-                        count++;
+                        count++;edkEnd();
                         //clean nameTemp
-                        nameTemp.setName((edk::char8*)NULL);
-                        nameTemp.start = 0.f;
-                        nameTemp.end = 0.f;
+                        nameTemp.setName((edk::char8*)NULL);edkEnd();
+                        nameTemp.start = 0.f;edkEnd();
+                        nameTemp.end = 0.f;edkEnd();
                     }
                     //
-                    xml->selectFather();
+                    xml->selectFather();edkEnd();
                 }
-                delete[] name;
+                delete[] name;edkEnd();
             }
-            delete []nameID;
+            delete []nameID;edkEnd();
         }
         return ret;
     }

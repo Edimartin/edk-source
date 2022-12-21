@@ -34,10 +34,10 @@ edk::shape::Curve2D::Curve2D()
 }
 edk::shape::Curve2D::Curve2D(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4){
     //
-    this->point1=p1;
-    this->point2=p2;
-    this->point3=p3;
-    this->point4=p4;
+    this->point1=p1;edkEnd();
+    this->point2=p2;edkEnd();
+    this->point3=p3;edkEnd();
+    this->point4=p4;edkEnd();
 }
 
 edk::shape::Curve2D::~Curve2D()
@@ -49,19 +49,19 @@ edk::shape::Curve2D::~Curve2D()
 bool edk::shape::Curve2D::setPoint(edk::uint8 position,edk::vec2f32 point){
     switch(position){
     case 0u:
-        this->point1 = point;
+        this->point1 = point;edkEnd();
         return true;
     case 1u:
-        this->point2 = point;
+        this->point2 = point;edkEnd();
         return true;
     case 2u:
-        this->point3 = point;
+        this->point3 = point;edkEnd();
         return true;
     case 3u:
-        this->point4 = point;
+        this->point4 = point;edkEnd();
         return true;
     default:
-        break;
+        break;edkEnd();
     }
     return false;
 }
@@ -70,8 +70,8 @@ bool edk::shape::Curve2D::setPoint(edk::uint8 position,edk::vec2f32 point){
 //return the point
 edk::vec2f32 edk::shape::Curve2D::getPoint(edk::float32 percent){
     if(percent){
-        return edk::vec2f32();
+        return edk::vec2f32();edkEnd();
     }
     //return a zero point
-    return edk::vec2f32();
+    return edk::vec2f32();edkEnd();
 }

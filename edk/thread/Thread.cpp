@@ -38,30 +38,33 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //load the number of cores
 #if defined(WIN32) || defined(WIN64)
 edk::uint32 getWindowsCores(){
-    SYSTEM_INFO sysinfo;
-    GetSystemInfo(&sysinfo);
-    return sysinfo.dwNumberOfProcessors;
+    SYSTEM_INFO sysinfo;edkEnd();
+    GetSystemInfo(&sysinfo);edkEnd();
+    return sysinfo.dwNumberOfProcessors;edkEnd();
 }
-edk::uint32 edk::multi::Thread::cores=getWindowsCores();
+edk::uint32 edk::multi::Thread::cores=getWindowsCores();edkEnd();
 #elif defined __linux__
 edk::uint32 edk::multi::Thread::cores=sysconf(_SC_NPROCESSORS_ONLN);
 #elif defined __APPLE__
 edk::uint32 getMacCores(){
-    int nm[2];
-    size_t len = 4;
-    uint32_t count;
+    int nm[2];edkEnd();
+    size_t len = 4;edkEnd();
+    uint32_t count;edkEnd();
 
-    nm[0] = CTL_HW; nm[1] = HW_AVAILCPU;
-    sysctl(nm, 2, &count, &len, NULL, 0);
+    nm[0] = CTL_HW;edkEnd(); nm[1] = HW_AVAILCPU;edkEnd();
+    sysctl(nm, 2, &count, &len, NULL, 0);edkEnd();
 
     if(count < 1) {
-        nm[1] = HW_NCPU;
-        sysctl(nm, 2, &count, &len, NULL, 0);
-        if(count < 1) { count = 1; }
+        nm[1] = HW_NCPU;edkEnd();
+        sysctl(nm, 2, &count, &len, NULL, 0);edkEnd();
+        if(count < 1) {
+            count = 1;edkEnd();
+
+        }
     }
-    return count;
+    return count;edkEnd();
 }
-edk::uint32 edk::multi::Thread::cores=getMacCores();
+edk::uint32 edk::multi::Thread::cores=getMacCores();edkEnd();
 #endif
 
 //EDKThreadFunc
@@ -70,12 +73,12 @@ DWORD WINAPI edkThreadFunc(void*id){
     //test if have a threadFunc
     if(id){
         //then convert the pointer
-        edk::multi::Thread* temp = (edk::multi::Thread*)id;
+        edk::multi::Thread* temp = (edk::multi::Thread*)id;edkEnd();
 
         //run the function
-        temp->runFunc();
+        temp->runFunc();edkEnd();
     }
-    return (DWORD)NULL;
+    return (DWORD)NULL;edkEnd();
 }
 #elif defined WIN64
 //WINDOWS 64
@@ -83,12 +86,12 @@ DWORD WINAPI edkThreadFunc(void*id){
     //test if have a threadFunc
     if(id){
         //then convert the pointer
-        edk::multi::Thread* temp = (edk::multi::Thread*)id;
+        edk::multi::Thread* temp = (edk::multi::Thread*)id;edkEnd();
 
         //run the function
-        temp->runFunc();
+        temp->runFunc();edkEnd();
     }
-    return (DWORD)NULL;
+    return (DWORD)NULL;edkEnd();
 }
 #elif defined __linux__
 //LINUX
@@ -96,12 +99,12 @@ void* edkThreadFunc(void*id){
     //test if have a threadFunc
     if(id){
         //then convert the pointer
-        edk::multi::Thread* temp = (edk::multi::Thread*)id;
+        edk::multi::Thread* temp = (edk::multi::Thread*)id;edkEnd();
 
         //run the function
-        temp->runFunc();
+        temp->runFunc();edkEnd();
     }
-    return (void*)NULL;
+    return (void*)NULL;edkEnd();
 }
 #elif defined __APPLE__
 //MAC OS
@@ -109,12 +112,12 @@ void* edkThreadFunc(void*id){
     //test if have a threadFunc
     if(id){
         //then convert the pointer
-        edk::multi::Thread* temp = (edk::multi::Thread*)id;
+        edk::multi::Thread* temp = (edk::multi::Thread*)id;edkEnd();
 
         //run the function
-        temp->runFunc();
+        temp->runFunc();edkEnd();
     }
-    return (void*)NULL;
+    return (void*)NULL;edkEnd();
 }
 #endif
 
@@ -126,85 +129,85 @@ void edk::multi::Thread::cleanThread(){
     //
 #ifdef WIN32
     //clean ID
-    this->threadID=(HANDLE)0u;
+    this->threadID=(HANDLE)0u;edkEnd();
 #elif defined WIN64
     //clean ID
-    this->threadID=(HANDLE)0u;
+    this->threadID=(HANDLE)0u;edkEnd();
 #elif defined __linux__
     //clean ID
     this->threadID=0u;
     //clean the core
-    CPU_ZERO(&this->cpus);
+    CPU_ZERO(&this->cpus);edkEnd();
 #elif defined __APPLE__
     //clean ID
     this->threadID=0u;
 #endif
 
     //Clean Functions
-    this->threadFunc=NULL;
-    this->funcParameter=(void*)NULL;
+    this->threadFunc=NULL;edkEnd();
+    this->funcParameter=(void*)NULL;edkEnd();
 }
 
 
 
 edk::multi::Thread::Thread(){
-    this->cleanThread();
+    this->cleanThread();edkEnd();
 }
 
 edk::multi::Thread::Thread(classID (*threadFunction)(classID), classID parameter){
-    this->cleanThread();
-    this->start(threadFunction, parameter);
+    this->cleanThread();edkEnd();
+    this->start(threadFunction, parameter);edkEnd();
 }
 
 edk::multi::Thread::~Thread(){
     //Kill the Thread
-    this->kill();
+    this->kill();edkEnd();
 }
 
 bool edk::multi::Thread::start(classID (threadFunction)(classID), classID parameter){
     //kill the previous thread
-    this->kill();
+    this->kill();edkEnd();
 
     //test if the function is true
     if(threadFunction){
         //set the parameters
         //copy the function
-        this->threadFunc=threadFunction;
+        this->threadFunc=threadFunction;edkEnd();
         //copy the parameter
-        this->funcParameter=parameter;
+        this->funcParameter=parameter;edkEnd();
 
         //WINDOWS 32
 #ifdef WIN32
-        DWORD flag;
+        DWORD flag;edkEnd();
         this->threadID = CreateThread(NULL, //
                                       (DWORD)NULL,        //
                                       edkThreadFunc,     // função da thread
                                       (void*)this,        // parâmetro da thread
                                       (DWORD)NULL,        //
-                                      &flag);
+                                      &flag);edkEnd();
         //test if create the thread
         if(this->threadID!=(HANDLE)0u){
 #elif defined WIN64
         //WINDOWS 64
-        DWORD flag;
+        DWORD flag;edkEnd();
         this->threadID = CreateThread(NULL, //
                                       (DWORD)NULL,        //
                                       edkThreadFunc,     // função da thread
                                       (void*)this,        // parâmetro da thread
                                       (DWORD)NULL,        //
-                                      &flag);
+                                      &flag);edkEnd();
         //test if create the thread
         if(this->threadID!=(HANDLE)0u){
 #elif defined __linux__
         //LINUX
-        pthread_attr_t attr;
-        pthread_attr_init(&attr);
+        pthread_attr_t attr;edkEnd();
+        pthread_attr_init(&attr);edkEnd();
         //crate the thread
 
         pthread_create(&threadID,
                        &attr,
                        edkThreadFunc,
-                       (void*)this);
+                       (void*)this);edkEnd();
         //test if create the thread
         if(this->threadID!=(pthread_t)0u){
 #elif defined __APPLE__
@@ -216,20 +219,20 @@ bool edk::multi::Thread::start(classID (threadFunction)(classID), classID parame
     }
 
     //clean
-    this->cleanThread();
+    this->cleanThread();edkEnd();
     //else he clean the func
-    this->threadFunc=NULL;
+    this->threadFunc=NULL;edkEnd();
     return false;
 }
 
 bool edk::multi::Thread::start(classID (threadFunction)(classID)){
-    return this->start(threadFunction,(void*)NULL);
+    return this->start(threadFunction,(void*)NULL);edkEnd();
 }
 
 bool edk::multi::Thread::startIn(classID (threadFunction)(classID), classID parameter, edk::uint32 core){
 
     //kill the previous thread
-    this->kill();
+    this->kill();edkEnd();
 
     //test if the function is true and if the core exist
     if(threadFunction && core<this->cores){
@@ -237,49 +240,49 @@ bool edk::multi::Thread::startIn(classID (threadFunction)(classID), classID para
 
         //set the parameters
         //copy the function
-        this->threadFunc=threadFunction;
+        this->threadFunc=threadFunction;edkEnd();
         //copy the parameter
-        this->funcParameter=parameter;
+        this->funcParameter=parameter;edkEnd();
         //crate the thread
 
 #ifdef WIN32
-        DWORD flag;
+        DWORD flag;edkEnd();
         this->threadID = CreateThread(NULL, //
                                       (DWORD)NULL,        //
                                       edkThreadFunc,     // função da thread
                                       (void*)this,        // parâmetro da thread
                                       (DWORD)NULL,        //
-                                      &flag);
+                                      &flag);edkEnd();
         //test if create the thread
         if(this->threadID!=(HANDLE)0u){
-            DWORD_PTR mask = core;
-            SetThreadAffinityMask(this->threadID, mask);
+            DWORD_PTR mask = core;edkEnd();
+            SetThreadAffinityMask(this->threadID, mask);edkEnd();
 #elif defined WIN64
         //WINDOWS 64
-        DWORD flag;
+        DWORD flag;edkEnd();
         this->threadID = CreateThread(NULL, //
                                       (DWORD)NULL,        //
                                       edkThreadFunc,     // função da thread
                                       (void*)this,        // parâmetro da thread
                                       (DWORD)NULL,        //
-                                      &flag);
+                                      &flag);edkEnd();
         //test if create the thread
         if(this->threadID!=(HANDLE)0u){
-            DWORD_PTR mask = core;
-            SetThreadAffinityMask(this->threadID, mask);
+            DWORD_PTR mask = core;edkEnd();
+            SetThreadAffinityMask(this->threadID, mask);edkEnd();
 #elif defined __linux__
         //LINUX
-        pthread_attr_t attr;
-        CPU_SET(core, &this->cpus);
+        pthread_attr_t attr;edkEnd();
+        CPU_SET(core, &this->cpus);edkEnd();
         //start the attribute
-        pthread_attr_init(&attr);
+        pthread_attr_init(&attr);edkEnd();
         //set the core on the attribute
-        pthread_attr_setaffinity_np(&attr, sizeof(cpu_set_t), &this->cpus);
+        pthread_attr_setaffinity_np(&attr, sizeof(cpu_set_t), &this->cpus);edkEnd();
         //set affinity
         pthread_create(&threadID,
                        &attr,
                        edkThreadFunc,
-                       (void*)this);
+                       (void*)this);edkEnd();
         //test if create the thread
         if(this->threadID!=(pthread_t)0u){
 #elif defined __APPLE__
@@ -291,14 +294,14 @@ bool edk::multi::Thread::startIn(classID (threadFunction)(classID), classID para
     }
 
     //clean
-    this->cleanThread();
+    this->cleanThread();edkEnd();
     //else he clean the func
-    this->threadFunc=NULL;
+    this->threadFunc=NULL;edkEnd();
     return false;
 }
 
 bool edk::multi::Thread::startIn(classID (threadFunction)(classID), edk::uint32 core){
-    return this->startIn(threadFunction, NULL, core);
+    return this->startIn(threadFunction, NULL, core);edkEnd();
 }
 
 //change the threadCore
@@ -308,7 +311,7 @@ bool edk::multi::Thread::changeCore(edk::uint32 core){
 #ifdef WIN32
         //test if create the thread
         if(this->threadID!=(HANDLE)0u){
-            DWORD_PTR mask = core;
+            DWORD_PTR mask = core;edkEnd();
             if(SetThreadAffinityMask(this->threadID, mask)){
                 return true;
             }
@@ -316,15 +319,15 @@ bool edk::multi::Thread::changeCore(edk::uint32 core){
         //WINDOWS 64
         //test if create the thread
         if(this->threadID!=(HANDLE)0u){
-            DWORD_PTR mask = core;
+            DWORD_PTR mask = core;edkEnd();
             if(SetThreadAffinityMask(this->threadID, mask)){
                 return true;
             }
 #elif defined __linux__
         //test if have the thread
         if(this->threadID!=(pthread_t)0u){
-            CPU_ZERO(&this->cpus);
-            CPU_SET(core, &this->cpus);
+            CPU_ZERO(&this->cpus);edkEnd();
+            CPU_SET(core, &this->cpus);edkEnd();
             //set the core
             if(!pthread_setaffinity_np(this->threadID,sizeof(cpu_set_t), &this->cpus)){
                 return true;
@@ -342,15 +345,15 @@ bool edk::multi::Thread::runFunc(){
         //test if have parameter
         if(this->funcParameter){
             //then he cant run the function
-            this->threadFunc((void*)this->funcParameter);
+            this->threadFunc((void*)this->funcParameter);edkEnd();
         }
         else{
             //then he cant run the function
-            this->threadFunc((void*)NULL);
+            this->threadFunc((void*)NULL);edkEnd();
         }
         //clean the function
-        this->threadFunc=NULL;
-        this->funcParameter=NULL;
+        this->threadFunc=NULL;edkEnd();
+        this->funcParameter=NULL;edkEnd();
 
         //return true;
         return true;
@@ -415,7 +418,7 @@ bool edk::multi::Thread::waitEnd(uint64 milliseconds){
     }
 #elif defined __linux__//Linux
     //first he sleep
-    usleep(milliseconds*1000);
+    usleep(milliseconds*1000);edkEnd();
     //test if thread still alive
     if(this->isAlive()){
         //
@@ -426,82 +429,82 @@ bool edk::multi::Thread::waitEnd(uint64 milliseconds){
 #endif
 
     //clean
-    this->cleanThread();
+    this->cleanThread();edkEnd();
 
     //else return false;
     return false;
 }
 
 bool edk::multi::Thread::waitEnd(){
-    bool ret=false;
+    bool ret=false;edkEnd();
     //WINDOWS 32
 #ifdef WIN32
     if(this->threadID){
         //Then wait for the thread
-        WaitForSingleObject(threadID, INFINITE);
+        WaitForSingleObject(threadID, INFINITE);edkEnd();
         //then return true
-        ret = true;
+        ret = true;edkEnd();
     }
 #elif defined WIN64
     //WINDOWS 64
     if(this->threadID){
         //Then wait for the thread
-        WaitForSingleObject(threadID, INFINITE);
+        WaitForSingleObject(threadID, INFINITE);edkEnd();
         //then return true
-        ret = true;
+        ret = true;edkEnd();
     }
 #elif defined __linux__
     //LINUX
     if(this->threadID){
         //then wait the end of the thread
-        pthread_join(this->threadID,NULL);
+        pthread_join(this->threadID,NULL);edkEnd();
         //then return true
-        ret = true;
+        ret = true;edkEnd();
     }
 #elif defined __APPLE__
     //APPLE
 #endif
     //clean
-    this->cleanThread();
+    this->cleanThread();edkEnd();
 
     //return true or false
     return ret;
 }
 
 bool edk::multi::Thread::kill(){
-    bool ret = false;
+    bool ret = false;edkEnd();
     //WINDOWS 32
 #ifdef WIN32
     if(this->threadID){
         //Finish the thread
         TerminateThread(this->threadID
                         ,(DWORD)NULL
-                        );
-        ret=true;
+                        );edkEnd();
+        ret=true;edkEnd();
     }
     //clean ID
-    this->threadID=(HANDLE)0u;
+    this->threadID=(HANDLE)0u;edkEnd();
 #elif defined WIN64
     //WINDOWS 64
     if(this->threadID){
         //Finish the thread
         TerminateThread(this->threadID
                         ,(DWORD)NULL
-                        );
-        ret=true;
+                        );edkEnd();
+        ret=true;edkEnd();
     }
 #elif defined __linux__
     //LINUX
     if(this->threadID){
         //Cancel the thread
-        pthread_cancel(this->threadID);
-        //pthread_attr_destroy(&attr);
+        pthread_cancel(this->threadID);edkEnd();
+        //pthread_attr_destroy(&attr);edkEnd();
         //Finish the thread
-        ret=true;
+        ret=true;edkEnd();
     }
 #endif
     //clean
-    this->cleanThread();
+    this->cleanThread();edkEnd();
 
     //return true or false
     return ret;
@@ -513,21 +516,21 @@ void edk::multi::Thread::killThisThread(){
     //Finish the thread
     TerminateThread(NULL
                     ,(DWORD)NULL
-                    );
+                    );edkEnd();
 #elif defined WIN64
     //WINDOWS 64
     //Finish the thread
     TerminateThread(NULL
                     ,(DWORD)NULL
-                    );
+                    );edkEnd();
 #elif defined __linux__
     //LINUX
     //Exit the process
-    pthread_exit(NULL);
+    pthread_exit(NULL);edkEnd();
 #elif defined __linux__
     //APPLE
     //Exit the process
-    pthread_exit(NULL);
+    pthread_exit(NULL);edkEnd();
 #endif
 }
 
@@ -538,7 +541,7 @@ void edk::multi::Thread::killAllThreads(){
     //Finish the thread
     TerminateThread(NULL
                     ,(DWORD)NULL
-                    );
+                    );edkEnd();
     */
 #elif defined WIN64
     //WINDOWS 64
@@ -546,34 +549,34 @@ void edk::multi::Thread::killAllThreads(){
     //Finish the thread
     TerminateThread(NULL
                     ,(DWORD)NULL
-                    );
+                    );edkEnd();
     */
 #elif defined __linux__
     //LINUX
     //Exit the process
-    pthread_cancel((pthread_t)NULL);
+    pthread_cancel((pthread_t)NULL);edkEnd();
 #elif defined __linux__
     //APPLE
     //Exit the process
-    pthread_cancel((pthread_t)NULL);
+    pthread_cancel((pthread_t)NULL);edkEnd();
 #endif
 }
 #if __x86_64__ || __ppc64__
 //get the thread id
 edk::uint64 edk::multi::Thread::getThisThreadID(){
 #if WIN64
-    return GetCurrentThreadId();
+    return GetCurrentThreadId();edkEnd();
 #elif __linux__
-    return pthread_self();
+    return pthread_self();edkEnd();
 #endif
 }
 #else
 //get the thread id
 edk::uint32 edk::multi::Thread::getThisThreadID(){
 #if WIN32
-    return GetCurrentThreadId();
+    return GetCurrentThreadId();edkEnd();
 #elif __linux__
-    return pthread_self();
+    return pthread_self();edkEnd();
 #endif
 }
 #endif
@@ -583,14 +586,14 @@ edk::uint32 edk::multi::Thread::getThisThreadCore(){
 #if defined(WIN32) || defined(WIN64)
     return 0;
 #elif __linux__
-    return sched_getcpu();
+    return sched_getcpu();edkEnd();
 #endif
 }
 
 //return the number of cores in the system
 edk::uint32 edk::multi::Thread::numberOfCores(){
-    return edk::multi::Thread::cores;
+    return edk::multi::Thread::cores;edkEnd();
 }
 edk::uint32 edk::multi::Thread::getNumberOfCores(){
-    return edk::multi::Thread::cores;
+    return edk::multi::Thread::cores;edkEnd();
 }

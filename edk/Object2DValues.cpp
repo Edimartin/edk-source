@@ -26,51 +26,51 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 edk::Object2DValues::Object2DValues()
 {
-    //this->angle=0.f;
-    this->loadIdentityValues();
-    this->fixedRotation=false;
-    //this->cleanSaved();
+    //this->angle=0.f;edkEnd();
+    this->loadIdentityValues();edkEnd();
+    this->fixedRotation=false;edkEnd();
+    //this->cleanSaved();edkEnd();
 }
 void edk::Object2DValues::loadIdentityValues(){
-    this->position = edk::vec2f32(0,0);
-    this->angle = 0.f;
-    this->size = edk::size2f32(1,1);
+    this->position = edk::vec2f32(0,0);edkEnd();
+    this->angle = 0.f;edkEnd();
+    this->size = edk::size2f32(1,1);edkEnd();
 }
 /*
 //save the values
 void edk::Object2DValues::saveValues(){
-    this->savePosition = this->position;
-    this->saveSize = this->size;
-    this->saveAngle = this->angle;
+    this->savePosition = this->position;edkEnd();
+    this->saveSize = this->size;edkEnd();
+    this->saveAngle = this->angle;edkEnd();
 }
 //clean the saved values
 void edk::Object2DValues::cleanSaved(){
-    this->savePosition = edk::vec2f32(0,0);
-    this->saveAngle = 0.f;
-    this->saveSize = edk::size2f32(1,1);
+    this->savePosition = edk::vec2f32(0,0);edkEnd();
+    this->saveAngle = 0.f;edkEnd();
+    this->saveSize = edk::size2f32(1,1);edkEnd();
 }
 //return the saved values
 edk::vec2f32 edk::Object2DValues::getSavedPosition(){
-    return this->savePosition;
+    return this->savePosition;edkEnd();
 }
 edk::float32 edk::Object2DValues::getSavedPositionX(){
-    return this->savePosition.x;
+    return this->savePosition.x;edkEnd();
 }
 edk::float32 edk::Object2DValues::getSavedPositionY(){
-    return this->savePosition.y;
+    return this->savePosition.y;edkEnd();
 }
 //return the saved size
 edk::size2f32 edk::Object2DValues::getSavedSize(){
-    return this->saveSize;
+    return this->saveSize;edkEnd();
 }
 edk::float32 edk::Object2DValues::getSavedSizeWidth(){
-    return this->saveSize.width;
+    return this->saveSize.width;edkEnd();
 }
 edk::float32 edk::Object2DValues::getSavedSizeHeight(){
-    return this->saveSize.height;
+    return this->saveSize.height;edkEnd();
 }
 //return the savedAngle
 edk::float32 edk::Object2DValues::getSavedAngle(){
-    return this->angle;
+    return this->angle;edkEnd();
 }
 */

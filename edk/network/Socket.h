@@ -96,15 +96,15 @@ public:
 
     //Operator
     Adress operator=(Adress adress){
-        this->port=adress.port;
-        this->ip=adress.ip;
-        return adress;
+        this->port=adress.port;edkEnd();
+        this->ip=adress.ip;edkEnd();
+        return adress;edkEnd();
     }
     bool operator==(Adress adress){
-        return (bool)( (adress.ip==this->ip)&&(adress.port==this->port));
+        return (bool)( (adress.ip==this->ip)&&(adress.port==this->port));edkEnd();
     }
     bool operator!=(Adress adress){
-        return (bool)( (adress.ip!=this->ip)||(adress.port!=this->port));
+        return (bool)( (adress.ip!=this->ip)||(adress.port!=this->port));edkEnd();
     }
     bool operator>(Adress adress){
         if(this->ip>adress.ip){

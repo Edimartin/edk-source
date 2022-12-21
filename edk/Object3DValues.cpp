@@ -33,7 +33,7 @@ edk::Object3DValues::~Object3DValues(){
 
 void edk::Object3DValues::loadIdentityValues(){
     //
-    this->position = edk::vec3f32(0,0,0);
-    this->angle = edk::vec3f32(0,0,0);
-    this->size = edk::size3f32(1,1,1);
+    this->position = edk::vec3f32(0,0,0);edkEnd();
+    this->angle = edk::vec3f32(0,0,0);edkEnd();
+    this->size = edk::size3f32(1,1,1);edkEnd();
 }

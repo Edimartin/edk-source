@@ -137,11 +137,17 @@ void edk::XML::parsing(pugi::xml_node node){
                 this->didStartElement((edk::char8*)node.name(), attributes, values, types, attributesCount);
             }
             //delete the attributes
-            if(attributes) delete[] attributes;
+            if(attributes){
+                delete[] attributes;
+            }
             attributes=NULL;
-            if(values) delete[] values;
+            if(values){
+                delete[] values;
+            }
             values=NULL;
-            if(types) delete[] types;
+            if(types){
+                delete[] types;
+            }
             types=NULL;
         }
         else{
@@ -1503,7 +1509,9 @@ bool edk::XML::setSelectedString(edk::float64 string,edk::uint32 digits){
 //return if have a selected
 bool edk::XML::haveSelected(){
     //test if have a selected
-    if(*this->selected.name()) return true;
+    if(*this->selected.name()){
+        return true;
+    }
     //else return false;
     return false;
 }

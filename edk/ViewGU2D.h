@@ -64,26 +64,26 @@ class ViewGU2D: public edk::ViewGU{
 /* EXAMPLE
 class example: edk::ViewGU2D{
     //construtor
-    example();
+    example();edkEnd();
     //destrutor
-    ~example();
+    ~example();edkEnd();
 
     //Load and Unload
-    void load(edk::rectf32 outsideViewOrigin);
-    void unload();
+    void load(edk::rectf32 outsideViewOrigin);edkEnd();
+    void unload();edkEnd();
 
     //Mouse Events
-    void eventMousePressed(edk::vec2f32 point,edk::uint32 button);
-    void eventMouseMoved(edk::vec2f32 point,edk::uint32 button);
-    void eventMouseReleased(edk::vec2f32 point,edk::uint32 button);
+    void eventMousePressed(edk::vec2f32 point,edk::uint32 button);edkEnd();
+    void eventMouseMoved(edk::vec2f32 point,edk::uint32 button);edkEnd();
+    void eventMouseReleased(edk::vec2f32 point,edk::uint32 button);edkEnd();
     //Mouse go Inside Outside
-    void eventMouseEntryInsideView(edk::vec2f32 point);
-    void eventMouseLeftView(edk::vec2f32 point);
+    void eventMouseEntryInsideView(edk::vec2f32 point);edkEnd();
+    void eventMouseLeftView(edk::vec2f32 point);edkEnd();
 
     //Update the scene
-    void update(edk::WindowEvents* events);
+    void update(edk::WindowEvents* events);edkEnd();
 
     //draw the GU scene
-    void drawScene(edk::rectf32 outsideViewOrigin);
+    void drawScene(edk::rectf32 outsideViewOrigin);edkEnd();
 };
 */

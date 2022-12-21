@@ -34,10 +34,10 @@ edk::shape::Bezier2D::Bezier2D()
 }
 edk::shape::Bezier2D::Bezier2D(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4){
     //
-    this->point1=p1;
-    this->point2=p2;
-    this->point3=p3;
-    this->point4=p4;
+    this->point1=p1;edkEnd();
+    this->point2=p2;edkEnd();
+    this->point3=p3;edkEnd();
+    this->point4=p4;edkEnd();
 }
 
 edk::shape::Bezier2D::~Bezier2D()
@@ -48,29 +48,29 @@ edk::shape::Bezier2D::~Bezier2D()
 //Implement the Bezier Curve
 edk::vec2f32 edk::shape::Bezier2D::getPoint(edk::float32 percent){
     //return the ret
-    return edk::shape::Bezier2D::getPoint(this->point1,this->point2,this->point3,this->point4,percent);
+    return edk::shape::Bezier2D::getPoint(this->point1,this->point2,this->point3,this->point4,percent);edkEnd();
 }
 
 edk::vec2f32 edk::shape::Bezier2D::getPoint(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4,edk::float32 percent){
     //create a return point
-    edk::vec2f32 ret;
+    edk::vec2f32 ret;edkEnd();
 
     //percent pow's
-    edk::float32 percent2 = percent * percent;
-    edk::float32 percent3 = percent * percent * percent;
+    edk::float32 percent2 = percent * percent;edkEnd();
+    edk::float32 percent3 = percent * percent * percent;edkEnd();
 
     //get the X
     ret.x = ((-1*(percent3) +3*(percent2) -3*percent +1)*p1.x +
             (  3*(percent3) -6*(percent2) +3*percent +0)*p2.x +
             ( -3*(percent3) +3*(percent2) +0*percent +0)*p3.x +
             (  1*(percent3) +0*(percent2) +0*percent +0)*p4.x
-             );
+             );edkEnd();
     //get the Y
     ret.y = ((-1*(percent3) +3*(percent2) -3*percent +1)*p1.y +
             (  3*(percent3) -6*(percent2) +3*percent +0)*p2.y +
             ( -3*(percent3) +3*(percent2) +0*percent +0)*p3.y +
             (  1*(percent3) +0*(percent2) +0*percent +0)*p4.y
-             );
+             );edkEnd();
 
     //return the ret
     return ret;

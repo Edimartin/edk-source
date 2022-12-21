@@ -35,47 +35,47 @@ edk::ListDirectory::~ListDirectory(){
 bool edk::ListDirectory::run(edk::char8* directory){
     if(directory){
         //directory pointer
-        DIR *dir;
+        DIR *dir;edkEnd();
         //file pointer
-        struct dirent *file;
+        struct dirent *file;edkEnd();
         //status of the file
-        struct stat status;
+        struct stat status;edkEnd();
 
-        edk::char8* temp=NULL;
+        edk::char8* temp=NULL;edkEnd();
         //open the directory
-        dir = opendir(directory);
+        dir = opendir(directory);edkEnd();
         if(dir){
-            //printf("\nDirectory %s",directory);fflush(stdout);
+            //printf("\nDirectory %s",directory);edkEnd();fflush(stdout);edkEnd();
             //list the files
             while((file = readdir(dir)) != NULL){
                 //create the file string to read the status
-                temp = edk::String::strCatMulti(directory,"/",file->d_name,NULL);
+                temp = edk::String::strCatMulti(directory,"/",file->d_name,NULL);edkEnd();
                 if(temp){
                     //read the status
-                    stat(temp, &status);
+                    stat(temp, &status);edkEnd();
 
                     switch(status.st_mode & S_IFMT){
                     case S_IFDIR:
                         //FOLDER
-                        //printf("\nFolder:%s\\ LastModify:%lu size:%lu",file->d_name,status.st_mtime,status.st_size);fflush(stdout);
-                        this->listFolder(file->d_name,status.st_mtime,status.st_size);
-                        break;
+                        //printf("\nFolder:%s\\ LastModify:%lu size:%lu",file->d_name,status.st_mtime,status.st_size);edkEnd();fflush(stdout);edkEnd();
+                        this->listFolder(file->d_name,status.st_mtime,status.st_size);edkEnd();
+                        break;edkEnd();
                     case S_IFREG:
                         //FILE
-                        //printf("\nFile  :%s\\ LastModify:%lu size:%lu",file->d_name,status.st_mtime,status.st_size);fflush(stdout);
-                        this->listFile(file->d_name,status.st_mtime,status.st_size);
-                        break;
+                        //printf("\nFile  :%s\\ LastModify:%lu size:%lu",file->d_name,status.st_mtime,status.st_size);edkEnd();fflush(stdout);edkEnd();
+                        this->listFile(file->d_name,status.st_mtime,status.st_size);edkEnd();
+                        break;edkEnd();
                     }
 
-                    delete[] temp;
+                    delete[] temp;edkEnd();
                 }
             }
 
-            closedir(dir);
+            closedir(dir);edkEnd();
         }
     }
     return false;
 }
 bool edk::ListDirectory::run(const edk::char8* directory){
-    return this->run((edk::char8*) directory);
+    return this->run((edk::char8*) directory);edkEnd();
 }

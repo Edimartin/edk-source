@@ -36,50 +36,50 @@ edk::codecs::EncoderPNG::EncoderPNG()
 edk::codecs::EncoderPNG::~EncoderPNG()
 {
     //dtor
-    this->deleteEncoded();
+    this->deleteEncoded();edkEnd();
 }
 
 //process the encoder
 bool edk::codecs::EncoderPNG::encode(edk::uint8* frame,edk::size2ui32 size,edk::uint8 channels,edk::uint32){
-    this->deleteEncoded();
+    this->deleteEncoded();edkEnd();
     //process the father encoder
     if(edk::codecs::EncoderImage::encode(frame,size,channels,1u)){
         //test if the channels can be writed in jpeg
         if(channels == 1u || channels == 2u || channels == 3u || channels == 4u){
-            bool ret=false;
+            bool ret=false;edkEnd();
 
-            edk::uchar8 *png=NULL;
-            edk::int32 len;
+            edk::uchar8 *png=NULL;edkEnd();
+            edk::int32 len;edkEnd();
             if((png = stbi_write_png_to_mem((const edk::uchar8 *) frame, 0, (edk::int32) size.width, (edk::int32) size.height, (edk::int32)channels, &len))){
                 //create the image and copy the png buffer
                 if(len){
                     if(this->newFrameEncoded(len)){
                         //copy the bytes
-                        memcpy(this->getEncoded(),png,this->getEncodedSize());
+                        memcpy(this->getEncoded(),png,this->getEncodedSize());edkEnd();
                     }
                     else{
-                        ret=false;
+                        ret=false;edkEnd();
                     }
                 }
                 else{
-                    ret=false;
+                    ret=false;edkEnd();
                 }
                 //delete the PNG
-                STBI_FREE(png);
+                STBI_FREE(png);edkEnd();
             }
             else{
                 //return false;
-                ret=false;
+                ret=false;edkEnd();
             }
 
             //calcula o tamanho do vetor
             if (this->getEncodedSize() && this->getEncoded()){
                 //retorna true
-                ret=true;
+                ret=true;edkEnd();
             }
             else{
                 if(this->getEncodedSize()){
-                    this->deleteEncoded();
+                    this->deleteEncoded();edkEnd();
                 }
             }
 
@@ -89,12 +89,12 @@ bool edk::codecs::EncoderPNG::encode(edk::uint8* frame,edk::size2ui32 size,edk::
     return false;
 }
 bool edk::codecs::EncoderPNG::encode(edk::uint8* frame,edk::uint32 width,edk::uint32 height,edk::uint8 channels,edk::uint32 quality){
-    return this->encode(frame,edk::size2ui32(width,height),channels,quality);
+    return this->encode(frame,edk::size2ui32(width,height),channels,quality);edkEnd();
 }
 //delete the encoded
 void edk::codecs::EncoderPNG::deleteEncoded(){
     if(this->getEncoded()){
-        //jpeg_destroy_compress(&this->cinfo);
-        this->cleanEncoded();
+        //jpeg_destroy_compress(&this->cinfo);edkEnd();
+        this->cleanEncoded();edkEnd();
     }
 }

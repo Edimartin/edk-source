@@ -118,40 +118,40 @@ private:
     class PolygonVertex{
     public:
         PolygonVertex(edk::shape::Vertex3D* vertex,edk::uint32 vertexID){
-            this->vertex = vertex;
-            this->vertexID=vertexID;
+            this->vertex = vertex;edkEnd();
+            this->vertexID=vertexID;edkEnd();
         }
         virtual ~PolygonVertex(){}
         virtual void draw(){
-            this->vertex->drawVertex();
+            this->vertex->drawVertex();edkEnd();
         }
         virtual void drawWithNormal(edk::shape::Vector3D normal){
-            normal.drawNormal();
-            this->vertex->drawVertex();
+            normal.drawNormal();edkEnd();
+            this->vertex->drawVertex();edkEnd();
         }
         virtual void drawWithoutNormal(){
-            this->vertex->drawVertex();
+            this->vertex->drawVertex();edkEnd();
         }
         void drawVertex(){
-            this->vertex->drawVertex();
+            this->vertex->drawVertex();edkEnd();
         }
         void drawWithColor(edk::color4f32 color){
-            this->vertex->drawVertexWithColor(color);
+            this->vertex->drawVertexWithColor(color);edkEnd();
         }
         virtual void drawNormal(){}
         virtual void drawNormalWithColor(edk::color4f32){}
         virtual void drawNormalPosition(edk::vec3f32){}
         virtual void drawNormalPositionWithColor(edk::vec3f32,edk::color4f32){}
         virtual void print(){
-            this->vertex->printVertex();
+            this->vertex->printVertex();edkEnd();
         }
         virtual edk::shape::Polygon3D::VertexType getType(){
-            return edk::shape::Polygon3D::typeVertex;
+            return edk::shape::Polygon3D::typeVertex;edkEnd();
         }
         edk::shape::Polygon3D::PolygonVertex operator=(edk::shape::Polygon3D::PolygonVertex vert){
-            this->vertex = vert.vertex;
-            this->vertexID = vert.vertexID;
-            return vert;
+            this->vertex = vert.vertex;edkEnd();
+            this->vertexID = vert.vertexID;edkEnd();
+            return vert;edkEnd();
         }
         edk::shape::Vertex3D* vertex;
         edk::uint32 vertexID;
@@ -164,40 +164,40 @@ private:
                             )
             :edk::shape::Polygon3D::PolygonVertex(vertex,vertexID)
         {
-            this->uv = uv;
-            this->uvID = uvID;
+            this->uv = uv;edkEnd();
+            this->uvID = uvID;edkEnd();
         }
         virtual ~PolygonVertexWithUV(){}
         virtual void draw(){
-            this->uv->drawUV();
-            this->vertex->drawVertex();
+            this->uv->drawUV();edkEnd();
+            this->vertex->drawVertex();edkEnd();
         }
         virtual void drawWithNormal(edk::shape::Vector3D normal){
-            this->uv->drawUV();
-            normal.drawNormal();
-            this->vertex->drawVertex();
+            this->uv->drawUV();edkEnd();
+            normal.drawNormal();edkEnd();
+            this->vertex->drawVertex();edkEnd();
         }
         virtual void drawWithoutNormal(){
-            this->uv->drawUV();
-            this->vertex->drawVertex();
+            this->uv->drawUV();edkEnd();
+            this->vertex->drawVertex();edkEnd();
         }
         virtual void drawNormal(){}
         virtual void drawNormalWithColor(edk::color4f32){}
         virtual void drawNormalPosition(edk::vec3f32){}
         virtual void drawNormalPositionWithColor(edk::vec3f32,edk::color4f32){}
         virtual void print(){
-            this->vertex->printVertex();
-            this->uv->printUV();
+            this->vertex->printVertex();edkEnd();
+            this->uv->printUV();edkEnd();
         }
         virtual edk::shape::Polygon3D::VertexType getType(){
-            return edk::shape::Polygon3D::typeVertexWithUV;
+            return edk::shape::Polygon3D::typeVertexWithUV;edkEnd();
         }
         edk::shape::Polygon3D::PolygonVertexWithUV operator=(edk::shape::Polygon3D::PolygonVertexWithUV vert){
-            this->vertex = vert.vertex;
-            this->vertexID = vert.vertexID;
-            this->uv = vert.uv;
-            this->uvID = vert.uvID;
-            return vert;
+            this->vertex = vert.vertex;edkEnd();
+            this->vertexID = vert.vertexID;edkEnd();
+            this->uv = vert.uv;edkEnd();
+            this->uvID = vert.uvID;edkEnd();
+            return vert;edkEnd();
         }
         edk::shape::UV2D* uv;
         edk::uint32 uvID;
@@ -210,50 +210,50 @@ private:
                                 )
             :edk::shape::Polygon3D::PolygonVertex(vertex,vertexID)
         {
-            this->normal = normal;
-            this->normalID = normalID;
+            this->normal = normal;edkEnd();
+            this->normalID = normalID;edkEnd();
         }
         virtual ~PolygonVertexWithNormal(){}
         virtual void draw(){
-            this->normal->drawNormal();
-            this->vertex->drawVertex();
+            this->normal->drawNormal();edkEnd();
+            this->vertex->drawVertex();edkEnd();
         }
         virtual void drawWithNormal(edk::shape::Vector3D normal){
-            normal.drawNormal();
-            this->vertex->drawVertex();
+            normal.drawNormal();edkEnd();
+            this->vertex->drawVertex();edkEnd();
         }
         virtual void drawWithoutNormal(){
-            this->vertex->drawVertex();
+            this->vertex->drawVertex();edkEnd();
         }
         virtual void drawNormal(){
-            this->vertex->drawVertex();
-            this->normal->drawVertexPosition(edk::vec3f32(this->vertex->x,this->vertex->y,this->vertex->z));
+            this->vertex->drawVertex();edkEnd();
+            this->normal->drawVertexPosition(edk::vec3f32(this->vertex->x,this->vertex->y,this->vertex->z));edkEnd();
         }
         virtual void drawNormalWithColor(edk::color4f32 color){
-            this->vertex->drawVertexWithColor(color);
-            this->normal->drawVertexPosition(edk::vec3f32(this->vertex->x,this->vertex->y,this->vertex->z));
+            this->vertex->drawVertexWithColor(color);edkEnd();
+            this->normal->drawVertexPosition(edk::vec3f32(this->vertex->x,this->vertex->y,this->vertex->z));edkEnd();
         }
         virtual void drawNormalPosition(edk::vec3f32 position){
-            this->vertex->drawVertex();
-            this->vertex->drawVertexPosition(position);
+            this->vertex->drawVertex();edkEnd();
+            this->vertex->drawVertexPosition(position);edkEnd();
         }
         virtual void drawNormalPositionWithColor(edk::vec3f32 position,edk::color4f32 color){
-            this->vertex->drawVertexWithColor(color);
-            this->vertex->drawVertexPosition(position);
+            this->vertex->drawVertexWithColor(color);edkEnd();
+            this->vertex->drawVertexPosition(position);edkEnd();
         }
         virtual void print(){
-            this->vertex->printVertex();
-            this->normal->printNormal();
+            this->vertex->printVertex();edkEnd();
+            this->normal->printNormal();edkEnd();
         }
         virtual edk::shape::Polygon3D::VertexType getType(){
-            return edk::shape::Polygon3D::typeVertexWithNormal;
+            return edk::shape::Polygon3D::typeVertexWithNormal;edkEnd();
         }
         edk::shape::Polygon3D::PolygonVertexWithNormal operator=(edk::shape::Polygon3D::PolygonVertexWithNormal vert){
-            this->vertex = vert.vertex;
-            this->vertexID = vert.vertexID;
-            this->normal = vert.normal;
-            this->normalID = vert.normalID;
-            return vert;
+            this->vertex = vert.vertex;edkEnd();
+            this->vertexID = vert.vertexID;edkEnd();
+            this->normal = vert.normal;edkEnd();
+            this->normalID = vert.normalID;edkEnd();
+            return vert;edkEnd();
         }
         edk::shape::Vector3D* normal;
         edk::uint32 normalID;
@@ -269,62 +269,62 @@ private:
                                                             ,normal,normalID
                                                             )
         {
-            this->uv = uv;
-            this->uvID = uvID;
+            this->uv = uv;edkEnd();
+            this->uvID = uvID;edkEnd();
         }
         virtual ~PolygonVertexWithUVNormal(){}
         virtual void draw(){
-            this->uv->drawUV();
-            this->normal->drawNormal();
-            this->vertex->drawVertex();
+            this->uv->drawUV();edkEnd();
+            this->normal->drawNormal();edkEnd();
+            this->vertex->drawVertex();edkEnd();
         }
         virtual void drawWithNormal(edk::shape::Vector3D normal){
-            this->uv->drawUV();
-            normal.drawNormal();
-            this->vertex->drawVertex();
+            this->uv->drawUV();edkEnd();
+            normal.drawNormal();edkEnd();
+            this->vertex->drawVertex();edkEnd();
         }
         virtual void drawWithoutNormal(){
-            this->uv->drawUV();
-            this->vertex->drawVertex();
+            this->uv->drawUV();edkEnd();
+            this->vertex->drawVertex();edkEnd();
         }
         virtual void drawNormal(){
-            this->vertex->drawVertex();
-            this->normal->drawVertexPosition(edk::vec3f32(this->vertex->x,this->vertex->y,this->vertex->z));
+            this->vertex->drawVertex();edkEnd();
+            this->normal->drawVertexPosition(edk::vec3f32(this->vertex->x,this->vertex->y,this->vertex->z));edkEnd();
         }
         virtual void drawNormalWithColor(edk::color4f32 color){
-            this->vertex->drawVertexWithColor(color);
-            this->normal->drawVertexPosition(edk::vec3f32(this->vertex->x,this->vertex->y,this->vertex->z));
+            this->vertex->drawVertexWithColor(color);edkEnd();
+            this->normal->drawVertexPosition(edk::vec3f32(this->vertex->x,this->vertex->y,this->vertex->z));edkEnd();
         }
         virtual void drawNormalPosition(edk::vec3f32 position){
-            this->vertex->drawVertex();
-            this->vertex->drawVertexPosition(position);
+            this->vertex->drawVertex();edkEnd();
+            this->vertex->drawVertexPosition(position);edkEnd();
         }
         virtual void drawNormalPositionWithColor(edk::vec3f32 position,edk::color4f32 color){
-            this->vertex->drawVertexWithColor(color);
-            this->vertex->drawVertexPosition(position);
+            this->vertex->drawVertexWithColor(color);edkEnd();
+            this->vertex->drawVertexPosition(position);edkEnd();
         }
         virtual void print(){
-            this->vertex->printVertex();
-            this->normal->printNormal();
-            this->uv->printUV();
+            this->vertex->printVertex();edkEnd();
+            this->normal->printNormal();edkEnd();
+            this->uv->printUV();edkEnd();
         }
         virtual edk::shape::Polygon3D::VertexType getType(){
-            return edk::shape::Polygon3D::typeVertexWithUVNormal;
+            return edk::shape::Polygon3D::typeVertexWithUVNormal;edkEnd();
         }
         edk::shape::Polygon3D::PolygonVertexWithUVNormal operator=(edk::shape::Polygon3D::PolygonVertexWithUVNormal vert){
-            this->vertex = vert.vertex;
-            this->vertexID = vert.vertexID;
-            this->uv = vert.uv;
-            this->uvID = vert.uvID;
-            this->normal = vert.normal;
-            this->normalID = vert.normalID;
-            return vert;
+            this->vertex = vert.vertex;edkEnd();
+            this->vertexID = vert.vertexID;edkEnd();
+            this->uv = vert.uv;edkEnd();
+            this->uvID = vert.uvID;edkEnd();
+            this->normal = vert.normal;edkEnd();
+            this->normalID = vert.normalID;edkEnd();
+            return vert;edkEnd();
         }
         edk::shape::UV2D* uv;
         edk::uint32 uvID;
     };
     edk::shape::Polygon3D operator=(edk::shape::Polygon3D list){
-        return list;
+        return list;edkEnd();
     }
 };
 

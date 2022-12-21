@@ -25,8 +25,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::shape::Lines2D::Lines2D(){
-    this->type = edk::shape::line2D;
-    this->polygonLine=true;
+    this->type = edk::shape::line2D;edkEnd();
+    this->polygonLine=true;edkEnd();
 }
 //return true if it's lines
 bool edk::shape::Lines2D::isLine(){
@@ -34,21 +34,21 @@ bool edk::shape::Lines2D::isLine(){
 }
 //print the polygon
 void edk::shape::Lines2D::print(){
-    printf("\nLINES:");
-    edk::shape::Polygon2D::print();
+    printf("\nLINES:");edkEnd();
+    edk::shape::Polygon2D::print();edkEnd();
 }
 //Draw the polygon
 void edk::shape::Lines2D::draw(){
-    edk::GU::guPushMatrix();
-    edk::GU::guTranslate2f32(this->translate);
-    edk::GU::guRotateZf32(this->angle);
-    edk::GU::guScale2f32(this->scale);
-    edk::GU::guBegin(GU_LINE_STRIP);
-        this->drawVertexs();
-    edk::GU::guEnd();
-    edk::GU::guPopMatrix();
+    edk::GU::guPushMatrix();edkEnd();
+    edk::GU::guTranslate2f32(this->translate);edkEnd();
+    edk::GU::guRotateZf32(this->angle);edkEnd();
+    edk::GU::guScale2f32(this->scale);edkEnd();
+    edk::GU::guBegin(GU_LINE_STRIP);edkEnd();
+        this->drawVertexs();edkEnd();
+    edk::GU::guEnd();edkEnd();
+    edk::GU::guPopMatrix();edkEnd();
 }
 //set collisionID
 void edk::shape::Lines2D::setCollisionID(edk::uint8 collisionID){
-    this->collisionID = collisionID;
+    this->collisionID = collisionID;edkEnd();
 }

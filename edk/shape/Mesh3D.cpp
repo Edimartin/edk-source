@@ -29,30 +29,32 @@ edk::shape::Mesh3D::StackVertex::StackVertex(){
 }
 edk::shape::Mesh3D::StackVertex::~StackVertex(){
     //
-    this->cleanVertexes();
+    this->cleanVertexes();edkEnd();
 }
 
 //clean all vertexes
 void edk::shape::Mesh3D::StackVertex::cleanVertexes(){
-    edk::uint32 size=this->stack.size();
-    edk::shape::Mesh3D::MeshVertex* temp;
+    edk::uint32 size=this->stack.size();edkEnd();
+    edk::shape::Mesh3D::MeshVertex* temp;edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        temp = this->stack.get(i);
-        if(temp) delete temp;
+        temp = this->stack.get(i);edkEnd();
+        if(temp){
+            delete temp;edkEnd();
+        }
     }
-    this->stack.clean();
+    this->stack.clean();edkEnd();
 }
 //get the size of the vertexes
 edk::uint32 edk::shape::Mesh3D::StackVertex::size(){
-    return this->stack.size();
+    return this->stack.size();edkEnd();
 }
 edk::uint32 edk::shape::Mesh3D::StackVertex::getSize(){
-    return this->stack.size();
+    return this->stack.size();edkEnd();
 }
 
 //create a new vertex in to the stack
 edk::uint32 edk::shape::Mesh3D::StackVertex::newVertex(edk::float32 x,edk::float32 y,edk::float32 z){
-    return this->newVertex(x,y,z,1.f,1.f,1.f,1.f);
+    return this->newVertex(x,y,z,1.f,1.f,1.f,1.f);edkEnd();
 }
 edk::uint32 edk::shape::Mesh3D::StackVertex::newVertex(edk::float32 x,
                                                        edk::float32 y,
@@ -61,7 +63,7 @@ edk::uint32 edk::shape::Mesh3D::StackVertex::newVertex(edk::float32 x,
                                                        edk::float32 g,
                                                        edk::float32 b
                                                        ){
-    return this->newVertex(x,y,z,r,g,b,1.f);
+    return this->newVertex(x,y,z,r,g,b,1.f);edkEnd();
 }
 edk::uint32 edk::shape::Mesh3D::StackVertex::newVertex(edk::float32 x,
                                                        edk::float32 y,
@@ -71,49 +73,49 @@ edk::uint32 edk::shape::Mesh3D::StackVertex::newVertex(edk::float32 x,
                                                        edk::float32 b,
                                                        edk::float32 a
                                                        ){
-    edk::shape::Mesh3D::MeshVertex* vert = new edk::shape::Mesh3D::MeshVertex;
+    edk::shape::Mesh3D::MeshVertex* vert = new edk::shape::Mesh3D::MeshVertex;edkEnd();
     if(vert){
-        vert->vertex.x = x;
-        vert->vertex.y = y;
-        vert->vertex.z = z;
-        vert->vertex.r = r;
-        vert->vertex.g = g;
-        vert->vertex.b = b;
-        vert->vertex.a = a;
-        edk::uint32 size = this->stack.size();
-        edk::uint32 ret = this->stack.pushBack(vert);
+        vert->vertex.x = x;edkEnd();
+        vert->vertex.y = y;edkEnd();
+        vert->vertex.z = z;edkEnd();
+        vert->vertex.r = r;edkEnd();
+        vert->vertex.g = g;edkEnd();
+        vert->vertex.b = b;edkEnd();
+        vert->vertex.a = a;edkEnd();
+        edk::uint32 size = this->stack.size();edkEnd();
+        edk::uint32 ret = this->stack.pushBack(vert);edkEnd();
         //add this vert in to
         if(size<this->stack.size()){
             return ret;
         }
-        delete vert;
+        delete vert;edkEnd();
     }
-    return 0u;
+    return 0u;edkEnd();
 }
 edk::uint32 edk::shape::Mesh3D::StackVertex::newVertex(edk::vec3f32 position,edk::color4f32 color){
-    return this->newVertex(position.x,position.y,position.z,color.r,color.g,color.b,color.a);
+    return this->newVertex(position.x,position.y,position.z,color.r,color.g,color.b,color.a);edkEnd();
 }
 edk::uint32 edk::shape::Mesh3D::StackVertex::newVertex(edk::shape::Vertex3D vert){
-    return this->newVertex(vert.x,vert.y,vert.z,vert.r,vert.g,vert.b,vert.a);
+    return this->newVertex(vert.x,vert.y,vert.z,vert.r,vert.g,vert.b,vert.a);edkEnd();
 }
 edk::shape::Vertex3D* edk::shape::Mesh3D::StackVertex::getVertex(edk::uint32 position){
     if(this->stack.havePos(position)){
-        edk::shape::Mesh3D::MeshVertex* temp = this->stack.get(position);
+        edk::shape::Mesh3D::MeshVertex* temp = this->stack.get(position);edkEnd();
         if(temp){
-            return temp->pointer;
+            return temp->pointer;edkEnd();
         }
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 bool edk::shape::Mesh3D::StackVertex::haveVertex(edk::uint32 position){
-    return this->stack.havePos(position);
+    return this->stack.havePos(position);edkEnd();
 }
 bool edk::shape::Mesh3D::StackVertex::deleteVertex(edk::uint32 position){
     if(this->stack.havePos(position)){
-        edk::shape::Mesh3D::MeshVertex* temp = this->stack.get(position);
+        edk::shape::Mesh3D::MeshVertex* temp = this->stack.get(position);edkEnd();
         if(temp){
             if(this->stack.remove(position)){
-                delete temp;
+                delete temp;edkEnd();
                 return true;
             }
         }
@@ -122,9 +124,9 @@ bool edk::shape::Mesh3D::StackVertex::deleteVertex(edk::uint32 position){
 }
 bool edk::shape::Mesh3D::StackVertex::incrementVertex(edk::uint32 position){
     if(this->stack.havePos(position)){
-        edk::shape::Mesh3D::MeshVertex* temp = this->stack.get(position);
+        edk::shape::Mesh3D::MeshVertex* temp = this->stack.get(position);edkEnd();
         if(temp){
-            temp->incrementUse();
+            temp->incrementUse();edkEnd();
             return true;
         }
     }
@@ -132,9 +134,9 @@ bool edk::shape::Mesh3D::StackVertex::incrementVertex(edk::uint32 position){
 }
 bool edk::shape::Mesh3D::StackVertex::decrementVertex(edk::uint32 position){
     if(this->stack.havePos(position)){
-        edk::shape::Mesh3D::MeshVertex* temp = this->stack.get(position);
+        edk::shape::Mesh3D::MeshVertex* temp = this->stack.get(position);edkEnd();
         if(temp){
-            return temp->decrementUse();
+            return temp->decrementUse();edkEnd();
         }
     }
     return false;
@@ -145,27 +147,29 @@ edk::shape::Mesh3D::StackNormal::StackNormal(){
 }
 edk::shape::Mesh3D::StackNormal::~StackNormal(){
     //
-    this->cleanNormals();
+    this->cleanNormals();edkEnd();
 }
 
 //clean all normals
 void edk::shape::Mesh3D::StackNormal::cleanNormals(){
-    edk::uint32 size=this->stack.size();
-    edk::shape::Mesh3D::MeshNormal* temp;
+    edk::uint32 size=this->stack.size();edkEnd();
+    edk::shape::Mesh3D::MeshNormal* temp;edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
         if(this->stack.havePos(i)){
-            temp = this->stack.get(i);
-            if(temp) delete temp;
+            temp = this->stack.get(i);edkEnd();
+            if(temp){
+                delete temp;edkEnd();
+            }
         }
     }
-    this->stack.clean();
+    this->stack.clean();edkEnd();
 }
 //get the size of the normals
 edk::uint32 edk::shape::Mesh3D::StackNormal::size(){
-    return this->stack.size();
+    return this->stack.size();edkEnd();
 }
 edk::uint32 edk::shape::Mesh3D::StackNormal::getSize(){
-    return this->stack.size();
+    return this->stack.size();edkEnd();
 }
 
 //create a new normals in to the stack
@@ -173,45 +177,45 @@ edk::uint32 edk::shape::Mesh3D::StackNormal::newNormal(edk::float32 x,
                                                        edk::float32 y,
                                                        edk::float32 z
                                                        ){
-    edk::shape::Mesh3D::MeshNormal* vert = new edk::shape::Mesh3D::MeshNormal;
+    edk::shape::Mesh3D::MeshNormal* vert = new edk::shape::Mesh3D::MeshNormal;edkEnd();
     if(vert){
-        vert->normal.x = x;
-        vert->normal.y = y;
-        vert->normal.z = z;
-        edk::uint32 size = this->stack.size();
-        edk::uint32 ret = this->stack.pushBack(vert);
+        vert->normal.x = x;edkEnd();
+        vert->normal.y = y;edkEnd();
+        vert->normal.z = z;edkEnd();
+        edk::uint32 size = this->stack.size();edkEnd();
+        edk::uint32 ret = this->stack.pushBack(vert);edkEnd();
         //add this vert in to
         if(size<this->stack.size()){
             return ret;
         }
-        delete vert;
+        delete vert;edkEnd();
     }
-    return 0u;
+    return 0u;edkEnd();
 }
 edk::uint32 edk::shape::Mesh3D::StackNormal::newNormal(edk::vec3f32 position){
-    return this->newNormal(position.x,position.y,position.z);
+    return this->newNormal(position.x,position.y,position.z);edkEnd();
 }
 edk::uint32 edk::shape::Mesh3D::StackNormal::newNormal(edk::shape::Vector3D vert){
-    return this->newNormal(vert.x,vert.y,vert.z);
+    return this->newNormal(vert.x,vert.y,vert.z);edkEnd();
 }
 edk::shape::Vector3D* edk::shape::Mesh3D::StackNormal::getNormal(edk::uint32 position){
     if(this->stack.havePos(position)){
-        edk::shape::Mesh3D::MeshNormal* temp = this->stack.get(position);
+        edk::shape::Mesh3D::MeshNormal* temp = this->stack.get(position);edkEnd();
         if(temp){
-            return temp->pointer;
+            return temp->pointer;edkEnd();
         }
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 bool edk::shape::Mesh3D::StackNormal::haveNormal(edk::uint32 position){
-    return this->stack.havePos(position);
+    return this->stack.havePos(position);edkEnd();
 }
 bool edk::shape::Mesh3D::StackNormal::deleteNormal(edk::uint32 position){
     if(this->stack.havePos(position)){
-        edk::shape::Mesh3D::MeshNormal* temp = this->stack.get(position);
+        edk::shape::Mesh3D::MeshNormal* temp = this->stack.get(position);edkEnd();
         if(temp){
             if(this->stack.remove(position)){
-                delete temp;
+                delete temp;edkEnd();
                 return true;
             }
         }
@@ -220,9 +224,9 @@ bool edk::shape::Mesh3D::StackNormal::deleteNormal(edk::uint32 position){
 }
 bool edk::shape::Mesh3D::StackNormal::incrementNormal(edk::uint32 position){
     if(this->stack.havePos(position)){
-        edk::shape::Mesh3D::MeshNormal* temp = this->stack.get(position);
+        edk::shape::Mesh3D::MeshNormal* temp = this->stack.get(position);edkEnd();
         if(temp){
-            temp->incrementUse();
+            temp->incrementUse();edkEnd();
             return true;
         }
     }
@@ -230,9 +234,9 @@ bool edk::shape::Mesh3D::StackNormal::incrementNormal(edk::uint32 position){
 }
 bool edk::shape::Mesh3D::StackNormal::decrementNormal(edk::uint32 position){
     if(this->stack.havePos(position)){
-        edk::shape::Mesh3D::MeshNormal* temp = this->stack.get(position);
+        edk::shape::Mesh3D::MeshNormal* temp = this->stack.get(position);edkEnd();
         if(temp){
-            return temp->decrementUse();
+            return temp->decrementUse();edkEnd();
         }
     }
     return false;
@@ -243,71 +247,73 @@ edk::shape::Mesh3D::StackUV::StackUV(){
 }
 edk::shape::Mesh3D::StackUV::~StackUV(){
     //
-    this->cleanUVS();
+    this->cleanUVS();edkEnd();
 }
 
 //clean all uvs
 void edk::shape::Mesh3D::StackUV::cleanUVS(){
-    edk::uint32 size=this->stack.size();
-    edk::shape::Mesh3D::MeshUV* temp;
+    edk::uint32 size=this->stack.size();edkEnd();
+    edk::shape::Mesh3D::MeshUV* temp;edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
         if(this->stack.havePos(i)){
-            temp = this->stack.get(i);
-            if(temp) delete temp;
+            temp = this->stack.get(i);edkEnd();
+            if(temp){
+                delete temp;edkEnd();
+            }
         }
     }
-    this->stack.clean();
+    this->stack.clean();edkEnd();
 }
 //get the size of the uvs
 edk::uint32 edk::shape::Mesh3D::StackUV::size(){
-    return this->stack.size();
+    return this->stack.size();edkEnd();
 }
 edk::uint32 edk::shape::Mesh3D::StackUV::getSize(){
-    return this->stack.size();
+    return this->stack.size();edkEnd();
 }
 
 //create a new uv in to the stack
 edk::uint32 edk::shape::Mesh3D::StackUV::newUV(edk::float32 u,
                                                edk::float32 v
                                                ){
-    edk::shape::Mesh3D::MeshUV* vert = new edk::shape::Mesh3D::MeshUV;
+    edk::shape::Mesh3D::MeshUV* vert = new edk::shape::Mesh3D::MeshUV;edkEnd();
     if(vert){
-        vert->uv.u = u;
-        vert->uv.v = v;
-        edk::uint32 size = this->stack.size();
-        edk::uint32 ret = this->stack.pushBack(vert);
+        vert->uv.u = u;edkEnd();
+        vert->uv.v = v;edkEnd();
+        edk::uint32 size = this->stack.size();edkEnd();
+        edk::uint32 ret = this->stack.pushBack(vert);edkEnd();
         //add this vert in to
         if(size<this->stack.size()){
             return ret;
         }
-        delete vert;
+        delete vert;edkEnd();
     }
-    return 0u;
+    return 0u;edkEnd();
 }
 edk::uint32 edk::shape::Mesh3D::StackUV::newUV(edk::vec2f32 position){
-    return this->newUV(position.x,position.y);
+    return this->newUV(position.x,position.y);edkEnd();
 }
 edk::uint32 edk::shape::Mesh3D::StackUV::newUV(edk::shape::UV2D vert){
-    return this->newUV(vert.u,vert.v);
+    return this->newUV(vert.u,vert.v);edkEnd();
 }
 edk::shape::UV2D* edk::shape::Mesh3D::StackUV::getUV(edk::uint32 position){
     if(this->stack.havePos(position)){
-        edk::shape::Mesh3D::MeshUV* temp = this->stack.get(position);
+        edk::shape::Mesh3D::MeshUV* temp = this->stack.get(position);edkEnd();
         if(temp){
-            return temp->pointer;
+            return temp->pointer;edkEnd();
         }
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 bool edk::shape::Mesh3D::StackUV::haveUV(edk::uint32 position){
-    return this->stack.havePos(position);
+    return this->stack.havePos(position);edkEnd();
 }
 bool edk::shape::Mesh3D::StackUV::deleteUV(edk::uint32 position){
     if(this->stack.havePos(position)){
-        edk::shape::Mesh3D::MeshUV* temp = this->stack.get(position);
+        edk::shape::Mesh3D::MeshUV* temp = this->stack.get(position);edkEnd();
         if(temp){
             if(this->stack.remove(position)){
-                delete temp;
+                delete temp;edkEnd();
                 return true;
             }
         }
@@ -316,9 +322,9 @@ bool edk::shape::Mesh3D::StackUV::deleteUV(edk::uint32 position){
 }
 bool edk::shape::Mesh3D::StackUV::incrementUV(edk::uint32 position){
     if(this->stack.havePos(position)){
-        edk::shape::Mesh3D::MeshUV* temp = this->stack.get(position);
+        edk::shape::Mesh3D::MeshUV* temp = this->stack.get(position);edkEnd();
         if(temp){
-            temp->incrementUse();
+            temp->incrementUse();edkEnd();
             return true;
         }
     }
@@ -326,9 +332,9 @@ bool edk::shape::Mesh3D::StackUV::incrementUV(edk::uint32 position){
 }
 bool edk::shape::Mesh3D::StackUV::decrementUV(edk::uint32 position){
     if(this->stack.havePos(position)){
-        edk::shape::Mesh3D::MeshUV* temp = this->stack.get(position);
+        edk::shape::Mesh3D::MeshUV* temp = this->stack.get(position);edkEnd();
         if(temp){
-            return temp->decrementUse();
+            return temp->decrementUse();edkEnd();
         }
     }
     return false;
@@ -339,133 +345,133 @@ edk::shape::Mesh3D::StackPolygon::StackPolygon(){
 }
 edk::shape::Mesh3D::StackPolygon::~StackPolygon(){
     //
-    this->cleanPolygons();
+    this->cleanPolygons();edkEnd();
 }
 
 edk::uint32 edk::shape::Mesh3D::StackPolygon::size(){
-    return this->list.size();
+    return this->list.size();edkEnd();
 }
 edk::uint32 edk::shape::Mesh3D::StackPolygon::getSize(){
-    return this->list.size();
+    return this->list.size();edkEnd();
 }
 
 //clean the polygon list
 void edk::shape::Mesh3D::StackPolygon::cleanPolygons(){
-    edk::uint32 size = this->list.size();
-    edk::shape::Polygon3D* temp;
+    edk::uint32 size = this->list.size();edkEnd();
+    edk::shape::Polygon3D* temp;edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        temp = this->list.get(i);
+        temp = this->list.get(i);edkEnd();
         if(temp){
-            delete temp;
+            delete temp;edkEnd();
         }
     }
-    this->list.clean();
+    this->list.clean();edkEnd();
 }
 //create a new polygon
 edk::uint32 edk::shape::Mesh3D::StackPolygon::newPolygon(edk::uint32 vertexes){
     //create a new polygon
-    edk::shape::Polygon3D* poly = new edk::shape::Polygon3D;
+    edk::shape::Polygon3D* poly = new edk::shape::Polygon3D;edkEnd();
     if(poly){
         if(poly->createPolygon(vertexes)){
             edk::uint32 ret=0u;
-            edk::uint32 size = this->list.size();
-            ret = this->list.pushBack(poly);
+            edk::uint32 size = this->list.size();edkEnd();
+            ret = this->list.pushBack(poly);edkEnd();
             if(size<this->list.size()){
                 return ret;
             }
         }
-        delete poly;
+        delete poly;edkEnd();
     }
-    return 0u;
+    return 0u;edkEnd();
 }
 //return the polygon in a position
 edk::shape::Polygon3D* edk::shape::Mesh3D::StackPolygon::getPolygon(edk::uint32 position){
-    return this->list.get(position);
+    return this->list.get(position);edkEnd();
 }
 //print the polygons
 void edk::shape::Mesh3D::StackPolygon::printPolygons(){
-    this->list.print();
+    this->list.print();edkEnd();
 }
 //draw the polygons
 void edk::shape::Mesh3D::StackPolygon::drawPolygons(){
-    this->list.render();
+    this->list.render();edkEnd();
 }
 //Draw the polygon with lines
 void edk::shape::Mesh3D::StackPolygon::drawWire(){
-    this->list.drawWire();
+    this->list.drawWire();edkEnd();
 }
 //Draw the polygon with lines
 void edk::shape::Mesh3D::StackPolygon::drawWireWithColor(edk::color4f32 color){
-    this->list.drawWireWithColor(color);
+    this->list.drawWireWithColor(color);edkEnd();
 }
 //Draw the polygon with lines
 void edk::shape::Mesh3D::StackPolygon::drawPolygonVertexs(edk::color4f32 color){
-    this->list.drawPolygonVertexs(color);
+    this->list.drawPolygonVertexs(color);edkEnd();
 }
 //Draw the polygon normals lines
 void edk::shape::Mesh3D::StackPolygon::drawPolygonNormals(){
-    this->list.drawPolygonNormals();
+    this->list.drawPolygonNormals();edkEnd();
 }
 //Draw the polygon normals lines
 void edk::shape::Mesh3D::StackPolygon::drawPolygonNormalsWithColor(edk::color3f32 color){
-    this->list.drawPolygonNormalsWithColor(color);
+    this->list.drawPolygonNormalsWithColor(color);edkEnd();
 }
 
 edk::shape::Mesh3D::Mesh3D(){
     //mesh angles
-    this->angles = edk::vec3f32(0,0,0);
+    this->angles = edk::vec3f32(0,0,0);edkEnd();
     //mesh size
-    this->size = edk::size3f32(1,1,1);
+    this->size = edk::size3f32(1,1,1);edkEnd();
     //mesh position inside the object
-    this->position = edk::vec3f32(0,0,0);
+    this->position = edk::vec3f32(0,0,0);edkEnd();
 }
 edk::shape::Mesh3D::~Mesh3D(){
     //
-    this->cleanMesh();
+    this->cleanMesh();edkEnd();
 }
 
 void edk::shape::Mesh3D::cleanVertexes(){
-    this->vertexes.cleanVertexes();
+    this->vertexes.cleanVertexes();edkEnd();
 }
 void edk::shape::Mesh3D::cleanNormals(){
-    this->normals.cleanNormals();
+    this->normals.cleanNormals();edkEnd();
 }
 void edk::shape::Mesh3D::cleanUVs(){
-    this->uvs.cleanUVS();
+    this->uvs.cleanUVS();edkEnd();
 }
 void edk::shape::Mesh3D::cleanPolygons(){
-    this->polygons.cleanPolygons();
+    this->polygons.cleanPolygons();edkEnd();
 }
 void edk::shape::Mesh3D::cleanMesh(){
-    this->cleanPolygons();
-    this->cleanVertexes();
-    this->cleanNormals();
-    this->cleanUVs();
+    this->cleanPolygons();edkEnd();
+    this->cleanVertexes();edkEnd();
+    this->cleanNormals();edkEnd();
+    this->cleanUVs();edkEnd();
 }
 
 edk::uint32 edk::shape::Mesh3D::getVertexSize(){
-    return this->vertexes.size();
+    return this->vertexes.size();edkEnd();
 }
 edk::uint32 edk::shape::Mesh3D::getUVSize(){
-    return this->uvs.size();
+    return this->uvs.size();edkEnd();
 }
 edk::uint32 edk::shape::Mesh3D::getNormalSize(){
-    return this->normals.size();
+    return this->normals.size();edkEnd();
 }
 edk::uint32 edk::shape::Mesh3D::getPolygonSize(){
-    return this->polygons.size();
+    return this->polygons.size();edkEnd();
 }
 
 //Set polygons color
 bool edk::shape::Mesh3D::setPolygonsColor(edk::color4f32 color){
     //test if have polygons
     if(this->polygons.size()){
-        edk::shape::Polygon3D* polygon=NULL;
+        edk::shape::Polygon3D* polygon=NULL;edkEnd();
         //set the polygonColors
         for(edk::uint32 i=0u;i<this->polygons.size();i++){
-            polygon = this->polygons.getPolygon(i);
+            polygon = this->polygons.getPolygon(i);edkEnd();
             if(polygon){
-                polygon->setPolygonColor(color);
+                polygon->setPolygonColor(color);edkEnd();
             }
         }
         return true;
@@ -473,17 +479,17 @@ bool edk::shape::Mesh3D::setPolygonsColor(edk::color4f32 color){
     return false;
 }
 bool edk::shape::Mesh3D::setPolygonsColor(edk::color3f32 color){
-    return setPolygonsColor(color.r,color.g,color.b);
+    return setPolygonsColor(color.r,color.g,color.b);edkEnd();
 }
 bool edk::shape::Mesh3D::setPolygonsColor(edk::float32 r,edk::float32 g,edk::float32 b){
     //test if have polygons
     if(this->polygons.size()){
-        edk::shape::Polygon3D* polygon=NULL;
+        edk::shape::Polygon3D* polygon=NULL;edkEnd();
         //set the polygonColors
         for(edk::uint32 i=0u;i<this->polygons.size();i++){
-            polygon = this->polygons.getPolygon(i);
+            polygon = this->polygons.getPolygon(i);edkEnd();
             if(polygon){
-                polygon->setPolygonColor(r,g,b);
+                polygon->setPolygonColor(r,g,b);edkEnd();
             }
         }
         return true;
@@ -493,12 +499,12 @@ bool edk::shape::Mesh3D::setPolygonsColor(edk::float32 r,edk::float32 g,edk::flo
 bool edk::shape::Mesh3D::setPolygonsColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
     //test if have polygons
     if(this->polygons.size()){
-        edk::shape::Polygon3D* polygon=NULL;
+        edk::shape::Polygon3D* polygon=NULL;edkEnd();
         //set the polygonColors
         for(edk::uint32 i=0u;i<this->polygons.size();i++){
-            polygon = this->polygons.getPolygon(i);
+            polygon = this->polygons.getPolygon(i);edkEnd();
             if(polygon){
-                polygon->setPolygonColor(r,g,b,a);
+                polygon->setPolygonColor(r,g,b,a);edkEnd();
             }
         }
         return true;
@@ -509,12 +515,12 @@ bool edk::shape::Mesh3D::setPolygonsColor(edk::float32 r,edk::float32 g,edk::flo
 bool edk::shape::Mesh3D::setPolygonsSmooth(bool smooth){
     //test if have polygons
     if(this->polygons.size()){
-        edk::shape::Polygon3D* polygon=NULL;
+        edk::shape::Polygon3D* polygon=NULL;edkEnd();
         //set the polygonColors
         for(edk::uint32 i=0u;i<this->polygons.size();i++){
-            polygon = this->polygons.getPolygon(i);
+            polygon = this->polygons.getPolygon(i);edkEnd();
             if(polygon){
-                polygon->smooth=smooth;
+                polygon->smooth=smooth;edkEnd();
             }
         }
         return true;
@@ -524,12 +530,12 @@ bool edk::shape::Mesh3D::setPolygonsSmooth(bool smooth){
 bool edk::shape::Mesh3D::setPolygonsSmoothOn(){
     //test if have polygons
     if(this->polygons.size()){
-        edk::shape::Polygon3D* polygon=NULL;
+        edk::shape::Polygon3D* polygon=NULL;edkEnd();
         //set the polygonColors
         for(edk::uint32 i=0u;i<this->polygons.size();i++){
-            polygon = this->polygons.getPolygon(i);
+            polygon = this->polygons.getPolygon(i);edkEnd();
             if(polygon){
-                polygon->smooth=true;
+                polygon->smooth=true;edkEnd();
             }
         }
         return true;
@@ -539,12 +545,12 @@ bool edk::shape::Mesh3D::setPolygonsSmoothOn(){
 bool edk::shape::Mesh3D::setPolygonsSmoothOff(){
     //test if have polygons
     if(this->polygons.size()){
-        edk::shape::Polygon3D* polygon=NULL;
+        edk::shape::Polygon3D* polygon=NULL;edkEnd();
         //set the polygonColors
         for(edk::uint32 i=0u;i<this->polygons.size();i++){
-            polygon = this->polygons.getPolygon(i);
+            polygon = this->polygons.getPolygon(i);edkEnd();
             if(polygon){
-                polygon->smooth=false;
+                polygon->smooth=false;edkEnd();
             }
         }
         return true;
@@ -555,12 +561,12 @@ bool edk::shape::Mesh3D::setPolygonsSmoothOff(){
 bool edk::shape::Mesh3D::updatePolygonsNormals(){
     //test if have polygons
     if(this->polygons.size()){
-        edk::shape::Polygon3D* polygon=NULL;
+        edk::shape::Polygon3D* polygon=NULL;edkEnd();
         //set the polygonColors
         for(edk::uint32 i=0u;i<this->polygons.size();i++){
-            polygon = this->polygons.getPolygon(i);
+            polygon = this->polygons.getPolygon(i);edkEnd();
             if(polygon){
-                polygon->updateNormal();
+                polygon->updateNormal();edkEnd();
             }
         }
         return true;
@@ -576,7 +582,7 @@ edk::uint32 edk::shape::Mesh3D::newVertex(edk::float32 x,
                                           edk::float32 g,
                                           edk::float32 b
                                           ){
-    return this->vertexes.newVertex(x,y,z,r,g,b);
+    return this->vertexes.newVertex(x,y,z,r,g,b);edkEnd();
 }
 edk::uint32 edk::shape::Mesh3D::newVertex(edk::float32 x,
                                           edk::float32 y,
@@ -586,63 +592,63 @@ edk::uint32 edk::shape::Mesh3D::newVertex(edk::float32 x,
                                           edk::float32 b,
                                           edk::float32 a
                                           ){
-    return this->vertexes.newVertex(x,y,z,r,g,b,a);
+    return this->vertexes.newVertex(x,y,z,r,g,b,a);edkEnd();
 }
 edk::uint32 edk::shape::Mesh3D::newVertex(edk::vec3f32 position,edk::color4f32 color){
-    return this->vertexes.newVertex(position,color);
+    return this->vertexes.newVertex(position,color);edkEnd();
 }
 edk::uint32 edk::shape::Mesh3D::newVertex(edk::shape::Vertex3D vert){
-    return this->vertexes.newVertex(vert);
+    return this->vertexes.newVertex(vert);edkEnd();
 }
 //NORMALS
 edk::uint32 edk::shape::Mesh3D::newNormal(edk::float32 x,edk::float32 y,edk::float32 z){
-    return this->normals.newNormal(x,y,z);
+    return this->normals.newNormal(x,y,z);edkEnd();
 }
 edk::uint32 edk::shape::Mesh3D::newNormal(edk::vec3f32 vector){
-    return this->normals.newNormal(vector);
+    return this->normals.newNormal(vector);edkEnd();
 }
 edk::uint32 edk::shape::Mesh3D::newNormal(edk::shape::Vector3D vector){
-    return this->normals.newNormal(vector);
+    return this->normals.newNormal(vector);edkEnd();
 }
 //UVS
 edk::uint32 edk::shape::Mesh3D::newUV(edk::float32 x,edk::float32 y){
-    return this->uvs.newUV(x,y);
+    return this->uvs.newUV(x,y);edkEnd();
 }
 edk::uint32 edk::shape::Mesh3D::newUV(edk::vec2f32 vector){
-    return this->uvs.newUV(vector);
+    return this->uvs.newUV(vector);edkEnd();
 }
 edk::uint32 edk::shape::Mesh3D::newUV(edk::shape::UV2D uv){
-    return this->uvs.newUV(uv);
+    return this->uvs.newUV(uv);edkEnd();
 }
 
 //get a vertex in a position
 edk::shape::Vertex3D edk::shape::Mesh3D::getVertex(edk::uint32 position){
-    edk::shape::Vertex3D ret;
-    edk::shape::Vertex3D* temp = this->vertexes.getVertex(position);
+    edk::shape::Vertex3D ret;edkEnd();
+    edk::shape::Vertex3D* temp = this->vertexes.getVertex(position);edkEnd();
     if(temp){
-        ret = *temp;
+        ret = *temp;edkEnd();
     }
     return ret;
 }
 //get a vertex position
 edk::vec3f32 edk::shape::Mesh3D::getVertexPosition(edk::uint32 position){
-    edk::vec3f32 ret;
-    edk::shape::Vertex3D* temp = this->vertexes.getVertex(position);
+    edk::vec3f32 ret;edkEnd();
+    edk::shape::Vertex3D* temp = this->vertexes.getVertex(position);edkEnd();
     if(temp){
-        ret.x = temp->x;
-        ret.y = temp->y;
-        ret.z = temp->z;
+        ret.x = temp->x;edkEnd();
+        ret.y = temp->y;edkEnd();
+        ret.z = temp->z;edkEnd();
     }
     return ret;
 }
 edk::color4f32 edk::shape::Mesh3D::getVertexColor(edk::uint32 position){
-    edk::color4f32 ret;
-    edk::shape::Vertex3D* temp = this->vertexes.getVertex(position);
+    edk::color4f32 ret;edkEnd();
+    edk::shape::Vertex3D* temp = this->vertexes.getVertex(position);edkEnd();
     if(temp){
-        ret.r = temp->r;
-        ret.g = temp->g;
-        ret.b = temp->b;
-        ret.a = temp->a;
+        ret.r = temp->r;edkEnd();
+        ret.g = temp->g;edkEnd();
+        ret.b = temp->b;edkEnd();
+        ret.a = temp->a;edkEnd();
     }
     return ret;
 }
@@ -652,28 +658,28 @@ bool edk::shape::Mesh3D::removeVertex(edk::uint32 position){
     if(this->vertexes.haveVertex(position)){
         //remove all polygons where the vertex appears
 
-        return this->vertexes.deleteVertex(position);
+        return this->vertexes.deleteVertex(position);edkEnd();
     }
     return false;
 }
 
 //get a normal in a position
 edk::shape::Vector3D edk::shape::Mesh3D::getNormal(edk::uint32 position){
-    edk::shape::Vector3D ret;
-    edk::shape::Vector3D* temp = this->normals.getNormal(position);
+    edk::shape::Vector3D ret;edkEnd();
+    edk::shape::Vector3D* temp = this->normals.getNormal(position);edkEnd();
     if(temp){
-        ret = *temp;
+        ret = *temp;edkEnd();
     }
     return ret;
 }
 //get a normal vector
 edk::vec3f32 edk::shape::Mesh3D::getNormalPosition(edk::uint32 position){
-    edk::vec3f32 ret;
-    edk::shape::Vector3D* temp = this->normals.getNormal(position);
+    edk::vec3f32 ret;edkEnd();
+    edk::shape::Vector3D* temp = this->normals.getNormal(position);edkEnd();
     if(temp){
-        ret.x = temp->x;
-        ret.y = temp->y;
-        ret.z = temp->z;
+        ret.x = temp->x;edkEnd();
+        ret.y = temp->y;edkEnd();
+        ret.z = temp->z;edkEnd();
     }
     return ret;
 }
@@ -683,27 +689,27 @@ bool edk::shape::Mesh3D::removeNormal(edk::uint32 position){
     if(this->normals.haveNormal(position)){
         //remove all polygons where the vertex appears
 
-        return this->normals.deleteNormal(position);
+        return this->normals.deleteNormal(position);edkEnd();
     }
     return false;
 }
 
 //get the UV in a position
 edk::shape::UV2D edk::shape::Mesh3D::getUV(edk::uint32 position){
-    edk::shape::UV2D ret;
-    edk::shape::UV2D* temp = this->uvs.getUV(position);
+    edk::shape::UV2D ret;edkEnd();
+    edk::shape::UV2D* temp = this->uvs.getUV(position);edkEnd();
     if(temp){
-        ret = *temp;
+        ret = *temp;edkEnd();
     }
     return ret;
 }
 //get a UV position
 edk::vec2f32 edk::shape::Mesh3D::getUVPosition(edk::uint32 position){
-    edk::vec2f32 ret;
-    edk::shape::UV2D* temp = this->uvs.getUV(position);
+    edk::vec2f32 ret;edkEnd();
+    edk::shape::UV2D* temp = this->uvs.getUV(position);edkEnd();
     if(temp){
-        ret.x = temp->u;
-        ret.y = temp->v;
+        ret.x = temp->u;edkEnd();
+        ret.y = temp->v;edkEnd();
     }
     return ret;
 }
@@ -713,17 +719,17 @@ bool edk::shape::Mesh3D::removeIV(edk::uint32 position){
     if(this->uvs.haveUV(position)){
         //remove all polygons where the vertex appears
 
-        return this->uvs.deleteUV(position);
+        return this->uvs.deleteUV(position);edkEnd();
     }
     return false;
 }
 //POLYGONS
 edk::uint32 edk::shape::Mesh3D::newPolygon(edk::uint32 vertexes){
-    return this->polygons.newPolygon(vertexes);
+    return this->polygons.newPolygon(vertexes);edkEnd();
 }
 //select the polygon
 bool edk::shape::Mesh3D::selectPolygon(edk::uint32 position){
-    this->selected = this->polygons.getPolygon(position);
+    this->selected = this->polygons.getPolygon(position);edkEnd();
     if(this->selected){
         return true;
     }
@@ -733,9 +739,9 @@ bool edk::shape::Mesh3D::selectPolygon(edk::uint32 position){
 bool edk::shape::Mesh3D::selectedPolygonSetVertex(edk::uint32 position,edk::uint32 vertex){
     if(this->selected){
         //get the vertex
-        edk::shape::Vertex3D* temp = this->vertexes.getVertex(vertex);
+        edk::shape::Vertex3D* temp = this->vertexes.getVertex(vertex);edkEnd();
         if(temp){
-            return this->selected->setVertex(position,temp,vertex);
+            return this->selected->setVertex(position,temp,vertex);edkEnd();
         }
     }
     return false;
@@ -743,9 +749,9 @@ bool edk::shape::Mesh3D::selectedPolygonSetVertex(edk::uint32 position,edk::uint
 bool edk::shape::Mesh3D::selectedPolygonSetNormal(edk::uint32 position,edk::uint32 normal){
     if(this->selected){
         //get the vertex
-        edk::shape::Vector3D* temp = this->normals.getNormal(normal);
+        edk::shape::Vector3D* temp = this->normals.getNormal(normal);edkEnd();
         if(temp){
-            return this->selected->setNormal(position,temp,normal);
+            return this->selected->setNormal(position,temp,normal);edkEnd();
         }
     }
     return false;
@@ -753,9 +759,9 @@ bool edk::shape::Mesh3D::selectedPolygonSetNormal(edk::uint32 position,edk::uint
 bool edk::shape::Mesh3D::selectedPolygonSetUV(edk::uint32 position,edk::uint32 uv){
     if(this->selected){
         //get the vertex
-        edk::shape::UV2D* temp = this->uvs.getUV(uv);
+        edk::shape::UV2D* temp = this->uvs.getUV(uv);edkEnd();
         if(temp){
-            return this->selected->setUV(position,temp,uv);
+            return this->selected->setUV(position,temp,uv);edkEnd();
         }
     }
     return false;
@@ -763,35 +769,35 @@ bool edk::shape::Mesh3D::selectedPolygonSetUV(edk::uint32 position,edk::uint32 u
 bool edk::shape::Mesh3D::selectedPolygonSetNormalFlat(edk::shape::Vector3D normal){
     if(this->selected){
         //get the vertex
-        this->selected->setNormalFlat(normal);
+        this->selected->setNormalFlat(normal);edkEnd();
         return true;
     }
     return false;
 }
 bool edk::shape::Mesh3D::selectedPolygonSetSmooth(bool smooth){
     if(this->selected){
-        this->selected->smooth=smooth;
+        this->selected->smooth=smooth;edkEnd();
         return true;
     }
     return false;
 }
 bool edk::shape::Mesh3D::selectedPolygonSmoothOn(){
     if(this->selected){
-        this->selected->smooth=true;
+        this->selected->smooth=true;edkEnd();
         return true;
     }
     return false;
 }
 bool edk::shape::Mesh3D::selectedPolygonSmoothOff(){
     if(this->selected){
-        this->selected->smooth=false;
+        this->selected->smooth=false;edkEnd();
         return true;
     }
     return false;
 }
 bool edk::shape::Mesh3D::selectedPolygonUpdateNormal(){
     if(this->selected){
-        this->selected->updateNormal();
+        this->selected->updateNormal();edkEnd();
         return true;
     }
     return false;
@@ -800,134 +806,134 @@ bool edk::shape::Mesh3D::selectedPolygonUpdateNormal(){
 //DRAW
 //print the mesh
 void edk::shape::Mesh3D::printPolygons(){
-    this->polygons.printPolygons();
+    this->polygons.printPolygons();edkEnd();
 }
 //draw the mesh
 void edk::shape::Mesh3D::drawPolygons(){
-    edk::GU::guPushMatrix();
+    edk::GU::guPushMatrix();edkEnd();
     //add translate
-    edk::GU::guTranslate3f32(this->position);
+    edk::GU::guTranslate3f32(this->position);edkEnd();
     //add rotation
-    edk::GU::guRotateZf32(this->angles.z);
-    edk::GU::guRotateYf32(this->angles.y);
-    edk::GU::guRotateXf32(this->angles.x);
+    edk::GU::guRotateZf32(this->angles.z);edkEnd();
+    edk::GU::guRotateYf32(this->angles.y);edkEnd();
+    edk::GU::guRotateXf32(this->angles.x);edkEnd();
     //add scale
-    edk::GU::guScale3f32(this->size);
-    this->polygons.drawPolygons();
-    edk::GU::guPopMatrix();
+    edk::GU::guScale3f32(this->size);edkEnd();
+    this->polygons.drawPolygons();edkEnd();
+    edk::GU::guPopMatrix();edkEnd();
 }
 //draw the polygons in wireframe
 void edk::shape::Mesh3D::drawWirePolygons(){
-    edk::GU::guPushMatrix();
+    edk::GU::guPushMatrix();edkEnd();
     //add translate
-    edk::GU::guTranslate3f32(this->position);
+    edk::GU::guTranslate3f32(this->position);edkEnd();
     //add rotation
-    edk::GU::guRotateZf32(this->angles.z);
-    edk::GU::guRotateYf32(this->angles.y);
-    edk::GU::guRotateXf32(this->angles.x);
+    edk::GU::guRotateZf32(this->angles.z);edkEnd();
+    edk::GU::guRotateYf32(this->angles.y);edkEnd();
+    edk::GU::guRotateXf32(this->angles.x);edkEnd();
     //add scale
-    edk::GU::guScale3f32(this->size);
-    this->polygons.drawWire();
-    edk::GU::guPopMatrix();
+    edk::GU::guScale3f32(this->size);edkEnd();
+    this->polygons.drawWire();edkEnd();
+    edk::GU::guPopMatrix();edkEnd();
 }
 void edk::shape::Mesh3D::drawWirePolygonsWithColor(edk::color4f32 color){
-    edk::GU::guPushMatrix();
+    edk::GU::guPushMatrix();edkEnd();
     //add translate
-    edk::GU::guTranslate3f32(this->position);
+    edk::GU::guTranslate3f32(this->position);edkEnd();
     //add rotation
-    edk::GU::guRotateZf32(this->angles.z);
-    edk::GU::guRotateYf32(this->angles.y);
-    edk::GU::guRotateXf32(this->angles.x);
+    edk::GU::guRotateZf32(this->angles.z);edkEnd();
+    edk::GU::guRotateYf32(this->angles.y);edkEnd();
+    edk::GU::guRotateXf32(this->angles.x);edkEnd();
     //add scale
-    edk::GU::guScale3f32(this->size);
-    this->polygons.drawWireWithColor(color);
-    edk::GU::guPopMatrix();
+    edk::GU::guScale3f32(this->size);edkEnd();
+    this->polygons.drawWireWithColor(color);edkEnd();
+    edk::GU::guPopMatrix();edkEnd();
 }
 void edk::shape::Mesh3D::drawVertexs(edk::color3f32 color){
-    edk::GU::guPushMatrix();
+    edk::GU::guPushMatrix();edkEnd();
     //add translate
-    edk::GU::guTranslate3f32(this->position);
+    edk::GU::guTranslate3f32(this->position);edkEnd();
     //add rotation
-    edk::GU::guRotateZf32(this->angles.z);
-    edk::GU::guRotateYf32(this->angles.y);
-    edk::GU::guRotateXf32(this->angles.x);
+    edk::GU::guRotateZf32(this->angles.z);edkEnd();
+    edk::GU::guRotateYf32(this->angles.y);edkEnd();
+    edk::GU::guRotateXf32(this->angles.x);edkEnd();
     //add scale
-    edk::GU::guScale3f32(this->size);
-    this->polygons.drawPolygonVertexs(edk::color4f32(color.r,color.g,color.b,1.f));
-    edk::GU::guPopMatrix();
+    edk::GU::guScale3f32(this->size);edkEnd();
+    this->polygons.drawPolygonVertexs(edk::color4f32(color.r,color.g,color.b,1.f));edkEnd();
+    edk::GU::guPopMatrix();edkEnd();
 }
 void edk::shape::Mesh3D::drawPolygonsNormals(){
-    edk::GU::guPushMatrix();
+    edk::GU::guPushMatrix();edkEnd();
     //add translate
-    edk::GU::guTranslate3f32(this->position);
+    edk::GU::guTranslate3f32(this->position);edkEnd();
     //add rotation
-    edk::GU::guRotateZf32(this->angles.z);
-    edk::GU::guRotateYf32(this->angles.y);
-    edk::GU::guRotateXf32(this->angles.x);
+    edk::GU::guRotateZf32(this->angles.z);edkEnd();
+    edk::GU::guRotateYf32(this->angles.y);edkEnd();
+    edk::GU::guRotateXf32(this->angles.x);edkEnd();
     //add scale
-    edk::GU::guScale3f32(this->size);
-    this->polygons.drawPolygonNormals();
-    edk::GU::guPopMatrix();
+    edk::GU::guScale3f32(this->size);edkEnd();
+    this->polygons.drawPolygonNormals();edkEnd();
+    edk::GU::guPopMatrix();edkEnd();
 }
 void edk::shape::Mesh3D::drawPolygonsNormalsWithColor(edk::color3f32 color){
-    edk::GU::guPushMatrix();
+    edk::GU::guPushMatrix();edkEnd();
     //add translate
-    edk::GU::guTranslate3f32(this->position);
+    edk::GU::guTranslate3f32(this->position);edkEnd();
     //add rotation
-    edk::GU::guRotateZf32(this->angles.z);
-    edk::GU::guRotateYf32(this->angles.y);
-    edk::GU::guRotateXf32(this->angles.x);
+    edk::GU::guRotateZf32(this->angles.z);edkEnd();
+    edk::GU::guRotateYf32(this->angles.y);edkEnd();
+    edk::GU::guRotateXf32(this->angles.x);edkEnd();
     //add scale
-    edk::GU::guScale3f32(this->size);
-    this->polygons.drawPolygonNormalsWithColor(color);
-    edk::GU::guPopMatrix();
+    edk::GU::guScale3f32(this->size);edkEnd();
+    this->polygons.drawPolygonNormalsWithColor(color);edkEnd();
+    edk::GU::guPopMatrix();edkEnd();
 }
 
 //draw the mesh
 void edk::shape::Mesh3D::drawOneTexture(){
     //set the texture if have one
     if(this->material.haveTexture()){
-        this->material.drawStartWithOneTexture();
+        this->material.drawStartWithOneTexture();edkEnd();
         //Draw the mesh
-        this->drawPolygons();
+        this->drawPolygons();edkEnd();
 
-        this->material.drawEndWithTexture();
+        this->material.drawEndWithTexture();edkEnd();
     }
     else{
-        this->material.drawNoTexture();
+        this->material.drawNoTexture();edkEnd();
         //else just draw the mesh
-        this->drawPolygons();
+        this->drawPolygons();edkEnd();
     }
 }
 void edk::shape::Mesh3D::drawOneTexture(edk::uint32 position){
     //set the texture if have one
     if(this->material.haveTexture()){
-        this->material.drawStartWithOneTexture(position);
+        this->material.drawStartWithOneTexture(position);edkEnd();
         //Draw the mesh
-        this->drawPolygons();
+        this->drawPolygons();edkEnd();
 
-        this->material.drawEndWithTexture();
+        this->material.drawEndWithTexture();edkEnd();
     }
     else{
-        this->material.drawNoTexture();
+        this->material.drawNoTexture();edkEnd();
         //else just draw the mesh
-        this->drawPolygons();
+        this->drawPolygons();edkEnd();
     }
 }
 bool edk::shape::Mesh3D::selectedDrawOneTexture(){
     if(this->selected){
         //set the texture if have one
         if(this->material.haveTexture()){
-            this->material.drawStartWithOneTexture();
+            this->material.drawStartWithOneTexture();edkEnd();
             //Draw the polygon
-            this->selected->draw();
+            this->selected->draw();edkEnd();
 
-            this->material.drawEndWithTexture();
+            this->material.drawEndWithTexture();edkEnd();
         }
         else{
-            this->material.drawNoTexture();
+            this->material.drawNoTexture();edkEnd();
             //else just draw the polygon
-            this->selected->draw();
+            this->selected->draw();edkEnd();
         }
         return true;
     }
@@ -937,16 +943,16 @@ bool edk::shape::Mesh3D::selectedDrawOneTexture(edk::uint32 position){
     if(this->selected){
         //set the texture if have one
         if(this->material.haveTexture()){
-            this->material.drawStartWithOneTexture(position);
+            this->material.drawStartWithOneTexture(position);edkEnd();
             //Draw the polygon
-            this->selected->draw();
+            this->selected->draw();edkEnd();
 
-            this->material.drawEndWithTexture();
+            this->material.drawEndWithTexture();edkEnd();
         }
         else{
-            this->material.drawNoTexture();
+            this->material.drawNoTexture();edkEnd();
             //else just draw the polygon
-            this->selected->draw();
+            this->selected->draw();edkEnd();
         }
         return true;
     }
@@ -957,39 +963,39 @@ bool edk::shape::Mesh3D::selectedDrawOneTexture(edk::uint32 position){
 void edk::shape::Mesh3D::drawMultiTexture(){
     //set the texture if have one
     if(this->material.haveTexture()){
-        this->material.drawStartWithMultiTexture();
+        this->material.drawStartWithMultiTexture();edkEnd();
         //Draw the mesh
-        this->drawPolygons();
+        this->drawPolygons();edkEnd();
 
-        this->material.drawEndWithTexture();
+        this->material.drawEndWithTexture();edkEnd();
     }
     else{
-        this->material.drawNoTexture();
+        this->material.drawNoTexture();edkEnd();
         //else just draw the mesh
-        this->drawPolygons();
+        this->drawPolygons();edkEnd();
     }
 }
 bool edk::shape::Mesh3D::selectedDrawMultiTexture(){
     if(this->selected){
         //set the texture if have one
         if(this->material.haveTexture()){
-            this->material.drawStartWithMultiTexture();
+            this->material.drawStartWithMultiTexture();edkEnd();
             //Draw the mesh
-            this->selected->draw();
+            this->selected->draw();edkEnd();
 
-            this->material.drawEndWithTexture();
+            this->material.drawEndWithTexture();edkEnd();
         }
         else{
-            this->material.drawNoTexture();
+            this->material.drawNoTexture();edkEnd();
             //else just draw the mesh
-            this->selected->draw();
+            this->selected->draw();edkEnd();
         }
         return true;
     }
     return false;
 }
 void edk::shape::Mesh3D::drawWire(){
-    this->material.drawNoTexture();
+    this->material.drawNoTexture();edkEnd();
     //else just draw the mesh
-    this->drawWirePolygons();
+    this->drawWirePolygons();edkEnd();
 }

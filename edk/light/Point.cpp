@@ -32,45 +32,45 @@ edk::light::Point::~Point(){
 }
 //DRAW THE LIGH USING THE LIGHT NUMBER
 void edk::light::Point::draw(edk::uint32 lightNumber){
-    edk::GU::guLightfv32(GU_LIGHT0+lightNumber,GU_POSITION,this->position);
-    edk::GU::guLightfv32(GU_LIGHT0+lightNumber,GU_DIFFUSE,this->diffuse);
-    edk::GU::guLightfv32(GU_LIGHT0+lightNumber,GU_AMBIENT,this->ambient);
-    edk::GU::guLightfv32(GU_LIGHT0+lightNumber,GU_SPECULAR,this->specular);
-    //edk::GU::guLightfv32(GU_LIGHT0+lightNumber,GU_SPOT_DIRECTION,this->direction);
-    //edk::GU::guLightf32(GU_LIGHT0+lightNumber,GU_SPOT_EXPONENT,this->exponent);
-    //edk::GU::guLightf32(GU_LIGHT0+lightNumber,GU_SPOT_CUTOFF,this->cutoff);
-    edk::GU::guLightf32(GU_LIGHT0+lightNumber,GU_CONSTANT_ATTENUATION,this->constantAttenuation);
-    edk::GU::guLightf32(GU_LIGHT0+lightNumber,GU_LINEAR_ATTENUATION,this->linearAttenuation);
-    edk::GU::guLightf32(GU_LIGHT0+lightNumber,GU_QUADRATIC_ATTENUATION,this->quadraticAttenuation);
+    edk::GU::guLightfv32(GU_LIGHT0+lightNumber,GU_POSITION,this->position);edkEnd();
+    edk::GU::guLightfv32(GU_LIGHT0+lightNumber,GU_DIFFUSE,this->diffuse);edkEnd();
+    edk::GU::guLightfv32(GU_LIGHT0+lightNumber,GU_AMBIENT,this->ambient);edkEnd();
+    edk::GU::guLightfv32(GU_LIGHT0+lightNumber,GU_SPECULAR,this->specular);edkEnd();
+    //edk::GU::guLightfv32(GU_LIGHT0+lightNumber,GU_SPOT_DIRECTION,this->direction);edkEnd();
+    //edk::GU::guLightf32(GU_LIGHT0+lightNumber,GU_SPOT_EXPONENT,this->exponent);edkEnd();
+    //edk::GU::guLightf32(GU_LIGHT0+lightNumber,GU_SPOT_CUTOFF,this->cutoff);edkEnd();
+    edk::GU::guLightf32(GU_LIGHT0+lightNumber,GU_CONSTANT_ATTENUATION,this->constantAttenuation);edkEnd();
+    edk::GU::guLightf32(GU_LIGHT0+lightNumber,GU_LINEAR_ATTENUATION,this->linearAttenuation);edkEnd();
+    edk::GU::guLightf32(GU_LIGHT0+lightNumber,GU_QUADRATIC_ATTENUATION,this->quadraticAttenuation);edkEnd();
 }
 
 //Set the position of the light
 void edk::light::Point::setPosition(edk::float32 x,edk::float32 y,edk::float32 z){
-    edk::light::Light::setPosition(x,y,z,1.f);
+    edk::light::Light::setPosition(x,y,z,1.f);edkEnd();
 }
 void edk::light::Point::setPosition(edk::float32 x,edk::float32 y){
-    edk::light::Light::setPosition(x,y,this->getPositionZ(),1.f);
+    edk::light::Light::setPosition(x,y,this->getPositionZ(),1.f);edkEnd();
 }
 void edk::light::Point::setPosition(edk::vec3f32 position){
-    edk::light::Light::setPosition(position.x,position.y,position.z,1.f);
+    edk::light::Light::setPosition(position.x,position.y,position.z,1.f);edkEnd();
 }
 void edk::light::Point::setPosition(edk::vec2f32 position){
-    edk::light::Light::setPosition(position.x,position.y,this->getPositionZ(),1.f);
+    edk::light::Light::setPosition(position.x,position.y,this->getPositionZ(),1.f);edkEnd();
 }
 
 //get the position of the light
 edk::float32 edk::light::Point::getPositionX(){
-    return edk::light::Light::getPositionX();
+    return edk::light::Light::getPositionX();edkEnd();
 }
 edk::float32 edk::light::Point::getPositionY(){
-    return edk::light::Light::getPositionY();
+    return edk::light::Light::getPositionY();edkEnd();
 }
 edk::float32 edk::light::Point::getPositionZ(){
-    return edk::light::Light::getPositionZ();
+    return edk::light::Light::getPositionZ();edkEnd();
 }
 edk::vec2f32 edk::light::Point::getPosition2f(){
-    return edk::light::Light::getPosition2f();
+    return edk::light::Light::getPosition2f();edkEnd();
 }
 edk::vec3f32 edk::light::Point::getPosition3f(){
-    return edk::light::Light::getPosition3f();
+    return edk::light::Light::getPosition3f();edkEnd();
 }

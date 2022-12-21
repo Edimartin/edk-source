@@ -26,16 +26,16 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 edk::gui2d::Button2D::Button2D(){
     //
-    this->obj.setBorderSize(0.25f);
+    this->obj.setBorderSize(0.25f);edkEnd();
 }
 edk::gui2d::Button2D::~Button2D(){
     //clean the meshes
-    this->unload();
+    this->unload();edkEnd();
 }
 
 //get the type
 edk::gui2d::gui2dTypes edk::gui2d::Button2D::getType(){
-    return edk::gui2d::gui2dTypeButton;
+    return edk::gui2d::gui2dTypeButton;edkEnd();
 }
 
 
@@ -47,19 +47,19 @@ bool edk::gui2d::Button2D::load(){
     return false;
 }
 void edk::gui2d::Button2D::unload(){
-    edk::gui2d::ObjectGui2d::unload();
+    edk::gui2d::ObjectGui2d::unload();edkEnd();
 }
 void edk::gui2d::Button2D::update(){
-    edk::gui2d::ObjectGui2d::update();
+    edk::gui2d::ObjectGui2d::update();edkEnd();
 }
 
 //set border size
 bool edk::gui2d::Button2D::setBorderSize(edk::float32 size){
-    return this->obj.setBorderSize(size);
+    return this->obj.setBorderSize(size);edkEnd();
 }
 
 //draw the button
 void edk::gui2d::Button2D::draw(){
-    edk::gui2d::ObjectGui2d::draw();
+    edk::gui2d::ObjectGui2d::draw();edkEnd();
 }
 

@@ -286,60 +286,60 @@ private:
         //Operator =
         edk::shape::Polygon2D operator=(edk::shape::Polygon2D poly){
             //first delete the vertexs
-            this->deletePolygon();
+            this->deletePolygon();edkEnd();
             //then create a new polygon
             if(this->createPolygon(poly.getVertexCount())){
                 //then copy the vertex
                 for(edk::uint32 i=0u;i<this->getVertexCount();i++){
                     //copy the vertex
-                    edk::shape::Vertex2DAnimatedUV* temp = (edk::shape::Vertex2DAnimatedUV*)vertexs[i];
+                    edk::shape::Vertex2DAnimatedUV* temp = (edk::shape::Vertex2DAnimatedUV*)vertexs[i];edkEnd();
                     if(temp){
-                        //this->setVertexPosition(i,poly.getVertexPosition(i));
-                        temp->position = poly.getVertexPosition(i);
-                        //this->setVertexColor(i,poly.getVertexColor(i));
-                        temp->color = poly.getVertexColor(i);
+                        //this->setVertexPosition(i,poly.getVertexPosition(i));edkEnd();
+                        temp->position = poly.getVertexPosition(i);edkEnd();
+                        //this->setVertexColor(i,poly.getVertexColor(i));edkEnd();
+                        temp->color = poly.getVertexColor(i);edkEnd();
                         //copy the frames
-                        //this->setVertexUVFrames(i,poly.getFrames());
+                        //this->setVertexUVFrames(i,poly.getFrames());edkEnd();
                         //get vertexType
                         switch(poly.getVertexType(i)){
                             //
                             case EDK_SHAPE_ANIMATED_UV:
                                 //
-                                this->setVertexUV(i,poly.getVertexUV(i));
-                                this->setVertexUVFrames(i,poly.getFrames());
-                                break;
+                                this->setVertexUV(i,poly.getVertexUV(i));edkEnd();
+                                this->setVertexUVFrames(i,poly.getFrames());edkEnd();
+                                break;edkEnd();
                             case EDK_SHAPE_UV:
                                 //
-                                this->setVertexUV(i,poly.getVertexUV(i));
-                                break;
+                                this->setVertexUV(i,poly.getVertexUV(i));edkEnd();
+                                break;edkEnd();
                         };
                     }
                 }
             }
             //set the polygonFrames
-            this->setPolygonUVFrames(poly.getFrames());
-            this->usePolygonUVFrame(poly.frameUsing);
+            this->setPolygonUVFrames(poly.getFrames());edkEnd();
+            this->usePolygonUVFrame(poly.frameUsing);edkEnd();
             //set the transformations
-            this->setTranslate(poly.getTranslate());
-            this->setScale(poly.getScale());
-            this->setAngle(poly.getAngle());
+            this->setTranslate(poly.getTranslate());edkEnd();
+            this->setScale(poly.getScale());edkEnd();
+            this->setAngle(poly.getAngle());edkEnd();
             //set physics
-            this->setDensity(poly.getDensity());
-            this->setFriction(poly.getFriction());
-            this->setRestitution(poly.getRestitution());
+            this->setDensity(poly.getDensity());edkEnd();
+            this->setFriction(poly.getFriction());edkEnd();
+            this->setRestitution(poly.getRestitution());edkEnd();
             //
-            this->type = poly.type;
-            this->polygonCircle = poly.polygonCircle;
-            this->radius=poly.radius;
-            this->polygonLine = poly.polygonLine;
-            this->collisionID = poly.collisionID;
+            this->type = poly.type;edkEnd();
+            this->polygonCircle = poly.polygonCircle;edkEnd();
+            this->radius=poly.radius;edkEnd();
+            this->polygonLine = poly.polygonLine;edkEnd();
+            this->collisionID = poly.collisionID;edkEnd();
             //set the animation
-            this->framesSetAnimation(poly.framesGetAnimation());
-            this->createAnimationFrames = poly.createAnimationFrames;
+            this->framesSetAnimation(poly.framesGetAnimation());edkEnd();
+            this->createAnimationFrames = poly.createAnimationFrames;edkEnd();
             //cant delete the polygon
-            poly.cantDeletePolygon();
+            poly.cantDeletePolygon();edkEnd();
             //return the polygon
-            return poly;
+            return poly;edkEnd();
         }
 };
 

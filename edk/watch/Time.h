@@ -187,7 +187,7 @@ class Time {
 
      //clean the str
      inline void cleanStr(){
-         memset(this->str,0u,SIZE_EDK_WATCH_TIME_STRING);
+         memset(this->str,0u,SIZE_EDK_WATCH_TIME_STRING);edkEnd();
      }
 
 

@@ -34,37 +34,37 @@ edk::light::Light2D::Light2D(){
 
 //Set the 2D Values
 void edk::light::Light2D::setPosition(edk::float32 x,edk::float32 y){
-    edk::light::Light::setPosition(x,y);
+    edk::light::Light::setPosition(x,y);edkEnd();
 }
 void edk::light::Light2D::setPosition(edk::vec2f32 position){
-    edk::light::Light::setPosition(position);
+    edk::light::Light::setPosition(position);edkEnd();
 }
 void edk::light::Light2D::setZ(edk::float32 z){
-    edk::light::Light::position[2u] = z;
+    edk::light::Light::position[2u] = z;edkEnd();
 }
 void edk::light::Light2D::setDirection(edk::float32 x,edk::float32 y){
-    edk::light::Light::setDirection(x,y);
+    edk::light::Light::setDirection(x,y);edkEnd();
 }
 void edk::light::Light2D::setDirection(edk::vec2f32 direction){
-    edk::light::Light::setDirection(direction);
+    edk::light::Light::setDirection(direction);edkEnd();
 }
 
 //get Position
 edk::float32 edk::light::Light2D::getPositionX(){
-    return edk::light::Light::getPositionX();
+    return edk::light::Light::getPositionX();edkEnd();
 }
 edk::float32 edk::light::Light2D::getPositionY(){
-    return edk::light::Light::getPositionY();
+    return edk::light::Light::getPositionY();edkEnd();
 }
 edk::vec2f32 edk::light::Light2D::getPosition2f(){
-    return edk::light::Light::getPosition2f();
+    return edk::light::Light::getPosition2f();edkEnd();
 }
 edk::float32 edk::light::Light2D::getDirectionX(){
-    return edk::light::Light::getDirectionX();
+    return edk::light::Light::getDirectionX();edkEnd();
 }
 edk::float32 edk::light::Light2D::getDirectionY(){
-    return edk::light::Light::getDirectionY();
+    return edk::light::Light::getDirectionY();edkEnd();
 }
 edk::vec2f32 edk::light::Light2D::getDirection2f(){
-    return edk::light::Light::getDirection2f();
+    return edk::light::Light::getDirection2f();edkEnd();
 }

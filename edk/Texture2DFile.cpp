@@ -34,28 +34,28 @@ edk::Texture2DFile::Texture2DFile()
 }
 edk::Texture2DFile::Texture2DFile(edk::char8 *textureFileName){
     //
-    this->setName(textureFileName);
+    this->setName(textureFileName);edkEnd();
 }
 edk::Texture2DFile::Texture2DFile(const char *textureFileName){
     //
-    this->setName(textureFileName);
+    this->setName(textureFileName);edkEnd();
 }
 
 edk::Texture2DFile::~Texture2DFile()
 {
     //dtor
-    this->deleteTexture();
-    this->deleteName();
+    this->deleteTexture();edkEnd();
+    this->deleteName();edkEnd();
     //remove all
-    this->removeAll();
+    this->removeAll();edkEnd();
 }
 
 //LOAD
 bool edk::Texture2DFile::loadFromFile(edk::char8 *fileName,edk::uint32 filter){
     //return
-    bool ret=false;
+    bool ret=false;edkEnd();
     //delete the last texture
-    this->deleteTexture();
+    this->deleteTexture();edkEnd();
     //first open the image
     if(this->image.loadFromFileToRGBA(fileName)){
         //test the channels
@@ -67,8 +67,8 @@ bool edk::Texture2DFile::loadFromFile(edk::char8 *fileName,edk::uint32 filter){
                                 GU_LUMINANCE,
                                 (const edk::classID)this->image.getPixels(),
                                 filter
-                                );
-            break;
+                                );edkEnd();
+            break;edkEnd();
         case 3u://RGB
             //load the texture
             this->createTexture(this->image.width(),
@@ -76,8 +76,8 @@ bool edk::Texture2DFile::loadFromFile(edk::char8 *fileName,edk::uint32 filter){
                                 GU_RGB,
                                 (const edk::classID)this->image.getPixels(),
                                 filter
-                                );
-            break;
+                                );edkEnd();
+            break;edkEnd();
         case 4u://RGBA
             //load the texture
             this->createTexture(this->image.width(),
@@ -85,34 +85,34 @@ bool edk::Texture2DFile::loadFromFile(edk::char8 *fileName,edk::uint32 filter){
                                 GU_RGBA,
                                 (const edk::classID)this->image.getPixels(),
                                 filter
-                                );
-            break;
+                                );edkEnd();
+            break;edkEnd();
         }
 
         //test if create the texture
         if(this->getID()){
             //set the textureName
-            this->setName( this->image.getFileName() );
+            this->setName( this->image.getFileName() );edkEnd();
 
             //return true
-            ret = true;
+            ret = true;edkEnd();
         }
         //delete the image
-        this->image.deleteImage();
+        this->image.deleteImage();edkEnd();
     }
     //return true or false
     return ret;
 }
 bool edk::Texture2DFile::loadFromFile(const char *fileName,edk::uint32 filter){
     //
-    return this->loadFromFile((edk::char8 *)fileName);
+    return this->loadFromFile((edk::char8 *)fileName);edkEnd();
 }
 //LOAD from memory
 bool edk::Texture2DFile::loadFromMemory(edk::uint8* image,edk::uint32 size,edk::uint32 filter){
     //return
-    bool ret=false;
+    bool ret=false;edkEnd();
     //delete the last texture
-    this->deleteTexture();
+    this->deleteTexture();edkEnd();
     //test the image
     if(image && size){
         //process the decode
@@ -126,8 +126,8 @@ bool edk::Texture2DFile::loadFromMemory(edk::uint8* image,edk::uint32 size,edk::
                                     GU_LUMINANCE,
                                     (const edk::classID)this->image.getPixels(),
                                     filter
-                                    );
-                break;
+                                    );edkEnd();
+                break;edkEnd();
             case 3u://RGB
                 //load the texture
                 this->createTexture(this->image.width(),
@@ -135,8 +135,8 @@ bool edk::Texture2DFile::loadFromMemory(edk::uint8* image,edk::uint32 size,edk::
                                     GU_RGB,
                                     (const edk::classID)this->image.getPixels(),
                                     filter
-                                    );
-                break;
+                                    );edkEnd();
+                break;edkEnd();
             case 4u://RGBA
                 //load the texture
                 this->createTexture(this->image.width(),
@@ -144,20 +144,20 @@ bool edk::Texture2DFile::loadFromMemory(edk::uint8* image,edk::uint32 size,edk::
                                     GU_RGBA,
                                     (const edk::classID)this->image.getPixels(),
                                     filter
-                                    );
-                break;
+                                    );edkEnd();
+                break;edkEnd();
             }
 
             //test if create the texture
             if(this->getID()){
                 //set the textureName
-                this->setName( this->image.getFileName() );
+                this->setName( this->image.getFileName() );edkEnd();
 
                 //return true
-                ret = true;
+                ret = true;edkEnd();
             }
             //delete the image
-            this->image.deleteImage();
+            this->image.deleteImage();edkEnd();
         }
     }
     return ret;
@@ -165,9 +165,9 @@ bool edk::Texture2DFile::loadFromMemory(edk::uint8* image,edk::uint32 size,edk::
 //SERT from memory
 bool edk::Texture2DFile::setFromMemory(edk::char8 *fileName,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 filter){
     //return
-    bool ret=false;
+    bool ret=false;edkEnd();
     //delete the last texture
-    this->deleteTexture();
+    this->deleteTexture();edkEnd();
     //test the image
     if(image && width && height && channels){
         //process the decode
@@ -180,8 +180,8 @@ bool edk::Texture2DFile::setFromMemory(edk::char8 *fileName,edk::uint8* image,ed
                                     GU_LUMINANCE,
                                     (const edk::classID)image,
                                     filter
-                                    );
-                break;
+                                    );edkEnd();
+                break;edkEnd();
             case 3u://RGB
                 //load the texture
                 this->createTexture(width,
@@ -189,8 +189,8 @@ bool edk::Texture2DFile::setFromMemory(edk::char8 *fileName,edk::uint8* image,ed
                                     GU_RGB,
                                     (const edk::classID)image,
                                     filter
-                                    );
-                break;
+                                    );edkEnd();
+                break;edkEnd();
             case 4u://RGBA
                 //load the texture
                 this->createTexture(width,
@@ -198,23 +198,23 @@ bool edk::Texture2DFile::setFromMemory(edk::char8 *fileName,edk::uint8* image,ed
                                     GU_RGBA,
                                     (const edk::classID)image,
                                     filter
-                                    );
-                break;
+                                    );edkEnd();
+                break;edkEnd();
             }
 
             //test if create the texture
             if(this->getID()){
                 //set the textureName
-                this->setName( "" );
+                this->setName( "" );edkEnd();
 
                 //return true
-                ret = true;
+                ret = true;edkEnd();
             }
             //delete the image
-            this->image.deleteImage();
+            this->image.deleteImage();edkEnd();
     }
     return ret;
 }
 bool edk::Texture2DFile::setFromMemory(const edk::char8 *fileName,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 filter){
-    return this->setFromMemory((edk::char8*) fileName,image,width,height,channels,filter);
+    return this->setFromMemory((edk::char8*) fileName,image,width,height,channels,filter);edkEnd();
 }

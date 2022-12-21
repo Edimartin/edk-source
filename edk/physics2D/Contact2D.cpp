@@ -26,40 +26,40 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 edk::physics2D::Contact2D::Contact2D(edk::classID pointer){
     //
-    this->contactPointer=pointer;
-    this->objectA=NULL;
-    this->objectB=NULL;
+    this->contactPointer=pointer;edkEnd();
+    this->objectA=NULL;edkEnd();
+    this->objectB=NULL;edkEnd();
     this->shapeA=0u;
     this->shapeB=0u;
-    this->velocityA=0.f;
-    this->velocityB=0.f;
-    this->points = 0u;
-    this->enabled = true;
-    this->areadyContacted=false;
+    this->velocityA=0.f;edkEnd();
+    this->velocityB=0.f;edkEnd();
+    this->points = 0u;edkEnd();
+    this->enabled = true;edkEnd();
+    this->areadyContacted=false;edkEnd();
 }
 edk::uint8 edk::physics2D::Contact2D::getMaxPoints(){
-    return EDK_MAX_CONTACTS_POINTS;
+    return EDK_MAX_CONTACTS_POINTS;edkEnd();
 }
 
 //return the contactPointer
 edk::classID edk::physics2D::Contact2D::getContactPointer(){
-    return this->contactPointer;
+    return this->contactPointer;edkEnd();
 }
 
 //disable the contact
 void edk::physics2D::Contact2D::disableContact(){
-    this->enabled=false;
+    this->enabled=false;edkEnd();
 }
 void edk::physics2D::Contact2D::enableContact(){
-    this->enabled=true;
+    this->enabled=true;edkEnd();
 }
 void edk::physics2D::Contact2D::setEnabled(bool enabled){
-    this->enabled=enabled;
+    this->enabled=enabled;edkEnd();
 }
 bool edk::physics2D::Contact2D::isEnabled(){
-    return this->enabled;
+    return this->enabled;edkEnd();
 }
 //return true if aready have a contact with the same objects
 bool edk::physics2D::Contact2D::haveAreadyContact(){
-    return this->areadyContacted;
+    return this->areadyContacted;edkEnd();
 }

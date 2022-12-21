@@ -44,8 +44,8 @@ namespace physics2D{
 class ContactObjects{
 public:
     ContactObjects(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB){
-        this->objectA=objectA;
-        this->objectB=objectB;
+        this->objectA=objectA;edkEnd();
+        this->objectB=objectB;edkEnd();
     }
     ~ContactObjects(){}
 

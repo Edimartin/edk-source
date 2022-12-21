@@ -276,21 +276,21 @@ public:
 
     virtual bool cloneFrom(edk::animation::InterpolationTracks* tracks){
         //clean frames
-        this->cleanTracks();
+        this->cleanTracks();edkEnd();
         if(tracks){
-            edk::uint32 size = tracks->stack.size();
-            edk::animation::InterpolationTracks::AnimationAndPosition temp;
-            edk::animation::InterpolationTracks::AnimationAndPosition set;
-            edk::uint32 position=0u;
+            edk::uint32 size = tracks->stack.size();edkEnd();
+            edk::animation::InterpolationTracks::AnimationAndPosition temp;edkEnd();
+            edk::animation::InterpolationTracks::AnimationAndPosition set;edkEnd();
+            edk::uint32 position=0u;edkEnd();
             for(edk::uint32 i=0u;i<size;i++){
-                temp = tracks->stack.get(i);
+                temp = tracks->stack.get(i);edkEnd();
                 if(temp.animation){
                     //create a new animation
-                    position = this->newTrack(temp.number);
+                    position = this->newTrack(temp.number);edkEnd();
                     if(position<this->stack.size()){
-                        set = this->stack.get(position);
+                        set = this->stack.get(position);edkEnd();
                         if(set.animation){
-                            set.animation->cloneFrom(temp.animation);
+                            set.animation->cloneFrom(temp.animation);edkEnd();
                         }
                     }
                 }
@@ -306,19 +306,23 @@ protected:
     //animations in position
     class AnimationAndPosition{
     public:
-        AnimationAndPosition(){this->animation=NULL;this->number = 0u;}
+        AnimationAndPosition(){this->animation=NULL;edkEnd();this->number = 0u;edkEnd();}
         ~AnimationAndPosition(){}
         edk::animation::InterpolationTracks::AnimationAndPosition* operator=(edk::animation::InterpolationTracks::AnimationAndPosition anim){
-            this->animation=anim.animation;
-            this->number=anim.number;
-            return this;
+            this->animation=anim.animation;edkEnd();
+            this->number=anim.number;edkEnd();
+            return this;edkEnd();
         }
         bool operator>(edk::animation::InterpolationTracks::AnimationAndPosition anim){
-            if(this->animation>anim.animation) return true;
+            if(this->animation>anim.animation){
+                return true;
+            }
             return false;
         }
         bool operator==(edk::animation::InterpolationTracks::AnimationAndPosition anim){
-            if(this->animation==anim.animation) return true;
+            if(this->animation==anim.animation){
+                return true;
+            }
             return false;
         }
         edk::animation::InterpolationGroup* animation;
@@ -331,7 +335,7 @@ protected:
     //stack of tracks
     class StackTracks : public edk::vector::Stack<edk::animation::InterpolationTracks::AnimationAndPosition>{
     public:
-        StackTracks(){this->seconds=0.f;}
+        StackTracks(){this->seconds=0.f;edkEnd();}
         ~StackTracks(){}
         //
         /*
@@ -343,7 +347,7 @@ protected:
         }
         */
         virtual void updateElement(edk::animation::InterpolationTracks::AnimationAndPosition value){
-            value.animation->updateClockAnimation(this->seconds);
+            value.animation->updateClockAnimation(this->seconds);edkEnd();
         }
         /*
         virtual void printElement(edk::animation::InterpolationTracks::AnimationAndPosition value){
@@ -356,19 +360,19 @@ protected:
 
         /*
         virtual bool load(){
-            return edk::vector::Stack<edk::animation::InterpolationTracks::AnimationAndPosition>::load();
+            return edk::vector::Stack<edk::animation::InterpolationTracks::AnimationAndPosition>::load();edkEnd();
         }
         virtual bool unload(){
-            return edk::vector::Stack<edk::animation::InterpolationTracks::AnimationAndPosition>::unload();
+            return edk::vector::Stack<edk::animation::InterpolationTracks::AnimationAndPosition>::unload();edkEnd();
         }
         virtual bool update(){
-            return edk::vector::Stack<edk::animation::InterpolationTracks::AnimationAndPosition>::update();
+            return edk::vector::Stack<edk::animation::InterpolationTracks::AnimationAndPosition>::update();edkEnd();
         }
         virtual bool print(){
-            return edk::vector::Stack<edk::animation::InterpolationTracks::AnimationAndPosition>::print();
+            return edk::vector::Stack<edk::animation::InterpolationTracks::AnimationAndPosition>::print();edkEnd();
         }
         virtual bool render(){
-            return edk::vector::Stack<edk::animation::InterpolationTracks::AnimationAndPosition>::render();
+            return edk::vector::Stack<edk::animation::InterpolationTracks::AnimationAndPosition>::render();edkEnd();
         }
         */
         edk::float32 seconds;
@@ -380,7 +384,7 @@ private:
     //animation callback
     void animationEnd(edk::animation::InterpolationGroup* animation);
 
-    edk::animation::InterpolationTracks operator=(edk::animation::InterpolationTracks tracks){return tracks;}
+    edk::animation::InterpolationTracks operator=(edk::animation::InterpolationTracks tracks){return tracks;edkEnd();}
 };
 }//end namespace anim
 }//end namespace edk

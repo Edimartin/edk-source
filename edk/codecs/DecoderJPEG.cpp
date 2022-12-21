@@ -39,10 +39,10 @@ bool edk::codecs::DecoderJPEG::decode(edk::uint8* encoded,edk::uint32 size){
     //use the father decoder
     if(edk::codecs::DecoderImage::decode(encoded,size)){
         //process the decoder
-        bool ret=false;
+        bool ret=false;edkEnd();
 
         //create the context to be decode
-        stbi__context s;
+        stbi__context s;edkEnd();
 
         //contruct the context
         s.img_x=0u;
@@ -50,12 +50,12 @@ bool edk::codecs::DecoderJPEG::decode(edk::uint8* encoded,edk::uint32 size){
         s.img_n=0;
         s.img_out_n=0;
 
-        s.io.read=NULL;
-        s.io.skip=NULL;
-        s.io.eof=NULL;
+        s.io.read=NULL;edkEnd();
+        s.io.skip=NULL;edkEnd();
+        s.io.eof=NULL;edkEnd();
 
 
-        s.io_user_data=NULL;
+        s.io_user_data=NULL;edkEnd();
 
         s.read_from_callbacks=0u;
         s.buflen=0;
@@ -64,20 +64,20 @@ bool edk::codecs::DecoderJPEG::decode(edk::uint8* encoded,edk::uint32 size){
         }
         s.callback_already_read=0u;
 
-        s.img_buffer=NULL;
-        s.img_buffer_end=NULL;
+        s.img_buffer=NULL;edkEnd();
+        s.img_buffer_end=NULL;edkEnd();
 
-        s.img_buffer_original=NULL;
-        s.img_buffer_original_end=NULL;
+        s.img_buffer_original=NULL;edkEnd();
+        s.img_buffer_original_end=NULL;edkEnd();
 
 
         //Copy the encoded to the context
-        s.img_buffer = s.img_buffer_original = (stbi_uc *) encoded;
-        s.img_buffer_end = s.img_buffer_original_end = (stbi_uc *) encoded+size;
+        s.img_buffer = s.img_buffer_original = (stbi_uc *) encoded;edkEnd();
+        s.img_buffer_end = s.img_buffer_original_end = (stbi_uc *) encoded+size;edkEnd();
 
         //create the result info
 
-        stbi__result_info ri;
+        stbi__result_info ri;edkEnd();
 
         ri.bits_per_channel=0;
         ri.num_channels=0;
@@ -85,7 +85,7 @@ bool edk::codecs::DecoderJPEG::decode(edk::uint8* encoded,edk::uint32 size){
 
 
         //alloc the result pointer
-        unsigned char* result=NULL;
+        unsigned char* result=NULL;edkEnd();
 
         int w=0;
         int h=0;
@@ -100,33 +100,33 @@ bool edk::codecs::DecoderJPEG::decode(edk::uint8* encoded,edk::uint32 size){
             if((result = (unsigned char*)stbi__jpeg_load(&s, &w, &h, &comp, 0, &ri))){
                 if(w && h && (comp == 1u || comp==3u)){
                     //alloc the new image frame
-                    edk::codecs::CodecImage::newFrame(w,h,(edk::float32)comp);
+                    edk::codecs::CodecImage::newFrame(w,h,(edk::float32)comp);edkEnd();
                     if (edk::codecs::CodecImage::getFrame() &&
                             edk::codecs::CodecImage::getFrameWidth() &&
                             edk::codecs::CodecImage::getFrameHeight()
                             ){
-                        edk::uchar8* temp = edk::codecs::CodecImage::getFrame();
-                        edk::uchar8* source = result;
+                        edk::uchar8* temp = edk::codecs::CodecImage::getFrame();edkEnd();
+                        edk::uchar8* source = result;edkEnd();
                         if(temp){
                             switch(comp){
                             case 1u:
                                 //test the bits per pixel
                                 switch(ri.bits_per_channel){
                                 case 8u:
-                                    memcpy(temp,result,w*h);
-                                    break;
+                                    memcpy(temp,result,w*h);edkEnd();
+                                    break;edkEnd();
                                 case 16u:
                                     for(edk::int32 y=0;y<h;y++){
                                         for(edk::int32 x=0;x<w;x++){
-                                            temp[0u]=source[0u];
+                                            temp[0u]=source[0u];edkEnd();
                                             //
-                                            source+=comp*2u;
-                                            temp+=comp;
+                                            source+=comp*2u;edkEnd();
+                                            temp+=comp;edkEnd();
                                         }
                                     }
-                                    break;
+                                    break;edkEnd();
                                 }
-                                break;
+                                break;edkEnd();
                             case 3u:
                                 //test the pixel way
                                 switch(ri.channel_order){
@@ -134,67 +134,67 @@ bool edk::codecs::DecoderJPEG::decode(edk::uint8* encoded,edk::uint32 size){
                                     //test the bits per pixel
                                     switch(ri.bits_per_channel){
                                     case 8u:
-                                        memcpy(temp,result,w*h*comp);
-                                        break;
+                                        memcpy(temp,result,w*h*comp);edkEnd();
+                                        break;edkEnd();
                                     case 16u:
                                         for(edk::int32 y=0;y<h;y++){
                                             for(edk::int32 x=0;x<w;x++){
-                                                temp[0u]=temp[0u];
-                                                temp[1u]=temp[2u];
-                                                temp[2u]=temp[4u];
+                                                temp[0u]=temp[0u];edkEnd();
+                                                temp[1u]=temp[2u];edkEnd();
+                                                temp[2u]=temp[4u];edkEnd();
                                                 //
-                                                source+=comp*2u;
-                                                temp+=comp;
+                                                source+=comp*2u;edkEnd();
+                                                temp+=comp;edkEnd();
                                             }
                                         }
-                                        break;
+                                        break;edkEnd();
                                     }
-                                    break;
+                                    break;edkEnd();
                                 case STBI_ORDER_BGR:
                                     //test the bits per pixel
                                     switch(ri.bits_per_channel){
                                     case 8u:
                                         for(edk::int32 y=0;y<h;y++){
                                             for(edk::int32 x=0;x<w;x++){
-                                                temp[0u]=temp[2u];
-                                                temp[1u]=temp[1u];
-                                                temp[2u]=temp[0u];
+                                                temp[0u]=temp[2u];edkEnd();
+                                                temp[1u]=temp[1u];edkEnd();
+                                                temp[2u]=temp[0u];edkEnd();
                                                 //
-                                                source+=comp;
-                                                temp+=comp;
+                                                source+=comp;edkEnd();
+                                                temp+=comp;edkEnd();
                                             }
                                         }
-                                        break;
+                                        break;edkEnd();
                                     case 16u:
                                         for(edk::int32 y=0;y<h;y++){
                                             for(edk::int32 x=0;x<w;x++){
-                                                temp[0u]=temp[4u];
-                                                temp[1u]=temp[2u];
-                                                temp[2u]=temp[0u];
+                                                temp[0u]=temp[4u];edkEnd();
+                                                temp[1u]=temp[2u];edkEnd();
+                                                temp[2u]=temp[0u];edkEnd();
                                                 //
-                                                source+=comp*2u;
-                                                temp+=comp;
+                                                source+=comp*2u;edkEnd();
+                                                temp+=comp;edkEnd();
                                             }
                                         }
-                                        break;
+                                        break;edkEnd();
                                     }
-                                    break;
+                                    break;edkEnd();
                                 }
-                                break;
+                                break;edkEnd();
                             default:
-                                break;
+                                break;edkEnd();
                             }
                             //return true
-                            ret=true;
+                            ret=true;edkEnd();
                         }
                     }
                 }
                 //delete the result
-                STBI_FREE(result);
+                STBI_FREE(result);edkEnd();
             }
             else{
                 //
-                result=NULL;
+                result=NULL;edkEnd();
             }
         }
         return ret;
@@ -202,10 +202,10 @@ bool edk::codecs::DecoderJPEG::decode(edk::uint8* encoded,edk::uint32 size){
     return false;
 }
 bool edk::codecs::DecoderJPEG::decode(const unsigned char* encoded,edk::uint32 size){
-    return this->decode((edk::uint8*) encoded,size);
+    return this->decode((edk::uint8*) encoded,size);edkEnd();
 }
 
 //return the vector size
 edk::uint32 edk::codecs::DecoderJPEG::getVectorSize(){
-    return edk::codecs::CodecImage::getFrameVectorSize();
+    return edk::codecs::CodecImage::getFrameVectorSize();edkEnd();
 }

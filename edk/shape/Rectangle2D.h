@@ -70,36 +70,36 @@ private:
         //Operator =
         edk::shape::Rectangle2D operator=(edk::shape::Polygon2D poly){
             //first remove the UV from the polygon
-            this->deletePolygon();
+            this->deletePolygon();edkEnd();
             //copy the polygons
             for(edk::uint32 i=0u;i<this->vertexs.size();i++){
                 //
                 //copy the vertex
-                edk::shape::Vertex2DAnimatedUV* temp = (edk::shape::Vertex2DAnimatedUV*)vertexs[i];
+                edk::shape::Vertex2DAnimatedUV* temp = (edk::shape::Vertex2DAnimatedUV*)vertexs[i];edkEnd();
                 if(temp){
-                    //this->setVertexPosition(i,poly.getVertexPosition(i));
-                    temp->position = poly.getVertexPosition(i);
-                    //this->setVertexColor(i,poly.getVertexColor(i));
-                    temp->color = poly.getVertexColor(i);
+                    //this->setVertexPosition(i,poly.getVertexPosition(i));edkEnd();
+                    temp->position = poly.getVertexPosition(i);edkEnd();
+                    //this->setVertexColor(i,poly.getVertexColor(i));edkEnd();
+                    temp->color = poly.getVertexColor(i);edkEnd();
                     //get vertexType
                     switch(poly.getVertexType(i)){
                         //
                         case EDK_SHAPE_ANIMATED_UV:
                             //
-                            this->setVertexUVFrames(i,poly.getFrames());
+                            this->setVertexUVFrames(i,poly.getFrames());edkEnd();
                         case EDK_SHAPE_UV:
                             //
-                            this->setVertexUV(i,poly.getVertexUV(i));
-                            break;
+                            this->setVertexUV(i,poly.getVertexUV(i));edkEnd();
+                            break;edkEnd();
                         };
                 }
             }
             //cant delete the polygon
-            poly.cantDeletePolygon();
-            this->cantDeletePolygon();
+            poly.cantDeletePolygon();edkEnd();
+            this->cantDeletePolygon();edkEnd();
             //return the polygon
-            edk::shape::Rectangle2D temp;
-            return temp;
+            edk::shape::Rectangle2D temp;edkEnd();
+            return temp;edkEnd();
         }
 };
 }//end namespace shape

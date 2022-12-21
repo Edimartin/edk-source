@@ -59,8 +59,8 @@ public:
     }
     void updateElement(edk::Name* shader){
         //update the tree
-        edk::shd::Data* temp = (edk::shd::Data*)shader;
-        temp->updateData();
+        edk::shd::Data* temp = (edk::shd::Data*)shader;edkEnd();
+        temp->updateData();edkEnd();
     }
 };
 

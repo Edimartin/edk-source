@@ -25,20 +25,20 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 edk::physics2D::World2D::MyContactListener::MyContactListener(){
     //
-    this->world = NULL;
+    this->world = NULL;edkEnd();
 }
 edk::physics2D::World2D::MyContactListener::MyContactListener(edk::physics2D::World2D* world){
     //
-    this->world = world;
+    this->world = world;edkEnd();
 }
 void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact){
     /*
     printf("\nContact Begin %u"
            ,contact
-           );fflush(stdout);
+           );edkEnd();fflush(stdout);edkEnd();
 */
-    b2Body* bodyA = contact->GetFixtureA()->GetBody();
-    b2Body* bodyB = contact->GetFixtureB()->GetBody();
+    b2Body* bodyA = contact->GetFixtureA()->GetBody();edkEnd();
+    b2Body* bodyB = contact->GetFixtureB()->GetBody();edkEnd();
 
     //test if have the One of the Bodys in treeRemove
     if(this->world->treeDeleted.haveElement(bodyA)
@@ -46,145 +46,153 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
             this->world->treeDeleted.haveElement(bodyB)
             ){
         //disable the contact
-        contact->SetEnabled(false);
-        return;
+        contact->SetEnabled(false);edkEnd();
+        return;edkEnd();
     }
 
-    edk::uint64 shapeA = (edk::uint64)contact->GetFixtureA()->GetUserData().pointer;
-    edk::uint64 shapeB = (edk::uint64)contact->GetFixtureB()->GetUserData().pointer;
-    edk::uint8 count = contact->GetManifold()->pointCount;
+    edk::uint64 shapeA = (edk::uint64)contact->GetFixtureA()->GetUserData().pointer;edkEnd();
+    edk::uint64 shapeB = (edk::uint64)contact->GetFixtureB()->GetUserData().pointer;edkEnd();
+    edk::uint8 count = contact->GetManifold()->pointCount;edkEnd();
     if(count){
         //get the contact
-        edk::physics2D::Contact2D* contactTemp = this->world->treeConcacts.getContact(contact);
+        edk::physics2D::Contact2D* contactTemp = this->world->treeConcacts.getContact(contact);edkEnd();
 
         //test if the two objecs are on the same group
-        edk::physics2D::PhysicObject2D* objectA = (edk::physics2D::PhysicObject2D*)bodyA->GetUserData().pointer;
-        edk::physics2D::PhysicObject2D* objectB = (edk::physics2D::PhysicObject2D*)bodyB->GetUserData().pointer;
+        edk::physics2D::PhysicObject2D* objectA = (edk::physics2D::PhysicObject2D*)bodyA->GetUserData().pointer;edkEnd();
+        edk::physics2D::PhysicObject2D* objectB = (edk::physics2D::PhysicObject2D*)bodyB->GetUserData().pointer;edkEnd();
 
-        bool thisContinue=true;
+        bool thisContinue=true;edkEnd();
         if(objectA->getNotCollisionGroupSize() && objectB->getNotCollisionGroupSize()){
             //test if B have A group
-            edk::uint32 size = objectA->getNotCollisionGroupSize();
+            edk::uint32 size = objectA->getNotCollisionGroupSize();edkEnd();
             for(edk::uint32 i=0u;i<size;i++){
                 if(objectB->haveNotCollisionGroup(objectA->getNotCollisionGroupInPosition(i))){
                     //then continue
-                    thisContinue=false;
-                    break;
+                    thisContinue=false;edkEnd();
+                    break;edkEnd();
                 }
             }
         }
         if(objectA->getCollisionGroupSize() && objectB->getCollisionGroupSize()){
-            thisContinue=false;
+            thisContinue=false;edkEnd();
             //test if B have A group
-            edk::uint32 size = objectA->getCollisionGroupSize();
+            edk::uint32 size = objectA->getCollisionGroupSize();edkEnd();
             for(edk::uint32 i=0u;i<size;i++){
                 if(objectB->haveCollisionGroup(objectA->getCollisionGroupInPosition(i))){
                     //then continue
-                    thisContinue=true;
-                    break;
+                    thisContinue=true;edkEnd();
+                    break;edkEnd();
                 }
             }
         }
         if(thisContinue){
             if(!contactTemp){
                 //create the new contact
-                contactTemp = new edk::physics2D::Contact2D(contact);
+                contactTemp = new edk::physics2D::Contact2D(contact);edkEnd();
                 //add the contactTemp on the tree
                 if(!this->world->treeConcacts.add(contactTemp)){
                     //delete contactTemp
-                    delete contactTemp;
-                    contactTemp=NULL;
+                    delete contactTemp;edkEnd();
+                    contactTemp=NULL;edkEnd();
                 }
             }
             if(contactTemp){
                 if(!contactTemp->isEnabled()){
-                    contact->SetEnabled(false);
-                    return;
+                    contact->SetEnabled(false);edkEnd();
+                    return;edkEnd();
                 }
                 //update the values
-                contactTemp->objectA = (edk::physics2D::PhysicObject2D*)bodyA->GetUserData().pointer;
-                contactTemp->objectB = (edk::physics2D::PhysicObject2D*)bodyB->GetUserData().pointer;
-                contactTemp->shapeA = shapeA;
-                contactTemp->shapeB = shapeB;
+                contactTemp->objectA = (edk::physics2D::PhysicObject2D*)bodyA->GetUserData().pointer;edkEnd();
+                contactTemp->objectB = (edk::physics2D::PhysicObject2D*)bodyB->GetUserData().pointer;edkEnd();
+                contactTemp->shapeA = shapeA;edkEnd();
+                contactTemp->shapeB = shapeB;edkEnd();
                 //
-                contactTemp->objectA->setLinearVelocity(bodyA->GetLinearVelocity().x * this->percentOut,bodyA->GetLinearVelocity().y * this->percentOut);
-                contactTemp->objectA->setAngularVelocity(bodyA->GetAngularVelocity() * (180.f / b2_pi));
-                contactTemp->objectB->setLinearVelocity(bodyB->GetLinearVelocity().x * this->percentOut,bodyB->GetLinearVelocity().y * this->percentOut);
-                contactTemp->objectB->setAngularVelocity(bodyB->GetAngularVelocity() * (180.f / b2_pi));
-                contactTemp->velocityA = contactTemp->objectA->getSpeed();
-                contactTemp->velocityB = contactTemp->objectB->getSpeed();
+                contactTemp->objectA->setLinearVelocity(bodyA->GetLinearVelocity().x * this->percentOut,bodyA->GetLinearVelocity().y * this->percentOut);edkEnd();
+                contactTemp->objectA->setAngularVelocity(bodyA->GetAngularVelocity() * (180.f / b2_pi));edkEnd();
+                contactTemp->objectB->setLinearVelocity(bodyB->GetLinearVelocity().x * this->percentOut,bodyB->GetLinearVelocity().y * this->percentOut);edkEnd();
+                contactTemp->objectB->setAngularVelocity(bodyB->GetAngularVelocity() * (180.f / b2_pi));edkEnd();
+                contactTemp->velocityA = contactTemp->objectA->getSpeed();edkEnd();
+                contactTemp->velocityB = contactTemp->objectB->getSpeed();edkEnd();
                 //
-                contactTemp->worldPositions.createArray(count);
-                contactTemp->objectAPositions.createArray(count);
-                contactTemp->objectBPositions.createArray(count);
-                contactTemp->impulses.createArray(count);
-                contactTemp->points = count;
+                contactTemp->worldPositions.createArray(count);edkEnd();
+                contactTemp->objectAPositions.createArray(count);edkEnd();
+                contactTemp->objectBPositions.createArray(count);edkEnd();
+                contactTemp->impulses.createArray(count);edkEnd();
+                contactTemp->points = count;edkEnd();
 
                 //select the polygon
-                contactTemp->objectA->physicMesh.selectPolygon(contactTemp->shapeA);
-                contactTemp->objectB->physicMesh.selectPolygon(contactTemp->shapeB);
+                contactTemp->objectA->physicMesh.selectPolygon(contactTemp->shapeA);edkEnd();
+                contactTemp->objectB->physicMesh.selectPolygon(contactTemp->shapeB);edkEnd();
 
                 //get the world manifold to get the points
-                b2WorldManifold worldManifold;
-                contact->GetWorldManifold(&worldManifold);
-                b2Vec2 point;
-                edk::vec2f32 vertex;
+                b2WorldManifold worldManifold;edkEnd();
+                contact->GetWorldManifold(&worldManifold);edkEnd();
+                b2Vec2 point;edkEnd();
+                edk::vec2f32 vertex;edkEnd();
                 for(edk::uint32 i=0u;i<count;i++){
                     //copy the point to the worldPosition
 
-                    point = worldManifold.points[i];
-                    contactTemp->worldPositions.set(i,edk::vec2f32(point.x * this->percentOut,point.y * this->percentOut));
+                    point = worldManifold.points[i];edkEnd();
+                    contactTemp->worldPositions.set(i,edk::vec2f32(point.x * this->percentOut,point.y * this->percentOut));edkEnd();
 
                     //get objectA position
                     vertex = edk::Math::rotatePlus(contactTemp->worldPositions[i]-contactTemp->objectA->position,
                                                    contactTemp->objectA->angle * -1.f
-                                                   );
-                    if(contactTemp->objectA->size.width) vertex.x/=contactTemp->objectA->size.width;
-                    if(contactTemp->objectA->size.height) vertex.y/=contactTemp->objectA->size.height;
-                    contactTemp->objectAPositions.set(i,vertex);
+                                                   );edkEnd();
+                    if(contactTemp->objectA->size.width){
+                        vertex.x/=contactTemp->objectA->size.width;edkEnd();
+                    }
+                    if(contactTemp->objectA->size.height){
+                        vertex.y/=contactTemp->objectA->size.height;edkEnd();
+                    }
+                    contactTemp->objectAPositions.set(i,vertex);edkEnd();
                     //get objectB position
                     vertex = edk::Math::rotatePlus(contactTemp->worldPositions[i]-contactTemp->objectB->position,
                                                    contactTemp->objectB->angle * -1.f
-                                                   );
-                    if(contactTemp->objectB->size.width)vertex.x/=contactTemp->objectB->size.width;
-                    if(contactTemp->objectB->size.height)vertex.y/=contactTemp->objectB->size.height;
-                    contactTemp->objectBPositions.set(i,vertex);
-                    contactTemp->impulses.set(i,0.f);
+                                                   );edkEnd();
+                    if(contactTemp->objectB->size.width){
+                        vertex.x/=contactTemp->objectB->size.width;edkEnd();
+                    }
+                    if(contactTemp->objectB->size.height){
+                        vertex.y/=contactTemp->objectB->size.height;edkEnd();
+                    }
+                    contactTemp->objectBPositions.set(i,vertex);edkEnd();
+                    contactTemp->impulses.set(i,0.f);edkEnd();
                 }
 
                 //test if the objectA is a sensor
                 if(contactTemp->objectA->isSensor()){
                     //load the sensor
-                    edk::physics2D::StaticSensor2D* sensor = (edk::physics2D::StaticSensor2D*)contactTemp->objectA;
+                    edk::physics2D::StaticSensor2D* sensor = (edk::physics2D::StaticSensor2D*)contactTemp->objectA;edkEnd();
                     //test if the sensor have objects
                     if(sensor->getActivateSize()){
                         //test if have the object in the sensor tree
                         if(sensor->haveActivateObject(contactTemp->objectB)){
-                            //this->world->sensorBegin(contactTemp);
-                            this->world->physicsSensorBegin(contactTemp);
+                            //this->world->sensorBegin(contactTemp);edkEnd();
+                            this->world->physicsSensorBegin(contactTemp);edkEnd();
                         }
                     }
                     else{
                         //test if the object is in the sensor
-                        //this->world->sensorBegin(contactTemp);
-                        this->world->physicsSensorBegin(contactTemp);
+                        //this->world->sensorBegin(contactTemp);edkEnd();
+                        this->world->physicsSensorBegin(contactTemp);edkEnd();
                     }
                 }
                 else if(contactTemp->objectB->isSensor()){
                     //load the sensor
-                    edk::physics2D::StaticSensor2D* sensor = (edk::physics2D::StaticSensor2D*)contactTemp->objectB;
+                    edk::physics2D::StaticSensor2D* sensor = (edk::physics2D::StaticSensor2D*)contactTemp->objectB;edkEnd();
                     //test if the sensor have objects
                     if(sensor->getActivateSize()){
                         //test if have the object in the sensor tree
                         if(sensor->haveActivateObject(contactTemp->objectA)){
-                            //this->world->sensorBegin(contactTemp);
-                            this->world->physicsSensorBegin(contactTemp);
+                            //this->world->sensorBegin(contactTemp);edkEnd();
+                            this->world->physicsSensorBegin(contactTemp);edkEnd();
                         }
                     }
                     else{
                         //test if the object is in the sensor
-                        //this->world->sensorBegin(contactTemp);
-                        this->world->physicsSensorBegin(contactTemp);
+                        //this->world->sensorBegin(contactTemp);edkEnd();
+                        this->world->physicsSensorBegin(contactTemp);edkEnd();
                     }
                 }
                 //Test if the lineA collide in one side
@@ -194,33 +202,36 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
                         switch(contactTemp->objectA->physicMesh.selectedGetCollisionID()){
                         case edk::shape::collisionUP:
                             if(contactTemp->objectB->position.y>=contactTemp->worldPositions[0u].y){
-                                this->world->physicsContactBegin(contactTemp);
-                                if(!contactTemp->isEnabled())
-                                    contact->SetEnabled(false);
+                                this->world->physicsContactBegin(contactTemp);edkEnd();
+                                if(!contactTemp->isEnabled()){
+                                    contact->SetEnabled(false);edkEnd();
+                                }
                             }
                             else{
                                 if(this->world->treeConcacts.remove((contactTemp))){
-                                    delete (contactTemp);
+                                    delete (contactTemp);edkEnd();
                                 }
                             }
-                            break;
+                            break;edkEnd();
                         case edk::shape::collisionDOWN:
                             if(contactTemp->objectB->position.y<contactTemp->worldPositions[0u].y){
-                                this->world->physicsContactBegin(contactTemp);
-                                if(!contactTemp->isEnabled())
-                                    contact->SetEnabled(false);
+                                this->world->physicsContactBegin(contactTemp);edkEnd();
+                                if(!contactTemp->isEnabled()){
+                                    contact->SetEnabled(false);edkEnd();
+                                }
                             }
                             else{
                                 if(this->world->treeConcacts.remove((contactTemp))){
-                                    delete (contactTemp);
+                                    delete (contactTemp);edkEnd();
                                 }
                             }
-                            break;
+                            break;edkEnd();
                         default:
-                            this->world->physicsContactBegin(contactTemp);
-                            if(!contactTemp->isEnabled())
-                                contact->SetEnabled(false);
-                            break;
+                            this->world->physicsContactBegin(contactTemp);edkEnd();
+                            if(!contactTemp->isEnabled()){
+                                contact->SetEnabled(false);edkEnd();
+                            }
+                            break;edkEnd();
                         }
                     }
                 }
@@ -231,48 +242,50 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
                         switch(contactTemp->objectB->physicMesh.selectedGetCollisionID()){
                         case edk::shape::collisionUP:
                             if(contactTemp->objectA->position.y>=contactTemp->worldPositions[0u].y){
-                                this->world->physicsContactBegin(contactTemp);
+                                this->world->physicsContactBegin(contactTemp);edkEnd();
                                 if(!contactTemp->isEnabled())
-                                    contact->SetEnabled(false);
+                                    contact->SetEnabled(false);edkEnd();
                             }
                             else{
                                 if(this->world->treeConcacts.remove((contactTemp))){
-                                    delete (contactTemp);
+                                    delete (contactTemp);edkEnd();
                                 }
                             }
-                            break;
+                            break;edkEnd();
                         case edk::shape::collisionDOWN:
                             if(contactTemp->objectA->position.y<contactTemp->worldPositions[0u].y){
-                                this->world->physicsContactBegin(contactTemp);
+                                this->world->physicsContactBegin(contactTemp);edkEnd();
                                 if(!contactTemp->isEnabled())
-                                    contact->SetEnabled(false);
+                                    contact->SetEnabled(false);edkEnd();
                             }
                             else{
                                 if(this->world->treeConcacts.remove((contactTemp))){
-                                    delete (contactTemp);
+                                    delete (contactTemp);edkEnd();
                                 }
                             }
-                            break;
+                            break;edkEnd();
                         default:
-                            this->world->physicsContactBegin(contactTemp);
-                            if(!contactTemp->isEnabled())
-                                contact->SetEnabled(false);
-                            break;
+                            this->world->physicsContactBegin(contactTemp);edkEnd();
+                            if(!contactTemp->isEnabled()){
+                                contact->SetEnabled(false);edkEnd();
+                            }
+                            break;edkEnd();
                         }
                     }
                 }
                 else{
-                    //this->world->contactbegin(contactTemp);
-                    this->world->physicsContactBegin(contactTemp);
-                    if(!contactTemp->isEnabled())
-                        contact->SetEnabled(false);
+                    //this->world->contactbegin(contactTemp);edkEnd();
+                    this->world->physicsContactBegin(contactTemp);edkEnd();
+                    if(!contactTemp->isEnabled()){
+                        contact->SetEnabled(false);edkEnd();
+                    }
                 }
             }
         }
         else{
             if(contactTemp){
                 if(this->world->treeConcacts.remove((contactTemp))){
-                    delete (contactTemp);
+                    delete (contactTemp);edkEnd();
                 }
             }
         }
@@ -282,11 +295,11 @@ void edk::physics2D::World2D::MyContactListener::EndContact(b2Contact* contact){
     /*
     printf("\nContact END %u"
            ,contact
-           );fflush(stdout);
+           );edkEnd();fflush(stdout);edkEnd();
 */
     //find contact
-    b2Body* bodyA = contact->GetFixtureA()->GetBody();
-    b2Body* bodyB = contact->GetFixtureB()->GetBody();
+    b2Body* bodyA = contact->GetFixtureA()->GetBody();edkEnd();
+    b2Body* bodyB = contact->GetFixtureB()->GetBody();edkEnd();
 
     //test if have the One of the Bodys in treeRemove
     if(this->world->treeDeleted.haveElement(bodyA)
@@ -294,45 +307,53 @@ void edk::physics2D::World2D::MyContactListener::EndContact(b2Contact* contact){
             this->world->treeDeleted.haveElement(bodyB)
             ){
         //disable the contact
-        contact->SetEnabled(false);
-        return;
+        contact->SetEnabled(false);edkEnd();
+        return;edkEnd();
     }
 
-    edk::physics2D::Contact2D* contactTemp = this->world->treeConcacts.getContact(contact);
+    edk::physics2D::Contact2D* contactTemp = this->world->treeConcacts.getContact(contact);edkEnd();
     if(contactTemp){
-        contactTemp->objectA->setLinearVelocity(bodyA->GetLinearVelocity().x * this->percentOut,bodyA->GetLinearVelocity().y * this->percentOut);
-        contactTemp->objectA->setAngularVelocity(bodyA->GetAngularVelocity() * (180.f / b2_pi));
-        contactTemp->objectB->setLinearVelocity(bodyB->GetLinearVelocity().x * this->percentOut,bodyB->GetLinearVelocity().y * this->percentOut);
-        contactTemp->objectB->setAngularVelocity(bodyB->GetAngularVelocity() * (180.f / b2_pi));
-        contactTemp->velocityA = contactTemp->objectA->getSpeed();
-        contactTemp->velocityB = contactTemp->objectB->getSpeed();
+        contactTemp->objectA->setLinearVelocity(bodyA->GetLinearVelocity().x * this->percentOut,bodyA->GetLinearVelocity().y * this->percentOut);edkEnd();
+        contactTemp->objectA->setAngularVelocity(bodyA->GetAngularVelocity() * (180.f / b2_pi));edkEnd();
+        contactTemp->objectB->setLinearVelocity(bodyB->GetLinearVelocity().x * this->percentOut,bodyB->GetLinearVelocity().y * this->percentOut);edkEnd();
+        contactTemp->objectB->setAngularVelocity(bodyB->GetAngularVelocity() * (180.f / b2_pi));edkEnd();
+        contactTemp->velocityA = contactTemp->objectA->getSpeed();edkEnd();
+        contactTemp->velocityB = contactTemp->objectB->getSpeed();edkEnd();
         //update the positions
-        edk::uint8 count = contact->GetManifold()->pointCount;
-        b2Vec2 point;
-        edk::vec2f32 vertex;
-        b2WorldManifold worldManifold;
-        contact->GetWorldManifold(&worldManifold);
+        edk::uint8 count = contact->GetManifold()->pointCount;edkEnd();
+        b2Vec2 point;edkEnd();
+        edk::vec2f32 vertex;edkEnd();
+        b2WorldManifold worldManifold;edkEnd();
+        contact->GetWorldManifold(&worldManifold);edkEnd();
 
         for(edk::uint32 i=0u;i<count;i++){
             //copy the point to the worldPosition
 
-            point = worldManifold.points[i];
-            contactTemp->worldPositions.set(i,edk::vec2f32(point.x * this->percentOut,point.y * this->percentOut));
+            point = worldManifold.points[i];edkEnd();
+            contactTemp->worldPositions.set(i,edk::vec2f32(point.x * this->percentOut,point.y * this->percentOut));edkEnd();
 
             //get objectA position
             vertex = edk::Math::rotatePlus(contactTemp->worldPositions[i]-contactTemp->objectA->position,
                                            contactTemp->objectA->angle * -1.f
-                                           );
-            if(contactTemp->objectA->size.width) vertex.x/=contactTemp->objectA->size.width;
-            if(contactTemp->objectA->size.height) vertex.y/=contactTemp->objectA->size.height;
-            contactTemp->objectAPositions.set(i,vertex);
+                                           );edkEnd();
+            if(contactTemp->objectA->size.width){
+                vertex.x/=contactTemp->objectA->size.width;edkEnd();
+            }
+            if(contactTemp->objectA->size.height){
+                vertex.y/=contactTemp->objectA->size.height;edkEnd();
+            }
+            contactTemp->objectAPositions.set(i,vertex);edkEnd();
             //get objectB position
             vertex = edk::Math::rotatePlus(contactTemp->worldPositions[i]-contactTemp->objectB->position,
                                            contactTemp->objectB->angle * -1.f
-                                           );
-            if(contactTemp->objectB->size.width) vertex.x/=contactTemp->objectB->size.width;
-            if(contactTemp->objectB->size.height) vertex.y/=contactTemp->objectB->size.height;
-            contactTemp->objectBPositions.set(i,vertex);
+                                           );edkEnd();
+            if(contactTemp->objectB->size.width){
+                vertex.x/=contactTemp->objectB->size.width;edkEnd();
+            }
+            if(contactTemp->objectB->size.height){
+                vertex.y/=contactTemp->objectB->size.height;edkEnd();
+            }
+            contactTemp->objectBPositions.set(i,vertex);edkEnd();
         }
 
         //process the contactEnd
@@ -340,58 +361,58 @@ void edk::physics2D::World2D::MyContactListener::EndContact(b2Contact* contact){
         //test if the objectA is a sensor
         if(contactTemp->objectA->isSensor()){
             //load the sensor
-            edk::physics2D::StaticSensor2D* sensor = (edk::physics2D::StaticSensor2D*)contactTemp->objectA;
+            edk::physics2D::StaticSensor2D* sensor = (edk::physics2D::StaticSensor2D*)contactTemp->objectA;edkEnd();
             //test if the sensor have objects
             if(sensor->getActivateSize()){
                 //test if have the object in the sensor tree
                 if(sensor->haveActivateObject(contactTemp->objectB)){
-                    //this->world->sensorEnd(contactTemp);
-                    this->world->physicsSensorEnd(contactTemp);
+                    //this->world->sensorEnd(contactTemp);edkEnd();
+                    this->world->physicsSensorEnd(contactTemp);edkEnd();
                 }
             }
             else{
                 //test if the object is in the sensor
-                //this->world->sensorEnd(contactTemp);
-                this->world->physicsSensorEnd(contactTemp);
+                //this->world->sensorEnd(contactTemp);edkEnd();
+                this->world->physicsSensorEnd(contactTemp);edkEnd();
             }
         }
         else if(contactTemp->objectB->isSensor()){
             //load the sensor
-            edk::physics2D::StaticSensor2D* sensor = (edk::physics2D::StaticSensor2D*)contactTemp->objectB;
+            edk::physics2D::StaticSensor2D* sensor = (edk::physics2D::StaticSensor2D*)contactTemp->objectB;edkEnd();
             //test if the sensor have objects
             if(sensor->getActivateSize()){
                 //test if have the object in the sensor tree
                 if(sensor->haveActivateObject(contactTemp->objectA)){
-                    //this->world->sensorEnd(contactTemp);
-                    this->world->physicsSensorEnd(contactTemp);
+                    //this->world->sensorEnd(contactTemp);edkEnd();
+                    this->world->physicsSensorEnd(contactTemp);edkEnd();
                 }
             }
             else{
                 //test if the object is in the sensor
-                //this->world->sensorEnd(contactTemp);
-                this->world->physicsSensorEnd(contactTemp);
+                //this->world->sensorEnd(contactTemp);edkEnd();
+                this->world->physicsSensorEnd(contactTemp);edkEnd();
             }
         }
         else{
-            //this->world->contactEnd(contactTemp);
-            this->world->physicsContactEnd(contactTemp);
+            //this->world->contactEnd(contactTemp);edkEnd();
+            this->world->physicsContactEnd(contactTemp);edkEnd();
         }
 
         //remove contactTemp from the tree
-        this->world->treeConcacts.remove(contactTemp);
+        this->world->treeConcacts.remove(contactTemp);edkEnd();
         //delete contactTemp
-        delete contactTemp;
+        delete contactTemp;edkEnd();
     }
 }
 void edk::physics2D::World2D::MyContactListener::PreSolve(b2Contact* contact, const b2Manifold*){
     /*
     printf("\nContact PreSolve %u"
            ,contact
-           );fflush(stdout);
+           );edkEnd();fflush(stdout);edkEnd();
 */
     //find contact
-    b2Body* bodyA = contact->GetFixtureA()->GetBody();
-    b2Body* bodyB = contact->GetFixtureB()->GetBody();
+    b2Body* bodyA = contact->GetFixtureA()->GetBody();edkEnd();
+    b2Body* bodyB = contact->GetFixtureB()->GetBody();edkEnd();
 
     //test if have the One of the Bodys in treeRemove
     if(this->world->treeDeleted.haveElement(bodyA)
@@ -399,48 +420,56 @@ void edk::physics2D::World2D::MyContactListener::PreSolve(b2Contact* contact, co
             this->world->treeDeleted.haveElement(bodyB)
             ){
         //disable the contact
-        contact->SetEnabled(false);
-        return;
+        contact->SetEnabled(false);edkEnd();
+        return;edkEnd();
     }
 
-    edk::physics2D::Contact2D* contactTemp = this->world->treeConcacts.getContact(contact);
+    edk::physics2D::Contact2D* contactTemp = this->world->treeConcacts.getContact(contact);edkEnd();
     if(contactTemp){
         if(!contactTemp->isEnabled()){
-            contact->SetEnabled(false);
-            return;
+            contact->SetEnabled(false);edkEnd();
+            return;edkEnd();
         }
-        contactTemp->objectA->setLinearVelocity(bodyA->GetLinearVelocity().x * this->percentOut,bodyA->GetLinearVelocity().y * this->percentOut);
-        contactTemp->objectA->setAngularVelocity(bodyA->GetAngularVelocity() * (180.f / b2_pi));
-        contactTemp->objectB->setLinearVelocity(bodyB->GetLinearVelocity().x * this->percentOut,bodyB->GetLinearVelocity().y * this->percentOut);
-        contactTemp->objectB->setAngularVelocity(bodyB->GetAngularVelocity() * (180.f / b2_pi));
-        contactTemp->velocityA = contactTemp->objectA->getSpeed();
-        contactTemp->velocityB = contactTemp->objectB->getSpeed();
+        contactTemp->objectA->setLinearVelocity(bodyA->GetLinearVelocity().x * this->percentOut,bodyA->GetLinearVelocity().y * this->percentOut);edkEnd();
+        contactTemp->objectA->setAngularVelocity(bodyA->GetAngularVelocity() * (180.f / b2_pi));edkEnd();
+        contactTemp->objectB->setLinearVelocity(bodyB->GetLinearVelocity().x * this->percentOut,bodyB->GetLinearVelocity().y * this->percentOut);edkEnd();
+        contactTemp->objectB->setAngularVelocity(bodyB->GetAngularVelocity() * (180.f / b2_pi));edkEnd();
+        contactTemp->velocityA = contactTemp->objectA->getSpeed();edkEnd();
+        contactTemp->velocityB = contactTemp->objectB->getSpeed();edkEnd();
         //update the positions
-        edk::uint8 count = contact->GetManifold()->pointCount;
-        b2Vec2 point;
-        edk::vec2f32 vertex;
-        b2WorldManifold worldManifold;
-        contact->GetWorldManifold(&worldManifold);
+        edk::uint8 count = contact->GetManifold()->pointCount;edkEnd();
+        b2Vec2 point;edkEnd();
+        edk::vec2f32 vertex;edkEnd();
+        b2WorldManifold worldManifold;edkEnd();
+        contact->GetWorldManifold(&worldManifold);edkEnd();
         for(edk::uint32 i=0u;i<count;i++){
             //copy the point to the worldPosition
 
-            point = worldManifold.points[i];
-            contactTemp->worldPositions.set(i,edk::vec2f32(point.x * this->percentOut,point.y * this->percentOut));
+            point = worldManifold.points[i];edkEnd();
+            contactTemp->worldPositions.set(i,edk::vec2f32(point.x * this->percentOut,point.y * this->percentOut));edkEnd();
 
             //get objectA position
             vertex = edk::Math::rotatePlus(contactTemp->worldPositions[i]-contactTemp->objectA->position,
                                            contactTemp->objectA->angle * -1.f
-                                           );
-            if(contactTemp->objectA->size.width) vertex.x/=contactTemp->objectA->size.width;
-            if(contactTemp->objectA->size.height) vertex.y/=contactTemp->objectA->size.height;
-            contactTemp->objectAPositions.set(i,vertex);
+                                           );edkEnd();
+            if(contactTemp->objectA->size.width){
+                vertex.x/=contactTemp->objectA->size.width;edkEnd();
+            }
+            if(contactTemp->objectA->size.height){
+                vertex.y/=contactTemp->objectA->size.height;edkEnd();
+            }
+            contactTemp->objectAPositions.set(i,vertex);edkEnd();
             //get objectB position
             vertex = edk::Math::rotatePlus(contactTemp->worldPositions[i]-contactTemp->objectB->position,
                                            contactTemp->objectB->angle * -1.f
-                                           );
-            if(contactTemp->objectB->size.width) vertex.x/=contactTemp->objectB->size.width;
-            if(contactTemp->objectB->size.height) vertex.y/=contactTemp->objectB->size.height;
-            contactTemp->objectBPositions.set(i,vertex);
+                                           );edkEnd();
+            if(contactTemp->objectB->size.width){
+                vertex.x/=contactTemp->objectB->size.width;edkEnd();
+            }
+            if(contactTemp->objectB->size.height){
+                vertex.y/=contactTemp->objectB->size.height;edkEnd();
+            }
+            contactTemp->objectBPositions.set(i,vertex);edkEnd();
         }
 
 
@@ -448,53 +477,54 @@ void edk::physics2D::World2D::MyContactListener::PreSolve(b2Contact* contact, co
             //test if the objectA is a sensor
             if(contactTemp->objectA->isSensor()){
                 //load the sensor
-                edk::physics2D::StaticSensor2D* sensor = (edk::physics2D::StaticSensor2D*)contactTemp->objectA;
+                edk::physics2D::StaticSensor2D* sensor = (edk::physics2D::StaticSensor2D*)contactTemp->objectA;edkEnd();
                 //test if the sensor have objects
                 if(sensor->getActivateSize()){
                     //test if have the object in the sensor tree
                     if(sensor->haveActivateObject(contactTemp->objectB)){
-                        //this->world->sensorKeeping(contactTemp);
-                        this->world->physicsSensorKeeping(contactTemp);
+                        //this->world->sensorKeeping(contactTemp);edkEnd();
+                        this->world->physicsSensorKeeping(contactTemp);edkEnd();
                     }
                 }
                 else{
                     //test if the object is in the sensor
-                    //this->world->sensorKeeping(contactTemp);
-                    this->world->physicsSensorKeeping(contactTemp);
+                    //this->world->sensorKeeping(contactTemp);edkEnd();
+                    this->world->physicsSensorKeeping(contactTemp);edkEnd();
                 }
-                contact->SetEnabled(false);
+                contact->SetEnabled(false);edkEnd();
             }
             else if(contactTemp->objectB->isSensor()){
                 //load the sensor
-                edk::physics2D::StaticSensor2D* sensor = (edk::physics2D::StaticSensor2D*)contactTemp->objectB;
+                edk::physics2D::StaticSensor2D* sensor = (edk::physics2D::StaticSensor2D*)contactTemp->objectB;edkEnd();
                 //test if the sensor have objects
                 if(sensor->getActivateSize()){
                     //test if have the object in the sensor tree
                     if(sensor->haveActivateObject(contactTemp->objectA)){
-                        //this->world->sensorKeeping(contactTemp);
-                        this->world->physicsSensorKeeping(contactTemp);
+                        //this->world->sensorKeeping(contactTemp);edkEnd();
+                        this->world->physicsSensorKeeping(contactTemp);edkEnd();
                     }
                 }
                 else{
                     //test if the object is in the sensor
-                    //this->world->sensorKeeping(contactTemp);
-                    this->world->physicsSensorKeeping(contactTemp);
+                    //this->world->sensorKeeping(contactTemp);edkEnd();
+                    this->world->physicsSensorKeeping(contactTemp);edkEnd();
                 }
-                contact->SetEnabled(false);
+                contact->SetEnabled(false);edkEnd();
             }
             else{
-                //this->world->contactKeepBegin(contactTemp);
-                this->world->physicsContactKeepBegin(contactTemp);
-                if(!contactTemp->isEnabled())
-                    contact->SetEnabled(false);
+                //this->world->contactKeepBegin(contactTemp);edkEnd();
+                this->world->physicsContactKeepBegin(contactTemp);edkEnd();
+                if(!contactTemp->isEnabled()){
+                    contact->SetEnabled(false);edkEnd();
+                }
             }
         }
         else{
-            contact->SetEnabled(false);
+            contact->SetEnabled(false);edkEnd();
         }
     }
     else{
-        contact->SetEnabled(false);
+        contact->SetEnabled(false);edkEnd();
     }
 }
 void edk::physics2D::World2D::MyContactListener::PostSolve(b2Contact* contact, const b2ContactImpulse* impulse){
@@ -503,11 +533,11 @@ void edk::physics2D::World2D::MyContactListener::PostSolve(b2Contact* contact, c
            ,impulse->count
            ,impulse->tangentImpulses[0u]
            ,impulse->normalImpulses[0u]
-           );fflush(stdout);
+           );edkEnd();fflush(stdout);edkEnd();
 */
     //find contact
-    b2Body* bodyA = contact->GetFixtureA()->GetBody();
-    b2Body* bodyB = contact->GetFixtureB()->GetBody();
+    b2Body* bodyA = contact->GetFixtureA()->GetBody();edkEnd();
+    b2Body* bodyB = contact->GetFixtureB()->GetBody();edkEnd();
 
     //test if have the One of the Bodys in treeRemove
     if(this->world->treeDeleted.haveElement(bodyA)
@@ -515,52 +545,60 @@ void edk::physics2D::World2D::MyContactListener::PostSolve(b2Contact* contact, c
             this->world->treeDeleted.haveElement(bodyB)
             ){
         //disable the contact
-        contact->SetEnabled(false);
-        return;
+        contact->SetEnabled(false);edkEnd();
+        return;edkEnd();
     }
 
-    edk::physics2D::Contact2D* contactTemp = this->world->treeConcacts.getContact(contact);
+    edk::physics2D::Contact2D* contactTemp = this->world->treeConcacts.getContact(contact);edkEnd();
     if(contactTemp){
-        contactTemp->objectA->setLinearVelocity(bodyA->GetLinearVelocity().x * this->percentOut,bodyA->GetLinearVelocity().y * this->percentOut);
-        contactTemp->objectA->setAngularVelocity(bodyA->GetAngularVelocity() * (180.f / b2_pi));
-        contactTemp->objectB->setLinearVelocity(bodyB->GetLinearVelocity().x * this->percentOut,bodyB->GetLinearVelocity().y * this->percentOut);
-        contactTemp->objectB->setAngularVelocity(bodyB->GetAngularVelocity() * (180.f / b2_pi));
-        contactTemp->velocityA = contactTemp->objectA->getSpeed();
-        contactTemp->velocityB = contactTemp->objectB->getSpeed();
+        contactTemp->objectA->setLinearVelocity(bodyA->GetLinearVelocity().x * this->percentOut,bodyA->GetLinearVelocity().y * this->percentOut);edkEnd();
+        contactTemp->objectA->setAngularVelocity(bodyA->GetAngularVelocity() * (180.f / b2_pi));edkEnd();
+        contactTemp->objectB->setLinearVelocity(bodyB->GetLinearVelocity().x * this->percentOut,bodyB->GetLinearVelocity().y * this->percentOut);edkEnd();
+        contactTemp->objectB->setAngularVelocity(bodyB->GetAngularVelocity() * (180.f / b2_pi));edkEnd();
+        contactTemp->velocityA = contactTemp->objectA->getSpeed();edkEnd();
+        contactTemp->velocityB = contactTemp->objectB->getSpeed();edkEnd();
         //update the positions
-        edk::uint8 count = contact->GetManifold()->pointCount;
-        b2Vec2 point;
-        edk::vec2f32 vertex;
-        b2WorldManifold worldManifold;
-        contact->GetWorldManifold(&worldManifold);
+        edk::uint8 count = contact->GetManifold()->pointCount;edkEnd();
+        b2Vec2 point;edkEnd();
+        edk::vec2f32 vertex;edkEnd();
+        b2WorldManifold worldManifold;edkEnd();
+        contact->GetWorldManifold(&worldManifold);edkEnd();
 
         for(edk::uint32 i=0u;i<count;i++){
             //copy the point to the worldPosition
 
-            point = worldManifold.points[i];
-            contactTemp->worldPositions.set(i,edk::vec2f32(point.x * this->percentOut,point.y * this->percentOut));
+            point = worldManifold.points[i];edkEnd();
+            contactTemp->worldPositions.set(i,edk::vec2f32(point.x * this->percentOut,point.y * this->percentOut));edkEnd();
 
             //get objectA position
             vertex = edk::Math::rotatePlus(contactTemp->worldPositions[i]-contactTemp->objectA->position,
                                            contactTemp->objectA->angle * -1.f
-                                           );
-            if(contactTemp->objectA->size.width) vertex.x/=contactTemp->objectA->size.width;
-            if(contactTemp->objectA->size.height) vertex.y/=contactTemp->objectA->size.height;
-            contactTemp->objectAPositions.set(i,vertex);
+                                           );edkEnd();
+            if(contactTemp->objectA->size.width){
+                vertex.x/=contactTemp->objectA->size.width;edkEnd();
+            }
+            if(contactTemp->objectA->size.height){
+                vertex.y/=contactTemp->objectA->size.height;edkEnd();
+            }
+            contactTemp->objectAPositions.set(i,vertex);edkEnd();
             //get objectB position
             vertex = edk::Math::rotatePlus(contactTemp->worldPositions[i]-contactTemp->objectB->position,
                                            contactTemp->objectB->angle * -1.f
-                                           );
-            if(contactTemp->objectB->size.width) vertex.x/=contactTemp->objectB->size.width;
-            if(contactTemp->objectB->size.height) vertex.y/=contactTemp->objectB->size.height;
-            contactTemp->objectBPositions.set(i,vertex);
+                                           );edkEnd();
+            if(contactTemp->objectB->size.width){
+                vertex.x/=contactTemp->objectB->size.width;edkEnd();
+            }
+            if(contactTemp->objectB->size.height){
+                vertex.y/=contactTemp->objectB->size.height;edkEnd();
+            }
+            contactTemp->objectBPositions.set(i,vertex);edkEnd();
         }
 
         //Update impulsess
         for(edk::uint32 i=0u;i<count;i++){
-            contactTemp->impulses.set(i,impulse->normalImpulses[i]);
+            contactTemp->impulses.set(i,impulse->normalImpulses[i]);edkEnd();
         }
-        count = impulse->count;
+        count = impulse->count;edkEnd();
 
 
         if(contactTemp->isEnabled()){
@@ -568,8 +606,8 @@ void edk::physics2D::World2D::MyContactListener::PostSolve(b2Contact* contact, c
             if(!contactTemp->objectA->isSensor()
                     &&
                     !contactTemp->objectB->isSensor()){
-                //this->world->contactKeepEnd(contactTemp);
-                this->world->physicsContactKeepEnd(contactTemp);
+                //this->world->contactKeepEnd(contactTemp);edkEnd();
+                this->world->physicsContactKeepEnd(contactTemp);edkEnd();
             }
         }
     }
@@ -590,33 +628,33 @@ bool edk::physics2D::World2D::ObjectJointsTree::addJoint(edk::physics2D::Joint2D
                  joint->objectB==this->pointerA)
                 ){
             //add the joint
-            return this->add(joint);
+            return this->add(joint);edkEnd();
         }
     }
     return false;
 }
 //return the joint in the position
 edk::physics2D::Joint2D* edk::physics2D::World2D::ObjectJointsTree::getJointInPosition(edk::uint32 position){
-    return this->getElementInPosition(position);
+    return this->getElementInPosition(position);edkEnd();
 }
 
 //return the size of the joint
 edk::uint32 edk::physics2D::World2D::ObjectJointsTree::getSize(){
-    return this->size();
+    return this->size();edkEnd();
 }
 
 //remove joint
 bool edk::physics2D::World2D::ObjectJointsTree::removeJoint(edk::physics2D::Joint2D* joint){
-    return this->remove(joint);
+    return this->remove(joint);edkEnd();
 }
 //remove joint in position
 bool edk::physics2D::World2D::ObjectJointsTree::removeJointInPosition(edk::uint32 position){
-    return this->remove(this->getJointInPosition(position));
+    return this->remove(this->getJointInPosition(position));edkEnd();
 }
 
 //clean the joints
 void edk::physics2D::World2D::ObjectJointsTree::cleanJoints(){
-    this->clean();
+    this->clean();edkEnd();
 }
 
 
@@ -629,7 +667,7 @@ bool edk::physics2D::World2D::ObjectsJointsTree::addJoint(edk::physics2D::World2
                 ||
                 joint->getPointerB()==this->pointer){
             //add the joint
-            return this->add(joint);
+            return this->add(joint);edkEnd();
         }
     }
     return false;
@@ -637,42 +675,42 @@ bool edk::physics2D::World2D::ObjectsJointsTree::addJoint(edk::physics2D::World2
 //return the joint
 edk::physics2D::World2D::ObjectJointsTree* edk::physics2D::World2D::ObjectsJointsTree::getJoint(edk::physics2D::PhysicObject2D* object){
     //create the find joint
-    edk::physics2D::World2D::ObjectJointsTree find(object,pointer);
+    edk::physics2D::World2D::ObjectJointsTree find(object,pointer);edkEnd();
     /*
-    find.objectA = object;
-    find.objectB = pointer;
+    find.objectA = object;edkEnd();
+    find.objectB = pointer;edkEnd();
     */
-    return this->getElement(&find);
+    return this->getElement(&find);edkEnd();
 }
 //return the joint in the position
 edk::physics2D::World2D::ObjectJointsTree* edk::physics2D::World2D::ObjectsJointsTree::getJointInPosition(edk::uint32 position){
-    return this->getElementInPosition(position);
+    return this->getElementInPosition(position);edkEnd();
 }
 //return the size of the joint
 edk::uint32 edk::physics2D::World2D::ObjectsJointsTree::getSize(){
-    return this->size();
+    return this->size();edkEnd();
 }
 //remove joint
 bool edk::physics2D::World2D::ObjectsJointsTree::removeJoint(edk::physics2D::PhysicObject2D* object){
-    edk::physics2D::World2D::ObjectJointsTree find(object,pointer);
+    edk::physics2D::World2D::ObjectJointsTree find(object,pointer);edkEnd();
     /*
-    find.objectA = object;
-    find.objectB = pointer;
+    find.objectA = object;edkEnd();
+    find.objectB = pointer;edkEnd();
     */
-    return this->remove(&find);
+    return this->remove(&find);edkEnd();
 }
 
 bool edk::physics2D::World2D::ObjectsJointsTree::removeJoint(edk::physics2D::World2D::ObjectJointsTree* joint){
-    return this->remove(joint);
+    return this->remove(joint);edkEnd();
 }
 //clean the joints
 void edk::physics2D::World2D::ObjectsJointsTree::cleanJoints(){
-    this->clean();
+    this->clean();edkEnd();
 }
 
 //return the pointer
 edk::physics2D::PhysicObject2D* edk::physics2D::World2D::ObjectsJointsTree::getPointer(){
-    return this->pointer;
+    return this->pointer;edkEnd();
 }
 
 //compare if the value is bigger
@@ -742,120 +780,122 @@ bool edk::physics2D::World2D::ObjectsJointsTree::firstEqualSecond(edk::physics2D
 edk::physics2D::World2D::World2D()
     : world(b2Vec2(0,0)),contacts(this),treeDeleted(&this->world),
       treeNew(this),treeLinearVelocity(this),treeAngularVelocity(this){
-    this->setMeterDistance(1.f);
+    this->setMeterDistance(1.f);edkEnd();
     //set the initial gravity
-    this->setGravity(edk::vec2f32(0.f,-9.8f));
-    this->world.SetContactListener(&this->contacts);
+    this->setGravity(edk::vec2f32(0.f,-9.8f));edkEnd();
+    this->world.SetContactListener(&this->contacts);edkEnd();
 
-    this->clockStart();
-    this->clockScale=1.f;
+    this->clockStart();edkEnd();
+    this->clockScale=1.f;edkEnd();
 
-    this->runNextStep=false;
-    this->paused=false;
+    this->runNextStep=false;edkEnd();
+    this->paused=false;edkEnd();
 }
 edk::physics2D::World2D::~World2D(){
     //
-    edk::uint32 size = 0u;
-    b2Body* body=NULL;
+    edk::uint32 size = 0u;edkEnd();
+    b2Body* body=NULL;edkEnd();
 
-    this->beginContacs.clean();
-    this->keepBeginContacs.clean();
-    this->keepEndContacs.clean();
-    this->endContacs.clean();
-    this->sensorBeginContacs.clean();
-    this->sensorKeepContacs.clean();
-    this->sensorEndContacs.clean();
+    this->beginContacs.clean();edkEnd();
+    this->keepBeginContacs.clean();edkEnd();
+    this->keepEndContacs.clean();edkEnd();
+    this->endContacs.clean();edkEnd();
+    this->sensorBeginContacs.clean();edkEnd();
+    this->sensorKeepContacs.clean();edkEnd();
+    this->sensorEndContacs.clean();edkEnd();
 
-    this->treeCallbacks.clean();
+    this->treeCallbacks.clean();edkEnd();
 
     //destroy treeContacts
-    size = this->treeConcacts.getSize();
+    size = this->treeConcacts.getSize();edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        edk::physics2D::Contact2D* temp = this->treeConcacts.getElementInPosition(i);
+        edk::physics2D::Contact2D* temp = this->treeConcacts.getElementInPosition(i);edkEnd();
         if(temp){
-            delete temp;
+            delete temp;edkEnd();
         }
     }
-    this->treeConcacts.clean();
+    this->treeConcacts.clean();edkEnd();
 
     //destroy objectJoints
-    size = this->treeJointObjects.size();
+    size = this->treeJointObjects.size();edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
         //load the tree
-        edk::physics2D::World2D::ObjectsJointsTree* treeTemp = this->treeJointObjects.getElementInPosition(i);
+        edk::physics2D::World2D::ObjectsJointsTree* treeTemp = this->treeJointObjects.getElementInPosition(i);edkEnd();
         if(treeTemp){
-            edk::physics2D::World2D::ObjectJointsTree* treeTemps = treeTemp->getJointInPosition(i);
+            edk::physics2D::World2D::ObjectJointsTree* treeTemps = treeTemp->getJointInPosition(i);edkEnd();
             if(treeTemps){
-                treeTemp->cleanJoints();
-                delete treeTemps;
+                treeTemp->cleanJoints();edkEnd();
+                delete treeTemps;edkEnd();
             }
-            treeTemp->cleanJoints();
-            delete treeTemp;
+            treeTemp->cleanJoints();edkEnd();
+            delete treeTemp;edkEnd();
         }
     }
-    this->treeJointObjects.clean();
+    this->treeJointObjects.clean();edkEnd();
     //destroy joints
-    size = this->treeJoint.size();
-    b2Joint *joint;
-    edk::physics2D::Joint2D* edkJoint;
+    size = this->treeJoint.size();edkEnd();
+    b2Joint *joint;edkEnd();
+    edk::physics2D::Joint2D* edkJoint;edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        joint = this->treeJoint.getB2JointInPosition(i);
+        joint = this->treeJoint.getB2JointInPosition(i);edkEnd();
         if(joint){
-            edkJoint = (edk::physics2D::Joint2D*)joint->GetUserData().pointer;
-            this->world.DestroyJoint(joint);
-            if(edkJoint) delete edkJoint;
+            edkJoint = (edk::physics2D::Joint2D*)joint->GetUserData().pointer;edkEnd();
+            this->world.DestroyJoint(joint);edkEnd();
+            if(edkJoint){
+                delete edkJoint;edkEnd();
+            }
         }
     }
-    this->treeJoint.clean();
+    this->treeJoint.clean();edkEnd();
 
     //destroy static
-    size = this->treeStatic.size();
+    size = this->treeStatic.size();edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        body = this->treeStatic.getBodyInPosition(i);
+        body = this->treeStatic.getBodyInPosition(i);edkEnd();
         if(body){
             if(this->runNextStep){
                 //save the object on the deleted tree
                 body->GetUserData().pointer = 0;
-                this->treeDeleted.add(body);
+                this->treeDeleted.add(body);edkEnd();
             }
             else{
-                this->world.DestroyBody(body);
+                this->world.DestroyBody(body);edkEnd();
             }
         }
     }
-    this->treeStatic.clean();
+    this->treeStatic.clean();edkEnd();
     //destroy kinematic
-    size = this->treeKinematic.size();
+    size = this->treeKinematic.size();edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        body = this->treeKinematic.getBodyInPosition(i);
+        body = this->treeKinematic.getBodyInPosition(i);edkEnd();
         if(body){
             if(this->runNextStep){
                 //save the object on the deleted tree
                 body->GetUserData().pointer = 0;
-                this->treeDeleted.add(body);
+                this->treeDeleted.add(body);edkEnd();
             }
             else{
-                this->world.DestroyBody(body);
+                this->world.DestroyBody(body);edkEnd();
             }
         }
     }
-    this->treeKinematic.clean();
+    this->treeKinematic.clean();edkEnd();
     //destroy dynamic
-    size = this->treeDynamic.size();
+    size = this->treeDynamic.size();edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        body = this->treeDynamic.getBodyInPosition(i);
+        body = this->treeDynamic.getBodyInPosition(i);edkEnd();
         if(body){
             if(this->runNextStep){
                 //save the object on the deleted tree
                 body->GetUserData().pointer = 0;
-                this->treeDeleted.add(body);
+                this->treeDeleted.add(body);edkEnd();
             }
             else{
-                this->world.DestroyBody(body);
+                this->world.DestroyBody(body);edkEnd();
             }
         }
     }
-    this->treeDynamic.clean();
+    this->treeDynamic.clean();edkEnd();
 }
 
 //return the body
@@ -870,44 +910,44 @@ b2Body* edk::physics2D::World2D::getBody(edk::physics2D::PhysicObject2D* object)
 */
         switch(object->getType()){
         case edk::physics::StaticBody:
-            return this->treeStatic.getBody(object);
-            //break;
+            return this->treeStatic.getBody(object);edkEnd();
+            //break;edkEnd();
         case edk::physics::KinematicBody:
-            return this->treeKinematic.getBody(object);
-            //break;
+            return this->treeKinematic.getBody(object);edkEnd();
+            //break;edkEnd();
         case edk::physics::DynamicBody:
-            return this->treeDynamic.getBody(object);
-            //break;
+            return this->treeDynamic.getBody(object);edkEnd();
+            //break;edkEnd();
         }
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 
 /*
 //return the world position on the body for the joint
 edk::vec2f32 edk::physics2D::World2D::getJointPosition(edk::physics2D::PhysicObject2D* object,edk::vec2f32 worldPosition){
-    edk::vec2f32 ret;
+    edk::vec2f32 ret;edkEnd();
     //translate
-    ret  = worldPosition - object->position;
+    ret  = worldPosition - object->position;edkEnd();
     //and rotate the worldPosition
     if(object->angle){
-        ret = edk::Math::rotate2f(ret,object->angle * -1);
+        ret = edk::Math::rotate2f(ret,object->angle * -1);edkEnd();
     }
     return ret;
 }
 //return the joint position in the world
 edk::vec2f32 edk::physics2D::World2D::getJointWorldPosition(edk::physics2D::PhysicObject2D* object,edk::vec2f32 jointPosition){
-    edk::vec2f32 ret;
+    edk::vec2f32 ret;edkEnd();
     //and rotate the worldPosition
     if(object->angle){
         //rotate
-        ret = edk::Math::rotate2f(jointPosition,object->angle);
+        ret = edk::Math::rotate2f(jointPosition,object->angle);edkEnd();
         //translate
-        ret+=object->position;
+        ret+=object->position;edkEnd();
     }
     else{
         //translate
-        ret = jointPosition + object->position;
+        ret = jointPosition + object->position;edkEnd();
     }
     return ret;
 }
@@ -919,35 +959,35 @@ edk::physics2D::Joint2D* edk::physics2D::World2D::addJoint(edk::physics2D::Physi
     //test the objects
     if(objectA && objectB){
         //load the first objectTREE
-        edk::physics2D::World2D::ObjectsJointsTree* treeA = this->treeJointObjects.getTreeJoint(objectA);
+        edk::physics2D::World2D::ObjectsJointsTree* treeA = this->treeJointObjects.getTreeJoint(objectA);edkEnd();
 
         //test if dont have the object
         if(!treeA){
             //else create a new treeA
-            treeA = new edk::physics2D::World2D::ObjectsJointsTree(objectA);
+            treeA = new edk::physics2D::World2D::ObjectsJointsTree(objectA);edkEnd();
             if(treeA){
                 //add the treeA in the tree
                 if(!this->treeJointObjects.add(treeA)){
                     //else delete treeA
-                    delete treeA;
-                    treeA=NULL;
+                    delete treeA;edkEnd();
+                    treeA=NULL;edkEnd();
                 }
             }
         }
         //now test if have the object
         if(treeA){
             //load the second objectTREE
-            edk::physics2D::World2D::ObjectsJointsTree* treeB = this->treeJointObjects.getTreeJoint(objectB);
+            edk::physics2D::World2D::ObjectsJointsTree* treeB = this->treeJointObjects.getTreeJoint(objectB);edkEnd();
             //test if dont have the object
             if(!treeB){
                 //else create a new treeB
-                treeB = new edk::physics2D::World2D::ObjectsJointsTree(objectB);
+                treeB = new edk::physics2D::World2D::ObjectsJointsTree(objectB);edkEnd();
                 if(treeB){
                     //add the treeB in the tree
                     if(!this->treeJointObjects.add(treeB)){
                         //else delete treeB
-                        delete treeB;
-                        treeB=NULL;
+                        delete treeB;edkEnd();
+                        treeB=NULL;edkEnd();
                     }
                 }
             }
@@ -957,29 +997,29 @@ edk::physics2D::Joint2D* edk::physics2D::World2D::addJoint(edk::physics2D::Physi
 
 
                 //load the treeAB
-                edk::physics2D::World2D::ObjectJointsTree* treeAB = treeA->getJoint(objectB);
+                edk::physics2D::World2D::ObjectJointsTree* treeAB = treeA->getJoint(objectB);edkEnd();
                 //test if load the tree
                 if(!treeAB){
                     //create the new tree
-                    treeAB = new edk::physics2D::World2D::ObjectJointsTree(objectA,objectB);
+                    treeAB = new edk::physics2D::World2D::ObjectJointsTree(objectA,objectB);edkEnd();
                     if(treeAB){
                         if(!treeA->addJoint(treeAB)){
-                            delete treeAB;
-                            treeAB=NULL;
+                            delete treeAB;edkEnd();
+                            treeAB=NULL;edkEnd();
                         }
                     }
                 }
                 if(treeAB){
                     //load the treeBA
-                    edk::physics2D::World2D::ObjectJointsTree* treeBA = treeB->getJoint(objectA);
+                    edk::physics2D::World2D::ObjectJointsTree* treeBA = treeB->getJoint(objectA);edkEnd();
                     //test if load the tree
                     if(!treeBA){
                         //create the new tree
-                        treeBA = new edk::physics2D::World2D::ObjectJointsTree(objectB,objectA);
+                        treeBA = new edk::physics2D::World2D::ObjectJointsTree(objectB,objectA);edkEnd();
                         if(treeBA){
                             if(!treeB->addJoint(treeBA)){
-                                delete treeBA;
-                                treeBA=NULL;
+                                delete treeBA;edkEnd();
+                                treeBA=NULL;edkEnd();
                             }
                         }
                     }
@@ -987,11 +1027,11 @@ edk::physics2D::Joint2D* edk::physics2D::World2D::addJoint(edk::physics2D::Physi
 
 
                         //create the joint
-                        edk::physics2D::Joint2D* joint = new edk::physics2D::Joint2D;
+                        edk::physics2D::Joint2D* joint = new edk::physics2D::Joint2D;edkEnd();
                         if(joint){
                             //set the objects
-                            joint->objectA = objectA;
-                            joint->objectB = objectB;
+                            joint->objectA = objectA;edkEnd();
+                            joint->objectB = objectB;edkEnd();
 
                             //add the joint in the two trees
                             if(treeAB->addJoint(joint)){
@@ -1000,31 +1040,31 @@ edk::physics2D::Joint2D* edk::physics2D::World2D::addJoint(edk::physics2D::Physi
                                         ||
                                         treeBA == treeAB){
                                     //get WorldPosition
-                                    joint->positionA = positionA;
+                                    joint->positionA = positionA;edkEnd();
                                     joint->worldPositionA
                                             =
                                             edk::physics2D::World2D::JointTreeObject::getJointWorldPosition(objectA,positionA)
-                                            ;
-                                    joint->positionB = positionB;
+                                            ;edkEnd();
+                                    joint->positionB = positionB;edkEnd();
                                     /*
                                     joint->worldPositionB
                                             =
                                             edk::physics2D::World2D::JointTree::getJointWorldPosition(objectB,positionB)
-                                            ;
+                                            ;edkEnd();
 */
 
                                     //return the joint
-                                    return joint;
+                                    return joint;edkEnd();
                                 }
 
                                 //remove the joint
-                                treeAB->removeJoint(joint);
+                                treeAB->removeJoint(joint);edkEnd();
                             }
 
 
                             //delete the joint
-                            delete joint;
-                            joint=NULL;
+                            delete joint;edkEnd();
+                            joint=NULL;edkEnd();
                         }
 
 
@@ -1032,8 +1072,8 @@ edk::physics2D::Joint2D* edk::physics2D::World2D::addJoint(edk::physics2D::Physi
                         //delete the treeBA
                         if(!treeBA->getSize()){
                             //remove from the tree
-                            treeA->removeJoint(treeBA);
-                            delete treeBA;
+                            treeA->removeJoint(treeBA);edkEnd();
+                            delete treeBA;edkEnd();
                         }
                     }
 
@@ -1042,8 +1082,8 @@ edk::physics2D::Joint2D* edk::physics2D::World2D::addJoint(edk::physics2D::Physi
                     //delete the treeAB
                     if(!treeAB->getSize()){
                         //remove from the tree
-                        treeA->removeJoint(treeAB);
-                        delete treeAB;
+                        treeA->removeJoint(treeAB);edkEnd();
+                        delete treeAB;edkEnd();
                     }
                 }
 
@@ -1052,8 +1092,8 @@ edk::physics2D::Joint2D* edk::physics2D::World2D::addJoint(edk::physics2D::Physi
                 //test if the treeB have size zero
                 if(!treeB->getSize()){
                     //then remove and delete treeB
-                    this->treeJointObjects.remove(treeB);
-                    delete treeB;
+                    this->treeJointObjects.remove(treeB);edkEnd();
+                    delete treeB;edkEnd();
                 }
             }
 
@@ -1061,12 +1101,12 @@ edk::physics2D::Joint2D* edk::physics2D::World2D::addJoint(edk::physics2D::Physi
             //test if the treeOA have size zero
             if(!treeA->getSize()){
                 //then remove and delete treeA
-                this->treeJointObjects.remove(treeA);
-                delete treeA;
+                this->treeJointObjects.remove(treeA);edkEnd();
+                delete treeA;edkEnd();
             }
         }
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 bool edk::physics2D::World2D::addJoint(edk::physics2D::Joint2D* joint){
     //
@@ -1074,35 +1114,35 @@ bool edk::physics2D::World2D::addJoint(edk::physics2D::Joint2D* joint){
         //test the objects
         if(joint->objectA && joint->objectB){
             //load the first objectTREE
-            edk::physics2D::World2D::ObjectsJointsTree* treeA = this->treeJointObjects.getTreeJoint(joint->objectA);
+            edk::physics2D::World2D::ObjectsJointsTree* treeA = this->treeJointObjects.getTreeJoint(joint->objectA);edkEnd();
 
             //test if dont have the object
             if(!treeA){
                 //else create a new treeA
-                treeA = new edk::physics2D::World2D::ObjectsJointsTree(joint->objectA);
+                treeA = new edk::physics2D::World2D::ObjectsJointsTree(joint->objectA);edkEnd();
                 if(treeA){
                     //add the treeA in the tree
                     if(!this->treeJointObjects.add(treeA)){
                         //else delete treeA
-                        delete treeA;
-                        treeA=NULL;
+                        delete treeA;edkEnd();
+                        treeA=NULL;edkEnd();
                     }
                 }
             }
             //now test if have the object
             if(treeA){
                 //load the second objectTREE
-                edk::physics2D::World2D::ObjectsJointsTree* treeB = this->treeJointObjects.getTreeJoint(joint->objectB);
+                edk::physics2D::World2D::ObjectsJointsTree* treeB = this->treeJointObjects.getTreeJoint(joint->objectB);edkEnd();
                 //test if dont have the object
                 if(!treeB){
                     //else create a new treeB
-                    treeB = new edk::physics2D::World2D::ObjectsJointsTree(joint->objectB);
+                    treeB = new edk::physics2D::World2D::ObjectsJointsTree(joint->objectB);edkEnd();
                     if(treeB){
                         //add the treeB in the tree
                         if(!this->treeJointObjects.add(treeB)){
                             //else delete treeB
-                            delete treeB;
-                            treeB=NULL;
+                            delete treeB;edkEnd();
+                            treeB=NULL;edkEnd();
                         }
                     }
                 }
@@ -1112,29 +1152,29 @@ bool edk::physics2D::World2D::addJoint(edk::physics2D::Joint2D* joint){
 
 
                     //load the treeAB
-                    edk::physics2D::World2D::ObjectJointsTree* treeAB = treeA->getJoint(joint->objectB);
+                    edk::physics2D::World2D::ObjectJointsTree* treeAB = treeA->getJoint(joint->objectB);edkEnd();
                     //test if load the tree
                     if(!treeAB){
                         //create the new tree
-                        treeAB = new edk::physics2D::World2D::ObjectJointsTree(joint->objectA,joint->objectB);
+                        treeAB = new edk::physics2D::World2D::ObjectJointsTree(joint->objectA,joint->objectB);edkEnd();
                         if(treeAB){
                             if(!treeA->addJoint(treeAB)){
-                                delete treeAB;
-                                treeAB=NULL;
+                                delete treeAB;edkEnd();
+                                treeAB=NULL;edkEnd();
                             }
                         }
                     }
                     if(treeAB){
                         //load the treeBA
-                        edk::physics2D::World2D::ObjectJointsTree* treeBA = treeB->getJoint(joint->objectA);
+                        edk::physics2D::World2D::ObjectJointsTree* treeBA = treeB->getJoint(joint->objectA);edkEnd();
                         //test if load the tree
                         if(!treeBA){
                             //create the new tree
-                            treeBA = new edk::physics2D::World2D::ObjectJointsTree(joint->objectB,joint->objectA);
+                            treeBA = new edk::physics2D::World2D::ObjectJointsTree(joint->objectB,joint->objectA);edkEnd();
                             if(treeBA){
                                 if(!treeB->addJoint(treeBA)){
-                                    delete treeBA;
-                                    treeBA=NULL;
+                                    delete treeBA;edkEnd();
+                                    treeBA=NULL;edkEnd();
                                 }
                             }
                         }
@@ -1153,12 +1193,12 @@ bool edk::physics2D::World2D::addJoint(edk::physics2D::Joint2D* joint){
                                 }
 
                                 //remove the joint
-                                treeAB->removeJoint(joint);
+                                treeAB->removeJoint(joint);edkEnd();
 
 
                                 //delete the joint
-                                delete joint;
-                                joint=NULL;
+                                delete joint;edkEnd();
+                                joint=NULL;edkEnd();
                             }
 
 
@@ -1166,8 +1206,8 @@ bool edk::physics2D::World2D::addJoint(edk::physics2D::Joint2D* joint){
                             //delete the treeBA
                             if(!treeBA->getSize()){
                                 //remove from the tree
-                                treeA->removeJoint(treeBA);
-                                delete treeBA;
+                                treeA->removeJoint(treeBA);edkEnd();
+                                delete treeBA;edkEnd();
                             }
                         }
 
@@ -1176,8 +1216,8 @@ bool edk::physics2D::World2D::addJoint(edk::physics2D::Joint2D* joint){
                         //delete the treeAB
                         if(!treeAB->getSize()){
                             //remove from the tree
-                            treeA->removeJoint(treeAB);
-                            delete treeAB;
+                            treeA->removeJoint(treeAB);edkEnd();
+                            delete treeAB;edkEnd();
                         }
                     }
 
@@ -1186,8 +1226,8 @@ bool edk::physics2D::World2D::addJoint(edk::physics2D::Joint2D* joint){
                     //test if the treeB have size zero
                     if(!treeB->getSize()){
                         //then remove and delete treeB
-                        this->treeJointObjects.remove(treeB);
-                        delete treeB;
+                        this->treeJointObjects.remove(treeB);edkEnd();
+                        delete treeB;edkEnd();
                     }
                 }
 
@@ -1195,8 +1235,8 @@ bool edk::physics2D::World2D::addJoint(edk::physics2D::Joint2D* joint){
                 //test if the treeOA have size zero
                 if(!treeA->getSize()){
                     //then remove and delete treeA
-                    this->treeJointObjects.remove(treeA);
-                    delete treeA;
+                    this->treeJointObjects.remove(treeA);edkEnd();
+                    delete treeA;edkEnd();
                 }
             }
         }
@@ -1207,103 +1247,108 @@ bool edk::physics2D::World2D::addJoint(edk::physics2D::Joint2D* joint){
 //remove joint
 bool edk::physics2D::World2D::removeObjectJoints(edk::physics2D::PhysicObject2D* object){
     if(object){
-        edk::physics2D::World2D::ObjectsJointsTree* objectsJointsATemp = this->treeJointObjects.getTreeJoint(object);
+        edk::physics2D::World2D::ObjectsJointsTree* objectsJointsATemp = this->treeJointObjects.getTreeJoint(object);edkEnd();
         if(objectsJointsATemp){
             //
-            edk::uint32 size = objectsJointsATemp->getSize();
-            edk::uint32 sizeJ = 0u;
-            edk::physics2D::Joint2D* joint = NULL;
-            b2Joint* boxJoint = NULL;
-            edk::physics2D::World2D::ObjectsJointsTree* objectsJointsBTemp=NULL;
-            edk::physics2D::World2D::ObjectJointsTree* objectJointsATemp=NULL;
-            edk::physics2D::World2D::ObjectJointsTree* objectJointsBTemp=NULL;
+            edk::uint32 size = objectsJointsATemp->getSize();edkEnd();
+            edk::uint32 sizeJ = 0u;edkEnd();
+            edk::physics2D::Joint2D* joint = NULL;edkEnd();
+            b2Joint* boxJoint = NULL;edkEnd();
+            edk::physics2D::World2D::ObjectsJointsTree* objectsJointsBTemp=NULL;edkEnd();
+            edk::physics2D::World2D::ObjectJointsTree* objectJointsATemp=NULL;edkEnd();
+            edk::physics2D::World2D::ObjectJointsTree* objectJointsBTemp=NULL;edkEnd();
             //objectTemp
-            edk::physics2D::PhysicObject2D* objectTemp=NULL;
+            edk::physics2D::PhysicObject2D* objectTemp=NULL;edkEnd();
             for(edk::uint32 i=0u;i<size;i++){
 
                 //load the tree of the joint
-                objectJointsATemp = objectsJointsATemp->getJointInPosition(i);
+                objectJointsATemp = objectsJointsATemp->getJointInPosition(i);edkEnd();
                 if(objectJointsATemp){
                     //delete joint in the other object
-                    if(object!=objectJointsATemp->getPointerA()) objectTemp=objectJointsATemp->getPointerA();
-                    else if(object!=objectJointsATemp->getPointerB()) objectTemp=objectJointsATemp->getPointerB();
+                    if(object!=objectJointsATemp->getPointerA()){
+                        objectTemp=objectJointsATemp->getPointerA();edkEnd();
+                    }
+                    else{
+                        if(object!=objectJointsATemp->getPointerB())
+                            objectTemp=objectJointsATemp->getPointerB();edkEnd();
+                    }
                     if(objectTemp){
                         //find the object
-                        objectsJointsBTemp = this->treeJointObjects.getTreeJoint(objectTemp);
+                        objectsJointsBTemp = this->treeJointObjects.getTreeJoint(objectTemp);edkEnd();
                         if(objectsJointsBTemp){
                             //load the tree with the two objects
-                            objectJointsBTemp = objectsJointsBTemp->getJoint(object);
+                            objectJointsBTemp = objectsJointsBTemp->getJoint(object);edkEnd();
                             if(objectJointsBTemp){
                                 //
-                                sizeJ = objectJointsBTemp->getSize();
+                                sizeJ = objectJointsBTemp->getSize();edkEnd();
                                 for(edk::uint32 j=0u;j<sizeJ;j++){
                                     //load the joints
-                                    joint = objectJointsBTemp->getJointInPosition(j);
+                                    joint = objectJointsBTemp->getJointInPosition(j);edkEnd();
                                     if(joint){
-                                        //objectJointsBTemp->removeJoint(joint);
+                                        //objectJointsBTemp->removeJoint(joint);edkEnd();
 
                                         //remove joint from box2D
-                                        boxJoint = this->treeJoint.getJoint(joint);
+                                        boxJoint = this->treeJoint.getJoint(joint);edkEnd();
                                         if(boxJoint){
-                                            this->treeJoint.removeJoint(boxJoint);
+                                            this->treeJoint.removeJoint(boxJoint);edkEnd();
                                             //destroy the joint
-                                            this->world.DestroyJoint(boxJoint);
-                                            boxJoint=NULL;
+                                            this->world.DestroyJoint(boxJoint);edkEnd();
+                                            boxJoint=NULL;edkEnd();
                                         }
 
-                                        //delete joint;
-                                        joint=NULL;
+                                        //delete joint;edkEnd();
+                                        joint=NULL;edkEnd();
                                     }
                                 }
                                 sizeJ=0u;
 
 
                                 //remove the objectJoints from the tree
-                                objectsJointsBTemp->removeJoint(objectJointsBTemp);
+                                objectsJointsBTemp->removeJoint(objectJointsBTemp);edkEnd();
                                 //delete
-                                objectJointsBTemp->cleanJoints();
-                                delete objectJointsBTemp;
-                                objectJointsBTemp = NULL;
+                                objectJointsBTemp->cleanJoints();edkEnd();
+                                delete objectJointsBTemp;edkEnd();
+                                objectJointsBTemp = NULL;edkEnd();
                             }
 
                         }
                     }
 
                     //
-                    sizeJ = objectJointsATemp->getSize();
+                    sizeJ = objectJointsATemp->getSize();edkEnd();
                     for(edk::uint32 j=0u;j<sizeJ;j++){
                         //load the joints
-                        joint = objectJointsATemp->getJointInPosition(j);
+                        joint = objectJointsATemp->getJointInPosition(j);edkEnd();
                         if(joint){
-                            //objectJointsATemp->removeJoint(joint);
+                            //objectJointsATemp->removeJoint(joint);edkEnd();
                             //remove joint from box2D
 
-                            boxJoint = this->treeJoint.getJoint(joint);
+                            boxJoint = this->treeJoint.getJoint(joint);edkEnd();
                             if(boxJoint){
-                                this->treeJoint.removeJoint(boxJoint);
+                                this->treeJoint.removeJoint(boxJoint);edkEnd();
                                 //destroy the joint
-                                this->world.DestroyJoint(boxJoint);
-                                boxJoint=NULL;
+                                this->world.DestroyJoint(boxJoint);edkEnd();
+                                boxJoint=NULL;edkEnd();
                             }
 
-                            delete joint;
-                            joint=NULL;
+                            delete joint;edkEnd();
+                            joint=NULL;edkEnd();
                         }
                     }
                     sizeJ=0u;
 
-                    //objectsJointsATemp->removeJoint(objectJointsATemp);
+                    //objectsJointsATemp->removeJoint(objectJointsATemp);edkEnd();
                     //delete objectJointsTemp
-                    objectJointsATemp->cleanJoints();
-                    delete objectJointsATemp;
-                    objectJointsATemp = NULL;
+                    objectJointsATemp->cleanJoints();edkEnd();
+                    delete objectJointsATemp;edkEnd();
+                    objectJointsATemp = NULL;edkEnd();
                 }
             }
 
-            objectsJointsATemp->cleanJoints();
+            objectsJointsATemp->cleanJoints();edkEnd();
 
             //remove the treeJoints
-            this->treeJointObjects.remove(objectsJointsATemp);
+            this->treeJointObjects.remove(objectsJointsATemp);edkEnd();
 
             return true;
         }
@@ -1316,72 +1361,72 @@ void edk::physics2D::World2D::physicsContactBegin(edk::physics2D::Contact2D* con
     //test if have this objects in the tree
     if(!this->beginContacs.haveElement(contact->objectA,contact->objectB)){
         //add the new contact into the tree
-        this->beginContacs.add(contact->objectA,contact->objectB);
+        this->beginContacs.add(contact->objectA,contact->objectB);edkEnd();
     }
     else{
         //else set the contact to aready have it
-        contact->areadyContacted=true;
+        contact->areadyContacted=true;edkEnd();
     }
 
-    this->contact2DBegin(contact);
+    this->contact2DBegin(contact);edkEnd();
     //run the callbacks
-    edk::uint32 size = this->treeCallbacks.size();
+    edk::uint32 size = this->treeCallbacks.size();edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        this->treeCallbacks.getElementInPosition(i)->contact2DBegin(contact);
+        this->treeCallbacks.getElementInPosition(i)->contact2DBegin(contact);edkEnd();
     }
 }
 void edk::physics2D::World2D::physicsContactEnd(edk::physics2D::Contact2D* contact){
     //test if have this objects in the tree
     if(!this->endContacs.haveElement(contact->objectA,contact->objectB)){
         //add the new contact into the tree
-        this->endContacs.add(contact->objectA,contact->objectB);
+        this->endContacs.add(contact->objectA,contact->objectB);edkEnd();
     }
     else{
         //else set the contact to aready have it
-        contact->areadyContacted=true;
+        contact->areadyContacted=true;edkEnd();
     }
 
-    this->contact2DEnd(contact);
+    this->contact2DEnd(contact);edkEnd();
     //run the callbacks
-    edk::uint32 size = this->treeCallbacks.size();
+    edk::uint32 size = this->treeCallbacks.size();edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        this->treeCallbacks.getElementInPosition(i)->contact2DEnd(contact);
+        this->treeCallbacks.getElementInPosition(i)->contact2DEnd(contact);edkEnd();
     }
 }
 void edk::physics2D::World2D::physicsContactKeepBegin(edk::physics2D::Contact2D* contact){
     //test if have this objects in the tree
     if(!this->keepBeginContacs.haveElement(contact->objectA,contact->objectB)){
         //add the new contact into the tree
-        this->keepBeginContacs.add(contact->objectA,contact->objectB);
+        this->keepBeginContacs.add(contact->objectA,contact->objectB);edkEnd();
     }
     else{
         //else set the contact to aready have it
-        contact->areadyContacted=true;
+        contact->areadyContacted=true;edkEnd();
     }
 
-    this->contact2DKeepBegin(contact);
+    this->contact2DKeepBegin(contact);edkEnd();
     //run the callbacks
-    edk::uint32 size = this->treeCallbacks.size();
+    edk::uint32 size = this->treeCallbacks.size();edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        this->treeCallbacks.getElementInPosition(i)->contact2DKeepBegin(contact);
+        this->treeCallbacks.getElementInPosition(i)->contact2DKeepBegin(contact);edkEnd();
     }
 }
 void edk::physics2D::World2D::physicsContactKeepEnd(edk::physics2D::Contact2D* contact){
     //test if have this objects in the tree
     if(!this->keepEndContacs.haveElement(contact->objectA,contact->objectB)){
         //add the new contact into the tree
-        this->keepEndContacs.add(contact->objectA,contact->objectB);
+        this->keepEndContacs.add(contact->objectA,contact->objectB);edkEnd();
     }
     else{
         //else set the contact to aready have it
-        contact->areadyContacted=true;
+        contact->areadyContacted=true;edkEnd();
     }
 
-    this->contact2DKeepEnd(contact);
+    this->contact2DKeepEnd(contact);edkEnd();
     //run the callbacks
-    edk::uint32 size = this->treeCallbacks.size();
+    edk::uint32 size = this->treeCallbacks.size();edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        this->treeCallbacks.getElementInPosition(i)->contact2DKeepEnd(contact);
+        this->treeCallbacks.getElementInPosition(i)->contact2DKeepEnd(contact);edkEnd();
     }
 }
 //contact sensors
@@ -1389,138 +1434,138 @@ void edk::physics2D::World2D::physicsSensorBegin(edk::physics2D::Contact2D* cont
     //test if have this objects in the tree
     if(!this->sensorBeginContacs.haveElement(contact->objectA,contact->objectB)){
         //add the new contact into the tree
-        this->sensorBeginContacs.add(contact->objectA,contact->objectB);
+        this->sensorBeginContacs.add(contact->objectA,contact->objectB);edkEnd();
     }
     else{
         //else set the contact to aready have it
-        contact->areadyContacted=true;
+        contact->areadyContacted=true;edkEnd();
     }
 
-    this->sensor2DBegin(contact);
+    this->sensor2DBegin(contact);edkEnd();
     //run the callbacks
-    edk::uint32 size = this->treeCallbacks.size();
+    edk::uint32 size = this->treeCallbacks.size();edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        this->treeCallbacks.getElementInPosition(i)->sensor2DBegin(contact);
+        this->treeCallbacks.getElementInPosition(i)->sensor2DBegin(contact);edkEnd();
     }
 }
 void edk::physics2D::World2D::physicsSensorEnd(edk::physics2D::Contact2D* contact){
     //test if have this objects in the tree
     if(!this->sensorEndContacs.haveElement(contact->objectA,contact->objectB)){
         //add the new contact into the tree
-        this->sensorEndContacs.add(contact->objectA,contact->objectB);
+        this->sensorEndContacs.add(contact->objectA,contact->objectB);edkEnd();
     }
     else{
         //else set the contact to aready have it
-        contact->areadyContacted=true;
+        contact->areadyContacted=true;edkEnd();
     }
 
-    this->sensor2DEnd(contact);
+    this->sensor2DEnd(contact);edkEnd();
     //run the callbacks
-    edk::uint32 size = this->treeCallbacks.size();
+    edk::uint32 size = this->treeCallbacks.size();edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        this->treeCallbacks.getElementInPosition(i)->sensor2DEnd(contact);
+        this->treeCallbacks.getElementInPosition(i)->sensor2DEnd(contact);edkEnd();
     }
 }
 void edk::physics2D::World2D::physicsSensorKeeping(edk::physics2D::Contact2D* contact){
     //test if have this objects in the tree
     if(!this->sensorKeepContacs.haveElement(contact->objectA,contact->objectB)){
         //add the new contact into the tree
-        this->sensorKeepContacs.add(contact->objectA,contact->objectB);
+        this->sensorKeepContacs.add(contact->objectA,contact->objectB);edkEnd();
     }
     else{
         //else set the contact to aready have it
-        contact->areadyContacted=true;
+        contact->areadyContacted=true;edkEnd();
     }
 
-    this->sensor2DKeeping(contact);
+    this->sensor2DKeeping(contact);edkEnd();
     //run the callbacks
-    edk::uint32 size = this->treeCallbacks.size();
+    edk::uint32 size = this->treeCallbacks.size();edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        this->treeCallbacks.getElementInPosition(i)->sensor2DKeeping(contact);
+        this->treeCallbacks.getElementInPosition(i)->sensor2DKeeping(contact);edkEnd();
     }
 }
 
 //Set the gravity
 void edk::physics2D::World2D::setGravity(edk::vec2f32 gravity){
-    this->gravity=gravity * this->percentIn;
+    this->gravity=gravity * this->percentIn;edkEnd();
     //update the world gravity
-    this->world.SetGravity(b2Vec2(this->gravity.x,this->gravity.y));
+    this->world.SetGravity(b2Vec2(this->gravity.x,this->gravity.y));edkEnd();
 }
 void edk::physics2D::World2D::setGravity(edk::float32 x,edk::float32 y){
-    this->setGravity(edk::vec2f32 (x,y));
+    this->setGravity(edk::vec2f32 (x,y));edkEnd();
 }
 //set the percent
 void edk::physics2D::World2D::setMeterDistance(edk::float32 meter){
     //
-    this->percentOut = meter;
-    this->percentIn = 1/this->percentOut;
+    this->percentOut = meter;edkEnd();
+    this->percentIn = 1/this->percentOut;edkEnd();
 
     //update the tree's
-    this->contacts.percentIn = this->percentIn;
-    this->contacts.percentOut = this->percentOut;
-    treeStatic.percentIn = this->percentIn;
-    treeStatic.percentOut = this->percentOut;
-    treeKinematic.percentIn = this->percentIn;
-    treeKinematic.percentOut = this->percentOut;
-    treeDynamic.percentIn = this->percentIn;
-    treeDynamic.percentOut = this->percentOut;
+    this->contacts.percentIn = this->percentIn;edkEnd();
+    this->contacts.percentOut = this->percentOut;edkEnd();
+    treeStatic.percentIn = this->percentIn;edkEnd();
+    treeStatic.percentOut = this->percentOut;edkEnd();
+    treeKinematic.percentIn = this->percentIn;edkEnd();
+    treeKinematic.percentOut = this->percentOut;edkEnd();
+    treeDynamic.percentIn = this->percentIn;edkEnd();
+    treeDynamic.percentOut = this->percentOut;edkEnd();
 }
 void edk::physics2D::World2D::setMeterDistance(edk::uint8 meter){
-    return this->setMeterDistance((edk::float32)meter);
+    return this->setMeterDistance((edk::float32)meter);edkEnd();
 }
 void edk::physics2D::World2D::setMeterDistance(edk::uint16 meter){
-    return this->setMeterDistance((edk::float32)meter);
+    return this->setMeterDistance((edk::float32)meter);edkEnd();
 }
 void edk::physics2D::World2D::setMeterDistance(edk::uint32 meter){
-    return this->setMeterDistance((edk::float32)meter);
+    return this->setMeterDistance((edk::float32)meter);edkEnd();
 }
 void edk::physics2D::World2D::setMeterDistance(edk::uint64 meter){
-    return this->setMeterDistance((edk::float32)meter);
+    return this->setMeterDistance((edk::float32)meter);edkEnd();
 }
 edk::float32 edk::physics2D::World2D::getMeterDistance(){
-    return this->percentOut;
+    return this->percentOut;edkEnd();
 }
 
 //Add a Object to the world
 bool edk::physics2D::World2D::addObject(edk::physics2D::PhysicObject2D* object){
     //test the object
     if(object){
-        bool ret=true;
+        bool ret=true;edkEnd();
 
         //test if is running the simulation
         if(this->runNextStep){
             //then add the object in to a tree to be added after the nextStep
-            this->treeNew.add(object);
+            this->treeNew.add(object);edkEnd();
             return ret;
         }
 
         //create the box2D object
-        b2BodyDef objectDef;
+        b2BodyDef objectDef;edkEnd();
         /*
-        objectDef.angle = object->angle / (180.f / b2_pi);
-        objectDef.position = b2Vec2(object->position.x,object->position.y);
+        objectDef.angle = object->angle / (180.f / b2_pi);edkEnd();
+        objectDef.position = b2Vec2(object->position.x,object->position.y);edkEnd();
         */
 
-        objectDef.type = (b2BodyType)object->getType();
-        objectDef.fixedRotation=object->fixedRotation;
+        objectDef.type = (b2BodyType)object->getType();edkEnd();
+        objectDef.fixedRotation=object->fixedRotation;edkEnd();
 
         //In the new version of box2D the userData will be setted in objectDef
-        objectDef.userData.pointer = (uintptr_t)object;
+        objectDef.userData.pointer = (uintptr_t)object;edkEnd();
 
-        //objectDef.fixedRotation = false;
+        //objectDef.fixedRotation = false;edkEnd();
 
-        b2Body* objectBody = this->world.CreateBody(&objectDef);
+        b2Body* objectBody = this->world.CreateBody(&objectDef);edkEnd();
         if(objectBody){
-            objectBody->SetTransform( b2Vec2(object->position.x*this->percentIn,object->position.y*this->percentIn),object->angle / (180.f / b2_pi) );
+            objectBody->SetTransform( b2Vec2(object->position.x*this->percentIn,object->position.y*this->percentIn),object->angle / (180.f / b2_pi) );edkEnd();
 
 
-            //objectBody->SetUserData(object);
+            //objectBody->SetUserData(object);edkEnd();
             //update the set user data in bodyDef for the new box2D version
             //read the polygons
-            edk::uint32 size = object->physicMesh.getPolygonSize();
+            edk::uint32 size = object->physicMesh.getPolygonSize();edkEnd();
             if(size){
-                b2Vec2 vertexs[b2_maxPolygonVertices];
-                ret=false;
+                b2Vec2 vertexs[b2_maxPolygonVertices];edkEnd();
+                ret=false;edkEnd();
 #if _WIN64 || __x86_64__ || __ppc64__
                 for(register edk::uint64 i=0u;i<size;i++){
 #else
@@ -1528,36 +1573,36 @@ bool edk::physics2D::World2D::addObject(edk::physics2D::PhysicObject2D* object){
 #endif
                     //select the polygon
                     if(object->physicMesh.selectPolygon(i)){
-                        edk::size2f32 scale = object->physicMesh.selectedGetScale() * object->size * this->percentIn;
-                        edk::vec2f32 translate /*= object->physicMesh.selectedGetTranslate() * object->physicMesh.selectedGetScale()*/;
-                        translate.x = object->physicMesh.selectedGetTranslate().x * object->size.width * this->percentIn;
-                        translate.y = object->physicMesh.selectedGetTranslate().y * object->size.height * this->percentIn;
-                        //translate.x = object->physicMesh.selectedGetTranslate().x * object->physicMesh.selectedGetScale().width;
-                        //translate.y = object->physicMesh.selectedGetTranslate().y * object->physicMesh.selectedGetScale().height;
+                        edk::size2f32 scale = object->physicMesh.selectedGetScale() * object->size * this->percentIn;edkEnd();
+                        edk::vec2f32 translate /*= object->physicMesh.selectedGetTranslate() * object->physicMesh.selectedGetScale()*/;edkEnd();
+                        translate.x = object->physicMesh.selectedGetTranslate().x * object->size.width * this->percentIn;edkEnd();
+                        translate.y = object->physicMesh.selectedGetTranslate().y * object->size.height * this->percentIn;edkEnd();
+                        //translate.x = object->physicMesh.selectedGetTranslate().x * object->physicMesh.selectedGetScale().width;edkEnd();
+                        //translate.y = object->physicMesh.selectedGetTranslate().y * object->physicMesh.selectedGetScale().height;edkEnd();
                         for(edk::uint32 i=0u;i<b2_maxPolygonVertices;i++){
-                            vertexs[i].x=0.f;
-                            vertexs[i].y=0.f;
+                            vertexs[i].x=0.f;edkEnd();
+                            vertexs[i].y=0.f;edkEnd();
                         }
-                        //printf("\nVertex Count %u",object->physicMesh.selectedGetVertexCount());
+                        //printf("\nVertex Count %u",object->physicMesh.selectedGetVertexCount());edkEnd();
                         //test if the polygon is a circle
                         if(object->physicMesh.selectedIsCircle()){
                             //then use the shape as a circle
-                            b2CircleShape objectShape;
-                            b2FixtureDef fixture;
+                            b2CircleShape objectShape;edkEnd();
+                            b2FixtureDef fixture;edkEnd();
                             // Check windows
-                            fixture.userData.pointer = (uintptr_t)i;
+                            fixture.userData.pointer = (uintptr_t)i;edkEnd();
                             objectShape.m_p.Set(translate.x/* * scale.width*/,
                                                 translate.y/* * scale.height*/
-                                                );
-                            objectShape.m_radius = scale.width * object->physicMesh.selectedGetCircleRadius();
+                                                );edkEnd();
+                            objectShape.m_radius = scale.width * object->physicMesh.selectedGetCircleRadius();edkEnd();
 
-                            fixture.density = object->physicMesh.selectedGetDensity();
-                            fixture.friction = object->physicMesh.selectedGetFriction();
-                            fixture.restitution = object->physicMesh.selectedGetRestitution();
+                            fixture.density = object->physicMesh.selectedGetDensity();edkEnd();
+                            fixture.friction = object->physicMesh.selectedGetFriction();edkEnd();
+                            fixture.restitution = object->physicMesh.selectedGetRestitution();edkEnd();
                             //create a fixture to the body
-                            fixture.shape = &objectShape;
-                            objectBody->CreateFixture(&fixture);
-                            ret=true;
+                            fixture.shape = &objectShape;edkEnd();
+                            objectBody->CreateFixture(&fixture);edkEnd();
+                            ret=true;edkEnd();
                         }
                         else if(object->physicMesh.selectedIsLine()){
                             //
@@ -1571,102 +1616,103 @@ bool edk::physics2D::World2D::addObject(edk::physics2D::PhysicObject2D* object){
                             //LINES
                             //test if is one line or a chain
                             if(object->physicMesh.selectedGetVertexCount() == 2u){
-                                b2EdgeShape objectShape;
+                                b2EdgeShape objectShape;edkEnd();
 
                                 //load the vertex
-                                edk::vec2f32 vertex1;
-                                edk::vec2f32 vertex2;
+                                edk::vec2f32 vertex1;edkEnd();
+                                edk::vec2f32 vertex2;edkEnd();
 
                                 //Scale
-                                vertex1.x = (object->physicMesh.selectedGetVertexPosition(0u).x * scale.width);
-                                vertex1.y = (object->physicMesh.selectedGetVertexPosition(0u).y * scale.height);
+                                vertex1.x = (object->physicMesh.selectedGetVertexPosition(0u).x * scale.width);edkEnd();
+                                vertex1.y = (object->physicMesh.selectedGetVertexPosition(0u).y * scale.height);edkEnd();
                                 //rotate
                                 vertex1 = edk::Math::rotate(vertex1,
                                                             edk::Math::getAngle(vertex1)
                                                             +
                                                             object->physicMesh.selectedGetAngle()
-                                                            );
+                                                            );edkEnd();
                                 //Translate
-                                vertex1+=translate;
+                                vertex1+=translate;edkEnd();
                                 //process the line
-                                vertex2.x = (object->physicMesh.selectedGetVertexPosition(0u).x * scale.width);
-                                vertex2.y = (object->physicMesh.selectedGetVertexPosition(0u).y * scale.height);
+                                vertex2.x = (object->physicMesh.selectedGetVertexPosition(0u).x * scale.width);edkEnd();
+                                vertex2.y = (object->physicMesh.selectedGetVertexPosition(0u).y * scale.height);edkEnd();
                                 //rotate
                                 vertex2 = edk::Math::rotate(vertex2,
                                                             edk::Math::getAngle(vertex2)
                                                             +
                                                             object->physicMesh.selectedGetAngle()
-                                                            );
+                                                            );edkEnd();
                                 //Translate
-                                vertex2+=translate;
+                                vertex2+=translate;edkEnd();
 
                                 //set the line
                                 //removed the old box2D
                                 /*
                                 objectShape.Set(b2Vec2 (vertex1.x, vertex1.y),
                                                 b2Vec2 (vertex2.x, vertex2.y)
-                                                );
+                                                );edkEnd();
                                 */
                                 //change it to the new box2D
                                 // These are the edge vertices
-                                objectShape.m_vertex1=b2Vec2 (vertex1.x, vertex1.y);
-                                objectShape.m_vertex2=b2Vec2 (vertex2.x, vertex2.y);
+                                objectShape.m_vertex1=b2Vec2 (vertex1.x, vertex1.y);edkEnd();
+                                objectShape.m_vertex2=b2Vec2 (vertex2.x, vertex2.y);edkEnd();
                                 // Optional adjacent vertices. These are used for smooth collision.
-                                objectShape.m_vertex0=b2Vec2 (vertex1.x, vertex1.y);
-                                objectShape.m_vertex3=b2Vec2 (vertex2.x, vertex2.y);
+                                objectShape.m_vertex0=b2Vec2 (vertex1.x, vertex1.y);edkEnd();
+                                objectShape.m_vertex3=b2Vec2 (vertex2.x, vertex2.y);edkEnd();
 
 
 
 
-                                b2FixtureDef fixture;
-                                fixture.userData.pointer = (uintptr_t)i;
-                                fixture.density = object->physicMesh.selectedGetDensity();
-                                fixture.friction = object->physicMesh.selectedGetFriction();
-                                fixture.restitution = object->physicMesh.selectedGetRestitution();
+                                b2FixtureDef fixture;edkEnd();
+                                fixture.userData.pointer = (uintptr_t)i;edkEnd();
+                                fixture.density = object->physicMesh.selectedGetDensity();edkEnd();
+                                fixture.friction = object->physicMesh.selectedGetFriction();edkEnd();
+                                fixture.restitution = object->physicMesh.selectedGetRestitution();edkEnd();
 
                                 //create a fixture to the body
-                                fixture.shape = &objectShape;
-                                objectBody->CreateFixture(&fixture);
-                                ret=true;
+                                fixture.shape = &objectShape;edkEnd();
+                                objectBody->CreateFixture(&fixture);edkEnd();
+                                ret=true;edkEnd();
                             }
                             else if(object->physicMesh.selectedGetVertexCount()>2u){
                                 //
-                                b2ChainShape objectShape;
-                                b2FixtureDef fixture;
-                                fixture.userData.pointer = (uintptr_t)i;
+                                b2ChainShape objectShape;edkEnd();
+                                b2FixtureDef fixture;edkEnd();
+                                fixture.userData.pointer = (uintptr_t)i;edkEnd();
 
-                                edk::uint32 vCount=object->physicMesh.selectedGetVertexCount();
+                                edk::uint32 vCount=object->physicMesh.selectedGetVertexCount();edkEnd();
                                 //it's a polygon
-                                if(vCount>b2_maxPolygonVertices)
-                                    vCount = b2_maxPolygonVertices;
-                                edk::vec2f32 vertex;
+                                if(vCount>b2_maxPolygonVertices){
+                                    vCount = b2_maxPolygonVertices;edkEnd();
+                                }
+                                edk::vec2f32 vertex;edkEnd();
                                 for(edk::uint32 p=0u;p<vCount;p++){
                                     /*
                                 printf("\n%.2f %.2f",(object->physicMesh.selectedGetVertexPosition(p).x * scale.width) + translate.x,
                                        (object->physicMesh.selectedGetVertexPosition(p).y * scale.height) + translate.y
-                                       );
+                                       );edkEnd();
 */
-                                    vertex.x = (object->physicMesh.selectedGetVertexPosition(p).x * scale.width);
-                                    vertex.y = (object->physicMesh.selectedGetVertexPosition(p).y * scale.height);
+                                    vertex.x = (object->physicMesh.selectedGetVertexPosition(p).x * scale.width);edkEnd();
+                                    vertex.y = (object->physicMesh.selectedGetVertexPosition(p).y * scale.height);edkEnd();
                                     vertex = edk::Math::rotate(vertex,
                                                                edk::Math::getAngle(vertex)
                                                                +
                                                                object->physicMesh.selectedGetAngle()
-                                                               );
-                                    vertexs[p].x = vertex.x + translate.x;
-                                    vertexs[p].y = vertex.y + translate.y;
+                                                               );edkEnd();
+                                    vertexs[p].x = vertex.x + translate.x;edkEnd();
+                                    vertexs[p].y = vertex.y + translate.y;edkEnd();
                                 }
-                                objectShape.CreateChain(vertexs,vCount,vertexs[vCount-2u],vertexs[1u]);
+                                objectShape.CreateChain(vertexs,vCount,vertexs[vCount-2u],vertexs[1u]);edkEnd();
                                 //then delete the vertexs
 
-                                fixture.density = object->physicMesh.selectedGetDensity();
-                                fixture.friction = object->physicMesh.selectedGetFriction();
-                                fixture.restitution = object->physicMesh.selectedGetRestitution();
+                                fixture.density = object->physicMesh.selectedGetDensity();edkEnd();
+                                fixture.friction = object->physicMesh.selectedGetFriction();edkEnd();
+                                fixture.restitution = object->physicMesh.selectedGetRestitution();edkEnd();
 
                                 //create a fixture to the body
-                                fixture.shape = &objectShape;
-                                objectBody->CreateFixture(&fixture);
-                                ret=true;
+                                fixture.shape = &objectShape;edkEnd();
+                                objectBody->CreateFixture(&fixture);edkEnd();
+                                ret=true;edkEnd();
                             }
 
 
@@ -1682,9 +1728,9 @@ bool edk::physics2D::World2D::addObject(edk::physics2D::PhysicObject2D* object){
                         }
                         else{
                             //Else use the shape as polygon
-                            b2PolygonShape objectShape;
-                            b2FixtureDef fixture;
-                            fixture.userData.pointer = (uintptr_t)i;
+                            b2PolygonShape objectShape;edkEnd();
+                            b2FixtureDef fixture;edkEnd();
+                            fixture.userData.pointer = (uintptr_t)i;edkEnd();
 
                             if(object->physicMesh.selectedGetVertexCount() == 2u){
                                 //load the rectSize
@@ -1695,22 +1741,22 @@ bool edk::physics2D::World2D::addObject(edk::physics2D::PhysicObject2D* object){
                                                                        (object->physicMesh.selectedGetVertexPosition(1u).y * scale.height)
                                                                        -
                                                                        (object->physicMesh.selectedGetVertexPosition(0u).y * scale.height)
-                                                                       );
-                                edk::vec2f32 rectVec[2u];
+                                                                       );edkEnd();
+                                edk::vec2f32 rectVec[2u];edkEnd();
                                 rectVec[0u] = vec2f32((object->physicMesh.selectedGetVertexPosition(0u).x * scale.width)/* + translate.x*/,
                                                       (object->physicMesh.selectedGetVertexPosition(0u).y * scale.height)/* + translate.y*/
-                                                      );
+                                                      );edkEnd();
                                 rectVec[1u] = vec2f32((object->physicMesh.selectedGetVertexPosition(1u).x * scale.width)/* + translate.x*/,
                                                       (object->physicMesh.selectedGetVertexPosition(1u).y * scale.height)/* + translate.y*/
-                                                      );
+                                                      );edkEnd();
                                 //it's a rectangle
                                 /*
-                            printf("\nRECT");
-                            printf("\n%.2f %.2f",rectVec[0u].x,rectVec[0u].y);
-                            printf("\n%.2f %.2f",rectVec[1u].x,rectVec[1u].y);
-                            printf("\nsize %.2f %.2f",rectSize.width,rectSize.height);
-                            printf("\ntranslate %.2f %.2f",object->physicMesh.selectedGetTranslate().x,object->physicMesh.selectedGetTranslate().y);
-                            printf("\nAngle %.2f",object->physicMesh.selectedGetAngle());
+                            printf("\nRECT");edkEnd();
+                            printf("\n%.2f %.2f",rectVec[0u].x,rectVec[0u].y);edkEnd();
+                            printf("\n%.2f %.2f",rectVec[1u].x,rectVec[1u].y);edkEnd();
+                            printf("\nsize %.2f %.2f",rectSize.width,rectSize.height);edkEnd();
+                            printf("\ntranslate %.2f %.2f",object->physicMesh.selectedGetTranslate().x,object->physicMesh.selectedGetTranslate().y);edkEnd();
+                            printf("\nAngle %.2f",object->physicMesh.selectedGetAngle());edkEnd();
 */
                                 //test if the size is a real rect
                                 if(rectVec[0u].x == rectVec[1u].x*-1.f
@@ -1724,119 +1770,124 @@ bool edk::physics2D::World2D::addObject(edk::physics2D::PhysicObject2D* object){
                                         !object->physicMesh.selectedGetAngle()
                                         ){
                                     //Set as box
-                                    if(rectSize.width<0.f)
-                                        rectSize.width*=-1.f;
-                                    if(rectSize.height<0.f)
-                                        rectSize.height*=-1.f;
+                                    if(rectSize.width<0.f){
+                                        rectSize.width*=-1.f;edkEnd();
+                                    }
+                                    if(rectSize.height<0.f){
+                                        rectSize.height*=-1.f;edkEnd();
+                                    }
                                     objectShape.SetAsBox(rectSize.width*0.5f,
                                                          rectSize.height*0.5f,
                                                          b2Vec2(0,0),
                                                          object->physicMesh.selectedGetAngle()/ (180.f / b2_pi)
-                                                         );
+                                                         );edkEnd();
                                 }
                                 else{
-                                    edk::vec2f32 vertex;
+                                    edk::vec2f32 vertex;edkEnd();
                                     //Else create the polygon
 
-                                    vertex.x = rectVec[0u].x;
-                                    vertex.y = rectVec[0u].y;
+                                    vertex.x = rectVec[0u].x;edkEnd();
+                                    vertex.y = rectVec[0u].y;edkEnd();
                                     //rotate
                                     vertex = edk::Math::rotate(vertex,
                                                                edk::Math::getAngle(vertex)
                                                                +
                                                                object->physicMesh.selectedGetAngle()
-                                                               ) + translate;
-                                    vertexs[0u].x = vertex.x;
-                                    vertexs[0u].y = vertex.y;
+                                                               ) + translate;edkEnd();
+                                    vertexs[0u].x = vertex.x;edkEnd();
+                                    vertexs[0u].y = vertex.y;edkEnd();
 
-                                    vertex.x = rectVec[1u].x;
-                                    vertex.y = rectVec[0u].y;
+                                    vertex.x = rectVec[1u].x;edkEnd();
+                                    vertex.y = rectVec[0u].y;edkEnd();
                                     //rotate
                                     vertex = edk::Math::rotate(vertex,
                                                                edk::Math::getAngle(vertex)
                                                                +
                                                                object->physicMesh.selectedGetAngle()
-                                                               ) + translate;
-                                    vertexs[1u].x = vertex.x;
-                                    vertexs[1u].y = vertex.y;
+                                                               ) + translate;edkEnd();
+                                    vertexs[1u].x = vertex.x;edkEnd();
+                                    vertexs[1u].y = vertex.y;edkEnd();
 
-                                    vertex.x = rectVec[1u].x;
-                                    vertex.y = rectVec[1u].y;
+                                    vertex.x = rectVec[1u].x;edkEnd();
+                                    vertex.y = rectVec[1u].y;edkEnd();
                                     //rotate
                                     vertex = edk::Math::rotate(vertex,
                                                                edk::Math::getAngle(vertex)
                                                                +
                                                                object->physicMesh.selectedGetAngle()
-                                                               ) + translate;
-                                    vertexs[2u].x = vertex.x;
-                                    vertexs[2u].y = vertex.y;
+                                                               ) + translate;edkEnd();
+                                    vertexs[2u].x = vertex.x;edkEnd();
+                                    vertexs[2u].y = vertex.y;edkEnd();
 
-                                    vertex.x = rectVec[0u].x;
-                                    vertex.y = rectVec[1u].y;
+                                    vertex.x = rectVec[0u].x;edkEnd();
+                                    vertex.y = rectVec[1u].y;edkEnd();
                                     //rotate
                                     vertex = edk::Math::rotate(vertex,
                                                                edk::Math::getAngle(vertex)
                                                                +
                                                                object->physicMesh.selectedGetAngle()
-                                                               ) + translate;
-                                    vertexs[3u].x = vertex.x;
-                                    vertexs[3u].y = vertex.y;
+                                                               ) + translate;edkEnd();
+                                    vertexs[3u].x = vertex.x;edkEnd();
+                                    vertexs[3u].y = vertex.y;edkEnd();
 
                                     //add the vertexs in the shape
-                                    objectShape.Set(vertexs,4u);
+                                    objectShape.Set(vertexs,4u);edkEnd();
                                     //then delete the vertexs
                                 }
 
-                                fixture.density = object->physicMesh.selectedGetDensity();
-                                fixture.friction = object->physicMesh.selectedGetFriction();
-                                fixture.restitution = object->physicMesh.selectedGetRestitution();
+                                fixture.density = object->physicMesh.selectedGetDensity();edkEnd();
+                                fixture.friction = object->physicMesh.selectedGetFriction();edkEnd();
+                                fixture.restitution = object->physicMesh.selectedGetRestitution();edkEnd();
                                 //create a fixture to the body
-                                fixture.shape = &objectShape;
-                                objectBody->CreateFixture(&fixture);
-                                ret=true;
+                                fixture.shape = &objectShape;edkEnd();
+                                objectBody->CreateFixture(&fixture);edkEnd();
+                                ret=true;edkEnd();
                             }
                             else if(object->physicMesh.selectedGetVertexCount() > 2u){
-                                edk::uint32 vCount=object->physicMesh.selectedGetVertexCount();
+                                edk::uint32 vCount=object->physicMesh.selectedGetVertexCount();edkEnd();
                                 //it's a polygon
-                                if(vCount>b2_maxPolygonVertices)
-                                    vCount = b2_maxPolygonVertices;
-                                edk::vec2f32 vertex;
+                                if(vCount>b2_maxPolygonVertices){
+                                    vCount = b2_maxPolygonVertices;edkEnd();
+                                }
+                                edk::vec2f32 vertex;edkEnd();
                                 for(edk::uint32 p=0u;p<vCount;p++){
                                     /*
                                 printf("\n%.2f %.2f",(object->physicMesh.selectedGetVertexPosition(p).x * scale.width) + translate.x,
                                        (object->physicMesh.selectedGetVertexPosition(p).y * scale.height) + translate.y
-                                       );
+                                       );edkEnd();
 */
-                                    vertex.x = (object->physicMesh.selectedGetVertexPosition(p).x * scale.width);
-                                    vertex.y = (object->physicMesh.selectedGetVertexPosition(p).y * scale.height);
-                                    //vertexs[p].x = (object->physicMesh.selectedGetVertexPosition(p).x * scale.width) + translate.x;
-                                    //vertexs[p].y = (object->physicMesh.selectedGetVertexPosition(p).y * scale.height) + translate.y;
+                                    vertex.x = (object->physicMesh.selectedGetVertexPosition(p).x * scale.width);edkEnd();
+                                    vertex.y = (object->physicMesh.selectedGetVertexPosition(p).y * scale.height);edkEnd();
+                                    //vertexs[p].x = (object->physicMesh.selectedGetVertexPosition(p).x * scale.width) + translate.x;edkEnd();
+                                    //vertexs[p].y = (object->physicMesh.selectedGetVertexPosition(p).y * scale.height) + translate.y;edkEnd();
                                     vertex = edk::Math::rotate(vertex,
                                                                edk::Math::getAngle(vertex)
                                                                +
                                                                object->physicMesh.selectedGetAngle()
-                                                               );
-                                    vertexs[p].x = vertex.x + translate.x;
-                                    vertexs[p].y = vertex.y + translate.y;
+                                                               );edkEnd();
+                                    vertexs[p].x = vertex.x + translate.x;edkEnd();
+                                    vertexs[p].y = vertex.y + translate.y;edkEnd();
                                 }
-                                objectShape.Set(vertexs,vCount);
+                                objectShape.Set(vertexs,vCount);edkEnd();
                                 //then delete the vertexs
 
-                                fixture.density = object->physicMesh.selectedGetDensity();
-                                fixture.friction = object->physicMesh.selectedGetFriction();
-                                fixture.restitution = object->physicMesh.selectedGetRestitution();
+                                fixture.density = object->physicMesh.selectedGetDensity();edkEnd();
+                                fixture.friction = object->physicMesh.selectedGetFriction();edkEnd();
+                                fixture.restitution = object->physicMesh.selectedGetRestitution();edkEnd();
 
                                 //create a fixture to the body
-                                fixture.shape = &objectShape;
-                                objectBody->CreateFixture(&fixture);
-                                ret=true;
+                                fixture.shape = &objectShape;edkEnd();
+                                objectBody->CreateFixture(&fixture);edkEnd();
+                                ret=true;edkEnd();
                             }
 
                         }
                     }
                 }
             }
-            else ret=false;
+            else{
+                ret=false;edkEnd();
+            }
 
             //tets if ret true
             if(ret){
@@ -1853,53 +1904,53 @@ bool edk::physics2D::World2D::addObject(edk::physics2D::PhysicObject2D* object){
                         if(this->runNextStep){
                             //save the object on the deleted tree
                             objectBody->GetUserData().pointer = 0;
-                            this->treeDeleted.add(objectBody);
+                            this->treeDeleted.add(objectBody);edkEnd();
                         }
                         else{
-                            this->world.DestroyBody(objectBody);
+                            this->world.DestroyBody(objectBody);edkEnd();
                         }
-                        ret=false;
+                        ret=false;edkEnd();
                     }
-                    break;
+                    break;edkEnd();
                 case b2_kinematicBody:
                     if(!this->treeKinematic.addBody(object,objectBody)){
                         //destroy the body
                         if(this->runNextStep){
                             //save the object on the deleted tree
                             objectBody->GetUserData().pointer = 0;
-                            this->treeDeleted.add(objectBody);
+                            this->treeDeleted.add(objectBody);edkEnd();
                         }
                         else{
-                            this->world.DestroyBody(objectBody);
+                            this->world.DestroyBody(objectBody);edkEnd();
                         }
-                        ret=false;
+                        ret=false;edkEnd();
                     }
-                    break;
+                    break;edkEnd();
                 case b2_dynamicBody:
                     if(!this->treeDynamic.addBody(object,objectBody)){
                         //destroy the body
                         if(this->runNextStep){
                             //save the object on the deleted tree
                             objectBody->GetUserData().pointer = 0;
-                            this->treeDeleted.add(objectBody);
+                            this->treeDeleted.add(objectBody);edkEnd();
                         }
                         else{
-                            this->world.DestroyBody(objectBody);
+                            this->world.DestroyBody(objectBody);edkEnd();
                         }
-                        ret=false;
+                        ret=false;edkEnd();
                     }
-                    break;
+                    break;edkEnd();
                 default:
                     //destroy the object
                     if(this->runNextStep){
                         //save the object on the deleted tree
                         objectBody->GetUserData().pointer = 0;
-                        this->treeDeleted.add(objectBody);
+                        this->treeDeleted.add(objectBody);edkEnd();
                     }
                     else{
-                        this->world.DestroyBody(objectBody);
+                        this->world.DestroyBody(objectBody);edkEnd();
                     }
-                    ret=false;
+                    ret=false;edkEnd();
                 }
             }
             else{
@@ -1907,10 +1958,10 @@ bool edk::physics2D::World2D::addObject(edk::physics2D::PhysicObject2D* object){
                 if(this->runNextStep){
                     //save the object on the deleted tree
                     objectBody->GetUserData().pointer = 0;
-                    this->treeDeleted.add(objectBody);
+                    this->treeDeleted.add(objectBody);edkEnd();
                 }
                 else{
-                    this->world.DestroyBody(objectBody);
+                    this->world.DestroyBody(objectBody);edkEnd();
                 }
             }
         }
@@ -1925,31 +1976,37 @@ bool edk::physics2D::World2D::removeObject(edk::physics2D::PhysicObject2D* objec
     if(object){
         if(this->haveObject(object)){
             //remove all the object joints
-            this->removeObjectJoints(object);
+            this->removeObjectJoints(object);edkEnd();
             //load the box2D object
-            b2Body* temp=NULL;
+            b2Body* temp=NULL;edkEnd();
             switch(object->getType()){
             case edk::physics::StaticBody:
-                temp = this->treeStatic.getBody(object);
-                if(temp) this->treeStatic.removeBody(temp);
-                break;
+                temp = this->treeStatic.getBody(object);edkEnd();
+                if(temp){
+                    this->treeStatic.removeBody(temp);edkEnd();
+                }
+                break;edkEnd();
             case edk::physics::DynamicBody:
-                temp = this->treeDynamic.getBody(object);
-                if(temp) this->treeDynamic.removeBody(temp);
-                break;
+                temp = this->treeDynamic.getBody(object);edkEnd();
+                if(temp){
+                    this->treeDynamic.removeBody(temp);edkEnd();
+                }
+                break;edkEnd();
             case edk::physics::KinematicBody:
-                temp = this->treeKinematic.getBody(object);
-                if(temp) this->treeKinematic.removeBody(temp);
-                break;
+                temp = this->treeKinematic.getBody(object);edkEnd();
+                if(temp){
+                    this->treeKinematic.removeBody(temp);edkEnd();
+                }
+                break;edkEnd();
             }
             if(temp){
                 if(this->runNextStep){
                     //save the object on the deleted tree
                     temp->GetUserData().pointer = 0;
-                    this->treeDeleted.add(temp);
+                    this->treeDeleted.add(temp);edkEnd();
                 }
                 else{
-                    this->world.DestroyBody(temp);
+                    this->world.DestroyBody(temp);edkEnd();
                 }
                 return true;
             }
@@ -1959,84 +2016,96 @@ bool edk::physics2D::World2D::removeObject(edk::physics2D::PhysicObject2D* objec
 }
 //remove all objects
 void edk::physics2D::World2D::removeAllObjects(){
-    b2Body* temp=NULL;
-    edk::physics2D::PhysicObject2D* tempObject=NULL;
+    b2Body* temp=NULL;edkEnd();
+    edk::physics2D::PhysicObject2D* tempObject=NULL;edkEnd();
     edk::uint32 count=0u;
-    edk::uint32 size = 0u;
+    edk::uint32 size = 0u;edkEnd();
     //remove static objects
-    size = this->treeStatic.size();
+    size = this->treeStatic.size();edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
         //load the object
-        temp = this->treeStatic.getBodyInPosition(count);
+        temp = this->treeStatic.getBodyInPosition(count);edkEnd();
         if(temp){
             //
-            tempObject = (edk::physics2D::PhysicObject2D*) temp->GetUserData().pointer;
+            tempObject = (edk::physics2D::PhysicObject2D*) temp->GetUserData().pointer;edkEnd();
             if(tempObject){
                 //remove the joints
-                this->removeObjectJoints(tempObject);
+                this->removeObjectJoints(tempObject);edkEnd();
             }
-            if(!this->treeStatic.removeBody(temp))count++;
+            if(!this->treeStatic.removeBody(temp)){
+                count++;edkEnd();
+            }
             if(this->runNextStep){
                 //save the object on the deleted tree
                 temp->GetUserData().pointer = 0;
-                this->treeDeleted.add(temp);
+                this->treeDeleted.add(temp);edkEnd();
             }
             else{
-                this->world.DestroyBody(temp);
+                this->world.DestroyBody(temp);edkEnd();
             }
         }
-        else count++;
+        else{
+            count++;edkEnd();
+        }
     }
     //remove static objects
-    size = this->treeKinematic.size();
+    size = this->treeKinematic.size();edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
         //load the object
-        temp = this->treeKinematic.getBodyInPosition(count);
+        temp = this->treeKinematic.getBodyInPosition(count);edkEnd();
         if(temp){
             //
-            tempObject =  (edk::physics2D::PhysicObject2D*)temp->GetUserData().pointer;
+            tempObject =  (edk::physics2D::PhysicObject2D*)temp->GetUserData().pointer;edkEnd();
             if(tempObject){
                 //remove the joints
-                this->removeObjectJoints(tempObject);
+                this->removeObjectJoints(tempObject);edkEnd();
             }
-            if(!this->treeKinematic.removeBody(temp))count++;
+            if(!this->treeKinematic.removeBody(temp)){
+                count++;edkEnd();
+            }
             if(this->runNextStep){
                 //save the object on the deleted tree
                 temp->GetUserData().pointer = 0;
-                this->treeDeleted.add(temp);
+                this->treeDeleted.add(temp);edkEnd();
             }
             else{
-                this->world.DestroyBody(temp);
+                this->world.DestroyBody(temp);edkEnd();
             }
         }
-        else count++;
+        else{
+            count++;edkEnd();
+        }
     }
-    this->treeKinematic.clean();
+    this->treeKinematic.clean();edkEnd();
     //remove static objects
-    size = this->treeDynamic.size();
+    size = this->treeDynamic.size();edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
         //load the object
-        temp = this->treeDynamic.getBodyInPosition(count);
+        temp = this->treeDynamic.getBodyInPosition(count);edkEnd();
         if(temp){
             //
-            tempObject =  (edk::physics2D::PhysicObject2D*)temp->GetUserData().pointer;
+            tempObject =  (edk::physics2D::PhysicObject2D*)temp->GetUserData().pointer;edkEnd();
             if(tempObject){
                 //remove the joints
-                this->removeObjectJoints(tempObject);
+                this->removeObjectJoints(tempObject);edkEnd();
             }
-            if(!this->treeDynamic.removeBody(temp))count++;
+            if(!this->treeDynamic.removeBody(temp)){
+                count++;edkEnd();
+            }
             if(this->runNextStep){
                 //save the object on the deleted tree
                 temp->GetUserData().pointer = 0;
-                this->treeDeleted.add(temp);
+                this->treeDeleted.add(temp);edkEnd();
             }
             else{
-                this->world.DestroyBody(temp);
+                this->world.DestroyBody(temp);edkEnd();
             }
         }
-        else count++;
+        else{
+            count++;edkEnd();
+        }
     }
-    this->treeDynamic.clean();
+    this->treeDynamic.clean();edkEnd();
 }
 //test if have the object
 bool edk::physics2D::World2D::haveObject(edk::physics2D::PhysicObject2D* object){
@@ -2044,51 +2113,51 @@ bool edk::physics2D::World2D::haveObject(edk::physics2D::PhysicObject2D* object)
         //test the objectType
         switch(object->getType()){
         case edk::physics::StaticBody:
-            return this->treeStatic.haveBody(object);
+            return this->treeStatic.haveBody(object);edkEnd();
         case edk::physics::DynamicBody:
-            return this->treeDynamic.haveBody(object);
+            return this->treeDynamic.haveBody(object);edkEnd();
         case edk::physics::KinematicBody:
-            return this->treeKinematic.haveBody(object);
+            return this->treeKinematic.haveBody(object);edkEnd();
         }
     }
     return false;
 }
 //get Objects
 edk::uint32 edk::physics2D::World2D::getStaticObjectsSize(){
-    return this->treeStatic.size();
+    return this->treeStatic.size();edkEnd();
 }
 edk::physics2D::PhysicObject2D* edk::physics2D::World2D::getStaticObjectInPosition(edk::uint32 position){
-    b2Body* body = this->treeStatic.getBodyInPosition(position);
+    b2Body* body = this->treeStatic.getBodyInPosition(position);edkEnd();
     if(body){
         if(body->GetUserData().pointer){
-            return (edk::physics2D::PhysicObject2D*)body->GetUserData().pointer;
+            return (edk::physics2D::PhysicObject2D*)body->GetUserData().pointer;edkEnd();
         }
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 edk::uint32 edk::physics2D::World2D::getDynamicObjectsSize(){
-    return this->treeDynamic.size();
+    return this->treeDynamic.size();edkEnd();
 }
 edk::physics2D::PhysicObject2D* edk::physics2D::World2D::getDynamicObjectInPosition(edk::uint32 position){
-    b2Body* body = this->treeDynamic.getBodyInPosition(position);
+    b2Body* body = this->treeDynamic.getBodyInPosition(position);edkEnd();
     if(body){
         if(body->GetUserData().pointer){
-            return (edk::physics2D::PhysicObject2D*)body->GetUserData().pointer;
+            return (edk::physics2D::PhysicObject2D*)body->GetUserData().pointer;edkEnd();
         }
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 edk::uint32 edk::physics2D::World2D::getKinematicObjectsSize(){
-    return this->treeKinematic.size();
+    return this->treeKinematic.size();edkEnd();
 }
 edk::physics2D::PhysicObject2D* edk::physics2D::World2D::getKinematicObjectInPosition(edk::uint32 position){
-    b2Body* body = this->treeKinematic.getBodyInPosition(position);
+    b2Body* body = this->treeKinematic.getBodyInPosition(position);edkEnd();
     if(body){
         if(body->GetUserData().pointer){
-            return (edk::physics2D::PhysicObject2D*)body->GetUserData().pointer;
+            return (edk::physics2D::PhysicObject2D*)body->GetUserData().pointer;edkEnd();
         }
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 
 //update the object position in the world
@@ -2096,24 +2165,24 @@ bool edk::physics2D::World2D::updateObjectVelocity(edk::physics2D::PhysicObject2
     //test the object
     if(object){
         //load the box2D object
-        b2Body* temp=NULL;
+        b2Body* temp=NULL;edkEnd();
         switch(object->getType()){
         case edk::physics::StaticBody:
-            temp = this->treeStatic.getBody(object);
-            break;
+            temp = this->treeStatic.getBody(object);edkEnd();
+            break;edkEnd();
         case edk::physics::DynamicBody:
-            temp = this->treeDynamic.getBody(object);
-            break;
+            temp = this->treeDynamic.getBody(object);edkEnd();
+            break;edkEnd();
         case edk::physics::KinematicBody:
-            temp = this->treeKinematic.getBody(object);
-            break;
+            temp = this->treeKinematic.getBody(object);edkEnd();
+            break;edkEnd();
         }
         if(temp){
             if(object->haveSettedAngularVelocity()){
-                temp->SetAngularVelocity((edk::float32)object->getAngularVelocity() / (180.f / b2_pi));
+                temp->SetAngularVelocity((edk::float32)object->getAngularVelocity() / (180.f / b2_pi));edkEnd();
             }
             if(object->haveSettedLinearVelocity()){
-                temp->SetLinearVelocity(b2Vec2(object->getLinearVelocity().x * this->percentIn,object->getLinearVelocity().y * this->percentIn));
+                temp->SetLinearVelocity(b2Vec2(object->getLinearVelocity().x * this->percentIn,object->getLinearVelocity().y * this->percentIn));edkEnd();
             }
             return true;
         }
@@ -2126,26 +2195,26 @@ bool edk::physics2D::World2D::updateObjectLinearVelocity(edk::physics2D::PhysicO
         //test if is running the simulation
         if(this->runNextStep){
             //then add the object in to a tree to be added after the nextStep
-            this->treeLinearVelocity.add(object);
+            this->treeLinearVelocity.add(object);edkEnd();
             return true;
         }
 
         //load the box2D object
-        b2Body* temp=NULL;
+        b2Body* temp=NULL;edkEnd();
         switch(object->getType()){
         case edk::physics::StaticBody:
-            temp = this->treeStatic.getBody(object);
-            break;
+            temp = this->treeStatic.getBody(object);edkEnd();
+            break;edkEnd();
         case edk::physics::DynamicBody:
-            temp = this->treeDynamic.getBody(object);
-            break;
+            temp = this->treeDynamic.getBody(object);edkEnd();
+            break;edkEnd();
         case edk::physics::KinematicBody:
-            temp = this->treeKinematic.getBody(object);
-            break;
+            temp = this->treeKinematic.getBody(object);edkEnd();
+            break;edkEnd();
         }
         if(temp){
             if(object->haveSettedLinearVelocity()){
-                temp->SetLinearVelocity(b2Vec2(object->getLinearVelocity().x * this->percentIn,object->getLinearVelocity().y * this->percentIn));
+                temp->SetLinearVelocity(b2Vec2(object->getLinearVelocity().x * this->percentIn,object->getLinearVelocity().y * this->percentIn));edkEnd();
             }
             return true;
         }
@@ -2158,25 +2227,25 @@ bool edk::physics2D::World2D::updateObjectAngularVelocity(edk::physics2D::Physic
         //test if is running the simulation
         if(this->runNextStep){
             //then add the object in to a tree to be added after the nextStep
-            this->treeAngularVelocity.add(object);
+            this->treeAngularVelocity.add(object);edkEnd();
             return true;
         }
         //load the box2D object
-        b2Body* temp=NULL;
+        b2Body* temp=NULL;edkEnd();
         switch(object->getType()){
         case edk::physics::StaticBody:
-            temp = this->treeStatic.getBody(object);
-            break;
+            temp = this->treeStatic.getBody(object);edkEnd();
+            break;edkEnd();
         case edk::physics::DynamicBody:
-            temp = this->treeDynamic.getBody(object);
-            break;
+            temp = this->treeDynamic.getBody(object);edkEnd();
+            break;edkEnd();
         case edk::physics::KinematicBody:
-            temp = this->treeKinematic.getBody(object);
-            break;
+            temp = this->treeKinematic.getBody(object);edkEnd();
+            break;edkEnd();
         }
         if(temp){
             if(object->haveSettedAngularVelocity()){
-                temp->SetAngularVelocity((edk::float32)object->getAngularVelocity() / (180.f / b2_pi));
+                temp->SetAngularVelocity((edk::float32)object->getAngularVelocity() / (180.f / b2_pi));edkEnd();
             }
             return true;
         }
@@ -2187,20 +2256,20 @@ bool edk::physics2D::World2D::cleanObjectVelocity(edk::physics2D::PhysicObject2D
     //test the object
     if(object){
         //load the box2D object
-        b2Body* temp=NULL;
+        b2Body* temp=NULL;edkEnd();
         switch(object->getType()){
         case edk::physics::StaticBody:
-            temp = this->treeStatic.getBody(object);
-            break;
+            temp = this->treeStatic.getBody(object);edkEnd();
+            break;edkEnd();
         case edk::physics::DynamicBody:
-            temp = this->treeDynamic.getBody(object);
-            break;
+            temp = this->treeDynamic.getBody(object);edkEnd();
+            break;edkEnd();
         case edk::physics::KinematicBody:
-            temp = this->treeKinematic.getBody(object);
-            break;
+            temp = this->treeKinematic.getBody(object);edkEnd();
+            break;edkEnd();
         }
         if(temp){
-            temp->SetLinearVelocity(b2Vec2(0.f,0.f));
+            temp->SetLinearVelocity(b2Vec2(0.f,0.f));edkEnd();
 
             return true;
         }
@@ -2211,24 +2280,24 @@ bool edk::physics2D::World2D::updateObjectStatus(edk::physics2D::PhysicObject2D*
     //test the object
     if(object){
         //load the box2D object
-        b2Body* temp=NULL;
+        b2Body* temp=NULL;edkEnd();
         switch(object->getType()){
         case edk::physics::StaticBody:
-            temp = this->treeStatic.getBody(object);
-            break;
+            temp = this->treeStatic.getBody(object);edkEnd();
+            break;edkEnd();
         case edk::physics::DynamicBody:
-            temp = this->treeDynamic.getBody(object);
-            break;
+            temp = this->treeDynamic.getBody(object);edkEnd();
+            break;edkEnd();
         case edk::physics::KinematicBody:
-            temp = this->treeKinematic.getBody(object);
-            break;
+            temp = this->treeKinematic.getBody(object);edkEnd();
+            break;edkEnd();
         }
         if(temp){
-            b2Fixture* fixture = temp->GetFixtureList();
+            b2Fixture* fixture = temp->GetFixtureList();edkEnd();
             if(fixture){
-                fixture->SetDensity(object->physicMesh.getPolygonDensity(0u));
-                fixture->SetFriction(object->physicMesh.getPolygonFriction(0u));
-                fixture->SetRestitution(object->physicMesh.getPolygonRestitution(0u));
+                fixture->SetDensity(object->physicMesh.getPolygonDensity(0u));edkEnd();
+                fixture->SetFriction(object->physicMesh.getPolygonFriction(0u));edkEnd();
+                fixture->SetRestitution(object->physicMesh.getPolygonRestitution(0u));edkEnd();
             }
             return true;
         }
@@ -2239,25 +2308,25 @@ bool edk::physics2D::World2D::updateObjectPosition(edk::physics2D::PhysicObject2
     //test the object
     if(object){
         //load the box2D object
-        b2Body* temp=NULL;
+        b2Body* temp=NULL;edkEnd();
         switch(object->getType()){
         case edk::physics::StaticBody:
-            temp = this->treeStatic.getBody(object);
-            break;
+            temp = this->treeStatic.getBody(object);edkEnd();
+            break;edkEnd();
         case edk::physics::DynamicBody:
-            temp = this->treeDynamic.getBody(object);
-            break;
+            temp = this->treeDynamic.getBody(object);edkEnd();
+            break;edkEnd();
         case edk::physics::KinematicBody:
-            temp = this->treeKinematic.getBody(object);
-            break;
+            temp = this->treeKinematic.getBody(object);edkEnd();
+            break;edkEnd();
         }
         if(temp){
-            temp->ApplyUpdatePosition(b2Vec2(object->position.x,object->position.y));
-            temp->SetAwake(true);
+            temp->ApplyUpdatePosition(b2Vec2(object->position.x,object->position.y));edkEnd();
+            temp->SetAwake(true);edkEnd();
             temp->SetLinearVelocity(b2Vec2(object->position.x - temp->GetPosition().x
                                            ,object->position.y - temp->GetPosition().y
                                            )
-                                    );
+                                    );edkEnd();
             return true;
         }
     }
@@ -2267,25 +2336,25 @@ bool edk::physics2D::World2D::updateObjectPositionX(edk::physics2D::PhysicObject
     //test the object
     if(object){
         //load the box2D object
-        b2Body* temp=NULL;
+        b2Body* temp=NULL;edkEnd();
         switch(object->getType()){
         case edk::physics::StaticBody:
-            temp = this->treeStatic.getBody(object);
-            break;
+            temp = this->treeStatic.getBody(object);edkEnd();
+            break;edkEnd();
         case edk::physics::DynamicBody:
-            temp = this->treeDynamic.getBody(object);
-            break;
+            temp = this->treeDynamic.getBody(object);edkEnd();
+            break;edkEnd();
         case edk::physics::KinematicBody:
-            temp = this->treeKinematic.getBody(object);
-            break;
+            temp = this->treeKinematic.getBody(object);edkEnd();
+            break;edkEnd();
         }
         if(temp){
-            temp->ApplyUpdatePositionX(object->position.x);
-            temp->SetAwake(true);
+            temp->ApplyUpdatePositionX(object->position.x);edkEnd();
+            temp->SetAwake(true);edkEnd();
             temp->SetLinearVelocity(b2Vec2(object->position.x - temp->GetPosition().x
                                            ,temp->GetLinearVelocity().y
                                            )
-                                    );
+                                    );edkEnd();
             return true;
         }
     }
@@ -2295,27 +2364,27 @@ bool edk::physics2D::World2D::updateObjectPositionY(edk::physics2D::PhysicObject
     //test the object
     if(object){
         //load the box2D object
-        b2Body* temp=NULL;
+        b2Body* temp=NULL;edkEnd();
         switch(object->getType()){
         case edk::physics::StaticBody:
-            temp = this->treeStatic.getBody(object);
-            break;
+            temp = this->treeStatic.getBody(object);edkEnd();
+            break;edkEnd();
         case edk::physics::DynamicBody:
-            temp = this->treeDynamic.getBody(object);
-            break;
+            temp = this->treeDynamic.getBody(object);edkEnd();
+            break;edkEnd();
         case edk::physics::KinematicBody:
-            temp = this->treeKinematic.getBody(object);
-            break;
+            temp = this->treeKinematic.getBody(object);edkEnd();
+            break;edkEnd();
         }
         if(temp){
-            temp->ApplyUpdatePositionY(object->position.y);
-            temp->SetAwake(true);
+            temp->ApplyUpdatePositionY(object->position.y);edkEnd();
+            temp->SetAwake(true);edkEnd();
             temp->SetLinearVelocity(b2Vec2(temp->GetLinearVelocity().x,
                                            object->position.y - temp->GetPosition().y
                                            )
-                                    );
+                                    );edkEnd();
             object->setLinearVelocity(temp->GetLinearVelocity().x,
-                                      object->position.y - temp->GetPosition().y);
+                                      object->position.y - temp->GetPosition().y);edkEnd();
             return true;
         }
     }
@@ -2325,21 +2394,21 @@ bool edk::physics2D::World2D::updateObjectSyncronizePosition(edk::physics2D::Phy
     //test the object
     if(object){
         //load the box2D object
-        b2Body* temp=NULL;
+        b2Body* temp=NULL;edkEnd();
         switch(object->getType()){
         case edk::physics::StaticBody:
-            temp = this->treeStatic.getBody(object);
-            break;
+            temp = this->treeStatic.getBody(object);edkEnd();
+            break;edkEnd();
         case edk::physics::DynamicBody:
-            temp = this->treeDynamic.getBody(object);
-            break;
+            temp = this->treeDynamic.getBody(object);edkEnd();
+            break;edkEnd();
         case edk::physics::KinematicBody:
-            temp = this->treeKinematic.getBody(object);
-            break;
+            temp = this->treeKinematic.getBody(object);edkEnd();
+            break;edkEnd();
         }
         if(temp){
-            temp->ApplySynchronizePosition();
-            temp->SetAwake(true);
+            temp->ApplySynchronizePosition();edkEnd();
+            temp->SetAwake(true);edkEnd();
             return true;
         }
     }
@@ -2349,21 +2418,21 @@ bool edk::physics2D::World2D::updateObjectSyncronizePositionX(edk::physics2D::Ph
     //test the object
     if(object){
         //load the box2D object
-        b2Body* temp=NULL;
+        b2Body* temp=NULL;edkEnd();
         switch(object->getType()){
         case edk::physics::StaticBody:
-            temp = this->treeStatic.getBody(object);
-            break;
+            temp = this->treeStatic.getBody(object);edkEnd();
+            break;edkEnd();
         case edk::physics::DynamicBody:
-            temp = this->treeDynamic.getBody(object);
-            break;
+            temp = this->treeDynamic.getBody(object);edkEnd();
+            break;edkEnd();
         case edk::physics::KinematicBody:
-            temp = this->treeKinematic.getBody(object);
-            break;
+            temp = this->treeKinematic.getBody(object);edkEnd();
+            break;edkEnd();
         }
         if(temp){
-            temp->ApplySynchronizePositionX();
-            temp->SetAwake(true);
+            temp->ApplySynchronizePositionX();edkEnd();
+            temp->SetAwake(true);edkEnd();
             return true;
         }
     }
@@ -2373,21 +2442,21 @@ bool edk::physics2D::World2D::updateObjectSyncronizePositionY(edk::physics2D::Ph
     //test the object
     if(object){
         //load the box2D object
-        b2Body* temp=NULL;
+        b2Body* temp=NULL;edkEnd();
         switch(object->getType()){
         case edk::physics::StaticBody:
-            temp = this->treeStatic.getBody(object);
-            break;
+            temp = this->treeStatic.getBody(object);edkEnd();
+            break;edkEnd();
         case edk::physics::DynamicBody:
-            temp = this->treeDynamic.getBody(object);
-            break;
+            temp = this->treeDynamic.getBody(object);edkEnd();
+            break;edkEnd();
         case edk::physics::KinematicBody:
-            temp = this->treeKinematic.getBody(object);
-            break;
+            temp = this->treeKinematic.getBody(object);edkEnd();
+            break;edkEnd();
         }
         if(temp){
-            temp->ApplySynchronizePositionY();
-            temp->SetAwake(true);
+            temp->ApplySynchronizePositionY();edkEnd();
+            temp->SetAwake(true);edkEnd();
             return true;
         }
     }
@@ -2397,22 +2466,22 @@ bool edk::physics2D::World2D::updateObjectAngle(edk::physics2D::PhysicObject2D* 
     //test the object
     if(object){
         //load the box2D object
-        b2Body* temp=NULL;
+        b2Body* temp=NULL;edkEnd();
         switch(object->getType()){
         case edk::physics::StaticBody:
-            temp = this->treeStatic.getBody(object);
-            break;
+            temp = this->treeStatic.getBody(object);edkEnd();
+            break;edkEnd();
         case edk::physics::DynamicBody:
-            temp = this->treeDynamic.getBody(object);
-            break;
+            temp = this->treeDynamic.getBody(object);edkEnd();
+            break;edkEnd();
         case edk::physics::KinematicBody:
-            temp = this->treeKinematic.getBody(object);
-            break;
+            temp = this->treeKinematic.getBody(object);edkEnd();
+            break;edkEnd();
         }
         if(temp){
-            temp->ApplyUpdateAngle(object->angle);
-            temp->SetAngularVelocity(object->angle - temp->GetAngle());
-            temp->SetAwake(true);
+            temp->ApplyUpdateAngle(object->angle);edkEnd();
+            temp->SetAngularVelocity(object->angle - temp->GetAngle());edkEnd();
+            temp->SetAwake(true);edkEnd();
             return true;
         }
     }
@@ -2422,27 +2491,27 @@ bool edk::physics2D::World2D::updateObjectPositionAndAngle(edk::physics2D::Physi
     //test the object
     if(object){
         //load the box2D object
-        b2Body* temp=NULL;
+        b2Body* temp=NULL;edkEnd();
         switch(object->getType()){
         case edk::physics::StaticBody:
-            temp = this->treeStatic.getBody(object);
-            break;
+            temp = this->treeStatic.getBody(object);edkEnd();
+            break;edkEnd();
         case edk::physics::DynamicBody:
-            temp = this->treeDynamic.getBody(object);
-            break;
+            temp = this->treeDynamic.getBody(object);edkEnd();
+            break;edkEnd();
         case edk::physics::KinematicBody:
-            temp = this->treeKinematic.getBody(object);
-            break;
+            temp = this->treeKinematic.getBody(object);edkEnd();
+            break;edkEnd();
         }
         if(temp){
-            temp->ApplyUpdatePosition(b2Vec2(object->position.x,object->position.y));
+            temp->ApplyUpdatePosition(b2Vec2(object->position.x,object->position.y));edkEnd();
             temp->SetLinearVelocity(b2Vec2(object->position.x - temp->GetPosition().x
                                            ,object->position.y - temp->GetPosition().y
                                            )
-                                    );
-            temp->ApplyUpdateAngle(object->angle);
-            temp->SetAngularVelocity(object->angle - temp->GetAngle());
-            temp->SetAwake(true);
+                                    );edkEnd();
+            temp->ApplyUpdateAngle(object->angle);edkEnd();
+            temp->SetAngularVelocity(object->angle - temp->GetAngle());edkEnd();
+            temp->SetAwake(true);edkEnd();
             return true;
         }
     }
@@ -2452,27 +2521,27 @@ bool edk::physics2D::World2D::updateObjectPositionXAndAngle(edk::physics2D::Phys
     //test the object
     if(object){
         //load the box2D object
-        b2Body* temp=NULL;
+        b2Body* temp=NULL;edkEnd();
         switch(object->getType()){
         case edk::physics::StaticBody:
-            temp = this->treeStatic.getBody(object);
-            break;
+            temp = this->treeStatic.getBody(object);edkEnd();
+            break;edkEnd();
         case edk::physics::DynamicBody:
-            temp = this->treeDynamic.getBody(object);
-            break;
+            temp = this->treeDynamic.getBody(object);edkEnd();
+            break;edkEnd();
         case edk::physics::KinematicBody:
-            temp = this->treeKinematic.getBody(object);
-            break;
+            temp = this->treeKinematic.getBody(object);edkEnd();
+            break;edkEnd();
         }
         if(temp){
-            temp->ApplyUpdatePositionY(object->position.y);
+            temp->ApplyUpdatePositionY(object->position.y);edkEnd();
             temp->SetLinearVelocity(b2Vec2(temp->GetLinearVelocity().x,
                                            object->position.y - temp->GetPosition().y
                                            )
-                                    );
-            temp->ApplyUpdateAngle(object->angle);
-            temp->SetAngularVelocity(object->angle - temp->GetAngle());
-            temp->SetAwake(true);
+                                    );edkEnd();
+            temp->ApplyUpdateAngle(object->angle);edkEnd();
+            temp->SetAngularVelocity(object->angle - temp->GetAngle());edkEnd();
+            temp->SetAwake(true);edkEnd();
             return true;
         }
     }
@@ -2482,27 +2551,27 @@ bool edk::physics2D::World2D::updateObjectPositionYAndAngle(edk::physics2D::Phys
     //test the object
     if(object){
         //load the box2D object
-        b2Body* temp=NULL;
+        b2Body* temp=NULL;edkEnd();
         switch(object->getType()){
         case edk::physics::StaticBody:
-            temp = this->treeStatic.getBody(object);
-            break;
+            temp = this->treeStatic.getBody(object);edkEnd();
+            break;edkEnd();
         case edk::physics::DynamicBody:
-            temp = this->treeDynamic.getBody(object);
-            break;
+            temp = this->treeDynamic.getBody(object);edkEnd();
+            break;edkEnd();
         case edk::physics::KinematicBody:
-            temp = this->treeKinematic.getBody(object);
-            break;
+            temp = this->treeKinematic.getBody(object);edkEnd();
+            break;edkEnd();
         }
         if(temp){
-            temp->ApplyUpdatePositionY(object->position.y);
+            temp->ApplyUpdatePositionY(object->position.y);edkEnd();
             temp->SetLinearVelocity(b2Vec2(temp->GetLinearVelocity().x,
                                            object->position.y - temp->GetPosition().y
                                            )
-                                    );
-            temp->ApplyUpdateAngle(object->angle);
-            temp->SetAngularVelocity(object->angle - temp->GetAngle());
-            temp->SetAwake(true);
+                                    );edkEnd();
+            temp->ApplyUpdateAngle(object->angle);edkEnd();
+            temp->SetAngularVelocity(object->angle - temp->GetAngle());edkEnd();
+            temp->SetAwake(true);edkEnd();
             return true;
         }
     }
@@ -2513,35 +2582,35 @@ bool edk::physics2D::World2D::moveObject(edk::physics2D::PhysicObject2D* object,
     //test the object
     if(object){
         //move the pbject
-        object->position+=move * this->percentIn;
-        return this->updateObjectVelocity(object);
+        object->position+=move * this->percentIn;edkEnd();
+        return this->updateObjectVelocity(object);edkEnd();
     }
     return false;
 }
 bool edk::physics2D::World2D::moveObject(edk::physics2D::PhysicObject2D* object,edk::float32 x,edk::float32 y){
-    return this->moveObject(object,edk::vec2f32(x,y));
+    return this->moveObject(object,edk::vec2f32(x,y));edkEnd();
 }
 bool edk::physics2D::World2D::moveObjectToPosition(edk::physics2D::PhysicObject2D* object,edk::vec2f32 position){
     //test the object
     if(object){
         //move the pbject
-        object->position=position * this->percentIn;
-        return this->updateObjectVelocity(object);
+        object->position=position * this->percentIn;edkEnd();
+        return this->updateObjectVelocity(object);edkEnd();
     }
     return false;
 }
 bool edk::physics2D::World2D::moveObjectToPosition(edk::physics2D::PhysicObject2D* object,edk::float32 positionX,edk::float32 positionY){
-    return this->moveObjectToPosition(object,edk::vec2f32(positionX,positionY));
+    return this->moveObjectToPosition(object,edk::vec2f32(positionX,positionY));edkEnd();
 }
 //rotate the object
 bool edk::physics2D::World2D::rotateObject(edk::physics2D::PhysicObject2D* object,edk::float32 angle){
     //test the object
     if(object){
         //move the pbject
-        object->angle+=angle;
-        //while(object->angle>360.f)object->angle-=360.f;
-        //while(object->angle<0.f)object->angle+=360.f;
-        return this->updateObjectVelocity(object);
+        object->angle+=angle;edkEnd();
+        //while(object->angle>360.f)object->angle-=360.f;edkEnd();
+        //while(object->angle<0.f)object->angle+=360.f;edkEnd();
+        return this->updateObjectVelocity(object);edkEnd();
     }
     return false;
 }
@@ -2549,10 +2618,10 @@ bool edk::physics2D::World2D::rotateObjectToAngle(edk::physics2D::PhysicObject2D
     //test the object
     if(object){
         //move the pbject
-        object->angle=angle;
-        //while(object->angle>360.f)object->angle-=360.f;
-        //while(object->angle<0.f)object->angle+=360.f;
-        return this->updateObjectVelocity(object);
+        object->angle=angle;edkEnd();
+        //while(object->angle>360.f)object->angle-=360.f;edkEnd();
+        //while(object->angle<0.f)object->angle+=360.f;edkEnd();
+        return this->updateObjectVelocity(object);edkEnd();
     }
     return false;
 }
@@ -2561,11 +2630,11 @@ bool edk::physics2D::World2D::sleepObject(edk::physics2D::PhysicObject2D* object
     //test the object
     if(object){
         //load the box2D object
-        b2Body* temp=NULL;
-        temp = this->treeDynamic.getBody(object);
+        b2Body* temp=NULL;edkEnd();
+        temp = this->treeDynamic.getBody(object);edkEnd();
         if(temp){
-            object->canSleep=true;
-            temp->SetAwake(false);
+            object->canSleep=true;edkEnd();
+            temp->SetAwake(false);edkEnd();
             return true;
         }
     }
@@ -2575,10 +2644,10 @@ bool edk::physics2D::World2D::unsleepObject(edk::physics2D::PhysicObject2D* obje
     //test the object
     if(object){
         //load the box2D object
-        b2Body* temp=NULL;
-        temp = this->treeDynamic.getBody(object);
+        b2Body* temp=NULL;edkEnd();
+        temp = this->treeDynamic.getBody(object);edkEnd();
         if(temp){
-            temp->SetAwake(true);
+            temp->SetAwake(true);edkEnd();
             return true;
         }
     }
@@ -2590,17 +2659,17 @@ bool edk::physics2D::World2D::setLinearVelocity(edk::physics2D::PhysicObject2D* 
     //test the object
     if(object){
         //load the box2D object
-        b2Body* temp=NULL;
+        b2Body* temp=NULL;edkEnd();
         switch(object->getType()){
         case edk::physics::DynamicBody:
-            temp = this->treeDynamic.getBody(object);
-            break;
+            temp = this->treeDynamic.getBody(object);edkEnd();
+            break;edkEnd();
         case edk::physics::KinematicBody:
-            temp = this->treeKinematic.getBody(object);
-            break;
+            temp = this->treeKinematic.getBody(object);edkEnd();
+            break;edkEnd();
         }
         if(temp){
-            temp->SetLinearVelocity(b2Vec2(vector.x * this->percentIn,vector.y * this->percentIn));
+            temp->SetLinearVelocity(b2Vec2(vector.x * this->percentIn,vector.y * this->percentIn));edkEnd();
             return true;
         }
     }
@@ -2610,17 +2679,17 @@ bool edk::physics2D::World2D::setAngularVelocity(edk::physics2D::PhysicObject2D*
     //test the object
     if(object){
         //load the box2D object
-        b2Body* temp=NULL;
+        b2Body* temp=NULL;edkEnd();
         switch(object->getType()){
         case edk::physics::DynamicBody:
-            temp = this->treeDynamic.getBody(object);
-            break;
+            temp = this->treeDynamic.getBody(object);edkEnd();
+            break;edkEnd();
         case edk::physics::KinematicBody:
-            temp = this->treeKinematic.getBody(object);
-            break;
+            temp = this->treeKinematic.getBody(object);edkEnd();
+            break;edkEnd();
         }
         if(temp){
-            temp->SetAngularVelocity(angle / (180.f / b2_pi));
+            temp->SetAngularVelocity(angle / (180.f / b2_pi));edkEnd();
             return true;
         }
     }
@@ -2631,20 +2700,20 @@ bool edk::physics2D::World2D::applyForce(edk::physics2D::PhysicObject2D* object,
     //test the object
     if(object){
         //load the box2D object
-        b2Body* temp=NULL;
+        b2Body* temp=NULL;edkEnd();
         switch(object->getType()){
         case edk::physics::DynamicBody:
-            temp = this->treeDynamic.getBody(object);
-            break;
+            temp = this->treeDynamic.getBody(object);edkEnd();
+            break;edkEnd();
         case edk::physics::KinematicBody:
-            temp = this->treeKinematic.getBody(object);
-            break;
+            temp = this->treeKinematic.getBody(object);edkEnd();
+            break;edkEnd();
         }
         if(temp){
             temp->ApplyForce(b2Vec2(force.x * this->percentIn,force.y * this->percentIn),
                              b2Vec2(position.x * this->percentIn,position.y * this->percentIn),
                              wake
-                             );
+                             );edkEnd();
             return true;
         }
     }
@@ -2654,17 +2723,17 @@ bool edk::physics2D::World2D::applyLinearImpulse(edk::physics2D::PhysicObject2D*
     //test the object
     if(object){
         //load the box2D object
-        b2Body* temp=NULL;
+        b2Body* temp=NULL;edkEnd();
         switch(object->getType()){
         case edk::physics::DynamicBody:
-            temp = this->treeDynamic.getBody(object);
-            break;
+            temp = this->treeDynamic.getBody(object);edkEnd();
+            break;edkEnd();
         case edk::physics::KinematicBody:
-            temp = this->treeKinematic.getBody(object);
-            break;
+            temp = this->treeKinematic.getBody(object);edkEnd();
+            break;edkEnd();
         }
         if(temp){
-            temp->ApplyLinearImpulse(b2Vec2(impulse.x * this->percentIn,impulse.y * this->percentIn),b2Vec2(position.x * this->percentIn,position.y * this->percentIn),wake);
+            temp->ApplyLinearImpulse(b2Vec2(impulse.x * this->percentIn,impulse.y * this->percentIn),b2Vec2(position.x * this->percentIn,position.y * this->percentIn),wake);edkEnd();
             return true;
         }
     }
@@ -2674,19 +2743,19 @@ bool edk::physics2D::World2D::applyAngularImpulse(edk::physics2D::PhysicObject2D
     //test the object
     if(object){
         //load the box2D object
-        b2Body* temp=NULL;
+        b2Body* temp=NULL;edkEnd();
         switch(object->getType()){
         case edk::physics::DynamicBody:
-            temp = this->treeDynamic.getBody(object);
-            break;
+            temp = this->treeDynamic.getBody(object);edkEnd();
+            break;edkEnd();
         case edk::physics::KinematicBody:
-            temp = this->treeKinematic.getBody(object);
-            break;
+            temp = this->treeKinematic.getBody(object);edkEnd();
+            break;edkEnd();
         }
         if(temp){
             temp->ApplyAngularImpulse(angle / (180.f / b2_pi),
                                       wake
-                                      );
+                                      );edkEnd();
             return true;
         }
     }
@@ -2696,17 +2765,17 @@ bool edk::physics2D::World2D::applyTorque(edk::physics2D::PhysicObject2D* object
     //test the object
     if(object){
         //load the box2D object
-        b2Body* temp=NULL;
+        b2Body* temp=NULL;edkEnd();
         switch(object->getType()){
         case edk::physics::DynamicBody:
-            temp = this->treeDynamic.getBody(object);
-            break;
+            temp = this->treeDynamic.getBody(object);edkEnd();
+            break;edkEnd();
         case edk::physics::KinematicBody:
-            temp = this->treeKinematic.getBody(object);
-            break;
+            temp = this->treeKinematic.getBody(object);edkEnd();
+            break;edkEnd();
         }
         if(temp){
-            temp->ApplyTorque(torque * this->percentIn,wake);
+            temp->ApplyTorque(torque * this->percentIn,wake);edkEnd();
             return true;
         }
     }
@@ -2719,37 +2788,37 @@ void edk::physics2D::World2D::nextStep(edk::float32 timeStep,
                                        edk::int32 positionIterations){
     if(!this->paused){
         //save the nextSpet
-        this->runNextStep = true;
-        this->world.Step(timeStep,velocityIterations,positionIterations);
-        this->runNextStep = false;
+        this->runNextStep = true;edkEnd();
+        this->world.Step(timeStep,velocityIterations,positionIterations);edkEnd();
+        this->runNextStep = false;edkEnd();
 
         //clean the treeObjectContacts
-        this->beginContacs.clean();
-        this->keepBeginContacs.clean();
-        this->keepEndContacs.clean();
-        this->endContacs.clean();
-        this->sensorBeginContacs.clean();
-        this->sensorKeepContacs.clean();
-        this->sensorEndContacs.clean();
+        this->beginContacs.clean();edkEnd();
+        this->keepBeginContacs.clean();edkEnd();
+        this->keepEndContacs.clean();edkEnd();
+        this->endContacs.clean();edkEnd();
+        this->sensorBeginContacs.clean();edkEnd();
+        this->sensorKeepContacs.clean();edkEnd();
+        this->sensorEndContacs.clean();edkEnd();
 
         //create new objects
-        this->treeNew.print();
-        this->treeNew.clean();
+        this->treeNew.print();edkEnd();
+        this->treeNew.clean();edkEnd();
         //update the linear velocity of the object
-        this->treeLinearVelocity.render();
-        this->treeLinearVelocity.clean();
+        this->treeLinearVelocity.render();edkEnd();
+        this->treeLinearVelocity.clean();edkEnd();
         //update the angular velocity of the object
-        this->treeAngularVelocity.update();
-        this->treeAngularVelocity.clean();
+        this->treeAngularVelocity.update();edkEnd();
+        this->treeAngularVelocity.clean();edkEnd();
 
         //update the kinematic objects
-        this->treeKinematic.update();
-        this->treeDynamic.update();
-        this->treeJoint.update();
+        this->treeKinematic.update();edkEnd();
+        this->treeDynamic.update();edkEnd();
+        this->treeJoint.update();edkEnd();
 
         //remove the bodys
-        this->treeDeleted.update();
-        this->treeDeleted.clean();
+        this->treeDeleted.update();edkEnd();
+        this->treeDeleted.clean();edkEnd();
     }
 }
 //next spet with clock
@@ -2757,47 +2826,47 @@ void edk::physics2D::World2D::nextStep(edk::int32 velocityIterations, edk::int32
     //get the clock
     this->nextStep(this->clock.getMicroseconds() * edk::watch::microsecond * this->clockScale,
                    velocityIterations,
-                   positionIterations);
+                   positionIterations);edkEnd();
 
     //then clean the clock
-    this->clockStart();
+    this->clockStart();edkEnd();
 }
 //pause the world steps
 void edk::physics2D::World2D::pauseStepOn(){
     //test if is NOT paused
     if(!this->paused){
         //save the clock
-        this->clock.saveDistance();
-        this->paused=true;
+        this->clock.saveDistance();edkEnd();
+        this->paused=true;edkEnd();
     }
 }
 void edk::physics2D::World2D::pauseStepOff(){
     //test if is Paused
     if(this->paused){
         //start the clock and paste the distance
-        this->clockStart();
-        this->clock.pasteDistance();
-        this->paused=false;
+        this->clockStart();edkEnd();
+        this->clock.pasteDistance();edkEnd();
+        this->paused=false;edkEnd();
     }
 }
 
 //reset the clock
 void edk::physics2D::World2D::clockStart(){
-    this->clock.start();
+    this->clock.start();edkEnd();
 }
 //set clockScale
 void edk::physics2D::World2D::setClockScale(edk::float32 clockScale){
-    this->clockScale = clockScale;
+    this->clockScale = clockScale;edkEnd();
 }
 
 
 //return the size of contacts
 edk::uint32 edk::physics2D::World2D::getContactSize(){
-    return this->treeConcacts.getSize();
+    return this->treeConcacts.getSize();edkEnd();
 }
 //return the contact
 edk::physics2D::Contact2D* edk::physics2D::World2D::getContact(edk::uint32 position){
-    return this->treeConcacts.getElementInPosition(position);
+    return this->treeConcacts.getElementInPosition(position);edkEnd();
 }
 
 
@@ -2809,75 +2878,75 @@ edk::physics2D::MouseJoint2D* edk::physics2D::World2D::createMouseJoint(edk::phy
         //test the objectType
         if(objectA->getType()!=edk::physics::StaticBody){
             //create a ground body
-            edk::physics2D::KinematicObject2D* ground = new edk::physics2D::KinematicObject2D;
+            edk::physics2D::KinematicObject2D* ground = new edk::physics2D::KinematicObject2D;edkEnd();
             if(ground){
-                edk::shape::Rectangle2D rect;
-                rect.setPivoToCenter();
-                ground->physicMesh.addPolygon(rect);
+                edk::shape::Rectangle2D rect;edkEnd();
+                rect.setPivoToCenter();edkEnd();
+                ground->physicMesh.addPolygon(rect);edkEnd();
 
-                ground->position=positionB;
+                ground->position=positionB;edkEnd();
 
                 if(this->addObject(ground)){
                     //
 
 
                     //load the objects
-                    b2Body* bodyA = this->getBody(ground);
-                    b2Body* bodyB = this->getBody(objectA);
+                    b2Body* bodyA = this->getBody(ground);edkEnd();
+                    b2Body* bodyB = this->getBody(objectA);edkEnd();
 
                     //create the joint
                     if(bodyA && bodyB){
-                        edk::physics2D::MouseJoint2D *edkJoint = NULL;
+                        edk::physics2D::MouseJoint2D *edkJoint = NULL;edkEnd();
                         //create the revolute def
-                        b2MouseJointDef jointDef;
-                        jointDef.collideConnected=false;
-                        jointDef.bodyA = bodyA;
-                        jointDef.bodyB = bodyB;
-                        //jointDef.target = b2Vec2(positionB.x * this->percentIn,positionB.y * this->percentIn);
+                        b2MouseJointDef jointDef;edkEnd();
+                        jointDef.collideConnected=false;edkEnd();
+                        jointDef.bodyA = bodyA;edkEnd();
+                        jointDef.bodyB = bodyB;edkEnd();
+                        //jointDef.target = b2Vec2(positionB.x * this->percentIn,positionB.y * this->percentIn);edkEnd();
 
                         //create the edkJoint
-                        edkJoint = new edk::physics2D::MouseJoint2D(false);
+                        edkJoint = new edk::physics2D::MouseJoint2D(false);edkEnd();
                         if(edkJoint){
                             //in the new version of box2D the userData are setted in jointDef
-                            jointDef.userData.pointer = (uintptr_t)edkJoint;
+                            jointDef.userData.pointer = (uintptr_t)edkJoint;edkEnd();
 
-                            edkJoint->objectA = ground;
-                            edkJoint->objectB = objectA;
-                            edkJoint->positionA = positionA;
-                            edkJoint->positionB = 0.f;
+                            edkJoint->objectA = ground;edkEnd();
+                            edkJoint->objectB = objectA;edkEnd();
+                            edkJoint->positionA = positionA;edkEnd();
+                            edkJoint->positionB = 0.f;edkEnd();
                             edkJoint->worldPositionA
                                     =
                                     edk::physics2D::World2D::JointTreeObject::getJointWorldPosition(objectA,positionA)
-                                    ;
-                            edkJoint->positionB = positionB;
+                                    ;edkEnd();
+                            edkJoint->positionB = positionB;edkEnd();
 
                             //create the edkJoint
                             if(this->addJoint(edkJoint)){
                                 //
-                                b2Joint* joint = (b2Joint*) this->world.CreateJoint(&jointDef);
+                                b2Joint* joint = (b2Joint*) this->world.CreateJoint(&jointDef);edkEnd();
                                 if(joint){
-                                    b2MouseJoint* mouseJoint = (b2MouseJoint*)joint;
-                                    mouseJoint->SetTarget(b2Vec2(positionB.x,positionB.y));
+                                    b2MouseJoint* mouseJoint = (b2MouseJoint*)joint;edkEnd();
+                                    mouseJoint->SetTarget(b2Vec2(positionB.x,positionB.y));edkEnd();
                                     //removed from the old box2D version. In the new box2D version the userData is in JointDef
-                                    //joint->SetUserData(edkJoint);
+                                    //joint->SetUserData(edkJoint);edkEnd();
                                     //add the joint in the tree
                                     if(this->treeJoint.addJoint(edkJoint,joint)){
-                                        return edkJoint;
+                                        return edkJoint;edkEnd();
                                     }
                                     //else destroy the joint
-                                    this->world.DestroyJoint(joint);
+                                    this->world.DestroyJoint(joint);edkEnd();
                                 }
-                                this->destroyJoint(edkJoint);
+                                this->destroyJoint(edkJoint);edkEnd();
                             }
                         }
                     }
-                    this->removeObject(ground);
+                    this->removeObject(ground);edkEnd();
                 }
-                delete ground;
+                delete ground;edkEnd();
             }
         }
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 edk::physics2D::MouseJoint2D* edk::physics2D::World2D::createMouseJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 worldPosition){
     //test the object
@@ -2885,9 +2954,9 @@ edk::physics2D::MouseJoint2D* edk::physics2D::World2D::createMouseJoint(edk::phy
         return this->createMouseJoint(objectA,
                                       edk::physics2D::World2D::JointTreeObject::getJointPosition(objectA,worldPosition),
                                       worldPosition
-                                      );
+                                      );edkEnd();
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 
 //REVOLUTE
@@ -2900,62 +2969,62 @@ edk::physics2D::RevoluteJoint2D* edk::physics2D::World2D::createRevoluteJoint(ed
         //test the objectType
         if(objectA->getType()!=edk::physics::StaticBody || objectB->getType()!=edk::physics::StaticBody){
             //load the objects
-            b2Body* bodyA = this->getBody(objectA);
-            b2Body* bodyB = this->getBody(objectB);
+            b2Body* bodyA = this->getBody(objectA);edkEnd();
+            b2Body* bodyB = this->getBody(objectB);edkEnd();
 
             //create the joint
             if(bodyA && bodyB){
-                edk::physics2D::RevoluteJoint2D *edkJoint = NULL;
+                edk::physics2D::RevoluteJoint2D *edkJoint = NULL;edkEnd();
                 //create the revolute def
-                b2RevoluteJointDef jointDef;
-                jointDef.collideConnected=collide;
-                jointDef.bodyA = bodyA;
-                jointDef.bodyB = bodyB;
-                jointDef.localAnchorA = b2Vec2(positionA.x * this->percentIn,positionA.y * this->percentIn);
-                jointDef.localAnchorB = b2Vec2(positionB.x * this->percentIn,positionB.y * this->percentIn);
+                b2RevoluteJointDef jointDef;edkEnd();
+                jointDef.collideConnected=collide;edkEnd();
+                jointDef.bodyA = bodyA;edkEnd();
+                jointDef.bodyB = bodyB;edkEnd();
+                jointDef.localAnchorA = b2Vec2(positionA.x * this->percentIn,positionA.y * this->percentIn);edkEnd();
+                jointDef.localAnchorB = b2Vec2(positionB.x * this->percentIn,positionB.y * this->percentIn);edkEnd();
 
                 //create the edkJoint
-                edkJoint = new edk::physics2D::RevoluteJoint2D(collide);
+                edkJoint = new edk::physics2D::RevoluteJoint2D(collide);edkEnd();
                 if(edkJoint){
                     //in the new version of box2D the userData are setted in jointDef
-                    jointDef.userData.pointer = (uintptr_t)edkJoint;
+                    jointDef.userData.pointer = (uintptr_t)edkJoint;edkEnd();
 
-                    edkJoint->objectA = objectA;
-                    edkJoint->objectB = objectB;
-                    edkJoint->positionA = positionA;
+                    edkJoint->objectA = objectA;edkEnd();
+                    edkJoint->objectB = objectB;edkEnd();
+                    edkJoint->positionA = positionA;edkEnd();
                     edkJoint->worldPositionA
                             =
                             edk::physics2D::World2D::JointTreeObject::getJointWorldPosition(objectA,positionA)
-                            ;
-                    edkJoint->positionB = positionB;
+                            ;edkEnd();
+                    edkJoint->positionB = positionB;edkEnd();
                     /*
                     edkJoint->worldPositionB
                             =
                             edk::physics2D::World2D::JointTree::getJointWorldPosition(objectB,positionB)
-                            ;
+                            ;edkEnd();
 */
 
                     //create the edkJoint
                     if(this->addJoint(edkJoint)){
                         //
-                        b2Joint* joint = (b2Joint*) this->world.CreateJoint(&jointDef);
+                        b2Joint* joint = (b2Joint*) this->world.CreateJoint(&jointDef);edkEnd();
                         if(joint){
                             //removed from the old box2D version. In the new box2D version the userData is in JointDef
-                            //joint->SetUserData(edkJoint);
+                            //joint->SetUserData(edkJoint);edkEnd();
                             //add the joint in the tree
                             if(this->treeJoint.addJoint(edkJoint,joint)){
-                                return edkJoint;
+                                return edkJoint;edkEnd();
                             }
                             //else destroy the joint
-                            this->world.DestroyJoint(joint);
+                            this->world.DestroyJoint(joint);edkEnd();
                         }
-                        this->destroyJoint(edkJoint);
+                        this->destroyJoint(edkJoint);edkEnd();
                     }
                 }
             }
         }
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 edk::physics2D::RevoluteJoint2D* edk::physics2D::World2D::createRevoluteJoint(edk::physics2D::PhysicObject2D* objectA,
                                                                               edk::physics2D::PhysicObject2D* objectB,
@@ -2969,9 +3038,9 @@ edk::physics2D::RevoluteJoint2D* edk::physics2D::World2D::createRevoluteJoint(ed
                                          objectB,
                                          edk::physics2D::World2D::JointTreeObject::getJointPosition(objectB,worldPosition),
                                          collide
-                                         );
+                                         );edkEnd();
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 edk::physics2D::RevoluteJoint2D* edk::physics2D::World2D::createRevoluteAngleJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA,
                                                                                    edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 positionB,
@@ -2983,62 +3052,62 @@ edk::physics2D::RevoluteJoint2D* edk::physics2D::World2D::createRevoluteAngleJoi
         //test the objectType
         if(objectA->getType()!=edk::physics::StaticBody || objectB->getType()!=edk::physics::StaticBody){
             //load the objects
-            b2Body* bodyA = this->getBody(objectA);
-            b2Body* bodyB = this->getBody(objectB);
+            b2Body* bodyA = this->getBody(objectA);edkEnd();
+            b2Body* bodyB = this->getBody(objectB);edkEnd();
 
             //create the joint
             if(bodyA && bodyB){
-                edk::physics2D::RevoluteJoint2D *edkJoint = NULL;
+                edk::physics2D::RevoluteJoint2D *edkJoint = NULL;edkEnd();
                 //create the revolute def
-                b2RevoluteJointDef jointDef;
-                jointDef.collideConnected=collide;
-                jointDef.bodyA = bodyA;
-                jointDef.bodyB = bodyB;
-                jointDef.localAnchorA = b2Vec2(positionA.x * this->percentIn,positionA.y * this->percentIn);
-                jointDef.localAnchorB = b2Vec2(positionB.x * this->percentIn,positionB.y * this->percentIn);
+                b2RevoluteJointDef jointDef;edkEnd();
+                jointDef.collideConnected=collide;edkEnd();
+                jointDef.bodyA = bodyA;edkEnd();
+                jointDef.bodyB = bodyB;edkEnd();
+                jointDef.localAnchorA = b2Vec2(positionA.x * this->percentIn,positionA.y * this->percentIn);edkEnd();
+                jointDef.localAnchorB = b2Vec2(positionB.x * this->percentIn,positionB.y * this->percentIn);edkEnd();
 
-                jointDef.lowerAngle = (lowerAngle / 180.f) * b2_pi;
-                jointDef.upperAngle = (upperAngle/ 180.f) * b2_pi;
-                jointDef.enableLimit=true;
+                jointDef.lowerAngle = (lowerAngle / 180.f) * b2_pi;edkEnd();
+                jointDef.upperAngle = (upperAngle/ 180.f) * b2_pi;edkEnd();
+                jointDef.enableLimit=true;edkEnd();
 
 
 
                 //create the edkJoint
-                edkJoint = new edk::physics2D::RevoluteJoint2D(collide);
+                edkJoint = new edk::physics2D::RevoluteJoint2D(collide);edkEnd();
                 if(edkJoint){
                     //in the new version of box2D the userData are setted in jointDef
-                    jointDef.userData.pointer = (uintptr_t)edkJoint;
+                    jointDef.userData.pointer = (uintptr_t)edkJoint;edkEnd();
 
-                    edkJoint->objectA = objectA;
-                    edkJoint->objectB = objectB;
-                    edkJoint->positionA = positionA;
-                    edkJoint->worldPositionA = edk::physics2D::World2D::JointTreeObject::getJointWorldPosition(objectA,positionA);
-                    edkJoint->positionB = positionB;
+                    edkJoint->objectA = objectA;edkEnd();
+                    edkJoint->objectB = objectB;edkEnd();
+                    edkJoint->positionA = positionA;edkEnd();
+                    edkJoint->worldPositionA = edk::physics2D::World2D::JointTreeObject::getJointWorldPosition(objectA,positionA);edkEnd();
+                    edkJoint->positionB = positionB;edkEnd();
 
                     //angle Joint
-                    edkJoint->setAngle(lowerAngle,upperAngle);
+                    edkJoint->setAngle(lowerAngle,upperAngle);edkEnd();
 
                     //create the edkJoint
                     if(this->addJoint(edkJoint)){
                         //
-                        b2Joint* joint = (b2Joint*) this->world.CreateJoint(&jointDef);
+                        b2Joint* joint = (b2Joint*) this->world.CreateJoint(&jointDef);edkEnd();
                         if(joint){
                             //removed from the old box2D version. In the new box2D version the userData is in JointDef
-                            //joint->SetUserData(edkJoint);
+                            //joint->SetUserData(edkJoint);edkEnd();
                             //add the joint in the tree
                             if(this->treeJoint.addJoint(edkJoint,joint)){
-                                return edkJoint;
+                                return edkJoint;edkEnd();
                             }
                             //else destroy the joint
-                            this->world.DestroyJoint(joint);
+                            this->world.DestroyJoint(joint);edkEnd();
                         }
-                        this->destroyJoint(edkJoint);
+                        this->destroyJoint(edkJoint);edkEnd();
                     }
                 }
             }
         }
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 edk::physics2D::RevoluteJoint2D* edk::physics2D::World2D::createRevoluteAngleJoint(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPosition,
                                                                                    edk::float32 lowerAngle,edk::float32 upperAngle,
@@ -3052,9 +3121,9 @@ edk::physics2D::RevoluteJoint2D* edk::physics2D::World2D::createRevoluteAngleJoi
                                               edk::physics2D::World2D::JointTreeObject::getJointPosition(objectB,worldPosition),
                                               lowerAngle,upperAngle,
                                               collide
-                                              );
+                                              );edkEnd();
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 edk::physics2D::RevoluteJoint2D* edk::physics2D::World2D::createRevoluteMotorJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA,
                                                                                    edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 positionB,
@@ -3066,65 +3135,65 @@ edk::physics2D::RevoluteJoint2D* edk::physics2D::World2D::createRevoluteMotorJoi
         //test the objectType
         if(objectA->getType()!=edk::physics::StaticBody || objectB->getType()!=edk::physics::StaticBody){
             //load the objects
-            b2Body* bodyA = this->getBody(objectA);
-            b2Body* bodyB = this->getBody(objectB);
+            b2Body* bodyA = this->getBody(objectA);edkEnd();
+            b2Body* bodyB = this->getBody(objectB);edkEnd();
 
             //create the joint
             if(bodyA && bodyB){
-                edk::physics2D::RevoluteJoint2D *edkJoint = NULL;
+                edk::physics2D::RevoluteJoint2D *edkJoint = NULL;edkEnd();
                 //create the revolute def
-                b2RevoluteJointDef jointDef;
-                jointDef.collideConnected=collide;
-                jointDef.bodyA = bodyA;
-                jointDef.bodyB = bodyB;
-                jointDef.localAnchorA = b2Vec2(positionA.x * this->percentIn,positionA.y * this->percentIn);
-                jointDef.localAnchorB = b2Vec2(positionB.x * this->percentIn,positionB.y * this->percentIn);
+                b2RevoluteJointDef jointDef;edkEnd();
+                jointDef.collideConnected=collide;edkEnd();
+                jointDef.bodyA = bodyA;edkEnd();
+                jointDef.bodyB = bodyB;edkEnd();
+                jointDef.localAnchorA = b2Vec2(positionA.x * this->percentIn,positionA.y * this->percentIn);edkEnd();
+                jointDef.localAnchorB = b2Vec2(positionB.x * this->percentIn,positionB.y * this->percentIn);edkEnd();
 
-                jointDef.maxMotorTorque = maxTorque;
-                jointDef.motorSpeed = speed;
-                jointDef.enableMotor=true;
+                jointDef.maxMotorTorque = maxTorque;edkEnd();
+                jointDef.motorSpeed = speed;edkEnd();
+                jointDef.enableMotor=true;edkEnd();
 
 
 
                 //create the edkJoint
-                edkJoint = new edk::physics2D::RevoluteJoint2D(collide);
+                edkJoint = new edk::physics2D::RevoluteJoint2D(collide);edkEnd();
                 if(edkJoint){
                     //in the new version of box2D the userData are setted in jointDef
-                    jointDef.userData.pointer = (uintptr_t)edkJoint;
+                    jointDef.userData.pointer = (uintptr_t)edkJoint;edkEnd();
 
-                    edkJoint->objectA = objectA;
-                    edkJoint->objectB = objectB;
-                    edkJoint->positionA = positionA;
+                    edkJoint->objectA = objectA;edkEnd();
+                    edkJoint->objectB = objectB;edkEnd();
+                    edkJoint->positionA = positionA;edkEnd();
                     edkJoint->worldPositionA
                             =
                             edk::physics2D::World2D::JointTreeObject::getJointWorldPosition(objectA,positionA)
-                            ;
-                    edkJoint->positionB = positionB;
+                            ;edkEnd();
+                    edkJoint->positionB = positionB;edkEnd();
 
                     //set motor
-                    edkJoint->setMotor(maxTorque,speed);
+                    edkJoint->setMotor(maxTorque,speed);edkEnd();
 
                     //create the edkJoint
                     if(this->addJoint(edkJoint)){
                         //
-                        b2Joint* joint = (b2Joint*) this->world.CreateJoint(&jointDef);
+                        b2Joint* joint = (b2Joint*) this->world.CreateJoint(&jointDef);edkEnd();
                         if(joint){
                             //removed from the old box2D version. In the new box2D version the userData is in JointDef
-                            //joint->SetUserData(edkJoint);
+                            //joint->SetUserData(edkJoint);edkEnd();
                             //add the joint in the tree
                             if(this->treeJoint.addJoint(edkJoint,joint)){
-                                return edkJoint;
+                                return edkJoint;edkEnd();
                             }
                             //else destroy the joint
-                            this->world.DestroyJoint(joint);
+                            this->world.DestroyJoint(joint);edkEnd();
                         }
-                        this->destroyJoint(edkJoint);
+                        this->destroyJoint(edkJoint);edkEnd();
                     }
                 }
             }
         }
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 edk::physics2D::RevoluteJoint2D* edk::physics2D::World2D::createRevoluteMotorJoint(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPosition,
                                                                                    edk::float32 maxTorque,edk::float32 speed,
@@ -3138,9 +3207,9 @@ edk::physics2D::RevoluteJoint2D* edk::physics2D::World2D::createRevoluteMotorJoi
                                               edk::physics2D::World2D::JointTreeObject::getJointPosition(objectB,worldPosition),
                                               maxTorque,speed,
                                               collide
-                                              );
+                                              );edkEnd();
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 //PRISMATIC
 edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA,
@@ -3155,70 +3224,70 @@ edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticJoint(
         //test the objectType
         if(objectA->getType()!=edk::physics::StaticBody || objectB->getType()!=edk::physics::StaticBody){
             //load the objects
-            b2Body* bodyA = this->getBody(objectA);
-            b2Body* bodyB = this->getBody(objectB);
+            b2Body* bodyA = this->getBody(objectA);edkEnd();
+            b2Body* bodyB = this->getBody(objectB);edkEnd();
 
             //create the joint
             if(bodyA && bodyB){
-                edk::physics2D::PrismaticJoint2D *edkJoint = NULL;
+                edk::physics2D::PrismaticJoint2D *edkJoint = NULL;edkEnd();
                 //create the revolute def
-                b2PrismaticJointDef jointDef;
-                jointDef.collideConnected=collide;
-                jointDef.bodyA = bodyA;
-                jointDef.bodyB = bodyB;
-                jointDef.localAnchorA = b2Vec2(positionA.x * this->percentIn,positionA.y * this->percentIn);
-                jointDef.localAnchorB = b2Vec2(positionB.x * this->percentIn,positionB.y * this->percentIn);
-                jointDef.localAxisA = b2Vec2(direction.x * this->percentIn,direction.y * this->percentIn);
-                jointDef.localAxisA.Normalize();
+                b2PrismaticJointDef jointDef;edkEnd();
+                jointDef.collideConnected=collide;edkEnd();
+                jointDef.bodyA = bodyA;edkEnd();
+                jointDef.bodyB = bodyB;edkEnd();
+                jointDef.localAnchorA = b2Vec2(positionA.x * this->percentIn,positionA.y * this->percentIn);edkEnd();
+                jointDef.localAnchorB = b2Vec2(positionB.x * this->percentIn,positionB.y * this->percentIn);edkEnd();
+                jointDef.localAxisA = b2Vec2(direction.x * this->percentIn,direction.y * this->percentIn);edkEnd();
+                jointDef.localAxisA.Normalize();edkEnd();
                 if(upperDistance > lowerDistance){
                     //enable distance
-                    jointDef.lowerTranslation = lowerDistance;
-                    jointDef.upperTranslation = upperDistance;
-                    jointDef.enableLimit=true;
+                    jointDef.lowerTranslation = lowerDistance;edkEnd();
+                    jointDef.upperTranslation = upperDistance;edkEnd();
+                    jointDef.enableLimit=true;edkEnd();
                 }
 
                 //create the edkJoint
-                edkJoint = new edk::physics2D::PrismaticJoint2D(collide);
+                edkJoint = new edk::physics2D::PrismaticJoint2D(collide);edkEnd();
                 if(edkJoint){
                     //in the new version of box2D the userData are setted in jointDef
-                    jointDef.userData.pointer = (uintptr_t)edkJoint;
+                    jointDef.userData.pointer = (uintptr_t)edkJoint;edkEnd();
 
-                    edkJoint->objectA = objectA;
-                    edkJoint->objectB = objectB;
-                    edkJoint->positionA = positionA;
+                    edkJoint->objectA = objectA;edkEnd();
+                    edkJoint->objectB = objectB;edkEnd();
+                    edkJoint->positionA = positionA;edkEnd();
                     edkJoint->worldPositionA
                             =
                             edk::physics2D::World2D::JointTreeObject::getJointWorldPosition(objectA,positionA)
-                            ;
-                    edkJoint->positionB = positionB;
+                            ;edkEnd();
+                    edkJoint->positionB = positionB;edkEnd();
 
-                    edkJoint->direction = direction;
+                    edkJoint->direction = direction;edkEnd();
 
                     //Set Angle
-                    edkJoint->upperDistance = upperDistance;
-                    edkJoint->lowerDistance = lowerDistance;
+                    edkJoint->upperDistance = upperDistance;edkEnd();
+                    edkJoint->lowerDistance = lowerDistance;edkEnd();
 
                     //create the edkJoint
                     if(this->addJoint(edkJoint)){
                         //
-                        b2Joint* joint = (b2Joint*) this->world.CreateJoint(&jointDef);
+                        b2Joint* joint = (b2Joint*) this->world.CreateJoint(&jointDef);edkEnd();
                         if(joint){
                             //removed from the old box2D version. In the new box2D version the userData is in JointDef
-                            //joint->SetUserData(edkJoint);
+                            //joint->SetUserData(edkJoint);edkEnd();
                             //add the joint in the tree
                             if(this->treeJoint.addJoint(edkJoint,joint)){
-                                return edkJoint;
+                                return edkJoint;edkEnd();
                             }
                             //else destroy the joint
-                            this->world.DestroyJoint(joint);
+                            this->world.DestroyJoint(joint);edkEnd();
                         }
-                        this->destroyJoint(edkJoint);
+                        this->destroyJoint(edkJoint);edkEnd();
                     }
                 }
             }
         }
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticJoint(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPosition,
                                                                                 edk::vec2f32 direction,
@@ -3234,9 +3303,9 @@ edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticJoint(
                                           edk::physics2D::World2D::JointTreeObject::getJointPosition(objectB,worldPosition),
                                           direction,lowerDistance,upperDistance,
                                           collide
-                                          );
+                                          );edkEnd();
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA,
                                                                                 edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 positionB,
@@ -3249,9 +3318,9 @@ edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticJoint(
                                           objectB,positionB,
                                           edk::Math::rotate(edk::vec2f32(1,0),angle),lowerDistance,upperDistance,
                                           collide
-                                          );
+                                          );edkEnd();
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticJoint(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPosition,
                                                                                 edk::float32 angle, edk::float32 lowerDistance, edk::float32 upperDistance,
@@ -3265,9 +3334,9 @@ edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticJoint(
                                           edk::physics2D::World2D::JointTreeObject::getJointPosition(objectB,worldPosition),
                                           edk::Math::rotate(edk::vec2f32(1,0),angle),lowerDistance,upperDistance,
                                           collide
-                                          );
+                                          );edkEnd();
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticMotorJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA,
                                                                                      edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 positionB,
@@ -3280,75 +3349,75 @@ edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticMotorJ
         //test the objectType
         if(objectA->getType()!=edk::physics::StaticBody || objectB->getType()!=edk::physics::StaticBody){
             //load the objects
-            b2Body* bodyA = this->getBody(objectA);
-            b2Body* bodyB = this->getBody(objectB);
+            b2Body* bodyA = this->getBody(objectA);edkEnd();
+            b2Body* bodyB = this->getBody(objectB);edkEnd();
 
             //create the joint
             if(bodyA && bodyB){
-                edk::physics2D::PrismaticJoint2D *edkJoint = NULL;
+                edk::physics2D::PrismaticJoint2D *edkJoint = NULL;edkEnd();
                 //create the revolute def
-                b2PrismaticJointDef jointDef;
-                jointDef.collideConnected=collide;
-                jointDef.bodyA = bodyA;
-                jointDef.bodyB = bodyB;
-                jointDef.localAnchorA = b2Vec2(positionA.x * this->percentIn,positionA.y * this->percentIn);
-                jointDef.localAnchorB = b2Vec2(positionB.x * this->percentIn,positionB.y * this->percentIn);
-                jointDef.localAxisA = b2Vec2(direction.x * this->percentIn,direction.y * this->percentIn);
-                jointDef.localAxisA.Normalize();
+                b2PrismaticJointDef jointDef;edkEnd();
+                jointDef.collideConnected=collide;edkEnd();
+                jointDef.bodyA = bodyA;edkEnd();
+                jointDef.bodyB = bodyB;edkEnd();
+                jointDef.localAnchorA = b2Vec2(positionA.x * this->percentIn,positionA.y * this->percentIn);edkEnd();
+                jointDef.localAnchorB = b2Vec2(positionB.x * this->percentIn,positionB.y * this->percentIn);edkEnd();
+                jointDef.localAxisA = b2Vec2(direction.x * this->percentIn,direction.y * this->percentIn);edkEnd();
+                jointDef.localAxisA.Normalize();edkEnd();
                 if(upperDistance > lowerDistance){
                     //enable distance
-                    jointDef.lowerTranslation = lowerDistance;
-                    jointDef.upperTranslation = upperDistance;
-                    jointDef.enableLimit=true;
+                    jointDef.lowerTranslation = lowerDistance;edkEnd();
+                    jointDef.upperTranslation = upperDistance;edkEnd();
+                    jointDef.enableLimit=true;edkEnd();
                 }
-                jointDef.maxMotorForce = maxForce;
-                jointDef.motorSpeed = speed;
-                jointDef.enableMotor=true;
+                jointDef.maxMotorForce = maxForce;edkEnd();
+                jointDef.motorSpeed = speed;edkEnd();
+                jointDef.enableMotor=true;edkEnd();
 
                 //create the edkJoint
-                edkJoint = new edk::physics2D::PrismaticJoint2D(collide);
+                edkJoint = new edk::physics2D::PrismaticJoint2D(collide);edkEnd();
                 if(edkJoint){
                     //in the new version of box2D the userData are setted in jointDef
-                    jointDef.userData.pointer = (uintptr_t)edkJoint;
+                    jointDef.userData.pointer = (uintptr_t)edkJoint;edkEnd();
 
-                    edkJoint->objectA = objectA;
-                    edkJoint->objectB = objectB;
-                    edkJoint->positionA = positionA;
+                    edkJoint->objectA = objectA;edkEnd();
+                    edkJoint->objectB = objectB;edkEnd();
+                    edkJoint->positionA = positionA;edkEnd();
                     edkJoint->worldPositionA
                             =
                             edk::physics2D::World2D::JointTreeObject::getJointWorldPosition(objectA,positionA)
-                            ;
-                    edkJoint->positionB = positionB;
+                            ;edkEnd();
+                    edkJoint->positionB = positionB;edkEnd();
 
-                    edkJoint->direction = direction;
+                    edkJoint->direction = direction;edkEnd();
 
                     //Set Angle
-                    edkJoint->lowerDistance = lowerDistance;
-                    edkJoint->upperDistance = upperDistance;
+                    edkJoint->lowerDistance = lowerDistance;edkEnd();
+                    edkJoint->upperDistance = upperDistance;edkEnd();
                     //Set motor as the last because the joint will return motor type
-                    edkJoint->setForce(maxForce,speed);
+                    edkJoint->setForce(maxForce,speed);edkEnd();
 
                     //create the edkJoint
                     if(this->addJoint(edkJoint)){
                         //
-                        b2Joint* joint = (b2Joint*) this->world.CreateJoint(&jointDef);
+                        b2Joint* joint = (b2Joint*) this->world.CreateJoint(&jointDef);edkEnd();
                         if(joint){
                             //removed from the old box2D version. In the new box2D version the userData is in JointDef
-                            //joint->SetUserData(edkJoint);
+                            //joint->SetUserData(edkJoint);edkEnd();
                             //add the joint in the tree
                             if(this->treeJoint.addJoint(edkJoint,joint)){
-                                return edkJoint;
+                                return edkJoint;edkEnd();
                             }
                             //else destroy the joint
-                            this->world.DestroyJoint(joint);
+                            this->world.DestroyJoint(joint);edkEnd();
                         }
-                        this->destroyJoint(edkJoint);
+                        this->destroyJoint(edkJoint);edkEnd();
                     }
                 }
             }
         }
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticMotorJoint(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPosition,
                                                                                      edk::vec2f32 direction, edk::float32 lowerDistance, edk::float32 upperDistance,
@@ -3364,9 +3433,9 @@ edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticMotorJ
                                                direction,lowerDistance,upperDistance,
                                                maxForce,speed,
                                                collide
-                                               );
+                                               );edkEnd();
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticMotorJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA,
                                                                                      edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 positionB,
@@ -3381,9 +3450,9 @@ edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticMotorJ
                                                edk::Math::rotate(edk::vec2f32(1,0),angle),lowerDistance,upperDistance,
                                                maxForce,speed,
                                                collide
-                                               );
+                                               );edkEnd();
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticMotorJoint(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPosition,
                                                                                      edk::float32 angle, edk::float32 lowerDistance, edk::float32 upperDistance,
@@ -3399,9 +3468,9 @@ edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticMotorJ
                                                edk::Math::rotate(edk::vec2f32(1,0),angle),lowerDistance,upperDistance,
                                                maxForce,speed,
                                                collide
-                                               );
+                                               );edkEnd();
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 
 //DISTANCE
@@ -3417,63 +3486,63 @@ edk::physics2D::DistanceJoint2D* edk::physics2D::World2D::createDistanceJoint(ed
         //test the objectType
         if(objectA->getType()!=edk::physics::StaticBody || objectB->getType()!=edk::physics::StaticBody){
             //load the objects
-            b2Body* bodyA = this->getBody(objectA);
-            b2Body* bodyB = this->getBody(objectB);
+            b2Body* bodyA = this->getBody(objectA);edkEnd();
+            b2Body* bodyB = this->getBody(objectB);edkEnd();
 
             //create the joint
             if(bodyA && bodyB){
-                edk::physics2D::DistanceJoint2D *edkJoint = NULL;
+                edk::physics2D::DistanceJoint2D *edkJoint = NULL;edkEnd();
                 //create the revolute def
-                b2DistanceJointDef jointDef;
-                jointDef.collideConnected=collide;
-                jointDef.bodyA = bodyA;
-                jointDef.bodyB = bodyB;
-                jointDef.localAnchorA = b2Vec2(positionA.x * this->percentIn,positionA.y * this->percentIn);
-                jointDef.localAnchorB = b2Vec2(positionB.x * this->percentIn,positionB.y * this->percentIn);
-                jointDef.length = distance;
+                b2DistanceJointDef jointDef;edkEnd();
+                jointDef.collideConnected=collide;edkEnd();
+                jointDef.bodyA = bodyA;edkEnd();
+                jointDef.bodyB = bodyB;edkEnd();
+                jointDef.localAnchorA = b2Vec2(positionA.x * this->percentIn,positionA.y * this->percentIn);edkEnd();
+                jointDef.localAnchorB = b2Vec2(positionB.x * this->percentIn,positionB.y * this->percentIn);edkEnd();
+                jointDef.length = distance;edkEnd();
 
                 //removed frequency in new box2D
 
                 //create the edkJoint
-                edkJoint = new edk::physics2D::DistanceJoint2D(collide);
+                edkJoint = new edk::physics2D::DistanceJoint2D(collide);edkEnd();
                 if(edkJoint){
                     //in the new version of box2D the userData are setted in jointDef
-                    jointDef.userData.pointer = (uintptr_t)edkJoint;
+                    jointDef.userData.pointer = (uintptr_t)edkJoint;edkEnd();
 
-                    edkJoint->objectA = objectA;
-                    edkJoint->objectB = objectB;
-                    edkJoint->positionA = positionA;
+                    edkJoint->objectA = objectA;edkEnd();
+                    edkJoint->objectB = objectB;edkEnd();
+                    edkJoint->positionA = positionA;edkEnd();
                     edkJoint->worldPositionA
                             =
                             edk::physics2D::World2D::JointTreeObject::getJointWorldPosition(objectA,positionA)
-                            ;
-                    edkJoint->positionB = positionB;
+                            ;edkEnd();
+                    edkJoint->positionB = positionB;edkEnd();
                     edkJoint->worldPositionB
                             =
                             edk::physics2D::World2D::JointTreeObject::getJointWorldPosition(objectB,positionB)
-                            ;
+                            ;edkEnd();
 
                     //create the edkJoint
                     if(this->addJoint(edkJoint)){
                         //
-                        b2Joint* joint = (b2Joint*) this->world.CreateJoint(&jointDef);
+                        b2Joint* joint = (b2Joint*) this->world.CreateJoint(&jointDef);edkEnd();
                         if(joint){
                             //removed from the old box2D version. In the new box2D version the userData is in JointDef
-                            //joint->SetUserData(edkJoint);
+                            //joint->SetUserData(edkJoint);edkEnd();
                             //add the joint in the tree
                             if(this->treeJoint.addJoint(edkJoint,joint)){
-                                return edkJoint;
+                                return edkJoint;edkEnd();
                             }
                             //else destroy the joint
-                            this->world.DestroyJoint(joint);
+                            this->world.DestroyJoint(joint);edkEnd();
                         }
-                        this->destroyJoint(edkJoint);
+                        this->destroyJoint(edkJoint);edkEnd();
                     }
                 }
             }
         }
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 edk::physics2D::DistanceJoint2D* edk::physics2D::World2D::createDistanceJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 worldPositionA,
                                                                               edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPositionB,
@@ -3487,9 +3556,9 @@ edk::physics2D::DistanceJoint2D* edk::physics2D::World2D::createDistanceJoint(ed
                                          edk::physics2D::World2D::JointTreeObject::getJointPosition(objectB,worldPositionB),
                                          edk::Math::module(edk::Math::pythagoras(worldPositionA - worldPositionB)),
                                          collide
-                                         );
+                                         );edkEnd();
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 //PULLEY
 edk::physics2D::PulleyJoint2D* edk::physics2D::World2D::createPulleyJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA, edk::vec2f32 pulleyPositionA,
@@ -3502,75 +3571,75 @@ edk::physics2D::PulleyJoint2D* edk::physics2D::World2D::createPulleyJoint(edk::p
         //test the objectType
         if(objectA->getType()!=edk::physics::StaticBody || objectB->getType()!=edk::physics::StaticBody){
             //load the objects
-            b2Body* bodyA = this->getBody(objectA);
-            b2Body* bodyB = this->getBody(objectB);
+            b2Body* bodyA = this->getBody(objectA);edkEnd();
+            b2Body* bodyB = this->getBody(objectB);edkEnd();
 
             //create the joint
             if(bodyA && bodyB){
-                edk::physics2D::PulleyJoint2D *edkJoint = NULL;
+                edk::physics2D::PulleyJoint2D *edkJoint = NULL;edkEnd();
                 //create the revolute def
-                b2PulleyJointDef jointDef;
-                jointDef.collideConnected=collide;
-                jointDef.bodyA = bodyA;
-                jointDef.bodyB = bodyB;
-                jointDef.localAnchorA = b2Vec2(positionA.x * this->percentIn,positionA.y * this->percentIn);
-                jointDef.localAnchorB = b2Vec2(positionB.x * this->percentIn,positionB.y * this->percentIn);
+                b2PulleyJointDef jointDef;edkEnd();
+                jointDef.collideConnected=collide;edkEnd();
+                jointDef.bodyA = bodyA;edkEnd();
+                jointDef.bodyB = bodyB;edkEnd();
+                jointDef.localAnchorA = b2Vec2(positionA.x * this->percentIn,positionA.y * this->percentIn);edkEnd();
+                jointDef.localAnchorB = b2Vec2(positionB.x * this->percentIn,positionB.y * this->percentIn);edkEnd();
 
-                jointDef.groundAnchorA = b2Vec2((pulleyPositionA.x * this->percentIn) + (objectA->position.x * this->percentIn),(pulleyPositionA.y * this->percentIn) + (objectA->position.y * this->percentIn));
-                jointDef.groundAnchorB = b2Vec2((pulleyPositionB.x * this->percentIn) + (objectB->position.x * this->percentIn),(pulleyPositionB.y * this->percentIn) + (objectB->position.y * this->percentIn));
+                jointDef.groundAnchorA = b2Vec2((pulleyPositionA.x * this->percentIn) + (objectA->position.x * this->percentIn),(pulleyPositionA.y * this->percentIn) + (objectA->position.y * this->percentIn));edkEnd();
+                jointDef.groundAnchorB = b2Vec2((pulleyPositionB.x * this->percentIn) + (objectB->position.x * this->percentIn),(pulleyPositionB.y * this->percentIn) + (objectB->position.y * this->percentIn));edkEnd();
 
-                jointDef.lengthA = lenghtA;
-                jointDef.lengthB = lenghtB;
+                jointDef.lengthA = lenghtA;edkEnd();
+                jointDef.lengthB = lenghtB;edkEnd();
 
                 //create the edkJoint
-                edkJoint = new edk::physics2D::PulleyJoint2D(collide);
+                edkJoint = new edk::physics2D::PulleyJoint2D(collide);edkEnd();
                 if(edkJoint){
                     //in the new version of box2D the userData are setted in jointDef
-                    jointDef.userData.pointer = (uintptr_t)edkJoint;
+                    jointDef.userData.pointer = (uintptr_t)edkJoint;edkEnd();
 
-                    edkJoint->objectA = objectA;
-                    edkJoint->objectB = objectB;
-                    edkJoint->positionA = positionA;
+                    edkJoint->objectA = objectA;edkEnd();
+                    edkJoint->objectB = objectB;edkEnd();
+                    edkJoint->positionA = positionA;edkEnd();
                     edkJoint->worldPositionA
                             =
                             edk::physics2D::World2D::JointTreeObject::getJointWorldPosition(objectA,positionA)
-                            ;
-                    edkJoint->positionB = positionB;
+                            ;edkEnd();
+                    edkJoint->positionB = positionB;edkEnd();
                     edkJoint->worldPositionB
                             =
                             edk::physics2D::World2D::JointTreeObject::getJointWorldPosition(objectB,positionB)
-                            ;
+                            ;edkEnd();
                     edkJoint->pulleyPositionA
                             =
                             edk::physics2D::World2D::JointTreeObject::getJointWorldPosition(objectA,pulleyPositionA)
-                            ;
+                            ;edkEnd();
                     edkJoint->pulleyPositionB
                             =
                             edk::physics2D::World2D::JointTreeObject::getJointWorldPosition(objectB,pulleyPositionB)
-                            ;
+                            ;edkEnd();
 
 
                     //create the edkJoint
                     if(this->addJoint(edkJoint)){
                         //
-                        b2Joint* joint = (b2Joint*) this->world.CreateJoint(&jointDef);
+                        b2Joint* joint = (b2Joint*) this->world.CreateJoint(&jointDef);edkEnd();
                         if(joint){
                             //removed from the old box2D version. In the new box2D version the userData is in JointDef
-                            //joint->SetUserData(edkJoint);
+                            //joint->SetUserData(edkJoint);edkEnd();
                             //add the joint in the tree
                             if(this->treeJoint.addJoint(edkJoint,joint)){
-                                return edkJoint;
+                                return edkJoint;edkEnd();
                             }
                             //else destroy the joint
-                            this->world.DestroyJoint(joint);
+                            this->world.DestroyJoint(joint);edkEnd();
                         }
-                        this->destroyJoint(edkJoint);
+                        this->destroyJoint(edkJoint);edkEnd();
                     }
                 }
             }
         }
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 edk::physics2D::PulleyJoint2D* edk::physics2D::World2D::createPulleyJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA, edk::vec2f32 pulleyPositionA,
                                                                           edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 positionB, edk::vec2f32 pulleyPositionB,
@@ -3583,9 +3652,9 @@ edk::physics2D::PulleyJoint2D* edk::physics2D::World2D::createPulleyJoint(edk::p
                                        edk::Math::module(edk::Math::pythagoras(pulleyPositionA-positionA)),
                                        edk::Math::module(edk::Math::pythagoras(pulleyPositionB-positionB)),
                                        collide
-                                       );
+                                       );edkEnd();
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 edk::physics2D::PulleyJoint2D* edk::physics2D::World2D::createPulleyWorldJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 worldPositionA, edk::vec2f32 pulleyWorldPositionA,
                                                                                edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPositionB, edk::vec2f32 pulleyWorldPositionB,
@@ -3602,9 +3671,9 @@ edk::physics2D::PulleyJoint2D* edk::physics2D::World2D::createPulleyWorldJoint(e
                           edk::physics2D::World2D::JointTreeObject::getJointPosition(objectB,pulleyWorldPositionB),
                           lenghtA,lenghtB,
                           collide
-                          );
+                          );edkEnd();
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 edk::physics2D::PulleyJoint2D* edk::physics2D::World2D::createPulleyWorldJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 worldPositionA, edk::vec2f32 pulleyWorldPositionA,
                                                                                edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPositionB, edk::vec2f32 pulleyWorldPositionB,
@@ -3619,9 +3688,9 @@ edk::physics2D::PulleyJoint2D* edk::physics2D::World2D::createPulleyWorldJoint(e
                           edk::physics2D::World2D::JointTreeObject::getJointPosition(objectB,worldPositionB),
                           edk::physics2D::World2D::JointTreeObject::getJointPosition(objectB,pulleyWorldPositionB),
                           collide
-                          );
+                          );edkEnd();
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 //WHEEL
 edk::physics2D::WheelJoint2D* edk::physics2D::World2D::createWheelJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA,
@@ -3634,64 +3703,64 @@ edk::physics2D::WheelJoint2D* edk::physics2D::World2D::createWheelJoint(edk::phy
         //test the objectType
         if(objectA->getType()!=edk::physics::StaticBody || objectB->getType()!=edk::physics::StaticBody){
             //load the objects
-            b2Body* bodyA = this->getBody(objectA);
-            b2Body* bodyB = this->getBody(objectB);
+            b2Body* bodyA = this->getBody(objectA);edkEnd();
+            b2Body* bodyB = this->getBody(objectB);edkEnd();
 
             //create the joint
             if(bodyA && bodyB){
-                edk::physics2D::WheelJoint2D *edkJoint = NULL;
+                edk::physics2D::WheelJoint2D *edkJoint = NULL;edkEnd();
                 //create the revolute def
-                b2WheelJointDef jointDef;
-                jointDef.collideConnected=collide;
-                jointDef.bodyA = bodyA;
-                jointDef.bodyB = bodyB;
-                jointDef.localAnchorA = b2Vec2(positionA.x * this->percentIn,positionA.y * this->percentIn);
-                jointDef.localAnchorB = b2Vec2(positionB.x * this->percentIn,positionB.y * this->percentIn);
+                b2WheelJointDef jointDef;edkEnd();
+                jointDef.collideConnected=collide;edkEnd();
+                jointDef.bodyA = bodyA;edkEnd();
+                jointDef.bodyB = bodyB;edkEnd();
+                jointDef.localAnchorA = b2Vec2(positionA.x * this->percentIn,positionA.y * this->percentIn);edkEnd();
+                jointDef.localAnchorB = b2Vec2(positionB.x * this->percentIn,positionB.y * this->percentIn);edkEnd();
 
-                jointDef.localAxisA = b2Vec2(direction.x * this->percentIn,direction.y * this->percentIn);
-                jointDef.localAxisA.Normalize();
+                jointDef.localAxisA = b2Vec2(direction.x * this->percentIn,direction.y * this->percentIn);edkEnd();
+                jointDef.localAxisA.Normalize();edkEnd();
 
                 //removed frequency in new box2D
                 //removed dampingRatio in new box2D
 
                 //create the edkJoint
-                edkJoint = new edk::physics2D::WheelJoint2D(collide);
+                edkJoint = new edk::physics2D::WheelJoint2D(collide);edkEnd();
                 if(edkJoint){
                     //in the new version of box2D the userData are setted in jointDef
-                    jointDef.userData.pointer = (uintptr_t)edkJoint;
+                    jointDef.userData.pointer = (uintptr_t)edkJoint;edkEnd();
 
-                    edkJoint->objectA = objectA;
-                    edkJoint->objectB = objectB;
-                    edkJoint->positionA = positionA;
+                    edkJoint->objectA = objectA;edkEnd();
+                    edkJoint->objectB = objectB;edkEnd();
+                    edkJoint->positionA = positionA;edkEnd();
                     edkJoint->worldPositionA
                             =
                             edk::physics2D::World2D::JointTreeObject::getJointWorldPosition(objectA,positionA)
-                            ;
-                    edkJoint->positionB = positionB;
+                            ;edkEnd();
+                    edkJoint->positionB = positionB;edkEnd();
 
-                    edkJoint->direction = direction;
+                    edkJoint->direction = direction;edkEnd();
 
                     //create the edkJoint
                     if(this->addJoint(edkJoint)){
                         //
-                        b2Joint* joint = (b2Joint*) this->world.CreateJoint(&jointDef);
+                        b2Joint* joint = (b2Joint*) this->world.CreateJoint(&jointDef);edkEnd();
                         if(joint){
                             //removed from the old box2D version. In the new box2D version the userData is in JointDef
-                            //joint->SetUserData(edkJoint);
+                            //joint->SetUserData(edkJoint);edkEnd();
                             //add the joint in the tree
                             if(this->treeJoint.addJoint(edkJoint,joint)){
-                                return edkJoint;
+                                return edkJoint;edkEnd();
                             }
                             //else destroy the joint
-                            this->world.DestroyJoint(joint);
+                            this->world.DestroyJoint(joint);edkEnd();
                         }
-                        this->destroyJoint(edkJoint);
+                        this->destroyJoint(edkJoint);edkEnd();
                     }
                 }
             }
         }
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 
 edk::physics2D::WheelJoint2D* edk::physics2D::World2D::createWheelJoint(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPosition,
@@ -3706,9 +3775,9 @@ edk::physics2D::WheelJoint2D* edk::physics2D::World2D::createWheelJoint(edk::phy
                                       edk::physics2D::World2D::JointTreeObject::getJointPosition(objectB,worldPosition),
                                       direction,
                                       collide
-                                      );
+                                      );edkEnd();
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 edk::physics2D::WheelJoint2D* edk::physics2D::World2D::createWheelMotorJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA,
                                                                              edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 positionB,
@@ -3721,68 +3790,68 @@ edk::physics2D::WheelJoint2D* edk::physics2D::World2D::createWheelMotorJoint(edk
         //test the objectType
         if(objectA->getType()!=edk::physics::StaticBody || objectB->getType()!=edk::physics::StaticBody){
             //load the objects
-            b2Body* bodyA = this->getBody(objectA);
-            b2Body* bodyB = this->getBody(objectB);
+            b2Body* bodyA = this->getBody(objectA);edkEnd();
+            b2Body* bodyB = this->getBody(objectB);edkEnd();
 
             //create the joint
             if(bodyA && bodyB){
-                edk::physics2D::WheelJoint2D *edkJoint = NULL;
+                edk::physics2D::WheelJoint2D *edkJoint = NULL;edkEnd();
                 //create the revolute def
-                b2WheelJointDef jointDef;
-                jointDef.collideConnected=collide;
-                jointDef.bodyA = bodyA;
-                jointDef.bodyB = bodyB;
-                jointDef.localAnchorA = b2Vec2(positionA.x * this->percentIn,positionA.y * this->percentIn);
-                jointDef.localAnchorB = b2Vec2(positionB.x * this->percentIn,positionB.y * this->percentIn);
+                b2WheelJointDef jointDef;edkEnd();
+                jointDef.collideConnected=collide;edkEnd();
+                jointDef.bodyA = bodyA;edkEnd();
+                jointDef.bodyB = bodyB;edkEnd();
+                jointDef.localAnchorA = b2Vec2(positionA.x * this->percentIn,positionA.y * this->percentIn);edkEnd();
+                jointDef.localAnchorB = b2Vec2(positionB.x * this->percentIn,positionB.y * this->percentIn);edkEnd();
 
-                jointDef.localAxisA = b2Vec2(direction.x * this->percentIn,direction.y * this->percentIn);
-                jointDef.localAxisA.Normalize();
+                jointDef.localAxisA = b2Vec2(direction.x * this->percentIn,direction.y * this->percentIn);edkEnd();
+                jointDef.localAxisA.Normalize();edkEnd();
 
                 //removed frequency in new box2D
                 //removed dampingRatio in new box2D
 
-                jointDef.maxMotorTorque = maxTorque;
-                jointDef.motorSpeed = speed;
-                jointDef.enableMotor=true;
+                jointDef.maxMotorTorque = maxTorque;edkEnd();
+                jointDef.motorSpeed = speed;edkEnd();
+                jointDef.enableMotor=true;edkEnd();
 
                 //create the edkJoint
-                edkJoint = new edk::physics2D::WheelJoint2D(collide);
+                edkJoint = new edk::physics2D::WheelJoint2D(collide);edkEnd();
                 if(edkJoint){
                     //in the new version of box2D the userData are setted in jointDef
-                    jointDef.userData.pointer = (uintptr_t)edkJoint;
+                    jointDef.userData.pointer = (uintptr_t)edkJoint;edkEnd();
 
-                    edkJoint->objectA = objectA;
-                    edkJoint->objectB = objectB;
-                    edkJoint->positionA = positionA;
+                    edkJoint->objectA = objectA;edkEnd();
+                    edkJoint->objectB = objectB;edkEnd();
+                    edkJoint->positionA = positionA;edkEnd();
                     edkJoint->worldPositionA
                             =
                             edk::physics2D::World2D::JointTreeObject::getJointWorldPosition(objectA,positionA)
-                            ;
-                    edkJoint->positionB = positionB;
+                            ;edkEnd();
+                    edkJoint->positionB = positionB;edkEnd();
 
-                    edkJoint->direction = direction;
+                    edkJoint->direction = direction;edkEnd();
 
                     //create the edkJoint
                     if(this->addJoint(edkJoint)){
                         //
-                        b2Joint* joint = (b2Joint*) this->world.CreateJoint(&jointDef);
+                        b2Joint* joint = (b2Joint*) this->world.CreateJoint(&jointDef);edkEnd();
                         if(joint){
                             //removed from the old box2D version. In the new box2D version the userData is in JointDef
-                            //joint->SetUserData(edkJoint);
+                            //joint->SetUserData(edkJoint);edkEnd();
                             //add the joint in the tree
                             if(this->treeJoint.addJoint(edkJoint,joint)){
-                                return edkJoint;
+                                return edkJoint;edkEnd();
                             }
                             //else destroy the joint
-                            this->world.DestroyJoint(joint);
+                            this->world.DestroyJoint(joint);edkEnd();
                         }
-                        this->destroyJoint(edkJoint);
+                        this->destroyJoint(edkJoint);edkEnd();
                     }
                 }
             }
         }
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 edk::physics2D::WheelJoint2D* edk::physics2D::World2D::createWheelMotorJoint(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPosition,
                                                                              edk::vec2f32 direction,
@@ -3798,9 +3867,9 @@ edk::physics2D::WheelJoint2D* edk::physics2D::World2D::createWheelMotorJoint(edk
                                            direction,
                                            maxTorque,speed,
                                            collide
-                                           );
+                                           );edkEnd();
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 
 //WELD
@@ -3813,42 +3882,42 @@ edk::physics2D::Joint2D* edk::physics2D::World2D::createWeldJoint(edk::physics2D
         //test the objectType
         if(objectA->getType()!=edk::physics::StaticBody || objectB->getType()!=edk::physics::StaticBody){
             //load the objects
-            b2Body* bodyA = this->getBody(objectA);
-            b2Body* bodyB = this->getBody(objectB);
+            b2Body* bodyA = this->getBody(objectA);edkEnd();
+            b2Body* bodyB = this->getBody(objectB);edkEnd();
 
             //create the joint
             if(bodyA && bodyB){
-                edk::physics2D::Joint2D *edkJoint = NULL;
+                edk::physics2D::Joint2D *edkJoint = NULL;edkEnd();
                 //create the revolute def
-                b2WeldJointDef jointDef;
-                jointDef.collideConnected=collide;
-                jointDef.bodyA = bodyA;
-                jointDef.bodyB = bodyB;
-                jointDef.localAnchorA = b2Vec2(positionA.x * this->percentIn,positionA.y * this->percentIn);
-                jointDef.localAnchorB = b2Vec2(positionB.x * this->percentIn,positionB.y * this->percentIn);
+                b2WeldJointDef jointDef;edkEnd();
+                jointDef.collideConnected=collide;edkEnd();
+                jointDef.bodyA = bodyA;edkEnd();
+                jointDef.bodyB = bodyB;edkEnd();
+                jointDef.localAnchorA = b2Vec2(positionA.x * this->percentIn,positionA.y * this->percentIn);edkEnd();
+                jointDef.localAnchorB = b2Vec2(positionB.x * this->percentIn,positionB.y * this->percentIn);edkEnd();
 
                 //create the edkJoint
                 if((edkJoint = this->addJoint(objectA,positionA,objectB,positionB))){
                     //in the new version of box2D the userData are setted in jointDef
-                    jointDef.userData.pointer = (uintptr_t)edkJoint;
+                    jointDef.userData.pointer = (uintptr_t)edkJoint;edkEnd();
 
-                    b2Joint* joint = (b2Joint*) this->world.CreateJoint(&jointDef);
+                    b2Joint* joint = (b2Joint*) this->world.CreateJoint(&jointDef);edkEnd();
                     if(joint){
                         //removed from the old box2D version. In the new box2D version the userData is in JointDef
-                        //joint->SetUserData(edkJoint);
+                        //joint->SetUserData(edkJoint);edkEnd();
                         //add the joint in the tree
                         if(this->treeJoint.addJoint(edkJoint,joint)){
-                            return edkJoint;
+                            return edkJoint;edkEnd();
                         }
                         //else destroy the joint
-                        this->world.DestroyJoint(joint);
+                        this->world.DestroyJoint(joint);edkEnd();
                     }
-                    this->destroyJoint(edkJoint);
+                    this->destroyJoint(edkJoint);edkEnd();
                 }
             }
         }
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 
 edk::physics2D::Joint2D* edk::physics2D::World2D::createWeldJoint(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPosition,
@@ -3861,9 +3930,9 @@ edk::physics2D::Joint2D* edk::physics2D::World2D::createWeldJoint(edk::physics2D
                                      objectB,
                                      edk::physics2D::World2D::JointTreeObject::getJointPosition(objectB,worldPosition),
                                      collide
-                                     );
+                                     );edkEnd();
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 //ROPE //REMOVED FROM NEW BOX2D
 /*
@@ -3877,63 +3946,63 @@ edk::physics2D::RopeJoint2D* edk::physics2D::World2D::createRopeJoint(edk::physi
         //test the objectType
         if(objectA->getType()!=edk::physics::StaticBody || objectB->getType()!=edk::physics::StaticBody){
             //load the objects
-            b2Body* bodyA = this->getBody(objectA);
-            b2Body* bodyB = this->getBody(objectB);
+            b2Body* bodyA = this->getBody(objectA);edkEnd();
+            b2Body* bodyB = this->getBody(objectB);edkEnd();
 
             //create the joint
             if(bodyA && bodyB){
-                edk::physics2D::RopeJoint2D *edkJoint = NULL;
+                edk::physics2D::RopeJoint2D *edkJoint = NULL;edkEnd();
                 //create the revolute def
-                b2RopeJointDef jointDef;
-                jointDef.collideConnected=collide;
-                jointDef.bodyA = bodyA;
-                jointDef.bodyB = bodyB;
-                jointDef.localAnchorA = b2Vec2(positionA.x * this->percentIn,positionA.y * this->percentIn);
-                jointDef.localAnchorB = b2Vec2(positionB.x * this->percentIn,positionB.y * this->percentIn);
+                b2RopeJointDef jointDef;edkEnd();
+                jointDef.collideConnected=collide;edkEnd();
+                jointDef.bodyA = bodyA;edkEnd();
+                jointDef.bodyB = bodyB;edkEnd();
+                jointDef.localAnchorA = b2Vec2(positionA.x * this->percentIn,positionA.y * this->percentIn);edkEnd();
+                jointDef.localAnchorB = b2Vec2(positionB.x * this->percentIn,positionB.y * this->percentIn);edkEnd();
 
-                jointDef.maxLength = maxLength;
+                jointDef.maxLength = maxLength;edkEnd();
 
                 //create the edkJoint
-                edkJoint = new edk::physics2D::RopeJoint2D(collide);
+                edkJoint = new edk::physics2D::RopeJoint2D(collide);edkEnd();
                 if(edkJoint){
                     //in the new version of box2D the userData are setted in jointDef
-                    jointDef.userData.pointer = (uintptr_t)edkJoint;
+                    jointDef.userData.pointer = (uintptr_t)edkJoint;edkEnd();
 
-                    edkJoint->objectA = objectA;
-                    edkJoint->objectB = objectB;
-                    edkJoint->positionA = positionA;
+                    edkJoint->objectA = objectA;edkEnd();
+                    edkJoint->objectB = objectB;edkEnd();
+                    edkJoint->positionA = positionA;edkEnd();
                     edkJoint->worldPositionA
                             =
                             edk::physics2D::World2D::JointTree::getJointWorldPosition(objectA,positionA)
-                            ;
-                    edkJoint->positionB = positionB;
+                            ;edkEnd();
+                    edkJoint->positionB = positionB;edkEnd();
                     edkJoint->worldPositionB
                             =
                             edk::physics2D::World2D::JointTree::getJointWorldPosition(objectB,positionB)
-                            ;
-                    edkJoint->maxLength = maxLength;
+                            ;edkEnd();
+                    edkJoint->maxLength = maxLength;edkEnd();
 
                     //create the edkJoint
                     if(this->addJoint(edkJoint)){
                         //
-                        b2Joint* joint = (b2Joint*) this->world.CreateJoint(&jointDef);
+                        b2Joint* joint = (b2Joint*) this->world.CreateJoint(&jointDef);edkEnd();
                         if(joint){
                             //removed from the old box2D version. In the new box2D version the userData is in JointDef
-                            //joint->SetUserData(edkJoint);
+                            //joint->SetUserData(edkJoint);edkEnd();
                             //add the joint in the tree
                             if(this->treeJoint.addJoint(edkJoint,joint)){
-                                return edkJoint;
+                                return edkJoint;edkEnd();
                             }
                             //else destroy the joint
-                            this->world.DestroyJoint(joint);
+                            this->world.DestroyJoint(joint);edkEnd();
                         }
-                        this->destroyJoint(edkJoint);
+                        this->destroyJoint(edkJoint);edkEnd();
                     }
                 }
             }
         }
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 edk::physics2D::RopeJoint2D* edk::physics2D::World2D::createRopeJointWorldPositions(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 worldPositionA,
                                                                                     edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPositionB,
@@ -3948,9 +4017,9 @@ edk::physics2D::RopeJoint2D* edk::physics2D::World2D::createRopeJointWorldPositi
                                      edk::physics2D::World2D::JointTree::getJointPosition(objectB,worldPositionB),
                                      maxLength,
                                      collide
-                                     );
+                                     );edkEnd();
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 edk::physics2D::RopeJoint2D* edk::physics2D::World2D::createRopeJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 worldPositionA,
                                                                       edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPositionB,
@@ -3964,9 +4033,9 @@ edk::physics2D::RopeJoint2D* edk::physics2D::World2D::createRopeJoint(edk::physi
                                                    worldPositionB,
                                                    edk::Math::module(edk::Math::pythagoras(worldPositionA - worldPositionB)),
                                                    collide
-                                                   );
+                                                   );edkEnd();
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 */
 //GEAR
@@ -3981,62 +4050,62 @@ edk::physics2D::RopeJoint2D* edk::physics2D::World2D::createGearJoint(edk::physi
         //test the objectType
         if(objectA->getType()!=edk::physics::StaticBody || objectB->getType()!=edk::physics::StaticBody){
             //load the objects
-            b2Body* bodyA = this->getBody(objectA);
-            b2Body* bodyB = this->getBody(objectB);
+            b2Body* bodyA = this->getBody(objectA);edkEnd();
+            b2Body* bodyB = this->getBody(objectB);edkEnd();
 
             //create the joint
             if(bodyA && bodyB){
-                edk::physics2D::RopeJoint2D *edkJoint = NULL;
+                edk::physics2D::RopeJoint2D *edkJoint = NULL;edkEnd();
                 //create the revolute def
-                b2GearJointDef jointDef;
-                jointDef.collideConnected=collide;
-                jointDef.bodyA = bodyA;
-                jointDef.bodyB = bodyB;
-                jointDef.localAnchorA = b2Vec2(positionA.x * this->percentIn,positionA.y * this->percentIn);
-                jointDef.localAnchorB = b2Vec2(positionB.x * this->percentIn,positionB.y * this->percentIn);
+                b2GearJointDef jointDef;edkEnd();
+                jointDef.collideConnected=collide;edkEnd();
+                jointDef.bodyA = bodyA;edkEnd();
+                jointDef.bodyB = bodyB;edkEnd();
+                jointDef.localAnchorA = b2Vec2(positionA.x * this->percentIn,positionA.y * this->percentIn);edkEnd();
+                jointDef.localAnchorB = b2Vec2(positionB.x * this->percentIn,positionB.y * this->percentIn);edkEnd();
 
-                jointDef.distance = distance;
+                jointDef.distance = distance;edkEnd();
 
                 //create the edkJoint
-                edkJoint = new edk::physics2D::RopeJoint2D(collide);
+                edkJoint = new edk::physics2D::RopeJoint2D(collide);edkEnd();
                 if(edkJoint){
                     //in the new version of box2D the userData are setted in jointDef
-                    jointDef.userData.pointer = (uintptr_t)edkJoint;
+                    jointDef.userData.pointer = (uintptr_t)edkJoint;edkEnd();
 
-                    edkJoint->objectA = objectA;
-                    edkJoint->objectB = objectB;
-                    edkJoint->positionA = positionA;
+                    edkJoint->objectA = objectA;edkEnd();
+                    edkJoint->objectB = objectB;edkEnd();
+                    edkJoint->positionA = positionA;edkEnd();
                     edkJoint->worldPositionA
                             =
                             edk::physics2D::World2D::JointTree::getJointWorldPosition(objectA,positionA)
-                            ;
-                    edkJoint->positionB = positionB;
+                            ;edkEnd();
+                    edkJoint->positionB = positionB;edkEnd();
                     edkJoint->worldPositionB
                             =
                             edk::physics2D::World2D::JointTree::getJointWorldPosition(objectB,positionB)
-                            ;
+                            ;edkEnd();
 
                     //create the edkJoint
                     if(this->addJoint(edkJoint)){
                         //
-                        b2Joint* joint = (b2Joint*) this->world.CreateJoint(&jointDef);
+                        b2Joint* joint = (b2Joint*) this->world.CreateJoint(&jointDef);edkEnd();
                         if(joint){
                             //removed from the old box2D version. In the new box2D version the userData is in JointDef
-                            //joint->SetUserData(edkJoint);
+                            //joint->SetUserData(edkJoint);edkEnd();
                             //add the joint in the tree
                             if(this->treeJoint.addJoint(edkJoint,joint)){
-                                return edkJoint;
+                                return edkJoint;edkEnd();
                             }
                             //else destroy the joint
-                            this->world.DestroyJoint(joint);
+                            this->world.DestroyJoint(joint);edkEnd();
                         }
-                        this->destroyJoint(edkJoint);
+                        this->destroyJoint(edkJoint);edkEnd();
                     }
                 }
             }
         }
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 */
 
@@ -4044,54 +4113,54 @@ edk::physics2D::RopeJoint2D* edk::physics2D::World2D::createGearJoint(edk::physi
 bool edk::physics2D::World2D::destroyJoint(edk::physics2D::Joint2D* joint){
     if(joint){
         //remove the joint from the objects
-        edk::physics2D::World2D::ObjectsJointsTree* treeTemp = this->treeJointObjects.getTreeJoint(joint->objectA);
-        edk::physics2D::World2D::ObjectJointsTree* objectJointsTemp = NULL;
+        edk::physics2D::World2D::ObjectsJointsTree* treeTemp = this->treeJointObjects.getTreeJoint(joint->objectA);edkEnd();
+        edk::physics2D::World2D::ObjectJointsTree* objectJointsTemp = NULL;edkEnd();
         if(treeTemp){
             //load the tree objectJoints
-            objectJointsTemp = treeTemp->getJoint(joint->objectB);
+            objectJointsTemp = treeTemp->getJoint(joint->objectB);edkEnd();
             if(objectJointsTemp){
                 //remove the joint
-                objectJointsTemp->removeJoint(joint);
+                objectJointsTemp->removeJoint(joint);edkEnd();
                 if(!objectJointsTemp->getSize()){
-                    treeTemp->removeJoint(objectJointsTemp);
-                    objectJointsTemp->cleanJoints();
-                    delete objectJointsTemp;
-                    objectJointsTemp=NULL;
+                    treeTemp->removeJoint(objectJointsTemp);edkEnd();
+                    objectJointsTemp->cleanJoints();edkEnd();
+                    delete objectJointsTemp;edkEnd();
+                    objectJointsTemp=NULL;edkEnd();
                 }
             }
         }
-        treeTemp = this->treeJointObjects.getTreeJoint(joint->objectB);
+        treeTemp = this->treeJointObjects.getTreeJoint(joint->objectB);edkEnd();
         if(treeTemp){
             //load the tree objectJoints
-            objectJointsTemp = treeTemp->getJoint(joint->objectA);
+            objectJointsTemp = treeTemp->getJoint(joint->objectA);edkEnd();
             if(objectJointsTemp){
                 //remove the joint
-                objectJointsTemp->removeJoint(joint);
+                objectJointsTemp->removeJoint(joint);edkEnd();
                 if(!objectJointsTemp->getSize()){
-                    treeTemp->removeJoint(objectJointsTemp);
-                    objectJointsTemp->cleanJoints();
-                    delete objectJointsTemp;
-                    objectJointsTemp=NULL;
+                    treeTemp->removeJoint(objectJointsTemp);edkEnd();
+                    objectJointsTemp->cleanJoints();edkEnd();
+                    delete objectJointsTemp;edkEnd();
+                    objectJointsTemp=NULL;edkEnd();
                 }
             }
         }
 
         //get the b2joint
-        b2Joint* boxJoint = this->treeJoint.getJoint(joint);
+        b2Joint* boxJoint = this->treeJoint.getJoint(joint);edkEnd();
         if(boxJoint){
-            this->treeJoint.removeJoint(boxJoint);
+            this->treeJoint.removeJoint(boxJoint);edkEnd();
 
             //destroy the joint
-            this->world.DestroyJoint(boxJoint);
+            this->world.DestroyJoint(boxJoint);edkEnd();
 
             if(joint->getType() == EDK_REVOLUTE_JOINT){
                 //delete the ground
                 if(this->removeObject(joint->objectA)){
-                    delete joint->objectA;
+                    delete joint->objectA;edkEnd();
                 }
             }
             //delete the joint
-            delete joint;
+            delete joint;edkEnd();
             return true;
         }
     }
@@ -4099,26 +4168,28 @@ bool edk::physics2D::World2D::destroyJoint(edk::physics2D::Joint2D* joint){
 }
 //destroy joint with the object
 bool edk::physics2D::World2D::destroyObjectJoints(edk::physics2D::PhysicObject2D* object){
-    return this->removeObjectJoints(object);
+    return this->removeObjectJoints(object);edkEnd();
 }
 //return the joint
 edk::physics2D::Joint2D* edk::physics2D::World2D::getJointInPosition(edk::uint32 position){
     if(this->treeJoint.size()){
         //return the joint
-        return this->treeJoint.getJointInPosition(position);
+        return this->treeJoint.getJointInPosition(position);edkEnd();
     }
-    return NULL;
+    return NULL;edkEnd();
 }
 //get Joint Type
 edk::uint8 edk::physics2D::World2D::getJointTypeInPosition(edk::uint32 position){
-    edk::physics2D::Joint2D* joint = this->getJointInPosition(position);
-    if(joint) return joint->getType();
-    return 0u;
+    edk::physics2D::Joint2D* joint = this->getJointInPosition(position);edkEnd();
+    if(joint){
+        return joint->getType();edkEnd();
+    }
+    return 0u;edkEnd();
 }
 
 //return the joints count
 edk::uint32 edk::physics2D::World2D::getJointSize(){
-    return this->treeJoint.size();
+    return this->treeJoint.size();edkEnd();
 }
 
 //update the joints
@@ -4126,25 +4197,25 @@ bool edk::physics2D::World2D::setMotorJointMaxTorque(edk::physics2D::Joint2D* jo
     //text the joint
     if(joint){
         //load the b2joint
-        b2Joint *boxJoint = this->treeJoint.getJoint(joint);
+        b2Joint *boxJoint = this->treeJoint.getJoint(joint);edkEnd();
         if(boxJoint){
             switch(boxJoint->GetType()){
             case e_revoluteJoint:
                 //
             {
-                b2RevoluteJoint* temp = (b2RevoluteJoint*)boxJoint;
-                temp->SetMaxMotorTorque(maxTorque * this->percentIn);
+                b2RevoluteJoint* temp = (b2RevoluteJoint*)boxJoint;edkEnd();
+                temp->SetMaxMotorTorque(maxTorque * this->percentIn);edkEnd();
                 return true;
             }
             case e_motorJoint:
                 //
             {
-                b2MotorJoint* temp = (b2MotorJoint*)boxJoint;
-                temp->SetMaxTorque(maxTorque * this->percentIn);
+                b2MotorJoint* temp = (b2MotorJoint*)boxJoint;edkEnd();
+                temp->SetMaxTorque(maxTorque * this->percentIn);edkEnd();
                 return true;
             }
             default:
-                break;
+                break;edkEnd();
             }//end switch
         }
     }
@@ -4154,18 +4225,18 @@ bool edk::physics2D::World2D::setMotorJointSpeed(edk::physics2D::Joint2D* joint,
     //text the joint
     if(joint){
         //load the b2joint
-        b2Joint *boxJoint = this->treeJoint.getJoint(joint);
+        b2Joint *boxJoint = this->treeJoint.getJoint(joint);edkEnd();
         if(boxJoint){
             switch(boxJoint->GetType()){
             case e_revoluteJoint:
                 //
             {
-                b2RevoluteJoint* temp = (b2RevoluteJoint*)boxJoint;
-                temp->SetMotorSpeed(speed * this->percentIn);
+                b2RevoluteJoint* temp = (b2RevoluteJoint*)boxJoint;edkEnd();
+                temp->SetMotorSpeed(speed * this->percentIn);edkEnd();
                 return true;
             }
             default:
-                break;
+                break;edkEnd();
             }//end switch
         }
     }
@@ -4176,19 +4247,19 @@ bool edk::physics2D::World2D::setMotorJointTorqueAndSpeed(edk::physics2D::Joint2
     //text the joint
     if(joint){
         //load the b2joint
-        b2Joint *boxJoint = this->treeJoint.getJoint(joint);
+        b2Joint *boxJoint = this->treeJoint.getJoint(joint);edkEnd();
         if(boxJoint){
             switch(boxJoint->GetType()){
             case e_revoluteJoint:
                 //
             {
-                b2RevoluteJoint* temp = (b2RevoluteJoint*)boxJoint;
-                temp->SetMaxMotorTorque(maxTorque * this->percentIn);
-                temp->SetMotorSpeed(speed * this->percentIn);
+                b2RevoluteJoint* temp = (b2RevoluteJoint*)boxJoint;edkEnd();
+                temp->SetMaxMotorTorque(maxTorque * this->percentIn);edkEnd();
+                temp->SetMotorSpeed(speed * this->percentIn);edkEnd();
                 return true;
             }
             default:
-                break;
+                break;edkEnd();
             }//end switch
         }
     }
@@ -4199,85 +4270,85 @@ edk::float32 edk::physics2D::World2D::getRevoluteJointAngle(edk::physics2D::Join
     //text the joint
     if(joint){
         //load the b2joint
-        b2Joint *boxJoint = this->treeJoint.getJoint(joint);
+        b2Joint *boxJoint = this->treeJoint.getJoint(joint);edkEnd();
         if(boxJoint){
             switch(boxJoint->GetType()){
             case e_revoluteJoint:
                 //
             {
-                b2RevoluteJoint* temp = (b2RevoluteJoint*)boxJoint;
-                return temp->GetJointAngle();
+                b2RevoluteJoint* temp = (b2RevoluteJoint*)boxJoint;edkEnd();
+                return temp->GetJointAngle();edkEnd();
             }
             default:
-                break;
+                break;edkEnd();
             }//end switch
         }
     }
-    return 0.f;
+    return 0.f;edkEnd();
 }
 edk::float32 edk::physics2D::World2D::getMotorJointTorque(edk::physics2D::Joint2D* joint){
     //text the joint
     if(joint){
         //load the b2joint
-        b2Joint *boxJoint = this->treeJoint.getJoint(joint);
+        b2Joint *boxJoint = this->treeJoint.getJoint(joint);edkEnd();
         if(boxJoint){
             switch(boxJoint->GetType()){
             case e_revoluteJoint:
                 //
             {
-                b2RevoluteJoint* temp = (b2RevoluteJoint*)boxJoint;
-                return temp->GetMaxMotorTorque() * this->percentOut;
+                b2RevoluteJoint* temp = (b2RevoluteJoint*)boxJoint;edkEnd();
+                return temp->GetMaxMotorTorque() * this->percentOut;edkEnd();
             }
             default:
-                break;
+                break;edkEnd();
             }//end switch
         }
     }
-    return 0.f;
+    return 0.f;edkEnd();
 }
 edk::float32 edk::physics2D::World2D::getMotorJointSpeed(edk::physics2D::Joint2D* joint){
     //text the joint
     if(joint){
         //load the b2joint
-        b2Joint *boxJoint = this->treeJoint.getJoint(joint);
+        b2Joint *boxJoint = this->treeJoint.getJoint(joint);edkEnd();
         if(boxJoint){
             switch(boxJoint->GetType()){
             case e_revoluteJoint:
                 //
             {
-                b2RevoluteJoint* temp = (b2RevoluteJoint*)boxJoint;
-                return temp->GetMotorSpeed() * this->percentOut;
+                b2RevoluteJoint* temp = (b2RevoluteJoint*)boxJoint;edkEnd();
+                return temp->GetMotorSpeed() * this->percentOut;edkEnd();
             }
             default:
-                break;
+                break;edkEnd();
             }//end switch
         }
     }
-    return 0.f;
+    return 0.f;edkEnd();
 }
 //set the mouse target
 bool edk::physics2D::World2D::setMouseJointTarget(edk::physics2D::MouseJoint2D* mouseJoint,edk::vec2f32 target){
     if(mouseJoint){
         //get the b2Jointt
-        b2Joint *boxJoint = this->treeJoint.getJoint(mouseJoint);
+        b2Joint *boxJoint = this->treeJoint.getJoint(mouseJoint);edkEnd();
         if(boxJoint){
             switch(boxJoint->GetType()){
             case e_mouseJoint:
                 //
             {
-                b2MouseJoint* temp = (b2MouseJoint*)boxJoint;
-                temp->SetTarget(b2Vec2(target.x,target.y));
+                b2MouseJoint* temp = (b2MouseJoint*)boxJoint;edkEnd();
+                temp->SetTarget(b2Vec2(target.x,target.y));edkEnd();
                 return true;
             }
             default:
-                break;
+                break;edkEnd();
             }//end switch
         }
     }
     return false;
 }
 bool edk::physics2D::World2D::setMouseJointTarget(edk::physics2D::MouseJoint2D* mouseJoint,edk::float32 x,edk::float32 y){
-    return this->setMouseJointTarget(mouseJoint,edk::vec2f32(x,y));
+    return this->setMouseJointTarget(mouseJoint,edk::vec2f32(x,y));edkEnd();
 }
 
 //contact functions
@@ -4286,7 +4357,7 @@ void edk::physics2D::World2D::contact2DBegin(edk::physics2D::Contact2D*){
     printf("\nWorld2D Begin Position %.2f %.2f"
            ,contact->worldPositions[0u].x
            ,contact->worldPositions[0u].y
-           );
+           );edkEnd();
 */
 }
 void edk::physics2D::World2D::contact2DEnd(edk::physics2D::Contact2D*){
@@ -4294,7 +4365,7 @@ void edk::physics2D::World2D::contact2DEnd(edk::physics2D::Contact2D*){
     printf("\nWorld2D End Position %.2f %.2f"
            ,contact->worldPositions[0u].x
            ,contact->worldPositions[0u].y
-           );
+           );edkEnd();
 */
 }
 void edk::physics2D::World2D::contact2DKeepBegin(edk::physics2D::Contact2D*){
@@ -4302,7 +4373,7 @@ void edk::physics2D::World2D::contact2DKeepBegin(edk::physics2D::Contact2D*){
     printf("\nWorld2D Begin Keep Position %.2f %.2f"
            ,contact->worldPositions[0u].x
            ,contact->worldPositions[0u].y
-           );
+           );edkEnd();
 */
 }
 void edk::physics2D::World2D::contact2DKeepEnd(edk::physics2D::Contact2D*){
@@ -4310,7 +4381,7 @@ void edk::physics2D::World2D::contact2DKeepEnd(edk::physics2D::Contact2D*){
     printf("\nWorld2D End Keep Position %.2f %.2f"
            ,contact->worldPositions[0u].x
            ,contact->worldPositions[0u].y
-           );
+           );edkEnd();
 */
 }
 //contact sensors
@@ -4329,7 +4400,7 @@ bool edk::physics2D::World2D::addContactCallback(edk::physics2D::ContactCallback
     //test the callback
     if(callback){
         //add the callback to the tree
-        return this->treeCallbacks.add(callback);
+        return this->treeCallbacks.add(callback);edkEnd();
     }
     return false;
 }
@@ -4337,7 +4408,7 @@ bool edk::physics2D::World2D::removeContactCallback(edk::physics2D::ContactCallb
     //test the callback
     if(callback){
         //add the callback to the tree
-        return this->treeCallbacks.remove(callback);
+        return this->treeCallbacks.remove(callback);edkEnd();
     }
     return false;
 }
@@ -4345,91 +4416,91 @@ bool edk::physics2D::World2D::removeContactCallback(edk::physics2D::ContactCallb
 //XML
 bool edk::physics2D::World2D::writeToXML(edk::XML* xml,edk::uint32 id){
     if(xml){
-        bool ret=false;
+        bool ret=false;edkEnd();
         //create the nameID
-        edk::char8* nameID = edk::String::int64ToStr(id);
+        edk::char8* nameID = edk::String::int64ToStr(id);edkEnd();
         if(nameID){
             //concat
-            edk::char8* name = edk::String::strCat((edk::char8*)"physWorld_",nameID);
+            edk::char8* name = edk::String::strCat((edk::char8*)"physWorld_",nameID);edkEnd();
             if(name){
                 //create the name
                 if(xml->addSelectedNextChild(name)){
                     if(xml->selectChild(name)){
                         if(xml->addSelectedNextChild("meter")){
                             if(xml->selectChild("meter")){
-                                xml->setSelectedString(this->getMeterDistance());
-                                xml->selectFather();
+                                xml->setSelectedString(this->getMeterDistance());edkEnd();
+                                xml->selectFather();edkEnd();
                             }
                         }
                         //WRITE
-                        edk::physics2D::World2D::TreeObjectID treeIdStatic;
-                        edk::physics2D::World2D::TreeObjectID treeIdDynamic;
-                        edk::physics2D::World2D::TreeObjectID treeIdKinematic;
+                        edk::physics2D::World2D::TreeObjectID treeIdStatic;edkEnd();
+                        edk::physics2D::World2D::TreeObjectID treeIdDynamic;edkEnd();
+                        edk::physics2D::World2D::TreeObjectID treeIdKinematic;edkEnd();
                         //save static objects
-                        edk::uint32 size = 0u;
-                        edk::physics2D::PhysicObject2D* object;
-                        b2Body* body;
+                        edk::uint32 size = 0u;edkEnd();
+                        edk::physics2D::PhysicObject2D* object;edkEnd();
+                        b2Body* body;edkEnd();
                         if(xml->addSelectedNextChild("static")){
                             if(xml->selectChild("static")){
-                                size = this->treeStatic.size();
+                                size = this->treeStatic.size();edkEnd();
                                 //save the objects
                                 for(edk::uint32 i=0u;i<size;i++){
-                                    body = this->treeStatic.getBodyInPosition(i);
+                                    body = this->treeStatic.getBodyInPosition(i);edkEnd();
                                     if(body){
-                                        object = (edk::physics2D::PhysicObject2D*)body->GetUserData().pointer;
+                                        object = (edk::physics2D::PhysicObject2D*)body->GetUserData().pointer;edkEnd();
                                         if(object){
-                                            object->writeToXML(xml,i,true);
+                                            object->writeToXML(xml,i,true);edkEnd();
                                             //add the if to the tree
-                                            treeIdStatic.addObject(object,i);
+                                            treeIdStatic.addObject(object,i);edkEnd();
                                         }
                                     }
                                 }
-                                xml->selectFather();
+                                xml->selectFather();edkEnd();
                             }
                         }
                         if(xml->addSelectedNextChild("dynamic")){
                             if(xml->selectChild("dynamic")){
-                                size = this->treeDynamic.size();
+                                size = this->treeDynamic.size();edkEnd();
                                 //save the objects
                                 for(edk::uint32 i=0u;i<size;i++){
-                                    body = this->treeDynamic.getBodyInPosition(i);
+                                    body = this->treeDynamic.getBodyInPosition(i);edkEnd();
                                     if(body){
-                                        object = (edk::physics2D::PhysicObject2D*)body->GetUserData().pointer;
+                                        object = (edk::physics2D::PhysicObject2D*)body->GetUserData().pointer;edkEnd();
                                         if(object){
-                                            object->writeToXML(xml,i,true);
+                                            object->writeToXML(xml,i,true);edkEnd();
                                             //add the if to the tree
-                                            treeIdDynamic.addObject(object,i);
+                                            treeIdDynamic.addObject(object,i);edkEnd();
                                         }
                                     }
                                 }
-                                xml->selectFather();
+                                xml->selectFather();edkEnd();
                             }
                         }
                         if(xml->addSelectedNextChild("kinematic")){
                             if(xml->selectChild("kinematic")){
-                                size = this->treeKinematic.size();
+                                size = this->treeKinematic.size();edkEnd();
                                 //save the objects
                                 for(edk::uint32 i=0u;i<size;i++){
-                                    body = this->treeKinematic.getBodyInPosition(i);
+                                    body = this->treeKinematic.getBodyInPosition(i);edkEnd();
                                     if(body){
-                                        object = (edk::physics2D::PhysicObject2D*)body->GetUserData().pointer;
+                                        object = (edk::physics2D::PhysicObject2D*)body->GetUserData().pointer;edkEnd();
                                         if(object){
-                                            object->writeToXML(xml,i,true);
+                                            object->writeToXML(xml,i,true);edkEnd();
                                             //add the if to the tree
-                                            treeIdKinematic.addObject(object,i);
+                                            treeIdKinematic.addObject(object,i);edkEnd();
                                         }
                                     }
                                 }
-                                xml->selectFather();
+                                xml->selectFather();edkEnd();
                             }
                         }
-                        ret=true;
-                        xml->selectFather();
+                        ret=true;edkEnd();
+                        xml->selectFather();edkEnd();
                     }
                 }
-                delete[] name;
+                delete[] name;edkEnd();
             }
-            delete[] nameID;
+            delete[] nameID;edkEnd();
         }
         return ret;
     }
@@ -4437,95 +4508,95 @@ bool edk::physics2D::World2D::writeToXML(edk::XML* xml,edk::uint32 id){
 }
 bool edk::physics2D::World2D::readFromXML(edk::XML* xml,edk::uint32 id){
     if(xml){
-        bool ret=false;
+        bool ret=false;edkEnd();
         //create the nameID
-        edk::char8* nameID = edk::String::int64ToStr(id);
+        edk::char8* nameID = edk::String::int64ToStr(id);edkEnd();
         if(nameID){
             //concat
-            edk::char8* name = edk::String::strCat((edk::char8*)"physWorld_",nameID);
+            edk::char8* name = edk::String::strCat((edk::char8*)"physWorld_",nameID);edkEnd();
             if(name){
                 //create the name
                 if(xml->selectChild(name)){
                     //READ
                     if(xml->selectChild("meter")){
-                        this->setMeterDistance(xml->getSelectedStringAsFloat32());
-                        xml->selectFather();
+                        this->setMeterDistance(xml->getSelectedStringAsFloat32());edkEnd();
+                        xml->selectFather();edkEnd();
                     }
-                    edk::physics2D::PhysicObject2D* object=NULL;
+                    edk::physics2D::PhysicObject2D* object=NULL;edkEnd();
                     edk::uint32 i=0u;
                     if(xml->selectChild("static")){
                         do{
-                            object = new edk::physics2D::PhysicObject2D;
+                            object = new edk::physics2D::PhysicObject2D;edkEnd();
                             if(object){
                                 //read the object
                                 if(object->readFromXML(xml,i)){
                                     //add the object
                                     if(!this->addObject(object)){
                                         //delete object
-                                        delete object;
-                                        object=NULL;
+                                        delete object;edkEnd();
+                                        object=NULL;edkEnd();
                                     }
                                 }
                                 else{
                                     //delete object
-                                    delete object;
-                                    object=NULL;
+                                    delete object;edkEnd();
+                                    object=NULL;edkEnd();
                                 }
                             }
-                        }while(object);
-                        xml->selectFather();
+                        }while(object);edkEnd();
+                        xml->selectFather();edkEnd();
                     }
                     if(xml->selectChild("dynamic")){
                         do{
-                            object = new edk::physics2D::PhysicObject2D;
+                            object = new edk::physics2D::PhysicObject2D;edkEnd();
                             if(object){
                                 //read the object
                                 if(object->readFromXML(xml,i)){
                                     //add the object
                                     if(!this->addObject(object)){
                                         //delete object
-                                        delete object;
-                                        object=NULL;
+                                        delete object;edkEnd();
+                                        object=NULL;edkEnd();
                                     }
                                 }
                                 else{
                                     //delete object
-                                    delete object;
-                                    object=NULL;
+                                    delete object;edkEnd();
+                                    object=NULL;edkEnd();
                                 }
                             }
-                        }while(object);
-                        xml->selectFather();
+                        }while(object);edkEnd();
+                        xml->selectFather();edkEnd();
                     }
                     if(xml->selectChild("kimematic")){
                         do{
-                            object = new edk::physics2D::PhysicObject2D;
+                            object = new edk::physics2D::PhysicObject2D;edkEnd();
                             if(object){
                                 //read the object
                                 if(object->readFromXML(xml,i)){
                                     //add the object
                                     if(!this->addObject(object)){
                                         //delete object
-                                        delete object;
-                                        object=NULL;
+                                        delete object;edkEnd();
+                                        object=NULL;edkEnd();
                                     }
                                 }
                                 else{
                                     //delete object
-                                    delete object;
-                                    object=NULL;
+                                    delete object;edkEnd();
+                                    object=NULL;edkEnd();
                                 }
                             }
-                        }while(object);
-                        xml->selectFather();
+                        }while(object);edkEnd();
+                        xml->selectFather();edkEnd();
                     }
 
-                    ret=true;
-                    xml->selectFather();
+                    ret=true;edkEnd();
+                    xml->selectFather();edkEnd();
                 }
-                delete[] name;
+                delete[] name;edkEnd();
             }
-            delete[] nameID;
+            delete[] nameID;edkEnd();
         }
         return ret;
     }

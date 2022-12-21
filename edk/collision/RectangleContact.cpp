@@ -41,9 +41,9 @@ edk::collision::RectangleContact::~RectangleContact()
 //CONTACTS
 bool edk::collision::RectangleContact::contactPoint(edk::vec2f32 point, edk::shape::Rectangle2D rectangle){
     //
-    rectangle.cantDeletePolygon();
+    rectangle.cantDeletePolygon();edkEnd();edkEnd();
     return edk::collision::MathCollision::boundingContact2D(point,
                                                             rectangle.getVertexPosition(0u) ,
                                                             rectangle.getVertexPosition(1u)
-                                                            );
+                                                            );edkEnd();edkEnd();
 }

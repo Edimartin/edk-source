@@ -140,35 +140,35 @@ public:
     void printAmbient();
 
     Material operator =(Material mat){
-        edk::uint32 texTemp[materialTextureCount];
+        edk::uint32 texTemp[materialTextureCount];edkEnd();
         //copy the textures
         for(edk::uint8 i=0u;i<materialTextureCount;i++){
-            texTemp[i] = this->textures[i];
+            texTemp[i] = this->textures[i];edkEnd();
             //set the new texture
-            this->textures[i] = mat.textures[i];
+            this->textures[i] = mat.textures[i];edkEnd();
             //retain the texture
             if(this->textures[i]){
-                this->list.retainTexture(this->textures[i]);
+                this->list.retainTexture(this->textures[i]);edkEnd();
             }
         }
         //release the old textures
         for(edk::uint8 i=0u;i<materialTextureCount;i++){
             if(texTemp[i]){
-                this->list.removeTexture(texTemp[i]);
+                this->list.removeTexture(texTemp[i]);edkEnd();
             }
         }
         //copy tge vectors
-        edk::uint32 sizeOf = sizeof(this->ambient);
-        memcpy(this->ambient,mat.ambient,sizeOf);
-        memcpy(this->diffuse,mat.diffuse,sizeOf);
-        memcpy(this->specular,mat.specular,sizeOf);
-        memcpy(this->emission,mat.emission,sizeOf);
-        this->shininess = mat.shininess;
-        this->countTextures = mat.countTextures;
+        edk::uint32 sizeOf = sizeof(this->ambient);edkEnd();
+        memcpy(this->ambient,mat.ambient,sizeOf);edkEnd();
+        memcpy(this->diffuse,mat.diffuse,sizeOf);edkEnd();
+        memcpy(this->specular,mat.specular,sizeOf);edkEnd();
+        memcpy(this->emission,mat.emission,sizeOf);edkEnd();
+        this->shininess = mat.shininess;edkEnd();
+        this->countTextures = mat.countTextures;edkEnd();
         //set to dont delete the textures in the destructor
-        mat.cantDelete();
-        this->cantDelete();
-        return mat;
+        mat.cantDelete();edkEnd();
+        this->cantDelete();edkEnd();
+        return mat;edkEnd();
     }
 protected:
     //draw the material parameters

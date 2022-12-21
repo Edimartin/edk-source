@@ -236,22 +236,22 @@ protected:
         ~TreeTileDraw(){}
         //Print
         virtual void printElement(edk::tiles::DrawTile2DCallback* value){
-            value->startDrawTile(this->id,this->position,this->worldPosition);
+            value->startDrawTile(this->id,this->position,this->worldPosition);edkEnd();
         }
         virtual void renderElement(edk::tiles::DrawTile2DCallback* value){
-            value->endDrawTile(this->id,this->position,this->worldPosition);
+            value->endDrawTile(this->id,this->position,this->worldPosition);edkEnd();
         }
         void runStart(edk::uint32 id,edk::vec2ui32 position,edk::vec2f32 worldPosition){
-            this->id=id;
-            this->position=position;
-            this->worldPosition=worldPosition;
-            this->print();
+            this->id=id;edkEnd();
+            this->position=position;edkEnd();
+            this->worldPosition=worldPosition;edkEnd();
+            this->print();edkEnd();
         }
         void runEnd(edk::uint32 id,edk::vec2ui32 position,edk::vec2f32 worldPosition){
-            this->id=id;
-            this->position=position;
-            this->worldPosition=worldPosition;
-            this->render();
+            this->id=id;edkEnd();
+            this->position=position;edkEnd();
+            this->worldPosition=worldPosition;edkEnd();
+            this->render();edkEnd();
         }
         edk::uint32 id;
         edk::vec2ui32 position;

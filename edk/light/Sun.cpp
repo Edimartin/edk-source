@@ -33,79 +33,79 @@ edk::light::Sun::~Sun(){
 
 //DRAW THE LIGH USING THE LIGHT NUMBER
 void edk::light::Sun::draw(edk::uint32 lightNumber){
-    edk::GU::guLightfv32(GU_LIGHT0+lightNumber,GU_POSITION,this->direction);
-    edk::GU::guLightfv32(GU_LIGHT0+lightNumber,GU_DIFFUSE,this->diffuse);
-    edk::GU::guLightfv32(GU_LIGHT0+lightNumber,GU_AMBIENT,this->ambient);
-    edk::GU::guLightfv32(GU_LIGHT0+lightNumber,GU_SPECULAR,this->specular);
-    //edk::GU::guLightfv32(GU_LIGHT0+lightNumber,GU_SPOT_DIRECTION,this->direction);
-    //edk::GU::guLightf32(GU_LIGHT0+lightNumber,GU_SPOT_EXPONENT,this->exponent);
-    //edk::GU::guLightf32(GU_LIGHT0+lightNumber,GU_SPOT_CUTOFF,this->cutoff);
-    edk::GU::guLightf32(GU_LIGHT0+lightNumber,GU_CONSTANT_ATTENUATION,this->constantAttenuation);
-    edk::GU::guLightf32(GU_LIGHT0+lightNumber,GU_LINEAR_ATTENUATION,this->linearAttenuation);
-    edk::GU::guLightf32(GU_LIGHT0+lightNumber,GU_QUADRATIC_ATTENUATION,this->quadraticAttenuation);
+    edk::GU::guLightfv32(GU_LIGHT0+lightNumber,GU_POSITION,this->direction);edkEnd();
+    edk::GU::guLightfv32(GU_LIGHT0+lightNumber,GU_DIFFUSE,this->diffuse);edkEnd();
+    edk::GU::guLightfv32(GU_LIGHT0+lightNumber,GU_AMBIENT,this->ambient);edkEnd();
+    edk::GU::guLightfv32(GU_LIGHT0+lightNumber,GU_SPECULAR,this->specular);edkEnd();
+    //edk::GU::guLightfv32(GU_LIGHT0+lightNumber,GU_SPOT_DIRECTION,this->direction);edkEnd();
+    //edk::GU::guLightf32(GU_LIGHT0+lightNumber,GU_SPOT_EXPONENT,this->exponent);edkEnd();
+    //edk::GU::guLightf32(GU_LIGHT0+lightNumber,GU_SPOT_CUTOFF,this->cutoff);edkEnd();
+    edk::GU::guLightf32(GU_LIGHT0+lightNumber,GU_CONSTANT_ATTENUATION,this->constantAttenuation);edkEnd();
+    edk::GU::guLightf32(GU_LIGHT0+lightNumber,GU_LINEAR_ATTENUATION,this->linearAttenuation);edkEnd();
+    edk::GU::guLightf32(GU_LIGHT0+lightNumber,GU_QUADRATIC_ATTENUATION,this->quadraticAttenuation);edkEnd();
 }
 //draw the pivo
 void edk::light::Sun::drawPivo(edk::float32 size,edk::color3f32 color){
-    edk::light::Light::drawPivo(size,color);
+    edk::light::Light::drawPivo(size,color);edkEnd();
 }
 
 //Set the position of the light
 void edk::light::Sun::setPosition(edk::float32 x,edk::float32 y,edk::float32 z){
-    edk::light::Light::setPosition(x,y,z);
+    edk::light::Light::setPosition(x,y,z);edkEnd();
 }
 void edk::light::Sun::setPosition(edk::float32 x,edk::float32 y){
-    edk::light::Light::setPosition(x,y);
+    edk::light::Light::setPosition(x,y);edkEnd();
 }
 void edk::light::Sun::setPosition(edk::vec3f32 position){
-    edk::light::Light::setPosition(position);
+    edk::light::Light::setPosition(position);edkEnd();
 }
 void edk::light::Sun::setPosition(edk::vec2f32 position){
-    edk::light::Light::setPosition(position);
+    edk::light::Light::setPosition(position);edkEnd();
 }
 void edk::light::Sun::setDirection(edk::float32 x,edk::float32 y,edk::float32 z){
-    this->direction[0u]=x;
-    this->direction[1u]=y;
-    this->direction[2u]=z;
-    this->direction[3u]=0.f;
+    this->direction[0u]=x;edkEnd();
+    this->direction[1u]=y;edkEnd();
+    this->direction[2u]=z;edkEnd();
+    this->direction[3u]=0.f;edkEnd();
 }
 void edk::light::Sun::setDirection(edk::float32 x,edk::float32 y){
-    this->setDirection(x,y,this->getDirectionZ());
+    this->setDirection(x,y,this->getDirectionZ());edkEnd();
 }
 void edk::light::Sun::setDirection(edk::vec3f32 direction){
-    this->setDirection(direction.x,direction.y,direction.z);
+    this->setDirection(direction.x,direction.y,direction.z);edkEnd();
 }
 void edk::light::Sun::setDirection(edk::vec2f32 direction){
-    this->setDirection(direction.x,direction.y,this->getDirectionZ());
+    this->setDirection(direction.x,direction.y,this->getDirectionZ());edkEnd();
 }
 
 //get the position of the light
 edk::float32 edk::light::Sun::getPositionX(){
-    return edk::light::Light::getPositionX();
+    return edk::light::Light::getPositionX();edkEnd();
 }
 edk::float32 edk::light::Sun::getPositionY(){
-    return edk::light::Light::getPositionY();
+    return edk::light::Light::getPositionY();edkEnd();
 }
 edk::float32 edk::light::Sun::getPositionZ(){
-    return edk::light::Light::getPositionZ();
+    return edk::light::Light::getPositionZ();edkEnd();
 }
 edk::vec2f32 edk::light::Sun::getPosition2f(){
-    return edk::light::Light::getPosition2f();
+    return edk::light::Light::getPosition2f();edkEnd();
 }
 edk::vec3f32 edk::light::Sun::getPosition3f(){
-    return edk::light::Light::getPosition3f();
+    return edk::light::Light::getPosition3f();edkEnd();
 }
 edk::float32 edk::light::Sun::getDirectionX(){
-    return edk::light::Light::getDirectionX();
+    return edk::light::Light::getDirectionX();edkEnd();
 }
 edk::float32 edk::light::Sun::getDirectionY(){
-    return edk::light::Light::getDirectionY();
+    return edk::light::Light::getDirectionY();edkEnd();
 }
 edk::float32 edk::light::Sun::getDirectionZ(){
-    return edk::light::Light::getDirectionZ();
+    return edk::light::Light::getDirectionZ();edkEnd();
 }
 edk::vec2f32 edk::light::Sun::getDirection2f(){
-    return edk::light::Light::getDirection2f();
+    return edk::light::Light::getDirection2f();edkEnd();
 }
 edk::vec3f32 edk::light::Sun::getDirection3f(){
-    return edk::light::Light::getDirection3f();
+    return edk::light::Light::getDirection3f();edkEnd();
 }

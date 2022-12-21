@@ -34,72 +34,78 @@ edk::shape::UV2D edk::shape::Polygon3D::staticUV(0.f,0.f);
 
 edk::shape::Polygon3D::Polygon3D(){
     //
-    this->smooth=true;
+    this->smooth=true;edkEnd();
 }
 edk::shape::Polygon3D::~Polygon3D(){
     //
-    this->deletePolygon();
+    this->deletePolygon();edkEnd();
 }
 //update the center position
 void edk::shape::Polygon3D::updateCenterPosition(){
-    edk::uint32 size = this->vertexs.size();
+    edk::uint32 size = this->vertexs.size();edkEnd();
     if(size){
-        edk::shape::Vertex3D min,max;
-        edk::shape::Polygon3D::PolygonVertex* vertex;
-            vertex = this->vertexs[0u];
+        edk::shape::Vertex3D min,max;edkEnd();
+        edk::shape::Polygon3D::PolygonVertex* vertex;edkEnd();
+            vertex = this->vertexs[0u];edkEnd();
             if(vertex){
-                    min.x = vertex->vertex->x;
-                    min.y = vertex->vertex->y;
-                    min.z = vertex->vertex->z;
+                    min.x = vertex->vertex->x;edkEnd();
+                    min.y = vertex->vertex->y;edkEnd();
+                    min.z = vertex->vertex->z;edkEnd();
 
-                    max.x = vertex->vertex->x;
-                    max.y = vertex->vertex->y;
-                    max.z = vertex->vertex->z;
+                    max.x = vertex->vertex->x;edkEnd();
+                    max.y = vertex->vertex->y;edkEnd();
+                    max.z = vertex->vertex->z;edkEnd();
             }
         for(edk::uint32 i=1u;i<size;i++){
-            vertex = this->vertexs[i];
+            vertex = this->vertexs[i];edkEnd();
             if(vertex){
-                if(vertex->vertex->x < min.x)
-                    min.x = vertex->vertex->x;
-                if(vertex->vertex->y < min.y)
-                    min.y = vertex->vertex->y;
-                if(vertex->vertex->z < min.z)
-                    min.z = vertex->vertex->z;
+                if(vertex->vertex->x < min.x){
+                    min.x = vertex->vertex->x;edkEnd();
+                }
+                if(vertex->vertex->y < min.y){
+                    min.y = vertex->vertex->y;edkEnd();
+                }
+                if(vertex->vertex->z < min.z){
+                    min.z = vertex->vertex->z;edkEnd();
+                }
 
-                if(vertex->vertex->x > max.x)
-                    max.x = vertex->vertex->x;
-                if(vertex->vertex->y > max.y)
-                    max.y = vertex->vertex->y;
-                if(vertex->vertex->z > max.z)
-                    max.z = vertex->vertex->z;
+                if(vertex->vertex->x > max.x){
+                    max.x = vertex->vertex->x;edkEnd();
+                }
+                if(vertex->vertex->y > max.y){
+                    max.y = vertex->vertex->y;edkEnd();
+                }
+                if(vertex->vertex->z > max.z){
+                    max.z = vertex->vertex->z;edkEnd();
+                }
             }
         }
         //then update the center
-        this->center.x = min.x + ((max.x - min.x)*0.5f);
-        this->center.y = min.y + ((max.y - min.y)*0.5f);
-        this->center.z = min.z + ((max.z - min.z)*0.5f);
+        this->center.x = min.x + ((max.x - min.x)*0.5f);edkEnd();
+        this->center.y = min.y + ((max.y - min.y)*0.5f);edkEnd();
+        this->center.z = min.z + ((max.z - min.z)*0.5f);edkEnd();
     }
 }
 
 //draw the vertezes
 bool edk::shape::Polygon3D::drawVertexs(){
-    edk::uint32 size = this->vertexs.size();
+    edk::uint32 size = this->vertexs.size();edkEnd();
     if(size){
-        edk::shape::Polygon3D::PolygonVertex* vertex;
+        edk::shape::Polygon3D::PolygonVertex* vertex;edkEnd();
         if(this->smooth){
             for(edk::uint32 i=0u;i<size;i++){
-                vertex = this->vertexs[i];
+                vertex = this->vertexs[i];edkEnd();
                 if(vertex){
-                    vertex->draw();
+                    vertex->draw();edkEnd();
                 }
             }
         }
         else{
-            this->normal.drawNormal();
+            this->normal.drawNormal();edkEnd();
             for(edk::uint32 i=0u;i<size;i++){
-                vertex = this->vertexs[i];
+                vertex = this->vertexs[i];edkEnd();
                 if(vertex){
-                    vertex->drawWithoutNormal();
+                    vertex->drawWithoutNormal();edkEnd();
                 }
             }
         }
@@ -108,13 +114,13 @@ bool edk::shape::Polygon3D::drawVertexs(){
     return false;
 }
 bool edk::shape::Polygon3D::drawVertexsOnly(){
-    edk::uint32 size = this->vertexs.size();
+    edk::uint32 size = this->vertexs.size();edkEnd();
     if(size){
-        edk::shape::Polygon3D::PolygonVertex* vertex;
+        edk::shape::Polygon3D::PolygonVertex* vertex;edkEnd();
         for(edk::uint32 i=0u;i<size;i++){
-            vertex = this->vertexs[i];
+            vertex = this->vertexs[i];edkEnd();
             if(vertex){
-                vertex->drawVertex();
+                vertex->drawVertex();edkEnd();
             }
         }
         return true;
@@ -123,13 +129,13 @@ bool edk::shape::Polygon3D::drawVertexsOnly(){
 }
 //draw the vertezes
 bool edk::shape::Polygon3D::drawVertexsWithColor(edk::color4f32 color){
-    edk::uint32 size = this->vertexs.size();
+    edk::uint32 size = this->vertexs.size();edkEnd();
     if(size){
-        edk::shape::Polygon3D::PolygonVertex* vertex;
+        edk::shape::Polygon3D::PolygonVertex* vertex;edkEnd();
         for(edk::uint32 i=0u;i<size;i++){
-            vertex = this->vertexs[i];
+            vertex = this->vertexs[i];edkEnd();
             if(vertex){
-                vertex->drawWithColor(color);
+                vertex->drawWithColor(color);edkEnd();
             }
         }
         return true;
@@ -139,43 +145,47 @@ bool edk::shape::Polygon3D::drawVertexsWithColor(edk::color4f32 color){
 
 //create the polygon
 bool edk::shape::Polygon3D::createPolygon(edk::uint32 vertexCount){
-    this->deletePolygon();
+    this->deletePolygon();edkEnd();
 
     //test the vertexCount
     if(vertexCount>2u){
         //create the vertexs in the array
         if(this->vertexs.createArray(vertexCount)){
-            bool haveVertex = true;
-            edk::shape::Polygon3D::PolygonVertex* vertex;
+            bool haveVertex = true;edkEnd();
+            edk::shape::Polygon3D::PolygonVertex* vertex;edkEnd();
             //alloc the vertexes and put it into the array
             for(edk::uint32 i=0u;i<vertexCount;i++){
                 if(haveVertex){
-                    this->vertexs.set(i,(vertex=new edk::shape::Polygon3D::PolygonVertex(&edk::shape::Polygon3D::staticVertex,0u)));
+                    this->vertexs.set(i,(vertex=new edk::shape::Polygon3D::PolygonVertex(&edk::shape::Polygon3D::staticVertex,0u)));edkEnd();
                     if(!vertex){
-                        haveVertex = false;
-                        this->vertexs.set(i,NULL);
+                        haveVertex = false;edkEnd();
+                        this->vertexs.set(i,NULL);edkEnd();
                     }
                 }
                 else{
-                    this->vertexs.set(i,NULL);
+                    this->vertexs.set(i,NULL);edkEnd();
                 }
             }
             //
-            if(haveVertex) return true;
+            if(haveVertex){
+                return true;
+            }
         }
     }
     //else delete the vertexes
-    this->deletePolygon();
+    this->deletePolygon();edkEnd();
     return false;
 }
 void edk::shape::Polygon3D::deletePolygon(){
-    edk::uint32 size = this->vertexs.size();
-    edk::shape::Polygon3D::PolygonVertex* vertex;
+    edk::uint32 size = this->vertexs.size();edkEnd();
+    edk::shape::Polygon3D::PolygonVertex* vertex;edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        vertex = this->vertexs[i];
-        if(vertex) delete vertex;
+        vertex = this->vertexs[i];edkEnd();
+        if(vertex) {
+            delete vertex;edkEnd();
+        }
     }
-    this->vertexs.deleteArray();
+    this->vertexs.deleteArray();edkEnd();
 }
 
 //Set the vertexes
@@ -183,12 +193,12 @@ bool edk::shape::Polygon3D::setVertex(edk::uint32 position,edk::shape::Vertex3D*
     //test if have the vertex and position
     if(position<this->vertexs.size() && vertex){
         //get the vertex in position
-        edk::shape::Polygon3D::PolygonVertex* vert = this->vertexs[position];
-        vert->vertex = vertex;
-        vert->vertexID = vertexID;
+        edk::shape::Polygon3D::PolygonVertex* vert = this->vertexs[position];edkEnd();
+        vert->vertex = vertex;edkEnd();
+        vert->vertexID = vertexID;edkEnd();
 
         //update the center position
-        this->updateCenterPosition();
+        this->updateCenterPosition();edkEnd();
 
         return true;
     }
@@ -202,54 +212,54 @@ bool edk::shape::Polygon3D::setNormal(edk::uint32 position,edk::shape::Vector3D*
         case edk::shape::Polygon3D::typeVertex:
         {
             //delete the vertex and create a vertex with normal
-            edk::shape::Polygon3D::PolygonVertex* vert = this->vertexs[position];
-            edk::shape::Vertex3D* vertex = vert->vertex;
-            edk::uint32 vertexID = vert->vertexID;
-            delete vert;
+            edk::shape::Polygon3D::PolygonVertex* vert = this->vertexs[position];edkEnd();
+            edk::shape::Vertex3D* vertex = vert->vertex;edkEnd();
+            edk::uint32 vertexID = vert->vertexID;edkEnd();
+            delete vert;edkEnd();
             edk::shape::Polygon3D::PolygonVertexWithNormal* vert2 =
-                    new edk::shape::Polygon3D::PolygonVertexWithNormal (vertex,vertexID,&edk::shape::Polygon3D::staticNormal,0u);
+                    new edk::shape::Polygon3D::PolygonVertexWithNormal (vertex,vertexID,&edk::shape::Polygon3D::staticNormal,0u);edkEnd();
             if(vert2){
-                this->vertexs.set(position,(edk::shape::Polygon3D::PolygonVertex*)vert2);
+                this->vertexs.set(position,(edk::shape::Polygon3D::PolygonVertex*)vert2);edkEnd();
             }
             else{
-                this->vertexs.set(position,NULL);
+                this->vertexs.set(position,NULL);edkEnd();
                 return false;
             }
         }
         case edk::shape::Polygon3D::typeVertexWithNormal:
         {
             edk::shape::Polygon3D::PolygonVertexWithNormal* vert = (edk::shape::Polygon3D::PolygonVertexWithNormal*)
-                    this->vertexs[position];
-            vert->normal = normal;
-            vert->normalID = normalID;
+                    this->vertexs[position];edkEnd();
+            vert->normal = normal;edkEnd();
+            vert->normalID = normalID;edkEnd();
         }
-            break;
+            break;edkEnd();
         case edk::shape::Polygon3D::typeVertexWithUV:
         {
             edk::shape::Polygon3D::PolygonVertexWithUV* vert =
-                    (edk::shape::Polygon3D::PolygonVertexWithUV*)this->vertexs[position];
-            edk::shape::Vertex3D* vertex = vert->vertex;
-            edk::uint32 vertexID = vert->vertexID;
-            edk::shape::UV2D* uv = vert->uv;
-            edk::uint32 uvID = vert->uvID;
+                    (edk::shape::Polygon3D::PolygonVertexWithUV*)this->vertexs[position];edkEnd();
+            edk::shape::Vertex3D* vertex = vert->vertex;edkEnd();
+            edk::uint32 vertexID = vert->vertexID;edkEnd();
+            edk::shape::UV2D* uv = vert->uv;edkEnd();
+            edk::uint32 uvID = vert->uvID;edkEnd();
             edk::shape::Polygon3D::PolygonVertexWithUVNormal* vert2 =
-                    new edk::shape::Polygon3D::PolygonVertexWithUVNormal(vertex,vertexID,uv,uvID,&this->staticNormal,0u);
+                    new edk::shape::Polygon3D::PolygonVertexWithUVNormal(vertex,vertexID,uv,uvID,&this->staticNormal,0u);edkEnd();
             if(vert2){
-                this->vertexs.set(position,(edk::shape::Polygon3D::PolygonVertex*)vert2);
+                this->vertexs.set(position,(edk::shape::Polygon3D::PolygonVertex*)vert2);edkEnd();
             }
             else{
-                this->vertexs.set(position,NULL);
+                this->vertexs.set(position,NULL);edkEnd();
                 return false;
             }
         }
         case edk::shape::Polygon3D::typeVertexWithUVNormal:
         {
             edk::shape::Polygon3D::PolygonVertexWithUVNormal* vert = (edk::shape::Polygon3D::PolygonVertexWithUVNormal*)
-                    this->vertexs[position];
-            vert->normal = normal;
-            vert->normalID = normalID;
+                    this->vertexs[position];edkEnd();
+            vert->normal = normal;edkEnd();
+            vert->normalID = normalID;edkEnd();
         }
-            break;
+            break;edkEnd();
         }
         return true;
     }
@@ -263,54 +273,54 @@ bool edk::shape::Polygon3D::setUV(edk::uint32 position,edk::shape::UV2D* uv,edk:
         case edk::shape::Polygon3D::typeVertex:
         {
             //delete the vertex and create a vertex with normal
-            edk::shape::Polygon3D::PolygonVertex* vert = this->vertexs[position];
-            edk::shape::Vertex3D* vertex = vert->vertex;
-            edk::uint32 vertexID = vert->vertexID;
-            delete vert;
+            edk::shape::Polygon3D::PolygonVertex* vert = this->vertexs[position];edkEnd();
+            edk::shape::Vertex3D* vertex = vert->vertex;edkEnd();
+            edk::uint32 vertexID = vert->vertexID;edkEnd();
+            delete vert;edkEnd();
             edk::shape::Polygon3D::PolygonVertexWithUV* vert2 =
-                    new edk::shape::Polygon3D::PolygonVertexWithUV (vertex,vertexID,&edk::shape::Polygon3D::staticUV,0u);
+                    new edk::shape::Polygon3D::PolygonVertexWithUV (vertex,vertexID,&edk::shape::Polygon3D::staticUV,0u);edkEnd();
             if(vert2){
-                this->vertexs.set(position,(edk::shape::Polygon3D::PolygonVertex*)vert2);
+                this->vertexs.set(position,(edk::shape::Polygon3D::PolygonVertex*)vert2);edkEnd();
             }
             else{
-                this->vertexs.set(position,NULL);
+                this->vertexs.set(position,NULL);edkEnd();
                 return false;
             }
         }
         case edk::shape::Polygon3D::typeVertexWithUV:
         {
             edk::shape::Polygon3D::PolygonVertexWithUV* vert = (edk::shape::Polygon3D::PolygonVertexWithUV*)
-                    this->vertexs[position];
-            vert->uv = uv;
-            vert->uvID = uvID;
+                    this->vertexs[position];edkEnd();
+            vert->uv = uv;edkEnd();
+            vert->uvID = uvID;edkEnd();
         }
-            break;
+            break;edkEnd();
         case edk::shape::Polygon3D::typeVertexWithNormal:
         {
             edk::shape::Polygon3D::PolygonVertexWithNormal* vert =
-                    (edk::shape::Polygon3D::PolygonVertexWithNormal*)this->vertexs[position];
-            edk::shape::Vertex3D* vertex = vert->vertex;
-            edk::uint32 vertexID = vert->vertexID;
-            edk::shape::Vector3D* normal = vert->normal;
-            edk::uint32 normalID = vert->normalID;
+                    (edk::shape::Polygon3D::PolygonVertexWithNormal*)this->vertexs[position];edkEnd();
+            edk::shape::Vertex3D* vertex = vert->vertex;edkEnd();
+            edk::uint32 vertexID = vert->vertexID;edkEnd();
+            edk::shape::Vector3D* normal = vert->normal;edkEnd();
+            edk::uint32 normalID = vert->normalID;edkEnd();
             edk::shape::Polygon3D::PolygonVertexWithUVNormal* vert2 =
-                    new edk::shape::Polygon3D::PolygonVertexWithUVNormal(vertex,vertexID,&this->staticUV,0u,normal,normalID);
+                    new edk::shape::Polygon3D::PolygonVertexWithUVNormal(vertex,vertexID,&this->staticUV,0u,normal,normalID);edkEnd();
             if(vert2){
-                this->vertexs.set(position,(edk::shape::Polygon3D::PolygonVertex*)vert2);
+                this->vertexs.set(position,(edk::shape::Polygon3D::PolygonVertex*)vert2);edkEnd();
             }
             else{
-                this->vertexs.set(position,NULL);
+                this->vertexs.set(position,NULL);edkEnd();
                 return false;
             }
         }
         case edk::shape::Polygon3D::typeVertexWithUVNormal:
         {
             edk::shape::Polygon3D::PolygonVertexWithUVNormal* vert = (edk::shape::Polygon3D::PolygonVertexWithUVNormal*)
-                    this->vertexs[position];
-            vert->uv = uv;
-            vert->uvID = uvID;
+                    this->vertexs[position];edkEnd();
+            vert->uv = uv;edkEnd();
+            vert->uvID = uvID;edkEnd();
         }
-            break;
+            break;edkEnd();
         }
         return true;
     }
@@ -319,16 +329,16 @@ bool edk::shape::Polygon3D::setUV(edk::uint32 position,edk::shape::UV2D* uv,edk:
 
 //Set polygon color
 bool edk::shape::Polygon3D::setPolygonColor(edk::color4f32 color){
-    edk::uint32 size = this->vertexs.size();
+    edk::uint32 size = this->vertexs.size();edkEnd();
     if(size){
-        edk::shape::Polygon3D::PolygonVertex* vertex;
+        edk::shape::Polygon3D::PolygonVertex* vertex;edkEnd();
         for(edk::uint32 i=0u;i<size;i++){
-            vertex = this->vertexs[i];
+            vertex = this->vertexs[i];edkEnd();
             if(vertex){
-                vertex->vertex->r = color.r;
-                vertex->vertex->g = color.g;
-                vertex->vertex->b = color.b;
-                vertex->vertex->a = color.a;
+                vertex->vertex->r = color.r;edkEnd();
+                vertex->vertex->g = color.g;edkEnd();
+                vertex->vertex->b = color.b;edkEnd();
+                vertex->vertex->a = color.a;edkEnd();
             }
         }
         return true;
@@ -336,15 +346,15 @@ bool edk::shape::Polygon3D::setPolygonColor(edk::color4f32 color){
     return false;
 }
 bool edk::shape::Polygon3D::setPolygonColor(edk::color3f32 color){
-    return this->setPolygonColor(edk::color4f32 (color.r,color.g,color.b,1.f));
+    return this->setPolygonColor(edk::color4f32 (color.r,color.g,color.b,1.f));edkEnd();
 }
 bool edk::shape::Polygon3D::setPolygonColor(edk::float32 r,edk::float32 g,edk::float32 b){
     //
-    return this->setPolygonColor(edk::color4f32 (r,g,b,1.f));
+    return this->setPolygonColor(edk::color4f32 (r,g,b,1.f));edkEnd();
 }
 bool edk::shape::Polygon3D::setPolygonColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
     //
-    return this->setPolygonColor(edk::color4f32 (r,g,b,a));
+    return this->setPolygonColor(edk::color4f32 (r,g,b,a));edkEnd();
 }
 
 //Calculate the normal of the polygon
@@ -352,10 +362,10 @@ bool edk::shape::Polygon3D::updateNormal(){
     //test if have the vertexes
     if(this->vertexs.size()>2u){
         //get the vertexes
-        edk::shape::Polygon3D::PolygonVertex* v1,*v2,*v3;
-        v1 = this->vertexs[0u];
-        v2 = this->vertexs[1u];
-        v3 = this->vertexs[2u];
+        edk::shape::Polygon3D::PolygonVertex* v1,*v2,*v3;edkEnd();
+        v1 = this->vertexs[0u];edkEnd();
+        v2 = this->vertexs[1u];edkEnd();
+        v3 = this->vertexs[2u];edkEnd();
 
         if(v1 && v2 && v3){
             this->normal = edk::Math::crossProduct(v2->vertex->x - v1->vertex->x,
@@ -364,8 +374,8 @@ bool edk::shape::Polygon3D::updateNormal(){
                                                    v3->vertex->x - v1->vertex->x,
                                                    v3->vertex->y - v1->vertex->y,
                                                    v3->vertex->z - v1->vertex->z
-                                                   );
-            this->normal = edk::Math::normalise(this->normal.x,this->normal.y,this->normal.z);
+                                                   );edkEnd();
+            this->normal = edk::Math::normalise(this->normal.x,this->normal.y,this->normal.z);edkEnd();
             //
             return true;
         }
@@ -373,19 +383,19 @@ bool edk::shape::Polygon3D::updateNormal(){
     return false;
 }
 void edk::shape::Polygon3D::setNormalFlat(edk::shape::Vector3D normal){
-    this->normal = normal;
+    this->normal = normal;edkEnd();
 }
 
 //print the polygon
 bool edk::shape::Polygon3D::print(){
-    edk::uint32 size = this->vertexs.size();
+    edk::uint32 size = this->vertexs.size();edkEnd();
     if(size){
-        this->normal.printNormal();
-        edk::shape::Polygon3D::PolygonVertex* vertex;
+        this->normal.printNormal();edkEnd();
+        edk::shape::Polygon3D::PolygonVertex* vertex;edkEnd();
         for(edk::uint32 i=0u;i<size;i++){
-            vertex = this->vertexs[i];
+            vertex = this->vertexs[i];edkEnd();
             if(vertex){
-                vertex->print();
+                vertex->print();edkEnd();
             }
         }
         return true;
@@ -394,96 +404,96 @@ bool edk::shape::Polygon3D::print(){
 }
 //draw the polygon
 void edk::shape::Polygon3D::draw(){
-    //edk::GU::guPushMatrix();
-    //    edk::GU::guTranslate2f32(this->translate);
-    //    edk::GU::guRotateZf32(this->angle);
-    //    edk::GU::guScale2f32(this->scale);
-    edk::GU::guBegin(GU_POLYGON);
-    this->drawVertexs();
-    edk::GU::guEnd();
-    //edk::GU::guPopMatrix();
+    //edk::GU::guPushMatrix();edkEnd();
+    //    edk::GU::guTranslate2f32(this->translate);edkEnd();
+    //    edk::GU::guRotateZf32(this->angle);edkEnd();
+    //    edk::GU::guScale2f32(this->scale);edkEnd();
+    edk::GU::guBegin(GU_POLYGON);edkEnd();
+    this->drawVertexs();edkEnd();
+    edk::GU::guEnd();edkEnd();
+    //edk::GU::guPopMatrix();edkEnd();
 }
 //Draw the polygon with lines
 void edk::shape::Polygon3D::drawWire(){
-    edk::GU::guPushMatrix();
-    //    edk::GU::guTranslate2f32(this->translate);
-    //    edk::GU::guRotateZf32(this->angle);
-    //    edk::GU::guScale2f32(this->scale);
-    edk::GU::guBegin(GU_LINE_LOOP);
-    this->drawVertexsOnly();
-    edk::GU::guEnd();
-    edk::GU::guPopMatrix();
+    edk::GU::guPushMatrix();edkEnd();
+    //    edk::GU::guTranslate2f32(this->translate);edkEnd();
+    //    edk::GU::guRotateZf32(this->angle);edkEnd();
+    //    edk::GU::guScale2f32(this->scale);edkEnd();
+    edk::GU::guBegin(GU_LINE_LOOP);edkEnd();
+    this->drawVertexsOnly();edkEnd();
+    edk::GU::guEnd();edkEnd();
+    edk::GU::guPopMatrix();edkEnd();
 }
 void edk::shape::Polygon3D::drawWireWithColor(edk::color4f32 color){
-    edk::GU::guPushMatrix();
-    //    edk::GU::guTranslate2f32(this->translate);
-    //    edk::GU::guRotateZf32(this->angle);
-    //    edk::GU::guScale2f32(this->scale);
-    edk::GU::guBegin(GU_LINE_LOOP);
-    this->drawVertexsWithColor(color);
-    edk::GU::guEnd();
-    edk::GU::guPopMatrix();
+    edk::GU::guPushMatrix();edkEnd();
+    //    edk::GU::guTranslate2f32(this->translate);edkEnd();
+    //    edk::GU::guRotateZf32(this->angle);edkEnd();
+    //    edk::GU::guScale2f32(this->scale);edkEnd();
+    edk::GU::guBegin(GU_LINE_LOOP);edkEnd();
+    this->drawVertexsWithColor(color);edkEnd();
+    edk::GU::guEnd();edkEnd();
+    edk::GU::guPopMatrix();edkEnd();
 }
 //draw vertexs
 void edk::shape::Polygon3D::drawPolygonVertexs(edk::color4f32 color){
-    edk::GU::guPushMatrix();
-    //    edk::GU::guTranslate2f32(this->translate);
-    //    edk::GU::guRotateZf32(this->angle);
-    //    edk::GU::guScale2f32(this->scale);
-    edk::GU::guBegin(GU_POINTS);
-    this->drawVertexsWithColor(color);
-    edk::GU::guEnd();
-    edk::GU::guPopMatrix();
+    edk::GU::guPushMatrix();edkEnd();
+    //    edk::GU::guTranslate2f32(this->translate);edkEnd();
+    //    edk::GU::guRotateZf32(this->angle);edkEnd();
+    //    edk::GU::guScale2f32(this->scale);edkEnd();
+    edk::GU::guBegin(GU_POINTS);edkEnd();
+    this->drawVertexsWithColor(color);edkEnd();
+    edk::GU::guEnd();edkEnd();
+    edk::GU::guPopMatrix();edkEnd();
 }
 
 void edk::shape::Polygon3D::drawPolygonNormals(){
-    edk::uint32 size = this->vertexs.size();
+    edk::uint32 size = this->vertexs.size();edkEnd();
     if(size){
-        edk::GU::guPushMatrix();
-        //    edk::GU::guTranslate2f32(this->translate);
-        //    edk::GU::guRotateZf32(this->angle);
-        //    edk::GU::guScale2f32(this->scale);
-        edk::GU::guBegin(GU_LINES);
-        edk::shape::Polygon3D::PolygonVertex* vertex;
+        edk::GU::guPushMatrix();edkEnd();
+        //    edk::GU::guTranslate2f32(this->translate);edkEnd();
+        //    edk::GU::guRotateZf32(this->angle);edkEnd();
+        //    edk::GU::guScale2f32(this->scale);edkEnd();
+        edk::GU::guBegin(GU_LINES);edkEnd();
+        edk::shape::Polygon3D::PolygonVertex* vertex;edkEnd();
         if(this->smooth){
             for(edk::uint32 i=0u;i<size;i++){
-                vertex = this->vertexs[i];
+                vertex = this->vertexs[i];edkEnd();
                 if(vertex){
-                    vertex->drawNormal();
+                    vertex->drawNormal();edkEnd();
                 }
             }
         }
         else{
-            vertex = this->vertexs[0u];
+            vertex = this->vertexs[0u];edkEnd();
             if(vertex){
                 //set the color of the vertex
                 edk::GU::guColor4f32(vertex->vertex->r,
                                      vertex->vertex->g,
                                      vertex->vertex->b,
                                      vertex->vertex->a
-                                     );
-                this->center.drawVertex();
-                this->center.drawVertexPosition(edk::vec3f32(this->normal.x,this->normal.y,this->normal.z));
+                                     );edkEnd();
+                this->center.drawVertex();edkEnd();
+                this->center.drawVertexPosition(edk::vec3f32(this->normal.x,this->normal.y,this->normal.z));edkEnd();
             }
         }
-        edk::GU::guEnd();
-        edk::GU::guPopMatrix();
+        edk::GU::guEnd();edkEnd();
+        edk::GU::guPopMatrix();edkEnd();
     }
 }
 void edk::shape::Polygon3D::drawPolygonNormalsWithColor(edk::color4f32 color){
-    edk::uint32 size = this->vertexs.size();
+    edk::uint32 size = this->vertexs.size();edkEnd();
     if(size){
-        edk::GU::guPushMatrix();
-        //    edk::GU::guTranslate2f32(this->translate);
-        //    edk::GU::guRotateZf32(this->angle);
-        //    edk::GU::guScale2f32(this->scale);
-        edk::GU::guBegin(GU_LINES);
-        edk::shape::Polygon3D::PolygonVertex* vertex;
+        edk::GU::guPushMatrix();edkEnd();
+        //    edk::GU::guTranslate2f32(this->translate);edkEnd();
+        //    edk::GU::guRotateZf32(this->angle);edkEnd();
+        //    edk::GU::guScale2f32(this->scale);edkEnd();
+        edk::GU::guBegin(GU_LINES);edkEnd();
+        edk::shape::Polygon3D::PolygonVertex* vertex;edkEnd();
         if(this->smooth){
             for(edk::uint32 i=0u;i<size;i++){
-                vertex = this->vertexs[i];
+                vertex = this->vertexs[i];edkEnd();
                 if(vertex){
-                    vertex->drawNormalWithColor(color);
+                    vertex->drawNormalWithColor(color);edkEnd();
                 }
             }
         }
@@ -493,150 +503,150 @@ void edk::shape::Polygon3D::drawPolygonNormalsWithColor(edk::color4f32 color){
                                  color.g,
                                  color.b,
                                  color.a
-                                 );
-            this->center.drawVertex();
-            this->center.drawVertexPosition(edk::vec3f32(this->normal.x,this->normal.y,this->normal.z));
+                                 );edkEnd();
+            this->center.drawVertex();edkEnd();
+            this->center.drawVertexPosition(edk::vec3f32(this->normal.x,this->normal.y,this->normal.z));edkEnd();
         }
-        edk::GU::guEnd();
-        edk::GU::guPopMatrix();
+        edk::GU::guEnd();edkEnd();
+        edk::GU::guPopMatrix();edkEnd();
     }
 }
 
 bool edk::shape::Polygon3D::cloneFrom(edk::shape::Polygon3D* poly){
-    this->deletePolygon();
+    this->deletePolygon();edkEnd();
     if(poly){
-        edk::uint32 size = poly->vertexs.size();
+        edk::uint32 size = poly->vertexs.size();edkEnd();
         if(size){
             if(this->vertexs.createArray(size)){
-                bool haveVertex=true;
+                bool haveVertex=true;edkEnd();
                 for(edk::uint32 i=0u;i<size;i++){
                     if(haveVertex){
                         //get the polygonVertex
                         switch(poly->vertexs[i]->getType()){
                         case edk::shape::Polygon3D::typeVertex:
                         {
-                            edk::shape::Polygon3D::PolygonVertex* vert = poly->vertexs[i];
+                            edk::shape::Polygon3D::PolygonVertex* vert = poly->vertexs[i];edkEnd();
                             if(vert){
                                 edk::shape::Polygon3D::PolygonVertex* vert2 =
-                                        new edk::shape::Polygon3D::PolygonVertex(vert->vertex,vert->vertexID);
+                                        new edk::shape::Polygon3D::PolygonVertex(vert->vertex,vert->vertexID);edkEnd();
                                 if(vert2){
                                     //add the vertex in to the stack
                                     if(!this->vertexs.set(i,vert2)){
-                                        delete vert2;
-                                        haveVertex=false;
-                                        this->vertexs.set(i,NULL);
+                                        delete vert2;edkEnd();
+                                        haveVertex=false;edkEnd();
+                                        this->vertexs.set(i,NULL);edkEnd();
                                     }
                                 }
                                 else{
-                                    haveVertex=false;
-                                    this->vertexs.set(i,NULL);
+                                    haveVertex=false;edkEnd();
+                                    this->vertexs.set(i,NULL);edkEnd();
                                 }
                             }
                             else{
-                                haveVertex=false;
-                                this->vertexs.set(i,NULL);
+                                haveVertex=false;edkEnd();
+                                this->vertexs.set(i,NULL);edkEnd();
                             }
                         }
-                            break;
+                            break;edkEnd();
                         case edk::shape::Polygon3D::typeVertexWithNormal:
                         {
                             edk::shape::Polygon3D::PolygonVertexWithNormal* vert =
-                                    (edk::shape::Polygon3D::PolygonVertexWithNormal*)poly->vertexs[i];
+                                    (edk::shape::Polygon3D::PolygonVertexWithNormal*)poly->vertexs[i];edkEnd();
                             if(vert){
                                 edk::shape::Polygon3D::PolygonVertexWithNormal* vert2 =
                                         new edk::shape::Polygon3D::PolygonVertexWithNormal(vert->vertex,vert->vertexID,
                                                                                            vert->normal,vert->normalID
-                                                                                           );
+                                                                                           );edkEnd();
                                 if(vert2){
                                     //add the vertex in to the stack
                                     if(!this->vertexs.set(i,vert2)){
-                                        delete vert2;
-                                        haveVertex=false;
-                                        this->vertexs.set(i,NULL);
+                                        delete vert2;edkEnd();
+                                        haveVertex=false;edkEnd();
+                                        this->vertexs.set(i,NULL);edkEnd();
                                     }
                                 }
                                 else{
-                                    haveVertex=false;
-                                    this->vertexs.set(i,NULL);
+                                    haveVertex=false;edkEnd();
+                                    this->vertexs.set(i,NULL);edkEnd();
                                 }
                             }
                             else{
-                                haveVertex=false;
-                                this->vertexs.set(i,NULL);
+                                haveVertex=false;edkEnd();
+                                this->vertexs.set(i,NULL);edkEnd();
                             }
                         }
-                            break;
+                            break;edkEnd();
                         case edk::shape::Polygon3D::typeVertexWithUV:
                         {
                             edk::shape::Polygon3D::PolygonVertexWithUV* vert =
-                                    (edk::shape::Polygon3D::PolygonVertexWithUV*)poly->vertexs[i];
+                                    (edk::shape::Polygon3D::PolygonVertexWithUV*)poly->vertexs[i];edkEnd();
                             if(vert){
                                 edk::shape::Polygon3D::PolygonVertexWithUV* vert2 =
                                         new edk::shape::Polygon3D::PolygonVertexWithUV(vert->vertex,vert->vertexID,
                                                                                        vert->uv,vert->uvID
-                                                                                       );
+                                                                                       );edkEnd();
                                 if(vert2){
                                     //add the vertex in to the stack
                                     if(!this->vertexs.set(i,vert2)){
-                                        delete vert2;
-                                        haveVertex=false;
-                                        this->vertexs.set(i,NULL);
+                                        delete vert2;edkEnd();
+                                        haveVertex=false;edkEnd();
+                                        this->vertexs.set(i,NULL);edkEnd();
                                     }
                                 }
                                 else{
-                                    haveVertex=false;
-                                    this->vertexs.set(i,NULL);
+                                    haveVertex=false;edkEnd();
+                                    this->vertexs.set(i,NULL);edkEnd();
                                 }
                             }
                             else{
-                                haveVertex=false;
-                                this->vertexs.set(i,NULL);
+                                haveVertex=false;edkEnd();
+                                this->vertexs.set(i,NULL);edkEnd();
                             }
                         }
-                            break;
+                            break;edkEnd();
                         case edk::shape::Polygon3D::typeVertexWithUVNormal:
                         {
                             edk::shape::Polygon3D::PolygonVertexWithUVNormal* vert =
-                                    (edk::shape::Polygon3D::PolygonVertexWithUVNormal*)poly->vertexs[i];
+                                    (edk::shape::Polygon3D::PolygonVertexWithUVNormal*)poly->vertexs[i];edkEnd();
                             if(vert){
                                 edk::shape::Polygon3D::PolygonVertexWithUVNormal* vert2 =
                                         new edk::shape::Polygon3D::PolygonVertexWithUVNormal(vert->vertex,vert->vertexID,
                                                                                              vert->uv,vert->uvID,
                                                                                              vert->normal,vert->normalID
-                                                                                             );
+                                                                                             );edkEnd();
                                 if(vert2){
                                     //add the vertex in to the stack
                                     if(!this->vertexs.set(i,vert2)){
-                                        delete vert2;
-                                        haveVertex=false;
-                                        this->vertexs.set(i,NULL);
+                                        delete vert2;edkEnd();
+                                        haveVertex=false;edkEnd();
+                                        this->vertexs.set(i,NULL);edkEnd();
                                     }
                                 }
                                 else{
-                                    haveVertex=false;
-                                    this->vertexs.set(i,NULL);
+                                    haveVertex=false;edkEnd();
+                                    this->vertexs.set(i,NULL);edkEnd();
                                 }
                             }
                             else{
-                                haveVertex=false;
-                                this->vertexs.set(i,NULL);
+                                haveVertex=false;edkEnd();
+                                this->vertexs.set(i,NULL);edkEnd();
                             }
                         }
-                            break;
+                            break;edkEnd();
                         }
 
                     }
                     else{
-                        this->vertexs.set(i,NULL);
+                        this->vertexs.set(i,NULL);edkEnd();
                     }
                 }
                 if(haveVertex){
-                    this->smooth = poly->smooth;
-                    this->normal = poly->normal;
+                    this->smooth = poly->smooth;edkEnd();
+                    this->normal = poly->normal;edkEnd();
                     return true;
                 }
                 else{
-                    this->deletePolygon();
+                    this->deletePolygon();edkEnd();
                 }
             }
         }

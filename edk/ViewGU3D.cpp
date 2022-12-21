@@ -33,38 +33,38 @@ edk::ViewGU3D::~ViewGU3D(){
 //draw the 2Dcamera
 void edk::ViewGU3D::drawCamera3D(){
     //
-    this->camera.draw();
+    this->camera.draw();edkEnd();
 }
 //draw selection camera
 void edk::ViewGU3D::drawSelectionCamera(){
     //
-    this->camera.drawAxisOnly();
+    this->camera.drawAxisOnly();edkEnd();
 }
 //draw the polygon on the scene
 void edk::ViewGU3D::drawPolygon(edk::rectf32 outsideViewOrigin){
-    edk::ViewSpriteController::drawPolygon(outsideViewOrigin);
+    edk::ViewSpriteController::drawPolygon(outsideViewOrigin);edkEnd();
 
     //run selection function before draw the scene
-    this->runSelectionFunction();
+    this->runSelectionFunction();edkEnd();
 
-    this->drawCamera3D();
+    this->drawCamera3D();edkEnd();
 
     //set the matrix before draw the scene
-    edk::GU::guUseMatrix(GU_MODELVIEW);
+    edk::GU::guUseMatrix(GU_MODELVIEW);edkEnd();
 
-    edk::GU::guEnable(GU_DEPTH_TEST);
+    edk::GU::guEnable(GU_DEPTH_TEST);edkEnd();
 
-    edk::GU::guDepthFunc(GU_LESS);
+    edk::GU::guDepthFunc(GU_LESS);edkEnd();
 
-    edk::GU::guDepthRange(0.0f, 1.0f);
+    edk::GU::guDepthRange(0.0f, 1.0f);edkEnd();
 
-    edk::GU::guClear(GU_DEPTH_BUFFER_BIT);
+    edk::GU::guClear(GU_DEPTH_BUFFER_BIT);edkEnd();
     //draw the GU scene
-    this->drawScene(outsideViewOrigin);
+    this->drawScene(outsideViewOrigin);edkEnd();
 
-    edk::GU::guDisable(GU_DEPTH_TEST);
+    edk::GU::guDisable(GU_DEPTH_TEST);edkEnd();
 
-    edk::GU::guDisableAllLights();
+    edk::GU::guDisableAllLights();edkEnd();
 }
 
 //draw the GU scene

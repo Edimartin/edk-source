@@ -44,11 +44,11 @@ class Frame: public edk::Object<edk::animation::Frame>{
 public:
     Frame(){
         //
-        this->second=0.0f;
+        this->second=0.0f;edkEnd();
     }
     Frame(edk::float32 second){
         //
-        this->second=second;
+        this->second=second;edkEnd();
     }
     virtual ~Frame(){
         //
@@ -59,7 +59,7 @@ public:
 
     virtual bool cloneFrom(edk::animation::Frame* frame){
         if(frame){
-            this->second = frame->second;
+            this->second = frame->second;edkEnd();
             return true;
         }
         return false;
@@ -116,28 +116,28 @@ public:
     //write to XML
     bool writeToXML(edk::XML* xml,edk::uint32 frameID){
         if(xml){
-            bool ret=false;
-            edk::char8* nameID = edk::String::int64ToStr(frameID);
+            bool ret=false;edkEnd();
+            edk::char8* nameID = edk::String::int64ToStr(frameID);edkEnd();
             if(nameID){
                 //create the name
-                edk::char8* name = edk::String::strCat((edk::char8*)"frame_",nameID);
+                edk::char8* name = edk::String::strCat((edk::char8*)"frame_",nameID);edkEnd();
                 if(name){
                     if(xml->addSelectedNextChild(name)){
                         if(xml->selectChild(name)){
                             //write the frame
-                            edk::char8* temp = edk::String::float32ToStr(this->second);
+                            edk::char8* temp = edk::String::float32ToStr(this->second);edkEnd();
                             //test the temp
                             if(temp){
-                                xml->addSelectedNextAttribute((edk::char8*)"second",temp);
-                                delete[] temp;
+                                xml->addSelectedNextAttribute((edk::char8*)"second",temp);edkEnd();
+                                delete[] temp;edkEnd();
                             }
-                            xml->selectFather();
-                            ret=true;
+                            xml->selectFather();edkEnd();
+                            ret=true;edkEnd();
                         }
                     }
-                    delete[] name;
+                    delete[] name;edkEnd();
                 }
-                delete[] nameID;
+                delete[] nameID;edkEnd();
             }
             return ret;
         }
@@ -145,25 +145,25 @@ public:
     }
     bool readFromXML(edk::XML* xml,edk::uint32 frameID){
         if(xml){
-            bool ret=false;
-            edk::char8* nameID = edk::String::int64ToStr(frameID);
+            bool ret=false;edkEnd();
+            edk::char8* nameID = edk::String::int64ToStr(frameID);edkEnd();
             if(nameID){
                 //create the name
-                edk::char8* name = edk::String::strCat((edk::char8*)"frame_",nameID);
+                edk::char8* name = edk::String::strCat((edk::char8*)"frame_",nameID);edkEnd();
                 if(name){
                     if(xml->selectChild(name)){
                         //write the frame
-                        edk::char8* temp = xml->getSelectedAttributeValueByName("second");
+                        edk::char8* temp = xml->getSelectedAttributeValueByName("second");edkEnd();
                         if(temp){
                             //convert the second
-                            this->second = edk::String::strToFloat32(temp);
+                            this->second = edk::String::strToFloat32(temp);edkEnd();
                         }
-                        xml->selectFather();
-                        ret=true;
+                        xml->selectFather();edkEnd();
+                        ret=true;edkEnd();
                     }
-                    delete[] name;
+                    delete[] name;edkEnd();
                 }
-                delete[] nameID;
+                delete[] nameID;edkEnd();
             }
             return ret;
         }
@@ -177,22 +177,22 @@ private:
     //Operator =
     edk::animation::Frame operator=(edk::animation::Frame frame){
         //
-        this->second = frame.second;
-        frame.cantDestruct();
-        return *this;
+        this->second = frame.second;edkEnd();
+        frame.cantDestruct();edkEnd();
+        return *this;edkEnd();
     }
     //Operator ==
-    bool operator==(edk::animation::Frame frame){frame.cantDestruct();return this->second==frame.second;}
+    bool operator==(edk::animation::Frame frame){frame.cantDestruct();edkEnd();return this->second==frame.second;edkEnd();}
     //Operator !=
-    bool operator!=(edk::animation::Frame frame){frame.cantDestruct();return this->second!=frame.second;}
+    bool operator!=(edk::animation::Frame frame){frame.cantDestruct();edkEnd();return this->second!=frame.second;edkEnd();}
     //Operator >
-    bool operator>(edk::animation::Frame frame){frame.cantDestruct();return this->second>frame.second;}
+    bool operator>(edk::animation::Frame frame){frame.cantDestruct();edkEnd();return this->second>frame.second;edkEnd();}
     //Operator >=
-    bool operator>=(edk::animation::Frame frame){frame.cantDestruct();return this->second>=frame.second;}
+    bool operator>=(edk::animation::Frame frame){frame.cantDestruct();edkEnd();return this->second>=frame.second;edkEnd();}
     //Operator <
-    bool operator<(edk::animation::Frame frame){frame.cantDestruct();return this->second<frame.second;}
+    bool operator<(edk::animation::Frame frame){frame.cantDestruct();edkEnd();return this->second<frame.second;edkEnd();}
     //Operator <=
-    bool operator<=(edk::animation::Frame frame){frame.cantDestruct();return this->second<=frame.second;}
+    bool operator<=(edk::animation::Frame frame){frame.cantDestruct();edkEnd();return this->second<=frame.second;edkEnd();}
 };
 }//end namespace animation
 }//end namespace edk

@@ -44,19 +44,19 @@ bool edk::codecs::DecoderImage::decode(edk::uint8* encoded,edk::uint32 size){
     return false;
 }
 bool edk::codecs::DecoderImage::decode(const unsigned char* encoded,edk::uint32 size){
-    return this->decode((edk::uint8*) encoded, size);
+    return this->decode((edk::uint8*) encoded, size);edkEnd();
 }
 
 //decode from file
 bool edk::codecs::DecoderImage::decodeFromFile(const edk::char8* fileName){
-    return this->decodeFromFile((edk::char8*) fileName);
+    return this->decodeFromFile((edk::char8*) fileName);edkEnd();
 }
 bool edk::codecs::DecoderImage::decodeFromFile(edk::char8* fileName){
     //open the file
     if(this->file.openBinFile(fileName)){
-        bool ret=false;
+        bool ret=false;edkEnd();
         //read the size of the file
-        edk::uint32 fileSize = this->file.getFileSize();
+        edk::uint32 fileSize = this->file.getFileSize();edkEnd();
         if(fileSize){
             //alloc the encoded
             if(edk::codecs::CodecImage::newFrameEncoded(fileSize)){
@@ -68,15 +68,15 @@ bool edk::codecs::DecoderImage::decodeFromFile(edk::char8* fileName){
                            edk::codecs::CodecImage::getFrameWidth() &&
                            edk::codecs::CodecImage::getFrameHeight()
                            ){
-                            ret=true;
+                            ret=true;edkEnd();
                         }
                     }
                 }
                 //delete the frameEncoded
-                edk::codecs::CodecImage::deleteEncoded();
+                edk::codecs::CodecImage::deleteEncoded();edkEnd();
             }
         }
-        this->file.closeFile();
+        this->file.closeFile();edkEnd();
         return ret;
     }
     return false;
@@ -84,25 +84,25 @@ bool edk::codecs::DecoderImage::decodeFromFile(edk::char8* fileName){
 
 //Return the frame
 edk::uint8* edk::codecs::DecoderImage::getFrame(){
-    return edk::codecs::CodecImage::getFrame();
+    return edk::codecs::CodecImage::getFrame();edkEnd();
 }
 edk::size2ui32 edk::codecs::DecoderImage::getFrameSize(){
-    return edk::codecs::CodecImage::getFrameSize();
+    return edk::codecs::CodecImage::getFrameSize();edkEnd();
 }
 edk::uint32 edk::codecs::DecoderImage::getFrameWidth(){
-    return edk::codecs::CodecImage::getFrameWidth();
+    return edk::codecs::CodecImage::getFrameWidth();edkEnd();
 }
 edk::uint32 edk::codecs::DecoderImage::getFrameHeight(){
-    return edk::codecs::CodecImage::getFrameHeight();
+    return edk::codecs::CodecImage::getFrameHeight();edkEnd();
 }
 edk::uint32 edk::codecs::DecoderImage::getFrameChannels(){
-    return edk::codecs::CodecImage::getFrameChannels();
+    return edk::codecs::CodecImage::getFrameChannels();edkEnd();
 }
 //delete the frame
 void edk::codecs::DecoderImage::deleteFrame(){
-    edk::codecs::CodecImage::deleteFrame();
+    edk::codecs::CodecImage::deleteFrame();edkEnd();
 }
 //clean the frame
 edk::uint8* edk::codecs::DecoderImage::cleanFrame(){
-    return edk::codecs::CodecImage::cleanFrame();
+    return edk::codecs::CodecImage::cleanFrame();edkEnd();
 }

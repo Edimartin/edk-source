@@ -432,7 +432,7 @@ private:
     //class to save the object
     class ObjectTree{
     public:
-        ObjectTree(edk::physics2D::PhysicObject2D* object,b2Body* body){this->object=object;this->body=body;}
+        ObjectTree(edk::physics2D::PhysicObject2D* object,b2Body* body){this->object=object;edkEnd();this->body=body;edkEnd();}
         ~ObjectTree(){}
         edk::physics2D::PhysicObject2D* object;
         b2Body* body;
@@ -461,20 +461,21 @@ private:
         virtual void updateElement(ObjectTree* value){
             if(value->body){
                 //update the value
-                edk::physics2D::PhysicObject2D* obj = (edk::physics2D::PhysicObject2D*)value->body->GetUserData().pointer;
+                edk::physics2D::PhysicObject2D* obj = (edk::physics2D::PhysicObject2D*)value->body->GetUserData().pointer;edkEnd();
                 if(obj){
-                    obj->position.x = value->body->GetPosition().x * this->percentOut;
-                    obj->position.y = value->body->GetPosition().y * this->percentOut;
-                    if(!obj->fixedRotation)
-                        obj->angle = value->body->GetAngle() * (180.f / b2_pi);
-                    obj->setLinearVelocity(value->body->GetLinearVelocity().x * this->percentOut,value->body->GetLinearVelocity().y);
-                    obj->getLinearVelocity();
-                    obj->setAngularVelocity(value->body->GetAngularVelocity() * (180.f / b2_pi));
-                    obj->getAngularVelocity();
+                    obj->position.x = value->body->GetPosition().x * this->percentOut;edkEnd();
+                    obj->position.y = value->body->GetPosition().y * this->percentOut;edkEnd();
+                    if(!obj->fixedRotation){
+                        obj->angle = value->body->GetAngle() * (180.f / b2_pi);edkEnd();
+                    }
+                    obj->setLinearVelocity(value->body->GetLinearVelocity().x * this->percentOut,value->body->GetLinearVelocity().y);edkEnd();
+                    obj->getLinearVelocity();edkEnd();
+                    obj->setAngularVelocity(value->body->GetAngularVelocity() * (180.f / b2_pi));edkEnd();
+                    obj->getAngularVelocity();edkEnd();
                     //test if can sleep
                     if(!obj->canSleep && obj->getType()==edk::physics::DynamicBody){
                         //set awake to true
-                        value->body->SetAwake(true);
+                        value->body->SetAwake(true);edkEnd();
                     }
                 }
             }
@@ -482,33 +483,33 @@ private:
         //return the body
         inline b2Body* getBody(edk::physics2D::PhysicObject2D* obj){
             if(obj){
-                edk::physics2D::World2D::ObjectTree find(obj,NULL);
-                edk::physics2D::World2D::ObjectTree* temp = this->getElement(&find);
+                edk::physics2D::World2D::ObjectTree find(obj,NULL);edkEnd();
+                edk::physics2D::World2D::ObjectTree* temp = this->getElement(&find);edkEnd();
                 if(temp){
-                    return temp->body;
+                    return temp->body;edkEnd();
                 }
             }
-            return NULL;
+            return NULL;edkEnd();
         }
         //return the body in the position
         inline b2Body* getBodyInPosition(edk::uint32 position){
-            edk::physics2D::World2D::ObjectTree* temp = this->getElementInPosition(position);
+            edk::physics2D::World2D::ObjectTree* temp = this->getElementInPosition(position);edkEnd();
             if(temp){
-                return temp->body;
+                return temp->body;edkEnd();
             }
-            return NULL;
+            return NULL;edkEnd();
         }
         inline bool haveBody(edk::physics2D::PhysicObject2D* obj){
             if(obj){
-                edk::physics2D::World2D::ObjectTree find(obj,NULL);
-                return this->haveElement(&find);
+                edk::physics2D::World2D::ObjectTree find(obj,NULL);edkEnd();
+                return this->haveElement(&find);edkEnd();
             }
             return false;
         }
         //add the body
         bool addBody(edk::physics2D::PhysicObject2D* object,b2Body* body){
             //load the object
-            edk::physics2D::World2D::ObjectTree* temp = new edk::physics2D::World2D::ObjectTree(object,body);
+            edk::physics2D::World2D::ObjectTree* temp = new edk::physics2D::World2D::ObjectTree(object,body);edkEnd();
             if(temp){
                 //add the new temp
                 if(this->add(temp)){
@@ -516,7 +517,7 @@ private:
                     return true;
                 }
                 //else delete temp
-                delete temp;
+                delete temp;edkEnd();
             }
             return false;
         }
@@ -524,11 +525,11 @@ private:
         bool removeBody(b2Body* body){
             //
             if(body){
-                edk::physics2D::World2D::ObjectTree find((edk::physics2D::PhysicObject2D*)body->GetUserData().pointer,body);
-                edk::physics2D::World2D::ObjectTree* temp = this->getElement(&find);
+                edk::physics2D::World2D::ObjectTree find((edk::physics2D::PhysicObject2D*)body->GetUserData().pointer,body);edkEnd();
+                edk::physics2D::World2D::ObjectTree* temp = this->getElement(&find);edkEnd();
                 if(temp){
                     if(this->remove(temp)){
-                        delete temp;
+                        delete temp;edkEnd();
                         return true;
                     }
                 }
@@ -542,11 +543,13 @@ private:
     //deletedTree
     class DeletedTree: public edk::vector::BinaryTree<b2Body*>{
     public:
-        DeletedTree(b2World* world){this->world = world;}
+        DeletedTree(b2World* world){this->world = world;edkEnd();}
         ~DeletedTree(){}
         void updateElement(b2Body* value){
             //update the value
-            if(value) this->world->DestroyBody(value);
+            if(value){
+                this->world->DestroyBody(value);edkEnd();
+            }
         }
         //Box2D
         b2World* world;
@@ -555,22 +558,25 @@ private:
     //newTree
     class NewTree: public edk::vector::BinaryTree<edk::physics2D::PhysicObject2D*>{
     public:
-        NewTree(edk::physics2D::World2D* world){this->world = world;}
+        NewTree(edk::physics2D::World2D* world){this->world = world;edkEnd();}
         ~NewTree(){}
         //NEW OBJECT
         virtual void printElement(edk::physics2D::PhysicObject2D* value){
-            if(!this->world->runNextStep)
-                this->world->addObject(value);
+            if(!this->world->runNextStep){
+                this->world->addObject(value);edkEnd();
+            }
         }
         //SET LINEAR VELOCITY
         virtual void renderElement(edk::physics2D::PhysicObject2D* value){
-            if(!this->world->runNextStep)
-                this->world->updateObjectLinearVelocity(value);
+            if(!this->world->runNextStep){
+                this->world->updateObjectLinearVelocity(value);edkEnd();
+            }
         }
         //SET ANGULAR VELOCITY
         void updateElement(edk::physics2D::PhysicObject2D* value){
-            if(!this->world->runNextStep)
-                this->world->updateObjectAngularVelocity(value);
+            if(!this->world->runNextStep){
+                this->world->updateObjectAngularVelocity(value);edkEnd();
+            }
         }
         //edkWorld
         edk::physics2D::World2D* world;
@@ -599,8 +605,8 @@ private:
         }
         //return the contact
         inline edk::physics2D::Contact2D* getContact(edk::classID pointer){
-            edk::physics2D::Contact2D find(pointer);
-            return this->getElement(&find);
+            edk::physics2D::Contact2D find(pointer);edkEnd();
+            return this->getElement(&find);edkEnd();
         }
     }treeConcacts;
 
@@ -621,36 +627,36 @@ private:
     //class to save the joint
     class JointTreeObject{
     public:
-        JointTreeObject(edk::physics2D::Joint2D* joint,b2Joint* boxJoint){this->joint=joint;this->boxJoint=boxJoint;}
+        JointTreeObject(edk::physics2D::Joint2D* joint,b2Joint* boxJoint){this->joint=joint;edkEnd();this->boxJoint=boxJoint;edkEnd();}
         ~JointTreeObject(){}
         edk::physics2D::Joint2D* joint;
         b2Joint* boxJoint;
 
         //return the world position on the body for the joint
         static edk::vec2f32 getJointPosition(edk::physics2D::PhysicObject2D* object,edk::vec2f32 worldPosition){
-            edk::vec2f32 ret;
+            edk::vec2f32 ret;edkEnd();
             //translate
-            ret  = worldPosition - object->position;
+            ret  = worldPosition - object->position;edkEnd();
             //and rotate the worldPosition
             if(object->angle){
-                ret = edk::Math::rotate(ret,object->angle * -1);
+                ret = edk::Math::rotate(ret,object->angle * -1);edkEnd();
             }
             return ret;
         }
 
         //return the joint position in the world
         static edk::vec2f32 getJointWorldPosition(edk::physics2D::PhysicObject2D* object,edk::vec2f32 jointPosition){
-            edk::vec2f32 ret;
+            edk::vec2f32 ret;edkEnd();
             //and rotate the worldPosition
             if(object->angle){
                 //rotate
-                ret = edk::Math::rotatePlus(jointPosition,object->angle);
+                ret = edk::Math::rotatePlus(jointPosition,object->angle);edkEnd();
                 //translate
-                ret+=object->position;
+                ret+=object->position;edkEnd();
             }
             else{
                 //translate
-                ret = jointPosition + object->position;
+                ret = jointPosition + object->position;edkEnd();
             }
             return ret;
         }
@@ -661,36 +667,38 @@ private:
     public:
         //compare if the value is bigger
         bool firstBiggerSecond(edk::physics2D::World2D::JointTreeObject* first,edk::physics2D::World2D::JointTreeObject* second){
-            if(first->joint>second->joint)
+            if(first->joint>second->joint){
                 return true;
+            }
             return false;
         }
         bool firstEqualSecond(edk::physics2D::World2D::JointTreeObject* first,edk::physics2D::World2D::JointTreeObject* second){
-            if(first->joint==second->joint)
+            if(first->joint==second->joint){
                 return true;
+            }
             return false;
         }
         bool haveJoint(edk::physics2D::Joint2D* joint){
             if(joint){
-                edk::physics2D::World2D::JointTreeObject find(joint,NULL);
-                return this->haveElement(&find);
+                edk::physics2D::World2D::JointTreeObject find(joint,NULL);edkEnd();
+                return this->haveElement(&find);edkEnd();
             }
             return false;
         }
         //return the joint
         b2Joint* getJoint(edk::physics2D::Joint2D* joint){
             if(joint){
-                edk::physics2D::World2D::JointTreeObject find(joint,NULL);
-                edk::physics2D::World2D::JointTreeObject* temp = this->getElement(&find);
+                edk::physics2D::World2D::JointTreeObject find(joint,NULL);edkEnd();
+                edk::physics2D::World2D::JointTreeObject* temp = this->getElement(&find);edkEnd();
                 if(temp){
-                    return temp->boxJoint;
+                    return temp->boxJoint;edkEnd();
                 }
             }
-            return NULL;
+            return NULL;edkEnd();
         }
         bool addJoint(edk::physics2D::Joint2D* joint,b2Joint* boxJoint){
             //create the joint
-            edk::physics2D::World2D::JointTreeObject* temp = new edk::physics2D::World2D::JointTreeObject(joint,boxJoint);
+            edk::physics2D::World2D::JointTreeObject* temp = new edk::physics2D::World2D::JointTreeObject(joint,boxJoint);edkEnd();
             if(temp){
                 //set the boxJoint
                 if(this->add(temp)){
@@ -698,18 +706,18 @@ private:
                     return true;
                 }
                 //else delete the temp
-                delete temp;
+                delete temp;edkEnd();
             }
             return false;
         }
         //remove the joint
         bool removeJoint(b2Joint* joint){
             if(joint){
-                edk::physics2D::World2D::JointTreeObject find((edk::physics2D::Joint2D*)joint->GetUserData().pointer,joint);
-                edk::physics2D::World2D::JointTreeObject* temp = this->getElement(&find);
+                edk::physics2D::World2D::JointTreeObject find((edk::physics2D::Joint2D*)joint->GetUserData().pointer,joint);edkEnd();
+                edk::physics2D::World2D::JointTreeObject* temp = this->getElement(&find);edkEnd();
                 if(temp){
                     if(this->remove(temp)){
-                        delete temp;
+                        delete temp;edkEnd();
                         return true;
                     }
                 }
@@ -718,14 +726,20 @@ private:
         }
         //return the joint in the position
         b2Joint* getB2JointInPosition(edk::uint32 position){
-            edk::physics2D::World2D::JointTreeObject* temp = this->getElementInPosition(position);
-            if(temp) return temp->boxJoint;
-            return NULL;
+            edk::physics2D::World2D::JointTreeObject* temp = this->getElementInPosition(position);edkEnd();
+            if(temp){
+                return temp->boxJoint;edkEnd();
+            }
+            return NULL;edkEnd();
         }
         edk::physics2D::Joint2D* getJointInPosition(edk::uint32 position){
-            edk::physics2D::World2D::JointTreeObject* temp = this->getElementInPosition(position);
-            if(temp) if(temp->joint) return temp->joint;
-            return NULL;
+            edk::physics2D::World2D::JointTreeObject* temp = this->getElementInPosition(position);edkEnd();
+            if(temp){
+                if(temp->joint){
+                    return temp->joint;edkEnd();
+                }
+            }
+            return NULL;edkEnd();
         }
         //UPDATE
         virtual void updateElement(edk::physics2D::World2D::JointTreeObject* value){
@@ -738,19 +752,19 @@ private:
                     value->joint->worldPositionA =
                             edk::physics2D::World2D::JointTreeObject::getJointWorldPosition(value->joint->objectA,
                                                                                             value->joint->positionA
-                                                                                            );
+                                                                                            );edkEnd();
 
                     switch(value->joint->getType()){
                     case EDK_PULLEY_JOINT:
                     case EDK_DISTANCE_JOINT:
                     {
-                        edk::physics2D::DistanceJoint2D* temp = (edk::physics2D::DistanceJoint2D*)value->joint;
+                        edk::physics2D::DistanceJoint2D* temp = (edk::physics2D::DistanceJoint2D*)value->joint;edkEnd();
                         temp->worldPositionB =
                                 edk::physics2D::World2D::JointTreeObject::getJointWorldPosition(value->joint->objectB,
                                                                                                 value->joint->positionB
-                                                                                                );
+                                                                                                );edkEnd();
                     }
-                        break;
+                        break;edkEnd();
                         //
                     }
                 }
@@ -761,8 +775,8 @@ private:
     class ObjectJointsTree:private edk::vector::BinaryTree<edk::physics2D::Joint2D*>{
     public:
         ObjectJointsTree(edk::physics2D::PhysicObject2D* objA,edk::physics2D::PhysicObject2D* objB){
-            this->pointerA = objA;
-            this->pointerB = objB;
+            this->pointerA = objA;edkEnd();
+            this->pointerB = objB;edkEnd();
         }
         //Add a joint
         bool addJoint(edk::physics2D::Joint2D* joint);
@@ -834,8 +848,8 @@ private:
         }
         //return one tree
         inline ObjectsJointsTree* getTreeJoint(edk::physics2D::PhysicObject2D* object){
-            ObjectsJointsTree find(object);
-            return this->getElement(&find);
+            ObjectsJointsTree find(object);edkEnd();
+            return this->getElement(&find);edkEnd();
         }
 
     }treeJointObjects;
@@ -854,7 +868,7 @@ private:
     public:
         TreeObjectID(){}
         ~TreeObjectID(){
-            this->removeAllObjects();
+            this->removeAllObjects();edkEnd();
         }
         //compare if the value is bigger
         virtual bool firstBiggerSecond(edk::physics2D::World2D::ObjectIDs* first,edk::physics2D::World2D::ObjectIDs* second){
@@ -875,52 +889,52 @@ private:
         //Print
         virtual void printElement(edk::physics2D::World2D::ObjectIDs* value){
             //update the value
-            value++;
+            value++;edkEnd();
         }
         //UPDATE
         virtual void updateElement(edk::physics2D::World2D::ObjectIDs* value){
             //update the value
-            value++;
+            value++;edkEnd();
         }
         //Add object with id
         bool addObject(edk::physics2D::PhysicObject2D* object,edk::uint32 id){
             //load the object
-            edk::physics2D::World2D::ObjectIDs* temp = this->getClass(object);
+            edk::physics2D::World2D::ObjectIDs* temp = this->getClass(object);edkEnd();
             if(!temp){
                 //create a new ObjectID's
-                temp = new edk::physics2D::World2D::ObjectIDs(object,id);
+                temp = new edk::physics2D::World2D::ObjectIDs(object,id);edkEnd();
                 if(temp){
                     //add the class to the tree
                     if(this->add(temp)){
                         return true;
                     }
-                    delete temp;
+                    delete temp;edkEnd();
                 }
             }
             return false;
         }
         //test if have the object
         bool haveObject(edk::physics2D::PhysicObject2D* object){
-            return (bool)this->getClass(object);
+            return (bool)this->getClass(object);edkEnd();
         }
         //return the ID
         edk::uint32 getObjectID(edk::physics2D::PhysicObject2D* object){
             //load the object
-            edk::physics2D::World2D::ObjectIDs* temp = this->getClass(object);
+            edk::physics2D::World2D::ObjectIDs* temp = this->getClass(object);edkEnd();
             if(temp){
                 //return the id
-                return temp->id;
+                return temp->id;edkEnd();
             }
-            return 0u;
+            return 0u;edkEnd();
         }
         //remove object
         bool removeObject(edk::physics2D::PhysicObject2D* object){
             //load the object
-            edk::physics2D::World2D::ObjectIDs* temp = this->getClass(object);
+            edk::physics2D::World2D::ObjectIDs* temp = this->getClass(object);edkEnd();
             if(temp){
                 if(this->remove(temp)){
                     //
-                    delete temp;
+                    delete temp;edkEnd();
                     return true;
                 }
             }
@@ -928,18 +942,20 @@ private:
         }
         //remove all objects
         void removeAllObjects(){
-            edk::uint32 size = 0u;
+            edk::uint32 size = 0u;edkEnd();
             for(edk::uint32 i=0u;i<size;i++){
-                edk::physics2D::World2D::ObjectIDs* temp = this->getElementInPosition(i);
-                if(temp) delete temp;
+                edk::physics2D::World2D::ObjectIDs* temp = this->getElementInPosition(i);edkEnd();
+                if(temp){
+                    delete temp;edkEnd();
+                }
             }
-            this->clean();
+            this->clean();edkEnd();
         }
 
     private:
         edk::physics2D::World2D::ObjectIDs* getClass(edk::physics2D::PhysicObject2D* object){
-            edk::physics2D::World2D::ObjectIDs find(object,0u);
-            return this->getElement(&find);
+            edk::physics2D::World2D::ObjectIDs find(object,0u);edkEnd();
+            return this->getElement(&find);edkEnd();
         }
     };
 };

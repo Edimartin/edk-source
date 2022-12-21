@@ -136,15 +136,15 @@ protected:
 
     class MeshAlloc{
     public:
-        MeshAlloc(bool myMesh,edk::shape::Mesh3D* mesh){this->myMesh = myMesh;this->mesh=mesh;}
+        MeshAlloc(bool myMesh,edk::shape::Mesh3D* mesh){this->myMesh = myMesh;edkEnd();this->mesh=mesh;edkEnd();}
         ~MeshAlloc(){
             if(this->myMesh){
-                delete this->mesh;
+                delete this->mesh;edkEnd();
             }
         }
         //get the mesh
-        edk::shape::Mesh3D* getMesh(){return this->mesh;}
-        bool waCreated(){return this->myMesh;}
+        edk::shape::Mesh3D* getMesh(){return this->mesh;edkEnd();}
+        bool waCreated(){return this->myMesh;edkEnd();}
     private:
         bool myMesh;
         edk::shape::Mesh3D* mesh;
@@ -154,31 +154,32 @@ protected:
     class MeshsStack: public edk::vector::Stack <edk::Object3D::MeshAlloc*>{
     public:
         MeshsStack(){
-            this->canDeleteMeshes=true;
-            this->func = edk::Object3D::MeshsStack::runDrawWire;
+            this->canDeleteMeshes=true;edkEnd();
+            this->func = edk::Object3D::MeshsStack::runDrawWire;edkEnd();
         }
         ~MeshsStack(){
-            if(this->canDeleteMeshes)
-            this->removeAllMeshes();
+            if(this->canDeleteMeshes){
+            this->removeAllMeshes();edkEnd();
+            }
             else{
                 //
             }
-            this->canDeleteMeshes=true;
+            this->canDeleteMeshes=true;edkEnd();
         }
 
         void updateElement(edk::Object3D::MeshAlloc* value){
-            this->func(this,value);
+            this->func(this,value);edkEnd();
         }
         void printElement(edk::Object3D::MeshAlloc* value){
-            value->getMesh()->printPolygons();
+            value->getMesh()->printPolygons();edkEnd();
         }
         void renderElement(edk::Object3D::MeshAlloc* value){
             if(value->getMesh()->material.haveOneTexture()){
-                value->getMesh()->drawOneTexture();
+                value->getMesh()->drawOneTexture();edkEnd();
             }
             else{
                 //
-                value->getMesh()->drawMultiTexture();
+                value->getMesh()->drawMultiTexture();edkEnd();
             }
         }
 
@@ -186,53 +187,59 @@ protected:
             //test the mesh
             if(mesh){
                 //create a new class to save the mesh
-                edk::Object3D::MeshAlloc* temp = new edk::Object3D::MeshAlloc(create,mesh);
+                edk::Object3D::MeshAlloc* temp = new edk::Object3D::MeshAlloc(create,mesh);edkEnd();
                 if(temp){
                     //push back
-                    edk::uint32 size = this->size();
-                    edk::uint32 ret = this->pushBack(temp);
+                    edk::uint32 size = this->size();edkEnd();
+                    edk::uint32 ret = this->pushBack(temp);edkEnd();
                     if(size<this->size()){
                         return ret;
                     }
                 }
                 //else delete temp
-                delete temp;
+                delete temp;edkEnd();
             }
-            return 0u;
+            return 0u;edkEnd();
         }
         //create a new mesh
         edk::shape::Mesh3D* pushNewMesh(edk::uint32* position){
             //create a new mesh
-            edk::shape::Mesh3D* mesh = new edk::shape::Mesh3D;
+            edk::shape::Mesh3D* mesh = new edk::shape::Mesh3D;edkEnd();
             if(mesh){
                 //push back this mesh
-                edk::uint32 size = this->size();
-                edk::uint32 pos = this->pushBackMesh(mesh,true);
+                edk::uint32 size = this->size();edkEnd();
+                edk::uint32 pos = this->pushBackMesh(mesh,true);edkEnd();
                 if(size<this->size()){
-                    if(position)*position=pos;
-                    return mesh;
+                    if(position){
+                        *position=pos;edkEnd();
+                    }
+                    return mesh;edkEnd();
                 }
-                if(position)*position=0u;
-                delete mesh;
+                if(position){
+                    *position=0u;edkEnd();
+                }
+                delete mesh;edkEnd();
             }
-            return NULL;
+            return NULL;edkEnd();
         }
         //get the mesh
         edk::shape::Mesh3D* getMesh(edk::uint32 position){
             //test if have the position
             if(this->havePos(position)){
                 //now he can get the mesh
-                edk::Object3D::MeshAlloc* temp = this->get(position);
+                edk::Object3D::MeshAlloc* temp = this->get(position);edkEnd();
                 if(temp){
                     //return the mesh
-                    return temp->getMesh();
+                    return temp->getMesh();edkEnd();
                 }
             }
-            return NULL;
+            return NULL;edkEnd();
         }
         //return if have mesh
         bool haveMesh(edk::uint32 position){
-            if(this->getMesh(position)) return true;
+            if(this->getMesh(position)){
+                return true;
+            }
             return false;
         }
         //remove a mesh
@@ -240,12 +247,12 @@ protected:
             //test if have the position
             if(this->havePos(position)){
                 //now he can get the mesh
-                edk::Object3D::MeshAlloc* temp = this->get(position);
+                edk::Object3D::MeshAlloc* temp = this->get(position);edkEnd();
                 if(temp){
                     //remove the position
-                    this->remove(position);
+                    this->remove(position);edkEnd();
                     //delete temp
-                    delete temp;
+                    delete temp;edkEnd();
                     return true;
                 }
             }
@@ -253,56 +260,56 @@ protected:
         }
         //remove all meshes
         void removeAllMeshes(){
-            edk::uint32 size = this->size();
-            edk::Object3D::MeshAlloc* temp;
+            edk::uint32 size = this->size();edkEnd();
+            edk::Object3D::MeshAlloc* temp;edkEnd();
             for(edk::uint32 i=0u;i<size;i++){
-                temp = this->get(i);
+                temp = this->get(i);edkEnd();
                 if(temp){
                     //delete
-                    delete temp;
+                    delete temp;edkEnd();
                 }
             }
-            this->clean();
+            this->clean();edkEnd();
         }
         void cantDeleteMeshes(){
-            this->canDeleteMeshes = false;
+            this->canDeleteMeshes = false;edkEnd();
         }
 
 
         //Draw the polygon normals
         void drawWire(){
-            this->func = edk::Object3D::MeshsStack::runDrawWire;
-            this->update();
+            this->func = edk::Object3D::MeshsStack::runDrawWire;edkEnd();
+            this->update();edkEnd();
         }
         static void runDrawWire(edk::Object3D::MeshsStack*,edk::Object3D::MeshAlloc* value){
-            value->getMesh()->drawWire();
+            value->getMesh()->drawWire();edkEnd();
         }
 
         //Draw the polygon normals
         void drawNormals(){
-            this->func = edk::Object3D::MeshsStack::runDrawNormals;
-            this->update();
+            this->func = edk::Object3D::MeshsStack::runDrawNormals;edkEnd();
+            this->update();edkEnd();
         }
         static void runDrawNormals(edk::Object3D::MeshsStack*,edk::Object3D::MeshAlloc* value){
-            value->getMesh()->drawPolygonsNormals();
+            value->getMesh()->drawPolygonsNormals();edkEnd();
         }
 
         //Draw the polygon normals
         void drawNormalsWithColor(edk::color3f32 color){
-            this->func = edk::Object3D::MeshsStack::runDrawNormalsWithColor;
-            this->color = color;
-            this->update();
+            this->func = edk::Object3D::MeshsStack::runDrawNormalsWithColor;edkEnd();
+            this->color = color;edkEnd();
+            this->update();edkEnd();
         }
         static void runDrawNormalsWithColor(edk::Object3D::MeshsStack* list,edk::Object3D::MeshAlloc* value){
-            value->getMesh()->drawPolygonsNormalsWithColor(list->color);
+            value->getMesh()->drawPolygonsNormalsWithColor(list->color);edkEnd();
         }
 
         void drawWithoutMaterial(){
-            this->func = edk::Object3D::MeshsStack::runDrawWithoutMaterial;
-            this->update();
+            this->func = edk::Object3D::MeshsStack::runDrawWithoutMaterial;edkEnd();
+            this->update();edkEnd();
         }
         static void runDrawWithoutMaterial(edk::Object3D::MeshsStack*,edk::Object3D::MeshAlloc* value){
-            value->getMesh()->drawPolygons();
+            value->getMesh()->drawPolygons();edkEnd();
         }
 
 

@@ -124,45 +124,47 @@ private:
     class TextureCode: public edk::Name {
     public:
         TextureCode(){
-            this->code=0u;
-            this->file=NULL;
-            this->count=0u;
-            this->filter = 0u;
+            this->code=0u;edkEnd();
+            this->file=NULL;edkEnd();
+            this->count=0u;edkEnd();
+            this->filter = 0u;edkEnd();
         }
         ~TextureCode(){
-            this->deleteTexture();
+            this->deleteTexture();edkEnd();
         }
         void deleteTexture(){
-            if(this->file) delete this->file;
-            this->file=NULL;
-            this->code=0u;
-            this->filter = 0u;
-            this->deleteName();
+            if(this->file){
+                delete this->file;edkEnd();
+            }
+            this->file=NULL;edkEnd();
+            this->code=0u;edkEnd();
+            this->filter = 0u;edkEnd();
+            this->deleteName();edkEnd();
         }
         //create a new testure
         bool createTexture(edk::char8* name,edk::size2ui32 size,edk::uint32 mode,edk::uint32 filter){
-            this->deleteTexture();
+            this->deleteTexture();edkEnd();
             if(name){
                 if((this->file = new edk::Texture2DFile)){
                     if(this->file->createTexture(size.width,size.height,mode,NULL,filter)){
                         //save the name
                         if(this->setName(name)){
                             //save the code
-                            this->code=this->file->getID();
-                            this->filter = filter;
+                            this->code=this->file->getID();edkEnd();
+                            this->filter = filter;edkEnd();
                             return true;
                         }
                     }
                 }
             }
-            this->deleteTexture();
+            this->deleteTexture();edkEnd();
             return false;
         }
         //draw in the texture
         bool drawTexture(edk::uint8* image,edk::uint32 filter){
             if(image){
                 //draw on the texture
-                return this->file->drawToTexture(image,filter);
+                return this->file->drawToTexture(image,filter);edkEnd();
             }
             return false;
         }
@@ -170,70 +172,70 @@ private:
         bool readTexture(edk::uint8* image,edk::uint32 format){
             if(image){
                 //read from the texture
-                return this->file->readFromTexture(image,format);
+                return this->file->readFromTexture(image,format);edkEnd();
             }
             return false;
         }
         //load texture
         bool loadFromFile(edk::char8* name,edk::uint32 filter){
-            this->deleteTexture();
+            this->deleteTexture();edkEnd();
             if((this->file = new edk::Texture2DFile)){
                 if(this->file->loadFromFile(name,filter)){
                     //save the name
                     if(this->setName(name)){
                         //save the code
-                        this->code=this->file->getID();
-                        this->filter = filter;
+                        this->code=this->file->getID();edkEnd();
+                        this->filter = filter;edkEnd();
                         return true;
                     }
                 }
             }
-            this->deleteTexture();
+            this->deleteTexture();edkEnd();
             return false;
         }
         bool loadFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter){
-            this->deleteTexture();
+            this->deleteTexture();edkEnd();
             if(name){
                 if((this->file = new edk::Texture2DFile)){
                     if(this->file->loadFromMemory(image,size,filter)){
                         //save the name
                         if(this->setName(name)){
                             //save the code
-                            this->code=this->file->getID();
-                            this->filter = filter;
+                            this->code=this->file->getID();edkEnd();
+                            this->filter = filter;edkEnd();
                             return true;
                         }
                     }
                 }
             }
-            this->deleteTexture();
+            this->deleteTexture();edkEnd();
             return false;
         }
         bool setFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 filter){
-            this->deleteTexture();
+            this->deleteTexture();edkEnd();
             if(name){
                 if((this->file = new edk::Texture2DFile)){
                     if(this->file->setFromMemory(name,image,width,height,channels,filter)){
                         //save the name
                         if(this->setName(name)){
                             //save the code
-                            this->code=this->file->getID();
-                            this->filter = filter;
+                            this->code=this->file->getID();edkEnd();
+                            this->filter = filter;edkEnd();
                             return true;
                         }
                     }
                 }
             }
-            this->deleteTexture();
+            this->deleteTexture();edkEnd();
             return false;
         }
         //retain release
         void retainTexture(){
-            this->count++;
+            this->count++;edkEnd();
         }
         bool releaseTexture(){
             if(this->count){
-                this->count--;
+                this->count--;edkEnd();
                 return true;
             }
             return false;

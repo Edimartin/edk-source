@@ -46,27 +46,27 @@ namespace sql{
 class SQLNode{
 public:
     SQLNode(){
-        this->name.cleanName();
-        this->value.cleanName();
+        this->name.cleanName();edkEnd();
+        this->value.cleanName();edkEnd();
     }
     SQLNode(edk::char8* name,edk::char8* value){
-        this->name.setName(name);
-        this->value.setName(value);
+        this->name.setName(name);edkEnd();
+        this->value.setName(value);edkEnd();
     }
     ~SQLNode(){
-        this->name.cleanName();
-        this->value.cleanName();
+        this->name.cleanName();edkEnd();
+        this->value.cleanName();edkEnd();
     }
     //getters
-    edk::char8* getName(){return this->name.getName();}
-    edk::char8* getValue(){return this->value.getName();}
+    edk::char8* getName(){return this->name.getName();edkEnd();}
+    edk::char8* getValue(){return this->value.getName();edkEnd();}
 
     virtual bool cloneFrom(SQLNode* node){
         if(node){
-            this->name.cleanName();
-            this->value.cleanName();
-            this->name.setName(node->name.getName());
-            this->value.setName(node->value.getName());
+            this->name.cleanName();edkEnd();
+            this->value.cleanName();edkEnd();
+            this->name.setName(node->name.getName());edkEnd();
+            this->value.setName(node->value.getName());edkEnd();
             return true;
         }
         return false;
@@ -80,56 +80,56 @@ class SQLNodes{
 public:
     SQLNodes():nodes(5){}
     ~SQLNodes(){
-        edk::uint32 size = this->nodes.size();
-        edk::sql::SQLNode* temp;
+        edk::uint32 size = this->nodes.size();edkEnd();
+        edk::sql::SQLNode* temp;edkEnd();
         for(edk::uint32 i=0u;i<size;i++){
-            temp = this->nodes[i];
+            temp = this->nodes[i];edkEnd();
             if(temp){
-                delete temp;
+                delete temp;edkEnd();
             }
         }
-        this->nodes.clean();
+        this->nodes.clean();edkEnd();
     }
     //add a node
     bool addNode(edk::char8* name,edk::char8* value){
         //test the name
         if(name){
             //create the node
-            edk::sql::SQLNode* node;
-            node = new edk::sql::SQLNode(name,value);
+            edk::sql::SQLNode* node;edkEnd();
+            node = new edk::sql::SQLNode(name,value);edkEnd();
             if(node){
-                edk::uint32 size = this->nodes.size();
+                edk::uint32 size = this->nodes.size();edkEnd();
                 //add the node
-                this->nodes.pushBack(node);
+                this->nodes.pushBack(node);edkEnd();
                 if(size < this->nodes.size()){
                     return true;
                 }
-                delete node;
+                delete node;edkEnd();
             }
         }
         return false;
     }
     //return the nodesSize
-    edk::uint32 getSize(){return this->nodes.size();}
+    edk::uint32 getSize(){return this->nodes.size();edkEnd();}
     //return true if have the node
-    bool haveNode(edk::uint32 position){return this->nodes.havePos(position);}
+    bool haveNode(edk::uint32 position){return this->nodes.havePos(position);edkEnd();}
     //return the node
     SQLNode* getNode(edk::uint32 position){
-        return this->nodes[position];
+        return this->nodes[position];edkEnd();
     }
     //return the nodeName
     edk::char8* getNodeName(edk::uint32 position){
         if(this->nodes.havePos(position)){
-            return this->nodes[position]->getName();
+            return this->nodes[position]->getName();edkEnd();
         }
-        return NULL;
+        return NULL;edkEnd();
     }
     //return the nodeValue
     edk::char8* getNodeValue(edk::uint32 position){
         if(this->nodes.havePos(position)){
-            return this->nodes[position]->getValue();
+            return this->nodes[position]->getValue();edkEnd();
         }
-        return NULL;
+        return NULL;edkEnd();
     }
 
 private:
@@ -139,71 +139,71 @@ class SQLGroup{
 public:
     SQLGroup(){}
     ~SQLGroup(){
-        this->deleteAllGroups();
+        this->deleteAllGroups();edkEnd();
     }
     void deleteAllGroups(){
-        edk::uint32 size = this->groups.size();
-        SQLNodes* temp = NULL;
+        edk::uint32 size = this->groups.size();edkEnd();
+        SQLNodes* temp = NULL;edkEnd();
         for(edk::uint32 i=0u;i<size;i++){
-            temp=this->groups[i];
+            temp=this->groups[i];edkEnd();
             if(temp){
-                delete temp;
+                delete temp;edkEnd();
             }
         }
-        this->groups.clean();
+        this->groups.clean();edkEnd();
     }
     edk::uint32 getGroupSize(){
-        return this->groups.size();
+        return this->groups.size();edkEnd();
     }
     edk::uint32 getNodeSize(edk::uint32 position){
         if(this->haveGroup(position)){
-            return this->groups[position]->getSize();
+            return this->groups[position]->getSize();edkEnd();
         }
-        return 0u;
+        return 0u;edkEnd();
     }
 
-    //create a new group;
+    //create a new group;edkEnd();
     edk::uint32 newGroup(){
-        //create a new group;
-        SQLNodes* group = new SQLNodes;
+        //create a new group;edkEnd();
+        SQLNodes* group = new SQLNodes;edkEnd();
         if(group){
             //add the group
-            edk::uint32 size = this->groups.size();
-            edk::uint32 ret = this->groups.pushBack(group);
+            edk::uint32 size = this->groups.size();edkEnd();
+            edk::uint32 ret = this->groups.pushBack(group);edkEnd();
             if(size<this->groups.size()){
                 return ret;
             }
             //else dont add the group
-            delete group;
+            delete group;edkEnd();
         }
-        return 0u;
+        return 0u;edkEnd();
     }
     //return true if have the group
-    bool haveGroup(edk::uint32 position){return this->groups.havePos(position);}
+    bool haveGroup(edk::uint32 position){return this->groups.havePos(position);edkEnd();}
     //return a group
     SQLNodes* getGroup(edk::uint32 position){
         if(this->haveGroup(position)){
-            return this->groups[position];
+            return this->groups[position];edkEnd();
         }
-        return NULL;
+        return NULL;edkEnd();
     }
     edk::char8* getNodeName(edk::uint32 groupPosition, edk::uint32 nodePosition){
         //test if have the group
         if(this->haveGroup(groupPosition)){
-            return this->groups[groupPosition]->getNodeName(nodePosition);
+            return this->groups[groupPosition]->getNodeName(nodePosition);edkEnd();
         }
-        return NULL;
+        return NULL;edkEnd();
     }
     edk::char8* getNodeValue(edk::uint32 groupPosition, edk::uint32 nodePosition){
         //test if have the group
         if(this->haveGroup(groupPosition)){
-            return this->groups[groupPosition]->getNodeValue(nodePosition);
+            return this->groups[groupPosition]->getNodeValue(nodePosition);edkEnd();
         }
-        return NULL;
+        return NULL;edkEnd();
     }
     SQLNodes* getNewGroup(){
-        edk::uint32 position = this->newGroup();
-        return this->getGroup(position);
+        edk::uint32 position = this->newGroup();edkEnd();
+        return this->getGroup(position);edkEnd();
     }
 private:
     edk::vector::Stack<SQLNodes*> groups;

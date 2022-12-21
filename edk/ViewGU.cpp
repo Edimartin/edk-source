@@ -31,8 +31,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 edk::ViewGU::ViewGU()
 {
     //ctor
-    this->runSelection=false;
-    this->sizeBuffer = sizeof(this->buffer)/sizeof(edk::uint32);
+    this->runSelection=false;edkEnd();
+    this->sizeBuffer = sizeof(this->buffer)/sizeof(edk::uint32);edkEnd();
 }
 
 edk::ViewGU::~ViewGU()
@@ -48,26 +48,26 @@ bool edk::ViewGU::isGU(){
 //draw viewPort
 void edk::ViewGU::drawViewport(rectf32 outsideViewOrigin){
     //
-    edk::ViewSpriteController::drawViewport(outsideViewOrigin);
+    edk::ViewSpriteController::drawViewport(outsideViewOrigin);edkEnd();
 }
 //draw Camera
 void edk::ViewGU::drawCamera(){
     //
-    edk::ViewSpriteController::drawCamera();
+    edk::ViewSpriteController::drawCamera();edkEnd();
 }
 //draw the polygon on the scene
 void edk::ViewGU::drawPolygon(rectf32 outsideViewOrigin){
     //
-    edk::ViewSpriteController::drawPolygon(outsideViewOrigin);
+    edk::ViewSpriteController::drawPolygon(outsideViewOrigin);edkEnd();
 
     //Draw the camera in the future
 
     //then draw the scene
-    this->runDrawScene(outsideViewOrigin);
+    this->runDrawScene(outsideViewOrigin);edkEnd();
 
-    this->runSelectionFunction();
+    this->runSelectionFunction();edkEnd();
 
-    edk::GU::guDisableAllLights();
+    edk::GU::guDisableAllLights();edkEnd();
 }
 //draw selection camera
 void edk::ViewGU::drawSelectionCamera(){
@@ -75,41 +75,41 @@ void edk::ViewGU::drawSelectionCamera(){
 }
 //push and pop the selection names
 void edk::ViewGU::selectionPushName(edk::uint32 id){
-    edk::GU::guPushName(id);
+    edk::GU::guPushName(id);edkEnd();
 }
 void edk::ViewGU::selectionPopName(){
-    edk::GU::guPopName();
+    edk::GU::guPopName();edkEnd();
 }
 //process the selection
 void edk::ViewGU::processHits(edk::int32 hits, edk::uint32 buffer[]){
-    edk::int32 i;
-    edk::uint32 j;
-    edk::uint32 names=0u, *ptr=NULL;
-    edk::float32 sNear = 0.f;
-    edk::float32 sFar = 0.f;
+    edk::int32 i;edkEnd();
+    edk::uint32 j;edkEnd();
+    edk::uint32 names=0u, *ptr=NULL;edkEnd();
+    edk::float32 sNear = 0.f;edkEnd();
+    edk::float32 sFar = 0.f;edkEnd();
     //stack with names
-    edk::vector::Stack<edk::uint32> nameStack;
+    edk::vector::Stack<edk::uint32> nameStack;edkEnd();
 
     if(hits>0){
-        ptr = (GLuint *) buffer;
+        ptr = (GLuint *) buffer;edkEnd();
         for (i = 0; i < hits; i++) {  /* for each hit  */
-            nameStack.clean();
-            names = *ptr;
-            ptr++;
-            sNear = (edk::float32)*ptr/0x7fffffff;
-            ptr++;
-            sFar = (edk::float32)*ptr/0x7fffffff;
-            ptr++;
+            nameStack.clean();edkEnd();
+            names = *ptr;edkEnd();
+            ptr++;edkEnd();
+            sNear = (edk::float32)*ptr/0x7fffffff;edkEnd();
+            ptr++;edkEnd();
+            sFar = (edk::float32)*ptr/0x7fffffff;edkEnd();
+            ptr++;edkEnd();
             for (j = 0; j < names; j++) {  /* for each name */
-                nameStack.pushBack(*ptr);
-                ptr++;
+                nameStack.pushBack(*ptr);edkEnd();
+                ptr++;edkEnd();
             }
             //run the function
-            this->selectObject(i,hits,sNear,sFar,&nameStack);
+            this->selectObject(i,hits,sNear,sFar,&nameStack);edkEnd();
         }
     }
     else{
-        this->selectObject(0,0,0,0,&nameStack);
+        this->selectObject(0,0,0,0,&nameStack);edkEnd();
     }
 }
 //process the selection
@@ -121,99 +121,99 @@ void edk::ViewGU::runSelectionFunction(){
     //test if need run the selection
     if(this->runSelection){
         //
-        this->runSelection=false;
+        this->runSelection=false;edkEnd();
 
 
-        edk::GU::guSetSelectionBuffer(this->sizeBuffer,this->buffer);
+        edk::GU::guSetSelectionBuffer(this->sizeBuffer,this->buffer);edkEnd();
 
-        edk::GU::guUseMatrix(GU_PROJECTION);
-        edk::GU::guLoadIdentity();
+        edk::GU::guUseMatrix(GU_PROJECTION);edkEnd();
+        edk::GU::guLoadIdentity();edkEnd();
 
-        edk::GU::guRenderMode(GU_SELECT);
+        edk::GU::guRenderMode(GU_SELECT);edkEnd();
 
-        edk::GU::guInitNames();
+        edk::GU::guInitNames();edkEnd();
 
         //set pick buffer
         edk::GU::guPickMatrix((edk::float64)this->selectionPosition.x,(edk::float64)this->selectionPosition.y,
                               this->selectionSize.width,this->selectionSize.height
-                              );
+                              );edkEnd();
 
-        this->drawSelectionCamera();
+        this->drawSelectionCamera();edkEnd();
 
-        edk::GU::guDisable(GU_TEXTURE);
-        edk::GU::guDisable(GU_LIGHTING);
+        edk::GU::guDisable(GU_TEXTURE);edkEnd();
+        edk::GU::guDisable(GU_LIGHTING);edkEnd();
 
         //draw the polygon with UV Map
-        edk::GU::guUseMatrix(GU_MODELVIEW);
+        edk::GU::guUseMatrix(GU_MODELVIEW);edkEnd();
 
-        this->drawSelectionScene();
+        this->drawSelectionScene();edkEnd();
 
-        edk::int32 total = edk::GU::guRenderMode(GU_RENDER);
-        this->processHits(total,buffer);
+        edk::int32 total = edk::GU::guRenderMode(GU_RENDER);edkEnd();
+        this->processHits(total,buffer);edkEnd();
     }
 }
 //get true if go run selection
 bool edk::ViewGU::isRunningSelection(){
-    return this->runSelection;
+    return this->runSelection;edkEnd();
 }
 void edk::ViewGU::runDrawScene(edk::rectf32 outsideViewOrigin){
-    this->drawScene(outsideViewOrigin);
+    this->drawScene(outsideViewOrigin);edkEnd();
 }
 
 //load the background
 bool edk::ViewGU::loadBackground(const edk::char8* name){
     //
-    return this->loadSprite(name);
+    return this->loadSprite(name);edkEnd();
 }
 bool edk::ViewGU::loadBackground(edk::char8* name){
     //
-    return this->loadSprite(name);
+    return this->loadSprite(name);edkEnd();
 }
 //load the sprite from memory
 bool edk::ViewGU::loadBackgroundFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 size){
-    return this->loadBackgroundFromMemory((edk::char8*)name,sprite,size);
+    return this->loadBackgroundFromMemory((edk::char8*)name,sprite,size);edkEnd();
 }
 bool edk::ViewGU::loadBackgroundFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size){
-    return this->loadSpriteFromMemory(name,sprite,size);
+    return this->loadSpriteFromMemory(name,sprite,size);edkEnd();
 }
 //laod the sprite from pack
 bool edk::ViewGU::loadBackgroundFromPack(edk::pack::FilePackage* pack, edk::char8* name){
-    return this->loadSpriteFromPack(pack,name);
+    return this->loadSpriteFromPack(pack,name);edkEnd();
 }
 bool edk::ViewGU::loadBackgroundFromPack(edk::pack::FilePackage* pack, const edk::char8* name){
     //
-    return this->loadBackgroundFromPack(pack, (edk::char8*) name);
+    return this->loadBackgroundFromPack(pack, (edk::char8*) name);edkEnd();
 }
 
 //delete the background
 void edk::ViewGU::deleteBackground(){
     //
-    this->deleteSprite();
+    this->deleteSprite();edkEnd();
 }
 
 //test the selection
 void edk::ViewGU::testSelection(edk::vec2f32 position,edk::size2f32 size){
     //
-    this->runSelection = true;
-    this->selectionPosition = edk::vec2f32(position.x + this->rectTemp.origin.x,((position.y*-1)+this->frame.size.height) + this->rectTemp.origin.y);
-    this->selectionSize = size;
+    this->runSelection = true;edkEnd();
+    this->selectionPosition = edk::vec2f32(position.x + this->rectTemp.origin.x,((position.y*-1)+this->frame.size.height) + this->rectTemp.origin.y);edkEnd();
+    this->selectionSize = size;edkEnd();
 }
 void edk::ViewGU::testSelection(edk::float32 x,edk::float32 y,edk::size2f32 size){
-    this->testSelection(edk::vec2f32(x,y),size);
+    this->testSelection(edk::vec2f32(x,y),size);edkEnd();
 }
 void edk::ViewGU::testSelection(edk::float32 x,edk::float32 y,edk::float32 width,edk::float32 height){
-    this->testSelection(edk::vec2f32(x,y),edk::size2f32(width,height));
+    this->testSelection(edk::vec2f32(x,y),edk::size2f32(width,height));edkEnd();
 }
 void edk::ViewGU::testSelection(edk::vec2i32 position,edk::size2f32 size){
-    this->runSelection = true;
-    this->selectionPosition = edk::vec2f32(position.x + this->rectTemp.origin.x,((position.y*-1)+this->frame.size.height) + this->rectTemp.origin.y);
-    this->selectionSize = size;
+    this->runSelection = true;edkEnd();
+    this->selectionPosition = edk::vec2f32(position.x + this->rectTemp.origin.x,((position.y*-1)+this->frame.size.height) + this->rectTemp.origin.y);edkEnd();
+    this->selectionSize = size;edkEnd();
 }
 void edk::ViewGU::testSelection(edk::int32 x,edk::int32 y,edk::size2f32 size){
-    this->testSelection(edk::vec2i32(x,y),size);
+    this->testSelection(edk::vec2i32(x,y),size);edkEnd();
 }
 void edk::ViewGU::testSelection(edk::int32 x,edk::int32 y,edk::float32 width,edk::float32 height){
-    this->testSelection(edk::vec2i32(x,y),edk::size2f32(width,height));
+    this->testSelection(edk::vec2i32(x,y),edk::size2f32(width,height));edkEnd();
 }
 
 //draw the GU scene
@@ -226,5 +226,5 @@ void edk::ViewGU::drawSelectionScene(){
 
 void edk::ViewGU::update(edk::WindowEvents* events){
     //
-    edk::View::update(events);
+    edk::View::update(events);edkEnd();
 }

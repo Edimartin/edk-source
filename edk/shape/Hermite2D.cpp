@@ -31,15 +31,15 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 edk::shape::Hermite2D::Hermite2D()
 {
     //ctor
-    this->attenuation=1;
+    this->attenuation=1;edkEnd();
 }
 edk::shape::Hermite2D::Hermite2D(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4){
     //
-    this->point1=p1;
-    this->point2=p2;
-    this->point3=p3;
-    this->point4=p4;
-    this->attenuation=1;
+    this->point1=p1;edkEnd();
+    this->point2=p2;edkEnd();
+    this->point3=p3;edkEnd();
+    this->point4=p4;edkEnd();
+    this->attenuation=1;edkEnd();
 }
 
 edk::shape::Hermite2D::~Hermite2D()
@@ -50,29 +50,29 @@ edk::shape::Hermite2D::~Hermite2D()
 //Implement the Bezier Curve
 edk::vec2f32 edk::shape::Hermite2D::getPoint(edk::float32 percent){
     //return the ret
-    return edk::shape::Hermite2D::getPoint(this->point1,this->point2,this->point3,this->point4,percent,this->attenuation);
+    return edk::shape::Hermite2D::getPoint(this->point1,this->point2,this->point3,this->point4,percent,this->attenuation);edkEnd();
 }
 edk::vec2f32 edk::shape::Hermite2D::getPoint(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4,edk::float32 percent,edk::float32 attenuation){
 
     //create a return point
-    edk::vec2f32 ret;
+    edk::vec2f32 ret;edkEnd();
 
     //percent pow's
-    edk::float32 percent2 = percent * percent;
-    edk::float32 percent3 = percent * percent * percent;
+    edk::float32 percent2 = percent * percent;edkEnd();
+    edk::float32 percent3 = percent * percent * percent;edkEnd();
 
     //get X
     ret.x = ((( 2*percent3 -3*percent2 +0*percent +1)* p1.x +
             (  -2*percent3 +3*percent2 +0*percent)   * p4.x +
             (   1*percent3 -2*percent2 +1*percent)   * attenuation*p3.x +
             (   1*percent3 -1*percent2 +0*percent)   * attenuation*p2.x
-            ));
+            ));edkEnd();
     //get Y
     ret.y = ((( 2*percent3 -3*percent2 +0*percent +1)* p1.y +
             (  -2*percent3 +3*percent2 +0*percent)   * p4.y +
             (   1*percent3 -2*percent2 +1*percent)   * attenuation*p3.y +
             (   1*percent3 -1*percent2 +0*percent)   * attenuation*p2.y
-            ));
+            ));edkEnd();
 
     //return the ret
     return ret;

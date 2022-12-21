@@ -51,7 +51,7 @@ class obj: public edk::Object<obj>{
     //Construtor virtual precisa chamar a funcao protegida
     ~obj(){
         //destrutor
-        this->removeAll();
+        this->removeAll();edkEnd();
     }
 
 
@@ -60,7 +60,7 @@ class obj: public edk::Object<obj>{
         //
         if(pointer){
             //
-            *pointer=(obj*)this;
+            *pointer=(obj*)this;edkEnd();
         }
     }
     //Clean the object
@@ -68,12 +68,12 @@ class obj: public edk::Object<obj>{
         //
         if(pointer){
             //
-            *pointer = NULL;
+            *pointer = NULL;edkEnd();
         }
     }
 
     //value
-    edk::uint32 value;
+    edk::uint32 value;edkEnd();
 };
 
 */
@@ -84,17 +84,18 @@ class Object{
 public:
     Object(){
         //
-        this->dontDestruct=false;
+        this->dontDestruct=false;edkEnd();
     }
     virtual ~Object(){
         //remove all
-        if(!this->dontDestruct)
-            this->removeAll();
+        if(!this->dontDestruct){
+            this->removeAll();edkEnd();
+        }
         else{
             //set the tree
-            this->retains.cantDestruct();
+            this->retains.cantDestruct();edkEnd();
         }
-        this->dontDestruct=false;
+        this->dontDestruct=false;edkEnd();
     }
 
     //retain
@@ -104,13 +105,13 @@ public:
             //add the pointer to the retains
             if(this->retains.add(pointer)){
                 //save the object
-                this->saveObject(pointer);
+                this->saveObject(pointer);edkEnd();
                 //
-                return (typeTemplate*)this;
+                return (typeTemplate*)this;edkEnd();
             }
         }
         //else return false
-        return NULL;
+        return NULL;edkEnd();
     }
 
     //release
@@ -118,16 +119,16 @@ public:
     {
         //test if have the pointer
         if(pointer){
-            typeTemplate* temp = *pointer;
+            typeTemplate* temp = *pointer;edkEnd();
             //remove the object
-            this->retains.remove(pointer);
+            this->retains.remove(pointer);edkEnd();
             //clean the object
-            this->cleanObject(pointer);
+            this->cleanObject(pointer);edkEnd();
             //test if dont have a root
             if(!this->retains.haveRoot()){
                 //delete self
                 if(temp){
-                    delete this;
+                    delete this;edkEnd();
                     return true;
                 }
             }
@@ -140,17 +141,17 @@ public:
     //Return true if have retains
     bool haveRetains(){
         //
-        return this->retains.haveRoot();
+        return this->retains.haveRoot();edkEnd();
     }
     //return true if have one retain
     bool haveOneRetain(){
         //
-        return !this->retains.haveRootChild();
+        return !this->retains.haveRootChild();edkEnd();
     }
     //set to cant Destruct
     void cantDestruct(){
         //
-        dontDestruct=true;
+        dontDestruct=true;edkEnd();
     }
 
 protected:
@@ -160,7 +161,7 @@ protected:
         //
         if(pointer){
             //
-            *pointer=(typeTemplate*)this;
+            *pointer=(typeTemplate*)this;edkEnd();
         }
     }
 
@@ -170,7 +171,7 @@ protected:
         //
         if(pointer){
             //
-            *pointer = NULL;
+            *pointer = NULL;edkEnd();
         }
     }
 
@@ -179,22 +180,22 @@ protected:
     void removeAll()
     {
         //load the rootValue
-        typeTemplate** temp=NULL;
+        typeTemplate** temp=NULL;edkEnd();
         while(this->retains.haveRoot()){
             //get the root
-            temp = this->retains.getRootValue();
+            temp = this->retains.getRootValue();edkEnd();
             if(temp){
                 //clean the pointer
-                this->cleanObject(temp);
+                this->cleanObject(temp);edkEnd();
 
                 //remove the temp
-                this->retains.remove(temp);
+                this->retains.remove(temp);edkEnd();
             }
             else{
-                this->retains.remove(temp);
+                this->retains.remove(temp);edkEnd();
             }
             //clean the temp
-            temp =NULL;
+            temp =NULL;edkEnd();
         }
     }
 private:
@@ -243,7 +244,7 @@ public:
     }
     virtual ~ObjectsTree(){
         //
-        this->clean();
+        this->clean();edkEnd();
     }
     //Diferente Add to retain the object
     bool add(edk::Object<typeTemplate>* value){
@@ -255,20 +256,20 @@ public:
         if(value){
             if(objRetain){
                 //get the object on the tree
-                edk::Object<typeTemplate>* temp = this->getElement(value);
+                edk::Object<typeTemplate>* temp = this->getElement(value);edkEnd();
                 //test if the object is in on the tree
                 if(temp){
                     //then retain the object
-                    return temp->retainObject((typeTemplate**)objRetain);
+                    return temp->retainObject((typeTemplate**)objRetain);edkEnd();
                 }
                 else{
                     //then add the object
                     if(edk::vector::BinaryTree<edk::Object<typeTemplate>*>::add(value)){
                         //save the temp to retain
-                        return value->retainObject((typeTemplate**)objRetain);
+                        return value->retainObject((typeTemplate**)objRetain);edkEnd();
                     }
                 }
-                temp=NULL;
+                temp=NULL;edkEnd();
             }
         }
         //else return false
@@ -283,12 +284,12 @@ public:
         if(value){
             if(objRetain){
                 //then test if have the *objRetain on the tree
-                edk::Object<typeTemplate>* temp = this->getElement(value);
+                edk::Object<typeTemplate>* temp = this->getElement(value);edkEnd();
                 if(temp){
                     //then test if the temp have just one retain
                     if(temp->haveOneRetain()){
                         //remove the temp
-                        edk::vector::BinaryTree<edk::Object<typeTemplate>*>::remove(temp);
+                        edk::vector::BinaryTree<edk::Object<typeTemplate>*>::remove(temp);edkEnd();
                         //release the objRetain
                         if(temp->releaseObject((typeTemplate**)(objRetain))){
                             return true;
@@ -296,7 +297,7 @@ public:
                     }
                     else{
                         //else just release the object
-                        return temp->releaseObject((typeTemplate**)(objRetain));
+                        return temp->releaseObject((typeTemplate**)(objRetain));edkEnd();
                     }
                 }
             }
@@ -309,30 +310,30 @@ public:
         //test if the value exist
         if(value){
             //then test if have the *objRetain on the tree
-            edk::Object<typeTemplate>* temp = this->getElement(value);
+            edk::Object<typeTemplate>* temp = this->getElement(value);edkEnd();
             //test if the value is in the tree
             if(temp){
                 //then remove the value of the tree
                 if(edk::vector::BinaryTree<edk::Object<typeTemplate>*>::remove(temp)){
                     //delete the value
-                    delete temp;
-                    temp=NULL;
+                    delete temp;edkEnd();
+                    temp=NULL;edkEnd();
                     //return true
                     return true;
                 }
             }
-            temp=NULL;
+            temp=NULL;edkEnd();
         }
         return false;
     }
     //return the element
     edk::Object<typeTemplate>* getElement(edk::Object<typeTemplate>* value){
         //
-        return edk::vector::BinaryTree<edk::Object<typeTemplate>*>::getElement(value);
+        return edk::vector::BinaryTree<edk::Object<typeTemplate>*>::getElement(value);edkEnd();
     }
     bool haveElement(edk::Object<typeTemplate>* value){
         //
-        return edk::vector::BinaryTree<edk::Object<typeTemplate>*>::haveElement(value);
+        return edk::vector::BinaryTree<edk::Object<typeTemplate>*>::haveElement(value);edkEnd();
     }
 };
 

@@ -28,18 +28,18 @@ edk::physics2D::DistanceJoint2D::DistanceJoint2D(bool collide)
     :
         edk::physics2D::Joint2D(collide)
 {
-    this->type = EDK_DISTANCE_JOINT;
-    this->distance = 0.f;
+    this->type = EDK_DISTANCE_JOINT;edkEnd();
+    this->distance = 0.f;edkEnd();
 }
 
 //draw the joint in debug mode
 void edk::physics2D::DistanceJoint2D::draw(edk::size2f32,edk::color3f32 color){
-    edk::GU::guColor3f32(color);
-    edk::GU::guPushMatrix();
-    edk::GU::guBegin(GU_LINES);
+    edk::GU::guColor3f32(color);edkEnd();
+    edk::GU::guPushMatrix();edkEnd();
+    edk::GU::guBegin(GU_LINES);edkEnd();
     //the line
-    edk::GU::guVertex2f32(this->worldPositionA.x,this->worldPositionA.y);
-    edk::GU::guVertex2f32(this->worldPositionB.x,this->worldPositionB.y);
-    edk::GU::guEnd();
-    edk::GU::guPopMatrix();
+    edk::GU::guVertex2f32(this->worldPositionA.x,this->worldPositionA.y);edkEnd();
+    edk::GU::guVertex2f32(this->worldPositionB.x,this->worldPositionB.y);edkEnd();
+    edk::GU::guEnd();edkEnd();
+    edk::GU::guPopMatrix();edkEnd();
 }

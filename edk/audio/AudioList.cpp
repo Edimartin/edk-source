@@ -45,16 +45,16 @@ edk::AudioList::~AudioList()
 //LOAD
 bool edk::AudioList::loadAudio(const edk::char8* name, edk::AudioBuffer** retainAudio){
     //
-    return this->loadAudio((edk::char8*) name, retainAudio);
+    return this->loadAudio((edk::char8*) name, retainAudio);edkEnd();
 }
 bool edk::AudioList::loadAudio(edk::char8* name, edk::AudioBuffer** retainAudio){
     //test the name and the retainAudio
     if(name){
         if(retainAudio){
             //find the audio
-            edk::AudioBuffer find;
-            find.setName(name);
-            edk::AudioBuffer* temp = (edk::AudioBuffer*)audioTree.getElement((edk::ObjectWithName*)&find);
+            edk::AudioBuffer find;edkEnd();
+            find.setName(name);edkEnd();
+            edk::AudioBuffer* temp = (edk::AudioBuffer*)audioTree.getElement((edk::ObjectWithName*)&find);edkEnd();
 
             if(temp){
                 //retain the audio and return true
@@ -65,7 +65,7 @@ bool edk::AudioList::loadAudio(edk::char8* name, edk::AudioBuffer** retainAudio)
             }
             else{
                 //else create a new audio buffer
-                edk::AudioBuffer* temp = new edk::AudioBuffer();
+                edk::AudioBuffer* temp = new edk::AudioBuffer();edkEnd();
                 if(temp){
                     if(temp->loadBufferFromFile(name)){
                         if(audioTree.addElement(temp,(edk::ObjectWithName**)retainAudio)){
@@ -74,15 +74,15 @@ bool edk::AudioList::loadAudio(edk::char8* name, edk::AudioBuffer** retainAudio)
                         }
                         else{
                             //cant added the audio. delete temp and return false
-                            temp->deleteBuffer();
-                            delete temp;
+                            temp->deleteBuffer();edkEnd();
+                            delete temp;edkEnd();
                             return false;
                         }
                     }
                     else{
                         //can open the audio (the file dont exist).
                         //delete temp
-                        delete temp;
+                        delete temp;edkEnd();
                         //return false
                         return false;
                     }
@@ -94,16 +94,16 @@ bool edk::AudioList::loadAudio(edk::char8* name, edk::AudioBuffer** retainAudio)
     return false;
 }
 bool edk::AudioList::loadAudioFromMemory(const edk::char8* name,edk::classID vector,edk::uint32 size, edk::AudioBuffer** retainAudio){
-    return this->loadAudioFromMemory((edk::char8*) name,vector,size, retainAudio);
+    return this->loadAudioFromMemory((edk::char8*) name,vector,size, retainAudio);edkEnd();
 }
 bool edk::AudioList::loadAudioFromMemory(edk::char8* name,edk::classID vector,edk::uint32 size, edk::AudioBuffer** retainAudio){
     //test the name and the retainAudio
     if(name){
         if(retainAudio){
             //find the audio
-            edk::AudioBuffer find;
-            find.setName(name);
-            edk::AudioBuffer* temp = (edk::AudioBuffer*)audioTree.getElement((edk::ObjectWithName*)&find);
+            edk::AudioBuffer find;edkEnd();
+            find.setName(name);edkEnd();
+            edk::AudioBuffer* temp = (edk::AudioBuffer*)audioTree.getElement((edk::ObjectWithName*)&find);edkEnd();
 
             if(temp){
                 //retain the audio and return true
@@ -114,7 +114,7 @@ bool edk::AudioList::loadAudioFromMemory(edk::char8* name,edk::classID vector,ed
             }
             else{
                 //else create a new audio buffer
-                edk::AudioBuffer* temp = new edk::AudioBuffer();
+                edk::AudioBuffer* temp = new edk::AudioBuffer();edkEnd();
                 if(temp){
                     if(temp->loadBufferFromMemory(name,vector,size)){
                         if(audioTree.addElement(temp,(edk::ObjectWithName**)retainAudio)){
@@ -123,15 +123,15 @@ bool edk::AudioList::loadAudioFromMemory(edk::char8* name,edk::classID vector,ed
                         }
                         else{
                             //cant added the audio. delete temp and return false
-                            temp->deleteBuffer();
-                            delete temp;
+                            temp->deleteBuffer();edkEnd();
+                            delete temp;edkEnd();
                             return false;
                         }
                     }
                     else{
                         //can open the audio (the file dont exist).
                         //delete temp
-                        delete temp;
+                        delete temp;edkEnd();
                         //return false
                         return false;
                     }
@@ -143,16 +143,16 @@ bool edk::AudioList::loadAudioFromMemory(edk::char8* name,edk::classID vector,ed
     return false;
 }
 bool edk::AudioList::loadAudioFromPack(edk::pack::FilePackage* pack,const edk::char8* name, edk::AudioBuffer** retainAudio){
-    return this->loadAudioFromPack(pack,(edk::char8*) name, retainAudio);
+    return this->loadAudioFromPack(pack,(edk::char8*) name, retainAudio);edkEnd();
 }
 bool edk::AudioList::loadAudioFromPack(edk::pack::FilePackage* pack,edk::char8* name, edk::AudioBuffer** retainAudio){
     //test the name and the retainAudio
     if(name && pack){
         if(retainAudio){
             //find the audio
-            edk::AudioBuffer find;
-            find.setName(name);
-            edk::AudioBuffer* temp = (edk::AudioBuffer*)audioTree.getElement((edk::ObjectWithName*)&find);
+            edk::AudioBuffer find;edkEnd();
+            find.setName(name);edkEnd();
+            edk::AudioBuffer* temp = (edk::AudioBuffer*)audioTree.getElement((edk::ObjectWithName*)&find);edkEnd();
 
             if(temp){
                 //retain the audio and return true
@@ -163,7 +163,7 @@ bool edk::AudioList::loadAudioFromPack(edk::pack::FilePackage* pack,edk::char8* 
             }
             else{
                 //else create a new audio buffer
-                edk::AudioBuffer* temp = new edk::AudioBuffer();
+                edk::AudioBuffer* temp = new edk::AudioBuffer();edkEnd();
                 if(temp){
                     if(temp->loadBufferFromPack(pack,name)){
                         if(audioTree.addElement(temp,(edk::ObjectWithName**)retainAudio)){
@@ -172,15 +172,15 @@ bool edk::AudioList::loadAudioFromPack(edk::pack::FilePackage* pack,edk::char8* 
                         }
                         else{
                             //cant added the audio. delete temp and return false
-                            temp->deleteBuffer();
-                            delete temp;
+                            temp->deleteBuffer();edkEnd();
+                            delete temp;edkEnd();
                             return false;
                         }
                     }
                     else{
                         //can open the audio (the file dont exist).
                         //delete temp
-                        delete temp;
+                        delete temp;edkEnd();
                         //return false
                         return false;
                     }
@@ -195,12 +195,12 @@ bool edk::AudioList::loadAudioFromPack(edk::pack::FilePackage* pack,edk::char8* 
 bool edk::AudioList::removeAudio(edk::AudioBuffer** retainAudio){
     //test if the buffer are alloc
     if(retainAudio){
-        edk::AudioBuffer* temp = *retainAudio;
+        edk::AudioBuffer* temp = *retainAudio;edkEnd();
         if(temp){
             //test if have one retain
             if(temp->haveOneRetain()){
                 //delete the buffer
-                temp->deleteBuffer();
+                temp->deleteBuffer();edkEnd();
             }
             //remove the element
             if(audioTree.releaseElement(temp,(edk::ObjectWithName**)retainAudio)){
@@ -216,6 +216,6 @@ void edk::AudioList::deleteAudio(edk::AudioBuffer* retainAudio){
     //
     if(retainAudio){
         //delete the element
-        audioTree.deleteElement(retainAudio);
+        audioTree.deleteElement(retainAudio);edkEnd();
     }
 }
