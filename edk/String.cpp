@@ -131,7 +131,7 @@ int edkKbhit(void){
     Ntty.c_cc[VMIN] = CMIN;edkEnd(); // minimum time to wait
     Ntty.c_cc[VTIME] = CTIME;edkEnd(); // minimum characters to wait for
 
-    if (0 == (error = tcsetattr(0, TCSANOW, &Ntty))) {
+    if(0 == (error = tcsetattr(0, TCSANOW, &Ntty))){
         struct timeval tv;edkEnd();
         error += ioctl(0, FIONREAD, &cnt);edkEnd();
         error += tcsetattr(0, TCSANOW, &Otty);edkEnd();
@@ -278,7 +278,7 @@ inicio:
         }
         //Se for equal entao ele apaga o caracter e le ele denovo;edkEnd();
         printf("%c %c",8,8);edkEnd();
-        return NULL;edkEnd();
+        return NULL;
     }
     //depois ele gera o ponteiro para a string na memoria
     edk::char8* string;edkEnd();
@@ -298,19 +298,19 @@ inicio:
             printf("%c",c2);edkEnd();
             printf("%c",c3);edkEnd();
             printf("%c",c4);edkEnd();
-            break;edkEnd();
+            break;
         case 3u:
             printf("%c",c);edkEnd();
             printf("%c",c2);edkEnd();
             printf("%c",c3);edkEnd();
-            break;edkEnd();
+            break;
         case 2u:
             printf("%c",c);edkEnd();
             printf("%c",c2);edkEnd();
-            break;edkEnd();
+            break;
         case 1u:
             printf("%c",c);edkEnd();
-            break;edkEnd();
+            break;
         }
 
         string=readFromTheConsole(i+size);edkEnd();
@@ -325,19 +325,19 @@ inicio:
                 string[i+2u]=c3;edkEnd();
                 string[i+1u]=c2;edkEnd();
                 string[i]=c;edkEnd();
-                break;edkEnd();
+                break;
             case 3u:
                 string[i+2u]=c3;edkEnd();
                 string[i+1u]=c2;edkEnd();
                 string[i]=c;edkEnd();
-                break;edkEnd();
+                break;
             case 2u:
                 string[i+1u]=c2;edkEnd();
                 string[i]=c;edkEnd();
-                break;edkEnd();
+                break;
             case 1u:
                 string[i]=c;edkEnd();
-                break;edkEnd();
+                break;
             }
 
             //no final ele retorna a string
@@ -395,7 +395,7 @@ inicio:
         }
         //Se for equal entao ele apaga o caracter e le ele denovo;edkEnd();
         printf("%c %c",8,8);edkEnd();
-        return NULL;edkEnd();
+        return NULL;
     }
     //depois ele gera o ponteiro para a string na memoria
     edk::char8* string;edkEnd();
@@ -420,19 +420,19 @@ inicio:
                 string[i+2u]=c3;edkEnd();
                 string[i+1u]=c2;edkEnd();
                 string[i]=c;edkEnd();
-                break;edkEnd();
+                break;
             case 3u:
                 string[i+2u]=c3;edkEnd();
                 string[i+1u]=c2;edkEnd();
                 string[i]=c;edkEnd();
-                break;edkEnd();
+                break;
             case 2u:
                 string[i+1u]=c2;edkEnd();
                 string[i]=c;edkEnd();
-                break;edkEnd();
+                break;
             case 1u:
                 string[i]=c;edkEnd();
-                break;edkEnd();
+                break;
             }
 
             //no final ele retorna a string
@@ -490,7 +490,7 @@ inicio:
         }
         //Se for equal entao ele apaga o caracter e le ele denovo;edkEnd();
         printf("%c %c",8,8);edkEnd();
-        return NULL;edkEnd();
+        return NULL;
     }
     //depois ele gera o ponteiro para a string na memoria
     edk::char8* string;edkEnd();
@@ -504,7 +504,7 @@ inicio:
     }
     else{
         //Senao ele countinua a recursividade recebendo a string como parametro
-        printf("*");edkEnd();fflush(stdout);edkEnd();
+        printf("*");edkEnd();
 
         string=readPasswordFromTheConsole(i+size);edkEnd();
         //Aqui ele pegunta se a string existe
@@ -518,19 +518,19 @@ inicio:
                 string[i+2u]=c3;edkEnd();
                 string[i+1u]=c2;edkEnd();
                 string[i]=c;edkEnd();
-                break;edkEnd();
+                break;
             case 3u:
                 string[i+2u]=c3;edkEnd();
                 string[i+1u]=c2;edkEnd();
                 string[i]=c;edkEnd();
-                break;edkEnd();
+                break;
             case 2u:
                 string[i+1u]=c2;edkEnd();
                 string[i]=c;edkEnd();
-                break;edkEnd();
+                break;
             case 1u:
                 string[i]=c;edkEnd();
-                break;edkEnd();
+                break;
             }
 
             //no final ele retorna a string
@@ -794,7 +794,7 @@ edk::float32 edk::String::strToFloat32(edk::char8 *str){
                 //then find the point
                 point = i;edkEnd();
                 havePoint = true;edkEnd();
-                break;edkEnd();
+                break;
             }
         }
 
@@ -839,7 +839,7 @@ edk::float32 edk::String::strToFloat32(edk::char8 *str){
                     //then it's a minus number
                     minus=true;edkEnd();
                     //set continue
-                    continue;edkEnd();
+                    continue;
                 }
             }
 
@@ -893,7 +893,7 @@ bool edk::String::strToVecInt8(edk::char8* str,edk::int8* vec,edk::uint32 size){
             i++;edkEnd();
             //test if get end
             if(i>=size){
-                break;edkEnd();
+                break;
             }
             else{
                 //else continue with the string
@@ -901,7 +901,7 @@ bool edk::String::strToVecInt8(edk::char8* str,edk::int8* vec,edk::uint32 size){
                     str++;edkEnd();
                     if(*str==' '){
                         str++;edkEnd();
-                        break;edkEnd();
+                        break;
                     }
                 }
             }
@@ -919,7 +919,7 @@ bool edk::String::strToVecInt16(edk::char8* str,edk::int16* vec,edk::uint32 size
             i++;edkEnd();
             //test if get end
             if(i>=size){
-                break;edkEnd();
+                break;
             }
             else{
                 //else continue with the string
@@ -927,7 +927,7 @@ bool edk::String::strToVecInt16(edk::char8* str,edk::int16* vec,edk::uint32 size
                     str++;edkEnd();
                     if(*str==' '){
                         str++;edkEnd();
-                        break;edkEnd();
+                        break;
                     }
                 }
             }
@@ -945,7 +945,7 @@ bool edk::String::strToVecInt32(edk::char8* str,edk::int32* vec,edk::uint32 size
             i++;edkEnd();
             //test if get end
             if(i>=size){
-                break;edkEnd();
+                break;
             }
             else{
                 //else continue with the string
@@ -953,7 +953,7 @@ bool edk::String::strToVecInt32(edk::char8* str,edk::int32* vec,edk::uint32 size
                     str++;edkEnd();
                     if(*str==' '){
                         str++;edkEnd();
-                        break;edkEnd();
+                        break;
                     }
                 }
             }
@@ -971,7 +971,7 @@ bool edk::String::strToVecInt64(edk::char8* str,edk::int64* vec,edk::uint32 size
             i++;edkEnd();
             //test if get end
             if(i>=size){
-                break;edkEnd();
+                break;
             }
             else{
                 //else continue with the string
@@ -979,7 +979,7 @@ bool edk::String::strToVecInt64(edk::char8* str,edk::int64* vec,edk::uint32 size
                     str++;edkEnd();
                     if(*str==' '){
                         str++;edkEnd();
-                        break;edkEnd();
+                        break;
                     }
                 }
             }
@@ -997,7 +997,7 @@ bool edk::String::strToVecUint8(edk::char8* str,edk::uint8* vec,edk::uint32 size
             i++;edkEnd();
             //test if get end
             if(i>=size){
-                break;edkEnd();
+                break;
             }
             else{
                 //else continue with the string
@@ -1005,7 +1005,7 @@ bool edk::String::strToVecUint8(edk::char8* str,edk::uint8* vec,edk::uint32 size
                     str++;edkEnd();
                     if(*str==' '){
                         str++;edkEnd();
-                        break;edkEnd();
+                        break;
                     }
                 }
             }
@@ -1023,7 +1023,7 @@ bool edk::String::strToVecUint16(edk::char8* str,edk::uint16* vec,edk::uint32 si
             i++;edkEnd();
             //test if get end
             if(i>=size){
-                break;edkEnd();
+                break;
             }
             else{
                 //else continue with the string
@@ -1031,7 +1031,7 @@ bool edk::String::strToVecUint16(edk::char8* str,edk::uint16* vec,edk::uint32 si
                     str++;edkEnd();
                     if(*str==' '){
                         str++;edkEnd();
-                        break;edkEnd();
+                        break;
                     }
                 }
             }
@@ -1049,7 +1049,7 @@ bool edk::String::strToVecUint32(edk::char8* str,edk::uint32* vec,edk::uint32 si
             i++;edkEnd();
             //test if get end
             if(i>=size){
-                break;edkEnd();
+                break;
             }
             else{
                 //else continue with the string
@@ -1057,7 +1057,7 @@ bool edk::String::strToVecUint32(edk::char8* str,edk::uint32* vec,edk::uint32 si
                     str++;edkEnd();
                     if(*str==' '){
                         str++;edkEnd();
-                        break;edkEnd();
+                        break;
                     }
                 }
             }
@@ -1075,7 +1075,7 @@ bool edk::String::strToVecUint64(edk::char8* str,edk::uint64* vec,edk::uint32 si
             i++;edkEnd();
             //test if get end
             if(i>=size){
-                break;edkEnd();
+                break;
             }
             else{
                 //else continue with the string
@@ -1083,7 +1083,7 @@ bool edk::String::strToVecUint64(edk::char8* str,edk::uint64* vec,edk::uint32 si
                     str++;edkEnd();
                     if(*str==' '){
                         str++;edkEnd();
-                        break;edkEnd();
+                        break;
                     }
                 }
             }
@@ -1101,7 +1101,7 @@ bool edk::String::strToVecfloat32(edk::char8* str,edk::float32* vec,edk::uint32 
             i++;edkEnd();
             //test if get end
             if(i>=size){
-                break;edkEnd();
+                break;
             }
             else{
                 //else continue with the string
@@ -1109,7 +1109,7 @@ bool edk::String::strToVecfloat32(edk::char8* str,edk::float32* vec,edk::uint32 
                     str++;edkEnd();
                     if(*str==' '){
                         str++;edkEnd();
-                        break;edkEnd();
+                        break;
                     }
                 }
             }
@@ -1127,7 +1127,7 @@ bool edk::String::strToVecfloat64(edk::char8* str,edk::float64* vec,edk::uint32 
             i++;edkEnd();
             //test if get end
             if(i>=size){
-                break;edkEnd();
+                break;
             }
             else{
                 //else continue with the string
@@ -1135,7 +1135,7 @@ bool edk::String::strToVecfloat64(edk::char8* str,edk::float64* vec,edk::uint32 
                     str++;edkEnd();
                     if(*str==' '){
                         str++;edkEnd();
-                        break;edkEnd();
+                        break;
                     }
                 }
             }
@@ -1180,7 +1180,7 @@ edk::int32 edk::String::strToInt32(edk::char8 *str){
                     //then it's a minus number
                     minus=true;edkEnd();
                     //set continue
-                    continue;edkEnd();
+                    continue;
                 }
             }
 
@@ -1298,7 +1298,7 @@ edk::char8* edk::String::str32ToUtf8(edk::char32 *str32,edk::uint32 size){
             delete[] str;edkEnd();
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::char8* edk::String::str32ToUtf8(const edk::char32 *str32,edk::uint32 size){
     return edk::String::str32ToUtf8((edk::char32 *)str32,size);edkEnd();
@@ -1366,69 +1366,69 @@ bool edk::String::utf8ToStr(edk::char8 *utf8,edk::uint32 size,edk::char8 *str){
                     case (edk::char8)0x9a:
                         //82 00 e2 80 9a - 000 226 128 154
                         *str = (edk::char8)0x82;edkEnd();
-                        break;edkEnd();
+                        break;
                     case (edk::char8)0x9e:
                         //84 00 e2 80 9e - 000 226 128 158
                         *str = (edk::char8)0x84;edkEnd();
-                        break;edkEnd();
+                        break;
                     case (edk::char8)0xa6:
                         //85 00 e2 80 a6 - 000 226 128 166
                         *str = (edk::char8)0x85;edkEnd();
-                        break;edkEnd();
+                        break;
                     case (edk::char8)0xa0:
                         //86 00 e2 80 a0 - 000 226 128 160
                         *str = (edk::char8)0x86;edkEnd();
-                        break;edkEnd();
+                        break;
                     case (edk::char8)0xa1:
                         //87 00 e2 80 a1 - 000 226 128 161
                         *str = (edk::char8)0x87;edkEnd();
-                        break;edkEnd();
+                        break;
                     case (edk::char8)0xb0:
                         //89 00 e2 80 b0 - 000 226 128 176
                         *str = (edk::char8)0x89;edkEnd();
-                        break;edkEnd();
+                        break;
                     case (edk::char8)0xb9:
                         //8b 00 e2 80 b9 - 000 226 128 185
                         *str = (edk::char8)0x8b;edkEnd();
-                        break;edkEnd();
+                        break;
                     case (edk::char8)0x98:
                         //91 00 e2 80 98 - 000 226 128 152
                         *str = (edk::char8)0x91;edkEnd();
-                        break;edkEnd();
+                        break;
                     case (edk::char8)0x99:
                         //92 00 e2 80 99 - 000 226 128 153
                         *str = (edk::char8)0x92;edkEnd();
-                        break;edkEnd();
+                        break;
                     case (edk::char8)0x9c:
                         //93 00 e2 80 9c - 000 226 128 156
                         *str = (edk::char8)0x9c;edkEnd();
-                        break;edkEnd();
+                        break;
                     case (edk::char8)0x9d:
                         //94 00 e2 80 9d - 000 226 128 157
                         *str = (edk::char8)0x9d;edkEnd();
-                        break;edkEnd();
+                        break;
                     case (edk::char8)0xa2:
                         //95 00 e2 80 a2 - 000 226 128 162
                         *str = (edk::char8)0xa2;edkEnd();
-                        break;edkEnd();
+                        break;
                     case (edk::char8)0x93:
                         //96 00 e2 80 93 - 000 226 128 147
                         *str = (edk::char8)0x93;edkEnd();
-                        break;edkEnd();
+                        break;
                     case (edk::char8)0x94:
                         //97 00 e2 80 94 - 000 226 128 148
                         *str = (edk::char8)0x94;edkEnd();
-                        break;edkEnd();
+                        break;
                     case (edk::char8)0xba:
                         //9b 00 e2 80 ba - 000 226 128 186
                         *str = (edk::char8)0xba;edkEnd();
-                        break;edkEnd();
+                        break;
                     default:
                         *str = '*';edkEnd();
-                        break;edkEnd();
+                        break;
                     }
                     i++;edkEnd();
-                    break;edkEnd();
+                    break;
                 case (edk::char8)0x82:
                     //80 00 e2 82 ac - 000 226 130 172
                     i++;edkEnd();
@@ -1439,7 +1439,7 @@ bool edk::String::utf8ToStr(edk::char8 *utf8,edk::uint32 size,edk::char8 *str){
                         *str = '*';edkEnd();
                     }
                     i++;edkEnd();
-                    break;edkEnd();
+                    break;
                 case (edk::char8)0x84:
                     //99 00 e2 84 a2 - 000 226 132 162
                     i++;edkEnd();
@@ -1450,9 +1450,9 @@ bool edk::String::utf8ToStr(edk::char8 *utf8,edk::uint32 size,edk::char8 *str){
                         *str = '*';edkEnd();
                     }
                     i++;edkEnd();
-                    break;edkEnd();
+                    break;
                 }
-                break;edkEnd();
+                break;
             case (edk::char8)0xc2:
                 //a1 00 00 c2 a1 - 000 000 194 161
                 //a2 00 00 c2 a2 - 000 000 194 162
@@ -1486,7 +1486,7 @@ bool edk::String::utf8ToStr(edk::char8 *utf8,edk::uint32 size,edk::char8 *str){
                 //bf 00 00 c2 bf - 000 000 194 191
                 i++;edkEnd();
                 *str = utf8[i];edkEnd();
-                break;edkEnd();
+                break;
             case (edk::char8)0xc3:
                 //c0 00 00 c3 80 - 000 000 195 128
                 //c1 00 00 c3 81 - 000 000 195 129
@@ -1554,44 +1554,44 @@ bool edk::String::utf8ToStr(edk::char8 *utf8,edk::uint32 size,edk::char8 *str){
                 //ff 00 00 c3 bf - 000 000 195 191
                 i++;edkEnd();
                 *str = utf8[i] + 0x43;edkEnd();
-                break;edkEnd();
+                break;
             case (edk::char8)0xc5:
                 i++;edkEnd();
                 switch(utf8[i]){
                 case (edk::char8)0xa0:
                     //8a 00 00 c5 a0 - 000 000 197 160
                     *str = 0x8a;edkEnd();
-                    break;edkEnd();
+                    break;
                 case (edk::char8)0x92:
                     //8c 00 00 c5 92 - 000 000 197 146
                     *str = 0x8c;edkEnd();
-                    break;edkEnd();
+                    break;
                 case (edk::char8)0xbd:
                     //8e 00 00 c5 bd - 000 000 197 189
                     *str = 0x8e;edkEnd();
-                    break;edkEnd();
+                    break;
                 case (edk::char8)0xa1:
                     //9a 00 00 c5 a1 - 000 000 197 161
                     *str = 0xa1;edkEnd();
-                    break;edkEnd();
+                    break;
                 case (edk::char8)0x93:
                     //9c 00 00 c5 93 - 000 000 197 147
                     *str = 0x93;edkEnd();
-                    break;edkEnd();
+                    break;
                 case (edk::char8)0xbe:
                     //9e 00 00 c5 be - 000 000 197 190
                     *str = 0xbe;edkEnd();
-                    break;edkEnd();
+                    break;
                 case (edk::char8)0xb8:
                     //9f 00 00 c5 b8 - 000 000 197 184
                     *str = 0xb8;edkEnd();
-                    break;edkEnd();
+                    break;
                 default:
                     *str = '*';edkEnd();
-                    break;edkEnd();
+                    break;
                 }
                 i++;edkEnd();
-                break;edkEnd();
+                break;
             case (edk::char8)0xc6:
                 i++;edkEnd();
                 //83 00 00 c6 92 - 000 000 198 146
@@ -1600,27 +1600,27 @@ bool edk::String::utf8ToStr(edk::char8 *utf8,edk::uint32 size,edk::char8 *str){
                     *str = (edk::char8)0x83;edkEnd();
                 }
                 i++;edkEnd();
-                break;edkEnd();
+                break;
             case (edk::char8)0xcb:
                 i++;edkEnd();
                 switch(utf8[i]){
                 case (edk::char8)0x86:
                     //88 00 00 cb 86 - 000 000 203 134
                     *str = 0x88;edkEnd();
-                    break;edkEnd();
+                    break;
                 case (edk::char8)0x9c:
                     //98 00 00 cb 9c - 000 000 203 156
                     *str = 0x98;edkEnd();
-                    break;edkEnd();
+                    break;
                 default:
                     *str = '*';edkEnd();
-                    break;edkEnd();
+                    break;
                 }
                 i++;edkEnd();
-                break;edkEnd();
+                break;
             default:
                 *str = utf8[i];edkEnd();
-                break;edkEnd();
+                break;
             }
             str++;edkEnd();
         }
@@ -1678,7 +1678,7 @@ edk::uint32 edk::String::utf8Size(edk::char8 *utf8){
                         else{
                             return ret;
                         }
-                        break;edkEnd();
+                        break;
                     case (edk::char8)0x82:
                         utf8++;edkEnd();
                         if(*utf8){
@@ -1687,7 +1687,7 @@ edk::uint32 edk::String::utf8Size(edk::char8 *utf8){
                         else{
                             return ret;
                         }
-                        break;edkEnd();
+                        break;
                     case (edk::char8)0x84:
                         utf8++;edkEnd();
                         if(*utf8){
@@ -1696,13 +1696,13 @@ edk::uint32 edk::String::utf8Size(edk::char8 *utf8){
                         else{
                             return ret;
                         }
-                        break;edkEnd();
+                        break;
                     }
                 }
                 else{
                     return ret;
                 }
-                break;edkEnd();
+                break;
             case (edk::char8)0xc2:
                 utf8++;edkEnd();
                 if(*utf8){
@@ -1711,7 +1711,7 @@ edk::uint32 edk::String::utf8Size(edk::char8 *utf8){
                 else{
                     return ret;
                 }
-                break;edkEnd();
+                break;
             case (edk::char8)0xc3:
                 utf8++;edkEnd();
                 if(*utf8){
@@ -1720,7 +1720,7 @@ edk::uint32 edk::String::utf8Size(edk::char8 *utf8){
                 else{
                     return ret;
                 }
-                break;edkEnd();
+                break;
             case (edk::char8)0xc5:
                 utf8++;edkEnd();
                 if(*utf8){
@@ -1729,7 +1729,7 @@ edk::uint32 edk::String::utf8Size(edk::char8 *utf8){
                 else{
                     return ret;
                 }
-                break;edkEnd();
+                break;
             case (edk::char8)0xc6:
                 utf8++;edkEnd();
                 if(*utf8){
@@ -1738,7 +1738,7 @@ edk::uint32 edk::String::utf8Size(edk::char8 *utf8){
                 else{
                     return ret;
                 }
-                break;edkEnd();
+                break;
             case (edk::char8)0xcb:
                 utf8++;edkEnd();
                 if(*utf8){
@@ -1747,10 +1747,10 @@ edk::uint32 edk::String::utf8Size(edk::char8 *utf8){
                 else{
                     return ret;
                 }
-                break;edkEnd();
+                break;
             default:
                 ret++;edkEnd();
-                break;edkEnd();
+                break;
             }
             utf8++;edkEnd();
         }
@@ -1767,7 +1767,7 @@ edk::uint32 edk::String::utf8WordSize(edk::char8 *utf8){
         while(*utf8){
             //test the character
             if(*utf8==' ' || *utf8=='\n' || *utf8==10){
-                break;edkEnd();
+                break;
             }
             switch(*utf8){
             case (edk::char8)0xe2:
@@ -1782,7 +1782,7 @@ edk::uint32 edk::String::utf8WordSize(edk::char8 *utf8){
                         else{
                             return ret;
                         }
-                        break;edkEnd();
+                        break;
                     case (edk::char8)0x82:
                         utf8++;edkEnd();
                         if(*utf8){
@@ -1791,7 +1791,7 @@ edk::uint32 edk::String::utf8WordSize(edk::char8 *utf8){
                         else{
                             return ret;
                         }
-                        break;edkEnd();
+                        break;
                     case (edk::char8)0x84:
                         utf8++;edkEnd();
                         if(*utf8){
@@ -1800,13 +1800,13 @@ edk::uint32 edk::String::utf8WordSize(edk::char8 *utf8){
                         else{
                             return ret;
                         }
-                        break;edkEnd();
+                        break;
                     }
                 }
                 else{
                     return ret;
                 }
-                break;edkEnd();
+                break;
             case (edk::char8)0xc2:
                 utf8++;edkEnd();
                 if(*utf8){
@@ -1815,7 +1815,7 @@ edk::uint32 edk::String::utf8WordSize(edk::char8 *utf8){
                 else{
                     return ret;
                 }
-                break;edkEnd();
+                break;
             case (edk::char8)0xc3:
                 utf8++;edkEnd();
                 if(*utf8){
@@ -1824,7 +1824,7 @@ edk::uint32 edk::String::utf8WordSize(edk::char8 *utf8){
                 else{
                     return ret;
                 }
-                break;edkEnd();
+                break;
             case (edk::char8)0xc5:
                 utf8++;edkEnd();
                 if(*utf8){
@@ -1833,7 +1833,7 @@ edk::uint32 edk::String::utf8WordSize(edk::char8 *utf8){
                 else{
                     return ret;
                 }
-                break;edkEnd();
+                break;
             case (edk::char8)0xc6:
                 utf8++;edkEnd();
                 if(*utf8){
@@ -1842,7 +1842,7 @@ edk::uint32 edk::String::utf8WordSize(edk::char8 *utf8){
                 else{
                     return ret;
                 }
-                break;edkEnd();
+                break;
             case (edk::char8)0xcb:
                 utf8++;edkEnd();
                 if(*utf8){
@@ -1851,10 +1851,10 @@ edk::uint32 edk::String::utf8WordSize(edk::char8 *utf8){
                 else{
                     return ret;
                 }
-                break;edkEnd();
+                break;
             default:
                 ret++;edkEnd();
-                break;edkEnd();
+                break;
             }
             utf8++;edkEnd();
         }
@@ -1872,7 +1872,7 @@ edk::uint32 edk::String::utf8WordSize(edk::char8 *utf8,edk::uint32* jump){
         while(*utf8){
             //test the character
             if(*utf8==' ' || *utf8=='\n' || *utf8==10){
-                break;edkEnd();
+                break;
             }
             switch(*utf8){
             case (edk::char8)0xe2:
@@ -1887,7 +1887,7 @@ edk::uint32 edk::String::utf8WordSize(edk::char8 *utf8,edk::uint32* jump){
                         else{
                             return ret;
                         }
-                        break;edkEnd();
+                        break;
                     case (edk::char8)0x82:
                         utf8++;edkEnd();
                         if(*utf8){
@@ -1896,7 +1896,7 @@ edk::uint32 edk::String::utf8WordSize(edk::char8 *utf8,edk::uint32* jump){
                         else{
                             return ret;
                         }
-                        break;edkEnd();
+                        break;
                     case (edk::char8)0x84:
                         utf8++;edkEnd();
                         if(*utf8){
@@ -1905,11 +1905,11 @@ edk::uint32 edk::String::utf8WordSize(edk::char8 *utf8,edk::uint32* jump){
                         else{
                             return ret;
                         }
-                        break;edkEnd();
+                        break;
                     }
                 }
                 else return ret;
-                break;edkEnd();
+                break;
             case (edk::char8)0xc2:
                 utf8++;edkEnd();
                 if(*utf8){
@@ -1918,7 +1918,7 @@ edk::uint32 edk::String::utf8WordSize(edk::char8 *utf8,edk::uint32* jump){
                 else{
                     return ret;
                 }
-                break;edkEnd();
+                break;
             case (edk::char8)0xc3:
                 utf8++;edkEnd();
                 if(*utf8){
@@ -1927,7 +1927,7 @@ edk::uint32 edk::String::utf8WordSize(edk::char8 *utf8,edk::uint32* jump){
                 else{
                     return ret;
                 }
-                break;edkEnd();
+                break;
             case (edk::char8)0xc5:
                 utf8++;edkEnd();
                 if(*utf8){
@@ -1936,7 +1936,7 @@ edk::uint32 edk::String::utf8WordSize(edk::char8 *utf8,edk::uint32* jump){
                 else{
                     return ret;
                 }
-                break;edkEnd();
+                break;
             case (edk::char8)0xc6:
                 utf8++;edkEnd();
                 if(*utf8){
@@ -1945,7 +1945,7 @@ edk::uint32 edk::String::utf8WordSize(edk::char8 *utf8,edk::uint32* jump){
                 else{
                     return ret;
                 }
-                break;edkEnd();
+                break;
             case (edk::char8)0xcb:
                 utf8++;edkEnd();
                 if(*utf8){
@@ -1954,10 +1954,10 @@ edk::uint32 edk::String::utf8WordSize(edk::char8 *utf8,edk::uint32* jump){
                 else{
                     return ret;
                 }
-                break;edkEnd();
+                break;
             default:
                 ret++;edkEnd();
-                break;edkEnd();
+                break;
             }
             utf8++;edkEnd();
         }
@@ -1976,7 +1976,7 @@ edk::uint32 edk::String::utf8WordSize(edk::char8 *utf8,edk::uint32 limit,edk::ui
         while(*utf8){
             //test the character
             if(*utf8==' ' || *utf8=='\n' || *utf8==10){
-                break;edkEnd();
+                break;
             }
             switch(*utf8){
             case (edk::char8)0xe2:
@@ -1991,7 +1991,7 @@ edk::uint32 edk::String::utf8WordSize(edk::char8 *utf8,edk::uint32 limit,edk::ui
                         else{
                             return ret;
                         }
-                        break;edkEnd();
+                        break;
                     case (edk::char8)0x82:
                         utf8++;edkEnd();
                         if(*utf8){
@@ -2000,7 +2000,7 @@ edk::uint32 edk::String::utf8WordSize(edk::char8 *utf8,edk::uint32 limit,edk::ui
                         else{
                             return ret;
                         }
-                        break;edkEnd();
+                        break;
                     case (edk::char8)0x84:
                         utf8++;edkEnd();
                         if(*utf8){
@@ -2009,13 +2009,13 @@ edk::uint32 edk::String::utf8WordSize(edk::char8 *utf8,edk::uint32 limit,edk::ui
                         else{
                             return ret;
                         }
-                        break;edkEnd();
+                        break;
                     }
                 }
                 else{
                     return ret;
                 }
-                break;edkEnd();
+                break;
             case (edk::char8)0xc2:
                 utf8++;edkEnd();
                 if(*utf8){
@@ -2024,7 +2024,7 @@ edk::uint32 edk::String::utf8WordSize(edk::char8 *utf8,edk::uint32 limit,edk::ui
                 else{
                     return ret;
                 }
-                break;edkEnd();
+                break;
             case (edk::char8)0xc3:
                 utf8++;edkEnd();
                 if(*utf8){
@@ -2033,7 +2033,7 @@ edk::uint32 edk::String::utf8WordSize(edk::char8 *utf8,edk::uint32 limit,edk::ui
                 else{
                     return ret;
                 }
-                break;edkEnd();
+                break;
             case (edk::char8)0xc5:
                 utf8++;edkEnd();
                 if(*utf8){
@@ -2042,7 +2042,7 @@ edk::uint32 edk::String::utf8WordSize(edk::char8 *utf8,edk::uint32 limit,edk::ui
                 else{
                     return ret;
                 }
-                break;edkEnd();
+                break;
             case (edk::char8)0xc6:
                 utf8++;edkEnd();
                 if(*utf8){
@@ -2051,7 +2051,7 @@ edk::uint32 edk::String::utf8WordSize(edk::char8 *utf8,edk::uint32 limit,edk::ui
                 else{
                     return ret;
                 }
-                break;edkEnd();
+                break;
             case (edk::char8)0xcb:
                 utf8++;edkEnd();
                 if(*utf8){
@@ -2060,14 +2060,14 @@ edk::uint32 edk::String::utf8WordSize(edk::char8 *utf8,edk::uint32 limit,edk::ui
                 else{
                     return ret;
                 }
-                break;edkEnd();
+                break;
             default:
                 ret++;edkEnd();
-                break;edkEnd();
+                break;
             }
             utf8++;edkEnd();
             if(ret>=limit){
-                break;edkEnd();
+                break;
             }
         }
         *jump = utf8-str;edkEnd();
@@ -2107,7 +2107,7 @@ edk::uint32 edk::String::utf8LineCount(edk::char8 *utf8,edk::uint32 limit){
                 size=0u;
                 newLine = false;edkEnd();
                 firstLine=true;edkEnd();
-                continue;edkEnd();
+                continue;
             }
 
             word = edk::String::utf8WordSize(utf8,&myJump);edkEnd();
@@ -2120,7 +2120,7 @@ edk::uint32 edk::String::utf8LineCount(edk::char8 *utf8,edk::uint32 limit){
                     else{
                         //new line
                         newLine = true;edkEnd();
-                        continue;edkEnd();
+                        continue;
                     }
                 }
                 size+=word;edkEnd();
@@ -2149,14 +2149,14 @@ edk::uint32 edk::String::utf8LineSize(edk::char8* utf8,edk::uint32 limit){
         while(*utf8){
             //test if the size extend the limit
             if(size+1u>=limit || *utf8 == '\n' || *utf8 == 10){
-                break;edkEnd();
+                break;
             }
 
             word = edk::String::utf8WordSize(utf8,&myJump);edkEnd();
             if(word){
                 //if the next word does't fit in the line it will return the last size
                 if(size+word>limit){
-                    break;edkEnd();
+                    break;
                 }
                 size+=word;edkEnd();
                 //go to the space
@@ -2182,14 +2182,14 @@ edk::uint32 edk::String::utf8LineSize(edk::char8 *utf8,edk::uint32 limit,edk::ui
         while(*utf8){
             //test if the size extend the limit
             if(size+1u>=limit || *utf8 == '\n' || *utf8 == 10){
-                break;edkEnd();
+                break;
             }
 
             word = edk::String::utf8WordSize(utf8,&myJump);edkEnd();
             if(word){
                 //if the next word does't fit in the line it will return the last size
                 if(size+word>limit){
-                    break;edkEnd();
+                    break;
                 }
                 size+=word;edkEnd();
                 *jump+=myJump;edkEnd();
@@ -2235,16 +2235,16 @@ edk::char8* edk::String::utf8LinePosition(edk::char8 *utf8,edk::uint32 limit,edk
                     utf8++;edkEnd();
                 }
                 if(count>=linePosition){
-                    break;edkEnd();
+                    break;
                 }
                 count++;edkEnd();
                 size=0u;
                 ret = utf8;edkEnd();
                 newLine = false;edkEnd();
                 if(count>=linePosition){
-                    break;edkEnd();
+                    break;
                 }
-                continue;edkEnd();
+                continue;
             }
 
             word = edk::String::utf8WordSize(utf8,&myJump);edkEnd();
@@ -2257,7 +2257,7 @@ edk::char8* edk::String::utf8LinePosition(edk::char8 *utf8,edk::uint32 limit,edk
                     else{
                         //new line
                         newLine = true;edkEnd();
-                        continue;edkEnd();
+                        continue;
                     }
                 }
                 size+=word;edkEnd();
@@ -2293,7 +2293,7 @@ edk::uint8 edk::String::utf8Bytes(edk::char8 *utf8){
                     else{
                         return ret;
                     }
-                    break;edkEnd();
+                    break;
                 case (edk::char8)0x82:
                     utf8++;edkEnd();
                     if(*utf8){
@@ -2302,7 +2302,7 @@ edk::uint8 edk::String::utf8Bytes(edk::char8 *utf8){
                     else{
                         return ret;
                     }
-                    break;edkEnd();
+                    break;
                 case (edk::char8)0x84:
                     utf8++;edkEnd();
                     if(*utf8){
@@ -2311,13 +2311,13 @@ edk::uint8 edk::String::utf8Bytes(edk::char8 *utf8){
                     else{
                         return ret;
                     }
-                    break;edkEnd();
+                    break;
                 }
             }
             else{
                 return ret;
             }
-            break;edkEnd();
+            break;
         case (edk::char8)0xc2:
             utf8++;edkEnd();
             if(*utf8){
@@ -2326,7 +2326,7 @@ edk::uint8 edk::String::utf8Bytes(edk::char8 *utf8){
             else{
                 return ret;
             }
-            break;edkEnd();
+            break;
         case (edk::char8)0xc3:
             utf8++;edkEnd();
             if(*utf8){
@@ -2335,7 +2335,7 @@ edk::uint8 edk::String::utf8Bytes(edk::char8 *utf8){
             else{
                 return ret;
             }
-            break;edkEnd();
+            break;
         case (edk::char8)0xc5:
             utf8++;edkEnd();
             if(*utf8){
@@ -2344,7 +2344,7 @@ edk::uint8 edk::String::utf8Bytes(edk::char8 *utf8){
             else{
                 return ret;
             }
-            break;edkEnd();
+            break;
         case (edk::char8)0xc6:
             utf8++;edkEnd();
             if(*utf8){
@@ -2353,7 +2353,7 @@ edk::uint8 edk::String::utf8Bytes(edk::char8 *utf8){
             else{
                 return ret;
             }
-            break;edkEnd();
+            break;
         case (edk::char8)0xcb:
             utf8++;edkEnd();
             if(*utf8){
@@ -2362,7 +2362,7 @@ edk::uint8 edk::String::utf8Bytes(edk::char8 *utf8){
             else{
                 return ret;
             }
-            break;edkEnd();
+            break;
         }
     }
     return ret;
@@ -2377,13 +2377,13 @@ edk::uint32 edk::String::utf8ToUint32(edk::char8 *utf8){
     switch(size){
     case 1u:
         ret = edk::BinaryConverter::joinBytesLittleEndian(0u,0u,0u,utf8[0u]);edkEnd();
-        break;edkEnd();
+        break;
     case 2u:
         ret = edk::BinaryConverter::joinBytesLittleEndian(0u,0u,utf8[0u],utf8[1u]);edkEnd();
-        break;edkEnd();
+        break;
     case 3u:
         ret = edk::BinaryConverter::joinBytesLittleEndian(0u,utf8[0u],utf8[1u],utf8[2u]);edkEnd();
-        break;edkEnd();
+        break;
     case 4u:
     default:
         if(size){
@@ -2416,14 +2416,14 @@ bool edk::String::asciiToUtf8(edk::char8* src,edk::char8* dest){
                         *dest = c | 0x40;
                     }
                 }
-                break;edkEnd();
+                break;
             case 0xC2:
                 src++;edkEnd();
                 *dest = *src;edkEnd();
-                break;edkEnd();
+                break;
             default:
                 *dest = c;edkEnd();
-                break;edkEnd();
+                break;
             }
             src++;edkEnd();
             dest++;edkEnd();
@@ -2451,7 +2451,7 @@ edk::char8* edk::String::asciiToUtf8(edk::char8* src){
             delete[] ret;edkEnd();
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::char8* edk::String::asciiToUtf8(const edk::char8* src){
     return edk::String::asciiToUtf8((edk::char8*) src);edkEnd();
@@ -2467,11 +2467,11 @@ edk::uint32 edk::String::asciiToUtf8Size(edk::char8* src){
             case 0xC3:
                 src++;edkEnd();
                 //ret++;edkEnd();
-                break;edkEnd();
+                break;
             case 0xC2:
                 src++;edkEnd();
                 //ret++;edkEnd();
-                break;edkEnd();
+                break;
             }
             src++;edkEnd();
             ret++;edkEnd();
@@ -2576,7 +2576,7 @@ edk::char8* edk::String::utf8ToAscii(edk::char8* src){
             delete[] ret;edkEnd();
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::char8* edk::String::utf8ToAscii(const edk::char8* src){
     return edk::String::utf8ToAscii((edk::char8*) src);edkEnd();
@@ -3034,7 +3034,7 @@ edk::char8* edk::String::vecInt8toStr(edk::int8* vec,edk::uint32 size){
             }
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 
 edk::char8* edk::String::vecInt16toStr(edk::int16* vec,edk::uint32 size){
@@ -3085,7 +3085,7 @@ edk::char8* edk::String::vecInt16toStr(edk::int16* vec,edk::uint32 size){
             }
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 
 edk::char8* edk::String::vecInt32toStr(edk::int32* vec,edk::uint32 size){
@@ -3136,7 +3136,7 @@ edk::char8* edk::String::vecInt32toStr(edk::int32* vec,edk::uint32 size){
             }
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::char8* edk::String::vecInt64toStr(edk::int64* vec,edk::uint32 size){
     if(vec && size){
@@ -3186,7 +3186,7 @@ edk::char8* edk::String::vecInt64toStr(edk::int64* vec,edk::uint32 size){
             }
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 
 edk::char8* edk::String::vecUint8toStr(edk::uint8* vec,edk::uint32 size){
@@ -3228,7 +3228,7 @@ edk::char8* edk::String::vecUint8toStr(edk::uint8* vec,edk::uint32 size){
             }
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 
 edk::char8* edk::String::vecUint16toStr(edk::uint16* vec,edk::uint32 size){
@@ -3270,7 +3270,7 @@ edk::char8* edk::String::vecUint16toStr(edk::uint16* vec,edk::uint32 size){
             }
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 
 edk::char8* edk::String::vecUint32toStr(edk::uint32* vec,edk::uint32 size){
@@ -3312,7 +3312,7 @@ edk::char8* edk::String::vecUint32toStr(edk::uint32* vec,edk::uint32 size){
             }
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::char8* edk::String::vecUint64toStr(edk::uint64* vec,edk::uint32 size){
     if(vec && size){
@@ -3353,7 +3353,7 @@ edk::char8* edk::String::vecUint64toStr(edk::uint64* vec,edk::uint32 size){
             }
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 
 edk::char8* edk::String::vecfloat32toStr(edk::float32* vec,edk::uint32 size){
@@ -3384,7 +3384,7 @@ edk::char8* edk::String::vecfloat32toStr(edk::float32* vec,edk::uint32 size){
             }
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 
 edk::char8* edk::String::vecfloat64toStr(edk::float64* vec,edk::uint32 size){
@@ -3415,7 +3415,7 @@ edk::char8* edk::String::vecfloat64toStr(edk::float64* vec,edk::uint32 size){
             }
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 
 edk::uint32 edk::String::sizeOfInt32(edk::int32 value){
@@ -3497,7 +3497,7 @@ edk::char8* edk::String::float32ToStr(edk::float32 value){
             //test if number is zero
             if((after - ((edk::int32)after))==0.0f){
                 //break
-                break;edkEnd();
+                break;
             }
             after=after*10.0f;edkEnd();
             size++;edkEnd();
@@ -3776,7 +3776,7 @@ edk::char8* edk::String::uint32ToStr(edk::uint32 value){
         //
         if(module<=0){
             //
-            break;edkEnd();
+            break;
         }
         module=module/10;
         size++;edkEnd();
@@ -3837,7 +3837,7 @@ edk::char8* edk::String::uint32ToStr(edk::uint32 value,edk::uint32 digits){
         //
         if(module<=0){
             //
-            break;edkEnd();
+            break;
         }
         module=module/10;
         size++;edkEnd();
@@ -3900,7 +3900,7 @@ bool edk::String::uint32ToStr(edk::uint32 value,edk::char8* dest){
         //
         if(module<=0){
             //
-            break;edkEnd();
+            break;
         }
         module=module/10;
         size++;edkEnd();
@@ -3950,7 +3950,7 @@ bool edk::String::uint32ToStr(edk::uint32 value,edk::char8* dest,edk::uint32 dig
         //
         if(module<=0){
             //
-            break;edkEnd();
+            break;
         }
         module=module/10;
         size++;edkEnd();
@@ -4003,7 +4003,7 @@ edk::char8* edk::String::uint64ToStr(edk::uint64 value){
         //
         if(module<=0){
             //
-            break;edkEnd();
+            break;
         }
         module=module/10;
         size++;edkEnd();
@@ -4064,7 +4064,7 @@ edk::char8* edk::String::uint64ToStr(edk::uint64 value,edk::uint32 digits){
         //
         if(module<=0){
             //
-            break;edkEnd();
+            break;
         }
         module=module/10;
         size++;edkEnd();
@@ -4127,7 +4127,7 @@ bool edk::String::uint64ToStr(edk::uint64 value,edk::char8* dest){
         //
         if(module<=0){
             //
-            break;edkEnd();
+            break;
         }
         module=module/10;
         size++;edkEnd();
@@ -4176,7 +4176,7 @@ bool edk::String::uint64ToStr(edk::uint64 value,edk::char8* dest,edk::uint32 dig
         //
         if(module<=0){
             //
-            break;edkEnd();
+            break;
         }
         module=module/10;
         size++;edkEnd();
@@ -4287,7 +4287,7 @@ edk::char8* edk::String::strCatMulti(edk::char8 *str, ...){
                 else{
                     //else return temp
                     ret = temp;edkEnd();
-                    break;edkEnd();
+                    break;
                 }
                 strTemp = va_arg(vl,edk::char8*);edkEnd();
             }
@@ -4325,7 +4325,7 @@ edk::char8* edk::String::strCatMulti(const edk::char8 *str, ...){
                 else{
                     //else return temp
                     ret = temp;edkEnd();
-                    break;edkEnd();
+                    break;
                 }
                 strTemp = va_arg(vl,edk::char8*);edkEnd();
             }
@@ -4340,12 +4340,12 @@ bool edk::String::strCompare(edk::char8 *str1, edk::char8 *str2){
     //alloc the return
     if(str1 && str2){
         //then he can compare the two strings
-        if (*str1 == *str2){
+        if(*str1 == *str2){
             while (*str1 || *str2){
                 str1++;edkEnd();
                 str2++;edkEnd();
-                if (*str1!=*str2){
-                    break;edkEnd();
+                if(*str1!=*str2){
+                    break;
                 }
                 else if(*str1=='\0'){
                     //
@@ -4371,7 +4371,7 @@ bool edk::String::strCompare(const edk::char8 *str1, const edk::char8 *str2){
 bool edk::String::strCompareBeggin(edk::char8 *beggin, edk::char8 *str){
     if(beggin && str){
         while(*beggin && *str){
-            if (*beggin!=*str){
+            if(*beggin!=*str){
                 return false;
             }
             beggin++;edkEnd();
@@ -4402,11 +4402,11 @@ bool edk::String::strCompareEnd(edk::char8 *end, edk::char8 *str){
             edk::char8* save = end;edkEnd();
             //find the str1 inside the str2
             while(*str){
-                if (*end==*str){
+                if(*end==*str){
                     //test the string if are equal
                     while(*end && *str){
-                        if (*end!=*str){
-                            break;edkEnd();
+                        if(*end!=*str){
+                            break;
                         }
                         end++;edkEnd();
                         str++;edkEnd();
@@ -4458,14 +4458,14 @@ bool edk::String::strCompareWithFilter(edk::char8 *str1, edk::char8 *str2,edk::c
                         for(edk::uint32 i=0u;i<size;i++){
                             if(*str1 == filter[i]){
                                 isEqual = true;edkEnd();
-                                break;edkEnd();
+                                break;
                             }
                         }
                         if(isEqual){
                             str1++;edkEnd();
                         }
                         else{
-                            break;edkEnd();
+                            break;
                         }
                     }
                     while(*str2){
@@ -4473,14 +4473,14 @@ bool edk::String::strCompareWithFilter(edk::char8 *str1, edk::char8 *str2,edk::c
                         for(edk::uint32 i=0u;i<size;i++){
                             if(*str2 == filter[i]){
                                 isEqual = true;edkEnd();
-                                break;edkEnd();
+                                break;
                             }
                         }
                         if(isEqual){
                             str2++;edkEnd();
                         }
                         else{
-                            break;edkEnd();
+                            break;
                         }
                     }
                     //test the second time
@@ -4496,14 +4496,14 @@ bool edk::String::strCompareWithFilter(edk::char8 *str1, edk::char8 *str2,edk::c
                                 for(edk::uint32 i=0u;i<size;i++){
                                     if(*str1 == filter[i]){
                                         isEqual = true;edkEnd();
-                                        break;edkEnd();
+                                        break;
                                     }
                                 }
                                 if(isEqual){
                                     str1++;edkEnd();
                                 }
                                 else{
-                                    break;edkEnd();
+                                    break;
                                 }
                             }
                             while(*str2){
@@ -4511,14 +4511,14 @@ bool edk::String::strCompareWithFilter(edk::char8 *str1, edk::char8 *str2,edk::c
                                 for(edk::uint32 i=0u;i<size;i++){
                                     if(*str2 == filter[i]){
                                         isEqual = true;edkEnd();
-                                        break;edkEnd();
+                                        break;
                                     }
                                 }
                                 if(isEqual){
                                     str2++;edkEnd();
                                 }
                                 else{
-                                    break;edkEnd();
+                                    break;
                                 }
                             }
                             //test if is not equal
@@ -4577,7 +4577,7 @@ edk::char8* edk::String::strInside(edk::char8 *str, edk::char8 *compare){
                     str++;edkEnd();
                     temp++;edkEnd();
                     if(*str != *temp){
-                        break;edkEnd();
+                        break;
                     }
                 }
                 //test if reach the end
@@ -4586,8 +4586,8 @@ edk::char8* edk::String::strInside(edk::char8 *str, edk::char8 *compare){
                     return ret;
                 }
                 if(!*str){
-                    //then return NULL;edkEnd();
-                    return NULL;edkEnd();
+                    //then return NULL;
+                    return NULL;
                 }
             }
 
@@ -4595,7 +4595,7 @@ edk::char8* edk::String::strInside(edk::char8 *str, edk::char8 *compare){
             str++;edkEnd();
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::char8* edk::String::strInside(const edk::char8 *str, edk::char8 *compare){
     return edk::String::strInside((edk::char8 *)str, compare);edkEnd();
@@ -4620,7 +4620,7 @@ bool edk::String::strBiggerStr(edk::char8 *str1, edk::char8 *str2){
             }
             else if(*str2>*str1){
                 //
-                break;edkEnd();
+                break;
             }
             //else equal increment i
             str2++;edkEnd();
@@ -4670,7 +4670,7 @@ edk::uint64 edk::String::strSizeWithFilter(edk::char8 *str,edk::char8* filter){
                     haveFilter = (bool)edk::String::stringHaveChar(filter,size,*str);edkEnd();
                     if(*str=='\0'){
                         //then find the end of the string
-                        break;edkEnd();
+                        break;
                     }
                     if(!haveFilter){
                         //increment i to continue the counting
@@ -4708,7 +4708,7 @@ edk::uint64 edk::String::strSizeWithLimit(edk::char8 *str,edk::char8* limit){
             temp = limit;edkEnd();
             while(temp){
                 if(*str == *temp){
-                    break;edkEnd();
+                    break;
                 }
                 temp++;edkEnd();
             }
@@ -4738,7 +4738,7 @@ edk::uint64 edk::String::strWordSize(edk::char8 *str){
         while(*str){
             //test if have reach the end of the word
             if(*str=='\0' || *str==' ' || *str==9u || *str == 10u){
-                break;edkEnd();
+                break;
             }
             //increment i to continue the counting
             ret++;edkEnd();
@@ -4766,7 +4766,7 @@ edk::uint64 edk::String::strWordSizeWithFilter(edk::char8 *str,edk::char8* filte
                     haveFilter = (bool)edk::String::stringHaveChar(filter,size,*str);edkEnd();
                     if(*str=='\0' || *str==' ' || *str==9u || *str == 10u){
                         //then find the end of the string
-                        break;edkEnd();
+                        break;
                     }
                     if(!haveFilter){
                         //increment i to continue the counting
@@ -4801,7 +4801,7 @@ edk::uint64 edk::String::strLineSize(edk::char8 *str){
         while(*str){
             //test if have reach the end of the word
             if(*str=='\0' || *str == 10u){
-                break;edkEnd();
+                break;
             }
             //increment i to continue the counting
             ret++;edkEnd();
@@ -4829,7 +4829,7 @@ edk::uint64 edk::String::strLineSizeWithFilter(edk::char8 *str,edk::char8* filte
                     haveFilter = (bool)edk::String::stringHaveChar(filter,size,*str);edkEnd();
                     if(*str=='\0' || *str == 10u){
                         //then find the end of the string
-                        break;edkEnd();
+                        break;
                     }
                     if(!haveFilter){
                         //increment i to continue the counting
@@ -4871,7 +4871,7 @@ bool edk::String::strCut(edk::char8 *str,edk::char8 *dest, edk::char8 limit, boo
                 }
                 //
                 *dest='\0';edkEnd();
-                break;edkEnd();
+                break;
             }
             //copy the character
             *dest = *str;edkEnd();
@@ -4930,7 +4930,7 @@ edk::char8* edk::String::strCut(edk::char8 *str, edk::char8 limit, bool use){
         }
     }
     //If he cant fint the character. Return NULL
-    return NULL;edkEnd();
+    return NULL;
 }
 
 edk::char8* edk::String::strCut(const edk::char8 *str, edk::char8 limit, bool use){
@@ -4998,7 +4998,7 @@ edk::char8* edk::String::strCut(edk::char8 limit, edk::char8 *str, bool use){
         }
     }
     //If he cant fint the character. Return NULL
-    return NULL;edkEnd();
+    return NULL;
 }
 
 edk::char8* edk::String::strCut(edk::char8 limit, const edk::char8 *str, bool use){
@@ -5025,7 +5025,7 @@ bool edk::String::strCut(edk::char8 *str,edk::char8 *dest, edk::char8 start, edk
                             *dest = end;edkEnd();
                             dest++;edkEnd();
                         }
-                        break;edkEnd();
+                        break;
                     }
 
                     //copy the character
@@ -5109,7 +5109,7 @@ edk::char8* edk::String::strCut(edk::char8 *str, edk::char8 start, edk::char8 en
                                         }
                                         else{
                                             ret[i]='\0';edkEnd();
-                                            break;edkEnd();
+                                            break;
                                         }
                                         str++;edkEnd();
                                     }
@@ -5123,21 +5123,21 @@ edk::char8* edk::String::strCut(edk::char8 *str, edk::char8 start, edk::char8 en
                             }
                         }
                         //break
-                        break;edkEnd();
+                        break;
                     }
                     //increment the b count
                     b++;edkEnd();
                 }
 
-                //then break;edkEnd();
-                break;edkEnd();
+                //then break;
+                break;
             }
 
             //increment a count
             a++;edkEnd();
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 
 edk::char8* edk::String::strCut(const edk::char8 *str, edk::char8 start, edk::char8 end, bool use){
@@ -5236,7 +5236,7 @@ void edk::String::consoleClear(){
 #if defined(WIN32) || defined(WIN64)//Windows
     system("cls");edkEnd();
 #elif defined(__linux__) || defined(__APPLE__) //Linux //MacOS
-    printf("\033c");edkEnd();fflush(stdout);edkEnd();
+    printf("\033c");edkEnd();
 #endif
 }
 
@@ -5356,7 +5356,7 @@ edk::char8* edk::String::strCopyWithFilter(edk::char8 *str,edk::char8 *filter){
                                 strRet[j] = str[i];edkEnd();
                                 j++;edkEnd();
                                 if(j>=sizeWith){
-                                    break;edkEnd();
+                                    break;
                                 }
                             }
                         }
@@ -5505,155 +5505,155 @@ edk::char8 edk::String::filterAccent(edk::char8* str){
             str++;edkEnd();
             switch((edk::uint8)*str){
             case 128u:
-                //printf("\nCrase A");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nCrase A");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 129u:
-                //printf("\nAcento A");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nAcento A");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 130u:
-                //printf("\nChapeu A");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nChapeu A");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 131u:
-                //printf("\nTio A");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nTio A");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 132u:
-                //printf("\nTrema A");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nTrema A");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 135u:
-                //printf("\nCedilha Maiusculo");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nCedilha Maiusculo");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 136u:
-                //printf("\nCrase E");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nCrase E");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 137u:
-                //printf("\nAcento E");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nAcento E");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 138u:
-                //printf("\nChapeu E");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nChapeu E");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 139u:
-                //printf("\nTrema E");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nTrema E");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 140u:
-                //printf("\nCrase I");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nCrase I");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 141u:
-                //printf("\nAcento I");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nAcento I");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 142u:
-                //printf("\nChapeu I");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nChapeu I");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 143u:
-                //printf("\nTrema I");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nTrema I");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 145u:
-                //printf("\nTio N");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nTio N");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 146u:
-                //printf("\nCrase O");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nCrase O");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 147u:
-                //printf("\nAcento O");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nAcento O");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 148u:
-                //printf("\nChapeu O");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nChapeu O");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 149u:
-                //printf("\nTio O");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nTio O");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 150u:
-                //printf("\nTrema O");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nTrema O");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 153u:
-                //printf("\nCrase U");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nCrase U");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 154u:
-                //printf("\nAcento U");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nAcento U");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 155u:
-                //printf("\nChapeu U");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nChapeu U");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 156u:
-                //printf("\nTrema U");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nTrema U");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 157u:
-                //printf("\nAcento Y");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nAcento Y");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 160u:
-                //printf("\nCrase a");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nCrase a");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 161u:
-                //printf("\nAcento a");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nAcento a");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 162u:
-                //printf("\nChapeu a");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nChapeu a");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 163u:
-                //printf("\nTio a");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nTio a");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 164u:
-                //printf("\nTrema a");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nTrema a");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 167u:
-                //printf("\nCedilha Minusculo");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nCedilha Minusculo");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 168u:
-                //printf("\nCrase e");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nCrase e");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 169u:
-                //printf("\nAcento e");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nAcento e");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 170u:
-                //printf("\nChapeu e");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nChapeu e");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 171u:
-                //printf("\nTrema e");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nTrema e");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 172u:
-                //printf("\nCrase i");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nCrase i");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 173u:
-                //printf("\nAcento i");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nAcento i");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 174u:
-                //printf("\nChapeu i");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nChapeu i");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 175u:
-                //printf("\ntrema i");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\ntrema i");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 177u:
-                //printf("\nTio n");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nTio n");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 178u:
-                //printf("\nCrase o");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nCrase o");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 179u:
-                //printf("\nAcento o");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nAcento o");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 180u:
-                //printf("\nChapeu o");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nChapeu o");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 181u:
-                //printf("\nTio o");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nTio o");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 182u:
-                //printf("\nTrema o");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nTrema o");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 185u:
-                //printf("\nCrase u");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nCrase u");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 186u:
-                //printf("\nAcento u");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nAcento u");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 187u:
-                //printf("\nChapeu u");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nChapeu u");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 188u:
-                //printf("\nTrema u");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nTrema u");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 189u:
-                //printf("\nAcento y");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nAcento y");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             }
             str--;edkEnd();
         }
@@ -5729,155 +5729,155 @@ edk::char8 edk::String::filterAccent(edk::char8* str,edk::uint8* jump){
             str++;edkEnd();
             switch((edk::uint8)*str){
             case 128u:
-                //printf("\nCrase A");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nCrase A");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 129u:
-                //printf("\nAcento A");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nAcento A");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 130u:
-                //printf("\nChapeu A");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nChapeu A");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 131u:
-                //printf("\nTio A");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nTio A");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 132u:
-                //printf("\nTrema A");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nTrema A");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 135u:
-                //printf("\nCedilha Maiusculo");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nCedilha Maiusculo");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 136u:
-                //printf("\nCrase E");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nCrase E");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 137u:
-                //printf("\nAcento E");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nAcento E");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 138u:
-                //printf("\nChapeu E");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nChapeu E");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 139u:
-                //printf("\nTrema E");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nTrema E");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 140u:
-                //printf("\nCrase I");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nCrase I");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 141u:
-                //printf("\nAcento I");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nAcento I");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 142u:
-                //printf("\nChapeu I");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nChapeu I");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 143u:
-                //printf("\nTrema I");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nTrema I");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 145u:
-                //printf("\nTio N");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nTio N");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 146u:
-                //printf("\nCrase O");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nCrase O");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 147u:
-                //printf("\nAcento O");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nAcento O");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 148u:
-                //printf("\nChapeu O");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nChapeu O");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 149u:
-                //printf("\nTio O");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nTio O");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 150u:
-                //printf("\nTrema O");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nTrema O");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 153u:
-                //printf("\nCrase U");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nCrase U");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 154u:
-                //printf("\nAcento U");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nAcento U");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 155u:
-                //printf("\nChapeu U");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nChapeu U");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 156u:
-                //printf("\nTrema U");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nTrema U");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 157u:
-                //printf("\nAcento Y");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nAcento Y");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 160u:
-                //printf("\nCrase a");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nCrase a");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 161u:
-                //printf("\nAcento a");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nAcento a");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 162u:
-                //printf("\nChapeu a");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nChapeu a");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 163u:
-                //printf("\nTio a");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nTio a");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 164u:
-                //printf("\nTrema a");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nTrema a");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 167u:
-                //printf("\nCedilha Minusculo");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nCedilha Minusculo");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 168u:
-                //printf("\nCrase e");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nCrase e");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 169u:
-                //printf("\nAcento e");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nAcento e");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 170u:
-                //printf("\nChapeu e");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nChapeu e");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 171u:
-                //printf("\nTrema e");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nTrema e");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 172u:
-                //printf("\nCrase i");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nCrase i");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 173u:
-                //printf("\nAcento i");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nAcento i");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 174u:
-                //printf("\nChapeu i");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nChapeu i");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 175u:
-                //printf("\ntrema i");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\ntrema i");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 177u:
-                //printf("\nTio n");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nTio n");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 178u:
-                //printf("\nCrase o");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nCrase o");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 179u:
-                //printf("\nAcento o");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nAcento o");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 180u:
-                //printf("\nChapeu o");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nChapeu o");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 181u:
-                //printf("\nTio o");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nTio o");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 182u:
-                //printf("\nTrema o");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nTrema o");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 185u:
-                //printf("\nCrase u");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nCrase u");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 186u:
-                //printf("\nAcento u");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nAcento u");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 187u:
-                //printf("\nChapeu u");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nChapeu u");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 188u:
-                //printf("\nTrema u");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nTrema u");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 189u:
-                //printf("\nAcento y");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nAcento y");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             default:
                 *jump-=1u;edkEnd();
                 str--;edkEnd();
@@ -5999,7 +5999,7 @@ edk::char8* edk::String::strCopyFilterAccent(edk::char8* str){
             }
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 
 //return the file name from a string
@@ -6020,8 +6020,9 @@ edk::char8* edk::String::strFileName(edk::char8* str){
         }
         if(*temp=='/' || *temp=='\\'){
             temp++;edkEnd();
-            if(size)
+            if(size){
                 size--;edkEnd();
+            }
         }
         if(size){
             //create a new string with the size
@@ -6196,7 +6197,7 @@ edk::uint64 edk::String::base64EncodeSize(edk::uint64 size){
     edk::uint64 ret;edkEnd();
 
     ret = size;edkEnd();
-    if (size % 3 != 0){
+    if(size % 3 != 0){
         ret += 3 - (size % 3);edkEnd();
     }
     ret /= 3;edkEnd();
@@ -6215,19 +6216,19 @@ bool edk::String::base64Encode(edk::uint8* vec,edk::uint64 size,edk::char8* dest
         elen = edk::String::base64EncodeSize(size);edkEnd();
         dest[elen] = '\0';edkEnd();
 
-        for (i=0, j=0; i<size; i+=3, j+=4) {
+        for (i=0, j=0; i<size; i+=3, j+=4){
             v = vec[i];edkEnd();
             v = i+1 < size ? v << 8 | vec[i+1] : v << 8;edkEnd();
             v = i+2 < size ? v << 8 | vec[i+2] : v << 8;edkEnd();
 
             dest[j]   = b64chars[(v >> 18) & 0x3F];edkEnd();
             dest[j+1] = b64chars[(v >> 12) & 0x3F];edkEnd();
-            if (i+1 < size) {
+            if(i+1 < size){
                 dest[j+2] = b64chars[(v >> 6) & 0x3F];edkEnd();
             } else {
                 dest[j+2] = '=';edkEnd();
             }
-            if (i+2 < size) {
+            if(i+2 < size){
                 dest[j+3] = b64chars[v & 0x3F];edkEnd();
             } else {
                 dest[j+3] = '=';edkEnd();
@@ -6249,8 +6250,9 @@ edk::char8* edk::String::base64Encode(edk::uint8* vec,edk::uint64 size){
     edk::char8   *out;edkEnd();
     edk::uint64  elen;edkEnd();
 
-    if (vec == NULL || size == 0)
-        return NULL;edkEnd();
+    if(vec == NULL || size == 0){
+        return NULL;
+    }
 
     elen = edk::String::base64EncodeSize(size);edkEnd();
     out  = (edk::char8*)malloc(elen+1);edkEnd();
@@ -6273,17 +6275,19 @@ edk::uint64 edk::String::base64DecodeSize(edk::char8* str){
     edk::uint64 ret;edkEnd();
     edk::uint64 i;edkEnd();
 
-    if (str == NULL)
+    if(str == NULL){
+        edkEnd();
         return 0;
+    }
 
     len = edk::String::strSize(str);edkEnd();
     ret = len / 4 * 3;edkEnd();
 
-    for (i=len; i-->0; ) {
-        if (str[i] == '=') {
+    for (i=len; i-->0; ){
+        if(str[i] == '='){
             ret--;edkEnd();
         } else {
-            break;edkEnd();
+            break;
         }
     }
 
@@ -6295,13 +6299,16 @@ bool edk::String::base64Decode(edk::char8* str,edk::uint8* dest){
     edk::uint64 j;edkEnd();
     int    v;edkEnd();
 
-    if (str == NULL || dest == NULL)
+    if(str == NULL || dest == NULL){
+        edkEnd();
         return false;
+    }
 
     len = edk::String::strSize(str);edkEnd();
     /*
-    if (size < edk::String::base64DecodeSize(str) || len % 4 != 0)
+    if(size < edk::String::base64DecodeSize(str) || len % 4 != 0){
         return false;
+        }
     */
 
     for (i=0; i<len; i++){
@@ -6315,17 +6322,19 @@ bool edk::String::base64Decode(edk::char8* str,edk::uint8* dest){
         }
     }
 
-    for (i=0, j=0; i<len; i+=4, j+=3) {
+    for (i=0, j=0; i<len; i+=4, j+=3){
         v = b64invs[str[i]-43];edkEnd();
         v = (v << 6) | b64invs[str[i+1]-43];edkEnd();
         v = str[i+2]=='=' ? v << 6 : (v << 6) | b64invs[str[i+2]-43];edkEnd();
         v = str[i+3]=='=' ? v << 6 : (v << 6) | b64invs[str[i+3]-43];edkEnd();
 
         dest[j] = (v >> 16) & 0xFF;edkEnd();
-        if (str[i+2] != '=')
+        if(str[i+2] != '='){
             dest[j+1] = (v >> 8) & 0xFF;edkEnd();
-        if (str[i+3] != '=')
+        }
+        if(str[i+3] != '='){
             dest[j+2] = v & 0xFF;edkEnd();
+        }
     }
     return true;
 }
@@ -6344,11 +6353,11 @@ edk::uint64 edk::String::uriUnescapeSize(edk::char8* str){
             ret++;edkEnd();
         }
 
-        while (*str && !edkIsSpace((edk::int32)(*str))) {
-            if (*str == '+'){
+        while (*str && !edkIsSpace((edk::int32)(*str))){
+            if(*str == '+'){
                 ret++;edkEnd();
             }
-            else if ((*str == '%') && str[1] && str[2]) {
+            else if((*str == '%') && str[1] && str[2]){
                 str++;edkEnd();
                 str++;edkEnd();
                 ret++;edkEnd();
@@ -6374,11 +6383,11 @@ bool edk::String::uriUnescape(edk::char8* str,edk::char8* dest){
             dest++;edkEnd();
         }
 
-        while (*str && !edkIsSpace((edk::int32)(*str))) {
-            if (*str == '+'){
+        while (*str && !edkIsSpace((edk::int32)(*str))){
+            if(*str == '+'){
                 chr = ' ';edkEnd();
             }
-            else if ((*str == '%') && str[1] && str[2]) {
+            else if((*str == '%') && str[1] && str[2]){
                 str++;edkEnd();
                 chr = ((*str & 0x0F) + 9 * (*str > '9')) * 16;edkEnd();
                 str++;edkEnd();
@@ -6417,7 +6426,7 @@ edk::char8* edk::String::uriUnescape(edk::char8* str){
             delete[] ret;edkEnd();
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::char8* edk::String::uriUnescape(const edk::char8* str){
     return edk::String::uriUnescape((edk::char8*) str);edkEnd();

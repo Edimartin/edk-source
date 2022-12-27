@@ -163,7 +163,7 @@ edk::uint8* edk::network::Package::getPackageVector(){
     if(this->vec){
         return &this->vec[this->headerSize];edkEnd();
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 
 edk::uint32 edk::network::Package::getVecSize(){

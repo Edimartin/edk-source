@@ -42,7 +42,7 @@ edk::uint32 getWindowsCores(){
     GetSystemInfo(&sysinfo);edkEnd();
     return sysinfo.dwNumberOfProcessors;edkEnd();
 }
-edk::uint32 edk::multi::Thread::cores=getWindowsCores();edkEnd();
+edk::uint32 edk::multi::Thread::cores=getWindowsCores();
 #elif defined __linux__
 edk::uint32 edk::multi::Thread::cores=sysconf(_SC_NPROCESSORS_ONLN);
 #elif defined __APPLE__
@@ -54,10 +54,10 @@ edk::uint32 getMacCores(){
     nm[0] = CTL_HW;edkEnd(); nm[1] = HW_AVAILCPU;edkEnd();
     sysctl(nm, 2, &count, &len, NULL, 0);edkEnd();
 
-    if(count < 1) {
+    if(count < 1){
         nm[1] = HW_NCPU;edkEnd();
         sysctl(nm, 2, &count, &len, NULL, 0);edkEnd();
-        if(count < 1) {
+        if(count < 1){
             count = 1;edkEnd();
 
         }

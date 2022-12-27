@@ -165,7 +165,7 @@ private:
         //test if have the animation
         bool haveAnimation(edk::animation::Interpolation1DGroup* first){
             edk::shape::Mesh2D::AnimationDouble find(first,0u);edkEnd();
-            return this->haveElement(&find);edkEnd();
+            return this->haveElement(&find);
         }
         //return the second animation
         edk::uint32 getAnimationID(edk::animation::Interpolation1DGroup* first){
@@ -196,7 +196,7 @@ private:
         //return the double
         edk::shape::Mesh2D::AnimationDouble* getDouble(edk::animation::Interpolation1DGroup* first){
             edk::shape::Mesh2D::AnimationDouble find(first,0u);edkEnd();
-            return this->getElement(&find);edkEnd();
+            return this->getElement(&find);
         }
     };
 private:

@@ -27,13 +27,12 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 edk::multi::Mutex::Mutex(){
 #if defined( WIN32) || defined( WIN64)
     this->mut = CreateMutex( NULL, FALSE, NULL);edkEnd();
-    if (this->mut == NULL)
-        {
+    if(this->mut == NULL){
             //
         }
 #endif
 #if defined(__linux__)/*LINUX*/ || defined(__APPLE__)//MAC OS
-    if (pthread_mutex_init(&this->mut, NULL) != 0) {
+    if(pthread_mutex_init(&this->mut, NULL) != 0){
         //
     }
 #endif

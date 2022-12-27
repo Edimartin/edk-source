@@ -232,7 +232,7 @@ edk::char8* edk::material::Material::getTextureName(edk::uint8 position){
     if(position < materialTextureCount){
         return this->list.getTextureName(this->textures[position]);edkEnd();
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 
 //return the size of the texture

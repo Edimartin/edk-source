@@ -304,7 +304,7 @@ bool edk::bones::Bone2D::addConnectionObject(edk::Object2DValues* object){
     if(object){
         return this->treeObjects.addObject(object);edkEnd();
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 //return the objects size
 edk::uint32 edk::bones::Bone2D::getConnectionObjectSize(){
@@ -905,7 +905,7 @@ edk::bones::Bone2D* edk::bones::Bone2D::getNextInPosition(edk::uint32 position){
     if(position<this->nexts.size()){
         return (edk::bones::Bone2D*)this->nexts.getElementInPosition(position);edkEnd();
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 
 void edk::bones::Bone2D::print(){
@@ -1121,7 +1121,7 @@ edk::vec2f32 edk::bones::Bone2D::calculateInverseKinematic(edk::bones::Bone2D* b
            ,angle
            ,size.width
            ,size.height
-           );edkEnd();fflush(stdout);edkEnd();
+           );edkEnd();
 */
     //TRANSLATE AND ROTATE DE BONE POSITION
     edk::float32 translate[3u][3u];edkEnd();
@@ -1162,7 +1162,7 @@ edk::vec2f32 edk::bones::Bone2D::calculateInverseKinematic(edk::bones::Bone2D* b
             edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
             ret = temp->calculateInverseKinematic(bone,found,worldPoint,limit,count,angle,size,&newMat);edkEnd();
             if(*found){
-                break;edkEnd();
+                break;
             }
         }
     }
@@ -1171,7 +1171,7 @@ edk::vec2f32 edk::bones::Bone2D::calculateInverseKinematic(edk::bones::Bone2D* b
         bool foundVector = false;edkEnd();
         if(*count<limit){
             //
-            //printf("\nCalculate");edkEnd();fflush(stdout);edkEnd();
+            //printf("\nCalculate");edkEnd();
 
             //load the world vector
             edk::vec2f32 point = worldPoint - posTemp;edkEnd();
@@ -1189,14 +1189,14 @@ edk::vec2f32 edk::bones::Bone2D::calculateInverseKinematic(edk::bones::Bone2D* b
                    ,boneVector.y
                    ,posTemp.x
                    ,posTemp.y
-                   );edkEnd();fflush(stdout);edkEnd();
+                   );edkEnd();
 */
             //get the angle between the two vectors
             edk::float32 rotateAngle = edk::Math::getAngle(point) - edk::Math::getAngle(boneVector);edkEnd();
             /*
             printf(" rotate %.2f"
                    ,rotateAngle
-                   );edkEnd();fflush(stdout);edkEnd();
+                   );edkEnd();
 */
             this->angle+=rotateAngle;edkEnd();
             if(this->angle<0.f){

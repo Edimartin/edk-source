@@ -215,7 +215,7 @@ private:
             this->deleteTexture();edkEnd();
             if(name){
                 if((this->file = new edk::Texture2DFile)){
-                    if(this->file->setFromMemory(name,image,width,height,channels,filter)){
+                    if(this->file->setFromMemory(/*name,*/image,width,height,channels,filter)){
                         //save the name
                         if(this->setName(name)){
                             //save the code

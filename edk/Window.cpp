@@ -146,23 +146,23 @@ bool edk::Window::createWindow(uint32 width, uint32 height/*, uint32 bitsPerPixe
             case EDK_WINDOW_NOBAR:
                 //
                 style = style | sf::Style::None;edkEnd();//Desenha a janela sem uma barra de titulo
-                break;edkEnd();
+                break;
             case EDK_WINDOW_BUTTONS:
                 //
                 style = style | sf::Style::Close;edkEnd();//Desenha a janela com o botao de close e o minimize
-                break;edkEnd();
+                break;
             case EDK_WINDOW_BAR:
                 //
                 style = style | sf::Style::Titlebar;edkEnd();//Desenha a janela com a barra de titulo
-                break;edkEnd();
+                break;
             case EDK_WINDOW_RESIZE:
                 //
                 style = style | sf::Style::Resize;edkEnd();//Deixa a janela ser redimensionada
-                break;edkEnd();
+                break;
             case EDK_WINDOW_FULLSCREEN:
                 //
                 style = sf::Style::Fullscreen;edkEnd();//Desenha a janela em FULLSCREEN
-                break;edkEnd();
+                break;
             }
         */
 
@@ -846,7 +846,7 @@ bool edk::Window::loadEvents(){
         if(event.type == sf::Event::KeyPressed){//2.0
             //carrega a tecla pressionada
             //this->events.keyPressed.pushBack(event.Key.Code);edkEnd();//1.6
-            //printf("\nKey Pressed %d",event.key.code);edkEnd();fflush(stdout);edkEnd();
+            //printf("\nKey Pressed %d",event.key.code);edkEnd();
             if(event.key.code>=0&&event.key.code<26){
                 this->events.keyPressed.pushBack(event.key.code+'a') ;edkEnd();//2.0
             }
@@ -1037,7 +1037,7 @@ bool edk::Window::loadEvents(){
                 printf("\nJoyButtonPressed joy == %u button == %u"
                        ,event.joystickButton.joystickId
                        ,event.joystickButton.button
-                       );edkEnd();fflush(stdout);edkEnd();
+                       );edkEnd();
 */
             this->events.controllerPressed.addButton(event.joystickButton.joystickId,event.joystickButton.button);edkEnd();
         }
@@ -1048,7 +1048,7 @@ bool edk::Window::loadEvents(){
                 printf("\nJoyButtonReleased joy == %u button == %u"
                        ,event.joystickButton.joystickId
                        ,event.joystickButton.button
-                       );edkEnd();fflush(stdout);edkEnd();
+                       );edkEnd();
 */
             this->events.controllerReleased.addButton(event.joystickButton.joystickId,event.joystickButton.button);edkEnd();
         }
@@ -1061,7 +1061,7 @@ bool edk::Window::loadEvents(){
                        ,event.joystickMove.joystickId
                        ,event.joystickMove.position
                        ,event.joystickMove.axis
-                       );edkEnd();fflush(stdout);edkEnd();
+                       );edkEnd();
 */
             //test if it's the Y
             if(event.joystickMove.axis<(sizeof(event.joystickMove.axis)*8)-1u){
@@ -1163,7 +1163,7 @@ edk::uint32 edk::Window::getDesktopBitsPerPixel(){
 
 //test if have a controller
 bool edk::Window::haveController(edk::uint32 controller){
-    if (sf::Joystick::isConnected(controller)){
+    if(sf::Joystick::isConnected(controller)){
         return true;
     }
     return false;

@@ -77,8 +77,9 @@ bool edk::codecs::EncoderH264::startEncoder(edk::size2ui32 size, edk::uint32 fps
                 this->param.iTargetBitrate = WELS_CLIP3 (this->param.iTargetBitrate,
                                                          this->param.iPicWidth * this->param.iPicHeight / 50, 100000000);edkEnd();
                 int32_t iLevelMaxBitrate = WelsCommon::g_ksLevelLimits[LEVEL_5_0 - 1].uiMaxBR * CpbBrNalFactor;edkEnd();
-                if (this->param.iTargetBitrate > iLevelMaxBitrate)
+                if(this->param.iTargetBitrate > iLevelMaxBitrate){
                     this->param.iTargetBitrate = iLevelMaxBitrate;edkEnd();
+                    }
                 */
 
                 this->param.iTargetBitrate = 50000;
@@ -149,7 +150,7 @@ bool edk::codecs::EncoderH264::encode(edk::uint8* frame,edk::uint8 channels){
                         for(edk::uint32 i=0u;i<(edk::uint32)this->sFbi.iLayerNum;i++){
                             //
                             pLayerBsInfo = &sFbi.sLayerInfo[i];edkEnd();
-                            if (pLayerBsInfo != NULL){
+                            if(pLayerBsInfo != NULL){
 
                                 iLayerSize = 0;
                                 iNalIdx = pLayerBsInfo->iNalCount - 1;edkEnd();

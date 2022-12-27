@@ -37,7 +37,7 @@ inline edk::physics2D::ContactObjects* edk::physics2D::TreeContactObjects::getCo
                                                                                       ){
     //
     edk::physics2D::ContactObjects search(objectA,objectB);edkEnd();
-    return this->tree.getElement(&search);edkEnd();
+    return this->tree.getElement(&search);
 }
 
 //clean the tree

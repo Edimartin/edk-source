@@ -53,7 +53,7 @@ public:
         this->name.setName(name);edkEnd();
         this->value.setName(value);edkEnd();
     }
-    ~SQLNode(){
+    virtual ~SQLNode(){
         this->name.cleanName();edkEnd();
         this->value.cleanName();edkEnd();
     }
@@ -122,14 +122,14 @@ public:
         if(this->nodes.havePos(position)){
             return this->nodes[position]->getName();edkEnd();
         }
-        return NULL;edkEnd();
+        return NULL;
     }
     //return the nodeValue
     edk::char8* getNodeValue(edk::uint32 position){
         if(this->nodes.havePos(position)){
             return this->nodes[position]->getValue();edkEnd();
         }
-        return NULL;edkEnd();
+        return NULL;
     }
 
 private:
@@ -185,21 +185,21 @@ public:
         if(this->haveGroup(position)){
             return this->groups[position];edkEnd();
         }
-        return NULL;edkEnd();
+        return NULL;
     }
     edk::char8* getNodeName(edk::uint32 groupPosition, edk::uint32 nodePosition){
         //test if have the group
         if(this->haveGroup(groupPosition)){
             return this->groups[groupPosition]->getNodeName(nodePosition);edkEnd();
         }
-        return NULL;edkEnd();
+        return NULL;
     }
     edk::char8* getNodeValue(edk::uint32 groupPosition, edk::uint32 nodePosition){
         //test if have the group
         if(this->haveGroup(groupPosition)){
             return this->groups[groupPosition]->getNodeValue(nodePosition);edkEnd();
         }
-        return NULL;edkEnd();
+        return NULL;
     }
     SQLNodes* getNewGroup(){
         edk::uint32 position = this->newGroup();edkEnd();

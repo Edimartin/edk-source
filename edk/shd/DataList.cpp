@@ -54,7 +54,7 @@ bool edk::shd::DataList::selectData(edk::char8* name){
         }
         else{
             if(count==1u){
-                break;edkEnd();
+                break;
             }
             //else add the newData
             this->newData(name);edkEnd();

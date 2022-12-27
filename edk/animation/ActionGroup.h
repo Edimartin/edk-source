@@ -285,7 +285,7 @@ private:
             if(tree){
                 return tree->getSecond();edkEnd();
             }
-            return 0.f;edkEnd();
+            return 0.f;
         }
         //test if have the position
         bool havePosition(edk::uint32 position){
@@ -306,7 +306,7 @@ private:
                     return tree->getSecond();edkEnd();
                 }
             }
-            return 0.f;edkEnd();
+            return 0.f;
         }
         //remove the action
         bool removeAction(edk::Action* action){
@@ -334,7 +334,7 @@ private:
                 //return the action in position
                 return tree->getElementInPosition(position);edkEnd();
             }
-            return NULL;edkEnd();
+            return NULL;
         }
         edk::Action* getActionInPosition(edk::uint32 secondPosition,edk::uint32 position){
             edk::animation::ActionGroup::ActionsTree* tree = this->getElementInPosition(secondPosition);edkEnd();
@@ -342,7 +342,7 @@ private:
                 //return the action in position
                 return tree->getElementInPosition(position);edkEnd();
             }
-            return NULL;edkEnd();
+            return NULL;
         }
 
         //remove the action
@@ -424,7 +424,7 @@ private:
         bool canDeleteTree;
         edk::animation::ActionGroup::ActionsTree* getActionTree(edk::float32 second){
             edk::animation::ActionGroup::ActionsTree find(second);edkEnd();
-            return this->getElement(&find);edkEnd();
+            return this->getElement(&find);
         }
         //remove the tree if have nothing
         void removeTree(edk::animation::ActionGroup::ActionsTree* tree){
@@ -518,7 +518,7 @@ private:
         private:
             edk::animation::ActionGroup::ActionReferenceCount* getReferenceCount(edk::Action* action){
                 edk::animation::ActionGroup::ActionReferenceCount find(action);edkEnd();
-                return this->getElement(&find);edkEnd();
+                return this->getElement(&find);
             }
         }actionsTree;
     }tree;

@@ -451,7 +451,7 @@ bool edk::Image2D::loadFromMemory(uint8 *image, edk::uint32 vecSize){
                 }
             }
         }
-            break;edkEnd();
+            break;
         case EDK_CODEC_PNG:
         {
             //decode using jpegCodec
@@ -468,7 +468,7 @@ bool edk::Image2D::loadFromMemory(uint8 *image, edk::uint32 vecSize){
                 }
             }
         }
-            break;edkEnd();
+            break;
         }
     }
     return false;
@@ -532,7 +532,7 @@ bool edk::Image2D::loadFromMemoryToRGB(uint8 *image, edk::uint32 vecSize){
                 }
             }
         }
-            break;edkEnd();
+            break;
         case EDK_CODEC_PNG:
         {
             //decode using jpegCodec
@@ -603,7 +603,7 @@ bool edk::Image2D::loadFromMemoryToRGB(uint8 *image, edk::uint32 vecSize){
                 this->vec=NULL;edkEnd();
             }
         }
-            break;edkEnd();
+            break;
         }
     }
     return false;
@@ -671,7 +671,7 @@ bool edk::Image2D::loadFromMemoryToRGBA(uint8 *image, edk::uint32 vecSize){
                 }
             }
         }
-            break;edkEnd();
+            break;
         case EDK_CODEC_PNG:
         {
             //decode using jpegCodec
@@ -745,7 +745,7 @@ bool edk::Image2D::loadFromMemoryToRGBA(uint8 *image, edk::uint32 vecSize){
                 }
             }
         }
-            break;edkEnd();
+            break;
         }
     }
     return false;
@@ -797,7 +797,7 @@ bool edk::Image2D::generatePixelsFromColors(){
                     }
                 }
             }
-                break;edkEnd();
+                break;
             case 2u:
             {
                 //
@@ -816,7 +816,7 @@ bool edk::Image2D::generatePixelsFromColors(){
                     }
                 }
             }
-                break;edkEnd();
+                break;
             case 3u:
             {
                 //
@@ -835,7 +835,7 @@ bool edk::Image2D::generatePixelsFromColors(){
                     }
                 }
             }
-                break;edkEnd();
+                break;
             case 4u:
             {
                 //
@@ -854,7 +854,7 @@ bool edk::Image2D::generatePixelsFromColors(){
                     }
                 }
             }
-                break;edkEnd();
+                break;
             default:
                 return false;
             }
@@ -897,7 +897,7 @@ bool edk::Image2D::saveToFile(edk::char8 *fileName){
                     if(deleteTempName){
                         delete[] fileName;edkEnd();
                     }
-                    break;edkEnd();
+                    break;
                 }
                 case EDK_CODEC_JPEG:
                 {
@@ -905,11 +905,11 @@ bool edk::Image2D::saveToFile(edk::char8 *fileName){
                     if(deleteTempName){
                         delete[] fileName;edkEnd();
                     }
-                    break;edkEnd();
+                    break;
                 }
                 }
             }
-            break;edkEnd();
+            break;
         case 1u:
         case 3u:
             //save jpeg
@@ -932,7 +932,7 @@ bool edk::Image2D::saveToFile(edk::char8 *fileName){
                     if(deleteTempName){
                         delete[] fileName;edkEnd();
                     }
-                    break;edkEnd();
+                    break;
                 }
                 case EDK_CODEC_PNG:
                 {
@@ -942,11 +942,11 @@ bool edk::Image2D::saveToFile(edk::char8 *fileName){
                     if(deleteTempName){
                         delete[] fileName;edkEnd();
                     }
-                    break;edkEnd();
+                    break;
                 }
                 }
             }
-            break;edkEnd();
+            break;
         case 4u:
             //save jpeg
             if(!fileName){
@@ -967,9 +967,10 @@ bool edk::Image2D::saveToFile(edk::char8 *fileName){
                     //save the encoder
                     edk::codecs::EncoderPNG encoder;edkEnd();
                     ret = encoder.encodeToFile(this->vec,this->size.width,this->size.height,this->channels,9,fileName);edkEnd();
-                    if(deleteTempName)
+                    if(deleteTempName){
                         delete[] fileName;edkEnd();
-                    break;edkEnd();
+                    }
+                    break;
                 }
                 case EDK_CODEC_JPEG:
                 {
@@ -990,11 +991,11 @@ bool edk::Image2D::saveToFile(edk::char8 *fileName){
                     if(deleteTempName){
                         delete[] fileName;edkEnd();
                     }
-                    break;edkEnd();
+                    break;
                 }
                 }
             }
-            break;edkEnd();
+            break;
         }
         return ret;
     }
@@ -1126,22 +1127,22 @@ bool edk::Image2D::drawColorsPosition(edk::vec2ui32 position,edk::uint8 colorID)
     case 1u:
     {
         edk::uint8 color = colorID;edkEnd();
-        return this->drawColorsPosition(position,(edk::uint8*)&color);edkEnd();
+        return this->drawColorsPosition(position,(edk::uint8*)&color);
     }
     case 2u:
     {
         edk::uint8 color[2u] = {0u,colorID};
-        return this->drawColorsPosition(position,(edk::uint8*)&color);edkEnd();
+        return this->drawColorsPosition(position,(edk::uint8*)&color);
     }
     case 3u:
     {
         edk::uint8 color[3u] = {0u,0u,colorID};
-        return this->drawColorsPosition(position,(edk::uint8*)&color);edkEnd();
+        return this->drawColorsPosition(position,(edk::uint8*)&color);
     }
     case 4u:
     {
         edk::uint8 color[4u] = {0u,0u,0u,colorID};
-        return this->drawColorsPosition(position,(edk::uint8*)&color);edkEnd();
+        return this->drawColorsPosition(position,(edk::uint8*)&color);
     }
     }
     return false;
@@ -1151,22 +1152,22 @@ bool edk::Image2D::drawColorsPosition(edk::vec2ui32 position,edk::uint16 colorID
     case 1u:
     {
         edk::uint8 color = (edk::uint8)colorID;edkEnd();
-        return this->drawColorsPosition(position,(edk::uint8*)&color);edkEnd();
+        return this->drawColorsPosition(position,(edk::uint8*)&color);
     }
     case 2u:
     {
         edk::uint8 color[2u] = {((edk::uint8*)&colorID)[0u],((edk::uint8*)&colorID)[1u]};
-        return this->drawColorsPosition(position,(edk::uint8*)&color);edkEnd();
+        return this->drawColorsPosition(position,(edk::uint8*)&color);
     }
     case 3u:
     {
         edk::uint8 color[3u] = {0u,((edk::uint8*)&colorID)[0u],((edk::uint8*)&colorID)[1u]};
-        return this->drawColorsPosition(position,(edk::uint8*)&color);edkEnd();
+        return this->drawColorsPosition(position,(edk::uint8*)&color);
     }
     case 4u:
     {
         edk::uint8 color[4u] = {0u,0u,((edk::uint8*)&colorID)[0u],((edk::uint8*)&colorID)[1u]};
-        return this->drawColorsPosition(position,(edk::uint8*)&color);edkEnd();
+        return this->drawColorsPosition(position,(edk::uint8*)&color);
     }
     }
     return false;
@@ -1176,37 +1177,37 @@ bool edk::Image2D::drawColorsPosition(edk::vec2ui32 position,edk::uint32 colorID
     case 1u:
     {
         edk::uint8 color = (edk::uint8)colorID;edkEnd();
-        return this->drawColorsPosition(position,(edk::uint8*)&color);edkEnd();
+        return this->drawColorsPosition(position,(edk::uint8*)&color);
     }
     case 2u:
     {
         edk::uint8 color[2u] = {((edk::uint8*)&colorID)[2u],((edk::uint8*)&colorID)[3u]};
-        return this->drawColorsPosition(position,(edk::uint8*)&color);edkEnd();
+        return this->drawColorsPosition(position,(edk::uint8*)&color);
     }
     case 3u:
     {
         edk::uint8 color[3u] = {((edk::uint8*)&colorID)[1u],((edk::uint8*)&colorID)[2u],((edk::uint8*)&colorID)[3u]};
-        return this->drawColorsPosition(position,(edk::uint8*)&color);edkEnd();
+        return this->drawColorsPosition(position,(edk::uint8*)&color);
     }
     case 4u:
     {
         edk::uint8 color[4u] = {((edk::uint8*)&colorID)[0u],((edk::uint8*)&colorID)[1u],((edk::uint8*)&colorID)[2u],((edk::uint8*)&colorID)[3u]};
-        return this->drawColorsPosition(position,(edk::uint8*)&color);edkEnd();
+        return this->drawColorsPosition(position,(edk::uint8*)&color);
     }
     }
     return false;
 }
 bool edk::Image2D::drawColorsPosition(edk::uint32 positionX,edk::uint32 positionY,edk::uint8* colorID){
-    return this->drawColorsPosition(edk::vec2ui32(positionX,positionY),colorID);edkEnd();
+    return this->drawColorsPosition(edk::vec2ui32(positionX,positionY),colorID);
 }
 bool edk::Image2D::drawColorsPosition(edk::uint32 positionX,edk::uint32 positionY,edk::uint8 colorID){
-    return this->drawColorsPosition(edk::vec2ui32(positionX,positionY),colorID);edkEnd();
+    return this->drawColorsPosition(edk::vec2ui32(positionX,positionY),colorID);
 }
 bool edk::Image2D::drawColorsPosition(edk::uint32 positionX,edk::uint32 positionY,edk::uint16 colorID){
-    return this->drawColorsPosition(edk::vec2ui32(positionX,positionY),colorID);edkEnd();
+    return this->drawColorsPosition(edk::vec2ui32(positionX,positionY),colorID);
 }
 bool edk::Image2D::drawColorsPosition(edk::uint32 positionX,edk::uint32 positionY,edk::uint32 colorID){
-    return this->drawColorsPosition(edk::vec2ui32(positionX,positionY),colorID);edkEnd();
+    return this->drawColorsPosition(edk::vec2ui32(positionX,positionY),colorID);
 }
 
 edk::size2ui32 edk::Image2D::getSize()
@@ -1308,7 +1309,7 @@ edk::uint8* edk::Image2D::getPixels(){
         return this->vec;edkEnd();
     }
     //else return false
-    return NULL;edkEnd();
+    return NULL;
 }
 //return the colors vector with all the palette codes
 edk::uint8* edk::Image2D::getColors(){
@@ -1318,7 +1319,7 @@ edk::uint8* edk::Image2D::getColors(){
         return this->colors;edkEnd();
     }
     //else return false
-    return NULL;edkEnd();
+    return NULL;
 }
 
 void edk::Image2D::deleteImage()
@@ -1538,13 +1539,13 @@ edk::uint8* edk::Image2D::rgbTorgba(edk::uint8* vector,edk::size2ui32 size){
     if(size.width && size.height){
         edk::uint8* ret = new edk::uint8[size.width*size.height*4u];edkEnd();
         if(ret){
-            if (edk::Image2D::rgbTorgba(vector,size,ret)){
+            if(edk::Image2D::rgbTorgba(vector,size,ret)){
                 return ret;
             }
             delete[] ret;edkEnd();
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 bool edk::Image2D::rgbTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest){
     return edk::Image2D::rgbTorgba(vector,edk::size2ui32(width,height),dest);edkEnd();
@@ -1582,13 +1583,13 @@ edk::uint8* edk::Image2D::laTorgba(edk::uint8* vector,edk::size2ui32 size){
     if(size.width && size.height){
         edk::uint8* ret = new edk::uint8[size.width*size.height*4u];edkEnd();
         if(ret){
-            if (edk::Image2D::laTorgba(vector,size,ret)){
+            if(edk::Image2D::laTorgba(vector,size,ret)){
                 return ret;
             }
             delete[] ret;edkEnd();
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 bool edk::Image2D::laTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest){
     return edk::Image2D::laTorgba(vector,edk::size2ui32(width,height),dest);edkEnd();
@@ -1625,13 +1626,13 @@ edk::uint8* edk::Image2D::lTorgba(edk::uint8* vector,edk::size2ui32 size){
     if(size.width && size.height){
         edk::uint8* ret = new edk::uint8[size.width*size.height*4u];edkEnd();
         if(ret){
-            if (edk::Image2D::lTorgba(vector,size,ret)){
+            if(edk::Image2D::lTorgba(vector,size,ret)){
                 return ret;
             }
             delete[] ret;edkEnd();
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 bool edk::Image2D::lTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest){
     return edk::Image2D::lTorgba(vector,edk::size2ui32(width,height),dest);edkEnd();

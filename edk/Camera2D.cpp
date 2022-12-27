@@ -291,8 +291,12 @@ void edk::Camera2D::scaleY(edk::float64 dist){
 void edk::Camera2D::setAngle(edk::float32 angle){
     //set the angle
     this->angle = angle;edkEnd();
-    while(this->angle>360.f)this->angle-=360.f;edkEnd();
-    while(this->angle<0.f)this->angle+=360.f;edkEnd();
+    while(this->angle>360.f){
+        this->angle-=360.f;edkEnd();
+    }
+    while(this->angle<0.f){
+        this->angle+=360.f;edkEnd();
+    }
 }
 //rotate the camera
 void edk::Camera2D::rotateCamera(edk::float32 angle){

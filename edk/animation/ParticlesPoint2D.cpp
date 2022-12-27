@@ -262,7 +262,7 @@ edk::animation::ParticlesPoint2D::ParticlesPoint2D(){
 edk::animation::ParticlesPoint2D::~ParticlesPoint2D(){
     //
     this->cleanParticles();edkEnd();
-    this->obj.cleanMeshes();edkEnd();
+    this->obj.clean();edkEnd();
 }
 //get the position
 edk::vec2f32 edk::animation::ParticlesPoint2D::newPosition(){

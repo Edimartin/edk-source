@@ -81,23 +81,23 @@ void eventMousePressed(edk::vec2f32 point,edk::uint32 button){
         case edk::mouse::left:
             //
             //printf("\nMouse Left Pressed in pos (%.2f %.2f)",point.x,point.y);edkEnd();
-            break;edkEnd();
+            break;
         case edk::mouse::right:
             //
             //printf("\nMouse right Pressed in pos (%.2f %.2f)",point.x,point.y);edkEnd();
-            break;edkEnd();
+            break;
         case edk::mouse::middle:
             //
             //printf("\nMouse middle Pressed in pos (%.2f %.2f)",point.x,point.y);edkEnd();
-            break;edkEnd();
+            break;
         case edk::mouse::xButton1:
             //
             //printf("\nMouse xButton1 Pressed in pos (%.2f %.2f)",point.x,point.y);edkEnd();
-            break;edkEnd();
+            break;
         case edk::mouse::xButton2:
             //
             //printf("\nMouse xButton2 Pressed in pos (%.2f %.2f)",point.x,point.y);edkEnd();
-            break;edkEnd();
+            break;
         //
     }
 }
@@ -113,27 +113,27 @@ void eventMouseMoved(edk::vec2f32 point,edk::uint32 button){
         case edk::mouse::left:
             //
             //printf("\nMouse Left Moved in pos (%.2f %.2f)",point.x,point.y);edkEnd();
-            break;edkEnd();
+            break;
         case edk::mouse::right:
             //
             //printf("\nMouse right Moved in pos (%.2f %.2f)",point.x,point.y);edkEnd();
-            break;edkEnd();
+            break;
         case edk::mouse::middle:
             //
             //printf("\nMouse middle Moved in pos (%.2f %.2f)",point.x,point.y);edkEnd();
-            break;edkEnd();
+            break;
         case edk::mouse::xButton1:
             //
             //printf("\nMouse xButton1 Moved in pos (%.2f %.2f)",point.x,point.y);edkEnd();
-            break;edkEnd();
+            break;
         case edk::mouse::xButton2:
             //
             //printf("\nMouse xButton2 Moved in pos (%.2f %.2f)",point.x,point.y);edkEnd();
-            break;edkEnd();
+            break;
         default:
             //Mouse is moving without a Button pressed
             //printf("\nMouse Moved in pos (%.2f %.2f)",point.x,point.y);edkEnd();
-            break;edkEnd();
+            break;
         //
     }
 }
@@ -149,23 +149,23 @@ void eventMouseReleased(edk::vec2f32 point,edk::uint32 button){
         case edk::mouse::left:
             //
             //printf("\nMouse Left Released in pos (%.2f %.2f)",point.x,point.y);edkEnd();
-            break;edkEnd();
+            break;
         case edk::mouse::right:
             //
             //printf("\nMouse right Released in pos (%.2f %.2f)",point.x,point.y);edkEnd();
-            break;edkEnd();
+            break;
         case edk::mouse::middle:
             //
             //printf("\nMouse middle Released in pos (%.2f %.2f)",point.x,point.y);edkEnd();
-            break;edkEnd();
+            break;
         case edk::mouse::xButton1:
             //
             //printf("\nMouse xButton1 Released in pos (%.2f %.2f)",point.x,point.y);edkEnd();
-            break;edkEnd();
+            break;
         case edk::mouse::xButton2:
             //
             //printf("\nMouse xButton2 Released in pos (%.2f %.2f)",point.x,point.y);edkEnd();
-            break;edkEnd();
+            break;
         //
     }
 }

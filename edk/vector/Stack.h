@@ -272,7 +272,7 @@ public:
                         getRet = true;edkEnd();
                     }
                     else{
-                        break;edkEnd();
+                        break;
                     }
                 }
                 //test if need delete the end
@@ -292,7 +292,7 @@ public:
                 }
             }
             else{
-                break;edkEnd();
+                break;
             }
         }while(!this->havePos(this->stackSize-1u));edkEnd();
 
@@ -446,7 +446,7 @@ public:
                     temp=temp->next;edkEnd();
                 }
                 else{
-                    break;edkEnd();
+                    break;
                 }
             }
             //set the object
@@ -476,7 +476,7 @@ public:
                     temp=temp->next;edkEnd();
                 }
                 else{
-                    break;edkEnd();
+                    break;
                 }
             }
             //return the object
@@ -1086,7 +1086,7 @@ public:
             }
         }
         //else return NULL
-        return NULL;edkEnd();
+        return NULL;
     }
     //get the object
     edk::char8* getName(edk::uint32 pos){

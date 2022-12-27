@@ -31,12 +31,12 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 edk::codecs::EncoderImage::EncoderImage()
 //: edk::codecs::CodecImage()
 {
-    //printf("\nEncoderImage Construtor");edkEnd();fflush(stdout);edkEnd();
+    //printf("\nEncoderImage Construtor");edkEnd();
 }
 
 edk::codecs::EncoderImage::~EncoderImage()
 {
-    //printf("\nEncoderImage Destrutor");edkEnd();fflush(stdout);edkEnd();
+    //printf("\nEncoderImage Destrutor");edkEnd();
     this->deleteEncoded();edkEnd();
 }
 

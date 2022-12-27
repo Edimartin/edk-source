@@ -818,21 +818,21 @@ bool edk::gui2d::ObjectGui2d::setStatus(edk::gui2d::gui2dTexture status){
     case edk::gui2d::gui2dTexture::gui2dTextureNormal:
         this->status = edk::gui2d::gui2dTexture::gui2dTextureNormal;edkEnd();
         return true;
-        break;edkEnd();
+        break;
     case edk::gui2d::gui2dTexture::gui2dTextureUp:
         this->status = edk::gui2d::gui2dTexture::gui2dTextureUp;edkEnd();
         return true;
-        break;edkEnd();
+        break;
     case edk::gui2d::gui2dTexture::gui2dTexturePressedUp:
         this->status = edk::gui2d::gui2dTexture::gui2dTexturePressedUp;edkEnd();
         return true;
-        break;edkEnd();
+        break;
     case edk::gui2d::gui2dTexture::gui2dTexturePressed:
         this->status = edk::gui2d::gui2dTexture::gui2dTexturePressed;edkEnd();
         return true;
-        break;edkEnd();
+        break;
     case edk::gui2d::gui2dTexture::gui2dTextureSize:
-        break;edkEnd();
+        break;
     }
     return false;
 }
@@ -880,21 +880,21 @@ void edk::gui2d::ObjectGui2d::draw(){
     case edk::gui2d::gui2dTexture::gui2dTextureUp:
         //draw the border
         this->obj.drawUp();edkEnd();
-        break;edkEnd();
+        break;
     case edk::gui2d::gui2dTexture::gui2dTexturePressed:
         //draw the border
         this->obj.drawPressed();edkEnd();
-        break;edkEnd();
+        break;
     case edk::gui2d::gui2dTexture::gui2dTexturePressedUp:
         //draw the border
         this->obj.drawPressedUp();edkEnd();
-        break;edkEnd();
+        break;
     case edk::gui2d::gui2dTexture::gui2dTextureNormal:
     case edk::gui2d::gui2dTexture::gui2dTextureSize:
     default:
         //draw the border
         this->obj.drawNormal();edkEnd();
-        break;edkEnd();
+        break;
     }
     edk::GU::guDisable(GU_LIGHTING);edkEnd();
 

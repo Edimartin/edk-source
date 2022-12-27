@@ -184,7 +184,7 @@ bool edk::tiles::TileMap2D::compareStaticTile(edk::physics2D::PhysicObject2D* ti
                                         ){
                                     //
                                     ret=false;edkEnd();
-                                    break;edkEnd();
+                                    break;
                                 }
                             }
                             else{
@@ -209,7 +209,7 @@ bool edk::tiles::TileMap2D::compareStaticTile(edk::physics2D::PhysicObject2D* ti
                         }
                         else{
                             ret=false;edkEnd();
-                            break;edkEnd();
+                            break;
                         }
 
                         //compare the physics variables
@@ -217,24 +217,24 @@ bool edk::tiles::TileMap2D::compareStaticTile(edk::physics2D::PhysicObject2D* ti
                         value2 = tile2->physicMesh.selectedGetDensity();edkEnd();
                         if(!(value1>value2-0.01 && value1<value2+0.01)){
                             ret=false;edkEnd();
-                            break;edkEnd();
+                            break;
                         }
                         value1 = tile1->physicMesh.selectedGetFriction();edkEnd();
                         value2 = tile2->physicMesh.selectedGetFriction();edkEnd();
                         if(!(value1>value2-0.01 && value1<value2+0.01)){
                             ret=false;edkEnd();
-                            break;edkEnd();
+                            break;
                         }
                         value1 = tile1->physicMesh.selectedGetRestitution();edkEnd();
                         value2 = tile2->physicMesh.selectedGetDensity();edkEnd();
                         if(!(value1>value2-0.01 && value1<value2+0.01)){
                             ret=false;edkEnd();
-                            break;edkEnd();
+                            break;
                         }
                     }
                     else{
                         ret=false;edkEnd();
-                        break;edkEnd();
+                        break;
                     }
                 }
             }
@@ -983,6 +983,7 @@ bool edk::tiles::TileMap2D::deletePhysicTile(edk::vec2ui32 position){
             this->treeStaticPhysics.deleteObject(temp2->object);edkEnd();
             ret=true;edkEnd();
         }
+        return ret;
     }
     return false;
 }
@@ -1183,23 +1184,23 @@ bool edk::tiles::TileMap2D::loadPhysicsTilesStaticMerged(){
                                         //test if the temp2 is equal temp1
                                         if(!this->compareStaticTile(temp1,temp2)){
                                             canContinue=false;edkEnd();
-                                            break;edkEnd();
+                                            break;
                                         }
                                     }
                                     else{
                                         //else there is a hole in the tile.
                                         canContinue=false;edkEnd();
-                                        break;edkEnd();
+                                        break;
                                     }
                                 }
                                 else{
                                     canContinue=false;edkEnd();
-                                    break;edkEnd();
+                                    break;
                                 }
                             }
                             //
                             if(!canContinue){
-                                break;edkEnd();
+                                break;
                             }
                             else{
                                 for(edk::uint32 i=x;i<width;i++){
@@ -1321,7 +1322,7 @@ bool edk::tiles::TileMap2D::loadPhysicsTilesStaticMerged(){
                             }
                         }
                         //it create the object in to the treeStaticOhysics. Then it don't need make an object in treePhysics
-                        continue;edkEnd();
+                        continue;
                     }
 
                     //IF it din't create the object in treeStaticPhysics. Then it make the tile as a object in the old way. But only for static bodies
@@ -1535,7 +1536,7 @@ edk::physics2D::PhysicObject2D* edk::tiles::TileMap2D::getPhysicTile(edk::vec2ui
             }
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::physics2D::PhysicObject2D* edk::tiles::TileMap2D::getPhysicTile(edk::uint32 positionX,edk::uint32 positionY){
     return this->getPhysicTile(edk::vec2ui32 (positionX,positionY));edkEnd();
@@ -3208,7 +3209,7 @@ void edk::tiles::TileMap2D::print(){
         for(edk::uint32 y=0u;y<this->sizeMap.height;y++){
             for(edk::uint32 x=0u;x<this->sizeMap.width;x++){
                 //draw the tile
-                printf("\n%u %u [%u] color [%.2f,%.2f,%.2f,%.2f] "
+                printf("\n%.2f %.2f [%u] color [%.2f,%.2f,%.2f,%.2f] "
                        ,x + this->positionMap.x
                        ,y + this->positionMap.y
                        ,this->tileMap[y][x]

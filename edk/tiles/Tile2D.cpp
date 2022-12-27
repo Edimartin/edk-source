@@ -423,13 +423,13 @@ bool edk::tiles::Tile2D::setPhysics(edk::physics::bodyType type){
     switch(type){
     case edk::physics::StaticBody:
         this->objPhys = new edk::physics2D::StaticObject2D;edkEnd();
-        break;edkEnd();
+        break;
     case edk::physics::KinematicBody:
         this->objPhys = new edk::physics2D::KinematicObject2D;edkEnd();
-        break;edkEnd();
+        break;
     case edk::physics::DynamicBody:
         this->objPhys = new edk::physics2D::DynamicObject2D;edkEnd();
-        break;edkEnd();
+        break;
     }
     return this->cleanPhysicsPolygons();edkEnd();
 }
@@ -484,7 +484,7 @@ edk::physics2D::PhysicsMesh2D* edk::tiles::Tile2D::getPhysicsMeshPointer(){
     if(this->objPhys){
         return &this->objPhys->physicMesh;edkEnd();
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 //return true if the tile is Physics
 bool edk::tiles::Tile2D::isPhysics(){

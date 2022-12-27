@@ -439,7 +439,7 @@ edk::collision::Vecs2f32 edk::collision::MathCollision::straightCircle2D(edk::ve
         a=0.0001f;edkEnd();
     }
 
-    if (i==0.0f){
+    if(i==0.0f){
         //one intersection
         mu=-b/(2*a) ;edkEnd();
         v1.x=lineStart.x+mu*(lineEnd.x-lineStart.x);edkEnd();
@@ -451,7 +451,7 @@ edk::collision::Vecs2f32 edk::collision::MathCollision::straightCircle2D(edk::ve
             ret.pushBack(v1);edkEnd();
         }
     }
-    if (i>0.0f){
+    if(i>0.0f){
         //two intersections
 
         //first intersection
@@ -501,7 +501,7 @@ edk::collision::Vecs3f32 edk::collision::MathCollision::straightSphere3D(edk::ve
     // discriminant
     edk::float32 d=b*b-4.f*a*c;edkEnd();
 
-    if (d<0){
+    if(d<0){
         return ret;
     }
 
@@ -514,7 +514,7 @@ edk::collision::Vecs3f32 edk::collision::MathCollision::straightSphere3D(edk::ve
     edk::vec3f32 solution1(lineStart.x*(1-t1)+t1*lineEnd.x,
                            lineStart.y*(1-t1)+t1*lineEnd.y,
                            lineStart.z*(1-t1)+t1*lineEnd.z);edkEnd();
-    if (d==0.f){
+    if(d==0.f){
         ret.pushBack(solution1);edkEnd();
         return ret;
     }
@@ -555,28 +555,34 @@ bool edk::collision::MathCollision::straightTriangle3D(edk::vec3f32 lineStart,ed
 
     a = edk::Math::dotProduct(e1,h);edkEnd();
 
-    if (a > -0.00001 && a < 0.00001)
+    if(a > -0.00001 && a < 0.00001){
+        edkEnd();
         return false;
+    }
 
     f = 1.f/a;edkEnd();
     s=lineStart-triangle1;edkEnd();
     u = f * edk::Math::dotProduct(s,h);edkEnd();
 
-    if (u < 0.0 || u > 1.0)
+    if(u < 0.0 || u > 1.0){
+        edkEnd();
         return false;
+    }
 
     q = edk::Math::crossProduct(s,e1);edkEnd();
 
     v = f * edk::Math::dotProduct(lineEnd,q);edkEnd();
 
-    if (v < 0.0 || u + v > 1.0)
+    if(v < 0.0 || u + v > 1.0){
+        edkEnd();
         return false;
+    }
 
     // at this stage we can compute t to find out where
     // the intersection point is on the line
     t = f * edk::Math::dotProduct(e2,q);edkEnd();
 
-    if (t > -0.00001f && t<1.00001){ // ray intersection
+    if(t > -0.00001f && t<1.00001){ // ray intersection
         if(result){
             result->x = lineStart.x + (lineEnd.x * t);edkEnd();
             result->y = lineStart.y + (lineEnd.y * t);edkEnd();
@@ -615,7 +621,7 @@ bool edk::collision::MathCollision::polygonPoint(edk::shape::Polygon2D polygon, 
                                            )
                     <=0.f){
                 //if the point is outside the polygon. Return false
-                break;edkEnd();
+                break;
             }
         }
     }

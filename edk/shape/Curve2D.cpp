@@ -61,7 +61,7 @@ bool edk::shape::Curve2D::setPoint(edk::uint8 position,edk::vec2f32 point){
         this->point4 = point;edkEnd();
         return true;
     default:
-        break;edkEnd();
+        break;
     }
     return false;
 }

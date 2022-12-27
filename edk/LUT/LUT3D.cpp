@@ -87,7 +87,7 @@ bool edk::LUT3D::newTable(edk::uint16 size){
                                     //delete the r
                                     delete[] this->cube[x];edkEnd();
                                     this->cube[x] = NULL;edkEnd();
-                                    break;edkEnd();
+                                    break;
                                 }
                             }
                         }
@@ -111,7 +111,7 @@ bool edk::LUT3D::newTable(edk::uint16 size){
                             this->cube=NULL;edkEnd();
                             this->size = 0u;edkEnd();
                             this->imageSize = 0u;edkEnd();
-                            break;edkEnd();
+                            break;
                         }
                     }
                 }
@@ -362,7 +362,7 @@ bool edk::LUT3D::loadFrom(edk::char8* fileName){
                 //test if have the title and the sizeTableStr
                 if(title && sizeTableStr){
                     //break
-                    break;edkEnd();
+                    break;
                 }
             }
         }
@@ -415,7 +415,7 @@ bool edk::LUT3D::loadFrom(edk::char8* fileName){
                                         }
                                         //delete the line readed
                                         delete[] line;edkEnd();
-                                        break;edkEnd();
+                                        break;
                                     }
 
                                     //delete the line readed
@@ -426,22 +426,22 @@ bool edk::LUT3D::loadFrom(edk::char8* fileName){
                                 haveEnd=true;edkEnd();
                             }
                             if(haveEnd){
-                                break;edkEnd();
+                                break;
                             }
                         }
                         if(haveEnd){
-                            break;edkEnd();
+                            break;
                         }
                     }
                     if(haveEnd){
-                        break;edkEnd();
+                        break;
                     }
 
                     //test if copy all the values
                     if(z>=this->size-1u){
                         //return true
                         ret = true;edkEnd();
-                        break;edkEnd();
+                        break;
                     }
                 }
             }

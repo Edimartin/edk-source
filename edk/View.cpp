@@ -185,7 +185,7 @@ void edk::View::draw(edk::rectf32 outsideViewOrigin){
 */
     }
 }
-void edk::View::resize(edk::rectf32 outsideViewOrigin){
+void edk::View::resize(edk::rectf32 /*outsideViewOrigin*/){
     //
 }
 
@@ -257,7 +257,9 @@ bool edk::View::contact(edk::vec2f32 point,edk::uint8 state,edk::vector::Stack<e
             //run the function
             this->eventMouseEntryInsideView(this->mousePos);edkEnd();
         }
-        else eventMouseMovingInsideView(this->mousePos);edkEnd();
+        else{
+            eventMouseMovingInsideView(this->mousePos);edkEnd();
+        }
         //set the mouse inside
         this->mouseInside=true;edkEnd();
 
@@ -269,13 +271,13 @@ bool edk::View::contact(edk::vec2f32 point,edk::uint8 state,edk::vector::Stack<e
                 for(edk::uint8 i=0u;i<buttons->size();i++){
                     this->eventMousePressed(mousePos,buttons->get(i));edkEnd();
                 }
-                break;edkEnd();
+                break;
             case edk::mouse::state::released:
                 //
                 for(edk::uint8 i=0u;i<buttons->size();i++){
                     this->eventMouseReleased(mousePos,buttons->get(i));edkEnd();
                 }
-                break;edkEnd();
+                break;
             case edk::mouse::state::moved:
                 //test if have buttons
                 if(buttons->size()){
@@ -288,7 +290,7 @@ bool edk::View::contact(edk::vec2f32 point,edk::uint8 state,edk::vector::Stack<e
                     //else run with no button
                     this->eventMouseMoved(mousePos,0u);edkEnd();
                 }
-                break;edkEnd();
+                break;
                 //
             }
         }
@@ -342,7 +344,7 @@ void edk::View::eventMousePressed(edk::vec2f32 point,edk::uint32 button){
                    ,point.y
                    );edkEnd();
 */
-        break;edkEnd();
+        break;
     case edk::mouse::right:
         //
         /*
@@ -351,7 +353,7 @@ void edk::View::eventMousePressed(edk::vec2f32 point,edk::uint32 button){
                    ,point.y
                    );edkEnd();
 */
-        break;edkEnd();
+        break;
     case edk::mouse::middle:
         //
         /*
@@ -360,7 +362,7 @@ void edk::View::eventMousePressed(edk::vec2f32 point,edk::uint32 button){
                    ,point.y
                    );edkEnd();
 */
-        break;edkEnd();
+        break;
     case edk::mouse::xButton1:
         //
         /*
@@ -369,7 +371,7 @@ void edk::View::eventMousePressed(edk::vec2f32 point,edk::uint32 button){
                    ,point.y
                    );edkEnd();
 */
-        break;edkEnd();
+        break;
     case edk::mouse::xButton2:
         //
         /*
@@ -378,7 +380,7 @@ void edk::View::eventMousePressed(edk::vec2f32 point,edk::uint32 button){
                    ,point.y
                    );edkEnd();
 */
-        break;edkEnd();
+        break;
         //
     }
 }
@@ -404,7 +406,7 @@ void edk::View::eventMouseMoved(edk::vec2f32 point,edk::uint32 button){
                    ,point.y
                    );edkEnd();
 */
-        break;edkEnd();
+        break;
     case edk::mouse::right:
         //
         /*
@@ -413,7 +415,7 @@ void edk::View::eventMouseMoved(edk::vec2f32 point,edk::uint32 button){
                    ,point.y
                    );edkEnd();
 */
-        break;edkEnd();
+        break;
     case edk::mouse::middle:
         //
         /*
@@ -422,7 +424,7 @@ void edk::View::eventMouseMoved(edk::vec2f32 point,edk::uint32 button){
                    ,point.y
                    );edkEnd();
 */
-        break;edkEnd();
+        break;
     case edk::mouse::xButton1:
         //
         /*
@@ -431,7 +433,7 @@ void edk::View::eventMouseMoved(edk::vec2f32 point,edk::uint32 button){
                    ,point.y
                    );edkEnd();
 */
-        break;edkEnd();
+        break;
     case edk::mouse::xButton2:
         //
         /*
@@ -440,7 +442,7 @@ void edk::View::eventMouseMoved(edk::vec2f32 point,edk::uint32 button){
                    ,point.y
                    );edkEnd();
 */
-        break;edkEnd();
+        break;
     default:
         //Mouse is moving without a Button pressed
         /*
@@ -449,7 +451,7 @@ void edk::View::eventMouseMoved(edk::vec2f32 point,edk::uint32 button){
                    ,point.y
                    );edkEnd();
 */
-        break;edkEnd();
+        break;
         //
     }
 }
@@ -475,7 +477,7 @@ void edk::View::eventMouseReleased(edk::vec2f32 point,edk::uint32 button){
                    ,point.y
                    );edkEnd();
 */
-        break;edkEnd();
+        break;
     case edk::mouse::right:
         //
         /*
@@ -484,7 +486,7 @@ void edk::View::eventMouseReleased(edk::vec2f32 point,edk::uint32 button){
                    ,point.y
                    );edkEnd();
 */
-        break;edkEnd();
+        break;
     case edk::mouse::middle:
         //
         /*
@@ -493,7 +495,7 @@ void edk::View::eventMouseReleased(edk::vec2f32 point,edk::uint32 button){
                    ,point.y
                    );edkEnd();
 */
-        break;edkEnd();
+        break;
     case edk::mouse::xButton1:
         //
         /*
@@ -502,7 +504,7 @@ void edk::View::eventMouseReleased(edk::vec2f32 point,edk::uint32 button){
                    ,point.y
                    );edkEnd();
 */
-        break;edkEnd();
+        break;
     case edk::mouse::xButton2:
         //
         /*
@@ -511,7 +513,7 @@ void edk::View::eventMouseReleased(edk::vec2f32 point,edk::uint32 button){
                    ,point.y
                    );edkEnd();
 */
-        break;edkEnd();
+        break;
         //
     }
 }
@@ -704,7 +706,7 @@ bool edk::View::pointInside(edk::vec2f32 point){
     temp.setVertexPosition(0u,this->animatedFrame.origin);edkEnd();
     temp.setVertexPosition(1u,this->animatedFrame.origin.x + this->animatedFrame.size.width,this->animatedFrame.origin.y + this->animatedFrame.size.height);edkEnd();
     //test the contact
-    return edk::collision::RectangleContact::contactPoint(point,temp);edkEnd();
+    return edk::collision::RectangleContact::contactPoint(point,temp);
 }
 
 //Return if is leaf

@@ -48,15 +48,15 @@ void edk::tiles::TileSet2D::deleteTiles(){
                     switch(temp->getType()){
                     case edk::tiles::tile2DTypeIsometric:
                         delete (edk::tiles::TileIsometric2D*)temp;edkEnd();
-                        break;edkEnd();
+                        break;
                     case edk::tiles::tile2DTypeIsometricFlat:
                         delete (edk::tiles::TileIsometricFlat2D*)temp;edkEnd();
-                        break;edkEnd();
+                        break;
                     case edk::tiles::tile2DTypeSize:
                     case edk::tiles::tile2DTypeNormal:
                     default:
                         delete temp;edkEnd();
-                        break;edkEnd();
+                        break;
                     }
                     temp=NULL;edkEnd();
                 }
@@ -1444,7 +1444,7 @@ edk::float32 edk::tiles::TileSet2D::getSecond(edk::uint32 tile){
         }
     }
     //else return false
-    return 0.f;edkEnd();
+    return 0.f;
 }
 //return if are playing
 bool edk::tiles::TileSet2D::isPlaying(edk::uint32 tile){
@@ -1815,7 +1815,7 @@ edk::physics2D::PhysicsMesh2D* edk::tiles::TileSet2D::getTilePhysicsMeshPointer(
         }
     }
     //else return false
-    return NULL;edkEnd();
+    return NULL;
 }
 //return the tileMesh
 edk::shape::Mesh2D* edk::tiles::TileSet2D::getTileMeshPointer(edk::uint32 tile){
@@ -1830,7 +1830,7 @@ edk::shape::Mesh2D* edk::tiles::TileSet2D::getTileMeshPointer(edk::uint32 tile){
         }
     }
     //else return false
-    return NULL;edkEnd();
+    return NULL;
 }
 
 //delete the objectPhysics
@@ -1862,7 +1862,7 @@ edk::physics2D::PhysicObject2D* edk::tiles::TileSet2D::getTilePhysicsObject(edk:
         }
     }
     //else return false
-    return NULL;edkEnd();
+    return NULL;
 }
 //return true if the tile is physics
 bool edk::tiles::TileSet2D::isTilePhysics(edk::uint32 tile){
@@ -1877,7 +1877,7 @@ bool edk::tiles::TileSet2D::isTilePhysics(edk::uint32 tile){
         }
     }
     //else return false
-    return NULL;edkEnd();
+    return NULL;
 }
 
 //Draw the tile from the tileSet
@@ -2347,7 +2347,7 @@ bool edk::tiles::TileSet2D::readFromXML(edk::XML* xml,edk::uint32 id){
                                 //
                                 delete tileTemp;edkEnd();
                                 ret=false;edkEnd();
-                                break;edkEnd();
+                                break;
                             }
                         }
                     }
@@ -2432,7 +2432,7 @@ bool edk::tiles::TileSet2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk
                                 //
                                 delete tileTemp;edkEnd();
                                 ret=false;edkEnd();
-                                break;edkEnd();
+                                break;
                             }
                         }
                     }

@@ -306,19 +306,19 @@ bool edk::shd::Data::updateData(){
                 case 1u:
                     //
                     edk::GU_GLSL::guData1i32(this->ID,this->ints[0u]);edkEnd();
-                    break;edkEnd();
+                    break;
                 case 2u:
                     //
                     edk::GU_GLSL::guData2i32(this->ID,this->ints[0u],this->ints[1u]);edkEnd();
-                    break;edkEnd();
+                    break;
                 case 3u:
                     //
                     edk::GU_GLSL::guData3i32(this->ID,this->ints[0u],this->ints[1u],this->ints[2u]);edkEnd();
-                    break;edkEnd();
+                    break;
                 case 4u:
                     //
                     edk::GU_GLSL::guData4i32(this->ID,this->ints[0u],this->ints[1u],this->ints[2u],this->ints[3u]);edkEnd();
-                    break;edkEnd();
+                    break;
                 }
                 return true;
             }
@@ -328,32 +328,32 @@ bool edk::shd::Data::updateData(){
                 case 1u:
                     //
                     edk::GU_GLSL::guData1f32(this->ID,this->floats[0]);edkEnd();
-                    break;edkEnd();
+                    break;
                 case 2u:
                     //
                     edk::GU_GLSL::guData2f32(this->ID,this->floats[0u],this->floats[1u]);edkEnd();
-                    break;edkEnd();
+                    break;
                 case 3u:
                     //
                     edk::GU_GLSL::guData3f32(this->ID,this->floats[0u],this->floats[1u],this->floats[2u]);edkEnd();
-                    break;edkEnd();
+                    break;
                 case 4u:
                     //
                     edk::GU_GLSL::guData4f32(this->ID,this->floats[0u],this->floats[1u],this->floats[2u],this->floats[3u]);edkEnd();
-                    break;edkEnd();
+                    break;
                 }
                 return true;
             }
-            break;edkEnd();
+            break;
         case edk::shd::matrix2:
             edk::GU_GLSL::guMatrix2f32(this->ID,(edk::float32*)this->mat);edkEnd();
-            break;edkEnd();
+            break;
         case edk::shd::matrix3:
             edk::GU_GLSL::guMatrix3f32(this->ID,(edk::float32*)this->mat);edkEnd();
-            break;edkEnd();
+            break;
         case edk::shd::matrix4:
             edk::GU_GLSL::guMatrix4f32(this->ID,(edk::float32*)this->mat);edkEnd();
-            break;edkEnd();
+            break;
         }
     }
     //else return false

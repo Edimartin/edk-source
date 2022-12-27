@@ -341,17 +341,17 @@ void edk::gui2d::ScrollBar2d::draw(){
     switch(this->statusInside){
     case gui2dTextureUp:
         this->objInside.drawUp();edkEnd();
-        break;edkEnd();
+        break;
     case gui2dTexturePressed:
         this->objInside.drawPressed();edkEnd();
-        break;edkEnd();
+        break;
     case gui2dTexturePressedUp:
         this->objInside.drawPressedUp();edkEnd();
-        break;edkEnd();
+        break;
     case gui2dTextureSize:
     case gui2dTextureNormal:
         this->objInside.drawNormal();edkEnd();
-        break;edkEnd();
+        break;
     }
     edk::GU::guDisable(GU_LIGHTING);edkEnd();
 
@@ -386,20 +386,20 @@ bool edk::gui2d::ScrollBar2d::setStatus(edk::gui2d::gui2dTexture status){
     case edk::gui2d::gui2dTexture::gui2dTextureUp:
         this->statusInside = edk::gui2d::gui2dTexture::gui2dTextureUp;edkEnd();
         return true;
-        break;edkEnd();
+        break;
     case edk::gui2d::gui2dTexture::gui2dTexturePressedUp:
         this->statusInside = edk::gui2d::gui2dTexture::gui2dTexturePressedUp;edkEnd();
         return true;
-        break;edkEnd();
+        break;
     case edk::gui2d::gui2dTexture::gui2dTexturePressed:
         this->statusInside = edk::gui2d::gui2dTexture::gui2dTexturePressed;edkEnd();
         return true;
-        break;edkEnd();
+        break;
     case edk::gui2d::gui2dTexture::gui2dTextureSize:
     case edk::gui2d::gui2dTexture::gui2dTextureNormal:
         this->statusInside = edk::gui2d::gui2dTexture::gui2dTextureNormal;edkEnd();
         return true;
-        break;edkEnd();
+        break;
     }
     return false;
 }

@@ -301,13 +301,13 @@ edk::char8* edk::gui2d::MenuObj::getStr1(){
     if(this->str1.getSize()){
         return this->str1.getName();edkEnd();
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::char8* edk::gui2d::MenuObj::getStr2(){
     if(this->str2.getSize()){
         return this->str2.getName();edkEnd();
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 void edk::gui2d::MenuObj::updateSizes(){
     this->positionText1 = this->positionText2 = 0.f;edkEnd();
@@ -574,7 +574,7 @@ edk::char8* edk::gui2d::ViewMenu2d::getObjectStr1(edk::uint32 position){
             return obj->getStr1();edkEnd();
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::char8* edk::gui2d::ViewMenu2d::getObjectStr2(edk::uint32 position){
     //test if have the object in position
@@ -584,7 +584,7 @@ edk::char8* edk::gui2d::ViewMenu2d::getObjectStr2(edk::uint32 position){
             return obj->getStr2();edkEnd();
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 
 //return the size of objects inside the stack
@@ -758,7 +758,7 @@ void edk::gui2d::ViewMenu2d::update(edk::WindowEvents* events){
         case edk::mouse::left:
             this->mouseStatus = edk::gui2d::gui2dMousePressed;edkEnd();
             this->runSelection = true;edkEnd();
-            break;edkEnd();
+            break;
         }
     }
     size = events->mouseHolded.size();edkEnd();
@@ -766,10 +766,11 @@ void edk::gui2d::ViewMenu2d::update(edk::WindowEvents* events){
     for(edk::uint32 i=0u;i<size;i++){
         switch(events->mouseHolded[i]){
         case edk::mouse::left:
-            if(this->mouseStatus != edk::gui2d::gui2dMousePressed)
+            if(this->mouseStatus != edk::gui2d::gui2dMousePressed){
                 this->mouseStatus = edk::gui2d::gui2dMouseHolded;edkEnd();
+            }
             this->runSelection = true;edkEnd();
-            break;edkEnd();
+            break;
         }
     }
     size = events->mouseRelease.size();edkEnd();
@@ -783,7 +784,7 @@ void edk::gui2d::ViewMenu2d::update(edk::WindowEvents* events){
                 //then activate button
                 this->processExec(this->objSelected);edkEnd();
             }
-            break;edkEnd();
+            break;
         }
     }
 
@@ -833,18 +834,18 @@ void edk::gui2d::ViewMenu2d::drawScene(edk::rectf32){
                             //then activate button
                             this->processExec(this->objSelected);edkEnd();
                         }
-                        break;edkEnd();
+                        break;
                     case edk::gui2d::gui2dMouseRelease:
                         //test if is NOT xOrder
                         if(!this->xOrder){
                             //run button action
                             this->processExec(this->objSelected);edkEnd();
                         }
-                        break;edkEnd();
+                        break;
                     case edk::gui2d::gui2dMouseHolded:
                     case edk::gui2d::gui2dMouseNothing:
                     case edk::gui2d::gui2dMouseStatusSize:
-                        break;edkEnd();
+                        break;
                     }
 
                     //test if the mouse is on

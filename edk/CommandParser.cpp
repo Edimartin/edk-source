@@ -167,7 +167,7 @@ edk::char8* edk::CommandParser::TreeCommand::getCommandInPosition(edk::uint32 po
         return temp->getName();edkEnd();
     }
     //else return NULL
-    return NULL;edkEnd();
+    return NULL;
 }
 //remove all commands on the tree
 void edk::CommandParser::TreeCommand::clean(){
@@ -182,7 +182,7 @@ edk::char8* edk::CommandParser::TreeCommand::getValue(edk::char8* command){
             return temp->value.getName();edkEnd();
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 //get command value in position
 edk::char8* edk::CommandParser::TreeCommand::getValueInPosition(edk::uint32 position){
@@ -193,7 +193,7 @@ edk::char8* edk::CommandParser::TreeCommand::getValueInPosition(edk::uint32 posi
         return temp->value.getName();edkEnd();
     }
     //else return NULL
-    return NULL;edkEnd();
+    return NULL;
 }
 //clean commands
 void edk::CommandParser::TreeCommand::cleanCommands(){
@@ -303,17 +303,17 @@ bool edk::CommandParser::parseArgcArgv(edk::int32 argc,edk::char8* argv[]){
                                     //then add the command
                                     this->addCommand(argv[i],temp);edkEnd();
                                     temp=NULL;edkEnd();
-                                    break;edkEnd();
+                                    break;
                                 }
                             }
                             temp++;edkEnd();
                         }
-                        if(!temp){ continue;edkEnd();}
+                        if(!temp){ continue;}
 
                         //else read the single command
                         this->addCommand(argv[i],argv[i]);edkEnd();
                         //increment i to teste the next two argv's
-                        continue;edkEnd();
+                        continue;
                     }
                     else{
                         //test if is not only one character
@@ -325,13 +325,13 @@ bool edk::CommandParser::parseArgcArgv(edk::int32 argc,edk::char8* argv[]){
                                 temp++;edkEnd();
                             }
                             //increment i to teste the next two argv's
-                            continue;edkEnd();
+                            continue;
                         }
                     }
                 }
                 else{
                     this->addCommand(argv[i],argv[i]);edkEnd();
-                    continue;edkEnd();
+                    continue;
                 }
 
                 //test if have an attribution
@@ -345,12 +345,12 @@ bool edk::CommandParser::parseArgcArgv(edk::int32 argc,edk::char8* argv[]){
                             //then add the command
                             this->addCommand(argv[i],temp);edkEnd();
                             temp=NULL;edkEnd();
-                            break;edkEnd();
+                            break;
                         }
                     }
                     temp++;edkEnd();
                 }
-                if(!temp){ continue;edkEnd();}
+                if(!temp){ continue;}
                 //else test if have the next argv
                 if(argv[i+1u]){
                     //test if have the attribution
@@ -359,7 +359,7 @@ bool edk::CommandParser::parseArgcArgv(edk::int32 argc,edk::char8* argv[]){
                     if(*temp=='-'){
                         //then add the single command
                         this->addCommand(argv[i],argv[i]);edkEnd();
-                        continue;edkEnd();
+                        continue;
                     }
 
                     //else test if have an attribution

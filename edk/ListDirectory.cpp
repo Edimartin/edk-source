@@ -45,7 +45,7 @@ bool edk::ListDirectory::run(edk::char8* directory){
         //open the directory
         dir = opendir(directory);edkEnd();
         if(dir){
-            //printf("\nDirectory %s",directory);edkEnd();fflush(stdout);edkEnd();
+            //printf("\nDirectory %s",directory);edkEnd();
             //list the files
             while((file = readdir(dir)) != NULL){
                 //create the file string to read the status
@@ -57,14 +57,14 @@ bool edk::ListDirectory::run(edk::char8* directory){
                     switch(status.st_mode & S_IFMT){
                     case S_IFDIR:
                         //FOLDER
-                        //printf("\nFolder:%s\\ LastModify:%lu size:%lu",file->d_name,status.st_mtime,status.st_size);edkEnd();fflush(stdout);edkEnd();
+                        //printf("\nFolder:%s\\ LastModify:%lu size:%lu",file->d_name,status.st_mtime,status.st_size);edkEnd();
                         this->listFolder(file->d_name,status.st_mtime,status.st_size);edkEnd();
-                        break;edkEnd();
+                        break;
                     case S_IFREG:
                         //FILE
-                        //printf("\nFile  :%s\\ LastModify:%lu size:%lu",file->d_name,status.st_mtime,status.st_size);edkEnd();fflush(stdout);edkEnd();
+                        //printf("\nFile  :%s\\ LastModify:%lu size:%lu",file->d_name,status.st_mtime,status.st_size);edkEnd();
                         this->listFile(file->d_name,status.st_mtime,status.st_size);edkEnd();
-                        break;edkEnd();
+                        break;
                     }
 
                     delete[] temp;edkEnd();

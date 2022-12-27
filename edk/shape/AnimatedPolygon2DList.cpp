@@ -496,7 +496,7 @@ edk::float32 edk::shape::AnimatedPolygon2DList::selectedAnimationGetAnimationNam
         return this->selectedAnimation->getAnimationNameStart(name);edkEnd();
     }
     //else return false
-    return 0.f;edkEnd();
+    return 0.f;
 }
 edk::float32 edk::shape::AnimatedPolygon2DList::selectedAnimationGetAnimationNameEnd(const edk::char8* name){
     return this->selectedAnimationGetAnimationNameEnd((edk::char8*) name);edkEnd();
@@ -508,7 +508,7 @@ edk::float32 edk::shape::AnimatedPolygon2DList::selectedAnimationGetAnimationNam
         return this->selectedAnimation->getAnimationNameEnd(name);edkEnd();
     }
     //else return false
-    return 0.f;edkEnd();
+    return 0.f;
 }
 //Play the animationName
 bool edk::shape::AnimatedPolygon2DList::selectedAnimationPlayNameForward(const edk::char8* name){

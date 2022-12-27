@@ -68,7 +68,7 @@ edk::animation::Frame* edk::animation::InterpolationLine3D::useNewFrame(edk::uin
             edkEnd();
             return (edk::animation::Frame*)(new edk::animation::Frame3D());
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 
 //SETERS

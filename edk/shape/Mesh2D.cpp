@@ -66,7 +66,7 @@ bool edk::shape::Mesh2D::pointInsideLine(edk::vec2f32 point,edk::vec2f32 lineSta
            ,lineEnd.x
            ,lineEnd.y
            ,edk::collision::MathCollision::pointStraigh2D(point,lineStart,lineEnd,0.01f)?"true":"false"
-           );edkEnd();fflush(stdout);edkEnd();
+           );edkEnd();
 */
     edk::vec2f32 pStart,pEnd;edkEnd();
     if(lineStart.x < lineEnd.x){
@@ -95,7 +95,7 @@ bool edk::shape::Mesh2D::pointInsideLine(edk::vec2f32 point,edk::vec2f32 lineSta
            ,pStart.y
            ,pEnd.x
            ,pEnd.y
-           );edkEnd();fflush(stdout);edkEnd();
+           );edkEnd();
 */
     if(edk::collision::MathCollision::pointStraigh2D(point,lineStart,lineEnd,0.01f)
             &&
@@ -104,12 +104,12 @@ bool edk::shape::Mesh2D::pointInsideLine(edk::vec2f32 point,edk::vec2f32 lineSta
             point.y>=pStart.y && point.y<=pEnd.y
             ){
         /*
-        printf(" TRUE");edkEnd();fflush(stdout);edkEnd();
+        printf(" TRUE");edkEnd();
 */
         return true;
     }
     /*
-    printf(" FALSE");edkEnd();fflush(stdout);edkEnd();
+    printf(" FALSE");edkEnd();
 */
     return false;
 }
@@ -561,7 +561,7 @@ bool edk::shape::Mesh2D::vertexTriangularization(edk::vector::Stack<edk::vec2f32
                         continue;
                     }
                     /*
-                    printf("\nTri %u %u %u",i,j,k);edkEnd();fflush(stdout);edkEnd();
+                    printf("\nTri %u %u %u",i,j,k);edkEnd();
 */
                     //test if aready have the triangle on the tree
                     if(!tree.haveTriangle(i,j,k)){
@@ -601,14 +601,14 @@ bool edk::shape::Mesh2D::vertexTriangularization(edk::vector::Stack<edk::vec2f32
                                         if(triPoint.isCounterclockwise()){
                                             //
                                             goContinue=false;edkEnd();
-                                            break;edkEnd();
+                                            break;
                                         }
                                     }
                                 }
                             }
                             if(goContinue){
                                 goContinue=0u;
-                                continue;edkEnd();
+                                continue;
                             }
 
                             //test if the lines intersect
@@ -638,17 +638,17 @@ bool edk::shape::Mesh2D::vertexTriangularization(edk::vector::Stack<edk::vec2f32
                                            ,n+1u,p2.x,p2.y
                                            ,0u,t1.x,t1.y
                                            ,1u,t2.x,t2.y
-                                           );edkEnd();fflush(stdout);edkEnd();
+                                           );edkEnd();
 */
                                     if((p1!=t1 || p2!=t2) && (p2!=t1 || p1!=t2)){
                                         /*
                                         printf("\n%u %s %s straightStraight2D(p1[%.2f,%.2f],p2[%.2f,%.2f],t1[%.2f,%.2f],t2[%.2f,%.2f],&collision)",__LINE__,__FILE__,__func__
                                                ,p1.x,p1.y,p2.x,p2.y,t1.x,t1.y,t2.x,t2.y
-                                               );edkEnd();fflush(stdout);edkEnd();
+                                               );edkEnd();
 */
                                         edk::collision::MathCollision::straightStraight2D(p1,p2,t1,t2,&collision);edkEnd();
                                         /*
-                                        printf("\nCollision size %u",collision.size());edkEnd();fflush(stdout);edkEnd();
+                                        printf("\nCollision size %u",collision.size());edkEnd();
 */
                                         if(collision.size()){
                                             csize = collision.size();edkEnd();
@@ -658,7 +658,7 @@ bool edk::shape::Mesh2D::vertexTriangularization(edk::vector::Stack<edk::vec2f32
                                                        ,c
                                                        ,collision.get(c).x
                                                        ,collision.get(c).y
-                                                       );edkEnd();fflush(stdout);edkEnd();
+                                                       );edkEnd();
 */
                                                 if((floatDifferent(collision.get(c).x,p1.x)
                                                     ||
@@ -682,10 +682,10 @@ bool edk::shape::Mesh2D::vertexTriangularization(edk::vector::Stack<edk::vec2f32
 
                                                         ){
                                                     /*
-                                                    printf("\n%u %s %s      Intersect",__LINE__,__FILE__,__func__);edkEnd();fflush(stdout);edkEnd();
+                                                    printf("\n%u %s %s      Intersect",__LINE__,__FILE__,__func__);edkEnd();
 */
                                                     goContinue++;edkEnd();
-                                                    break;edkEnd();
+                                                    break;
                                                 }
                                             }
                                             collision.clean();edkEnd();
@@ -704,17 +704,17 @@ bool edk::shape::Mesh2D::vertexTriangularization(edk::vector::Stack<edk::vec2f32
                                            ,n+1u,p2.x,p2.y
                                            ,1u,t1.x,t1.y
                                            ,2u,t2.x,t2.y
-                                           );edkEnd();fflush(stdout);edkEnd();
+                                           );edkEnd();
 */
                                     if((p1!=t1 || p2!=t2) && (p2!=t1 || p1!=t2)){
                                         /*
                                         printf("\n%u %s %s straightStraight2D(p1[%.2f,%.2f],p2[%.2f,%.2f],t1[%.2f,%.2f],t2[%.2f,%.2f],&collision)",__LINE__,__FILE__,__func__
                                                ,p1.x,p1.y,p2.x,p2.y,t1.x,t1.y,t2.x,t2.y
-                                               );edkEnd();fflush(stdout);edkEnd();
+                                               );edkEnd();
 */
                                         edk::collision::MathCollision::straightStraight2D(p1,p2,t1,t2,&collision);edkEnd();
                                         /*
-                                        printf("\nCollision size %u",collision.size());edkEnd();fflush(stdout);edkEnd();
+                                        printf("\nCollision size %u",collision.size());edkEnd();
 */
                                         if(collision.size()){
                                             csize = collision.size();edkEnd();
@@ -724,7 +724,7 @@ bool edk::shape::Mesh2D::vertexTriangularization(edk::vector::Stack<edk::vec2f32
                                                        ,c
                                                        ,collision.get(c).x
                                                        ,collision.get(c).y
-                                                       );edkEnd();fflush(stdout);edkEnd();
+                                                       );edkEnd();
 */
                                                 if((floatDifferent(collision.get(c).x,p1.x)
                                                     ||
@@ -748,10 +748,10 @@ bool edk::shape::Mesh2D::vertexTriangularization(edk::vector::Stack<edk::vec2f32
 
                                                         ){
                                                     /*
-                                                    printf("\n%u %s %s      Intersect",__LINE__,__FILE__,__func__);edkEnd();fflush(stdout);edkEnd();
+                                                    printf("\n%u %s %s      Intersect",__LINE__,__FILE__,__func__);edkEnd();
 */
                                                     goContinue++;edkEnd();
-                                                    break;edkEnd();
+                                                    break;
                                                 }
                                             }
                                             collision.clean();edkEnd();
@@ -770,17 +770,17 @@ bool edk::shape::Mesh2D::vertexTriangularization(edk::vector::Stack<edk::vec2f32
                                            ,n+1u,p2.x,p2.y
                                            ,2u,t1.x,t1.y
                                            ,0u,t2.x,t2.y
-                                           );edkEnd();fflush(stdout);edkEnd();
+                                           );edkEnd();
 */
                                     if((p1!=t1 || p2!=t2) && (p2!=t1 || p1!=t2)){
                                         /*
                                         printf("\n%u %s %s straightStraight2D(p1[%.2f,%.2f],p2[%.2f,%.2f],t1[%.2f,%.2f],t2[%.2f,%.2f],&collision)",__LINE__,__FILE__,__func__
                                                ,p1.x,p1.y,p2.x,p2.y,t1.x,t1.y,t2.x,t2.y
-                                               );edkEnd();fflush(stdout);edkEnd();
+                                               );edkEnd();
 */
                                         edk::collision::MathCollision::straightStraight2D(p1,p2,t1,t2,&collision);edkEnd();
                                         /*
-                                        printf("\nCollision size %u",collision.size());edkEnd();fflush(stdout);edkEnd();
+                                        printf("\nCollision size %u",collision.size());edkEnd();
 */
                                         if(collision.size()){
                                             csize = collision.size();edkEnd();
@@ -790,7 +790,7 @@ bool edk::shape::Mesh2D::vertexTriangularization(edk::vector::Stack<edk::vec2f32
                                                        ,c
                                                        ,collision.get(c).x
                                                        ,collision.get(c).y
-                                                       );edkEnd();fflush(stdout);edkEnd();
+                                                       );edkEnd();
 */
                                                 if((floatDifferent(collision.get(c).x,p1.x)
                                                     ||
@@ -814,10 +814,10 @@ bool edk::shape::Mesh2D::vertexTriangularization(edk::vector::Stack<edk::vec2f32
 
                                                         ){
                                                     /*
-                                                    printf("\n%u %s %s      Intersect",__LINE__,__FILE__,__func__);edkEnd();fflush(stdout);edkEnd();
+                                                    printf("\n%u %s %s      Intersect",__LINE__,__FILE__,__func__);edkEnd();
 */
                                                     goContinue++;edkEnd();
-                                                    break;edkEnd();
+                                                    break;
                                                 }
                                             }
                                             collision.clean();edkEnd();
@@ -844,17 +844,17 @@ bool edk::shape::Mesh2D::vertexTriangularization(edk::vector::Stack<edk::vec2f32
                                            ,0u,p2.x,p2.y
                                            ,0u,t1.x,t1.y
                                            ,1u,t2.x,t2.y
-                                           );edkEnd();fflush(stdout);edkEnd();
+                                           );edkEnd();
 */
                                     if((p1!=t1 || p2!=t2) && (p2!=t1 || p1!=t2)){
                                         /*
                                         printf("\n%u %s %s straightStraight2D(p1[%.2f,%.2f],p2[%.2f,%.2f],t1[%.2f,%.2f],t2[%.2f,%.2f],&collision)",__LINE__,__FILE__,__func__
                                                ,p1.x,p1.y,p2.x,p2.y,t1.x,t1.y,t2.x,t2.y
-                                               );edkEnd();fflush(stdout);edkEnd();
+                                               );edkEnd();
 */
                                         edk::collision::MathCollision::straightStraight2D(p1,p2,t1,t2,&collision);edkEnd();
                                         /*
-                                        printf("\nCollision size %u",collision.size());edkEnd();fflush(stdout);edkEnd();
+                                        printf("\nCollision size %u",collision.size());edkEnd();
 */
                                         if(collision.size()){
                                             csize = collision.size();edkEnd();
@@ -864,7 +864,7 @@ bool edk::shape::Mesh2D::vertexTriangularization(edk::vector::Stack<edk::vec2f32
                                                        ,c
                                                        ,collision.get(c).x
                                                        ,collision.get(c).y
-                                                       );edkEnd();fflush(stdout);edkEnd();
+                                                       );edkEnd();
 */
                                                 if((floatDifferent(collision.get(c).x,p1.x)
                                                     ||
@@ -888,10 +888,10 @@ bool edk::shape::Mesh2D::vertexTriangularization(edk::vector::Stack<edk::vec2f32
 
                                                         ){
                                                     /*
-                                                    printf("\n%u %s %s      Intersect",__LINE__,__FILE__,__func__);edkEnd();fflush(stdout);edkEnd();
+                                                    printf("\n%u %s %s      Intersect",__LINE__,__FILE__,__func__);edkEnd();
 */
                                                     goContinue++;edkEnd();
-                                                    break;edkEnd();
+                                                    break;
                                                 }
                                             }
                                             collision.clean();edkEnd();
@@ -910,17 +910,17 @@ bool edk::shape::Mesh2D::vertexTriangularization(edk::vector::Stack<edk::vec2f32
                                            ,0u,p2.x,p2.y
                                            ,1u,t1.x,t1.y
                                            ,2u,t2.x,t2.y
-                                           );edkEnd();fflush(stdout);edkEnd();
+                                           );edkEnd();
 */
                                     if((p1!=t1 || p2!=t2) && (p2!=t1 || p1!=t2)){
                                         /*
                                         printf("\n%u %s %s straightStraight2D(p1[%.2f,%.2f],p2[%.2f,%.2f],t1[%.2f,%.2f],t2[%.2f,%.2f],&collision)",__LINE__,__FILE__,__func__
                                                ,p1.x,p1.y,p2.x,p2.y,t1.x,t1.y,t2.x,t2.y
-                                               );edkEnd();fflush(stdout);edkEnd();
+                                               );edkEnd();
 */
                                         edk::collision::MathCollision::straightStraight2D(p1,p2,t1,t2,&collision);edkEnd();
                                         /*
-                                        printf("\nCollision size %u",collision.size());edkEnd();fflush(stdout);edkEnd();
+                                        printf("\nCollision size %u",collision.size());edkEnd();
 */
                                         if(collision.size()){
                                             csize = collision.size();edkEnd();
@@ -930,7 +930,7 @@ bool edk::shape::Mesh2D::vertexTriangularization(edk::vector::Stack<edk::vec2f32
                                                        ,c
                                                        ,collision.get(c).x
                                                        ,collision.get(c).y
-                                                       );edkEnd();fflush(stdout);edkEnd();
+                                                       );edkEnd();
                                                 printf("\n((floatDifferent(collision.get(c).x[%.2f],p1.x[%.2f])%s"
                                                        "\n  &&"
                                                        "\n  floatDifferent(collision.get(c).y[%.2f],p1.y[%.2f]))%s"
@@ -964,7 +964,7 @@ bool edk::shape::Mesh2D::vertexTriangularization(edk::vector::Stack<edk::vec2f32
                                                        ,floatDifferent(collision.get(c).y,t2.y)?"true":"false"
                                                        ,pointInsideLine(collision.get(c),p1,p2)?"true":"false"
                                                        ,pointInsideLine(collision.get(c),t1,t2)?"true":"false"
-                                                       );edkEnd();fflush(stdout);edkEnd();
+                                                       );edkEnd();
 */
                                                 if((floatDifferent(collision.get(c).x,p1.x)
                                                     ||
@@ -988,10 +988,10 @@ bool edk::shape::Mesh2D::vertexTriangularization(edk::vector::Stack<edk::vec2f32
 
                                                         ){
                                                     /*
-                                                    printf("\n%u %s %s      Intersect",__LINE__,__FILE__,__func__);edkEnd();fflush(stdout);edkEnd();
+                                                    printf("\n%u %s %s      Intersect",__LINE__,__FILE__,__func__);edkEnd();
 */
                                                     goContinue++;edkEnd();
-                                                    break;edkEnd();
+                                                    break;
                                                 }
                                             }
                                             collision.clean();edkEnd();
@@ -1010,17 +1010,17 @@ bool edk::shape::Mesh2D::vertexTriangularization(edk::vector::Stack<edk::vec2f32
                                            ,0u,p2.x,p2.y
                                            ,2u,t1.x,t1.y
                                            ,0u,t2.x,t2.y
-                                           );edkEnd();fflush(stdout);edkEnd();
+                                           );edkEnd();
 */
                                     if((p1!=t1 || p2!=t2) && (p2!=t1 || p1!=t2)){
                                         /*
                                         printf("\n%u %s %s straightStraight2D(p1[%.2f,%.2f],p2[%.2f,%.2f],t1[%.2f,%.2f],t2[%.2f,%.2f],&collision)",__LINE__,__FILE__,__func__
                                                ,p1.x,p1.y,p2.x,p2.y,t1.x,t1.y,t2.x,t2.y
-                                               );edkEnd();fflush(stdout);edkEnd();
+                                               );edkEnd();
 */
                                         edk::collision::MathCollision::straightStraight2D(p1,p2,t1,t2,&collision);edkEnd();
                                         /*
-                                        printf("\nCollision size %u",collision.size());edkEnd();fflush(stdout);edkEnd();
+                                        printf("\nCollision size %u",collision.size());edkEnd();
 */
                                         if(collision.size()){
                                             csize = collision.size();edkEnd();
@@ -1030,7 +1030,7 @@ bool edk::shape::Mesh2D::vertexTriangularization(edk::vector::Stack<edk::vec2f32
                                                        ,c
                                                        ,collision.get(c).x
                                                        ,collision.get(c).y
-                                                       );edkEnd();fflush(stdout);edkEnd();
+                                                       );edkEnd();
 */
                                                 if((floatDifferent(collision.get(c).x,p1.x)
                                                     ||
@@ -1054,10 +1054,10 @@ bool edk::shape::Mesh2D::vertexTriangularization(edk::vector::Stack<edk::vec2f32
 
                                                         ){
                                                     /*
-                                                    printf("\n%u %s %s      Intersect",__LINE__,__FILE__,__func__);edkEnd();fflush(stdout);edkEnd();
+                                                    printf("\n%u %s %s      Intersect",__LINE__,__FILE__,__func__);edkEnd();
 */
                                                     goContinue++;edkEnd();
-                                                    break;edkEnd();
+                                                    break;
                                                 }
                                             }
                                             collision.clean();edkEnd();
@@ -1065,17 +1065,17 @@ bool edk::shape::Mesh2D::vertexTriangularization(edk::vector::Stack<edk::vec2f32
                                     }
                                 }
                                 if(goContinue>1u){
-                                    break;edkEnd();
+                                    break;
                                 }
                             }
                             if(goContinue>0u){
                                 goContinue=0u;
-                                continue;edkEnd();
+                                continue;
                             }
 
                             //create the polygon
                             /*
-                            printf("\n    Create %u %u %u",i,j,k);edkEnd();fflush(stdout);edkEnd();
+                            printf("\n    Create %u %u %u",i,j,k);edkEnd();
 */
 
                             //add to the tree
@@ -1116,11 +1116,11 @@ bool edk::shape::Mesh2D::polygonTriangularization(edk::shape::Polygon2D polygon,
         /*
         printf("\nvertex 0u Angle == %.2f"
                ,angle
-               );edkEnd();fflush(stdout);edkEnd();
+               );edkEnd();
 */
         if(angle<=180.f){
             /*
-            printf(" concave");edkEnd();fflush(stdout);edkEnd();
+            printf(" concave");edkEnd();
 */
             if(!pConcaves.size()){
                 concaveFirst = 0u;edkEnd();
@@ -1130,7 +1130,7 @@ bool edk::shape::Mesh2D::polygonTriangularization(edk::shape::Polygon2D polygon,
         }
         /*
         else{
-            printf(" convex");edkEnd();fflush(stdout);edkEnd();
+            printf(" convex");edkEnd();
         }
 */
         bool goBreak=false;edkEnd();
@@ -1146,11 +1146,11 @@ bool edk::shape::Mesh2D::polygonTriangularization(edk::shape::Polygon2D polygon,
             printf("\nvertex %uu Angle == %.2f"
                    ,i+1u
                    ,angle
-                   );edkEnd();fflush(stdout);edkEnd();
+                   );edkEnd();
 */
             if(angle<=180.f){
                 /*
-                printf(" concave");edkEnd();fflush(stdout);edkEnd();
+                printf(" concave");edkEnd();
 */
                 if(!pConcaves.size()){
                     concaveFirst = i+1u;edkEnd();
@@ -1160,7 +1160,7 @@ bool edk::shape::Mesh2D::polygonTriangularization(edk::shape::Polygon2D polygon,
             }
             else{
                 /*
-                printf(" convex");edkEnd();fflush(stdout);edkEnd();
+                printf(" convex");edkEnd();
 */
                 //then create the triangle
                 if(pConcaves.size()){
@@ -1170,14 +1170,14 @@ bool edk::shape::Mesh2D::polygonTriangularization(edk::shape::Polygon2D polygon,
                            ,concaveActual
                            ,i+1u
                            ,i+2u
-                           );edkEnd();fflush(stdout);edkEnd();
+                           );edkEnd();
 */
                     tri.setVertexPosition(0u,polygon.getVertexPosition(concaveActual).x,polygon.getVertexPosition(concaveActual).y);edkEnd();
                     tri.setVertexPosition(1u,polygon.getVertexPosition(i+1u).x,polygon.getVertexPosition(i+1u).y);edkEnd();
                     tri.setVertexPosition(2u,polygon.getVertexPosition(i+2u).x,polygon.getVertexPosition(i+2u).y);edkEnd();
                     if(tri.isCounterclockwise()){
                         /*
-                        printf(" isCounterClockwise");edkEnd();fflush(stdout);edkEnd();
+                        printf(" isCounterClockwise");edkEnd();
 */
                         //test if the triangle have a vertex inside
                         bool goContinue = true;edkEnd();
@@ -1200,7 +1200,7 @@ bool edk::shape::Mesh2D::polygonTriangularization(edk::shape::Polygon2D polygon,
                                         if(triPoint.isCounterclockwise()){
                                             //
                                             goContinue=false;edkEnd();
-                                            break;edkEnd();
+                                            break;
                                         }
                                     }
                                 }
@@ -1209,12 +1209,12 @@ bool edk::shape::Mesh2D::polygonTriangularization(edk::shape::Polygon2D polygon,
                         if(goContinue){
                             mesh->addPolygon(tri);edkEnd();
                             /*
-                            printf(" addPolygon");edkEnd();fflush(stdout);edkEnd();
+                            printf(" addPolygon");edkEnd();
 */
                         }
                         else{
                             /*
-                            printf(" notAddPolygon");edkEnd();fflush(stdout);edkEnd();
+                            printf(" notAddPolygon");edkEnd();
 */
                             //add the vertex as a concave
                             if(!pConcaves.size()){
@@ -1226,10 +1226,10 @@ bool edk::shape::Mesh2D::polygonTriangularization(edk::shape::Polygon2D polygon,
                     }
                     else{
                         /*
-                        printf(" isNOTCounterClockwise");edkEnd();fflush(stdout);edkEnd();
+                        printf(" isNOTCounterClockwise");edkEnd();
 */
                         goBreak=true;edkEnd();
-                        break;edkEnd();
+                        break;
                     }
                 }
 
@@ -1248,11 +1248,11 @@ bool edk::shape::Mesh2D::polygonTriangularization(edk::shape::Polygon2D polygon,
             printf("\nvertex %uu Angle == %.2f"
                    ,size+1u
                    ,angle
-                   );edkEnd();fflush(stdout);edkEnd();
+                   );edkEnd();
 */
             if(angle<=180.f){
                 /*
-                printf(" concave");edkEnd();fflush(stdout);edkEnd();
+                printf(" concave");edkEnd();
 */
                 if(!pConcaves.size()){
                     concaveFirst = size+1u;edkEnd();
@@ -1262,7 +1262,7 @@ bool edk::shape::Mesh2D::polygonTriangularization(edk::shape::Polygon2D polygon,
             }
             else{
                 /*
-                printf(" convex");edkEnd();fflush(stdout);edkEnd();
+                printf(" convex");edkEnd();
 */
 
                 //then create the triangle
@@ -1273,14 +1273,14 @@ bool edk::shape::Mesh2D::polygonTriangularization(edk::shape::Polygon2D polygon,
                            ,concaveActual
                            ,size+1u
                            ,0u
-                           );edkEnd();fflush(stdout);edkEnd();
+                           );edkEnd();
 */
                     tri.setVertexPosition(0u,polygon.getVertexPosition(concaveActual).x,polygon.getVertexPosition(concaveActual).y);edkEnd();
                     tri.setVertexPosition(1u,polygon.getVertexPosition(size+1u).x,polygon.getVertexPosition(size+1u).y);edkEnd();
                     tri.setVertexPosition(2u,polygon.getVertexPosition(0u).x,polygon.getVertexPosition(0u).y);edkEnd();
                     if(tri.isCounterclockwise()){
                         /*
-                        printf(" isCounterClockwise");edkEnd();fflush(stdout);edkEnd();
+                        printf(" isCounterClockwise");edkEnd();
 */
                         //test if the triangle have a vertex inside
                         bool goContinue = true;edkEnd();
@@ -1303,7 +1303,7 @@ bool edk::shape::Mesh2D::polygonTriangularization(edk::shape::Polygon2D polygon,
                                         if(triPoint.isCounterclockwise()){
                                             //
                                             goContinue=false;edkEnd();
-                                            break;edkEnd();
+                                            break;
                                         }
                                     }
                                 }
@@ -1312,12 +1312,12 @@ bool edk::shape::Mesh2D::polygonTriangularization(edk::shape::Polygon2D polygon,
                         if(goContinue){
                             mesh->addPolygon(tri);edkEnd();
                             /*
-                            printf(" addPolygon");edkEnd();fflush(stdout);edkEnd();
+                            printf(" addPolygon");edkEnd();
 */
                         }
                         else{
                             /*
-                            printf(" notAddPolygon");edkEnd();fflush(stdout);edkEnd();
+                            printf(" notAddPolygon");edkEnd();
 */
                             //add the vertex as a concave
                             if(!pConcaves.size()){
@@ -1329,7 +1329,7 @@ bool edk::shape::Mesh2D::polygonTriangularization(edk::shape::Polygon2D polygon,
                     }
                     else{
                         /*
-                        printf(" isNOTCounterClockwise");edkEnd();fflush(stdout);edkEnd();
+                        printf(" isNOTCounterClockwise");edkEnd();
 */
                         goBreak=true;edkEnd();
                     }
@@ -1351,7 +1351,7 @@ bool edk::shape::Mesh2D::polygonTriangularization(edk::shape::Polygon2D polygon,
                            ,concaveActual
                            ,i
                            ,i+1u
-                           );edkEnd();fflush(stdout);edkEnd();
+                           );edkEnd();
 */
                     tri.setVertexPosition(0u,polygon.getVertexPosition(concaveActual).x,polygon.getVertexPosition(concaveActual).y);edkEnd();
                     tri.setVertexPosition(1u,polygon.getVertexPosition(i).x,polygon.getVertexPosition(i).y);edkEnd();
@@ -1359,7 +1359,7 @@ bool edk::shape::Mesh2D::polygonTriangularization(edk::shape::Polygon2D polygon,
                     if(tri.isCounterclockwise()){
 
                         /*
-                        printf(" isCounterClockwise");edkEnd();fflush(stdout);edkEnd();
+                        printf(" isCounterClockwise");edkEnd();
 */
                         //test if the triangle have a vertex inside
                         bool goContinue = true;edkEnd();
@@ -1382,7 +1382,7 @@ bool edk::shape::Mesh2D::polygonTriangularization(edk::shape::Polygon2D polygon,
                                         if(triPoint.isCounterclockwise()){
                                             //
                                             goContinue=false;edkEnd();
-                                            break;edkEnd();
+                                            break;
                                         }
                                     }
                                 }
@@ -1391,12 +1391,12 @@ bool edk::shape::Mesh2D::polygonTriangularization(edk::shape::Polygon2D polygon,
                         if(goContinue){
                             mesh->addPolygon(tri);edkEnd();
                             /*
-                            printf(" addPolygon");edkEnd();fflush(stdout);edkEnd();
+                            printf(" addPolygon");edkEnd();
 */
                         }
                         else{
                             /*
-                            printf(" notAddPolygon");edkEnd();fflush(stdout);edkEnd();
+                            printf(" notAddPolygon");edkEnd();
 */
                             //add the vertex as a concave
                             if(!pConcaves.size()){
@@ -1408,7 +1408,7 @@ bool edk::shape::Mesh2D::polygonTriangularization(edk::shape::Polygon2D polygon,
                     }
                     else{
                         /*
-                        printf(" isNOTCounterClockwise");edkEnd();fflush(stdout);edkEnd();
+                        printf(" isNOTCounterClockwise");edkEnd();
 */
                         goBreak=true;edkEnd();
                     }

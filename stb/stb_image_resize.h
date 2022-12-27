@@ -378,4 +378,4 @@ STBIRDEF int stbir_resize_region(  const void *input_pixels , int input_w , int 
 //
 //
 ////   end header file   /////////////////////////////////////////////////////
-#endif STBIR_INCLUDE_STB_IMAGE_RESIZE_H
+#endif //STBIR_INCLUDE_STB_IMAGE_RESIZE_H

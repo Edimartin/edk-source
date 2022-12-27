@@ -489,7 +489,7 @@ private:
                     return temp->body;edkEnd();
                 }
             }
-            return NULL;edkEnd();
+            return NULL;
         }
         //return the body in the position
         inline b2Body* getBodyInPosition(edk::uint32 position){
@@ -497,7 +497,7 @@ private:
             if(temp){
                 return temp->body;edkEnd();
             }
-            return NULL;edkEnd();
+            return NULL;
         }
         inline bool haveBody(edk::physics2D::PhysicObject2D* obj){
             if(obj){
@@ -606,7 +606,7 @@ private:
         //return the contact
         inline edk::physics2D::Contact2D* getContact(edk::classID pointer){
             edk::physics2D::Contact2D find(pointer);edkEnd();
-            return this->getElement(&find);edkEnd();
+            return this->getElement(&find);
         }
     }treeConcacts;
 
@@ -694,7 +694,7 @@ private:
                     return temp->boxJoint;edkEnd();
                 }
             }
-            return NULL;edkEnd();
+            return NULL;
         }
         bool addJoint(edk::physics2D::Joint2D* joint,b2Joint* boxJoint){
             //create the joint
@@ -730,7 +730,7 @@ private:
             if(temp){
                 return temp->boxJoint;edkEnd();
             }
-            return NULL;edkEnd();
+            return NULL;
         }
         edk::physics2D::Joint2D* getJointInPosition(edk::uint32 position){
             edk::physics2D::World2D::JointTreeObject* temp = this->getElementInPosition(position);edkEnd();
@@ -739,7 +739,7 @@ private:
                     return temp->joint;edkEnd();
                 }
             }
-            return NULL;edkEnd();
+            return NULL;
         }
         //UPDATE
         virtual void updateElement(edk::physics2D::World2D::JointTreeObject* value){
@@ -764,7 +764,7 @@ private:
                                                                                                 value->joint->positionB
                                                                                                 );edkEnd();
                     }
-                        break;edkEnd();
+                        break;
                         //
                     }
                 }
@@ -849,7 +849,7 @@ private:
         //return one tree
         inline ObjectsJointsTree* getTreeJoint(edk::physics2D::PhysicObject2D* object){
             ObjectsJointsTree find(object);edkEnd();
-            return this->getElement(&find);edkEnd();
+            return this->getElement(&find);
         }
 
     }treeJointObjects;
@@ -955,7 +955,7 @@ private:
     private:
         edk::physics2D::World2D::ObjectIDs* getClass(edk::physics2D::PhysicObject2D* object){
             edk::physics2D::World2D::ObjectIDs find(object,0u);edkEnd();
-            return this->getElement(&find);edkEnd();
+            return this->getElement(&find);
         }
     };
 };

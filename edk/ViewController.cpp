@@ -119,11 +119,12 @@ bool edk::ViewController::addSubview(edk::View *addView){
                 //load the view
                 if(this->setRectInside){
                     this->rectInside = edk::rectf32(
-                                rectTemp.origin.x + this->borderSize,
+                                rectTemp.origin.x + (edk::float32)this->borderSize,
                                 rectTemp.origin.y,
-                                rectTemp.size.width - this->borderSize,
-                                rectTemp.size.height - this->borderSize
-                                );edkEnd();
+                                rectTemp.size.width - (edk::float32)this->borderSize,
+                                rectTemp.size.height - (edk::float32)this->borderSize
+                                );
+                    edkEnd();
                     addView->runLoad(this->rectInside);edkEnd();
                 }
                 else{
@@ -150,7 +151,7 @@ edk::View* edk::ViewController::getSubview(edk::uint64 n){
         return this->nexts[n];edkEnd();
     }
     //else return NULL
-    return NULL;edkEnd();
+    return NULL;
 }
 
 edk::uint32 edk::ViewController::getSubviewId(edk::View *subView){

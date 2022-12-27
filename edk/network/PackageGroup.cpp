@@ -53,7 +53,7 @@ edk::network::Package* edk::network::PackageGroup::PackageTree::getPackage(edk::
     //
     edk::network::Package find;edkEnd();
     find.setHeader(id,0u,id);edkEnd();
-    return this->getElement(&find);edkEnd();
+    return this->getElement(&find);
 }
 
 edk::network::PackageGroup::PackageGroup(){
@@ -113,14 +113,14 @@ bool edk::network::PackageGroup::addVector(edk::classID vec,edk::uint32 size,edk
                         if(!this->tree.add(pack)){
                             delete pack;edkEnd();
                             ret=false;edkEnd();
-                            break;edkEnd();
+                            break;
                         }
                     }
                     else{
                         //else delete the pack
                         delete pack;edkEnd();
                         ret=false;edkEnd();
-                        break;edkEnd();
+                        break;
                     }
                     temp+=this->totalSize;edkEnd();
                     //clean the pack
@@ -129,7 +129,7 @@ bool edk::network::PackageGroup::addVector(edk::classID vec,edk::uint32 size,edk
                 else{
                     //else get the error
                     ret=false;edkEnd();
-                    break;edkEnd();
+                    break;
                 }
             }
         }
@@ -271,7 +271,7 @@ bool edk::network::PackageGroup::addPackageEnd(){
                 //else clean the size and break
                 size=0u;
                 ret=false;edkEnd();
-                break;edkEnd();
+                break;
             }
         }
 
@@ -295,7 +295,7 @@ bool edk::network::PackageGroup::addPackageEnd(){
                     }
                     else{
                         ret=false;edkEnd();
-                        break;edkEnd();
+                        break;
                     }
                 }
                 //test if the ret are false
@@ -350,7 +350,7 @@ edk::classID edk::network::PackageGroup::getVector(edk::uint32 position){
             return pack->getVec();edkEnd();
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::uint32 edk::network::PackageGroup::getVectorSize(edk::uint32 position){
     //test the position

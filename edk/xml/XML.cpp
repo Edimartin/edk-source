@@ -172,7 +172,7 @@ void edk::XML::parsing(pugi::xml_node node){
 }
 bool edk::XML::addSelectedNewAttribute(edk::char8* name,edk::char8* value){
     //test the strings and selected
-    if (this->selected && name && value){
+    if(this->selected && name && value){
         //
         if(this->selected.append_attribute((char*)name)){
             //load the attribute to set the value
@@ -1160,7 +1160,7 @@ bool edk::XML::addSelectedNextAttribute(const edk::char8* name,edk::char8* value
 }
 bool edk::XML::addSelectedNextAttribute(edk::char8* name,edk::char8* value){
     //test the selected
-    if (*this->selected.name()){
+    if(*this->selected.name()){
         if(!(*this->selected.first_attribute().name())){
             //create a new attribute
             return this->addSelectedNewAttribute(name,value);
@@ -1273,7 +1273,7 @@ bool edk::XML::addSelectedPreviousAttribute(const edk::char8* name,edk::char8* v
 }
 bool edk::XML::addSelectedPreviousAttribute(edk::char8* name,edk::char8* value){
     //test the selected
-    if (*this->selected.name()){
+    if(*this->selected.name()){
         if(!(*this->selected.first_attribute().name())){
             //create a new attribute
             return this->addSelectedNewAttribute(name,value);
@@ -1309,7 +1309,7 @@ bool edk::XML::addRootPreviousChild(const edk::char8* name){
 }
 bool edk::XML::addRootPreviousChild(edk::char8* name){
     //test if have a first child in root
-    if (!(*doc.first_child().name())){
+    if(!(*doc.first_child().name())){
         //then add the new root
         return this->addNewRoot(name);
     }
@@ -1329,7 +1329,7 @@ bool edk::XML::addRootNextChild(const edk::char8* name){
 }
 bool edk::XML::addRootNextChild(edk::char8* name){
     //test if have a first child in root
-    if (!(*doc.first_child().name())){
+    if(!(*doc.first_child().name())){
         //then add the new root
         return this->addNewRoot(name);
     }
@@ -1385,7 +1385,7 @@ bool edk::XML::deleteSelectedAttribute(const edk::char8* name){
 }
 bool edk::XML::deleteSelectedAttribute(edk::char8* name){
     //test the selected and the name
-    if (*this->selected.name() && name){
+    if(*this->selected.name() && name){
         //remove the attribute
         return this->selected.remove_attribute((char*)name);
     }
@@ -1399,7 +1399,7 @@ bool edk::XML::setSelectedString(const edk::char8* string){
 }
 bool edk::XML::setSelectedString(edk::char8* string){
     //test if have selected
-    if (this->haveSelected()){
+    if(this->haveSelected()){
         //set the selected string
         if(this->selected.text().set((char*)string)){
             //
@@ -1411,7 +1411,7 @@ bool edk::XML::setSelectedString(edk::char8* string){
 }
 bool edk::XML::setSelectedString(edk::uint32 string){
     //test if have selected
-    if (this->haveSelected()){
+    if(this->haveSelected()){
         //set the selected string
         if(this->selected.text().set(string)){
             //
@@ -1423,7 +1423,7 @@ bool edk::XML::setSelectedString(edk::uint32 string){
 }
 bool edk::XML::setSelectedString(edk::int32 string){
     //test if have selected
-    if (this->haveSelected()){
+    if(this->haveSelected()){
         //set the selected string
         if(this->selected.text().set(string)){
             //
@@ -1435,7 +1435,7 @@ bool edk::XML::setSelectedString(edk::int32 string){
 }
 bool edk::XML::setSelectedString(edk::uint64 string){
     //test if have selected
-    if (this->haveSelected()){
+    if(this->haveSelected()){
         //we need to convert the int64 to string
         edk::char8* str = edk::String::uint64ToStr(string);
         if(str){
@@ -1453,7 +1453,7 @@ bool edk::XML::setSelectedString(edk::uint64 string){
 }
 bool edk::XML::setSelectedString(edk::int64 string){
     //test if have selected
-    if (this->haveSelected()){
+    if(this->haveSelected()){
         //we need to convert the int64 to string
         edk::char8* str = edk::String::int64ToStr(string);
         if(str){
@@ -1471,7 +1471,7 @@ bool edk::XML::setSelectedString(edk::int64 string){
 }
 bool edk::XML::setSelectedString(edk::float32 string,edk::uint32 digits){
     //test if have selected
-    if (this->haveSelected()){
+    if(this->haveSelected()){
         //we need to convert the int64 to string
         edk::char8* str = edk::String::float32ToStr(string,digits);
         if(str){
@@ -1489,7 +1489,7 @@ bool edk::XML::setSelectedString(edk::float32 string,edk::uint32 digits){
 }
 bool edk::XML::setSelectedString(edk::float64 string,edk::uint32 digits){
     //test if have selected
-    if (this->haveSelected()){
+    if(this->haveSelected()){
         //we need to convert the int64 to string
         edk::char8* str = edk::String::float64ToStr(string,digits);
         if(str){
@@ -2148,8 +2148,8 @@ void edk::XML::didEndElement(edk::char8* name){
 //add a root cleaning the code
 bool edk::XML::addNewRoot(edk::char8* name){
     bool ret=false;
-    if (name){
-        if (this->doc.append_child((char*)name)){
+    if(name){
+        if(this->doc.append_child((char*)name)){
             return true;
         }
     }

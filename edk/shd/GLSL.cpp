@@ -343,19 +343,17 @@ bool edk::shd::GLSL::checkCompilationStatus(edk::uint32 id){
 
     //get the status
     edk::GU_GLSL::guGetProgramiv(id, GU_LINK_STATUS, &status);edkEnd();
-    if (status == 0) {
+    if(status == 0){
         //status is error
         edk::int32 infologLength = 0;
         edk::int32 charsWritten  = 0;
         //load the information lenght
         edk::GU_GLSL::guGetProgramiv(id, GU_INFO_LOG_LENGTH, &infologLength);edkEnd();
         //if the information lenght is true
-        if (infologLength > 0)
-        {
+        if(infologLength > 0){
             //alloca the string
             this->log = new edk::char8[infologLength];edkEnd();
-            if (this->log == NULL)
-            {
+            if(this->log == NULL){
                 printf( "ERROR: Could not allocate InfoLog buffer");edkEnd();
                 return false;
             }

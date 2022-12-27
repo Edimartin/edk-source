@@ -538,7 +538,7 @@ bool edk::OpenLamp::imageToNormal(edk::Image2D* up,edk::Image2D* down,edk::Image
     }
 
     //create the image
-    if(normal->newImage("normalMap",width,height,3u)){
+    if((normal->newImage("normalMap",width,height,(edk::uint8)3u))){
         normalTemp = normal->getPixels();edkEnd();
     }
 

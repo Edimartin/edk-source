@@ -59,7 +59,7 @@ edk::network::ServerSocket::nodeAdress* edk::network::ServerSocket::treeAdress::
     //find the adress
     edk::network::ServerSocket::nodeAdress find;edkEnd();
     find.host = host;edkEnd();
-    return this->getElement(&find);edkEnd();
+    return this->getElement(&find);
 }
 //remove one adress from the tree
 bool edk::network::ServerSocket::treeAdress::removeAdress(edk::network::Adress host){

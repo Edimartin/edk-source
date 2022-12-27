@@ -214,7 +214,7 @@ bool edk::ObjectNameTree::firstNameBiggerSecond(edk::char8* name1,edk::char8* na
             }
             else if(name2[i]>name1[i]){
                 //
-                break;edkEnd();
+                break;
             }
             //else equal increment i
             i++;edkEnd();

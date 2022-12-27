@@ -357,7 +357,7 @@ private:
             if(temp){
                 return temp->object;edkEnd();
             }
-            return NULL;edkEnd();
+            return NULL;
         }
         //return the position
         edk::vec2f32 getObjectFirstPosition(edk::Object2DValues* object){
@@ -446,7 +446,7 @@ private:
                 edk::bones::Bone2D::ObjectConnect find(object);edkEnd();
                 return this->getElement(&find);edkEnd();
             }
-            return NULL;edkEnd();
+            return NULL;
         }
 
         //matrix and angle to update

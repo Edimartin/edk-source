@@ -261,7 +261,7 @@ edk::float32 edk::animation::InterpolationTracks::getSpeed(edk::uint32 trackPosi
     if(temp.animation){
         return temp.animation->getSpeed();edkEnd();
     }
-    return 0.f;edkEnd();
+    return 0.f;
 }
 
 //set the animationStartFrame
@@ -403,7 +403,7 @@ edk::float32 edk::animation::InterpolationTracks::getAnimationNameStart(edk::uin
     if(temp.animation){
         return temp.animation->getAnimationNameStart(name);edkEnd();
     }
-    return 0.f;edkEnd();
+    return 0.f;
 }
 edk::float32 edk::animation::InterpolationTracks::getAnimationNameStart(edk::uint32 trackPosition,edk::char8* name){
     //get track in position
@@ -411,7 +411,7 @@ edk::float32 edk::animation::InterpolationTracks::getAnimationNameStart(edk::uin
     if(temp.animation){
         return temp.animation->getAnimationNameStart(name);edkEnd();
     }
-    return 0.f;edkEnd();
+    return 0.f;
 }
 edk::float32 edk::animation::InterpolationTracks::getAnimationNameEnd(edk::uint32 trackPosition,const edk::char8* name){
     //get track in position
@@ -419,7 +419,7 @@ edk::float32 edk::animation::InterpolationTracks::getAnimationNameEnd(edk::uint3
     if(temp.animation){
         return temp.animation->getAnimationNameEnd(name);edkEnd();
     }
-    return 0.f;edkEnd();
+    return 0.f;
 }
 edk::float32 edk::animation::InterpolationTracks::getAnimationNameEnd(edk::uint32 trackPosition,edk::char8* name){
     //get track in position
@@ -427,7 +427,7 @@ edk::float32 edk::animation::InterpolationTracks::getAnimationNameEnd(edk::uint3
     if(temp.animation){
         return temp.animation->getAnimationNameEnd(name);edkEnd();
     }
-    return 0.f;edkEnd();
+    return 0.f;
 }
 //select the animationName
 bool edk::animation::InterpolationTracks::selectAnimationName(edk::uint32 trackPosition,const edk::char8* name){
@@ -1142,7 +1142,7 @@ edk::uint32 edk::animation::InterpolationTracks::getInterpolationSize(edk::uint3
     if(temp.animation){
         return temp.animation->getInterpolationSize();edkEnd();
     }
-    return 0u;edkEnd();
+    return 0u;
 }
 edk::uint32 edk::animation::InterpolationTracks::getInterpolations(edk::uint32 trackPosition){
     //get track in position
@@ -1150,7 +1150,7 @@ edk::uint32 edk::animation::InterpolationTracks::getInterpolations(edk::uint32 t
     if(temp.animation){
         return temp.animation->getInterpolations();edkEnd();
     }
-    return 0u;edkEnd();
+    return 0u;
 }
 //get the second
 edk::float32 edk::animation::InterpolationTracks::getAnimationSecond(edk::uint32 trackPosition){
@@ -1159,7 +1159,7 @@ edk::float32 edk::animation::InterpolationTracks::getAnimationSecond(edk::uint32
     if(temp.animation){
         return temp.animation->getAnimationSecond();edkEnd();
     }
-    return 0.f;edkEnd();
+    return 0.f;
 }
 //return the missingTime
 edk::float32 edk::animation::InterpolationTracks::getAnimationMissingSecond(edk::uint32 trackPosition){
@@ -1168,7 +1168,7 @@ edk::float32 edk::animation::InterpolationTracks::getAnimationMissingSecond(edk:
     if(temp.animation){
         return temp.animation->getAnimationMissingSecond();edkEnd();
     }
-    return 0.f;edkEnd();
+    return 0.f;
 }
 //get the animation start and end
 edk::float32 edk::animation::InterpolationTracks::getAnimationStart(edk::uint32 trackPosition){
@@ -1177,7 +1177,7 @@ edk::float32 edk::animation::InterpolationTracks::getAnimationStart(edk::uint32 
     if(temp.animation){
         return temp.animation->getAnimationStart();edkEnd();
     }
-    return 0.f;edkEnd();
+    return 0.f;
 }
 edk::float32 edk::animation::InterpolationTracks::getAnimationEnd(edk::uint32 trackPosition){
     //get track in position
@@ -1185,7 +1185,7 @@ edk::float32 edk::animation::InterpolationTracks::getAnimationEnd(edk::uint32 tr
     if(temp.animation){
         return temp.animation->getAnimationEnd();edkEnd();
     }
-    return 0.f;edkEnd();
+    return 0.f;
 }
 edk::float32 edk::animation::InterpolationTracks::getAnimationLenght(edk::uint32 trackPosition){
     //get track in position
@@ -1193,7 +1193,7 @@ edk::float32 edk::animation::InterpolationTracks::getAnimationLenght(edk::uint32
     if(temp.animation){
         return temp.animation->getAnimationLenght();edkEnd();
     }
-    return 0.f;edkEnd();
+    return 0.f;
 }
 //return the interpolation seconds
 edk::float32 edk::animation::InterpolationTracks::getInterpolationStartSecond(edk::uint32 trackPosition,edk::float32 position){
@@ -1202,7 +1202,7 @@ edk::float32 edk::animation::InterpolationTracks::getInterpolationStartSecond(ed
     if(temp.animation){
         return temp.animation->getInterpolationStartSecond(position);edkEnd();
     }
-    return 0.f;edkEnd();
+    return 0.f;
 }
 edk::float32 edk::animation::InterpolationTracks::getInterpolationEndSecond(edk::uint32 trackPosition,edk::float32 position){
     //get track in position
@@ -1210,7 +1210,7 @@ edk::float32 edk::animation::InterpolationTracks::getInterpolationEndSecond(edk:
     if(temp.animation){
         return temp.animation->getInterpolationEndSecond(position);edkEnd();
     }
-    return 0.f;edkEnd();
+    return 0.f;
 }
 //return if are playing
 bool edk::animation::InterpolationTracks::isPlaying(){
@@ -1223,7 +1223,7 @@ bool edk::animation::InterpolationTracks::isPlaying(){
             if(temp.animation){
                 if(temp.animation->isPlaying()){
                     ret=true;edkEnd();
-                    break;edkEnd();
+                    break;
                 }
             }
         }
@@ -1244,7 +1244,7 @@ bool edk::animation::InterpolationTracks::isPlayingName(edk::char8* name){
                 if(temp.animation){
                     if(temp.animation->isPlayingName(name)){
                         ret=true;edkEnd();
-                        break;edkEnd();
+                        break;
                     }
                 }
             }
@@ -1283,7 +1283,7 @@ bool edk::animation::InterpolationTracks::isPaused(){
             if(temp.animation){
                 if(temp.animation->isPaused()){
                     ret=true;edkEnd();
-                    break;edkEnd();
+                    break;
                 }
             }
         }
@@ -1309,7 +1309,7 @@ bool edk::animation::InterpolationTracks::isRewind(){
             if(temp.animation){
                 if(temp.animation->isRewind()){
                     ret=true;edkEnd();
-                    break;edkEnd();
+                    break;
                 }
             }
         }

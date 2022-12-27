@@ -155,12 +155,12 @@ edk::network::networkCodes edk::network::tcp::ServerTCP::startListen(edk::uint16
         //Seta a porta no myAdress
         this->sockAdress.sin_port = htons(port);edkEnd();
         //Inicia o bind
-        if (bind(this->getSocket(), (struct sockaddr *)&this->sockAdress, sizeof(struct sockaddr))== -1){
+        if(bind(this->getSocket(), (struct sockaddr *)&this->sockAdress, sizeof(struct sockaddr))== -1){
             this->cleanAdress();edkEnd();
             return edk::network::cantStartBind;edkEnd();
         }
         //senao testa ouvir pela primeira vez
-        if (listen(this->getSocket(), connections) >= 0){
+        if(listen(this->getSocket(), connections) >= 0){
             this->listened = true;edkEnd();
             return edk::network::ok;edkEnd();
         }

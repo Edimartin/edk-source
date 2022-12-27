@@ -29,7 +29,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::codecs::CodecImage::CodecImage(){
-    //printf("\nCodecImage Construtor");edkEnd();fflush(stdout);edkEnd();
+    //printf("\nCodecImage Construtor");edkEnd();
     this->frame=NULL;edkEnd();
     this->encoded=NULL;edkEnd();
     this->frameSize = edk::size2ui32(0u,0u);edkEnd();
@@ -40,7 +40,7 @@ edk::codecs::CodecImage::CodecImage(){
 }
 
 edk::codecs::CodecImage::~CodecImage(){
-    //printf("\nCodecImage Destrutor");edkEnd();fflush(stdout);edkEnd();
+    //printf("\nCodecImage Destrutor");edkEnd();
     //delete the vectors
     this->deleteEncoded();edkEnd();
     this->deleteFrame();edkEnd();
@@ -247,7 +247,7 @@ edk::color3f32 edk::codecs::CodecImage::rgbTohsv(edk::uint8 r,edk::uint8 g,edk::
 
 
     delta = max - min;edkEnd();
-    if( max > 0.f ) { // NOTE: if Max is == 0, this divide would cause a crash
+    if( max > 0.f ){ // NOTE: if Max is == 0, this divide would cause a crash
         hsv.g = (delta / max);edkEnd();// s
     } else {
         // if max is 0, then r = g = b = 0
@@ -329,7 +329,7 @@ edk::uint8* edk::codecs::CodecImage::rgbToV(edk::uint8* vector,edk::size2ui32 si
             delete[] ret;edkEnd();
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 bool edk::codecs::CodecImage::rgbToV(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest){
     return edk::codecs::CodecImage::rgbToV(vector,edk::size2ui32(width,height),dest);edkEnd();
@@ -363,7 +363,7 @@ edk::uint8* edk::codecs::CodecImage::rgbaToV(edk::uint8* vector,edk::size2ui32 s
             delete[] ret;edkEnd();
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 bool edk::codecs::CodecImage::rgbaToV(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest){
     return edk::codecs::CodecImage::rgbaToV(vector,edk::size2ui32(width,height),dest);edkEnd();
@@ -380,7 +380,7 @@ edk::color3ui8 edk::codecs::CodecImage::hsvTorgb(edk::float32 h,edk::float32 s,e
     edk::float64      hh, p, q, t, ff;edkEnd();
     edk::int64        i;edkEnd();
 
-    if(s <= 0.0) {       // < is bogus, just shuts up warnings
+    if(s <= 0.0){       // < is bogus, just shuts up warnings
         rgb.r = v;edkEnd();
         rgb.g = v;edkEnd();
         rgb.b = v;edkEnd();
@@ -397,39 +397,39 @@ edk::color3ui8 edk::codecs::CodecImage::hsvTorgb(edk::float32 h,edk::float32 s,e
     q = v * (1.0 - (s * ff));edkEnd();
     t = v * (1.0 - (s * (1.0 - ff)));edkEnd();
 
-    switch(i) {
+    switch(i){
     case 0:
         rgb.r = v;edkEnd();
         rgb.g = t;edkEnd();
         rgb.b = p;edkEnd();
-        break;edkEnd();
+        break;
     case 1:
         rgb.r = q;edkEnd();
         rgb.g = v;edkEnd();
         rgb.b = p;edkEnd();
-        break;edkEnd();
+        break;
     case 2:
         rgb.r = p;edkEnd();
         rgb.g = v;edkEnd();
         rgb.b = t;edkEnd();
-        break;edkEnd();
+        break;
 
     case 3:
         rgb.r = p;edkEnd();
         rgb.g = q;edkEnd();
         rgb.b = v;edkEnd();
-        break;edkEnd();
+        break;
     case 4:
         rgb.r = t;edkEnd();
         rgb.g = p;edkEnd();
         rgb.b = v;edkEnd();
-        break;edkEnd();
+        break;
     case 5:
     default:
         rgb.r = v;edkEnd();
         rgb.g = p;edkEnd();
         rgb.b = q;edkEnd();
-        break;edkEnd();
+        break;
     }
 
     return rgb;edkEnd();
@@ -539,7 +539,7 @@ edk::uint8* edk::codecs::CodecImage::rgbToLui8(edk::uint8* vector,edk::size2ui32
         }
         ret=NULL;edkEnd();
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 bool edk::codecs::CodecImage::rgbToLui8(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest){
     return edk::codecs::CodecImage::rgbToLui8(vector,edk::size2ui32(width,height),dest);edkEnd();
@@ -574,7 +574,7 @@ edk::uint8* edk::codecs::CodecImage::rgbaToLui8(edk::uint8* vector,edk::size2ui3
         }
         ret=NULL;edkEnd();
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 bool edk::codecs::CodecImage::rgbaToLui8(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest){
     return edk::codecs::CodecImage::rgbaToLui8(vector,edk::size2ui32(width,height),dest);edkEnd();
@@ -1084,14 +1084,22 @@ edk::color3ui8 edk::codecs::CodecImage::yuvTorgb(edk::uint8 y,edk::uint8 u,edk::
     g = y - 0.3455 * (u - 128) - (0.7169 * (v - 128));edkEnd();
     b = y + 1.7790 * (u - 128);edkEnd();
 
-    if (r<0) r=0;
-    else if (r>255) r=255;edkEnd();
+    if(r<0){
+        r=0;
+    }
+    else if(r>255){
+        r=255;edkEnd();
+    }
 
-    if (g<0) g=0;
-    else if (g>255) g=255;edkEnd();
+    if(g<0) g=0;
+    else if(g>255){
+        g=255;edkEnd();
+    }
 
-    if (b<0) b=0;
-    else if (b>255) b=255;edkEnd();
+    if(b<0) b=0;
+    else if(b>255){
+        b=255;edkEnd();
+    }
     return edk::color3ui8(
                 (edk::uint8)(r),
                 (edk::uint8)(g),
@@ -1117,12 +1125,24 @@ bool edk::codecs::CodecImage::i240Torgb(edk::uint8* y,edk::uint8* u,edk::uint8* 
                         r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
                         g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
                         b = *y + 1.7790 * (*u - 128);edkEnd();
-                        if (r<0) r=0;
-                        else if (r>255) r=255;edkEnd();
-                        if (g<0) g=0;
-                        else if (g>255) g=255;edkEnd();
-                        if (b<0) b=0;
-                        else if (b>255) b=255;edkEnd();
+                        if(r<0){
+                            r=0;;edkEnd();
+                        }
+                        else if(r>255){
+                            r=255;edkEnd();
+                        }
+                        if(g<0){
+                            g=0;;edkEnd();
+                        }
+                        else if(g>255){
+                            g=255;edkEnd();
+                        }
+                        if(b<0){
+                            b=0;;edkEnd();
+                        }
+                        else if(b>255){
+                            b=255;edkEnd();
+                        }
 
                         rgb[0u]=(edk::uint8)r;edkEnd();
                         rgb[1u]=(edk::uint8)g;edkEnd();
@@ -1135,12 +1155,24 @@ bool edk::codecs::CodecImage::i240Torgb(edk::uint8* y,edk::uint8* u,edk::uint8* 
                         r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
                         g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
                         b = *y + 1.7790 * (*u - 128);edkEnd();
-                        if (r<0) r=0;
-                        else if (r>255) r=255;edkEnd();
-                        if (g<0) g=0;
-                        else if (g>255) g=255;edkEnd();
-                        if (b<0) b=0;
-                        else if (b>255) b=255;edkEnd();
+                        if(r<0){
+                            r=0;edkEnd();
+                        }
+                        else if(r>255){
+                            r=255;edkEnd();
+                        }
+                        if(g<0){
+                            g=0;edkEnd();
+                        }
+                        else if(g>255){
+                            g=255;edkEnd();
+                        }
+                        if(b<0){
+                            b=0;edkEnd();
+                        }
+                        else if(b>255){
+                            b=255;edkEnd();
+                        }
 
                         rgb[0u]=(edk::uint8)r;edkEnd();
                         rgb[1u]=(edk::uint8)g;edkEnd();
@@ -1160,12 +1192,24 @@ bool edk::codecs::CodecImage::i240Torgb(edk::uint8* y,edk::uint8* u,edk::uint8* 
                         r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
                         g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
                         b = *y + 1.7790 * (*u - 128);edkEnd();
-                        if (r<0) r=0;
-                        else if (r>255) r=255;edkEnd();
-                        if (g<0) g=0;
-                        else if (g>255) g=255;edkEnd();
-                        if (b<0) b=0;
-                        else if (b>255) b=255;edkEnd();
+                        if(r<0){
+                            r=0;edkEnd();
+                        }
+                        else if(r>255){
+                            r=255;edkEnd();
+                        }
+                        if(g<0){
+                            g=0;edkEnd();
+                        }
+                        else if(g>255){
+                            g=255;edkEnd();
+                        }
+                        if(b<0){
+                            b=0;edkEnd();
+                        }
+                        else if(b>255){
+                            b=255;edkEnd();
+                        }
 
                         rgb[0u]=(edk::uint8)r;edkEnd();
                         rgb[1u]=(edk::uint8)g;edkEnd();
@@ -1178,12 +1222,24 @@ bool edk::codecs::CodecImage::i240Torgb(edk::uint8* y,edk::uint8* u,edk::uint8* 
                         r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
                         g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
                         b = *y + 1.7790 * (*u - 128);edkEnd();
-                        if (r<0) r=0;
-                        else if (r>255) r=255;edkEnd();
-                        if (g<0) g=0;
-                        else if (g>255) g=255;edkEnd();
-                        if (b<0) b=0;
-                        else if (b>255) b=255;edkEnd();
+                        if(r<0){
+                            r=0;edkEnd();
+                        }
+                        else if(r>255){
+                            r=255;edkEnd();
+                        }
+                        if(g<0){
+                            g=0;edkEnd();
+                        }
+                        else if(g>255){
+                            g=255;edkEnd();
+                        }
+                        if(b<0){
+                            b=0;edkEnd();
+                        }
+                        else if(b>255){
+                            b=255;edkEnd();
+                        }
 
                         rgb[0u]=(edk::uint8)r;edkEnd();
                         rgb[1u]=(edk::uint8)g;edkEnd();
@@ -1208,12 +1264,24 @@ bool edk::codecs::CodecImage::i240Torgb(edk::uint8* y,edk::uint8* u,edk::uint8* 
                         r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
                         g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
                         b = *y + 1.7790 * (*u - 128);edkEnd();
-                        if (r<0) r=0;
-                        else if (r>255) r=255;edkEnd();
-                        if (g<0) g=0;
-                        else if (g>255) g=255;edkEnd();
-                        if (b<0) b=0;
-                        else if (b>255) b=255;edkEnd();
+                        if(r<0){
+                            r=0;edkEnd();
+                        }
+                        else if(r>255){
+                            r=255;edkEnd();
+                        }
+                        if(g<0){
+                            g=0;edkEnd();
+                        }
+                        else if(g>255){
+                            g=255;edkEnd();
+                        }
+                        if(b<0){
+                            b=0;edkEnd();
+                        }
+                        else if(b>255){
+                            b=255;edkEnd();
+                        }
 
                         rgb[0u]=(edk::uint8)r;edkEnd();
                         rgb[1u]=(edk::uint8)g;edkEnd();
@@ -1226,12 +1294,24 @@ bool edk::codecs::CodecImage::i240Torgb(edk::uint8* y,edk::uint8* u,edk::uint8* 
                         r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
                         g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
                         b = *y + 1.7790 * (*u - 128);edkEnd();
-                        if (r<0) r=0;
-                        else if (r>255) r=255;edkEnd();
-                        if (g<0) g=0;
-                        else if (g>255) g=255;edkEnd();
-                        if (b<0) b=0;
-                        else if (b>255) b=255;edkEnd();
+                        if(r<0){
+                            r=0;edkEnd();
+                        }
+                        else if(r>255){
+                            r=255;edkEnd();
+                        }
+                        if(g<0){
+                            g=0;edkEnd();
+                        }
+                        else if(g>255){
+                            g=255;edkEnd();
+                        }
+                        if(b<0){
+                            b=0;edkEnd();
+                        }
+                        else if(b>255){
+                            b=255;edkEnd();
+                        }
 
                         rgb[0u]=(edk::uint8)r;edkEnd();
                         rgb[1u]=(edk::uint8)g;edkEnd();
@@ -1251,12 +1331,24 @@ bool edk::codecs::CodecImage::i240Torgb(edk::uint8* y,edk::uint8* u,edk::uint8* 
                         r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
                         g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
                         b = *y + 1.7790 * (*u - 128);edkEnd();
-                        if (r<0) r=0;
-                        else if (r>255) r=255;edkEnd();
-                        if (g<0) g=0;
-                        else if (g>255) g=255;edkEnd();
-                        if (b<0) b=0;
-                        else if (b>255) b=255;edkEnd();
+                        if(r<0){
+                            r=0;edkEnd();
+                        }
+                        else if(r>255){
+                            r=255;edkEnd();
+                        }
+                        if(g<0){
+                            g=0;edkEnd();
+                        }
+                        else if(g>255){
+                            g=255;edkEnd();
+                        }
+                        if(b<0){
+                            b=0;edkEnd();
+                        }
+                        else if(b>255){
+                            b=255;edkEnd();
+                        }
 
                         rgb[0u]=(edk::uint8)r;edkEnd();
                         rgb[1u]=(edk::uint8)g;edkEnd();
@@ -1269,12 +1361,24 @@ bool edk::codecs::CodecImage::i240Torgb(edk::uint8* y,edk::uint8* u,edk::uint8* 
                         r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
                         g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
                         b = *y + 1.7790 * (*u - 128);edkEnd();
-                        if (r<0) r=0;
-                        else if (r>255) r=255;edkEnd();
-                        if (g<0) g=0;
-                        else if (g>255) g=255;edkEnd();
-                        if (b<0) b=0;
-                        else if (b>255) b=255;edkEnd();
+                        if(r<0){
+                            r=0;edkEnd();
+                        }
+                        else if(r>255){
+                            r=255;edkEnd();
+                        }
+                        if(g<0){
+                            g=0;edkEnd();
+                        }
+                        else if(g>255){
+                            g=255;edkEnd();
+                        }
+                        if(b<0){
+                            b=0;edkEnd();
+                        }
+                        else if(b>255){
+                            b=255;edkEnd();
+                        }
 
                         rgb[0u]=(edk::uint8)r;edkEnd();
                         rgb[1u]=(edk::uint8)g;edkEnd();
@@ -1293,12 +1397,24 @@ bool edk::codecs::CodecImage::i240Torgb(edk::uint8* y,edk::uint8* u,edk::uint8* 
                     r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
                     g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
                     b = *y + 1.7790 * (*u - 128);edkEnd();
-                    if (r<0) r=0;
-                    else if (r>255) r=255;edkEnd();
-                    if (g<0) g=0;
-                    else if (g>255) g=255;edkEnd();
-                    if (b<0) b=0;
-                    else if (b>255) b=255;edkEnd();
+                    if(r<0){
+                        r=0;edkEnd();
+                    }
+                    else if(r>255){
+                        r=255;edkEnd();
+                    }
+                    if(g<0){
+                        g=0;edkEnd();
+                    }
+                    else if(g>255){
+                        g=255;edkEnd();
+                    }
+                    if(b<0){
+                        b=0;edkEnd();
+                    }
+                    else if(b>255){
+                        b=255;edkEnd();
+                    }
 
                     rgb[0u]=(edk::uint8)r;edkEnd();
                     rgb[1u]=(edk::uint8)g;edkEnd();
@@ -1311,12 +1427,24 @@ bool edk::codecs::CodecImage::i240Torgb(edk::uint8* y,edk::uint8* u,edk::uint8* 
                     r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
                     g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
                     b = *y + 1.7790 * (*u - 128);edkEnd();
-                    if (r<0) r=0;
-                    else if (r>255) r=255;edkEnd();
-                    if (g<0) g=0;
-                    else if (g>255) g=255;edkEnd();
-                    if (b<0) b=0;
-                    else if (b>255) b=255;edkEnd();
+                    if(r<0){
+                        r=0;edkEnd();
+                    }
+                    else if(r>255){
+                        r=255;edkEnd();
+                    }
+                    if(g<0){
+                        g=0;edkEnd();
+                    }
+                    else if(g>255){
+                        g=255;edkEnd();
+                    }
+                    if(b<0){
+                        b=0;edkEnd();
+                    }
+                    else if(b>255){
+                        b=255;edkEnd();
+                    }
 
                     rgb[0u]=(edk::uint8)r;edkEnd();
                     rgb[1u]=(edk::uint8)g;edkEnd();
@@ -1344,12 +1472,24 @@ bool edk::codecs::CodecImage::i240Torgb(edk::uint8* y,edk::uint8* u,edk::uint8* 
                         r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
                         g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
                         b = *y + 1.7790 * (*u - 128);edkEnd();
-                        if (r<0) r=0;
-                        else if (r>255) r=255;edkEnd();
-                        if (g<0) g=0;
-                        else if (g>255) g=255;edkEnd();
-                        if (b<0) b=0;
-                        else if (b>255) b=255;edkEnd();
+                        if(r<0){
+                            r=0;edkEnd();
+                        }
+                        else if(r>255){
+                            r=255;edkEnd();
+                        }
+                        if(g<0){
+                            g=0;edkEnd();
+                        }
+                        else if(g>255){
+                            g=255;edkEnd();
+                        }
+                        if(b<0){
+                            b=0;edkEnd();
+                        }
+                        else if(b>255){
+                            b=255;edkEnd();
+                        }
 
                         rgb[0u]=(edk::uint8)r;edkEnd();
                         rgb[1u]=(edk::uint8)g;edkEnd();
@@ -1362,12 +1502,24 @@ bool edk::codecs::CodecImage::i240Torgb(edk::uint8* y,edk::uint8* u,edk::uint8* 
                         r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
                         g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
                         b = *y + 1.7790 * (*u - 128);edkEnd();
-                        if (r<0) r=0;
-                        else if (r>255) r=255;edkEnd();
-                        if (g<0) g=0;
-                        else if (g>255) g=255;edkEnd();
-                        if (b<0) b=0;
-                        else if (b>255) b=255;edkEnd();
+                        if(r<0){
+                            r=0;edkEnd();
+                        }
+                        else if(r>255){
+                            r=255;edkEnd();
+                        }
+                        if(g<0){
+                            g=0;edkEnd();
+                        }
+                        else if(g>255){
+                            g=255;edkEnd();
+                        }
+                        if(b<0){
+                            b=0;edkEnd();
+                        }
+                        else if(b>255){
+                            b=255;edkEnd();
+                        }
 
                         rgb[0u]=(edk::uint8)r;edkEnd();
                         rgb[1u]=(edk::uint8)g;edkEnd();
@@ -1384,12 +1536,24 @@ bool edk::codecs::CodecImage::i240Torgb(edk::uint8* y,edk::uint8* u,edk::uint8* 
                     r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
                     g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
                     b = *y + 1.7790 * (*u - 128);edkEnd();
-                    if (r<0) r=0;
-                    else if (r>255) r=255;edkEnd();
-                    if (g<0) g=0;
-                    else if (g>255) g=255;edkEnd();
-                    if (b<0) b=0;
-                    else if (b>255) b=255;edkEnd();
+                    if(r<0){
+                        r=0;edkEnd();
+                    }
+                    else if(r>255){
+                        r=255;edkEnd();
+                    }
+                    if(g<0){
+                        g=0;edkEnd();
+                    }
+                    else if(g>255){
+                        g=255;edkEnd();
+                    }
+                    if(b<0){
+                        b=0;edkEnd();
+                    }
+                    else if(b>255){
+                        b=255;edkEnd();
+                    }
 
                     rgb[0u]=(edk::uint8)r;edkEnd();
                     rgb[1u]=(edk::uint8)g;edkEnd();
@@ -1406,12 +1570,24 @@ bool edk::codecs::CodecImage::i240Torgb(edk::uint8* y,edk::uint8* u,edk::uint8* 
                         r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
                         g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
                         b = *y + 1.7790 * (*u - 128);edkEnd();
-                        if (r<0) r=0;
-                        else if (r>255) r=255;edkEnd();
-                        if (g<0) g=0;
-                        else if (g>255) g=255;edkEnd();
-                        if (b<0) b=0;
-                        else if (b>255) b=255;edkEnd();
+                        if(r<0){
+                            r=0;edkEnd();
+                        }
+                        else if(r>255){
+                            r=255;edkEnd();
+                        }
+                        if(g<0){
+                            g=0;edkEnd();
+                        }
+                        else if(g>255){
+                            g=255;edkEnd();
+                        }
+                        if(b<0){
+                            b=0;edkEnd();
+                        }
+                        else if(b>255){
+                            b=255;edkEnd();
+                        }
 
                         rgb[0u]=(edk::uint8)r;edkEnd();
                         rgb[1u]=(edk::uint8)g;edkEnd();
@@ -1424,12 +1600,24 @@ bool edk::codecs::CodecImage::i240Torgb(edk::uint8* y,edk::uint8* u,edk::uint8* 
                         r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
                         g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
                         b = *y + 1.7790 * (*u - 128);edkEnd();
-                        if (r<0) r=0;
-                        else if (r>255) r=255;edkEnd();
-                        if (g<0) g=0;
-                        else if (g>255) g=255;edkEnd();
-                        if (b<0) b=0;
-                        else if (b>255) b=255;edkEnd();
+                        if(r<0){
+                            r=0;edkEnd();
+                        }
+                        else if(r>255){
+                            r=255;edkEnd();
+                        }
+                        if(g<0){
+                            g=0;edkEnd();
+                        }
+                        else if(g>255){
+                            g=255;edkEnd();
+                        }
+                        if(b<0){
+                            b=0;edkEnd();
+                        }
+                        else if(b>255){
+                            b=255;edkEnd();
+                        }
 
                         rgb[0u]=(edk::uint8)r;edkEnd();
                         rgb[1u]=(edk::uint8)g;edkEnd();
@@ -1446,12 +1634,24 @@ bool edk::codecs::CodecImage::i240Torgb(edk::uint8* y,edk::uint8* u,edk::uint8* 
                     r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
                     g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
                     b = *y + 1.7790 * (*u - 128);edkEnd();
-                    if (r<0) r=0;
-                    else if (r>255) r=255;edkEnd();
-                    if (g<0) g=0;
-                    else if (g>255) g=255;edkEnd();
-                    if (b<0) b=0;
-                    else if (b>255) b=255;edkEnd();
+                    if(r<0){
+                        r=0;edkEnd();
+                    }
+                    else if(r>255){
+                        r=255;edkEnd();
+                    }
+                    if(g<0){
+                        g=0;edkEnd();
+                    }
+                    else if(g>255){
+                        g=255;edkEnd();
+                    }
+                    if(b<0){
+                        b=0;edkEnd();
+                    }
+                    else if(b>255){
+                        b=255;edkEnd();
+                    }
 
                     rgb[0u]=(edk::uint8)r;edkEnd();
                     rgb[1u]=(edk::uint8)g;edkEnd();
@@ -1474,12 +1674,24 @@ bool edk::codecs::CodecImage::i240Torgb(edk::uint8* y,edk::uint8* u,edk::uint8* 
                         r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
                         g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
                         b = *y + 1.7790 * (*u - 128);edkEnd();
-                        if (r<0) r=0;
-                        else if (r>255) r=255;edkEnd();
-                        if (g<0) g=0;
-                        else if (g>255) g=255;edkEnd();
-                        if (b<0) b=0;
-                        else if (b>255) b=255;edkEnd();
+                        if(r<0){
+                            r=0;edkEnd();
+                        }
+                        else if(r>255){
+                            r=255;edkEnd();
+                        }
+                        if(g<0){
+                            g=0;edkEnd();
+                        }
+                        else if(g>255){
+                            g=255;edkEnd();
+                        }
+                        if(b<0){
+                            b=0;edkEnd();
+                        }
+                        else if(b>255){
+                            b=255;edkEnd();
+                        }
 
                         rgb[0u]=(edk::uint8)r;edkEnd();
                         rgb[1u]=(edk::uint8)g;edkEnd();
@@ -1492,12 +1704,24 @@ bool edk::codecs::CodecImage::i240Torgb(edk::uint8* y,edk::uint8* u,edk::uint8* 
                         r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
                         g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
                         b = *y + 1.7790 * (*u - 128);edkEnd();
-                        if (r<0) r=0;
-                        else if (r>255) r=255;edkEnd();
-                        if (g<0) g=0;
-                        else if (g>255) g=255;edkEnd();
-                        if (b<0) b=0;
-                        else if (b>255) b=255;edkEnd();
+                        if(r<0){
+                            r=0;edkEnd();
+                        }
+                        else if(r>255){
+                            r=255;edkEnd();
+                        }
+                        if(g<0){
+                            g=0;edkEnd();
+                        }
+                        else if(g>255){
+                            g=255;edkEnd();
+                        }
+                        if(b<0){
+                            b=0;edkEnd();
+                        }
+                        else if(b>255){
+                            b=255;edkEnd();
+                        }
 
                         rgb[0u]=(edk::uint8)r;edkEnd();
                         rgb[1u]=(edk::uint8)g;edkEnd();
@@ -1514,12 +1738,24 @@ bool edk::codecs::CodecImage::i240Torgb(edk::uint8* y,edk::uint8* u,edk::uint8* 
                     r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
                     g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
                     b = *y + 1.7790 * (*u - 128);edkEnd();
-                    if (r<0) r=0;
-                    else if (r>255) r=255;edkEnd();
-                    if (g<0) g=0;
-                    else if (g>255) g=255;edkEnd();
-                    if (b<0) b=0;
-                    else if (b>255) b=255;edkEnd();
+                    if(r<0){
+                        r=0;edkEnd();
+                    }
+                    else if(r>255){
+                        r=255;edkEnd();
+                    }
+                    if(g<0){
+                        g=0;edkEnd();
+                    }
+                    else if(g>255){
+                        g=255;edkEnd();
+                    }
+                    if(b<0){
+                        b=0;edkEnd();
+                    }
+                    else if(b>255){
+                        b=255;edkEnd();
+                    }
 
                     rgb[0u]=(edk::uint8)r;edkEnd();
                     rgb[1u]=(edk::uint8)g;edkEnd();
@@ -1536,12 +1772,24 @@ bool edk::codecs::CodecImage::i240Torgb(edk::uint8* y,edk::uint8* u,edk::uint8* 
                         r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
                         g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
                         b = *y + 1.7790 * (*u - 128);edkEnd();
-                        if (r<0) r=0;
-                        else if (r>255) r=255;edkEnd();
-                        if (g<0) g=0;
-                        else if (g>255) g=255;edkEnd();
-                        if (b<0) b=0;
-                        else if (b>255) b=255;edkEnd();
+                        if(r<0){
+                            r=0;edkEnd();
+                        }
+                        else if(r>255){
+                            r=255;edkEnd();
+                        }
+                        if(g<0){
+                            g=0;edkEnd();
+                        }
+                        else if(g>255){
+                            g=255;edkEnd();
+                        }
+                        if(b<0){
+                            b=0;edkEnd();
+                        }
+                        else if(b>255){
+                            b=255;edkEnd();
+                        }
 
                         rgb[0u]=(edk::uint8)r;edkEnd();
                         rgb[1u]=(edk::uint8)g;edkEnd();
@@ -1554,12 +1802,24 @@ bool edk::codecs::CodecImage::i240Torgb(edk::uint8* y,edk::uint8* u,edk::uint8* 
                         r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
                         g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
                         b = *y + 1.7790 * (*u - 128);edkEnd();
-                        if (r<0) r=0;
-                        else if (r>255) r=255;edkEnd();
-                        if (g<0) g=0;
-                        else if (g>255) g=255;edkEnd();
-                        if (b<0) b=0;
-                        else if (b>255) b=255;edkEnd();
+                        if(r<0){
+                            r=0;edkEnd();
+                        }
+                        else if(r>255){
+                            r=255;edkEnd();
+                        }
+                        if(g<0){
+                            g=0;edkEnd();
+                        }
+                        else if(g>255){
+                            g=255;edkEnd();
+                        }
+                        if(b<0){
+                            b=0;edkEnd();
+                        }
+                        else if(b>255){
+                            b=255;edkEnd();
+                        }
 
                         rgb[0u]=(edk::uint8)r;edkEnd();
                         rgb[1u]=(edk::uint8)g;edkEnd();
@@ -1576,12 +1836,24 @@ bool edk::codecs::CodecImage::i240Torgb(edk::uint8* y,edk::uint8* u,edk::uint8* 
                     r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
                     g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
                     b = *y + 1.7790 * (*u - 128);edkEnd();
-                    if (r<0) r=0;
-                    else if (r>255) r=255;edkEnd();
-                    if (g<0) g=0;
-                    else if (g>255) g=255;edkEnd();
-                    if (b<0) b=0;
-                    else if (b>255) b=255;edkEnd();
+                    if(r<0){
+                        r=0;edkEnd();
+                    }
+                    else if(r>255){
+                        r=255;edkEnd();
+                    }
+                    if(g<0){
+                        g=0;edkEnd();
+                    }
+                    else if(g>255){
+                        g=255;edkEnd();
+                    }
+                    if(b<0){
+                        b=0;edkEnd();
+                    }
+                    else if(b>255){
+                        b=255;edkEnd();
+                    }
 
                     rgb[0u]=(edk::uint8)r;edkEnd();
                     rgb[1u]=(edk::uint8)g;edkEnd();
@@ -1597,12 +1869,24 @@ bool edk::codecs::CodecImage::i240Torgb(edk::uint8* y,edk::uint8* u,edk::uint8* 
                     r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
                     g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
                     b = *y + 1.7790 * (*u - 128);edkEnd();
-                    if (r<0) r=0;
-                    else if (r>255) r=255;edkEnd();
-                    if (g<0) g=0;
-                    else if (g>255) g=255;edkEnd();
-                    if (b<0) b=0;
-                    else if (b>255) b=255;edkEnd();
+                    if(r<0){
+                        r=0;edkEnd();
+                    }
+                    else if(r>255){
+                        r=255;edkEnd();
+                    }
+                    if(g<0){
+                        g=0;edkEnd();
+                    }
+                    else if(g>255){
+                        g=255;edkEnd();
+                    }
+                    if(b<0){
+                        b=0;edkEnd();
+                    }
+                    else if(b>255){
+                        b=255;edkEnd();
+                    }
 
                     rgb[0u]=(edk::uint8)r;edkEnd();
                     rgb[1u]=(edk::uint8)g;edkEnd();
@@ -1615,12 +1899,24 @@ bool edk::codecs::CodecImage::i240Torgb(edk::uint8* y,edk::uint8* u,edk::uint8* 
                     r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
                     g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
                     b = *y + 1.7790 * (*u - 128);edkEnd();
-                    if (r<0) r=0;
-                    else if (r>255) r=255;edkEnd();
-                    if (g<0) g=0;
-                    else if (g>255) g=255;edkEnd();
-                    if (b<0) b=0;
-                    else if (b>255) b=255;edkEnd();
+                    if(r<0){
+                        r=0;edkEnd();
+                    }
+                    else if(r>255){
+                        r=255;edkEnd();
+                    }
+                    if(g<0){
+                        g=0;edkEnd();
+                    }
+                    else if(g>255){
+                        g=255;edkEnd();
+                    }
+                    if(b<0){
+                        b=0;edkEnd();
+                    }
+                    else if(b>255){
+                        b=255;edkEnd();
+                    }
 
                     rgb[0u]=(edk::uint8)r;edkEnd();
                     rgb[1u]=(edk::uint8)g;edkEnd();
@@ -1637,12 +1933,24 @@ bool edk::codecs::CodecImage::i240Torgb(edk::uint8* y,edk::uint8* u,edk::uint8* 
                 r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
                 g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
                 b = *y + 1.7790 * (*u - 128);edkEnd();
-                if (r<0) r=0;
-                else if (r>255) r=255;edkEnd();
-                if (g<0) g=0;
-                else if (g>255) g=255;edkEnd();
-                if (b<0) b=0;
-                else if (b>255) b=255;edkEnd();
+                if(r<0){
+                    r=0;edkEnd();
+                }
+                else if(r>255){
+                    r=255;edkEnd();
+                }
+                if(g<0){
+                    g=0;edkEnd();
+                }
+                else if(g>255){
+                    g=255;edkEnd();
+                }
+                if(b<0){
+                    b=0;edkEnd();
+                }
+                else if(b>255){
+                    b=255;edkEnd();
+                }
 
                 rgb[0u]=(edk::uint8)r;edkEnd();
                 rgb[1u]=(edk::uint8)g;edkEnd();

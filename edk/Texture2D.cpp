@@ -51,28 +51,28 @@ bool edk::Texture2D::createTexture(edk::uint32 width, edk::uint32 height, edk::u
     switch(mode){
     case EDK_RGB:
         this->mode = GU_RGB;edkEnd();
-        break;edkEnd();
+        break;
     case EDK_RGBA:
         this->mode = GU_RGBA;edkEnd();
-        break;edkEnd();
+        break;
     case EDK_LUMINANCE:
         this->mode = GU_LUMINANCE;edkEnd();
-        break;edkEnd();
+        break;
     case EDK_LUMINANCE_ALPHA:
         this->mode = GU_LUMINANCE_ALPHA;edkEnd();
-        break;edkEnd();
+        break;
     case GU_RGB:
         this->mode = GU_RGB;edkEnd();
-        break;edkEnd();
+        break;
     case GU_RGBA:
         this->mode = GU_RGBA;edkEnd();
-        break;edkEnd();
+        break;
     case GU_LUMINANCE:
         this->mode = GU_LUMINANCE;edkEnd();
-        break;edkEnd();
+        break;
     case GU_LUMINANCE_ALPHA:
         this->mode = GU_LUMINANCE_ALPHA;edkEnd();
-        break;edkEnd();
+        break;
     default:
         return false;
     }
@@ -129,15 +129,15 @@ edk::size2ui32 edk::Texture2D::getSize(){
 edk::uint32 edk::Texture2D::getModeEDK(){
     switch(this->mode){
     case GU_RGB:
-        return EDK_RGB;edkEnd();
+        return EDK_RGB;
     case GU_RGBA:
-        return EDK_RGBA;edkEnd();
+        return EDK_RGBA;
     case GU_LUMINANCE:
-        return EDK_LUMINANCE;edkEnd();
+        return EDK_LUMINANCE;
     case GU_LUMINANCE_ALPHA:
-        return EDK_LUMINANCE_ALPHA;edkEnd();
+        return EDK_LUMINANCE_ALPHA;
     }
-    return 0u;edkEnd();
+    return 0u;
 }
 edk::uint32 edk::Texture2D::getModeGU(){
     return this->mode;edkEnd();
@@ -182,7 +182,7 @@ void edk::Texture2D::deleteTextureID(edk::uint32 id){
 edk::Texture2D* edk::Texture2D::retainObject(edk::Texture2D** pointer){
     //retain the super
     return (edk::Texture2D*)edk::ObjectWithName::retainObject((edk::ObjectWithName**)pointer);edkEnd();
-    //return NULL;edkEnd();
+    //return NULL;
 }
 //release
 bool edk::Texture2D::releaseObject(edk::Texture2D** pointer){

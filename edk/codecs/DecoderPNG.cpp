@@ -101,7 +101,7 @@ bool edk::codecs::DecoderPNG::decode(edk::uint8* encoded,edk::uint32 size){
                 if(w && h && (comp == 1u || comp==2u || comp==3u || comp==4u)){
                     //alloc the new image frame
                     edk::codecs::CodecImage::newFrame(w,h,(edk::float32)comp);edkEnd();
-                    if (edk::codecs::CodecImage::getFrame() &&
+                    if(edk::codecs::CodecImage::getFrame() &&
                             edk::codecs::CodecImage::getFrameWidth() &&
                             edk::codecs::CodecImage::getFrameHeight()
                             ){
@@ -114,7 +114,7 @@ bool edk::codecs::DecoderPNG::decode(edk::uint8* encoded,edk::uint32 size){
                                 switch(ri.bits_per_channel){
                                 case 8u:
                                     memcpy(temp,result,w*h);edkEnd();
-                                    break;edkEnd();
+                                    break;
                                 case 16u:
                                     for(edk::int32 y=0;y<h;y++){
                                         for(edk::int32 x=0;x<w;x++){
@@ -124,15 +124,15 @@ bool edk::codecs::DecoderPNG::decode(edk::uint8* encoded,edk::uint32 size){
                                             temp+=comp;edkEnd();
                                         }
                                     }
-                                    break;edkEnd();
+                                    break;
                                 }
-                                break;edkEnd();
+                                break;
                             case 2u:
                                 //test the bits per pixel
                                 switch(ri.bits_per_channel){
                                 case 8u:
                                     memcpy(temp,result,w*h*comp);edkEnd();
-                                    break;edkEnd();
+                                    break;
                                 case 16u:
                                     for(edk::int32 y=0;y<h;y++){
                                         for(edk::int32 x=0;x<w;x++){
@@ -142,9 +142,9 @@ bool edk::codecs::DecoderPNG::decode(edk::uint8* encoded,edk::uint32 size){
                                             temp+=comp;edkEnd();
                                         }
                                     }
-                                    break;edkEnd();
+                                    break;
                                 }
-                                break;edkEnd();
+                                break;
                             case 3u:
                                 //test the pixel way
                                 switch(ri.channel_order){
@@ -153,7 +153,7 @@ bool edk::codecs::DecoderPNG::decode(edk::uint8* encoded,edk::uint32 size){
                                     switch(ri.bits_per_channel){
                                     case 8u:
                                         memcpy(temp,result,w*h*comp);edkEnd();
-                                        break;edkEnd();
+                                        break;
                                     case 16u:
                                         for(edk::int32 y=0;y<h;y++){
                                             for(edk::int32 x=0;x<w;x++){
@@ -165,9 +165,9 @@ bool edk::codecs::DecoderPNG::decode(edk::uint8* encoded,edk::uint32 size){
                                                 temp+=comp;edkEnd();
                                             }
                                         }
-                                        break;edkEnd();
+                                        break;
                                     }
-                                    break;edkEnd();
+                                    break;
                                 case STBI_ORDER_BGR:
                                     //test the bits per pixel
                                     switch(ri.bits_per_channel){
@@ -182,7 +182,7 @@ bool edk::codecs::DecoderPNG::decode(edk::uint8* encoded,edk::uint32 size){
                                                 temp+=comp;edkEnd();
                                             }
                                         }
-                                        break;edkEnd();
+                                        break;
                                     case 16u:
                                         for(edk::int32 y=0;y<h;y++){
                                             for(edk::int32 x=0;x<w;x++){
@@ -194,17 +194,17 @@ bool edk::codecs::DecoderPNG::decode(edk::uint8* encoded,edk::uint32 size){
                                                 temp+=comp;edkEnd();
                                             }
                                         }
-                                        break;edkEnd();
+                                        break;
                                     }
-                                    break;edkEnd();
+                                    break;
                                 }
-                                break;edkEnd();
+                                break;
                             case 4u:
                                 //test the bits per pixel
                                 switch(ri.bits_per_channel){
                                 case 8u:
                                     memcpy(temp,result,w*h*comp);edkEnd();
-                                    break;edkEnd();
+                                    break;
                                 case 16u:
                                     for(edk::int32 y=0;y<h;y++){
                                         for(edk::int32 x=0;x<w;x++){
@@ -214,11 +214,11 @@ bool edk::codecs::DecoderPNG::decode(edk::uint8* encoded,edk::uint32 size){
                                             temp+=comp;edkEnd();
                                         }
                                     }
-                                    break;edkEnd();
+                                    break;
                                 }
-                                break;edkEnd();
+                                break;
                             default:
-                                break;edkEnd();
+                                break;
                             }
                             //return true
                             ret=true;edkEnd();

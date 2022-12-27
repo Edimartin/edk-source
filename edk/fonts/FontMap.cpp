@@ -342,155 +342,155 @@ edk::uint32 edk::fonts::FontMap::getTileID(edk::char8* str,edk::uint8* jump){
             str++;edkEnd();
             switch((edk::uint8)*str){
             case 128u:
-                //printf("\nCrase A");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nCrase A");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 129u:
-                //printf("\nAcento A");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nAcento A");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 130u:
-                //printf("\nChapeu A");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nChapeu A");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 131u:
-                //printf("\nTio A");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nTio A");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 132u:
-                //printf("\nTrema A");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nTrema A");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 135u:
-                //printf("\nCedilha Maiusculo");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nCedilha Maiusculo");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 136u:
-                //printf("\nCrase E");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nCrase E");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 137u:
-                //printf("\nAcento E");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nAcento E");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 138u:
-                //printf("\nChapeu E");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nChapeu E");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 139u:
-                //printf("\nTrema E");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nTrema E");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 140u:
-                //printf("\nCrase I");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nCrase I");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 141u:
-                //printf("\nAcento I");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nAcento I");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 142u:
-                //printf("\nChapeu I");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nChapeu I");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 143u:
-                //printf("\nTrema I");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nTrema I");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 145u:
-                //printf("\nTio N");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nTio N");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 146u:
-                //printf("\nCrase O");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nCrase O");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 147u:
-                //printf("\nAcento O");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nAcento O");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 148u:
-                //printf("\nChapeu O");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nChapeu O");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 149u:
-                //printf("\nTio O");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nTio O");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 150u:
-                //printf("\nTrema O");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nTrema O");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 153u:
-                //printf("\nCrase U");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nCrase U");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 154u:
-                //printf("\nAcento U");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nAcento U");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 155u:
-                //printf("\nChapeu U");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nChapeu U");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 156u:
-                //printf("\nTrema U");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nTrema U");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 157u:
-                //printf("\nAcento Y");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nAcento Y");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 160u:
-                //printf("\nCrase a");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nCrase a");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 161u:
-                //printf("\nAcento a");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nAcento a");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 162u:
-                //printf("\nChapeu a");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nChapeu a");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 163u:
-                //printf("\nTio a");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nTio a");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 164u:
-                //printf("\nTrema a");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nTrema a");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 167u:
-                //printf("\nCedilha Minusculo");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nCedilha Minusculo");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 168u:
-                //printf("\nCrase e");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nCrase e");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 169u:
-                //printf("\nAcento e");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nAcento e");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 170u:
-                //printf("\nChapeu e");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nChapeu e");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 171u:
-                //printf("\nTrema e");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nTrema e");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 172u:
-                //printf("\nCrase i");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nCrase i");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 173u:
-                //printf("\nAcento i");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nAcento i");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 174u:
-                //printf("\nChapeu i");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nChapeu i");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 175u:
-                //printf("\ntrema i");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\ntrema i");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 177u:
-                //printf("\nTio n");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nTio n");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 178u:
-                //printf("\nCrase o");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nCrase o");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 179u:
-                //printf("\nAcento o");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nAcento o");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 180u:
-                //printf("\nChapeu o");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nChapeu o");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 181u:
-                //printf("\nTio o");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nTio o");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 182u:
-                //printf("\nTrema o");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nTrema o");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 185u:
-                //printf("\nCrase u");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nCrase u");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 186u:
-                //printf("\nAcento u");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nAcento u");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 187u:
-                //printf("\nChapeu u");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nChapeu u");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 188u:
-                //printf("\nTrema u");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nTrema u");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             case 189u:
-                //printf("\nAcento y");edkEnd();fflush(stdout);edkEnd();
-                return ((edk::uchar8)*str) + 64u;edkEnd();
+                //printf("\nAcento y");edkEnd();
+                return ((edk::uchar8)*str) + 64u;
             default:
                 *jump-=1u;edkEnd();
                 str--;edkEnd();
@@ -576,7 +576,7 @@ edk::uint32 edk::fonts::FontMap::wordSize(edk::char8* str){
         edk::uint32 c = this->getTileID(str,&jump);edkEnd();
         while(c){
             if(c == ' ' || c==10 || c == 13){
-                break;edkEnd();
+                break;
             }
             size++;edkEnd();
             str+=jump;edkEnd();
@@ -594,7 +594,7 @@ edk::uint32 edk::fonts::FontMap::lineSize(edk::char8* str){
         edk::uint32 c = this->getTileID(str,&jump);edkEnd();
         while(c){
             if(c==10 || c == 13){
-                break;edkEnd();
+                break;
             }
             size++;edkEnd();
             str+=jump;edkEnd();
@@ -642,7 +642,7 @@ edk::fonts::FontMap::FontLine* edk::fonts::FontMap::newLine(edk::uint32 size){
             delete line;edkEnd();
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 //return the last line on the map
 edk::fonts::FontMap::FontLine* edk::fonts::FontMap::getLastLine(){
@@ -670,7 +670,7 @@ bool edk::fonts::FontMap::copyLinesToMap(){
                 for(edk::uint32 j=0u;j<sizeLine;j++){
                     //copy the character
                     if(!this->map.setTile(temp->getValue(j),j,i)){
-                        break;edkEnd();
+                        break;
                     }
                 }
             }
@@ -1347,7 +1347,7 @@ bool edk::fonts::FontMap::createStringMapOneLine(edk::char8* str,edk::uint32 wid
             //test if dont have the line
             if(!line){
                 if(haveLine){
-                    break;edkEnd();
+                    break;
                 }
                 haveLine=true;edkEnd();
                 //create the new line
@@ -1450,7 +1450,7 @@ bool edk::fonts::FontMap::createStringMapOneLine(edk::char8* str){
             //test if dont have the line
             if(!line){
                 if(haveLine){
-                    break;edkEnd();
+                    break;
                 }
                 haveLine=true;edkEnd();
                 //get the lineSize
@@ -1660,9 +1660,9 @@ bool edk::fonts::FontMap::writeString(edk::char8* str,edk::uint32 x,edk::uint8 y
                     headY++;edkEnd();
                     headX=x;edkEnd();
                     if(headY>=this->map.getMapSize().height){
-                        break;edkEnd();
+                        break;
                     }
-                    continue;edkEnd();
+                    continue;
                 }
             }
             //write the characters
@@ -1692,7 +1692,7 @@ bool edk::fonts::FontMap::writeString(edk::char8* str,edk::uint32 x,edk::uint8 y
                         headX=x;edkEnd();
                         str++;edkEnd();
                         if(headY>=this->map.getMapSize().height){
-                            break;edkEnd();
+                            break;
                         }
                     }
                     haveInitialReturn=true;edkEnd();
@@ -1778,9 +1778,9 @@ bool edk::fonts::FontMap::writeString(edk::char8* str,edk::uint32 x,edk::uint8 y
                     headY++;edkEnd();
                     headX=x;edkEnd();
                     if(headY>=up){
-                        break;edkEnd();
+                        break;
                     }
-                    continue;edkEnd();
+                    continue;
                 }
             }
             //write the characters
@@ -1810,7 +1810,7 @@ bool edk::fonts::FontMap::writeString(edk::char8* str,edk::uint32 x,edk::uint8 y
                         headX=x;edkEnd();
                         str++;edkEnd();
                         if(headY>=up){
-                            break;edkEnd();
+                            break;
                         }
                     }
                     haveInitialReturn=true;edkEnd();
@@ -1924,9 +1924,9 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                     headY++;edkEnd();
                     headX=x;edkEnd();
                     if(headY>=this->map.getMapSize().height){
-                        break;edkEnd();
+                        break;
                     }
-                    continue;edkEnd();
+                    continue;
                 }
             }
             //write the characters
@@ -1958,7 +1958,7 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                         headX=x;edkEnd();
                         str++;edkEnd();
                         if(headY>=this->map.getMapSize().height){
-                            break;edkEnd();
+                            break;
                         }
                     }
                     haveInitialReturn=true;edkEnd();
@@ -2074,9 +2074,9 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                     headY++;edkEnd();
                     headX=x;edkEnd();
                     if(headY>=up){
-                        break;edkEnd();
+                        break;
                     }
-                    continue;edkEnd();
+                    continue;
                 }
             }
             //write the characters
@@ -2108,7 +2108,7 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                         headX=x;edkEnd();
                         str++;edkEnd();
                         if(headY>=up){
-                            break;edkEnd();
+                            break;
                         }
                     }
                     haveInitialReturn=true;edkEnd();
@@ -2587,9 +2587,9 @@ bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y
                     headY++;edkEnd();
                     headX=x;edkEnd();
                     if(headY>=this->map.getMapSize().height){
-                        break;edkEnd();
+                        break;
                     }
-                    continue;edkEnd();
+                    continue;
                 }
             }
             //write the characters
@@ -2617,7 +2617,7 @@ bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y
                         headX=x;edkEnd();
                         str++;edkEnd();
                         if(headY>=this->map.getMapSize().height){
-                            break;edkEnd();
+                            break;
                         }
                     }
                     haveInitialReturn=true;edkEnd();
@@ -2709,9 +2709,9 @@ bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y
                     headY++;edkEnd();
                     headX=x;edkEnd();
                     if(headY>=up){
-                        break;edkEnd();
+                        break;
                     }
-                    continue;edkEnd();
+                    continue;
                 }
             }
             //write the characters
@@ -2739,7 +2739,7 @@ bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y
                         headX=x;edkEnd();
                         str++;edkEnd();
                         if(headY>=up){
-                            break;edkEnd();
+                            break;
                         }
                     }
                     haveInitialReturn=true;edkEnd();
@@ -2870,9 +2870,9 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                     headY++;edkEnd();
                     headX=x;edkEnd();
                     if(headY>=this->map.getMapSize().height){
-                        break;edkEnd();
+                        break;
                     }
-                    continue;edkEnd();
+                    continue;
                 }
             }
             //write the characters
@@ -2903,7 +2903,7 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                         headX=x;edkEnd();
                         str++;edkEnd();
                         if(headY>=this->map.getMapSize().height){
-                            break;edkEnd();
+                            break;
                         }
                     }
                     haveInitialReturn=true;edkEnd();
@@ -3028,9 +3028,9 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                     headY++;edkEnd();
                     headX=x;edkEnd();
                     if(headY>=up){
-                        break;edkEnd();
+                        break;
                     }
-                    continue;edkEnd();
+                    continue;
                 }
             }
             //write the characters
@@ -3061,7 +3061,7 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                         headX=x;edkEnd();
                         str++;edkEnd();
                         if(headY>=up){
-                            break;edkEnd();
+                            break;
                         }
                     }
                     haveInitialReturn=true;edkEnd();

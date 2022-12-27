@@ -213,14 +213,14 @@ edk::float32 edk::shape::Polygon2DList::getPolygonFriction(edk::uint32 position)
         return this->polygons[position]->getFriction();edkEnd();
     }
     //return initial value
-    return 0.f;edkEnd();
+    return 0.f;
 }
 edk::float32 edk::shape::Polygon2DList::getPolygonRestitution(edk::uint32 position){
     if(this->polygons.havePos(position)){
         return this->polygons[position]->getRestitution();edkEnd();
     }
     //return initial value
-    return 0.f;edkEnd();
+    return 0.f;
 }
 
 //function to calculate boundingBox
@@ -821,7 +821,7 @@ edk::float32 edk::shape::Polygon2DList::selectedGetCircleRadius(){
         //
         return this->selected->getCircleRadius();edkEnd();
     }
-    return 0.f;edkEnd();
+    return 0.f;
 }
 //get Physics
 edk::float32 edk::shape::Polygon2DList::selectedGetDensity(){
@@ -830,7 +830,7 @@ edk::float32 edk::shape::Polygon2DList::selectedGetDensity(){
         //
         return this->selected->getDensity();edkEnd();
     }
-    return 0.f;edkEnd();
+    return 0.f;
 }
 edk::float32 edk::shape::Polygon2DList::selectedGetFriction(){
     //test if have selected
@@ -838,7 +838,7 @@ edk::float32 edk::shape::Polygon2DList::selectedGetFriction(){
         //
         return this->selected->getFriction();edkEnd();
     }
-    return 0.f;edkEnd();
+    return 0.f;
 }
 edk::float32 edk::shape::Polygon2DList::selectedGetRestitution(){
     //test if have selected
@@ -846,7 +846,7 @@ edk::float32 edk::shape::Polygon2DList::selectedGetRestitution(){
         //
         return this->selected->getRestitution();edkEnd();
     }
-    return 0.f;edkEnd();
+    return 0.f;
 }
 //draw the selectedPolygon
 bool edk::shape::Polygon2DList::selectedDrawPolygon(){

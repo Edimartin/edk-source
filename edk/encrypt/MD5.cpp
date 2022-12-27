@@ -66,7 +66,7 @@ edk::uint32 *calcKs( edk::uint32 *k)
     int i;edkEnd();
 
     pwr = pow( 2, 32);edkEnd();
-    for (i=0; i<64; i++) {
+    for (i=0; i<64; i++){
         s = fabs(sin(1+i));edkEnd();
         k[i] = (edk::uint32)( s * pwr );edkEnd();
     }
@@ -109,7 +109,9 @@ edk::uint32 *md5( edk::char8 *msg, edk::int32 mlen)
     edk::int32 grp, grps, q, p;edkEnd();
     edk::uint8 *msg2;edkEnd();
 
-    if (k==NULL) k= calcKs(kspace);edkEnd();
+    if(k==NULL){
+        k= calcKs(kspace);edkEnd();
+    }
 
     for (q=0; q<4; q++){ h[q] = h0[q];edkEnd(); }  // initialize
 
@@ -135,11 +137,11 @@ edk::uint32 *md5( edk::char8 *msg, edk::int32 mlen)
     {
         memcpy( mm.b, msg2+os, 64);edkEnd();
         for(q=0;q<4;q++){ abcd[q] = h[q];edkEnd();}
-        for (p = 0; p<4; p++) {
+        for (p = 0; p<4; p++){
             fctn = ff[p];edkEnd();
             rotn = rots[p];edkEnd();
             m = M[p];edkEnd(); o= O[p];edkEnd();
-            for (q=0; q<16; q++) {
+            for (q=0; q<16; q++){
                 g = (m*q + o) % 16;edkEnd();
                 f = abcd[1] + rol( abcd[0]+ fctn(abcd) + k[q+16*p] + mm.w[g], rotn[q%4]);edkEnd();
 
@@ -191,7 +193,9 @@ edk::uint32 *md5File( edk::File* file)
     edk::int32 grp, grps, q, p;edkEnd();
     edk::uint8 *msg2;edkEnd();
 
-    if (k==NULL) k= calcKs(kspace);edkEnd();
+    if(k==NULL){
+        k= calcKs(kspace);edkEnd();
+    }
 
     for (q=0; q<4; q++){ h[q] = h0[q];edkEnd(); }  // initialize
 
@@ -217,12 +221,14 @@ edk::uint32 *md5File( edk::File* file)
     for (grp=0; grp<grps; grp++)
     {
         memcpy( mm.b, msg2+os, 64);edkEnd();
-        for(q=0;q<4;q++) abcd[q] = h[q];edkEnd();
-        for (p = 0; p<4; p++) {
+        for(q=0;q<4;q++){
+            abcd[q] = h[q];edkEnd();
+        }
+        for (p = 0; p<4; p++){
             fctn = ff[p];edkEnd();
             rotn = rots[p];edkEnd();
             m = M[p];edkEnd(); o= O[p];edkEnd();
-            for (q=0; q<16; q++) {
+            for (q=0; q<16; q++){
                 g = (m*q + o) % 16;edkEnd();
                 f = abcd[1] + rol( abcd[0]+ fctn(abcd) + k[q+16*p] + mm.w[g], rotn[q%4]);edkEnd();
 
@@ -232,8 +238,9 @@ edk::uint32 *md5File( edk::File* file)
                 abcd[1] = f;edkEnd();
             }
         }
-        for (p=0; p<4; p++)
+        for (p=0; p<4; p++){
             h[p] += abcd[p];edkEnd();
+        }
         os += 64;edkEnd();
     }
 
@@ -256,7 +263,7 @@ edk::uint32 *md5File( edk::File* file)
 //process the MD5
 bool edk::encrypt::MD5::convertTo(edk::char8 *pass, edk::uint32 size, edk::char8 *dest){
     //testa as strings e os tamanhos
-    if (pass && size && dest){
+    if(pass && size && dest){
         //processa o MD5
         edk::uint8 result[16];edkEnd();
         //md5WikiSum((Md5uint8_t *)pass, size, result);edkEnd();
@@ -267,7 +274,7 @@ bool edk::encrypt::MD5::convertTo(edk::char8 *pass, edk::uint32 size, edk::char8
         edk::uint32 i = 0u;edkEnd();
         for (edk::uint32 j=0;j<4; j++){
             u.w = d[j];edkEnd();
-            for (edk::uint32 k=0;k<4;k++) {
+            for (edk::uint32 k=0;k<4;k++){
                 result[i]=u.b[k];edkEnd();
                 i++;edkEnd();
             }
@@ -312,7 +319,7 @@ bool edk::encrypt::MD5::convertFileTo(edk::File* file, edk::char8 *dest){
             edk::uint32 i = 0u;edkEnd();
             for (edk::uint32 j=0;j<4; j++){
                 u.w = d[j];edkEnd();
-                for (edk::uint32 k=0;k<4;k++) {
+                for (edk::uint32 k=0;k<4;k++){
                     result[i]=u.b[k];edkEnd();
                     i++;edkEnd();
                 }
@@ -335,10 +342,10 @@ bool edk::encrypt::MD5::convertFileTo(edk::File* file, edk::char8 *dest){
 }
 bool edk::encrypt::MD5::convertFileTo(edk::char8 *fileName, edk::char8 *dest){
     bool ret = false;edkEnd();
-    if (fileName && dest){
+    if(fileName && dest){
         edk::File file;edkEnd();
         file.openBinFile(fileName);edkEnd();
-        if (file.isOpened()){
+        if(file.isOpened()){
             ret = edk::encrypt::MD5::convertFileTo(&file,dest);edkEnd();
             file.closeFile();edkEnd();
         }
@@ -351,7 +358,7 @@ bool edk::encrypt::MD5::convertFileTo(const edk::char8 *fileName, edk::char8 *de
 bool edk::encrypt::MD5::convertTo(edk::char8 *pass, edk::uint32 size, edk::uint8 dest[16u]){
 
     //testa as strings e os tamanhos
-    if (pass && size && dest){
+    if(pass && size && dest){
         //processa o MD5
         //md5WikiSum((Md5uint8_t *)pass, size, dest);edkEnd();
 
@@ -361,7 +368,7 @@ bool edk::encrypt::MD5::convertTo(edk::char8 *pass, edk::uint32 size, edk::uint8
         edk::uint32 i = 0u;edkEnd();
         for (edk::uint32 j=0;j<4; j++){
             u.w = d[j];edkEnd();
-            for (edk::uint32 k=0;k<4;k++) {
+            for (edk::uint32 k=0;k<4;k++){
                 dest[i]=u.b[k];edkEnd();
                 i++;edkEnd();
             }
@@ -395,7 +402,7 @@ bool edk::encrypt::MD5::convertFileTo(edk::File* file, edk::uint8 dest[16u]){
             edk::uint32 i = 0u;edkEnd();
             for (edk::uint32 j=0;j<4; j++){
                 u.w = d[j];edkEnd();
-                for (edk::uint32 k=0;k<4;k++) {
+                for (edk::uint32 k=0;k<4;k++){
                     dest[i]=u.b[k];edkEnd();
                     i++;edkEnd();
                 }
@@ -410,10 +417,10 @@ bool edk::encrypt::MD5::convertFileTo(edk::File* file, edk::uint8 dest[16u]){
 bool edk::encrypt::MD5::convertFileTo(edk::char8 *fileName, edk::uint8 dest[16u]){
     //
     bool ret = false;edkEnd();
-    if (fileName && dest){
+    if(fileName && dest){
         edk::File file;edkEnd();
         file.openBinFile(fileName);edkEnd();
-        if (file.isOpened()){
+        if(file.isOpened()){
             ret = edk::encrypt::MD5::convertFileTo(&file,dest);edkEnd();
             file.closeFile();edkEnd();
         }
@@ -425,10 +432,10 @@ bool edk::encrypt::MD5::convertFileTo(const edk::char8 *fileName, edk::uint8 des
 }
 edk::char8* edk::encrypt::MD5::convert(edk::char8 *pass, edk::uint32 size){
     edk::char8* ret=NULL;edkEnd();
-    if (pass && size){
+    if(pass && size){
         //cria a string de retorno
         ret = new edk::char8[33u];edkEnd();
-        if (ret){
+        if(ret){
             edk::encrypt::MD5::convertTo(pass, size,ret);edkEnd();
         }
     }
@@ -446,10 +453,10 @@ edk::char8* edk::encrypt::MD5::convert(const edk::char8 *pass){
 }
 edk::char8* edk::encrypt::MD5::convertFile(edk::File* file){
     edk::char8* ret=NULL;edkEnd();
-    if (file){
+    if(file){
         //cria a string de retorno
         ret = new edk::char8[33u];edkEnd();
-        if (ret){
+        if(ret){
             edk::encrypt::MD5::convertFileTo(file,ret);edkEnd();
         }
     }
@@ -458,10 +465,10 @@ edk::char8* edk::encrypt::MD5::convertFile(edk::File* file){
 }
 edk::char8* edk::encrypt::MD5::convertFile(edk::char8 *fileName){
     edk::char8* ret=NULL;edkEnd();
-    if (fileName){
+    if(fileName){
         edk::File file;edkEnd();
         file.openBinFile(fileName);edkEnd();
-        if (file.isOpened()){
+        if(file.isOpened()){
             ret = edk::encrypt::MD5::convertFile(&file);edkEnd();
             file.closeFile();edkEnd();
         }

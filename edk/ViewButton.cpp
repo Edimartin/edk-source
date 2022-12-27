@@ -781,7 +781,7 @@ void edk::ViewButton::drawPolygon(rectf32 outsideViewOrigin){
         if(this->symbolPressedCode){
             symbolCodeTemp = this->symbolPressedCode;edkEnd();
         }
-        break;edkEnd();
+        break;
     case edk::buttonView::state::up:
         //test if have the spriteUp
         if(this->spriteUpCode){
@@ -791,7 +791,7 @@ void edk::ViewButton::drawPolygon(rectf32 outsideViewOrigin){
         if(this->symbolUpCode){
             symbolCodeTemp = this->symbolUpCode;edkEnd();
         }
-        break;edkEnd();
+        break;
     }
     this->cam.draw();edkEnd();
 

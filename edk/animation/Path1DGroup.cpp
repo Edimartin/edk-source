@@ -178,7 +178,7 @@ edk::float32 edk::animation::Path1DGroup::updateClockAnimation(){
         this->setXNoDecrement(last->x + ((temp->x - last->x) * this->saveStep));edkEnd();
         return step;edkEnd();
     }
-    return 0.f;edkEnd();
+    return 0.f;
 }
 edk::float32 edk::animation::Path1DGroup::updateClockAnimation(edk::float32 distance){
     //calculate the step
@@ -197,7 +197,7 @@ edk::float32 edk::animation::Path1DGroup::updateClockAnimation(edk::float32 dist
         this->setXNoDecrement(last->x + ((temp->x - last->x) * this->saveStep));edkEnd();
         return step;edkEnd();
     }
-    return 0.f;edkEnd();
+    return 0.f;
 }
 
 //write to XML

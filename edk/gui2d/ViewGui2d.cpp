@@ -339,15 +339,15 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
                 switch(this->objPressed->getStatus()){
                 case edk::gui2d::gui2dTexturePressedUp:
                     //the mouse was inside the object
-                    break;edkEnd();
+                    break;
                 case edk::gui2d::gui2dTexturePressed:
                     //the mouse was not inside the object
-                    break;edkEnd();
+                    break;
                 case edk::gui2d::gui2dTextureNormal:
                 case edk::gui2d::gui2dTextureUp:
                 case edk::gui2d::gui2dTextureSize:
                 default:
-                    break;edkEnd();
+                    break;
                 }
                 //set the pressed obj to normal
                 this->objPressed->setStatus(edk::gui2d::gui2dTextureNormal);edkEnd();
@@ -402,7 +402,7 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
             case edk::key::lShift:
             case edk::key::rShift:
                 this->shift=true;edkEnd();
-                break;edkEnd();
+                break;
             }
         }
     }
@@ -431,7 +431,7 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
                         else{
                             field->decrementCursor();edkEnd();
                         }
-                        break;edkEnd();
+                        break;
                     case edk::key::right:
                         if(this->shift){
                             field->incrementCursorWithSelect();edkEnd();
@@ -439,7 +439,7 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
                         else{
                             field->incrementCursor();edkEnd();
                         }
-                        break;edkEnd();
+                        break;
                     case edk::key::home:
                         if(this->shift){
                             field->moveCursorToStartWithSelect();edkEnd();
@@ -448,7 +448,7 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
                             field->moveCursorToStart();edkEnd();
                         }
                         //
-                        break;edkEnd();
+                        break;
                     case edk::key::end:
                         if(this->shift){
                             field->moveCursorToEndWithSelect();edkEnd();
@@ -457,7 +457,7 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
                             field->moveCursorToEnd();edkEnd();
                         }
                         //
-                        break;edkEnd();
+                        break;
                     }
                 }
             }
@@ -476,13 +476,13 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
                     //
                     switch(c){
                     case 0x1b:
-                        break;edkEnd();
+                        break;
                     case 0x08:
                         field->removeCharacter();edkEnd();
-                        break;edkEnd();
+                        break;
                     case 0x7f:
                         field->deleteCharacter();edkEnd();
-                        break;edkEnd();
+                        break;
                     case 0x0d:
                     case 0x0a:
                         if(this->objSelected){
@@ -490,7 +490,7 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
                                 this->processReturnPressed(this->objSelected);edkEnd();
                             }
                         }
-                        break;edkEnd();
+                        break;
                     default:
                         field->addCharacter(events->keyText[i]);edkEnd();
                     }
@@ -564,8 +564,9 @@ void edk::gui2d::ViewGui2d::drawScene(edk::rectf32){
                     if(this->objSelected){
                         //remove the selection
                         this->objSelected->deselect();edkEnd();
-                        if(this->endSelect)
+                        if(this->endSelect){
                             this->objSelected->clickEnd(this->idSelected,false,this->doubleClick);edkEnd();
+                        }
                     }
                     obj->select();edkEnd();
                     obj->clickStart(this->idSelected);edkEnd();

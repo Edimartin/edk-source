@@ -75,7 +75,7 @@ class Texture2D: public edk::ObjectWithName{
 //        GU_RGBA
 //        GU_LUMINANCE
 //        GU_LUMINANCE_ALPHA
-        bool createTexture(edk::uint32 width, edk::uint32 height, edk::uint32 mode, const edk::classID  data = 0u, edk::uint32 filter = GU_NEAREST);
+        bool createTexture(edk::uint32 width, edk::uint32 height, edk::uint32 mode, const edk::classID  data = NULL, edk::uint32 filter = GU_NEAREST);
         //draw to the texture
         bool drawToTexture(const edk::classID  data);
         bool drawToTexture(const edk::classID  data, edk::uint32 filter = GU_NEAREST);

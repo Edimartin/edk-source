@@ -221,7 +221,7 @@ private:
         edk::bones::Bone2D* getElementByName(edk::char8* name){
             edk::bones::Bone2D find;edkEnd();
             find.setName(name);edkEnd();
-            return this->getElement(&find);edkEnd();
+            return this->getElement(&find);
         }
     }bones;
 

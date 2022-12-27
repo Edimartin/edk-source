@@ -580,7 +580,7 @@ edk::float32 edk::Math::getAngleDist(edk::float32 x1,edk::float32 y1,
 edk::float32 edk::Math::getAngleDist(edk::vec2f32 vec1,edk::vec2f32 vec2){
     //
     if(vec1==vec2){
-        return 0.f;edkEnd();
+        return 0.f;
     }
     return edk::Math::arcCosin(( edk::Math::pythagoras(vec1) * edk::Math::pythagoras(vec2)),edk::Math::dotProduct(vec1,vec2));edkEnd();
 }
@@ -592,7 +592,7 @@ edk::float32 edk::Math::getAngleDist(edk::float32 x1,edk::float32 y1,edk::float3
 edk::float32 edk::Math::getAngleDist(edk::vec3f32 vec1,edk::vec3f32 vec2){
     //
     if(vec1==vec2){
-        return 0.f;edkEnd();
+        return 0.f;
     }
     return edk::Math::arcCosin(( edk::Math::pythagoras(vec1) * edk::Math::pythagoras(vec2)),edk::Math::dotProduct(vec1,vec2));edkEnd();
 }
@@ -604,7 +604,7 @@ edk::float32 edk::Math::getAngleDist(edk::float32 x1,edk::float32 y1,edk::float3
 edk::float32 edk::Math::getAngleDist(edk::vec4f32 vec1,edk::vec4f32 vec2){
     //
     if(vec1==vec2){
-        return 0.f;edkEnd();
+        return 0.f;
     }
     return edk::Math::arcCosin(( edk::Math::pythagoras(vec1) * edk::Math::pythagoras(vec2)),edk::Math::dotProduct(vec1,vec2));edkEnd();
 }

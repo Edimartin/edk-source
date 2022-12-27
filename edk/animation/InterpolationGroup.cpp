@@ -83,7 +83,7 @@ edk::animation::InterpolationLine* edk::animation::InterpolationGroup::getSelect
         return this->animations[this->interpolationSelect];edkEnd();
     }
     //else return NULL
-    return NULL;edkEnd();
+    return NULL;
 }
 //print the frame
 void edk::animation::InterpolationGroup::printInterpolationLine(edk::animation::InterpolationLine *interpolation){
@@ -667,7 +667,7 @@ bool edk::animation::InterpolationGroup::selectFrame(edk::float32 second){
                 this->frameSelectedStart = false;edkEnd();
                 return true;
             }
-            else if (temp->getStart().second == second){
+            else if(temp->getStart().second == second){
                 //
                 this->frameSelected = temp;edkEnd();
                 this->frameSelectedStart = true;edkEnd();
@@ -900,7 +900,7 @@ edk::float32 edk::animation::InterpolationGroup::getAnimationNameStart(edk::char
         }
     }
     //else return 0.f
-    return 0.f;edkEnd();
+    return 0.f;
 }
 edk::float32 edk::animation::InterpolationGroup::getAnimationNameEnd(const edk::char8* name){
     return this->getAnimationNameEnd((edk::char8*) name);edkEnd();
@@ -919,7 +919,7 @@ edk::float32 edk::animation::InterpolationGroup::getAnimationNameEnd(edk::char8*
         }
     }
     //else return 0.f
-    return 0.f;edkEnd();
+    return 0.f;
 }
 //select the animationName
 bool edk::animation::InterpolationGroup::selectAnimationName(const edk::char8* name){
@@ -1317,7 +1317,7 @@ edk::float32 edk::animation::InterpolationGroup::getAnimationMissingSecond(){
     else{
         return this->frameEnd - this->animationSecond;edkEnd();
     }
-    return 0.f;edkEnd();
+    return 0.f;
 }
 //get the animation start and end
 edk::float32 edk::animation::InterpolationGroup::getAnimationStart(){
@@ -1454,22 +1454,22 @@ edk::float32 edk::animation::InterpolationGroup::updateClockAnimation(edk::float
                                     this->interpolationSelect--;edkEnd();
                                 }
                                 else{
-                                    break;edkEnd();
+                                    break;
                                 }
                             }
                             else{
-                                break;edkEnd();
+                                break;
                             }
                         }
                         else{
-                            break;edkEnd();
+                            break;
                         }
                     }
                     else if(this->interpolationSelect){
                             this->interpolationSelect--;edkEnd();
                         }
                         else{
-                            break;edkEnd();
+                            break;
                     }
                 }
 
@@ -1487,23 +1487,23 @@ edk::float32 edk::animation::InterpolationGroup::updateClockAnimation(edk::float
                                     this->interpolationSelect++;edkEnd();
 
                                     if(this->interpolationSelect>this->animations.size()){
-                                        break;edkEnd();
+                                        break;
                                     }
                                 }
                                 else{
-                                    break;edkEnd();
+                                    break;
                                 }
                             }
                             else{
-                                break;edkEnd();
+                                break;
                             }
                         }
                         else{
-                            break;edkEnd();
+                            break;
                         }
                     }
                     else{
-                        break;edkEnd();
+                        break;
                     }
                 }
             }
@@ -1559,25 +1559,25 @@ edk::float32 edk::animation::InterpolationGroup::updateClockAnimation(edk::float
                                     this->interpolationSelect++;edkEnd();
 
                                     if(this->interpolationSelect>this->animations.size()){
-                                        break;edkEnd();
+                                        break;
                                     }
                                 }
                                 else{
-                                    break;edkEnd();
+                                    break;
                                 }
                             }
                             else{
-                                break;edkEnd();
+                                break;
 
                             }
                         }
                         else{
-                            break;edkEnd();
+                            break;
                         }
                     }
                     else{
                         this->interpolationSelect--;edkEnd();
-                        break;edkEnd();
+                        break;
                     }
 
                 }

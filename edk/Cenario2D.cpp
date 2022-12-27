@@ -47,45 +47,45 @@ edk::Action* edk::Cenario2D::readXMLAction(edk::classID thisPointer,edk::uint32 
     case 1u:
     {
         //ActionPosition
-        return new edk::Cenario2D::ActionObjectSetPosition((edk::Cenario2D*)thisPointer,0,0,edk::vec2f32(0,0));edkEnd();
+        return new edk::Cenario2D::ActionObjectSetPosition((edk::Cenario2D*)thisPointer,0,0,edk::vec2f32(0,0));
     }
     case 2u:
     {
         //ActionMove
-        return new edk::Cenario2D::ActionObjectMove((edk::Cenario2D*)thisPointer,0,0,0,edk::vec2f32(0,0));edkEnd();
+        return new edk::Cenario2D::ActionObjectMove((edk::Cenario2D*)thisPointer,0,0,0,edk::vec2f32(0,0));
     }
     case 3u:
     {
         //ActionSetSize
-        return new edk::Cenario2D::ActionObjectSetSize((edk::Cenario2D*)thisPointer,0,0,edk::size2f32(0,0));edkEnd();
+        return new edk::Cenario2D::ActionObjectSetSize((edk::Cenario2D*)thisPointer,0,0,edk::size2f32(0,0));
     }
     case 4u:
     {
         //ActionSize
-        return new edk::Cenario2D::ActionObjectScale((edk::Cenario2D*)thisPointer,0,0,0,edk::size2f32(0,0));edkEnd();
+        return new edk::Cenario2D::ActionObjectScale((edk::Cenario2D*)thisPointer,0,0,0,edk::size2f32(0,0));
     }
     case 5u:
     {
         //ActionSetAngle
-        return new edk::Cenario2D::ActionObjectSetAngle((edk::Cenario2D*)thisPointer,0,0,0);edkEnd();
+        return new edk::Cenario2D::ActionObjectSetAngle((edk::Cenario2D*)thisPointer,0,0,0);
     }
     case 6u:
     {
         //ActionAngle
-        return new edk::Cenario2D::ActionObjectRotate((edk::Cenario2D*)thisPointer,0,0,0,0);edkEnd();
+        return new edk::Cenario2D::ActionObjectRotate((edk::Cenario2D*)thisPointer,0,0,0,0);
     }
     case 7u:
     {
         //ActionMeshName
-        return new edk::Cenario2D::ActionObjectMeshName((edk::Cenario2D*)thisPointer,0,0,0,NULL,false);edkEnd();
+        return new edk::Cenario2D::ActionObjectMeshName((edk::Cenario2D*)thisPointer,0,0,0,NULL,false);
     }
     case 8u:
     {
         //ActionMeshStop
-        return new edk::Cenario2D::ActionObjectMeshStop((edk::Cenario2D*)thisPointer,0,0,0);edkEnd();
+        return new edk::Cenario2D::ActionObjectMeshStop((edk::Cenario2D*)thisPointer,0,0,0);
     }
     }
-    return new edk::ActionZero();edkEnd();
+    return new edk::ActionZero();
 }
 //transformBeggin
 void edk::Cenario2D::transformBeggin(){
@@ -1626,7 +1626,7 @@ bool edk::Cenario2D::PhysicsPosition::writeToXML(edk::XML* xml,bool id){
                         xml->addSelectedNextAttribute((edk::char8*)"depth",temp);edkEnd();
                         delete[] temp;edkEnd();
                     }
-                    break;edkEnd();
+                    break;
                 case EDK_LEVEL_TILE_MAP:
                     xml->setSelectedString("TILE_MAP");edkEnd();
                     //write the level
@@ -1646,7 +1646,7 @@ bool edk::Cenario2D::PhysicsPosition::writeToXML(edk::XML* xml,bool id){
                         delete[] temp;edkEnd();
                     }
                     //
-                    break;edkEnd();
+                    break;
                 case EDK_LEVEL_NOTHING:
                 default:
                     ret=false;edkEnd();
@@ -1760,18 +1760,18 @@ edk::physics2D::PhysicObject2D* edk::Cenario2D::getPhysicsObjectInLevel(edk::Cen
                     //get the object
                     return (edk::physics2D::PhysicObject2D*)level->objsPhys->getObjectFromDepth(objLevel.depth);edkEnd();
                 }
-                break;edkEnd();
+                break;
             case EDK_LEVEL_TILE_MAP:
                 //test the level
                 if(level->tileMap){
                     //get the object
                     return level->tileMap->getPhysicTile(objLevel.mapPosition);edkEnd();
                 }
-                break;edkEnd();
+                break;
             }
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 
 //CALLBACKS
@@ -1836,7 +1836,7 @@ edk::tiles::TileMap2D* edk::Cenario2D::newTileMapInPosition(edk::uint32 position
                     this->levels.pushBack(temp);edkEnd();
                 }
                 else{
-                    return NULL;edkEnd();
+                    return NULL;
                 }
             }
         }
@@ -1873,7 +1873,7 @@ edk::tiles::TileMap2D* edk::Cenario2D::newTileMapInPosition(edk::uint32 position
             }
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::tiles::TileMap2D* edk::Cenario2D::newTileMapInPosition(edk::uint32 position,edk::uint32 width,edk::uint32 height){
     //
@@ -1919,7 +1919,7 @@ edk::tiles::TileMap2D* edk::Cenario2D::getTileMap(edk::uint32 position){
             }
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 bool edk::Cenario2D::deleteTileMap(edk::tiles::TileMap2D* tileMap){
     return this->deleteTileMap(this->getTileMapID(tileMap));edkEnd();
@@ -2090,7 +2090,7 @@ edk::Object2D* edk::Cenario2D::newObject(edk::uint32 levelPosition,edk::float32 
             delete obj;edkEnd();
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 bool edk::Cenario2D::addObject(edk::uint32 levelPosition,edk::Object2D* obj){
     //test the object
@@ -2132,7 +2132,7 @@ edk::Object2D* edk::Cenario2D::getObject(edk::uint32 levelPosition,edk::float32 
             }
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::Object2D* edk::Cenario2D::getObjectInPosition(edk::uint32 levelPosition,edk::uint32 position){
     //test if have the position
@@ -2147,7 +2147,7 @@ edk::Object2D* edk::Cenario2D::getObjectInPosition(edk::uint32 levelPosition,edk
             }
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 //get the objectDepth
 edk::float32 edk::Cenario2D::getObjectDepth(edk::uint32 levelPosition,edk::uint32 position){
@@ -2162,7 +2162,7 @@ edk::float32 edk::Cenario2D::getObjectDepth(edk::uint32 levelPosition,edk::uint3
             }
         }
     }
-    return 0.f;edkEnd();
+    return 0.f;
 }
 edk::float32 edk::Cenario2D::getObjectDepth(edk::uint32 levelPosition,edk::Object2D* obj){
     if(obj){
@@ -2179,7 +2179,7 @@ edk::float32 edk::Cenario2D::getObjectDepth(edk::uint32 levelPosition,edk::Objec
             }
         }
     }
-    return 0.f;edkEnd();
+    return 0.f;
 }
 
 //delete the object
@@ -2430,13 +2430,13 @@ edk::physics2D::PhysicObject2D* edk::Cenario2D::newPhysicObject(edk::uint32 leve
         switch(physicType){
         case edk::physics::StaticBody:
             obj = new edk::physics2D::StaticObject2D;edkEnd();
-            break;edkEnd();
+            break;
         case edk::physics::KinematicBody:
             obj = new edk::physics2D::KinematicObject2D;edkEnd();
-            break;edkEnd();
+            break;
         case edk::physics::DynamicBody:
             obj = new edk::physics2D::DynamicObject2D;edkEnd();
-            break;edkEnd();
+            break;
         }
         if(obj){
             if(this->addObjectToLevel(NULL,(edk::Object2D*)obj,levelPosition,depth,true)){
@@ -2445,7 +2445,7 @@ edk::physics2D::PhysicObject2D* edk::Cenario2D::newPhysicObject(edk::uint32 leve
             delete obj;edkEnd();
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::physics2D::PhysicObject2D* edk::Cenario2D::newPhysicSensor(edk::uint32 levelPosition,edk::physics::bodyType physicType){
     return this->newPhysicSensor(levelPosition,physicType,this->getHigherLevel(levelPosition) + 1.0);edkEnd();
@@ -2456,11 +2456,11 @@ edk::physics2D::PhysicObject2D* edk::Cenario2D::newPhysicSensor(edk::uint32 leve
         switch(physicType){
         case edk::physics::StaticBody:
             obj = new edk::physics2D::StaticSensor2D;edkEnd();
-            break;edkEnd();
+            break;
         case edk::physics::DynamicBody:
         case edk::physics::KinematicBody:
             obj = new edk::physics2D::KinematicSensor2D;edkEnd();
-            break;edkEnd();
+            break;
         }
         if(obj){
             if(this->addObjectToLevel(NULL,(edk::Object2D*)obj,levelPosition,depth,true)){
@@ -2469,7 +2469,7 @@ edk::physics2D::PhysicObject2D* edk::Cenario2D::newPhysicSensor(edk::uint32 leve
             delete obj;edkEnd();
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 bool edk::Cenario2D::addPhysicObject(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj){
     return this->addPhysicObject(levelPosition,obj,this->getHigherLevel(levelPosition) + 1.0);edkEnd();
@@ -2515,7 +2515,7 @@ edk::physics2D::PhysicObject2D* edk::Cenario2D::getPhysicObject(edk::uint32 leve
             }
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::physics2D::PhysicObject2D* edk::Cenario2D::getPhysicObjectInPosition(edk::uint32 levelPosition,edk::uint32 position){
     if(levelPosition){
@@ -2530,7 +2530,7 @@ edk::physics2D::PhysicObject2D* edk::Cenario2D::getPhysicObjectInPosition(edk::u
             }
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 //return the depth of the physic object
 edk::float32 edk::Cenario2D::getPhysicObjectDepth(edk::uint32 levelPosition,edk::uint32 position){
@@ -2546,7 +2546,7 @@ edk::float32 edk::Cenario2D::getPhysicObjectDepth(edk::uint32 levelPosition,edk:
             }
         }
     }
-    return 0.f;edkEnd();
+    return 0.f;
 }
 edk::float32 edk::Cenario2D::getPhysicObjectDepth(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj){
     if(levelPosition){
@@ -2561,7 +2561,7 @@ edk::float32 edk::Cenario2D::getPhysicObjectDepth(edk::uint32 levelPosition,edk:
             }
         }
     }
-    return 0.f;edkEnd();
+    return 0.f;
 }
 
 //load the physicsObjects
@@ -2675,10 +2675,12 @@ bool edk::Cenario2D::unloadPhysicObjectsFromWorld(edk::uint32 levelPosition){
                         //remove from worlf
                         this->world.removeObject((edk::physics2D::PhysicObject2D*)level->objsPhys->getObjectInPosition(i));edkEnd();
                     }
+                    return true;
                 }
             }
         }
     }
+    return false;
 }
 bool edk::Cenario2D::unloadPhysicObjectsFromWorld(){
     edk::uint32 size = this->levels.size();edkEnd();
@@ -2693,8 +2695,10 @@ bool edk::Cenario2D::unloadPhysicObjectsFromWorld(){
                     this->world.removeObject((edk::physics2D::PhysicObject2D*)level->objsPhys->getObjectInPosition(j));edkEnd();
                 }
             }
+            return true;
         }
     }
+    return false;
 }
 
 //delete the object
@@ -4147,7 +4151,7 @@ bool edk::Cenario2D::writeToXML(edk::XML* xml,edk::uint32 id){
                                                                 case EDK_JOINT:
                                                                     //
                                                                     //xml->setSelectedString("JOINT");edkEnd();
-                                                                    break;edkEnd();
+                                                                    break;
                                                                 case EDK_REVOLUTE_JOINT:
                                                                     //
                                                                     //xml->setSelectedString("REVOLUTE_JOINT");edkEnd();
@@ -4166,7 +4170,7 @@ bool edk::Cenario2D::writeToXML(edk::XML* xml,edk::uint32 id){
                                                                             xml->addSelectedNextAttribute((edk::char8*)"upperAngle",temp);edkEnd();
                                                                             delete[] temp;edkEnd();
                                                                         }
-                                                                        break;edkEnd();
+                                                                        break;
                                                                     case EDK_JOINT_MOTOR:
                                                                         xml->addSelectedNextAttribute("type","MOTOR");edkEnd();
                                                                         temp = edk::String::float32ToStr(revoluteJoint->getMaxTorque());edkEnd();
@@ -4179,11 +4183,11 @@ bool edk::Cenario2D::writeToXML(edk::XML* xml,edk::uint32 id){
                                                                             xml->addSelectedNextAttribute((edk::char8*)"speed",temp);edkEnd();
                                                                             delete[] temp;edkEnd();
                                                                         }
-                                                                        break;edkEnd();
+                                                                        break;
                                                                     default:
                                                                         xml->addSelectedNextAttribute("type","NORMAL");edkEnd();
                                                                     }
-                                                                    break;edkEnd();
+                                                                    break;
                                                                 case EDK_PRISMATIC_JOINT:
                                                                     //
                                                                     //xml->setSelectedString("PRISMATIC_JOINT");edkEnd();
@@ -4223,7 +4227,7 @@ bool edk::Cenario2D::writeToXML(edk::XML* xml,edk::uint32 id){
                                                                         xml->addSelectedNextAttribute((edk::char8*)"upperDistance",temp);edkEnd();
                                                                         delete[] temp;edkEnd();
                                                                     }
-                                                                    break;edkEnd();
+                                                                    break;
                                                                 case EDK_PULLEY_JOINT:
                                                                     //
                                                                     //xml->setSelectedString("PULLEY_JOINT");edkEnd();
@@ -4259,6 +4263,7 @@ bool edk::Cenario2D::writeToXML(edk::XML* xml,edk::uint32 id){
                                                                         xml->addSelectedNextAttribute((edk::char8*)"lenghtB",temp);edkEnd();
                                                                         delete[] temp;edkEnd();
                                                                     }
+                                                                    break;
                                                                 case EDK_DISTANCE_JOINT:
                                                                     //
                                                                     //xml->setSelectedString("DISTANCE_JOINT");edkEnd();
@@ -4279,7 +4284,7 @@ bool edk::Cenario2D::writeToXML(edk::XML* xml,edk::uint32 id){
                                                                         xml->addSelectedNextAttribute((edk::char8*)"distance",temp);edkEnd();
                                                                         delete[] temp;edkEnd();
                                                                     }
-                                                                    break;edkEnd();
+                                                                    break;
                                                                 case EDK_WHEEL_JOINT:
                                                                     //
                                                                     //xml->setSelectedString("WHEEL_JOINT");edkEnd();
@@ -4309,7 +4314,7 @@ bool edk::Cenario2D::writeToXML(edk::XML* xml,edk::uint32 id){
                                                                             delete[] temp;edkEnd();
                                                                         }
                                                                     }
-                                                                    break;edkEnd();
+                                                                    break;
                                                                     //REMOVE IN NEW BOX2D
                                                                     /*
                                                                 case EDK_ROPE_JOINT:
@@ -4332,7 +4337,7 @@ bool edk::Cenario2D::writeToXML(edk::XML* xml,edk::uint32 id){
                                                                         xml->addSelectedNextAttribute((edk::char8*)"maxLength",temp);edkEnd();
                                                                         delete[] temp;edkEnd();
                                                                     }
-                                                                    break;edkEnd();
+                                                                    break;
                                                                 */
                                                                 }
                                                                 xml->selectFather();edkEnd();
@@ -4487,7 +4492,7 @@ bool edk::Cenario2D::readFromXML(edk::XML* xml,edk::uint32 id){
                                                                         positionB,
                                                                         collide
                                                                         );edkEnd();
-                                            break;edkEnd();
+                                            break;
                                         case EDK_REVOLUTE_JOINT:
                                             //test the revoluteType
                                             if(edk::String::strCompare(xml->getSelectedAttributeValueByName("type"),"ANGLE")){
@@ -4542,7 +4547,7 @@ bool edk::Cenario2D::readFromXML(edk::XML* xml,edk::uint32 id){
                                                                                 collide
                                                                                 );edkEnd();
                                             }
-                                            break;edkEnd();
+                                            break;
                                         case EDK_DISTANCE_JOINT:
                                             //create distanceJoint
                                             //                                            this->world.createDistanceJoint(this->getPhysicsObjectInLevel(objectA),
@@ -4558,7 +4563,7 @@ bool edk::Cenario2D::readFromXML(edk::XML* xml,edk::uint32 id){
                                                                             positionB,
                                                                             edk::String::strToFloat32(xml->getSelectedAttributeValueByName("distance")),
                                                                             collide);edkEnd();
-                                            break;edkEnd();
+                                            break;
                                         case EDK_PRISMATIC_JOINT:
                                             //test the Type
                                             if(edk::String::strCompare(xml->getSelectedAttributeValueByName("type"),"MOTOR")){
@@ -4617,7 +4622,7 @@ bool edk::Cenario2D::readFromXML(edk::XML* xml,edk::uint32 id){
                                                                                  collide
                                                                                  );edkEnd();
                                             }
-                                            break;edkEnd();
+                                            break;
                                         case EDK_PULLEY_JOINT:
                                             //
                                             //                                            this->world.createPulleyWorldJoint(this->getPhysicsObjectInLevel(objectA),
@@ -4648,7 +4653,7 @@ bool edk::Cenario2D::readFromXML(edk::XML* xml,edk::uint32 id){
                                                                           edk::String::strToFloat32(xml->getSelectedAttributeValueByName("lenghtB")),
                                                                           collide
                                                                           );edkEnd();
-                                            break;edkEnd();
+                                            break;
                                         case EDK_WHEEL_JOINT:
                                             //
                                             if(edk::String::strCompare(xml->getSelectedAttributeValueByName("type"),"MOTOR")){
@@ -4695,7 +4700,7 @@ bool edk::Cenario2D::readFromXML(edk::XML* xml,edk::uint32 id){
                                                                              collide
                                                                              );edkEnd();
                                             }
-                                            break;edkEnd();
+                                            break;
                                         case EDK_ROPE_JOINT:
                                             //
                                             //                                            this->world.createRopeJointWorldPositions(this->getPhysicsObjectInLevel(objectA),
@@ -4717,7 +4722,7 @@ bool edk::Cenario2D::readFromXML(edk::XML* xml,edk::uint32 id){
                                                                         collide
                                                                         );edkEnd();
                                             */
-                                            break;edkEnd();
+                                            break;
                                         }
                                     }
                                     delete[] nameTemp;edkEnd();
@@ -4875,7 +4880,7 @@ bool edk::Cenario2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* 
                                                                         positionB,
                                                                         collide
                                                                         );edkEnd();
-                                            break;edkEnd();
+                                            break;
                                         case EDK_REVOLUTE_JOINT:
                                             //test the revoluteType
                                             if(edk::String::strCompare(xml->getSelectedAttributeValueByName("type"),"ANGLE")){
@@ -4930,7 +4935,7 @@ bool edk::Cenario2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* 
                                                                                 collide
                                                                                 );edkEnd();
                                             }
-                                            break;edkEnd();
+                                            break;
                                         case EDK_DISTANCE_JOINT:
                                             //create distanceJoint
                                             //                                            this->world.createDistanceJoint(this->getPhysicsObjectInLevel(objectA),
@@ -4946,7 +4951,7 @@ bool edk::Cenario2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* 
                                                                             positionB,
                                                                             edk::String::strToFloat32(xml->getSelectedAttributeValueByName("distance")),
                                                                             collide);edkEnd();
-                                            break;edkEnd();
+                                            break;
                                         case EDK_PRISMATIC_JOINT:
                                             //test the Type
                                             if(edk::String::strCompare(xml->getSelectedAttributeValueByName("type"),"MOTOR")){
@@ -5005,7 +5010,7 @@ bool edk::Cenario2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* 
                                                                                  collide
                                                                                  );edkEnd();
                                             }
-                                            break;edkEnd();
+                                            break;
                                         case EDK_PULLEY_JOINT:
                                             //
                                             //                                            this->world.createPulleyWorldJoint(this->getPhysicsObjectInLevel(objectA),
@@ -5036,7 +5041,7 @@ bool edk::Cenario2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* 
                                                                           edk::String::strToFloat32(xml->getSelectedAttributeValueByName("lenghtB")),
                                                                           collide
                                                                           );edkEnd();
-                                            break;edkEnd();
+                                            break;
                                         case EDK_WHEEL_JOINT:
                                             //
                                             if(edk::String::strCompare(xml->getSelectedAttributeValueByName("type"),"MOTOR")){
@@ -5083,7 +5088,7 @@ bool edk::Cenario2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* 
                                                                              collide
                                                                              );edkEnd();
                                             }
-                                            break;edkEnd();
+                                            break;
                                         case EDK_ROPE_JOINT:
                                             //
                                             //                                            this->world.createRopeJointWorldPositions(this->getPhysicsObjectInLevel(objectA),
@@ -5105,7 +5110,7 @@ bool edk::Cenario2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* 
                                                                         collide
                                                                         );edkEnd();
                                             */
-                                            break;edkEnd();
+                                            break;
                                         }
                                     }
                                     delete[] nameTemp;edkEnd();
@@ -5301,7 +5306,7 @@ bool edk::Cenario2D::readLevelFromXML(edk::XML* xml,edk::uint32 level,edk::uint3
                                                                         positionB,
                                                                         collide
                                                                         );edkEnd();
-                                            break;edkEnd();
+                                            break;
                                         case EDK_REVOLUTE_JOINT:
                                             //test the revoluteType
                                             if(edk::String::strCompare(xml->getSelectedAttributeValueByName("type"),"ANGLE")){
@@ -5356,7 +5361,7 @@ bool edk::Cenario2D::readLevelFromXML(edk::XML* xml,edk::uint32 level,edk::uint3
                                                                                 collide
                                                                                 );edkEnd();
                                             }
-                                            break;edkEnd();
+                                            break;
                                         case EDK_DISTANCE_JOINT:
                                             //create distanceJoint
                                             //                                            this->world.createDistanceJoint(this->getPhysicsObjectInLevel(objectA),
@@ -5372,7 +5377,7 @@ bool edk::Cenario2D::readLevelFromXML(edk::XML* xml,edk::uint32 level,edk::uint3
                                                                             positionB,
                                                                             edk::String::strToFloat32(xml->getSelectedAttributeValueByName("distance")),
                                                                             collide);edkEnd();
-                                            break;edkEnd();
+                                            break;
                                         case EDK_PRISMATIC_JOINT:
                                             //test the Type
                                             if(edk::String::strCompare(xml->getSelectedAttributeValueByName("type"),"MOTOR")){
@@ -5431,7 +5436,7 @@ bool edk::Cenario2D::readLevelFromXML(edk::XML* xml,edk::uint32 level,edk::uint3
                                                                                  collide
                                                                                  );edkEnd();
                                             }
-                                            break;edkEnd();
+                                            break;
                                         case EDK_PULLEY_JOINT:
                                             //
                                             //                                            this->world.createPulleyWorldJoint(this->getPhysicsObjectInLevel(objectA),
@@ -5462,7 +5467,7 @@ bool edk::Cenario2D::readLevelFromXML(edk::XML* xml,edk::uint32 level,edk::uint3
                                                                           edk::String::strToFloat32(xml->getSelectedAttributeValueByName("lenghtB")),
                                                                           collide
                                                                           );edkEnd();
-                                            break;edkEnd();
+                                            break;
                                         case EDK_WHEEL_JOINT:
                                             //
                                             if(edk::String::strCompare(xml->getSelectedAttributeValueByName("type"),"MOTOR")){
@@ -5509,7 +5514,7 @@ bool edk::Cenario2D::readLevelFromXML(edk::XML* xml,edk::uint32 level,edk::uint3
                                                                              collide
                                                                              );edkEnd();
                                             }
-                                            break;edkEnd();
+                                            break;
                                         case EDK_ROPE_JOINT:
                                             //
                                             //                                            this->world.createRopeJointWorldPositions(this->getPhysicsObjectInLevel(objectA),
@@ -5531,7 +5536,7 @@ bool edk::Cenario2D::readLevelFromXML(edk::XML* xml,edk::uint32 level,edk::uint3
                                                                         collide
                                                                         );edkEnd();
                                             */
-                                            break;edkEnd();
+                                            break;
                                         }
                                     }
                                     delete[] nameTemp;edkEnd();
@@ -5724,7 +5729,7 @@ bool edk::Cenario2D::readLevelFromXMLFromPack(edk::pack::FilePackage* pack,edk::
                                                                         positionB,
                                                                         collide
                                                                         );edkEnd();
-                                            break;edkEnd();
+                                            break;
                                         case EDK_REVOLUTE_JOINT:
                                             //test the revoluteType
                                             if(edk::String::strCompare(xml->getSelectedAttributeValueByName("type"),"ANGLE")){
@@ -5779,7 +5784,7 @@ bool edk::Cenario2D::readLevelFromXMLFromPack(edk::pack::FilePackage* pack,edk::
                                                                                 collide
                                                                                 );edkEnd();
                                             }
-                                            break;edkEnd();
+                                            break;
                                         case EDK_DISTANCE_JOINT:
                                             //create distanceJoint
                                             //                                            this->world.createDistanceJoint(this->getPhysicsObjectInLevel(objectA),
@@ -5795,7 +5800,7 @@ bool edk::Cenario2D::readLevelFromXMLFromPack(edk::pack::FilePackage* pack,edk::
                                                                             positionB,
                                                                             edk::String::strToFloat32(xml->getSelectedAttributeValueByName("distance")),
                                                                             collide);edkEnd();
-                                            break;edkEnd();
+                                            break;
                                         case EDK_PRISMATIC_JOINT:
                                             //test the Type
                                             if(edk::String::strCompare(xml->getSelectedAttributeValueByName("type"),"MOTOR")){
@@ -5854,7 +5859,7 @@ bool edk::Cenario2D::readLevelFromXMLFromPack(edk::pack::FilePackage* pack,edk::
                                                                                  collide
                                                                                  );edkEnd();
                                             }
-                                            break;edkEnd();
+                                            break;
                                         case EDK_PULLEY_JOINT:
                                             //
                                             //                                            this->world.createPulleyWorldJoint(this->getPhysicsObjectInLevel(objectA),
@@ -5885,7 +5890,7 @@ bool edk::Cenario2D::readLevelFromXMLFromPack(edk::pack::FilePackage* pack,edk::
                                                                           edk::String::strToFloat32(xml->getSelectedAttributeValueByName("lenghtB")),
                                                                           collide
                                                                           );edkEnd();
-                                            break;edkEnd();
+                                            break;
                                         case EDK_WHEEL_JOINT:
                                             //
                                             if(edk::String::strCompare(xml->getSelectedAttributeValueByName("type"),"MOTOR")){
@@ -5932,7 +5937,7 @@ bool edk::Cenario2D::readLevelFromXMLFromPack(edk::pack::FilePackage* pack,edk::
                                                                              collide
                                                                              );edkEnd();
                                             }
-                                            break;edkEnd();
+                                            break;
                                         case EDK_ROPE_JOINT:
                                             //
                                             //                                            this->world.createRopeJointWorldPositions(this->getPhysicsObjectInLevel(objectA),
@@ -5954,7 +5959,7 @@ bool edk::Cenario2D::readLevelFromXMLFromPack(edk::pack::FilePackage* pack,edk::
                                                                         collide
                                                                         );edkEnd();
                                             */
-                                            break;edkEnd();
+                                            break;
                                         }
                                     }
                                     delete[] nameTemp;edkEnd();
@@ -6020,8 +6025,8 @@ bool edk::Cenario2D::readFromXMLWithoutLoadPhysics(edk::XML* xml,edk::uint32 id)
                 //create the name
                 if(xml->selectChild(name)){
                     edk::char8 filter[3u] = {9u,'\n',0u};
-                    edk::char8* nameTemp;edkEnd();
-                    edk::char8* idTemp;edkEnd();
+                    //edk::char8* nameTemp;edkEnd();
+                    //edk::char8* idTemp;edkEnd();
                     edk::char8* temp;edkEnd();
 
                     if(xml->selectChild("meters")){
@@ -6115,7 +6120,7 @@ bool edk::Cenario2D::readFromXMLWithoutLoadPhysics(edk::XML* xml,edk::uint32 id)
                                                                         positionB,
                                                                         collide
                                                                         );edkEnd();
-                                            break;edkEnd();
+                                            break;
                                         case EDK_REVOLUTE_JOINT:
                                             //test the revoluteType
                                             if(edk::String::strCompare(xml->getSelectedAttributeValueByName("type"),"ANGLE")){
@@ -6170,7 +6175,7 @@ bool edk::Cenario2D::readFromXMLWithoutLoadPhysics(edk::XML* xml,edk::uint32 id)
                                                                                 collide
                                                                                 );edkEnd();
                                             }
-                                            break;edkEnd();
+                                            break;
                                         case EDK_DISTANCE_JOINT:
                                             //create distanceJoint
                                             //                                            this->world.createDistanceJoint(this->getPhysicsObjectInLevel(objectA),
@@ -6186,7 +6191,7 @@ bool edk::Cenario2D::readFromXMLWithoutLoadPhysics(edk::XML* xml,edk::uint32 id)
                                                                             positionB,
                                                                             edk::String::strToFloat32(xml->getSelectedAttributeValueByName("distance")),
                                                                             collide);edkEnd();
-                                            break;edkEnd();
+                                            break;
                                         case EDK_PRISMATIC_JOINT:
                                             //test the Type
                                             if(edk::String::strCompare(xml->getSelectedAttributeValueByName("type"),"MOTOR")){
@@ -6245,7 +6250,7 @@ bool edk::Cenario2D::readFromXMLWithoutLoadPhysics(edk::XML* xml,edk::uint32 id)
                                                                                  collide
                                                                                  );edkEnd();
                                             }
-                                            break;edkEnd();
+                                            break;
                                         case EDK_PULLEY_JOINT:
                                             //
                                             //                                            this->world.createPulleyWorldJoint(this->getPhysicsObjectInLevel(objectA),
@@ -6276,7 +6281,7 @@ bool edk::Cenario2D::readFromXMLWithoutLoadPhysics(edk::XML* xml,edk::uint32 id)
                                                                           edk::String::strToFloat32(xml->getSelectedAttributeValueByName("lenghtB")),
                                                                           collide
                                                                           );edkEnd();
-                                            break;edkEnd();
+                                            break;
                                         case EDK_WHEEL_JOINT:
                                             //
                                             if(edk::String::strCompare(xml->getSelectedAttributeValueByName("type"),"MOTOR")){
@@ -6323,7 +6328,7 @@ bool edk::Cenario2D::readFromXMLWithoutLoadPhysics(edk::XML* xml,edk::uint32 id)
                                                                              collide
                                                                              );edkEnd();
                                             }
-                                            break;edkEnd();
+                                            break;
                                         case EDK_ROPE_JOINT:
                                             //
                                             //                                            this->world.createRopeJointWorldPositions(this->getPhysicsObjectInLevel(objectA),
@@ -6345,7 +6350,7 @@ bool edk::Cenario2D::readFromXMLWithoutLoadPhysics(edk::XML* xml,edk::uint32 id)
 //                                                                        collide
 //                                                                        );edkEnd();
 
-                                            break;edkEnd();
+                                            break;
                                         }
                                     }
                                     delete[] nameTemp;edkEnd();
@@ -6408,8 +6413,8 @@ bool edk::Cenario2D::readFromXMLFromPackWithoutLoadPhysics(edk::pack::FilePackag
                 //create the name
                 if(xml->selectChild(name)){
                     edk::char8 filter[3u] = {9u,'\n',0u};
-                    edk::char8* nameTemp;edkEnd();
-                    edk::char8* idTemp;edkEnd();
+                    //edk::char8* nameTemp;edkEnd();
+                    //edk::char8* idTemp;edkEnd();
                     edk::char8* temp;edkEnd();
 
                     if(xml->selectChild("meters")){
@@ -6503,7 +6508,7 @@ bool edk::Cenario2D::readFromXMLFromPackWithoutLoadPhysics(edk::pack::FilePackag
                                                                         positionB,
                                                                         collide
                                                                         );edkEnd();
-                                            break;edkEnd();
+                                            break;
                                         case EDK_REVOLUTE_JOINT:
                                             //test the revoluteType
                                             if(edk::String::strCompare(xml->getSelectedAttributeValueByName("type"),"ANGLE")){
@@ -6558,7 +6563,7 @@ bool edk::Cenario2D::readFromXMLFromPackWithoutLoadPhysics(edk::pack::FilePackag
                                                                                 collide
                                                                                 );edkEnd();
                                             }
-                                            break;edkEnd();
+                                            break;
                                         case EDK_DISTANCE_JOINT:
                                             //create distanceJoint
                                             //                                            this->world.createDistanceJoint(this->getPhysicsObjectInLevel(objectA),
@@ -6574,7 +6579,7 @@ bool edk::Cenario2D::readFromXMLFromPackWithoutLoadPhysics(edk::pack::FilePackag
                                                                             positionB,
                                                                             edk::String::strToFloat32(xml->getSelectedAttributeValueByName("distance")),
                                                                             collide);edkEnd();
-                                            break;edkEnd();
+                                            break;
                                         case EDK_PRISMATIC_JOINT:
                                             //test the Type
                                             if(edk::String::strCompare(xml->getSelectedAttributeValueByName("type"),"MOTOR")){
@@ -6633,7 +6638,7 @@ bool edk::Cenario2D::readFromXMLFromPackWithoutLoadPhysics(edk::pack::FilePackag
                                                                                  collide
                                                                                  );edkEnd();
                                             }
-                                            break;edkEnd();
+                                            break;
                                         case EDK_PULLEY_JOINT:
                                             //
                                             //                                            this->world.createPulleyWorldJoint(this->getPhysicsObjectInLevel(objectA),
@@ -6664,7 +6669,7 @@ bool edk::Cenario2D::readFromXMLFromPackWithoutLoadPhysics(edk::pack::FilePackag
                                                                           edk::String::strToFloat32(xml->getSelectedAttributeValueByName("lenghtB")),
                                                                           collide
                                                                           );edkEnd();
-                                            break;edkEnd();
+                                            break;
                                         case EDK_WHEEL_JOINT:
                                             //
                                             if(edk::String::strCompare(xml->getSelectedAttributeValueByName("type"),"MOTOR")){
@@ -6711,7 +6716,7 @@ bool edk::Cenario2D::readFromXMLFromPackWithoutLoadPhysics(edk::pack::FilePackag
                                                                              collide
                                                                              );edkEnd();
                                             }
-                                            break;edkEnd();
+                                            break;
                                         case EDK_ROPE_JOINT:
                                             //
                                             //                                            this->world.createRopeJointWorldPositions(this->getPhysicsObjectInLevel(objectA),
@@ -6733,7 +6738,7 @@ bool edk::Cenario2D::readFromXMLFromPackWithoutLoadPhysics(edk::pack::FilePackag
 //                                                                        collide
 //                                                                        );edkEnd();
 
-                                            break;edkEnd();
+                                            break;
                                         }
                                     }
                                     delete[] nameTemp;edkEnd();
@@ -6799,8 +6804,8 @@ bool edk::Cenario2D::readLevelFromXMLWithoutLoadPhysics(edk::XML* xml,edk::uint3
                 //create the name
                 if(xml->selectChild(name)){
                     edk::char8 filter[3u] = {9u,'\n',0u};
-                    edk::char8* nameTemp;edkEnd();
-                    edk::char8* idTemp;edkEnd();
+                    //edk::char8* nameTemp;edkEnd();
+                    //edk::char8* idTemp;edkEnd();
                     edk::char8* temp;edkEnd();
 
                     if(xml->selectChild("meters")){
@@ -6929,7 +6934,7 @@ bool edk::Cenario2D::readLevelFromXMLWithoutLoadPhysics(edk::XML* xml,edk::uint3
                                                                         positionB,
                                                                         collide
                                                                         );edkEnd();
-                                            break;edkEnd();
+                                            break;
                                         case EDK_REVOLUTE_JOINT:
                                             //test the revoluteType
                                             if(edk::String::strCompare(xml->getSelectedAttributeValueByName("type"),"ANGLE")){
@@ -6984,7 +6989,7 @@ bool edk::Cenario2D::readLevelFromXMLWithoutLoadPhysics(edk::XML* xml,edk::uint3
                                                                                 collide
                                                                                 );edkEnd();
                                             }
-                                            break;edkEnd();
+                                            break;
                                         case EDK_DISTANCE_JOINT:
                                             //create distanceJoint
                                             //                                            this->world.createDistanceJoint(this->getPhysicsObjectInLevel(objectA),
@@ -7000,7 +7005,7 @@ bool edk::Cenario2D::readLevelFromXMLWithoutLoadPhysics(edk::XML* xml,edk::uint3
                                                                             positionB,
                                                                             edk::String::strToFloat32(xml->getSelectedAttributeValueByName("distance")),
                                                                             collide);edkEnd();
-                                            break;edkEnd();
+                                            break;
                                         case EDK_PRISMATIC_JOINT:
                                             //test the Type
                                             if(edk::String::strCompare(xml->getSelectedAttributeValueByName("type"),"MOTOR")){
@@ -7059,7 +7064,7 @@ bool edk::Cenario2D::readLevelFromXMLWithoutLoadPhysics(edk::XML* xml,edk::uint3
                                                                                  collide
                                                                                  );edkEnd();
                                             }
-                                            break;edkEnd();
+                                            break;
                                         case EDK_PULLEY_JOINT:
                                             //
                                             //                                            this->world.createPulleyWorldJoint(this->getPhysicsObjectInLevel(objectA),
@@ -7090,7 +7095,7 @@ bool edk::Cenario2D::readLevelFromXMLWithoutLoadPhysics(edk::XML* xml,edk::uint3
                                                                           edk::String::strToFloat32(xml->getSelectedAttributeValueByName("lenghtB")),
                                                                           collide
                                                                           );edkEnd();
-                                            break;edkEnd();
+                                            break;
                                         case EDK_WHEEL_JOINT:
                                             //
                                             if(edk::String::strCompare(xml->getSelectedAttributeValueByName("type"),"MOTOR")){
@@ -7137,7 +7142,7 @@ bool edk::Cenario2D::readLevelFromXMLWithoutLoadPhysics(edk::XML* xml,edk::uint3
                                                                              collide
                                                                              );edkEnd();
                                             }
-                                            break;edkEnd();
+                                            break;
                                         case EDK_ROPE_JOINT:
                                             //
                                             //                                            this->world.createRopeJointWorldPositions(this->getPhysicsObjectInLevel(objectA),
@@ -7159,7 +7164,7 @@ bool edk::Cenario2D::readLevelFromXMLWithoutLoadPhysics(edk::XML* xml,edk::uint3
 //                                                                        collide
 //                                                                        );edkEnd();
 
-                                            break;edkEnd();
+                                            break;
                                         }
                                     }
                                     delete[] nameTemp;edkEnd();
@@ -7222,8 +7227,8 @@ bool edk::Cenario2D::readLevelFromXMLFromPackWithoutLoadPhysics(edk::pack::FileP
                 //create the name
                 if(xml->selectChild(name)){
                     edk::char8 filter[3u] = {9u,'\n',0u};
-                    edk::char8* nameTemp;edkEnd();
-                    edk::char8* idTemp;edkEnd();
+                    //edk::char8* nameTemp;edkEnd();
+                    //edk::char8* idTemp;edkEnd();
                     edk::char8* temp;edkEnd();
 
                     if(xml->selectChild("meters")){
@@ -7352,7 +7357,7 @@ bool edk::Cenario2D::readLevelFromXMLFromPackWithoutLoadPhysics(edk::pack::FileP
                                                                         positionB,
                                                                         collide
                                                                         );edkEnd();
-                                            break;edkEnd();
+                                            break;
                                         case EDK_REVOLUTE_JOINT:
                                             //test the revoluteType
                                             if(edk::String::strCompare(xml->getSelectedAttributeValueByName("type"),"ANGLE")){
@@ -7407,7 +7412,7 @@ bool edk::Cenario2D::readLevelFromXMLFromPackWithoutLoadPhysics(edk::pack::FileP
                                                                                 collide
                                                                                 );edkEnd();
                                             }
-                                            break;edkEnd();
+                                            break;
                                         case EDK_DISTANCE_JOINT:
                                             //create distanceJoint
                                             //                                            this->world.createDistanceJoint(this->getPhysicsObjectInLevel(objectA),
@@ -7423,7 +7428,7 @@ bool edk::Cenario2D::readLevelFromXMLFromPackWithoutLoadPhysics(edk::pack::FileP
                                                                             positionB,
                                                                             edk::String::strToFloat32(xml->getSelectedAttributeValueByName("distance")),
                                                                             collide);edkEnd();
-                                            break;edkEnd();
+                                            break;
                                         case EDK_PRISMATIC_JOINT:
                                             //test the Type
                                             if(edk::String::strCompare(xml->getSelectedAttributeValueByName("type"),"MOTOR")){
@@ -7482,7 +7487,7 @@ bool edk::Cenario2D::readLevelFromXMLFromPackWithoutLoadPhysics(edk::pack::FileP
                                                                                  collide
                                                                                  );edkEnd();
                                             }
-                                            break;edkEnd();
+                                            break;
                                         case EDK_PULLEY_JOINT:
                                             //
                                             //                                            this->world.createPulleyWorldJoint(this->getPhysicsObjectInLevel(objectA),
@@ -7513,7 +7518,7 @@ bool edk::Cenario2D::readLevelFromXMLFromPackWithoutLoadPhysics(edk::pack::FileP
                                                                           edk::String::strToFloat32(xml->getSelectedAttributeValueByName("lenghtB")),
                                                                           collide
                                                                           );edkEnd();
-                                            break;edkEnd();
+                                            break;
                                         case EDK_WHEEL_JOINT:
                                             //
                                             if(edk::String::strCompare(xml->getSelectedAttributeValueByName("type"),"MOTOR")){
@@ -7560,7 +7565,7 @@ bool edk::Cenario2D::readLevelFromXMLFromPackWithoutLoadPhysics(edk::pack::FileP
                                                                              collide
                                                                              );edkEnd();
                                             }
-                                            break;edkEnd();
+                                            break;
                                         case EDK_ROPE_JOINT:
                                             //
                                             //                                            this->world.createRopeJointWorldPositions(this->getPhysicsObjectInLevel(objectA),
@@ -7582,7 +7587,7 @@ bool edk::Cenario2D::readLevelFromXMLFromPackWithoutLoadPhysics(edk::pack::FileP
 //                                                                        collide
 //                                                                        );edkEnd();
 
-                                            break;edkEnd();
+                                            break;
                                         }
                                     }
                                     delete[] nameTemp;edkEnd();

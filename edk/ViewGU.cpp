@@ -92,7 +92,7 @@ void edk::ViewGU::processHits(edk::int32 hits, edk::uint32 buffer[]){
 
     if(hits>0){
         ptr = (GLuint *) buffer;edkEnd();
-        for (i = 0; i < hits; i++) {  /* for each hit  */
+        for (i = 0; i < hits; i++){  /* for each hit  */
             nameStack.clean();edkEnd();
             names = *ptr;edkEnd();
             ptr++;edkEnd();
@@ -100,7 +100,7 @@ void edk::ViewGU::processHits(edk::int32 hits, edk::uint32 buffer[]){
             ptr++;edkEnd();
             sFar = (edk::float32)*ptr/0x7fffffff;edkEnd();
             ptr++;edkEnd();
-            for (j = 0; j < names; j++) {  /* for each name */
+            for (j = 0; j < names; j++){  /* for each name */
                 nameStack.pushBack(*ptr);edkEnd();
                 ptr++;edkEnd();
             }

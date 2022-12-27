@@ -414,7 +414,7 @@ edk::char8* edk::watch::Time::clockGetTimezoneAbreviation(){
         return (edk::char8*)systemClock->__tm_zone;edkEnd();
 # endif
     }
-    return NULL;edkEnd();
+    return NULL;
 #endif
 }
 
@@ -447,5 +447,5 @@ edk::char8* edk::watch::Time::clockGetStr(){
 void edk::watch::Time::clockPrintStr(){
     this->clockLoadStr();edkEnd();
     //write the string
-    printf("%s",this->str);edkEnd();fflush(stdout);edkEnd();
+    printf("%s",this->str);edkEnd();
 }

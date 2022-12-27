@@ -229,7 +229,7 @@ edk::classID edk::Voronoi::runThreadGenerateImageRGBFromRGB(edk::classID image){
             return (edk::classID)ret;edkEnd();
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::classID edk::Voronoi::runThreadGenerateImageRGBFromGray(edk::classID image){
     if(image){
@@ -248,7 +248,7 @@ edk::classID edk::Voronoi::runThreadGenerateImageRGBFromGray(edk::classID image)
             return (edk::classID)ret;edkEnd();
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::classID edk::Voronoi::runThreadGenerateImageGrayFromRGB(edk::classID image){
     if(image){
@@ -267,7 +267,7 @@ edk::classID edk::Voronoi::runThreadGenerateImageGrayFromRGB(edk::classID image)
             return (edk::classID)ret;edkEnd();
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::classID edk::Voronoi::runThreadGenerateImageGrayFromGray(edk::classID image){
     if(image){
@@ -286,7 +286,7 @@ edk::classID edk::Voronoi::runThreadGenerateImageGrayFromGray(edk::classID image
             return (edk::classID)ret;edkEnd();
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 
 
@@ -390,10 +390,10 @@ bool edk::Voronoi::generateImage(edk::uint32 pointSize,edk::Image2D* image){
         switch(image->getChannels()){
         case 1u:
             return edk::Voronoi::generateImageGray(pointSize,image->getPixels(),image->getSize().width,image->getSize().height);edkEnd();
-            break;edkEnd();
+            break;
         case 3u:
             return edk::Voronoi::generateImageRGB(pointSize,image->getPixels(),image->getSize().width,image->getSize().height);edkEnd();
-            break;edkEnd();
+            break;
         default:
             return false;
         }
@@ -407,10 +407,10 @@ bool edk::Voronoi::generateImage(edk::vector::Array<edk::vec2f32ColorRGB>* point
         switch(image->getChannels()){
         case 1u:
             return edk::Voronoi::generateImageGray(points,image->getPixels(),image->getSize().width,image->getSize().height);edkEnd();
-            break;edkEnd();
+            break;
         case 3u:
             return edk::Voronoi::generateImageRGB(points,image->getPixels(),image->getSize().width,image->getSize().height);edkEnd();
-            break;edkEnd();
+            break;
         default:
             return false;
         }
@@ -424,10 +424,10 @@ bool edk::Voronoi::generateImage(edk::vector::Array<edk::vec2f32ColorGray>* poin
         switch(image->getChannels()){
         case 1u:
             return edk::Voronoi::generateImageGray(points,image->getPixels(),image->getSize().width,image->getSize().height);edkEnd();
-            break;edkEnd();
+            break;
         case 3u:
             return edk::Voronoi::generateImageRGB(points,image->getPixels(),image->getSize().width,image->getSize().height);edkEnd();
-            break;edkEnd();
+            break;
         default:
             return false;
         }
@@ -886,10 +886,10 @@ bool edk::Voronoi::multiGenerateImage(edk::uint32 cores,edk::uint32 pointSize,ed
         switch(image->getChannels()){
         case 1u:
             return edk::Voronoi::multiGenerateImageGray(cores,pointSize,image->getPixels(),image->getSize().width,image->getSize().height);edkEnd();
-            break;edkEnd();
+            break;
         case 3u:
             return edk::Voronoi::multiGenerateImageRGB(cores,pointSize,image->getPixels(),image->getSize().width,image->getSize().height);edkEnd();
-            break;edkEnd();
+            break;
         default:
             return false;
         }
@@ -903,10 +903,10 @@ bool edk::Voronoi::multiGenerateImage(edk::uint32 cores,edk::vector::Array<edk::
         switch(image->getChannels()){
         case 1u:
             return edk::Voronoi::multiGenerateImageGray(cores,points,image->getPixels(),image->getSize().width,image->getSize().height);edkEnd();
-            break;edkEnd();
+            break;
         case 3u:
             return edk::Voronoi::multiGenerateImageRGB(cores,points,image->getPixels(),image->getSize().width,image->getSize().height);edkEnd();
-            break;edkEnd();
+            break;
         default:
             return false;
         }
@@ -920,10 +920,10 @@ bool edk::Voronoi::multiGenerateImage(edk::uint32 cores,edk::vector::Array<edk::
         switch(image->getChannels()){
         case 1u:
             return edk::Voronoi::multiGenerateImageGray(cores,points,image->getPixels(),image->getSize().width,image->getSize().height);edkEnd();
-            break;edkEnd();
+            break;
         case 3u:
             return edk::Voronoi::multiGenerateImageRGB(cores,points,image->getPixels(),image->getSize().width,image->getSize().height);edkEnd();
-            break;edkEnd();
+            break;
         default:
             return false;
         }

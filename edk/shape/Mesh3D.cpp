@@ -105,7 +105,7 @@ edk::shape::Vertex3D* edk::shape::Mesh3D::StackVertex::getVertex(edk::uint32 pos
             return temp->pointer;edkEnd();
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 bool edk::shape::Mesh3D::StackVertex::haveVertex(edk::uint32 position){
     return this->stack.havePos(position);edkEnd();
@@ -205,7 +205,7 @@ edk::shape::Vector3D* edk::shape::Mesh3D::StackNormal::getNormal(edk::uint32 pos
             return temp->pointer;edkEnd();
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 bool edk::shape::Mesh3D::StackNormal::haveNormal(edk::uint32 position){
     return this->stack.havePos(position);edkEnd();
@@ -303,7 +303,7 @@ edk::shape::UV2D* edk::shape::Mesh3D::StackUV::getUV(edk::uint32 position){
             return temp->pointer;edkEnd();
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 bool edk::shape::Mesh3D::StackUV::haveUV(edk::uint32 position){
     return this->stack.havePos(position);edkEnd();

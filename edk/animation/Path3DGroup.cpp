@@ -196,7 +196,7 @@ edk::float32 edk::animation::Path3DGroup::updateClockAnimation(){
         return step;edkEnd();
     }
     else{
-        return 0.f;edkEnd();
+        return 0.f;
     }
 }
 edk::float32 edk::animation::Path3DGroup::updateClockAnimation(edk::float32 distance){
@@ -219,7 +219,7 @@ edk::float32 edk::animation::Path3DGroup::updateClockAnimation(edk::float32 dist
         return step;edkEnd();
     }
     else{
-        return 0.f;edkEnd();
+        return 0.f;
     }
 }
 

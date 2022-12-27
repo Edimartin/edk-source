@@ -111,7 +111,7 @@ public:
             }
         }
         //else return false
-        return NULL;edkEnd();
+        return NULL;
     }
 
     //release

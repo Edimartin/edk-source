@@ -367,7 +367,7 @@ private:
                     else{
                         object = new edk::physics2D::StaticObject2D;edkEnd();
                     }
-                    break;edkEnd();
+                    break;
                 case edk::physics::KinematicBody:
                     if(sensor){
                         object = new edk::physics2D::KinematicSensor2D;edkEnd();
@@ -375,10 +375,10 @@ private:
                     else{
                         object = new edk::physics2D::KinematicObject2D;edkEnd();
                     }
-                    break;edkEnd();
+                    break;
                 case edk::physics::DynamicBody:
                     object = new edk::physics2D::DynamicObject2D;edkEnd();
-                    break;edkEnd();
+                    break;
                 }
                 if(object){
                     temp = new edk::tiles::TileMap2D::PhysicsTiles(object);edkEnd();
@@ -402,7 +402,7 @@ private:
                     delete object;edkEnd();
                 }
             }
-            return NULL;edkEnd();
+            return NULL;
         }
         //test if have the object
         bool haveObject(edk::physics2D::PhysicObject2D* object){
@@ -415,7 +415,7 @@ private:
         bool havePosition(edk::vec2ui32 position){
             edk::tiles::TileMap2D::PhysicsTiles find(NULL);edkEnd();
             find.position=position;edkEnd();
-            return this->treePosition.haveElement(&find);edkEnd();
+            return this->treePosition.haveElement(&find);
         }
         //return the position object
         edk::vec2ui32 getPositionOfObject(edk::physics2D::PhysicObject2D* object){
@@ -433,14 +433,14 @@ private:
             if(temp){
                 return temp->object;edkEnd();
             }
-            return NULL;edkEnd();
+            return NULL;
         }
         edk::physics2D::PhysicObject2D* getObjectInPosition(edk::uint32 position){
             edk::tiles::TileMap2D::PhysicsTiles* temp = this->getElementInPosition(position);edkEnd();
             if(temp){
                 return temp->object;edkEnd();
             }
-            return NULL;edkEnd();
+            return NULL;
         }
         //delete object
         bool deleteObject(edk::physics2D::PhysicObject2D* object){
@@ -484,13 +484,13 @@ private:
         }
         edk::tiles::TileMap2D::PhysicsTiles* getPhysicsTileObject(edk::physics2D::PhysicObject2D* object){
             edk::tiles::TileMap2D::PhysicsTiles find(object);edkEnd();
-            return this->getElement(&find);edkEnd();
+            return this->getElement(&find);
         }
         //get PhysicsTiles
         edk::tiles::TileMap2D::PhysicsTiles* getPhysicsTileInPosition(edk::vec2ui32 position){
             edk::tiles::TileMap2D::PhysicsTiles find(NULL);edkEnd();
             find.position = position;edkEnd();
-            return this->treePosition.getElement(&find);edkEnd();
+            return this->treePosition.getElement(&find);
         }
         //get physicsObject
         edk::physics2D::PhysicObject2D* getPhysicsObjectInPosition(edk::vec2ui32 position){
@@ -498,7 +498,7 @@ private:
             if(temp){
                 return temp->object;edkEnd();
             }
-            return NULL;edkEnd();
+            return NULL;
         }
         //return the ID in position
         edk::uint32 getIDInPosition(edk::vec2ui32 position){
@@ -634,7 +634,7 @@ private:
                 for(edk::uint32 i=0u;i<size;i++){
                     //test if have the position
                     if(this->havePosition(positions->get(i))){
-                        return NULL;edkEnd();
+                        return NULL;
                     }
                 }
 
@@ -696,7 +696,7 @@ private:
                     delete object;edkEnd();
                 }
             }
-            return NULL;edkEnd();
+            return NULL;
         }
         //test if have the object
         bool haveObject(edk::physics2D::PhysicObject2D* object){
@@ -709,7 +709,7 @@ private:
         bool havePosition(edk::vec2ui32 position){
             edk::tiles::TileMap2D::PhysicsTiles find(NULL);edkEnd();
             find.position=position;edkEnd();
-            return this->treePosition.haveElement(&find);edkEnd();
+            return this->treePosition.haveElement(&find);
         }
         //return the position size of the object
         edk::uint32 getPositionSizeOfObject(edk::physics2D::PhysicObject2D* object){
@@ -739,14 +739,14 @@ private:
             if(temp){
                 return temp->object;edkEnd();
             }
-            return NULL;edkEnd();
+            return NULL;
         }
         edk::physics2D::PhysicObject2D* getObjectInPosition(edk::uint32 position){
             edk::tiles::TileMap2D::StaticTileObjects* temp = this->getElementInPosition(position);edkEnd();
             if(temp){
                 return temp->object;edkEnd();
             }
-            return NULL;edkEnd();
+            return NULL;
         }
         //delete object
         bool deleteObject(edk::physics2D::PhysicObject2D* object){
@@ -789,7 +789,7 @@ private:
         }
         edk::tiles::TileMap2D::StaticTileObjects* getPhysicsTileObject(edk::physics2D::PhysicObject2D* object){
             edk::tiles::TileMap2D::StaticTileObjects find(object);edkEnd();
-            return this->getElement(&find);edkEnd();
+            return this->getElement(&find);
         }
         //get StaticTileObjects
         edk::tiles::TileMap2D::StaticTileObjects* getPhysicsTileInPosition(edk::vec2ui32 position){
@@ -801,7 +801,7 @@ private:
                 edk::tiles::TileMap2D::StaticTileObjects findObject(temp->object);edkEnd();
                 return this->getElement(&findObject);edkEnd();
             }
-            return NULL;edkEnd();
+            return NULL;
         }
         //get physicsObject
         edk::physics2D::PhysicObject2D* getPhysicsObjectInPosition(edk::vec2ui32 position){
@@ -809,7 +809,7 @@ private:
             if(temp){
                 return temp->object;edkEnd();
             }
-            return NULL;edkEnd();
+            return NULL;
         }
         //return the ID in position
         edk::uint32 getIDInPosition(edk::vec2ui32 position){

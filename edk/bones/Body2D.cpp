@@ -100,12 +100,12 @@ edk::uint32 edk::bones::Body2D::loadHierarkhy(edk::File* file,edk::bones::Bone2D
         stringTest[2u] = '\n';edkEnd();
         stringTest[3u] = '\0';edkEnd();
 
-        //        printf("\n   Inside");edkEnd();fflush(stdout);edkEnd();
+        //        printf("\n   Inside");edkEnd();
         while(!file->endOfFile()){
             if(fileText){
                 //                printf("\n''%s''"
                 //                       ,fileText
-                //                       );edkEnd();fflush(stdout);edkEnd();
+                //                       );edkEnd();
 
                 //test if it's the end of hierarkhy
                 if(edk::String::strCompare(fileText,"}")){
@@ -127,19 +127,19 @@ edk::uint32 edk::bones::Body2D::loadHierarkhy(edk::File* file,edk::bones::Bone2D
                     //select the actual bone
                     this->selectBone(bone);edkEnd();
 
-                    continue;edkEnd();
+                    continue;
                 }
 
                 else if(edk::String::strCompare(fileText,"OFFSET")){
                     //create the new joint
-                    //                    printf("\nSet OFFSET");edkEnd();fflush(stdout);edkEnd();
+                    //                    printf("\nSet OFFSET");edkEnd();
                     delete[] fileText;edkEnd();
                     edk::float32 x=0.f,y=0.f,z=0.f;edkEnd();
                     fileText = file->readBinString(stringTest,false);edkEnd();
                     if(fileText){
                         //                        printf(" X '%s'"
                         //                               ,fileText
-                        //                               );edkEnd();fflush(stdout);edkEnd();
+                        //                               );edkEnd();
                         x = edk::String::strToFloat32(fileText);edkEnd();
 
                         delete[] fileText;edkEnd();
@@ -147,7 +147,7 @@ edk::uint32 edk::bones::Body2D::loadHierarkhy(edk::File* file,edk::bones::Bone2D
                         if(fileText){
                             //                            printf(" Y '%s'"
                             //                                   ,fileText
-                            //                                   );edkEnd();fflush(stdout);edkEnd();
+                            //                                   );edkEnd();
                             y = edk::String::strToFloat32(fileText);edkEnd();
 
                             delete[] fileText;edkEnd();
@@ -155,20 +155,20 @@ edk::uint32 edk::bones::Body2D::loadHierarkhy(edk::File* file,edk::bones::Bone2D
                             if(fileText){
                                 //                                printf(" Z '%s'"
                                 //                                       ,fileText
-                                //                                       );edkEnd();fflush(stdout);edkEnd();
+                                //                                       );edkEnd();
                                 z = edk::String::strToFloat32(fileText);edkEnd();
 
 
                                 /////////////////////////////// START LOAD OFFSET
                                 //                                printf(" floatX %.2f"
                                 //                                       ,x
-                                //                                       );edkEnd();fflush(stdout);edkEnd();
+                                //                                       );edkEnd();
                                 //                                printf(" floatY %.2f"
                                 //                                       ,y
-                                //                                       );edkEnd();fflush(stdout);edkEnd();
+                                //                                       );edkEnd();
                                 //                                printf(" floatZ %.2f"
                                 //                                       ,z
-                                //                                       );edkEnd();fflush(stdout);edkEnd();
+                                //                                       );edkEnd();
                                 //set the bone position on the mode
                                 switch(mode){
                                 case EDK_BVH_XY:
@@ -178,7 +178,7 @@ edk::uint32 edk::bones::Body2D::loadHierarkhy(edk::File* file,edk::bones::Bone2D
                                     if(bone){
                                         bone->position = edk::vec2f32(x,y);edkEnd();
                                     }
-                                    break;edkEnd();
+                                    break;
                                 case EDK_BVH_XZ:
                                     if(last){
                                         last->vector = edk::vec2f32(x,z);edkEnd();
@@ -186,7 +186,7 @@ edk::uint32 edk::bones::Body2D::loadHierarkhy(edk::File* file,edk::bones::Bone2D
                                     if(bone){
                                         bone->position = edk::vec2f32(x,z);edkEnd();
                                     }
-                                    break;edkEnd();
+                                    break;
                                 case EDK_BVH_YZ:
                                     if(last){
                                         last->vector = edk::vec2f32(y,z);edkEnd();
@@ -194,7 +194,7 @@ edk::uint32 edk::bones::Body2D::loadHierarkhy(edk::File* file,edk::bones::Bone2D
                                     if(bone){
                                         bone->position = edk::vec2f32(y,z);edkEnd();
                                     }
-                                    break;edkEnd();
+                                    break;
                                 }
                                 /////////////////////////////// END LOAD OFFSET
 
@@ -203,12 +203,12 @@ edk::uint32 edk::bones::Body2D::loadHierarkhy(edk::File* file,edk::bones::Bone2D
                         }
                     }
                     fileText=NULL;edkEnd();
-                    continue;edkEnd();
+                    continue;
                 }
 
                 else if(edk::String::strCompare(fileText,"CHANNELS")){
                     //create the new joint
-                    //                    printf("\nSet Channels");edkEnd();fflush(stdout);edkEnd();
+                    //                    printf("\nSet Channels");edkEnd();
                     delete[] fileText;edkEnd();
                     fileText = file->readBinString(stringTest,false);edkEnd();
                     if(fileText){
@@ -219,7 +219,7 @@ edk::uint32 edk::bones::Body2D::loadHierarkhy(edk::File* file,edk::bones::Bone2D
                         /////////////////////////////// START LOAD CHANNEL SIZE
                         //                        printf(" Channels %u"
                         //                               ,channels
-                        //                               );edkEnd();fflush(stdout);edkEnd();
+                        //                               );edkEnd();
                         ret+=channels;edkEnd();
                         /////////////////////////////// END LOAD CHANNEL SIZE
                         //load the channels
@@ -231,12 +231,12 @@ edk::uint32 edk::bones::Body2D::loadHierarkhy(edk::File* file,edk::bones::Bone2D
                                 //                                printf(" C%u == '%s'"
                                 //                                       ,i
                                 //                                       ,fileText
-                                //                                       );edkEnd();fflush(stdout);edkEnd();
+                                //                                       );edkEnd();
                                 edk::bones::Body2D::ChannelLink link;edkEnd();
                                 /////////////////////////////// START LOAD CHANNELS
                                 if(edk::String::strCompare(fileText,"Xposition")){
                                     //create the new joint
-                                    //                                    printf("=xPos");edkEnd();fflush(stdout);edkEnd();
+                                    //                                    printf("=xPos");edkEnd();
 
                                     //add the xPos
                                     link.channel = CHANNEL_XPOS;edkEnd();
@@ -247,7 +247,7 @@ edk::uint32 edk::bones::Body2D::loadHierarkhy(edk::File* file,edk::bones::Bone2D
 
                                 else if(edk::String::strCompare(fileText,"Yposition")){
                                     //create the new joint
-                                    //                                    printf("=yPos");edkEnd();fflush(stdout);edkEnd();
+                                    //                                    printf("=yPos");edkEnd();
 
                                     //add the yPos
                                     link.channel = CHANNEL_YPOS;edkEnd();
@@ -258,7 +258,7 @@ edk::uint32 edk::bones::Body2D::loadHierarkhy(edk::File* file,edk::bones::Bone2D
 
                                 else if(edk::String::strCompare(fileText,"Zposition")){
                                     //create the new joint
-                                    //                                    printf("=zPos");edkEnd();fflush(stdout);edkEnd();
+                                    //                                    printf("=zPos");edkEnd();
 
                                     //add the zPos
                                     link.channel = CHANNEL_ZPOS;edkEnd();
@@ -269,7 +269,7 @@ edk::uint32 edk::bones::Body2D::loadHierarkhy(edk::File* file,edk::bones::Bone2D
 
                                 else if(edk::String::strCompare(fileText,"Xrotation")){
                                     //create the new joint
-                                    //                                    printf("=xRot");edkEnd();fflush(stdout);edkEnd();
+                                    //                                    printf("=xRot");edkEnd();
 
                                     //add the xRot
                                     link.channel = CHANNEL_XROT;edkEnd();
@@ -280,7 +280,7 @@ edk::uint32 edk::bones::Body2D::loadHierarkhy(edk::File* file,edk::bones::Bone2D
 
                                 else if(edk::String::strCompare(fileText,"Yrotation")){
                                     //create the new joint
-                                    //                                    printf("=yRot");edkEnd();fflush(stdout);edkEnd();
+                                    //                                    printf("=yRot");edkEnd();
 
                                     //add the yRot
                                     link.channel = CHANNEL_YROT;edkEnd();
@@ -291,7 +291,7 @@ edk::uint32 edk::bones::Body2D::loadHierarkhy(edk::File* file,edk::bones::Bone2D
 
                                 else if(edk::String::strCompare(fileText,"Zrotation")){
                                     //create the new joint
-                                    //                                    printf("=zRot");edkEnd();fflush(stdout);edkEnd();
+                                    //                                    printf("=zRot");edkEnd();
 
                                     //add the zRot
                                     link.channel = CHANNEL_ZROT;edkEnd();
@@ -306,12 +306,12 @@ edk::uint32 edk::bones::Body2D::loadHierarkhy(edk::File* file,edk::bones::Bone2D
                         }
                     }
                     fileText=NULL;edkEnd();
-                    continue;edkEnd();
+                    continue;
                 }
 
                 else if(edk::String::strCompare(fileText,"JOINT")){
                     //create the new joint
-                    //                    printf("\nCreate Joint");edkEnd();fflush(stdout);edkEnd();
+                    //                    printf("\nCreate Joint");edkEnd();
                     delete[] fileText;edkEnd();
                     fileText = file->readBinString(stringTest,false);edkEnd();
                     if(fileText){
@@ -319,32 +319,32 @@ edk::uint32 edk::bones::Body2D::loadHierarkhy(edk::File* file,edk::bones::Bone2D
                         /////////////////////////////// START CREATE JOINT
                         //                        printf(" Joint Name '%s'"
                         //                               ,fileText
-                        //                               );edkEnd();fflush(stdout);edkEnd();
+                        //                               );edkEnd();
                         next = this->createBoneToSelected(fileText);edkEnd();
                         /////////////////////////////// END CREATE JOINT
                         //
                         delete[] fileText;edkEnd();
                         fileText=NULL;edkEnd();
-                        continue;edkEnd();
+                        continue;
                     }
                 }
 
                 else if(edk::String::strCompare(fileText,"End")){
                     //create the new joint
-                    //                    printf("\nCreate END");edkEnd();fflush(stdout);edkEnd();
+                    //                    printf("\nCreate END");edkEnd();
                     delete[] fileText;edkEnd();
                     fileText = file->readBinString(stringTest,false);edkEnd();
                     if(fileText){
                         /////////////////////////////// START CREATE END
                         //                        printf(" END Name '%s'"
                         //                               ,fileText
-                        //                               );edkEnd();fflush(stdout);edkEnd();
+                        //                               );edkEnd();
                         //next = this->createBoneToSelected(fileText);edkEnd();
                         next = NULL;edkEnd();
                         /////////////////////////////// END CREATE END
                         delete[] fileText;edkEnd();
                         fileText=NULL;edkEnd();
-                        continue;edkEnd();
+                        continue;
                     }
                 }
 
@@ -404,7 +404,7 @@ bool edk::bones::Body2D::loadBVH(edk::char8* name,edk::uint8 mode){
 
             //            printf("\nNameTemp == '%s'"
             //                   ,nameTemp
-            //                   );edkEnd();fflush(stdout);edkEnd();
+            //                   );edkEnd();
 
             //channels vector
             edk::vector::Stack<edk::bones::Body2D::ChannelLink> channelLinks(3u);edkEnd();
@@ -413,7 +413,7 @@ bool edk::bones::Body2D::loadBVH(edk::char8* name,edk::uint8 mode){
             edk::File file;edkEnd();
             if(file.openBinFile(nameTemp)){
                 //
-                //                printf("\nAbriu o arquivo");edkEnd();fflush(stdout);edkEnd();
+                //                printf("\nAbriu o arquivo");edkEnd();
 
                 //load the file to create the bvh
                 edk::char8* fileText = NULL;edkEnd();
@@ -433,9 +433,9 @@ bool edk::bones::Body2D::loadBVH(edk::char8* name,edk::uint8 mode){
                     if(fileText){
                         //                        printf("\n'%s'"
                         //                               ,fileText
-                        //                               );edkEnd();fflush(stdout);edkEnd();
+                        //                               );edkEnd();
                         if(edk::String::strCompare(fileText,"HIERARCHY")){
-                            //                            printf(" Find HIERARCHY");edkEnd();fflush(stdout);edkEnd();
+                            //                            printf(" Find HIERARCHY");edkEnd();
                             //delete the text to load a new text
                             delete[] fileText;edkEnd();
 
@@ -453,7 +453,7 @@ bool edk::bones::Body2D::loadBVH(edk::char8* name,edk::uint8 mode){
                                         //
                                         //                                        printf("\nRoot Name '%s'"
                                         //                                               ,fileText
-                                        //                                               );edkEnd();fflush(stdout);edkEnd();
+                                        //                                               );edkEnd();
                                         this->root.setName(fileText);edkEnd();
 
                                         delete[] fileText;edkEnd();
@@ -463,7 +463,7 @@ bool edk::bones::Body2D::loadBVH(edk::char8* name,edk::uint8 mode){
                                             //
                                             if(edk::String::strCompare(fileText,"{")){
                                                 //
-                                                //                                                printf("\nStart load hierarkhy");edkEnd();fflush(stdout);edkEnd();
+                                                //                                                printf("\nStart load hierarkhy");edkEnd();
                                                 channels = this->loadHierarkhy(&file,NULL,&this->root,mode,&channelLinks);edkEnd();
                                             }
                                         }
@@ -487,7 +487,7 @@ bool edk::bones::Body2D::loadBVH(edk::char8* name,edk::uint8 mode){
 
                         }
                         else if(edk::String::strCompare(fileText,"MOTION")){
-                            //                            printf(" Find MOTION");edkEnd();fflush(stdout);edkEnd();
+                            //                            printf(" Find MOTION");edkEnd();
                             delete[] fileText;edkEnd();
 
                             //load the next frames
@@ -562,8 +562,8 @@ bool edk::bones::Body2D::loadBVH(edk::char8* name,edk::uint8 mode){
                                                                         //                                                                               ,fileText
                                                                         //                                                                               ,channelValue
                                                                         //                                                                               ,channelLinks[j].bone
-                                                                        //                                                                               );edkEnd();fflush(stdout);edkEnd();
-                                                                        switch (channelLinks[j].channel) {
+                                                                        //                                                                               );edkEnd();
+                                                                        switch (channelLinks[j].channel){
                                                                         //POSITION
                                                                         case CHANNEL_XPOS:
                                                                             //                                                                            printf(" Xposition");edkEnd();
@@ -582,9 +582,9 @@ bool edk::bones::Body2D::loadBVH(edk::char8* name,edk::uint8 mode){
                                                                                 }
                                                                                 //else just set the x value
                                                                                 channelLinks[j].bone->animationPosition.setFrameX(frameClock,channelValue);edkEnd();
-                                                                                //                                                                                printf(" setXPos");edkEnd();fflush(stdout);edkEnd();
+                                                                                //                                                                                printf(" setXPos");edkEnd();
                                                                             }
-                                                                            break;edkEnd();
+                                                                            break;
                                                                         case CHANNEL_YPOS:
                                                                             //                                                                            printf(" Yposition");edkEnd();
                                                                             //test if can set the position
@@ -601,7 +601,7 @@ bool edk::bones::Body2D::loadBVH(edk::char8* name,edk::uint8 mode){
                                                                                 }
                                                                                 //else just set the x value
                                                                                 channelLinks[j].bone->animationPosition.setFrameY(frameClock,channelValue);edkEnd();
-                                                                                //                                                                                printf(" setYPos");edkEnd();fflush(stdout);edkEnd();
+                                                                                //                                                                                printf(" setYPos");edkEnd();
                                                                             }
                                                                             //Else test if the Y is the X
                                                                             else if(mode == EDK_BVH_YZ){
@@ -617,9 +617,9 @@ bool edk::bones::Body2D::loadBVH(edk::char8* name,edk::uint8 mode){
                                                                                 }
                                                                                 //else just set the x value
                                                                                 channelLinks[j].bone->animationPosition.setFrameX(frameClock,channelValue);edkEnd();
-                                                                                //                                                                                printf(" setXPos");edkEnd();fflush(stdout);edkEnd();
+                                                                                //                                                                                printf(" setXPos");edkEnd();
                                                                             }
-                                                                            break;edkEnd();
+                                                                            break;
                                                                         case CHANNEL_ZPOS:
                                                                             //                                                                            printf(" Zposition");edkEnd();
                                                                             //test if can set the position
@@ -636,9 +636,9 @@ bool edk::bones::Body2D::loadBVH(edk::char8* name,edk::uint8 mode){
                                                                                 }
                                                                                 //else just set the x value
                                                                                 channelLinks[j].bone->animationPosition.setFrameY(frameClock,channelValue);edkEnd();
-                                                                                //                                                                                printf(" setYPos");edkEnd();fflush(stdout);edkEnd();
+                                                                                //                                                                                printf(" setYPos");edkEnd();
                                                                             }
-                                                                            break;edkEnd();
+                                                                            break;
                                                                             //ROTATION
                                                                         case CHANNEL_XROT:
                                                                             //                                                                            printf(" Xrotation");edkEnd();
@@ -646,29 +646,29 @@ bool edk::bones::Body2D::loadBVH(edk::char8* name,edk::uint8 mode){
                                                                             if(mode==EDK_BVH_YZ){
                                                                                 //add the animation
                                                                                 channelLinks[j].bone->animationAngle.addNewInterpolationLine(frameClock,channelValue*-1.f);edkEnd();
-                                                                                //                                                                                printf(" setAngle");edkEnd();fflush(stdout);edkEnd();
+                                                                                //                                                                                printf(" setAngle");edkEnd();
                                                                             }
-                                                                            break;edkEnd();
+                                                                            break;
                                                                         case CHANNEL_YROT:
                                                                             //                                                                            printf(" Yrotation");edkEnd();
                                                                             //test if use the Y rotation
                                                                             if(mode==EDK_BVH_XZ){
                                                                                 //add the animation
                                                                                 channelLinks[j].bone->animationAngle.addNewInterpolationLine(frameClock,channelValue*-1.f);edkEnd();
-                                                                                //                                                                                printf(" setAngle");edkEnd();fflush(stdout);edkEnd();
+                                                                                //                                                                                printf(" setAngle");edkEnd();
                                                                             }
-                                                                            break;edkEnd();
+                                                                            break;
                                                                         case CHANNEL_ZROT:
                                                                             //                                                                            printf(" Zrotation");edkEnd();
                                                                             //test if use the Z rotation
                                                                             if(mode==EDK_BVH_XY){
                                                                                 //add the animation
                                                                                 channelLinks[j].bone->animationAngle.addNewInterpolationLine(frameClock,channelValue*-1.f);edkEnd();
-                                                                                //                                                                                printf(" setAngle");edkEnd();fflush(stdout);edkEnd();
+                                                                                //                                                                                printf(" setAngle");edkEnd();
                                                                             }
-                                                                            break;edkEnd();
+                                                                            break;
                                                                         default:
-                                                                            break;edkEnd();
+                                                                            break;
                                                                         }
 
                                                                         //
@@ -679,22 +679,22 @@ bool edk::bones::Body2D::loadBVH(edk::char8* name,edk::uint8 mode){
                                                                 //frameClock+=1.f;edkEnd();
                                                             }
                                                         }
-                                                        continue;edkEnd();
+                                                        continue;
                                                     }
                                                     delete[] fileText;edkEnd();
                                                 }
-                                                continue;edkEnd();
+                                                continue;
                                             }
                                             delete[] fileText;edkEnd();
                                         }
                                     }
-                                    continue;edkEnd();
+                                    continue;
                                 }
 
                                 delete[] fileText;edkEnd();
-                                continue;edkEnd();
+                                continue;
                             }
-                            continue;edkEnd();
+                            continue;
                         }
 
                         delete[] fileText;edkEnd();
@@ -756,7 +756,7 @@ edk::bones::Bone2D* edk::bones::Body2D::createBoneToSelected(edk::char8* name,ed
             delete next;edkEnd();
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::bones::Bone2D* edk::bones::Body2D::createBoneToSelected(edk::char8* name,edk::float32 positionX,edk::float32 positionY,edk::float32 angle){
     return this->createBoneToSelected(name,edk::vec2f32(positionX,positionY),angle);edkEnd();
@@ -916,7 +916,7 @@ edk::bones::Bone2D* edk::bones::Body2D::getBone(edk::uint32 position){
     else{
         return &this->root;edkEnd();
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::bones::Bone2D* edk::bones::Body2D::getBoneByName(const edk::char8* name){
     return this->getBoneByName((edk::char8*) name);edkEnd();
@@ -932,7 +932,7 @@ edk::bones::Bone2D* edk::bones::Body2D::getBoneByName(edk::char8* name){
         //return the bone
         return /*(edk::bones::Bone2D*)*/this->bones.getElementByName(name);edkEnd();
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 
 //remove the selection

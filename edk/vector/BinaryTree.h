@@ -806,8 +806,9 @@ public:
             return ret->value;edkEnd();
         }
         //else return zero
-        typeTemplate retZero;edkEnd(); memset((void*)&retZero,0u,sizeof(typeTemplate));edkEnd();
-        return retZero;edkEnd();
+        typeTemplate retZero;edkEnd();
+        memset((void*)&retZero,0u,sizeof(typeTemplate));edkEnd();
+        return retZero;
     }
     //return the element in the Position
     typeTemplate getElementInPosition(edk::uint32 position){
@@ -872,11 +873,11 @@ public:
                     if(this->calls->get(i)){
                         if(this->calls->get(i) == call){
                             find = true;edkEnd();
-                            break;edkEnd();
+                            break;
                         }
                     }
                     else{
-                        break;edkEnd();
+                        break;
                     }
                 }
                 //test if find
@@ -1026,7 +1027,7 @@ private:
             }
         }
         //else return NULL
-        return NULL;edkEnd();
+        return NULL;
     }
     //Find the elementMother
     BinaryLeaf<typeTemplate>* findMother(typeTemplate value){
@@ -1060,7 +1061,7 @@ private:
                     }
                     else{
                         //else he dont have the element
-                        break;edkEnd();
+                        break;
                     }
                 }
                 else{
@@ -1079,13 +1080,13 @@ private:
                     }
                     else{
                         //else it dont have the element
-                        break;edkEnd();
+                        break;
                     }
                 }
             }
         }
         //else return NULL
-        return NULL;edkEnd();
+        return NULL;
     }
     //Find the Last left
     BinaryLeaf<typeTemplate>* findMotherLeftLeaf(BinaryLeaf<typeTemplate>* root){
@@ -1102,7 +1103,7 @@ private:
             return mother;edkEnd();
         }
         //else return NULL
-        return NULL;edkEnd();
+        return NULL;
     }
     //Find the Last right
     BinaryLeaf<typeTemplate>* findMotherRightLeaf(BinaryLeaf<typeTemplate>* root){
@@ -1119,7 +1120,7 @@ private:
             return mother;edkEnd();
         }
         //else return NULL
-        return NULL;edkEnd();
+        return NULL;
     }
 
     //increment and decrement the size
@@ -1173,7 +1174,7 @@ private:
                 temp->readed=1u;edkEnd();
                 if(temp->left){
                     temp = temp->left;edkEnd();
-                    continue;edkEnd();
+                    continue;
                 }
             }
             if(temp->readed==1u){
@@ -1189,7 +1190,7 @@ private:
                 temp->readed=2u;edkEnd();
                 if(temp->right){
                     temp = temp->right;edkEnd();
-                    continue;edkEnd();
+                    continue;
                 }
             }
             if(temp->readed==2u){
@@ -1231,7 +1232,7 @@ private:
                 temp->readed=1u;edkEnd();
                 if(temp->left){
                     temp = temp->left;edkEnd();
-                    continue;edkEnd();
+                    continue;
                 }
             }
             if(temp->readed==1u){
@@ -1247,7 +1248,7 @@ private:
                 temp->readed=2u;edkEnd();
                 if(temp->right){
                     temp = temp->right;edkEnd();
-                    continue;edkEnd();
+                    continue;
                 }
             }
             if(temp->readed==2u){
@@ -1289,7 +1290,7 @@ private:
                 temp->readed=1u;edkEnd();
                 if(temp->left){
                     temp = temp->left;edkEnd();
-                    continue;edkEnd();
+                    continue;
                 }
             }
             if(temp->readed==1u){
@@ -1305,7 +1306,7 @@ private:
                 temp->readed=2u;edkEnd();
                 if(temp->right){
                     temp = temp->right;edkEnd();
-                    continue;edkEnd();
+                    continue;
                 }
             }
             if(temp->readed==2u){
@@ -1349,7 +1350,7 @@ private:
                 temp->readed=1u;edkEnd();
                 if(temp->left){
                     temp = temp->left;edkEnd();
-                    continue;edkEnd();
+                    continue;
                 }
             }
             if(temp->readed==1u){
@@ -1365,7 +1366,7 @@ private:
                 temp->readed=2u;edkEnd();
                 if(temp->right){
                     temp = temp->right;edkEnd();
-                    continue;edkEnd();
+                    continue;
                 }
             }
             if(temp->readed==2u){
@@ -1409,7 +1410,7 @@ private:
                 temp->readed=1u;edkEnd();
                 if(temp->left){
                     temp = temp->left;edkEnd();
-                    continue;edkEnd();
+                    continue;
                 }
             }
             if(temp->readed==1u){
@@ -1425,7 +1426,7 @@ private:
                 temp->readed=2u;edkEnd();
                 if(temp->right){
                     temp = temp->right;edkEnd();
-                    continue;edkEnd();
+                    continue;
                 }
             }
             if(temp->readed==2u){
@@ -1469,7 +1470,7 @@ private:
                 temp->readed=1u;edkEnd();
                 if(temp->left){
                     temp = temp->left;edkEnd();
-                    continue;edkEnd();
+                    continue;
                 }
             }
             if(temp->readed==1u){
@@ -1485,7 +1486,7 @@ private:
                 temp->readed=2u;edkEnd();
                 if(temp->right){
                     temp = temp->right;edkEnd();
-                    continue;edkEnd();
+                    continue;
                 }
             }
             if(temp->readed==2u){
@@ -1529,7 +1530,7 @@ private:
                 temp->readed=1u;edkEnd();
                 if(temp->left){
                     temp = temp->left;edkEnd();
-                    continue;edkEnd();
+                    continue;
                 }
             }
             if(temp->readed==1u){
@@ -1545,7 +1546,7 @@ private:
                 temp->readed=2u;edkEnd();
                 if(temp->right){
                     temp = temp->right;edkEnd();
-                    continue;edkEnd();
+                    continue;
                 }
             }
             if(temp->readed==2u){
@@ -1589,7 +1590,7 @@ private:
                 temp->readed=1u;edkEnd();
                 if(temp->left){
                     temp = temp->left;edkEnd();
-                    continue;edkEnd();
+                    continue;
                 }
             }
             if(temp->readed==1u){
@@ -1605,7 +1606,7 @@ private:
                 temp->readed=2u;edkEnd();
                 if(temp->right){
                     temp = temp->right;edkEnd();
-                    continue;edkEnd();
+                    continue;
                 }
             }
             if(temp->readed==2u){
@@ -1660,7 +1661,7 @@ private:
                     temp->readed=1u;edkEnd();
                     if(temp->left){
                         temp = temp->left;edkEnd();
-                        continue;edkEnd();
+                        continue;
                     }
                 }
                 if(temp->readed==1u){
@@ -1677,7 +1678,7 @@ private:
                     temp->readed=2u;edkEnd();
                     if(temp->right){
                         temp = temp->right;edkEnd();
-                        continue;edkEnd();
+                        continue;
                     }
                 }
                 if(temp->readed==2u){
@@ -1716,7 +1717,7 @@ private:
                 temp->readed=1u;edkEnd();
                 if(temp->left){
                     temp = temp->left;edkEnd();
-                    continue;edkEnd();
+                    continue;
                 }
             }
             if(temp->readed==1u){
@@ -1724,7 +1725,7 @@ private:
                 temp->readed=2u;edkEnd();
                 if(temp->right){
                     temp = temp->right;edkEnd();
-                    continue;edkEnd();
+                    continue;
                 }
             }
             if(temp->readed==2u){
@@ -1822,7 +1823,7 @@ private:
                                     temp2->counter--;edkEnd();
                                     if(!continuing){
                                         continuing = true;edkEnd();
-                                        continue;edkEnd();
+                                        continue;
                                     }
                                 }
                             }
@@ -1871,7 +1872,7 @@ private:
                                     temp2->counter--;edkEnd();
                                     if(!continuing){
                                         continuing = true;edkEnd();
-                                        continue;edkEnd();
+                                        continue;
                                     }
                                 }
                             }
@@ -1935,7 +1936,7 @@ private:
                                     temp2->counter--;edkEnd();
                                     if(!continuing){
                                         continuing = true;edkEnd();
-                                        continue;edkEnd();
+                                        continue;
                                     }
                                 }
                             }
@@ -1984,7 +1985,7 @@ private:
                                     temp2->counter--;edkEnd();
                                     if(!continuing){
                                         continuing = true;edkEnd();
-                                        continue;edkEnd();
+                                        continue;
                                     }
                                 }
                             }
@@ -2087,7 +2088,7 @@ return true;
                 }
                 else if(*name2>*name1){
                     //
-                    break;edkEnd();
+                    break;
                 }
                 //else equal increment i
                 name2++;edkEnd();
@@ -2187,7 +2188,7 @@ public:
     bool removeName(edk::char8* value){
         //
         edk::Name find(value);edkEnd();
-        return edk::vector::BinaryTree<edk::Name*>::remove(&find);edkEnd();
+        return edk::vector::BinaryTree<edk::Name*>::remove(&find);
     }
     //REMOVE THE ELEMENT IN POSITION
     bool removeNameInPosition(edk::uint32 position){
@@ -2201,7 +2202,7 @@ public:
     //DELETE
     bool deleteName(const edk::char8* value){
         //
-        return this->deleteName((edk::char8*) value);edkEnd();
+        return this->deleteName((edk::char8*) value);
     }
     bool deleteName(edk::char8* value){
         //
@@ -2240,22 +2241,22 @@ public:
     //HAVE ELEMENT
     bool haveName(const edk::char8* value){
         //
-        return this->haveName((edk::char8*)value);edkEnd();
+        return this->haveName((edk::char8*)value);
     }
     bool haveName(edk::char8* value){
         //
         edk::Name temp(value);edkEnd();
-        return edk::vector::BinaryTree<edk::Name*>::haveElement(&temp);edkEnd();
+        return edk::vector::BinaryTree<edk::Name*>::haveElement(&temp);
     }
     //GET ELEMENT
     edk::Name* getElementByName(const edk::char8* value){
         //
-        return getElementByName((edk::char8*) value);edkEnd();
+        return getElementByName((edk::char8*) value);
     }
     edk::Name* getElementByName(edk::char8* value){
         //
         edk::Name temp(value);edkEnd();
-        return edk::vector::BinaryTree<edk::Name*>::getElement(&temp);edkEnd();
+        return edk::vector::BinaryTree<edk::Name*>::getElement(&temp);
     }
     //GET NAME IN POSITION
     edk::char8* getNameInPosition(edk::uint32 position){
@@ -2264,10 +2265,10 @@ public:
         //if have the position
         if(temp){
             //return the name
-            return temp->getName();edkEnd();
+            return temp->getName();
         }
         //else return NULL
-        return NULL;edkEnd();
+        return NULL;
     }
 
     void cantDeleteNames(){
@@ -2326,7 +2327,7 @@ private:
                 }
                 else if(name2[i]>name1[i]){
                     //
-                    break;edkEnd();
+                    break;
                 }
                 //else equal increment i
                 i++;edkEnd();

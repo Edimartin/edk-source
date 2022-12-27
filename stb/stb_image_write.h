@@ -207,4 +207,4 @@ STBIWDEF int stbi_write_tga_core(stbi__write_context *s, int x, int y, int comp,
 STBIWDEF int stbi_write_hdr_core(stbi__write_context *s, int x, int y, int comp, float *data);
 STBIWDEF int stbi_write_jpg_core(stbi__write_context *s, int width, int height, int comp, const void* data, int quality);
 
-#endif INCLUDE_STB_IMAGE_WRITE_H
+#endif //INCLUDE_STB_IMAGE_WRITE_H

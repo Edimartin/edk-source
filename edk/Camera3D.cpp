@@ -331,7 +331,7 @@ void edk::Camera3D::drawAxisOnly(){
                       this->up.x,this->up.y,0.f
                       );edkEnd();
 }
-void edk::Camera3D::drawAxisOnly(edk::float32 seconds){
+void edk::Camera3D::drawAxisOnly(edk::float32 /*seconds*/){
     //
 }
 

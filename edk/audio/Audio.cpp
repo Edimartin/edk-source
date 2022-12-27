@@ -213,7 +213,7 @@ edk::float32 edk::Audio::getSecond(){
         //return this->sound->GetPlayingOffset();edkEnd();//1.6
         return this->sound->getPlayingOffset().asSeconds();edkEnd();//2.0s
     }
-    return 0.f;edkEnd();
+    return 0.f;
 }
 //return if are loping the audio
 bool edk::Audio::getLoop(){
@@ -234,7 +234,7 @@ edk::float32 edk::Audio::getVolume(){
         return this->sound->getVolume();edkEnd();//2.0
     }
     else{
-        return 0.f;edkEnd();
+        return 0.f;
     }
 }
 //return the speed of audio processing
@@ -245,7 +245,7 @@ edk::float32 edk::Audio::getSpeed(){
         return this->sound->getPitch();edkEnd();//2.0
     }
     else{
-        return 0.f;edkEnd();
+        return 0.f;
     }
 }
 //get the audioChannels

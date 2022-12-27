@@ -181,7 +181,7 @@ edk::size2ui32 edk::ViewSpriteController::getSpriteSize(){
 }
 
 //draw the polygon on the scene
-void edk::ViewSpriteController::drawPolygon(rectf32 outsideViewOrigin){
+void edk::ViewSpriteController::drawPolygon(rectf32 /*outsideViewOrigin*/){
     //
     //edk::View::drawPolygon();edkEnd();
 

@@ -176,7 +176,7 @@ edk::shape::Vertex2D* edk::shape::Polygon2D::getVertexPointer(edk::uint32 vertex
         return this->vertexs[vertex];edkEnd();
     }
     //else return NULL
-    return NULL;edkEnd();
+    return NULL;
 }
 
 //create the polygon
@@ -945,11 +945,11 @@ edk::vec2f32 edk::shape::Polygon2D::getVertexUV(edk::uint32 pos){
             case EDK_SHAPE_UV:
                 //
                 return edk::vec2f32(temp->getUV().x,temp->getUV().y);edkEnd();
-                break;edkEnd();
+                break;
             case EDK_SHAPE_ANIMATED_UV:
                 //
                 return edk::vec2f32(temp->getSaved().x,temp->getSaved().y);edkEnd();
-                break;edkEnd();
+                break;
             }
         }
     }
@@ -1012,7 +1012,7 @@ edk::float32 edk::shape::Polygon2D::getCircleRadius(){
     if(this->type == edk::shape::circle2D){
         return this->radius;edkEnd();
     }
-    return 0.f;edkEnd();
+    return 0.f;
 }
 //return true if it's a Rectangle
 bool edk::shape::Polygon2D::isRect(){
@@ -1302,7 +1302,7 @@ bool edk::shape::Polygon2D::readFromXML(edk::XML* xml,edk::uint32 polygonID){
                                     this->setVertexColor(i,temp.color);edkEnd();
                                     this->setVertexUV(i,temp.getSaved());edkEnd();
                                 }
-                                break;edkEnd();
+                                break;
                             }
                             case EDK_SHAPE_NOUV:
                             {
@@ -1312,7 +1312,7 @@ bool edk::shape::Polygon2D::readFromXML(edk::XML* xml,edk::uint32 polygonID){
                                     this->setVertexPosition(i,temp.position);edkEnd();
                                     this->setVertexColor(i,temp.color);edkEnd();
                                 }
-                                break;edkEnd();
+                                break;
                             }
                             }
                         }
@@ -1405,11 +1405,11 @@ bool edk::shape::Polygon2D::cloneFrom(edk::shape::Polygon2D* poly){
                         //
                         this->setVertexUV(i,poly->getVertexUV(i));edkEnd();
                         this->setVertexUVFrames(i,poly->getFrames());edkEnd();
-                        break;edkEnd();
+                        break;
                     case EDK_SHAPE_UV:
                         //
                         this->setVertexUV(i,poly->getVertexUV(i));edkEnd();
-                        break;edkEnd();
+                        break;
                     };
                 }
             }

@@ -47,14 +47,14 @@ edk::Texture2DList::TextureCode* edk::Texture2DList::getTextureByName(edk::char8
     edk::Texture2DList::TextureCode find;edkEnd();
     find.setName(name);edkEnd();
     find.filter = filter;edkEnd();
-    return (edk::Texture2DList::TextureCode*)edk::Texture2DList::nameTree.getElement(&find);edkEnd();
+    return (edk::Texture2DList::TextureCode*)edk::Texture2DList::nameTree.getElement(&find);
 }
 //get the texture by the code
 edk::Texture2DList::TextureCode* edk::Texture2DList::getTextureByCode(edk::uint32 code){
     //find the texture in the nameTree
     edk::Texture2DList::TextureCode find;edkEnd();
     find.code = code;edkEnd();
-    return edk::Texture2DList::codeTree.getElement(&find);edkEnd();
+    return edk::Texture2DList::codeTree.getElement(&find);
 }
 //create a new texture
 edk::uint32 edk::Texture2DList::createTexture(edk::char8* name,edk::size2ui32 size,edk::uint32 mode,edk::uint32 filter){
@@ -525,7 +525,7 @@ edk::char8* edk::Texture2DList::getTextureName(edk::uint32 code){
     if(temp){
         return temp->getName();edkEnd();
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::uint32 edk::Texture2DList::getTextureFilter(edk::uint32 code){
     edk::Texture2DList::TextureCode* temp = this->getTextureByCode(code);edkEnd();

@@ -390,7 +390,7 @@ edk::float32 edk::animation::Interpolation1DGroup::addShakingFramesX(edk::float3
         //return how many seconds the animation have
         return second;edkEnd();
     }
-    return 0.f;edkEnd();
+    return 0.f;
 }
 
 //set the animationSecond by the X
@@ -435,7 +435,7 @@ bool edk::animation::Interpolation1DGroup::setSecondByX(edk::float32 oldSecond,e
                                 }
                             }
                             else{
-                                break;edkEnd();
+                                break;
                             }
 
                             //decrement the select
@@ -445,7 +445,7 @@ bool edk::animation::Interpolation1DGroup::setSecondByX(edk::float32 oldSecond,e
                                     select = this->interpolationEnd;edkEnd();
                                 }
                                 if(select==saveSelect){
-                                    break;edkEnd();
+                                    break;
                                 }
                             }
                             else{
@@ -469,7 +469,7 @@ bool edk::animation::Interpolation1DGroup::setSecondByX(edk::float32 oldSecond,e
                                 }
                             }
                             else{
-                                break;edkEnd();
+                                break;
                             }
 
                             //increment select
@@ -478,7 +478,7 @@ bool edk::animation::Interpolation1DGroup::setSecondByX(edk::float32 oldSecond,e
                                 select=this->interpolationStart;edkEnd();
                             }
                             if(select==saveSelect){
-                                break;edkEnd();
+                                break;
                             }
                         }
                     }
@@ -520,7 +520,7 @@ bool edk::animation::Interpolation1DGroup::setSecondByX(edk::float32 oldSecond,e
                                             }
                                         }
                                         else{
-                                            break;edkEnd();
+                                            break;
                                         }
 
                                         //decrement the select
@@ -530,7 +530,7 @@ bool edk::animation::Interpolation1DGroup::setSecondByX(edk::float32 oldSecond,e
                                                 select = this->interpolationEnd;edkEnd();
                                             }
                                             if(select==saveSelect){
-                                                break;edkEnd();
+                                                break;
                                             }
                                         }
                                         else{
@@ -540,11 +540,11 @@ bool edk::animation::Interpolation1DGroup::setSecondByX(edk::float32 oldSecond,e
                                         }
                                     }
                                 }
-                                break;edkEnd();
+                                break;
                             }
                         }
                         else{
-                            break;edkEnd();
+                            break;
                         }
 
                         //increment select
@@ -553,7 +553,7 @@ bool edk::animation::Interpolation1DGroup::setSecondByX(edk::float32 oldSecond,e
                             select=this->interpolationStart;edkEnd();
                         }
                         if(select==saveSelect){
-                            break;edkEnd();
+                            break;
                         }
                     }
                 }
@@ -587,7 +587,7 @@ bool edk::animation::Interpolation1DGroup::setSecondByX(edk::float32 oldSecond,e
                                             }
                                         }
                                         else{
-                                            break;edkEnd();
+                                            break;
                                         }
 
                                         //increment select
@@ -596,15 +596,15 @@ bool edk::animation::Interpolation1DGroup::setSecondByX(edk::float32 oldSecond,e
                                             select=this->interpolationStart;edkEnd();
                                         }
                                         if(select==saveSelect){
-                                            break;edkEnd();
+                                            break;
                                         }
                                     }
                                 }
-                                break;edkEnd();
+                                break;
                             }
                         }
                         else{
-                            break;edkEnd();
+                            break;
                         }
 
                         //decrement the select
@@ -614,7 +614,7 @@ bool edk::animation::Interpolation1DGroup::setSecondByX(edk::float32 oldSecond,e
                                 select = this->interpolationEnd;edkEnd();
                             }
                             if(select==saveSelect){
-                                break;edkEnd();
+                                break;
                             }
                         }
                         else{
@@ -673,7 +673,7 @@ edk::float32 edk::animation::Interpolation1DGroup::getAnimationStartX(){
             return temp->getStart1D().x;edkEnd();
         }
     }
-    return 0.f;edkEnd();
+    return 0.f;
 }
 edk::float32 edk::animation::Interpolation1DGroup::getAnimationEndX(){
     if(this->animations.size()){
@@ -682,7 +682,7 @@ edk::float32 edk::animation::Interpolation1DGroup::getAnimationEndX(){
             return temp->getEnd1D().x;edkEnd();
         }
     }
-    return 0.f;edkEnd();
+    return 0.f;
 }
 //write to XML
 bool edk::animation::Interpolation1DGroup::writeToXML(edk::XML* xml,edk::uint32 id){

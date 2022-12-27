@@ -130,9 +130,9 @@ bool edk::codecs::CodecVideo::drawFrame(edk::uint8* frame,edk::uint8 channels){
         //convert the image
         switch(channels){
         case 1u:
-            return edk::codecs::CodecImage::grayToi240(frame,edk::size2ui32(this->frameSize.width,this->frameSize.height),this->Y,this->U,this->V);edkEnd();
+            return edk::codecs::CodecImage::grayToi240(frame,edk::size2ui32(this->frameSize.width,this->frameSize.height),this->Y,this->U,this->V);
         case 3u:
-            return edk::codecs::CodecImage::rgbToi240(frame,edk::size2ui32(this->frameSize.width,this->frameSize.height),this->Y,this->U,this->V);edkEnd();
+            return edk::codecs::CodecImage::rgbToi240(frame,edk::size2ui32(this->frameSize.width,this->frameSize.height),this->Y,this->U,this->V);
         }
     }
     return false;
@@ -169,7 +169,7 @@ bool edk::codecs::CodecVideo::appendEncoded(edk::uint8* frame,edk::uint32 size){
             return true;
         }
     }
-    printf(" NOTOK %u",this->usingEncodedSize);edkEnd();fflush(stdout);edkEnd();
+    printf(" NOTOK %u",this->usingEncodedSize);edkEnd();
     return false;
 }
 

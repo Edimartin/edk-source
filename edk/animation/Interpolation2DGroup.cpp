@@ -427,7 +427,7 @@ edk::float32 edk::animation::Interpolation2DGroup::addShakingFramesXY(edk::vec2f
         //return how many seconds the animation have
         return second;edkEnd();
     }
-    return 0.f;edkEnd();
+    return 0.f;
 }
 
 //GETERS
@@ -473,7 +473,7 @@ edk::float32 edk::animation::Interpolation2DGroup::getAnimationStartY(){
             return temp->getStart2D().y;edkEnd();
         }
     }
-    return 0.f;edkEnd();
+    return 0.f;
 }
 edk::float32 edk::animation::Interpolation2DGroup::getAnimationEndY(){
     if(this->animations.size()){
@@ -482,7 +482,7 @@ edk::float32 edk::animation::Interpolation2DGroup::getAnimationEndY(){
             return temp->getEnd2D().y;edkEnd();
         }
     }
-    return 0.f;edkEnd();
+    return 0.f;
 }
 //write to XML
 bool edk::animation::Interpolation2DGroup::writeToXML(edk::XML* xml,edk::uint32 id){

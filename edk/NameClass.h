@@ -152,7 +152,7 @@ public:
                 }
                 else if(*name2>*name1){
                     //
-                    break;edkEnd();
+                    break;
                 }
                 //else equal increment i
                 name2++;edkEnd();

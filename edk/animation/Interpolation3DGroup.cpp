@@ -396,7 +396,7 @@ edk::float32 edk::animation::Interpolation3DGroup::getAnimationStartZ(){
             return temp->getStart3D().z;edkEnd();
         }
     }
-    return 0.f;edkEnd();
+    return 0.f;
 }
 edk::float32 edk::animation::Interpolation3DGroup::getAnimationEndZ(){
     if(this->animations.size()){
@@ -405,7 +405,7 @@ edk::float32 edk::animation::Interpolation3DGroup::getAnimationEndZ(){
             return temp->getEnd3D().z;edkEnd();
         }
     }
-    return 0.f;edkEnd();
+    return 0.f;
 }
 //write to XML
 bool edk::animation::Interpolation3DGroup::writeToXML(edk::XML* xml,edk::uint32 id){

@@ -73,7 +73,7 @@ bool edk::FileToH::writeToFile(edk::char8* fileName,edk::uint32 lineSize){
                                         if(i){
                                             if(fileName[i-1u] == '/'){
                                                 fileNameFiltered = &fileName[i];edkEnd();
-                                                break;edkEnd();
+                                                break;
                                             }
                                         }
                                     }
@@ -218,7 +218,7 @@ bool edk::FileToH::writeToEDKFile(edk::char8* fileName,edk::uint32 lineSize){
                                     for(edk::uint32 i=nameSize;i>0u;i--){
                                         if(i) if(fileName[i-1u] == '/'){
                                             fileNameFiltered = &fileName[i];edkEnd();
-                                            break;edkEnd();
+                                            break;
                                         }
                                     }
                                 }
@@ -338,13 +338,13 @@ edk::char8* edk::FileToH::readFileName(edk::char8* fileName){
                             return ret;
                         }
                     }
-                    break;edkEnd();
+                    break;
                 case '\0':
-                    break;edkEnd();
+                    break;
                 }
                 size--;edkEnd();
             }
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }

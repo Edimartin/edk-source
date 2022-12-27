@@ -229,7 +229,7 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                 this->translate.x -= this->size.width;edkEnd();
                 //change the matrix in X
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                printf("\n\n%u",counter++);edkEnd();fflush(stdout);edkEnd();
+                printf("\n\n%u",counter++);edkEnd();
 #endif
                 changeXPositive=true;edkEnd();
             }
@@ -244,7 +244,7 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                 this->translate.x += this->size.width;edkEnd();
                 //change the matrix
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                printf("\n\n%u",counter++);edkEnd();fflush(stdout);edkEnd();
+                printf("\n\n%u",counter++);edkEnd();
 #endif
                 changeXNegative=true;edkEnd();
             }
@@ -257,7 +257,7 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                 this->translate.y -= this->size.height;edkEnd();
                 //change the matrix
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                printf("\n\n%u",counter++);edkEnd();fflush(stdout);edkEnd();
+                printf("\n\n%u",counter++);edkEnd();
 #endif
                 changeYPositive=true;edkEnd();
             }
@@ -272,7 +272,7 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                 this->translate.y += this->size.height;edkEnd();
                 //change the matrix
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                printf("\n\n%u",counter++);edkEnd();fflush(stdout);edkEnd();
+                printf("\n\n%u",counter++);edkEnd();
 #endif
                 changeYNegative=true;edkEnd();
             }
@@ -304,14 +304,14 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                                    ,size.width-1u
                                    ,y
                                    ,position
-                                   );edkEnd();fflush(stdout);edkEnd();
+                                   );edkEnd();
 #endif
                             temp = this->stack.get(position);edkEnd();
                             if(temp){
                                 //
                                 if(temp->getDrawTimes()){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                    printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();fflush(stdout);edkEnd();
+                                    printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
 #endif
                                     temp->incrementDraw();edkEnd();
                                     temp->haveRemoved=false;edkEnd();
@@ -330,13 +330,13 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                                             if(temp->getDrawTimes()){
                                                 if(temp->canDraw()){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                                    printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();fflush(stdout);edkEnd();
+                                                    printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
 #endif
                                                     temp->incrementDraw();edkEnd();
                                                     temp->haveRemoved=false;edkEnd();
                                                 }
                                                 else{
-                                                    break;edkEnd();
+                                                    break;
                                                 }
                                             }
                                         }
@@ -350,14 +350,14 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                                             if(temp->getDrawTimes()){
                                                 if(!temp->canDraw()){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                                    printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();fflush(stdout);edkEnd();
+                                                    printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
 #endif
                                                     temp->incrementDraw();edkEnd();
                                                     temp->haveRemoved=false;edkEnd();
                                                 }
                                                 else{
                                                     runIncreDecre=true;edkEnd();
-                                                    break;edkEnd();
+                                                    break;
                                                 }
                                             }
                                         }
@@ -370,13 +370,13 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                                                 if(temp->getDrawTimes()){
                                                     if(!temp->canDraw()){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                                        printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();fflush(stdout);edkEnd();
+                                                        printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
 #endif
                                                         temp->incrementDraw();edkEnd();
                                                         temp->haveRemoved=false;edkEnd();
                                                     }
                                                     else{
-                                                        break;edkEnd();
+                                                        break;
                                                     }
                                                 }
                                             }
@@ -410,13 +410,13 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                             printf("\n%u %s %s try([%u])'%s'",__LINE__,__FILE__,__func__
                                    ,position
                                    ,temp?"true":"false"
-                                         );edkEnd();fflush(stdout);edkEnd();
+                                         );edkEnd();
 #endif
                             if(temp){
                                 if(temp->getDrawTimes()){
                                     if(temp->isMinusDraw()){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                        printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();fflush(stdout);edkEnd();
+                                        printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
 #endif
                                         temp->incrementDraw();edkEnd();
                                         runIncreDecre=true;edkEnd();
@@ -429,14 +429,14 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                                             //temp->incrementDraw();edkEnd();
                                         }
                                     }
-                                    break;edkEnd();
+                                    break;
                                 }
                                 else{
                                     if(!temp->haveRemoved){
                                         if(temp->getDrawTimes()){
                                             if(!runIncreDecre){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                                printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();fflush(stdout);edkEnd();
+                                                printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
 #endif
                                                 temp->incrementDraw();edkEnd();
                                             }
@@ -453,7 +453,7 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                                 position--;edkEnd();
                             }
                             if(position==savePosition){
-                                break;edkEnd();
+                                break;
                             }
                         }
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
@@ -461,7 +461,7 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                                ,0
                                ,y
                                ,position
-                               );edkEnd();fflush(stdout);edkEnd();
+                               );edkEnd();
 #endif
                         this->matrix.set(0u,y,position);edkEnd();
                     }
@@ -492,14 +492,14 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                                    ,0u
                                    ,y
                                    ,position
-                                   );edkEnd();fflush(stdout);edkEnd();
+                                   );edkEnd();
 #endif
                             temp = this->stack.get(position);edkEnd();
                             if(temp){
                                 //decrement the draw from TEMP
                                 if(temp->getDrawTimes()){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                    printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();fflush(stdout);edkEnd();
+                                    printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
 #endif
                                     temp->decrementDraw();edkEnd();
                                     temp->haveRemoved=false;edkEnd();
@@ -517,13 +517,13 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                                         if(temp->getDrawTimes()){
                                             if(temp->canDraw()){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                                printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();fflush(stdout);edkEnd();
+                                                printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
 #endif
                                                 temp->decrementDraw();edkEnd();
                                                 temp->haveRemoved=false;edkEnd();
                                             }
                                             else{
-                                                break;edkEnd();
+                                                break;
                                             }
                                         }
                                     }
@@ -537,14 +537,14 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                                         if(temp->getDrawTimes()){
                                             if(!temp->canDraw()){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                                printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();fflush(stdout);edkEnd();
+                                                printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
 #endif
                                                 temp->decrementDraw();edkEnd();
                                                 temp->haveRemoved=false;edkEnd();
                                             }
                                             else{
                                                 runIncreDecre=true;edkEnd();
-                                                break;edkEnd();
+                                                break;
                                             }
                                         }
                                     }
@@ -557,13 +557,13 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                                             if(temp->getDrawTimes()){
                                                 if(!temp->canDraw()){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                                    printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();fflush(stdout);edkEnd();
+                                                    printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
 #endif
                                                     temp->decrementDraw();edkEnd();
                                                     temp->haveRemoved=false;edkEnd();
                                                 }
                                                 else{
-                                                    break;edkEnd();
+                                                    break;
                                                 }
                                             }
                                         }
@@ -593,13 +593,13 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                                 printf("\n%u %s %s try([%u])'%s'",__LINE__,__FILE__,__func__
                                        ,position
                                        ,temp?"true":"false"
-                                             );edkEnd();fflush(stdout);edkEnd();
+                                             );edkEnd();
 #endif
                                 if(temp){
                                     if(temp->getDrawTimes()){
                                         if(!temp->isMinusDraw()){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                            printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();fflush(stdout);edkEnd();
+                                            printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
 #endif
                                             temp->decrementDraw();edkEnd();
                                             runIncreDecre=true;edkEnd();
@@ -612,14 +612,14 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                                                 //temp->decrementDraw();edkEnd();
                                             }
                                         }
-                                        break;edkEnd();
+                                        break;
                                     }
                                     else{
                                         if(!temp->haveRemoved){
                                             if(temp->getDrawTimes()){
                                                 if(!runIncreDecre){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                                    printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();fflush(stdout);edkEnd();
+                                                    printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
 #endif
                                                     temp->decrementDraw();edkEnd();
                                                 }
@@ -634,7 +634,7 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                                     position=0u;edkEnd();
                                 }
                                 if(position==savePosition){
-                                    break;edkEnd();
+                                    break;
                                 }
                             }
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
@@ -642,7 +642,7 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                                    ,size.width
                                    ,y
                                    ,position
-                                   );edkEnd();fflush(stdout);edkEnd();
+                                   );edkEnd();
 #endif
                             this->matrix.set(size.width,y,position);edkEnd();
                         }
@@ -666,7 +666,7 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                         //decrement the draw from TEMP
                         if(temp->getDrawTimes()){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                            printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();fflush(stdout);edkEnd();
+                            printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
 #endif
                             temp->incrementDraw();edkEnd();
                             temp->haveRemoved=false;edkEnd();
@@ -685,13 +685,13 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                                     if(temp->getDrawTimes()){
                                         if(temp->canDraw()){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                            printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();fflush(stdout);edkEnd();
+                                            printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
 #endif
                                             temp->incrementDraw();edkEnd();
                                             temp->haveRemoved=false;edkEnd();
                                         }
                                         else{
-                                            break;edkEnd();
+                                            break;
                                         }
                                     }
                                 }
@@ -705,14 +705,14 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                                     if(temp->getDrawTimes()){
                                         if(!temp->canDraw()){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                            printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();fflush(stdout);edkEnd();
+                                            printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
 #endif
                                             temp->incrementDraw();edkEnd();
                                             temp->haveRemoved=false;edkEnd();
                                         }
                                         else{
                                             runIncreDecre=true;edkEnd();
-                                            break;edkEnd();
+                                            break;
                                         }
                                     }
                                 }
@@ -725,13 +725,13 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                                         if(temp->getDrawTimes()){
                                             if(!temp->canDraw()){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                                printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();fflush(stdout);edkEnd();
+                                                printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
 #endif
                                                 temp->incrementDraw();edkEnd();
                                                 temp->haveRemoved=false;edkEnd();
                                             }
                                             else{
-                                                break;edkEnd();
+                                                break;
                                             }
                                         }
                                     }
@@ -764,7 +764,7 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                             if(temp->getDrawTimes()){
                                 if(temp->isMinusDraw()){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                    printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();fflush(stdout);edkEnd();
+                                    printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
 #endif
                                     temp->incrementDraw();edkEnd();
                                     runIncreDecre=true;edkEnd();
@@ -777,14 +777,14 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                                         //temp->incrementDraw();edkEnd();
                                     }
                                 }
-                                break;edkEnd();
+                                break;
                             }
                             else{
                                 if(!temp->haveRemoved){
                                     if(temp->getDrawTimes()){
                                         if(!runIncreDecre){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                            printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();fflush(stdout);edkEnd();
+                                            printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
 #endif
                                             temp->incrementDraw();edkEnd();
                                         }
@@ -801,7 +801,7 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                             position--;edkEnd();
                         }
                         if(position==savePosition){
-                            break;edkEnd();
+                            break;
                         }
                     }
                     this->matrix.set(x,0u,position);edkEnd();
@@ -825,7 +825,7 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                             //decrement the draw from TEMP
                             if(temp->getDrawTimes()){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();fflush(stdout);edkEnd();
+                                printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
 #endif
                                 temp->decrementDraw();edkEnd();
                                 temp->haveRemoved=false;edkEnd();
@@ -843,13 +843,13 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                                     if(temp->getDrawTimes()){
                                         if(temp->canDraw()){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                            printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();fflush(stdout);edkEnd();
+                                            printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
 #endif
                                             temp->decrementDraw();edkEnd();
                                             temp->haveRemoved=false;edkEnd();
                                         }
                                         else{
-                                            break;edkEnd();
+                                            break;
                                         }
                                     }
                                 }
@@ -863,14 +863,14 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                                     if(temp->getDrawTimes()){
                                         if(!temp->canDraw()){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                            printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();fflush(stdout);edkEnd();
+                                            printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
 #endif
                                             temp->decrementDraw();edkEnd();
                                             temp->haveRemoved=false;edkEnd();
                                         }
                                         else{
                                             runIncreDecre=true;edkEnd();
-                                            break;edkEnd();
+                                            break;
                                         }
                                     }
                                 }
@@ -883,13 +883,13 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                                         if(temp->getDrawTimes()){
                                             if(!temp->canDraw()){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                                printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();fflush(stdout);edkEnd();
+                                                printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
 #endif
                                                 temp->decrementDraw();edkEnd();
                                                 temp->haveRemoved=false;edkEnd();
                                             }
                                             else{
-                                                break;edkEnd();
+                                                break;
                                             }
                                         }
                                     }
@@ -919,7 +919,7 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                                 if(temp->getDrawTimes()){
                                     if(!temp->isMinusDraw()){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                        printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();fflush(stdout);edkEnd();
+                                        printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
 #endif
                                         temp->decrementDraw();edkEnd();
                                         runIncreDecre=true;edkEnd();
@@ -932,14 +932,14 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                                             //temp->decrementDraw();edkEnd();
                                         }
                                     }
-                                    break;edkEnd();
+                                    break;
                                 }
                                 else{
                                     if(!temp->haveRemoved){
                                         if(temp->getDrawTimes()){
                                             if(!runIncreDecre){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                                printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();fflush(stdout);edkEnd();
+                                                printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
 #endif
                                                 temp->decrementDraw();edkEnd();
                                             }
@@ -954,7 +954,7 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                                 position=0u;edkEnd();
                             }
                             if(position==savePosition){
-                                break;edkEnd();
+                                break;
                             }
                         }
                         this->matrix.set(x,size.height,position);edkEnd();

@@ -63,49 +63,49 @@ edk::Action* edk::Object2D::readXMLAction(edk::classID thisPointer,edk::uint32 a
     {
         //ActionPosition
         return new edk::Object2D::ActionPosition((edk::Object2D*)thisPointer,edk::vec2f32(0,0));edkEnd();
-        break;edkEnd();
+        break;
     }
     case 2u:
     {
         //ActionMove
         return new edk::Object2D::ActionMove((edk::Object2D*)thisPointer,0,edk::vec2f32(0,0));edkEnd();
-        break;edkEnd();
+        break;
     }
     case 3u:
     {
         //ActionSetSize
         return new edk::Object2D::ActionSetSize((edk::Object2D*)thisPointer,edk::size2f32(1,1));edkEnd();
-        break;edkEnd();
+        break;
     }
     case 4u:
     {
         //ActionSize
         return new edk::Object2D::ActionSize((edk::Object2D*)thisPointer,0,edk::size2f32(1,1));edkEnd();
-        break;edkEnd();
+        break;
     }
     case 5u:
     {
         //ActionSetAngle
         return new edk::Object2D::ActionSetAngle((edk::Object2D*)thisPointer,0);edkEnd();
-        break;edkEnd();
+        break;
     }
     case 6u:
     {
         //ActionAngle
         return new edk::Object2D::ActionAngle((edk::Object2D*)thisPointer,0,0);edkEnd();
-        break;edkEnd();
+        break;
     }
     case 7u:
     {
         //ActionMeshName
         return new edk::Object2D::ActionMeshName((edk::Object2D*)thisPointer,0,NULL,false);edkEnd();
-        break;edkEnd();
+        break;
     }
     case 8u:
     {
         //ActionMeshStop
         return new edk::Object2D::ActionMeshStop((edk::Object2D*)thisPointer,0);edkEnd();
-        break;edkEnd();
+        break;
     }
     }
     return new edk::ActionZero();edkEnd();
@@ -1145,7 +1145,7 @@ void edk::Object2D::cleanAllActions(){
     this->actions.clean();edkEnd();
 }
 bool edk::Object2D::removeActionSecond(edk::float32 second){
-    this->actions.removeSecond(second);edkEnd();
+    return this->actions.removeSecond(second);edkEnd();
 }
 //Add zero action
 bool edk::Object2D::actionZero(edk::float32 second){
@@ -1161,7 +1161,7 @@ bool edk::Object2D::actionSetPosition(edk::float32 second,edk::float32 x,edk::fl
 //add move action
 bool edk::Object2D::actionMove(edk::float32 second,edk::float32 duration, edk::vec2f32 position){
     //create the action
-    if (this->actions.addAction(second,new edk::Object2D::ActionMove(this,duration,position))){
+    if(this->actions.addAction(second,new edk::Object2D::ActionMove(this,duration,position))){
         this->actions.addZeroAction(second+duration);edkEnd();
         return true;
     }
@@ -1190,7 +1190,7 @@ bool edk::Object2D::actionSetSize(edk::float32 second,edk::float32 size){
 //add scale action
 bool edk::Object2D::actionScale(edk::float32 second,edk::float32 duration, edk::size2f32 size){
     //create the action
-    if (this->actions.addAction(second,new edk::Object2D::ActionSize(this,duration,size))){
+    if(this->actions.addAction(second,new edk::Object2D::ActionSize(this,duration,size))){
         this->actions.addZeroAction(second+duration);edkEnd();
         return true;
     }
@@ -2336,56 +2336,56 @@ class ActionMeshStop 8
                     //ActionPosition
                     edk::Object2D::ActionPosition* temp = (edk::Object2D::ActionPosition*)obj->actions.getActionInKey(i,j);edkEnd();
                     this->actions.addAction(second,new edk::Object2D::ActionPosition(this,temp->getPosition()));edkEnd();
-                    break;edkEnd();
+                    break;
                 }
                 case 2u:
                 {
                     //ActionMove
                     edk::Object2D::ActionMove* temp = (edk::Object2D::ActionMove*)obj->actions.getActionInKey(i,j);edkEnd();
                     this->actions.addAction(second,new edk::Object2D::ActionMove(this,temp->getDuration(),temp->getPosition()));edkEnd();
-                    break;edkEnd();
+                    break;
                 }
                 case 3u:
                 {
                     //ActionSetSize
                     edk::Object2D::ActionSetSize* temp = (edk::Object2D::ActionSetSize*)obj->actions.getActionInKey(i,j);edkEnd();
                     this->actions.addAction(second,new edk::Object2D::ActionSetSize(this,temp->getSize()));edkEnd();
-                    break;edkEnd();
+                    break;
                 }
                 case 4u:
                 {
                     //ActionSize
                     edk::Object2D::ActionSize* temp = (edk::Object2D::ActionSize*)obj->actions.getActionInKey(i,j);edkEnd();
                     this->actions.addAction(second,new edk::Object2D::ActionSize(this,temp->getDuration(),temp->getSize()));edkEnd();
-                    break;edkEnd();
+                    break;
                 }
                 case 5u:
                 {
                     //ActionSetAngle
                     edk::Object2D::ActionSetAngle* temp = (edk::Object2D::ActionSetAngle*)obj->actions.getActionInKey(i,j);edkEnd();
                     this->actions.addAction(second,new edk::Object2D::ActionSetAngle(this,temp->getAngle()));edkEnd();
-                    break;edkEnd();
+                    break;
                 }
                 case 6u:
                 {
                     //ActionAngle
                     edk::Object2D::ActionAngle* temp = (edk::Object2D::ActionAngle*)obj->actions.getActionInKey(i,j);edkEnd();
                     this->actions.addAction(second,new edk::Object2D::ActionAngle(this,temp->getDuration(),temp->getAngle()));edkEnd();
-                    break;edkEnd();
+                    break;
                 }
                 case 7u:
                 {
                     //ActionMeshName
                     edk::Object2D::ActionMeshName* temp = (edk::Object2D::ActionMeshName*)obj->actions.getActionInKey(i,j);edkEnd();
                     this->actions.addAction(second,new edk::Object2D::ActionMeshName(this,temp->getId(),temp->getName(),temp->getLoop()));edkEnd();
-                    break;edkEnd();
+                    break;
                 }
                 case 8u:
                 {
                     //ActionMeshStop
                     edk::Object2D::ActionMeshStop* temp = (edk::Object2D::ActionMeshStop*)obj->actions.getActionInKey(i,j);edkEnd();
                     this->actions.addAction(second,new edk::Object2D::ActionMeshStop(this,temp->getId()));edkEnd();
-                    break;edkEnd();
+                    break;
                 }
                 default:
                 {

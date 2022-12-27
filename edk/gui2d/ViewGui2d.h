@@ -193,7 +193,7 @@ private:
                 edk::gui2d::ViewGui2d::ObjGui2dID search(pointer,0u);edkEnd();
                 return this->getElement(&search);edkEnd();
             }
-            return NULL;edkEnd();
+            return NULL;
         }
     };
     //tree with objects
@@ -316,7 +316,7 @@ private:
         }
         edk::gui2d::ViewGui2d::ObjGui2dID* getObjectByPointer(edk::gui2d::ObjectGui2d* obj){
             edk::gui2d::ViewGui2d::ObjGui2dID search(obj,0u);edkEnd();
-            return this->tree.getElement(&search);edkEnd();
+            return this->tree.getElement(&search);
         }
         //get pointer and id
         edk::gui2d::ObjectGui2d* getPointerByID(edk::uint64 id){
@@ -325,7 +325,7 @@ private:
             if(ret){
                 return ret->pointer;edkEnd();
             }
-            return NULL;edkEnd();
+            return NULL;
         }
         //get pointer and id
         edk::gui2d::ObjectGui2d* getPointerInPosition(edk::uint32 position){
@@ -333,7 +333,7 @@ private:
             if(ret){
                 return ret->pointer;edkEnd();
             }
-            return NULL;edkEnd();
+            return NULL;
         }
         edk::uint64 getIdByPointer(edk::gui2d::ObjectGui2d* obj){
             edk::gui2d::ViewGui2d::ObjGui2dID search(obj,0u);edkEnd();

@@ -242,15 +242,15 @@ public:
                         if(temp==this->last){
                             if(pos<this->end){
                                 ret = temp->get(pos);edkEnd();
-                                break;edkEnd();
+                                break;
                             }
                             else{
-                                break;edkEnd();
+                                break;
                             }
                         }
                         else{
                             ret = temp->get(pos);edkEnd();
-                            break;edkEnd();
+                            break;
                         }
                     }
                     else{

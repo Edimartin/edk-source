@@ -55,8 +55,8 @@ bool edk::AudioBuffer::loadBufferFromFile(edk::char8* name){
         this->buffer=new sf::SoundBuffer;edkEnd();
         if(this->buffer){
             //load from the file
-            //if (this->buffer->LoadFromFile((const edk::char8*)name) ){//1.6
-            if (this->buffer->loadFromFile((const edk::char8*)name) ){//2.0
+            //if(this->buffer->LoadFromFile((const edk::char8*)name) ){//1.6
+            if(this->buffer->loadFromFile((const edk::char8*)name) ){//2.0
                 //then set the name
                 this->setName(name);edkEnd();
                 //return true
@@ -81,8 +81,8 @@ bool edk::AudioBuffer::loadBufferFromMemory(edk::char8* name,edk::classID vector
         this->buffer=new sf::SoundBuffer;edkEnd();
         if(this->buffer){
             //load from the file
-            //if (this->buffer->loadFromMemory(vector,size)){//1.6
-            if (this->buffer->loadFromMemory(vector,size)){//2.0
+            //if(this->buffer->loadFromMemory(vector,size)){//1.6
+            if(this->buffer->loadFromMemory(vector,size)){//2.0
                 //then set the name
                 this->setName(name);edkEnd();
                 //return true
@@ -110,8 +110,8 @@ bool edk::AudioBuffer::loadBufferFromPack(edk::pack::FilePackage* pack,edk::char
                     this->buffer=new sf::SoundBuffer;edkEnd();
                     if(this->buffer){
                         //load from the file
-                        //if (this->buffer->Memory(pack->getBuffer(),pack->getBufferSize()) ){//1.6
-                        if (this->buffer->loadFromMemory(pack->getBuffer(),pack->getBufferSize()) ){//2.0
+                        //if(this->buffer->Memory(pack->getBuffer(),pack->getBufferSize()) ){//1.6
+                        if(this->buffer->loadFromMemory(pack->getBuffer(),pack->getBufferSize()) ){//2.0
                             //then set the name
                             this->setName(name);edkEnd();
                             //return true

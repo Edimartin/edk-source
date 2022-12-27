@@ -102,7 +102,7 @@ edk::animation::Frame* edk::animation::PathGroup::getLastFrame(){
         return this->animations[this->animationPosition];edkEnd();
     }
     //else return this frame
-    return NULL;edkEnd();
+    return NULL;
 }
 
 //increment functions to run the increment for the values
@@ -141,7 +141,7 @@ edk::uint32 edk::animation::PathGroup::getPositionFromSecond(edk::float32 second
             else{
             if(second < temp->second){
                 //get the animation position
-                break;edkEnd();
+                break;
             }
             else if(second> temp->second-0.0001f){
                 //copy the position
@@ -685,7 +685,7 @@ edk::float32 edk::animation::PathGroup::updateClockAnimation(edk::float32 distan
                     else{
                         //stop
                         this->stop();edkEnd();
-                        return 0.f;edkEnd();
+                        return 0.f;
                     }
                 }
                 else{
@@ -706,7 +706,7 @@ edk::float32 edk::animation::PathGroup::updateClockAnimation(edk::float32 distan
                         else{
                             //else stop
                             this->stop();edkEnd();
-                            return 0.f;edkEnd();
+                            return 0.f;
                         }
                     }
                     else{
@@ -738,7 +738,7 @@ edk::float32 edk::animation::PathGroup::updateClockAnimation(edk::float32 distan
                     else{
                         //stop
                         this->stop();edkEnd();
-                        return 0.f;edkEnd();
+                        return 0.f;
                     }
                 }
                 else{
@@ -759,7 +759,7 @@ edk::float32 edk::animation::PathGroup::updateClockAnimation(edk::float32 distan
                         else{
                             //else stop
                             this->stop();edkEnd();
-                            return 0.f;edkEnd();
+                            return 0.f;
                         }
                     }
                     else{
@@ -801,7 +801,7 @@ edk::float32 edk::animation::PathGroup::updateClockAnimation(edk::float32 distan
 
         return this->step;edkEnd();
     }
-    return 0.f;edkEnd();
+    return 0.f;
 }
 
 //cand delete

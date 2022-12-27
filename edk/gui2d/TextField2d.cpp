@@ -143,7 +143,7 @@ bool edk::gui2d::TextField2d::TextVec::write(edk::char8* str){
                         ||
                         str[i]=='\0'
                         ){
-                    break;edkEnd();
+                    break;
                 }
                 c = edk::String::utf8ToUint32(&str[i]);edkEnd();
                 increment=edk::String::utf8Bytes(&str[i]);edkEnd();
@@ -158,17 +158,17 @@ bool edk::gui2d::TextField2d::TextVec::write(edk::char8* str){
                     //test the case
                     switch(this->caseInput){
                     case edk::gui2d::upperAndLowerCase:
-                        break;edkEnd();
+                        break;
                     case edk::gui2d::upperCase:
                         if(c>='a' && c<='z'){
                             c+='A'-'a';edkEnd();
                         }
-                        break;edkEnd();
+                        break;
                     case edk::gui2d::lowerCase:
                         if(c>='A' && c<='Z'){
                             c-='A'-'a';edkEnd();
                         }
-                        break;edkEnd();
+                        break;
                     }
 
                     if(this->canGetIt(c)){
@@ -204,7 +204,7 @@ edk::uint32 edk::gui2d::TextField2d::TextVec::add(edk::char8* str,edk::uint32 po
                         ||
                         str[i]=='\0'
                         ){
-                    break;edkEnd();
+                    break;
                 }
                 c = edk::String::utf8ToUint32(&str[i]);edkEnd();
                 increment=edk::String::utf8Bytes(&str[i]);edkEnd();
@@ -214,17 +214,17 @@ edk::uint32 edk::gui2d::TextField2d::TextVec::add(edk::char8* str,edk::uint32 po
                     //test the case
                     switch(this->caseInput){
                     case edk::gui2d::upperAndLowerCase:
-                        break;edkEnd();
+                        break;
                     case edk::gui2d::upperCase:
                         if(c>='a' && c<='z'){
                             c+='A'-'a';edkEnd();
                         }
-                        break;edkEnd();
+                        break;
                     case edk::gui2d::lowerCase:
                         if(c>='A' && c<='Z'){
                             c-='A'-'a';edkEnd();
                         }
-                        break;edkEnd();
+                        break;
                     }
 
                     if(!this->add(c,position)){
@@ -260,17 +260,17 @@ edk::uint32 edk::gui2d::TextField2d::TextVec::add(edk::char32 c,edk::uint32 posi
         //test the case
         switch(this->caseInput){
         case edk::gui2d::upperAndLowerCase:
-            break;edkEnd();
+            break;
         case edk::gui2d::upperCase:
             if(c>='a' && c<='z'){
                 c+='A'-'a';edkEnd();
             }
-            break;edkEnd();
+            break;
         case edk::gui2d::lowerCase:
             if(c>='A' && c<='Z'){
                 c-='A'-'a';edkEnd();
             }
-            break;edkEnd();
+            break;
         }
         this->vec.pushBack(c);edkEnd();
         if(size<this->vec.size()){
@@ -320,7 +320,7 @@ edk::char8* edk::gui2d::TextField2d::TextVec::getString(){
                 c = this->vec.get(position);edkEnd();
                 if(!c){
                     delete[] str;edkEnd();
-                    return NULL;edkEnd();
+                    return NULL;
                 }
                 //test if is a special character
                 if(edk::BinaryConverter::getByteLittleEndian(c,1u)){
@@ -348,7 +348,7 @@ edk::char8* edk::gui2d::TextField2d::TextVec::getString(){
             return str;edkEnd();
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::char8* edk::gui2d::TextField2d::TextVec::getStringWithLastSpace(){
     edk::uint32 size = this->sizeOfString();edkEnd();
@@ -368,7 +368,7 @@ edk::char8* edk::gui2d::TextField2d::TextVec::getStringWithLastSpace(){
                 c = this->vec.get(position);edkEnd();
                 if(!c){
                     delete[] str;edkEnd();
-                    return NULL;edkEnd();
+                    return NULL;
                 }
                 //test if is a special character
                 if(edk::BinaryConverter::getByteLittleEndian(c,1u)){
@@ -396,7 +396,7 @@ edk::char8* edk::gui2d::TextField2d::TextVec::getStringWithLastSpace(){
             return str;edkEnd();
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::uint32 edk::gui2d::TextField2d::TextVec::getSize(){
     return this->vec.size();edkEnd();
@@ -419,7 +419,7 @@ bool edk::gui2d::TextField2d::TextVec::addFilterIn(edk::char8* str){
                         ||
                         str[i]=='\0'
                         ){
-                    break;edkEnd();
+                    break;
                 }
                 c = edk::String::utf8ToUint32(&str[i]);edkEnd();
                 increment=edk::String::utf8Bytes(&str[i]);edkEnd();
@@ -428,17 +428,17 @@ bool edk::gui2d::TextField2d::TextVec::addFilterIn(edk::char8* str){
                     //test the case
                     switch(this->caseInput){
                     case edk::gui2d::upperAndLowerCase:
-                        break;edkEnd();
+                        break;
                     case edk::gui2d::upperCase:
                         if(c>='a' && c<='z'){
                             c+='A'-'a';edkEnd();
                         }
-                        break;edkEnd();
+                        break;
                     case edk::gui2d::lowerCase:
                         if(c>='A' && c<='Z'){
                             c-='A'-'a';edkEnd();
                         }
-                        break;edkEnd();
+                        break;
                     }
 
                     if(!this->addFilterIn(c)){
@@ -485,7 +485,7 @@ bool edk::gui2d::TextField2d::TextVec::addFilterOut(edk::char8* str){
                         ||
                         str[i]=='\0'
                         ){
-                    break;edkEnd();
+                    break;
                 }
 
                 c = edk::String::utf8ToUint32(&str[i]);edkEnd();
@@ -495,17 +495,17 @@ bool edk::gui2d::TextField2d::TextVec::addFilterOut(edk::char8* str){
                     //test the case
                     switch(this->caseInput){
                     case edk::gui2d::upperAndLowerCase:
-                        break;edkEnd();
+                        break;
                     case edk::gui2d::upperCase:
                         if(c>='a' && c<='z'){
                             c+='A'-'a';edkEnd();
                         }
-                        break;edkEnd();
+                        break;
                     case edk::gui2d::lowerCase:
                         if(c>='A' && c<='Z'){
                             c-='A'-'a';edkEnd();
                         }
-                        break;edkEnd();
+                        break;
                     }
 
                     if(!this->addFilterOut(c)){
@@ -866,19 +866,19 @@ bool edk::gui2d::TextField2d::setStatus(edk::gui2d::gui2dTexture status){
     switch(status){
     case gui2dTextureNormal:
         return edk::gui2d::ObjectGui2d::setStatus(gui2dTextureNormal);edkEnd();
-        break;edkEnd();
+        break;
     case gui2dTextureUp:
         return edk::gui2d::ObjectGui2d::setStatus(gui2dTextureUp);edkEnd();
-        break;edkEnd();
+        break;
     case gui2dTexturePressed:
         return edk::gui2d::ObjectGui2d::setStatus(gui2dTextureNormal);edkEnd();
-        break;edkEnd();
+        break;
     case gui2dTexturePressedUp:
         return edk::gui2d::ObjectGui2d::setStatus(gui2dTextureNormal);edkEnd();
-        break;edkEnd();
+        break;
     case gui2dTextureSize:
         return edk::gui2d::ObjectGui2d::setStatus(gui2dTextureNormal);edkEnd();
-        break;edkEnd();
+        break;
     }
     return false;
 }
@@ -1312,21 +1312,21 @@ void edk::gui2d::TextField2d::draw(){
         case edk::gui2d::gui2dTexture::gui2dTextureUp:
             //draw the border
             this->obj.drawUp();edkEnd();
-            break;edkEnd();
+            break;
         case edk::gui2d::gui2dTexture::gui2dTexturePressed:
             //draw the border
             this->obj.drawPressed();edkEnd();
-            break;edkEnd();
+            break;
         case edk::gui2d::gui2dTexture::gui2dTexturePressedUp:
             //draw the border
             this->obj.drawPressedUp();edkEnd();
-            break;edkEnd();
+            break;
         case edk::gui2d::gui2dTexture::gui2dTextureNormal:
         case edk::gui2d::gui2dTexture::gui2dTextureSize:
         default:
             //draw the border
             this->obj.drawNormal();edkEnd();
-            break;edkEnd();
+            break;
         }
     }
     edk::GU::guDisable(GU_LIGHTING);edkEnd();

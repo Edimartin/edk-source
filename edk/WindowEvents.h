@@ -294,7 +294,7 @@ private:
         edk::WindowEvents::ControllerButtons* getButtons(edk::uint32 controller){
             edk::WindowEvents::ControllerButtons find;edkEnd();
             find.controller = controller;edkEnd();
-            return this->buttons.getElement(&find);edkEnd();
+            return this->buttons.getElement(&find);
         }
         edk::WindowEvents::ControllerButtons* getButtonsInPosition(edk::uint32 position){
             return this->buttons.getElementInPosition(position);edkEnd();
@@ -303,7 +303,7 @@ private:
         bool haveButtons(edk::uint32 controller){
             edk::WindowEvents::ControllerButtons find;edkEnd();
             find.controller = controller;edkEnd();
-            return this->buttons.haveElement(&find);edkEnd();
+            return this->buttons.haveElement(&find);
         }
     };
     class ControllerAxis: public edk::WindowEvents::ControllerButtons{
@@ -399,14 +399,14 @@ private:
                 if(temp){
                     return temp->value;edkEnd();
                 }
-                return 0.f;edkEnd();
+                return 0.f;
             }
             edk::float32 getAxisValueInPosition(edk::uint32 position){
                 edk::WindowEvents::ControllerAxis::AxisValue* temp = this->getElementInPosition(position);edkEnd();
                 if(temp){
                     return temp->value;edkEnd();
                 }
-                return 0.f;edkEnd();
+                return 0.f;
             }
             //clean axis
             void cleanAxis(){
@@ -424,7 +424,7 @@ private:
             edk::WindowEvents::ControllerAxis::AxisValue* getAxis(edk::uint32 axis){
                 edk::WindowEvents::ControllerAxis::AxisValue find;edkEnd();
                 find.id = axis;edkEnd();
-                return this->getElement(&find);edkEnd();
+                return this->getElement(&find);
             }
         }axisValue;
     };
@@ -494,7 +494,7 @@ private:
                 //return the size
                 return temp->axisValue.getAxisValueByID(position);edkEnd();
             }
-            return 0.f;edkEnd();
+            return 0.f;
         }
         //return the controller axisValue in position
         edk::float32 getControllerAxisValueInPosition(edk::uint32 controllerPosition,edk::uint32 position){
@@ -505,7 +505,7 @@ private:
                 //return the size
                 return temp->axisValue.getAxisValueInPosition(position);edkEnd();
             }
-            return 0.f;edkEnd();
+            return 0.f;
         }
 
         //add a button pressed

@@ -63,25 +63,23 @@ edk::shd::shaderType edk::shd::Shader::readType(edk::char8* name){
     return EDK_SHADER_NONE;edkEnd();
 }
 
-bool edk::shd::Shader::checkCompilationStatus(edk::uint32 id) {
+bool edk::shd::Shader::checkCompilationStatus(edk::uint32 id){
     this->deleteLog();edkEnd();
     edk::int32 status = 0;
 
     //get the status
     edk::GU_GLSL::guGetShaderiv(id, GU_COMPILE_STATUS, &status);edkEnd();
-    if (status == 0) {
+    if(status == 0){
         //status is error
         edk::int32 infologLength = 0;
         edk::int32 charsWritten  = 0;
         //load the information lenght
         edk::GU_GLSL::guGetShaderiv(id, GU_INFO_LOG_LENGTH, &infologLength);edkEnd();
         //if the information lenght is true
-        if (infologLength > 0)
-        {
+        if(infologLength > 0){
             //alloca the string
             this->log = new edk::char8[infologLength];edkEnd();
-            if (this->log == NULL)
-            {
+            if(this->log == NULL){
                 printf( "ERROR: Could not allocate InfoLog buffer");edkEnd();
                 return false;
             }
@@ -90,7 +88,7 @@ bool edk::shd::Shader::checkCompilationStatus(edk::uint32 id) {
 /*
                 printf("\nLOG: %s"
                 ,this->log
-                );edkEnd();fflush(stdout);edkEnd();
+                );edkEnd();
 */
             }
             else{
@@ -118,14 +116,14 @@ bool edk::shd::Shader::loadShaderFromMemory(edk::uint8* shader, edk::uint32 size
             case EDK_SHADER_VERTEX:
                 //
                 this->id=edk::GU_GLSL::guCreateShader(GU_GLSL_VERTEX_SHADER);edkEnd();
-                break;edkEnd();
+                break;
             case EDK_SHADER_FRAGMENT:
                 //
                 this->id=edk::GU_GLSL::guCreateShader(GU_GLSL_FRAGMENT_SHADER);edkEnd();
-                break;edkEnd();
+                break;
             case EDK_SHADER_GEOMETRY:
                 ///TODO: ADD THE GEOMETRY SHADER IN THE FUTURE
-                break;edkEnd();
+                break;
         }
         if(this->id){
             //create the shaderID

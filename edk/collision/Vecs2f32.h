@@ -47,7 +47,7 @@ public:
         canDeleteVecs=false;edkEnd();
     }
     Vecs2f32(edk::uint32 size):
-        edk::vector::Stack<edk::vec2f32*>::Stack(size) {
+        edk::vector::Stack<edk::vec2f32*>::Stack(size){
         //
         canDeleteVecs=false;edkEnd();
     }

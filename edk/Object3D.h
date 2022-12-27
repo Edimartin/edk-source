@@ -220,7 +220,7 @@ protected:
                 }
                 delete mesh;edkEnd();
             }
-            return NULL;edkEnd();
+            return NULL;
         }
         //get the mesh
         edk::shape::Mesh3D* getMesh(edk::uint32 position){
@@ -233,7 +233,7 @@ protected:
                     return temp->getMesh();edkEnd();
                 }
             }
-            return NULL;edkEnd();
+            return NULL;
         }
         //return if have mesh
         bool haveMesh(edk::uint32 position){

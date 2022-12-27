@@ -53,12 +53,24 @@ bool edk::codecs::DecoderH264::i240TorgbWithBorder(edk::uint8* y,edk::uint8* u,e
                 r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
                 g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
                 b = *y + 1.7790 * (*u - 128);edkEnd();
-                if (r<0) r=0;
-                else if (r>255) r=255;edkEnd();
-                if (g<0) g=0;
-                else if (g>255) g=255;edkEnd();
-                if (b<0) b=0;
-                else if (b>255) b=255;edkEnd();
+                if(r<0){
+                    r=0;edkEnd();
+                }
+                else if(r>255){
+                    r=255;edkEnd();
+                }
+                if(g<0){
+                    g=0;edkEnd();
+                }
+                else if(g>255){
+                    g=255;edkEnd();
+                }
+                if(b<0){
+                    b=0;edkEnd();
+                }
+                else if(b>255){
+                    b=255;edkEnd();
+                }
 
                 rgb[0u]=(edk::uint8)r;edkEnd();
                 rgb[1u]=(edk::uint8)g;edkEnd();
@@ -71,12 +83,24 @@ bool edk::codecs::DecoderH264::i240TorgbWithBorder(edk::uint8* y,edk::uint8* u,e
                 r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
                 g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
                 b = *y + 1.7790 * (*u - 128);edkEnd();
-                if (r<0) r=0;
-                else if (r>255) r=255;edkEnd();
-                if (g<0) g=0;
-                else if (g>255) g=255;edkEnd();
-                if (b<0) b=0;
-                else if (b>255) b=255;edkEnd();
+                if(r<0){
+                    r=0;edkEnd();
+                }
+                else if(r>255){
+                    r=255;edkEnd();
+                }
+                if(g<0){
+                    g=0;edkEnd();
+                }
+                else if(g>255){
+                    g=255;edkEnd();
+                }
+                if(b<0){
+                    b=0;edkEnd();
+                }
+                else if(b>255){
+                    b=255;edkEnd();
+                }
 
                 rgb[0u]=(edk::uint8)r;edkEnd();
                 rgb[1u]=(edk::uint8)g;edkEnd();
@@ -98,12 +122,24 @@ bool edk::codecs::DecoderH264::i240TorgbWithBorder(edk::uint8* y,edk::uint8* u,e
                 r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
                 g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
                 b = *y + 1.7790 * (*u - 128);edkEnd();
-                if (r<0) r=0;
-                else if (r>255) r=255;edkEnd();
-                if (g<0) g=0;
-                else if (g>255) g=255;edkEnd();
-                if (b<0) b=0;
-                else if (b>255) b=255;edkEnd();
+                if(r<0){
+                    r=0;edkEnd();
+                }
+                else if(r>255){
+                    r=255;edkEnd();
+                }
+                if(g<0){
+                    g=0;edkEnd();
+                }
+                else if(g>255){
+                    g=255;edkEnd();
+                }
+                if(b<0){
+                    b=0;edkEnd();
+                }
+                else if(b>255){
+                    b=255;edkEnd();
+                }
 
                 rgb[0u]=(edk::uint8)r;edkEnd();
                 rgb[1u]=(edk::uint8)g;edkEnd();
@@ -116,12 +152,24 @@ bool edk::codecs::DecoderH264::i240TorgbWithBorder(edk::uint8* y,edk::uint8* u,e
                 r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
                 g = *y - 0.3455 * (*u - 128) - (0.7169 * (*v - 128));edkEnd();
                 b = *y + 1.7790 * (*u - 128);edkEnd();
-                if (r<0) r=0;
-                else if (r>255) r=255;edkEnd();
-                if (g<0) g=0;
-                else if (g>255) g=255;edkEnd();
-                if (b<0) b=0;
-                else if (b>255) b=255;edkEnd();
+                if(r<0){
+                    r=0;edkEnd();
+                }
+                else if(r>255){
+                    r=255;edkEnd();
+                }
+                if(g<0){
+                    g=0;edkEnd();
+                }
+                else if(g>255){
+                    g=255;edkEnd();
+                }
+                if(b<0){
+                    b=0;edkEnd();
+                }
+                else if(b>255){
+                    b=255;edkEnd();
+                }
 
                 rgb[0u]=(edk::uint8)r;edkEnd();
                 rgb[1u]=(edk::uint8)g;edkEnd();
@@ -195,7 +243,7 @@ bool edk::codecs::DecoderH264::decode(edk::uint8* encoded,edk::uint32 size){
 
                 //if(!decoder->DecodeFrame2(this->getEncoded(), this->getEncodedUsedSize(), this->pic.pData, &this->m_sBufferInfo)){
 
-                if (m_sBufferInfo.iBufferStatus == 1) {
+                if(m_sBufferInfo.iBufferStatus == 1){
                     //copy the frame
                     width = m_sBufferInfo.UsrData.sSystemBuffer.iWidth;edkEnd();
                     height = m_sBufferInfo.UsrData.sSystemBuffer.iHeight;edkEnd();

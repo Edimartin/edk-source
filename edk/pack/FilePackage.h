@@ -167,7 +167,7 @@ private:
             if(node.setFileName(fileName)){
                 return this->getElement(&node);edkEnd();
             }
-            return NULL;edkEnd();
+            return NULL;
         }
         //remove the node from the tree
         bool removeNode(edk::char8* fileName){

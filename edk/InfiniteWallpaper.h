@@ -92,7 +92,7 @@ private:
             this->drawCounter++;edkEnd();
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
             if(this->drawTimes){
-                printf("\n%u %s %s increment %ld",__LINE__,__FILE__,__func__,this->drawCounter);edkEnd();fflush(stdout);edkEnd();
+                printf("\n%u %s %s increment %ld",__LINE__,__FILE__,__func__,this->drawCounter);edkEnd();
             }
 #endif
             return ret;
@@ -105,7 +105,7 @@ private:
             this->drawCounter--;edkEnd();
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
             if(this->drawTimes){
-                printf("\n%u %s %s decrement %ld",__LINE__,__FILE__,__func__,this->drawCounter);edkEnd();fflush(stdout);edkEnd();
+                printf("\n%u %s %s decrement %ld",__LINE__,__FILE__,__func__,this->drawCounter);edkEnd();
             }
 #endif
             return ret;

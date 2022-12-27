@@ -59,15 +59,15 @@ bool edk::GU_GLSL::guStartShader(edk::int32 shade){
         case GU_GLSL_fragment_program:
             //
             return glewGetExtension("GL_ARB_fragment_program");edkEnd();
-            break;edkEnd();
+            break;
         case GU_GLSL_vertex_program:
             //
             return glewGetExtension("GL_ARB_vertex_program");edkEnd();
-            break;edkEnd();
+            break;
         case GU_GLSL_geometry_program:
             //
             return glewGetExtension("GL_ARB_geometry_program");edkEnd();
-            break;edkEnd();
+            break;
     }
     //else return false
     return false;

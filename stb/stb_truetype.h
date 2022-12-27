@@ -304,8 +304,8 @@ void my_stbtt_print(float x, float y, char *text)
    glEnable(GL_TEXTURE_2D);
    glBindTexture(GL_TEXTURE_2D, ftex);
    glBegin(GL_QUADS);
-   while (*text) {
-      if (*text >= 32 && *text < 128) {
+   while (*text){
+      if(*text >= 32 && *text < 128){
          stbtt_aligned_quad q;
          stbtt_GetBakedQuad(cdata, 512,512, *text-32, &x,&y,&q,1);//1=opengl & d3d10+,0=d3d9
          glTexCoord2f(q.s0,q.t0); glVertex2f(q.x0,q.y0);
@@ -342,7 +342,7 @@ int main(int argc, char **argv)
    stbtt_InitFont(&font, ttf_buffer, stbtt_GetFontOffsetForIndex(ttf_buffer,0));
    bitmap = stbtt_GetCodepointBitmap(&font, 0,stbtt_ScaleForPixelHeight(&font, s), c, &w, &h, 0,0);
 
-   for (j=0; j < h; ++j) {
+   for (j=0; j < h; ++j){
       for (i=0; i < w; ++i)
          putchar(" .:ioVM@"[bitmap[j*w+i]>>5]);
       putchar('\n');
@@ -386,7 +386,7 @@ int main(int arg, char **argv)
    stbtt_GetFontVMetrics(&font, &ascent,0,0);
    baseline = (int) (ascent*scale);
 
-   while (text[ch]) {
+   while (text[ch]){
       int advance,lsb,x0,y0,x1,y1;
       float x_shift = xpos - (float) floor(xpos);
       stbtt_GetCodepointHMetrics(&font, text[ch], &advance, &lsb);
@@ -397,12 +397,12 @@ int main(int arg, char **argv)
       // a sequence of characters, you really need to render each bitmap to a temp buffer, then
       // "alpha blend" that into the working buffer
       xpos += (advance * scale);
-      if (text[ch+1])
+      if(text[ch+1])
          xpos += scale*stbtt_GetCodepointKernAdvance(&font, text[ch],text[ch+1]);
       ++ch;
    }
 
-   for (j=0; j < 20; ++j) {
+   for (j=0; j < 20; ++j){
       for (i=0; i < 78; ++i)
          putchar(" .:ioVM@"[screen[j][i]>>5]);
       putchar('\n');
@@ -1094,4 +1094,4 @@ enum { // languageID for STBTT_PLATFORM_ID_MAC
 }
 #endif
 
-#endif __STB_INCLUDE_STB_TRUETYPE_H__
+#endif //__STB_INCLUDE_STB_TRUETYPE_H__

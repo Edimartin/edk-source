@@ -275,8 +275,8 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                     if(str){
                         delete[] str;edkEnd();
                     }
-                    //printf("\nComentario");edkEnd();fflush(stdout);edkEnd();
-                    break;edkEnd();
+                    //printf("\nComentario");edkEnd();
+                    break;
                     //mtllib cubes.mtl
                 case 'm':
                     if(file.readTextChar() == 't'){
@@ -288,7 +288,7 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                                             //readthe mtlFile
                                             str = file.readTextString("\n",false);edkEnd();
                                             if(str){
-                                                //printf("\nMTL LIB == '%s'",str);edkEnd();fflush(stdout);edkEnd();
+                                                //printf("\nMTL LIB == '%s'",str);edkEnd();
                                                 delete[] str;edkEnd();
                                             }
                                         }
@@ -297,12 +297,12 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                             }
                         }
                     }
-                    break;edkEnd();
+                    break;
                 case 'o':
                     if(file.readTextChar() == ' '){
                         str = file.readTextString("\n",false);edkEnd();
                         if(str){
-                            //printf("\nNEW OBJECT NAME == '%s'",str);edkEnd();fflush(stdout);edkEnd();
+                            //printf("\nNEW OBJECT NAME == '%s'",str);edkEnd();
                             delete[] str;edkEnd();
 
                             if(mesh){
@@ -314,7 +314,7 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                             mesh = this->newMesh();edkEnd();
                         }
                     }
-                    break;edkEnd();
+                    break;
                 case 'v':
                     if(!mesh){
                         mesh=this->newMesh();edkEnd();
@@ -336,7 +336,7 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                             z = edk::String::strToFloat32(str);edkEnd();
                             delete[] str;edkEnd();
                         }
-                        //printf("\nNEW Vertex %.2f %.2f %.2f",x,y,z);edkEnd();fflush(stdout);edkEnd();
+                        //printf("\nNEW Vertex %.2f %.2f %.2f",x,y,z);edkEnd();
                         mesh->newVertex(x,y,z,1,1,1,1);edkEnd();
                         //mesh->newVertex(x,y,z,0,0,0,1);edkEnd();
                     }
@@ -353,7 +353,7 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                                 y = edk::String::strToFloat32(str);edkEnd();
                                 delete[] str;edkEnd();
                             }
-                            //printf("\nNEW Vertex Texture %.2f %.2f",x,y);edkEnd();fflush(stdout);edkEnd();
+                            //printf("\nNEW Vertex Texture %.2f %.2f",x,y);edkEnd();
                             mesh->newUV(x,y);edkEnd();
                         }
                     }
@@ -375,11 +375,11 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                                 z = edk::String::strToFloat32(str);edkEnd();
                                 delete[] str;edkEnd();
                             }
-                            //printf("\nNEW Vertex Normal %.2f %.2f %.2f",x,y,z);edkEnd();fflush(stdout);edkEnd();
+                            //printf("\nNEW Vertex Normal %.2f %.2f %.2f",x,y,z);edkEnd();
                             mesh->newNormal(x,y,z);edkEnd();
                         }
                     }
-                    break;edkEnd();
+                    break;
                 case 's':
                     if(!mesh){
                         mesh=this->newMesh();edkEnd();
@@ -391,7 +391,7 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                                 if(str[1u]=='f'){
                                     if(str[2u]=='f'){
                                         //
-                                        //printf("\nSMOOTH FALSE '%s'",str);edkEnd();fflush(stdout);edkEnd();
+                                        //printf("\nSMOOTH FALSE '%s'",str);edkEnd();
                                         smooth=false;edkEnd();
                                     }
                                 }
@@ -399,7 +399,7 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                             else{
                                 if(str[0u]=='1'){
                                     //
-                                    //printf("\nSMOOTH TRUE '%s'",str);edkEnd();fflush(stdout);edkEnd();
+                                    //printf("\nSMOOTH TRUE '%s'",str);edkEnd();
                                     smooth=true;edkEnd();
                                 }
                             }
@@ -412,7 +412,7 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                             delete[] str;edkEnd();
                         }
                     }
-                    break;edkEnd();
+                    break;
                 case 'f':
                     if(!mesh){
                         mesh=this->newMesh();edkEnd();
@@ -436,13 +436,13 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                                         switch(read){
                                         case 0u:
                                             v = edk::String::strToInt64(ve);edkEnd();
-                                            break;edkEnd();
+                                            break;
                                         case 1u:
                                             p = edk::String::strToInt64(ve);edkEnd();
-                                            break;edkEnd();
+                                            break;
                                         case 2u:
                                             n = edk::String::strToInt64(ve);edkEnd();
-                                            break;edkEnd();
+                                            break;
                                         }
                                     }
                                     *temp = '/';edkEnd();
@@ -450,18 +450,18 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                                     switch(read){
                                     case 0u:
                                         read = 1u;edkEnd();
-                                        break;edkEnd();
+                                        break;
                                     case 1u:
                                         read = 2u;edkEnd();
-                                        break;edkEnd();
+                                        break;
                                     case 2u:
                                         read = 3u;edkEnd();
-                                        break;edkEnd();
+                                        break;
                                     }
 
 
                                     ve = temp+1u;edkEnd();
-                                    break;edkEnd();
+                                    break;
                                 case ' ':
                                 case '\n':
                                     *temp = '\0';edkEnd();
@@ -470,15 +470,15 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                                         case 0u:
                                             v = edk::String::strToInt64(ve);edkEnd();
                                             read = 1u;edkEnd();
-                                            break;edkEnd();
+                                            break;
                                         case 1u:
                                             p = edk::String::strToInt64(ve);edkEnd();
                                             read = 2u;edkEnd();
-                                            break;edkEnd();
+                                            break;
                                         case 2u:
                                             n = edk::String::strToInt64(ve);edkEnd();
                                             read = 3u;edkEnd();
-                                            break;edkEnd();
+                                            break;
                                         }
 
 
@@ -487,35 +487,35 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                                             /*
                                             printf(" Face %u"
                                                    ,v
-                                                   );edkEnd();fflush(stdout);edkEnd();
+                                                   );edkEnd();
                                                    */
                                             sv.pushBack(v);edkEnd();
                                             sp.pushBack(0u);edkEnd();
                                             sn.pushBack(0u);edkEnd();
-                                            break;edkEnd();
+                                            break;
                                         case 2u:
                                             /*
                                             printf(" Face %u/%u"
                                                    ,v
                                                    ,p
-                                                   );edkEnd();fflush(stdout);edkEnd();
+                                                   );edkEnd();
                                             */
                                             sv.pushBack(v);edkEnd();
                                             sp.pushBack(p);edkEnd();
                                             sn.pushBack(0u);edkEnd();
-                                            break;edkEnd();
+                                            break;
                                         case 3u:
                                             /*
                                             printf(" Face %u/%u/%u"
                                                    ,v
                                                    ,p
                                                    ,n
-                                                   );edkEnd();fflush(stdout);edkEnd();
+                                                   );edkEnd();
                                             */
                                             sv.pushBack(v);edkEnd();
                                             sp.pushBack(p);edkEnd();
                                             sn.pushBack(n);edkEnd();
-                                            break;edkEnd();
+                                            break;
                                         }
                                         v=p=n=0u;
                                         read=0u;
@@ -523,9 +523,9 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                                     *temp = ' ';edkEnd();
 
                                     ve = temp+1u;edkEnd();
-                                    break;edkEnd();
+                                    break;
                                 default:
-                                    break;edkEnd();
+                                    break;
                                 }
 
                                 temp++;edkEnd();
@@ -533,7 +533,7 @@ bool edk::Object3D::addObj(edk::char8* fileName){
 
                             edk::uint32 size = sv.size();edkEnd();
                             if(size){
-                                //printf(" NEW FACE");edkEnd();fflush(stdout);edkEnd();
+                                //printf(" NEW FACE");edkEnd();
                                 edk::uint32 po = mesh->newPolygon(size);edkEnd();
                                 mesh->selectPolygon(po);edkEnd();
                                 mesh->selectedPolygonSetSmooth(smooth);edkEnd();
@@ -579,7 +579,7 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                             delete[] str;edkEnd();
                         }
                     }
-                    break;edkEnd();
+                    break;
                 case 'u':
                     if(file.readTextChar() == 's'){
                         if(file.readTextChar() == 'e'){
@@ -590,7 +590,7 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                                             //readthe mtlFile
                                             str = file.readTextString("\n",false);edkEnd();
                                             if(str){
-                                                //printf("\nUSE MTL == '%s'",str);edkEnd();fflush(stdout);edkEnd();
+                                                //printf("\nUSE MTL == '%s'",str);edkEnd();
                                                 delete[] str;edkEnd();
                                             }
                                         }
@@ -599,7 +599,7 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                             }
                         }
                     }
-                    break;edkEnd();
+                    break;
                 }
             }
 

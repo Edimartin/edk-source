@@ -670,24 +670,14 @@ static int stbi__cpuid3(void)
 #define STBI_SIMD_ALIGN(type, name) __declspec(align(16)) type name
 
 #if !defined(STBI_NO_JPEG) && defined(STBI_SSE2)
-static int stbi__sse2_available(void)
-{
-   int info3 = stbi__cpuid3();
-   return ((info3 >> 26) & 1) != 0;
-}
+int stbi__sse2_available(void);
 #endif
 
 #else // assume GCC-style if not VC++
 #define STBI_SIMD_ALIGN(type, name) type name __attribute__((aligned(16)))
 
 #if !defined(STBI_NO_JPEG) && defined(STBI_SSE2)
-static int stbi__sse2_available(void)
-{
-   // If we're even attempting to compile this on GCC/Clang, that means
-   // -msse2 is on, which means the compiler is allowed to use SSE2
-   // instructions at will, and so are we.
-   return 1;
-}
+int stbi__sse2_available(void);
 #endif
 
 #endif
@@ -824,4 +814,4 @@ int      stbi__pnm_is16(stbi__context *s);
 //
 //
 ////   end header file   /////////////////////////////////////////////////////
-#endif STBI_INCLUDE_STB_IMAGE_H
+#endif //STBI_INCLUDE_STB_IMAGE_H

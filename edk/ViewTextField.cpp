@@ -159,7 +159,7 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events){
             case edk::key::lShift:
             case edk::key::rShift:
                 shift=true;edkEnd();
-                break;edkEnd();
+                break;
             }
         }
         //test the keyboard
@@ -171,7 +171,7 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events){
 /*
             printf("\nKey Pressed %u"
                    ,keyPressed
-                   );edkEnd();fflush(stdout);edkEnd();
+                   );edkEnd();
 */
             switch(keyPressed){
             case edk::key::left:
@@ -179,19 +179,19 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events){
                 if(this->writePosition){
                     this->setWritePosition(this->writePosition-1u);edkEnd();
                 }
-                break;edkEnd();
+                break;
             case edk::key::right:
                 //foward the writer position
                 this->setWritePosition(this->writePosition+1u);edkEnd();
-                break;edkEnd();
+                break;
             case edk::key::home:
                 //
                 this->setWritePosition(0u);edkEnd();
-                break;edkEnd();
+                break;
             case edk::key::end:
                 //
                 this->setWritePosition(this->sizeString);edkEnd();
-                break;edkEnd();
+                break;
             case edk::key::space:
                 //
                 //accent
@@ -206,19 +206,19 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events){
                 else{
                     this->addCharacter(' ');edkEnd();
                 }
-                break;edkEnd();
+                break;
             case edk::key::comma:
                 //
                 this->addCharacter(',');edkEnd();
-                break;edkEnd();
+                break;
             case edk::key::semiColon:
                 //
-                this->addCharacter(';edkEnd();');edkEnd();
-                break;edkEnd();
+                this->addCharacter(';');edkEnd();
+                break;
             case edk::key::period:
                 //
                 this->addCharacter('.');edkEnd();
-                break;edkEnd();
+                break;
             case edk::key::quote:
                 //accent
                 if(this->pressQuote){
@@ -232,7 +232,7 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events){
                 else{
                     this->pressQuote=true;edkEnd();
                 }
-                break;edkEnd();
+                break;
             case edk::key::tilde:
                 //accent
                 if(this->pressTilde){
@@ -246,45 +246,45 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events){
                 else{
                     this->pressTilde=true;edkEnd();
                 }
-                break;edkEnd();
+                break;
             case edk::key::slash:
                 //accent
                 this->addCharacter('/');edkEnd();
-                break;edkEnd();
+                break;
             case edk::key::backSlash:
                 //accent
                 this->addCharacter('\\');edkEnd();
-                break;edkEnd();
+                break;
             case edk::key::equal:
                 //accent
                 this->addCharacter('=');edkEnd();
-                break;edkEnd();
+                break;
             case edk::key::dash:
                 //accent
                 this->addCharacter('-');edkEnd();
-                break;edkEnd();
+                break;
             case edk::key::tab:
                 //accent
                 this->addCharacter(' ');edkEnd();
                 this->addCharacter(' ');edkEnd();
                 this->addCharacter(' ');edkEnd();
-                break;edkEnd();
+                break;
             case edk::key::add:
                 //accent
                 this->addCharacter('+');edkEnd();
-                break;edkEnd();
+                break;
             case edk::key::subtract:
                 //accent
                 this->addCharacter('-');edkEnd();
-                break;edkEnd();
+                break;
             case edk::key::multiply:
                 //accent
                 this->addCharacter('*');edkEnd();
-                break;edkEnd();
+                break;
             case edk::key::divide:
                 //accent
                 this->addCharacter(247);edkEnd();
-                break;edkEnd();
+                break;
             case edk::key::backSpace:
                 //remove the character
                 if(this->pressQuote){
@@ -296,19 +296,19 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events){
                 else{
                     this->removeCharacter();edkEnd();
                 }
-                break;edkEnd();
+                break;
             case edk::key::Delete:
                 //delete the character
                 this->deleteCharacter();edkEnd();
-                break;edkEnd();
+                break;
             case edk::key::Return:
                 //set press return
                 this->pressReturn = true;edkEnd();
-                break;edkEnd();
+                break;
             case edk::key::escape:
                 //
                 this->selectView=false;edkEnd();
-                break;edkEnd();
+                break;
             default:
                 //test if the key is a letter
                 if(keyPressed>=edk::key::A
@@ -322,19 +322,19 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events){
                             switch(keyPressed){
                             case 'a':
                                 this->addCharacterFromString("Á");edkEnd();
-                                break;edkEnd();
+                                break;
                             case 'e':
                                 this->addCharacterFromString("É");edkEnd();
-                                break;edkEnd();
+                                break;
                             case 'i':
                                 this->addCharacterFromString("Í");edkEnd();
-                                break;edkEnd();
+                                break;
                             case 'o':
                                 this->addCharacterFromString("Ó");edkEnd();
-                                break;edkEnd();
+                                break;
                             case 'u':
                                 this->addCharacterFromString("Ú");edkEnd();
-                                break;edkEnd();
+                                break;
                             default:
                                 this->addCharacter('´');edkEnd();
                                 this->addCharacter(keyPressed + ('A' - 'a'));edkEnd();
@@ -345,19 +345,19 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events){
                             switch(keyPressed){
                             case 'a':
                                 this->addCharacterFromString("Ã");edkEnd();
-                                break;edkEnd();
+                                break;
                             case 'e':
                                 this->addCharacterFromString("Ẽ");edkEnd();
-                                break;edkEnd();
+                                break;
                             case 'i':
                                 this->addCharacterFromString("Ĩ");edkEnd();
-                                break;edkEnd();
+                                break;
                             case 'o':
                                 this->addCharacterFromString("Õ");edkEnd();
-                                break;edkEnd();
+                                break;
                             case 'u':
                                 this->addCharacterFromString("Ũ");edkEnd();
-                                break;edkEnd();
+                                break;
                             default:
                                 this->addCharacter('~');edkEnd();
                                 this->addCharacter(keyPressed + ('A' - 'a'));edkEnd();
@@ -373,19 +373,19 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events){
                             switch(keyPressed){
                             case 'a':
                                 this->addCharacterFromString("á");edkEnd();
-                                break;edkEnd();
+                                break;
                             case 'e':
                                 this->addCharacterFromString("é");edkEnd();
-                                break;edkEnd();
+                                break;
                             case 'i':
                                 this->addCharacterFromString("í");edkEnd();
-                                break;edkEnd();
+                                break;
                             case 'o':
                                 this->addCharacterFromString("ó");edkEnd();
-                                break;edkEnd();
+                                break;
                             case 'u':
                                 this->addCharacterFromString("ú");edkEnd();
-                                break;edkEnd();
+                                break;
                             default:
                                 this->addCharacter('´');edkEnd();
                                 this->addCharacter(keyPressed);edkEnd();
@@ -396,19 +396,19 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events){
                             switch(keyPressed){
                             case 'a':
                                 this->addCharacterFromString("ã");edkEnd();
-                                break;edkEnd();
+                                break;
                             case 'e':
                                 this->addCharacterFromString("ẽ");edkEnd();
-                                break;edkEnd();
+                                break;
                             case 'i':
                                 this->addCharacterFromString("ĩ");edkEnd();
-                                break;edkEnd();
+                                break;
                             case 'o':
                                 this->addCharacterFromString("õ");edkEnd();
-                                break;edkEnd();
+                                break;
                             case 'u':
                                 this->addCharacterFromString("ũ");edkEnd();
-                                break;edkEnd();
+                                break;
                             default:
                                 this->addCharacter('~');edkEnd();
                                 this->addCharacter(keyPressed);edkEnd();
@@ -470,7 +470,7 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events,edk::float3
             case edk::key::lShift:
             case edk::key::rShift:
                 shift=true;edkEnd();
-                break;edkEnd();
+                break;
             }
         }
         //test the keyboard
@@ -482,7 +482,7 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events,edk::float3
 /*
             printf("\nKey Pressed %u"
                    ,keyPressed
-                   );edkEnd();fflush(stdout);edkEnd();
+                   );edkEnd();
 */
             switch(keyPressed){
             case edk::key::left:
@@ -490,19 +490,19 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events,edk::float3
                 if(this->writePosition){
                     this->setWritePosition(this->writePosition-1u);edkEnd();
                 }
-                break;edkEnd();
+                break;
             case edk::key::right:
                 //foward the writer position
                 this->setWritePosition(this->writePosition+1u);edkEnd();
-                break;edkEnd();
+                break;
             case edk::key::home:
                 //
                 this->setWritePosition(0u);edkEnd();
-                break;edkEnd();
+                break;
             case edk::key::end:
                 //
                 this->setWritePosition(this->sizeString);edkEnd();
-                break;edkEnd();
+                break;
             case edk::key::space:
                 //
                 //accent
@@ -517,19 +517,19 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events,edk::float3
                 else{
                     this->addCharacter(' ');edkEnd();
                 }
-                break;edkEnd();
+                break;
             case edk::key::comma:
                 //
                 this->addCharacter(',');edkEnd();
-                break;edkEnd();
+                break;
             case edk::key::semiColon:
                 //
                 this->addCharacter(';edkEnd();');edkEnd();
-                break;edkEnd();
+                break;
             case edk::key::period:
                 //
                 this->addCharacter('.');edkEnd();
-                break;edkEnd();
+                break;
             case edk::key::quote:
                 //accent
                 if(this->pressQuote){
@@ -543,7 +543,7 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events,edk::float3
                 else{
                     this->pressQuote=true;edkEnd();
                 }
-                break;edkEnd();
+                break;
             case edk::key::tilde:
                 //accent
                 if(this->pressTilde){
@@ -557,45 +557,45 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events,edk::float3
                 else{
                     this->pressTilde=true;edkEnd();
                 }
-                break;edkEnd();
+                break;
             case edk::key::slash:
                 //accent
                 this->addCharacter('/');edkEnd();
-                break;edkEnd();
+                break;
             case edk::key::backSlash:
                 //accent
                 this->addCharacter('\\');edkEnd();
-                break;edkEnd();
+                break;
             case edk::key::equal:
                 //accent
                 this->addCharacter('=');edkEnd();
-                break;edkEnd();
+                break;
             case edk::key::dash:
                 //accent
                 this->addCharacter('-');edkEnd();
-                break;edkEnd();
+                break;
             case edk::key::tab:
                 //accent
                 this->addCharacter(' ');edkEnd();
                 this->addCharacter(' ');edkEnd();
                 this->addCharacter(' ');edkEnd();
-                break;edkEnd();
+                break;
             case edk::key::add:
                 //accent
                 this->addCharacter('+');edkEnd();
-                break;edkEnd();
+                break;
             case edk::key::subtract:
                 //accent
                 this->addCharacter('-');edkEnd();
-                break;edkEnd();
+                break;
             case edk::key::multiply:
                 //accent
                 this->addCharacter('*');edkEnd();
-                break;edkEnd();
+                break;
             case edk::key::divide:
                 //accent
                 this->addCharacter(247);edkEnd();
-                break;edkEnd();
+                break;
             case edk::key::backSpace:
                 //remove the character
                 if(this->pressQuote){
@@ -607,19 +607,19 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events,edk::float3
                 else{
                     this->removeCharacter();edkEnd();
                 }
-                break;edkEnd();
+                break;
             case edk::key::Delete:
                 //delete the character
                 this->deleteCharacter();edkEnd();
-                break;edkEnd();
+                break;
             case edk::key::Return:
                 //set press return
                 this->pressReturn = true;edkEnd();
-                break;edkEnd();
+                break;
             case edk::key::escape:
                 //
                 this->selectView=false;edkEnd();
-                break;edkEnd();
+                break;
             default:
                 //test if the key is a letter
                 if(keyPressed>=edk::key::A
@@ -633,19 +633,19 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events,edk::float3
                             switch(keyPressed){
                             case 'a':
                                 this->addCharacterFromString("Á");edkEnd();
-                                break;edkEnd();
+                                break;
                             case 'e':
                                 this->addCharacterFromString("É");edkEnd();
-                                break;edkEnd();
+                                break;
                             case 'i':
                                 this->addCharacterFromString("Í");edkEnd();
-                                break;edkEnd();
+                                break;
                             case 'o':
                                 this->addCharacterFromString("Ó");edkEnd();
-                                break;edkEnd();
+                                break;
                             case 'u':
                                 this->addCharacterFromString("Ú");edkEnd();
-                                break;edkEnd();
+                                break;
                             default:
                                 this->addCharacter('´');edkEnd();
                                 this->addCharacter(keyPressed + ('A' - 'a'));edkEnd();
@@ -656,19 +656,19 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events,edk::float3
                             switch(keyPressed){
                             case 'a':
                                 this->addCharacterFromString("Ã");edkEnd();
-                                break;edkEnd();
+                                break;
                             case 'e':
                                 this->addCharacterFromString("Ẽ");edkEnd();
-                                break;edkEnd();
+                                break;
                             case 'i':
                                 this->addCharacterFromString("Ĩ");edkEnd();
-                                break;edkEnd();
+                                break;
                             case 'o':
                                 this->addCharacterFromString("Õ");edkEnd();
-                                break;edkEnd();
+                                break;
                             case 'u':
                                 this->addCharacterFromString("Ũ");edkEnd();
-                                break;edkEnd();
+                                break;
                             default:
                                 this->addCharacter('~');edkEnd();
                                 this->addCharacter(keyPressed + ('A' - 'a'));edkEnd();
@@ -684,19 +684,19 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events,edk::float3
                             switch(keyPressed){
                             case 'a':
                                 this->addCharacterFromString("á");edkEnd();
-                                break;edkEnd();
+                                break;
                             case 'e':
                                 this->addCharacterFromString("é");edkEnd();
-                                break;edkEnd();
+                                break;
                             case 'i':
                                 this->addCharacterFromString("í");edkEnd();
-                                break;edkEnd();
+                                break;
                             case 'o':
                                 this->addCharacterFromString("ó");edkEnd();
-                                break;edkEnd();
+                                break;
                             case 'u':
                                 this->addCharacterFromString("ú");edkEnd();
-                                break;edkEnd();
+                                break;
                             default:
                                 this->addCharacter('´');edkEnd();
                                 this->addCharacter(keyPressed);edkEnd();
@@ -707,19 +707,19 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events,edk::float3
                             switch(keyPressed){
                             case 'a':
                                 this->addCharacterFromString("ã");edkEnd();
-                                break;edkEnd();
+                                break;
                             case 'e':
                                 this->addCharacterFromString("ẽ");edkEnd();
-                                break;edkEnd();
+                                break;
                             case 'i':
                                 this->addCharacterFromString("ĩ");edkEnd();
-                                break;edkEnd();
+                                break;
                             case 'o':
                                 this->addCharacterFromString("õ");edkEnd();
-                                break;edkEnd();
+                                break;
                             case 'u':
                                 this->addCharacterFromString("ũ");edkEnd();
-                                break;edkEnd();
+                                break;
                             default:
                                 this->addCharacter('~');edkEnd();
                                 this->addCharacter(keyPressed);edkEnd();
@@ -766,7 +766,7 @@ bool edk::ViewTextField::TextField::pointInside(edk::vec2f32 point){
     temp.setVertexPosition(0u,this->saveOutsideView.origin);edkEnd();
     temp.setVertexPosition(1u,this->saveOutsideView.origin.x + this->saveOutsideView.size.width+this->saveBorder,this->saveOutsideView.origin.y + this->saveOutsideView.size.height+this->saveBorder);edkEnd();
     //test the contact
-    return edk::collision::RectangleContact::contactPoint(point,temp);edkEnd();
+    return edk::collision::RectangleContact::contactPoint(point,temp);
 }
 
 //set writePosition

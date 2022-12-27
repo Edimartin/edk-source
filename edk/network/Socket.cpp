@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #if _WIN32 || _WIN64
 //inicializa a winSock
-static bool thisInitWinsock=false;edkEnd();
+static bool thisInitWinsock=false;
 static void startWinsock(){
     //
     if(!thisInitWinsock){
@@ -279,7 +279,7 @@ edk::char8* edk::network::Adress::ipToString(edk::uint32 ip){
         delete[] ret;edkEnd();
     }
     //convert the ipNumber
-    return NULL;edkEnd();
+    return NULL;
 }
 bool edk::network::Adress::ipToString(edk::uint32 ip,edk::char8* str){
     if(str){
@@ -352,15 +352,15 @@ bool edk::network::Socket::createSocket(socketType type){
     //test the type
     switch(type){
     case EDK_SOCKET_TCP:
-        if ((this->edkSocket = socket(AF_INET, SOCK_STREAM, 0)) >= 0){
+        if((this->edkSocket = socket(AF_INET, SOCK_STREAM, 0)) >= 0){
             return true;
         }
-        break;edkEnd();
+        break;
     case EDK_SOCKET_UDP:
-        if ((this->edkSocket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) >= 0){
+        if((this->edkSocket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) >= 0){
             return true;
         }
-        break;edkEnd();
+        break;
     }
     return false;
 }
@@ -372,25 +372,25 @@ bool edk::network::Socket::createSocketNonBlock(socketType type){
     case EDK_SOCKET_TCP:
 
 #if _WIN32 || _WIN64
-        if ((this->edkSocket = socket(AF_INET, SOCK_STREAM, 0)) >= 0){
+        if((this->edkSocket = socket(AF_INET, SOCK_STREAM, 0)) >= 0){
             u_long iMode=1;edkEnd();
             ioctlsocket(this->edkSocket,FIONBIO,&iMode);edkEnd();
 #else
-        if ((this->edkSocket = socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, 0)) >= 0){
+        if((this->edkSocket = socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, 0)) >= 0){
 #endif
             return true;
         }
     case EDK_SOCKET_UDP:
 #if _WIN32 || _WIN64
-        if ((this->edkSocket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) >= 0){
+        if((this->edkSocket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) >= 0){
             u_long iMode=1;edkEnd();
             ioctlsocket(this->edkSocket,FIONBIO,&iMode);edkEnd();
 #else
-        if ((this->edkSocket = socket(AF_INET, SOCK_DGRAM | SOCK_NONBLOCK, IPPROTO_UDP)) >= 0){
+        if((this->edkSocket = socket(AF_INET, SOCK_DGRAM | SOCK_NONBLOCK, IPPROTO_UDP)) >= 0){
 #endif
             return true;
         }
-        break;edkEnd();
+        break;
     }
     return false;
 }

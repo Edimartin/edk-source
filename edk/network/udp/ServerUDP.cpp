@@ -38,7 +38,7 @@ edk::network::networkCodes edk::network::udp::ServerUDP::startBind(edk::uint16 p
         //set the port in the adress
         this->sockAdress.sin_port = htons(port);
         //Start Bind
-        if (bind(this->getSocket(), (struct sockaddr *)&this->sockAdress, sizeof(struct sockaddr))>= 0){
+        if(bind(this->getSocket(), (struct sockaddr *)&this->sockAdress, sizeof(struct sockaddr))>= 0){
             return edk::network::ok;
         }
         //else close bind

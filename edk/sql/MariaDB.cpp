@@ -72,7 +72,7 @@ bool edk::sql::MariaDB::openDataBase(edk::char8* database,edk::char8* user,edk::
             }
         }
 #else
-        printf("\nYou must define EDK_USE_MARIADB before use");edkEnd();fflush(stdout);edkEnd();
+        printf("\nYou must define EDK_USE_MARIADB before use");edkEnd();
 #endif
     }
 
@@ -83,7 +83,12 @@ bool edk::sql::MariaDB::openDataBase(edk::char8* database,edk::char8* user,edk::
 bool edk::sql::MariaDB::execute(const edk::char8* command,edk::sql::SQLGroup* callback){
     return this->execute((edk::char8*) command,callback);edkEnd();
 }
-bool edk::sql::MariaDB::execute(edk::char8* command,edk::sql::SQLGroup* callback){
+bool edk::sql::MariaDB::execute(edk::char8* command,
+                                edk::sql::SQLGroup*
+#ifdef EDK_USE_MARIADB
+                                callback
+#endif
+                                ){
     this->error.setName(" ");edkEnd();
     if(this->haveOpenedDataBase()){
         //
@@ -130,7 +135,7 @@ bool edk::sql::MariaDB::execute(edk::char8* command,edk::sql::SQLGroup* callback
                 return true;
             }
 #else
-            printf("\nYou must define EDK_USE_MARIADB before use");edkEnd();fflush(stdout);edkEnd();
+            printf("\nYou must define EDK_USE_MARIADB before use");edkEnd();
 #endif
         }
     }
@@ -144,7 +149,7 @@ bool edk::sql::MariaDB::haveOpenedDataBase(){
         return true;
     }
 #else
-    printf("\nYou must define EDK_USE_MARIADB before use");edkEnd();fflush(stdout);edkEnd();
+    printf("\nYou must define EDK_USE_MARIADB before use");edkEnd();
 #endif
     return false;
 }
@@ -163,7 +168,7 @@ void edk::sql::MariaDB::closeDataBase(){
 
     this->fields.clean();edkEnd();
 #else
-    printf("\nYou must define EDK_USE_MARIADB before use");edkEnd();fflush(stdout);edkEnd();
+    printf("\nYou must define EDK_USE_MARIADB before use");edkEnd();
 #endif
 }
 

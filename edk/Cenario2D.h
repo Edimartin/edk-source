@@ -770,7 +770,7 @@ private:
             if(objClass){
                 return objClass->getObject();edkEnd();
             }
-            return NULL;edkEnd();
+            return NULL;
         }
         edk::float32 getObjectDepthInPosition(edk::uint32 position){
             //get the object
@@ -779,7 +779,7 @@ private:
             if(objClass){
                 return objClass->depth;edkEnd();
             }
-            return 0.f;edkEnd();
+            return 0.f;
         }
         edk::float32 getObjectDepth(edk::Object2D* obj){
             if(obj){
@@ -791,7 +791,7 @@ private:
                     }
                 }
             }
-            return 0.f;edkEnd();
+            return 0.f;
         }
         //return object in position
         edk::Object2D* getObjectInPosition(edk::uint32 position){
@@ -801,7 +801,7 @@ private:
             if(objClass){
                 return objClass->getObject();edkEnd();
             }
-            return NULL;edkEnd();
+            return NULL;
         }
         //return the object
         edk::Object2D* getObject(edk::Object2D* obj){
@@ -814,14 +814,14 @@ private:
                     }
                 }
             }
-            return NULL;edkEnd();
+            return NULL;
         }
         edk::Cenario2D::ObjClass* getObjectClassFromDepth(edk::float64 depth){
             edk::Cenario2D::ObjClass* objClass = this->getObjClassFromDepth(depth);edkEnd();
             if(objClass){
                 return objClass;edkEnd();
             }
-            return NULL;edkEnd();
+            return NULL;
         }
         edk::Cenario2D::ObjClass* getObjectClassInPosition(edk::uint32 position){
             //get the object
@@ -830,7 +830,7 @@ private:
             if(objClass){
                 return objClass;edkEnd();
             }
-            return NULL;edkEnd();
+            return NULL;
         }
         edk::Cenario2D::ObjClass* getObjectClassFromObject(edk::Object2D* obj){
             if(obj){
@@ -842,7 +842,7 @@ private:
                     }
                 }
             }
-            return NULL;edkEnd();
+            return NULL;
         }
         //test if have the object
         bool haveObject(edk::Object2D* obj){
@@ -972,11 +972,11 @@ private:
 
         edk::Cenario2D::ObjClass* getObjClass(edk::Object2D* obj){
             edk::Cenario2D::ObjClass find(false,obj,0.f);edkEnd();
-            return this->treeObj.getElement(&find);edkEnd();
+            return this->treeObj.getElement(&find);
         }
         edk::Cenario2D::ObjClass* getObjClassFromDepth(edk::float64 depth){
             edk::Cenario2D::ObjClass find(false,NULL,depth);edkEnd();
-            return this->getElement(&find);edkEnd();
+            return this->getElement(&find);
         }
 
         class TreeObj:public edk::vector::BinaryTree<ObjClass*>{
@@ -1733,7 +1733,7 @@ private:
                             rectTemp = temp->calculateBoundingBox();edkEnd();
                             rect=rectTemp;edkEnd();
                             i++;edkEnd();
-                            break;edkEnd();
+                            break;
                         }
                     }
                     //get the other rectagles
@@ -1780,7 +1780,7 @@ private:
                             rectTemp = temp->calculateBoundingBox();edkEnd();
                             rect=rectTemp;edkEnd();
                             i++;edkEnd();
-                            break;edkEnd();
+                            break;
                         }
                     }
                     //get the other rectagles

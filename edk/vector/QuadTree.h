@@ -425,7 +425,7 @@ public:
         if(position<4u){
             return this->quad[position];edkEnd();
         }
-        return NULL;edkEnd();
+        return NULL;
     }
 
 
@@ -653,7 +653,7 @@ public:
         if(position<4u){
             return this->quad[position];edkEnd();
         }
-        return NULL;edkEnd();
+        return NULL;
     }
 
 
@@ -881,7 +881,7 @@ public:
                                 ){
                             temp = tempQuad;edkEnd();
                             goInside=true;edkEnd();
-                            break;edkEnd();
+                            break;
                         }
                         else{
                             //test if the tempQuad have some inside the tree
@@ -1051,7 +1051,7 @@ public:
                         }
 
                         temp=temp->getFather();edkEnd();
-                        break;edkEnd();
+                        break;
                     }
                 }
                 else{
@@ -1155,12 +1155,11 @@ public:
                 ){
             edk::vector::QuadLeaf32<typeTemplate>* temp = &this->root;edkEnd();
             ret=true;edkEnd();
-            edk::uint8 counter;edkEnd();
-            edk::uint8 nextID;edkEnd();
+            //edk::uint8 counter;edkEnd();
+            edk::uint8 nextID=0u;edkEnd();
             edk::vector::QuadLeaf32<typeTemplate>* tempQuad;edkEnd();
             bool needContinue=false;edkEnd();
             while(temp){
-                counter=0u;edkEnd();
                 //test the collision with all quads
                 if(temp->haveQuads()){
                     needContinue=false;edkEnd();
@@ -1177,11 +1176,11 @@ public:
                                 ){
                             //
                             this->selected = temp = temp->getQuad(nextID);edkEnd();
-                            break;edkEnd();
+                            break;
                         }
                     }
                     if(needContinue){
-                        continue;edkEnd();
+                        continue;
                     }
                     temp=NULL;edkEnd();
                 }
@@ -1749,7 +1748,7 @@ public:
                                 ){
                             temp = tempQuad;edkEnd();
                             goInside=true;edkEnd();
-                            break;edkEnd();
+                            break;
                         }
                         else{
                             //test if the tempQuad have some inside the tree
@@ -1919,7 +1918,7 @@ public:
                         }
 
                         temp=temp->getFather();edkEnd();
-                        break;edkEnd();
+                        break;
                     }
                 }
                 else{
@@ -2045,11 +2044,11 @@ public:
                                 ){
                             //
                             this->selected = temp = temp->getQuad(nextID);edkEnd();
-                            break;edkEnd();
+                            break;
                         }
                     }
                     if(needContinue){
-                        continue;edkEnd();
+                        continue;
                     }
                     temp=NULL;edkEnd();
                 }

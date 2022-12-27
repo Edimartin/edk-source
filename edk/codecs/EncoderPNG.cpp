@@ -73,7 +73,7 @@ bool edk::codecs::EncoderPNG::encode(edk::uint8* frame,edk::size2ui32 size,edk::
             }
 
             //calcula o tamanho do vetor
-            if (this->getEncodedSize() && this->getEncoded()){
+            if(this->getEncodedSize() && this->getEncoded()){
                 //retorna true
                 ret=true;edkEnd();
             }

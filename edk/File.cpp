@@ -982,9 +982,10 @@ bool edk::File::renameFile(edk::char8 *oldName, edk::char8 *newName){
     //Test if the names is valid
     if(oldName && newName){
         //Then try rename the file
-        if ( rename( (const edk::char8*)oldName , (const edk::char8*)newName ) == 0 )
+        if( rename( (const edk::char8*)oldName , (const edk::char8*)newName ) == 0 ){
             //Return true because he rename the file
             return true;
+        }
     }
     //else return false
     return false;
@@ -2054,7 +2055,7 @@ edk::char8* edk::File::readTextString(edk::char8 limit, bool use){
         return this->readStringFromTheFile(this->arq,limit,0u,use);edkEnd();
     }
     //else return NULL
-    return NULL;edkEnd();
+    return NULL;
 }
 
 edk::char8* edk::File::readTextString(edk::char8 *limits, bool use){
@@ -2064,7 +2065,7 @@ edk::char8* edk::File::readTextString(edk::char8 *limits, bool use){
         return this->readStringFromTheFile(this->arq,limits,0u,use);edkEnd();
     }
     //else return NULL
-    return NULL;edkEnd();
+    return NULL;
 }
 
 edk::char8* edk::File::readTextString(const edk::char8 *limits, bool use){
@@ -2324,7 +2325,7 @@ edk::char8* edk::File::readBinString(char64 size){
         return temp;edkEnd();
     }
     //else return NULL
-    return NULL;edkEnd();
+    return NULL;
 }
 
 edk::char8* edk::File::readBinString(edk::char8 limit, bool use){
@@ -2334,7 +2335,7 @@ edk::char8* edk::File::readBinString(edk::char8 limit, bool use){
         return this->readStringFromTheBinFile(this->arq,limit,0u,use);edkEnd();
     }
     //else return NULL
-    return NULL;edkEnd();
+    return NULL;
 }
 
 edk::char8* edk::File::readBinString(edk::char8 *limits, bool use){
@@ -2344,7 +2345,7 @@ edk::char8* edk::File::readBinString(edk::char8 *limits, bool use){
         return this->readStringFromTheBinFile(this->arq,limits,0u,use);edkEnd();
     }
     //else return NULL
-    return NULL;edkEnd();
+    return NULL;
 }
 
 edk::char8* edk::File::readBinString(const edk::char8 *limits, bool use){
@@ -2386,7 +2387,7 @@ edk::int8* edk::File::readBinInt8(edk::int64 size){
         return temp;edkEnd();
     }
     //else return NULL
-    return NULL;edkEnd();
+    return NULL;
 }
 
 edk::uint8 edk::File::readBinUInt8(){
@@ -2415,7 +2416,7 @@ edk::uint8* edk::File::readBinUint8(edk::uint64 size){
         return temp;edkEnd();
     }
     //else return NULL
-    return NULL;edkEnd();
+    return NULL;
 }
 
 edk::int16 edk::File::readBinInt16(){
@@ -2444,7 +2445,7 @@ edk::int16* edk::File::readBinInt16(edk::int16 size){
         return temp;edkEnd();
     }
     //else return NULL
-    return NULL;edkEnd();
+    return NULL;
 }
 
 edk::uint16 edk::File::readBinUInt16(){
@@ -2473,7 +2474,7 @@ edk::uint16* edk::File::readBinUint16(edk::uint16 size){
         return temp;edkEnd();
     }
     //else return NULL
-    return NULL;edkEnd();
+    return NULL;
 }
 
 edk::int32 edk::File::readBinInt32(){
@@ -2502,7 +2503,7 @@ edk::int32* edk::File::readBinInt32(edk::int64 size){
         return temp;edkEnd();
     }
     //else return NULL
-    return NULL;edkEnd();
+    return NULL;
 }
 
 edk::uint32 edk::File::readBinUInt32(){
@@ -2531,7 +2532,7 @@ edk::uint32* edk::File::readBinUint32(edk::uint64 size){
         return temp;edkEnd();
     }
     //else return NULL
-    return NULL;edkEnd();
+    return NULL;
 }
 
 edk::int64 edk::File::readBinInt64(){
@@ -2560,7 +2561,7 @@ edk::int64* edk::File::readBinInt64(edk::int64 size){
         return temp;edkEnd();
     }
     //else return NULL
-    return NULL;edkEnd();
+    return NULL;
 }
 
 edk::uint64 edk::File::readBinUInt64(){
@@ -2589,7 +2590,7 @@ edk::uint64* edk::File::readBinUint64(edk::uint64 size){
         return temp;edkEnd();
     }
     //else return NULL
-    return NULL;edkEnd();
+    return NULL;
 }
 
 edk::float32 edk::File::readBinFloat(){
@@ -2618,7 +2619,7 @@ edk::float32* edk::File::readBinFloat(edk::int64 size){
         return temp;edkEnd();
     }
     //else return NULL
-    return NULL;edkEnd();
+    return NULL;
 }
 
 edk::int64 edk::File::readBinLongInt(){
@@ -2647,7 +2648,7 @@ edk::int64* edk::File::readBinLongInt(edk::int64 size){
         return temp;edkEnd();
     }
     //else return NULL
-    return NULL;edkEnd();
+    return NULL;
 }
 
 edk::char8* edk::File::getName(){

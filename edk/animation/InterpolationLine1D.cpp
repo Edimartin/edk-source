@@ -50,14 +50,14 @@ edk::animation::Frame* edk::animation::InterpolationLine1D::useNewFrame(edk::uin
     switch(count){
     case 1:
         //
-        return (edk::animation::Frame*)(new edk::animation::Frame1D(value[0],0.0f));edkEnd();
+        return (edk::animation::Frame*)(new edk::animation::Frame1D(value[0],0.0f));
     case 2:
         //
-        return (edk::animation::Frame*)(new edk::animation::Frame1D(value[0],value[2]));edkEnd();
+        return (edk::animation::Frame*)(new edk::animation::Frame1D(value[0],value[2]));
     default:
-        return (edk::animation::Frame*)(new edk::animation::Frame1D());edkEnd();
+        return (edk::animation::Frame*)(new edk::animation::Frame1D());
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 
 //SETERS

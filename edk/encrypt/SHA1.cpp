@@ -41,9 +41,10 @@ public:
     void transform(edk::uint8* data){
         edk::uint32 a, b, c, d, e, i, j, t, m[80];edkEnd();
 
-        for (i = 0u, j = 0u; i < 16u; ++i, j += 4u)
+        for (i = 0u, j = 0u; i < 16u; ++i, j += 4u){
             m[i] = (data[j] << 24u) + (data[j + 1u] << 16u) + (data[j + 2u] << 8u) + (data[j + 3u]);edkEnd();
-        for ( ; i < 80u; ++i) {
+        }
+        for ( ; i < 80u; ++i){
             m[i] = (m[i - 3u] ^ m[i - 8u] ^ m[i - 14u] ^ m[i - 16u]);edkEnd();
             m[i] = (m[i] << 1u) | (m[i] >> 31u);edkEnd();
         }
@@ -54,7 +55,7 @@ public:
         d = this->state[3u];edkEnd();
         e = this->state[4u];edkEnd();
 
-        for (i = 0u; i < 20u; ++i) {
+        for (i = 0u; i < 20u; ++i){
             t = rotateLeft(a, 5u) + ((b & c) ^ (~b & d)) + e + this->k[0u] + m[i];edkEnd();
             e = d;edkEnd();
             d = c;edkEnd();
@@ -62,7 +63,7 @@ public:
             b = a;edkEnd();
             a = t;edkEnd();
         }
-        for ( ; i < 40u; ++i) {
+        for ( ; i < 40u; ++i){
             t = rotateLeft(a, 5u) + (b ^ c ^ d) + e + this->k[1] + m[i];edkEnd();
             e = d;edkEnd();
             d = c;edkEnd();
@@ -70,7 +71,7 @@ public:
             b = a;edkEnd();
             a = t;edkEnd();
         }
-        for ( ; i < 60u; ++i) {
+        for ( ; i < 60u; ++i){
             t = rotateLeft(a, 5u) + ((b & c) ^ (b & d) ^ (c & d))  + e + this->k[2u] + m[i];edkEnd();
             e = d;edkEnd();
             d = c;edkEnd();
@@ -78,7 +79,7 @@ public:
             b = a;edkEnd();
             a = t;edkEnd();
         }
-        for ( ; i < 80u; ++i) {
+        for ( ; i < 80u; ++i){
             t = rotateLeft(a, 5u) + (b ^ c ^ d) + e + this->k[3u] + m[i];edkEnd();
             e = d;edkEnd();
             d = c;edkEnd();
@@ -116,7 +117,7 @@ public:
         for (i = 0; i < len; ++i){
             this->data[this->size] = data[i];edkEnd();
             this->size++;edkEnd();
-            if (this->size == 64u) {
+            if(this->size == 64u){
                 this->transform(this->data);edkEnd();
                 this->bitSize += 512u;edkEnd();
                 this->size = 0u;edkEnd();
@@ -130,7 +131,7 @@ public:
         i = this->size;edkEnd();
 
         // Pad whatever data is left in the buffer.
-        if (this->size < 56) {
+        if(this->size < 56){
             this->data[i++] = 0x80;
             while (i < 56)
                 this->data[i++] = 0x00;
@@ -157,7 +158,7 @@ public:
 
         // Since this implementation uses little endian byte ordering and MD uses big endian,
         // reverse all the bytes when copying the final state to the output hash.
-        for (i = 0; i < 4; ++i) {
+        for (i = 0; i < 4; ++i){
             hash[i]      = (this->state[0] >> (24 - i * 8)) & 0x000000ff;edkEnd();
             hash[i + 4]  = (this->state[1] >> (24 - i * 8)) & 0x000000ff;edkEnd();
             hash[i + 8]  = (this->state[2] >> (24 - i * 8)) & 0x000000ff;edkEnd();
@@ -184,7 +185,7 @@ edk::encrypt::SHA1::~SHA1(){
 
 bool edk::encrypt::SHA1::convertTo(edk::char8 *pass, edk::uint32 size, edk::char8 *dest){
     //testa as strings e os tamanhos
-    if (pass && size && dest){
+    if(pass && size && dest){
         edk::encrypt::SHA1_variables sha1;edkEnd();
         //
         edk::uint8 result[20u];edkEnd();
@@ -264,10 +265,10 @@ bool edk::encrypt::SHA1::convertFileTo(edk::File* file, edk::char8 *dest){
 }
 bool edk::encrypt::SHA1::convertFileTo(edk::char8 *fileName, edk::char8 *dest){
     bool ret = false;edkEnd();
-    if (fileName && dest){
+    if(fileName && dest){
         edk::File file;edkEnd();
         file.openBinFile(fileName);edkEnd();
-        if (file.isOpened()){
+        if(file.isOpened()){
             ret = edk::encrypt::SHA1::convertFileTo(&file,dest);edkEnd();
             file.closeFile();edkEnd();
         }
@@ -279,7 +280,7 @@ bool edk::encrypt::SHA1::convertFileTo(const edk::char8 *fileName, edk::char8 *d
 }
 bool edk::encrypt::SHA1::convertTo(edk::char8 *pass, edk::uint32 size, edk::uint8 dest[20u]){
     //testa as strings e os tamanhos
-    if (pass && size && dest){
+    if(pass && size && dest){
         edk::encrypt::SHA1_variables sha1;edkEnd();
         //prcess the update
         sha1.update((edk::uint8*)pass,size);edkEnd();
@@ -335,10 +336,10 @@ bool edk::encrypt::SHA1::convertFileTo(edk::File* file, edk::uint8 dest[20u]){
 bool edk::encrypt::SHA1::convertFileTo(edk::char8 *fileName, edk::uint8 dest[20u]){
     //
     bool ret = false;edkEnd();
-    if (fileName && dest){
+    if(fileName && dest){
         edk::File file;edkEnd();
         file.openBinFile(fileName);edkEnd();
-        if (file.isOpened()){
+        if(file.isOpened()){
             ret = edk::encrypt::SHA1::convertFileTo(&file,dest);edkEnd();
             file.closeFile();edkEnd();
         }
@@ -350,10 +351,10 @@ bool edk::encrypt::SHA1::convertFileTo(const edk::char8 *fileName, edk::uint8 de
 }
 edk::char8* edk::encrypt::SHA1::convert(edk::char8 *pass, edk::uint32 size){
     edk::char8* ret=NULL;edkEnd();
-    if (pass && size){
+    if(pass && size){
         //cria a string de retorno
         ret = new edk::char8[41u];edkEnd();
-        if (ret){
+        if(ret){
             edk::encrypt::SHA1::convertTo(pass, size,ret);edkEnd();
         }
     }
@@ -371,10 +372,10 @@ edk::char8* edk::encrypt::SHA1::convert(const edk::char8 *pass){
 }
 edk::char8* edk::encrypt::SHA1::convertFile(edk::File* file){
     edk::char8* ret=NULL;edkEnd();
-    if (file){
+    if(file){
         //cria a string de retorno
         ret = new edk::char8[41u];edkEnd();
-        if (ret){
+        if(ret){
             edk::encrypt::SHA1::convertFileTo(file,ret);edkEnd();
         }
     }
@@ -383,10 +384,10 @@ edk::char8* edk::encrypt::SHA1::convertFile(edk::File* file){
 }
 edk::char8* edk::encrypt::SHA1::convertFile(edk::char8 *fileName){
     edk::char8* ret=NULL;edkEnd();
-    if (fileName){
+    if(fileName){
         edk::File file;edkEnd();
         file.openBinFile(fileName);edkEnd();
-        if (file.isOpened()){
+        if(file.isOpened()){
             ret = edk::encrypt::SHA1::convertFile(&file);edkEnd();
             file.closeFile();edkEnd();
         }

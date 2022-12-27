@@ -181,7 +181,7 @@ void edk::shape::Polygon3D::deletePolygon(){
     edk::shape::Polygon3D::PolygonVertex* vertex;edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
         vertex = this->vertexs[i];edkEnd();
-        if(vertex) {
+        if(vertex){
             delete vertex;edkEnd();
         }
     }
@@ -226,6 +226,7 @@ bool edk::shape::Polygon3D::setNormal(edk::uint32 position,edk::shape::Vector3D*
                 return false;
             }
         }
+            break;
         case edk::shape::Polygon3D::typeVertexWithNormal:
         {
             edk::shape::Polygon3D::PolygonVertexWithNormal* vert = (edk::shape::Polygon3D::PolygonVertexWithNormal*)
@@ -233,7 +234,7 @@ bool edk::shape::Polygon3D::setNormal(edk::uint32 position,edk::shape::Vector3D*
             vert->normal = normal;edkEnd();
             vert->normalID = normalID;edkEnd();
         }
-            break;edkEnd();
+            break;
         case edk::shape::Polygon3D::typeVertexWithUV:
         {
             edk::shape::Polygon3D::PolygonVertexWithUV* vert =
@@ -252,6 +253,7 @@ bool edk::shape::Polygon3D::setNormal(edk::uint32 position,edk::shape::Vector3D*
                 return false;
             }
         }
+            break;
         case edk::shape::Polygon3D::typeVertexWithUVNormal:
         {
             edk::shape::Polygon3D::PolygonVertexWithUVNormal* vert = (edk::shape::Polygon3D::PolygonVertexWithUVNormal*)
@@ -259,7 +261,7 @@ bool edk::shape::Polygon3D::setNormal(edk::uint32 position,edk::shape::Vector3D*
             vert->normal = normal;edkEnd();
             vert->normalID = normalID;edkEnd();
         }
-            break;edkEnd();
+            break;
         }
         return true;
     }
@@ -287,6 +289,7 @@ bool edk::shape::Polygon3D::setUV(edk::uint32 position,edk::shape::UV2D* uv,edk:
                 return false;
             }
         }
+            break;
         case edk::shape::Polygon3D::typeVertexWithUV:
         {
             edk::shape::Polygon3D::PolygonVertexWithUV* vert = (edk::shape::Polygon3D::PolygonVertexWithUV*)
@@ -294,7 +297,7 @@ bool edk::shape::Polygon3D::setUV(edk::uint32 position,edk::shape::UV2D* uv,edk:
             vert->uv = uv;edkEnd();
             vert->uvID = uvID;edkEnd();
         }
-            break;edkEnd();
+            break;
         case edk::shape::Polygon3D::typeVertexWithNormal:
         {
             edk::shape::Polygon3D::PolygonVertexWithNormal* vert =
@@ -313,6 +316,7 @@ bool edk::shape::Polygon3D::setUV(edk::uint32 position,edk::shape::UV2D* uv,edk:
                 return false;
             }
         }
+            break;
         case edk::shape::Polygon3D::typeVertexWithUVNormal:
         {
             edk::shape::Polygon3D::PolygonVertexWithUVNormal* vert = (edk::shape::Polygon3D::PolygonVertexWithUVNormal*)
@@ -320,7 +324,7 @@ bool edk::shape::Polygon3D::setUV(edk::uint32 position,edk::shape::UV2D* uv,edk:
             vert->uv = uv;edkEnd();
             vert->uvID = uvID;edkEnd();
         }
-            break;edkEnd();
+            break;
         }
         return true;
     }
@@ -547,7 +551,7 @@ bool edk::shape::Polygon3D::cloneFrom(edk::shape::Polygon3D* poly){
                                 this->vertexs.set(i,NULL);edkEnd();
                             }
                         }
-                            break;edkEnd();
+                            break;
                         case edk::shape::Polygon3D::typeVertexWithNormal:
                         {
                             edk::shape::Polygon3D::PolygonVertexWithNormal* vert =
@@ -575,7 +579,7 @@ bool edk::shape::Polygon3D::cloneFrom(edk::shape::Polygon3D* poly){
                                 this->vertexs.set(i,NULL);edkEnd();
                             }
                         }
-                            break;edkEnd();
+                            break;
                         case edk::shape::Polygon3D::typeVertexWithUV:
                         {
                             edk::shape::Polygon3D::PolygonVertexWithUV* vert =
@@ -603,7 +607,7 @@ bool edk::shape::Polygon3D::cloneFrom(edk::shape::Polygon3D* poly){
                                 this->vertexs.set(i,NULL);edkEnd();
                             }
                         }
-                            break;edkEnd();
+                            break;
                         case edk::shape::Polygon3D::typeVertexWithUVNormal:
                         {
                             edk::shape::Polygon3D::PolygonVertexWithUVNormal* vert =
@@ -632,7 +636,7 @@ bool edk::shape::Polygon3D::cloneFrom(edk::shape::Polygon3D* poly){
                                 this->vertexs.set(i,NULL);edkEnd();
                             }
                         }
-                            break;edkEnd();
+                            break;
                         }
 
                     }

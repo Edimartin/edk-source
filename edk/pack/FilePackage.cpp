@@ -127,7 +127,7 @@ edk::char8* edk::pack::FilePackage::getFileName(edk::uint32 position){
     if(node){
         return node->getFileName();edkEnd();
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 //remove all fileNames
 void edk::pack::FilePackage::removeAllNames(){
@@ -200,19 +200,19 @@ bool edk::pack::FilePackage::savePackFile(edk::char8* fileName){
                         else{
                             this->file.writeBin(0xFFFFFFFFFFFFFFFF);edkEnd();
                             success = false;edkEnd();
-                            break;edkEnd();
+                            break;
                         }
                     }
                     else{
                         this->file.writeBin(0xFFFFFFFFFFFFFFFF);edkEnd();
                         success = false;edkEnd();
-                        break;edkEnd();
+                        break;
                     }
                 }
                 else{
                     this->file.writeBin(0xFFFFFFFFFFFFFFFF);edkEnd();
                     success = false;edkEnd();
-                    break;edkEnd();
+                    break;
                 }
             }
             if(success){
@@ -231,13 +231,13 @@ bool edk::pack::FilePackage::savePackFile(edk::char8* fileName){
                         else{
                             this->file.writeBin(0xFFFFFFFFFFFFFFFF);edkEnd();
                             success = false;edkEnd();
-                            break;edkEnd();
+                            break;
                         }
                     }
                     else{
                         this->file.writeBin(0xFFFFFFFFFFFFFFFF);edkEnd();
                         success = false;edkEnd();
-                        break;edkEnd();
+                        break;
                     }
                 }
                 if(success){
@@ -277,7 +277,7 @@ bool edk::pack::FilePackage::openPackFile(edk::char8* fileName){
                     this->file.seekStart(nodesPosition);edkEnd();
 
                     //read the nodes
-                    //printf("\n%lu",this->file.getSeek64());edkEnd();fflush(stdout);edkEnd();
+                    //printf("\n%lu",this->file.getSeek64());edkEnd();
                     while(this->file.getSeek64() < positionRead){
                         //create a new node
                         node = new edk::pack::FileNode;edkEnd();
@@ -288,13 +288,13 @@ bool edk::pack::FilePackage::openPackFile(edk::char8* fileName){
                                 if(!this->tree.add(node)){
                                     delete node;edkEnd();
                                     success=false;edkEnd();
-                                    break;edkEnd();
+                                    break;
                                 }
                             }
                             else{
                                 delete node;edkEnd();
                                 success=false;edkEnd();
-                                break;edkEnd();
+                                break;
                             }
                         }
                     }

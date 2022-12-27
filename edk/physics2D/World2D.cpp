@@ -35,7 +35,7 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
     /*
     printf("\nContact Begin %u"
            ,contact
-           );edkEnd();fflush(stdout);edkEnd();
+           );edkEnd();
 */
     b2Body* bodyA = contact->GetFixtureA()->GetBody();edkEnd();
     b2Body* bodyB = contact->GetFixtureB()->GetBody();edkEnd();
@@ -69,7 +69,7 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
                 if(objectB->haveNotCollisionGroup(objectA->getNotCollisionGroupInPosition(i))){
                     //then continue
                     thisContinue=false;edkEnd();
-                    break;edkEnd();
+                    break;
                 }
             }
         }
@@ -81,7 +81,7 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
                 if(objectB->haveCollisionGroup(objectA->getCollisionGroupInPosition(i))){
                     //then continue
                     thisContinue=true;edkEnd();
-                    break;edkEnd();
+                    break;
                 }
             }
         }
@@ -212,7 +212,7 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
                                     delete (contactTemp);edkEnd();
                                 }
                             }
-                            break;edkEnd();
+                            break;
                         case edk::shape::collisionDOWN:
                             if(contactTemp->objectB->position.y<contactTemp->worldPositions[0u].y){
                                 this->world->physicsContactBegin(contactTemp);edkEnd();
@@ -225,13 +225,13 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
                                     delete (contactTemp);edkEnd();
                                 }
                             }
-                            break;edkEnd();
+                            break;
                         default:
                             this->world->physicsContactBegin(contactTemp);edkEnd();
                             if(!contactTemp->isEnabled()){
                                 contact->SetEnabled(false);edkEnd();
                             }
-                            break;edkEnd();
+                            break;
                         }
                     }
                 }
@@ -243,33 +243,35 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
                         case edk::shape::collisionUP:
                             if(contactTemp->objectA->position.y>=contactTemp->worldPositions[0u].y){
                                 this->world->physicsContactBegin(contactTemp);edkEnd();
-                                if(!contactTemp->isEnabled())
+                                if(!contactTemp->isEnabled()){
                                     contact->SetEnabled(false);edkEnd();
+                                }
                             }
                             else{
                                 if(this->world->treeConcacts.remove((contactTemp))){
                                     delete (contactTemp);edkEnd();
                                 }
                             }
-                            break;edkEnd();
+                            break;
                         case edk::shape::collisionDOWN:
                             if(contactTemp->objectA->position.y<contactTemp->worldPositions[0u].y){
                                 this->world->physicsContactBegin(contactTemp);edkEnd();
-                                if(!contactTemp->isEnabled())
+                                if(!contactTemp->isEnabled()){
                                     contact->SetEnabled(false);edkEnd();
+                                }
                             }
                             else{
                                 if(this->world->treeConcacts.remove((contactTemp))){
                                     delete (contactTemp);edkEnd();
                                 }
                             }
-                            break;edkEnd();
+                            break;
                         default:
                             this->world->physicsContactBegin(contactTemp);edkEnd();
                             if(!contactTemp->isEnabled()){
                                 contact->SetEnabled(false);edkEnd();
                             }
-                            break;edkEnd();
+                            break;
                         }
                     }
                 }
@@ -295,7 +297,7 @@ void edk::physics2D::World2D::MyContactListener::EndContact(b2Contact* contact){
     /*
     printf("\nContact END %u"
            ,contact
-           );edkEnd();fflush(stdout);edkEnd();
+           );edkEnd();
 */
     //find contact
     b2Body* bodyA = contact->GetFixtureA()->GetBody();edkEnd();
@@ -408,7 +410,7 @@ void edk::physics2D::World2D::MyContactListener::PreSolve(b2Contact* contact, co
     /*
     printf("\nContact PreSolve %u"
            ,contact
-           );edkEnd();fflush(stdout);edkEnd();
+           );edkEnd();
 */
     //find contact
     b2Body* bodyA = contact->GetFixtureA()->GetBody();edkEnd();
@@ -533,7 +535,7 @@ void edk::physics2D::World2D::MyContactListener::PostSolve(b2Contact* contact, c
            ,impulse->count
            ,impulse->tangentImpulses[0u]
            ,impulse->normalImpulses[0u]
-           );edkEnd();fflush(stdout);edkEnd();
+           );edkEnd();
 */
     //find contact
     b2Body* bodyA = contact->GetFixtureA()->GetBody();edkEnd();
@@ -680,15 +682,15 @@ edk::physics2D::World2D::ObjectJointsTree* edk::physics2D::World2D::ObjectsJoint
     find.objectA = object;edkEnd();
     find.objectB = pointer;edkEnd();
     */
-    return this->getElement(&find);edkEnd();
+    return this->getElement(&find);
 }
 //return the joint in the position
 edk::physics2D::World2D::ObjectJointsTree* edk::physics2D::World2D::ObjectsJointsTree::getJointInPosition(edk::uint32 position){
-    return this->getElementInPosition(position);edkEnd();
+    return this->getElementInPosition(position);
 }
 //return the size of the joint
 edk::uint32 edk::physics2D::World2D::ObjectsJointsTree::getSize(){
-    return this->size();edkEnd();
+    return this->size();
 }
 //remove joint
 bool edk::physics2D::World2D::ObjectsJointsTree::removeJoint(edk::physics2D::PhysicObject2D* object){
@@ -697,11 +699,11 @@ bool edk::physics2D::World2D::ObjectsJointsTree::removeJoint(edk::physics2D::Phy
     find.objectA = object;edkEnd();
     find.objectB = pointer;edkEnd();
     */
-    return this->remove(&find);edkEnd();
+    return this->remove(&find);
 }
 
 bool edk::physics2D::World2D::ObjectsJointsTree::removeJoint(edk::physics2D::World2D::ObjectJointsTree* joint){
-    return this->remove(joint);edkEnd();
+    return this->remove(joint);
 }
 //clean the joints
 void edk::physics2D::World2D::ObjectsJointsTree::cleanJoints(){
@@ -910,17 +912,17 @@ b2Body* edk::physics2D::World2D::getBody(edk::physics2D::PhysicObject2D* object)
 */
         switch(object->getType()){
         case edk::physics::StaticBody:
-            return this->treeStatic.getBody(object);edkEnd();
-            //break;edkEnd();
+            return this->treeStatic.getBody(object);
+            //break;
         case edk::physics::KinematicBody:
-            return this->treeKinematic.getBody(object);edkEnd();
-            //break;edkEnd();
+            return this->treeKinematic.getBody(object);
+            //break;
         case edk::physics::DynamicBody:
-            return this->treeDynamic.getBody(object);edkEnd();
-            //break;edkEnd();
+            return this->treeDynamic.getBody(object);
+            //break;
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 
 /*
@@ -1106,7 +1108,7 @@ edk::physics2D::Joint2D* edk::physics2D::World2D::addJoint(edk::physics2D::Physi
             }
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 bool edk::physics2D::World2D::addJoint(edk::physics2D::Joint2D* joint){
     //
@@ -1269,8 +1271,9 @@ bool edk::physics2D::World2D::removeObjectJoints(edk::physics2D::PhysicObject2D*
                         objectTemp=objectJointsATemp->getPointerA();edkEnd();
                     }
                     else{
-                        if(object!=objectJointsATemp->getPointerB())
+                        if(object!=objectJointsATemp->getPointerB()){
                             objectTemp=objectJointsATemp->getPointerB();edkEnd();
+                        }
                     }
                     if(objectTemp){
                         //find the object
@@ -1911,7 +1914,7 @@ bool edk::physics2D::World2D::addObject(edk::physics2D::PhysicObject2D* object){
                         }
                         ret=false;edkEnd();
                     }
-                    break;edkEnd();
+                    break;
                 case b2_kinematicBody:
                     if(!this->treeKinematic.addBody(object,objectBody)){
                         //destroy the body
@@ -1925,7 +1928,7 @@ bool edk::physics2D::World2D::addObject(edk::physics2D::PhysicObject2D* object){
                         }
                         ret=false;edkEnd();
                     }
-                    break;edkEnd();
+                    break;
                 case b2_dynamicBody:
                     if(!this->treeDynamic.addBody(object,objectBody)){
                         //destroy the body
@@ -1939,7 +1942,7 @@ bool edk::physics2D::World2D::addObject(edk::physics2D::PhysicObject2D* object){
                         }
                         ret=false;edkEnd();
                     }
-                    break;edkEnd();
+                    break;
                 default:
                     //destroy the object
                     if(this->runNextStep){
@@ -1985,19 +1988,19 @@ bool edk::physics2D::World2D::removeObject(edk::physics2D::PhysicObject2D* objec
                 if(temp){
                     this->treeStatic.removeBody(temp);edkEnd();
                 }
-                break;edkEnd();
+                break;
             case edk::physics::DynamicBody:
                 temp = this->treeDynamic.getBody(object);edkEnd();
                 if(temp){
                     this->treeDynamic.removeBody(temp);edkEnd();
                 }
-                break;edkEnd();
+                break;
             case edk::physics::KinematicBody:
                 temp = this->treeKinematic.getBody(object);edkEnd();
                 if(temp){
                     this->treeKinematic.removeBody(temp);edkEnd();
                 }
-                break;edkEnd();
+                break;
             }
             if(temp){
                 if(this->runNextStep){
@@ -2113,11 +2116,11 @@ bool edk::physics2D::World2D::haveObject(edk::physics2D::PhysicObject2D* object)
         //test the objectType
         switch(object->getType()){
         case edk::physics::StaticBody:
-            return this->treeStatic.haveBody(object);edkEnd();
+            return this->treeStatic.haveBody(object);
         case edk::physics::DynamicBody:
-            return this->treeDynamic.haveBody(object);edkEnd();
+            return this->treeDynamic.haveBody(object);
         case edk::physics::KinematicBody:
-            return this->treeKinematic.haveBody(object);edkEnd();
+            return this->treeKinematic.haveBody(object);
         }
     }
     return false;
@@ -2133,7 +2136,7 @@ edk::physics2D::PhysicObject2D* edk::physics2D::World2D::getStaticObjectInPositi
             return (edk::physics2D::PhysicObject2D*)body->GetUserData().pointer;edkEnd();
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::uint32 edk::physics2D::World2D::getDynamicObjectsSize(){
     return this->treeDynamic.size();edkEnd();
@@ -2145,7 +2148,7 @@ edk::physics2D::PhysicObject2D* edk::physics2D::World2D::getDynamicObjectInPosit
             return (edk::physics2D::PhysicObject2D*)body->GetUserData().pointer;edkEnd();
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::uint32 edk::physics2D::World2D::getKinematicObjectsSize(){
     return this->treeKinematic.size();edkEnd();
@@ -2157,7 +2160,7 @@ edk::physics2D::PhysicObject2D* edk::physics2D::World2D::getKinematicObjectInPos
             return (edk::physics2D::PhysicObject2D*)body->GetUserData().pointer;edkEnd();
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 
 //update the object position in the world
@@ -2169,13 +2172,13 @@ bool edk::physics2D::World2D::updateObjectVelocity(edk::physics2D::PhysicObject2
         switch(object->getType()){
         case edk::physics::StaticBody:
             temp = this->treeStatic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         case edk::physics::DynamicBody:
             temp = this->treeDynamic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         case edk::physics::KinematicBody:
             temp = this->treeKinematic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         }
         if(temp){
             if(object->haveSettedAngularVelocity()){
@@ -2204,13 +2207,13 @@ bool edk::physics2D::World2D::updateObjectLinearVelocity(edk::physics2D::PhysicO
         switch(object->getType()){
         case edk::physics::StaticBody:
             temp = this->treeStatic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         case edk::physics::DynamicBody:
             temp = this->treeDynamic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         case edk::physics::KinematicBody:
             temp = this->treeKinematic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         }
         if(temp){
             if(object->haveSettedLinearVelocity()){
@@ -2235,13 +2238,13 @@ bool edk::physics2D::World2D::updateObjectAngularVelocity(edk::physics2D::Physic
         switch(object->getType()){
         case edk::physics::StaticBody:
             temp = this->treeStatic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         case edk::physics::DynamicBody:
             temp = this->treeDynamic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         case edk::physics::KinematicBody:
             temp = this->treeKinematic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         }
         if(temp){
             if(object->haveSettedAngularVelocity()){
@@ -2260,13 +2263,13 @@ bool edk::physics2D::World2D::cleanObjectVelocity(edk::physics2D::PhysicObject2D
         switch(object->getType()){
         case edk::physics::StaticBody:
             temp = this->treeStatic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         case edk::physics::DynamicBody:
             temp = this->treeDynamic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         case edk::physics::KinematicBody:
             temp = this->treeKinematic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         }
         if(temp){
             temp->SetLinearVelocity(b2Vec2(0.f,0.f));edkEnd();
@@ -2284,13 +2287,13 @@ bool edk::physics2D::World2D::updateObjectStatus(edk::physics2D::PhysicObject2D*
         switch(object->getType()){
         case edk::physics::StaticBody:
             temp = this->treeStatic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         case edk::physics::DynamicBody:
             temp = this->treeDynamic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         case edk::physics::KinematicBody:
             temp = this->treeKinematic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         }
         if(temp){
             b2Fixture* fixture = temp->GetFixtureList();edkEnd();
@@ -2312,13 +2315,13 @@ bool edk::physics2D::World2D::updateObjectPosition(edk::physics2D::PhysicObject2
         switch(object->getType()){
         case edk::physics::StaticBody:
             temp = this->treeStatic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         case edk::physics::DynamicBody:
             temp = this->treeDynamic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         case edk::physics::KinematicBody:
             temp = this->treeKinematic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         }
         if(temp){
             temp->ApplyUpdatePosition(b2Vec2(object->position.x,object->position.y));edkEnd();
@@ -2340,13 +2343,13 @@ bool edk::physics2D::World2D::updateObjectPositionX(edk::physics2D::PhysicObject
         switch(object->getType()){
         case edk::physics::StaticBody:
             temp = this->treeStatic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         case edk::physics::DynamicBody:
             temp = this->treeDynamic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         case edk::physics::KinematicBody:
             temp = this->treeKinematic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         }
         if(temp){
             temp->ApplyUpdatePositionX(object->position.x);edkEnd();
@@ -2368,13 +2371,13 @@ bool edk::physics2D::World2D::updateObjectPositionY(edk::physics2D::PhysicObject
         switch(object->getType()){
         case edk::physics::StaticBody:
             temp = this->treeStatic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         case edk::physics::DynamicBody:
             temp = this->treeDynamic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         case edk::physics::KinematicBody:
             temp = this->treeKinematic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         }
         if(temp){
             temp->ApplyUpdatePositionY(object->position.y);edkEnd();
@@ -2398,13 +2401,13 @@ bool edk::physics2D::World2D::updateObjectSyncronizePosition(edk::physics2D::Phy
         switch(object->getType()){
         case edk::physics::StaticBody:
             temp = this->treeStatic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         case edk::physics::DynamicBody:
             temp = this->treeDynamic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         case edk::physics::KinematicBody:
             temp = this->treeKinematic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         }
         if(temp){
             temp->ApplySynchronizePosition();edkEnd();
@@ -2422,13 +2425,13 @@ bool edk::physics2D::World2D::updateObjectSyncronizePositionX(edk::physics2D::Ph
         switch(object->getType()){
         case edk::physics::StaticBody:
             temp = this->treeStatic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         case edk::physics::DynamicBody:
             temp = this->treeDynamic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         case edk::physics::KinematicBody:
             temp = this->treeKinematic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         }
         if(temp){
             temp->ApplySynchronizePositionX();edkEnd();
@@ -2446,13 +2449,13 @@ bool edk::physics2D::World2D::updateObjectSyncronizePositionY(edk::physics2D::Ph
         switch(object->getType()){
         case edk::physics::StaticBody:
             temp = this->treeStatic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         case edk::physics::DynamicBody:
             temp = this->treeDynamic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         case edk::physics::KinematicBody:
             temp = this->treeKinematic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         }
         if(temp){
             temp->ApplySynchronizePositionY();edkEnd();
@@ -2470,13 +2473,13 @@ bool edk::physics2D::World2D::updateObjectAngle(edk::physics2D::PhysicObject2D* 
         switch(object->getType()){
         case edk::physics::StaticBody:
             temp = this->treeStatic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         case edk::physics::DynamicBody:
             temp = this->treeDynamic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         case edk::physics::KinematicBody:
             temp = this->treeKinematic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         }
         if(temp){
             temp->ApplyUpdateAngle(object->angle);edkEnd();
@@ -2495,13 +2498,13 @@ bool edk::physics2D::World2D::updateObjectPositionAndAngle(edk::physics2D::Physi
         switch(object->getType()){
         case edk::physics::StaticBody:
             temp = this->treeStatic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         case edk::physics::DynamicBody:
             temp = this->treeDynamic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         case edk::physics::KinematicBody:
             temp = this->treeKinematic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         }
         if(temp){
             temp->ApplyUpdatePosition(b2Vec2(object->position.x,object->position.y));edkEnd();
@@ -2525,13 +2528,13 @@ bool edk::physics2D::World2D::updateObjectPositionXAndAngle(edk::physics2D::Phys
         switch(object->getType()){
         case edk::physics::StaticBody:
             temp = this->treeStatic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         case edk::physics::DynamicBody:
             temp = this->treeDynamic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         case edk::physics::KinematicBody:
             temp = this->treeKinematic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         }
         if(temp){
             temp->ApplyUpdatePositionY(object->position.y);edkEnd();
@@ -2555,13 +2558,13 @@ bool edk::physics2D::World2D::updateObjectPositionYAndAngle(edk::physics2D::Phys
         switch(object->getType()){
         case edk::physics::StaticBody:
             temp = this->treeStatic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         case edk::physics::DynamicBody:
             temp = this->treeDynamic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         case edk::physics::KinematicBody:
             temp = this->treeKinematic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         }
         if(temp){
             temp->ApplyUpdatePositionY(object->position.y);edkEnd();
@@ -2663,10 +2666,10 @@ bool edk::physics2D::World2D::setLinearVelocity(edk::physics2D::PhysicObject2D* 
         switch(object->getType()){
         case edk::physics::DynamicBody:
             temp = this->treeDynamic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         case edk::physics::KinematicBody:
             temp = this->treeKinematic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         }
         if(temp){
             temp->SetLinearVelocity(b2Vec2(vector.x * this->percentIn,vector.y * this->percentIn));edkEnd();
@@ -2683,10 +2686,10 @@ bool edk::physics2D::World2D::setAngularVelocity(edk::physics2D::PhysicObject2D*
         switch(object->getType()){
         case edk::physics::DynamicBody:
             temp = this->treeDynamic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         case edk::physics::KinematicBody:
             temp = this->treeKinematic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         }
         if(temp){
             temp->SetAngularVelocity(angle / (180.f / b2_pi));edkEnd();
@@ -2704,10 +2707,10 @@ bool edk::physics2D::World2D::applyForce(edk::physics2D::PhysicObject2D* object,
         switch(object->getType()){
         case edk::physics::DynamicBody:
             temp = this->treeDynamic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         case edk::physics::KinematicBody:
             temp = this->treeKinematic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         }
         if(temp){
             temp->ApplyForce(b2Vec2(force.x * this->percentIn,force.y * this->percentIn),
@@ -2727,10 +2730,10 @@ bool edk::physics2D::World2D::applyLinearImpulse(edk::physics2D::PhysicObject2D*
         switch(object->getType()){
         case edk::physics::DynamicBody:
             temp = this->treeDynamic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         case edk::physics::KinematicBody:
             temp = this->treeKinematic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         }
         if(temp){
             temp->ApplyLinearImpulse(b2Vec2(impulse.x * this->percentIn,impulse.y * this->percentIn),b2Vec2(position.x * this->percentIn,position.y * this->percentIn),wake);edkEnd();
@@ -2747,10 +2750,10 @@ bool edk::physics2D::World2D::applyAngularImpulse(edk::physics2D::PhysicObject2D
         switch(object->getType()){
         case edk::physics::DynamicBody:
             temp = this->treeDynamic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         case edk::physics::KinematicBody:
             temp = this->treeKinematic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         }
         if(temp){
             temp->ApplyAngularImpulse(angle / (180.f / b2_pi),
@@ -2769,10 +2772,10 @@ bool edk::physics2D::World2D::applyTorque(edk::physics2D::PhysicObject2D* object
         switch(object->getType()){
         case edk::physics::DynamicBody:
             temp = this->treeDynamic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         case edk::physics::KinematicBody:
             temp = this->treeKinematic.getBody(object);edkEnd();
-            break;edkEnd();
+            break;
         }
         if(temp){
             temp->ApplyTorque(torque * this->percentIn,wake);edkEnd();
@@ -2946,7 +2949,7 @@ edk::physics2D::MouseJoint2D* edk::physics2D::World2D::createMouseJoint(edk::phy
             }
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::physics2D::MouseJoint2D* edk::physics2D::World2D::createMouseJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 worldPosition){
     //test the object
@@ -2956,7 +2959,7 @@ edk::physics2D::MouseJoint2D* edk::physics2D::World2D::createMouseJoint(edk::phy
                                       worldPosition
                                       );edkEnd();
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 
 //REVOLUTE
@@ -3024,7 +3027,7 @@ edk::physics2D::RevoluteJoint2D* edk::physics2D::World2D::createRevoluteJoint(ed
             }
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::physics2D::RevoluteJoint2D* edk::physics2D::World2D::createRevoluteJoint(edk::physics2D::PhysicObject2D* objectA,
                                                                               edk::physics2D::PhysicObject2D* objectB,
@@ -3040,7 +3043,7 @@ edk::physics2D::RevoluteJoint2D* edk::physics2D::World2D::createRevoluteJoint(ed
                                          collide
                                          );edkEnd();
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::physics2D::RevoluteJoint2D* edk::physics2D::World2D::createRevoluteAngleJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA,
                                                                                    edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 positionB,
@@ -3107,7 +3110,7 @@ edk::physics2D::RevoluteJoint2D* edk::physics2D::World2D::createRevoluteAngleJoi
             }
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::physics2D::RevoluteJoint2D* edk::physics2D::World2D::createRevoluteAngleJoint(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPosition,
                                                                                    edk::float32 lowerAngle,edk::float32 upperAngle,
@@ -3123,7 +3126,7 @@ edk::physics2D::RevoluteJoint2D* edk::physics2D::World2D::createRevoluteAngleJoi
                                               collide
                                               );edkEnd();
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::physics2D::RevoluteJoint2D* edk::physics2D::World2D::createRevoluteMotorJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA,
                                                                                    edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 positionB,
@@ -3193,7 +3196,7 @@ edk::physics2D::RevoluteJoint2D* edk::physics2D::World2D::createRevoluteMotorJoi
             }
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::physics2D::RevoluteJoint2D* edk::physics2D::World2D::createRevoluteMotorJoint(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPosition,
                                                                                    edk::float32 maxTorque,edk::float32 speed,
@@ -3209,7 +3212,7 @@ edk::physics2D::RevoluteJoint2D* edk::physics2D::World2D::createRevoluteMotorJoi
                                               collide
                                               );edkEnd();
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 //PRISMATIC
 edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA,
@@ -3287,7 +3290,7 @@ edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticJoint(
             }
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticJoint(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPosition,
                                                                                 edk::vec2f32 direction,
@@ -3305,7 +3308,7 @@ edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticJoint(
                                           collide
                                           );edkEnd();
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA,
                                                                                 edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 positionB,
@@ -3320,7 +3323,7 @@ edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticJoint(
                                           collide
                                           );edkEnd();
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticJoint(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPosition,
                                                                                 edk::float32 angle, edk::float32 lowerDistance, edk::float32 upperDistance,
@@ -3336,7 +3339,7 @@ edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticJoint(
                                           collide
                                           );edkEnd();
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticMotorJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA,
                                                                                      edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 positionB,
@@ -3417,7 +3420,7 @@ edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticMotorJ
             }
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticMotorJoint(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPosition,
                                                                                      edk::vec2f32 direction, edk::float32 lowerDistance, edk::float32 upperDistance,
@@ -3435,7 +3438,7 @@ edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticMotorJ
                                                collide
                                                );edkEnd();
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticMotorJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA,
                                                                                      edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 positionB,
@@ -3452,7 +3455,7 @@ edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticMotorJ
                                                collide
                                                );edkEnd();
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticMotorJoint(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPosition,
                                                                                      edk::float32 angle, edk::float32 lowerDistance, edk::float32 upperDistance,
@@ -3470,7 +3473,7 @@ edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticMotorJ
                                                collide
                                                );edkEnd();
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 
 //DISTANCE
@@ -3542,7 +3545,7 @@ edk::physics2D::DistanceJoint2D* edk::physics2D::World2D::createDistanceJoint(ed
             }
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::physics2D::DistanceJoint2D* edk::physics2D::World2D::createDistanceJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 worldPositionA,
                                                                               edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPositionB,
@@ -3558,7 +3561,7 @@ edk::physics2D::DistanceJoint2D* edk::physics2D::World2D::createDistanceJoint(ed
                                          collide
                                          );edkEnd();
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 //PULLEY
 edk::physics2D::PulleyJoint2D* edk::physics2D::World2D::createPulleyJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA, edk::vec2f32 pulleyPositionA,
@@ -3639,7 +3642,7 @@ edk::physics2D::PulleyJoint2D* edk::physics2D::World2D::createPulleyJoint(edk::p
             }
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::physics2D::PulleyJoint2D* edk::physics2D::World2D::createPulleyJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA, edk::vec2f32 pulleyPositionA,
                                                                           edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 positionB, edk::vec2f32 pulleyPositionB,
@@ -3654,7 +3657,7 @@ edk::physics2D::PulleyJoint2D* edk::physics2D::World2D::createPulleyJoint(edk::p
                                        collide
                                        );edkEnd();
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::physics2D::PulleyJoint2D* edk::physics2D::World2D::createPulleyWorldJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 worldPositionA, edk::vec2f32 pulleyWorldPositionA,
                                                                                edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPositionB, edk::vec2f32 pulleyWorldPositionB,
@@ -3673,7 +3676,7 @@ edk::physics2D::PulleyJoint2D* edk::physics2D::World2D::createPulleyWorldJoint(e
                           collide
                           );edkEnd();
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::physics2D::PulleyJoint2D* edk::physics2D::World2D::createPulleyWorldJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 worldPositionA, edk::vec2f32 pulleyWorldPositionA,
                                                                                edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPositionB, edk::vec2f32 pulleyWorldPositionB,
@@ -3690,7 +3693,7 @@ edk::physics2D::PulleyJoint2D* edk::physics2D::World2D::createPulleyWorldJoint(e
                           collide
                           );edkEnd();
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 //WHEEL
 edk::physics2D::WheelJoint2D* edk::physics2D::World2D::createWheelJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA,
@@ -3760,7 +3763,7 @@ edk::physics2D::WheelJoint2D* edk::physics2D::World2D::createWheelJoint(edk::phy
             }
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 
 edk::physics2D::WheelJoint2D* edk::physics2D::World2D::createWheelJoint(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPosition,
@@ -3777,7 +3780,7 @@ edk::physics2D::WheelJoint2D* edk::physics2D::World2D::createWheelJoint(edk::phy
                                       collide
                                       );edkEnd();
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::physics2D::WheelJoint2D* edk::physics2D::World2D::createWheelMotorJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA,
                                                                              edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 positionB,
@@ -3851,7 +3854,7 @@ edk::physics2D::WheelJoint2D* edk::physics2D::World2D::createWheelMotorJoint(edk
             }
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::physics2D::WheelJoint2D* edk::physics2D::World2D::createWheelMotorJoint(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPosition,
                                                                              edk::vec2f32 direction,
@@ -3869,7 +3872,7 @@ edk::physics2D::WheelJoint2D* edk::physics2D::World2D::createWheelMotorJoint(edk
                                            collide
                                            );edkEnd();
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 
 //WELD
@@ -3917,7 +3920,7 @@ edk::physics2D::Joint2D* edk::physics2D::World2D::createWeldJoint(edk::physics2D
             }
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 
 edk::physics2D::Joint2D* edk::physics2D::World2D::createWeldJoint(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPosition,
@@ -3932,7 +3935,7 @@ edk::physics2D::Joint2D* edk::physics2D::World2D::createWeldJoint(edk::physics2D
                                      collide
                                      );edkEnd();
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 //ROPE //REMOVED FROM NEW BOX2D
 /*
@@ -4002,7 +4005,7 @@ edk::physics2D::RopeJoint2D* edk::physics2D::World2D::createRopeJoint(edk::physi
             }
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::physics2D::RopeJoint2D* edk::physics2D::World2D::createRopeJointWorldPositions(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 worldPositionA,
                                                                                     edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPositionB,
@@ -4019,7 +4022,7 @@ edk::physics2D::RopeJoint2D* edk::physics2D::World2D::createRopeJointWorldPositi
                                      collide
                                      );edkEnd();
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 edk::physics2D::RopeJoint2D* edk::physics2D::World2D::createRopeJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 worldPositionA,
                                                                       edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPositionB,
@@ -4035,7 +4038,7 @@ edk::physics2D::RopeJoint2D* edk::physics2D::World2D::createRopeJoint(edk::physi
                                                    collide
                                                    );edkEnd();
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 */
 //GEAR
@@ -4105,7 +4108,7 @@ edk::physics2D::RopeJoint2D* edk::physics2D::World2D::createGearJoint(edk::physi
             }
         }
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 */
 
@@ -4176,7 +4179,7 @@ edk::physics2D::Joint2D* edk::physics2D::World2D::getJointInPosition(edk::uint32
         //return the joint
         return this->treeJoint.getJointInPosition(position);edkEnd();
     }
-    return NULL;edkEnd();
+    return NULL;
 }
 //get Joint Type
 edk::uint8 edk::physics2D::World2D::getJointTypeInPosition(edk::uint32 position){
@@ -4215,7 +4218,7 @@ bool edk::physics2D::World2D::setMotorJointMaxTorque(edk::physics2D::Joint2D* jo
                 return true;
             }
             default:
-                break;edkEnd();
+                break;
             }//end switch
         }
     }
@@ -4236,7 +4239,7 @@ bool edk::physics2D::World2D::setMotorJointSpeed(edk::physics2D::Joint2D* joint,
                 return true;
             }
             default:
-                break;edkEnd();
+                break;
             }//end switch
         }
     }
@@ -4259,7 +4262,7 @@ bool edk::physics2D::World2D::setMotorJointTorqueAndSpeed(edk::physics2D::Joint2
                 return true;
             }
             default:
-                break;edkEnd();
+                break;
             }//end switch
         }
     }
@@ -4280,11 +4283,11 @@ edk::float32 edk::physics2D::World2D::getRevoluteJointAngle(edk::physics2D::Join
                 return temp->GetJointAngle();edkEnd();
             }
             default:
-                break;edkEnd();
+                break;
             }//end switch
         }
     }
-    return 0.f;edkEnd();
+    return 0.f;
 }
 edk::float32 edk::physics2D::World2D::getMotorJointTorque(edk::physics2D::Joint2D* joint){
     //text the joint
@@ -4300,11 +4303,11 @@ edk::float32 edk::physics2D::World2D::getMotorJointTorque(edk::physics2D::Joint2
                 return temp->GetMaxMotorTorque() * this->percentOut;edkEnd();
             }
             default:
-                break;edkEnd();
+                break;
             }//end switch
         }
     }
-    return 0.f;edkEnd();
+    return 0.f;
 }
 edk::float32 edk::physics2D::World2D::getMotorJointSpeed(edk::physics2D::Joint2D* joint){
     //text the joint
@@ -4320,11 +4323,11 @@ edk::float32 edk::physics2D::World2D::getMotorJointSpeed(edk::physics2D::Joint2D
                 return temp->GetMotorSpeed() * this->percentOut;edkEnd();
             }
             default:
-                break;edkEnd();
+                break;
             }//end switch
         }
     }
-    return 0.f;edkEnd();
+    return 0.f;
 }
 //set the mouse target
 bool edk::physics2D::World2D::setMouseJointTarget(edk::physics2D::MouseJoint2D* mouseJoint,edk::vec2f32 target){
@@ -4341,7 +4344,7 @@ bool edk::physics2D::World2D::setMouseJointTarget(edk::physics2D::MouseJoint2D* 
                 return true;
             }
             default:
-                break;edkEnd();
+                break;
             }//end switch
         }
     }

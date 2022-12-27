@@ -90,7 +90,7 @@ private:
                         case EDK_SHAPE_UV:
                             //
                             this->setVertexUV(i,poly.getVertexUV(i));edkEnd();
-                            break;edkEnd();
+                            break;
                         };
                 }
             }

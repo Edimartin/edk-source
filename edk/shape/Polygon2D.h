@@ -307,11 +307,11 @@ private:
                                 //
                                 this->setVertexUV(i,poly.getVertexUV(i));edkEnd();
                                 this->setVertexUVFrames(i,poly.getFrames());edkEnd();
-                                break;edkEnd();
+                                break;
                             case EDK_SHAPE_UV:
                                 //
                                 this->setVertexUV(i,poly.getVertexUV(i));edkEnd();
-                                break;edkEnd();
+                                break;
                         };
                     }
                 }
