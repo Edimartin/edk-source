@@ -562,7 +562,9 @@ private:
     //Class to save the object position in level, tileMap or physicsObjects
     class PhysicsPosition{
     public:
-        PhysicsPosition(){this->level=0u;edkEnd();this->levelID=EDK_LEVEL_NOTHING;edkEnd();this->depth=0.f;edkEnd();this->mapPosition = edk::vec2ui32(0u,0u);edkEnd();}
+        PhysicsPosition(){
+            this->level=0u;edkEnd();this->levelID=EDK_LEVEL_NOTHING;edkEnd();this->depth=0.f;edkEnd();this->mapPosition = edk::vec2ui32(0u,0u);edkEnd();
+        }
         ~PhysicsPosition(){}
         edk::uint32 level;
         edk::uint8 levelID;
@@ -587,7 +589,9 @@ private:
     class ObjClass{
     public:
         //ObjClass(){this->created=false;edkEnd();this->obj=NULL;edkEnd();}
-        ObjClass(bool created,edk::Object2D* obj,edk::float64 depth){this->created=created;edkEnd();this->obj=obj;edkEnd();this->depth = depth;edkEnd();this->animating=false;edkEnd();this->boundingBox=0.f;edkEnd();}
+        ObjClass(bool created,edk::Object2D* obj,edk::float64 depth){
+            this->created=created;edkEnd();this->obj=obj;edkEnd();this->depth = depth;edkEnd();this->animating=false;edkEnd();this->boundingBox=0.f;edkEnd();
+        }
         ~ObjClass(){}
         ObjClass operator =(ObjClass objClass){
             this->created=objClass.created;edkEnd();
@@ -999,7 +1003,9 @@ private:
 
     class QuadObjs : public edk::vector::QuadTree32<edk::Cenario2D::ObjClass*>{
     public:
-        QuadObjs(edk::vector::BinaryTree<edk::Cenario2DCallback*>* calls){this->levelId=0u;edkEnd();this->calls=calls;edkEnd();}
+        QuadObjs(edk::vector::BinaryTree<edk::Cenario2DCallback*>* calls){
+            this->levelId=0u;edkEnd();this->calls=calls;edkEnd();
+        }
         ~QuadObjs(){}
         edk::uint32 levelId;
     protected:

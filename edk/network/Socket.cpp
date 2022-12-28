@@ -93,7 +93,11 @@ edk::network::Adress::Adress(const edk::char8* str,edk::uint16 port){
     this->setPort(port);edkEnd();
 }
 //return the IP by the interface name
-edk::uint32 edk::network::Adress::getIpByInterfaceName(edk::char8* name){
+edk::uint32 edk::network::Adress::getIpByInterfaceName(edk::char8*
+                                                       #ifdef __linux__
+                                                       name
+                                                       #endif
+                                                       ){
 #ifdef __linux__
     if(name){
         edk::int32 fd;edkEnd();

@@ -780,8 +780,9 @@ bool edk::physics2D::World2D::ObjectsJointsTree::firstEqualSecond(edk::physics2D
 }
 
 edk::physics2D::World2D::World2D()
-    : world(b2Vec2(0,0)),contacts(this),treeDeleted(&this->world),
-      treeNew(this),treeLinearVelocity(this),treeAngularVelocity(this){
+    :world(b2Vec2(0,0)),treeStatic(),treeKinematic(),treeDynamic()
+    ,treeDeleted(&this->world),treeNew(this),treeLinearVelocity(this)
+    ,treeAngularVelocity(this),treeConcacts(),contacts(this){
     this->setMeterDistance(1.f);edkEnd();
     //set the initial gravity
     this->setGravity(edk::vec2f32(0.f,-9.8f));edkEnd();

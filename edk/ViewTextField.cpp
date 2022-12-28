@@ -524,7 +524,7 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events,edk::float3
                 break;
             case edk::key::semiColon:
                 //
-                this->addCharacter(';edkEnd();');edkEnd();
+                this->addCharacter(';');edkEnd();
                 break;
             case edk::key::period:
                 //

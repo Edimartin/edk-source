@@ -175,6 +175,9 @@ public:
                     ret = this->first->get(this->start);edkEnd();
                     //increment the start
                     this->start++;edkEnd();
+                    if(this->_size){
+                        this->_size--;
+                    }
                 }
                 if(this->start>=this->end){
                     //get the last value. Delete the cel's

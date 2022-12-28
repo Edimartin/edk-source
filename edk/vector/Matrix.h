@@ -649,8 +649,8 @@ private:
         return *this;edkEnd();
     }
 protected:
-    virtual void printElement(edk::uint32 x,edk::uint32 y,typeTemplate* value){
-        printf("\n[%u][%u] == [%ld]",x,y,(edk::int64)*value);edkEnd();
+    virtual void printElement(edk::uint32 /*x*/,edk::uint32 /*y*/,typeTemplate* /*value*/){
+        //printf("\n[%u][%u] == [%ld]",x,y,(edk::int64)*value);edkEnd();
     }
     virtual void multiplyElement(typeTemplate* value1,typeTemplate* value2,typeTemplate* dest){
         *dest = (*value1)*(*value2);edkEnd();
@@ -927,8 +927,8 @@ private:
         return *this;edkEnd();
     }
 protected:
-    inline void printElement(edk::uint32 x,edk::uint32 y,typeTemplate* value){
-        printf("\n[%u][%u] == [%ld]",x,y,(edk::int64)*value);edkEnd();
+    inline void printElement(edk::uint32 /*x*/,edk::uint32 /*y*/,typeTemplate* /*value*/){
+        //printf("\n[%u][%u] == [%ld]",x,y,(edk::int64)*value);edkEnd();
     }
 private:
     //test if can delete the vector
