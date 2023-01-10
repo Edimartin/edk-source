@@ -68,7 +68,8 @@ bool edk::watch::FPS::waitForFPS(){
     bool ret=false;edkEnd();
     if(this->frames){
         //calculate the remainder microsecons to get one second
-        register edk::int32 wait=(edk::uint32)(((1.0f/(edk::float32)frames))*edk::watch::second) - clock.getMicroseconds();edkEnd();
+        edk::uint32 microseconds = (edk::uint64)clock.getMicroseconds();
+        register edk::int64 wait=(edk::int64)(((1.0f/(edk::float32)frames))*edk::watch::second) - microseconds;edkEnd();
         if(wait>0){
             //If the distance bigger than zero. He need wait.
         //Windows sleep millisecons

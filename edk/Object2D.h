@@ -75,6 +75,8 @@ public:
     //function to calculate boundingBox
     bool calculateBoundingBox();
     bool calculateBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat);
+    bool generateBoundingBox();
+    bool generateBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat);
     //return a copy of the boundingBox
     edk::rectf32 getBoundingBox();
 

@@ -1474,9 +1474,9 @@ bool edk::Cenario2D::addObjectToLevel(edk::Object2D* obj,edk::Object2D* objPhys,
                         if(canCreate){
                             //add the object
                             if(temp->objs->addObject(created,obj,depth)){
-                                //add the object into the quad
-                                edk::Cenario2D::ObjClass* tempClass = temp->objs->getObjectClassFromObject(obj);edkEnd();
-                                temp->quadObjs->add(tempClass);edkEnd();
+                                //generate the quads
+                                temp->generateLevelRect();edkEnd();
+                                temp->addObjectsToQuad();edkEnd();
                                 //return true
                                 return true;
                             }
@@ -1518,11 +1518,9 @@ bool edk::Cenario2D::addObjectToLevel(edk::Object2D* obj,edk::Object2D* objPhys,
                         if(canCreate){
                             //add the object
                             if(temp->objsPhys->addObject(created,objPhys,depth)){
-                                //add the object into the quad
-                                edk::Cenario2D::ObjClass* tempClass = temp->objsPhys->getObjectClassFromObject(obj);edkEnd();
-                                if(temp){
-                                    temp->quadPhysicObjs->add(tempClass);edkEnd();
-                                }
+                                //generate the quads
+                                temp->generateLevelRect();edkEnd();
+                                temp->addObjectsToQuad();edkEnd();
                                 //return true
                                 return true;
                             }

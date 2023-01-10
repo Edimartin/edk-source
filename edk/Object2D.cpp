@@ -798,6 +798,12 @@ bool edk::Object2D::calculateBoundingBox(edk::vector::Matrix<edk::float32,3,3>* 
     }
     return true;
 }
+bool edk::Object2D::generateBoundingBox(){
+    return this->calculateBoundingBox();
+}
+bool edk::Object2D::generateBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat){
+    return this->calculateBoundingBox(transformMat);
+}
 //return a copy of the boundingBox
 edk::rectf32 edk::Object2D::getBoundingBox(){
     return this->boundingBox;edkEnd();
