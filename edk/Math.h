@@ -39,6 +39,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "TypeVec2.h"
 #include "TypeVec3.h"
 #include "TypeVec4.h"
+#include "TypeRect.h"
 #include "vector/Matrix.h"
 
 #ifdef printMessages
@@ -639,6 +640,18 @@ public:
     //RADIAN
     static edk::float32 angleToRad(edk::float32 angle);
     static edk::float32 radToAngle(edk::float32 rad);
+
+    //fill a size inside a size
+    static edk::rectf32 fitInside(edk::size2f32 fill,edk::size2f32 inside);
+    static edk::rectf32 fitInside(edk::float32 fillWidth,edk::float32 fillHeight,
+                                  edk::float32 insideWidth,edk::float32 insideHeight
+                                  );
+    //fill a size inside a rectangle
+    static edk::rectf32 fitInside(edk::rectf32 fill,edk::size2f32 inside);
+    static edk::rectf32 fitInside(edk::vec2f32 fillOrigin,edk::size2f32 fillSize,edk::size2f32 insideSize);
+    static edk::rectf32 fitInside(edk::float32 fillOriginX,edk::float32 fillOriginY,edk::float32 fillSizeWidth,edk::float32 fillSizeHeight,
+                                  edk::float32 insideSizeWidth,edk::float32 insideSizeHeight
+                                  );
 protected:
 private:
 };

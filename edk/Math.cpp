@@ -101,8 +101,8 @@ edk::vec4f32  edk::Math::normalise(edk::vec4f32 vec){
 
 //ScalarProduct
 edk::float32 edk::Math::dotProduct(edk::float32 x1,edk::float32 y1,
-                                      edk::float32 x2,edk::float32 y2
-                                      ){
+                                   edk::float32 x2,edk::float32 y2
+                                   ){
     return edk::Math::dotProduct(edk::vec2f32(x1,y1),edk::vec2f32(x2,y2));edkEnd();
 }
 edk::float32 edk::Math::dotProduct(edk::vec2f32 vec1,edk::vec2f32 vec2){
@@ -110,8 +110,8 @@ edk::float32 edk::Math::dotProduct(edk::vec2f32 vec1,edk::vec2f32 vec2){
     return (vec1.x*vec2.x) + (vec1.y*vec2.y);edkEnd();
 }
 edk::float32 edk::Math::dotProduct(edk::float32 x1,edk::float32 y1,edk::float32 z1,
-                                      edk::float32 x2,edk::float32 y2,edk::float32 z2
-                                      ){
+                                   edk::float32 x2,edk::float32 y2,edk::float32 z2
+                                   ){
     return edk::Math::dotProduct(edk::vec3f32(x1,y1,z1),edk::vec3f32(x2,y2,z2));edkEnd();
 }
 edk::float32 edk::Math::dotProduct(edk::vec3f32 vec1,edk::vec3f32 vec2){
@@ -119,8 +119,8 @@ edk::float32 edk::Math::dotProduct(edk::vec3f32 vec1,edk::vec3f32 vec2){
     return (vec1.x*vec2.x) + (vec1.y*vec2.y) + (vec1.z*vec2.z);edkEnd();
 }
 edk::float32 edk::Math::dotProduct(edk::float32 x1,edk::float32 y1,edk::float32 z1,edk::float32 w1,
-                                      edk::float32 x2,edk::float32 y2,edk::float32 z2,edk::float32 w2
-                                      ){
+                                   edk::float32 x2,edk::float32 y2,edk::float32 z2,edk::float32 w2
+                                   ){
     return edk::Math::dotProduct(edk::vec4f32(x1,y1,z1,w1),edk::vec4f32(x2,y2,z2,w2));edkEnd();
 }
 edk::float32 edk::Math::dotProduct(edk::vec4f32 vec1,edk::vec4f32 vec2){
@@ -710,8 +710,8 @@ edk::vec2f32 edk::Math::rotatePlus(edk::vec2f32 vec,edk::float32 angle){
 
 //Normal of the triangle
 edk::vec3f32 edk::Math::normalTriangle(edk::float32 x1,edk::float32 y1,edk::float32 z1,
-                                   edk::float32 x2,edk::float32 y2,edk::float32 z2,
-                                   edk::float32 x3,edk::float32 y3,edk::float32 z3
+                                       edk::float32 x2,edk::float32 y2,edk::float32 z2,
+                                       edk::float32 x3,edk::float32 y3,edk::float32 z3
                                        ){
     return edk::Math::normalTriangle(edk::vec3f32(x1,y1,z1),edk::vec3f32(x2,y2,z2),edk::vec3f32(x3,y3,z3));edkEnd();
 }
@@ -904,4 +904,62 @@ edk::float32 edk::Math::angleToRad(edk::float32 angle){
 edk::float32 edk::Math::radToAngle(edk::float32 rad){
     //
     return (rad * 180.0f) / PI;edkEnd();
+}
+
+//fill a size inside a size
+edk::rectf32 edk::Math::fitInside(edk::size2f32 fill,edk::size2f32 inside){
+    edk::rectf32 ret;
+    //test if te fill width is bigger then fill width
+    if(fill.width > fill.height){
+        //test if the size width s bigger or smaller
+        if((fill.width / fill.height) > (inside.width / inside.height)){
+            //resize using the height as ONE
+            ret.size.height = fill.height;
+            ret.size.width = fill.height *(inside.width / inside.height);
+            ret.origin.x = ((fill.width - ret.size.width) * 0.5f);
+        }
+        else{
+            //resize using the width as ONE
+            ret.size.width = fill.width;
+            ret.size.height = fill.width *(inside.height / inside.width);
+            ret.origin.y = ((fill.height - ret.size.height) * 0.5f);
+        }
+    }
+    else{
+        //test if the size height s bigger or smaller
+        if((fill.height / fill.width) > (inside.height / inside.width)){
+            //resize using the width as ONE
+            ret.size.width = fill.width;
+            ret.size.height = fill.width *(inside.height / inside.width);
+            ret.origin.y = ((fill.height - ret.size.height) * 0.5f);
+        }
+        else{
+            //resize using the height as ONE
+            ret.size.height = fill.height;
+            ret.size.width = fill.height *(inside.width / inside.height);
+            ret.origin.x = ((fill.width - ret.size.width) * 0.5f);
+        }
+    }
+    return ret;
+}
+edk::rectf32 edk::Math::fitInside(edk::float32 fillWidth,edk::float32 fillHeight,
+                                  edk::float32 insideWidth,edk::float32 insideHeight
+                                  ){
+    return edk::Math::fitInside(edk::size2f32(fillWidth,fillHeight),edk::size2f32(insideWidth,insideHeight));
+}
+//fill a rectangle inside another rectangle
+edk::rectf32 edk::Math::fitInside(edk::rectf32 fill,edk::size2f32 inside){
+    edk::rectf32 ret = fitInside(fill.size,inside);
+    ret.origin+=fill.origin;
+    return ret;
+}
+edk::rectf32 edk::Math::fitInside(edk::vec2f32 fillOrigin,edk::size2f32 fillSize,edk::size2f32 insideSize){
+    return edk::Math::fitInside(edk::rectf32(fillOrigin,fillSize),insideSize);
+}
+edk::rectf32 edk::Math::fitInside(edk::float32 fillOriginX,edk::float32 fillOriginY,edk::float32 fillSizeWidth,edk::float32 fillSizewidth,
+                                  edk::float32 insideSizeWidth,edk::float32 insideSizewidth
+                                  ){
+    return edk::Math::fitInside(edk::vec2f32(fillOriginX,fillOriginY),edk::size2f32(fillSizeWidth,fillSizewidth),
+                                edk::size2f32(insideSizeWidth,insideSizewidth)
+                                );
 }
