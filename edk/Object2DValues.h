@@ -32,6 +32,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma once
 #include "TypeVec2.h"
 #include "TypeSize2.h"
+#include "TypeColor.h"
+#include "animation/Interpolation2DGroup.h"
+#include "animation/Interpolation2DTracks.h"
 
 #ifdef printMessages
 #warning "    Compiling Object2DValues"
@@ -45,6 +48,14 @@ public:
     edk::float32 angle;
     edk::size2f32 size;
     bool fixedRotation;
+    //animarion position
+    edk::animation::Interpolation2DTracks animationPosition;
+    //Animation rotation
+    edk::animation::Interpolation1DGroup animationRotation;
+    //animationSize
+    edk::animation::Interpolation2DGroup animationSize;
+    //pivo point
+    edk::vec2f32 pivo;
     void loadIdentityValues();
     //operators
     // =
@@ -63,6 +74,13 @@ public:
     bool operator!=(edk::Object2DValues values){
         return (this->position!=values.position || this->angle!=values.angle || this->size != values.size);edkEnd();
     }
+    //draw the pivo
+    virtual void drawPivo(edk::float32 size,edk::color3f32 color);
+    //update all animations
+    virtual bool updateAnimations();
+    virtual bool updateAnimations(edk::float32 seconds);
+    //draw
+    virtual void draw();
 };
 }
 

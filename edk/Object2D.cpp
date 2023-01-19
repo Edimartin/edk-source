@@ -1039,70 +1039,12 @@ bool edk::Object2D::updateMeshAnimationsFromPosition(edk::uchar32 position,edk::
 
 //update all animations
 bool edk::Object2D::updateAnimations(){
-    bool ret=false;edkEnd();
-    this->animationPosition.updateClockAnimation();edkEnd();
-    this->animationRotation.updateClockAnimation();edkEnd();
-    this->animationSize.updateClockAnimation();edkEnd();
-    //test if are playing the animations
-    if(this->animationPosition.isPlaying()){
-        //
-        edk::vec2f32 posTemp;edkEnd();
-        posTemp.x = this->animationPosition.getClockX();edkEnd();
-        posTemp.y = this->animationPosition.getClockY();edkEnd();
-        //set the value
-        this->position = posTemp;edkEnd();
-        ret=true;edkEnd();
-    }
-    if(this->animationRotation.isPlaying()){
-        //
-        edk::float32 angleTemp = this->animationRotation.getClockX();edkEnd();
-        //set the value
-        this->angle = angleTemp;edkEnd();
-        ret=true;edkEnd();
-    }
-    if(this->animationSize.isPlaying()){
-        //
-        edk::size2f32 sizeTemp;edkEnd();
-        sizeTemp.width = this->animationSize.getClockX();edkEnd();
-        sizeTemp.height = this->animationSize.getClockY();edkEnd();
-        //set the value
-        this->size = sizeTemp;edkEnd();
-        ret=true;edkEnd();
-    }
+    bool ret=edk::Object2DValues::updateAnimations();edkEnd();
     this->updateMeshAnimations();edkEnd();
     return ret;
 }
 bool edk::Object2D::updateAnimations(edk::float32 seconds){
-    bool ret=false;edkEnd();
-    this->animationPosition.updateClockAnimation(seconds);edkEnd();
-    this->animationRotation.updateClockAnimation(seconds);edkEnd();
-    this->animationSize.updateClockAnimation(seconds);edkEnd();
-    //test if are playing the animations
-    if(this->animationPosition.isPlaying()){
-        //
-        edk::vec2f32 posTemp;edkEnd();
-        posTemp.x = this->animationPosition.getClockX();edkEnd();
-        posTemp.y = this->animationPosition.getClockY();edkEnd();
-        //set the value
-        this->position = posTemp;edkEnd();
-        ret=true;edkEnd();
-    }
-    if(this->animationRotation.isPlaying()){
-        //
-        edk::float32 angleTemp = this->animationRotation.getClockX();edkEnd();
-        //set the value
-        this->angle = angleTemp;edkEnd();
-        ret=true;edkEnd();
-    }
-    if(this->animationSize.isPlaying()){
-        //
-        edk::size2f32 sizeTemp;edkEnd();
-        sizeTemp.width = this->animationSize.getClockX();edkEnd();
-        sizeTemp.height = this->animationSize.getClockY();edkEnd();
-        //set the value
-        this->size = sizeTemp;edkEnd();
-        ret=true;edkEnd();
-    }
+    bool ret=edk::Object2DValues::updateAnimations(seconds);edkEnd();
     this->updateMeshAnimations(seconds);edkEnd();
     return ret;
 }

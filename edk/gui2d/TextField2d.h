@@ -33,7 +33,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../Object2DValues.h"
 #include "../TypeDefines.h"
 #include "../GU/GU.h"
-#include "../ViewSprite.h"
 #include "../vector/BinaryTree.h"
 #include "../fonts/FontMap.h"
 #include "../NameClass.h"

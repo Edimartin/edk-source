@@ -117,7 +117,8 @@ public:
     void removeAllConnectionObjects();
 
     //update animations
-    void updateAnimations();
+    bool updateAnimations();
+    bool updateAnimations(edk::float32 seconds);
     //scale animations
     void scaleAnimations(edk::float32 scale);
     void scaleAnimationsPosition(edk::float32 scale);

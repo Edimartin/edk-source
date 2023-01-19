@@ -269,8 +269,8 @@ public:
     //update animations
     bool updateAnimation(edk::uint32 position);
     bool updateAnimation(edk::uint32 position,edk::float32 seconds);
-    void updateAnimations();
-    void updateAnimations(edk::float32 seconds);
+    bool updateAnimations();
+    bool updateAnimations(edk::float32 seconds);
     //draw the cenario with all the objects
     void draw();
     void drawWire();

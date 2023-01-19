@@ -1053,8 +1053,13 @@ void edk::bones::Body2D::removeAllConnectionObjects(){
 }
 
 //update animations
-void edk::bones::Body2D::updateAnimations(){
+bool edk::bones::Body2D::updateAnimations(){
     this->root.updateAnimations();edkEnd();
+    return true;
+}
+bool edk::bones::Body2D::updateAnimations(edk::float32 seconds){
+    this->root.updateAnimations(seconds);edkEnd();
+    return true;
 }
 //scale animations
 void edk::bones::Body2D::scaleAnimations(edk::float32 scale){

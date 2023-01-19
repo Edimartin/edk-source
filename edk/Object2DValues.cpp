@@ -36,41 +36,78 @@ void edk::Object2DValues::loadIdentityValues(){
     this->angle = 0.f;edkEnd();
     this->size = edk::size2f32(1,1);edkEnd();
 }
-/*
-//save the values
-void edk::Object2DValues::saveValues(){
-    this->savePosition = this->position;edkEnd();
-    this->saveSize = this->size;edkEnd();
-    this->saveAngle = this->angle;edkEnd();
+//draw the pivo
+void edk::Object2DValues::drawPivo(edk::float32 ,edk::color3f32 ){
+    //
 }
-//clean the saved values
-void edk::Object2DValues::cleanSaved(){
-    this->savePosition = edk::vec2f32(0,0);edkEnd();
-    this->saveAngle = 0.f;edkEnd();
-    this->saveSize = edk::size2f32(1,1);edkEnd();
+//update all animations
+bool edk::Object2DValues::updateAnimations(){
+    bool ret=false;edkEnd();
+    this->animationPosition.updateClockAnimation();edkEnd();
+    this->animationRotation.updateClockAnimation();edkEnd();
+    this->animationSize.updateClockAnimation();edkEnd();
+    //test if are playing the animations
+    if(this->animationPosition.isPlaying()){
+        //
+        edk::vec2f32 posTemp;edkEnd();
+        posTemp.x = this->animationPosition.getClockX();edkEnd();
+        posTemp.y = this->animationPosition.getClockY();edkEnd();
+        //set the value
+        this->position = posTemp;edkEnd();
+        ret=true;edkEnd();
+    }
+    if(this->animationRotation.isPlaying()){
+        //
+        edk::float32 angleTemp = this->animationRotation.getClockX();edkEnd();
+        //set the value
+        this->angle = angleTemp;edkEnd();
+        ret=true;edkEnd();
+    }
+    if(this->animationSize.isPlaying()){
+        //
+        edk::size2f32 sizeTemp;edkEnd();
+        sizeTemp.width = this->animationSize.getClockX();edkEnd();
+        sizeTemp.height = this->animationSize.getClockY();edkEnd();
+        //set the value
+        this->size = sizeTemp;edkEnd();
+        ret=true;edkEnd();
+    }
+    return ret;
 }
-//return the saved values
-edk::vec2f32 edk::Object2DValues::getSavedPosition(){
-    return this->savePosition;edkEnd();
+bool edk::Object2DValues::updateAnimations(edk::float32 seconds){
+    bool ret=false;edkEnd();
+    this->animationPosition.updateClockAnimation(seconds);edkEnd();
+    this->animationRotation.updateClockAnimation(seconds);edkEnd();
+    this->animationSize.updateClockAnimation(seconds);edkEnd();
+    //test if are playing the animations
+    if(this->animationPosition.isPlaying()){
+        //
+        edk::vec2f32 posTemp;edkEnd();
+        posTemp.x = this->animationPosition.getClockX();edkEnd();
+        posTemp.y = this->animationPosition.getClockY();edkEnd();
+        //set the value
+        this->position = posTemp;edkEnd();
+        ret=true;edkEnd();
+    }
+    if(this->animationRotation.isPlaying()){
+        //
+        edk::float32 angleTemp = this->animationRotation.getClockX();edkEnd();
+        //set the value
+        this->angle = angleTemp;edkEnd();
+        ret=true;edkEnd();
+    }
+    if(this->animationSize.isPlaying()){
+        //
+        edk::size2f32 sizeTemp;edkEnd();
+        sizeTemp.width = this->animationSize.getClockX();edkEnd();
+        sizeTemp.height = this->animationSize.getClockY();edkEnd();
+        //set the value
+        this->size = sizeTemp;edkEnd();
+        ret=true;edkEnd();
+    }
+    return ret;
 }
-edk::float32 edk::Object2DValues::getSavedPositionX(){
-    return this->savePosition.x;edkEnd();
+//draw
+void edk::Object2DValues::draw(){
+    //
 }
-edk::float32 edk::Object2DValues::getSavedPositionY(){
-    return this->savePosition.y;edkEnd();
-}
-//return the saved size
-edk::size2f32 edk::Object2DValues::getSavedSize(){
-    return this->saveSize;edkEnd();
-}
-edk::float32 edk::Object2DValues::getSavedSizeWidth(){
-    return this->saveSize.width;edkEnd();
-}
-edk::float32 edk::Object2DValues::getSavedSizeHeight(){
-    return this->saveSize.height;edkEnd();
-}
-//return the savedAngle
-edk::float32 edk::Object2DValues::getSavedAngle(){
-    return this->angle;edkEnd();
-}
-*/

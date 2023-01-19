@@ -215,14 +215,6 @@ public:
 
     //PolygonList selected
     edk::shape::Mesh2D *selected;
-    //animarion position
-    edk::animation::Interpolation2DTracks animationPosition;
-    //Animation rotation
-    edk::animation::Interpolation1DGroup animationRotation;
-    //animationSize
-    edk::animation::Interpolation2DGroup animationSize;
-    //pivo point
-    edk::vec2f32 pivo;
 protected:
 
     class MeshAlloc{

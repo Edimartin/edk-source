@@ -3373,15 +3373,16 @@ bool edk::Cenario2D::updateAnimation(edk::uint32 position,edk::float32 seconds){
     }
     return false;
 }
-void edk::Cenario2D::updateAnimations(){
+bool edk::Cenario2D::updateAnimations(){
     this->treeAnim.loadSeconds();edkEnd();
     this->treeAnim.update();edkEnd();
     this->treeAnimPhys.loadSeconds();edkEnd();
     this->treeAnimPhys.update();edkEnd();
     //update the tileSet
     this->tileSet.updateAnimations();edkEnd();
+    return true;
 }
-void edk::Cenario2D::updateAnimations(edk::float32 seconds){
+bool edk::Cenario2D::updateAnimations(edk::float32 seconds){
     this->treeAnim.setSeconds(seconds);edkEnd();
     this->treeAnim.update();edkEnd();
     this->treeAnim.loadSeconds();edkEnd();
@@ -3390,6 +3391,7 @@ void edk::Cenario2D::updateAnimations(edk::float32 seconds){
     this->treeAnimPhys.loadSeconds();edkEnd();
     //update the tileSet
     this->tileSet.updateAnimations(seconds);edkEnd();
+    return true;
 }
 //draw the cenario with all the objects
 void edk::Cenario2D::draw(){
