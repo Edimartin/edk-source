@@ -200,7 +200,7 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events){
                     this->pressTilde=false;edkEnd();
                 }
                 else if(this->pressQuote){
-                    this->addCharacter('´');edkEnd();
+                    this->addCharacterFromString("´");edkEnd();
                     this->pressQuote=false;edkEnd();
                 }
                 else{
@@ -222,7 +222,7 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events){
             case edk::key::quote:
                 //accent
                 if(this->pressQuote){
-                    this->addCharacter('´');edkEnd();
+                    this->addCharacterFromString("´");edkEnd();
                     this->pressQuote=false;edkEnd();
                 }
                 else if(this->pressTilde){
@@ -240,7 +240,7 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events){
                     this->pressTilde=false;edkEnd();
                 }
                 else if(this->pressQuote){
-                    this->addCharacter('´');edkEnd();
+                    this->addCharacterFromString("´");edkEnd();
                     this->pressQuote=false;edkEnd();
                 }
                 else{
@@ -336,7 +336,7 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events){
                                 this->addCharacterFromString("Ú");edkEnd();
                                 break;
                             default:
-                                this->addCharacter('´');edkEnd();
+                                this->addCharacterFromString("´");edkEnd();
                                 this->addCharacter(keyPressed + ('A' - 'a'));edkEnd();
                             }
                         }
@@ -387,7 +387,7 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events){
                                 this->addCharacterFromString("ú");edkEnd();
                                 break;
                             default:
-                                this->addCharacter('´');edkEnd();
+                                this->addCharacterFromString("´");edkEnd();
                                 this->addCharacter(keyPressed);edkEnd();
                             }
                         }
@@ -511,7 +511,7 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events,edk::float3
                     this->pressTilde=false;edkEnd();
                 }
                 else if(this->pressQuote){
-                    this->addCharacter('´');edkEnd();
+                    this->addCharacterFromString("´");edkEnd();
                     this->pressQuote=false;edkEnd();
                 }
                 else{
@@ -533,7 +533,7 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events,edk::float3
             case edk::key::quote:
                 //accent
                 if(this->pressQuote){
-                    this->addCharacter('´');edkEnd();
+                    this->addCharacterFromString("´");edkEnd();
                     this->pressQuote=false;edkEnd();
                 }
                 else if(this->pressTilde){
@@ -551,7 +551,7 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events,edk::float3
                     this->pressTilde=false;edkEnd();
                 }
                 else if(this->pressQuote){
-                    this->addCharacter('´');edkEnd();
+                    this->addCharacterFromString("´");edkEnd();
                     this->pressQuote=false;edkEnd();
                 }
                 else{
@@ -647,7 +647,7 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events,edk::float3
                                 this->addCharacterFromString("Ú");edkEnd();
                                 break;
                             default:
-                                this->addCharacter('´');edkEnd();
+                                this->addCharacterFromString("´");edkEnd();
                                 this->addCharacter(keyPressed + ('A' - 'a'));edkEnd();
                             }
                         }
@@ -698,7 +698,7 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events,edk::float3
                                 this->addCharacterFromString("ú");edkEnd();
                                 break;
                             default:
-                                this->addCharacter('´');edkEnd();
+                                this->addCharacterFromString("´");edkEnd();
                                 this->addCharacter(keyPressed);edkEnd();
                             }
                         }

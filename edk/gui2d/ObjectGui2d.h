@@ -156,13 +156,13 @@ public:
     void setColor(edk::color4f32 color);
     void setColor(edk::color3f32 color);
 
-    bool writeText(const edk::char8* text);
-    bool writeText(edk::char8* text);
-    bool writeText(const edk::char8* text,edk::float32 scaleWidth,edk::float32 scaleHeight);
-    bool writeText(edk::char8* text,edk::float32 scaleWidth,edk::float32 scaleHeight);
-    bool writeText(const edk::char8* text,edk::size2f32 scale);
-    bool writeText(edk::char8* text,edk::size2f32 scale);
-    void cleanText();
+    virtual bool writeText(const edk::char8* text);
+    virtual bool writeText(edk::char8* text);
+    virtual bool writeText(const edk::char8* text,edk::float32 scaleWidth,edk::float32 scaleHeight);
+    virtual bool writeText(edk::char8* text,edk::float32 scaleWidth,edk::float32 scaleHeight);
+    virtual bool writeText(const edk::char8* text,edk::size2f32 scale);
+    virtual bool writeText(edk::char8* text,edk::size2f32 scale);
+    virtual void cleanText();
 
     //load the button textures and meshes
     virtual bool load();
@@ -186,6 +186,9 @@ public:
     //set border size
     virtual bool setBorderSize(edk::float32 size);
 
+    //return the object rectangle inside
+    edk::rectf32 getInsideRect();
+
     //draw the button
     virtual void draw();
     virtual void drawSelection();
@@ -195,8 +198,16 @@ public:
     bool pressed;
 protected:
     void drawStart();
+    void drawObject();
+    void drawObjectSelection();
+    void drawSprite();
+    void drawTextFont();
+    void drawTextFontWire();
     void drawEnd();
     void runTextSize();
+    void calculateTextScale(edk::size2f32 scale);
+    //get the text scale template
+    edk::size2f32 getTextTemplateScale();
     virtual void updateTextSize(edk::size2f32 sizeText,edk::size2f32 centerSize,edk::size2ui32 mapSize);
     edk::gui2d::ObjectGui2dBorder obj;
     //save if the obj is selected

@@ -326,10 +326,15 @@ edk::fonts::FontMap::FontMap(){
 
     //load the templateFont
     this->loadFontImageFromMemory(EDKFontTemplateName,EDKFontTemplate,EDKFontTemplateSize);edkEnd();
+
+    //save the transform
+    this->savePosition = this->position;
+    this->saveAngle = this->angle;
+    this->saveSize = this->size;
 }
 edk::fonts::FontMap::~FontMap(){
     this->removeFontImage();edkEnd();
-    this->cleanLines();edkEnd();
+    this->deleteLines();edkEnd();
 }
 
 //gete the tileID
@@ -605,8 +610,8 @@ edk::uint32 edk::fonts::FontMap::lineSize(edk::char8* str){
     return 0u;edkEnd();
 }
 
-//clean lines
-void edk::fonts::FontMap::cleanLines(){
+//delete lines
+void edk::fonts::FontMap::deleteLines(){
     edk::uint32 size = this->lines.size();edkEnd();
     edk::fonts::FontMap::FontLine * temp = NULL;edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
@@ -720,6 +725,8 @@ edk::uint32 edk::fonts::FontMap::getCharacterID(edk::vec2ui32 position){
 }
 //Draw
 void edk::fonts::FontMap::draw(edk::vec2ui32 origin,edk::vec2ui32 last,edk::color4f32 color){
+    this->updateSavedTransform();
+
     //test if the line is the same
     if(origin.y == last.y){
         //then draw correctly
@@ -740,6 +747,8 @@ void edk::fonts::FontMap::draw(edk::uint32 originWidth,edk::uint32 originLine,ed
 }
 
 void edk::fonts::FontMap::drawWithoutMaterial(edk::vec2ui32 origin,edk::vec2ui32 last,edk::color4f32 color){
+    this->updateSavedTransform();
+
     //test if the line is the same
     if(origin.y == last.y){
         //then draw correctly
@@ -760,6 +769,8 @@ void edk::fonts::FontMap::drawWithoutMaterial(edk::uint32 originWidth,edk::uint3
 }
 
 void edk::fonts::FontMap::drawWire(edk::vec2ui32 origin,edk::vec2ui32 last,edk::color4f32 color){
+    this->updateSavedTransform();
+
     //test if the line is the same
     if(origin.y == last.y){
         //then drawWire correctly
@@ -779,6 +790,8 @@ void edk::fonts::FontMap::drawWire(edk::uint32 originWidth,edk::uint32 originLin
     this->drawWire(edk::vec2ui32(originWidth,originLine),edk::vec2ui32 (lastWidth,lastLine),color);edkEnd();
 }
 void edk::fonts::FontMap::drawSelection(edk::vec2ui32 origin,edk::vec2ui32 last){
+    this->updateSavedTransform();
+
     //test if the line is the same
     if(origin.y == last.y){
         //then drawWire correctly
@@ -799,6 +812,8 @@ void edk::fonts::FontMap::drawSelection(edk::uint32 originWidth,edk::uint32 orig
 }
 //Draw without passing a color
 void edk::fonts::FontMap::draw(edk::vec2ui32 origin,edk::vec2ui32 last){
+    this->updateSavedTransform();
+
     //test if the line is the same
     if(origin.y == last.y){
         //then draw correctly
@@ -819,6 +834,8 @@ void edk::fonts::FontMap::draw(edk::uint32 originWidth,edk::uint32 originLine,ed
 }
 
 void edk::fonts::FontMap::drawWithoutMaterial(edk::vec2ui32 origin,edk::vec2ui32 last){
+    this->updateSavedTransform();
+
     //test if the line is the same
     if(origin.y == last.y){
         //then draw correctly
@@ -839,6 +856,8 @@ void edk::fonts::FontMap::drawWithoutMaterial(edk::uint32 originWidth,edk::uint3
 }
 
 void edk::fonts::FontMap::drawWire(edk::vec2ui32 origin,edk::vec2ui32 last){
+    this->updateSavedTransform();
+
     //test if the line is the same
     if(origin.y == last.y){
         //then drawWire correctly
@@ -954,13 +973,15 @@ void edk::fonts::FontMap::drawWire(edk::uint32 originID,edk::vec2ui32 last){
 
 //SET
 void edk::fonts::FontMap::setPosition(edk::vec2f32 position){
-    this->map.setPosition(position);edkEnd();
+    this->position = position;
+    this->map.setPosition(this->position);edkEnd();
 }
 void edk::fonts::FontMap::setPosition(edk::float32 x,edk::float32 y){
     this->map.setPosition(x,y);edkEnd();
 }
 void edk::fonts::FontMap::setScale(edk::size2f32 scale){
-    this->map.setScaleMap(scale);edkEnd();
+    this->size = scale;
+    this->map.setScaleMap(this->size);edkEnd();
 }
 void edk::fonts::FontMap::setScale(edk::float32 width,edk::float32 height){
     this->map.setScaleMap(width,height);edkEnd();
@@ -1091,7 +1112,7 @@ bool edk::fonts::FontMap::loadFontImageFromPack(edk::pack::FilePackage* pack,edk
 //create a map
 bool edk::fonts::FontMap::createMap(edk::size2ui32 size){
     //clean the lines
-    this->cleanLines();edkEnd();
+    this->deleteLines();edkEnd();
     //test the size
     if(size.width && size.height){
         //
@@ -1111,23 +1132,23 @@ bool edk::fonts::FontMap::createStringMap(const edk::char8* str,edk::uint32 widt
     return this->createStringMap((edk::char8*) str,width);edkEnd();
 }
 bool edk::fonts::FontMap::createStringMap(edk::char8* str,edk::uint32 width){
-    this->cleanLines();edkEnd();
+    this->deleteLines();edkEnd();
     if(this->addStringLine(str,width)){
         return true;
     }
     //first get the word size
-    this->cleanLines();edkEnd();
+    this->deleteLines();edkEnd();
     return false;
 }
 bool edk::fonts::FontMap::createStringMap(const edk::char8* str){
     return this->createStringMap((edk::char8*) str);edkEnd();
 }
 bool edk::fonts::FontMap::createStringMap(edk::char8* str){
-    this->cleanLines();edkEnd();
+    this->deleteLines();edkEnd();
     if(this->addStringLine(str)){
         return true;
     }
-    this->cleanLines();edkEnd();
+    this->deleteLines();edkEnd();
     return false;
 }
 bool edk::fonts::FontMap::addStringLine(const edk::char8* str,edk::uint32 width){
@@ -1334,7 +1355,7 @@ bool edk::fonts::FontMap::createStringMapOneLine(const edk::char8* str,edk::uint
     return this->createStringMapOneLine((edk::char8*) str,width);edkEnd();
 }
 bool edk::fonts::FontMap::createStringMapOneLine(edk::char8* str,edk::uint32 width){
-    this->cleanLines();edkEnd();
+    this->deleteLines();edkEnd();
     //first get the word size
     if(str && width){
         edk::fonts::FontMap::FontLine* line=NULL;edkEnd();
@@ -1414,7 +1435,7 @@ bool edk::fonts::FontMap::createStringMapOneLine(edk::char8* str,edk::uint32 wid
                 }
             }
             else{
-                this->cleanLines();edkEnd();
+                this->deleteLines();edkEnd();
                 return false;
             }
         }
@@ -1429,14 +1450,14 @@ bool edk::fonts::FontMap::createStringMapOneLine(edk::char8* str,edk::uint32 wid
             }
         }
     }
-    this->cleanLines();edkEnd();
+    this->deleteLines();edkEnd();
     return false;
 }
 bool edk::fonts::FontMap::createStringMapOneLine(const edk::char8* str){
     return this->createStringMapOneLine((edk::char8*) str);edkEnd();
 }
 bool edk::fonts::FontMap::createStringMapOneLine(edk::char8* str){
-    this->cleanLines();edkEnd();
+    this->deleteLines();edkEnd();
     //first get the word size
     if(str){
         edk::fonts::FontMap::FontLine* line=NULL;edkEnd();
@@ -1533,13 +1554,13 @@ bool edk::fonts::FontMap::createStringMapOneLine(edk::char8* str){
             //create the new tileMap
             if(this->map.newTileMap(this->maxSizeLine,this->lines.size())){
                 this->copyLinesToMap();edkEnd();
-                this->cleanLines();edkEnd();
+                this->deleteLines();edkEnd();
                 this->selectAll();edkEnd();
                 return true;
             }
         }
     }
-    this->cleanLines();edkEnd();
+    this->deleteLines();edkEnd();
     return false;
 }
 
@@ -3513,6 +3534,53 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            ){
     return this->writeSpacesColor(str,position.x,position.y,size.width,size.height,color.r,color.g,color.b,1.0f);edkEnd();
 }
+//clean the text charaters with spaces in all positions of the map
+bool edk::fonts::FontMap::cleanSpaces(){
+    edk::size2ui32 size = this->map.getMapSize();
+    if(size.width && size.height){
+        for(edk::uint32 y=0u;y<size.height;y++){
+            for(edk::uint32 x=0u;x<size.width;x++){
+                this->map.setTile(' '+1u,x,y);edkEnd();
+                //this->map.setTileColor(r,g,b,a,x,y);edkEnd();
+            }
+        }
+        return true;
+    }
+    return false;
+}
+//clean the text characters with spaces with color
+bool edk::fonts::FontMap::cleanSpacesColor(edk::color3f32 color){
+    edk::size2ui32 size = this->map.getMapSize();
+    if(size.width && size.height){
+        for(edk::uint32 y=0u;y<size.height;y++){
+            for(edk::uint32 x=0u;x<size.width;x++){
+                this->map.setTile(' '+1u,x,y);edkEnd();
+                this->map.setTileColor(color.r,color.g,color.b,1.f,x,y);edkEnd();
+            }
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::fonts::FontMap::cleanSpacesColor(edk::float32 r,edk::float32 g,edk::float32 b){
+    return this->cleanSpacesColor(edk::color3f32(r,g,b));
+}
+bool edk::fonts::FontMap::cleanSpacesColor(edk::color4f32 color){
+    edk::size2ui32 size = this->map.getMapSize();
+    if(size.width && size.height){
+        for(edk::uint32 y=0u;y<size.height;y++){
+            for(edk::uint32 x=0u;x<size.width;x++){
+                this->map.setTile(' '+1u,x,y);edkEnd();
+                this->map.setTileColor(color,x,y);edkEnd();
+            }
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::fonts::FontMap::cleanSpacesColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
+    return this->cleanSpacesColor(edk::color4f32(r,g,b,a));
+}
 
 //set the color
 void edk::fonts::FontMap::setColor(edk::color4f32 color){
@@ -3542,7 +3610,7 @@ void edk::fonts::FontMap::setAlpha(edk::uint8 value){
 //delete tileMap
 void edk::fonts::FontMap::deleteMap(){
     //delete lines
-    this->cleanLines();edkEnd();
+    this->deleteLines();edkEnd();
     this->map.deleteTileMap();edkEnd();
 }
 //return true if have a text
@@ -3758,6 +3826,8 @@ void edk::fonts::FontMap::forceSpeedInLast(edk::float32 speed){
 }
 //update animations
 bool edk::fonts::FontMap::updateAnimations(){
+    this->updateSavedTransform();
+
     bool ret=false;edkEnd();
     edk::uint32 tileID;edkEnd();
     //test if need force speed
@@ -3867,6 +3937,8 @@ bool edk::fonts::FontMap::updateAnimations(){
     return ret;
 }
 bool edk::fonts::FontMap::updateAnimations(edk::float32 seconds){
+    this->updateSavedTransform();
+
     bool ret=false;edkEnd();
     edk::uint32 tileID;edkEnd();
     //test if need force speed

@@ -30,7 +30,7 @@ edk::gui2d::ObjectGui2d::ObjectGui2d(){
     for(edk::uint32 i = 0u;i<edk::gui2d::gui2dTextureSize;i++){
         this->spriteSize[i].width = this->spriteSize[i].height = 0.f;edkEnd();
     }
-    this->textSize = edk::size2f32(1,2);edkEnd();
+    this->textSize = this->getTextTemplateScale();edkEnd();
     this->setStatus(edk::gui2d::gui2dTextureNormal);edkEnd();
     this->saveStatus = this->status;edkEnd();
     this->pressed = false;edkEnd();
@@ -58,6 +58,51 @@ void edk::gui2d::ObjectGui2d::drawStart(){
     edk::GU::guRotateZf32(this->angle);edkEnd();
     //add scale
     //edk::GU::guScale2f32(this->size);edkEnd();
+}
+void edk::gui2d::ObjectGui2d::drawObject(){
+    edk::GU::guEnable(GU_LIGHTING);edkEnd();
+    switch(this->status){
+    case edk::gui2d::gui2dTexture::gui2dTextureUp:
+        //draw the border
+        this->obj.drawUp();edkEnd();
+        break;
+    case edk::gui2d::gui2dTexture::gui2dTexturePressed:
+        //draw the border
+        this->obj.drawPressed();edkEnd();
+        break;
+    case edk::gui2d::gui2dTexture::gui2dTexturePressedUp:
+        //draw the border
+        this->obj.drawPressedUp();edkEnd();
+        break;
+    case edk::gui2d::gui2dTexture::gui2dTextureNormal:
+    case edk::gui2d::gui2dTexture::gui2dTextureSize:
+    default:
+        //draw the border
+        this->obj.drawNormal();edkEnd();
+        break;
+    }
+    edk::GU::guDisable(GU_LIGHTING);edkEnd();
+}
+void edk::gui2d::ObjectGui2d::drawObjectSelection(){
+    this->obj.drawSelection();
+}
+void edk::gui2d::ObjectGui2d::drawSprite(){
+    //test if have the texture
+    if(this->sprite.material.getTexture(this->status)){
+        //draw the srite on the button
+        this->sprite.drawOneTexture(this->status);edkEnd();
+    }
+}
+void edk::gui2d::ObjectGui2d::drawTextFont(){
+    if(this->text.haveText() && this->drawText){
+        this->text.draw(edk::color4f32(0,0,0,1));edkEnd();
+    }
+}
+void edk::gui2d::ObjectGui2d::drawTextFontWire(){
+    if(this->text.haveText() && this->drawText){
+        this->text.drawWire(edk::color4f32(0,0,0,1));
+        this->text.drawPivo(1.f,edk::color3f32(0.f,0.f,0.f));
+    }
 }
 void edk::gui2d::ObjectGui2d::drawEnd(){
     //
@@ -87,6 +132,28 @@ void edk::gui2d::ObjectGui2d::runTextSize(){
         this->drawText = false;edkEnd();
         this->text.setScale(0.01f,0.01f);edkEnd();
     }
+}
+void edk::gui2d::ObjectGui2d::calculateTextScale(edk::size2f32 scale){
+    //set the scale
+    this->textSize = scale;edkEnd();
+
+    //filter the texSize
+    if(this->textSize.width>0.f && this->textSize.height>0.f){
+        if(this->textSize.width>this->textSize.height){
+            this->textSize.height = this->textSize.height/this->textSize.width;edkEnd();
+            this->textSize.width = 1.f;edkEnd();
+        }
+        else{
+            this->textSize.width = this->textSize.width/this->textSize.height;edkEnd();
+            this->textSize.height = 1.f;edkEnd();
+        }
+    }
+
+    this->runTextSize();edkEnd();
+}
+//get the text scale template
+edk::size2f32 edk::gui2d::ObjectGui2d::getTextTemplateScale(){
+    return edk::size2f32(1.f,2.f);
 }
 void edk::gui2d::ObjectGui2d::updateTextSize(edk::size2f32 sizeText,edk::size2f32 centerSize,edk::size2ui32 mapSize){
     if(centerSize.width>centerSize.height){
@@ -168,7 +235,8 @@ void edk::gui2d::ObjectGui2d::updateTextSize(edk::size2f32 sizeText,edk::size2f3
     this->text.setPosition((sizeText.width*-0.5f)
                            + (this->text.getMapScaleWidth()*0.5f)
                            ,
-                           0.f
+                           (sizeText.height*-0.5f)
+                           + (this->text.getMapScaleHeight()*0.5f)
                            );edkEnd();
 }
 
@@ -568,11 +636,10 @@ void edk::gui2d::ObjectGui2d::setColor(edk::color3f32 color){
 }
 
 bool edk::gui2d::ObjectGui2d::writeText(const edk::char8* text){
-    //
     return this->writeText((edk::char8*) text);edkEnd();
 }
 bool edk::gui2d::ObjectGui2d::writeText(edk::char8* text){
-    return this->writeText(text,edk::size2f32(1,2));edkEnd();
+    return this->writeText(text,this->getTextTemplateScale());edkEnd();
 }
 bool edk::gui2d::ObjectGui2d::writeText(const edk::char8* text,edk::float32 scaleWidth,edk::float32 scaleHeight){
     return this->writeText((edk::char8*) text,scaleWidth,scaleHeight);edkEnd();
@@ -589,23 +656,7 @@ bool edk::gui2d::ObjectGui2d::writeText(edk::char8* text,edk::size2f32 scale){
     if(text){
         //write the text
         if(this->text.createStringMapOneLine(text)){
-            //set the scale
-            this->textSize = scale;edkEnd();
-
-            //filter the texSize
-            if(this->textSize.width>0.f && this->textSize.height>0.f){
-                if(this->textSize.width>this->textSize.height){
-                    this->textSize.height = this->textSize.height/this->textSize.width;edkEnd();
-                    this->textSize.width = 1.f;edkEnd();
-                }
-                else{
-                    this->textSize.width = this->textSize.width/this->textSize.height;edkEnd();
-                    this->textSize.height = 1.f;edkEnd();
-                }
-            }
-
-            this->runTextSize();edkEnd();
-
+            this->calculateTextScale(scale);
             return true;
         }
     }
@@ -869,52 +920,42 @@ bool edk::gui2d::ObjectGui2d::setBorderSize(edk::float32 size){
     return this->obj.setBorderSize(size);edkEnd();
 }
 
+//return the object rectangle inside
+edk::rectf32 edk::gui2d::ObjectGui2d::getInsideRect(){
+    //test if the size os different
+    if(this->sizeS!=this->size
+            ||
+            this->borderSizeS!=this->obj.getBorderSize()
+            ){
+        //save the size
+        this->sizeS = this->size;edkEnd();
+        this->borderSizeS=this->obj.getBorderSize();edkEnd();
+
+        //update the polygons
+        this->obj.updatePolygons(this->size);edkEnd();
+    }
+
+    edk::rectf32 ret = this->obj.getRectCenter();
+    ret.origin+=this->position;
+    return ret;
+}
+
 //draw the button
 void edk::gui2d::ObjectGui2d::draw(){
     this->drawStart();edkEnd();
 
+    this->drawObject();
 
-    edk::GU::guEnable(GU_LIGHTING);edkEnd();
+    this->drawSprite();
 
-    switch(this->status){
-    case edk::gui2d::gui2dTexture::gui2dTextureUp:
-        //draw the border
-        this->obj.drawUp();edkEnd();
-        break;
-    case edk::gui2d::gui2dTexture::gui2dTexturePressed:
-        //draw the border
-        this->obj.drawPressed();edkEnd();
-        break;
-    case edk::gui2d::gui2dTexture::gui2dTexturePressedUp:
-        //draw the border
-        this->obj.drawPressedUp();edkEnd();
-        break;
-    case edk::gui2d::gui2dTexture::gui2dTextureNormal:
-    case edk::gui2d::gui2dTexture::gui2dTextureSize:
-    default:
-        //draw the border
-        this->obj.drawNormal();edkEnd();
-        break;
-    }
-    edk::GU::guDisable(GU_LIGHTING);edkEnd();
-
-    //test if have the texture
-    if(this->sprite.material.getTexture(this->status)){
-        //draw the srite on the button
-        this->sprite.drawOneTexture(this->status);edkEnd();
-    }
-
-    if(this->text.haveText() && this->drawText){
-        //
-        this->text.draw(edk::color4f32(0,0,0,1));edkEnd();
-    }
+    this->drawTextFont();
 
     this->drawEnd();edkEnd();
 }
 void edk::gui2d::ObjectGui2d::drawSelection(){
     this->drawStart();edkEnd();
-    //draw the border
-    this->obj.drawSelection();edkEnd();
+    //draw the object
+    this->drawObjectSelection();
     //
     this->drawEnd();edkEnd();
 }

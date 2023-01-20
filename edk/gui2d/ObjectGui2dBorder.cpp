@@ -451,6 +451,8 @@ bool edk::gui2d::ObjectGui2dBorder::updatePolygons(edk::size2f32 size){
         this->mesh.addPolygon(poly);edkEnd();
 
         //update the center
+        this->rectCenter.origin = edk::vec2f32((-0.5f*size.width)+(this->border),(-0.5f*size.height)+(this->border));
+        this->rectCenter.size = edk::size2f32((size.width)-(this->border*2.f),(size.height)-(this->border*2.f));
         this->center.setVertexPosition(0u,(-0.5f*size.width)+(this->border),(+0.5f*size.height)-(this->border));edkEnd();
         this->center.setVertexPosition(1u,(+0.5f*size.width)-(this->border),(-0.5f*size.height)+(this->border));edkEnd();
 
@@ -488,6 +490,10 @@ edk::float32 edk::gui2d::ObjectGui2dBorder::getBorderSize(){
 //return the center rectangle
 edk::shape::Rectangle2D* edk::gui2d::ObjectGui2dBorder::getCenter(){
     return &this->center;edkEnd();
+}
+//return the rectangle of the center
+edk::rectf32 edk::gui2d::ObjectGui2dBorder::getRectCenter(){
+    return this->rectCenter;
 }
 
 //load the objectBorder

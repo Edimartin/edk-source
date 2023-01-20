@@ -30,6 +30,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 #pragma once
+#include "../Object2DValues.h"
 #include "FontSet.h"
 #include "../tiles/TileMap2D.h"
 #include "../vector/Stack.h"
@@ -53,7 +54,7 @@ public:
     virtual void animationEnd(edk::fonts::FontMap* text,bool isOrigin)=0;
 };
 
-class FontMap : public edk::animation::AnimationCallback{
+class FontMap : public edk::Object2DValues , public edk::animation::AnimationCallback{
 public:
     FontMap();
     virtual ~FontMap();
@@ -845,6 +846,13 @@ public:
                           edk::size2ui32 size,
                           edk::color3f32 color
                           );
+    //clean the text charaters with spaces in all positions of the map
+    bool cleanSpaces();
+    //clean the text characters with spaces with color
+    bool cleanSpacesColor(edk::color3f32 color);
+    bool cleanSpacesColor(edk::float32 r,edk::float32 g,edk::float32 b);
+    bool cleanSpacesColor(edk::color4f32 color);
+    bool cleanSpacesColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
 
     //set the color
     void setColor(edk::color4f32 color);
@@ -943,11 +951,11 @@ public:
 
     void animationEnd(edk::animation::InterpolationGroup* animation);
 
-
-    //animation position
-    edk::animation::Interpolation2DGroup animationPosition;
-    edk::animation::Interpolation2DGroup animationSize;
 private:
+    edk::vec2f32 savePosition;
+    edk::float32 saveAngle;
+    edk::size2f32 saveSize;
+
     edk::tiles::TileMap2D map;
     edk::fonts::fontSetList list;
     edk::fonts::FontSet* set;
@@ -1010,8 +1018,8 @@ private:
     edk::uint32 wordSize(edk::char8* str);
     //return the lineSize
     edk::uint32 lineSize(edk::char8* str);
-    //clean lines
-    void cleanLines();
+    //delete lines
+    void deleteLines();
     //create new line
     edk::fonts::FontMap::FontLine* newLine(edk::uint32 size);
     //return the last line on the map
@@ -1023,6 +1031,25 @@ private:
     //get position of the tile
     edk::vec2ui32 getCharacterPosition(edk::uint32 ID);
     edk::uint32 getCharacterID(edk::vec2ui32 position);
+
+    //update position, size and angle with the saved position, size and angle
+    inline void updateSavedTransform(){
+        if(this->position!=this->savePosition){
+            //set the position
+            this->savePosition = this->position;
+            this->setPosition(this->position);
+        }
+        if(this->angle!=this->saveAngle){
+            //set the position
+            this->saveAngle = this->angle;
+        }
+        if(this->position!=this->savePosition){
+            //set the scale
+            this->saveSize = this->size;
+            this->setScale(this->size);
+        }
+    }
+
 
     //Draw
     void draw(edk::vec2ui32 origin,edk::vec2ui32 last,edk::color4f32 color);

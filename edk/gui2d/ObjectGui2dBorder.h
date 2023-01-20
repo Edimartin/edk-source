@@ -53,7 +53,7 @@ enum gui2dTexture{
     gui2dTextureSize,
 };
 class ObjectGui2dBorder{
-    public:
+public:
     ObjectGui2dBorder();
     ~ObjectGui2dBorder();
 
@@ -105,6 +105,8 @@ class ObjectGui2dBorder{
 
     //return the center rectangle
     edk::shape::Rectangle2D* getCenter();
+    //return the rectangle of the center
+    edk::rectf32 getRectCenter();
 
 
     //load the objectBorder
@@ -118,9 +120,10 @@ class ObjectGui2dBorder{
     void drawPressed();
     void drawPressedUp();
     void drawSelection();
-    private:
+private:
     edk::shape::Mesh2D mesh;
     edk::shape::Rectangle2D center;
+    edk::rectf32 rectCenter;
     edk::shape::Rectangle2D selection;
     edk::float32 border;
 };
