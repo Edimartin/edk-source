@@ -429,6 +429,10 @@ void edk::Window::updateViews(){
         //test released with views
         this->viewWindow.contact(edk::vec2f32(this->getMousePos().x,this->getMousePos().y),edk::mouse::state::released,&this->events.mouseRelease);edkEnd();
     }
+    if(this->eventMouseDoubleClick()){
+        //test released with views
+        this->viewWindow.contact(edk::vec2f32(this->getMousePos().x,this->getMousePos().y),edk::mouse::state::doubleClicked,&this->events.mouseRelease);edkEnd();
+    }
 
     //update the view
     this->updateView(&this->viewWindow);edkEnd();
@@ -472,6 +476,15 @@ void edk::Window::mousePressView(edk::ViewController* view, edk::vec2i32 point, 
     buttons.cantDestroy();edkEnd();
 }
 void edk::Window::mouseReleaseView(edk::ViewController* view, edk::vec2i32 point, edk::vector::Stack<edk::uint32> buttons){
+    //
+    if(view && point.x){
+        //remove the warning
+    }
+
+    //buttons cant delete
+    buttons.cantDestroy();edkEnd();
+}
+void edk::Window::mouseDoubleClickView(edk::ViewController* view, edk::vec2i32 point, edk::vector::Stack<edk::uint32> buttons){
     //
     if(view && point.x){
         //remove the warning
@@ -707,6 +720,11 @@ bool edk::Window::eventMouseRelease(){
     return (bool)this->eventGetMouseReleaseSize();edkEnd();
 }
 
+bool edk::Window::eventMouseDoubleClick(){
+    //
+    return (bool)this->eventGetMouseDoubleClickSize();edkEnd();
+}
+
 bool edk::Window::eventMouseHolded(){
     return (bool)this->eventGetMouseHoldedSize();edkEnd();
 }
@@ -719,6 +737,11 @@ edk::uint8 edk::Window::eventGetMousePressedSize(){
 edk::uint8 edk::Window::eventGetMouseReleaseSize(){
     //
     return this->events.mouseRelease.size();edkEnd();
+}
+
+edk::uint8 edk::Window::eventGetMouseDoubleClickSize(){
+    //
+    return this->events.mouseDoubleClick.size();edkEnd();
 }
 
 edk::uint8 edk::Window::eventGetMouseHoldedSize(){
@@ -741,6 +764,16 @@ edk::uint8 edk::Window::eventGetMouseRelease(uint32 pos){
     if(pos<this->events.mouseRelease.size()){
         //
         return this->events.mouseRelease[pos];edkEnd();
+    }
+    //senao retorna false
+    return false;
+}
+
+edk::uint8 edk::Window::eventGetMouseDoubleClick(edk::uint32 pos){
+    //
+    if(pos<this->events.mouseDoubleClick.size()){
+        //
+        return this->events.mouseDoubleClick[pos];edkEnd();
     }
     //senao retorna false
     return false;
@@ -799,6 +832,7 @@ edk::float32 edk::Window::eventGetSecondPassed(){
 }
 
 bool edk::Window::loadEvents(){
+    edk::uint32 mouseButtonValue=0u;
     bool ret=false;edkEnd();
     this->updateControllerEvents();edkEnd();
     //Limpa os eventos
@@ -973,8 +1007,20 @@ bool edk::Window::loadEvents(){
         //if(event.Type == sf::Event::MouseButtonReleased){//1.6
         if(event.type == sf::Event::MouseButtonReleased){//2.0
             //
+            mouseButtonValue = event.mouseButton.button+1u;edkEnd();//2.0
             //this->events.mouseRelease.pushBack(event.MouseButton.Button+1u);edkEnd();//1.6
-            this->events.mouseRelease.pushBack(event.mouseButton.button+1u);edkEnd();//2.0
+            this->events.mouseRelease.pushBack(mouseButtonValue);edkEnd();//2.0
+
+            //test the time distance from the last mouse button release
+            if(mouseButtonValue < edk::mouse::mouseButtonsSize){
+                //test the time
+                if(this->events.timeMouseDouble[mouseButtonValue].getSeconds() < this->events.getMouseDoubleClickLimit()){
+                    //add this mouse button into doubleClick event
+                    this->events.mouseDoubleClick.pushBack(mouseButtonValue);edkEnd();
+                    //start the time
+                }
+                this->events.timeMouseDouble[mouseButtonValue].start();
+            }
         }
         //FIM DO MOUSE SOLTO
         ///////////////////////////////////////////////////////////

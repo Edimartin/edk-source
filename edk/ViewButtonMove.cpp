@@ -83,3 +83,6 @@ void edk::ViewButtonMove::eventMouseReleased(edk::vec2f32 position,edk::uint32 b
         this->holdedMouse=false;edkEnd();
     }
 }
+void edk::ViewButtonMove::eventMouseDoubleClicked(edk::vec2f32 point,edk::uint32 button){
+    edk::ViewButton::eventMouseDoubleClicked(point,button);edkEnd();
+}

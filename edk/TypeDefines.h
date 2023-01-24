@@ -118,6 +118,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define EDK_BVH_XZ 0x01
 #define EDK_BVH_YZ 0x02
 
+//MOUSE
+#define EDK_TIME_LIMIT_DOUBLE_CLICK 0.5f
+
 //
 namespace edk{
 //SFML 1.6
@@ -361,13 +364,16 @@ enum button{
     right,
     middle,
     xButton1,
-    xButton2
+    xButton2,
+
+    mouseButtonsSize
 };
 namespace state{
 enum id{
     pressed,
     released,
-    moved
+    moved,
+    doubleClicked
 };
 }
 }
@@ -378,7 +384,8 @@ namespace state{
 enum id{
     normal,
     pressed,
-    up
+    up,
+    doubleClicked
 };
 }
 }

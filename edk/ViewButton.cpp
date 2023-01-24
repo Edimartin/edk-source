@@ -586,6 +586,11 @@ bool edk::ViewButton::wasReleased(){
     this->buttonRelease=false;edkEnd();
     return ret;
 }
+bool edk::ViewButton::wasDoubleClicked(){
+    bool ret = this->buttonDoubleClick;edkEnd();
+    this->buttonDoubleClick=false;edkEnd();
+    return ret;
+}
 bool edk::ViewButton::wasHolded(){
     bool ret = this->buttonHold;edkEnd();
     this->buttonHold=false;edkEnd();
@@ -601,6 +606,10 @@ void edk::ViewButton::eventPressButton(edk::uint32){
 void edk::ViewButton::eventReleaseButton(edk::uint32,bool){
     //printf("\nRELEASE BUTTON %u",mouseButton);edkEnd();
 }
+//event doubleClickButton
+void edk::ViewButton::eventDoubleClickButton(edk::uint32,bool){
+    //printf("\nDOUBLE CLICK BUTTON %u",mouseButton);edkEnd();
+}
 //event holdButton
 void edk::ViewButton::eventHoldButton(edk::uint32){
     //printf("\nHOLDING BUTTON %u",mouseButton);edkEnd();
@@ -612,6 +621,8 @@ bool edk::ViewButton::isButton(){
 //Events
 //update the view
 void edk::ViewButton::update(edk::WindowEvents* events){
+    //clean the doubleClick buttons
+    this->doubleButton.clean();
     //update the view
     edk::View::update(events);edkEnd();
     //test if have events
@@ -700,6 +711,19 @@ void edk::ViewButton::eventMouseReleased(edk::vec2f32,edk::uint32 button){
                 // else set the button to normal
                 this->stateButton=edk::buttonView::state::normal;edkEnd();
             }
+        }
+    }
+}
+void edk::ViewButton::eventMouseDoubleClicked(edk::vec2f32 ,edk::uint32 button){
+    if(this->buttonOn){
+        //set button in hold
+        this->doubleButton.add(button);edkEnd();
+
+        //set the function
+        this->buttonDoubleClick=true;edkEnd();
+        this->eventDoubleClickButton(button,this->mouseInside);edkEnd();
+        if(this->buttonCallback){
+            this->buttonCallback->doubleClickButton(this,button,this->mouseInside);edkEnd();
         }
     }
 }

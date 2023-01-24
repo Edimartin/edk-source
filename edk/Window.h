@@ -75,13 +75,13 @@ public:
 
     ~Window();
 
-    bool createWindow(uint32 width, uint32 height/*, uint32 bitsPerPixel*/, char8 *name, typeID design, uint32 depth, uint32 stencil, uint32 antialiasing);
+    bool createWindow(edk::uint32 width, edk::uint32 height/*, edk::uint32 bitsPerPixel*/, char8 *name, typeID design, edk::uint32 depth, edk::uint32 stencil, edk::uint32 antialiasing);
 
-    bool createWindow(uint32 width, uint32 height/*, uint32 bitsPerPixel*/, const char *name, typeID design, uint32 depth, uint32 stencil, uint32 antialiasing);
+    bool createWindow(edk::uint32 width, edk::uint32 height/*, edk::uint32 bitsPerPixel*/, const char *name, typeID design, edk::uint32 depth, edk::uint32 stencil, edk::uint32 antialiasing);
 
-    bool createWindow(uint32  width, uint32  height/*, uint32  bitsPerPixel*/, char8 *name, typeID design);
+    bool createWindow(edk::uint32  width, edk::uint32  height/*, edk::uint32  bitsPerPixel*/, char8 *name, typeID design);
 
-    bool createWindow(uint32  width, uint32  height/*, uint32  bitsPerPixel*/, const char *name, typeID  design);
+    bool createWindow(edk::uint32  width, edk::uint32  height/*, edk::uint32  bitsPerPixel*/, const char *name, typeID  design);
 
     bool isOpened();
 
@@ -95,13 +95,13 @@ public:
 
     edk::uint32 getViewCount();
 
-    bool addSubview(View *addView);
+    bool addSubview(edk::View *addView);
 
-    View* getSubview(uint64 n);
+    View* getSubview(edk::uint64 n);
 
-    uint64 getSubviewId(View *subView);
+    edk::uint64 getSubviewId(edk::View *subView);
 
-    void removeSubview(View *subView);
+    void removeSubview(edk::View *subView);
 
     void removeAllSubview();
 
@@ -117,17 +117,17 @@ public:
 
     void hideMouse();
 
-    bool setMousePosition(vec2i32 pos);
+    bool setMousePosition(edk::vec2i32 pos);
 
-    bool setMousePosition(int32 x, int32 y);
+    bool setMousePosition(edk::int32 x, edk::int32 y);
 
-    bool setWindowPosition(vec2i32 pos);
+    bool setWindowPosition(edk::vec2i32 pos);
 
-    bool setWindowPosition(int32 x, int32 y);
+    bool setWindowPosition(edk::int32 x, edk::int32 y);
 
-    bool setWindowSize(size2ui32 size);
+    bool setWindowSize(edk::size2ui32 size);
 
-    bool setWindowSize(uint32 width, uint32 height);
+    bool setWindowSize(edk::uint32 width, edk::uint32 height);
 
     //Update the views
     void updateViews();
@@ -146,13 +146,13 @@ public:
 
     bool render();
 
-    size2ui32 getSize();
+    edk::size2ui32 getSize();
 
-    size2ui32 getScreenSize();
+    edk::size2ui32 getScreenSize();
 
-    uint32 getWidth();
+    edk::uint32 getWidth();
 
-    uint32 getHeight();
+    edk::uint32 getHeight();
 
     vec2i32 getMousePos();
 
@@ -170,35 +170,41 @@ public:
 
     bool eventKeyHolded();
 
-    uint32 eventGetKeyPressedSize();
+    edk::uint32 eventGetKeyPressedSize();
 
-    uint32 eventGetKeyReleaseSize();
+    edk::uint32 eventGetKeyReleaseSize();
 
-    uint32 eventGetKeyHoldedSize();
+    edk::uint32 eventGetKeyHoldedSize();
 
-    uint32 eventGetKeyPressed(uint32 pos);
+    edk::uint32 eventGetKeyPressed(edk::uint32 pos);
 
-    uint32 eventGetKeyRelease(uint32 pos);
+    edk::uint32 eventGetKeyRelease(edk::uint32 pos);
 
-    uint32 eventGetKeyHolded(uint32 pos);
+    edk::uint32 eventGetKeyHolded(edk::uint32 pos);
 
     bool eventMousePressed();
 
     bool eventMouseRelease();
 
+    bool eventMouseDoubleClick();
+
     bool eventMouseHolded();
 
-    uint8 eventGetMousePressedSize();
+    edk::uint8 eventGetMousePressedSize();
 
-    uint8 eventGetMouseReleaseSize();
+    edk::uint8 eventGetMouseReleaseSize();
 
-    uint8 eventGetMouseHoldedSize();
+    edk::uint8 eventGetMouseDoubleClickSize();
 
-    uint8 eventGetMousePressed(uint32 pos);
+    edk::uint8 eventGetMouseHoldedSize();
 
-    uint8 eventGetMouseRelease(uint32 pos);
+    edk::uint8 eventGetMousePressed(edk::uint32 pos);
 
-    uint8 eventGetMouseHolded(uint32 pos);
+    edk::uint8 eventGetMouseRelease(edk::uint32 pos);
+
+    edk::uint8 eventGetMouseDoubleClick(edk::uint32 pos);
+
+    edk::uint8 eventGetMouseHolded(edk::uint32 pos);
 
     bool eventMouseEnter();
 
@@ -206,11 +212,11 @@ public:
 
     bool eventMouseMoved();
 
-    int8 getMouseScrollWheel();
+    edk::int8 getMouseScrollWheel();
 
     bool eventResizeWindow();
 
-    size2i32 getResize();
+    edk::size2i32 getResize();
 
     //set and get the second passed
     bool setSecondPassed(edk::float32 seconds);
@@ -218,9 +224,9 @@ public:
 
     bool loadEvents();
 
-    static size2ui32 getDesktopSize();
+    static edk::size2ui32 getDesktopSize();
 
-    static uint32 getDesktopBitsPerPixel();
+    static edk::uint32 getDesktopBitsPerPixel();
 
     //test if have a controller
     static bool haveController(edk::uint32 controller);
@@ -235,25 +241,25 @@ public:
 
     bool eventControllerAxisMoved(edk::uint32 controller);
 
-    uint8 eventGetControllerButtonPressedSize(edk::uint32 controller);
+    edk::uint8 eventGetControllerButtonPressedSize(edk::uint32 controller);
 
-    uint8 eventGetControllerButtonReleaseSize(edk::uint32 controller);
+    edk::uint8 eventGetControllerButtonReleaseSize(edk::uint32 controller);
 
-    uint8 eventGetControllerButtonHoldedSize(edk::uint32 controller);
+    edk::uint8 eventGetControllerButtonHoldedSize(edk::uint32 controller);
 
-    uint8 eventGetControllerAxisMovedSize(edk::uint32 controller);
+    edk::uint8 eventGetControllerAxisMovedSize(edk::uint32 controller);
 
-    uint8 eventGetControllerButtonPressed(edk::uint32 controller, uint32 pos);
+    edk::uint8 eventGetControllerButtonPressed(edk::uint32 controller, edk::uint32 pos);
 
-    uint8 eventGetControllerButtonRelease(edk::uint32 controller, uint32 pos);
+    edk::uint8 eventGetControllerButtonRelease(edk::uint32 controller, edk::uint32 pos);
 
-    uint8 eventGetControllerButtonHolded(edk::uint32 controller, uint32 pos);
+    edk::uint8 eventGetControllerButtonHolded(edk::uint32 controller, edk::uint32 pos);
 
-    uint32 eventGetControllerAxisIDMoved(edk::uint32 controller, uint32 pos);
+    edk::uint32 eventGetControllerAxisIDMoved(edk::uint32 controller, edk::uint32 pos);
 
-    float32 eventGetControllerAxisMoved(edk::uint32 controller, uint32 pos);
+    float32 eventGetControllerAxisMoved(edk::uint32 controller, edk::uint32 pos);
 
-    float32 eventGetControllerAxisMovedByID(edk::uint32 controller, uint32 id);
+    float32 eventGetControllerAxisMovedByID(edk::uint32 controller, edk::uint32 id);
 
 public:
     color3f32 cleanColor;
@@ -264,6 +270,7 @@ private:
     //contactView
     void mousePressView(edk::ViewController* view, edk::vec2i32 point, edk::vector::Stack<edk::uint32> buttons);
     void mouseReleaseView(edk::ViewController* view, edk::vec2i32 point, edk::vector::Stack<edk::uint32> buttons);
+    void mouseDoubleClickView(edk::ViewController* view, edk::vec2i32 point, edk::vector::Stack<edk::uint32> buttons);
 
     //Atualiza o tamanho da view
     void updateViewSize();

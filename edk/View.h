@@ -169,6 +169,38 @@ void eventMouseReleased(edk::vec2f32 point,edk::uint32 button){
         //
     }
 }
+void eventMouseDoubleClicked(edk::vec2f32 point,edk::uint32 button){
+    //types
+    //edk::mouse::left;edkEnd();
+    //edk::mouse::right;edkEnd();
+    //edk::mouse::middle;edkEnd();
+    //edk::mouse::xButton1;edkEnd();
+    //edk::mouse::xButton2;edkEnd();
+    switch(button){
+        //
+        case edk::mouse::left:
+            //
+            //printf("\nMouse Left Double Clicked in pos (%.2f %.2f)",point.x,point.y);edkEnd();
+            break;
+        case edk::mouse::right:
+            //
+            //printf("\nMouse right Double Clicked in pos (%.2f %.2f)",point.x,point.y);edkEnd();
+            break;
+        case edk::mouse::middle:
+            //
+            //printf("\nMouse middle Double Clicked in pos (%.2f %.2f)",point.x,point.y);edkEnd();
+            break;
+        case edk::mouse::xButton1:
+            //
+            //printf("\nMouse xButton1 Double Clicked in pos (%.2f %.2f)",point.x,point.y);edkEnd();
+            break;
+        case edk::mouse::xButton2:
+            //
+            //printf("\nMouse xButton2 Double Clicked in pos (%.2f %.2f)",point.x,point.y);edkEnd();
+            break;
+        //
+    }
+}
 //Mouse go Inside Outside
 void eventMouseEntryInsideView(edk::vec2f32 point){
     //
@@ -215,6 +247,7 @@ class View {
     virtual void eventMousePressed(edk::vec2f32 point,edk::uint32 button);
     virtual void eventMouseMoved(edk::vec2f32 point,edk::uint32 button);
     virtual void eventMouseReleased(edk::vec2f32 point,edk::uint32 button);
+    virtual void eventMouseDoubleClicked(edk::vec2f32 point,edk::uint32 button);
     //Mouse go Inside Outside
     virtual void eventMouseEntryInsideView(edk::vec2f32 point);
     virtual void eventMouseLeftView(edk::vec2f32 point);

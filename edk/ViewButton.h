@@ -54,6 +54,11 @@ void eventReleaseButton(edk::uint32 mouseButton,bool inside){
     //
     //printf("\nRELEASE BUTTON %u",mouseButton);edkEnd();
 }
+//event releaseButton
+void eventDoubleClickButton(edk::uint32 mouseButton,bool inside){
+    //
+    //printf("\nDOUBLE CLICK BUTTON %u",mouseButton);edkEnd();
+}
 //event holdButton
 void eventHoldButton(edk::uint32 mouseButton){
     //
@@ -78,6 +83,7 @@ class ButtonCallback{
 public:
     virtual void pressButton(edk::ViewButton* button,edk::uint32 mouseButton)=0;
     virtual void releaseButton(edk::ViewButton* button,edk::uint32 mouseButton,bool isInside)=0;
+    virtual void doubleClickButton(edk::ViewButton* button,edk::uint32 mouseButton,bool isInside)=0;
     virtual void holdButton(edk::ViewButton* button,edk::uint32 mouseButton)=0;
 };
 class ViewButton: public edk::ViewSprite{
@@ -184,6 +190,7 @@ class ViewButton: public edk::ViewSprite{
         //save if something happen with the button
         bool wasPressed();
         bool wasReleased();
+        bool wasDoubleClicked();
         bool wasHolded();
 
         //EVENT
@@ -191,6 +198,8 @@ class ViewButton: public edk::ViewSprite{
         virtual void eventPressButton(edk::uint32 mouseButton);
         //event releaseButton
         virtual void eventReleaseButton(edk::uint32 mouseButton,bool isInside);
+        //event doubleClickButton
+        virtual void eventDoubleClickButton(edk::uint32 mouseButton,bool isInside);
         //event holdButton
         virtual void eventHoldButton(edk::uint32 mouseButton);
 
@@ -203,6 +212,7 @@ class ViewButton: public edk::ViewSprite{
         virtual void eventMousePressed(edk::vec2f32 point,edk::uint32 button);
         virtual void eventMouseMoved(edk::vec2f32 point,edk::uint32 button);
         virtual void eventMouseReleased(edk::vec2f32 point,edk::uint32 button);
+        virtual void eventMouseDoubleClicked(edk::vec2f32 point,edk::uint32 button);
         //Mouse go Inside Outside
         virtual void eventMouseEntryInsideView(edk::vec2f32 point);
         virtual void eventMouseLeftView(edk::vec2f32 point);
@@ -212,6 +222,7 @@ class ViewButton: public edk::ViewSprite{
         void update(edk::WindowEvents* events);
         //save the buttons pressed to hold the buttons
         edk::vector::BinaryTree<edk::uint32> holdButton;
+        edk::vector::BinaryTree<edk::uint32> doubleButton;
         //mouse is inside
         bool mouseInside;
         //textures list
@@ -250,6 +261,7 @@ class ViewButton: public edk::ViewSprite{
         //save if something happen with the button
         bool buttonPress;
         bool buttonRelease;
+        bool buttonDoubleClick;
         bool buttonHold;
 };
 }//end namesoace edk

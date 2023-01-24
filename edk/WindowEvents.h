@@ -39,6 +39,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "TypeSize2.h"
 #include "TypeDefines.h"
 #include "vector/Stack.h"
+#include "watch/Time.h"
 
 #ifdef printMessages
 #warning "    Compiling WindowEvents"
@@ -53,15 +54,28 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 namespace edk{
+class Window;
 class WindowEvents{
 public:
     WindowEvents(){
         //
         this->focus=true;edkEnd();
+
+        //start all doubleClicks
+        edk::uint32 size = edk::mouse::mouseButtonsSize;
+        for(edk::uint32 i=0u;i<size;i++){
+            this->timeMouseDouble[i].start();
+        }
+
+        //set the mouse double click limit
+        this->timeMouseDoubleLimit = EDK_TIME_LIMIT_DOUBLE_CLICK;
     }
     virtual ~WindowEvents(){
         //
     }
+
+    //friendClass
+    friend edk::Window;
 
     //clean the events
     void clean(){
@@ -80,6 +94,7 @@ public:
         this->mousePressed.clean();edkEnd();
         this->mouseRelease.clean();edkEnd();
         this->mouseHolded.clean();edkEnd();
+        this->mouseDoubleClick.clean();edkEnd();
         //this->mouseMoving.clean();edkEnd();
         this->mouseScrollWheel = 0u;edkEnd();
         this->secondPassed = 0.f;edkEnd();
@@ -89,6 +104,19 @@ public:
         this->controllerReleased.clean();edkEnd();
         this->controllerAxisMoved.clean();edkEnd();
     }
+    //set the mouse double time limit
+    bool setMouseDoubleClickLimit(edk::float32 seconds){
+        if(seconds>0.f){
+            this->timeMouseDoubleLimit = seconds;
+            return true;
+        }
+        this->timeMouseDoubleLimit = EDK_TIME_LIMIT_DOUBLE_CLICK;
+        return false;
+    }
+    edk::float32 getMouseDoubleClickLimit(){
+        return this->timeMouseDoubleLimit;
+    }
+
 
     //Eventos
     bool buttonExit;
@@ -111,6 +139,7 @@ public:
     //edk::vector::Stack<edk::uint32> mouseMoving;
     edk::vector::Stack<edk::uint32> mouseRelease;
     edk::vector::Stack<edk::uint32> mouseHolded;
+    edk::vector::Stack<edk::uint32> mouseDoubleClick;
     //Mouse Movido
     bool mouseMoved;
     edk::vec2i32 mousePos;       //mouse position inside the view
@@ -129,6 +158,11 @@ public:
     edk::float32 secondsGlobal;
 protected:
 private:
+
+    //time to controle the mouse doubleClick
+    edk::watch::Time timeMouseDouble[edk::mouse::mouseButtonsSize];
+    //mouse doubleClick time limit
+    edk::float32 timeMouseDoubleLimit;
 
     //Controller
     class ControllerButtons{

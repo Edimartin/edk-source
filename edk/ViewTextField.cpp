@@ -89,7 +89,10 @@ void edk::ViewTextField::TextField::eventMouseMoved(edk::vec2f32 point,edk::uint
         this->setEntryPosition(point.x);edkEnd();
     }
 }
-void edk::ViewTextField::TextField::eventMouseReleased(edk::vec2f32  ,edk::uint32){
+void edk::ViewTextField::TextField::eventMouseReleased(edk::vec2f32,edk::uint32){
+    //
+}
+void edk::ViewTextField::TextField::eventMouseDoubleClicked(edk::vec2f32,edk::uint32){
     //
 }
 

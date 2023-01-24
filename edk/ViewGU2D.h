@@ -76,6 +76,7 @@ class example: edk::ViewGU2D{
     void eventMousePressed(edk::vec2f32 point,edk::uint32 button);edkEnd();
     void eventMouseMoved(edk::vec2f32 point,edk::uint32 button);edkEnd();
     void eventMouseReleased(edk::vec2f32 point,edk::uint32 button);edkEnd();
+    void eventMouseDoubleClicked(edk::vec2f32 point,edk::uint32 button);edkEnd();
     //Mouse go Inside Outside
     void eventMouseEntryInsideView(edk::vec2f32 point);edkEnd();
     void eventMouseLeftView(edk::vec2f32 point);edkEnd();

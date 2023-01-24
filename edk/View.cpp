@@ -278,6 +278,12 @@ bool edk::View::contact(edk::vec2f32 point,edk::uint8 state,edk::vector::Stack<e
                     this->eventMouseReleased(mousePos,buttons->get(i));edkEnd();
                 }
                 break;
+            case edk::mouse::state::doubleClicked:
+                //
+                for(edk::uint8 i=0u;i<buttons->size();i++){
+                    this->eventMouseDoubleClicked(mousePos,buttons->get(i));edkEnd();
+                }
+                break;
             case edk::mouse::state::moved:
                 //test if have buttons
                 if(buttons->size()){
@@ -316,6 +322,12 @@ void edk::View::contactRelease(edk::vec2f32 point,edk::uint8 state,edk::vector::
             //
             for(edk::uint8 i=0u;i<buttons->size();i++){
                 this->eventMouseReleased(point,buttons->get(i));edkEnd();
+            }
+        }
+        else if(state == edk::mouse::state::doubleClicked){
+            //
+            for(edk::uint8 i=0u;i<buttons->size();i++){
+                this->eventMouseDoubleClicked(point,buttons->get(i));edkEnd();
             }
         }
     }
@@ -509,6 +521,66 @@ void edk::View::eventMouseReleased(edk::vec2f32 point,edk::uint32 button){
         //
         /*
             printf("\nMouse xButton2 Released in pos (%.2f %.2f)"
+                   ,point.x
+                   ,point.y
+                   );edkEnd();
+*/
+        break;
+        //
+    }
+}
+void edk::View::eventMouseDoubleClicked(edk::vec2f32 ,edk::uint32 button){
+
+    //types
+    /*
+    edk::mouse::left;edkEnd();
+    edk::mouse::right;edkEnd();
+    edk::mouse::middle;edkEnd();
+    edk::mouse::xButton1;edkEnd();
+    edk::mouse::xButton2;edkEnd();
+    */
+    switch(button){
+    //
+    case edk::mouse::left:
+        //
+        /*
+            printf("\nMouse Left Double Clicked in pos (%.2f %.2f)"
+                   ,point.x
+                   ,point.y
+                   );edkEnd();
+*/
+        break;
+    case edk::mouse::right:
+        //
+        /*
+            printf("\nMouse right Double Clicked in pos (%.2f %.2f)"
+                   ,point.x
+                   ,point.y
+                   );edkEnd();
+*/
+        break;
+    case edk::mouse::middle:
+        //
+        /*
+            printf("\nMouse middle Double Clicked in pos (%.2f %.2f)"
+                   ,point.x
+                   ,point.y
+                   );edkEnd();
+*/
+        break;
+    case edk::mouse::xButton1:
+        //
+        /*
+            printf("\nMouse xButton1 Double Clicked in pos (%.2f %.2f)"
+                   ,point.x
+                   ,point.y
+                   );edkEnd();
+*/
+        break;
+    case edk::mouse::xButton2:
+        //
+        /*
+            printf("\nMouse xButton2 Double Clicked in pos (%.2f %.2f)"
                    ,point.x
                    ,point.y
                    );edkEnd();

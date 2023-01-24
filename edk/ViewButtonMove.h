@@ -59,6 +59,7 @@ private:
     void eventMousePressed(edk::vec2f32 point,edk::uint32 button);
     void eventMouseMoved(edk::vec2f32 point,edk::uint32 button);
     void eventMouseReleased(edk::vec2f32 point,edk::uint32 button);
+    void eventMouseDoubleClicked(edk::vec2f32 point,edk::uint32 button);
 };
 }//end namespace edk
 
