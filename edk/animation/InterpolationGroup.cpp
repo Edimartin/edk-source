@@ -977,6 +977,8 @@ bool edk::animation::InterpolationGroup::playNameForward(edk::char8* name){
         this->setAnimationEndSecond(this->nameSelected->end);edkEnd();
         //then play the animation
         this->playForwardIn(this->frameStart);edkEnd();
+        //select the name a second time because the play fowardIn clean the name selected
+        this->selectAnimationName(name);
         //then return true
         return true;
     }
@@ -996,6 +998,8 @@ bool edk::animation::InterpolationGroup::playNameRewind(edk::char8* name){
         this->setAnimationEndSecond(this->nameSelected->end);edkEnd();
         //then play the animation
         this->playRewindIn(this->frameEnd);edkEnd();
+        //select the name a second time because the play rewindIn clean the name selected
+        this->selectAnimationName(name);
         //then return true
         return true;
     }
@@ -1151,6 +1155,8 @@ void edk::animation::InterpolationGroup::playForward(){
 }
 void edk::animation::InterpolationGroup::playForwardIn(edk::float32 second){
     this->stop();edkEnd();
+    //clean the animationNameSelected
+    this->cleanAnimationNameSelected();
     this->rewind=false;edkEnd();
     //set false for playing
     this->playing=false;edkEnd();
@@ -1364,6 +1370,16 @@ bool edk::animation::InterpolationGroup::isPlayingName(const edk::char8* name){
 }
 bool edk::animation::InterpolationGroup::isPlayingName(edk::char8* name){
     if(name && this->isPlaying() && this->nameSelected){
+        //test if is playing the name
+        return this->nameSelected->nameEqual(name);edkEnd();
+    }
+    return false;
+}
+bool edk::animation::InterpolationGroup::wasPlayingName(const edk::char8* name){
+    return this->wasPlayingName((edk::char8*) name);edkEnd();
+}
+bool edk::animation::InterpolationGroup::wasPlayingName(edk::char8* name){
+    if(name && !this->isPlaying() && this->nameSelected){
         //test if is playing the name
         return this->nameSelected->nameEqual(name);edkEnd();
     }

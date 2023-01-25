@@ -150,6 +150,8 @@ private:
         bool isPlaying();
         bool isPlayingName(const edk::char8* name);
         bool isPlayingName(edk::char8* name);
+        bool wasPlayingName(const edk::char8* name);
+        bool wasPlayingName(edk::char8* name);
         bool isStoped();
         void play();
         void pause();

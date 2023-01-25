@@ -1175,6 +1175,12 @@ bool edk::bones::Body2D::isPlayingName(const edk::char8* name){
 bool edk::bones::Body2D::isPlayingName(edk::char8* name){
     return this->root.isPlayingName(name);edkEnd();
 }
+bool edk::bones::Body2D::wasPlayingName(const edk::char8* name){
+    return this->wasPlayingName((edk::char8*) name);edkEnd();
+}
+bool edk::bones::Body2D::wasPlayingName(edk::char8* name){
+    return this->root.wasPlayingName(name);edkEnd();
+}
 
 //load the BVH
 bool edk::bones::Body2D::loadBVHXY(const edk::char8* name){

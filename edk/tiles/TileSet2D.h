@@ -387,6 +387,8 @@ public:
     bool isPlaying(edk::uint32 tile);
     bool isPlayingName(edk::uint32 tile,const edk::char8* name);
     bool isPlayingName(edk::uint32 tile,edk::char8* name);
+    bool wasPlayingName(edk::uint32 tile,const edk::char8* name);
+    bool wasPlayingName(edk::uint32 tile,edk::char8* name);
     //animationNames
     bool addAnimationName(edk::uint32 tile,const edk::char8* name, edk::float32 start,edk::float32 end);
     bool addAnimationName(edk::uint32 tile,edk::char8* name, edk::float32 start,edk::float32 end);

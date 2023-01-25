@@ -445,6 +445,18 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationIsPlayingName(edk::char
     //else return false
     return false;
 }
+bool edk::shape::AnimatedPolygon2DList::selectedAnimationWasPlayingName(const edk::char8* name){
+    return this->selectedAnimationWasPlayingName((edk::char8*) name);edkEnd();
+}
+bool edk::shape::AnimatedPolygon2DList::selectedAnimationWasPlayingName(edk::char8* name){
+    //test if have a animationSelected
+    if(this->selectedAnimation){
+        //add new interpolationLine
+        return this->selectedAnimation->wasPlayingName(name);edkEnd();
+    }
+    //else return false
+    return false;
+}
 //animationNames
 bool edk::shape::AnimatedPolygon2DList::selectedAnimationAddAnimationName(const edk::char8* name, edk::float32 start,edk::float32 end){
     //test if have a animationSelected

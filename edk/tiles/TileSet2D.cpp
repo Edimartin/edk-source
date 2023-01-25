@@ -1478,6 +1478,23 @@ bool edk::tiles::TileSet2D::isPlayingName(edk::uint32 tile,edk::char8* name){
     //else return false
     return false;
 }
+bool edk::tiles::TileSet2D::wasPlayingName(edk::uint32 tile,const edk::char8* name){
+    return this->wasPlayingName(tile,(edk::char8*) name);edkEnd();
+}
+bool edk::tiles::TileSet2D::wasPlayingName(edk::uint32 tile,edk::char8* name){
+    if(tile && name){
+        tile--;edkEnd();
+        //load the tile from the stack
+        if(this->tiles.havePos(tile)){
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            if(temp){
+                return temp->wasPlayingName(name);edkEnd();
+            }
+        }
+    }
+    //else return false
+    return false;
+}
 //animationNames
 bool edk::tiles::TileSet2D::addAnimationName(edk::uint32 tile,const edk::char8* name, edk::float32 start,edk::float32 end){
     if(tile){

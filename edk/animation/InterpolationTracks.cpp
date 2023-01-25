@@ -1252,6 +1252,28 @@ bool edk::animation::InterpolationTracks::isPlayingName(edk::char8* name){
     }
     return ret;
 }
+bool edk::animation::InterpolationTracks::wasPlayingName(const edk::char8* name){
+    return this->wasPlayingName((edk::char8*) name);edkEnd();
+}
+bool edk::animation::InterpolationTracks::wasPlayingName(edk::char8* name){
+    bool ret=false;edkEnd();
+    if(name){
+        edk::uint32 size = this->tracks->size();edkEnd();
+        if(size){
+            edk::animation::InterpolationTracks::AnimationAndPosition temp;edkEnd();
+            for(edk::uint32 i=0u;i<size;i++){
+                temp = this->tracks->get(i);edkEnd();
+                if(temp.animation){
+                    if(temp.animation->wasPlayingName(name)){
+                        ret=true;edkEnd();
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    return ret;
+}
 bool edk::animation::InterpolationTracks::isPlayingTrack(edk::uint32 trackPosition){
     //get track in position
     edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);edkEnd();
@@ -1269,6 +1291,19 @@ bool edk::animation::InterpolationTracks::isPlayingNameTrack(edk::uint32 trackPo
         edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);edkEnd();
         if(temp.animation){
             return temp.animation->isPlayingName(name);edkEnd();
+        }
+    }
+    return false;
+}
+bool edk::animation::InterpolationTracks::wasPlayingNameTrack(edk::uint32 trackPosition,const edk::char8* name){
+    return this->wasPlayingNameTrack(trackPosition,(edk::char8*) name);edkEnd();
+}
+bool edk::animation::InterpolationTracks::wasPlayingNameTrack(edk::uint32 trackPosition,edk::char8* name){
+    if(name){
+        //get track in position
+        edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);edkEnd();
+        if(temp.animation){
+            return temp.animation->wasPlayingName(name);edkEnd();
         }
     }
     return false;
