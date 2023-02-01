@@ -31,6 +31,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #pragma once
 #include "../../edk/TypeVars.h"
+#include "../../edk/DebugFile.h"
 
 #ifdef printMessages
 #warning "    Compiling EDKfontPressStart"

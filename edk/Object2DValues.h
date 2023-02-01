@@ -30,6 +30,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 #pragma once
+#include "DebugFile.h"
 #include "TypeVec2.h"
 #include "TypeSize2.h"
 #include "TypeColor.h"

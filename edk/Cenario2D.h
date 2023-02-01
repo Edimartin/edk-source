@@ -59,6 +59,7 @@ public:
 class Cenario2D : public edk::Object2DValues , public edk::physics2D::ContactCallback2D , public edk::tiles::tileCallback{
 public:
     Cenario2D();
+    Cenario2D(edk::physics2D::World2D* world);
     virtual ~Cenario2D();
     //CALLBACKS
     virtual void contact2DBegin(edk::physics2D::Contact2D* contact);
@@ -78,6 +79,9 @@ public:
     virtual void sensor2DTileBegin(edk::tiles::tileContact2D tiles,edk::physics2D::Contact2D* contact);
     virtual void sensor2DTileEnd(edk::tiles::tileContact2D tiles,edk::physics2D::Contact2D* contact);
     virtual void sensor2DTileKeeping(edk::tiles::tileContact2D tiles,edk::physics2D::Contact2D* contact);
+
+    //set the world
+    bool setWorld(edk::physics2D::World2D* world);
 
     //TILEMAP
     edk::tiles::TileMap2D* newTileMapInPosition(edk::uint32 position,edk::size2ui32 size);
@@ -390,9 +394,12 @@ public:
     virtual bool readLevelFromXMLFromPackWithoutLoadPhysics(edk::pack::FilePackage* pack,const edk::char8* fileName,edk::uint32 level);
     virtual bool readLevelFromXMLFromPackWithoutLoadPhysics(edk::pack::FilePackage* pack,edk::char8* fileName,edk::uint32 level);
 
-    edk::physics2D::World2D world;
+    edk::physics2D::World2D* world;
     edk::tiles::TileSet2D tileSet;
 private:
+    //world template
+    static edk::physics2D::World2D worldTemplate;
+
     edk::tiles::TileMap2D* mapSelected;
     //actions group animation
     edk::animation::ActionGroup actions;
@@ -1908,7 +1915,16 @@ private:
     //objects animation tree
     class TreeAnimPhys: public edk::vector::BinaryTree<edk::physics2D::PhysicObject2D*>{
     public:
-        TreeAnimPhys(edk::physics2D::World2D* world){this->world = world;edkEnd();this->seconds=0.f;edkEnd();this->time.start();edkEnd();}
+        TreeAnimPhys(edk::physics2D::World2D* world){
+            if(world){
+                this->world = world;edkEnd();
+            }
+            else{
+                this->world = &edk::Cenario2D::worldTemplate;edkEnd();
+            }
+            this->seconds=0.f;edkEnd();
+            this->time.start();edkEnd();
+        }
         ~TreeAnimPhys(){}
         //SET
         bool setSeconds(edk::float32 seconds){

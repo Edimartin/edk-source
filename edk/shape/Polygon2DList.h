@@ -115,6 +115,11 @@ public:
     bool selectedSetPolygonUVFramesX(edk::uint32 x);
     bool selectedSetPolygonUVFramesY(edk::uint32 y);
     //Set the polygon frame
+    bool selectedSetPolygonUVFrame(edk::vec2ui32 frame);
+    bool selectedSetPolygonUVFrame(edk::uint32 x,edk::uint32 y);
+    bool selectedSetPolygonUVFramePosition(edk::uint32 position);
+    bool selectedSetPolygonUVFrameX(edk::uint32 x);
+    bool selectedSetPolygonUVFrameY(edk::uint32 y);
     bool selectedUsePolygonUVFrame(edk::vec2ui32 frame);
     bool selectedUsePolygonUVFrame(edk::uint32 x,edk::uint32 y);
     bool selectedUsePolygonUVFramePosition(edk::uint32 position);

@@ -32,6 +32,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma once
 #include "../NameClass.h"
 #include "../TypeVars.h"
+#include "../DebugFile.h"
 #include "../File.h"
 
 #ifdef printMessages

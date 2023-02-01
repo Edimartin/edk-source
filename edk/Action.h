@@ -32,6 +32,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma once
 #include "String.h"
 #include "TypeVars.h"
+#include "DebugFile.h"
 #include "NameClass.h"
 #include "xml/XML.h"
 

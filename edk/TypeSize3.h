@@ -48,703 +48,703 @@ public:
     //CONSTRUTOR
     size3i8(){
         //zera as variaveis
-        this->width=this->height=this->length=0;edkEnd();
+        this->width=this->height=this->length=0;
     }
     size3i8(edk::int8 width,edk::int8 height,edk::int8 length){
         //zera as variaveis
-        this->width=(edk::int8)width;edkEnd();
-        this->height=(edk::int8)height;edkEnd();
-        this->length=(edk::int8)length;edkEnd();
+        this->width=(edk::int8)width;
+        this->height=(edk::int8)height;
+        this->length=(edk::int8)length;
     }
     size3i8(edk::int16 width,edk::int16 height,edk::int16 length){
         //zera as variaveis
-        this->width=(edk::int8)width;edkEnd();
-        this->height=(edk::int8)height;edkEnd();
-        this->length=(edk::int8)length;edkEnd();
+        this->width=(edk::int8)width;
+        this->height=(edk::int8)height;
+        this->length=(edk::int8)length;
     }
     size3i8(edk::int32 width,edk::int32 height,edk::int32 length){
         //zera as variaveis
-        this->width=(edk::int8)width;edkEnd();
-        this->height=(edk::int8)height;edkEnd();
-        this->length=(edk::int8)length;edkEnd();
+        this->width=(edk::int8)width;
+        this->height=(edk::int8)height;
+        this->length=(edk::int8)length;
     }
     size3i8(edk::int64 width,edk::int64 height,edk::int64 length){
         //zera as variaveis
-        this->width=(edk::int8)width;edkEnd();
-        this->height=(edk::int8)height;edkEnd();
-        this->length=(edk::int8)length;edkEnd();
+        this->width=(edk::int8)width;
+        this->height=(edk::int8)height;
+        this->length=(edk::int8)length;
     }
     size3i8(edk::uint8 width,edk::uint8 height,edk::uint8 length){
         //zera as variaveis
-        this->width=(edk::int8)width;edkEnd();
-        this->height=(edk::int8)height;edkEnd();
-        this->length=(edk::int8)length;edkEnd();
+        this->width=(edk::int8)width;
+        this->height=(edk::int8)height;
+        this->length=(edk::int8)length;
     }
     size3i8(edk::uint16 width,edk::uint16 height,edk::uint16 length){
         //zera as variaveis
-        this->width=(edk::int8)width;edkEnd();
-        this->height=(edk::int8)height;edkEnd();
-        this->length=(edk::int8)length;edkEnd();
+        this->width=(edk::int8)width;
+        this->height=(edk::int8)height;
+        this->length=(edk::int8)length;
     }
     size3i8(edk::uint32 width,edk::uint32 height,edk::uint32 length){
         //zera as variaveis
-        this->width=(edk::int8)width;edkEnd();
-        this->height=(edk::int8)height;edkEnd();
-        this->length=(edk::int8)length;edkEnd();
+        this->width=(edk::int8)width;
+        this->height=(edk::int8)height;
+        this->length=(edk::int8)length;
     }
     size3i8(edk::uint64 width,edk::uint64 height,edk::uint64 length){
         //zera as variaveis
-        this->width=(edk::int8)width;edkEnd();
-        this->height=(edk::int8)height;edkEnd();
-        this->length=(edk::int8)length;edkEnd();
+        this->width=(edk::int8)width;
+        this->height=(edk::int8)height;
+        this->length=(edk::int8)length;
     }
     size3i8(edk::int8 size){
         //zera as variaveis
-        this->width=(edk::int8)size;edkEnd();
-        this->height=(edk::int8)size;edkEnd();
-        this->length=(edk::int8)size;edkEnd();
+        this->width=(edk::int8)size;
+        this->height=(edk::int8)size;
+        this->length=(edk::int8)size;
     }
     size3i8(edk::int16 size){
         //zera as variaveis
-        this->width=(edk::int8)size;edkEnd();
-        this->height=(edk::int8)size;edkEnd();
-        this->length=(edk::int8)size;edkEnd();
+        this->width=(edk::int8)size;
+        this->height=(edk::int8)size;
+        this->length=(edk::int8)size;
     }
     size3i8(edk::int32 size){
         //zera as variaveis
-        this->width=(edk::int8)size;edkEnd();
-        this->height=(edk::int8)size;edkEnd();
-        this->length=(edk::int8)size;edkEnd();
+        this->width=(edk::int8)size;
+        this->height=(edk::int8)size;
+        this->length=(edk::int8)size;
     }
     size3i8(edk::int64 size){
         //zera as variaveis
-        this->width=(edk::int8)size;edkEnd();
-        this->height=(edk::int8)size;edkEnd();
-        this->length=(edk::int8)size;edkEnd();
+        this->width=(edk::int8)size;
+        this->height=(edk::int8)size;
+        this->length=(edk::int8)size;
     }
     size3i8(edk::uint8 size){
         //zera as variaveis
-        this->width=(edk::int8)size;edkEnd();
-        this->height=(edk::int8)size;edkEnd();
-        this->length=(edk::int8)size;edkEnd();
+        this->width=(edk::int8)size;
+        this->height=(edk::int8)size;
+        this->length=(edk::int8)size;
     }
     size3i8(edk::uint16 size){
         //zera as variaveis
-        this->width=(edk::int8)size;edkEnd();
-        this->height=(edk::int8)size;edkEnd();
-        this->length=(edk::int8)size;edkEnd();
+        this->width=(edk::int8)size;
+        this->height=(edk::int8)size;
+        this->length=(edk::int8)size;
     }
     size3i8(edk::uint32 size){
         //zera as variaveis
-        this->width=(edk::int8)size;edkEnd();
-        this->height=(edk::int8)size;edkEnd();
-        this->length=(edk::int8)size;edkEnd();
+        this->width=(edk::int8)size;
+        this->height=(edk::int8)size;
+        this->length=(edk::int8)size;
     }
     size3i8(edk::uint64 size){
         //zera as variaveis
-        this->width=(edk::int8)size;edkEnd();
-        this->height=(edk::int8)size;edkEnd();
-        this->length=(edk::int8)size;edkEnd();
+        this->width=(edk::int8)size;
+        this->height=(edk::int8)size;
+        this->length=(edk::int8)size;
     }
     //operators
 
     //=
     size3i8 operator=(size3i8 size){
         //
-        this->width=size.width;edkEnd();
-        this->height=size.height;edkEnd();
-        this->length=size.length;edkEnd();
-        return *this;edkEnd();
+        this->width=size.width;
+        this->height=size.height;
+        this->length=size.length;
+        return *this;
     }
     size3i8 operator=(size2i8 size){
         //
-        this->width=size.width;edkEnd();
-        this->height=size.height;edkEnd();
-        this->length=(edk::int8)0;edkEnd();
-        return *this;edkEnd();
+        this->width=size.width;
+        this->height=size.height;
+        this->length=(edk::int8)0;
+        return *this;
     }
     size3i8 operator=(edk::int8 n){
         //
-        this->width=(edk::int8)n;edkEnd();
-        this->height=(edk::int8)n;edkEnd();
-        this->length=(edk::int8)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::int8)n;
+        this->height=(edk::int8)n;
+        this->length=(edk::int8)n;
+        return *this;
     }
     size3i8 operator=(edk::int16 n){
         //
-        this->width=(edk::int8)n;edkEnd();
-        this->height=(edk::int8)n;edkEnd();
-        this->length=(edk::int8)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::int8)n;
+        this->height=(edk::int8)n;
+        this->length=(edk::int8)n;
+        return *this;
     }
     size3i8 operator=(edk::int32 n){
         //
-        this->width=(edk::int8)n;edkEnd();
-        this->height=(edk::int8)n;edkEnd();
-        this->length=(edk::int8)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::int8)n;
+        this->height=(edk::int8)n;
+        this->length=(edk::int8)n;
+        return *this;
     }
     size3i8 operator=(edk::int64 n){
         //
-        this->width=(edk::int8)n;edkEnd();
-        this->height=(edk::int8)n;edkEnd();
-        this->length=(edk::int8)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::int8)n;
+        this->height=(edk::int8)n;
+        this->length=(edk::int8)n;
+        return *this;
     }
     size3i8 operator=(edk::uint8 n){
         //
-        this->width=(edk::int8)n;edkEnd();
-        this->height=(edk::int8)n;edkEnd();
-        this->length=(edk::int8)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::int8)n;
+        this->height=(edk::int8)n;
+        this->length=(edk::int8)n;
+        return *this;
     }
     size3i8 operator=(edk::uint16 n){
         //
-        this->width=(edk::int8)n;edkEnd();
-        this->height=(edk::int8)n;edkEnd();
-        this->length=(edk::int8)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::int8)n;
+        this->height=(edk::int8)n;
+        this->length=(edk::int8)n;
+        return *this;
     }
     size3i8 operator=(edk::uint32 n){
         //
-        this->width=(edk::int8)n;edkEnd();
-        this->height=(edk::int8)n;edkEnd();
-        this->length=(edk::int8)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::int8)n;
+        this->height=(edk::int8)n;
+        this->length=(edk::int8)n;
+        return *this;
     }
     size3i8 operator=(edk::uint64 n){
         //
-        this->width=(edk::int8)n;edkEnd();
-        this->height=(edk::int8)n;edkEnd();
-        this->length=(edk::int8)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::int8)n;
+        this->height=(edk::int8)n;
+        this->length=(edk::int8)n;
+        return *this;
     }
 
     //==
     bool operator==(size3i8 size){
         //
-        return (this->width==size.width&&this->height==size.height&&this->length==size.length);edkEnd();
+        return (this->width==size.width&&this->height==size.height&&this->length==size.length);
     }
     //!=
     bool operator!=(size3i8 size){
         //
-        return (this->width!=size.width||this->height!=size.height||this->length!=size.length);edkEnd();
+        return (this->width!=size.width||this->height!=size.height||this->length!=size.length);
     }
 
     //+
     size3i8 operator+(size3i8 size){
         //
-        size3i8 ret;edkEnd();
-        ret.width=this->width+size.width;edkEnd();
-        ret.height=this->height+size.height;edkEnd();
-        ret.length=this->length+size.length;edkEnd();
+        size3i8 ret;
+        ret.width=this->width+size.width;
+        ret.height=this->height+size.height;
+        ret.length=this->length+size.length;
         return ret;
     }
     size3i8 operator+(size2i8 size){
         //
-        size3i8 ret;edkEnd();
-        ret.width=this->width+size.width;edkEnd();
-        ret.height=this->height+size.height;edkEnd();
+        size3i8 ret;
+        ret.width=this->width+size.width;
+        ret.height=this->height+size.height;
         return ret;
     }
     size3i8 operator+(edk::int8 n){
         //
-        size3i8 ret;edkEnd();
-        ret.width=this->width+(edk::int8)n;edkEnd();
-        ret.height=this->height+(edk::int8)n;edkEnd();
-        ret.length=this->length+(edk::int8)n;edkEnd();
+        size3i8 ret;
+        ret.width=this->width+(edk::int8)n;
+        ret.height=this->height+(edk::int8)n;
+        ret.length=this->length+(edk::int8)n;
         return ret;
     }
     size3i8 operator+(edk::int16 n){
         //
-        size3i8 ret;edkEnd();
-        ret.width=this->width+(edk::int8)n;edkEnd();
-        ret.height=this->height+(edk::int8)n;edkEnd();
-        ret.length=this->length+(edk::int8)n;edkEnd();
+        size3i8 ret;
+        ret.width=this->width+(edk::int8)n;
+        ret.height=this->height+(edk::int8)n;
+        ret.length=this->length+(edk::int8)n;
         return ret;
     }
     size3i8 operator+(edk::int32 n){
         //
-        size3i8 ret;edkEnd();
-        ret.width=this->width+(edk::int8)n;edkEnd();
-        ret.height=this->height+(edk::int8)n;edkEnd();
-        ret.length=this->length+(edk::int8)n;edkEnd();
+        size3i8 ret;
+        ret.width=this->width+(edk::int8)n;
+        ret.height=this->height+(edk::int8)n;
+        ret.length=this->length+(edk::int8)n;
         return ret;
     }
     size3i8 operator+(edk::int64 n){
         //
-        size3i8 ret;edkEnd();
-        ret.width=this->width+(edk::int8)n;edkEnd();
-        ret.height=this->height+(edk::int8)n;edkEnd();
-        ret.length=this->length+(edk::int8)n;edkEnd();
+        size3i8 ret;
+        ret.width=this->width+(edk::int8)n;
+        ret.height=this->height+(edk::int8)n;
+        ret.length=this->length+(edk::int8)n;
         return ret;
     }
     size3i8 operator+(edk::uint8 n){
         //
-        size3i8 ret;edkEnd();
-        ret.width=this->width+(edk::int8)n;edkEnd();
-        ret.height=this->height+(edk::int8)n;edkEnd();
-        ret.length=this->length+(edk::int8)n;edkEnd();
+        size3i8 ret;
+        ret.width=this->width+(edk::int8)n;
+        ret.height=this->height+(edk::int8)n;
+        ret.length=this->length+(edk::int8)n;
         return ret;
     }
     size3i8 operator+(edk::uint16 n){
         //
-        size3i8 ret;edkEnd();
-        ret.width=this->width+(edk::int8)n;edkEnd();
-        ret.height=this->height+(edk::int8)n;edkEnd();
-        ret.length=this->length+(edk::int8)n;edkEnd();
+        size3i8 ret;
+        ret.width=this->width+(edk::int8)n;
+        ret.height=this->height+(edk::int8)n;
+        ret.length=this->length+(edk::int8)n;
         return ret;
     }
     size3i8 operator+(edk::uint32 n){
         //
-        size3i8 ret;edkEnd();
-        ret.width=this->width+(edk::int8)n;edkEnd();
-        ret.height=this->height+(edk::int8)n;edkEnd();
-        ret.length=this->length+(edk::int8)n;edkEnd();
+        size3i8 ret;
+        ret.width=this->width+(edk::int8)n;
+        ret.height=this->height+(edk::int8)n;
+        ret.length=this->length+(edk::int8)n;
         return ret;
     }
     size3i8 operator+(edk::uint64 n){
         //
-        size3i8 ret;edkEnd();
-        ret.width=this->width+(edk::int8)n;edkEnd();
-        ret.height=this->height+(edk::int8)n;edkEnd();
-        ret.length=this->length+(edk::int8)n;edkEnd();
+        size3i8 ret;
+        ret.width=this->width+(edk::int8)n;
+        ret.height=this->height+(edk::int8)n;
+        ret.length=this->length+(edk::int8)n;
         return ret;
     }
 
     //+=
     void operator+=(size3i8 size){
         //
-        this->width+=size.width;edkEnd();
-        this->height+=size.height;edkEnd();
-        this->length+=size.length;edkEnd();
+        this->width+=size.width;
+        this->height+=size.height;
+        this->length+=size.length;
     }
     void operator+=(size2i8 size){
         //
-        this->width+=size.width;edkEnd();
-        this->height+=size.height;edkEnd();
+        this->width+=size.width;
+        this->height+=size.height;
     }
     void operator+=(edk::int8 n){
         //
-        this->width+=(edk::int8)n;edkEnd();
-        this->height+=(edk::int8)n;edkEnd();
-        this->length+=(edk::int8)n;edkEnd();
+        this->width+=(edk::int8)n;
+        this->height+=(edk::int8)n;
+        this->length+=(edk::int8)n;
     }
     void operator+=(edk::int16 n){
         //
-        this->width+=(edk::int8)n;edkEnd();
-        this->height+=(edk::int8)n;edkEnd();
-        this->length+=(edk::int8)n;edkEnd();
+        this->width+=(edk::int8)n;
+        this->height+=(edk::int8)n;
+        this->length+=(edk::int8)n;
     }
     void operator+=(edk::int32 n){
         //
-        this->width+=(edk::int8)n;edkEnd();
-        this->height+=(edk::int8)n;edkEnd();
-        this->length+=(edk::int8)n;edkEnd();
+        this->width+=(edk::int8)n;
+        this->height+=(edk::int8)n;
+        this->length+=(edk::int8)n;
     }
     void operator+=(edk::int64 n){
         //
-        this->width+=(edk::int8)n;edkEnd();
-        this->height+=(edk::int8)n;edkEnd();
-        this->length+=(edk::int8)n;edkEnd();
+        this->width+=(edk::int8)n;
+        this->height+=(edk::int8)n;
+        this->length+=(edk::int8)n;
     }
     void operator+=(edk::uint8 n){
         //
-        this->width+=(edk::int8)n;edkEnd();
-        this->height+=(edk::int8)n;edkEnd();
-        this->length+=(edk::int8)n;edkEnd();
+        this->width+=(edk::int8)n;
+        this->height+=(edk::int8)n;
+        this->length+=(edk::int8)n;
     }
     void operator+=(edk::uint16 n){
         //
-        this->width+=(edk::int8)n;edkEnd();
-        this->height+=(edk::int8)n;edkEnd();
-        this->length+=(edk::int8)n;edkEnd();
+        this->width+=(edk::int8)n;
+        this->height+=(edk::int8)n;
+        this->length+=(edk::int8)n;
     }
     void operator+=(edk::uint32 n){
         //
-        this->width+=(edk::int8)n;edkEnd();
-        this->height+=(edk::int8)n;edkEnd();
-        this->length+=(edk::int8)n;edkEnd();
+        this->width+=(edk::int8)n;
+        this->height+=(edk::int8)n;
+        this->length+=(edk::int8)n;
     }
     void operator+=(edk::uint64 n){
         //
-        this->width+=(edk::int8)n;edkEnd();
-        this->height+=(edk::int8)n;edkEnd();
-        this->length+=(edk::int8)n;edkEnd();
+        this->width+=(edk::int8)n;
+        this->height+=(edk::int8)n;
+        this->length+=(edk::int8)n;
     }
 
     //-
     size3i8 operator-(size3i8 size){
         //
-        size3i8 ret;edkEnd();
-        ret.width=this->width-size.width;edkEnd();
-        ret.height=this->height-size.height;edkEnd();
-        ret.length=this->length-size.length;edkEnd();
+        size3i8 ret;
+        ret.width=this->width-size.width;
+        ret.height=this->height-size.height;
+        ret.length=this->length-size.length;
         return ret;
     }
     size3i8 operator-(size2i8 size){
         //
-        size3i8 ret;edkEnd();
-        ret.width=this->width-size.width;edkEnd();
-        ret.height=this->height-size.height;edkEnd();
+        size3i8 ret;
+        ret.width=this->width-size.width;
+        ret.height=this->height-size.height;
         return ret;
     }
     size3i8 operator-(edk::int8 n){
         //
-        size3i8 ret;edkEnd();
-        ret.width=this->width-(edk::int8)n;edkEnd();
-        ret.height=this->height-(edk::int8)n;edkEnd();
-        ret.length=this->length-(edk::int8)n;edkEnd();
+        size3i8 ret;
+        ret.width=this->width-(edk::int8)n;
+        ret.height=this->height-(edk::int8)n;
+        ret.length=this->length-(edk::int8)n;
         return ret;
     }
     size3i8 operator-(edk::int16 n){
         //
-        size3i8 ret;edkEnd();
-        ret.width=this->width-(edk::int8)n;edkEnd();
-        ret.height=this->height-(edk::int8)n;edkEnd();
-        ret.length=this->length-(edk::int8)n;edkEnd();
+        size3i8 ret;
+        ret.width=this->width-(edk::int8)n;
+        ret.height=this->height-(edk::int8)n;
+        ret.length=this->length-(edk::int8)n;
         return ret;
     }
     size3i8 operator-(edk::int32 n){
         //
-        size3i8 ret;edkEnd();
-        ret.width=this->width-(edk::int8)n;edkEnd();
-        ret.height=this->height-(edk::int8)n;edkEnd();
-        ret.length=this->length-(edk::int8)n;edkEnd();
+        size3i8 ret;
+        ret.width=this->width-(edk::int8)n;
+        ret.height=this->height-(edk::int8)n;
+        ret.length=this->length-(edk::int8)n;
         return ret;
     }
     size3i8 operator-(edk::int64 n){
         //
-        size3i8 ret;edkEnd();
-        ret.width=this->width-(edk::int8)n;edkEnd();
-        ret.height=this->height-(edk::int8)n;edkEnd();
-        ret.length=this->length-(edk::int8)n;edkEnd();
+        size3i8 ret;
+        ret.width=this->width-(edk::int8)n;
+        ret.height=this->height-(edk::int8)n;
+        ret.length=this->length-(edk::int8)n;
         return ret;
     }
     size3i8 operator-(edk::uint8 n){
         //
-        size3i8 ret;edkEnd();
-        ret.width=this->width-(edk::int8)n;edkEnd();
-        ret.height=this->height-(edk::int8)n;edkEnd();
-        ret.length=this->length-(edk::int8)n;edkEnd();
+        size3i8 ret;
+        ret.width=this->width-(edk::int8)n;
+        ret.height=this->height-(edk::int8)n;
+        ret.length=this->length-(edk::int8)n;
         return ret;
     }
     size3i8 operator-(edk::uint16 n){
         //
-        size3i8 ret;edkEnd();
-        ret.width=this->width-(edk::int8)n;edkEnd();
-        ret.height=this->height-(edk::int8)n;edkEnd();
-        ret.length=this->length-(edk::int8)n;edkEnd();
+        size3i8 ret;
+        ret.width=this->width-(edk::int8)n;
+        ret.height=this->height-(edk::int8)n;
+        ret.length=this->length-(edk::int8)n;
         return ret;
     }
     size3i8 operator-(edk::uint32 n){
         //
-        size3i8 ret;edkEnd();
-        ret.width=this->width-(edk::int8)n;edkEnd();
-        ret.height=this->height-(edk::int8)n;edkEnd();
-        ret.length=this->length-(edk::int8)n;edkEnd();
+        size3i8 ret;
+        ret.width=this->width-(edk::int8)n;
+        ret.height=this->height-(edk::int8)n;
+        ret.length=this->length-(edk::int8)n;
         return ret;
     }
     size3i8 operator-(edk::uint64 n){
         //
-        size3i8 ret;edkEnd();
-        ret.width=this->width-(edk::int8)n;edkEnd();
-        ret.height=this->height-(edk::int8)n;edkEnd();
-        ret.length=this->length-(edk::int8)n;edkEnd();
+        size3i8 ret;
+        ret.width=this->width-(edk::int8)n;
+        ret.height=this->height-(edk::int8)n;
+        ret.length=this->length-(edk::int8)n;
         return ret;
     }
 
     //-=
     void operator-=(size3i8 size){
         //
-        this->width-=size.width;edkEnd();
-        this->height-=size.height;edkEnd();
-        this->length-=size.length;edkEnd();
+        this->width-=size.width;
+        this->height-=size.height;
+        this->length-=size.length;
     }
     void operator-=(size2i8 size){
         //
-        this->width-=size.width;edkEnd();
-        this->height-=size.height;edkEnd();
+        this->width-=size.width;
+        this->height-=size.height;
     }
     void operator-=(edk::int8 n){
         //
-        this->width-=(edk::int8)n;edkEnd();
-        this->height-=(edk::int8)n;edkEnd();
-        this->length-=(edk::int8)n;edkEnd();
+        this->width-=(edk::int8)n;
+        this->height-=(edk::int8)n;
+        this->length-=(edk::int8)n;
     }
     void operator-=(edk::int16 n){
         //
-        this->width-=(edk::int8)n;edkEnd();
-        this->height-=(edk::int8)n;edkEnd();
-        this->length-=(edk::int8)n;edkEnd();
+        this->width-=(edk::int8)n;
+        this->height-=(edk::int8)n;
+        this->length-=(edk::int8)n;
     }
     void operator-=(edk::int32 n){
         //
-        this->width-=(edk::int8)n;edkEnd();
-        this->height-=(edk::int8)n;edkEnd();
-        this->length-=(edk::int8)n;edkEnd();
+        this->width-=(edk::int8)n;
+        this->height-=(edk::int8)n;
+        this->length-=(edk::int8)n;
     }
     void operator-=(edk::int64 n){
         //
-        this->width-=(edk::int8)n;edkEnd();
-        this->height-=(edk::int8)n;edkEnd();
-        this->length-=(edk::int8)n;edkEnd();
+        this->width-=(edk::int8)n;
+        this->height-=(edk::int8)n;
+        this->length-=(edk::int8)n;
     }
     void operator-=(edk::uint8 n){
         //
-        this->width-=(edk::int8)n;edkEnd();
-        this->height-=(edk::int8)n;edkEnd();
-        this->length-=(edk::int8)n;edkEnd();
+        this->width-=(edk::int8)n;
+        this->height-=(edk::int8)n;
+        this->length-=(edk::int8)n;
     }
     void operator-=(edk::uint16 n){
         //
-        this->width-=(edk::int8)n;edkEnd();
-        this->height-=(edk::int8)n;edkEnd();
-        this->length-=(edk::int8)n;edkEnd();
+        this->width-=(edk::int8)n;
+        this->height-=(edk::int8)n;
+        this->length-=(edk::int8)n;
     }
     void operator-=(edk::uint32 n){
         //
-        this->width-=(edk::int8)n;edkEnd();
-        this->height-=(edk::int8)n;edkEnd();
-        this->length-=(edk::int8)n;edkEnd();
+        this->width-=(edk::int8)n;
+        this->height-=(edk::int8)n;
+        this->length-=(edk::int8)n;
     }
     void operator-=(edk::uint64 n){
         //
-        this->width-=(edk::int8)n;edkEnd();
-        this->height-=(edk::int8)n;edkEnd();
-        this->length-=(edk::int8)n;edkEnd();
+        this->width-=(edk::int8)n;
+        this->height-=(edk::int8)n;
+        this->length-=(edk::int8)n;
     }
 
     //*
     size3i8 operator*(size3i8 size){
         //
-        size3i8 ret;edkEnd();
-        ret.width=this->width*size.width;edkEnd();
-        ret.height=this->height*size.height;edkEnd();
-        ret.length=this->length*size.length;edkEnd();
+        size3i8 ret;
+        ret.width=this->width*size.width;
+        ret.height=this->height*size.height;
+        ret.length=this->length*size.length;
         return ret;
     }
     size3i8 operator*(size2i8 size){
         //
-        size3i8 ret;edkEnd();
-        ret.width=this->width*size.width;edkEnd();
-        ret.height=this->height*size.height;edkEnd();
+        size3i8 ret;
+        ret.width=this->width*size.width;
+        ret.height=this->height*size.height;
         return ret;
     }
     size3i8 operator*(edk::int8 n){
         //
-        size3i8 ret;edkEnd();
-        ret.width=this->width*(edk::int8)n;edkEnd();
-        ret.height=this->height*(edk::int8)n;edkEnd();
-        ret.length=this->length*(edk::int8)n;edkEnd();
+        size3i8 ret;
+        ret.width=this->width*(edk::int8)n;
+        ret.height=this->height*(edk::int8)n;
+        ret.length=this->length*(edk::int8)n;
         return ret;
     }
     size3i8 operator*(edk::int16 n){
         //
-        size3i8 ret;edkEnd();
-        ret.width=this->width*(edk::int8)n;edkEnd();
-        ret.height=this->height*(edk::int8)n;edkEnd();
-        ret.length=this->length*(edk::int8)n;edkEnd();
+        size3i8 ret;
+        ret.width=this->width*(edk::int8)n;
+        ret.height=this->height*(edk::int8)n;
+        ret.length=this->length*(edk::int8)n;
         return ret;
     }
     size3i8 operator*(edk::int32 n){
         //
-        size3i8 ret;edkEnd();
-        ret.width=this->width*(edk::int8)n;edkEnd();
-        ret.height=this->height*(edk::int8)n;edkEnd();
-        ret.length=this->length*(edk::int8)n;edkEnd();
+        size3i8 ret;
+        ret.width=this->width*(edk::int8)n;
+        ret.height=this->height*(edk::int8)n;
+        ret.length=this->length*(edk::int8)n;
         return ret;
     }
     size3i8 operator*(edk::int64 n){
         //
-        size3i8 ret;edkEnd();
-        ret.width=this->width*(edk::int8)n;edkEnd();
-        ret.height=this->height*(edk::int8)n;edkEnd();
-        ret.length=this->length*(edk::int8)n;edkEnd();
+        size3i8 ret;
+        ret.width=this->width*(edk::int8)n;
+        ret.height=this->height*(edk::int8)n;
+        ret.length=this->length*(edk::int8)n;
         return ret;
     }
     size3i8 operator*(edk::uint8 n){
         //
-        size3i8 ret;edkEnd();
-        ret.width=this->width*(edk::int8)n;edkEnd();
-        ret.height=this->height*(edk::int8)n;edkEnd();
-        ret.length=this->length*(edk::int8)n;edkEnd();
+        size3i8 ret;
+        ret.width=this->width*(edk::int8)n;
+        ret.height=this->height*(edk::int8)n;
+        ret.length=this->length*(edk::int8)n;
         return ret;
     }
     size3i8 operator*(edk::uint16 n){
         //
-        size3i8 ret;edkEnd();
-        ret.width=this->width*(edk::int8)n;edkEnd();
-        ret.height=this->height*(edk::int8)n;edkEnd();
-        ret.length=this->length*(edk::int8)n;edkEnd();
+        size3i8 ret;
+        ret.width=this->width*(edk::int8)n;
+        ret.height=this->height*(edk::int8)n;
+        ret.length=this->length*(edk::int8)n;
         return ret;
     }
     size3i8 operator*(edk::uint32 n){
         //
-        size3i8 ret;edkEnd();
-        ret.width=this->width*(edk::int8)n;edkEnd();
-        ret.height=this->height*(edk::int8)n;edkEnd();
-        ret.length=this->length*(edk::int8)n;edkEnd();
+        size3i8 ret;
+        ret.width=this->width*(edk::int8)n;
+        ret.height=this->height*(edk::int8)n;
+        ret.length=this->length*(edk::int8)n;
         return ret;
     }
     size3i8 operator*(edk::uint64 n){
         //
-        size3i8 ret;edkEnd();
-        ret.width=this->width*(edk::int8)n;edkEnd();
-        ret.height=this->height*(edk::int8)n;edkEnd();
-        ret.length=this->length*(edk::int8)n;edkEnd();
+        size3i8 ret;
+        ret.width=this->width*(edk::int8)n;
+        ret.height=this->height*(edk::int8)n;
+        ret.length=this->length*(edk::int8)n;
         return ret;
     }
 
     //*=
     void operator*=(size3i8 size){
         //
-        this->width*=size.width;edkEnd();
-        this->height*=size.height;edkEnd();
-        this->length*=size.length;edkEnd();
+        this->width*=size.width;
+        this->height*=size.height;
+        this->length*=size.length;
     }
     void operator*=(size2i8 size){
         //
-        this->width*=size.width;edkEnd();
-        this->height*=size.height;edkEnd();
+        this->width*=size.width;
+        this->height*=size.height;
     }
     void operator*=(edk::int8 n){
         //
-        this->width*=(edk::int8)n;edkEnd();
-        this->height*=(edk::int8)n;edkEnd();
-        this->length*=(edk::int8)n;edkEnd();
+        this->width*=(edk::int8)n;
+        this->height*=(edk::int8)n;
+        this->length*=(edk::int8)n;
     }
     void operator*=(edk::int16 n){
         //
-        this->width*=(edk::int8)n;edkEnd();
-        this->height*=(edk::int8)n;edkEnd();
-        this->length*=(edk::int8)n;edkEnd();
+        this->width*=(edk::int8)n;
+        this->height*=(edk::int8)n;
+        this->length*=(edk::int8)n;
     }
     void operator*=(edk::int32 n){
         //
-        this->width*=(edk::int8)n;edkEnd();
-        this->height*=(edk::int8)n;edkEnd();
-        this->length*=(edk::int8)n;edkEnd();
+        this->width*=(edk::int8)n;
+        this->height*=(edk::int8)n;
+        this->length*=(edk::int8)n;
     }
     void operator*=(edk::int64 n){
         //
-        this->width*=(edk::int8)n;edkEnd();
-        this->height*=(edk::int8)n;edkEnd();
-        this->length*=(edk::int8)n;edkEnd();
+        this->width*=(edk::int8)n;
+        this->height*=(edk::int8)n;
+        this->length*=(edk::int8)n;
     }
     void operator*=(edk::uint8 n){
         //
-        this->width*=(edk::int8)n;edkEnd();
-        this->height*=(edk::int8)n;edkEnd();
-        this->length*=(edk::int8)n;edkEnd();
+        this->width*=(edk::int8)n;
+        this->height*=(edk::int8)n;
+        this->length*=(edk::int8)n;
     }
     void operator*=(edk::uint16 n){
         //
-        this->width*=(edk::int8)n;edkEnd();
-        this->height*=(edk::int8)n;edkEnd();
-        this->length*=(edk::int8)n;edkEnd();
+        this->width*=(edk::int8)n;
+        this->height*=(edk::int8)n;
+        this->length*=(edk::int8)n;
     }
     void operator*=(edk::uint32 n){
         //
-        this->width*=(edk::int8)n;edkEnd();
-        this->height*=(edk::int8)n;edkEnd();
-        this->length*=(edk::int8)n;edkEnd();
+        this->width*=(edk::int8)n;
+        this->height*=(edk::int8)n;
+        this->length*=(edk::int8)n;
     }
     void operator*=(edk::uint64 n){
         //
-        this->width*=(edk::int8)n;edkEnd();
-        this->height*=(edk::int8)n;edkEnd();
-        this->length*=(edk::int8)n;edkEnd();
+        this->width*=(edk::int8)n;
+        this->height*=(edk::int8)n;
+        this->length*=(edk::int8)n;
     }
 
     //++
     size3i8 operator++(){
         //
-        ++this->width;edkEnd();
-        ++this->height;edkEnd();
-        ++this->length;edkEnd();
-        return size3i8(this->width,this->height,this->length);edkEnd();
+        ++this->width;
+        ++this->height;
+        ++this->length;
+        return size3i8(this->width,this->height,this->length);
     }
     size3i8 operator++(edk::int32){
         //
-        this->width++;edkEnd();
-        this->height++;edkEnd();
-        this->length++;edkEnd();
-        return size3i8(this->width,this->height,this->length);edkEnd();
+        this->width++;
+        this->height++;
+        this->length++;
+        return size3i8(this->width,this->height,this->length);
     }
 
     //--
     size3i8 operator--(){
         //
-        --this->width;edkEnd();
-        --this->height;edkEnd();
-        --this->length;edkEnd();
-        return size3i8(this->width,this->height,this->length);edkEnd();
+        --this->width;
+        --this->height;
+        --this->length;
+        return size3i8(this->width,this->height,this->length);
     }
     size3i8 operator--(edk::int32){
         //
-        this->width--;edkEnd();
-        this->height--;edkEnd();
-        this->length--;edkEnd();
-        return size3i8(this->width,this->height,this->length);edkEnd();
+        this->width--;
+        this->height--;
+        this->length--;
+        return size3i8(this->width,this->height,this->length);
     }
 
     //
     size3i8 operator()(edk::int8 width,edk::int8 height,edk::int8 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3i8((edk::int8)this->width,(edk::int8)this->height,(edk::int8)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3i8((edk::int8)this->width,(edk::int8)this->height,(edk::int8)this->length);
     }
     size3i8 operator()(edk::int16 width,edk::int16 height,edk::int16 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3i8((edk::int8)this->width,(edk::int8)this->height,(edk::int8)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3i8((edk::int8)this->width,(edk::int8)this->height,(edk::int8)this->length);
     }
     size3i8 operator()(edk::int32 width,edk::int32 height,edk::int32 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3i8((edk::int8)this->width,(edk::int8)this->height,(edk::int8)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3i8((edk::int8)this->width,(edk::int8)this->height,(edk::int8)this->length);
     }
     size3i8 operator()(edk::int64 width,edk::int64 height,edk::int64 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3i8((edk::int8)this->width,(edk::int8)this->height,(edk::int8)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3i8((edk::int8)this->width,(edk::int8)this->height,(edk::int8)this->length);
     }
     size3i8 operator()(edk::uint8 width,edk::uint8 height,edk::uint8 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3i8((edk::int8)this->width,(edk::int8)this->height,(edk::int8)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3i8((edk::int8)this->width,(edk::int8)this->height,(edk::int8)this->length);
     }
     size3i8 operator()(edk::uint16 width,edk::uint16 height,edk::uint16 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3i8((edk::int8)this->width,(edk::int8)this->height,(edk::int8)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3i8((edk::int8)this->width,(edk::int8)this->height,(edk::int8)this->length);
     }
     size3i8 operator()(edk::uint32 width,edk::uint32 height,edk::uint32 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3i8((edk::int8)this->width,(edk::int8)this->height,(edk::int8)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3i8((edk::int8)this->width,(edk::int8)this->height,(edk::int8)this->length);
     }
     size3i8 operator()(edk::uint64 width,edk::uint64 height,edk::uint64 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3i8((edk::int8)this->width,(edk::int8)this->height,(edk::int8)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3i8((edk::int8)this->width,(edk::int8)this->height,(edk::int8)this->length);
     }
 };
 
@@ -757,760 +757,760 @@ public:
     //CONSTRUTOR
     size3i16(){
         //zera as variaveis
-        this->width=this->height=this->length=0;edkEnd();
+        this->width=this->height=this->length=0;
     }
     size3i16(edk::int8 width,edk::int8 height,edk::int8 length){
         //zera as variaveis
-        this->width=(edk::int16)width;edkEnd();
-        this->height=(edk::int16)height;edkEnd();
-        this->length=(edk::int16)length;edkEnd();
+        this->width=(edk::int16)width;
+        this->height=(edk::int16)height;
+        this->length=(edk::int16)length;
     }
     size3i16(edk::int16 width,edk::int16 height,edk::int16 length){
         //zera as variaveis
-        this->width=(edk::int16)width;edkEnd();
-        this->height=(edk::int16)height;edkEnd();
-        this->length=(edk::int16)length;edkEnd();
+        this->width=(edk::int16)width;
+        this->height=(edk::int16)height;
+        this->length=(edk::int16)length;
     }
     size3i16(edk::int32 width,edk::int32 height,edk::int32 length){
         //zera as variaveis
-        this->width=(edk::int16)width;edkEnd();
-        this->height=(edk::int16)height;edkEnd();
-        this->length=(edk::int16)length;edkEnd();
+        this->width=(edk::int16)width;
+        this->height=(edk::int16)height;
+        this->length=(edk::int16)length;
     }
     size3i16(edk::int64 width,edk::int64 height,edk::int64 length){
         //zera as variaveis
-        this->width=(edk::int16)width;edkEnd();
-        this->height=(edk::int16)height;edkEnd();
-        this->length=(edk::int16)length;edkEnd();
+        this->width=(edk::int16)width;
+        this->height=(edk::int16)height;
+        this->length=(edk::int16)length;
     }
     size3i16(edk::uint8 width,edk::uint8 height,edk::uint8 length){
         //zera as variaveis
-        this->width=(edk::int16)width;edkEnd();
-        this->height=(edk::int16)height;edkEnd();
-        this->length=(edk::int16)length;edkEnd();
+        this->width=(edk::int16)width;
+        this->height=(edk::int16)height;
+        this->length=(edk::int16)length;
     }
     size3i16(edk::uint16 width,edk::uint16 height,edk::uint16 length){
         //zera as variaveis
-        this->width=(edk::int16)width;edkEnd();
-        this->height=(edk::int16)height;edkEnd();
-        this->length=(edk::int16)length;edkEnd();
+        this->width=(edk::int16)width;
+        this->height=(edk::int16)height;
+        this->length=(edk::int16)length;
     }
     size3i16(edk::uint32 width,edk::uint32 height,edk::uint32 length){
         //zera as variaveis
-        this->width=(edk::int16)width;edkEnd();
-        this->height=(edk::int16)height;edkEnd();
-        this->length=(edk::int16)length;edkEnd();
+        this->width=(edk::int16)width;
+        this->height=(edk::int16)height;
+        this->length=(edk::int16)length;
     }
     size3i16(edk::uint64 width,edk::uint64 height,edk::uint64 length){
         //zera as variaveis
-        this->width=(edk::int16)width;edkEnd();
-        this->height=(edk::int16)height;edkEnd();
-        this->length=(edk::int16)length;edkEnd();
+        this->width=(edk::int16)width;
+        this->height=(edk::int16)height;
+        this->length=(edk::int16)length;
     }
     size3i16(edk::int8 size){
         //zera as variaveis
-        this->width=(edk::int16)size;edkEnd();
-        this->height=(edk::int16)size;edkEnd();
-        this->length=(edk::int16)size;edkEnd();
+        this->width=(edk::int16)size;
+        this->height=(edk::int16)size;
+        this->length=(edk::int16)size;
     }
     size3i16(edk::int16 size){
         //zera as variaveis
-        this->width=(edk::int16)size;edkEnd();
-        this->height=(edk::int16)size;edkEnd();
-        this->length=(edk::int16)size;edkEnd();
+        this->width=(edk::int16)size;
+        this->height=(edk::int16)size;
+        this->length=(edk::int16)size;
     }
     size3i16(edk::int32 size){
         //zera as variaveis
-        this->width=(edk::int16)size;edkEnd();
-        this->height=(edk::int16)size;edkEnd();
-        this->length=(edk::int16)size;edkEnd();
+        this->width=(edk::int16)size;
+        this->height=(edk::int16)size;
+        this->length=(edk::int16)size;
     }
     size3i16(edk::int64 size){
         //zera as variaveis
-        this->width=(edk::int16)size;edkEnd();
-        this->height=(edk::int16)size;edkEnd();
-        this->length=(edk::int16)size;edkEnd();
+        this->width=(edk::int16)size;
+        this->height=(edk::int16)size;
+        this->length=(edk::int16)size;
     }
     size3i16(edk::uint8 size){
         //zera as variaveis
-        this->width=(edk::int16)size;edkEnd();
-        this->height=(edk::int16)size;edkEnd();
-        this->length=(edk::int16)size;edkEnd();
+        this->width=(edk::int16)size;
+        this->height=(edk::int16)size;
+        this->length=(edk::int16)size;
     }
     size3i16(edk::uint16 size){
         //zera as variaveis
-        this->width=(edk::int16)size;edkEnd();
-        this->height=(edk::int16)size;edkEnd();
-        this->length=(edk::int16)size;edkEnd();
+        this->width=(edk::int16)size;
+        this->height=(edk::int16)size;
+        this->length=(edk::int16)size;
     }
     size3i16(edk::uint32 size){
         //zera as variaveis
-        this->width=(edk::int16)size;edkEnd();
-        this->height=(edk::int16)size;edkEnd();
-        this->length=(edk::int16)size;edkEnd();
+        this->width=(edk::int16)size;
+        this->height=(edk::int16)size;
+        this->length=(edk::int16)size;
     }
     size3i16(edk::uint64 size){
         //zera as variaveis
-        this->width=(edk::int16)size;edkEnd();
-        this->height=(edk::int16)size;edkEnd();
-        this->length=(edk::int16)size;edkEnd();
+        this->width=(edk::int16)size;
+        this->height=(edk::int16)size;
+        this->length=(edk::int16)size;
     }
     //operators
 
     //=
     size3i16 operator=(size3i8 size){
         //
-        this->width=(edk::int16)size.width;edkEnd();
-        this->height=(edk::int16)size.height;edkEnd();
-        this->length=size.length;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::int16)size.width;
+        this->height=(edk::int16)size.height;
+        this->length=size.length;
+        return *this;
     }
     size3i16 operator=(size3i16 size){
         //
-        this->width=size.width;edkEnd();
-        this->height=size.height;edkEnd();
-        this->length=size.length;edkEnd();
-        return *this;edkEnd();
+        this->width=size.width;
+        this->height=size.height;
+        this->length=size.length;
+        return *this;
     }
     size3i16 operator=(size2i8 size){
         //
-        this->width=(edk::int16)size.width;edkEnd();
-        this->height=(edk::int16)size.height;edkEnd();
-        this->length=(edk::int16)0;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::int16)size.width;
+        this->height=(edk::int16)size.height;
+        this->length=(edk::int16)0;
+        return *this;
     }
     size3i16 operator=(edk::int8 n){
         //
-        this->width=(edk::int16)n;edkEnd();
-        this->height=(edk::int16)n;edkEnd();
-        this->length=(edk::int16)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::int16)n;
+        this->height=(edk::int16)n;
+        this->length=(edk::int16)n;
+        return *this;
     }
     size3i16 operator=(edk::int16 n){
         //
-        this->width=(edk::int16)n;edkEnd();
-        this->height=(edk::int16)n;edkEnd();
-        this->length=(edk::int16)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::int16)n;
+        this->height=(edk::int16)n;
+        this->length=(edk::int16)n;
+        return *this;
     }
     size3i16 operator=(edk::int32 n){
         //
-        this->width=(edk::int16)n;edkEnd();
-        this->height=(edk::int16)n;edkEnd();
-        this->length=(edk::int16)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::int16)n;
+        this->height=(edk::int16)n;
+        this->length=(edk::int16)n;
+        return *this;
     }
     size3i16 operator=(edk::int64 n){
         //
-        this->width=(edk::int16)n;edkEnd();
-        this->height=(edk::int16)n;edkEnd();
-        this->length=(edk::int16)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::int16)n;
+        this->height=(edk::int16)n;
+        this->length=(edk::int16)n;
+        return *this;
     }
     size3i16 operator=(edk::uint8 n){
         //
-        this->width=(edk::int16)n;edkEnd();
-        this->height=(edk::int16)n;edkEnd();
-        this->length=(edk::int16)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::int16)n;
+        this->height=(edk::int16)n;
+        this->length=(edk::int16)n;
+        return *this;
     }
     size3i16 operator=(edk::uint16 n){
         //
-        this->width=(edk::int16)n;edkEnd();
-        this->height=(edk::int16)n;edkEnd();
-        this->length=(edk::int16)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::int16)n;
+        this->height=(edk::int16)n;
+        this->length=(edk::int16)n;
+        return *this;
     }
     size3i16 operator=(edk::uint32 n){
         //
-        this->width=(edk::int16)n;edkEnd();
-        this->height=(edk::int16)n;edkEnd();
-        this->length=(edk::int16)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::int16)n;
+        this->height=(edk::int16)n;
+        this->length=(edk::int16)n;
+        return *this;
     }
     size3i16 operator=(edk::uint64 n){
         //
-        this->width=(edk::int16)n;edkEnd();
-        this->height=(edk::int16)n;edkEnd();
-        this->length=(edk::int16)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::int16)n;
+        this->height=(edk::int16)n;
+        this->length=(edk::int16)n;
+        return *this;
     }
 
     //==
     bool operator==(size3i8 size){
         //
-        return (this->width==(edk::int16)size.width&&this->height==(edk::int16)size.height&&this->length==(edk::int16)size.length);edkEnd();
+        return (this->width==(edk::int16)size.width&&this->height==(edk::int16)size.height&&this->length==(edk::int16)size.length);
     }
     bool operator==(size3i16 size){
         //
-        return (this->width==size.width&&this->height==size.height&&this->length==size.length);edkEnd();
+        return (this->width==size.width&&this->height==size.height&&this->length==size.length);
     }
     //!=
     bool operator!=(size3i8 size){
         //
-        return (this->width!=(edk::int16)size.width||this->height!=(edk::int16)size.height||this->length!=(edk::int16)size.length);edkEnd();
+        return (this->width!=(edk::int16)size.width||this->height!=(edk::int16)size.height||this->length!=(edk::int16)size.length);
     }
     bool operator!=(size3i16 size){
         //
-        return (this->width!=size.width||this->height!=size.height||this->length!=size.length);edkEnd();
+        return (this->width!=size.width||this->height!=size.height||this->length!=size.length);
     }
 
     //+
     size3i16 operator+(size3i8 size){
         //
-        size3i16 ret;edkEnd();
-        ret.width=this->width+(edk::int16)size.width;edkEnd();
-        ret.height=this->height+(edk::int16)size.height;edkEnd();
-        ret.length=this->length+(edk::int16)size.length;edkEnd();
+        size3i16 ret;
+        ret.width=this->width+(edk::int16)size.width;
+        ret.height=this->height+(edk::int16)size.height;
+        ret.length=this->length+(edk::int16)size.length;
         return ret;
     }
     size3i16 operator+(size3i16 size){
         //
-        size3i16 ret;edkEnd();
-        ret.width=this->width+size.width;edkEnd();
-        ret.height=this->height+size.height;edkEnd();
-        ret.length=this->length+size.length;edkEnd();
+        size3i16 ret;
+        ret.width=this->width+size.width;
+        ret.height=this->height+size.height;
+        ret.length=this->length+size.length;
         return ret;
     }
     size3i16 operator+(size2i8 size){
         //
-        size3i16 ret;edkEnd();
-        ret.width=this->width+(edk::int16)size.width;edkEnd();
-        ret.height=this->height+(edk::int16)size.height;edkEnd();
+        size3i16 ret;
+        ret.width=this->width+(edk::int16)size.width;
+        ret.height=this->height+(edk::int16)size.height;
         return ret;
     }
     size3i16 operator+(edk::int8 n){
         //
-        size3i16 ret;edkEnd();
-        ret.width=this->width+(edk::int16)n;edkEnd();
-        ret.height=this->height+(edk::int16)n;edkEnd();
-        ret.length=this->length+(edk::int16)n;edkEnd();
+        size3i16 ret;
+        ret.width=this->width+(edk::int16)n;
+        ret.height=this->height+(edk::int16)n;
+        ret.length=this->length+(edk::int16)n;
         return ret;
     }
     size3i16 operator+(edk::int16 n){
         //
-        size3i16 ret;edkEnd();
-        ret.width=this->width+(edk::int16)n;edkEnd();
-        ret.height=this->height+(edk::int16)n;edkEnd();
-        ret.length=this->length+(edk::int16)n;edkEnd();
+        size3i16 ret;
+        ret.width=this->width+(edk::int16)n;
+        ret.height=this->height+(edk::int16)n;
+        ret.length=this->length+(edk::int16)n;
         return ret;
     }
     size3i16 operator+(edk::int32 n){
         //
-        size3i16 ret;edkEnd();
-        ret.width=this->width+(edk::int16)n;edkEnd();
-        ret.height=this->height+(edk::int16)n;edkEnd();
-        ret.length=this->length+(edk::int16)n;edkEnd();
+        size3i16 ret;
+        ret.width=this->width+(edk::int16)n;
+        ret.height=this->height+(edk::int16)n;
+        ret.length=this->length+(edk::int16)n;
         return ret;
     }
     size3i16 operator+(edk::int64 n){
         //
-        size3i16 ret;edkEnd();
-        ret.width=this->width+(edk::int16)n;edkEnd();
-        ret.height=this->height+(edk::int16)n;edkEnd();
-        ret.length=this->length+(edk::int16)n;edkEnd();
+        size3i16 ret;
+        ret.width=this->width+(edk::int16)n;
+        ret.height=this->height+(edk::int16)n;
+        ret.length=this->length+(edk::int16)n;
         return ret;
     }
     size3i16 operator+(edk::uint8 n){
         //
-        size3i16 ret;edkEnd();
-        ret.width=this->width+(edk::int16)n;edkEnd();
-        ret.height=this->height+(edk::int16)n;edkEnd();
-        ret.length=this->length+(edk::int16)n;edkEnd();
+        size3i16 ret;
+        ret.width=this->width+(edk::int16)n;
+        ret.height=this->height+(edk::int16)n;
+        ret.length=this->length+(edk::int16)n;
         return ret;
     }
     size3i16 operator+(edk::uint16 n){
         //
-        size3i16 ret;edkEnd();
-        ret.width=this->width+(edk::int16)n;edkEnd();
-        ret.height=this->height+(edk::int16)n;edkEnd();
-        ret.length=this->length+(edk::int16)n;edkEnd();
+        size3i16 ret;
+        ret.width=this->width+(edk::int16)n;
+        ret.height=this->height+(edk::int16)n;
+        ret.length=this->length+(edk::int16)n;
         return ret;
     }
     size3i16 operator+(edk::uint32 n){
         //
-        size3i16 ret;edkEnd();
-        ret.width=this->width+(edk::int16)n;edkEnd();
-        ret.height=this->height+(edk::int16)n;edkEnd();
-        ret.length=this->length+(edk::int16)n;edkEnd();
+        size3i16 ret;
+        ret.width=this->width+(edk::int16)n;
+        ret.height=this->height+(edk::int16)n;
+        ret.length=this->length+(edk::int16)n;
         return ret;
     }
     size3i16 operator+(edk::uint64 n){
         //
-        size3i16 ret;edkEnd();
-        ret.width=this->width+(edk::int16)n;edkEnd();
-        ret.height=this->height+(edk::int16)n;edkEnd();
-        ret.length=this->length+(edk::int16)n;edkEnd();
+        size3i16 ret;
+        ret.width=this->width+(edk::int16)n;
+        ret.height=this->height+(edk::int16)n;
+        ret.length=this->length+(edk::int16)n;
         return ret;
     }
 
     //+=
     void operator+=(size3i8 size){
         //
-        this->width+=(edk::int16)size.width;edkEnd();
-        this->height+=(edk::int16)size.height;edkEnd();
-        this->length+=(edk::int16)size.length;edkEnd();
+        this->width+=(edk::int16)size.width;
+        this->height+=(edk::int16)size.height;
+        this->length+=(edk::int16)size.length;
     }
     void operator+=(size3i16 size){
         //
-        this->width+=size.width;edkEnd();
-        this->height+=size.height;edkEnd();
-        this->length+=size.length;edkEnd();
+        this->width+=size.width;
+        this->height+=size.height;
+        this->length+=size.length;
     }
     void operator+=(size2i8 size){
         //
-        this->width+=(edk::int16)size.width;edkEnd();
-        this->height+=(edk::int16)size.height;edkEnd();
+        this->width+=(edk::int16)size.width;
+        this->height+=(edk::int16)size.height;
     }
     void operator+=(edk::int8 n){
         //
-        this->width+=(edk::int16)n;edkEnd();
-        this->height+=(edk::int16)n;edkEnd();
-        this->length+=(edk::int16)n;edkEnd();
+        this->width+=(edk::int16)n;
+        this->height+=(edk::int16)n;
+        this->length+=(edk::int16)n;
     }
     void operator+=(edk::int16 n){
         //
-        this->width+=(edk::int16)n;edkEnd();
-        this->height+=(edk::int16)n;edkEnd();
-        this->length+=(edk::int16)n;edkEnd();
+        this->width+=(edk::int16)n;
+        this->height+=(edk::int16)n;
+        this->length+=(edk::int16)n;
     }
     void operator+=(edk::int32 n){
         //
-        this->width+=(edk::int16)n;edkEnd();
-        this->height+=(edk::int16)n;edkEnd();
-        this->length+=(edk::int16)n;edkEnd();
+        this->width+=(edk::int16)n;
+        this->height+=(edk::int16)n;
+        this->length+=(edk::int16)n;
     }
     void operator+=(edk::int64 n){
         //
-        this->width+=(edk::int16)n;edkEnd();
-        this->height+=(edk::int16)n;edkEnd();
-        this->length+=(edk::int16)n;edkEnd();
+        this->width+=(edk::int16)n;
+        this->height+=(edk::int16)n;
+        this->length+=(edk::int16)n;
     }
     void operator+=(edk::uint8 n){
         //
-        this->width+=(edk::int16)n;edkEnd();
-        this->height+=(edk::int16)n;edkEnd();
-        this->length+=(edk::int16)n;edkEnd();
+        this->width+=(edk::int16)n;
+        this->height+=(edk::int16)n;
+        this->length+=(edk::int16)n;
     }
     void operator+=(edk::uint16 n){
         //
-        this->width+=(edk::int16)n;edkEnd();
-        this->height+=(edk::int16)n;edkEnd();
-        this->length+=(edk::int16)n;edkEnd();
+        this->width+=(edk::int16)n;
+        this->height+=(edk::int16)n;
+        this->length+=(edk::int16)n;
     }
     void operator+=(edk::uint32 n){
         //
-        this->width+=(edk::int16)n;edkEnd();
-        this->height+=(edk::int16)n;edkEnd();
-        this->length+=(edk::int16)n;edkEnd();
+        this->width+=(edk::int16)n;
+        this->height+=(edk::int16)n;
+        this->length+=(edk::int16)n;
     }
     void operator+=(edk::uint64 n){
         //
-        this->width+=(edk::int16)n;edkEnd();
-        this->height+=(edk::int16)n;edkEnd();
-        this->length+=(edk::int16)n;edkEnd();
+        this->width+=(edk::int16)n;
+        this->height+=(edk::int16)n;
+        this->length+=(edk::int16)n;
     }
 
     //-
     size3i16 operator-(size3i8 size){
         //
-        size3i16 ret;edkEnd();
-        ret.width=this->width-(edk::int16)size.width;edkEnd();
-        ret.height=this->height-(edk::int16)size.height;edkEnd();
-        ret.length=this->length-(edk::int16)size.length;edkEnd();
+        size3i16 ret;
+        ret.width=this->width-(edk::int16)size.width;
+        ret.height=this->height-(edk::int16)size.height;
+        ret.length=this->length-(edk::int16)size.length;
         return ret;
     }
     size3i16 operator-(size3i16 size){
         //
-        size3i16 ret;edkEnd();
-        ret.width=this->width-size.width;edkEnd();
-        ret.height=this->height-size.height;edkEnd();
-        ret.length=this->length-size.length;edkEnd();
+        size3i16 ret;
+        ret.width=this->width-size.width;
+        ret.height=this->height-size.height;
+        ret.length=this->length-size.length;
         return ret;
     }
     size3i16 operator-(size2i8 size){
         //
-        size3i16 ret;edkEnd();
-        ret.width=this->width-(edk::int16)size.width;edkEnd();
-        ret.height=this->height-(edk::int16)size.height;edkEnd();
+        size3i16 ret;
+        ret.width=this->width-(edk::int16)size.width;
+        ret.height=this->height-(edk::int16)size.height;
         return ret;
     }
     size3i16 operator-(edk::int8 n){
         //
-        size3i16 ret;edkEnd();
-        ret.width=this->width-(edk::int16)n;edkEnd();
-        ret.height=this->height-(edk::int16)n;edkEnd();
-        ret.length=this->length-(edk::int16)n;edkEnd();
+        size3i16 ret;
+        ret.width=this->width-(edk::int16)n;
+        ret.height=this->height-(edk::int16)n;
+        ret.length=this->length-(edk::int16)n;
         return ret;
     }
     size3i16 operator-(edk::int16 n){
         //
-        size3i16 ret;edkEnd();
-        ret.width=this->width-(edk::int16)n;edkEnd();
-        ret.height=this->height-(edk::int16)n;edkEnd();
-        ret.length=this->length-(edk::int16)n;edkEnd();
+        size3i16 ret;
+        ret.width=this->width-(edk::int16)n;
+        ret.height=this->height-(edk::int16)n;
+        ret.length=this->length-(edk::int16)n;
         return ret;
     }
     size3i16 operator-(edk::int32 n){
         //
-        size3i16 ret;edkEnd();
-        ret.width=this->width-(edk::int16)n;edkEnd();
-        ret.height=this->height-(edk::int16)n;edkEnd();
-        ret.length=this->length-(edk::int16)n;edkEnd();
+        size3i16 ret;
+        ret.width=this->width-(edk::int16)n;
+        ret.height=this->height-(edk::int16)n;
+        ret.length=this->length-(edk::int16)n;
         return ret;
     }
     size3i16 operator-(edk::int64 n){
         //
-        size3i16 ret;edkEnd();
-        ret.width=this->width-(edk::int16)n;edkEnd();
-        ret.height=this->height-(edk::int16)n;edkEnd();
-        ret.length=this->length-(edk::int16)n;edkEnd();
+        size3i16 ret;
+        ret.width=this->width-(edk::int16)n;
+        ret.height=this->height-(edk::int16)n;
+        ret.length=this->length-(edk::int16)n;
         return ret;
     }
     size3i16 operator-(edk::uint8 n){
         //
-        size3i16 ret;edkEnd();
-        ret.width=this->width-(edk::int16)n;edkEnd();
-        ret.height=this->height-(edk::int16)n;edkEnd();
-        ret.length=this->length-(edk::int16)n;edkEnd();
+        size3i16 ret;
+        ret.width=this->width-(edk::int16)n;
+        ret.height=this->height-(edk::int16)n;
+        ret.length=this->length-(edk::int16)n;
         return ret;
     }
     size3i16 operator-(edk::uint16 n){
         //
-        size3i16 ret;edkEnd();
-        ret.width=this->width-(edk::int16)n;edkEnd();
-        ret.height=this->height-(edk::int16)n;edkEnd();
-        ret.length=this->length-(edk::int16)n;edkEnd();
+        size3i16 ret;
+        ret.width=this->width-(edk::int16)n;
+        ret.height=this->height-(edk::int16)n;
+        ret.length=this->length-(edk::int16)n;
         return ret;
     }
     size3i16 operator-(edk::uint32 n){
         //
-        size3i16 ret;edkEnd();
-        ret.width=this->width-(edk::int16)n;edkEnd();
-        ret.height=this->height-(edk::int16)n;edkEnd();
-        ret.length=this->length-(edk::int16)n;edkEnd();
+        size3i16 ret;
+        ret.width=this->width-(edk::int16)n;
+        ret.height=this->height-(edk::int16)n;
+        ret.length=this->length-(edk::int16)n;
         return ret;
     }
     size3i16 operator-(edk::uint64 n){
         //
-        size3i16 ret;edkEnd();
-        ret.width=this->width-(edk::int16)n;edkEnd();
-        ret.height=this->height-(edk::int16)n;edkEnd();
-        ret.length=this->length-(edk::int16)n;edkEnd();
+        size3i16 ret;
+        ret.width=this->width-(edk::int16)n;
+        ret.height=this->height-(edk::int16)n;
+        ret.length=this->length-(edk::int16)n;
         return ret;
     }
 
     //-=
     void operator-=(size3i8 size){
         //
-        this->width-=(edk::int16)size.width;edkEnd();
-        this->height-=(edk::int16)size.height;edkEnd();
-        this->length-=(edk::int16)size.length;edkEnd();
+        this->width-=(edk::int16)size.width;
+        this->height-=(edk::int16)size.height;
+        this->length-=(edk::int16)size.length;
     }
     void operator-=(size3i16 size){
         //
-        this->width-=size.width;edkEnd();
-        this->height-=size.height;edkEnd();
-        this->length-=size.length;edkEnd();
+        this->width-=size.width;
+        this->height-=size.height;
+        this->length-=size.length;
     }
     void operator-=(size2i8 size){
         //
-        this->width-=(edk::int16)size.width;edkEnd();
-        this->height-=(edk::int16)size.height;edkEnd();
+        this->width-=(edk::int16)size.width;
+        this->height-=(edk::int16)size.height;
     }
     void operator-=(edk::int8 n){
         //
-        this->width-=(edk::int16)n;edkEnd();
-        this->height-=(edk::int16)n;edkEnd();
-        this->length-=(edk::int16)n;edkEnd();
+        this->width-=(edk::int16)n;
+        this->height-=(edk::int16)n;
+        this->length-=(edk::int16)n;
     }
     void operator-=(edk::int16 n){
         //
-        this->width-=(edk::int16)n;edkEnd();
-        this->height-=(edk::int16)n;edkEnd();
-        this->length-=(edk::int16)n;edkEnd();
+        this->width-=(edk::int16)n;
+        this->height-=(edk::int16)n;
+        this->length-=(edk::int16)n;
     }
     void operator-=(edk::int32 n){
         //
-        this->width-=(edk::int16)n;edkEnd();
-        this->height-=(edk::int16)n;edkEnd();
-        this->length-=(edk::int16)n;edkEnd();
+        this->width-=(edk::int16)n;
+        this->height-=(edk::int16)n;
+        this->length-=(edk::int16)n;
     }
     void operator-=(edk::int64 n){
         //
-        this->width-=(edk::int16)n;edkEnd();
-        this->height-=(edk::int16)n;edkEnd();
-        this->length-=(edk::int16)n;edkEnd();
+        this->width-=(edk::int16)n;
+        this->height-=(edk::int16)n;
+        this->length-=(edk::int16)n;
     }
     void operator-=(edk::uint8 n){
         //
-        this->width-=(edk::int16)n;edkEnd();
-        this->height-=(edk::int16)n;edkEnd();
-        this->length-=(edk::int16)n;edkEnd();
+        this->width-=(edk::int16)n;
+        this->height-=(edk::int16)n;
+        this->length-=(edk::int16)n;
     }
     void operator-=(edk::uint16 n){
         //
-        this->width-=(edk::int16)n;edkEnd();
-        this->height-=(edk::int16)n;edkEnd();
-        this->length-=(edk::int16)n;edkEnd();
+        this->width-=(edk::int16)n;
+        this->height-=(edk::int16)n;
+        this->length-=(edk::int16)n;
     }
     void operator-=(edk::uint32 n){
         //
-        this->width-=(edk::int16)n;edkEnd();
-        this->height-=(edk::int16)n;edkEnd();
-        this->length-=(edk::int16)n;edkEnd();
+        this->width-=(edk::int16)n;
+        this->height-=(edk::int16)n;
+        this->length-=(edk::int16)n;
     }
     void operator-=(edk::uint64 n){
         //
-        this->width-=(edk::int16)n;edkEnd();
-        this->height-=(edk::int16)n;edkEnd();
-        this->length-=(edk::int16)n;edkEnd();
+        this->width-=(edk::int16)n;
+        this->height-=(edk::int16)n;
+        this->length-=(edk::int16)n;
     }
 
     //*
     size3i16 operator*(size3i8 size){
         //
-        size3i16 ret;edkEnd();
-        ret.width=this->width*(edk::int16)size.width;edkEnd();
-        ret.height=this->height*(edk::int16)size.height;edkEnd();
-        ret.length=this->length*(edk::int16)size.length;edkEnd();
+        size3i16 ret;
+        ret.width=this->width*(edk::int16)size.width;
+        ret.height=this->height*(edk::int16)size.height;
+        ret.length=this->length*(edk::int16)size.length;
         return ret;
     }
     size3i16 operator*(size3i16 size){
         //
-        size3i16 ret;edkEnd();
-        ret.width=this->width*size.width;edkEnd();
-        ret.height=this->height*size.height;edkEnd();
-        ret.length=this->length*size.length;edkEnd();
+        size3i16 ret;
+        ret.width=this->width*size.width;
+        ret.height=this->height*size.height;
+        ret.length=this->length*size.length;
         return ret;
     }
     size3i16 operator*(size2i8 size){
         //
-        size3i16 ret;edkEnd();
-        ret.width=this->width*(edk::int16)size.width;edkEnd();
-        ret.height=this->height*(edk::int16)size.height;edkEnd();
+        size3i16 ret;
+        ret.width=this->width*(edk::int16)size.width;
+        ret.height=this->height*(edk::int16)size.height;
         return ret;
     }
     size3i16 operator*(edk::int8 n){
         //
-        size3i16 ret;edkEnd();
-        ret.width=this->width*(edk::int16)n;edkEnd();
-        ret.height=this->height*(edk::int16)n;edkEnd();
-        ret.length=this->length*(edk::int16)n;edkEnd();
+        size3i16 ret;
+        ret.width=this->width*(edk::int16)n;
+        ret.height=this->height*(edk::int16)n;
+        ret.length=this->length*(edk::int16)n;
         return ret;
     }
     size3i16 operator*(edk::int16 n){
         //
-        size3i16 ret;edkEnd();
-        ret.width=this->width*(edk::int16)n;edkEnd();
-        ret.height=this->height*(edk::int16)n;edkEnd();
-        ret.length=this->length*(edk::int16)n;edkEnd();
+        size3i16 ret;
+        ret.width=this->width*(edk::int16)n;
+        ret.height=this->height*(edk::int16)n;
+        ret.length=this->length*(edk::int16)n;
         return ret;
     }
     size3i16 operator*(edk::int32 n){
         //
-        size3i16 ret;edkEnd();
-        ret.width=this->width*(edk::int16)n;edkEnd();
-        ret.height=this->height*(edk::int16)n;edkEnd();
-        ret.length=this->length*(edk::int16)n;edkEnd();
+        size3i16 ret;
+        ret.width=this->width*(edk::int16)n;
+        ret.height=this->height*(edk::int16)n;
+        ret.length=this->length*(edk::int16)n;
         return ret;
     }
     size3i16 operator*(edk::int64 n){
         //
-        size3i16 ret;edkEnd();
-        ret.width=this->width*(edk::int16)n;edkEnd();
-        ret.height=this->height*(edk::int16)n;edkEnd();
-        ret.length=this->length*(edk::int16)n;edkEnd();
+        size3i16 ret;
+        ret.width=this->width*(edk::int16)n;
+        ret.height=this->height*(edk::int16)n;
+        ret.length=this->length*(edk::int16)n;
         return ret;
     }
     size3i16 operator*(edk::uint8 n){
         //
-        size3i16 ret;edkEnd();
-        ret.width=this->width*(edk::int16)n;edkEnd();
-        ret.height=this->height*(edk::int16)n;edkEnd();
-        ret.length=this->length*(edk::int16)n;edkEnd();
+        size3i16 ret;
+        ret.width=this->width*(edk::int16)n;
+        ret.height=this->height*(edk::int16)n;
+        ret.length=this->length*(edk::int16)n;
         return ret;
     }
     size3i16 operator*(edk::uint16 n){
         //
-        size3i16 ret;edkEnd();
-        ret.width=this->width*(edk::int16)n;edkEnd();
-        ret.height=this->height*(edk::int16)n;edkEnd();
-        ret.length=this->length*(edk::int16)n;edkEnd();
+        size3i16 ret;
+        ret.width=this->width*(edk::int16)n;
+        ret.height=this->height*(edk::int16)n;
+        ret.length=this->length*(edk::int16)n;
         return ret;
     }
     size3i16 operator*(edk::uint32 n){
         //
-        size3i16 ret;edkEnd();
-        ret.width=this->width*(edk::int16)n;edkEnd();
-        ret.height=this->height*(edk::int16)n;edkEnd();
-        ret.length=this->length*(edk::int16)n;edkEnd();
+        size3i16 ret;
+        ret.width=this->width*(edk::int16)n;
+        ret.height=this->height*(edk::int16)n;
+        ret.length=this->length*(edk::int16)n;
         return ret;
     }
     size3i16 operator*(edk::uint64 n){
         //
-        size3i16 ret;edkEnd();
-        ret.width=this->width*(edk::int16)n;edkEnd();
-        ret.height=this->height*(edk::int16)n;edkEnd();
-        ret.length=this->length*(edk::int16)n;edkEnd();
+        size3i16 ret;
+        ret.width=this->width*(edk::int16)n;
+        ret.height=this->height*(edk::int16)n;
+        ret.length=this->length*(edk::int16)n;
         return ret;
     }
 
     //*=
     void operator*=(size3i8 size){
         //
-        this->width*=(edk::int16)size.width;edkEnd();
-        this->height*=(edk::int16)size.height;edkEnd();
-        this->length*=(edk::int16)size.length;edkEnd();
+        this->width*=(edk::int16)size.width;
+        this->height*=(edk::int16)size.height;
+        this->length*=(edk::int16)size.length;
     }
     void operator*=(size3i16 size){
         //
-        this->width*=size.width;edkEnd();
-        this->height*=size.height;edkEnd();
-        this->length*=size.length;edkEnd();
+        this->width*=size.width;
+        this->height*=size.height;
+        this->length*=size.length;
     }
     void operator*=(size2i8 size){
         //
-        this->width*=(edk::int16)size.width;edkEnd();
-        this->height*=(edk::int16)size.height;edkEnd();
+        this->width*=(edk::int16)size.width;
+        this->height*=(edk::int16)size.height;
     }
     void operator*=(edk::int8 n){
         //
-        this->width*=(edk::int16)n;edkEnd();
-        this->height*=(edk::int16)n;edkEnd();
-        this->length*=(edk::int16)n;edkEnd();
+        this->width*=(edk::int16)n;
+        this->height*=(edk::int16)n;
+        this->length*=(edk::int16)n;
     }
     void operator*=(edk::int16 n){
         //
-        this->width*=(edk::int16)n;edkEnd();
-        this->height*=(edk::int16)n;edkEnd();
-        this->length*=(edk::int16)n;edkEnd();
+        this->width*=(edk::int16)n;
+        this->height*=(edk::int16)n;
+        this->length*=(edk::int16)n;
     }
     void operator*=(edk::int32 n){
         //
-        this->width*=(edk::int16)n;edkEnd();
-        this->height*=(edk::int16)n;edkEnd();
-        this->length*=(edk::int16)n;edkEnd();
+        this->width*=(edk::int16)n;
+        this->height*=(edk::int16)n;
+        this->length*=(edk::int16)n;
     }
     void operator*=(edk::int64 n){
         //
-        this->width*=(edk::int16)n;edkEnd();
-        this->height*=(edk::int16)n;edkEnd();
-        this->length*=(edk::int16)n;edkEnd();
+        this->width*=(edk::int16)n;
+        this->height*=(edk::int16)n;
+        this->length*=(edk::int16)n;
     }
     void operator*=(edk::uint8 n){
         //
-        this->width*=(edk::int16)n;edkEnd();
-        this->height*=(edk::int16)n;edkEnd();
-        this->length*=(edk::int16)n;edkEnd();
+        this->width*=(edk::int16)n;
+        this->height*=(edk::int16)n;
+        this->length*=(edk::int16)n;
     }
     void operator*=(edk::uint16 n){
         //
-        this->width*=(edk::int16)n;edkEnd();
-        this->height*=(edk::int16)n;edkEnd();
-        this->length*=(edk::int16)n;edkEnd();
+        this->width*=(edk::int16)n;
+        this->height*=(edk::int16)n;
+        this->length*=(edk::int16)n;
     }
     void operator*=(edk::uint32 n){
         //
-        this->width*=(edk::int16)n;edkEnd();
-        this->height*=(edk::int16)n;edkEnd();
-        this->length*=(edk::int16)n;edkEnd();
+        this->width*=(edk::int16)n;
+        this->height*=(edk::int16)n;
+        this->length*=(edk::int16)n;
     }
     void operator*=(edk::uint64 n){
         //
-        this->width*=(edk::int16)n;edkEnd();
-        this->height*=(edk::int16)n;edkEnd();
-        this->length*=(edk::int16)n;edkEnd();
+        this->width*=(edk::int16)n;
+        this->height*=(edk::int16)n;
+        this->length*=(edk::int16)n;
     }
 
     //++
     size3i16 operator++(){
         //
-        ++this->width;edkEnd();
-        ++this->height;edkEnd();
-        ++this->length;edkEnd();
-        return size3i16(this->width,this->height,this->length);edkEnd();
+        ++this->width;
+        ++this->height;
+        ++this->length;
+        return size3i16(this->width,this->height,this->length);
     }
     size3i16 operator++(edk::int32){
         //
-        this->width++;edkEnd();
-        this->height++;edkEnd();
-        this->length++;edkEnd();
-        return size3i16(this->width,this->height,this->length);edkEnd();
+        this->width++;
+        this->height++;
+        this->length++;
+        return size3i16(this->width,this->height,this->length);
     }
 
     //--
     size3i16 operator--(){
         //
-        --this->width;edkEnd();
-        --this->height;edkEnd();
-        --this->length;edkEnd();
-        return size3i16(this->width,this->height,this->length);edkEnd();
+        --this->width;
+        --this->height;
+        --this->length;
+        return size3i16(this->width,this->height,this->length);
     }
     size3i16 operator--(edk::int32){
         //
-        this->width--;edkEnd();
-        this->height--;edkEnd();
-        this->length--;edkEnd();
-        return size3i16(this->width,this->height,this->length);edkEnd();
+        this->width--;
+        this->height--;
+        this->length--;
+        return size3i16(this->width,this->height,this->length);
     }
 
     //
     size3i16 operator()(edk::int8 width,edk::int8 height,edk::int8 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3i16((edk::int16)this->width,(edk::int16)this->height,(edk::int16)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3i16((edk::int16)this->width,(edk::int16)this->height,(edk::int16)this->length);
     }
     size3i16 operator()(edk::int16 width,edk::int16 height,edk::int16 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3i16((edk::int16)this->width,(edk::int16)this->height,(edk::int16)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3i16((edk::int16)this->width,(edk::int16)this->height,(edk::int16)this->length);
     }
     size3i16 operator()(edk::int32 width,edk::int32 height,edk::int32 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3i16((edk::int16)this->width,(edk::int16)this->height,(edk::int16)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3i16((edk::int16)this->width,(edk::int16)this->height,(edk::int16)this->length);
     }
     size3i16 operator()(edk::int64 width,edk::int64 height,edk::int64 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3i16((edk::int16)this->width,(edk::int16)this->height,(edk::int16)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3i16((edk::int16)this->width,(edk::int16)this->height,(edk::int16)this->length);
     }
     size3i16 operator()(edk::uint8 width,edk::uint8 height,edk::uint8 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3i16((edk::int16)this->width,(edk::int16)this->height,(edk::int16)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3i16((edk::int16)this->width,(edk::int16)this->height,(edk::int16)this->length);
     }
     size3i16 operator()(edk::uint16 width,edk::uint16 height,edk::uint16 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3i16((edk::int16)this->width,(edk::int16)this->height,(edk::int16)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3i16((edk::int16)this->width,(edk::int16)this->height,(edk::int16)this->length);
     }
     size3i16 operator()(edk::uint32 width,edk::uint32 height,edk::uint32 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3i16((edk::int16)this->width,(edk::int16)this->height,(edk::int16)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3i16((edk::int16)this->width,(edk::int16)this->height,(edk::int16)this->length);
     }
     size3i16 operator()(edk::uint64 width,edk::uint64 height,edk::uint64 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3i16((edk::int16)this->width,(edk::int16)this->height,(edk::int16)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3i16((edk::int16)this->width,(edk::int16)this->height,(edk::int16)this->length);
     }
 };
 
@@ -1523,817 +1523,817 @@ public:
     //CONSTRUTOR
     size3i32(){
         //zera as variaveis
-        this->width=this->height=this->length=0;edkEnd();
+        this->width=this->height=this->length=0;
     }
     size3i32(edk::int8 width,edk::int8 height,edk::int8 length){
         //zera as variaveis
-        this->width=(edk::int32)width;edkEnd();
-        this->height=(edk::int32)height;edkEnd();
-        this->length=(edk::int32)length;edkEnd();
+        this->width=(edk::int32)width;
+        this->height=(edk::int32)height;
+        this->length=(edk::int32)length;
     }
     size3i32(edk::int16 width,edk::int16 height,edk::int16 length){
         //zera as variaveis
-        this->width=(edk::int32)width;edkEnd();
-        this->height=(edk::int32)height;edkEnd();
-        this->length=(edk::int32)length;edkEnd();
+        this->width=(edk::int32)width;
+        this->height=(edk::int32)height;
+        this->length=(edk::int32)length;
     }
     size3i32(edk::int32 width,edk::int32 height,edk::int32 length){
         //zera as variaveis
-        this->width=(edk::int32)width;edkEnd();
-        this->height=(edk::int32)height;edkEnd();
-        this->length=(edk::int32)length;edkEnd();
+        this->width=(edk::int32)width;
+        this->height=(edk::int32)height;
+        this->length=(edk::int32)length;
     }
     size3i32(edk::int64 width,edk::int64 height,edk::int64 length){
         //zera as variaveis
-        this->width=(edk::int32)width;edkEnd();
-        this->height=(edk::int32)height;edkEnd();
-        this->length=(edk::int32)length;edkEnd();
+        this->width=(edk::int32)width;
+        this->height=(edk::int32)height;
+        this->length=(edk::int32)length;
     }
     size3i32(edk::uint8 width,edk::uint8 height,edk::uint8 length){
         //zera as variaveis
-        this->width=(edk::int32)width;edkEnd();
-        this->height=(edk::int32)height;edkEnd();
-        this->length=(edk::int32)length;edkEnd();
+        this->width=(edk::int32)width;
+        this->height=(edk::int32)height;
+        this->length=(edk::int32)length;
     }
     size3i32(edk::uint16 width,edk::uint16 height,edk::uint16 length){
         //zera as variaveis
-        this->width=(edk::int32)width;edkEnd();
-        this->height=(edk::int32)height;edkEnd();
-        this->length=(edk::int32)length;edkEnd();
+        this->width=(edk::int32)width;
+        this->height=(edk::int32)height;
+        this->length=(edk::int32)length;
     }
     size3i32(edk::uint32 width,edk::uint32 height,edk::uint32 length){
         //zera as variaveis
-        this->width=(edk::int32)width;edkEnd();
-        this->height=(edk::int32)height;edkEnd();
-        this->length=(edk::int32)length;edkEnd();
+        this->width=(edk::int32)width;
+        this->height=(edk::int32)height;
+        this->length=(edk::int32)length;
     }
     size3i32(edk::uint64 width,edk::uint64 height,edk::uint64 length){
         //zera as variaveis
-        this->width=(edk::int32)width;edkEnd();
-        this->height=(edk::int32)height;edkEnd();
-        this->length=(edk::int32)length;edkEnd();
+        this->width=(edk::int32)width;
+        this->height=(edk::int32)height;
+        this->length=(edk::int32)length;
     }
     size3i32(edk::int8 size){
         //zera as variaveis
-        this->width=(edk::int32)size;edkEnd();
-        this->height=(edk::int32)size;edkEnd();
-        this->length=(edk::int32)size;edkEnd();
+        this->width=(edk::int32)size;
+        this->height=(edk::int32)size;
+        this->length=(edk::int32)size;
     }
     size3i32(edk::int16 size){
         //zera as variaveis
-        this->width=(edk::int32)size;edkEnd();
-        this->height=(edk::int32)size;edkEnd();
-        this->length=(edk::int32)size;edkEnd();
+        this->width=(edk::int32)size;
+        this->height=(edk::int32)size;
+        this->length=(edk::int32)size;
     }
     size3i32(edk::int32 size){
         //zera as variaveis
-        this->width=(edk::int32)size;edkEnd();
-        this->height=(edk::int32)size;edkEnd();
-        this->length=(edk::int32)size;edkEnd();
+        this->width=(edk::int32)size;
+        this->height=(edk::int32)size;
+        this->length=(edk::int32)size;
     }
     size3i32(edk::int64 size){
         //zera as variaveis
-        this->width=(edk::int32)size;edkEnd();
-        this->height=(edk::int32)size;edkEnd();
-        this->length=(edk::int32)size;edkEnd();
+        this->width=(edk::int32)size;
+        this->height=(edk::int32)size;
+        this->length=(edk::int32)size;
     }
     size3i32(edk::uint8 size){
         //zera as variaveis
-        this->width=(edk::int32)size;edkEnd();
-        this->height=(edk::int32)size;edkEnd();
-        this->length=(edk::int32)size;edkEnd();
+        this->width=(edk::int32)size;
+        this->height=(edk::int32)size;
+        this->length=(edk::int32)size;
     }
     size3i32(edk::uint16 size){
         //zera as variaveis
-        this->width=(edk::int32)size;edkEnd();
-        this->height=(edk::int32)size;edkEnd();
-        this->length=(edk::int32)size;edkEnd();
+        this->width=(edk::int32)size;
+        this->height=(edk::int32)size;
+        this->length=(edk::int32)size;
     }
     size3i32(edk::uint32 size){
         //zera as variaveis
-        this->width=(edk::int32)size;edkEnd();
-        this->height=(edk::int32)size;edkEnd();
-        this->length=(edk::int32)size;edkEnd();
+        this->width=(edk::int32)size;
+        this->height=(edk::int32)size;
+        this->length=(edk::int32)size;
     }
     size3i32(edk::uint64 size){
         //zera as variaveis
-        this->width=(edk::int32)size;edkEnd();
-        this->height=(edk::int32)size;edkEnd();
-        this->length=(edk::int32)size;edkEnd();
+        this->width=(edk::int32)size;
+        this->height=(edk::int32)size;
+        this->length=(edk::int32)size;
     }
     //operators
 
     //=
     size3i32 operator=(size3i8 size){
         //
-        this->width=(edk::int32)size.width;edkEnd();
-        this->height=(edk::int32)size.height;edkEnd();
-        this->length=size.length;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::int32)size.width;
+        this->height=(edk::int32)size.height;
+        this->length=size.length;
+        return *this;
     }
     size3i32 operator=(size3i16 size){
         //
-        this->width=(edk::int32)size.width;edkEnd();
-        this->height=(edk::int32)size.height;edkEnd();
-        this->length=size.length;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::int32)size.width;
+        this->height=(edk::int32)size.height;
+        this->length=size.length;
+        return *this;
     }
     size3i32 operator=(size3i32 size){
         //
-        this->width=size.width;edkEnd();
-        this->height=size.height;edkEnd();
-        this->length=size.length;edkEnd();
-        return *this;edkEnd();
+        this->width=size.width;
+        this->height=size.height;
+        this->length=size.length;
+        return *this;
     }
     size3i32 operator=(size2i8 size){
         //
-        this->width=(edk::int32)size.width;edkEnd();
-        this->height=(edk::int32)size.height;edkEnd();
-        this->length=(edk::int32)0;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::int32)size.width;
+        this->height=(edk::int32)size.height;
+        this->length=(edk::int32)0;
+        return *this;
     }
     size3i32 operator=(edk::int8 n){
         //
-        this->width=(edk::int32)n;edkEnd();
-        this->height=(edk::int32)n;edkEnd();
-        this->length=(edk::int32)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::int32)n;
+        this->height=(edk::int32)n;
+        this->length=(edk::int32)n;
+        return *this;
     }
     size3i32 operator=(edk::int16 n){
         //
-        this->width=(edk::int32)n;edkEnd();
-        this->height=(edk::int32)n;edkEnd();
-        this->length=(edk::int32)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::int32)n;
+        this->height=(edk::int32)n;
+        this->length=(edk::int32)n;
+        return *this;
     }
     size3i32 operator=(edk::int32 n){
         //
-        this->width=(edk::int32)n;edkEnd();
-        this->height=(edk::int32)n;edkEnd();
-        this->length=(edk::int32)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::int32)n;
+        this->height=(edk::int32)n;
+        this->length=(edk::int32)n;
+        return *this;
     }
     size3i32 operator=(edk::int64 n){
         //
-        this->width=(edk::int32)n;edkEnd();
-        this->height=(edk::int32)n;edkEnd();
-        this->length=(edk::int32)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::int32)n;
+        this->height=(edk::int32)n;
+        this->length=(edk::int32)n;
+        return *this;
     }
     size3i32 operator=(edk::uint8 n){
         //
-        this->width=(edk::int32)n;edkEnd();
-        this->height=(edk::int32)n;edkEnd();
-        this->length=(edk::int32)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::int32)n;
+        this->height=(edk::int32)n;
+        this->length=(edk::int32)n;
+        return *this;
     }
     size3i32 operator=(edk::uint16 n){
         //
-        this->width=(edk::int32)n;edkEnd();
-        this->height=(edk::int32)n;edkEnd();
-        this->length=(edk::int32)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::int32)n;
+        this->height=(edk::int32)n;
+        this->length=(edk::int32)n;
+        return *this;
     }
     size3i32 operator=(edk::uint32 n){
         //
-        this->width=(edk::int32)n;edkEnd();
-        this->height=(edk::int32)n;edkEnd();
-        this->length=(edk::int32)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::int32)n;
+        this->height=(edk::int32)n;
+        this->length=(edk::int32)n;
+        return *this;
     }
     size3i32 operator=(edk::uint64 n){
         //
-        this->width=(edk::int32)n;edkEnd();
-        this->height=(edk::int32)n;edkEnd();
-        this->length=(edk::int32)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::int32)n;
+        this->height=(edk::int32)n;
+        this->length=(edk::int32)n;
+        return *this;
     }
 
     //==
     bool operator==(size3i8 size){
         //
-        return (this->width==(edk::int32)size.width&&this->height==(edk::int32)size.height&&this->length==(edk::int32)size.length);edkEnd();
+        return (this->width==(edk::int32)size.width&&this->height==(edk::int32)size.height&&this->length==(edk::int32)size.length);
     }
     bool operator==(size3i16 size){
         //
-        return (this->width==(edk::int32)size.width&&this->height==(edk::int32)size.height&&this->length==(edk::int32)size.length);edkEnd();
+        return (this->width==(edk::int32)size.width&&this->height==(edk::int32)size.height&&this->length==(edk::int32)size.length);
     }
     bool operator==(size3i32 size){
         //
-        return (this->width==size.width&&this->height==size.height&&this->length==size.length);edkEnd();
+        return (this->width==size.width&&this->height==size.height&&this->length==size.length);
     }
     //!=
     bool operator!=(size3i8 size){
         //
-        return (this->width!=(edk::int32)size.width||this->height!=(edk::int32)size.height||this->length!=(edk::int32)size.length);edkEnd();
+        return (this->width!=(edk::int32)size.width||this->height!=(edk::int32)size.height||this->length!=(edk::int32)size.length);
     }
     bool operator!=(size3i16 size){
         //
-        return (this->width!=(edk::int32)size.width||this->height!=(edk::int32)size.height||this->length!=(edk::int32)size.length);edkEnd();
+        return (this->width!=(edk::int32)size.width||this->height!=(edk::int32)size.height||this->length!=(edk::int32)size.length);
     }
     bool operator!=(size3i32 size){
         //
-        return (this->width!=size.width||this->height!=size.height||this->length!=size.length);edkEnd();
+        return (this->width!=size.width||this->height!=size.height||this->length!=size.length);
     }
 
     //+
     size3i32 operator+(size3i8 size){
         //
-        size3i32 ret;edkEnd();
-        ret.width=this->width+(edk::int32)size.width;edkEnd();
-        ret.height=this->height+(edk::int32)size.height;edkEnd();
-        ret.length=this->length+(edk::int32)size.length;edkEnd();
+        size3i32 ret;
+        ret.width=this->width+(edk::int32)size.width;
+        ret.height=this->height+(edk::int32)size.height;
+        ret.length=this->length+(edk::int32)size.length;
         return ret;
     }
     size3i32 operator+(size3i16 size){
         //
-        size3i32 ret;edkEnd();
-        ret.width=this->width+(edk::int32)size.width;edkEnd();
-        ret.height=this->height+(edk::int32)size.height;edkEnd();
-        ret.length=this->length+(edk::int32)size.length;edkEnd();
+        size3i32 ret;
+        ret.width=this->width+(edk::int32)size.width;
+        ret.height=this->height+(edk::int32)size.height;
+        ret.length=this->length+(edk::int32)size.length;
         return ret;
     }
     size3i32 operator+(size3i32 size){
         //
-        size3i32 ret;edkEnd();
-        ret.width=this->width+size.width;edkEnd();
-        ret.height=this->height+size.height;edkEnd();
-        ret.length=this->length+size.length;edkEnd();
+        size3i32 ret;
+        ret.width=this->width+size.width;
+        ret.height=this->height+size.height;
+        ret.length=this->length+size.length;
         return ret;
     }
     size3i32 operator+(size2i8 size){
         //
-        size3i32 ret;edkEnd();
-        ret.width=this->width+(edk::int32)size.width;edkEnd();
-        ret.height=this->height+(edk::int32)size.height;edkEnd();
+        size3i32 ret;
+        ret.width=this->width+(edk::int32)size.width;
+        ret.height=this->height+(edk::int32)size.height;
         return ret;
     }
     size3i32 operator+(edk::int8 n){
         //
-        size3i32 ret;edkEnd();
-        ret.width=this->width+(edk::int32)n;edkEnd();
-        ret.height=this->height+(edk::int32)n;edkEnd();
-        ret.length=this->length+(edk::int32)n;edkEnd();
+        size3i32 ret;
+        ret.width=this->width+(edk::int32)n;
+        ret.height=this->height+(edk::int32)n;
+        ret.length=this->length+(edk::int32)n;
         return ret;
     }
     size3i32 operator+(edk::int16 n){
         //
-        size3i32 ret;edkEnd();
-        ret.width=this->width+(edk::int32)n;edkEnd();
-        ret.height=this->height+(edk::int32)n;edkEnd();
-        ret.length=this->length+(edk::int32)n;edkEnd();
+        size3i32 ret;
+        ret.width=this->width+(edk::int32)n;
+        ret.height=this->height+(edk::int32)n;
+        ret.length=this->length+(edk::int32)n;
         return ret;
     }
     size3i32 operator+(edk::int32 n){
         //
-        size3i32 ret;edkEnd();
-        ret.width=this->width+(edk::int32)n;edkEnd();
-        ret.height=this->height+(edk::int32)n;edkEnd();
-        ret.length=this->length+(edk::int32)n;edkEnd();
+        size3i32 ret;
+        ret.width=this->width+(edk::int32)n;
+        ret.height=this->height+(edk::int32)n;
+        ret.length=this->length+(edk::int32)n;
         return ret;
     }
     size3i32 operator+(edk::int64 n){
         //
-        size3i32 ret;edkEnd();
-        ret.width=this->width+(edk::int32)n;edkEnd();
-        ret.height=this->height+(edk::int32)n;edkEnd();
-        ret.length=this->length+(edk::int32)n;edkEnd();
+        size3i32 ret;
+        ret.width=this->width+(edk::int32)n;
+        ret.height=this->height+(edk::int32)n;
+        ret.length=this->length+(edk::int32)n;
         return ret;
     }
     size3i32 operator+(edk::uint8 n){
         //
-        size3i32 ret;edkEnd();
-        ret.width=this->width+(edk::int32)n;edkEnd();
-        ret.height=this->height+(edk::int32)n;edkEnd();
-        ret.length=this->length+(edk::int32)n;edkEnd();
+        size3i32 ret;
+        ret.width=this->width+(edk::int32)n;
+        ret.height=this->height+(edk::int32)n;
+        ret.length=this->length+(edk::int32)n;
         return ret;
     }
     size3i32 operator+(edk::uint16 n){
         //
-        size3i32 ret;edkEnd();
-        ret.width=this->width+(edk::int32)n;edkEnd();
-        ret.height=this->height+(edk::int32)n;edkEnd();
-        ret.length=this->length+(edk::int32)n;edkEnd();
+        size3i32 ret;
+        ret.width=this->width+(edk::int32)n;
+        ret.height=this->height+(edk::int32)n;
+        ret.length=this->length+(edk::int32)n;
         return ret;
     }
     size3i32 operator+(edk::uint32 n){
         //
-        size3i32 ret;edkEnd();
-        ret.width=this->width+(edk::int32)n;edkEnd();
-        ret.height=this->height+(edk::int32)n;edkEnd();
-        ret.length=this->length+(edk::int32)n;edkEnd();
+        size3i32 ret;
+        ret.width=this->width+(edk::int32)n;
+        ret.height=this->height+(edk::int32)n;
+        ret.length=this->length+(edk::int32)n;
         return ret;
     }
     size3i32 operator+(edk::uint64 n){
         //
-        size3i32 ret;edkEnd();
-        ret.width=this->width+(edk::int32)n;edkEnd();
-        ret.height=this->height+(edk::int32)n;edkEnd();
-        ret.length=this->length+(edk::int32)n;edkEnd();
+        size3i32 ret;
+        ret.width=this->width+(edk::int32)n;
+        ret.height=this->height+(edk::int32)n;
+        ret.length=this->length+(edk::int32)n;
         return ret;
     }
 
     //+=
     void operator+=(size3i8 size){
         //
-        this->width+=(edk::int32)size.width;edkEnd();
-        this->height+=(edk::int32)size.height;edkEnd();
-        this->length+=(edk::int32)size.length;edkEnd();
+        this->width+=(edk::int32)size.width;
+        this->height+=(edk::int32)size.height;
+        this->length+=(edk::int32)size.length;
     }
     void operator+=(size3i16 size){
         //
-        this->width+=(edk::int32)size.width;edkEnd();
-        this->height+=(edk::int32)size.height;edkEnd();
-        this->length+=(edk::int32)size.length;edkEnd();
+        this->width+=(edk::int32)size.width;
+        this->height+=(edk::int32)size.height;
+        this->length+=(edk::int32)size.length;
     }
     void operator+=(size3i32 size){
         //
-        this->width+=size.width;edkEnd();
-        this->height+=size.height;edkEnd();
-        this->length+=size.length;edkEnd();
+        this->width+=size.width;
+        this->height+=size.height;
+        this->length+=size.length;
     }
     void operator+=(size2i8 size){
         //
-        this->width+=(edk::int32)size.width;edkEnd();
-        this->height+=(edk::int32)size.height;edkEnd();
+        this->width+=(edk::int32)size.width;
+        this->height+=(edk::int32)size.height;
     }
     void operator+=(edk::int8 n){
         //
-        this->width+=(edk::int32)n;edkEnd();
-        this->height+=(edk::int32)n;edkEnd();
-        this->length+=(edk::int32)n;edkEnd();
+        this->width+=(edk::int32)n;
+        this->height+=(edk::int32)n;
+        this->length+=(edk::int32)n;
     }
     void operator+=(edk::int16 n){
         //
-        this->width+=(edk::int32)n;edkEnd();
-        this->height+=(edk::int32)n;edkEnd();
-        this->length+=(edk::int32)n;edkEnd();
+        this->width+=(edk::int32)n;
+        this->height+=(edk::int32)n;
+        this->length+=(edk::int32)n;
     }
     void operator+=(edk::int32 n){
         //
-        this->width+=(edk::int32)n;edkEnd();
-        this->height+=(edk::int32)n;edkEnd();
-        this->length+=(edk::int32)n;edkEnd();
+        this->width+=(edk::int32)n;
+        this->height+=(edk::int32)n;
+        this->length+=(edk::int32)n;
     }
     void operator+=(edk::int64 n){
         //
-        this->width+=(edk::int32)n;edkEnd();
-        this->height+=(edk::int32)n;edkEnd();
-        this->length+=(edk::int32)n;edkEnd();
+        this->width+=(edk::int32)n;
+        this->height+=(edk::int32)n;
+        this->length+=(edk::int32)n;
     }
     void operator+=(edk::uint8 n){
         //
-        this->width+=(edk::int32)n;edkEnd();
-        this->height+=(edk::int32)n;edkEnd();
-        this->length+=(edk::int32)n;edkEnd();
+        this->width+=(edk::int32)n;
+        this->height+=(edk::int32)n;
+        this->length+=(edk::int32)n;
     }
     void operator+=(edk::uint16 n){
         //
-        this->width+=(edk::int32)n;edkEnd();
-        this->height+=(edk::int32)n;edkEnd();
-        this->length+=(edk::int32)n;edkEnd();
+        this->width+=(edk::int32)n;
+        this->height+=(edk::int32)n;
+        this->length+=(edk::int32)n;
     }
     void operator+=(edk::uint32 n){
         //
-        this->width+=(edk::int32)n;edkEnd();
-        this->height+=(edk::int32)n;edkEnd();
-        this->length+=(edk::int32)n;edkEnd();
+        this->width+=(edk::int32)n;
+        this->height+=(edk::int32)n;
+        this->length+=(edk::int32)n;
     }
     void operator+=(edk::uint64 n){
         //
-        this->width+=(edk::int32)n;edkEnd();
-        this->height+=(edk::int32)n;edkEnd();
-        this->length+=(edk::int32)n;edkEnd();
+        this->width+=(edk::int32)n;
+        this->height+=(edk::int32)n;
+        this->length+=(edk::int32)n;
     }
 
     //-
     size3i32 operator-(size3i8 size){
         //
-        size3i32 ret;edkEnd();
-        ret.width=this->width-(edk::int32)size.width;edkEnd();
-        ret.height=this->height-(edk::int32)size.height;edkEnd();
-        ret.length=this->length-(edk::int32)size.length;edkEnd();
+        size3i32 ret;
+        ret.width=this->width-(edk::int32)size.width;
+        ret.height=this->height-(edk::int32)size.height;
+        ret.length=this->length-(edk::int32)size.length;
         return ret;
     }
     size3i32 operator-(size3i16 size){
         //
-        size3i32 ret;edkEnd();
-        ret.width=this->width-(edk::int32)size.width;edkEnd();
-        ret.height=this->height-(edk::int32)size.height;edkEnd();
-        ret.length=this->length-(edk::int32)size.length;edkEnd();
+        size3i32 ret;
+        ret.width=this->width-(edk::int32)size.width;
+        ret.height=this->height-(edk::int32)size.height;
+        ret.length=this->length-(edk::int32)size.length;
         return ret;
     }
     size3i32 operator-(size3i32 size){
         //
-        size3i32 ret;edkEnd();
-        ret.width=this->width-size.width;edkEnd();
-        ret.height=this->height-size.height;edkEnd();
-        ret.length=this->length-size.length;edkEnd();
+        size3i32 ret;
+        ret.width=this->width-size.width;
+        ret.height=this->height-size.height;
+        ret.length=this->length-size.length;
         return ret;
     }
     size3i32 operator-(size2i8 size){
         //
-        size3i32 ret;edkEnd();
-        ret.width=this->width-(edk::int32)size.width;edkEnd();
-        ret.height=this->height-(edk::int32)size.height;edkEnd();
+        size3i32 ret;
+        ret.width=this->width-(edk::int32)size.width;
+        ret.height=this->height-(edk::int32)size.height;
         return ret;
     }
     size3i32 operator-(edk::int8 n){
         //
-        size3i32 ret;edkEnd();
-        ret.width=this->width-(edk::int32)n;edkEnd();
-        ret.height=this->height-(edk::int32)n;edkEnd();
-        ret.length=this->length-(edk::int32)n;edkEnd();
+        size3i32 ret;
+        ret.width=this->width-(edk::int32)n;
+        ret.height=this->height-(edk::int32)n;
+        ret.length=this->length-(edk::int32)n;
         return ret;
     }
     size3i32 operator-(edk::int16 n){
         //
-        size3i32 ret;edkEnd();
-        ret.width=this->width-(edk::int32)n;edkEnd();
-        ret.height=this->height-(edk::int32)n;edkEnd();
-        ret.length=this->length-(edk::int32)n;edkEnd();
+        size3i32 ret;
+        ret.width=this->width-(edk::int32)n;
+        ret.height=this->height-(edk::int32)n;
+        ret.length=this->length-(edk::int32)n;
         return ret;
     }
     size3i32 operator-(edk::int32 n){
         //
-        size3i32 ret;edkEnd();
-        ret.width=this->width-(edk::int32)n;edkEnd();
-        ret.height=this->height-(edk::int32)n;edkEnd();
-        ret.length=this->length-(edk::int32)n;edkEnd();
+        size3i32 ret;
+        ret.width=this->width-(edk::int32)n;
+        ret.height=this->height-(edk::int32)n;
+        ret.length=this->length-(edk::int32)n;
         return ret;
     }
     size3i32 operator-(edk::int64 n){
         //
-        size3i32 ret;edkEnd();
-        ret.width=this->width-(edk::int32)n;edkEnd();
-        ret.height=this->height-(edk::int32)n;edkEnd();
-        ret.length=this->length-(edk::int32)n;edkEnd();
+        size3i32 ret;
+        ret.width=this->width-(edk::int32)n;
+        ret.height=this->height-(edk::int32)n;
+        ret.length=this->length-(edk::int32)n;
         return ret;
     }
     size3i32 operator-(edk::uint8 n){
         //
-        size3i32 ret;edkEnd();
-        ret.width=this->width-(edk::int32)n;edkEnd();
-        ret.height=this->height-(edk::int32)n;edkEnd();
-        ret.length=this->length-(edk::int32)n;edkEnd();
+        size3i32 ret;
+        ret.width=this->width-(edk::int32)n;
+        ret.height=this->height-(edk::int32)n;
+        ret.length=this->length-(edk::int32)n;
         return ret;
     }
     size3i32 operator-(edk::uint16 n){
         //
-        size3i32 ret;edkEnd();
-        ret.width=this->width-(edk::int32)n;edkEnd();
-        ret.height=this->height-(edk::int32)n;edkEnd();
-        ret.length=this->length-(edk::int32)n;edkEnd();
+        size3i32 ret;
+        ret.width=this->width-(edk::int32)n;
+        ret.height=this->height-(edk::int32)n;
+        ret.length=this->length-(edk::int32)n;
         return ret;
     }
     size3i32 operator-(edk::uint32 n){
         //
-        size3i32 ret;edkEnd();
-        ret.width=this->width-(edk::int32)n;edkEnd();
-        ret.height=this->height-(edk::int32)n;edkEnd();
-        ret.length=this->length-(edk::int32)n;edkEnd();
+        size3i32 ret;
+        ret.width=this->width-(edk::int32)n;
+        ret.height=this->height-(edk::int32)n;
+        ret.length=this->length-(edk::int32)n;
         return ret;
     }
     size3i32 operator-(edk::uint64 n){
         //
-        size3i32 ret;edkEnd();
-        ret.width=this->width-(edk::int32)n;edkEnd();
-        ret.height=this->height-(edk::int32)n;edkEnd();
-        ret.length=this->length-(edk::int32)n;edkEnd();
+        size3i32 ret;
+        ret.width=this->width-(edk::int32)n;
+        ret.height=this->height-(edk::int32)n;
+        ret.length=this->length-(edk::int32)n;
         return ret;
     }
 
     //-=
     void operator-=(size3i8 size){
         //
-        this->width-=(edk::int32)size.width;edkEnd();
-        this->height-=(edk::int32)size.height;edkEnd();
-        this->length-=(edk::int32)size.length;edkEnd();
+        this->width-=(edk::int32)size.width;
+        this->height-=(edk::int32)size.height;
+        this->length-=(edk::int32)size.length;
     }
     void operator-=(size3i16 size){
         //
-        this->width-=(edk::int32)size.width;edkEnd();
-        this->height-=(edk::int32)size.height;edkEnd();
-        this->length-=(edk::int32)size.length;edkEnd();
+        this->width-=(edk::int32)size.width;
+        this->height-=(edk::int32)size.height;
+        this->length-=(edk::int32)size.length;
     }
     void operator-=(size3i32 size){
         //
-        this->width-=size.width;edkEnd();
-        this->height-=size.height;edkEnd();
-        this->length-=size.length;edkEnd();
+        this->width-=size.width;
+        this->height-=size.height;
+        this->length-=size.length;
     }
     void operator-=(size2i8 size){
         //
-        this->width-=(edk::int32)size.width;edkEnd();
-        this->height-=(edk::int32)size.height;edkEnd();
+        this->width-=(edk::int32)size.width;
+        this->height-=(edk::int32)size.height;
     }
     void operator-=(edk::int8 n){
         //
-        this->width-=(edk::int32)n;edkEnd();
-        this->height-=(edk::int32)n;edkEnd();
-        this->length-=(edk::int32)n;edkEnd();
+        this->width-=(edk::int32)n;
+        this->height-=(edk::int32)n;
+        this->length-=(edk::int32)n;
     }
     void operator-=(edk::int16 n){
         //
-        this->width-=(edk::int32)n;edkEnd();
-        this->height-=(edk::int32)n;edkEnd();
-        this->length-=(edk::int32)n;edkEnd();
+        this->width-=(edk::int32)n;
+        this->height-=(edk::int32)n;
+        this->length-=(edk::int32)n;
     }
     void operator-=(edk::int32 n){
         //
-        this->width-=(edk::int32)n;edkEnd();
-        this->height-=(edk::int32)n;edkEnd();
-        this->length-=(edk::int32)n;edkEnd();
+        this->width-=(edk::int32)n;
+        this->height-=(edk::int32)n;
+        this->length-=(edk::int32)n;
     }
     void operator-=(edk::int64 n){
         //
-        this->width-=(edk::int32)n;edkEnd();
-        this->height-=(edk::int32)n;edkEnd();
-        this->length-=(edk::int32)n;edkEnd();
+        this->width-=(edk::int32)n;
+        this->height-=(edk::int32)n;
+        this->length-=(edk::int32)n;
     }
     void operator-=(edk::uint8 n){
         //
-        this->width-=(edk::int32)n;edkEnd();
-        this->height-=(edk::int32)n;edkEnd();
-        this->length-=(edk::int32)n;edkEnd();
+        this->width-=(edk::int32)n;
+        this->height-=(edk::int32)n;
+        this->length-=(edk::int32)n;
     }
     void operator-=(edk::uint16 n){
         //
-        this->width-=(edk::int32)n;edkEnd();
-        this->height-=(edk::int32)n;edkEnd();
-        this->length-=(edk::int32)n;edkEnd();
+        this->width-=(edk::int32)n;
+        this->height-=(edk::int32)n;
+        this->length-=(edk::int32)n;
     }
     void operator-=(edk::uint32 n){
         //
-        this->width-=(edk::int32)n;edkEnd();
-        this->height-=(edk::int32)n;edkEnd();
-        this->length-=(edk::int32)n;edkEnd();
+        this->width-=(edk::int32)n;
+        this->height-=(edk::int32)n;
+        this->length-=(edk::int32)n;
     }
     void operator-=(edk::uint64 n){
         //
-        this->width-=(edk::int32)n;edkEnd();
-        this->height-=(edk::int32)n;edkEnd();
-        this->length-=(edk::int32)n;edkEnd();
+        this->width-=(edk::int32)n;
+        this->height-=(edk::int32)n;
+        this->length-=(edk::int32)n;
     }
 
     //*
     size3i32 operator*(size3i8 size){
         //
-        size3i32 ret;edkEnd();
-        ret.width=this->width*(edk::int32)size.width;edkEnd();
-        ret.height=this->height*(edk::int32)size.height;edkEnd();
-        ret.length=this->length*(edk::int32)size.length;edkEnd();
+        size3i32 ret;
+        ret.width=this->width*(edk::int32)size.width;
+        ret.height=this->height*(edk::int32)size.height;
+        ret.length=this->length*(edk::int32)size.length;
         return ret;
     }
     size3i32 operator*(size3i16 size){
         //
-        size3i32 ret;edkEnd();
-        ret.width=this->width*(edk::int32)size.width;edkEnd();
-        ret.height=this->height*(edk::int32)size.height;edkEnd();
-        ret.length=this->length*(edk::int32)size.length;edkEnd();
+        size3i32 ret;
+        ret.width=this->width*(edk::int32)size.width;
+        ret.height=this->height*(edk::int32)size.height;
+        ret.length=this->length*(edk::int32)size.length;
         return ret;
     }
     size3i32 operator*(size3i32 size){
         //
-        size3i32 ret;edkEnd();
-        ret.width=this->width*size.width;edkEnd();
-        ret.height=this->height*size.height;edkEnd();
-        ret.length=this->length*size.length;edkEnd();
+        size3i32 ret;
+        ret.width=this->width*size.width;
+        ret.height=this->height*size.height;
+        ret.length=this->length*size.length;
         return ret;
     }
     size3i32 operator*(size2i8 size){
         //
-        size3i32 ret;edkEnd();
-        ret.width=this->width*(edk::int32)size.width;edkEnd();
-        ret.height=this->height*(edk::int32)size.height;edkEnd();
+        size3i32 ret;
+        ret.width=this->width*(edk::int32)size.width;
+        ret.height=this->height*(edk::int32)size.height;
         return ret;
     }
     size3i32 operator*(edk::int8 n){
         //
-        size3i32 ret;edkEnd();
-        ret.width=this->width*(edk::int32)n;edkEnd();
-        ret.height=this->height*(edk::int32)n;edkEnd();
-        ret.length=this->length*(edk::int32)n;edkEnd();
+        size3i32 ret;
+        ret.width=this->width*(edk::int32)n;
+        ret.height=this->height*(edk::int32)n;
+        ret.length=this->length*(edk::int32)n;
         return ret;
     }
     size3i32 operator*(edk::int16 n){
         //
-        size3i32 ret;edkEnd();
-        ret.width=this->width*(edk::int32)n;edkEnd();
-        ret.height=this->height*(edk::int32)n;edkEnd();
-        ret.length=this->length*(edk::int32)n;edkEnd();
+        size3i32 ret;
+        ret.width=this->width*(edk::int32)n;
+        ret.height=this->height*(edk::int32)n;
+        ret.length=this->length*(edk::int32)n;
         return ret;
     }
     size3i32 operator*(edk::int32 n){
         //
-        size3i32 ret;edkEnd();
-        ret.width=this->width*(edk::int32)n;edkEnd();
-        ret.height=this->height*(edk::int32)n;edkEnd();
-        ret.length=this->length*(edk::int32)n;edkEnd();
+        size3i32 ret;
+        ret.width=this->width*(edk::int32)n;
+        ret.height=this->height*(edk::int32)n;
+        ret.length=this->length*(edk::int32)n;
         return ret;
     }
     size3i32 operator*(edk::int64 n){
         //
-        size3i32 ret;edkEnd();
-        ret.width=this->width*(edk::int32)n;edkEnd();
-        ret.height=this->height*(edk::int32)n;edkEnd();
-        ret.length=this->length*(edk::int32)n;edkEnd();
+        size3i32 ret;
+        ret.width=this->width*(edk::int32)n;
+        ret.height=this->height*(edk::int32)n;
+        ret.length=this->length*(edk::int32)n;
         return ret;
     }
     size3i32 operator*(edk::uint8 n){
         //
-        size3i32 ret;edkEnd();
-        ret.width=this->width*(edk::int32)n;edkEnd();
-        ret.height=this->height*(edk::int32)n;edkEnd();
-        ret.length=this->length*(edk::int32)n;edkEnd();
+        size3i32 ret;
+        ret.width=this->width*(edk::int32)n;
+        ret.height=this->height*(edk::int32)n;
+        ret.length=this->length*(edk::int32)n;
         return ret;
     }
     size3i32 operator*(edk::uint16 n){
         //
-        size3i32 ret;edkEnd();
-        ret.width=this->width*(edk::int32)n;edkEnd();
-        ret.height=this->height*(edk::int32)n;edkEnd();
-        ret.length=this->length*(edk::int32)n;edkEnd();
+        size3i32 ret;
+        ret.width=this->width*(edk::int32)n;
+        ret.height=this->height*(edk::int32)n;
+        ret.length=this->length*(edk::int32)n;
         return ret;
     }
     size3i32 operator*(edk::uint32 n){
         //
-        size3i32 ret;edkEnd();
-        ret.width=this->width*(edk::int32)n;edkEnd();
-        ret.height=this->height*(edk::int32)n;edkEnd();
-        ret.length=this->length*(edk::int32)n;edkEnd();
+        size3i32 ret;
+        ret.width=this->width*(edk::int32)n;
+        ret.height=this->height*(edk::int32)n;
+        ret.length=this->length*(edk::int32)n;
         return ret;
     }
     size3i32 operator*(edk::uint64 n){
         //
-        size3i32 ret;edkEnd();
-        ret.width=this->width*(edk::int32)n;edkEnd();
-        ret.height=this->height*(edk::int32)n;edkEnd();
-        ret.length=this->length*(edk::int32)n;edkEnd();
+        size3i32 ret;
+        ret.width=this->width*(edk::int32)n;
+        ret.height=this->height*(edk::int32)n;
+        ret.length=this->length*(edk::int32)n;
         return ret;
     }
 
     //*=
     void operator*=(size3i8 size){
         //
-        this->width*=(edk::int32)size.width;edkEnd();
-        this->height*=(edk::int32)size.height;edkEnd();
-        this->length*=(edk::int32)size.length;edkEnd();
+        this->width*=(edk::int32)size.width;
+        this->height*=(edk::int32)size.height;
+        this->length*=(edk::int32)size.length;
     }
     void operator*=(size3i16 size){
         //
-        this->width*=(edk::int32)size.width;edkEnd();
-        this->height*=(edk::int32)size.height;edkEnd();
-        this->length*=(edk::int32)size.length;edkEnd();
+        this->width*=(edk::int32)size.width;
+        this->height*=(edk::int32)size.height;
+        this->length*=(edk::int32)size.length;
     }
     void operator*=(size3i32 size){
         //
-        this->width*=size.width;edkEnd();
-        this->height*=size.height;edkEnd();
-        this->length*=size.length;edkEnd();
+        this->width*=size.width;
+        this->height*=size.height;
+        this->length*=size.length;
     }
     void operator*=(size2i8 size){
         //
-        this->width*=(edk::int32)size.width;edkEnd();
-        this->height*=(edk::int32)size.height;edkEnd();
+        this->width*=(edk::int32)size.width;
+        this->height*=(edk::int32)size.height;
     }
     void operator*=(edk::int8 n){
         //
-        this->width*=(edk::int32)n;edkEnd();
-        this->height*=(edk::int32)n;edkEnd();
-        this->length*=(edk::int32)n;edkEnd();
+        this->width*=(edk::int32)n;
+        this->height*=(edk::int32)n;
+        this->length*=(edk::int32)n;
     }
     void operator*=(edk::int16 n){
         //
-        this->width*=(edk::int32)n;edkEnd();
-        this->height*=(edk::int32)n;edkEnd();
-        this->length*=(edk::int32)n;edkEnd();
+        this->width*=(edk::int32)n;
+        this->height*=(edk::int32)n;
+        this->length*=(edk::int32)n;
     }
     void operator*=(edk::int32 n){
         //
-        this->width*=(edk::int32)n;edkEnd();
-        this->height*=(edk::int32)n;edkEnd();
-        this->length*=(edk::int32)n;edkEnd();
+        this->width*=(edk::int32)n;
+        this->height*=(edk::int32)n;
+        this->length*=(edk::int32)n;
     }
     void operator*=(edk::int64 n){
         //
-        this->width*=(edk::int32)n;edkEnd();
-        this->height*=(edk::int32)n;edkEnd();
-        this->length*=(edk::int32)n;edkEnd();
+        this->width*=(edk::int32)n;
+        this->height*=(edk::int32)n;
+        this->length*=(edk::int32)n;
     }
     void operator*=(edk::uint8 n){
         //
-        this->width*=(edk::int32)n;edkEnd();
-        this->height*=(edk::int32)n;edkEnd();
-        this->length*=(edk::int32)n;edkEnd();
+        this->width*=(edk::int32)n;
+        this->height*=(edk::int32)n;
+        this->length*=(edk::int32)n;
     }
     void operator*=(edk::uint16 n){
         //
-        this->width*=(edk::int32)n;edkEnd();
-        this->height*=(edk::int32)n;edkEnd();
-        this->length*=(edk::int32)n;edkEnd();
+        this->width*=(edk::int32)n;
+        this->height*=(edk::int32)n;
+        this->length*=(edk::int32)n;
     }
     void operator*=(edk::uint32 n){
         //
-        this->width*=(edk::int32)n;edkEnd();
-        this->height*=(edk::int32)n;edkEnd();
-        this->length*=(edk::int32)n;edkEnd();
+        this->width*=(edk::int32)n;
+        this->height*=(edk::int32)n;
+        this->length*=(edk::int32)n;
     }
     void operator*=(edk::uint64 n){
         //
-        this->width*=(edk::int32)n;edkEnd();
-        this->height*=(edk::int32)n;edkEnd();
-        this->length*=(edk::int32)n;edkEnd();
+        this->width*=(edk::int32)n;
+        this->height*=(edk::int32)n;
+        this->length*=(edk::int32)n;
     }
 
     //++
     size3i32 operator++(){
         //
-        ++this->width;edkEnd();
-        ++this->height;edkEnd();
-        ++this->length;edkEnd();
-        return size3i32(this->width,this->height,this->length);edkEnd();
+        ++this->width;
+        ++this->height;
+        ++this->length;
+        return size3i32(this->width,this->height,this->length);
     }
     size3i32 operator++(edk::int32){
         //
-        this->width++;edkEnd();
-        this->height++;edkEnd();
-        this->length++;edkEnd();
-        return size3i32(this->width,this->height,this->length);edkEnd();
+        this->width++;
+        this->height++;
+        this->length++;
+        return size3i32(this->width,this->height,this->length);
     }
 
     //--
     size3i32 operator--(){
         //
-        --this->width;edkEnd();
-        --this->height;edkEnd();
-        --this->length;edkEnd();
-        return size3i32(this->width,this->height,this->length);edkEnd();
+        --this->width;
+        --this->height;
+        --this->length;
+        return size3i32(this->width,this->height,this->length);
     }
     size3i32 operator--(edk::int32){
         //
-        this->width--;edkEnd();
-        this->height--;edkEnd();
-        this->length--;edkEnd();
-        return size3i32(this->width,this->height,this->length);edkEnd();
+        this->width--;
+        this->height--;
+        this->length--;
+        return size3i32(this->width,this->height,this->length);
     }
 
     //
     size3i32 operator()(edk::int8 width,edk::int8 height,edk::int8 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3i32((edk::int32)this->width,(edk::int32)this->height,(edk::int32)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3i32((edk::int32)this->width,(edk::int32)this->height,(edk::int32)this->length);
     }
     size3i32 operator()(edk::int16 width,edk::int16 height,edk::int16 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3i32((edk::int32)this->width,(edk::int32)this->height,(edk::int32)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3i32((edk::int32)this->width,(edk::int32)this->height,(edk::int32)this->length);
     }
     size3i32 operator()(edk::int32 width,edk::int32 height,edk::int32 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3i32((edk::int32)this->width,(edk::int32)this->height,(edk::int32)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3i32((edk::int32)this->width,(edk::int32)this->height,(edk::int32)this->length);
     }
     size3i32 operator()(edk::int64 width,edk::int64 height,edk::int64 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3i32((edk::int32)this->width,(edk::int32)this->height,(edk::int32)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3i32((edk::int32)this->width,(edk::int32)this->height,(edk::int32)this->length);
     }
     size3i32 operator()(edk::uint8 width,edk::uint8 height,edk::uint8 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3i32((edk::int32)this->width,(edk::int32)this->height,(edk::int32)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3i32((edk::int32)this->width,(edk::int32)this->height,(edk::int32)this->length);
     }
     size3i32 operator()(edk::uint16 width,edk::uint16 height,edk::uint16 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3i32((edk::int32)this->width,(edk::int32)this->height,(edk::int32)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3i32((edk::int32)this->width,(edk::int32)this->height,(edk::int32)this->length);
     }
     size3i32 operator()(edk::uint32 width,edk::uint32 height,edk::uint32 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3i32((edk::int32)this->width,(edk::int32)this->height,(edk::int32)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3i32((edk::int32)this->width,(edk::int32)this->height,(edk::int32)this->length);
     }
     size3i32 operator()(edk::uint64 width,edk::uint64 height,edk::uint64 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3i32((edk::int32)this->width,(edk::int32)this->height,(edk::int32)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3i32((edk::int32)this->width,(edk::int32)this->height,(edk::int32)this->length);
     }
 };
 
@@ -2346,874 +2346,874 @@ public:
     //CONSTRUTOR
     size3i64(){
         //zera as variaveis
-        this->width=this->height=this->length=0;edkEnd();
+        this->width=this->height=this->length=0;
     }
     size3i64(edk::int8 width,edk::int8 height,edk::int8 length){
         //zera as variaveis
-        this->width=(edk::int64)width;edkEnd();
-        this->height=(edk::int64)height;edkEnd();
-        this->length=(edk::int64)length;edkEnd();
+        this->width=(edk::int64)width;
+        this->height=(edk::int64)height;
+        this->length=(edk::int64)length;
     }
     size3i64(edk::int16 width,edk::int16 height,edk::int16 length){
         //zera as variaveis
-        this->width=(edk::int64)width;edkEnd();
-        this->height=(edk::int64)height;edkEnd();
-        this->length=(edk::int64)length;edkEnd();
+        this->width=(edk::int64)width;
+        this->height=(edk::int64)height;
+        this->length=(edk::int64)length;
     }
     size3i64(edk::int32 width,edk::int32 height,edk::int32 length){
         //zera as variaveis
-        this->width=(edk::int64)width;edkEnd();
-        this->height=(edk::int64)height;edkEnd();
-        this->length=(edk::int64)length;edkEnd();
+        this->width=(edk::int64)width;
+        this->height=(edk::int64)height;
+        this->length=(edk::int64)length;
     }
     size3i64(edk::int64 width,edk::int64 height,edk::int64 length){
         //zera as variaveis
-        this->width=(edk::int64)width;edkEnd();
-        this->height=(edk::int64)height;edkEnd();
-        this->length=(edk::int64)length;edkEnd();
+        this->width=(edk::int64)width;
+        this->height=(edk::int64)height;
+        this->length=(edk::int64)length;
     }
     size3i64(edk::uint8 width,edk::uint8 height,edk::uint8 length){
         //zera as variaveis
-        this->width=(edk::int64)width;edkEnd();
-        this->height=(edk::int64)height;edkEnd();
-        this->length=(edk::int64)length;edkEnd();
+        this->width=(edk::int64)width;
+        this->height=(edk::int64)height;
+        this->length=(edk::int64)length;
     }
     size3i64(edk::uint16 width,edk::uint16 height,edk::uint16 length){
         //zera as variaveis
-        this->width=(edk::int64)width;edkEnd();
-        this->height=(edk::int64)height;edkEnd();
-        this->length=(edk::int64)length;edkEnd();
+        this->width=(edk::int64)width;
+        this->height=(edk::int64)height;
+        this->length=(edk::int64)length;
     }
     size3i64(edk::uint32 width,edk::uint32 height,edk::uint32 length){
         //zera as variaveis
-        this->width=(edk::int64)width;edkEnd();
-        this->height=(edk::int64)height;edkEnd();
-        this->length=(edk::int64)length;edkEnd();
+        this->width=(edk::int64)width;
+        this->height=(edk::int64)height;
+        this->length=(edk::int64)length;
     }
     size3i64(edk::uint64 width,edk::uint64 height,edk::uint64 length){
         //zera as variaveis
-        this->width=(edk::int64)width;edkEnd();
-        this->height=(edk::int64)height;edkEnd();
-        this->length=(edk::int64)length;edkEnd();
+        this->width=(edk::int64)width;
+        this->height=(edk::int64)height;
+        this->length=(edk::int64)length;
     }
     size3i64(edk::int8 size){
         //zera as variaveis
-        this->width=(edk::int64)size;edkEnd();
-        this->height=(edk::int64)size;edkEnd();
-        this->length=(edk::int64)size;edkEnd();
+        this->width=(edk::int64)size;
+        this->height=(edk::int64)size;
+        this->length=(edk::int64)size;
     }
     size3i64(edk::int16 size){
         //zera as variaveis
-        this->width=(edk::int64)size;edkEnd();
-        this->height=(edk::int64)size;edkEnd();
-        this->length=(edk::int64)size;edkEnd();
+        this->width=(edk::int64)size;
+        this->height=(edk::int64)size;
+        this->length=(edk::int64)size;
     }
     size3i64(edk::int32 size){
         //zera as variaveis
-        this->width=(edk::int64)size;edkEnd();
-        this->height=(edk::int64)size;edkEnd();
-        this->length=(edk::int64)size;edkEnd();
+        this->width=(edk::int64)size;
+        this->height=(edk::int64)size;
+        this->length=(edk::int64)size;
     }
     size3i64(edk::int64 size){
         //zera as variaveis
-        this->width=(edk::int64)size;edkEnd();
-        this->height=(edk::int64)size;edkEnd();
-        this->length=(edk::int64)size;edkEnd();
+        this->width=(edk::int64)size;
+        this->height=(edk::int64)size;
+        this->length=(edk::int64)size;
     }
     size3i64(edk::uint8 size){
         //zera as variaveis
-        this->width=(edk::int64)size;edkEnd();
-        this->height=(edk::int64)size;edkEnd();
-        this->length=(edk::int64)size;edkEnd();
+        this->width=(edk::int64)size;
+        this->height=(edk::int64)size;
+        this->length=(edk::int64)size;
     }
     size3i64(edk::uint16 size){
         //zera as variaveis
-        this->width=(edk::int64)size;edkEnd();
-        this->height=(edk::int64)size;edkEnd();
-        this->length=(edk::int64)size;edkEnd();
+        this->width=(edk::int64)size;
+        this->height=(edk::int64)size;
+        this->length=(edk::int64)size;
     }
     size3i64(edk::uint32 size){
         //zera as variaveis
-        this->width=(edk::int64)size;edkEnd();
-        this->height=(edk::int64)size;edkEnd();
-        this->length=(edk::int64)size;edkEnd();
+        this->width=(edk::int64)size;
+        this->height=(edk::int64)size;
+        this->length=(edk::int64)size;
     }
     size3i64(edk::uint64 size){
         //zera as variaveis
-        this->width=(edk::int64)size;edkEnd();
-        this->height=(edk::int64)size;edkEnd();
-        this->length=(edk::int64)size;edkEnd();
+        this->width=(edk::int64)size;
+        this->height=(edk::int64)size;
+        this->length=(edk::int64)size;
     }
     //operators
 
     //=
     size3i64 operator=(size3i8 size){
         //
-        this->width=(edk::int64)size.width;edkEnd();
-        this->height=(edk::int64)size.height;edkEnd();
-        this->length=size.length;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::int64)size.width;
+        this->height=(edk::int64)size.height;
+        this->length=size.length;
+        return *this;
     }
     size3i64 operator=(size3i16 size){
         //
-        this->width=(edk::int64)size.width;edkEnd();
-        this->height=(edk::int64)size.height;edkEnd();
-        this->length=size.length;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::int64)size.width;
+        this->height=(edk::int64)size.height;
+        this->length=size.length;
+        return *this;
     }
     size3i64 operator=(size3i32 size){
         //
-        this->width=(edk::int64)size.width;edkEnd();
-        this->height=(edk::int64)size.height;edkEnd();
-        this->length=size.length;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::int64)size.width;
+        this->height=(edk::int64)size.height;
+        this->length=size.length;
+        return *this;
     }
     size3i64 operator=(size3i64 size){
         //
-        this->width=size.width;edkEnd();
-        this->height=size.height;edkEnd();
-        this->length=size.length;edkEnd();
-        return *this;edkEnd();
+        this->width=size.width;
+        this->height=size.height;
+        this->length=size.length;
+        return *this;
     }
     size3i64 operator=(size2i8 size){
         //
-        this->width=(edk::int64)size.width;edkEnd();
-        this->height=(edk::int64)size.height;edkEnd();
-        this->length=(edk::int64)0;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::int64)size.width;
+        this->height=(edk::int64)size.height;
+        this->length=(edk::int64)0;
+        return *this;
     }
     size3i64 operator=(edk::int8 n){
         //
-        this->width=(edk::int64)n;edkEnd();
-        this->height=(edk::int64)n;edkEnd();
-        this->length=(edk::int64)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::int64)n;
+        this->height=(edk::int64)n;
+        this->length=(edk::int64)n;
+        return *this;
     }
     size3i64 operator=(edk::int16 n){
         //
-        this->width=(edk::int64)n;edkEnd();
-        this->height=(edk::int64)n;edkEnd();
-        this->length=(edk::int64)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::int64)n;
+        this->height=(edk::int64)n;
+        this->length=(edk::int64)n;
+        return *this;
     }
     size3i64 operator=(edk::int32 n){
         //
-        this->width=(edk::int64)n;edkEnd();
-        this->height=(edk::int64)n;edkEnd();
-        this->length=(edk::int64)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::int64)n;
+        this->height=(edk::int64)n;
+        this->length=(edk::int64)n;
+        return *this;
     }
     size3i64 operator=(edk::int64 n){
         //
-        this->width=(edk::int64)n;edkEnd();
-        this->height=(edk::int64)n;edkEnd();
-        this->length=(edk::int64)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::int64)n;
+        this->height=(edk::int64)n;
+        this->length=(edk::int64)n;
+        return *this;
     }
     size3i64 operator=(edk::uint8 n){
         //
-        this->width=(edk::int64)n;edkEnd();
-        this->height=(edk::int64)n;edkEnd();
-        this->length=(edk::int64)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::int64)n;
+        this->height=(edk::int64)n;
+        this->length=(edk::int64)n;
+        return *this;
     }
     size3i64 operator=(edk::uint16 n){
         //
-        this->width=(edk::int64)n;edkEnd();
-        this->height=(edk::int64)n;edkEnd();
-        this->length=(edk::int64)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::int64)n;
+        this->height=(edk::int64)n;
+        this->length=(edk::int64)n;
+        return *this;
     }
     size3i64 operator=(edk::uint32 n){
         //
-        this->width=(edk::int64)n;edkEnd();
-        this->height=(edk::int64)n;edkEnd();
-        this->length=(edk::int64)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::int64)n;
+        this->height=(edk::int64)n;
+        this->length=(edk::int64)n;
+        return *this;
     }
     size3i64 operator=(edk::uint64 n){
         //
-        this->width=(edk::int64)n;edkEnd();
-        this->height=(edk::int64)n;edkEnd();
-        this->length=(edk::int64)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::int64)n;
+        this->height=(edk::int64)n;
+        this->length=(edk::int64)n;
+        return *this;
     }
 
     //==
     bool operator==(size3i8 size){
         //
-        return (this->width==(edk::int64)size.width&&this->height==(edk::int64)size.height&&this->length==(edk::int64)size.length);edkEnd();
+        return (this->width==(edk::int64)size.width&&this->height==(edk::int64)size.height&&this->length==(edk::int64)size.length);
     }
     bool operator==(size3i16 size){
         //
-        return (this->width==(edk::int64)size.width&&this->height==(edk::int64)size.height&&this->length==(edk::int64)size.length);edkEnd();
+        return (this->width==(edk::int64)size.width&&this->height==(edk::int64)size.height&&this->length==(edk::int64)size.length);
     }
     bool operator==(size3i32 size){
         //
-        return (this->width==(edk::int64)size.width&&this->height==(edk::int64)size.height&&this->length==(edk::int64)size.length);edkEnd();
+        return (this->width==(edk::int64)size.width&&this->height==(edk::int64)size.height&&this->length==(edk::int64)size.length);
     }
     bool operator==(size3i64 size){
         //
-        return (this->width==size.width&&this->height==size.height&&this->length==size.length);edkEnd();
+        return (this->width==size.width&&this->height==size.height&&this->length==size.length);
     }
     //!=
     bool operator!=(size3i8 size){
         //
-        return (this->width!=(edk::int64)size.width||this->height!=(edk::int64)size.height||this->length!=(edk::int64)size.length);edkEnd();
+        return (this->width!=(edk::int64)size.width||this->height!=(edk::int64)size.height||this->length!=(edk::int64)size.length);
     }
     bool operator!=(size3i16 size){
         //
-        return (this->width!=(edk::int64)size.width||this->height!=(edk::int64)size.height||this->length!=(edk::int64)size.length);edkEnd();
+        return (this->width!=(edk::int64)size.width||this->height!=(edk::int64)size.height||this->length!=(edk::int64)size.length);
     }
     bool operator!=(size3i32 size){
         //
-        return (this->width!=(edk::int64)size.width||this->height!=(edk::int64)size.height||this->length!=(edk::int64)size.length);edkEnd();
+        return (this->width!=(edk::int64)size.width||this->height!=(edk::int64)size.height||this->length!=(edk::int64)size.length);
     }
     bool operator!=(size3i64 size){
         //
-        return (this->width!=size.width||this->height!=size.height||this->length!=size.length);edkEnd();
+        return (this->width!=size.width||this->height!=size.height||this->length!=size.length);
     }
 
     //+
     size3i64 operator+(size3i8 size){
         //
-        size3i64 ret;edkEnd();
-        ret.width=this->width+(edk::int64)size.width;edkEnd();
-        ret.height=this->height+(edk::int64)size.height;edkEnd();
-        ret.length=this->length+(edk::int64)size.length;edkEnd();
+        size3i64 ret;
+        ret.width=this->width+(edk::int64)size.width;
+        ret.height=this->height+(edk::int64)size.height;
+        ret.length=this->length+(edk::int64)size.length;
         return ret;
     }
     size3i64 operator+(size3i16 size){
         //
-        size3i64 ret;edkEnd();
-        ret.width=this->width+(edk::int64)size.width;edkEnd();
-        ret.height=this->height+(edk::int64)size.height;edkEnd();
-        ret.length=this->length+(edk::int64)size.length;edkEnd();
+        size3i64 ret;
+        ret.width=this->width+(edk::int64)size.width;
+        ret.height=this->height+(edk::int64)size.height;
+        ret.length=this->length+(edk::int64)size.length;
         return ret;
     }
     size3i64 operator+(size3i32 size){
         //
-        size3i64 ret;edkEnd();
-        ret.width=this->width+(edk::int64)size.width;edkEnd();
-        ret.height=this->height+(edk::int64)size.height;edkEnd();
-        ret.length=this->length+(edk::int64)size.length;edkEnd();
+        size3i64 ret;
+        ret.width=this->width+(edk::int64)size.width;
+        ret.height=this->height+(edk::int64)size.height;
+        ret.length=this->length+(edk::int64)size.length;
         return ret;
     }
     size3i64 operator+(size3i64 size){
         //
-        size3i64 ret;edkEnd();
-        ret.width=this->width+size.width;edkEnd();
-        ret.height=this->height+size.height;edkEnd();
-        ret.length=this->length+size.length;edkEnd();
+        size3i64 ret;
+        ret.width=this->width+size.width;
+        ret.height=this->height+size.height;
+        ret.length=this->length+size.length;
         return ret;
     }
     size3i64 operator+(size2i8 size){
         //
-        size3i64 ret;edkEnd();
-        ret.width=this->width+(edk::int64)size.width;edkEnd();
-        ret.height=this->height+(edk::int64)size.height;edkEnd();
+        size3i64 ret;
+        ret.width=this->width+(edk::int64)size.width;
+        ret.height=this->height+(edk::int64)size.height;
         return ret;
     }
     size3i64 operator+(edk::int8 n){
         //
-        size3i64 ret;edkEnd();
-        ret.width=this->width+(edk::int64)n;edkEnd();
-        ret.height=this->height+(edk::int64)n;edkEnd();
-        ret.length=this->length+(edk::int64)n;edkEnd();
+        size3i64 ret;
+        ret.width=this->width+(edk::int64)n;
+        ret.height=this->height+(edk::int64)n;
+        ret.length=this->length+(edk::int64)n;
         return ret;
     }
     size3i64 operator+(edk::int16 n){
         //
-        size3i64 ret;edkEnd();
-        ret.width=this->width+(edk::int64)n;edkEnd();
-        ret.height=this->height+(edk::int64)n;edkEnd();
-        ret.length=this->length+(edk::int64)n;edkEnd();
+        size3i64 ret;
+        ret.width=this->width+(edk::int64)n;
+        ret.height=this->height+(edk::int64)n;
+        ret.length=this->length+(edk::int64)n;
         return ret;
     }
     size3i64 operator+(edk::int32 n){
         //
-        size3i64 ret;edkEnd();
-        ret.width=this->width+(edk::int64)n;edkEnd();
-        ret.height=this->height+(edk::int64)n;edkEnd();
-        ret.length=this->length+(edk::int64)n;edkEnd();
+        size3i64 ret;
+        ret.width=this->width+(edk::int64)n;
+        ret.height=this->height+(edk::int64)n;
+        ret.length=this->length+(edk::int64)n;
         return ret;
     }
     size3i64 operator+(edk::int64 n){
         //
-        size3i64 ret;edkEnd();
-        ret.width=this->width+(edk::int64)n;edkEnd();
-        ret.height=this->height+(edk::int64)n;edkEnd();
-        ret.length=this->length+(edk::int64)n;edkEnd();
+        size3i64 ret;
+        ret.width=this->width+(edk::int64)n;
+        ret.height=this->height+(edk::int64)n;
+        ret.length=this->length+(edk::int64)n;
         return ret;
     }
     size3i64 operator+(edk::uint8 n){
         //
-        size3i64 ret;edkEnd();
-        ret.width=this->width+(edk::int64)n;edkEnd();
-        ret.height=this->height+(edk::int64)n;edkEnd();
-        ret.length=this->length+(edk::int64)n;edkEnd();
+        size3i64 ret;
+        ret.width=this->width+(edk::int64)n;
+        ret.height=this->height+(edk::int64)n;
+        ret.length=this->length+(edk::int64)n;
         return ret;
     }
     size3i64 operator+(edk::uint16 n){
         //
-        size3i64 ret;edkEnd();
-        ret.width=this->width+(edk::int64)n;edkEnd();
-        ret.height=this->height+(edk::int64)n;edkEnd();
-        ret.length=this->length+(edk::int64)n;edkEnd();
+        size3i64 ret;
+        ret.width=this->width+(edk::int64)n;
+        ret.height=this->height+(edk::int64)n;
+        ret.length=this->length+(edk::int64)n;
         return ret;
     }
     size3i64 operator+(edk::uint32 n){
         //
-        size3i64 ret;edkEnd();
-        ret.width=this->width+(edk::int64)n;edkEnd();
-        ret.height=this->height+(edk::int64)n;edkEnd();
-        ret.length=this->length+(edk::int64)n;edkEnd();
+        size3i64 ret;
+        ret.width=this->width+(edk::int64)n;
+        ret.height=this->height+(edk::int64)n;
+        ret.length=this->length+(edk::int64)n;
         return ret;
     }
     size3i64 operator+(edk::uint64 n){
         //
-        size3i64 ret;edkEnd();
-        ret.width=this->width+(edk::int64)n;edkEnd();
-        ret.height=this->height+(edk::int64)n;edkEnd();
-        ret.length=this->length+(edk::int64)n;edkEnd();
+        size3i64 ret;
+        ret.width=this->width+(edk::int64)n;
+        ret.height=this->height+(edk::int64)n;
+        ret.length=this->length+(edk::int64)n;
         return ret;
     }
 
     //+=
     void operator+=(size3i8 size){
         //
-        this->width+=(edk::int64)size.width;edkEnd();
-        this->height+=(edk::int64)size.height;edkEnd();
-        this->length+=(edk::int64)size.length;edkEnd();
+        this->width+=(edk::int64)size.width;
+        this->height+=(edk::int64)size.height;
+        this->length+=(edk::int64)size.length;
     }
     void operator+=(size3i16 size){
         //
-        this->width+=(edk::int64)size.width;edkEnd();
-        this->height+=(edk::int64)size.height;edkEnd();
-        this->length+=(edk::int64)size.length;edkEnd();
+        this->width+=(edk::int64)size.width;
+        this->height+=(edk::int64)size.height;
+        this->length+=(edk::int64)size.length;
     }
     void operator+=(size3i32 size){
         //
-        this->width+=(edk::int64)size.width;edkEnd();
-        this->height+=(edk::int64)size.height;edkEnd();
-        this->length+=(edk::int64)size.length;edkEnd();
+        this->width+=(edk::int64)size.width;
+        this->height+=(edk::int64)size.height;
+        this->length+=(edk::int64)size.length;
     }
     void operator+=(size3i64 size){
         //
-        this->width+=size.width;edkEnd();
-        this->height+=size.height;edkEnd();
-        this->length+=size.length;edkEnd();
+        this->width+=size.width;
+        this->height+=size.height;
+        this->length+=size.length;
     }
     void operator+=(size2i8 size){
         //
-        this->width+=(edk::int64)size.width;edkEnd();
-        this->height+=(edk::int64)size.height;edkEnd();
+        this->width+=(edk::int64)size.width;
+        this->height+=(edk::int64)size.height;
     }
     void operator+=(edk::int8 n){
         //
-        this->width+=(edk::int64)n;edkEnd();
-        this->height+=(edk::int64)n;edkEnd();
-        this->length+=(edk::int64)n;edkEnd();
+        this->width+=(edk::int64)n;
+        this->height+=(edk::int64)n;
+        this->length+=(edk::int64)n;
     }
     void operator+=(edk::int16 n){
         //
-        this->width+=(edk::int64)n;edkEnd();
-        this->height+=(edk::int64)n;edkEnd();
-        this->length+=(edk::int64)n;edkEnd();
+        this->width+=(edk::int64)n;
+        this->height+=(edk::int64)n;
+        this->length+=(edk::int64)n;
     }
     void operator+=(edk::int32 n){
         //
-        this->width+=(edk::int64)n;edkEnd();
-        this->height+=(edk::int64)n;edkEnd();
-        this->length+=(edk::int64)n;edkEnd();
+        this->width+=(edk::int64)n;
+        this->height+=(edk::int64)n;
+        this->length+=(edk::int64)n;
     }
     void operator+=(edk::int64 n){
         //
-        this->width+=(edk::int64)n;edkEnd();
-        this->height+=(edk::int64)n;edkEnd();
-        this->length+=(edk::int64)n;edkEnd();
+        this->width+=(edk::int64)n;
+        this->height+=(edk::int64)n;
+        this->length+=(edk::int64)n;
     }
     void operator+=(edk::uint8 n){
         //
-        this->width+=(edk::int64)n;edkEnd();
-        this->height+=(edk::int64)n;edkEnd();
-        this->length+=(edk::int64)n;edkEnd();
+        this->width+=(edk::int64)n;
+        this->height+=(edk::int64)n;
+        this->length+=(edk::int64)n;
     }
     void operator+=(edk::uint16 n){
         //
-        this->width+=(edk::int64)n;edkEnd();
-        this->height+=(edk::int64)n;edkEnd();
-        this->length+=(edk::int64)n;edkEnd();
+        this->width+=(edk::int64)n;
+        this->height+=(edk::int64)n;
+        this->length+=(edk::int64)n;
     }
     void operator+=(edk::uint32 n){
         //
-        this->width+=(edk::int64)n;edkEnd();
-        this->height+=(edk::int64)n;edkEnd();
-        this->length+=(edk::int64)n;edkEnd();
+        this->width+=(edk::int64)n;
+        this->height+=(edk::int64)n;
+        this->length+=(edk::int64)n;
     }
     void operator+=(edk::uint64 n){
         //
-        this->width+=(edk::int64)n;edkEnd();
-        this->height+=(edk::int64)n;edkEnd();
-        this->length+=(edk::int64)n;edkEnd();
+        this->width+=(edk::int64)n;
+        this->height+=(edk::int64)n;
+        this->length+=(edk::int64)n;
     }
 
     //-
     size3i64 operator-(size3i8 size){
         //
-        size3i64 ret;edkEnd();
-        ret.width=this->width-(edk::int64)size.width;edkEnd();
-        ret.height=this->height-(edk::int64)size.height;edkEnd();
-        ret.length=this->length-(edk::int64)size.length;edkEnd();
+        size3i64 ret;
+        ret.width=this->width-(edk::int64)size.width;
+        ret.height=this->height-(edk::int64)size.height;
+        ret.length=this->length-(edk::int64)size.length;
         return ret;
     }
     size3i64 operator-(size3i16 size){
         //
-        size3i64 ret;edkEnd();
-        ret.width=this->width-(edk::int64)size.width;edkEnd();
-        ret.height=this->height-(edk::int64)size.height;edkEnd();
-        ret.length=this->length-(edk::int64)size.length;edkEnd();
+        size3i64 ret;
+        ret.width=this->width-(edk::int64)size.width;
+        ret.height=this->height-(edk::int64)size.height;
+        ret.length=this->length-(edk::int64)size.length;
         return ret;
     }
     size3i64 operator-(size3i32 size){
         //
-        size3i64 ret;edkEnd();
-        ret.width=this->width-(edk::int64)size.width;edkEnd();
-        ret.height=this->height-(edk::int64)size.height;edkEnd();
-        ret.length=this->length-(edk::int64)size.length;edkEnd();
+        size3i64 ret;
+        ret.width=this->width-(edk::int64)size.width;
+        ret.height=this->height-(edk::int64)size.height;
+        ret.length=this->length-(edk::int64)size.length;
         return ret;
     }
     size3i64 operator-(size3i64 size){
         //
-        size3i64 ret;edkEnd();
-        ret.width=this->width-size.width;edkEnd();
-        ret.height=this->height-size.height;edkEnd();
-        ret.length=this->length-size.length;edkEnd();
+        size3i64 ret;
+        ret.width=this->width-size.width;
+        ret.height=this->height-size.height;
+        ret.length=this->length-size.length;
         return ret;
     }
     size3i64 operator-(size2i8 size){
         //
-        size3i64 ret;edkEnd();
-        ret.width=this->width-(edk::int64)size.width;edkEnd();
-        ret.height=this->height-(edk::int64)size.height;edkEnd();
+        size3i64 ret;
+        ret.width=this->width-(edk::int64)size.width;
+        ret.height=this->height-(edk::int64)size.height;
         return ret;
     }
     size3i64 operator-(edk::int8 n){
         //
-        size3i64 ret;edkEnd();
-        ret.width=this->width-(edk::int64)n;edkEnd();
-        ret.height=this->height-(edk::int64)n;edkEnd();
-        ret.length=this->length-(edk::int64)n;edkEnd();
+        size3i64 ret;
+        ret.width=this->width-(edk::int64)n;
+        ret.height=this->height-(edk::int64)n;
+        ret.length=this->length-(edk::int64)n;
         return ret;
     }
     size3i64 operator-(edk::int16 n){
         //
-        size3i64 ret;edkEnd();
-        ret.width=this->width-(edk::int64)n;edkEnd();
-        ret.height=this->height-(edk::int64)n;edkEnd();
-        ret.length=this->length-(edk::int64)n;edkEnd();
+        size3i64 ret;
+        ret.width=this->width-(edk::int64)n;
+        ret.height=this->height-(edk::int64)n;
+        ret.length=this->length-(edk::int64)n;
         return ret;
     }
     size3i64 operator-(edk::int32 n){
         //
-        size3i64 ret;edkEnd();
-        ret.width=this->width-(edk::int64)n;edkEnd();
-        ret.height=this->height-(edk::int64)n;edkEnd();
-        ret.length=this->length-(edk::int64)n;edkEnd();
+        size3i64 ret;
+        ret.width=this->width-(edk::int64)n;
+        ret.height=this->height-(edk::int64)n;
+        ret.length=this->length-(edk::int64)n;
         return ret;
     }
     size3i64 operator-(edk::int64 n){
         //
-        size3i64 ret;edkEnd();
-        ret.width=this->width-(edk::int64)n;edkEnd();
-        ret.height=this->height-(edk::int64)n;edkEnd();
-        ret.length=this->length-(edk::int64)n;edkEnd();
+        size3i64 ret;
+        ret.width=this->width-(edk::int64)n;
+        ret.height=this->height-(edk::int64)n;
+        ret.length=this->length-(edk::int64)n;
         return ret;
     }
     size3i64 operator-(edk::uint8 n){
         //
-        size3i64 ret;edkEnd();
-        ret.width=this->width-(edk::int64)n;edkEnd();
-        ret.height=this->height-(edk::int64)n;edkEnd();
-        ret.length=this->length-(edk::int64)n;edkEnd();
+        size3i64 ret;
+        ret.width=this->width-(edk::int64)n;
+        ret.height=this->height-(edk::int64)n;
+        ret.length=this->length-(edk::int64)n;
         return ret;
     }
     size3i64 operator-(edk::uint16 n){
         //
-        size3i64 ret;edkEnd();
-        ret.width=this->width-(edk::int64)n;edkEnd();
-        ret.height=this->height-(edk::int64)n;edkEnd();
-        ret.length=this->length-(edk::int64)n;edkEnd();
+        size3i64 ret;
+        ret.width=this->width-(edk::int64)n;
+        ret.height=this->height-(edk::int64)n;
+        ret.length=this->length-(edk::int64)n;
         return ret;
     }
     size3i64 operator-(edk::uint32 n){
         //
-        size3i64 ret;edkEnd();
-        ret.width=this->width-(edk::int64)n;edkEnd();
-        ret.height=this->height-(edk::int64)n;edkEnd();
-        ret.length=this->length-(edk::int64)n;edkEnd();
+        size3i64 ret;
+        ret.width=this->width-(edk::int64)n;
+        ret.height=this->height-(edk::int64)n;
+        ret.length=this->length-(edk::int64)n;
         return ret;
     }
     size3i64 operator-(edk::uint64 n){
         //
-        size3i64 ret;edkEnd();
-        ret.width=this->width-(edk::int64)n;edkEnd();
-        ret.height=this->height-(edk::int64)n;edkEnd();
-        ret.length=this->length-(edk::int64)n;edkEnd();
+        size3i64 ret;
+        ret.width=this->width-(edk::int64)n;
+        ret.height=this->height-(edk::int64)n;
+        ret.length=this->length-(edk::int64)n;
         return ret;
     }
 
     //-=
     void operator-=(size3i8 size){
         //
-        this->width-=(edk::int64)size.width;edkEnd();
-        this->height-=(edk::int64)size.height;edkEnd();
-        this->length-=(edk::int64)size.length;edkEnd();
+        this->width-=(edk::int64)size.width;
+        this->height-=(edk::int64)size.height;
+        this->length-=(edk::int64)size.length;
     }
     void operator-=(size3i16 size){
         //
-        this->width-=(edk::int64)size.width;edkEnd();
-        this->height-=(edk::int64)size.height;edkEnd();
-        this->length-=(edk::int64)size.length;edkEnd();
+        this->width-=(edk::int64)size.width;
+        this->height-=(edk::int64)size.height;
+        this->length-=(edk::int64)size.length;
     }
     void operator-=(size3i32 size){
         //
-        this->width-=(edk::int64)size.width;edkEnd();
-        this->height-=(edk::int64)size.height;edkEnd();
-        this->length-=(edk::int64)size.length;edkEnd();
+        this->width-=(edk::int64)size.width;
+        this->height-=(edk::int64)size.height;
+        this->length-=(edk::int64)size.length;
     }
     void operator-=(size3i64 size){
         //
-        this->width-=size.width;edkEnd();
-        this->height-=size.height;edkEnd();
-        this->length-=size.length;edkEnd();
+        this->width-=size.width;
+        this->height-=size.height;
+        this->length-=size.length;
     }
     void operator-=(size2i8 size){
         //
-        this->width-=(edk::int64)size.width;edkEnd();
-        this->height-=(edk::int64)size.height;edkEnd();
+        this->width-=(edk::int64)size.width;
+        this->height-=(edk::int64)size.height;
     }
     void operator-=(edk::int8 n){
         //
-        this->width-=(edk::int64)n;edkEnd();
-        this->height-=(edk::int64)n;edkEnd();
-        this->length-=(edk::int64)n;edkEnd();
+        this->width-=(edk::int64)n;
+        this->height-=(edk::int64)n;
+        this->length-=(edk::int64)n;
     }
     void operator-=(edk::int16 n){
         //
-        this->width-=(edk::int64)n;edkEnd();
-        this->height-=(edk::int64)n;edkEnd();
-        this->length-=(edk::int64)n;edkEnd();
+        this->width-=(edk::int64)n;
+        this->height-=(edk::int64)n;
+        this->length-=(edk::int64)n;
     }
     void operator-=(edk::int32 n){
         //
-        this->width-=(edk::int64)n;edkEnd();
-        this->height-=(edk::int64)n;edkEnd();
-        this->length-=(edk::int64)n;edkEnd();
+        this->width-=(edk::int64)n;
+        this->height-=(edk::int64)n;
+        this->length-=(edk::int64)n;
     }
     void operator-=(edk::int64 n){
         //
-        this->width-=(edk::int64)n;edkEnd();
-        this->height-=(edk::int64)n;edkEnd();
-        this->length-=(edk::int64)n;edkEnd();
+        this->width-=(edk::int64)n;
+        this->height-=(edk::int64)n;
+        this->length-=(edk::int64)n;
     }
     void operator-=(edk::uint8 n){
         //
-        this->width-=(edk::int64)n;edkEnd();
-        this->height-=(edk::int64)n;edkEnd();
-        this->length-=(edk::int64)n;edkEnd();
+        this->width-=(edk::int64)n;
+        this->height-=(edk::int64)n;
+        this->length-=(edk::int64)n;
     }
     void operator-=(edk::uint16 n){
         //
-        this->width-=(edk::int64)n;edkEnd();
-        this->height-=(edk::int64)n;edkEnd();
-        this->length-=(edk::int64)n;edkEnd();
+        this->width-=(edk::int64)n;
+        this->height-=(edk::int64)n;
+        this->length-=(edk::int64)n;
     }
     void operator-=(edk::uint32 n){
         //
-        this->width-=(edk::int64)n;edkEnd();
-        this->height-=(edk::int64)n;edkEnd();
-        this->length-=(edk::int64)n;edkEnd();
+        this->width-=(edk::int64)n;
+        this->height-=(edk::int64)n;
+        this->length-=(edk::int64)n;
     }
     void operator-=(edk::uint64 n){
         //
-        this->width-=(edk::int64)n;edkEnd();
-        this->height-=(edk::int64)n;edkEnd();
-        this->length-=(edk::int64)n;edkEnd();
+        this->width-=(edk::int64)n;
+        this->height-=(edk::int64)n;
+        this->length-=(edk::int64)n;
     }
 
     //*
     size3i64 operator*(size3i8 size){
         //
-        size3i64 ret;edkEnd();
-        ret.width=this->width*(edk::int64)size.width;edkEnd();
-        ret.height=this->height*(edk::int64)size.height;edkEnd();
-        ret.length=this->length*(edk::int64)size.length;edkEnd();
+        size3i64 ret;
+        ret.width=this->width*(edk::int64)size.width;
+        ret.height=this->height*(edk::int64)size.height;
+        ret.length=this->length*(edk::int64)size.length;
         return ret;
     }
     size3i64 operator*(size3i16 size){
         //
-        size3i64 ret;edkEnd();
-        ret.width=this->width*(edk::int64)size.width;edkEnd();
-        ret.height=this->height*(edk::int64)size.height;edkEnd();
-        ret.length=this->length*(edk::int64)size.length;edkEnd();
+        size3i64 ret;
+        ret.width=this->width*(edk::int64)size.width;
+        ret.height=this->height*(edk::int64)size.height;
+        ret.length=this->length*(edk::int64)size.length;
         return ret;
     }
     size3i64 operator*(size3i32 size){
         //
-        size3i64 ret;edkEnd();
-        ret.width=this->width*(edk::int64)size.width;edkEnd();
-        ret.height=this->height*(edk::int64)size.height;edkEnd();
-        ret.length=this->length*(edk::int64)size.length;edkEnd();
+        size3i64 ret;
+        ret.width=this->width*(edk::int64)size.width;
+        ret.height=this->height*(edk::int64)size.height;
+        ret.length=this->length*(edk::int64)size.length;
         return ret;
     }
     size3i64 operator*(size3i64 size){
         //
-        size3i64 ret;edkEnd();
-        ret.width=this->width*size.width;edkEnd();
-        ret.height=this->height*size.height;edkEnd();
-        ret.length=this->length*size.length;edkEnd();
+        size3i64 ret;
+        ret.width=this->width*size.width;
+        ret.height=this->height*size.height;
+        ret.length=this->length*size.length;
         return ret;
     }
     size3i64 operator*(size2i8 size){
         //
-        size3i64 ret;edkEnd();
-        ret.width=this->width*(edk::int64)size.width;edkEnd();
-        ret.height=this->height*(edk::int64)size.height;edkEnd();
+        size3i64 ret;
+        ret.width=this->width*(edk::int64)size.width;
+        ret.height=this->height*(edk::int64)size.height;
         return ret;
     }
     size3i64 operator*(edk::int8 n){
         //
-        size3i64 ret;edkEnd();
-        ret.width=this->width*(edk::int64)n;edkEnd();
-        ret.height=this->height*(edk::int64)n;edkEnd();
-        ret.length=this->length*(edk::int64)n;edkEnd();
+        size3i64 ret;
+        ret.width=this->width*(edk::int64)n;
+        ret.height=this->height*(edk::int64)n;
+        ret.length=this->length*(edk::int64)n;
         return ret;
     }
     size3i64 operator*(edk::int16 n){
         //
-        size3i64 ret;edkEnd();
-        ret.width=this->width*(edk::int64)n;edkEnd();
-        ret.height=this->height*(edk::int64)n;edkEnd();
-        ret.length=this->length*(edk::int64)n;edkEnd();
+        size3i64 ret;
+        ret.width=this->width*(edk::int64)n;
+        ret.height=this->height*(edk::int64)n;
+        ret.length=this->length*(edk::int64)n;
         return ret;
     }
     size3i64 operator*(edk::int32 n){
         //
-        size3i64 ret;edkEnd();
-        ret.width=this->width*(edk::int64)n;edkEnd();
-        ret.height=this->height*(edk::int64)n;edkEnd();
-        ret.length=this->length*(edk::int64)n;edkEnd();
+        size3i64 ret;
+        ret.width=this->width*(edk::int64)n;
+        ret.height=this->height*(edk::int64)n;
+        ret.length=this->length*(edk::int64)n;
         return ret;
     }
     size3i64 operator*(edk::int64 n){
         //
-        size3i64 ret;edkEnd();
-        ret.width=this->width*(edk::int64)n;edkEnd();
-        ret.height=this->height*(edk::int64)n;edkEnd();
-        ret.length=this->length*(edk::int64)n;edkEnd();
+        size3i64 ret;
+        ret.width=this->width*(edk::int64)n;
+        ret.height=this->height*(edk::int64)n;
+        ret.length=this->length*(edk::int64)n;
         return ret;
     }
     size3i64 operator*(edk::uint8 n){
         //
-        size3i64 ret;edkEnd();
-        ret.width=this->width*(edk::int64)n;edkEnd();
-        ret.height=this->height*(edk::int64)n;edkEnd();
-        ret.length=this->length*(edk::int64)n;edkEnd();
+        size3i64 ret;
+        ret.width=this->width*(edk::int64)n;
+        ret.height=this->height*(edk::int64)n;
+        ret.length=this->length*(edk::int64)n;
         return ret;
     }
     size3i64 operator*(edk::uint16 n){
         //
-        size3i64 ret;edkEnd();
-        ret.width=this->width*(edk::int64)n;edkEnd();
-        ret.height=this->height*(edk::int64)n;edkEnd();
-        ret.length=this->length*(edk::int64)n;edkEnd();
+        size3i64 ret;
+        ret.width=this->width*(edk::int64)n;
+        ret.height=this->height*(edk::int64)n;
+        ret.length=this->length*(edk::int64)n;
         return ret;
     }
     size3i64 operator*(edk::uint32 n){
         //
-        size3i64 ret;edkEnd();
-        ret.width=this->width*(edk::int64)n;edkEnd();
-        ret.height=this->height*(edk::int64)n;edkEnd();
-        ret.length=this->length*(edk::int64)n;edkEnd();
+        size3i64 ret;
+        ret.width=this->width*(edk::int64)n;
+        ret.height=this->height*(edk::int64)n;
+        ret.length=this->length*(edk::int64)n;
         return ret;
     }
     size3i64 operator*(edk::uint64 n){
         //
-        size3i64 ret;edkEnd();
-        ret.width=this->width*(edk::int64)n;edkEnd();
-        ret.height=this->height*(edk::int64)n;edkEnd();
-        ret.length=this->length*(edk::int64)n;edkEnd();
+        size3i64 ret;
+        ret.width=this->width*(edk::int64)n;
+        ret.height=this->height*(edk::int64)n;
+        ret.length=this->length*(edk::int64)n;
         return ret;
     }
 
     //*=
     void operator*=(size3i8 size){
         //
-        this->width*=(edk::int64)size.width;edkEnd();
-        this->height*=(edk::int64)size.height;edkEnd();
-        this->length*=(edk::int64)size.length;edkEnd();
+        this->width*=(edk::int64)size.width;
+        this->height*=(edk::int64)size.height;
+        this->length*=(edk::int64)size.length;
     }
     void operator*=(size3i16 size){
         //
-        this->width*=(edk::int64)size.width;edkEnd();
-        this->height*=(edk::int64)size.height;edkEnd();
-        this->length*=(edk::int64)size.length;edkEnd();
+        this->width*=(edk::int64)size.width;
+        this->height*=(edk::int64)size.height;
+        this->length*=(edk::int64)size.length;
     }
     void operator*=(size3i32 size){
         //
-        this->width*=(edk::int64)size.width;edkEnd();
-        this->height*=(edk::int64)size.height;edkEnd();
-        this->length*=(edk::int64)size.length;edkEnd();
+        this->width*=(edk::int64)size.width;
+        this->height*=(edk::int64)size.height;
+        this->length*=(edk::int64)size.length;
     }
     void operator*=(size3i64 size){
         //
-        this->width*=size.width;edkEnd();
-        this->height*=size.height;edkEnd();
-        this->length*=size.length;edkEnd();
+        this->width*=size.width;
+        this->height*=size.height;
+        this->length*=size.length;
     }
     void operator*=(size2i8 size){
         //
-        this->width*=(edk::int64)size.width;edkEnd();
-        this->height*=(edk::int64)size.height;edkEnd();
+        this->width*=(edk::int64)size.width;
+        this->height*=(edk::int64)size.height;
     }
     void operator*=(edk::int8 n){
         //
-        this->width*=(edk::int64)n;edkEnd();
-        this->height*=(edk::int64)n;edkEnd();
-        this->length*=(edk::int64)n;edkEnd();
+        this->width*=(edk::int64)n;
+        this->height*=(edk::int64)n;
+        this->length*=(edk::int64)n;
     }
     void operator*=(edk::int16 n){
         //
-        this->width*=(edk::int64)n;edkEnd();
-        this->height*=(edk::int64)n;edkEnd();
-        this->length*=(edk::int64)n;edkEnd();
+        this->width*=(edk::int64)n;
+        this->height*=(edk::int64)n;
+        this->length*=(edk::int64)n;
     }
     void operator*=(edk::int32 n){
         //
-        this->width*=(edk::int64)n;edkEnd();
-        this->height*=(edk::int64)n;edkEnd();
-        this->length*=(edk::int64)n;edkEnd();
+        this->width*=(edk::int64)n;
+        this->height*=(edk::int64)n;
+        this->length*=(edk::int64)n;
     }
     void operator*=(edk::int64 n){
         //
-        this->width*=(edk::int64)n;edkEnd();
-        this->height*=(edk::int64)n;edkEnd();
-        this->length*=(edk::int64)n;edkEnd();
+        this->width*=(edk::int64)n;
+        this->height*=(edk::int64)n;
+        this->length*=(edk::int64)n;
     }
     void operator*=(edk::uint8 n){
         //
-        this->width*=(edk::int64)n;edkEnd();
-        this->height*=(edk::int64)n;edkEnd();
-        this->length*=(edk::int64)n;edkEnd();
+        this->width*=(edk::int64)n;
+        this->height*=(edk::int64)n;
+        this->length*=(edk::int64)n;
     }
     void operator*=(edk::uint16 n){
         //
-        this->width*=(edk::int64)n;edkEnd();
-        this->height*=(edk::int64)n;edkEnd();
-        this->length*=(edk::int64)n;edkEnd();
+        this->width*=(edk::int64)n;
+        this->height*=(edk::int64)n;
+        this->length*=(edk::int64)n;
     }
     void operator*=(edk::uint32 n){
         //
-        this->width*=(edk::int64)n;edkEnd();
-        this->height*=(edk::int64)n;edkEnd();
-        this->length*=(edk::int64)n;edkEnd();
+        this->width*=(edk::int64)n;
+        this->height*=(edk::int64)n;
+        this->length*=(edk::int64)n;
     }
     void operator*=(edk::uint64 n){
         //
-        this->width*=(edk::int64)n;edkEnd();
-        this->height*=(edk::int64)n;edkEnd();
-        this->length*=(edk::int64)n;edkEnd();
+        this->width*=(edk::int64)n;
+        this->height*=(edk::int64)n;
+        this->length*=(edk::int64)n;
     }
 
     //++
     size3i64 operator++(){
         //
-        ++this->width;edkEnd();
-        ++this->height;edkEnd();
-        ++this->length;edkEnd();
-        return size3i64(this->width,this->height,this->length);edkEnd();
+        ++this->width;
+        ++this->height;
+        ++this->length;
+        return size3i64(this->width,this->height,this->length);
     }
     size3i64 operator++(edk::int32){
         //
-        this->width++;edkEnd();
-        this->height++;edkEnd();
-        this->length++;edkEnd();
-        return size3i64(this->width,this->height,this->length);edkEnd();
+        this->width++;
+        this->height++;
+        this->length++;
+        return size3i64(this->width,this->height,this->length);
     }
 
     //--
     size3i64 operator--(){
         //
-        --this->width;edkEnd();
-        --this->height;edkEnd();
-        --this->length;edkEnd();
-        return size3i64(this->width,this->height,this->length);edkEnd();
+        --this->width;
+        --this->height;
+        --this->length;
+        return size3i64(this->width,this->height,this->length);
     }
     size3i64 operator--(edk::int32){
         //
-        this->width--;edkEnd();
-        this->height--;edkEnd();
-        this->length--;edkEnd();
-        return size3i64(this->width,this->height,this->length);edkEnd();
+        this->width--;
+        this->height--;
+        this->length--;
+        return size3i64(this->width,this->height,this->length);
     }
 
     //
     size3i64 operator()(edk::int8 width,edk::int8 height,edk::int8 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3i64((edk::int64)this->width,(edk::int64)this->height,(edk::int64)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3i64((edk::int64)this->width,(edk::int64)this->height,(edk::int64)this->length);
     }
     size3i64 operator()(edk::int16 width,edk::int16 height,edk::int16 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3i64((edk::int64)this->width,(edk::int64)this->height,(edk::int64)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3i64((edk::int64)this->width,(edk::int64)this->height,(edk::int64)this->length);
     }
     size3i64 operator()(edk::int32 width,edk::int32 height,edk::int32 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3i64((edk::int64)this->width,(edk::int64)this->height,(edk::int64)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3i64((edk::int64)this->width,(edk::int64)this->height,(edk::int64)this->length);
     }
     size3i64 operator()(edk::int64 width,edk::int64 height,edk::int64 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3i64((edk::int64)this->width,(edk::int64)this->height,(edk::int64)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3i64((edk::int64)this->width,(edk::int64)this->height,(edk::int64)this->length);
     }
     size3i64 operator()(edk::uint8 width,edk::uint8 height,edk::uint8 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3i64((edk::int64)this->width,(edk::int64)this->height,(edk::int64)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3i64((edk::int64)this->width,(edk::int64)this->height,(edk::int64)this->length);
     }
     size3i64 operator()(edk::uint16 width,edk::uint16 height,edk::uint16 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3i64((edk::int64)this->width,(edk::int64)this->height,(edk::int64)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3i64((edk::int64)this->width,(edk::int64)this->height,(edk::int64)this->length);
     }
     size3i64 operator()(edk::uint32 width,edk::uint32 height,edk::uint32 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3i64((edk::int64)this->width,(edk::int64)this->height,(edk::int64)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3i64((edk::int64)this->width,(edk::int64)this->height,(edk::int64)this->length);
     }
     size3i64 operator()(edk::uint64 width,edk::uint64 height,edk::uint64 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3i64((edk::int64)this->width,(edk::int64)this->height,(edk::int64)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3i64((edk::int64)this->width,(edk::int64)this->height,(edk::int64)this->length);
     }
 };
 
@@ -3226,431 +3226,431 @@ public:
     //CONSTRUTOR
     size3ui8(){
         //zera as variaveis
-        this->width=this->height=this->length=0;edkEnd();
+        this->width=this->height=this->length=0;
     }
     size3ui8(edk::uint8 width,edk::uint8 height,edk::uint8 length){
         //zera as variaveis
-        this->width=(edk::uint8)width;edkEnd();
-        this->height=(edk::uint8)height;edkEnd();
-        this->length=(edk::uint8)length;edkEnd();
+        this->width=(edk::uint8)width;
+        this->height=(edk::uint8)height;
+        this->length=(edk::uint8)length;
     }
     size3ui8(edk::uint16 width,edk::uint16 height,edk::uint16 length){
         //zera as variaveis
-        this->width=(edk::uint8)width;edkEnd();
-        this->height=(edk::uint8)height;edkEnd();
-        this->length=(edk::uint8)length;edkEnd();
+        this->width=(edk::uint8)width;
+        this->height=(edk::uint8)height;
+        this->length=(edk::uint8)length;
     }
     size3ui8(edk::uint32 width,edk::uint32 height,edk::uint32 length){
         //zera as variaveis
-        this->width=(edk::uint8)width;edkEnd();
-        this->height=(edk::uint8)height;edkEnd();
-        this->length=(edk::uint8)length;edkEnd();
+        this->width=(edk::uint8)width;
+        this->height=(edk::uint8)height;
+        this->length=(edk::uint8)length;
     }
     size3ui8(edk::uint64 width,edk::uint64 height,edk::uint64 length){
         //zera as variaveis
-        this->width=(edk::uint8)width;edkEnd();
-        this->height=(edk::uint8)height;edkEnd();
-        this->length=(edk::uint8)length;edkEnd();
+        this->width=(edk::uint8)width;
+        this->height=(edk::uint8)height;
+        this->length=(edk::uint8)length;
     }
     size3ui8(edk::uint8 size){
         //zera as variaveis
-        this->width=(edk::uint8)size;edkEnd();
-        this->height=(edk::uint8)size;edkEnd();
-        this->length=(edk::uint8)size;edkEnd();
+        this->width=(edk::uint8)size;
+        this->height=(edk::uint8)size;
+        this->length=(edk::uint8)size;
     }
     size3ui8(edk::uint16 size){
         //zera as variaveis
-        this->width=(edk::uint8)size;edkEnd();
-        this->height=(edk::uint8)size;edkEnd();
-        this->length=(edk::uint8)size;edkEnd();
+        this->width=(edk::uint8)size;
+        this->height=(edk::uint8)size;
+        this->length=(edk::uint8)size;
     }
     size3ui8(edk::uint32 size){
         //zera as variaveis
-        this->width=(edk::uint8)size;edkEnd();
-        this->height=(edk::uint8)size;edkEnd();
-        this->length=(edk::uint8)size;edkEnd();
+        this->width=(edk::uint8)size;
+        this->height=(edk::uint8)size;
+        this->length=(edk::uint8)size;
     }
     size3ui8(edk::uint64 size){
         //zera as variaveis
-        this->width=(edk::uint8)size;edkEnd();
-        this->height=(edk::uint8)size;edkEnd();
-        this->length=(edk::uint8)size;edkEnd();
+        this->width=(edk::uint8)size;
+        this->height=(edk::uint8)size;
+        this->length=(edk::uint8)size;
     }
     //operators
 
     //=
     size3ui8 operator=(size3ui8 size){
         //
-        this->width=size.width;edkEnd();
-        this->height=size.height;edkEnd();
-        this->length=size.length;edkEnd();
-        return *this;edkEnd();
+        this->width=size.width;
+        this->height=size.height;
+        this->length=size.length;
+        return *this;
     }
     size3ui8 operator=(size2i8 size){
         //
-        this->width=size.width;edkEnd();
-        this->height=size.height;edkEnd();
-        this->length=(edk::uint8)0;edkEnd();
-        return *this;edkEnd();
+        this->width=size.width;
+        this->height=size.height;
+        this->length=(edk::uint8)0;
+        return *this;
     }
     size3ui8 operator=(edk::uint8 n){
         //
-        this->width=(edk::uint8)n;edkEnd();
-        this->height=(edk::uint8)n;edkEnd();
-        this->length=(edk::uint8)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::uint8)n;
+        this->height=(edk::uint8)n;
+        this->length=(edk::uint8)n;
+        return *this;
     }
     size3ui8 operator=(edk::uint16 n){
         //
-        this->width=(edk::uint8)n;edkEnd();
-        this->height=(edk::uint8)n;edkEnd();
-        this->length=(edk::uint8)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::uint8)n;
+        this->height=(edk::uint8)n;
+        this->length=(edk::uint8)n;
+        return *this;
     }
     size3ui8 operator=(edk::uint32 n){
         //
-        this->width=(edk::uint8)n;edkEnd();
-        this->height=(edk::uint8)n;edkEnd();
-        this->length=(edk::uint8)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::uint8)n;
+        this->height=(edk::uint8)n;
+        this->length=(edk::uint8)n;
+        return *this;
     }
     size3ui8 operator=(edk::uint64 n){
         //
-        this->width=(edk::uint8)n;edkEnd();
-        this->height=(edk::uint8)n;edkEnd();
-        this->length=(edk::uint8)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::uint8)n;
+        this->height=(edk::uint8)n;
+        this->length=(edk::uint8)n;
+        return *this;
     }
 
     //==
     bool operator==(size3ui8 size){
         //
-        return (this->width==size.width&&this->height==size.height&&this->length==size.length);edkEnd();
+        return (this->width==size.width&&this->height==size.height&&this->length==size.length);
     }
     //!=
     bool operator!=(size3ui8 size){
         //
-        return (this->width!=size.width||this->height!=size.height||this->length!=size.length);edkEnd();
+        return (this->width!=size.width||this->height!=size.height||this->length!=size.length);
     }
 
     //+
     size3ui8 operator+(size3ui8 size){
         //
-        size3ui8 ret;edkEnd();
-        ret.width=this->width+size.width;edkEnd();
-        ret.height=this->height+size.height;edkEnd();
-        ret.length=this->length+size.length;edkEnd();
+        size3ui8 ret;
+        ret.width=this->width+size.width;
+        ret.height=this->height+size.height;
+        ret.length=this->length+size.length;
         return ret;
     }
     size3ui8 operator+(size2i8 size){
         //
-        size3ui8 ret;edkEnd();
-        ret.width=this->width+size.width;edkEnd();
-        ret.height=this->height+size.height;edkEnd();
+        size3ui8 ret;
+        ret.width=this->width+size.width;
+        ret.height=this->height+size.height;
         return ret;
     }
     size3ui8 operator+(edk::uint8 n){
         //
-        size3ui8 ret;edkEnd();
-        ret.width=this->width+(edk::uint8)n;edkEnd();
-        ret.height=this->height+(edk::uint8)n;edkEnd();
-        ret.length=this->length+(edk::uint8)n;edkEnd();
+        size3ui8 ret;
+        ret.width=this->width+(edk::uint8)n;
+        ret.height=this->height+(edk::uint8)n;
+        ret.length=this->length+(edk::uint8)n;
         return ret;
     }
     size3ui8 operator+(edk::uint16 n){
         //
-        size3ui8 ret;edkEnd();
-        ret.width=this->width+(edk::uint8)n;edkEnd();
-        ret.height=this->height+(edk::uint8)n;edkEnd();
-        ret.length=this->length+(edk::uint8)n;edkEnd();
+        size3ui8 ret;
+        ret.width=this->width+(edk::uint8)n;
+        ret.height=this->height+(edk::uint8)n;
+        ret.length=this->length+(edk::uint8)n;
         return ret;
     }
     size3ui8 operator+(edk::uint32 n){
         //
-        size3ui8 ret;edkEnd();
-        ret.width=this->width+(edk::uint8)n;edkEnd();
-        ret.height=this->height+(edk::uint8)n;edkEnd();
-        ret.length=this->length+(edk::uint8)n;edkEnd();
+        size3ui8 ret;
+        ret.width=this->width+(edk::uint8)n;
+        ret.height=this->height+(edk::uint8)n;
+        ret.length=this->length+(edk::uint8)n;
         return ret;
     }
     size3ui8 operator+(edk::uint64 n){
         //
-        size3ui8 ret;edkEnd();
-        ret.width=this->width+(edk::uint8)n;edkEnd();
-        ret.height=this->height+(edk::uint8)n;edkEnd();
-        ret.length=this->length+(edk::uint8)n;edkEnd();
+        size3ui8 ret;
+        ret.width=this->width+(edk::uint8)n;
+        ret.height=this->height+(edk::uint8)n;
+        ret.length=this->length+(edk::uint8)n;
         return ret;
     }
 
     //+=
     void operator+=(size3ui8 size){
         //
-        this->width+=size.width;edkEnd();
-        this->height+=size.height;edkEnd();
-        this->length+=size.length;edkEnd();
+        this->width+=size.width;
+        this->height+=size.height;
+        this->length+=size.length;
     }
     void operator+=(size2i8 size){
         //
-        this->width+=size.width;edkEnd();
-        this->height+=size.height;edkEnd();
+        this->width+=size.width;
+        this->height+=size.height;
     }
     void operator+=(edk::uint8 n){
         //
-        this->width+=(edk::uint8)n;edkEnd();
-        this->height+=(edk::uint8)n;edkEnd();
-        this->length+=(edk::uint8)n;edkEnd();
+        this->width+=(edk::uint8)n;
+        this->height+=(edk::uint8)n;
+        this->length+=(edk::uint8)n;
     }
     void operator+=(edk::uint16 n){
         //
-        this->width+=(edk::uint8)n;edkEnd();
-        this->height+=(edk::uint8)n;edkEnd();
-        this->length+=(edk::uint8)n;edkEnd();
+        this->width+=(edk::uint8)n;
+        this->height+=(edk::uint8)n;
+        this->length+=(edk::uint8)n;
     }
     void operator+=(edk::uint32 n){
         //
-        this->width+=(edk::uint8)n;edkEnd();
-        this->height+=(edk::uint8)n;edkEnd();
-        this->length+=(edk::uint8)n;edkEnd();
+        this->width+=(edk::uint8)n;
+        this->height+=(edk::uint8)n;
+        this->length+=(edk::uint8)n;
     }
     void operator+=(edk::uint64 n){
         //
-        this->width+=(edk::uint8)n;edkEnd();
-        this->height+=(edk::uint8)n;edkEnd();
-        this->length+=(edk::uint8)n;edkEnd();
+        this->width+=(edk::uint8)n;
+        this->height+=(edk::uint8)n;
+        this->length+=(edk::uint8)n;
     }
 
     //-
     size3ui8 operator-(size3ui8 size){
         //
-        size3ui8 ret;edkEnd();
-        ret.width=this->width-size.width;edkEnd();
-        ret.height=this->height-size.height;edkEnd();
-        ret.length=this->length-size.length;edkEnd();
+        size3ui8 ret;
+        ret.width=this->width-size.width;
+        ret.height=this->height-size.height;
+        ret.length=this->length-size.length;
         return ret;
     }
     size3ui8 operator-(size2i8 size){
         //
-        size3ui8 ret;edkEnd();
-        ret.width=this->width-size.width;edkEnd();
-        ret.height=this->height-size.height;edkEnd();
+        size3ui8 ret;
+        ret.width=this->width-size.width;
+        ret.height=this->height-size.height;
         return ret;
     }
     size3ui8 operator-(edk::uint8 n){
         //
-        size3ui8 ret;edkEnd();
-        ret.width=this->width-(edk::uint8)n;edkEnd();
-        ret.height=this->height-(edk::uint8)n;edkEnd();
-        ret.length=this->length-(edk::uint8)n;edkEnd();
+        size3ui8 ret;
+        ret.width=this->width-(edk::uint8)n;
+        ret.height=this->height-(edk::uint8)n;
+        ret.length=this->length-(edk::uint8)n;
         return ret;
     }
     size3ui8 operator-(edk::uint16 n){
         //
-        size3ui8 ret;edkEnd();
-        ret.width=this->width-(edk::uint8)n;edkEnd();
-        ret.height=this->height-(edk::uint8)n;edkEnd();
-        ret.length=this->length-(edk::uint8)n;edkEnd();
+        size3ui8 ret;
+        ret.width=this->width-(edk::uint8)n;
+        ret.height=this->height-(edk::uint8)n;
+        ret.length=this->length-(edk::uint8)n;
         return ret;
     }
     size3ui8 operator-(edk::uint32 n){
         //
-        size3ui8 ret;edkEnd();
-        ret.width=this->width-(edk::uint8)n;edkEnd();
-        ret.height=this->height-(edk::uint8)n;edkEnd();
-        ret.length=this->length-(edk::uint8)n;edkEnd();
+        size3ui8 ret;
+        ret.width=this->width-(edk::uint8)n;
+        ret.height=this->height-(edk::uint8)n;
+        ret.length=this->length-(edk::uint8)n;
         return ret;
     }
     size3ui8 operator-(edk::uint64 n){
         //
-        size3ui8 ret;edkEnd();
-        ret.width=this->width-(edk::uint8)n;edkEnd();
-        ret.height=this->height-(edk::uint8)n;edkEnd();
-        ret.length=this->length-(edk::uint8)n;edkEnd();
+        size3ui8 ret;
+        ret.width=this->width-(edk::uint8)n;
+        ret.height=this->height-(edk::uint8)n;
+        ret.length=this->length-(edk::uint8)n;
         return ret;
     }
 
     //-=
     void operator-=(size3ui8 size){
         //
-        this->width-=size.width;edkEnd();
-        this->height-=size.height;edkEnd();
-        this->length-=size.length;edkEnd();
+        this->width-=size.width;
+        this->height-=size.height;
+        this->length-=size.length;
     }
     void operator-=(size2i8 size){
         //
-        this->width-=size.width;edkEnd();
-        this->height-=size.height;edkEnd();
+        this->width-=size.width;
+        this->height-=size.height;
     }
     void operator-=(edk::uint8 n){
         //
-        this->width-=(edk::uint8)n;edkEnd();
-        this->height-=(edk::uint8)n;edkEnd();
-        this->length-=(edk::uint8)n;edkEnd();
+        this->width-=(edk::uint8)n;
+        this->height-=(edk::uint8)n;
+        this->length-=(edk::uint8)n;
     }
     void operator-=(edk::uint16 n){
         //
-        this->width-=(edk::uint8)n;edkEnd();
-        this->height-=(edk::uint8)n;edkEnd();
-        this->length-=(edk::uint8)n;edkEnd();
+        this->width-=(edk::uint8)n;
+        this->height-=(edk::uint8)n;
+        this->length-=(edk::uint8)n;
     }
     void operator-=(edk::uint32 n){
         //
-        this->width-=(edk::uint8)n;edkEnd();
-        this->height-=(edk::uint8)n;edkEnd();
-        this->length-=(edk::uint8)n;edkEnd();
+        this->width-=(edk::uint8)n;
+        this->height-=(edk::uint8)n;
+        this->length-=(edk::uint8)n;
     }
     void operator-=(edk::uint64 n){
         //
-        this->width-=(edk::uint8)n;edkEnd();
-        this->height-=(edk::uint8)n;edkEnd();
-        this->length-=(edk::uint8)n;edkEnd();
+        this->width-=(edk::uint8)n;
+        this->height-=(edk::uint8)n;
+        this->length-=(edk::uint8)n;
     }
 
     //*
     size3ui8 operator*(size3ui8 size){
         //
-        size3ui8 ret;edkEnd();
-        ret.width=this->width*size.width;edkEnd();
-        ret.height=this->height*size.height;edkEnd();
-        ret.length=this->length*size.length;edkEnd();
+        size3ui8 ret;
+        ret.width=this->width*size.width;
+        ret.height=this->height*size.height;
+        ret.length=this->length*size.length;
         return ret;
     }
     size3ui8 operator*(size2i8 size){
         //
-        size3ui8 ret;edkEnd();
-        ret.width=this->width*size.width;edkEnd();
-        ret.height=this->height*size.height;edkEnd();
+        size3ui8 ret;
+        ret.width=this->width*size.width;
+        ret.height=this->height*size.height;
         return ret;
     }
     size3ui8 operator*(edk::uint8 n){
         //
-        size3ui8 ret;edkEnd();
-        ret.width=this->width*(edk::uint8)n;edkEnd();
-        ret.height=this->height*(edk::uint8)n;edkEnd();
-        ret.length=this->length*(edk::uint8)n;edkEnd();
+        size3ui8 ret;
+        ret.width=this->width*(edk::uint8)n;
+        ret.height=this->height*(edk::uint8)n;
+        ret.length=this->length*(edk::uint8)n;
         return ret;
     }
     size3ui8 operator*(edk::uint16 n){
         //
-        size3ui8 ret;edkEnd();
-        ret.width=this->width*(edk::uint8)n;edkEnd();
-        ret.height=this->height*(edk::uint8)n;edkEnd();
-        ret.length=this->length*(edk::uint8)n;edkEnd();
+        size3ui8 ret;
+        ret.width=this->width*(edk::uint8)n;
+        ret.height=this->height*(edk::uint8)n;
+        ret.length=this->length*(edk::uint8)n;
         return ret;
     }
     size3ui8 operator*(edk::uint32 n){
         //
-        size3ui8 ret;edkEnd();
-        ret.width=this->width*(edk::uint8)n;edkEnd();
-        ret.height=this->height*(edk::uint8)n;edkEnd();
-        ret.length=this->length*(edk::uint8)n;edkEnd();
+        size3ui8 ret;
+        ret.width=this->width*(edk::uint8)n;
+        ret.height=this->height*(edk::uint8)n;
+        ret.length=this->length*(edk::uint8)n;
         return ret;
     }
     size3ui8 operator*(edk::uint64 n){
         //
-        size3ui8 ret;edkEnd();
-        ret.width=this->width*(edk::uint8)n;edkEnd();
-        ret.height=this->height*(edk::uint8)n;edkEnd();
-        ret.length=this->length*(edk::uint8)n;edkEnd();
+        size3ui8 ret;
+        ret.width=this->width*(edk::uint8)n;
+        ret.height=this->height*(edk::uint8)n;
+        ret.length=this->length*(edk::uint8)n;
         return ret;
     }
 
     //*=
     void operator*=(size3ui8 size){
         //
-        this->width*=size.width;edkEnd();
-        this->height*=size.height;edkEnd();
-        this->length*=size.length;edkEnd();
+        this->width*=size.width;
+        this->height*=size.height;
+        this->length*=size.length;
     }
     void operator*=(size2i8 size){
         //
-        this->width*=size.width;edkEnd();
-        this->height*=size.height;edkEnd();
+        this->width*=size.width;
+        this->height*=size.height;
     }
     void operator*=(edk::uint8 n){
         //
-        this->width*=(edk::uint8)n;edkEnd();
-        this->height*=(edk::uint8)n;edkEnd();
-        this->length*=(edk::uint8)n;edkEnd();
+        this->width*=(edk::uint8)n;
+        this->height*=(edk::uint8)n;
+        this->length*=(edk::uint8)n;
     }
     void operator*=(edk::uint16 n){
         //
-        this->width*=(edk::uint8)n;edkEnd();
-        this->height*=(edk::uint8)n;edkEnd();
-        this->length*=(edk::uint8)n;edkEnd();
+        this->width*=(edk::uint8)n;
+        this->height*=(edk::uint8)n;
+        this->length*=(edk::uint8)n;
     }
     void operator*=(edk::uint32 n){
         //
-        this->width*=(edk::uint8)n;edkEnd();
-        this->height*=(edk::uint8)n;edkEnd();
-        this->length*=(edk::uint8)n;edkEnd();
+        this->width*=(edk::uint8)n;
+        this->height*=(edk::uint8)n;
+        this->length*=(edk::uint8)n;
     }
     void operator*=(edk::uint64 n){
         //
-        this->width*=(edk::uint8)n;edkEnd();
-        this->height*=(edk::uint8)n;edkEnd();
-        this->length*=(edk::uint8)n;edkEnd();
+        this->width*=(edk::uint8)n;
+        this->height*=(edk::uint8)n;
+        this->length*=(edk::uint8)n;
     }
 
     //++
     size3ui8 operator++(){
         //
-        ++this->width;edkEnd();
-        ++this->height;edkEnd();
-        ++this->length;edkEnd();
-        return size3ui8(this->width,this->height,this->length);edkEnd();
+        ++this->width;
+        ++this->height;
+        ++this->length;
+        return size3ui8(this->width,this->height,this->length);
     }
     size3ui8 operator++(edk::int32){
         //
-        this->width++;edkEnd();
-        this->height++;edkEnd();
-        this->length++;edkEnd();
-        return size3ui8(this->width,this->height,this->length);edkEnd();
+        this->width++;
+        this->height++;
+        this->length++;
+        return size3ui8(this->width,this->height,this->length);
     }
 
     //--
     size3ui8 operator--(){
         //
-        --this->width;edkEnd();
-        --this->height;edkEnd();
-        --this->length;edkEnd();
-        return size3ui8(this->width,this->height,this->length);edkEnd();
+        --this->width;
+        --this->height;
+        --this->length;
+        return size3ui8(this->width,this->height,this->length);
     }
     size3ui8 operator--(edk::int32){
         //
-        this->width--;edkEnd();
-        this->height--;edkEnd();
-        this->length--;edkEnd();
-        return size3ui8(this->width,this->height,this->length);edkEnd();
+        this->width--;
+        this->height--;
+        this->length--;
+        return size3ui8(this->width,this->height,this->length);
     }
 
     //
     size3ui8 operator()(edk::uint8 width,edk::uint8 height,edk::uint8 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3ui8((edk::uint8)this->width,(edk::uint8)this->height,(edk::uint8)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3ui8((edk::uint8)this->width,(edk::uint8)this->height,(edk::uint8)this->length);
     }
     size3ui8 operator()(edk::uint16 width,edk::uint16 height,edk::uint16 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3ui8((edk::uint8)this->width,(edk::uint8)this->height,(edk::uint8)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3ui8((edk::uint8)this->width,(edk::uint8)this->height,(edk::uint8)this->length);
     }
     size3ui8 operator()(edk::uint32 width,edk::uint32 height,edk::uint32 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3ui8((edk::uint8)this->width,(edk::uint8)this->height,(edk::uint8)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3ui8((edk::uint8)this->width,(edk::uint8)this->height,(edk::uint8)this->length);
     }
     size3ui8 operator()(edk::uint64 width,edk::uint64 height,edk::uint64 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3ui8((edk::uint8)this->width,(edk::uint8)this->height,(edk::uint8)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3ui8((edk::uint8)this->width,(edk::uint8)this->height,(edk::uint8)this->length);
     }
 };
 
@@ -3663,488 +3663,488 @@ public:
     //CONSTRUTOR
     size3ui16(){
         //zera as variaveis
-        this->width=this->height=this->length=0;edkEnd();
+        this->width=this->height=this->length=0;
     }
     size3ui16(edk::uint8 width,edk::uint8 height,edk::uint8 length){
         //zera as variaveis
-        this->width=(edk::uint16)width;edkEnd();
-        this->height=(edk::uint16)height;edkEnd();
-        this->length=(edk::uint16)length;edkEnd();
+        this->width=(edk::uint16)width;
+        this->height=(edk::uint16)height;
+        this->length=(edk::uint16)length;
     }
     size3ui16(edk::uint16 width,edk::uint16 height,edk::uint16 length){
         //zera as variaveis
-        this->width=(edk::uint16)width;edkEnd();
-        this->height=(edk::uint16)height;edkEnd();
-        this->length=(edk::uint16)length;edkEnd();
+        this->width=(edk::uint16)width;
+        this->height=(edk::uint16)height;
+        this->length=(edk::uint16)length;
     }
     size3ui16(edk::uint32 width,edk::uint32 height,edk::uint32 length){
         //zera as variaveis
-        this->width=(edk::uint16)width;edkEnd();
-        this->height=(edk::uint16)height;edkEnd();
-        this->length=(edk::uint16)length;edkEnd();
+        this->width=(edk::uint16)width;
+        this->height=(edk::uint16)height;
+        this->length=(edk::uint16)length;
     }
     size3ui16(edk::uint64 width,edk::uint64 height,edk::uint64 length){
         //zera as variaveis
-        this->width=(edk::uint16)width;edkEnd();
-        this->height=(edk::uint16)height;edkEnd();
-        this->length=(edk::uint16)length;edkEnd();
+        this->width=(edk::uint16)width;
+        this->height=(edk::uint16)height;
+        this->length=(edk::uint16)length;
     }
     size3ui16(edk::uint8 size){
         //zera as variaveis
-        this->width=(edk::uint16)size;edkEnd();
-        this->height=(edk::uint16)size;edkEnd();
-        this->length=(edk::uint16)size;edkEnd();
+        this->width=(edk::uint16)size;
+        this->height=(edk::uint16)size;
+        this->length=(edk::uint16)size;
     }
     size3ui16(edk::uint16 size){
         //zera as variaveis
-        this->width=(edk::uint16)size;edkEnd();
-        this->height=(edk::uint16)size;edkEnd();
-        this->length=(edk::uint16)size;edkEnd();
+        this->width=(edk::uint16)size;
+        this->height=(edk::uint16)size;
+        this->length=(edk::uint16)size;
     }
     size3ui16(edk::uint32 size){
         //zera as variaveis
-        this->width=(edk::uint16)size;edkEnd();
-        this->height=(edk::uint16)size;edkEnd();
-        this->length=(edk::uint16)size;edkEnd();
+        this->width=(edk::uint16)size;
+        this->height=(edk::uint16)size;
+        this->length=(edk::uint16)size;
     }
     size3ui16(edk::uint64 size){
         //zera as variaveis
-        this->width=(edk::uint16)size;edkEnd();
-        this->height=(edk::uint16)size;edkEnd();
-        this->length=(edk::uint16)size;edkEnd();
+        this->width=(edk::uint16)size;
+        this->height=(edk::uint16)size;
+        this->length=(edk::uint16)size;
     }
     //operators
 
     //=
     size3ui16 operator=(size3ui8 size){
         //
-        this->width=(edk::uint16)size.width;edkEnd();
-        this->height=(edk::uint16)size.height;edkEnd();
-        this->length=size.length;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::uint16)size.width;
+        this->height=(edk::uint16)size.height;
+        this->length=size.length;
+        return *this;
     }
     size3ui16 operator=(size3ui16 size){
         //
-        this->width=size.width;edkEnd();
-        this->height=size.height;edkEnd();
-        this->length=size.length;edkEnd();
-        return *this;edkEnd();
+        this->width=size.width;
+        this->height=size.height;
+        this->length=size.length;
+        return *this;
     }
     size3ui16 operator=(size2i8 size){
         //
-        this->width=(edk::uint16)size.width;edkEnd();
-        this->height=(edk::uint16)size.height;edkEnd();
-        this->length=(edk::uint16)0;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::uint16)size.width;
+        this->height=(edk::uint16)size.height;
+        this->length=(edk::uint16)0;
+        return *this;
     }
     size3ui16 operator=(edk::uint8 n){
         //
-        this->width=(edk::uint16)n;edkEnd();
-        this->height=(edk::uint16)n;edkEnd();
-        this->length=(edk::uint16)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::uint16)n;
+        this->height=(edk::uint16)n;
+        this->length=(edk::uint16)n;
+        return *this;
     }
     size3ui16 operator=(edk::uint16 n){
         //
-        this->width=(edk::uint16)n;edkEnd();
-        this->height=(edk::uint16)n;edkEnd();
-        this->length=(edk::uint16)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::uint16)n;
+        this->height=(edk::uint16)n;
+        this->length=(edk::uint16)n;
+        return *this;
     }
     size3ui16 operator=(edk::uint32 n){
         //
-        this->width=(edk::uint16)n;edkEnd();
-        this->height=(edk::uint16)n;edkEnd();
-        this->length=(edk::uint16)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::uint16)n;
+        this->height=(edk::uint16)n;
+        this->length=(edk::uint16)n;
+        return *this;
     }
     size3ui16 operator=(edk::uint64 n){
         //
-        this->width=(edk::uint16)n;edkEnd();
-        this->height=(edk::uint16)n;edkEnd();
-        this->length=(edk::uint16)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::uint16)n;
+        this->height=(edk::uint16)n;
+        this->length=(edk::uint16)n;
+        return *this;
     }
 
     //==
     bool operator==(size3ui8 size){
         //
-        return (this->width==(edk::uint16)size.width&&this->height==(edk::uint16)size.height&&this->length==(edk::uint16)size.length);edkEnd();
+        return (this->width==(edk::uint16)size.width&&this->height==(edk::uint16)size.height&&this->length==(edk::uint16)size.length);
     }
     bool operator==(size3ui16 size){
         //
-        return (this->width==size.width&&this->height==size.height&&this->length==size.length);edkEnd();
+        return (this->width==size.width&&this->height==size.height&&this->length==size.length);
     }
     //!=
     bool operator!=(size3ui8 size){
         //
-        return (this->width!=(edk::uint16)size.width||this->height!=(edk::uint16)size.height||this->length!=(edk::uint16)size.length);edkEnd();
+        return (this->width!=(edk::uint16)size.width||this->height!=(edk::uint16)size.height||this->length!=(edk::uint16)size.length);
     }
     bool operator!=(size3ui16 size){
         //
-        return (this->width!=size.width||this->height!=size.height||this->length!=size.length);edkEnd();
+        return (this->width!=size.width||this->height!=size.height||this->length!=size.length);
     }
 
     //+
     size3ui16 operator+(size3ui8 size){
         //
-        size3ui16 ret;edkEnd();
-        ret.width=this->width+(edk::uint16)size.width;edkEnd();
-        ret.height=this->height+(edk::uint16)size.height;edkEnd();
-        ret.length=this->length+(edk::uint16)size.length;edkEnd();
+        size3ui16 ret;
+        ret.width=this->width+(edk::uint16)size.width;
+        ret.height=this->height+(edk::uint16)size.height;
+        ret.length=this->length+(edk::uint16)size.length;
         return ret;
     }
     size3ui16 operator+(size3ui16 size){
         //
-        size3ui16 ret;edkEnd();
-        ret.width=this->width+size.width;edkEnd();
-        ret.height=this->height+size.height;edkEnd();
-        ret.length=this->length+size.length;edkEnd();
+        size3ui16 ret;
+        ret.width=this->width+size.width;
+        ret.height=this->height+size.height;
+        ret.length=this->length+size.length;
         return ret;
     }
     size3ui16 operator+(size2i8 size){
         //
-        size3ui16 ret;edkEnd();
-        ret.width=this->width+(edk::uint16)size.width;edkEnd();
-        ret.height=this->height+(edk::uint16)size.height;edkEnd();
+        size3ui16 ret;
+        ret.width=this->width+(edk::uint16)size.width;
+        ret.height=this->height+(edk::uint16)size.height;
         return ret;
     }
     size3ui16 operator+(edk::uint8 n){
         //
-        size3ui16 ret;edkEnd();
-        ret.width=this->width+(edk::uint16)n;edkEnd();
-        ret.height=this->height+(edk::uint16)n;edkEnd();
-        ret.length=this->length+(edk::uint16)n;edkEnd();
+        size3ui16 ret;
+        ret.width=this->width+(edk::uint16)n;
+        ret.height=this->height+(edk::uint16)n;
+        ret.length=this->length+(edk::uint16)n;
         return ret;
     }
     size3ui16 operator+(edk::uint16 n){
         //
-        size3ui16 ret;edkEnd();
-        ret.width=this->width+(edk::uint16)n;edkEnd();
-        ret.height=this->height+(edk::uint16)n;edkEnd();
-        ret.length=this->length+(edk::uint16)n;edkEnd();
+        size3ui16 ret;
+        ret.width=this->width+(edk::uint16)n;
+        ret.height=this->height+(edk::uint16)n;
+        ret.length=this->length+(edk::uint16)n;
         return ret;
     }
     size3ui16 operator+(edk::uint32 n){
         //
-        size3ui16 ret;edkEnd();
-        ret.width=this->width+(edk::uint16)n;edkEnd();
-        ret.height=this->height+(edk::uint16)n;edkEnd();
-        ret.length=this->length+(edk::uint16)n;edkEnd();
+        size3ui16 ret;
+        ret.width=this->width+(edk::uint16)n;
+        ret.height=this->height+(edk::uint16)n;
+        ret.length=this->length+(edk::uint16)n;
         return ret;
     }
     size3ui16 operator+(edk::uint64 n){
         //
-        size3ui16 ret;edkEnd();
-        ret.width=this->width+(edk::uint16)n;edkEnd();
-        ret.height=this->height+(edk::uint16)n;edkEnd();
-        ret.length=this->length+(edk::uint16)n;edkEnd();
+        size3ui16 ret;
+        ret.width=this->width+(edk::uint16)n;
+        ret.height=this->height+(edk::uint16)n;
+        ret.length=this->length+(edk::uint16)n;
         return ret;
     }
 
     //+=
     void operator+=(size3ui8 size){
         //
-        this->width+=(edk::uint16)size.width;edkEnd();
-        this->height+=(edk::uint16)size.height;edkEnd();
-        this->length+=(edk::uint16)size.length;edkEnd();
+        this->width+=(edk::uint16)size.width;
+        this->height+=(edk::uint16)size.height;
+        this->length+=(edk::uint16)size.length;
     }
     void operator+=(size3ui16 size){
         //
-        this->width+=size.width;edkEnd();
-        this->height+=size.height;edkEnd();
-        this->length+=size.length;edkEnd();
+        this->width+=size.width;
+        this->height+=size.height;
+        this->length+=size.length;
     }
     void operator+=(size2i8 size){
         //
-        this->width+=(edk::uint16)size.width;edkEnd();
-        this->height+=(edk::uint16)size.height;edkEnd();
+        this->width+=(edk::uint16)size.width;
+        this->height+=(edk::uint16)size.height;
     }
     void operator+=(edk::uint8 n){
         //
-        this->width+=(edk::uint16)n;edkEnd();
-        this->height+=(edk::uint16)n;edkEnd();
-        this->length+=(edk::uint16)n;edkEnd();
+        this->width+=(edk::uint16)n;
+        this->height+=(edk::uint16)n;
+        this->length+=(edk::uint16)n;
     }
     void operator+=(edk::uint16 n){
         //
-        this->width+=(edk::uint16)n;edkEnd();
-        this->height+=(edk::uint16)n;edkEnd();
-        this->length+=(edk::uint16)n;edkEnd();
+        this->width+=(edk::uint16)n;
+        this->height+=(edk::uint16)n;
+        this->length+=(edk::uint16)n;
     }
     void operator+=(edk::uint32 n){
         //
-        this->width+=(edk::uint16)n;edkEnd();
-        this->height+=(edk::uint16)n;edkEnd();
-        this->length+=(edk::uint16)n;edkEnd();
+        this->width+=(edk::uint16)n;
+        this->height+=(edk::uint16)n;
+        this->length+=(edk::uint16)n;
     }
     void operator+=(edk::uint64 n){
         //
-        this->width+=(edk::uint16)n;edkEnd();
-        this->height+=(edk::uint16)n;edkEnd();
-        this->length+=(edk::uint16)n;edkEnd();
+        this->width+=(edk::uint16)n;
+        this->height+=(edk::uint16)n;
+        this->length+=(edk::uint16)n;
     }
 
     //-
     size3ui16 operator-(size3ui8 size){
         //
-        size3ui16 ret;edkEnd();
-        ret.width=this->width-(edk::uint16)size.width;edkEnd();
-        ret.height=this->height-(edk::uint16)size.height;edkEnd();
-        ret.length=this->length-(edk::uint16)size.length;edkEnd();
+        size3ui16 ret;
+        ret.width=this->width-(edk::uint16)size.width;
+        ret.height=this->height-(edk::uint16)size.height;
+        ret.length=this->length-(edk::uint16)size.length;
         return ret;
     }
     size3ui16 operator-(size3ui16 size){
         //
-        size3ui16 ret;edkEnd();
-        ret.width=this->width-size.width;edkEnd();
-        ret.height=this->height-size.height;edkEnd();
-        ret.length=this->length-size.length;edkEnd();
+        size3ui16 ret;
+        ret.width=this->width-size.width;
+        ret.height=this->height-size.height;
+        ret.length=this->length-size.length;
         return ret;
     }
     size3ui16 operator-(size2i8 size){
         //
-        size3ui16 ret;edkEnd();
-        ret.width=this->width-(edk::uint16)size.width;edkEnd();
-        ret.height=this->height-(edk::uint16)size.height;edkEnd();
+        size3ui16 ret;
+        ret.width=this->width-(edk::uint16)size.width;
+        ret.height=this->height-(edk::uint16)size.height;
         return ret;
     }
     size3ui16 operator-(edk::uint8 n){
         //
-        size3ui16 ret;edkEnd();
-        ret.width=this->width-(edk::uint16)n;edkEnd();
-        ret.height=this->height-(edk::uint16)n;edkEnd();
-        ret.length=this->length-(edk::uint16)n;edkEnd();
+        size3ui16 ret;
+        ret.width=this->width-(edk::uint16)n;
+        ret.height=this->height-(edk::uint16)n;
+        ret.length=this->length-(edk::uint16)n;
         return ret;
     }
     size3ui16 operator-(edk::uint16 n){
         //
-        size3ui16 ret;edkEnd();
-        ret.width=this->width-(edk::uint16)n;edkEnd();
-        ret.height=this->height-(edk::uint16)n;edkEnd();
-        ret.length=this->length-(edk::uint16)n;edkEnd();
+        size3ui16 ret;
+        ret.width=this->width-(edk::uint16)n;
+        ret.height=this->height-(edk::uint16)n;
+        ret.length=this->length-(edk::uint16)n;
         return ret;
     }
     size3ui16 operator-(edk::uint32 n){
         //
-        size3ui16 ret;edkEnd();
-        ret.width=this->width-(edk::uint16)n;edkEnd();
-        ret.height=this->height-(edk::uint16)n;edkEnd();
-        ret.length=this->length-(edk::uint16)n;edkEnd();
+        size3ui16 ret;
+        ret.width=this->width-(edk::uint16)n;
+        ret.height=this->height-(edk::uint16)n;
+        ret.length=this->length-(edk::uint16)n;
         return ret;
     }
     size3ui16 operator-(edk::uint64 n){
         //
-        size3ui16 ret;edkEnd();
-        ret.width=this->width-(edk::uint16)n;edkEnd();
-        ret.height=this->height-(edk::uint16)n;edkEnd();
-        ret.length=this->length-(edk::uint16)n;edkEnd();
+        size3ui16 ret;
+        ret.width=this->width-(edk::uint16)n;
+        ret.height=this->height-(edk::uint16)n;
+        ret.length=this->length-(edk::uint16)n;
         return ret;
     }
 
     //-=
     void operator-=(size3ui8 size){
         //
-        this->width-=(edk::uint16)size.width;edkEnd();
-        this->height-=(edk::uint16)size.height;edkEnd();
-        this->length-=(edk::uint16)size.length;edkEnd();
+        this->width-=(edk::uint16)size.width;
+        this->height-=(edk::uint16)size.height;
+        this->length-=(edk::uint16)size.length;
     }
     void operator-=(size3ui16 size){
         //
-        this->width-=size.width;edkEnd();
-        this->height-=size.height;edkEnd();
-        this->length-=size.length;edkEnd();
+        this->width-=size.width;
+        this->height-=size.height;
+        this->length-=size.length;
     }
     void operator-=(size2i8 size){
         //
-        this->width-=(edk::uint16)size.width;edkEnd();
-        this->height-=(edk::uint16)size.height;edkEnd();
+        this->width-=(edk::uint16)size.width;
+        this->height-=(edk::uint16)size.height;
     }
     void operator-=(edk::uint8 n){
         //
-        this->width-=(edk::uint16)n;edkEnd();
-        this->height-=(edk::uint16)n;edkEnd();
-        this->length-=(edk::uint16)n;edkEnd();
+        this->width-=(edk::uint16)n;
+        this->height-=(edk::uint16)n;
+        this->length-=(edk::uint16)n;
     }
     void operator-=(edk::uint16 n){
         //
-        this->width-=(edk::uint16)n;edkEnd();
-        this->height-=(edk::uint16)n;edkEnd();
-        this->length-=(edk::uint16)n;edkEnd();
+        this->width-=(edk::uint16)n;
+        this->height-=(edk::uint16)n;
+        this->length-=(edk::uint16)n;
     }
     void operator-=(edk::uint32 n){
         //
-        this->width-=(edk::uint16)n;edkEnd();
-        this->height-=(edk::uint16)n;edkEnd();
-        this->length-=(edk::uint16)n;edkEnd();
+        this->width-=(edk::uint16)n;
+        this->height-=(edk::uint16)n;
+        this->length-=(edk::uint16)n;
     }
     void operator-=(edk::uint64 n){
         //
-        this->width-=(edk::uint16)n;edkEnd();
-        this->height-=(edk::uint16)n;edkEnd();
-        this->length-=(edk::uint16)n;edkEnd();
+        this->width-=(edk::uint16)n;
+        this->height-=(edk::uint16)n;
+        this->length-=(edk::uint16)n;
     }
 
     //*
     size3ui16 operator*(size3ui8 size){
         //
-        size3ui16 ret;edkEnd();
-        ret.width=this->width*(edk::uint16)size.width;edkEnd();
-        ret.height=this->height*(edk::uint16)size.height;edkEnd();
-        ret.length=this->length*(edk::uint16)size.length;edkEnd();
+        size3ui16 ret;
+        ret.width=this->width*(edk::uint16)size.width;
+        ret.height=this->height*(edk::uint16)size.height;
+        ret.length=this->length*(edk::uint16)size.length;
         return ret;
     }
     size3ui16 operator*(size3ui16 size){
         //
-        size3ui16 ret;edkEnd();
-        ret.width=this->width*size.width;edkEnd();
-        ret.height=this->height*size.height;edkEnd();
-        ret.length=this->length*size.length;edkEnd();
+        size3ui16 ret;
+        ret.width=this->width*size.width;
+        ret.height=this->height*size.height;
+        ret.length=this->length*size.length;
         return ret;
     }
     size3ui16 operator*(size2i8 size){
         //
-        size3ui16 ret;edkEnd();
-        ret.width=this->width*(edk::uint16)size.width;edkEnd();
-        ret.height=this->height*(edk::uint16)size.height;edkEnd();
+        size3ui16 ret;
+        ret.width=this->width*(edk::uint16)size.width;
+        ret.height=this->height*(edk::uint16)size.height;
         return ret;
     }
     size3ui16 operator*(edk::uint8 n){
         //
-        size3ui16 ret;edkEnd();
-        ret.width=this->width*(edk::uint16)n;edkEnd();
-        ret.height=this->height*(edk::uint16)n;edkEnd();
-        ret.length=this->length*(edk::uint16)n;edkEnd();
+        size3ui16 ret;
+        ret.width=this->width*(edk::uint16)n;
+        ret.height=this->height*(edk::uint16)n;
+        ret.length=this->length*(edk::uint16)n;
         return ret;
     }
     size3ui16 operator*(edk::uint16 n){
         //
-        size3ui16 ret;edkEnd();
-        ret.width=this->width*(edk::uint16)n;edkEnd();
-        ret.height=this->height*(edk::uint16)n;edkEnd();
-        ret.length=this->length*(edk::uint16)n;edkEnd();
+        size3ui16 ret;
+        ret.width=this->width*(edk::uint16)n;
+        ret.height=this->height*(edk::uint16)n;
+        ret.length=this->length*(edk::uint16)n;
         return ret;
     }
     size3ui16 operator*(edk::uint32 n){
         //
-        size3ui16 ret;edkEnd();
-        ret.width=this->width*(edk::uint16)n;edkEnd();
-        ret.height=this->height*(edk::uint16)n;edkEnd();
-        ret.length=this->length*(edk::uint16)n;edkEnd();
+        size3ui16 ret;
+        ret.width=this->width*(edk::uint16)n;
+        ret.height=this->height*(edk::uint16)n;
+        ret.length=this->length*(edk::uint16)n;
         return ret;
     }
     size3ui16 operator*(edk::uint64 n){
         //
-        size3ui16 ret;edkEnd();
-        ret.width=this->width*(edk::uint16)n;edkEnd();
-        ret.height=this->height*(edk::uint16)n;edkEnd();
-        ret.length=this->length*(edk::uint16)n;edkEnd();
+        size3ui16 ret;
+        ret.width=this->width*(edk::uint16)n;
+        ret.height=this->height*(edk::uint16)n;
+        ret.length=this->length*(edk::uint16)n;
         return ret;
     }
 
     //*=
     void operator*=(size3ui8 size){
         //
-        this->width*=(edk::uint16)size.width;edkEnd();
-        this->height*=(edk::uint16)size.height;edkEnd();
-        this->length*=(edk::uint16)size.length;edkEnd();
+        this->width*=(edk::uint16)size.width;
+        this->height*=(edk::uint16)size.height;
+        this->length*=(edk::uint16)size.length;
     }
     void operator*=(size3ui16 size){
         //
-        this->width*=size.width;edkEnd();
-        this->height*=size.height;edkEnd();
-        this->length*=size.length;edkEnd();
+        this->width*=size.width;
+        this->height*=size.height;
+        this->length*=size.length;
     }
     void operator*=(size2i8 size){
         //
-        this->width*=(edk::uint16)size.width;edkEnd();
-        this->height*=(edk::uint16)size.height;edkEnd();
+        this->width*=(edk::uint16)size.width;
+        this->height*=(edk::uint16)size.height;
     }
     void operator*=(edk::uint8 n){
         //
-        this->width*=(edk::uint16)n;edkEnd();
-        this->height*=(edk::uint16)n;edkEnd();
-        this->length*=(edk::uint16)n;edkEnd();
+        this->width*=(edk::uint16)n;
+        this->height*=(edk::uint16)n;
+        this->length*=(edk::uint16)n;
     }
     void operator*=(edk::uint16 n){
         //
-        this->width*=(edk::uint16)n;edkEnd();
-        this->height*=(edk::uint16)n;edkEnd();
-        this->length*=(edk::uint16)n;edkEnd();
+        this->width*=(edk::uint16)n;
+        this->height*=(edk::uint16)n;
+        this->length*=(edk::uint16)n;
     }
     void operator*=(edk::uint32 n){
         //
-        this->width*=(edk::uint16)n;edkEnd();
-        this->height*=(edk::uint16)n;edkEnd();
-        this->length*=(edk::uint16)n;edkEnd();
+        this->width*=(edk::uint16)n;
+        this->height*=(edk::uint16)n;
+        this->length*=(edk::uint16)n;
     }
     void operator*=(edk::uint64 n){
         //
-        this->width*=(edk::uint16)n;edkEnd();
-        this->height*=(edk::uint16)n;edkEnd();
-        this->length*=(edk::uint16)n;edkEnd();
+        this->width*=(edk::uint16)n;
+        this->height*=(edk::uint16)n;
+        this->length*=(edk::uint16)n;
     }
 
     //++
     size3ui16 operator++(){
         //
-        ++this->width;edkEnd();
-        ++this->height;edkEnd();
-        ++this->length;edkEnd();
-        return size3ui16(this->width,this->height,this->length);edkEnd();
+        ++this->width;
+        ++this->height;
+        ++this->length;
+        return size3ui16(this->width,this->height,this->length);
     }
     size3ui16 operator++(edk::int32){
         //
-        this->width++;edkEnd();
-        this->height++;edkEnd();
-        this->length++;edkEnd();
-        return size3ui16(this->width,this->height,this->length);edkEnd();
+        this->width++;
+        this->height++;
+        this->length++;
+        return size3ui16(this->width,this->height,this->length);
     }
 
     //--
     size3ui16 operator--(){
         //
-        --this->width;edkEnd();
-        --this->height;edkEnd();
-        --this->length;edkEnd();
-        return size3ui16(this->width,this->height,this->length);edkEnd();
+        --this->width;
+        --this->height;
+        --this->length;
+        return size3ui16(this->width,this->height,this->length);
     }
     size3ui16 operator--(edk::int32){
         //
-        this->width--;edkEnd();
-        this->height--;edkEnd();
-        this->length--;edkEnd();
-        return size3ui16(this->width,this->height,this->length);edkEnd();
+        this->width--;
+        this->height--;
+        this->length--;
+        return size3ui16(this->width,this->height,this->length);
     }
 
     //
     size3ui16 operator()(edk::uint8 width,edk::uint8 height,edk::uint8 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3ui16((edk::uint16)this->width,(edk::uint16)this->height,(edk::uint16)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3ui16((edk::uint16)this->width,(edk::uint16)this->height,(edk::uint16)this->length);
     }
     size3ui16 operator()(edk::uint16 width,edk::uint16 height,edk::uint16 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3ui16((edk::uint16)this->width,(edk::uint16)this->height,(edk::uint16)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3ui16((edk::uint16)this->width,(edk::uint16)this->height,(edk::uint16)this->length);
     }
     size3ui16 operator()(edk::uint32 width,edk::uint32 height,edk::uint32 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3ui16((edk::uint16)this->width,(edk::uint16)this->height,(edk::uint16)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3ui16((edk::uint16)this->width,(edk::uint16)this->height,(edk::uint16)this->length);
     }
     size3ui16 operator()(edk::uint64 width,edk::uint64 height,edk::uint64 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3ui16((edk::uint16)this->width,(edk::uint16)this->height,(edk::uint16)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3ui16((edk::uint16)this->width,(edk::uint16)this->height,(edk::uint16)this->length);
     }
 };
 
@@ -4157,545 +4157,545 @@ public:
     //CONSTRUTOR
     size3ui32(){
         //zera as variaveis
-        this->width=this->height=this->length=0;edkEnd();
+        this->width=this->height=this->length=0;
     }
     size3ui32(edk::uint8 width,edk::uint8 height,edk::uint8 length){
         //zera as variaveis
-        this->width=(edk::uint32)width;edkEnd();
-        this->height=(edk::uint32)height;edkEnd();
-        this->length=(edk::uint32)length;edkEnd();
+        this->width=(edk::uint32)width;
+        this->height=(edk::uint32)height;
+        this->length=(edk::uint32)length;
     }
     size3ui32(edk::uint16 width,edk::uint16 height,edk::uint16 length){
         //zera as variaveis
-        this->width=(edk::uint32)width;edkEnd();
-        this->height=(edk::uint32)height;edkEnd();
-        this->length=(edk::uint32)length;edkEnd();
+        this->width=(edk::uint32)width;
+        this->height=(edk::uint32)height;
+        this->length=(edk::uint32)length;
     }
     size3ui32(edk::uint32 width,edk::uint32 height,edk::uint32 length){
         //zera as variaveis
-        this->width=(edk::uint32)width;edkEnd();
-        this->height=(edk::uint32)height;edkEnd();
-        this->length=(edk::uint32)length;edkEnd();
+        this->width=(edk::uint32)width;
+        this->height=(edk::uint32)height;
+        this->length=(edk::uint32)length;
     }
     size3ui32(edk::uint64 width,edk::uint64 height,edk::uint64 length){
         //zera as variaveis
-        this->width=(edk::uint32)width;edkEnd();
-        this->height=(edk::uint32)height;edkEnd();
-        this->length=(edk::uint32)length;edkEnd();
+        this->width=(edk::uint32)width;
+        this->height=(edk::uint32)height;
+        this->length=(edk::uint32)length;
     }
     size3ui32(edk::uint8 size){
         //zera as variaveis
-        this->width=(edk::uint32)size;edkEnd();
-        this->height=(edk::uint32)size;edkEnd();
-        this->length=(edk::uint32)size;edkEnd();
+        this->width=(edk::uint32)size;
+        this->height=(edk::uint32)size;
+        this->length=(edk::uint32)size;
     }
     size3ui32(edk::uint16 size){
         //zera as variaveis
-        this->width=(edk::uint32)size;edkEnd();
-        this->height=(edk::uint32)size;edkEnd();
-        this->length=(edk::uint32)size;edkEnd();
+        this->width=(edk::uint32)size;
+        this->height=(edk::uint32)size;
+        this->length=(edk::uint32)size;
     }
     size3ui32(edk::uint32 size){
         //zera as variaveis
-        this->width=(edk::uint32)size;edkEnd();
-        this->height=(edk::uint32)size;edkEnd();
-        this->length=(edk::uint32)size;edkEnd();
+        this->width=(edk::uint32)size;
+        this->height=(edk::uint32)size;
+        this->length=(edk::uint32)size;
     }
     size3ui32(edk::uint64 size){
         //zera as variaveis
-        this->width=(edk::uint32)size;edkEnd();
-        this->height=(edk::uint32)size;edkEnd();
-        this->length=(edk::uint32)size;edkEnd();
+        this->width=(edk::uint32)size;
+        this->height=(edk::uint32)size;
+        this->length=(edk::uint32)size;
     }
     //operators
 
     //=
     size3ui32 operator=(size3ui8 size){
         //
-        this->width=(edk::uint32)size.width;edkEnd();
-        this->height=(edk::uint32)size.height;edkEnd();
-        this->length=size.length;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::uint32)size.width;
+        this->height=(edk::uint32)size.height;
+        this->length=size.length;
+        return *this;
     }
     size3ui32 operator=(size3ui16 size){
         //
-        this->width=(edk::uint32)size.width;edkEnd();
-        this->height=(edk::uint32)size.height;edkEnd();
-        this->length=size.length;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::uint32)size.width;
+        this->height=(edk::uint32)size.height;
+        this->length=size.length;
+        return *this;
     }
     size3ui32 operator=(size3ui32 size){
         //
-        this->width=size.width;edkEnd();
-        this->height=size.height;edkEnd();
-        this->length=size.length;edkEnd();
-        return *this;edkEnd();
+        this->width=size.width;
+        this->height=size.height;
+        this->length=size.length;
+        return *this;
     }
     size3ui32 operator=(size2i8 size){
         //
-        this->width=(edk::uint32)size.width;edkEnd();
-        this->height=(edk::uint32)size.height;edkEnd();
-        this->length=(edk::uint32)0;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::uint32)size.width;
+        this->height=(edk::uint32)size.height;
+        this->length=(edk::uint32)0;
+        return *this;
     }
     size3ui32 operator=(edk::uint8 n){
         //
-        this->width=(edk::uint32)n;edkEnd();
-        this->height=(edk::uint32)n;edkEnd();
-        this->length=(edk::uint32)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::uint32)n;
+        this->height=(edk::uint32)n;
+        this->length=(edk::uint32)n;
+        return *this;
     }
     size3ui32 operator=(edk::uint16 n){
         //
-        this->width=(edk::uint32)n;edkEnd();
-        this->height=(edk::uint32)n;edkEnd();
-        this->length=(edk::uint32)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::uint32)n;
+        this->height=(edk::uint32)n;
+        this->length=(edk::uint32)n;
+        return *this;
     }
     size3ui32 operator=(edk::uint32 n){
         //
-        this->width=(edk::uint32)n;edkEnd();
-        this->height=(edk::uint32)n;edkEnd();
-        this->length=(edk::uint32)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::uint32)n;
+        this->height=(edk::uint32)n;
+        this->length=(edk::uint32)n;
+        return *this;
     }
     size3ui32 operator=(edk::uint64 n){
         //
-        this->width=(edk::uint32)n;edkEnd();
-        this->height=(edk::uint32)n;edkEnd();
-        this->length=(edk::uint32)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::uint32)n;
+        this->height=(edk::uint32)n;
+        this->length=(edk::uint32)n;
+        return *this;
     }
 
     //==
     bool operator==(size3ui8 size){
         //
-        return (this->width==(edk::uint32)size.width&&this->height==(edk::uint32)size.height&&this->length==(edk::uint32)size.length);edkEnd();
+        return (this->width==(edk::uint32)size.width&&this->height==(edk::uint32)size.height&&this->length==(edk::uint32)size.length);
     }
     bool operator==(size3ui16 size){
         //
-        return (this->width==(edk::uint32)size.width&&this->height==(edk::uint32)size.height&&this->length==(edk::uint32)size.length);edkEnd();
+        return (this->width==(edk::uint32)size.width&&this->height==(edk::uint32)size.height&&this->length==(edk::uint32)size.length);
     }
     bool operator==(size3ui32 size){
         //
-        return (this->width==size.width&&this->height==size.height&&this->length==size.length);edkEnd();
+        return (this->width==size.width&&this->height==size.height&&this->length==size.length);
     }
     //!=
     bool operator!=(size3ui8 size){
         //
-        return (this->width!=(edk::uint32)size.width||this->height!=(edk::uint32)size.height||this->length!=(edk::uint32)size.length);edkEnd();
+        return (this->width!=(edk::uint32)size.width||this->height!=(edk::uint32)size.height||this->length!=(edk::uint32)size.length);
     }
     bool operator!=(size3ui16 size){
         //
-        return (this->width!=(edk::uint32)size.width||this->height!=(edk::uint32)size.height||this->length!=(edk::uint32)size.length);edkEnd();
+        return (this->width!=(edk::uint32)size.width||this->height!=(edk::uint32)size.height||this->length!=(edk::uint32)size.length);
     }
     bool operator!=(size3ui32 size){
         //
-        return (this->width!=size.width||this->height!=size.height||this->length!=size.length);edkEnd();
+        return (this->width!=size.width||this->height!=size.height||this->length!=size.length);
     }
 
     //+
     size3ui32 operator+(size3ui8 size){
         //
-        size3ui32 ret;edkEnd();
-        ret.width=this->width+(edk::uint32)size.width;edkEnd();
-        ret.height=this->height+(edk::uint32)size.height;edkEnd();
-        ret.length=this->length+(edk::uint32)size.length;edkEnd();
+        size3ui32 ret;
+        ret.width=this->width+(edk::uint32)size.width;
+        ret.height=this->height+(edk::uint32)size.height;
+        ret.length=this->length+(edk::uint32)size.length;
         return ret;
     }
     size3ui32 operator+(size3ui16 size){
         //
-        size3ui32 ret;edkEnd();
-        ret.width=this->width+(edk::uint32)size.width;edkEnd();
-        ret.height=this->height+(edk::uint32)size.height;edkEnd();
-        ret.length=this->length+(edk::uint32)size.length;edkEnd();
+        size3ui32 ret;
+        ret.width=this->width+(edk::uint32)size.width;
+        ret.height=this->height+(edk::uint32)size.height;
+        ret.length=this->length+(edk::uint32)size.length;
         return ret;
     }
     size3ui32 operator+(size3ui32 size){
         //
-        size3ui32 ret;edkEnd();
-        ret.width=this->width+size.width;edkEnd();
-        ret.height=this->height+size.height;edkEnd();
-        ret.length=this->length+size.length;edkEnd();
+        size3ui32 ret;
+        ret.width=this->width+size.width;
+        ret.height=this->height+size.height;
+        ret.length=this->length+size.length;
         return ret;
     }
     size3ui32 operator+(size2i8 size){
         //
-        size3ui32 ret;edkEnd();
-        ret.width=this->width+(edk::uint32)size.width;edkEnd();
-        ret.height=this->height+(edk::uint32)size.height;edkEnd();
+        size3ui32 ret;
+        ret.width=this->width+(edk::uint32)size.width;
+        ret.height=this->height+(edk::uint32)size.height;
         return ret;
     }
     size3ui32 operator+(edk::uint8 n){
         //
-        size3ui32 ret;edkEnd();
-        ret.width=this->width+(edk::uint32)n;edkEnd();
-        ret.height=this->height+(edk::uint32)n;edkEnd();
-        ret.length=this->length+(edk::uint32)n;edkEnd();
+        size3ui32 ret;
+        ret.width=this->width+(edk::uint32)n;
+        ret.height=this->height+(edk::uint32)n;
+        ret.length=this->length+(edk::uint32)n;
         return ret;
     }
     size3ui32 operator+(edk::uint16 n){
         //
-        size3ui32 ret;edkEnd();
-        ret.width=this->width+(edk::uint32)n;edkEnd();
-        ret.height=this->height+(edk::uint32)n;edkEnd();
-        ret.length=this->length+(edk::uint32)n;edkEnd();
+        size3ui32 ret;
+        ret.width=this->width+(edk::uint32)n;
+        ret.height=this->height+(edk::uint32)n;
+        ret.length=this->length+(edk::uint32)n;
         return ret;
     }
     size3ui32 operator+(edk::uint32 n){
         //
-        size3ui32 ret;edkEnd();
-        ret.width=this->width+(edk::uint32)n;edkEnd();
-        ret.height=this->height+(edk::uint32)n;edkEnd();
-        ret.length=this->length+(edk::uint32)n;edkEnd();
+        size3ui32 ret;
+        ret.width=this->width+(edk::uint32)n;
+        ret.height=this->height+(edk::uint32)n;
+        ret.length=this->length+(edk::uint32)n;
         return ret;
     }
     size3ui32 operator+(edk::uint64 n){
         //
-        size3ui32 ret;edkEnd();
-        ret.width=this->width+(edk::uint32)n;edkEnd();
-        ret.height=this->height+(edk::uint32)n;edkEnd();
-        ret.length=this->length+(edk::uint32)n;edkEnd();
+        size3ui32 ret;
+        ret.width=this->width+(edk::uint32)n;
+        ret.height=this->height+(edk::uint32)n;
+        ret.length=this->length+(edk::uint32)n;
         return ret;
     }
 
     //+=
     void operator+=(size3ui8 size){
         //
-        this->width+=(edk::uint32)size.width;edkEnd();
-        this->height+=(edk::uint32)size.height;edkEnd();
-        this->length+=(edk::uint32)size.length;edkEnd();
+        this->width+=(edk::uint32)size.width;
+        this->height+=(edk::uint32)size.height;
+        this->length+=(edk::uint32)size.length;
     }
     void operator+=(size3ui16 size){
         //
-        this->width+=(edk::uint32)size.width;edkEnd();
-        this->height+=(edk::uint32)size.height;edkEnd();
-        this->length+=(edk::uint32)size.length;edkEnd();
+        this->width+=(edk::uint32)size.width;
+        this->height+=(edk::uint32)size.height;
+        this->length+=(edk::uint32)size.length;
     }
     void operator+=(size3ui32 size){
         //
-        this->width+=size.width;edkEnd();
-        this->height+=size.height;edkEnd();
-        this->length+=size.length;edkEnd();
+        this->width+=size.width;
+        this->height+=size.height;
+        this->length+=size.length;
     }
     void operator+=(size2i8 size){
         //
-        this->width+=(edk::uint32)size.width;edkEnd();
-        this->height+=(edk::uint32)size.height;edkEnd();
+        this->width+=(edk::uint32)size.width;
+        this->height+=(edk::uint32)size.height;
     }
     void operator+=(edk::uint8 n){
         //
-        this->width+=(edk::uint32)n;edkEnd();
-        this->height+=(edk::uint32)n;edkEnd();
-        this->length+=(edk::uint32)n;edkEnd();
+        this->width+=(edk::uint32)n;
+        this->height+=(edk::uint32)n;
+        this->length+=(edk::uint32)n;
     }
     void operator+=(edk::uint16 n){
         //
-        this->width+=(edk::uint32)n;edkEnd();
-        this->height+=(edk::uint32)n;edkEnd();
-        this->length+=(edk::uint32)n;edkEnd();
+        this->width+=(edk::uint32)n;
+        this->height+=(edk::uint32)n;
+        this->length+=(edk::uint32)n;
     }
     void operator+=(edk::uint32 n){
         //
-        this->width+=(edk::uint32)n;edkEnd();
-        this->height+=(edk::uint32)n;edkEnd();
-        this->length+=(edk::uint32)n;edkEnd();
+        this->width+=(edk::uint32)n;
+        this->height+=(edk::uint32)n;
+        this->length+=(edk::uint32)n;
     }
     void operator+=(edk::uint64 n){
         //
-        this->width+=(edk::uint32)n;edkEnd();
-        this->height+=(edk::uint32)n;edkEnd();
-        this->length+=(edk::uint32)n;edkEnd();
+        this->width+=(edk::uint32)n;
+        this->height+=(edk::uint32)n;
+        this->length+=(edk::uint32)n;
     }
 
     //-
     size3ui32 operator-(size3ui8 size){
         //
-        size3ui32 ret;edkEnd();
-        ret.width=this->width-(edk::uint32)size.width;edkEnd();
-        ret.height=this->height-(edk::uint32)size.height;edkEnd();
-        ret.length=this->length-(edk::uint32)size.length;edkEnd();
+        size3ui32 ret;
+        ret.width=this->width-(edk::uint32)size.width;
+        ret.height=this->height-(edk::uint32)size.height;
+        ret.length=this->length-(edk::uint32)size.length;
         return ret;
     }
     size3ui32 operator-(size3ui16 size){
         //
-        size3ui32 ret;edkEnd();
-        ret.width=this->width-(edk::uint32)size.width;edkEnd();
-        ret.height=this->height-(edk::uint32)size.height;edkEnd();
-        ret.length=this->length-(edk::uint32)size.length;edkEnd();
+        size3ui32 ret;
+        ret.width=this->width-(edk::uint32)size.width;
+        ret.height=this->height-(edk::uint32)size.height;
+        ret.length=this->length-(edk::uint32)size.length;
         return ret;
     }
     size3ui32 operator-(size3ui32 size){
         //
-        size3ui32 ret;edkEnd();
-        ret.width=this->width-size.width;edkEnd();
-        ret.height=this->height-size.height;edkEnd();
-        ret.length=this->length-size.length;edkEnd();
+        size3ui32 ret;
+        ret.width=this->width-size.width;
+        ret.height=this->height-size.height;
+        ret.length=this->length-size.length;
         return ret;
     }
     size3ui32 operator-(size2i8 size){
         //
-        size3ui32 ret;edkEnd();
-        ret.width=this->width-(edk::uint32)size.width;edkEnd();
-        ret.height=this->height-(edk::uint32)size.height;edkEnd();
+        size3ui32 ret;
+        ret.width=this->width-(edk::uint32)size.width;
+        ret.height=this->height-(edk::uint32)size.height;
         return ret;
     }
     size3ui32 operator-(edk::uint8 n){
         //
-        size3ui32 ret;edkEnd();
-        ret.width=this->width-(edk::uint32)n;edkEnd();
-        ret.height=this->height-(edk::uint32)n;edkEnd();
-        ret.length=this->length-(edk::uint32)n;edkEnd();
+        size3ui32 ret;
+        ret.width=this->width-(edk::uint32)n;
+        ret.height=this->height-(edk::uint32)n;
+        ret.length=this->length-(edk::uint32)n;
         return ret;
     }
     size3ui32 operator-(edk::uint16 n){
         //
-        size3ui32 ret;edkEnd();
-        ret.width=this->width-(edk::uint32)n;edkEnd();
-        ret.height=this->height-(edk::uint32)n;edkEnd();
-        ret.length=this->length-(edk::uint32)n;edkEnd();
+        size3ui32 ret;
+        ret.width=this->width-(edk::uint32)n;
+        ret.height=this->height-(edk::uint32)n;
+        ret.length=this->length-(edk::uint32)n;
         return ret;
     }
     size3ui32 operator-(edk::uint32 n){
         //
-        size3ui32 ret;edkEnd();
-        ret.width=this->width-(edk::uint32)n;edkEnd();
-        ret.height=this->height-(edk::uint32)n;edkEnd();
-        ret.length=this->length-(edk::uint32)n;edkEnd();
+        size3ui32 ret;
+        ret.width=this->width-(edk::uint32)n;
+        ret.height=this->height-(edk::uint32)n;
+        ret.length=this->length-(edk::uint32)n;
         return ret;
     }
     size3ui32 operator-(edk::uint64 n){
         //
-        size3ui32 ret;edkEnd();
-        ret.width=this->width-(edk::uint32)n;edkEnd();
-        ret.height=this->height-(edk::uint32)n;edkEnd();
-        ret.length=this->length-(edk::uint32)n;edkEnd();
+        size3ui32 ret;
+        ret.width=this->width-(edk::uint32)n;
+        ret.height=this->height-(edk::uint32)n;
+        ret.length=this->length-(edk::uint32)n;
         return ret;
     }
 
     //-=
     void operator-=(size3ui8 size){
         //
-        this->width-=(edk::uint32)size.width;edkEnd();
-        this->height-=(edk::uint32)size.height;edkEnd();
-        this->length-=(edk::uint32)size.length;edkEnd();
+        this->width-=(edk::uint32)size.width;
+        this->height-=(edk::uint32)size.height;
+        this->length-=(edk::uint32)size.length;
     }
     void operator-=(size3ui16 size){
         //
-        this->width-=(edk::uint32)size.width;edkEnd();
-        this->height-=(edk::uint32)size.height;edkEnd();
-        this->length-=(edk::uint32)size.length;edkEnd();
+        this->width-=(edk::uint32)size.width;
+        this->height-=(edk::uint32)size.height;
+        this->length-=(edk::uint32)size.length;
     }
     void operator-=(size3ui32 size){
         //
-        this->width-=size.width;edkEnd();
-        this->height-=size.height;edkEnd();
-        this->length-=size.length;edkEnd();
+        this->width-=size.width;
+        this->height-=size.height;
+        this->length-=size.length;
     }
     void operator-=(size2i8 size){
         //
-        this->width-=(edk::uint32)size.width;edkEnd();
-        this->height-=(edk::uint32)size.height;edkEnd();
+        this->width-=(edk::uint32)size.width;
+        this->height-=(edk::uint32)size.height;
     }
     void operator-=(edk::uint8 n){
         //
-        this->width-=(edk::uint32)n;edkEnd();
-        this->height-=(edk::uint32)n;edkEnd();
-        this->length-=(edk::uint32)n;edkEnd();
+        this->width-=(edk::uint32)n;
+        this->height-=(edk::uint32)n;
+        this->length-=(edk::uint32)n;
     }
     void operator-=(edk::uint16 n){
         //
-        this->width-=(edk::uint32)n;edkEnd();
-        this->height-=(edk::uint32)n;edkEnd();
-        this->length-=(edk::uint32)n;edkEnd();
+        this->width-=(edk::uint32)n;
+        this->height-=(edk::uint32)n;
+        this->length-=(edk::uint32)n;
     }
     void operator-=(edk::uint32 n){
         //
-        this->width-=(edk::uint32)n;edkEnd();
-        this->height-=(edk::uint32)n;edkEnd();
-        this->length-=(edk::uint32)n;edkEnd();
+        this->width-=(edk::uint32)n;
+        this->height-=(edk::uint32)n;
+        this->length-=(edk::uint32)n;
     }
     void operator-=(edk::uint64 n){
         //
-        this->width-=(edk::uint32)n;edkEnd();
-        this->height-=(edk::uint32)n;edkEnd();
-        this->length-=(edk::uint32)n;edkEnd();
+        this->width-=(edk::uint32)n;
+        this->height-=(edk::uint32)n;
+        this->length-=(edk::uint32)n;
     }
 
     //*
     size3ui32 operator*(size3ui8 size){
         //
-        size3ui32 ret;edkEnd();
-        ret.width=this->width*(edk::uint32)size.width;edkEnd();
-        ret.height=this->height*(edk::uint32)size.height;edkEnd();
-        ret.length=this->length*(edk::uint32)size.length;edkEnd();
+        size3ui32 ret;
+        ret.width=this->width*(edk::uint32)size.width;
+        ret.height=this->height*(edk::uint32)size.height;
+        ret.length=this->length*(edk::uint32)size.length;
         return ret;
     }
     size3ui32 operator*(size3ui16 size){
         //
-        size3ui32 ret;edkEnd();
-        ret.width=this->width*(edk::uint32)size.width;edkEnd();
-        ret.height=this->height*(edk::uint32)size.height;edkEnd();
-        ret.length=this->length*(edk::uint32)size.length;edkEnd();
+        size3ui32 ret;
+        ret.width=this->width*(edk::uint32)size.width;
+        ret.height=this->height*(edk::uint32)size.height;
+        ret.length=this->length*(edk::uint32)size.length;
         return ret;
     }
     size3ui32 operator*(size3ui32 size){
         //
-        size3ui32 ret;edkEnd();
-        ret.width=this->width*size.width;edkEnd();
-        ret.height=this->height*size.height;edkEnd();
-        ret.length=this->length*size.length;edkEnd();
+        size3ui32 ret;
+        ret.width=this->width*size.width;
+        ret.height=this->height*size.height;
+        ret.length=this->length*size.length;
         return ret;
     }
     size3ui32 operator*(size2i8 size){
         //
-        size3ui32 ret;edkEnd();
-        ret.width=this->width*(edk::uint32)size.width;edkEnd();
-        ret.height=this->height*(edk::uint32)size.height;edkEnd();
+        size3ui32 ret;
+        ret.width=this->width*(edk::uint32)size.width;
+        ret.height=this->height*(edk::uint32)size.height;
         return ret;
     }
     size3ui32 operator*(edk::uint8 n){
         //
-        size3ui32 ret;edkEnd();
-        ret.width=this->width*(edk::uint32)n;edkEnd();
-        ret.height=this->height*(edk::uint32)n;edkEnd();
-        ret.length=this->length*(edk::uint32)n;edkEnd();
+        size3ui32 ret;
+        ret.width=this->width*(edk::uint32)n;
+        ret.height=this->height*(edk::uint32)n;
+        ret.length=this->length*(edk::uint32)n;
         return ret;
     }
     size3ui32 operator*(edk::uint16 n){
         //
-        size3ui32 ret;edkEnd();
-        ret.width=this->width*(edk::uint32)n;edkEnd();
-        ret.height=this->height*(edk::uint32)n;edkEnd();
-        ret.length=this->length*(edk::uint32)n;edkEnd();
+        size3ui32 ret;
+        ret.width=this->width*(edk::uint32)n;
+        ret.height=this->height*(edk::uint32)n;
+        ret.length=this->length*(edk::uint32)n;
         return ret;
     }
     size3ui32 operator*(edk::uint32 n){
         //
-        size3ui32 ret;edkEnd();
-        ret.width=this->width*(edk::uint32)n;edkEnd();
-        ret.height=this->height*(edk::uint32)n;edkEnd();
-        ret.length=this->length*(edk::uint32)n;edkEnd();
+        size3ui32 ret;
+        ret.width=this->width*(edk::uint32)n;
+        ret.height=this->height*(edk::uint32)n;
+        ret.length=this->length*(edk::uint32)n;
         return ret;
     }
     size3ui32 operator*(edk::uint64 n){
         //
-        size3ui32 ret;edkEnd();
-        ret.width=this->width*(edk::uint32)n;edkEnd();
-        ret.height=this->height*(edk::uint32)n;edkEnd();
-        ret.length=this->length*(edk::uint32)n;edkEnd();
+        size3ui32 ret;
+        ret.width=this->width*(edk::uint32)n;
+        ret.height=this->height*(edk::uint32)n;
+        ret.length=this->length*(edk::uint32)n;
         return ret;
     }
 
     //*=
     void operator*=(size3ui8 size){
         //
-        this->width*=(edk::uint32)size.width;edkEnd();
-        this->height*=(edk::uint32)size.height;edkEnd();
-        this->length*=(edk::uint32)size.length;edkEnd();
+        this->width*=(edk::uint32)size.width;
+        this->height*=(edk::uint32)size.height;
+        this->length*=(edk::uint32)size.length;
     }
     void operator*=(size3ui16 size){
         //
-        this->width*=(edk::uint32)size.width;edkEnd();
-        this->height*=(edk::uint32)size.height;edkEnd();
-        this->length*=(edk::uint32)size.length;edkEnd();
+        this->width*=(edk::uint32)size.width;
+        this->height*=(edk::uint32)size.height;
+        this->length*=(edk::uint32)size.length;
     }
     void operator*=(size3ui32 size){
         //
-        this->width*=size.width;edkEnd();
-        this->height*=size.height;edkEnd();
-        this->length*=size.length;edkEnd();
+        this->width*=size.width;
+        this->height*=size.height;
+        this->length*=size.length;
     }
     void operator*=(size2i8 size){
         //
-        this->width*=(edk::uint32)size.width;edkEnd();
-        this->height*=(edk::uint32)size.height;edkEnd();
+        this->width*=(edk::uint32)size.width;
+        this->height*=(edk::uint32)size.height;
     }
     void operator*=(edk::uint8 n){
         //
-        this->width*=(edk::uint32)n;edkEnd();
-        this->height*=(edk::uint32)n;edkEnd();
-        this->length*=(edk::uint32)n;edkEnd();
+        this->width*=(edk::uint32)n;
+        this->height*=(edk::uint32)n;
+        this->length*=(edk::uint32)n;
     }
     void operator*=(edk::uint16 n){
         //
-        this->width*=(edk::uint32)n;edkEnd();
-        this->height*=(edk::uint32)n;edkEnd();
-        this->length*=(edk::uint32)n;edkEnd();
+        this->width*=(edk::uint32)n;
+        this->height*=(edk::uint32)n;
+        this->length*=(edk::uint32)n;
     }
     void operator*=(edk::uint32 n){
         //
-        this->width*=(edk::uint32)n;edkEnd();
-        this->height*=(edk::uint32)n;edkEnd();
-        this->length*=(edk::uint32)n;edkEnd();
+        this->width*=(edk::uint32)n;
+        this->height*=(edk::uint32)n;
+        this->length*=(edk::uint32)n;
     }
     void operator*=(edk::uint64 n){
         //
-        this->width*=(edk::uint32)n;edkEnd();
-        this->height*=(edk::uint32)n;edkEnd();
-        this->length*=(edk::uint32)n;edkEnd();
+        this->width*=(edk::uint32)n;
+        this->height*=(edk::uint32)n;
+        this->length*=(edk::uint32)n;
     }
 
     //++
     size3ui32 operator++(){
         //
-        ++this->width;edkEnd();
-        ++this->height;edkEnd();
-        ++this->length;edkEnd();
-        return size3ui32(this->width,this->height,this->length);edkEnd();
+        ++this->width;
+        ++this->height;
+        ++this->length;
+        return size3ui32(this->width,this->height,this->length);
     }
     size3ui32 operator++(edk::int32){
         //
-        this->width++;edkEnd();
-        this->height++;edkEnd();
-        this->length++;edkEnd();
-        return size3ui32(this->width,this->height,this->length);edkEnd();
+        this->width++;
+        this->height++;
+        this->length++;
+        return size3ui32(this->width,this->height,this->length);
     }
 
     //--
     size3ui32 operator--(){
         //
-        --this->width;edkEnd();
-        --this->height;edkEnd();
-        --this->length;edkEnd();
-        return size3ui32(this->width,this->height,this->length);edkEnd();
+        --this->width;
+        --this->height;
+        --this->length;
+        return size3ui32(this->width,this->height,this->length);
     }
     size3ui32 operator--(edk::int32){
         //
-        this->width--;edkEnd();
-        this->height--;edkEnd();
-        this->length--;edkEnd();
-        return size3ui32(this->width,this->height,this->length);edkEnd();
+        this->width--;
+        this->height--;
+        this->length--;
+        return size3ui32(this->width,this->height,this->length);
     }
 
     //
     size3ui32 operator()(edk::uint8 width,edk::uint8 height,edk::uint8 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3ui32((edk::uint32)this->width,(edk::uint32)this->height,(edk::uint32)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3ui32((edk::uint32)this->width,(edk::uint32)this->height,(edk::uint32)this->length);
     }
     size3ui32 operator()(edk::uint16 width,edk::uint16 height,edk::uint16 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3ui32((edk::uint32)this->width,(edk::uint32)this->height,(edk::uint32)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3ui32((edk::uint32)this->width,(edk::uint32)this->height,(edk::uint32)this->length);
     }
     size3ui32 operator()(edk::uint32 width,edk::uint32 height,edk::uint32 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3ui32((edk::uint32)this->width,(edk::uint32)this->height,(edk::uint32)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3ui32((edk::uint32)this->width,(edk::uint32)this->height,(edk::uint32)this->length);
     }
     size3ui32 operator()(edk::uint64 width,edk::uint64 height,edk::uint64 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3ui32((edk::uint32)this->width,(edk::uint32)this->height,(edk::uint32)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3ui32((edk::uint32)this->width,(edk::uint32)this->height,(edk::uint32)this->length);
     }
 };
 
@@ -4708,602 +4708,602 @@ public:
     //CONSTRUTOR
     size3ui64(){
         //zera as variaveis
-        this->width=this->height=this->length=0;edkEnd();
+        this->width=this->height=this->length=0;
     }
     size3ui64(edk::uint8 width,edk::uint8 height,edk::uint8 length){
         //zera as variaveis
-        this->width=(edk::uint64)width;edkEnd();
-        this->height=(edk::uint64)height;edkEnd();
-        this->length=(edk::uint64)length;edkEnd();
+        this->width=(edk::uint64)width;
+        this->height=(edk::uint64)height;
+        this->length=(edk::uint64)length;
     }
     size3ui64(edk::uint16 width,edk::uint16 height,edk::uint16 length){
         //zera as variaveis
-        this->width=(edk::uint64)width;edkEnd();
-        this->height=(edk::uint64)height;edkEnd();
-        this->length=(edk::uint64)length;edkEnd();
+        this->width=(edk::uint64)width;
+        this->height=(edk::uint64)height;
+        this->length=(edk::uint64)length;
     }
     size3ui64(edk::uint32 width,edk::uint32 height,edk::uint32 length){
         //zera as variaveis
-        this->width=(edk::uint64)width;edkEnd();
-        this->height=(edk::uint64)height;edkEnd();
-        this->length=(edk::uint64)length;edkEnd();
+        this->width=(edk::uint64)width;
+        this->height=(edk::uint64)height;
+        this->length=(edk::uint64)length;
     }
     size3ui64(edk::uint64 width,edk::uint64 height,edk::uint64 length){
         //zera as variaveis
-        this->width=(edk::uint64)width;edkEnd();
-        this->height=(edk::uint64)height;edkEnd();
-        this->length=(edk::uint64)length;edkEnd();
+        this->width=(edk::uint64)width;
+        this->height=(edk::uint64)height;
+        this->length=(edk::uint64)length;
     }
     size3ui64(edk::uint8 size){
         //zera as variaveis
-        this->width=(edk::uint64)size;edkEnd();
-        this->height=(edk::uint64)size;edkEnd();
-        this->length=(edk::uint64)size;edkEnd();
+        this->width=(edk::uint64)size;
+        this->height=(edk::uint64)size;
+        this->length=(edk::uint64)size;
     }
     size3ui64(edk::uint16 size){
         //zera as variaveis
-        this->width=(edk::uint64)size;edkEnd();
-        this->height=(edk::uint64)size;edkEnd();
-        this->length=(edk::uint64)size;edkEnd();
+        this->width=(edk::uint64)size;
+        this->height=(edk::uint64)size;
+        this->length=(edk::uint64)size;
     }
     size3ui64(edk::uint32 size){
         //zera as variaveis
-        this->width=(edk::uint64)size;edkEnd();
-        this->height=(edk::uint64)size;edkEnd();
-        this->length=(edk::uint64)size;edkEnd();
+        this->width=(edk::uint64)size;
+        this->height=(edk::uint64)size;
+        this->length=(edk::uint64)size;
     }
     size3ui64(edk::uint64 size){
         //zera as variaveis
-        this->width=(edk::uint64)size;edkEnd();
-        this->height=(edk::uint64)size;edkEnd();
-        this->length=(edk::uint64)size;edkEnd();
+        this->width=(edk::uint64)size;
+        this->height=(edk::uint64)size;
+        this->length=(edk::uint64)size;
     }
     //operators
 
     //=
     size3ui64 operator=(size3ui8 size){
         //
-        this->width=(edk::uint64)size.width;edkEnd();
-        this->height=(edk::uint64)size.height;edkEnd();
-        this->length=size.length;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::uint64)size.width;
+        this->height=(edk::uint64)size.height;
+        this->length=size.length;
+        return *this;
     }
     size3ui64 operator=(size3ui16 size){
         //
-        this->width=(edk::uint64)size.width;edkEnd();
-        this->height=(edk::uint64)size.height;edkEnd();
-        this->length=size.length;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::uint64)size.width;
+        this->height=(edk::uint64)size.height;
+        this->length=size.length;
+        return *this;
     }
     size3ui64 operator=(size3ui32 size){
         //
-        this->width=(edk::uint64)size.width;edkEnd();
-        this->height=(edk::uint64)size.height;edkEnd();
-        this->length=size.length;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::uint64)size.width;
+        this->height=(edk::uint64)size.height;
+        this->length=size.length;
+        return *this;
     }
     size3ui64 operator=(size3ui64 size){
         //
-        this->width=size.width;edkEnd();
-        this->height=size.height;edkEnd();
-        this->length=size.length;edkEnd();
-        return *this;edkEnd();
+        this->width=size.width;
+        this->height=size.height;
+        this->length=size.length;
+        return *this;
     }
     size3ui64 operator=(size2i8 size){
         //
-        this->width=(edk::uint64)size.width;edkEnd();
-        this->height=(edk::uint64)size.height;edkEnd();
-        this->length=(edk::uint64)0;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::uint64)size.width;
+        this->height=(edk::uint64)size.height;
+        this->length=(edk::uint64)0;
+        return *this;
     }
     size3ui64 operator=(edk::uint8 n){
         //
-        this->width=(edk::uint64)n;edkEnd();
-        this->height=(edk::uint64)n;edkEnd();
-        this->length=(edk::uint64)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::uint64)n;
+        this->height=(edk::uint64)n;
+        this->length=(edk::uint64)n;
+        return *this;
     }
     size3ui64 operator=(edk::uint16 n){
         //
-        this->width=(edk::uint64)n;edkEnd();
-        this->height=(edk::uint64)n;edkEnd();
-        this->length=(edk::uint64)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::uint64)n;
+        this->height=(edk::uint64)n;
+        this->length=(edk::uint64)n;
+        return *this;
     }
     size3ui64 operator=(edk::uint32 n){
         //
-        this->width=(edk::uint64)n;edkEnd();
-        this->height=(edk::uint64)n;edkEnd();
-        this->length=(edk::uint64)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::uint64)n;
+        this->height=(edk::uint64)n;
+        this->length=(edk::uint64)n;
+        return *this;
     }
     size3ui64 operator=(edk::uint64 n){
         //
-        this->width=(edk::uint64)n;edkEnd();
-        this->height=(edk::uint64)n;edkEnd();
-        this->length=(edk::uint64)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::uint64)n;
+        this->height=(edk::uint64)n;
+        this->length=(edk::uint64)n;
+        return *this;
     }
 
     //==
     bool operator==(size3ui8 size){
         //
-        return (this->width==(edk::uint64)size.width&&this->height==(edk::uint64)size.height&&this->length==(edk::uint64)size.length);edkEnd();
+        return (this->width==(edk::uint64)size.width&&this->height==(edk::uint64)size.height&&this->length==(edk::uint64)size.length);
     }
     bool operator==(size3ui16 size){
         //
-        return (this->width==(edk::uint64)size.width&&this->height==(edk::uint64)size.height&&this->length==(edk::uint64)size.length);edkEnd();
+        return (this->width==(edk::uint64)size.width&&this->height==(edk::uint64)size.height&&this->length==(edk::uint64)size.length);
     }
     bool operator==(size3ui32 size){
         //
-        return (this->width==(edk::uint64)size.width&&this->height==(edk::uint64)size.height&&this->length==(edk::uint64)size.length);edkEnd();
+        return (this->width==(edk::uint64)size.width&&this->height==(edk::uint64)size.height&&this->length==(edk::uint64)size.length);
     }
     bool operator==(size3ui64 size){
         //
-        return (this->width==size.width&&this->height==size.height&&this->length==size.length);edkEnd();
+        return (this->width==size.width&&this->height==size.height&&this->length==size.length);
     }
     //!=
     bool operator!=(size3ui8 size){
         //
-        return (this->width!=(edk::uint64)size.width||this->height!=(edk::uint64)size.height||this->length!=(edk::uint64)size.length);edkEnd();
+        return (this->width!=(edk::uint64)size.width||this->height!=(edk::uint64)size.height||this->length!=(edk::uint64)size.length);
     }
     bool operator!=(size3ui16 size){
         //
-        return (this->width!=(edk::uint64)size.width||this->height!=(edk::uint64)size.height||this->length!=(edk::uint64)size.length);edkEnd();
+        return (this->width!=(edk::uint64)size.width||this->height!=(edk::uint64)size.height||this->length!=(edk::uint64)size.length);
     }
     bool operator!=(size3ui32 size){
         //
-        return (this->width!=(edk::uint64)size.width||this->height!=(edk::uint64)size.height||this->length!=(edk::uint64)size.length);edkEnd();
+        return (this->width!=(edk::uint64)size.width||this->height!=(edk::uint64)size.height||this->length!=(edk::uint64)size.length);
     }
     bool operator!=(size3ui64 size){
         //
-        return (this->width!=size.width||this->height!=size.height||this->length!=size.length);edkEnd();
+        return (this->width!=size.width||this->height!=size.height||this->length!=size.length);
     }
 
     //+
     size3ui64 operator+(size3ui8 size){
         //
-        size3ui64 ret;edkEnd();
-        ret.width=this->width+(edk::uint64)size.width;edkEnd();
-        ret.height=this->height+(edk::uint64)size.height;edkEnd();
-        ret.length=this->length+(edk::uint64)size.length;edkEnd();
+        size3ui64 ret;
+        ret.width=this->width+(edk::uint64)size.width;
+        ret.height=this->height+(edk::uint64)size.height;
+        ret.length=this->length+(edk::uint64)size.length;
         return ret;
     }
     size3ui64 operator+(size3ui16 size){
         //
-        size3ui64 ret;edkEnd();
-        ret.width=this->width+(edk::uint64)size.width;edkEnd();
-        ret.height=this->height+(edk::uint64)size.height;edkEnd();
-        ret.length=this->length+(edk::uint64)size.length;edkEnd();
+        size3ui64 ret;
+        ret.width=this->width+(edk::uint64)size.width;
+        ret.height=this->height+(edk::uint64)size.height;
+        ret.length=this->length+(edk::uint64)size.length;
         return ret;
     }
     size3ui64 operator+(size3ui32 size){
         //
-        size3ui64 ret;edkEnd();
-        ret.width=this->width+(edk::uint64)size.width;edkEnd();
-        ret.height=this->height+(edk::uint64)size.height;edkEnd();
-        ret.length=this->length+(edk::uint64)size.length;edkEnd();
+        size3ui64 ret;
+        ret.width=this->width+(edk::uint64)size.width;
+        ret.height=this->height+(edk::uint64)size.height;
+        ret.length=this->length+(edk::uint64)size.length;
         return ret;
     }
     size3ui64 operator+(size3ui64 size){
         //
-        size3ui64 ret;edkEnd();
-        ret.width=this->width+size.width;edkEnd();
-        ret.height=this->height+size.height;edkEnd();
-        ret.length=this->length+size.length;edkEnd();
+        size3ui64 ret;
+        ret.width=this->width+size.width;
+        ret.height=this->height+size.height;
+        ret.length=this->length+size.length;
         return ret;
     }
     size3ui64 operator+(size2i8 size){
         //
-        size3ui64 ret;edkEnd();
-        ret.width=this->width+(edk::uint64)size.width;edkEnd();
-        ret.height=this->height+(edk::uint64)size.height;edkEnd();
+        size3ui64 ret;
+        ret.width=this->width+(edk::uint64)size.width;
+        ret.height=this->height+(edk::uint64)size.height;
         return ret;
     }
     size3ui64 operator+(edk::uint8 n){
         //
-        size3ui64 ret;edkEnd();
-        ret.width=this->width+(edk::uint64)n;edkEnd();
-        ret.height=this->height+(edk::uint64)n;edkEnd();
-        ret.length=this->length+(edk::uint64)n;edkEnd();
+        size3ui64 ret;
+        ret.width=this->width+(edk::uint64)n;
+        ret.height=this->height+(edk::uint64)n;
+        ret.length=this->length+(edk::uint64)n;
         return ret;
     }
     size3ui64 operator+(edk::uint16 n){
         //
-        size3ui64 ret;edkEnd();
-        ret.width=this->width+(edk::uint64)n;edkEnd();
-        ret.height=this->height+(edk::uint64)n;edkEnd();
-        ret.length=this->length+(edk::uint64)n;edkEnd();
+        size3ui64 ret;
+        ret.width=this->width+(edk::uint64)n;
+        ret.height=this->height+(edk::uint64)n;
+        ret.length=this->length+(edk::uint64)n;
         return ret;
     }
     size3ui64 operator+(edk::uint32 n){
         //
-        size3ui64 ret;edkEnd();
-        ret.width=this->width+(edk::uint64)n;edkEnd();
-        ret.height=this->height+(edk::uint64)n;edkEnd();
-        ret.length=this->length+(edk::uint64)n;edkEnd();
+        size3ui64 ret;
+        ret.width=this->width+(edk::uint64)n;
+        ret.height=this->height+(edk::uint64)n;
+        ret.length=this->length+(edk::uint64)n;
         return ret;
     }
     size3ui64 operator+(edk::uint64 n){
         //
-        size3ui64 ret;edkEnd();
-        ret.width=this->width+(edk::uint64)n;edkEnd();
-        ret.height=this->height+(edk::uint64)n;edkEnd();
-        ret.length=this->length+(edk::uint64)n;edkEnd();
+        size3ui64 ret;
+        ret.width=this->width+(edk::uint64)n;
+        ret.height=this->height+(edk::uint64)n;
+        ret.length=this->length+(edk::uint64)n;
         return ret;
     }
 
     //+=
     void operator+=(size3ui8 size){
         //
-        this->width+=(edk::uint64)size.width;edkEnd();
-        this->height+=(edk::uint64)size.height;edkEnd();
-        this->length+=(edk::uint64)size.length;edkEnd();
+        this->width+=(edk::uint64)size.width;
+        this->height+=(edk::uint64)size.height;
+        this->length+=(edk::uint64)size.length;
     }
     void operator+=(size3ui16 size){
         //
-        this->width+=(edk::uint64)size.width;edkEnd();
-        this->height+=(edk::uint64)size.height;edkEnd();
-        this->length+=(edk::uint64)size.length;edkEnd();
+        this->width+=(edk::uint64)size.width;
+        this->height+=(edk::uint64)size.height;
+        this->length+=(edk::uint64)size.length;
     }
     void operator+=(size3ui32 size){
         //
-        this->width+=(edk::uint64)size.width;edkEnd();
-        this->height+=(edk::uint64)size.height;edkEnd();
-        this->length+=(edk::uint64)size.length;edkEnd();
+        this->width+=(edk::uint64)size.width;
+        this->height+=(edk::uint64)size.height;
+        this->length+=(edk::uint64)size.length;
     }
     void operator+=(size3ui64 size){
         //
-        this->width+=size.width;edkEnd();
-        this->height+=size.height;edkEnd();
-        this->length+=size.length;edkEnd();
+        this->width+=size.width;
+        this->height+=size.height;
+        this->length+=size.length;
     }
     void operator+=(size2i8 size){
         //
-        this->width+=(edk::uint64)size.width;edkEnd();
-        this->height+=(edk::uint64)size.height;edkEnd();
+        this->width+=(edk::uint64)size.width;
+        this->height+=(edk::uint64)size.height;
     }
     void operator+=(edk::uint8 n){
         //
-        this->width+=(edk::uint64)n;edkEnd();
-        this->height+=(edk::uint64)n;edkEnd();
-        this->length+=(edk::uint64)n;edkEnd();
+        this->width+=(edk::uint64)n;
+        this->height+=(edk::uint64)n;
+        this->length+=(edk::uint64)n;
     }
     void operator+=(edk::uint16 n){
         //
-        this->width+=(edk::uint64)n;edkEnd();
-        this->height+=(edk::uint64)n;edkEnd();
-        this->length+=(edk::uint64)n;edkEnd();
+        this->width+=(edk::uint64)n;
+        this->height+=(edk::uint64)n;
+        this->length+=(edk::uint64)n;
     }
     void operator+=(edk::uint32 n){
         //
-        this->width+=(edk::uint64)n;edkEnd();
-        this->height+=(edk::uint64)n;edkEnd();
-        this->length+=(edk::uint64)n;edkEnd();
+        this->width+=(edk::uint64)n;
+        this->height+=(edk::uint64)n;
+        this->length+=(edk::uint64)n;
     }
     void operator+=(edk::uint64 n){
         //
-        this->width+=(edk::uint64)n;edkEnd();
-        this->height+=(edk::uint64)n;edkEnd();
-        this->length+=(edk::uint64)n;edkEnd();
+        this->width+=(edk::uint64)n;
+        this->height+=(edk::uint64)n;
+        this->length+=(edk::uint64)n;
     }
 
     //-
     size3ui64 operator-(size3ui8 size){
         //
-        size3ui64 ret;edkEnd();
-        ret.width=this->width-(edk::uint64)size.width;edkEnd();
-        ret.height=this->height-(edk::uint64)size.height;edkEnd();
-        ret.length=this->length-(edk::uint64)size.length;edkEnd();
+        size3ui64 ret;
+        ret.width=this->width-(edk::uint64)size.width;
+        ret.height=this->height-(edk::uint64)size.height;
+        ret.length=this->length-(edk::uint64)size.length;
         return ret;
     }
     size3ui64 operator-(size3ui16 size){
         //
-        size3ui64 ret;edkEnd();
-        ret.width=this->width-(edk::uint64)size.width;edkEnd();
-        ret.height=this->height-(edk::uint64)size.height;edkEnd();
-        ret.length=this->length-(edk::uint64)size.length;edkEnd();
+        size3ui64 ret;
+        ret.width=this->width-(edk::uint64)size.width;
+        ret.height=this->height-(edk::uint64)size.height;
+        ret.length=this->length-(edk::uint64)size.length;
         return ret;
     }
     size3ui64 operator-(size3ui32 size){
         //
-        size3ui64 ret;edkEnd();
-        ret.width=this->width-(edk::uint64)size.width;edkEnd();
-        ret.height=this->height-(edk::uint64)size.height;edkEnd();
-        ret.length=this->length-(edk::uint64)size.length;edkEnd();
+        size3ui64 ret;
+        ret.width=this->width-(edk::uint64)size.width;
+        ret.height=this->height-(edk::uint64)size.height;
+        ret.length=this->length-(edk::uint64)size.length;
         return ret;
     }
     size3ui64 operator-(size3ui64 size){
         //
-        size3ui64 ret;edkEnd();
-        ret.width=this->width-size.width;edkEnd();
-        ret.height=this->height-size.height;edkEnd();
-        ret.length=this->length-size.length;edkEnd();
+        size3ui64 ret;
+        ret.width=this->width-size.width;
+        ret.height=this->height-size.height;
+        ret.length=this->length-size.length;
         return ret;
     }
     size3ui64 operator-(size2i8 size){
         //
-        size3ui64 ret;edkEnd();
-        ret.width=this->width-(edk::uint64)size.width;edkEnd();
-        ret.height=this->height-(edk::uint64)size.height;edkEnd();
+        size3ui64 ret;
+        ret.width=this->width-(edk::uint64)size.width;
+        ret.height=this->height-(edk::uint64)size.height;
         return ret;
     }
     size3ui64 operator-(edk::uint8 n){
         //
-        size3ui64 ret;edkEnd();
-        ret.width=this->width-(edk::uint64)n;edkEnd();
-        ret.height=this->height-(edk::uint64)n;edkEnd();
-        ret.length=this->length-(edk::uint64)n;edkEnd();
+        size3ui64 ret;
+        ret.width=this->width-(edk::uint64)n;
+        ret.height=this->height-(edk::uint64)n;
+        ret.length=this->length-(edk::uint64)n;
         return ret;
     }
     size3ui64 operator-(edk::uint16 n){
         //
-        size3ui64 ret;edkEnd();
-        ret.width=this->width-(edk::uint64)n;edkEnd();
-        ret.height=this->height-(edk::uint64)n;edkEnd();
-        ret.length=this->length-(edk::uint64)n;edkEnd();
+        size3ui64 ret;
+        ret.width=this->width-(edk::uint64)n;
+        ret.height=this->height-(edk::uint64)n;
+        ret.length=this->length-(edk::uint64)n;
         return ret;
     }
     size3ui64 operator-(edk::uint32 n){
         //
-        size3ui64 ret;edkEnd();
-        ret.width=this->width-(edk::uint64)n;edkEnd();
-        ret.height=this->height-(edk::uint64)n;edkEnd();
-        ret.length=this->length-(edk::uint64)n;edkEnd();
+        size3ui64 ret;
+        ret.width=this->width-(edk::uint64)n;
+        ret.height=this->height-(edk::uint64)n;
+        ret.length=this->length-(edk::uint64)n;
         return ret;
     }
     size3ui64 operator-(edk::uint64 n){
         //
-        size3ui64 ret;edkEnd();
-        ret.width=this->width-(edk::uint64)n;edkEnd();
-        ret.height=this->height-(edk::uint64)n;edkEnd();
-        ret.length=this->length-(edk::uint64)n;edkEnd();
+        size3ui64 ret;
+        ret.width=this->width-(edk::uint64)n;
+        ret.height=this->height-(edk::uint64)n;
+        ret.length=this->length-(edk::uint64)n;
         return ret;
     }
 
     //-=
     void operator-=(size3ui8 size){
         //
-        this->width-=(edk::uint64)size.width;edkEnd();
-        this->height-=(edk::uint64)size.height;edkEnd();
-        this->length-=(edk::uint64)size.length;edkEnd();
+        this->width-=(edk::uint64)size.width;
+        this->height-=(edk::uint64)size.height;
+        this->length-=(edk::uint64)size.length;
     }
     void operator-=(size3ui16 size){
         //
-        this->width-=(edk::uint64)size.width;edkEnd();
-        this->height-=(edk::uint64)size.height;edkEnd();
-        this->length-=(edk::uint64)size.length;edkEnd();
+        this->width-=(edk::uint64)size.width;
+        this->height-=(edk::uint64)size.height;
+        this->length-=(edk::uint64)size.length;
     }
     void operator-=(size3ui32 size){
         //
-        this->width-=(edk::uint64)size.width;edkEnd();
-        this->height-=(edk::uint64)size.height;edkEnd();
-        this->length-=(edk::uint64)size.length;edkEnd();
+        this->width-=(edk::uint64)size.width;
+        this->height-=(edk::uint64)size.height;
+        this->length-=(edk::uint64)size.length;
     }
     void operator-=(size3ui64 size){
         //
-        this->width-=size.width;edkEnd();
-        this->height-=size.height;edkEnd();
-        this->length-=size.length;edkEnd();
+        this->width-=size.width;
+        this->height-=size.height;
+        this->length-=size.length;
     }
     void operator-=(size2i8 size){
         //
-        this->width-=(edk::uint64)size.width;edkEnd();
-        this->height-=(edk::uint64)size.height;edkEnd();
+        this->width-=(edk::uint64)size.width;
+        this->height-=(edk::uint64)size.height;
     }
     void operator-=(edk::uint8 n){
         //
-        this->width-=(edk::uint64)n;edkEnd();
-        this->height-=(edk::uint64)n;edkEnd();
-        this->length-=(edk::uint64)n;edkEnd();
+        this->width-=(edk::uint64)n;
+        this->height-=(edk::uint64)n;
+        this->length-=(edk::uint64)n;
     }
     void operator-=(edk::uint16 n){
         //
-        this->width-=(edk::uint64)n;edkEnd();
-        this->height-=(edk::uint64)n;edkEnd();
-        this->length-=(edk::uint64)n;edkEnd();
+        this->width-=(edk::uint64)n;
+        this->height-=(edk::uint64)n;
+        this->length-=(edk::uint64)n;
     }
     void operator-=(edk::uint32 n){
         //
-        this->width-=(edk::uint64)n;edkEnd();
-        this->height-=(edk::uint64)n;edkEnd();
-        this->length-=(edk::uint64)n;edkEnd();
+        this->width-=(edk::uint64)n;
+        this->height-=(edk::uint64)n;
+        this->length-=(edk::uint64)n;
     }
     void operator-=(edk::uint64 n){
         //
-        this->width-=(edk::uint64)n;edkEnd();
-        this->height-=(edk::uint64)n;edkEnd();
-        this->length-=(edk::uint64)n;edkEnd();
+        this->width-=(edk::uint64)n;
+        this->height-=(edk::uint64)n;
+        this->length-=(edk::uint64)n;
     }
 
     //*
     size3ui64 operator*(size3ui8 size){
         //
-        size3ui64 ret;edkEnd();
-        ret.width=this->width*(edk::uint64)size.width;edkEnd();
-        ret.height=this->height*(edk::uint64)size.height;edkEnd();
-        ret.length=this->length*(edk::uint64)size.length;edkEnd();
+        size3ui64 ret;
+        ret.width=this->width*(edk::uint64)size.width;
+        ret.height=this->height*(edk::uint64)size.height;
+        ret.length=this->length*(edk::uint64)size.length;
         return ret;
     }
     size3ui64 operator*(size3ui16 size){
         //
-        size3ui64 ret;edkEnd();
-        ret.width=this->width*(edk::uint64)size.width;edkEnd();
-        ret.height=this->height*(edk::uint64)size.height;edkEnd();
-        ret.length=this->length*(edk::uint64)size.length;edkEnd();
+        size3ui64 ret;
+        ret.width=this->width*(edk::uint64)size.width;
+        ret.height=this->height*(edk::uint64)size.height;
+        ret.length=this->length*(edk::uint64)size.length;
         return ret;
     }
     size3ui64 operator*(size3ui32 size){
         //
-        size3ui64 ret;edkEnd();
-        ret.width=this->width*(edk::uint64)size.width;edkEnd();
-        ret.height=this->height*(edk::uint64)size.height;edkEnd();
-        ret.length=this->length*(edk::uint64)size.length;edkEnd();
+        size3ui64 ret;
+        ret.width=this->width*(edk::uint64)size.width;
+        ret.height=this->height*(edk::uint64)size.height;
+        ret.length=this->length*(edk::uint64)size.length;
         return ret;
     }
     size3ui64 operator*(size3ui64 size){
         //
-        size3ui64 ret;edkEnd();
-        ret.width=this->width*size.width;edkEnd();
-        ret.height=this->height*size.height;edkEnd();
-        ret.length=this->length*size.length;edkEnd();
+        size3ui64 ret;
+        ret.width=this->width*size.width;
+        ret.height=this->height*size.height;
+        ret.length=this->length*size.length;
         return ret;
     }
     size3ui64 operator*(size2i8 size){
         //
-        size3ui64 ret;edkEnd();
-        ret.width=this->width*(edk::uint64)size.width;edkEnd();
-        ret.height=this->height*(edk::uint64)size.height;edkEnd();
+        size3ui64 ret;
+        ret.width=this->width*(edk::uint64)size.width;
+        ret.height=this->height*(edk::uint64)size.height;
         return ret;
     }
     size3ui64 operator*(edk::uint8 n){
         //
-        size3ui64 ret;edkEnd();
-        ret.width=this->width*(edk::uint64)n;edkEnd();
-        ret.height=this->height*(edk::uint64)n;edkEnd();
-        ret.length=this->length*(edk::uint64)n;edkEnd();
+        size3ui64 ret;
+        ret.width=this->width*(edk::uint64)n;
+        ret.height=this->height*(edk::uint64)n;
+        ret.length=this->length*(edk::uint64)n;
         return ret;
     }
     size3ui64 operator*(edk::uint16 n){
         //
-        size3ui64 ret;edkEnd();
-        ret.width=this->width*(edk::uint64)n;edkEnd();
-        ret.height=this->height*(edk::uint64)n;edkEnd();
-        ret.length=this->length*(edk::uint64)n;edkEnd();
+        size3ui64 ret;
+        ret.width=this->width*(edk::uint64)n;
+        ret.height=this->height*(edk::uint64)n;
+        ret.length=this->length*(edk::uint64)n;
         return ret;
     }
     size3ui64 operator*(edk::uint32 n){
         //
-        size3ui64 ret;edkEnd();
-        ret.width=this->width*(edk::uint64)n;edkEnd();
-        ret.height=this->height*(edk::uint64)n;edkEnd();
-        ret.length=this->length*(edk::uint64)n;edkEnd();
+        size3ui64 ret;
+        ret.width=this->width*(edk::uint64)n;
+        ret.height=this->height*(edk::uint64)n;
+        ret.length=this->length*(edk::uint64)n;
         return ret;
     }
     size3ui64 operator*(edk::uint64 n){
         //
-        size3ui64 ret;edkEnd();
-        ret.width=this->width*(edk::uint64)n;edkEnd();
-        ret.height=this->height*(edk::uint64)n;edkEnd();
-        ret.length=this->length*(edk::uint64)n;edkEnd();
+        size3ui64 ret;
+        ret.width=this->width*(edk::uint64)n;
+        ret.height=this->height*(edk::uint64)n;
+        ret.length=this->length*(edk::uint64)n;
         return ret;
     }
 
     //*=
     void operator*=(size3ui8 size){
         //
-        this->width*=(edk::uint64)size.width;edkEnd();
-        this->height*=(edk::uint64)size.height;edkEnd();
-        this->length*=(edk::uint64)size.length;edkEnd();
+        this->width*=(edk::uint64)size.width;
+        this->height*=(edk::uint64)size.height;
+        this->length*=(edk::uint64)size.length;
     }
     void operator*=(size3ui16 size){
         //
-        this->width*=(edk::uint64)size.width;edkEnd();
-        this->height*=(edk::uint64)size.height;edkEnd();
-        this->length*=(edk::uint64)size.length;edkEnd();
+        this->width*=(edk::uint64)size.width;
+        this->height*=(edk::uint64)size.height;
+        this->length*=(edk::uint64)size.length;
     }
     void operator*=(size3ui32 size){
         //
-        this->width*=(edk::uint64)size.width;edkEnd();
-        this->height*=(edk::uint64)size.height;edkEnd();
-        this->length*=(edk::uint64)size.length;edkEnd();
+        this->width*=(edk::uint64)size.width;
+        this->height*=(edk::uint64)size.height;
+        this->length*=(edk::uint64)size.length;
     }
     void operator*=(size3ui64 size){
         //
-        this->width*=size.width;edkEnd();
-        this->height*=size.height;edkEnd();
-        this->length*=size.length;edkEnd();
+        this->width*=size.width;
+        this->height*=size.height;
+        this->length*=size.length;
     }
     void operator*=(size2i8 size){
         //
-        this->width*=(edk::uint64)size.width;edkEnd();
-        this->height*=(edk::uint64)size.height;edkEnd();
+        this->width*=(edk::uint64)size.width;
+        this->height*=(edk::uint64)size.height;
     }
     void operator*=(edk::uint8 n){
         //
-        this->width*=(edk::uint64)n;edkEnd();
-        this->height*=(edk::uint64)n;edkEnd();
-        this->length*=(edk::uint64)n;edkEnd();
+        this->width*=(edk::uint64)n;
+        this->height*=(edk::uint64)n;
+        this->length*=(edk::uint64)n;
     }
     void operator*=(edk::uint16 n){
         //
-        this->width*=(edk::uint64)n;edkEnd();
-        this->height*=(edk::uint64)n;edkEnd();
-        this->length*=(edk::uint64)n;edkEnd();
+        this->width*=(edk::uint64)n;
+        this->height*=(edk::uint64)n;
+        this->length*=(edk::uint64)n;
     }
     void operator*=(edk::uint32 n){
         //
-        this->width*=(edk::uint64)n;edkEnd();
-        this->height*=(edk::uint64)n;edkEnd();
-        this->length*=(edk::uint64)n;edkEnd();
+        this->width*=(edk::uint64)n;
+        this->height*=(edk::uint64)n;
+        this->length*=(edk::uint64)n;
     }
     void operator*=(edk::uint64 n){
         //
-        this->width*=(edk::uint64)n;edkEnd();
-        this->height*=(edk::uint64)n;edkEnd();
-        this->length*=(edk::uint64)n;edkEnd();
+        this->width*=(edk::uint64)n;
+        this->height*=(edk::uint64)n;
+        this->length*=(edk::uint64)n;
     }
 
     //++
     size3ui64 operator++(){
         //
-        ++this->width;edkEnd();
-        ++this->height;edkEnd();
-        ++this->length;edkEnd();
-        return size3ui64(this->width,this->height,this->length);edkEnd();
+        ++this->width;
+        ++this->height;
+        ++this->length;
+        return size3ui64(this->width,this->height,this->length);
     }
     size3ui64 operator++(edk::int32){
         //
-        this->width++;edkEnd();
-        this->height++;edkEnd();
-        this->length++;edkEnd();
-        return size3ui64(this->width,this->height,this->length);edkEnd();
+        this->width++;
+        this->height++;
+        this->length++;
+        return size3ui64(this->width,this->height,this->length);
     }
 
     //--
     size3ui64 operator--(){
         //
-        --this->width;edkEnd();
-        --this->height;edkEnd();
-        --this->length;edkEnd();
-        return size3ui64(this->width,this->height,this->length);edkEnd();
+        --this->width;
+        --this->height;
+        --this->length;
+        return size3ui64(this->width,this->height,this->length);
     }
     size3ui64 operator--(edk::int32){
         //
-        this->width--;edkEnd();
-        this->height--;edkEnd();
-        this->length--;edkEnd();
-        return size3ui64(this->width,this->height,this->length);edkEnd();
+        this->width--;
+        this->height--;
+        this->length--;
+        return size3ui64(this->width,this->height,this->length);
     }
 
     //
     size3ui64 operator()(edk::uint8 width,edk::uint8 height,edk::uint8 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3ui64((edk::uint64)this->width,(edk::uint64)this->height,(edk::uint64)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3ui64((edk::uint64)this->width,(edk::uint64)this->height,(edk::uint64)this->length);
     }
     size3ui64 operator()(edk::uint16 width,edk::uint16 height,edk::uint16 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3ui64((edk::uint64)this->width,(edk::uint64)this->height,(edk::uint64)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3ui64((edk::uint64)this->width,(edk::uint64)this->height,(edk::uint64)this->length);
     }
     size3ui64 operator()(edk::uint32 width,edk::uint32 height,edk::uint32 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3ui64((edk::uint64)this->width,(edk::uint64)this->height,(edk::uint64)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3ui64((edk::uint64)this->width,(edk::uint64)this->height,(edk::uint64)this->length);
     }
     size3ui64 operator()(edk::uint64 width,edk::uint64 height,edk::uint64 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3ui64((edk::uint64)this->width,(edk::uint64)this->height,(edk::uint64)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3ui64((edk::uint64)this->width,(edk::uint64)this->height,(edk::uint64)this->length);
     }
 };
 
@@ -5316,1009 +5316,1009 @@ public:
     //CONSTRUTOR
     size3f32(){
         //zera as variaveis
-        this->width=this->height=this->length=0;edkEnd();
+        this->width=this->height=this->length=0;
     }
     size3f32(edk::float32 width,edk::float32 height,edk::float32 length){
         //zera as variaveis
-        this->width=(edk::float32)width;edkEnd();
-        this->height=(edk::float32)height;edkEnd();
-        this->length=(edk::float32)length;edkEnd();
+        this->width=(edk::float32)width;
+        this->height=(edk::float32)height;
+        this->length=(edk::float32)length;
     }
     size3f32(edk::float64 width,edk::float64 height,edk::float64 length){
         //zera as variaveis
-        this->width=(edk::float32)width;edkEnd();
-        this->height=(edk::float32)height;edkEnd();
-        this->length=(edk::float32)length;edkEnd();
+        this->width=(edk::float32)width;
+        this->height=(edk::float32)height;
+        this->length=(edk::float32)length;
     }
     size3f32(edk::int8 width,edk::int8 height,edk::int8 length){
         //zera as variaveis
-        this->width=(edk::float32)width;edkEnd();
-        this->height=(edk::float32)height;edkEnd();
-        this->length=(edk::float32)length;edkEnd();
+        this->width=(edk::float32)width;
+        this->height=(edk::float32)height;
+        this->length=(edk::float32)length;
     }
     size3f32(edk::int16 width,edk::int16 height,edk::int16 length){
         //zera as variaveis
-        this->width=(edk::float32)width;edkEnd();
-        this->height=(edk::float32)height;edkEnd();
-        this->length=(edk::float32)length;edkEnd();
+        this->width=(edk::float32)width;
+        this->height=(edk::float32)height;
+        this->length=(edk::float32)length;
     }
     size3f32(edk::int32 width,edk::int32 height,edk::int32 length){
         //zera as variaveis
-        this->width=(edk::float32)width;edkEnd();
-        this->height=(edk::float32)height;edkEnd();
-        this->length=(edk::float32)length;edkEnd();
+        this->width=(edk::float32)width;
+        this->height=(edk::float32)height;
+        this->length=(edk::float32)length;
     }
     size3f32(edk::int64 width,edk::int64 height,edk::int64 length){
         //zera as variaveis
-        this->width=(edk::float32)width;edkEnd();
-        this->height=(edk::float32)height;edkEnd();
-        this->length=(edk::float32)length;edkEnd();
+        this->width=(edk::float32)width;
+        this->height=(edk::float32)height;
+        this->length=(edk::float32)length;
     }
     size3f32(edk::uint8 width,edk::uint8 height,edk::uint8 length){
         //zera as variaveis
-        this->width=(edk::float32)width;edkEnd();
-        this->height=(edk::float32)height;edkEnd();
-        this->length=(edk::float32)length;edkEnd();
+        this->width=(edk::float32)width;
+        this->height=(edk::float32)height;
+        this->length=(edk::float32)length;
     }
     size3f32(edk::uint16 width,edk::uint16 height,edk::uint16 length){
         //zera as variaveis
-        this->width=(edk::float32)width;edkEnd();
-        this->height=(edk::float32)height;edkEnd();
-        this->length=(edk::float32)length;edkEnd();
+        this->width=(edk::float32)width;
+        this->height=(edk::float32)height;
+        this->length=(edk::float32)length;
     }
     size3f32(edk::uint32 width,edk::uint32 height,edk::uint32 length){
         //zera as variaveis
-        this->width=(edk::float32)width;edkEnd();
-        this->height=(edk::float32)height;edkEnd();
-        this->length=(edk::float32)length;edkEnd();
+        this->width=(edk::float32)width;
+        this->height=(edk::float32)height;
+        this->length=(edk::float32)length;
     }
     size3f32(edk::uint64 width,edk::uint64 height,edk::uint64 length){
         //zera as variaveis
-        this->width=(edk::float32)width;edkEnd();
-        this->height=(edk::float32)height;edkEnd();
-        this->length=(edk::float32)length;edkEnd();
+        this->width=(edk::float32)width;
+        this->height=(edk::float32)height;
+        this->length=(edk::float32)length;
     }
     size3f32(edk::float32 size){
         //zera as variaveis
-        this->width=(edk::float32)size;edkEnd();
-        this->height=(edk::float32)size;edkEnd();
-        this->length=(edk::float32)size;edkEnd();
+        this->width=(edk::float32)size;
+        this->height=(edk::float32)size;
+        this->length=(edk::float32)size;
     }
     size3f32(edk::float64 size){
         //zera as variaveis
-        this->width=(edk::float32)size;edkEnd();
-        this->height=(edk::float32)size;edkEnd();
-        this->length=(edk::float32)size;edkEnd();
+        this->width=(edk::float32)size;
+        this->height=(edk::float32)size;
+        this->length=(edk::float32)size;
     }
     size3f32(edk::int8 size){
         //zera as variaveis
-        this->width=(edk::float32)size;edkEnd();
-        this->height=(edk::float32)size;edkEnd();
-        this->length=(edk::float32)size;edkEnd();
+        this->width=(edk::float32)size;
+        this->height=(edk::float32)size;
+        this->length=(edk::float32)size;
     }
     size3f32(edk::int16 size){
         //zera as variaveis
-        this->width=(edk::float32)size;edkEnd();
-        this->height=(edk::float32)size;edkEnd();
-        this->length=(edk::float32)size;edkEnd();
+        this->width=(edk::float32)size;
+        this->height=(edk::float32)size;
+        this->length=(edk::float32)size;
     }
     size3f32(edk::int32 size){
         //zera as variaveis
-        this->width=(edk::float32)size;edkEnd();
-        this->height=(edk::float32)size;edkEnd();
-        this->length=(edk::float32)size;edkEnd();
+        this->width=(edk::float32)size;
+        this->height=(edk::float32)size;
+        this->length=(edk::float32)size;
     }
     size3f32(edk::int64 size){
         //zera as variaveis
-        this->width=(edk::float32)size;edkEnd();
-        this->height=(edk::float32)size;edkEnd();
-        this->length=(edk::float32)size;edkEnd();
+        this->width=(edk::float32)size;
+        this->height=(edk::float32)size;
+        this->length=(edk::float32)size;
     }
     size3f32(edk::uint8 size){
         //zera as variaveis
-        this->width=(edk::float32)size;edkEnd();
-        this->height=(edk::float32)size;edkEnd();
-        this->length=(edk::float32)size;edkEnd();
+        this->width=(edk::float32)size;
+        this->height=(edk::float32)size;
+        this->length=(edk::float32)size;
     }
     size3f32(edk::uint16 size){
         //zera as variaveis
-        this->width=(edk::float32)size;edkEnd();
-        this->height=(edk::float32)size;edkEnd();
-        this->length=(edk::float32)size;edkEnd();
+        this->width=(edk::float32)size;
+        this->height=(edk::float32)size;
+        this->length=(edk::float32)size;
     }
     size3f32(edk::uint32 size){
         //zera as variaveis
-        this->width=(edk::float32)size;edkEnd();
-        this->height=(edk::float32)size;edkEnd();
-        this->length=(edk::float32)size;edkEnd();
+        this->width=(edk::float32)size;
+        this->height=(edk::float32)size;
+        this->length=(edk::float32)size;
     }
     size3f32(edk::uint64 size){
         //zera as variaveis
-        this->width=(edk::float32)size;edkEnd();
-        this->height=(edk::float32)size;edkEnd();
-        this->length=(edk::float32)size;edkEnd();
+        this->width=(edk::float32)size;
+        this->height=(edk::float32)size;
+        this->length=(edk::float32)size;
     }
     //operators
 
     //=
     size3f32 operator=(size3f32 size){
         //
-        this->width=size.width;edkEnd();
-        this->height=size.height;edkEnd();
-        this->length=size.length;edkEnd();
-        return *this;edkEnd();
+        this->width=size.width;
+        this->height=size.height;
+        this->length=size.length;
+        return *this;
     }
     size3f32 operator=(size2i8 size){
         //
-        this->width=size.width;edkEnd();
-        this->height=size.height;edkEnd();
-        this->length=(edk::float32)0;edkEnd();
-        return *this;edkEnd();
+        this->width=size.width;
+        this->height=size.height;
+        this->length=(edk::float32)0;
+        return *this;
     }
     size3f32 operator=(edk::float32 n){
         //
-        this->width=(edk::float32)n;edkEnd();
-        this->height=(edk::float32)n;edkEnd();
-        this->length=(edk::float32)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::float32)n;
+        this->height=(edk::float32)n;
+        this->length=(edk::float32)n;
+        return *this;
     }
     size3f32 operator=(edk::float64 n){
         //
-        this->width=(edk::float32)n;edkEnd();
-        this->height=(edk::float32)n;edkEnd();
-        this->length=(edk::float32)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::float32)n;
+        this->height=(edk::float32)n;
+        this->length=(edk::float32)n;
+        return *this;
     }
     size3f32 operator=(edk::int8 n){
         //
-        this->width=(edk::float32)n;edkEnd();
-        this->height=(edk::float32)n;edkEnd();
-        this->length=(edk::float32)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::float32)n;
+        this->height=(edk::float32)n;
+        this->length=(edk::float32)n;
+        return *this;
     }
     size3f32 operator=(edk::int16 n){
         //
-        this->width=(edk::float32)n;edkEnd();
-        this->height=(edk::float32)n;edkEnd();
-        this->length=(edk::float32)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::float32)n;
+        this->height=(edk::float32)n;
+        this->length=(edk::float32)n;
+        return *this;
     }
     size3f32 operator=(edk::int32 n){
         //
-        this->width=(edk::float32)n;edkEnd();
-        this->height=(edk::float32)n;edkEnd();
-        this->length=(edk::float32)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::float32)n;
+        this->height=(edk::float32)n;
+        this->length=(edk::float32)n;
+        return *this;
     }
     size3f32 operator=(edk::int64 n){
         //
-        this->width=(edk::float32)n;edkEnd();
-        this->height=(edk::float32)n;edkEnd();
-        this->length=(edk::float32)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::float32)n;
+        this->height=(edk::float32)n;
+        this->length=(edk::float32)n;
+        return *this;
     }
     size3f32 operator=(edk::uint8 n){
         //
-        this->width=(edk::float32)n;edkEnd();
-        this->height=(edk::float32)n;edkEnd();
-        this->length=(edk::float32)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::float32)n;
+        this->height=(edk::float32)n;
+        this->length=(edk::float32)n;
+        return *this;
     }
     size3f32 operator=(edk::uint16 n){
         //
-        this->width=(edk::float32)n;edkEnd();
-        this->height=(edk::float32)n;edkEnd();
-        this->length=(edk::float32)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::float32)n;
+        this->height=(edk::float32)n;
+        this->length=(edk::float32)n;
+        return *this;
     }
     size3f32 operator=(edk::uint32 n){
         //
-        this->width=(edk::float32)n;edkEnd();
-        this->height=(edk::float32)n;edkEnd();
-        this->length=(edk::float32)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::float32)n;
+        this->height=(edk::float32)n;
+        this->length=(edk::float32)n;
+        return *this;
     }
     size3f32 operator=(edk::uint64 n){
         //
-        this->width=(edk::float32)n;edkEnd();
-        this->height=(edk::float32)n;edkEnd();
-        this->length=(edk::float32)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::float32)n;
+        this->height=(edk::float32)n;
+        this->length=(edk::float32)n;
+        return *this;
     }
 
     //==
     bool operator==(size3f32 size){
         //
-        return (this->width==size.width&&this->height==size.height&&this->length==size.length);edkEnd();
+        return (this->width==size.width&&this->height==size.height&&this->length==size.length);
     }
     //!=
     bool operator!=(size3f32 size){
         //
-        return (this->width!=size.width||this->height!=size.height||this->length!=size.length);edkEnd();
+        return (this->width!=size.width||this->height!=size.height||this->length!=size.length);
     }
 
     //+
     size3f32 operator+(size3f32 size){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width+size.width;edkEnd();
-        ret.height=this->height+size.height;edkEnd();
-        ret.length=this->length+size.length;edkEnd();
+        size3f32 ret;
+        ret.width=this->width+size.width;
+        ret.height=this->height+size.height;
+        ret.length=this->length+size.length;
         return ret;
     }
     size3f32 operator+(size2i8 size){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width+size.width;edkEnd();
-        ret.height=this->height+size.height;edkEnd();
+        size3f32 ret;
+        ret.width=this->width+size.width;
+        ret.height=this->height+size.height;
         return ret;
     }
     size3f32 operator+(edk::float32 n){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width+(edk::float32)n;edkEnd();
-        ret.height=this->height+(edk::float32)n;edkEnd();
-        ret.length=this->length+(edk::float32)n;edkEnd();
+        size3f32 ret;
+        ret.width=this->width+(edk::float32)n;
+        ret.height=this->height+(edk::float32)n;
+        ret.length=this->length+(edk::float32)n;
         return ret;
     }
     size3f32 operator+(edk::float64 n){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width+(edk::float32)n;edkEnd();
-        ret.height=this->height+(edk::float32)n;edkEnd();
-        ret.length=this->length+(edk::float32)n;edkEnd();
+        size3f32 ret;
+        ret.width=this->width+(edk::float32)n;
+        ret.height=this->height+(edk::float32)n;
+        ret.length=this->length+(edk::float32)n;
         return ret;
     }
     size3f32 operator+(edk::int8 n){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width+(edk::float32)n;edkEnd();
-        ret.height=this->height+(edk::float32)n;edkEnd();
-        ret.length=this->length+(edk::float32)n;edkEnd();
+        size3f32 ret;
+        ret.width=this->width+(edk::float32)n;
+        ret.height=this->height+(edk::float32)n;
+        ret.length=this->length+(edk::float32)n;
         return ret;
     }
     size3f32 operator+(edk::int16 n){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width+(edk::float32)n;edkEnd();
-        ret.height=this->height+(edk::float32)n;edkEnd();
-        ret.length=this->length+(edk::float32)n;edkEnd();
+        size3f32 ret;
+        ret.width=this->width+(edk::float32)n;
+        ret.height=this->height+(edk::float32)n;
+        ret.length=this->length+(edk::float32)n;
         return ret;
     }
     size3f32 operator+(edk::int32 n){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width+(edk::float32)n;edkEnd();
-        ret.height=this->height+(edk::float32)n;edkEnd();
-        ret.length=this->length+(edk::float32)n;edkEnd();
+        size3f32 ret;
+        ret.width=this->width+(edk::float32)n;
+        ret.height=this->height+(edk::float32)n;
+        ret.length=this->length+(edk::float32)n;
         return ret;
     }
     size3f32 operator+(edk::int64 n){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width+(edk::float32)n;edkEnd();
-        ret.height=this->height+(edk::float32)n;edkEnd();
-        ret.length=this->length+(edk::float32)n;edkEnd();
+        size3f32 ret;
+        ret.width=this->width+(edk::float32)n;
+        ret.height=this->height+(edk::float32)n;
+        ret.length=this->length+(edk::float32)n;
         return ret;
     }
     size3f32 operator+(edk::uint8 n){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width+(edk::float32)n;edkEnd();
-        ret.height=this->height+(edk::float32)n;edkEnd();
-        ret.length=this->length+(edk::float32)n;edkEnd();
+        size3f32 ret;
+        ret.width=this->width+(edk::float32)n;
+        ret.height=this->height+(edk::float32)n;
+        ret.length=this->length+(edk::float32)n;
         return ret;
     }
     size3f32 operator+(edk::uint16 n){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width+(edk::float32)n;edkEnd();
-        ret.height=this->height+(edk::float32)n;edkEnd();
-        ret.length=this->length+(edk::float32)n;edkEnd();
+        size3f32 ret;
+        ret.width=this->width+(edk::float32)n;
+        ret.height=this->height+(edk::float32)n;
+        ret.length=this->length+(edk::float32)n;
         return ret;
     }
     size3f32 operator+(edk::uint32 n){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width+(edk::float32)n;edkEnd();
-        ret.height=this->height+(edk::float32)n;edkEnd();
-        ret.length=this->length+(edk::float32)n;edkEnd();
+        size3f32 ret;
+        ret.width=this->width+(edk::float32)n;
+        ret.height=this->height+(edk::float32)n;
+        ret.length=this->length+(edk::float32)n;
         return ret;
     }
     size3f32 operator+(edk::uint64 n){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width+(edk::float32)n;edkEnd();
-        ret.height=this->height+(edk::float32)n;edkEnd();
-        ret.length=this->length+(edk::float32)n;edkEnd();
+        size3f32 ret;
+        ret.width=this->width+(edk::float32)n;
+        ret.height=this->height+(edk::float32)n;
+        ret.length=this->length+(edk::float32)n;
         return ret;
     }
 
     //+=
     void operator+=(size3f32 size){
         //
-        this->width+=size.width;edkEnd();
-        this->height+=size.height;edkEnd();
-        this->length+=size.length;edkEnd();
+        this->width+=size.width;
+        this->height+=size.height;
+        this->length+=size.length;
     }
     void operator+=(size2i8 size){
         //
-        this->width+=size.width;edkEnd();
-        this->height+=size.height;edkEnd();
+        this->width+=size.width;
+        this->height+=size.height;
     }
     void operator+=(edk::float32 n){
         //
-        this->width+=(edk::float32)n;edkEnd();
-        this->height+=(edk::float32)n;edkEnd();
-        this->length+=(edk::float32)n;edkEnd();
+        this->width+=(edk::float32)n;
+        this->height+=(edk::float32)n;
+        this->length+=(edk::float32)n;
     }
     void operator+=(edk::float64 n){
         //
-        this->width+=(edk::float32)n;edkEnd();
-        this->height+=(edk::float32)n;edkEnd();
-        this->length+=(edk::float32)n;edkEnd();
+        this->width+=(edk::float32)n;
+        this->height+=(edk::float32)n;
+        this->length+=(edk::float32)n;
     }
     void operator+=(edk::int8 n){
         //
-        this->width+=(edk::float32)n;edkEnd();
-        this->height+=(edk::float32)n;edkEnd();
-        this->length+=(edk::float32)n;edkEnd();
+        this->width+=(edk::float32)n;
+        this->height+=(edk::float32)n;
+        this->length+=(edk::float32)n;
     }
     void operator+=(edk::int16 n){
         //
-        this->width+=(edk::float32)n;edkEnd();
-        this->height+=(edk::float32)n;edkEnd();
-        this->length+=(edk::float32)n;edkEnd();
+        this->width+=(edk::float32)n;
+        this->height+=(edk::float32)n;
+        this->length+=(edk::float32)n;
     }
     void operator+=(edk::int32 n){
         //
-        this->width+=(edk::float32)n;edkEnd();
-        this->height+=(edk::float32)n;edkEnd();
-        this->length+=(edk::float32)n;edkEnd();
+        this->width+=(edk::float32)n;
+        this->height+=(edk::float32)n;
+        this->length+=(edk::float32)n;
     }
     void operator+=(edk::int64 n){
         //
-        this->width+=(edk::float32)n;edkEnd();
-        this->height+=(edk::float32)n;edkEnd();
-        this->length+=(edk::float32)n;edkEnd();
+        this->width+=(edk::float32)n;
+        this->height+=(edk::float32)n;
+        this->length+=(edk::float32)n;
     }
     void operator+=(edk::uint8 n){
         //
-        this->width+=(edk::float32)n;edkEnd();
-        this->height+=(edk::float32)n;edkEnd();
-        this->length+=(edk::float32)n;edkEnd();
+        this->width+=(edk::float32)n;
+        this->height+=(edk::float32)n;
+        this->length+=(edk::float32)n;
     }
     void operator+=(edk::uint16 n){
         //
-        this->width+=(edk::float32)n;edkEnd();
-        this->height+=(edk::float32)n;edkEnd();
-        this->length+=(edk::float32)n;edkEnd();
+        this->width+=(edk::float32)n;
+        this->height+=(edk::float32)n;
+        this->length+=(edk::float32)n;
     }
     void operator+=(edk::uint32 n){
         //
-        this->width+=(edk::float32)n;edkEnd();
-        this->height+=(edk::float32)n;edkEnd();
-        this->length+=(edk::float32)n;edkEnd();
+        this->width+=(edk::float32)n;
+        this->height+=(edk::float32)n;
+        this->length+=(edk::float32)n;
     }
     void operator+=(edk::uint64 n){
         //
-        this->width+=(edk::float32)n;edkEnd();
-        this->height+=(edk::float32)n;edkEnd();
-        this->length+=(edk::float32)n;edkEnd();
+        this->width+=(edk::float32)n;
+        this->height+=(edk::float32)n;
+        this->length+=(edk::float32)n;
     }
 
     //-
     size3f32 operator-(size3f32 size){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width-size.width;edkEnd();
-        ret.height=this->height-size.height;edkEnd();
-        ret.length=this->length-size.length;edkEnd();
+        size3f32 ret;
+        ret.width=this->width-size.width;
+        ret.height=this->height-size.height;
+        ret.length=this->length-size.length;
         return ret;
     }
     size3f32 operator-(size2i8 size){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width-size.width;edkEnd();
-        ret.height=this->height-size.height;edkEnd();
+        size3f32 ret;
+        ret.width=this->width-size.width;
+        ret.height=this->height-size.height;
         return ret;
     }
     size3f32 operator-(edk::float32 n){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width-(edk::float32)n;edkEnd();
-        ret.height=this->height-(edk::float32)n;edkEnd();
-        ret.length=this->length-(edk::float32)n;edkEnd();
+        size3f32 ret;
+        ret.width=this->width-(edk::float32)n;
+        ret.height=this->height-(edk::float32)n;
+        ret.length=this->length-(edk::float32)n;
         return ret;
     }
     size3f32 operator-(edk::float64 n){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width-(edk::float32)n;edkEnd();
-        ret.height=this->height-(edk::float32)n;edkEnd();
-        ret.length=this->length-(edk::float32)n;edkEnd();
+        size3f32 ret;
+        ret.width=this->width-(edk::float32)n;
+        ret.height=this->height-(edk::float32)n;
+        ret.length=this->length-(edk::float32)n;
         return ret;
     }
     size3f32 operator-(edk::int8 n){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width-(edk::float32)n;edkEnd();
-        ret.height=this->height-(edk::float32)n;edkEnd();
-        ret.length=this->length-(edk::float32)n;edkEnd();
+        size3f32 ret;
+        ret.width=this->width-(edk::float32)n;
+        ret.height=this->height-(edk::float32)n;
+        ret.length=this->length-(edk::float32)n;
         return ret;
     }
     size3f32 operator-(edk::int16 n){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width-(edk::float32)n;edkEnd();
-        ret.height=this->height-(edk::float32)n;edkEnd();
-        ret.length=this->length-(edk::float32)n;edkEnd();
+        size3f32 ret;
+        ret.width=this->width-(edk::float32)n;
+        ret.height=this->height-(edk::float32)n;
+        ret.length=this->length-(edk::float32)n;
         return ret;
     }
     size3f32 operator-(edk::int32 n){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width-(edk::float32)n;edkEnd();
-        ret.height=this->height-(edk::float32)n;edkEnd();
-        ret.length=this->length-(edk::float32)n;edkEnd();
+        size3f32 ret;
+        ret.width=this->width-(edk::float32)n;
+        ret.height=this->height-(edk::float32)n;
+        ret.length=this->length-(edk::float32)n;
         return ret;
     }
     size3f32 operator-(edk::int64 n){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width-(edk::float32)n;edkEnd();
-        ret.height=this->height-(edk::float32)n;edkEnd();
-        ret.length=this->length-(edk::float32)n;edkEnd();
+        size3f32 ret;
+        ret.width=this->width-(edk::float32)n;
+        ret.height=this->height-(edk::float32)n;
+        ret.length=this->length-(edk::float32)n;
         return ret;
     }
     size3f32 operator-(edk::uint8 n){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width-(edk::float32)n;edkEnd();
-        ret.height=this->height-(edk::float32)n;edkEnd();
-        ret.length=this->length-(edk::float32)n;edkEnd();
+        size3f32 ret;
+        ret.width=this->width-(edk::float32)n;
+        ret.height=this->height-(edk::float32)n;
+        ret.length=this->length-(edk::float32)n;
         return ret;
     }
     size3f32 operator-(edk::uint16 n){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width-(edk::float32)n;edkEnd();
-        ret.height=this->height-(edk::float32)n;edkEnd();
-        ret.length=this->length-(edk::float32)n;edkEnd();
+        size3f32 ret;
+        ret.width=this->width-(edk::float32)n;
+        ret.height=this->height-(edk::float32)n;
+        ret.length=this->length-(edk::float32)n;
         return ret;
     }
     size3f32 operator-(edk::uint32 n){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width-(edk::float32)n;edkEnd();
-        ret.height=this->height-(edk::float32)n;edkEnd();
-        ret.length=this->length-(edk::float32)n;edkEnd();
+        size3f32 ret;
+        ret.width=this->width-(edk::float32)n;
+        ret.height=this->height-(edk::float32)n;
+        ret.length=this->length-(edk::float32)n;
         return ret;
     }
     size3f32 operator-(edk::uint64 n){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width-(edk::float32)n;edkEnd();
-        ret.height=this->height-(edk::float32)n;edkEnd();
-        ret.length=this->length-(edk::float32)n;edkEnd();
+        size3f32 ret;
+        ret.width=this->width-(edk::float32)n;
+        ret.height=this->height-(edk::float32)n;
+        ret.length=this->length-(edk::float32)n;
         return ret;
     }
 
     //-=
     void operator-=(size3f32 size){
         //
-        this->width-=size.width;edkEnd();
-        this->height-=size.height;edkEnd();
-        this->length-=size.length;edkEnd();
+        this->width-=size.width;
+        this->height-=size.height;
+        this->length-=size.length;
     }
     void operator-=(size2i8 size){
         //
-        this->width-=size.width;edkEnd();
-        this->height-=size.height;edkEnd();
+        this->width-=size.width;
+        this->height-=size.height;
     }
     void operator-=(edk::float32 n){
         //
-        this->width-=(edk::float32)n;edkEnd();
-        this->height-=(edk::float32)n;edkEnd();
-        this->length-=(edk::float32)n;edkEnd();
+        this->width-=(edk::float32)n;
+        this->height-=(edk::float32)n;
+        this->length-=(edk::float32)n;
     }
     void operator-=(edk::float64 n){
         //
-        this->width-=(edk::float32)n;edkEnd();
-        this->height-=(edk::float32)n;edkEnd();
-        this->length-=(edk::float32)n;edkEnd();
+        this->width-=(edk::float32)n;
+        this->height-=(edk::float32)n;
+        this->length-=(edk::float32)n;
     }
     void operator-=(edk::int8 n){
         //
-        this->width-=(edk::float32)n;edkEnd();
-        this->height-=(edk::float32)n;edkEnd();
-        this->length-=(edk::float32)n;edkEnd();
+        this->width-=(edk::float32)n;
+        this->height-=(edk::float32)n;
+        this->length-=(edk::float32)n;
     }
     void operator-=(edk::int16 n){
         //
-        this->width-=(edk::float32)n;edkEnd();
-        this->height-=(edk::float32)n;edkEnd();
-        this->length-=(edk::float32)n;edkEnd();
+        this->width-=(edk::float32)n;
+        this->height-=(edk::float32)n;
+        this->length-=(edk::float32)n;
     }
     void operator-=(edk::int32 n){
         //
-        this->width-=(edk::float32)n;edkEnd();
-        this->height-=(edk::float32)n;edkEnd();
-        this->length-=(edk::float32)n;edkEnd();
+        this->width-=(edk::float32)n;
+        this->height-=(edk::float32)n;
+        this->length-=(edk::float32)n;
     }
     void operator-=(edk::int64 n){
         //
-        this->width-=(edk::float32)n;edkEnd();
-        this->height-=(edk::float32)n;edkEnd();
-        this->length-=(edk::float32)n;edkEnd();
+        this->width-=(edk::float32)n;
+        this->height-=(edk::float32)n;
+        this->length-=(edk::float32)n;
     }
     void operator-=(edk::uint8 n){
         //
-        this->width-=(edk::float32)n;edkEnd();
-        this->height-=(edk::float32)n;edkEnd();
-        this->length-=(edk::float32)n;edkEnd();
+        this->width-=(edk::float32)n;
+        this->height-=(edk::float32)n;
+        this->length-=(edk::float32)n;
     }
     void operator-=(edk::uint16 n){
         //
-        this->width-=(edk::float32)n;edkEnd();
-        this->height-=(edk::float32)n;edkEnd();
-        this->length-=(edk::float32)n;edkEnd();
+        this->width-=(edk::float32)n;
+        this->height-=(edk::float32)n;
+        this->length-=(edk::float32)n;
     }
     void operator-=(edk::uint32 n){
         //
-        this->width-=(edk::float32)n;edkEnd();
-        this->height-=(edk::float32)n;edkEnd();
-        this->length-=(edk::float32)n;edkEnd();
+        this->width-=(edk::float32)n;
+        this->height-=(edk::float32)n;
+        this->length-=(edk::float32)n;
     }
     void operator-=(edk::uint64 n){
         //
-        this->width-=(edk::float32)n;edkEnd();
-        this->height-=(edk::float32)n;edkEnd();
-        this->length-=(edk::float32)n;edkEnd();
+        this->width-=(edk::float32)n;
+        this->height-=(edk::float32)n;
+        this->length-=(edk::float32)n;
     }
 
     //*
     size3f32 operator*(size3f32 size){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width*size.width;edkEnd();
-        ret.height=this->height*size.height;edkEnd();
-        ret.length=this->length*size.length;edkEnd();
+        size3f32 ret;
+        ret.width=this->width*size.width;
+        ret.height=this->height*size.height;
+        ret.length=this->length*size.length;
         return ret;
     }
     size3f32 operator*(size2i8 size){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width*size.width;edkEnd();
-        ret.height=this->height*size.height;edkEnd();
+        size3f32 ret;
+        ret.width=this->width*size.width;
+        ret.height=this->height*size.height;
         return ret;
     }
     size3f32 operator*(edk::float32 n){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width*(edk::float32)n;edkEnd();
-        ret.height=this->height*(edk::float32)n;edkEnd();
-        ret.length=this->length*(edk::float32)n;edkEnd();
+        size3f32 ret;
+        ret.width=this->width*(edk::float32)n;
+        ret.height=this->height*(edk::float32)n;
+        ret.length=this->length*(edk::float32)n;
         return ret;
     }
     size3f32 operator*(edk::float64 n){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width*(edk::float32)n;edkEnd();
-        ret.height=this->height*(edk::float32)n;edkEnd();
-        ret.length=this->length*(edk::float32)n;edkEnd();
+        size3f32 ret;
+        ret.width=this->width*(edk::float32)n;
+        ret.height=this->height*(edk::float32)n;
+        ret.length=this->length*(edk::float32)n;
         return ret;
     }
     size3f32 operator*(edk::int8 n){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width*(edk::float32)n;edkEnd();
-        ret.height=this->height*(edk::float32)n;edkEnd();
-        ret.length=this->length*(edk::float32)n;edkEnd();
+        size3f32 ret;
+        ret.width=this->width*(edk::float32)n;
+        ret.height=this->height*(edk::float32)n;
+        ret.length=this->length*(edk::float32)n;
         return ret;
     }
     size3f32 operator*(edk::int16 n){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width*(edk::float32)n;edkEnd();
-        ret.height=this->height*(edk::float32)n;edkEnd();
-        ret.length=this->length*(edk::float32)n;edkEnd();
+        size3f32 ret;
+        ret.width=this->width*(edk::float32)n;
+        ret.height=this->height*(edk::float32)n;
+        ret.length=this->length*(edk::float32)n;
         return ret;
     }
     size3f32 operator*(edk::int32 n){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width*(edk::float32)n;edkEnd();
-        ret.height=this->height*(edk::float32)n;edkEnd();
-        ret.length=this->length*(edk::float32)n;edkEnd();
+        size3f32 ret;
+        ret.width=this->width*(edk::float32)n;
+        ret.height=this->height*(edk::float32)n;
+        ret.length=this->length*(edk::float32)n;
         return ret;
     }
     size3f32 operator*(edk::int64 n){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width*(edk::float32)n;edkEnd();
-        ret.height=this->height*(edk::float32)n;edkEnd();
-        ret.length=this->length*(edk::float32)n;edkEnd();
+        size3f32 ret;
+        ret.width=this->width*(edk::float32)n;
+        ret.height=this->height*(edk::float32)n;
+        ret.length=this->length*(edk::float32)n;
         return ret;
     }
     size3f32 operator*(edk::uint8 n){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width*(edk::float32)n;edkEnd();
-        ret.height=this->height*(edk::float32)n;edkEnd();
-        ret.length=this->length*(edk::float32)n;edkEnd();
+        size3f32 ret;
+        ret.width=this->width*(edk::float32)n;
+        ret.height=this->height*(edk::float32)n;
+        ret.length=this->length*(edk::float32)n;
         return ret;
     }
     size3f32 operator*(edk::uint16 n){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width*(edk::float32)n;edkEnd();
-        ret.height=this->height*(edk::float32)n;edkEnd();
-        ret.length=this->length*(edk::float32)n;edkEnd();
+        size3f32 ret;
+        ret.width=this->width*(edk::float32)n;
+        ret.height=this->height*(edk::float32)n;
+        ret.length=this->length*(edk::float32)n;
         return ret;
     }
     size3f32 operator*(edk::uint32 n){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width*(edk::float32)n;edkEnd();
-        ret.height=this->height*(edk::float32)n;edkEnd();
-        ret.length=this->length*(edk::float32)n;edkEnd();
+        size3f32 ret;
+        ret.width=this->width*(edk::float32)n;
+        ret.height=this->height*(edk::float32)n;
+        ret.length=this->length*(edk::float32)n;
         return ret;
     }
     size3f32 operator*(edk::uint64 n){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width*(edk::float32)n;edkEnd();
-        ret.height=this->height*(edk::float32)n;edkEnd();
-        ret.length=this->length*(edk::float32)n;edkEnd();
+        size3f32 ret;
+        ret.width=this->width*(edk::float32)n;
+        ret.height=this->height*(edk::float32)n;
+        ret.length=this->length*(edk::float32)n;
         return ret;
     }
 
     //*=
     void operator*=(size3f32 size){
         //
-        this->width*=size.width;edkEnd();
-        this->height*=size.height;edkEnd();
-        this->length*=size.length;edkEnd();
+        this->width*=size.width;
+        this->height*=size.height;
+        this->length*=size.length;
     }
     void operator*=(size2i8 size){
         //
-        this->width*=size.width;edkEnd();
-        this->height*=size.height;edkEnd();
+        this->width*=size.width;
+        this->height*=size.height;
     }
     void operator*=(edk::float32 n){
         //
-        this->width*=(edk::float32)n;edkEnd();
-        this->height*=(edk::float32)n;edkEnd();
-        this->length*=(edk::float32)n;edkEnd();
+        this->width*=(edk::float32)n;
+        this->height*=(edk::float32)n;
+        this->length*=(edk::float32)n;
     }
     void operator*=(edk::float64 n){
         //
-        this->width*=(edk::float32)n;edkEnd();
-        this->height*=(edk::float32)n;edkEnd();
-        this->length*=(edk::float32)n;edkEnd();
+        this->width*=(edk::float32)n;
+        this->height*=(edk::float32)n;
+        this->length*=(edk::float32)n;
     }
     void operator*=(edk::int8 n){
         //
-        this->width*=(edk::float32)n;edkEnd();
-        this->height*=(edk::float32)n;edkEnd();
-        this->length*=(edk::float32)n;edkEnd();
+        this->width*=(edk::float32)n;
+        this->height*=(edk::float32)n;
+        this->length*=(edk::float32)n;
     }
     void operator*=(edk::int16 n){
         //
-        this->width*=(edk::float32)n;edkEnd();
-        this->height*=(edk::float32)n;edkEnd();
-        this->length*=(edk::float32)n;edkEnd();
+        this->width*=(edk::float32)n;
+        this->height*=(edk::float32)n;
+        this->length*=(edk::float32)n;
     }
     void operator*=(edk::int32 n){
         //
-        this->width*=(edk::float32)n;edkEnd();
-        this->height*=(edk::float32)n;edkEnd();
-        this->length*=(edk::float32)n;edkEnd();
+        this->width*=(edk::float32)n;
+        this->height*=(edk::float32)n;
+        this->length*=(edk::float32)n;
     }
     void operator*=(edk::int64 n){
         //
-        this->width*=(edk::float32)n;edkEnd();
-        this->height*=(edk::float32)n;edkEnd();
-        this->length*=(edk::float32)n;edkEnd();
+        this->width*=(edk::float32)n;
+        this->height*=(edk::float32)n;
+        this->length*=(edk::float32)n;
     }
     void operator*=(edk::uint8 n){
         //
-        this->width*=(edk::float32)n;edkEnd();
-        this->height*=(edk::float32)n;edkEnd();
-        this->length*=(edk::float32)n;edkEnd();
+        this->width*=(edk::float32)n;
+        this->height*=(edk::float32)n;
+        this->length*=(edk::float32)n;
     }
     void operator*=(edk::uint16 n){
         //
-        this->width*=(edk::float32)n;edkEnd();
-        this->height*=(edk::float32)n;edkEnd();
-        this->length*=(edk::float32)n;edkEnd();
+        this->width*=(edk::float32)n;
+        this->height*=(edk::float32)n;
+        this->length*=(edk::float32)n;
     }
     void operator*=(edk::uint32 n){
         //
-        this->width*=(edk::float32)n;edkEnd();
-        this->height*=(edk::float32)n;edkEnd();
-        this->length*=(edk::float32)n;edkEnd();
+        this->width*=(edk::float32)n;
+        this->height*=(edk::float32)n;
+        this->length*=(edk::float32)n;
     }
     void operator*=(edk::uint64 n){
         //
-        this->width*=(edk::float32)n;edkEnd();
-        this->height*=(edk::float32)n;edkEnd();
-        this->length*=(edk::float32)n;edkEnd();
+        this->width*=(edk::float32)n;
+        this->height*=(edk::float32)n;
+        this->length*=(edk::float32)n;
     }
 
     // /
     size3f32 operator/(size3f32 size){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width/size.width;edkEnd();
-        ret.height=this->height/size.height;edkEnd();
-        ret.length=this->length/size.length;edkEnd();
+        size3f32 ret;
+        ret.width=this->width/size.width;
+        ret.height=this->height/size.height;
+        ret.length=this->length/size.length;
         return ret;
     }
     size3f32 operator/(size2i8 size){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width/size.width;edkEnd();
-        ret.height=this->height/size.height;edkEnd();
+        size3f32 ret;
+        ret.width=this->width/size.width;
+        ret.height=this->height/size.height;
         return ret;
     }
     size3f32 operator/(edk::float32 n){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width/(edk::float32)n;edkEnd();
-        ret.height=this->height/(edk::float32)n;edkEnd();
-        ret.length=this->length/(edk::float32)n;edkEnd();
+        size3f32 ret;
+        ret.width=this->width/(edk::float32)n;
+        ret.height=this->height/(edk::float32)n;
+        ret.length=this->length/(edk::float32)n;
         return ret;
     }
     size3f32 operator/(edk::float64 n){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width/(edk::float32)n;edkEnd();
-        ret.height=this->height/(edk::float32)n;edkEnd();
-        ret.length=this->length/(edk::float32)n;edkEnd();
+        size3f32 ret;
+        ret.width=this->width/(edk::float32)n;
+        ret.height=this->height/(edk::float32)n;
+        ret.length=this->length/(edk::float32)n;
         return ret;
     }
     size3f32 operator/(edk::int8 n){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width/(edk::float32)n;edkEnd();
-        ret.height=this->height/(edk::float32)n;edkEnd();
-        ret.length=this->length/(edk::float32)n;edkEnd();
+        size3f32 ret;
+        ret.width=this->width/(edk::float32)n;
+        ret.height=this->height/(edk::float32)n;
+        ret.length=this->length/(edk::float32)n;
         return ret;
     }
     size3f32 operator/(edk::int16 n){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width/(edk::float32)n;edkEnd();
-        ret.height=this->height/(edk::float32)n;edkEnd();
-        ret.length=this->length/(edk::float32)n;edkEnd();
+        size3f32 ret;
+        ret.width=this->width/(edk::float32)n;
+        ret.height=this->height/(edk::float32)n;
+        ret.length=this->length/(edk::float32)n;
         return ret;
     }
     size3f32 operator/(edk::int32 n){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width/(edk::float32)n;edkEnd();
-        ret.height=this->height/(edk::float32)n;edkEnd();
-        ret.length=this->length/(edk::float32)n;edkEnd();
+        size3f32 ret;
+        ret.width=this->width/(edk::float32)n;
+        ret.height=this->height/(edk::float32)n;
+        ret.length=this->length/(edk::float32)n;
         return ret;
     }
     size3f32 operator/(edk::int64 n){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width/(edk::float32)n;edkEnd();
-        ret.height=this->height/(edk::float32)n;edkEnd();
-        ret.length=this->length/(edk::float32)n;edkEnd();
+        size3f32 ret;
+        ret.width=this->width/(edk::float32)n;
+        ret.height=this->height/(edk::float32)n;
+        ret.length=this->length/(edk::float32)n;
         return ret;
     }
     size3f32 operator/(edk::uint8 n){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width/(edk::float32)n;edkEnd();
-        ret.height=this->height/(edk::float32)n;edkEnd();
-        ret.length=this->length/(edk::float32)n;edkEnd();
+        size3f32 ret;
+        ret.width=this->width/(edk::float32)n;
+        ret.height=this->height/(edk::float32)n;
+        ret.length=this->length/(edk::float32)n;
         return ret;
     }
     size3f32 operator/(edk::uint16 n){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width/(edk::float32)n;edkEnd();
-        ret.height=this->height/(edk::float32)n;edkEnd();
-        ret.length=this->length/(edk::float32)n;edkEnd();
+        size3f32 ret;
+        ret.width=this->width/(edk::float32)n;
+        ret.height=this->height/(edk::float32)n;
+        ret.length=this->length/(edk::float32)n;
         return ret;
     }
     size3f32 operator/(edk::uint32 n){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width/(edk::float32)n;edkEnd();
-        ret.height=this->height/(edk::float32)n;edkEnd();
-        ret.length=this->length/(edk::float32)n;edkEnd();
+        size3f32 ret;
+        ret.width=this->width/(edk::float32)n;
+        ret.height=this->height/(edk::float32)n;
+        ret.length=this->length/(edk::float32)n;
         return ret;
     }
     size3f32 operator/(edk::uint64 n){
         //
-        size3f32 ret;edkEnd();
-        ret.width=this->width/(edk::float32)n;edkEnd();
-        ret.height=this->height/(edk::float32)n;edkEnd();
-        ret.length=this->length/(edk::float32)n;edkEnd();
+        size3f32 ret;
+        ret.width=this->width/(edk::float32)n;
+        ret.height=this->height/(edk::float32)n;
+        ret.length=this->length/(edk::float32)n;
         return ret;
     }
 
     // /=
     void operator/=(size3f32 size){
         //
-        this->width/=size.width;edkEnd();
-        this->height/=size.height;edkEnd();
-        this->length/=size.length;edkEnd();
+        this->width/=size.width;
+        this->height/=size.height;
+        this->length/=size.length;
     }
     void operator/=(size2i8 size){
         //
-        this->width/=size.width;edkEnd();
-        this->height/=size.height;edkEnd();
+        this->width/=size.width;
+        this->height/=size.height;
     }
     void operator/=(edk::float32 n){
         //
-        this->width/=(edk::float32)n;edkEnd();
-        this->height/=(edk::float32)n;edkEnd();
-        this->length/=(edk::float32)n;edkEnd();
+        this->width/=(edk::float32)n;
+        this->height/=(edk::float32)n;
+        this->length/=(edk::float32)n;
     }
     void operator/=(edk::float64 n){
         //
-        this->width/=(edk::float32)n;edkEnd();
-        this->height/=(edk::float32)n;edkEnd();
-        this->length/=(edk::float32)n;edkEnd();
+        this->width/=(edk::float32)n;
+        this->height/=(edk::float32)n;
+        this->length/=(edk::float32)n;
     }
     void operator/=(edk::int8 n){
         //
-        this->width/=(edk::float32)n;edkEnd();
-        this->height/=(edk::float32)n;edkEnd();
-        this->length/=(edk::float32)n;edkEnd();
+        this->width/=(edk::float32)n;
+        this->height/=(edk::float32)n;
+        this->length/=(edk::float32)n;
     }
     void operator/=(edk::int16 n){
         //
-        this->width/=(edk::float32)n;edkEnd();
-        this->height/=(edk::float32)n;edkEnd();
-        this->length/=(edk::float32)n;edkEnd();
+        this->width/=(edk::float32)n;
+        this->height/=(edk::float32)n;
+        this->length/=(edk::float32)n;
     }
     void operator/=(edk::int32 n){
         //
-        this->width/=(edk::float32)n;edkEnd();
-        this->height/=(edk::float32)n;edkEnd();
-        this->length/=(edk::float32)n;edkEnd();
+        this->width/=(edk::float32)n;
+        this->height/=(edk::float32)n;
+        this->length/=(edk::float32)n;
     }
     void operator/=(edk::int64 n){
         //
-        this->width/=(edk::float32)n;edkEnd();
-        this->height/=(edk::float32)n;edkEnd();
-        this->length/=(edk::float32)n;edkEnd();
+        this->width/=(edk::float32)n;
+        this->height/=(edk::float32)n;
+        this->length/=(edk::float32)n;
     }
     void operator/=(edk::uint8 n){
         //
-        this->width/=(edk::float32)n;edkEnd();
-        this->height/=(edk::float32)n;edkEnd();
-        this->length/=(edk::float32)n;edkEnd();
+        this->width/=(edk::float32)n;
+        this->height/=(edk::float32)n;
+        this->length/=(edk::float32)n;
     }
     void operator/=(edk::uint16 n){
         //
-        this->width/=(edk::float32)n;edkEnd();
-        this->height/=(edk::float32)n;edkEnd();
-        this->length/=(edk::float32)n;edkEnd();
+        this->width/=(edk::float32)n;
+        this->height/=(edk::float32)n;
+        this->length/=(edk::float32)n;
     }
     void operator/=(edk::uint32 n){
         //
-        this->width/=(edk::float32)n;edkEnd();
-        this->height/=(edk::float32)n;edkEnd();
-        this->length/=(edk::float32)n;edkEnd();
+        this->width/=(edk::float32)n;
+        this->height/=(edk::float32)n;
+        this->length/=(edk::float32)n;
     }
     void operator/=(edk::uint64 n){
         //
-        this->width/=(edk::float32)n;edkEnd();
-        this->height/=(edk::float32)n;edkEnd();
-        this->length/=(edk::float32)n;edkEnd();
+        this->width/=(edk::float32)n;
+        this->height/=(edk::float32)n;
+        this->length/=(edk::float32)n;
     }
 
     //++
     size3f32 operator++(){
         //
-        ++this->width;edkEnd();
-        ++this->height;edkEnd();
-        ++this->length;edkEnd();
-        return size3f32(this->width,this->height,this->length);edkEnd();
+        ++this->width;
+        ++this->height;
+        ++this->length;
+        return size3f32(this->width,this->height,this->length);
     }
     size3f32 operator++(edk::int32){
         //
-        this->width++;edkEnd();
-        this->height++;edkEnd();
-        this->length++;edkEnd();
-        return size3f32(this->width,this->height,this->length);edkEnd();
+        this->width++;
+        this->height++;
+        this->length++;
+        return size3f32(this->width,this->height,this->length);
     }
 
     //--
     size3f32 operator--(){
         //
-        --this->width;edkEnd();
-        --this->height;edkEnd();
-        --this->length;edkEnd();
-        return size3f32(this->width,this->height,this->length);edkEnd();
+        --this->width;
+        --this->height;
+        --this->length;
+        return size3f32(this->width,this->height,this->length);
     }
     size3f32 operator--(edk::int32){
         //
-        this->width--;edkEnd();
-        this->height--;edkEnd();
-        this->length--;edkEnd();
-        return size3f32(this->width,this->height,this->length);edkEnd();
+        this->width--;
+        this->height--;
+        this->length--;
+        return size3f32(this->width,this->height,this->length);
     }
 
     //
     size3f32 operator()(edk::float32 width,edk::float32 height,edk::float32 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3f32((edk::float32)this->width,(edk::float32)this->height,(edk::float32)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3f32((edk::float32)this->width,(edk::float32)this->height,(edk::float32)this->length);
     }
     size3f32 operator()(edk::float64 width,edk::float64 height,edk::float64 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3f32((edk::float32)this->width,(edk::float32)this->height,(edk::float32)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3f32((edk::float32)this->width,(edk::float32)this->height,(edk::float32)this->length);
     }
     size3f32 operator()(edk::int8 width,edk::int8 height,edk::int8 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3f32((edk::float32)this->width,(edk::float32)this->height,(edk::float32)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3f32((edk::float32)this->width,(edk::float32)this->height,(edk::float32)this->length);
     }
     size3f32 operator()(edk::int16 width,edk::int16 height,edk::int16 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3f32((edk::float32)this->width,(edk::float32)this->height,(edk::float32)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3f32((edk::float32)this->width,(edk::float32)this->height,(edk::float32)this->length);
     }
     size3f32 operator()(edk::int32 width,edk::int32 height,edk::int32 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3f32((edk::float32)this->width,(edk::float32)this->height,(edk::float32)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3f32((edk::float32)this->width,(edk::float32)this->height,(edk::float32)this->length);
     }
     size3f32 operator()(edk::int64 width,edk::int64 height,edk::int64 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3f32((edk::float32)this->width,(edk::float32)this->height,(edk::float32)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3f32((edk::float32)this->width,(edk::float32)this->height,(edk::float32)this->length);
     }
     size3f32 operator()(edk::uint8 width,edk::uint8 height,edk::uint8 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3f32((edk::float32)this->width,(edk::float32)this->height,(edk::float32)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3f32((edk::float32)this->width,(edk::float32)this->height,(edk::float32)this->length);
     }
     size3f32 operator()(edk::uint16 width,edk::uint16 height,edk::uint16 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3f32((edk::float32)this->width,(edk::float32)this->height,(edk::float32)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3f32((edk::float32)this->width,(edk::float32)this->height,(edk::float32)this->length);
     }
     size3f32 operator()(edk::uint32 width,edk::uint32 height,edk::uint32 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3f32((edk::float32)this->width,(edk::float32)this->height,(edk::float32)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3f32((edk::float32)this->width,(edk::float32)this->height,(edk::float32)this->length);
     }
     size3f32 operator()(edk::uint64 width,edk::uint64 height,edk::uint64 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3f32((edk::float32)this->width,(edk::float32)this->height,(edk::float32)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3f32((edk::float32)this->width,(edk::float32)this->height,(edk::float32)this->length);
     }
 };
 
@@ -6331,1009 +6331,1009 @@ public:
     //CONSTRUTOR
     size3f64(){
         //zera as variaveis
-        this->width=this->height=this->length=0;edkEnd();
+        this->width=this->height=this->length=0;
     }
     size3f64(edk::float32 width,edk::float32 height,edk::float32 length){
         //zera as variaveis
-        this->width=(edk::float64)width;edkEnd();
-        this->height=(edk::float64)height;edkEnd();
-        this->length=(edk::float64)length;edkEnd();
+        this->width=(edk::float64)width;
+        this->height=(edk::float64)height;
+        this->length=(edk::float64)length;
     }
     size3f64(edk::float64 width,edk::float64 height,edk::float64 length){
         //zera as variaveis
-        this->width=(edk::float64)width;edkEnd();
-        this->height=(edk::float64)height;edkEnd();
-        this->length=(edk::float64)length;edkEnd();
+        this->width=(edk::float64)width;
+        this->height=(edk::float64)height;
+        this->length=(edk::float64)length;
     }
     size3f64(edk::int8 width,edk::int8 height,edk::int8 length){
         //zera as variaveis
-        this->width=(edk::float64)width;edkEnd();
-        this->height=(edk::float64)height;edkEnd();
-        this->length=(edk::float64)length;edkEnd();
+        this->width=(edk::float64)width;
+        this->height=(edk::float64)height;
+        this->length=(edk::float64)length;
     }
     size3f64(edk::int16 width,edk::int16 height,edk::int16 length){
         //zera as variaveis
-        this->width=(edk::float64)width;edkEnd();
-        this->height=(edk::float64)height;edkEnd();
-        this->length=(edk::float64)length;edkEnd();
+        this->width=(edk::float64)width;
+        this->height=(edk::float64)height;
+        this->length=(edk::float64)length;
     }
     size3f64(edk::int32 width,edk::int32 height,edk::int32 length){
         //zera as variaveis
-        this->width=(edk::float64)width;edkEnd();
-        this->height=(edk::float64)height;edkEnd();
-        this->length=(edk::float64)length;edkEnd();
+        this->width=(edk::float64)width;
+        this->height=(edk::float64)height;
+        this->length=(edk::float64)length;
     }
     size3f64(edk::int64 width,edk::int64 height,edk::int64 length){
         //zera as variaveis
-        this->width=(edk::float64)width;edkEnd();
-        this->height=(edk::float64)height;edkEnd();
-        this->length=(edk::float64)length;edkEnd();
+        this->width=(edk::float64)width;
+        this->height=(edk::float64)height;
+        this->length=(edk::float64)length;
     }
     size3f64(edk::uint8 width,edk::uint8 height,edk::uint8 length){
         //zera as variaveis
-        this->width=(edk::float64)width;edkEnd();
-        this->height=(edk::float64)height;edkEnd();
-        this->length=(edk::float64)length;edkEnd();
+        this->width=(edk::float64)width;
+        this->height=(edk::float64)height;
+        this->length=(edk::float64)length;
     }
     size3f64(edk::uint16 width,edk::uint16 height,edk::uint16 length){
         //zera as variaveis
-        this->width=(edk::float64)width;edkEnd();
-        this->height=(edk::float64)height;edkEnd();
-        this->length=(edk::float64)length;edkEnd();
+        this->width=(edk::float64)width;
+        this->height=(edk::float64)height;
+        this->length=(edk::float64)length;
     }
     size3f64(edk::uint32 width,edk::uint32 height,edk::uint32 length){
         //zera as variaveis
-        this->width=(edk::float64)width;edkEnd();
-        this->height=(edk::float64)height;edkEnd();
-        this->length=(edk::float64)length;edkEnd();
+        this->width=(edk::float64)width;
+        this->height=(edk::float64)height;
+        this->length=(edk::float64)length;
     }
     size3f64(edk::uint64 width,edk::uint64 height,edk::uint64 length){
         //zera as variaveis
-        this->width=(edk::float64)width;edkEnd();
-        this->height=(edk::float64)height;edkEnd();
-        this->length=(edk::float64)length;edkEnd();
+        this->width=(edk::float64)width;
+        this->height=(edk::float64)height;
+        this->length=(edk::float64)length;
     }
     size3f64(edk::float32 size){
         //zera as variaveis
-        this->width=(edk::float64)size;edkEnd();
-        this->height=(edk::float64)size;edkEnd();
-        this->length=(edk::float64)size;edkEnd();
+        this->width=(edk::float64)size;
+        this->height=(edk::float64)size;
+        this->length=(edk::float64)size;
     }
     size3f64(edk::float64 size){
         //zera as variaveis
-        this->width=(edk::float64)size;edkEnd();
-        this->height=(edk::float64)size;edkEnd();
-        this->length=(edk::float64)size;edkEnd();
+        this->width=(edk::float64)size;
+        this->height=(edk::float64)size;
+        this->length=(edk::float64)size;
     }
     size3f64(edk::int8 size){
         //zera as variaveis
-        this->width=(edk::float64)size;edkEnd();
-        this->height=(edk::float64)size;edkEnd();
-        this->length=(edk::float64)size;edkEnd();
+        this->width=(edk::float64)size;
+        this->height=(edk::float64)size;
+        this->length=(edk::float64)size;
     }
     size3f64(edk::int16 size){
         //zera as variaveis
-        this->width=(edk::float64)size;edkEnd();
-        this->height=(edk::float64)size;edkEnd();
-        this->length=(edk::float64)size;edkEnd();
+        this->width=(edk::float64)size;
+        this->height=(edk::float64)size;
+        this->length=(edk::float64)size;
     }
     size3f64(edk::int32 size){
         //zera as variaveis
-        this->width=(edk::float64)size;edkEnd();
-        this->height=(edk::float64)size;edkEnd();
-        this->length=(edk::float64)size;edkEnd();
+        this->width=(edk::float64)size;
+        this->height=(edk::float64)size;
+        this->length=(edk::float64)size;
     }
     size3f64(edk::int64 size){
         //zera as variaveis
-        this->width=(edk::float64)size;edkEnd();
-        this->height=(edk::float64)size;edkEnd();
-        this->length=(edk::float64)size;edkEnd();
+        this->width=(edk::float64)size;
+        this->height=(edk::float64)size;
+        this->length=(edk::float64)size;
     }
     size3f64(edk::uint8 size){
         //zera as variaveis
-        this->width=(edk::float64)size;edkEnd();
-        this->height=(edk::float64)size;edkEnd();
-        this->length=(edk::float64)size;edkEnd();
+        this->width=(edk::float64)size;
+        this->height=(edk::float64)size;
+        this->length=(edk::float64)size;
     }
     size3f64(edk::uint16 size){
         //zera as variaveis
-        this->width=(edk::float64)size;edkEnd();
-        this->height=(edk::float64)size;edkEnd();
-        this->length=(edk::float64)size;edkEnd();
+        this->width=(edk::float64)size;
+        this->height=(edk::float64)size;
+        this->length=(edk::float64)size;
     }
     size3f64(edk::uint32 size){
         //zera as variaveis
-        this->width=(edk::float64)size;edkEnd();
-        this->height=(edk::float64)size;edkEnd();
-        this->length=(edk::float64)size;edkEnd();
+        this->width=(edk::float64)size;
+        this->height=(edk::float64)size;
+        this->length=(edk::float64)size;
     }
     size3f64(edk::uint64 size){
         //zera as variaveis
-        this->width=(edk::float64)size;edkEnd();
-        this->height=(edk::float64)size;edkEnd();
-        this->length=(edk::float64)size;edkEnd();
+        this->width=(edk::float64)size;
+        this->height=(edk::float64)size;
+        this->length=(edk::float64)size;
     }
     //operators
 
     //=
     size3f64 operator=(size3f64 size){
         //
-        this->width=size.width;edkEnd();
-        this->height=size.height;edkEnd();
-        this->length=size.length;edkEnd();
-        return *this;edkEnd();
+        this->width=size.width;
+        this->height=size.height;
+        this->length=size.length;
+        return *this;
     }
     size3f64 operator=(size2i8 size){
         //
-        this->width=size.width;edkEnd();
-        this->height=size.height;edkEnd();
-        this->length=(edk::float64)0;edkEnd();
-        return *this;edkEnd();
+        this->width=size.width;
+        this->height=size.height;
+        this->length=(edk::float64)0;
+        return *this;
     }
     size3f64 operator=(edk::float32 n){
         //
-        this->width=(edk::float64)n;edkEnd();
-        this->height=(edk::float64)n;edkEnd();
-        this->length=(edk::float64)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::float64)n;
+        this->height=(edk::float64)n;
+        this->length=(edk::float64)n;
+        return *this;
     }
     size3f64 operator=(edk::float64 n){
         //
-        this->width=(edk::float64)n;edkEnd();
-        this->height=(edk::float64)n;edkEnd();
-        this->length=(edk::float64)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::float64)n;
+        this->height=(edk::float64)n;
+        this->length=(edk::float64)n;
+        return *this;
     }
     size3f64 operator=(edk::int8 n){
         //
-        this->width=(edk::float64)n;edkEnd();
-        this->height=(edk::float64)n;edkEnd();
-        this->length=(edk::float64)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::float64)n;
+        this->height=(edk::float64)n;
+        this->length=(edk::float64)n;
+        return *this;
     }
     size3f64 operator=(edk::int16 n){
         //
-        this->width=(edk::float64)n;edkEnd();
-        this->height=(edk::float64)n;edkEnd();
-        this->length=(edk::float64)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::float64)n;
+        this->height=(edk::float64)n;
+        this->length=(edk::float64)n;
+        return *this;
     }
     size3f64 operator=(edk::int32 n){
         //
-        this->width=(edk::float64)n;edkEnd();
-        this->height=(edk::float64)n;edkEnd();
-        this->length=(edk::float64)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::float64)n;
+        this->height=(edk::float64)n;
+        this->length=(edk::float64)n;
+        return *this;
     }
     size3f64 operator=(edk::int64 n){
         //
-        this->width=(edk::float64)n;edkEnd();
-        this->height=(edk::float64)n;edkEnd();
-        this->length=(edk::float64)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::float64)n;
+        this->height=(edk::float64)n;
+        this->length=(edk::float64)n;
+        return *this;
     }
     size3f64 operator=(edk::uint8 n){
         //
-        this->width=(edk::float64)n;edkEnd();
-        this->height=(edk::float64)n;edkEnd();
-        this->length=(edk::float64)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::float64)n;
+        this->height=(edk::float64)n;
+        this->length=(edk::float64)n;
+        return *this;
     }
     size3f64 operator=(edk::uint16 n){
         //
-        this->width=(edk::float64)n;edkEnd();
-        this->height=(edk::float64)n;edkEnd();
-        this->length=(edk::float64)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::float64)n;
+        this->height=(edk::float64)n;
+        this->length=(edk::float64)n;
+        return *this;
     }
     size3f64 operator=(edk::uint32 n){
         //
-        this->width=(edk::float64)n;edkEnd();
-        this->height=(edk::float64)n;edkEnd();
-        this->length=(edk::float64)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::float64)n;
+        this->height=(edk::float64)n;
+        this->length=(edk::float64)n;
+        return *this;
     }
     size3f64 operator=(edk::uint64 n){
         //
-        this->width=(edk::float64)n;edkEnd();
-        this->height=(edk::float64)n;edkEnd();
-        this->length=(edk::float64)n;edkEnd();
-        return *this;edkEnd();
+        this->width=(edk::float64)n;
+        this->height=(edk::float64)n;
+        this->length=(edk::float64)n;
+        return *this;
     }
 
     //==
     bool operator==(size3f64 size){
         //
-        return (this->width==size.width&&this->height==size.height&&this->length==size.length);edkEnd();
+        return (this->width==size.width&&this->height==size.height&&this->length==size.length);
     }
     //!=
     bool operator!=(size3f64 size){
         //
-        return (this->width!=size.width||this->height!=size.height||this->length!=size.length);edkEnd();
+        return (this->width!=size.width||this->height!=size.height||this->length!=size.length);
     }
 
     //+
     size3f64 operator+(size3f64 size){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width+size.width;edkEnd();
-        ret.height=this->height+size.height;edkEnd();
-        ret.length=this->length+size.length;edkEnd();
+        size3f64 ret;
+        ret.width=this->width+size.width;
+        ret.height=this->height+size.height;
+        ret.length=this->length+size.length;
         return ret;
     }
     size3f64 operator+(size2i8 size){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width+size.width;edkEnd();
-        ret.height=this->height+size.height;edkEnd();
+        size3f64 ret;
+        ret.width=this->width+size.width;
+        ret.height=this->height+size.height;
         return ret;
     }
     size3f64 operator+(edk::float32 n){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width+(edk::float64)n;edkEnd();
-        ret.height=this->height+(edk::float64)n;edkEnd();
-        ret.length=this->length+(edk::float64)n;edkEnd();
+        size3f64 ret;
+        ret.width=this->width+(edk::float64)n;
+        ret.height=this->height+(edk::float64)n;
+        ret.length=this->length+(edk::float64)n;
         return ret;
     }
     size3f64 operator+(edk::float64 n){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width+(edk::float64)n;edkEnd();
-        ret.height=this->height+(edk::float64)n;edkEnd();
-        ret.length=this->length+(edk::float64)n;edkEnd();
+        size3f64 ret;
+        ret.width=this->width+(edk::float64)n;
+        ret.height=this->height+(edk::float64)n;
+        ret.length=this->length+(edk::float64)n;
         return ret;
     }
     size3f64 operator+(edk::int8 n){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width+(edk::float64)n;edkEnd();
-        ret.height=this->height+(edk::float64)n;edkEnd();
-        ret.length=this->length+(edk::float64)n;edkEnd();
+        size3f64 ret;
+        ret.width=this->width+(edk::float64)n;
+        ret.height=this->height+(edk::float64)n;
+        ret.length=this->length+(edk::float64)n;
         return ret;
     }
     size3f64 operator+(edk::int16 n){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width+(edk::float64)n;edkEnd();
-        ret.height=this->height+(edk::float64)n;edkEnd();
-        ret.length=this->length+(edk::float64)n;edkEnd();
+        size3f64 ret;
+        ret.width=this->width+(edk::float64)n;
+        ret.height=this->height+(edk::float64)n;
+        ret.length=this->length+(edk::float64)n;
         return ret;
     }
     size3f64 operator+(edk::int32 n){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width+(edk::float64)n;edkEnd();
-        ret.height=this->height+(edk::float64)n;edkEnd();
-        ret.length=this->length+(edk::float64)n;edkEnd();
+        size3f64 ret;
+        ret.width=this->width+(edk::float64)n;
+        ret.height=this->height+(edk::float64)n;
+        ret.length=this->length+(edk::float64)n;
         return ret;
     }
     size3f64 operator+(edk::int64 n){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width+(edk::float64)n;edkEnd();
-        ret.height=this->height+(edk::float64)n;edkEnd();
-        ret.length=this->length+(edk::float64)n;edkEnd();
+        size3f64 ret;
+        ret.width=this->width+(edk::float64)n;
+        ret.height=this->height+(edk::float64)n;
+        ret.length=this->length+(edk::float64)n;
         return ret;
     }
     size3f64 operator+(edk::uint8 n){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width+(edk::float64)n;edkEnd();
-        ret.height=this->height+(edk::float64)n;edkEnd();
-        ret.length=this->length+(edk::float64)n;edkEnd();
+        size3f64 ret;
+        ret.width=this->width+(edk::float64)n;
+        ret.height=this->height+(edk::float64)n;
+        ret.length=this->length+(edk::float64)n;
         return ret;
     }
     size3f64 operator+(edk::uint16 n){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width+(edk::float64)n;edkEnd();
-        ret.height=this->height+(edk::float64)n;edkEnd();
-        ret.length=this->length+(edk::float64)n;edkEnd();
+        size3f64 ret;
+        ret.width=this->width+(edk::float64)n;
+        ret.height=this->height+(edk::float64)n;
+        ret.length=this->length+(edk::float64)n;
         return ret;
     }
     size3f64 operator+(edk::uint32 n){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width+(edk::float64)n;edkEnd();
-        ret.height=this->height+(edk::float64)n;edkEnd();
-        ret.length=this->length+(edk::float64)n;edkEnd();
+        size3f64 ret;
+        ret.width=this->width+(edk::float64)n;
+        ret.height=this->height+(edk::float64)n;
+        ret.length=this->length+(edk::float64)n;
         return ret;
     }
     size3f64 operator+(edk::uint64 n){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width+(edk::float64)n;edkEnd();
-        ret.height=this->height+(edk::float64)n;edkEnd();
-        ret.length=this->length+(edk::float64)n;edkEnd();
+        size3f64 ret;
+        ret.width=this->width+(edk::float64)n;
+        ret.height=this->height+(edk::float64)n;
+        ret.length=this->length+(edk::float64)n;
         return ret;
     }
 
     //+=
     void operator+=(size3f64 size){
         //
-        this->width+=size.width;edkEnd();
-        this->height+=size.height;edkEnd();
-        this->length+=size.length;edkEnd();
+        this->width+=size.width;
+        this->height+=size.height;
+        this->length+=size.length;
     }
     void operator+=(size2i8 size){
         //
-        this->width+=size.width;edkEnd();
-        this->height+=size.height;edkEnd();
+        this->width+=size.width;
+        this->height+=size.height;
     }
     void operator+=(edk::float32 n){
         //
-        this->width+=(edk::float64)n;edkEnd();
-        this->height+=(edk::float64)n;edkEnd();
-        this->length+=(edk::float64)n;edkEnd();
+        this->width+=(edk::float64)n;
+        this->height+=(edk::float64)n;
+        this->length+=(edk::float64)n;
     }
     void operator+=(edk::float64 n){
         //
-        this->width+=(edk::float64)n;edkEnd();
-        this->height+=(edk::float64)n;edkEnd();
-        this->length+=(edk::float64)n;edkEnd();
+        this->width+=(edk::float64)n;
+        this->height+=(edk::float64)n;
+        this->length+=(edk::float64)n;
     }
     void operator+=(edk::int8 n){
         //
-        this->width+=(edk::float64)n;edkEnd();
-        this->height+=(edk::float64)n;edkEnd();
-        this->length+=(edk::float64)n;edkEnd();
+        this->width+=(edk::float64)n;
+        this->height+=(edk::float64)n;
+        this->length+=(edk::float64)n;
     }
     void operator+=(edk::int16 n){
         //
-        this->width+=(edk::float64)n;edkEnd();
-        this->height+=(edk::float64)n;edkEnd();
-        this->length+=(edk::float64)n;edkEnd();
+        this->width+=(edk::float64)n;
+        this->height+=(edk::float64)n;
+        this->length+=(edk::float64)n;
     }
     void operator+=(edk::int32 n){
         //
-        this->width+=(edk::float64)n;edkEnd();
-        this->height+=(edk::float64)n;edkEnd();
-        this->length+=(edk::float64)n;edkEnd();
+        this->width+=(edk::float64)n;
+        this->height+=(edk::float64)n;
+        this->length+=(edk::float64)n;
     }
     void operator+=(edk::int64 n){
         //
-        this->width+=(edk::float64)n;edkEnd();
-        this->height+=(edk::float64)n;edkEnd();
-        this->length+=(edk::float64)n;edkEnd();
+        this->width+=(edk::float64)n;
+        this->height+=(edk::float64)n;
+        this->length+=(edk::float64)n;
     }
     void operator+=(edk::uint8 n){
         //
-        this->width+=(edk::float64)n;edkEnd();
-        this->height+=(edk::float64)n;edkEnd();
-        this->length+=(edk::float64)n;edkEnd();
+        this->width+=(edk::float64)n;
+        this->height+=(edk::float64)n;
+        this->length+=(edk::float64)n;
     }
     void operator+=(edk::uint16 n){
         //
-        this->width+=(edk::float64)n;edkEnd();
-        this->height+=(edk::float64)n;edkEnd();
-        this->length+=(edk::float64)n;edkEnd();
+        this->width+=(edk::float64)n;
+        this->height+=(edk::float64)n;
+        this->length+=(edk::float64)n;
     }
     void operator+=(edk::uint32 n){
         //
-        this->width+=(edk::float64)n;edkEnd();
-        this->height+=(edk::float64)n;edkEnd();
-        this->length+=(edk::float64)n;edkEnd();
+        this->width+=(edk::float64)n;
+        this->height+=(edk::float64)n;
+        this->length+=(edk::float64)n;
     }
     void operator+=(edk::uint64 n){
         //
-        this->width+=(edk::float64)n;edkEnd();
-        this->height+=(edk::float64)n;edkEnd();
-        this->length+=(edk::float64)n;edkEnd();
+        this->width+=(edk::float64)n;
+        this->height+=(edk::float64)n;
+        this->length+=(edk::float64)n;
     }
 
     //-
     size3f64 operator-(size3f64 size){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width-size.width;edkEnd();
-        ret.height=this->height-size.height;edkEnd();
-        ret.length=this->length-size.length;edkEnd();
+        size3f64 ret;
+        ret.width=this->width-size.width;
+        ret.height=this->height-size.height;
+        ret.length=this->length-size.length;
         return ret;
     }
     size3f64 operator-(size2i8 size){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width-size.width;edkEnd();
-        ret.height=this->height-size.height;edkEnd();
+        size3f64 ret;
+        ret.width=this->width-size.width;
+        ret.height=this->height-size.height;
         return ret;
     }
     size3f64 operator-(edk::float32 n){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width-(edk::float64)n;edkEnd();
-        ret.height=this->height-(edk::float64)n;edkEnd();
-        ret.length=this->length-(edk::float64)n;edkEnd();
+        size3f64 ret;
+        ret.width=this->width-(edk::float64)n;
+        ret.height=this->height-(edk::float64)n;
+        ret.length=this->length-(edk::float64)n;
         return ret;
     }
     size3f64 operator-(edk::float64 n){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width-(edk::float64)n;edkEnd();
-        ret.height=this->height-(edk::float64)n;edkEnd();
-        ret.length=this->length-(edk::float64)n;edkEnd();
+        size3f64 ret;
+        ret.width=this->width-(edk::float64)n;
+        ret.height=this->height-(edk::float64)n;
+        ret.length=this->length-(edk::float64)n;
         return ret;
     }
     size3f64 operator-(edk::int8 n){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width-(edk::float64)n;edkEnd();
-        ret.height=this->height-(edk::float64)n;edkEnd();
-        ret.length=this->length-(edk::float64)n;edkEnd();
+        size3f64 ret;
+        ret.width=this->width-(edk::float64)n;
+        ret.height=this->height-(edk::float64)n;
+        ret.length=this->length-(edk::float64)n;
         return ret;
     }
     size3f64 operator-(edk::int16 n){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width-(edk::float64)n;edkEnd();
-        ret.height=this->height-(edk::float64)n;edkEnd();
-        ret.length=this->length-(edk::float64)n;edkEnd();
+        size3f64 ret;
+        ret.width=this->width-(edk::float64)n;
+        ret.height=this->height-(edk::float64)n;
+        ret.length=this->length-(edk::float64)n;
         return ret;
     }
     size3f64 operator-(edk::int32 n){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width-(edk::float64)n;edkEnd();
-        ret.height=this->height-(edk::float64)n;edkEnd();
-        ret.length=this->length-(edk::float64)n;edkEnd();
+        size3f64 ret;
+        ret.width=this->width-(edk::float64)n;
+        ret.height=this->height-(edk::float64)n;
+        ret.length=this->length-(edk::float64)n;
         return ret;
     }
     size3f64 operator-(edk::int64 n){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width-(edk::float64)n;edkEnd();
-        ret.height=this->height-(edk::float64)n;edkEnd();
-        ret.length=this->length-(edk::float64)n;edkEnd();
+        size3f64 ret;
+        ret.width=this->width-(edk::float64)n;
+        ret.height=this->height-(edk::float64)n;
+        ret.length=this->length-(edk::float64)n;
         return ret;
     }
     size3f64 operator-(edk::uint8 n){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width-(edk::float64)n;edkEnd();
-        ret.height=this->height-(edk::float64)n;edkEnd();
-        ret.length=this->length-(edk::float64)n;edkEnd();
+        size3f64 ret;
+        ret.width=this->width-(edk::float64)n;
+        ret.height=this->height-(edk::float64)n;
+        ret.length=this->length-(edk::float64)n;
         return ret;
     }
     size3f64 operator-(edk::uint16 n){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width-(edk::float64)n;edkEnd();
-        ret.height=this->height-(edk::float64)n;edkEnd();
-        ret.length=this->length-(edk::float64)n;edkEnd();
+        size3f64 ret;
+        ret.width=this->width-(edk::float64)n;
+        ret.height=this->height-(edk::float64)n;
+        ret.length=this->length-(edk::float64)n;
         return ret;
     }
     size3f64 operator-(edk::uint32 n){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width-(edk::float64)n;edkEnd();
-        ret.height=this->height-(edk::float64)n;edkEnd();
-        ret.length=this->length-(edk::float64)n;edkEnd();
+        size3f64 ret;
+        ret.width=this->width-(edk::float64)n;
+        ret.height=this->height-(edk::float64)n;
+        ret.length=this->length-(edk::float64)n;
         return ret;
     }
     size3f64 operator-(edk::uint64 n){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width-(edk::float64)n;edkEnd();
-        ret.height=this->height-(edk::float64)n;edkEnd();
-        ret.length=this->length-(edk::float64)n;edkEnd();
+        size3f64 ret;
+        ret.width=this->width-(edk::float64)n;
+        ret.height=this->height-(edk::float64)n;
+        ret.length=this->length-(edk::float64)n;
         return ret;
     }
 
     //-=
     void operator-=(size3f64 size){
         //
-        this->width-=size.width;edkEnd();
-        this->height-=size.height;edkEnd();
-        this->length-=size.length;edkEnd();
+        this->width-=size.width;
+        this->height-=size.height;
+        this->length-=size.length;
     }
     void operator-=(size2i8 size){
         //
-        this->width-=size.width;edkEnd();
-        this->height-=size.height;edkEnd();
+        this->width-=size.width;
+        this->height-=size.height;
     }
     void operator-=(edk::float32 n){
         //
-        this->width-=(edk::float64)n;edkEnd();
-        this->height-=(edk::float64)n;edkEnd();
-        this->length-=(edk::float64)n;edkEnd();
+        this->width-=(edk::float64)n;
+        this->height-=(edk::float64)n;
+        this->length-=(edk::float64)n;
     }
     void operator-=(edk::float64 n){
         //
-        this->width-=(edk::float64)n;edkEnd();
-        this->height-=(edk::float64)n;edkEnd();
-        this->length-=(edk::float64)n;edkEnd();
+        this->width-=(edk::float64)n;
+        this->height-=(edk::float64)n;
+        this->length-=(edk::float64)n;
     }
     void operator-=(edk::int8 n){
         //
-        this->width-=(edk::float64)n;edkEnd();
-        this->height-=(edk::float64)n;edkEnd();
-        this->length-=(edk::float64)n;edkEnd();
+        this->width-=(edk::float64)n;
+        this->height-=(edk::float64)n;
+        this->length-=(edk::float64)n;
     }
     void operator-=(edk::int16 n){
         //
-        this->width-=(edk::float64)n;edkEnd();
-        this->height-=(edk::float64)n;edkEnd();
-        this->length-=(edk::float64)n;edkEnd();
+        this->width-=(edk::float64)n;
+        this->height-=(edk::float64)n;
+        this->length-=(edk::float64)n;
     }
     void operator-=(edk::int32 n){
         //
-        this->width-=(edk::float64)n;edkEnd();
-        this->height-=(edk::float64)n;edkEnd();
-        this->length-=(edk::float64)n;edkEnd();
+        this->width-=(edk::float64)n;
+        this->height-=(edk::float64)n;
+        this->length-=(edk::float64)n;
     }
     void operator-=(edk::int64 n){
         //
-        this->width-=(edk::float64)n;edkEnd();
-        this->height-=(edk::float64)n;edkEnd();
-        this->length-=(edk::float64)n;edkEnd();
+        this->width-=(edk::float64)n;
+        this->height-=(edk::float64)n;
+        this->length-=(edk::float64)n;
     }
     void operator-=(edk::uint8 n){
         //
-        this->width-=(edk::float64)n;edkEnd();
-        this->height-=(edk::float64)n;edkEnd();
-        this->length-=(edk::float64)n;edkEnd();
+        this->width-=(edk::float64)n;
+        this->height-=(edk::float64)n;
+        this->length-=(edk::float64)n;
     }
     void operator-=(edk::uint16 n){
         //
-        this->width-=(edk::float64)n;edkEnd();
-        this->height-=(edk::float64)n;edkEnd();
-        this->length-=(edk::float64)n;edkEnd();
+        this->width-=(edk::float64)n;
+        this->height-=(edk::float64)n;
+        this->length-=(edk::float64)n;
     }
     void operator-=(edk::uint32 n){
         //
-        this->width-=(edk::float64)n;edkEnd();
-        this->height-=(edk::float64)n;edkEnd();
-        this->length-=(edk::float64)n;edkEnd();
+        this->width-=(edk::float64)n;
+        this->height-=(edk::float64)n;
+        this->length-=(edk::float64)n;
     }
     void operator-=(edk::uint64 n){
         //
-        this->width-=(edk::float64)n;edkEnd();
-        this->height-=(edk::float64)n;edkEnd();
-        this->length-=(edk::float64)n;edkEnd();
+        this->width-=(edk::float64)n;
+        this->height-=(edk::float64)n;
+        this->length-=(edk::float64)n;
     }
 
     //*
     size3f64 operator*(size3f64 size){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width*size.width;edkEnd();
-        ret.height=this->height*size.height;edkEnd();
-        ret.length=this->length*size.length;edkEnd();
+        size3f64 ret;
+        ret.width=this->width*size.width;
+        ret.height=this->height*size.height;
+        ret.length=this->length*size.length;
         return ret;
     }
     size3f64 operator*(size2i8 size){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width*size.width;edkEnd();
-        ret.height=this->height*size.height;edkEnd();
+        size3f64 ret;
+        ret.width=this->width*size.width;
+        ret.height=this->height*size.height;
         return ret;
     }
     size3f64 operator*(edk::float32 n){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width*(edk::float64)n;edkEnd();
-        ret.height=this->height*(edk::float64)n;edkEnd();
-        ret.length=this->length*(edk::float64)n;edkEnd();
+        size3f64 ret;
+        ret.width=this->width*(edk::float64)n;
+        ret.height=this->height*(edk::float64)n;
+        ret.length=this->length*(edk::float64)n;
         return ret;
     }
     size3f64 operator*(edk::float64 n){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width*(edk::float64)n;edkEnd();
-        ret.height=this->height*(edk::float64)n;edkEnd();
-        ret.length=this->length*(edk::float64)n;edkEnd();
+        size3f64 ret;
+        ret.width=this->width*(edk::float64)n;
+        ret.height=this->height*(edk::float64)n;
+        ret.length=this->length*(edk::float64)n;
         return ret;
     }
     size3f64 operator*(edk::int8 n){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width*(edk::float64)n;edkEnd();
-        ret.height=this->height*(edk::float64)n;edkEnd();
-        ret.length=this->length*(edk::float64)n;edkEnd();
+        size3f64 ret;
+        ret.width=this->width*(edk::float64)n;
+        ret.height=this->height*(edk::float64)n;
+        ret.length=this->length*(edk::float64)n;
         return ret;
     }
     size3f64 operator*(edk::int16 n){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width*(edk::float64)n;edkEnd();
-        ret.height=this->height*(edk::float64)n;edkEnd();
-        ret.length=this->length*(edk::float64)n;edkEnd();
+        size3f64 ret;
+        ret.width=this->width*(edk::float64)n;
+        ret.height=this->height*(edk::float64)n;
+        ret.length=this->length*(edk::float64)n;
         return ret;
     }
     size3f64 operator*(edk::int32 n){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width*(edk::float64)n;edkEnd();
-        ret.height=this->height*(edk::float64)n;edkEnd();
-        ret.length=this->length*(edk::float64)n;edkEnd();
+        size3f64 ret;
+        ret.width=this->width*(edk::float64)n;
+        ret.height=this->height*(edk::float64)n;
+        ret.length=this->length*(edk::float64)n;
         return ret;
     }
     size3f64 operator*(edk::int64 n){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width*(edk::float64)n;edkEnd();
-        ret.height=this->height*(edk::float64)n;edkEnd();
-        ret.length=this->length*(edk::float64)n;edkEnd();
+        size3f64 ret;
+        ret.width=this->width*(edk::float64)n;
+        ret.height=this->height*(edk::float64)n;
+        ret.length=this->length*(edk::float64)n;
         return ret;
     }
     size3f64 operator*(edk::uint8 n){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width*(edk::float64)n;edkEnd();
-        ret.height=this->height*(edk::float64)n;edkEnd();
-        ret.length=this->length*(edk::float64)n;edkEnd();
+        size3f64 ret;
+        ret.width=this->width*(edk::float64)n;
+        ret.height=this->height*(edk::float64)n;
+        ret.length=this->length*(edk::float64)n;
         return ret;
     }
     size3f64 operator*(edk::uint16 n){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width*(edk::float64)n;edkEnd();
-        ret.height=this->height*(edk::float64)n;edkEnd();
-        ret.length=this->length*(edk::float64)n;edkEnd();
+        size3f64 ret;
+        ret.width=this->width*(edk::float64)n;
+        ret.height=this->height*(edk::float64)n;
+        ret.length=this->length*(edk::float64)n;
         return ret;
     }
     size3f64 operator*(edk::uint32 n){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width*(edk::float64)n;edkEnd();
-        ret.height=this->height*(edk::float64)n;edkEnd();
-        ret.length=this->length*(edk::float64)n;edkEnd();
+        size3f64 ret;
+        ret.width=this->width*(edk::float64)n;
+        ret.height=this->height*(edk::float64)n;
+        ret.length=this->length*(edk::float64)n;
         return ret;
     }
     size3f64 operator*(edk::uint64 n){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width*(edk::float64)n;edkEnd();
-        ret.height=this->height*(edk::float64)n;edkEnd();
-        ret.length=this->length*(edk::float64)n;edkEnd();
+        size3f64 ret;
+        ret.width=this->width*(edk::float64)n;
+        ret.height=this->height*(edk::float64)n;
+        ret.length=this->length*(edk::float64)n;
         return ret;
     }
 
     //*=
     void operator*=(size3f64 size){
         //
-        this->width*=size.width;edkEnd();
-        this->height*=size.height;edkEnd();
-        this->length*=size.length;edkEnd();
+        this->width*=size.width;
+        this->height*=size.height;
+        this->length*=size.length;
     }
     void operator*=(size2i8 size){
         //
-        this->width*=size.width;edkEnd();
-        this->height*=size.height;edkEnd();
+        this->width*=size.width;
+        this->height*=size.height;
     }
     void operator*=(edk::float32 n){
         //
-        this->width*=(edk::float64)n;edkEnd();
-        this->height*=(edk::float64)n;edkEnd();
-        this->length*=(edk::float64)n;edkEnd();
+        this->width*=(edk::float64)n;
+        this->height*=(edk::float64)n;
+        this->length*=(edk::float64)n;
     }
     void operator*=(edk::float64 n){
         //
-        this->width*=(edk::float64)n;edkEnd();
-        this->height*=(edk::float64)n;edkEnd();
-        this->length*=(edk::float64)n;edkEnd();
+        this->width*=(edk::float64)n;
+        this->height*=(edk::float64)n;
+        this->length*=(edk::float64)n;
     }
     void operator*=(edk::int8 n){
         //
-        this->width*=(edk::float64)n;edkEnd();
-        this->height*=(edk::float64)n;edkEnd();
-        this->length*=(edk::float64)n;edkEnd();
+        this->width*=(edk::float64)n;
+        this->height*=(edk::float64)n;
+        this->length*=(edk::float64)n;
     }
     void operator*=(edk::int16 n){
         //
-        this->width*=(edk::float64)n;edkEnd();
-        this->height*=(edk::float64)n;edkEnd();
-        this->length*=(edk::float64)n;edkEnd();
+        this->width*=(edk::float64)n;
+        this->height*=(edk::float64)n;
+        this->length*=(edk::float64)n;
     }
     void operator*=(edk::int32 n){
         //
-        this->width*=(edk::float64)n;edkEnd();
-        this->height*=(edk::float64)n;edkEnd();
-        this->length*=(edk::float64)n;edkEnd();
+        this->width*=(edk::float64)n;
+        this->height*=(edk::float64)n;
+        this->length*=(edk::float64)n;
     }
     void operator*=(edk::int64 n){
         //
-        this->width*=(edk::float64)n;edkEnd();
-        this->height*=(edk::float64)n;edkEnd();
-        this->length*=(edk::float64)n;edkEnd();
+        this->width*=(edk::float64)n;
+        this->height*=(edk::float64)n;
+        this->length*=(edk::float64)n;
     }
     void operator*=(edk::uint8 n){
         //
-        this->width*=(edk::float64)n;edkEnd();
-        this->height*=(edk::float64)n;edkEnd();
-        this->length*=(edk::float64)n;edkEnd();
+        this->width*=(edk::float64)n;
+        this->height*=(edk::float64)n;
+        this->length*=(edk::float64)n;
     }
     void operator*=(edk::uint16 n){
         //
-        this->width*=(edk::float64)n;edkEnd();
-        this->height*=(edk::float64)n;edkEnd();
-        this->length*=(edk::float64)n;edkEnd();
+        this->width*=(edk::float64)n;
+        this->height*=(edk::float64)n;
+        this->length*=(edk::float64)n;
     }
     void operator*=(edk::uint32 n){
         //
-        this->width*=(edk::float64)n;edkEnd();
-        this->height*=(edk::float64)n;edkEnd();
-        this->length*=(edk::float64)n;edkEnd();
+        this->width*=(edk::float64)n;
+        this->height*=(edk::float64)n;
+        this->length*=(edk::float64)n;
     }
     void operator*=(edk::uint64 n){
         //
-        this->width*=(edk::float64)n;edkEnd();
-        this->height*=(edk::float64)n;edkEnd();
-        this->length*=(edk::float64)n;edkEnd();
+        this->width*=(edk::float64)n;
+        this->height*=(edk::float64)n;
+        this->length*=(edk::float64)n;
     }
 
     // /
     size3f64 operator/(size3f64 size){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width/size.width;edkEnd();
-        ret.height=this->height/size.height;edkEnd();
-        ret.length=this->length/size.length;edkEnd();
+        size3f64 ret;
+        ret.width=this->width/size.width;
+        ret.height=this->height/size.height;
+        ret.length=this->length/size.length;
         return ret;
     }
     size3f64 operator/(size2i8 size){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width/size.width;edkEnd();
-        ret.height=this->height/size.height;edkEnd();
+        size3f64 ret;
+        ret.width=this->width/size.width;
+        ret.height=this->height/size.height;
         return ret;
     }
     size3f64 operator/(edk::float32 n){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width/(edk::float64)n;edkEnd();
-        ret.height=this->height/(edk::float64)n;edkEnd();
-        ret.length=this->length/(edk::float64)n;edkEnd();
+        size3f64 ret;
+        ret.width=this->width/(edk::float64)n;
+        ret.height=this->height/(edk::float64)n;
+        ret.length=this->length/(edk::float64)n;
         return ret;
     }
     size3f64 operator/(edk::float64 n){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width/(edk::float64)n;edkEnd();
-        ret.height=this->height/(edk::float64)n;edkEnd();
-        ret.length=this->length/(edk::float64)n;edkEnd();
+        size3f64 ret;
+        ret.width=this->width/(edk::float64)n;
+        ret.height=this->height/(edk::float64)n;
+        ret.length=this->length/(edk::float64)n;
         return ret;
     }
     size3f64 operator/(edk::int8 n){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width/(edk::float64)n;edkEnd();
-        ret.height=this->height/(edk::float64)n;edkEnd();
-        ret.length=this->length/(edk::float64)n;edkEnd();
+        size3f64 ret;
+        ret.width=this->width/(edk::float64)n;
+        ret.height=this->height/(edk::float64)n;
+        ret.length=this->length/(edk::float64)n;
         return ret;
     }
     size3f64 operator/(edk::int16 n){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width/(edk::float64)n;edkEnd();
-        ret.height=this->height/(edk::float64)n;edkEnd();
-        ret.length=this->length/(edk::float64)n;edkEnd();
+        size3f64 ret;
+        ret.width=this->width/(edk::float64)n;
+        ret.height=this->height/(edk::float64)n;
+        ret.length=this->length/(edk::float64)n;
         return ret;
     }
     size3f64 operator/(edk::int32 n){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width/(edk::float64)n;edkEnd();
-        ret.height=this->height/(edk::float64)n;edkEnd();
-        ret.length=this->length/(edk::float64)n;edkEnd();
+        size3f64 ret;
+        ret.width=this->width/(edk::float64)n;
+        ret.height=this->height/(edk::float64)n;
+        ret.length=this->length/(edk::float64)n;
         return ret;
     }
     size3f64 operator/(edk::int64 n){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width/(edk::float64)n;edkEnd();
-        ret.height=this->height/(edk::float64)n;edkEnd();
-        ret.length=this->length/(edk::float64)n;edkEnd();
+        size3f64 ret;
+        ret.width=this->width/(edk::float64)n;
+        ret.height=this->height/(edk::float64)n;
+        ret.length=this->length/(edk::float64)n;
         return ret;
     }
     size3f64 operator/(edk::uint8 n){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width/(edk::float64)n;edkEnd();
-        ret.height=this->height/(edk::float64)n;edkEnd();
-        ret.length=this->length/(edk::float64)n;edkEnd();
+        size3f64 ret;
+        ret.width=this->width/(edk::float64)n;
+        ret.height=this->height/(edk::float64)n;
+        ret.length=this->length/(edk::float64)n;
         return ret;
     }
     size3f64 operator/(edk::uint16 n){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width/(edk::float64)n;edkEnd();
-        ret.height=this->height/(edk::float64)n;edkEnd();
-        ret.length=this->length/(edk::float64)n;edkEnd();
+        size3f64 ret;
+        ret.width=this->width/(edk::float64)n;
+        ret.height=this->height/(edk::float64)n;
+        ret.length=this->length/(edk::float64)n;
         return ret;
     }
     size3f64 operator/(edk::uint32 n){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width/(edk::float64)n;edkEnd();
-        ret.height=this->height/(edk::float64)n;edkEnd();
-        ret.length=this->length/(edk::float64)n;edkEnd();
+        size3f64 ret;
+        ret.width=this->width/(edk::float64)n;
+        ret.height=this->height/(edk::float64)n;
+        ret.length=this->length/(edk::float64)n;
         return ret;
     }
     size3f64 operator/(edk::uint64 n){
         //
-        size3f64 ret;edkEnd();
-        ret.width=this->width/(edk::float64)n;edkEnd();
-        ret.height=this->height/(edk::float64)n;edkEnd();
-        ret.length=this->length/(edk::float64)n;edkEnd();
+        size3f64 ret;
+        ret.width=this->width/(edk::float64)n;
+        ret.height=this->height/(edk::float64)n;
+        ret.length=this->length/(edk::float64)n;
         return ret;
     }
 
     // /=
     void operator/=(size3f64 size){
         //
-        this->width/=size.width;edkEnd();
-        this->height/=size.height;edkEnd();
-        this->length/=size.length;edkEnd();
+        this->width/=size.width;
+        this->height/=size.height;
+        this->length/=size.length;
     }
     void operator/=(size2i8 size){
         //
-        this->width/=size.width;edkEnd();
-        this->height/=size.height;edkEnd();
+        this->width/=size.width;
+        this->height/=size.height;
     }
     void operator/=(edk::float32 n){
         //
-        this->width/=(edk::float64)n;edkEnd();
-        this->height/=(edk::float64)n;edkEnd();
-        this->length/=(edk::float64)n;edkEnd();
+        this->width/=(edk::float64)n;
+        this->height/=(edk::float64)n;
+        this->length/=(edk::float64)n;
     }
     void operator/=(edk::float64 n){
         //
-        this->width/=(edk::float64)n;edkEnd();
-        this->height/=(edk::float64)n;edkEnd();
-        this->length/=(edk::float64)n;edkEnd();
+        this->width/=(edk::float64)n;
+        this->height/=(edk::float64)n;
+        this->length/=(edk::float64)n;
     }
     void operator/=(edk::int8 n){
         //
-        this->width/=(edk::float64)n;edkEnd();
-        this->height/=(edk::float64)n;edkEnd();
-        this->length/=(edk::float64)n;edkEnd();
+        this->width/=(edk::float64)n;
+        this->height/=(edk::float64)n;
+        this->length/=(edk::float64)n;
     }
     void operator/=(edk::int16 n){
         //
-        this->width/=(edk::float64)n;edkEnd();
-        this->height/=(edk::float64)n;edkEnd();
-        this->length/=(edk::float64)n;edkEnd();
+        this->width/=(edk::float64)n;
+        this->height/=(edk::float64)n;
+        this->length/=(edk::float64)n;
     }
     void operator/=(edk::int32 n){
         //
-        this->width/=(edk::float64)n;edkEnd();
-        this->height/=(edk::float64)n;edkEnd();
-        this->length/=(edk::float64)n;edkEnd();
+        this->width/=(edk::float64)n;
+        this->height/=(edk::float64)n;
+        this->length/=(edk::float64)n;
     }
     void operator/=(edk::int64 n){
         //
-        this->width/=(edk::float64)n;edkEnd();
-        this->height/=(edk::float64)n;edkEnd();
-        this->length/=(edk::float64)n;edkEnd();
+        this->width/=(edk::float64)n;
+        this->height/=(edk::float64)n;
+        this->length/=(edk::float64)n;
     }
     void operator/=(edk::uint8 n){
         //
-        this->width/=(edk::float64)n;edkEnd();
-        this->height/=(edk::float64)n;edkEnd();
-        this->length/=(edk::float64)n;edkEnd();
+        this->width/=(edk::float64)n;
+        this->height/=(edk::float64)n;
+        this->length/=(edk::float64)n;
     }
     void operator/=(edk::uint16 n){
         //
-        this->width/=(edk::float64)n;edkEnd();
-        this->height/=(edk::float64)n;edkEnd();
-        this->length/=(edk::float64)n;edkEnd();
+        this->width/=(edk::float64)n;
+        this->height/=(edk::float64)n;
+        this->length/=(edk::float64)n;
     }
     void operator/=(edk::uint32 n){
         //
-        this->width/=(edk::float64)n;edkEnd();
-        this->height/=(edk::float64)n;edkEnd();
-        this->length/=(edk::float64)n;edkEnd();
+        this->width/=(edk::float64)n;
+        this->height/=(edk::float64)n;
+        this->length/=(edk::float64)n;
     }
     void operator/=(edk::uint64 n){
         //
-        this->width/=(edk::float64)n;edkEnd();
-        this->height/=(edk::float64)n;edkEnd();
-        this->length/=(edk::float64)n;edkEnd();
+        this->width/=(edk::float64)n;
+        this->height/=(edk::float64)n;
+        this->length/=(edk::float64)n;
     }
 
     //++
     size3f64 operator++(){
         //
-        ++this->width;edkEnd();
-        ++this->height;edkEnd();
-        ++this->length;edkEnd();
-        return size3f64(this->width,this->height,this->length);edkEnd();
+        ++this->width;
+        ++this->height;
+        ++this->length;
+        return size3f64(this->width,this->height,this->length);
     }
     size3f64 operator++(edk::int32){
         //
-        this->width++;edkEnd();
-        this->height++;edkEnd();
-        this->length++;edkEnd();
-        return size3f64(this->width,this->height,this->length);edkEnd();
+        this->width++;
+        this->height++;
+        this->length++;
+        return size3f64(this->width,this->height,this->length);
     }
 
     //--
     size3f64 operator--(){
         //
-        --this->width;edkEnd();
-        --this->height;edkEnd();
-        --this->length;edkEnd();
-        return size3f64(this->width,this->height,this->length);edkEnd();
+        --this->width;
+        --this->height;
+        --this->length;
+        return size3f64(this->width,this->height,this->length);
     }
     size3f64 operator--(edk::int32){
         //
-        this->width--;edkEnd();
-        this->height--;edkEnd();
-        this->length--;edkEnd();
-        return size3f64(this->width,this->height,this->length);edkEnd();
+        this->width--;
+        this->height--;
+        this->length--;
+        return size3f64(this->width,this->height,this->length);
     }
 
     //
     size3f64 operator()(edk::float32 width,edk::float32 height,edk::float32 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3f64((edk::float64)this->width,(edk::float64)this->height,(edk::float64)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3f64((edk::float64)this->width,(edk::float64)this->height,(edk::float64)this->length);
     }
     size3f64 operator()(edk::float64 width,edk::float64 height,edk::float64 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3f64((edk::float64)this->width,(edk::float64)this->height,(edk::float64)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3f64((edk::float64)this->width,(edk::float64)this->height,(edk::float64)this->length);
     }
     size3f64 operator()(edk::int8 width,edk::int8 height,edk::int8 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3f64((edk::float64)this->width,(edk::float64)this->height,(edk::float64)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3f64((edk::float64)this->width,(edk::float64)this->height,(edk::float64)this->length);
     }
     size3f64 operator()(edk::int16 width,edk::int16 height,edk::int16 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3f64((edk::float64)this->width,(edk::float64)this->height,(edk::float64)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3f64((edk::float64)this->width,(edk::float64)this->height,(edk::float64)this->length);
     }
     size3f64 operator()(edk::int32 width,edk::int32 height,edk::int32 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3f64((edk::float64)this->width,(edk::float64)this->height,(edk::float64)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3f64((edk::float64)this->width,(edk::float64)this->height,(edk::float64)this->length);
     }
     size3f64 operator()(edk::int64 width,edk::int64 height,edk::int64 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3f64((edk::float64)this->width,(edk::float64)this->height,(edk::float64)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3f64((edk::float64)this->width,(edk::float64)this->height,(edk::float64)this->length);
     }
     size3f64 operator()(edk::uint8 width,edk::uint8 height,edk::uint8 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3f64((edk::float64)this->width,(edk::float64)this->height,(edk::float64)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3f64((edk::float64)this->width,(edk::float64)this->height,(edk::float64)this->length);
     }
     size3f64 operator()(edk::uint16 width,edk::uint16 height,edk::uint16 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3f64((edk::float64)this->width,(edk::float64)this->height,(edk::float64)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3f64((edk::float64)this->width,(edk::float64)this->height,(edk::float64)this->length);
     }
     size3f64 operator()(edk::uint32 width,edk::uint32 height,edk::uint32 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3f64((edk::float64)this->width,(edk::float64)this->height,(edk::float64)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3f64((edk::float64)this->width,(edk::float64)this->height,(edk::float64)this->length);
     }
     size3f64 operator()(edk::uint64 width,edk::uint64 height,edk::uint64 length){
         //
-        this->width=width;edkEnd();
-        this->height=height;edkEnd();
-        this->length=length;edkEnd();
-        return size3f64((edk::float64)this->width,(edk::float64)this->height,(edk::float64)this->length);edkEnd();
+        this->width=width;
+        this->height=height;
+        this->length=length;
+        return size3f64((edk::float64)this->width,(edk::float64)this->height,(edk::float64)this->length);
     }
 };
 

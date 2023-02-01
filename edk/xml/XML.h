@@ -35,6 +35,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 #include "../../pugixml/pugixml.hpp"
 #include "../TypeVars.h"
+#include "../DebugFile.h"
 #include "../String.h"
 #include <iostream>
 

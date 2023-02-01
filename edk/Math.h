@@ -36,6 +36,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //Include the types
 #pragma once
 #include "TypeVars.h"
+#include "DebugFile.h"
 #include "TypeVec2.h"
 #include "TypeVec3.h"
 #include "TypeVec4.h"

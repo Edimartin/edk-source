@@ -109,7 +109,12 @@ public:
     virtual bool readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id);
     static bool readFromXMLisSensor(edk::XML* xml,edk::uint32 id);
 
+    //clone the physics mesh from mesh in a position
+    bool clonePhysicsMeshFromMeshPosition(edk::uint32 position);
+
     virtual bool cloneFrom(edk::physics2D::PhysicObject2D* obj);
+
+    virtual bool cloneFrom(edk::Object2D* obj);
 
     //set if the body canSleep
     bool canSleep;

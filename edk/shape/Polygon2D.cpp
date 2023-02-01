@@ -1005,7 +1005,6 @@ bool edk::shape::Polygon2D::isCircle(){
         return true;
     }
     return false;
-    //return this->polygonCircle;edkEnd();
 }
 //return the circleRadius only if is a circle
 edk::float32 edk::shape::Polygon2D::getCircleRadius(){
@@ -1027,7 +1026,6 @@ bool edk::shape::Polygon2D::isLine(){
         return true;
     }
     return false;
-    //return this->polygonLine;edkEnd();
 }
 //get line ID
 edk::uint8 edk::shape::Polygon2D::getCollisionID(){

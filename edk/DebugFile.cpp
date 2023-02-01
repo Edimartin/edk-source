@@ -1,8 +1,7 @@
-#ifndef EDK_SHAPE_BEZIER3D_H
-#define EDK_SHAPE_BEZIER3D_H
+#include "DebugFile.h"
 
 /*
-Library Bezier3D - Bezier curve 3D in EDK Game Engine
+Library C++ DebugFile - Write debug messages in a file
 Copyright 2013 Eduardo Moura Sales Martins (edimartin@gmail.com)
 
 Permission is hereby granted, free of charge, to any person obtaining
@@ -25,35 +24,40 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#ifdef printMessages
-#warning "Inside Bezier3D"
+//the file is inline
+//edk::File edk::DebugFile::file;
+
+edk::DebugFile::DebugFile(){
+    //
+}
+edk::DebugFile::~DebugFile(){
+    //
+}
+
+#if defined(EDK_DEBUGGER)
+#else
 #endif
 
-#pragma once
-#include "../TypeVars.h"
-#include "../DebugFile.h"
-#include "../TypeVec3.h"
-#include "Curve3D.h"
-
-#ifdef printMessages
-#warning "    Compiling Bezier3D"
+bool edk::DebugFile::newFile(const edk::char8* name){
+    return edk::DebugFile::newFile((edk::char8*) name);
+}
+bool edk::DebugFile::newFile(edk::char8*
+                             #if defined(EDK_DEBUGGER)
+                             name
+                             #endif
+                             ){
+#if defined(EDK_DEBUGGER)
+    printf("\n%u %s %s edk::File == %lu name == '%s'",__LINE__,__FILE__,__func__,(edk::uint64)&edk::DebugFile::file,name);fflush(stdout);
+    //create the file
+    if(edk::DebugFile::file.createAndOpenTextFile(name)){
+        return true;
+    }
 #endif
+    return false;
+}
 
-namespace edk{
-namespace shape{
-class Bezier3D : public edk::shape::Curve3D{
-    public:
-        Bezier3D();
-        Bezier3D(edk::vec3f32 p1,edk::vec3f32 p2,edk::vec3f32 p3,edk::vec3f32 p4);
-        virtual ~Bezier3D();
-
-        //return the point
-        edk::vec3f32 getPoint(edk::float32 percent);
-        static edk::vec3f32 getPoint(edk::vec3f32 p1,edk::vec3f32 p2,edk::vec3f32 p3,edk::vec3f32 p4,edk::float32 percent);
-    protected:
-    private:
-};
-}//end namespace shape
-}//end namespace edk
-
-#endif // BEZIER3D_H
+void edk::DebugFile::closeFile(){
+#if defined(EDK_DEBUGGER)
+    edk::DebugFile::file.closeFile();
+#endif
+}

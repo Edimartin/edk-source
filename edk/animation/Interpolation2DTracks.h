@@ -129,6 +129,9 @@ public:
         }
         return false;
     }
+
+    //set the animation as active
+    bool active;
 protected:
     //stack of tracks
     class StackTracks2D : public edk::animation::Interpolation1DTracks::StackTracks1D{

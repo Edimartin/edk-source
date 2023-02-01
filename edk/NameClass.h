@@ -44,50 +44,50 @@ class Name{
 public:
     Name(){
         //
-        this->_name=NULL;edkEnd();
-        this->_size = 0u;edkEnd();
-        this->canDelete=true;edkEnd();
+        this->_name=NULL;
+        this->_size = 0u;
+        this->canDelete=true;
     }
     Name(edk::char8* _name){
         //
-        this->_name=NULL;edkEnd();
-        this->_size = 0u;edkEnd();
-        this->setName(_name);edkEnd();
-        this->canDelete=true;edkEnd();
+        this->_name=NULL;
+        this->_size = 0u;
+        this->setName(_name);
+        this->canDelete=true;
     }
     Name(const edk::char8* _name){
         //
-        this->_name=NULL;edkEnd();
-        this->_size = 0u;edkEnd();
-        this->setName(_name);edkEnd();
-        this->canDelete=true;edkEnd();
+        this->_name=NULL;
+        this->_size = 0u;
+        this->setName(_name);
+        this->canDelete=true;
     }
     virtual ~Name(){
         //
         if(this->canDelete){
-            this->deleteName();edkEnd();
+            this->deleteName();
         }
         else{
-            this->canDelete=true;edkEnd();
+            this->canDelete=true;
         }
     }
     //clean the name
     void cleanName(){
-        this->setName((edk::char8*)NULL);edkEnd();
+        this->setName((edk::char8*)NULL);
     }
     bool setName(const edk::char8* _name){
-        return this->setName((edk::char8*) _name);edkEnd();
+        return this->setName((edk::char8*) _name);
     }
     //set the name
     bool setName(edk::char8* _name){
         //delete the lastName
-        this->deleteName();edkEnd();
+        this->deleteName();
         //test the new name
         if(_name){
             //copy the name
-            this->_name = edk::String::strCopy(_name);edkEnd();
+            this->_name = edk::String::strCopy(_name);
             if(this->_name){
-                this->_size = edk::String::strSize(this->_name);edkEnd();
+                this->_size = edk::String::strSize(this->_name);
                 return true;
             }
         }
@@ -97,44 +97,44 @@ public:
     //get the name
     edk::char8* getName(){
         //
-        return this->_name;edkEnd();
+        return this->_name;
     }
     edk::char8* name(){
         //
-        return this->_name;edkEnd();
+        return this->_name;
     }
     bool haveName(){
-        return this->_name && this->_size;edkEnd();
+        return this->_name && this->_size;
     }
     //return the name size
     edk::uint32 getSize(){
-        return this->size();edkEnd();
+        return this->size();
     }
     edk::uint32 size(){
-        return this->_size;edkEnd();
+        return this->_size;
     }
 
     bool nameEqual(edk::char8* _name){
-        return edk::Name::stringEqual(this->_name,_name);edkEnd();
+        return edk::Name::stringEqual(this->_name,_name);
     }
     bool nameEqual(const edk::char8* _name){
-        return this->nameEqual((edk::char8*) _name);edkEnd();
+        return this->nameEqual((edk::char8*) _name);
     }
     bool nameEqual(edk::Name* _name){
         if(_name){
-            return edk::Name::stringEqual(this->_name,_name->_name);edkEnd();
+            return edk::Name::stringEqual(this->_name,_name->_name);
         }
         return false;
     }
     bool nameBiggerThan(edk::char8* _name){
-        return edk::Name::firstNameBiggerSecond(this->_name,_name);edkEnd();
+        return edk::Name::firstNameBiggerSecond(this->_name,_name);
     }
     bool nameBiggerThan(const edk::char8* _name){
-        return nameBiggerThan((edk::char8*) _name);edkEnd();
+        return nameBiggerThan((edk::char8*) _name);
     }
     bool nameBiggerThan(edk::Name* _name){
         if(_name){
-            return edk::Name::firstNameBiggerSecond(this->_name,_name->_name);edkEnd();
+            return edk::Name::firstNameBiggerSecond(this->_name,_name->_name);
         }
         return false;
     }
@@ -155,8 +155,8 @@ public:
                     break;
                 }
                 //else equal increment i
-                name2++;edkEnd();
-                name1++;edkEnd();
+                name2++;
+                name1++;
             }
         }
         //else return false
@@ -173,8 +173,8 @@ public:
                     return false;
                 }
                 //else equal increment i
-                name1++;edkEnd();
-                name2++;edkEnd();
+                name1++;
+                name2++;
             }
             //test if are equal
             if(*name1==*name2){
@@ -186,17 +186,17 @@ public:
         return false;
     }
     virtual void cantDelete(){
-        this->canDelete=false;edkEnd();
+        this->canDelete=false;
     }
 protected:
     //delete the name
     void deleteName(){
         //
         if(this->_name){
-            delete[] this->_name;edkEnd();
-            this->_name=NULL;edkEnd();
+            delete[] this->_name;
+            this->_name=NULL;
         }
-        this->_size = 0u;edkEnd();
+        this->_size = 0u;
     }
 
 private:

@@ -106,11 +106,4 @@ public:
     edk::NothingClass::edk_lffprint(__LINE__,__FILE__,__func__,str,##args); \
     edk::NothingClass::edk_nothing()
 
-#if defined(EDK_DEBUGGER)
-#define edkEnd() printf("\n%u %s %s",__LINE__,__FILE__,__func__); \
-    fflush(stdout)
-#else
-#define edkEnd() edk::NothingClass::edk_nothing()
-#endif
-
 #endif // TYPEVARS_H

@@ -32,6 +32,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma once
 #include <string.h>
 #include "../TypeVars.h"
+#include "../DebugFile.h"
 #include "../TypeSize2.h"
 #include "../TypeColor.h"
 

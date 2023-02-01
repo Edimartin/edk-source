@@ -31,6 +31,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #pragma once
 #include "../TypeVars.h"
+#include "../DebugFile.h"
 
 //pThread
 #if defined(__linux__)/*LINUX*/ || defined(__APPLE__)//MAC OS

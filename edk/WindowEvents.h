@@ -35,6 +35,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 //EDK
 #include "TypeVars.h"
+#include "DebugFile.h"
 #include "TypeVec2.h"
 #include "TypeSize2.h"
 #include "TypeDefines.h"

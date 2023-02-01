@@ -27,6 +27,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 edk::animation::Interpolation2DTracks::Interpolation2DTracks(){
     //
     this->tracks = &this->stack;edkEnd();
+    this->active = false;
 }
 edk::animation::Interpolation2DTracks::~Interpolation2DTracks(){
     //

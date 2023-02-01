@@ -240,6 +240,7 @@ bool edk::physics2D::PhysicObject2D::updateAnimations(edk::float32 seconds){
     bool ret=false;edkEnd();
     this->animationPosition.updateClockAnimation(seconds);edkEnd();
     this->animationRotation.updateClockAnimation(seconds);edkEnd();
+    this->animationSize.updateClockAnimation(seconds);edkEnd();
     //test if are playing the animations
     if(this->animationPosition.isPlaying()){
         //get X and Y
@@ -251,6 +252,13 @@ bool edk::physics2D::PhysicObject2D::updateAnimations(edk::float32 seconds){
     if(this->animationRotation.isPlaying()){
         //get the new Angle
         this->angle = this->animationRotation.getClockX();edkEnd();
+        ret=true;edkEnd();
+    }
+    //test if is animating the size
+    if(this->animationSize.isPlaying()){
+        //
+        this->size.width = this->animationSize.getClockX();edkEnd();
+        this->size.height = this->animationSize.getClockY();edkEnd();
         ret=true;edkEnd();
     }
     this->updateMeshAnimations(seconds);edkEnd();
@@ -615,6 +623,12 @@ bool edk::physics2D::PhysicObject2D::readFromXMLisSensor(edk::XML* xml,edk::uint
     return false;
 }
 
+//clone the physics mesh from mesh in a position
+bool edk::physics2D::PhysicObject2D::clonePhysicsMeshFromMeshPosition(edk::uint32 position){
+    //clone from the mesh
+    return this->physicMesh.cloneFrom(this->getMesh(position));
+}
+
 bool edk::physics2D::PhysicObject2D::cloneFrom(edk::physics2D::PhysicObject2D* obj){
     if(obj){
         edk::Object2D::cloneFrom(obj);edkEnd();
@@ -636,6 +650,14 @@ bool edk::physics2D::PhysicObject2D::cloneFrom(edk::physics2D::PhysicObject2D* o
         for(edk::uint32 i=0u;i<size;i++){
             this->treeNotCollisionGroups.add(obj->treeNotCollisionGroups.getElementInPosition(i));edkEnd();
         }
+        return true;
+    }
+    return false;
+}
+
+bool edk::physics2D::PhysicObject2D::cloneFrom(edk::Object2D* obj){
+    if(obj){
+        edk::Object2D::cloneFrom(obj);edkEnd();
         return true;
     }
     return false;

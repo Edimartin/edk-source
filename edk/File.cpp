@@ -1,4 +1,5 @@
 #include "File.h"
+//#include "DebugFile.h"
 
 /*
 Library File - Read and Write Files using C ANSI
@@ -91,7 +92,7 @@ bool testLimits(edk::char8 c,edk::char8* limits){
                 //
                 return true;
             }
-            i++;edkEnd();
+            i++;
         }
     }
     return false;
@@ -100,34 +101,34 @@ bool testLimits(edk::char8 c,edk::char8* limits){
 //Read the string from the file
 edk::char8* edk::File::readStringFromTheFile(FILE* arq,edk::char8 limit,edk::uint32 count,bool use){
     //First read the next character
-    edk::char8 temp = '\0';edkEnd();
+    edk::char8 temp = '\0';
 
     //string return
-    edk::char8* ret = NULL;edkEnd();
+    edk::char8* ret = NULL;
 
     //test if have the end of the file
     if(feof(arq)){
         //then create the simple string
-        edk::char8* str = new edk::char8[count+1u];edkEnd();
+        edk::char8* str = new edk::char8[count+1u];
         //copy the end character '\0'
         if(str){
             //
-            str[count]='\0';edkEnd();
+            str[count]='\0';
         }
         //return the string
-        return str;edkEnd();
+        return str;
     }
 
 #ifdef _WIN32
     //Windows 32
 #ifdef _MSC_VER
     //Visual C
-    fscanf_s(arq,"%c",&temp);edkEnd();
+    fscanf_s(arq,"%c",&temp);
 #endif
 #ifdef __GNUC__
 #ifdef __cplusplus
     //G++
-    fscanf(arq,"%c",&temp);edkEnd();
+    fscanf(arq,"%c",&temp);
 #else
     //GCC
 #endif
@@ -137,12 +138,12 @@ edk::char8* edk::File::readStringFromTheFile(FILE* arq,edk::char8 limit,edk::uin
     //Windows 64
 #ifdef _MSC_VER
     //Visual C
-    fscanf_s(arq,"%c",&temp);edkEnd();
+    fscanf_s(arq,"%c",&temp);
 #endif
 #ifdef __GNUC__
 #ifdef __cplusplus
     //G++
-    fscanf(arq,"%c",&temp);edkEnd();
+    fscanf(arq,"%c",&temp);
 #else
     //GCC
 #endif
@@ -153,7 +154,7 @@ edk::char8* edk::File::readStringFromTheFile(FILE* arq,edk::char8 limit,edk::uin
 #ifdef __GNUC__
 #ifdef __cplusplus
     //G++
-    fscanf(arq,"%c",&temp);edkEnd();
+    fscanf(arq,"%c",&temp);
 #else
     //GCC
 #endif
@@ -164,7 +165,7 @@ edk::char8* edk::File::readStringFromTheFile(FILE* arq,edk::char8 limit,edk::uin
 #ifdef __GNUC__
 #ifdef __cplusplus
     //G++
-    fscanf(arq,"%c",&temp);edkEnd();
+    fscanf(arq,"%c",&temp);
 #else
     //GCC
 #endif
@@ -176,36 +177,36 @@ edk::char8* edk::File::readStringFromTheFile(FILE* arq,edk::char8 limit,edk::uin
         //have the end of the read
 
         //alloc the new string
-        edk::char8* str = NULL;edkEnd();
+        edk::char8* str = NULL;
         //test if use the limit character
         if(use && temp!='\0'){
             //Copy the end and the limit character
-            str = new edk::char8[count+2u];edkEnd();
+            str = new edk::char8[count+2u];
             if(str){
                 //
-                str[count+1u]='\0';edkEnd();
-                str[count]=limit;edkEnd();
+                str[count+1u]='\0';
+                str[count]=limit;
             }
         }
         else{
             //Copy just the end character
-            str = new edk::char8[count+1u];edkEnd();
+            str = new edk::char8[count+1u];
             if(str){
                 //
-                str[count]='\0';edkEnd();
+                str[count]='\0';
             }
         }
         //return the string
-        return str;edkEnd();
+        return str;
     }
     else{
         //keep trying
-        ret = this->readStringFromTheFile(arq,limit,count+1u,use);edkEnd();
+        ret = this->readStringFromTheFile(arq,limit,count+1u,use);
 
         //Test if the ret is alloc
         if(ret){
             //then copy the character readed (temp)
-            ret[count]=temp;edkEnd();
+            ret[count]=temp;
         }
     }
     //return the ret string
@@ -214,34 +215,34 @@ edk::char8* edk::File::readStringFromTheFile(FILE* arq,edk::char8 limit,edk::uin
 edk::char8* edk::File::readStringFromTheFile(FILE* arq,edk::char8* limits,edk::uint32 count,bool use){
 
     //First read the next character
-    edk::char8 temp = '\0';edkEnd();
+    edk::char8 temp = '\0';
 
     //string return
-    edk::char8* ret = NULL;edkEnd();
+    edk::char8* ret = NULL;
 
     //test if have the end of the file
     if(feof(arq)){
         //then create the simple string
-        edk::char8* str = new edk::char8[count+1u];edkEnd();
+        edk::char8* str = new edk::char8[count+1u];
         //copy the end character '\0'
         if(str){
             //
-            str[count]='\0';edkEnd();
+            str[count]='\0';
         }
         //return the string
-        return str;edkEnd();
+        return str;
     }
 
 #ifdef _WIN32
     //Windows 32
 #ifdef _MSC_VER
     //Visual C
-    fscanf_s(arq,"%c",&temp);edkEnd();
+    fscanf_s(arq,"%c",&temp);
 #endif
 #ifdef __GNUC__
 #ifdef __cplusplus
     //G++
-    fscanf(arq,"%c",&temp);edkEnd();
+    fscanf(arq,"%c",&temp);
 #else
     //GCC
 #endif
@@ -251,12 +252,12 @@ edk::char8* edk::File::readStringFromTheFile(FILE* arq,edk::char8* limits,edk::u
     //Windows 64
 #ifdef _MSC_VER
     //Visual C
-    fscanf_s(arq,"%c",&temp);edkEnd();
+    fscanf_s(arq,"%c",&temp);
 #endif
 #ifdef __GNUC__
 #ifdef __cplusplus
     //G++
-    fscanf(arq,"%c",&temp);edkEnd();
+    fscanf(arq,"%c",&temp);
 #else
     //GCC
 #endif
@@ -267,7 +268,7 @@ edk::char8* edk::File::readStringFromTheFile(FILE* arq,edk::char8* limits,edk::u
 #ifdef __GNUC__
 #ifdef __cplusplus
     //G++
-    fscanf(arq,"%c",&temp);edkEnd();
+    fscanf(arq,"%c",&temp);
 #else
     //GCC
 #endif
@@ -278,7 +279,7 @@ edk::char8* edk::File::readStringFromTheFile(FILE* arq,edk::char8* limits,edk::u
 #ifdef __GNUC__
 #ifdef __cplusplus
     //G++
-    fscanf(arq,"%c",&temp);edkEnd();
+    fscanf(arq,"%c",&temp);
 #else
     //GCC
 #endif
@@ -290,36 +291,36 @@ edk::char8* edk::File::readStringFromTheFile(FILE* arq,edk::char8* limits,edk::u
         //have the end of the read
 
         //alloc the new string
-        edk::char8* str = NULL;edkEnd();
+        edk::char8* str = NULL;
         //test if use the limit character
         if(use && temp!='\0'){
             //Copy the end and the limit character
-            str = new edk::char8[count+2u];edkEnd();
+            str = new edk::char8[count+2u];
             if(str){
                 //
-                str[count+1u]='\0';edkEnd();
-                str[count]=temp;edkEnd();
+                str[count+1u]='\0';
+                str[count]=temp;
             }
         }
         else{
             //Copy just the end character
-            str = new edk::char8[count+1u];edkEnd();
+            str = new edk::char8[count+1u];
             if(str){
                 //
-                str[count]='\0';edkEnd();
+                str[count]='\0';
             }
         }
         //return the string
-        return str;edkEnd();
+        return str;
     }
     else{
         //keep trying
-        ret = this->readStringFromTheFile(arq,limits,count+1u,use);edkEnd();
+        ret = this->readStringFromTheFile(arq,limits,count+1u,use);
 
         //Test if the ret is alloc
         if(ret){
             //then copy the character readed (temp)
-            ret[count]=temp;edkEnd();
+            ret[count]=temp;
         }
     }
     //return the ret string
@@ -327,61 +328,61 @@ edk::char8* edk::File::readStringFromTheFile(FILE* arq,edk::char8* limits,edk::u
 }
 edk::char8* edk::File::readStringFromTheBinFile(FILE* arq,edk::char8 limit,edk::uint32 count,bool use){
     //First read the next character
-    edk::char8 temp = '\0';edkEnd();
+    edk::char8 temp = '\0';
 
     //string return
-    edk::char8* ret = NULL;edkEnd();
+    edk::char8* ret = NULL;
 
     //test if have the end of the file
     if(feof(arq)){
         //then create the simple string
-        edk::char8* str = new edk::char8[count+1u];edkEnd();
+        edk::char8* str = new edk::char8[count+1u];
         //copy the end character '\0'
         if(str){
             //
-            str[count]='\0';edkEnd();
+            str[count]='\0';
         }
         //return the string
-        return str;edkEnd();
+        return str;
     }
 
-    fread(&temp,1u,1u,this->arq);edkEnd();
+    fread(&temp,1u,1u,this->arq);
     //test if read the end character or the end of the file
 
     if(feof(arq) || temp==limit || temp=='\0'){
         //have the end of the read
 
         //alloc the new string
-        edk::char8* str = NULL;edkEnd();
+        edk::char8* str = NULL;
         //test if use the limit character
         if(use && temp!='\0'){
             //Copy the end and the limit character
-            str = new edk::char8[count+2u];edkEnd();
+            str = new edk::char8[count+2u];
             if(str){
                 //
-                str[count+1u]='\0';edkEnd();
-                str[count]=limit;edkEnd();
+                str[count+1u]='\0';
+                str[count]=limit;
             }
         }
         else{
             //Copy just the end character
-            str = new edk::char8[count+1u];edkEnd();
+            str = new edk::char8[count+1u];
             if(str){
                 //
-                str[count]='\0';edkEnd();
+                str[count]='\0';
             }
         }
         //return the string
-        return str;edkEnd();
+        return str;
     }
     else{
         //keep trying
-        ret = this->readStringFromTheBinFile(arq,limit,count+1u,use);edkEnd();
+        ret = this->readStringFromTheBinFile(arq,limit,count+1u,use);
 
         //Test if the ret is alloc
         if(ret){
             //then copy the character readed (temp)
-            ret[count]=temp;edkEnd();
+            ret[count]=temp;
         }
     }
     //return the ret string
@@ -390,61 +391,61 @@ edk::char8* edk::File::readStringFromTheBinFile(FILE* arq,edk::char8 limit,edk::
 edk::char8* edk::File::readStringFromTheBinFile(FILE* arq,edk::char8* limits,edk::uint32 count,bool use){
 
     //First read the next character
-    edk::char8 temp = '\0';edkEnd();
+    edk::char8 temp = '\0';
 
     //string return
-    edk::char8* ret = NULL;edkEnd();
+    edk::char8* ret = NULL;
 
     //test if have the end of the file
     if(feof(arq)){
         //then create the simple string
-        edk::char8* str = new edk::char8[count+1u];edkEnd();
+        edk::char8* str = new edk::char8[count+1u];
         //copy the end character '\0'
         if(str){
             //
-            str[count]='\0';edkEnd();
+            str[count]='\0';
         }
         //return the string
-        return str;edkEnd();
+        return str;
     }
 
-    fread(&temp,1u,1u,this->arq);edkEnd();
+    fread(&temp,1u,1u,this->arq);
 
     //test if read the end character or the end of the file
     if(feof(arq) || testLimits(temp,limits) || temp=='\0'){
         //have the end of the read
 
         //alloc the new string
-        edk::char8* str = NULL;edkEnd();
+        edk::char8* str = NULL;
         //test if use the limit character
         if(use && temp!='\0'){
             //Copy the end and the limit character
-            str = new edk::char8[count+2u];edkEnd();
+            str = new edk::char8[count+2u];
             if(str){
                 //
-                str[count+1u]='\0';edkEnd();
-                str[count]=temp;edkEnd();
+                str[count+1u]='\0';
+                str[count]=temp;
             }
         }
         else{
             //Copy just the end character
-            str = new edk::char8[count+1u];edkEnd();
+            str = new edk::char8[count+1u];
             if(str){
                 //
-                str[count]='\0';edkEnd();
+                str[count]='\0';
             }
         }
         //return the string
-        return str;edkEnd();
+        return str;
     }
     else{
         //keep trying
-        ret = this->readStringFromTheBinFile(arq,limits,count+1u,use);edkEnd();
+        ret = this->readStringFromTheBinFile(arq,limits,count+1u,use);
 
         //Test if the ret is alloc
         if(ret){
             //then copy the character readed (temp)
-            ret[count]=temp;edkEnd();
+            ret[count]=temp;
         }
     }
     //return the ret string
@@ -458,33 +459,33 @@ edk::char8* edk::File::readStringFromTheBinFile(FILE* arq,edk::char8* limits,edk
 
 edk::File::File(){
     //clean the atributes
-    this->arq=NULL;edkEnd();
-    this->name=NULL;edkEnd();
+    this->arq=NULL;
+    this->name=NULL;
     this->size=0u;
 }
 
 edk::File::~File(){
     //close the file
-    this->closeFile();edkEnd();
+    this->closeFile();
 }
 
 edk::uint64 edk::File::getFileSize(){
     if(this->isOpened()){
         //if(!this->size){
         //load fileSize
-        edk::uint64 position = this->getSeek64();edkEnd();
-        this->seekEnd();edkEnd();
-        this->size = this->getSeek64();edkEnd();
-        this->seekStart(position);edkEnd();
+        edk::uint64 position = this->getSeek64();
+        this->seekEnd();
+        this->size = this->getSeek64();
+        this->seekStart(position);
         //}
-        return this->size;edkEnd();
+        return this->size;
     }
-    return 0u;edkEnd();
+    return 0u;
 }
 
 bool edk::File::openTextFile(edk::char8 *name){
     //Close the file
-    this->closeFile();edkEnd();
+    this->closeFile();
 
     //Then open the file in your compiler
     if((const edk::char8*)name && edk::File::isFile(name)){
@@ -493,12 +494,12 @@ bool edk::File::openTextFile(edk::char8 *name){
         //Windows 32
 #ifdef _MSC_VER
         //Visual C
-        fopen_s(&arq,name,"r");edkEnd();
+        fopen_s(&arq,name,"r");
 #endif
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        arq=fopen((const edk::char8*)name,"r");edkEnd();
+        arq=fopen((const edk::char8*)name,"r");
 #else
         //GCC
 #endif
@@ -508,12 +509,12 @@ bool edk::File::openTextFile(edk::char8 *name){
         //Windows 64
 #ifdef _MSC_VER
         //Visual C
-        fopen_s(&arq,name,"r");edkEnd();
+        fopen_s(&arq,name,"r");
 #endif
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        arq=fopen((const edk::char8*)name,"r");edkEnd();
+        arq=fopen((const edk::char8*)name,"r");
 #else
         //GCC
 #endif
@@ -524,7 +525,7 @@ bool edk::File::openTextFile(edk::char8 *name){
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        arq=fopen((const edk::char8*)name,"r");edkEnd();
+        arq=fopen((const edk::char8*)name,"r");
 #else
         //GCC
 #endif
@@ -535,7 +536,7 @@ bool edk::File::openTextFile(edk::char8 *name){
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        arq=fopen((const edk::char8*)name,"r");edkEnd();
+        arq=fopen((const edk::char8*)name,"r");
 #else
         //GCC
 #endif
@@ -546,32 +547,32 @@ bool edk::File::openTextFile(edk::char8 *name){
             //then copy the things of the file
 
             //The size of the file
-            fseek ( this->arq , 0 , SEEK_END );edkEnd();
-            //this->size = ftell(this->arq);edkEnd();
+            fseek ( this->arq , 0 , SEEK_END );
+            //this->size = ftell(this->arq);
             //Come back to the start
-            fseek ( arq , 0 , SEEK_SET );edkEnd();
+            fseek ( arq , 0 , SEEK_SET );
 
             //Copy the name of the file
-            this->name = edk::String::strCopy(name);edkEnd();
+            this->name = edk::String::strCopy(name);
 
             //return true
             return true;
         }
         else{
             //Else he can't open the file
-            arq=NULL;edkEnd();
+            arq=NULL;
         }
     }
     return false;
 }
 
 bool edk::File::openTextFile(const edk::char8 *name){
-    return this->openTextFile((edk::char8*)name);edkEnd();
+    return this->openTextFile((edk::char8*)name);
 }
 
 bool edk::File::openBinFile(edk::char8 *name){
     //Close the file
-    this->closeFile();edkEnd();
+    this->closeFile();
 
     //Then open the file in your compiler
     if((const edk::char8*)name && edk::File::isFile(name)){
@@ -580,12 +581,12 @@ bool edk::File::openBinFile(edk::char8 *name){
         //Windows 32
 #ifdef _MSC_VER
         //Visual C
-        fopen_s(&arq,name,"rb");edkEnd();
+        fopen_s(&arq,name,"rb");
 #endif
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        arq=fopen((const edk::char8*)name,"rb");edkEnd();
+        arq=fopen((const edk::char8*)name,"rb");
 #else
         //GCC
 #endif
@@ -595,12 +596,12 @@ bool edk::File::openBinFile(edk::char8 *name){
         //Windows 64
 #ifdef _MSC_VER
         //Visual C
-        fopen_s(&arq,name,"rb");edkEnd();
+        fopen_s(&arq,name,"rb");
 #endif
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        arq=fopen((const edk::char8*)name,"rb");edkEnd();
+        arq=fopen((const edk::char8*)name,"rb");
 #else
         //GCC
 #endif
@@ -611,7 +612,7 @@ bool edk::File::openBinFile(edk::char8 *name){
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        arq=fopen((const edk::char8*)name,"rb");edkEnd();
+        arq=fopen((const edk::char8*)name,"rb");
 #else
         //GCC
 #endif
@@ -622,7 +623,7 @@ bool edk::File::openBinFile(edk::char8 *name){
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        arq=fopen((const edk::char8*)name,"rb");edkEnd();
+        arq=fopen((const edk::char8*)name,"rb");
 #else
         //GCC
 #endif
@@ -633,32 +634,32 @@ bool edk::File::openBinFile(edk::char8 *name){
             //then copy the things of the file
 
             //The size of the file
-            fseek ( this->arq , 0 , SEEK_END );edkEnd();
-            //this->size = ftell(this->arq);edkEnd();
+            fseek ( this->arq , 0 , SEEK_END );
+            //this->size = ftell(this->arq);
             //Come back to the start
-            fseek ( arq , 0 , SEEK_SET );edkEnd();
+            fseek ( arq , 0 , SEEK_SET );
 
             //Copy the name of the file
-            this->name = edk::String::strCopy(name);edkEnd();
+            this->name = edk::String::strCopy(name);
 
             //return true
             return true;
         }
         else{
             //Else he can't open the file
-            arq=NULL;edkEnd();
+            arq=NULL;
         }
     }
     return false;
 }
 
 bool edk::File::openBinFile(const edk::char8 *name){
-    return this->openBinFile((edk::char8*)name);edkEnd();
+    return this->openBinFile((edk::char8*)name);
 }
 
 bool edk::File::openEndTextFile(edk::char8 *name){
     //Close the file
-    this->closeFile();edkEnd();
+    this->closeFile();
 
     //Then open the file in your compiler
     if((const edk::char8*)name && edk::File::isFile(name)){
@@ -667,12 +668,12 @@ bool edk::File::openEndTextFile(edk::char8 *name){
         //Windows 32
 #ifdef _MSC_VER
         //Visual C
-        fopen_s(&arq,name,"a");edkEnd();
+        fopen_s(&arq,name,"a");
 #endif
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        arq=fopen((const edk::char8*)name,"a");edkEnd();
+        arq=fopen((const edk::char8*)name,"a");
 #else
         //GCC
 #endif
@@ -682,12 +683,12 @@ bool edk::File::openEndTextFile(edk::char8 *name){
         //Windows 64
 #ifdef _MSC_VER
         //Visual C
-        fopen_s(&arq,name,"a");edkEnd();
+        fopen_s(&arq,name,"a");
 #endif
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        arq=fopen((const edk::char8*)name,"a");edkEnd();
+        arq=fopen((const edk::char8*)name,"a");
 #else
         //GCC
 #endif
@@ -698,7 +699,7 @@ bool edk::File::openEndTextFile(edk::char8 *name){
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        arq=fopen((const edk::char8*)name,"a");edkEnd();
+        arq=fopen((const edk::char8*)name,"a");
 #else
         //GCC
 #endif
@@ -709,7 +710,7 @@ bool edk::File::openEndTextFile(edk::char8 *name){
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        arq=fopen((const edk::char8*)name,"a");edkEnd();
+        arq=fopen((const edk::char8*)name,"a");
 #else
         //GCC
 #endif
@@ -720,32 +721,32 @@ bool edk::File::openEndTextFile(edk::char8 *name){
             //then copy the things of the file
 
             //The size of the file
-            fseek ( this->arq , 0 , SEEK_END );edkEnd();
-            //this->size = ftell(this->arq);edkEnd();
+            fseek ( this->arq , 0 , SEEK_END );
+            //this->size = ftell(this->arq);
             //Come back to the start
-            //fseek ( arq , 0 , SEEK_SET );edkEnd();
+            //fseek ( arq , 0 , SEEK_SET );
 
             //Copy the name of the file
-            this->name = edk::String::strCopy(name);edkEnd();
+            this->name = edk::String::strCopy(name);
 
             //return true
             return true;
         }
         else{
             //Else he can't open the file
-            arq=NULL;edkEnd();
+            arq=NULL;
         }
     }
     return false;
 }
 
 bool edk::File::openEndTextFile(const edk::char8 *name){
-    return this->openEndTextFile((edk::char8 *)name);edkEnd();
+    return this->openEndTextFile((edk::char8 *)name);
 }
 
 bool edk::File::openEndBinFile(edk::char8 *name){
     //Close the file
-    this->closeFile();edkEnd();
+    this->closeFile();
 
     //Then open the file in your compiler
     if((const edk::char8*)name && edk::File::isFile(name)){
@@ -754,12 +755,12 @@ bool edk::File::openEndBinFile(edk::char8 *name){
         //Windows 32
 #ifdef _MSC_VER
         //Visual C
-        fopen_s(&arq,name,"ab");edkEnd();
+        fopen_s(&arq,name,"ab");
 #endif
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        arq=fopen((const edk::char8*)name,"ab");edkEnd();
+        arq=fopen((const edk::char8*)name,"ab");
 #else
         //GCC
 #endif
@@ -769,12 +770,12 @@ bool edk::File::openEndBinFile(edk::char8 *name){
         //Windows 64
 #ifdef _MSC_VER
         //Visual C
-        fopen_s(&arq,name,"ab");edkEnd();
+        fopen_s(&arq,name,"ab");
 #endif
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        arq=fopen((const edk::char8*)name,"ab");edkEnd();
+        arq=fopen((const edk::char8*)name,"ab");
 #else
         //GCC
 #endif
@@ -785,7 +786,7 @@ bool edk::File::openEndBinFile(edk::char8 *name){
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        arq=fopen((const edk::char8*)name,"ab");edkEnd();
+        arq=fopen((const edk::char8*)name,"ab");
 #else
         //GCC
 #endif
@@ -796,7 +797,7 @@ bool edk::File::openEndBinFile(edk::char8 *name){
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        arq=fopen((const edk::char8*)name,"ab");edkEnd();
+        arq=fopen((const edk::char8*)name,"ab");
 #else
         //GCC
 #endif
@@ -807,33 +808,33 @@ bool edk::File::openEndBinFile(edk::char8 *name){
             //then copy the things of the file
 
             //The size of the file
-            fseek ( this->arq , 0 , SEEK_END );edkEnd();
-            //this->size = ftell(this->arq);edkEnd();
+            fseek ( this->arq , 0 , SEEK_END );
+            //this->size = ftell(this->arq);
             //Come back to the start
-            //fseek ( arq , 0 , SEEK_SET );edkEnd();
+            //fseek ( arq , 0 , SEEK_SET );
 
             //Copy the name of the file
-            this->name = edk::String::strCopy(name);edkEnd();
+            this->name = edk::String::strCopy(name);
 
             //return true
             return true;
         }
         else{
             //Else he can't open the file
-            arq=NULL;edkEnd();
+            arq=NULL;
         }
     }
     return false;
 }
 
 bool edk::File::openEndBinFile(const edk::char8 *name){
-    return this->openEndBinFile((edk::char8*)name);edkEnd();
+    return this->openEndBinFile((edk::char8*)name);
 }
 
 //PIPE
 bool edk::File::openPipe(edk::char8 *name){
     //Close the file
-    this->closeFile();edkEnd();
+    this->closeFile();
 
     //Then open the file in your compiler
     if((const edk::char8*)name){
@@ -842,12 +843,12 @@ bool edk::File::openPipe(edk::char8 *name){
         //Windows 32
 #ifdef _MSC_VER
         //Visual C
-        popen_s(&arq,name,"r");edkEnd();
+        popen_s(&arq,name,"r");
 #endif
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        arq=popen((const edk::char8*)name,"r");edkEnd();
+        arq=popen((const edk::char8*)name,"r");
 #else
         //GCC
 #endif
@@ -857,12 +858,12 @@ bool edk::File::openPipe(edk::char8 *name){
         //Windows 64
 #ifdef _MSC_VER
         //Visual C
-        popen_s(&arq,name,"r");edkEnd();
+        popen_s(&arq,name,"r");
 #endif
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        arq=popen((const edk::char8*)name,"r");edkEnd();
+        arq=popen((const edk::char8*)name,"r");
 #else
         //GCC
 #endif
@@ -873,7 +874,7 @@ bool edk::File::openPipe(edk::char8 *name){
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        arq=popen((const edk::char8*)name,"r");edkEnd();
+        arq=popen((const edk::char8*)name,"r");
 #else
         //GCC
 #endif
@@ -884,7 +885,7 @@ bool edk::File::openPipe(edk::char8 *name){
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        arq=popen((const edk::char8*)name,"r");edkEnd();
+        arq=popen((const edk::char8*)name,"r");
 #else
         //GCC
 #endif
@@ -895,44 +896,44 @@ bool edk::File::openPipe(edk::char8 *name){
             //then copy the things of the file
 
             //The size of the file
-            fseek ( this->arq , 0 , SEEK_END );edkEnd();
-            //this->size = ftell(this->arq);edkEnd();
+            fseek ( this->arq , 0 , SEEK_END );
+            //this->size = ftell(this->arq);
             //Come back to the start
-            //fseek ( arq , 0 , SEEK_SET );edkEnd();
+            //fseek ( arq , 0 , SEEK_SET );
 
             //Copy the name of the file
-            this->name = edk::String::strCopy(name);edkEnd();
+            this->name = edk::String::strCopy(name);
 
             //return true
             return true;
         }
         else{
             //Else he can't open the file
-            arq=NULL;edkEnd();
+            arq=NULL;
         }
     }
     return false;
 }
 bool edk::File::openPipe(const edk::char8 *name){
-    return this->openPipe((edk::char8 *)name);edkEnd();
+    return this->openPipe((edk::char8 *)name);
 }
 
 void edk::File::closeFile(){
     //Test if the file is opened
     if(this->isOpened()){
         //Then close the file
-        fclose(this->arq);edkEnd();
+        fclose(this->arq);
     }
     //clean the atributes
-    this->arq=NULL;edkEnd();
+    this->arq=NULL;
     this->size=0u;
 
     //Delete the name if the name exist
     if(this->name){
         //
-        delete[] this->name;edkEnd();
+        delete[] this->name;
     }
-    this->name=NULL;edkEnd();
+    this->name=NULL;
 }
 
 bool edk::File::deleteFile(edk::char8 *name){
@@ -948,30 +949,30 @@ bool edk::File::deleteFile(edk::char8 *name){
 }
 
 bool edk::File::deleteFile(const edk::char8 *name){
-    return deleteFile((edk::char8 *)name);edkEnd();
+    return deleteFile((edk::char8 *)name);
 }
 
 bool edk::File::deleteFile(){
     //Test if the file is opened
     if(this->isOpened()){
         //copy the name of the file
-        edk::char8* tempName =NULL;edkEnd();
+        edk::char8* tempName =NULL;
         if(this->name){
-            tempName = edk::String::strCopy(this->name);edkEnd();
+            tempName = edk::String::strCopy(this->name);
         }
         //create a return
-        bool ret=false;edkEnd();
+        bool ret=false;
         //Close the file
-        this->closeFile();edkEnd();
+        this->closeFile();
         //Test if copy the name
         if(tempName){
             //Then try remove the file
-            ret=edk::File::deleteFile(tempName);edkEnd();
+            ret=edk::File::deleteFile(tempName);
 
             //delete the tempName
-            delete[] tempName;edkEnd();
+            delete[] tempName;
         }
-        tempName=NULL;edkEnd();
+        tempName=NULL;
         //return the function deleteFile response
         return ret;
     }
@@ -992,12 +993,12 @@ bool edk::File::renameFile(edk::char8 *oldName, edk::char8 *newName){
 }
 
 bool edk::File::renameFile(const edk::char8 *oldName, const edk::char8 *newName){
-    return renameFile((edk::char8 *)oldName, (edk::char8 *)newName);edkEnd();
+    return renameFile((edk::char8 *)oldName, (edk::char8 *)newName);
 }
 
 bool edk::File::createFile(edk::char8 *name){
     //Use a file
-    FILE *tempArq=NULL;edkEnd();
+    FILE *tempArq=NULL;
 
     //test the name of the file
     if((const edk::char8*)name){
@@ -1006,12 +1007,12 @@ bool edk::File::createFile(edk::char8 *name){
         //Windows 32
 #ifdef _MSC_VER
         //Visual C
-        fopen_s(&tempArq,name,"wb");edkEnd();
+        fopen_s(&tempArq,name,"wb");
 #endif
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        tempArq=fopen((const edk::char8*)name,"wb");edkEnd();
+        tempArq=fopen((const edk::char8*)name,"wb");
 #else
         //GCC
 #endif
@@ -1021,12 +1022,12 @@ bool edk::File::createFile(edk::char8 *name){
         //Windows 64
 #ifdef _MSC_VER
         //Visual C
-        fopen_s(&tempArq,name,"wb");edkEnd();
+        fopen_s(&tempArq,name,"wb");
 #endif
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        tempArq=fopen((const edk::char8*)name,"wb");edkEnd();
+        tempArq=fopen((const edk::char8*)name,"wb");
 #else
         //GCC
 #endif
@@ -1037,7 +1038,7 @@ bool edk::File::createFile(edk::char8 *name){
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        tempArq=fopen((const edk::char8*)name,"wb");edkEnd();
+        tempArq=fopen((const edk::char8*)name,"wb");
 #else
         //GCC
 #endif
@@ -1048,7 +1049,7 @@ bool edk::File::createFile(edk::char8 *name){
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        tempArq=fopen((const edk::char8*)name,"wb");edkEnd();
+        tempArq=fopen((const edk::char8*)name,"wb");
 #else
         //GCC
 #endif
@@ -1058,9 +1059,9 @@ bool edk::File::createFile(edk::char8 *name){
         //Test if create the file
         if(tempArq){
             //close the file
-            fclose(tempArq);edkEnd();
+            fclose(tempArq);
             //clean the tempArq
-            tempArq=NULL;edkEnd();
+            tempArq=NULL;
             //return true
             return true;
         }
@@ -1070,26 +1071,26 @@ bool edk::File::createFile(edk::char8 *name){
 }
 
 bool edk::File::createFile(const edk::char8 *name){
-    return createFile((edk::char8 *)name);edkEnd();
+    return createFile((edk::char8 *)name);
 }
 
 //return true if is a file
 bool edk::File::isFile(edk::char8 *name){
     if(name){
-        struct stat path_stat;edkEnd();
-        stat(name, &path_stat);edkEnd();
-        return S_ISREG(path_stat.st_mode);edkEnd();
+        struct stat path_stat;
+        stat(name, &path_stat);
+        return S_ISREG(path_stat.st_mode);
     }
     return false;
 }
 bool edk::File::isFile(const edk::char8* name){
     //
-    return edk::File::isFile((edk::char8*)name);edkEnd();
+    return edk::File::isFile((edk::char8*)name);
 }
 
 bool edk::File::createAndOpenTextFile(edk::char8 *name){
     //Close the file
-    this->closeFile();edkEnd();
+    this->closeFile();
 
     //Then open the file in your compiler
     if((const edk::char8*)name){
@@ -1098,12 +1099,12 @@ bool edk::File::createAndOpenTextFile(edk::char8 *name){
         //Windows 32
 #ifdef _MSC_VER
         //Visual C
-        fopen_s(&this->arq,name,"w");edkEnd();
+        fopen_s(&this->arq,name,"w");
 #endif
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        this->arq=fopen((const edk::char8*)name,"w");edkEnd();
+        this->arq=fopen((const edk::char8*)name,"w");
 #else
         //GCC
 #endif
@@ -1113,12 +1114,12 @@ bool edk::File::createAndOpenTextFile(edk::char8 *name){
         //Windows 64
 #ifdef _MSC_VER
         //Visual C
-        fopen_s(&this->arq,name,"w");edkEnd();
+        fopen_s(&this->arq,name,"w");
 #endif
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        this->arq=fopen((const edk::char8*)name,"w");edkEnd();
+        this->arq=fopen((const edk::char8*)name,"w");
 #else
         //GCC
 #endif
@@ -1129,7 +1130,7 @@ bool edk::File::createAndOpenTextFile(edk::char8 *name){
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        this->arq=fopen((const edk::char8*)name,"w");edkEnd();
+        this->arq=fopen((const edk::char8*)name,"w");
 #else
         //GCC
 #endif
@@ -1140,7 +1141,7 @@ bool edk::File::createAndOpenTextFile(edk::char8 *name){
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        this->arq=fopen((const edk::char8*)name,"w");edkEnd();
+        this->arq=fopen((const edk::char8*)name,"w");
 #else
         //GCC
 #endif
@@ -1149,26 +1150,26 @@ bool edk::File::createAndOpenTextFile(edk::char8 *name){
         //Test if open the file
         if(this->isOpened()){
             //Copy the name of the file
-            this->name = edk::String::strCopy(name);edkEnd();
+            this->name = edk::String::strCopy(name);
 
             //return true
             return true;
         }
         else{
             //Else he can't open the file
-            this->arq=NULL;edkEnd();
+            this->arq=NULL;
         }
     }
     return false;
 }
 
 bool edk::File::createAndOpenTextFile(const edk::char8 *name){
-    return createAndOpenTextFile((edk::char8 *)name);edkEnd();
+    return createAndOpenTextFile((edk::char8 *)name);
 }
 
 bool edk::File::createAndOpenBinFile(edk::char8 *name){
     //Close the file
-    this->closeFile();edkEnd();
+    this->closeFile();
 
     //Then open the file in your compiler
     if((const edk::char8*)name){
@@ -1177,12 +1178,12 @@ bool edk::File::createAndOpenBinFile(edk::char8 *name){
         //Windows 32
 #ifdef _MSC_VER
         //Visual C
-        fopen_s(&this->arq,name,"wb");edkEnd();
+        fopen_s(&this->arq,name,"wb");
 #endif
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        this->arq=fopen((const edk::char8*)name,"wb");edkEnd();
+        this->arq=fopen((const edk::char8*)name,"wb");
 #else
         //GCC
 #endif
@@ -1192,12 +1193,12 @@ bool edk::File::createAndOpenBinFile(edk::char8 *name){
         //Windows 64
 #ifdef _MSC_VER
         //Visual C
-        fopen_s(&this->arq,name,"wb");edkEnd();
+        fopen_s(&this->arq,name,"wb");
 #endif
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        this->arq=fopen((const edk::char8*)name,"wb");edkEnd();
+        this->arq=fopen((const edk::char8*)name,"wb");
 #else
         //GCC
 #endif
@@ -1208,7 +1209,7 @@ bool edk::File::createAndOpenBinFile(edk::char8 *name){
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        this->arq=fopen((const edk::char8*)name,"wb");edkEnd();
+        this->arq=fopen((const edk::char8*)name,"wb");
 #else
         //GCC
 #endif
@@ -1219,7 +1220,7 @@ bool edk::File::createAndOpenBinFile(edk::char8 *name){
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        this->arq=fopen((const edk::char8*)name,"wb");edkEnd();
+        this->arq=fopen((const edk::char8*)name,"wb");
 #else
         //GCC
 #endif
@@ -1228,27 +1229,27 @@ bool edk::File::createAndOpenBinFile(edk::char8 *name){
         //Test if open the file
         if(this->isOpened()){
             //Copy the name of the file
-            this->name = edk::String::strCopy(name);edkEnd();
+            this->name = edk::String::strCopy(name);
 
             //return true
             return true;
         }
         else{
             //Else he can't open the file
-            this->arq=NULL;edkEnd();
+            this->arq=NULL;
         }
     }
     return false;
 }
 
 bool edk::File::createAndOpenBinFile(const edk::char8 *name){
-    return createAndOpenBinFile((edk::char8 *)name);edkEnd();
+    return createAndOpenBinFile((edk::char8 *)name);
 }
 
 //PIPE
 bool edk::File::createAndOpenPipe(edk::char8* name){
     //Close the file
-    this->closeFile();edkEnd();
+    this->closeFile();
 
     //Then open the file in your compiler
     if((const edk::char8*)name){
@@ -1257,12 +1258,12 @@ bool edk::File::createAndOpenPipe(edk::char8* name){
         //Windows 32
 #ifdef _MSC_VER
         //Visual C
-        popen_s(&arq,name,"w");edkEnd();
+        popen_s(&arq,name,"w");
 #endif
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        arq=popen((const edk::char8*)name,"w");edkEnd();
+        arq=popen((const edk::char8*)name,"w");
 #else
         //GCC
 #endif
@@ -1272,12 +1273,12 @@ bool edk::File::createAndOpenPipe(edk::char8* name){
         //Windows 64
 #ifdef _MSC_VER
         //Visual C
-        popen_s(&arq,name,"ab");edkEnd();
+        popen_s(&arq,name,"ab");
 #endif
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        arq=popen((const edk::char8*)name,"w");edkEnd();
+        arq=popen((const edk::char8*)name,"w");
 #else
         //GCC
 #endif
@@ -1288,7 +1289,7 @@ bool edk::File::createAndOpenPipe(edk::char8* name){
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        arq=popen((const edk::char8*)name,"w");edkEnd();
+        arq=popen((const edk::char8*)name,"w");
 #else
         //GCC
 #endif
@@ -1299,7 +1300,7 @@ bool edk::File::createAndOpenPipe(edk::char8* name){
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        arq=popen((const edk::char8*)name,"w");edkEnd();
+        arq=popen((const edk::char8*)name,"w");
 #else
         //GCC
 #endif
@@ -1310,31 +1311,31 @@ bool edk::File::createAndOpenPipe(edk::char8* name){
             //then copy the things of the file
 
             //The size of the file
-            fseek ( this->arq , 0 , SEEK_END );edkEnd();
-            //this->size = ftell(this->arq);edkEnd();
+            fseek ( this->arq , 0 , SEEK_END );
+            //this->size = ftell(this->arq);
             //Come back to the start
-            //fseek ( arq , 0 , SEEK_SET );edkEnd();
+            //fseek ( arq , 0 , SEEK_SET );
 
             //Copy the name of the file
-            this->name = edk::String::strCopy(name);edkEnd();
+            this->name = edk::String::strCopy(name);
 
             //return true
             return true;
         }
         else{
             //Else he can't open the file
-            arq=NULL;edkEnd();
+            arq=NULL;
         }
     }
     return false;
 }
 bool edk::File::createAndOpenPipe(const edk::char8* name){
-    return this->createAndOpenPipe((edk::char8*) name);edkEnd();
+    return this->createAndOpenPipe((edk::char8*) name);
 }
 
 bool edk::File::fileExist(edk::char8 *name){
     //create a tempFile
-    FILE *tempArq=NULL;edkEnd();
+    FILE *tempArq=NULL;
     //Test the name
     if((const edk::char8*)name){
         //Try open the file
@@ -1343,12 +1344,12 @@ bool edk::File::fileExist(edk::char8 *name){
         //Windows 32
 #ifdef _MSC_VER
         //Visual C
-        fopen_s(&tempArq,name,"r");edkEnd();
+        fopen_s(&tempArq,name,"r");
 #endif
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        tempArq=fopen((const edk::char8*)name,"r");edkEnd();
+        tempArq=fopen((const edk::char8*)name,"r");
 #else
         //GCC
 #endif
@@ -1358,12 +1359,12 @@ bool edk::File::fileExist(edk::char8 *name){
         //Windows 64
 #ifdef _MSC_VER
         //Visual C
-        fopen_s(&tempArq,name,"r");edkEnd();
+        fopen_s(&tempArq,name,"r");
 #endif
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        tempArq=fopen((const edk::char8*)name,"r");edkEnd();
+        tempArq=fopen((const edk::char8*)name,"r");
 #else
         //GCC
 #endif
@@ -1374,7 +1375,7 @@ bool edk::File::fileExist(edk::char8 *name){
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        tempArq=fopen((const edk::char8*)name,"r");edkEnd();
+        tempArq=fopen((const edk::char8*)name,"r");
 #else
         //GCC
 #endif
@@ -1385,7 +1386,7 @@ bool edk::File::fileExist(edk::char8 *name){
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        tempArq=fopen((const edk::char8*)name,"r");edkEnd();
+        tempArq=fopen((const edk::char8*)name,"r");
 #else
         //GCC
 #endif
@@ -1396,7 +1397,7 @@ bool edk::File::fileExist(edk::char8 *name){
         if(tempArq){
             //then the file Exist
             //close the file
-            fclose(tempArq);edkEnd();
+            fclose(tempArq);
             //return true
             return true;
         }
@@ -1405,7 +1406,7 @@ bool edk::File::fileExist(edk::char8 *name){
 }
 
 bool edk::File::fileExist(const edk::char8 *name){
-    return fileExist((edk::char8 *)name);edkEnd();
+    return fileExist((edk::char8 *)name);
 }
 
 bool edk::File::readEnd(){
@@ -1423,14 +1424,14 @@ bool edk::File::readEnd(){
     return false;
 }
 bool edk::File::endOfFile(){
-    return this->readEnd();edkEnd();
+    return this->readEnd();
 }
 
 bool edk::File::writeText(edk::char8 c){
     //Test if the file is opened
     if(this->isOpened()){
         //Then write in the file
-        fprintf(this->arq,"%c",c);edkEnd();
+        fprintf(this->arq,"%c",c);
         //return true
         return true;
     }
@@ -1441,7 +1442,7 @@ bool edk::File::writeText(edk::char8 *str){
     //Test if the file is opened and if the string is true
     if(this->isOpened() && str){
         //Then write in the file
-        edk::int32 ret = fprintf(this->arq,"%s",str);edkEnd();
+        edk::int32 ret = fprintf(this->arq,"%s",str);
         if(ret>=0){
             return true;
         }
@@ -1450,14 +1451,14 @@ bool edk::File::writeText(edk::char8 *str){
 }
 
 bool edk::File::writeText(const edk::char8 *str){
-    return writeText((edk::char8 *)str);edkEnd();
+    return writeText((edk::char8 *)str);
 }
 
 bool edk::File::writeText(edk::int8 n){
     //Test if the file is opened
     if(this->isOpened()){
         //Then write in the file
-        fprintf(this->arq,"%d",n);edkEnd();
+        fprintf(this->arq,"%d",n);
         //return true
         return true;
     }
@@ -1468,7 +1469,7 @@ bool edk::File::writeText(edk::uint8 n){
     //Test if the file is opened
     if(this->isOpened()){
         //Then write in the file
-        fprintf(this->arq,"%u",n);edkEnd();
+        fprintf(this->arq,"%u",n);
         //return true
         return true;
     }
@@ -1479,7 +1480,7 @@ bool edk::File::writeText(edk::int16 n){
     //Test if the file is opened
     if(this->isOpened()){
         //Then write in the file
-        fprintf(this->arq,"%d",n);edkEnd();
+        fprintf(this->arq,"%d",n);
         //return true
         return true;
     }
@@ -1490,7 +1491,7 @@ bool edk::File::writeText(edk::uint16 n){
     //Test if the file is opened
     if(this->isOpened()){
         //Then write in the file
-        fprintf(this->arq,"%u",n);edkEnd();
+        fprintf(this->arq,"%u",n);
         //return true
         return true;
     }
@@ -1501,7 +1502,7 @@ bool edk::File::writeText(edk::int32 n){
     //Test if the file is opened
     if(this->isOpened()){
         //Then write in the file
-        fprintf(this->arq,"%d",n);edkEnd();
+        fprintf(this->arq,"%d",n);
         //return true
         return true;
     }
@@ -1512,7 +1513,7 @@ bool edk::File::writeText(edk::uint32 n){
     //Test if the file is opened
     if(this->isOpened()){
         //Then write in the file
-        fprintf(this->arq,"%u",n);edkEnd();
+        fprintf(this->arq,"%u",n);
         //return true
         return true;
     }
@@ -1531,7 +1532,7 @@ bool edk::File::writeText(edk::int64 n){
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        fprintf(this->arq,"%I64d",n);edkEnd();
+        fprintf(this->arq,"%I64d",n);
 #else
         //GCC
 #endif//endif __cplusplus
@@ -1542,7 +1543,7 @@ bool edk::File::writeText(edk::int64 n){
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        fprintf(this->arq,"%ld",n);edkEnd();
+        fprintf(this->arq,"%ld",n);
 #else
         //GCC
 #endif//endif __cplusplus
@@ -1553,7 +1554,7 @@ bool edk::File::writeText(edk::int64 n){
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        fprintf(this->arq,"%lld",n);edkEnd();
+        fprintf(this->arq,"%lld",n);
 #else
         //GCC
 #endif//endif __cplusplus
@@ -1576,7 +1577,7 @@ bool edk::File::writeText(edk::uint64 n){
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        fprintf(this->arq,"%I64u",n);edkEnd();
+        fprintf(this->arq,"%I64u",n);
 #else
         //GCC
 #endif//endif __cplusplus
@@ -1587,7 +1588,7 @@ bool edk::File::writeText(edk::uint64 n){
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        fprintf(this->arq,"%lu",n);edkEnd();
+        fprintf(this->arq,"%lu",n);
 #else
         //GCC
 #endif//endif __cplusplus
@@ -1598,7 +1599,7 @@ bool edk::File::writeText(edk::uint64 n){
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        fprintf(this->arq,"%llu",n);edkEnd();
+        fprintf(this->arq,"%llu",n);
 #else
         //GCC
 #endif//endif __cplusplus
@@ -1614,7 +1615,7 @@ bool edk::File::writeText(edk::float32 f){
     //Test if the file is opened
     if(this->isOpened()){
         //Then write in the file
-        fprintf(this->arq,"%f",f);edkEnd();
+        fprintf(this->arq,"%f",f);
         //return true
         return true;
     }
@@ -1622,19 +1623,19 @@ bool edk::File::writeText(edk::float32 f){
 }
 
 bool edk::File::writeText(edk::float32 f,edk::uint8 digits){
-    bool ret = false;edkEnd();
+    bool ret = false;
     //Test if the file is opened
     if(this->isOpened()){
-        edk::char8* strDigits = edk::String::uint32ToStr(digits);edkEnd();
+        edk::char8* strDigits = edk::String::uint32ToStr(digits);
         if(strDigits){
-            edk::char8* str = edk::String::strCatMulti("%.",strDigits,"f",NULL);edkEnd();
+            edk::char8* str = edk::String::strCatMulti("%.",strDigits,"f",NULL);
             if(str){
                 //Then write in the file
-                fprintf(this->arq,str,f);edkEnd();
-                ret = true;edkEnd();
-                delete[] str;edkEnd();
+                fprintf(this->arq,str,f);
+                ret = true;
+                delete[] str;
             }
-            delete[] strDigits;edkEnd();
+            delete[] strDigits;
         }
     }
     return ret;
@@ -1644,7 +1645,7 @@ bool edk::File::writeText(edk::float64 f){
     //Test if the file is opened
     if(this->isOpened()){
         //Then write in the file
-        fprintf(this->arq,"%lf",f);edkEnd();
+        fprintf(this->arq,"%lf",f);
         //return true
         return true;
     }
@@ -1652,19 +1653,19 @@ bool edk::File::writeText(edk::float64 f){
 }
 
 bool edk::File::writeText(edk::float64 f,edk::uint8 digits){
-    bool ret = false;edkEnd();
+    bool ret = false;
     //Test if the file is opened
     if(this->isOpened()){
-        edk::char8* strDigits = edk::String::uint32ToStr(digits);edkEnd();
+        edk::char8* strDigits = edk::String::uint32ToStr(digits);
         if(strDigits){
-            edk::char8* str = edk::String::strCatMulti("%.",strDigits,"lf",NULL);edkEnd();
+            edk::char8* str = edk::String::strCatMulti("%.",strDigits,"lf",NULL);
             if(str){
                 //Then write in the file
-                fprintf(this->arq,str,f);edkEnd();
-                ret = true;edkEnd();
-                delete[] str;edkEnd();
+                fprintf(this->arq,str,f);
+                ret = true;
+                delete[] str;
             }
-            delete[] strDigits;edkEnd();
+            delete[] strDigits;
         }
     }
     return ret;
@@ -1674,7 +1675,7 @@ bool edk::File::writeBin(edk::classID w, edk::uint32 size){
     //test if the file is opened and if the w is true and the size is >1u
     if(this->isOpened() && w && size){
         //
-        fwrite(w,size,1u,this->arq);edkEnd();
+        fwrite(w,size,1u,this->arq);
         //return true
         return true;
     }
@@ -1686,7 +1687,7 @@ bool edk::File::writeBin(edk::char8 c){
     //test if the file is opened
     if(this->isOpened()){
         //
-        fwrite(&c,sizeof(edk::char8),1u,this->arq);edkEnd();
+        fwrite(&c,sizeof(edk::char8),1u,this->arq);
         //return true
         return true;
     }
@@ -1698,7 +1699,7 @@ bool edk::File::writeBin(edk::char8 *str){
     //test if the file is opened and if the str is true and the size is >1u
     if(this->isOpened() && str){
         //
-        fwrite(str,sizeof(edk::char8),edk::String::strSize(str),this->arq);edkEnd();
+        fwrite(str,sizeof(edk::char8),edk::String::strSize(str),this->arq);
         //return true
         return true;
     }
@@ -1707,14 +1708,14 @@ bool edk::File::writeBin(edk::char8 *str){
 }
 
 bool edk::File::writeBin(const edk::char8 *str){
-    return writeBin((edk::char8 *)str);edkEnd();
+    return writeBin((edk::char8 *)str);
 }
 
 bool edk::File::writeBin(edk::int8 n){
     //test if the file is opened
     if(this->isOpened()){
         //
-        fwrite(&n,sizeof(edk::int8),1u,this->arq);edkEnd();
+        fwrite(&n,sizeof(edk::int8),1u,this->arq);
         //return true
         return true;
     }
@@ -1726,7 +1727,7 @@ bool edk::File::writeBin(edk::int8 *n){
     //test if the file is opened and if the n is true and the size is >1u
     if(this->isOpened() && n){
         //
-        fwrite(n,sizeof(edk::int8),sizeof(n),this->arq);edkEnd();
+        fwrite(n,sizeof(edk::int8),sizeof(n),this->arq);
         //return true
         return true;
     }
@@ -1738,7 +1739,7 @@ bool edk::File::writeBin(edk::uint8 n){
     //test if the file is opened
     if(this->isOpened()){
         //
-        fwrite(&n,sizeof(edk::uint8),1u,this->arq);edkEnd();
+        fwrite(&n,sizeof(edk::uint8),1u,this->arq);
         //return true
         return true;
     }
@@ -1750,7 +1751,7 @@ bool edk::File::writeBin(edk::uint8 *n){
     //test if the file is opened and if the n is true and the size is >1u
     if(this->isOpened() && n){
         //
-        fwrite(n,sizeof(edk::uint8),sizeof(n),this->arq);edkEnd();
+        fwrite(n,sizeof(edk::uint8),sizeof(n),this->arq);
         //return true
         return true;
     }
@@ -1762,7 +1763,7 @@ bool edk::File::writeBin(edk::int16 n){
     //test if the file is opened
     if(this->isOpened()){
         //
-        fwrite(&n,sizeof(edk::int16),1u,this->arq);edkEnd();
+        fwrite(&n,sizeof(edk::int16),1u,this->arq);
         //return true
         return true;
     }
@@ -1774,7 +1775,7 @@ bool edk::File::writeBin(edk::int16 *n){
     //test if the file is opened and if the n is true and the size is >1u
     if(this->isOpened() && n){
         //
-        fwrite(n,sizeof(edk::int16),sizeof(n),this->arq);edkEnd();
+        fwrite(n,sizeof(edk::int16),sizeof(n),this->arq);
         //return true
         return true;
     }
@@ -1786,7 +1787,7 @@ bool edk::File::writeBin(edk::uint16 n){
     //test if the file is opened
     if(this->isOpened()){
         //
-        fwrite(&n,sizeof(edk::uint16),1u,this->arq);edkEnd();
+        fwrite(&n,sizeof(edk::uint16),1u,this->arq);
         //return true
         return true;
     }
@@ -1798,7 +1799,7 @@ bool edk::File::writeBin(edk::uint16 *n){
     //test if the file is opened and if the n is true and the size is >1u
     if(this->isOpened() && n){
         //
-        fwrite(n,sizeof(edk::uint16),sizeof(n),this->arq);edkEnd();
+        fwrite(n,sizeof(edk::uint16),sizeof(n),this->arq);
         //return true
         return true;
     }
@@ -1810,7 +1811,7 @@ bool edk::File::writeBin(edk::int32 n){
     //test if the file is opened
     if(this->isOpened()){
         //
-        fwrite(&n,sizeof(edk::int32),1u,this->arq);edkEnd();
+        fwrite(&n,sizeof(edk::int32),1u,this->arq);
         //return true
         return true;
     }
@@ -1822,7 +1823,7 @@ bool edk::File::writeBin(edk::int32 *n){
     //test if the file is opened and if the n is true and the size is >1u
     if(this->isOpened() && n){
         //
-        fwrite(n,sizeof(edk::int32),sizeof(n),this->arq);edkEnd();
+        fwrite(n,sizeof(edk::int32),sizeof(n),this->arq);
         //return true
         return true;
     }
@@ -1834,7 +1835,7 @@ bool edk::File::writeBin(edk::uint32 n){
     //test if the file is opened
     if(this->isOpened()){
         //
-        fwrite(&n,sizeof(edk::uint32),1u,this->arq);edkEnd();
+        fwrite(&n,sizeof(edk::uint32),1u,this->arq);
         //return true
         return true;
     }
@@ -1846,7 +1847,7 @@ bool edk::File::writeBin(edk::uint32 *n){
     //test if the file is opened and if the n is true and the size is >1u
     if(this->isOpened() && n){
         //
-        fwrite(n,sizeof(edk::uint32),sizeof(n),this->arq);edkEnd();
+        fwrite(n,sizeof(edk::uint32),sizeof(n),this->arq);
         //return true
         return true;
     }
@@ -1858,7 +1859,7 @@ bool edk::File::writeBin(edk::float32 f){
     //test if the file is opened
     if(this->isOpened()){
         //
-        fwrite(&f,sizeof(edk::float32),1u,this->arq);edkEnd();
+        fwrite(&f,sizeof(edk::float32),1u,this->arq);
         //return true
         return true;
     }
@@ -1870,7 +1871,7 @@ bool edk::File::writeBin(edk::float32* f){
     //test if the file is opened and if the n is true and the size is >1u
     if(this->isOpened() && f){
         //
-        fwrite(f,sizeof(edk::float32),sizeof(f),this->arq);edkEnd();
+        fwrite(f,sizeof(edk::float32),sizeof(f),this->arq);
         //return true
         return true;
     }
@@ -1882,7 +1883,7 @@ bool edk::File::writeBin(edk::uint64 n){
     //test if the file is opened
     if(this->isOpened()){
         //
-        fwrite(&n,sizeof(edk::uint64),1u,this->arq);edkEnd();
+        fwrite(&n,sizeof(edk::uint64),1u,this->arq);
         //return true
         return true;
     }
@@ -1894,7 +1895,7 @@ bool edk::File::writeBin(edk::uint64 *n){
     //test if the file is opened and if the n is true and the size is >1u
     if(this->isOpened() && n){
         //
-        fwrite(n,sizeof(edk::uint64),sizeof(n),this->arq);edkEnd();
+        fwrite(n,sizeof(edk::uint64),sizeof(n),this->arq);
         //return true
         return true;
     }
@@ -1906,7 +1907,7 @@ bool edk::File::writeBin(edk::int64 n){
     //test if the file is opened
     if(this->isOpened()){
         //
-        fwrite(&n,sizeof(edk::int64),1u,this->arq);edkEnd();
+        fwrite(&n,sizeof(edk::int64),1u,this->arq);
         //return true
         return true;
     }
@@ -1918,7 +1919,7 @@ bool edk::File::writeBin(edk::int64 *n){
     //test if the file is opened and if the n is true and the size is >1u
     if(this->isOpened() && n){
         //
-        fwrite(n,sizeof(edk::int64),sizeof(n),this->arq);edkEnd();
+        fwrite(n,sizeof(edk::int64),sizeof(n),this->arq);
         //return true
         return true;
     }
@@ -1930,7 +1931,7 @@ bool edk::File::writeBin(edk::float64 f){
     //test if the file is opened
     if(this->isOpened()){
         //
-        fwrite(&f,sizeof(edk::float64),1u,this->arq);edkEnd();
+        fwrite(&f,sizeof(edk::float64),1u,this->arq);
         //return true
         return true;
     }
@@ -1942,7 +1943,7 @@ bool edk::File::writeBin(edk::float64 *f){
     //test if the file is opened and if the n is true and the size is >1u
     if(this->isOpened() && f){
         //
-        fwrite(f,sizeof(edk::float64),sizeof(f),this->arq);edkEnd();
+        fwrite(f,sizeof(edk::float64),sizeof(f),this->arq);
         //return true
         return true;
     }
@@ -1954,7 +1955,7 @@ bool edk::File::writeBin(bool b){
     //test if the file is opened
     if(this->isOpened()){
         //
-        fwrite(&b,sizeof(bool),1u,this->arq);edkEnd();
+        fwrite(&b,sizeof(bool),1u,this->arq);
         //return true
         return true;
     }
@@ -1966,7 +1967,7 @@ bool edk::File::writeBin(bool *b){
     //test if the file is opened and if the n is true and the size is >1u
     if(this->isOpened() && b){
         //
-        fwrite(b,sizeof(bool),sizeof(b),this->arq);edkEnd();
+        fwrite(b,sizeof(bool),sizeof(b),this->arq);
         //return true
         return true;
     }
@@ -1985,12 +1986,12 @@ edk::char8 edk::File::readTextChar(){
         //Windows 32
 #ifdef _MSC_VER
         //Visual C
-        fscanf_s(this->arq,"%c",&c);edkEnd();
+        fscanf_s(this->arq,"%c",&c);
 #endif
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        fscanf(this->arq,"%c",&c);edkEnd();
+        fscanf(this->arq,"%c",&c);
 #else
         //GCC
 #endif
@@ -2000,12 +2001,12 @@ edk::char8 edk::File::readTextChar(){
         //Windows 64
 #ifdef _MSC_VER
         //Visual C
-        fscanf_s(this->arq,"%c",&c);edkEnd();
+        fscanf_s(this->arq,"%c",&c);
 #endif
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        fscanf(this->arq,"%c",&c);edkEnd();
+        fscanf(this->arq,"%c",&c);
 #else
         //GCC
 #endif
@@ -2016,7 +2017,7 @@ edk::char8 edk::File::readTextChar(){
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        fscanf(this->arq,"%c",&c);edkEnd();
+        fscanf(this->arq,"%c",&c);
 #else
         //GCC
 #endif
@@ -2027,7 +2028,7 @@ edk::char8 edk::File::readTextChar(){
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        fscanf(this->arq,"%c",&c);edkEnd();
+        fscanf(this->arq,"%c",&c);
 #else
         //GCC
 #endif
@@ -2035,24 +2036,24 @@ edk::char8 edk::File::readTextChar(){
 #endif
     }
     //else return false
-    return c;edkEnd();
+    return c;
 }
 
 edk::char8* edk::File::readTextString(edk::uint32 limit, bool use){
-    return this->readTextString((edk::char8) limit, use);edkEnd();
+    return this->readTextString((edk::char8) limit, use);
 }
 edk::char8* edk::File::readTextString(edk::uint64 limit, bool use){
-    return this->readTextString((edk::char8) limit, use);edkEnd();
+    return this->readTextString((edk::char8) limit, use);
 }
 edk::char8* edk::File::readTextString(edk::uint8 limit, bool use){
-    return this->readTextString((edk::char8) limit, use);edkEnd();
+    return this->readTextString((edk::char8) limit, use);
 }
 
 edk::char8* edk::File::readTextString(edk::char8 limit, bool use){
     //test if the file os opened
     if(this->isOpened()){
         //read the string
-        return this->readStringFromTheFile(this->arq,limit,0u,use);edkEnd();
+        return this->readStringFromTheFile(this->arq,limit,0u,use);
     }
     //else return NULL
     return NULL;
@@ -2062,14 +2063,14 @@ edk::char8* edk::File::readTextString(edk::char8 *limits, bool use){
     //test if the file os opened
     if(this->isOpened()&&limits){
         //read the string
-        return this->readStringFromTheFile(this->arq,limits,0u,use);edkEnd();
+        return this->readStringFromTheFile(this->arq,limits,0u,use);
     }
     //else return NULL
     return NULL;
 }
 
 edk::char8* edk::File::readTextString(const edk::char8 *limits, bool use){
-    return this->readTextString((edk::char8 *)limits, use);edkEnd();
+    return this->readTextString((edk::char8 *)limits, use);
 }
 
 //read to a string
@@ -2094,12 +2095,12 @@ edk::int32 edk::File::readTextInt(){
         //Windows 32
 #ifdef _MSC_VER
         //Visual C
-        fscanf_s(this->arq,"%d",&n);edkEnd();
+        fscanf_s(this->arq,"%d",&n);
 #endif
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        fscanf(this->arq,"%d",&n);edkEnd();
+        fscanf(this->arq,"%d",&n);
 #else
         //GCC
 #endif
@@ -2109,12 +2110,12 @@ edk::int32 edk::File::readTextInt(){
         //Windows 64
 #ifdef _MSC_VER
         //Visual C
-        fscanf_s(this->arq,"%d",&n);edkEnd();
+        fscanf_s(this->arq,"%d",&n);
 #endif
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        fscanf(this->arq,"%d",&n);edkEnd();
+        fscanf(this->arq,"%d",&n);
 #else
         //GCC
 #endif
@@ -2125,7 +2126,7 @@ edk::int32 edk::File::readTextInt(){
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        fscanf(this->arq,"%d",&n);edkEnd();
+        fscanf(this->arq,"%d",&n);
 #else
         //GCC
 #endif
@@ -2136,7 +2137,7 @@ edk::int32 edk::File::readTextInt(){
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        fscanf(this->arq,"%d",&n);edkEnd();
+        fscanf(this->arq,"%d",&n);
 #else
         //GCC
 #endif
@@ -2144,7 +2145,7 @@ edk::int32 edk::File::readTextInt(){
 #endif
     }
     //else return false
-    return n;edkEnd();
+    return n;
 }
 
 edk::uint32 edk::File::readTextUInt(){
@@ -2158,12 +2159,12 @@ edk::uint32 edk::File::readTextUInt(){
         //Windows 32
 #ifdef _MSC_VER
         //Visual C
-        fscanf_s(this->arq,"%u",&n);edkEnd();
+        fscanf_s(this->arq,"%u",&n);
 #endif
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        fscanf(this->arq,"%u",&n);edkEnd();
+        fscanf(this->arq,"%u",&n);
 #else
         //GCC
 #endif
@@ -2173,12 +2174,12 @@ edk::uint32 edk::File::readTextUInt(){
         //Windows 64
 #ifdef _MSC_VER
         //Visual C
-        fscanf_s(this->arq,"%u",&n);edkEnd();
+        fscanf_s(this->arq,"%u",&n);
 #endif
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        fscanf(this->arq,"%u",&n);edkEnd();
+        fscanf(this->arq,"%u",&n);
 #else
         //GCC
 #endif
@@ -2189,7 +2190,7 @@ edk::uint32 edk::File::readTextUInt(){
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        fscanf(this->arq,"%u",&n);edkEnd();
+        fscanf(this->arq,"%u",&n);
 #else
         //GCC
 #endif
@@ -2200,7 +2201,7 @@ edk::uint32 edk::File::readTextUInt(){
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        fscanf(this->arq,"%u",&n);edkEnd();
+        fscanf(this->arq,"%u",&n);
 #else
         //GCC
 #endif
@@ -2208,7 +2209,7 @@ edk::uint32 edk::File::readTextUInt(){
 #endif
     }
     //else return false
-    return n;edkEnd();
+    return n;
 }
 
 edk::float32 edk::File::readTextFloat(){
@@ -2222,12 +2223,12 @@ edk::float32 edk::File::readTextFloat(){
         //Windows 32
 #ifdef _MSC_VER
         //Visual C
-        fscanf_s(this->arq,"%f",&f);edkEnd();
+        fscanf_s(this->arq,"%f",&f);
 #endif
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        fscanf(this->arq,"%f",&f);edkEnd();
+        fscanf(this->arq,"%f",&f);
 #else
         //GCC
 #endif
@@ -2237,12 +2238,12 @@ edk::float32 edk::File::readTextFloat(){
         //Windows 64
 #ifdef _MSC_VER
         //Visual C
-        fscanf_s(this->arq,"%f",&f);edkEnd();
+        fscanf_s(this->arq,"%f",&f);
 #endif
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        fscanf(this->arq,"%f",&f);edkEnd();
+        fscanf(this->arq,"%f",&f);
 #else
         //GCC
 #endif
@@ -2253,7 +2254,7 @@ edk::float32 edk::File::readTextFloat(){
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        fscanf(this->arq,"%f",&f);edkEnd();
+        fscanf(this->arq,"%f",&f);
 #else
         //GCC
 #endif
@@ -2264,7 +2265,7 @@ edk::float32 edk::File::readTextFloat(){
 #ifdef __GNUC__
 #ifdef __cplusplus
         //G++
-        fscanf(this->arq,"%f",&f);edkEnd();
+        fscanf(this->arq,"%f",&f);
 #else
         //GCC
 #endif
@@ -2272,19 +2273,19 @@ edk::float32 edk::File::readTextFloat(){
 #endif
     }
     //else return false
-    return f;edkEnd();
+    return f;
 }
 
 edk::classID edk::File::readBin(edk::uint64 size){
     //create the return
-    void* ret=NULL;edkEnd();
+    void* ret=NULL;
     //test if the file is opened and the size is >1u
     if(this->isOpened() && size){
         //alloc the return
-        ret=malloc(size);edkEnd();
+        ret=malloc(size);
         if(ret){
-            //fread(ret,1u,size,this->arq);edkEnd();
-            this->readBin(ret,size);edkEnd();
+            //fread(ret,1u,size,this->arq);
+            this->readBin(ret,size);
             return ret;
         }
     }
@@ -2292,37 +2293,37 @@ edk::classID edk::File::readBin(edk::uint64 size){
 }
 
 edk::uint64 edk::File::readBin(edk::classID vec,uint64 size){
-    edk::uint64 ret = 0u;edkEnd();
+    edk::uint64 ret = 0u;
     if(size && vec){
-        ret = fread(vec,1u,size,this->arq);edkEnd();
+        ret = fread(vec,1u,size,this->arq);
     }
     return ret;
 }
 
 edk::char8 edk::File::readBinChar(){
     //read the size
-    edk::char8* temp = (edk::char8*)this->readBin(sizeof(edk::char8));edkEnd();
+    edk::char8* temp = (edk::char8*)this->readBin(sizeof(edk::char8));
     //create the edk::char8
-    edk::char8 c = '\0';edkEnd();
+    edk::char8 c = '\0';
     if(temp){
         //copy the edk::char8
-        c = *temp;edkEnd();
+        c = *temp;
 
         //delete temp
-        delete[] temp;edkEnd();
+        delete[] temp;
     }
-    temp=NULL;edkEnd();
+    temp=NULL;
 
     //return the edk::char8
-    return c;edkEnd();
+    return c;
 }
 
 edk::char8* edk::File::readBinString(char64 size){
     //create the string
-    edk::char8* temp = (edk::char8*)this->readBin(sizeof(edk::char8)*size);edkEnd();
+    edk::char8* temp = (edk::char8*)this->readBin(sizeof(edk::char8)*size);
     if(temp){
         //return the string
-        return temp;edkEnd();
+        return temp;
     }
     //else return NULL
     return NULL;
@@ -2332,7 +2333,7 @@ edk::char8* edk::File::readBinString(edk::char8 limit, bool use){
     //test if the file os opened
     if(this->isOpened()){
         //read the string
-        return this->readStringFromTheBinFile(this->arq,limit,0u,use);edkEnd();
+        return this->readStringFromTheBinFile(this->arq,limit,0u,use);
     }
     //else return NULL
     return NULL;
@@ -2342,49 +2343,49 @@ edk::char8* edk::File::readBinString(edk::char8 *limits, bool use){
     //test if the file os opened
     if(this->isOpened()){
         //read the string
-        return this->readStringFromTheBinFile(this->arq,limits,0u,use);edkEnd();
+        return this->readStringFromTheBinFile(this->arq,limits,0u,use);
     }
     //else return NULL
     return NULL;
 }
 
 edk::char8* edk::File::readBinString(const edk::char8 *limits, bool use){
-    return this->readBinString((edk::char8 *)limits,use);edkEnd();
+    return this->readBinString((edk::char8 *)limits,use);
 }
 
 //read to a string
 edk::uint64 edk::File::readBinString(edk::char8 *str,edk::uint64 size){
     edk::uint64 ret=0u;
     if(str && size){
-        ret = this->readBin(str,size);edkEnd();
+        ret = this->readBin(str,size);
     }
     return ret;
 }
 
 edk::int8 edk::File::readBinInt8(){
     //read the size
-    edk::int8* temp = (edk::int8*)this->readBin(sizeof(edk::int8));edkEnd();
+    edk::int8* temp = (edk::int8*)this->readBin(sizeof(edk::int8));
     //create the edk::char8
-    edk::int8 n = 0u;edkEnd();
+    edk::int8 n = 0u;
     if(temp){
         //copy the edk::char8
-        n = *temp;edkEnd();
+        n = *temp;
 
         //delete temp
-        delete[] temp;edkEnd();
+        delete[] temp;
     }
-    temp=NULL;edkEnd();
+    temp=NULL;
 
     //return the edk::char8
-    return n;edkEnd();
+    return n;
 }
 
 edk::int8* edk::File::readBinInt8(edk::int64 size){
     //create the string
-    edk::int8* temp = (edk::int8*)this->readBin(sizeof(edk::int8)*size);edkEnd();
+    edk::int8* temp = (edk::int8*)this->readBin(sizeof(edk::int8)*size);
     if(temp){
         //return the string
-        return temp;edkEnd();
+        return temp;
     }
     //else return NULL
     return NULL;
@@ -2392,28 +2393,28 @@ edk::int8* edk::File::readBinInt8(edk::int64 size){
 
 edk::uint8 edk::File::readBinUInt8(){
     //read the size
-    edk::uint8* temp = (edk::uint8*)this->readBin(sizeof(edk::uint8));edkEnd();
+    edk::uint8* temp = (edk::uint8*)this->readBin(sizeof(edk::uint8));
     //create the edk::char8
-    edk::uint8 n = 0u;edkEnd();
+    edk::uint8 n = 0u;
     if(temp){
         //copy the edk::char8
-        n = *temp;edkEnd();
+        n = *temp;
 
         //delete temp
-        delete[] temp;edkEnd();
+        delete[] temp;
     }
-    temp=NULL;edkEnd();
+    temp=NULL;
 
     //return the edk::char8
-    return n;edkEnd();
+    return n;
 }
 
 edk::uint8* edk::File::readBinUint8(edk::uint64 size){
     //create the string
-    edk::uint8* temp = (edk::uint8*)this->readBin(sizeof(edk::uint8)*size);edkEnd();
+    edk::uint8* temp = (edk::uint8*)this->readBin(sizeof(edk::uint8)*size);
     if(temp){
         //return the string
-        return temp;edkEnd();
+        return temp;
     }
     //else return NULL
     return NULL;
@@ -2421,28 +2422,28 @@ edk::uint8* edk::File::readBinUint8(edk::uint64 size){
 
 edk::int16 edk::File::readBinInt16(){
     //read the size
-    edk::int16* temp = (edk::int16*)this->readBin(sizeof(edk::int16));edkEnd();
+    edk::int16* temp = (edk::int16*)this->readBin(sizeof(edk::int16));
     //create the edk::char8
-    edk::int16 n = 0u;edkEnd();
+    edk::int16 n = 0u;
     if(temp){
         //copy the edk::char8
-        n = *temp;edkEnd();
+        n = *temp;
 
         //delete temp
-        delete[] temp;edkEnd();
+        delete[] temp;
     }
-    temp=NULL;edkEnd();
+    temp=NULL;
 
     //return the edk::char8
-    return n;edkEnd();
+    return n;
 }
 
 edk::int16* edk::File::readBinInt16(edk::int16 size){
     //create the string
-    edk::int16* temp = (edk::int16*)this->readBin(sizeof(edk::int16)*size);edkEnd();
+    edk::int16* temp = (edk::int16*)this->readBin(sizeof(edk::int16)*size);
     if(temp){
         //return the string
-        return temp;edkEnd();
+        return temp;
     }
     //else return NULL
     return NULL;
@@ -2450,28 +2451,28 @@ edk::int16* edk::File::readBinInt16(edk::int16 size){
 
 edk::uint16 edk::File::readBinUInt16(){
     //read the size
-    edk::uint16* temp = (edk::uint16*)this->readBin(sizeof(edk::uint16));edkEnd();
+    edk::uint16* temp = (edk::uint16*)this->readBin(sizeof(edk::uint16));
     //create the edk::char8
-    edk::uint16 n = 0u;edkEnd();
+    edk::uint16 n = 0u;
     if(temp){
         //copy the edk::char8
-        n = *temp;edkEnd();
+        n = *temp;
 
         //delete temp
-        delete[] temp;edkEnd();
+        delete[] temp;
     }
-    temp=NULL;edkEnd();
+    temp=NULL;
 
     //return the edk::char8
-    return n;edkEnd();
+    return n;
 }
 
 edk::uint16* edk::File::readBinUint16(edk::uint16 size){
     //create the string
-    edk::uint16* temp = (edk::uint16*)this->readBin(sizeof(edk::uint16)*size);edkEnd();
+    edk::uint16* temp = (edk::uint16*)this->readBin(sizeof(edk::uint16)*size);
     if(temp){
         //return the string
-        return temp;edkEnd();
+        return temp;
     }
     //else return NULL
     return NULL;
@@ -2479,28 +2480,28 @@ edk::uint16* edk::File::readBinUint16(edk::uint16 size){
 
 edk::int32 edk::File::readBinInt32(){
     //read the size
-    edk::int32* temp = (edk::int32*)this->readBin(sizeof(edk::int32));edkEnd();
+    edk::int32* temp = (edk::int32*)this->readBin(sizeof(edk::int32));
     //create the edk::char8
-    edk::int32 n = 0u;edkEnd();
+    edk::int32 n = 0u;
     if(temp){
         //copy the edk::char8
-        n = *temp;edkEnd();
+        n = *temp;
 
         //delete temp
-        delete[] temp;edkEnd();
+        delete[] temp;
     }
-    temp=NULL;edkEnd();
+    temp=NULL;
 
     //return the edk::char8
-    return n;edkEnd();
+    return n;
 }
 
 edk::int32* edk::File::readBinInt32(edk::int64 size){
     //create the string
-    edk::int32* temp = (edk::int32*)this->readBin(sizeof(edk::int32)*size);edkEnd();
+    edk::int32* temp = (edk::int32*)this->readBin(sizeof(edk::int32)*size);
     if(temp){
         //return the string
-        return temp;edkEnd();
+        return temp;
     }
     //else return NULL
     return NULL;
@@ -2508,28 +2509,28 @@ edk::int32* edk::File::readBinInt32(edk::int64 size){
 
 edk::uint32 edk::File::readBinUInt32(){
     //read the size
-    edk::uint32* temp = (edk::uint32*)this->readBin(sizeof(edk::uint32));edkEnd();
+    edk::uint32* temp = (edk::uint32*)this->readBin(sizeof(edk::uint32));
     //create the edk::char8
-    edk::uint32 n = 0u;edkEnd();
+    edk::uint32 n = 0u;
     if(temp){
         //copy the edk::char8
-        n = *temp;edkEnd();
+        n = *temp;
 
         //delete temp
-        delete[] temp;edkEnd();
+        delete[] temp;
     }
-    temp=NULL;edkEnd();
+    temp=NULL;
 
     //return the edk::char8
-    return n;edkEnd();
+    return n;
 }
 
 edk::uint32* edk::File::readBinUint32(edk::uint64 size){
     //create the string
-    edk::uint32* temp = (edk::uint32*)this->readBin(sizeof(edk::uint32)*size);edkEnd();
+    edk::uint32* temp = (edk::uint32*)this->readBin(sizeof(edk::uint32)*size);
     if(temp){
         //return the string
-        return temp;edkEnd();
+        return temp;
     }
     //else return NULL
     return NULL;
@@ -2537,28 +2538,28 @@ edk::uint32* edk::File::readBinUint32(edk::uint64 size){
 
 edk::int64 edk::File::readBinInt64(){
     //read the size
-    edk::int64* temp = (edk::int64*)this->readBin(sizeof(edk::int64));edkEnd();
+    edk::int64* temp = (edk::int64*)this->readBin(sizeof(edk::int64));
     //create the edk::char8
-    edk::int64 n = 0u;edkEnd();
+    edk::int64 n = 0u;
     if(temp){
         //copy the edk::char8
-        n = *temp;edkEnd();
+        n = *temp;
 
         //delete temp
-        delete[] temp;edkEnd();
+        delete[] temp;
     }
-    temp=NULL;edkEnd();
+    temp=NULL;
 
     //return the edk::char8
-    return n;edkEnd();
+    return n;
 }
 
 edk::int64* edk::File::readBinInt64(edk::int64 size){
     //create the string
-    edk::int64* temp = (edk::int64*)this->readBin(sizeof(edk::int64)*size);edkEnd();
+    edk::int64* temp = (edk::int64*)this->readBin(sizeof(edk::int64)*size);
     if(temp){
         //return the string
-        return temp;edkEnd();
+        return temp;
     }
     //else return NULL
     return NULL;
@@ -2566,28 +2567,28 @@ edk::int64* edk::File::readBinInt64(edk::int64 size){
 
 edk::uint64 edk::File::readBinUInt64(){
     //read the size
-    edk::uint64* temp = (edk::uint64*)this->readBin(sizeof(edk::uint64));edkEnd();
+    edk::uint64* temp = (edk::uint64*)this->readBin(sizeof(edk::uint64));
     //create the edk::char8
-    edk::uint64 n = 0u;edkEnd();
+    edk::uint64 n = 0u;
     if(temp){
         //copy the edk::char8
-        n = *temp;edkEnd();
+        n = *temp;
 
         //delete temp
-        delete[] temp;edkEnd();
+        delete[] temp;
     }
-    temp=NULL;edkEnd();
+    temp=NULL;
 
     //return the edk::char8
-    return n;edkEnd();
+    return n;
 }
 
 edk::uint64* edk::File::readBinUint64(edk::uint64 size){
     //create the string
-    edk::uint64* temp = (edk::uint64*)this->readBin(sizeof(edk::uint64)*size);edkEnd();
+    edk::uint64* temp = (edk::uint64*)this->readBin(sizeof(edk::uint64)*size);
     if(temp){
         //return the string
-        return temp;edkEnd();
+        return temp;
     }
     //else return NULL
     return NULL;
@@ -2595,28 +2596,28 @@ edk::uint64* edk::File::readBinUint64(edk::uint64 size){
 
 edk::float32 edk::File::readBinFloat(){
     //read the size
-    edk::float32* temp = (edk::float32*)this->readBin(sizeof(edk::float32));edkEnd();
+    edk::float32* temp = (edk::float32*)this->readBin(sizeof(edk::float32));
     //create the edk::char8
-    edk::float32 n = 0u;edkEnd();
+    edk::float32 n = 0u;
     if(temp){
         //copy the edk::char8
-        n = *temp;edkEnd();
+        n = *temp;
 
         //delete temp
-        delete[] temp;edkEnd();
+        delete[] temp;
     }
-    temp=NULL;edkEnd();
+    temp=NULL;
 
     //return the edk::char8
-    return n;edkEnd();
+    return n;
 }
 
 edk::float32* edk::File::readBinFloat(edk::int64 size){
     //create the string
-    edk::float32* temp = (edk::float32*)this->readBin(sizeof(edk::float32)*size);edkEnd();
+    edk::float32* temp = (edk::float32*)this->readBin(sizeof(edk::float32)*size);
     if(temp){
         //return the string
-        return temp;edkEnd();
+        return temp;
     }
     //else return NULL
     return NULL;
@@ -2624,42 +2625,42 @@ edk::float32* edk::File::readBinFloat(edk::int64 size){
 
 edk::int64 edk::File::readBinLongInt(){
     //read the size
-    edk::int64* temp = (edk::int64*)this->readBin(sizeof(edk::int64));edkEnd();
+    edk::int64* temp = (edk::int64*)this->readBin(sizeof(edk::int64));
     //create the edk::char8
-    edk::int64 n = 0u;edkEnd();
+    edk::int64 n = 0u;
     if(temp){
         //copy the edk::char8
-        n = *temp;edkEnd();
+        n = *temp;
 
         //delete temp
-        delete[] temp;edkEnd();
+        delete[] temp;
     }
-    temp=NULL;edkEnd();
+    temp=NULL;
 
     //return the edk::char8
-    return n;edkEnd();
+    return n;
 }
 
 edk::int64* edk::File::readBinLongInt(edk::int64 size){
     //create the string
-    edk::int64* temp = (edk::int64*)this->readBin(sizeof(edk::int64)*size);edkEnd();
+    edk::int64* temp = (edk::int64*)this->readBin(sizeof(edk::int64)*size);
     if(temp){
         //return the string
-        return temp;edkEnd();
+        return temp;
     }
     //else return NULL
     return NULL;
 }
 
 edk::char8* edk::File::getName(){
-    return this->name;edkEnd();
+    return this->name;
 }
 
 //SEEK the file
 bool edk::File::seek(edk::uint32 bytes){
     //test if the file is opened
     if(this->isOpened()){
-        fseek(this->arq,bytes,SEEK_CUR);edkEnd();
+        fseek(this->arq,bytes,SEEK_CUR);
         //return true
         return true;
     }
@@ -2668,7 +2669,7 @@ bool edk::File::seek(edk::uint32 bytes){
 bool edk::File::seek(edk::uint64 bytes){
     //test if the file is opened
     if(this->isOpened()){
-        fseeko64(this->arq,bytes,SEEK_CUR);edkEnd();
+        fseeko64(this->arq,bytes,SEEK_CUR);
         //return true
         return true;
     }
@@ -2677,7 +2678,7 @@ bool edk::File::seek(edk::uint64 bytes){
 bool edk::File::seek(edk::int32 bytes){
     //test if the file is opened
     if(this->isOpened()){
-        fseek(this->arq,bytes,SEEK_CUR);edkEnd();
+        fseek(this->arq,bytes,SEEK_CUR);
         //return true
         return true;
     }
@@ -2686,7 +2687,7 @@ bool edk::File::seek(edk::int32 bytes){
 bool edk::File::seek(edk::int64 bytes){
     //test if the file is opened
     if(this->isOpened()){
-        fseeko64(this->arq,bytes,SEEK_CUR);edkEnd();
+        fseeko64(this->arq,bytes,SEEK_CUR);
         //return true
         return true;
     }
@@ -2695,7 +2696,7 @@ bool edk::File::seek(edk::int64 bytes){
 bool edk::File::seekStart(){
     //test if the file is opened
     if(this->isOpened()){
-        fseek(this->arq,0,SEEK_SET);edkEnd();
+        fseek(this->arq,0,SEEK_SET);
         //return true
         return true;
     }
@@ -2704,7 +2705,7 @@ bool edk::File::seekStart(){
 bool edk::File::seekStart64(){
     //test if the file is opened
     if(this->isOpened()){
-        fseeko64(this->arq,0,SEEK_SET);edkEnd();
+        fseeko64(this->arq,0,SEEK_SET);
         //return true
         return true;
     }
@@ -2713,7 +2714,7 @@ bool edk::File::seekStart64(){
 bool edk::File::seekStart(edk::uint32 bytes){
     //test if the file is opened
     if(this->isOpened()){
-        fseek(this->arq,bytes,SEEK_SET);edkEnd();
+        fseek(this->arq,bytes,SEEK_SET);
         //return true
         return true;
     }
@@ -2722,7 +2723,7 @@ bool edk::File::seekStart(edk::uint32 bytes){
 bool edk::File::seekStart(edk::uint64 bytes){
     //test if the file is opened
     if(this->isOpened()){
-        fseeko64(this->arq,bytes,SEEK_SET);edkEnd();
+        fseeko64(this->arq,bytes,SEEK_SET);
         //return true
         return true;
     }
@@ -2731,7 +2732,7 @@ bool edk::File::seekStart(edk::uint64 bytes){
 bool edk::File::seekEnd(){
     //test if the file is opened
     if(this->isOpened()){
-        fseek(this->arq,0,SEEK_END);edkEnd();
+        fseek(this->arq,0,SEEK_END);
         //return true
         return true;
     }
@@ -2740,7 +2741,7 @@ bool edk::File::seekEnd(){
 bool edk::File::seekEnd64(){
     //test if the file is opened
     if(this->isOpened()){
-        fseeko64(this->arq,0,SEEK_END);edkEnd();
+        fseeko64(this->arq,0,SEEK_END);
         //return true
         return true;
     }
@@ -2749,7 +2750,7 @@ bool edk::File::seekEnd64(){
 bool edk::File::seekEnd(edk::int32 bytes){
     //test if the file is opened
     if(this->isOpened()){
-        fseek(this->arq,bytes,SEEK_END);edkEnd();
+        fseek(this->arq,bytes,SEEK_END);
         //return true
         return true;
     }
@@ -2758,7 +2759,7 @@ bool edk::File::seekEnd(edk::int32 bytes){
 bool edk::File::seekEnd(edk::int64 bytes){
     //test if the file is opened
     if(this->isOpened()){
-        fseeko64(this->arq,bytes,SEEK_END);edkEnd();
+        fseeko64(this->arq,bytes,SEEK_END);
         //return true
         return true;
     }
@@ -2766,16 +2767,16 @@ bool edk::File::seekEnd(edk::int64 bytes){
 }
 //return this current position
 edk::uint32 edk::File::getSeek32(){
-    return ftell(this->arq);edkEnd();
+    return ftell(this->arq);
 }
 edk::uint64 edk::File::getSeek64(){
-    return ftello64(this->arq);edkEnd();
+    return ftello64(this->arq);
 }
 
 //flush the file
 bool edk::File::flush(){
     if(this->isOpened()){
-        edk::int32 ret = fflush(this->arq);edkEnd();
+        edk::int32 ret = fflush(this->arq);
         if(ret<0){ return false;}
         return true;
     }
@@ -2794,71 +2795,71 @@ bool edk::File::isOpened(){
 
 
 edk::FileStream::FileStream(){
-    this->arq=-1;edkEnd();
+    this->arq=-1;
 }
 edk::FileStream::~FileStream(){
-    this->closeFileStream();edkEnd();
+    this->closeFileStream();
 }
 
 bool edk::FileStream::openFileStream(edk::char8* name){
     //close the stream
-    this->closeFileStream();edkEnd();
+    this->closeFileStream();
     if(name){
-        this->arq = open(name, O_RDONLY);edkEnd();
+        this->arq = open(name, O_RDONLY);
         if(this->arq>=0){
-            this->name.setName(name);edkEnd();
+            this->name.setName(name);
             return true;
         }
     }
     return false;
 }
 bool edk::FileStream::openFileStream(const edk::char8* name){
-    return this->openFileStream((edk::char8*) name);edkEnd();
+    return this->openFileStream((edk::char8*) name);
 }
 void edk::FileStream::closeFileStream(){
     if(this->isOpened()){
-        close(this->arq);edkEnd();
-        this->arq=-1;edkEnd();
-        this->name.cleanName();edkEnd();
+        close(this->arq);
+        this->arq=-1;
+        this->name.cleanName();
     }
 }
 bool edk::FileStream::openFileStreamNonBlock(edk::char8* name){
     //close the stream
-    this->closeFileStream();edkEnd();
+    this->closeFileStream();
     if(name){
 #ifdef _WIN32
-        this->arq = _open(name, O_RDONLY | FIONBIO);edkEnd();
+        this->arq = _open(name, O_RDONLY | FIONBIO);
 #endif
 #ifdef _WIN64
-        this->arq = _open(name, O_RDONLY | FIONBIO);edkEnd();
+        this->arq = _open(name, O_RDONLY | FIONBIO);
 #endif
 #ifdef __linux__
-        this->arq = open(name, O_RDONLY | O_NONBLOCK);edkEnd();
+        this->arq = open(name, O_RDONLY | O_NONBLOCK);
 #endif
 #ifdef __APPLE__
-        this->arq = open(name, O_RDONLY | O_NONBLOCK);edkEnd();
+        this->arq = open(name, O_RDONLY | O_NONBLOCK);
 #endif
         if(this->arq>=0){
-            this->name.setName(name);edkEnd();
+            this->name.setName(name);
             return true;
         }
     }
     return false;
 }
 bool edk::FileStream::openFileStreamNonBlock(const edk::char8* name){
-    return this->openFileStreamNonBlock((edk::char8*) name);edkEnd();
+    return this->openFileStreamNonBlock((edk::char8*) name);
 }
 
 edk::int64 edk::FileStream::readVec(edk::classID vec,uint64 size){
     edk::int64 ret=0;
     if(this->isOpened()){
         //
-        ret = read(this->arq, vec, size);edkEnd();
+        ret = read(this->arq, vec, size);
         //test if the file is closed
         if(ret<0){
             if(errno!=EWOULDBLOCK){
                 //file is closed
-                this->closeFileStream();edkEnd();
+                this->closeFileStream();
             }
         }
     }
@@ -2868,12 +2869,12 @@ edk::int64 edk::FileStream::readVec(edk::classID vec,edk::uint32 size){
     edk::int32 ret=0;
     if(this->isOpened()){
         //
-        ret = read(this->arq, vec, size);edkEnd();
+        ret = read(this->arq, vec, size);
         //test if the file is closed
         if(ret<0){
             if(errno!=EWOULDBLOCK){
                 //file is closed
-                this->closeFileStream();edkEnd();
+                this->closeFileStream();
             }
         }
     }
@@ -2881,52 +2882,52 @@ edk::int64 edk::FileStream::readVec(edk::classID vec,edk::uint32 size){
 }
 edk::char8 edk::FileStream::readChar8(){
     edk::char8 ret=0;
-    this->readVec(&ret,sizeof(ret));edkEnd();
+    this->readVec(&ret,sizeof(ret));
     return ret;
 }
 edk::uchar8 edk::FileStream::readUChar8(){
     edk::uchar8 ret=0;
-    this->readVec(&ret,sizeof(ret));edkEnd();
+    this->readVec(&ret,sizeof(ret));
     return ret;
 }
 edk::int8 edk::FileStream::readInt8(){
     edk::int8 ret=0;
-    this->readVec(&ret,sizeof(ret));edkEnd();
+    this->readVec(&ret,sizeof(ret));
     return ret;
 }
 edk::uint8 edk::FileStream::readUInt8(){
     edk::uint8 ret=0;
-    this->readVec(&ret,sizeof(ret));edkEnd();
+    this->readVec(&ret,sizeof(ret));
     return ret;
 }
 edk::int16 edk::FileStream::readInt16(){
     edk::int16 ret=0;
-    this->readVec(&ret,sizeof(ret));edkEnd();
+    this->readVec(&ret,sizeof(ret));
     return ret;
 }
 edk::uint16 edk::FileStream::readUInt16(){
     edk::uint16 ret=0;
-    this->readVec(&ret,sizeof(ret));edkEnd();
+    this->readVec(&ret,sizeof(ret));
     return ret;
 }
 edk::int32 edk::FileStream::readInt32(){
     edk::int32 ret=0;
-    this->readVec(&ret,sizeof(ret));edkEnd();
+    this->readVec(&ret,sizeof(ret));
     return ret;
 }
 edk::uint32 edk::FileStream::readUInt32(){
     edk::uint32 ret=0;
-    this->readVec(&ret,sizeof(ret));edkEnd();
+    this->readVec(&ret,sizeof(ret));
     return ret;
 }
 edk::float32 edk::FileStream::readFloat32(){
     edk::float32 ret=0;
-    this->readVec(&ret,sizeof(ret));edkEnd();
+    this->readVec(&ret,sizeof(ret));
     return ret;
 }
 edk::float64 edk::FileStream::readFloat64(){
     edk::float64 ret=0;
-    this->readVec(&ret,sizeof(ret));edkEnd();
+    this->readVec(&ret,sizeof(ret));
     return ret;
 }
 
@@ -2943,7 +2944,7 @@ edk::int32 edk::FileStream::ioControl(edk::uint32
                                       #endif
                                       ,void* value
                                       ){
-    edk::int32 ret = -1;edkEnd();
+    edk::int32 ret = -1;
     if(this->isOpened()){
         if(value){
 #ifdef _WIN32
@@ -2953,10 +2954,10 @@ edk::int32 edk::FileStream::ioControl(edk::uint32
 
 #endif
 #ifdef __linux__
-            ret = ioctl(this->arq,__request,value);edkEnd();
+            ret = ioctl(this->arq,__request,value);
 #endif
 #ifdef __APPLE__
-            ret = ioctl(this->arq,__request,value);edkEnd();
+            ret = ioctl(this->arq,__request,value);
 #endif
         }
     }
@@ -2964,7 +2965,7 @@ edk::int32 edk::FileStream::ioControl(edk::uint32
 }
 
 edk::char8* edk::FileStream::getName(){
-    return this->name.getName();edkEnd();
+    return this->name.getName();
 }
 
 bool edk::FileStream::isOpened(){

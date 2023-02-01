@@ -544,6 +544,21 @@ bool edk::shape::Polygon2DList::selectedSetPolygonUVFramesY(edk::uint32 y){
     return false;
 }
 //Set the polygon frame
+bool edk::shape::Polygon2DList::selectedSetPolygonUVFrame(edk::vec2ui32 frame){
+    return this->selectedUsePolygonUVFrame(frame);
+}
+bool edk::shape::Polygon2DList::selectedSetPolygonUVFrame(edk::uint32 x,edk::uint32 y){
+    return this->selectedUsePolygonUVFrame(x,y);
+}
+bool edk::shape::Polygon2DList::selectedSetPolygonUVFramePosition(edk::uint32 position){
+    return this->selectedUsePolygonUVFramePosition(position);
+}
+bool edk::shape::Polygon2DList::selectedSetPolygonUVFrameX(edk::uint32 x){
+    return this->selectedUsePolygonUVFrameX(x);
+}
+bool edk::shape::Polygon2DList::selectedSetPolygonUVFrameY(edk::uint32 y){
+    return this->selectedUsePolygonUVFrameY(y);
+}
 bool edk::shape::Polygon2DList::selectedUsePolygonUVFrame(edk::vec2ui32 frame){
     //test if have selected
     if(this->selected){
