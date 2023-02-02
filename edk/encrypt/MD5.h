@@ -31,7 +31,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #pragma once
 #include "../TypeVars.h"
-#include "../DebugFile.h"
 #include <stdio.h>
 #ifndef __cplusplus
 #include <stdlib.h>
@@ -39,7 +38,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <string.h>
 #include <math.h>
 #include "../String.h"
-#include "../File.h"
+#include "../DebugFile.h"
 
 #ifdef printMessages
 #warning "    Compiling MD5"

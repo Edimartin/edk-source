@@ -33,7 +33,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../TypeDefines.h"
 #include "../../box2d/box2d.h"
 #include "../TypeVars.h"
-#include "../DebugFile.h"
 #include "../TypeVec2.h"
 #include "PhysicObject2D.h"
 #include "StaticSensor2D.h"

@@ -34,7 +34,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include "TypeVars.h"
 #include "File.h"
-#include <stdarg.h>
+//#include <stdarg.h>
 
 #ifdef printMessages
 #warning "    Compiling DebugFile"

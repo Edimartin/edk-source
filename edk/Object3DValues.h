@@ -30,9 +30,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 #pragma once
-#include "DebugFile.h"
 #include "TypeVec3.h"
 #include "TypeSize3.h"
+#include "DebugFile.h"
 
 #ifdef printMessages
 #warning "    Compiling Object3DValues"

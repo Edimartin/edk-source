@@ -33,7 +33,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <stdio.h>
 #include <string.h>
 #include "../TypeVars.h"
-#include "../DebugFile.h"
 #include "../NameClass.h"
 #include "../String.h"
 #include "./Array.h"

@@ -30,10 +30,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 #pragma once
+#include "string.h"
 //include file
 #include "DebugFile.h"
-#include "File.h"
-#include "string.h"
 
 #ifdef printMessages
 #warning "    Compiling FileToH"

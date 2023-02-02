@@ -32,10 +32,10 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma once
 #include <stdio.h>
 #include "TypeVars.h"
-#include "DebugFile.h"
 #include "String.h"
 #include <sys/stat.h>
 #include <dirent.h>
+#include "DebugFile.h"
 
 #ifdef printMessages
 #warning "    Compiling ListDirectory"

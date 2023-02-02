@@ -30,7 +30,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 #include "TypeVars.h"
-#include "DebugFile.h"
 
 #ifdef printMessages
 #warning "    Compiling TypeDefines"

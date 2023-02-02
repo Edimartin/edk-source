@@ -31,7 +31,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #pragma once
 #include "../TypeVars.h"
-#include "../DebugFile.h"
 #include "../Object2DValues.h"
 #include "../Object2D.h"
 #include "InterpolationLine3D.h"

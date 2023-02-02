@@ -32,7 +32,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma once
 //use the types
 #include "../TypeVars.h"
-#include "../DebugFile.h"
 #include "../TypeVec2.h"
 #include "../TypeVec3.h"
 #include "../TypeVec4.h"

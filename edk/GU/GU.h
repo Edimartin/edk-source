@@ -30,14 +30,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 #pragma once
-#include "../TypeVars.h"
-#include "../DebugFile.h"
-#include "../TypeVec2.h"
-#include "../TypeVec3.h"
-#include "../TypeColor.h"
-#include "../TypeRect.h"
-#include "../TypeSize2.h"
-#include "../TypeSize3.h"
 
 //include the SHD before GU
 #include "../GU/GU_GLSL.h"
@@ -55,6 +47,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #ifdef printMessages
 #warning "    Compiling GU"
 #endif
+
+#include "../TypeVars.h"
+#include "../TypeVec2.h"
+#include "../TypeVec3.h"
+#include "../TypeColor.h"
+#include "../TypeRect.h"
+#include "../TypeSize2.h"
+#include "../TypeSize3.h"
 
 /*LIBS WINDOWS
 

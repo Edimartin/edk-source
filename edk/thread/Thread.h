@@ -31,7 +31,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #pragma once
 #include "../TypeVars.h"
-#include "../DebugFile.h"
 
 //pThread
 #if defined(__linux__)/*LINUX*/ || defined(__APPLE__)//MAC OS
@@ -45,6 +44,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #if defined(WIN32) || defined(WIN64) //Windows
 #include <windows.h>
 #endif
+
+#include "../DebugFile.h"
 
 #ifdef printMessages
 #warning "    Compiling Thread"

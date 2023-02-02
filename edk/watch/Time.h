@@ -31,7 +31,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #pragma once
 #include "../TypeVars.h"
-#include "../DebugFile.h"
 //Time.h
 #include <time.h>
 //to get current time in milliseconds
@@ -62,6 +61,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     #include <unistd.h>
 	#include <sys/time.h>
 #endif
+
+#include "../DebugFile.h"
 
 #ifdef printMessages
 #warning "    Compiling Time"

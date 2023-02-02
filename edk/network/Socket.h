@@ -57,9 +57,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <stdlib.h>
 
 #include "../TypeVars.h"
-#include "../DebugFile.h"
 #include "../String.h"
 #include "../TypeDefines.h"
+#include "../DebugFile.h"
 
 //Socket Type
 //EDK_SOCKET_NONE

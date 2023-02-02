@@ -31,8 +31,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #pragma once
 #include "../TypeVars.h"
-#include "../DebugFile.h"
 #include "../GU/GU.h"
+#include "../DebugFile.h"
 #include <string.h>
 
 #ifdef printMessages
