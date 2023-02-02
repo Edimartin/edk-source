@@ -1840,6 +1840,9 @@ bool edk::Cenario2D::setWorld(edk::physics2D::World2D* world){
     this->world=&edk::Cenario2D::worldTemplate;
     return false;
 }
+edk::physics2D::World2D* edk::Cenario2D::getWorldTemplate(){
+    return &edk::Cenario2D::worldTemplate;
+}
 
 //TILEMAP
 edk::tiles::TileMap2D* edk::Cenario2D::newTileMapInPosition(edk::uint32 position,edk::size2ui32 size){

@@ -82,6 +82,7 @@ public:
 
     //set the world
     bool setWorld(edk::physics2D::World2D* world);
+    static edk::physics2D::World2D* getWorldTemplate();
 
     //TILEMAP
     edk::tiles::TileMap2D* newTileMapInPosition(edk::uint32 position,edk::size2ui32 size);

@@ -6276,7 +6276,6 @@ edk::uint64 edk::String::base64DecodeSize(edk::char8* str){
     edk::uint64 i;
 
     if(str == NULL){
-
         return 0;
     }
 
@@ -6300,7 +6299,6 @@ bool edk::String::base64Decode(edk::char8* str,edk::uint8* dest){
     int    v;
 
     if(str == NULL || dest == NULL){
-
         return false;
     }
 
