@@ -673,7 +673,7 @@ private:
 
         //clean names
         void cleanNames(){
-            this->names = 0;edkEnd();
+            this->names = 0u;edkEnd();
         }
 
         //XML
@@ -1261,7 +1261,6 @@ private:
                     edk::GU::guRotateZf32(this->transform.angle);edkEnd();
                     //add scale
                     edk::GU::guScale2f32(this->transform.size);edkEnd();
-                    this->objs->cleanNames();edkEnd();
                     this->objs->draw();edkEnd();
                     edk::GU::guPopMatrix();edkEnd();
                     edk::GU::guDisable(GU_LIGHTING);edkEnd();
@@ -1276,7 +1275,6 @@ private:
                     edk::GU::guRotateZf32(this->transform.angle);edkEnd();
                     //add scale
                     edk::GU::guScale2f32(this->transform.size);edkEnd();
-                    this->objsPhys->cleanNames();edkEnd();
                     this->objsPhys->draw();edkEnd();
                     edk::GU::guPopMatrix();edkEnd();
                     edk::GU::guDisable(GU_LIGHTING);edkEnd();
@@ -1307,7 +1305,6 @@ private:
                     edk::GU::guRotateZf32(this->transform.angle);edkEnd();
                     //add scale
                     edk::GU::guScale2f32(this->transform.size);edkEnd();
-                    this->objs->cleanNames();edkEnd();
                     this->objs->drawWire();edkEnd();
                     edk::GU::guPopMatrix();edkEnd();
                     edk::GU::guDisable(GU_LIGHTING);edkEnd();
@@ -1322,7 +1319,6 @@ private:
                     edk::GU::guRotateZf32(this->transform.angle);edkEnd();
                     //add scale
                     edk::GU::guScale2f32(this->transform.size);edkEnd();
-                    this->objsPhys->cleanNames();edkEnd();
                     this->objsPhys->drawWire();edkEnd();
                     edk::GU::guPopMatrix();edkEnd();
                     edk::GU::guDisable(GU_LIGHTING);edkEnd();
@@ -1449,7 +1445,6 @@ private:
                         //add scale
                         edk::GU::guScale2f32(this->transform.size);edkEnd();
                         edk::Cenario2D::TreeObjDepth* temp = (edk::Cenario2D::TreeObjDepth*)this->quadObjs->selectedGetTreePointer();edkEnd();
-                        temp->cleanNames();edkEnd();
                         temp->draw();edkEnd();
                         edk::GU::guPopMatrix();edkEnd();
                         edk::GU::guDisable(GU_LIGHTING);edkEnd();
@@ -1469,7 +1464,6 @@ private:
                         //add scale
                         edk::GU::guScale2f32(this->transform.size);edkEnd();
                         edk::Cenario2D::TreePhysObjDepth* temp = (edk::Cenario2D::TreePhysObjDepth*)this->quadPhysicObjs->selectedGetTreePointer();edkEnd();
-                        temp->cleanNames();edkEnd();
                         temp->draw();edkEnd();
                         edk::GU::guPopMatrix();edkEnd();
                         edk::GU::guDisable(GU_LIGHTING);edkEnd();
@@ -1506,7 +1500,6 @@ private:
                         //add scale
                         edk::GU::guScale2f32(this->transform.size);edkEnd();
                         edk::Cenario2D::TreeObjDepth* temp = (edk::Cenario2D::TreeObjDepth*)this->quadObjs->selectedGetTreePointer();edkEnd();
-                        temp->cleanNames();edkEnd();
                         temp->drawWire();edkEnd();
                         edk::GU::guPopMatrix();edkEnd();
                         edk::GU::guDisable(GU_LIGHTING);edkEnd();
@@ -1526,7 +1519,6 @@ private:
                         //add scale
                         edk::GU::guScale2f32(this->transform.size);edkEnd();
                         edk::Cenario2D::TreePhysObjDepth* temp = (edk::Cenario2D::TreePhysObjDepth*)this->quadPhysicObjs->selectedGetTreePointer();edkEnd();
-                        temp->cleanNames();edkEnd();
                         temp->drawWire();edkEnd();
                         edk::GU::guPopMatrix();edkEnd();
                         edk::GU::guDisable(GU_LIGHTING);edkEnd();
@@ -1559,6 +1551,7 @@ private:
                     edk::GU::guRotateZf32(this->transform.angle);edkEnd();
                     //add scale
                     edk::GU::guScale2f32(this->transform.size);edkEnd();
+                    this->objs->cleanNames();edkEnd();
                     this->objs->selectionID = id;edkEnd();
                     this->objs->print();edkEnd();
                     edk::GU::guPopMatrix();edkEnd();
@@ -1573,6 +1566,7 @@ private:
                     edk::GU::guRotateZf32(this->transform.angle);edkEnd();
                     //add scale
                     edk::GU::guScale2f32(this->transform.size);edkEnd();
+                    this->objsPhys->cleanNames();edkEnd();
                     this->objsPhys->selectionID = id;edkEnd();
                     this->objsPhys->print();edkEnd();
                     edk::GU::guPopMatrix();edkEnd();
@@ -1608,6 +1602,7 @@ private:
                         //add scale
                         edk::GU::guScale2f32(this->transform.size);edkEnd();
                         edk::Cenario2D::TreeObjDepth* temp = (edk::Cenario2D::TreeObjDepth*)this->quadObjs->selectedGetTreePointer();edkEnd();
+                        temp->cleanNames();edkEnd();
                         temp->selectionID = levelID;edkEnd();
                         temp->print();edkEnd();
                         edk::GU::guPopMatrix();edkEnd();
@@ -1627,6 +1622,7 @@ private:
                         //add scale
                         edk::GU::guScale2f32(this->transform.size);edkEnd();
                         edk::Cenario2D::TreePhysObjDepth* temp = (edk::Cenario2D::TreePhysObjDepth*)this->quadPhysicObjs->selectedGetTreePointer();edkEnd();
+                        temp->cleanNames();edkEnd();
                         temp->selectionID = levelID;edkEnd();
                         temp->print();edkEnd();
                         edk::GU::guPopMatrix();edkEnd();
@@ -1833,7 +1829,6 @@ private:
         bool addObjectsToQuad(){
             //test if have the objects
             if(this->objs){
-                //this->calculateMatrices();edkEnd();
                 edk::uint32 size = this->objs->size();edkEnd();
                 edk::Cenario2D::ObjClass* temp;edkEnd();
                 for(edk::uint32 i=0u;i<size;i++){
@@ -1846,7 +1841,6 @@ private:
                 return true;
             }
             else if(this->objsPhys){
-                //this->calculateMatrices();edkEnd();
                 edk::uint32 size = this->objsPhys->size();edkEnd();
                 edk::Cenario2D::ObjClass* temp;edkEnd();
                 for(edk::uint32 i=0u;i<size;i++){

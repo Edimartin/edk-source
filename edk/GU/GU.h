@@ -30,6 +30,13 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 #pragma once
+#include "../TypeVars.h"
+#include "../TypeVec2.h"
+#include "../TypeVec3.h"
+#include "../TypeColor.h"
+#include "../TypeRect.h"
+#include "../TypeSize2.h"
+#include "../TypeSize3.h"
 
 //include the SHD before GU
 #include "../GU/GU_GLSL.h"
@@ -47,14 +54,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #ifdef printMessages
 #warning "    Compiling GU"
 #endif
-
-#include "../TypeVars.h"
-#include "../TypeVec2.h"
-#include "../TypeVec3.h"
-#include "../TypeColor.h"
-#include "../TypeRect.h"
-#include "../TypeSize2.h"
-#include "../TypeSize3.h"
 
 /*LIBS WINDOWS
 
@@ -1845,6 +1844,7 @@ GL_QUADRATIC_ATTENUATION
 */
 
 // Render
+#define GU_FEEDBACK                             0x1C01
 #define GU_RENDER                               0x1C00
 #define GU_SELECT                               0x1C02
 
@@ -2174,6 +2174,9 @@ public:
     static void guInitNames();
     //push a name
     static void guPushName(edk::uint32 id);
+    //load a name
+    static void guLoadName(edk::uint32 id);
+    //pop some name
     static void guPopName();
     //get the viewport specification
     //set the pickMatrix

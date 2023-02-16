@@ -1670,6 +1670,11 @@ void edk::GU::guInitNames(){
 void edk::GU::guPushName(edk::uint32 id){
     glPushName(id);
 }
+//load a name
+void edk::GU::guLoadName(edk::uint32 id){
+    glLoadName(id);
+}
+//pop some name
 void edk::GU::guPopName(){
     glPopName();
 }
