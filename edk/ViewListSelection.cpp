@@ -449,6 +449,24 @@ void edk::ViewListSelection::cleanClickedButtons(){
     this->mouseButtons.clean();edkEnd();
 }
 
+//get the scroll percent
+edk::float32 edk::ViewListSelection::getScrollPercent(){
+    return this->scroll.getPercentY();
+}
+bool edk::ViewListSelection::setScrollPercent(edk::float32 percent){
+    bool ret = true;
+    if(percent<0.f){
+        percent=0.f;
+        ret = false;
+    }
+    else if(percent>1.f){
+        percent=1.f;
+        ret = false;
+    }
+    this->scroll.setPercentY(percent);
+    return ret;
+}
+
 //draw the GU scene
 void edk::ViewListSelection::drawScene(edk::rectf32){
     //draw the cells

@@ -110,6 +110,10 @@ public:
     //clean the mouseButtons
     void cleanClickedButtons();
 
+    //get the scroll percent
+    edk::float32 getScrollPercent();
+    bool setScrollPercent(edk::float32 percent);
+
     //draw the GU scene
     void drawScene(edk::rectf32 outsideViewOrigin);
 
