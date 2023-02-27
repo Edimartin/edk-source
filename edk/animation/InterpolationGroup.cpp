@@ -629,11 +629,6 @@ bool edk::animation::InterpolationGroup::addNewInterpolationLine(edk::animation:
                 //then return true
                 ret = true;edkEnd();
             }
-            /*
-            //delete the tempFrame
-            delete this->tempFrame;edkEnd();
-            this->tempFrame=NULL;edkEnd();
-            */
         }
         else{
             //else create a new tempFrame
@@ -1595,7 +1590,6 @@ edk::float32 edk::animation::InterpolationGroup::updateClockAnimation(edk::float
                         this->interpolationSelect--;edkEnd();
                         break;
                     }
-
                 }
             }
         }
@@ -1697,8 +1691,10 @@ bool edk::animation::InterpolationGroup::writeToXML(edk::XML* xml,edk::uint32 id
                             this->tempFrame->writeToXML(xml,count);edkEnd();
                             count++;edkEnd();
                         }
+			edk::uint32 size = 0u;
+						
                         //write the animationFrames
-                        edk::uint32 size = this->animations.size();edkEnd();
+                        size = this->animations.size();edkEnd();
                         for(edk::uint32 i=0u;i<size;i++){
                             if(!i){
                                 //write the first

@@ -30,8 +30,15 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 #pragma once
+#ifndef EDK_USE_BOX2D
+#define EDK_USE_BOX2D
+#warning "EDK WARNING: As default EDK use Box2D, If you don't want use 2D physics you can comment the line 33 in edk/physics2D/World2D.h"
+#endif
+
 #include "../TypeDefines.h"
+#if defined(EDK_USE_BOX2D)
 #include "../../box2d/box2d.h"
+#endif
 #include "../TypeVars.h"
 #include "../TypeVec2.h"
 #include "PhysicObject2D.h"
@@ -393,8 +400,10 @@ private:
     bool runNextStep;
     bool paused;
 
+#if defined(EDK_USE_BOX2D)
     //Box2D
     b2World world;
+#endif
 
     //TREE WITH OBJECTS IN CONTACT
     edk::physics2D::TreeContactObjects beginContacs;
@@ -405,8 +414,10 @@ private:
     edk::physics2D::TreeContactObjects sensorKeepContacs;
     edk::physics2D::TreeContactObjects sensorEndContacs;
 
+#if defined(EDK_USE_BOX2D)
     //return the body
     b2Body* getBody(edk::physics2D::PhysicObject2D* object);
+#endif
 
     //Add a joint to the trees
     edk::physics2D::Joint2D* addJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA,
@@ -429,6 +440,7 @@ private:
     //contactTree
     edk::vector::BinaryTree<edk::physics2D::ContactCallback2D*> treeCallbacks;
 
+#if defined(EDK_USE_BOX2D)
     //class to save the object
     class ObjectTree{
     public:
@@ -554,6 +566,7 @@ private:
         //Box2D
         b2World* world;
     }treeDeleted;
+#endif
 
     //newTree
     class NewTree: public edk::vector::BinaryTree<edk::physics2D::PhysicObject2D*>{
@@ -610,6 +623,7 @@ private:
         }
     }treeConcacts;
 
+#if defined(EDK_USE_BOX2D)
     class MyContactListener : public b2ContactListener {
     public:
         MyContactListener();
@@ -623,6 +637,8 @@ private:
         edk::float32 percentIn;
         edk::float32 percentOut;
     }contacts;
+
+
 
     //class to save the joint
     class JointTreeObject{
@@ -771,6 +787,7 @@ private:
             }
         }
     }treeJoint;
+#endif
 
     class ObjectJointsTree:private edk::vector::BinaryTree<edk::physics2D::Joint2D*>{
     public:

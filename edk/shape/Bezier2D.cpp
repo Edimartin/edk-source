@@ -34,10 +34,7 @@ edk::shape::Bezier2D::Bezier2D()
 }
 edk::shape::Bezier2D::Bezier2D(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4){
     //
-    this->point1=p1;edkEnd();
-    this->point2=p2;edkEnd();
-    this->point3=p3;edkEnd();
-    this->point4=p4;edkEnd();
+    this->setPoints(p1,p2,p3,p4);
 }
 
 edk::shape::Bezier2D::~Bezier2D()

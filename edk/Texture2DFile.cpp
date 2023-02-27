@@ -65,7 +65,7 @@ bool edk::Texture2DFile::loadFromFile(edk::char8 *fileName,edk::uint32 filter){
             this->createTexture(this->image.width(),
                                 this->image.height(),
                                 GU_LUMINANCE,
-                                (const edk::classID)this->image.getPixels(),
+                                (edk::classID)this->image.getPixels(),
                                 filter
                                 );edkEnd();
             break;
@@ -74,7 +74,7 @@ bool edk::Texture2DFile::loadFromFile(edk::char8 *fileName,edk::uint32 filter){
             this->createTexture(this->image.width(),
                                 this->image.height(),
                                 GU_RGB,
-                                (const edk::classID)this->image.getPixels(),
+                                (edk::classID)this->image.getPixels(),
                                 filter
                                 );edkEnd();
             break;
@@ -83,7 +83,7 @@ bool edk::Texture2DFile::loadFromFile(edk::char8 *fileName,edk::uint32 filter){
             this->createTexture(this->image.width(),
                                 this->image.height(),
                                 GU_RGBA,
-                                (const edk::classID)this->image.getPixels(),
+                                (edk::classID)this->image.getPixels(),
                                 filter
                                 );edkEnd();
             break;
@@ -124,7 +124,7 @@ bool edk::Texture2DFile::loadFromMemory(edk::uint8* image,edk::uint32 size,edk::
                 this->createTexture(this->image.width(),
                                     this->image.height(),
                                     GU_LUMINANCE,
-                                    (const edk::classID)this->image.getPixels(),
+                                    (edk::classID)this->image.getPixels(),
                                     filter
                                     );edkEnd();
                 break;
@@ -133,7 +133,7 @@ bool edk::Texture2DFile::loadFromMemory(edk::uint8* image,edk::uint32 size,edk::
                 this->createTexture(this->image.width(),
                                     this->image.height(),
                                     GU_RGB,
-                                    (const edk::classID)this->image.getPixels(),
+                                    (edk::classID)this->image.getPixels(),
                                     filter
                                     );edkEnd();
                 break;
@@ -142,7 +142,7 @@ bool edk::Texture2DFile::loadFromMemory(edk::uint8* image,edk::uint32 size,edk::
                 this->createTexture(this->image.width(),
                                     this->image.height(),
                                     GU_RGBA,
-                                    (const edk::classID)this->image.getPixels(),
+                                    (edk::classID)this->image.getPixels(),
                                     filter
                                     );edkEnd();
                 break;
@@ -178,7 +178,7 @@ bool edk::Texture2DFile::setFromMemory(edk::uint8* image,edk::uint32 width,edk::
                 this->createTexture(width,
                                     height,
                                     GU_LUMINANCE,
-                                    (const edk::classID)image,
+                                    (edk::classID)image,
                                     filter
                                     );edkEnd();
                 break;
@@ -187,7 +187,7 @@ bool edk::Texture2DFile::setFromMemory(edk::uint8* image,edk::uint32 width,edk::
                 this->createTexture(width,
                                     height,
                                     GU_RGB,
-                                    (const edk::classID)image,
+                                    (edk::classID)image,
                                     filter
                                     );edkEnd();
                 break;
@@ -196,7 +196,7 @@ bool edk::Texture2DFile::setFromMemory(edk::uint8* image,edk::uint32 width,edk::
                 this->createTexture(width,
                                     height,
                                     GU_RGBA,
-                                    (const edk::classID)image,
+                                    (edk::classID)image,
                                     filter
                                     );edkEnd();
                 break;

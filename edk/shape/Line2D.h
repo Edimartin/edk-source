@@ -48,6 +48,16 @@ class Line2D{
         //line Vectex's
         edk::shape::Vertex2D start,end;
 
+        //set the points
+        void setStart(edk::vec2f32 point);
+        void setEnd(edk::vec2f32 point);
+
+        //set points
+        void setPoints(edk::vec2f32 start,edk::vec2f32 end);
+
+        //return the point
+        virtual edk::vec2f32 getPoint(edk::float32 percent);
+
         //print the line
         void print();
         //Draw the line

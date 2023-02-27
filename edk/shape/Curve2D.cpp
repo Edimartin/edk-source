@@ -34,10 +34,7 @@ edk::shape::Curve2D::Curve2D()
 }
 edk::shape::Curve2D::Curve2D(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4){
     //
-    this->point1=p1;edkEnd();
-    this->point2=p2;edkEnd();
-    this->point3=p3;edkEnd();
-    this->point4=p4;edkEnd();
+    this->setPoints(p1,p2,p3,p4);
 }
 
 edk::shape::Curve2D::~Curve2D()
@@ -64,6 +61,27 @@ bool edk::shape::Curve2D::setPoint(edk::uint8 position,edk::vec2f32 point){
         break;
     }
     return false;
+}
+void edk::shape::Curve2D::setPoint1(edk::vec2f32 point){
+    this->point1=point;
+}
+void edk::shape::Curve2D::setPoint2(edk::vec2f32 point){
+    this->point2=point;
+}
+void edk::shape::Curve2D::setPoint3(edk::vec2f32 point){
+    this->point3=point;
+}
+void edk::shape::Curve2D::setPoint4(edk::vec2f32 point){
+    this->point4=point;
+}
+
+//set points
+void edk::shape::Curve2D::setPoints(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4){
+    //
+    this->point1=p1;edkEnd();
+    this->point2=p2;edkEnd();
+    this->point3=p3;edkEnd();
+    this->point4=p4;edkEnd();
 }
 
 

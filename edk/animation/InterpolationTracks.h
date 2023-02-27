@@ -190,7 +190,7 @@ public:
     //animation controllers
     bool playForwardAllTracks();
     bool playForwardTrack(edk::uint32 trackPosition);
-    bool playForwardIn(edk::float32 second);
+    bool playForwardAllTracksIn(edk::float32 second);
     bool playForwardTrackIn(edk::uint32 trackPosition,edk::float32 second);
     bool changeToForwardAllTracks();
     bool changeToForwardTrack(edk::uint32 trackPosition);
@@ -198,7 +198,7 @@ public:
     bool restartForwardTrack(edk::uint32 trackPosition);
     bool playRewindAllTracks();
     bool playRewindTrack(edk::uint32 trackPosition);
-    bool playRewindIn(edk::float32 second);
+    bool playRewindAllTracksIn(edk::float32 second);
     bool playRewindTrackIn(edk::uint32 trackPosition,edk::float32 second);
     bool changeToRewindAllTracks();
     bool changeToRewindTrack(edk::uint32 trackPosition);

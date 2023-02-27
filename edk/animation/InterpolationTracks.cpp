@@ -696,7 +696,7 @@ bool edk::animation::InterpolationTracks::playForwardTrack(edk::uint32 trackPosi
     this->time.start();edkEnd();
     return false;
 }
-bool edk::animation::InterpolationTracks::playForwardIn(edk::float32 second){
+bool edk::animation::InterpolationTracks::playForwardAllTracksIn(edk::float32 second){
     bool ret=false;edkEnd();
     edk::uint32 size = this->tracks->size();edkEnd();
     if(size){
@@ -802,7 +802,7 @@ bool edk::animation::InterpolationTracks::playRewindTrack(edk::uint32 trackPosit
     this->time.start();edkEnd();
     return false;
 }
-bool edk::animation::InterpolationTracks::playRewindIn(edk::float32 second){
+bool edk::animation::InterpolationTracks::playRewindAllTracksIn(edk::float32 second){
     bool ret=false;edkEnd();
     edk::uint32 size = this->tracks->size();edkEnd();
     if(size){

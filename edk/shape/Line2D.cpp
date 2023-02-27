@@ -41,6 +41,27 @@ edk::shape::Line2D::~Line2D(){
     //
 }
 
+//set the points
+void edk::shape::Line2D::setStart(edk::vec2f32 point){
+    this->start.position = point;
+}
+void edk::shape::Line2D::setEnd(edk::vec2f32 point){
+    this->end.position = point;
+}
+
+//set points
+void edk::shape::Line2D::setPoints(edk::vec2f32 start,edk::vec2f32 end){
+    this->start.position = start;
+    this->end.position = end;
+}
+
+//return the point
+edk::vec2f32 edk::shape::Line2D::getPoint(edk::float32 percent){
+    return edk::vec2f32(this->start.position.x+ ((this->end.position.x - this->start.position.x)*percent),
+                        this->start.position.y + ((this->end.position.y - this->start.position.y)*percent)
+                        );
+}
+
 //print the line
 void edk::shape::Line2D::print(){
     //
