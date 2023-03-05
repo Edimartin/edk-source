@@ -1037,7 +1037,12 @@ void edk::guBindBuffer (edk::GUenum target, edk::GUuint buffer){glBindBuffer (ta
 void edk::guDeleteBuffers (edk::GUsizei n, const edk::GUuint *buffers){glDeleteBuffers (n, (const GLuint *)buffers);}
 void edk::guFrameBufferTexture (edk::GUenum target, edk::GUenum attachment, edk::GUuint texture, edk::GUint level){glFramebufferTexture (target,attachment,texture,level);}
 */
-
+#if /* defined(_WIN32) || */ defined(__linux__)
+class GU_RUN_ENVIROMENT_MESA{
+    public:
+    GU_RUN_ENVIROMENT_MESA(){putenv((edk::char8*)"MESA_HW_ACCEL_SELECT=0");}
+}guMesaEnviromentSetter;
+#endif
 
 //
 

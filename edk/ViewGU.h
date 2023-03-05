@@ -128,7 +128,7 @@ class ViewGU: public edk::ViewSpriteController{
     edk::size2f32 selectionSize;
     bool runSelection;
 
-    edk::uint32 buffer[1024];
+    edk::uint32 buffer[1024u];
     edk::uint32 sizeBuffer;
 };
 }//end namespace

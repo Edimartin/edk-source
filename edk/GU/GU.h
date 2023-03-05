@@ -38,6 +38,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../TypeSize2.h"
 #include "../TypeSize3.h"
 
+#include <stdlib.h>
+
 //include the SHD before GU
 #include "../GU/GU_GLSL.h"
 
