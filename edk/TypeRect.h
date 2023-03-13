@@ -874,6 +874,13 @@ public:
         this->size.height=(edk::int8)height;
         return edk::recti8((edk::int8)this->origin.x,(edk::int8)this->origin.y,(edk::int8)this->size.width,(edk::int8)this->size.height);
     }
+    //function to merge the rect with another rect
+    void merge(edk::recti8 rect){
+        if(this->origin.x > rect.origin.x)this->origin.x = rect.origin.x;
+        if(this->origin.y > rect.origin.y)this->origin.y = rect.origin.y;
+        if(this->size.width < rect.size.width)this->size.width = rect.size.width;
+        if(this->size.height < rect.size.height)this->size.height = rect.size.height;
+    }
 };
 
 class recti16{
@@ -1781,6 +1788,19 @@ public:
         this->size.width=(edk::int16)width;
         this->size.height=(edk::int16)height;
         return edk::recti16((edk::int16)this->origin.x,(edk::int16)this->origin.y,(edk::int16)this->size.width,(edk::int16)this->size.height);
+    }
+    //function to merge the rect with another rect
+    void merge(edk::recti8 rect){
+        if(this->origin.x > (edk::int16)rect.origin.x)this->origin.x = (edk::int16)rect.origin.x;
+        if(this->origin.y > (edk::int16)rect.origin.y)this->origin.y = (edk::int16)rect.origin.y;
+        if(this->size.width < (edk::int16)rect.size.width)this->size.width = (edk::int16)rect.size.width;
+        if(this->size.height < (edk::int16)rect.size.height)this->size.height = (edk::int16)rect.size.height;
+    }
+    void merge(edk::recti16 rect){
+        if(this->origin.x > rect.origin.x)this->origin.x = rect.origin.x;
+        if(this->origin.y > rect.origin.y)this->origin.y = rect.origin.y;
+        if(this->size.width < rect.size.width)this->size.width = rect.size.width;
+        if(this->size.height < rect.size.height)this->size.height = rect.size.height;
     }
 };
 
@@ -2761,6 +2781,25 @@ public:
         this->size.width=(edk::int32)width;
         this->size.height=(edk::int32)height;
         return edk::recti32((edk::int32)this->origin.x,(edk::int32)this->origin.y,(edk::int32)this->size.width,(edk::int32)this->size.height);
+    }
+    //function to merge the rect with another rect
+    void merge(edk::recti8 rect){
+        if(this->origin.x > (edk::int32)rect.origin.x)this->origin.x = (edk::int32)rect.origin.x;
+        if(this->origin.y > (edk::int32)rect.origin.y)this->origin.y = (edk::int32)rect.origin.y;
+        if(this->size.width < (edk::int32)rect.size.width)this->size.width = (edk::int32)rect.size.width;
+        if(this->size.height < (edk::int32)rect.size.height)this->size.height = (edk::int32)rect.size.height;
+    }
+    void merge(edk::recti16 rect){
+        if(this->origin.x > (edk::int32)rect.origin.x)this->origin.x = (edk::int32)rect.origin.x;
+        if(this->origin.y > (edk::int32)rect.origin.y)this->origin.y = (edk::int32)rect.origin.y;
+        if(this->size.width < (edk::int32)rect.size.width)this->size.width = (edk::int32)rect.size.width;
+        if(this->size.height < (edk::int32)rect.size.height)this->size.height = (edk::int32)rect.size.height;
+    }
+    void merge(edk::recti32 rect){
+        if(this->origin.x > rect.origin.x)this->origin.x = rect.origin.x;
+        if(this->origin.y > rect.origin.y)this->origin.y = rect.origin.y;
+        if(this->size.width < rect.size.width)this->size.width = rect.size.width;
+        if(this->size.height < rect.size.height)this->size.height = rect.size.height;
     }
 };
 
@@ -3814,6 +3853,31 @@ public:
         this->size.height=(edk::int64)height;
         return edk::recti64((edk::int64)this->origin.x,(edk::int64)this->origin.y,(edk::int64)this->size.width,(edk::int64)this->size.height);
     }
+    //function to merge the rect with another rect
+    void merge(edk::recti8 rect){
+        if(this->origin.x > (edk::int64)rect.origin.x)this->origin.x = (edk::int64)rect.origin.x;
+        if(this->origin.y > (edk::int64)rect.origin.y)this->origin.y = (edk::int64)rect.origin.y;
+        if(this->size.width < (edk::int64)rect.size.width)this->size.width = (edk::int64)rect.size.width;
+        if(this->size.height < (edk::int64)rect.size.height)this->size.height = (edk::int64)rect.size.height;
+    }
+    void merge(edk::recti16 rect){
+        if(this->origin.x > (edk::int64)rect.origin.x)this->origin.x = (edk::int64)rect.origin.x;
+        if(this->origin.y > (edk::int64)rect.origin.y)this->origin.y = (edk::int64)rect.origin.y;
+        if(this->size.width < (edk::int64)rect.size.width)this->size.width = (edk::int64)rect.size.width;
+        if(this->size.height < (edk::int64)rect.size.height)this->size.height = (edk::int64)rect.size.height;
+    }
+    void merge(edk::recti32 rect){
+        if(this->origin.x > (edk::int64)rect.origin.x)this->origin.x = (edk::int64)rect.origin.x;
+        if(this->origin.y > (edk::int64)rect.origin.y)this->origin.y = (edk::int64)rect.origin.y;
+        if(this->size.width < (edk::int64)rect.size.width)this->size.width = (edk::int64)rect.size.width;
+        if(this->size.height < (edk::int64)rect.size.height)this->size.height = (edk::int64)rect.size.height;
+    }
+    void merge(edk::recti64 rect){
+        if(this->origin.x > rect.origin.x)this->origin.x = rect.origin.x;
+        if(this->origin.y > rect.origin.y)this->origin.y = rect.origin.y;
+        if(this->size.width < rect.size.width)this->size.width = rect.size.width;
+        if(this->size.height < rect.size.height)this->size.height = rect.size.height;
+    }
 };
 
 class rectui8{
@@ -4337,6 +4401,13 @@ public:
         this->size.width=(edk::uint8)width;
         this->size.height=(edk::uint8)height;
         return rectui8((edk::uint8)this->origin.x,(edk::uint8)this->origin.y,(edk::uint8)this->size.width,(edk::uint8)this->size.height);
+    }
+    //function to merge the rect with another rect
+    void merge(edk::rectui8 rect){
+        if(this->origin.x > rect.origin.x)this->origin.x = rect.origin.x;
+        if(this->origin.y > rect.origin.y)this->origin.y = rect.origin.y;
+        if(this->size.width < rect.size.width)this->size.width = rect.size.width;
+        if(this->size.height < rect.size.height)this->size.height = rect.size.height;
     }
 };
 
@@ -4933,6 +5004,19 @@ public:
         this->size.width=(edk::uint16)width;
         this->size.height=(edk::uint16)height;
         return rectui16((edk::uint16)this->origin.x,(edk::uint16)this->origin.y,(edk::uint16)this->size.width,(edk::uint16)this->size.height);
+    }
+    //function to merge the rect with another rect
+    void merge(edk::rectui8 rect){
+        if(this->origin.x > (edk::uint16)rect.origin.x)this->origin.x = (edk::uint16)rect.origin.x;
+        if(this->origin.y > (edk::uint16)rect.origin.y)this->origin.y = (edk::uint16)rect.origin.y;
+        if(this->size.width < (edk::uint16)rect.size.width)this->size.width = (edk::uint16)rect.size.width;
+        if(this->size.height < (edk::uint16)rect.size.height)this->size.height = (edk::uint16)rect.size.height;
+    }
+    void merge(edk::rectui16 rect){
+        if(this->origin.x > rect.origin.x)this->origin.x = rect.origin.x;
+        if(this->origin.y > rect.origin.y)this->origin.y = rect.origin.y;
+        if(this->size.width < rect.size.width)this->size.width = rect.size.width;
+        if(this->size.height < rect.size.height)this->size.height = rect.size.height;
     }
 };
 
@@ -5601,6 +5685,25 @@ public:
         this->size.width=(edk::uint32)width;
         this->size.height=(edk::uint32)height;
         return rectui32((edk::uint32)this->origin.x,(edk::uint32)this->origin.y,(edk::uint32)this->size.width,(edk::uint32)this->size.height);
+    }
+    //function to merge the rect with another rect
+    void merge(edk::rectui8 rect){
+        if(this->origin.x > (edk::uint32)rect.origin.x)this->origin.x = (edk::uint32)rect.origin.x;
+        if(this->origin.y > (edk::uint32)rect.origin.y)this->origin.y = (edk::uint32)rect.origin.y;
+        if(this->size.width < (edk::uint32)rect.size.width)this->size.width = (edk::uint32)rect.size.width;
+        if(this->size.height < (edk::uint32)rect.size.height)this->size.height = (edk::uint32)rect.size.height;
+    }
+    void merge(edk::rectui16 rect){
+        if(this->origin.x > (edk::uint32)rect.origin.x)this->origin.x = (edk::uint32)rect.origin.x;
+        if(this->origin.y > (edk::uint32)rect.origin.y)this->origin.y = (edk::uint32)rect.origin.y;
+        if(this->size.width < (edk::uint32)rect.size.width)this->size.width = (edk::uint32)rect.size.width;
+        if(this->size.height < (edk::uint32)rect.size.height)this->size.height = (edk::uint32)rect.size.height;
+    }
+    void merge(edk::rectui32 rect){
+        if(this->origin.x > rect.origin.x)this->origin.x = rect.origin.x;
+        if(this->origin.y > rect.origin.y)this->origin.y = rect.origin.y;
+        if(this->size.width < rect.size.width)this->size.width = rect.size.width;
+        if(this->size.height < rect.size.height)this->size.height = rect.size.height;
     }
 };
 
@@ -6341,6 +6444,31 @@ public:
         this->size.width=(edk::uint64)width;
         this->size.height=(edk::uint64)height;
         return rectui64((edk::uint64)this->origin.x,(edk::uint64)this->origin.y,(edk::uint64)this->size.width,(edk::uint64)this->size.height);
+    }
+    //function to merge the rect with another rect
+    void merge(edk::rectui8 rect){
+        if(this->origin.x > (edk::uint64)rect.origin.x)this->origin.x = (edk::uint64)rect.origin.x;
+        if(this->origin.y > (edk::uint64)rect.origin.y)this->origin.y = (edk::uint64)rect.origin.y;
+        if(this->size.width < (edk::uint64)rect.size.width)this->size.width = (edk::uint64)rect.size.width;
+        if(this->size.height < (edk::uint64)rect.size.height)this->size.height = (edk::uint64)rect.size.height;
+    }
+    void merge(edk::rectui16 rect){
+        if(this->origin.x > (edk::uint64)rect.origin.x)this->origin.x = (edk::uint64)rect.origin.x;
+        if(this->origin.y > (edk::uint64)rect.origin.y)this->origin.y = (edk::uint64)rect.origin.y;
+        if(this->size.width < (edk::uint64)rect.size.width)this->size.width = (edk::uint64)rect.size.width;
+        if(this->size.height < (edk::uint64)rect.size.height)this->size.height = (edk::uint64)rect.size.height;
+    }
+    void merge(edk::rectui32 rect){
+        if(this->origin.x > (edk::uint64)rect.origin.x)this->origin.x = (edk::uint64)rect.origin.x;
+        if(this->origin.y > (edk::uint64)rect.origin.y)this->origin.y = (edk::uint64)rect.origin.y;
+        if(this->size.width < (edk::uint64)rect.size.width)this->size.width = (edk::uint64)rect.size.width;
+        if(this->size.height < (edk::uint64)rect.size.height)this->size.height = (edk::uint64)rect.size.height;
+    }
+    void merge(edk::rectui64 rect){
+        if(this->origin.x > rect.origin.x)this->origin.x = rect.origin.x;
+        if(this->origin.y > rect.origin.y)this->origin.y = rect.origin.y;
+        if(this->size.width < rect.size.width)this->size.width = rect.size.width;
+        if(this->size.height < rect.size.height)this->size.height = rect.size.height;
     }
 };
 
@@ -7334,6 +7462,13 @@ public:
         this->size.height=(edk::float32)height;
         return rectf32((edk::float32)this->origin.x,(edk::float32)this->origin.y,(edk::float32)this->size.width,(edk::float32)this->size.height);
     }
+    //function to merge the rect with another rect
+    void merge(edk::rectf32 rect){
+        if(this->origin.x > rect.origin.x)this->origin.x = rect.origin.x;
+        if(this->origin.y > rect.origin.y)this->origin.y = rect.origin.y;
+        if(this->size.width < rect.size.width)this->size.width = rect.size.width;
+        if(this->size.height < rect.size.height)this->size.height = rect.size.height;
+    }
 };
 
 class rectf64{
@@ -8325,6 +8460,19 @@ public:
         this->size.width=(edk::float64)width;
         this->size.height=(edk::float64)height;
         return rectf64((edk::float64)this->origin.x,(edk::float64)this->origin.y,(edk::float64)this->size.width,(edk::float64)this->size.height);
+    }
+    //function to merge the rect with another rect
+    void merge(edk::rectf32 rect){
+        if(this->origin.x > (edk::float64)rect.origin.x)this->origin.x = (edk::float64)rect.origin.x;
+        if(this->origin.y > (edk::float64)rect.origin.y)this->origin.y = (edk::float64)rect.origin.y;
+        if(this->size.width < (edk::float64)rect.size.width)this->size.width = (edk::float64)rect.size.width;
+        if(this->size.height < (edk::float64)rect.size.height)this->size.height = (edk::float64)rect.size.height;
+    }
+    void merge(edk::rectf64 rect){
+        if(this->origin.x > rect.origin.x)this->origin.x = rect.origin.x;
+        if(this->origin.y > rect.origin.y)this->origin.y = rect.origin.y;
+        if(this->size.width < rect.size.width)this->size.width = rect.size.width;
+        if(this->size.height < rect.size.height)this->size.height = rect.size.height;
     }
 };
 

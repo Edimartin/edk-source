@@ -334,6 +334,25 @@ bool edk::shape::Polygon2DList::haveSelected(){
     return (bool) this->selected;edkEnd();
 }
 
+//test if have a polygon in a position
+bool edk::shape::Polygon2DList::havePolygon(edk::uint32 position){
+    return this->polygons.havePos(position);
+}
+//get the polygon in a position
+edk::shape::Polygon2D edk::shape::Polygon2DList::getPolygon(edk::uint32 position){
+    edk::shape::Polygon2D ret;
+    if(this->havePolygon(position)){
+        //get the polygon
+        edk::shape::Polygon2D* temp = this->polygons.get(position);
+        if(temp){
+            //copy the polygon
+            ret.cloneFrom(temp);
+        }
+    }
+    ret.cantDeletePolygon();
+    return ret;
+}
+
 //DELETE
 //clean the polygons
 void edk::shape::Polygon2DList::cleanPolygons(){
@@ -641,6 +660,63 @@ bool edk::shape::Polygon2DList::selectedSetRestitution(edk::float32 restitution)
         //
         this->selected->setRestitution(restitution);edkEnd();
 
+        //return true
+        return true;
+    }
+    //else return false
+    return false;
+}
+//set transform
+bool edk::shape::Polygon2DList::selectedSetTranslate(edk::vec2f32 translate){
+    //test if have selected
+    if(this->selected){
+        this->selected->setTranslate(translate);edkEnd();
+        //return true
+        return true;
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::Polygon2DList::selectedSetTranslate(edk::float32 translate){
+    //test if have selected
+    if(this->selected){
+        this->selected->setTranslate(translate);edkEnd();
+        //return true
+        return true;
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::Polygon2DList::selectedSetTranslate(edk::float32 x,edk::float32 y){
+    return this->selectedSetTranslate(edk::vec2f32(x,y));
+}
+bool edk::shape::Polygon2DList::selectedSetScale(edk::size2f32 scale){
+    //test if have selected
+    if(this->selected){
+        this->selected->setScale(scale);edkEnd();
+        //return true
+        return true;
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::Polygon2DList::selectedSetScale(edk::float32 scale){
+    //test if have selected
+    if(this->selected){
+        this->selected->setScale(scale);edkEnd();
+        //return true
+        return true;
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::Polygon2DList::selectedSetScale(edk::float32 width,edk::float32 height){
+    return this->selectedSetScale(edk::size2f32(width,height));
+}
+bool edk::shape::Polygon2DList::selectedSetAngle(edk::float32 angle){
+    //test if have selected
+    if(this->selected){
+        this->selected->setAngle(angle);edkEnd();
         //return true
         return true;
     }

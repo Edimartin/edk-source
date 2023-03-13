@@ -202,7 +202,7 @@ public:
     }
 
     //operators
-    cubei8 operator=(cubei8 cube){
+    edk::cubei8 operator=(edk::cubei8 cube){
         //
         this->origin.x=(edk::int8)cube.origin.x;
         this->origin.y=(edk::int8)cube.origin.y;
@@ -212,7 +212,7 @@ public:
         this->size.length=(edk::int8)cube.size.length;
         return *this;
     }
-    cubei8 operator=(edk::int8 n){
+    edk::cubei8 operator=(edk::int8 n){
         //
         this->origin.x=(edk::int8)n;
         this->origin.y=(edk::int8)n;
@@ -222,7 +222,7 @@ public:
         this->size.length=(edk::int8)n;
         return *this;
     }
-    cubei8 operator=(edk::int32 n){
+    edk::cubei8 operator=(edk::int32 n){
         //
         this->origin.x=(edk::int8)n;
         this->origin.y=(edk::int8)n;
@@ -232,7 +232,7 @@ public:
         this->size.length=(edk::int8)n;
         return *this;
     }
-    cubei8 operator=(edk::int16 n){
+    edk::cubei8 operator=(edk::int16 n){
         //
         this->origin.x=(edk::int8)n;
         this->origin.y=(edk::int8)n;
@@ -242,7 +242,7 @@ public:
         this->size.length=(edk::int8)n;
         return *this;
     }
-    cubei8 operator=(edk::int64 n){
+    edk::cubei8 operator=(edk::int64 n){
         //
         this->origin.x=(edk::int8)n;
         this->origin.y=(edk::int8)n;
@@ -252,7 +252,7 @@ public:
         this->size.length=(edk::int8)n;
         return *this;
     }
-    cubei8 operator=(edk::uint8 n){
+    edk::cubei8 operator=(edk::uint8 n){
         //
         this->origin.x=(edk::int8)n;
         this->origin.y=(edk::int8)n;
@@ -262,7 +262,7 @@ public:
         this->size.length=(edk::int8)n;
         return *this;
     }
-    cubei8 operator=(edk::uint32 n){
+    edk::cubei8 operator=(edk::uint32 n){
         //
         this->origin.x=(edk::int8)n;
         this->origin.y=(edk::int8)n;
@@ -272,7 +272,7 @@ public:
         this->size.length=(edk::int8)n;
         return *this;
     }
-    cubei8 operator=(edk::uint16 n){
+    edk::cubei8 operator=(edk::uint16 n){
         //
         this->origin.x=(edk::int8)n;
         this->origin.y=(edk::int8)n;
@@ -282,7 +282,7 @@ public:
         this->size.length=(edk::int8)n;
         return *this;
     }
-    cubei8 operator=(edk::uint64 n){
+    edk::cubei8 operator=(edk::uint64 n){
         //
         this->origin.x=(edk::int8)n;
         this->origin.y=(edk::int8)n;
@@ -293,7 +293,7 @@ public:
         return *this;
     }
 
-    bool operator==(cubei8 cube){
+    bool operator==(edk::cubei8 cube){
         //
         return (this->origin.x==(edk::int8)cube.origin.x
                 &&this->origin.y==(edk::int8)cube.origin.y
@@ -303,7 +303,7 @@ public:
                 &&this->size.length==(edk::int8)cube.size.length
                 );
     }
-    bool operator!=(cubei8 cube){
+    bool operator!=(edk::cubei8 cube){
         //
         return (this->origin.x!=(edk::int8)cube.origin.x
                 ||this->origin.y!=(edk::int8)cube.origin.y
@@ -313,9 +313,9 @@ public:
                 ||this->size.length!=(edk::int8)cube.size.length
                 );
     }
-    cubei8 operator+(cubei8 cube){
+    edk::cubei8 operator+(edk::cubei8 cube){
         //
-        cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x+(edk::int8)cube.origin.x;
         ret.origin.y=this->origin.y+(edk::int8)cube.origin.y;
         ret.origin.z=this->origin.z+(edk::int8)cube.origin.z;
@@ -324,9 +324,9 @@ public:
         ret.size.length=this->size.length+(edk::int8)cube.size.length;
         return ret;
     }
-    cubei8 operator+(edk::int8 n){
+    edk::cubei8 operator+(edk::int8 n){
         //
-        cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x+(edk::int8)n;
         ret.origin.y=this->origin.y+(edk::int8)n;
         ret.origin.z=this->origin.z+(edk::int8)n;
@@ -335,9 +335,9 @@ public:
         ret.size.length=this->size.length+(edk::int8)n;
         return ret;
     }
-    cubei8 operator+(edk::int32 n){
+    edk::cubei8 operator+(edk::int32 n){
         //
-        cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x+(edk::int8)n;
         ret.origin.y=this->origin.y+(edk::int8)n;
         ret.origin.z=this->origin.z+(edk::int8)n;
@@ -346,9 +346,9 @@ public:
         ret.size.length=this->size.length+(edk::int8)n;
         return ret;
     }
-    cubei8 operator+(edk::int16 n){
+    edk::cubei8 operator+(edk::int16 n){
         //
-        cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x+(edk::int8)n;
         ret.origin.y=this->origin.y+(edk::int8)n;
         ret.origin.z=this->origin.z+(edk::int8)n;
@@ -357,9 +357,9 @@ public:
         ret.size.length=this->size.length+(edk::int8)n;
         return ret;
     }
-    cubei8 operator+(edk::int64 n){
+    edk::cubei8 operator+(edk::int64 n){
         //
-        cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x+(edk::int8)n;
         ret.origin.y=this->origin.y+(edk::int8)n;
         ret.origin.z=this->origin.z+(edk::int8)n;
@@ -368,9 +368,9 @@ public:
         ret.size.length=this->size.length+(edk::int8)n;
         return ret;
     }
-    cubei8 operator+(edk::uint8 n){
+    edk::cubei8 operator+(edk::uint8 n){
         //
-        cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x+(edk::int8)n;
         ret.origin.y=this->origin.y+(edk::int8)n;
         ret.origin.z=this->origin.z+(edk::int8)n;
@@ -379,9 +379,9 @@ public:
         ret.size.length=this->size.length+(edk::int8)n;
         return ret;
     }
-    cubei8 operator+(edk::uint32 n){
+    edk::cubei8 operator+(edk::uint32 n){
         //
-        cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x+(edk::int8)n;
         ret.origin.y=this->origin.y+(edk::int8)n;
         ret.origin.z=this->origin.z+(edk::int8)n;
@@ -390,9 +390,9 @@ public:
         ret.size.length=this->size.length+(edk::int8)n;
         return ret;
     }
-    cubei8 operator+(edk::uint16 n){
+    edk::cubei8 operator+(edk::uint16 n){
         //
-        cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x+(edk::int8)n;
         ret.origin.y=this->origin.y+(edk::int8)n;
         ret.origin.z=this->origin.z+(edk::int8)n;
@@ -401,9 +401,9 @@ public:
         ret.size.length=this->size.length+(edk::int8)n;
         return ret;
     }
-    cubei8 operator+(edk::uint64 n){
+    edk::cubei8 operator+(edk::uint64 n){
         //
-        cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x+(edk::int8)n;
         ret.origin.y=this->origin.y+(edk::int8)n;
         ret.origin.z=this->origin.z+(edk::int8)n;
@@ -412,7 +412,7 @@ public:
         ret.size.length=this->size.length+(edk::int8)n;
         return ret;
     }
-    void operator+=(cubei8 cube){
+    void operator+=(edk::cubei8 cube){
         //
         this->origin.x+=(edk::int8)cube.origin.x;
         this->origin.y+=(edk::int8)cube.origin.y;
@@ -493,9 +493,9 @@ public:
         this->size.height+=(edk::int8)n;
         this->size.length+=(edk::int8)n;
     }
-    cubei8 operator-(cubei8 cube){
+    edk::cubei8 operator-(edk::cubei8 cube){
         //
-        cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x-(edk::int8)cube.origin.x;
         ret.origin.y=this->origin.y-(edk::int8)cube.origin.y;
         ret.origin.z=this->origin.z-(edk::int8)cube.origin.z;
@@ -504,9 +504,9 @@ public:
         ret.size.length=this->size.length-(edk::int8)cube.size.length;
         return ret;
     }
-    cubei8 operator-(edk::int8 n){
+    edk::cubei8 operator-(edk::int8 n){
         //
-        cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x-(edk::int8)n;
         ret.origin.y=this->origin.y-(edk::int8)n;
         ret.origin.z=this->origin.z-(edk::int8)n;
@@ -515,9 +515,9 @@ public:
         ret.size.length=this->size.length-(edk::int8)n;
         return ret;
     }
-    cubei8 operator-(edk::int32 n){
+    edk::cubei8 operator-(edk::int32 n){
         //
-        cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x-(edk::int8)n;
         ret.origin.y=this->origin.y-(edk::int8)n;
         ret.origin.z=this->origin.z-(edk::int8)n;
@@ -526,9 +526,9 @@ public:
         ret.size.length=this->size.length-(edk::int8)n;
         return ret;
     }
-    cubei8 operator-(edk::int16 n){
+    edk::cubei8 operator-(edk::int16 n){
         //
-        cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x-(edk::int8)n;
         ret.origin.y=this->origin.y-(edk::int8)n;
         ret.origin.z=this->origin.z-(edk::int8)n;
@@ -537,9 +537,9 @@ public:
         ret.size.length=this->size.length-(edk::int8)n;
         return ret;
     }
-    cubei8 operator-(edk::int64 n){
+    edk::cubei8 operator-(edk::int64 n){
         //
-        cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x-(edk::int8)n;
         ret.origin.y=this->origin.y-(edk::int8)n;
         ret.origin.z=this->origin.z-(edk::int8)n;
@@ -548,9 +548,9 @@ public:
         ret.size.length=this->size.length-(edk::int8)n;
         return ret;
     }
-    cubei8 operator-(edk::uint8 n){
+    edk::cubei8 operator-(edk::uint8 n){
         //
-        cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x-(edk::int8)n;
         ret.origin.y=this->origin.y-(edk::int8)n;
         ret.origin.z=this->origin.z-(edk::int8)n;
@@ -559,9 +559,9 @@ public:
         ret.size.length=this->size.length-(edk::int8)n;
         return ret;
     }
-    cubei8 operator-(edk::uint32 n){
+    edk::cubei8 operator-(edk::uint32 n){
         //
-        cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x-(edk::int8)n;
         ret.origin.y=this->origin.y-(edk::int8)n;
         ret.origin.z=this->origin.z-(edk::int8)n;
@@ -570,9 +570,9 @@ public:
         ret.size.length=this->size.length-(edk::int8)n;
         return ret;
     }
-    cubei8 operator-(edk::uint16 n){
+    edk::cubei8 operator-(edk::uint16 n){
         //
-        cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x-(edk::int8)n;
         ret.origin.y=this->origin.y-(edk::int8)n;
         ret.origin.z=this->origin.z-(edk::int8)n;
@@ -581,9 +581,9 @@ public:
         ret.size.length=this->size.length-(edk::int8)n;
         return ret;
     }
-    cubei8 operator-(edk::uint64 n){
+    edk::cubei8 operator-(edk::uint64 n){
         //
-        cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x-(edk::int8)n;
         ret.origin.y=this->origin.y-(edk::int8)n;
         ret.origin.z=this->origin.z-(edk::int8)n;
@@ -592,7 +592,7 @@ public:
         ret.size.length=this->size.length-(edk::int8)n;
         return ret;
     }
-    void operator-=(cubei8 vec){
+    void operator-=(edk::cubei8 vec){
         //
         this->origin.x-=(edk::int8)vec.origin.x;
         this->origin.y-=(edk::int8)vec.origin.y;
@@ -673,9 +673,9 @@ public:
         this->size.height-=(edk::int8)n;
         this->size.length-=(edk::int8)n;
     }
-    cubei8 operator*(cubei8 cube){
+    edk::cubei8 operator*(edk::cubei8 cube){
         //
-        cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x*(edk::int8)cube.origin.x;
         ret.origin.y=this->origin.y*(edk::int8)cube.origin.y;
         ret.origin.z=this->origin.z*(edk::int8)cube.origin.z;
@@ -684,9 +684,9 @@ public:
         ret.size.length=this->size.length*(edk::int8)cube.size.length;
         return ret;
     }
-    cubei8 operator*(edk::int8 n){
+    edk::cubei8 operator*(edk::int8 n){
         //
-        cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x*(edk::int8)n;
         ret.origin.y=this->origin.y*(edk::int8)n;
         ret.origin.z=this->origin.z*(edk::int8)n;
@@ -695,9 +695,9 @@ public:
         ret.size.length=this->size.length*(edk::int8)n;
         return ret;
     }
-    cubei8 operator*(edk::int32 n){
+    edk::cubei8 operator*(edk::int32 n){
         //
-        cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x*(edk::int8)n;
         ret.origin.y=this->origin.y*(edk::int8)n;
         ret.origin.z=this->origin.z*(edk::int8)n;
@@ -706,9 +706,9 @@ public:
         ret.size.length=this->size.length*(edk::int8)n;
         return ret;
     }
-    cubei8 operator*(edk::int16 n){
+    edk::cubei8 operator*(edk::int16 n){
         //
-        cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x*(edk::int8)n;
         ret.origin.y=this->origin.y*(edk::int8)n;
         ret.origin.z=this->origin.z*(edk::int8)n;
@@ -717,9 +717,9 @@ public:
         ret.size.length=this->size.length*(edk::int8)n;
         return ret;
     }
-    cubei8 operator*(edk::int64 n){
+    edk::cubei8 operator*(edk::int64 n){
         //
-        cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x*(edk::int8)n;
         ret.origin.y=this->origin.y*(edk::int8)n;
         ret.origin.z=this->origin.z*(edk::int8)n;
@@ -728,9 +728,9 @@ public:
         ret.size.length=this->size.length*(edk::int8)n;
         return ret;
     }
-    cubei8 operator*(edk::uint8 n){
+    edk::cubei8 operator*(edk::uint8 n){
         //
-        cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x*(edk::int8)n;
         ret.origin.y=this->origin.y*(edk::int8)n;
         ret.origin.z=this->origin.z*(edk::int8)n;
@@ -739,9 +739,9 @@ public:
         ret.size.length=this->size.length*(edk::int8)n;
         return ret;
     }
-    cubei8 operator*(edk::uint32 n){
+    edk::cubei8 operator*(edk::uint32 n){
         //
-        cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x*(edk::int8)n;
         ret.origin.y=this->origin.y*(edk::int8)n;
         ret.origin.z=this->origin.z*(edk::int8)n;
@@ -750,9 +750,9 @@ public:
         ret.size.length=this->size.length*(edk::int8)n;
         return ret;
     }
-    cubei8 operator*(edk::uint16 n){
+    edk::cubei8 operator*(edk::uint16 n){
         //
-        cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x*(edk::int8)n;
         ret.origin.y=this->origin.y*(edk::int8)n;
         ret.origin.z=this->origin.z*(edk::int8)n;
@@ -761,9 +761,9 @@ public:
         ret.size.length=this->size.length*(edk::int8)n;
         return ret;
     }
-    cubei8 operator*(edk::uint64 n){
+    edk::cubei8 operator*(edk::uint64 n){
         //
-        cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x*(edk::int8)n;
         ret.origin.y=this->origin.y*(edk::int8)n;
         ret.origin.z=this->origin.z*(edk::int8)n;
@@ -772,7 +772,7 @@ public:
         ret.size.length=this->size.length*(edk::int8)n;
         return ret;
     }
-    void operator*=(cubei8 cube){
+    void operator*=(edk::cubei8 cube){
         //
         this->origin.x*=(edk::int8)cube.origin.x;
         this->origin.y*=(edk::int8)cube.origin.y;
@@ -854,7 +854,7 @@ public:
         this->size.length*=(edk::int8)n;
     }
     //
-    cubei8 operator++(){
+    edk::cubei8 operator++(){
         //
         ++this->origin.x;
         ++this->origin.y;
@@ -864,7 +864,7 @@ public:
         ++this->size.length;
         return cubei8(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
     }
-    cubei8 operator++(edk::int32){
+    edk::cubei8 operator++(edk::int32){
         //
         this->origin.x++;
         this->origin.y++;
@@ -874,7 +874,7 @@ public:
         this->size.length++;
         return cubei8(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
     }
-    cubei8 operator--(){
+    edk::cubei8 operator--(){
         //
         --this->origin.x;
         --this->origin.y;
@@ -884,7 +884,7 @@ public:
         --this->size.length;
         return cubei8(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
     }
-    cubei8 operator--(edk::int32){
+    edk::cubei8 operator--(edk::int32){
         //
         this->origin.x--;
         this->origin.y--;
@@ -894,7 +894,7 @@ public:
         this->size.length--;
         return cubei8(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
     }
-    cubei8 operator()(edk::int8 x,edk::int8 y,edk::int8 z,edk::int8 width,edk::int8 height,edk::int8 length){
+    edk::cubei8 operator()(edk::int8 x,edk::int8 y,edk::int8 z,edk::int8 width,edk::int8 height,edk::int8 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -904,7 +904,7 @@ public:
         this->size.length=length;
         return cubei8((edk::int8)this->origin.x,(edk::int8)this->origin.y,(edk::int8)this->origin.z,(edk::int8)this->size.width,(edk::int8)this->size.height,(edk::int8)this->size.length);
     }
-    cubei8 operator()(edk::int32 x,edk::int32 y,edk::int32 z,edk::int32 width,edk::int32 height,edk::int32 length){
+    edk::cubei8 operator()(edk::int32 x,edk::int32 y,edk::int32 z,edk::int32 width,edk::int32 height,edk::int32 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -914,7 +914,7 @@ public:
         this->size.length=length;
         return cubei8((edk::int8)this->origin.x,(edk::int8)this->origin.y,(edk::int8)this->origin.z,(edk::int8)this->size.width,(edk::int8)this->size.height,(edk::int8)this->size.length);
     }
-    cubei8 operator()(edk::int16 x,edk::int16 y,edk::int16 z,edk::int16 width,edk::int16 height,edk::int16 length){
+    edk::cubei8 operator()(edk::int16 x,edk::int16 y,edk::int16 z,edk::int16 width,edk::int16 height,edk::int16 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -924,7 +924,7 @@ public:
         this->size.length=length;
         return cubei8((edk::int8)this->origin.x,(edk::int8)this->origin.y,(edk::int8)this->origin.z,(edk::int8)this->size.width,(edk::int8)this->size.height,(edk::int8)this->size.length);
     }
-    cubei8 operator()(edk::int64 x,edk::int64 y,edk::int64 z,edk::int64 width,edk::int64 height,edk::int64 length){
+    edk::cubei8 operator()(edk::int64 x,edk::int64 y,edk::int64 z,edk::int64 width,edk::int64 height,edk::int64 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -934,7 +934,7 @@ public:
         this->size.length=length;
         return cubei8((edk::int8)this->origin.x,(edk::int8)this->origin.y,(edk::int8)this->origin.z,(edk::int8)this->size.width,(edk::int8)this->size.height,(edk::int8)this->size.length);
     }
-    cubei8 operator()(edk::uint8 x,edk::uint8 y,edk::uint8 z,edk::uint8 width,edk::uint8 height,edk::uint8 length){
+    edk::cubei8 operator()(edk::uint8 x,edk::uint8 y,edk::uint8 z,edk::uint8 width,edk::uint8 height,edk::uint8 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -944,7 +944,7 @@ public:
         this->size.length=length;
         return cubei8((edk::int8)this->origin.x,(edk::int8)this->origin.y,(edk::int8)this->origin.z,(edk::int8)this->size.width,(edk::int8)this->size.height,(edk::int8)this->size.length);
     }
-    cubei8 operator()(edk::uint32 x,edk::uint32 y,edk::uint32 z,edk::uint32 width,edk::uint32 height,edk::uint32 length){
+    edk::cubei8 operator()(edk::uint32 x,edk::uint32 y,edk::uint32 z,edk::uint32 width,edk::uint32 height,edk::uint32 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -954,7 +954,7 @@ public:
         this->size.length=length;
         return cubei8((edk::int8)this->origin.x,(edk::int8)this->origin.y,(edk::int8)this->origin.z,(edk::int8)this->size.width,(edk::int8)this->size.height,(edk::int8)this->size.length);
     }
-    cubei8 operator()(edk::uint16 x,edk::uint16 y,edk::uint16 z,edk::uint16 width,edk::uint16 height,edk::uint16 length){
+    edk::cubei8 operator()(edk::uint16 x,edk::uint16 y,edk::uint16 z,edk::uint16 width,edk::uint16 height,edk::uint16 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -964,7 +964,7 @@ public:
         this->size.length=length;
         return cubei8((edk::int8)this->origin.x,(edk::int8)this->origin.y,(edk::int8)this->origin.z,(edk::int8)this->size.width,(edk::int8)this->size.height,(edk::int8)this->size.length);
     }
-    cubei8 operator()(edk::uint64 x,edk::uint64 y,edk::uint64 z,edk::uint64 width,edk::uint64 height,edk::uint64 length){
+    edk::cubei8 operator()(edk::uint64 x,edk::uint64 y,edk::uint64 z,edk::uint64 width,edk::uint64 height,edk::uint64 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -973,6 +973,15 @@ public:
         this->size.height=height;
         this->size.length=length;
         return cubei8((edk::int8)this->origin.x,(edk::int8)this->origin.y,(edk::int8)this->origin.z,(edk::int8)this->size.width,(edk::int8)this->size.height,(edk::int8)this->size.length);
+    }
+    //function to merge the cube with another cube
+    void merge(edk::cubei8 rect){
+        if(this->origin.x > rect.origin.x)this->origin.x = rect.origin.x;
+        if(this->origin.y > rect.origin.y)this->origin.y = rect.origin.y;
+        if(this->origin.z > rect.origin.z)this->origin.z = rect.origin.z;
+        if(this->size.width < rect.size.width)this->size.width = rect.size.width;
+        if(this->size.height < rect.size.height)this->size.height = rect.size.height;
+        if(this->size.length < rect.size.length)this->size.length = rect.size.length;
     }
 };
 
@@ -1910,6 +1919,23 @@ public:
         this->size.length=length;
         return cubei16((edk::int16)this->origin.x,(edk::int16)this->origin.y,(edk::int16)this->origin.z,(edk::int16)this->size.width,(edk::int16)this->size.height,(edk::int16)this->size.length);
     }
+    //function to merge the cube with another cube
+    void merge(edk::cubei8 rect){
+        if(this->origin.x > (edk::int16)rect.origin.x)this->origin.x = (edk::int16)rect.origin.x;
+        if(this->origin.y > (edk::int16)rect.origin.y)this->origin.y = (edk::int16)rect.origin.y;
+        if(this->origin.z > (edk::int16)rect.origin.z)this->origin.z = (edk::int16)rect.origin.z;
+        if(this->size.width < (edk::int16)rect.size.width)this->size.width = (edk::int16)rect.size.width;
+        if(this->size.height < (edk::int16)rect.size.height)this->size.height = (edk::int16)rect.size.height;
+        if(this->size.length < (edk::int16)rect.size.length)this->size.length = (edk::int16)rect.size.length;
+    }
+    void merge(edk::cubei16 rect){
+        if(this->origin.x > rect.origin.x)this->origin.x = rect.origin.x;
+        if(this->origin.y > rect.origin.y)this->origin.y = rect.origin.y;
+        if(this->origin.z > rect.origin.z)this->origin.z = rect.origin.z;
+        if(this->size.width < rect.size.width)this->size.width = rect.size.width;
+        if(this->size.height < rect.size.height)this->size.height = rect.size.height;
+        if(this->size.length < rect.size.length)this->size.length = rect.size.length;
+    }
 };
 
 class cubei32{
@@ -2845,6 +2871,31 @@ public:
         this->size.height=height;
         this->size.length=length;
         return cubei32((edk::int32)this->origin.x,(edk::int32)this->origin.y,(edk::int32)this->origin.z,(edk::int32)this->size.width,(edk::int32)this->size.height,(edk::int32)this->size.length);
+    }
+    //function to merge the cube with another cube
+    void merge(edk::cubei8 rect){
+        if(this->origin.x > (edk::int32)rect.origin.x)this->origin.x = (edk::int32)rect.origin.x;
+        if(this->origin.y > (edk::int32)rect.origin.y)this->origin.y = (edk::int32)rect.origin.y;
+        if(this->origin.z > (edk::int32)rect.origin.z)this->origin.z = (edk::int32)rect.origin.z;
+        if(this->size.width < (edk::int32)rect.size.width)this->size.width = (edk::int32)rect.size.width;
+        if(this->size.height < (edk::int32)rect.size.height)this->size.height = (edk::int32)rect.size.height;
+        if(this->size.length < (edk::int32)rect.size.length)this->size.length = (edk::int32)rect.size.length;
+    }
+    void merge(edk::cubei16 rect){
+        if(this->origin.x > (edk::int32)rect.origin.x)this->origin.x = (edk::int32)rect.origin.x;
+        if(this->origin.y > (edk::int32)rect.origin.y)this->origin.y = (edk::int32)rect.origin.y;
+        if(this->origin.z > (edk::int32)rect.origin.z)this->origin.z = (edk::int32)rect.origin.z;
+        if(this->size.width < (edk::int32)rect.size.width)this->size.width = (edk::int32)rect.size.width;
+        if(this->size.height < (edk::int32)rect.size.height)this->size.height = (edk::int32)rect.size.height;
+        if(this->size.length < (edk::int32)rect.size.length)this->size.length = (edk::int32)rect.size.length;
+    }
+    void merge(edk::cubei32 rect){
+        if(this->origin.x > rect.origin.x)this->origin.x = rect.origin.x;
+        if(this->origin.y > rect.origin.y)this->origin.y = rect.origin.y;
+        if(this->origin.z > rect.origin.z)this->origin.z = rect.origin.z;
+        if(this->size.width < rect.size.width)this->size.width = rect.size.width;
+        if(this->size.height < rect.size.height)this->size.height = rect.size.height;
+        if(this->size.length < rect.size.length)this->size.length = rect.size.length;
     }
 };
 
@@ -3782,6 +3833,39 @@ public:
         this->size.length=length;
         return cubei64((edk::int64)this->origin.x,(edk::int64)this->origin.y,(edk::int64)this->origin.z,(edk::int64)this->size.width,(edk::int64)this->size.height,(edk::int64)this->size.length);
     }
+    //function to merge the cube with another cube
+    void merge(edk::cubei8 rect){
+        if(this->origin.x > (edk::int64)rect.origin.x)this->origin.x = (edk::int64)rect.origin.x;
+        if(this->origin.y > (edk::int64)rect.origin.y)this->origin.y = (edk::int64)rect.origin.y;
+        if(this->origin.z > (edk::int64)rect.origin.z)this->origin.z = (edk::int64)rect.origin.z;
+        if(this->size.width < (edk::int64)rect.size.width)this->size.width = (edk::int64)rect.size.width;
+        if(this->size.height < (edk::int64)rect.size.height)this->size.height = (edk::int64)rect.size.height;
+        if(this->size.length < (edk::int64)rect.size.length)this->size.length = (edk::int64)rect.size.length;
+    }
+    void merge(edk::cubei16 rect){
+        if(this->origin.x > (edk::int64)rect.origin.x)this->origin.x = (edk::int64)rect.origin.x;
+        if(this->origin.y > (edk::int64)rect.origin.y)this->origin.y = (edk::int64)rect.origin.y;
+        if(this->origin.z > (edk::int64)rect.origin.z)this->origin.z = (edk::int64)rect.origin.z;
+        if(this->size.width < (edk::int64)rect.size.width)this->size.width = (edk::int64)rect.size.width;
+        if(this->size.height < (edk::int64)rect.size.height)this->size.height = (edk::int64)rect.size.height;
+        if(this->size.length < (edk::int64)rect.size.length)this->size.length = (edk::int64)rect.size.length;
+    }
+    void merge(edk::cubei32 rect){
+        if(this->origin.x > (edk::int64)rect.origin.x)this->origin.x = (edk::int64)rect.origin.x;
+        if(this->origin.y > (edk::int64)rect.origin.y)this->origin.y = (edk::int64)rect.origin.y;
+        if(this->origin.z > (edk::int64)rect.origin.z)this->origin.z = (edk::int64)rect.origin.z;
+        if(this->size.width < (edk::int64)rect.size.width)this->size.width = (edk::int64)rect.size.width;
+        if(this->size.height < (edk::int64)rect.size.height)this->size.height = (edk::int64)rect.size.height;
+        if(this->size.length < (edk::int64)rect.size.length)this->size.length = (edk::int64)rect.size.length;
+    }
+    void merge(edk::cubei64 rect){
+        if(this->origin.x > rect.origin.x)this->origin.x = rect.origin.x;
+        if(this->origin.y > rect.origin.y)this->origin.y = rect.origin.y;
+        if(this->origin.z > rect.origin.z)this->origin.z = rect.origin.z;
+        if(this->size.width < rect.size.width)this->size.width = rect.size.width;
+        if(this->size.height < rect.size.height)this->size.height = rect.size.height;
+        if(this->size.length < rect.size.length)this->size.length = rect.size.length;
+    }
 };
 
 class cubeui8{
@@ -4325,6 +4409,15 @@ public:
         this->size.height=(edk::uint8)height;
         this->size.length=(edk::uint8)length;
         return cubeui8((edk::uint8)this->origin.x,(edk::uint8)this->origin.y,(edk::uint8)this->origin.z,(edk::uint8)this->size.width,(edk::uint8)this->size.height,(edk::uint8)this->size.length);
+    }
+    //function to merge the cube with another cube
+    void merge(edk::cubeui8 rect){
+        if(this->origin.x > rect.origin.x)this->origin.x = rect.origin.x;
+        if(this->origin.y > rect.origin.y)this->origin.y = rect.origin.y;
+        if(this->origin.z > rect.origin.z)this->origin.z = rect.origin.z;
+        if(this->size.width < rect.size.width)this->size.width = rect.size.width;
+        if(this->size.height < rect.size.height)this->size.height = rect.size.height;
+        if(this->size.length < rect.size.length)this->size.length = rect.size.length;
     }
 };
 
@@ -4870,6 +4963,23 @@ public:
         this->size.length=(edk::uint16)length;
         return cubeui16((edk::uint16)this->origin.x,(edk::uint16)this->origin.y,(edk::uint16)this->origin.z,(edk::uint16)this->size.width,(edk::uint16)this->size.height,(edk::uint16)this->size.length);
     }
+    //function to merge the cube with another cube
+    void merge(edk::cubeui8 rect){
+        if(this->origin.x > (edk::uint16)rect.origin.x)this->origin.x = (edk::uint16)rect.origin.x;
+        if(this->origin.y > (edk::uint16)rect.origin.y)this->origin.y = (edk::uint16)rect.origin.y;
+        if(this->origin.z > (edk::uint16)rect.origin.z)this->origin.z = (edk::uint16)rect.origin.z;
+        if(this->size.width < (edk::uint16)rect.size.width)this->size.width = (edk::uint16)rect.size.width;
+        if(this->size.height < (edk::uint16)rect.size.height)this->size.height = (edk::uint16)rect.size.height;
+        if(this->size.length < (edk::uint16)rect.size.length)this->size.length = (edk::uint16)rect.size.length;
+    }
+    void merge(edk::cubeui16 rect){
+        if(this->origin.x > rect.origin.x)this->origin.x = rect.origin.x;
+        if(this->origin.y > rect.origin.y)this->origin.y = rect.origin.y;
+        if(this->origin.z > rect.origin.z)this->origin.z = rect.origin.z;
+        if(this->size.width < rect.size.width)this->size.width = rect.size.width;
+        if(this->size.height < rect.size.height)this->size.height = rect.size.height;
+        if(this->size.length < rect.size.length)this->size.length = rect.size.length;
+    }
 };
 
 class cubeui32{
@@ -5414,6 +5524,31 @@ public:
         this->size.length=(edk::uint32)length;
         return cubeui32((edk::uint32)this->origin.x,(edk::uint32)this->origin.y,(edk::uint32)this->origin.z,(edk::uint32)this->size.width,(edk::uint32)this->size.height,(edk::uint32)this->size.length);
     }
+    //function to merge the cube with another cube
+    void merge(edk::cubeui8 rect){
+        if(this->origin.x > (edk::uint32)rect.origin.x)this->origin.x = (edk::uint32)rect.origin.x;
+        if(this->origin.y > (edk::uint32)rect.origin.y)this->origin.y = (edk::uint32)rect.origin.y;
+        if(this->origin.z > (edk::uint32)rect.origin.z)this->origin.z = (edk::uint32)rect.origin.z;
+        if(this->size.width < (edk::uint32)rect.size.width)this->size.width = (edk::uint32)rect.size.width;
+        if(this->size.height < (edk::uint32)rect.size.height)this->size.height = (edk::uint32)rect.size.height;
+        if(this->size.length < (edk::uint32)rect.size.length)this->size.length = (edk::uint32)rect.size.length;
+    }
+    void merge(edk::cubeui16 rect){
+        if(this->origin.x > (edk::uint32)rect.origin.x)this->origin.x = (edk::uint32)rect.origin.x;
+        if(this->origin.y > (edk::uint32)rect.origin.y)this->origin.y = (edk::uint32)rect.origin.y;
+        if(this->origin.z > (edk::uint32)rect.origin.z)this->origin.z = (edk::uint32)rect.origin.z;
+        if(this->size.width < (edk::uint32)rect.size.width)this->size.width = (edk::uint32)rect.size.width;
+        if(this->size.height < (edk::uint32)rect.size.height)this->size.height = (edk::uint32)rect.size.height;
+        if(this->size.length < (edk::uint32)rect.size.length)this->size.length = (edk::uint32)rect.size.length;
+    }
+    void merge(edk::cubeui32 rect){
+        if(this->origin.x > rect.origin.x)this->origin.x = rect.origin.x;
+        if(this->origin.y > rect.origin.y)this->origin.y = rect.origin.y;
+        if(this->origin.z > rect.origin.z)this->origin.z = rect.origin.z;
+        if(this->size.width < rect.size.width)this->size.width = rect.size.width;
+        if(this->size.height < rect.size.height)this->size.height = rect.size.height;
+        if(this->size.length < rect.size.length)this->size.length = rect.size.length;
+    }
 };
 
 class cubeui64{
@@ -5957,6 +6092,39 @@ public:
         this->size.height=(edk::uint64)height;
         this->size.length=(edk::uint64)length;
         return cubeui64((edk::uint64)this->origin.x,(edk::uint64)this->origin.y,(edk::uint64)this->origin.z,(edk::uint64)this->size.width,(edk::uint64)this->size.height,(edk::uint64)this->size.length);
+    }
+    //function to merge the cube with another cube
+    void merge(edk::cubeui8 rect){
+        if(this->origin.x > (edk::uint64)rect.origin.x)this->origin.x = (edk::uint64)rect.origin.x;
+        if(this->origin.y > (edk::uint64)rect.origin.y)this->origin.y = (edk::uint64)rect.origin.y;
+        if(this->origin.z > (edk::uint64)rect.origin.z)this->origin.z = (edk::uint64)rect.origin.z;
+        if(this->size.width < (edk::uint64)rect.size.width)this->size.width = (edk::uint64)rect.size.width;
+        if(this->size.height < (edk::uint64)rect.size.height)this->size.height = (edk::uint64)rect.size.height;
+        if(this->size.length < (edk::uint64)rect.size.length)this->size.length = (edk::uint64)rect.size.length;
+    }
+    void merge(edk::cubeui16 rect){
+        if(this->origin.x > (edk::uint64)rect.origin.x)this->origin.x = (edk::uint64)rect.origin.x;
+        if(this->origin.y > (edk::uint64)rect.origin.y)this->origin.y = (edk::uint64)rect.origin.y;
+        if(this->origin.z > (edk::uint64)rect.origin.z)this->origin.z = (edk::uint64)rect.origin.z;
+        if(this->size.width < (edk::uint64)rect.size.width)this->size.width = (edk::uint64)rect.size.width;
+        if(this->size.height < (edk::uint64)rect.size.height)this->size.height = (edk::uint64)rect.size.height;
+        if(this->size.length < (edk::uint64)rect.size.length)this->size.length = (edk::uint64)rect.size.length;
+    }
+    void merge(edk::cubeui32 rect){
+        if(this->origin.x > (edk::uint64)rect.origin.x)this->origin.x = (edk::uint64)rect.origin.x;
+        if(this->origin.y > (edk::uint64)rect.origin.y)this->origin.y = (edk::uint64)rect.origin.y;
+        if(this->origin.z > (edk::uint64)rect.origin.z)this->origin.z = (edk::uint64)rect.origin.z;
+        if(this->size.width < (edk::uint64)rect.size.width)this->size.width = (edk::uint64)rect.size.width;
+        if(this->size.height < (edk::uint64)rect.size.height)this->size.height = (edk::uint64)rect.size.height;
+        if(this->size.length < (edk::uint64)rect.size.length)this->size.length = (edk::uint64)rect.size.length;
+    }
+    void merge(edk::cubeui64 rect){
+        if(this->origin.x > rect.origin.x)this->origin.x = rect.origin.x;
+        if(this->origin.y > rect.origin.y)this->origin.y = rect.origin.y;
+        if(this->origin.z > rect.origin.z)this->origin.z = rect.origin.z;
+        if(this->size.width < rect.size.width)this->size.width = rect.size.width;
+        if(this->size.height < rect.size.height)this->size.height = rect.size.height;
+        if(this->size.length < rect.size.length)this->size.length = rect.size.length;
     }
 };
 
@@ -7088,6 +7256,15 @@ public:
         this->size.length=length;
         return cubef32((edk::float32)this->origin.x,(edk::float32)this->origin.y,(edk::float32)this->origin.z,(edk::float32)this->size.width,(edk::float32)this->size.height,(edk::float32)this->size.length);
     }
+    //function to merge the cube with another cube
+    void merge(edk::cubef32 rect){
+        if(this->origin.x > rect.origin.x)this->origin.x = rect.origin.x;
+        if(this->origin.y > rect.origin.y)this->origin.y = rect.origin.y;
+        if(this->origin.z > rect.origin.z)this->origin.z = rect.origin.z;
+        if(this->size.width < rect.size.width)this->size.width = rect.size.width;
+        if(this->size.height < rect.size.height)this->size.height = rect.size.height;
+        if(this->size.length < rect.size.length)this->size.length = rect.size.length;
+    }
 };
 
 class cubef64{
@@ -8217,6 +8394,23 @@ public:
         this->size.height=height;
         this->size.length=length;
         return cubef64((edk::float64)this->origin.x,(edk::float64)this->origin.y,(edk::float64)this->origin.z,(edk::float64)this->size.width,(edk::float64)this->size.height,(edk::float64)this->size.length);
+    }
+    //function to merge the cube with another cube
+    void merge(edk::cubef32 rect){
+        if(this->origin.x > (edk::float64)rect.origin.x)this->origin.x = (edk::float64)rect.origin.x;
+        if(this->origin.y > (edk::float64)rect.origin.y)this->origin.y = (edk::float64)rect.origin.y;
+        if(this->origin.z > (edk::float64)rect.origin.z)this->origin.z = (edk::float64)rect.origin.z;
+        if(this->size.width < (edk::float64)rect.size.width)this->size.width = (edk::float64)rect.size.width;
+        if(this->size.height < (edk::float64)rect.size.height)this->size.height = (edk::float64)rect.size.height;
+        if(this->size.length < (edk::float64)rect.size.length)this->size.length = (edk::float64)rect.size.length;
+    }
+    void merge(edk::cubef64 rect){
+        if(this->origin.x > rect.origin.x)this->origin.x = rect.origin.x;
+        if(this->origin.y > rect.origin.y)this->origin.y = rect.origin.y;
+        if(this->origin.z > rect.origin.z)this->origin.z = rect.origin.z;
+        if(this->size.width < rect.size.width)this->size.width = rect.size.width;
+        if(this->size.height < rect.size.height)this->size.height = rect.size.height;
+        if(this->size.length < rect.size.length)this->size.length = rect.size.length;
     }
 };
 

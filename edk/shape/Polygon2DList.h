@@ -85,6 +85,11 @@ public:
     //return true if have a polygon selected
     bool haveSelected();
 
+    //test if have a polygon in a position
+    bool havePolygon(edk::uint32 position);
+    //get the polygon in a position
+    edk::shape::Polygon2D getPolygon(edk::uint32 position);
+
     //DELETE
     //clean the polygons
     void cleanPolygons();
@@ -129,6 +134,14 @@ public:
     bool selectedSetDensity(edk::float32 density);
     bool selectedSetFriction(edk::float32 friction);
     bool selectedSetRestitution(edk::float32 restitution);
+    //set transform
+    bool selectedSetTranslate(edk::vec2f32 translate);
+    bool selectedSetTranslate(edk::float32 translate);
+    bool selectedSetTranslate(edk::float32 x,edk::float32 y);
+    bool selectedSetScale(edk::size2f32 scale);
+    bool selectedSetScale(edk::float32 scale);
+    bool selectedSetScale(edk::float32 width,edk::float32 height);
+    bool selectedSetAngle(edk::float32 angle);
 
     //CLEANS
     //remove the UV of one vertex
