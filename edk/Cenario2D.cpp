@@ -3915,6 +3915,37 @@ bool edk::Cenario2D::getShowLevel(edk::uint32 levelPosition){
     return false;
 }
 
+//CAN_SELECT/CANT_SELECT LEVEL
+bool edk::Cenario2D::cantSelectLevel(edk::uint32 levelPosition){
+    return this->setCanSelectLevel(levelPosition,false);edkEnd();
+}
+bool edk::Cenario2D::canSelectLevel(edk::uint32 levelPosition){
+    return this->setCanSelectLevel(levelPosition,true);edkEnd();
+}
+bool edk::Cenario2D::setCanSelectLevel(edk::uint32 levelPosition,bool canSelect){
+    //draw the levelPosition
+    if(levelPosition){
+        levelPosition--;edkEnd();
+        if(this->levels.havePos(levelPosition)){
+            edk::Cenario2D::LevelObj* level=this->levels[levelPosition];edkEnd();
+            level->canSelect = canSelect;edkEnd();
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::Cenario2D::getCanSelectLevel(edk::uint32 levelPosition){
+    //draw the levelPosition
+    if(levelPosition){
+        levelPosition--;edkEnd();
+        if(this->levels.havePos(levelPosition)){
+            edk::Cenario2D::LevelObj* level=this->levels[levelPosition];edkEnd();
+            return level->canSelect;edkEnd();
+        }
+    }
+    return false;
+}
+
 //get level type
 edk::uint8 edk::Cenario2D::getLevelType(edk::uint32 levelPosition){
     if(levelPosition){

@@ -306,6 +306,13 @@ public:
     bool setShowLevel(edk::uint32 levelPosition,bool show);
     bool getShowLevel(edk::uint32 levelPosition);
 
+    //CAN_SELECT/CANT_SELECT LEVEL
+    bool cantSelectLevel(edk::uint32 levelPosition);
+    bool canSelectLevel(edk::uint32 levelPosition);
+    bool setCanSelectLevel(edk::uint32 levelPosition,bool canSelect);
+    bool getCanSelectLevel(edk::uint32 levelPosition);
+
+
     //get level type
     //EDK_LEVEL_NOTHING
     //EDK_LEVEL_OBJ
@@ -1190,6 +1197,7 @@ private:
             this->objs = objs;edkEnd();
             this->objsPhys = objsPhys;edkEnd();
             this->show=true;edkEnd();
+            this->canSelect=true;edkEnd();
             this->transform.position = 0.f;edkEnd();
             this->transform.angle = 0.f;edkEnd();
             this->transform.size = 1.f;edkEnd();
@@ -1201,7 +1209,9 @@ private:
         LevelObj(edk::tiles::TileMap2D* tileMap,edk::vector::BinaryTree<edk::Cenario2DCallback*>* calls){
             this->clean();edkEnd();
             this->calls = calls;edkEnd();
-            this->tileMap = tileMap;edkEnd();this->show=true;edkEnd();
+            this->tileMap = tileMap;edkEnd();
+            this->show=true;edkEnd();
+            this->canSelect=true;edkEnd();
             this->transform.position = 0.f;edkEnd();
             this->transform.angle = 0.f;edkEnd();
             this->transform.size = 1.f;edkEnd();
@@ -1214,6 +1224,7 @@ private:
             this->clean();edkEnd();
             this->calls = calls;edkEnd();
             this->show=true;edkEnd();
+            this->canSelect=true;edkEnd();
             this->transform.position = 0.f;edkEnd();
             this->transform.angle = 0.f;edkEnd();
             this->transform.size = 1.f;edkEnd();
@@ -1540,7 +1551,7 @@ private:
             }
         }
         void drawSelection(edk::uint8 id=0u){
-            if(this->show){
+            if(this->show && this->canSelect){
                 if(this->objs){
                     edk::GU::guDisable(GU_LIGHTING);edkEnd();
                     //apply tranformations
@@ -1587,7 +1598,7 @@ private:
             }
         }
         void drawSelectionInsideRect(edk::rectf32 rect,edk::uint32 levelID){
-            if(this->show){
+            if(this->show && this->canSelect){
                 if(this->objs){
                     rect = this->updateRect(rect);edkEnd();
                     this->quadObjs->levelId = levelID;edkEnd();
@@ -1872,6 +1883,7 @@ private:
         edk::vector::Matrix<edk::float32,3,3> matrixTransformNegative;
         edk::vector::MatrixDynamic<edk::float32> matrixNewPosition;
         bool show;
+        bool canSelect;
     private:
         edk::vector::BinaryTree<edk::Cenario2DCallback*>* calls;
     };

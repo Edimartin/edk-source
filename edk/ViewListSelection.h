@@ -91,13 +91,20 @@ public:
     bool haveCell(edk::uint32 position);
     //return the cell ID
     edk::uint32 getCellID(edk::uint32 position);
-    //test if the cell is selected
-    bool isCellSelected(edk::uint32 position);
+    //test if the cell is showing
+    bool isCellShowing(edk::uint32 position);
+    //set the cell show
+    bool setCellShow(edk::uint32 position,bool show);
+    //show all cells
+    void showAllCells();
+    void hideAllCells();
+    //test if the cell is selecting
+    bool isCellSelecting(edk::uint32 position);
     //set the cell select
-    bool setCellSelect(edk::uint32 position,bool select);
+    bool setCellCanSelect(edk::uint32 position,bool select);
     //select all cells
-    void selectAllCells();
-    void deselectAllCells();
+    void canSelectAllCells();
+    void cantSelectAllCells();
     //get cell clicked
     bool haveClickCell();
     //return the cell click position
@@ -152,11 +159,16 @@ private:
         void cleanText();
         //get textSize
         edk::uint32 getTextWidth();
-        //select the cell
-        bool select();
-        void setSelect(bool set);
-        //return true if the cell is celected;
-        bool isSelected();
+        //show the cell
+        bool show();
+        void setShow(bool set);
+        //return true if the cell is showing;
+        bool isShowing();
+        //canSelect the cell
+        bool canSelect();
+        void setCanSelect(bool set);
+        //return true if the cell can select
+        bool isSelecting();
         //draw the cell
         void draw();
         //draw for selection
@@ -166,8 +178,12 @@ private:
 
         //background color
         edk::color4f32 backgroundColor;
-        //background color selected
-        edk::color4f32 backgroundColorSelected;
+        //background color showing
+        edk::color4f32 backgroundColorShowing;
+        //text color
+        edk::color4f32 textColor;
+        //text color selecting
+        edk::color4f32 textColorSelecting;
         //ID
         edk::uint32 id;
     private:
@@ -175,7 +191,8 @@ private:
         edk::color4f32 drawColor;
         //cell text
         edk::fonts::FontMap text;
-        bool selected;
+        bool showing;
+        bool selecting;
         edk::uint32* lineSize;
         edk::uint32 sizeTemp;
 

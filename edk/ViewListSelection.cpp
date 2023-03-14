@@ -30,7 +30,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 edk::ViewListSelection::ListCell::ListCell(edk::uint32* lineSize){
     //
-    this->selected = false;edkEnd();
+    this->showing = false;edkEnd();
     if(lineSize){
         this->lineSize = lineSize;edkEnd();
     }
@@ -38,8 +38,13 @@ edk::ViewListSelection::ListCell::ListCell(edk::uint32* lineSize){
         this->lineSize = &this->sizeTemp;edkEnd();
     }
     this->drawColor = this->backgroundColor;edkEnd();
-    this->backgroundColorSelected = edk::color4f32(0.75f,0.75f,1.0f,1.f);edkEnd();
+    this->backgroundColorShowing = edk::color4f32(0.75f,0.75f,1.0f,1.f);edkEnd();
     this->id = 0u;edkEnd();
+
+    //text color
+    this->textColor = edk::color4f32(0.0f,0.0f,0.0f,1.f);edkEnd();
+    //text color selecting
+    this->textColorSelecting = edk::color4f32(0.5f,0.5f,0.5f,1.f);edkEnd();
 
     //set the text to black color
     this->text.setColor(0.f,0.f,0.f,1.f);edkEnd();
@@ -72,36 +77,59 @@ bool edk::ViewListSelection::ListCell::createText(edk::char8* text){
 //delete the text
 void edk::ViewListSelection::ListCell::cleanText(){
     this->text.deleteMap();edkEnd();
-    this->selected = false;edkEnd();
+    this->showing = false;edkEnd();
     this->sizeTemp=0.f;edkEnd();
 }
 //get textSize
 edk::uint32 edk::ViewListSelection::ListCell::getTextWidth(){
     return this->sizeTemp;edkEnd();
 }
-//select the cell
-bool edk::ViewListSelection::ListCell::select(){
-    this->selected = !this->selected;edkEnd();
-    if(this->selected){
-        this->drawColor = this->backgroundColorSelected;edkEnd();
+//show the cell
+bool edk::ViewListSelection::ListCell::show(){
+    this->showing = !this->showing;edkEnd();
+    if(this->showing){
+        this->drawColor = this->backgroundColorShowing;edkEnd();
         return true;
     }
     this->drawColor = this->backgroundColor;edkEnd();
     return false;
 }
-void edk::ViewListSelection::ListCell::setSelect(bool set){
-    this->selected = set;edkEnd();
-    if(this->selected){
-        this->drawColor = this->backgroundColorSelected;edkEnd();
+void edk::ViewListSelection::ListCell::setShow(bool set){
+    this->showing = set;edkEnd();
+    if(this->showing){
+        this->drawColor = this->backgroundColorShowing;edkEnd();
     }
     else{
         this->drawColor = this->backgroundColor;edkEnd();
     }
 }
 
-//return true if the cell is celected;edkEnd();
-bool edk::ViewListSelection::ListCell::isSelected(){
-    return this->selected;edkEnd();
+//return true if the cell is showing
+bool edk::ViewListSelection::ListCell::isShowing(){
+    return this->showing;edkEnd();
+}
+//canSelect the cell
+bool edk::ViewListSelection::ListCell::canSelect(){
+    this->selecting = !this->selecting;edkEnd();
+    if(this->selecting){
+        this->text.setColor(this->textColor);edkEnd();
+        return true;
+    }
+    this->text.setColor(this->textColorSelecting);edkEnd();
+    return false;
+}
+void edk::ViewListSelection::ListCell::setCanSelect(bool set){
+    this->selecting = set;edkEnd();
+    if(this->selecting){
+        this->text.setColor(this->textColor);edkEnd();
+    }
+    else{
+        this->text.setColor(this->textColorSelecting);edkEnd();
+    }
+}
+//return true if the cell can select
+bool edk::ViewListSelection::ListCell::isSelecting(){
+    return this->selecting;edkEnd();
 }
 //draw the cell
 void edk::ViewListSelection::ListCell::draw(){
@@ -284,7 +312,7 @@ edk::uint32 edk::ViewListSelection::addCell(edk::char8* name,edk::uint32 id,edk:
             if(cell->createText(name)){
                 //set the cell color
                 cell->backgroundColor = cellColor;edkEnd();
-                cell->setSelect(false);edkEnd();
+                cell->setShow(false);edkEnd();
                 edk::uint32 size = this->cells.size();edkEnd();
                 //add the cell to the stack
                 edk::uint32 position = this->cells.pushBack(cell);edkEnd();
@@ -378,38 +406,72 @@ edk::uint32 edk::ViewListSelection::getCellID(edk::uint32 position){
     }
     return 0u;edkEnd();
 }
-//test if the cell is selected
-bool edk::ViewListSelection::isCellSelected(edk::uint32 position){
+//test if the cell is showing
+bool edk::ViewListSelection::isCellShowing(edk::uint32 position){
     if(position < this->cells.size()){
         edk::ViewListSelection::ListCell* cell = this->cells[position];edkEnd();
         if(cell){
-            return cell->isSelected();edkEnd();
+            return cell->isShowing();edkEnd();
+        }
+    }
+    return false;
+}
+//set the cell show
+bool edk::ViewListSelection::setCellShow(edk::uint32 position,bool show){
+    if(position < this->cells.size()){
+        edk::ViewListSelection::ListCell* cell = this->cells[position];edkEnd();
+        if(cell){
+            cell->setShow(show);edkEnd();
+            return true;
+        }
+    }
+    return false;
+}
+//show all cells
+void edk::ViewListSelection::showAllCells(){
+    edk::uint32 size = this->cells.size();edkEnd();
+    for(edk::uint32 i=0u;i<size;i++){
+        this->cells[i]->setShow(true);edkEnd();
+    }
+}
+void edk::ViewListSelection::hideAllCells(){
+    edk::uint32 size = this->cells.size();edkEnd();
+    for(edk::uint32 i=0u;i<size;i++){
+        this->cells[i]->setShow(false);edkEnd();
+    }
+}
+//test if the cell is selecting
+bool edk::ViewListSelection::isCellSelecting(edk::uint32 position){
+    if(position < this->cells.size()){
+        edk::ViewListSelection::ListCell* cell = this->cells[position];edkEnd();
+        if(cell){
+            return cell->isSelecting();edkEnd();
         }
     }
     return false;
 }
 //set the cell select
-bool edk::ViewListSelection::setCellSelect(edk::uint32 position,bool select){
+bool edk::ViewListSelection::setCellCanSelect(edk::uint32 position,bool select){
     if(position < this->cells.size()){
         edk::ViewListSelection::ListCell* cell = this->cells[position];edkEnd();
         if(cell){
-            cell->setSelect(select);edkEnd();
+            cell->setCanSelect(select);edkEnd();
             return true;
         }
     }
     return false;
 }
 //select all cells
-void edk::ViewListSelection::selectAllCells(){
+void edk::ViewListSelection::canSelectAllCells(){
     edk::uint32 size = this->cells.size();edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        this->cells[i]->setSelect(true);edkEnd();
+        this->cells[i]->setCanSelect(true);edkEnd();
     }
 }
-void edk::ViewListSelection::deselectAllCells(){
+void edk::ViewListSelection::cantSelectAllCells(){
     edk::uint32 size = this->cells.size();edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        this->cells[i]->setSelect(false);edkEnd();
+        this->cells[i]->setCanSelect(false);edkEnd();
     }
 }
 //get cell clicked
@@ -505,7 +567,7 @@ void edk::ViewListSelection::selectObject(edk::uint32 object,edk::int32 ,edk::fl
         if(this->clickLeft){
             //select the cell
             if(this->clicked){
-                this->clicked->select();edkEnd();
+                this->clicked->show();edkEnd();
             }
             this->clickLeft=false;edkEnd();
         }
