@@ -360,6 +360,10 @@ class View {
     virtual void runPause();
     //run the unpause function
     virtual void runUnpause();
+    //run the pauseSwitch
+    virtual void runPauseSwitch();
+    //return if the pause is true
+    virtual bool isPaused();
 
     //Animations
     //Position animation to change the viewPosition on the window (or View)

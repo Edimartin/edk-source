@@ -101,8 +101,17 @@ void edk::ViewController::runUnpause(){
         }
     }
 }
-
-
+//run the pauseSwitch function in the views
+void edk::ViewController::runPauseSwitch(){
+    if(this->isPaused()){
+        edk::View::runUnpause();
+        this->runUnpause();
+    }
+    else{
+        edk::View::runPause();
+        this->runPause();
+    }
+}
 
 bool edk::ViewController::addSubview(edk::View *addView){
     //test if the view exist

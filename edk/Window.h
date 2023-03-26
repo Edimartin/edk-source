@@ -138,9 +138,13 @@ public:
 
     void drawView();
 
-    void pauseViews();
+    void runPauseSwitchViews();
 
-    void unpauseViews();
+    void runPauseViews();
+
+    void runUnpauseViews();
+
+    bool isPaused();
 
     bool flip();
 

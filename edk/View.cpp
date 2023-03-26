@@ -148,6 +148,19 @@ void edk::View::runUnpause(){
     //
     this->unpause();edkEnd();
 }
+//run the pauseSwitch
+void edk::View::runPauseSwitch(){
+    if(this->paused){
+        this->runUnpause();edkEnd();
+    }
+    else{
+        this->runPause();edkEnd();
+    }
+}
+//return if the pause is true
+bool edk::View::isPaused(){
+    return this->paused;
+}
 
 void edk::View::draw(edk::rectf32 outsideViewOrigin){
     //test if it's not hided

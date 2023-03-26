@@ -123,6 +123,8 @@ protected:
     void runPause();
     //run the unpause function
     void runUnpause();
+    //run the pauseSwitch function in the views
+    void runPauseSwitch();
  private:
 
     //The list of views inside this view

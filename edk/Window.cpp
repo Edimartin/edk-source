@@ -546,15 +546,23 @@ void edk::Window::drawView(){
     this->drawEnd();edkEnd();
 }
 
-void edk::Window::pauseViews(){
+void edk::Window::runPauseSwitchViews(){
+    this->viewWindow.runPauseSwitch();
+}
+
+void edk::Window::runPauseViews(){
     this->viewWindow.runPause();edkEnd();
 }
 
-void edk::Window::unpauseViews(){
+void edk::Window::runUnpauseViews(){
     this->viewWindow.runUnpause();edkEnd();
     //after unpause the views, start the time to generate new seconds because, if it's not started
     //it will get all the time where the views was paused
     this->time.start();edkEnd();
+}
+
+bool edk::Window::isPaused(){
+    return this->viewWindow.isPaused();
 }
 
 bool edk::Window::flip(){
