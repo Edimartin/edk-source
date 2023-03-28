@@ -47,30 +47,53 @@ bool edk::shape::Rectangle2D::createPolygon(){
     //delete the polygon
     edk::shape::Polygon2D::deletePolygon();edkEnd();
     if(this->vertexs.createArray(2u)){
-        //create all the vertexs
-        edk::shape::Vertex2DWithUV* temp=NULL;edkEnd();
-        this->vertexs.set(0u,new edk::shape::Vertex2DWithUV());edkEnd();
-        if(this->vertexs[0u]){
-            //Set alpha 1
-            this->vertexs[0u]->color = this->polygonColor;edkEnd();
-            //set the position
-            this->vertexs[0u]->position = edk::vec2f32(0,1);edkEnd();
-            temp = (edk::shape::Vertex2DWithUV*)this->vertexs[0u];edkEnd();
-            temp->setUV((edk::float32)0,(edk::float32)0);edkEnd();
+        if(this->vertexsOriginal.createArray(2u)){
+            //create all the vertexs
+            edk::shape::Vertex2DWithUV* temp=NULL;edkEnd();
+            this->vertexs.set(0u,new edk::shape::Vertex2DWithUV());edkEnd();
+            if(this->vertexs[0u]){
+                //Set alpha 1
+                this->vertexs[0u]->color = this->polygonColor;edkEnd();
+                //set the position
+                this->vertexs[0u]->position = edk::vec2f32(0,1);edkEnd();
+                temp = (edk::shape::Vertex2DWithUV*)this->vertexs[0u];edkEnd();
+                temp->setUV((edk::float32)0,(edk::float32)0);edkEnd();
+            }
+            this->vertexsOriginal.set(0u,new edk::shape::Vertex2DWithUV());edkEnd();
+            if(this->vertexsOriginal[0u]){
+                //Set alpha 1
+                this->vertexsOriginal[0u]->color = this->polygonColor;edkEnd();
+                //set the position
+                this->vertexsOriginal[0u]->position = edk::vec2f32(0,1);edkEnd();
+                temp = (edk::shape::Vertex2DWithUV*)this->vertexsOriginal[0u];edkEnd();
+                temp->setUV((edk::float32)0,(edk::float32)0);edkEnd();
+            }
+            this->vertexs.set(1u,new edk::shape::Vertex2DWithUV());edkEnd();
+            if(this->vertexs[1u]){
+                //Set alpha 1
+                this->vertexs[1u]->color = this->polygonColor;edkEnd();
+                //set the position
+                this->vertexs[1u]->position = edk::vec2f32(1,0);edkEnd();
+                temp = (edk::shape::Vertex2DWithUV*)this->vertexs[1u];edkEnd();
+                temp->setUV((edk::float32)1,(edk::float32)1);edkEnd();
+            }
+            this->vertexsOriginal.set(1u,new edk::shape::Vertex2DWithUV());edkEnd();
+            if(this->vertexsOriginal[1u]){
+                //Set alpha 1
+                this->vertexsOriginal[1u]->color = this->polygonColor;edkEnd();
+                //set the position
+                this->vertexsOriginal[1u]->position = edk::vec2f32(1,0);edkEnd();
+                temp = (edk::shape::Vertex2DWithUV*)this->vertexsOriginal[1u];edkEnd();
+                temp->setUV((edk::float32)1,(edk::float32)1);edkEnd();
+            }
+            //set can delete the polygon
+            this->canDeletePolygon=true;edkEnd();
+            //then return true
+            return true;
         }
-        this->vertexs.set(1u,new edk::shape::Vertex2DWithUV());edkEnd();
-        if(this->vertexs[1u]){
-            //Set alpha 1
-            this->vertexs[1u]->color = this->polygonColor;edkEnd();
-            //set the position
-            this->vertexs[1u]->position = edk::vec2f32(1,0);edkEnd();
-            temp = (edk::shape::Vertex2DWithUV*)this->vertexs[1u];edkEnd();
-            temp->setUV((edk::float32)1,(edk::float32)1);edkEnd();
+        else{
+            this->vertexs.deleteArray();
         }
-        //set can delete the polygon
-        this->canDeletePolygon=true;edkEnd();
-        //then return true
-        return true;
     }
     //else return false
     return false;
@@ -98,6 +121,13 @@ void edk::shape::Rectangle2D::setPivoToCenter(){
                 );edkEnd();
         this->vertexs[0u]->position = edk::vec2f32(size.width * -0.5f,size.height * -0.5f);edkEnd();
         this->vertexs[1u]->position = edk::vec2f32(size.width *  0.5f,size.height *  0.5f);edkEnd();
+    }
+    if(this->vertexsOriginal[0u]&&this->vertexsOriginal[1u]){
+        edk::size2f32 size(this->vertexsOriginal[1u]->position.x-this->vertexsOriginal[0u]->position.x,
+                this->vertexsOriginal[1u]->position.y-this->vertexsOriginal[0u]->position.y
+                );edkEnd();
+        this->vertexsOriginal[0u]->position = edk::vec2f32(size.width * -0.5f,size.height * -0.5f);edkEnd();
+        this->vertexsOriginal[1u]->position = edk::vec2f32(size.width *  0.5f,size.height *  0.5f);edkEnd();
     }
 }
 

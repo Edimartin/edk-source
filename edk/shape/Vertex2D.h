@@ -246,37 +246,37 @@ public:
                             //delete[] temp;edkEnd();
                             //test if the type is the same
                             //if(typeTemp==this->getType()){
-                                if((temp = xml->getSelectedAttributeValueByName("x"))){
-                                    //read the value
-                                    this->position.x = edk::String::strToFloat32(temp);edkEnd();
-                                    //delete[] temp;edkEnd();
-                                }
-                                if((temp = xml->getSelectedAttributeValueByName("y"))){
-                                    //read the value
-                                    this->position.y = edk::String::strToFloat32(temp);edkEnd();
-                                    //delete[] temp;edkEnd();
-                                }
-                                if((temp = xml->getSelectedAttributeValueByName("r"))){
-                                    //read the value
-                                    this->color.r = edk::String::strToFloat32(temp);edkEnd();
-                                    //delete[] temp;edkEnd();
-                                }
-                                if((temp = xml->getSelectedAttributeValueByName("g"))){
-                                    //read the value
-                                    this->color.g = edk::String::strToFloat32(temp);edkEnd();
-                                    //delete[] temp;edkEnd();
-                                }
-                                if((temp = xml->getSelectedAttributeValueByName("b"))){
-                                    //read the value
-                                    this->color.b = edk::String::strToFloat32(temp);edkEnd();
-                                    //delete[] temp;edkEnd();
-                                }
-                                if((temp = xml->getSelectedAttributeValueByName("a"))){
-                                    //read the value
-                                    this->color.a = edk::String::strToFloat32(temp);edkEnd();
-                                    //delete[] temp;edkEnd();
-                                }
-                                ret=true;edkEnd();
+                            if((temp = xml->getSelectedAttributeValueByName("x"))){
+                                //read the value
+                                this->position.x = edk::String::strToFloat32(temp);edkEnd();
+                                //delete[] temp;edkEnd();
+                            }
+                            if((temp = xml->getSelectedAttributeValueByName("y"))){
+                                //read the value
+                                this->position.y = edk::String::strToFloat32(temp);edkEnd();
+                                //delete[] temp;edkEnd();
+                            }
+                            if((temp = xml->getSelectedAttributeValueByName("r"))){
+                                //read the value
+                                this->color.r = edk::String::strToFloat32(temp);edkEnd();
+                                //delete[] temp;edkEnd();
+                            }
+                            if((temp = xml->getSelectedAttributeValueByName("g"))){
+                                //read the value
+                                this->color.g = edk::String::strToFloat32(temp);edkEnd();
+                                //delete[] temp;edkEnd();
+                            }
+                            if((temp = xml->getSelectedAttributeValueByName("b"))){
+                                //read the value
+                                this->color.b = edk::String::strToFloat32(temp);edkEnd();
+                                //delete[] temp;edkEnd();
+                            }
+                            if((temp = xml->getSelectedAttributeValueByName("a"))){
+                                //read the value
+                                this->color.a = edk::String::strToFloat32(temp);edkEnd();
+                                //delete[] temp;edkEnd();
+                            }
+                            ret=true;edkEnd();
                             //}
                         }
                         xml->selectFather();edkEnd();
@@ -519,17 +519,20 @@ public:
 
     //GETTERS
     edk::vec2f32 getMultiply(){
-        //
-        return this->uvMultiply;edkEnd();
+        return this->uvMultiply;
+    }
+    //get the uvFrames
+    edk::vec2ui32 getUVFrames(){
+        return edk::vec2ui32((edk::uint32)(1.f/this->uvMultiply.x),
+                             (edk::uint32)(1.f/this->uvMultiply.y)
+                             );
     }
     edk::vec2f32 getSaved(){
-        //
-        return this->uvSaved;edkEnd();
+        return this->uvSaved;
     }
 
     //Animation
     void cleanUVAnimation(){
-        //
         //this->uv=this->uvSaved;edkEnd();
         this->setUV(this->uvSaved);edkEnd();
     }
@@ -589,16 +592,16 @@ public:
     virtual void print(){
         //
         edk::shape::Vertex2DWithUV::print();edkEnd(); printf(" multiply(%.2f %.2f)"
-                                                    ,this->uvMultiply.x
-                                                    ,this->uvMultiply.y
-                                                    );edkEnd();
+                                                             ,this->uvMultiply.x
+                                                             ,this->uvMultiply.y
+                                                             );edkEnd();
     }
     virtual void print(edk::uint32 vertex){
         //
         edk::shape::Vertex2DWithUV::print(vertex);edkEnd();printf(" multiply(%.2f %.2f)"
-                                                         ,this->uvMultiply.x
-                                                         ,this->uvMultiply.y
-                                                         );edkEnd();
+                                                                  ,this->uvMultiply.x
+                                                                  ,this->uvMultiply.y
+                                                                  );edkEnd();
     }
     virtual bool writeToXML(edk::uint32 vertex,edk::XML* xml){
         if(edk::shape::Vertex2DWithUV::writeToXML(vertex,xml)){

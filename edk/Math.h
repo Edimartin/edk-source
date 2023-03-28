@@ -40,6 +40,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "TypeVec3.h"
 #include "TypeVec4.h"
 #include "TypeRect.h"
+#include "TypeColor.h"
 #include "vector/Matrix.h"
 
 #ifdef printMessages
@@ -606,6 +607,580 @@ public:
                                          edk::float32 x2,edk::float32 y2
                                          );
     static edk::float32 getAngleDistance(edk::vec2f32 vec1,edk::vec2f32 vec2);
+
+    //get strait 1D Position
+    static inline edk::uint8 straightPosition(edk::uint8 p1,edk::uint8 p2,edk::float32 percent){
+        return (edk::uint8)((p2-p1*percent)+p1);
+    }
+    static inline edk::uint16 straightPosition(edk::uint16 p1,edk::uint16 p2,edk::float32 percent){
+        return (edk::uint16)((p2-p1*percent)+p1);
+    }
+    static inline edk::uint32 straightPosition(edk::uint32 p1,edk::uint32 p2,edk::float32 percent){
+        return (edk::uint32)((p2-p1*percent)+p1);
+    }
+    static inline edk::uint64 straightPosition(edk::uint64 p1,edk::uint64 p2,edk::float32 percent){
+        return (edk::uint64)((p2-p1*percent)+p1);
+    }
+    static inline edk::int8 straightPosition(edk::int8 p1,edk::int8 p2,edk::float32 percent){
+        return (edk::int8)((p2-p1*percent)+p1);
+    }
+    static inline edk::int16 straightPosition(edk::int16 p1,edk::int16 p2,edk::float32 percent){
+        return (edk::int16)((p2-p1*percent)+p1);
+    }
+    static inline edk::int32 straightPosition(edk::int32 p1,edk::int32 p2,edk::float32 percent){
+        return (edk::int32)((p2-p1*percent)+p1);
+    }
+    static inline edk::int64 straightPosition(edk::int64 p1,edk::int64 p2,edk::float32 percent){
+        return (edk::int64)((p2-p1*percent)+p1);
+    }
+    static inline edk::float32 straightPosition(edk::float32 p1,edk::float32 p2,edk::float32 percent){
+        return (p2-p1*percent)+p1;
+    }
+    static inline edk::float64 straightPosition(edk::float64 p1,edk::float64 p2,edk::float64 percent){
+        return (p2-p1*percent)+p1;
+    }
+    static inline edk::float64 straightPosition(edk::float64 p1,edk::float64 p2,edk::float32 percent){
+        return (p2-p1*percent)+p1;
+    }
+    //
+    static inline edk::uint8 getStraightPosition(edk::uint8 p1,edk::uint8 p2,edk::float32 percent){
+        return edk::Math::straightPosition(p1,p2,percent);
+    }
+    static inline edk::uint16 getStraightPosition(edk::uint16 p1,edk::uint16 p2,edk::float32 percent){
+        return edk::Math::straightPosition(p1,p2,percent);
+    }
+    static inline edk::uint32 getStraightPosition(edk::uint32 p1,edk::uint32 p2,edk::float32 percent){
+        return edk::Math::straightPosition(p1,p2,percent);
+    }
+    static inline edk::uint64 getStraightPosition(edk::uint64 p1,edk::uint64 p2,edk::float32 percent){
+        return edk::Math::straightPosition(p1,p2,percent);
+    }
+    static inline edk::int8 getStraightPosition(edk::int8 p1,edk::int8 p2,edk::float32 percent){
+        return edk::Math::straightPosition(p1,p2,percent);
+    }
+    static inline edk::int16 getStraightPosition(edk::int16 p1,edk::int16 p2,edk::float32 percent){
+        return edk::Math::straightPosition(p1,p2,percent);
+    }
+    static inline edk::int32 getStraightPosition(edk::int32 p1,edk::int32 p2,edk::float32 percent){
+        return edk::Math::straightPosition(p1,p2,percent);
+    }
+    static inline edk::int64 getStraightPosition(edk::int64 p1,edk::int64 p2,edk::float32 percent){
+        return edk::Math::straightPosition(p1,p2,percent);
+    }
+    static inline edk::float32 getStraightPosition(edk::float32 p1,edk::float32 p2,edk::float32 percent){
+        return edk::Math::straightPosition(p1,p2,percent);
+    }
+    static inline edk::float64 getStraightPosition(edk::float64 p1,edk::float64 p2,edk::float64 percent){
+        return edk::Math::straightPosition(p1,p2,percent);
+    }
+    static inline edk::float64 getStraightPosition(edk::float64 p1,edk::float64 p2,edk::float32 percent){
+        return edk::Math::straightPosition(p1,p2,percent);
+    }
+    //get straight 2D position
+    static inline edk::vec2ui8 straightPosition(edk::vec2ui8 p1,edk::vec2ui8 p2,edk::float32 percent){
+        return edk::vec2ui8(edk::Math::straightPosition(p1.x,p2.x,percent),
+                            edk::Math::straightPosition(p1.y,p2.y,percent)
+                            );
+    }
+    static inline edk::vec2ui16 straightPosition(edk::vec2ui16 p1,edk::vec2ui16 p2,edk::float32 percent){
+        return edk::vec2ui16(edk::Math::straightPosition(p1.x,p2.x,percent),
+                             edk::Math::straightPosition(p1.y,p2.y,percent)
+                             );
+    }
+    static inline edk::vec2ui32 straightPosition(edk::vec2ui32 p1,edk::vec2ui32 p2,edk::float32 percent){
+        return edk::vec2ui32(edk::Math::straightPosition(p1.x,p2.x,percent),
+                             edk::Math::straightPosition(p1.y,p2.y,percent)
+                             );
+    }
+    static inline edk::vec2ui64 straightPosition(edk::vec2ui64 p1,edk::vec2ui64 p2,edk::float32 percent){
+        return edk::vec2ui64(edk::Math::straightPosition(p1.x,p2.x,percent),
+                             edk::Math::straightPosition(p1.y,p2.y,percent)
+                             );
+    }
+    static inline edk::vec2i8 straightPosition(edk::vec2i8 p1,edk::vec2i8 p2,edk::float32 percent){
+        return edk::vec2i8(edk::Math::straightPosition(p1.x,p2.x,percent),
+                           edk::Math::straightPosition(p1.y,p2.y,percent)
+                           );
+    }
+    static inline edk::vec2i16 straightPosition(edk::vec2i16 p1,edk::vec2i16 p2,edk::float32 percent){
+        return edk::vec2i16(edk::Math::straightPosition(p1.x,p2.x,percent),
+                            edk::Math::straightPosition(p1.y,p2.y,percent)
+                            );
+    }
+    static inline edk::vec2i32 straightPosition(edk::vec2i32 p1,edk::vec2i32 p2,edk::float32 percent){
+        return edk::vec2i32(edk::Math::straightPosition(p1.x,p2.x,percent),
+                            edk::Math::straightPosition(p1.y,p2.y,percent)
+                            );
+    }
+    static inline edk::vec2i64 straightPosition(edk::vec2i64 p1,edk::vec2i64 p2,edk::float32 percent){
+        return edk::vec2i64(edk::Math::straightPosition(p1.x,p2.x,percent),
+                            edk::Math::straightPosition(p1.y,p2.y,percent)
+                            );
+    }
+    static inline edk::vec2f32 straightPosition(edk::vec2f32 p1,edk::vec2f32 p2,edk::float32 percent){
+        return edk::vec2f32(edk::Math::straightPosition(p1.x,p2.x,percent),
+                            edk::Math::straightPosition(p1.y,p2.y,percent)
+                            );
+    }
+    static inline edk::vec2f64 straightPosition(edk::vec2f64 p1,edk::vec2f64 p2,edk::float64 percent){
+        return edk::vec2f64(edk::Math::straightPosition(p1.x,p2.x,percent),
+                            edk::Math::straightPosition(p1.y,p2.y,percent)
+                            );
+    }
+    static inline edk::vec2f64 straightPosition(edk::vec2f64 p1,edk::vec2f64 p2,edk::float32 percent){
+        return edk::vec2f64(edk::Math::straightPosition(p1.x,p2.x,percent),
+                            edk::Math::straightPosition(p1.y,p2.y,percent)
+                            );
+    }
+    static inline edk::vec2ui8 getStraightPosition(edk::vec2ui8 p1,edk::vec2ui8 p2,edk::float32 percent){
+        return edk::vec2ui8(edk::Math::getStraightPosition(p1.x,p2.x,percent),
+                            edk::Math::getStraightPosition(p1.y,p2.y,percent)
+                            );
+    }
+    static inline edk::vec2ui16 getStraightPosition(edk::vec2ui16 p1,edk::vec2ui16 p2,edk::float32 percent){
+        return edk::vec2ui16(edk::Math::getStraightPosition(p1.x,p2.x,percent),
+                             edk::Math::getStraightPosition(p1.y,p2.y,percent)
+                             );
+    }
+    static inline edk::vec2ui32 getStraightPosition(edk::vec2ui32 p1,edk::vec2ui32 p2,edk::float32 percent){
+        return edk::vec2ui32(edk::Math::getStraightPosition(p1.x,p2.x,percent),
+                             edk::Math::getStraightPosition(p1.y,p2.y,percent)
+                             );
+    }
+    static inline edk::vec2ui64 getStraightPosition(edk::vec2ui64 p1,edk::vec2ui64 p2,edk::float32 percent){
+        return edk::vec2ui64(edk::Math::getStraightPosition(p1.x,p2.x,percent),
+                             edk::Math::getStraightPosition(p1.y,p2.y,percent)
+                             );
+    }
+    static inline edk::vec2i8 getStraightPosition(edk::vec2i8 p1,edk::vec2i8 p2,edk::float32 percent){
+        return edk::vec2i8(edk::Math::getStraightPosition(p1.x,p2.x,percent),
+                           edk::Math::getStraightPosition(p1.y,p2.y,percent)
+                           );
+    }
+    static inline edk::vec2i16 getStraightPosition(edk::vec2i16 p1,edk::vec2i16 p2,edk::float32 percent){
+        return edk::vec2i16(edk::Math::getStraightPosition(p1.x,p2.x,percent),
+                            edk::Math::getStraightPosition(p1.y,p2.y,percent)
+                            );
+    }
+    static inline edk::vec2i32 getStraightPosition(edk::vec2i32 p1,edk::vec2i32 p2,edk::float32 percent){
+        return edk::vec2i32(edk::Math::getStraightPosition(p1.x,p2.x,percent),
+                            edk::Math::getStraightPosition(p1.y,p2.y,percent)
+                            );
+    }
+    static inline edk::vec2i64 getStraightPosition(edk::vec2i64 p1,edk::vec2i64 p2,edk::float32 percent){
+        return edk::vec2i64(edk::Math::getStraightPosition(p1.x,p2.x,percent),
+                            edk::Math::getStraightPosition(p1.y,p2.y,percent)
+                            );
+    }
+    static inline edk::vec2f32 getStraightPosition(edk::vec2f32 p1,edk::vec2f32 p2,edk::float32 percent){
+        return edk::vec2f32(edk::Math::getStraightPosition(p1.x,p2.x,percent),
+                            edk::Math::getStraightPosition(p1.y,p2.y,percent)
+                            );
+    }
+    static inline edk::vec2f64 getStraightPosition(edk::vec2f64 p1,edk::vec2f64 p2,edk::float64 percent){
+        return edk::vec2f64(edk::Math::getStraightPosition(p1.x,p2.x,percent),
+                            edk::Math::getStraightPosition(p1.y,p2.y,percent)
+                            );
+    }
+    static inline edk::vec2f64 getStraightPosition(edk::vec2f64 p1,edk::vec2f64 p2,edk::float32 percent){
+        return edk::vec2f64(edk::Math::getStraightPosition(p1.x,p2.x,percent),
+                            edk::Math::getStraightPosition(p1.y,p2.y,percent)
+                            );
+    }
+    //get straight 3D position
+    static inline edk::vec3ui8 straightPosition(edk::vec3ui8 p1,edk::vec3ui8 p2,edk::float32 percent){
+        return edk::vec3ui8(edk::Math::straightPosition(p1.x,p2.x,percent),
+                            edk::Math::straightPosition(p1.y,p2.y,percent),
+                            edk::Math::straightPosition(p1.z,p2.z,percent)
+                            );
+    }
+    static inline edk::vec3ui16 straightPosition(edk::vec3ui16 p1,edk::vec3ui16 p2,edk::float32 percent){
+        return edk::vec3ui16(edk::Math::straightPosition(p1.x,p2.x,percent),
+                             edk::Math::straightPosition(p1.y,p2.y,percent),
+                             edk::Math::straightPosition(p1.z,p2.z,percent)
+                             );
+    }
+    static inline edk::vec3ui32 straightPosition(edk::vec3ui32 p1,edk::vec3ui32 p2,edk::float32 percent){
+        return edk::vec3ui32(edk::Math::straightPosition(p1.x,p2.x,percent),
+                             edk::Math::straightPosition(p1.y,p2.y,percent),
+                             edk::Math::straightPosition(p1.z,p2.z,percent)
+                             );
+    }
+    static inline edk::vec3ui64 straightPosition(edk::vec3ui64 p1,edk::vec3ui64 p2,edk::float32 percent){
+        return edk::vec3ui64(edk::Math::straightPosition(p1.x,p2.x,percent),
+                             edk::Math::straightPosition(p1.y,p2.y,percent),
+                             edk::Math::straightPosition(p1.z,p2.z,percent)
+                             );
+    }
+    static inline edk::vec3i8 straightPosition(edk::vec3i8 p1,edk::vec3i8 p2,edk::float32 percent){
+        return edk::vec3i8(edk::Math::straightPosition(p1.x,p2.x,percent),
+                           edk::Math::straightPosition(p1.y,p2.y,percent),
+                           edk::Math::straightPosition(p1.z,p2.z,percent)
+                           );
+    }
+    static inline edk::vec3i16 straightPosition(edk::vec3i16 p1,edk::vec3i16 p2,edk::float32 percent){
+        return edk::vec3i16(edk::Math::straightPosition(p1.x,p2.x,percent),
+                            edk::Math::straightPosition(p1.y,p2.y,percent),
+                            edk::Math::straightPosition(p1.z,p2.z,percent)
+                            );
+    }
+    static inline edk::vec3i32 straightPosition(edk::vec3i32 p1,edk::vec3i32 p2,edk::float32 percent){
+        return edk::vec3i32(edk::Math::straightPosition(p1.x,p2.x,percent),
+                            edk::Math::straightPosition(p1.y,p2.y,percent),
+                            edk::Math::straightPosition(p1.z,p2.z,percent)
+                            );
+    }
+    static inline edk::vec3i64 straightPosition(edk::vec3i64 p1,edk::vec3i64 p2,edk::float32 percent){
+        return edk::vec3i64(edk::Math::straightPosition(p1.x,p2.x,percent),
+                            edk::Math::straightPosition(p1.y,p2.y,percent),
+                            edk::Math::straightPosition(p1.z,p2.z,percent)
+                            );
+    }
+    static inline edk::vec3f32 straightPosition(edk::vec3f32 p1,edk::vec3f32 p2,edk::float32 percent){
+        return edk::vec3f32(edk::Math::straightPosition(p1.x,p2.x,percent),
+                            edk::Math::straightPosition(p1.y,p2.y,percent),
+                            edk::Math::straightPosition(p1.z,p2.z,percent)
+                            );
+    }
+    static inline edk::vec3f64 straightPosition(edk::vec3f64 p1,edk::vec3f64 p2,edk::float64 percent){
+        return edk::vec3f64(edk::Math::straightPosition(p1.x,p2.x,percent),
+                            edk::Math::straightPosition(p1.y,p2.y,percent),
+                            edk::Math::straightPosition(p1.z,p2.z,percent)
+                            );
+    }
+    static inline edk::vec3f64 straightPosition(edk::vec3f64 p1,edk::vec3f64 p2,edk::float32 percent){
+        return edk::vec3f64(edk::Math::straightPosition(p1.x,p2.x,percent),
+                            edk::Math::straightPosition(p1.y,p2.y,percent),
+                            edk::Math::straightPosition(p1.z,p2.z,percent)
+                            );
+    }
+    static inline edk::vec3ui8 getStraightPosition(edk::vec3ui8 p1,edk::vec3ui8 p2,edk::float32 percent){
+        return edk::vec3ui8(edk::Math::getStraightPosition(p1.x,p2.x,percent),
+                            edk::Math::getStraightPosition(p1.y,p2.y,percent),
+                            edk::Math::getStraightPosition(p1.z,p2.z,percent)
+                            );
+    }
+    static inline edk::vec3ui16 getStraightPosition(edk::vec3ui16 p1,edk::vec3ui16 p2,edk::float32 percent){
+        return edk::vec3ui16(edk::Math::getStraightPosition(p1.x,p2.x,percent),
+                             edk::Math::getStraightPosition(p1.y,p2.y,percent),
+                             edk::Math::getStraightPosition(p1.z,p2.z,percent)
+                             );
+    }
+    static inline edk::vec3ui32 getStraightPosition(edk::vec3ui32 p1,edk::vec3ui32 p2,edk::float32 percent){
+        return edk::vec3ui32(edk::Math::getStraightPosition(p1.x,p2.x,percent),
+                             edk::Math::getStraightPosition(p1.y,p2.y,percent),
+                             edk::Math::getStraightPosition(p1.z,p2.z,percent)
+                             );
+    }
+    static inline edk::vec3ui64 getStraightPosition(edk::vec3ui64 p1,edk::vec3ui64 p2,edk::float32 percent){
+        return edk::vec3ui64(edk::Math::getStraightPosition(p1.x,p2.x,percent),
+                             edk::Math::getStraightPosition(p1.y,p2.y,percent),
+                             edk::Math::getStraightPosition(p1.z,p2.z,percent)
+                             );
+    }
+    static inline edk::vec3i8 getStraightPosition(edk::vec3i8 p1,edk::vec3i8 p2,edk::float32 percent){
+        return edk::vec3i8(edk::Math::getStraightPosition(p1.x,p2.x,percent),
+                           edk::Math::getStraightPosition(p1.y,p2.y,percent),
+                           edk::Math::getStraightPosition(p1.z,p2.z,percent)
+                           );
+    }
+    static inline edk::vec3i16 getStraightPosition(edk::vec3i16 p1,edk::vec3i16 p2,edk::float32 percent){
+        return edk::vec3i16(edk::Math::getStraightPosition(p1.x,p2.x,percent),
+                            edk::Math::getStraightPosition(p1.y,p2.y,percent),
+                            edk::Math::getStraightPosition(p1.z,p2.z,percent)
+                            );
+    }
+    static inline edk::vec3i32 getStraightPosition(edk::vec3i32 p1,edk::vec3i32 p2,edk::float32 percent){
+        return edk::vec3i32(edk::Math::getStraightPosition(p1.x,p2.x,percent),
+                            edk::Math::getStraightPosition(p1.y,p2.y,percent),
+                            edk::Math::getStraightPosition(p1.z,p2.z,percent)
+                            );
+    }
+    static inline edk::vec3i64 getStraightPosition(edk::vec3i64 p1,edk::vec3i64 p2,edk::float32 percent){
+        return edk::vec3i64(edk::Math::getStraightPosition(p1.x,p2.x,percent),
+                            edk::Math::getStraightPosition(p1.y,p2.y,percent),
+                            edk::Math::getStraightPosition(p1.z,p2.z,percent)
+                            );
+    }
+    static inline edk::vec3f32 getStraightPosition(edk::vec3f32 p1,edk::vec3f32 p2,edk::float32 percent){
+        return edk::vec3f32(edk::Math::getStraightPosition(p1.x,p2.x,percent),
+                            edk::Math::getStraightPosition(p1.y,p2.y,percent),
+                            edk::Math::getStraightPosition(p1.z,p2.z,percent)
+                            );
+    }
+    static inline edk::vec3f64 getStraightPosition(edk::vec3f64 p1,edk::vec3f64 p2,edk::float64 percent){
+        return edk::vec3f64(edk::Math::getStraightPosition(p1.x,p2.x,percent),
+                            edk::Math::getStraightPosition(p1.y,p2.y,percent),
+                            edk::Math::getStraightPosition(p1.z,p2.z,percent)
+                            );
+    }
+    static inline edk::vec3f64 getStraightPosition(edk::vec3f64 p1,edk::vec3f64 p2,edk::float32 percent){
+        return edk::vec3f64(edk::Math::getStraightPosition(p1.x,p2.x,percent),
+                            edk::Math::getStraightPosition(p1.y,p2.y,percent),
+                            edk::Math::getStraightPosition(p1.z,p2.z,percent)
+                            );
+    }
+    //get straight 4D position
+    static inline edk::vec4ui8 straightPosition(edk::vec4ui8 p1,edk::vec4ui8 p2,edk::float32 percent){
+        return edk::vec4ui8(edk::Math::straightPosition(p1.x,p2.x,percent),
+                            edk::Math::straightPosition(p1.y,p2.y,percent),
+                            edk::Math::straightPosition(p1.z,p2.z,percent),
+                            edk::Math::straightPosition(p1.w,p2.w,percent)
+                            );
+    }
+    static inline edk::vec4ui16 straightPosition(edk::vec4ui16 p1,edk::vec4ui16 p2,edk::float32 percent){
+        return edk::vec4ui16(edk::Math::straightPosition(p1.x,p2.x,percent),
+                             edk::Math::straightPosition(p1.y,p2.y,percent),
+                             edk::Math::straightPosition(p1.z,p2.z,percent),
+                             edk::Math::straightPosition(p1.w,p2.w,percent)
+                             );
+    }
+    static inline edk::vec4ui32 straightPosition(edk::vec4ui32 p1,edk::vec4ui32 p2,edk::float32 percent){
+        return edk::vec4ui32(edk::Math::straightPosition(p1.x,p2.x,percent),
+                             edk::Math::straightPosition(p1.y,p2.y,percent),
+                             edk::Math::straightPosition(p1.z,p2.z,percent),
+                             edk::Math::straightPosition(p1.w,p2.w,percent)
+                             );
+    }
+    static inline edk::vec4ui64 straightPosition(edk::vec4ui64 p1,edk::vec4ui64 p2,edk::float32 percent){
+        return edk::vec4ui64(edk::Math::straightPosition(p1.x,p2.x,percent),
+                             edk::Math::straightPosition(p1.y,p2.y,percent),
+                             edk::Math::straightPosition(p1.z,p2.z,percent),
+                             edk::Math::straightPosition(p1.w,p2.w,percent)
+                             );
+    }
+    static inline edk::vec4i8 straightPosition(edk::vec4i8 p1,edk::vec4i8 p2,edk::float32 percent){
+        return edk::vec4i8(edk::Math::straightPosition(p1.x,p2.x,percent),
+                           edk::Math::straightPosition(p1.y,p2.y,percent),
+                           edk::Math::straightPosition(p1.z,p2.z,percent),
+                           edk::Math::straightPosition(p1.w,p2.w,percent)
+                           );
+    }
+    static inline edk::vec4i16 straightPosition(edk::vec4i16 p1,edk::vec4i16 p2,edk::float32 percent){
+        return edk::vec4i16(edk::Math::straightPosition(p1.x,p2.x,percent),
+                            edk::Math::straightPosition(p1.y,p2.y,percent),
+                            edk::Math::straightPosition(p1.z,p2.z,percent),
+                            edk::Math::straightPosition(p1.w,p2.w,percent)
+                            );
+    }
+    static inline edk::vec4i32 straightPosition(edk::vec4i32 p1,edk::vec4i32 p2,edk::float32 percent){
+        return edk::vec4i32(edk::Math::straightPosition(p1.x,p2.x,percent),
+                            edk::Math::straightPosition(p1.y,p2.y,percent),
+                            edk::Math::straightPosition(p1.z,p2.z,percent),
+                            edk::Math::straightPosition(p1.w,p2.w,percent)
+                            );
+    }
+    static inline edk::vec4i64 straightPosition(edk::vec4i64 p1,edk::vec4i64 p2,edk::float32 percent){
+        return edk::vec4i64(edk::Math::straightPosition(p1.x,p2.x,percent),
+                            edk::Math::straightPosition(p1.y,p2.y,percent),
+                            edk::Math::straightPosition(p1.z,p2.z,percent),
+                            edk::Math::straightPosition(p1.w,p2.w,percent)
+                            );
+    }
+    static inline edk::vec4f32 straightPosition(edk::vec4f32 p1,edk::vec4f32 p2,edk::float32 percent){
+        return edk::vec4f32(edk::Math::straightPosition(p1.x,p2.x,percent),
+                            edk::Math::straightPosition(p1.y,p2.y,percent),
+                            edk::Math::straightPosition(p1.z,p2.z,percent),
+                            edk::Math::straightPosition(p1.w,p2.w,percent)
+                            );
+    }
+    static inline edk::vec4f64 straightPosition(edk::vec4f64 p1,edk::vec4f64 p2,edk::float64 percent){
+        return edk::vec4f64(edk::Math::straightPosition(p1.x,p2.x,percent),
+                            edk::Math::straightPosition(p1.y,p2.y,percent),
+                            edk::Math::straightPosition(p1.z,p2.z,percent),
+                            edk::Math::straightPosition(p1.w,p2.w,percent)
+                            );
+    }
+    static inline edk::vec4f64 straightPosition(edk::vec4f64 p1,edk::vec4f64 p2,edk::float32 percent){
+        return edk::vec4f64(edk::Math::straightPosition(p1.x,p2.x,percent),
+                            edk::Math::straightPosition(p1.y,p2.y,percent),
+                            edk::Math::straightPosition(p1.z,p2.z,percent),
+                            edk::Math::straightPosition(p1.w,p2.w,percent)
+                            );
+    }
+    static inline edk::vec4ui8 getStraightPosition(edk::vec4ui8 p1,edk::vec4ui8 p2,edk::float32 percent){
+        return edk::vec4ui8(edk::Math::getStraightPosition(p1.x,p2.x,percent),
+                            edk::Math::getStraightPosition(p1.y,p2.y,percent),
+                            edk::Math::getStraightPosition(p1.z,p2.z,percent),
+                            edk::Math::getStraightPosition(p1.w,p2.w,percent)
+                            );
+    }
+    static inline edk::vec4ui16 getStraightPosition(edk::vec4ui16 p1,edk::vec4ui16 p2,edk::float32 percent){
+        return edk::vec4ui16(edk::Math::getStraightPosition(p1.x,p2.x,percent),
+                             edk::Math::getStraightPosition(p1.y,p2.y,percent),
+                             edk::Math::getStraightPosition(p1.z,p2.z,percent),
+                             edk::Math::getStraightPosition(p1.w,p2.w,percent)
+                             );
+    }
+    static inline edk::vec4ui32 getStraightPosition(edk::vec4ui32 p1,edk::vec4ui32 p2,edk::float32 percent){
+        return edk::vec4ui32(edk::Math::getStraightPosition(p1.x,p2.x,percent),
+                             edk::Math::getStraightPosition(p1.y,p2.y,percent),
+                             edk::Math::getStraightPosition(p1.z,p2.z,percent),
+                             edk::Math::getStraightPosition(p1.w,p2.w,percent)
+                             );
+    }
+    static inline edk::vec4ui64 getStraightPosition(edk::vec4ui64 p1,edk::vec4ui64 p2,edk::float32 percent){
+        return edk::vec4ui64(edk::Math::getStraightPosition(p1.x,p2.x,percent),
+                             edk::Math::getStraightPosition(p1.y,p2.y,percent),
+                             edk::Math::getStraightPosition(p1.z,p2.z,percent),
+                             edk::Math::getStraightPosition(p1.w,p2.w,percent)
+                             );
+    }
+    static inline edk::vec4i8 getStraightPosition(edk::vec4i8 p1,edk::vec4i8 p2,edk::float32 percent){
+        return edk::vec4i8(edk::Math::getStraightPosition(p1.x,p2.x,percent),
+                           edk::Math::getStraightPosition(p1.y,p2.y,percent),
+                           edk::Math::getStraightPosition(p1.z,p2.z,percent),
+                           edk::Math::getStraightPosition(p1.w,p2.w,percent)
+                           );
+    }
+    static inline edk::vec4i16 getStraightPosition(edk::vec4i16 p1,edk::vec4i16 p2,edk::float32 percent){
+        return edk::vec4i16(edk::Math::getStraightPosition(p1.x,p2.x,percent),
+                            edk::Math::getStraightPosition(p1.y,p2.y,percent),
+                            edk::Math::getStraightPosition(p1.z,p2.z,percent),
+                            edk::Math::getStraightPosition(p1.w,p2.w,percent)
+                            );
+    }
+    static inline edk::vec4i32 getStraightPosition(edk::vec4i32 p1,edk::vec4i32 p2,edk::float32 percent){
+        return edk::vec4i32(edk::Math::getStraightPosition(p1.x,p2.x,percent),
+                            edk::Math::getStraightPosition(p1.y,p2.y,percent),
+                            edk::Math::getStraightPosition(p1.z,p2.z,percent),
+                            edk::Math::getStraightPosition(p1.w,p2.w,percent)
+                            );
+    }
+    static inline edk::vec4i64 getStraightPosition(edk::vec4i64 p1,edk::vec4i64 p2,edk::float32 percent){
+        return edk::vec4i64(edk::Math::getStraightPosition(p1.x,p2.x,percent),
+                            edk::Math::getStraightPosition(p1.y,p2.y,percent),
+                            edk::Math::getStraightPosition(p1.z,p2.z,percent),
+                            edk::Math::getStraightPosition(p1.w,p2.w,percent)
+                            );
+    }
+    static inline edk::vec4f32 getStraightPosition(edk::vec4f32 p1,edk::vec4f32 p2,edk::float32 percent){
+        return edk::vec4f32(edk::Math::getStraightPosition(p1.x,p2.x,percent),
+                            edk::Math::getStraightPosition(p1.y,p2.y,percent),
+                            edk::Math::getStraightPosition(p1.z,p2.z,percent),
+                            edk::Math::getStraightPosition(p1.w,p2.w,percent)
+                            );
+    }
+    static inline edk::vec4f64 getStraightPosition(edk::vec4f64 p1,edk::vec4f64 p2,edk::float64 percent){
+        return edk::vec4f64(edk::Math::getStraightPosition(p1.x,p2.x,percent),
+                            edk::Math::getStraightPosition(p1.y,p2.y,percent),
+                            edk::Math::getStraightPosition(p1.z,p2.z,percent),
+                            edk::Math::getStraightPosition(p1.w,p2.w,percent)
+                            );
+    }
+    static inline edk::vec4f64 getStraightPosition(edk::vec4f64 p1,edk::vec4f64 p2,edk::float32 percent){
+        return edk::vec4f64(edk::Math::getStraightPosition(p1.x,p2.x,percent),
+                            edk::Math::getStraightPosition(p1.y,p2.y,percent),
+                            edk::Math::getStraightPosition(p1.z,p2.z,percent),
+                            edk::Math::getStraightPosition(p1.w,p2.w,percent)
+                            );
+    }
+    //get straight RGB
+    static inline edk::color3ui8 straightPosition(edk::color3ui8 p1,edk::color3ui8 p2,edk::float32 percent){
+        return edk::color3ui8(edk::Math::straightPosition(p1.r,p2.r,percent),
+                              edk::Math::straightPosition(p1.g,p2.g,percent),
+                              edk::Math::straightPosition(p1.b,p2.b,percent)
+                              );
+    }
+    static inline edk::color3f32 straightPosition(edk::color3f32 p1,edk::color3f32 p2,edk::float32 percent){
+        return edk::color3f32(edk::Math::straightPosition(p1.r,p2.r,percent),
+                              edk::Math::straightPosition(p1.g,p2.g,percent),
+                              edk::Math::straightPosition(p1.b,p2.b,percent)
+                              );
+    }
+    static inline edk::color3f64 straightPosition(edk::color3f64 p1,edk::color3f64 p2,edk::float64 percent){
+        return edk::color3f64(edk::Math::straightPosition(p1.r,p2.r,percent),
+                              edk::Math::straightPosition(p1.g,p2.g,percent),
+                              edk::Math::straightPosition(p1.b,p2.b,percent)
+                              );
+    }
+    static inline edk::color3f64 straightPosition(edk::color3f64 p1,edk::color3f64 p2,edk::float32 percent){
+        return edk::color3f64(edk::Math::straightPosition(p1.r,p2.r,percent),
+                              edk::Math::straightPosition(p1.g,p2.g,percent),
+                              edk::Math::straightPosition(p1.b,p2.b,percent)
+                              );
+    }
+    static inline edk::color3ui8 getStraightPosition(edk::color3ui8 p1,edk::color3ui8 p2,edk::float32 percent){
+        return edk::color3ui8(edk::Math::getStraightPosition(p1.r,p2.r,percent),
+                              edk::Math::getStraightPosition(p1.g,p2.g,percent),
+                              edk::Math::getStraightPosition(p1.b,p2.b,percent)
+                              );
+    }
+    static inline edk::color3f32 getStraightPosition(edk::color3f32 p1,edk::color3f32 p2,edk::float32 percent){
+        return edk::color3f32(edk::Math::getStraightPosition(p1.r,p2.r,percent),
+                              edk::Math::getStraightPosition(p1.g,p2.g,percent),
+                              edk::Math::getStraightPosition(p1.b,p2.b,percent)
+                              );
+    }
+    static inline edk::color3f64 getStraightPosition(edk::color3f64 p1,edk::color3f64 p2,edk::float64 percent){
+        return edk::color3f64(edk::Math::getStraightPosition(p1.r,p2.r,percent),
+                              edk::Math::getStraightPosition(p1.g,p2.g,percent),
+                              edk::Math::getStraightPosition(p1.b,p2.b,percent)
+                              );
+    }
+    static inline edk::color3f64 getStraightPosition(edk::color3f64 p1,edk::color3f64 p2,edk::float32 percent){
+        return edk::color3f64(edk::Math::getStraightPosition(p1.r,p2.r,percent),
+                              edk::Math::getStraightPosition(p1.g,p2.g,percent),
+                              edk::Math::getStraightPosition(p1.b,p2.b,percent)
+                              );
+    }
+    //get straight RGBA
+    static inline edk::color4ui8 straightPosition(edk::color4ui8 p1,edk::color4ui8 p2,edk::float32 percent){
+        return edk::color4ui8(edk::Math::straightPosition(p1.r,p2.r,percent),
+                              edk::Math::straightPosition(p1.g,p2.g,percent),
+                              edk::Math::straightPosition(p1.b,p2.b,percent),
+                              edk::Math::straightPosition(p1.a,p2.a,percent)
+                              );
+    }
+    static inline edk::color4f32 straightPosition(edk::color4f32 p1,edk::color4f32 p2,edk::float32 percent){
+        return edk::color4f32(edk::Math::straightPosition(p1.r,p2.r,percent),
+                              edk::Math::straightPosition(p1.g,p2.g,percent),
+                              edk::Math::straightPosition(p1.b,p2.b,percent),
+                              edk::Math::straightPosition(p1.a,p2.a,percent)
+                              );
+    }
+    static inline edk::color4f64 straightPosition(edk::color4f64 p1,edk::color4f64 p2,edk::float64 percent){
+        return edk::color4f64(edk::Math::straightPosition(p1.r,p2.r,percent),
+                              edk::Math::straightPosition(p1.g,p2.g,percent),
+                              edk::Math::straightPosition(p1.b,p2.b,percent),
+                              edk::Math::straightPosition(p1.a,p2.a,percent)
+                              );
+    }
+    static inline edk::color4f64 straightPosition(edk::color4f64 p1,edk::color4f64 p2,edk::float32 percent){
+        return edk::color4f64(edk::Math::straightPosition(p1.r,p2.r,percent),
+                              edk::Math::straightPosition(p1.g,p2.g,percent),
+                              edk::Math::straightPosition(p1.b,p2.b,percent),
+                              edk::Math::straightPosition(p1.a,p2.a,percent)
+                              );
+    }
+    static inline edk::color4ui8 getStraightPosition(edk::color4ui8 p1,edk::color4ui8 p2,edk::float32 percent){
+        return edk::color4ui8(edk::Math::getStraightPosition(p1.r,p2.r,percent),
+                              edk::Math::getStraightPosition(p1.g,p2.g,percent),
+                              edk::Math::getStraightPosition(p1.b,p2.b,percent),
+                              edk::Math::getStraightPosition(p1.a,p2.a,percent)
+                              );
+    }
+    static inline edk::color4f32 getStraightPosition(edk::color4f32 p1,edk::color4f32 p2,edk::float32 percent){
+        return edk::color4f32(edk::Math::getStraightPosition(p1.r,p2.r,percent),
+                              edk::Math::getStraightPosition(p1.g,p2.g,percent),
+                              edk::Math::getStraightPosition(p1.b,p2.b,percent),
+                              edk::Math::getStraightPosition(p1.a,p2.a,percent)
+                              );
+    }
+    static inline edk::color4f64 getStraightPosition(edk::color4f64 p1,edk::color4f64 p2,edk::float64 percent){
+        return edk::color4f64(edk::Math::getStraightPosition(p1.r,p2.r,percent),
+                              edk::Math::getStraightPosition(p1.g,p2.g,percent),
+                              edk::Math::getStraightPosition(p1.b,p2.b,percent),
+                              edk::Math::getStraightPosition(p1.a,p2.a,percent)
+                              );
+    }
+    static inline edk::color4f64 getStraightPosition(edk::color4f64 p1,edk::color4f64 p2,edk::float32 percent){
+        return edk::color4f64(edk::Math::getStraightPosition(p1.r,p2.r,percent),
+                              edk::Math::getStraightPosition(p1.g,p2.g,percent),
+                              edk::Math::getStraightPosition(p1.b,p2.b,percent),
+                              edk::Math::getStraightPosition(p1.a,p2.a,percent)
+                              );
+    }
 
     //generate matrices
     //2D
