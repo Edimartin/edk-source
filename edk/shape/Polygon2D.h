@@ -210,8 +210,58 @@ public:
     edk::uint8 getCollisionID();
 
     //functions for the vertexes animations
-    //virtual edk::uint32 newPolygonMorph();
-    //virtual edk::uint32 getPolygonMorphSize();
+    virtual edk::uint32 newPolygonMorph(edk::float32 percent,bool* success=&edk::shape::Polygon2D::successTemplate);
+    virtual bool havePolygonMorph(edk::uint32 positionMorph);
+    virtual bool deletePolygonMorph(edk::uint32 positionMorph);
+    virtual void cleanPolygonMorph();
+    virtual void deleteAllPolygonMorph();
+    virtual edk::uint32 getPolygonMorphSize();
+    //morph setters
+    //set the position of a vertex
+    bool setPolygonMorphVertexPosition(edk::uint32 positionMorph,edk::uint32 vertex,edk::vec2f32 position);
+    bool setPolygonMorphVertexPosition(edk::uint32 positionMorph,edk::uint32 vertex,edk::float32 x,edk::float32 y);
+    //set the color of a vertex
+    bool setPolygonMorphVertexColor(edk::uint32 positionMorph,edk::uint32 vertex,edk::color4f32 color);
+    bool setPolygonMorphVertexColor(edk::uint32 positionMorph,edk::uint32 vertex,edk::float32 r,edk::float32 g,edk::float32 b);
+    bool setPolygonMorphVertexColor(edk::uint32 positionMorph,edk::uint32 vertex,edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
+    //Set polygon color
+    bool setPolygonMorphColor(edk::uint32 positionMorph,edk::color4f32 color);
+    bool setPolygonMorphColor(edk::uint32 positionMorph,edk::color3f32 color);
+    bool setPolygonMorphColor(edk::uint32 positionMorph,edk::float32 r,edk::float32 g,edk::float32 b);
+    bool setPolygonMorphColor(edk::uint32 positionMorph,edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
+    bool setPolygonMorphColorR(edk::uint32 positionMorph,edk::float32 r);
+    bool setPolygonMorphColorG(edk::uint32 positionMorph,edk::float32 g);
+    bool setPolygonMorphColorB(edk::uint32 positionMorph,edk::float32 b);
+    bool setPolygonMorphColorA(edk::uint32 positionMorph,edk::float32 a);
+    //set the UVMap of the vertex
+    bool setPolygonMorphVertexUV(edk::uint32 positionMorph,edk::uint32 vertex,edk::vec2f32 uv);
+    bool setPolygonMorphVertexUV(edk::uint32 positionMorph,edk::uint32 vertex,edk::float32 x,edk::float32 y);
+    //Set the polygonFrames setting in the vertexs
+    bool setPolygonMorphUVFrames(edk::uint32 positionMorph,edk::vec2ui32 frames);
+    bool setPolygonMorphUVFrames(edk::uint32 positionMorph,edk::uint32 x,edk::uint32 y);
+    bool setPolygonMorphUVFramesX(edk::uint32 positionMorph,edk::uint32 x);
+    bool setPolygonMorphUVFramesY(edk::uint32 positionMorph,edk::uint32 y);
+    //Set the polygon frame
+    bool usePolygonMorphUVFrame(edk::uint32 positionMorph,edk::vec2ui32 frame);
+    bool usePolygonMorphUVFramePosition(edk::uint32 positionMorph,edk::uint32 position);
+    bool usePolygonMorphUVFrameX(edk::uint32 positionMorph,edk::uint32 x);
+    bool usePolygonMorphUVFrameY(edk::uint32 positionMorph,edk::uint32 y);
+    //morph getters
+    virtual edk::float32 getPolygonMorphPercent(edk::uint32 positionMorph);
+    //return the vertexCount
+    edk::uint32 getPolygonMorphVertexCount();
+    //return if the vertex have UV
+    edk::uint8 getPolygonMorphVertexType(edk::uint32 positionMorph);
+    //return the vertex
+    edk::vec2f32 getPolygonMorphVertexPosition(edk::uint32 positionMorph,edk::uint32 positionVertex);
+    //return the vertex with all transformations
+    edk::vec2f32 getPolygonMorphVertexPositionTransformed(edk::uint32 positionMorph,edk::uint32 positionVertex);
+    //return the vertex color
+    edk::color4f32 getPolygonMorphVertexColor(edk::uint32 positionMorph,edk::uint32 positionVertex);
+    //return the vertex UV
+    edk::vec2f32 getPolygonMorphVertexUV(edk::uint32 positionMorph,edk::uint32 positionVertex);
+    //return the frames
+    edk::vec2ui32 getPolygonMorphFrames(edk::uint32 positionMorph);
 
     //Set to cant delete the polygon
     void cantDeletePolygon();
@@ -524,6 +574,356 @@ protected:
             }
             //else return false
             return false;
+        }
+        //Set the polygonFrames setting in the vertexs
+        bool setPolygonUVFrames(edk::vec2ui32 frames){
+            //test the frames
+            if(frames.x && frames.y){
+                edk::shape::Vertex2DWithUV* vTemp = NULL;
+                edk::shape::Vertex2DAnimatedUV* uvaTemp = NULL;
+                //set the frames on vertex
+                for(edk::uint32 i=0u;i<this->vertexs.size();i++){
+                    //
+                    vTemp = (edk::shape::Vertex2DWithUV*)this->vertexsOriginal.get(i);edkEnd();
+                    if(vTemp){
+                        //test what type of vertex it is
+                        if(vTemp->getType() != EDK_SHAPE_ANIMATED_UV){
+                            //then delete the vTemp and create another with UV
+                            uvaTemp = new edk::shape::Vertex2DAnimatedUV();edkEnd();
+                            if(uvaTemp){
+                                //copy the vTemp content to uvTemp
+                                uvaTemp->position = vTemp->position;edkEnd();
+                                uvaTemp->color = vTemp->color;edkEnd();
+
+                                if(vTemp->getType() == EDK_SHAPE_UV){
+                                    uvaTemp->setUV(vTemp->getUV());
+                                }
+
+                                //delete the vTemp
+                                delete vTemp;edkEnd();
+                                //set vTemp the uvTemp
+                                vTemp=uvaTemp;edkEnd();
+                                //set the vertex on the array
+                                this->vertexsOriginal.set(i,(edk::shape::Vertex2D*)vTemp);edkEnd();
+                                //clean uvTemp
+                                uvaTemp=NULL;edkEnd();
+                            }
+                            else{
+                                //else return false
+                                return false;
+                            }
+                        }
+                        else if(vTemp->getType() == EDK_SHAPE_ANIMATED_UV){
+                            edk::shape::Vertex2DAnimatedUV* vTemp2 = (edk::shape::Vertex2DAnimatedUV*)vTemp;edkEnd();
+                            vTemp2->setUVFrames(frames);edkEnd();
+                            return true;
+                        }
+                        //return true
+                        return true;
+                    }
+                }
+                //return true
+                return true;
+            }
+            //else return false
+            return false;
+        }
+        bool setPolygonUVFramesX(edk::uint32 x){
+            //test the frames
+            if(x){
+                edk::shape::Vertex2DWithUV* vTemp = NULL;
+                edk::shape::Vertex2DAnimatedUV* uvaTemp = NULL;
+                //set the frames on vertex
+                for(edk::uint32 i=0u;i<this->vertexs.size();i++){
+                    //
+                    vTemp = (edk::shape::Vertex2DWithUV*)this->vertexsOriginal.get(i);edkEnd();
+                    if(vTemp){
+                        //test what type of vertex it is
+                        if(vTemp->getType() != EDK_SHAPE_ANIMATED_UV){
+                            //then delete the vTemp and create another with UV
+                            uvaTemp = new edk::shape::Vertex2DAnimatedUV();edkEnd();
+                            if(uvaTemp){
+                                //copy the vTemp content to uvTemp
+                                uvaTemp->position = vTemp->position;edkEnd();
+                                uvaTemp->color = vTemp->color;edkEnd();
+
+                                if(vTemp->getType() == EDK_SHAPE_UV){
+                                    uvaTemp->setUV(vTemp->getUV());
+                                }
+
+                                //delete the vTemp
+                                delete vTemp;edkEnd();
+                                //set vTemp the uvTemp
+                                vTemp=uvaTemp;edkEnd();
+                                //set the vertex on the array
+                                this->vertexsOriginal.set(i,(edk::shape::Vertex2D*)vTemp);edkEnd();
+                                //clean uvTemp
+                                uvaTemp=NULL;edkEnd();
+                            }
+                            else{
+                                //else return false
+                                return false;
+                            }
+                        }
+                        else if(vTemp->getType() == EDK_SHAPE_ANIMATED_UV){
+                            edk::shape::Vertex2DAnimatedUV* vTemp2 = (edk::shape::Vertex2DAnimatedUV*)vTemp;edkEnd();
+                            vTemp2->setUVFrames(x,vTemp2->getUVFrames().y);edkEnd();
+                            return true;
+                        }
+                        //return true
+                        return true;
+                    }
+                }
+                //return true
+                return true;
+            }
+            //else return false
+            return false;
+        }
+        bool setPolygonUVFramesY(edk::uint32 y){
+            //test the frames
+            if(y){
+                edk::shape::Vertex2DWithUV* vTemp = NULL;
+                edk::shape::Vertex2DAnimatedUV* uvaTemp = NULL;
+                //set the frames on vertex
+                for(edk::uint32 i=0u;i<this->vertexs.size();i++){
+                    //
+                    vTemp = (edk::shape::Vertex2DWithUV*)this->vertexsOriginal.get(i);edkEnd();
+                    if(vTemp){
+                        //test what type of vertex it is
+                        if(vTemp->getType() != EDK_SHAPE_ANIMATED_UV){
+                            //then delete the vTemp and create another with UV
+                            uvaTemp = new edk::shape::Vertex2DAnimatedUV();edkEnd();
+                            if(uvaTemp){
+                                //copy the vTemp content to uvTemp
+                                uvaTemp->position = vTemp->position;edkEnd();
+                                uvaTemp->color = vTemp->color;edkEnd();
+
+                                if(vTemp->getType() == EDK_SHAPE_UV){
+                                    uvaTemp->setUV(vTemp->getUV());
+                                }
+
+                                //delete the vTemp
+                                delete vTemp;edkEnd();
+                                //set vTemp the uvTemp
+                                vTemp=uvaTemp;edkEnd();
+                                //set the vertex on the array
+                                this->vertexsOriginal.set(i,(edk::shape::Vertex2D*)vTemp);edkEnd();
+                                //clean uvTemp
+                                uvaTemp=NULL;edkEnd();
+                            }
+                            else{
+                                //else return false
+                                return false;
+                            }
+                        }
+                        else if(vTemp->getType() == EDK_SHAPE_ANIMATED_UV){
+                            edk::shape::Vertex2DAnimatedUV* vTemp2 = (edk::shape::Vertex2DAnimatedUV*)vTemp;edkEnd();
+                            vTemp2->setUVFrames(vTemp2->getUVFrames().x,y);edkEnd();
+                            return true;
+                        }
+                        //return true
+                        return true;
+                    }
+                }
+                //return true
+                return true;
+            }
+            //else return false
+            return false;
+        }
+        //Set the polygon frame
+        void usePolygonUVFrame(edk::vec2ui32 frame){
+            //test the frames
+            edk::shape::Vertex2DWithUV* vTemp = NULL;
+            edk::shape::Vertex2DAnimatedUV* uvaTemp = NULL;
+            //set the frames on vertex
+            for(edk::uint32 i=0u;i<this->vertexs.size();i++){
+                //
+                vTemp = (edk::shape::Vertex2DWithUV*)this->vertexsOriginal.get(i);edkEnd();
+                if(vTemp){
+                    //test what type of vertex it is
+                    if(vTemp->getType() != EDK_SHAPE_ANIMATED_UV){
+                        //then delete the vTemp and create another with UV
+                        uvaTemp = new edk::shape::Vertex2DAnimatedUV();edkEnd();
+                        if(uvaTemp){
+                            //copy the vTemp content to uvTemp
+                            uvaTemp->position = vTemp->position;edkEnd();
+                            uvaTemp->color = vTemp->color;edkEnd();
+
+                            if(vTemp->getType() == EDK_SHAPE_UV){
+                                uvaTemp->setUV(vTemp->getUV());
+                            }
+
+                            //delete the vTemp
+                            delete vTemp;edkEnd();
+                            //set vTemp the uvTemp
+                            vTemp=uvaTemp;edkEnd();
+                            //set the vertex on the array
+                            this->vertexsOriginal.set(i,(edk::shape::Vertex2D*)vTemp);edkEnd();
+                            //clean uvTemp
+                            uvaTemp=NULL;edkEnd();
+                        }
+                    }
+                    else if(vTemp->getType() == EDK_SHAPE_ANIMATED_UV){
+                        edk::shape::Vertex2DAnimatedUV* vTemp2 = (edk::shape::Vertex2DAnimatedUV*)vTemp;edkEnd();
+                        vTemp2->useUVFrame(frame);edkEnd();
+                    }
+                }
+            }
+        }
+        //void usePolygonUVFramePosition(edk::uint32 position);
+        void usePolygonUVFrameX(edk::uint32 x){
+            edk::shape::Vertex2DWithUV* vTemp = NULL;
+            edk::shape::Vertex2DAnimatedUV* uvaTemp = NULL;
+            //set the frames on vertex
+            for(edk::uint32 i=0u;i<this->vertexs.size();i++){
+                //
+                vTemp = (edk::shape::Vertex2DWithUV*)this->vertexsOriginal.get(i);edkEnd();
+                if(vTemp){
+                    //test what type of vertex it is
+                    if(vTemp->getType() != EDK_SHAPE_ANIMATED_UV){
+                        //then delete the vTemp and create another with UV
+                        uvaTemp = new edk::shape::Vertex2DAnimatedUV();edkEnd();
+                        if(uvaTemp){
+                            //copy the vTemp content to uvTemp
+                            uvaTemp->position = vTemp->position;edkEnd();
+                            uvaTemp->color = vTemp->color;edkEnd();
+
+                            if(vTemp->getType() == EDK_SHAPE_UV){
+                                uvaTemp->setUV(vTemp->getUV());
+                            }
+
+                            //delete the vTemp
+                            delete vTemp;edkEnd();
+                            //set vTemp the uvTemp
+                            vTemp=uvaTemp;edkEnd();
+                            //set the vertex on the array
+                            this->vertexsOriginal.set(i,(edk::shape::Vertex2D*)vTemp);edkEnd();
+                            //clean uvTemp
+                            uvaTemp=NULL;edkEnd();
+                        }
+                    }
+                    else if(vTemp->getType() == EDK_SHAPE_ANIMATED_UV){
+                        edk::shape::Vertex2DAnimatedUV* vTemp2 = (edk::shape::Vertex2DAnimatedUV*)vTemp;edkEnd();
+                        vTemp2->useUVFrameX(x);edkEnd();
+                    }
+                }
+            }
+        }
+        void usePolygonUVFrameY(edk::uint32 y){
+            edk::shape::Vertex2DWithUV* vTemp = NULL;
+            edk::shape::Vertex2DAnimatedUV* uvaTemp = NULL;
+            //set the frames on vertex
+            for(edk::uint32 i=0u;i<this->vertexs.size();i++){
+                //
+                vTemp = (edk::shape::Vertex2DWithUV*)this->vertexsOriginal.get(i);edkEnd();
+                if(vTemp){
+                    //test what type of vertex it is
+                    if(vTemp->getType() != EDK_SHAPE_ANIMATED_UV){
+                        //then delete the vTemp and create another with UV
+                        uvaTemp = new edk::shape::Vertex2DAnimatedUV();edkEnd();
+                        if(uvaTemp){
+                            //copy the vTemp content to uvTemp
+                            uvaTemp->position = vTemp->position;edkEnd();
+                            uvaTemp->color = vTemp->color;edkEnd();
+
+                            if(vTemp->getType() == EDK_SHAPE_UV){
+                                uvaTemp->setUV(vTemp->getUV());
+                            }
+
+                            //delete the vTemp
+                            delete vTemp;edkEnd();
+                            //set vTemp the uvTemp
+                            vTemp=uvaTemp;edkEnd();
+                            //set the vertex on the array
+                            this->vertexsOriginal.set(i,(edk::shape::Vertex2D*)vTemp);edkEnd();
+                            //clean uvTemp
+                            uvaTemp=NULL;edkEnd();
+                        }
+                    }
+                    else if(vTemp->getType() == EDK_SHAPE_ANIMATED_UV){
+                        edk::shape::Vertex2DAnimatedUV* vTemp2 = (edk::shape::Vertex2DAnimatedUV*)vTemp;edkEnd();
+                        vTemp2->useUVFrameX(y);edkEnd();
+                    }
+                }
+            }
+        }
+        //return the vertexCount
+        edk::uint32 getVertexCount(){
+            return this->vertexsOriginal.size();
+        }
+        //return if the vertex have UV
+        edk::uint8 getVertexType(edk::uint32 pos){
+            if(this->vertexsOriginal.have(pos)){
+                edk::shape::Vertex2D* temp = this->vertexsOriginal[pos];
+                if(temp){
+                return temp->getType();
+                }
+            }
+            return 0u;
+        }
+        //return the vertex
+        edk::vec2f32 getVertexPosition(edk::uint32 pos){
+            edk::vec2f32 ret;
+            if(this->vertexsOriginal.have(pos)){
+                edk::shape::Vertex2D* temp = this->vertexsOriginal[pos];
+                if(temp){
+                ret = temp->position;
+                }
+            }
+            return ret;
+        }
+        //return the vertex with all transformations
+        edk::vec2f32 getVertexPositionTransformed(edk::uint32 pos){
+            edk::vec2f32 ret;
+            if(this->vertexsOriginal.have(pos)){
+                edk::shape::Vertex2D* temp = this->vertexsOriginal[pos];
+                if(temp){
+                ret = temp->position;
+                }
+            }
+            return ret;
+        }
+        //return the vertex color
+        edk::color4f32 getVertexColor(edk::uint32 pos){
+            edk::color4f32 ret;
+            if(this->vertexsOriginal.have(pos)){
+                edk::shape::Vertex2D* temp = this->vertexsOriginal[pos];
+                if(temp){
+                ret = temp->color;
+                }
+            }
+            return ret;
+        }
+        //return the vertex UV
+        edk::vec2f32 getVertexUV(edk::uint32 pos){
+            edk::vec2f32 ret;
+            if(this->vertexsOriginal.have(pos)){
+                edk::shape::Vertex2D* temp = this->vertexsOriginal[pos];
+                if(temp){
+                    if(temp->getType() == EDK_SHAPE_UV){
+                        ret = ((edk::shape::Vertex2DWithUV*)temp)->getUV();
+                    }
+                    else if(temp->getType() == EDK_SHAPE_ANIMATED_UV){
+                        ret = ((edk::shape::Vertex2DAnimatedUV*)temp)->getUV();
+                    }
+                }
+            }
+            return ret;
+        }
+        //return the frames
+        edk::vec2ui32 getFrames(edk::uint32 pos){
+            edk::vec2ui32 ret;
+            if(this->vertexsOriginal.have(pos)){
+                edk::shape::Vertex2D* temp = this->vertexsOriginal[pos];
+                if(temp){
+                    if(temp->getType() == EDK_SHAPE_ANIMATED_UV){
+                        ret = ((edk::shape::Vertex2DAnimatedUV*)temp)->getUVFrames();
+                    }
+                }
+            }
+            return ret;
         }
 
         //calculate the morph
@@ -1031,6 +1431,8 @@ private:
     edk::vector::Matrix<edk::float32,3u,3u> matrixScale;
     edk::vector::Matrix<edk::float32,3,3> matrixTransform;
     edk::vector::MatrixDynamic<edk::float32> matrixPosition;
+    //success
+    static bool successTemplate;
 
 private:
     //Operator =
