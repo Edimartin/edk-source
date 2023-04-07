@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside ImageToShader"
+#pragma message "Inside ImageToShader"
 #endif
 
 #pragma once
@@ -37,7 +37,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "Image2D.h"
 
 #ifdef printMessages
-#warning "    Compiling ImageToShader"
+#pragma message "    Compiling ImageToShader"
 #endif
 
 namespace edk{

@@ -29,7 +29,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside DebugFile"
+#pragma message "Inside DebugFile"
 #endif
 
 #include "TypeVars.h"
@@ -37,16 +37,16 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //#include <stdarg.h>
 
 #ifdef printMessages
-#warning "    Compiling DebugFile"
+#pragma message "    Compiling DebugFile"
 #endif
 
-#if defined(EDK_DEBUGGER)
+#if defined(EDK_DEBUGGER) || defined(EDK_DEBUG_MEMSET) || defined(EDK_DEBUG_MEMCPY)
 #ifndef EDK_DEBUG_FILE_NAME
-#warning "    Don't have EDK_DEBUG_FILE_NAME"
+#pragma message "    Don't have EDK_DEBUG_FILE_NAME"
 #define EDK_DEBUG_FILE_NAME "./edkDebug.txt"
-#warning " using the EDK_DEBUG_FILE_NAME as "./edkDebug.txt" "
-#warning " if you want define a debugFile. You can use the command -DEDK_DEBUG_FILE_NAME=\"./edkDebug.txt\" "
-#warning " if you want define a debugFile in qtCreator. You can use the command DEFINES += EDK_DEBUGGER EDK_DEBUG_FILE_NAME=\\\"./edkDebug.txt\\\" "
+#pragma message " using the EDK_DEBUG_FILE_NAME as "./edkDebug.txt" "
+#pragma message " if you want define a debugFile. You can use the command -DEDK_DEBUG_FILE_NAME=\"./edkDebug.txt\" "
+#pragma message " if you want define a debugFile in qtCreator. You can use the command DEFINES += EDK_DEBUGGER EDK_DEBUG_FILE_NAME=\\\"./edkDebug.txt\\\" "
 #endif
 #endif
 
@@ -66,19 +66,19 @@ public:
         return edk::DebugFile::writeDebug(line,(edk::char8*) fileName,(edk::char8*) funcName);
     }
     static inline bool writeDebug(edk::uint64
-                              #if defined(EDK_DEBUGGER)
+                              #if defined(EDK_DEBUGGER) || defined(EDK_DEBUG_MEMSET) || defined(EDK_DEBUG_MEMCPY)
                                   line
                               #endif
                                   ,edk::char8*
-                              #if defined(EDK_DEBUGGER)
+                              #if defined(EDK_DEBUGGER) || defined(EDK_DEBUG_MEMSET) || defined(EDK_DEBUG_MEMCPY)
                                   fileName
                               #endif
                                   ,edk::char8*
-                              #if defined(EDK_DEBUGGER)
+                              #if defined(EDK_DEBUGGER) || defined(EDK_DEBUG_MEMSET) || defined(EDK_DEBUG_MEMCPY)
                                   funcName
                               #endif
                                   ){
-#if defined(EDK_DEBUGGER)
+#if defined(EDK_DEBUGGER) || defined(EDK_DEBUG_MEMSET) || defined(EDK_DEBUG_MEMCPY)
         //test if haven't open the file
         if(!edk::DebugFile::file.isOpened()){
             //create the file
@@ -103,8 +103,108 @@ public:
         return false;
     }
 
+    //write memset in to file
+    static inline bool writeMemSetDebug(edk::uint64 line,const edk::char8* fileName,const edk::char8* funcName, edk::uint64 size){
+        return edk::DebugFile::writeMemSetDebug(line,(edk::char8*) fileName,(edk::char8*) funcName,size);
+    }
+    static inline bool writeMemSetDebug(edk::uint64
+                                    #if defined(EDK_DEBUGGER) || defined(EDK_DEBUG_MEMSET) || defined(EDK_DEBUG_MEMCPY)
+                                        line
+                                    #endif
+                                        ,edk::char8*
+                                    #if defined(EDK_DEBUGGER) || defined(EDK_DEBUG_MEMSET) || defined(EDK_DEBUG_MEMCPY)
+                                        fileName
+                                    #endif
+                                        ,edk::char8*
+                                    #if defined(EDK_DEBUGGER) || defined(EDK_DEBUG_MEMSET) || defined(EDK_DEBUG_MEMCPY)
+                                        funcName
+                                    #endif
+                                        ,edk::uint64
+                                    #if defined(EDK_DEBUGGER) || defined(EDK_DEBUG_MEMSET) || defined(EDK_DEBUG_MEMCPY)
+                                        size
+                                    #endif
+                                        ){
+#if defined(EDK_DEBUGGER) || defined(EDK_DEBUG_MEMSET) || defined(EDK_DEBUG_MEMCPY)
+        //test if haven't open the file
+        if(!edk::DebugFile::file.isOpened()){
+            //create the file
+            edk::DebugFile::newFile(EDK_DEBUG_FILE_NAME);
+        }
+        if(edk::DebugFile::file.writeText(line)){
+            if(edk::DebugFile::file.writeText(" ")){
+                if(edk::DebugFile::file.writeText(fileName)){
+                    if(edk::DebugFile::file.writeText(" ")){
+                        if(edk::DebugFile::file.writeText(funcName)){
+                            if(edk::DebugFile::file.writeText(" memSetSize(")){
+                                if(edk::DebugFile::file.writeText(size)){
+                                    if(edk::DebugFile::file.writeText(")\n")){
+                                        //flush the file
+                                        edk::DebugFile::file.flush();
+                                        return true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+#endif
+        return false;
+    }
+
+    //write memset in to file
+    static inline bool writeMemCpyDebug(edk::uint64 line,const edk::char8* fileName,const edk::char8* funcName, edk::uint64 size){
+        return edk::DebugFile::writeMemCpyDebug(line,(edk::char8*) fileName,(edk::char8*) funcName,size);
+    }
+    static inline bool writeMemCpyDebug(edk::uint64
+                                    #if defined(EDK_DEBUGGER) || defined(EDK_DEBUG_MEMSET) || defined(EDK_DEBUG_MEMCPY)
+                                        line
+                                    #endif
+                                        ,edk::char8*
+                                    #if defined(EDK_DEBUGGER) || defined(EDK_DEBUG_MEMSET) || defined(EDK_DEBUG_MEMCPY)
+                                        fileName
+                                    #endif
+                                        ,edk::char8*
+                                    #if defined(EDK_DEBUGGER) || defined(EDK_DEBUG_MEMSET) || defined(EDK_DEBUG_MEMCPY)
+                                        funcName
+                                    #endif
+                                        ,edk::uint64
+                                    #if defined(EDK_DEBUGGER) || defined(EDK_DEBUG_MEMSET) || defined(EDK_DEBUG_MEMCPY)
+                                        size
+                                    #endif
+                                        ){
+#if defined(EDK_DEBUGGER) || defined(EDK_DEBUG_MEMSET) || defined(EDK_DEBUG_MEMCPY)
+        //test if haven't open the file
+        if(!edk::DebugFile::file.isOpened()){
+            //create the file
+            edk::DebugFile::newFile(EDK_DEBUG_FILE_NAME);
+        }
+        if(edk::DebugFile::file.writeText(line)){
+            if(edk::DebugFile::file.writeText(" ")){
+                if(edk::DebugFile::file.writeText(fileName)){
+                    if(edk::DebugFile::file.writeText(" ")){
+                        if(edk::DebugFile::file.writeText(funcName)){
+                            if(edk::DebugFile::file.writeText(" memCpySize(")){
+                                if(edk::DebugFile::file.writeText(size)){
+                                    if(edk::DebugFile::file.writeText(")\n")){
+                                        //flush the file
+                                        edk::DebugFile::file.flush();
+                                        return true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+#endif
+        return false;
+    }
+
 private:
-#if defined(EDK_DEBUGGER)
+#if defined(EDK_DEBUGGER) || defined(EDK_DEBUG_MEMSET) || defined(EDK_DEBUG_MEMCPY)
     //statis file
     inline static edk::File file;
 #endif
@@ -115,6 +215,31 @@ private:
 #define edkEnd() edk::DebugFile::writeDebug(__LINE__,__FILE__,__func__); edk::NothingClass::edk_nothing()
 #else
 #define edkEnd() edk::NothingClass::edk_nothing()
+#endif
+
+#if defined(EDK_DEBUG_MEMSET)
+#define edkMemSet(vec,set,size) \
+    \
+    \
+    memset(vec,set,size); \
+    edk::DebugFile::writeMemSetDebug(__LINE__,__FILE__,__func__,size); \
+    edk::NothingClass::edk_nothing()
+#else
+#define edkMemSet(vec,set,size) \
+    memset(vec,set,size); \
+    edk::NothingClass::edk_nothing()
+#endif
+
+#if defined(EDK_DEBUG_MEMCPY)
+#define edkMemCpy(dest,vec,size) \
+    \
+    memcpy(dest,vec,size); \
+    edk::DebugFile::writeMemCpyDebug(__LINE__,__FILE__,__func__,size); \
+    edk::NothingClass::edk_nothing()
+#else
+#define edkMemCpy(dest,vec,size) \
+    memcpy(vec,set,size); \
+    edk::NothingClass::edk_nothing()
 #endif
 
 #endif // DEBUGFILE_H

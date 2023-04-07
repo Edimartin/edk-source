@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside GU_GLSL.cpp"
+#pragma message "            Inside GU_GLSL.cpp"
 #endif
 
 bool edk::GU_GLSL::initiate=false;

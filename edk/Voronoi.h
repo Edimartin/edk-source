@@ -26,11 +26,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Action"
+#pragma message "Inside Action"
 #endif
 
 #ifdef printMessages
-#warning "    Compiling Action"
+#pragma message "    Compiling Action"
 #endif
 
 #pragma once

@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside ViewSprite"
+#pragma message "Inside ViewSprite"
 #endif
 
 //ViewSprite draw a texture in a view
@@ -36,7 +36,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "pack/FilePackage.h"
 
 #ifdef printMessages
-#warning "    Compiling ViewSprite"
+#pragma message "    Compiling ViewSprite"
 #endif
 
 namespace edk{

@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Bezier2D"
+#pragma message "Inside Bezier2D"
 #endif
 
 #pragma once
@@ -35,7 +35,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "Curve2D.h"
 
 #ifdef printMessages
-#warning "    Compiling Bezier2D"
+#pragma message "    Compiling Bezier2D"
 #endif
 
 namespace edk{

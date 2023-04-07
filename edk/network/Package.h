@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Package"
+#pragma message "Inside Package"
 #endif
 
 #pragma once
@@ -36,7 +36,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <string.h>
 
 #ifdef printMessages
-#warning "    Compiling Package"
+#pragma message "    Compiling Package"
 #endif
 
 namespace edk{

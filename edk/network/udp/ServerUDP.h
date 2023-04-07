@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside ServerUDP"
+#pragma message "Inside ServerUDP"
 #endif
 
 #pragma once
@@ -35,7 +35,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../../vector/BinaryTree.h"
 
 #ifdef printMessages
-#warning "    Compiling ServerUDP"
+#pragma message "    Compiling ServerUDP"
 #endif
 
 namespace edk{

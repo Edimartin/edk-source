@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside EncoderImage"
+#pragma message "Inside EncoderImage"
 #endif
 
 #pragma once
@@ -34,7 +34,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../File.h"
 
 #ifdef printMessages
-#warning "    Compiling EncoderImage"
+#pragma message "    Compiling EncoderImage"
 #endif
 
 namespace edk{

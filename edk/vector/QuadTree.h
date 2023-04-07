@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside QuadTree"
+#pragma message "Inside QuadTree"
 #endif
 
 #pragma once
@@ -40,7 +40,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 #ifdef printMessages
-#warning "    Compiling QuadTree"
+#pragma message "    Compiling QuadTree"
 #endif
 
 

@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Interpolation1DGroup"
+#pragma message "Inside Interpolation1DGroup"
 #endif
 
 #pragma once
@@ -36,7 +36,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../vector/Stack.h"
 
 #ifdef printMessages
-#warning "    Compiling Interpolation1DGroup"
+#pragma message "    Compiling Interpolation1DGroup"
 #endif
 
 namespace edk{

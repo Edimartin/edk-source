@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Adress"
+#pragma message "Inside Adress"
 #endif
 
 #pragma once
@@ -67,7 +67,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //EDK_SOCKET_TCP
 
 #ifdef printMessages
-#warning "    Compiling Adress"
+#pragma message "    Compiling Adress"
 #endif
 
 namespace edk{

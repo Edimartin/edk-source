@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside RevoluteJoint2D"
+#pragma message "Inside RevoluteJoint2D"
 #endif
 
 #pragma once
@@ -37,7 +37,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //                                                              edk::float32 maxTorque,edk::float32 speed,
 
 #ifdef printMessages
-#warning "    Compiling RevoluteJoint2D"
+#pragma message "    Compiling RevoluteJoint2D"
 #endif
 
 namespace edk{

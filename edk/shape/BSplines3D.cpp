@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside BSplines3D.cpp"
+#pragma message "            Inside BSplines3D.cpp"
 #endif
 
 edk::shape::BSplines3D::BSplines3D()

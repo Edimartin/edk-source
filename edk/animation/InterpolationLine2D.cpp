@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside InterpolationLine2D.cpp"
+#pragma message "            Inside InterpolationLine2D.cpp"
 #endif
 
 edk::animation::InterpolationLine2D::InterpolationLine2D()

@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Line2D"
+#pragma message "Inside Line2D"
 #endif
 
 //Include the polygon
@@ -35,7 +35,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "Vertex2D.h"
 
 #ifdef printMessages
-#warning "    Compiling Line2D"
+#pragma message "    Compiling Line2D"
 #endif
 
 namespace edk{

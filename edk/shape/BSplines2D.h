@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside BSplines2D"
+#pragma message "Inside BSplines2D"
 #endif
 
 #pragma once
@@ -35,7 +35,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "Curve2D.h"
 
 #ifdef printMessages
-#warning "    Compiling BSplines2D"
+#pragma message "    Compiling BSplines2D"
 #endif
 
 namespace edk{

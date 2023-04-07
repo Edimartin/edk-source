@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside Audio2D.cpp"
+#pragma message "            Inside Audio2D.cpp"
 #endif
 
 edk::Audio2D::Audio2D()

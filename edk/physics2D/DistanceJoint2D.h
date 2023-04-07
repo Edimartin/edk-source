@@ -26,14 +26,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside DistanceJoint2D"
+#pragma message "Inside DistanceJoint2D"
 #endif
 
 #pragma once
 #include "RevoluteJoint2D.h"
 
 #ifdef printMessages
-#warning "    Compiling DistanceJoint2D"
+#pragma message "    Compiling DistanceJoint2D"
 #endif
 
 namespace edk{

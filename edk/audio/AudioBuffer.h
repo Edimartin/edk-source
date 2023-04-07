@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside AudioBuffer"
+#pragma message "Inside AudioBuffer"
 #endif
 
 #pragma once
@@ -37,7 +37,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../pack/FilePackage.h"
 
 #ifdef printMessages
-#warning "    Compiling AudioBuffer"
+#pragma message "    Compiling AudioBuffer"
 #endif
 
 /* LIB

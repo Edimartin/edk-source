@@ -32,7 +32,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Image2D"
+#pragma message "Inside Image2D"
 #endif
 
 #pragma once
@@ -47,7 +47,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "codecs/EncoderPNG.h"
 
 #ifdef printMessages
-#warning "    Compiling Image2D"
+#pragma message "    Compiling Image2D"
 #endif
 
 /*

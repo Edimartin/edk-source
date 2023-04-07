@@ -29,12 +29,13 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside TypesVars"
+#pragma message "Inside TypesVars"
 #endif
 
 #ifdef printMessages
-#warning "    Compiling TypesVars"
+#pragma message "    Compiling TypesVars"
 #endif
+
 
 /*TYPES USED BY EDK ENGINE*/
 namespace edk{

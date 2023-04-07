@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside GU"
+#pragma message "Inside GU"
 #endif
 
 #pragma once
@@ -54,7 +54,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 #ifdef printMessages
-#warning "    Compiling GU"
+#pragma message "    Compiling GU"
 #endif
 
 /*LIBS WINDOWS

@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside Bezier2D.cpp"
+#pragma message "            Inside Bezier2D.cpp"
 #endif
 
 edk::shape::Bezier2D::Bezier2D()

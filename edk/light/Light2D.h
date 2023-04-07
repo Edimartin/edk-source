@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Light2D"
+#pragma message "Inside Light2D"
 #endif
 
 #pragma once
@@ -35,7 +35,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "Light.h"
 
 #ifdef printMessages
-#warning "    Compiling Light2D"
+#pragma message "    Compiling Light2D"
 #endif
 
 namespace edk{

@@ -26,14 +26,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside TileIsometric2D"
+#pragma message "Inside TileIsometric2D"
 #endif
 
 #pragma once
 #include "Tile2D.h"
 
 #ifdef printMessages
-#warning "    Compiling TileIsometric2D"
+#pragma message "    Compiling TileIsometric2D"
 #endif
 
 namespace edk{

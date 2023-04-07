@@ -26,14 +26,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside CodecVideo"
+#pragma message "Inside CodecVideo"
 #endif
 
 #pragma once
 #include "CodecImage.h"
 
 #ifdef printMessages
-#warning "    Compiling CodecVideo"
+#pragma message "    Compiling CodecVideo"
 #endif
 
 namespace edk{

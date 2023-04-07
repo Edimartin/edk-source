@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Path1DGroup"
+#pragma message "Inside Path1DGroup"
 #endif
 
 #pragma once
@@ -34,7 +34,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "Frame1D.h"
 
 #ifdef printMessages
-#warning "    Compiling Path1DGroup"
+#pragma message "    Compiling Path1DGroup"
 #endif
 
 namespace edk{

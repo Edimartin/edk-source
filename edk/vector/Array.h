@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Array"
+#pragma message "Inside Array"
 #endif
 
 #pragma once
@@ -36,7 +36,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../DebugFile.h"
 
 #ifdef printMessages
-#warning "    Compiling Array"
+#pragma message "    Compiling Array"
 #endif
 
 namespace edk{

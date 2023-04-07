@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside ViewGU2D.cpp"
+#pragma message "            Inside ViewGU2D.cpp"
 #endif
 
 edk::ViewGU2D::ViewGU2D()

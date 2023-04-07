@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Vertex3D"
+#pragma message "Inside Vertex3D"
 #endif
 
 #pragma once
@@ -39,7 +39,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../xml/XML.h"
 
 #ifdef printMessages
-#warning "    Compiling Vertex3D"
+#pragma message "    Compiling Vertex3D"
 #endif
 
 

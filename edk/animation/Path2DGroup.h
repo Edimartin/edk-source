@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Path2DGroup"
+#pragma message "Inside Path2DGroup"
 #endif
 
 #pragma once
@@ -34,7 +34,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "Frame2D.h"
 
 #ifdef printMessages
-#warning "    Compiling Path2DGroup"
+#pragma message "    Compiling Path2DGroup"
 #endif
 
 namespace edk{

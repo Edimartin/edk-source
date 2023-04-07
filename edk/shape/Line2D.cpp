@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside Line2D.cpp"
+#pragma message "            Inside Line2D.cpp"
 #endif
 
 edk::shape::Line2D::Line2D(){

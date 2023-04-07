@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside ViewScrollBar.cpp"
+#pragma message "            Inside ViewScrollBar.cpp"
 #endif
 
 #include "edkImages/EDKmenuTemplateTexture.h"

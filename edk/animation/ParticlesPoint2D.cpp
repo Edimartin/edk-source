@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside ParticlesPoint2D.cpp"
+#pragma message "            Inside ParticlesPoint2D.cpp"
 #endif
 edk::animation::ParticlesPoint2D particlesTemporaryFunctionPointer;
 edk::vec2f32 edk::animation::ParticlesPoint2D::ParticleObject::gravitySet = edk::vec2f32(0,0);

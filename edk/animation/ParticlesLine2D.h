@@ -26,14 +26,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside ParticlesLine2D"
+#pragma message "Inside ParticlesLine2D"
 #endif
 
 #pragma once
 #include "ParticlesPoint2D.h"
 
 #ifdef printMessages
-#warning "    Compiling ParticlesLine2D"
+#pragma message "    Compiling ParticlesLine2D"
 #endif
 
 namespace edk{

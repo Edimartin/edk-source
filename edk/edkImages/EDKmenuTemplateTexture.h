@@ -26,14 +26,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside EDKmenuTemplateTexture"
+#pragma message "Inside EDKmenuTemplateTexture"
 #endif
 
 #pragma once
 #include "../TypeVars.h"
 
 #ifdef printMessages
-#warning "    Compiling EDKmenuTemplateTexture"
+#pragma message "    Compiling EDKmenuTemplateTexture"
 #endif
 
 static edk::uint32 EDKmenuTemplateTextureSize = 780u;

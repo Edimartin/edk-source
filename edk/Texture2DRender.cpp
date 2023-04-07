@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside Texture2DRender.cpp"
+#pragma message "            Inside Texture2DRender.cpp"
 #endif
 
 edk::Texture2DRender::Texture2DRender()

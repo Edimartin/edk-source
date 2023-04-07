@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside GU_GLSL"
+#pragma message "Inside GU_GLSL"
 #endif
 
 //add the GLEW before openGL
@@ -46,7 +46,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../TypeVec4.h"
 
 #ifdef printMessages
-#warning "    Compiling GU_GLSL"
+#pragma message "    Compiling GU_GLSL"
 #endif
 
 //Defines

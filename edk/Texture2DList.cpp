@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside Texture2DList.cpp"
+#pragma message "            Inside Texture2DList.cpp"
 #endif
 
 //textureTree ordened by the name of the textures

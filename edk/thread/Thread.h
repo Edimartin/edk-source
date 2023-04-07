@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Thread"
+#pragma message "Inside Thread"
 #endif
 
 #pragma once
@@ -48,7 +48,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../DebugFile.h"
 
 #ifdef printMessages
-#warning "    Compiling Thread"
+#pragma message "    Compiling Thread"
 #endif
 
 /*LIB LINUX

@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside ActionGroup"
+#pragma message "Inside ActionGroup"
 #endif
 
 #pragma once
@@ -39,7 +39,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "Interpolation1DGroup.h"
 
 #ifdef printMessages
-#warning "    Compiling ActionGroup"
+#pragma message "    Compiling ActionGroup"
 #endif
 
 

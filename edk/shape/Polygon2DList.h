@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Polygon2DList"
+#pragma message "Inside Polygon2DList"
 #endif
 
 #pragma once
@@ -41,7 +41,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../animation/Interpolation2DGroup.h"
 
 #ifdef printMessages
-#warning "    Compiling Polygon2DList"
+#pragma message "    Compiling Polygon2DList"
 #endif
 
 namespace edk{

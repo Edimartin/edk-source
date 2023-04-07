@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside Shader.cpp"
+#pragma message "            Inside Shader.cpp"
 #endif
 
 edk::shd::Shader::Shader()

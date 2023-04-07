@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside ParticlesLine2D.cpp"
+#pragma message "            Inside ParticlesLine2D.cpp"
 #endif
 
 edk::animation::ParticlesLine2D::ParticlesLine2D(){

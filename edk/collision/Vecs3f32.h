@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Vecs3f32"
+#pragma message "Inside Vecs3f32"
 #endif
 
 #pragma once
@@ -34,7 +34,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../vector/Stack.h"
 
 #ifdef printMessages
-#warning "    Compiling Vecs3f32"
+#pragma message "    Compiling Vecs3f32"
 #endif
 
 namespace edk{

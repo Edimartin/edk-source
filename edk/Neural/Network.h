@@ -26,14 +26,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside neural::Network"
+#pragma message "Inside neural::Network"
 #endif
 
 #pragma once
 #include "Neuron.h"
 
 #ifdef printMessages
-#warning "    Compiling neural::Network"
+#pragma message "    Compiling neural::Network"
 #endif
 
 namespace edk{

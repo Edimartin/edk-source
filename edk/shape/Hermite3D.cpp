@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside Hermite3D.cpp"
+#pragma message "            Inside Hermite3D.cpp"
 #endif
 
 edk::shape::Hermite3D::Hermite3D()

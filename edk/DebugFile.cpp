@@ -34,7 +34,7 @@ edk::DebugFile::~DebugFile(){
     //
 }
 
-#if defined(EDK_DEBUGGER)
+#if defined(EDK_DEBUGGER) || defined(EDK_DEBUG_MEMSET) || defined(EDK_DEBUG_MEMCPY)
 #else
 #endif
 
@@ -42,11 +42,11 @@ bool edk::DebugFile::newFile(const edk::char8* name){
     return edk::DebugFile::newFile((edk::char8*) name);
 }
 bool edk::DebugFile::newFile(edk::char8*
-                             #if defined(EDK_DEBUGGER)
+                             #if defined(EDK_DEBUGGER) || defined(EDK_DEBUG_MEMSET) || defined(EDK_DEBUG_MEMCPY)
                              name
                              #endif
                              ){
-#if defined(EDK_DEBUGGER)
+#if defined(EDK_DEBUGGER) || defined(EDK_DEBUG_MEMSET) || defined(EDK_DEBUG_MEMCPY)
     printf("\n%u %s %s edk::File == %lu name == '%s'",__LINE__,__FILE__,__func__,(edk::uint64)&edk::DebugFile::file,name);fflush(stdout);
     //create the file
     if(edk::DebugFile::file.createAndOpenTextFile(name)){
@@ -57,7 +57,7 @@ bool edk::DebugFile::newFile(edk::char8*
 }
 
 void edk::DebugFile::closeFile(){
-#if defined(EDK_DEBUGGER)
+#if defined(EDK_DEBUGGER) || defined(EDK_DEBUG_MEMSET) || defined(EDK_DEBUG_MEMCPY)
     edk::DebugFile::file.closeFile();
 #endif
 }

@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside OpenLamp"
+#pragma message "Inside OpenLamp"
 #endif
 
 #pragma once
@@ -35,7 +35,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "Math.h"
 
 #ifdef printMessages
-#warning "    Compiling OpenLamp"
+#pragma message "    Compiling OpenLamp"
 #endif
 
 namespace edk{

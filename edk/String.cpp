@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside String.cpp"
+#pragma message "            Inside String.cpp"
 #endif
 
 #if defined (__linux__) || defined(__APPLE__)
@@ -4604,6 +4604,18 @@ edk::char8* edk::String::strInside(edk::char8 *str, const edk::char8 *compare){
     return edk::String::strInside(str, (edk::char8 *)compare);
 }
 edk::char8* edk::String::strInside(const edk::char8 *str, const edk::char8 *compare){
+    return edk::String::strInside((edk::char8 *)str, (edk::char8 *)compare);
+}
+edk::char8* edk::String::strHaveInside(edk::char8 *str, edk::char8 *compare){
+    return edk::String::strInside(str, compare);
+}
+edk::char8* edk::String::strHaveInside(const edk::char8 *str, edk::char8 *compare){
+    return edk::String::strInside((edk::char8 *)str, compare);
+}
+edk::char8* edk::String::strHaveInside(edk::char8 *str, const edk::char8 *compare){
+    return edk::String::strInside(str, (edk::char8 *)compare);
+}
+edk::char8* edk::String::strHaveInside(const edk::char8 *str, const edk::char8 *compare){
     return edk::String::strInside((edk::char8 *)str, (edk::char8 *)compare);
 }
 

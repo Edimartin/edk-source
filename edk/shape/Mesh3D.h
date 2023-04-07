@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Mesh3D"
+#pragma message "Inside Mesh3D"
 #endif
 
 #pragma once
@@ -39,7 +39,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../pack/FilePackage.h"
 
 #ifdef printMessages
-#warning "    Compiling Mesh3D"
+#pragma message "    Compiling Mesh3D"
 #endif
 
 namespace edk{

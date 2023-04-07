@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside MD5.cpp"
+#pragma message "            Inside MD5.cpp"
 #endif
 
 edk::encrypt::MD5::MD5()

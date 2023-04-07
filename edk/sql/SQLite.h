@@ -31,7 +31,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside SQLite"
+#pragma message "Inside SQLite"
 #endif
 
 #define edkDataBase ".edb"
@@ -48,7 +48,7 @@ extern "C" {
 #include "SQLGroup.h"
 
 #ifdef printMessages
-#warning "    Compiling SQLite"
+#pragma message "    Compiling SQLite"
 #endif
 
 namespace edk{

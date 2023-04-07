@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Catmull2D"
+#pragma message "Inside Catmull2D"
 #endif
 
 #pragma once
@@ -35,7 +35,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "Curve2D.h"
 
 #ifdef printMessages
-#warning "    Compiling Catmull2D"
+#pragma message "    Compiling Catmull2D"
 #endif
 
 namespace edk{

@@ -31,7 +31,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside MARIADB"
+#pragma message "Inside MARIADB"
 #endif
 
 #pragma once
@@ -43,7 +43,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 #ifdef printMessages
-#warning "    Compiling MARIADB"
+#pragma message "    Compiling MARIADB"
 #endif
 
 //https://www.youtube.com/watch?v=cSZvq7Kv6_0&ab_channel=Steve%27steacher

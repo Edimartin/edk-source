@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside ViewListSelection.cpp"
+#pragma message "            Inside ViewListSelection.cpp"
 #endif
 
 edk::ViewListSelection::ListCell::ListCell(edk::uint32* lineSize){

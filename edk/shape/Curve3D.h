@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Curve3D"
+#pragma message "Inside Curve3D"
 #endif
 
 #pragma once
@@ -35,7 +35,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../DebugFile.h"
 
 #ifdef printMessages
-#warning "    Compiling Curve3D"
+#pragma message "    Compiling Curve3D"
 #endif
 
 namespace edk{

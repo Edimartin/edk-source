@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside ViewListSelection"
+#pragma message "Inside ViewListSelection"
 #endif
 
 #pragma once
@@ -37,7 +37,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "shape/Rectangle2D.h"
 
 #ifdef printMessages
-#warning "    Compiling ViewListSelection"
+#pragma message "    Compiling ViewListSelection"
 #endif
 
 namespace edk{

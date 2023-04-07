@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Window"
+#pragma message "Inside Window"
 #endif
 
 #pragma once
@@ -45,7 +45,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <SFML/Window/Mouse.hpp>
 
 #ifdef printMessages
-#warning "    Compiling Window"
+#pragma message "    Compiling Window"
 #endif
 
 /*LIBS

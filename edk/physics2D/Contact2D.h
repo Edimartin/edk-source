@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Contact2D"
+#pragma message "Inside Contact2D"
 #endif
 
 #pragma once
@@ -36,7 +36,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../vector/Array.h"
 
 #ifdef printMessages
-#warning "    Compiling Contact2D"
+#pragma message "    Compiling Contact2D"
 #endif
 
 namespace edk{

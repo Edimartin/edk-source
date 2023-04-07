@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Audio2D"
+#pragma message "Inside Audio2D"
 #endif
 
 #pragma once
@@ -34,7 +34,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "Audio.h"
 
 #ifdef printMessages
-#warning "    Compiling Audio2D"
+#pragma message "    Compiling Audio2D"
 #endif
 
 namespace edk{

@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside Curve2D.cpp"
+#pragma message "            Inside Curve2D.cpp"
 #endif
 
 edk::shape::Curve2D::Curve2D()

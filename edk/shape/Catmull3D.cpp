@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside Catmull3D.cpp"
+#pragma message "            Inside Catmull3D.cpp"
 #endif
 
 edk::shape::Catmull3D::Catmull3D()

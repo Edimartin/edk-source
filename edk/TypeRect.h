@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside TypeRect"
+#pragma message "Inside TypeRect"
 #endif
 
 #pragma once
@@ -35,7 +35,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "TypeSize2.h"
 
 #ifdef printMessages
-#warning "    Compiling TypeRect"
+#pragma message "    Compiling TypeRect"
 #endif
 
 namespace edk{

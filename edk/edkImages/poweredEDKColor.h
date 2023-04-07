@@ -26,14 +26,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside poweredEDKColor"
+#pragma message "Inside poweredEDKColor"
 #endif
 
 #pragma once
 #include "../TypeVars.h"
 
 #ifdef printMessages
-#warning "    Compiling poweredEDKColor"
+#pragma message "    Compiling poweredEDKColor"
 #endif
 
 namespace edk{

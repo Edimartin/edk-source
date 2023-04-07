@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside ViewScrollBar"
+#pragma message "Inside ViewScrollBar"
 #endif
 
 #pragma once
@@ -35,7 +35,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "ViewGU2D.h"
 
 #ifdef printMessages
-#warning "    Compiling ViewScrollBar"
+#pragma message "    Compiling ViewScrollBar"
 #endif
 
 namespace edk{

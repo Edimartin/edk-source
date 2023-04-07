@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside StaticSensor2D"
+#pragma message "Inside StaticSensor2D"
 #endif
 
 #pragma once
@@ -35,7 +35,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../vector/BinaryTree.h"
 
 #ifdef printMessages
-#warning "    Compiling StaticSensor2D"
+#pragma message "    Compiling StaticSensor2D"
 #endif
 
 

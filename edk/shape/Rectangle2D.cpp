@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside Rectangle2D.cpp"
+#pragma message "            Inside Rectangle2D.cpp"
 #endif
 
 edk::shape::Rectangle2D::Rectangle2D::Rectangle2D(){

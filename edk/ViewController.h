@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside ViewControllers"
+#pragma message "Inside ViewControllers"
 #endif
 
 //#include <vector>
@@ -40,7 +40,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "    Compiling ViewControllers"
+#pragma message "    Compiling ViewControllers"
 #endif
 
 /*

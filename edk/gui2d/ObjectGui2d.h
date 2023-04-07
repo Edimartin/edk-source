@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside gui2d::ObjectGui2d"
+#pragma message "Inside gui2d::ObjectGui2d"
 #endif
 
 #pragma once
@@ -40,7 +40,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "ObjectGui2dBorder.h"
 
 #ifdef printMessages
-#warning "    Compiling gui2d::ObjectGui2d"
+#pragma message "    Compiling gui2d::ObjectGui2d"
 #endif
 
 namespace edk{

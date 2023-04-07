@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside ViewSprite.cpp"
+#pragma message "            Inside ViewSprite.cpp"
 #endif
 
 edk::ViewSprite::ViewSprite()

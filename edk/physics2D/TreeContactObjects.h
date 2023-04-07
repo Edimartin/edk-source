@@ -27,7 +27,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside ContactObjects"
+#pragma message "Inside ContactObjects"
 #endif
 
 #pragma once
@@ -35,7 +35,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../vector/BinaryTree.h"
 
 #ifdef printMessages
-#warning "    Compiling ContactObjects"
+#pragma message "    Compiling ContactObjects"
 #endif
 
 

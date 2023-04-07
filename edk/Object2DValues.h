@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Object2DValues"
+#pragma message "Inside Object2DValues"
 #endif
 
 #pragma once
@@ -37,7 +37,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "animation/Interpolation2DTracks.h"
 
 #ifdef printMessages
-#warning "    Compiling Object2DValues"
+#pragma message "    Compiling Object2DValues"
 #endif
 
 namespace edk{

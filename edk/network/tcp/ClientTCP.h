@@ -26,14 +26,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside ClientTCP"
+#pragma message "Inside ClientTCP"
 #endif
 
 #pragma once
 #include "../Socket.h"
 
 #ifdef printMessages
-#warning "    Compiling ClientTCP"
+#pragma message "    Compiling ClientTCP"
 #endif
 
 namespace edk{

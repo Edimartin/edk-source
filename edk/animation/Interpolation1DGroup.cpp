@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside Interpolation1DGroup.cpp"
+#pragma message "            Inside Interpolation1DGroup.cpp"
 #endif
 
 edk::animation::Interpolation1DGroup::Interpolation1DGroup()

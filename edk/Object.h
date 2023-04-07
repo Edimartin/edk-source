@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Object"
+#pragma message "Inside Object"
 #endif
 
 //Include the binaryTree to save the elements
@@ -35,7 +35,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "String.h"
 
 #ifdef printMessages
-#warning "    Compiling Object"
+#pragma message "    Compiling Object"
 #endif
 
 /*

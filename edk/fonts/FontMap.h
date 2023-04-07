@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside FontMap"
+#pragma message "Inside FontMap"
 #endif
 
 #pragma once
@@ -40,7 +40,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../pack/FilePackage.h"
 
 #ifdef printMessages
-#warning "    Compiling FontMap"
+#pragma message "    Compiling FontMap"
 #endif
 
 
@@ -58,6 +58,10 @@ class FontMap : public edk::Object2DValues , public edk::animation::AnimationCal
 public:
     FontMap();
     virtual ~FontMap();
+
+    //save the FontTemplate
+    static bool saveTemplate(const edk::char8* folder);
+    static bool saveTemplate(edk::char8* folder);
 
     //SET
     void setPosition(edk::vec2f32 position);

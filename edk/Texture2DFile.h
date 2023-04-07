@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Texture2DFile"
+#pragma message "Inside Texture2DFile"
 #endif
 
 #pragma once
@@ -38,7 +38,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "Texture2D.h"
 
 #ifdef printMessages
-#warning "    Compiling Texture2DFile"
+#pragma message "    Compiling Texture2DFile"
 #endif
 
 /*LIB LINUX

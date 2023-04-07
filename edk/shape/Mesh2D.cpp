@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside Mesh2D.cpp"
+#pragma message "            Inside Mesh2D.cpp"
 #endif
 
 edk::shape::Mesh2D::Mesh2D()

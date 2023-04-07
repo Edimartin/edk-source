@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Mesh2D"
+#pragma message "Inside Mesh2D"
 #endif
 
 #pragma once
@@ -44,7 +44,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../pack/FilePackage.h"
 
 #ifdef printMessages
-#warning "    Compiling Mesh2D"
+#pragma message "    Compiling Mesh2D"
 #endif
 
 //Mesh2D have the polygons and one texture

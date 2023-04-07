@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Object2D"
+#pragma message "Inside Object2D"
 #endif
 
 #pragma once
@@ -51,7 +51,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "pack/FilePackage.h"
 
 #ifdef printMessages
-#warning "    Compiling Object2D"
+#pragma message "    Compiling Object2D"
 #endif
 
 namespace edk{

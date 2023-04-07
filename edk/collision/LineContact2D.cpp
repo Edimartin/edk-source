@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside LineContact2D.cpp"
+#pragma message "            Inside LineContact2D.cpp"
 #endif
 
 edk::collision::LineContact2D::LineContact2D()

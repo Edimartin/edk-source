@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside Random.cpp"
+#pragma message "            Inside Random.cpp"
 #endif
 
 #define edkRandom(n){((n * 1109518245) + 12345)}

@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside PrismaticJoint2D"
+#pragma message "Inside PrismaticJoint2D"
 #endif
 
 #pragma once
@@ -34,7 +34,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../TypeDefines.h"
 
 #ifdef printMessages
-#warning "    Compiling PrismaticJoint2D"
+#pragma message "    Compiling PrismaticJoint2D"
 #endif
 
 namespace edk{

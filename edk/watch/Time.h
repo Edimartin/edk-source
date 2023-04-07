@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Time"
+#pragma message "Inside Time"
 #endif
 
 #pragma once
@@ -65,7 +65,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../DebugFile.h"
 
 #ifdef printMessages
-#warning "    Compiling Time"
+#pragma message "    Compiling Time"
 #endif
 
 /*

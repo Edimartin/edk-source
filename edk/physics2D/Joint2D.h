@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Joint2D"
+#pragma message "Inside Joint2D"
 #endif
 
 #pragma once
@@ -35,7 +35,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../Math.h"
 
 #ifdef printMessages
-#warning "    Compiling Joint2D"
+#pragma message "    Compiling Joint2D"
 #endif
 
 namespace edk{

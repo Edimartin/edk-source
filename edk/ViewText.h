@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside ViewText"
+#pragma message "Inside ViewText"
 #endif
 
 #pragma once
@@ -34,7 +34,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "fonts/FontMap.h"
 
 #ifdef printMessages
-#warning "    Compiling ViewText"
+#pragma message "    Compiling ViewText"
 #endif
 
 namespace edk{

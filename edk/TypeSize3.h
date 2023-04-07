@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside TypesSize3"
+#pragma message "Inside TypesSize3"
 #endif
 
 #pragma once
@@ -34,7 +34,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "TypeSize2.h"
 
 #ifdef printMessages
-#warning "    Compiling TypesSize3"
+#pragma message "    Compiling TypesSize3"
 #endif
 
 namespace edk{

@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside gui2d::ScrollBar2d"
+#pragma message "Inside gui2d::ScrollBar2d"
 #endif
 
 #pragma once
@@ -34,7 +34,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "ObjectGui2d.h"
 
 #ifdef printMessages
-#warning "    Compiling gui2d::ScrollBar2d"
+#pragma message "    Compiling gui2d::ScrollBar2d"
 #endif
 
 namespace edk{
@@ -46,6 +46,10 @@ public:
 
     //get the type
     virtual edk::gui2d::gui2dTypes getType();
+
+    //save the FontTemplate
+    static bool saveTemplates(const edk::char8* folder);
+    static bool saveTemplates(edk::char8* folder);
 
     //Set the percent
     void setPercent(edk::vec2f32 percent);

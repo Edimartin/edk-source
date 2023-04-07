@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside String"
+#pragma message "Inside String"
 #endif
 
 #pragma once
@@ -66,7 +66,7 @@ int edkKbhit(void);
 #endif
 
 #ifdef printMessages
-#warning "    Compiling String"
+#pragma message "    Compiling String"
 #endif
 
 namespace edk {
@@ -323,6 +323,10 @@ public:
     static edk::char8* strInside(const edk::char8 *str, edk::char8 *compare);
     static edk::char8* strInside(edk::char8 *str, const edk::char8 *compare);
     static edk::char8* strInside(const edk::char8 *str, const edk::char8 *compare);
+    static edk::char8* strHaveInside(edk::char8 *str, edk::char8 *compare);
+    static edk::char8* strHaveInside(const edk::char8 *str, edk::char8 *compare);
+    static edk::char8* strHaveInside(edk::char8 *str, const edk::char8 *compare);
+    static edk::char8* strHaveInside(const edk::char8 *str, const edk::char8 *compare);
 
     //return true if the first string is bigger than the second string
     static bool strBiggerStr(edk::char8 *str1, edk::char8 *str2);

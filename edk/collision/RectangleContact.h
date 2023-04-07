@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside RectangleContact"
+#pragma message "Inside RectangleContact"
 #endif
 
 #pragma once
@@ -35,7 +35,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../shape/Rectangle2D.h"
 
 #ifdef printMessages
-#warning "    Compiling RectangleContact"
+#pragma message "    Compiling RectangleContact"
 #endif
 
 namespace edk{

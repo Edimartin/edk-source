@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside TypesVec4"
+#pragma message "Inside TypesVec4"
 #endif
 
 #pragma once
@@ -35,7 +35,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "TypeVec3.h"
 
 #ifdef printMessages
-#warning "    Compiling TypesVec4"
+#pragma message "    Compiling TypesVec4"
 #endif
 
 namespace edk{

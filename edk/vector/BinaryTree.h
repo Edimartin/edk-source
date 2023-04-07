@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside BinaryTree"
+#pragma message "Inside BinaryTree"
 #endif
 
 #pragma once
@@ -38,7 +38,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "./Array.h"
 
 #ifdef printMessages
-#warning "    Compiling BinaryTree"
+#pragma message "    Compiling BinaryTree"
 #endif
 
 #define EDK_ERROR_HAVE_VALUE 100u

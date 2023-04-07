@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Object3D"
+#pragma message "Inside Object3D"
 #endif
 
 #pragma once
@@ -49,7 +49,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "pack/FilePackage.h"
 
 #ifdef printMessages
-#warning "    Compiling Object3D"
+#pragma message "    Compiling Object3D"
 #endif
 
 namespace edk{

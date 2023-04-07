@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside AudioList.cpp"
+#pragma message "            Inside AudioList.cpp"
 #endif
 
 //Tree with the audioNames

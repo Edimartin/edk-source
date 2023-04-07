@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside pack::FileNode"
+#pragma message "Inside pack::FileNode"
 #endif
 
 #pragma once
@@ -35,7 +35,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../DebugFile.h"
 
 #ifdef printMessages
-#warning "    Compiling pack::FileNode"
+#pragma message "    Compiling pack::FileNode"
 #endif
 
 namespace edk{

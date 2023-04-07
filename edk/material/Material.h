@@ -28,7 +28,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //http://iphonedevelopment.blogspot.com.br/2009/05/opengl-es-from-ground-up-part-5-living.html
 
 #ifdef printMessages
-#warning "Inside Material"
+#pragma message "Inside Material"
 #endif
 
 #pragma once
@@ -40,7 +40,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <stdio.h>
 
 #ifdef printMessages
-#warning "    Compiling Material"
+#pragma message "    Compiling Material"
 #endif
 
 namespace edk{

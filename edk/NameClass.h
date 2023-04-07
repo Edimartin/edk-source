@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside NameClass"
+#pragma message "Inside NameClass"
 #endif
 
 #pragma once
@@ -34,7 +34,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "String.h"
 
 #ifdef printMessages
-#warning "    Compiling NameClass"
+#pragma message "    Compiling NameClass"
 #endif
 
 

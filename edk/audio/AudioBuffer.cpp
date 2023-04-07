@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside AudioBuffer.cpp"
+#pragma message "            Inside AudioBuffer.cpp"
 #endif
 
 edk::AudioBuffer::AudioBuffer()

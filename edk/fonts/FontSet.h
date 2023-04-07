@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside FontSet"
+#pragma message "Inside FontSet"
 #endif
 
 #pragma once
@@ -36,7 +36,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../pack/FilePackage.h"
 
 #ifdef printMessages
-#warning "    Compiling FontSet"
+#pragma message "    Compiling FontSet"
 #endif
 
 namespace edk{

@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside pack::FilePackage"
+#pragma message "Inside pack::FilePackage"
 #endif
 
 #pragma once
@@ -35,7 +35,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../encrypt/MD5.h"
 
 #ifdef printMessages
-#warning "    Compiling pack::FilePackage"
+#pragma message "    Compiling pack::FilePackage"
 #endif
 
 #define packBufferSize 1024u*10

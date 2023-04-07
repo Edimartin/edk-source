@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside CommandParser"
+#pragma message "Inside CommandParser"
 #endif
 
 #pragma once
@@ -34,7 +34,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "vector/Stack.h"
 
 #ifdef printMessages
-#warning "    Compiling CommandParser"
+#pragma message "    Compiling CommandParser"
 #endif
 
 namespace edk{

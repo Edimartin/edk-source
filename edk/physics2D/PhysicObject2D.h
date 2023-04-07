@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside PhysicObject2D"
+#pragma message "Inside PhysicObject2D"
 #endif
 
 #pragma once
@@ -37,7 +37,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../animation/Path2DGroup.h"
 
 #ifdef printMessages
-#warning "    Compiling PhysicObject2D"
+#pragma message "    Compiling PhysicObject2D"
 #endif
 
 namespace edk{

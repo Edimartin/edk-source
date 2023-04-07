@@ -26,14 +26,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside EDKfontPressStart"
+#pragma message "Inside EDKfontPressStart"
 #endif
 
 #pragma once
 #include "../../edk/TypeVars.h"
 
 #ifdef printMessages
-#warning "    Compiling EDKfontPressStart"
+#pragma message "    Compiling EDKfontPressStart"
 #endif
 
 static edk::uint32 EDKFontPressStartSize = 39136u;

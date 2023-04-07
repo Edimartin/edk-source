@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside InterpolationLine1D"
+#pragma message "Inside InterpolationLine1D"
 #endif
 
 #pragma once
@@ -36,7 +36,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../shape/Bezier2D.h"
 
 #ifdef printMessages
-#warning "    Compiling InterpolationLine1D"
+#pragma message "    Compiling InterpolationLine1D"
 #endif
 
 namespace edk{

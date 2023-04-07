@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Lines2D"
+#pragma message "Inside Lines2D"
 #endif
 
 //Include EDK
@@ -34,7 +34,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "Polygon2D.h"
 
 #ifdef printMessages
-#warning "    Compiling Lines2D"
+#pragma message "    Compiling Lines2D"
 #endif
 
 namespace edk{

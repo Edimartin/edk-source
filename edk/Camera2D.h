@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Camera2D"
+#pragma message "Inside Camera2D"
 #endif
 
 #pragma once
@@ -39,7 +39,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "animation/Interpolation2DGroup.h"
 
 #ifdef printMessages
-#warning "    Compiling Camera2D"
+#pragma message "    Compiling Camera2D"
 #endif
 
 

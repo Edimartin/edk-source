@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside View"
+#pragma message "Inside View"
 #endif
 
 #pragma once
@@ -46,7 +46,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "animation/Interpolation2DGroup.h"
 
 #ifdef printMessages
-#warning "    Compiling View"
+#pragma message "    Compiling View"
 #endif
 
 /*

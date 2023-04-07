@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside DecoderImage"
+#pragma message "Inside DecoderImage"
 #endif
 
 #pragma once
@@ -35,7 +35,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../../stb/stb_image.h"
 
 #ifdef printMessages
-#warning "    Compiling DecoderImage"
+#pragma message "    Compiling DecoderImage"
 #endif
 
 namespace edk{

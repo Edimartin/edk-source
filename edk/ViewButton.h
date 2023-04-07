@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside ViewButton"
+#pragma message "Inside ViewButton"
 #endif
 
 #pragma once
@@ -39,7 +39,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "pack/FilePackage.h"
 
 #ifdef printMessages
-#warning "    Compiling ViewButton"
+#pragma message "    Compiling ViewButton"
 #endif
 
 /*
@@ -90,6 +90,11 @@ class ViewButton: public edk::ViewSprite{
     public:
         ViewButton();
         virtual ~ViewButton();
+
+        //save the FontTemplate
+        static bool saveTemplate(const edk::char8* folder);
+        static bool saveTemplate(edk::char8* folder);
+
         //set borderSize
         bool setBorderSize(edk::uint32 size);
         //set the callback

@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside ListDirectory"
+#pragma message "Inside ListDirectory"
 #endif
 
 #pragma once
@@ -38,7 +38,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "DebugFile.h"
 
 #ifdef printMessages
-#warning "    Compiling ListDirectory"
+#pragma message "    Compiling ListDirectory"
 #endif
 
 namespace edk{

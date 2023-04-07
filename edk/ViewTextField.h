@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside ViewTextField"
+#pragma message "Inside ViewTextField"
 #endif
 
 #pragma once
@@ -36,7 +36,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "animation/Interpolation1DGroup.h"
 
 #ifdef printMessages
-#warning "    Compiling ViewTextField"
+#pragma message "    Compiling ViewTextField"
 #endif
 
 namespace edk{

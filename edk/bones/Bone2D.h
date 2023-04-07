@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Bone2D"
+#pragma message "Inside Bone2D"
 #endif
 
 #pragma once
@@ -46,7 +46,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <stdio.h>
 
 #ifdef printMessages
-#warning "    Compiling Bone2D"
+#pragma message "    Compiling Bone2D"
 #endif
 
 namespace edk{

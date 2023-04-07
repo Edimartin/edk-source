@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Quadrangle2D"
+#pragma message "Inside Quadrangle2D"
 #endif
 
 //Include the polygon
@@ -34,7 +34,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "Polygon2D.h"
 
 #ifdef printMessages
-#warning "    Compiling Quadrangle2D"
+#pragma message "    Compiling Quadrangle2D"
 #endif
 
 namespace edk{

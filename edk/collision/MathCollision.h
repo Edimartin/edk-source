@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside MathCollision"
+#pragma message "Inside MathCollision"
 #endif
 
 #pragma once
@@ -41,7 +41,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../shape/Polygon2D.h"
 
 #ifdef printMessages
-#warning "    Compiling MathCollision"
+#pragma message "    Compiling MathCollision"
 #endif
 
 namespace edk{

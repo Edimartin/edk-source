@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside TileSet2D"
+#pragma message "Inside TileSet2D"
 #endif
 
 #pragma once
@@ -38,7 +38,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../pack/FilePackage.h"
 
 #ifdef printMessages
-#warning "    Compiling TileSet2D"
+#pragma message "    Compiling TileSet2D"
 #endif
 
 namespace edk{

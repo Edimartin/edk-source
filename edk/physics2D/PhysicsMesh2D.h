@@ -26,14 +26,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside PhysicsMesh2D"
+#pragma message "Inside PhysicsMesh2D"
 #endif
 
 #pragma once
 #include "../shape/Polygon2DList.h"
 
 #ifdef printMessages
-#warning "    Compiling PhysicsMesh2D"
+#pragma message "    Compiling PhysicsMesh2D"
 #endif
 
 namespace edk{

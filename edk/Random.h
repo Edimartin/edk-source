@@ -26,14 +26,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Random"
+#pragma message "Inside Random"
 #endif
 
 #pragma once
 #include "watch/Time.h"
 
 #ifdef printMessages
-#warning "    Compiling Random"
+#pragma message "    Compiling Random"
 #endif
 
 namespace edk{

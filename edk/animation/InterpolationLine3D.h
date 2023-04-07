@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside InterpolationLine3D"
+#pragma message "Inside InterpolationLine3D"
 #endif
 
 #pragma once
@@ -35,7 +35,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "Frame3D.h"
 
 #ifdef printMessages
-#warning "    Compiling InterpolationLine3D"
+#pragma message "    Compiling InterpolationLine3D"
 #endif
 
 namespace edk{

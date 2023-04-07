@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Polygon2D"
+#pragma message "Inside Polygon2D"
 #endif
 
 //Include EDK
@@ -40,7 +40,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../light/Light.h"
 
 #ifdef printMessages
-#warning "    Compiling Polygon2D"
+#pragma message "    Compiling Polygon2D"
 #endif
 
 namespace edk{

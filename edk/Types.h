@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Types"
+#pragma message "Inside Types"
 #endif
 
 //Include all the type files
@@ -42,7 +42,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "TypeRect.h"
 
 #ifdef printMessages
-#warning "    Compiling Types"
+#pragma message "    Compiling Types"
 #endif
 
 

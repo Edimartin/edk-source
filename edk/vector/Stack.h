@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Stack"
+#pragma message "Inside Stack"
 #endif
 
 #pragma once
@@ -36,7 +36,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../NameClass.h"
 
 #ifdef printMessages
-#warning "    Compiling Stack"
+#pragma message "    Compiling Stack"
 #endif
 
 //Size of the arrays in the Stack

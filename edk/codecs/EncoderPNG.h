@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside EncoderPNG"
+#pragma message "Inside EncoderPNG"
 #endif
 
 #pragma once
@@ -36,7 +36,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../../stb/stb_image.h" //add the stb image to use the STBI_FREE
 
 #ifdef printMessages
-#warning "    Compiling EncoderPNG"
+#pragma message "    Compiling EncoderPNG"
 #endif
 
 namespace edk{

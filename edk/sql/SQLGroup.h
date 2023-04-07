@@ -31,14 +31,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside SQLNode"
+#pragma message "Inside SQLNode"
 #endif
 #include "../String.h"
 #include "../vector/Stack.h"
 #include "../NameClass.h"
 
 #ifdef printMessages
-#warning "    Compiling SQLNode"
+#pragma message "    Compiling SQLNode"
 #endif
 
 namespace edk{

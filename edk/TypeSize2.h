@@ -26,14 +26,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside TypesSize2"
+#pragma message "Inside TypesSize2"
 #endif
 
 #pragma once
 #include "TypeVars.h"
 
 #ifdef printMessages
-#warning "    Compiling TypesSize2"
+#pragma message "    Compiling TypesSize2"
 #endif
 
 namespace edk{

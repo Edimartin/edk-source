@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside File"
+#pragma message "Inside File"
 #endif
 
 #pragma once
@@ -90,7 +90,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 #ifdef printMessages
-#warning "    Compiling File"
+#pragma message "    Compiling File"
 #endif
 
 namespace edk{

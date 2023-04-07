@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Math"
+#pragma message "Inside Math"
 #endif
 
 #include<math.h>
@@ -44,7 +44,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "vector/Matrix.h"
 
 #ifdef printMessages
-#warning "    Compiling Math"
+#pragma message "    Compiling Math"
 #endif
 
 #define EDK_MATH_EVEN(n) ((n<<((sizeof(n)*8u)-1u))==0u)

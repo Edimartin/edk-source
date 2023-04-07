@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside ViewGU3D"
+#pragma message "Inside ViewGU3D"
 #endif
 
 #pragma once
@@ -34,7 +34,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "Camera3D.h"
 
 #ifdef printMessages
-#warning "    Compiling ViewGU3D"
+#pragma message "    Compiling ViewGU3D"
 #endif
 
 namespace edk{

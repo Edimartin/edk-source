@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Light"
+#pragma message "Inside Light"
 #endif
 
 #pragma once
@@ -36,7 +36,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <string.h>
 
 #ifdef printMessages
-#warning "    Compiling Light"
+#pragma message "    Compiling Light"
 #endif
 
 #define EDK_LIGHT_LIMIT 8u

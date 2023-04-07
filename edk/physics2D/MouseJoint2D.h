@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside MouseJoint2D"
+#pragma message "Inside MouseJoint2D"
 #endif
 
 #pragma once
@@ -35,7 +35,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../GU/GU.h"
 
 #ifdef printMessages
-#warning "    Compiling MouseJoint2D"
+#pragma message "    Compiling MouseJoint2D"
 #endif
 
 namespace edk{

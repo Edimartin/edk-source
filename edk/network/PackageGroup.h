@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside PackageGroup"
+#pragma message "Inside PackageGroup"
 #endif
 
 #pragma once
@@ -34,7 +34,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../vector/BinaryTree.h"
 
 #ifdef printMessages
-#warning "    Compiling PackageGroup"
+#pragma message "    Compiling PackageGroup"
 #endif
 
 namespace edk{

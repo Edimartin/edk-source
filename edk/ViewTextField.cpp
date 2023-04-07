@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside ViewTextField.cpp"
+#pragma message "            Inside ViewTextField.cpp"
 #endif
 
 edk::ViewTextField::ViewTextField(){

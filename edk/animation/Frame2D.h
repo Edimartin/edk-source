@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Frame2D"
+#pragma message "Inside Frame2D"
 #endif
 
 #pragma once
@@ -35,7 +35,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "Frame1D.h"
 
 #ifdef printMessages
-#warning "    Compiling Frame2D"
+#pragma message "    Compiling Frame2D"
 #endif
 
 namespace edk{

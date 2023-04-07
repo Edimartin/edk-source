@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside Texture2D.cpp"
+#pragma message "            Inside Texture2D.cpp"
 #endif
 
 edk::Texture2D::Texture2D()

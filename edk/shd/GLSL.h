@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside GLSL"
+#pragma message "Inside GLSL"
 #endif
 
 #pragma once
@@ -37,7 +37,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../vector/Stack.h"
 
 #ifdef printMessages
-#warning "    Compiling GLSL"
+#pragma message "    Compiling GLSL"
 #endif
 
 namespace edk{

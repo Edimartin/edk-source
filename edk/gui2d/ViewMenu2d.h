@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside gui2d::ViewMenu2d"
+#pragma message "Inside gui2d::ViewMenu2d"
 #endif
 
 #pragma once
@@ -43,7 +43,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../pack/FilePackage.h"
 
 #ifdef printMessages
-#warning "    Compiling gui2d::ViewMenu2d"
+#pragma message "    Compiling gui2d::ViewMenu2d"
 #endif
 
 #define edkGui2dInsideHeight 0.75f

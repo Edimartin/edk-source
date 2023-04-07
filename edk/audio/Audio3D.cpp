@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside Audio3D.cpp"
+#pragma message "            Inside Audio3D.cpp"
 #endif
 
 edk::Audio3D::Audio3D()

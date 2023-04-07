@@ -777,6 +777,31 @@ void edk::gui2d::TextField2d::updateSelection(){
     }
 }
 
+//save the FontTemplate
+bool edk::gui2d::TextField2d::saveTemplate(const edk::char8* folder){
+    return edk::gui2d::TextField2d::saveTemplate((edk::char8*) folder);
+}
+bool edk::gui2d::TextField2d::saveTemplate(edk::char8* folder){
+    if(folder){
+        bool ret = false;
+        //first create the string to save the file in the folder
+        edk::char8* str = edk::String::strCatMulti(folder,"/",fieldBorderName,NULL);
+        if(str){
+            //create the file
+            edk::File file;
+            if(file.createAndOpenBinFile(str)){
+                //write the data into the file
+                file.writeBin(fieldBorder,fieldBorderSize);
+                file.closeFile();
+                ret = true;
+            }
+            delete[] str;
+        }
+        return ret;
+    }
+    return false;
+}
+
 //load the button textures and meshes
 bool edk::gui2d::TextField2d::load(){
     this->setBorderSize(0.2f);edkEnd();

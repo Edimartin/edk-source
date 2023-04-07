@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Hermite3D"
+#pragma message "Inside Hermite3D"
 #endif
 
 #pragma once
@@ -35,7 +35,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "Curve3D.h"
 
 #ifdef printMessages
-#warning "    Compiling Hermite3D"
+#pragma message "    Compiling Hermite3D"
 #endif
 
 namespace edk{

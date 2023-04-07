@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside TileMap2D"
+#pragma message "Inside TileMap2D"
 #endif
 
 #pragma once
@@ -39,7 +39,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../BinaryConverter.h"
 
 #ifdef printMessages
-#warning "    Compiling TileMap2D"
+#pragma message "    Compiling TileMap2D"
 #endif
 
 namespace edk{

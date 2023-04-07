@@ -197,6 +197,83 @@ edk::gui2d::ObjectGui2dBorder::~ObjectGui2dBorder(){
     //
 }
 
+//save the FontTemplate
+bool edk::gui2d::ObjectGui2dBorder::saveTemplate(const edk::char8* folder){
+    return edk::gui2d::ObjectGui2dBorder::saveTemplate((edk::char8*) folder);
+}
+bool edk::gui2d::ObjectGui2dBorder::saveTemplate(edk::char8* folder){
+    if(folder){
+        bool ret = false;
+        //first create the string to save the file in the folder
+        edk::char8* str = edk::String::strCatMulti(folder,"/",EDKButtonNormalTemplateName,NULL);
+        if(str){
+            //create the file
+            edk::File file;
+            if(file.createAndOpenBinFile(str)){
+                //write the data into the file
+                file.writeBin(EDKButtonNormalTemplate,EDKButtonNormalTemplateSize);
+                file.closeFile();
+                ret = true;
+            }
+
+            delete[] str;
+        }
+        if(ret){
+            ret=false;
+
+            str = edk::String::strCatMulti(folder,"/",EDKButtonUpTemplateName,NULL);
+            if(str){
+                //create the file
+                edk::File file;
+                if(file.createAndOpenBinFile(str)){
+                    //write the data into the file
+                    file.writeBin(EDKButtonUpTemplate,EDKButtonUpTemplateSize);
+                    file.closeFile();
+                    ret = true;
+                }
+
+                delete[] str;
+            }
+        }
+        if(ret){
+            ret=false;
+
+            str = edk::String::strCatMulti(folder,"/",EDKButtonPressedTemplateName,NULL);
+            if(str){
+                //create the file
+                edk::File file;
+                if(file.createAndOpenBinFile(str)){
+                    //write the data into the file
+                    file.writeBin(EDKButtonPressedTemplate,EDKButtonPressedTemplateSize);
+                    file.closeFile();
+                    ret = true;
+                }
+
+                delete[] str;
+            }
+        }
+        if(ret){
+            ret=false;
+
+            str = edk::String::strCatMulti(folder,"/",EDKButtonPressedUpTemplateName,NULL);
+            if(str){
+                //create the file
+                edk::File file;
+                if(file.createAndOpenBinFile(str)){
+                    //write the data into the file
+                    file.writeBin(EDKButtonPressedUpTemplate,EDKButtonPressedUpTemplateSize);
+                    file.closeFile();
+                    ret = true;
+                }
+
+                delete[] str;
+            }
+        }
+        return ret;
+    }
+    return false;
+}
+
 //LOAD SPRITES
 bool edk::gui2d::ObjectGui2dBorder::loadSpriteNormal(const edk::char8* name,edk::uint32 filter){
     return this->loadSpriteNormal((edk::char8*) name,filter);edkEnd();

@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside InterpolationLine"
+#pragma message "Inside InterpolationLine"
 #endif
 
 #pragma once
@@ -34,7 +34,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../xml/XML.h"
 
 #ifdef printMessages
-#warning "    Compiling InterpolationLine"
+#pragma message "    Compiling InterpolationLine"
 #endif
 
 namespace edk{

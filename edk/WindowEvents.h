@@ -30,7 +30,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <SFML/Window.hpp>
 
 #ifdef printMessages
-#warning "Inside WindowEvents"
+#pragma message "Inside WindowEvents"
 #endif
 
 //EDK
@@ -42,7 +42,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "watch/Time.h"
 
 #ifdef printMessages
-#warning "    Compiling WindowEvents"
+#pragma message "    Compiling WindowEvents"
 #endif
 
 //WindowEvents structure

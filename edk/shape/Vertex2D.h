@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Vertex2D"
+#pragma message "Inside Vertex2D"
 #endif
 
 #pragma once
@@ -38,7 +38,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../xml/XML.h"
 
 #ifdef printMessages
-#warning "    Compiling Vertex2D"
+#pragma message "    Compiling Vertex2D"
 #endif
 
 namespace edk{

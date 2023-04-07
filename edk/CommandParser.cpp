@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside CommandParser.cpp"
+#pragma message "            Inside CommandParser.cpp"
 #endif
 
 

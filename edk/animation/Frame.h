@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Frame"
+#pragma message "Inside Frame"
 #endif
 
 #pragma once
@@ -35,7 +35,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../xml/XML.h"
 
 #ifdef printMessages
-#warning "    Compiling Frame"
+#pragma message "    Compiling Frame"
 #endif
 
 namespace edk{

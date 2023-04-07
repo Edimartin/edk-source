@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside gui2d::TextField2d"
+#pragma message "Inside gui2d::TextField2d"
 #endif
 
 #pragma once
@@ -41,7 +41,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "ObjectGui2d.h"
 
 #ifdef printMessages
-#warning "    Compiling gui2d::TextField2d"
+#pragma message "    Compiling gui2d::TextField2d"
 #endif
 
 //define the cursor second animation
@@ -64,6 +64,10 @@ public:
     virtual edk::gui2d::gui2dTypes getType();
     //clean all characters
     void cleanCharacters();
+
+    //save the FontTemplate
+    static bool saveTemplate(const edk::char8* folder);
+    static bool saveTemplate(edk::char8* folder);
 
     //load the button textures and meshes
     bool load();

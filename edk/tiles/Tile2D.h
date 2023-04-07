@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Tile2D"
+#pragma message "Inside Tile2D"
 #endif
 
 #pragma once
@@ -41,7 +41,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../vector/BinaryTree.h"
 
 #ifdef printMessages
-#warning "    Compiling Tile2D"
+#pragma message "    Compiling Tile2D"
 #endif
 
 namespace edk{

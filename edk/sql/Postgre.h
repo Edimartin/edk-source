@@ -31,7 +31,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside POSTGRE"
+#pragma message "Inside POSTGRE"
 #endif
 
 #pragma once
@@ -42,7 +42,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 #ifdef printMessages
-#warning "    Compiling POSTGRE"
+#pragma message "    Compiling POSTGRE"
 #endif
 
 namespace edk{

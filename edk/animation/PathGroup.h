@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside PathGroup"
+#pragma message "Inside PathGroup"
 #endif
 
 #pragma once
@@ -37,7 +37,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../Math.h"
 
 #ifdef printMessages
-#warning "    Compiling PathGroup"
+#pragma message "    Compiling PathGroup"
 #endif
 
 namespace edk{

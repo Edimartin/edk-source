@@ -26,14 +26,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside ViewButtonMove"
+#pragma message "Inside ViewButtonMove"
 #endif
 
 #pragma once
 #include "ViewButton.h"
 
 #ifdef printMessages
-#warning "    Compiling ViewButtonMove"
+#pragma message "    Compiling ViewButtonMove"
 #endif
 
 namespace edk{

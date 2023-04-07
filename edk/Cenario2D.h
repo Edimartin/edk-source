@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Cenario2D"
+#pragma message "Inside Cenario2D"
 #endif
 
 #pragma once
@@ -40,7 +40,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "vector/QuadTree.h"
 
 #ifdef printMessages
-#warning "    Compiling Cenario2D"
+#pragma message "    Compiling Cenario2D"
 #endif
 
 namespace edk{

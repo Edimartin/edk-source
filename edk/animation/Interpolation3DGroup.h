@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Interpolation3DGroup"
+#pragma message "Inside Interpolation3DGroup"
 #endif
 
 #pragma once
@@ -39,7 +39,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../watch/Time.h"
 
 #ifdef printMessages
-#warning "    Compiling Interpolation3DGroup"
+#pragma message "    Compiling Interpolation3DGroup"
 #endif
 
 namespace edk{

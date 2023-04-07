@@ -26,14 +26,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside ViewMenu"
+#pragma message "Inside ViewMenu"
 #endif
 
 #include "ViewSpriteController.h"
 #include "Camera2D.h"
 
 #ifdef printMessages
-#warning "    Compiling ViewMenu"
+#pragma message "    Compiling ViewMenu"
 #endif
 
 //#define borderSize 50.f

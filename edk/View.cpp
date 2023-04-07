@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside View.cpp"
+#pragma message "            Inside View.cpp"
 #endif
 
 #include <stdio.h>

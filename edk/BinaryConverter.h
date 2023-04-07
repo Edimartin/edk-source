@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside BinaryConverter"
+#pragma message "Inside BinaryConverter"
 #endif
 
 #pragma once
@@ -34,7 +34,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "TypeVars.h"
 
 #ifdef printMessages
-#warning "    Compiling BinaryConverter"
+#pragma message "    Compiling BinaryConverter"
 #endif
 
 namespace edk{

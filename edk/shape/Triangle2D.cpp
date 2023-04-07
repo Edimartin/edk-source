@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside Triangle2D.cpp"
+#pragma message "            Inside Triangle2D.cpp"
 #endif
 
 edk::shape::Triangle2D::Triangle2D()

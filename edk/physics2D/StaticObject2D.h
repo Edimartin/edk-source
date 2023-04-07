@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside StaticObject2D"
+#pragma message "Inside StaticObject2D"
 #endif
 
 #pragma once
@@ -34,7 +34,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "PhysicObject2D.h"
 
 #ifdef printMessages
-#warning "    Compiling StaticObject2D"
+#pragma message "    Compiling StaticObject2D"
 #endif
 
 

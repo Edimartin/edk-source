@@ -26,13 +26,13 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside ContactCallback2D"
+#pragma message "Inside ContactCallback2D"
 #endif
 
 #pragma once
 #ifndef EDK_USE_BOX2D
 #define EDK_USE_BOX2D
-#warning "EDK WARNING: As default EDK use Box2D, If you don't want use 2D physics you can comment the line 33 in edk/physics2D/World2D.h"
+#pragma message "EDK WARNING: As default EDK use Box2D, If you don't want use 2D physics you can comment the line 33 in edk/physics2D/World2D.h"
 #endif
 
 #include "../TypeDefines.h"
@@ -64,7 +64,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define positionDistLimit 10
 
 #ifdef printMessages
-#warning "    Compiling ContactCallback2D"
+#pragma message "    Compiling ContactCallback2D"
 #endif
 
 namespace edk{

@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside SHA1"
+#pragma message "Inside SHA1"
 #endif
 
 #pragma once
@@ -40,7 +40,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../TypeDefines.h"
 
 #ifdef printMessages
-#warning "    Compiling SHA1"
+#pragma message "    Compiling SHA1"
 #endif
 
 namespace edk{

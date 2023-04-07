@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside ParticlesPoint2D"
+#pragma message "Inside ParticlesPoint2D"
 #endif
 
 #pragma once
@@ -39,7 +39,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../vector/BinaryTree.h"
 
 #ifdef printMessages
-#warning "    Compiling ParticlesPoint2D"
+#pragma message "    Compiling ParticlesPoint2D"
 #endif
 
 namespace edk{

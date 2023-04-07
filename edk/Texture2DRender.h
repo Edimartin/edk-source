@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Texture2DRender"
+#pragma message "Inside Texture2DRender"
 #endif
 
 #pragma once
@@ -34,7 +34,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "Texture2D.h"
 
 #ifdef printMessages
-#warning "    Compiling Texture2DRender"
+#pragma message "    Compiling Texture2DRender"
 #endif
 
 namespace edk{

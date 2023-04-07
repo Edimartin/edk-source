@@ -25,5 +25,5 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside WindowEvents.cpp"
+#pragma message "            Inside WindowEvents.cpp"
 #endif

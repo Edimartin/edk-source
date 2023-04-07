@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside ViewGUTexture"
+#pragma message "Inside ViewGUTexture"
 #endif
 
 #pragma once
@@ -38,7 +38,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "shd/GLSL.h"
 
 #ifdef printMessages
-#warning "    Compiling ViewGUTexture"
+#pragma message "    Compiling ViewGUTexture"
 #endif
 
 

@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside ObjectBorder"
+#pragma message "Inside ObjectBorder"
 #endif
 
 #pragma once
@@ -37,7 +37,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../pack/FilePackage.h"
 
 #ifdef printMessages
-#warning "    Compiling ObjectBorder"
+#pragma message "    Compiling ObjectBorder"
 #endif
 
 
@@ -56,6 +56,10 @@ class ObjectGui2dBorder{
 public:
     ObjectGui2dBorder();
     ~ObjectGui2dBorder();
+
+    //save the FontTemplate
+    static bool saveTemplate(const edk::char8* folder);
+    static bool saveTemplate(edk::char8* folder);
 
     //LOAD SPRITES
     bool loadSpriteNormal(const edk::char8* name,edk::uint32 filter = GU_NEAREST);

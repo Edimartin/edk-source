@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside DecoderH264"
+#pragma message "Inside DecoderH264"
 #endif
 
 #pragma once
@@ -42,7 +42,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 #ifdef printMessages
-#warning "    Compiling DecoderH264"
+#pragma message "    Compiling DecoderH264"
 #endif
 
 namespace edk{

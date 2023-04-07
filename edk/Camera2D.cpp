@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside Camera2D.cpp"
+#pragma message "            Inside Camera2D.cpp"
 #endif
 
 edk::Camera2D::Camera2D(){

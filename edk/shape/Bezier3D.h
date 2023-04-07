@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Bezier3D"
+#pragma message "Inside Bezier3D"
 #endif
 
 #pragma once
@@ -35,7 +35,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "Curve3D.h"
 
 #ifdef printMessages
-#warning "    Compiling Bezier3D"
+#pragma message "    Compiling Bezier3D"
 #endif
 
 namespace edk{

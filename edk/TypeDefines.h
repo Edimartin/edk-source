@@ -26,13 +26,13 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside TypeDefines"
+#pragma message "Inside TypeDefines"
 #endif
 
 #include "TypeVars.h"
 
 #ifdef printMessages
-#warning "    Compiling TypeDefines"
+#pragma message "    Compiling TypeDefines"
 #endif
 
 //DEFINES

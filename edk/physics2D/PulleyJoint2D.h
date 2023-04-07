@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside PulleyJoint2D"
+#pragma message "Inside PulleyJoint2D"
 #endif
 
 #pragma once
@@ -34,7 +34,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../TypeDefines.h"
 
 #ifdef printMessages
-#warning "    Compiling PulleyJoint2D"
+#pragma message "    Compiling PulleyJoint2D"
 #endif
 
 namespace edk{

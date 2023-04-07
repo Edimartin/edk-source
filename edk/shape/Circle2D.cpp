@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside Circle2D.cpp"
+#pragma message "            Inside Circle2D.cpp"
 #endif
 
 edk::shape::Circle2D::Circle2D()

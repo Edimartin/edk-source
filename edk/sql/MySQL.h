@@ -31,7 +31,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside MYSQL"
+#pragma message "Inside MYSQL"
 #endif
 
 #pragma once
@@ -43,7 +43,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 #ifdef printMessages
-#warning "    Compiling MYSQL"
+#pragma message "    Compiling MYSQL"
 #endif
 
 namespace edk{

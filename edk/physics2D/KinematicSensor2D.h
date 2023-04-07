@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside KinematicSensor2D"
+#pragma message "Inside KinematicSensor2D"
 #endif
 
 #pragma once
@@ -35,7 +35,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "StaticSensor2D.h"
 
 #ifdef printMessages
-#warning "    Compiling KinematicSensor2D"
+#pragma message "    Compiling KinematicSensor2D"
 #endif
 
 namespace edk{

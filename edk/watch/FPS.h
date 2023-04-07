@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside FPS"
+#pragma message "Inside FPS"
 #endif
 
 #pragma once
@@ -34,7 +34,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "Time.h"
 
 #ifdef printMessages
-#warning "    Compiling FPS"
+#pragma message "    Compiling FPS"
 #endif
 
 namespace edk {

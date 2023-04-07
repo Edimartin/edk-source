@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside DecoderH264.cpp"
+#pragma message "            Inside DecoderH264.cpp"
 #endif
 
 edk::codecs::DecoderH264::DecoderH264(){

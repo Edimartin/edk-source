@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside DataList"
+#pragma message "Inside DataList"
 #endif
 
 #pragma once
@@ -42,7 +42,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../String.h"
 
 #ifdef printMessages
-#warning "    Compiling DataList"
+#pragma message "    Compiling DataList"
 #endif
 
 namespace edk{

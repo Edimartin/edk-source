@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside Polygon2DList.cpp"
+#pragma message "            Inside Polygon2DList.cpp"
 #endif
 
 edk::shape::Polygon2DList::Polygon2DList(){

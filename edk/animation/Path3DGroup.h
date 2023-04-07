@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Path3DGroup"
+#pragma message "Inside Path3DGroup"
 #endif
 
 #pragma once
@@ -34,7 +34,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "Frame3D.h"
 
 #ifdef printMessages
-#warning "    Compiling Path3DGroup"
+#pragma message "    Compiling Path3DGroup"
 #endif
 
 namespace edk{

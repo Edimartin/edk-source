@@ -971,6 +971,32 @@ void edk::fonts::FontMap::drawWire(edk::uint32 originID,edk::vec2ui32 last){
     return this->drawWire(origin,last);edkEnd();
 }
 
+//save the FontTemplate
+bool edk::fonts::FontMap::saveTemplate(const edk::char8* folder){
+    return edk::fonts::FontMap::saveTemplate((edk::char8*) folder);
+}
+bool edk::fonts::FontMap::saveTemplate(edk::char8* folder){
+    if(folder){
+        bool ret = false;
+        //first create the string to save the file in the folder
+        edk::char8* str = edk::String::strCatMulti(folder,"/",EDKFontTemplateName,NULL);
+        if(str){
+            //create the file
+            edk::File file;
+            if(file.createAndOpenBinFile(str)){
+                //write the data into the file
+                file.writeBin(EDKFontTemplate,EDKFontTemplateSize);
+                file.closeFile();
+                ret = true;
+            }
+
+            delete[] str;
+        }
+        return ret;
+    }
+    return false;
+}
+
 //SET
 void edk::fonts::FontMap::setPosition(edk::vec2f32 position){
     this->position = position;

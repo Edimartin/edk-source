@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside Window.cpp"
+#pragma message "            Inside Window.cpp"
 #endif
 
 //PRIVATE

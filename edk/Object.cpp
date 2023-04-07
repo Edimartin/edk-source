@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside Object.cpp"
+#pragma message "            Inside Object.cpp"
 #endif
 
 edk::ObjectWithName::ObjectWithName(){

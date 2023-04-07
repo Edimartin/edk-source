@@ -26,14 +26,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside RopeJoint2D"
+#pragma message "Inside RopeJoint2D"
 #endif
 
 #pragma once
 #include "Joint2D.h"
 
 #ifdef printMessages
-#warning "    Compiling RopeJoint2D"
+#pragma message "    Compiling RopeJoint2D"
 #endif
 
 namespace edk{

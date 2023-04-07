@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside EncoderPNG.cpp"
+#pragma message "            Inside EncoderPNG.cpp"
 #endif
 
 edk::codecs::EncoderPNG::EncoderPNG()

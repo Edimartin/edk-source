@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside LineContact2D"
+#pragma message "Inside LineContact2D"
 #endif
 
 #pragma once
@@ -38,7 +38,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../shape/Polygon2D.h"
 
 #ifdef printMessages
-#warning "    Compiling LineContact2D"
+#pragma message "    Compiling LineContact2D"
 #endif
 
 namespace edk{

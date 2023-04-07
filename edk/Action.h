@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Action"
+#pragma message "Inside Action"
 #endif
 
 #pragma once
@@ -36,7 +36,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "xml/XML.h"
 
 #ifdef printMessages
-#warning "    Compiling Action"
+#pragma message "    Compiling Action"
 #endif
 
 namespace edk{

@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside FileToH"
+#pragma message "Inside FileToH"
 #endif
 
 #pragma once
@@ -35,7 +35,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "DebugFile.h"
 
 #ifdef printMessages
-#warning "    Compiling FileToH"
+#pragma message "    Compiling FileToH"
 #endif
 
 namespace edk{

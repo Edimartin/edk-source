@@ -26,14 +26,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside ClientUDP"
+#pragma message "Inside ClientUDP"
 #endif
 
 #pragma once
 #include "../Socket.h"
 
 #ifdef printMessages
-#warning "    Compiling ClientUDP"
+#pragma message "    Compiling ClientUDP"
 #endif
 
 namespace edk{

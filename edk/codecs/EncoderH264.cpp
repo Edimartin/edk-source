@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside EncoderH264.cpp"
+#pragma message "            Inside EncoderH264.cpp"
 #endif
 
 #ifdef EDK_USE_OPENH264

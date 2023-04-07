@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Interpolation3DTracks"
+#pragma message "Inside Interpolation3DTracks"
 #endif
 
 #pragma once
@@ -42,7 +42,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "Interpolation2DTracks.h"
 
 #ifdef printMessages
-#warning "    Compiling Interpolation3DTracks"
+#pragma message "    Compiling Interpolation3DTracks"
 #endif
 
 namespace edk{

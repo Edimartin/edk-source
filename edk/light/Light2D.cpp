@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside Light2D.cpp"
+#pragma message "            Inside Light2D.cpp"
 #endif
 
 edk::light::Light2D::Light2D(){

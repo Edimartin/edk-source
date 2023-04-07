@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside MathCollision.cpp"
+#pragma message "            Inside MathCollision.cpp"
 #endif
 
 edk::collision::MathCollision::MathCollision(){

@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside Quadrangle2D.cpp"
+#pragma message "            Inside Quadrangle2D.cpp"
 #endif
 
 edk::shape::Quadrangle2D::Quadrangle2D()

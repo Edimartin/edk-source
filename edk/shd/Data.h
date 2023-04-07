@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Data"
+#pragma message "Inside Data"
 #endif
 
 #pragma once
@@ -46,7 +46,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../NameClass.h"
 
 #ifdef printMessages
-#warning "    Compiling Data"
+#pragma message "    Compiling Data"
 #endif
 
 namespace edk{

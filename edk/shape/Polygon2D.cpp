@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside Polygon2D.cpp"
+#pragma message "            Inside Polygon2D.cpp"
 #endif
 
 bool edk::shape::Polygon2D::successTemplate=false;

@@ -26,11 +26,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside WheelJoint2D"
+#pragma message "Inside WheelJoint2D"
 #endif
 
 #ifdef printMessages
-#warning "    Compiling WheelJoint2D"
+#pragma message "    Compiling WheelJoint2D"
 #endif
 
 /*

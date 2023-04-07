@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside TypeCube"
+#pragma message "Inside TypeCube"
 #endif
 
 #pragma once
@@ -35,7 +35,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "TypeSize3.h"
 
 #ifdef printMessages
-#warning "    Compiling TypeCube"
+#pragma message "    Compiling TypeCube"
 #endif
 
 namespace edk{

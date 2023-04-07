@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside PathGroup2D.cpp"
+#pragma message "            Inside PathGroup2D.cpp"
 #endif
 
 edk::animation::Path2DGroup::Path2DGroup()

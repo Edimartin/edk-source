@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside ViewButton.cpp"
+#pragma message "            Inside ViewButton.cpp"
 #endif
 
 
@@ -188,6 +188,67 @@ edk::ViewButton::~ViewButton()
     this->deleteAllSymbols();edkEnd();
     this->deleteButtonText();edkEnd();
 }
+
+//save the FontTemplate
+bool edk::ViewButton::saveTemplate(const edk::char8* folder){
+    return edk::ViewButton::saveTemplate((edk::char8*) folder);
+}
+bool edk::ViewButton::saveTemplate(edk::char8* folder){
+    if(folder){
+        bool ret = false;
+        //first create the string to save the file in the folder
+        edk::char8* str = edk::String::strCatMulti(folder,"/",EDKButtonNormalTemplateName,NULL);
+        if(str){
+            //create the file
+            edk::File file;
+            if(file.createAndOpenBinFile(str)){
+                //write the data into the file
+                file.writeBin(EDKButtonNormalTemplate,EDKButtonNormalTemplateSize);
+                file.closeFile();
+                ret = true;
+            }
+
+            delete[] str;
+        }
+        if(ret){
+            ret=false;
+
+            str = edk::String::strCatMulti(folder,"/",EDKButtonUpTemplateName,NULL);
+            if(str){
+                //create the file
+                edk::File file;
+                if(file.createAndOpenBinFile(str)){
+                    //write the data into the file
+                    file.writeBin(EDKButtonUpTemplate,EDKButtonUpTemplateSize);
+                    file.closeFile();
+                    ret = true;
+                }
+
+                delete[] str;
+            }
+        }
+        if(ret){
+            ret=false;
+
+            str = edk::String::strCatMulti(folder,"/",EDKButtonPressedTemplateName,NULL);
+            if(str){
+                //create the file
+                edk::File file;
+                if(file.createAndOpenBinFile(str)){
+                    //write the data into the file
+                    file.writeBin(EDKButtonPressedTemplate,EDKButtonPressedTemplateSize);
+                    file.closeFile();
+                    ret = true;
+                }
+
+                delete[] str;
+            }
+        }
+        return ret;
+    }
+    return false;
+}
+
 //set borderSize
 bool edk::ViewButton::setBorderSize(edk::uint32 size){
     if(size){

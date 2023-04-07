@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside KinematicObject2D"
+#pragma message "Inside KinematicObject2D"
 #endif
 
 #pragma once
@@ -35,7 +35,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "StaticObject2D.h"
 
 #ifdef printMessages
-#warning "    Compiling KinematicObject2D"
+#pragma message "    Compiling KinematicObject2D"
 #endif
 
 namespace edk{

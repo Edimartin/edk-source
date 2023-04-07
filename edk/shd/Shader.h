@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Shader"
+#pragma message "Inside Shader"
 #endif
 
 #pragma once
@@ -36,7 +36,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../String.h"
 
 #ifdef printMessages
-#warning "    Compiling Shader"
+#pragma message "    Compiling Shader"
 #endif
 
 namespace edk{

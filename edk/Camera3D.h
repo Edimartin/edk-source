@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Camera3D"
+#pragma message "Inside Camera3D"
 #endif
 
 #pragma once
@@ -39,7 +39,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "animation/Interpolation3DGroup.h"
 
 #ifdef printMessages
-#warning "    Compiling Camera3D"
+#pragma message "    Compiling Camera3D"
 #endif
 
 namespace edk{

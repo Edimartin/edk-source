@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside ViewConsole"
+#pragma message "Inside ViewConsole"
 #endif
 
 #include "edk/ViewGU.h"
@@ -34,7 +34,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "edk/fonts/FontMap.h"
 
 #ifdef printMessages
-#warning "    Compiling ViewConsole"
+#pragma message "    Compiling ViewConsole"
 #endif
 
 #define mapSizeX 80u

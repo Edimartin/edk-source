@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside Collisions"
+#pragma message "Inside Collisions"
 #endif
 
 #pragma once
@@ -36,7 +36,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //#include "Line2D.h"
 
 #ifdef printMessages
-#warning "    Compiling Collisions"
+#pragma message "    Compiling Collisions"
 #endif
 
 #endif // COLLISIONS_H

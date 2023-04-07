@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside gui2d::ViewGui2d"
+#pragma message "Inside gui2d::ViewGui2d"
 #endif
 
 #pragma once
@@ -38,7 +38,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../watch/Time.h"
 
 #ifdef printMessages
-#warning "    Compiling gui2d::ViewGui2d"
+#pragma message "    Compiling gui2d::ViewGui2d"
 #endif
 
 

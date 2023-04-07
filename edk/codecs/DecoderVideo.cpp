@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "            Inside DecoderVideo.cpp"
+#pragma message "            Inside DecoderVideo.cpp"
 #endif
 
 edk::codecs::DecoderVideo::DecoderVideo(){

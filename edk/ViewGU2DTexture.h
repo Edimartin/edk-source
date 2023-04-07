@@ -26,14 +26,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#warning "Inside ViewGU2DTexture"
+#pragma message "Inside ViewGU2DTexture"
 #endif
 
 #pragma once
 #include "ViewGUTexture.h"
 
 #ifdef printMessages
-#warning "    Compiling ViewGU2DTexture"
+#pragma message "    Compiling ViewGU2DTexture"
 #endif
 
 
