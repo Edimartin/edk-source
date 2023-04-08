@@ -852,9 +852,12 @@ bool edk::Window::loadEvents(){
     //const sf::Input& input=window.GetInput();edkEnd();//1.6
     //2.0
 
-    //load the time passed since the last frame
-    this->events.secondPassed = this->time.getMicroseconds() * edk::watch::microsecond;edkEnd();
-    this->events.secondsGlobal = this->time.getMicrosecondsReal() * edk::watch::microsecond;edkEnd();
+    //test if DON'T need force the second passed
+    if(!this->events.updateForceSecondPassed()){
+        //load the time passed since the last frame
+        this->events.secondPassed = this->time.getMicroseconds() * edk::watch::microsecond;edkEnd();
+        this->events.secondsGlobal = this->time.getMicrosecondsReal() * edk::watch::microsecond;edkEnd();
+    }
 
     this->time.start();edkEnd();
 

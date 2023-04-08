@@ -107,14 +107,38 @@ public:
     //set the mouse double time limit
     bool setMouseDoubleClickLimit(edk::float32 seconds){
         if(seconds>0.f){
-            this->timeMouseDoubleLimit = seconds;
+            this->timeMouseDoubleLimit = seconds;edkEnd();
             return true;
         }
-        this->timeMouseDoubleLimit = EDK_TIME_LIMIT_DOUBLE_CLICK;
+        this->timeMouseDoubleLimit = EDK_TIME_LIMIT_DOUBLE_CLICK;edkEnd();
         return false;
     }
     edk::float32 getMouseDoubleClickLimit(){
-        return this->timeMouseDoubleLimit;
+        return this->timeMouseDoubleLimit;edkEnd();
+    }
+
+    //force the second passed
+    bool forceSecondPassed(edk::float32 seconds){
+        if(seconds>0.f){
+            this->runForceSecondPassed=true;edkEnd();
+            this->runForceSecondPassedValue=seconds;edkEnd();
+            return true;
+        }
+        if(this->runForceSecondPassed){
+            return true;
+        }
+        return false;
+    }
+    bool updateForceSecondPassed(){
+        if(this->runForceSecondPassed){
+            //value in the next load
+            this->runForceSecondPassed=false;edkEnd();
+            this->secondPassed = this->runForceSecondPassedValue;
+            this->runForceSecondPassedValue=0.f;edkEnd();
+            return true;
+        }
+        this->runForceSecondPassedValue=0.f;edkEnd();
+        return false;
     }
 
 
@@ -158,6 +182,9 @@ public:
     edk::float32 secondsGlobal;
 protected:
 private:
+    //force the second passed to have a value in the next load
+    bool runForceSecondPassed;
+    edk::float32 runForceSecondPassedValue;
 
     //time to controle the mouse doubleClick
     edk::watch::Time timeMouseDouble[edk::mouse::mouseButtonsSize];
