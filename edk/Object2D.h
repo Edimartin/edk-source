@@ -350,8 +350,10 @@ protected:
 private:
     //Tree Static Vector
     edk::light::Light lights[EDK_LIGHT_LIMIT];
+    /*
     //action group
     edk::animation::ActionGroup actions;
+    */
     //transform matrices
     edk::vector::Matrix<edk::float32,3u,3u> matrixPosition;
     edk::vector::Matrix<edk::float32,3u,3u> matrixPivo;
@@ -526,18 +528,19 @@ private:
         this->angle = obj.angle;edkEnd();
         this->size = obj.size;edkEnd();
 
-/*
-    class ActionPosition 1
-    class ActionMove     2
-    class ActionSetSize  3
-    class ActionSize     4
-    class ActionSetAngle 5
-    class ActionAngle    6
-    class ActionMeshName 7
-    class ActionMeshStop 8
-*/
+
+    //class ActionPosition 1
+    //class ActionMove     2
+    //class ActionSetSize  3
+    //class ActionSize     4
+    //class ActionSetAngle 5
+    //class ActionAngle    6
+    //class ActionMeshName 7
+    //class ActionMeshStop 8
 
 
+
+        /*
         //copy the actions
         this->actions.clean();edkEnd();
         size = obj.actions.getKeySize();edkEnd();
@@ -618,6 +621,7 @@ private:
                 }
             }
         }
+        */
 
         obj.cantDeleteObject2D();edkEnd();
         return obj;edkEnd();

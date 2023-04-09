@@ -33,7 +33,7 @@ edk::animation::ParticlesLine2D::ParticlesLine2D(){
 }
 //get the position
 edk::vec2f32 edk::animation::ParticlesLine2D::newPosition(){
-    edk::float32 percent = edk::Random::getRandPercent();edkEnd();
+    edk::float32 percent = edk::Random::getStaticRandPercent();edkEnd();
     return this->position + edk::Math::rotatePlus((this->point1 + ((this->point2 - this->point1)*percent)),this->angle);edkEnd();
 }
 

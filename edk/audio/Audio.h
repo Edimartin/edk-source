@@ -130,6 +130,7 @@ class Audio{
         edk::AudioBuffer* buffer;
         //E possui o manipulador de audio
         sf::Sound *sound;
+        bool looping;
         //audio list to load the buffer
         edk::AudioList list;
     private:

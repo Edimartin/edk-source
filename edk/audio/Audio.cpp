@@ -32,6 +32,7 @@ edk::Audio::Audio(){
     //ctor
     this->buffer=NULL;edkEnd();
     this->sound=NULL;edkEnd();
+    this->looping=false;
 }
 
 edk::Audio::~Audio()
@@ -168,6 +169,7 @@ void edk::Audio::setLoop(bool loop){
     //
     if(this->sound){
         //this->sound->SetLoop(loop);edkEnd();//1.6
+        this->looping=loop;
         this->sound->setLoop(loop);edkEnd();//2.0
     }
 }
@@ -295,6 +297,7 @@ bool edk::Audio::play(){
     if(this->sound){
         //
         //this->sound->Play();edkEnd();//1.6
+        this->sound->setLoop(this->looping);
         this->sound->play();edkEnd();//2.0
         return true;
     }
@@ -312,6 +315,7 @@ bool edk::Audio::stop(){
     if(this->sound){
         //
         //this->sound->Stop();edkEnd();//1.6
+        this->sound->setLoop(false);
         this->sound->stop();edkEnd();//2.0
         return true;
     }
@@ -347,6 +351,7 @@ bool edk::Audio::pauseOff(){
         //
         //this->sound->Pause();edkEnd();//1.6
         if(this->sound->getStatus() == sf::Sound::Paused){
+            this->sound->setLoop(this->looping);
             this->sound->play();edkEnd();
         }
         return true;

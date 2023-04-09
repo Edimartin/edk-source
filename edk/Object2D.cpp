@@ -36,11 +36,15 @@ edk::Object2D::Object2D(){
     //Scale
     this->size = edk::size2f32(1.f,1.f);edkEnd();
     this->canDeleteObject=true;edkEnd();
+    /*
     this->actions.setReadXMLActionFunction(&edk::Object2D::readXMLAction);edkEnd();
+    */
 }
 
 edk::Object2D::~Object2D(){
+    /*
     this->actions.cleanReadXMLActionFunction();edkEnd();
+    */
     //dtor
     if(this->canDeleteObject){
         this->cleanMeshes();edkEnd();
@@ -51,13 +55,16 @@ edk::Object2D::~Object2D(){
         this->animationPosition.cantDeleteGroup();edkEnd();
         this->animationRotation.cantDeleteGroup();edkEnd();
         this->animationSize.cantDeleteGroup();edkEnd();
+        /*
         this->actions.cantDeleteGroup();edkEnd();
+        */
     }
     this->canDeleteObject=true;edkEnd();
 }
 
 //Function to read the actions
-edk::Action* edk::Object2D::readXMLAction(edk::classID thisPointer,edk::uint32 actionCode){
+edk::Action* edk::Object2D::readXMLAction(edk::classID /*thisPointer*/,edk::uint32 /*actionCode*/){
+    /*
     switch(actionCode){
     case 1u:
     {
@@ -108,14 +115,17 @@ edk::Action* edk::Object2D::readXMLAction(edk::classID thisPointer,edk::uint32 a
         break;
     }
     }
+    */
     return new edk::ActionZero();edkEnd();
 }
 
 //Actions
-edk::Object2D::ActionPosition::ActionPosition(edk::Object2D* object, edk::vec2f32 position){
+edk::Object2D::ActionPosition::ActionPosition(edk::Object2D* /*object*/, edk::vec2f32 /*position*/){
+    /*
     this->position=position;edkEnd();
     this->object=object;edkEnd();
     this->code = 1u;edkEnd();
+    */
 }
 //run action function
 void edk::Object2D::ActionPosition::runAction(){
@@ -249,18 +259,23 @@ edk::vec2f32 edk::Object2D::ActionMove::getPosition(){
 edk::float32 edk::Object2D::ActionMove::getDuration(){
     return this->duration;edkEnd();
 }
-edk::Object2D::ActionSetSize::ActionSetSize(edk::Object2D* object, edk::size2f32 size){
+edk::Object2D::ActionSetSize::ActionSetSize(edk::Object2D* /*object*/, edk::size2f32 /*size*/){
+    /*
     this->object=object;edkEnd();
     this->size=size;edkEnd();
     this->code = 3u;edkEnd();
+    */
 }
 //run action function
 void edk::Object2D::ActionSetSize::runAction(){
+    /*
     this->object->size = this->size;edkEnd();
+    */
 }
 //write to XML
-bool edk::Object2D::ActionSetSize::writeToXML(edk::XML* xml,edk::uint32 id){
+bool edk::Object2D::ActionSetSize::writeToXML(edk::XML* /*xml*/,edk::uint32 /*id*/){
     bool ret=false;edkEnd();
+    /*
     if(edk::ActionZero::writeToXML(xml,id)){
         edk::char8* number = edk::String::uint32ToStr(id);edkEnd();
         if(number){
@@ -281,11 +296,13 @@ bool edk::Object2D::ActionSetSize::writeToXML(edk::XML* xml,edk::uint32 id){
             delete[] number;edkEnd();
         }
     }
+    */
     return ret;
 }
 //read XML
-bool edk::Object2D::ActionSetSize::readFromXML(edk::XML* xml,edk::uint32 id){
+bool edk::Object2D::ActionSetSize::readFromXML(edk::XML* /*xml*/,edk::uint32 /*id*/){
     bool ret=false;edkEnd();
+    /*
     if(xml){
         edk::char8* number = edk::String::uint32ToStr(id);edkEnd();
         if(number){
@@ -306,27 +323,33 @@ bool edk::Object2D::ActionSetSize::readFromXML(edk::XML* xml,edk::uint32 id){
             delete[] number;edkEnd();
         }
     }
+    */
     return ret;
 }
 //GET
 edk::size2f32 edk::Object2D::ActionSetSize::getSize(){
     return this->size;edkEnd();
 }
-edk::Object2D::ActionSize::ActionSize(edk::Object2D* object,edk::float32 duration, edk::size2f32 size){
+edk::Object2D::ActionSize::ActionSize(edk::Object2D* /*object*/,edk::float32 /*duration*/, edk::size2f32 /*size*/){
+    /*
     this->size=size;edkEnd();
     this->duration = duration;edkEnd();
     this->object=object;edkEnd();
     this->code = 4u;edkEnd();
+    */
 }
 //run action function
 void edk::Object2D::ActionSize::runAction(){
+    /*
     this->object->animationSize.cleanAnimations();edkEnd();
     this->object->animationSize.addFirstInterpolationLine(0,this->object->size.width,this->object->size.height,this->duration,this->size.width,this->size.height);edkEnd();
     this->object->animationSize.playForward();edkEnd();
+    */
 }
 //write to XML
-bool edk::Object2D::ActionSize::writeToXML(edk::XML* xml,edk::uint32 id){
+bool edk::Object2D::ActionSize::writeToXML(edk::XML* /*xml*/,edk::uint32 /*id*/){
     bool ret=false;edkEnd();
+    /*
     if(edk::ActionZero::writeToXML(xml,id)){
         edk::char8* number = edk::String::uint32ToStr(id);edkEnd();
         if(number){
@@ -349,11 +372,13 @@ bool edk::Object2D::ActionSize::writeToXML(edk::XML* xml,edk::uint32 id){
             delete[] number;edkEnd();
         }
     }
+    */
     return ret;
 }
 //read XML
-bool edk::Object2D::ActionSize::readFromXML(edk::XML* xml,edk::uint32 id){
+bool edk::Object2D::ActionSize::readFromXML(edk::XML* /*xml*/,edk::uint32 /*id*/){
     bool ret=false;edkEnd();
+    /*
     if(xml){
         edk::char8* number = edk::String::uint32ToStr(id);edkEnd();
         if(number){
@@ -376,6 +401,7 @@ bool edk::Object2D::ActionSize::readFromXML(edk::XML* xml,edk::uint32 id){
             delete[] number;edkEnd();
         }
     }
+    */
     return ret;
 }
 //GET
@@ -395,8 +421,9 @@ void edk::Object2D::ActionSetAngle::runAction(){
     this->object->angle = this->angle;edkEnd();
 }
 //write to XML
-bool edk::Object2D::ActionSetAngle::writeToXML(edk::XML* xml,edk::uint32 id){
+bool edk::Object2D::ActionSetAngle::writeToXML(edk::XML* /*xml*/,edk::uint32 /*id*/){
     bool ret=false;edkEnd();
+    /*
     if(edk::ActionZero::writeToXML(xml,id)){
         edk::char8* number = edk::String::uint32ToStr(id);edkEnd();
         if(number){
@@ -416,11 +443,13 @@ bool edk::Object2D::ActionSetAngle::writeToXML(edk::XML* xml,edk::uint32 id){
             delete[] number;edkEnd();
         }
     }
+    */
     return ret;
 }
 //read XML
-bool edk::Object2D::ActionSetAngle::readFromXML(edk::XML* xml,edk::uint32 id){
+bool edk::Object2D::ActionSetAngle::readFromXML(edk::XML* /*xml*/,edk::uint32 /*id*/){
     bool ret=false;edkEnd();
+    /*
     if(xml){
         edk::char8* number = edk::String::uint32ToStr(id);edkEnd();
         if(number){
@@ -440,27 +469,33 @@ bool edk::Object2D::ActionSetAngle::readFromXML(edk::XML* xml,edk::uint32 id){
             delete[] number;edkEnd();
         }
     }
+    */
     return ret;
 }
 //GET
 edk::float32 edk::Object2D::ActionSetAngle::getAngle(){
     return this->angle;edkEnd();
 }
-edk::Object2D::ActionAngle::ActionAngle(edk::Object2D* object,edk::float32 duration, edk::float32 angle){
+edk::Object2D::ActionAngle::ActionAngle(edk::Object2D* /*object*/,edk::float32 /*duration*/, edk::float32 /*angle*/){
+    /*
     this->object = object;edkEnd();
     this->duration = duration;edkEnd();
     this->angle = angle;edkEnd();
     this->code = 6u;edkEnd();
+    */
 }
 //run action function
 void edk::Object2D::ActionAngle::runAction(){
+    /*
     this->object->animationRotation.cleanAnimations();edkEnd();
     this->object->animationRotation.addFirstInterpolationLine(0,this->object->angle,this->duration,this->angle);edkEnd();
     this->object->animationRotation.playForward();edkEnd();
+    */
 }
 //write to XML
-bool edk::Object2D::ActionAngle::writeToXML(edk::XML* xml,edk::uint32 id){
+bool edk::Object2D::ActionAngle::writeToXML(edk::XML* /*xml*/,edk::uint32 /*id*/){
     bool ret=false;edkEnd();
+    /*
     if(edk::ActionZero::writeToXML(xml,id)){
         edk::char8* number = edk::String::uint32ToStr(id);edkEnd();
         if(number){
@@ -482,11 +517,13 @@ bool edk::Object2D::ActionAngle::writeToXML(edk::XML* xml,edk::uint32 id){
             delete[] number;edkEnd();
         }
     }
+    */
     return ret;
 }
 //read XML
-bool edk::Object2D::ActionAngle::readFromXML(edk::XML* xml,edk::uint32 id){
+bool edk::Object2D::ActionAngle::readFromXML(edk::XML* /*xml*/,edk::uint32 /*id*/){
     bool ret=false;edkEnd();
+    /*
     if(xml){
         edk::char8* number = edk::String::uint32ToStr(id);edkEnd();
         if(number){
@@ -508,6 +545,7 @@ bool edk::Object2D::ActionAngle::readFromXML(edk::XML* xml,edk::uint32 id){
             delete[] number;edkEnd();
         }
     }
+    */
     return ret;
 }
 //GET
@@ -517,25 +555,30 @@ edk::float32 edk::Object2D::ActionAngle::getAngle(){
 edk::float32 edk::Object2D::ActionAngle::getDuration(){
     return this->duration;edkEnd();
 }
-edk::Object2D::ActionMeshName::ActionMeshName(edk::Object2D* object,edk::uint32 id, edk::char8* name,bool loop){
+edk::Object2D::ActionMeshName::ActionMeshName(edk::Object2D* /*object*/,edk::uint32 /*id*/, edk::char8* /*name*/,bool /*loop*/){
+    /*
     this->object=object;edkEnd();
     this->loop = loop;edkEnd();
     this->id = id;edkEnd();
     this->setName(name);edkEnd();
     this->code = 7u;edkEnd();
+    */
 }
 //run action function
 void edk::Object2D::ActionMeshName::runAction(){
+    /*
     //load the mesh
     edk::shape::Mesh2D* mesh = this->object->getMesh(this->id);edkEnd();
     if(mesh){
         mesh->selectedAnimationSetLoop(this->loop);edkEnd();
         mesh->selectedAnimationPlayNameForward(this->name());edkEnd();
     }
+    */
 }
 //write to XML
-bool edk::Object2D::ActionMeshName::writeToXML(edk::XML* xml,edk::uint32 id){
+bool edk::Object2D::ActionMeshName::writeToXML(edk::XML* /*xml*/,edk::uint32 /*id*/){
     bool ret=false;edkEnd();
+    /*
     if(edk::ActionName::writeToXML(xml,id)){
         edk::char8* number = edk::String::uint32ToStr(id);edkEnd();
         if(number){
@@ -560,11 +603,13 @@ bool edk::Object2D::ActionMeshName::writeToXML(edk::XML* xml,edk::uint32 id){
             delete[] number;edkEnd();
         }
     }
+    */
     return ret;
 }
 //read XML
-bool edk::Object2D::ActionMeshName::readFromXML(edk::XML* xml,edk::uint32 id){
+bool edk::Object2D::ActionMeshName::readFromXML(edk::XML* /*xml*/,edk::uint32 /*id*/){
     bool ret=false;edkEnd();
+    /*
     edk::ActionName::readFromXML(xml,id);edkEnd();
     this->id = 7u;edkEnd();
     if(xml){
@@ -591,6 +636,7 @@ bool edk::Object2D::ActionMeshName::readFromXML(edk::XML* xml,edk::uint32 id){
             delete[] number;edkEnd();
         }
     }
+    */
     return ret;
 }
 //GET
@@ -600,22 +646,27 @@ edk::uint32 edk::Object2D::ActionMeshName::getId(){
 bool edk::Object2D::ActionMeshName::getLoop(){
     return this->loop;edkEnd();
 }
-edk::Object2D::ActionMeshStop::ActionMeshStop(edk::Object2D* object,edk::uint32 id){
+edk::Object2D::ActionMeshStop::ActionMeshStop(edk::Object2D* /*object*/,edk::uint32 /*id*/){
+    /*
     this->object=object;edkEnd();
     this->id = id;edkEnd();
     this->code = 8u;edkEnd();
+    */
 }
 //run action function
 void edk::Object2D::ActionMeshStop::runAction(){
+    /*
     //load the mesh
     edk::shape::Mesh2D* mesh = this->object->getMesh(this->id);edkEnd();
     if(mesh){
         mesh->selectedAnimationStop();edkEnd();
     }
+    */
 }
 //write to XML
-bool edk::Object2D::ActionMeshStop::writeToXML(edk::XML* xml,edk::uint32 id){
+bool edk::Object2D::ActionMeshStop::writeToXML(edk::XML* /*xml*/,edk::uint32 /*id*/){
     bool ret=false;edkEnd();
+    /*
     if(edk::ActionZero::writeToXML(xml,id)){
         edk::char8* number = edk::String::uint32ToStr(id);edkEnd();
         if(number){
@@ -635,11 +686,13 @@ bool edk::Object2D::ActionMeshStop::writeToXML(edk::XML* xml,edk::uint32 id){
             delete[] number;edkEnd();
         }
     }
+    */
     return ret;
 }
 //read XML
-bool edk::Object2D::ActionMeshStop::readFromXML(edk::XML* xml,edk::uint32 id){
+bool edk::Object2D::ActionMeshStop::readFromXML(edk::XML* /*xml*/,edk::uint32 /*id*/){
     bool ret=false;edkEnd();
+    /*
     if(xml){
         edk::char8* number = edk::String::uint32ToStr(id);edkEnd();
         if(number){
@@ -659,6 +712,7 @@ bool edk::Object2D::ActionMeshStop::readFromXML(edk::XML* xml,edk::uint32 id){
             delete[] number;edkEnd();
         }
     }
+    */
     return ret;
 }
 //GET
@@ -689,7 +743,9 @@ void edk::Object2D::clean(){
     this->angle = 0.f;edkEnd();
     this->size = 0.f;edkEnd();
 
+    /*
     this->removeAllActions();edkEnd();
+    */
 }
 //Add a list to the Object2D
 edk::uint32 edk::Object2D::addMesh(edk::shape::Mesh2D* mesh){
@@ -1052,147 +1108,241 @@ bool edk::Object2D::updateAnimations(edk::float32 seconds){
 //ACTIONS
 //play actions
 void edk::Object2D::playForwardActions(){
+    /*
     this->actions.playForward();edkEnd();
+    */
 }
-void edk::Object2D::playForwardInActions(edk::float32 second){
+void edk::Object2D::playForwardInActions(edk::float32 /*second*/){
+    /*
     this->actions.playForwardIn(second);edkEnd();
+    */
 }
 void edk::Object2D::pauseActions(){
+    /*
     this->actions.pause();edkEnd();
+    */
 }
 void edk::Object2D::stopActions(){
+    /*
     this->actions.stop();edkEnd();
+    */
 }
 //set loop
-void edk::Object2D::setLoopActions(bool loop){
+void edk::Object2D::setLoopActions(bool /*loop*/){
+    /*
     this->actions.setLoop(loop);edkEnd();
+    */
 }
 void edk::Object2D::loopOnActions(){
+    /*
     this->actions.loopOn();edkEnd();
+    */
 }
 void edk::Object2D::loopOffActions(){
+    /*
     this->actions.loopOff();edkEnd();
+    */
 }
 
 //return if are playing
 bool edk::Object2D::isPlayingActions(){
+    /*
     return this->actions.isPlaying();edkEnd();
+    */
+    return false;
 }
 bool edk::Object2D::isPausedActions(){
+    /*
     return this->actions.isPaused();edkEnd();
+    */
+    return false;
 }
 //update actions
 void edk::Object2D::updateActions(){
+    /*
     this->actions.update();edkEnd();
+    */
 }
 //remove actions
 void edk::Object2D::removeAllActions(){
+    /*
     this->actions.clean();edkEnd();
+    */
 }
 void edk::Object2D::cleanAllActions(){
+    /*
     this->actions.clean();edkEnd();
+    */
 }
-bool edk::Object2D::removeActionSecond(edk::float32 second){
+bool edk::Object2D::removeActionSecond(edk::float32 /*second*/){
+    /*
     return this->actions.removeSecond(second);edkEnd();
+    */
+    return false;
 }
 //Add zero action
-bool edk::Object2D::actionZero(edk::float32 second){
+bool edk::Object2D::actionZero(edk::float32 /*second*/){
+    /*
     return this->actions.addAction(second,new edk::ActionZero);edkEnd();
+    */
+    return false;
 }
 //add move action
-bool edk::Object2D::actionSetPosition(edk::float32 second,edk::vec2f32 position){
+bool edk::Object2D::actionSetPosition(edk::float32 /*second*/,edk::vec2f32 /*position*/){
+    /*
     return this->actions.addAction(second,new edk::Object2D::ActionPosition(this,position));edkEnd();
+    */
+    return false;
 }
-bool edk::Object2D::actionSetPosition(edk::float32 second,edk::float32 x,edk::float32 y){
+bool edk::Object2D::actionSetPosition(edk::float32 /*second*/,edk::float32 /*x*/,edk::float32 /*y*/){
+    /*
     return this->actionSetPosition(second,edk::vec2f32(x,y));edkEnd();
+    */
+    return false;
 }
 //add move action
-bool edk::Object2D::actionMove(edk::float32 second,edk::float32 duration, edk::vec2f32 position){
+bool edk::Object2D::actionMove(edk::float32 /*second*/,edk::float32 /*duration*/, edk::vec2f32 /*position*/){
+    /*
     //create the action
     if(this->actions.addAction(second,new edk::Object2D::ActionMove(this,duration,position))){
         this->actions.addZeroAction(second+duration);edkEnd();
         return true;
     }
+    */
     return false;
 }
-bool edk::Object2D::actionMove(edk::float32 second,edk::float32 duration, edk::float32 x,edk::float32 y){
+bool edk::Object2D::actionMove(edk::float32 /*second*/,edk::float32 /*duration*/, edk::float32 /*x*/,edk::float32 /*y*/){
+    /*
     return this->actionMove(second,duration, edk::vec2f32(x,y));edkEnd();
+    */
+    return false;
 }
-bool edk::Object2D::actionMoveTo(edk::float32 start,edk::float32 end, edk::vec2f32 position){
+bool edk::Object2D::actionMoveTo(edk::float32 /*start*/,edk::float32 /*end*/, edk::vec2f32 /*position*/){
+    /*
     return this->actionMove(start,end-start, position);edkEnd();
+    */
+    return false;
 }
-bool edk::Object2D::actionMoveTo(edk::float32 start,edk::float32 end, edk::float32 x,edk::float32 y){
+bool edk::Object2D::actionMoveTo(edk::float32 /*start*/,edk::float32 /*end*/, edk::float32 /*x*/,edk::float32 /*y*/){
+    /*
     return this->actionMove(start,end-start,x,y);edkEnd();
+    */
+    return false;
 }
 //add scale action
-bool edk::Object2D::actionSetSize(edk::float32 second,edk::size2f32 size){
+bool edk::Object2D::actionSetSize(edk::float32 /*second*/,edk::size2f32 /*size*/){
+    /*
     //create the action
     return this->actions.addAction(second,new edk::Object2D::ActionSetSize(this,size));edkEnd();
+    */
+    return false;
 }
-bool edk::Object2D::actionSetSize(edk::float32 second,edk::float32 width,edk::float32 height){
+bool edk::Object2D::actionSetSize(edk::float32 /*second*/,edk::float32 /*width*/,edk::float32 /*height*/){
+    /*
     return this->actionSetSize(second,edk::size2f32(width,height));edkEnd();
+    */
+    return false;
 }
-bool edk::Object2D::actionSetSize(edk::float32 second,edk::float32 size){
+bool edk::Object2D::actionSetSize(edk::float32 /*second*/,edk::float32 /*size*/){
+    /*
     return this->actionSetSize(second,size,size);edkEnd();
+    */
+    return false;
 }
 //add scale action
-bool edk::Object2D::actionScale(edk::float32 second,edk::float32 duration, edk::size2f32 size){
+bool edk::Object2D::actionScale(edk::float32 /*second*/,edk::float32 /*duration*/, edk::size2f32 /*size*/){
+    /*
     //create the action
     if(this->actions.addAction(second,new edk::Object2D::ActionSize(this,duration,size))){
         this->actions.addZeroAction(second+duration);edkEnd();
         return true;
     }
+    */
     return false;
 }
-bool edk::Object2D::actionScale(edk::float32 second,edk::float32 duration, edk::float32 width,edk::float32 height){
+bool edk::Object2D::actionScale(edk::float32 /*second*/,edk::float32 /*duration*/, edk::float32 /*width*/,edk::float32 /*height*/){
+    /*
     return this->actionScale(second,duration, edk::size2f32( width,height));edkEnd();
+    */
+    return false;
 }
-bool edk::Object2D::actionScale(edk::float32 second,edk::float32 duration, edk::float32 size){
+bool edk::Object2D::actionScale(edk::float32 /*second*/,edk::float32 /*duration*/, edk::float32 /*size*/){
+    /*
     return this->actionScale(second,duration, size,size);edkEnd();
+    */
+    return false;
 }
-bool edk::Object2D::actionScaleTo(edk::float32 start,edk::float32 end, edk::size2f32 size){
+bool edk::Object2D::actionScaleTo(edk::float32 /*start*/,edk::float32 /*end*/, edk::size2f32 /*size*/){
+    /*
     return this->actionScale(start,end-start, size);edkEnd();
+    */
+    return false;
 }
-bool edk::Object2D::actionScaleTo(edk::float32 start,edk::float32 end, edk::float32 width,edk::float32 height){
+bool edk::Object2D::actionScaleTo(edk::float32 /*start*/,edk::float32 /*end*/, edk::float32 /*width*/,edk::float32 /*height*/){
+    /*
     return this->actionScale(start,end-start, width,height);edkEnd();
+    */
+    return false;
 }
-bool edk::Object2D::actionScaleTo(edk::float32 start,edk::float32 end, edk::float32 size){
+bool edk::Object2D::actionScaleTo(edk::float32 /*start*/,edk::float32 /*end*/, edk::float32 /*size*/){
+    /*
     return this->actionScale(start,end-start, size);edkEnd();
+    */
+    return false;
 }
 //add angle action
-bool edk::Object2D::actionSetAngle(edk::float32 second,edk::float32 angle){
+bool edk::Object2D::actionSetAngle(edk::float32 /*second*/,edk::float32 /*angle*/){
+    /*
     return this->actions.addAction(second,new edk::Object2D::ActionSetAngle(this,angle));edkEnd();
+    */
+    return false;
 }
 //add angle action
-bool edk::Object2D::actionRotateFor(edk::float32 second,edk::float32 duration, edk::float32 angle){
+bool edk::Object2D::actionRotateFor(edk::float32 /*second*/,edk::float32 /*duration*/, edk::float32 /*angle*/){
+    /*
     if(this->actions.addAction(second,new edk::Object2D::ActionAngle(this,duration,angle))){
         this->actions.addZeroAction(second);edkEnd();
         return true;
     }
+    */
     return false;
 }
-bool edk::Object2D::actionRotateTo(edk::float32 start,edk::float32 end, edk::float32 angle){
+bool edk::Object2D::actionRotateTo(edk::float32 /*start*/,edk::float32 /*end*/, edk::float32 /*angle*/){
+    /*
     return this->actionRotateFor(start,end-start, angle);edkEnd();
+    */
+    return false;
 }
 //MESH SPRITE SHEET
-bool edk::Object2D::actionPlayName(edk::float32 second,edk::uint32 id,edk::char8* name,bool loop){
+bool edk::Object2D::actionPlayName(edk::float32 /*second*/,edk::uint32 /*id*/,edk::char8* /*name*/,bool /*loop*/){
     //
+    /*
     return this->actions.addAction(second,new edk::Object2D::ActionMeshName(this,id,name,loop));edkEnd();
+    */
+    return false;
 }
-bool edk::Object2D::actionPlayName(edk::float32 second,edk::uint32 id,const edk::char8* name,bool loop){
+bool edk::Object2D::actionPlayName(edk::float32 /*second*/,edk::uint32 /*id*/,const edk::char8* /*name*/,bool /*loop*/){
     //
+    /*
     return actionPlayName(second,id,(edk::char8*)name,loop);edkEnd();
+    */
+    return false;
 }
-bool edk::Object2D::actionPlayNameFor(edk::float32 second,edk::float32 duration,edk::uint32 id,edk::char8* name){
+bool edk::Object2D::actionPlayNameFor(edk::float32 /*second*/,edk::float32 /*duration*/,edk::uint32 /*id*/,edk::char8* /*name*/){
+    /*
     if(this->actions.addAction(second,new edk::Object2D::ActionMeshName(this,id,name,true))){
         //add the stop action
         this->actions.addAction(second+duration,new edk::Object2D::ActionMeshStop(this,id));edkEnd();
         return true;
     }
+    */
     return false;
 }
-bool edk::Object2D::actionPlayNameFor(edk::float32 second,edk::float32 duration,edk::uint32 id,const edk::char8* name){
+bool edk::Object2D::actionPlayNameFor(edk::float32 /*second*/,edk::float32 /*duration*/,edk::uint32 /*id*/,const edk::char8* /*name*/){
+    /*
     return this->actionPlayNameFor(second,duration,id,(edk::char8*)name);edkEnd();
+    */
+    return false;
 }
 
 //DRAW
@@ -2069,8 +2219,10 @@ bool edk::Object2D::writeToXML(edk::XML* xml,edk::uint32 id){
                         this->animationRotation.writeToXML(xml,1u);edkEnd();
                         this->animationSize.writeToXML(xml,2u);edkEnd();
 
+                        /*
                         //write the actins
                         this->actions.writeToXML(xml,0u);edkEnd();
+                        */
 
                         ret=true;edkEnd();
                         xml->selectFather();edkEnd();
@@ -2131,8 +2283,10 @@ bool edk::Object2D::readFromXML(edk::XML* xml,edk::uint32 id){
                     this->animationRotation.readFromXML(xml,1u);edkEnd();
                     this->animationSize.readFromXML(xml,2u);edkEnd();
 
+                    /*
                     //ACTIONS
                     this->actions.readFromXML(xml,0u,this);edkEnd();
+                    */
 
                     ret=true;edkEnd();
                     xml->selectFather();edkEnd();
@@ -2192,8 +2346,10 @@ bool edk::Object2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* x
                     this->animationRotation.readFromXML(xml,1u);edkEnd();
                     this->animationSize.readFromXML(xml,2u);edkEnd();
 
+                    /*
                     //ACTIONS
                     this->actions.readFromXML(xml,0u,this);edkEnd();
+                    */
 
                     ret=true;edkEnd();
                     xml->selectFather();edkEnd();
@@ -2251,18 +2407,19 @@ bool edk::Object2D::cloneFrom(edk::Object2D* obj){
         this->angle = obj->angle;edkEnd();
         this->size = obj->size;edkEnd();
 
+
+//class ActionPosition 1
+//class ActionMove     2
+//class ActionSetSize  3
+//class ActionSize     4
+//class ActionSetAngle 5
+//class ActionAngle    6
+//class ActionMeshName 7
+//class ActionMeshStop 8
+
+
+
         /*
-class ActionPosition 1
-class ActionMove     2
-class ActionSetSize  3
-class ActionSize     4
-class ActionSetAngle 5
-class ActionAngle    6
-class ActionMeshName 7
-class ActionMeshStop 8
-*/
-
-
         //copy the actions
         this->actions.clean();edkEnd();
         size = obj->actions.getKeySize();edkEnd();
@@ -2343,6 +2500,7 @@ class ActionMeshStop 8
                 }
             }
         }
+        */
         return true;
     }
     return false;

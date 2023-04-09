@@ -29,28 +29,20 @@ edk::physics2D::World2D edk::Cenario2D::worldTemplate;
 edk::Cenario2D::Cenario2D():
     treeAnimPhys(&edk::Cenario2D::worldTemplate)
 {
-    this->setWorld(NULL);edkEnd();
-    //
-    this->world->addContactCallback(this);edkEnd();
-    this->cleanSelectedTileMap();edkEnd();
-    this->actions.setReadXMLActionFunction(&edk::Cenario2D::readXMLAction);edkEnd();
+    this->world=NULL;
+    this->clean();edkEnd();
 }
 edk::Cenario2D::Cenario2D(edk::physics2D::World2D* world):
     treeAnimPhys(world)
 {
+    this->world=NULL;
+    this->clean();
     this->setWorld(world);edkEnd();
-    //
-    this->world->addContactCallback(this);edkEnd();
-    this->cleanSelectedTileMap();edkEnd();
-    this->actions.setReadXMLActionFunction(&edk::Cenario2D::readXMLAction);edkEnd();
 }
 edk::Cenario2D::~Cenario2D(){
     //
-    this->calls.clean();edkEnd();
-    this->world->removeContactCallback(this);edkEnd();
-    this->deleteAllLevels();edkEnd();
-    this->tileSet.deleteTiles();edkEnd();
-    this->actions.clean();edkEnd();
+    this->clean();edkEnd();
+    this->world->removeContactCallback(this);
 }
 
 //Function to read the actions
@@ -1831,13 +1823,32 @@ void edk::Cenario2D::sensor2DTileKeeping(edk::tiles::tileContact2D,edk::physics2
     //
 }
 
+void edk::Cenario2D::clean(){
+    if(this->world){
+        this->world->removeContactCallback(this);edkEnd();
+    }
+    this->setWorld(NULL);edkEnd();
+    this->calls.clean();edkEnd();
+    this->deleteAllLevels();edkEnd();
+    this->tileSet.deleteTiles();edkEnd();
+    this->actions.clean();edkEnd();
+    //
+    this->cleanSelectedTileMap();edkEnd();
+    this->actions.setReadXMLActionFunction(&edk::Cenario2D::readXMLAction);edkEnd();
+}
+
 //set the world
 bool edk::Cenario2D::setWorld(edk::physics2D::World2D* world){
+    if(this->world){
+        this->world->removeContactCallback(this);
+    }
     if(world){
         this->world=world;
+        this->world->addContactCallback(this);edkEnd();
         return true;
     }
     this->world=&edk::Cenario2D::worldTemplate;
+    this->world->addContactCallback(this);edkEnd();
     return false;
 }
 edk::physics2D::World2D* edk::Cenario2D::getWorldTemplate(){

@@ -41,7 +41,7 @@ class poweredEDKWhite{
 public:
     static edk::uint32 size;
     static edk::char8 name[20u];
-    static edk::uchar8 vec[81722u];
+    static edk::uchar8 vec[96617];
 };
 }
 

@@ -42,20 +42,36 @@ public:
     Random();
     ~Random();
 
+    virtual void clean();
+
+    //static functions
     //set the seed
-    static void setSeed(edk::uint32 seed);
+    static void setStaticSeed(edk::uint32 seed);
     //load the seed
-    static edk::uint32 loadSeed();
+    static edk::uint32 loadStaticSeed();
     //return the seed value
-    static edk::uint32 getSeed();
+    static edk::uint32 getStaticSeed();
     //get the rand number
-    static edk::uint32 getRandNumber();
-    static edk::uint32 getRandNumber(edk::uint32 div);
-    static edk::float32 getRandPercent();
+    static edk::uint32 getStaticRandNumber();
+    static edk::uint32 getStaticRandNumber(edk::uint32 div);
+    static edk::float32 getStaticRandPercent();
+
+    //object functions
+    //set the seed
+    void setSeed(edk::uint32 seed);
+    //load the seed
+    edk::uint32 loadSeed();
+    //return the seed value
+    edk::uint32 getSeed();
+    //get the rand number
+    edk::uint32 getRandNumber();
+    edk::uint32 getRandNumber(edk::uint32 div);
+    edk::float32 getRandPercent();
 
 private:
     //save the seed
-    static edk::uint32 seed;
+    static edk::uint32 seedStatic;
+    edk::uint32 seed;
 };
 }//end namespace edk
 

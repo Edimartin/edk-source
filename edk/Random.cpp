@@ -30,41 +30,77 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #define edkRandom(n){((n * 1109518245) + 12345)}
 
-edk::uint32 edk::Random::seed = 1u;
+edk::uint32 edk::Random::seedStatic = 1u;
 
 edk::Random::Random(){
     //
+    this->clean();
 }
 
 edk::Random::~Random(){
     //
 }
 
+void edk::Random::clean(){
+    this->seed=1u;
+}
+
+//static functions
+//set the seed
+void edk::Random::setStaticSeed(edk::uint32 seed){
+    //
+    edk::Random::seedStatic = seed;edkEnd();
+}
+
+//load the seed
+edk::uint32 edk::Random::loadStaticSeed(){
+    //load from clock
+    edk::uint32 seed = edk::watch::Time::getMicrosecondsReal();edkEnd();
+    edk::Random::setStaticSeed(seed);edkEnd();
+    return seed;edkEnd();
+}
+//return the seed value
+edk::uint32 edk::Random::getStaticSeed(){
+    return edk::Random::seedStatic;edkEnd();
+}
+//get the rand number
+edk::uint32 edk::Random::getStaticRandNumber(){
+    return ((edk::Random::seedStatic = edkRandom(edk::Random::seedStatic)));edkEnd();
+}
+edk::uint32 edk::Random::getStaticRandNumber(edk::uint32 limit){
+    return edk::Random::getStaticRandNumber()%limit;edkEnd();
+}
+//4294967295
+edk::float32 edk::Random::getStaticRandPercent(){
+    return ((edk::float32)edk::Random::getStaticRandNumber() / 0xFFFFFFFF);edkEnd();
+}
+
+//object functions
 //set the seed
 void edk::Random::setSeed(edk::uint32 seed){
     //
-    edk::Random::seed = seed;edkEnd();
+    this->seed = seed;edkEnd();
 }
 
 //load the seed
 edk::uint32 edk::Random::loadSeed(){
     //load from clock
     edk::uint32 seed = edk::watch::Time::getMicrosecondsReal();edkEnd();
-    edk::Random::setSeed(seed);edkEnd();
+    this->setSeed(seed);edkEnd();
     return seed;edkEnd();
 }
 //return the seed value
 edk::uint32 edk::Random::getSeed(){
-    return edk::Random::seed;edkEnd();
+    return this->seed;edkEnd();
 }
 //get the rand number
 edk::uint32 edk::Random::getRandNumber(){
-    return ((edk::Random::seed = edkRandom(edk::Random::seed)));edkEnd();
+    return ((this->seed = edkRandom(this->seed)));edkEnd();
 }
 edk::uint32 edk::Random::getRandNumber(edk::uint32 limit){
-    return edk::Random::getRandNumber()%limit;edkEnd();
+    return this->getRandNumber()%limit;edkEnd();
 }
 //4294967295
 edk::float32 edk::Random::getRandPercent(){
-    return ((edk::float32)edk::Random::getRandNumber() / 0xFFFFFFFF);edkEnd();
+    return ((edk::float32)this->getRandNumber() / 0xFFFFFFFF);edkEnd();
 }

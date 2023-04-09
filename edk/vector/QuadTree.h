@@ -1262,7 +1262,7 @@ public:
     }
 
     //clean the tree
-    void clean(edk::rectf32 rect = edk::rectf32(0.f,0.f,1.f,1.f)){
+    void clean(edk::rectf32 rect){
         this->releaseTreeTemp();edkEnd();
         this->root.clean();edkEnd();
         this->root.setTree(this->newTree());edkEnd();
@@ -1284,6 +1284,10 @@ public:
 
         this->treeGets.clean();edkEnd();
     }
+    void clean(){
+        this->clean(edk::rectf32(0.f,0.f,1.f,1.f));
+    }
+
     void cleanAndSetRectangleFromTree(edk::vector::BinaryTree<typeTemplate>* tree){
         this->setRectFromTree(tree);edkEnd();
     }

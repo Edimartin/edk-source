@@ -266,7 +266,7 @@ edk::animation::ParticlesPoint2D::ParticlesPoint2D(){
     this->position = edk::vec2f32(0,0);edkEnd();
 
     //load the rand
-    edk::Random::loadSeed();edkEnd();
+    edk::Random::loadStaticSeed();edkEnd();
 }
 edk::animation::ParticlesPoint2D::~ParticlesPoint2D(){
     //
@@ -482,7 +482,7 @@ void edk::animation::ParticlesPoint2D::update(){
                 //clean the particle
                 this->particles[this->nextParticle].clean();edkEnd();
                 //set the particle life
-                this->particles[this->nextParticle].lifeLimit = this->lifeNear + (edk::Random::getRandPercent() * this->lifeDistance);edkEnd();
+                this->particles[this->nextParticle].lifeLimit = this->lifeNear + (edk::Random::getStaticRandPercent() * this->lifeDistance);edkEnd();
                 this->particles[this->nextParticle].life.addFirstInterpolationLine(0.f,this->particles[this->nextParticle].lifeLimit);edkEnd();;
                 this->particles[this->nextParticle].life.playForward();edkEnd();
                 //set the particle frame animation
@@ -490,7 +490,7 @@ void edk::animation::ParticlesPoint2D::update(){
                 this->particles[this->nextParticle].animFrame.playForward();edkEnd();
                 //set position
                 this->particles[this->nextParticle].position = this->newPosition();edkEnd();
-                this->particles[this->nextParticle].speed = this->speedNear + (edk::Random::getRandPercent() * this->speedDistance);edkEnd();
+                this->particles[this->nextParticle].speed = this->speedNear + (edk::Random::getStaticRandPercent() * this->speedDistance);edkEnd();
                 //gravity
                 this->particles[this->nextParticle].setGravity(&this->gravity);edkEnd();
                 //angleObject
@@ -498,7 +498,7 @@ void edk::animation::ParticlesPoint2D::update(){
                 //sizeObject
                 this->particles[this->nextParticle].setSizeObject(&this->sizeObject);edkEnd();
                 //set direction
-                this->particles[this->nextParticle].direction = edk::Math::rotate(edk::vec2f32(1,0),this->angleNear + (this->angleDistance * edk::Random::getRandPercent()) + this->angle);edkEnd();
+                this->particles[this->nextParticle].direction = edk::Math::rotate(edk::vec2f32(1,0),this->angleNear + (this->angleDistance * edk::Random::getStaticRandPercent()) + this->angle);edkEnd();
                 //autorotate
                 this->particles[this->nextParticle].autoRotate=this->autoRotate;edkEnd();
                 //add to the tree
@@ -506,7 +506,7 @@ void edk::animation::ParticlesPoint2D::update(){
 
                 this->nextParticle++;edkEnd();
             }
-            this->timeLimit = this->timeNear + (edk::Random::getRandPercent() * this->timeDistance);edkEnd();
+            this->timeLimit = this->timeNear + (edk::Random::getStaticRandPercent() * this->timeDistance);edkEnd();
         }
     }
     else{

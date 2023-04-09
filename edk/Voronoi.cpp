@@ -299,10 +299,10 @@ bool edk::Voronoi::generateImageRGB(edk::uint32 pointSize,edk::uint8* image,edk:
         if(points.createArray(pointSize)){
             //start the rand
             edk::Random rand;edkEnd();
-            rand.loadSeed();edkEnd();
+            rand.loadStaticSeed();edkEnd();
             for(edk::uint32 i=0u;i<pointSize;i++){
-                points.set(i,edk::vec2f32ColorRGB(rand.getRandPercent(),rand.getRandPercent(),
-                                                  (edk::uint8)rand.getRandNumber(),(edk::uint8)rand.getRandNumber(),(edk::uint8)rand.getRandNumber()
+                points.set(i,edk::vec2f32ColorRGB(rand.getStaticRandPercent(),rand.getStaticRandPercent(),
+                                                  (edk::uint8)rand.getStaticRandNumber(),(edk::uint8)rand.getStaticRandNumber(),(edk::uint8)rand.getStaticRandNumber()
                                                   )
                            );edkEnd();
             }
@@ -345,10 +345,10 @@ bool edk::Voronoi::generateImageGray(edk::uint32 pointSize,edk::uint8* image,edk
         if(points.createArray(pointSize)){
             //start the rand
             edk::Random rand;edkEnd();
-            rand.loadSeed();edkEnd();
+            rand.loadStaticSeed();edkEnd();
             for(edk::uint32 i=0u;i<pointSize;i++){
-                points.set(i,edk::vec2f32ColorGray(rand.getRandPercent(),rand.getRandPercent(),
-                                                   (edk::uint8)rand.getRandNumber()
+                points.set(i,edk::vec2f32ColorGray(rand.getStaticRandPercent(),rand.getStaticRandPercent(),
+                                                   (edk::uint8)rand.getStaticRandNumber()
                                                    )
                            );edkEnd();
             }
@@ -443,10 +443,10 @@ bool edk::Voronoi::multiGenerateImageRGB(edk::uint32 cores,edk::uint32 pointSize
         if(points.createArray(pointSize)){
             //start the rand
             edk::Random rand;edkEnd();
-            rand.loadSeed();edkEnd();
+            rand.loadStaticSeed();edkEnd();
             for(edk::uint32 i=0u;i<pointSize;i++){
-                points.set(i,edk::vec2f32ColorRGB(rand.getRandPercent(),rand.getRandPercent(),
-                                                  (edk::uint8)rand.getRandNumber(),(edk::uint8)rand.getRandNumber(),(edk::uint8)rand.getRandNumber()
+                points.set(i,edk::vec2f32ColorRGB(rand.getStaticRandPercent(),rand.getStaticRandPercent(),
+                                                  (edk::uint8)rand.getStaticRandNumber(),(edk::uint8)rand.getStaticRandNumber(),(edk::uint8)rand.getStaticRandNumber()
                                                   )
                            );edkEnd();
             }
@@ -665,10 +665,10 @@ bool edk::Voronoi::multiGenerateImageGray(edk::uint32 cores,edk::uint32 pointSiz
         if(points.createArray(pointSize)){
             //start the rand
             edk::Random rand;edkEnd();
-            rand.loadSeed();edkEnd();
+            rand.loadStaticSeed();edkEnd();
             for(edk::uint32 i=0u;i<pointSize;i++){
-                points.set(i,edk::vec2f32ColorGray(rand.getRandPercent(),rand.getRandPercent(),
-                                                   (edk::uint8)rand.getRandNumber()
+                points.set(i,edk::vec2f32ColorGray(rand.getStaticRandPercent(),rand.getStaticRandPercent(),
+                                                   (edk::uint8)rand.getStaticRandNumber()
                                                    )
                            );edkEnd();
             }

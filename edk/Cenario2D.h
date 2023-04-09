@@ -80,6 +80,8 @@ public:
     virtual void sensor2DTileEnd(edk::tiles::tileContact2D tiles,edk::physics2D::Contact2D* contact);
     virtual void sensor2DTileKeeping(edk::tiles::tileContact2D tiles,edk::physics2D::Contact2D* contact);
 
+    virtual void clean();
+
     //set the world
     bool setWorld(edk::physics2D::World2D* world);
     static edk::physics2D::World2D* getWorldTemplate();

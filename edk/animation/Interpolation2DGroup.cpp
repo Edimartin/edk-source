@@ -399,7 +399,7 @@ edk::float32 edk::animation::Interpolation2DGroup::addShakingFramesXY(edk::vec2f
             this->setInterpolationP2Y(interpolation,second,position.y+ translate.y);edkEnd();
 
             //get the random angle between -90 and 90
-            angle = -90.f + (edk::Random::getRandPercent() * 180.f);edkEnd();
+            angle = -90.f + (edk::Random::getStaticRandPercent() * 180.f);edkEnd();
             //rotate the angle
             position = edk::Math::rotatePlus(position,180.f + (angle * random));edkEnd();
             //increment the second
