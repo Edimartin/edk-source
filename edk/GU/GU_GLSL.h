@@ -29,6 +29,12 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "Inside GU_GLSL"
 #endif
 
+//include the mutex
+#include "edk/vector/Queue.h"
+#include "edk/vector/BinaryTree.h"
+#include "edk/watch/Time.h"
+#include "edk/thread/Mutex.h"
+
 //add the GLEW before openGL
 #if defined(_WIN32) || defined(__linux__)
 #include <GL/glew.h>
@@ -162,6 +168,7 @@ class GU_GLSL{
 
     //destrutor
     ~GU_GLSL();
+
     //start the shaderLib
     static edk::int32 guShaderInit();
     //return true if have init the glut
@@ -274,6 +281,9 @@ class GU_GLSL{
     //GL_SHADING_LANGUAGE_VERSION
     //Returns a version or release number for the shading language of the form
     static edk::char8* guGetVersion();
+
+    static edk::multi::Mutex mut;
+    static edk::multi::Mutex mutBeginEnd;
 
 private:
     static bool initiate;

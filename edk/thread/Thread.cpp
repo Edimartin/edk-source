@@ -148,13 +148,19 @@ void edk::multi::Thread::cleanThread(){
     this->funcParameter=(void*)NULL;edkEnd();
 }
 
+edk::uint64 edk::multi::Thread::mainID=0u;
 
+edk::multi::Thread edkTHREADTEMPLATE;
 
 edk::multi::Thread::Thread(){
+    //get the mainThread ID
+    if(!edk::multi::Thread::mainID){
+        edk::multi::Thread::mainID = edk::multi::Thread::getThisThreadID();
+    }
     this->cleanThread();edkEnd();
 }
 
-edk::multi::Thread::Thread(classID (*threadFunction)(classID), classID parameter){
+edk::multi::Thread::Thread(edk::classID (*threadFunction)(edk::classID), edk::classID parameter){
     this->cleanThread();edkEnd();
     this->start(threadFunction, parameter);edkEnd();
 }
@@ -164,7 +170,7 @@ edk::multi::Thread::~Thread(){
     this->kill();edkEnd();
 }
 
-bool edk::multi::Thread::start(classID (threadFunction)(classID), classID parameter){
+bool edk::multi::Thread::start(edk::classID (threadFunction)(edk::classID), edk::classID parameter){
     //kill the previous thread
     this->kill();edkEnd();
 
@@ -204,7 +210,7 @@ bool edk::multi::Thread::start(classID (threadFunction)(classID), classID parame
         pthread_attr_init(&attr);edkEnd();
         //crate the thread
 
-        pthread_create(&threadID,
+        pthread_create(&this->threadID,
                        &attr,
                        edkThreadFunc,
                        (void*)this);edkEnd();
@@ -225,12 +231,11 @@ bool edk::multi::Thread::start(classID (threadFunction)(classID), classID parame
     return false;
 }
 
-bool edk::multi::Thread::start(classID (threadFunction)(classID)){
+bool edk::multi::Thread::start(edk::classID (threadFunction)(edk::classID)){
     return this->start(threadFunction,(void*)NULL);edkEnd();
 }
 
-bool edk::multi::Thread::startIn(classID (threadFunction)(classID), classID parameter, edk::uint32 core){
-
+bool edk::multi::Thread::startIn(edk::classID (threadFunction)(edk::classID), edk::classID parameter, edk::uint32 core){
     //kill the previous thread
     this->kill();edkEnd();
 
@@ -279,7 +284,7 @@ bool edk::multi::Thread::startIn(classID (threadFunction)(classID), classID para
         //set the core on the attribute
         pthread_attr_setaffinity_np(&attr, sizeof(cpu_set_t), &this->cpus);edkEnd();
         //set affinity
-        pthread_create(&threadID,
+        pthread_create(&this->threadID,
                        &attr,
                        edkThreadFunc,
                        (void*)this);edkEnd();
@@ -300,7 +305,7 @@ bool edk::multi::Thread::startIn(classID (threadFunction)(classID), classID para
     return false;
 }
 
-bool edk::multi::Thread::startIn(classID (threadFunction)(classID), edk::uint32 core){
+bool edk::multi::Thread::startIn(edk::classID (threadFunction)(edk::classID), edk::uint32 core){
     return this->startIn(threadFunction, NULL, core);edkEnd();
 }
 
@@ -367,7 +372,7 @@ bool edk::multi::Thread::isAlive(){
 #ifdef WIN32
     if(this->threadID){
         //Then wait for the thread
-        if(WaitForSingleObject(threadID, 0u) == WAIT_TIMEOUT){
+        if(WaitForSingleObject(this->threadID, 0u) == WAIT_TIMEOUT){
             //thread still alive return true
             return true;
         }
@@ -376,7 +381,7 @@ bool edk::multi::Thread::isAlive(){
     //WINDOWS 64
     if(this->threadID){
         //Then wait for the thread
-        if(WaitForSingleObject(threadID, 0u) == WAIT_TIMEOUT){
+        if(WaitForSingleObject(this->threadID, 0u) == WAIT_TIMEOUT){
             //thread still alive return true
             return true;
         }
@@ -402,7 +407,7 @@ bool edk::multi::Thread::waitEnd(uint64 milliseconds){
 #ifdef WIN32
     if(this->threadID){
         //Then wait for the thread
-        if(WaitForSingleObject(threadID, milliseconds) == WAIT_TIMEOUT){
+        if(WaitForSingleObject(this->threadID, milliseconds) == WAIT_TIMEOUT){
             //thread still alive then
             return true;
         }
@@ -411,7 +416,7 @@ bool edk::multi::Thread::waitEnd(uint64 milliseconds){
     //WINDOWS 64
     if(this->threadID){
         //Then wait for the thread
-        if(WaitForSingleObject(threadID, milliseconds) == WAIT_TIMEOUT){
+        if(WaitForSingleObject(this->threadID, milliseconds) == WAIT_TIMEOUT){
             //thread still alive then
             return true;
         }
@@ -441,7 +446,7 @@ bool edk::multi::Thread::waitEnd(){
 #ifdef WIN32
     if(this->threadID){
         //Then wait for the thread
-        WaitForSingleObject(threadID, INFINITE);edkEnd();
+        WaitForSingleObject(this->threadID, INFINITE);edkEnd();
         //then return true
         ret = true;edkEnd();
     }
@@ -449,7 +454,7 @@ bool edk::multi::Thread::waitEnd(){
     //WINDOWS 64
     if(this->threadID){
         //Then wait for the thread
-        WaitForSingleObject(threadID, INFINITE);edkEnd();
+        WaitForSingleObject(this->threadID, INFINITE);edkEnd();
         //then return true
         ret = true;edkEnd();
     }

@@ -204,6 +204,8 @@ bool edk::Window::createWindow(uint32 width, uint32 height/*, uint32 bitsPerPixe
             //Seta o tamanho da window
             this->setWindowSize(this->window.getSize().x,this->window.getSize().y);edkEnd();
 
+            edk::GU::guOpen();
+
             //set the blend with alpha channel
             edk::GU::guEnable(GU_BLEND);edkEnd();
             edk::GU::guBlendFunc(GU_SRC_ALPHA,GU_ONE_MINUS_SRC_ALPHA);edkEnd();
@@ -273,6 +275,9 @@ void edk::Window::closeWindow(){
         //
         //this->window.Close();edkEnd();//1.6
         this->window.close();edkEnd();//2.0
+
+        //set init the GU
+        edk::GU::guClose();
     }
 }
 
@@ -580,7 +585,10 @@ bool edk::Window::flip(){
 
 bool edk::Window::render(){
     //
-    return this->flip();edkEnd();
+    bool ret = this->flip();edkEnd();
+    //update the loadTexture from GU
+    edk::GU::guUpdateLoadTextures();
+    return ret;
 }
 
 edk::size2ui32 edk::Window::getSize(){

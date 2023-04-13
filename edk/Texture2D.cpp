@@ -79,7 +79,7 @@ bool edk::Texture2D::createTexture(edk::uint32 width, edk::uint32 height, edk::u
 
     //then alloc the texture
     this->textureId = edk::GU::guAllocTexture2D(width, height, this->mode, filter, data);edkEnd();
-    if(textureId){
+    if(this->textureId){
         this->size.width = width;edkEnd();
         this->size.height = height;edkEnd();
         this->filter = filter;edkEnd();

@@ -346,6 +346,22 @@ bool edk::animation::InterpolationTracks::setAllTracksEndSecond(edk::float32 sec
     }
     return ret;
 }
+bool edk::animation::InterpolationTracks::setAnimationEndInterpolation(edk::uint32 trackPosition,edk::uint32 animationInterpolation){
+    //get track in position
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);edkEnd();
+    if(temp.animation){
+        return temp.animation->setAnimationEndInterpolation(animationInterpolation);edkEnd();
+    }
+    return false;
+}
+bool edk::animation::InterpolationTracks::setAnimationEndSecond(edk::uint32 trackPosition,edk::float32 second){
+    //get track in position
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);edkEnd();
+    if(temp.animation){
+        return temp.animation->setAnimationEndSecond(second);edkEnd();
+    }
+    return false;
+}
 
 //ANIMATIONNAMES
 bool edk::animation::InterpolationTracks::addNewAnimationName(edk::uint32 trackPosition,const edk::char8* name, edk::float32 start,edk::float32 end){

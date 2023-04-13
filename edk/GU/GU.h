@@ -1920,6 +1920,13 @@ public:
     //destrutor
     ~GU();
 
+    //print the ID
+    static void guPrintID(edk::uint32 cap);
+
+    //init the GU
+    static void guOpen();
+    static void guClose();
+
     //Color
     static void guColor3f32(edk::color3f32 color);
     static void guColor3f64(edk::color3f64 color);
@@ -1968,9 +1975,6 @@ public:
     static void guUsePerspective(edk::float32 fovy, edk::float32 aspect, edk::float32 near, edk::float32 far);
     static void guLookAt(edk::float64 eyeX, edk::float64 eyeY, edk::float64 eyeZ, edk::float64 centerX, edk::float64 centerY, edk::float64 centerZ, edk::float64 upX, edk::float64 upY, edk::float64 upZ);
     static void guLookAt(edk::float32 eyeX, edk::float32 eyeY, edk::float32 eyeZ, edk::float32 centerX, edk::float32 centerY, edk::float32 centerZ, edk::float32 upX, edk::float32 upY, edk::float32 upZ);
-
-    //Set perspective
-    //static usePerspective(edk::float32 left, edk::float32 right, edk::float32 botton, edk::float32 top, edk::float32 near, edk::float32 far);
 
     //create a texture
     //mode
@@ -2197,6 +2201,85 @@ public:
     //GL_EXTENSIONS
     //Returns a space-separated list of supported extensions to GL.
     static edk::char8* guGetExtensions();
+
+    //run function to load the textures from other threads
+    static bool guUpdateLoadTextures();
+
+private:
+    static edk::uint32 initiate;
+    static edk::uint32 ID;
+    //threads mut
+    static edk::multi::Mutex mutGetTextures;
+
+    class TextureClass{
+    public:
+        TextureClass(){this->width=0u; this->height=0u; this->mode=0u; this->filter=0u; this->data=0u;this->threadID = 0u;this->id = 0u;}
+        ~TextureClass(){}
+        edk::GU::TextureClass operator=(edk::GU::TextureClass tex){
+            this->width = tex.width;
+            this->height = tex.height;
+            this->mode = tex.mode;
+            this->filter = tex.filter;
+            this->data = tex.data;
+            this->threadID = tex.threadID;
+            this->id = tex.id;
+            return *this;
+        }
+        bool operator==(edk::GU::TextureClass tex){
+            return (this->threadID == tex.threadID);
+        }
+        bool operator>(edk::GU::TextureClass tex){
+            return (this->threadID > tex.threadID);
+        }
+        bool operator<(edk::GU::TextureClass tex){
+            return (this->threadID < tex.threadID);
+        }
+        edk::uint32 width; edk::uint32 height; edk::uint32 mode; edk::uint32 filter; edk::classID  data;
+        edk::uint32 id;
+#if __x86_64__ || __ppc64__
+        edk::uint64 threadID;
+#else
+        edk::uint32 threadID;
+#endif
+    };
+    static edk::vector::Queue<edk::GU::TextureClass> genTextures;
+
+    class Texture_Tree : public edk::vector::BinaryTree<edk::GU::TextureClass>{
+    public:
+        Texture_Tree(){}
+        ~Texture_Tree(){}
+        //compare if the value is bigger
+        virtual bool firstBiggerSecond(edk::GU::TextureClass first,edk::GU::TextureClass second){
+            if(first.threadID>second.threadID){return true;}
+            return false;
+        }
+        //compare if the value is equal
+        virtual bool firstEqualSecond(edk::GU::TextureClass first,edk::GU::TextureClass second){
+            if(first.threadID==second.threadID){return true;}
+            return false;
+        }
+        //get a TexureClass by ID
+#if __x86_64__ || __ppc64__
+        edk::GU::TextureClass getTextureByThread(edk::uint64 threadID){
+#else
+        edk::GU::TextureClass getTextureByThread(edk::uint32 threadID){
+#endif
+            edk::GU::TextureClass temp;
+            temp.threadID = threadID;
+            return this->getElement(temp);
+        }
+        //return true if have a texture by thread ID
+#if __x86_64__ || __ppc64__
+        bool haveTextureByThread(edk::uint64 ID){
+#else
+        bool haveTextureByThread(edk::uint32 ID){
+#endif
+            edk::GU::TextureClass temp;
+            temp.threadID = ID;
+            return this->haveElement(temp);
+        }
+    };
+    static edk::GU::Texture_Tree treeTextures;
 };
 }//end namespace
 
