@@ -51,6 +51,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /*QTCreator
 
+#nostdlib to g++ not use the str library
+QMAKE_CXXFLAGS +=  -nostdlib
 QMAKE_CXXFLAGS += -Wno-deprecated-declarations
 QMAKE_CXXFLAGS += -Wno-deprecated-copy
 #with no pie it will not run in terminal

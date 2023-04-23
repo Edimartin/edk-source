@@ -1823,9 +1823,9 @@ void edk::ViewButton::update(edk::WindowEvents* events){
                 //test if release a button
                 for(edk::uint32 i=0u;i<events->mouseRelease.size();i++){
                     //test if the number are on the tree
-                    if(this->holdButton.haveElement(events->mouseRelease[i])){
+                    if(this->holdButton.haveElement(events->mouseRelease.get(i))){
                         //run the mouseUnpressed function
-                        this->eventMouseReleased(edk::vec2f32(-1,-1),events->mouseRelease[i]);edkEnd();
+                        this->eventMouseReleased(edk::vec2f32(-1,-1),events->mouseRelease.get(i));edkEnd();
                     }
                 }
                 //then remove the state

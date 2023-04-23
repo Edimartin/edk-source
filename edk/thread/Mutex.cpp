@@ -31,7 +31,7 @@ edk::multi::Mutex::Mutex(){
             //
         }
 #endif
-#if defined(__linux__)/*LINUX*/ || defined(__APPLE__)//MAC OS
+#if defined(__linux__) || defined(__APPLE__)//MAC OS
     if(pthread_mutex_init(&this->mut, NULL) != 0){
         //
     }

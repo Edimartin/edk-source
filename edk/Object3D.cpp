@@ -541,12 +541,12 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                                     mesh->selectedPolygonUpdateNormal();edkEnd();
                                 }
                                 else{
-                                    mesh->selectedPolygonSetNormalFlat(mesh->getNormal(sn[0u]-1u-countN));edkEnd();
+                                    mesh->selectedPolygonSetNormalFlat(mesh->getNormal(sn.get(0u)-1u-countN));edkEnd();
                                 }
                                 for(edk::uint32 i=0u;i<size;i++){
-                                    v = sv[i];edkEnd();
-                                    p = sp[i];edkEnd();
-                                    n = sn[i];edkEnd();
+                                    v = sv.get(i);edkEnd();
+                                    p = sp.get(i);edkEnd();
+                                    n = sn.get(i);edkEnd();
                                     if(v){
                                         mesh->selectedPolygonSetVertex(i,v-1u-countV);edkEnd();
                                         if(p){

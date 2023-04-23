@@ -1414,7 +1414,7 @@ edk::uint32 edk::Cenario2D::getLevelsLessPosition(){
     edk::uint32 size = this->levels.size();edkEnd();
     edk::Cenario2D::LevelObj* temp = NULL;edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        temp = this->levels[i];edkEnd();
+        temp = this->levels.get(i);edkEnd();
         if(temp){
             //test if dont have the object
             if(!temp->haveSome()){
@@ -1453,7 +1453,7 @@ bool edk::Cenario2D::addObjectToLevel(edk::Object2D* obj,edk::Object2D* objPhys,
 
                 if(obj){
                     //load the level
-                    edk::Cenario2D::LevelObj* temp = this->levels[levelPosition];edkEnd();
+                    edk::Cenario2D::LevelObj* temp = this->levels.get(levelPosition);edkEnd();
                     if(temp){
                         bool canCreate=false;edkEnd();
                         if(temp->haveSome()){
@@ -1497,7 +1497,7 @@ bool edk::Cenario2D::addObjectToLevel(edk::Object2D* obj,edk::Object2D* objPhys,
 
                 else if(objPhys){
                     //load the level
-                    edk::Cenario2D::LevelObj* temp = this->levels[levelPosition];edkEnd();
+                    edk::Cenario2D::LevelObj* temp = this->levels.get(levelPosition);edkEnd();
                     if(temp){
                         bool canCreate=false;edkEnd();
                         if(temp->haveSome()){
@@ -1549,7 +1549,7 @@ edk::float64 edk::Cenario2D::getHigherLevel(edk::uint32 levelPosition){
         levelPosition--;edkEnd();
         if(this->levels.havePos(levelPosition)){
             //load the level
-            edk::Cenario2D::LevelObj* temp = this->levels[levelPosition];edkEnd();
+            edk::Cenario2D::LevelObj* temp = this->levels.get(levelPosition);edkEnd();
             if(temp){
                 if(temp->haveSome()){
                     if(temp->objs){
@@ -1574,7 +1574,7 @@ bool edk::Cenario2D::getPhysicsObjectLevelDepth(edk::Object2D* obj,edk::uint32* 
         edk::Cenario2D::ObjClass* physObj;edkEnd();
         for(edk::uint32 i=0u;i<levelSize;i++){
             *level=i;edkEnd();
-            levelObj = this->levels[i];edkEnd();
+            levelObj = this->levels.get(i);edkEnd();
             if(levelObj){
                 if(levelObj->objsPhys){
                     //find the object
@@ -1717,7 +1717,7 @@ bool edk::Cenario2D::getPhysicsLevelObject(edk::Object2D* obj,edk::Cenario2D::Ph
         edk::physics2D::PhysicObject2D* physicObject = (edk::physics2D::PhysicObject2D*)obj;edkEnd();
         for(edk::uint32 i=0u;i<levelSize;i++){
             objLevel->level = i;edkEnd();
-            levelObj = this->levels[i];edkEnd();
+            levelObj = this->levels.get(i);edkEnd();
             if(levelObj){
                 if(levelObj->objsPhys){
                     //find the object
@@ -1752,7 +1752,7 @@ bool edk::Cenario2D::getPhysicsLevelObject(edk::Object2D* obj,edk::Cenario2D::Ph
 edk::physics2D::PhysicObject2D* edk::Cenario2D::getPhysicsObjectInLevel(edk::Cenario2D::PhysicsPosition objLevel){
     //load the level
     if(objLevel.level < this->levels.size()){
-        edk::Cenario2D::LevelObj* level = this->levels[objLevel.level];edkEnd();
+        edk::Cenario2D::LevelObj* level = this->levels.get(objLevel.level);edkEnd();
         if(level){
             //test the ID
             switch(objLevel.levelID){
@@ -1877,7 +1877,7 @@ edk::tiles::TileMap2D* edk::Cenario2D::newTileMapInPosition(edk::uint32 position
 
         //Now test if have the position
         if(this->levels.havePos(position)){
-            edk::Cenario2D::LevelObj* temp = this->levels[position];edkEnd();
+            edk::Cenario2D::LevelObj* temp = this->levels.get(position);edkEnd();
             if(temp){
                 bool canCreate=false;edkEnd();
                 if(temp->haveSome()){
@@ -1929,7 +1929,7 @@ edk::uint32 edk::Cenario2D::getTileMapID(edk::tiles::TileMap2D* tileMap){
         edk::uint32 size = this->levels.size();edkEnd();
         edk::Cenario2D::LevelObj* temp = NULL;edkEnd();
         for(edk::uint32 i=0u;i<size;i++){
-            temp = this->levels[i];edkEnd();
+            temp = this->levels.get(i);edkEnd();
             if(temp){
                 if(temp->tileMap == tileMap){
                     return i++;edkEnd();
@@ -1945,7 +1945,7 @@ edk::tiles::TileMap2D* edk::Cenario2D::getTileMap(edk::uint32 position){
         position--;edkEnd();
         //test if the position is inside the stack
         if(this->levels.havePos(position)){
-            edk::Cenario2D::LevelObj* temp = this->levels[position];edkEnd();
+            edk::Cenario2D::LevelObj* temp = this->levels.get(position);edkEnd();
             if(temp){
                 if(temp->tileMap){
                     return temp->tileMap;edkEnd();
@@ -1964,7 +1964,7 @@ bool edk::Cenario2D::deleteTileMap(edk::uint32 position){
         position--;edkEnd();
         //test if the position is inside the stack
         if(this->levels.havePos(position)){
-            edk::Cenario2D::LevelObj* temp = this->levels[position];edkEnd();
+            edk::Cenario2D::LevelObj* temp = this->levels.get(position);edkEnd();
             if(temp){
                 if(temp->tileMap){
                     delete temp->tileMap;edkEnd();
@@ -1980,7 +1980,7 @@ void edk::Cenario2D::deleteAllTileMaps(){
     edk::uint32 size = this->levels.size();edkEnd();
     edk::Cenario2D::LevelObj* temp = NULL;edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        temp = this->levels[i];edkEnd();
+        temp = this->levels.get(i);edkEnd();
         if(temp){
             if(temp->tileMap){
                 delete temp->tileMap;edkEnd();
@@ -2158,7 +2158,7 @@ edk::Object2D* edk::Cenario2D::getObject(edk::uint32 levelPosition,edk::float32 
     if(levelPosition){
         levelPosition--;edkEnd();
         if(this->levels.havePos(levelPosition)){
-            edk::Cenario2D::LevelObj* level =this->levels[levelPosition];edkEnd();
+            edk::Cenario2D::LevelObj* level =this->levels.get(levelPosition);edkEnd();
             if(level){
                 if(level->objs){
                     return level->objs->getObjectFromDepth(depth);edkEnd();
@@ -2173,7 +2173,7 @@ edk::Object2D* edk::Cenario2D::getObjectInPosition(edk::uint32 levelPosition,edk
     if(levelPosition){
         levelPosition--;edkEnd();
         if(this->levels.havePos(levelPosition)){
-            edk::Cenario2D::LevelObj* level =this->levels[levelPosition];edkEnd();
+            edk::Cenario2D::LevelObj* level =this->levels.get(levelPosition);edkEnd();
             if(level){
                 if(level->objs){
                     return level->objs->getObjectInPosition(position);edkEnd();
@@ -2188,7 +2188,7 @@ edk::float32 edk::Cenario2D::getObjectDepth(edk::uint32 levelPosition,edk::uint3
     if(levelPosition){
         levelPosition--;edkEnd();
         if(this->levels.havePos(levelPosition)){
-            edk::Cenario2D::LevelObj* level = this->levels[levelPosition];edkEnd();
+            edk::Cenario2D::LevelObj* level = this->levels.get(levelPosition);edkEnd();
             if(level){
                 if(level->objs){
                     return level->objs->getObjectDepthInPosition(position);edkEnd();
@@ -2204,7 +2204,7 @@ edk::float32 edk::Cenario2D::getObjectDepth(edk::uint32 levelPosition,edk::Objec
         if(levelPosition){
             levelPosition--;edkEnd();
             if(this->levels.havePos(levelPosition)){
-                edk::Cenario2D::LevelObj* level =this->levels[levelPosition];edkEnd();
+                edk::Cenario2D::LevelObj* level =this->levels.get(levelPosition);edkEnd();
                 if(level){
                     if(level->objs){
                         return level->objs->getObjectDepth(obj);edkEnd();
@@ -2223,7 +2223,7 @@ bool edk::Cenario2D::deleteObject(edk::uint32 levelPosition,edk::Object2D* obj){
         if(levelPosition){
             levelPosition--;edkEnd();
             if(this->levels.havePos(levelPosition)){
-                edk::Cenario2D::LevelObj* level =this->levels[levelPosition];edkEnd();
+                edk::Cenario2D::LevelObj* level =this->levels.get(levelPosition);edkEnd();
                 if(level){
                     //remove object from tree
                     this->treeAnim.remove(obj);edkEnd();
@@ -2246,7 +2246,7 @@ void edk::Cenario2D::deleteAllObjects(edk::uint32 levelPosition){
     if(levelPosition){
         levelPosition--;edkEnd();
         if(this->levels.havePos(levelPosition)){
-            edk::Cenario2D::LevelObj* level =this->levels[levelPosition];edkEnd();
+            edk::Cenario2D::LevelObj* level =this->levels.get(levelPosition);edkEnd();
             if(level){
                 if(level->objs){
                     if(level->quadObjs){
@@ -2268,7 +2268,7 @@ void edk::Cenario2D::deleteAllObjects(){
     edk::uint32 size = this->levels.size();edkEnd();
     edk::Cenario2D::LevelObj* level = NULL;edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        level = this->levels[i];edkEnd();
+        level = this->levels.get(i);edkEnd();
         if(level){
             if(level->objs){
                 this->deleteAllObjects(i+1u);edkEnd();
@@ -2284,7 +2284,7 @@ bool edk::Cenario2D::removeObject(edk::uint32 levelPosition,edk::Object2D* obj){
         if(levelPosition){
             levelPosition--;edkEnd();
             if(this->levels.havePos(levelPosition)){
-                edk::Cenario2D::LevelObj* level =this->levels[levelPosition];edkEnd();
+                edk::Cenario2D::LevelObj* level =this->levels.get(levelPosition);edkEnd();
                 if(level){
                     //remove object from tree
                     this->treeAnim.remove(obj);edkEnd();
@@ -2315,7 +2315,7 @@ bool edk::Cenario2D::setObjectAnimated(edk::uint32 levelPosition,edk::Object2D* 
     if(levelPosition){
         levelPosition--;edkEnd();
         //load the level
-        edk::Cenario2D::LevelObj* level = this->levels[levelPosition];edkEnd();
+        edk::Cenario2D::LevelObj* level = this->levels.get(levelPosition);edkEnd();
         if(level){
             //test if have objects
             if(level->objs){
@@ -2340,7 +2340,7 @@ bool edk::Cenario2D::setObjectAnimated(edk::uint32 levelPosition,edk::uint32 pos
     if(levelPosition){
         levelPosition--;edkEnd();
         //load the level
-        edk::Cenario2D::LevelObj* level = this->levels[levelPosition];edkEnd();
+        edk::Cenario2D::LevelObj* level = this->levels.get(levelPosition);edkEnd();
         if(level){
             //test if have objects
             if(level->objs){
@@ -2365,7 +2365,7 @@ bool edk::Cenario2D::setObjectAnimated(edk::uint32 levelPosition,edk::float32 de
     if(levelPosition){
         levelPosition--;edkEnd();
         //load the level
-        edk::Cenario2D::LevelObj* level = this->levels[levelPosition];edkEnd();
+        edk::Cenario2D::LevelObj* level = this->levels.get(levelPosition);edkEnd();
         if(level){
             //test if have objects
             if(level->objs){
@@ -2391,7 +2391,7 @@ bool edk::Cenario2D::removeObjectAnimated(edk::uint32 levelPosition,edk::Object2
     if(levelPosition){
         levelPosition--;edkEnd();
         //load the level
-        edk::Cenario2D::LevelObj* level = this->levels[levelPosition];edkEnd();
+        edk::Cenario2D::LevelObj* level = this->levels.get(levelPosition);edkEnd();
         if(level){
             //test if have objects
             if(level->objs){
@@ -2413,7 +2413,7 @@ bool edk::Cenario2D::removeObjectAnimated(edk::uint32 levelPosition,edk::uint32 
     if(levelPosition){
         levelPosition--;edkEnd();
         //load the level
-        edk::Cenario2D::LevelObj* level = this->levels[levelPosition];edkEnd();
+        edk::Cenario2D::LevelObj* level = this->levels.get(levelPosition);edkEnd();
         if(level){
             //test if have objects
             if(level->objs){
@@ -2435,7 +2435,7 @@ bool edk::Cenario2D::removeObjectAnimated(edk::uint32 levelPosition,edk::float32
     if(levelPosition){
         levelPosition--;edkEnd();
         //load the level
-        edk::Cenario2D::LevelObj* level = this->levels[levelPosition];edkEnd();
+        edk::Cenario2D::LevelObj* level = this->levels.get(levelPosition);edkEnd();
         if(level){
             //test if have objects
             if(level->objs){
@@ -2541,7 +2541,7 @@ edk::physics2D::PhysicObject2D* edk::Cenario2D::getPhysicObject(edk::uint32 leve
         levelPosition--;edkEnd();
         //test if have the position
         if(this->levels.havePos(levelPosition)){
-            edk::Cenario2D::LevelObj* level =this->levels[levelPosition];edkEnd();
+            edk::Cenario2D::LevelObj* level =this->levels.get(levelPosition);edkEnd();
             if(level){
                 if(level->objsPhys){
                     return (edk::physics2D::PhysicObject2D*)level->objsPhys->getObjectFromDepth(depth);edkEnd();
@@ -2556,7 +2556,7 @@ edk::physics2D::PhysicObject2D* edk::Cenario2D::getPhysicObjectInPosition(edk::u
         levelPosition--;edkEnd();
         //test if have the position
         if(this->levels.havePos(levelPosition)){
-            edk::Cenario2D::LevelObj* level =this->levels[levelPosition];edkEnd();
+            edk::Cenario2D::LevelObj* level =this->levels.get(levelPosition);edkEnd();
             if(level){
                 if(level->objsPhys){
                     return (edk::physics2D::PhysicObject2D*)level->objsPhys->getObjectInPosition(position);edkEnd();
@@ -2572,7 +2572,7 @@ edk::float32 edk::Cenario2D::getPhysicObjectDepth(edk::uint32 levelPosition,edk:
         levelPosition--;edkEnd();
         //test if have the position
         if(this->levels.havePos(levelPosition)){
-            edk::Cenario2D::LevelObj* level =this->levels[levelPosition];edkEnd();
+            edk::Cenario2D::LevelObj* level =this->levels.get(levelPosition);edkEnd();
             if(level){
                 if(level->objsPhys){
                     return level->objsPhys->getObjectDepthInPosition(position);edkEnd();
@@ -2587,7 +2587,7 @@ edk::float32 edk::Cenario2D::getPhysicObjectDepth(edk::uint32 levelPosition,edk:
         levelPosition--;edkEnd();
         //test if have the position
         if(this->levels.havePos(levelPosition)){
-            edk::Cenario2D::LevelObj* level =this->levels[levelPosition];edkEnd();
+            edk::Cenario2D::LevelObj* level =this->levels.get(levelPosition);edkEnd();
             if(level){
                 if(level->objsPhys){
                     return level->objsPhys->getObjectDepth(obj);edkEnd();
@@ -2604,7 +2604,7 @@ bool edk::Cenario2D::loadPhysicObjectToWorld(edk::uint32 levelPosition,edk::phys
         levelPosition--;edkEnd();
         //test if have the level
         if(this->levels.havePos(levelPosition)){
-            edk::Cenario2D::LevelObj* level = this->levels[levelPosition];edkEnd();
+            edk::Cenario2D::LevelObj* level = this->levels.get(levelPosition);edkEnd();
             if(level){
                 if(level->objsPhys){
                     if(level->objsPhys->haveObject((edk::Object2D*)obj)){
@@ -2622,7 +2622,7 @@ bool edk::Cenario2D::loadPhysicObjectsToWorld(edk::uint32 levelPosition){
         levelPosition--;edkEnd();
         //test if have the level
         if(this->levels.havePos(levelPosition)){
-            edk::Cenario2D::LevelObj* level = this->levels[levelPosition];edkEnd();
+            edk::Cenario2D::LevelObj* level = this->levels.get(levelPosition);edkEnd();
             if(level){
                 if(level->objsPhys){
                     edk::uint32 size = level->objsPhys->size();edkEnd();
@@ -2654,7 +2654,7 @@ bool edk::Cenario2D::loadPhysicObjectsToWorld(){
     edk::uint32 size = this->levels.size();edkEnd();
     edk::Cenario2D::LevelObj* level=NULL;edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        level = this->levels[i];edkEnd();
+        level = this->levels.get(i);edkEnd();
         if(level){
             if(level->objsPhys){
                 edk::uint32 size = level->objsPhys->size();edkEnd();
@@ -2681,7 +2681,7 @@ bool edk::Cenario2D::unloadPhysicObjectFromWorld(edk::uint32 levelPosition,edk::
         //load the level
         if(obj){
             if(this->levels.havePos(levelPosition)){
-                edk::Cenario2D::LevelObj* level =this->levels[levelPosition];edkEnd();
+                edk::Cenario2D::LevelObj* level =this->levels.get(levelPosition);edkEnd();
                 if(level){
                     if(level->objsPhys){
                         this->treeAnimPhys.remove(obj);edkEnd();
@@ -2700,7 +2700,7 @@ bool edk::Cenario2D::unloadPhysicObjectsFromWorld(edk::uint32 levelPosition){
         levelPosition--;edkEnd();
         //load the level
         if(this->levels.havePos(levelPosition)){
-            edk::Cenario2D::LevelObj* level =this->levels[levelPosition];edkEnd();
+            edk::Cenario2D::LevelObj* level =this->levels.get(levelPosition);edkEnd();
             if(level){
                 if(level->objsPhys){
                     edk::uint32 size = level->objsPhys->size();edkEnd();
@@ -2720,7 +2720,7 @@ bool edk::Cenario2D::unloadPhysicObjectsFromWorld(){
     edk::uint32 size = this->levels.size();edkEnd();
     edk::Cenario2D::LevelObj* level = NULL;edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        level = this->levels[i];edkEnd();
+        level = this->levels.get(i);edkEnd();
         if(level){
             if(level->objsPhys){
                 //remove the objPhys from world
@@ -2742,7 +2742,7 @@ bool edk::Cenario2D::deletePhysicObject(edk::uint32 levelPosition,edk::physics2D
         //load the level
         if(obj){
             if(this->levels.havePos(levelPosition)){
-                edk::Cenario2D::LevelObj* level =this->levels[levelPosition];edkEnd();
+                edk::Cenario2D::LevelObj* level =this->levels.get(levelPosition);edkEnd();
                 if(level){
                     if(level->objsPhys){
                         this->treeAnimPhys.remove(obj);edkEnd();
@@ -2770,7 +2770,7 @@ void edk::Cenario2D::deleteAllPhysicObjects(edk::uint32 levelPosition){
         levelPosition--;edkEnd();
         //load the level
         if(this->levels.havePos(levelPosition)){
-            edk::Cenario2D::LevelObj* level =this->levels[levelPosition];edkEnd();
+            edk::Cenario2D::LevelObj* level =this->levels.get(levelPosition);edkEnd();
             if(level){
                 if(level->objsPhys){
                     edk::uint32 size = level->objsPhys->size();edkEnd();
@@ -2789,7 +2789,7 @@ void edk::Cenario2D::deleteAllPhysicObjects(){
     edk::uint32 size = this->levels.size();edkEnd();
     edk::Cenario2D::LevelObj* level = NULL;edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        level = this->levels[i];edkEnd();
+        level = this->levels.get(i);edkEnd();
         if(level){
             if(level->objsPhys){
                 if(level->quadPhysicObjs){
@@ -2813,7 +2813,7 @@ bool edk::Cenario2D::removePhysicObject(edk::uint32 levelPosition,edk::physics2D
         //load the level
         if(obj){
             if(this->levels.havePos(levelPosition)){
-                edk::Cenario2D::LevelObj* level =this->levels[levelPosition];edkEnd();
+                edk::Cenario2D::LevelObj* level =this->levels.get(levelPosition);edkEnd();
                 if(level){
                     if(level->objsPhys){
                         this->treeAnimPhys.remove(obj);edkEnd();
@@ -2845,7 +2845,7 @@ bool edk::Cenario2D::removePhysicObjects(edk::uint32 levelPosition){
         levelPosition--;edkEnd();
         //load the level
         if(this->levels.havePos(levelPosition)){
-            edk::Cenario2D::LevelObj* level =this->levels[levelPosition];edkEnd();
+            edk::Cenario2D::LevelObj* level =this->levels.get(levelPosition);edkEnd();
             if(level){
                 if(level->objsPhys){
                     edk::uint32 size = level->objsPhys->size();edkEnd();
@@ -2871,7 +2871,7 @@ void edk::Cenario2D::removePhysicObjects(){
     edk::uint32 size = 0u;edkEnd();
     edk::Cenario2D::LevelObj* level=NULL;edkEnd();
     for(edk::uint32 i=0u;i<levelSize;i++){
-        level =this->levels[i];edkEnd();
+        level =this->levels.get(i);edkEnd();
         if(level){
             if(level->objsPhys){
                 size = level->objsPhys->size();edkEnd();
@@ -2895,7 +2895,7 @@ bool edk::Cenario2D::setPhysicObjectAnimated(edk::uint32 levelPosition,edk::phys
     if(levelPosition){
         levelPosition--;edkEnd();
         //load the level
-        edk::Cenario2D::LevelObj* level = this->levels[levelPosition];edkEnd();
+        edk::Cenario2D::LevelObj* level = this->levels.get(levelPosition);edkEnd();
         if(level){
             //test if have objects
             if(level->objsPhys){
@@ -2927,7 +2927,7 @@ bool edk::Cenario2D::setPhysicObjectAnimated(edk::uint32 levelPosition,edk::uint
     if(levelPosition){
         levelPosition--;edkEnd();
         //load the level
-        edk::Cenario2D::LevelObj* level = this->levels[levelPosition];edkEnd();
+        edk::Cenario2D::LevelObj* level = this->levels.get(levelPosition);edkEnd();
         if(level){
             //test if have objects
             if(level->objsPhys){
@@ -2954,7 +2954,7 @@ bool edk::Cenario2D::setPhysicObjectAnimated(edk::uint32 levelPosition,edk::floa
     if(levelPosition){
         levelPosition--;edkEnd();
         //load the level
-        edk::Cenario2D::LevelObj* level = this->levels[levelPosition];edkEnd();
+        edk::Cenario2D::LevelObj* level = this->levels.get(levelPosition);edkEnd();
         if(level){
             //test if have objects
             if(level->objsPhys){
@@ -2982,7 +2982,7 @@ bool edk::Cenario2D::removePhysicObjectAnimated(edk::uint32 levelPosition,edk::p
     if(levelPosition){
         levelPosition--;edkEnd();
         //load the level
-        edk::Cenario2D::LevelObj* level = this->levels[levelPosition];edkEnd();
+        edk::Cenario2D::LevelObj* level = this->levels.get(levelPosition);edkEnd();
         if(level){
             //test if have objects
             if(level->objsPhys){
@@ -3011,7 +3011,7 @@ bool edk::Cenario2D::removePhysicObjectAnimated(edk::uint32 levelPosition,edk::u
     if(levelPosition){
         levelPosition--;edkEnd();
         //load the level
-        edk::Cenario2D::LevelObj* level = this->levels[levelPosition];edkEnd();
+        edk::Cenario2D::LevelObj* level = this->levels.get(levelPosition);edkEnd();
         if(level){
             //test if have objects
             if(level->objsPhys){
@@ -3035,7 +3035,7 @@ bool edk::Cenario2D::removePhysicObjectAnimated(edk::uint32 levelPosition,edk::f
     if(levelPosition){
         levelPosition--;edkEnd();
         //load the level
-        edk::Cenario2D::LevelObj* level = this->levels[levelPosition];edkEnd();
+        edk::Cenario2D::LevelObj* level = this->levels.get(levelPosition);edkEnd();
         if(level){
             //test if have objects
             if(level->objsPhys){
@@ -3061,7 +3061,7 @@ void edk::Cenario2D::deleteLevel(edk::uint32 levelPosition){
         levelPosition--;edkEnd();
         //load the level
         if(this->levels.havePos(levelPosition)){
-            edk::Cenario2D::LevelObj* level =this->levels[levelPosition];edkEnd();
+            edk::Cenario2D::LevelObj* level =this->levels.get(levelPosition);edkEnd();
             if(level){
                 if(level->tileMap){
                     delete level->tileMap;edkEnd();
@@ -3092,7 +3092,7 @@ void edk::Cenario2D::deleteAllLevels(){
         this->treeAnimPhys.clean();edkEnd();
         edk::Cenario2D::LevelObj* level = NULL;edkEnd();
         for(edk::uint32 i=0u;i<size;i++){
-            level = this->levels[i];edkEnd();
+            level = this->levels.get(i);edkEnd();
             if(level){
                 if(level->tileMap){
                     delete level->tileMap;edkEnd();
@@ -3301,7 +3301,7 @@ void edk::Cenario2D::updateQuadsInsideRect(edk::rectf32 rect){
     edk::Cenario2D::LevelObj* level=NULL;edkEnd();
     //this->transformBeggin();edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        level=this->levels[i];edkEnd();
+        level=this->levels.get(i);edkEnd();
         if(level){
             level->updateQuads(rect,i+1u);edkEnd();
         }
@@ -3314,7 +3314,7 @@ bool edk::Cenario2D::updateLevelQuadsInsideRect(edk::uint32 levelPosition,edk::r
         levelPosition--;edkEnd();
         if(this->levels.havePos(levelPosition)){
             //this->transformBeggin();edkEnd();
-            edk::Cenario2D::LevelObj* level=this->levels[levelPosition];edkEnd();
+            edk::Cenario2D::LevelObj* level=this->levels.get(levelPosition);edkEnd();
             level->updateQuads(rect,levelPosition+1u);edkEnd();
             //this->transformEnd();edkEnd();
             return true;
@@ -3348,7 +3348,7 @@ bool edk::Cenario2D::updateLevelsQuadsInsideRect(edk::uint32 startPosition,edk::
         //daw the rects
         //this->transformBeggin();edkEnd();
         for(edk::uint32 i=startPosition;i<=endPosition;i++){
-            level=this->levels[i];edkEnd();
+            level=this->levels.get(i);edkEnd();
             if(level){
                 level->updateQuads(rect,i+1u);edkEnd();
             }
@@ -3365,7 +3365,7 @@ bool edk::Cenario2D::updateAnimation(edk::uint32 position){
         position--;edkEnd();
         if(this->levels.havePos(position)){
             //load the level
-            edk::Cenario2D::LevelObj* level = this->levels[position];edkEnd();
+            edk::Cenario2D::LevelObj* level = this->levels.get(position);edkEnd();
             if(level){
                 if(level->objs){
                     level->objs->loadSeconds();edkEnd();
@@ -3389,7 +3389,7 @@ bool edk::Cenario2D::updateAnimation(edk::uint32 position,edk::float32 seconds){
         position--;edkEnd();
         if(this->levels.havePos(position)){
             //load the level
-            edk::Cenario2D::LevelObj* level = this->levels[position];edkEnd();
+            edk::Cenario2D::LevelObj* level = this->levels.get(position);edkEnd();
             if(level){
                 if(level->objs){
                     level->objs->setSeconds(seconds);edkEnd();
@@ -3436,7 +3436,7 @@ void edk::Cenario2D::draw(){
     edk::Cenario2D::LevelObj* level=NULL;edkEnd();
     this->transformBeggin();edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        level=this->levels[i];edkEnd();
+        level=this->levels.get(i);edkEnd();
         if(level){
             level->draw();edkEnd();
         }
@@ -3449,7 +3449,7 @@ void edk::Cenario2D::drawWire(){
     edk::Cenario2D::LevelObj* level=NULL;edkEnd();
     this->transformBeggin();edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        level=this->levels[i];edkEnd();
+        level=this->levels.get(i);edkEnd();
         if(level){
             level->drawWire();edkEnd();
         }
@@ -3462,7 +3462,7 @@ void edk::Cenario2D::drawQuads(){
     edk::Cenario2D::LevelObj* level=NULL;edkEnd();
     this->transformBeggin();edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        level=this->levels[i];edkEnd();
+        level=this->levels.get(i);edkEnd();
         if(level){
             level->drawQuads();edkEnd();
         }
@@ -3475,7 +3475,7 @@ void edk::Cenario2D::drawBoxes(){
     edk::Cenario2D::LevelObj* level=NULL;edkEnd();
     this->transformBeggin();edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        level=this->levels[i];edkEnd();
+        level=this->levels.get(i);edkEnd();
         if(level){
             level->drawBoxes();edkEnd();
         }
@@ -3488,7 +3488,7 @@ void edk::Cenario2D::drawInsideRect(edk::rectf32 rect){
     edk::Cenario2D::LevelObj* level=NULL;edkEnd();
     this->transformBeggin();edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        level=this->levels[i];edkEnd();
+        level=this->levels.get(i);edkEnd();
         if(level){
             level->drawInsideRect(rect,i+1u);edkEnd();
         }
@@ -3501,7 +3501,7 @@ bool edk::Cenario2D::drawLevel(edk::uint32 levelPosition){
         levelPosition--;edkEnd();
         if(this->levels.havePos(levelPosition)){
             this->transformBeggin();edkEnd();
-            edk::Cenario2D::LevelObj* level=this->levels[levelPosition];edkEnd();
+            edk::Cenario2D::LevelObj* level=this->levels.get(levelPosition);edkEnd();
             level->draw();edkEnd();
             this->transformEnd();edkEnd();
             return true;
@@ -3515,7 +3515,7 @@ bool edk::Cenario2D::drawLevelWire(edk::uint32 levelPosition){
         levelPosition--;edkEnd();
         if(this->levels.havePos(levelPosition)){
             this->transformBeggin();edkEnd();
-            edk::Cenario2D::LevelObj* level=this->levels[levelPosition];edkEnd();
+            edk::Cenario2D::LevelObj* level=this->levels.get(levelPosition);edkEnd();
             level->drawWire();edkEnd();
             this->transformEnd();edkEnd();
             return true;
@@ -3529,7 +3529,7 @@ bool edk::Cenario2D::drawLevelQuads(edk::uint32 levelPosition){
         levelPosition--;edkEnd();
         if(this->levels.havePos(levelPosition)){
             this->transformBeggin();edkEnd();
-            edk::Cenario2D::LevelObj* level=this->levels[levelPosition];edkEnd();
+            edk::Cenario2D::LevelObj* level=this->levels.get(levelPosition);edkEnd();
             level->drawQuads();edkEnd();
             this->transformEnd();edkEnd();
             return true;
@@ -3543,7 +3543,7 @@ bool edk::Cenario2D::drawLevelBoxes(edk::uint32 levelPosition){
         levelPosition--;edkEnd();
         if(this->levels.havePos(levelPosition)){
             this->transformBeggin();edkEnd();
-            edk::Cenario2D::LevelObj* level=this->levels[levelPosition];edkEnd();
+            edk::Cenario2D::LevelObj* level=this->levels.get(levelPosition);edkEnd();
             level->drawBoxes();edkEnd();
             this->transformEnd();edkEnd();
             return true;
@@ -3557,7 +3557,7 @@ bool edk::Cenario2D::drawLevelInsideRect(edk::uint32 levelPosition,edk::rectf32 
         levelPosition--;edkEnd();
         if(this->levels.havePos(levelPosition)){
             this->transformBeggin();edkEnd();
-            edk::Cenario2D::LevelObj* level=this->levels[levelPosition];edkEnd();
+            edk::Cenario2D::LevelObj* level=this->levels.get(levelPosition);edkEnd();
             level->drawInsideRect(rect,levelPosition+1u);edkEnd();
             this->transformEnd();edkEnd();
             return true;
@@ -3571,7 +3571,7 @@ bool edk::Cenario2D::drawLevelWireInsideRect(edk::uint32 levelPosition,edk::rect
         levelPosition--;edkEnd();
         if(this->levels.havePos(levelPosition)){
             this->transformBeggin();edkEnd();
-            edk::Cenario2D::LevelObj* level=this->levels[levelPosition];edkEnd();
+            edk::Cenario2D::LevelObj* level=this->levels.get(levelPosition);edkEnd();
             level->drawWireInsideRect(rect,levelPosition+1u);edkEnd();
             this->transformEnd();edkEnd();
             return true;
@@ -3606,7 +3606,7 @@ bool edk::Cenario2D::drawLevels(edk::uint32 startPosition,edk::uint32 endPositio
         //daw the rects
         this->transformBeggin();edkEnd();
         for(edk::uint32 i=startPosition;i<=endPosition;i++){
-            level=this->levels[i];edkEnd();
+            level=this->levels.get(i);edkEnd();
             if(level){
                 level->draw();edkEnd();
             }
@@ -3642,7 +3642,7 @@ bool edk::Cenario2D::drawLevelsWire(edk::uint32 startPosition,edk::uint32 endPos
         //daw the rects
         this->transformBeggin();edkEnd();
         for(edk::uint32 i=startPosition;i<=endPosition;i++){
-            level=this->levels[i];edkEnd();
+            level=this->levels.get(i);edkEnd();
             if(level){
                 level->drawWire();edkEnd();
             }
@@ -3678,7 +3678,7 @@ bool edk::Cenario2D::drawLevelsQuads(edk::uint32 startPosition,edk::uint32 endPo
         //daw the rects
         this->transformBeggin();edkEnd();
         for(edk::uint32 i=startPosition;i<=endPosition;i++){
-            level=this->levels[i];edkEnd();
+            level=this->levels.get(i);edkEnd();
             if(level){
                 level->drawQuads();edkEnd();
             }
@@ -3714,7 +3714,7 @@ bool edk::Cenario2D::drawLevelsBoxes(edk::uint32 startPosition,edk::uint32 endPo
         //daw the rects
         this->transformBeggin();edkEnd();
         for(edk::uint32 i=startPosition;i<=endPosition;i++){
-            level=this->levels[i];edkEnd();
+            level=this->levels.get(i);edkEnd();
             if(level){
                 level->drawBoxes();edkEnd();
             }
@@ -3750,7 +3750,7 @@ bool edk::Cenario2D::drawLevelsInsideRect(edk::uint32 startPosition,edk::uint32 
         //daw the rects
         this->transformBeggin();edkEnd();
         for(edk::uint32 i=startPosition;i<=endPosition;i++){
-            level=this->levels[i];edkEnd();
+            level=this->levels.get(i);edkEnd();
             if(level){
                 level->drawInsideRect(rect,i+1u);edkEnd();
             }
@@ -3786,7 +3786,7 @@ bool edk::Cenario2D::drawLevelsWireInsideRect(edk::uint32 startPosition,edk::uin
         //daw the rects
         this->transformBeggin();edkEnd();
         for(edk::uint32 i=startPosition;i<=endPosition;i++){
-            level=this->levels[i];edkEnd();
+            level=this->levels.get(i);edkEnd();
             if(level){
                 level->drawWireInsideRect(rect,i+1u);edkEnd();
             }
@@ -3801,7 +3801,7 @@ void edk::Cenario2D::drawSelection(){
     edk::Cenario2D::LevelObj* level=NULL;edkEnd();
     this->transformBeggin();edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        level=this->levels[i];edkEnd();
+        level=this->levels.get(i);edkEnd();
         if(level){
             level->drawSelection(i+1u);edkEnd();
         }
@@ -3814,7 +3814,7 @@ bool edk::Cenario2D::drawSelectionLevel(edk::uint32 levelPosition){
         levelPosition--;edkEnd();
         if(this->levels.havePos(levelPosition)){
             this->transformBeggin();edkEnd();
-            edk::Cenario2D::LevelObj* level=this->levels[levelPosition];edkEnd();
+            edk::Cenario2D::LevelObj* level=this->levels.get(levelPosition);edkEnd();
             level->drawSelection(levelPosition+1u);edkEnd();
             this->transformEnd();edkEnd();
             return true;
@@ -3848,7 +3848,7 @@ bool edk::Cenario2D::drawSelectionLevels(edk::uint32 startPosition,edk::uint32 e
         //daw the rects
         this->transformBeggin();edkEnd();
         for(edk::uint32 i=startPosition;i<=endPosition;i++){
-            level=this->levels[i];edkEnd();
+            level=this->levels.get(i);edkEnd();
             if(level){
                 level->drawSelection(i+1u);edkEnd();
             }
@@ -3884,7 +3884,7 @@ bool edk::Cenario2D::drawSelectionLevelsInsideRect(edk::uint32 startPosition,edk
         //daw the rects
         this->transformBeggin();edkEnd();
         for(edk::uint32 i=startPosition;i<=endPosition;i++){
-            level=this->levels[i];edkEnd();
+            level=this->levels.get(i);edkEnd();
             if(level){
                 level->drawSelectionInsideRect(rect,i+1u);edkEnd();
             }
@@ -3907,7 +3907,7 @@ bool edk::Cenario2D::setShowLevel(edk::uint32 levelPosition,bool show){
     if(levelPosition){
         levelPosition--;edkEnd();
         if(this->levels.havePos(levelPosition)){
-            edk::Cenario2D::LevelObj* level=this->levels[levelPosition];edkEnd();
+            edk::Cenario2D::LevelObj* level=this->levels.get(levelPosition);edkEnd();
             level->show = show;edkEnd();
             return true;
         }
@@ -3919,7 +3919,7 @@ bool edk::Cenario2D::getShowLevel(edk::uint32 levelPosition){
     if(levelPosition){
         levelPosition--;edkEnd();
         if(this->levels.havePos(levelPosition)){
-            edk::Cenario2D::LevelObj* level=this->levels[levelPosition];edkEnd();
+            edk::Cenario2D::LevelObj* level=this->levels.get(levelPosition);edkEnd();
             return level->show;edkEnd();
         }
     }
@@ -3938,7 +3938,7 @@ bool edk::Cenario2D::setCanSelectLevel(edk::uint32 levelPosition,bool canSelect)
     if(levelPosition){
         levelPosition--;edkEnd();
         if(this->levels.havePos(levelPosition)){
-            edk::Cenario2D::LevelObj* level=this->levels[levelPosition];edkEnd();
+            edk::Cenario2D::LevelObj* level=this->levels.get(levelPosition);edkEnd();
             level->canSelect = canSelect;edkEnd();
             return true;
         }
@@ -3950,7 +3950,7 @@ bool edk::Cenario2D::getCanSelectLevel(edk::uint32 levelPosition){
     if(levelPosition){
         levelPosition--;edkEnd();
         if(this->levels.havePos(levelPosition)){
-            edk::Cenario2D::LevelObj* level=this->levels[levelPosition];edkEnd();
+            edk::Cenario2D::LevelObj* level=this->levels.get(levelPosition);edkEnd();
             return level->canSelect;edkEnd();
         }
     }
@@ -3962,7 +3962,7 @@ edk::uint8 edk::Cenario2D::getLevelType(edk::uint32 levelPosition){
     if(levelPosition){
         levelPosition--;edkEnd();
         if(this->levels.havePos(levelPosition)){
-            edk::Cenario2D::LevelObj* level =this->levels[levelPosition];edkEnd();
+            edk::Cenario2D::LevelObj* level =this->levels.get(levelPosition);edkEnd();
             if(level){
                 if(level->objs){
                     return EDK_LEVEL_OBJ;edkEnd();
@@ -3983,7 +3983,7 @@ bool edk::Cenario2D::haveLevel(edk::uint32 levelPosition){
     if(levelPosition){
         levelPosition--;edkEnd();
         if(this->levels.havePos(levelPosition)){
-            edk::Cenario2D::LevelObj* level =this->levels[levelPosition];edkEnd();
+            edk::Cenario2D::LevelObj* level =this->levels.get(levelPosition);edkEnd();
             if(level){
                 return level->haveSome();edkEnd();
             }
@@ -4001,7 +4001,7 @@ edk::uint32 edk::Cenario2D::getLevelSize(edk::uint32 levelPosition){
         levelPosition--;edkEnd();
         //test if have the level
         if(this->levels.havePos(levelPosition)){
-            edk::Cenario2D::LevelObj* level =this->levels[levelPosition];edkEnd();
+            edk::Cenario2D::LevelObj* level =this->levels.get(levelPosition);edkEnd();
             if(level){
                 if(level->objs){
                     return level->objs->size();edkEnd();
@@ -4039,7 +4039,7 @@ bool edk::Cenario2D::setLevelPosition(edk::uint32 levelPosition,edk::vec2f32 pos
     if(levelPosition){
         levelPosition--;edkEnd();
         if(this->levels.havePos(levelPosition)){
-            edk::Cenario2D::LevelObj* level =this->levels[levelPosition];edkEnd();
+            edk::Cenario2D::LevelObj* level =this->levels.get(levelPosition);edkEnd();
             if(level){
                 level->transform.position = position;edkEnd();
                 return true;
@@ -4056,7 +4056,7 @@ bool edk::Cenario2D::setLevelAngle(edk::uint32 levelPosition,edk::float32 angle)
     if(levelPosition){
         levelPosition--;edkEnd();
         if(this->levels.havePos(levelPosition)){
-            edk::Cenario2D::LevelObj* level =this->levels[levelPosition];edkEnd();
+            edk::Cenario2D::LevelObj* level =this->levels.get(levelPosition);edkEnd();
             if(level){
                 level->transform.angle = angle;edkEnd();
                 return true;
@@ -4070,7 +4070,7 @@ bool edk::Cenario2D::setLevelSize(edk::uint32 levelPosition,edk::size2f32 size){
     if(levelPosition){
         levelPosition--;edkEnd();
         if(this->levels.havePos(levelPosition)){
-            edk::Cenario2D::LevelObj* level =this->levels[levelPosition];edkEnd();
+            edk::Cenario2D::LevelObj* level =this->levels.get(levelPosition);edkEnd();
             if(level){
                 level->transform.size = size;edkEnd();
                 return true;
@@ -4123,7 +4123,7 @@ bool edk::Cenario2D::writeToXML(edk::XML* xml,edk::uint32 id){
                                     edk::Cenario2D::LevelObj* level;edkEnd();
                                     for(edk::uint32 i=0u;i<size;i++){
                                         //load the level
-                                        level = this->levels[i];edkEnd();
+                                        level = this->levels.get(i);edkEnd();
                                         if(level){
                                             level->writeToXML(xml,i);edkEnd();
                                         }
@@ -4810,7 +4810,7 @@ bool edk::Cenario2D::readFromXML(edk::XML* xml,edk::uint32 id){
                         edk::uint32 size = this->levels.size();edkEnd();
                         edk::Cenario2D::LevelObj* level=NULL;edkEnd();
                         for(edk::uint32 i=0u;i<size;i++){
-                            level=this->levels[i];edkEnd();
+                            level=this->levels.get(i);edkEnd();
                             if(level){
                                 level->generateLevelRect();edkEnd();
                                 level->addObjectsToQuad();edkEnd();
@@ -5198,7 +5198,7 @@ bool edk::Cenario2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* 
                         edk::uint32 size = this->levels.size();edkEnd();
                         edk::Cenario2D::LevelObj* level=NULL;edkEnd();
                         for(edk::uint32 i=0u;i<size;i++){
-                            level=this->levels[i];edkEnd();
+                            level=this->levels.get(i);edkEnd();
                             if(level){
                                 level->generateLevelRect();edkEnd();
                                 level->addObjectsToQuad();edkEnd();
@@ -5624,7 +5624,7 @@ bool edk::Cenario2D::readLevelFromXML(edk::XML* xml,edk::uint32 level,edk::uint3
                         edk::uint32 size = this->levels.size();edkEnd();
                         edk::Cenario2D::LevelObj* level=NULL;edkEnd();
                         for(edk::uint32 i=0u;i<size;i++){
-                            level=this->levels[i];edkEnd();
+                            level=this->levels.get(i);edkEnd();
                             if(level){
                                 level->generateLevelRect();edkEnd();
                                 level->addObjectsToQuad();edkEnd();
@@ -6047,7 +6047,7 @@ bool edk::Cenario2D::readLevelFromXMLFromPack(edk::pack::FilePackage* pack,edk::
                         edk::uint32 size = this->levels.size();edkEnd();
                         edk::Cenario2D::LevelObj* level=NULL;edkEnd();
                         for(edk::uint32 i=0u;i<size;i++){
-                            level=this->levels[i];edkEnd();
+                            level=this->levels.get(i);edkEnd();
                             if(level){
                                 level->generateLevelRect();edkEnd();
                                 level->addObjectsToQuad();edkEnd();
@@ -6438,7 +6438,7 @@ bool edk::Cenario2D::readFromXMLWithoutLoadPhysics(edk::XML* xml,edk::uint32 id)
                         edk::uint32 size = this->levels.size();edkEnd();
                         edk::Cenario2D::LevelObj* level=NULL;edkEnd();
                         for(edk::uint32 i=0u;i<size;i++){
-                            level=this->levels[i];edkEnd();
+                            level=this->levels.get(i);edkEnd();
                             if(level){
                                 level->generateLevelRect();edkEnd();
                                 level->addObjectsToQuad();edkEnd();
@@ -6826,7 +6826,7 @@ bool edk::Cenario2D::readFromXMLFromPackWithoutLoadPhysics(edk::pack::FilePackag
                         edk::uint32 size = this->levels.size();edkEnd();
                         edk::Cenario2D::LevelObj* level=NULL;edkEnd();
                         for(edk::uint32 i=0u;i<size;i++){
-                            level=this->levels[i];edkEnd();
+                            level=this->levels.get(i);edkEnd();
                             if(level){
                                 level->generateLevelRect();edkEnd();
                                 level->addObjectsToQuad();edkEnd();
@@ -7252,7 +7252,7 @@ bool edk::Cenario2D::readLevelFromXMLWithoutLoadPhysics(edk::XML* xml,edk::uint3
                         edk::uint32 size = this->levels.size();edkEnd();
                         edk::Cenario2D::LevelObj* level=NULL;edkEnd();
                         for(edk::uint32 i=0u;i<size;i++){
-                            level=this->levels[i];edkEnd();
+                            level=this->levels.get(i);edkEnd();
                             if(level){
                                 level->generateLevelRect();edkEnd();
                                 level->addObjectsToQuad();edkEnd();
@@ -7675,7 +7675,7 @@ bool edk::Cenario2D::readLevelFromXMLFromPackWithoutLoadPhysics(edk::pack::FileP
                         edk::uint32 size = this->levels.size();edkEnd();
                         edk::Cenario2D::LevelObj* level=NULL;edkEnd();
                         for(edk::uint32 i=0u;i<size;i++){
-                            level=this->levels[i];edkEnd();
+                            level=this->levels.get(i);edkEnd();
                             if(level){
                                 level->generateLevelRect();edkEnd();
                                 level->addObjectsToQuad();edkEnd();

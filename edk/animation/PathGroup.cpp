@@ -74,13 +74,13 @@ edk::animation::Frame* edk::animation::PathGroup::getLastFrame(){
             //test if have the last frame
             if(this->animationPosition<this->positionEnd){
                 //then return the last frame
-                return this->animations[this->animationPosition-1u];edkEnd();
+                return this->animations.get(this->animationPosition-1u);edkEnd();
             }
             else if(this->animationPosition==this->positionEnd){
                 //test if is looping
                 if(this->getLoop()){
                     //then get the start position
-                    return this->animations[this->positionStart];edkEnd();
+                    return this->animations.get(this->positionStart);edkEnd();
                 }
             }
         }
@@ -88,18 +88,18 @@ edk::animation::Frame* edk::animation::PathGroup::getLastFrame(){
             //test if have the last frame
             if(this->animationPosition>this->positionStart){
                 //then return the last frame
-                return this->animations[this->animationPosition-1u];edkEnd();
+                return this->animations.get(this->animationPosition-1u);edkEnd();
             }
             else if(this->animationPosition==this->positionStart){
                 //test if is looping
                 if(this->getLoop()){
                     //then get the start position
-                    return this->animations[this->positionEnd];edkEnd();
+                    return this->animations.get(this->positionEnd);edkEnd();
                 }
             }
         }
         //else return this frame
-        return this->animations[this->animationPosition];edkEnd();
+        return this->animations.get(this->animationPosition);edkEnd();
     }
     //else return this frame
     return NULL;
@@ -227,7 +227,7 @@ bool edk::animation::PathGroup::deleteFrame(edk::uint32 position){
     //test if have the position
     if(this->havePosition(position)){
         //get the frame
-        edk::animation::Frame* temp = this->animations[position];edkEnd();
+        edk::animation::Frame* temp = this->animations.get(position);edkEnd();
         if(temp){
             //
             edk::uint32 size = this->animations.size()-1u;edkEnd();
@@ -250,7 +250,7 @@ void edk::animation::PathGroup::deleteFrames(){
     edk::animation::Frame* temp;edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
         //swap the position
-        temp = this->animations[i];edkEnd();
+        temp = this->animations.get(i);edkEnd();
         if(temp){
             delete temp;edkEnd();
         }
@@ -629,7 +629,7 @@ void edk::animation::PathGroup::printFrames(){
     edk::uint32 size = this->animations.size();edkEnd();
     edk::animation::Frame* temp;edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        temp = this->animations[i];edkEnd();
+        temp = this->animations.get(i);edkEnd();
         if(temp){
             printf("\nSpeed %.2f"
                    ,temp->second
@@ -657,7 +657,7 @@ edk::float32 edk::animation::PathGroup::updateClockAnimation(edk::float32 distan
         if(distance>0.f){
             this->clock.start();edkEnd();
         }
-        edk::animation::Frame* temp = this->animations[this->animationPosition];edkEnd();
+        edk::animation::Frame* temp = this->animations.get(this->animationPosition);edkEnd();
 
         //test if reach the frame
         if(this->reachFrame(temp)){
@@ -676,7 +676,7 @@ edk::float32 edk::animation::PathGroup::updateClockAnimation(edk::float32 distan
                         this->changeFrame=true;edkEnd();
                         this->animationPosition=this->positionEnd;edkEnd();
                         this->step = temp->second;edkEnd();
-                        temp = this->animations[this->animationPosition];edkEnd();
+                        temp = this->animations.get(this->animationPosition);edkEnd();
 
                         if(this->getIncrement()){
                             this->runIncrementRewind();edkEnd();
@@ -697,7 +697,7 @@ edk::float32 edk::animation::PathGroup::updateClockAnimation(edk::float32 distan
                             this->changeFrame=true;edkEnd();
                             this->animationPosition=this->positionEnd;edkEnd();
                             this->step = temp->second;edkEnd();
-                            temp = this->animations[this->animationPosition];edkEnd();
+                            temp = this->animations.get(this->animationPosition);edkEnd();
 
                             if(this->getIncrement()){
                                 this->runIncrementRewind();edkEnd();
@@ -714,7 +714,7 @@ edk::float32 edk::animation::PathGroup::updateClockAnimation(edk::float32 distan
                         this->changeFrame=true;edkEnd();
                         this->animationPosition--;edkEnd();
                         this->step = temp->second;edkEnd();
-                        temp = this->animations[this->animationPosition];edkEnd();
+                        temp = this->animations.get(this->animationPosition);edkEnd();
                     }
                 }
             }
@@ -729,7 +729,7 @@ edk::float32 edk::animation::PathGroup::updateClockAnimation(edk::float32 distan
                         this->changeFrame=true;edkEnd();
                         this->animationPosition=this->positionStart;edkEnd();
                         this->step = temp->second;edkEnd();
-                        temp = this->animations[this->animationPosition];edkEnd();
+                        temp = this->animations.get(this->animationPosition);edkEnd();
 
                         if(this->getIncrement()){
                             this->runIncrementForward();edkEnd();
@@ -750,7 +750,7 @@ edk::float32 edk::animation::PathGroup::updateClockAnimation(edk::float32 distan
                             this->changeFrame=true;edkEnd();
                             this->animationPosition=this->positionStart;edkEnd();
                             this->step = temp->second;edkEnd();
-                            temp = this->animations[this->animationPosition];edkEnd();
+                            temp = this->animations.get(this->animationPosition);edkEnd();
 
                             if(this->getIncrement()){
                                 this->runIncrementForward();edkEnd();
@@ -767,7 +767,7 @@ edk::float32 edk::animation::PathGroup::updateClockAnimation(edk::float32 distan
                         this->changeFrame=true;edkEnd();
                         this->animationPosition++;edkEnd();
                         this->step = temp->second;edkEnd();
-                        temp = this->animations[this->animationPosition];edkEnd();
+                        temp = this->animations.get(this->animationPosition);edkEnd();
                     }
                 }
             }
@@ -840,7 +840,7 @@ bool edk::animation::PathGroup::writeToXML(edk::XML* xml,edk::uint32 id){
                         edk::uint32 size = this->animations.size();edkEnd();
                         for(edk::uint32 i=0u;i<size;i++){
                             //write the first
-                            this->animations[i]->writeToXML(xml,i);edkEnd();
+                            this->animations.get(i)->writeToXML(xml,i);edkEnd();
                         }
 
                         //write the animationNames

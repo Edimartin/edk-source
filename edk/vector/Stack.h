@@ -823,11 +823,13 @@ public:
     }
 
     //OPERATORS
+    /*
     //[] //To return the object in the pos
     typeTemplate operator[](edk::uint32 pos){
         //
         return this->get(pos);edkEnd();
     }
+    */
     virtual bool cloneFrom(edk::vector::Stack<typeTemplate>* ret){
         //clean the vector
         this->clean();edkEnd();
@@ -1276,11 +1278,13 @@ public:
     }
 
     //OPERATORS
+    /*
     //[] //To return the object in the pos
     edk::Name* operator[](edk::uint32 pos){
         //
         return this->get(pos);edkEnd();
     }
+    */
     virtual bool cloneFrom(edk::vector::StackNames* ret){
         //clean the vector
         this->clean();edkEnd();

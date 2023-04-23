@@ -97,6 +97,7 @@ public:
         this->_size = 0u;edkEnd();
     }
     ~Queue(){
+		this->clean(10u);
     }
 
     //clean the queue

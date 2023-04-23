@@ -83,7 +83,7 @@ public:
         edk::uint32 size = this->nodes.size();edkEnd();
         edk::sql::SQLNode* temp;edkEnd();
         for(edk::uint32 i=0u;i<size;i++){
-            temp = this->nodes[i];edkEnd();
+            temp = this->nodes.get(i);edkEnd();
             if(temp){
                 delete temp;edkEnd();
             }
@@ -115,19 +115,19 @@ public:
     bool haveNode(edk::uint32 position){return this->nodes.havePos(position);edkEnd();}
     //return the node
     SQLNode* getNode(edk::uint32 position){
-        return this->nodes[position];edkEnd();
+        return this->nodes.get(position);edkEnd();
     }
     //return the nodeName
     edk::char8* getNodeName(edk::uint32 position){
         if(this->nodes.havePos(position)){
-            return this->nodes[position]->getName();edkEnd();
+            return this->nodes.get(position)->getName();edkEnd();
         }
         return NULL;
     }
     //return the nodeValue
     edk::char8* getNodeValue(edk::uint32 position){
         if(this->nodes.havePos(position)){
-            return this->nodes[position]->getValue();edkEnd();
+            return this->nodes.get(position)->getValue();edkEnd();
         }
         return NULL;
     }
@@ -145,7 +145,7 @@ public:
         edk::uint32 size = this->groups.size();edkEnd();
         SQLNodes* temp = NULL;edkEnd();
         for(edk::uint32 i=0u;i<size;i++){
-            temp=this->groups[i];edkEnd();
+            temp=this->groups.get(i);edkEnd();
             if(temp){
                 delete temp;edkEnd();
             }
@@ -157,7 +157,7 @@ public:
     }
     edk::uint32 getNodeSize(edk::uint32 position){
         if(this->haveGroup(position)){
-            return this->groups[position]->getSize();edkEnd();
+            return this->groups.get(position)->getSize();edkEnd();
         }
         return 0u;edkEnd();
     }
@@ -183,21 +183,21 @@ public:
     //return a group
     SQLNodes* getGroup(edk::uint32 position){
         if(this->haveGroup(position)){
-            return this->groups[position];edkEnd();
+            return this->groups.get(position);edkEnd();
         }
         return NULL;
     }
     edk::char8* getNodeName(edk::uint32 groupPosition, edk::uint32 nodePosition){
         //test if have the group
         if(this->haveGroup(groupPosition)){
-            return this->groups[groupPosition]->getNodeName(nodePosition);edkEnd();
+            return this->groups.get(groupPosition)->getNodeName(nodePosition);edkEnd();
         }
         return NULL;
     }
     edk::char8* getNodeValue(edk::uint32 groupPosition, edk::uint32 nodePosition){
         //test if have the group
         if(this->haveGroup(groupPosition)){
-            return this->groups[groupPosition]->getNodeValue(nodePosition);edkEnd();
+            return this->groups.get(groupPosition)->getNodeValue(nodePosition);edkEnd();
         }
         return NULL;
     }

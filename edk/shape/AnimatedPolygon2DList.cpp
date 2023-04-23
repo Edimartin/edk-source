@@ -39,7 +39,7 @@ bool edk::shape::AnimatedPolygon2DList::setAnimationFramesToPolygon(edk::uint32 
     //test if have the polygon
     if(this->polygons.havePos(position)){
         //select the polygon
-        edk::shape::Polygon2D* temp = this->polygons[position];edkEnd();
+        edk::shape::Polygon2D* temp = this->polygons.get(position);edkEnd();
         //test if have selected some polygon
         if(temp){
             //then add a new animation
@@ -62,8 +62,8 @@ bool edk::shape::AnimatedPolygon2DList::copyAnimationFramesToPolygon(edk::uint32
             &&
             this->polygons.havePos(dest)){
         //select the polygon
-        edk::shape::Polygon2D* temp1 = this->polygons[position];edkEnd();
-        edk::shape::Polygon2D* temp2 = this->polygons[dest];edkEnd();
+        edk::shape::Polygon2D* temp1 = this->polygons.get(position);edkEnd();
+        edk::shape::Polygon2D* temp2 = this->polygons.get(dest);edkEnd();
         //test if have selected some polygon
         if(temp1 && temp2){
             //then copy the animation from temp1 to temp2
@@ -79,7 +79,7 @@ bool edk::shape::AnimatedPolygon2DList::copyThisAnimationFramesToPolygon(edk::an
             &&
             anim){
         //select the polygon
-        edk::shape::Polygon2D* poly = this->polygons[dest];edkEnd();
+        edk::shape::Polygon2D* poly = this->polygons.get(dest);edkEnd();
         if(poly){
             //clean the animation
             edk::animation::Interpolation1DGroup* temp = poly->framesGetAnimation();edkEnd();
@@ -98,7 +98,7 @@ bool edk::shape::AnimatedPolygon2DList::removeAnimationFramesFromPolygon(edk::ui
     //test if have the polygon
     if(this->polygons.havePos(position)){
         //select the polygon
-        edk::shape::Polygon2D* temp = this->polygons[position];edkEnd();
+        edk::shape::Polygon2D* temp = this->polygons.get(position);edkEnd();
         //test if have selected some polygon
         if(temp){
             //then remove the animation
@@ -117,7 +117,7 @@ bool edk::shape::AnimatedPolygon2DList::selectAnimationFramesFromPolygon(edk::ui
     //test if have the polygon
     if(this->polygons.havePos(position)){
         //select the polygon
-        edk::shape::Polygon2D* temp = this->polygons[position];edkEnd();
+        edk::shape::Polygon2D* temp = this->polygons.get(position);edkEnd();
         //test if have selected some polygon
         if(temp){
             //test if have an animation
@@ -155,11 +155,11 @@ void edk::shape::AnimatedPolygon2DList::updateFramesAnimations(){
     //update all animations
     for(edk::uint32 i=0u;i<this->polygons.size();i++){
         //
-        if(this->polygons[i]){
+        if(this->polygons.get(i)){
             //carrega a animation
-            if(this->polygons[i]->framesIsAnimationCreator()){
+            if(this->polygons.get(i)->framesIsAnimationCreator()){
                 //carrega a animation
-                this->polygons[i]->framesGetAnimation()->updateClockAnimation();edkEnd();
+                this->polygons.get(i)->framesGetAnimation()->updateClockAnimation();edkEnd();
             }
         }
     }
@@ -169,12 +169,12 @@ void edk::shape::AnimatedPolygon2DList::updateFramesAnimations(){
 
     for(edk::uint32 i=0u;i<this->polygons.size();i++){
         //
-        if(this->polygons[i]){
+        if(this->polygons.get(i)){
             //carrega a animation
-            if(this->polygons[i]->framesGetAnimation()){
-                if(this->polygons[i]->framesGetAnimation()->isPlaying()){
-                    frameTemp = this->polygons[i]->framesGetAnimation()->getClockX();edkEnd();
-                    this->polygons[i]->usePolygonUVFramePosition(frameTemp);edkEnd();
+            if(this->polygons.get(i)->framesGetAnimation()){
+                if(this->polygons.get(i)->framesGetAnimation()->isPlaying()){
+                    frameTemp = this->polygons.get(i)->framesGetAnimation()->getClockX();edkEnd();
+                    this->polygons.get(i)->usePolygonUVFramePosition(frameTemp);edkEnd();
                 }
             }
         }
@@ -184,23 +184,23 @@ void edk::shape::AnimatedPolygon2DList::updateFramesAnimations(edk::float32 seco
     //update all animations
     edk::uint32 size = this->polygons.size();edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        if(this->polygons[i]){
+        if(this->polygons.get(i)){
             //carrega a animation
-            if(this->polygons[i]->framesIsAnimationCreator()){
+            if(this->polygons.get(i)->framesIsAnimationCreator()){
                 //load the animation
-                this->polygons[i]->framesGetAnimation()->updateClockAnimation(seconds);edkEnd();
+                this->polygons.get(i)->framesGetAnimation()->updateClockAnimation(seconds);edkEnd();
             }
         }
     }
     //after update all polygons
     edk::float32 frameTemp = 0.f;edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        if(this->polygons[i]){
+        if(this->polygons.get(i)){
             //carrega a animation
-            if(this->polygons[i]->framesGetAnimation()){
-                if(this->polygons[i]->framesGetAnimation()->isPlaying()){
-                    frameTemp = this->polygons[i]->framesGetAnimation()->getClockX();edkEnd();
-                    this->polygons[i]->usePolygonUVFramePosition(frameTemp);edkEnd();
+            if(this->polygons.get(i)->framesGetAnimation()){
+                if(this->polygons.get(i)->framesGetAnimation()->isPlaying()){
+                    frameTemp = this->polygons.get(i)->framesGetAnimation()->getClockX();edkEnd();
+                    this->polygons.get(i)->usePolygonUVFramePosition(frameTemp);edkEnd();
                 }
             }
         }

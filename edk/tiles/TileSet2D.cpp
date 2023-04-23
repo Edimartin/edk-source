@@ -43,7 +43,7 @@ void edk::tiles::TileSet2D::deleteTiles(){
         edk::tiles::Tile2D* temp = NULL;edkEnd();
         for(edk::uint32 i=0u;i<this->tiles.size();i++){
             if(this->tiles.havePos(i)){
-                temp = this->tiles[i];edkEnd();
+                temp = this->tiles.get(i);edkEnd();
                 if(temp){
                     switch(temp->getType()){
                     case edk::tiles::tile2DTypeIsometric:
@@ -2254,7 +2254,7 @@ bool edk::tiles::TileSet2D::writeToXML(edk::XML* xml,edk::uint32 id){
                         edk::tiles::Tile2D* tileTemp;edkEnd();
                         for(edk::uint32 i=0u;i<=size;i++){
                             if(this->tiles.havePos(i)){
-                                tileTemp = tiles[i];edkEnd();
+                                tileTemp = tiles.get(i);edkEnd();
                                 if(tileTemp){
                                     //write the tile
                                     tileTemp->writeToXML(xml,i+1u);edkEnd();
@@ -2265,7 +2265,7 @@ bool edk::tiles::TileSet2D::writeToXML(edk::XML* xml,edk::uint32 id){
                         edk::char8* iTemp;edkEnd();
                         //write the animatedTiles
                         for(edk::uint32 i=0u;i<size;i++){
-                            tileTemp = tiles[i];edkEnd();
+                            tileTemp = tiles.get(i);edkEnd();
                             if(tileTemp){
                                 //test if have the tile in animatedTree
                                 if(this->treeAnimated.haveElement(tileTemp)){

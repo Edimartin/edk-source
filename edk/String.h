@@ -506,6 +506,6 @@ private:
     static bool copyInt64ToStr(edk::int64 value,edk::char8* str,edk::int32 size);
 };
 
-} /* End of namespace edk */
+}//End of namespace edk
 
 #endif // edk_String_h

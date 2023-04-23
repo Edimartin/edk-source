@@ -64,24 +64,24 @@ bool edk::shape::Triangle2D::calculateCounterClockwise(){
     //
     bool ret=false;
     if(this->getVertexCount()==3u){
-        if(this->vertexs[0u] &&
-                this->vertexs[1u] &&
-                this->vertexs[2u]
+        if(this->vertexs.get(0u) &&
+                this->vertexs.get(1u) &&
+                this->vertexs.get(2u)
                 ){
             if(!this->isCounterclockwise()){
-                edk::shape::Vertex2D* temp = this->vertexs[1u];edkEnd();
-                this->vertexs.set(1u,this->vertexs[2u]);edkEnd();
+                edk::shape::Vertex2D* temp = this->vertexs.get(1u);edkEnd();
+                this->vertexs.set(1u,this->vertexs.get(2u));edkEnd();
                 this->vertexs.set(2u,temp);edkEnd();
             }
             ret=true;
         }
-        if(this->vertexsOriginal[0u] &&
-                this->vertexsOriginal[1u] &&
-                this->vertexsOriginal[2u]
+        if(this->vertexsOriginal.get(0u) &&
+                this->vertexsOriginal.get(1u) &&
+                this->vertexsOriginal.get(2u)
                 ){
             if(!this->isCounterclockwise()){
-                edk::shape::Vertex2D* temp = this->vertexsOriginal[1u];edkEnd();
-                this->vertexsOriginal.set(1u,this->vertexsOriginal[2u]);edkEnd();
+                edk::shape::Vertex2D* temp = this->vertexsOriginal.get(1u);edkEnd();
+                this->vertexsOriginal.set(1u,this->vertexsOriginal.get(2u));edkEnd();
                 this->vertexsOriginal.set(2u,temp);edkEnd();
             }
             ret=true;

@@ -224,7 +224,7 @@ class Time {
     struct timeb tmb;
 };
 
-} /* End of namespace edk::ptr */
-} /* End of namespace edk */
+} //End of namespace edk::ptr
+} //End of namespace edk
 
 #endif // edk_ptr_Time_h

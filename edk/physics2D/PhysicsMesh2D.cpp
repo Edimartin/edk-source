@@ -170,7 +170,7 @@ edk::uint32 edk::physics2D::PhysicsMesh2D::addPolygon(edk::shape::Polygon2D poly
                     if(tree.size()){
                         edk::uint32 maxPolyCount = 6u;edkEnd();
                         edk::uint32 count = 0u;edkEnd();
-                        while(tree.size()>maxPolyCount){
+                        while(tree.size()>8u){
                             //
                             p2.createPolygon(maxPolyCount+2u);edkEnd();
                             //set the first vertex

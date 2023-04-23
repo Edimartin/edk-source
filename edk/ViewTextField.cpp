@@ -141,7 +141,7 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events){
     edk::uint32 size = events->mousePressed.size();edkEnd();
     if(size){
         for(edk::uint32 i=0u;i<size;i++){
-            if(events->mousePressed[i] == edk::mouse::left){
+            if(events->mousePressed.get(i) == edk::mouse::left){
                 if(!this->pressInside){
                     //remove selection
                     this->selectView = false;edkEnd();
@@ -158,7 +158,7 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events){
         bool shift=false;edkEnd();
         //test if is holding the shift
         for(edk::uint32 i=0u;i<size;i++){
-            switch(events->keyHolded[i]){
+            switch(events->keyHolded.get(i)){
             case edk::key::lShift:
             case edk::key::rShift:
                 shift=true;edkEnd();
@@ -170,7 +170,7 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events){
         edk::uint32 keyPressed;edkEnd();
         for(edk::uint32 i=0u;i<size;i++){
             //load the keyPressed
-            keyPressed = events->keyPressed[i];edkEnd();
+            keyPressed = events->keyPressed.get(i);edkEnd();
 /*
             printf("\nKey Pressed %u"
                    ,keyPressed
@@ -452,7 +452,7 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events,edk::float3
     edk::uint32 size = events->mousePressed.size();edkEnd();
     if(size){
         for(edk::uint32 i=0u;i<size;i++){
-            if(events->mousePressed[i] == edk::mouse::left){
+            if(events->mousePressed.get(i) == edk::mouse::left){
                 if(!this->pressInside){
                     //remove selection
                     this->selectView = false;edkEnd();
@@ -469,7 +469,7 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events,edk::float3
         bool shift=false;edkEnd();
         //test if is holding the shift
         for(edk::uint32 i=0u;i<size;i++){
-            switch(events->keyHolded[i]){
+            switch(events->keyHolded.get(i)){
             case edk::key::lShift:
             case edk::key::rShift:
                 shift=true;edkEnd();
@@ -481,7 +481,7 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events,edk::float3
         edk::uint32 keyPressed;edkEnd();
         for(edk::uint32 i=0u;i<size;i++){
             //load the keyPressed
-            keyPressed = events->keyPressed[i];edkEnd();
+            keyPressed = events->keyPressed.get(i);edkEnd();
 /*
             printf("\nKey Pressed %u"
                    ,keyPressed

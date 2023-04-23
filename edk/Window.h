@@ -31,8 +31,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #pragma once
 //View to window
-#include "ViewController.h"
 #include "ViewGU.h"
+#include "ViewController.h"
 #include "edk/watch/Time.h"
 
 #include "Types.h"
@@ -312,6 +312,6 @@ private:
     edk::WindowEvents events;
 };
 
-} /* End of namespace edk */
+}//End of namespace edk
 
 #endif // edk_Window_h

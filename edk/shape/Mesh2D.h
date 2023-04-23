@@ -281,7 +281,7 @@ private:
         edk::animation::Interpolation1DGroup* animTemp=NULL;edkEnd();
         for(edk::uint32 i=0u;i<size;i++){
             //
-            temp=mesh.polygons[i];edkEnd();
+            temp=mesh.polygons.get(i);edkEnd();
             if(temp){
                 if(temp==mesh.selected){
                     select=i;edkEnd();

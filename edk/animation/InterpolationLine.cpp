@@ -163,7 +163,7 @@ void edk::animation::InterpolationLine::switchFrames(){
 //set the start frame
 bool edk::animation::InterpolationLine::setStart(edk::animation::Frame* frame){
     //First need to test if the new frame exist
-    if(frame){
+    if(frame && this->start && this->end){
         //then he can use the frame
 
         //delete the last frame to receive a new pointer
@@ -237,7 +237,7 @@ bool edk::animation::InterpolationLine::setStartNoFilter(edk::float32 second){
 
 bool edk::animation::InterpolationLine::setEnd(edk::animation::Frame* frame){
     //First need to test if the new frame exist
-    if(frame){
+    if(frame && this->end){
         //then he can use the frame
 
         //delete the frame

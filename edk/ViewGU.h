@@ -30,9 +30,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 #pragma once
+#include "GU/GU.h"
 #include "ViewSpriteController.h"
 #include "WindowEvents.h"
-#include "GU/GU.h"
 #include "pack/FilePackage.h"
 
 #ifdef printMessages

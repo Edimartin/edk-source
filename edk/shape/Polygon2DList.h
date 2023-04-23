@@ -228,7 +228,7 @@ private:
         edk::uint32 select=0u;edkEnd();
         edk::shape::Polygon2D* temp = NULL;edkEnd();
         for(edk::uint32 i=0u;i<size;i++){
-            temp=list.polygons[i];edkEnd();
+            temp=list.polygons.get(i);edkEnd();
             if(temp){
                 if(temp==list.selected){
                     select=i;edkEnd();

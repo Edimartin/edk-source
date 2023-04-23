@@ -266,7 +266,7 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
                                               );edkEnd();
     size = events->mousePressed.size();edkEnd();
     for(edk::uint32 i = 0u;i<size;i++){
-        if(events->mousePressed[i] == edk::mouse::left){
+        if(events->mousePressed.get(i) == edk::mouse::left){
             //start the click
             this->distanceClick.start();edkEnd();
 
@@ -277,7 +277,7 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
 
             this->mouseMoving = true;edkEnd();
         }
-        else if(events->mousePressed[i] == edk::mouse::right){
+        else if(events->mousePressed.get(i) == edk::mouse::right){
             //press the right button to cancel the oject move
             if(this->mouseMoving){
                 this->mouseMoving = false;edkEnd();
@@ -294,7 +294,7 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
     }
     size = events->mouseHolded.size();edkEnd();
     for(edk::uint32 i = 0u;i<size;i++){
-        if(events->mouseHolded[i] == edk::mouse::left){
+        if(events->mouseHolded.get(i) == edk::mouse::left){
             if(!runSelection){
                 this->mouseStatus = edk::gui2d::gui2dMouseHolded;edkEnd();
                 runSelection = true;edkEnd();
@@ -308,7 +308,7 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
     }
     size = events->mouseRelease.size();edkEnd();
     for(edk::uint32 i = 0u;i<size;i++){
-        if(events->mouseRelease[i] == edk::mouse::left){
+        if(events->mouseRelease.get(i) == edk::mouse::left){
             //start the click
             if(this->distanceClick.getMicroseconds()<edk::watch::second*0.2){
                 //mouse click. Test if is doubleClick
@@ -398,7 +398,7 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
     if(size){
         //test if is holding the shift
         for(edk::uint32 i=0u;i<size;i++){
-            switch(events->keyHolded[i]){
+            switch(events->keyHolded.get(i)){
             case edk::key::lShift:
             case edk::key::rShift:
                 this->shift=true;edkEnd();
@@ -420,7 +420,7 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
 
                 for(edk::uint32 i=0u;i<size;i++){
                     //load the keyPressed
-                    keyPressed = events->keyPressed[i];edkEnd();
+                    keyPressed = events->keyPressed.get(i);edkEnd();
 
                     switch(keyPressed){
                     case edk::key::left:
@@ -472,7 +472,7 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
                 edk::gui2d::TextField2d* field = (edk::gui2d::TextField2d*)this->objSelected;edkEnd();
                 edk::uchar32 c;edkEnd();
                 for(edk::uint32 i=0u;i<size;i++){
-                    c = events->keyText[i];edkEnd();
+                    c = events->keyText.get(i);edkEnd();
                     //
                     switch(c){
                     case 0x1b:
@@ -492,7 +492,7 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
                         }
                         break;
                     default:
-                        field->addCharacter(events->keyText[i]);edkEnd();
+                        field->addCharacter(events->keyText.get(i));edkEnd();
                     }
                 }
             }

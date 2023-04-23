@@ -137,7 +137,7 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
                     contactTemp->worldPositions.set(i,edk::vec2f32(point.x * this->percentOut,point.y * this->percentOut));edkEnd();
 
                     //get objectA position
-                    vertex = edk::Math::rotatePlus(contactTemp->worldPositions[i]-contactTemp->objectA->position,
+                    vertex = edk::Math::rotatePlus(contactTemp->worldPositions.get(i)-contactTemp->objectA->position,
                                                    contactTemp->objectA->angle * -1.f
                                                    );edkEnd();
                     if(contactTemp->objectA->size.width){
@@ -148,7 +148,7 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
                     }
                     contactTemp->objectAPositions.set(i,vertex);edkEnd();
                     //get objectB position
-                    vertex = edk::Math::rotatePlus(contactTemp->worldPositions[i]-contactTemp->objectB->position,
+                    vertex = edk::Math::rotatePlus(contactTemp->worldPositions.get(i)-contactTemp->objectB->position,
                                                    contactTemp->objectB->angle * -1.f
                                                    );edkEnd();
                     if(contactTemp->objectB->size.width){
@@ -202,7 +202,7 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
                         //just test if the object is up the contact
                         switch(contactTemp->objectA->physicMesh.selectedGetCollisionID()){
                         case edk::shape::collisionUP:
-                            if(contactTemp->objectB->position.y>=contactTemp->worldPositions[0u].y){
+                            if(contactTemp->objectB->position.y>=contactTemp->worldPositions.get(0u).y){
                                 this->world->physicsContactBegin(contactTemp);edkEnd();
                                 if(!contactTemp->isEnabled()){
                                     contact->SetEnabled(false);edkEnd();
@@ -215,7 +215,7 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
                             }
                             break;
                         case edk::shape::collisionDOWN:
-                            if(contactTemp->objectB->position.y<contactTemp->worldPositions[0u].y){
+                            if(contactTemp->objectB->position.y<contactTemp->worldPositions.get(0u).y){
                                 this->world->physicsContactBegin(contactTemp);edkEnd();
                                 if(!contactTemp->isEnabled()){
                                     contact->SetEnabled(false);edkEnd();
@@ -242,7 +242,7 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
                         //just test if the object is up the contact
                         switch(contactTemp->objectB->physicMesh.selectedGetCollisionID()){
                         case edk::shape::collisionUP:
-                            if(contactTemp->objectA->position.y>=contactTemp->worldPositions[0u].y){
+                            if(contactTemp->objectA->position.y>=contactTemp->worldPositions.get(0u).y){
                                 this->world->physicsContactBegin(contactTemp);edkEnd();
                                 if(!contactTemp->isEnabled()){
                                     contact->SetEnabled(false);edkEnd();
@@ -255,7 +255,7 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
                             }
                             break;
                         case edk::shape::collisionDOWN:
-                            if(contactTemp->objectA->position.y<contactTemp->worldPositions[0u].y){
+                            if(contactTemp->objectA->position.y<contactTemp->worldPositions.get(0u).y){
                                 this->world->physicsContactBegin(contactTemp);edkEnd();
                                 if(!contactTemp->isEnabled()){
                                     contact->SetEnabled(false);edkEnd();
@@ -341,7 +341,7 @@ void edk::physics2D::World2D::MyContactListener::EndContact(b2Contact* contact){
             contactTemp->worldPositions.set(i,edk::vec2f32(point.x * this->percentOut,point.y * this->percentOut));edkEnd();
 
             //get objectA position
-            vertex = edk::Math::rotatePlus(contactTemp->worldPositions[i]-contactTemp->objectA->position,
+            vertex = edk::Math::rotatePlus(contactTemp->worldPositions.get(i)-contactTemp->objectA->position,
                                            contactTemp->objectA->angle * -1.f
                                            );edkEnd();
             if(contactTemp->objectA->size.width){
@@ -352,7 +352,7 @@ void edk::physics2D::World2D::MyContactListener::EndContact(b2Contact* contact){
             }
             contactTemp->objectAPositions.set(i,vertex);edkEnd();
             //get objectB position
-            vertex = edk::Math::rotatePlus(contactTemp->worldPositions[i]-contactTemp->objectB->position,
+            vertex = edk::Math::rotatePlus(contactTemp->worldPositions.get(i)-contactTemp->objectB->position,
                                            contactTemp->objectB->angle * -1.f
                                            );edkEnd();
             if(contactTemp->objectB->size.width){
@@ -462,7 +462,7 @@ void edk::physics2D::World2D::MyContactListener::PreSolve(b2Contact* contact, co
             contactTemp->worldPositions.set(i,edk::vec2f32(point.x * this->percentOut,point.y * this->percentOut));edkEnd();
 
             //get objectA position
-            vertex = edk::Math::rotatePlus(contactTemp->worldPositions[i]-contactTemp->objectA->position,
+            vertex = edk::Math::rotatePlus(contactTemp->worldPositions.get(i)-contactTemp->objectA->position,
                                            contactTemp->objectA->angle * -1.f
                                            );edkEnd();
             if(contactTemp->objectA->size.width){
@@ -473,7 +473,7 @@ void edk::physics2D::World2D::MyContactListener::PreSolve(b2Contact* contact, co
             }
             contactTemp->objectAPositions.set(i,vertex);edkEnd();
             //get objectB position
-            vertex = edk::Math::rotatePlus(contactTemp->worldPositions[i]-contactTemp->objectB->position,
+            vertex = edk::Math::rotatePlus(contactTemp->worldPositions.get(i)-contactTemp->objectB->position,
                                            contactTemp->objectB->angle * -1.f
                                            );edkEnd();
             if(contactTemp->objectB->size.width){
@@ -590,7 +590,7 @@ void edk::physics2D::World2D::MyContactListener::PostSolve(b2Contact* contact, c
             contactTemp->worldPositions.set(i,edk::vec2f32(point.x * this->percentOut,point.y * this->percentOut));edkEnd();
 
             //get objectA position
-            vertex = edk::Math::rotatePlus(contactTemp->worldPositions[i]-contactTemp->objectA->position,
+            vertex = edk::Math::rotatePlus(contactTemp->worldPositions.get(i)-contactTemp->objectA->position,
                                            contactTemp->objectA->angle * -1.f
                                            );edkEnd();
             if(contactTemp->objectA->size.width){
@@ -601,7 +601,7 @@ void edk::physics2D::World2D::MyContactListener::PostSolve(b2Contact* contact, c
             }
             contactTemp->objectAPositions.set(i,vertex);edkEnd();
             //get objectB position
-            vertex = edk::Math::rotatePlus(contactTemp->worldPositions[i]-contactTemp->objectB->position,
+            vertex = edk::Math::rotatePlus(contactTemp->worldPositions.get(i)-contactTemp->objectB->position,
                                            contactTemp->objectB->angle * -1.f
                                            );edkEnd();
             if(contactTemp->objectB->size.width){

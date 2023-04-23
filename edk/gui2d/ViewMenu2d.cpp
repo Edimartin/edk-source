@@ -477,7 +477,7 @@ void edk::gui2d::ViewMenu2d::updatePositions(){
     if(this->xOrder){
         for(edk::uint32 i=0u;i<size;i++){
             //
-            obj = this->objs[i];edkEnd();
+            obj = this->objs.get(i);edkEnd();
             if(obj){
                 //
                 obj->updateSizes();edkEnd();
@@ -496,7 +496,7 @@ void edk::gui2d::ViewMenu2d::updatePositions(){
         edk::float32 width = 0.f;edkEnd();
         for(edk::uint32 i=0u;i<size;i++){
             //
-            obj = this->objs[i];edkEnd();
+            obj = this->objs.get(i);edkEnd();
             if(obj){
                 //
                 //increment the positions
@@ -509,7 +509,7 @@ void edk::gui2d::ViewMenu2d::updatePositions(){
         //calculate the max width
         for(edk::uint32 i=size;i>0u;i--){
             //
-            obj = this->objs[i-1u];edkEnd();
+            obj = this->objs.get(i-1u);edkEnd();
             if(obj){
                 //
 
@@ -569,7 +569,7 @@ edk::uint32 edk::gui2d::ViewMenu2d::newObject(const edk::char8* spriteName,const
 edk::char8* edk::gui2d::ViewMenu2d::getObjectStr1(edk::uint32 position){
     //test if have the object in position
     if(this->objs.havePos(position)){
-        edk::gui2d::MenuObj* obj = this->objs[position];edkEnd();
+        edk::gui2d::MenuObj* obj = this->objs.get(position);edkEnd();
         if(obj){
             return obj->getStr1();edkEnd();
         }
@@ -579,7 +579,7 @@ edk::char8* edk::gui2d::ViewMenu2d::getObjectStr1(edk::uint32 position){
 edk::char8* edk::gui2d::ViewMenu2d::getObjectStr2(edk::uint32 position){
     //test if have the object in position
     if(this->objs.havePos(position)){
-        edk::gui2d::MenuObj* obj = this->objs[position];edkEnd();
+        edk::gui2d::MenuObj* obj = this->objs.get(position);edkEnd();
         if(obj){
             return obj->getStr2();edkEnd();
         }
@@ -625,7 +625,7 @@ void edk::gui2d::ViewMenu2d::setColorNormal(edk::color4f32 color){
     edk::gui2d::MenuObj* obj = NULL;edkEnd();
     edk::uint32 size = this->objs.size();edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        obj = this->objs[i];edkEnd();
+        obj = this->objs.get(i);edkEnd();
         if(obj){
             obj->color[edk::gui2d::gui2dTextureNormal] = this->color[edk::gui2d::gui2dTextureNormal];edkEnd();
         }
@@ -649,7 +649,7 @@ void edk::gui2d::ViewMenu2d::setColorUp(edk::color4f32 color){
     edk::gui2d::MenuObj* obj = NULL;edkEnd();
     edk::uint32 size = this->objs.size();edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        obj = this->objs[i];edkEnd();
+        obj = this->objs.get(i);edkEnd();
         if(obj){
             obj->color[edk::gui2d::gui2dTextureUp] = this->color[edk::gui2d::gui2dTextureUp];edkEnd();
         }
@@ -673,7 +673,7 @@ void edk::gui2d::ViewMenu2d::setColorPressed(edk::color4f32 color){
     edk::gui2d::MenuObj* obj = NULL;edkEnd();
     edk::uint32 size = this->objs.size();edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        obj = this->objs[i];edkEnd();
+        obj = this->objs.get(i);edkEnd();
         if(obj){
             obj->color[edk::gui2d::gui2dTexturePressed] = this->color[edk::gui2d::gui2dTexturePressed];edkEnd();
         }
@@ -698,7 +698,7 @@ void edk::gui2d::ViewMenu2d::setColorPressedUp(edk::color4f32 color){
     edk::gui2d::MenuObj* obj = NULL;edkEnd();
     edk::uint32 size = this->objs.size();edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        obj = this->objs[i];edkEnd();
+        obj = this->objs.get(i);edkEnd();
         if(obj){
             obj->color[edk::gui2d::gui2dTexturePressedUp] = this->color[edk::gui2d::gui2dTexturePressedUp];edkEnd();
         }
@@ -724,7 +724,7 @@ void edk::gui2d::ViewMenu2d::load(edk::rectf32){
     edk::gui2d::MenuObj* obj = NULL;edkEnd();
     edk::uint32 size = this->objs.size();edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        obj = this->objs[i];edkEnd();
+        obj = this->objs.get(i);edkEnd();
         if(obj){
             obj->setStatus(edk::gui2d::gui2dTextureNormal);edkEnd();
         }
@@ -754,7 +754,7 @@ void edk::gui2d::ViewMenu2d::update(edk::WindowEvents* events){
     size = events->mousePressed.size();edkEnd();
     //test the buttons
     for(edk::uint32 i=0u;i<size;i++){
-        switch(events->mousePressed[i]){
+        switch(events->mousePressed.get(i)){
         case edk::mouse::left:
             this->mouseStatus = edk::gui2d::gui2dMousePressed;edkEnd();
             this->runSelection = true;edkEnd();
@@ -764,7 +764,7 @@ void edk::gui2d::ViewMenu2d::update(edk::WindowEvents* events){
     size = events->mouseHolded.size();edkEnd();
     //test the buttons
     for(edk::uint32 i=0u;i<size;i++){
-        switch(events->mouseHolded[i]){
+        switch(events->mouseHolded.get(i)){
         case edk::mouse::left:
             if(this->mouseStatus != edk::gui2d::gui2dMousePressed){
                 this->mouseStatus = edk::gui2d::gui2dMouseHolded;edkEnd();
@@ -776,7 +776,7 @@ void edk::gui2d::ViewMenu2d::update(edk::WindowEvents* events){
     size = events->mouseRelease.size();edkEnd();
     //test the buttons
     for(edk::uint32 i=0u;i<size;i++){
-        switch(events->mouseRelease[i]){
+        switch(events->mouseRelease.get(i)){
         case edk::mouse::left:
             this->mouseStatus = edk::gui2d::gui2dMouseRelease;edkEnd();
             this->runSelection = true;edkEnd();
@@ -801,7 +801,7 @@ void edk::gui2d::ViewMenu2d::drawSelectionScene(){
     for(edk::uint32 i=0u;i<size;i++){
         //
         this->selectionPushName(i);edkEnd();
-        obj = this->objs[i];edkEnd();
+        obj = this->objs.get(i);edkEnd();
         obj->draw();edkEnd();
         this->selectionPopName();edkEnd();
     }
@@ -821,7 +821,7 @@ void edk::gui2d::ViewMenu2d::drawScene(edk::rectf32){
         if(sizeSelected){
             {
                 //get the object
-                this->objSelected = this->objs[this->selectTree->getElementInPosition(0u)];edkEnd();
+                this->objSelected = this->objs.get(this->selectTree->getElementInPosition(0u));edkEnd();
                 if(this->objSelected){
                     //test the mouse status
                     switch(this->mouseStatus){
@@ -888,7 +888,7 @@ void edk::gui2d::ViewMenu2d::drawScene(edk::rectf32){
         if(size){
             for(edk::uint32 i=0u;i<size;i++){
                 //get the object
-                obj = this->objs[this->selectTreeS->getElementInPosition(i)];edkEnd();
+                obj = this->objs.get(this->selectTreeS->getElementInPosition(i));edkEnd();
                 if(obj){
                     if(!this->mouseOn || sizeSelected){
                         obj->setStatus(edk::gui2d::gui2dTextureNormal);edkEnd();
@@ -915,7 +915,7 @@ void edk::gui2d::ViewMenu2d::drawScene(edk::rectf32){
                 //clean all objects on the list unless the selected
                 size = this->objs.size();edkEnd();
                 for(edk::uint32 i=0u;i<size;i++){
-                    obj = this->objs[i];edkEnd();
+                    obj = this->objs.get(i);edkEnd();
                     if(obj && obj!=this->objSelected){
                         obj->setStatus(edk::gui2d::gui2dTextureNormal);edkEnd();
                         if(obj->active){
@@ -934,7 +934,7 @@ void edk::gui2d::ViewMenu2d::drawScene(edk::rectf32){
     obj=NULL;edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
         //
-        obj = this->objs[i];edkEnd();
+        obj = this->objs.get(i);edkEnd();
         obj->draw();edkEnd();
     }
 }

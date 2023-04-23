@@ -100,7 +100,7 @@ class Interpolation3DGroup: public Interpolation2DGroup{
                 edk::uint32 size = group->animations.size();edkEnd();
                 for(edk::uint32 i=0u;i<size;i++){
                     //
-                    edk::animation::InterpolationLine3D* temp = (edk::animation::InterpolationLine3D*)group->animations[i];edkEnd();
+                    edk::animation::InterpolationLine3D* temp = (edk::animation::InterpolationLine3D*)group->animations.get(i);edkEnd();
                     if(temp){
                         //test if it create the start frame
                         if(temp->getCreateStart()){

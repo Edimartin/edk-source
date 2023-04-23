@@ -2154,7 +2154,7 @@ void edk::fonts::FontMap::deleteLines(){
     edk::uint32 size = this->lines.size();edkEnd();
     edk::fonts::FontMap::FontLine * temp = NULL;edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        temp = this->lines[i];edkEnd();
+        temp = this->lines.get(i);edkEnd();
         if(temp){
             //
             delete temp;edkEnd();
@@ -2208,7 +2208,7 @@ bool edk::fonts::FontMap::copyLinesToMap(){
         edk::fonts::FontMap::FontLine *temp=NULL;edkEnd();
         for(edk::uint32 i=0u;i<size;i++){
             //load the line
-            temp = this->lines[i];edkEnd();
+            temp = this->lines.get(i);edkEnd();
             if(temp){
                 sizeLine=temp->getSize();edkEnd();
                 for(edk::uint32 j=0u;j<sizeLine;j++){

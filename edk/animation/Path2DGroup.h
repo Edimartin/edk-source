@@ -90,7 +90,7 @@ public:
             edk::uint32 size = group->animations.size();edkEnd();
             for(edk::uint32 i=0u;i<size;i++){
                 //
-                edk::animation::Frame2D* temp = (edk::animation::Frame2D*)group->animations[i];edkEnd();
+                edk::animation::Frame2D* temp = (edk::animation::Frame2D*)group->animations.get(i);edkEnd();
                 if(temp){
                     this->addNewFrame(temp->second,temp->x,temp->y);edkEnd();
                 }

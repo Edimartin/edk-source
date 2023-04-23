@@ -166,12 +166,14 @@ class Array{
             this->canDeleteVector=false;edkEnd();
         }
 
+        /*
         //OPERATORS
         //[]
         typeTemplate operator[](edk::uint32 n){
             //
             return this->get(n);edkEnd();
         }
+        */
 
         virtual bool cloneFrom(edk::vector::Array<typeTemplate>* vec){
             this->deleteArray();edkEnd();

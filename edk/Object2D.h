@@ -30,8 +30,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 #pragma once
-#include "Object2DValues.h"
 #include "GU/GU.h"
+#include "Object2DValues.h"
 #include "vector/Stack.h"
 #include "shape/Polygon2D.h"
 #include "shape/Polygon2DList.h"
@@ -509,7 +509,6 @@ private:
             if(temp){
                 mesh = this->newMesh();edkEnd();
                 if(mesh){
-                    //*mesh = *temp;edkEnd();
                     mesh->cloneFrom(temp);edkEnd();
                 }
             }

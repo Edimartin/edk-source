@@ -701,7 +701,7 @@ edk::uint32 edk::Window::eventGetKeyPressed(uint32 pos){
     //
     if(pos<this->events.keyPressed.size()){
         //
-        return this->events.keyPressed[pos];edkEnd();
+        return this->events.keyPressed.get(pos);edkEnd();
     }
     //senao retorna 0u
     return 0u;edkEnd();
@@ -710,7 +710,7 @@ edk::uint32 edk::Window::eventGetKeyPressed(uint32 pos){
 edk::uint32 edk::Window::eventGetKeyRelease(uint32 pos){
     if(pos<this->events.keyRelease.size()){
         //
-        return this->events.keyRelease[pos];edkEnd();
+        return this->events.keyRelease.get(pos);edkEnd();
     }
     //senao retorna 0u
     return 0u;edkEnd();
@@ -720,7 +720,7 @@ edk::uint32 edk::Window::eventGetKeyHolded(uint32 pos){
 
     if(pos<this->events.keyHolded.size()){
         //
-        return this->events.keyHolded[pos];edkEnd();
+        return this->events.keyHolded.get(pos);edkEnd();
     }
     //senao retorna 0u
     return 0u;edkEnd();
@@ -769,7 +769,7 @@ edk::uint8 edk::Window::eventGetMousePressed(uint32 pos){
     //
     if(pos<this->events.mousePressed.size()){
         //
-        return this->events.mousePressed[pos];edkEnd();
+        return this->events.mousePressed.get(pos);edkEnd();
     }
     //senao retorna false
     return false;
@@ -779,7 +779,7 @@ edk::uint8 edk::Window::eventGetMouseRelease(uint32 pos){
     //
     if(pos<this->events.mouseRelease.size()){
         //
-        return this->events.mouseRelease[pos];edkEnd();
+        return this->events.mouseRelease.get(pos);edkEnd();
     }
     //senao retorna false
     return false;
@@ -789,7 +789,7 @@ edk::uint8 edk::Window::eventGetMouseDoubleClick(edk::uint32 pos){
     //
     if(pos<this->events.mouseDoubleClick.size()){
         //
-        return this->events.mouseDoubleClick[pos];edkEnd();
+        return this->events.mouseDoubleClick.get(pos);edkEnd();
     }
     //senao retorna false
     return false;
@@ -799,7 +799,7 @@ edk::uint8 edk::Window::eventGetMouseHolded(uint32 pos){
     //
     if(pos<this->events.mouseHolded.size()){
         //
-        return this->events.mouseHolded[pos];edkEnd();
+        return this->events.mouseHolded.get(pos);edkEnd();
     }
     //senao retorna false
     return false;

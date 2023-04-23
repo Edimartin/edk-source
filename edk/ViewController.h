@@ -134,6 +134,6 @@ protected:
     bool setRectInside;
 };
 
-} /* End of namespace edk */
+}//End of namespace edk
 
 #endif // edk_ViewController_h

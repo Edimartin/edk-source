@@ -74,7 +74,7 @@ private:
         //copy the polygons
         for(edk::uint32 i=0u;i<this->vertexs.size();i++){
             //copy the vertex
-            edk::shape::Vertex2DAnimatedUV* temp = (edk::shape::Vertex2DAnimatedUV*)this->vertexs[i];edkEnd();
+            edk::shape::Vertex2DAnimatedUV* temp = (edk::shape::Vertex2DAnimatedUV*)this->vertexs.get(i);edkEnd();
             if(temp){
                 //this->setVertexPosition(i,poly.getVertexPosition(i));edkEnd();
                 temp->position = poly.getVertexPosition(i);edkEnd();
@@ -96,8 +96,8 @@ private:
         //copy the polygons
         for(edk::uint32 i=0u;i<this->vertexsOriginal.size();i++){
             //copy the vertex
-            edk::shape::Vertex2DAnimatedUV* vTemp = (edk::shape::Vertex2DAnimatedUV*)this->vertexsOriginal[i];edkEnd();
-            edk::shape::Vertex2DAnimatedUV* temp = (edk::shape::Vertex2DAnimatedUV*)poly.vertexsOriginal[i];edkEnd();
+            edk::shape::Vertex2DAnimatedUV* vTemp = (edk::shape::Vertex2DAnimatedUV*)this->vertexsOriginal.get(i);edkEnd();
+            edk::shape::Vertex2DAnimatedUV* temp = (edk::shape::Vertex2DAnimatedUV*)poly.vertexsOriginal.get(i);edkEnd();
             if(vTemp && temp){
                 //this->setVertexPosition(i,poly.getVertexPosition(i));edkEnd();
                 vTemp->position = temp->position;edkEnd();

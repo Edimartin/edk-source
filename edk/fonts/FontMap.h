@@ -30,8 +30,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 #pragma once
-#include "../Object2DValues.h"
 #include "FontSet.h"
+#include "../Object2DValues.h"
 #include "../tiles/TileMap2D.h"
 #include "../vector/Stack.h"
 //Animation

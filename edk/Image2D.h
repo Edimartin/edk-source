@@ -309,6 +309,6 @@ private:
     edk::uint8 getNameType(edk::char8* name);
 };
 
-} /* End of namespace edk */
+}//End of namespace edk
 
 #endif // edk_Image2D_h

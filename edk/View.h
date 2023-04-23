@@ -373,6 +373,6 @@ private:
     edk::rectf32 saveOutsideFrame;
 };
 
-} /* End of namespace edk */
+}//End of namespace edk
 
 #endif // edk_View_h

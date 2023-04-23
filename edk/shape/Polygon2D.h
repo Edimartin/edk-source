@@ -344,16 +344,16 @@ protected:
                 edk::uint32 size = this->vertexs.size();edkEnd();
                 for(edk::uint32 i=0u;i<size;i++){
                     //
-                    if(this->vertexs[i]){
-                        delete this->vertexs[i];edkEnd();
+                    if(this->vertexs.get(i)){
+                        delete this->vertexs.get(i);edkEnd();
                     }
                 }
                 this->vertexs.deleteArray();edkEnd();
                 size = this->vertexsOriginal.size();edkEnd();
                 for(edk::uint32 i=0u;i<size;i++){
                     //
-                    if(this->vertexsOriginal[i]){
-                        delete this->vertexsOriginal[i];edkEnd();
+                    if(this->vertexsOriginal.get(i)){
+                        delete this->vertexsOriginal.get(i);edkEnd();
                     }
                 }
                 this->vertexsOriginal.deleteArray();edkEnd();
@@ -377,13 +377,13 @@ protected:
                             this->vertexs.set(i,new edk::shape::Vertex2D());edkEnd();
                             this->vertexsOriginal.set(i,new edk::shape::Vertex2D());edkEnd();
                             //Set alpha 1
-                            if(this->vertexs[i]){
+                            if(this->vertexs.get(i)){
                                 //set the vertex
-                                this->vertexs[i]->color = polygonColor;edkEnd();
+                                this->vertexs.get(i)->color = polygonColor;edkEnd();
                             }
-                            if(this->vertexsOriginal[i]){
+                            if(this->vertexsOriginal.get(i)){
                                 //set the vertex
-                                this->vertexsOriginal[i]->color = polygonColor;edkEnd();
+                                this->vertexsOriginal.get(i)->color = polygonColor;edkEnd();
                             }
                         }
                         this->canDeletePolygon=true;edkEnd();
@@ -856,7 +856,7 @@ protected:
         //return if the vertex have UV
         edk::uint8 getVertexType(edk::uint32 pos){
             if(this->vertexsOriginal.have(pos)){
-                edk::shape::Vertex2D* temp = this->vertexsOriginal[pos];
+                edk::shape::Vertex2D* temp = this->vertexsOriginal.get(pos);
                 if(temp){
                 return temp->getType();
                 }
@@ -867,7 +867,7 @@ protected:
         edk::vec2f32 getVertexPosition(edk::uint32 pos){
             edk::vec2f32 ret;
             if(this->vertexsOriginal.have(pos)){
-                edk::shape::Vertex2D* temp = this->vertexsOriginal[pos];
+                edk::shape::Vertex2D* temp = this->vertexsOriginal.get(pos);
                 if(temp){
                 ret = temp->position;
                 }
@@ -878,7 +878,7 @@ protected:
         edk::vec2f32 getVertexPositionTransformed(edk::uint32 pos){
             edk::vec2f32 ret;
             if(this->vertexsOriginal.have(pos)){
-                edk::shape::Vertex2D* temp = this->vertexsOriginal[pos];
+                edk::shape::Vertex2D* temp = this->vertexsOriginal.get(pos);
                 if(temp){
                 ret = temp->position;
                 }
@@ -889,7 +889,7 @@ protected:
         edk::color4f32 getVertexColor(edk::uint32 pos){
             edk::color4f32 ret;
             if(this->vertexsOriginal.have(pos)){
-                edk::shape::Vertex2D* temp = this->vertexsOriginal[pos];
+                edk::shape::Vertex2D* temp = this->vertexsOriginal.get(pos);
                 if(temp){
                 ret = temp->color;
                 }
@@ -900,7 +900,7 @@ protected:
         edk::vec2f32 getVertexUV(edk::uint32 pos){
             edk::vec2f32 ret;
             if(this->vertexsOriginal.have(pos)){
-                edk::shape::Vertex2D* temp = this->vertexsOriginal[pos];
+                edk::shape::Vertex2D* temp = this->vertexsOriginal.get(pos);
                 if(temp){
                     if(temp->getType() == EDK_SHAPE_UV){
                         ret = ((edk::shape::Vertex2DWithUV*)temp)->getUV();
@@ -916,7 +916,7 @@ protected:
         edk::vec2ui32 getFrames(edk::uint32 pos){
             edk::vec2ui32 ret;
             if(this->vertexsOriginal.have(pos)){
-                edk::shape::Vertex2D* temp = this->vertexsOriginal[pos];
+                edk::shape::Vertex2D* temp = this->vertexsOriginal.get(pos);
                 if(temp){
                     if(temp->getType() == EDK_SHAPE_ANIMATED_UV){
                         ret = ((edk::shape::Vertex2DAnimatedUV*)temp)->getUVFrames();
@@ -1122,7 +1122,7 @@ protected:
                                     }
                                     //Write Vertexs
                                     for(edk::uint32 i=0u;i<size;i++){
-                                        edk::shape::Vertex2DAnimatedUV* polyTemp = (edk::shape::Vertex2DAnimatedUV*)vertexs[i];edkEnd();
+                                        edk::shape::Vertex2DAnimatedUV* polyTemp = (edk::shape::Vertex2DAnimatedUV*)vertexs.get(i);edkEnd();
                                         if(polyTemp){
                                             polyTemp->writeToXML(i,xml);edkEnd();
                                         }
@@ -1140,7 +1140,7 @@ protected:
                                             }
                                             //Write Vertexs
                                             for(edk::uint32 i=0u;i<size;i++){
-                                                edk::shape::Vertex2DAnimatedUV* polyTemp = (edk::shape::Vertex2DAnimatedUV*)vertexsOriginal[i];edkEnd();
+                                                edk::shape::Vertex2DAnimatedUV* polyTemp = (edk::shape::Vertex2DAnimatedUV*)vertexsOriginal.get(i);edkEnd();
                                                 if(polyTemp){
                                                     polyTemp->writeToXML(i,xml);edkEnd();
                                                 }
@@ -1301,8 +1301,8 @@ protected:
 
                         for(edk::uint32 i=0u;i<size;i++){
                             //get the vertexesOriginal
-                            vTemp = this->vertexsOriginal[i];edkEnd();
-                            vTempMorph = morph->vertexsOriginal[i];edkEnd();
+                            vTemp = this->vertexsOriginal.get(i);edkEnd();
+                            vTempMorph = morph->vertexsOriginal.get(i);edkEnd();
                             if(vTemp && vTempMorph){
                                 //compare the type
                                 switch(vTempMorph->getType()){
@@ -1352,8 +1352,8 @@ protected:
                             }
 
                             //get the vertexes
-                            vTemp = this->vertexs[i];edkEnd();
-                            vTempMorph = morph->vertexs[i];edkEnd();
+                            vTemp = this->vertexs.get(i);edkEnd();
+                            vTempMorph = morph->vertexs.get(i);edkEnd();
                             if(vTemp && vTempMorph){
                                 //compare the type
                                 switch(vTempMorph->getType()){
@@ -1444,7 +1444,7 @@ private:
             //then copy the vertex
             for(edk::uint32 i=0u;i<this->getVertexCount();i++){
                 //copy the vertex
-                edk::shape::Vertex2DAnimatedUV* temp = (edk::shape::Vertex2DAnimatedUV*)vertexs[i];edkEnd();
+                edk::shape::Vertex2DAnimatedUV* temp = (edk::shape::Vertex2DAnimatedUV*)vertexs.get(i);edkEnd();
                 if(temp){
                     //this->setVertexPosition(i,poly.getVertexPosition(i));edkEnd();
                     temp->position = poly.getVertexPosition(i);edkEnd();

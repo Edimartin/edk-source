@@ -149,8 +149,8 @@ void edk::shape::Polygon2D::drawVertexs(){
     //
     for(edk::uint32 i=0u;i<this->getVertexCount();i++){
         //
-        if(vertexs[i]){
-            vertexs[i]->draw();edkEnd();
+        if(vertexs.get(i)){
+            vertexs.get(i)->draw();edkEnd();
         }
     }
 }
@@ -158,8 +158,8 @@ void edk::shape::Polygon2D::drawVertexsWithColor(edk::color4f32 color){
     //
     for(edk::uint32 i=0u;i<this->getVertexCount();i++){
         //
-        if(vertexs[i]){
-            vertexs[i]->drawWithColor(color);edkEnd();
+        if(vertexs.get(i)){
+            vertexs.get(i)->drawWithColor(color);edkEnd();
         }
     }
 }
@@ -192,7 +192,7 @@ edk::shape::Vertex2D* edk::shape::Polygon2D::getVertexPointer(edk::uint32 vertex
     //test if have the vertex
     if(vertex<this->getVertexCount()){
         //then return the vertex
-        return this->vertexs[vertex];edkEnd();
+        return this->vertexs.get(vertex);edkEnd();
     }
     //else return NULL
     return NULL;
@@ -201,7 +201,7 @@ edk::shape::Vertex2D* edk::shape::Polygon2D::getVertexOriginalPointer(edk::uint3
     //test if have the vertex
     if(vertex<this->getVertexCount()){
         //then return the vertex
-        return this->vertexsOriginal[vertex];edkEnd();
+        return this->vertexsOriginal.get(vertex);edkEnd();
     }
     //else return NULL
     return NULL;
@@ -222,13 +222,13 @@ bool edk::shape::Polygon2D::createPolygon(edk::uint32 vertexCount){
                     this->vertexs.set(i,new edk::shape::Vertex2D());edkEnd();
                     this->vertexsOriginal.set(i,new edk::shape::Vertex2D());edkEnd();
                     //Set alpha 1
-                    if(this->vertexs[i]){
+                    if(this->vertexs.get(i)){
                         //set the vertex
-                        this->vertexs[i]->color = this->polygonColor;edkEnd();
+                        this->vertexs.get(i)->color = this->polygonColor;edkEnd();
                     }
-                    if(this->vertexsOriginal[i]){
+                    if(this->vertexsOriginal.get(i)){
                         //set the vertex
-                        this->vertexsOriginal[i]->color = this->polygonColor;edkEnd();
+                        this->vertexsOriginal.get(i)->color = this->polygonColor;edkEnd();
                     }
                 }
                 //set can delete the polygon in the future
@@ -247,12 +247,12 @@ bool edk::shape::Polygon2D::isCounterclockwise(){
     //test the polygon size
     if(this->getVertexCount()>=3){
         //test the vertex angles
-        edk::float32 angle1 = edk::Math::getAngle(this->vertexs[1u]->position - this->vertexs[0u]->position);edkEnd();
+        edk::float32 angle1 = edk::Math::getAngle(this->vertexs.get(1u)->position - this->vertexs.get(0u)->position);edkEnd();
         edk::float32 angle2;edkEnd();
         edk::float32 angleTemp;edkEnd();
         for(register edk::uint32 i=2u;i<this->vertexs.size();i++){
             //get the next angle
-            angle2 = edk::Math::getAngle(this->vertexs[i]->position - this->vertexs[0u]->position);edkEnd();
+            angle2 = edk::Math::getAngle(this->vertexs.get(i)->position - this->vertexs.get(0u)->position);edkEnd();
             angleTemp = angle2 - angle1;edkEnd();
             if(angleTemp>180.f || (angleTemp<0.f && angleTemp>-180.f)){
                 //it's not counterClockwise
@@ -316,8 +316,8 @@ bool edk::shape::Polygon2D::setPolygonColor(edk::color4f32 color){
         //set the color of the vertexPolygons
         for(edk::uint32 i=0u;i<this->getVertexCount();i++){
             //set the color
-            this->vertexs[i]->color = this->polygonColor;edkEnd();
-            this->vertexsOriginal[i]->color = this->polygonColor;edkEnd();
+            this->vertexs.get(i)->color = this->polygonColor;edkEnd();
+            this->vertexsOriginal.get(i)->color = this->polygonColor;edkEnd();
         }
         //then return true
         return true;
@@ -343,8 +343,8 @@ bool edk::shape::Polygon2D::setPolygonColorR(edk::float32 r){
         //set the color of the vertexPolygons
         for(edk::uint32 i=0u;i<this->getVertexCount();i++){
             //set the color
-            this->vertexs[i]->color.r = this->polygonColor.r;edkEnd();
-            this->vertexsOriginal[i]->color.r = this->polygonColor.r;edkEnd();
+            this->vertexs.get(i)->color.r = this->polygonColor.r;edkEnd();
+            this->vertexsOriginal.get(i)->color.r = this->polygonColor.r;edkEnd();
         }
         //then return true
         return true;
@@ -359,8 +359,8 @@ bool edk::shape::Polygon2D::setPolygonColorG(edk::float32 g){
         //set the color of the vertexPolygons
         for(edk::uint32 i=0u;i<this->getVertexCount();i++){
             //set the color
-            this->vertexs[i]->color.g = this->polygonColor.g;edkEnd();
-            this->vertexsOriginal[i]->color.g = this->polygonColor.g;edkEnd();
+            this->vertexs.get(i)->color.g = this->polygonColor.g;edkEnd();
+            this->vertexsOriginal.get(i)->color.g = this->polygonColor.g;edkEnd();
         }
         //then return true
         return true;
@@ -375,8 +375,8 @@ bool edk::shape::Polygon2D::setPolygonColorB(edk::float32 b){
         //set the color of the vertexPolygons
         for(edk::uint32 i=0u;i<this->getVertexCount();i++){
             //set the color
-            this->vertexs[i]->color.b = this->polygonColor.b;edkEnd();
-            this->vertexsOriginal[i]->color.b = this->polygonColor.b;edkEnd();
+            this->vertexs.get(i)->color.b = this->polygonColor.b;edkEnd();
+            this->vertexsOriginal.get(i)->color.b = this->polygonColor.b;edkEnd();
         }
         //then return true
         return true;
@@ -391,8 +391,8 @@ bool edk::shape::Polygon2D::setPolygonColorA(edk::float32 a){
         //set the color of the vertexPolygons
         for(edk::uint32 i=0u;i<this->getVertexCount();i++){
             //set the color
-            this->vertexs[i]->color.a = this->polygonColor.a;edkEnd();
-            this->vertexsOriginal[i]->color.a = this->polygonColor.a;edkEnd();
+            this->vertexs.get(i)->color.a = this->polygonColor.a;edkEnd();
+            this->vertexsOriginal.get(i)->color.a = this->polygonColor.a;edkEnd();
         }
         //then return true
         return true;
@@ -510,8 +510,8 @@ void edk::shape::Polygon2D::usePolygonUVFrame(edk::vec2ui32 frame){
     //set the frame in all vertexs
     for(edk::uint32 i=0u;i<this->vertexs.size();i++){
         //load the vertex
-        edk::shape::Vertex2DAnimatedUV* temp = (edk::shape::Vertex2DAnimatedUV*)this->vertexs[i];edkEnd();
-        edk::shape::Vertex2DAnimatedUV* tempO = (edk::shape::Vertex2DAnimatedUV*)this->vertexsOriginal[i];edkEnd();
+        edk::shape::Vertex2DAnimatedUV* temp = (edk::shape::Vertex2DAnimatedUV*)this->vertexs.get(i);edkEnd();
+        edk::shape::Vertex2DAnimatedUV* tempO = (edk::shape::Vertex2DAnimatedUV*)this->vertexsOriginal.get(i);edkEnd();
         if(temp && tempO){
             //test if temp have frames
             if(temp->getType()==EDK_SHAPE_ANIMATED_UV
@@ -533,8 +533,8 @@ void edk::shape::Polygon2D::usePolygonUVFramePosition(edk::uint32 position){
         //set the frame in AllVertexs
         for(edk::uint32 i=0u;i<this->vertexs.size();i++){
             //load the vertex
-            edk::shape::Vertex2DAnimatedUV* temp = (edk::shape::Vertex2DAnimatedUV*)this->vertexs[i];edkEnd();
-            edk::shape::Vertex2DAnimatedUV* tempO = (edk::shape::Vertex2DAnimatedUV*)this->vertexsOriginal[i];edkEnd();
+            edk::shape::Vertex2DAnimatedUV* temp = (edk::shape::Vertex2DAnimatedUV*)this->vertexs.get(i);edkEnd();
+            edk::shape::Vertex2DAnimatedUV* tempO = (edk::shape::Vertex2DAnimatedUV*)this->vertexsOriginal.get(i);edkEnd();
             if(temp && tempO){
                 //test if temp have frames
                 if(temp->getType()==EDK_SHAPE_ANIMATED_UV
@@ -553,8 +553,8 @@ void edk::shape::Polygon2D::usePolygonUVFrameX(edk::uint32 x){
     //set the frame in all vertexs
     for(edk::uint32 i=0u;i<this->vertexs.size();i++){
         //load the vertex
-        edk::shape::Vertex2DAnimatedUV* temp = (edk::shape::Vertex2DAnimatedUV*)this->vertexs[i];edkEnd();
-        edk::shape::Vertex2DAnimatedUV* tempO = (edk::shape::Vertex2DAnimatedUV*)this->vertexsOriginal[i];edkEnd();
+        edk::shape::Vertex2DAnimatedUV* temp = (edk::shape::Vertex2DAnimatedUV*)this->vertexs.get(i);edkEnd();
+        edk::shape::Vertex2DAnimatedUV* tempO = (edk::shape::Vertex2DAnimatedUV*)this->vertexsOriginal.get(i);edkEnd();
         if(temp && tempO){
             //test if temp have frames
             if(temp->getType()==EDK_SHAPE_ANIMATED_UV
@@ -572,8 +572,8 @@ void edk::shape::Polygon2D::usePolygonUVFrameY(edk::uint32 y){
     //set the frame in all vertexs
     for(edk::uint32 i=0u;i<this->vertexs.size();i++){
         //load the vertex
-        edk::shape::Vertex2DAnimatedUV* temp = (edk::shape::Vertex2DAnimatedUV*)this->vertexs[i];edkEnd();
-        edk::shape::Vertex2DAnimatedUV* tempO = (edk::shape::Vertex2DAnimatedUV*)this->vertexsOriginal[i];edkEnd();
+        edk::shape::Vertex2DAnimatedUV* temp = (edk::shape::Vertex2DAnimatedUV*)this->vertexs.get(i);edkEnd();
+        edk::shape::Vertex2DAnimatedUV* tempO = (edk::shape::Vertex2DAnimatedUV*)this->vertexsOriginal.get(i);edkEnd();
         if(temp && tempO){
             //test if temp have frames
             if(temp->getType()==EDK_SHAPE_ANIMATED_UV
@@ -814,11 +814,11 @@ void edk::shape::Polygon2D::deletePolygon(){
         edk::uint32 size = this->getVertexCount();edkEnd();
         for(edk::uint32 i=0u;i<size;i++){
             //
-            if(this->vertexs[i]){
-                delete this->vertexs[i];edkEnd();
+            if(this->vertexs.get(i)){
+                delete this->vertexs.get(i);edkEnd();
             }
-            if(this->vertexsOriginal[i]){
-                delete this->vertexsOriginal[i];edkEnd();
+            if(this->vertexsOriginal.get(i)){
+                delete this->vertexsOriginal.get(i);edkEnd();
             }
         }
         this->vertexs.deleteArray();edkEnd();
@@ -828,7 +828,7 @@ void edk::shape::Polygon2D::deletePolygon(){
         size = this->getMorphCount();edkEnd();
         edk::shape::Polygon2D::Polygon2DMorph* temp = NULL;
         for(edk::uint32 i=0u;i<size;i++){
-            temp = this->vertexsMorph[i];
+            temp = this->vertexsMorph.get(i);
             if(temp){
                 delete temp;
             }
@@ -894,8 +894,8 @@ void edk::shape::Polygon2D::cleanPolygonUVAnimation(){
     //
     for(edk::uint32 i=0u;i<this->vertexs.size();i++){
         //
-        edk::shape::Vertex2DAnimatedUV* temp = (edk::shape::Vertex2DAnimatedUV*)this->vertexs[i];edkEnd();
-        edk::shape::Vertex2DAnimatedUV* tempO = (edk::shape::Vertex2DAnimatedUV*)this->vertexsOriginal[i];edkEnd();
+        edk::shape::Vertex2DAnimatedUV* temp = (edk::shape::Vertex2DAnimatedUV*)this->vertexs.get(i);edkEnd();
+        edk::shape::Vertex2DAnimatedUV* tempO = (edk::shape::Vertex2DAnimatedUV*)this->vertexsOriginal.get(i);edkEnd();
         if(temp && tempO){
             if(temp->getType()==EDK_SHAPE_ANIMATED_UV
                     && tempO->getType()==EDK_SHAPE_ANIMATED_UV
@@ -986,8 +986,8 @@ edk::uint32 edk::shape::Polygon2D::getVertexCount(){
 edk::uint8 edk::shape::Polygon2D::getVertexType(edk::uint32 pos){
     //test if have the polygon
     if(pos<this->getVertexCount()){
-        if(this->vertexs[pos]){
-            return this->vertexs[pos]->getType();edkEnd();
+        if(this->vertexs.get(pos)){
+            return this->vertexs.get(pos)->getType();edkEnd();
         }
     }
     //else retun false
@@ -997,9 +997,9 @@ edk::uint8 edk::shape::Polygon2D::getVertexType(edk::uint32 pos){
 edk::vec2f32 edk::shape::Polygon2D::getVertexPosition(edk::uint32 pos){
     //test if have the vertex
     if(pos<this->getVertexCount()){
-        if(this->vertexs[pos]){
+        if(this->vertexs.get(pos)){
             //return the vertex
-            return edk::vec2f32(this->vertexs[pos]->position.x,this->vertexs[pos]->position.y);edkEnd();
+            return edk::vec2f32(this->vertexs.get(pos)->position.x,this->vertexs.get(pos)->position.y);edkEnd();
         }
     }
     //else return a zero vertex
@@ -1009,12 +1009,12 @@ edk::vec2f32 edk::shape::Polygon2D::getVertexPosition(edk::uint32 pos){
 edk::vec2f32 edk::shape::Polygon2D::getVertexPositionTransformed(edk::uint32 pos){
     //test if have the vertex
     if(pos<this->getVertexCount()){
-        if(this->vertexs[pos]){
+        if(this->vertexs.get(pos)){
             //apply the transformations
             edk::vec2f32 ret;edkEnd();
             //scale
-            ret.x = this->vertexs[pos]->position.x * this->scale.width;edkEnd();
-            ret.y = this->vertexs[pos]->position.y * this->scale.height;edkEnd();
+            ret.x = this->vertexs.get(pos)->position.x * this->scale.width;edkEnd();
+            ret.y = this->vertexs.get(pos)->position.y * this->scale.height;edkEnd();
             //rotate
             ret = edk::Math::rotatePlus(ret,this->angle);edkEnd();
             //translate
@@ -1032,10 +1032,10 @@ edk::color4f32 edk::shape::Polygon2D::getVertexColor(edk::uint32 pos){
 
     //test if have the vertex
     if(pos<this->getVertexCount()){
-        if(this->vertexs[pos]){
+        if(this->vertexs.get(pos)){
             //return the vertex
-            return edk::color4f32(this->vertexs[pos]->color.r,this->vertexs[pos]->color.g,this->vertexs[pos]->color.b,
-                                  this->vertexs[pos]->color.a);edkEnd();
+            return edk::color4f32(this->vertexs.get(pos)->color.r,this->vertexs.get(pos)->color.g,this->vertexs.get(pos)->color.b,
+                                  this->vertexs.get(pos)->color.a);edkEnd();
         }
     }
     //else return a zero vertex
@@ -1046,7 +1046,7 @@ edk::vec2f32 edk::shape::Polygon2D::getVertexUV(edk::uint32 pos){
     //test if have the vertex
     if(pos<this->getVertexCount()){
         //get a temp
-        edk::shape::Vertex2DAnimatedUV* temp = (edk::shape::Vertex2DAnimatedUV*)this->vertexs[pos];edkEnd();
+        edk::shape::Vertex2DAnimatedUV* temp = (edk::shape::Vertex2DAnimatedUV*)this->vertexs.get(pos);edkEnd();
         if(temp){
             //test if the vertex have the UV
             switch(temp->getType()){
@@ -1171,7 +1171,7 @@ bool edk::shape::Polygon2D::havePolygonMorph(edk::uint32 positionMorph){
 }
 bool edk::shape::Polygon2D::deletePolygonMorph(edk::uint32 positionMorph){
     if(this->havePolygonMorph(positionMorph)){
-        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph[positionMorph];edkEnd();
+        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph.get(positionMorph);edkEnd();
         if(temp){
             if(this->vertexsMorph.remove(positionMorph)){
                 delete temp;edkEnd();
@@ -1185,7 +1185,7 @@ void edk::shape::Polygon2D::cleanPolygonMorph(){
     edk::uint32 size = this->vertexsMorph.size();edkEnd();
     edk::shape::Polygon2D::Polygon2DMorph* temp;edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        temp = this->vertexsMorph[i];edkEnd();
+        temp = this->vertexsMorph.get(i);edkEnd();
         if(temp){
             delete temp;edkEnd();
         }
@@ -1202,7 +1202,7 @@ edk::uint32 edk::shape::Polygon2D::getPolygonMorphSize(){
 //set the position of a vertex
 bool edk::shape::Polygon2D::setPolygonMorphVertexPosition(edk::uint32 positionMorph,edk::uint32 vertex,edk::vec2f32 position){
     if(this->havePolygonMorph(positionMorph)){
-        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph[positionMorph];edkEnd();
+        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph.get(positionMorph);edkEnd();
         if(temp){
             return temp->setVertexPosition(vertex,position);
         }
@@ -1215,7 +1215,7 @@ bool edk::shape::Polygon2D::setPolygonMorphVertexPosition(edk::uint32 positionMo
 //set the color of a vertex
 bool edk::shape::Polygon2D::setPolygonMorphVertexColor(edk::uint32 positionMorph,edk::uint32 vertex,edk::color4f32 color){
     if(this->havePolygonMorph(positionMorph)){
-        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph[positionMorph];edkEnd();
+        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph.get(positionMorph);edkEnd();
         if(temp){
             return temp->setVertexColor(vertex,color);
         }
@@ -1231,7 +1231,7 @@ bool edk::shape::Polygon2D::setPolygonMorphVertexColor(edk::uint32 positionMorph
 //Set polygon color
 bool edk::shape::Polygon2D::setPolygonMorphColor(edk::uint32 positionMorph,edk::color4f32 color){
     if(this->havePolygonMorph(positionMorph)){
-        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph[positionMorph];edkEnd();
+        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph.get(positionMorph);edkEnd();
         if(temp){
             return temp->setPolygonColor(color);
         }
@@ -1249,7 +1249,7 @@ bool edk::shape::Polygon2D::setPolygonMorphColor(edk::uint32 positionMorph,edk::
 }
 bool edk::shape::Polygon2D::setPolygonMorphColorR(edk::uint32 positionMorph,edk::float32 r){
     if(this->havePolygonMorph(positionMorph)){
-        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph[positionMorph];edkEnd();
+        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph.get(positionMorph);edkEnd();
         if(temp){
             return temp->setPolygonColorR(r);
         }
@@ -1258,7 +1258,7 @@ bool edk::shape::Polygon2D::setPolygonMorphColorR(edk::uint32 positionMorph,edk:
 }
 bool edk::shape::Polygon2D::setPolygonMorphColorG(edk::uint32 positionMorph,edk::float32 g){
     if(this->havePolygonMorph(positionMorph)){
-        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph[positionMorph];edkEnd();
+        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph.get(positionMorph);edkEnd();
         if(temp){
             return temp->setPolygonColorG(g);
         }
@@ -1267,7 +1267,7 @@ bool edk::shape::Polygon2D::setPolygonMorphColorG(edk::uint32 positionMorph,edk:
 }
 bool edk::shape::Polygon2D::setPolygonMorphColorB(edk::uint32 positionMorph,edk::float32 b){
     if(this->havePolygonMorph(positionMorph)){
-        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph[positionMorph];edkEnd();
+        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph.get(positionMorph);edkEnd();
         if(temp){
             return temp->setPolygonColorB(b);
         }
@@ -1276,7 +1276,7 @@ bool edk::shape::Polygon2D::setPolygonMorphColorB(edk::uint32 positionMorph,edk:
 }
 bool edk::shape::Polygon2D::setPolygonMorphColorA(edk::uint32 positionMorph,edk::float32 a){
     if(this->havePolygonMorph(positionMorph)){
-        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph[positionMorph];edkEnd();
+        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph.get(positionMorph);edkEnd();
         if(temp){
             return temp->setPolygonColorA(a);
         }
@@ -1286,7 +1286,7 @@ bool edk::shape::Polygon2D::setPolygonMorphColorA(edk::uint32 positionMorph,edk:
 //set the UVMap of the vertex
 bool edk::shape::Polygon2D::setPolygonMorphVertexUV(edk::uint32 positionMorph,edk::uint32 vertex,edk::vec2f32 uv){
     if(this->havePolygonMorph(positionMorph)){
-        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph[positionMorph];edkEnd();
+        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph.get(positionMorph);edkEnd();
         if(temp){
             return temp->setVertexUV(vertex,uv);
         }
@@ -1299,7 +1299,7 @@ bool edk::shape::Polygon2D::setPolygonMorphVertexUV(edk::uint32 positionMorph,ed
 //Set the polygonFrames setting in the vertexs
 bool edk::shape::Polygon2D::setPolygonMorphUVFrames(edk::uint32 positionMorph,edk::vec2ui32 frames){
     if(this->havePolygonMorph(positionMorph)){
-        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph[positionMorph];edkEnd();
+        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph.get(positionMorph);edkEnd();
         if(temp){
             return temp->setPolygonUVFrames(frames);
         }
@@ -1311,7 +1311,7 @@ bool edk::shape::Polygon2D::setPolygonMorphUVFrames(edk::uint32 positionMorph,ed
 }
 bool edk::shape::Polygon2D::setPolygonMorphUVFramesX(edk::uint32 positionMorph,edk::uint32 x){
     if(this->havePolygonMorph(positionMorph)){
-        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph[positionMorph];edkEnd();
+        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph.get(positionMorph);edkEnd();
         if(temp){
             return temp->setPolygonUVFramesX(x);
         }
@@ -1320,7 +1320,7 @@ bool edk::shape::Polygon2D::setPolygonMorphUVFramesX(edk::uint32 positionMorph,e
 }
 bool edk::shape::Polygon2D::setPolygonMorphUVFramesY(edk::uint32 positionMorph,edk::uint32 y){
     if(this->havePolygonMorph(positionMorph)){
-        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph[positionMorph];edkEnd();
+        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph.get(positionMorph);edkEnd();
         if(temp){
             return temp->setPolygonUVFramesY(y);
         }
@@ -1330,7 +1330,7 @@ bool edk::shape::Polygon2D::setPolygonMorphUVFramesY(edk::uint32 positionMorph,e
 //Set the polygon frame
 bool edk::shape::Polygon2D::usePolygonMorphUVFrame(edk::uint32 positionMorph,edk::vec2ui32 frame){
     if(this->havePolygonMorph(positionMorph)){
-        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph[positionMorph];edkEnd();
+        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph.get(positionMorph);edkEnd();
         if(temp){
             temp->usePolygonUVFrame(frame);
             return true;
@@ -1340,7 +1340,7 @@ bool edk::shape::Polygon2D::usePolygonMorphUVFrame(edk::uint32 positionMorph,edk
 }
 bool edk::shape::Polygon2D::usePolygonMorphUVFramePosition(edk::uint32 positionMorph,edk::uint32 position){
     if(this->havePolygonMorph(positionMorph)){
-        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph[positionMorph];edkEnd();
+        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph.get(positionMorph);edkEnd();
         if(temp){
             edk::vec2ui32 UVPosition(position%this->frames.x,position/this->frames.x);edkEnd();
             temp->usePolygonUVFrame(UVPosition);
@@ -1351,7 +1351,7 @@ bool edk::shape::Polygon2D::usePolygonMorphUVFramePosition(edk::uint32 positionM
 }
 bool edk::shape::Polygon2D::usePolygonMorphUVFrameX(edk::uint32 positionMorph,edk::uint32 x){
     if(this->havePolygonMorph(positionMorph)){
-        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph[positionMorph];edkEnd();
+        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph.get(positionMorph);edkEnd();
         if(temp){
             temp->usePolygonUVFrameX(x);
             return true;
@@ -1361,7 +1361,7 @@ bool edk::shape::Polygon2D::usePolygonMorphUVFrameX(edk::uint32 positionMorph,ed
 }
 bool edk::shape::Polygon2D::usePolygonMorphUVFrameY(edk::uint32 positionMorph,edk::uint32 y){
     if(this->havePolygonMorph(positionMorph)){
-        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph[positionMorph];edkEnd();
+        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph.get(positionMorph);edkEnd();
         if(temp){
             temp->usePolygonUVFrameY(y);
             return true;
@@ -1371,7 +1371,7 @@ bool edk::shape::Polygon2D::usePolygonMorphUVFrameY(edk::uint32 positionMorph,ed
 }
 edk::float32 edk::shape::Polygon2D::getPolygonMorphPercent(edk::uint32 positionMorph){
     if(this->havePolygonMorph(positionMorph)){
-        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph[positionMorph];edkEnd();
+        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph.get(positionMorph);edkEnd();
         if(temp){
             return temp->percent;
         }
@@ -1385,7 +1385,7 @@ edk::uint32 edk::shape::Polygon2D::getPolygonMorphVertexCount(){
 //return if the vertex have UV
 edk::uint8 edk::shape::Polygon2D::getPolygonMorphVertexType(edk::uint32 positionMorph){
     if(this->havePolygonMorph(positionMorph)){
-        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph[positionMorph];edkEnd();
+        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph.get(positionMorph);edkEnd();
         if(temp){
             return temp->percent;
         }
@@ -1396,7 +1396,7 @@ edk::uint8 edk::shape::Polygon2D::getPolygonMorphVertexType(edk::uint32 position
 edk::vec2f32 edk::shape::Polygon2D::getPolygonMorphVertexPosition(edk::uint32 positionMorph,edk::uint32 positionVertex){
     edk::vec2f32 ret;
     if(this->havePolygonMorph(positionMorph)){
-        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph[positionMorph];edkEnd();
+        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph.get(positionMorph);edkEnd();
         if(temp){
             ret = temp->getVertexPosition(positionVertex);edkEnd();
         }
@@ -1407,7 +1407,7 @@ edk::vec2f32 edk::shape::Polygon2D::getPolygonMorphVertexPosition(edk::uint32 po
 edk::vec2f32 edk::shape::Polygon2D::getPolygonMorphVertexPositionTransformed(edk::uint32 positionMorph,edk::uint32 positionVertex){
     edk::vec2f32 ret;
     if(this->havePolygonMorph(positionMorph)){
-        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph[positionMorph];edkEnd();
+        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph.get(positionMorph);edkEnd();
         if(temp){
             ret = temp->getVertexPositionTransformed(positionVertex);edkEnd();
         }
@@ -1418,7 +1418,7 @@ edk::vec2f32 edk::shape::Polygon2D::getPolygonMorphVertexPositionTransformed(edk
 edk::color4f32 edk::shape::Polygon2D::getPolygonMorphVertexColor(edk::uint32 positionMorph,edk::uint32 positionVertex){
     edk::color4f32 ret;
     if(this->havePolygonMorph(positionMorph)){
-        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph[positionMorph];edkEnd();
+        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph.get(positionMorph);edkEnd();
         if(temp){
             ret = temp->getVertexColor(positionVertex);edkEnd();
         }
@@ -1429,7 +1429,7 @@ edk::color4f32 edk::shape::Polygon2D::getPolygonMorphVertexColor(edk::uint32 pos
 edk::vec2f32 edk::shape::Polygon2D::getPolygonMorphVertexUV(edk::uint32 positionMorph,edk::uint32 positionVertex){
     edk::vec2f32 ret;
     if(this->havePolygonMorph(positionMorph)){
-        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph[positionMorph];edkEnd();
+        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph.get(positionMorph);edkEnd();
         if(temp){
             ret = temp->getVertexUV(positionVertex);edkEnd();
         }
@@ -1440,7 +1440,7 @@ edk::vec2f32 edk::shape::Polygon2D::getPolygonMorphVertexUV(edk::uint32 position
 edk::vec2ui32 edk::shape::Polygon2D::getPolygonMorphFrames(edk::uint32 positionMorph){
     edk::vec2ui32 ret;
     if(this->havePolygonMorph(positionMorph)){
-        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph[positionMorph];edkEnd();
+        edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph.get(positionMorph);edkEnd();
         if(temp){
             ret = temp->getFrames(0u);edkEnd();
         }
@@ -1465,8 +1465,8 @@ void edk::shape::Polygon2D::print(){
     //
     for(edk::uint32 i=0u;i<this->getVertexCount();i++){
         //
-        if(vertexs[i]){
-            vertexs[i]->print(i);edkEnd();
+        if(vertexs.get(i)){
+            vertexs.get(i)->print(i);edkEnd();
         }
     }
 }
@@ -1552,7 +1552,7 @@ bool edk::shape::Polygon2D::writeToXML(edk::XML* xml,edk::uint32 polygonID){
                         }
                         //Write Vertexs
                         for(edk::uint32 i=0u;i<size;i++){
-                            edk::shape::Vertex2DAnimatedUV* polyTemp = (edk::shape::Vertex2DAnimatedUV*)vertexs[i];edkEnd();
+                            edk::shape::Vertex2DAnimatedUV* polyTemp = (edk::shape::Vertex2DAnimatedUV*)vertexs.get(i);edkEnd();
                             if(polyTemp){
                                 polyTemp->writeToXML(i,xml);edkEnd();
                             }
@@ -1570,7 +1570,7 @@ bool edk::shape::Polygon2D::writeToXML(edk::XML* xml,edk::uint32 polygonID){
                                 }
                                 //Write Vertexs
                                 for(edk::uint32 i=0u;i<size;i++){
-                                    edk::shape::Vertex2DAnimatedUV* polyTemp = (edk::shape::Vertex2DAnimatedUV*)vertexsOriginal[i];edkEnd();
+                                    edk::shape::Vertex2DAnimatedUV* polyTemp = (edk::shape::Vertex2DAnimatedUV*)vertexsOriginal.get(i);edkEnd();
                                     if(polyTemp){
                                         polyTemp->writeToXML(i,xml);edkEnd();
                                     }
@@ -1592,7 +1592,7 @@ bool edk::shape::Polygon2D::writeToXML(edk::XML* xml,edk::uint32 polygonID){
                                 //Write morphs
                                 edk::shape::Polygon2D::Polygon2DMorph* morph = NULL;
                                 for(edk::uint32 i=0u;i<size;i++){
-                                    morph = this->vertexsMorph[i];
+                                    morph = this->vertexsMorph.get(i);
                                     if(morph){
                                         morph->writeToXML(xml,i);
                                     }
@@ -1927,7 +1927,7 @@ bool edk::shape::Polygon2D::cloneFrom(edk::shape::Polygon2D* poly){
             //then copy the vertex
             for(edk::uint32 i=0u;i<size;i++){
                 //copy the vertex
-                temp = (edk::shape::Vertex2DAnimatedUV*)vertexs[i];edkEnd();
+                temp = (edk::shape::Vertex2DAnimatedUV*)vertexs.get(i);edkEnd();
                 if(temp){
                     //this->setVertexPosition(i,poly->getVertexPosition(i));edkEnd();
                     temp->position = poly->getVertexPosition(i);edkEnd();
@@ -1949,10 +1949,10 @@ bool edk::shape::Polygon2D::cloneFrom(edk::shape::Polygon2D* poly){
                         break;
                     };
                 }
-                vTemp = vertexsOriginal[i];edkEnd();
+                vTemp = vertexsOriginal.get(i);edkEnd();
                 if(vTemp){
                     //get the vertex to read the values
-                    temp = (edk::shape::Vertex2DAnimatedUV*)poly->vertexsOriginal[i];edkEnd();
+                    temp = (edk::shape::Vertex2DAnimatedUV*)poly->vertexsOriginal.get(i);edkEnd();
                     //get vertexType
                     switch(temp->getType()){
                     case EDK_SHAPE_ANIMATED_UV:
@@ -2010,7 +2010,7 @@ bool edk::shape::Polygon2D::cloneFrom(edk::shape::Polygon2D* poly){
             edk::shape::Polygon2D::Polygon2DMorph* mTemp;
             edk::shape::Polygon2D::Polygon2DMorph* morph;
             for(edk::uint32 i=0u;i<size;i++){
-                mTemp = poly->vertexsMorph[i];
+                mTemp = poly->vertexsMorph.get(i);
                 if(mTemp){
                     morph = new edk::shape::Polygon2D::Polygon2DMorph(0u,edk::color4f32(1.f,1.f,1.f,1.f));
                     if(morph){

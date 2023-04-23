@@ -305,19 +305,19 @@ bool edk::shd::Data::updateData(){
                 switch(this->ints.size()){
                 case 1u:
                     //
-                    edk::GU_GLSL::guData1i32(this->ID,this->ints[0u]);edkEnd();
+                    edk::GU_GLSL::guData1i32(this->ID,this->ints.get(0u));edkEnd();
                     break;
                 case 2u:
                     //
-                    edk::GU_GLSL::guData2i32(this->ID,this->ints[0u],this->ints[1u]);edkEnd();
+                    edk::GU_GLSL::guData2i32(this->ID,this->ints.get(0u),this->ints.get(1u));edkEnd();
                     break;
                 case 3u:
                     //
-                    edk::GU_GLSL::guData3i32(this->ID,this->ints[0u],this->ints[1u],this->ints[2u]);edkEnd();
+                    edk::GU_GLSL::guData3i32(this->ID,this->ints.get(0u),this->ints.get(1u),this->ints.get(2u));edkEnd();
                     break;
                 case 4u:
                     //
-                    edk::GU_GLSL::guData4i32(this->ID,this->ints[0u],this->ints[1u],this->ints[2u],this->ints[3u]);edkEnd();
+                    edk::GU_GLSL::guData4i32(this->ID,this->ints.get(0u),this->ints.get(1u),this->ints.get(2u),this->ints.get(3u));edkEnd();
                     break;
                 }
                 return true;
@@ -327,19 +327,19 @@ bool edk::shd::Data::updateData(){
                 switch(this->floats.size()){
                 case 1u:
                     //
-                    edk::GU_GLSL::guData1f32(this->ID,this->floats[0]);edkEnd();
+                    edk::GU_GLSL::guData1f32(this->ID,this->floats.get(0u));edkEnd();
                     break;
                 case 2u:
                     //
-                    edk::GU_GLSL::guData2f32(this->ID,this->floats[0u],this->floats[1u]);edkEnd();
+                    edk::GU_GLSL::guData2f32(this->ID,this->floats.get(0u),this->floats.get(1u));edkEnd();
                     break;
                 case 3u:
                     //
-                    edk::GU_GLSL::guData3f32(this->ID,this->floats[0u],this->floats[1u],this->floats[2u]);edkEnd();
+                    edk::GU_GLSL::guData3f32(this->ID,this->floats.get(0u),this->floats.get(1u),this->floats.get(2u));edkEnd();
                     break;
                 case 4u:
                     //
-                    edk::GU_GLSL::guData4f32(this->ID,this->floats[0u],this->floats[1u],this->floats[2u],this->floats[3u]);edkEnd();
+                    edk::GU_GLSL::guData4f32(this->ID,this->floats.get(0u),this->floats.get(1u),this->floats.get(2u),this->floats.get(3u));edkEnd();
                     break;
                 }
                 return true;

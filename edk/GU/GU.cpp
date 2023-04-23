@@ -1037,7 +1037,7 @@ void edk::guBindBuffer (edk::GUenum target, edk::GUuint buffer){glBindBuffer (ta
 void edk::guDeleteBuffers (edk::GUsizei n, const edk::GUuint *buffers){glDeleteBuffers (n, (const GLuint *)buffers);}
 void edk::guFrameBufferTexture (edk::GUenum target, edk::GUenum attachment, edk::GUuint texture, edk::GUint level){glFramebufferTexture (target,attachment,texture,level);}
 */
-#if /* defined(_WIN32) || */ defined(__linux__)
+#if defined(__linux__)
 class GU_RUN_ENVIROMENT_MESA{
 public:
     GU_RUN_ENVIROMENT_MESA(){putenv((edk::char8*)"MESA_HW_ACCEL_SELECT=0");}
@@ -1467,16 +1467,6 @@ void edk::GU::guSetViewportRect(edk::rectui32 rect){
     glViewport(rect.origin.x,rect.origin.y,rect.size.width,rect.size.height);
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU::guUseOrtho(edk::float32 left, edk::float32 right, edk::float32 botton, edk::float32 top, edk::float32 near, edk::float32 far){
-    edk::GU_GLSL::mut.lock();
-    glOrtho(left,right,botton,top,near,far);
-    edk::GU_GLSL::mut.unlock();
-}
-void edk::GU::guUsePerspective(edk::float32 fovy, edk::float32 aspect, edk::float32 near, edk::float32 far){
-    edk::GU_GLSL::mut.lock();
-    gluPerspective(fovy, aspect, near, far);
-    edk::GU_GLSL::mut.unlock();
-}
 void edk::GU::guLookAt(edk::float64 eyeX, edk::float64 eyeY, edk::float64 eyeZ, edk::float64 centerX, edk::float64 centerY, edk::float64 centerZ, edk::float64 upX, edk::float64 upY, edk::float64 upZ){
     edk::GU_GLSL::mut.lock();
     gluLookAt(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ);
@@ -1485,6 +1475,16 @@ void edk::GU::guLookAt(edk::float64 eyeX, edk::float64 eyeY, edk::float64 eyeZ, 
 void edk::GU::guLookAt(edk::float32 eyeX, edk::float32 eyeY, edk::float32 eyeZ, edk::float32 centerX, edk::float32 centerY, edk::float32 centerZ, edk::float32 upX, edk::float32 upY, edk::float32 upZ){
     edk::GU_GLSL::mut.lock();
     gluLookAt(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ);
+    edk::GU_GLSL::mut.unlock();
+}
+void edk::GU::guUseOrtho(edk::float32 a, edk::float32 b, edk::float32 c, edk::float32 d, edk::float32 e, edk::float32 f){
+    edk::GU_GLSL::mut.lock();
+    glOrtho(a,b,c,d,e,f);
+    edk::GU_GLSL::mut.unlock();
+}
+void edk::GU::guUsePerspective(edk::float32 a, edk::float32 b, edk::float32 c, edk::float32 d){
+    edk::GU_GLSL::mut.lock();
+    gluPerspective(a, b, c, d);
     edk::GU_GLSL::mut.unlock();
 }
 

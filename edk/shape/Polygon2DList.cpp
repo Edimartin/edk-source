@@ -157,7 +157,7 @@ bool edk::shape::Polygon2DList::setPolygonsColorA(edk::float32 a){
 //set physics
 bool edk::shape::Polygon2DList::setPolygonDensity(edk::uint32 position,edk::float32 density){
     if(this->polygons.havePos(position)){
-        this->polygons[position]->setDensity(density);edkEnd();
+        this->polygons.get(position)->setDensity(density);edkEnd();
         return true;
     }
     return false;
@@ -166,13 +166,13 @@ void edk::shape::Polygon2DList::setDensity(edk::float32 density){
     edk::uint32 size = this->polygons.size();edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
         if(this->polygons.havePos(i)){
-            this->polygons[i]->setDensity(density);edkEnd();
+            this->polygons.get(i)->setDensity(density);edkEnd();
         }
     }
 }
 bool edk::shape::Polygon2DList::setPolygonFriction(edk::uint32 position,edk::float32 friction){
     if(this->polygons.havePos(position)){
-        this->polygons[position]->setFriction(friction);edkEnd();
+        this->polygons.get(position)->setFriction(friction);edkEnd();
         return true;
     }
     return false;
@@ -181,13 +181,13 @@ void edk::shape::Polygon2DList::setFriction(edk::float32 friction){
     edk::uint32 size = this->polygons.size();edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
         if(this->polygons.havePos(i)){
-            this->polygons[i]->setFriction(friction);edkEnd();
+            this->polygons.get(i)->setFriction(friction);edkEnd();
         }
     }
 }
 bool edk::shape::Polygon2DList::setPolygonRestitution(edk::uint32 position,edk::float32 restitution){
     if(this->polygons.havePos(position)){
-        this->polygons[position]->setRestitution(restitution);edkEnd();
+        this->polygons.get(position)->setRestitution(restitution);edkEnd();
         return true;
     }
     return false;
@@ -196,28 +196,28 @@ void edk::shape::Polygon2DList::setRestitution(edk::float32 restitution){
     edk::uint32 size = this->polygons.size();edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
         if(this->polygons.havePos(i)){
-            this->polygons[i]->setRestitution(restitution);edkEnd();
+            this->polygons.get(i)->setRestitution(restitution);edkEnd();
         }
     }
 }
 //getPhysics
 edk::float32 edk::shape::Polygon2DList::getPolygonDensity(edk::uint32 position){
     if(this->polygons.havePos(position)){
-        return this->polygons[position]->getDensity();edkEnd();
+        return this->polygons.get(position)->getDensity();edkEnd();
     }
     //return initial value
     return 1.f;edkEnd();
 }
 edk::float32 edk::shape::Polygon2DList::getPolygonFriction(edk::uint32 position){
     if(this->polygons.havePos(position)){
-        return this->polygons[position]->getFriction();edkEnd();
+        return this->polygons.get(position)->getFriction();edkEnd();
     }
     //return initial value
     return 0.f;
 }
 edk::float32 edk::shape::Polygon2DList::getPolygonRestitution(edk::uint32 position){
     if(this->polygons.havePos(position)){
-        return this->polygons[position]->getRestitution();edkEnd();
+        return this->polygons.get(position)->getRestitution();edkEnd();
     }
     //return initial value
     return 0.f;
@@ -230,11 +230,11 @@ bool edk::shape::Polygon2DList::calculateBoundingBox(edk::rectf32* rectangle,edk
         if(size){
             //copy the first rectangle
             if(this->polygons.havePos(0u)){
-                *rectangle = this->polygons[0u]->generateBoundingBox(transformMat);edkEnd();
+                *rectangle = this->polygons.get(0u)->generateBoundingBox(transformMat);edkEnd();
                 //draw the polygons
                 for(edk::uint32 i=1u;i<size;i++){
                     if(this->polygons.havePos(i)){
-                        this->polygons[i]->calculateBoundingBox(rectangle,transformMat);edkEnd();
+                        this->polygons.get(i)->calculateBoundingBox(rectangle,transformMat);edkEnd();
                     }
                 }
                 return true;
@@ -250,11 +250,11 @@ edk::rectf32 edk::shape::Polygon2DList::generateBoundingBox(edk::vector::Matrix<
         if(size){
             //copy the first rectangle
             if(this->polygons.havePos(0u)){
-                ret = this->polygons[0u]->generateBoundingBox(transformMat);edkEnd();
+                ret = this->polygons.get(0u)->generateBoundingBox(transformMat);edkEnd();
                 //draw the polygons
                 for(edk::uint32 i=1u;i<size;i++){
                     if(this->polygons.havePos(i)){
-                        this->polygons[i]->calculateBoundingBox(&ret,transformMat);edkEnd();
+                        this->polygons.get(i)->calculateBoundingBox(&ret,transformMat);edkEnd();
                     }
                 }
             }
@@ -393,7 +393,7 @@ bool edk::shape::Polygon2DList::selectPolygon(edk::uint32 position){
     //test if have the position
     if(this->polygons.havePos(position)){
         //select the polygon
-        this->selected = this->polygons[position];edkEnd();
+        this->selected = this->polygons.get(position);edkEnd();
         //test if have selected some polygon
         if(this->selected){
             //then return true
@@ -991,7 +991,7 @@ bool edk::shape::Polygon2DList::writeToXML(edk::XML* xml,edk::uint32 id){
                         //write the polygons
                         for(edk::uint32 i=0u;i<size;i++){
                             if(this->polygons.havePos(i)){
-                                poly=this->polygons[i];edkEnd();
+                                poly=this->polygons.get(i);edkEnd();
                                 if(poly){
                                     poly->writeToXML(xml,i);edkEnd();
                                 }
@@ -1050,7 +1050,7 @@ bool edk::shape::Polygon2DList::cloneFrom(edk::shape::Polygon2DList* list){
         edk::uint32 select=0u;
         edk::shape::Polygon2D* temp = NULL;edkEnd();
         for(edk::uint32 i=0u;i<size;i++){
-            temp=list->polygons[i];edkEnd();
+            temp=list->polygons.get(i);edkEnd();
             if(temp){
                 if(temp==list->selected){
                     select=i;edkEnd();
@@ -1073,7 +1073,7 @@ void edk::shape::Polygon2DList::printPolygons(){
             printf("\nPolygon %u"
                    ,i
                    );edkEnd();
-            this->polygons[i]->print();edkEnd();
+            this->polygons.get(i)->print();edkEnd();
         }
     }
 }
@@ -1084,7 +1084,7 @@ bool edk::shape::Polygon2DList::printPolygon(edk::uint32 polygon){
             printf("\nPolygon %u"
                    ,polygon
                    );edkEnd();
-            this->polygons[polygon]->print();edkEnd();
+            this->polygons.get(polygon)->print();edkEnd();
             return true;
         }
     }
@@ -1096,7 +1096,7 @@ void edk::shape::Polygon2DList::drawPolygons(){
     //draw the polygons
     for(edk::uint32 i=0u;i<this->polygons.size();i++){
         if(this->polygons.havePos(i)){
-            this->polygons[i]->draw();edkEnd();
+            this->polygons.get(i)->draw();edkEnd();
         }
     }
 }
@@ -1104,7 +1104,7 @@ bool edk::shape::Polygon2DList::drawPolygon(edk::uint32 polygon){
     //draw the polygon
     if(polygon<this->polygons.size()){
         if(this->polygons.havePos(polygon)){
-            this->polygons[polygon]->draw();edkEnd();
+            this->polygons.get(polygon)->draw();edkEnd();
             return true;
         }
     }
@@ -1115,7 +1115,7 @@ void edk::shape::Polygon2DList::drawWirePolygons(){
     //draw the polygons
     for(edk::uint32 i=0u;i<this->polygons.size();i++){
         if(this->polygons.havePos(i)){
-            this->polygons[i]->drawWire();edkEnd();
+            this->polygons.get(i)->drawWire();edkEnd();
         }
     }
 }
@@ -1123,7 +1123,7 @@ bool edk::shape::Polygon2DList::drawWirePolygon(edk::uint32 polygon){
     //draw the polygons
     if(polygon<this->polygons.size()){
         if(this->polygons.havePos(polygon)){
-            this->polygons[polygon]->drawWire();edkEnd();
+            this->polygons.get(polygon)->drawWire();edkEnd();
             return true;
         }
     }
@@ -1134,7 +1134,7 @@ void edk::shape::Polygon2DList::drawVertexs(edk::color3f32 color){
     //draw the polygons
     for(edk::uint32 i=0u;i<this->polygons.size();i++){
         if(this->polygons.havePos(i)){
-            this->polygons[i]->drawPolygonVertexs(edk::color4f32(color.r,color.g,color.b,1.f));edkEnd();
+            this->polygons.get(i)->drawPolygonVertexs(edk::color4f32(color.r,color.g,color.b,1.f));edkEnd();
         }
     }
 }
@@ -1143,7 +1143,7 @@ bool edk::shape::Polygon2DList::drawPolygonVertexs(edk::uint32 polygon,edk::colo
     if(polygon<this->polygons.size()){
         if(this->polygons.havePos(polygon)){
             edk::GU::guColor3f32(color);edkEnd();
-            this->polygons[polygon]->drawPolygonVertexs(edk::color4f32(color.r,color.g,color.b,1.f));edkEnd();
+            this->polygons.get(polygon)->drawPolygonVertexs(edk::color4f32(color.r,color.g,color.b,1.f));edkEnd();
             return true;
         }
     }

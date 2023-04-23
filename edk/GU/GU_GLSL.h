@@ -29,12 +29,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "Inside GU_GLSL"
 #endif
 
-//include the mutex
-#include "edk/vector/Queue.h"
-#include "edk/vector/BinaryTree.h"
-#include "edk/watch/Time.h"
-#include "edk/thread/Mutex.h"
-
 //add the GLEW before openGL
 #if defined(_WIN32) || defined(__linux__)
 #include <GL/glew.h>
@@ -45,6 +39,12 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <OpenGL/glext.h>
 #define USING_GLEW
 #endif
+
+//include the mutex
+#include "edk/vector/Queue.h"
+#include "edk/vector/BinaryTree.h"
+#include "edk/watch/Time.h"
+#include "edk/thread/Mutex.h"
 
 #include "../TypeVars.h"
 #include "../TypeVec2.h"

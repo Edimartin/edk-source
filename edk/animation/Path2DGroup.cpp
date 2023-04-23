@@ -171,7 +171,7 @@ edk::float32 edk::animation::Path2DGroup::updateClockAnimation(){
     //calculate the step
     edk::float32 step = edk::animation::PathGroup::updateClockAnimation();edkEnd();
     //load the frame
-    edk::animation::Frame2D* temp = (edk::animation::Frame2D*)this->animations[this->animationPosition];edkEnd();
+    edk::animation::Frame2D* temp = (edk::animation::Frame2D*)this->animations.get(this->animationPosition);edkEnd();
     edk::animation::Frame2D* last = (edk::animation::Frame2D*)this->getLastFrame();edkEnd();
     if(last){
         //calculate the new position
@@ -193,7 +193,7 @@ edk::float32 edk::animation::Path2DGroup::updateClockAnimation(edk::float32 dist
     //calculate the step
     edk::float32 step = edk::animation::PathGroup::updateClockAnimation(distance);edkEnd();
     //load the frame
-    edk::animation::Frame2D* temp = (edk::animation::Frame2D*)this->animations[this->animationPosition];edkEnd();
+    edk::animation::Frame2D* temp = (edk::animation::Frame2D*)this->animations.get(this->animationPosition);edkEnd();
     edk::animation::Frame2D* last = (edk::animation::Frame2D*)this->getLastFrame();edkEnd();
     if(last){
         //calculate the new position
@@ -245,7 +245,7 @@ bool edk::animation::Path2DGroup::writeToXML(edk::XML* xml,edk::uint32 id){
                         edk::animation::Frame2D* tempFrame;edkEnd();
                         for(edk::uint32 i=0u;i<size;i++){
                             //write the first
-                            tempFrame = (edk::animation::Frame2D*)this->animations[i];edkEnd();
+                            tempFrame = (edk::animation::Frame2D*)this->animations.get(i);edkEnd();
                             if(tempFrame){
                                 tempFrame->writeToXML(xml,i);edkEnd();
                             }

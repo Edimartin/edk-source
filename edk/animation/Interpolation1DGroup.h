@@ -102,7 +102,7 @@ class Interpolation1DGroup: public edk::animation::InterpolationGroup{
                 edk::uint32 size = group->animations.size();edkEnd();
                 for(edk::uint32 i=0u;i<size;i++){
                     //
-                    edk::animation::InterpolationLine1D* temp = (edk::animation::InterpolationLine1D*)group->animations[i];edkEnd();
+                    edk::animation::InterpolationLine1D* temp = (edk::animation::InterpolationLine1D*)group->animations.get(i);edkEnd();
                     if(temp){
                         //test if it create the start frame
                         if(temp->getCreateStart()){
@@ -161,7 +161,7 @@ class Interpolation1DGroup: public edk::animation::InterpolationGroup{
             edk::uint32 size = group.animations.size();edkEnd();
             for(edk::uint32 i=0u;i<size;i++){
                 //
-                edk::animation::InterpolationLine1D* temp = (edk::animation::InterpolationLine1D*)group.animations[i];edkEnd();
+                edk::animation::InterpolationLine1D* temp = (edk::animation::InterpolationLine1D*)group.animations.get(i);edkEnd();
                 if(temp){
                     //test if it create the start frame
                     if(temp->getCreateStart()){

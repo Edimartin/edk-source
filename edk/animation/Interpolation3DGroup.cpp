@@ -250,7 +250,7 @@ bool edk::animation::Interpolation3DGroup::setInterpolationCurveZ(edk::uint32 po
     //test if have the interpolation
     if(position < this->getInterpolationSize()){
         //load the interpolation
-        edk::animation::InterpolationLine3D* temp = (edk::animation::InterpolationLine3D*)this->animations[position];edkEnd();
+        edk::animation::InterpolationLine3D* temp = (edk::animation::InterpolationLine3D*)this->animations.get(position);edkEnd();
         if(temp){
             temp->isCurveZ();edkEnd();
             return true;
@@ -262,7 +262,7 @@ bool edk::animation::Interpolation3DGroup::setInterpolationNotCurveZ(edk::uint32
     //test if have the interpolation
     if(position < this->getInterpolationSize()){
         //load the interpolation
-        edk::animation::InterpolationLine3D* temp = (edk::animation::InterpolationLine3D*)this->animations[position];edkEnd();
+        edk::animation::InterpolationLine3D* temp = (edk::animation::InterpolationLine3D*)this->animations.get(position);edkEnd();
         if(temp){
             //test if is a curve
             if(!temp->getCurveZ()){
@@ -279,7 +279,7 @@ bool edk::animation::Interpolation3DGroup::getInterpolationIsCurveZ(edk::uint32 
     //test if have the interpolation
     if(position < this->getInterpolationSize()){
         //load the interpolation
-        edk::animation::InterpolationLine3D* temp = (edk::animation::InterpolationLine3D*)this->animations[position];edkEnd();
+        edk::animation::InterpolationLine3D* temp = (edk::animation::InterpolationLine3D*)this->animations.get(position);edkEnd();
         if(temp){
             return temp->getCurveZ();edkEnd();
         }
@@ -291,7 +291,7 @@ bool edk::animation::Interpolation3DGroup::setConstantZ(edk::uint32 position){
     //test if have the interpolation
     if(position < this->getInterpolationSize()){
         //load the interpolation
-        edk::animation::InterpolationLine3D* temp = (edk::animation::InterpolationLine3D*)this->animations[position];edkEnd();
+        edk::animation::InterpolationLine3D* temp = (edk::animation::InterpolationLine3D*)this->animations.get(position);edkEnd();
         if(temp){
             temp->setConstantZ();edkEnd();
             return true;
@@ -303,7 +303,7 @@ bool edk::animation::Interpolation3DGroup::setLinearZ(edk::uint32 position){
     //test if have the interpolation
     if(position < this->getInterpolationSize()){
         //load the interpolation
-        edk::animation::InterpolationLine3D* temp = (edk::animation::InterpolationLine3D*)this->animations[position];edkEnd();
+        edk::animation::InterpolationLine3D* temp = (edk::animation::InterpolationLine3D*)this->animations.get(position);edkEnd();
         if(temp){
             temp->setLinearZ();edkEnd();
             return true;
@@ -316,7 +316,7 @@ void edk::animation::Interpolation3DGroup::setAllConstantZ(){
     edk::uint32 size = this->animations.size();edkEnd();
     edk::animation::InterpolationLine3D* temp = NULL;edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        temp = (edk::animation::InterpolationLine3D*)this->animations[i];edkEnd();
+        temp = (edk::animation::InterpolationLine3D*)this->animations.get(i);edkEnd();
         temp->setConstantZ();edkEnd();
     }
 }
@@ -324,7 +324,7 @@ void edk::animation::Interpolation3DGroup::setAllLinearZ(){
     edk::uint32 size = this->animations.size();edkEnd();
     edk::animation::InterpolationLine3D* temp = NULL;edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        temp = (edk::animation::InterpolationLine3D*)this->animations[i];edkEnd();
+        temp = (edk::animation::InterpolationLine3D*)this->animations.get(i);edkEnd();
         temp->setLinearZ();edkEnd();
     }
 }
@@ -334,7 +334,7 @@ bool edk::animation::Interpolation3DGroup::setInterpolationP1Z(edk::uint32 posit
     //test if have the interpolation
     if(position < this->getInterpolationSize()){
         //load the interpolation
-        edk::animation::InterpolationLine3D* temp = (edk::animation::InterpolationLine3D*)this->animations[position];edkEnd();
+        edk::animation::InterpolationLine3D* temp = (edk::animation::InterpolationLine3D*)this->animations.get(position);edkEnd();
         if(temp){
             return temp->setP1Z(second,z);edkEnd();
         }
@@ -345,7 +345,7 @@ bool edk::animation::Interpolation3DGroup::setInterpolationP2Z(edk::uint32 posit
     //test if have the interpolation
     if(position < this->getInterpolationSize()){
         //load the interpolation
-        edk::animation::InterpolationLine3D* temp = (edk::animation::InterpolationLine3D*)this->animations[position];edkEnd();
+        edk::animation::InterpolationLine3D* temp = (edk::animation::InterpolationLine3D*)this->animations.get(position);edkEnd();
         if(temp){
             return temp->setP2Z(second,z);edkEnd();
         }
@@ -372,7 +372,7 @@ edk::float32 edk::animation::Interpolation3DGroup::getClockZ(){
 //return the interpolation Z
 edk::float32 edk::animation::Interpolation3DGroup::getInterpolationStartZ(edk::float32 position){
     if(position < this->animations.size()){
-        edk::animation::InterpolationLine3D* temp = (edk::animation::InterpolationLine3D*)this->animations[position];edkEnd();
+        edk::animation::InterpolationLine3D* temp = (edk::animation::InterpolationLine3D*)this->animations.get(position);edkEnd();
         if(temp){
             return temp->getStart3D().z;edkEnd();
         }
@@ -381,7 +381,7 @@ edk::float32 edk::animation::Interpolation3DGroup::getInterpolationStartZ(edk::f
 }
 edk::float32 edk::animation::Interpolation3DGroup::getInterpolationEndZ(edk::float32 position){
     if(position < this->animations.size()){
-        edk::animation::InterpolationLine3D* temp = (edk::animation::InterpolationLine3D*)this->animations[position];edkEnd();
+        edk::animation::InterpolationLine3D* temp = (edk::animation::InterpolationLine3D*)this->animations.get(position);edkEnd();
         if(temp){
             return temp->getStart3D().z;edkEnd();
         }
@@ -391,7 +391,7 @@ edk::float32 edk::animation::Interpolation3DGroup::getInterpolationEndZ(edk::flo
 //return the animation start and end in Z
 edk::float32 edk::animation::Interpolation3DGroup::getAnimationStartZ(){
     if(this->animations.size()){
-        edk::animation::InterpolationLine3D* temp = (edk::animation::InterpolationLine3D*)this->animations[0u];edkEnd();
+        edk::animation::InterpolationLine3D* temp = (edk::animation::InterpolationLine3D*)this->animations.get(0u);edkEnd();
         if(temp){
             return temp->getStart3D().z;edkEnd();
         }
@@ -400,7 +400,7 @@ edk::float32 edk::animation::Interpolation3DGroup::getAnimationStartZ(){
 }
 edk::float32 edk::animation::Interpolation3DGroup::getAnimationEndZ(){
     if(this->animations.size()){
-        edk::animation::InterpolationLine3D* temp = (edk::animation::InterpolationLine3D*)this->animations[this->animations.size()-1u];edkEnd();
+        edk::animation::InterpolationLine3D* temp = (edk::animation::InterpolationLine3D*)this->animations.get(this->animations.size()-1u);edkEnd();
         if(temp){
             return temp->getEnd3D().z;edkEnd();
         }
@@ -446,7 +446,7 @@ bool edk::animation::Interpolation3DGroup::writeToXML(edk::XML* xml,edk::uint32 
                         //write the animationFrames
                         edk::uint32 size = this->animations.size();edkEnd();
                         for(edk::uint32 i=0u;i<size;i++){
-                            temp = (edk::animation::InterpolationLine3D*)this->animations[i];edkEnd();
+                            temp = (edk::animation::InterpolationLine3D*)this->animations.get(i);edkEnd();
                             if(temp){
                                 if(!i){
                                     //write the first
@@ -459,7 +459,7 @@ bool edk::animation::Interpolation3DGroup::writeToXML(edk::XML* xml,edk::uint32 
                         }
                         //write the curvers
                         for(edk::uint32 i=0u;i<size;i++){
-                            temp = (edk::animation::InterpolationLine3D*)this->animations[i];edkEnd();
+                            temp = (edk::animation::InterpolationLine3D*)this->animations.get(i);edkEnd();
                             if(temp){
                                 temp->writeCurveToXML(xml,i);edkEnd();
                             }
@@ -531,7 +531,7 @@ bool edk::animation::Interpolation3DGroup::readFromXML(edk::XML* xml,edk::uint32
                     //read the curves
                     for(edk::uint32 i=0u;i<size;i++){
                         //read the XML
-                        interpolationTemp = (edk::animation::InterpolationLine3D*)this->animations[i];edkEnd();
+                        interpolationTemp = (edk::animation::InterpolationLine3D*)this->animations.get(i);edkEnd();
                         if(interpolationTemp){
                             interpolationTemp->readCurveFromXML(xml,i);edkEnd();
                         }

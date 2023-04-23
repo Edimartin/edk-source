@@ -62,7 +62,7 @@ void edk::ViewController::drawViewInside(){
             //test if the view exist
             if(this->nexts.havePos(i)){
                 //then draw using the view in GU. no in EDK
-                this->nexts[i]->runDraw(
+                this->nexts.get(i)->runDraw(
                             this->rectInside
                             );edkEnd();
             }
@@ -80,7 +80,7 @@ void edk::ViewController::runPause(){
             //test if the view exist
             if(this->nexts.havePos(i)){
                 //then pause the view
-                this->nexts[i]->runPause();edkEnd();
+                this->nexts.get(i)->runPause();edkEnd();
             }
         }
     }
@@ -96,7 +96,7 @@ void edk::ViewController::runUnpause(){
             //test if the view exist
             if(this->nexts.havePos(i)){
                 //then unpause the view
-                this->nexts[i]->runUnpause();edkEnd();
+                this->nexts.get(i)->runUnpause();edkEnd();
             }
         }
     }
@@ -157,7 +157,7 @@ edk::View* edk::ViewController::getSubview(edk::uint64 n){
     //test if the view exist
     if(this->nexts.havePos(n)){
         //then find the view
-        return this->nexts[n];edkEnd();
+        return this->nexts.get(n);edkEnd();
     }
     //else return NULL
     return NULL;
@@ -170,7 +170,7 @@ edk::uint32 edk::ViewController::getSubviewId(edk::View *subView){
         for(edk::uint32 i=0u;i<this->nexts.size();i++){
             //test if the pointer is equal
             if(this->nexts.havePos(i)){
-                if(subView==this->nexts[i]){
+                if(subView==this->nexts.get(i)){
                     //foundIt. Return the pos in the vector
                     return i;edkEnd();
                 }
@@ -288,7 +288,7 @@ void edk::ViewController::removeAllSubview(){
     for(edk::uint32 i=0u;i<size;i++){
         //run unload function in views
         if(this->nexts.havePos(i)){
-            subView = this->nexts[i];edkEnd();
+            subView = this->nexts.get(i);edkEnd();
             if(subView){
                 subView->runUnload();edkEnd();
             }
@@ -312,18 +312,18 @@ bool edk::ViewController::contact(edk::vec2f32 point,edk::uint8 state,edk::vecto
         for(edk::uint32 i=this->nexts.size();i>0u;i--){
             //test if the view exist
             if(this->nexts.havePos(i-1u)){
-                if(this->nexts[i-1u]){
+                if(this->nexts.get(i-1u)){
                     //test the contact
                     if(ret){
-                        this->nexts[i-1u]->contactRelease(point - this->animatedFrame.origin,state,buttons);edkEnd();
+                        this->nexts.get(i-1u)->contactRelease(point - this->animatedFrame.origin,state,buttons);edkEnd();
                     }
                     else{
-                        if(this->nexts[i-1u]->contact(point - this->animatedFrame.origin,state,buttons)){
+                        if(this->nexts.get(i-1u)->contact(point - this->animatedFrame.origin,state,buttons)){
                             //
                             ret=true;edkEnd();
                         }
                         else{
-                            this->nexts[i-1u]->contactRelease(point - this->animatedFrame.origin,state,buttons);edkEnd();
+                            this->nexts.get(i-1u)->contactRelease(point - this->animatedFrame.origin,state,buttons);edkEnd();
                         }
                     }
                 }
@@ -347,9 +347,9 @@ void edk::ViewController::contactRelease(edk::vec2f32 point,edk::uint8 state,edk
     for(edk::uint32 i=this->nexts.size();i>0u;i--){
         //test if the view exist
         if(this->nexts.havePos(i-1u)){
-            if(this->nexts[i-1u]){
+            if(this->nexts.get(i-1u)){
                 //test the contact
-                this->nexts[i-1u]->contactRelease(point - this->animatedFrame.origin,state,buttons);edkEnd();
+                this->nexts.get(i-1u)->contactRelease(point - this->animatedFrame.origin,state,buttons);edkEnd();
             }
         }
     }
