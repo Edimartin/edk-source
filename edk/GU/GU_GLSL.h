@@ -68,101 +68,127 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define GU_GLSL_vertex_program   12u
 #define GU_GLSL_geometry_program 13u
 
-#define GU_GLSL_FRAGMENT_SHADER 0x8B30
-#define GU_GLSL_VERTEX_SHADER 0x8B31
+#define GU_GLSL_FRAGMENT_SHADER GL_FRAGMENT_SHADER
+#define GU_GLSL_VERTEX_SHADER   GL_VERTEX_SHADER
 
-#define GU_SHADER_TYPE 0x8B4F
-#define GU_DELETE_STATUS 0x8B80
-#define GU_COMPILE_STATUS 0x8B81
-#define GU_INFO_LOG_LENGTH 0x8B84
-#define GU_SHADER_SOURCE_LENGTH 0x8B88
+#define GU_SHADER_TYPE          GL_SHADER_TYPE
+#define GU_DELETE_STATUS        GL_DELETE_STATUS
+#define GU_COMPILE_STATUS       GL_COMPILE_STATUS
+#define GU_INFO_LOG_LENGTH      GL_INFO_LOG_LENGTH
+#define GU_SHADER_SOURCE_LENGTH GL_SHADER_SOURCE_LENGTH
 
-#define GU_LINK_STATUS 0x8B82
-#define GU_VALIDATE_STATUS 0x8B83
-#define GU_ATTACHED_SHADERS 0x8B85
-#define GU_ACTIVE_ATTRIBUTES 0x8B89
-#define GU_ACTIVE_ATTRIBUTE_MAX_LENGTH 0x8B8A
-#define GU_ACTIVE_UNIFORMS 0x8B86
-#define GU_ACTIVE_UNIFORM_MAX_LENGTH 0x8B87
+#define GU_LINK_STATUS                 GL_LINK_STATUS
+#define GU_VALIDATE_STATUS             GL_VALIDATE_STATUS
+#define GU_ATTACHED_SHADERS            GL_ATTACHED_SHADERS
+#define GU_ACTIVE_ATTRIBUTES           GL_ACTIVE_ATTRIBUTES
+#define GU_ACTIVE_ATTRIBUTE_MAX_LENGTH GL_ACTIVE_ATTRIBUTE_MAX_LENGTH
+#define GU_ACTIVE_UNIFORMS             GL_ACTIVE_UNIFORMS
+#define GU_ACTIVE_UNIFORM_MAX_LENGTH   GL_ACTIVE_UNIFORM_MAX_LENGTH
 
 //Textures
-#define GU_TEXTURE0				    0x84C0
-#define GU_TEXTURE1				    0x84C1
-#define GU_TEXTURE2				    0x84C2
-#define GU_TEXTURE3				    0x84C3
-#define GU_TEXTURE4				    0x84C4
-#define GU_TEXTURE5				    0x84C5
-#define GU_TEXTURE6				    0x84C6
-#define GU_TEXTURE7				    0x84C7
-#define GU_TEXTURE8				    0x84C8
-#define GU_TEXTURE9				    0x84C9
-#define GU_TEXTURE10				0x84CA
-#define GU_TEXTURE11				0x84CB
-#define GU_TEXTURE12				0x84CC
-#define GU_TEXTURE13				0x84CD
-#define GU_TEXTURE14				0x84CE
-#define GU_TEXTURE15				0x84CF
-#define GU_TEXTURE16				0x84D0
-#define GU_TEXTURE17				0x84D1
-#define GU_TEXTURE18				0x84D2
-#define GU_TEXTURE19				0x84D3
-#define GU_TEXTURE20				0x84D4
-#define GU_TEXTURE21				0x84D5
-#define GU_TEXTURE22				0x84D6
-#define GU_TEXTURE23				0x84D7
-#define GU_TEXTURE24				0x84D8
-#define GU_TEXTURE25				0x84D9
-#define GU_TEXTURE26				0x84DA
-#define GU_TEXTURE27				0x84DB
-#define GU_TEXTURE28				0x84DC
-#define GU_TEXTURE29				0x84DD
-#define GU_TEXTURE30				0x84DE
-#define GU_TEXTURE31				0x84DF
+#define GU_TEXTURE0				    GL_TEXTURE0
+#define GU_TEXTURE1				    GL_TEXTURE1
+#define GU_TEXTURE2				    GL_TEXTURE2
+#define GU_TEXTURE3				    GL_TEXTURE3
+#define GU_TEXTURE4				    GL_TEXTURE4
+#define GU_TEXTURE5				    GL_TEXTURE5
+#define GU_TEXTURE6				    GL_TEXTURE6
+#define GU_TEXTURE7				    GL_TEXTURE7
+#define GU_TEXTURE8				    GL_TEXTURE8
+#define GU_TEXTURE9				    GL_TEXTURE9
+#define GU_TEXTURE10				GL_TEXTURE10
+#define GU_TEXTURE11				GL_TEXTURE11
+#define GU_TEXTURE12				GL_TEXTURE12
+#define GU_TEXTURE13				GL_TEXTURE13
+#define GU_TEXTURE14				GL_TEXTURE14
+#define GU_TEXTURE15				GL_TEXTURE15
+#define GU_TEXTURE16				GL_TEXTURE16
+#define GU_TEXTURE17				GL_TEXTURE17
+#define GU_TEXTURE18				GL_TEXTURE18
+#define GU_TEXTURE19				GL_TEXTURE19
+#define GU_TEXTURE20				GL_TEXTURE20
+#define GU_TEXTURE21				GL_TEXTURE21
+#define GU_TEXTURE22				GL_TEXTURE22
+#define GU_TEXTURE23				GL_TEXTURE23
+#define GU_TEXTURE24				GL_TEXTURE24
+#define GU_TEXTURE25				GL_TEXTURE25
+#define GU_TEXTURE26				GL_TEXTURE26
+#define GU_TEXTURE27				GL_TEXTURE27
+#define GU_TEXTURE28				GL_TEXTURE28
+#define GU_TEXTURE29				GL_TEXTURE29
+#define GU_TEXTURE30				GL_TEXTURE30
+#define GU_TEXTURE31				GL_TEXTURE31
 
 //FRAMEBUFFER
-#define GU_FRAMEBUFFER                          0x8D40
-#define GU_READ_FRAMEBUFFER                     0x8CA8
-#define GU_DRAW_FRAMEBUFFER                     0x8CA9
-#define GU_COLOR_ATTACHMENT0                    0x8CE0
-#define GU_COLOR_ATTACHMENT1                    0x8CE1
-#define GU_COLOR_ATTACHMENT2                    0x8CE2
-#define GU_COLOR_ATTACHMENT3                    0x8CE3
-#define GU_COLOR_ATTACHMENT4                    0x8CE4
-#define GU_COLOR_ATTACHMENT5                    0x8CE5
-#define GU_COLOR_ATTACHMENT6                    0x8CE6
-#define GU_COLOR_ATTACHMENT7                    0x8CE7
-#define GU_COLOR_ATTACHMENT8                    0x8CE8
-#define GU_COLOR_ATTACHMENT9                    0x8CE9
-#define GU_COLOR_ATTACHMENT10                   0x8CEA
-#define GU_COLOR_ATTACHMENT11                   0x8CEB
-#define GU_COLOR_ATTACHMENT12                   0x8CEC
-#define GU_COLOR_ATTACHMENT13                   0x8CED
-#define GU_COLOR_ATTACHMENT14                   0x8CEE
-#define GU_COLOR_ATTACHMENT15                   0x8CEF
-#define GU_DEPTH_ATTACHMENT                     0x8D00
-#define GU_STENCIL_ATTACHMENT                   0x8D20
-#define GU_FRAMEBUFFER_COMPLETE                 0x8CD5
-#define GU_FRAMEBUFFER_INCOMPLETE_ATTACHMENT    0x8CD6
-#define GU_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT 0x8CD7
-#define GU_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER   0x8CDB
-#define GU_FRAMEBUFFER_INCOMPLETE_READ_BUFFER   0x8CDC
-#define GU_FRAMEBUFFER_UNSUPPORTED              0x8CDD
+#define GU_FRAMEBUFFER                               GL_FRAMEBUFFER
+#define GU_READ_FRAMEBUFFER                          GL_READ_FRAMEBUFFER
+#define GU_DRAW_FRAMEBUFFER                          GL_DRAW_FRAMEBUFFER
+#define GU_COLOR_ATTACHMENT0                         GL_COLOR_ATTACHMENT0
+#define GU_COLOR_ATTACHMENT1                         GL_COLOR_ATTACHMENT1
+#define GU_COLOR_ATTACHMENT2                         GL_COLOR_ATTACHMENT2
+#define GU_COLOR_ATTACHMENT3                         GL_COLOR_ATTACHMENT3
+#define GU_COLOR_ATTACHMENT4                         GL_COLOR_ATTACHMENT4
+#define GU_COLOR_ATTACHMENT5                         GL_COLOR_ATTACHMENT5
+#define GU_COLOR_ATTACHMENT6                         GL_COLOR_ATTACHMENT6
+#define GU_COLOR_ATTACHMENT7                         GL_COLOR_ATTACHMENT7
+#define GU_COLOR_ATTACHMENT8                         GL_COLOR_ATTACHMENT8
+#define GU_COLOR_ATTACHMENT9                         GL_COLOR_ATTACHMENT9
+#define GU_COLOR_ATTACHMENT10                        GL_COLOR_ATTACHMENT10
+#define GU_COLOR_ATTACHMENT11                        GL_COLOR_ATTACHMENT11
+#define GU_COLOR_ATTACHMENT12                        GL_COLOR_ATTACHMENT12
+#define GU_COLOR_ATTACHMENT13                        GL_COLOR_ATTACHMENT13
+#define GU_COLOR_ATTACHMENT14                        GL_COLOR_ATTACHMENT14
+#define GU_COLOR_ATTACHMENT15                        GL_COLOR_ATTACHMENT15
+#define GU_DEPTH_ATTACHMENT                          GL_DEPTH_ATTACHMENT
+#define GU_STENCIL_ATTACHMENT                        GL_STENCIL_ATTACHMENT
+#define GU_FRAMEBUFFER_COMPLETE                      GL_FRAMEBUFFER_COMPLETE
+#define GU_FRAMEBUFFER_INCOMPLETE_ATTACHMENT         GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT
+#define GU_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT
+#define GU_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER        GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER
+#define GU_FRAMEBUFFER_INCOMPLETE_READ_BUFFER        GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER
+#define GU_FRAMEBUFFER_UNSUPPORTED                   GL_FRAMEBUFFER_UNSUPPORTED
 
-#define GU_STENCIL_INDEX GL_STENCIL_INDEX
-#define GU_DEPTH_COMPONENT GL_DEPTH_COMPONENT
-#define GU_DEPTH_STENCIL GL_DEPTH_STENCIL
-#define GU_RED GL_RED
-#define GU_GREEN GL_GREEN
-#define GU_BLUE GL_BLUE
-#define GU_RG GL_RG
-#define GU_RGB GL_RGB
-#define GU_RGBA GL_RGBA
-#define GU_BGR GL_BGR
-#define GU_BGRA GL_BGRA
+//BUFFER
+#define GU_ARRAY_BUFFER                              GL_ARRAY_BUFFER
+#define GU_ATOMIC_COUNTER_BUFFER                     GL_ATOMIC_COUNTER_BUFFER
+#define GU_COPY_READ_BUFFER                          GL_COPY_READ_BUFFER
+#define GU_COPY_WRITE_BUFFER                         GL_COPY_WRITE_BUFFER
+#define GU_DISPATCH_INDIRECT_BUFFER                  GL_DISPATCH_INDIRECT_BUFFER
+#define GU_DRAW_INDIRECT_BUFFER                      GL_DRAW_INDIRECT_BUFFER
+#define GU_ELEMENT_ARRAY_BUFFER                      GL_ELEMENT_ARRAY_BUFFER
+#define GU_PIXEL_PACK_BUFFER                         GL_PIXEL_PACK_BUFFER
+#define GU_PIXEL_UNPACK_BUFFER                       GL_PIXEL_UNPACK_BUFFER
+#define GU_QUERY_BUFFER                              GL_QUERY_BUFFER
+#define GU_SHADER_STORAGE_BUFFER                     GL_SHADER_STORAGE_BUFFER
+#define GU_TEXTURE_BUFFER                            GL_TEXTURE_BUFFER
+#define GU_TRANSFORM_FEEDBACK_BUFFER                 GL_TRANSFORM_FEEDBACK_BUFFER
+#define GU_UNIFORM_BUFFER                            GL_UNIFORM_BUFFER
+
+#define GU_STREAM_DRAW                               GL_STREAM_DRAW
+#define GU_STREAM_READ                               GL_STREAM_READ
+#define GU_STREAM_COPY                               GL_STREAM_COPY
+#define GU_STATIC_DRAW                               GL_STATIC_DRAW
+#define GU_STATIC_READ                               GL_STATIC_READ
+#define GU_STATIC_COPY                               GL_STATIC_COPY
+#define GU_DYNAMIC_DRAW                              GL_DYNAMIC_DRAW
+#define GU_DYNAMIC_READ                              GL_DYNAMIC_READ
+#define GU_DYNAMIC_COPY                              GL_DYNAMIC_COPY
+
+#define GU_STENCIL_INDEX                             GL_STENCIL_INDEX
+#define GU_DEPTH_COMPONENT                           GL_DEPTH_COMPONENT
+#define GU_DEPTH_STENCIL                             GL_DEPTH_STENCIL
+#define GU_RED                                       GL_RED
+#define GU_GREEN                                     GL_GREEN
+#define GU_BLUE                                      GL_BLUE
+#define GU_RG                                        GL_RG
+#define GU_RGB                                       GL_RGB
+#define GU_RGBA                                      GL_RGBA
+#define GU_BGR                                       GL_BGR
+#define GU_BGRA                                      GL_BGRA
 
 namespace edk{
 class GU_GLSL{
-    public:
+public:
     //construtor
     GU_GLSL();
 
@@ -229,7 +255,7 @@ class GU_GLSL{
     static bool guReadTexture(edk::uint32 ID,edk::uint32 format, const edk::classID  data);
     //matrix
     //glUniformMatrix2fv
-/*
+    /*
     static void guVertexData1i32(edk::int32 id,edk::int32 d0);
     static void guVertexData2i32(edk::int32 id,edk::vec2i32 d);
     static void guVertexData2i32(edk::int32 id,edk::int32 d0,edk::int32 d1);
@@ -260,11 +286,111 @@ class GU_GLSL{
     //Set the active texture to use
     static void guActiveTexture(edk::uint32 texture);
 
+    //BUFFERS
+    /* type
+    GU_ARRAY_BUFFER
+    GU_ATOMIC_COUNTER_BUFFER
+    GU_COPY_READ_BUFFER
+    GU_COPY_WRITE_BUFFER
+    GU_DISPATCH_INDIRECT_BUFFER
+    GU_DRAW_INDIRECT_BUFFER
+    GU_ELEMENT_ARRAY_BUFFER
+    GU_PIXEL_PACK_BUFFER
+    GU_PIXEL_UNPACK_BUFFER
+    GU_QUERY_BUFFER
+    GU_SHADER_STORAGE_BUFFER
+    GU_TEXTURE_BUFFER
+    GU_TRANSFORM_FEEDBACK_BUFFER
+    GU_UNIFORM_BUFFER
+*/
+    //alloc Buffer
+    static edk::uint32 guAllocBuffer(edk::uint32 type);
+    /* type
+    GU_ARRAY_BUFFER
+    GU_ATOMIC_COUNTER_BUFFER
+    GU_COPY_READ_BUFFER
+    GU_COPY_WRITE_BUFFER
+    GU_DISPATCH_INDIRECT_BUFFER
+    GU_DRAW_INDIRECT_BUFFER
+    GU_ELEMENT_ARRAY_BUFFER
+    GU_PIXEL_PACK_BUFFER
+    GU_PIXEL_UNPACK_BUFFER
+    GU_QUERY_BUFFER
+    GU_SHADER_STORAGE_BUFFER
+    GU_TEXTURE_BUFFER
+    GU_TRANSFORM_FEEDBACK_BUFFER
+    GU_UNIFORM_BUFFER
+*/
+    //use Buffer
+    static void guUseBuffer(edk::uint32 type,edk::uint32 ID);
+    /* type
+    GU_ARRAY_BUFFER
+    GU_ATOMIC_COUNTER_BUFFER
+    GU_COPY_READ_BUFFER
+    GU_COPY_WRITE_BUFFER
+    GU_DISPATCH_INDIRECT_BUFFER
+    GU_DRAW_INDIRECT_BUFFER
+    GU_ELEMENT_ARRAY_BUFFER
+    GU_PIXEL_PACK_BUFFER
+    GU_PIXEL_UNPACK_BUFFER
+    GU_QUERY_BUFFER
+    GU_SHADER_STORAGE_BUFFER
+    GU_TEXTURE_BUFFER
+    GU_TRANSFORM_FEEDBACK_BUFFER
+    GU_UNIFORM_BUFFER
+*/
+    //do not use Buffer
+    static void guDontUseBuffer(edk::uint32 type);
+    static void guDontUseAllBuffer();
+    //delete the Buffer
+    static void guDeleteBuffer(edk::uint32 ID);
+    /* type
+    GU_ARRAY_BUFFER
+    GU_ATOMIC_COUNTER_BUFFER
+    GU_COPY_READ_BUFFER
+    GU_COPY_WRITE_BUFFER
+    GU_DISPATCH_INDIRECT_BUFFER
+    GU_DRAW_INDIRECT_BUFFER
+    GU_ELEMENT_ARRAY_BUFFER
+    GU_PIXEL_PACK_BUFFER
+    GU_PIXEL_UNPACK_BUFFER
+    GU_QUERY_BUFFER
+    GU_SHADER_STORAGE_BUFFER
+    GU_TEXTURE_BUFFER
+    GU_TRANSFORM_FEEDBACK_BUFFER
+    GU_UNIFORM_BUFFER
+*/
+
+    /*
+    GU_STREAM_DRAW
+    GU_STREAM_READ
+    GU_STREAM_COPY
+    GU_STATIC_DRAW
+    GU_STATIC_READ
+    GU_STATIC_COPY
+    GU_DYNAMIC_DRAW
+    GU_DYNAMIC_READ
+    GU_DYNAMIC_COPY
+*/
+    //add the buffer in to the vbo
+    static bool guBufferData(edk::uint32 type, edk::uint64 size, const edk::classID data, edk::uint32 usage);
+    //Check Buffer
+    //static edk::uint32 guCheckBufferStatus(edk::uint32 type);
+    //static bool guCheckBufferOK(edk::uint32 type);
+
     //FRAMEBUFFERS
+    /*
+    GU_FRAMEBUFFER
+    GU_DRAW_FRAMEBUFFER
+    GU_READ_FRAMEBUFFER
+*/
     //alloc frameBuffer
     static edk::uint32 guAllocFrameBuffer(edk::uint32 type);
     //use FrameBuffer
-    static void guUseFrameBuffer(edk::uint32 target,edk::uint32 ID);
+    static void guUseFrameBuffer(edk::uint32 type,edk::uint32 ID);
+    //do not use FrameBuffer
+    static void guDontUseFrameBuffer(edk::uint32 type);
+    static void guDontUseAllFrameBuffer();
     //delete the frameBuffer
     static void guDeleteFrameBuffer(edk::uint32 ID);
     //use the frameBuffer to the texture
@@ -274,15 +400,37 @@ class GU_GLSL{
     //set one drawBuffer
     static bool guSetDrawBuffer(edk::uint32 buffer);
     //Check frameBuffer
-    static edk::uint32 guCheckFramebufferStatus(edk::uint32 target);
+    static edk::uint32 guCheckFrameBufferStatus(edk::uint32 target);
     static bool guCheckFrameBufferOK(edk::uint32 target);
+
+    //RENDERBUFFERS
+    //alloc renderBuffer
+    static edk::uint32 guAllocRenderBuffer();
+    //use RenderBuffer
+    static void guUseRenderBuffer(edk::uint32 ID);
+    //do not use RenderBuffer
+    static void guDontUseRenderBuffer();
+    //delete the RenderBuffer
+    static void guDeleteRenderBuffer(edk::uint32 ID);
+    //use the RenderBuffer to the texture
+    //static void guRenderBufferTexture(edk::uint32 type, edk::uint32 attachment, edk::uint32 texture, edk::uint32 mipmapLevel);
+    //Check RenderBuffer
+    //static edk::uint32 guCheckRenderbufferStatus(edk::uint32 type);
+    //static bool guCheckRenderBufferOK(edk::uint32 type);
 
     //STRING
     //GL_SHADING_LANGUAGE_VERSION
     //Returns a version or release number for the shading language of the form
     static edk::char8* guGetVersion();
 
+#if defined(_WIN32) || defined(_WIN64)
+    //Windows
+    static edk::multi::MutexDisable mut;
+#endif
+#ifdef __linux__
+    //LINUX
     static edk::multi::Mutex mut;
+#endif
     static edk::multi::Mutex mutBeginEnd;
 
 private:

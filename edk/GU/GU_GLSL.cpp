@@ -29,7 +29,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 bool edk::GU_GLSL::initiate=false;
+#if defined(_WIN32) || defined(_WIN64)
+//Windows
+edk::multi::MutexDisable edk::GU_GLSL::mut;
+#endif
+#ifdef __linux__
+//LINUX
 edk::multi::Mutex edk::GU_GLSL::mut;
+#endif
 edk::multi::Mutex edk::GU_GLSL::mutBeginEnd;
 
 //construtor
@@ -373,6 +380,84 @@ void edk::GU_GLSL::guActiveTexture(edk::uint32 texture){
     //}
 }
 
+//BUFFERS
+//alloc Buffer
+edk::uint32 edk::GU_GLSL::guAllocBuffer(edk::uint32 type){
+    edk::uint32 ret = 0u;
+    if(type == GU_ARRAY_BUFFER
+            || type == GU_ATOMIC_COUNTER_BUFFER
+            || type == GU_COPY_READ_BUFFER
+            || type == GU_COPY_WRITE_BUFFER
+            || type == GU_DISPATCH_INDIRECT_BUFFER
+            || type == GU_DRAW_INDIRECT_BUFFER
+            || type == GU_ELEMENT_ARRAY_BUFFER
+            || type == GU_PIXEL_PACK_BUFFER
+            || type == GU_PIXEL_UNPACK_BUFFER
+            || type == GU_QUERY_BUFFER
+            || type == GU_SHADER_STORAGE_BUFFER
+            || type == GU_TEXTURE_BUFFER
+            || type == GU_TRANSFORM_FEEDBACK_BUFFER
+            || type == GU_UNIFORM_BUFFER
+            ){
+        edk::GU_GLSL::mut.lock();
+        glGenBuffers(1, &ret);
+        if(ret){
+            glBindBuffer(type, ret);
+        }
+        edk::GU_GLSL::mut.unlock();
+    }
+    return ret;
+}
+//use Buffer
+void edk::GU_GLSL::guUseBuffer(edk::uint32 type,edk::uint32 ID){
+    edk::GU_GLSL::mut.lock();
+    glBindBuffer(type, ID);
+    edk::GU_GLSL::mut.unlock();
+}
+//do not use Buffer
+void edk::GU_GLSL::guDontUseBuffer(edk::uint32 type){
+    edk::GU_GLSL::mut.lock();
+    glBindBuffer(type, 0u);
+    edk::GU_GLSL::mut.unlock();
+}
+void edk::GU_GLSL::guDontUseAllBuffer(){
+    edk::GU_GLSL::mut.lock();
+    glBindBuffer(GU_FRAMEBUFFER,0u);
+    glBindBuffer(GU_DRAW_FRAMEBUFFER,0u);
+    glBindBuffer(GU_READ_FRAMEBUFFER,0u);
+    edk::GU_GLSL::mut.unlock();
+}
+//delete the Buffer
+void edk::GU_GLSL::guDeleteBuffer(edk::uint32 ID){
+    edk::GU_GLSL::mut.lock();
+    glDeleteBuffers(1u,&ID);
+    edk::GU_GLSL::mut.unlock();
+}
+//add the buffer in to the vbo
+bool edk::GU_GLSL::guBufferData(edk::uint32 type, edk::uint64 size, const edk::classID data, edk::uint32 usage){
+    if(data && size){
+        edk::GU_GLSL::mut.lock();
+        glBufferData(type, size, data,usage);
+        edk::GU_GLSL::mut.unlock();
+        return true;
+    }
+    return false;
+}
+//Check Buffer
+//edk::uint32 edk::GU_GLSL::guCheckBufferStatus(edk::uint32 type){
+//    edk::uint32 ret;
+//    edk::GU_GLSL::mut.lock();
+//    ret = glCheckBufferStatus(type);
+//    edk::GU_GLSL::mut.unlock();
+//    return ret;
+//}
+//bool edk::GU_GLSL::guCheckBufferOK(edk::uint32 type){
+//    if(edk::GU_GLSL::guCheckBufferStatus(type) == GU_FRAMEBUFFER_COMPLETE){
+//        return true;
+//    }
+//    return false;
+//}
+
 //FRAMEBUFFERS
 //alloc frameBuffer
 edk::uint32 edk::GU_GLSL::guAllocFrameBuffer(edk::uint32 type){
@@ -388,9 +473,22 @@ edk::uint32 edk::GU_GLSL::guAllocFrameBuffer(edk::uint32 type){
     return ret;
 }
 //use FrameBuffer
-void edk::GU_GLSL::guUseFrameBuffer(edk::uint32 target,edk::uint32 ID){
+void edk::GU_GLSL::guUseFrameBuffer(edk::uint32 type,edk::uint32 ID){
     edk::GU_GLSL::mut.lock();
-    glBindFramebuffer(target, ID);
+    glBindFramebuffer(type, ID);
+    edk::GU_GLSL::mut.unlock();
+}
+//do not use FrameBuffer
+void edk::GU_GLSL::guDontUseFrameBuffer(edk::uint32 type){
+    edk::GU_GLSL::mut.lock();
+    glBindFramebuffer(type, 0u);
+    edk::GU_GLSL::mut.unlock();
+}
+void edk::GU_GLSL::guDontUseAllFrameBuffer(){
+    edk::GU_GLSL::mut.lock();
+    glBindFramebuffer(GU_FRAMEBUFFER,0u);
+    glBindFramebuffer(GU_DRAW_FRAMEBUFFER,0u);
+    glBindFramebuffer(GU_READ_FRAMEBUFFER,0u);
     edk::GU_GLSL::mut.unlock();
 }
 //delete the frameBuffer
@@ -423,7 +521,7 @@ bool edk::GU_GLSL::guSetDrawBuffer(edk::uint32 buffer){
     return ret;
 }
 //Check frameBuffer
-edk::uint32 edk::GU_GLSL::guCheckFramebufferStatus(edk::uint32 target){
+edk::uint32 edk::GU_GLSL::guCheckFrameBufferStatus(edk::uint32 target){
     edk::uint32 ret;
     edk::GU_GLSL::mut.lock();
     ret = glCheckFramebufferStatus(target);
@@ -431,11 +529,64 @@ edk::uint32 edk::GU_GLSL::guCheckFramebufferStatus(edk::uint32 target){
     return ret;
 }
 bool edk::GU_GLSL::guCheckFrameBufferOK(edk::uint32 target){
-    if(edk::GU_GLSL::guCheckFramebufferStatus(target) == GU_FRAMEBUFFER_COMPLETE){
+    if(edk::GU_GLSL::guCheckFrameBufferStatus(target) == GU_FRAMEBUFFER_COMPLETE){
         return true;
     }
     return false;
 }
+
+
+
+//RENDERBUFFERS
+//alloc renderBuffer
+edk::uint32 edk::GU_GLSL::guAllocRenderBuffer(){
+    edk::uint32 ret = 0u;
+    edk::GU_GLSL::mut.lock();
+    glGenRenderbuffers(1, &ret);
+    if(ret){
+        glBindRenderbuffer(GL_RENDERBUFFER, ret);
+    }
+    edk::GU_GLSL::mut.unlock();
+    return ret;
+}
+//use RenderBuffer
+void edk::GU_GLSL::guUseRenderBuffer(edk::uint32 ID){
+    edk::GU_GLSL::mut.lock();
+    glBindRenderbuffer(GL_RENDERBUFFER, ID);
+    edk::GU_GLSL::mut.unlock();
+}
+//do not use RenderBuffer
+void edk::GU_GLSL::guDontUseRenderBuffer(){
+    edk::GU_GLSL::mut.lock();
+    glBindRenderbuffer(GL_RENDERBUFFER, 0u);
+    edk::GU_GLSL::mut.unlock();
+}
+//delete the RenderBuffer
+void edk::GU_GLSL::guDeleteRenderBuffer(edk::uint32 ID){
+    edk::GU_GLSL::mut.lock();
+    glDeleteRenderbuffers(1u,&ID);
+    edk::GU_GLSL::mut.unlock();
+}
+//use the RenderBuffer to the texture
+//void edk::GU_GLSL::guRenderBufferTexture(edk::uint32 type, edk::uint32 attachment, edk::uint32 texture, edk::uint32 mipmapLevel){
+//    edk::GU_GLSL::mut.lock();
+//    glRenderbufferTexture(type,attachment,texture,mipmapLevel);
+//    edk::GU_GLSL::mut.unlock();
+//}
+//Check RenderBuffer
+//edk::uint32 edk::GU_GLSL::guCheckRenderbufferStatus(edk::uint32 type){
+//    edk::uint32 ret;
+//    edk::GU_GLSL::mut.lock();
+//    ret = glCheckRenderbufferStatus(type);
+//    edk::GU_GLSL::mut.unlock();
+//    return ret;
+//}
+//bool edk::GU_GLSL::guCheckRenderBufferOK(edk::uint32 type){
+//    if(edk::GU_GLSL::guCheckRenderBufferStatus(type) == GU_FRAMEBUFFER_COMPLETE){
+//        return true;
+//    }
+//    return false;
+//}
 
 //STRING
 //GL_SHADING_LANGUAGE_VERSION

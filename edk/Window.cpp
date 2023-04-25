@@ -576,6 +576,8 @@ bool edk::Window::flip(){
         //Pode renderizar na tela
         //this->window.Display();edkEnd();//1.6
         this->window.display();edkEnd();//2.0
+        //update the loadTexture from GU
+        edk::GU::guUpdateLoadTextures();edkEnd();
         //retorna true
         return true;
     }
@@ -584,11 +586,7 @@ bool edk::Window::flip(){
 }
 
 bool edk::Window::render(){
-    //
-    bool ret = this->flip();edkEnd();
-    //update the loadTexture from GU
-    edk::GU::guUpdateLoadTextures();
-    return ret;
+    return this->flip();edkEnd();
 }
 
 edk::size2ui32 edk::Window::getSize(){

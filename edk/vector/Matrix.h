@@ -131,6 +131,13 @@ public:
     bool set(edk::uint32 x,edk::uint32 y,typeTemplate obj){
         return this->set(edk::vec2ui32(x,y),obj);edkEnd();
     }
+    //SETTER WITHOUT IF
+    inline void setNoIF(edk::vec2ui32 position,typeTemplate obj){
+        memcpy(&this->matrix[position.y][position.x],&obj,sizeof(typeTemplate));edkEnd();
+    }
+    inline void setNoIF(edk::uint32 x,edk::uint32 y,typeTemplate obj){
+        memcpy(&this->matrix[y][x],&obj,sizeof(typeTemplate));edkEnd();
+    }
     //set the matrix as identity
     bool setIdentity(typeTemplate valueOne,typeTemplate valueZero){
         if(this->matrixSize.width && this->matrixSize.height){
@@ -151,22 +158,22 @@ public:
 
     //GETTERS
     //returrn the matrix size
-    edk::size2ui32 size(){
+    inline edk::size2ui32 size(){
         return this->matrixSize;edkEnd();
     }
-    edk::uint32 width(){
+    inline edk::uint32 width(){
         return this->matrixSize.width;edkEnd();
     }
-    edk::uint32 height(){
+    inline edk::uint32 height(){
         return this->matrixSize.height;edkEnd();
     }
-    edk::size2ui32  getSize(){
+    inline edk::size2ui32  getSize(){
         return this->matrixSize;edkEnd();
     }
-    edk::uint32 getWidth(){
+    inline edk::uint32 getWidth(){
         return this->matrixSize.width;edkEnd();
     }
-    edk::uint32 getHeight(){
+    inline edk::uint32 getHeight(){
         return this->matrixSize.height;edkEnd();
     }
     //test if have the object in the position
@@ -199,6 +206,15 @@ public:
     //return the value in a position
     typeTemplate get(edk::uint32 x,edk::uint32 y){
         return this->get(edk::vec2ui32(x,y));edkEnd();
+    }
+    //GETTERS WITHOUT IF
+    inline typeTemplate getNoIF(edk::vec2ui32 position){
+        //return the variable
+        return this->matrix[position.y][position.x];
+    }
+    //return the value in a position
+    inline typeTemplate getNoIF(edk::uint32 x,edk::uint32 y){
+        return this->matrix[y][x];
     }
 
     //test if a matrix is equal then other

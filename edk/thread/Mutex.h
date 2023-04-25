@@ -41,11 +41,11 @@ public:
     ~Mutex();
 
     //lock this mutex to another don't run the code
-    void lock();
+    virtual void lock();
     //unlock this mutex
-    void unlock();
+    virtual void unlock();
     //try lock the mutex (if true it's locked)
-    bool tryLock();
+    virtual bool tryLock();
 private:
 
 #if defined( WIN32) || defined( WIN64)
@@ -55,6 +55,18 @@ private:
 #if defined(__linux__)/*LINUX*/ || defined(__APPLE__)//MAC OS
     pthread_mutex_t mut;
 #endif
+};
+class MutexDisable{
+public:
+    MutexDisable(){}
+    ~MutexDisable(){}
+
+    //lock this mutex to another don't run the code
+    inline void lock(){}
+    //unlock this mutex
+    inline void unlock(){}
+    //try lock the mutex (if true it's locked)
+    inline bool tryLock(){return false;}
 };
 }//end namespace multi
 }//end namespace edk

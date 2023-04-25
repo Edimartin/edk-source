@@ -64,6 +64,28 @@ enum EDKpolygon2DType{
 
     polygon2DTypeSize
 };
+//VBO type
+enum EDKVBOType{
+    vbo_NULL = 0u,
+    vbo_XY,                   //sizeof(edk::float32)*2u,
+    vbo_XYZ,                  //sizeof(edk::float32)*3u,
+    vbo_XY_NxNy,              //sizeof(edk::float32)*4u,
+    vbo_XYZ_NxNy,             //sizeof(edk::float32)*5u,
+    vbo_XY_RGB,               //sizeof(edk::float32)*5u,
+    vbo_XYZ_RGB,              //sizeof(edk::float32)*6u,
+    vbo_XY_RGBA,              //sizeof(edk::float32)*6u,
+    vbo_XYZ_RGBA,             //sizeof(edk::float32)*7u,
+    vbo_XY_RGB_NxNy,          //sizeof(edk::float32)*7u,
+    vbo_XYZ_RGB_NxNy,         //sizeof(edk::float32)*8u,
+    vbo_XY_RGBA_NxNy,         //sizeof(edk::float32)*8u,
+    vbo_XYZ_RGBA_NxNy,        //sizeof(edk::float32)*9u,
+    vbo_XY_RGB_NxNy_UVxUVy,   //sizeof(edk::float32)*9u,
+    vbo_XYZ_RGB_NxNy_UVxUVy,  //sizeof(edk::float32)*10u,
+    vbo_XY_RGBA_NxNy_UVxUVy,  //sizeof(edk::float32)*10u,
+    vbo_XYZ_RGBA_NxNy_UVxUVy, //sizeof(edk::float32)*11u
+
+    vbo_Size
+};
 
 class Polygon2D{
 public:
@@ -284,6 +306,23 @@ public:
 protected:
     edk::vector::Array<edk::shape::Vertex2D*> vertexs;
     edk::vector::Array<edk::shape::Vertex2D*> vertexsOriginal;
+
+    //Polygon VBO
+    edk::uint32 vbo;
+    edk::shape::EDKVBOType vboType;
+    //array for the vbo
+    edk::vector::Array<edk::float32> vertexBuffer;
+    //vbo vertexes size
+    edk::uint32 vboSize;
+    bool needChangeVBO;
+
+    //function to create the VBO
+    bool createVBO(edk::uint32 vertexCount,edk::shape::EDKVBOType type);
+    //change the type of the VBO
+    bool changeVBO(edk::shape::EDKVBOType type);
+    void deleteVBO();
+    bool haveVBO();
+
     //save if don't transform the polygon
     bool transforming;
     //Color of the polygon
@@ -1429,7 +1468,7 @@ private:
     edk::vector::Matrix<edk::float32,3u,3u> matrixTranslate;
     edk::vector::Matrix<edk::float32,3u,3u> matrixRotate;
     edk::vector::Matrix<edk::float32,3u,3u> matrixScale;
-    edk::vector::Matrix<edk::float32,3,3> matrixTransform;
+    edk::vector::Matrix<edk::float32,3u,3u> matrixTransform;
     edk::vector::MatrixDynamic<edk::float32> matrixPosition;
     //success
     static bool successTemplate;

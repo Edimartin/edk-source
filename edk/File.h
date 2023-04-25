@@ -400,6 +400,6 @@ private:
     edk::Name name;
 };
 
-} //End of namespace edk
+}//End of namespace edk
 
 #endif // edk_File_h

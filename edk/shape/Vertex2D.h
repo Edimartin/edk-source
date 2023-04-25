@@ -124,7 +124,7 @@ public:
                              );edkEnd();
 
         //draw the normal
-        edk::GU::guVertexNormal3f32(this->position.x, this->position.y,1.f);edkEnd();
+        edk::GU::guVertexNormal3f32(0.f, 0.f,1.f);edkEnd();
 
         //draw the vertex
         edk::GU::guVertex3f32( this->position.x, this->position.y, 0.0f);edkEnd();
@@ -142,7 +142,7 @@ public:
                              );edkEnd();
 
         //draw the normal
-        edk::GU::guVertexNormal3f32(this->position.x, this->position.y,1.f);edkEnd();
+        edk::GU::guVertexNormal3f32(0.f, 0.f,1.f);edkEnd();
 
         //draw the vertex
         edk::GU::guVertex3f32( this->position.x, this->position.y, 0.0f);edkEnd();
