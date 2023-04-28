@@ -588,7 +588,7 @@ edk::char8* edk::gui2d::TextField2d::TextVec::getString(){
     //test if have some characters
     if(size){
         //create the new string
-        edk::char8* str = new edk::char8[size+1u];edkEnd();
+        edk::char8* str = (edk::char8*)malloc(sizeof(edk::char8) * (size+1u));edkEnd();
         if(str){
             str[size]='\0';edkEnd();
             edk::uint32 position = 0u;edkEnd();
@@ -599,7 +599,7 @@ edk::char8* edk::gui2d::TextField2d::TextVec::getString(){
                 //
                 c = this->vec.get(position);edkEnd();
                 if(!c){
-                    delete[] str;edkEnd();
+                    free(str);edkEnd();
                     return NULL;
                 }
                 //test if is a special character
@@ -635,7 +635,7 @@ edk::char8* edk::gui2d::TextField2d::TextVec::getStringWithLastSpace(){
     //test if have some characters
     if(size){
         //create the new string
-        edk::char8* str = new edk::char8[size+2u];edkEnd();
+        edk::char8* str = (edk::char8*)malloc(sizeof(edk::char8) * (size+2u));edkEnd();
         if(str){
             str[size+1u]='\0';edkEnd();
             str[size]=' ';edkEnd();
@@ -647,7 +647,7 @@ edk::char8* edk::gui2d::TextField2d::TextVec::getStringWithLastSpace(){
                 //
                 c = this->vec.get(position);edkEnd();
                 if(!c){
-                    delete[] str;edkEnd();
+                    free(str);edkEnd();
                     return NULL;
                 }
                 //test if is a special character
@@ -1039,7 +1039,7 @@ bool edk::gui2d::TextField2d::removeCharacter(edk::uint32 position){
                 //force update the text
                 this->forceUpdate();edkEnd();
             }
-            delete[] str;edkEnd();
+            free(str);edkEnd();
         }
         return ret;
     }
@@ -1075,7 +1075,7 @@ bool edk::gui2d::TextField2d::saveTemplate(edk::char8* folder){
                 file.closeFile();
                 ret = true;
             }
-            delete[] str;
+            free(str);
         }
         return ret;
     }
@@ -1377,7 +1377,7 @@ bool edk::gui2d::TextField2d::addCharacter(edk::char8 c){
             this->cursorID++;edkEnd();
             this->selectionMiddle = this->selectionEnd = this->selectionStart = this->cursorID;edkEnd();
             edk::gui2d::ObjectGui2d::writeText(str);edkEnd();
-            delete[] str;edkEnd();
+            free(str);edkEnd();
             return true;
         }
         else{
@@ -1398,7 +1398,7 @@ bool edk::gui2d::TextField2d::addString(edk::char8* str){
             this->cursorID++;edkEnd();
             this->selectionMiddle = this->selectionEnd = this->selectionStart = this->cursorID;edkEnd();
             edk::gui2d::ObjectGui2d::writeText(str);edkEnd();
-            delete[] str;edkEnd();
+            free(str);edkEnd();
             return true;
         }
         else{
@@ -1455,7 +1455,7 @@ bool edk::gui2d::TextField2d::writeText(const edk::char8* text){
         if(edk::gui2d::ObjectGui2d::writeText(str)){
             ret = true;edkEnd();
         }
-        delete[] str;edkEnd();
+        free(str);edkEnd();
         return ret;
     }
     this->cleanTextVariables(NULL);edkEnd();
@@ -1470,7 +1470,7 @@ bool edk::gui2d::TextField2d::writeText(edk::char8* text){
         if(edk::gui2d::ObjectGui2d::writeText(str)){
             ret = true;edkEnd();
         }
-        delete[] str;edkEnd();
+        free(str);edkEnd();
         return ret;
     }
     this->cleanTextVariables(NULL);edkEnd();
@@ -1485,7 +1485,7 @@ bool edk::gui2d::TextField2d::writeText(const edk::char8* text,edk::float32 scal
         if(edk::gui2d::ObjectGui2d::writeText(str,scaleWidth,scaleHeight)){
             ret = true;edkEnd();
         }
-        delete[] str;edkEnd();
+        free(str);edkEnd();
         return ret;
     }
     this->cleanTextVariables(NULL);edkEnd();
@@ -1500,7 +1500,7 @@ bool edk::gui2d::TextField2d::writeText(edk::char8* text,edk::float32 scaleWidth
         if(edk::gui2d::ObjectGui2d::writeText(str,scaleWidth,scaleHeight)){
             ret = true;edkEnd();
         }
-        delete[] str;edkEnd();
+        free(str);edkEnd();
         return ret;
     }
     this->cleanTextVariables(NULL);edkEnd();
@@ -1515,7 +1515,7 @@ bool edk::gui2d::TextField2d::writeText(const edk::char8* text,edk::size2f32 sca
         if(edk::gui2d::ObjectGui2d::writeText(str,scale)){
             ret = true;edkEnd();
         }
-        delete[] str;edkEnd();
+        free(str);edkEnd();
         return ret;
     }
     this->cleanTextVariables(NULL);edkEnd();
@@ -1530,7 +1530,7 @@ bool edk::gui2d::TextField2d::writeText(edk::char8* text,edk::size2f32 scale){
         if(edk::gui2d::ObjectGui2d::writeText(str,scale)){
             ret = true;edkEnd();
         }
-        delete[] str;edkEnd();
+        free(str);edkEnd();
         return ret;
     }
     this->cleanTextVariables(NULL);edkEnd();
@@ -1554,7 +1554,7 @@ void edk::gui2d::TextField2d::deleteCharacter(){
     edk::char8* str = this->textVec.getStringWithLastSpace();edkEnd();
     if(str){
         edk::gui2d::ObjectGui2d::writeText(str);edkEnd();
-        delete[] str;edkEnd();
+        free(str);edkEnd();
     }
     else{
         edk::gui2d::ObjectGui2d::cleanText();edkEnd();
@@ -1585,7 +1585,7 @@ void edk::gui2d::TextField2d::removeCharacter(){
         edk::char8* str = this->textVec.getStringWithLastSpace();edkEnd();
         if(str){
             edk::gui2d::ObjectGui2d::writeText(str);edkEnd();
-            delete[] str;edkEnd();
+            free(str);edkEnd();
         }
         else{
             this->cursorID=0u;

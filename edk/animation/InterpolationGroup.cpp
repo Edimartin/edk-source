@@ -1717,9 +1717,9 @@ bool edk::animation::InterpolationGroup::writeToXML(edk::XML* xml,edk::uint32 id
                         xml->selectFather();edkEnd();
                     }
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }
@@ -1783,9 +1783,9 @@ bool edk::animation::InterpolationGroup::readFromXML(edk::XML* xml,edk::uint32 i
                     //
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }

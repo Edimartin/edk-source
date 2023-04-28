@@ -338,31 +338,31 @@ bool edk::animation::InterpolationLine1D::writeCurveToXML(edk::XML* xml,edk::uin
                         temp = edk::String::float32ToStr(this->p1X.width);edkEnd();
                         if(temp){
                             xml->addSelectedNextAttribute((edk::char8*)"p1W",temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         temp = edk::String::float32ToStr(this->p1X.height);edkEnd();
                         if(temp){
                             xml->addSelectedNextAttribute((edk::char8*)"p1H",temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         temp = edk::String::float32ToStr(this->p2X.width);edkEnd();
                         if(temp){
                             xml->addSelectedNextAttribute((edk::char8*)"p2W",temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         temp = edk::String::float32ToStr(this->p2X.height);edkEnd();
                         if(temp){
                             xml->addSelectedNextAttribute((edk::char8*)"p2H",temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
 
                         xml->selectFather();edkEnd();
                         ret=true;edkEnd();
                     }
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }
@@ -386,9 +386,9 @@ bool edk::animation::InterpolationLine1D::readCurveFromXML(edk::XML* xml,edk::ui
                     xml->selectFather();edkEnd();
                     ret=true;edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }

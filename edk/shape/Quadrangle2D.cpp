@@ -74,9 +74,15 @@ void edk::shape::Quadrangle2D::draw(){
     edk::GU::guTranslate2f32(this->translate);edkEnd();
     edk::GU::guRotateZf32(this->angle);edkEnd();
     edk::GU::guScale2f32(this->scale);edkEnd();
+    /*
     edk::GU::guBegin(GU_QUADS);edkEnd();
         this->drawVertexs();edkEnd();
     edk::GU::guEnd();edkEnd();
+    */
+
+    //drawVBO
+    (this->*vboDraw)(GU_QUADS);
+
     edk::GU::guPopMatrix();edkEnd();
 }
 void edk::shape::Quadrangle2D::drawWire(){
@@ -85,8 +91,14 @@ void edk::shape::Quadrangle2D::drawWire(){
     edk::GU::guTranslate2f32(this->translate);edkEnd();
     edk::GU::guRotateZf32(this->angle);edkEnd();
     edk::GU::guScale2f32(this->scale);edkEnd();
+    /*
     edk::GU::guBegin(GU_LINES);edkEnd();
         this->drawVertexs();edkEnd();
     edk::GU::guEnd();edkEnd();
+    */
+
+    //drawVBO
+    (this->*vboDraw)(GU_LINES);
+
     edk::GU::guPopMatrix();edkEnd();
 }

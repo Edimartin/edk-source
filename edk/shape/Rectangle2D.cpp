@@ -99,6 +99,287 @@ bool edk::shape::Rectangle2D::createPolygon(){
     return false;
 }
 
+//function to create the VBO
+bool edk::shape::Rectangle2D::createVBO(edk::uint32 vertexCount,edk::shape::EDKVBOType type){
+    return edk::shape::Polygon2D::createVBO(vertexCount*2u,type);
+}
+//setters to VBO
+bool edk::shape::Rectangle2D::setVBOVertexPosition(edk::uint32 vertex,edk::vec2f32 position){
+    bool ret=false;
+    //set the vertexes
+    switch(vertex){
+    case 0u:
+        edk::shape::Polygon2D::setVBOVertexPosition(0u,edk::vec2f32(position.x,position.y));
+        edk::shape::Polygon2D::setVBOVertexPositionX(1u,position.x);
+        edk::shape::Polygon2D::setVBOVertexPositionY(3u,position.y);
+        ret=true;
+        break;
+    case 1u:
+        edk::shape::Polygon2D::setVBOVertexPositionY(1u,position.y);
+        edk::shape::Polygon2D::setVBOVertexPosition(2u,edk::vec2f32(position.x,position.y));
+        edk::shape::Polygon2D::setVBOVertexPositionX(3u,position.x);
+        ret=true;
+        break;
+    }
+    return ret;
+}
+bool edk::shape::Rectangle2D::setVBOVertexNormal(edk::uint32 vertex,edk::vec3f32 normal){
+    bool ret=false;
+    //set the vertexes
+    switch(vertex){
+    case 0u:
+        edk::shape::Polygon2D::setVBOVertexNormal(0u,normal);
+        edk::shape::Polygon2D::setVBOVertexNormal(2u,normal);
+        ret=true;
+        break;
+    case 1u:
+        edk::shape::Polygon2D::setVBOVertexNormal(2u,normal);
+        edk::shape::Polygon2D::setVBOVertexNormal(3u,normal);
+        ret=true;
+        break;
+    }
+    return ret;
+}
+bool edk::shape::Rectangle2D::setVBOVertexColor(edk::uint32 vertex,edk::color4f32 color){
+    bool ret=false;
+    //set the vertexes
+    switch(vertex){
+    case 0u:
+        edk::shape::Polygon2D::setVBOVertexColor(0u,color);
+        edk::shape::Polygon2D::setVBOVertexColor(2u,color);
+        ret=true;
+        break;
+    case 1u:
+        edk::shape::Polygon2D::setVBOVertexColor(2u,color);
+        edk::shape::Polygon2D::setVBOVertexColor(3u,color);
+        ret=true;
+        break;
+    }
+    return ret;
+}
+bool edk::shape::Rectangle2D::setVBOVertexUV(edk::uint32 vertex,edk::vec2f32 uv){
+    bool ret=false;
+    //set the vertexes
+    switch(vertex){
+    case 0u:
+        edk::shape::Polygon2D::setVBOVertexPosition(0u,edk::vec2f32(uv.x,uv.y));
+        edk::shape::Polygon2D::setVBOVertexPositionX(1u,uv.x);
+        edk::shape::Polygon2D::setVBOVertexPositionY(3u,uv.y);
+        ret=true;
+        break;
+    case 1u:
+        edk::shape::Polygon2D::setVBOVertexPositionY(1u,uv.y);
+        edk::shape::Polygon2D::setVBOVertexPosition(2u,edk::vec2f32(uv.x,uv.y));
+        edk::shape::Polygon2D::setVBOVertexPositionX(3u,uv.x);
+        ret=true;
+        break;
+    }
+    return ret;
+}
+
+//DRAW
+void edk::shape::Rectangle2D::draw_NULL(edk::uint32){
+    edk::GU::guBegin(GU_QUADS);edkEnd();
+    if(this->vertexs.get(0u)->getType() != EDK_SHAPE_NOUV
+            &&
+            this->vertexs.get(1u)->getType() != EDK_SHAPE_NOUV
+            ){
+        edk::shape::Vertex2DWithUV* vTemp0 = (edk::shape::Vertex2DWithUV*)this->vertexs.get(0u);edkEnd();
+        edk::shape::Vertex2DWithUV* vTemp1 = (edk::shape::Vertex2DWithUV*)this->vertexs.get(1u);edkEnd();
+
+        //draw the third vertex
+        edk::GU::guColor4f32(this->vertexs.get(1u)->color.r,
+                             this->vertexs.get(1u)->color.g,
+                             this->vertexs.get(1u)->color.b,
+                             this->vertexs.get(1u)->color.a
+                             );edkEnd();
+
+        //draw the normal
+        edk::GU::guVertexNormal3f32(0.f,0.f,1.f);edkEnd();
+        //draw the textureUV
+        edk::GU::guVertexTex2f32(vTemp0->getUVX(), vTemp0->getUVY());edkEnd();
+        //glMultiTexCoord2f(GL_TEXTURE0,vTemp0->getUVX(), vTemp1->getUVY());edkEnd();
+        //draw the vertex
+        edk::GU::guVertex3f32( this->vertexs.get(0u)->position.x, this->vertexs.get(0u)->position.y, 0.0f);edkEnd();
+
+        //draw the normal
+        //edk::GU::guVertexNormal3f32(0.f,0.f,1.f);edkEnd();
+        //draw the textureUV
+        edk::GU::guVertexTex2f32(vTemp0->getUVX(), vTemp1->getUVY());edkEnd();
+        //glMultiTexCoord2f(GL_TEXTURE0,vTemp0->getUVX(), vTemp0->getUVY());edkEnd();
+        //draw the vertex
+        edk::GU::guVertex3f32( this->vertexs.get(0u)->position.x, this->vertexs.get(1u)->position.y, 0.0f);edkEnd();
+
+        //draw the third vertex
+        edk::GU::guColor4f32(this->vertexs.get(1u)->color.r,
+                             this->vertexs.get(1u)->color.g,
+                             this->vertexs.get(1u)->color.b,
+                             this->vertexs.get(1u)->color.a
+                             );edkEnd();
+
+        //draw the normal
+        //edk::GU::guVertexNormal3f32(0.f,0.f,1.f);edkEnd();
+        //draw the textureUV
+        edk::GU::guVertexTex2f32(vTemp1->getUVX(), vTemp1->getUVY());edkEnd();
+        //glMultiTexCoord2f(GL_TEXTURE0,vTemp1->getUVX(), vTemp0->getUVY());edkEnd();
+        //draw the vertex
+        edk::GU::guVertex3f32( this->vertexs.get(1u)->position.x, this->vertexs.get(1u)->position.y, 0.0f);edkEnd();
+
+        //draw the normal
+        //edk::GU::guVertexNormal3f32(0.f,0.f,1.f);edkEnd();
+        //draw the textureUV
+        edk::GU::guVertexTex2f32(vTemp1->getUVX(), vTemp0->getUVY());edkEnd();
+        //glMultiTexCoord2f(GL_TEXTURE0,vTemp1->getUVX(), vTemp1->getUVY());edkEnd();
+        //draw the vertex
+        edk::GU::guVertex3f32( this->vertexs.get(1u)->position.x, this->vertexs.get(0u)->position.y, 0.0f);edkEnd();
+    }
+    else{
+
+        //draw the normal
+        edk::GU::guVertexNormal3f32(0,0,1);edkEnd();
+        //draw the textureUV
+        edk::GU::guVertexTex2f32(0.f, 1.f);edkEnd();
+        //glMultiTexCoord2f(GL_TEXTURE0,0.f, 1.f);edkEnd();
+        //draw the vertex
+        edk::GU::guVertex3f32( this->vertexs.get(0u)->position.x, this->vertexs.get(0u)->position.y, 0.0f);edkEnd();
+
+        //draw the normal
+        edk::GU::guVertexNormal3f32(0,0,1);edkEnd();
+        //draw the textureUV
+        //edk::GU::guVertexTex2f32(0.f, 0.f);edkEnd();
+        //glMultiTexCoord2f(GL_TEXTURE0,0.f, 0.f);edkEnd();
+        //draw the vertex
+        edk::GU::guVertex3f32( this->vertexs.get(0u)->position.x, this->vertexs.get(1u)->position.y, 0.0f);edkEnd();
+
+        //draw the third vertex
+        edk::GU::guColor4f32(this->vertexs.get(1u)->color.r,
+                             this->vertexs.get(1u)->color.g,
+                             this->vertexs.get(1u)->color.b,
+                             this->vertexs.get(1u)->color.a
+                             );edkEnd();
+
+        //draw the normal
+        //edk::GU::guVertexNormal3f32(0,0,1);edkEnd();
+        //draw the textureUV
+        edk::GU::guVertexTex2f32(1.f, 0.f);edkEnd();
+        //glMultiTexCoord2f(GL_TEXTURE0,1.f, 0.f);edkEnd();
+        //draw the vertex
+        edk::GU::guVertex3f32( this->vertexs.get(1u)->position.x, this->vertexs.get(1u)->position.y, 0.0f);edkEnd();
+
+        //draw the normal
+        //edk::GU::guVertexNormal3f32(0,0,1);edkEnd();
+        //draw the textureUV
+        edk::GU::guVertexTex2f32(1.f, 1.f);edkEnd();
+        //glMultiTexCoord2f(GL_TEXTURE0,1.f, 1.f);edkEnd();
+        //draw the vertex
+        edk::GU::guVertex3f32( this->vertexs.get(1u)->position.x, this->vertexs.get(0u)->position.y, 0.0f);edkEnd();
+    }
+    edk::GU::guEnd();edkEnd();
+    edk::GU::guPopMatrix();edkEnd();
+}
+//DRAW UPDATE
+void edk::shape::Rectangle2D::drawUpdate_NULL(edk::uint32){
+    edk::GU::guBegin(GU_QUADS);edkEnd();
+    if(this->vertexs.get(0u)->getType() != EDK_SHAPE_NOUV
+            &&
+            this->vertexs.get(1u)->getType() != EDK_SHAPE_NOUV
+            ){
+        edk::shape::Vertex2DWithUV* vTemp0 = (edk::shape::Vertex2DWithUV*)this->vertexs.get(0u);edkEnd();
+        edk::shape::Vertex2DWithUV* vTemp1 = (edk::shape::Vertex2DWithUV*)this->vertexs.get(1u);edkEnd();
+
+        //draw the third vertex
+        edk::GU::guColor4f32(this->vertexs.get(1u)->color.r,
+                             this->vertexs.get(1u)->color.g,
+                             this->vertexs.get(1u)->color.b,
+                             this->vertexs.get(1u)->color.a
+                             );edkEnd();
+
+        //draw the normal
+        edk::GU::guVertexNormal3f32(0.f,0.f,1.f);edkEnd();
+        //draw the textureUV
+        edk::GU::guVertexTex2f32(vTemp0->getUVX(), vTemp0->getUVY());edkEnd();
+        //glMultiTexCoord2f(GL_TEXTURE0,vTemp0->getUVX(), vTemp1->getUVY());edkEnd();
+        //draw the vertex
+        edk::GU::guVertex3f32( this->vertexs.get(0u)->position.x, this->vertexs.get(0u)->position.y, 0.0f);edkEnd();
+
+        //draw the normal
+        //edk::GU::guVertexNormal3f32(0.f,0.f,1.f);edkEnd();
+        //draw the textureUV
+        edk::GU::guVertexTex2f32(vTemp0->getUVX(), vTemp1->getUVY());edkEnd();
+        //glMultiTexCoord2f(GL_TEXTURE0,vTemp0->getUVX(), vTemp0->getUVY());edkEnd();
+        //draw the vertex
+        edk::GU::guVertex3f32( this->vertexs.get(0u)->position.x, this->vertexs.get(1u)->position.y, 0.0f);edkEnd();
+
+        //draw the third vertex
+        edk::GU::guColor4f32(this->vertexs.get(1u)->color.r,
+                             this->vertexs.get(1u)->color.g,
+                             this->vertexs.get(1u)->color.b,
+                             this->vertexs.get(1u)->color.a
+                             );edkEnd();
+
+        //draw the normal
+        //edk::GU::guVertexNormal3f32(0.f,0.f,1.f);edkEnd();
+        //draw the textureUV
+        edk::GU::guVertexTex2f32(vTemp1->getUVX(), vTemp1->getUVY());edkEnd();
+        //glMultiTexCoord2f(GL_TEXTURE0,vTemp1->getUVX(), vTemp0->getUVY());edkEnd();
+        //draw the vertex
+        edk::GU::guVertex3f32( this->vertexs.get(1u)->position.x, this->vertexs.get(1u)->position.y, 0.0f);edkEnd();
+
+        //draw the normal
+        //edk::GU::guVertexNormal3f32(0.f,0.f,1.f);edkEnd();
+        //draw the textureUV
+        edk::GU::guVertexTex2f32(vTemp1->getUVX(), vTemp0->getUVY());edkEnd();
+        //glMultiTexCoord2f(GL_TEXTURE0,vTemp1->getUVX(), vTemp1->getUVY());edkEnd();
+        //draw the vertex
+        edk::GU::guVertex3f32( this->vertexs.get(1u)->position.x, this->vertexs.get(0u)->position.y, 0.0f);edkEnd();
+    }
+    else{
+
+        //draw the normal
+        edk::GU::guVertexNormal3f32(0,0,1);edkEnd();
+        //draw the textureUV
+        edk::GU::guVertexTex2f32(0.f, 1.f);edkEnd();
+        //glMultiTexCoord2f(GL_TEXTURE0,0.f, 1.f);edkEnd();
+        //draw the vertex
+        edk::GU::guVertex3f32( this->vertexs.get(0u)->position.x, this->vertexs.get(0u)->position.y, 0.0f);edkEnd();
+
+        //draw the normal
+        edk::GU::guVertexNormal3f32(0,0,1);edkEnd();
+        //draw the textureUV
+        //edk::GU::guVertexTex2f32(0.f, 0.f);edkEnd();
+        //glMultiTexCoord2f(GL_TEXTURE0,0.f, 0.f);edkEnd();
+        //draw the vertex
+        edk::GU::guVertex3f32( this->vertexs.get(0u)->position.x, this->vertexs.get(1u)->position.y, 0.0f);edkEnd();
+
+        //draw the third vertex
+        edk::GU::guColor4f32(this->vertexs.get(1u)->color.r,
+                             this->vertexs.get(1u)->color.g,
+                             this->vertexs.get(1u)->color.b,
+                             this->vertexs.get(1u)->color.a
+                             );edkEnd();
+
+        //draw the normal
+        //edk::GU::guVertexNormal3f32(0,0,1);edkEnd();
+        //draw the textureUV
+        edk::GU::guVertexTex2f32(1.f, 0.f);edkEnd();
+        //glMultiTexCoord2f(GL_TEXTURE0,1.f, 0.f);edkEnd();
+        //draw the vertex
+        edk::GU::guVertex3f32( this->vertexs.get(1u)->position.x, this->vertexs.get(1u)->position.y, 0.0f);edkEnd();
+
+        //draw the normal
+        //edk::GU::guVertexNormal3f32(0,0,1);edkEnd();
+        //draw the textureUV
+        edk::GU::guVertexTex2f32(1.f, 1.f);edkEnd();
+        //glMultiTexCoord2f(GL_TEXTURE0,1.f, 1.f);edkEnd();
+        //draw the vertex
+        edk::GU::guVertex3f32( this->vertexs.get(1u)->position.x, this->vertexs.get(0u)->position.y, 0.0f);edkEnd();
+    }
+    edk::GU::guEnd();edkEnd();
+    edk::GU::guPopMatrix();edkEnd();
+    //change the drawFunction
+    this->setVBOFunctionNULL();
+}
+
 //Virtual Functions
 bool edk::shape::Rectangle2D::createPolygon(edk::uint32 vertexCount){
     //set the function to do nothing but return true to think he create
@@ -117,15 +398,15 @@ void edk::shape::Rectangle2D::setPivoToCenter(){
     //get the size
     if(this->vertexs.get(0u)&&this->vertexs.get(1u)){
         edk::size2f32 size(this->vertexs.get(1u)->position.x-this->vertexs.get(0u)->position.x,
-                this->vertexs.get(1u)->position.y-this->vertexs.get(0u)->position.y
-                );edkEnd();
+                           this->vertexs.get(1u)->position.y-this->vertexs.get(0u)->position.y
+                           );edkEnd();
         this->vertexs.get(0u)->position = edk::vec2f32(size.width * -0.5f,size.height * -0.5f);edkEnd();
         this->vertexs.get(1u)->position = edk::vec2f32(size.width *  0.5f,size.height *  0.5f);edkEnd();
     }
     if(this->vertexsOriginal.get(0u)&&this->vertexsOriginal.get(1u)){
         edk::size2f32 size(this->vertexsOriginal.get(1u)->position.x-this->vertexsOriginal.get(0u)->position.x,
-                this->vertexsOriginal.get(1u)->position.y-this->vertexsOriginal.get(0u)->position.y
-                );edkEnd();
+                           this->vertexsOriginal.get(1u)->position.y-this->vertexsOriginal.get(0u)->position.y
+                           );edkEnd();
         this->vertexsOriginal.get(0u)->position = edk::vec2f32(size.width * -0.5f,size.height * -0.5f);edkEnd();
         this->vertexsOriginal.get(1u)->position = edk::vec2f32(size.width *  0.5f,size.height *  0.5f);edkEnd();
     }
@@ -145,10 +426,10 @@ void edk::shape::Rectangle2D::draw(){
     if(this->vertexs.size()>=2u){
         //draw the first vertex
         edk::GU::guColor4f32(this->vertexs.get(0u)->color.r,
-                this->vertexs.get(0u)->color.g,
-                this->vertexs.get(0u)->color.b,
-                this->vertexs.get(0u)->color.a
-                );edkEnd();
+                             this->vertexs.get(0u)->color.g,
+                             this->vertexs.get(0u)->color.b,
+                             this->vertexs.get(0u)->color.a
+                             );edkEnd();
 
         edk::GU::guPushMatrix();edkEnd();
 
@@ -156,102 +437,9 @@ void edk::shape::Rectangle2D::draw(){
         edk::GU::guRotateZf32(this->angle);edkEnd();
         edk::GU::guScale2f32(this->scale);edkEnd();
 
-        edk::GU::guBegin(GU_QUADS);edkEnd();
-        if(this->vertexs.get(0u)->getType() != EDK_SHAPE_NOUV
-                &&
-                this->vertexs.get(1u)->getType() != EDK_SHAPE_NOUV
-                ){
-            edk::shape::Vertex2DWithUV* vTemp0 = (edk::shape::Vertex2DWithUV*)this->vertexs.get(0u);edkEnd();
-            edk::shape::Vertex2DWithUV* vTemp1 = (edk::shape::Vertex2DWithUV*)this->vertexs.get(1u);edkEnd();
+        //drawVBO
+        (this->*vboDraw)(GU_QUADS);
 
-            //draw the third vertex
-            edk::GU::guColor4f32(this->vertexs.get(1u)->color.r,
-                    this->vertexs.get(1u)->color.g,
-                    this->vertexs.get(1u)->color.b,
-                    this->vertexs.get(1u)->color.a
-                    );edkEnd();
-
-            //draw the normal
-            edk::GU::guVertexNormal3f32(0.f,0.f,1.f);edkEnd();
-            //draw the textureUV
-            edk::GU::guVertexTex2f32(vTemp0->getUVX(), vTemp0->getUVY());edkEnd();
-            //glMultiTexCoord2f(GL_TEXTURE0,vTemp0->getUVX(), vTemp1->getUVY());edkEnd();
-            //draw the vertex
-            edk::GU::guVertex3f32( this->vertexs.get(0u)->position.x, this->vertexs.get(0u)->position.y, 0.0f);edkEnd();
-
-            //draw the normal
-            //edk::GU::guVertexNormal3f32(0.f,0.f,1.f);edkEnd();
-            //draw the textureUV
-            edk::GU::guVertexTex2f32(vTemp0->getUVX(), vTemp1->getUVY());edkEnd();
-            //glMultiTexCoord2f(GL_TEXTURE0,vTemp0->getUVX(), vTemp0->getUVY());edkEnd();
-            //draw the vertex
-            edk::GU::guVertex3f32( this->vertexs.get(0u)->position.x, this->vertexs.get(1u)->position.y, 0.0f);edkEnd();
-
-            //draw the third vertex
-            edk::GU::guColor4f32(this->vertexs.get(1u)->color.r,
-                    this->vertexs.get(1u)->color.g,
-                    this->vertexs.get(1u)->color.b,
-                    this->vertexs.get(1u)->color.a
-                    );edkEnd();
-
-            //draw the normal
-            //edk::GU::guVertexNormal3f32(0.f,0.f,1.f);edkEnd();
-            //draw the textureUV
-            edk::GU::guVertexTex2f32(vTemp1->getUVX(), vTemp1->getUVY());edkEnd();
-            //glMultiTexCoord2f(GL_TEXTURE0,vTemp1->getUVX(), vTemp0->getUVY());edkEnd();
-            //draw the vertex
-            edk::GU::guVertex3f32( this->vertexs.get(1u)->position.x, this->vertexs.get(1u)->position.y, 0.0f);edkEnd();
-
-            //draw the normal
-            //edk::GU::guVertexNormal3f32(0.f,0.f,1.f);edkEnd();
-            //draw the textureUV
-            edk::GU::guVertexTex2f32(vTemp1->getUVX(), vTemp0->getUVY());edkEnd();
-            //glMultiTexCoord2f(GL_TEXTURE0,vTemp1->getUVX(), vTemp1->getUVY());edkEnd();
-            //draw the vertex
-            edk::GU::guVertex3f32( this->vertexs.get(1u)->position.x, this->vertexs.get(0u)->position.y, 0.0f);edkEnd();
-        }
-        else{
-
-            //draw the normal
-            edk::GU::guVertexNormal3f32(0,0,1);edkEnd();
-            //draw the textureUV
-            edk::GU::guVertexTex2f32(0.f, 1.f);edkEnd();
-            //glMultiTexCoord2f(GL_TEXTURE0,0.f, 1.f);edkEnd();
-            //draw the vertex
-            edk::GU::guVertex3f32( this->vertexs.get(0u)->position.x, this->vertexs.get(0u)->position.y, 0.0f);edkEnd();
-
-            //draw the normal
-            edk::GU::guVertexNormal3f32(0,0,1);edkEnd();
-            //draw the textureUV
-            //edk::GU::guVertexTex2f32(0.f, 0.f);edkEnd();
-            //glMultiTexCoord2f(GL_TEXTURE0,0.f, 0.f);edkEnd();
-            //draw the vertex
-            edk::GU::guVertex3f32( this->vertexs.get(0u)->position.x, this->vertexs.get(1u)->position.y, 0.0f);edkEnd();
-
-            //draw the third vertex
-            edk::GU::guColor4f32(this->vertexs.get(1u)->color.r,
-                    this->vertexs.get(1u)->color.g,
-                    this->vertexs.get(1u)->color.b,
-                    this->vertexs.get(1u)->color.a
-                    );edkEnd();
-
-            //draw the normal
-            //edk::GU::guVertexNormal3f32(0,0,1);edkEnd();
-            //draw the textureUV
-            edk::GU::guVertexTex2f32(1.f, 0.f);edkEnd();
-            //glMultiTexCoord2f(GL_TEXTURE0,1.f, 0.f);edkEnd();
-            //draw the vertex
-            edk::GU::guVertex3f32( this->vertexs.get(1u)->position.x, this->vertexs.get(1u)->position.y, 0.0f);edkEnd();
-
-            //draw the normal
-            //edk::GU::guVertexNormal3f32(0,0,1);edkEnd();
-            //draw the textureUV
-            edk::GU::guVertexTex2f32(1.f, 1.f);edkEnd();
-            //glMultiTexCoord2f(GL_TEXTURE0,1.f, 1.f);edkEnd();
-            //draw the vertex
-            edk::GU::guVertex3f32( this->vertexs.get(1u)->position.x, this->vertexs.get(0u)->position.y, 0.0f);edkEnd();
-        }
-        edk::GU::guEnd();edkEnd();
         edk::GU::guPopMatrix();edkEnd();
     }
 }
@@ -263,10 +451,10 @@ bool edk::shape::Rectangle2D::drawWithLight(edk::float32 lightPositions[][EDK_LI
         if(this->vertexs.size()>=2u){
             //draw the first vertex
             edk::GU::guColor4f32(this->vertexs.get(0u)->color.r,
-                    this->vertexs.get(0u)->color.g,
-                    this->vertexs.get(0u)->color.b,
-                    this->vertexs.get(0u)->color.a
-                    );edkEnd();
+                                 this->vertexs.get(0u)->color.g,
+                                 this->vertexs.get(0u)->color.b,
+                                 this->vertexs.get(0u)->color.a
+                                 );edkEnd();
 
             edk::GU::guPushMatrix();edkEnd();
 
@@ -317,94 +505,10 @@ bool edk::shape::Rectangle2D::drawWithLight(edk::float32 lightPositions[][EDK_LI
                 }
             }
 
-            edk::GU::guBegin(GU_QUADS);edkEnd();
-            if(this->vertexs.get(0u)->getType() != EDK_SHAPE_NOUV
-                    &&
-                    this->vertexs.get(1u)->getType() != EDK_SHAPE_NOUV
-                    ){
-                edk::shape::Vertex2DWithUV* vTemp0 = (edk::shape::Vertex2DWithUV*)this->vertexs.get(0u);edkEnd();
-                edk::shape::Vertex2DWithUV* vTemp1 = (edk::shape::Vertex2DWithUV*)this->vertexs.get(1u);edkEnd();
-                //draw the normal
-                edk::GU::guVertexNormal3f32(0.f,0.f,1.f);edkEnd();
-                //draw the textureUV
-                edk::GU::guVertexTex2f32(vTemp0->getUVX(), vTemp0->getUVY());edkEnd();
-                //glMultiTexCoord2f(GL_TEXTURE0,vTemp0->getUVX(), vTemp1->getUVY());edkEnd();
-                //draw the vertex
-                edk::GU::guVertex3f32( this->vertexs.get(0u)->position.x, this->vertexs.get(0u)->position.y, 0.0f);edkEnd();
 
-                //draw the normal
-                //edk::GU::guVertexNormal3f32(0.f,0.f,1.f);edkEnd();
-                //draw the textureUV
-                edk::GU::guVertexTex2f32(vTemp0->getUVX(), vTemp1->getUVY());edkEnd();
-                //glMultiTexCoord2f(GL_TEXTURE0,vTemp0->getUVX(), vTemp0->getUVY());edkEnd();
-                //draw the vertex
-                edk::GU::guVertex3f32( this->vertexs.get(0u)->position.x, this->vertexs.get(1u)->position.y, 0.0f);edkEnd();
 
-                //draw the third vertex
-                edk::GU::guColor4f32(this->vertexs.get(1u)->color.r,
-                        this->vertexs.get(1u)->color.g,
-                        this->vertexs.get(1u)->color.b,
-                        this->vertexs.get(1u)->color.a
-                        );edkEnd();
-
-                //draw the normal
-                //edk::GU::guVertexNormal3f32(0.f,0.f,1.f);edkEnd();
-                //draw the textureUV
-                edk::GU::guVertexTex2f32(vTemp1->getUVX(), vTemp1->getUVY());edkEnd();
-                //glMultiTexCoord2f(GL_TEXTURE0,vTemp1->getUVX(), vTemp0->getUVY());edkEnd();
-                //draw the vertex
-                edk::GU::guVertex3f32( this->vertexs.get(1u)->position.x, this->vertexs.get(1u)->position.y, 0.0f);edkEnd();
-
-                //draw the normal
-                //edk::GU::guVertexNormal3f32(0.f,0.f,1.f);edkEnd();
-                //draw the textureUV
-                edk::GU::guVertexTex2f32(vTemp1->getUVX(), vTemp0->getUVY());edkEnd();
-                //glMultiTexCoord2f(GL_TEXTURE0,vTemp1->getUVX(), vTemp1->getUVY());edkEnd();
-                //draw the vertex
-                edk::GU::guVertex3f32( this->vertexs.get(1u)->position.x, this->vertexs.get(0u)->position.y, 0.0f);edkEnd();
-            }
-            else{
-
-                //draw the normal
-                edk::GU::guVertexNormal3f32(0,0,1);edkEnd();
-                //draw the textureUV
-                edk::GU::guVertexTex2f32(0.f, 1.f);edkEnd();
-                //glMultiTexCoord2f(GL_TEXTURE0,0.f, 1.f);edkEnd();
-                //draw the vertex
-                edk::GU::guVertex3f32( this->vertexs.get(0u)->position.x, this->vertexs.get(0u)->position.y, 0.0f);edkEnd();
-
-                //draw the normal
-                edk::GU::guVertexNormal3f32(0,0,1);edkEnd();
-                //draw the textureUV
-                //edk::GU::guVertexTex2f32(0.f, 0.f);edkEnd();
-                //glMultiTexCoord2f(GL_TEXTURE0,0.f, 0.f);edkEnd();
-                //draw the vertex
-                edk::GU::guVertex3f32( this->vertexs.get(0u)->position.x, this->vertexs.get(1u)->position.y, 0.0f);edkEnd();
-
-                //draw the third vertex
-                edk::GU::guColor4f32(this->vertexs.get(1u)->color.r,
-                        this->vertexs.get(1u)->color.g,
-                        this->vertexs.get(1u)->color.b,
-                        this->vertexs.get(1u)->color.a
-                        );edkEnd();
-
-                //draw the normal
-                //edk::GU::guVertexNormal3f32(0,0,1);edkEnd();
-                //draw the textureUV
-                edk::GU::guVertexTex2f32(1.f, 0.f);edkEnd();
-                //glMultiTexCoord2f(GL_TEXTURE0,1.f, 0.f);edkEnd();
-                //draw the vertex
-                edk::GU::guVertex3f32( this->vertexs.get(1u)->position.x, this->vertexs.get(1u)->position.y, 0.0f);edkEnd();
-
-                //draw the normal
-                //edk::GU::guVertexNormal3f32(0,0,1);edkEnd();
-                //draw the textureUV
-                edk::GU::guVertexTex2f32(1.f, 1.f);edkEnd();
-                //glMultiTexCoord2f(GL_TEXTURE0,1.f, 1.f);edkEnd();
-                //draw the vertex
-                edk::GU::guVertex3f32( this->vertexs.get(1u)->position.x, this->vertexs.get(0u)->position.y, 0.0f);edkEnd();
-            }
-            edk::GU::guEnd();edkEnd();
+            //drawVBO
+            (this->*vboDraw)(GU_QUADS);
             edk::GU::guPopMatrix();edkEnd();
         }
         return true;
@@ -417,47 +521,17 @@ void edk::shape::Rectangle2D::drawWire(){
     if(this->vertexs.size()>=2u){
         //draw the first vertex
         edk::GU::guColor4f32(this->vertexs.get(0u)->color.r,
-                this->vertexs.get(0u)->color.g,
-                this->vertexs.get(0u)->color.b,
-                this->vertexs.get(0u)->color.a
-                );edkEnd();
+                             this->vertexs.get(0u)->color.g,
+                             this->vertexs.get(0u)->color.b,
+                             this->vertexs.get(0u)->color.a
+                             );edkEnd();
         edk::GU::guPushMatrix();edkEnd();
 
         edk::GU::guTranslate2f32(this->translate);edkEnd();
         edk::GU::guRotateZf32(this->angle);edkEnd();
         edk::GU::guScale2f32(this->scale);edkEnd();
-
-        edk::GU::guBegin(GU_LINE_LOOP);edkEnd();
-
-        //draw the normal
-        edk::GU::guVertexNormal3f32(0,0,1);edkEnd();
-        //draw the vertex
-        edk::GU::guVertex3f32( this->vertexs.get(0u)->position.x, this->vertexs.get(0u)->position.y, 0.0f);edkEnd();
-
-        //draw the second vertex
-        //draw the normal
-        edk::GU::guVertexNormal3f32(0,0,1);edkEnd();
-        //draw the vertex
-        edk::GU::guVertex3f32( this->vertexs.get(0u)->position.x, this->vertexs.get(1u)->position.y, 0.0f);edkEnd();
-
-        //draw the third vertex
-        edk::GU::guColor4f32(this->vertexs.get(1u)->color.r,
-                this->vertexs.get(1u)->color.g,
-                this->vertexs.get(1u)->color.b,
-                this->vertexs.get(1u)->color.a
-                );edkEnd();
-
-        //draw the normal
-        edk::GU::guVertexNormal3f32(0,0,1);edkEnd();
-        //draw the vertex
-        edk::GU::guVertex3f32( this->vertexs.get(1u)->position.x, this->vertexs.get(1u)->position.y, 0.0f);edkEnd();
-
-        //draw the forty vertex
-        //draw the normal
-        edk::GU::guVertexNormal3f32(0,0,1);edkEnd();
-        //draw the vertex
-        edk::GU::guVertex3f32( this->vertexs.get(1u)->position.x, this->vertexs.get(0u)->position.y, 0.0f);edkEnd();
-        edk::GU::guEnd();edkEnd();
+        //drawVBO
+        (this->*vboDraw)(GU_LINE_LOOP);
         edk::GU::guPopMatrix();edkEnd();
     }
 }

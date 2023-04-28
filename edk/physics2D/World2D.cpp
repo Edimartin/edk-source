@@ -5592,9 +5592,9 @@ bool edk::physics2D::World2D::writeToXML(edk::XML* xml,edk::uint32 id){
                         xml->selectFather();edkEnd();
                     }
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }
@@ -5688,9 +5688,9 @@ bool edk::physics2D::World2D::readFromXML(edk::XML* xml,edk::uint32 id){
                     ret=true;edkEnd();
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }

@@ -172,7 +172,7 @@ bool edk::network::PackageGroup::addVector(edk::classID vec,edk::uint32 size,edk
 //delete the vector
 void edk::network::PackageGroup::deleteVector(){
     if(this->data){
-        delete[] this->data;edkEnd();
+        free(this->data);edkEnd();
     }
     this->data=NULL;edkEnd();
     this->dataSize=0u;
@@ -280,7 +280,7 @@ bool edk::network::PackageGroup::addPackageEnd(){
             //create the new vector with the size
             this->deleteVector();edkEnd();
             this->dataSize = size;edkEnd();
-            this->data = new edk::uint8[this->dataSize];edkEnd();
+            this->data = (edk::uint8*)malloc(sizeof(edk::uint8) * (this->dataSize));edkEnd();
             if(this->data){
                 edk::uint32 dataPosition=0u;
                 //copy the vectors to the data

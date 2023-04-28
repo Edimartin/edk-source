@@ -265,9 +265,9 @@ bool edk::animation::Path2DGroup::writeToXML(edk::XML* xml,edk::uint32 id){
                         xml->selectFather();edkEnd();
                     }
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }
@@ -331,9 +331,9 @@ bool edk::animation::Path2DGroup::readFromXML(edk::XML* xml,edk::uint32 id){
                     //
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }

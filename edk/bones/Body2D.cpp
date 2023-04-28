@@ -110,7 +110,7 @@ edk::uint32 edk::bones::Body2D::loadHierarkhy(edk::File* file,edk::bones::Bone2D
                 //test if it's the end of hierarkhy
                 if(edk::String::strCompare(fileText,"}")){
                     //
-                    delete[] fileText;edkEnd(); fileText=NULL;edkEnd();
+                    free(fileText);edkEnd(); fileText=NULL;edkEnd();
                     //return true
                     return ret;
                 }
@@ -118,7 +118,7 @@ edk::uint32 edk::bones::Body2D::loadHierarkhy(edk::File* file,edk::bones::Bone2D
                 //test if start a new bone
                 else if(edk::String::strCompare(fileText,"{")){
                     //
-                    delete[] fileText;edkEnd(); fileText=NULL;edkEnd();
+                    free(fileText);edkEnd(); fileText=NULL;edkEnd();
 
                     /////////////////////////////// START SET CHANNELS
                     /////////////////////////////// END   SET CHANNELS
@@ -133,7 +133,7 @@ edk::uint32 edk::bones::Body2D::loadHierarkhy(edk::File* file,edk::bones::Bone2D
                 else if(edk::String::strCompare(fileText,"OFFSET")){
                     //create the new joint
                     //                    printf("\nSet OFFSET");edkEnd();
-                    delete[] fileText;edkEnd();
+                    free(fileText);edkEnd();
                     edk::float32 x=0.f,y=0.f,z=0.f;edkEnd();
                     fileText = file->readBinString(stringTest,false);edkEnd();
                     if(fileText){
@@ -142,7 +142,7 @@ edk::uint32 edk::bones::Body2D::loadHierarkhy(edk::File* file,edk::bones::Bone2D
                         //                               );edkEnd();
                         x = edk::String::strToFloat32(fileText);edkEnd();
 
-                        delete[] fileText;edkEnd();
+                        free(fileText);edkEnd();
                         fileText = file->readBinString(stringTest,false);edkEnd();
                         if(fileText){
                             //                            printf(" Y '%s'"
@@ -150,7 +150,7 @@ edk::uint32 edk::bones::Body2D::loadHierarkhy(edk::File* file,edk::bones::Bone2D
                             //                                   );edkEnd();
                             y = edk::String::strToFloat32(fileText);edkEnd();
 
-                            delete[] fileText;edkEnd();
+                            free(fileText);edkEnd();
                             fileText = file->readBinString(stringTest,false);edkEnd();
                             if(fileText){
                                 //                                printf(" Z '%s'"
@@ -198,7 +198,7 @@ edk::uint32 edk::bones::Body2D::loadHierarkhy(edk::File* file,edk::bones::Bone2D
                                 }
                                 /////////////////////////////// END LOAD OFFSET
 
-                                delete[] fileText;edkEnd();
+                                free(fileText);edkEnd();
                             }
                         }
                     }
@@ -209,13 +209,13 @@ edk::uint32 edk::bones::Body2D::loadHierarkhy(edk::File* file,edk::bones::Bone2D
                 else if(edk::String::strCompare(fileText,"CHANNELS")){
                     //create the new joint
                     //                    printf("\nSet Channels");edkEnd();
-                    delete[] fileText;edkEnd();
+                    free(fileText);edkEnd();
                     fileText = file->readBinString(stringTest,false);edkEnd();
                     if(fileText){
                         //load the number of channels
                         edk::uint32 channels = edk::String::strToInt32(fileText);edkEnd();
 
-                        delete[] fileText;edkEnd();
+                        free(fileText);edkEnd();
                         /////////////////////////////// START LOAD CHANNEL SIZE
                         //                        printf(" Channels %u"
                         //                               ,channels
@@ -301,7 +301,7 @@ edk::uint32 edk::bones::Body2D::loadHierarkhy(edk::File* file,edk::bones::Bone2D
                                 }
 
                                 /////////////////////////////// END LOAD CHANNELS
-                                delete[] fileText;edkEnd();
+                                free(fileText);edkEnd();
                             }
                         }
                     }
@@ -312,7 +312,7 @@ edk::uint32 edk::bones::Body2D::loadHierarkhy(edk::File* file,edk::bones::Bone2D
                 else if(edk::String::strCompare(fileText,"JOINT")){
                     //create the new joint
                     //                    printf("\nCreate Joint");edkEnd();
-                    delete[] fileText;edkEnd();
+                    free(fileText);edkEnd();
                     fileText = file->readBinString(stringTest,false);edkEnd();
                     if(fileText){
 
@@ -323,7 +323,7 @@ edk::uint32 edk::bones::Body2D::loadHierarkhy(edk::File* file,edk::bones::Bone2D
                         next = this->createBoneToSelected(fileText);edkEnd();
                         /////////////////////////////// END CREATE JOINT
                         //
-                        delete[] fileText;edkEnd();
+                        free(fileText);edkEnd();
                         fileText=NULL;edkEnd();
                         continue;
                     }
@@ -332,7 +332,7 @@ edk::uint32 edk::bones::Body2D::loadHierarkhy(edk::File* file,edk::bones::Bone2D
                 else if(edk::String::strCompare(fileText,"End")){
                     //create the new joint
                     //                    printf("\nCreate END");edkEnd();
-                    delete[] fileText;edkEnd();
+                    free(fileText);edkEnd();
                     fileText = file->readBinString(stringTest,false);edkEnd();
                     if(fileText){
                         /////////////////////////////// START CREATE END
@@ -342,7 +342,7 @@ edk::uint32 edk::bones::Body2D::loadHierarkhy(edk::File* file,edk::bones::Bone2D
                         //next = this->createBoneToSelected(fileText);edkEnd();
                         next = NULL;edkEnd();
                         /////////////////////////////// END CREATE END
-                        delete[] fileText;edkEnd();
+                        free(fileText);edkEnd();
                         fileText=NULL;edkEnd();
                         continue;
                     }
@@ -351,7 +351,7 @@ edk::uint32 edk::bones::Body2D::loadHierarkhy(edk::File* file,edk::bones::Bone2D
 
 
                 //
-                delete[] fileText;edkEnd(); fileText=NULL;edkEnd();
+                free(fileText);edkEnd(); fileText=NULL;edkEnd();
             }
             //load the string
             fileText = file->readBinString(stringTest,false);edkEnd();
@@ -379,7 +379,7 @@ bool edk::bones::Body2D::loadBVH(edk::char8* name,edk::uint8 mode){
 
         if(size<=4u || ret){
             //need to add the .bvh
-            nameTemp = new edk::char8[size + 5u];edkEnd();
+            nameTemp = (edk::char8*)malloc(sizeof(edk::char8) * (size + 5u));edkEnd();
             if(nameTemp){
                 //copy the string
                 memcpy(nameTemp,name,size);edkEnd();
@@ -437,7 +437,7 @@ bool edk::bones::Body2D::loadBVH(edk::char8* name,edk::uint8 mode){
                         if(edk::String::strCompare(fileText,"HIERARCHY")){
                             //                            printf(" Find HIERARCHY");edkEnd();
                             //delete the text to load a new text
-                            delete[] fileText;edkEnd();
+                            free(fileText);edkEnd();
 
                             fileText = file.readBinString(stringTest,false);edkEnd();
 
@@ -445,7 +445,7 @@ bool edk::bones::Body2D::loadBVH(edk::char8* name,edk::uint8 mode){
                                 //test if find the root
                                 if(edk::String::strCompare(fileText,"ROOT")){
                                     //
-                                    delete[] fileText;edkEnd();
+                                    free(fileText);edkEnd();
 
                                     //load the root name
                                     fileText = file.readBinString("\n\0",false);edkEnd();
@@ -456,7 +456,7 @@ bool edk::bones::Body2D::loadBVH(edk::char8* name,edk::uint8 mode){
                                         //                                               );edkEnd();
                                         this->root.setName(fileText);edkEnd();
 
-                                        delete[] fileText;edkEnd();
+                                        free(fileText);edkEnd();
                                         //load the {
                                         fileText = file.readBinString(stringTest,false);edkEnd();
                                         if(fileText){
@@ -488,7 +488,7 @@ bool edk::bones::Body2D::loadBVH(edk::char8* name,edk::uint8 mode){
                         }
                         else if(edk::String::strCompare(fileText,"MOTION")){
                             //                            printf(" Find MOTION");edkEnd();
-                            delete[] fileText;edkEnd();
+                            free(fileText);edkEnd();
 
                             //load the next frames
                             fileText = file.readBinString(stringTest,false);edkEnd();
@@ -498,7 +498,7 @@ bool edk::bones::Body2D::loadBVH(edk::char8* name,edk::uint8 mode){
                                     //find frames
                                     //                                    printf("\nFind Frames");edkEnd();
 
-                                    delete[] fileText;edkEnd();
+                                    free(fileText);edkEnd();
                                     //load the next frames
                                     fileText = file.readBinString(stringTest,false);edkEnd();
                                     if(fileText){
@@ -512,20 +512,20 @@ bool edk::bones::Body2D::loadBVH(edk::char8* name,edk::uint8 mode){
                                         //                                               ,frames
                                         //                                               );edkEnd();
 
-                                        delete[] fileText;edkEnd();
+                                        free(fileText);edkEnd();
                                         //load the next frames
                                         fileText = file.readBinString(stringTest,false);edkEnd();
                                         if(fileText){
                                             //test if this is equal to frame
                                             if(edk::String::strCompare(fileText,"Frame")){
                                                 //
-                                                delete[] fileText;edkEnd();
+                                                free(fileText);edkEnd();
                                                 fileText = file.readBinString(stringTest,false);edkEnd();
                                                 if(fileText){
                                                     //
                                                     if(edk::String::strCompare(fileText,"Time:")){
                                                         //load the time
-                                                        delete[] fileText;edkEnd();
+                                                        free(fileText);edkEnd();
                                                         fileText = file.readBinString(stringTest,false);edkEnd();
                                                         if(fileText){
                                                             //
@@ -538,7 +538,7 @@ bool edk::bones::Body2D::loadBVH(edk::char8* name,edk::uint8 mode){
                                                             //                                                                   ,channels
                                                             //                                                                   ,channelLinks.size()
                                                             //                                                                   );edkEnd();
-                                                            delete[] fileText;edkEnd();
+                                                            free(fileText);edkEnd();
 
                                                             edk::float32 frameClock = 0.f;edkEnd();
 
@@ -672,7 +672,7 @@ bool edk::bones::Body2D::loadBVH(edk::char8* name,edk::uint8 mode){
                                                                         }
 
                                                                         //
-                                                                        delete[] fileText;edkEnd();
+                                                                        free(fileText);edkEnd();
                                                                     }
                                                                 }
                                                                 frameClock+=time;edkEnd();
@@ -681,30 +681,30 @@ bool edk::bones::Body2D::loadBVH(edk::char8* name,edk::uint8 mode){
                                                         }
                                                         continue;
                                                     }
-                                                    delete[] fileText;edkEnd();
+                                                    free(fileText);edkEnd();
                                                 }
                                                 continue;
                                             }
-                                            delete[] fileText;edkEnd();
+                                            free(fileText);edkEnd();
                                         }
                                     }
                                     continue;
                                 }
 
-                                delete[] fileText;edkEnd();
+                                free(fileText);edkEnd();
                                 continue;
                             }
                             continue;
                         }
 
-                        delete[] fileText;edkEnd();
+                        free(fileText);edkEnd();
                     }
                 }
                 file.closeFile();edkEnd();
             }
 
             //delete nameTemp
-            delete[] nameTemp;edkEnd();
+            free(nameTemp);edkEnd();
         }
         return ret;
     }

@@ -895,10 +895,10 @@ void edk::tiles::TileMap2D::deleteTileMap(){
         this->deletePhysicsTiles();edkEnd();
         for(edk::uint32 i=0u;i<this->sizeMap.height;i++){
             if(this->tileMap[i]){
-                delete[] this->tileMap[i];edkEnd();
+                free(this->tileMap[i]);edkEnd();
             }
         }
-        delete[] this->tileMap;edkEnd();
+        free(this->tileMap);edkEnd();
         this->sizeMap = edk::size2ui32(0u,0u);edkEnd();
     }
     this->tileMap=NULL;edkEnd();
@@ -907,10 +907,10 @@ void edk::tiles::TileMap2D::deleteTileMap(){
         //remove all physics objects
         for(edk::uint32 i=0u;i<this->sizeMap.height;i++){
             if(this->colorMap[i]){
-                delete[] this->colorMap[i];edkEnd();
+                free(this->colorMap[i]);edkEnd();
             }
         }
-        delete[] this->colorMap;edkEnd();
+        free(this->colorMap);edkEnd();
         this->sizeMap = edk::size2ui32(0u,0u);edkEnd();
     }
     this->colorMap=NULL;edkEnd();
@@ -3570,34 +3570,34 @@ bool edk::tiles::TileMap2D::writeToXML(edk::XML* xml,edk::uint32 id){
                         temp = edk::String::int64ToStr(this->sizeMap.width);edkEnd();
                         if(temp){
                             xml->addSelectedNextAttribute((edk::char8*)"sizeMapW",temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         temp = edk::String::int64ToStr(this->sizeMap.height);edkEnd();
                         if(temp){
                             xml->addSelectedNextAttribute((edk::char8*)"sizeMapH",temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         //write the scaleMap
                         temp = edk::String::float32ToStr(this->scaleMap.width);edkEnd();
                         if(temp){
                             xml->addSelectedNextAttribute((edk::char8*)"scaleMapW",temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         temp = edk::String::float32ToStr(this->scaleMap.height);edkEnd();
                         if(temp){
                             xml->addSelectedNextAttribute((edk::char8*)"scaleMapH",temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         //write the position
                         temp = edk::String::float32ToStr(this->getPositionX());edkEnd();
                         if(temp){
                             xml->addSelectedNextAttribute((edk::char8*)"posMapX",temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         temp = edk::String::float32ToStr(this->getPositionY());edkEnd();
                         if(temp){
                             xml->addSelectedNextAttribute((edk::char8*)"posMapY",temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         //write the tileMap
                         if(this->tileMap){
@@ -3606,7 +3606,7 @@ bool edk::tiles::TileMap2D::writeToXML(edk::XML* xml,edk::uint32 id){
                                     //create a new vector
                                     edk::uint32 size = this->sizeMap.width * this->sizeMap.height;edkEnd();
                                     if(size){
-                                        edk::uint32* vec = new edk::uint32[size];edkEnd();
+                                        edk::uint32* vec = (edk::uint32*)malloc(sizeof(edk::uint32) * (size));edkEnd();
                                         if(vec){
                                             edk::uint32 count = 0u;edkEnd();
                                             edk::vec2ui32 position;edkEnd();
@@ -3628,9 +3628,9 @@ bool edk::tiles::TileMap2D::writeToXML(edk::XML* xml,edk::uint32 id){
                                             temp = edk::String::vecUint32toStr(vec,size);edkEnd();
                                             if(temp){
                                                 xml->setSelectedString(temp);edkEnd();
-                                                delete[] temp;edkEnd();
+                                                free(temp);edkEnd();
                                             }
-                                            delete[] vec;edkEnd();
+                                            free(vec);edkEnd();
                                         }
                                     }
                                     xml->selectFather();edkEnd();
@@ -3645,7 +3645,7 @@ bool edk::tiles::TileMap2D::writeToXML(edk::XML* xml,edk::uint32 id){
                                     //create a new vector
                                     edk::uint32 size = this->sizeMap.width * this->sizeMap.height * 4u;edkEnd();
                                     if(size){
-                                        edk::float32* vec = new edk::float32[size];edkEnd();
+                                        edk::float32* vec = (edk::float32*)malloc(sizeof(edk::float32) * (size));edkEnd();
                                         if(vec){
                                             edk::uint32 count = 0u;edkEnd();
                                             //copy the mat to the vec
@@ -3663,9 +3663,9 @@ bool edk::tiles::TileMap2D::writeToXML(edk::XML* xml,edk::uint32 id){
                                             temp = edk::String::vecfloat32toStr(vec,size);edkEnd();
                                             if(temp){
                                                 xml->setSelectedString(temp);edkEnd();
-                                                delete[] temp;edkEnd();
+                                                free(temp);edkEnd();
                                             }
-                                            delete[] vec;edkEnd();
+                                            free(vec);edkEnd();
                                         }
                                     }
                                     xml->selectFather();edkEnd();
@@ -3677,9 +3677,9 @@ bool edk::tiles::TileMap2D::writeToXML(edk::XML* xml,edk::uint32 id){
                         xml->selectFather();edkEnd();
                     }
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }
@@ -3712,7 +3712,7 @@ bool edk::tiles::TileMap2D::readFromXML(edk::XML* xml,edk::uint32 id){
                                 edk::uint32 size = this->sizeMap.width * this->sizeMap.height;edkEnd();
                                 if(size){
                                     //create the vector
-                                    edk::uint32* vec = new edk::uint32[size];edkEnd();
+                                    edk::uint32* vec = (edk::uint32*)malloc(sizeof(edk::uint32) * (size));edkEnd();
                                     if(vec){
                                         //convert the string
                                         if(edk::String::strToVecUint32(xml->getSelectedString(),vec,size)){
@@ -3725,7 +3725,7 @@ bool edk::tiles::TileMap2D::readFromXML(edk::XML* xml,edk::uint32 id){
                                                 }
                                             }
                                         }
-                                        delete[] vec;edkEnd();
+                                        free(vec);edkEnd();
                                     }
                                 }
                             }
@@ -3738,7 +3738,7 @@ bool edk::tiles::TileMap2D::readFromXML(edk::XML* xml,edk::uint32 id){
                                     edk::uint32 size = this->sizeMap.width * this->sizeMap.height * 4u;edkEnd();
                                     if(size){
                                         //create the vector
-                                        edk::float32* vec = new edk::float32[size];edkEnd();
+                                        edk::float32* vec = (edk::float32*)malloc(sizeof(edk::float32) * (size));edkEnd();
                                         if(vec){
                                             //convert the string
                                             if(edk::String::strToVecfloat32(xml->getSelectedString(),vec,size)){
@@ -3754,7 +3754,7 @@ bool edk::tiles::TileMap2D::readFromXML(edk::XML* xml,edk::uint32 id){
                                                     }
                                                 }
                                             }
-                                            delete[] vec;edkEnd();
+                                            free(vec);edkEnd();
                                         }
                                     }
                                 }
@@ -3776,9 +3776,9 @@ bool edk::tiles::TileMap2D::readFromXML(edk::XML* xml,edk::uint32 id){
                     ret=true;edkEnd();
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }

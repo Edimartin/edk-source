@@ -985,7 +985,7 @@ bool edk::shape::Polygon2DList::writeToXML(edk::XML* xml,edk::uint32 id){
                         edk::char8* temp = edk::String::int64ToStr((edk::int64)size);edkEnd();
                         if(temp){
                             xml->addSelectedNextAttribute((edk::char8*)"pCount",temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         edk::shape::Polygon2D* poly;edkEnd();
                         //write the polygons
@@ -1001,9 +1001,9 @@ bool edk::shape::Polygon2DList::writeToXML(edk::XML* xml,edk::uint32 id){
                         xml->selectFather();edkEnd();
                     }
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }
@@ -1033,9 +1033,9 @@ bool edk::shape::Polygon2DList::readFromXML(edk::XML* xml,edk::uint32 id){
                     ret=true;edkEnd();
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }

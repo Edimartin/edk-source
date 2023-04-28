@@ -1464,9 +1464,9 @@ bool edk::shape::Mesh2D::writeToXML(edk::XML* xml,edk::uint32 id){
                     ret=true;edkEnd();
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }
@@ -1488,9 +1488,9 @@ bool edk::shape::Mesh2D::readFromXML(edk::XML* xml,edk::uint32 id){
                     ret=true;edkEnd();
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }
@@ -1512,9 +1512,9 @@ bool edk::shape::Mesh2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::X
                     ret=true;edkEnd();
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }

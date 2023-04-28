@@ -27,6 +27,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //the file is inline
 //edk::File edk::DebugFile::file;
 
+edk::uint64 EDKArrayVectorFreeCounter=0u;
+
 edk::DebugFile::DebugFile(){
     //
 }

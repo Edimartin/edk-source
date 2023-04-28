@@ -103,9 +103,15 @@ void edk::shape::Triangle2D::draw(){
     edk::GU::guTranslate2f32(this->translate);edkEnd();
     edk::GU::guRotateZf32(this->angle);edkEnd();
     edk::GU::guScale2f32(this->scale);edkEnd();
+    /*
     edk::GU::guBegin(GU_TRIANGLES);edkEnd();
         this->drawVertexs();edkEnd();
     edk::GU::guEnd();edkEnd();
+    */
+
+    //drawVBO
+    (this->*vboDraw)(GU_TRIANGLES);
+
     edk::GU::guPopMatrix();edkEnd();
 }
 void edk::shape::Triangle2D::drawWire(){
@@ -114,9 +120,15 @@ void edk::shape::Triangle2D::drawWire(){
     edk::GU::guTranslate2f32(this->translate);edkEnd();
     edk::GU::guRotateZf32(this->angle);edkEnd();
     edk::GU::guScale2f32(this->scale);edkEnd();
+    /*
     edk::GU::guBegin(GU_LINES);edkEnd();
         this->drawVertexs();edkEnd();
     edk::GU::guEnd();edkEnd();
+    */
+
+    //drawVBO
+    (this->*vboDraw)(GU_LINES);
+
     edk::GU::guPopMatrix();edkEnd();
 }
 

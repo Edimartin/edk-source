@@ -50,6 +50,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 #endif
 
+extern edk::uint64 EDKArrayVectorFreeCounter;
+
 namespace edk{
 class DebugFile{
 public:

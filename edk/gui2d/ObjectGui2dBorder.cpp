@@ -1690,7 +1690,7 @@ bool edk::gui2d::ObjectGui2dBorder::saveTemplate(edk::char8* folder){
                 ret = true;
             }
 
-            delete[] str;
+            free(str);
         }
         if(ret){
             ret=false;
@@ -1706,7 +1706,7 @@ bool edk::gui2d::ObjectGui2dBorder::saveTemplate(edk::char8* folder){
                     ret = true;
                 }
 
-                delete[] str;
+                free(str);
             }
         }
         if(ret){
@@ -1723,7 +1723,7 @@ bool edk::gui2d::ObjectGui2dBorder::saveTemplate(edk::char8* folder){
                     ret = true;
                 }
 
-                delete[] str;
+                free(str);
             }
         }
         if(ret){
@@ -1740,7 +1740,7 @@ bool edk::gui2d::ObjectGui2dBorder::saveTemplate(edk::char8* folder){
                     ret = true;
                 }
 
-                delete[] str;
+                free(str);
             }
         }
         return ret;

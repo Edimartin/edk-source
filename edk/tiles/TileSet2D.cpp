@@ -2225,23 +2225,23 @@ bool edk::tiles::TileSet2D::writeToXML(edk::XML* xml,edk::uint32 id){
                         temp = edk::String::float32ToStr(this->tileSize.width);edkEnd();
                         if(temp){
                             xml->addSelectedNextAttribute((edk::char8*)"sizeW",temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         temp = edk::String::float32ToStr(this->tileSize.height);edkEnd();
                         if(temp){
                             xml->addSelectedNextAttribute((edk::char8*)"sizeH",temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         //write the position
                         temp = edk::String::float32ToStr(this->tilesPosition.x);edkEnd();
                         if(temp){
                             xml->addSelectedNextAttribute((edk::char8*)"posX",temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         temp = edk::String::float32ToStr(this->tilesPosition.y);edkEnd();
                         if(temp){
                             xml->addSelectedNextAttribute((edk::char8*)"posY",temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         //write the tiles
                         edk::uint32 size = this->tiles.size();edkEnd();
@@ -2249,7 +2249,7 @@ bool edk::tiles::TileSet2D::writeToXML(edk::XML* xml,edk::uint32 id){
                         temp = edk::String::int64ToStr(size);edkEnd();
                         if(temp){
                             xml->addSelectedNextAttribute((edk::char8*)"tileSize",temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         edk::tiles::Tile2D* tileTemp;edkEnd();
                         for(edk::uint32 i=0u;i<=size;i++){
@@ -2280,9 +2280,9 @@ bool edk::tiles::TileSet2D::writeToXML(edk::XML* xml,edk::uint32 id){
                                                     xml->selectFather();edkEnd();
                                                 }
                                             }
-                                            delete[] nameTemp;edkEnd();
+                                            free(nameTemp);edkEnd();
                                         }
-                                        delete[] iTemp;edkEnd();
+                                        free(iTemp);edkEnd();
                                     }
                                 }
                             }
@@ -2291,9 +2291,9 @@ bool edk::tiles::TileSet2D::writeToXML(edk::XML* xml,edk::uint32 id){
                         xml->selectFather();edkEnd();
                     }
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }
@@ -2349,9 +2349,9 @@ bool edk::tiles::TileSet2D::readFromXML(edk::XML* xml,edk::uint32 id){
                                                 this->treeAnimated.add(tileTemp);edkEnd();
                                                 xml->selectFather();edkEnd();
                                             }
-                                            delete[] nameTemp;edkEnd();
+                                            free(nameTemp);edkEnd();
                                         }
-                                        delete[] iTemp;edkEnd();
+                                        free(iTemp);edkEnd();
                                     }
                                 }
                                 else{
@@ -2375,9 +2375,9 @@ bool edk::tiles::TileSet2D::readFromXML(edk::XML* xml,edk::uint32 id){
                     }
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         this->treeRemoveXML.clean();edkEnd();
         return ret;
@@ -2434,9 +2434,9 @@ bool edk::tiles::TileSet2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk
                                                 this->treeAnimated.add(tileTemp);edkEnd();
                                                 xml->selectFather();edkEnd();
                                             }
-                                            delete[] nameTemp;edkEnd();
+                                            free(nameTemp);edkEnd();
                                         }
-                                        delete[] iTemp;edkEnd();
+                                        free(iTemp);edkEnd();
                                     }
                                 }
                                 else{
@@ -2460,9 +2460,9 @@ bool edk::tiles::TileSet2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk
                     }
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         this->treeRemoveXML.clean();edkEnd();
         return ret;

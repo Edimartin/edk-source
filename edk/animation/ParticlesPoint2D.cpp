@@ -405,7 +405,7 @@ bool edk::animation::ParticlesPoint2D::loadParticles(edk::uint32 size){
 void edk::animation::ParticlesPoint2D::cleanParticles(){
     if(this->particles){
         this->stop();edkEnd();
-        delete[] particles;edkEnd();
+        free(particles);edkEnd();
         this->particles=NULL;edkEnd();
     }
     this->sizeParticles = 0u;edkEnd();

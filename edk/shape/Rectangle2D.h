@@ -63,6 +63,18 @@ public:
     virtual bool cloneFrom(edk::shape::Polygon2D* poly);
 
 protected:
+    //function to create the VBO
+    virtual bool createVBO(edk::uint32 vertexCount,edk::shape::EDKVBOType type);
+    //setters to VBO
+    virtual bool setVBOVertexPosition(edk::uint32 vertex,edk::vec2f32 position);
+    virtual bool setVBOVertexNormal(edk::uint32 vertex,edk::vec3f32 normal);
+    virtual bool setVBOVertexColor(edk::uint32 vertex,edk::color4f32 color);
+    virtual bool setVBOVertexUV(edk::uint32 vertex,edk::vec2f32 uv);
+
+    //DRAW
+    virtual void draw_NULL(edk::uint32 mode);
+    //DRAW UPDATE
+    virtual void drawUpdate_NULL(edk::uint32 mode);
 private:
     //createPolygon
     bool createPolygon();

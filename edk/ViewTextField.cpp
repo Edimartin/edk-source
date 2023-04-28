@@ -797,7 +797,7 @@ void edk::ViewTextField::TextField::setWritePosition(edk::uint32 position){
 //delete the string
 void edk::ViewTextField::TextField::deleteString(){
     if(this->string){
-        delete[] this->string;edkEnd();
+        free(this->string);edkEnd();
     }
     this->string = NULL;edkEnd();
     this->sizeString = 0u;edkEnd();
@@ -834,7 +834,7 @@ bool edk::ViewTextField::TextField::addCharacter(edk::char8 c){
     bool ret=false;edkEnd();
     if(c){
         //create a string with the character
-        edk::char8* temp = new edk::char8[2u];edkEnd();
+        edk::char8* temp = (edk::char8*)malloc(sizeof(edk::char8) * (2u));edkEnd();
         if(temp){
             temp[0u] = c;edkEnd();
             temp[1u] = '\0';edkEnd();
@@ -850,7 +850,7 @@ bool edk::ViewTextField::TextField::addCharacter(edk::char8 c){
                     strSet = edk::String::strCat(this->string,temp);edkEnd();
                     if(strSet){
                         //delete this string
-                        delete[] this->string;edkEnd();
+                        free(this->string);edkEnd();
                         this->string = strSet;edkEnd();
                         this->sizeString = edk::String::strSize(this->string);edkEnd();
                         this->setWritePosition(this->writePosition+1u);edkEnd();
@@ -863,7 +863,7 @@ bool edk::ViewTextField::TextField::addCharacter(edk::char8 c){
                     strSet = edk::String::strCat(temp,this->string);edkEnd();
                     if(strSet){
                         //delete this string
-                        delete[] this->string;edkEnd();
+                        free(this->string);edkEnd();
                         this->string = strSet;edkEnd();
                         this->sizeString = edk::String::strSize(this->string);edkEnd();
                         this->setWritePosition(this->writePosition+1u);edkEnd();
@@ -872,7 +872,7 @@ bool edk::ViewTextField::TextField::addCharacter(edk::char8 c){
                 }
                 else{
                     //else coy the characters manualy
-                    strSet = new edk::char8[this->sizeString+2u];edkEnd();
+                    strSet = (edk::char8*)malloc(sizeof(edk::char8) * (this->sizeString+2u));edkEnd();
                     if(strSet){
                         //add the end
                         strSet[this->sizeString+1u] = '\0';edkEnd();
@@ -883,7 +883,7 @@ bool edk::ViewTextField::TextField::addCharacter(edk::char8 c){
                         //copy the last characters
                         memcpy(&strSet[this->writePosition+1u],&this->string[this->writePosition],this->sizeString-this->writePosition);edkEnd();
                         //delete the string
-                        delete[] this->string;edkEnd();
+                        free(this->string);edkEnd();
                         //set the string
                         this->string = strSet;edkEnd();
                         this->sizeString = edk::String::strSize(this->string);edkEnd();
@@ -892,7 +892,7 @@ bool edk::ViewTextField::TextField::addCharacter(edk::char8 c){
                     }
                 }
 
-                delete[] temp;edkEnd();
+                free(temp);edkEnd();
             }
             else{
                 //else the string receive the character
@@ -936,7 +936,7 @@ bool edk::ViewTextField::TextField::removeCharacter(){
             strSet = edk::String::strCopy(&this->string[1u]);edkEnd();
             if(strSet){
                 //delete this string
-                delete[] this->string;edkEnd();
+                free(this->string);edkEnd();
                 this->string = strSet;edkEnd();
                 this->sizeString = edk::String::strSize(this->string);edkEnd();
                 this->setWritePosition(this->writePosition-1u);edkEnd();
@@ -946,7 +946,7 @@ bool edk::ViewTextField::TextField::removeCharacter(){
         //else test if remove the characters inside
         else if(this->writePosition){
             //create the new string
-            strSet = new edk::char8[this->sizeString];edkEnd();
+            strSet = (edk::char8*)malloc(sizeof(edk::char8) * (this->sizeString));edkEnd();
             if(strSet){
                 this->setWritePosition(this->writePosition-1u);edkEnd();
                 //add the end
@@ -956,7 +956,7 @@ bool edk::ViewTextField::TextField::removeCharacter(){
                 //copy the last characters
                 memcpy(&strSet[this->writePosition],&this->string[this->writePosition+1u],this->sizeString-this->writePosition-1u);edkEnd();
                 //delete the string
-                delete[] this->string;edkEnd();
+                free(this->string);edkEnd();
                 //set the string
                 this->string = strSet;edkEnd();
                 this->sizeString = edk::String::strSize(this->string);edkEnd();
@@ -987,14 +987,14 @@ bool edk::ViewTextField::TextField::deleteCharacter(){
             return true;
         }
         else if(!this->writePosition){
-            strSet = new edk::char8[this->sizeString];edkEnd();
+            strSet = (edk::char8*)malloc(sizeof(edk::char8) * (this->sizeString));edkEnd();
             if(strSet){
                 //add the end
                 strSet[this->sizeString-1u] = '\0';edkEnd();
                 //set the memory
                 memcpy(strSet,&this->string[1u],this->sizeString-1u);edkEnd();
                 //delete this string
-                delete[] this->string;edkEnd();
+                free(this->string);edkEnd();
                 this->string = strSet;edkEnd();
                 this->sizeString = edk::String::strSize(this->string);edkEnd();
                 this->setWritePosition(this->writePosition);edkEnd();
@@ -1004,7 +1004,7 @@ bool edk::ViewTextField::TextField::deleteCharacter(){
         //else test if remove the characters inside
         else if(this->writePosition<this->sizeString){
             //create the new string
-            strSet = new edk::char8[this->sizeString];edkEnd();
+            strSet = (edk::char8*)malloc(sizeof(edk::char8) * (this->sizeString));edkEnd();
             if(strSet){
                 //add the end
                 strSet[this->sizeString-1u] = '\0';edkEnd();
@@ -1013,7 +1013,7 @@ bool edk::ViewTextField::TextField::deleteCharacter(){
                 //copy the last characters
                 memcpy(&strSet[this->writePosition],&this->string[this->writePosition+1u],this->sizeString-this->writePosition-1u);edkEnd();
                 //delete the string
-                delete[] this->string;edkEnd();
+                free(this->string);edkEnd();
                 //set the string
                 this->string = strSet;edkEnd();
                 this->sizeString = edk::String::strSize(this->string);edkEnd();

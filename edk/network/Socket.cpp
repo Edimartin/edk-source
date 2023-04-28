@@ -273,14 +273,14 @@ edk::uint32 edk::network::Adress::getMyIP(){
 //convert ipToString
 edk::char8* edk::network::Adress::ipToString(edk::uint32 ip){
     //create the string
-    edk::char8* ret = new edk::char8[16u];edkEnd();
+    edk::char8* ret = (edk::char8*)malloc(sizeof(edk::char8) * (16u));edkEnd();
     if(ret){
         //print the IP on the string
         if(edk::network::Adress::ipToString(ip,ret)){
             return ret;
         }
         //else delete the ret
-        delete[] ret;edkEnd();
+        free(ret);edkEnd();
     }
     //convert the ipNumber
     return NULL;

@@ -107,9 +107,9 @@ void edk::XML::parsing(pugi::xml_node node){
         //test if have attributesCount
         if(attributesCount){
             //create a new string to get the attributes and values
-            edk::char8** attributes=new edk::char8*[attributesCount];
-            edk::char8** values=new edk::char8*[attributesCount];
-            edk::uint8* types=new edk::uint8[attributesCount];
+            edk::char8** attributes= (edk::char8**)malloc(sizeof(edk::char8*) * (attributesCount));
+            edk::char8** values= (edk::char8**)malloc(sizeof(edk::char8*) * (attributesCount));
+            edk::uint8* types= (edk::uint8*)malloc(sizeof(edk::uint8) * (attributesCount));
             if(attributes && values){
                 //get the attributes
                 pugi::xml_attribute attr = node.first_attribute();
@@ -138,15 +138,15 @@ void edk::XML::parsing(pugi::xml_node node){
             }
             //delete the attributes
             if(attributes){
-                delete[] attributes;
+                free(attributes);
             }
             attributes=NULL;
             if(values){
-                delete[] values;
+                free(values);
             }
             values=NULL;
             if(types){
-                delete[] types;
+                free(types);
             }
             types=NULL;
         }
@@ -832,7 +832,7 @@ bool edk::XML::addSelectedNextChild(edk::char8* name,edk::uint64 value){
                     if((temp = selected.insert_child_after((char*)name,this->selected.last_child()))){
                         //set the text
                         temp.text().set(str);
-                        delete[] str;
+                        free(str);
                         //return true;
                         return true;
                     }
@@ -842,7 +842,7 @@ bool edk::XML::addSelectedNextChild(edk::char8* name,edk::uint64 value){
                     if((temp = selected.append_child((char*)name))){
                         //set the text
                         temp.text().set(str);
-                        delete[] str;
+                        free(str);
                         //return true;
                         return true;
                     }
@@ -855,13 +855,13 @@ bool edk::XML::addSelectedNextChild(edk::char8* name,edk::uint64 value){
                     if((temp = this->doc.append_child((char*)name))){
                         //set the text
                         temp.text().set(str);
-                        delete[] str;
+                        free(str);
                         //return true;
                         return true;
                     }
                 }
             }
-            delete[] str;
+            free(str);
         }
     }
     //else return false
@@ -883,7 +883,7 @@ bool edk::XML::addSelectedNextChild(edk::char8* name,edk::int64 value){
                     if((temp = selected.insert_child_after((char*)name,this->selected.last_child()))){
                         //set the text
                         temp.text().set(str);
-                        delete[] str;
+                        free(str);
                         //return true;
                         return true;
                     }
@@ -893,7 +893,7 @@ bool edk::XML::addSelectedNextChild(edk::char8* name,edk::int64 value){
                     if((temp = selected.append_child((char*)name))){
                         //set the text
                         temp.text().set(str);
-                        delete[] str;
+                        free(str);
                         //return true;
                         return true;
                     }
@@ -906,13 +906,13 @@ bool edk::XML::addSelectedNextChild(edk::char8* name,edk::int64 value){
                     if((temp = this->doc.append_child((char*)name))){
                         //set the text
                         temp.text().set(str);
-                        delete[] str;
+                        free(str);
                         //return true;
                         return true;
                     }
                 }
             }
-            delete[] str;
+            free(str);
         }
     }
     //else return false
@@ -934,7 +934,7 @@ bool edk::XML::addSelectedNextChild(edk::char8* name,edk::float32 value,edk::uin
                     if((temp = selected.insert_child_after((char*)name,this->selected.last_child()))){
                         //set the text
                         temp.text().set(str);
-                        delete[] str;
+                        free(str);
                         //return true;
                         return true;
                     }
@@ -944,7 +944,7 @@ bool edk::XML::addSelectedNextChild(edk::char8* name,edk::float32 value,edk::uin
                     if((temp = selected.append_child((char*)name))){
                         //set the text
                         temp.text().set(str);
-                        delete[] str;
+                        free(str);
                         //return true;
                         return true;
                     }
@@ -957,13 +957,13 @@ bool edk::XML::addSelectedNextChild(edk::char8* name,edk::float32 value,edk::uin
                     if((temp = this->doc.append_child((char*)name))){
                         //set the text
                         temp.text().set(str);
-                        delete[] str;
+                        free(str);
                         //return true;
                         return true;
                     }
                 }
             }
-            delete[] str;
+            free(str);
         }
     }
     //else return false
@@ -985,7 +985,7 @@ bool edk::XML::addSelectedNextChild(edk::char8* name,edk::float64 value,edk::uin
                     if((temp = selected.insert_child_after((char*)name,this->selected.last_child()))){
                         //set the text
                         temp.text().set(str);
-                        delete[] str;
+                        free(str);
                         //return true;
                         return true;
                     }
@@ -995,7 +995,7 @@ bool edk::XML::addSelectedNextChild(edk::char8* name,edk::float64 value,edk::uin
                     if((temp = selected.append_child((char*)name))){
                         //set the text
                         temp.text().set(str);
-                        delete[] str;
+                        free(str);
                         //return true;
                         return true;
                     }
@@ -1008,14 +1008,14 @@ bool edk::XML::addSelectedNextChild(edk::char8* name,edk::float64 value,edk::uin
                     if((temp = this->doc.append_child((char*)name))){
                         //set the text
                         temp.text().set(str);
-                        delete[] str;
+                        free(str);
                         //return true;
                         return true;
                     }
                 }
             }
         }
-        delete[] str;
+        free(str);
     }
     //else return false
     return false;
@@ -1085,7 +1085,7 @@ bool edk::XML::addSelectedNextAttribute(edk::char8* name,edk::uint32 value){
     edk::char8* str = edk::String::uint32ToStr(value);
     if(str){
         ret = this->addSelectedNextAttribute(name,str);
-        delete[] str;
+        free(str);
     }
     return ret;
 }
@@ -1097,7 +1097,7 @@ bool edk::XML::addSelectedNextAttribute(edk::char8* name,edk::int32 value){
     edk::char8* str = edk::String::int32ToStr(value);
     if(str){
         ret = this->addSelectedNextAttribute(name,str);
-        delete[] str;
+        free(str);
     }
     return ret;
 }
@@ -1109,7 +1109,7 @@ bool edk::XML::addSelectedNextAttribute(edk::char8* name,edk::uint64 value){
     edk::char8* str = edk::String::uint64ToStr(value);
     if(str){
         ret = this->addSelectedNextAttribute(name,str);
-        delete[] str;
+        free(str);
     }
     return ret;
 }
@@ -1121,7 +1121,7 @@ bool edk::XML::addSelectedNextAttribute(edk::char8* name,edk::int64 value){
     edk::char8* str = edk::String::int64ToStr(value);
     if(str){
         ret = this->addSelectedNextAttribute(name,str);
-        delete[] str;
+        free(str);
     }
     return ret;
 }
@@ -1133,7 +1133,7 @@ bool edk::XML::addSelectedNextAttribute(edk::char8* name,edk::float32 value,edk:
     edk::char8* str = edk::String::float32ToStr(value,digits);
     if(str){
         ret = this->addSelectedNextAttribute(name,str);
-        delete[] str;
+        free(str);
     }
     return ret;
 }
@@ -1145,7 +1145,7 @@ bool edk::XML::addSelectedNextAttribute(edk::char8* name,edk::float64 value,edk:
     edk::char8* str = edk::String::float64ToStr(value,digits);
     if(str){
         ret = this->addSelectedNextAttribute(name,str);
-        delete[] str;
+        free(str);
     }
     return ret;
 }
@@ -1197,7 +1197,7 @@ bool edk::XML::addSelectedPreviousAttribute(edk::char8* name,edk::uint32 value){
     edk::char8* str = edk::String::uint32ToStr(value);
     if(str){
         ret = this->addSelectedPreviousAttribute(name,str);
-        delete[] str;
+        free(str);
     }
     return ret;
 }
@@ -1209,7 +1209,7 @@ bool edk::XML::addSelectedPreviousAttribute(edk::char8* name,edk::int32 value){
     edk::char8* str = edk::String::int32ToStr(value);
     if(str){
         ret = this->addSelectedPreviousAttribute(name,str);
-        delete[] str;
+        free(str);
     }
     return ret;
 }
@@ -1221,7 +1221,7 @@ bool edk::XML::addSelectedPreviousAttribute(edk::char8* name,edk::uint64 value){
     edk::char8* str = edk::String::uint64ToStr(value);
     if(str){
         ret = this->addSelectedPreviousAttribute(name,str);
-        delete[] str;
+        free(str);
     }
     return ret;
 }
@@ -1233,7 +1233,7 @@ bool edk::XML::addSelectedPreviousAttribute(edk::char8* name,edk::int64 value){
     edk::char8* str = edk::String::int64ToStr(value);
     if(str){
         ret = this->addSelectedPreviousAttribute(name,str);
-        delete[] str;
+        free(str);
     }
     return ret;
 }
@@ -1245,7 +1245,7 @@ bool edk::XML::addSelectedPreviousAttribute(edk::char8* name,edk::float32 value,
     edk::char8* str = edk::String::float32ToStr(value,digits);
     if(str){
         ret = this->addSelectedPreviousAttribute(name,str);
-        delete[] str;
+        free(str);
     }
     return ret;
 }
@@ -1257,7 +1257,7 @@ bool edk::XML::addSelectedPreviousAttribute(edk::char8* name,edk::float64 value,
     edk::char8* str = edk::String::float64ToStr(value,digits);
     if(str){
         ret = this->addSelectedPreviousAttribute(name,str);
-        delete[] str;
+        free(str);
     }
     return ret;
 }
@@ -1444,7 +1444,7 @@ bool edk::XML::setSelectedString(edk::uint64 string){
             if(this->selected.text().set(str)){
                 ret = true;
             }
-            delete[] str;
+            free(str);
             return ret;
         }
     }
@@ -1462,7 +1462,7 @@ bool edk::XML::setSelectedString(edk::int64 string){
             if(this->selected.text().set(str)){
                 ret = true;
             }
-            delete[] str;
+            free(str);
             return ret;
         }
     }
@@ -1478,10 +1478,10 @@ bool edk::XML::setSelectedString(edk::float32 string,edk::uint32 digits){
             //set the selected string
             if(this->selected.text().set(str)){
                 //
-                delete[] str;
+                free(str);
                 return true;
             }
-            delete[] str;
+            free(str);
         }
     }
     //else return false
@@ -1496,10 +1496,10 @@ bool edk::XML::setSelectedString(edk::float64 string,edk::uint32 digits){
             //set the selected string
             if(this->selected.text().set(str)){
                 //
-                delete[] str;
+                free(str);
                 return true;
             }
-            delete[] str;
+            free(str);
         }
     }
     //else return false

@@ -70,7 +70,7 @@ bool edk::codecs::CodecImage::newFrame(edk::size2ui32 size,edk::uint8 channels){
 
         //create the new frame
         if(this->vectorFrameSize){
-            if( ( this->frame = new edk::uint8[this->vectorFrameSize] ) ){
+            if( ( this->frame = (edk::uint8*)malloc(sizeof(edk::uint8) * (this->vectorFrameSize)) ) ){
                 //save the new size
                 this->frameSize = size;edkEnd();
                 this->frameChannels = channels;edkEnd();
@@ -91,7 +91,7 @@ bool edk::codecs::CodecImage::newFrame(edk::uint32 width,edk::uint32 height,edk:
 void edk::codecs::CodecImage::deleteFrame(){
     //test if have the frame
     if(this->frame){
-        delete[] this->frame;edkEnd();
+        free(this->frame);edkEnd();
         this->frame=NULL;edkEnd();
     }
     //clean the size
@@ -114,7 +114,7 @@ bool edk::codecs::CodecImage::newFrameEncoded(edk::uint32 size){
         this->deleteEncoded();edkEnd();
 
         //create a new encoded
-        if((this->encoded = new edk::uint8[size])){
+        if((this->encoded = (edk::uint8*)malloc(sizeof(edk::uint8) * (size)))){
             //save the encodedSize
             this->encodedSize = size;edkEnd();
             return true;
@@ -128,7 +128,7 @@ bool edk::codecs::CodecImage::newFrameEncoded(edk::uint32 size){
 void edk::codecs::CodecImage::deleteEncoded(){
     //test if have the encoded
     if(this->encoded){
-        delete[] this->encoded;edkEnd();
+        free(this->encoded);edkEnd();
         this->encoded=NULL;edkEnd();
     }
     //clean the size
@@ -320,13 +320,13 @@ edk::uint8* edk::codecs::CodecImage::rgbToV(edk::uint8* vector,edk::size2ui32 si
     if(vector && size.width && size.height){
         edk::uint32 vecSize = size.width * size.height;edkEnd();
         //create the return
-        edk::uint8* ret = new edk::uint8[vecSize];edkEnd();
+        edk::uint8* ret = (edk::uint8*)malloc(sizeof(edk::uint8) * (vecSize));edkEnd();
         if(ret){
             if(edk::codecs::CodecImage::rgbToV(vector,size,ret)){
                 return ret;
             }
             //
-            delete[] ret;edkEnd();
+            free(ret);edkEnd();
         }
     }
     return NULL;
@@ -354,13 +354,13 @@ edk::uint8* edk::codecs::CodecImage::rgbaToV(edk::uint8* vector,edk::size2ui32 s
     if(vector && size.width && size.height){
         edk::uint32 vecSize = size.width * size.height;edkEnd();
         //create the return
-        edk::uint8* ret = new edk::uint8[vecSize];edkEnd();
+        edk::uint8* ret = (edk::uint8*)malloc(sizeof(edk::uint8) * (vecSize));edkEnd();
         if(ret){
             if(edk::codecs::CodecImage::rgbaToV(vector,size,ret)){
                 return ret;
             }
             //
-            delete[] ret;edkEnd();
+            free(ret);edkEnd();
         }
     }
     return NULL;
@@ -529,13 +529,13 @@ edk::uint8* edk::codecs::CodecImage::rgbToLui8(edk::uint8* vector,edk::size2ui32
     if(vector && size.width && size.height){
         edk::uint32 vecSize = size.width * size.height;edkEnd();
         //create the return
-        edk::uint8* ret = new edk::uint8[vecSize];edkEnd();
+        edk::uint8* ret = (edk::uint8*)malloc(sizeof(edk::uint8) * (vecSize));edkEnd();
         if(ret){
             if(edk::codecs::CodecImage::rgbToLui8(vector,size,ret)){
                 return ret;
             }
             //
-            delete[] ret;edkEnd();
+            free(ret);edkEnd();
         }
         ret=NULL;edkEnd();
     }
@@ -564,13 +564,13 @@ edk::uint8* edk::codecs::CodecImage::rgbaToLui8(edk::uint8* vector,edk::size2ui3
     if(vector && size.width && size.height){
         edk::uint32 vecSize = size.width * size.height;edkEnd();
         //create the return
-        edk::uint8* ret = new edk::uint8[vecSize];edkEnd();
+        edk::uint8* ret = (edk::uint8*)malloc(sizeof(edk::uint8) * (vecSize));edkEnd();
         if(ret){
             if(edk::codecs::CodecImage::rgbaToLui8(vector,size,ret)){
                 return ret;
             }
             //
-            delete[] ret;edkEnd();
+            free(ret);edkEnd();
         }
         ret=NULL;edkEnd();
     }

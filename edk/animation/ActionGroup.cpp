@@ -258,9 +258,9 @@ bool edk::animation::ActionGroup::writeToXML(edk::XML* xml,edk::uint32 id){
                                                 xml->selectFather();edkEnd();
                                             }
                                         }
-                                        delete[] nameTemp;edkEnd();
+                                        free(nameTemp);edkEnd();
                                     }
-                                    delete[] numberTemp;edkEnd();
+                                    free(numberTemp);edkEnd();
                                 }
                             }
                         }
@@ -269,9 +269,9 @@ bool edk::animation::ActionGroup::writeToXML(edk::XML* xml,edk::uint32 id){
                         xml->selectFather();edkEnd();
                     }
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] number;edkEnd();
+            free(number);edkEnd();
         }
     }
     return ret;
@@ -325,18 +325,18 @@ bool edk::animation::ActionGroup::readFromXML(edk::XML* xml,edk::uint32 id,edk::
                                         //then select the father
                                         xml->selectFather();edkEnd();
                                     }
-                                    delete[] nameTemp;edkEnd();
+                                    free(nameTemp);edkEnd();
                                 }
-                                delete[] numberTemp;edkEnd();
+                                free(numberTemp);edkEnd();
                             }
                         }
                     }
                     //then select the father
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] number;edkEnd();
+            free(number);edkEnd();
         }
     }
     return ret;

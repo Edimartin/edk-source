@@ -353,7 +353,7 @@ edk::char8* edk::encrypt::SHA1::convert(edk::char8 *pass, edk::uint32 size){
     edk::char8* ret=NULL;edkEnd();
     if(pass && size){
         //cria a string de retorno
-        ret = new edk::char8[41u];edkEnd();
+        ret = (edk::char8*)malloc(sizeof(edk::char8) * (41u));edkEnd();
         if(ret){
             edk::encrypt::SHA1::convertTo(pass, size,ret);edkEnd();
         }
@@ -374,7 +374,7 @@ edk::char8* edk::encrypt::SHA1::convertFile(edk::File* file){
     edk::char8* ret=NULL;edkEnd();
     if(file){
         //cria a string de retorno
-        ret = new edk::char8[41u];edkEnd();
+        ret = (edk::char8*)malloc(sizeof(edk::char8) * (41u));edkEnd();
         if(ret){
             edk::encrypt::SHA1::convertFileTo(file,ret);edkEnd();
         }

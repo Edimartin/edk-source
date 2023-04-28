@@ -193,7 +193,7 @@ protected:
     void deleteName(){
         //
         if(this->_name){
-            delete[] this->_name;
+            free(this->_name);
             this->_name=NULL;
         }
         this->_size = 0u;

@@ -1787,7 +1787,7 @@ static edk::uchar8 EDKFontTemplate[36814] = {
 edk::fonts::FontMap::FontLine::FontLine(edk::uint32 size){
     this->size = size;edkEnd();
     if(this->size){
-        this->line = new edk::uint32[this->size];edkEnd();
+        this->line = (edk::uint32*)malloc(sizeof(edk::uint32) * (this->size));edkEnd();
         if(line){
             //clean the line
             for(edk::uint32 i=0u;i<this->size;i++){
@@ -1802,7 +1802,7 @@ edk::fonts::FontMap::FontLine::FontLine(edk::uint32 size){
 edk::fonts::FontMap::FontLine::~FontLine(){
     //delete the line
     if(this->line){
-        delete[] this->line;edkEnd();
+        free(this->line);edkEnd();
     }
 }
 //get the size
@@ -2529,7 +2529,7 @@ bool edk::fonts::FontMap::saveTemplate(edk::char8* folder){
                 ret = true;
             }
 
-            delete[] str;
+            free(str);
         }
         return ret;
     }

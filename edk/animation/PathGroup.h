@@ -229,21 +229,21 @@ protected:
                                 //test the temp
                                 if(temp){
                                     xml->addSelectedNextAttribute((edk::char8*)"start",temp);edkEnd();
-                                    delete[] temp;edkEnd();
+                                    free(temp);edkEnd();
                                 }
                                 temp = edk::String::float32ToStr(this->end);edkEnd();
                                 //test the temp
                                 if(temp){
                                     xml->addSelectedNextAttribute((edk::char8*)"end",temp);edkEnd();
-                                    delete[] temp;edkEnd();
+                                    free(temp);edkEnd();
                                 }
                                 xml->selectFather();edkEnd();
                                 ret=true;edkEnd();
                             }
                         }
-                        delete[] name;edkEnd();
+                        free(name);edkEnd();
                     }
-                    delete[] nameTemp;edkEnd();
+                    free(nameTemp);edkEnd();
                 }
                 return ret;
             }
@@ -264,16 +264,16 @@ protected:
                             temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);edkEnd();
                             if(temp){
                                 this->setName(temp);edkEnd();
-                                delete[] temp;edkEnd();
+                                free(temp);edkEnd();
                             }
                             this->start = edk::String::strToFloat32(xml->getSelectedAttributeValueByName("start"));edkEnd();
                             this->end   = edk::String::strToFloat32(xml->getSelectedAttributeValueByName("end"  ));edkEnd();
                             xml->selectFather();edkEnd();
                             ret=true;edkEnd();
                         }
-                        delete[] name;edkEnd();
+                        free(name);edkEnd();
                     }
-                    delete[] nameTemp;edkEnd();
+                    free(nameTemp);edkEnd();
                 }
                 return ret;
             }

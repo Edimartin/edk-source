@@ -273,7 +273,7 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                     //comentario
                     str = file.readTextString("\n",false);edkEnd();
                     if(str){
-                        delete[] str;edkEnd();
+                        free(str);edkEnd();
                     }
                     //printf("\nComentario");edkEnd();
                     break;
@@ -289,7 +289,7 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                                             str = file.readTextString("\n",false);edkEnd();
                                             if(str){
                                                 //printf("\nMTL LIB == '%s'",str);edkEnd();
-                                                delete[] str;edkEnd();
+                                                free(str);edkEnd();
                                             }
                                         }
                                     }
@@ -303,7 +303,7 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                         str = file.readTextString("\n",false);edkEnd();
                         if(str){
                             //printf("\nNEW OBJECT NAME == '%s'",str);edkEnd();
-                            delete[] str;edkEnd();
+                            free(str);edkEnd();
 
                             if(mesh){
                                 countV += mesh->getVertexSize();edkEnd();
@@ -324,17 +324,17 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                         str = file.readTextString(" ",false);edkEnd();
                         if(str){
                             x = edk::String::strToFloat32(str);edkEnd();
-                            delete[] str;edkEnd();
+                            free(str);edkEnd();
                         }
                         str = file.readTextString(" ",false);edkEnd();
                         if(str){
                             y = edk::String::strToFloat32(str);edkEnd();
-                            delete[] str;edkEnd();
+                            free(str);edkEnd();
                         }
                         str = file.readTextString("\n",false);edkEnd();
                         if(str){
                             z = edk::String::strToFloat32(str);edkEnd();
-                            delete[] str;edkEnd();
+                            free(str);edkEnd();
                         }
                         //printf("\nNEW Vertex %.2f %.2f %.2f",x,y,z);edkEnd();
                         mesh->newVertex(x,y,z,1,1,1,1);edkEnd();
@@ -346,12 +346,12 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                             str = file.readTextString(" ",false);edkEnd();
                             if(str){
                                 x = edk::String::strToFloat32(str);edkEnd();
-                                delete[] str;edkEnd();
+                                free(str);edkEnd();
                             }
                             str = file.readTextString("\n",false);edkEnd();
                             if(str){
                                 y = edk::String::strToFloat32(str);edkEnd();
-                                delete[] str;edkEnd();
+                                free(str);edkEnd();
                             }
                             //printf("\nNEW Vertex Texture %.2f %.2f",x,y);edkEnd();
                             mesh->newUV(x,y);edkEnd();
@@ -363,17 +363,17 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                             str = file.readTextString(" ",false);edkEnd();
                             if(str){
                                 x = edk::String::strToFloat32(str);edkEnd();
-                                delete[] str;edkEnd();
+                                free(str);edkEnd();
                             }
                             str = file.readTextString(" ",false);edkEnd();
                             if(str){
                                 y = edk::String::strToFloat32(str);edkEnd();
-                                delete[] str;edkEnd();
+                                free(str);edkEnd();
                             }
                             str = file.readTextString("\n",false);edkEnd();
                             if(str){
                                 z = edk::String::strToFloat32(str);edkEnd();
-                                delete[] str;edkEnd();
+                                free(str);edkEnd();
                             }
                             //printf("\nNEW Vertex Normal %.2f %.2f %.2f",x,y,z);edkEnd();
                             mesh->newNormal(x,y,z);edkEnd();
@@ -403,13 +403,13 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                                     smooth=true;edkEnd();
                                 }
                             }
-                            delete[] str;edkEnd();
+                            free(str);edkEnd();
                         }
                     }
                     else{
                         str = file.readTextString("\n",false);edkEnd();
                         if(str){
-                            delete[] str;edkEnd();
+                            free(str);edkEnd();
                         }
                     }
                     break;
@@ -570,13 +570,13 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                             sp.clean();edkEnd();
                             sn.clean();edkEnd();
 
-                            delete[] str;edkEnd();
+                            free(str);edkEnd();
                         }
                     }
                     else{
                         str = file.readTextString("\n",false);edkEnd();
                         if(str){
-                            delete[] str;edkEnd();
+                            free(str);edkEnd();
                         }
                     }
                     break;
@@ -591,7 +591,7 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                                             str = file.readTextString("\n",false);edkEnd();
                                             if(str){
                                                 //printf("\nUSE MTL == '%s'",str);edkEnd();
-                                                delete[] str;edkEnd();
+                                                free(str);edkEnd();
                                             }
                                         }
                                     }

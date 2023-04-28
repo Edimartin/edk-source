@@ -42,7 +42,7 @@ bool edk::FileToH::writeToFile(edk::char8* fileName,edk::uint32 lineSize){
                     edk::uint32 size = file.getFileSize();edkEnd();
                     if(size){
                         //create the vector
-                        edk::char8* fileVec = new edk::char8[size];edkEnd();
+                        edk::char8* fileVec = (edk::char8*)malloc(sizeof(edk::char8) * (size));edkEnd();
                         edk::char8 hex[5u];edkEnd();
                         hex[0u] = '0';edkEnd();
                         hex[1u] = 'x';edkEnd();
@@ -155,14 +155,14 @@ bool edk::FileToH::writeToFile(edk::char8* fileName,edk::uint32 lineSize){
                                 ret = true;edkEnd();
                             }
 
-                            delete[] fileVec;edkEnd();
+                            free(fileVec);edkEnd();
                         }
                     }
                     file.closeFile();edkEnd();
                 }
-                delete[] nameH;edkEnd();
+                free(nameH);edkEnd();
             }
-            delete[] nameVec;edkEnd();
+            free(nameVec);edkEnd();
         }
         return ret;
     }
@@ -188,7 +188,7 @@ bool edk::FileToH::writeToEDKFile(edk::char8* fileName,edk::uint32 lineSize){
                     edk::uint32 size = file.getFileSize();edkEnd();
                     if(size){
                         //create the vector
-                        edk::char8* fileVec = new edk::char8[size];edkEnd();
+                        edk::char8* fileVec = (edk::char8*)malloc(sizeof(edk::char8) * (size));edkEnd();
                         edk::char8 hex[5u];edkEnd();
                         hex[0u] = '0';edkEnd();
                         hex[1u] = 'x';edkEnd();
@@ -303,14 +303,14 @@ bool edk::FileToH::writeToEDKFile(edk::char8* fileName,edk::uint32 lineSize){
                                 ret = true;edkEnd();
                             }
 
-                            delete[] fileVec;edkEnd();
+                            free(fileVec);edkEnd();
                         }
                     }
                     file.closeFile();edkEnd();
                 }
-                delete[] nameH;edkEnd();
+                free(nameH);edkEnd();
             }
-            delete[] nameVec;edkEnd();
+            free(nameVec);edkEnd();
         }
         return ret;
     }
@@ -331,7 +331,7 @@ edk::char8* edk::FileToH::readFileName(edk::char8* fileName){
                 case '.':
                     //found it
                     if(size){
-                        edk::char8* ret = new edk::char8[size+1u];edkEnd();
+                        edk::char8* ret = (edk::char8*)malloc(sizeof(edk::char8) * (size+1u));edkEnd();
                         if(ret){
                             ret[size] = '\0';edkEnd();
                             memcpy(ret,fileName,size);edkEnd();

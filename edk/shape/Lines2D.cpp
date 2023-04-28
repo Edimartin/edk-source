@@ -43,9 +43,15 @@ void edk::shape::Lines2D::draw(){
     edk::GU::guTranslate2f32(this->translate);edkEnd();
     edk::GU::guRotateZf32(this->angle);edkEnd();
     edk::GU::guScale2f32(this->scale);edkEnd();
+    /*
     edk::GU::guBegin(GU_LINE_STRIP);edkEnd();
         this->drawVertexs();edkEnd();
     edk::GU::guEnd();edkEnd();
+    */
+
+    //drawVBO
+    (this->*vboDraw)(GU_LINE_STRIP);
+
     edk::GU::guPopMatrix();edkEnd();
 }
 //set collisionID

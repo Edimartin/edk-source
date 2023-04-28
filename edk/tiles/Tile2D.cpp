@@ -537,20 +537,20 @@ bool edk::tiles::Tile2D::writeToXML(edk::XML* xml,edk::uint32 id){
                         temp = edk::String::float32ToStr(this->tileSize.width);edkEnd();
                         if(temp){
                             xml->addSelectedNextAttribute((edk::char8*)"tSizeW",temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         temp = edk::String::float32ToStr(this->tileSize.height);edkEnd();
                         if(temp){
                             xml->addSelectedNextAttribute((edk::char8*)"tSizeH",temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         ret=true;edkEnd();
                         xml->selectFather();edkEnd();
                     }
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }
@@ -609,9 +609,9 @@ bool edk::tiles::Tile2D::readFromXML(edk::XML* xml,edk::uint32 id){
                     ret=true;edkEnd();
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }
@@ -670,9 +670,9 @@ bool edk::tiles::Tile2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::X
                     ret=true;edkEnd();
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }

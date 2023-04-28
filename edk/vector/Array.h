@@ -47,17 +47,15 @@ template <class typeTemplate>
 class Array{
 public:
     Array(){
-        //
         this->vector=NULL;edkEnd();
-        this->canDeleteVector=false;edkEnd();
         this->vectorSize=0u;edkEnd();
+        this->canDeleteVector=false;edkEnd();
         this->deleteArray();edkEnd();
     }
     Array(edk::uint32 size){
-        //
         this->vector=NULL;edkEnd();
-        this->canDeleteVector=false;edkEnd();
         this->vectorSize=0u;edkEnd();
+        this->canDeleteVector=false;edkEnd();
         this->deleteArray();edkEnd();
 
         //create the array
@@ -138,18 +136,10 @@ public:
     }
     //return the object
     typeTemplate get(edk::uint32 pos){
-        //
         typeTemplate ret;edkEnd();
-        /*
-            printf("\nVector %u pos %u getSize(%u)"
-                   ,(edk::uint32)this->vector
-                   ,(edk::uint32)pos
-                   ,(edk::uint32)this->getSize()
-                   );edkEnd();
-            */
         if(this->have(pos)){
             //return the variable
-            return vector[pos];edkEnd();
+            memcpy((void*)&ret,(void*)&vector[pos],sizeof(typeTemplate));edkEnd();
         }
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
@@ -158,7 +148,13 @@ public:
     }
     //GETTERS WITHOUT IF
     typeTemplate getNoIF(edk::uint32 pos){
-        return vector[pos];
+        typeTemplate ret;edkEnd();
+        //return the variable
+        memcpy((void*)&ret,(void*)&vector[pos],sizeof(typeTemplate));edkEnd();
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+        return ret;
+#pragma GCC diagnostic pop
     }
 
     //return the poiner
@@ -177,11 +173,16 @@ public:
     void clean(){
         //test if is alloc
         if(this->vector){
-            //
-            delete[] vector;edkEnd();
+            /*
+            if(EDKArrayVectorFreeCounter == 44u){
+                EDKArrayVectorFreeCounter++;
+            }
+            EDKArrayVectorFreeCounter++;
+            */
+            delete[] this->vector;edkEnd();
         }
-        vector=NULL;edkEnd();
-        vectorSize=0u;edkEnd();
+        this->vector=NULL;edkEnd();
+        this->vectorSize=0u;edkEnd();
         this->canDeleteVector=false;edkEnd();
     }
 
@@ -204,12 +205,7 @@ public:
         this->deleteArray();edkEnd();
         if(vec){
             if(this->createArray(vec->size())){
-                //
-                for(edk::uint32 i=0u;i<vec->size();i++){
-                    //
-                    memcpy((void*)&this->vector[i],(void*)&vec->vector[i],sizeof(typeTemplate));edkEnd();
-                    //this->vector[i]=vec->get(i);edkEnd();
-                }
+                memcpy((void*)this->vector,vec->vector,sizeof(typeTemplate) * vec->size());edkEnd();
             }
             return true;
         }
@@ -231,7 +227,7 @@ private:
             //
             for(edk::uint32 i=0u;i<vec.size();i++){
                 //
-                this->vector[i]=vec[i];edkEnd();
+                memcpy((void*)&this->vector[i],(void*)&vec[i],sizeof(typeTemplate));edkEnd();
             }
         }
         vec.cantDeleteVector();edkEnd();

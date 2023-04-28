@@ -41,7 +41,7 @@ bool edk::network::Package::newVector(edk::uint32 size){
         this->header.size=0u;
         this->vectorSize = size;edkEnd();
         //create a new vec
-        this->vec = new edk::uint8[this->vectorSize + this->headerSize];edkEnd();
+        this->vec = (edk::uint8*)malloc(sizeof(edk::uint8) * (this->vectorSize + this->headerSize));edkEnd();
         if(this->vec){
             //update the header
             this->updateVector();edkEnd();
@@ -64,7 +64,7 @@ bool edk::network::Package::updateVector(){
 //delete the vector
 void edk::network::Package::deleteVector(){
     if(this->vec){
-        delete[] this->vec;edkEnd();
+        free(this->vec);edkEnd();
     }
     this->vec=NULL;edkEnd();
     //clean the header

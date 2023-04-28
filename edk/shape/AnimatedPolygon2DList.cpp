@@ -651,9 +651,9 @@ bool edk::shape::AnimatedPolygon2DList::writeToXML(edk::XML* xml,edk::uint32 id)
                     ret=true;edkEnd();
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }
@@ -680,9 +680,9 @@ bool edk::shape::AnimatedPolygon2DList::readFromXML(edk::XML* xml,edk::uint32 id
                     }
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
     }
     return false;

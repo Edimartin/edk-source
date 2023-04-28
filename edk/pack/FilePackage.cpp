@@ -45,7 +45,7 @@ bool edk::pack::FilePackage::readNodeToBuffer(edk::pack::FileNode* node){
             if(size>this->bufferSize){
                 //create a new buffer
                 this->deleteBuffer();edkEnd();
-                this->buffer = new edk::uint8[size];edkEnd();
+                this->buffer = (edk::uint8*)malloc(sizeof(edk::uint8) * (size));edkEnd();
                 if(buffer){
                     this->bufferSize = size;edkEnd();
                 }
@@ -408,7 +408,7 @@ bool edk::pack::FilePackage::isFilesValid(){
 //delete the read buffer
 void edk::pack::FilePackage::deleteBuffer(){
     if(this->buffer){
-        delete[] this->buffer;edkEnd();
+        free(this->buffer);edkEnd();
         this->buffer = NULL;edkEnd();
         this->bufferSize = 0u;edkEnd();
         this->bufferReadSize=0u;

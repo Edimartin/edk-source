@@ -189,7 +189,7 @@ edk::char8* edk::shd::GLSL::shaderLink::getCompilationLog(){
 //delete the log
 void edk::shd::GLSL::shaderLink::deleteLog(){
     if(this->log){
-        delete[] this->log;edkEnd();
+        free(this->log);edkEnd();
     }
     this->log = NULL;edkEnd();
 }
@@ -352,7 +352,7 @@ bool edk::shd::GLSL::checkCompilationStatus(edk::uint32 id){
         //if the information lenght is true
         if(infologLength > 0){
             //alloca the string
-            this->log = new edk::char8[infologLength];edkEnd();
+            this->log = (edk::char8*)malloc(sizeof(edk::char8) * (infologLength));edkEnd();
             if(this->log == NULL){
                 printf( "ERROR: Could not allocate InfoLog buffer");edkEnd();
                 return false;

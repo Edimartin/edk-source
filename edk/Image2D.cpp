@@ -96,7 +96,7 @@ void edk::Image2D::deleteFileName(){
     //test if have a imageFileName
     if(this->haveFileName()){
         //delete the imageFileName
-        delete[] this->imageFileName;edkEnd();
+        free(this->imageFileName);edkEnd();
     }
     this->imageFileName=NULL;edkEnd();
 }
@@ -240,7 +240,7 @@ bool edk::Image2D::newImage(edk::char8 *imageName,edk::size2ui32 size,edk::uint8
             this->channels=channels;edkEnd();
             edk::uint32 imageSize = size.width*size.height;edkEnd();
             //create the new vector
-            this->vec = new edk::uint8[imageSize * this->channels];edkEnd();
+            this->vec = (edk::uint8*)malloc(sizeof(edk::uint8) * (imageSize * this->channels));edkEnd();
             if(this->vec){
                 //return true
                 return true;
@@ -273,7 +273,7 @@ bool edk::Image2D::newImage(edk::char8 *imageName,edk::size2ui32 size,edk::uint8
             //clean the channels
             this->channels=channels;edkEnd();
             //create the palette
-            this->palette=new edk::uint8[paletteSize * this->channels];edkEnd();
+            this->palette= (edk::uint8*)malloc(sizeof(edk::uint8) * (paletteSize * this->channels));edkEnd();
             if(this->palette){
                 this->paletteSize=paletteSize;edkEnd();
 
@@ -294,7 +294,7 @@ bool edk::Image2D::newImage(edk::char8 *imageName,edk::size2ui32 size,edk::uint8
                 }
 
                 //create the new vector
-                this->colors = new edk::uint8[imageSize * this->bytesPerColors];edkEnd();
+                this->colors = (edk::uint8*)malloc(sizeof(edk::uint8) * (imageSize * this->bytesPerColors));edkEnd();
                 if(this->colors){
                     memset(this->colors,0u,imageSize * this->bytesPerColors);edkEnd();
                     //return true
@@ -324,14 +324,14 @@ bool edk::Image2D::loadFromFile(char8 *imageFileName)
         if(file.getFileSize()){
             bool ret=false;edkEnd();
             //copy the file
-            edk::uint8* fileVector = new edk::uint8[file.getFileSize()];edkEnd();
+            edk::uint8* fileVector = (edk::uint8*)malloc(sizeof(edk::uint8) * (file.getFileSize()));edkEnd();
             if(fileVector){
                 //copy the file
                 if(file.readBin(fileVector,file.getFileSize())){
                     //process the decoder
                     ret = this->loadFromMemory(fileVector,file.getFileSize());edkEnd();
                 }
-                delete[] fileVector;edkEnd();
+                free(fileVector);edkEnd();
                 //test if neet delete the name
                 if(ret){
                     if(!this->setName(imageFileName)){
@@ -361,14 +361,14 @@ bool edk::Image2D::loadFromFileToRGB(char8 *imageFileName){
         if(file.getFileSize()){
             bool ret=false;edkEnd();
             //copy the file
-            edk::uint8* fileVector = new edk::uint8[file.getFileSize()];edkEnd();
+            edk::uint8* fileVector = (edk::uint8*)malloc(sizeof(edk::uint8) * (file.getFileSize()));edkEnd();
             if(fileVector){
                 //copy the file
                 if(file.readBin(fileVector,file.getFileSize())){
                     //process the decoder
                     ret = this->loadFromMemoryToRGB(fileVector,file.getFileSize());edkEnd();
                 }
-                delete[] fileVector;edkEnd();
+                free(fileVector);edkEnd();
                 //test if neet delete the name
                 if(ret){
                     if(!this->setName(imageFileName)){
@@ -398,14 +398,14 @@ bool edk::Image2D::loadFromFileToRGBA(char8 *imageFileName){
         if(file.getFileSize()){
             bool ret=false;edkEnd();
             //copy the file
-            edk::uint8* fileVector = new edk::uint8[file.getFileSize()];edkEnd();
+            edk::uint8* fileVector = (edk::uint8*)malloc(sizeof(edk::uint8) * (file.getFileSize()));edkEnd();
             if(fileVector){
                 //copy the file
                 if(file.readBin(fileVector,file.getFileSize())){
                     //process the decoder
                     ret = this->loadFromMemoryToRGBA(fileVector,file.getFileSize());edkEnd();
                 }
-                delete[] fileVector;edkEnd();
+                free(fileVector);edkEnd();
                 //test if neet delete the name
                 if(ret){
                     if(!this->setName(imageFileName)){
@@ -493,7 +493,7 @@ bool edk::Image2D::loadFromMemoryToRGB(uint8 *image, edk::uint32 vecSize){
             if(decoder.decode(image,vecSize)){
                 edk::uint32 imageSize = decoder.getFrameWidth()*decoder.getFrameHeight();edkEnd();
                 if(imageSize){
-                    this->vec = new edk::uint8[imageSize*3u];edkEnd();
+                    this->vec = (edk::uint8*)malloc(sizeof(edk::uint8) * (imageSize*3u));edkEnd();
                     if(this->vec){
                         //get channels
                         this->channels = decoder.getFrameChannels();edkEnd();
@@ -526,7 +526,7 @@ bool edk::Image2D::loadFromMemoryToRGB(uint8 *image, edk::uint32 vecSize){
                                 }
                             }
                         }
-                        delete[] this->vec;edkEnd();
+                        free(this->vec);edkEnd();
                         this->vec=NULL;edkEnd();
                     }
                 }
@@ -540,7 +540,7 @@ bool edk::Image2D::loadFromMemoryToRGB(uint8 *image, edk::uint32 vecSize){
             if(decoder.decode(image,vecSize)){
                 edk::uint32 imageSize = decoder.getFrameWidth()*decoder.getFrameHeight();edkEnd();
                 if(imageSize){
-                    this->vec = new edk::uint8[imageSize*3u];edkEnd();
+                    this->vec = (edk::uint8*)malloc(sizeof(edk::uint8) * (imageSize*3u));edkEnd();
                     if(this->vec){
                         //get channels
                         this->channels = decoder.getFrameChannels();edkEnd();
@@ -599,7 +599,7 @@ bool edk::Image2D::loadFromMemoryToRGB(uint8 *image, edk::uint32 vecSize){
                         }
                     }
                 }
-                delete[] this->vec;edkEnd();
+                free(this->vec);edkEnd();
                 this->vec=NULL;edkEnd();
             }
         }
@@ -628,7 +628,7 @@ bool edk::Image2D::loadFromMemoryToRGBA(uint8 *image, edk::uint32 vecSize){
             if(decoder.decode(image,vecSize)){
                 edk::uint32 imageSize = decoder.getFrameWidth()*decoder.getFrameHeight();edkEnd();
                 if(imageSize){
-                    this->vec = new edk::uint8[imageSize*4u];edkEnd();
+                    this->vec = (edk::uint8*)malloc(sizeof(edk::uint8) * (imageSize*4u));edkEnd();
                     if(this->vec){
                         //get channels
                         this->channels = decoder.getFrameChannels();edkEnd();
@@ -679,7 +679,7 @@ bool edk::Image2D::loadFromMemoryToRGBA(uint8 *image, edk::uint32 vecSize){
             if(decoder.decode(image,vecSize)){
                 edk::uint32 imageSize = decoder.getFrameWidth()*decoder.getFrameHeight();edkEnd();
                 if(imageSize){
-                    this->vec = new edk::uint8[imageSize*4u];edkEnd();
+                    this->vec = (edk::uint8*)malloc(sizeof(edk::uint8) * (imageSize*4u));edkEnd();
                     if(this->vec){
                         //get channels
                         this->channels = decoder.getFrameChannels();edkEnd();
@@ -764,10 +764,10 @@ bool edk::Image2D::generatePixelsFromColors(){
     if(this->haveImage() && width && height && channels && this->haveColors() && bytes && palette && paletteSize){
         //delete the last vector
         if(this->vec){
-            delete[] this->vec;edkEnd();
+            free(this->vec);edkEnd();
         }
         //create a new vec
-        this->vec = new edk::uint8[width*height*channels];edkEnd();
+        this->vec = (edk::uint8*)malloc(sizeof(edk::uint8) * (width*height*channels));edkEnd();
         //create the new vec to set the pixels
         if(this->vec){
             //copy the colors in to pixels
@@ -895,7 +895,7 @@ bool edk::Image2D::saveToFile(edk::char8 *fileName){
                     edk::codecs::EncoderPNG encoder;edkEnd();
                     ret = encoder.encodeToFile(this->vec,this->size.width,this->size.height,this->channels,9,fileName);edkEnd();
                     if(deleteTempName){
-                        delete[] fileName;edkEnd();
+                        free(fileName);edkEnd();
                     }
                     break;
                 }
@@ -903,7 +903,7 @@ bool edk::Image2D::saveToFile(edk::char8 *fileName){
                 {
                     ret = false;edkEnd();
                     if(deleteTempName){
-                        delete[] fileName;edkEnd();
+                        free(fileName);edkEnd();
                     }
                     break;
                 }
@@ -930,7 +930,7 @@ bool edk::Image2D::saveToFile(edk::char8 *fileName){
                     edk::codecs::EncoderJPEG encoder;edkEnd();
                     ret = encoder.encodeToFile(this->vec,this->size.width,this->size.height,this->channels,90,fileName);edkEnd();
                     if(deleteTempName){
-                        delete[] fileName;edkEnd();
+                        free(fileName);edkEnd();
                     }
                     break;
                 }
@@ -940,7 +940,7 @@ bool edk::Image2D::saveToFile(edk::char8 *fileName){
                     edk::codecs::EncoderPNG encoder;edkEnd();
                     ret = encoder.encodeToFile(this->vec,this->size.width,this->size.height,this->channels,9,fileName);edkEnd();
                     if(deleteTempName){
-                        delete[] fileName;edkEnd();
+                        free(fileName);edkEnd();
                     }
                     break;
                 }
@@ -968,14 +968,14 @@ bool edk::Image2D::saveToFile(edk::char8 *fileName){
                     edk::codecs::EncoderPNG encoder;edkEnd();
                     ret = encoder.encodeToFile(this->vec,this->size.width,this->size.height,this->channels,9,fileName);edkEnd();
                     if(deleteTempName){
-                        delete[] fileName;edkEnd();
+                        free(fileName);edkEnd();
                     }
                     break;
                 }
                 case EDK_CODEC_JPEG:
                 {
                     //create a new image and convert the frame to rgb
-                    edk::uint8* temp = new edk::uint8[this->size.width * this->size.height * 3u];edkEnd();
+                    edk::uint8* temp = (edk::uint8*)malloc(sizeof(edk::uint8) * (this->size.width * this->size.height * 3u));edkEnd();
                     if(temp){
                         //convert the image
                         if(edk::Image2D::imageClone(this->vec,this->size.width,this->size.height,this->channels,
@@ -986,10 +986,10 @@ bool edk::Image2D::saveToFile(edk::char8 *fileName){
                             edk::codecs::EncoderJPEG encoder;edkEnd();
                             ret = encoder.encodeToFile(temp,this->size.width,this->size.height,3u,90,fileName);edkEnd();
                         }
-                        delete[] temp;edkEnd();
+                        free(temp);edkEnd();
                     }
                     if(deleteTempName){
-                        delete[] fileName;edkEnd();
+                        free(fileName);edkEnd();
                     }
                     break;
                 }
@@ -1327,13 +1327,13 @@ void edk::Image2D::deleteImage()
     //test if have an image
     if(this->haveImage()){
         //
-        delete[] this->vec;edkEnd();
+        free(this->vec);edkEnd();
     }
     this->vec=NULL;edkEnd();
     //test if have a palette
     if(this->havePalette()){
         //
-        delete[] this->palette;edkEnd();
+        free(this->palette);edkEnd();
     }
     this->palette=NULL;edkEnd();
     this->paletteSize=0u;
@@ -1353,7 +1353,7 @@ void edk::Image2D::deleteName()
     //
     if(this->haveName()){
         //
-        delete[] this->imageName;edkEnd();
+        free(this->imageName);edkEnd();
     }
     this->imageName=NULL;edkEnd();
 }
@@ -1367,7 +1367,7 @@ bool edk::Image2D::flipImageY(){
         //get the line size
         edk::uint32 size = this->size.width * this->channels;edkEnd();
         //alloc a buffer to save the lines
-        edk::uint8* line = new edk::uint8[size];edkEnd();
+        edk::uint8* line = (edk::uint8*)malloc(sizeof(edk::uint8) * (size));edkEnd();
         if(line){
             //set the pointers
             edk::uint8 *start = this->vec,*end=this->vec + (size * this->height()) - size;edkEnd();
@@ -1384,7 +1384,7 @@ bool edk::Image2D::flipImageY(){
                 start+=size;edkEnd();
                 end-=size;edkEnd();
             }
-            delete[] line;edkEnd();
+            free(line);edkEnd();
 
             return true;
         }
@@ -1537,12 +1537,12 @@ bool edk::Image2D::rgbTorgba(edk::uint8* vector,edk::size2ui32 size,edk::uint8* 
 }
 edk::uint8* edk::Image2D::rgbTorgba(edk::uint8* vector,edk::size2ui32 size){
     if(size.width && size.height){
-        edk::uint8* ret = new edk::uint8[size.width*size.height*4u];edkEnd();
+        edk::uint8* ret = (edk::uint8*)malloc(sizeof(edk::uint8) * (size.width*size.height*4u));edkEnd();
         if(ret){
             if(edk::Image2D::rgbTorgba(vector,size,ret)){
                 return ret;
             }
-            delete[] ret;edkEnd();
+            free(ret);edkEnd();
         }
     }
     return NULL;
@@ -1581,12 +1581,12 @@ bool edk::Image2D::laTorgba(edk::uint8* vector,edk::size2ui32 size,edk::uint8* d
 }
 edk::uint8* edk::Image2D::laTorgba(edk::uint8* vector,edk::size2ui32 size){
     if(size.width && size.height){
-        edk::uint8* ret = new edk::uint8[size.width*size.height*4u];edkEnd();
+        edk::uint8* ret = (edk::uint8*)malloc(sizeof(edk::uint8) * (size.width*size.height*4u));edkEnd();
         if(ret){
             if(edk::Image2D::laTorgba(vector,size,ret)){
                 return ret;
             }
-            delete[] ret;edkEnd();
+            free(ret);edkEnd();
         }
     }
     return NULL;
@@ -1624,12 +1624,12 @@ bool edk::Image2D::lTorgba(edk::uint8* vector,edk::size2ui32 size,edk::uint8* de
 }
 edk::uint8* edk::Image2D::lTorgba(edk::uint8* vector,edk::size2ui32 size){
     if(size.width && size.height){
-        edk::uint8* ret = new edk::uint8[size.width*size.height*4u];edkEnd();
+        edk::uint8* ret = (edk::uint8*)malloc(sizeof(edk::uint8) * (size.width*size.height*4u));edkEnd();
         if(ret){
             if(edk::Image2D::lTorgba(vector,size,ret)){
                 return ret;
             }
-            delete[] ret;edkEnd();
+            free(ret);edkEnd();
         }
     }
     return NULL;
@@ -1647,7 +1647,7 @@ bool edk::Image2D::flipY(edk::uint8* vector,edk::uint32 width,edk::uint32 height
         //get the line size
         edk::uint32 size = width * channels;edkEnd();
         //alloc a buffer to save the lines
-        edk::uint8* line = new edk::uint8[size];edkEnd();
+        edk::uint8* line = (edk::uint8*)malloc(sizeof(edk::uint8) * (size));edkEnd();
         if(line){
             //set the pointers
             edk::uint8 *start = vector,*end=vector + (size * height) - size;edkEnd();
@@ -1664,7 +1664,7 @@ bool edk::Image2D::flipY(edk::uint8* vector,edk::uint32 width,edk::uint32 height
                 start+=size;edkEnd();
                 end-=size;edkEnd();
             }
-            delete[] line;edkEnd();
+            free(line);edkEnd();
 
             return true;
         }

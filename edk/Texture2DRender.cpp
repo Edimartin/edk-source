@@ -55,7 +55,7 @@ void edk::Texture2DRender::deleteFrameBuffer(){
 //load the frameBuffer
 bool edk::Texture2DRender::loadFrameBuffer(){
     //test if load GLSL
-    if(edk::GU_GLSL::guShaderInitiate()){
+    if(edk::GU_GLSL::guShaderInitiated()){
         //delete the last frameBuffer
         this->deleteFrameBuffer();edkEnd();
 

@@ -93,7 +93,7 @@ bool edk::sql::Postgre::openDataBase(edk::char8* database,edk::char8* user,edk::
                 ;edkEnd();
         if(size){
             //create the new string
-            str = new edk::char8[size+1u];edkEnd();
+            str = (edk::char8*)malloc(sizeof(edk::char8) * (size+1u));edkEnd();
             if(str){
                 memset(str,0u,size+1u);edkEnd();
                 str[size]='\0';edkEnd();
@@ -109,7 +109,7 @@ bool edk::sql::Postgre::openDataBase(edk::char8* database,edk::char8* user,edk::
                     if(this->C){
                         //test if it's connected
                         if(this->C->is_open()){
-                            delete[] str;edkEnd();
+                            free(str);edkEnd();
 
                             //create the nonTransaction
                             this->N = new pqxx::nontransaction(*this->C);edkEnd();
@@ -124,7 +124,7 @@ bool edk::sql::Postgre::openDataBase(edk::char8* database,edk::char8* user,edk::
                     this->error.setName(e.what());edkEnd();
                 }
                 //create the new database
-                delete[] str;edkEnd();
+                free(str);edkEnd();
             }
         }
 #else

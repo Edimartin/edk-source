@@ -437,7 +437,7 @@ bool edk::gui2d::ScrollBar2d::saveTemplates(edk::char8* folder){
                 file.closeFile();
                 ret = true;
             }
-            delete[] str;
+            free(str);
         }
         return ret;
     }

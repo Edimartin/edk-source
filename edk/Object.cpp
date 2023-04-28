@@ -84,7 +84,7 @@ void edk::ObjectWithName::deleteName(){
     //
     if(this->objectName){
         //
-        delete[] this->objectName;edkEnd();
+        free(this->objectName);edkEnd();
     }
     this->objectName=NULL;edkEnd();
 }

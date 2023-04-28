@@ -89,14 +89,14 @@ class Frame2D:public Frame1D{
                         //test the temp
                         if(temp){
                             xml->addSelectedNextAttribute((edk::char8*)"y",temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         xml->selectFather();edkEnd();
                         ret=true;edkEnd();
                     }
-                    delete[] name;edkEnd();
+                    free(name);edkEnd();
                 }
-                delete[] nameID;edkEnd();
+                free(nameID);edkEnd();
             }
             return ret;
         }
@@ -120,9 +120,9 @@ class Frame2D:public Frame1D{
                         xml->selectFather();edkEnd();
                         ret=true;edkEnd();
                     }
-                    delete[] name;edkEnd();
+                    free(name);edkEnd();
                 }
-                delete[] nameID;edkEnd();
+                free(nameID);edkEnd();
             }
             return ret;
         }

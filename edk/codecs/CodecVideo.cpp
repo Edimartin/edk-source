@@ -60,13 +60,13 @@ bool edk::codecs::CodecVideo::newFrameYUV(edk::size2ui32 size){
         this->frameSize = size;edkEnd();
         //alloc the YUV
         this->sizeY = size.width*size.height;edkEnd();
-        this->Y = new edk::uint8[this->sizeY];edkEnd();
+        this->Y = (edk::uint8*)malloc(sizeof(edk::uint8) * (this->sizeY));edkEnd();
         if(this->Y){
             this->sizeU = this->sizeY>>1u;edkEnd();
-            this->U = new edk::uint8[this->sizeU];edkEnd();
+            this->U = (edk::uint8*)malloc(sizeof(edk::uint8) * (this->sizeU));edkEnd();
             if(this->U){
                 this->sizeV = this->sizeU;edkEnd();
-                this->V = new edk::uint8[this->sizeV];edkEnd();
+                this->V = (edk::uint8*)malloc(sizeof(edk::uint8) * (this->sizeV));edkEnd();
                 if(this->V){
                     return true;
                 }
@@ -74,12 +74,12 @@ bool edk::codecs::CodecVideo::newFrameYUV(edk::size2ui32 size){
                 this->sizeV=0u;
                 //delete U;edkEnd();
                 this->sizeU=0u;
-                delete[] this->U;edkEnd();
+                free(this->U);edkEnd();
                 this->U=NULL;edkEnd();
             }
             //else delete Y;edkEnd();
             this->sizeY=0u;
-            delete[] this->Y;edkEnd();
+            free(this->Y);edkEnd();
             this->Y=NULL;edkEnd();
         }
         //delete the frame
@@ -94,17 +94,17 @@ bool edk::codecs::CodecVideo::newFrameYUV(edk::uint32 width,edk::uint32 height){
 void edk::codecs::CodecVideo::deleteFrame(){
     //delete the channels
     if(this->Y){
-        delete[] this->Y;edkEnd();
+        free(this->Y);edkEnd();
     }
     this->Y=NULL;edkEnd();
     this->sizeY=0u;
     if(this->U){
-        delete[] this->U;edkEnd();
+        free(this->U);edkEnd();
     }
     this->U=NULL;edkEnd();
     this->sizeU=0u;
     if(this->V){
-        delete[] this->V;edkEnd();
+        free(this->V);edkEnd();
     }
     this->V=NULL;edkEnd();
     this->sizeV=0u;

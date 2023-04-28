@@ -128,7 +128,7 @@ bool edk::Cenario2D::TreeObjDepth::writeToXML(edk::XML* xml,edk::uint32 id,bool 
                         if(temp){
                             //write the size
                             xml->setSelectedString(temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         edk::Cenario2D::ObjClass* objClass;edkEnd();
                         if(isPhysics){
@@ -146,7 +146,7 @@ bool edk::Cenario2D::TreeObjDepth::writeToXML(edk::XML* xml,edk::uint32 id,bool 
                                                     temp = edk::String::float32ToStr(objClass->depth);edkEnd();
                                                     if(temp){
                                                         xml->setSelectedString(temp);edkEnd();
-                                                        delete[] temp;edkEnd();
+                                                        free(temp);edkEnd();
                                                     }
                                                     //write the object
                                                     if((physObj = (edk::physics2D::PhysicObject2D*)objClass->getObject())){
@@ -156,9 +156,9 @@ bool edk::Cenario2D::TreeObjDepth::writeToXML(edk::XML* xml,edk::uint32 id,bool 
                                                     xml->selectFather();edkEnd();
                                                 }
                                             }
-                                            delete[] nameTemp;edkEnd();
+                                            free(nameTemp);edkEnd();
                                         }
-                                        delete []idTemp;edkEnd();
+                                        free(idTemp);edkEnd();
                                     }
                                 }
                             }
@@ -178,7 +178,7 @@ bool edk::Cenario2D::TreeObjDepth::writeToXML(edk::XML* xml,edk::uint32 id,bool 
                                                     temp = edk::String::float32ToStr(objClass->depth);edkEnd();
                                                     if(temp){
                                                         xml->setSelectedString(temp);edkEnd();
-                                                        delete[] temp;edkEnd();
+                                                        free(temp);edkEnd();
                                                     }
                                                     //write the object
                                                     if((obj=objClass->getObject())){
@@ -188,9 +188,9 @@ bool edk::Cenario2D::TreeObjDepth::writeToXML(edk::XML* xml,edk::uint32 id,bool 
                                                     xml->selectFather();edkEnd();
                                                 }
                                             }
-                                            delete[] nameTemp;edkEnd();
+                                            free(nameTemp);edkEnd();
                                         }
-                                        delete []idTemp;edkEnd();
+                                        free(idTemp);edkEnd();
                                     }
                                 }
                             }
@@ -201,9 +201,9 @@ bool edk::Cenario2D::TreeObjDepth::writeToXML(edk::XML* xml,edk::uint32 id,bool 
                         xml->selectFather();edkEnd();
                     }
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }
@@ -228,7 +228,7 @@ bool edk::Cenario2D::TreeObjDepth::readFromXML(edk::XML* xml,edk::uint32 id,bool
                     temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);edkEnd();
                     if(temp){
                         size = edk::String::strToInt64(temp);edkEnd();
-                        delete[] temp;edkEnd();
+                        free(temp);edkEnd();
                     }
                     if(size){
                         edk::char8* nameTemp;edkEnd();
@@ -249,7 +249,7 @@ bool edk::Cenario2D::TreeObjDepth::readFromXML(edk::XML* xml,edk::uint32 id,bool
                                             temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);edkEnd();
                                             if(temp){
                                                 depth = edk::String::strToFloat32(temp);edkEnd();
-                                                delete[] temp;edkEnd();
+                                                free(temp);edkEnd();
                                             }
                                             //create the object
                                             if(edk::physics2D::PhysicObject2D::readFromXMLisSensor(xml,i)){
@@ -279,9 +279,9 @@ bool edk::Cenario2D::TreeObjDepth::readFromXML(edk::XML* xml,edk::uint32 id,bool
 
                                             xml->selectFather();edkEnd();
                                         }
-                                        delete[] nameTemp;edkEnd();
+                                        free(nameTemp);edkEnd();
                                     }
-                                    delete[] idTemp;edkEnd();
+                                    free(idTemp);edkEnd();
                                 }
                             }
                         }
@@ -300,7 +300,7 @@ bool edk::Cenario2D::TreeObjDepth::readFromXML(edk::XML* xml,edk::uint32 id,bool
                                             temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);edkEnd();
                                             if(temp){
                                                 depth = edk::String::strToFloat32(temp);edkEnd();
-                                                delete[] temp;edkEnd();
+                                                free(temp);edkEnd();
                                             }
                                             //create the object
                                             obj = new edk::Object2D;edkEnd();
@@ -323,9 +323,9 @@ bool edk::Cenario2D::TreeObjDepth::readFromXML(edk::XML* xml,edk::uint32 id,bool
                                             }
                                             xml->selectFather();edkEnd();
                                         }
-                                        delete[] nameTemp;edkEnd();
+                                        free(nameTemp);edkEnd();
                                     }
-                                    delete [] idTemp;edkEnd();
+                                    free(idTemp);edkEnd();
                                 }
                             }
                         }
@@ -334,9 +334,9 @@ bool edk::Cenario2D::TreeObjDepth::readFromXML(edk::XML* xml,edk::uint32 id,bool
                     ret=true;edkEnd();
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }
@@ -361,7 +361,7 @@ bool edk::Cenario2D::TreeObjDepth::readFromXMLFromPack(edk::pack::FilePackage* p
                     temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);edkEnd();
                     if(temp){
                         size = edk::String::strToInt64(temp);edkEnd();
-                        delete[] temp;edkEnd();
+                        free(temp);edkEnd();
                     }
                     if(size){
                         edk::char8* nameTemp;edkEnd();
@@ -382,7 +382,7 @@ bool edk::Cenario2D::TreeObjDepth::readFromXMLFromPack(edk::pack::FilePackage* p
                                             temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);edkEnd();
                                             if(temp){
                                                 depth = edk::String::strToFloat32(temp);edkEnd();
-                                                delete[] temp;edkEnd();
+                                                free(temp);edkEnd();
                                             }
                                             //create the object
                                             if(edk::physics2D::PhysicObject2D::readFromXMLisSensor(xml,i)){
@@ -412,9 +412,9 @@ bool edk::Cenario2D::TreeObjDepth::readFromXMLFromPack(edk::pack::FilePackage* p
 
                                             xml->selectFather();edkEnd();
                                         }
-                                        delete[] nameTemp;edkEnd();
+                                        free(nameTemp);edkEnd();
                                     }
-                                    delete[] idTemp;edkEnd();
+                                    free(idTemp);edkEnd();
                                 }
                             }
                         }
@@ -433,7 +433,7 @@ bool edk::Cenario2D::TreeObjDepth::readFromXMLFromPack(edk::pack::FilePackage* p
                                             temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);edkEnd();
                                             if(temp){
                                                 depth = edk::String::strToFloat32(temp);edkEnd();
-                                                delete[] temp;edkEnd();
+                                                free(temp);edkEnd();
                                             }
                                             //create the object
                                             obj = new edk::Object2D;edkEnd();
@@ -456,9 +456,9 @@ bool edk::Cenario2D::TreeObjDepth::readFromXMLFromPack(edk::pack::FilePackage* p
                                             }
                                             xml->selectFather();edkEnd();
                                         }
-                                        delete[] nameTemp;edkEnd();
+                                        free(nameTemp);edkEnd();
                                     }
-                                    delete [] idTemp;edkEnd();
+                                    free(idTemp);edkEnd();
                                 }
                             }
                         }
@@ -467,9 +467,9 @@ bool edk::Cenario2D::TreeObjDepth::readFromXMLFromPack(edk::pack::FilePackage* p
                     ret=true;edkEnd();
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }
@@ -510,9 +510,9 @@ bool edk::Cenario2D::LevelObj::writeToXML(edk::XML* xml,edk::uint32 id){
                         xml->selectFather();edkEnd();
                     }
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }
@@ -601,14 +601,14 @@ bool edk::Cenario2D::LevelObj::readFromXML(edk::XML* xml,edk::uint32 id,edk::til
                                 }
                             }
                         }
-                        delete[] temp;edkEnd();
+                        free(temp);edkEnd();
                     }
                     ret=true;edkEnd();
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }
@@ -697,14 +697,14 @@ bool edk::Cenario2D::LevelObj::readFromXMLFromPack(edk::pack::FilePackage* pack,
                                 }
                             }
                         }
-                        delete[] temp;edkEnd();
+                        free(temp);edkEnd();
                     }
                     ret=true;edkEnd();
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }
@@ -736,9 +736,9 @@ bool edk::Cenario2D::ActionObjectZero::writeToXML(edk::XML* xml,edk::uint32 id){
                     //then select the father
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] number;edkEnd();
+            free(number);edkEnd();
         }
     }
     return ret;
@@ -762,9 +762,9 @@ bool edk::Cenario2D::ActionObjectZero::readFromXML(edk::XML* xml,edk::uint32 id)
                     //then select the father
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] number;edkEnd();
+            free(number);edkEnd();
         }
     }
     return ret;
@@ -796,9 +796,9 @@ bool edk::Cenario2D::ActionObjectZeroDuration::writeToXML(edk::XML* xml,edk::uin
                     //then select the father
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] number;edkEnd();
+            free(number);edkEnd();
         }
     }
     return ret;
@@ -821,9 +821,9 @@ bool edk::Cenario2D::ActionObjectZeroDuration::readFromXML(edk::XML* xml,edk::ui
                     //then select the father
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] number;edkEnd();
+            free(number);edkEnd();
         }
     }
     return ret;
@@ -864,9 +864,9 @@ bool edk::Cenario2D::ActionObjectSetPosition::writeToXML(edk::XML* xml,edk::uint
                     //then select the father
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] number;edkEnd();
+            free(number);edkEnd();
         }
     }
     return ret;
@@ -890,9 +890,9 @@ bool edk::Cenario2D::ActionObjectSetPosition::readFromXML(edk::XML* xml,edk::uin
                     //then select the father
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] number;edkEnd();
+            free(number);edkEnd();
         }
     }
     return ret;
@@ -936,9 +936,9 @@ bool edk::Cenario2D::ActionObjectMove::writeToXML(edk::XML* xml,edk::uint32 id){
                     //then select the father
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] number;edkEnd();
+            free(number);edkEnd();
         }
     }
     return ret;
@@ -962,9 +962,9 @@ bool edk::Cenario2D::ActionObjectMove::readFromXML(edk::XML* xml,edk::uint32 id)
                     //then select the father
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] number;edkEnd();
+            free(number);edkEnd();
         }
     }
     return ret;
@@ -1005,9 +1005,9 @@ bool edk::Cenario2D::ActionObjectSetSize::writeToXML(edk::XML* xml,edk::uint32 i
                     //then select the father
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] number;edkEnd();
+            free(number);edkEnd();
         }
     }
     return ret;
@@ -1031,9 +1031,9 @@ bool edk::Cenario2D::ActionObjectSetSize::readFromXML(edk::XML* xml,edk::uint32 
                     //then select the father
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] number;edkEnd();
+            free(number);edkEnd();
         }
     }
     return ret;
@@ -1076,9 +1076,9 @@ bool edk::Cenario2D::ActionObjectScale::writeToXML(edk::XML* xml,edk::uint32 id)
                     //then select the father
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] number;edkEnd();
+            free(number);edkEnd();
         }
     }
     return ret;
@@ -1102,9 +1102,9 @@ bool edk::Cenario2D::ActionObjectScale::readFromXML(edk::XML* xml,edk::uint32 id
                     //then select the father
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] number;edkEnd();
+            free(number);edkEnd();
         }
     }
     return ret;
@@ -1144,9 +1144,9 @@ bool edk::Cenario2D::ActionObjectSetAngle::writeToXML(edk::XML* xml,edk::uint32 
                     //then select the father
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] number;edkEnd();
+            free(number);edkEnd();
         }
     }
     return ret;
@@ -1169,9 +1169,9 @@ bool edk::Cenario2D::ActionObjectSetAngle::readFromXML(edk::XML* xml,edk::uint32
                     //then select the father
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] number;edkEnd();
+            free(number);edkEnd();
         }
     }
     return ret;
@@ -1213,9 +1213,9 @@ bool edk::Cenario2D::ActionObjectRotate::writeToXML(edk::XML* xml,edk::uint32 id
                     //then select the father
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] number;edkEnd();
+            free(number);edkEnd();
         }
     }
     return ret;
@@ -1238,9 +1238,9 @@ bool edk::Cenario2D::ActionObjectRotate::readFromXML(edk::XML* xml,edk::uint32 i
                     //then select the father
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] number;edkEnd();
+            free(number);edkEnd();
         }
     }
     return ret;
@@ -1291,9 +1291,9 @@ bool edk::Cenario2D::ActionObjectMeshName::writeToXML(edk::XML* xml,edk::uint32 
                     //then select the father
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] number;edkEnd();
+            free(number);edkEnd();
         }
     }
     return ret;
@@ -1322,9 +1322,9 @@ bool edk::Cenario2D::ActionObjectMeshName::readFromXML(edk::XML* xml,edk::uint32
                     //then select the father
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] number;edkEnd();
+            free(number);edkEnd();
         }
     }
     return ret;
@@ -1375,9 +1375,9 @@ bool edk::Cenario2D::ActionObjectMeshStop::writeToXML(edk::XML* xml,edk::uint32 
                     //then select the father
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] number;edkEnd();
+            free(number);edkEnd();
         }
     }
     return ret;
@@ -1400,9 +1400,9 @@ bool edk::Cenario2D::ActionObjectMeshStop::readFromXML(edk::XML* xml,edk::uint32
                     //then select the father
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] number;edkEnd();
+            free(number);edkEnd();
         }
     }
     return ret;
@@ -1621,12 +1621,12 @@ bool edk::Cenario2D::PhysicsPosition::writeToXML(edk::XML* xml,bool id){
                     temp = edk::String::uint32ToStr(this->level);edkEnd();
                     if(temp){
                         xml->addSelectedNextAttribute((edk::char8*)"level",temp);edkEnd();
-                        delete[] temp;edkEnd();
+                        free(temp);edkEnd();
                     }
                     temp = edk::String::float32ToStr(this->depth);edkEnd();
                     if(temp){
                         xml->addSelectedNextAttribute((edk::char8*)"depth",temp);edkEnd();
-                        delete[] temp;edkEnd();
+                        free(temp);edkEnd();
                     }
                     break;
                 case EDK_LEVEL_TILE_MAP:
@@ -1635,17 +1635,17 @@ bool edk::Cenario2D::PhysicsPosition::writeToXML(edk::XML* xml,bool id){
                     temp = edk::String::uint32ToStr(this->level);edkEnd();
                     if(temp){
                         xml->addSelectedNextAttribute((edk::char8*)"level",temp);edkEnd();
-                        delete[] temp;edkEnd();
+                        free(temp);edkEnd();
                     }
                     temp = edk::String::uint32ToStr(this->mapPosition.x);edkEnd();
                     if(temp){
                         xml->addSelectedNextAttribute((edk::char8*)"mapX",temp);edkEnd();
-                        delete[] temp;edkEnd();
+                        free(temp);edkEnd();
                     }
                     temp = edk::String::uint32ToStr(this->mapPosition.y);edkEnd();
                     if(temp){
                         xml->addSelectedNextAttribute((edk::char8*)"mapY",temp);edkEnd();
-                        delete[] temp;edkEnd();
+                        free(temp);edkEnd();
                     }
                     //
                     break;
@@ -1700,7 +1700,7 @@ bool edk::Cenario2D::PhysicsPosition::readFromXML(edk::XML* xml,bool id){
                     this->levelID = EDK_LEVEL_NOTHING;edkEnd();
                     ret=false;edkEnd();
                 }
-                delete[] temp;edkEnd();
+                free(temp);edkEnd();
             }
             xml->selectFather();edkEnd();
         }
@@ -4131,7 +4131,7 @@ bool edk::Cenario2D::writeToXML(edk::XML* xml,edk::uint32 id){
                                     xml->selectFather();edkEnd();
                                 }
                             }
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
 
                         //JOINTS
@@ -4141,7 +4141,7 @@ bool edk::Cenario2D::writeToXML(edk::XML* xml,edk::uint32 id){
                                 temp = edk::String::int64ToStr(size);edkEnd();
                                 if(temp){
                                     xml->setSelectedString(temp);edkEnd();
-                                    delete[] temp;edkEnd();
+                                    free(temp);edkEnd();
                                 }
                                 edk::uint8 jointType;edkEnd();
                                 edk::physics2D::Joint2D* joint;edkEnd();
@@ -4171,7 +4171,7 @@ bool edk::Cenario2D::writeToXML(edk::XML* xml,edk::uint32 id){
                                                                 temp = edk::String::int64ToStr(jointType);edkEnd();
                                                                 if(temp){
                                                                     xml->setSelectedString(temp);edkEnd();
-                                                                    delete[] temp;edkEnd();
+                                                                    free(temp);edkEnd();
                                                                 }
                                                                 //Write the object
                                                                 objectA.writeToXML(xml,true);edkEnd();
@@ -4180,33 +4180,33 @@ bool edk::Cenario2D::writeToXML(edk::XML* xml,edk::uint32 id){
                                                                 temp = edk::String::float32ToStr(joint->worldPositionA.x);edkEnd();
                                                                 if(temp){
                                                                     xml->addSelectedNextAttribute((edk::char8*)"worldPositionAX",temp);edkEnd();
-                                                                    delete[] temp;edkEnd();
+                                                                    free(temp);edkEnd();
                                                                 }
                                                                 temp = edk::String::float32ToStr(joint->worldPositionA.y);edkEnd();
                                                                 if(temp){
                                                                     xml->addSelectedNextAttribute((edk::char8*)"worldPositionAY",temp);edkEnd();
-                                                                    delete[] temp;edkEnd();
+                                                                    free(temp);edkEnd();
                                                                 }
                                                                 //Positions
                                                                 temp = edk::String::float32ToStr(joint->positionA.x);edkEnd();
                                                                 if(temp){
                                                                     xml->addSelectedNextAttribute((edk::char8*)"positionAX",temp);edkEnd();
-                                                                    delete[] temp;edkEnd();
+                                                                    free(temp);edkEnd();
                                                                 }
                                                                 temp = edk::String::float32ToStr(joint->positionA.y);edkEnd();
                                                                 if(temp){
                                                                     xml->addSelectedNextAttribute((edk::char8*)"positionAY",temp);edkEnd();
-                                                                    delete[] temp;edkEnd();
+                                                                    free(temp);edkEnd();
                                                                 }
                                                                 temp = edk::String::float32ToStr(joint->positionB.x);edkEnd();
                                                                 if(temp){
                                                                     xml->addSelectedNextAttribute((edk::char8*)"positionBX",temp);edkEnd();
-                                                                    delete[] temp;edkEnd();
+                                                                    free(temp);edkEnd();
                                                                 }
                                                                 temp = edk::String::float32ToStr(joint->positionB.y);edkEnd();
                                                                 if(temp){
                                                                     xml->addSelectedNextAttribute((edk::char8*)"positionBY",temp);edkEnd();
-                                                                    delete[] temp;edkEnd();
+                                                                    free(temp);edkEnd();
                                                                 }
 
                                                                 //collide
@@ -4230,12 +4230,12 @@ bool edk::Cenario2D::writeToXML(edk::XML* xml,edk::uint32 id){
                                                                         temp = edk::String::float32ToStr(revoluteJoint->getLowerAngle());edkEnd();
                                                                         if(temp){
                                                                             xml->addSelectedNextAttribute((edk::char8*)"lowerAngle",temp);edkEnd();
-                                                                            delete[] temp;edkEnd();
+                                                                            free(temp);edkEnd();
                                                                         }
                                                                         temp = edk::String::float32ToStr(revoluteJoint->getUpperAngle());edkEnd();
                                                                         if(temp){
                                                                             xml->addSelectedNextAttribute((edk::char8*)"upperAngle",temp);edkEnd();
-                                                                            delete[] temp;edkEnd();
+                                                                            free(temp);edkEnd();
                                                                         }
                                                                         break;
                                                                     case EDK_JOINT_MOTOR:
@@ -4243,12 +4243,12 @@ bool edk::Cenario2D::writeToXML(edk::XML* xml,edk::uint32 id){
                                                                         temp = edk::String::float32ToStr(revoluteJoint->getMaxTorque());edkEnd();
                                                                         if(temp){
                                                                             xml->addSelectedNextAttribute((edk::char8*)"maxTorque",temp);edkEnd();
-                                                                            delete[] temp;edkEnd();
+                                                                            free(temp);edkEnd();
                                                                         }
                                                                         temp = edk::String::float32ToStr(revoluteJoint->getSpeed());edkEnd();
                                                                         if(temp){
                                                                             xml->addSelectedNextAttribute((edk::char8*)"speed",temp);edkEnd();
-                                                                            delete[] temp;edkEnd();
+                                                                            free(temp);edkEnd();
                                                                         }
                                                                         break;
                                                                     default:
@@ -4263,12 +4263,12 @@ bool edk::Cenario2D::writeToXML(edk::XML* xml,edk::uint32 id){
                                                                     temp = edk::String::float32ToStr(prismaticJoint->direction.x);edkEnd();
                                                                     if(temp){
                                                                         xml->addSelectedNextAttribute((edk::char8*)"directionX",temp);edkEnd();
-                                                                        delete[] temp;edkEnd();
+                                                                        free(temp);edkEnd();
                                                                     }
                                                                     temp = edk::String::float32ToStr(prismaticJoint->direction.y);edkEnd();
                                                                     if(temp){
                                                                         xml->addSelectedNextAttribute((edk::char8*)"directionY",temp);edkEnd();
-                                                                        delete[] temp;edkEnd();
+                                                                        free(temp);edkEnd();
                                                                     }
                                                                     //test the Type
                                                                     if(prismaticJoint->getPrismaticType() == EDK_JOINT_MOTOR){
@@ -4276,23 +4276,23 @@ bool edk::Cenario2D::writeToXML(edk::XML* xml,edk::uint32 id){
                                                                         temp = edk::String::float32ToStr(prismaticJoint->getMaxForce());edkEnd();
                                                                         if(temp){
                                                                             xml->addSelectedNextAttribute((edk::char8*)"maxForce",temp);edkEnd();
-                                                                            delete[] temp;edkEnd();
+                                                                            free(temp);edkEnd();
                                                                         }
                                                                         temp = edk::String::float32ToStr(prismaticJoint->getSpeed());edkEnd();
                                                                         if(temp){
                                                                             xml->addSelectedNextAttribute((edk::char8*)"speed",temp);edkEnd();
-                                                                            delete[] temp;edkEnd();
+                                                                            free(temp);edkEnd();
                                                                         }
                                                                     }
                                                                     temp = edk::String::float32ToStr(prismaticJoint->lowerDistance);edkEnd();
                                                                     if(temp){
                                                                         xml->addSelectedNextAttribute((edk::char8*)"lowerDistance",temp);edkEnd();
-                                                                        delete[] temp;edkEnd();
+                                                                        free(temp);edkEnd();
                                                                     }
                                                                     temp = edk::String::float32ToStr(prismaticJoint->upperDistance);edkEnd();
                                                                     if(temp){
                                                                         xml->addSelectedNextAttribute((edk::char8*)"upperDistance",temp);edkEnd();
-                                                                        delete[] temp;edkEnd();
+                                                                        free(temp);edkEnd();
                                                                     }
                                                                     break;
                                                                 case EDK_PULLEY_JOINT:
@@ -4303,32 +4303,32 @@ bool edk::Cenario2D::writeToXML(edk::XML* xml,edk::uint32 id){
                                                                     temp = edk::String::float32ToStr(pulleyJoint->pulleyPositionA.x);edkEnd();
                                                                     if(temp){
                                                                         xml->addSelectedNextAttribute((edk::char8*)"pulleyPositionAX",temp);edkEnd();
-                                                                        delete[] temp;edkEnd();
+                                                                        free(temp);edkEnd();
                                                                     }
                                                                     temp = edk::String::float32ToStr(pulleyJoint->pulleyPositionA.y);edkEnd();
                                                                     if(temp){
                                                                         xml->addSelectedNextAttribute((edk::char8*)"pulleyPositionAY",temp);edkEnd();
-                                                                        delete[] temp;edkEnd();
+                                                                        free(temp);edkEnd();
                                                                     }
                                                                     temp = edk::String::float32ToStr(pulleyJoint->pulleyPositionB.x);edkEnd();
                                                                     if(temp){
                                                                         xml->addSelectedNextAttribute((edk::char8*)"pulleyPositionBX",temp);edkEnd();
-                                                                        delete[] temp;edkEnd();
+                                                                        free(temp);edkEnd();
                                                                     }
                                                                     temp = edk::String::float32ToStr(pulleyJoint->pulleyPositionB.y);edkEnd();
                                                                     if(temp){
                                                                         xml->addSelectedNextAttribute((edk::char8*)"pulleyPositionBY",temp);edkEnd();
-                                                                        delete[] temp;edkEnd();
+                                                                        free(temp);edkEnd();
                                                                     }
                                                                     temp = edk::String::float32ToStr(pulleyJoint->lenghtA);edkEnd();
                                                                     if(temp){
                                                                         xml->addSelectedNextAttribute((edk::char8*)"lenghtA",temp);edkEnd();
-                                                                        delete[] temp;edkEnd();
+                                                                        free(temp);edkEnd();
                                                                     }
                                                                     temp = edk::String::float32ToStr(pulleyJoint->lenghtB);edkEnd();
                                                                     if(temp){
                                                                         xml->addSelectedNextAttribute((edk::char8*)"lenghtB",temp);edkEnd();
-                                                                        delete[] temp;edkEnd();
+                                                                        free(temp);edkEnd();
                                                                     }
                                                                     break;
                                                                 case EDK_DISTANCE_JOINT:
@@ -4338,18 +4338,18 @@ bool edk::Cenario2D::writeToXML(edk::XML* xml,edk::uint32 id){
                                                                     temp = edk::String::float32ToStr(distanceJoint->worldPositionB.x);edkEnd();
                                                                     if(temp){
                                                                         xml->addSelectedNextAttribute((edk::char8*)"worldPositionBX",temp);edkEnd();
-                                                                        delete[] temp;edkEnd();
+                                                                        free(temp);edkEnd();
                                                                     }
                                                                     temp = edk::String::float32ToStr(distanceJoint->worldPositionB.y);edkEnd();
                                                                     if(temp){
                                                                         xml->addSelectedNextAttribute((edk::char8*)"worldPositionBY",temp);edkEnd();
-                                                                        delete[] temp;edkEnd();
+                                                                        free(temp);edkEnd();
                                                                     }
                                                                     //distance
                                                                     temp = edk::String::float32ToStr(distanceJoint->distance);edkEnd();
                                                                     if(temp){
                                                                         xml->addSelectedNextAttribute((edk::char8*)"distance",temp);edkEnd();
-                                                                        delete[] temp;edkEnd();
+                                                                        free(temp);edkEnd();
                                                                     }
                                                                     break;
                                                                 case EDK_WHEEL_JOINT:
@@ -4360,12 +4360,12 @@ bool edk::Cenario2D::writeToXML(edk::XML* xml,edk::uint32 id){
                                                                     temp = edk::String::float32ToStr(wheelJoint->direction.x);edkEnd();
                                                                     if(temp){
                                                                         xml->addSelectedNextAttribute((edk::char8*)"directionX",temp);edkEnd();
-                                                                        delete[] temp;edkEnd();
+                                                                        free(temp);edkEnd();
                                                                     }
                                                                     temp = edk::String::float32ToStr(wheelJoint->direction.y);edkEnd();
                                                                     if(temp){
                                                                         xml->addSelectedNextAttribute((edk::char8*)"directionY",temp);edkEnd();
-                                                                        delete[] temp;edkEnd();
+                                                                        free(temp);edkEnd();
                                                                     }
                                                                     //test the Type
                                                                     if(wheelJoint->getWheelType() == EDK_JOINT_MOTOR){
@@ -4373,12 +4373,12 @@ bool edk::Cenario2D::writeToXML(edk::XML* xml,edk::uint32 id){
                                                                         temp = edk::String::float32ToStr(wheelJoint->getMaxTorque());edkEnd();
                                                                         if(temp){
                                                                             xml->addSelectedNextAttribute((edk::char8*)"maxTorque",temp);edkEnd();
-                                                                            delete[] temp;edkEnd();
+                                                                            free(temp);edkEnd();
                                                                         }
                                                                         temp = edk::String::float32ToStr(wheelJoint->getSpeed());edkEnd();
                                                                         if(temp){
                                                                             xml->addSelectedNextAttribute((edk::char8*)"speed",temp);edkEnd();
-                                                                            delete[] temp;edkEnd();
+                                                                            free(temp);edkEnd();
                                                                         }
                                                                     }
                                                                     break;
@@ -4392,17 +4392,17 @@ bool edk::Cenario2D::writeToXML(edk::XML* xml,edk::uint32 id){
                                                                     temp = edk::String::float32ToStr(ropeJoint->worldPositionB.x);edkEnd();
                                                                     if(temp){
                                                                         xml->addSelectedNextAttribute((edk::char8*)"worldPositionBX",temp);edkEnd();
-                                                                        delete[] temp;edkEnd();
+                                                                        free(temp);edkEnd();
                                                                     }
                                                                     temp = edk::String::float32ToStr(ropeJoint->worldPositionB.y);edkEnd();
                                                                     if(temp){
                                                                         xml->addSelectedNextAttribute((edk::char8*)"worldPositionBY",temp);edkEnd();
-                                                                        delete[] temp;edkEnd();
+                                                                        free(temp);edkEnd();
                                                                     }
                                                                     temp = edk::String::float32ToStr(ropeJoint->maxLength);edkEnd();
                                                                     if(temp){
                                                                         xml->addSelectedNextAttribute((edk::char8*)"maxLength",temp);edkEnd();
-                                                                        delete[] temp;edkEnd();
+                                                                        free(temp);edkEnd();
                                                                     }
                                                                     break;
                                                                 */
@@ -4410,9 +4410,9 @@ bool edk::Cenario2D::writeToXML(edk::XML* xml,edk::uint32 id){
                                                                 xml->selectFather();edkEnd();
                                                             }
                                                         }
-                                                        delete[] nameTemp;edkEnd();
+                                                        free(nameTemp);edkEnd();
                                                     }
-                                                    delete[] idTemp;edkEnd();
+                                                    free(idTemp);edkEnd();
                                                 }
                                             }
                                         }
@@ -4429,9 +4429,9 @@ bool edk::Cenario2D::writeToXML(edk::XML* xml,edk::uint32 id){
                         xml->selectFather();edkEnd();
                     }
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }
@@ -4484,7 +4484,7 @@ bool edk::Cenario2D::readFromXML(edk::XML* xml,edk::uint32 id){
                         temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);edkEnd();
                         if(temp){
                             size = edk::String::strToInt64(temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         edk::Cenario2D::LevelObj* level;edkEnd();
                         for(edk::uint32 i=0u;i<size;i++){
@@ -4506,7 +4506,7 @@ bool edk::Cenario2D::readFromXML(edk::XML* xml,edk::uint32 id){
                         temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);edkEnd();
                         if(temp){
                             size = edk::String::strToInt64(temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         //object vectors
                         bool collide;edkEnd();
@@ -4528,7 +4528,7 @@ bool edk::Cenario2D::readFromXML(edk::XML* xml,edk::uint32 id){
                                         temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);edkEnd();
                                         if(temp){
                                             jointType = edk::String::strToInt32(temp);edkEnd();
-                                            delete[] temp;edkEnd();
+                                            free(temp);edkEnd();
                                         }
                                         //read the objects
                                         objectA.readFromXML(xml,true);edkEnd();
@@ -4792,9 +4792,9 @@ bool edk::Cenario2D::readFromXML(edk::XML* xml,edk::uint32 id){
                                             break;
                                         }
                                     }
-                                    delete[] nameTemp;edkEnd();
+                                    free(nameTemp);edkEnd();
                                 }
-                                delete[] idTemp;edkEnd();
+                                free(idTemp);edkEnd();
                             }
                         }
                     }
@@ -4818,9 +4818,9 @@ bool edk::Cenario2D::readFromXML(edk::XML* xml,edk::uint32 id){
                         }
                     }
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }
@@ -4872,7 +4872,7 @@ bool edk::Cenario2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* 
                         temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);edkEnd();
                         if(temp){
                             size = edk::String::strToInt64(temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         edk::Cenario2D::LevelObj* level;edkEnd();
                         for(edk::uint32 i=0u;i<size;i++){
@@ -4894,7 +4894,7 @@ bool edk::Cenario2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* 
                         temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);edkEnd();
                         if(temp){
                             size = edk::String::strToInt64(temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         //object vectors
                         bool collide;edkEnd();
@@ -4916,7 +4916,7 @@ bool edk::Cenario2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* 
                                         temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);edkEnd();
                                         if(temp){
                                             jointType = edk::String::strToInt32(temp);edkEnd();
-                                            delete[] temp;edkEnd();
+                                            free(temp);edkEnd();
                                         }
                                         //read the objects
                                         objectA.readFromXML(xml,true);edkEnd();
@@ -5180,9 +5180,9 @@ bool edk::Cenario2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* 
                                             break;
                                         }
                                     }
-                                    delete[] nameTemp;edkEnd();
+                                    free(nameTemp);edkEnd();
                                 }
-                                delete[] idTemp;edkEnd();
+                                free(idTemp);edkEnd();
                             }
                         }
                     }
@@ -5206,9 +5206,9 @@ bool edk::Cenario2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* 
                         }
                     }
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }
@@ -5266,7 +5266,7 @@ bool edk::Cenario2D::readLevelFromXML(edk::XML* xml,edk::uint32 level,edk::uint3
                         temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);edkEnd();
                         if(temp){
                             size = edk::String::strToInt64(temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         edk::Cenario2D::LevelObj* levelTemp;edkEnd();
                         //test if the size is smaller
@@ -5320,7 +5320,7 @@ bool edk::Cenario2D::readLevelFromXML(edk::XML* xml,edk::uint32 level,edk::uint3
                         temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);edkEnd();
                         if(temp){
                             size = edk::String::strToInt64(temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         //object vectors
                         bool collide;edkEnd();
@@ -5342,7 +5342,7 @@ bool edk::Cenario2D::readLevelFromXML(edk::XML* xml,edk::uint32 level,edk::uint3
                                         temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);edkEnd();
                                         if(temp){
                                             jointType = edk::String::strToInt32(temp);edkEnd();
-                                            delete[] temp;edkEnd();
+                                            free(temp);edkEnd();
                                         }
                                         //read the objects
                                         objectA.readFromXML(xml,true);edkEnd();
@@ -5606,9 +5606,9 @@ bool edk::Cenario2D::readLevelFromXML(edk::XML* xml,edk::uint32 level,edk::uint3
                                             break;
                                         }
                                     }
-                                    delete[] nameTemp;edkEnd();
+                                    free(nameTemp);edkEnd();
                                 }
-                                delete[] idTemp;edkEnd();
+                                free(idTemp);edkEnd();
                             }
                         }
                     }
@@ -5632,9 +5632,9 @@ bool edk::Cenario2D::readLevelFromXML(edk::XML* xml,edk::uint32 level,edk::uint3
                         }
                     }
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }
@@ -5689,7 +5689,7 @@ bool edk::Cenario2D::readLevelFromXMLFromPack(edk::pack::FilePackage* pack,edk::
                         temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);edkEnd();
                         if(temp){
                             size = edk::String::strToInt64(temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         edk::Cenario2D::LevelObj* levelTemp;edkEnd();
                         //test if the size is smaller
@@ -5743,7 +5743,7 @@ bool edk::Cenario2D::readLevelFromXMLFromPack(edk::pack::FilePackage* pack,edk::
                         temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);edkEnd();
                         if(temp){
                             size = edk::String::strToInt64(temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         //object vectors
                         bool collide;edkEnd();
@@ -5765,7 +5765,7 @@ bool edk::Cenario2D::readLevelFromXMLFromPack(edk::pack::FilePackage* pack,edk::
                                         temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);edkEnd();
                                         if(temp){
                                             jointType = edk::String::strToInt32(temp);edkEnd();
-                                            delete[] temp;edkEnd();
+                                            free(temp);edkEnd();
                                         }
                                         //read the objects
                                         objectA.readFromXML(xml,true);edkEnd();
@@ -6029,9 +6029,9 @@ bool edk::Cenario2D::readLevelFromXMLFromPack(edk::pack::FilePackage* pack,edk::
                                             break;
                                         }
                                     }
-                                    delete[] nameTemp;edkEnd();
+                                    free(nameTemp);edkEnd();
                                 }
-                                delete[] idTemp;edkEnd();
+                                free(idTemp);edkEnd();
                             }
                         }
                     }
@@ -6055,9 +6055,9 @@ bool edk::Cenario2D::readLevelFromXMLFromPack(edk::pack::FilePackage* pack,edk::
                         }
                     }
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }
@@ -6112,7 +6112,7 @@ bool edk::Cenario2D::readFromXMLWithoutLoadPhysics(edk::XML* xml,edk::uint32 id)
                         temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);edkEnd();
                         if(temp){
                             size = edk::String::strToInt64(temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         edk::Cenario2D::LevelObj* level;edkEnd();
                         for(edk::uint32 i=0u;i<size;i++){
@@ -6134,7 +6134,7 @@ bool edk::Cenario2D::readFromXMLWithoutLoadPhysics(edk::XML* xml,edk::uint32 id)
                         temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);edkEnd();
                         if(temp){
                             size = edk::String::strToInt64(temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         //object vectors
                         bool collide;edkEnd();
@@ -6156,7 +6156,7 @@ bool edk::Cenario2D::readFromXMLWithoutLoadPhysics(edk::XML* xml,edk::uint32 id)
                                         temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);edkEnd();
                                         if(temp){
                                             jointType = edk::String::strToInt32(temp);edkEnd();
-                                            delete[] temp;edkEnd();
+                                            free(temp);edkEnd();
                                         }
                                         //read the objects
                                         objectA.readFromXML(xml,true);edkEnd();
@@ -6420,9 +6420,9 @@ bool edk::Cenario2D::readFromXMLWithoutLoadPhysics(edk::XML* xml,edk::uint32 id)
                                             break;
                                         }
                                     }
-                                    delete[] nameTemp;edkEnd();
+                                    free(nameTemp);edkEnd();
                                 }
-                                delete[] idTemp;edkEnd();
+                                free(idTemp);edkEnd();
                             }
                         }
                     }
@@ -6446,9 +6446,9 @@ bool edk::Cenario2D::readFromXMLWithoutLoadPhysics(edk::XML* xml,edk::uint32 id)
                         }
                     }
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }
@@ -6500,7 +6500,7 @@ bool edk::Cenario2D::readFromXMLFromPackWithoutLoadPhysics(edk::pack::FilePackag
                         temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);edkEnd();
                         if(temp){
                             size = edk::String::strToInt64(temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         edk::Cenario2D::LevelObj* level;edkEnd();
                         for(edk::uint32 i=0u;i<size;i++){
@@ -6522,7 +6522,7 @@ bool edk::Cenario2D::readFromXMLFromPackWithoutLoadPhysics(edk::pack::FilePackag
                         temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);edkEnd();
                         if(temp){
                             size = edk::String::strToInt64(temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         //object vectors
                         bool collide;edkEnd();
@@ -6544,7 +6544,7 @@ bool edk::Cenario2D::readFromXMLFromPackWithoutLoadPhysics(edk::pack::FilePackag
                                         temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);edkEnd();
                                         if(temp){
                                             jointType = edk::String::strToInt32(temp);edkEnd();
-                                            delete[] temp;edkEnd();
+                                            free(temp);edkEnd();
                                         }
                                         //read the objects
                                         objectA.readFromXML(xml,true);edkEnd();
@@ -6808,9 +6808,9 @@ bool edk::Cenario2D::readFromXMLFromPackWithoutLoadPhysics(edk::pack::FilePackag
                                             break;
                                         }
                                     }
-                                    delete[] nameTemp;edkEnd();
+                                    free(nameTemp);edkEnd();
                                 }
-                                delete[] idTemp;edkEnd();
+                                free(idTemp);edkEnd();
                             }
                         }
                     }
@@ -6834,9 +6834,9 @@ bool edk::Cenario2D::readFromXMLFromPackWithoutLoadPhysics(edk::pack::FilePackag
                         }
                     }
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }
@@ -6894,7 +6894,7 @@ bool edk::Cenario2D::readLevelFromXMLWithoutLoadPhysics(edk::XML* xml,edk::uint3
                         temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);edkEnd();
                         if(temp){
                             size = edk::String::strToInt64(temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         edk::Cenario2D::LevelObj* levelTemp;edkEnd();
                         //test if the size is smaller
@@ -6948,7 +6948,7 @@ bool edk::Cenario2D::readLevelFromXMLWithoutLoadPhysics(edk::XML* xml,edk::uint3
                         temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);edkEnd();
                         if(temp){
                             size = edk::String::strToInt64(temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         //object vectors
                         bool collide;edkEnd();
@@ -6970,7 +6970,7 @@ bool edk::Cenario2D::readLevelFromXMLWithoutLoadPhysics(edk::XML* xml,edk::uint3
                                         temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);edkEnd();
                                         if(temp){
                                             jointType = edk::String::strToInt32(temp);edkEnd();
-                                            delete[] temp;edkEnd();
+                                            free(temp);edkEnd();
                                         }
                                         //read the objects
                                         objectA.readFromXML(xml,true);edkEnd();
@@ -7234,9 +7234,9 @@ bool edk::Cenario2D::readLevelFromXMLWithoutLoadPhysics(edk::XML* xml,edk::uint3
                                             break;
                                         }
                                     }
-                                    delete[] nameTemp;edkEnd();
+                                    free(nameTemp);edkEnd();
                                 }
-                                delete[] idTemp;edkEnd();
+                                free(idTemp);edkEnd();
                             }
                         }
                     }
@@ -7260,9 +7260,9 @@ bool edk::Cenario2D::readLevelFromXMLWithoutLoadPhysics(edk::XML* xml,edk::uint3
                         }
                     }
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }
@@ -7317,7 +7317,7 @@ bool edk::Cenario2D::readLevelFromXMLFromPackWithoutLoadPhysics(edk::pack::FileP
                         temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);edkEnd();
                         if(temp){
                             size = edk::String::strToInt64(temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         edk::Cenario2D::LevelObj* levelTemp;edkEnd();
                         //test if the size is smaller
@@ -7371,7 +7371,7 @@ bool edk::Cenario2D::readLevelFromXMLFromPackWithoutLoadPhysics(edk::pack::FileP
                         temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);edkEnd();
                         if(temp){
                             size = edk::String::strToInt64(temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         //object vectors
                         bool collide;edkEnd();
@@ -7393,7 +7393,7 @@ bool edk::Cenario2D::readLevelFromXMLFromPackWithoutLoadPhysics(edk::pack::FileP
                                         temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);edkEnd();
                                         if(temp){
                                             jointType = edk::String::strToInt32(temp);edkEnd();
-                                            delete[] temp;edkEnd();
+                                            free(temp);edkEnd();
                                         }
                                         //read the objects
                                         objectA.readFromXML(xml,true);edkEnd();
@@ -7657,9 +7657,9 @@ bool edk::Cenario2D::readLevelFromXMLFromPackWithoutLoadPhysics(edk::pack::FileP
                                             break;
                                         }
                                     }
-                                    delete[] nameTemp;edkEnd();
+                                    free(nameTemp);edkEnd();
                                 }
-                                delete[] idTemp;edkEnd();
+                                free(idTemp);edkEnd();
                             }
                         }
                     }
@@ -7683,9 +7683,9 @@ bool edk::Cenario2D::readLevelFromXMLFromPackWithoutLoadPhysics(edk::pack::FileP
                         }
                     }
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }

@@ -80,12 +80,12 @@ bool edk::LUT3D::newTable(edk::uint16 size){
                                     //delete all anothers
                                     for(edk::uint16 yd = 0u;yd<y;yd++){
                                         if(this->cube[x][yd]){
-                                            delete[] this->cube[x][yd];edkEnd();
+                                            free(this->cube[x][yd]);edkEnd();
                                             this->cube[x][yd]=NULL;edkEnd();
                                         }
                                     }
                                     //delete the r
-                                    delete[] this->cube[x];edkEnd();
+                                    free(this->cube[x]);edkEnd();
                                     this->cube[x] = NULL;edkEnd();
                                     break;
                                 }
@@ -98,16 +98,16 @@ bool edk::LUT3D::newTable(edk::uint16 size){
                                     //delete all inside
                                     for(edk::uint16 y = 0u;y<this->size;y++){
                                         if(this->cube[xd][y]){
-                                            delete[] this->cube[xd][y];edkEnd();
+                                            free(this->cube[xd][y]);edkEnd();
                                             this->cube[xd][y]=NULL;edkEnd();
                                         }
                                     }
-                                    delete[] this->cube[xd];edkEnd();
+                                    free(this->cube[xd]);edkEnd();
                                     this->cube[xd] = NULL;edkEnd();
                                 }
                             }
                             //delete the cube
-                            delete[] this->cube;edkEnd();
+                            free(this->cube);edkEnd();
                             this->cube=NULL;edkEnd();
                             this->size = 0u;edkEnd();
                             this->imageSize = 0u;edkEnd();
@@ -131,11 +131,11 @@ bool edk::LUT3D::deleteTable(){
     if(this->cube && this->size){
         for(edk::uint16 x = 0u;x<size;x++){
             for(edk::uint16 y = 0u;y<size;y++){
-                delete[] this->cube[x][y];edkEnd();
+                free(this->cube[x][y]);edkEnd();
             }
-            delete[] this->cube[x];edkEnd();
+            free(this->cube[x]);edkEnd();
         }
-        delete[] this->cube;edkEnd();
+        free(this->cube);edkEnd();
         this->cube = NULL;edkEnd();
         this->size = 0u;edkEnd();
         this->imageSize = 0u;edkEnd();
@@ -357,7 +357,7 @@ bool edk::LUT3D::loadFrom(edk::char8* fileName){
                     }
                 }
                 //delete the line
-                delete[] line;edkEnd();
+                free(line);edkEnd();
 
                 //test if have the title and the sizeTableStr
                 if(title && sizeTableStr){
@@ -414,12 +414,12 @@ bool edk::LUT3D::loadFrom(edk::char8* fileName){
                                             }
                                         }
                                         //delete the line readed
-                                        delete[] line;edkEnd();
+                                        free(line);edkEnd();
                                         break;
                                     }
 
                                     //delete the line readed
-                                    delete[] line;edkEnd();
+                                    free(line);edkEnd();
                                 }
                             }
                             if(!file.isOpened() || file.endOfFile()){
@@ -449,10 +449,10 @@ bool edk::LUT3D::loadFrom(edk::char8* fileName){
 
         //delete the title
         if(title){
-            delete[] title;edkEnd();
+            free(title);edkEnd();
         }
         if(sizeTableStr){
-            delete[] sizeTableStr;edkEnd();
+            free(sizeTableStr);edkEnd();
         }
 
         //test if is not returning true

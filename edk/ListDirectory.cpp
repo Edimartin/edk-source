@@ -67,7 +67,7 @@ bool edk::ListDirectory::run(edk::char8* directory){
                         break;
                     }
 
-                    delete[] temp;edkEnd();
+                    free(temp);edkEnd();
                 }
             }
 

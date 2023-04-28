@@ -108,7 +108,7 @@ edk::char8* edk::File::readStringFromTheFile(FILE* arq,edk::char8 limit,edk::uin
     //test if have the end of the file
     if(feof(arq)){
         //then create the simple string
-        edk::char8* str = new edk::char8[count+1u];
+        edk::char8* str = (edk::char8*)malloc(sizeof(edk::char8) * (count+1u));
         //copy the end character '\0'
         if(str){
             //
@@ -180,7 +180,7 @@ edk::char8* edk::File::readStringFromTheFile(FILE* arq,edk::char8 limit,edk::uin
         //test if use the limit character
         if(use && temp!='\0'){
             //Copy the end and the limit character
-            str = new edk::char8[count+2u];
+            str = (edk::char8*)malloc(sizeof(edk::char8) * (count+2u));
             if(str){
                 //
                 str[count+1u]='\0';
@@ -189,7 +189,7 @@ edk::char8* edk::File::readStringFromTheFile(FILE* arq,edk::char8 limit,edk::uin
         }
         else{
             //Copy just the end character
-            str = new edk::char8[count+1u];
+            str = (edk::char8*)malloc(sizeof(edk::char8) * (count+1u));
             if(str){
                 //
                 str[count]='\0';
@@ -222,7 +222,7 @@ edk::char8* edk::File::readStringFromTheFile(FILE* arq,edk::char8* limits,edk::u
     //test if have the end of the file
     if(feof(arq)){
         //then create the simple string
-        edk::char8* str = new edk::char8[count+1u];
+        edk::char8* str = (edk::char8*)malloc(sizeof(edk::char8) * (count+1u));
         //copy the end character '\0'
         if(str){
             //
@@ -294,7 +294,7 @@ edk::char8* edk::File::readStringFromTheFile(FILE* arq,edk::char8* limits,edk::u
         //test if use the limit character
         if(use && temp!='\0'){
             //Copy the end and the limit character
-            str = new edk::char8[count+2u];
+            str = (edk::char8*)malloc(sizeof(edk::char8) * (count+2u));
             if(str){
                 //
                 str[count+1u]='\0';
@@ -303,7 +303,7 @@ edk::char8* edk::File::readStringFromTheFile(FILE* arq,edk::char8* limits,edk::u
         }
         else{
             //Copy just the end character
-            str = new edk::char8[count+1u];
+            str = (edk::char8*)malloc(sizeof(edk::char8) * (count+1u));
             if(str){
                 //
                 str[count]='\0';
@@ -335,7 +335,7 @@ edk::char8* edk::File::readStringFromTheBinFile(FILE* arq,edk::char8 limit,edk::
     //test if have the end of the file
     if(feof(arq)){
         //then create the simple string
-        edk::char8* str = new edk::char8[count+1u];
+        edk::char8* str = (edk::char8*)malloc(sizeof(edk::char8) * (count+1u));
         //copy the end character '\0'
         if(str){
             //
@@ -356,7 +356,7 @@ edk::char8* edk::File::readStringFromTheBinFile(FILE* arq,edk::char8 limit,edk::
         //test if use the limit character
         if(use && temp!='\0'){
             //Copy the end and the limit character
-            str = new edk::char8[count+2u];
+            str = (edk::char8*)malloc(sizeof(edk::char8) * (count+2u));
             if(str){
                 //
                 str[count+1u]='\0';
@@ -365,7 +365,7 @@ edk::char8* edk::File::readStringFromTheBinFile(FILE* arq,edk::char8 limit,edk::
         }
         else{
             //Copy just the end character
-            str = new edk::char8[count+1u];
+            str = (edk::char8*)malloc(sizeof(edk::char8) * (count+1u));
             if(str){
                 //
                 str[count]='\0';
@@ -398,7 +398,7 @@ edk::char8* edk::File::readStringFromTheBinFile(FILE* arq,edk::char8* limits,edk
     //test if have the end of the file
     if(feof(arq)){
         //then create the simple string
-        edk::char8* str = new edk::char8[count+1u];
+        edk::char8* str = (edk::char8*)malloc(sizeof(edk::char8) * (count+1u));
         //copy the end character '\0'
         if(str){
             //
@@ -419,7 +419,7 @@ edk::char8* edk::File::readStringFromTheBinFile(FILE* arq,edk::char8* limits,edk
         //test if use the limit character
         if(use && temp!='\0'){
             //Copy the end and the limit character
-            str = new edk::char8[count+2u];
+            str = (edk::char8*)malloc(sizeof(edk::char8) * (count+2u));
             if(str){
                 //
                 str[count+1u]='\0';
@@ -428,7 +428,7 @@ edk::char8* edk::File::readStringFromTheBinFile(FILE* arq,edk::char8* limits,edk
         }
         else{
             //Copy just the end character
-            str = new edk::char8[count+1u];
+            str = (edk::char8*)malloc(sizeof(edk::char8) * (count+1u));
             if(str){
                 //
                 str[count]='\0';
@@ -930,7 +930,7 @@ void edk::File::closeFile(){
     //Delete the name if the name exist
     if(this->name){
         //
-        delete[] this->name;
+        free(this->name);
     }
     this->name=NULL;
 }
@@ -969,7 +969,7 @@ bool edk::File::deleteFile(){
             ret=edk::File::deleteFile(tempName);
 
             //delete the tempName
-            delete[] tempName;
+            free (tempName);
         }
         tempName=NULL;
         //return the function deleteFile response
@@ -1632,9 +1632,9 @@ bool edk::File::writeText(edk::float32 f,edk::uint8 digits){
                 //Then write in the file
                 fprintf(this->arq,str,f);
                 ret = true;
-                delete[] str;
+                free(str);
             }
-            delete[] strDigits;
+            free(strDigits);
         }
     }
     return ret;
@@ -1662,9 +1662,9 @@ bool edk::File::writeText(edk::float64 f,edk::uint8 digits){
                 //Then write in the file
                 fprintf(this->arq,str,f);
                 ret = true;
-                delete[] str;
+                free(str);
             }
-            delete[] strDigits;
+            free(strDigits);
         }
     }
     return ret;
@@ -2309,7 +2309,7 @@ edk::char8 edk::File::readBinChar(){
         c = *temp;
 
         //delete temp
-        delete[] temp;
+        free(temp);
     }
     temp=NULL;
 
@@ -2371,7 +2371,7 @@ edk::int8 edk::File::readBinInt8(){
         n = *temp;
 
         //delete temp
-        delete[] temp;
+        free(temp);
     }
     temp=NULL;
 
@@ -2400,7 +2400,7 @@ edk::uint8 edk::File::readBinUInt8(){
         n = *temp;
 
         //delete temp
-        delete[] temp;
+        free(temp);
     }
     temp=NULL;
 
@@ -2429,7 +2429,7 @@ edk::int16 edk::File::readBinInt16(){
         n = *temp;
 
         //delete temp
-        delete[] temp;
+        free(temp);
     }
     temp=NULL;
 
@@ -2458,7 +2458,7 @@ edk::uint16 edk::File::readBinUInt16(){
         n = *temp;
 
         //delete temp
-        delete[] temp;
+        free(temp);
     }
     temp=NULL;
 
@@ -2487,7 +2487,7 @@ edk::int32 edk::File::readBinInt32(){
         n = *temp;
 
         //delete temp
-        delete[] temp;
+        free(temp);
     }
     temp=NULL;
 
@@ -2516,7 +2516,7 @@ edk::uint32 edk::File::readBinUInt32(){
         n = *temp;
 
         //delete temp
-        delete[] temp;
+        free(temp);
     }
     temp=NULL;
 
@@ -2545,7 +2545,7 @@ edk::int64 edk::File::readBinInt64(){
         n = *temp;
 
         //delete temp
-        delete[] temp;
+        free(temp);
     }
     temp=NULL;
 
@@ -2574,7 +2574,7 @@ edk::uint64 edk::File::readBinUInt64(){
         n = *temp;
 
         //delete temp
-        delete[] temp;
+        free(temp);
     }
     temp=NULL;
 
@@ -2603,7 +2603,7 @@ edk::float32 edk::File::readBinFloat(){
         n = *temp;
 
         //delete temp
-        delete[] temp;
+        free(temp);
     }
     temp=NULL;
 
@@ -2632,7 +2632,7 @@ edk::int64 edk::File::readBinLongInt(){
         n = *temp;
 
         //delete temp
-        delete[] temp;
+        free(temp);
     }
     temp=NULL;
 

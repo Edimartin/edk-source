@@ -69,10 +69,10 @@ bool edk::pack::FileNode::setFileName(edk::char8* str){
             if(temp){
                 //set the temp to the fileName
                 if(this->fileName.setName(temp)){
-                    delete[] temp;edkEnd();
+                    free(temp);edkEnd();
                     return true;
                 }
-                delete[] temp;edkEnd();
+                free(temp);edkEnd();
             }
             this->str.cleanName();edkEnd();
         }
@@ -190,7 +190,7 @@ bool edk::pack::FileNode::readFile(edk::File* file){
                     file->readBin(temp,strSize);edkEnd();
                     //copy the string
                     this->setFileName(temp);edkEnd();
-                    delete[] temp;edkEnd();
+                    free(temp);edkEnd();
                 }
 
                 //read the position

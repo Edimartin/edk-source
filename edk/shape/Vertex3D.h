@@ -353,50 +353,50 @@ public:
                             temp = edk::String::int32ToStr((edk::int32)this->getType());edkEnd();
                             if(temp){
                                 xml->addSelectedNextAttribute((edk::char8*)"type",temp);edkEnd();
-                                delete[] temp;edkEnd();
+                                free(temp);edkEnd();
                             }
                             temp = edk::String::float32ToStr(this->position.x);edkEnd();
                             if(temp){
                                 xml->addSelectedNextAttribute((edk::char8*)"x",temp);edkEnd();
-                                delete[] temp;edkEnd();
+                                free(temp);edkEnd();
                             }
                             temp = edk::String::float32ToStr(this->position.y);edkEnd();
                             if(temp){
                                 xml->addSelectedNextAttribute((edk::char8*)"y",temp);edkEnd();
-                                delete[] temp;edkEnd();
+                                free(temp);edkEnd();
                             }
                             temp = edk::String::float32ToStr(this->position.z);edkEnd();
                             if(temp){
                                 xml->addSelectedNextAttribute((edk::char8*)"z",temp);edkEnd();
-                                delete[] temp;edkEnd();
+                                free(temp);edkEnd();
                             }
                             temp = edk::String::float32ToStr(this->color.r);edkEnd();
                             if(temp){
                                 xml->addSelectedNextAttribute((edk::char8*)"r",temp);edkEnd();
-                                delete[] temp;edkEnd();
+                                free(temp);edkEnd();
                             }
                             temp = edk::String::float32ToStr(this->color.g);edkEnd();
                             if(temp){
                                 xml->addSelectedNextAttribute((edk::char8*)"g",temp);edkEnd();
-                                delete[] temp;edkEnd();
+                                free(temp);edkEnd();
                             }
                             temp = edk::String::float32ToStr(this->color.b);edkEnd();
                             if(temp){
                                 xml->addSelectedNextAttribute((edk::char8*)"b",temp);edkEnd();
-                                delete[] temp;edkEnd();
+                                free(temp);edkEnd();
                             }
                             temp = edk::String::float32ToStr(this->color.a);edkEnd();
                             if(temp){
                                 xml->addSelectedNextAttribute((edk::char8*)"a",temp);edkEnd();
-                                delete[] temp;edkEnd();
+                                free(temp);edkEnd();
                             }
                             //
                             xml->selectFather();edkEnd();
                         }
                     }
-                    delete[] name;edkEnd();
+                    free(name);edkEnd();
                 }
-                delete[] id;edkEnd();
+                free(id);edkEnd();
             }
             return true;
         }
@@ -415,52 +415,52 @@ public:
                         if((temp = xml->getSelectedAttributeValueByName("type"))){
                             //read the type
                             //edk::uint8 typeTemp = (edk::uint8)edk::String::strToInt32(temp);edkEnd();
-                            //delete[] temp;edkEnd();
+                            //free(temp);edkEnd();
                             //test if the type is the same
                             //if(typeTemp==this->getType()){
                                 if((temp = xml->getSelectedAttributeValueByName("x"))){
                                     //read the value
                                     this->position.x = edk::String::strToFloat32(temp);edkEnd();
-                                    //delete[] temp;edkEnd();
+                                    //free(temp);edkEnd();
                                 }
                                 if((temp = xml->getSelectedAttributeValueByName("y"))){
                                     //read the value
                                     this->position.y = edk::String::strToFloat32(temp);edkEnd();
-                                    //delete[] temp;edkEnd();
+                                    //free(temp);edkEnd();
                                 }
                                 if((temp = xml->getSelectedAttributeValueByName("z"))){
                                     //read the value
                                     this->position.z = edk::String::strToFloat32(temp);edkEnd();
-                                    //delete[] temp;edkEnd();
+                                    //free(temp);edkEnd();
                                 }
                                 if((temp = xml->getSelectedAttributeValueByName("r"))){
                                     //read the value
                                     this->color.r = edk::String::strToFloat32(temp);edkEnd();
-                                    //delete[] temp;edkEnd();
+                                    //free(temp);edkEnd();
                                 }
                                 if((temp = xml->getSelectedAttributeValueByName("g"))){
                                     //read the value
                                     this->color.g = edk::String::strToFloat32(temp);edkEnd();
-                                    //delete[] temp;edkEnd();
+                                    //free(temp);edkEnd();
                                 }
                                 if((temp = xml->getSelectedAttributeValueByName("b"))){
                                     //read the value
                                     this->color.b = edk::String::strToFloat32(temp);edkEnd();
-                                    //delete[] temp;edkEnd();
+                                    //free(temp);edkEnd();
                                 }
                                 if((temp = xml->getSelectedAttributeValueByName("a"))){
                                     //read the value
                                     this->color.a = edk::String::strToFloat32(temp);edkEnd();
-                                    //delete[] temp;edkEnd();
+                                    //free(temp);edkEnd();
                                 }
                                 ret=true;edkEnd();
                             //}
                         }
                         xml->selectFather();edkEnd();
                     }
-                    delete[] name;edkEnd();
+                    free(name);edkEnd();
                 }
-                delete[] id;edkEnd();
+                free(id);edkEnd();
             }
             return ret;
         }
@@ -482,9 +482,9 @@ public:
                         }
                         xml->selectFather();edkEnd();
                     }
-                    delete[] name;edkEnd();
+                    free(name);edkEnd();
                 }
-                delete[] id;edkEnd();
+                free(id);edkEnd();
             }
             return ret;
         }
@@ -600,19 +600,19 @@ public:
                         temp = edk::String::float32ToStr(this->uv.x);edkEnd();
                         if(temp){
                             xml->addSelectedNextAttribute((edk::char8*)"uvX",temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         temp = edk::String::float32ToStr(this->uv.y);edkEnd();
                         if(temp){
                             xml->addSelectedNextAttribute((edk::char8*)"uvY",temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         //
                         xml->selectFather();edkEnd();
                     }
-                    delete[] name;edkEnd();
+                    free(name);edkEnd();
                 }
-                delete[] id;edkEnd();
+                free(id);edkEnd();
             }
             return true;
         }
@@ -630,18 +630,18 @@ public:
                         if((temp = xml->getSelectedAttributeValueByName("uvX"))){
                             //read the value
                             this->uv.x = edk::String::strToFloat32(temp);edkEnd();
-                            //delete[] temp;edkEnd();
+                            //free(temp);edkEnd();
                         }
                         if((temp = xml->getSelectedAttributeValueByName("uvY"))){
                             //read the value
                             this->uv.y = edk::String::strToFloat32(temp);edkEnd();
-                            //delete[] temp;edkEnd();
+                            //free(temp);edkEnd();
                         }
                         xml->selectFather();edkEnd();
                     }
-                    delete[] name;edkEnd();
+                    free(name);edkEnd();
                 }
-                delete[] id;edkEnd();
+                free(id);edkEnd();
             }
             return true;
         }
@@ -789,29 +789,29 @@ public:
                         temp = edk::String::float32ToStr(this->uvMultiply.x);edkEnd();
                         if(temp){
                             xml->addSelectedNextAttribute((edk::char8*)"uvMX",temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         temp = edk::String::float32ToStr(this->uvMultiply.y);edkEnd();
                         if(temp){
                             xml->addSelectedNextAttribute((edk::char8*)"uvMY",temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         temp = edk::String::float32ToStr(this->uvSaved.x);edkEnd();
                         if(temp){
                             xml->addSelectedNextAttribute((edk::char8*)"uvSX",temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         temp = edk::String::float32ToStr(this->uvSaved.y);edkEnd();
                         if(temp){
                             xml->addSelectedNextAttribute((edk::char8*)"uvSY",temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         //
                         xml->selectFather();edkEnd();
                     }
-                    delete[] name;edkEnd();
+                    free(name);edkEnd();
                 }
-                delete[] id;edkEnd();
+                free(id);edkEnd();
             }
             return true;
         }
@@ -829,28 +829,28 @@ public:
                         if((temp = xml->getSelectedAttributeValueByName("uvMX"))){
                             //read the value
                             this->uvMultiply.x = edk::String::strToFloat32(temp);edkEnd();
-                            //delete[] temp;edkEnd();
+                            //free(temp);edkEnd();
                         }
                         if((temp = xml->getSelectedAttributeValueByName("uvMY"))){
                             //read the value
                             this->uvMultiply.y = edk::String::strToFloat32(temp);edkEnd();
-                            //delete[] temp;edkEnd();
+                            //free(temp);edkEnd();
                         }
                         if((temp = xml->getSelectedAttributeValueByName("uvSX"))){
                             //read the value
                             this->uvSaved.x = edk::String::strToFloat32(temp);edkEnd();
-                            //delete[] temp;edkEnd();
+                            //free(temp);edkEnd();
                         }
                         if((temp = xml->getSelectedAttributeValueByName("uvSY"))){
                             //read the value
                             this->uvSaved.y = edk::String::strToFloat32(temp);edkEnd();
-                            //delete[] temp;edkEnd();
+                            //free(temp);edkEnd();
                         }
                         xml->selectFather();edkEnd();
                     }
-                    delete[] name;edkEnd();
+                    free(name);edkEnd();
                 }
-                delete[] id;edkEnd();
+                free(id);edkEnd();
             }
             return true;
         }

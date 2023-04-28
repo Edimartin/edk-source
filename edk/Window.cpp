@@ -204,7 +204,8 @@ bool edk::Window::createWindow(uint32 width, uint32 height/*, uint32 bitsPerPixe
             //Seta o tamanho da window
             this->setWindowSize(this->window.getSize().x,this->window.getSize().y);edkEnd();
 
-            edk::GU::guOpen();
+            edk::GU::guOpen();edkEnd();
+            edk::GU_GLSL::guShaderInit();edkEnd();
 
             //set the blend with alpha channel
             edk::GU::guEnable(GU_BLEND);edkEnd();

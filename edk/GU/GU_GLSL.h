@@ -186,6 +186,15 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define GU_BGR                                       GL_BGR
 #define GU_BGRA                                      GL_BGRA
 
+#define GU_COLOR_ARRAY                               GL_COLOR_ARRAY
+#define GU_EDGE_FLAG_ARRAY                           GL_EDGE_FLAG_ARRAY
+#define GU_FOG_COORD_ARRAY                           GL_FOG_COORD_ARRAY
+#define GU_INDEX_ARRAY                               GL_INDEX_ARRAY
+#define GU_NORMAL_ARRAY                              GL_NORMAL_ARRAY
+#define GU_SECONDARY_COLOR_ARRAY                     GL_SECONDARY_COLOR_ARRAY
+#define GU_TEXTURE_COORD_ARRAY                       GL_TEXTURE_COORD_ARRAY
+#define GU_VERTEX_ARRAY                              GL_VERTEX_ARRAY
+
 namespace edk{
 class GU_GLSL{
 public:
@@ -198,7 +207,7 @@ public:
     //start the shaderLib
     static edk::int32 guShaderInit();
     //return true if have init the glut
-    static bool guShaderInitiate();
+    static bool guShaderInitiated();
 
     static bool guStartShader(edk::int32 shade);
     static edk::uint32 guCreateShader(edk::uint32 type);
@@ -374,6 +383,105 @@ public:
 */
     //add the buffer in to the vbo
     static bool guBufferData(edk::uint32 type, edk::uint64 size, const edk::classID data, edk::uint32 usage);
+    /*
+    GU_COLOR_ARRAY
+    GU_EDGE_FLAG_ARRAY
+    GU_FOG_COORD_ARRAY
+    GU_INDEX_ARRAY
+    GU_NORMAL_ARRAY
+    GU_SECONDARY_COLOR_ARRAY
+    GU_TEXTURE_COORD_ARRAY
+    GU_VERTEX_ARRAY
+*/
+    //enable the state
+    static void guEnableClientState(edk::uint32 cap);
+    /*
+    GU_COLOR_ARRAY
+    GU_EDGE_FLAG_ARRAY
+    GU_FOG_COORD_ARRAY
+    GU_INDEX_ARRAY
+    GU_NORMAL_ARRAY
+    GU_SECONDARY_COLOR_ARRAY
+    GU_TEXTURE_COORD_ARRAY
+    GU_VERTEX_ARRAY
+*/
+    //disable the state
+    static void guDisableClientState(edk::uint32 cap);
+
+    //Use a TextCoord from a pointer
+    static void guTexCoordPointer1i16(edk::uint64 position);
+    static void guTexCoordPointer2i16(edk::uint64 position);
+    static void guTexCoordPointer3i16(edk::uint64 position);
+    static void guTexCoordPointer4i16(edk::uint64 position);
+    static void guTexCoordPointer1i32(edk::uint64 position);
+    static void guTexCoordPointer2i32(edk::uint64 position);
+    static void guTexCoordPointer3i32(edk::uint64 position);
+    static void guTexCoordPointer4i32(edk::uint64 position);
+    static void guTexCoordPointer1f32(edk::uint64 position);
+    static void guTexCoordPointer2f32(edk::uint64 position);
+    static void guTexCoordPointer3f32(edk::uint64 position);
+    static void guTexCoordPointer4f32(edk::uint64 position);
+    static void guTexCoordPointer1f64(edk::uint64 position);
+    static void guTexCoordPointer2f64(edk::uint64 position);
+    static void guTexCoordPointer3f64(edk::uint64 position);
+    static void guTexCoordPointer4f64(edk::uint64 position);
+
+    static void guColorPointer3ui8(edk::uint64 position);
+    static void guColorPointer4ui8(edk::uint64 position);
+    static void guColorPointer3i8(edk::uint64 position);
+    static void guColorPointer4i8(edk::uint64 position);
+    static void guColorPointer3ui16(edk::uint64 position);
+    static void guColorPointer4ui16(edk::uint64 position);
+    static void guColorPointer3i16(edk::uint64 position);
+    static void guColorPointer4i16(edk::uint64 position);
+    static void guColorPointer3ui32(edk::uint64 position);
+    static void guColorPointer4ui32(edk::uint64 position);
+    static void guColorPointer3i32(edk::uint64 position);
+    static void guColorPointer4i32(edk::uint64 position);
+    static void guColorPointer3f32(edk::uint64 position);
+    static void guColorPointer4f32(edk::uint64 position);
+    static void guColorPointer3f64(edk::uint64 position);
+    static void guColorPointer4f64(edk::uint64 position);
+
+    //use a Normal from a pointer
+    static void guNormalPointerI8(edk::uint64 position);
+    static void guNormalPointerI16(edk::uint64 position);
+    static void guNormalPointerI32(edk::uint64 position);
+    static void guNormalPointerF32(edk::uint64 position);
+    static void guNormalPointerF64(edk::uint64 position);
+
+    //use a vertex from a pointer
+    static void guVertexPointer2i16(edk::uint64 position);
+    static void guVertexPointer2i32(edk::uint64 position);
+    static void guVertexPointer2f32(edk::uint64 position);
+    static void guVertexPointer2f64(edk::uint64 position);
+    static void guVertexPointer3i16(edk::uint64 position);
+    static void guVertexPointer3i32(edk::uint64 position);
+    static void guVertexPointer3f32(edk::uint64 position);
+    static void guVertexPointer3f64(edk::uint64 position);
+    static void guVertexPointer4i16(edk::uint64 position);
+    static void guVertexPointer4i32(edk::uint64 position);
+    static void guVertexPointer4f32(edk::uint64 position);
+    static void guVertexPointer4f64(edk::uint64 position);
+
+    /*
+    //mode
+    GU_POINTS
+    GU_LINE_STRIP
+    GU_LINE_LOOP
+    GU_LINES
+    GU_LINE_STRIP_ADJACENCY
+    GU_LINES_ADJACENCY
+    GU_TRIANGLE_STRIP
+    GU_TRIANGLE_FAN
+    GU_TRIANGLES
+    GU_TRIANGLE_STRIP_ADJACENCY
+    GU_TRIANGLES_ADJACENCY
+    GU_PATCHES
+*/
+    //draw the array from a pointer
+    static void guDrawArrays(edk::uint32 mode,edk::int32 first,edk::uint64 count);
+
     //Check Buffer
     //static edk::uint32 guCheckBufferStatus(edk::uint32 type);
     //static bool guCheckBufferOK(edk::uint32 type);

@@ -1492,9 +1492,9 @@ bool edk::animation::InterpolationTracks::writeToXML(edk::XML* xml,edk::uint32 i
                                                 ++counter;edkEnd();
                                                 xml->selectFather();edkEnd();
                                             }
-                                            delete[] trackName;edkEnd();
+                                            free(trackName);edkEnd();
                                         }
-                                        delete[] trackID;edkEnd();
+                                        free(trackID);edkEnd();
                                     }
                                 }
                             }
@@ -1502,9 +1502,9 @@ bool edk::animation::InterpolationTracks::writeToXML(edk::XML* xml,edk::uint32 i
                         xml->selectFather();edkEnd();
                     }
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }
@@ -1554,17 +1554,17 @@ bool edk::animation::InterpolationTracks::readFromXML(edk::XML* xml,edk::uint32 
                                     }
                                     xml->selectFather();edkEnd();
                                 }
-                                delete[] trackName;edkEnd();
+                                free(trackName);edkEnd();
                             }
-                            delete[] trackID;edkEnd();
+                            free(trackID);edkEnd();
                         }
                         counter++;edkEnd();
                     }
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }

@@ -67,22 +67,22 @@ enum EDKpolygon2DType{
 //VBO type
 enum EDKVBOType{
     vbo_NULL = 0u,
-    vbo_XY,                   //sizeof(edk::float32)*2u,
-    vbo_XYZ,                  //sizeof(edk::float32)*3u,
-    vbo_XY_NxNy,              //sizeof(edk::float32)*4u,
-    vbo_XYZ_NxNy,             //sizeof(edk::float32)*5u,
-    vbo_XY_RGB,               //sizeof(edk::float32)*5u,
-    vbo_XYZ_RGB,              //sizeof(edk::float32)*6u,
-    vbo_XY_RGBA,              //sizeof(edk::float32)*6u,
-    vbo_XYZ_RGBA,             //sizeof(edk::float32)*7u,
-    vbo_XY_RGB_NxNy,          //sizeof(edk::float32)*7u,
-    vbo_XYZ_RGB_NxNy,         //sizeof(edk::float32)*8u,
-    vbo_XY_RGBA_NxNy,         //sizeof(edk::float32)*8u,
-    vbo_XYZ_RGBA_NxNy,        //sizeof(edk::float32)*9u,
-    vbo_XY_RGB_NxNy_UVxUVy,   //sizeof(edk::float32)*9u,
-    vbo_XYZ_RGB_NxNy_UVxUVy,  //sizeof(edk::float32)*10u,
-    vbo_XY_RGBA_NxNy_UVxUVy,  //sizeof(edk::float32)*10u,
-    vbo_XYZ_RGBA_NxNy_UVxUVy, //sizeof(edk::float32)*11u
+    vbo_XY,
+    vbo_XYZ,
+    vbo_XY_NxNyNz,
+    vbo_XYZ_NxNyNz,
+    vbo_XY_RGB,
+    vbo_XYZ_RGB,
+    vbo_XY_RGBA,
+    vbo_XYZ_RGBA,
+    vbo_XY_RGB_NxNyNz,
+    vbo_XYZ_RGB_NxNyNz,
+    vbo_XY_RGBA_NxNyNz,
+    vbo_XYZ_RGBA_NxNyNz,
+    vbo_XY_RGB_NxNyNz_UVxUVy,
+    vbo_XYZ_RGB_NxNyNz_UVxUVy,
+    vbo_XY_RGBA_NxNyNz_UVxUVy,
+    vbo_XYZ_RGBA_NxNyNz_UVxUVy,
 
     vbo_Size
 };
@@ -313,15 +313,40 @@ protected:
     //array for the vbo
     edk::vector::Array<edk::float32> vertexBuffer;
     //vbo vertexes size
-    edk::uint32 vboSize;
-    bool needChangeVBO;
+    edk::uint32 vboCount;
+    bool vboNULL;
 
     //function to create the VBO
-    bool createVBO(edk::uint32 vertexCount,edk::shape::EDKVBOType type);
+    virtual bool createVBO(edk::uint32 vertexCount,edk::shape::EDKVBOType type);
+    //run the GU function to update the VBO
+    bool updateVBO();
     //change the type of the VBO
     bool changeVBO(edk::shape::EDKVBOType type);
     void deleteVBO();
     bool haveVBO();
+    //set the vboFunction pointers
+    bool updateVBOFunctions();
+    bool setAutomaticallyVBOFunctions();
+    void setVBOFunctionUpdateNULL();
+    void setVBOFunctionNULL();
+    //setters to VBO
+    virtual bool setVBOVertexPosition(edk::uint32 vertex,edk::vec2f32 position);
+    virtual bool setVBOVertexPositionX(edk::uint32 vertex,edk::float32 x);
+    virtual bool setVBOVertexPositionY(edk::uint32 vertex,edk::float32 y);
+    virtual bool setVBOVertexNormal(edk::uint32 vertex,edk::vec3f32 normal);
+    virtual bool setVBOVertexNormalX(edk::uint32 vertex,edk::float32 x);
+    virtual bool setVBOVertexNormalY(edk::uint32 vertex,edk::float32 y);
+    virtual bool setVBOVertexNormalZ(edk::uint32 vertex,edk::float32 z);
+    virtual bool setVBOVertexColor(edk::uint32 vertex,edk::color4f32 color);
+    virtual bool setVBOPolygonColor(edk::color4f32 color);
+    virtual bool setVBOPolygonNormal(edk::vec3f32 normal);
+    virtual bool setVBOPolygonColorR(edk::float32 r);
+    virtual bool setVBOPolygonColorG(edk::float32 g);
+    virtual bool setVBOPolygonColorB(edk::float32 b);
+    virtual bool setVBOPolygonColorA(edk::float32 a);
+    virtual bool setVBOVertexUV(edk::uint32 vertex,edk::vec2f32 uv);
+    virtual bool setVBOVertexU(edk::uint32 vertex,edk::float32 u);
+    virtual bool setVBOVertexV(edk::uint32 vertex,edk::float32 v);
 
     //save if don't transform the polygon
     bool transforming;
@@ -338,6 +363,68 @@ protected:
     void updateFramesSize();
     //test if is tranforming the polygon
     void testTransform();
+
+    //function pointers
+    //PRINT
+    void (edk::shape::Polygon2D::*vboPrint)();
+    //DRAW
+    void (edk::shape::Polygon2D::*vboDraw)(edk::uint32);
+
+    //draw functions
+    //PRINT
+    void print_NULL();
+    void print_XY();
+    void print_XYZ();
+    void print_XY_NxNyNz();
+    void print_XYZ_NxNyNz();
+    void print_XY_RGB();
+    void print_XYZ_RGB();
+    void print_XY_RGBA();
+    void print_XYZ_RGBA();
+    void print_XY_RGB_NxNyNz();
+    void print_XYZ_RGB_NxNyNz();
+    void print_XY_RGBA_NxNyNz();
+    void print_XYZ_RGBA_NxNyNz();
+    void print_XY_RGB_NxNyNz_UVxUVy();
+    void print_XYZ_RGB_NxNyNz_UVxUVy();
+    void print_XY_RGBA_NxNyNz_UVxUVy();
+    void print_XYZ_RGBA_NxNyNz_UVxUVy();
+    //DRAW
+    virtual void draw_NULL(edk::uint32 mode);
+    void draw_XY(edk::uint32 mode);
+    void draw_XYZ(edk::uint32 mode);
+    void draw_XY_NxNyNz(edk::uint32 mode);
+    void draw_XYZ_NxNyNz(edk::uint32 mode);
+    void draw_XY_RGB(edk::uint32 mode);
+    void draw_XYZ_RGB(edk::uint32 mode);
+    void draw_XY_RGBA(edk::uint32 mode);
+    void draw_XYZ_RGBA(edk::uint32 mode);
+    void draw_XY_RGB_NxNyNz(edk::uint32 mode);
+    void draw_XYZ_RGB_NxNyNz(edk::uint32 mode);
+    void draw_XY_RGBA_NxNyNz(edk::uint32 mode);
+    void draw_XYZ_RGBA_NxNyNz(edk::uint32 mode);
+    void draw_XY_RGB_NxNyNz_UVxUVy(edk::uint32 mode);
+    void draw_XYZ_RGB_NxNyNz_UVxUVy(edk::uint32 mode);
+    void draw_XY_RGBA_NxNyNz_UVxUVy(edk::uint32 mode);
+    void draw_XYZ_RGBA_NxNyNz_UVxUVy(edk::uint32 mode);
+    //DRAW UPDATE
+    virtual void drawUpdate_NULL(edk::uint32 mode);
+    void drawUpdate_XY(edk::uint32 mode);
+    void drawUpdate_XYZ(edk::uint32 mode);
+    void drawUpdate_XY_NxNyNz(edk::uint32 mode);
+    void drawUpdate_XYZ_NxNyNz(edk::uint32 mode);
+    void drawUpdate_XY_RGB(edk::uint32 mode);
+    void drawUpdate_XYZ_RGB(edk::uint32 mode);
+    void drawUpdate_XY_RGBA(edk::uint32 mode);
+    void drawUpdate_XYZ_RGBA(edk::uint32 mode);
+    void drawUpdate_XY_RGB_NxNyNz(edk::uint32 mode);
+    void drawUpdate_XYZ_RGB_NxNyNz(edk::uint32 mode);
+    void drawUpdate_XY_RGBA_NxNyNz(edk::uint32 mode);
+    void drawUpdate_XYZ_RGBA_NxNyNz(edk::uint32 mode);
+    void drawUpdate_XY_RGB_NxNyNz_UVxUVy(edk::uint32 mode);
+    void drawUpdate_XYZ_RGB_NxNyNz_UVxUVy(edk::uint32 mode);
+    void drawUpdate_XY_RGBA_NxNyNz_UVxUVy(edk::uint32 mode);
+    void drawUpdate_XYZ_RGBA_NxNyNz_UVxUVy(edk::uint32 mode);
 
     //angle of the polygon
     edk::float32 angle;
@@ -1144,7 +1231,7 @@ protected:
                                 temp = edk::String::strCopy("vertexs");edkEnd();
                                 if(temp){
                                     xml->addSelectedNextChild(name);edkEnd();
-                                    delete[] temp;edkEnd();
+                                    free(temp);edkEnd();
                                 }
                                 //select the name
                                 if(xml->selectChild(name)){
@@ -1157,7 +1244,7 @@ protected:
                                     temp=edk::String::int32ToStr(size);edkEnd();
                                     if(temp){
                                         xml->addSelectedNextAttribute((edk::char8*)"vCount",temp);edkEnd();
-                                        delete[] temp;edkEnd();
+                                        free(temp);edkEnd();
                                     }
                                     //Write Vertexs
                                     for(edk::uint32 i=0u;i<size;i++){
@@ -1175,7 +1262,7 @@ protected:
                                             temp=edk::String::int32ToStr(size);edkEnd();
                                             if(temp){
                                                 xml->addSelectedNextAttribute((edk::char8*)"voCount",temp);edkEnd();
-                                                delete[] temp;edkEnd();
+                                                free(temp);edkEnd();
                                             }
                                             //Write Vertexs
                                             for(edk::uint32 i=0u;i<size;i++){

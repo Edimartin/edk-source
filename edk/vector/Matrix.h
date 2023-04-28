@@ -99,9 +99,9 @@ public:
                     else{
                         for(edk::uint32 j=i+1u;i>0u;j--){
                             //delete the matrix
-                            delete[] this->matrix[j];edkEnd();
+                            free(this->matrix[j]);edkEnd();
                         }
-                        delete[] this->matrix;edkEnd();
+                        free(this->matrix);edkEnd();
                         return false;
                     }
                 }
@@ -381,9 +381,9 @@ public:
                         else{
                             for(edk::uint32 j=y+1u;y>0u;j--){
                                 //delete the matrix
-                                delete[] newMatrix[j];edkEnd();
+                                free(newMatrix[j]);edkEnd();
                             }
-                            delete[] newMatrix;edkEnd();
+                            free(newMatrix);edkEnd();
                             return false;
                         }
                     }
@@ -452,9 +452,9 @@ public:
                         else{
                             for(edk::uint32 j=y+1u;y>0u;j--){
                                 //delete the matrix
-                                delete[] newMatrix[j];edkEnd();
+                                free(newMatrix[j]);edkEnd();
                             }
-                            delete[] newMatrix;edkEnd();
+                            free(newMatrix);edkEnd();
                             return false;
                         }
                     }
@@ -537,9 +537,9 @@ public:
                         else{
                             for(edk::uint32 j=y+1u;y>0u;j--){
                                 //delete the matrix
-                                delete[] newMatrix[j];edkEnd();
+                                free(newMatrix[j]);edkEnd();
                             }
-                            delete[] newMatrix;edkEnd();
+                            free(newMatrix);edkEnd();
                             return false;
                         }
                     }
@@ -574,9 +574,9 @@ public:
         if(this->matrix){
             //
             for(edk::uint32 i=0u;i<this->matrixSize.height;i++){
-                delete[] this->matrix[i];edkEnd();
+                free(this->matrix[i]);edkEnd();
             }
-            delete[] this->matrix;edkEnd();
+            free(this->matrix);edkEnd();
 
             this->deleteMatrixDest();edkEnd();
         }
@@ -694,9 +694,9 @@ public:
         if(this->matrixDest){
             //
             for(edk::uint32 i=0u;i<this->matrixSize.height;i++){
-                delete[] this->matrixDest[i];edkEnd();
+                free(this->matrixDest[i]);edkEnd();
             }
-            delete[] this->matrixDest;edkEnd();
+            free(this->matrixDest);edkEnd();
         }
         this->matrixDest=NULL;edkEnd();
     }
@@ -719,9 +719,9 @@ public:
                     else{
                         for(edk::uint32 j=i+1u;i>0u;j--){
                             //delete the matrix
-                            delete[] this->matrixDest[j];edkEnd();
+                            free(this->matrixDest[j]);edkEnd();
                         }
-                        delete[] this->matrixDest;edkEnd();
+                        free(this->matrixDest);edkEnd();
                         return false;
                     }
                 }

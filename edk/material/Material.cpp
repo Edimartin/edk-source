@@ -364,7 +364,7 @@ void edk::material::Material::drawStartWithMultiTexture(){
     edk::GU::guEnable(GU_TEXTURE_2D);edkEnd();
     //set the textures
 
-    if(edk::GU_GLSL::guShaderInitiate()){
+    if(edk::GU_GLSL::guShaderInitiated()){
         for(edk::uint8 i=materialTextureCount-1u;i>0u;i--){
 
             //clean the textures
@@ -414,11 +414,11 @@ bool edk::material::Material::writeToXML(edk::XML* xml,edk::uint32 id){
                                             temp=edk::String::float32ToStr(ambient[i]);edkEnd();
                                             if(temp){
                                                 xml->addSelectedNextAttribute(nameTemp,temp);edkEnd();
-                                                delete[] temp;edkEnd();
+                                                free(temp);edkEnd();
                                             }
-                                            delete[] nameTemp;edkEnd();
+                                            free(nameTemp);edkEnd();
                                         }
-                                        delete[] iTemp;edkEnd();
+                                        free(iTemp);edkEnd();
                                     }
                                 }
                                 xml->selectFather();edkEnd();
@@ -435,11 +435,11 @@ bool edk::material::Material::writeToXML(edk::XML* xml,edk::uint32 id){
                                             temp=edk::String::float32ToStr(diffuse[i]);edkEnd();
                                             if(temp){
                                                 xml->addSelectedNextAttribute(nameTemp,temp);edkEnd();
-                                                delete[] temp;edkEnd();
+                                                free(temp);edkEnd();
                                             }
-                                            delete[] nameTemp;edkEnd();
+                                            free(nameTemp);edkEnd();
                                         }
-                                        delete[] iTemp;edkEnd();
+                                        free(iTemp);edkEnd();
                                     }
                                 }
                                 xml->selectFather();edkEnd();
@@ -456,11 +456,11 @@ bool edk::material::Material::writeToXML(edk::XML* xml,edk::uint32 id){
                                             temp=edk::String::float32ToStr(specular[i]);edkEnd();
                                             if(temp){
                                                 xml->addSelectedNextAttribute(nameTemp,temp);edkEnd();
-                                                delete[] temp;edkEnd();
+                                                free(temp);edkEnd();
                                             }
-                                            delete[] nameTemp;edkEnd();
+                                            free(nameTemp);edkEnd();
                                         }
-                                        delete[] iTemp;edkEnd();
+                                        free(iTemp);edkEnd();
                                     }
                                 }
                                 xml->selectFather();edkEnd();
@@ -477,11 +477,11 @@ bool edk::material::Material::writeToXML(edk::XML* xml,edk::uint32 id){
                                             temp=edk::String::float32ToStr(emission[i]);edkEnd();
                                             if(temp){
                                                 xml->addSelectedNextAttribute(nameTemp,temp);edkEnd();
-                                                delete[] temp;edkEnd();
+                                                free(temp);edkEnd();
                                             }
-                                            delete[] nameTemp;edkEnd();
+                                            free(nameTemp);edkEnd();
                                         }
-                                        delete[] iTemp;edkEnd();
+                                        free(iTemp);edkEnd();
                                     }
                                 }
                                 xml->selectFather();edkEnd();
@@ -498,11 +498,11 @@ bool edk::material::Material::writeToXML(edk::XML* xml,edk::uint32 id){
                                             temp=edk::String::float32ToStr(shininess);edkEnd();
                                             if(temp){
                                                 xml->addSelectedNextAttribute(nameTemp,temp);edkEnd();
-                                                delete[] temp;edkEnd();
+                                                free(temp);edkEnd();
                                             }
-                                            delete[] nameTemp;edkEnd();
+                                            free(nameTemp);edkEnd();
                                         }
-                                        delete[] iTemp;edkEnd();
+                                        free(iTemp);edkEnd();
                                     }
                                 }
                                 xml->selectFather();edkEnd();
@@ -532,14 +532,14 @@ bool edk::material::Material::writeToXML(edk::XML* xml,edk::uint32 id){
                                                     temp = edk::String::uint32ToStr(filter);edkEnd();
                                                     if(temp){
                                                         xml->addSelectedNextAttribute((edk::char8*)"filter",temp);edkEnd();
-                                                        delete[] temp;edkEnd();
+                                                        free(temp);edkEnd();
                                                     }
                                                     xml->selectFather();edkEnd();
                                                 }
                                             }
-                                            delete[] nameTemp;edkEnd();
+                                            free(nameTemp);edkEnd();
                                         }
-                                        delete[] idTemp;edkEnd();
+                                        free(idTemp);edkEnd();
                                     }
                                     temp=NULL;edkEnd();
                                 }
@@ -550,9 +550,9 @@ bool edk::material::Material::writeToXML(edk::XML* xml,edk::uint32 id){
                         xml->selectFather();edkEnd();
                     }
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }
@@ -582,9 +582,9 @@ bool edk::material::Material::readFromXML(edk::XML* xml,edk::uint32 id){
                                 nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);edkEnd();
                                 if(nameTemp){
                                     this->ambient[i] = edk::String::strToFloat32(xml->getSelectedAttributeValueByName(nameTemp));edkEnd();
-                                    delete[] nameTemp;edkEnd();
+                                    free(nameTemp);edkEnd();
                                 }
-                                delete[] iTemp;edkEnd();
+                                free(iTemp);edkEnd();
                             }
                         }
                         xml->selectFather();edkEnd();
@@ -597,9 +597,9 @@ bool edk::material::Material::readFromXML(edk::XML* xml,edk::uint32 id){
                                 nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);edkEnd();
                                 if(nameTemp){
                                     this->diffuse[i] = edk::String::strToFloat32(xml->getSelectedAttributeValueByName(nameTemp));edkEnd();
-                                    delete[] nameTemp;edkEnd();
+                                    free(nameTemp);edkEnd();
                                 }
-                                delete[] iTemp;edkEnd();
+                                free(iTemp);edkEnd();
                             }
                         }
                         xml->selectFather();edkEnd();
@@ -612,9 +612,9 @@ bool edk::material::Material::readFromXML(edk::XML* xml,edk::uint32 id){
                                 nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);edkEnd();
                                 if(nameTemp){
                                     this->specular[i] = edk::String::strToFloat32(xml->getSelectedAttributeValueByName(nameTemp));edkEnd();
-                                    delete[] nameTemp;edkEnd();
+                                    free(nameTemp);edkEnd();
                                 }
-                                delete[] iTemp;edkEnd();
+                                free(iTemp);edkEnd();
                             }
                         }
                         xml->selectFather();edkEnd();
@@ -627,9 +627,9 @@ bool edk::material::Material::readFromXML(edk::XML* xml,edk::uint32 id){
                                 nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);edkEnd();
                                 if(nameTemp){
                                     this->emission[i] = edk::String::strToFloat32(xml->getSelectedAttributeValueByName(nameTemp));edkEnd();
-                                    delete[] nameTemp;edkEnd();
+                                    free(nameTemp);edkEnd();
                                 }
-                                delete[] iTemp;edkEnd();
+                                free(iTemp);edkEnd();
                             }
                         }
                         xml->selectFather();edkEnd();
@@ -642,9 +642,9 @@ bool edk::material::Material::readFromXML(edk::XML* xml,edk::uint32 id){
                                 nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);edkEnd();
                                 if(nameTemp){
                                     this->shininess = edk::String::strToFloat32(xml->getSelectedAttributeValueByName(nameTemp));edkEnd();
-                                    delete[] nameTemp;edkEnd();
+                                    free(nameTemp);edkEnd();
                                 }
-                                delete[] iTemp;edkEnd();
+                                free(iTemp);edkEnd();
                             }
                         }
                         xml->selectFather();edkEnd();
@@ -665,22 +665,22 @@ bool edk::material::Material::readFromXML(edk::XML* xml,edk::uint32 id){
                                         this->loadTexture(temp,i,
                                                           edk::String::strToInt64(xml->getSelectedAttributeValueByName("filter"))
                                                           );edkEnd();
-                                        delete[] temp;edkEnd();
+                                        free(temp);edkEnd();
                                     }
                                     xml->selectFather();edkEnd();
                                 }
-                                delete[] nameTemp;edkEnd();
+                                free(nameTemp);edkEnd();
                             }
-                            delete[] idTemp;edkEnd();
+                            free(idTemp);edkEnd();
                         }
                     }
 
                     xml->selectFather();edkEnd();
                     ret=true;edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }
@@ -710,9 +710,9 @@ bool edk::material::Material::readFromXMLFromPack(edk::pack::FilePackage* pack,e
                                 nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);edkEnd();
                                 if(nameTemp){
                                     this->ambient[i] = edk::String::strToFloat32(xml->getSelectedAttributeValueByName(nameTemp));edkEnd();
-                                    delete[] nameTemp;edkEnd();
+                                    free(nameTemp);edkEnd();
                                 }
-                                delete[] iTemp;edkEnd();
+                                free(iTemp);edkEnd();
                             }
                         }
                         xml->selectFather();edkEnd();
@@ -725,9 +725,9 @@ bool edk::material::Material::readFromXMLFromPack(edk::pack::FilePackage* pack,e
                                 nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);edkEnd();
                                 if(nameTemp){
                                     this->diffuse[i] = edk::String::strToFloat32(xml->getSelectedAttributeValueByName(nameTemp));edkEnd();
-                                    delete[] nameTemp;edkEnd();
+                                    free(nameTemp);edkEnd();
                                 }
-                                delete[] iTemp;edkEnd();
+                                free(iTemp);edkEnd();
                             }
                         }
                         xml->selectFather();edkEnd();
@@ -740,9 +740,9 @@ bool edk::material::Material::readFromXMLFromPack(edk::pack::FilePackage* pack,e
                                 nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);edkEnd();
                                 if(nameTemp){
                                     this->specular[i] = edk::String::strToFloat32(xml->getSelectedAttributeValueByName(nameTemp));edkEnd();
-                                    delete[] nameTemp;edkEnd();
+                                    free(nameTemp);edkEnd();
                                 }
-                                delete[] iTemp;edkEnd();
+                                free(iTemp);edkEnd();
                             }
                         }
                         xml->selectFather();edkEnd();
@@ -755,9 +755,9 @@ bool edk::material::Material::readFromXMLFromPack(edk::pack::FilePackage* pack,e
                                 nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);edkEnd();
                                 if(nameTemp){
                                     this->emission[i] = edk::String::strToFloat32(xml->getSelectedAttributeValueByName(nameTemp));edkEnd();
-                                    delete[] nameTemp;edkEnd();
+                                    free(nameTemp);edkEnd();
                                 }
-                                delete[] iTemp;edkEnd();
+                                free(iTemp);edkEnd();
                             }
                         }
                         xml->selectFather();edkEnd();
@@ -770,9 +770,9 @@ bool edk::material::Material::readFromXMLFromPack(edk::pack::FilePackage* pack,e
                                 nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);edkEnd();
                                 if(nameTemp){
                                     this->shininess = edk::String::strToFloat32(xml->getSelectedAttributeValueByName(nameTemp));edkEnd();
-                                    delete[] nameTemp;edkEnd();
+                                    free(nameTemp);edkEnd();
                                 }
-                                delete[] iTemp;edkEnd();
+                                free(iTemp);edkEnd();
                             }
                         }
                         xml->selectFather();edkEnd();
@@ -793,22 +793,22 @@ bool edk::material::Material::readFromXMLFromPack(edk::pack::FilePackage* pack,e
                                         this->loadTextureFromPack(pack,temp,i,
                                                           edk::String::strToInt64(xml->getSelectedAttributeValueByName("filter"))
                                                           );edkEnd();
-                                        delete[] temp;edkEnd();
+                                        free(temp);edkEnd();
                                     }
                                     xml->selectFather();edkEnd();
                                 }
-                                delete[] nameTemp;edkEnd();
+                                free(nameTemp);edkEnd();
                             }
-                            delete[] idTemp;edkEnd();
+                            free(idTemp);edkEnd();
                         }
                     }
 
                     xml->selectFather();edkEnd();
                     ret=true;edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }

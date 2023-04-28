@@ -89,9 +89,9 @@ public:
                             xml->selectFather();edkEnd();
                         }
                     }
-                    delete[] name;edkEnd();
+                    free(name);edkEnd();
                 }
-                delete[] number;edkEnd();
+                free(number);edkEnd();
             }
         }
         return ret;
@@ -113,9 +113,9 @@ public:
                         //then select the father
                         xml->selectFather();edkEnd();
                     }
-                    delete[] name;edkEnd();
+                    free(name);edkEnd();
                 }
-                delete[] number;edkEnd();
+                free(number);edkEnd();
             }
         }
         return ret;
@@ -169,9 +169,9 @@ public:
                             xml->selectFather();edkEnd();
                         }
                     }
-                    delete[] name;edkEnd();
+                    free(name);edkEnd();
                 }
-                delete[] number;edkEnd();
+                free(number);edkEnd();
             }
         }
         return ret;
@@ -193,9 +193,9 @@ public:
                         //then select the father
                         xml->selectFather();edkEnd();
                     }
-                    delete[] name;edkEnd();
+                    free(name);edkEnd();
                 }
-                delete[] number;edkEnd();
+                free(number);edkEnd();
             }
         }
         return ret;

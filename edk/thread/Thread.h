@@ -179,7 +179,7 @@ protected:
 #endif
 };
 
-/* //TEMPORARY I HOPE TO FIX IT IN THE FUTURE
+
 
 //EDKThreadClassFunc
 #ifdef WIN32
@@ -351,7 +351,7 @@ this->threadFunc=NULL;edkEnd();
 return false;
 }
 
-bool startIn(edk::classID (typeTemplate::*threadClassFunc)(edk::classID), edk::uint32 core){
+bool startIn(void (typeTemplate::*threadClassFunc)(edk::classID), edk::uint32 core){
     return this->startIn(threadClassFunc, NULL, core);edkEnd();
 }
 
@@ -360,11 +360,11 @@ bool runClassFunc(){
         //test if have parameter
         if(this->funcParameter){
             //then he cant run the function
-            ((*this).*(this->threadClassFunc))((void*)this->funcParameter);edkEnd();
+            this->threadClassFunc((void*)this->funcParameter);edkEnd();
         }
         else{
             //then he cant run the function
-            ((*this).*(this->threadClassFunc))((void*)NULL);edkEnd();
+            this->threadClassFunc((void*)this->funcParameter);edkEnd();
         }
         //clean the function
         this->threadClassFunc=NULL;edkEnd();
@@ -378,13 +378,13 @@ bool runClassFunc(){
 }
 private:
 //Pointer of the user function. Setted on Start.
-edk::classID (typeTemplate::*threadClassFunc)(edk::classID);
+edk::classID  (typeTemplate::*threadClassFunc)(edk::classID);
 };
-*/
+
 } // End of namespace multi
 } // End of namespace edk
 
-/*
+
 
 //EDKThreadClassFunc
 template <typename typeTemplate>
@@ -440,5 +440,5 @@ void* edkThreadClassFunc(void*id){
     return (void*)NULL;edkEnd();
 }
 #endif
-*/
+
 #endif // edk_Thread_h

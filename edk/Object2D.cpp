@@ -149,9 +149,9 @@ bool edk::Object2D::ActionPosition::writeToXML(edk::XML* xml,edk::uint32 id){
                     //select father
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] number;edkEnd();
+            free(number);edkEnd();
         }
     }
     return ret;
@@ -174,9 +174,9 @@ bool edk::Object2D::ActionPosition::readFromXML(edk::XML* xml,edk::uint32 id){
                     //then select the father
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] number;edkEnd();
+            free(number);edkEnd();
         }
     }
     return ret;
@@ -218,9 +218,9 @@ bool edk::Object2D::ActionMove::writeToXML(edk::XML* xml,edk::uint32 id){
                     //then select the father
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] number;edkEnd();
+            free(number);edkEnd();
         }
     }
     return ret;
@@ -245,9 +245,9 @@ bool edk::Object2D::ActionMove::readFromXML(edk::XML* xml,edk::uint32 id){
                     //then select the father
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] number;edkEnd();
+            free(number);edkEnd();
         }
     }
     return ret;
@@ -291,9 +291,9 @@ bool edk::Object2D::ActionSetSize::writeToXML(edk::XML* /*xml*/,edk::uint32 /*id
                     //then select the father
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] number;edkEnd();
+            free(number);edkEnd();
         }
     }
     */
@@ -318,9 +318,9 @@ bool edk::Object2D::ActionSetSize::readFromXML(edk::XML* /*xml*/,edk::uint32 /*i
                     //then select the father
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] number;edkEnd();
+            free(number);edkEnd();
         }
     }
     */
@@ -367,9 +367,9 @@ bool edk::Object2D::ActionSize::writeToXML(edk::XML* /*xml*/,edk::uint32 /*id*/)
                     //then select the father
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] number;edkEnd();
+            free(number);edkEnd();
         }
     }
     */
@@ -396,9 +396,9 @@ bool edk::Object2D::ActionSize::readFromXML(edk::XML* /*xml*/,edk::uint32 /*id*/
                     //then select the father
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] number;edkEnd();
+            free(number);edkEnd();
         }
     }
     */
@@ -438,9 +438,9 @@ bool edk::Object2D::ActionSetAngle::writeToXML(edk::XML* /*xml*/,edk::uint32 /*i
                     //then select the father
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] number;edkEnd();
+            free(number);edkEnd();
         }
     }
     */
@@ -464,9 +464,9 @@ bool edk::Object2D::ActionSetAngle::readFromXML(edk::XML* /*xml*/,edk::uint32 /*
                     //then select the father
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] number;edkEnd();
+            free(number);edkEnd();
         }
     }
     */
@@ -512,9 +512,9 @@ bool edk::Object2D::ActionAngle::writeToXML(edk::XML* /*xml*/,edk::uint32 /*id*/
                     //then select the father
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] number;edkEnd();
+            free(number);edkEnd();
         }
     }
     */
@@ -540,9 +540,9 @@ bool edk::Object2D::ActionAngle::readFromXML(edk::XML* /*xml*/,edk::uint32 /*id*
                     //then select the father
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] number;edkEnd();
+            free(number);edkEnd();
         }
     }
     */
@@ -598,9 +598,9 @@ bool edk::Object2D::ActionMeshName::writeToXML(edk::XML* /*xml*/,edk::uint32 /*i
                     //then select the father
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] number;edkEnd();
+            free(number);edkEnd();
         }
     }
     */
@@ -631,9 +631,9 @@ bool edk::Object2D::ActionMeshName::readFromXML(edk::XML* /*xml*/,edk::uint32 /*
                     //then select the father
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] number;edkEnd();
+            free(number);edkEnd();
         }
     }
     */
@@ -681,9 +681,9 @@ bool edk::Object2D::ActionMeshStop::writeToXML(edk::XML* /*xml*/,edk::uint32 /*i
                     //then select the father
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] number;edkEnd();
+            free(number);edkEnd();
         }
     }
     */
@@ -707,9 +707,9 @@ bool edk::Object2D::ActionMeshStop::readFromXML(edk::XML* /*xml*/,edk::uint32 /*
                     //then select the father
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] number;edkEnd();
+            free(number);edkEnd();
         }
     }
     */
@@ -2176,12 +2176,12 @@ bool edk::Object2D::writeToXML(edk::XML* xml,edk::uint32 id){
                         temp = edk::String::float32ToStr(this->pivo.x);edkEnd();
                         if(temp){
                             xml->addSelectedNextAttribute((edk::char8*)"pivoX",temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         temp = edk::String::float32ToStr(this->pivo.y);edkEnd();
                         if(temp){
                             xml->addSelectedNextAttribute((edk::char8*)"pivoY",temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
 
                         //write objectValues
@@ -2189,29 +2189,29 @@ bool edk::Object2D::writeToXML(edk::XML* xml,edk::uint32 id){
                         temp = edk::String::float32ToStr(this->position.x);edkEnd();
                         if(temp){
                             xml->addSelectedNextAttribute((edk::char8*)"positionX",temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         temp = edk::String::float32ToStr(this->position.y);edkEnd();
                         if(temp){
                             xml->addSelectedNextAttribute((edk::char8*)"positionY",temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         //size
                         temp = edk::String::float32ToStr(this->size.width);edkEnd();
                         if(temp){
                             xml->addSelectedNextAttribute((edk::char8*)"sizeW",temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         temp = edk::String::float32ToStr(this->size.height);edkEnd();
                         if(temp){
                             xml->addSelectedNextAttribute((edk::char8*)"sizeH",temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         //angle
                         temp = edk::String::float32ToStr(this->angle);edkEnd();
                         if(temp){
                             xml->addSelectedNextAttribute((edk::char8*)"angle",temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
 
                         //write animations
@@ -2228,9 +2228,9 @@ bool edk::Object2D::writeToXML(edk::XML* xml,edk::uint32 id){
                         xml->selectFather();edkEnd();
                     }
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }
@@ -2291,9 +2291,9 @@ bool edk::Object2D::readFromXML(edk::XML* xml,edk::uint32 id){
                     ret=true;edkEnd();
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }
@@ -2354,9 +2354,9 @@ bool edk::Object2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* x
                     ret=true;edkEnd();
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }

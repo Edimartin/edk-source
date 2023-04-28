@@ -71,7 +71,7 @@ edk::char8* edk::sql::SQLite::addExtension(edk::char8* name,edk::char8* extensio
 //delete basename
 void edk::sql::SQLite::deleteBaseName(){
     if(this->baseName){
-        delete[] this->baseName;edkEnd();
+        free(this->baseName);edkEnd();
     }
     this->baseName=NULL;edkEnd();
 }
@@ -92,7 +92,7 @@ bool edk::sql::SQLite::openDataBase(edk::char8* name){
             rc = sqlite3_open((const edk::char8*) nameExtension, &this->db);edkEnd();
             if(!rc){
                 this->baseName = edk::String::strCopy(nameExtension);edkEnd();
-                delete[] nameExtension;edkEnd();
+                free(nameExtension);edkEnd();
                 return true;
             }
             printf("\nSQL error - %s"
@@ -101,7 +101,7 @@ bool edk::sql::SQLite::openDataBase(edk::char8* name){
             //else open the dataBase get error
             this->db=NULL;edkEnd();
         }
-        delete[] nameExtension;edkEnd();
+        free(nameExtension);edkEnd();
     }
     else{
         //test if have the file
@@ -131,10 +131,10 @@ bool edk::sql::SQLite::newDataBase(edk::char8* name){
     if(nameExtension){
         if(edk::File::createFile(nameExtension)){
             bool ret = this->openDataBase(nameExtension);edkEnd();
-            delete[] nameExtension;edkEnd();
+            free(nameExtension);edkEnd();
             return ret;
         }
-        delete[] nameExtension;edkEnd();
+        free(nameExtension);edkEnd();
     }
     else{
         //create a new file
@@ -155,10 +155,10 @@ bool edk::sql::SQLite::deleteDataBase(edk::char8* name){
             if(edk::File::fileExist(nameExtension)){
                 //delete the file
                 bool ret = edk::File::deleteFile(nameExtension);edkEnd();
-                delete[] nameExtension;edkEnd();
+                free(nameExtension);edkEnd();
                 return ret;
             }
-            delete[] nameExtension;edkEnd();
+            free(nameExtension);edkEnd();
         }
         else{
             if(edk::File::fileExist(name)){

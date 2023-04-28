@@ -238,13 +238,13 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord){
                             file.flush();edkEnd();
                             file.closeFile();edkEnd();
                         }
-                        delete[] fileName;edkEnd();
+                        free(fileName);edkEnd();
                     }
                 }
 
                 image.deleteImage();edkEnd();
             }
-            delete[] nameVec;edkEnd();
+            free(nameVec);edkEnd();
         }
         return ret;edkEnd();
     }

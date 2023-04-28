@@ -284,7 +284,7 @@ inicio:
     edk::char8* string;
     if(c==13||c==10){
         //Acabou a recursividade e portanto ele cria a string e retorna ela
-        string = new edk::char8[i+1]; //Ele cria ela uma vez maior para adicionar o
+        string = (edk::char8*)malloc(sizeof(edk::char8) * (i+1)); //Ele cria ela uma vez maior para adicionar o
         //caracter de parada
         string[i]='\0';
         //string[i]=c;
@@ -401,7 +401,7 @@ inicio:
     edk::char8* string;
     if(c==13||c==10){
         //Acabou a recursividade e portanto ele cria a string e retorna ela
-        string = new edk::char8[i+1]; //Ele cria ela uma vez maior para adicionar o
+        string = (edk::char8*)malloc(sizeof(edk::char8) * (i+1)); //Ele cria ela uma vez maior para adicionar o
         //caracter de parada
         string[i]='\0';
         //string[i]=c;
@@ -496,7 +496,7 @@ inicio:
     edk::char8* string;
     if(c==13||c==10){
         //Acabou a recursividade e portanto ele cria a string e retorna ela
-        string = new edk::char8[i+1]; //Ele cria ela uma vez maior para adicionar o
+        string = (edk::char8*)malloc(sizeof(edk::char8) * (i+1)); //Ele cria ela uma vez maior para adicionar o
         //caracter de parada
         string[i]='\0';
         //string[i]=c;
@@ -565,7 +565,7 @@ edk::char8* edk::String::int32ToMinusStr(edk::int32 value){
         //Negative
         size=size+1u;
         begin=1u;
-        str = new edk::char8[size+1u];
+        str = (edk::char8*)malloc(sizeof(edk::char8) * (size+1u));
         if(str){
             str[0u]='-';
             str[size]='\0';
@@ -588,7 +588,7 @@ edk::char8* edk::String::int32ToMinusStr(edk::int32 value){
     }
     else{
         //create a zero
-        str = new edk::char8[3u];
+        str = (edk::char8*)malloc(sizeof(edk::char8) * (3u));
         if(str){
             str[0u]='-';
             str[1u]='0';
@@ -617,7 +617,7 @@ bool edk::String::int32ToMinusStr(edk::int32 value,edk::char8* dest){
         //Negative
         size=size+1u;
         begin=1u;
-        dest = new edk::char8[size+1u];
+        dest = (edk::char8*)malloc(sizeof(edk::char8) * (size+1u));
         if(dest){
             dest[0u]='-';
             dest[size]='\0';
@@ -634,7 +634,7 @@ bool edk::String::int32ToMinusStr(edk::int32 value,edk::char8* dest){
     }
     else{
         //create a zero
-        dest = new edk::char8[3u];
+        dest = (edk::char8*)malloc(sizeof(edk::char8) * (3u));
         if(dest){
             dest[0u]='-';
             dest[1u]='0';
@@ -662,7 +662,7 @@ edk::char8* edk::String::int64ToMinusStr(edk::int64 value){
         //Negative
         size=size+1u;
         begin=1u;
-        str = new edk::char8[size+1u];
+        str = (edk::char8*)malloc(sizeof(edk::char8) * (size+1u));
         if(str){
             str[0u]='-';
             str[size]='\0';
@@ -685,7 +685,7 @@ edk::char8* edk::String::int64ToMinusStr(edk::int64 value){
     }
     else{
         //create a zero
-        str = new edk::char8[3u];
+        str = (edk::char8*)malloc(sizeof(edk::char8) * (3u));
         if(str){
             str[0u]='-';
             str[1u]='0';
@@ -1288,14 +1288,14 @@ edk::char8* edk::String::str32ToUtf8(edk::char32 *str32,edk::uint32 size){
     edk::char32 size32 = edk::String::str32ToUtf8Size(str32,size);
     if(size32){
         edk::char8* str = NULL;
-        str = new edk::char8[size32+1u];
+        str = (edk::char8*)malloc(sizeof(edk::char8) * (size32+1u));
         if(str){
             //copy the str
             if(edk::String::str32ToUtf8(str32,size,str)){
                 //return the str
                 return str;
             }
-            delete[] str;
+            free(str);
         }
     }
     return NULL;
@@ -1639,10 +1639,10 @@ edk::char8* edk::String::utf8ToStr(edk::char8 *utf8,edk::uint32 size){
         edk::uint32 sizeUtf = edk::String::utf8Size(utf8);
         if(sizeUtf){
             //create a string
-            ret = new edk::char8[sizeUtf+1u];
+            ret = (edk::char8*)malloc(sizeof(edk::char8) * (sizeUtf+1u));
             if(ret){
                 if(!edk::String::utf8ToStr(utf8,size,ret)){
-                    delete[] ret;
+                    free(ret);
                     ret=NULL;
                 }
             }
@@ -2442,13 +2442,13 @@ edk::char8* edk::String::asciiToUtf8(edk::char8* src){
     edk::uint32 size = edk::String::asciiToUtf8Size(src);
     if(size){
         //create the string
-        ret = new edk::char8[size+1u];
+        ret = (edk::char8*)malloc(sizeof(edk::char8) * (size+1u));
         if(ret){
             //convert the ascii to utf8
             if(edk::String::asciiToUtf8(src,ret)){
                 return ret;
             }
-            delete[] ret;
+            free(ret);
         }
     }
     return NULL;
@@ -2567,13 +2567,13 @@ edk::char8* edk::String::utf8ToAscii(edk::char8* src){
     edk::uint32 size = edk::String::utf8ToAsciiSize(src);
     if(size){
         //create the string
-        ret = new edk::char8[size+1u];
+        ret = (edk::char8*)malloc(sizeof(edk::char8) * (size+1u));
         if(ret){
             //convert the ascii to utf8
             if(edk::String::utf8ToAscii(src,ret)){
                 return ret;
             }
-            delete[] ret;
+            free(ret);
         }
     }
     return NULL;
@@ -2637,7 +2637,7 @@ edk::char8* edk::String::int32ToStr(edk::int32 value){
         edk::uint32 begin=0u;
         if(value>=0){
             //Positive
-            str = new edk::char8[size+1u];
+            str = (edk::char8*)malloc(sizeof(edk::char8) * (size+1u));
             if(str){
                 str[size]='\0';
             }
@@ -2650,7 +2650,7 @@ edk::char8* edk::String::int32ToStr(edk::int32 value){
             //Negative
             size=size+1u;
             begin=1u;
-            str = new edk::char8[size+1u];
+            str = (edk::char8*)malloc(sizeof(edk::char8) * (size+1u));
             if(str){
                 str[0u]='-';
                 str[size]='\0';
@@ -2667,7 +2667,7 @@ edk::char8* edk::String::int32ToStr(edk::int32 value){
     }
     else{
         //create a zero
-        str = new edk::char8[2u];
+        str = (edk::char8*)malloc(sizeof(edk::char8) * (2u));
         if(str){
             str[0u]='0';
             str[1u]='\0';
@@ -2695,7 +2695,7 @@ edk::char8* edk::String::int32ToStr(edk::int32 value,edk::uint32 digits){
         edk::uint32 begin=0u;
         if(value>=0){
             //Positive
-            str = new edk::char8[size+1u];
+            str = (edk::char8*)malloc(sizeof(edk::char8) * (size+1u));
             if(str){
                 str[size]='\0';
             }
@@ -2708,7 +2708,7 @@ edk::char8* edk::String::int32ToStr(edk::int32 value,edk::uint32 digits){
             //Negative
             size=size+1u;
             begin=1u;
-            str = new edk::char8[size+1u];
+            str = (edk::char8*)malloc(sizeof(edk::char8) * (size+1u));
             if(str){
                 str[0u]='-';
                 str[size]='\0';
@@ -2725,7 +2725,7 @@ edk::char8* edk::String::int32ToStr(edk::int32 value,edk::uint32 digits){
     }
     else{
         //create a zero
-        str = new edk::char8[2u];
+        str = (edk::char8*)malloc(sizeof(edk::char8) * (2u));
         if(str){
             str[0u]='0';
             str[1u]='\0';
@@ -2750,7 +2750,7 @@ edk::char8* edk::String::int64ToStr(edk::int64 value){
         edk::uint32 begin=0u;
         if(value>=0){
             //Positive
-            str = new edk::char8[size+1u];
+            str = (edk::char8*)malloc(sizeof(edk::char8) * (size+1u));
             if(str){
                 str[size]='\0';
             }
@@ -2763,7 +2763,7 @@ edk::char8* edk::String::int64ToStr(edk::int64 value){
             //Negative
             size=size+1u;
             begin=1u;
-            str = new edk::char8[size+1u];
+            str = (edk::char8*)malloc(sizeof(edk::char8) * (size+1u));
             if(str){
                 str[0u]='-';
                 str[size]='\0';
@@ -2780,7 +2780,7 @@ edk::char8* edk::String::int64ToStr(edk::int64 value){
     }
     else{
         //create a zero
-        str = new edk::char8[2u];
+        str = (edk::char8*)malloc(sizeof(edk::char8) * (2u));
         if(str){
             str[0u]='0';
             str[1u]='\0';
@@ -2809,7 +2809,7 @@ edk::char8* edk::String::int64ToStr(edk::int64 value,edk::uint32 digits){
         edk::uint32 begin=0u;
         if(value>=0){
             //Positive
-            str = new edk::char8[size+1u];
+            str = (edk::char8*)malloc(sizeof(edk::char8) * (size+1u));
             if(str){
                 str[size]='\0';
             }
@@ -2822,7 +2822,7 @@ edk::char8* edk::String::int64ToStr(edk::int64 value,edk::uint32 digits){
             //Negative
             size=size+1u;
             begin=1u;
-            str = new edk::char8[size+1u];
+            str = (edk::char8*)malloc(sizeof(edk::char8) * (size+1u));
             if(str){
                 str[0u]='-';
                 str[size]='\0';
@@ -2839,7 +2839,7 @@ edk::char8* edk::String::int64ToStr(edk::int64 value,edk::uint32 digits){
     }
     else{
         //create a zero
-        str = new edk::char8[2u];
+        str = (edk::char8*)malloc(sizeof(edk::char8) * (2u));
         if(str){
             str[0u]='0';
             str[1u]='\0';
@@ -3006,7 +3006,7 @@ edk::char8* edk::String::vecInt8toStr(edk::int8* vec,edk::uint32 size){
         //test stringSize
         if(stringSize){
             //new string
-            edk::char8* str = new edk::char8[stringSize];
+            edk::char8* str = (edk::char8*)malloc(sizeof(edk::char8) * (stringSize));
             if(str){
                 edk::char8* temp = str;
                 //write the numbers to the string
@@ -3057,7 +3057,7 @@ edk::char8* edk::String::vecInt16toStr(edk::int16* vec,edk::uint32 size){
         //test stringSize
         if(stringSize){
             //new string
-            edk::char8* str = new edk::char8[stringSize];
+            edk::char8* str = (edk::char8*)malloc(sizeof(edk::char8) * (stringSize));
             if(str){
                 edk::char8* temp = str;
                 //write the numbers to the string
@@ -3108,7 +3108,7 @@ edk::char8* edk::String::vecInt32toStr(edk::int32* vec,edk::uint32 size){
         //test stringSize
         if(stringSize){
             //new string
-            edk::char8* str = new edk::char8[stringSize];
+            edk::char8* str = (edk::char8*)malloc(sizeof(edk::char8) * (stringSize));
             if(str){
                 edk::char8* temp = str;
                 //write the numbers to the string
@@ -3158,7 +3158,7 @@ edk::char8* edk::String::vecInt64toStr(edk::int64* vec,edk::uint32 size){
         //test stringSize
         if(stringSize){
             //new string
-            edk::char8* str = new edk::char8[stringSize];
+            edk::char8* str = (edk::char8*)malloc(sizeof(edk::char8) * (stringSize));
             if(str){
                 edk::char8* temp = str;
                 //write the numbers to the string
@@ -3205,7 +3205,7 @@ edk::char8* edk::String::vecUint8toStr(edk::uint8* vec,edk::uint32 size){
         //test stringSize
         if(stringSize){
             //new string
-            edk::char8* str = new edk::char8[stringSize];
+            edk::char8* str = (edk::char8*)malloc(sizeof(edk::char8) * (stringSize));
             if(str){
                 edk::char8* temp = str;
                 //write the numbers to the string
@@ -3247,7 +3247,7 @@ edk::char8* edk::String::vecUint16toStr(edk::uint16* vec,edk::uint32 size){
         //test stringSize
         if(stringSize){
             //new string
-            edk::char8* str = new edk::char8[stringSize];
+            edk::char8* str = (edk::char8*)malloc(sizeof(edk::char8) * (stringSize));
             if(str){
                 edk::char8* temp = str;
                 //write the numbers to the string
@@ -3289,7 +3289,7 @@ edk::char8* edk::String::vecUint32toStr(edk::uint32* vec,edk::uint32 size){
         //test stringSize
         if(stringSize){
             //new string
-            edk::char8* str = new edk::char8[stringSize];
+            edk::char8* str = (edk::char8*)malloc(sizeof(edk::char8) * (stringSize));
             if(str){
                 edk::char8* temp = str;
                 //write the numbers to the string
@@ -3330,7 +3330,7 @@ edk::char8* edk::String::vecUint64toStr(edk::uint64* vec,edk::uint32 size){
         //test stringSize
         if(stringSize){
             //new string
-            edk::char8* str = new edk::char8[stringSize];
+            edk::char8* str = (edk::char8*)malloc(sizeof(edk::char8) * (stringSize));
             if(str){
                 edk::char8* temp = str;
                 //write the numbers to the string
@@ -3366,7 +3366,7 @@ edk::char8* edk::String::vecfloat32toStr(edk::float32* vec,edk::uint32 size){
         //test stringSize
         if(stringSize){
             //new string
-            edk::char8* str = new edk::char8[stringSize];
+            edk::char8* str = (edk::char8*)malloc(sizeof(edk::char8) * (stringSize));
             if(str){
                 edk::char8* temp = str;
                 //write the numbers to the string
@@ -3397,7 +3397,7 @@ edk::char8* edk::String::vecfloat64toStr(edk::float64* vec,edk::uint32 size){
         //test stringSize
         if(stringSize){
             //new string
-            edk::char8* str = new edk::char8[stringSize];
+            edk::char8* str = (edk::char8*)malloc(sizeof(edk::char8) * (stringSize));
             if(str){
                 edk::char8* temp = str;
                 //write the numbers to the string
@@ -3503,7 +3503,7 @@ edk::char8* edk::String::float32ToStr(edk::float32 value){
             size++;
         }
         //create the string
-        beforeStr = new edk::char8[size+2u];
+        beforeStr = (edk::char8*)malloc(sizeof(edk::char8) * (size+2u));
         //test if alloc the new srring
         after= edkModuleFloat32(value-(edk::float32)before);
         if(beforeStr){
@@ -3533,11 +3533,11 @@ edk::char8* edk::String::float32ToStr(edk::float32 value){
             //concatenate
             ret=edk::String::strCat(afterStr,beforeStr);
             //delete the afterString
-            delete[] afterStr;
+            free(afterStr);
             afterStr=NULL;
         }
         //delete the before
-        delete[] beforeStr;
+        free(beforeStr);
     }
     beforeStr=NULL;
 
@@ -3599,7 +3599,7 @@ edk::char8* edk::String::float32ToStr(edk::float32 value, edk::uint32 digits){
         //forst count the numbers after the point
         edk::uint32 size=digits;
         //create the string
-        beforeStr = new edk::char8[size+2u];
+        beforeStr = (edk::char8*)malloc(sizeof(edk::char8) * (size+2u));
         //test if alloc the new srring
         after= edkModuleFloat32(value-(edk::float32)before);
         if(beforeStr){
@@ -3629,11 +3629,11 @@ edk::char8* edk::String::float32ToStr(edk::float32 value, edk::uint32 digits){
             //concatenate
             ret=edk::String::strCat(afterStr,beforeStr);
             //delete the afterString
-            delete[] afterStr;
+            free(afterStr);
             afterStr=NULL;
         }
         //delete the before
-        delete[] beforeStr;
+        free(beforeStr);
     }
     beforeStr=NULL;
 
@@ -3689,7 +3689,7 @@ edk::char8* edk::String::float64ToStr(edk::float64 value, edk::uint32 digits){
         //forst count the numbers after the point
         edk::uint32 size=digits;
         //create the string
-        beforeStr = new edk::char8[size+2u];
+        beforeStr = (edk::char8*)malloc(sizeof(edk::char8) * (size+2u));
         //test if alloc the new srring
         after= edkModuleFloat64(value-(edk::float32)before);
         if(beforeStr){
@@ -3719,11 +3719,11 @@ edk::char8* edk::String::float64ToStr(edk::float64 value, edk::uint32 digits){
             //concatenate
             ret=edk::String::strCat(afterStr,beforeStr);
             //delete the afterString
-            delete[] afterStr;
+            free(afterStr);
             afterStr=NULL;
         }
         //delete the before
-        delete[] beforeStr;
+        free(beforeStr);
     }
     beforeStr=NULL;
 
@@ -3789,7 +3789,7 @@ edk::char8* edk::String::uint32ToStr(edk::uint32 value){
         //begin
         edk::uint32 begin=0u;
         //Positive
-        str = new edk::char8[size+1u];
+        str = (edk::char8*)malloc(sizeof(edk::char8) * (size+1u));
         if(str){
             str[size]='\0';
         }
@@ -3811,7 +3811,7 @@ edk::char8* edk::String::uint32ToStr(edk::uint32 value){
     }
     else{
         //create a zero
-        str = new edk::char8[2u];
+        str = (edk::char8*)malloc(sizeof(edk::char8) * (2u));
         if(str){
             str[0u]='0';
             str[1u]='\0';
@@ -3853,7 +3853,7 @@ edk::char8* edk::String::uint32ToStr(edk::uint32 value,edk::uint32 digits){
         //begin
         edk::uint32 begin=0u;
         //Positive
-        str = new edk::char8[size+1u];
+        str = (edk::char8*)malloc(sizeof(edk::char8) * (size+1u));
         if(str){
             str[size]='\0';
         }
@@ -3875,7 +3875,7 @@ edk::char8* edk::String::uint32ToStr(edk::uint32 value,edk::uint32 digits){
     }
     else{
         //create a zero
-        str = new edk::char8[2u];
+        str = (edk::char8*)malloc(sizeof(edk::char8) * (2u));
         if(str){
             str[0u]='0';
             str[1u]='\0';
@@ -4016,7 +4016,7 @@ edk::char8* edk::String::uint64ToStr(edk::uint64 value){
         //begin
         edk::uint64 begin=0u;
         //Positive
-        str = new edk::char8[size+1u];
+        str = (edk::char8*)malloc(sizeof(edk::char8) * (size+1u));
         if(str){
             str[size]='\0';
         }
@@ -4038,7 +4038,7 @@ edk::char8* edk::String::uint64ToStr(edk::uint64 value){
     }
     else{
         //create a zero
-        str = new edk::char8[2u];
+        str = (edk::char8*)malloc(sizeof(edk::char8) * (2u));
         if(str){
             str[0u]='0';
             str[1u]='\0';
@@ -4080,7 +4080,7 @@ edk::char8* edk::String::uint64ToStr(edk::uint64 value,edk::uint32 digits){
         //begin
         edk::uint64 begin=0u;
         //Positive
-        str = new edk::char8[size+1u];
+        str = (edk::char8*)malloc(sizeof(edk::char8) * (size+1u));
         if(str){
             str[size]='\0';
         }
@@ -4102,7 +4102,7 @@ edk::char8* edk::String::uint64ToStr(edk::uint64 value,edk::uint32 digits){
     }
     else{
         //create a zero
-        str = new edk::char8[2u];
+        str = (edk::char8*)malloc(sizeof(edk::char8) * (2u));
         if(str){
             str[0u]='0';
             str[1u]='\0';
@@ -4224,7 +4224,7 @@ edk::char8* edk::String::strCat(edk::char8 *str1, edk::char8 *str2){
         //get the size of the 2 strings
         edk::uint32 size1 = edk::String::strSize(str1),size2 = edk::String::strSize(str2);
         //alloc the new string
-        ret = new edk::char8[size1+size2+1u];
+        ret = (edk::char8*)malloc(sizeof(edk::char8) * (size1+size2+1u));
         //set end of the string '\0'
         ret[size1+size2]='\0';
         //copy the first string
@@ -4282,7 +4282,7 @@ edk::char8* edk::String::strCatMulti(edk::char8 *str, ...){
                 //cat the temp with the new
                 if((ret = edk::String::strCat(temp,strTemp))){
                     //delete temp
-                    delete[] temp;
+                    free(temp);
                 }
                 else{
                     //else return temp
@@ -4320,7 +4320,7 @@ edk::char8* edk::String::strCatMulti(const edk::char8 *str, ...){
                 //cat the temp with the new
                 if((ret = edk::String::strCat(temp,strTemp))){
                     //delete temp
-                    delete[] temp;
+                    free(temp);
                 }
                 else{
                     //else return temp
@@ -4917,13 +4917,13 @@ edk::char8* edk::String::strCut(edk::char8 *str, edk::char8 limit, bool use){
                 //Test if use the limit
                 if(use){
                     //
-                    ret = new edk::char8[size+2u];
+                    ret = (edk::char8*)malloc(sizeof(edk::char8) * (size+2u));
                     //incremente the size
                     size++;
                 }
                 else{
                     //
-                    ret = new edk::char8[size+1u];
+                    ret = (edk::char8*)malloc(sizeof(edk::char8) * (size+1u));
                 }
                 //Set the end of the stirng
                 ret[size]='\0';
@@ -5108,7 +5108,7 @@ edk::char8* edk::String::strCut(edk::char8 *str, edk::char8 start, edk::char8 en
                             size--;
                             if(size){
                                 //Create the stirng
-                                edk::char8* ret = new edk::char8[size+1u];
+                                edk::char8* ret = (edk::char8*)malloc(sizeof(edk::char8) * (size+1u));
                                 //set the end of the string
                                 if(ret){
                                     //
@@ -5272,7 +5272,7 @@ edk::char8* edk::String::strCopy(edk::char8 *str){
     edk::uint32 size = edk::String::strSize(str);
     if(size>0u){
         //alloc the string
-        strRet = new edk::char8[size+1u];
+        strRet = (edk::char8*)malloc(sizeof(edk::char8) * (size+1u));
         //test if alloc de string
         if(strRet){
             strRet[size]='\0';
@@ -5298,7 +5298,7 @@ edk::char8* edk::String::strCopyLine(edk::char8 *str){
     edk::uint32 size = edk::String::strLineSize(str);
     if(size>0u){
         //alloc the string
-        strRet = new edk::char8[size+1u];
+        strRet = (edk::char8*)malloc(sizeof(edk::char8) * (size+1u));
         //test if alloc de string
         if(strRet){
             strRet[size]='\0';
@@ -5324,7 +5324,7 @@ edk::char8* edk::String::strCopyWord(edk::char8 *str){
     edk::uint32 size = edk::String::strWordSize(str);
     if(size>0u){
         //alloc the string
-        strRet = new edk::char8[size+1u];
+        strRet = (edk::char8*)malloc(sizeof(edk::char8) * (size+1u));
         //test if alloc de string
         if(strRet){
             strRet[size]='\0';
@@ -5356,7 +5356,7 @@ edk::char8* edk::String::strCopyWithFilter(edk::char8 *str,edk::char8 *filter){
                 edk::uint32 size = edk::String::strSize(str);
                 if(sizeWith>0u){
                     //alloc the string
-                    strRet = new edk::char8[sizeWith+1u];
+                    strRet = (edk::char8*)malloc(sizeof(edk::char8) * (sizeWith+1u));
                     //test if alloc de string
                     if(strRet){
                         strRet[sizeWith]='\0';
@@ -5465,7 +5465,7 @@ bool edk::String::clipboardWrite(edk::char8 *str){
     //no final ele deleta a temp
     if(temp){
         //
-        delete[] temp;
+        free(temp);
     }
 
     //retorna o resultado
@@ -5996,7 +5996,7 @@ edk::char8* edk::String::strCopyFilterAccent(edk::char8* str){
         edk::uint32 size = edk::String::strSizeFilterAccent(str);
         if(size){
             //create the new string
-            edk::char8* ret = new edk::char8[size+1u];
+            edk::char8* ret = (edk::char8*)malloc(sizeof(edk::char8) * (size+1u));
             if(ret){
                 ret[size] = '\0';
                 edk::uint8 jump=0u;
@@ -6038,7 +6038,7 @@ edk::char8* edk::String::strFileName(edk::char8* str){
         }
         if(size){
             //create a new string with the size
-            ret = new edk::char8[size+1u];
+            ret = (edk::char8*)malloc(sizeof(edk::char8) * (size+1u));
             if(ret){
                 //set the string end
                 ret[size]='\0';
@@ -6112,7 +6112,7 @@ edk::char8* edk::String::strFolderName(edk::char8* str){
         if(lastFolder){
             lastFolder++;
             //create a new string with the size of the last folder
-            ret = new edk::char8[lastFolder+1u];
+            ret = (edk::char8*)malloc(sizeof(edk::char8) * (lastFolder+1u));
             if(ret){
                 ret[lastFolder]='\0';
                 for(edk::uint32 j=0u;j<lastFolder;j++){
@@ -6123,7 +6123,7 @@ edk::char8* edk::String::strFolderName(edk::char8* str){
         else{
             if(haveLast){
                 //create a new string for use "./"
-                ret = new edk::char8[2u];
+                ret = (edk::char8*)malloc(sizeof(edk::char8) * (2u));
                 if(ret){
                     ret[0u]='/';
                     ret[1u]='\0';
@@ -6131,7 +6131,7 @@ edk::char8* edk::String::strFolderName(edk::char8* str){
             }
             else{
                 //create a new string for use "./"
-                ret = new edk::char8[3u];
+                ret = (edk::char8*)malloc(sizeof(edk::char8) * (3u));
                 if(ret){
                     ret[0u]='.';
                     ret[1u]='/';
@@ -6427,13 +6427,13 @@ edk::char8* edk::String::uriUnescape(edk::char8* str){
     //create the new string to ret
     edk::uint64 size = edk::String::uriUnescapeSize(str);
     if(size){
-        edk::char8* ret = new edk::char8[size+1u];
+        edk::char8* ret = (edk::char8*)malloc(sizeof(edk::char8) * (size+1u));
         if(ret){
             ret[size]='\0';
             if(edk::String::uriUnescape(str,ret)){
                 return ret;
             }
-            delete[] ret;
+            free(ret);
         }
     }
     return NULL;

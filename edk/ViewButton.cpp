@@ -1336,7 +1336,7 @@ bool edk::ViewButton::saveTemplate(edk::char8* folder){
                 ret = true;
             }
 
-            delete[] str;
+            free(str);
         }
         if(ret){
             ret=false;
@@ -1352,7 +1352,7 @@ bool edk::ViewButton::saveTemplate(edk::char8* folder){
                     ret = true;
                 }
 
-                delete[] str;
+                free(str);
             }
         }
         if(ret){
@@ -1369,7 +1369,7 @@ bool edk::ViewButton::saveTemplate(edk::char8* folder){
                     ret = true;
                 }
 
-                delete[] str;
+                free(str);
             }
         }
         return ret;

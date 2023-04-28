@@ -291,7 +291,7 @@ bool edk::physics2D::PhysicObject2D::writeToXML(edk::XML* xml,edk::uint32 id,boo
                         temp = edk::String::int32ToStr(this->getType());edkEnd();
                         if(temp){
                             xml->addSelectedNextAttribute((edk::char8*)"type",temp);edkEnd();
-                            delete[] temp;edkEnd();
+                            free(temp);edkEnd();
                         }
                         //write sensor
                         if(this->isSensor()){
@@ -329,11 +329,11 @@ bool edk::physics2D::PhysicObject2D::writeToXML(edk::XML* xml,edk::uint32 id,boo
                                             nameTemp = edk::String::strCat((edk::char8*)"c",iTemp);edkEnd();
                                             if(nameTemp){
                                                 xml->addSelectedNextAttribute(nameTemp,temp);edkEnd();
-                                                delete[] nameTemp;edkEnd();
+                                                free(nameTemp);edkEnd();
                                             }
-                                            delete[] iTemp;edkEnd();
+                                            free(iTemp);edkEnd();
                                         }
-                                        delete[] temp;edkEnd();
+                                        free(temp);edkEnd();
                                     }
                                 }
                                 xml->selectFather();edkEnd();
@@ -351,11 +351,11 @@ bool edk::physics2D::PhysicObject2D::writeToXML(edk::XML* xml,edk::uint32 id,boo
                                             nameTemp = edk::String::strCat((edk::char8*)"n",iTemp);edkEnd();
                                             if(nameTemp){
                                                 xml->addSelectedNextAttribute(nameTemp,temp);edkEnd();
-                                                delete[] nameTemp;edkEnd();
+                                                free(nameTemp);edkEnd();
                                             }
-                                            delete[] iTemp;edkEnd();
+                                            free(iTemp);edkEnd();
                                         }
-                                        delete[] temp;edkEnd();
+                                        free(temp);edkEnd();
                                     }
                                 }
                                 xml->selectFather();edkEnd();
@@ -371,9 +371,9 @@ bool edk::physics2D::PhysicObject2D::writeToXML(edk::XML* xml,edk::uint32 id,boo
                         xml->selectFather();edkEnd();
                     }
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }
@@ -437,9 +437,9 @@ bool edk::physics2D::PhysicObject2D::readFromXML(edk::XML* xml,edk::uint32 id){
                                     else{
                                         cont=false;edkEnd();
                                     }
-                                    delete[] nameTemp;edkEnd();
+                                    free(nameTemp);edkEnd();
                                 }
-                                delete[] iTemp;edkEnd();
+                                free(iTemp);edkEnd();
                             }
                             i++;edkEnd();
                         }while(cont);edkEnd();
@@ -462,9 +462,9 @@ bool edk::physics2D::PhysicObject2D::readFromXML(edk::XML* xml,edk::uint32 id){
                                     else{
                                         cont=false;edkEnd();
                                     }
-                                    delete[] nameTemp;edkEnd();
+                                    free(nameTemp);edkEnd();
                                 }
-                                delete[] iTemp;edkEnd();
+                                free(iTemp);edkEnd();
                             }
                             i++;edkEnd();
                         }while(cont);edkEnd();
@@ -479,9 +479,9 @@ bool edk::physics2D::PhysicObject2D::readFromXML(edk::XML* xml,edk::uint32 id){
                     ret=true;edkEnd();
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }
@@ -544,9 +544,9 @@ bool edk::physics2D::PhysicObject2D::readFromXMLFromPack(edk::pack::FilePackage*
                                     else{
                                         cont=false;edkEnd();
                                     }
-                                    delete[] nameTemp;edkEnd();
+                                    free(nameTemp);edkEnd();
                                 }
-                                delete[] iTemp;edkEnd();
+                                free(iTemp);edkEnd();
                             }
                             i++;edkEnd();
                         }while(cont);edkEnd();
@@ -569,9 +569,9 @@ bool edk::physics2D::PhysicObject2D::readFromXMLFromPack(edk::pack::FilePackage*
                                     else{
                                         cont=false;edkEnd();
                                     }
-                                    delete[] nameTemp;edkEnd();
+                                    free(nameTemp);edkEnd();
                                 }
-                                delete[] iTemp;edkEnd();
+                                free(iTemp);edkEnd();
                             }
                             i++;edkEnd();
                         }while(cont);edkEnd();
@@ -586,9 +586,9 @@ bool edk::physics2D::PhysicObject2D::readFromXMLFromPack(edk::pack::FilePackage*
                     ret=true;edkEnd();
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }
@@ -614,9 +614,9 @@ bool edk::physics2D::PhysicObject2D::readFromXMLisSensor(edk::XML* xml,edk::uint
                     }
                     xml->selectFather();edkEnd();
                 }
-                delete[] name;edkEnd();
+                free(name);edkEnd();
             }
-            delete[] nameID;edkEnd();
+            free(nameID);edkEnd();
         }
         return ret;
     }
