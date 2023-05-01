@@ -39,15 +39,15 @@ edk::Math::~Math()
 }
 
 //SquareRoot
-inline edk::float32 edk::Math::squareRoot(edk::float32 n){return sqrt(n);edkEnd();}
-inline edk::float32 edk::Math::squareRoot(edk::int8 n){return sqrt(n);edkEnd();}
-inline edk::float32 edk::Math::squareRoot(edk::int16 n){return sqrt(n);edkEnd();}
-inline edk::float32 edk::Math::squareRoot(edk::int32 n){return sqrt(n);edkEnd();}
-inline edk::float32 edk::Math::squareRoot(edk::int64 n){return sqrt(n);edkEnd();}
-inline edk::float32 edk::Math::squareRoot(edk::uint8 n){return sqrt(n);edkEnd();}
-inline edk::float32 edk::Math::squareRoot(edk::uint16 n){return sqrt(n);edkEnd();}
-inline edk::float32 edk::Math::squareRoot(edk::uint32 n){return sqrt(n);edkEnd();}
-inline edk::float32 edk::Math::squareRoot(edk::uint64 n){return sqrt(n);edkEnd();}
+edk::float32 edk::Math::squareRoot(edk::float32 n){return sqrt(n);edkEnd();}
+edk::float32 edk::Math::squareRoot(edk::int8 n){return sqrt(n);edkEnd();}
+edk::float32 edk::Math::squareRoot(edk::int16 n){return sqrt(n);edkEnd();}
+edk::float32 edk::Math::squareRoot(edk::int32 n){return sqrt(n);edkEnd();}
+edk::float32 edk::Math::squareRoot(edk::int64 n){return sqrt(n);edkEnd();}
+edk::float32 edk::Math::squareRoot(edk::uint8 n){return sqrt(n);edkEnd();}
+edk::float32 edk::Math::squareRoot(edk::uint16 n){return sqrt(n);edkEnd();}
+edk::float32 edk::Math::squareRoot(edk::uint32 n){return sqrt(n);edkEnd();}
+edk::float32 edk::Math::squareRoot(edk::uint64 n){return sqrt(n);edkEnd();}
 
 //Normalise
 edk::vec2f32  edk::Math::normalise(edk::float32 x,edk::float32 y){return edk::Math::normalise(edk::vec2f32(x,y));edkEnd();}
