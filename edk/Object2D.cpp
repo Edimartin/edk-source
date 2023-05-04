@@ -1358,7 +1358,7 @@ void edk::Object2D::print(){
             //
             printf("\nMESH %u"
                    ,i
-                   );edkEnd();
+                   );fflush(stdout);edkEnd();
             mesh->print();edkEnd();
         }
     }

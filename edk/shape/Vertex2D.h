@@ -92,7 +92,7 @@ public:
         printf("\nUV %.2f %.2f"
                ,this->u
                ,this->v
-               );edkEnd();
+               );fflush(stdout);edkEnd();
     }
     edk::float32 u,v;
 };
@@ -158,7 +158,7 @@ public:
                ,this->color.g
                ,this->color.b
                ,this->color.a
-               );edkEnd();
+               );fflush(stdout);edkEnd();
     }
     virtual void print(edk::uint32 vertex){
         //
@@ -171,7 +171,7 @@ public:
                ,this->color.g
                ,this->color.b
                ,this->color.a
-               );edkEnd();
+               );fflush(stdout);edkEnd();
     }
     virtual bool writeToXML(edk::uint32 vertex,edk::XML* xml){
         if(xml){
@@ -594,14 +594,14 @@ public:
         edk::shape::Vertex2DWithUV::print();edkEnd(); printf(" multiply(%.2f %.2f)"
                                                              ,this->uvMultiply.x
                                                              ,this->uvMultiply.y
-                                                             );edkEnd();
+                                                             );fflush(stdout);edkEnd();
     }
     virtual void print(edk::uint32 vertex){
         //
         edk::shape::Vertex2DWithUV::print(vertex);edkEnd();printf(" multiply(%.2f %.2f)"
                                                                   ,this->uvMultiply.x
                                                                   ,this->uvMultiply.y
-                                                                  );edkEnd();
+                                                                  );fflush(stdout);edkEnd();
     }
     virtual bool writeToXML(edk::uint32 vertex,edk::XML* xml){
         if(edk::shape::Vertex2DWithUV::writeToXML(vertex,xml)){

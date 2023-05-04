@@ -562,62 +562,62 @@ void edk::GU_GLSL::guColorPointer4i8(edk::uint64 position){
 }
 void edk::GU_GLSL::guColorPointer3ui16(edk::uint64 position){
     edk::GU_GLSL::mut.lock();
-    glColorPointer(3, GL_UNSIGNED_SHORT,8,(edk::classID)position);
+    glColorPointer(3, GL_UNSIGNED_SHORT,16,(edk::classID)position);
     edk::GU_GLSL::mut.unlock();
 }
 void edk::GU_GLSL::guColorPointer4ui16(edk::uint64 position){
     edk::GU_GLSL::mut.lock();
-    glColorPointer(3, GL_UNSIGNED_SHORT,8,(edk::classID)position);
+    glColorPointer(4, GL_UNSIGNED_SHORT,16,(edk::classID)position);
     edk::GU_GLSL::mut.unlock();
 }
 void edk::GU_GLSL::guColorPointer3i16(edk::uint64 position){
     edk::GU_GLSL::mut.lock();
-    glColorPointer(3, GL_SHORT,8,(edk::classID)position);
+    glColorPointer(3, GL_SHORT,16,(edk::classID)position);
     edk::GU_GLSL::mut.unlock();
 }
 void edk::GU_GLSL::guColorPointer4i16(edk::uint64 position){
     edk::GU_GLSL::mut.lock();
-    glColorPointer(3, GL_SHORT,8,(edk::classID)position);
+    glColorPointer(4, GL_SHORT,16,(edk::classID)position);
     edk::GU_GLSL::mut.unlock();
 }
 void edk::GU_GLSL::guColorPointer3ui32(edk::uint64 position){
     edk::GU_GLSL::mut.lock();
-    glColorPointer(3, GL_UNSIGNED_INT,8,(edk::classID)position);
+    glColorPointer(3, GL_UNSIGNED_INT,32,(edk::classID)position);
     edk::GU_GLSL::mut.unlock();
 }
 void edk::GU_GLSL::guColorPointer4ui32(edk::uint64 position){
     edk::GU_GLSL::mut.lock();
-    glColorPointer(3, GL_UNSIGNED_INT,8,(edk::classID)position);
+    glColorPointer(4, GL_UNSIGNED_INT,32,(edk::classID)position);
     edk::GU_GLSL::mut.unlock();
 }
 void edk::GU_GLSL::guColorPointer3i32(edk::uint64 position){
     edk::GU_GLSL::mut.lock();
-    glColorPointer(3, GL_INT,8,(edk::classID)position);
+    glColorPointer(3, GL_INT,32,(edk::classID)position);
     edk::GU_GLSL::mut.unlock();
 }
 void edk::GU_GLSL::guColorPointer4i32(edk::uint64 position){
     edk::GU_GLSL::mut.lock();
-    glColorPointer(3, GL_INT,8,(edk::classID)position);
+    glColorPointer(4, GL_INT,32,(edk::classID)position);
     edk::GU_GLSL::mut.unlock();
 }
 void edk::GU_GLSL::guColorPointer3f32(edk::uint64 position){
     edk::GU_GLSL::mut.lock();
-    glColorPointer(3, GL_FLOAT,8,(edk::classID)position);
+    glColorPointer(3, GL_FLOAT,32,(edk::classID)position);
     edk::GU_GLSL::mut.unlock();
 }
 void edk::GU_GLSL::guColorPointer4f32(edk::uint64 position){
     edk::GU_GLSL::mut.lock();
-    glColorPointer(3, GL_FLOAT,8,(edk::classID)position);
+    glColorPointer(4, GL_FLOAT,32,(edk::classID)position);
     edk::GU_GLSL::mut.unlock();
 }
 void edk::GU_GLSL::guColorPointer3f64(edk::uint64 position){
     edk::GU_GLSL::mut.lock();
-    glColorPointer(3, GL_DOUBLE,8,(edk::classID)position);
+    glColorPointer(3, GL_DOUBLE,64,(edk::classID)position);
     edk::GU_GLSL::mut.unlock();
 }
 void edk::GU_GLSL::guColorPointer4f64(edk::uint64 position){
     edk::GU_GLSL::mut.lock();
-    glColorPointer(3, GL_DOUBLE,8,(edk::classID)position);
+    glColorPointer(4, GL_DOUBLE,64,(edk::classID)position);
     edk::GU_GLSL::mut.unlock();
 }
 

@@ -70,6 +70,10 @@ protected:
     virtual bool setVBOVertexNormal(edk::uint32 vertex,edk::vec3f32 normal);
     virtual bool setVBOVertexColor(edk::uint32 vertex,edk::color4f32 color);
     virtual bool setVBOVertexUV(edk::uint32 vertex,edk::vec2f32 uv);
+    virtual bool setVBOVertexU(edk::uint32 vertex,edk::float32 u);
+    virtual bool setVBOVertexV(edk::uint32 vertex,edk::float32 v);
+    //updafe the UV into the VBO
+    virtual bool updateVBOUV();
 
     //DRAW
     virtual void draw_NULL(edk::uint32 mode);

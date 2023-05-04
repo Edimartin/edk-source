@@ -42,6 +42,7 @@ edk::shape::Rectangle2D::~Rectangle2D()
 }
 //createPolygon
 bool edk::shape::Rectangle2D::createPolygon(){
+    bool ret = false;
     //create a polygon with 2 vertex
 
     //delete the polygon
@@ -89,14 +90,49 @@ bool edk::shape::Rectangle2D::createPolygon(){
             //set can delete the polygon
             this->canDeletePolygon=true;edkEnd();
             //then return true
-            return true;
+            ret = true;
         }
         else{
-            this->vertexs.deleteArray();
+            this->vertexs.deleteArray();edkEnd();
         }
     }
-    //else return false
-    return false;
+
+    //create the VBO.
+    if(ret){
+        if(this->createVBO(2u,edk::shape::vbo_XYZ_RGBA)){
+            //set the VBO position, color and UV
+            edk::vec2f32 position;edkEnd();
+            edk::color4f32 color;edkEnd();
+            edk::vec2f32 uv;edkEnd();
+            edk::shape::Vertex2DWithUV* temp=NULL;edkEnd();
+            temp = (edk::shape::Vertex2DWithUV*)this->vertexs.get(0u);edkEnd();
+            if(temp){
+                position = temp->position;edkEnd();
+                color = temp->color;edkEnd();
+                uv = temp->getUV();edkEnd();
+
+                //set the vertex position, color and uv
+                this->setVertexPosition(0u,position);edkEnd();
+                this->setVertexColor(0u,color);edkEnd();
+                this->setVertexUV(0u,uv);edkEnd();
+            }
+
+            temp = (edk::shape::Vertex2DWithUV*)this->vertexs.get(1u);edkEnd();
+            if(temp){
+                position = temp->position;edkEnd();
+                color = temp->color;edkEnd();
+                uv = temp->getUV();edkEnd();
+
+                //set the vertex position, color and uv
+                this->setVertexPosition(1u,position);edkEnd();
+                this->setVertexColor(1u,color);edkEnd();
+                this->setVertexUV(1u,uv);edkEnd();
+            }
+        }
+    }
+
+    //
+    return ret;
 }
 
 //function to create the VBO
@@ -150,7 +186,7 @@ bool edk::shape::Rectangle2D::setVBOVertexColor(edk::uint32 vertex,edk::color4f3
         ret=true;
         break;
     case 1u:
-        edk::shape::Polygon2D::setVBOVertexColor(2u,color);
+        edk::shape::Polygon2D::setVBOVertexColor(1u,color);
         edk::shape::Polygon2D::setVBOVertexColor(3u,color);
         ret=true;
         break;
@@ -162,19 +198,73 @@ bool edk::shape::Rectangle2D::setVBOVertexUV(edk::uint32 vertex,edk::vec2f32 uv)
     //set the vertexes
     switch(vertex){
     case 0u:
-        edk::shape::Polygon2D::setVBOVertexPosition(0u,edk::vec2f32(uv.x,uv.y));
-        edk::shape::Polygon2D::setVBOVertexPositionX(1u,uv.x);
-        edk::shape::Polygon2D::setVBOVertexPositionY(3u,uv.y);
+        edk::shape::Polygon2D::setVBOVertexUV(0u,edk::vec2f32(uv.x,uv.y));
+        edk::shape::Polygon2D::setVBOVertexU(1u,uv.x);
+        edk::shape::Polygon2D::setVBOVertexV(3u,uv.y);
         ret=true;
         break;
     case 1u:
-        edk::shape::Polygon2D::setVBOVertexPositionY(1u,uv.y);
-        edk::shape::Polygon2D::setVBOVertexPosition(2u,edk::vec2f32(uv.x,uv.y));
-        edk::shape::Polygon2D::setVBOVertexPositionX(3u,uv.x);
+        edk::shape::Polygon2D::setVBOVertexV(1u,uv.y);
+        edk::shape::Polygon2D::setVBOVertexUV(2u,edk::vec2f32(uv.x,uv.y));
+        edk::shape::Polygon2D::setVBOVertexU(3u,uv.x);
         ret=true;
         break;
     }
     return ret;
+}
+bool edk::shape::Rectangle2D::setVBOVertexU(edk::uint32 vertex,edk::float32 u){
+    bool ret=false;
+    //set the vertexes
+    switch(vertex){
+    case 0u:
+        edk::shape::Polygon2D::setVBOVertexU(0u,u);
+        edk::shape::Polygon2D::setVBOVertexU(1u,u);
+        ret=true;
+        break;
+    case 1u:
+        edk::shape::Polygon2D::setVBOVertexU(2u,u);
+        edk::shape::Polygon2D::setVBOVertexU(3u,u);
+        ret=true;
+        break;
+    }
+    return ret;
+}
+bool edk::shape::Rectangle2D::setVBOVertexV(edk::uint32 vertex,edk::float32 v){
+    bool ret=false;
+    //set the vertexes
+    switch(vertex){
+    case 0u:
+        edk::shape::Polygon2D::setVBOVertexV(0u,v);
+        edk::shape::Polygon2D::setVBOVertexV(3u,v);
+        ret=true;
+        break;
+    case 1u:
+        edk::shape::Polygon2D::setVBOVertexV(1u,v);
+        edk::shape::Polygon2D::setVBOVertexV(2u,v);
+        ret=true;
+        break;
+    }
+    return ret;
+}
+//updafe the UV into the VBO
+bool edk::shape::Rectangle2D::updateVBOUV(){
+    if(this->vertexs.size()>1u){
+        edk::shape::Vertex2DWithUV* vTemp0 = (edk::shape::Vertex2DWithUV*)this->vertexs.get(0u);edkEnd();
+        edk::shape::Vertex2DWithUV* vTemp1 = (edk::shape::Vertex2DWithUV*)this->vertexs.get(1u);edkEnd();
+        if(vTemp0 && vTemp1){
+            if(vTemp0->getType() != EDK_SHAPE_NOUV && vTemp1->getType() != EDK_SHAPE_NOUV){
+                edk::vec2f32 uv1 = vTemp0->getUV();
+                edk::vec2f32 uv2 = vTemp1->getUV();
+                edk::shape::Polygon2D::setVBOVertexUV(0u,edk::vec2f32(uv1.x,uv1.y));
+                edk::shape::Polygon2D::setVBOVertexUV(1u,edk::vec2f32(uv1.x,uv2.y));
+                edk::shape::Polygon2D::setVBOVertexUV(2u,edk::vec2f32(uv2.x,uv2.y));
+                edk::shape::Polygon2D::setVBOVertexUV(3u,edk::vec2f32(uv2.x,uv1.y));
+
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 //DRAW
@@ -410,12 +500,44 @@ void edk::shape::Rectangle2D::setPivoToCenter(){
         this->vertexsOriginal.get(0u)->position = edk::vec2f32(size.width * -0.5f,size.height * -0.5f);edkEnd();
         this->vertexsOriginal.get(1u)->position = edk::vec2f32(size.width *  0.5f,size.height *  0.5f);edkEnd();
     }
+
+
+    //set the VBO position, color and UV
+
+    edk::vec2f32 position;edkEnd();
+    edk::color4f32 color;edkEnd();
+    edk::vec2f32 uv;edkEnd();
+    edk::shape::Vertex2DWithUV* temp=NULL;edkEnd();
+
+    temp = (edk::shape::Vertex2DWithUV*)this->vertexs.get(0u);edkEnd();
+    if(temp){
+        position = temp->position;edkEnd();
+        color = temp->color;edkEnd();
+        uv = temp->getUV();edkEnd();
+
+        //set the vertex position, color and uv
+        this->setVertexPosition(0u,position);edkEnd();
+        this->setVertexColor(0u,color);edkEnd();
+        this->setVertexUV(0u,uv);edkEnd();
+    }
+
+    temp = (edk::shape::Vertex2DWithUV*)this->vertexs.get(1u);edkEnd();
+    if(temp){
+        position = temp->position;edkEnd();
+        color = temp->color;edkEnd();
+        uv = temp->getUV();edkEnd();
+
+        //set the vertex position, color and uv
+        this->setVertexPosition(1u,position);edkEnd();
+        this->setVertexColor(1u,color);edkEnd();
+        this->setVertexUV(1u,uv);edkEnd();
+    }
 }
 
 //print the rectangle
 void edk::shape::Rectangle2D::print(){
     //
-    printf("\nRectangle");edkEnd();
+    printf("\nRectangle");fflush(stdout);edkEnd();
     edk::shape::Polygon2D::print();edkEnd();
 }
 

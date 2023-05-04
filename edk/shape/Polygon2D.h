@@ -43,6 +43,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "    Compiling Polygon2D"
 #endif
 
+//█■█■█■█■█■█■█■█■█■█■█■█■█■█■█■█
+
 namespace edk{
 namespace shape{
 
@@ -347,6 +349,10 @@ protected:
     virtual bool setVBOVertexUV(edk::uint32 vertex,edk::vec2f32 uv);
     virtual bool setVBOVertexU(edk::uint32 vertex,edk::float32 u);
     virtual bool setVBOVertexV(edk::uint32 vertex,edk::float32 v);
+    //updafe the UV into the VBO
+    virtual bool updateVBOUV();
+    //print the VBO
+    virtual bool printVBO();
 
     //save if don't transform the polygon
     bool transforming;

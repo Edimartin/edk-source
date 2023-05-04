@@ -1072,7 +1072,7 @@ void edk::shape::Polygon2DList::printPolygons(){
         if(this->polygons.havePos(i)){
             printf("\nPolygon %u"
                    ,i
-                   );edkEnd();
+                   );fflush(stdout);edkEnd();
             this->polygons.get(i)->print();edkEnd();
         }
     }

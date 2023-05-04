@@ -137,6 +137,7 @@ public:
     //return the object
     typeTemplate get(edk::uint32 pos){
         typeTemplate ret;edkEnd();
+        memcpy((void*)&ret,(void*)&vector[pos],sizeof(typeTemplate));edkEnd();
         if(this->have(pos)){
             //return the variable
             memcpy((void*)&ret,(void*)&vector[pos],sizeof(typeTemplate));edkEnd();

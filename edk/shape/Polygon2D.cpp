@@ -32,22 +32,22 @@ bool edk::shape::Polygon2D::successTemplate=false;
 
 edk::uint8 vboSizeof[edk::shape::vbo_Size] = {
     0u,                       //vbo_NULL = 0u,
-    sizeof(edk::float32)*2u , //vbo_XY,
-    sizeof(edk::float32)*3u , //vbo_XYZ,
-    sizeof(edk::float32)*5u , //vbo_XY_NxNyNz,
-    sizeof(edk::float32)*6u , //vbo_XYZ_NxNyNz,
-    sizeof(edk::float32)*5u , //vbo_XY_RGB,
-    sizeof(edk::float32)*6u , //vbo_XYZ_RGB,
-    sizeof(edk::float32)*6u , //vbo_XY_RGBA,
-    sizeof(edk::float32)*7u , //vbo_XYZ_RGBA,
-    sizeof(edk::float32)*8u , //vbo_XY_RGB_NxNyNz,
-    sizeof(edk::float32)*9u , //vbo_XYZ_RGB_NxNyNz,
-    sizeof(edk::float32)*9u , //vbo_XY_RGBA_NxNyNz,
-    sizeof(edk::float32)*10u, //vbo_XYZ_RGBA_NxNyNz,
-    sizeof(edk::float32)*10u, //vbo_XY_RGB_NxNyNz_UVxUVy,
-    sizeof(edk::float32)*11u, //vbo_XYZ_RGB_NxNyNz_UVxUVy,
-    sizeof(edk::float32)*11u, //vbo_XY_RGBA_NxNyNz_UVxUVy,
-    sizeof(edk::float32)*12u  //vbo_XYZ_RGBA_NxNyNz_UVxUVy,
+    /*sizeof(edk::float32)* */2u , //vbo_XY,
+    /*sizeof(edk::float32)* */3u , //vbo_XYZ,
+    /*sizeof(edk::float32)* */5u , //vbo_XY_NxNyNz,
+    /*sizeof(edk::float32)* */6u , //vbo_XYZ_NxNyNz,
+    /*sizeof(edk::float32)* */5u , //vbo_XY_RGB,
+    /*sizeof(edk::float32)* */6u , //vbo_XYZ_RGB,
+    /*sizeof(edk::float32)* */6u , //vbo_XY_RGBA,
+    /*sizeof(edk::float32)* */7u , //vbo_XYZ_RGBA,
+    /*sizeof(edk::float32)* */8u , //vbo_XY_RGB_NxNyNz,
+    /*sizeof(edk::float32)* */9u , //vbo_XYZ_RGB_NxNyNz,
+    /*sizeof(edk::float32)* */9u , //vbo_XY_RGBA_NxNyNz,
+    /*sizeof(edk::float32)* */10u, //vbo_XYZ_RGBA_NxNyNz,
+    /*sizeof(edk::float32)* */10u, //vbo_XY_RGB_NxNyNz_UVxUVy,
+    /*sizeof(edk::float32)* */11u, //vbo_XYZ_RGB_NxNyNz_UVxUVy,
+    /*sizeof(edk::float32)* */11u, //vbo_XY_RGBA_NxNyNz_UVxUVy,
+    /*sizeof(edk::float32)* */12u  //vbo_XYZ_RGBA_NxNyNz_UVxUVy,
 };
 
 edk::shape::Polygon2D::Polygon2D(){
@@ -174,11 +174,13 @@ bool edk::shape::Polygon2D::setVertexUVFrames(edk::uint32 vertex,edk::vec2ui32 f
         vTemp->setUVFrames(frames);edkEnd();
         voTemp->setUVFrames(frames);edkEnd();
 
-        if(!this->vboNULL){
+        if(true && !this->vboNULL){
             this->vboNULL=true;edkEnd();
             //set the NULL function into the vbo
             this->setVBOFunctionUpdateNULL();edkEnd();
         }
+
+        this->updateVBOUV();
 
         //return true
         return true;
@@ -197,10 +199,229 @@ bool edk::shape::Polygon2D::createVBO(edk::uint32 vertexCount,edk::shape::EDKVBO
         if(type && type<edk::shape::vbo_Size){
             //create the vertexBuffer
             if(this->vertexBuffer.createArray(vertexCount * vboSizeof[type])){
+                edk::uint32 increment = vboSizeof[type];
+                edk::uint32 size = vertexCount * increment;
+                //clean the vertexBuffer
+                switch(type){
+                case edk::shape::vbo_XY:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBuffer.set(i,0.f);
+                        this->vertexBuffer.set(i+1u,0.f);
+                    }
+                    break;
+                case edk::shape::vbo_XY_NxNyNz:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBuffer.set(i,0.f);
+                        this->vertexBuffer.set(i+1u,0.f);
+
+                        this->vertexBuffer.set(i+2u,0.f);
+                        this->vertexBuffer.set(i+3u,0.f);
+                        this->vertexBuffer.set(i+4u,1.f);
+                    }
+                    break;
+                case edk::shape::vbo_XY_RGB:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBuffer.set(i,0.f);
+                        this->vertexBuffer.set(i+1u,0.f);
+
+                        this->vertexBuffer.set(i+2u,1.f);
+                        this->vertexBuffer.set(i+3u,1.f);
+                        this->vertexBuffer.set(i+4u,1.f);
+                    }
+                    break;
+                case edk::shape::vbo_XY_RGBA:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBuffer.set(i,0.f);
+                        this->vertexBuffer.set(i+1u,0.f);
+
+                        this->vertexBuffer.set(i+2u,1.f);
+                        this->vertexBuffer.set(i+3u,1.f);
+                        this->vertexBuffer.set(i+4u,1.f);
+                        this->vertexBuffer.set(i+5u,1.f);
+                    }
+                    break;
+                case edk::shape::vbo_XY_RGB_NxNyNz:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBuffer.set(i,0.f);
+                        this->vertexBuffer.set(i+1u,0.f);
+
+                        this->vertexBuffer.set(i+2u,1.f);
+                        this->vertexBuffer.set(i+3u,1.f);
+                        this->vertexBuffer.set(i+4u,1.f);
+
+                        this->vertexBuffer.set(i+5u,0.f);
+                        this->vertexBuffer.set(i+6u,0.f);
+                        this->vertexBuffer.set(i+7u,1.f);
+                    }
+                    break;
+                case edk::shape::vbo_XY_RGBA_NxNyNz:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBuffer.set(i,0.f);
+                        this->vertexBuffer.set(i+1u,0.f);
+
+                        this->vertexBuffer.set(i+2u,1.f);
+                        this->vertexBuffer.set(i+3u,1.f);
+                        this->vertexBuffer.set(i+4u,1.f);
+                        this->vertexBuffer.set(i+5u,1.f);
+
+                        this->vertexBuffer.set(i+6u,0.f);
+                        this->vertexBuffer.set(i+7u,0.f);
+                        this->vertexBuffer.set(i+8u,1.f);
+                    }
+                    break;
+                case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBuffer.set(i,0.f);
+                        this->vertexBuffer.set(i+1u,0.f);
+
+                        this->vertexBuffer.set(i+2u,1.f);
+                        this->vertexBuffer.set(i+3u,1.f);
+                        this->vertexBuffer.set(i+4u,1.f);
+
+                        this->vertexBuffer.set(i+5u,0.f);
+                        this->vertexBuffer.set(i+6u,0.f);
+                        this->vertexBuffer.set(i+7u,1.f);
+
+                        this->vertexBuffer.set(i+8u,0.f);
+                        this->vertexBuffer.set(i+9u,0.f);
+                    }
+                    break;
+                case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBuffer.set(i,0.f);
+                        this->vertexBuffer.set(i+1u,0.f);
+
+                        this->vertexBuffer.set(i+2u,1.f);
+                        this->vertexBuffer.set(i+3u,1.f);
+                        this->vertexBuffer.set(i+4u,1.f);
+                        this->vertexBuffer.set(i+5u,1.f);
+
+                        this->vertexBuffer.set(i+6u,0.f);
+                        this->vertexBuffer.set(i+7u,0.f);
+                        this->vertexBuffer.set(i+8u,1.f);
+
+                        this->vertexBuffer.set(i+9u,0.f);
+                        this->vertexBuffer.set(i+10u,0.f);
+                    }
+                    break;
+                case edk::shape::vbo_XYZ:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBuffer.set(i,0.f);
+                        this->vertexBuffer.set(i+1u,0.f);
+                        this->vertexBuffer.set(i+2u,0.f);
+                    }
+                    break;
+                case edk::shape::vbo_XYZ_NxNyNz:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBuffer.set(i,0.f);
+                        this->vertexBuffer.set(i+1u,0.f);
+                        this->vertexBuffer.set(i+2u,0.f);
+
+                        this->vertexBuffer.set(i+3u,0.f);
+                        this->vertexBuffer.set(i+4u,0.f);
+                        this->vertexBuffer.set(i+5u,1.f);
+                    }
+                    break;
+                case edk::shape::vbo_XYZ_RGB:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBuffer.set(i,0.f);
+                        this->vertexBuffer.set(i+1u,0.f);
+                        this->vertexBuffer.set(i+2u,0.f);
+
+                        this->vertexBuffer.set(i+3u,1.f);
+                        this->vertexBuffer.set(i+4u,1.f);
+                        this->vertexBuffer.set(i+5u,1.f);
+                    }
+                    break;
+                case edk::shape::vbo_XYZ_RGBA:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBuffer.set(i,0.f);
+                        this->vertexBuffer.set(i+1u,0.f);
+                        this->vertexBuffer.set(i+2u,0.f);
+
+                        this->vertexBuffer.set(i+3u,1.f);
+                        this->vertexBuffer.set(i+4u,1.f);
+                        this->vertexBuffer.set(i+5u,1.f);
+                        this->vertexBuffer.set(i+6u,1.f);
+                    }
+                    break;
+                case edk::shape::vbo_XYZ_RGB_NxNyNz:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBuffer.set(i,0.f);
+                        this->vertexBuffer.set(i+1u,0.f);
+                        this->vertexBuffer.set(i+2u,0.f);
+
+                        this->vertexBuffer.set(i+3u,1.f);
+                        this->vertexBuffer.set(i+4u,1.f);
+                        this->vertexBuffer.set(i+5u,1.f);
+
+                        this->vertexBuffer.set(i+6u,0.f);
+                        this->vertexBuffer.set(i+7u,0.f);
+                        this->vertexBuffer.set(i+8u,1.f);
+                    }
+                    break;
+                case edk::shape::vbo_XYZ_RGBA_NxNyNz:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBuffer.set(i,0.f);
+                        this->vertexBuffer.set(i+1u,0.f);
+                        this->vertexBuffer.set(i+2u,0.f);
+
+                        this->vertexBuffer.set(i+3u,1.f);
+                        this->vertexBuffer.set(i+4u,1.f);
+                        this->vertexBuffer.set(i+5u,1.f);
+                        this->vertexBuffer.set(i+6u,1.f);
+
+                        this->vertexBuffer.set(i+7u,0.f);
+                        this->vertexBuffer.set(i+8u,0.f);
+                        this->vertexBuffer.set(i+9u,1.f);
+                    }
+                    break;
+                case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBuffer.set(i,0.f);
+                        this->vertexBuffer.set(i+1u,0.f);
+                        this->vertexBuffer.set(i+2u,0.f);
+
+                        this->vertexBuffer.set(i+3u,1.f);
+                        this->vertexBuffer.set(i+4u,1.f);
+                        this->vertexBuffer.set(i+5u,1.f);
+
+                        this->vertexBuffer.set(i+6u,0.f);
+                        this->vertexBuffer.set(i+7u,0.f);
+                        this->vertexBuffer.set(i+8u,1.f);
+
+                        this->vertexBuffer.set(i+9u,0.f);
+                        this->vertexBuffer.set(i+10u,0.f);
+                    }
+                    break;
+                case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBuffer.set(i,0.f);
+                        this->vertexBuffer.set(i+1u,0.f);
+                        this->vertexBuffer.set(i+2u,0.f);
+
+                        this->vertexBuffer.set(i+3u,1.f);
+                        this->vertexBuffer.set(i+4u,1.f);
+                        this->vertexBuffer.set(i+5u,1.f);
+                        this->vertexBuffer.set(i+6u,1.f);
+
+                        this->vertexBuffer.set(i+7u,0.f);
+                        this->vertexBuffer.set(i+8u,0.f);
+                        this->vertexBuffer.set(i+9u,1.f);
+
+                        this->vertexBuffer.set(i+10u,0.f);
+                        this->vertexBuffer.set(i+11u,0.f);
+                    }
+                    break;
+                default:
+                    break;
+                }
+
+
                 //alloc the vertexBuffer in GU
                 this->vbo = edk::GU_GLSL::guAllocBuffer(GU_ARRAY_BUFFER);edkEnd();
                 if(this->vbo){
-                    if(edk::GU_GLSL::guBufferData(GU_ARRAY_BUFFER, this->vertexBuffer.getSize(), this->vertexBuffer.getPointer(), GU_STATIC_DRAW)){
+                    if(edk::GU_GLSL::guBufferData(GU_ARRAY_BUFFER, this->vertexBuffer.getSize() * sizeof(edk::float32), this->vertexBuffer.getPointer(), GU_STATIC_DRAW)){
                         edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);edkEnd();
                         //save the type
                         this->vboType = type;edkEnd();
@@ -228,7 +449,7 @@ bool edk::shape::Polygon2D::createVBO(edk::uint32 vertexCount,edk::shape::EDKVBO
 bool edk::shape::Polygon2D::updateVBO(){
     if(this->haveVBO() && this->vertexBuffer.getSize()){
         edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vbo);edkEnd();
-        if(edk::GU_GLSL::guBufferData(GU_ARRAY_BUFFER, this->vertexBuffer.getSize(), this->vertexBuffer.getPointer(), GU_STATIC_DRAW)){
+        if(edk::GU_GLSL::guBufferData(GU_ARRAY_BUFFER, this->vertexBuffer.getSize() * sizeof(edk::float32), this->vertexBuffer.getPointer(), GU_STATIC_DRAW)){
             edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);edkEnd();
             return true;
         }
@@ -240,6 +461,224 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
     if(type != this->vboType && type!=edk::shape::vbo_NULL && type<edk::shape::vbo_Size){
         edk::vector::Array<edk::float32> buffer;
         if(buffer.createArray(this->vboCount * vboSizeof[type])){
+            edk::uint32 increment = vboSizeof[type];
+            edk::uint32 size = this->vboCount*increment;
+            //clean the vertexBuffer
+            switch(type){
+            case edk::shape::vbo_XY:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+                }
+                break;
+            case edk::shape::vbo_XY_NxNyNz:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+
+                    buffer.set(i+2u,0.f);
+                    buffer.set(i+3u,0.f);
+                    buffer.set(i+4u,1.f);
+                }
+                break;
+            case edk::shape::vbo_XY_RGB:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+
+                    buffer.set(i+2u,1.f);
+                    buffer.set(i+3u,1.f);
+                    buffer.set(i+4u,1.f);
+                }
+                break;
+            case edk::shape::vbo_XY_RGBA:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+
+                    buffer.set(i+2u,1.f);
+                    buffer.set(i+3u,1.f);
+                    buffer.set(i+4u,1.f);
+                    buffer.set(i+5u,1.f);
+                }
+                break;
+            case edk::shape::vbo_XY_RGB_NxNyNz:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+
+                    buffer.set(i+2u,1.f);
+                    buffer.set(i+3u,1.f);
+                    buffer.set(i+4u,1.f);
+
+                    buffer.set(i+5u,0.f);
+                    buffer.set(i+6u,0.f);
+                    buffer.set(i+7u,1.f);
+                }
+                break;
+            case edk::shape::vbo_XY_RGBA_NxNyNz:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+
+                    buffer.set(i+2u,1.f);
+                    buffer.set(i+3u,1.f);
+                    buffer.set(i+4u,1.f);
+                    buffer.set(i+5u,1.f);
+
+                    buffer.set(i+6u,0.f);
+                    buffer.set(i+7u,0.f);
+                    buffer.set(i+8u,1.f);
+                }
+                break;
+            case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+
+                    buffer.set(i+2u,1.f);
+                    buffer.set(i+3u,1.f);
+                    buffer.set(i+4u,1.f);
+
+                    buffer.set(i+5u,0.f);
+                    buffer.set(i+6u,0.f);
+                    buffer.set(i+7u,1.f);
+
+                    buffer.set(i+8u,0.f);
+                    buffer.set(i+9u,0.f);
+                }
+                break;
+            case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+
+                    buffer.set(i+2u,1.f);
+                    buffer.set(i+3u,1.f);
+                    buffer.set(i+4u,1.f);
+                    buffer.set(i+5u,1.f);
+
+                    buffer.set(i+6u,0.f);
+                    buffer.set(i+7u,0.f);
+                    buffer.set(i+8u,1.f);
+
+                    buffer.set(i+9u,0.f);
+                    buffer.set(i+10u,0.f);
+                }
+                break;
+            case edk::shape::vbo_XYZ:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+                    buffer.set(i+2u,0.f);
+                }
+                break;
+            case edk::shape::vbo_XYZ_NxNyNz:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+                    buffer.set(i+2u,0.f);
+
+                    buffer.set(i+3u,0.f);
+                    buffer.set(i+4u,0.f);
+                    buffer.set(i+5u,1.f);
+                }
+                break;
+            case edk::shape::vbo_XYZ_RGB:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+                    buffer.set(i+2u,0.f);
+
+                    buffer.set(i+3u,1.f);
+                    buffer.set(i+4u,1.f);
+                    buffer.set(i+5u,1.f);
+                }
+                break;
+            case edk::shape::vbo_XYZ_RGBA:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+                    buffer.set(i+2u,0.f);
+
+                    buffer.set(i+3u,1.f);
+                    buffer.set(i+4u,1.f);
+                    buffer.set(i+5u,1.f);
+                    buffer.set(i+6u,1.f);
+                }
+                break;
+            case edk::shape::vbo_XYZ_RGB_NxNyNz:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+                    buffer.set(i+2u,0.f);
+
+                    buffer.set(i+3u,1.f);
+                    buffer.set(i+4u,1.f);
+                    buffer.set(i+5u,1.f);
+
+                    buffer.set(i+6u,0.f);
+                    buffer.set(i+7u,0.f);
+                    buffer.set(i+8u,1.f);
+                }
+                break;
+            case edk::shape::vbo_XYZ_RGBA_NxNyNz:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+                    buffer.set(i+2u,0.f);
+
+                    buffer.set(i+3u,1.f);
+                    buffer.set(i+4u,1.f);
+                    buffer.set(i+5u,1.f);
+                    buffer.set(i+6u,1.f);
+
+                    buffer.set(i+7u,0.f);
+                    buffer.set(i+8u,0.f);
+                    buffer.set(i+9u,1.f);
+                }
+                break;
+            case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+                    buffer.set(i+2u,0.f);
+
+                    buffer.set(i+3u,1.f);
+                    buffer.set(i+4u,1.f);
+                    buffer.set(i+5u,1.f);
+
+                    buffer.set(i+6u,0.f);
+                    buffer.set(i+7u,0.f);
+                    buffer.set(i+8u,1.f);
+
+                    buffer.set(i+9u,0.f);
+                    buffer.set(i+10u,0.f);
+                }
+                break;
+            case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+                    buffer.set(i+2u,0.f);
+
+                    buffer.set(i+3u,1.f);
+                    buffer.set(i+4u,1.f);
+                    buffer.set(i+5u,1.f);
+                    buffer.set(i+6u,1.f);
+
+                    buffer.set(i+7u,0.f);
+                    buffer.set(i+8u,0.f);
+                    buffer.set(i+9u,1.f);
+
+                    buffer.set(i+10u,0.f);
+                    buffer.set(i+11u,0.f);
+                }
+                break;
+            default:
+                break;
+            }
+
             edk::uint32 source=0u,dest=0u;
             //
             switch(this->vboType){
@@ -247,7 +686,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
             {
                 for(edk::uint32 i=0u;i<this->vboCount;i++){
                     buffer.set(dest,this->vertexBuffer.get(source));
-                    buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                    buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
                     source+=vboSizeof[this->vboType];
                     dest+=vboSizeof[type];
@@ -262,7 +701,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //vbo_XY_NxNyNz -> edk::shape::vbo_XY
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -274,7 +713,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //vbo_XY_NxNyNz -> edk::shape::vbo_XY_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -286,7 +725,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //vbo_XY_NxNyNz -> edk::shape::vbo_XY_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -298,11 +737,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //vbo_XY_NxNyNz -> edk::shape::vbo_XY_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+4u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -314,11 +753,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //vbo_XY_NxNyNz -> edk::shape::vbo_XY_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+4u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -330,11 +769,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //vbo_XY_NxNyNz -> edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+4u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -346,11 +785,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //vbo_XY_NxNyNz -> edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+4u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -362,7 +801,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //vbo_XY_NxNyNz -> edk::shape::vbo_XYZ
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -374,11 +813,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //vbo_XY_NxNyNz -> edk::shape::vbo_XYZ_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -390,7 +829,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //vbo_XY_NxNyNz -> edk::shape::vbo_XYZ_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -402,7 +841,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //vbo_XY_NxNyNz -> edk::shape::vbo_XYZ_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -414,11 +853,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //vbo_XY_NxNyNz -> edk::shape::vbo_XYZ_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+4u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -430,11 +869,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //vbo_XY_NxNyNz -> edk::shape::vbo_XYZ_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+9u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+4u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -446,11 +885,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //vbo_XY_NxNyNz -> edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+4u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -462,11 +901,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //vbo_XY_NxNyNz -> edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+9u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+4u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -486,7 +925,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGB -> edk::shape::vbo_XY
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -498,7 +937,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGB -> edk::shape::vbo_XY_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -510,11 +949,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGB -> edk::shape::vbo_XY_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -526,11 +965,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGB -> edk::shape::vbo_XY_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -542,11 +981,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGB -> edk::shape::vbo_XY_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -558,11 +997,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGB -> edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -574,11 +1013,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGB -> edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -590,7 +1029,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGB -> edk::shape::vbo_XYZ
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -602,7 +1041,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGB -> edk::shape::vbo_XYZ_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -614,11 +1053,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGB -> edk::shape::vbo_XYZ_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -630,11 +1069,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGB -> edk::shape::vbo_XYZ_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -646,11 +1085,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGB -> edk::shape::vbo_XYZ_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -662,11 +1101,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGB -> edk::shape::vbo_XYZ_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -678,11 +1117,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGB -> edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -694,11 +1133,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGB -> edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -718,7 +1157,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGBA -> edk::shape::vbo_XY
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -730,7 +1169,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGBA -> edk::shape::vbo_XY_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -742,7 +1181,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGBA -> edk::shape::vbo_XY_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -754,7 +1193,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGBA -> edk::shape::vbo_XY_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -766,12 +1205,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGBA -> edk::shape::vbo_XY_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -783,11 +1222,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGBA -> edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -799,12 +1238,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGBA -> edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -816,7 +1255,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGBA -> edk::shape::vbo_XYZ
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -828,7 +1267,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGBA -> edk::shape::vbo_XYZ_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -840,7 +1279,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGBA -> edk::shape::vbo_XYZ_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -852,12 +1291,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGBA -> edk::shape::vbo_XYZ_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -869,11 +1308,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGBA -> edk::shape::vbo_XYZ_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -885,12 +1324,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGBA -> edk::shape::vbo_XYZ_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -902,11 +1341,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGBA -> edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -918,12 +1357,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGBA -> edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -943,7 +1382,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGB_NxNyNz -> edk::shape::vbo_XY
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -955,11 +1394,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGB_NxNyNz -> edk::shape::vbo_XY_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+5u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+7u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+7u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -971,11 +1410,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGB_NxNyNz -> edk::shape::vbo_XY_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -987,11 +1426,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGB_NxNyNz -> edk::shape::vbo_XY_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1003,15 +1442,15 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGB_NxNyNz -> edk::shape::vbo_XY_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
 
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+5u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+7u);
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+7u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1023,15 +1462,15 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGB_NxNyNz -> edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
 
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+5u);
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+7u);
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+7u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1043,15 +1482,15 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGB_NxNyNz -> edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
 
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+5u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+7u);
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+7u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1063,7 +1502,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGB_NxNyNz -> edk::shape::vbo_XYZ
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1075,11 +1514,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGB_NxNyNz -> edk::shape::vbo_XYZ_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+5u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+7u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+7u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1091,11 +1530,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGB_NxNyNz -> edk::shape::vbo_XYZ_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1107,11 +1546,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGB_NxNyNz -> edk::shape::vbo_XYZ_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1123,15 +1562,15 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGB_NxNyNz -> edk::shape::vbo_XYZ_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
 
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+5u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+7u);
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+7u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1143,15 +1582,15 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGB_NxNyNz -> edk::shape::vbo_XYZ_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
 
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+5u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+9u,this->vertexBuffer.get(source)+7u);
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+7u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1163,15 +1602,15 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGB_NxNyNz -> edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
 
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+5u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+7u);
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+7u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1183,15 +1622,15 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGB_NxNyNz -> edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
 
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+5u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+9u,this->vertexBuffer.get(source)+7u);
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+7u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1211,7 +1650,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGBA_NxNyNz -> edk::shape::vbo_XY
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1223,11 +1662,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGBA_NxNyNz -> edk::shape::vbo_XY_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+8u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+8u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1239,11 +1678,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGBA_NxNyNz -> edk::shape::vbo_XY_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1255,12 +1694,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGBA_NxNyNz -> edk::shape::vbo_XY_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1272,15 +1711,15 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGBA_NxNyNz -> edk::shape::vbo_XY_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
 
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+8u);
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+8u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1292,15 +1731,15 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGBA_NxNyNz -> edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
 
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+8u);
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+8u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1312,16 +1751,16 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGBA_NxNyNz -> edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
 
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+8u);
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+8u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1333,7 +1772,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGBA_NxNyNz -> edk::shape::vbo_XYZ
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1345,11 +1784,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGBA_NxNyNz -> edk::shape::vbo_XYZ_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+8u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+8u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1361,11 +1800,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGBA_NxNyNz -> edk::shape::vbo_XYZ_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1377,12 +1816,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGBA_NxNyNz -> edk::shape::vbo_XYZ_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1394,15 +1833,15 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGBA_NxNyNz -> edk::shape::vbo_XYZ_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
 
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+8u);
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+8u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1414,16 +1853,16 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGBA_NxNyNz -> edk::shape::vbo_XYZ_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+5u));
 
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+9u,this->vertexBuffer.get(source)+8u);
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+8u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1435,15 +1874,15 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGBA_NxNyNz -> edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
 
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+8u);
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+8u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1455,16 +1894,16 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGBA_NxNyNz -> edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+5u));
 
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+9u,this->vertexBuffer.get(source)+8u);
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+8u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1484,7 +1923,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XY
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1496,11 +1935,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XY_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+5u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+7u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+7u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1512,11 +1951,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XY_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1528,11 +1967,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XY_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1544,15 +1983,15 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XY_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
 
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+5u);
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+7u);
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+7u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1564,15 +2003,15 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XY_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
 
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+5u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+7u);
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+7u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1584,18 +2023,18 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
 
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+5u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+7u);
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+7u));
 
-                        buffer.set(dest+9u,this->vertexBuffer.get(source)+8u);
-                        buffer.set(dest+10u,this->vertexBuffer.get(source)+9u);
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+8u));
+                        buffer.set(dest+10u,this->vertexBuffer.get(source+9u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1607,7 +2046,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1619,11 +2058,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+5u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+7u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+7u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1635,11 +2074,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1651,11 +2090,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1667,15 +2106,15 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
 
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+5u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+7u);
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+7u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1687,15 +2126,15 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
 
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+5u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+9u,this->vertexBuffer.get(source)+7u);
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+7u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1707,18 +2146,18 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
 
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+5u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+7u);
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+7u));
 
-                        buffer.set(dest+9u,this->vertexBuffer.get(source)+8u);
-                        buffer.set(dest+10u,this->vertexBuffer.get(source)+9u);
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+8u));
+                        buffer.set(dest+10u,this->vertexBuffer.get(source+9u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1730,18 +2169,18 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
 
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+5u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+9u,this->vertexBuffer.get(source)+7u);
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+7u));
 
-                        buffer.set(dest+10u,this->vertexBuffer.get(source)+8u);
-                        buffer.set(dest+11u,this->vertexBuffer.get(source)+9u);
+                        buffer.set(dest+10u,this->vertexBuffer.get(source+8u));
+                        buffer.set(dest+11u,this->vertexBuffer.get(source+9u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1761,7 +2200,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XY
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1773,11 +2212,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XY_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+8u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+8u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1789,11 +2228,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XY_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1805,12 +2244,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XY_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1822,15 +2261,15 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XY_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
 
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+8u);
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+8u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1842,16 +2281,16 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XY_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
 
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+8u);
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+8u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1863,18 +2302,18 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
 
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+8u);
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+8u));
 
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+9u);
-                        buffer.set(dest+9u,this->vertexBuffer.get(source)+10u);
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+9u));
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+10u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1886,7 +2325,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1898,11 +2337,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+8u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+8u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1914,11 +2353,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1930,12 +2369,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1947,15 +2386,15 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
 
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+8u);
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+8u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1967,16 +2406,16 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+5u));
 
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+9u,this->vertexBuffer.get(source)+8u);
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+8u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -1988,18 +2427,18 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+4u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
 
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+8u);
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+8u));
 
-                        buffer.set(dest+9u,this->vertexBuffer.get(source)+9u);
-                        buffer.set(dest+10u,this->vertexBuffer.get(source)+10u);
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+9u));
+                        buffer.set(dest+10u,this->vertexBuffer.get(source+10u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2011,19 +2450,19 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+2u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+5u));
 
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+9u,this->vertexBuffer.get(source)+8u);
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+8u));
 
-                        buffer.set(dest+10u,this->vertexBuffer.get(source)+9u);
-                        buffer.set(dest+11u,this->vertexBuffer.get(source)+10u);
+                        buffer.set(dest+10u,this->vertexBuffer.get(source+9u));
+                        buffer.set(dest+11u,this->vertexBuffer.get(source+10u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2043,7 +2482,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ -> edk::shape::vbo_XY
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2055,7 +2494,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ -> edk::shape::vbo_XY_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2067,7 +2506,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ -> edk::shape::vbo_XY_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2079,7 +2518,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ -> edk::shape::vbo_XY_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2091,7 +2530,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ -> edk::shape::vbo_XY_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2103,7 +2542,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ -> edk::shape::vbo_XY_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
 
                         source+=vboSizeof[this->vboType];
@@ -2116,7 +2555,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ -> edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2128,7 +2567,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ -> edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2140,8 +2579,8 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ -> edk::shape::vbo_XYZ_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2153,8 +2592,8 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ -> edk::shape::vbo_XYZ_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2166,8 +2605,8 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ -> edk::shape::vbo_XYZ_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2179,8 +2618,8 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ -> edk::shape::vbo_XYZ_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2192,8 +2631,8 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ -> edk::shape::vbo_XYZ_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2205,8 +2644,8 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ -> edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2218,8 +2657,8 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ -> edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2239,7 +2678,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_NxNyNz -> edk::shape::vbo_XY
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2251,11 +2690,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_NxNyNz -> edk::shape::vbo_XY_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2267,7 +2706,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_NxNyNz -> edk::shape::vbo_XY_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2279,7 +2718,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_NxNyNz -> edk::shape::vbo_XY_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2291,11 +2730,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_NxNyNz -> edk::shape::vbo_XY_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2307,11 +2746,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_NxNyNz -> edk::shape::vbo_XY_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2323,11 +2762,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_NxNyNz -> edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2339,11 +2778,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_NxNyNz -> edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2355,8 +2794,8 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_NxNyNz -> edk::shape::vbo_XYZ
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2368,8 +2807,8 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_NxNyNz -> edk::shape::vbo_XYZ_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2381,8 +2820,8 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_NxNyNz -> edk::shape::vbo_XYZ_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2394,12 +2833,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_NxNyNz -> edk::shape::vbo_XYZ_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2411,12 +2850,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_NxNyNz -> edk::shape::vbo_XYZ_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+9u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2428,12 +2867,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_NxNyNz -> edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2445,12 +2884,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_NxNyNz -> edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+9u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2470,7 +2909,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGB -> edk::shape::vbo_XY
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2482,7 +2921,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGB -> edk::shape::vbo_XY_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2494,11 +2933,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGB -> edk::shape::vbo_XY_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2510,11 +2949,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGB -> edk::shape::vbo_XY_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2526,11 +2965,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGB -> edk::shape::vbo_XY_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2542,11 +2981,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGB -> edk::shape::vbo_XY_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2558,11 +2997,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGB -> edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2574,11 +3013,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGB -> edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2590,8 +3029,8 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGB -> edk::shape::vbo_XYZ
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2603,8 +3042,8 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGB -> edk::shape::vbo_XYZ_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2616,12 +3055,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGB -> edk::shape::vbo_XYZ_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2633,12 +3072,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGB -> edk::shape::vbo_XYZ_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2650,12 +3089,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGB -> edk::shape::vbo_XYZ_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
 
 
                         source+=vboSizeof[this->vboType];
@@ -2668,12 +3107,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGB -> edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2685,12 +3124,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGB -> edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2710,7 +3149,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGBA -> edk::shape::vbo_XY
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2722,7 +3161,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGBA -> edk::shape::vbo_XY_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2734,11 +3173,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGBA -> edk::shape::vbo_XY_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2750,12 +3189,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGBA -> edk::shape::vbo_XY_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+5u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+6u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+6u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2767,11 +3206,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGBA -> edk::shape::vbo_XY_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2783,12 +3222,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGBA -> edk::shape::vbo_XY_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+5u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+6u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+6u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2800,11 +3239,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGBA -> edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2816,12 +3255,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGBA -> edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+5u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+6u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+6u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2833,8 +3272,8 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGBA -> edk::shape::vbo_XYZ
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2846,8 +3285,8 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGBA -> edk::shape::vbo_XYZ_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2859,12 +3298,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGBA -> edk::shape::vbo_XYZ_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2876,12 +3315,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGBA -> edk::shape::vbo_XYZ_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2893,13 +3332,13 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGBA -> edk::shape::vbo_XYZ_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+5u);
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+6u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+6u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2911,12 +3350,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGBA -> edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2928,13 +3367,13 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGBA -> edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+5u);
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+6u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+6u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2954,7 +3393,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGB_NxNyNz -> edk::shape::vbo_XY
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2966,11 +3405,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGB_NxNyNz -> edk::shape::vbo_XY_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+8u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+8u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2982,11 +3421,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGB_NxNyNz -> edk::shape::vbo_XY_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -2998,11 +3437,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGB_NxNyNz -> edk::shape::vbo_XY_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3014,15 +3453,15 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGB_NxNyNz -> edk::shape::vbo_XY_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
 
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+8u);
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+8u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3034,15 +3473,15 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGB_NxNyNz -> edk::shape::vbo_XY_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
 
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+8u);
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+8u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3054,15 +3493,15 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGB_NxNyNz -> edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
 
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+8u);
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+8u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3074,15 +3513,15 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGB_NxNyNz -> edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
 
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+8u);
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+8u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3094,8 +3533,8 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGB_NxNyNz -> edk::shape::vbo_XYZ
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3107,12 +3546,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGB_NxNyNz -> edk::shape::vbo_XYZ_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+8u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+8u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3124,12 +3563,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGB_NxNyNz -> edk::shape::vbo_XYZ_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3141,12 +3580,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGB_NxNyNz -> edk::shape::vbo_XYZ_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3158,16 +3597,16 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGB_NxNyNz -> edk::shape::vbo_XYZ_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
 
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+9u,this->vertexBuffer.get(source)+8u);
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+8u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3179,16 +3618,16 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGB_NxNyNz -> edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
 
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+8u);
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+8u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3200,16 +3639,16 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGB_NxNyNz -> edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
 
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+9u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+10u,this->vertexBuffer.get(source)+8u);
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+10u,this->vertexBuffer.get(source+8u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3229,7 +3668,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGBA_NxNyNz -> edk::shape::vbo_XY
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3241,11 +3680,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGBA_NxNyNz -> edk::shape::vbo_XY_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+8u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+9u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+8u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+9u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3257,11 +3696,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGBA_NxNyNz -> edk::shape::vbo_XY_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3273,12 +3712,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGBA_NxNyNz -> edk::shape::vbo_XY_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+5u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+6u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+6u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3290,15 +3729,15 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGBA_NxNyNz -> edk::shape::vbo_XY_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
 
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+8u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+9u);
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+8u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+9u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3310,16 +3749,16 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGBA_NxNyNz -> edk::shape::vbo_XY_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+5u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+6u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+6u));
 
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+8u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+9u);
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+8u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+9u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3331,15 +3770,15 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGBA_NxNyNz -> edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
 
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+8u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+9u);
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+8u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+9u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3351,16 +3790,16 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGBA_NxNyNz -> edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+5u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+6u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+6u));
 
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+8u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+9u);
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+8u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+9u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3372,8 +3811,8 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGBA_NxNyNz -> edk::shape::vbo_XYZ
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3385,12 +3824,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGBA_NxNyNz -> edk::shape::vbo_XYZ_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+8u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+9u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+8u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+9u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3402,12 +3841,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGBA_NxNyNz -> edk::shape::vbo_XYZ_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3419,13 +3858,13 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGBA_NxNyNz -> edk::shape::vbo_XYZ_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+5u);
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+6u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+6u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3437,16 +3876,16 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGBA_NxNyNz -> edk::shape::vbo_XYZ_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
 
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+8u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+9u);
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+8u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+9u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3458,16 +3897,16 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGBA_NxNyNz -> edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
 
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+8u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+8u);
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+8u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+8u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3479,17 +3918,17 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGBA_NxNyNz -> edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+5u);
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+6u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+6u));
 
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+8u);
-                        buffer.set(dest+9u,this->vertexBuffer.get(source)+9u);
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+8u));
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+9u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3509,7 +3948,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XY
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3521,11 +3960,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XY_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+8u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+8u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3537,11 +3976,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XY_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3553,11 +3992,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XY_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3569,15 +4008,15 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XY_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
 
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+8u);
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+8u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3589,15 +4028,15 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XY_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
 
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+8u);
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+8u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3609,18 +4048,18 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
 
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+8u);
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+8u));
 
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+9u);
-                        buffer.set(dest+9u,this->vertexBuffer.get(source)+10u);
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+9u));
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+10u));
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
                     }
@@ -3631,18 +4070,18 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
 
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+8u);
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+8u));
 
-                        buffer.set(dest+9u,this->vertexBuffer.get(source)+9u);
-                        buffer.set(dest+10u,this->vertexBuffer.get(source)+10u);
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+9u));
+                        buffer.set(dest+10u,this->vertexBuffer.get(source+10u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3654,8 +4093,8 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3667,12 +4106,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+8u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+8u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3684,12 +4123,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3701,12 +4140,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3718,16 +4157,16 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
 
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+8u);
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+8u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3739,16 +4178,16 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
 
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+9u,this->vertexBuffer.get(source)+8u);
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+8u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3760,19 +4199,19 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
 
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+6u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+9u,this->vertexBuffer.get(source)+8u);
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+8u));
 
-                        buffer.set(dest+10u,this->vertexBuffer.get(source)+9u);
-                        buffer.set(dest+11u,this->vertexBuffer.get(source)+10u);
+                        buffer.set(dest+10u,this->vertexBuffer.get(source+9u));
+                        buffer.set(dest+11u,this->vertexBuffer.get(source+10u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3792,7 +4231,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XY
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3804,11 +4243,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XY_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+8u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+9u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+8u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+9u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3820,11 +4259,11 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XY_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3836,12 +4275,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XY_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+5u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+6u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+6u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3853,15 +4292,15 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XY_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
 
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+8u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+9u);
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+8u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+9u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3873,16 +4312,16 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XY_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+5u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+6u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+6u));
 
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+8u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+9u);
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+8u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+9u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3894,18 +4333,18 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
 
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+8u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+9u);
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+8u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+9u));
 
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+10u);
-                        buffer.set(dest+9u,this->vertexBuffer.get(source)+11u);
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+10u));
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+11u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3917,19 +4356,19 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
 
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+5u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+6u);
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+6u));
 
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+8u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+9u);
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+8u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+9u));
 
-                        buffer.set(dest+9u,this->vertexBuffer.get(source)+10u);
-                        buffer.set(dest+10u,this->vertexBuffer.get(source)+11u);
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+10u));
+                        buffer.set(dest+10u,this->vertexBuffer.get(source+11u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3941,8 +4380,8 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3954,12 +4393,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+8u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+9u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+8u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+9u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3971,12 +4410,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -3988,13 +4427,13 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+5u);
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+6u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+6u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -4006,16 +4445,16 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
 
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+8u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+9u);
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+8u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+9u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -4027,17 +4466,17 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+5u);
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+6u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+6u));
 
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+8u);
-                        buffer.set(dest+9u,this->vertexBuffer.get(source)+9u);
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+8u));
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+9u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -4049,19 +4488,19 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     //edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source)+1u);
-                        buffer.set(dest+2u,this->vertexBuffer.get(source)+2u);
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
 
-                        buffer.set(dest+3u,this->vertexBuffer.get(source)+3u);
-                        buffer.set(dest+4u,this->vertexBuffer.get(source)+4u);
-                        buffer.set(dest+5u,this->vertexBuffer.get(source)+5u);
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
 
-                        buffer.set(dest+6u,this->vertexBuffer.get(source)+7u);
-                        buffer.set(dest+7u,this->vertexBuffer.get(source)+8u);
-                        buffer.set(dest+8u,this->vertexBuffer.get(source)+9u);
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+8u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+9u));
 
-                        buffer.set(dest+9u,this->vertexBuffer.get(source)+10u);
-                        buffer.set(dest+10u,this->vertexBuffer.get(source)+11u);
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+10u));
+                        buffer.set(dest+10u,this->vertexBuffer.get(source+11u));
 
                         source+=vboSizeof[this->vboType];
                         dest+=vboSizeof[type];
@@ -4078,6 +4517,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
             }
             //clone the buffer
             this->vertexBuffer.cloneFrom(&buffer);
+            this->vboType = type;
             //set the update funtions
             this->updateVBOFunctions();
             return true;
@@ -4427,91 +4867,95 @@ bool edk::shape::Polygon2D::setVBOVertexNormal(edk::uint32 vertex,edk::vec3f32 n
         switch(this->vboType){
         case edk::shape::vbo_XY:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 6u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XY_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 6u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XY_RGB:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 6u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XY_RGBA:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 6u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XY_RGB_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 6u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XY_RGBA_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 6u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 6u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 6u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XYZ:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 7u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XYZ_NxNyNz:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 7u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XYZ_RGB:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 7u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XYZ_RGBA:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 7u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XYZ_RGB_NxNyNz:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 7u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XYZ_RGBA_NxNyNz:
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 7u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 7u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 7u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         default:
             break;
@@ -4538,91 +4982,95 @@ bool edk::shape::Polygon2D::setVBOVertexNormalX(edk::uint32 vertex,edk::float32 
         switch(this->vboType){
         case edk::shape::vbo_XY:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 6u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XY_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 6u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XY_RGB:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 6u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XY_RGBA:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 6u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XY_RGB_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 6u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XY_RGBA_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 6u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 6u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 6u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XYZ:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 7u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XYZ_NxNyNz:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 7u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XYZ_RGB:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 7u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XYZ_RGBA:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 7u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XYZ_RGB_NxNyNz:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 7u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XYZ_RGBA_NxNyNz:
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 7u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 7u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 7u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         default:
             break;
@@ -4645,91 +5093,95 @@ bool edk::shape::Polygon2D::setVBOVertexNormalY(edk::uint32 vertex,edk::float32 
         switch(this->vboType){
         case edk::shape::vbo_XY:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 6u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XY_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 6u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XY_RGB:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 6u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XY_RGBA:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 6u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XY_RGB_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 6u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XY_RGBA_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 6u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 6u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 6u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XYZ:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 7u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XYZ_NxNyNz:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 7u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XYZ_RGB:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 7u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XYZ_RGBA:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 7u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XYZ_RGB_NxNyNz:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 7u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XYZ_RGBA_NxNyNz:
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 7u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 7u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 7u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         default:
             break;
@@ -4753,91 +5205,95 @@ bool edk::shape::Polygon2D::setVBOVertexNormalZ(edk::uint32 vertex,edk::float32 
         switch(this->vboType){
         case edk::shape::vbo_XY:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 6u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XY_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 6u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XY_RGB:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 6u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XY_RGBA:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 6u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XY_RGB_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 6u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XY_RGBA_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 6u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 6u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 6u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XYZ:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 7u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XYZ_NxNyNz:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 7u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XYZ_RGB:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 7u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XYZ_RGBA:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 7u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XYZ_RGB_NxNyNz:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 7u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XYZ_RGBA_NxNyNz:
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 7u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 7u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 7u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 7u;
             break;
         default:
             break;
@@ -4862,91 +5318,95 @@ bool edk::shape::Polygon2D::setVBOVertexColor(edk::uint32 vertex,edk::color4f32 
         switch(this->vboType){
         case edk::shape::vbo_XY:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 2u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 3u;
             break;
         case edk::shape::vbo_XY_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 2u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 3u;
             break;
         case edk::shape::vbo_XY_RGB:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 2u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 3u;
             break;
         case edk::shape::vbo_XY_RGBA:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 2u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 3u;
             break;
         case edk::shape::vbo_XY_RGB_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 2u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 3u;
             break;
         case edk::shape::vbo_XY_RGBA_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 2u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 3u;
             break;
         case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 2u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 3u;
             break;
         case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 2u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 3u;
             break;
         case edk::shape::vbo_XYZ:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 3u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 3u;
             break;
         case edk::shape::vbo_XYZ_NxNyNz:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 3u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 3u;
             break;
         case edk::shape::vbo_XYZ_RGB:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 3u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 3u;
             break;
         case edk::shape::vbo_XYZ_RGBA:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 3u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 3u;
             break;
         case edk::shape::vbo_XYZ_RGB_NxNyNz:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 3u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 3u;
             break;
         case edk::shape::vbo_XYZ_RGBA_NxNyNz:
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 3u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 3u;
             break;
         case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 3u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 3u;
             break;
         case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 3u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 3u;
             break;
         default:
             break;
@@ -4977,47 +5437,51 @@ bool edk::shape::Polygon2D::setVBOPolygonColor(edk::color4f32 color){
         switch(this->vboType){
         case edk::shape::vbo_XY:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            position = 2u;
+            position = 3u;
             break;
         case edk::shape::vbo_XY_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            position = 2u;
+            position = 3u;
             break;
         case edk::shape::vbo_XY_RGB:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            position = 2u;
+            position = 3u;
             break;
         case edk::shape::vbo_XY_RGBA:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            position = 2u;
+            position = 3u;
             break;
         case edk::shape::vbo_XY_RGB_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            position = 2u;
+            position = 3u;
             break;
         case edk::shape::vbo_XY_RGBA_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            position = 2u;
+            position = 3u;
             break;
         case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            position = 2u;
+            position = 3u;
             break;
         case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            position = 2u;
+            position = 3u;
             break;
         case edk::shape::vbo_XYZ:
             //change the vertexBuffer
@@ -5093,47 +5557,51 @@ bool edk::shape::Polygon2D::setVBOPolygonNormal(edk::vec3f32 normal){
         switch(this->vboType){
         case edk::shape::vbo_XY:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            position = 6u;
+            position = 7u;
             break;
         case edk::shape::vbo_XY_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            position = 6u;
+            position = 7u;
             break;
         case edk::shape::vbo_XY_RGB:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            position = 6u;
+            position = 7u;
             break;
         case edk::shape::vbo_XY_RGBA:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            position = 6u;
+            position = 7u;
             break;
         case edk::shape::vbo_XY_RGB_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            position = 6u;
+            position = 7u;
             break;
         case edk::shape::vbo_XY_RGBA_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            position = 6u;
+            position = 7u;
             break;
         case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            position = 6u;
+            position = 7u;
             break;
         case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            position = 6u;
+            position = 7u;
             break;
         case edk::shape::vbo_XYZ:
             //change the vertexBuffer
@@ -5207,47 +5675,51 @@ bool edk::shape::Polygon2D::setVBOPolygonColorR(edk::float32 r){
         switch(this->vboType){
         case edk::shape::vbo_XY:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            position = 2u;
+            position = 3u;
             break;
         case edk::shape::vbo_XY_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            position = 2u;
+            position = 3u;
             break;
         case edk::shape::vbo_XY_RGB:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            position = 2u;
+            position = 3u;
             break;
         case edk::shape::vbo_XY_RGBA:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            position = 2u;
+            position = 3u;
             break;
         case edk::shape::vbo_XY_RGB_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            position = 2u;
+            position = 3u;
             break;
         case edk::shape::vbo_XY_RGBA_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            position = 2u;
+            position = 3u;
             break;
         case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            position = 2u;
+            position = 3u;
             break;
         case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            position = 2u;
+            position = 3u;
             break;
         case edk::shape::vbo_XYZ:
             //change the vertexBuffer
@@ -5319,47 +5791,51 @@ bool edk::shape::Polygon2D::setVBOPolygonColorG(edk::float32 g){
         switch(this->vboType){
         case edk::shape::vbo_XY:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            position = 2u;
+            position = 3u;
             break;
         case edk::shape::vbo_XY_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            position = 2u;
+            position = 3u;
             break;
         case edk::shape::vbo_XY_RGB:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            position = 2u;
+            position = 3u;
             break;
         case edk::shape::vbo_XY_RGBA:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            position = 2u;
+            position = 3u;
             break;
         case edk::shape::vbo_XY_RGB_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            position = 2u;
+            position = 3u;
             break;
         case edk::shape::vbo_XY_RGBA_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            position = 2u;
+            position = 3u;
             break;
         case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            position = 2u;
+            position = 3u;
             break;
         case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            position = 2u;
+            position = 3u;
             break;
         case edk::shape::vbo_XYZ:
             //change the vertexBuffer
@@ -5432,47 +5908,51 @@ bool edk::shape::Polygon2D::setVBOPolygonColorB(edk::float32 b){
         switch(this->vboType){
         case edk::shape::vbo_XY:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            position = 2u;
+            position = 3u;
             break;
         case edk::shape::vbo_XY_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            position = 2u;
+            position = 3u;
             break;
         case edk::shape::vbo_XY_RGB:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            position = 2u;
+            position = 3u;
             break;
         case edk::shape::vbo_XY_RGBA:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            position = 2u;
+            position = 3u;
             break;
         case edk::shape::vbo_XY_RGB_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            position = 2u;
+            position = 3u;
             break;
         case edk::shape::vbo_XY_RGBA_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            position = 2u;
+            position = 3u;
             break;
         case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            position = 2u;
+            position = 3u;
             break;
         case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            position = 2u;
+            position = 3u;
             break;
         case edk::shape::vbo_XYZ:
             //change the vertexBuffer
@@ -5545,47 +6025,51 @@ bool edk::shape::Polygon2D::setVBOPolygonColorA(edk::float32 a){
         switch(this->vboType){
         case edk::shape::vbo_XY:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            position = 2u;
+            position = 3u;
             break;
         case edk::shape::vbo_XY_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            position = 2u;
+            position = 3u;
             break;
         case edk::shape::vbo_XY_RGB:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            position = 2u;
+            position = 3u;
             break;
         case edk::shape::vbo_XY_RGBA:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            position = 2u;
+            position = 3u;
             break;
         case edk::shape::vbo_XY_RGB_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            position = 2u;
+            position = 3u;
             break;
         case edk::shape::vbo_XY_RGBA_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
-            position = 2u;
+            position = 3u;
             break;
         case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            position = 2u;
+            position = 3u;
             break;
         case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            position = 2u;
+            position = 3u;
             break;
         case edk::shape::vbo_XYZ:
             //change the vertexBuffer
@@ -5659,93 +6143,93 @@ bool edk::shape::Polygon2D::setVBOVertexUV(edk::uint32 vertex,edk::vec2f32 uv){
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 8u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 9u;
             break;
         case edk::shape::vbo_XY_NxNyNz:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 8u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 9u;
             break;
         case edk::shape::vbo_XY_RGB:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 8u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 9u;
             break;
         case edk::shape::vbo_XY_RGBA:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 8u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 9u;
             break;
         case edk::shape::vbo_XY_RGB_NxNyNz:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 8u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 9u;
             break;
         case edk::shape::vbo_XY_RGBA_NxNyNz:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 8u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 9u;
             break;
         case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 8u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 9u;
             break;
         case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 8u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 9u;
             break;
         case edk::shape::vbo_XYZ:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 10u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 10u;
             break;
         case edk::shape::vbo_XYZ_NxNyNz:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 10u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 10u;
             break;
         case edk::shape::vbo_XYZ_RGB:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 10u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 10u;
             break;
         case edk::shape::vbo_XYZ_RGBA:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 10u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 10u;
             break;
         case edk::shape::vbo_XYZ_RGB_NxNyNz:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 10u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 10u;
             break;
         case edk::shape::vbo_XYZ_RGBA_NxNyNz:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 10u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 10u;
             break;
         case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 10u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 10u;
             break;
         case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 10u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 10u;
             break;
         default:
             break;
@@ -5772,93 +6256,93 @@ bool edk::shape::Polygon2D::setVBOVertexU(edk::uint32 vertex,edk::float32 u){
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 8u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 9u;
             break;
         case edk::shape::vbo_XY_NxNyNz:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 8u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 9u;
             break;
         case edk::shape::vbo_XY_RGB:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 8u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 9u;
             break;
         case edk::shape::vbo_XY_RGBA:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 8u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 9u;
             break;
         case edk::shape::vbo_XY_RGB_NxNyNz:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 8u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 9u;
             break;
         case edk::shape::vbo_XY_RGBA_NxNyNz:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 8u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 9u;
             break;
         case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 8u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 9u;
             break;
         case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 8u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 9u;
             break;
         case edk::shape::vbo_XYZ:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 10u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 10u;
             break;
         case edk::shape::vbo_XYZ_NxNyNz:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 10u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 10u;
             break;
         case edk::shape::vbo_XYZ_RGB:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 10u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 10u;
             break;
         case edk::shape::vbo_XYZ_RGBA:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 10u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 10u;
             break;
         case edk::shape::vbo_XYZ_RGB_NxNyNz:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 10u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 10u;
             break;
         case edk::shape::vbo_XYZ_RGBA_NxNyNz:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 10u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 10u;
             break;
         case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 10u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 10u;
             break;
         case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 10u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 10u;
             break;
         default:
             break;
@@ -5882,93 +6366,93 @@ bool edk::shape::Polygon2D::setVBOVertexV(edk::uint32 vertex,edk::float32 v){
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 8u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 9u;
             break;
         case edk::shape::vbo_XY_NxNyNz:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 8u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 9u;
             break;
         case edk::shape::vbo_XY_RGB:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 8u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 9u;
             break;
         case edk::shape::vbo_XY_RGBA:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 8u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 9u;
             break;
         case edk::shape::vbo_XY_RGB_NxNyNz:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 8u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 9u;
             break;
         case edk::shape::vbo_XY_RGBA_NxNyNz:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 8u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 9u;
             break;
         case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 8u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 9u;
             break;
         case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 8u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 9u;
             break;
         case edk::shape::vbo_XYZ:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 10u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 10u;
             break;
         case edk::shape::vbo_XYZ_NxNyNz:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 10u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 10u;
             break;
         case edk::shape::vbo_XYZ_RGB:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 10u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 10u;
             break;
         case edk::shape::vbo_XYZ_RGBA:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 10u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 10u;
             break;
         case edk::shape::vbo_XYZ_RGB_NxNyNz:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 10u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 10u;
             break;
         case edk::shape::vbo_XYZ_RGBA_NxNyNz:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 10u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 10u;
             break;
         case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
             this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 10u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 10u;
             break;
         case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
             //calculate the vertex position
-            vertex = (vertex * this->vboType) + 10u;
+            vertex = (vertex * vboSizeof[this->vboType]) + 10u;
             break;
         default:
             break;
@@ -5981,6 +6465,200 @@ bool edk::shape::Polygon2D::setVBOVertexV(edk::uint32 vertex,edk::float32 v){
         //update the VBO
         this->updateVBOFunctions();
 
+        return true;
+    }
+    return false;
+}
+//updafe the UV into the VBO
+bool edk::shape::Polygon2D::updateVBOUV(){
+    if(this->vertexBuffer.haveArray() && this->vbo){
+        edk::uint32 size = this->vertexs.size();
+        edk::shape::Vertex2DWithUV* vTemp;
+        edk::uint32 vertex;
+        edk::vec2f32 uv;
+        for(edk::uint32 i=0u;i<size;i++){
+            vertex = i;
+            vTemp = (edk::shape::Vertex2DWithUV*)this->vertexs.get(vertex);edkEnd();
+            if(vTemp->getType() == EDK_SHAPE_UV || vTemp->getType() == EDK_SHAPE_ANIMATED_UV){
+                uv = vTemp->getUV();
+                //set the vertex position in vertexBuffer
+                //test if need change the buffer
+                switch(this->vboType){
+                case edk::shape::vbo_XY:
+                    //change the vertexBuffer
+                    this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                    //calculate the vertex position
+                    vertex = (vertex * vboSizeof[this->vboType]) + 9u;
+                    break;
+                case edk::shape::vbo_XY_NxNyNz:
+                    //change the vertexBuffer
+                    this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                    //calculate the vertex position
+                    vertex = (vertex * vboSizeof[this->vboType]) + 9u;
+                    break;
+                case edk::shape::vbo_XY_RGB:
+                    //change the vertexBuffer
+                    this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                    //calculate the vertex position
+                    vertex = (vertex * vboSizeof[this->vboType]) + 9u;
+                    break;
+                case edk::shape::vbo_XY_RGBA:
+                    //change the vertexBuffer
+                    this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                    //calculate the vertex position
+                    vertex = (vertex * vboSizeof[this->vboType]) + 9u;
+                    break;
+                case edk::shape::vbo_XY_RGB_NxNyNz:
+                    //change the vertexBuffer
+                    this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                    //calculate the vertex position
+                    vertex = (vertex * vboSizeof[this->vboType]) + 9u;
+                    break;
+                case edk::shape::vbo_XY_RGBA_NxNyNz:
+                    //change the vertexBuffer
+                    this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                    //calculate the vertex position
+                    vertex = (vertex * vboSizeof[this->vboType]) + 9u;
+                    break;
+                case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
+                    //change the vertexBuffer
+                    this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                    //calculate the vertex position
+                    vertex = (vertex * vboSizeof[this->vboType]) + 9u;
+                    break;
+                case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                    //calculate the vertex position
+                    vertex = (vertex * vboSizeof[this->vboType]) + 9u;
+                    break;
+                case edk::shape::vbo_XYZ:
+                    //change the vertexBuffer
+                    this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                    //calculate the vertex position
+                    vertex = (vertex * vboSizeof[this->vboType]) + 10u;
+                    break;
+                case edk::shape::vbo_XYZ_NxNyNz:
+                    //change the vertexBuffer
+                    this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                    //calculate the vertex position
+                    vertex = (vertex * vboSizeof[this->vboType]) + 10u;
+                    break;
+                case edk::shape::vbo_XYZ_RGB:
+                    //change the vertexBuffer
+                    this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                    //calculate the vertex position
+                    vertex = (vertex * vboSizeof[this->vboType]) + 10u;
+                    break;
+                case edk::shape::vbo_XYZ_RGBA:
+                    //change the vertexBuffer
+                    this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                    //calculate the vertex position
+                    vertex = (vertex * vboSizeof[this->vboType]) + 10u;
+                    break;
+                case edk::shape::vbo_XYZ_RGB_NxNyNz:
+                    //change the vertexBuffer
+                    this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                    //calculate the vertex position
+                    vertex = (vertex * vboSizeof[this->vboType]) + 10u;
+                    break;
+                case edk::shape::vbo_XYZ_RGBA_NxNyNz:
+                    //change the vertexBuffer
+                    this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                    //calculate the vertex position
+                    vertex = (vertex * vboSizeof[this->vboType]) + 10u;
+                    break;
+                case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                    //change the vertexBuffer
+                    this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                    //calculate the vertex position
+                    vertex = (vertex * vboSizeof[this->vboType]) + 10u;
+                    break;
+                case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                    //calculate the vertex position
+                    vertex = (vertex * vboSizeof[this->vboType]) + 10u;
+                    break;
+                default:
+                    break;
+                }
+
+                //set the position
+                this->vertexBuffer.set(vertex,uv.x);
+                vertex++;
+                this->vertexBuffer.set(vertex,uv.y);
+
+                //update the VBO
+                this->updateVBOFunctions();
+
+                return true;
+            }
+        }
+    }
+    return false;
+}
+//print the VBO
+bool edk::shape::Polygon2D::printVBO(){
+    if(this->vertexBuffer.haveArray() && this->vbo){
+        edk::uint32 position=0u;
+        edk::uint32 increment=vboSizeof[this->vboType];
+        //test if need change the buffer
+        switch(this->vboType){
+        case edk::shape::vbo_XY:
+            printf("\nvbo_XY");
+            break;
+        case edk::shape::vbo_XY_NxNyNz:
+            printf("\nvbo_XY_NxNyNz");
+            break;
+        case edk::shape::vbo_XY_RGB:
+            printf("\nvbo_XY_RGB");
+            break;
+        case edk::shape::vbo_XY_RGBA:
+            printf("\nvbo_XY_RGBA");
+            break;
+        case edk::shape::vbo_XY_RGB_NxNyNz:
+            printf("\nvbo_XY_RGB_NxNyNz");
+            break;
+        case edk::shape::vbo_XY_RGBA_NxNyNz:
+            printf("\nvbo_XY_RGBA_NxNyNz");
+            break;
+        case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
+            printf("\nvbo_XY_RGB_NxNyNz_UVxUVy");
+            break;
+        case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            printf("\nvbo_XY_RGBA_NxNyNz_UVxUVy");
+            break;
+        case edk::shape::vbo_XYZ:
+            printf("\nvbo_XYZ");
+            break;
+        case edk::shape::vbo_XYZ_NxNyNz:
+            printf("\nvbo_XYZ_NxNyNz");
+            break;
+        case edk::shape::vbo_XYZ_RGB:
+            printf("\nvbo_XYZ_RGB");
+            break;
+        case edk::shape::vbo_XYZ_RGBA:
+            printf("\nvbo_XYZ_RGBA");
+            break;
+        case edk::shape::vbo_XYZ_RGB_NxNyNz:
+            printf("\nvbo_XYZ_RGB_NxNyNz");
+            break;
+        case edk::shape::vbo_XYZ_RGBA_NxNyNz:
+            printf("\nvbo_XYZ_RGBA_NxNyNz");
+            break;
+        case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+            printf("\nvbo_XYZ_RGB_NxNyNz_UVxUVy");
+            break;
+        case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+            printf("\nvbo_XYZ_RGBA_NxNyNz_UVxUVy");
+            break;
+        default:
+            break;
+        }
+        for(edk::uint32 i=0u;i<this->vboCount;i++){
+            printf("\n");
+            for(edk::uint32 j=0u;j<increment;j++){
+                printf("[%.2f]",this->vertexBuffer.get(position));
+                position++;
+            }
+        }fflush(stdout);
         return true;
     }
     return false;
@@ -6049,7 +6727,7 @@ void edk::shape::Polygon2D::print_XY(){
                ,this->vertexBuffer.getNoIF(position+1u)
                );edkEnd();
         position+=increment;
-    }
+    }fflush(stdout);
 }
 void edk::shape::Polygon2D::print_XYZ(){
     edk::uint8 increment = vboSizeof[this->vboType];
@@ -6062,32 +6740,40 @@ void edk::shape::Polygon2D::print_XYZ(){
                ,this->vertexBuffer.getNoIF(position+2u)
                );edkEnd();
         position+=increment;
-    }
+    }fflush(stdout);
 }
 void edk::shape::Polygon2D::print_XY_NxNyNz(){
     edk::uint8 increment = vboSizeof[this->vboType];
     edk::uint32 position = 0u;
     for(edk::uint32 i=0u;i<this->vboCount;i++){
-        printf("\nVector [%u] position(%.2f %.2f)"
+        printf("\nVector [%u] position(%.2f %.2f) normal(%.2f %.2f %.2f)"
                ,i
                ,this->vertexBuffer.getNoIF(position)
                ,this->vertexBuffer.getNoIF(position+1u)
+
+               ,this->vertexBuffer.getNoIF(position+2u)
+               ,this->vertexBuffer.getNoIF(position+3u)
+               ,this->vertexBuffer.getNoIF(position+4u)
                );edkEnd();
         position+=increment;
-    }
+    }fflush(stdout);
 }
 void edk::shape::Polygon2D::print_XYZ_NxNyNz(){
     edk::uint8 increment = vboSizeof[this->vboType];
     edk::uint32 position = 0u;
     for(edk::uint32 i=0u;i<this->vboCount;i++){
-        printf("\nVector [%u] position(%.2f %.2f %.2f)"
+        printf("\nVector [%u] position(%.2f %.2f %.2f) normal(%.2f %.2f %.2f)"
                ,i
                ,this->vertexBuffer.getNoIF(position)
                ,this->vertexBuffer.getNoIF(position+1u)
                ,this->vertexBuffer.getNoIF(position+2u)
+
+               ,this->vertexBuffer.getNoIF(position+3u)
+               ,this->vertexBuffer.getNoIF(position+4u)
+               ,this->vertexBuffer.getNoIF(position+5u)
                );edkEnd();
         position+=increment;
-    }
+    }fflush(stdout);
 }
 void edk::shape::Polygon2D::print_XY_RGB(){
     edk::uint8 increment = vboSizeof[this->vboType];
@@ -6103,7 +6789,7 @@ void edk::shape::Polygon2D::print_XY_RGB(){
                ,this->vertexBuffer.getNoIF(position+4u)
                );edkEnd();
         position+=increment;
-    }
+    }fflush(stdout);
 }
 void edk::shape::Polygon2D::print_XYZ_RGB(){
     edk::uint8 increment = vboSizeof[this->vboType];
@@ -6120,7 +6806,7 @@ void edk::shape::Polygon2D::print_XYZ_RGB(){
                ,this->vertexBuffer.getNoIF(position+5u)
                );edkEnd();
         position+=increment;
-    }
+    }fflush(stdout);
 }
 void edk::shape::Polygon2D::print_XY_RGBA(){
     edk::uint8 increment = vboSizeof[this->vboType];
@@ -6137,7 +6823,7 @@ void edk::shape::Polygon2D::print_XY_RGBA(){
                ,this->vertexBuffer.getNoIF(position+5u)
                );edkEnd();
         position+=increment;
-    }
+    }fflush(stdout);
 }
 void edk::shape::Polygon2D::print_XYZ_RGBA(){
     edk::uint8 increment = vboSizeof[this->vboType];
@@ -6155,13 +6841,13 @@ void edk::shape::Polygon2D::print_XYZ_RGBA(){
                ,this->vertexBuffer.getNoIF(position+6u)
                );edkEnd();
         position+=increment;
-    }
+    }fflush(stdout);
 }
 void edk::shape::Polygon2D::print_XY_RGB_NxNyNz(){
     edk::uint8 increment = vboSizeof[this->vboType];
     edk::uint32 position = 0u;
     for(edk::uint32 i=0u;i<this->vboCount;i++){
-        printf("\nVector [%u] position(%.2f %.2f) Color (%.2f %.2f %.2f)"
+        printf("\nVector [%u] position(%.2f %.2f) Color (%.2f %.2f %.2f) normal(%.2f %.2f %.2f)"
                ,i
                ,this->vertexBuffer.getNoIF(position)
                ,this->vertexBuffer.getNoIF(position+1u)
@@ -6169,15 +6855,19 @@ void edk::shape::Polygon2D::print_XY_RGB_NxNyNz(){
                ,this->vertexBuffer.getNoIF(position+2u)
                ,this->vertexBuffer.getNoIF(position+3u)
                ,this->vertexBuffer.getNoIF(position+4u)
+
+               ,this->vertexBuffer.getNoIF(position+5u)
+               ,this->vertexBuffer.getNoIF(position+6u)
+               ,this->vertexBuffer.getNoIF(position+7u)
                );edkEnd();
         position+=increment;
-    }
+    }fflush(stdout);
 }
 void edk::shape::Polygon2D::print_XYZ_RGB_NxNyNz(){
     edk::uint8 increment = vboSizeof[this->vboType];
     edk::uint32 position = 0u;
     for(edk::uint32 i=0u;i<this->vboCount;i++){
-        printf("\nVector [%u] position(%.2f %.2f %.2f) Color (%.2f %.2f %.2f)"
+        printf("\nVector [%u] position(%.2f %.2f %.2f) Color (%.2f %.2f %.2f) normal(%.2f %.2f %.2f)"
                ,i
                ,this->vertexBuffer.getNoIF(position)
                ,this->vertexBuffer.getNoIF(position+1u)
@@ -6186,15 +6876,19 @@ void edk::shape::Polygon2D::print_XYZ_RGB_NxNyNz(){
                ,this->vertexBuffer.getNoIF(position+3u)
                ,this->vertexBuffer.getNoIF(position+4u)
                ,this->vertexBuffer.getNoIF(position+5u)
+
+               ,this->vertexBuffer.getNoIF(position+6u)
+               ,this->vertexBuffer.getNoIF(position+7u)
+               ,this->vertexBuffer.getNoIF(position+8u)
                );edkEnd();
         position+=increment;
-    }
+    }fflush(stdout);
 }
 void edk::shape::Polygon2D::print_XY_RGBA_NxNyNz(){
     edk::uint8 increment = vboSizeof[this->vboType];
     edk::uint32 position = 0u;
     for(edk::uint32 i=0u;i<this->vboCount;i++){
-        printf("\nVector [%u] position(%.2f %.2f) Color (%.2f %.2f %.2f %.2f)"
+        printf("\nVector [%u] position(%.2f %.2f) Color (%.2f %.2f %.2f %.2f) normal(%.2f %.2f %.2f)"
                ,i
                ,this->vertexBuffer.getNoIF(position)
                ,this->vertexBuffer.getNoIF(position+1u)
@@ -6203,15 +6897,19 @@ void edk::shape::Polygon2D::print_XY_RGBA_NxNyNz(){
                ,this->vertexBuffer.getNoIF(position+3u)
                ,this->vertexBuffer.getNoIF(position+4u)
                ,this->vertexBuffer.getNoIF(position+5u)
+
+               ,this->vertexBuffer.getNoIF(position+6u)
+               ,this->vertexBuffer.getNoIF(position+7u)
+               ,this->vertexBuffer.getNoIF(position+8u)
                );edkEnd();
         position+=increment;
-    }
+    }fflush(stdout);
 }
 void edk::shape::Polygon2D::print_XYZ_RGBA_NxNyNz(){
     edk::uint8 increment = vboSizeof[this->vboType];
     edk::uint32 position = 0u;
     for(edk::uint32 i=0u;i<this->vboCount;i++){
-        printf("\nVector [%u] position(%.2f %.2f %.2f) Color (%.2f %.2f %.2f %.2f)"
+        printf("\nVector [%u] position(%.2f %.2f %.2f) Color (%.2f %.2f %.2f %.2f) normal(%.2f %.2f %.2f)"
                ,i
                ,this->vertexBuffer.getNoIF(position)
                ,this->vertexBuffer.getNoIF(position+1u)
@@ -6221,15 +6919,19 @@ void edk::shape::Polygon2D::print_XYZ_RGBA_NxNyNz(){
                ,this->vertexBuffer.getNoIF(position+4u)
                ,this->vertexBuffer.getNoIF(position+5u)
                ,this->vertexBuffer.getNoIF(position+6u)
+
+               ,this->vertexBuffer.getNoIF(position+7u)
+               ,this->vertexBuffer.getNoIF(position+8u)
+               ,this->vertexBuffer.getNoIF(position+9u)
                );edkEnd();
         position+=increment;
-    }
+    }fflush(stdout);
 }
 void edk::shape::Polygon2D::print_XY_RGB_NxNyNz_UVxUVy(){
     edk::uint8 increment = vboSizeof[this->vboType];
     edk::uint32 position = 0u;
     for(edk::uint32 i=0u;i<this->vboCount;i++){
-        printf("\nVector [%u] position(%.2f %.2f) Color(%.2f %.2f %.2f) UV(%.2f %.2f)"
+        printf("\nVector [%u] position(%.2f %.2f) Color(%.2f %.2f %.2f) normal(%.2f %.2f %.2f) UV(%.2f %.2f)"
                ,i
                ,this->vertexBuffer.getNoIF(position)
                ,this->vertexBuffer.getNoIF(position+1u)
@@ -6238,20 +6940,21 @@ void edk::shape::Polygon2D::print_XY_RGB_NxNyNz_UVxUVy(){
                ,this->vertexBuffer.getNoIF(position+3u)
                ,this->vertexBuffer.getNoIF(position+4u)
 
-               //,this->vertexBuffer.getNoIF(position+5u)
-               //,this->vertexBuffer.getNoIF(position+6u)
-
+               ,this->vertexBuffer.getNoIF(position+5u)
+               ,this->vertexBuffer.getNoIF(position+6u)
                ,this->vertexBuffer.getNoIF(position+7u)
+
                ,this->vertexBuffer.getNoIF(position+8u)
+               ,this->vertexBuffer.getNoIF(position+9u)
                );edkEnd();
         position+=increment;
-    }
+    }fflush(stdout);
 }
 void edk::shape::Polygon2D::print_XYZ_RGB_NxNyNz_UVxUVy(){
     edk::uint8 increment = vboSizeof[this->vboType];
     edk::uint32 position = 0u;
     for(edk::uint32 i=0u;i<this->vboCount;i++){
-        printf("\nVector [%u] position(%.2f %.2f %.2f) Color(%.2f %.2f %.2f) UV(%.2f %.2f)"
+        printf("\nVector [%u] position(%.2f %.2f %.2f) Color(%.2f %.2f %.2f) normal(%.2f %.2f %.2f) UV(%.2f %.2f)"
                ,i
                ,this->vertexBuffer.getNoIF(position)
                ,this->vertexBuffer.getNoIF(position+1u)
@@ -6261,21 +6964,21 @@ void edk::shape::Polygon2D::print_XYZ_RGB_NxNyNz_UVxUVy(){
                ,this->vertexBuffer.getNoIF(position+4u)
                ,this->vertexBuffer.getNoIF(position+5u)
 
-               //,this->vertexBuffer.getNoIF(position+6u)
-               //,this->vertexBuffer.getNoIF(position+7u)
-               //,this->vertexBuffer.getNoIF(position+8u)
+               ,this->vertexBuffer.getNoIF(position+6u)
+               ,this->vertexBuffer.getNoIF(position+7u)
+               ,this->vertexBuffer.getNoIF(position+8u)
 
                ,this->vertexBuffer.getNoIF(position+9u)
                ,this->vertexBuffer.getNoIF(position+10u)
                );edkEnd();
         position+=increment;
-    }
+    }fflush(stdout);
 }
 void edk::shape::Polygon2D::print_XY_RGBA_NxNyNz_UVxUVy(){
     edk::uint8 increment = vboSizeof[this->vboType];
     edk::uint32 position = 0u;
     for(edk::uint32 i=0u;i<this->vboCount;i++){
-        printf("\nVector [%u] position(%.2f %.2f) Color(%.2f %.2f %.2f %.2f) UV(%.2f %.2f)"
+        printf("\nVector [%u] position(%.2f %.2f) Color(%.2f %.2f %.2f %.2f) normal(%.2f %.2f %.2f) UV(%.2f %.2f)"
                ,i
                ,this->vertexBuffer.getNoIF(position)
                ,this->vertexBuffer.getNoIF(position+1u)
@@ -6285,20 +6988,21 @@ void edk::shape::Polygon2D::print_XY_RGBA_NxNyNz_UVxUVy(){
                ,this->vertexBuffer.getNoIF(position+4u)
                ,this->vertexBuffer.getNoIF(position+5u)
 
-               //,this->vertexBuffer.getNoIF(position+6u)
-               //,this->vertexBuffer.getNoIF(position+7u)
-
+               ,this->vertexBuffer.getNoIF(position+6u)
+               ,this->vertexBuffer.getNoIF(position+7u)
                ,this->vertexBuffer.getNoIF(position+8u)
+
                ,this->vertexBuffer.getNoIF(position+9u)
+               ,this->vertexBuffer.getNoIF(position+10u)
                );edkEnd();
         position+=increment;
-    }
+    }fflush(stdout);
 }
 void edk::shape::Polygon2D::print_XYZ_RGBA_NxNyNz_UVxUVy(){
     edk::uint8 increment = vboSizeof[this->vboType];
     edk::uint32 position = 0u;
     for(edk::uint32 i=0u;i<this->vboCount;i++){
-        printf("\nVector [%u] position(%.2f %.2f %.2f) Color(%.2f %.2f %.2f %.2f) UV(%.2f %.2f)"
+        printf("\nVector [%u] position(%.2f %.2f %.2f) Color(%.2f %.2f %.2f %.2f) normal(%.2f %.2f %.2f) UV(%.2f %.2f)"
                ,i
                ,this->vertexBuffer.getNoIF(position)
                ,this->vertexBuffer.getNoIF(position+1u)
@@ -6309,15 +7013,15 @@ void edk::shape::Polygon2D::print_XYZ_RGBA_NxNyNz_UVxUVy(){
                ,this->vertexBuffer.getNoIF(position+5u)
                ,this->vertexBuffer.getNoIF(position+6u)
 
-               //,this->vertexBuffer.getNoIF(position+7u)
-               //,this->vertexBuffer.getNoIF(position+8u)
-               //,this->vertexBuffer.getNoIF(position+9u)
+               ,this->vertexBuffer.getNoIF(position+7u)
+               ,this->vertexBuffer.getNoIF(position+8u)
+               ,this->vertexBuffer.getNoIF(position+9u)
 
                ,this->vertexBuffer.getNoIF(position+10u)
                ,this->vertexBuffer.getNoIF(position+11u)
                );edkEnd();
         position+=increment;
-    }
+    }fflush(stdout);
 }
 //DRAW
 void edk::shape::Polygon2D::draw_NULL(edk::uint32 mode){
@@ -7338,7 +8042,7 @@ bool edk::shape::Polygon2D::createPolygon(edk::uint32 vertexCount){
 
         //create the VBO.
         if(ret){
-            this->createVBO(vertexCount,edk::shape::vbo_XY_RGBA);
+            this->createVBO(vertexCount,edk::shape::vbo_XYZ_RGBA);
         }
     }
     return ret;
@@ -9105,8 +9809,10 @@ bool edk::shape::Polygon2D::cloneFrom(edk::shape::Polygon2D* poly){
                 if(temp){
                     //this->setVertexPosition(i,poly->getVertexPosition(i));edkEnd();
                     temp->position = poly->getVertexPosition(i);edkEnd();
+                    this->setVBOVertexPosition(i,temp->position);
                     //this->setVertexColor(i,poly->getVertexColor(i));edkEnd();
                     temp->color = poly->getVertexColor(i);edkEnd();
+                    this->setVBOVertexColor(i,temp->color);
                     //copy the frames
                     //this->setVertexUVFrames(i,poly->getFrames());edkEnd();
                     //get vertexType
