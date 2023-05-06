@@ -252,24 +252,58 @@ bool edk::shape::Rectangle2D::updateVBOUV(){
         edk::shape::Vertex2DWithUV* vTemp0 = (edk::shape::Vertex2DWithUV*)this->vertexs.get(0u);edkEnd();
         edk::shape::Vertex2DWithUV* vTemp1 = (edk::shape::Vertex2DWithUV*)this->vertexs.get(1u);edkEnd();
         if(vTemp0 && vTemp1){
+            edk::vec2f32 uv1 = edk::vec2f32(0.f,0.f);
+            edk::vec2f32 uv2 = edk::vec2f32(0.f,0.f);
             if(vTemp0->getType() != EDK_SHAPE_NOUV && vTemp1->getType() != EDK_SHAPE_NOUV){
-                edk::vec2f32 uv1 = vTemp0->getUV();
-                edk::vec2f32 uv2 = vTemp1->getUV();
-                edk::shape::Polygon2D::setVBOVertexUV(0u,edk::vec2f32(uv1.x,uv1.y));
-                edk::shape::Polygon2D::setVBOVertexUV(1u,edk::vec2f32(uv1.x,uv2.y));
-                edk::shape::Polygon2D::setVBOVertexUV(2u,edk::vec2f32(uv2.x,uv2.y));
-                edk::shape::Polygon2D::setVBOVertexUV(3u,edk::vec2f32(uv2.x,uv1.y));
+                uv1 = vTemp0->getUV();
+                uv2 = vTemp1->getUV();
 
-                return true;
             }
+            edk::shape::Polygon2D::setVBOVertexUV(0u,edk::vec2f32(uv1.x,uv1.y));
+            edk::shape::Polygon2D::setVBOVertexUV(1u,edk::vec2f32(uv1.x,uv2.y));
+            edk::shape::Polygon2D::setVBOVertexUV(2u,edk::vec2f32(uv2.x,uv2.y));
+            edk::shape::Polygon2D::setVBOVertexUV(3u,edk::vec2f32(uv2.x,uv1.y));
+
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::shape::Rectangle2D::updateVBOValues(){
+    if(this->vertexs.size()>1u){
+        edk::shape::Vertex2DWithUV* vTemp0 = (edk::shape::Vertex2DWithUV*)this->vertexs.get(0u);edkEnd();
+        edk::shape::Vertex2DWithUV* vTemp1 = (edk::shape::Vertex2DWithUV*)this->vertexs.get(1u);edkEnd();
+        if(vTemp0 && vTemp1){
+            edk::vec2f32 uv1 = edk::vec2f32(0.f,0.f);
+            edk::vec2f32 uv2 = edk::vec2f32(0.f,0.f);
+            if(vTemp0->getType() != EDK_SHAPE_NOUV && vTemp1->getType() != EDK_SHAPE_NOUV){
+                uv1 = vTemp0->getUV();
+                uv2 = vTemp1->getUV();
+            }
+            edk::shape::Polygon2D::setVBOVertexUV(0u,edk::vec2f32(uv1.x,uv1.y));
+            edk::shape::Polygon2D::setVBOVertexUV(1u,edk::vec2f32(uv1.x,uv2.y));
+            edk::shape::Polygon2D::setVBOVertexUV(2u,edk::vec2f32(uv2.x,uv2.y));
+            edk::shape::Polygon2D::setVBOVertexUV(3u,edk::vec2f32(uv2.x,uv1.y));
+            edk::vec2f32 position1 = vTemp0->position;
+            edk::vec2f32 position2 = vTemp1->position;
+            edk::shape::Polygon2D::setVBOVertexPosition(0u,edk::vec2f32(position1.x,position1.y));
+            edk::shape::Polygon2D::setVBOVertexPosition(1u,edk::vec2f32(position1.x,position2.y));
+            edk::shape::Polygon2D::setVBOVertexPosition(2u,edk::vec2f32(position2.x,position2.y));
+            edk::shape::Polygon2D::setVBOVertexPosition(3u,edk::vec2f32(position2.x,position1.y));
+            edk::color4f32 color1 = vTemp0->color;
+            edk::color4f32 color2 = vTemp1->color;
+            edk::shape::Polygon2D::setVBOVertexColor(0u,color1);
+            edk::shape::Polygon2D::setVBOVertexColor(1u,color2);
+            edk::shape::Polygon2D::setVBOVertexColor(2u,color1);
+            edk::shape::Polygon2D::setVBOVertexColor(3u,color2);
         }
     }
     return false;
 }
 
 //DRAW
-void edk::shape::Rectangle2D::draw_NULL(edk::uint32){
-    edk::GU::guBegin(GU_QUADS);edkEnd();
+void edk::shape::Rectangle2D::draw_NULL(edk::uint32 mode){
+    edk::GU::guBegin(mode);edkEnd();
     if(this->vertexs.get(0u)->getType() != EDK_SHAPE_NOUV
             &&
             this->vertexs.get(1u)->getType() != EDK_SHAPE_NOUV
@@ -368,8 +402,8 @@ void edk::shape::Rectangle2D::draw_NULL(edk::uint32){
     edk::GU::guPopMatrix();edkEnd();
 }
 //DRAW UPDATE
-void edk::shape::Rectangle2D::drawUpdate_NULL(edk::uint32){
-    edk::GU::guBegin(GU_QUADS);edkEnd();
+void edk::shape::Rectangle2D::drawUpdate_NULL(edk::uint32 mode){
+    edk::GU::guBegin(mode);edkEnd();
     if(this->vertexs.get(0u)->getType() != EDK_SHAPE_NOUV
             &&
             this->vertexs.get(1u)->getType() != EDK_SHAPE_NOUV

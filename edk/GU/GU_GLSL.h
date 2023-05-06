@@ -409,60 +409,60 @@ public:
     static void guDisableClientState(edk::uint32 cap);
 
     //Use a TextCoord from a pointer
-    static void guTexCoordPointer1i16(edk::uint64 position);
-    static void guTexCoordPointer2i16(edk::uint64 position);
-    static void guTexCoordPointer3i16(edk::uint64 position);
-    static void guTexCoordPointer4i16(edk::uint64 position);
-    static void guTexCoordPointer1i32(edk::uint64 position);
-    static void guTexCoordPointer2i32(edk::uint64 position);
-    static void guTexCoordPointer3i32(edk::uint64 position);
-    static void guTexCoordPointer4i32(edk::uint64 position);
-    static void guTexCoordPointer1f32(edk::uint64 position);
-    static void guTexCoordPointer2f32(edk::uint64 position);
-    static void guTexCoordPointer3f32(edk::uint64 position);
-    static void guTexCoordPointer4f32(edk::uint64 position);
-    static void guTexCoordPointer1f64(edk::uint64 position);
-    static void guTexCoordPointer2f64(edk::uint64 position);
-    static void guTexCoordPointer3f64(edk::uint64 position);
-    static void guTexCoordPointer4f64(edk::uint64 position);
+    static void guTexCoordPointer1i16(edk::uint64 position,edk::uint64 jump);
+    static void guTexCoordPointer2i16(edk::uint64 position,edk::uint64 jump);
+    static void guTexCoordPointer3i16(edk::uint64 position,edk::uint64 jump);
+    static void guTexCoordPointer4i16(edk::uint64 position,edk::uint64 jump);
+    static void guTexCoordPointer1i32(edk::uint64 position,edk::uint64 jump);
+    static void guTexCoordPointer2i32(edk::uint64 position,edk::uint64 jump);
+    static void guTexCoordPointer3i32(edk::uint64 position,edk::uint64 jump);
+    static void guTexCoordPointer4i32(edk::uint64 position,edk::uint64 jump);
+    static void guTexCoordPointer1f32(edk::uint64 position,edk::uint64 jump);
+    static void guTexCoordPointer2f32(edk::uint64 position,edk::uint64 jump);
+    static void guTexCoordPointer3f32(edk::uint64 position,edk::uint64 jump);
+    static void guTexCoordPointer4f32(edk::uint64 position,edk::uint64 jump);
+    static void guTexCoordPointer1f64(edk::uint64 position,edk::uint64 jump);
+    static void guTexCoordPointer2f64(edk::uint64 position,edk::uint64 jump);
+    static void guTexCoordPointer3f64(edk::uint64 position,edk::uint64 jump);
+    static void guTexCoordPointer4f64(edk::uint64 position,edk::uint64 jump);
 
-    static void guColorPointer3ui8(edk::uint64 position);
-    static void guColorPointer4ui8(edk::uint64 position);
-    static void guColorPointer3i8(edk::uint64 position);
-    static void guColorPointer4i8(edk::uint64 position);
-    static void guColorPointer3ui16(edk::uint64 position);
-    static void guColorPointer4ui16(edk::uint64 position);
-    static void guColorPointer3i16(edk::uint64 position);
-    static void guColorPointer4i16(edk::uint64 position);
-    static void guColorPointer3ui32(edk::uint64 position);
-    static void guColorPointer4ui32(edk::uint64 position);
-    static void guColorPointer3i32(edk::uint64 position);
-    static void guColorPointer4i32(edk::uint64 position);
-    static void guColorPointer3f32(edk::uint64 position);
-    static void guColorPointer4f32(edk::uint64 position);
-    static void guColorPointer3f64(edk::uint64 position);
-    static void guColorPointer4f64(edk::uint64 position);
+    static void guColorPointer3ui8(edk::uint64 position,edk::uint64 jump);
+    static void guColorPointer4ui8(edk::uint64 position,edk::uint64 jump);
+    static void guColorPointer3i8(edk::uint64 position,edk::uint64 jump);
+    static void guColorPointer4i8(edk::uint64 position,edk::uint64 jump);
+    static void guColorPointer3ui16(edk::uint64 position,edk::uint64 jump);
+    static void guColorPointer4ui16(edk::uint64 position,edk::uint64 jump);
+    static void guColorPointer3i16(edk::uint64 position,edk::uint64 jump);
+    static void guColorPointer4i16(edk::uint64 position,edk::uint64 jump);
+    static void guColorPointer3ui32(edk::uint64 position,edk::uint64 jump);
+    static void guColorPointer4ui32(edk::uint64 position,edk::uint64 jump);
+    static void guColorPointer3i32(edk::uint64 position,edk::uint64 jump);
+    static void guColorPointer4i32(edk::uint64 position,edk::uint64 jump);
+    static void guColorPointer3f32(edk::uint64 position,edk::uint64 jump);
+    static void guColorPointer4f32(edk::uint64 position,edk::uint64 jump);
+    static void guColorPointer3f64(edk::uint64 position,edk::uint64 jump);
+    static void guColorPointer4f64(edk::uint64 position,edk::uint64 jump);
 
     //use a Normal from a pointer
-    static void guNormalPointerI8(edk::uint64 position);
-    static void guNormalPointerI16(edk::uint64 position);
-    static void guNormalPointerI32(edk::uint64 position);
-    static void guNormalPointerF32(edk::uint64 position);
-    static void guNormalPointerF64(edk::uint64 position);
+    static void guNormalPointerI8(edk::uint64 position,edk::uint64 jump);
+    static void guNormalPointerI16(edk::uint64 position,edk::uint64 jump);
+    static void guNormalPointerI32(edk::uint64 position,edk::uint64 jump);
+    static void guNormalPointerF32(edk::uint64 position,edk::uint64 jump);
+    static void guNormalPointerF64(edk::uint64 position,edk::uint64 jump);
 
     //use a vertex from a pointer
-    static void guVertexPointer2i16(edk::uint64 position);
-    static void guVertexPointer2i32(edk::uint64 position);
-    static void guVertexPointer2f32(edk::uint64 position);
-    static void guVertexPointer2f64(edk::uint64 position);
-    static void guVertexPointer3i16(edk::uint64 position);
-    static void guVertexPointer3i32(edk::uint64 position);
-    static void guVertexPointer3f32(edk::uint64 position);
-    static void guVertexPointer3f64(edk::uint64 position);
-    static void guVertexPointer4i16(edk::uint64 position);
-    static void guVertexPointer4i32(edk::uint64 position);
-    static void guVertexPointer4f32(edk::uint64 position);
-    static void guVertexPointer4f64(edk::uint64 position);
+    static void guVertexPointer2i16(edk::uint64 position,edk::uint64 jump);
+    static void guVertexPointer2i32(edk::uint64 position,edk::uint64 jump);
+    static void guVertexPointer2f32(edk::uint64 position,edk::uint64 jump);
+    static void guVertexPointer2f64(edk::uint64 position,edk::uint64 jump);
+    static void guVertexPointer3i16(edk::uint64 position,edk::uint64 jump);
+    static void guVertexPointer3i32(edk::uint64 position,edk::uint64 jump);
+    static void guVertexPointer3f32(edk::uint64 position,edk::uint64 jump);
+    static void guVertexPointer3f64(edk::uint64 position,edk::uint64 jump);
+    static void guVertexPointer4i16(edk::uint64 position,edk::uint64 jump);
+    static void guVertexPointer4i32(edk::uint64 position,edk::uint64 jump);
+    static void guVertexPointer4f32(edk::uint64 position,edk::uint64 jump);
+    static void guVertexPointer4f64(edk::uint64 position,edk::uint64 jump);
 
     /*
     //mode

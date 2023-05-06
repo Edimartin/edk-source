@@ -458,255 +458,255 @@ void edk::GU_GLSL::guDisableClientState(edk::uint32 cap){
 }
 
 //Use a TextCoord from a pointer
-void edk::GU_GLSL::guTexCoordPointer1i16(edk::uint64 position){
+void edk::GU_GLSL::guTexCoordPointer1i16(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glTexCoordPointer(1, GL_SHORT,16,(edk::classID)position);
+    glTexCoordPointer(1, GL_SHORT,jump*sizeof(edk::int16),(edk::classID)(position*sizeof(edk::int16)));
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU_GLSL::guTexCoordPointer2i16(edk::uint64 position){
+void edk::GU_GLSL::guTexCoordPointer2i16(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glTexCoordPointer(2, GL_SHORT,16,(edk::classID)position);
+    glTexCoordPointer(2, GL_SHORT,jump*sizeof(edk::int16),(edk::classID)(position*sizeof(edk::int16)));
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU_GLSL::guTexCoordPointer3i16(edk::uint64 position){
+void edk::GU_GLSL::guTexCoordPointer3i16(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glTexCoordPointer(3, GL_SHORT,16,(edk::classID)position);
+    glTexCoordPointer(3, GL_SHORT,jump*sizeof(edk::int16),(edk::classID)(position*sizeof(edk::int16)));
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU_GLSL::guTexCoordPointer4i16(edk::uint64 position){
+void edk::GU_GLSL::guTexCoordPointer4i16(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glTexCoordPointer(4, GL_SHORT,16,(edk::classID)position);
+    glTexCoordPointer(4, GL_SHORT,jump*sizeof(edk::int16),(edk::classID)(position*sizeof(edk::int16)));
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU_GLSL::guTexCoordPointer1i32(edk::uint64 position){
+void edk::GU_GLSL::guTexCoordPointer1i32(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glTexCoordPointer(1, GL_INT,32,(edk::classID)position);
+    glTexCoordPointer(1, GL_INT,jump*sizeof(edk::int32),(edk::classID)(position*sizeof(edk::int32)));
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU_GLSL::guTexCoordPointer2i32(edk::uint64 position){
+void edk::GU_GLSL::guTexCoordPointer2i32(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glTexCoordPointer(2, GL_INT,32,(edk::classID)position);
+    glTexCoordPointer(2, GL_INT,jump*sizeof(edk::int32),(edk::classID)(position*sizeof(edk::int32)));
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU_GLSL::guTexCoordPointer3i32(edk::uint64 position){
+void edk::GU_GLSL::guTexCoordPointer3i32(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glTexCoordPointer(3, GL_INT,32,(edk::classID)position);
+    glTexCoordPointer(3, GL_INT,jump*sizeof(edk::int32),(edk::classID)(position*sizeof(edk::int32)));
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU_GLSL::guTexCoordPointer4i32(edk::uint64 position){
+void edk::GU_GLSL::guTexCoordPointer4i32(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glTexCoordPointer(4, GL_INT,32,(edk::classID)position);
+    glTexCoordPointer(4, GL_INT,jump*sizeof(edk::int32),(edk::classID)(position*sizeof(edk::int32)));
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU_GLSL::guTexCoordPointer1f32(edk::uint64 position){
+void edk::GU_GLSL::guTexCoordPointer1f32(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glTexCoordPointer(1, GL_FLOAT,32,(edk::classID)position);
+    glTexCoordPointer(1, GL_FLOAT,jump*sizeof(edk::float32),(edk::classID)(position*sizeof(edk::float32)));
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU_GLSL::guTexCoordPointer2f32(edk::uint64 position){
+void edk::GU_GLSL::guTexCoordPointer2f32(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glTexCoordPointer(2, GL_FLOAT,32,(edk::classID)position);
+    glTexCoordPointer(2, GL_FLOAT,jump*sizeof(edk::float32),(edk::classID)(position*sizeof(edk::float32)));
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU_GLSL::guTexCoordPointer3f32(edk::uint64 position){
+void edk::GU_GLSL::guTexCoordPointer3f32(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glTexCoordPointer(3, GL_FLOAT,32,(edk::classID)position);
+    glTexCoordPointer(3, GL_FLOAT,jump*sizeof(edk::float32),(edk::classID)(position*sizeof(edk::float32)));
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU_GLSL::guTexCoordPointer4f32(edk::uint64 position){
+void edk::GU_GLSL::guTexCoordPointer4f32(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glTexCoordPointer(4, GL_FLOAT,32,(edk::classID)position);
+    glTexCoordPointer(4, GL_FLOAT,jump*sizeof(edk::float32),(edk::classID)(position*sizeof(edk::float32)));
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU_GLSL::guTexCoordPointer1f64(edk::uint64 position){
+void edk::GU_GLSL::guTexCoordPointer1f64(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glTexCoordPointer(1, GL_DOUBLE,64,(edk::classID)position);
+    glTexCoordPointer(1, GL_DOUBLE,jump*sizeof(edk::float64),(edk::classID)(position*sizeof(edk::float64)));
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU_GLSL::guTexCoordPointer2f64(edk::uint64 position){
+void edk::GU_GLSL::guTexCoordPointer2f64(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glTexCoordPointer(2, GL_DOUBLE,64,(edk::classID)position);
+    glTexCoordPointer(2, GL_DOUBLE,jump*sizeof(edk::float64),(edk::classID)(position*sizeof(edk::float64)));
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU_GLSL::guTexCoordPointer3f64(edk::uint64 position){
+void edk::GU_GLSL::guTexCoordPointer3f64(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glTexCoordPointer(3, GL_DOUBLE,64,(edk::classID)position);
+    glTexCoordPointer(3, GL_DOUBLE,jump*sizeof(edk::float64),(edk::classID)(position*sizeof(edk::float64)));
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU_GLSL::guTexCoordPointer4f64(edk::uint64 position){
+void edk::GU_GLSL::guTexCoordPointer4f64(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glTexCoordPointer(4, GL_DOUBLE,64,(edk::classID)position);
+    glTexCoordPointer(4, GL_DOUBLE,jump*sizeof(edk::float64),(edk::classID)(position*sizeof(edk::float64)));
     edk::GU_GLSL::mut.unlock();
 }
 
 
-void edk::GU_GLSL::guColorPointer3ui8(edk::uint64 position){
+void edk::GU_GLSL::guColorPointer3ui8(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glColorPointer(3, GL_UNSIGNED_BYTE,8,(edk::classID)position);
+    glColorPointer(3, GL_UNSIGNED_BYTE,jump*sizeof(edk::uint8),(edk::classID)(position*sizeof(edk::uint8)));
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU_GLSL::guColorPointer4ui8(edk::uint64 position){
+void edk::GU_GLSL::guColorPointer4ui8(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glColorPointer(4, GL_UNSIGNED_BYTE,8,(edk::classID)position);
+    glColorPointer(4, GL_UNSIGNED_BYTE,jump*sizeof(edk::uint8),(edk::classID)(position*sizeof(edk::uint8)));
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU_GLSL::guColorPointer3i8(edk::uint64 position){
+void edk::GU_GLSL::guColorPointer3i8(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glColorPointer(3, GL_BYTE,8,(edk::classID)position);
+    glColorPointer(3, GL_BYTE,jump*sizeof(edk::int8),(edk::classID)(position*sizeof(edk::int8)));
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU_GLSL::guColorPointer4i8(edk::uint64 position){
+void edk::GU_GLSL::guColorPointer4i8(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glColorPointer(4, GL_BYTE,8,(edk::classID)position);
+    glColorPointer(4, GL_BYTE,jump*sizeof(edk::int8),(edk::classID)(position*sizeof(edk::int8)));
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU_GLSL::guColorPointer3ui16(edk::uint64 position){
+void edk::GU_GLSL::guColorPointer3ui16(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glColorPointer(3, GL_UNSIGNED_SHORT,16,(edk::classID)position);
+    glColorPointer(3, GL_UNSIGNED_SHORT,jump*sizeof(edk::uint16),(edk::classID)(position*sizeof(edk::uint16)));
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU_GLSL::guColorPointer4ui16(edk::uint64 position){
+void edk::GU_GLSL::guColorPointer4ui16(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glColorPointer(4, GL_UNSIGNED_SHORT,16,(edk::classID)position);
+    glColorPointer(4, GL_UNSIGNED_SHORT,jump*sizeof(edk::uint16),(edk::classID)(position*sizeof(edk::uint16)));
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU_GLSL::guColorPointer3i16(edk::uint64 position){
+void edk::GU_GLSL::guColorPointer3i16(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glColorPointer(3, GL_SHORT,16,(edk::classID)position);
+    glColorPointer(3, GL_SHORT,jump*sizeof(edk::int16),(edk::classID)(position*sizeof(edk::int16)));
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU_GLSL::guColorPointer4i16(edk::uint64 position){
+void edk::GU_GLSL::guColorPointer4i16(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glColorPointer(4, GL_SHORT,16,(edk::classID)position);
+    glColorPointer(4, GL_SHORT,jump*sizeof(edk::int16),(edk::classID)(position*sizeof(edk::int16)));
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU_GLSL::guColorPointer3ui32(edk::uint64 position){
+void edk::GU_GLSL::guColorPointer3ui32(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glColorPointer(3, GL_UNSIGNED_INT,32,(edk::classID)position);
+    glColorPointer(3, GL_UNSIGNED_INT,jump*sizeof(edk::uint32),(edk::classID)(position*sizeof(edk::uint32)));
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU_GLSL::guColorPointer4ui32(edk::uint64 position){
+void edk::GU_GLSL::guColorPointer4ui32(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glColorPointer(4, GL_UNSIGNED_INT,32,(edk::classID)position);
+    glColorPointer(4, GL_UNSIGNED_INT,jump*sizeof(edk::uint32),(edk::classID)(position*sizeof(edk::uint32)));
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU_GLSL::guColorPointer3i32(edk::uint64 position){
+void edk::GU_GLSL::guColorPointer3i32(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glColorPointer(3, GL_INT,32,(edk::classID)position);
+    glColorPointer(3, GL_INT,jump*sizeof(edk::int32),(edk::classID)(position*sizeof(edk::int32)));
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU_GLSL::guColorPointer4i32(edk::uint64 position){
+void edk::GU_GLSL::guColorPointer4i32(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glColorPointer(4, GL_INT,32,(edk::classID)position);
+    glColorPointer(4, GL_INT,jump*sizeof(edk::int32),(edk::classID)(position*sizeof(edk::int32)));
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU_GLSL::guColorPointer3f32(edk::uint64 position){
+void edk::GU_GLSL::guColorPointer3f32(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glColorPointer(3, GL_FLOAT,32,(edk::classID)position);
+    glColorPointer(3, GL_FLOAT,jump*sizeof(edk::float32),(edk::classID)(position*sizeof(edk::float32)));
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU_GLSL::guColorPointer4f32(edk::uint64 position){
+void edk::GU_GLSL::guColorPointer4f32(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glColorPointer(4, GL_FLOAT,32,(edk::classID)position);
+    glColorPointer(4, GL_FLOAT,jump*sizeof(edk::float32),(edk::classID)(position*sizeof(edk::float32)));
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU_GLSL::guColorPointer3f64(edk::uint64 position){
+void edk::GU_GLSL::guColorPointer3f64(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glColorPointer(3, GL_DOUBLE,64,(edk::classID)position);
+    glColorPointer(3, GL_DOUBLE,jump*sizeof(edk::float64),(edk::classID)(position*sizeof(edk::float64)));
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU_GLSL::guColorPointer4f64(edk::uint64 position){
+void edk::GU_GLSL::guColorPointer4f64(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glColorPointer(4, GL_DOUBLE,64,(edk::classID)position);
+    glColorPointer(4, GL_DOUBLE,jump*sizeof(edk::float64),(edk::classID)(position*sizeof(edk::float64)));
     edk::GU_GLSL::mut.unlock();
 }
 
 //use a Normal from a pointer
-void edk::GU_GLSL::guNormalPointerI8(edk::uint64 position){
+void edk::GU_GLSL::guNormalPointerI8(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glNormalPointer(GL_BYTE,8,(edk::classID)position);
+    glNormalPointer(GL_BYTE,jump*sizeof(edk::int8),(edk::classID)(position*sizeof(edk::int8)));
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU_GLSL::guNormalPointerI16(edk::uint64 position){
+void edk::GU_GLSL::guNormalPointerI16(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glNormalPointer(GL_SHORT,16,(edk::classID)position);
+    glNormalPointer(GL_SHORT,jump*sizeof(edk::int16),(edk::classID)(position*sizeof(edk::int16)));
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU_GLSL::guNormalPointerI32(edk::uint64 position){
+void edk::GU_GLSL::guNormalPointerI32(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glNormalPointer(GL_INT,32,(edk::classID)position);
+    glNormalPointer(GL_INT,jump*sizeof(edk::int32),(edk::classID)(position*sizeof(edk::int32)));
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU_GLSL::guNormalPointerF32(edk::uint64 position){
+void edk::GU_GLSL::guNormalPointerF32(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glNormalPointer(GL_FLOAT,32,(edk::classID)position);
+    glNormalPointer(GL_FLOAT,jump*sizeof(edk::float32),(edk::classID)(position*sizeof(edk::float32)));
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU_GLSL::guNormalPointerF64(edk::uint64 position){
+void edk::GU_GLSL::guNormalPointerF64(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glNormalPointer(GL_DOUBLE,64,(edk::classID)position);
+    glNormalPointer(GL_DOUBLE,jump*sizeof(edk::float64),(edk::classID)(position*sizeof(edk::float64)));
     edk::GU_GLSL::mut.unlock();
 }
 
 //use a vertex from a pointer
-void edk::GU_GLSL::guVertexPointer2i16(edk::uint64 position){
+void edk::GU_GLSL::guVertexPointer2i16(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glVertexPointer(2, GL_SHORT,16,(edk::classID)position);
+    glVertexPointer(2, GL_SHORT,jump*sizeof(edk::int16),(edk::classID)(position*sizeof(edk::int16)));
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU_GLSL::guVertexPointer2i32(edk::uint64 position){
+void edk::GU_GLSL::guVertexPointer2i32(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glVertexPointer(2, GL_INT,32,(edk::classID)position);
+    glVertexPointer(2, GL_INT,jump*sizeof(edk::int32),(edk::classID)(position*sizeof(edk::int32)));
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU_GLSL::guVertexPointer2f32(edk::uint64 position){
+void edk::GU_GLSL::guVertexPointer2f32(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glVertexPointer(2, GL_FLOAT,32,(edk::classID)position);
+    glVertexPointer(2, GL_FLOAT,jump*sizeof(edk::float32),(edk::classID)(position*sizeof(edk::float32)));
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU_GLSL::guVertexPointer2f64(edk::uint64 position){
+void edk::GU_GLSL::guVertexPointer2f64(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glVertexPointer(2, GL_DOUBLE,64,(edk::classID)position);
+    glVertexPointer(2, GL_DOUBLE,jump*sizeof(edk::float64),(edk::classID)(position*sizeof(edk::float64)));
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU_GLSL::guVertexPointer3i16(edk::uint64 position){
+void edk::GU_GLSL::guVertexPointer3i16(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glVertexPointer(3, GL_SHORT,16,(edk::classID)position);
+    glVertexPointer(3, GL_SHORT,jump*sizeof(edk::int16),(edk::classID)(position*sizeof(edk::int16)));
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU_GLSL::guVertexPointer3i32(edk::uint64 position){
+void edk::GU_GLSL::guVertexPointer3i32(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glVertexPointer(3, GL_INT,32,(edk::classID)position);
+    glVertexPointer(3, GL_INT,jump*sizeof(edk::int32),(edk::classID)(position*sizeof(edk::int32)));
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU_GLSL::guVertexPointer3f32(edk::uint64 position){
+void edk::GU_GLSL::guVertexPointer3f32(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glVertexPointer(3, GL_FLOAT,32,(edk::classID)position);
+    glVertexPointer(3, GL_FLOAT,jump*sizeof(edk::float32),(edk::classID)(position*sizeof(edk::float32)));
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU_GLSL::guVertexPointer3f64(edk::uint64 position){
+void edk::GU_GLSL::guVertexPointer3f64(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glVertexPointer(3, GL_DOUBLE,64,(edk::classID)position);
+    glVertexPointer(3, GL_DOUBLE,jump*sizeof(edk::float64),(edk::classID)(position*sizeof(edk::float64)));
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU_GLSL::guVertexPointer4i16(edk::uint64 position){
+void edk::GU_GLSL::guVertexPointer4i16(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glVertexPointer(4, GL_SHORT,16,(edk::classID)position);
+    glVertexPointer(4, GL_SHORT,jump*sizeof(edk::int16),(edk::classID)(position*sizeof(edk::int16)));
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU_GLSL::guVertexPointer4i32(edk::uint64 position){
+void edk::GU_GLSL::guVertexPointer4i32(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glVertexPointer(4, GL_INT,32,(edk::classID)position);
+    glVertexPointer(4, GL_INT,jump*sizeof(edk::int32),(edk::classID)(position*sizeof(edk::int32)));
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU_GLSL::guVertexPointer4f32(edk::uint64 position){
+void edk::GU_GLSL::guVertexPointer4f32(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glVertexPointer(4, GL_FLOAT,32,(edk::classID)position);
+    glVertexPointer(4, GL_FLOAT,jump*sizeof(edk::float32),(edk::classID)(position*sizeof(edk::float32)));
     edk::GU_GLSL::mut.unlock();
 }
-void edk::GU_GLSL::guVertexPointer4f64(edk::uint64 position){
+void edk::GU_GLSL::guVertexPointer4f64(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
-    glVertexPointer(4, GL_DOUBLE,64,(edk::classID)position);
+    glVertexPointer(4, GL_DOUBLE,jump*sizeof(edk::float64),(edk::classID)(position*sizeof(edk::float64)));
     edk::GU_GLSL::mut.unlock();
 }
 

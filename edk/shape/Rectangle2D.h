@@ -74,6 +74,7 @@ protected:
     virtual bool setVBOVertexV(edk::uint32 vertex,edk::float32 v);
     //updafe the UV into the VBO
     virtual bool updateVBOUV();
+    virtual bool updateVBOValues();
 
     //DRAW
     virtual void draw_NULL(edk::uint32 mode);

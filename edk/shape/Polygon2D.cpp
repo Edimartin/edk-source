@@ -55,7 +55,7 @@ edk::shape::Polygon2D::Polygon2D(){
     this->vbo=0u;edkEnd();
     this->vboCount=0u;edkEnd();
     this->vertexBuffer.clean();edkEnd();
-    this->vboNULL=true;edkEnd();
+    this->canUseVBO=true;edkEnd();
     //set the vbo function pointers
     this->setVBOFunctionUpdateNULL();
 
@@ -88,7 +88,7 @@ edk::shape::Polygon2D::Polygon2D(edk::uint32 vertexCount){
     this->vbo=0u;edkEnd();
     this->vboCount=0u;edkEnd();
     this->vertexBuffer.clean();edkEnd();
-    this->vboNULL=true;edkEnd();
+    this->canUseVBO=true;edkEnd();
     //set the vbo function pointers
     this->setVBOFunctionUpdateNULL();
     this->angle=0.f;edkEnd();
@@ -174,8 +174,8 @@ bool edk::shape::Polygon2D::setVertexUVFrames(edk::uint32 vertex,edk::vec2ui32 f
         vTemp->setUVFrames(frames);edkEnd();
         voTemp->setUVFrames(frames);edkEnd();
 
-        if(true && !this->vboNULL){
-            this->vboNULL=true;edkEnd();
+        if(false && !this->canUseVBO){
+            this->canUseVBO=true;edkEnd();
             //set the NULL function into the vbo
             this->setVBOFunctionUpdateNULL();edkEnd();
         }
@@ -194,7 +194,7 @@ bool edk::shape::Polygon2D::createVBO(edk::uint32 vertexCount,edk::shape::EDKVBO
     //delete the last VBO
     this->deleteVBO();edkEnd();
     //
-    if(vertexCount){
+    if(this->canUseVBO && vertexCount){
         //create the new VBO
         if(type && type<edk::shape::vbo_Size){
             //create the vertexBuffer
@@ -458,7 +458,7 @@ bool edk::shape::Polygon2D::updateVBO(){
     return false;
 }
 bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
-    if(type != this->vboType && type!=edk::shape::vbo_NULL && type<edk::shape::vbo_Size){
+    if(this->canUseVBO && type != this->vboType && type!=edk::shape::vbo_NULL && type<edk::shape::vbo_Size){
         edk::vector::Array<edk::float32> buffer;
         if(buffer.createArray(this->vboCount * vboSizeof[type])){
             edk::uint32 increment = vboSizeof[type];
@@ -4535,14 +4535,13 @@ void edk::shape::Polygon2D::deleteVBO(){
     }
     this->vboType = edk::shape::vbo_NULL;edkEnd();
     this->vboCount=0u;edkEnd();
-    this->vboNULL=false;edkEnd();
 }
 bool edk::shape::Polygon2D::haveVBO(){
-    return (bool)(this->vbo);
+    return (bool)(this->canUseVBO && this->vbo);
 }
 //set the vboFunction pointers
 bool edk::shape::Polygon2D::updateVBOFunctions(){
-    if(!this->vboNULL && this->haveVBO()){
+    if(this->haveVBO()){
         switch(this->vboType){
         case edk::shape::vbo_XY:
             this->vboPrint = &edk::shape::Polygon2D::print_XY;
@@ -4619,7 +4618,7 @@ bool edk::shape::Polygon2D::updateVBOFunctions(){
     return false;
 }
 bool edk::shape::Polygon2D::setAutomaticallyVBOFunctions(){
-    if(!this->vboNULL && this->haveVBO()){
+    if(this->haveVBO()){
         switch(this->vboType){
         case edk::shape::vbo_XY:
             this->vboPrint = &edk::shape::Polygon2D::print_XY;
@@ -4706,7 +4705,7 @@ void edk::shape::Polygon2D::setVBOFunctionNULL(){
 //setters to VBO
 bool edk::shape::Polygon2D::setVBOVertexPosition(edk::uint32 vertex,edk::vec2f32 position){
     //set the vertex position in vertexBuffer
-    if(this->vertexBuffer.haveArray() && this->vbo){
+    if(this->haveVBO() && this->vertexBuffer.haveArray()){
         //calculate the vertex position
         vertex *= vboSizeof[this->vboType];
         //switch(this->vboType){
@@ -4759,7 +4758,7 @@ bool edk::shape::Polygon2D::setVBOVertexPosition(edk::uint32 vertex,edk::vec2f32
 }
 bool edk::shape::Polygon2D::setVBOVertexPositionX(edk::uint32 vertex,edk::float32 x){
     //set the vertex position in vertexBuffer
-    if(this->vertexBuffer.haveArray() && this->vbo){
+    if(this->haveVBO() && this->vertexBuffer.haveArray()){
         //calculate the vertex position
         vertex *= vboSizeof[this->vboType];
         //switch(this->vboType){
@@ -4810,7 +4809,7 @@ bool edk::shape::Polygon2D::setVBOVertexPositionX(edk::uint32 vertex,edk::float3
 }
 bool edk::shape::Polygon2D::setVBOVertexPositionY(edk::uint32 vertex,edk::float32 y){
     //set the vertex position in vertexBuffer
-    if(this->vertexBuffer.haveArray() && this->vbo){
+    if(this->haveVBO() && this->vertexBuffer.haveArray()){
         //calculate the vertex position
         vertex *= vboSizeof[this->vboType];
         //switch(this->vboType){
@@ -4862,7 +4861,7 @@ bool edk::shape::Polygon2D::setVBOVertexPositionY(edk::uint32 vertex,edk::float3
 }
 bool edk::shape::Polygon2D::setVBOVertexNormal(edk::uint32 vertex,edk::vec3f32 normal){
     //set the vertex position in vertexBuffer
-    if(this->vertexBuffer.haveArray() && this->vbo){
+    if(this->haveVBO() && this->vertexBuffer.haveArray()){
         //test if need change the buffer
         switch(this->vboType){
         case edk::shape::vbo_XY:
@@ -4977,7 +4976,7 @@ bool edk::shape::Polygon2D::setVBOVertexNormal(edk::uint32 vertex,edk::vec3f32 n
 }
 bool edk::shape::Polygon2D::setVBOVertexNormalX(edk::uint32 vertex,edk::float32 x){
     //set the vertex position in vertexBuffer
-    if(this->vertexBuffer.haveArray() && this->vbo){
+    if(this->haveVBO() && this->vertexBuffer.haveArray()){
         //test if need change the buffer
         switch(this->vboType){
         case edk::shape::vbo_XY:
@@ -5088,7 +5087,7 @@ bool edk::shape::Polygon2D::setVBOVertexNormalX(edk::uint32 vertex,edk::float32 
 }
 bool edk::shape::Polygon2D::setVBOVertexNormalY(edk::uint32 vertex,edk::float32 y){
     //set the vertex position in vertexBuffer
-    if(this->vertexBuffer.haveArray() && this->vbo){
+    if(this->haveVBO() && this->vertexBuffer.haveArray()){
         //test if need change the buffer
         switch(this->vboType){
         case edk::shape::vbo_XY:
@@ -5200,7 +5199,7 @@ bool edk::shape::Polygon2D::setVBOVertexNormalY(edk::uint32 vertex,edk::float32 
 }
 bool edk::shape::Polygon2D::setVBOVertexNormalZ(edk::uint32 vertex,edk::float32 z){
     //set the vertex position in vertexBuffer
-    if(this->vertexBuffer.haveArray() && this->vbo){
+    if(this->haveVBO() && this->vertexBuffer.haveArray()){
         //test if need change the buffer
         switch(this->vboType){
         case edk::shape::vbo_XY:
@@ -5313,7 +5312,7 @@ bool edk::shape::Polygon2D::setVBOVertexNormalZ(edk::uint32 vertex,edk::float32 
 }
 bool edk::shape::Polygon2D::setVBOVertexColor(edk::uint32 vertex,edk::color4f32 color){
     //set the vertex position in vertexBuffer
-    if(this->vertexBuffer.haveArray() && this->vbo){
+    if(this->haveVBO() && this->vertexBuffer.haveArray()){
         //test if need change the buffer
         switch(this->vboType){
         case edk::shape::vbo_XY:
@@ -5430,7 +5429,7 @@ bool edk::shape::Polygon2D::setVBOVertexColor(edk::uint32 vertex,edk::color4f32 
 }
 bool edk::shape::Polygon2D::setVBOPolygonColor(edk::color4f32 color){
     //update the VBO
-    if(this->vboCount){
+    if(this->haveVBO() && this->vertexBuffer.haveArray()){
         //test if need change the buffer
         edk::uint8 position;
         //test if need change the buffer
@@ -5550,7 +5549,7 @@ bool edk::shape::Polygon2D::setVBOPolygonColor(edk::color4f32 color){
 }
 bool edk::shape::Polygon2D::setVBOPolygonNormal(edk::vec3f32 normal){
     //update the VBO
-    if(this->vboCount){
+    if(this->haveVBO() && this->vertexBuffer.haveArray()){
         //test if need change the buffer
         edk::uint8 position;
         //test if need change the buffer
@@ -5668,7 +5667,7 @@ bool edk::shape::Polygon2D::setVBOPolygonNormal(edk::vec3f32 normal){
     return false;
 }
 bool edk::shape::Polygon2D::setVBOPolygonColorR(edk::float32 r){
-    if(this->vboCount){
+    if(this->haveVBO() && this->vertexBuffer.haveArray()){
         //test if need change the buffer
         edk::uint8 position;
         //test if need change the buffer
@@ -5784,7 +5783,7 @@ bool edk::shape::Polygon2D::setVBOPolygonColorR(edk::float32 r){
     return false;
 }
 bool edk::shape::Polygon2D::setVBOPolygonColorG(edk::float32 g){
-    if(this->vboCount){
+    if(this->haveVBO() && this->vertexBuffer.haveArray()){
         //test if need change the buffer
         edk::uint8 position;
         //test if need change the buffer
@@ -5901,7 +5900,7 @@ bool edk::shape::Polygon2D::setVBOPolygonColorG(edk::float32 g){
     return false;
 }
 bool edk::shape::Polygon2D::setVBOPolygonColorB(edk::float32 b){
-    if(this->vboCount){
+    if(this->haveVBO() && this->vertexBuffer.haveArray()){
         //test if need change the buffer
         edk::uint8 position;
         //test if need change the buffer
@@ -6018,7 +6017,7 @@ bool edk::shape::Polygon2D::setVBOPolygonColorB(edk::float32 b){
     return false;
 }
 bool edk::shape::Polygon2D::setVBOPolygonColorA(edk::float32 a){
-    if(this->vboCount){
+    if(this->haveVBO() && this->vertexBuffer.haveArray()){
         //test if need change the buffer
         edk::uint8 position;
         //test if need change the buffer
@@ -6136,7 +6135,7 @@ bool edk::shape::Polygon2D::setVBOPolygonColorA(edk::float32 a){
 }
 bool edk::shape::Polygon2D::setVBOVertexUV(edk::uint32 vertex,edk::vec2f32 uv){
     //set the vertex position in vertexBuffer
-    if(this->vertexBuffer.haveArray() && this->vbo){
+    if(this->haveVBO() && this->vertexBuffer.haveArray()){
         //test if need change the buffer
         switch(this->vboType){
         case edk::shape::vbo_XY:
@@ -6249,7 +6248,7 @@ bool edk::shape::Polygon2D::setVBOVertexUV(edk::uint32 vertex,edk::vec2f32 uv){
 }
 bool edk::shape::Polygon2D::setVBOVertexU(edk::uint32 vertex,edk::float32 u){
     //set the vertex position in vertexBuffer
-    if(this->vertexBuffer.haveArray() && this->vbo){
+    if(this->haveVBO() && this->vertexBuffer.haveArray()){
         //test if need change the buffer
         switch(this->vboType){
         case edk::shape::vbo_XY:
@@ -6359,7 +6358,7 @@ bool edk::shape::Polygon2D::setVBOVertexU(edk::uint32 vertex,edk::float32 u){
 }
 bool edk::shape::Polygon2D::setVBOVertexV(edk::uint32 vertex,edk::float32 v){
     //set the vertex position in vertexBuffer
-    if(this->vertexBuffer.haveArray() && this->vbo){
+    if(this->haveVBO() && this->vertexBuffer.haveArray()){
         //test if need change the buffer
         switch(this->vboType){
         case edk::shape::vbo_XY:
@@ -6471,132 +6470,319 @@ bool edk::shape::Polygon2D::setVBOVertexV(edk::uint32 vertex,edk::float32 v){
 }
 //updafe the UV into the VBO
 bool edk::shape::Polygon2D::updateVBOUV(){
-    if(this->vertexBuffer.haveArray() && this->vbo){
+    bool ret=false;
+    if(this->haveVBO() && this->vertexBuffer.haveArray()){
         edk::uint32 size = this->vertexs.size();
         edk::shape::Vertex2DWithUV* vTemp;
-        edk::uint32 vertex;
+        edk::uint32 vertexUV;
         edk::vec2f32 uv;
         for(edk::uint32 i=0u;i<size;i++){
-            vertex = i;
-            vTemp = (edk::shape::Vertex2DWithUV*)this->vertexs.get(vertex);edkEnd();
-            if(vTemp->getType() == EDK_SHAPE_UV || vTemp->getType() == EDK_SHAPE_ANIMATED_UV){
-                uv = vTemp->getUV();
-                //set the vertex position in vertexBuffer
-                //test if need change the buffer
-                switch(this->vboType){
-                case edk::shape::vbo_XY:
-                    //change the vertexBuffer
-                    this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
-                    //calculate the vertex position
-                    vertex = (vertex * vboSizeof[this->vboType]) + 9u;
-                    break;
-                case edk::shape::vbo_XY_NxNyNz:
-                    //change the vertexBuffer
-                    this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
-                    //calculate the vertex position
-                    vertex = (vertex * vboSizeof[this->vboType]) + 9u;
-                    break;
-                case edk::shape::vbo_XY_RGB:
-                    //change the vertexBuffer
-                    this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
-                    //calculate the vertex position
-                    vertex = (vertex * vboSizeof[this->vboType]) + 9u;
-                    break;
-                case edk::shape::vbo_XY_RGBA:
-                    //change the vertexBuffer
-                    this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
-                    //calculate the vertex position
-                    vertex = (vertex * vboSizeof[this->vboType]) + 9u;
-                    break;
-                case edk::shape::vbo_XY_RGB_NxNyNz:
-                    //change the vertexBuffer
-                    this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
-                    //calculate the vertex position
-                    vertex = (vertex * vboSizeof[this->vboType]) + 9u;
-                    break;
-                case edk::shape::vbo_XY_RGBA_NxNyNz:
-                    //change the vertexBuffer
-                    this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
-                    //calculate the vertex position
-                    vertex = (vertex * vboSizeof[this->vboType]) + 9u;
-                    break;
-                case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
-                    //change the vertexBuffer
-                    this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
-                    //calculate the vertex position
-                    vertex = (vertex * vboSizeof[this->vboType]) + 9u;
-                    break;
-                case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
-                    //calculate the vertex position
-                    vertex = (vertex * vboSizeof[this->vboType]) + 9u;
-                    break;
-                case edk::shape::vbo_XYZ:
-                    //change the vertexBuffer
-                    this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
-                    //calculate the vertex position
-                    vertex = (vertex * vboSizeof[this->vboType]) + 10u;
-                    break;
-                case edk::shape::vbo_XYZ_NxNyNz:
-                    //change the vertexBuffer
-                    this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
-                    //calculate the vertex position
-                    vertex = (vertex * vboSizeof[this->vboType]) + 10u;
-                    break;
-                case edk::shape::vbo_XYZ_RGB:
-                    //change the vertexBuffer
-                    this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
-                    //calculate the vertex position
-                    vertex = (vertex * vboSizeof[this->vboType]) + 10u;
-                    break;
-                case edk::shape::vbo_XYZ_RGBA:
-                    //change the vertexBuffer
-                    this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
-                    //calculate the vertex position
-                    vertex = (vertex * vboSizeof[this->vboType]) + 10u;
-                    break;
-                case edk::shape::vbo_XYZ_RGB_NxNyNz:
-                    //change the vertexBuffer
-                    this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
-                    //calculate the vertex position
-                    vertex = (vertex * vboSizeof[this->vboType]) + 10u;
-                    break;
-                case edk::shape::vbo_XYZ_RGBA_NxNyNz:
-                    //change the vertexBuffer
-                    this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
-                    //calculate the vertex position
-                    vertex = (vertex * vboSizeof[this->vboType]) + 10u;
-                    break;
-                case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
-                    //change the vertexBuffer
-                    this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
-                    //calculate the vertex position
-                    vertex = (vertex * vboSizeof[this->vboType]) + 10u;
-                    break;
-                case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
-                    //calculate the vertex position
-                    vertex = (vertex * vboSizeof[this->vboType]) + 10u;
-                    break;
-                default:
-                    break;
-                }
+            vertexUV = i;
 
-                //set the position
-                this->vertexBuffer.set(vertex,uv.x);
-                vertex++;
-                this->vertexBuffer.set(vertex,uv.y);
 
-                //update the VBO
-                this->updateVBOFunctions();
-
-                return true;
+            //set the vertex position in vertexBuffer
+            //test if need change the buffer
+            switch(this->vboType){
+            case edk::shape::vbo_XY:
+                //change the vertexBuffer
+                this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeof[this->vboType]) + 9u;
+                break;
+            case edk::shape::vbo_XY_NxNyNz:
+                //change the vertexBuffer
+                this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeof[this->vboType]) + 9u;
+                break;
+            case edk::shape::vbo_XY_RGB:
+                //change the vertexBuffer
+                this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeof[this->vboType]) + 9u;
+                break;
+            case edk::shape::vbo_XY_RGBA:
+                //change the vertexBuffer
+                this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeof[this->vboType]) + 9u;
+                break;
+            case edk::shape::vbo_XY_RGB_NxNyNz:
+                //change the vertexBuffer
+                this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeof[this->vboType]) + 9u;
+                break;
+            case edk::shape::vbo_XY_RGBA_NxNyNz:
+                //change the vertexBuffer
+                this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeof[this->vboType]) + 9u;
+                break;
+            case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
+                //change the vertexBuffer
+                this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeof[this->vboType]) + 9u;
+                break;
+            case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeof[this->vboType]) + 9u;
+                break;
+            case edk::shape::vbo_XYZ:
+                //change the vertexBuffer
+                this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeof[this->vboType]) + 10u;
+                break;
+            case edk::shape::vbo_XYZ_NxNyNz:
+                //change the vertexBuffer
+                this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeof[this->vboType]) + 10u;
+                break;
+            case edk::shape::vbo_XYZ_RGB:
+                //change the vertexBuffer
+                this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeof[this->vboType]) + 10u;
+                break;
+            case edk::shape::vbo_XYZ_RGBA:
+                //change the vertexBuffer
+                this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeof[this->vboType]) + 10u;
+                break;
+            case edk::shape::vbo_XYZ_RGB_NxNyNz:
+                //change the vertexBuffer
+                this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeof[this->vboType]) + 10u;
+                break;
+            case edk::shape::vbo_XYZ_RGBA_NxNyNz:
+                //change the vertexBuffer
+                this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeof[this->vboType]) + 10u;
+                break;
+            case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                //change the vertexBuffer
+                this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeof[this->vboType]) + 10u;
+                break;
+            case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeof[this->vboType]) + 10u;
+                break;
+            default:
+                break;
             }
+
+            vTemp = (edk::shape::Vertex2DWithUV*)this->vertexs.get(i);edkEnd();
+            if(vTemp->getType() != EDK_SHAPE_NOUV){
+                uv = vTemp->getUV();
+            }
+            else{
+                uv = edk::vec2f32(0.f,0.f);
+            }
+
+            //set the position
+            this->vertexBuffer.set(vertexUV,uv.x);
+            vertexUV++;
+            this->vertexBuffer.set(vertexUV,uv.y);
+
+            ret=true;
         }
     }
-    return false;
+    if(ret){
+        //update the VBO
+        this->updateVBOFunctions();
+    }
+    return ret;
+}
+bool edk::shape::Polygon2D::updateVBOValues(){
+    bool ret=false;
+    if(this->haveVBO() && this->vertexBuffer.haveArray()){
+        edk::uint32 size = this->vertexs.size();
+        edk::shape::Vertex2DWithUV* vTemp;
+        edk::uint32 vertexUV;
+        edk::uint32 vertexPosition;
+        edk::uint32 vertexColor;
+        edk::vec2f32 uv;
+        edk::vec2f32 position;
+        edk::color4f32 color;
+        for(edk::uint32 i=0u;i<size;i++){
+            vertexPosition = vertexColor = vertexUV = i;
+
+            switch(this->vboType){
+            case edk::shape::vbo_XY:
+                //change the vertexBuffer
+                this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeof[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeof[this->vboType]) + 2u;
+                vertexUV = (vertexUV * vboSizeof[this->vboType]) + 9u;
+                break;
+            case edk::shape::vbo_XY_NxNyNz:
+                //change the vertexBuffer
+                this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeof[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeof[this->vboType]) + 2u;
+                vertexUV = (vertexUV * vboSizeof[this->vboType]) + 9u;
+                break;
+            case edk::shape::vbo_XY_RGB:
+                //change the vertexBuffer
+                this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeof[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeof[this->vboType]) + 2u;
+                vertexUV = (vertexUV * vboSizeof[this->vboType]) + 9u;
+                break;
+            case edk::shape::vbo_XY_RGBA:
+                //change the vertexBuffer
+                this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeof[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeof[this->vboType]) + 2u;
+                vertexUV = (vertexUV * vboSizeof[this->vboType]) + 9u;
+                break;
+            case edk::shape::vbo_XY_RGB_NxNyNz:
+                //change the vertexBuffer
+                this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeof[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeof[this->vboType]) + 2u;
+                vertexUV = (vertexUV * vboSizeof[this->vboType]) + 9u;
+                break;
+            case edk::shape::vbo_XY_RGBA_NxNyNz:
+                //change the vertexBuffer
+                this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeof[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeof[this->vboType]) + 2u;
+                vertexUV = (vertexUV * vboSizeof[this->vboType]) + 9u;
+                break;
+            case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
+                //change the vertexBuffer
+                this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeof[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeof[this->vboType]) + 2u;
+                vertexUV = (vertexUV * vboSizeof[this->vboType]) + 9u;
+                break;
+            case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeof[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeof[this->vboType]) + 2u;
+                vertexUV = (vertexUV * vboSizeof[this->vboType]) + 9u;
+                break;
+            case edk::shape::vbo_XYZ:
+                //change the vertexBuffer
+                this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeof[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeof[this->vboType]) + 3u;
+                vertexUV = (vertexUV * vboSizeof[this->vboType]) + 10u;
+                break;
+            case edk::shape::vbo_XYZ_NxNyNz:
+                //change the vertexBuffer
+                this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeof[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeof[this->vboType]) + 3u;
+                vertexUV = (vertexUV * vboSizeof[this->vboType]) + 10u;
+                break;
+            case edk::shape::vbo_XYZ_RGB:
+                //change the vertexBuffer
+                this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeof[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeof[this->vboType]) + 3u;
+                vertexUV = (vertexUV * vboSizeof[this->vboType]) + 10u;
+                break;
+            case edk::shape::vbo_XYZ_RGBA:
+                //change the vertexBuffer
+                this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeof[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeof[this->vboType]) + 3u;
+                vertexUV = (vertexUV * vboSizeof[this->vboType]) + 10u;
+                break;
+            case edk::shape::vbo_XYZ_RGB_NxNyNz:
+                //change the vertexBuffer
+                this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeof[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeof[this->vboType]) + 3u;
+                vertexUV = (vertexUV * vboSizeof[this->vboType]) + 10u;
+                break;
+            case edk::shape::vbo_XYZ_RGBA_NxNyNz:
+                //change the vertexBuffer
+                this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeof[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeof[this->vboType]) + 3u;
+                vertexUV = (vertexUV * vboSizeof[this->vboType]) + 10u;
+                break;
+            case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                //change the vertexBuffer
+                this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeof[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeof[this->vboType]) + 3u;
+                vertexUV = (vertexUV * vboSizeof[this->vboType]) + 10u;
+                break;
+            case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeof[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeof[this->vboType]) + 3u;
+                vertexUV = (vertexUV * vboSizeof[this->vboType]) + 10u;
+                break;
+            default:
+                break;
+            }
+            vTemp = (edk::shape::Vertex2DWithUV*)this->vertexs.get(i);edkEnd();
+            if(vTemp->getType() != EDK_SHAPE_NOUV){
+                uv = vTemp->getUV();
+                position = vTemp->position;
+                color = vTemp->color;
+            }
+            else{
+                position = vTemp->position;
+                color = vTemp->color;
+                uv = edk::vec2f32(0.f,0.f);
+            }
+            //set the position
+            this->vertexBuffer.set(vertexPosition,position.x);
+            vertexPosition++;
+            this->vertexBuffer.set(vertexPosition,position.y);
+            //set the Color
+            this->vertexBuffer.set(vertexColor,color.r);
+            vertexColor++;
+            this->vertexBuffer.set(vertexColor,color.g);
+            vertexColor++;
+            this->vertexBuffer.set(vertexColor,color.b);
+            vertexColor++;
+            this->vertexBuffer.set(vertexColor,color.a);
+            //set the UV
+            this->vertexBuffer.set(vertexUV,uv.x);
+            vertexUV++;
+            this->vertexBuffer.set(vertexUV,uv.y);
+
+            ret = true;
+        }
+    }
+    if(ret){
+        //update the VBO
+        this->updateVBOFunctions();
+    }
+    return ret;
 }
 //print the VBO
 bool edk::shape::Polygon2D::printVBO(){
-    if(this->vertexBuffer.haveArray() && this->vbo){
+    if(this->haveVBO() && this->vertexBuffer.haveArray()){
         edk::uint32 position=0u;
         edk::uint32 increment=vboSizeof[this->vboType];
         //test if need change the buffer
@@ -7071,7 +7257,7 @@ void edk::shape::Polygon2D::draw_XY(edk::uint32 mode){
     //enable vertex in array
     edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
     //set the vertex position in array
-    edk::GU_GLSL::guVertexPointer2f32(0u);
+    edk::GU_GLSL::guVertexPointer2f32(0u,2u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -7087,7 +7273,7 @@ void edk::shape::Polygon2D::draw_XYZ(edk::uint32 mode){
     //enable vertex in array
     edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
     //set the vertex position in array
-    edk::GU_GLSL::guVertexPointer3f32(0u);
+    edk::GU_GLSL::guVertexPointer3f32(0u,3u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -7103,11 +7289,11 @@ void edk::shape::Polygon2D::draw_XY_NxNyNz(edk::uint32 mode){
     //enable normal in array
     edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
     //set the normal position in array
-    edk::GU_GLSL::guNormalPointerF32(2u);
+    edk::GU_GLSL::guNormalPointerF32(2u,5u);
     //enable vertex in array
     edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
     //set the vertex position in array
-    edk::GU_GLSL::guVertexPointer2f32(0u);
+    edk::GU_GLSL::guVertexPointer2f32(0u,5u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -7125,11 +7311,11 @@ void edk::shape::Polygon2D::draw_XYZ_NxNyNz(edk::uint32 mode){
     //enable normal in array
     edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
     //set the normal position in array
-    edk::GU_GLSL::guNormalPointerF32(3u);
+    edk::GU_GLSL::guNormalPointerF32(3u,6u);
     //enable vertex in array
     edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
     //set the vertex position in array
-    edk::GU_GLSL::guVertexPointer3f32(0u);
+    edk::GU_GLSL::guVertexPointer3f32(0u,6u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -7147,11 +7333,11 @@ void edk::shape::Polygon2D::draw_XY_RGB(edk::uint32 mode){
     //enable color in array
     edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
     //set the color position in array
-    edk::GU_GLSL::guColorPointer3f32(2u);
+    edk::GU_GLSL::guColorPointer3f32(2u,5u);
     //enable vertex in array
     edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
     //set the vertex position in array
-    edk::GU_GLSL::guVertexPointer2f32(0u);
+    edk::GU_GLSL::guVertexPointer2f32(0u,5u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -7169,11 +7355,11 @@ void edk::shape::Polygon2D::draw_XYZ_RGB(edk::uint32 mode){
     //enable color in array
     edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
     //set the color position in array
-    edk::GU_GLSL::guColorPointer3f32(3);
+    edk::GU_GLSL::guColorPointer3f32(3,6u);
     //enable vertex in array
     edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
     //set the vertex position in array
-    edk::GU_GLSL::guVertexPointer3f32(0u);
+    edk::GU_GLSL::guVertexPointer3f32(0u,6u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -7191,11 +7377,11 @@ void edk::shape::Polygon2D::draw_XY_RGBA(edk::uint32 mode){
     //enable color in array
     edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
     //set the color position in array
-    edk::GU_GLSL::guColorPointer4f32(2u);
+    edk::GU_GLSL::guColorPointer4f32(2u,6u);
     //enable vertex in array
     edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
     //set the vertex position in array
-    edk::GU_GLSL::guVertexPointer2f32(0u);
+    edk::GU_GLSL::guVertexPointer2f32(0u,6u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -7213,11 +7399,11 @@ void edk::shape::Polygon2D::draw_XYZ_RGBA(edk::uint32 mode){
     //enable color in array
     edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
     //set the color position in array
-    edk::GU_GLSL::guColorPointer4f32(3u);
+    edk::GU_GLSL::guColorPointer4f32(3u,7u);
     //enable vertex in array
     edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
     //set the vertex position in array
-    edk::GU_GLSL::guVertexPointer3f32(0u);
+    edk::GU_GLSL::guVertexPointer3f32(0u,7u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -7235,15 +7421,15 @@ void edk::shape::Polygon2D::draw_XY_RGB_NxNyNz(edk::uint32 mode){
     //enable normal in array
     edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
     //set the normal position in array
-    edk::GU_GLSL::guNormalPointerF32(5u);
+    edk::GU_GLSL::guNormalPointerF32(5u,8u);
     //enable color in array
     edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
     //set the color position in array
-    edk::GU_GLSL::guColorPointer3f32(2u);
+    edk::GU_GLSL::guColorPointer3f32(2u,8u);
     //enable vertex in array
     edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
     //set the vertex position in array
-    edk::GU_GLSL::guVertexPointer2f32(0u);
+    edk::GU_GLSL::guVertexPointer2f32(0u,8u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -7263,15 +7449,15 @@ void edk::shape::Polygon2D::draw_XYZ_RGB_NxNyNz(edk::uint32 mode){
     //enable normal in array
     edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
     //set the normal position in array
-    edk::GU_GLSL::guNormalPointerF32(6u);
+    edk::GU_GLSL::guNormalPointerF32(6u,9u);
     //enable color in array
     edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
     //set the color position in array
-    edk::GU_GLSL::guColorPointer3f32(3u);
+    edk::GU_GLSL::guColorPointer3f32(3u,9u);
     //enable vertex in array
     edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
     //set the vertex position in array
-    edk::GU_GLSL::guVertexPointer3f32(0u);
+    edk::GU_GLSL::guVertexPointer3f32(0u,9u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -7291,15 +7477,15 @@ void edk::shape::Polygon2D::draw_XY_RGBA_NxNyNz(edk::uint32 mode){
     //enable normal in array
     edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
     //set the normal position in array
-    edk::GU_GLSL::guNormalPointerF32(6u);
+    edk::GU_GLSL::guNormalPointerF32(6u,9u);
     //enable color in array
     edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
     //set the color position in array
-    edk::GU_GLSL::guColorPointer4f32(2u);
+    edk::GU_GLSL::guColorPointer4f32(2u,9u);
     //enable vertex in array
     edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
     //set the vertex position in array
-    edk::GU_GLSL::guVertexPointer2f32(0u);
+    edk::GU_GLSL::guVertexPointer2f32(0u,9u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -7319,15 +7505,15 @@ void edk::shape::Polygon2D::draw_XYZ_RGBA_NxNyNz(edk::uint32 mode){
     //enable normal in array
     edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
     //set the normal position in array
-    edk::GU_GLSL::guNormalPointerF32(7u);
+    edk::GU_GLSL::guNormalPointerF32(7u,10u);
     //enable color in array
     edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
     //set the color position in array
-    edk::GU_GLSL::guColorPointer4f32(3u);
+    edk::GU_GLSL::guColorPointer4f32(3u,10u);
     //enable vertex in array
     edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
     //set the vertex position in array
-    edk::GU_GLSL::guVertexPointer3f32(0u);
+    edk::GU_GLSL::guVertexPointer3f32(0u,10u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -7347,19 +7533,19 @@ void edk::shape::Polygon2D::draw_XY_RGB_NxNyNz_UVxUVy(edk::uint32 mode){
     //enable texture coord in array
     edk::GU_GLSL::guEnableClientState(GU_TEXTURE_COORD_ARRAY);
     //set the texture coor position in array
-    edk::GU_GLSL::guTexCoordPointer2f32(8u);
+    edk::GU_GLSL::guTexCoordPointer2f32(8u,10u);
     //enable normal in array
     edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
     //set the normal position in array
-    edk::GU_GLSL::guNormalPointerF32(5u);
+    edk::GU_GLSL::guNormalPointerF32(5u,10u);
     //enable color in array
     edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
     //set the color position in array
-    edk::GU_GLSL::guColorPointer3f32(2u);
+    edk::GU_GLSL::guColorPointer3f32(2u,10u);
     //enable vertex in array
     edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
     //set the vertex position in array
-    edk::GU_GLSL::guVertexPointer2f32(0u);
+    edk::GU_GLSL::guVertexPointer2f32(0u,10u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -7381,19 +7567,19 @@ void edk::shape::Polygon2D::draw_XYZ_RGB_NxNyNz_UVxUVy(edk::uint32 mode){
     //enable texture coord in array
     edk::GU_GLSL::guEnableClientState(GU_TEXTURE_COORD_ARRAY);
     //set the texture coor position in array
-    edk::GU_GLSL::guTexCoordPointer2f32(9u);
+    edk::GU_GLSL::guTexCoordPointer2f32(9u,11u);
     //enable normal in array
     edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
     //set the normal position in array
-    edk::GU_GLSL::guNormalPointerF32(6u);
+    edk::GU_GLSL::guNormalPointerF32(6u,11u);
     //enable color in array
     edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
     //set the color position in array
-    edk::GU_GLSL::guColorPointer3f32(3u);
+    edk::GU_GLSL::guColorPointer3f32(3u,11u);
     //enable vertex in array
     edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
     //set the vertex position in array
-    edk::GU_GLSL::guVertexPointer3f32(0u);
+    edk::GU_GLSL::guVertexPointer3f32(0u,11u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -7415,19 +7601,19 @@ void edk::shape::Polygon2D::draw_XY_RGBA_NxNyNz_UVxUVy(edk::uint32 mode){
     //enable texture coord in array
     edk::GU_GLSL::guEnableClientState(GU_TEXTURE_COORD_ARRAY);
     //set the texture coor position in array
-    edk::GU_GLSL::guTexCoordPointer2f32(9u);
+    edk::GU_GLSL::guTexCoordPointer2f32(9u,11u);
     //enable normal in array
     edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
     //set the normal position in array
-    edk::GU_GLSL::guNormalPointerF32(6u);
+    edk::GU_GLSL::guNormalPointerF32(6u,11u);
     //enable color in array
     edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
     //set the color position in array
-    edk::GU_GLSL::guColorPointer4f32(2u);
+    edk::GU_GLSL::guColorPointer4f32(2u,11u);
     //enable vertex in array
     edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
     //set the vertex position in array
-    edk::GU_GLSL::guVertexPointer2f32(0u);
+    edk::GU_GLSL::guVertexPointer2f32(0u,11u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -7449,19 +7635,19 @@ void edk::shape::Polygon2D::draw_XYZ_RGBA_NxNyNz_UVxUVy(edk::uint32 mode){
     //enable texture coord in array
     edk::GU_GLSL::guEnableClientState(GU_TEXTURE_COORD_ARRAY);
     //set the texture coor position in array
-    edk::GU_GLSL::guTexCoordPointer2f32(10u);
+    edk::GU_GLSL::guTexCoordPointer2f32(10u,12u);
     //enable normal in array
     edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
     //set the normal position in array
-    edk::GU_GLSL::guNormalPointerF32(7u);
+    edk::GU_GLSL::guNormalPointerF32(7u,12u);
     //enable color in array
     edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
     //set the color position in array
-    edk::GU_GLSL::guColorPointer4f32(3u);
+    edk::GU_GLSL::guColorPointer4f32(3u,12u);
     //enable vertex in array
     edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
     //set the vertex position in array
-    edk::GU_GLSL::guVertexPointer3f32(0u);
+    edk::GU_GLSL::guVertexPointer3f32(0u,12u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -7529,7 +7715,7 @@ void edk::shape::Polygon2D::drawUpdate_XY(edk::uint32 mode){
     //enable vertex in array
     edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
     //set the vertex position in array
-    edk::GU_GLSL::guVertexPointer2f32(0u);
+    edk::GU_GLSL::guVertexPointer2f32(0u,2u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -7548,7 +7734,7 @@ void edk::shape::Polygon2D::drawUpdate_XYZ(edk::uint32 mode){
     //enable vertex in array
     edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
     //set the vertex position in array
-    edk::GU_GLSL::guVertexPointer3f32(0u);
+    edk::GU_GLSL::guVertexPointer3f32(0u,3u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -7567,11 +7753,11 @@ void edk::shape::Polygon2D::drawUpdate_XY_NxNyNz(edk::uint32 mode){
     //enable normal in array
     edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
     //set the normal position in array
-    edk::GU_GLSL::guNormalPointerF32(2u);
+    edk::GU_GLSL::guNormalPointerF32(2u,5u);
     //enable vertex in array
     edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
     //set the vertex position in array
-    edk::GU_GLSL::guVertexPointer2f32(0u);
+    edk::GU_GLSL::guVertexPointer2f32(0u,5u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -7592,11 +7778,11 @@ void edk::shape::Polygon2D::drawUpdate_XYZ_NxNyNz(edk::uint32 mode){
     //enable normal in array
     edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
     //set the normal position in array
-    edk::GU_GLSL::guNormalPointerF32(3u);
+    edk::GU_GLSL::guNormalPointerF32(3u,6u);
     //enable vertex in array
     edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
     //set the vertex position in array
-    edk::GU_GLSL::guVertexPointer3f32(0u);
+    edk::GU_GLSL::guVertexPointer3f32(0u,6u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -7617,11 +7803,11 @@ void edk::shape::Polygon2D::drawUpdate_XY_RGB(edk::uint32 mode){
     //enable color in array
     edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
     //set the color position in array
-    edk::GU_GLSL::guColorPointer3f32(2u);
+    edk::GU_GLSL::guColorPointer3f32(2u,5u);
     //enable vertex in array
     edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
     //set the vertex position in array
-    edk::GU_GLSL::guVertexPointer2f32(0u);
+    edk::GU_GLSL::guVertexPointer2f32(0u,5u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -7642,11 +7828,11 @@ void edk::shape::Polygon2D::drawUpdate_XYZ_RGB(edk::uint32 mode){
     //enable color in array
     edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
     //set the color position in array
-    edk::GU_GLSL::guColorPointer3f32(3);
+    edk::GU_GLSL::guColorPointer3f32(3,6u);
     //enable vertex in array
     edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
     //set the vertex position in array
-    edk::GU_GLSL::guVertexPointer3f32(0u);
+    edk::GU_GLSL::guVertexPointer3f32(0u,6u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -7667,11 +7853,11 @@ void edk::shape::Polygon2D::drawUpdate_XY_RGBA(edk::uint32 mode){
     //enable color in array
     edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
     //set the color position in array
-    edk::GU_GLSL::guColorPointer4f32(2u);
+    edk::GU_GLSL::guColorPointer4f32(2u,6u);
     //enable vertex in array
     edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
     //set the vertex position in array
-    edk::GU_GLSL::guVertexPointer2f32(0u);
+    edk::GU_GLSL::guVertexPointer2f32(0u,6u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -7692,11 +7878,11 @@ void edk::shape::Polygon2D::drawUpdate_XYZ_RGBA(edk::uint32 mode){
     //enable color in array
     edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
     //set the color position in array
-    edk::GU_GLSL::guColorPointer4f32(3u);
+    edk::GU_GLSL::guColorPointer4f32(3u,7u);
     //enable vertex in array
     edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
     //set the vertex position in array
-    edk::GU_GLSL::guVertexPointer3f32(0u);
+    edk::GU_GLSL::guVertexPointer3f32(0u,7u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -7717,15 +7903,15 @@ void edk::shape::Polygon2D::drawUpdate_XY_RGB_NxNyNz(edk::uint32 mode){
     //enable normal in array
     edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
     //set the normal position in array
-    edk::GU_GLSL::guNormalPointerF32(5u);
+    edk::GU_GLSL::guNormalPointerF32(5u,8u);
     //enable color in array
     edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
     //set the color position in array
-    edk::GU_GLSL::guColorPointer3f32(2u);
+    edk::GU_GLSL::guColorPointer3f32(2u,8u);
     //enable vertex in array
     edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
     //set the vertex position in array
-    edk::GU_GLSL::guVertexPointer2f32(0u);
+    edk::GU_GLSL::guVertexPointer2f32(0u,8u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -7748,15 +7934,15 @@ void edk::shape::Polygon2D::drawUpdate_XYZ_RGB_NxNyNz(edk::uint32 mode){
     //enable normal in array
     edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
     //set the normal position in array
-    edk::GU_GLSL::guNormalPointerF32(6u);
+    edk::GU_GLSL::guNormalPointerF32(6u,9u);
     //enable color in array
     edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
     //set the color position in array
-    edk::GU_GLSL::guColorPointer3f32(3u);
+    edk::GU_GLSL::guColorPointer3f32(3u,9u);
     //enable vertex in array
     edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
     //set the vertex position in array
-    edk::GU_GLSL::guVertexPointer3f32(0u);
+    edk::GU_GLSL::guVertexPointer3f32(0u,9u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -7779,15 +7965,15 @@ void edk::shape::Polygon2D::drawUpdate_XY_RGBA_NxNyNz(edk::uint32 mode){
     //enable normal in array
     edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
     //set the normal position in array
-    edk::GU_GLSL::guNormalPointerF32(6u);
+    edk::GU_GLSL::guNormalPointerF32(6u,9u);
     //enable color in array
     edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
     //set the color position in array
-    edk::GU_GLSL::guColorPointer4f32(2u);
+    edk::GU_GLSL::guColorPointer4f32(2u,9u);
     //enable vertex in array
     edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
     //set the vertex position in array
-    edk::GU_GLSL::guVertexPointer2f32(0u);
+    edk::GU_GLSL::guVertexPointer2f32(0u,9u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -7810,15 +7996,15 @@ void edk::shape::Polygon2D::drawUpdate_XYZ_RGBA_NxNyNz(edk::uint32 mode){
     //enable normal in array
     edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
     //set the normal position in array
-    edk::GU_GLSL::guNormalPointerF32(7u);
+    edk::GU_GLSL::guNormalPointerF32(7u,10u);
     //enable color in array
     edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
     //set the color position in array
-    edk::GU_GLSL::guColorPointer4f32(3u);
+    edk::GU_GLSL::guColorPointer4f32(3u,10u);
     //enable vertex in array
     edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
     //set the vertex position in array
-    edk::GU_GLSL::guVertexPointer3f32(0u);
+    edk::GU_GLSL::guVertexPointer3f32(0u,10u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -7841,19 +8027,19 @@ void edk::shape::Polygon2D::drawUpdate_XY_RGB_NxNyNz_UVxUVy(edk::uint32 mode){
     //enable texture coord in array
     edk::GU_GLSL::guEnableClientState(GU_TEXTURE_COORD_ARRAY);
     //set the texture coor position in array
-    edk::GU_GLSL::guTexCoordPointer2f32(8u);
+    edk::GU_GLSL::guTexCoordPointer2f32(8u,10u);
     //enable normal in array
     edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
     //set the normal position in array
-    edk::GU_GLSL::guNormalPointerF32(5u);
+    edk::GU_GLSL::guNormalPointerF32(5u,10u);
     //enable color in array
     edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
     //set the color position in array
-    edk::GU_GLSL::guColorPointer3f32(2u);
+    edk::GU_GLSL::guColorPointer3f32(2u,10u);
     //enable vertex in array
     edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
     //set the vertex position in array
-    edk::GU_GLSL::guVertexPointer2f32(0u);
+    edk::GU_GLSL::guVertexPointer2f32(0u,10u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -7878,19 +8064,19 @@ void edk::shape::Polygon2D::drawUpdate_XYZ_RGB_NxNyNz_UVxUVy(edk::uint32 mode){
     //enable texture coord in array
     edk::GU_GLSL::guEnableClientState(GU_TEXTURE_COORD_ARRAY);
     //set the texture coor position in array
-    edk::GU_GLSL::guTexCoordPointer2f32(9u);
+    edk::GU_GLSL::guTexCoordPointer2f32(9u,11u);
     //enable normal in array
     edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
     //set the normal position in array
-    edk::GU_GLSL::guNormalPointerF32(6u);
+    edk::GU_GLSL::guNormalPointerF32(6u,11u);
     //enable color in array
     edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
     //set the color position in array
-    edk::GU_GLSL::guColorPointer3f32(3u);
+    edk::GU_GLSL::guColorPointer3f32(3u,11u);
     //enable vertex in array
     edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
     //set the vertex position in array
-    edk::GU_GLSL::guVertexPointer3f32(0u);
+    edk::GU_GLSL::guVertexPointer3f32(0u,11u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -7915,19 +8101,19 @@ void edk::shape::Polygon2D::drawUpdate_XY_RGBA_NxNyNz_UVxUVy(edk::uint32 mode){
     //enable texture coord in array
     edk::GU_GLSL::guEnableClientState(GU_TEXTURE_COORD_ARRAY);
     //set the texture coor position in array
-    edk::GU_GLSL::guTexCoordPointer2f32(9u);
+    edk::GU_GLSL::guTexCoordPointer2f32(9u,11u);
     //enable normal in array
     edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
     //set the normal position in array
-    edk::GU_GLSL::guNormalPointerF32(6u);
+    edk::GU_GLSL::guNormalPointerF32(6u,11u);
     //enable color in array
     edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
     //set the color position in array
-    edk::GU_GLSL::guColorPointer4f32(2u);
+    edk::GU_GLSL::guColorPointer4f32(2u,11u);
     //enable vertex in array
     edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
     //set the vertex position in array
-    edk::GU_GLSL::guVertexPointer2f32(0u);
+    edk::GU_GLSL::guVertexPointer2f32(0u,11u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -7952,19 +8138,19 @@ void edk::shape::Polygon2D::drawUpdate_XYZ_RGBA_NxNyNz_UVxUVy(edk::uint32 mode){
     //enable texture coord in array
     edk::GU_GLSL::guEnableClientState(GU_TEXTURE_COORD_ARRAY);
     //set the texture coor position in array
-    edk::GU_GLSL::guTexCoordPointer2f32(10u);
+    edk::GU_GLSL::guTexCoordPointer2f32(10u,12u);
     //enable normal in array
     edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
     //set the normal position in array
-    edk::GU_GLSL::guNormalPointerF32(7u);
+    edk::GU_GLSL::guNormalPointerF32(7u,12u);
     //enable color in array
     edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
     //set the color position in array
-    edk::GU_GLSL::guColorPointer4f32(3u);
+    edk::GU_GLSL::guColorPointer4f32(3u,12u);
     //enable vertex in array
     edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
     //set the vertex position in array
-    edk::GU_GLSL::guVertexPointer3f32(0u);
+    edk::GU_GLSL::guVertexPointer3f32(0u,12u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -8365,6 +8551,7 @@ bool edk::shape::Polygon2D::setPolygonUVFramesY(edk::uint32 y){
 }
 //Set the polygon frame
 void edk::shape::Polygon2D::usePolygonUVFrame(edk::vec2ui32 frame){
+    bool ret=false;
     this->frameUsing=edk::vec2ui32(0u,0u);edkEnd();
     //set the frame in all vertexs
     for(edk::uint32 i=0u;i<this->vertexs.size();i++){
@@ -8380,11 +8567,16 @@ void edk::shape::Polygon2D::usePolygonUVFrame(edk::vec2ui32 frame){
                 temp->useUVFrame(frame);edkEnd();
                 tempO->useUVFrame(frame);edkEnd();
                 this->frameUsing=frame;edkEnd();
+                ret=true;
             }
         }
     }
+    if(ret){
+        this->updateVBOUV();
+    }
 }
 void edk::shape::Polygon2D::usePolygonUVFramePosition(edk::uint32 position){
+    bool ret=false;
     //test if the framesX is not zero
     if(this->frames.x && this->frames.y){
         //make the UV positions
@@ -8403,12 +8595,17 @@ void edk::shape::Polygon2D::usePolygonUVFramePosition(edk::uint32 position){
                     temp->useUVFrame(UVPosition);edkEnd();
                     tempO->useUVFrame(UVPosition);edkEnd();
                     this->frameUsing=UVPosition;edkEnd();
+                    ret=true;
                 }
             }
         }
     }
+    if(ret){
+        this->updateVBOUV();
+    }
 }
 void edk::shape::Polygon2D::usePolygonUVFrameX(edk::uint32 x){
+    bool ret=false;
     //set the frame in all vertexs
     for(edk::uint32 i=0u;i<this->vertexs.size();i++){
         //load the vertex
@@ -8423,11 +8620,16 @@ void edk::shape::Polygon2D::usePolygonUVFrameX(edk::uint32 x){
                 temp->useUVFrameX(x);edkEnd();
                 tempO->useUVFrameX(x);edkEnd();
                 this->frameUsing.x = x;edkEnd();
+                ret=true;
             }
         }
     }
+    if(ret){
+        this->updateVBOUV();
+    }
 }
 void edk::shape::Polygon2D::usePolygonUVFrameY(edk::uint32 y){
+    bool ret=false;
     //set the frame in all vertexs
     for(edk::uint32 i=0u;i<this->vertexs.size();i++){
         //load the vertex
@@ -8442,8 +8644,12 @@ void edk::shape::Polygon2D::usePolygonUVFrameY(edk::uint32 y){
                 temp->useUVFrameY(y);edkEnd();
                 tempO->useUVFrameY(y);edkEnd();
                 this->frameUsing.x = y;edkEnd();
+                ret=true;
             }
         }
+    }
+    if(ret){
+        this->updateVBOUV();
     }
 }
 

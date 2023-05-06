@@ -316,7 +316,8 @@ protected:
     edk::vector::Array<edk::float32> vertexBuffer;
     //vbo vertexes size
     edk::uint32 vboCount;
-    bool vboNULL;
+    //save if can use VBO in the polygon
+    bool canUseVBO;
 
     //function to create the VBO
     virtual bool createVBO(edk::uint32 vertexCount,edk::shape::EDKVBOType type);
@@ -351,6 +352,7 @@ protected:
     virtual bool setVBOVertexV(edk::uint32 vertex,edk::float32 v);
     //updafe the UV into the VBO
     virtual bool updateVBOUV();
+    virtual bool updateVBOValues();
     //print the VBO
     virtual bool printVBO();
 
@@ -990,7 +992,7 @@ protected:
             if(this->vertexsOriginal.have(pos)){
                 edk::shape::Vertex2D* temp = this->vertexsOriginal.get(pos);
                 if(temp){
-                return temp->getType();
+                    return temp->getType();
                 }
             }
             return 0u;
@@ -1001,7 +1003,7 @@ protected:
             if(this->vertexsOriginal.have(pos)){
                 edk::shape::Vertex2D* temp = this->vertexsOriginal.get(pos);
                 if(temp){
-                ret = temp->position;
+                    ret = temp->position;
                 }
             }
             return ret;
@@ -1012,7 +1014,7 @@ protected:
             if(this->vertexsOriginal.have(pos)){
                 edk::shape::Vertex2D* temp = this->vertexsOriginal.get(pos);
                 if(temp){
-                ret = temp->position;
+                    ret = temp->position;
                 }
             }
             return ret;
@@ -1023,7 +1025,7 @@ protected:
             if(this->vertexsOriginal.have(pos)){
                 edk::shape::Vertex2D* temp = this->vertexsOriginal.get(pos);
                 if(temp){
-                ret = temp->color;
+                    ret = temp->color;
                 }
             }
             return ret;
