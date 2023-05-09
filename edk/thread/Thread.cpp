@@ -542,7 +542,7 @@ void edk::multi::Thread::killThisThread(){
     //Finish the thread
     if(GetExitCodeThread(NULL,&exitCode) != 0){
         ExitThread(exitCode);edkEnd();
-        CloseHandle(this->threadID);edkEnd();
+        CloseHandle(NULL);edkEnd();
     }
     else{
         TerminateThread(NULL
@@ -557,7 +557,7 @@ void edk::multi::Thread::killThisThread(){
     //Finish the thread
     if(GetExitCodeThread(NULL,&exitCode) != 0){
         ExitThread(exitCode);edkEnd();
-        CloseHandle(this->threadID);edkEnd();
+        CloseHandle(NULL);edkEnd();
     }
     else{
         TerminateThread(NULL
