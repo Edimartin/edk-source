@@ -219,16 +219,16 @@ bool edk::multi::Thread::start(edk::classID (threadFunction)(edk::classID), edk:
 #elif defined __APPLE__
         //APPLE
 #endif
-            //then return true;
-            return true;
-        }
+        //then return true;
+        return true;
     }
+}
 
-    //clean
-    this->cleanThread();edkEnd();
-    //else he clean the func
-    this->threadFunc=NULL;edkEnd();
-    return false;
+//clean
+this->cleanThread();edkEnd();
+//else he clean the func
+this->threadFunc=NULL;edkEnd();
+return false;
 }
 
 bool edk::multi::Thread::start(edk::classID (threadFunction)(edk::classID)){
@@ -293,16 +293,16 @@ bool edk::multi::Thread::startIn(edk::classID (threadFunction)(edk::classID), ed
 #elif defined __APPLE__
         //APPLE
 #endif
-            //then return true;
-            return true;
-        }
+        //then return true;
+        return true;
     }
+}
 
-    //clean
-    this->cleanThread();edkEnd();
-    //else he clean the func
-    this->threadFunc=NULL;edkEnd();
-    return false;
+//clean
+this->cleanThread();edkEnd();
+//else he clean the func
+this->threadFunc=NULL;edkEnd();
+return false;
 }
 
 bool edk::multi::Thread::startIn(edk::classID (threadFunction)(edk::classID), edk::uint32 core){
@@ -340,8 +340,8 @@ bool edk::multi::Thread::changeCore(edk::uint32 core){
 #elif defined __APPLE__
         //APPLE
 #endif
-        }
     }
+}
 return false;
 }
 
@@ -481,10 +481,18 @@ bool edk::multi::Thread::kill(){
     //WINDOWS 32
 #ifdef WIN32
     if(this->threadID){
+        DWORD exitCode;edkEnd();
+
         //Finish the thread
-        TerminateThread(this->threadID
-                        ,(DWORD)NULL
-                        );edkEnd();
+        if(GetExitCodeThread(this->threadID,&exitCode) != 0){
+            ExitThread(exitCode);edkEnd();
+            CloseHandle(this->threadID);edkEnd();
+        }
+        else{
+            TerminateThread(this->threadID
+                            ,(DWORD)NULL
+                            );edkEnd();
+        }
         ret=true;edkEnd();
     }
     //clean ID
@@ -492,16 +500,26 @@ bool edk::multi::Thread::kill(){
 #elif defined WIN64
     //WINDOWS 64
     if(this->threadID){
+        DWORD exitCode;edkEnd();
+
         //Finish the thread
-        TerminateThread(this->threadID
-                        ,(DWORD)NULL
-                        );edkEnd();
+        if(GetExitCodeThread(this->threadID,&exitCode) != 0){
+            ExitThread(exitCode);edkEnd();
+            CloseHandle(this->threadID);edkEnd();
+        }
+        else{
+
+            TerminateThread(this->threadID
+                            ,(DWORD)NULL
+                            );edkEnd();
+        }
         ret=true;edkEnd();
     }
 #elif defined __linux__
     //LINUX
     if(this->threadID){
         //Cancel the thread
+        pthread_kill(this->threadID,0u);edkEnd();
         pthread_cancel(this->threadID);edkEnd();
         //pthread_attr_destroy(&attr);edkEnd();
         //Finish the thread
@@ -519,15 +537,33 @@ void edk::multi::Thread::killThisThread(){
     //WINDOWS 32
 #ifdef WIN32
     //Finish the thread
-    TerminateThread(NULL
-                    ,(DWORD)NULL
-                    );edkEnd();
+    DWORD exitCode;edkEnd();
+
+    //Finish the thread
+    if(GetExitCodeThread(NULL,&exitCode) != 0){
+        ExitThread(exitCode);edkEnd();
+        CloseHandle(this->threadID);edkEnd();
+    }
+    else{
+        TerminateThread(NULL
+                        ,(DWORD)NULL
+                        );edkEnd();
+    }
 #elif defined WIN64
     //WINDOWS 64
     //Finish the thread
-    TerminateThread(NULL
-                    ,(DWORD)NULL
-                    );edkEnd();
+    DWORD exitCode;edkEnd();
+
+    //Finish the thread
+    if(GetExitCodeThread(NULL,&exitCode) != 0){
+        ExitThread(exitCode);edkEnd();
+        CloseHandle(this->threadID);edkEnd();
+    }
+    else{
+        TerminateThread(NULL
+                        ,(DWORD)NULL
+                        );edkEnd();
+    }
 #elif defined __linux__
     //LINUX
     //Exit the process

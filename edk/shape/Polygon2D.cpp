@@ -6579,7 +6579,7 @@ bool edk::shape::Polygon2D::updateVBOUV(){
                 break;
             }
 
-            vTemp = (edk::shape::Vertex2DWithUV*)this->vertexs.get(i);edkEnd();
+            vTemp = (edk::shape::Vertex2DWithUV*)this->vertexs.getNoIF(i);edkEnd();
             if(vTemp->getType() != EDK_SHAPE_NOUV){
                 uv = vTemp->getUV();
             }
@@ -6743,7 +6743,7 @@ bool edk::shape::Polygon2D::updateVBOValues(){
             default:
                 break;
             }
-            vTemp = (edk::shape::Vertex2DWithUV*)this->vertexs.get(i);edkEnd();
+            vTemp = (edk::shape::Vertex2DWithUV*)this->vertexs.getNoIF(i);edkEnd();
             if(vTemp->getType() != EDK_SHAPE_NOUV){
                 uv = vTemp->getUV();
                 position = vTemp->position;
@@ -6855,8 +6855,8 @@ void edk::shape::Polygon2D::drawVertexs(){
     //
     for(edk::uint32 i=0u;i<this->getVertexCount();i++){
         //
-        if(vertexs.get(i)){
-            vertexs.get(i)->draw();edkEnd();
+        if(vertexs.getNoIF(i)){
+            vertexs.getNoIF(i)->draw();edkEnd();
         }
     }
 }
@@ -6864,8 +6864,8 @@ void edk::shape::Polygon2D::drawVertexsWithColor(edk::color4f32 color){
     //
     for(edk::uint32 i=0u;i<this->getVertexCount();i++){
         //
-        if(vertexs.get(i)){
-            vertexs.get(i)->drawWithColor(color);edkEnd();
+        if(vertexs.getNoIF(i)){
+            vertexs.getNoIF(i)->drawWithColor(color);edkEnd();
         }
     }
 }
@@ -6898,8 +6898,8 @@ void edk::shape::Polygon2D::print_NULL(){
     //
     for(edk::uint32 i=0u;i<this->getVertexCount();i++){
         //
-        if(vertexs.get(i)){
-            vertexs.get(i)->print(i);edkEnd();
+        if(vertexs.getNoIF(i)){
+            vertexs.getNoIF(i)->print(i);edkEnd();
         }
     }
 }
@@ -8175,7 +8175,7 @@ edk::shape::Vertex2D* edk::shape::Polygon2D::getVertexPointer(edk::uint32 vertex
     //test if have the vertex
     if(vertex<this->getVertexCount()){
         //then return the vertex
-        return this->vertexs.get(vertex);edkEnd();
+        return this->vertexs.getNoIF(vertex);edkEnd();
     }
     //else return NULL
     return NULL;
@@ -8184,7 +8184,7 @@ edk::shape::Vertex2D* edk::shape::Polygon2D::getVertexOriginalPointer(edk::uint3
     //test if have the vertex
     if(vertex<this->getVertexCount()){
         //then return the vertex
-        return this->vertexsOriginal.get(vertex);edkEnd();
+        return this->vertexsOriginal.getNoIF(vertex);edkEnd();
     }
     //else return NULL
     return NULL;
@@ -8208,11 +8208,11 @@ bool edk::shape::Polygon2D::createPolygon(edk::uint32 vertexCount){
                     //Set alpha 1
                     if(this->vertexs.get(i)){
                         //set the vertex
-                        this->vertexs.get(i)->color = this->polygonColor;edkEnd();
+                        this->vertexs.getNoIF(i)->color = this->polygonColor;edkEnd();
                     }
                     if(this->vertexsOriginal.get(i)){
                         //set the vertex
-                        this->vertexsOriginal.get(i)->color = this->polygonColor;edkEnd();
+                        this->vertexsOriginal.getNoIF(i)->color = this->polygonColor;edkEnd();
                     }
                 }
                 //set can delete the polygon in the future
@@ -8239,12 +8239,12 @@ bool edk::shape::Polygon2D::isCounterclockwise(){
     //test the polygon size
     if(this->getVertexCount()>=3){
         //test the vertex angles
-        edk::float32 angle1 = edk::Math::getAngle(this->vertexs.get(1u)->position - this->vertexs.get(0u)->position);edkEnd();
+        edk::float32 angle1 = edk::Math::getAngle(this->vertexs.getNoIF(1u)->position - this->vertexs.getNoIF(0u)->position);edkEnd();
         edk::float32 angle2;edkEnd();
         edk::float32 angleTemp;edkEnd();
         for(register edk::uint32 i=2u;i<this->vertexs.size();i++){
             //get the next angle
-            angle2 = edk::Math::getAngle(this->vertexs.get(i)->position - this->vertexs.get(0u)->position);edkEnd();
+            angle2 = edk::Math::getAngle(this->vertexs.getNoIF(i)->position - this->vertexs.getNoIF(0u)->position);edkEnd();
             angleTemp = angle2 - angle1;edkEnd();
             if(angleTemp>180.f || (angleTemp<0.f && angleTemp>-180.f)){
                 //it's not counterClockwise
@@ -8321,8 +8321,8 @@ bool edk::shape::Polygon2D::setPolygonColor(edk::color4f32 color){
         //set the color of the vertexPolygons
         for(edk::uint32 i=0u;i<this->getVertexCount();i++){
             //set the color
-            this->vertexs.get(i)->color = this->polygonColor;edkEnd();
-            this->vertexsOriginal.get(i)->color = this->polygonColor;edkEnd();
+            this->vertexs.getNoIF(i)->color = this->polygonColor;edkEnd();
+            this->vertexsOriginal.getNoIF(i)->color = this->polygonColor;edkEnd();
         }
         //then return true
         ret = true;
@@ -8355,8 +8355,8 @@ bool edk::shape::Polygon2D::setPolygonColorR(edk::float32 r){
         //set the color of the vertexPolygons
         for(edk::uint32 i=0u;i<this->getVertexCount();i++){
             //set the color
-            this->vertexs.get(i)->color.r = this->polygonColor.r;edkEnd();
-            this->vertexsOriginal.get(i)->color.r = this->polygonColor.r;edkEnd();
+            this->vertexs.getNoIF(i)->color.r = this->polygonColor.r;edkEnd();
+            this->vertexsOriginal.getNoIF(i)->color.r = this->polygonColor.r;edkEnd();
         }
         //then return true
         ret=true;
@@ -8376,8 +8376,8 @@ bool edk::shape::Polygon2D::setPolygonColorG(edk::float32 g){
         //set the color of the vertexPolygons
         for(edk::uint32 i=0u;i<this->getVertexCount();i++){
             //set the color
-            this->vertexs.get(i)->color.g = this->polygonColor.g;edkEnd();
-            this->vertexsOriginal.get(i)->color.g = this->polygonColor.g;edkEnd();
+            this->vertexs.getNoIF(i)->color.g = this->polygonColor.g;edkEnd();
+            this->vertexsOriginal.getNoIF(i)->color.g = this->polygonColor.g;edkEnd();
         }
         //then return true
         ret = true;
@@ -8397,8 +8397,8 @@ bool edk::shape::Polygon2D::setPolygonColorB(edk::float32 b){
         //set the color of the vertexPolygons
         for(edk::uint32 i=0u;i<this->getVertexCount();i++){
             //set the color
-            this->vertexs.get(i)->color.b = this->polygonColor.b;edkEnd();
-            this->vertexsOriginal.get(i)->color.b = this->polygonColor.b;edkEnd();
+            this->vertexs.getNoIF(i)->color.b = this->polygonColor.b;edkEnd();
+            this->vertexsOriginal.getNoIF(i)->color.b = this->polygonColor.b;edkEnd();
         }
         //then return true
         ret = true;
@@ -8419,8 +8419,8 @@ bool edk::shape::Polygon2D::setPolygonColorA(edk::float32 a){
         //set the color of the vertexPolygons
         for(edk::uint32 i=0u;i<this->getVertexCount();i++){
             //set the color
-            this->vertexs.get(i)->color.a = this->polygonColor.a;edkEnd();
-            this->vertexsOriginal.get(i)->color.a = this->polygonColor.a;edkEnd();
+            this->vertexs.getNoIF(i)->color.a = this->polygonColor.a;edkEnd();
+            this->vertexsOriginal.getNoIF(i)->color.a = this->polygonColor.a;edkEnd();
         }
         //then return true
         ret = true;
@@ -8749,30 +8749,30 @@ edk::rectf32 edk::shape::Polygon2D::generateBoundingBox(edk::vector::Matrix<edk:
                 if(vertexs.get(0u)){
                     edk::vec2f32 vexPosition;edkEnd();
                     //
-                    this->matrixPosition.set(0u,0u,vertexs.get(0u)->position.x);edkEnd();
-                    this->matrixPosition.set(0u,1u,vertexs.get(0u)->position.y);edkEnd();
+                    this->matrixPosition.set(0u,0u,vertexs.getNoIF(0u)->position.x);edkEnd();
+                    this->matrixPosition.set(0u,1u,vertexs.getNoIF(0u)->position.y);edkEnd();
                     this->matrixPosition.set(0u,2u,1.f);edkEnd();
 
                     //multiply the matrix
                     this->matrixPosition.multiplyMatrixWithThis((edk::vector::MatrixDynamic<edk::float32>*)&this->matrixTransform);edkEnd();
 
-                    ret.origin.x = this->matrixPosition.get(0u,0u);edkEnd();
-                    ret.origin.y = this->matrixPosition.get(0u,1u);edkEnd();
+                    ret.origin.x = this->matrixPosition.getNoIF(0u,0u);edkEnd();
+                    ret.origin.y = this->matrixPosition.getNoIF(0u,1u);edkEnd();
                     ret.size.width = ret.origin.x;edkEnd();
                     ret.size.height = ret.origin.y;edkEnd();
                     if(size==2u){
                         //process the rectangle or line
                         if(vertexs.get(1u)){
                             //V0x1
-                            this->matrixPosition.set(0u,0u,vertexs.get(0u)->position.x);edkEnd();
-                            this->matrixPosition.set(0u,1u,vertexs.get(1u)->position.y);edkEnd();
+                            this->matrixPosition.set(0u,0u,vertexs.getNoIF(0u)->position.x);edkEnd();
+                            this->matrixPosition.set(0u,1u,vertexs.getNoIF(1u)->position.y);edkEnd();
                             this->matrixPosition.set(0u,2u,1.f);edkEnd();
 
                             //multiply the matrix
                             this->matrixPosition.multiplyMatrixWithThis((edk::vector::MatrixDynamic<edk::float32>*)&this->matrixTransform);edkEnd();
 
-                            vexPosition.x = this->matrixPosition.get(0u,0u);edkEnd();
-                            vexPosition.y = this->matrixPosition.get(0u,1u);edkEnd();
+                            vexPosition.x = this->matrixPosition.getNoIF(0u,0u);edkEnd();
+                            vexPosition.y = this->matrixPosition.getNoIF(0u,1u);edkEnd();
 
                             if(ret.origin.x > vexPosition.x){
                                 ret.origin.x = vexPosition.x;edkEnd();
@@ -8788,15 +8788,15 @@ edk::rectf32 edk::shape::Polygon2D::generateBoundingBox(edk::vector::Matrix<edk:
                             }
 
                             //V1x0
-                            this->matrixPosition.set(0u,0u,vertexs.get(1u)->position.x);edkEnd();
-                            this->matrixPosition.set(0u,1u,vertexs.get(0u)->position.y);edkEnd();
+                            this->matrixPosition.set(0u,0u,vertexs.getNoIF(1u)->position.x);edkEnd();
+                            this->matrixPosition.set(0u,1u,vertexs.getNoIF(0u)->position.y);edkEnd();
                             this->matrixPosition.set(0u,2u,1.f);edkEnd();
 
                             //multiply the matrix
                             this->matrixPosition.multiplyMatrixWithThis((edk::vector::MatrixDynamic<edk::float32>*)&this->matrixTransform);edkEnd();
 
-                            vexPosition.x = this->matrixPosition.get(0u,0u);edkEnd();
-                            vexPosition.y = this->matrixPosition.get(0u,1u);edkEnd();
+                            vexPosition.x = this->matrixPosition.getNoIF(0u,0u);edkEnd();
+                            vexPosition.y = this->matrixPosition.getNoIF(0u,1u);edkEnd();
 
                             if(ret.origin.x > vexPosition.x){
                                 ret.origin.x = vexPosition.x;edkEnd();
@@ -8812,15 +8812,15 @@ edk::rectf32 edk::shape::Polygon2D::generateBoundingBox(edk::vector::Matrix<edk:
                             }
 
                             //V1x1
-                            this->matrixPosition.set(0u,0u,vertexs.get(1u)->position.x);edkEnd();
-                            this->matrixPosition.set(0u,1u,vertexs.get(1u)->position.y);edkEnd();
+                            this->matrixPosition.set(0u,0u,vertexs.getNoIF(1u)->position.x);edkEnd();
+                            this->matrixPosition.set(0u,1u,vertexs.getNoIF(1u)->position.y);edkEnd();
                             this->matrixPosition.set(0u,2u,1.f);edkEnd();
 
                             //multiply the matrix
                             this->matrixPosition.multiplyMatrixWithThis((edk::vector::MatrixDynamic<edk::float32>*)&this->matrixTransform);edkEnd();
 
-                            vexPosition.x = this->matrixPosition.get(0u,0u);edkEnd();
-                            vexPosition.y = this->matrixPosition.get(0u,1u);edkEnd();
+                            vexPosition.x = this->matrixPosition.getNoIF(0u,0u);edkEnd();
+                            vexPosition.y = this->matrixPosition.getNoIF(0u,1u);edkEnd();
 
                             if(ret.origin.x > vexPosition.x){
                                 ret.origin.x = vexPosition.x;edkEnd();
@@ -8839,15 +8839,15 @@ edk::rectf32 edk::shape::Polygon2D::generateBoundingBox(edk::vector::Matrix<edk:
                     else{
                         for(edk::uint32 i=0u;i<size;i++){
                             if(vertexs.get(i)){
-                                this->matrixPosition.set(0u,0u,vertexs.get(i)->position.x);edkEnd();
-                                this->matrixPosition.set(0u,1u,vertexs.get(i)->position.y);edkEnd();
+                                this->matrixPosition.set(0u,0u,vertexs.getNoIF(i)->position.x);edkEnd();
+                                this->matrixPosition.set(0u,1u,vertexs.getNoIF(i)->position.y);edkEnd();
                                 this->matrixPosition.set(0u,2u,1.f);edkEnd();
 
                                 //multiply the matrix
                                 this->matrixPosition.multiplyMatrixWithThis((edk::vector::MatrixDynamic<edk::float32>*)&this->matrixTransform);edkEnd();
 
-                                vexPosition.x = this->matrixPosition.get(0u,0u);edkEnd();
-                                vexPosition.y = this->matrixPosition.get(0u,1u);edkEnd();
+                                vexPosition.x = this->matrixPosition.getNoIF(0u,0u);edkEnd();
+                                vexPosition.y = this->matrixPosition.getNoIF(0u,1u);edkEnd();
 
                                 if(ret.origin.x > vexPosition.x){
                                     ret.origin.x = vexPosition.x;edkEnd();
@@ -8880,10 +8880,10 @@ void edk::shape::Polygon2D::deletePolygon(){
         for(edk::uint32 i=0u;i<size;i++){
             //
             if(this->vertexs.get(i)){
-                delete this->vertexs.get(i);edkEnd();
+                delete this->vertexs.getNoIF(i);edkEnd();
             }
             if(this->vertexsOriginal.get(i)){
-                delete this->vertexsOriginal.get(i);edkEnd();
+                delete this->vertexsOriginal.getNoIF(i);edkEnd();
             }
         }
         this->vertexs.deleteArray();edkEnd();
@@ -9046,8 +9046,9 @@ bool edk::shape::Polygon2D::framesIsAnimationCreator(){
 //return the vertexCount
 edk::uint32 edk::shape::Polygon2D::getVertexCount(){
     //
-    if(this->vertexsOriginal.size() < this->vertexs.size())
+    if(this->vertexsOriginal.size() < this->vertexs.size()){
         return this->vertexsOriginal.size();edkEnd();
+    }
     return this->vertexs.size();edkEnd();
 }
 //return if the vertex have UV
@@ -9055,7 +9056,7 @@ edk::uint8 edk::shape::Polygon2D::getVertexType(edk::uint32 pos){
     //test if have the polygon
     if(pos<this->getVertexCount()){
         if(this->vertexs.get(pos)){
-            return this->vertexs.get(pos)->getType();edkEnd();
+            return this->vertexs.getNoIF(pos)->getType();edkEnd();
         }
     }
     //else retun false
@@ -9067,7 +9068,7 @@ edk::vec2f32 edk::shape::Polygon2D::getVertexPosition(edk::uint32 pos){
     if(pos<this->getVertexCount()){
         if(this->vertexs.get(pos)){
             //return the vertex
-            return edk::vec2f32(this->vertexs.get(pos)->position.x,this->vertexs.get(pos)->position.y);edkEnd();
+            return edk::vec2f32(this->vertexs.getNoIF(pos)->position.x,this->vertexs.getNoIF(pos)->position.y);edkEnd();
         }
     }
     //else return a zero vertex
@@ -9081,8 +9082,8 @@ edk::vec2f32 edk::shape::Polygon2D::getVertexPositionTransformed(edk::uint32 pos
             //apply the transformations
             edk::vec2f32 ret;edkEnd();
             //scale
-            ret.x = this->vertexs.get(pos)->position.x * this->scale.width;edkEnd();
-            ret.y = this->vertexs.get(pos)->position.y * this->scale.height;edkEnd();
+            ret.x = this->vertexs.getNoIF(pos)->position.x * this->scale.width;edkEnd();
+            ret.y = this->vertexs.getNoIF(pos)->position.y * this->scale.height;edkEnd();
             //rotate
             ret = edk::Math::rotatePlus(ret,this->angle);edkEnd();
             //translate
@@ -9102,8 +9103,8 @@ edk::color4f32 edk::shape::Polygon2D::getVertexColor(edk::uint32 pos){
     if(pos<this->getVertexCount()){
         if(this->vertexs.get(pos)){
             //return the vertex
-            return edk::color4f32(this->vertexs.get(pos)->color.r,this->vertexs.get(pos)->color.g,this->vertexs.get(pos)->color.b,
-                                  this->vertexs.get(pos)->color.a);edkEnd();
+            return edk::color4f32(this->vertexs.getNoIF(pos)->color.r,this->vertexs.getNoIF(pos)->color.g,this->vertexs.getNoIF(pos)->color.b,
+                                  this->vertexs.getNoIF(pos)->color.a);edkEnd();
         }
     }
     //else return a zero vertex
@@ -9534,7 +9535,7 @@ void edk::shape::Polygon2D::print(){
     for(edk::uint32 i=0u;i<this->getVertexCount();i++){
         //
         if(vertexs.get(i)){
-            vertexs.get(i)->print(i);edkEnd();
+            vertexs.getNoIF(i)->print(i);edkEnd();
         }
     }
     */

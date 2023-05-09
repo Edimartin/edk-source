@@ -194,8 +194,10 @@ bool edk::shape::Polygon3D::setVertex(edk::uint32 position,edk::shape::Vertex3D*
     if(position<this->vertexs.size() && vertex){
         //get the vertex in position
         edk::shape::Polygon3D::PolygonVertex* vert = this->vertexs.get(position);edkEnd();
-        vert->vertex = vertex;edkEnd();
-        vert->vertexID = vertexID;edkEnd();
+        if(vert){
+            vert->vertex = vertex;edkEnd();
+            vert->vertexID = vertexID;edkEnd();
+        }
 
         //update the center position
         this->updateCenterPosition();edkEnd();
@@ -208,7 +210,7 @@ bool edk::shape::Polygon3D::setNormal(edk::uint32 position,edk::shape::Vector3D*
     //test if have the vertex and position
     if(position<this->vertexs.size() && normal){
         //test the vertex type
-        switch(this->vertexs.get(position)->getType()){
+        switch(this->vertexs.getNoIF(position)->getType()){
         case edk::shape::Polygon3D::typeVertex:
         {
             //delete the vertex and create a vertex with normal
@@ -271,7 +273,7 @@ bool edk::shape::Polygon3D::setUV(edk::uint32 position,edk::shape::UV2D* uv,edk:
     //test if have the vertex and position
     if(position<this->vertexs.size() && uv){
         //test the vertex type
-        switch(this->vertexs.get(position)->getType()){
+        switch(this->vertexs.getNoIF(position)->getType()){
         case edk::shape::Polygon3D::typeVertex:
         {
             //delete the vertex and create a vertex with normal
@@ -526,7 +528,7 @@ bool edk::shape::Polygon3D::cloneFrom(edk::shape::Polygon3D* poly){
                 for(edk::uint32 i=0u;i<size;i++){
                     if(haveVertex){
                         //get the polygonVertex
-                        switch(poly->vertexs.get(i)->getType()){
+                        switch(poly->vertexs.getNoIF(i)->getType()){
                         case edk::shape::Polygon3D::typeVertex:
                         {
                             edk::shape::Polygon3D::PolygonVertex* vert = poly->vertexs.get(i);edkEnd();

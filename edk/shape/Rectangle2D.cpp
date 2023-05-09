@@ -249,8 +249,8 @@ bool edk::shape::Rectangle2D::setVBOVertexV(edk::uint32 vertex,edk::float32 v){
 //updafe the UV into the VBO
 bool edk::shape::Rectangle2D::updateVBOUV(){
     if(this->vertexs.size()>1u){
-        edk::shape::Vertex2DWithUV* vTemp0 = (edk::shape::Vertex2DWithUV*)this->vertexs.get(0u);edkEnd();
-        edk::shape::Vertex2DWithUV* vTemp1 = (edk::shape::Vertex2DWithUV*)this->vertexs.get(1u);edkEnd();
+        edk::shape::Vertex2DWithUV* vTemp0 = (edk::shape::Vertex2DWithUV*)this->vertexs.getNoIF(0u);edkEnd();
+        edk::shape::Vertex2DWithUV* vTemp1 = (edk::shape::Vertex2DWithUV*)this->vertexs.getNoIF(1u);edkEnd();
         if(vTemp0 && vTemp1){
             edk::vec2f32 uv1 = edk::vec2f32(0.f,0.f);
             edk::vec2f32 uv2 = edk::vec2f32(0.f,0.f);
@@ -271,8 +271,8 @@ bool edk::shape::Rectangle2D::updateVBOUV(){
 }
 bool edk::shape::Rectangle2D::updateVBOValues(){
     if(this->vertexs.size()>1u){
-        edk::shape::Vertex2DWithUV* vTemp0 = (edk::shape::Vertex2DWithUV*)this->vertexs.get(0u);edkEnd();
-        edk::shape::Vertex2DWithUV* vTemp1 = (edk::shape::Vertex2DWithUV*)this->vertexs.get(1u);edkEnd();
+        edk::shape::Vertex2DWithUV* vTemp0 = (edk::shape::Vertex2DWithUV*)this->vertexs.getNoIF(0u);edkEnd();
+        edk::shape::Vertex2DWithUV* vTemp1 = (edk::shape::Vertex2DWithUV*)this->vertexs.getNoIF(1u);edkEnd();
         if(vTemp0 && vTemp1){
             edk::vec2f32 uv1 = edk::vec2f32(0.f,0.f);
             edk::vec2f32 uv2 = edk::vec2f32(0.f,0.f);
@@ -304,18 +304,18 @@ bool edk::shape::Rectangle2D::updateVBOValues(){
 //DRAW
 void edk::shape::Rectangle2D::draw_NULL(edk::uint32 mode){
     edk::GU::guBegin(mode);edkEnd();
-    if(this->vertexs.get(0u)->getType() != EDK_SHAPE_NOUV
+    if(this->vertexs.getNoIF(0u)->getType() != EDK_SHAPE_NOUV
             &&
-            this->vertexs.get(1u)->getType() != EDK_SHAPE_NOUV
+            this->vertexs.getNoIF(1u)->getType() != EDK_SHAPE_NOUV
             ){
-        edk::shape::Vertex2DWithUV* vTemp0 = (edk::shape::Vertex2DWithUV*)this->vertexs.get(0u);edkEnd();
-        edk::shape::Vertex2DWithUV* vTemp1 = (edk::shape::Vertex2DWithUV*)this->vertexs.get(1u);edkEnd();
+        edk::shape::Vertex2DWithUV* vTemp0 = (edk::shape::Vertex2DWithUV*)this->vertexs.getNoIF(0u);edkEnd();
+        edk::shape::Vertex2DWithUV* vTemp1 = (edk::shape::Vertex2DWithUV*)this->vertexs.getNoIF(1u);edkEnd();
 
         //draw the third vertex
-        edk::GU::guColor4f32(this->vertexs.get(1u)->color.r,
-                             this->vertexs.get(1u)->color.g,
-                             this->vertexs.get(1u)->color.b,
-                             this->vertexs.get(1u)->color.a
+        edk::GU::guColor4f32(this->vertexs.getNoIF(1u)->color.r,
+                             this->vertexs.getNoIF(1u)->color.g,
+                             this->vertexs.getNoIF(1u)->color.b,
+                             this->vertexs.getNoIF(1u)->color.a
                              );edkEnd();
 
         //draw the normal
@@ -324,7 +324,7 @@ void edk::shape::Rectangle2D::draw_NULL(edk::uint32 mode){
         edk::GU::guVertexTex2f32(vTemp0->getUVX(), vTemp0->getUVY());edkEnd();
         //glMultiTexCoord2f(GL_TEXTURE0,vTemp0->getUVX(), vTemp1->getUVY());edkEnd();
         //draw the vertex
-        edk::GU::guVertex3f32( this->vertexs.get(0u)->position.x, this->vertexs.get(0u)->position.y, 0.0f);edkEnd();
+        edk::GU::guVertex3f32( this->vertexs.getNoIF(0u)->position.x, this->vertexs.getNoIF(0u)->position.y, 0.0f);edkEnd();
 
         //draw the normal
         //edk::GU::guVertexNormal3f32(0.f,0.f,1.f);edkEnd();
@@ -332,13 +332,13 @@ void edk::shape::Rectangle2D::draw_NULL(edk::uint32 mode){
         edk::GU::guVertexTex2f32(vTemp0->getUVX(), vTemp1->getUVY());edkEnd();
         //glMultiTexCoord2f(GL_TEXTURE0,vTemp0->getUVX(), vTemp0->getUVY());edkEnd();
         //draw the vertex
-        edk::GU::guVertex3f32( this->vertexs.get(0u)->position.x, this->vertexs.get(1u)->position.y, 0.0f);edkEnd();
+        edk::GU::guVertex3f32( this->vertexs.getNoIF(0u)->position.x, this->vertexs.getNoIF(1u)->position.y, 0.0f);edkEnd();
 
         //draw the third vertex
-        edk::GU::guColor4f32(this->vertexs.get(1u)->color.r,
-                             this->vertexs.get(1u)->color.g,
-                             this->vertexs.get(1u)->color.b,
-                             this->vertexs.get(1u)->color.a
+        edk::GU::guColor4f32(this->vertexs.getNoIF(1u)->color.r,
+                             this->vertexs.getNoIF(1u)->color.g,
+                             this->vertexs.getNoIF(1u)->color.b,
+                             this->vertexs.getNoIF(1u)->color.a
                              );edkEnd();
 
         //draw the normal
@@ -347,7 +347,7 @@ void edk::shape::Rectangle2D::draw_NULL(edk::uint32 mode){
         edk::GU::guVertexTex2f32(vTemp1->getUVX(), vTemp1->getUVY());edkEnd();
         //glMultiTexCoord2f(GL_TEXTURE0,vTemp1->getUVX(), vTemp0->getUVY());edkEnd();
         //draw the vertex
-        edk::GU::guVertex3f32( this->vertexs.get(1u)->position.x, this->vertexs.get(1u)->position.y, 0.0f);edkEnd();
+        edk::GU::guVertex3f32( this->vertexs.getNoIF(1u)->position.x, this->vertexs.getNoIF(1u)->position.y, 0.0f);edkEnd();
 
         //draw the normal
         //edk::GU::guVertexNormal3f32(0.f,0.f,1.f);edkEnd();
@@ -355,7 +355,7 @@ void edk::shape::Rectangle2D::draw_NULL(edk::uint32 mode){
         edk::GU::guVertexTex2f32(vTemp1->getUVX(), vTemp0->getUVY());edkEnd();
         //glMultiTexCoord2f(GL_TEXTURE0,vTemp1->getUVX(), vTemp1->getUVY());edkEnd();
         //draw the vertex
-        edk::GU::guVertex3f32( this->vertexs.get(1u)->position.x, this->vertexs.get(0u)->position.y, 0.0f);edkEnd();
+        edk::GU::guVertex3f32( this->vertexs.getNoIF(1u)->position.x, this->vertexs.getNoIF(0u)->position.y, 0.0f);edkEnd();
     }
     else{
 
@@ -365,7 +365,7 @@ void edk::shape::Rectangle2D::draw_NULL(edk::uint32 mode){
         edk::GU::guVertexTex2f32(0.f, 1.f);edkEnd();
         //glMultiTexCoord2f(GL_TEXTURE0,0.f, 1.f);edkEnd();
         //draw the vertex
-        edk::GU::guVertex3f32( this->vertexs.get(0u)->position.x, this->vertexs.get(0u)->position.y, 0.0f);edkEnd();
+        edk::GU::guVertex3f32( this->vertexs.getNoIF(0u)->position.x, this->vertexs.getNoIF(0u)->position.y, 0.0f);edkEnd();
 
         //draw the normal
         edk::GU::guVertexNormal3f32(0,0,1);edkEnd();
@@ -373,13 +373,13 @@ void edk::shape::Rectangle2D::draw_NULL(edk::uint32 mode){
         //edk::GU::guVertexTex2f32(0.f, 0.f);edkEnd();
         //glMultiTexCoord2f(GL_TEXTURE0,0.f, 0.f);edkEnd();
         //draw the vertex
-        edk::GU::guVertex3f32( this->vertexs.get(0u)->position.x, this->vertexs.get(1u)->position.y, 0.0f);edkEnd();
+        edk::GU::guVertex3f32( this->vertexs.getNoIF(0u)->position.x, this->vertexs.getNoIF(1u)->position.y, 0.0f);edkEnd();
 
         //draw the third vertex
-        edk::GU::guColor4f32(this->vertexs.get(1u)->color.r,
-                             this->vertexs.get(1u)->color.g,
-                             this->vertexs.get(1u)->color.b,
-                             this->vertexs.get(1u)->color.a
+        edk::GU::guColor4f32(this->vertexs.getNoIF(1u)->color.r,
+                             this->vertexs.getNoIF(1u)->color.g,
+                             this->vertexs.getNoIF(1u)->color.b,
+                             this->vertexs.getNoIF(1u)->color.a
                              );edkEnd();
 
         //draw the normal
@@ -388,7 +388,7 @@ void edk::shape::Rectangle2D::draw_NULL(edk::uint32 mode){
         edk::GU::guVertexTex2f32(1.f, 0.f);edkEnd();
         //glMultiTexCoord2f(GL_TEXTURE0,1.f, 0.f);edkEnd();
         //draw the vertex
-        edk::GU::guVertex3f32( this->vertexs.get(1u)->position.x, this->vertexs.get(1u)->position.y, 0.0f);edkEnd();
+        edk::GU::guVertex3f32( this->vertexs.getNoIF(1u)->position.x, this->vertexs.getNoIF(1u)->position.y, 0.0f);edkEnd();
 
         //draw the normal
         //edk::GU::guVertexNormal3f32(0,0,1);edkEnd();
@@ -396,26 +396,25 @@ void edk::shape::Rectangle2D::draw_NULL(edk::uint32 mode){
         edk::GU::guVertexTex2f32(1.f, 1.f);edkEnd();
         //glMultiTexCoord2f(GL_TEXTURE0,1.f, 1.f);edkEnd();
         //draw the vertex
-        edk::GU::guVertex3f32( this->vertexs.get(1u)->position.x, this->vertexs.get(0u)->position.y, 0.0f);edkEnd();
+        edk::GU::guVertex3f32( this->vertexs.getNoIF(1u)->position.x, this->vertexs.getNoIF(0u)->position.y, 0.0f);edkEnd();
     }
     edk::GU::guEnd();edkEnd();
-    edk::GU::guPopMatrix();edkEnd();
 }
 //DRAW UPDATE
 void edk::shape::Rectangle2D::drawUpdate_NULL(edk::uint32 mode){
     edk::GU::guBegin(mode);edkEnd();
-    if(this->vertexs.get(0u)->getType() != EDK_SHAPE_NOUV
+    if(this->vertexs.getNoIF(0u)->getType() != EDK_SHAPE_NOUV
             &&
-            this->vertexs.get(1u)->getType() != EDK_SHAPE_NOUV
+            this->vertexs.getNoIF(1u)->getType() != EDK_SHAPE_NOUV
             ){
-        edk::shape::Vertex2DWithUV* vTemp0 = (edk::shape::Vertex2DWithUV*)this->vertexs.get(0u);edkEnd();
-        edk::shape::Vertex2DWithUV* vTemp1 = (edk::shape::Vertex2DWithUV*)this->vertexs.get(1u);edkEnd();
+        edk::shape::Vertex2DWithUV* vTemp0 = (edk::shape::Vertex2DWithUV*)this->vertexs.getNoIF(0u);edkEnd();
+        edk::shape::Vertex2DWithUV* vTemp1 = (edk::shape::Vertex2DWithUV*)this->vertexs.getNoIF(1u);edkEnd();
 
         //draw the third vertex
-        edk::GU::guColor4f32(this->vertexs.get(1u)->color.r,
-                             this->vertexs.get(1u)->color.g,
-                             this->vertexs.get(1u)->color.b,
-                             this->vertexs.get(1u)->color.a
+        edk::GU::guColor4f32(this->vertexs.getNoIF(1u)->color.r,
+                             this->vertexs.getNoIF(1u)->color.g,
+                             this->vertexs.getNoIF(1u)->color.b,
+                             this->vertexs.getNoIF(1u)->color.a
                              );edkEnd();
 
         //draw the normal
@@ -424,7 +423,7 @@ void edk::shape::Rectangle2D::drawUpdate_NULL(edk::uint32 mode){
         edk::GU::guVertexTex2f32(vTemp0->getUVX(), vTemp0->getUVY());edkEnd();
         //glMultiTexCoord2f(GL_TEXTURE0,vTemp0->getUVX(), vTemp1->getUVY());edkEnd();
         //draw the vertex
-        edk::GU::guVertex3f32( this->vertexs.get(0u)->position.x, this->vertexs.get(0u)->position.y, 0.0f);edkEnd();
+        edk::GU::guVertex3f32( this->vertexs.getNoIF(0u)->position.x, this->vertexs.getNoIF(0u)->position.y, 0.0f);edkEnd();
 
         //draw the normal
         //edk::GU::guVertexNormal3f32(0.f,0.f,1.f);edkEnd();
@@ -432,13 +431,13 @@ void edk::shape::Rectangle2D::drawUpdate_NULL(edk::uint32 mode){
         edk::GU::guVertexTex2f32(vTemp0->getUVX(), vTemp1->getUVY());edkEnd();
         //glMultiTexCoord2f(GL_TEXTURE0,vTemp0->getUVX(), vTemp0->getUVY());edkEnd();
         //draw the vertex
-        edk::GU::guVertex3f32( this->vertexs.get(0u)->position.x, this->vertexs.get(1u)->position.y, 0.0f);edkEnd();
+        edk::GU::guVertex3f32( this->vertexs.getNoIF(0u)->position.x, this->vertexs.getNoIF(1u)->position.y, 0.0f);edkEnd();
 
         //draw the third vertex
-        edk::GU::guColor4f32(this->vertexs.get(1u)->color.r,
-                             this->vertexs.get(1u)->color.g,
-                             this->vertexs.get(1u)->color.b,
-                             this->vertexs.get(1u)->color.a
+        edk::GU::guColor4f32(this->vertexs.getNoIF(1u)->color.r,
+                             this->vertexs.getNoIF(1u)->color.g,
+                             this->vertexs.getNoIF(1u)->color.b,
+                             this->vertexs.getNoIF(1u)->color.a
                              );edkEnd();
 
         //draw the normal
@@ -447,7 +446,7 @@ void edk::shape::Rectangle2D::drawUpdate_NULL(edk::uint32 mode){
         edk::GU::guVertexTex2f32(vTemp1->getUVX(), vTemp1->getUVY());edkEnd();
         //glMultiTexCoord2f(GL_TEXTURE0,vTemp1->getUVX(), vTemp0->getUVY());edkEnd();
         //draw the vertex
-        edk::GU::guVertex3f32( this->vertexs.get(1u)->position.x, this->vertexs.get(1u)->position.y, 0.0f);edkEnd();
+        edk::GU::guVertex3f32( this->vertexs.getNoIF(1u)->position.x, this->vertexs.getNoIF(1u)->position.y, 0.0f);edkEnd();
 
         //draw the normal
         //edk::GU::guVertexNormal3f32(0.f,0.f,1.f);edkEnd();
@@ -455,7 +454,7 @@ void edk::shape::Rectangle2D::drawUpdate_NULL(edk::uint32 mode){
         edk::GU::guVertexTex2f32(vTemp1->getUVX(), vTemp0->getUVY());edkEnd();
         //glMultiTexCoord2f(GL_TEXTURE0,vTemp1->getUVX(), vTemp1->getUVY());edkEnd();
         //draw the vertex
-        edk::GU::guVertex3f32( this->vertexs.get(1u)->position.x, this->vertexs.get(0u)->position.y, 0.0f);edkEnd();
+        edk::GU::guVertex3f32( this->vertexs.getNoIF(1u)->position.x, this->vertexs.getNoIF(0u)->position.y, 0.0f);edkEnd();
     }
     else{
 
@@ -465,7 +464,7 @@ void edk::shape::Rectangle2D::drawUpdate_NULL(edk::uint32 mode){
         edk::GU::guVertexTex2f32(0.f, 1.f);edkEnd();
         //glMultiTexCoord2f(GL_TEXTURE0,0.f, 1.f);edkEnd();
         //draw the vertex
-        edk::GU::guVertex3f32( this->vertexs.get(0u)->position.x, this->vertexs.get(0u)->position.y, 0.0f);edkEnd();
+        edk::GU::guVertex3f32( this->vertexs.getNoIF(0u)->position.x, this->vertexs.getNoIF(0u)->position.y, 0.0f);edkEnd();
 
         //draw the normal
         edk::GU::guVertexNormal3f32(0,0,1);edkEnd();
@@ -473,13 +472,13 @@ void edk::shape::Rectangle2D::drawUpdate_NULL(edk::uint32 mode){
         //edk::GU::guVertexTex2f32(0.f, 0.f);edkEnd();
         //glMultiTexCoord2f(GL_TEXTURE0,0.f, 0.f);edkEnd();
         //draw the vertex
-        edk::GU::guVertex3f32( this->vertexs.get(0u)->position.x, this->vertexs.get(1u)->position.y, 0.0f);edkEnd();
+        edk::GU::guVertex3f32( this->vertexs.getNoIF(0u)->position.x, this->vertexs.getNoIF(1u)->position.y, 0.0f);edkEnd();
 
         //draw the third vertex
-        edk::GU::guColor4f32(this->vertexs.get(1u)->color.r,
-                             this->vertexs.get(1u)->color.g,
-                             this->vertexs.get(1u)->color.b,
-                             this->vertexs.get(1u)->color.a
+        edk::GU::guColor4f32(this->vertexs.getNoIF(1u)->color.r,
+                             this->vertexs.getNoIF(1u)->color.g,
+                             this->vertexs.getNoIF(1u)->color.b,
+                             this->vertexs.getNoIF(1u)->color.a
                              );edkEnd();
 
         //draw the normal
@@ -488,7 +487,7 @@ void edk::shape::Rectangle2D::drawUpdate_NULL(edk::uint32 mode){
         edk::GU::guVertexTex2f32(1.f, 0.f);edkEnd();
         //glMultiTexCoord2f(GL_TEXTURE0,1.f, 0.f);edkEnd();
         //draw the vertex
-        edk::GU::guVertex3f32( this->vertexs.get(1u)->position.x, this->vertexs.get(1u)->position.y, 0.0f);edkEnd();
+        edk::GU::guVertex3f32( this->vertexs.getNoIF(1u)->position.x, this->vertexs.getNoIF(1u)->position.y, 0.0f);edkEnd();
 
         //draw the normal
         //edk::GU::guVertexNormal3f32(0,0,1);edkEnd();
@@ -496,10 +495,9 @@ void edk::shape::Rectangle2D::drawUpdate_NULL(edk::uint32 mode){
         edk::GU::guVertexTex2f32(1.f, 1.f);edkEnd();
         //glMultiTexCoord2f(GL_TEXTURE0,1.f, 1.f);edkEnd();
         //draw the vertex
-        edk::GU::guVertex3f32( this->vertexs.get(1u)->position.x, this->vertexs.get(0u)->position.y, 0.0f);edkEnd();
+        edk::GU::guVertex3f32( this->vertexs.getNoIF(1u)->position.x, this->vertexs.getNoIF(0u)->position.y, 0.0f);edkEnd();
     }
     edk::GU::guEnd();edkEnd();
-    edk::GU::guPopMatrix();edkEnd();
     //change the drawFunction
     this->setVBOFunctionNULL();
 }
@@ -521,18 +519,18 @@ void edk::shape::Rectangle2D::deletePolygon(){
 void edk::shape::Rectangle2D::setPivoToCenter(){
     //get the size
     if(this->vertexs.get(0u)&&this->vertexs.get(1u)){
-        edk::size2f32 size(this->vertexs.get(1u)->position.x-this->vertexs.get(0u)->position.x,
-                           this->vertexs.get(1u)->position.y-this->vertexs.get(0u)->position.y
+        edk::size2f32 size(this->vertexs.getNoIF(1u)->position.x-this->vertexs.getNoIF(0u)->position.x,
+                           this->vertexs.getNoIF(1u)->position.y-this->vertexs.getNoIF(0u)->position.y
                            );edkEnd();
-        this->vertexs.get(0u)->position = edk::vec2f32(size.width * -0.5f,size.height * -0.5f);edkEnd();
-        this->vertexs.get(1u)->position = edk::vec2f32(size.width *  0.5f,size.height *  0.5f);edkEnd();
+        this->vertexs.getNoIF(0u)->position = edk::vec2f32(size.width * -0.5f,size.height * -0.5f);edkEnd();
+        this->vertexs.getNoIF(1u)->position = edk::vec2f32(size.width *  0.5f,size.height *  0.5f);edkEnd();
     }
     if(this->vertexsOriginal.get(0u)&&this->vertexsOriginal.get(1u)){
-        edk::size2f32 size(this->vertexsOriginal.get(1u)->position.x-this->vertexsOriginal.get(0u)->position.x,
-                           this->vertexsOriginal.get(1u)->position.y-this->vertexsOriginal.get(0u)->position.y
+        edk::size2f32 size(this->vertexsOriginal.getNoIF(1u)->position.x-this->vertexsOriginal.getNoIF(0u)->position.x,
+                           this->vertexsOriginal.getNoIF(1u)->position.y-this->vertexsOriginal.getNoIF(0u)->position.y
                            );edkEnd();
-        this->vertexsOriginal.get(0u)->position = edk::vec2f32(size.width * -0.5f,size.height * -0.5f);edkEnd();
-        this->vertexsOriginal.get(1u)->position = edk::vec2f32(size.width *  0.5f,size.height *  0.5f);edkEnd();
+        this->vertexsOriginal.getNoIF(0u)->position = edk::vec2f32(size.width * -0.5f,size.height * -0.5f);edkEnd();
+        this->vertexsOriginal.getNoIF(1u)->position = edk::vec2f32(size.width *  0.5f,size.height *  0.5f);edkEnd();
     }
 
 
@@ -581,10 +579,10 @@ void edk::shape::Rectangle2D::draw(){
     //draw the vertexs
     if(this->vertexs.size()>=2u){
         //draw the first vertex
-        edk::GU::guColor4f32(this->vertexs.get(0u)->color.r,
-                             this->vertexs.get(0u)->color.g,
-                             this->vertexs.get(0u)->color.b,
-                             this->vertexs.get(0u)->color.a
+        edk::GU::guColor4f32(this->vertexs.getNoIF(0u)->color.r,
+                             this->vertexs.getNoIF(0u)->color.g,
+                             this->vertexs.getNoIF(0u)->color.b,
+                             this->vertexs.getNoIF(0u)->color.a
                              );edkEnd();
 
         edk::GU::guPushMatrix();edkEnd();
@@ -606,10 +604,10 @@ bool edk::shape::Rectangle2D::drawWithLight(edk::float32 lightPositions[][EDK_LI
         //draw the vertexs
         if(this->vertexs.size()>=2u){
             //draw the first vertex
-            edk::GU::guColor4f32(this->vertexs.get(0u)->color.r,
-                                 this->vertexs.get(0u)->color.g,
-                                 this->vertexs.get(0u)->color.b,
-                                 this->vertexs.get(0u)->color.a
+            edk::GU::guColor4f32(this->vertexs.getNoIF(0u)->color.r,
+                                 this->vertexs.getNoIF(0u)->color.g,
+                                 this->vertexs.getNoIF(0u)->color.b,
+                                 this->vertexs.getNoIF(0u)->color.a
                                  );edkEnd();
 
             edk::GU::guPushMatrix();edkEnd();
@@ -676,10 +674,10 @@ void edk::shape::Rectangle2D::drawWire(){
     //draw the vertexs
     if(this->vertexs.size()>=2u){
         //draw the first vertex
-        edk::GU::guColor4f32(this->vertexs.get(0u)->color.r,
-                             this->vertexs.get(0u)->color.g,
-                             this->vertexs.get(0u)->color.b,
-                             this->vertexs.get(0u)->color.a
+        edk::GU::guColor4f32(this->vertexs.getNoIF(0u)->color.r,
+                             this->vertexs.getNoIF(0u)->color.g,
+                             this->vertexs.getNoIF(0u)->color.b,
+                             this->vertexs.getNoIF(0u)->color.a
                              );edkEnd();
         edk::GU::guPushMatrix();edkEnd();
 

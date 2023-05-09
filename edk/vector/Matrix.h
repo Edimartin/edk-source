@@ -194,7 +194,7 @@ public:
         return false;
     }
     //return the value in a position
-    typeTemplate get(edk::vec2ui32 position){
+    inline typeTemplate get(edk::vec2ui32 position){
         //
         if(this->have(position)){
             //return the variable
@@ -204,7 +204,7 @@ public:
         return ret;
     }
     //return the value in a position
-    typeTemplate get(edk::uint32 x,edk::uint32 y){
+    inline typeTemplate get(edk::uint32 x,edk::uint32 y){
         return this->get(edk::vec2ui32(x,y));edkEnd();
     }
     //GETTERS WITHOUT IF

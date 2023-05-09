@@ -479,7 +479,7 @@ protected:
                 for(edk::uint32 i=0u;i<size;i++){
                     //
                     if(this->vertexs.get(i)){
-                        delete this->vertexs.get(i);edkEnd();
+                        delete this->vertexs.getNoIF(i);edkEnd();
                     }
                 }
                 this->vertexs.deleteArray();edkEnd();
@@ -487,7 +487,7 @@ protected:
                 for(edk::uint32 i=0u;i<size;i++){
                     //
                     if(this->vertexsOriginal.get(i)){
-                        delete this->vertexsOriginal.get(i);edkEnd();
+                        delete this->vertexsOriginal.getNoIF(i);edkEnd();
                     }
                 }
                 this->vertexsOriginal.deleteArray();edkEnd();
@@ -513,11 +513,11 @@ protected:
                             //Set alpha 1
                             if(this->vertexs.get(i)){
                                 //set the vertex
-                                this->vertexs.get(i)->color = polygonColor;edkEnd();
+                                this->vertexs.getNoIF(i)->color = polygonColor;edkEnd();
                             }
                             if(this->vertexsOriginal.get(i)){
                                 //set the vertex
-                                this->vertexsOriginal.get(i)->color = polygonColor;edkEnd();
+                                this->vertexsOriginal.getNoIF(i)->color = polygonColor;edkEnd();
                             }
                         }
                         this->canDeletePolygon=true;edkEnd();
