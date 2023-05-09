@@ -481,18 +481,21 @@ bool edk::multi::Thread::kill(){
     //WINDOWS 32
 #ifdef WIN32
     if(this->threadID){
+/*
         DWORD exitCode;edkEnd();
-
         //Finish the thread
         if(GetExitCodeThread(this->threadID,&exitCode) != 0){
             ExitThread(exitCode);edkEnd();
             CloseHandle(this->threadID);edkEnd();
         }
         else{
+*/
             TerminateThread(this->threadID
                             ,(DWORD)NULL
                             );edkEnd();
+/*
         }
+*/
         ret=true;edkEnd();
     }
     //clean ID
@@ -500,19 +503,21 @@ bool edk::multi::Thread::kill(){
 #elif defined WIN64
     //WINDOWS 64
     if(this->threadID){
+/*
         DWORD exitCode;edkEnd();
-
         //Finish the thread
         if(GetExitCodeThread(this->threadID,&exitCode) != 0){
             ExitThread(exitCode);edkEnd();
             CloseHandle(this->threadID);edkEnd();
         }
         else{
-
+*/
             TerminateThread(this->threadID
                             ,(DWORD)NULL
                             );edkEnd();
+/*
         }
+*/
         ret=true;edkEnd();
     }
 #elif defined __linux__

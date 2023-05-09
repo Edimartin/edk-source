@@ -55,7 +55,7 @@ edk::shape::Polygon2D::Polygon2D(){
     this->vbo=0u;edkEnd();
     this->vboCount=0u;edkEnd();
     this->vertexBuffer.clean();edkEnd();
-    this->canUseVBO=true;edkEnd();
+    this->canUseVBO=false;edkEnd();
     //set the vbo function pointers
     this->setVBOFunctionUpdateNULL();
 
@@ -88,7 +88,7 @@ edk::shape::Polygon2D::Polygon2D(edk::uint32 vertexCount){
     this->vbo=0u;edkEnd();
     this->vboCount=0u;edkEnd();
     this->vertexBuffer.clean();edkEnd();
-    this->canUseVBO=true;edkEnd();
+    this->canUseVBO=false;edkEnd();
     //set the vbo function pointers
     this->setVBOFunctionUpdateNULL();
     this->angle=0.f;edkEnd();
@@ -173,12 +173,6 @@ bool edk::shape::Polygon2D::setVertexUVFrames(edk::uint32 vertex,edk::vec2ui32 f
         //set the frames
         vTemp->setUVFrames(frames);edkEnd();
         voTemp->setUVFrames(frames);edkEnd();
-
-        if(false && !this->canUseVBO){
-            this->canUseVBO=true;edkEnd();
-            //set the NULL function into the vbo
-            this->setVBOFunctionUpdateNULL();edkEnd();
-        }
 
         this->updateVBOUV();
 
