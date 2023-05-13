@@ -1950,7 +1950,1348 @@ private:
         return false;
     }
 };
-}
-}
 
+//enum with the map to go into the value
+enum edkLeafsMap{
+    edkLeafNULL=0u,
+    edkLeaftLEFT,
+    edkLeaftRIGHT,
+    //
+    edkLeaftSize
+};
+
+template <class typeTemplate>
+class LeafsOnlyTree{
+public:
+    //errorCode
+    edk::uint16 errorCode;
+    //Construtor
+    LeafsOnlyTree(){
+        this->root=NULL;edkEnd();
+        this->errorCode=0u;edkEnd();
+        this->sizeTree=0u;edkEnd();
+        this->dontDestruct = false;edkEnd();
+    }
+    //Destrutor
+    virtual ~LeafsOnlyTree(){
+        if(!this->dontDestruct){
+            this->clean();edkEnd();
+            this->root=NULL;edkEnd();
+            this->sizeTree=0u;edkEnd();
+        }
+        this->dontDestruct=false;edkEnd();
+    }
+    //Add a value on the tree
+    bool add(typeTemplate value){
+        //Test if is the root element
+        if(!this->root){
+            //then add the root element
+            this->root = new BinaryLeaf<typeTemplate>;edkEnd();
+            if(this->root){
+                //set the value
+                memcpy((void*)&this->root->value,(void*)&value,sizeof(typeTemplate));edkEnd();
+                //increment the sizeTree
+                this->incrementSize();edkEnd();
+                //then return true
+                return true;
+            }
+        }
+        else{
+            //Find the position to add the object
+            BinaryLeaf<typeTemplate>* temp=this->root;edkEnd();
+            //create the value
+            BinaryLeaf<typeTemplate>* newValue = new BinaryLeaf<typeTemplate>;edkEnd();
+            BinaryLeaf<typeTemplate>* newSecondValue = new BinaryLeaf<typeTemplate>;edkEnd();
+            //Test if create the newValue
+            if(newValue && newSecondValue){
+                memcpy((void*)&newValue->value,(void*)&value,sizeof(typeTemplate));edkEnd();
+                //Find the position
+                //test if the temp exist
+                while(temp){
+                    //then test if the value is equal
+                    if(this->firstEqualSecond(temp->value, newValue->value)
+                            &&(!this->root->left && !this->root->right)
+                            ){
+                        //The tree have the value. Delete the new value and return the tree value.
+                        delete newValue;edkEnd();
+                        newValue=NULL;edkEnd();
+                        delete newSecondValue;edkEnd();
+                        newSecondValue=NULL;edkEnd();
+                        //
+                        this->errorCode=EDK_ERROR_HAVE_VALUE;edkEnd();
+                        return false;
+                    }
+                    else{
+                        //else test if the first is bigger
+                        if(this->firstBiggerSecond(newValue->value ,temp->value) ){
+                            //then test if have a right
+                            if(temp->right){
+                                //temp receive the right
+                                temp = temp->right;edkEnd();
+                            }
+                            else{
+                                //else add the value in right
+                                if(temp->left){
+                                    BinaryLeaf<typeTemplate>* newThirdValue = new BinaryLeaf<typeTemplate>;edkEnd();
+                                    if(newThirdValue){
+                                        memcpy((void*)&newThirdValue->value,(void*)&temp->value,sizeof(typeTemplate));edkEnd();
+                                        temp->right = newThirdValue;edkEnd();
+                                        temp->right->father = temp;edkEnd();
+                                        temp=temp->right;edkEnd();
+                                        //increment the sizeTree
+                                        this->incrementSize();edkEnd();
+                                    }
+                                }
+                                temp->right = newValue;edkEnd(); newValue=NULL;edkEnd();
+                                temp->right->father = temp;edkEnd();
+                                //increment the sizeTree
+                                this->incrementSize();edkEnd();
+                                //set the secondValue
+                                memcpy((void*)&newSecondValue->value,(void*)&temp->value,sizeof(typeTemplate));edkEnd();
+                                temp->left = newSecondValue;edkEnd();
+                                temp->left->father = temp;edkEnd();
+                                //increment the sizeTree
+                                this->incrementSize();edkEnd();
+                                //return true
+                                return true;
+                            }
+                        }
+                        else{
+                            //then test if have a left
+                            if(temp->left){
+                                //temp receive the left
+                                temp=temp->left;edkEnd();
+                            }
+                            else{
+                                //else add the value in left
+                                if(temp->right){
+                                    BinaryLeaf<typeTemplate>* newThirdValue = new BinaryLeaf<typeTemplate>;edkEnd();
+                                    if(newThirdValue){
+                                        memcpy((void*)&newThirdValue->value,(void*)&temp->value,sizeof(typeTemplate));edkEnd();
+                                        temp->left = newThirdValue;edkEnd();
+                                        temp->left->father = temp;edkEnd();
+                                        temp=temp->left;edkEnd();
+                                        //increment the sizeTree
+                                        this->incrementSize();edkEnd();
+                                    }
+                                }
+                                temp->left = newValue;edkEnd(); newValue=NULL;edkEnd();
+                                temp->left->father = temp;edkEnd();
+                                //increment the sizeTree
+                                this->incrementSize();edkEnd();
+                                //set the secondValue
+                                memcpy((void*)&newSecondValue->value,(void*)&temp->value,sizeof(typeTemplate));edkEnd();
+                                temp->right = newSecondValue;edkEnd();
+                                temp->right->father = temp;edkEnd();
+                                //increment the sizeTree
+                                this->incrementSize();edkEnd();
+                                //return true
+                                return true;
+                            }
+                        }
+                    }
+                }
+                delete newValue;edkEnd();
+                delete newSecondValue;edkEnd();
+            }
+        }
+        //else return false
+        this->errorCode=EDK_ERROR_HAVE_VALUE;edkEnd();
+        return false;
+    }
+
+    //Load the elements
+    virtual void load(){
+        //test if have root
+        if(this->root){
+            //
+            this->loadNoRecursively(this->root);edkEnd();
+        }
+    }
+    //Unload the elements
+    virtual void unload(){
+        //test if have root
+        if(this->root){
+            //
+            this->unloadNoRecursively(this->root);edkEnd();
+        }
+    }
+    //Print the elements
+    virtual void print(){
+        //test if have root
+        if(this->root){
+            //
+            this->printNoRecursively(this->root);edkEnd();
+        }
+    }
+    //render the elements
+    virtual void render(){
+        //test if have root
+        if(this->root){
+            //
+            this->renderNoRecursively(this->root);edkEnd();
+        }
+    }
+    //render the elements in wire mode
+    virtual void renderWire(){
+        //test if have root
+        if(this->root){
+            //
+            this->renderWireNoRecursively(this->root);edkEnd();
+        }
+    }
+    //draw the elements
+    virtual void draw(){
+        //test if have root
+        if(this->root){
+            //
+            this->drawNoRecursively(this->root);edkEnd();
+        }
+    }
+    //draw the elements in wire mode
+    virtual void drawWire(){
+        //test if have root
+        if(this->root){
+            //
+            this->drawWireNoRecursively(this->root);edkEnd();
+        }
+    }
+    virtual void update(){
+        //test if have root
+        if(this->root){
+            //then update
+            this->updateNoRecursively(this->root);edkEnd();
+        }
+    }
+    //print all the tree
+    virtual void printTree(){
+        //test if have root
+        if(this->root){
+            //then update
+            this->printTreeNoRecursively(this->root);edkEnd();
+        }
+    }
+
+    //Get the rootValue
+    typeTemplate getRootValue(){
+        if(this->haveRoot()){
+            return (typeTemplate)this->root->value;edkEnd();
+        }
+        else{
+            return (typeTemplate)0u;edkEnd();
+        }
+    }
+    //Return true if have a root
+    bool haveRoot(){
+        if(this->root){
+            return true;
+        }
+        //else return false
+        return false;
+    }
+    bool haveRootChild(){
+        if(this->haveRoot()){
+            //test the childs
+            return (this->root->left || this->root->right);edkEnd();
+        }
+        //else return false
+        return false;
+    }
+
+    //test if have the element
+    bool haveElement(typeTemplate value){
+        //test if have the value
+        if(this->find(value)){
+            //return true
+            return true;
+        }
+        //else return false
+        return false;
+    }
+
+    //get the element map
+    bool getElementMap(typeTemplate value,edk::vector::Array<edk::vector::edkLeafsMap> *map){
+        if(map){
+            //find the value and generate the map
+            edk::uint32 position = 0u;
+            return this->find(value,&position,map);
+        }
+        return false;
+    }
+
+    //return the element
+    typeTemplate getElement(typeTemplate value){
+        //find the element pointer
+        BinaryLeaf<typeTemplate>* ret = this->find(value);edkEnd();
+        //test if the element is founded
+        if(ret){
+            //return the value
+            return ret->value;edkEnd();
+        }
+        //else return zero
+        typeTemplate retZero;edkEnd();
+        memset((void*)&retZero,0u,sizeof(typeTemplate));edkEnd();
+        return retZero;
+    }
+
+    //return the size
+    edk::uint32 getSize(){
+        return this->sizeTree;edkEnd();
+    }
+    edk::uint32 size(){
+        return this->getSize();edkEnd();
+    }
+
+    //Clean the tree
+    virtual void clean(){
+        if(this->root){
+            this->sizeTree=0u;edkEnd();
+            this->cleanNoRecursively(this->root);edkEnd();
+        }
+        this->root=NULL;edkEnd();
+    }
+    //set to cant Destruct
+    void cantDestruct(){
+        this->dontDestruct=true;edkEnd();
+    }
+protected:
+    //compare if the value is bigger
+    virtual bool firstBiggerSecond(typeTemplate first,typeTemplate second){
+        if(first>second){
+            return true;
+        }
+        return false;
+    }
+    virtual bool firstEqualSecond(typeTemplate first,typeTemplate second){
+        if(first==second){
+            return true;
+        }
+        return false;
+    }
+    //Load
+    virtual void loadElement(typeTemplate){}
+    //Unload
+    virtual void unloadElement(typeTemplate){}
+    //Print
+    virtual void printElement(typeTemplate){}
+    //created for render the object
+    virtual void renderElement(typeTemplate){}
+    //created for render the object in wire mode
+    virtual void renderWireElement(typeTemplate){}
+    //created for draw the object
+    virtual void drawElement(typeTemplate){}
+    //created for draw the object in wire mode
+    virtual void drawWireElement(typeTemplate){}
+    //UPDATE
+    virtual void updateElement(typeTemplate){}
+private:
+    //The root element on the TREE
+    BinaryLeaf<typeTemplate>* root;
+    //size of the tree
+    edk::uint32 sizeTree;
+    //set if cant run the destructor
+    bool dontDestruct;
+
+    //temporary map
+    edk::vector::Array<edk::vector::edkLeafsMap> map;
+
+    //Find the element
+    bool find(typeTemplate value,edk::uint32 *position=NULL,edk::vector::Array<edk::vector::edkLeafsMap> *map=NULL){
+        edk::uint32 temp=0u;edkEnd();
+        if(!position){
+            position=&temp;edkEnd();
+        }
+        if(!map){
+            map=&this->map;edkEnd();
+        }
+        //first test if have a root
+        if(this->root){
+            //then create a temporary element
+            BinaryLeaf<typeTemplate> element;edkEnd();
+            memcpy((void*)&element.value,(void*)&value,sizeof(typeTemplate));edkEnd();
+            //tets if is equal root
+            if(this->firstEqualSecond(this->root->value,element.value)
+                    && (!this->root->left && !this->root->right)
+                    ){
+                //the return root
+                return false;edkEnd();
+            }
+            //else search the element
+            BinaryLeaf<typeTemplate>* temp = this->root;edkEnd();
+            while(temp){
+                //test if the value is equal
+                if(this->firstEqualSecond(temp->value,element.value)){
+                    edk::uchar8 dontHave=2u;
+                    if(temp->left || temp->right){
+                        //find it. Then calculate the map
+                        while(true){
+                            dontHave=0u;
+                            if(temp->left){
+                                if(this->firstEqualSecond(temp->left->value,element.value)){
+                                    temp = temp->left;edkEnd();
+                                    map->set(*position,edk::vector::edkLeaftLEFT);edkEnd();
+                                    position[0u]++;edkEnd();
+                                    edkEnd();
+                                    continue;
+                                }
+                            }
+                            else{
+                                dontHave++;
+                            }
+                            if(temp->right){
+                                if(this->firstEqualSecond(temp->right->value,element.value)){
+                                    temp = temp->right;edkEnd();
+                                    map->set(*position,edk::vector::edkLeaftRIGHT);edkEnd();
+                                    position[0u]++;edkEnd();
+                                    edkEnd();
+                                    continue;
+                                }
+                            }
+                            else{
+                                dontHave++;
+                            }
+                            edkEnd();
+                            break;
+                        }
+                    }
+                    if(dontHave>1u && *position){
+                        edkEnd();
+                        return true;
+                    }
+                    edkEnd();
+                    return false;
+                }
+                //tets if the value is bigger the temp
+                else if(this->firstBiggerSecond(element.value,temp->value)){
+                    //then the next maybe is the RIGHT
+                    if(temp->right){
+                        map->set(*position,edk::vector::edkLeaftRIGHT);edkEnd();
+                        position[0u]++;edkEnd();
+                        //Go RIGHT
+                        //test if the value is equal
+                        if(this->firstEqualSecond(temp->right->value,element.value)){
+                            edk::uchar8 dontHave=2u;
+                            temp = temp->right;edkEnd();
+                            if(temp->left || temp->right){
+                                //find it. Then calculate the map
+                                while(true){
+                                    dontHave=0u;
+                                    if(temp->left){
+                                        if(this->firstEqualSecond(temp->left->value,element.value)){
+                                            temp = temp->left;edkEnd();
+                                            map->set(*position,edk::vector::edkLeaftLEFT);edkEnd();
+                                            position[0u]++;edkEnd();
+                                            edkEnd();
+                                            continue;
+                                        }
+                                    }
+                                    else{
+                                        dontHave++;
+                                    }
+                                    if(temp->right){
+                                        if(this->firstEqualSecond(temp->right->value,element.value)){
+                                            temp = temp->right;edkEnd();
+                                            map->set(*position,edk::vector::edkLeaftRIGHT);edkEnd();
+                                            position[0u]++;edkEnd();
+                                            edkEnd();
+                                            continue;
+                                        }
+                                    }
+                                    else{
+                                        dontHave++;
+                                    }
+                                    edkEnd();
+                                    break;
+                                }
+                            }
+                            if(dontHave>1u){
+                                edkEnd();
+                                return true;
+                            }
+                            edkEnd();
+                            return false;
+                        }
+                        else{
+                            //else the temp'receive the right
+                            temp=temp->right;edkEnd();
+                        }
+                    }
+                    else{
+                        //else he dont have the element
+                        break;
+                    }
+                }
+                else{
+                    //then the next maybe is the LEFT
+                    //test if the left exist
+                    if(temp->left){
+                        map->set(*position,edk::vector::edkLeaftLEFT);edkEnd();
+                        position[0u]++;edkEnd();
+                        //test if the value is equal
+                        if(this->firstEqualSecond(temp->left->value,element.value)){
+                            edk::uchar8 dontHave=2u;
+                            temp = temp->left;edkEnd();
+                            if(temp->left || temp->right){
+                                //find it. Then calculate the map
+                                while(true){
+                                    dontHave=0u;
+                                    if(temp->left){
+                                        if(this->firstEqualSecond(temp->left->value,element.value)){
+                                            temp = temp->left;edkEnd();
+                                            map->set(*position,edk::vector::edkLeaftLEFT);edkEnd();
+                                            position[0u]++;edkEnd();
+                                            edkEnd();
+                                            continue;
+                                        }
+                                    }
+                                    else{
+                                        dontHave++;
+                                    }
+                                    if(temp->right){
+                                        if(this->firstEqualSecond(temp->right->value,element.value)){
+                                            temp = temp->right;edkEnd();
+                                            map->set(*position,edk::vector::edkLeaftRIGHT);edkEnd();
+                                            position[0u]++;edkEnd();
+                                            edkEnd();
+                                            continue;
+                                        }
+                                    }
+                                    else{
+                                        dontHave++;
+                                    }
+                                    edkEnd();
+                                    break;
+                                }
+                            }
+                            if(dontHave>1u){
+                                edkEnd();
+                                return true;
+                            }
+                            edkEnd();
+                            return false;
+                        }
+                        else{
+                            //else the temp receive the left
+                            temp=temp->left;edkEnd();
+                        }
+                    }
+                    else{
+                        //else it dont have the element
+                        break;
+                    }
+                }
+            }
+        }
+        //else return false
+        return false;
+    }
+
+    //increment and decrement the size
+    void incrementSize(){
+        //
+        this->sizeTree+=1u;edkEnd();
+    }
+    bool decrementSize(){
+        //
+        if(this->sizeTree){
+            //
+            this->sizeTree-=1u;edkEnd();
+
+            //return true
+            return true;
+        }
+        //else return false
+        return false;
+    }
+
+    //recursively to load
+    void loadRecursively(BinaryLeaf<typeTemplate>* temp){
+        if(temp){
+            //
+            if(temp->left){
+                this->loadRecursively(temp->left);edkEnd();
+            }
+            //update
+            if(!this->root->left && !this->root->right){
+                this->loadElement(temp->value);edkEnd();
+            }
+            if(temp->right){
+                this->loadRecursively(temp->right);edkEnd();
+            }
+        }
+    }
+    void loadNoRecursively(BinaryLeaf<typeTemplate>* temp){
+        while(temp){
+            if(temp->readed==0u){
+                temp->readed=1u;edkEnd();
+                if(temp->left){
+                    temp = temp->left;edkEnd();
+                    continue;
+                }
+            }
+            if(temp->readed==1u){
+                //load
+                if(!this->root->left && !this->root->right){
+                    this->loadElement(temp->value);edkEnd();
+                }
+                //run the callback functions
+                temp->readed=2u;edkEnd();
+                if(temp->right){
+                    temp = temp->right;edkEnd();
+                    continue;
+                }
+            }
+            if(temp->readed==2u){
+                temp->readed=0u;edkEnd();
+                temp = temp->father;edkEnd();
+            }
+        }
+    }
+    //recursively to unload
+    void unloadRecursively(BinaryLeaf<typeTemplate>* temp){
+        if(temp){
+            //
+            if(temp->left){
+                this->unloadRecursively(temp->left);edkEnd();
+            }
+            //update
+            if(!this->root->left && !this->root->right){
+                this->unloadElement(temp->value);edkEnd();
+            }
+            if(temp->right){
+                this->unloadRecursively(temp->right);edkEnd();
+            }
+        }
+    }
+    void unloadNoRecursively(BinaryLeaf<typeTemplate>* temp){
+        while(temp){
+            if(temp->readed==0u){
+                temp->readed=1u;edkEnd();
+                if(temp->left){
+                    temp = temp->left;edkEnd();
+                    continue;
+                }
+            }
+            if(temp->readed==1u){
+                //unload
+                if(!this->root->left && !this->root->right){
+                    this->unloadElement(temp->value);edkEnd();
+                }
+                temp->readed=2u;edkEnd();
+                if(temp->right){
+                    temp = temp->right;edkEnd();
+                    continue;
+                }
+            }
+            if(temp->readed==2u){
+                temp->readed=0u;edkEnd();
+                temp = temp->father;edkEnd();
+            }
+        }
+    }
+    //update the values runing the update function
+    void updateRecursively(BinaryLeaf<typeTemplate>* temp){
+        if(temp){
+            //
+            if(temp->left){
+                this->updateRecursively(temp->left);edkEnd();
+            }
+            //update
+            if(!this->root->left && !this->root->right){
+                this->updateElement(temp->value);edkEnd();
+            }
+            if(temp->right){
+                this->updateRecursively(temp->right);edkEnd();
+            }
+        }
+    }
+    void updateNoRecursively(BinaryLeaf<typeTemplate>* temp){
+        while(temp){
+            if(temp->readed==0u){
+                temp->readed=1u;edkEnd();
+                if(temp->left){
+                    temp = temp->left;edkEnd();
+                    continue;
+                }
+            }
+            if(temp->readed==1u){
+                //update
+                if(!this->root->left && !this->root->right){
+                    this->updateElement(temp->value);edkEnd();
+                }
+                temp->readed=2u;edkEnd();
+                if(temp->right){
+                    temp = temp->right;edkEnd();
+                    continue;
+                }
+            }
+            if(temp->readed==2u){
+                temp->readed=0u;edkEnd();
+                temp = temp->father;edkEnd();
+            }
+        }
+    }
+    //recursively to print
+    void printRecursively(BinaryLeaf<typeTemplate>* temp){
+        if(temp){
+            //
+            if(temp->left){
+                //
+                this->printRecursively(temp->left);edkEnd();
+            }
+            //print
+            if(!this->root->left && !this->root->right){
+                this->printElement(temp->value);edkEnd();
+            }
+            if(temp->right){
+                //
+                this->printRecursively(temp->right);edkEnd();
+            }
+        }
+    }
+    void printNoRecursively(BinaryLeaf<typeTemplate>* temp){
+        while(temp){
+            if(temp->readed==0u){
+                temp->readed=1u;edkEnd();
+                if(temp->left){
+                    temp = temp->left;edkEnd();
+                    continue;
+                }
+            }
+            if(temp->readed==1u){
+                //print
+                if(!this->root->left && !this->root->right){
+                    this->printElement(temp->value);edkEnd();
+                }
+                temp->readed=2u;edkEnd();
+                if(temp->right){
+                    temp = temp->right;edkEnd();
+                    continue;
+                }
+            }
+            if(temp->readed==2u){
+                temp->readed=0u;edkEnd();
+                temp = temp->father;edkEnd();
+            }
+        }
+    }
+    //recursively to render
+    void renderRecursively(BinaryLeaf<typeTemplate>* temp){
+        if(temp){
+            //
+            if(temp->left){
+                //
+                this->renderRecursively(temp->left);edkEnd();
+            }
+            //print
+            if(!this->root->left && !this->root->right){
+                this->renderElement(temp->value);edkEnd();
+            }
+            if(temp->right){
+                //
+                this->renderRecursively(temp->right);edkEnd();
+            }
+        }
+    }
+    void renderNoRecursively(BinaryLeaf<typeTemplate>* temp){
+        while(temp){
+            if(temp->readed==0u){
+                temp->readed=1u;edkEnd();
+                if(temp->left){
+                    temp = temp->left;edkEnd();
+                    continue;
+                }
+            }
+            if(temp->readed==1u){
+                //render
+                if(!this->root->left && !this->root->right){
+                    this->renderElement(temp->value);edkEnd();
+                }
+                temp->readed=2u;edkEnd();
+                if(temp->right){
+                    temp = temp->right;edkEnd();
+                    continue;
+                }
+            }
+            if(temp->readed==2u){
+                temp->readed=0u;edkEnd();
+                temp = temp->father;edkEnd();
+            }
+        }
+    }
+    //recursively to renderWire
+    void renderWireRecursively(BinaryLeaf<typeTemplate>* temp){
+        if(temp){
+            //
+            if(temp->left){
+                //
+                this->renderRecursively(temp->left);edkEnd();
+            }
+            //print
+            if(!this->root->left && !this->root->right){
+                this->renderElement(temp->value);edkEnd();
+            }
+            if(temp->right){
+                //
+                this->renderRecursively(temp->right);edkEnd();
+            }
+        }
+    }
+    void renderWireNoRecursively(BinaryLeaf<typeTemplate>* temp){
+        while(temp){
+            if(temp->readed==0u){
+                temp->readed=1u;edkEnd();
+                if(temp->left){
+                    temp = temp->left;edkEnd();
+                    continue;
+                }
+            }
+            if(temp->readed==1u){
+                //render
+                if(!this->root->left && !this->root->right){
+                    this->renderWireElement(temp->value);edkEnd();
+                }
+                temp->readed=2u;edkEnd();
+                if(temp->right){
+                    temp = temp->right;edkEnd();
+                    continue;
+                }
+            }
+            if(temp->readed==2u){
+                temp->readed=0u;edkEnd();
+                temp = temp->father;edkEnd();
+            }
+        }
+    }
+    //recursively to draw
+    void drawRecursively(BinaryLeaf<typeTemplate>* temp){
+        if(temp){
+            //
+            if(temp->left){
+                //
+                this->renderRecursively(temp->left);edkEnd();
+            }
+            //print
+            if(!this->root->left && !this->root->right){
+                this->drawElement(temp->value);edkEnd();
+            }
+            if(temp->right){
+                //
+                this->renderRecursively(temp->right);edkEnd();
+            }
+        }
+    }
+    void drawNoRecursively(BinaryLeaf<typeTemplate>* temp){
+        while(temp){
+            if(temp->readed==0u){
+                temp->readed=1u;edkEnd();
+                if(temp->left){
+                    temp = temp->left;edkEnd();
+                    continue;
+                }
+            }
+            if(temp->readed==1u){
+                //render
+                if(!this->root->left && !this->root->right){
+                    this->drawElement(temp->value);edkEnd();
+                }
+                temp->readed=2u;edkEnd();
+                if(temp->right){
+                    temp = temp->right;edkEnd();
+                    continue;
+                }
+            }
+            if(temp->readed==2u){
+                temp->readed=0u;edkEnd();
+                temp = temp->father;edkEnd();
+            }
+        }
+    }
+    //recursively to drawWire
+    void drawWireRecursively(BinaryLeaf<typeTemplate>* temp){
+        if(temp){
+            //
+            if(temp->left){
+                //
+                this->renderRecursively(temp->left);edkEnd();
+            }
+            //print
+            if(!this->root->left && !this->root->right){
+                this->drawWireElement(temp->value);edkEnd();
+            }
+            if(temp->right){
+                //
+                this->renderRecursively(temp->right);edkEnd();
+            }
+        }
+    }
+    void drawWireNoRecursively(BinaryLeaf<typeTemplate>* temp){
+        while(temp){
+            if(temp->readed==0u){
+                temp->readed=1u;edkEnd();
+                if(temp->left){
+                    temp = temp->left;edkEnd();
+                    continue;
+                }
+            }
+            if(temp->readed==1u){
+                //render
+                if(!this->root->left && !this->root->right){
+                    this->drawWireElement(temp->value);edkEnd();
+                }
+                temp->readed=2u;edkEnd();
+                if(temp->right){
+                    temp = temp->right;edkEnd();
+                    continue;
+                }
+            }
+            if(temp->readed==2u){
+                temp->readed=0u;edkEnd();
+                temp = temp->father;edkEnd();
+            }
+        }
+    }
+    //printTree
+    void printTreeRecursively(BinaryLeaf<typeTemplate>* temp){
+        if(temp){
+            //
+            if(temp->left){
+                //
+                printf("\nGo->left");fflush(stdout);edkEnd();
+                this->printElement(temp->value);edkEnd();
+                this->renderRecursively(temp->left);edkEnd();
+            }
+            //print
+            if(!this->root->left && !this->root->right){
+                printf("\nPrint");fflush(stdout);edkEnd();
+                this->printElement(temp->value);edkEnd();
+            }
+            if(temp->right){
+                //
+                printf("\nGo->right");fflush(stdout);edkEnd();
+                this->printElement(temp->value);edkEnd();
+                this->renderRecursively(temp->right);edkEnd();
+            }
+        }
+    }
+    void printTreeNoRecursively(BinaryLeaf<typeTemplate>* temp){
+        while(temp){
+            if(temp->readed==0u){
+                temp->readed=1u;edkEnd();
+                if(temp->left){
+                    printf("\nGo->left");fflush(stdout);edkEnd();
+                    temp = temp->left;edkEnd();
+                    continue;
+                }
+            }
+            if(temp->readed==1u){
+                //render
+                printf("\nPRINT");fflush(stdout);edkEnd();
+                this->printElement(temp->value);edkEnd();
+                temp->readed=2u;edkEnd();
+                if(temp->right){
+                    printf("\nGo->right");fflush(stdout);edkEnd();
+                    temp = temp->right;edkEnd();
+                    continue;
+                }
+            }
+            if(temp->readed==2u){
+                temp->readed=0u;edkEnd();
+                temp = temp->father;edkEnd();
+                printf("\nGo->father");fflush(stdout);edkEnd();
+            }
+        }
+    }
+    //set if find it
+    BinaryLeaf<typeTemplate>* getRecursively(BinaryLeaf<typeTemplate>* temp,edk::uint32* count, edk::uint32 pos){
+        //the return
+        BinaryLeaf<typeTemplate>* ret=NULL;edkEnd();
+        if(temp){
+            if(temp->left){
+                //
+                ret=this->getRecursively(temp->left,count,pos);edkEnd();
+                //test if find
+                if(ret){
+                    return ret;
+                }
+            }
+            //test if count is == position
+            if(*count==pos
+                    && (!this->root->left && !this->root->right)
+                    ){
+                //then return the typeTemplate
+                return temp;edkEnd();
+            }
+            else if(!this->root->left && !this->root->right){
+                //increment count
+                count[0]++;edkEnd();
+            }
+            //print
+            if(temp->right){
+                //
+                ret=this->getRecursively(temp->right,count,pos);edkEnd();
+                //test if find
+                if(ret){
+                    return ret;
+                }
+            }
+        }
+        //return the ret
+        return ret;
+    }
+    BinaryLeaf<typeTemplate>* getNoRecursively(BinaryLeaf<typeTemplate>* temp,edk::uint32 pos){
+        edk::uint32 count = 0u;edkEnd();
+        BinaryLeaf<typeTemplate>* ret = NULL;edkEnd();
+        bool find=false;edkEnd();
+        //test if have temp
+        while(temp){
+            if(!find){
+                if(temp->readed==0u){
+                    temp->readed=1u;edkEnd();
+                    if(temp->left){
+                        temp = temp->left;edkEnd();
+                        continue;
+                    }
+                }
+                if(temp->readed==1u){
+                    //test if count is == position
+                    if(count==pos
+                            && (!this->root->left && !this->root->right)
+                            ){
+                        //then return the typeTemplate
+                        ret = temp;edkEnd();
+                        find=true;edkEnd();
+                    }
+                    else if(!this->root->left && !this->root->right){
+                        //increment count
+                        ++count;edkEnd();
+                    }
+                    temp->readed=2u;edkEnd();
+                    if(temp->right){
+                        temp = temp->right;edkEnd();
+                        continue;
+                    }
+                }
+                if(temp->readed==2u){
+                    temp->readed=0u;edkEnd();
+                    temp = temp->father;edkEnd();
+                }
+            }
+            else{
+                temp->readed=0u;edkEnd();
+                temp = temp->father;edkEnd();
+            }
+        }
+        return ret;
+    }
+    //clean recursively
+    void cleanRecursively(BinaryLeaf<typeTemplate>* temp){
+        //
+        if(temp){
+            //
+            if(temp->right){
+                this->cleanRecursively(temp->right);edkEnd();
+            }
+            temp->right=NULL;edkEnd();
+            if(temp->left){
+                this->cleanRecursively(temp->left);edkEnd();
+            }
+            temp->left=NULL;edkEnd();
+            delete temp;edkEnd();
+        }
+    }
+    void cleanNoRecursively(BinaryLeaf<typeTemplate>* temp){
+        BinaryLeaf<typeTemplate>* tempDelete;edkEnd();
+        //test if have temp
+        while(temp){
+            if(temp->readed==0u){
+                temp->readed=1u;edkEnd();
+                if(temp->left){
+                    temp = temp->left;edkEnd();
+                    continue;
+                }
+            }
+            if(temp->readed==1u){
+                temp->left=NULL;edkEnd();
+                temp->readed=2u;edkEnd();
+                if(temp->right){
+                    temp = temp->right;edkEnd();
+                    continue;
+                }
+            }
+            if(temp->readed==2u){
+                temp->right=NULL;edkEnd();
+                temp->readed=0u;edkEnd();
+                tempDelete = temp;edkEnd();
+                temp = temp->father;edkEnd();
+                delete tempDelete;edkEnd();
+            }
+        }
+    }
+    //balance the tree starting from a new leaf
+    void balance(BinaryLeaf<typeTemplate>* leaf){
+        return;
+        //test the temp
+        if(leaf){
+            BinaryLeaf<typeTemplate>* temp = leaf;edkEnd();
+            //increment the counters
+            while(temp){
+                //test if havethe father
+                if(temp->father){
+                    //test witch side is the temp
+                    if(temp->father->left == temp){
+                        //increment the counter
+                        temp->father->counter--;edkEnd();
+                    }
+                    else if(temp->father->right == temp){
+                        //decrement the counter
+                        temp->father->counter++;edkEnd();
+                    }
+                }
+                //then select the father
+                temp = temp->father;edkEnd();
+            }
+            //now balance the tree
+            temp = leaf;edkEnd();
+            BinaryLeaf<typeTemplate>* temp2;edkEnd();
+            BinaryLeaf<typeTemplate>* father;edkEnd();
+            bool continuing = false;edkEnd();
+            while(temp){
+                //test if the counter is bigger then 1 or -1
+                if(temp->counter>1){
+                    //test if have the father
+                    if(temp->father){
+                        //need balance the leaf
+                        if(temp->right){
+                            //have only the right
+                            temp2 = temp->right;edkEnd();
+                            if(temp2->right){
+                                if(temp2->left){
+                                    //do nothing
+                                }
+                                else{
+                                    //have only the right2
+                                    //rotate left
+                                    father = temp->father;edkEnd();
+                                    //left right
+                                    if(father->left == temp){
+                                        //
+                                        father->left = temp->right;edkEnd();
+                                        father->left->counter--;edkEnd();
+                                        father->left->left = temp;edkEnd();
+                                        father->left->left->father = father->left->right->father = father->left;edkEnd();
+                                        father->left->father = father;edkEnd();
+                                        father->left->right->counter--;edkEnd();
+                                    }
+                                    else if(father->right == temp){
+                                        //
+                                        father->right = temp->right;edkEnd();
+                                        father->right->counter--;edkEnd();
+                                        father->right->left = temp;edkEnd();
+                                        father->right->left->father = father->right->right->father = father->right;edkEnd();
+                                        father->right->father = father;edkEnd();
+                                        father->right->right->counter--;edkEnd();
+                                    }
+                                    temp->right=NULL;edkEnd();
+                                    temp->counter--;edkEnd();
+                                }
+                            }
+                            else if(temp2->left){
+                                BinaryLeaf<typeTemplate>*  newRoot = temp2;edkEnd();
+                                temp2 = temp2->left;edkEnd();
+                                if(temp2->right){
+                                    //do nothing
+                                }
+                                else{
+                                    //
+                                    //rotate right
+                                    temp2->right = newRoot;edkEnd();
+                                    newRoot->father = temp2;edkEnd();
+                                    newRoot->left = NULL;edkEnd();
+                                    newRoot->counter--;edkEnd();
+                                    //
+                                    temp->right = temp2;edkEnd();
+                                    temp2->father=temp;edkEnd();
+                                    temp2->counter--;edkEnd();
+                                    if(!continuing){
+                                        continuing = true;edkEnd();
+                                        continue;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else if(temp == this->root){
+                        //need change the root
+                        if(temp->right){
+                            //have only the right
+                            temp2 = temp->right;edkEnd();
+                            if(temp2->right){
+                                if(temp2->left){
+                                    //do nothing
+                                }
+                                else{
+                                    //have only the right2
+                                    //rotate left
+                                    this->root = temp->right;edkEnd();
+                                    this->root->father = NULL;edkEnd();
+                                    this->root->counter--;edkEnd();
+                                    //
+                                    this->root->left = temp;edkEnd();
+                                    this->root->left->father = this->root->right->father = this->root;edkEnd();
+                                    temp->right=NULL;edkEnd();
+                                    temp->counter--;edkEnd();
+                                    //
+                                    this->root->right->counter--;edkEnd();
+                                }
+                            }
+                            else if(temp2->left){
+                                BinaryLeaf<typeTemplate>*  newRoot = temp2;edkEnd();
+                                temp2 = temp2->left;edkEnd();
+                                if(temp2->right){
+                                    //do nothing
+                                }
+                                else{
+                                    //
+                                    //rotate right
+                                    temp2->right = newRoot;edkEnd();
+                                    newRoot->father = temp2;edkEnd();
+                                    newRoot->left = NULL;edkEnd();
+                                    newRoot->counter--;edkEnd();
+                                    //
+                                    temp->right = temp2;edkEnd();
+                                    temp2->father=temp;edkEnd();
+                                    temp2->counter--;edkEnd();
+                                    if(!continuing){
+                                        continuing = true;edkEnd();
+                                        continue;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                else if(temp->counter<-1){
+                    //test if have the father
+                    if(temp->father){
+                        //need balance the leaf
+                        if(temp->left){
+                            //have only the left
+                            temp2 = temp->left;edkEnd();
+                            if(temp2->left){
+                                if(temp2->right){
+                                    //do nothing
+                                }
+                                else{
+                                    //have only the left2
+                                    //rotate right
+                                    father = temp->father;edkEnd();
+                                    //right left
+                                    if(father->right == temp){
+                                        //
+                                        father->right = temp->left;edkEnd();
+                                        father->right->counter--;edkEnd();
+                                        father->right->right = temp;edkEnd();
+                                        father->right->right->father = father->right->left->father = father->right;edkEnd();
+                                        father->right->father = father;edkEnd();
+                                        father->right->left->counter--;edkEnd();
+                                    }
+                                    else if(father->left == temp){
+                                        //
+                                        father->left = temp->left;edkEnd();
+                                        father->left->counter--;edkEnd();
+                                        father->left->right = temp;edkEnd();
+                                        father->left->right->father = father->left->left->father = father->left;edkEnd();
+                                        father->left->father = father;edkEnd();
+                                        father->left->left->counter--;edkEnd();
+                                    }
+                                    temp->left=NULL;edkEnd();
+                                    temp->counter--;edkEnd();
+                                }
+                            }
+                            else if(temp2->right){
+                                BinaryLeaf<typeTemplate>*  newRoot = temp2;edkEnd();
+                                temp2 = temp2->right;edkEnd();
+                                if(temp2->left){
+                                    //do nothing
+                                }
+                                else{
+                                    //
+                                    //rotate left
+                                    temp2->left = newRoot;edkEnd();
+                                    newRoot->father = temp2;edkEnd();
+                                    newRoot->right = NULL;edkEnd();
+                                    newRoot->counter--;edkEnd();
+                                    //
+                                    temp->left = temp2;edkEnd();
+                                    temp2->father=temp;edkEnd();
+                                    temp2->counter--;edkEnd();
+                                    if(!continuing){
+                                        continuing = true;edkEnd();
+                                        continue;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else if(temp == this->root){
+                        //need change the root
+                        if(temp->left){
+                            //have only the left
+                            temp2 = temp->left;edkEnd();
+                            if(temp2->left){
+                                if(temp2->right){
+                                    //do nothing
+                                }
+                                else{
+                                    //have only the left2
+                                    //rotate right
+                                    this->root = temp->left;edkEnd();
+                                    this->root->father = NULL;edkEnd();
+                                    this->root->counter--;edkEnd();
+                                    //
+                                    this->root->right = temp;edkEnd();
+                                    this->root->right->father = this->root->left->father = this->root;edkEnd();
+                                    temp->left=NULL;edkEnd();
+                                    temp->counter--;edkEnd();
+                                    //
+                                    this->root->left->counter--;edkEnd();
+                                }
+                            }
+                            else if(temp2->right){
+                                BinaryLeaf<typeTemplate>*  newRoot = temp2;edkEnd();
+                                temp2 = temp2->right;edkEnd();
+                                if(temp2->left){
+                                    //do nothing
+                                }
+                                else{
+                                    //
+                                    //rotate left
+                                    temp2->left = newRoot;edkEnd();
+                                    newRoot->father = temp2;edkEnd();
+                                    newRoot->right = NULL;edkEnd();
+                                    newRoot->counter--;edkEnd();
+                                    //
+                                    temp->left = temp2;edkEnd();
+                                    temp2->father=temp;edkEnd();
+                                    temp2->counter--;edkEnd();
+                                    if(!continuing){
+                                        continuing = true;edkEnd();
+                                        continue;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                //then select the father
+                temp = temp->father;edkEnd();
+                continuing = false;edkEnd();
+            }
+        }
+    }
+};
+}
+}
 #endif // BinaryTree_H

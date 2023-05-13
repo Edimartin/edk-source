@@ -187,6 +187,18 @@ public:
         this->canDeleteVector=false;edkEnd();
     }
 
+    //set the array with a value
+    bool setClean(typeTemplate value){
+        if(this->vector && this->vectorSize){
+            //set the array with the value
+            for(edk::uint32 i=0u;i<this->vectorSize;i++){
+                this->set(i,value);
+            }
+            return true;
+        }
+        return false;
+    }
+
     //cant
     void cantDeleteVector(){
         //
