@@ -36,6 +36,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../NameClass.h"
 #include "../String.h"
 #include "./Array.h"
+#include "./Queue.h"
 
 #ifdef printMessages
 #pragma message "    Compiling BinaryTree"
@@ -1959,6 +1960,12 @@ enum edkLeafsMap{
     //
     edkLeaftSize
 };
+//treeMAPPING
+class TreeMap: public edk::vector::Queue<edk::vector::edkLeafsMap>{
+public:
+    TreeMap(){}
+    ~TreeMap(){}
+};
 
 template <class typeTemplate>
 class LeafsOnlyTree{
@@ -2038,14 +2045,10 @@ public:
                                         temp->right = newThirdValue;edkEnd();
                                         temp->right->father = temp;edkEnd();
                                         temp=temp->right;edkEnd();
-                                        //increment the sizeTree
-                                        this->incrementSize();edkEnd();
                                     }
                                 }
                                 temp->right = newValue;edkEnd(); newValue=NULL;edkEnd();
                                 temp->right->father = temp;edkEnd();
-                                //increment the sizeTree
-                                this->incrementSize();edkEnd();
                                 //set the secondValue
                                 memcpy((void*)&newSecondValue->value,(void*)&temp->value,sizeof(typeTemplate));edkEnd();
                                 temp->left = newSecondValue;edkEnd();
@@ -2071,14 +2074,10 @@ public:
                                         temp->left = newThirdValue;edkEnd();
                                         temp->left->father = temp;edkEnd();
                                         temp=temp->left;edkEnd();
-                                        //increment the sizeTree
-                                        this->incrementSize();edkEnd();
                                     }
                                 }
                                 temp->left = newValue;edkEnd(); newValue=NULL;edkEnd();
                                 temp->left->father = temp;edkEnd();
-                                //increment the sizeTree
-                                this->incrementSize();edkEnd();
                                 //set the secondValue
                                 memcpy((void*)&newSecondValue->value,(void*)&temp->value,sizeof(typeTemplate));edkEnd();
                                 temp->right = newSecondValue;edkEnd();
@@ -2210,11 +2209,10 @@ public:
     }
 
     //get the element map
-    bool getElementMap(typeTemplate value,edk::vector::Array<edk::vector::edkLeafsMap> *map){
+    bool getElementMap(typeTemplate value,edk::vector::TreeMap *map){
         if(map){
             //find the value and generate the map
-            edk::uint32 position = 0u;
-            return this->find(value,&position,map);
+            return this->find(value,map);
         }
         return false;
     }
@@ -2240,6 +2238,52 @@ public:
     }
     edk::uint32 size(){
         return this->getSize();edkEnd();
+    }
+
+    //select an element by turns
+    bool selectRoot(){
+        this->elementSelected=NULL;
+        if(this->root){
+            this->elementSelected=this->root;
+            return true;
+        }
+        return false;
+    }
+    //return true if the selected is a leaf
+    bool selectIsLeaf(){
+        if(this->elementSelected){
+            return (!this->elementSelected->left && !this->elementSelected->right);
+        }
+        return false;
+    }
+    //turn the select
+    bool selectTurnLeft(){
+        if(this->elementSelected){
+            if(this->elementSelected->left){
+                this->elementSelected = this->elementSelected->left;
+                return true;
+            }
+        }
+        return false;
+    }
+    bool selectTurnRight(){
+        if(this->elementSelected){
+            if(this->elementSelected->right){
+                this->elementSelected = this->elementSelected->right;
+                return true;
+            }
+        }
+        return false;
+    }
+    //get the selectValue
+    typeTemplate selectGetValue(){
+        typeTemplate ret;
+        memset(&ret,0,sizeof(typeTemplate));
+        if(this->elementSelected){
+            //get the value
+            memcpy(&ret,&this->elementSelected->value,sizeof(typeTemplate));
+        }
+        return ret;
     }
 
     //Clean the tree
@@ -2293,14 +2337,12 @@ private:
     bool dontDestruct;
 
     //temporary map
-    edk::vector::Array<edk::vector::edkLeafsMap> map;
+    edk::vector::TreeMap map;
+
+    BinaryLeaf<typeTemplate>* elementSelected;
 
     //Find the element
-    bool find(typeTemplate value,edk::uint32 *position=NULL,edk::vector::Array<edk::vector::edkLeafsMap> *map=NULL){
-        edk::uint32 temp=0u;edkEnd();
-        if(!position){
-            position=&temp;edkEnd();
-        }
+    bool find(typeTemplate value,edk::vector::TreeMap *map=NULL){
         if(!map){
             map=&this->map;edkEnd();
         }
@@ -2329,8 +2371,7 @@ private:
                             if(temp->left){
                                 if(this->firstEqualSecond(temp->left->value,element.value)){
                                     temp = temp->left;edkEnd();
-                                    map->set(*position,edk::vector::edkLeaftLEFT);edkEnd();
-                                    position[0u]++;edkEnd();
+                                    map->pushBack(edk::vector::edkLeaftLEFT);edkEnd();
                                     edkEnd();
                                     continue;
                                 }
@@ -2341,8 +2382,7 @@ private:
                             if(temp->right){
                                 if(this->firstEqualSecond(temp->right->value,element.value)){
                                     temp = temp->right;edkEnd();
-                                    map->set(*position,edk::vector::edkLeaftRIGHT);edkEnd();
-                                    position[0u]++;edkEnd();
+                                    map->pushBack(edk::vector::edkLeaftRIGHT);edkEnd();
                                     edkEnd();
                                     continue;
                                 }
@@ -2354,7 +2394,7 @@ private:
                             break;
                         }
                     }
-                    if(dontHave>1u && *position){
+                    if(dontHave>1u){
                         edkEnd();
                         return true;
                     }
@@ -2365,8 +2405,7 @@ private:
                 else if(this->firstBiggerSecond(element.value,temp->value)){
                     //then the next maybe is the RIGHT
                     if(temp->right){
-                        map->set(*position,edk::vector::edkLeaftRIGHT);edkEnd();
-                        position[0u]++;edkEnd();
+                        map->pushBack(edk::vector::edkLeaftRIGHT);edkEnd();
                         //Go RIGHT
                         //test if the value is equal
                         if(this->firstEqualSecond(temp->right->value,element.value)){
@@ -2379,8 +2418,7 @@ private:
                                     if(temp->left){
                                         if(this->firstEqualSecond(temp->left->value,element.value)){
                                             temp = temp->left;edkEnd();
-                                            map->set(*position,edk::vector::edkLeaftLEFT);edkEnd();
-                                            position[0u]++;edkEnd();
+                                            map->pushBack(edk::vector::edkLeaftLEFT);edkEnd();
                                             edkEnd();
                                             continue;
                                         }
@@ -2391,8 +2429,7 @@ private:
                                     if(temp->right){
                                         if(this->firstEqualSecond(temp->right->value,element.value)){
                                             temp = temp->right;edkEnd();
-                                            map->set(*position,edk::vector::edkLeaftRIGHT);edkEnd();
-                                            position[0u]++;edkEnd();
+                                            map->pushBack(edk::vector::edkLeaftRIGHT);edkEnd();
                                             edkEnd();
                                             continue;
                                         }
@@ -2425,8 +2462,7 @@ private:
                     //then the next maybe is the LEFT
                     //test if the left exist
                     if(temp->left){
-                        map->set(*position,edk::vector::edkLeaftLEFT);edkEnd();
-                        position[0u]++;edkEnd();
+                        map->pushBack(edk::vector::edkLeaftLEFT);edkEnd();
                         //test if the value is equal
                         if(this->firstEqualSecond(temp->left->value,element.value)){
                             edk::uchar8 dontHave=2u;
@@ -2438,8 +2474,7 @@ private:
                                     if(temp->left){
                                         if(this->firstEqualSecond(temp->left->value,element.value)){
                                             temp = temp->left;edkEnd();
-                                            map->set(*position,edk::vector::edkLeaftLEFT);edkEnd();
-                                            position[0u]++;edkEnd();
+                                            map->pushBack(edk::vector::edkLeaftLEFT);edkEnd();
                                             edkEnd();
                                             continue;
                                         }
@@ -2450,8 +2485,7 @@ private:
                                     if(temp->right){
                                         if(this->firstEqualSecond(temp->right->value,element.value)){
                                             temp = temp->right;edkEnd();
-                                            map->set(*position,edk::vector::edkLeaftRIGHT);edkEnd();
-                                            position[0u]++;edkEnd();
+                                            map->pushBack(edk::vector::edkLeaftRIGHT);edkEnd();
                                             edkEnd();
                                             continue;
                                         }
@@ -3025,269 +3059,6 @@ private:
                 tempDelete = temp;edkEnd();
                 temp = temp->father;edkEnd();
                 delete tempDelete;edkEnd();
-            }
-        }
-    }
-    //balance the tree starting from a new leaf
-    void balance(BinaryLeaf<typeTemplate>* leaf){
-        return;
-        //test the temp
-        if(leaf){
-            BinaryLeaf<typeTemplate>* temp = leaf;edkEnd();
-            //increment the counters
-            while(temp){
-                //test if havethe father
-                if(temp->father){
-                    //test witch side is the temp
-                    if(temp->father->left == temp){
-                        //increment the counter
-                        temp->father->counter--;edkEnd();
-                    }
-                    else if(temp->father->right == temp){
-                        //decrement the counter
-                        temp->father->counter++;edkEnd();
-                    }
-                }
-                //then select the father
-                temp = temp->father;edkEnd();
-            }
-            //now balance the tree
-            temp = leaf;edkEnd();
-            BinaryLeaf<typeTemplate>* temp2;edkEnd();
-            BinaryLeaf<typeTemplate>* father;edkEnd();
-            bool continuing = false;edkEnd();
-            while(temp){
-                //test if the counter is bigger then 1 or -1
-                if(temp->counter>1){
-                    //test if have the father
-                    if(temp->father){
-                        //need balance the leaf
-                        if(temp->right){
-                            //have only the right
-                            temp2 = temp->right;edkEnd();
-                            if(temp2->right){
-                                if(temp2->left){
-                                    //do nothing
-                                }
-                                else{
-                                    //have only the right2
-                                    //rotate left
-                                    father = temp->father;edkEnd();
-                                    //left right
-                                    if(father->left == temp){
-                                        //
-                                        father->left = temp->right;edkEnd();
-                                        father->left->counter--;edkEnd();
-                                        father->left->left = temp;edkEnd();
-                                        father->left->left->father = father->left->right->father = father->left;edkEnd();
-                                        father->left->father = father;edkEnd();
-                                        father->left->right->counter--;edkEnd();
-                                    }
-                                    else if(father->right == temp){
-                                        //
-                                        father->right = temp->right;edkEnd();
-                                        father->right->counter--;edkEnd();
-                                        father->right->left = temp;edkEnd();
-                                        father->right->left->father = father->right->right->father = father->right;edkEnd();
-                                        father->right->father = father;edkEnd();
-                                        father->right->right->counter--;edkEnd();
-                                    }
-                                    temp->right=NULL;edkEnd();
-                                    temp->counter--;edkEnd();
-                                }
-                            }
-                            else if(temp2->left){
-                                BinaryLeaf<typeTemplate>*  newRoot = temp2;edkEnd();
-                                temp2 = temp2->left;edkEnd();
-                                if(temp2->right){
-                                    //do nothing
-                                }
-                                else{
-                                    //
-                                    //rotate right
-                                    temp2->right = newRoot;edkEnd();
-                                    newRoot->father = temp2;edkEnd();
-                                    newRoot->left = NULL;edkEnd();
-                                    newRoot->counter--;edkEnd();
-                                    //
-                                    temp->right = temp2;edkEnd();
-                                    temp2->father=temp;edkEnd();
-                                    temp2->counter--;edkEnd();
-                                    if(!continuing){
-                                        continuing = true;edkEnd();
-                                        continue;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    else if(temp == this->root){
-                        //need change the root
-                        if(temp->right){
-                            //have only the right
-                            temp2 = temp->right;edkEnd();
-                            if(temp2->right){
-                                if(temp2->left){
-                                    //do nothing
-                                }
-                                else{
-                                    //have only the right2
-                                    //rotate left
-                                    this->root = temp->right;edkEnd();
-                                    this->root->father = NULL;edkEnd();
-                                    this->root->counter--;edkEnd();
-                                    //
-                                    this->root->left = temp;edkEnd();
-                                    this->root->left->father = this->root->right->father = this->root;edkEnd();
-                                    temp->right=NULL;edkEnd();
-                                    temp->counter--;edkEnd();
-                                    //
-                                    this->root->right->counter--;edkEnd();
-                                }
-                            }
-                            else if(temp2->left){
-                                BinaryLeaf<typeTemplate>*  newRoot = temp2;edkEnd();
-                                temp2 = temp2->left;edkEnd();
-                                if(temp2->right){
-                                    //do nothing
-                                }
-                                else{
-                                    //
-                                    //rotate right
-                                    temp2->right = newRoot;edkEnd();
-                                    newRoot->father = temp2;edkEnd();
-                                    newRoot->left = NULL;edkEnd();
-                                    newRoot->counter--;edkEnd();
-                                    //
-                                    temp->right = temp2;edkEnd();
-                                    temp2->father=temp;edkEnd();
-                                    temp2->counter--;edkEnd();
-                                    if(!continuing){
-                                        continuing = true;edkEnd();
-                                        continue;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                else if(temp->counter<-1){
-                    //test if have the father
-                    if(temp->father){
-                        //need balance the leaf
-                        if(temp->left){
-                            //have only the left
-                            temp2 = temp->left;edkEnd();
-                            if(temp2->left){
-                                if(temp2->right){
-                                    //do nothing
-                                }
-                                else{
-                                    //have only the left2
-                                    //rotate right
-                                    father = temp->father;edkEnd();
-                                    //right left
-                                    if(father->right == temp){
-                                        //
-                                        father->right = temp->left;edkEnd();
-                                        father->right->counter--;edkEnd();
-                                        father->right->right = temp;edkEnd();
-                                        father->right->right->father = father->right->left->father = father->right;edkEnd();
-                                        father->right->father = father;edkEnd();
-                                        father->right->left->counter--;edkEnd();
-                                    }
-                                    else if(father->left == temp){
-                                        //
-                                        father->left = temp->left;edkEnd();
-                                        father->left->counter--;edkEnd();
-                                        father->left->right = temp;edkEnd();
-                                        father->left->right->father = father->left->left->father = father->left;edkEnd();
-                                        father->left->father = father;edkEnd();
-                                        father->left->left->counter--;edkEnd();
-                                    }
-                                    temp->left=NULL;edkEnd();
-                                    temp->counter--;edkEnd();
-                                }
-                            }
-                            else if(temp2->right){
-                                BinaryLeaf<typeTemplate>*  newRoot = temp2;edkEnd();
-                                temp2 = temp2->right;edkEnd();
-                                if(temp2->left){
-                                    //do nothing
-                                }
-                                else{
-                                    //
-                                    //rotate left
-                                    temp2->left = newRoot;edkEnd();
-                                    newRoot->father = temp2;edkEnd();
-                                    newRoot->right = NULL;edkEnd();
-                                    newRoot->counter--;edkEnd();
-                                    //
-                                    temp->left = temp2;edkEnd();
-                                    temp2->father=temp;edkEnd();
-                                    temp2->counter--;edkEnd();
-                                    if(!continuing){
-                                        continuing = true;edkEnd();
-                                        continue;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    else if(temp == this->root){
-                        //need change the root
-                        if(temp->left){
-                            //have only the left
-                            temp2 = temp->left;edkEnd();
-                            if(temp2->left){
-                                if(temp2->right){
-                                    //do nothing
-                                }
-                                else{
-                                    //have only the left2
-                                    //rotate right
-                                    this->root = temp->left;edkEnd();
-                                    this->root->father = NULL;edkEnd();
-                                    this->root->counter--;edkEnd();
-                                    //
-                                    this->root->right = temp;edkEnd();
-                                    this->root->right->father = this->root->left->father = this->root;edkEnd();
-                                    temp->left=NULL;edkEnd();
-                                    temp->counter--;edkEnd();
-                                    //
-                                    this->root->left->counter--;edkEnd();
-                                }
-                            }
-                            else if(temp2->right){
-                                BinaryLeaf<typeTemplate>*  newRoot = temp2;edkEnd();
-                                temp2 = temp2->right;edkEnd();
-                                if(temp2->left){
-                                    //do nothing
-                                }
-                                else{
-                                    //
-                                    //rotate left
-                                    temp2->left = newRoot;edkEnd();
-                                    newRoot->father = temp2;edkEnd();
-                                    newRoot->right = NULL;edkEnd();
-                                    newRoot->counter--;edkEnd();
-                                    //
-                                    temp->left = temp2;edkEnd();
-                                    temp2->father=temp;edkEnd();
-                                    temp2->counter--;edkEnd();
-                                    if(!continuing){
-                                        continuing = true;edkEnd();
-                                        continue;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-
-                //then select the father
-                temp = temp->father;edkEnd();
-                continuing = false;edkEnd();
             }
         }
     }

@@ -129,6 +129,9 @@ public:
         }
         this->first=this->last=NULL;edkEnd();
     }
+    void clean(){
+        this->clean(this->arraySize);
+    }
 
     //push back a value
     bool pushBack(typeTemplate value){
@@ -219,22 +222,23 @@ public:
     }
 
     //GETTERS
-    //returrn the vector size
+    //return the vector size
     edk::uint32  size(){
         return this->_size;edkEnd();
     }
     edk::uint32  getSize(){
         return this->size();edkEnd();
     }
-    //return the object
+    //return the value in a position
     typeTemplate get(edk::uint32 pos){
         typeTemplate ret;edkEnd();
+        memset(&ret,0,sizeof(typeTemplate));
         //first test if have the first cell
         if(this->first && pos<this->_size){
             //test if the position is in the first cel
-            if(pos+this->start<this->arraySize){
+            if((pos+this->start)<this->arraySize){
                 //get the value
-                ret = this->first->get(this->start+pos);edkEnd();
+                memcpy(&ret,(edk::classID)&this->first->getPointer()[this->start+pos],sizeof(typeTemplate));
             }
             else{
                 pos-=this->arraySize-this->start;edkEnd();
@@ -245,7 +249,7 @@ public:
                     if(pos<this->arraySize){
                         if(temp==this->last){
                             if(pos<this->end){
-                                ret = temp->get(pos);edkEnd();
+                                memcpy(&ret,(edk::classID)&temp->getPointer()[pos],sizeof(typeTemplate));
                                 break;
                             }
                             else{
@@ -253,14 +257,13 @@ public:
                             }
                         }
                         else{
-                            ret = temp->get(pos);edkEnd();
+                            memcpy(&ret,(edk::classID)&temp->getPointer()[pos],sizeof(typeTemplate));
                             break;
                         }
                     }
                     else{
                         //else go to the next
                         temp=temp->next;edkEnd();
-                        ret+=this->arraySize;edkEnd();
                         pos-=this->arraySize;edkEnd();
                     }
                 }
