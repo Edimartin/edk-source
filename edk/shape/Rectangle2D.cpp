@@ -370,7 +370,7 @@ void edk::shape::Rectangle2D::draw_NULL(edk::uint32 mode){
         //draw the normal
         //edk::GU::guVertexNormal3f32(0,0,1);edkEnd();
         //draw the textureUV
-        //edk::GU::guVertexTex2f32(0.f, 0.f);edkEnd();
+        edk::GU::guVertexTex2f32(0.f, 0.f);edkEnd();
         //glMultiTexCoord2f(GL_TEXTURE0,0.f, 0.f);edkEnd();
         //draw the vertex
         edk::GU::guVertex3f32( this->vertexs.getNoIF(0u)->position.x, this->vertexs.getNoIF(1u)->position.y, 0.0f);edkEnd();

@@ -2184,7 +2184,7 @@ edk::Object2D* edk::Cenario2D::getObjectInPosition(edk::uint32 levelPosition,edk
     return NULL;
 }
 //get the objectDepth
-edk::float32 edk::Cenario2D::getObjectDepth(edk::uint32 levelPosition,edk::uint32 position){
+edk::float32 edk::Cenario2D::getObjectDepthInPosition(edk::uint32 levelPosition,edk::uint32 position){
     if(levelPosition){
         levelPosition--;edkEnd();
         if(this->levels.havePos(levelPosition)){
@@ -2198,7 +2198,7 @@ edk::float32 edk::Cenario2D::getObjectDepth(edk::uint32 levelPosition,edk::uint3
     }
     return 0.f;
 }
-edk::float32 edk::Cenario2D::getObjectDepth(edk::uint32 levelPosition,edk::Object2D* obj){
+edk::float32 edk::Cenario2D::getObjectDepthInPosition(edk::uint32 levelPosition,edk::Object2D* obj){
     if(obj){
         //load the level
         if(levelPosition){
@@ -2292,7 +2292,7 @@ bool edk::Cenario2D::removeObject(edk::uint32 levelPosition,edk::Object2D* obj){
                         edk::Cenario2D::ObjClass* temp = level->objs->getObjectClassFromObject(obj);edkEnd();
                         if(temp){
                             level->quadObjs->remove(temp);edkEnd();
-                            bool ret = level->objs->remove(temp);edkEnd();
+                            bool ret = level->objs->removeObj(obj);edkEnd();
                             if(!level->objs->size()){
                                 if(level->quadObjs){
                                     delete level->quadObjs;edkEnd();

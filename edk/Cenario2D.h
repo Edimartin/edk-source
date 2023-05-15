@@ -133,8 +133,8 @@ public:
     edk::Object2D* getObject(edk::uint32 levelPosition,edk::float32 depth);
     edk::Object2D* getObjectInPosition(edk::uint32 levelPosition,edk::uint32 position);
     //get the objectDepth
-    edk::float32 getObjectDepth(edk::uint32 levelPosition,edk::uint32 position);
-    edk::float32 getObjectDepth(edk::uint32 levelPosition,edk::Object2D* obj);
+    edk::float32 getObjectDepthInPosition(edk::uint32 levelPosition,edk::uint32 position);
+    edk::float32 getObjectDepthInPosition(edk::uint32 levelPosition,edk::Object2D* obj);
     //delete the object
     bool deleteObject(edk::uint32 levelPosition,edk::Object2D* obj);
     void deleteAllObjects(edk::uint32 levelPosition);

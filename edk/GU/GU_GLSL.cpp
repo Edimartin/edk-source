@@ -37,7 +37,7 @@ edk::multi::MutexDisable edk::GU_GLSL::mut;
 //LINUX
 edk::multi::Mutex edk::GU_GLSL::mut;
 #endif
-edk::multi::Mutex edk::GU_GLSL::mutBeginEnd;
+edk::multi::MutexDisable edk::GU_GLSL::mutBeginEnd;
 
 //construtor
 edk::GU_GLSL::GU_GLSL(){

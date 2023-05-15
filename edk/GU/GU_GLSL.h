@@ -539,7 +539,7 @@ public:
     //LINUX
     static edk::multi::Mutex mut;
 #endif
-    static edk::multi::Mutex mutBeginEnd;
+    static edk::multi::MutexDisable mutBeginEnd;
 
 private:
     static bool initiate;
