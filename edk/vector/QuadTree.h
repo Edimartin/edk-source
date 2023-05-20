@@ -847,7 +847,7 @@ public:
                     tree = temp->getTreePointer();edkEnd();
                     if(tree){
                         size = tree->size();edkEnd();
-                        for(edk::uint8 j=0u;j<size;j++){
+                        for(edk::uint32 j=0u;j<size;j++){
                             valueTemp = tree->getElementInPosition(j);edkEnd();
                             for(edk::uint8 i=0u;i<4u;i++){
                                 tempQuad = temp->getQuad(i);edkEnd();
@@ -1718,7 +1718,7 @@ public:
                     tree = temp->getTreePointer();edkEnd();
                     if(tree){
                         size = tree->size();edkEnd();
-                        for(edk::uint8 j=0u;j<size;j++){
+                        for(edk::uint64 j=0u;j<size;j++){
                             valueTemp = tree->getElementInPosition(j);edkEnd();
                             for(edk::uint8 i=0u;i<4u;i++){
                                 tempQuad = temp->getQuad(i);edkEnd();
