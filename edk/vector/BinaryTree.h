@@ -182,14 +182,12 @@ public:
         //
         this->next=NULL;edkEnd();
         this->father=NULL;edkEnd();
+        this->position=0u;
         memset(&this->value,0u,sizeof(typeTemplate));edkEnd();
     }
     //Destrutor
     ~UnaryLeaf(){
         //
-        this->next=NULL;edkEnd();
-        this->father=NULL;edkEnd();
-        memset(&this->value,0u,sizeof(typeTemplate));edkEnd();
     }
     //LEFT
     UnaryLeaf* next;
@@ -198,6 +196,8 @@ public:
 
     //Value of the leaf
     typeTemplate value;
+    //position of the leaf in the tree
+    edk::uint32 position;
 };
 template <class typeTemplate>
 class BinaryLeaf{
@@ -215,12 +215,6 @@ public:
     //Destrutor
     ~BinaryLeaf(){
         //
-        this->left=NULL;edkEnd();
-        this->right=NULL;edkEnd();
-        this->father=NULL;edkEnd();
-        this->counter=0;edkEnd();
-        this->readed=0u;edkEnd();
-        memset((void*)&this->value,0u,sizeof(typeTemplate));edkEnd();
     }
     //RIGHT
     BinaryLeaf* left;
@@ -234,6 +228,8 @@ public:
 
     //Value of the leaf
     typeTemplate value;
+    //position of the leaf in the tree
+    edk::uint32 position;
 };
 template <class typeTemplate>
 class BinaryTree{
@@ -243,6 +239,7 @@ public:
     //Construtor
     BinaryTree(){
         //
+        this->updateElementsPositions=false;
         this->root=NULL;edkEnd();
         this->errorCode=0u;edkEnd();
         this->sizeTree=0u;edkEnd();
@@ -800,19 +797,40 @@ public:
     typeTemplate getElementInPosition(edk::uint32 position){
         //first test if the position exist in the tree
         if(position < this->size()){
-            //then find the element pointer
-            //create a count
-            //edk::uint32 count = 0u;edkEnd();
-            BinaryLeaf<typeTemplate>* ret = this->getNoRecursively(this->root/*,&count*/,position);edkEnd();
-            //test if the element is founded
-            if(ret){
-                //return the value
-                return ret->value;edkEnd();
+            //test if need update the positions
+            if(!this->updateElementsPositions && position>10u){
+                this->updatePositionsNoRecursively(this->root);
+                this->updateElementsPositions=true;
+            }
+            if(this->updateElementsPositions){
+                //then find the element pointer
+                BinaryLeaf<typeTemplate>* ret = this->findPosition(position);edkEnd();
+                //test if the element is founded
+                if(ret){
+                    //return the value
+                    return ret->value;edkEnd();
+                }
+            }
+            else{
+                //then find the element pointer
+                BinaryLeaf<typeTemplate>* ret = this->getNoRecursively(this->root/*,&count*/,position);edkEnd();
+                //test if the element is founded
+                if(ret){
+                    //return the value
+                    return ret->value;edkEnd();
+                }
             }
         }
         typeTemplate ret;edkEnd(); memset((void*)&ret,0u,sizeof(typeTemplate));edkEnd();
         //else return zero
         return ret;
+    }
+    //force update positions
+    void updatePositions(){
+        if(!this->updateElementsPositions){
+            this->updatePositionsNoRecursively(this->root);
+            this->updateElementsPositions=true;
+        }
     }
 
     //return the size
@@ -827,6 +845,7 @@ public:
 
     //Clean the tree
     virtual void clean(){
+        this->updateElementsPositions=false;
         if(this->root){
             //
             this->sizeTree=0u;edkEnd();
@@ -877,10 +896,110 @@ protected:
 private:
     //The root element on the TREE
     BinaryLeaf<typeTemplate>* root;
+    //save if need update the positions
+    bool updateElementsPositions;
     //size of the tree
     edk::uint32 sizeTree;
     //set if cant run the destructor
     bool dontDestruct;
+
+    //compare if the value is bigger
+    virtual bool firstPositionBiggerSecond(edk::uint32 first,edk::uint32 second){
+        if(first>second){return true;}
+        return false;
+    }
+    virtual bool firstPositionEqualSecond(edk::uint32 first,edk::uint32 second){
+        if(first==second){return true;}
+        return false;
+    }
+    //Find the position
+    BinaryLeaf<typeTemplate>* findPosition(edk::uint32 position){
+        //test if habe a root
+        if(this->root){
+            //find the position mother
+            BinaryLeaf<typeTemplate>* temp = this->findPositionMother(position);edkEnd();
+            if(temp){
+                //test if the mother is the element
+                if(this->firstPositionEqualSecond(temp->position,position)){
+                    //return the mother
+                    return temp;edkEnd();
+                }
+                else{
+                    if(temp->left){
+                        //test if the element is the left or right
+                        if(this->firstPositionEqualSecond(temp->left->position,position)){
+                            //return this left
+                            return temp->left;edkEnd();
+                        }
+                    }
+                    if(temp->right){
+                        if(this->firstPositionEqualSecond(temp->right->position,position)){
+                            //return the right
+                            return temp->right;edkEnd();
+                        }
+                    }
+                    //else it dont have the element in the tree
+                }
+            }
+        }
+        //else return NULL
+        return NULL;
+    }
+    //Find the positionMother
+    BinaryLeaf<typeTemplate>* findPositionMother(edk::uint32 position){
+        //first test if have a root
+        if(this->root){
+            //tets if is equal root
+            if(this->firstPositionEqualSecond(this->root->position,position)){
+                //the return root
+                return this->root;edkEnd();
+            }
+            //else search the element mother
+            BinaryLeaf<typeTemplate>* temp = this->root;edkEnd();
+            while(temp){
+                //tets if the value is bigger the temp
+                if(this->firstPositionBiggerSecond(position,temp->position)){
+                    //then the next maybe is the RIGHT
+                    if(temp->right){
+                        //test if the value is equal
+                        if(this->firstPositionEqualSecond(temp->right->position,position)){
+                            //then find the element return the mother
+                            return temp;edkEnd();
+                        }
+                        else{
+                            //else the temp'receive the right
+                            temp = temp->right;edkEnd();
+                        }
+                    }
+                    else{
+                        //else he dont have the element
+                        break;
+                    }
+                }
+                else{
+                    //then the next maybe is the LEFT
+                    //test if the left exist
+                    if(temp->left){
+                        //test if the value is equal
+                        if(this->firstPositionEqualSecond(temp->left->position,position)){
+                            //find the element. return the temp
+                            return temp;edkEnd();
+                        }
+                        else{
+                            //else the temp receive the left
+                            temp=temp->left;edkEnd();
+                        }
+                    }
+                    else{
+                        //else it dont have the element
+                        break;
+                    }
+                }
+            }
+        }
+        //else return NULL
+        return NULL;
+    }
 
     //Find the element
     BinaryLeaf<typeTemplate>* find(typeTemplate value){
@@ -1016,6 +1135,7 @@ private:
     //increment and decrement the size
     void incrementSize(){
         //
+        this->updateElementsPositions=false;
         this->sizeTree+=1u;edkEnd();
     }
     bool decrementSize(){
@@ -1024,11 +1144,57 @@ private:
             //
             this->sizeTree-=1u;edkEnd();
 
+            this->updateElementsPositions=false;
             //return true
             return true;
         }
         //else return false
         return false;
+    }
+
+    //recursively to load
+    void updatePositionsRecursively(BinaryLeaf<typeTemplate>* temp,edk::uint32 *position=NULL){
+        if(temp){
+            //
+            if(temp->left){
+                this->updatePositionsRecursively(temp->left,position);edkEnd();
+            }
+            //update the position
+            if(position){
+                temp->position = *position;edkEnd();
+                *position++;
+            }
+            if(temp->right){
+                this->updatePositionsRecursively(temp->right);edkEnd();
+            }
+        }
+    }
+    void updatePositionsNoRecursively(BinaryLeaf<typeTemplate>* temp){
+        edk::uint32 position=0u;
+        while(temp){
+            if(temp->readed==0u){
+                temp->readed=1u;edkEnd();
+                if(temp->left){
+                    temp = temp->left;edkEnd();
+                    continue;
+                }
+            }
+            if(temp->readed==1u){
+                //load
+                temp->position = position;edkEnd();
+                position++;
+                //run the callback functions
+                temp->readed=2u;edkEnd();
+                if(temp->right){
+                    temp = temp->right;edkEnd();
+                    continue;
+                }
+            }
+            if(temp->readed==2u){
+                temp->readed=0u;edkEnd();
+                temp = temp->father;edkEnd();
+            }
+        }
     }
 
     //recursively to load
