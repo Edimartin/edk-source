@@ -33,6 +33,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <stdio.h>
 #include <string.h>
 #include "../TypeRect.h"
+#include "../TypeColor.h"
 #include "BinaryTree.h"
 
 #ifdef EDK_QUADTREE_GU
@@ -43,6 +44,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "    Compiling QuadTree"
 #endif
 
+#define edkQuadSelectedSize 3u
 
 /*
 //code sample
@@ -718,6 +720,9 @@ class QuadTree32 : public edk::vector::BinaryTreeCallback<typeTemplate>{
 public:
     QuadTree32(){
         this->selected = &this->treeNULL;edkEnd();
+        this->selected1 = &this->treeNULL;edkEnd();
+        this->selected2 = &this->treeNULL;edkEnd();
+        this->selected3 = &this->treeNULL;edkEnd();
         this->treeTemp = &this->treeUpdate;edkEnd();
         this->clean(edk::rectf32(0,0,1,1));edkEnd();
     }
@@ -792,6 +797,9 @@ public:
 
     //add a object
     bool add(typeTemplate value, edk::uint32 depthLimit=0xFFFFFFFF){
+#if defined(EDK_DONT_USE_QUADTREE)
+        return false;
+#endif
         edk::vector::QuadLeaf32<typeTemplate>* temp = &this->root;edkEnd();
         edk::vector::QuadLeaf32<typeTemplate>* tempQuad;edkEnd();
         bool goInside=false;edkEnd();
@@ -929,6 +937,9 @@ public:
     }
     //add objects from a tree
     bool addFromTree(edk::vector::BinaryTree<typeTemplate>* tree, edk::uint32 depthLimit=0xFFFFFFFF){
+#if defined(EDK_DONT_USE_QUADTREE)
+        return false;
+#endif
         if(tree){
             bool ret=true;edkEnd();
             edk::uint32 size = tree->size();edkEnd();
@@ -942,6 +953,9 @@ public:
         return false;
     }
     bool setRectFromTree(edk::vector::BinaryTree<typeTemplate>* tree){
+#if defined(EDK_DONT_USE_QUADTREE)
+        return false;
+#endif
         if(tree){
             edk::uint32 size = tree->size();edkEnd();
             edk::rectf32 rectangle = edk::rectf32(0,0,1,1);edkEnd();
@@ -978,6 +992,9 @@ public:
         return false;
     }
     bool incrementRectFromTree(edk::vector::BinaryTree<typeTemplate>* tree){
+#if defined(EDK_DONT_USE_QUADTREE)
+        return false;
+#endif
         if(tree){
             edk::uint32 size = tree->size();edkEnd();
             edk::rectf32 rectangle = edk::rectf32(0,0,1,1);edkEnd();
@@ -1013,6 +1030,9 @@ public:
         return false;
     }
     bool setRectAndAddFromTree(edk::vector::BinaryTree<typeTemplate>* tree, edk::uint32 depthLimit=0xFFFFFFFF){
+#if defined(EDK_DONT_USE_QUADTREE)
+        return false;
+#endif
         if(this->setRectFromTree(tree)){
             if(this->addFromTree(tree,depthLimit)){
                 return true;
@@ -1022,6 +1042,9 @@ public:
     }
     //remove a value from de quadTree
     bool remove(typeTemplate value){
+#if defined(EDK_DONT_USE_QUADTREE)
+        return false;
+#endif
         bool ret=false;edkEnd();
         edk::vector::QuadLeaf32<typeTemplate>* temp = &this->root;edkEnd();
         edk::vector::QuadLeaf32<typeTemplate>* tempQuad;edkEnd();
@@ -1094,7 +1117,15 @@ public:
 
     //select a leaf
     virtual bool selectLeafIWithValue(typeTemplate value){
+#if defined(EDK_DONT_USE_QUADTREE)
+        return false;
+#endif
         this->selected = &this->treeNULL;edkEnd();
+        edk::vector::QuadLeaf32<typeTemplate>** tree[edkQuadSelectedSize];edkEnd();
+        tree[0u] = &this->selected;edkEnd();
+        tree[1u] = &this->selected1;edkEnd();
+        tree[2u] = &this->selected2;edkEnd();
+        tree[3u] = &this->selected3;edkEnd();
         bool ret=false;edkEnd();
         if(this->isRectColliding(getElementRectangle(value),
                                  edk::vec2f32(this->root.origin.x,
@@ -1115,6 +1146,9 @@ public:
                 counter=0u;edkEnd();
                 //test the collision with all quads
                 if(temp->haveQuads()){
+                    *tree[1u] = &this->treeNULL;edkEnd();
+                    *tree[2u] = &this->treeNULL;edkEnd();
+                    *tree[3u] = &this->treeNULL;edkEnd();
                     for(edk::uint8 i=0u;i<4u;i++){
                         tempQuad = temp->getQuad(i);edkEnd();
                         if(this->isElementInside(value,
@@ -1127,6 +1161,7 @@ public:
                                                  )
                                 ){
                             //
+                            *tree[counter] = tempQuad;
                             counter++;edkEnd();
                             nextID = i;edkEnd();
                         }
@@ -1145,9 +1180,16 @@ public:
                 }
             }
             if(this->selected && this->selected!=&this->treeNULL){
-                if(!this->selected->getTreeSize()){
+                if(!this->selected->getTreeSize()
+                        && !this->selected1->getTreeSize()
+                        && !this->selected2->getTreeSize()
+                        && !this->selected3->getTreeSize()
+                        ){
                     if(this->selected->getFather()){
                         this->selected = this->selected->getFather();edkEnd();
+                        this->selected1 = &this->treeNULL;edkEnd();
+                        this->selected2 = &this->treeNULL;edkEnd();
+                        this->selected3 = &this->treeNULL;edkEnd();
                     }
                 }
             }
@@ -1156,7 +1198,15 @@ public:
         return ret;
     }
     virtual bool selectLeafInPoint(edk::vec2f32 point){
+#if defined(EDK_DONT_USE_QUADTREE)
+        return false;
+#endif
         this->selected = &this->treeNULL;edkEnd();
+        edk::vector::QuadLeaf32<typeTemplate>** tree[edkQuadSelectedSize];edkEnd();
+        tree[0u] = &this->selected;edkEnd();
+        tree[1u] = &this->selected1;edkEnd();
+        tree[2u] = &this->selected2;edkEnd();
+        tree[3u] = &this->selected3;edkEnd();
         bool ret=false;edkEnd();
         if(this->isPointInside(point,
                                edk::vec2f32(this->root.origin.x,
@@ -1204,9 +1254,16 @@ public:
                 }
             }
             if(this->selected && this->selected!=&this->treeNULL){
-                if(!this->selected->getTreeSize()){
+                if(!this->selected->getTreeSize()
+                        && !this->selected1->getTreeSize()
+                        && !this->selected2->getTreeSize()
+                        && !this->selected3->getTreeSize()
+                        ){
                     if(this->selected->getFather()){
                         this->selected = this->selected->getFather();edkEnd();
+                        this->selected1 = &this->treeNULL;edkEnd();
+                        this->selected2 = &this->treeNULL;edkEnd();
+                        this->selected3 = &this->treeNULL;edkEnd();
                     }
                 }
             }
@@ -1215,7 +1272,15 @@ public:
         return ret;
     }
     virtual bool selectLeafInRect(edk::rectf32 rect){
+#if defined(EDK_DONT_USE_QUADTREE)
+        return false;
+#endif
         this->selected = &this->treeNULL;edkEnd();
+        edk::vector::QuadLeaf32<typeTemplate>** tree[edkQuadSelectedSize];edkEnd();
+        tree[0u] = &this->selected;edkEnd();
+        tree[1u] = &this->selected1;edkEnd();
+        tree[2u] = &this->selected2;edkEnd();
+        tree[3u] = &this->selected3;edkEnd();
         bool ret=false;edkEnd();
         if(this->isRectColliding(rect,
                                  edk::vec2f32(this->root.origin.x,
@@ -1236,6 +1301,9 @@ public:
                 counter=0u;edkEnd();
                 //test the collision with all quads
                 if(temp->haveQuads()){
+                    *tree[1u] = &this->treeNULL;edkEnd();
+                    *tree[2u] = &this->treeNULL;edkEnd();
+                    *tree[3u] = &this->treeNULL;edkEnd();
                     for(edk::uint8 i=0u;i<4u;i++){
                         tempQuad = temp->getQuad(i);edkEnd();
                         if(this->isRectColliding(rect,
@@ -1248,6 +1316,7 @@ public:
                                                  )
                                 ){
                             //
+                            *tree[counter]=tempQuad;
                             counter++;edkEnd();
                             nextID = i;edkEnd();
                         }
@@ -1266,9 +1335,16 @@ public:
                 }
             }
             if(this->selected && this->selected!=&this->treeNULL){
-                if(!this->selected->getTreeSize()){
+                if(!this->selected->getTreeSize()
+                        && !this->selected1->getTreeSize()
+                        && !this->selected2->getTreeSize()
+                        && !this->selected3->getTreeSize()
+                        ){
                     if(this->selected->getFather()){
                         this->selected = this->selected->getFather();edkEnd();
+                        this->selected1 = &this->treeNULL;edkEnd();
+                        this->selected2 = &this->treeNULL;edkEnd();
+                        this->selected3 = &this->treeNULL;edkEnd();
                     }
                 }
             }
@@ -1289,6 +1365,9 @@ public:
         this->treeNULL.origin = rect.origin;edkEnd();
         this->treeNULL.size = rect.size;edkEnd();
         this->selected=&this->treeNULL;edkEnd();
+        this->selected1 = &this->treeNULL;edkEnd();
+        this->selected2 = &this->treeNULL;edkEnd();
+        this->selected3 = &this->treeNULL;edkEnd();
         //GETS
         if(this->treeTemp!=&this->treeUpdate){
             delete this->treeTemp;edkEnd();
@@ -1406,6 +1485,9 @@ private:
     //quadtree Root
     edk::vector::QuadLeaf32<typeTemplate> root;
     edk::vector::QuadLeaf32<typeTemplate>* selected;
+    edk::vector::QuadLeaf32<typeTemplate>* selected1;
+    edk::vector::QuadLeaf32<typeTemplate>* selected2;
+    edk::vector::QuadLeaf32<typeTemplate>* selected3;
     //binary tree to test if the objects getIn or getOut
     edk::vector::BinaryTree<typeTemplate>  treeGets;
     edk::vector::BinaryTree<typeTemplate>  treeOutside;
@@ -1463,8 +1545,15 @@ private:
     }
     //update the gets
     void runUpdateGets(edk::rectf32 rect){
-        edk::vector::BinaryTree<typeTemplate>* tree = this->selected->getTreePointer();edkEnd();
-        if(tree){
+#if defined(EDK_DONT_USE_QUADTREE)
+        return;
+#endif
+        edk::vector::BinaryTree<typeTemplate>* tree[edkQuadSelectedSize];edkEnd();
+        tree[0u] = this->selected->getTreePointer();edkEnd();
+        tree[1u] = this->selected1->getTreePointer();edkEnd();
+        tree[2u] = this->selected2->getTreePointer();edkEnd();
+        tree[3u] = this->selected3->getTreePointer();edkEnd();
+        /*if(tree && tree2 && tree3)*/{
             //first remove the last objects
             edk::uint32 size;edkEnd();
             typeTemplate temp;edkEnd();
@@ -1494,25 +1583,27 @@ private:
                     }
                 }
                 else{
-                    if(tree->haveElement(temp)){
-                        //test if wasn't in the treeOutside
-                        if(!this->treeOutside.haveElement(temp)){
-                            //add the temp into the removed tree
-                            if(this->treeOutside.add(temp)){
-                                //element is out of the rectangle
+                    for(edk::uint8 t=0u;t<edkQuadSelectedSize;t++){
+                        if(tree[t]->haveElement(temp)){
+                            //test if wasn't in the treeOutside
+                            if(!this->treeOutside.haveElement(temp)){
+                                //add the temp into the removed tree
+                                if(this->treeOutside.add(temp)){
+                                    //element is out of the rectangle
+                                    ///RUN GETOUT
+                                    this->elementGetOut(temp);edkEnd();
+                                    this->treeTemp->remove(temp);edkEnd();
+                                }
+                            }
+                        }
+                        else{
+                            if(this->treeGets.remove(temp)){
                                 ///RUN GETOUT
                                 this->elementGetOut(temp);edkEnd();
                                 this->treeTemp->remove(temp);edkEnd();
+                                //decrement
+                                decrement=true;edkEnd();
                             }
-                        }
-                    }
-                    else{
-                        if(this->treeGets.remove(temp)){
-                            ///RUN GETOUT
-                            this->elementGetOut(temp);edkEnd();
-                            this->treeTemp->remove(temp);edkEnd();
-                            //decrement
-                            decrement=true;edkEnd();
                         }
                     }
                 }
@@ -1522,26 +1613,28 @@ private:
             for(edk::uint32 i=0u;i<size;i++){
                 this->elementUpdating(this->treeTemp->getElementInPosition(i));edkEnd();
             }
-            //add new elements.
-            size = tree->size();edkEnd();
-            for(edk::uint32 i=0u;i<size;i++){
-                temp = tree->getElementInPosition(i);edkEnd();
-                //test if have the object inside the temp
-                if(!this->treeGets.haveElement(temp)){
-                    //add the element
-                    if(this->treeGets.add(temp)){
-                        if(this->isElementColliding(temp,
-                                                    edk::vec2f32(rect.origin.x,rect.origin.y),
-                                                    edk::vec2f32(rect.size.width,rect.size.height)
-                                                    )){
-                            ///RUN GETIN
-                            this->elementGetIn(temp);edkEnd();
-                            this->treeTemp->add(temp);edkEnd();
-                            this->treeOutside.remove(temp);edkEnd();
-                        }
-                        else{
-                            //else add in to the outside
-                            this->treeOutside.add(temp);edkEnd();
+            for(edk::uint8 t=0u;t<edkQuadSelectedSize;t++){
+                //add new elements.
+                size = tree[t]->size();edkEnd();
+                for(edk::uint32 i=0u;i<size;i++){
+                    temp = tree[t]->getElementInPosition(i);edkEnd();
+                    //test if have the object inside the temp
+                    if(!this->treeGets.haveElement(temp)){
+                        //add the element
+                        if(this->treeGets.add(temp)){
+                            if(this->isElementColliding(temp,
+                                                        edk::vec2f32(rect.origin.x,rect.origin.y),
+                                                        edk::vec2f32(rect.size.width,rect.size.height)
+                                                        )){
+                                ///RUN GETIN
+                                this->elementGetIn(temp);edkEnd();
+                                this->treeTemp->add(temp);edkEnd();
+                                this->treeOutside.remove(temp);edkEnd();
+                            }
+                            else{
+                                //else add in to the outside
+                                this->treeOutside.add(temp);edkEnd();
+                            }
                         }
                     }
                 }
@@ -1549,8 +1642,15 @@ private:
         }
     }
     void runUpdateGets(){
-        edk::vector::BinaryTree<typeTemplate>* tree = this->selected->getTreePointer();edkEnd();
-        if(tree){
+#if defined(EDK_DONT_USE_QUADTREE)
+        return;
+#endif
+        edk::vector::BinaryTree<typeTemplate>* tree[edkQuadSelectedSize];edkEnd();
+        tree[0u] = this->selected->getTreePointer();edkEnd();
+        tree[1u] = this->selected1->getTreePointer();edkEnd();
+        tree[2u] = this->selected2->getTreePointer();edkEnd();
+        tree[3u] = this->selected3->getTreePointer();edkEnd();
+        /*if(tree && tree2 && tree3)*/{
             //first remove the last objects
             edk::uint32 size;edkEnd();
             typeTemplate temp;edkEnd();
@@ -1564,15 +1664,17 @@ private:
                 }
                 temp = this->treeGets.getElementInPosition(i);edkEnd();
                 //test if DON'T have the object inside the temp
-                if(!tree->haveElement(temp)){
-                    //remove the object from the treeGets
-                    if(this->treeGets.remove(temp)){
-                        //decrement
-                        decrement=true;edkEnd();
+                for(edk::uint8 t=0u;t<edkQuadSelectedSize;t++){
+                    if(!tree[t]->haveElement(temp)){
+                        //remove the object from the treeGets
+                        if(this->treeGets.remove(temp)){
+                            //decrement
+                            decrement=true;edkEnd();
 
-                        ///RUN GETOUT
-                        this->elementGetOut(temp);edkEnd();
-                        this->treeTemp->remove(temp);edkEnd();
+                            ///RUN GETOUT
+                            this->elementGetOut(temp);edkEnd();
+                            this->treeTemp->remove(temp);edkEnd();
+                        }
                     }
                 }
             }
@@ -1580,16 +1682,18 @@ private:
             for(edk::uint32 i=0u;i<size;i++){
                 this->elementUpdating(this->treeGets.getElementInPosition(i));edkEnd();
             }
-            size = tree->size();edkEnd();
-            for(edk::uint32 i=0u;i<size;i++){
-                temp = tree->getElementInPosition(i);edkEnd();
-                //test if have the object inside the temp
-                if(!this->treeGets.haveElement(temp)){
-                    //add the element
-                    if(this->treeGets.add(temp)){
-                        ///RUN GETIN
-                        this->elementGetIn(temp);edkEnd();
-                        this->treeTemp->add(temp);edkEnd();
+            for(edk::uint8 t=0u;t<edkQuadSelectedSize;t++){
+                size = tree[t]->size();edkEnd();
+                for(edk::uint32 i=0u;i<size;i++){
+                    temp = tree[t]->getElementInPosition(i);edkEnd();
+                    //test if have the object inside the temp
+                    if(!this->treeGets.haveElement(temp)){
+                        //add the element
+                        if(this->treeGets.add(temp)){
+                            ///RUN GETIN
+                            this->elementGetIn(temp);edkEnd();
+                            this->treeTemp->add(temp);edkEnd();
+                        }
                     }
                 }
             }
@@ -1609,6 +1713,9 @@ class QuadTree64 : public edk::vector::BinaryTreeCallback<typeTemplate>{
 public:
     QuadTree64(){
         this->selected = &this->treeNULL;edkEnd();
+        this->selected1 = &this->treeNULL;edkEnd();
+        this->selected2 = &this->treeNULL;edkEnd();
+        this->selected3 = &this->treeNULL;edkEnd();
         this->treeTemp = &this->treeUpdate;edkEnd();
         this->clean(edk::rectf64(0,0,1,1));edkEnd();
     }
@@ -1683,6 +1790,9 @@ public:
 
     //add a object
     bool add(typeTemplate value, edk::uint64 depthLimit=0xFFFFFFFF){
+#if defined(EDK_DONT_USE_QUADTREE)
+        return false;
+#endif
         edk::vector::QuadLeaf64<typeTemplate>* temp = &this->root;edkEnd();
         edk::vector::QuadLeaf64<typeTemplate>* tempQuad;edkEnd();
         bool goInside=false;edkEnd();
@@ -1820,6 +1930,9 @@ public:
     }
     //add objects from a tree
     bool addFromTree(edk::vector::BinaryTree<typeTemplate>* tree, edk::uint64 depthLimit=0xFFFFFFFF){
+#if defined(EDK_DONT_USE_QUADTREE)
+        return false;
+#endif
         if(tree){
             bool ret=true;edkEnd();
             edk::uint64 size = tree->size();edkEnd();
@@ -1833,6 +1946,9 @@ public:
         return false;
     }
     bool setRectFromTree(edk::vector::BinaryTree<typeTemplate>* tree){
+#if defined(EDK_DONT_USE_QUADTREE)
+        return false;
+#endif
         if(tree){
             edk::uint64 size = tree->size();edkEnd();
             edk::rectf64 rectangle = edk::rectf64(0,0,1,1);edkEnd();
@@ -1869,6 +1985,9 @@ public:
         return false;
     }
     bool incrementRectFromTree(edk::vector::BinaryTree<typeTemplate>* tree){
+#if defined(EDK_DONT_USE_QUADTREE)
+        return false;
+#endif
         if(tree){
             edk::uint64 size = tree->size();edkEnd();
             edk::rectf64 rectangle = edk::rectf64(0,0,1,1);edkEnd();
@@ -1904,6 +2023,9 @@ public:
         return false;
     }
     bool setRectAndAddFromTree(edk::vector::BinaryTree<typeTemplate>* tree, edk::uint64 depthLimit=0xFFFFFFFF){
+#if defined(EDK_DONT_USE_QUADTREE)
+        return false;
+#endif
         if(this->setRectFromTree(tree)){
             if(this->addFromTree(tree,depthLimit)){
                 return true;
@@ -1913,6 +2035,9 @@ public:
     }
     //remove a value from de quadTree
     bool remove(typeTemplate value){
+#if defined(EDK_DONT_USE_QUADTREE)
+        return false;
+#endif
         bool ret=false;edkEnd();
         edk::vector::QuadLeaf64<typeTemplate>* temp = &this->root;edkEnd();
         edk::vector::QuadLeaf64<typeTemplate>* tempQuad;edkEnd();
@@ -1985,7 +2110,15 @@ public:
 
     //select a leaf
     virtual bool selectLeafIWithValue(typeTemplate value){
+#if defined(EDK_DONT_USE_QUADTREE)
+        return false;
+#endif
         this->selected = &this->treeNULL;edkEnd();
+        edk::vector::QuadLeaf64<typeTemplate>** tree[edkQuadSelectedSize];edkEnd();
+        tree[0u] = &this->selected;edkEnd();
+        tree[1u] = &this->selected1;edkEnd();
+        tree[2u] = &this->selected2;edkEnd();
+        tree[3u] = &this->selected3;edkEnd();
         bool ret=false;edkEnd();
         if(this->isRectColliding(getElementRectangle(value),
                                  edk::vec2f64(this->root.origin.x,
@@ -2006,6 +2139,9 @@ public:
                 counter=0u;edkEnd();
                 //test the collision with all quads
                 if(temp->haveQuads()){
+                    *tree[1u] = &this->treeNULL;edkEnd();
+                    *tree[2u] = &this->treeNULL;edkEnd();
+                    *tree[3u] = &this->treeNULL;edkEnd();
                     for(edk::uint8 i=0u;i<4u;i++){
                         tempQuad = temp->getQuad(i);edkEnd();
                         if(this->isElementInside(value,
@@ -2018,6 +2154,7 @@ public:
                                                  )
                                 ){
                             //
+                            *tree[counter] = tempQuad;
                             counter++;edkEnd();
                             nextID = i;edkEnd();
                         }
@@ -2036,9 +2173,16 @@ public:
                 }
             }
             if(this->selected && this->selected!=&this->treeNULL){
-                if(!this->selected->getTreeSize()){
+                if(!this->selected->getTreeSize()
+                        && !this->selected1->getTreeSize()
+                        && !this->selected2->getTreeSize()
+                        && !this->selected3->getTreeSize()
+                        ){
                     if(this->selected->getFather()){
                         this->selected = this->selected->getFather();edkEnd();
+                        this->selected1 = &this->treeNULL;edkEnd();
+                        this->selected2 = &this->treeNULL;edkEnd();
+                        this->selected3 = &this->treeNULL;edkEnd();
                     }
                 }
             }
@@ -2047,7 +2191,15 @@ public:
         return ret;
     }
     virtual bool selectLeafInPoint(edk::vec2f64 point){
+#if defined(EDK_DONT_USE_QUADTREE)
+        return false;
+#endif
         this->selected = &this->treeNULL;edkEnd();
+        edk::vector::QuadLeaf64<typeTemplate>** tree[edkQuadSelectedSize];edkEnd();
+        tree[0u] = &this->selected;edkEnd();
+        tree[1u] = &this->selected1;edkEnd();
+        tree[2u] = &this->selected2;edkEnd();
+        tree[3u] = &this->selected3;edkEnd();
         bool ret=false;edkEnd();
         if(this->isPointInside(point,
                                edk::vec2f64(this->root.origin.x,
@@ -2095,9 +2247,16 @@ public:
                 }
             }
             if(this->selected && this->selected!=&this->treeNULL){
-                if(!this->selected->getTreeSize()){
+                if(!this->selected->getTreeSize()
+                        && !this->selected1->getTreeSize()
+                        && !this->selected2->getTreeSize()
+                        && !this->selected3->getTreeSize()
+                        ){
                     if(this->selected->getFather()){
                         this->selected = this->selected->getFather();edkEnd();
+                        this->selected1 = &this->treeNULL;edkEnd();
+                        this->selected2 = &this->treeNULL;edkEnd();
+                        this->selected3 = &this->treeNULL;edkEnd();
                     }
                 }
             }
@@ -2106,7 +2265,15 @@ public:
         return ret;
     }
     virtual bool selectLeafInRect(edk::rectf64 rect){
+#if defined(EDK_DONT_USE_QUADTREE)
+        return false;
+#endif
         this->selected = &this->treeNULL;edkEnd();
+        edk::vector::QuadLeaf64<typeTemplate>** tree[edkQuadSelectedSize];edkEnd();
+        tree[0u] = &this->selected;edkEnd();
+        tree[1u] = &this->selected1;edkEnd();
+        tree[2u] = &this->selected2;edkEnd();
+        tree[3u] = &this->selected3;edkEnd();
         bool ret=false;edkEnd();
         if(this->isRectColliding(rect,
                                  edk::vec2f64(this->root.origin.x,
@@ -2127,6 +2294,9 @@ public:
                 counter=0u;edkEnd();
                 //test the collision with all quads
                 if(temp->haveQuads()){
+                    *tree[1u] = &this->treeNULL;edkEnd();
+                    *tree[2u] = &this->treeNULL;edkEnd();
+                    *tree[3u] = &this->treeNULL;edkEnd();
                     for(edk::uint8 i=0u;i<4u;i++){
                         tempQuad = temp->getQuad(i);edkEnd();
                         if(this->isRectColliding(rect,
@@ -2139,6 +2309,7 @@ public:
                                                  )
                                 ){
                             //
+                            *tree[counter]=tempQuad;
                             counter++;edkEnd();
                             nextID = i;edkEnd();
                         }
@@ -2157,9 +2328,16 @@ public:
                 }
             }
             if(this->selected && this->selected!=&this->treeNULL){
-                if(!this->selected->getTreeSize()){
+                if(!this->selected->getTreeSize()
+                        && !this->selected1->getTreeSize()
+                        && !this->selected2->getTreeSize()
+                        && !this->selected3->getTreeSize()
+                        ){
                     if(this->selected->getFather()){
                         this->selected = this->selected->getFather();edkEnd();
+                        this->selected1 = &this->treeNULL;edkEnd();
+                        this->selected2 = &this->treeNULL;edkEnd();
+                        this->selected3 = &this->treeNULL;edkEnd();
                     }
                 }
             }
@@ -2180,6 +2358,9 @@ public:
         this->treeNULL.origin = rect.origin;edkEnd();
         this->treeNULL.size = rect.size;edkEnd();
         this->selected=&this->treeNULL;edkEnd();
+        this->selected1 = &this->treeNULL;edkEnd();
+        this->selected2 = &this->treeNULL;edkEnd();
+        this->selected3 = &this->treeNULL;edkEnd();
         //GETS
         if(this->treeTemp!=&this->treeUpdate){
             delete this->treeTemp;edkEnd();
@@ -2297,6 +2478,9 @@ private:
     //quadtree Root
     edk::vector::QuadLeaf64<typeTemplate> root;
     edk::vector::QuadLeaf64<typeTemplate>* selected;
+    edk::vector::QuadLeaf64<typeTemplate>* selected1;
+    edk::vector::QuadLeaf64<typeTemplate>* selected2;
+    edk::vector::QuadLeaf64<typeTemplate>* selected3;
     //binary tree to test if the objects getIn or getOut
     edk::vector::BinaryTree<typeTemplate>  treeGets;
     edk::vector::BinaryTree<typeTemplate>  treeOutside;
@@ -2354,8 +2538,15 @@ private:
     }
     //update the gets
     void runUpdateGets(edk::rectf64 rect){
-        edk::vector::BinaryTree<typeTemplate>* tree = this->selected->getTreePointer();edkEnd();
-        if(tree){
+#if defined(EDK_DONT_USE_QUADTREE)
+        return;
+#endif
+        edk::vector::BinaryTree<typeTemplate>* tree[edkQuadSelectedSize];edkEnd();
+        tree[0u] = this->selected->getTreePointer();edkEnd();
+        tree[1u] = this->selected1->getTreePointer();edkEnd();
+        tree[2u] = this->selected2->getTreePointer();edkEnd();
+        tree[3u] = this->selected3->getTreePointer();edkEnd();
+        /*if(tree && tree2 && tree3)*/{
             //first remove the last objects
             edk::uint64 size;edkEnd();
             typeTemplate temp;edkEnd();
@@ -2385,25 +2576,27 @@ private:
                     }
                 }
                 else{
-                    if(tree->haveElement(temp)){
-                        //test if wasn't in the treeOutside
-                        if(!this->treeOutside.haveElement(temp)){
-                            //add the temp into the removed tree
-                            if(this->treeOutside.add(temp)){
-                                //element is out of the rectangle
+                    for(edk::uint8 t=0u;t<edkQuadSelectedSize;t++){
+                        if(tree[t]->haveElement(temp)){
+                            //test if wasn't in the treeOutside
+                            if(!this->treeOutside.haveElement(temp)){
+                                //add the temp into the removed tree
+                                if(this->treeOutside.add(temp)){
+                                    //element is out of the rectangle
+                                    ///RUN GETOUT
+                                    this->elementGetOut(temp);edkEnd();
+                                    this->treeTemp->remove(temp);edkEnd();
+                                }
+                            }
+                        }
+                        else{
+                            if(this->treeGets.remove(temp)){
                                 ///RUN GETOUT
                                 this->elementGetOut(temp);edkEnd();
                                 this->treeTemp->remove(temp);edkEnd();
+                                //decrement
+                                decrement=true;edkEnd();
                             }
-                        }
-                    }
-                    else{
-                        if(this->treeGets.remove(temp)){
-                            ///RUN GETOUT
-                            this->elementGetOut(temp);edkEnd();
-                            this->treeTemp->remove(temp);edkEnd();
-                            //decrement
-                            decrement=true;edkEnd();
                         }
                     }
                 }
@@ -2413,26 +2606,28 @@ private:
             for(edk::uint64 i=0u;i<size;i++){
                 this->elementUpdating(this->treeTemp->getElementInPosition(i));edkEnd();
             }
-            //add new elements.
-            size = tree->size();edkEnd();
-            for(edk::uint64 i=0u;i<size;i++){
-                temp = tree->getElementInPosition(i);edkEnd();
-                //test if have the object inside the temp
-                if(!this->treeGets.haveElement(temp)){
-                    //add the element
-                    if(this->treeGets.add(temp)){
-                        if(this->isElementColliding(temp,
-                                                    edk::vec2f64(rect.origin.x,rect.origin.y),
-                                                    edk::vec2f64(rect.size.width,rect.size.height)
-                                                    )){
-                            ///RUN GETIN
-                            this->elementGetIn(temp);edkEnd();
-                            this->treeTemp->add(temp);edkEnd();
-                            this->treeOutside.remove(temp);edkEnd();
-                        }
-                        else{
-                            //else add in to the outside
-                            this->treeOutside.add(temp);edkEnd();
+            for(edk::uint8 t=0u;t<edkQuadSelectedSize;t++){
+                //add new elements.
+                size = tree[t]->size();edkEnd();
+                for(edk::uint64 i=0u;i<size;i++){
+                    temp = tree[t]->getElementInPosition(i);edkEnd();
+                    //test if have the object inside the temp
+                    if(!this->treeGets.haveElement(temp)){
+                        //add the element
+                        if(this->treeGets.add(temp)){
+                            if(this->isElementColliding(temp,
+                                                        edk::vec2f64(rect.origin.x,rect.origin.y),
+                                                        edk::vec2f64(rect.size.width,rect.size.height)
+                                                        )){
+                                ///RUN GETIN
+                                this->elementGetIn(temp);edkEnd();
+                                this->treeTemp->add(temp);edkEnd();
+                                this->treeOutside.remove(temp);edkEnd();
+                            }
+                            else{
+                                //else add in to the outside
+                                this->treeOutside.add(temp);edkEnd();
+                            }
                         }
                     }
                 }
@@ -2440,8 +2635,15 @@ private:
         }
     }
     void runUpdateGets(){
-        edk::vector::BinaryTree<typeTemplate>* tree = this->selected->getTreePointer();edkEnd();
-        if(tree){
+#if defined(EDK_DONT_USE_QUADTREE)
+        return;
+#endif
+        edk::vector::BinaryTree<typeTemplate>* tree[edkQuadSelectedSize];edkEnd();
+        tree[0u] = this->selected->getTreePointer();edkEnd();
+        tree[1u] = this->selected1->getTreePointer();edkEnd();
+        tree[2u] = this->selected2->getTreePointer();edkEnd();
+        tree[3u] = this->selected3->getTreePointer();edkEnd();
+        /*if(tree && tree2 && tree3)*/{
             //first remove the last objects
             edk::uint64 size;edkEnd();
             typeTemplate temp;edkEnd();
@@ -2455,15 +2657,17 @@ private:
                 }
                 temp = this->treeGets.getElementInPosition(i);edkEnd();
                 //test if DON'T have the object inside the temp
-                if(!tree->haveElement(temp)){
-                    //remove the object from the treeGets
-                    if(this->treeGets.remove(temp)){
-                        //decrement
-                        decrement=true;edkEnd();
+                for(edk::uint8 t=0u;t<edkQuadSelectedSize;t++){
+                    if(!tree[t]->haveElement(temp)){
+                        //remove the object from the treeGets
+                        if(this->treeGets.remove(temp)){
+                            //decrement
+                            decrement=true;edkEnd();
 
-                        ///RUN GETOUT
-                        this->elementGetOut(temp);edkEnd();
-                        this->treeTemp->remove(temp);edkEnd();
+                            ///RUN GETOUT
+                            this->elementGetOut(temp);edkEnd();
+                            this->treeTemp->remove(temp);edkEnd();
+                        }
                     }
                 }
             }
@@ -2471,16 +2675,18 @@ private:
             for(edk::uint64 i=0u;i<size;i++){
                 this->elementUpdating(this->treeGets.getElementInPosition(i));edkEnd();
             }
-            size = tree->size();edkEnd();
-            for(edk::uint64 i=0u;i<size;i++){
-                temp = tree->getElementInPosition(i);edkEnd();
-                //test if have the object inside the temp
-                if(!this->treeGets.haveElement(temp)){
-                    //add the element
-                    if(this->treeGets.add(temp)){
-                        ///RUN GETIN
-                        this->elementGetIn(temp);edkEnd();
-                        this->treeTemp->add(temp);edkEnd();
+            for(edk::uint8 t=0u;t<edkQuadSelectedSize;t++){
+                size = tree[t]->size();edkEnd();
+                for(edk::uint64 i=0u;i<size;i++){
+                    temp = tree[t]->getElementInPosition(i);edkEnd();
+                    //test if have the object inside the temp
+                    if(!this->treeGets.haveElement(temp)){
+                        //add the element
+                        if(this->treeGets.add(temp)){
+                            ///RUN GETIN
+                            this->elementGetIn(temp);edkEnd();
+                            this->treeTemp->add(temp);edkEnd();
+                        }
                     }
                 }
             }
