@@ -46,6 +46,11 @@ edk::ViewListSelection::ListCell::ListCell(edk::uint32* lineSize){
     //text color selecting
     this->textColorSelecting = edk::color4f32(0.5f,0.5f,0.5f,1.f);edkEnd();
 
+    this->showing=true;
+    this->selecting=true;
+    //set if the cell are selected
+    this->selected=false;
+
     //set the text to black color
     this->text.setColor(0.f,0.f,0.f,1.f);edkEnd();
 }
@@ -58,6 +63,15 @@ edk::ViewListSelection::ListCell::~ListCell(){
 void edk::ViewListSelection::ListCell::drawRect(){
     //draw a rectangle in the text position and size
     edk::GU::guBegin(GU_QUADS);edkEnd();
+    edk::GU::guVertex2f32((this->text.getPositionX()-0.5f),(this->text.getPositionY()-0.5f));edkEnd();
+    edk::GU::guVertex2f32((this->text.getPositionX()-0.5f)+*this->lineSize,(this->text.getPositionY()-0.5f));edkEnd();
+    edk::GU::guVertex2f32((this->text.getPositionX()-0.5f)+*this->lineSize,(this->text.getPositionY()-0.5f)+1);edkEnd();
+    edk::GU::guVertex2f32((this->text.getPositionX()-0.5f),(this->text.getPositionY()-0.5f)+1);edkEnd();
+    edk::GU::guEnd();edkEnd();
+}
+void edk::ViewListSelection::ListCell::drawLines(){
+    //draw a wired rectangle in the text position and size
+    edk::GU::guBegin(GU_LINE_STRIP);edkEnd();
     edk::GU::guVertex2f32((this->text.getPositionX()-0.5f),(this->text.getPositionY()-0.5f));edkEnd();
     edk::GU::guVertex2f32((this->text.getPositionX()-0.5f)+*this->lineSize,(this->text.getPositionY()-0.5f));edkEnd();
     edk::GU::guVertex2f32((this->text.getPositionX()-0.5f)+*this->lineSize,(this->text.getPositionY()-0.5f)+1);edkEnd();
@@ -131,6 +145,23 @@ void edk::ViewListSelection::ListCell::setCanSelect(bool set){
 bool edk::ViewListSelection::ListCell::isSelecting(){
     return this->selecting;edkEnd();
 }
+//select the cell in the list
+bool edk::ViewListSelection::ListCell::isSelectedCell(){
+    return this->selected;
+}
+bool edk::ViewListSelection::ListCell::selectCell(){
+    bool ret = !this->selected;
+    this->setSelectCell(true);
+    return ret;
+}
+bool edk::ViewListSelection::ListCell::unSelectCell(){
+    bool ret = this->selected;
+    this->setSelectCell(false);
+    return ret;
+}
+void edk::ViewListSelection::ListCell::setSelectCell(bool selected){
+    this->selected=selected;edkEnd();
+}
 //draw the cell
 void edk::ViewListSelection::ListCell::draw(){
     edk::GU::guColor4f32(this->drawColor);edkEnd();
@@ -141,6 +172,11 @@ void edk::ViewListSelection::ListCell::draw(){
 void edk::ViewListSelection::ListCell::drawSelection(){
     edk::GU::guColor4f32(1,1,1,1);edkEnd();
     this->drawRect();edkEnd();
+}
+//draw in wireMode
+void edk::ViewListSelection::ListCell::drawWire(){
+    edk::GU::guColor4f32(0,0,0,1);edkEnd();
+    this->drawLines();edkEnd();
 }
 //set position
 void edk::ViewListSelection::ListCell::setPosition(edk::float32 y){
@@ -445,7 +481,7 @@ bool edk::ViewListSelection::isCellSelecting(edk::uint32 position){
     if(position < this->cells.size()){
         edk::ViewListSelection::ListCell* cell = this->cells.get(position);edkEnd();
         if(cell){
-            return cell->isSelecting();edkEnd();
+            return cell->isSelecting();
         }
     }
     return false;
@@ -472,6 +508,44 @@ void edk::ViewListSelection::cantSelectAllCells(){
     edk::uint32 size = this->cells.size();edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
         this->cells.get(i)->setCanSelect(false);edkEnd();
+    }
+}
+//select the cell
+bool edk::ViewListSelection::isCellSelected(edk::uint32 position){
+    if(position < this->cells.size()){
+        edk::ViewListSelection::ListCell* cell = this->cells.get(position);edkEnd();
+        if(cell){
+            return cell->isSelectedCell();
+        }
+    }
+    return false;
+}
+bool edk::ViewListSelection::setCellSelected(edk::uint32 position,bool selected){
+    if(position < this->cells.size()){
+        edk::ViewListSelection::ListCell* cell = this->cells.get(position);edkEnd();
+        if(cell){
+            cell->setSelectCell(selected);edkEnd();
+            return true;
+        }
+    }
+    return false;
+}
+//select one cell
+bool edk::ViewListSelection::selectCell(edk::uint32 position){
+    if(position < this->cells.size()){
+        edk::ViewListSelection::ListCell* cell = this->cells.get(position);edkEnd();
+        if(cell){
+            cell->selectCell();edkEnd();
+            return true;
+        }
+    }
+    return false;
+}
+//unselect all cells
+void edk::ViewListSelection::unselectAllCells(){
+    edk::uint32 size = this->cells.size();edkEnd();
+    for(edk::uint32 i=0u;i<size;i++){
+        this->cells.get(i)->unSelectCell();edkEnd();
     }
 }
 //get cell clicked
@@ -536,6 +610,9 @@ void edk::ViewListSelection::drawScene(edk::rectf32){
     for(edk::uint32 i=0u;i<size;i++){
         //draw the cell
         this->cells.get(i)->draw();edkEnd();
+        if(this->cells.get(i)->isSelectedCell()){
+            this->cells.get(i)->drawWire();edkEnd();
+        }
     }
 }
 

@@ -105,6 +105,13 @@ public:
     //select all cells
     void canSelectAllCells();
     void cantSelectAllCells();
+    //select the cell
+    bool isCellSelected(edk::uint32 position);
+    bool setCellSelected(edk::uint32 position,bool selected);
+    //select one cell
+    bool selectCell(edk::uint32 position);
+    //unselect all cells
+    void unselectAllCells();
     //get cell clicked
     bool haveClickCell();
     //return the cell click position
@@ -169,10 +176,17 @@ private:
         void setCanSelect(bool set);
         //return true if the cell can select
         bool isSelecting();
+        //select the cell in the list
+        bool isSelectedCell();
+        bool selectCell();
+        bool unSelectCell();
+        void setSelectCell(bool selected);
         //draw the cell
         void draw();
         //draw for selection
         void drawSelection();
+        //draw in wireMode
+        void drawWire();
         //set position
         void setPosition(edk::float32 y);
 
@@ -193,11 +207,14 @@ private:
         edk::fonts::FontMap text;
         bool showing;
         bool selecting;
+        //set if the cell are selected
+        bool selected;
         edk::uint32* lineSize;
         edk::uint32 sizeTemp;
 
         //draw the rectangle
         void drawRect();
+        void drawLines();
     };
     //stack to put the cells
     edk::vector::Stack<edk::ViewListSelection::ListCell*> cells;

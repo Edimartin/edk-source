@@ -748,6 +748,7 @@ public:
                 //
                 this->removed.add(pos1);edkEnd();
             }
+            return true;
         }
         //else return false
         return false;
