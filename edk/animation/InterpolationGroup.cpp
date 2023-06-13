@@ -1383,6 +1383,16 @@ bool edk::animation::InterpolationGroup::wasPlayingName(edk::char8* name){
 bool edk::animation::InterpolationGroup::isPaused(){
     return this->paused;edkEnd();
 }
+bool edk::animation::InterpolationGroup::isPausedName(const edk::char8* name){
+    return this->isPausedName((edk::char8*) name);
+}
+bool edk::animation::InterpolationGroup::isPausedName(edk::char8* name){
+    if(name && this->isPaused() && this->nameSelected){
+        //test if is playing the name
+        return this->nameSelected->nameEqual(name);edkEnd();
+    }
+    return false;
+}
 //return true if is rewind
 bool edk::animation::InterpolationGroup::isRewind(){
     return this->rewind;edkEnd();

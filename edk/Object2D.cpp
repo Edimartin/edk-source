@@ -2118,10 +2118,16 @@ bool edk::Object2D::drawPolygonWire(edk::uint32 meshPosition,edk::uint32 polygon
 
 //draw the pivo
 void edk::Object2D::drawPivo(edk::float32 size,edk::color3f32 color){
+    edk::Object2D::drawPivoInPosition(this->position,size,color);
+}
+void edk::Object2D::drawPivo(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b){
+    edk::Object2D::drawPivoInPosition(this->position,size,edk::color3f32(r,g,b));
+}
+void edk::Object2D::drawPivoInPosition(edk::vec2f32 position,edk::float32 size,edk::color3f32 color){
     //
     edk::GU::guPushMatrix();edkEnd();
     //add translate
-    edk::GU::guTranslate2f32(this->position);edkEnd();
+    edk::GU::guTranslate2f32(position);edkEnd();
     //add scale
     edk::GU::guScale2f32(edk::size2f32(size,size));edkEnd();
 
@@ -2145,6 +2151,12 @@ void edk::Object2D::drawPivo(edk::float32 size,edk::color3f32 color){
 
     //
     edk::GU::guPopMatrix();edkEnd();
+}
+void edk::Object2D::drawPivoInPosition(edk::float32 x,edk::float32 y,edk::float32 size,edk::color3f32 color){
+    edk::Object2D::drawPivoInPosition(edk::vec2f32(x,y),size,color);
+}
+void edk::Object2D::drawPivoInPosition(edk::float32 x,edk::float32 y,edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b){
+    edk::Object2D::drawPivoInPosition(edk::vec2f32(x,y),size,edk::color3f32(r,g,b));
 }
 
 //XML

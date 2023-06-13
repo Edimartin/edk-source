@@ -428,7 +428,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationIsPlaying(){
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        return this->selectedAnimation->isPlaying();edkEnd();
+        return this->selectedAnimation->isPlaying();
     }
     //else return false
     return false;
@@ -440,7 +440,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationIsPlayingName(edk::char
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        return this->selectedAnimation->isPlayingName(name);edkEnd();
+        return this->selectedAnimation->isPlayingName(name);
     }
     //else return false
     return false;
@@ -452,7 +452,29 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationWasPlayingName(edk::cha
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        return this->selectedAnimation->wasPlayingName(name);edkEnd();
+        return this->selectedAnimation->wasPlayingName(name);
+    }
+    //else return false
+    return false;
+}
+//return if are paused
+bool edk::shape::AnimatedPolygon2DList::selectedAnimationIsPaused(){
+    //test if have a animationSelected
+    if(this->selectedAnimation){
+        //add new interpolationLine
+        return this->selectedAnimation->isPaused();
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::AnimatedPolygon2DList::selectedAnimationIsPausedName(const edk::char8* name){
+    return this->selectedAnimationIsPausedName((edk::char8*) name);
+}
+bool edk::shape::AnimatedPolygon2DList::selectedAnimationIsPausedName(edk::char8* name){
+    //test if have a animationSelected
+    if(this->selectedAnimation){
+        //add new interpolationLine
+        return this->selectedAnimation->isPausedName(name);
     }
     //else return false
     return false;

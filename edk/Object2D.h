@@ -202,6 +202,10 @@ public:
     virtual bool drawPolygonWire(edk::uint32 meshPosition,edk::uint32 polygon);
     //draw the pivo
     void drawPivo(edk::float32 size,edk::color3f32 color);
+    void drawPivo(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b);
+    static void drawPivoInPosition(edk::vec2f32 position,edk::float32 size,edk::color3f32 color);
+    static void drawPivoInPosition(edk::float32 x,edk::float32 y,edk::float32 size,edk::color3f32 color);
+    static void drawPivoInPosition(edk::float32 x,edk::float32 y,edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b);
 
     //XML
     virtual bool writeToXML(edk::XML* xml,edk::uint32 id);

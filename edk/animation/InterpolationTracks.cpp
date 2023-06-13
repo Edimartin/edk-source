@@ -1341,11 +1341,46 @@ bool edk::animation::InterpolationTracks::isPaused(){
     }
     return ret;
 }
+bool edk::animation::InterpolationTracks::isPausedName(const edk::char8* name){
+    return this->isPausedName((edk::char8*) name);
+}
+bool edk::animation::InterpolationTracks::isPausedName(edk::char8* name){
+    bool ret=false;edkEnd();
+    if(name){
+        edk::uint32 size = this->tracks->size();edkEnd();
+        if(size){
+            edk::animation::InterpolationTracks::AnimationAndPosition temp;edkEnd();
+            for(edk::uint32 i=0u;i<size;i++){
+                temp = this->tracks->get(i);edkEnd();
+                if(temp.animation){
+                    if(temp.animation->isPausedName(name)){
+                        ret=true;edkEnd();
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    return ret;
+}
 bool edk::animation::InterpolationTracks::isPausedTrack(edk::uint32 trackPosition){
     //get track in position
     edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);edkEnd();
     if(temp.animation){
         return temp.animation->isPaused();edkEnd();
+    }
+    return false;
+}
+bool edk::animation::InterpolationTracks::isPausedNameTrack(edk::uint32 trackPosition,const edk::char8* name){
+    //
+}
+bool edk::animation::InterpolationTracks::isPausedNameTrack(edk::uint32 trackPosition,edk::char8* name){
+    if(name){
+        //get track in position
+        edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);edkEnd();
+        if(temp.animation){
+            return temp.animation->isPausedName(name);edkEnd();
+        }
     }
     return false;
 }

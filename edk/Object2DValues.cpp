@@ -40,6 +40,9 @@ void edk::Object2DValues::loadIdentityValues(){
 void edk::Object2DValues::drawPivo(edk::float32 ,edk::color3f32 ){
     //
 }
+void edk::Object2DValues::drawPivo(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b){
+    this->drawPivo(size,edk::color3f32(r,g,b));
+}
 //update all animations
 bool edk::Object2DValues::updateAnimations(){
     bool ret=false;edkEnd();

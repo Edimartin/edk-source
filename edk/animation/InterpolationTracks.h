@@ -254,7 +254,11 @@ public:
     bool wasPlayingNameTrack(edk::uint32 trackPosition,const edk::char8* name);
     bool wasPlayingNameTrack(edk::uint32 trackPosition,edk::char8* name);
     bool isPaused();
+    bool isPausedName(const edk::char8* name);
+    bool isPausedName(edk::char8* name);
     bool isPausedTrack(edk::uint32 trackPosition);
+    bool isPausedNameTrack(edk::uint32 trackPosition,const edk::char8* name);
+    bool isPausedNameTrack(edk::uint32 trackPosition,edk::char8* name);
     //return true if is rewind
     bool isRewind();
     bool isRewindTrack(edk::uint32 trackPosition);

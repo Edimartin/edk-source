@@ -103,6 +103,10 @@ public:
     bool selectedAnimationIsPlayingName(edk::char8* name);
     bool selectedAnimationWasPlayingName(const edk::char8* name);
     bool selectedAnimationWasPlayingName(edk::char8* name);
+    //return if are paused
+    bool selectedAnimationIsPaused();
+    bool selectedAnimationIsPausedName(const edk::char8* name);
+    bool selectedAnimationIsPausedName(edk::char8* name);
     //animationNames
     bool selectedAnimationAddAnimationName(const edk::char8* name, edk::float32 start,edk::float32 end);
     bool selectedAnimationAddAnimationName(edk::char8* name, edk::float32 start,edk::float32 end);

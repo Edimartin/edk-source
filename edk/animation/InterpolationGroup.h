@@ -269,6 +269,8 @@ public:
     bool wasPlayingName(const edk::char8* name);
     bool wasPlayingName(edk::char8* name);
     bool isPaused();
+    bool isPausedName(const edk::char8* name);
+    bool isPausedName(edk::char8* name);
     //return true if is rewind
     bool isRewind();
     //update the clock animation
