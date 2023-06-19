@@ -36,6 +36,11 @@ edk::Random::Random(){
     //
     this->clean();
 }
+edk::Random::Random(edk::uint32 seed){
+    //
+    this->clean();
+    this->setSeed(seed);
+}
 
 edk::Random::~Random(){
     //

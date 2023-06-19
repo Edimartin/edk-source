@@ -40,6 +40,7 @@ namespace edk{
 class Random{
 public:
     Random();
+    Random(edk::uint32 seed);
     ~Random();
 
     virtual void clean();
