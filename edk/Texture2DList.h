@@ -34,6 +34,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "Texture2DFile.h"
 #include "NameClass.h"
 #include "pack/FilePackage.h"
+#include "edk/thread/Mutex.h"
+#include "edk/thread/BufferThreadTree.h"
 
 #ifdef printMessages
 #pragma message "    Compiling Texture2DList"
@@ -120,6 +122,10 @@ public:
     bool haveTexture(edk::uint32 code);
 protected:
 private:
+    //mutex to load the texture
+    edk::multi::Mutex mutTexture;
+    //buffer thread tree
+    static edk::multi::BufferThreadTree bufferTree;
     //Class to save the texture by the name and code
     class TextureCode: public edk::Name {
     public:

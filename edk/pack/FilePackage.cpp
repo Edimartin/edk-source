@@ -277,7 +277,6 @@ bool edk::pack::FilePackage::openPackFile(edk::char8* fileName){
                     this->file.seekStart(nodesPosition);edkEnd();
 
                     //read the nodes
-                    //printf("\n%lu",this->file.getSeek64());edkEnd();
                     while(this->file.getSeek64() < positionRead){
                         //create a new node
                         node = new edk::pack::FileNode;edkEnd();

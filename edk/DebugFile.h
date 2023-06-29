@@ -240,7 +240,7 @@ private:
     edk::NothingClass::edk_nothing()
 #else
 #define edkMemCpy(dest,vec,size) \
-    memcpy(vec,set,size); \
+    memcpy(dest,vec,size); \
     edk::NothingClass::edk_nothing()
 #endif
 

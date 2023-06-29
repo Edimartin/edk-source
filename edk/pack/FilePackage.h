@@ -30,6 +30,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 #pragma once
+#include "../thread/Mutex.h"
 #include "FileNode.h"
 #include "../vector/BinaryTree.h"
 #include "../encrypt/MD5.h"
@@ -100,6 +101,9 @@ public:
 
     //print the names
     void printNames();
+
+    //public mutex
+    edk::multi::Mutex mutex;
 private:
     edk::File file;
     edk::pack::FileNode* selected;

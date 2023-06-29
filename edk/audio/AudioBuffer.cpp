@@ -103,6 +103,7 @@ bool edk::AudioBuffer::loadBufferFromPack(edk::pack::FilePackage* pack,edk::char
     this->deleteBuffer();edkEnd();
     if(pack && name){
         //test if the file exist
+        pack->mutex.lock();edkEnd();
         if(pack->goToFile(name)){
             if(pack->readFileToBuffer()){
 //                if(pack->readFileToBuffer(name)){
@@ -111,17 +112,30 @@ bool edk::AudioBuffer::loadBufferFromPack(edk::pack::FilePackage* pack,edk::char
                     if(this->buffer){
                         //load from the file
                         //if(this->buffer->Memory(pack->getBuffer(),pack->getBufferSize()) ){//1.6
-                        if(this->buffer->loadFromMemory(pack->getBuffer(),pack->getBufferSize()) ){//2.0
+                        if(this->buffer->loadFromMemory(pack->getBuffer(),pack->getBufferSize())){//2.0
+                            pack->mutex.unlock();edkEnd();
                             //then set the name
                             this->setName(name);edkEnd();
                             //return true
                             return true;
                         }
+                        else{
+                            pack->mutex.unlock();edkEnd();
+                        }
                         delete this->buffer;edkEnd();
                         this->buffer=NULL;edkEnd();
                     }
+                    else{
+                        pack->mutex.unlock();edkEnd();
+                    }
 //                }
             }
+            else{
+                pack->mutex.unlock();edkEnd();
+            }
+        }
+        else{
+            pack->mutex.unlock();edkEnd();
         }
     }
     //else return false

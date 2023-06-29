@@ -35,6 +35,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <SFML/Audio.hpp>
 #include "../Object.h"
 #include "../pack/FilePackage.h"
+#include "../thread/Mutex.h"
 
 #ifdef printMessages
 #pragma message "    Compiling AudioBuffer"

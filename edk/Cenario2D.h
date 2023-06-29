@@ -38,6 +38,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "Object2DValues.h"
 #include "pack/FilePackage.h"
 #include "vector/QuadTree.h"
+#include "edk/thread/Mutex.h"
 
 #ifdef printMessages
 #pragma message "    Compiling Cenario2D"

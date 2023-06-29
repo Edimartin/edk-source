@@ -5221,11 +5221,19 @@ bool edk::Cenario2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::char8
     //load the XML file
     if(fileName && pack){
         edk::XML xml;edkEnd();
+        pack->mutex.lock();edkEnd();
         if(pack->readFileToBuffer(fileName)){
             if(xml.loadFromMemory(pack->getBuffer(),pack->getBufferSize())){
+                pack->mutex.unlock();edkEnd();
                 //load the cenario from the XML file
                 return this->readFromXMLFromPack(pack,&xml,id);edkEnd();
             }
+            else{
+                pack->mutex.unlock();edkEnd();
+            }
+        }
+        else{
+            pack->mutex.unlock();edkEnd();
         }
     }
     return false;
@@ -6019,11 +6027,19 @@ bool edk::Cenario2D::readLevelFromXMLFromPack(edk::pack::FilePackage* pack,edk::
     //load the XML file
     if(fileName && pack){
         edk::XML xml;edkEnd();
+        pack->mutex.lock();edkEnd();
         if(pack->readFileToBuffer(fileName)){
             if(xml.loadFromMemory(pack->getBuffer(),pack->getBufferSize())){
+                pack->mutex.unlock();edkEnd();
                 //load the cenario from the XML file
-                return this->readLevelFromXMLFromPack(pack,&xml,level,id);edkEnd();
+                return this->readLevelFromXMLFromPack(pack,&xml,level,id);
             }
+            else{
+                pack->mutex.unlock();edkEnd();
+            }
+        }
+        else{
+            pack->mutex.unlock();edkEnd();
         }
     }
     return false;
@@ -6798,11 +6814,19 @@ bool edk::Cenario2D::readFromXMLFromPackWithoutLoadPhysics(edk::pack::FilePackag
     //load the XML file
     if(fileName && pack){
         edk::XML xml;edkEnd();
+        pack->mutex.lock();edkEnd();
         if(pack->readFileToBuffer(fileName)){
             if(xml.loadFromMemory(pack->getBuffer(),pack->getBufferSize())){
+                pack->mutex.unlock();edkEnd();
                 //load the cenario from the XML file
-                return this->readFromXMLFromPackWithoutLoadPhysics(pack,&xml,id);edkEnd();
+                return this->readFromXMLFromPackWithoutLoadPhysics(pack,&xml,id);
             }
+            else{
+                pack->mutex.unlock();edkEnd();
+            }
+        }
+        else{
+            pack->mutex.unlock();edkEnd();
         }
     }
     return false;
@@ -6999,11 +7023,19 @@ bool edk::Cenario2D::readLevelFromXMLFromPackWithoutLoadPhysics(edk::pack::FileP
     //load the XML file
     if(fileName && pack){
         edk::XML xml;edkEnd();
+        pack->mutex.lock();edkEnd();
         if(pack->readFileToBuffer(fileName)){
             if(xml.loadFromMemory(pack->getBuffer(),pack->getBufferSize())){
+                pack->mutex.unlock();edkEnd();
                 //load the cenario from the XML file
-                return this->readLevelFromXMLFromPackWithoutLoadPhysics(pack,&xml,level,id);edkEnd();
+                return this->readLevelFromXMLFromPackWithoutLoadPhysics(pack,&xml,level,id);
             }
+            else{
+                pack->mutex.unlock();edkEnd();
+            }
+        }
+        else{
+            pack->mutex.unlock();edkEnd();
         }
     }
     return false;

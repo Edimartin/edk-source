@@ -31,6 +31,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //textureTree ordened by the name of the textures
 edk::Texture2DList::TextureCodeTree edk::Texture2DList::codeTree;
 edk::Texture2DList::NameFilterTree edk::Texture2DList::nameTree;
+edk::multi::BufferThreadTree edk::Texture2DList::bufferTree;
 
 edk::Texture2DList::Texture2DList()
 {
@@ -320,36 +321,49 @@ edk::uint32 edk::Texture2DList::loadTextureFromPack(edk::pack::FilePackage* pack
             temp = new edk::Texture2DList::TextureCode;edkEnd();
             if(temp){
                 //read the file
+                pack->mutex.lock();edkEnd();
                 if(pack->readFileToBuffer(name)){
-                    //load the texture
-                    if(temp->loadFromMemory(name,pack->getBuffer(),pack->getBufferSize(),filter)){
-                        //add the texture to the tree's
-                        if(edk::Texture2DList::codeTree.add(temp)){
-                            if(edk::Texture2DList::nameTree.add(temp)){
-                                ret = temp->code;edkEnd();
-                                temp->retainTexture();edkEnd();
-                                return ret;
+                    this->mutTexture.lock();edkEnd();
+                    //copy the file into the buffer
+                    if(edk::Texture2DList::bufferTree.writeToBuffer(pack->getBuffer(),pack->getBufferSize())){
+                        pack->mutex.unlock();edkEnd();
+                        //load the texture
+                        if(temp->loadFromMemory(name,(edk::uint8*)edk::Texture2DList::bufferTree.getPointer(),edk::Texture2DList::bufferTree.getSize(),filter)){
+                            this->mutTexture.unlock();edkEnd();
+                            //add the texture to the tree's
+                            if(edk::Texture2DList::codeTree.add(temp)){
+                                if(edk::Texture2DList::nameTree.add(temp)){
+                                    ret = temp->code;edkEnd();
+                                    temp->retainTexture();edkEnd();
+                                    return ret;
+                                }
+                                else{
+                                    edk::Texture2DList::codeTree.remove(temp);edkEnd();
+                                    //else delete temp
+                                    delete temp;edkEnd();
+                                    temp=NULL;edkEnd();
+                                }
                             }
                             else{
-                                edk::Texture2DList::codeTree.remove(temp);edkEnd();
                                 //else delete temp
                                 delete temp;edkEnd();
                                 temp=NULL;edkEnd();
                             }
                         }
                         else{
+                            this->mutTexture.unlock();edkEnd();
                             //else delete temp
                             delete temp;edkEnd();
                             temp=NULL;edkEnd();
                         }
                     }
                     else{
-                        //else delete temp
-                        delete temp;edkEnd();
-                        temp=NULL;edkEnd();
+                        this->mutTexture.unlock();edkEnd();
+                        pack->mutex.unlock();edkEnd();
                     }
                 }
                 else{
+                    pack->mutex.unlock();edkEnd();
                     delete temp;edkEnd();
                     temp=NULL;edkEnd();
                 }
