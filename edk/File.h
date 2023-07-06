@@ -157,6 +157,10 @@ public:
 
     static bool fileExist(const edk::char8 *name);
 
+    //test if the folder exist in the computer
+    static bool folderExist(edk::char8 *name);
+    static bool folderExist(const edk::char8 *name);
+
     bool readEnd();
     bool endOfFile();
 

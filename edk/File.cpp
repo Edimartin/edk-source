@@ -1408,6 +1408,19 @@ bool edk::File::fileExist(const edk::char8 *name){
     return fileExist((edk::char8 *)name);
 }
 
+//test if the folder exist in the computer
+bool edk::File::folderExist(edk::char8 *name){
+    if(name){
+        struct stat path_stat;
+        stat(name, &path_stat);
+        return S_ISDIR(path_stat.st_mode);
+    }
+    return false;
+}
+bool edk::File::folderExist(const edk::char8* name){
+    return edk::File::folderExist((edk::char8*) name);
+}
+
 bool edk::File::readEnd(){
     //Test if the file reading get the end of the file
 
