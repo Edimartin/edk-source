@@ -6871,19 +6871,21 @@ void edk::shape::Polygon2D::updateFramesSize(){
 //test if is tranforming the polygon
 void edk::shape::Polygon2D::testTransform(){
     if(this->translate.x!=0.f
-            &&
+            ||
             this->translate.y!=0.f
-            &&
+            ||
             this->angle
-            &&
+            ||
             this->scale.width!=1.f
-            &&
+            ||
             this->scale.height!=1.f
             ){
         //
         this->transforming=true;edkEnd();
     }
-    this->transforming=false;edkEnd();
+    else{
+        this->transforming=false;edkEnd();
+    }
 }
 
 //draw functions

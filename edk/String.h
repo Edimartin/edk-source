@@ -334,37 +334,41 @@ public:
     static bool strBiggerStr(edk::char8 *str1, const edk::char8 *str2);
     static bool strBiggerStr(const edk::char8 *str1, const edk::char8 *str2);
 
-    static uint64 strSize(edk::char8 *str);
+    static edk::uint64 strSize(edk::char8 *str);
 
-    static uint64 strSize(const edk::char8 *str);
+    static edk::uint64 strSize(const edk::char8 *str);
 
-    static uint64 strSizeWithFilter(edk::char8 *str,edk::char8* filter);
-    static uint64 strSizeWithFilter(edk::char8 *str,const edk::char8 *filter);
-    static uint64 strSizeWithFilter(const edk::char8 *str,edk::char8* filter);
-    static uint64 strSizeWithFilter(const edk::char8 *str,const edk::char8 *filter);
+    static edk::uint64 strSizeWithBackslashSpace(edk::char8 *str);
 
-    static uint64 strSizeWithLimit(edk::char8 *str,edk::char8* limit);
-    static uint64 strSizeWithLimit(edk::char8 *str,const edk::char8 *limit);
-    static uint64 strSizeWithLimit(const edk::char8 *str,edk::char8* limit);
-    static uint64 strSizeWithLimit(const edk::char8 *str,const edk::char8 *limit);
+    static edk::uint64 strSizeWithBackslashSpace(const edk::char8 *str);
 
-    static uint64 strWordSize(edk::char8 *str);
+    static edk::uint64 strSizeWithFilter(edk::char8 *str,edk::char8* filter);
+    static edk::uint64 strSizeWithFilter(edk::char8 *str,const edk::char8 *filter);
+    static edk::uint64 strSizeWithFilter(const edk::char8 *str,edk::char8* filter);
+    static edk::uint64 strSizeWithFilter(const edk::char8 *str,const edk::char8 *filter);
 
-    static uint64 strWordSize(const edk::char8 *str);
+    static edk::uint64 strSizeWithLimit(edk::char8 *str,edk::char8* limit);
+    static edk::uint64 strSizeWithLimit(edk::char8 *str,const edk::char8 *limit);
+    static edk::uint64 strSizeWithLimit(const edk::char8 *str,edk::char8* limit);
+    static edk::uint64 strSizeWithLimit(const edk::char8 *str,const edk::char8 *limit);
 
-    static uint64 strWordSizeWithFilter(edk::char8 *str,edk::char8* filter);
-    static uint64 strWordSizeWithFilter(edk::char8 *str,const edk::char8 *filter);
-    static uint64 strWordSizeWithFilter(const edk::char8 *str,edk::char8* filter);
-    static uint64 strWordSizeWithFilter(const edk::char8 *str,const edk::char8 *filter);
+    static edk::uint64 strWordSize(edk::char8 *str);
 
-    static uint64 strLineSize(edk::char8 *str);
+    static edk::uint64 strWordSize(const edk::char8 *str);
 
-    static uint64 strLineSize(const edk::char8 *str);
+    static edk::uint64 strWordSizeWithFilter(edk::char8 *str,edk::char8* filter);
+    static edk::uint64 strWordSizeWithFilter(edk::char8 *str,const edk::char8 *filter);
+    static edk::uint64 strWordSizeWithFilter(const edk::char8 *str,edk::char8* filter);
+    static edk::uint64 strWordSizeWithFilter(const edk::char8 *str,const edk::char8 *filter);
 
-    static uint64 strLineSizeWithFilter(edk::char8 *str,edk::char8* filter);
-    static uint64 strLineSizeWithFilter(edk::char8 *str,const edk::char8 *filter);
-    static uint64 strLineSizeWithFilter(const edk::char8 *str,edk::char8* filter);
-    static uint64 strLineSizeWithFilter(const edk::char8 *str,const edk::char8 *filter);
+    static edk::uint64 strLineSize(edk::char8 *str);
+
+    static edk::uint64 strLineSize(const edk::char8 *str);
+
+    static edk::uint64 strLineSizeWithFilter(edk::char8 *str,edk::char8* filter);
+    static edk::uint64 strLineSizeWithFilter(edk::char8 *str,const edk::char8 *filter);
+    static edk::uint64 strLineSizeWithFilter(const edk::char8 *str,edk::char8* filter);
+    static edk::uint64 strLineSizeWithFilter(const edk::char8 *str,const edk::char8 *filter);
 
     static bool strCut(edk::char8 *str,edk::char8 *dest, edk::char8 limit, bool use=false);
 
@@ -428,6 +432,10 @@ public:
     static edk::char8* strCopyWord(edk::char8 *str);
 
     static edk::char8* strCopyWord(const edk::char8 *str);
+
+    static edk::char8* strCopyWithBackslashSpace(edk::char8 *str);
+
+    static edk::char8* strCopyWithBackslashSpace(const edk::char8 *str);
 
     //remove a filter from string
     static edk::char8* strCopyWithFilter(edk::char8 *str,edk::char8 *filter);

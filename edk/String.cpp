@@ -4668,6 +4668,38 @@ edk::uint64 edk::String::strSize(const edk::char8 *str){
     return edk::String::strSize((edk::char8*)str);
 }
 
+edk::uint64 edk::String::strSizeWithBackslashSpace(edk::char8 *str){
+    edk::uint64 ret=0u;
+    bool backslash=false;
+    if(str){
+        while(*str){
+            //test if it's a space
+            if(*str==' '){
+                //test if don't have a backslash
+                if(!backslash){
+                    //increment the ret
+                    ret++;
+                }
+            }
+            //test if it's a backslash
+            if(*str=='\\'){
+                backslash=true;
+            }
+            else{
+                backslash=false;
+            }
+            //increment i to continue the counting
+            ret++;
+            str++;
+        }
+    }
+    return ret;
+}
+
+edk::uint64 edk::String::strSizeWithBackslashSpace(const edk::char8 *str){
+    return edk::String::strSizeWithBackslashSpace((edk::char8 *)str);
+}
+
 edk::uint64 edk::String::strSizeWithFilter(edk::char8 *str,edk::char8* filter){
     edk::uint64 i=0u;
 
@@ -5341,6 +5373,46 @@ edk::char8* edk::String::strCopyWord(edk::char8 *str){
 
 edk::char8* edk::String::strCopyWord(const edk::char8 *str){
     return edk::String::strCopyWord((edk::char8*)str);
+}
+
+edk::char8* edk::String::strCopyWithBackslashSpace(edk::char8 *str){
+    edk::char8* strRet=NULL;
+
+    //count the string
+    edk::uint32 size = edk::String::strSizeWithBackslashSpace(str);
+    if(size>0u){
+        //alloc the string
+        strRet = new edk::char8[size+1u];
+        //test if alloc de string
+        if(strRet){
+            strRet[size]='\0';
+
+            //copy the characters
+            edk::char8* strTemp=strRet;
+            while(*str){
+                //test if 's a space
+                if(*str==' '){
+                    //add a backslash
+                    *strTemp='\\';
+                    strTemp++;
+                }
+                //copy the character
+                *strTemp=*str;
+
+                str++;
+                strTemp++;
+            }
+        }
+        else{
+            //
+            strRet=0u;
+        }
+    }
+    return strRet;
+}
+
+edk::char8* edk::String::strCopyWithBackslashSpace(const edk::char8 *str){
+    return edk::String::strCopyWithBackslashSpace((edk::char8*)str);
 }
 
 //remove a filter from string
