@@ -2822,7 +2822,7 @@ bool edk::Cenario2D::removePhysicObject(edk::uint32 levelPosition,edk::physics2D
                         edk::Cenario2D::ObjClass* temp = level->objsPhys->getObjectClassFromObject((edk::Object2D*)obj);edkEnd();
                         if(temp){
                             level->quadPhysicObjs->remove(temp);edkEnd();
-                            bool ret = level->objsPhys->remove(temp);edkEnd();
+                            bool ret = level->objsPhys->removeObj(obj);edkEnd();
                             if(!level->objsPhys->size()){
                                 //remove from world
                                 if(level->quadPhysicObjs){
