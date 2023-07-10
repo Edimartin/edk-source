@@ -793,6 +793,23 @@ public:
         memset((void*)&retZero,0u,sizeof(typeTemplate));edkEnd();
         return retZero;
     }
+    //return the element position in the tree
+    edk::uint32 getElementPosition(typeTemplate value){
+        //test if need calculate the elementsPosition
+        if(!this->updateElementsPositions){
+            this->updatePositionsNoRecursively(this->root);
+            this->updateElementsPositions=true;
+        }
+        //find the element pointer
+        BinaryLeaf<typeTemplate>* ret = this->find(value);edkEnd();
+        //test if the element is founded
+        if(ret){
+            //return the value
+            return ret->position;edkEnd();
+        }
+        //else return zero
+        return 0u;
+    }
     //return the element in the Position
     typeTemplate getElementInPosition(edk::uint32 position){
         //first test if the position exist in the tree
