@@ -133,6 +133,8 @@ public:
     //get the object
     edk::Object2D* getObject(edk::uint32 levelPosition,edk::float32 depth);
     edk::Object2D* getObjectInPosition(edk::uint32 levelPosition,edk::uint32 position);
+    edk::uint32 getObjectPosition(edk::uint32 levelPosition,edk::Object2D* obj);
+    edk::uint32 getObjectPositionFromDepth(edk::uint32 levelPosition,edk::float32 depth);
     //get the objectDepth
     edk::float32 getObjectDepthInPosition(edk::uint32 levelPosition,edk::uint32 position);
     edk::float32 getObjectDepthInPosition(edk::uint32 levelPosition,edk::Object2D* obj);
@@ -168,6 +170,8 @@ public:
     //get the object
     edk::physics2D::PhysicObject2D* getPhysicObject(edk::uint32 levelPosition,edk::float32 depth);
     edk::physics2D::PhysicObject2D* getPhysicObjectInPosition(edk::uint32 levelPosition,edk::uint32 position);
+    edk::uint32 getPhysicObjectPosition(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj);
+    edk::uint32 getPhysicObjectPositionFromDepth(edk::uint32 levelPosition,edk::float32 depth);
     //return the depth of the physic object
     edk::float32 getPhysicObjectDepth(edk::uint32 levelPosition,edk::uint32 position);
     edk::float32 getPhysicObjectDepth(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj);
@@ -794,6 +798,9 @@ private:
             }
             return NULL;
         }
+        edk::uint32 getObjectPositionFromDepth(edk::float64 depth){
+            return this->getObjClassPositionFromDepth(depth);edkEnd();
+        }
         edk::float32 getObjectDepthInPosition(edk::uint32 position){
             //get the object
             edk::Cenario2D::ObjClass* objClass = NULL;edkEnd();
@@ -837,6 +844,13 @@ private:
                 }
             }
             return NULL;
+        }
+        edk::uint32 getObjectPosition(edk::Object2D* obj){
+            if(obj){
+                //get the object
+                return this->getObjClassPosition(obj);edkEnd();
+            }
+            return 0u;
         }
         edk::Cenario2D::ObjClass* getObjectClassFromDepth(edk::float64 depth){
             edk::Cenario2D::ObjClass* objClass = this->getObjClassFromDepth(depth);edkEnd();
@@ -996,9 +1010,17 @@ private:
             edk::Cenario2D::ObjClass find(false,obj,0.f);edkEnd();
             return this->treeObj.getElement(&find);
         }
+        edk::uint32 getObjClassPosition(edk::Object2D* obj){
+            edk::Cenario2D::ObjClass find(false,obj,this->getObjectDepth(obj));edkEnd();
+            return this->getElementPosition(&find);
+        }
         edk::Cenario2D::ObjClass* getObjClassFromDepth(edk::float64 depth){
             edk::Cenario2D::ObjClass find(false,NULL,depth);edkEnd();
             return this->getElement(&find);
+        }
+        edk::uint32 getObjClassPositionFromDepth(edk::float64 depth){
+            edk::Cenario2D::ObjClass find(false,NULL,depth);edkEnd();
+            return this->getElementPosition(&find);
         }
 
         class TreeObj:public edk::vector::BinaryTree<ObjClass*>{

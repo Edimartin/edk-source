@@ -2183,6 +2183,38 @@ edk::Object2D* edk::Cenario2D::getObjectInPosition(edk::uint32 levelPosition,edk
     }
     return NULL;
 }
+edk::uint32 edk::Cenario2D::getObjectPosition(edk::uint32 levelPosition,edk::Object2D* obj){
+    if(obj){
+        //load the level
+        if(levelPosition){
+            levelPosition--;edkEnd();
+            if(this->levels.havePos(levelPosition)){
+                edk::Cenario2D::LevelObj* level =this->levels.get(levelPosition);edkEnd();
+                if(level){
+                    if(level->objs){
+                        return level->objs->getObjectPosition(obj);
+                    }
+                }
+            }
+        }
+    }
+    return 0u;
+}
+edk::uint32 edk::Cenario2D::getObjectPositionFromDepth(edk::uint32 levelPosition,edk::float32 depth){
+    //test if have the position
+    if(levelPosition){
+        levelPosition--;edkEnd();
+        if(this->levels.havePos(levelPosition)){
+            edk::Cenario2D::LevelObj* level =this->levels.get(levelPosition);edkEnd();
+            if(level){
+                if(level->objs){
+                    return level->objs->getObjectPositionFromDepth(depth);
+                }
+            }
+        }
+    }
+    return 0u;
+}
 //get the objectDepth
 edk::float32 edk::Cenario2D::getObjectDepthInPosition(edk::uint32 levelPosition,edk::uint32 position){
     if(levelPosition){
@@ -2565,6 +2597,36 @@ edk::physics2D::PhysicObject2D* edk::Cenario2D::getPhysicObjectInPosition(edk::u
         }
     }
     return NULL;
+}
+edk::uint32 edk::Cenario2D::getPhysicObjectPosition(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj){
+    if(levelPosition){
+        levelPosition--;edkEnd();
+        //test if have the position
+        if(this->levels.havePos(levelPosition)){
+            edk::Cenario2D::LevelObj* level =this->levels.get(levelPosition);edkEnd();
+            if(level){
+                if(level->objsPhys){
+                    return level->objsPhys->getObjectPosition(obj);
+                }
+            }
+        }
+    }
+    return 0u;
+}
+edk::uint32 edk::Cenario2D::getPhysicObjectPositionFromDepth(edk::uint32 levelPosition,edk::float32 depth){
+    if(levelPosition){
+        levelPosition--;edkEnd();
+        //test if have the position
+        if(this->levels.havePos(levelPosition)){
+            edk::Cenario2D::LevelObj* level =this->levels.get(levelPosition);edkEnd();
+            if(level){
+                if(level->objsPhys){
+                    return level->objsPhys->getObjectPositionFromDepth(depth);
+                }
+            }
+        }
+    }
+    return 0u;
 }
 //return the depth of the physic object
 edk::float32 edk::Cenario2D::getPhysicObjectDepth(edk::uint32 levelPosition,edk::uint32 position){
