@@ -283,6 +283,11 @@ public:
     bool updateAnimation(edk::uint32 position,edk::float32 seconds);
     bool updateAnimations();
     bool updateAnimations(edk::float32 seconds);
+
+    //generate the level quads
+    bool generateQuads();
+    bool generateLevelQuads(edk::uint32 levelPosition);
+
     //draw the cenario with all the objects
     void draw();
     void drawWire();
@@ -292,6 +297,7 @@ public:
     bool drawLevel(edk::uint32 levelPosition);
     bool drawLevelWire(edk::uint32 levelPosition);
     bool drawLevelQuads(edk::uint32 levelPosition);
+    bool drawLevelQuadsPolygons(edk::uint32 levelPosition);
     bool drawLevelBoxes(edk::uint32 levelPosition);
     bool drawLevelInsideRect(edk::uint32 levelPosition,edk::rectf32 rect);
     bool drawLevelWireInsideRect(edk::uint32 levelPosition,edk::rectf32 rect);

@@ -3491,6 +3491,40 @@ bool edk::Cenario2D::updateAnimations(edk::float32 seconds){
     this->tileSet.updateAnimations(seconds);edkEnd();
     return true;
 }
+
+//generate the level quads
+bool edk::Cenario2D::generateQuads(){
+    //draw the levels
+    edk::uint32 size = this->levels.size();edkEnd();
+    edk::Cenario2D::LevelObj* level=NULL;edkEnd();
+    if(size){
+        for(edk::uint32 i=0u;i<size;i++){
+            level=this->levels.get(i);edkEnd();
+            if(level){
+                level->generateLevelRect();edkEnd();
+                level->addObjectsToQuad();edkEnd();
+            }
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::Cenario2D::generateLevelQuads(edk::uint32 levelPosition){
+    //draw the levelPosition
+    if(levelPosition){
+        levelPosition--;edkEnd();
+        if(this->levels.havePos(levelPosition)){
+            edk::Cenario2D::LevelObj* level=this->levels.get(levelPosition);edkEnd();
+            if(level){
+                level->generateLevelRect();edkEnd();
+                level->addObjectsToQuad();edkEnd();
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 //draw the cenario with all the objects
 void edk::Cenario2D::draw(){
     //draw the levels
@@ -3586,6 +3620,20 @@ bool edk::Cenario2D::drawLevelWire(edk::uint32 levelPosition){
     return false;
 }
 bool edk::Cenario2D::drawLevelQuads(edk::uint32 levelPosition){
+    //draw the levelPosition
+    if(levelPosition){
+        levelPosition--;edkEnd();
+        if(this->levels.havePos(levelPosition)){
+            this->transformBeggin();edkEnd();
+            edk::Cenario2D::LevelObj* level=this->levels.get(levelPosition);edkEnd();
+            level->drawQuads();edkEnd();
+            this->transformEnd();edkEnd();
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::Cenario2D::drawLevelQuadsPolygons(edk::uint32 levelPosition){
     //draw the levelPosition
     if(levelPosition){
         levelPosition--;edkEnd();

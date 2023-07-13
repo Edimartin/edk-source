@@ -3766,7 +3766,8 @@ bool edk::String::float64ToStr(edk::float64 value,edk::char8* dest, edk::uint32 
 edk::char8* edk::String::uint32ToStr(edk::uint32 value){
     edk::char8* str = NULL;
     //use the module of the number
-    edk::uint32 module = value;
+    edk::uint32 module = 0u;
+    module = value;
 
     //count the number
     edk::uint32 size = 0;

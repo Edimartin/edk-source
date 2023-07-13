@@ -44,7 +44,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "    Compiling QuadTree"
 #endif
 
-#define edkQuadSelectedSize 3u
+#define edkQuadSelectedSize 4u
 
 /*
 //code sample

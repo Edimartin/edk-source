@@ -814,6 +814,11 @@ bool edk::Object2D::calculateBoundingBox(){
         }
         return true;
     }
+    else{
+        //generate a small boundingBox
+        this->boundingBox.origin = this->position - 0.1f;
+        this->boundingBox.size = edk::size2f32(this->position.x + 0.1f,this->position.y + 0.1f);
+    }
     return false;
 }
 bool edk::Object2D::calculateBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat){
@@ -838,7 +843,6 @@ bool edk::Object2D::calculateBoundingBox(edk::vector::Matrix<edk::float32,3,3>* 
         edk::shape::Mesh2D* mesh;edkEnd();
         edk::uint32 size = this->meshes.size();edkEnd();
         if(size){
-
             mesh = this->meshes.getMesh(0u);edkEnd();
             if(mesh){
                 this->boundingBox = mesh->generateBoundingBox(&this->matrixTransform);edkEnd();
@@ -850,6 +854,11 @@ bool edk::Object2D::calculateBoundingBox(edk::vector::Matrix<edk::float32,3,3>* 
                     mesh->calculateBoundingBox(&this->boundingBox,&this->matrixTransform);edkEnd();
                 }
             }
+        }
+        else{
+            //generate a small boundingBox
+            this->boundingBox.origin = this->position - 0.1f;
+            this->boundingBox.size = edk::size2f32(this->position.x + 0.1f,this->position.y + 0.1f);
         }
     }
     return true;

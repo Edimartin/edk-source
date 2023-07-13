@@ -69,6 +69,7 @@ public:
 
         //set the mouse double click limit
         this->timeMouseDoubleLimit = EDK_TIME_LIMIT_DOUBLE_CLICK;
+        this->runForceSecondPassed=false;edkEnd();
     }
     virtual ~WindowEvents(){
         //
