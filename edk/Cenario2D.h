@@ -1768,6 +1768,15 @@ private:
             this->matrixTransformNegative.multiplyThisWithMatrix(&this->matrixSize);edkEnd();
         }
 
+        void cleanLevelQuads(){
+            if(this->objs){
+                this->quadObjs->clean();edkEnd();
+            }
+            else if(this->objsPhys){
+                this->quadPhysicObjs->clean();edkEnd();
+            }
+        }
+
         //generate the level rectangle
         bool generateLevelRect(){
             if(this->objs){
@@ -1814,6 +1823,9 @@ private:
                     rect.size.width += (rect.size.width - rect.origin.x)*0.1f;edkEnd();
                     rect.size.height += (rect.size.height - rect.origin.y)*0.1f;edkEnd();
                     this->quadObjs->setRect(rect);edkEnd();
+                    edk::size2f32 size = edk::size2f32(rect.size.width-rect.origin.x,rect.size.height-rect.origin.y);
+                    if(size.width > size.height){this->quadObjs->setMinimumQuadSize(size.width * 0.1f);edkEnd();}
+                    else{this->quadObjs->setMinimumQuadSize(size.height * 0.1f);edkEnd();}
                 }
                 return true;
             }
@@ -1861,6 +1873,9 @@ private:
                     rect.size.width += (rect.size.width - rect.origin.x)*0.1f;edkEnd();
                     rect.size.height += (rect.size.height - rect.origin.y)*0.1f;edkEnd();
                     this->quadPhysicObjs->setRect(rect);edkEnd();
+                    edk::size2f32 size = edk::size2f32(rect.size.width-rect.origin.x,rect.size.height-rect.origin.y);
+                    if(size.width > size.height){this->quadPhysicObjs->setMinimumQuadSize(size.width * 0.1f);edkEnd();}
+                    else{this->quadPhysicObjs->setMinimumQuadSize(size.height * 0.1f);edkEnd();}
                 }
                 return true;
             }

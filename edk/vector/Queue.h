@@ -169,6 +169,7 @@ public:
     //pop front
     typeTemplate popFront(){
         typeTemplate ret;edkEnd();
+        memset(&ret,0,sizeof(typeTemplate));
         //test if have the first
         if(this->first){
             //test if the first and the last are equal

@@ -2264,6 +2264,14 @@ bool edk::Cenario2D::deleteObject(edk::uint32 levelPosition,edk::Object2D* obj){
                         if(!level->objs->size()){
                             delete level->objs;edkEnd();
                             level->clean();edkEnd();
+                            level->cleanLevelQuads();edkEnd();
+                        }
+                        else{
+
+                            //generate the quads
+                            level->generateLevelRect();edkEnd();
+                            level->addObjectsToQuad();edkEnd();
+
                         }
                         return ret;
                     }
@@ -2819,6 +2827,13 @@ bool edk::Cenario2D::deletePhysicObject(edk::uint32 levelPosition,edk::physics2D
                             }
                             level->clean();edkEnd();
                         }
+                        else{
+
+                            //generate the quads
+                            level->generateLevelRect();edkEnd();
+                            level->addObjectsToQuad();edkEnd();
+
+                        }
                         return ret;
                     }
                 }
@@ -2842,6 +2857,7 @@ void edk::Cenario2D::deleteAllPhysicObjects(edk::uint32 levelPosition){
                         this->world->removeObject((edk::physics2D::PhysicObject2D*)level->objsPhys->getObjectInPosition(0u));edkEnd();
                         level->objsPhys->deleteObjInPosition(0u);edkEnd();
                     }
+                    level->cleanLevelQuads();edkEnd();
                 }
             }
         }
