@@ -217,6 +217,9 @@ public:
     //destrutor
     ~GU();
 
+    static void setCantLoadTextures();
+    static void setCanLoadTextures();
+
     //print the ID
     static void guPrintID(edk::uint32 cap);
 
@@ -507,6 +510,8 @@ private:
     static edk::uint32 ID;
     //threads mut
     static edk::multi::Mutex mutGetTextures;
+    //a boolean if can still running load the texture
+    static bool canLoadTexture;
 
     class TextureClass{
     public:

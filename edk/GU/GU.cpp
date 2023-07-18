@@ -46,6 +46,8 @@ edk::vector::Queue<edk::GU::TextureClass> edk::GU::genTextures(50u);
 edk::GU::Texture_Tree edk::GU::treeTextures;
 //threads mut
 edk::multi::Mutex edk::GU::mutGetTextures;
+//a boolean if can still running load the texture
+bool edk::GU::canLoadTexture=true;
 
 //construtor
 edk::GU::GU(){
@@ -55,6 +57,17 @@ edk::GU::GU(){
 //destrutor
 edk::GU::~GU(){
     //
+}
+
+void edk::GU::setCantLoadTextures(){
+    edk::GU::mutGetTextures.lock();
+    edk::GU::canLoadTexture=false;
+    edk::GU::mutGetTextures.unlock();
+}
+void edk::GU::setCanLoadTextures(){
+    edk::GU::mutGetTextures.lock();
+    edk::GU::canLoadTexture=true;
+    edk::GU::mutGetTextures.unlock();
 }
 
 //print the ID
@@ -560,6 +573,14 @@ edk::uint32 edk::GU::guAllocTexture2D(edk::uint32 width, edk::uint32 height, edk
                                 ret=tex.id;
                                 run=false;
                             }
+                        }
+                        //test if can't load the texture
+                        if(!edk::GU::canLoadTexture){
+                            if(ret){
+                                edk::GU::guDeleteTexture(ret);
+                            }
+                            ret=0u;
+                            run=false;
                         }
                         edk::GU::mutGetTextures.unlock();
                         //sleep this thread
@@ -1323,7 +1344,6 @@ edk::char8* edk::GU::guGetExtensions(){
 //run function to load the textures from other threads
 bool edk::GU::guUpdateLoadTextures(){
     //test if it's the main thread
-    //
     edk::GU::mutGetTextures.lock();
     edk::uint32 size = edk::GU::genTextures.size();
     edk::GU::mutGetTextures.unlock();
@@ -1335,11 +1355,30 @@ bool edk::GU::guUpdateLoadTextures(){
             edk::GU::TextureClass tex;
             for(edk::uint32 i=0u;i<size;i++){
                 //get the tex
-                //load the texture
                 edk::GU::mutGetTextures.lock();
                 tex = edk::GU::genTextures.popFront();
-                edk::GU::mutGetTextures.unlock();
+                if(!edk::GU::canLoadTexture){
+                    tex.id = 0u;
+                    edk::GU::treeTextures.add(tex);
+                    edk::GU::mutGetTextures.unlock();
+                    continue;
+                }
+                else{
+                    edk::GU::mutGetTextures.unlock();
+                }
+                //load the texture
                 tex.id = edk::GU::guAllocTexture2D(tex.width,tex.height,tex.mode,tex.filter,tex.data);
+
+                edk::GU::mutGetTextures.lock();
+                if(!edk::GU::canLoadTexture){
+                    edk::GU::mutGetTextures.unlock();
+                    edk::GU::guDeleteTexture(tex.id);
+                    tex.id = 0u;
+                }
+                else{
+                    edk::GU::mutGetTextures.unlock();
+                }
+
                 edk::GU::mutGetTextures.lock();
                 //add the tex into the tree
                 edk::GU::treeTextures.add(tex);

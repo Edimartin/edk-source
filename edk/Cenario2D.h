@@ -415,6 +415,12 @@ public:
     virtual bool readLevelFromXMLFromPackWithoutLoadPhysics(edk::pack::FilePackage* pack,const edk::char8* fileName,edk::uint32 level);
     virtual bool readLevelFromXMLFromPackWithoutLoadPhysics(edk::pack::FilePackage* pack,edk::char8* fileName,edk::uint32 level);
 
+    bool setMinimunObjectsInQuads(edk::uint32 minimunObjectsInQuads);
+    edk::uint32 getMinimunObjectsInQuads(edk::uint32 minimunObjectsInQuads);
+
+    //set it cant continue loading the cenario
+    void cantContinueReading();
+
     edk::physics2D::World2D* world;
     edk::tiles::TileSet2D tileSet;
 private:
@@ -425,14 +431,38 @@ private:
     //actions group animation
     edk::animation::ActionGroup actions;
 
+    //flag to continue loading the cenario
+    bool canContinueLoading;
+    edk::multi::Mutex mutContinue;
+
     //callback tree
     edk::vector::BinaryTree<edk::Cenario2DCallback*> calls;
+
+    //save the minimun objects in quads
+    edk::uint32 minimunObjectsInQuads;
 
     //Function to read the actions
     static edk::Action* readXMLAction(edk::classID thisPointer,edk::uint32 actionCode);
     //transformBeggin
     void transformBeggin();
     void transformEnd();
+    //functions to change the canContinue flag
+    inline void setCanContinueTrue(){
+        this->mutContinue.lock();edkEnd();
+        this->canContinueLoading=true;edkEnd();
+        this->mutContinue.unlock();edkEnd();
+    }
+    inline void setCanContinueFalse(){
+        this->mutContinue.lock();edkEnd();
+        this->canContinueLoading=false;edkEnd();
+        this->mutContinue.unlock();edkEnd();
+    }
+    inline bool ifCantContinue(){
+        this->mutContinue.lock();edkEnd();
+        bool ret = !this->canContinueLoading;
+        this->mutContinue.unlock();edkEnd();
+        return ret;
+    }
 
     //ACTIONS
     class ActionObjectZero:public edk::ActionZero{
@@ -1883,9 +1913,10 @@ private:
         }
 
         //add the objects into the quadtrees
-        bool addObjectsToQuad(){
+        bool addObjectsToQuad(edk::uint32 minimunObjectsInQuads){
             //test if have the objects
             if(this->objs){
+                this->quadObjs->setMinimumElementInQuads(minimunObjectsInQuads);
                 edk::uint32 size = this->objs->size();edkEnd();
                 edk::Cenario2D::ObjClass* temp;edkEnd();
                 for(edk::uint32 i=0u;i<size;i++){
@@ -1898,6 +1929,7 @@ private:
                 return true;
             }
             else if(this->objsPhys){
+                this->quadPhysicObjs->setMinimumElementInQuads(minimunObjectsInQuads);
                 edk::uint32 size = this->objsPhys->size();edkEnd();
                 edk::Cenario2D::ObjClass* temp;edkEnd();
                 for(edk::uint32 i=0u;i<size;i++){

@@ -171,47 +171,47 @@ bool edk::Texture2DFile::setFromMemory(edk::uint8* image,edk::uint32 width,edk::
     //test the image
     if(image && width && height && channels){
         //process the decode
-            //test the channels
-            switch(channels){
-            case 1u://GRAYSCALE
-                //load the texture
-                this->createTexture(width,
-                                    height,
-                                    GU_LUMINANCE,
-                                    (edk::classID)image,
-                                    filter
-                                    );edkEnd();
-                break;
-            case 3u://RGB
-                //load the texture
-                this->createTexture(width,
-                                    height,
-                                    GU_RGB,
-                                    (edk::classID)image,
-                                    filter
-                                    );edkEnd();
-                break;
-            case 4u://RGBA
-                //load the texture
-                this->createTexture(width,
-                                    height,
-                                    GU_RGBA,
-                                    (edk::classID)image,
-                                    filter
-                                    );edkEnd();
-                break;
-            }
+        //test the channels
+        switch(channels){
+        case 1u://GRAYSCALE
+            //load the texture
+            this->createTexture(width,
+                                height,
+                                GU_LUMINANCE,
+                                (edk::classID)image,
+                                filter
+                                );edkEnd();
+            break;
+        case 3u://RGB
+            //load the texture
+            this->createTexture(width,
+                                height,
+                                GU_RGB,
+                                (edk::classID)image,
+                                filter
+                                );edkEnd();
+            break;
+        case 4u://RGBA
+            //load the texture
+            this->createTexture(width,
+                                height,
+                                GU_RGBA,
+                                (edk::classID)image,
+                                filter
+                                );edkEnd();
+            break;
+        }
 
-            //test if create the texture
-            if(this->getID()){
-                //set the textureName
-                this->setName( "" );edkEnd();
+        //test if create the texture
+        if(this->getID()){
+            //set the textureName
+            this->setName( "" );edkEnd();
 
-                //return true
-                ret = true;edkEnd();
-            }
-            //delete the image
-            this->image.deleteImage();edkEnd();
+            //return true
+            ret = true;edkEnd();
+        }
+        //delete the image
+        this->image.deleteImage();edkEnd();
     }
     return ret;
 }

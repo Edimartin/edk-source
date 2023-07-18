@@ -762,6 +762,7 @@ public:
         this->selected3 = &this->treeNULL;edkEnd();
         this->treeTemp = &this->treeUpdate;edkEnd();
         this->clean(edk::rectf32(0,0,1,1));edkEnd();
+        this->setMinimumElementInQuads(1u);
     }
     virtual ~QuadTree32(){
         //the destructor don't call the getOut functions because is possible the element don't exist
@@ -786,6 +787,18 @@ public:
     }
     edk::float32 getMinimumQuadSize(){
         return this->minimumQuadSize;
+    }
+    //set the minimunObjectsInQuads
+    bool setMinimumElementInQuads(edk::uint32 minimumElementInQuads){
+        if(minimumElementInQuads){
+            this->minimumElementInQuads=minimumElementInQuads;
+            return true;
+        }
+        //else set 1
+        this->minimumElementInQuads=1u;
+    }
+    edk::uint32 getMinimumElementInQuads(){
+        return this->minimumElementInQuads;
     }
     //set the quadtree position and size
     void setPositionAndSize(edk::float32 x,edk::float32 y,edk::float32 width,edk::float32 height,edk::float32 minimumQuadSize=edkQuadMinimumSize){
@@ -812,6 +825,10 @@ public:
     void setRect(edk::float32 pos1X,edk::float32 pos1Y,edk::float32 pos2X,edk::float32 pos2Y,edk::float32 minimumQuadSize=edkQuadMinimumSize){
         this->clean(edk::rectf32(pos1X,pos1Y,pos2X,pos2Y));edkEnd();
         this->minimumQuadSize=minimumQuadSize;edkEnd();
+    }
+    //return the quadtree rectangle
+    edk::rectf32 getRectangle(){
+        return edk::rectf32(this->root.origin,this->root.size);
     }
     void incrementRect(edk::rectf32 rect){
         if(rect.origin.x > this->root.origin.x){
@@ -889,7 +906,7 @@ public:
                     ret=true;
 
                     //test if the temp have more than 1 value
-                    if(temp->getTreeSize()>1u){
+                    if(temp->getTreeSize()>this->minimumElementInQuads){
 
                         if((temp->depth+1u)>=depthLimit){
                             //have the limit
@@ -1573,6 +1590,9 @@ private:
     //minimumQuadSize
     edk::float32 minimumQuadSize;
 
+    //minimun elements in a QUAD
+    edk::uint32 minimumElementInQuads;
+
     bool isRectInside(edk::rectf32 rect,edk::vec2f32 point1,edk::vec2f32 point2){
         if(rect.origin.x >= point1.x
                 &&
@@ -1795,6 +1815,7 @@ public:
         this->selected3 = &this->treeNULL;edkEnd();
         this->treeTemp = &this->treeUpdate;edkEnd();
         this->clean(edk::rectf64(0,0,1,1));edkEnd();
+        this->setMinimumElementInQuads(1u);
     }
     virtual ~QuadTree64(){
         //the destructor don't call the getOut functions because is possible the element don't exist
@@ -1819,6 +1840,18 @@ public:
     }
     edk::float64 getMinimumQuadSize(){
         return this->minimumQuadSize;
+    }
+    //set the minimunObjectsInQuads
+    bool setMinimumElementInQuads(edk::uint64 minimumElementInQuads){
+        if(minimumElementInQuads){
+            this->minimumElementInQuads=minimumElementInQuads;
+            return true;
+        }
+        //else set 1
+        this->minimumElementInQuads=1u;
+    }
+    edk::uint64 getMinimumElementInQuads(){
+        return this->minimumElementInQuads;
     }
     //set the quadtree position and size
     void setPositionAndSize(edk::float64 x,edk::float64 y,edk::float64 width,edk::float64 height,edk::float64 minimumQuadSize=edkQuadMinimumSize){
@@ -1845,6 +1878,10 @@ public:
     void setRect(edk::float64 pos1X,edk::float64 pos1Y,edk::float64 pos2X,edk::float64 pos2Y,edk::float64 minimumQuadSize=edkQuadMinimumSize){
         this->clean(edk::rectf64(pos1X,pos1Y,pos2X,pos2Y));edkEnd();
         this->minimumQuadSize=minimumQuadSize;edkEnd();
+    }
+    //return the quadtree rectangle
+    edk::rectf64 getRectangle(){
+        return edk::rectf64(this->root.origin,this->root.size);
     }
     void incrementRect(edk::rectf64 rect){
         if(rect.origin.x > this->root.origin.x){
@@ -1922,7 +1959,7 @@ public:
                     ret=true;
 
                     //test if the temp have more than 1 value
-                    if(temp->getTreeSize()>1u){
+                    if(temp->getTreeSize()>this->minimumElementInQuads){
 
                         if((temp->depth+1u)>=depthLimit){
                             //have the limit
@@ -2605,6 +2642,9 @@ private:
 
     //minimumQuadSize
     edk::float64 minimumQuadSize;
+
+    //minimun elements in a QUAD
+    edk::uint64 minimumElementInQuads;
 
     bool isRectInside(edk::rectf64 rect,edk::vec2f64 point1,edk::vec2f64 point2){
         if(rect.origin.x >= point1.x
