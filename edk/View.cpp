@@ -157,10 +157,6 @@ void edk::View::runPauseSwitch(){
         this->runPause();edkEnd();
     }
 }
-//return if the pause is true
-bool edk::View::isPaused(){
-    return this->paused;
-}
 
 void edk::View::draw(edk::rectf32 outsideViewOrigin){
     //test if it's not hided
@@ -820,4 +816,9 @@ bool edk::View::isMouseInside(){
 void edk::View::updateView(edk::WindowEvents* events){
     //update the view function
     this->runUpdate(events);edkEnd();
+}
+
+//return if the pause is true
+bool edk::View::isPaused(){
+    return this->paused;
 }

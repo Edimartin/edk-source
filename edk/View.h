@@ -326,6 +326,9 @@ class View {
     //update the view
     virtual void updateView(edk::WindowEvents* events);
 
+    //return if the pause is true
+    virtual bool isPaused();
+
  public:
     edk::rectf32 frame;
     edk::rectf32 animatedFrame;
@@ -362,8 +365,6 @@ class View {
     virtual void runUnpause();
     //run the pauseSwitch
     virtual void runPauseSwitch();
-    //return if the pause is true
-    virtual bool isPaused();
 
     //Animations
     //Position animation to change the viewPosition on the window (or View)

@@ -4212,6 +4212,78 @@ bool edk::Cenario2D::setLevelSize(edk::uint32 levelPosition,edk::float32 width,e
     return this->setLevelSize(levelPosition,edk::size2f32(width,height));edkEnd();
 }
 
+//set the level alpha by setting the alpha channel in all objects
+bool edk::Cenario2D::setLevelAlpha(edk::uint32 levelPosition,edk::float32 alpha){
+    if(levelPosition){
+        levelPosition--;edkEnd();
+        //load the level
+        if(this->levels.havePos(levelPosition)){
+            edk::Cenario2D::LevelObj* level =this->levels.get(levelPosition);edkEnd();
+            if(level){
+                if(level->objsPhys){
+                    //set the alpha value in all objects
+                    edk::uint32 size = level->objsPhys->size();
+                    edk::uint32 sizeMesh;
+                    edk::Object2D* obj;
+                    edk::shape::Mesh2D* mesh;
+                    for(edk::uint32 i=0u;i<size;i++){
+                        obj = level->objsPhys->getObjectInPosition(i);
+                        if(obj){
+                            sizeMesh = obj->getMeshSize();
+                            for(edk::uint32 j=0u;j<sizeMesh;j++){
+                                mesh = obj->getMesh(j);
+                                if(mesh){
+                                    mesh->material.setDiffuse(mesh->material.getDiffuse().r,
+                                                              mesh->material.getDiffuse().g,
+                                                              mesh->material.getDiffuse().b,
+                                                              alpha
+                                                              );
+                                    mesh->material.setEmission(mesh->material.getEmission().r,
+                                                               mesh->material.getEmission().g,
+                                                               mesh->material.getEmission().b,
+                                                               alpha
+                                                               );
+                                }
+                            }
+                        }
+                    }
+                    return true;
+                }
+                else if(level->objs){
+                    //set the alpha value in all objects
+                    edk::uint32 size = level->objs->size();
+                    edk::uint32 sizeMesh;
+                    edk::Object2D* obj;
+                    edk::shape::Mesh2D* mesh;
+                    for(edk::uint32 i=0u;i<size;i++){
+                        obj = level->objs->getObjectInPosition(i);
+                        if(obj){
+                            sizeMesh = obj->getMeshSize();
+                            for(edk::uint32 j=0u;j<sizeMesh;j++){
+                                mesh = obj->getMesh(j);
+                                if(mesh){
+                                    mesh->material.setDiffuse(mesh->material.getDiffuse().r,
+                                                              mesh->material.getDiffuse().g,
+                                                              mesh->material.getDiffuse().b,
+                                                              alpha
+                                                              );
+                                    mesh->material.setEmission(mesh->material.getEmission().r,
+                                                               mesh->material.getEmission().g,
+                                                               mesh->material.getEmission().b,
+                                                               alpha
+                                                               );
+                                }
+                            }
+                        }
+                    }
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
 //XML
 bool edk::Cenario2D::writeToXML(edk::XML* xml,edk::uint32 id){
     if(xml){

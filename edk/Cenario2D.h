@@ -350,6 +350,9 @@ public:
     bool setLevelSize(edk::uint32 levelPosition,edk::size2f32 size);
     bool setLevelSize(edk::uint32 levelPosition,edk::float32 width,edk::float32 height);
 
+    //set the level alpha by setting the alpha channel in all objects
+    bool setLevelAlpha(edk::uint32 levelPosition,edk::float32 angle);
+
     //XML
     virtual bool writeToXML(edk::XML* xml,edk::uint32 id);
     virtual bool writeToXML(const edk::char8* fileName,edk::uint32 id);

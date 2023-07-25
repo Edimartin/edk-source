@@ -34,6 +34,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "Texture2DFile.h"
 #include "NameClass.h"
 #include "pack/FilePackage.h"
+#include "edk/thread/Thread.h"
 #include "edk/thread/Mutex.h"
 #include "edk/thread/BufferThreadTree.h"
 
@@ -124,6 +125,7 @@ protected:
 private:
     //mutex to load the texture
     edk::multi::Mutex mutTexture;
+    edk::multi::Mutex mutNameTree;
     //buffer thread tree
     static edk::multi::BufferThreadTree bufferTree;
     //Class to save the texture by the name and code
