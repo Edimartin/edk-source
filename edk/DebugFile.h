@@ -1,9 +1,6 @@
 #ifndef DEBUGFILE_H
 #define DEBUGFILE_H
 
-#pragma once
-#include <stdio.h>
-
 /*
 Library C++ DebugFile - Write debug messages in a file
 Copyright 2013 Eduardo Moura Sales Martins (edimartin@gmail.com)
@@ -28,13 +25,15 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+#pragma once
+#include <stdio.h>
+
 #ifdef printMessages
 #pragma message "Inside DebugFile"
 #endif
 
 #include "TypeVars.h"
 #include "File.h"
-//#include <stdarg.h>
 
 #ifdef printMessages
 #pragma message "    Compiling DebugFile"

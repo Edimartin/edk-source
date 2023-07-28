@@ -192,7 +192,6 @@ edk::uint32 edk::Texture2DList::loadTexture(edk::char8* name,edk::uint32 filter)
                     //load the texture
                     if(temp->loadFromFile(name,filter)){
                         //add the texture to the tree's
-
                         this->mutNameTree.lock();
                         if(edk::Texture2DList::codeTree.add(temp)){
                             if(edk::Texture2DList::nameTree.add(temp)){
@@ -260,7 +259,6 @@ edk::uint32 edk::Texture2DList::loadTextureFromMemory(edk::char8* name,edk::uint
                     //load the texture
                     if(temp->loadFromMemory(name,image,size,filter)){
                         //add the texture to the tree's
-
                         this->mutNameTree.lock();
                         if(edk::Texture2DList::codeTree.add(temp)){
                             if(edk::Texture2DList::nameTree.add(temp)){
@@ -377,37 +375,38 @@ edk::uint32 edk::Texture2DList::setTextureFromMemory(const edk::char8* name,edk:
 }
 //load the texture from a file package
 edk::uint32 edk::Texture2DList::loadTextureFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter){
-    if(edk::multi::Thread::isThisThreadMain()){
-        while(true){
-            //test if can tryLock
-            if(pack->mutex.tryLock()){
-                //it lock
-                break;edkEnd();
-            }
-            else{
-                //else load textures from other threads
-                edk::GU::guUpdateLoadTextures();edkEnd();
-            }
-        }
-        while(true){
-            //test if can tryLock
-            if(this->mutTexture.tryLock()){
-                //it lock
-                break;edkEnd();
-            }
-            else{
-                //else load textures from other threads
-                edk::GU::guUpdateLoadTextures();edkEnd();
-            }
-        }
-    }
-
     //test the fileName and the retain texture
     edk::uint32 ret=0u;edkEnd();
     if(name && pack){
         //get the texture from the tree
         edk::Texture2DList::TextureCode* temp = NULL;edkEnd();
         for(edk::uint8 i=0u;i<EDK_TEXTURE_LOADER_TENTATIVES;i++){
+
+            if(edk::multi::Thread::isThisThreadMain()){
+                while(true){
+                    //test if can tryLock
+                    if(pack->mutex.tryLock()){
+                        //it lock
+                        break;edkEnd();
+                    }
+                    else{
+                        //else load textures from other threads
+                        edk::GU::guUpdateLoadTextures();edkEnd();
+                    }
+                }
+                while(true){
+                    //test if can tryLock
+                    if(this->mutTexture.tryLock()){
+                        //it lock
+                        break;edkEnd();
+                    }
+                    else{
+                        //else load textures from other threads
+                        edk::GU::guUpdateLoadTextures();edkEnd();
+                    }
+                }
+            }
+
             temp = this->getTextureByName(name,filter);edkEnd();
             //test if NOT hame the texture
             if(!temp){
@@ -416,7 +415,7 @@ edk::uint32 edk::Texture2DList::loadTextureFromPack(edk::pack::FilePackage* pack
                 if(temp){
                     //only lock if it's not the mainTread because it aready lock before
                     if(!edk::multi::Thread::isThisThreadMain()){
-                        pack->mutex.unlock();edkEnd();
+                        pack->mutex.lock();edkEnd();
                     }
                     //read the file
                     if(pack->readFileToBuffer(name)){
@@ -431,7 +430,6 @@ edk::uint32 edk::Texture2DList::loadTextureFromPack(edk::pack::FilePackage* pack
                                 pack->mutex.unlock();edkEnd();
                                 this->mutTexture.unlock();edkEnd();edkEnd();
                                 //add the texture to the tree's
-
                                 this->mutNameTree.lock();edkEnd();
                                 if(edk::Texture2DList::codeTree.add(temp)){
                                     if(edk::Texture2DList::nameTree.add(temp)){
@@ -493,7 +491,6 @@ edk::uint32 edk::Texture2DList::loadTextureFromPack(edk::pack::FilePackage* pack
             }
         }
     }
-
     //else return false
     return ret;
 }
@@ -531,14 +528,12 @@ bool edk::Texture2DList::removeTexture(edk::Texture2DList::TextureCode* temp){
         //test if have one retain
         if(temp->haveOneRetain()){
             temp->releaseTexture();edkEnd();
-
-
-            this->mutNameTree.lock();
+            this->mutNameTree.lock();edkEnd();
             //remove
             edk::Texture2DList::codeTree.remove(temp);edkEnd();
             //remove
             edk::Texture2DList::nameTree.remove(temp);edkEnd();
-            this->mutNameTree.unlock();
+            this->mutNameTree.unlock();edkEnd();
             //delete texture
             delete temp;edkEnd();
         }
@@ -575,7 +570,6 @@ bool edk::Texture2DList::removeTexture(edk::uint32 code){
 //delete the texture
 bool edk::Texture2DList::deleteTexture(edk::Texture2DList::TextureCode* temp){
     if(temp){
-
         this->mutNameTree.lock();
         //remove
         edk::Texture2DList::codeTree.remove(temp);edkEnd();
@@ -613,13 +607,11 @@ bool edk::Texture2DList::deleteTexture(edk::uint32 code){
 }
 //delete all textures
 void edk::Texture2DList::deleteAllTextures(){
-
     this->mutNameTree.lock();
     while(edk::Texture2DList::codeTree.size()){
         this->mutNameTree.unlock();
         //delete the first element
         this->deleteTexture(edk::Texture2DList::codeTree.getElementInPosition(0u));edkEnd();
-
         this->mutNameTree.lock();
     }
     this->mutNameTree.unlock();

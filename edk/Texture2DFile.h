@@ -36,6 +36,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "String.h"
 #include "Object.h"
 #include "Texture2D.h"
+#if defined(EDK_TEX2DFILE_PRINT_DEBUG)
+#include "DebugLineFile.h"
+#endif
 
 #ifdef printMessages
 #pragma message "    Compiling Texture2DFile"
@@ -65,31 +68,53 @@ Texture2D open a 2DImage and load to videoBoard
 
 
 #if defined(__arch64__) || defined(_LP64)
-    //64 BITS
+//64 BITS
 #else
-    //32 BITS
+//32 BITS
 #endif
 
 namespace edk{
 class Texture2DFile: public edk::Texture2D{
-    public:
-        Texture2DFile();
-        Texture2DFile(edk::char8 *textureFileName);
-        Texture2DFile(const char *textureFileName);
-        ~Texture2DFile();
+public:
+    Texture2DFile();
+    Texture2DFile(edk::char8 *textureFileName);
+    Texture2DFile(const char *textureFileName);
+    ~Texture2DFile();
 
-        //LOAD
-        bool loadFromFile(edk::char8 *fileName,edk::uint32 filter = GU_NEAREST);
-        bool loadFromFile(const char *fileName,edk::uint32 filter = GU_NEAREST);
-        //LOAD from memory
-        bool loadFromMemory(edk::uint8* image,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
-        //SERT from memory
-        bool setFromMemory(edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 filter = GU_NEAREST);
+    //set the debugFile Name
+    static bool createDebugFile(const edk::char8* name);
+    static bool createDebugFile(edk::char8* name);
+    //close the debug file to not write the file
+    static void closeDebugFile();
 
-    protected:
-    private:
+    //LOAD
+    bool loadFromFile(edk::char8 *fileName,edk::uint32 filter = GU_NEAREST);
+    bool loadFromFile(const char *fileName,edk::uint32 filter = GU_NEAREST);
+    //LOAD from memory
+    bool loadFromMemory(edk::uint8* image,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
+    //SERT from memory
+    bool setFromMemory(edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 filter = GU_NEAREST);
+
+protected:
+private:
     //Image to have texture
     edk::Image2D image;
+#if defined(EDK_TEX2DFILE_PRINT_DEBUG)
+    static edk::DebugLineFile debugFile;
+    static edk::multi::Mutex debugMut;
+#endif
+
+#if defined(EDK_TEX2DFILE_PRINT_DEBUG)
+    //write some command in the debugFile
+    inline void writeDebug(edk::char8* text,edk::int32 line,edk::char8* file,edk::char8* function){
+        edk::Texture2DFile::debugMut.lock();
+        edk::Texture2DFile::debugFile.writeDebug(text,line,file,function);
+        edk::Texture2DFile::debugMut.unlock();
+    }
+    inline void writeDebug(const edk::char8* text,edk::int32 line,const edk::char8* file,const edk::char8* function){
+        this->writeDebug((edk::char8*) text,line,(edk::char8*) file,(edk::char8*) function);
+    }
+#endif
 };
 }//endNamespace
 

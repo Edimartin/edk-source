@@ -5481,7 +5481,24 @@ bool edk::Cenario2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::char8
     if(fileName && pack){
         this->setCanContinueTrue();edkEnd();
         edk::XML xml;edkEnd();
-        pack->mutex.lock();edkEnd();
+
+        if(edk::multi::Thread::isThisThreadMain()){
+            while(true){
+                //test if can tryLock
+                if(pack->mutex.tryLock()){
+                    //it lock
+                    break;edkEnd();
+                }
+                else{
+                    //else load textures from other threads
+                    edk::GU::guUpdateLoadTextures();edkEnd();
+                }
+            }
+        }
+        else{
+            pack->mutex.lock();edkEnd();
+        }
+
         if(pack->readFileToBuffer(fileName)){
             if(xml.loadFromMemory(pack->getBuffer(),pack->getBufferSize())){
                 pack->mutex.unlock();edkEnd();
@@ -6329,7 +6346,24 @@ bool edk::Cenario2D::readLevelFromXMLFromPack(edk::pack::FilePackage* pack,edk::
     if(fileName && pack){
         this->setCanContinueTrue();edkEnd();
         edk::XML xml;edkEnd();
-        pack->mutex.lock();edkEnd();
+
+        if(edk::multi::Thread::isThisThreadMain()){
+            while(true){
+                //test if can tryLock
+                if(pack->mutex.tryLock()){
+                    //it lock
+                    break;edkEnd();
+                }
+                else{
+                    //else load textures from other threads
+                    edk::GU::guUpdateLoadTextures();edkEnd();
+                }
+            }
+        }
+        else{
+            pack->mutex.lock();edkEnd();
+        }
+
         if(pack->readFileToBuffer(fileName)){
             if(xml.loadFromMemory(pack->getBuffer(),pack->getBufferSize())){
                 pack->mutex.unlock();edkEnd();
@@ -6558,7 +6592,24 @@ bool edk::Cenario2D::readFromXMLFromPackWithoutLoadPhysics(edk::pack::FilePackag
     if(fileName && pack){
         this->setCanContinueTrue();edkEnd();
         edk::XML xml;edkEnd();
-        pack->mutex.lock();edkEnd();
+
+        if(edk::multi::Thread::isThisThreadMain()){
+            while(true){
+                //test if can tryLock
+                if(pack->mutex.tryLock()){
+                    //it lock
+                    break;edkEnd();
+                }
+                else{
+                    //else load textures from other threads
+                    edk::GU::guUpdateLoadTextures();edkEnd();
+                }
+            }
+        }
+        else{
+            pack->mutex.lock();edkEnd();
+        }
+
         if(pack->readFileToBuffer(fileName)){
             if(xml.loadFromMemory(pack->getBuffer(),pack->getBufferSize())){
                 pack->mutex.unlock();edkEnd();
@@ -6793,7 +6844,24 @@ bool edk::Cenario2D::readLevelFromXMLFromPackWithoutLoadPhysics(edk::pack::FileP
     if(fileName && pack){
         this->setCanContinueTrue();edkEnd();
         edk::XML xml;edkEnd();
-        pack->mutex.lock();edkEnd();
+
+        if(edk::multi::Thread::isThisThreadMain()){
+            while(true){
+                //test if can tryLock
+                if(pack->mutex.tryLock()){
+                    //it lock
+                    break;edkEnd();
+                }
+                else{
+                    //else load textures from other threads
+                    edk::GU::guUpdateLoadTextures();edkEnd();
+                }
+            }
+        }
+        else{
+            pack->mutex.lock();edkEnd();
+        }
+
         if(pack->readFileToBuffer(fileName)){
             if(xml.loadFromMemory(pack->getBuffer(),pack->getBufferSize())){
                 pack->mutex.unlock();edkEnd();

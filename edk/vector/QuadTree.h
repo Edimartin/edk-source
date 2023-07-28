@@ -37,7 +37,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "BinaryTree.h"
 #include "Queue.h"
 
-#ifdef EDK_QUADTREE_GU
+#if defined(EDK_QUADTREE_GU)
 #include "../GU/GU.h"
 #endif
 
@@ -452,7 +452,7 @@ public:
 
 
     void drawQUADS(){
-#ifdef EDK_QUADTREE_GU
+#if defined(EDK_QUADTREE_GU)
         //draw the rect
         edk::GU::guVertex2f32(this->origin);edkEnd();
         edk::GU::guVertex2f32(this->origin.x,this->size.height);edkEnd();
@@ -697,7 +697,7 @@ public:
 
 
     void drawQUADS(){
-#ifdef EDK_QUADTREE_GU
+#if defined(EDK_QUADTREE_GU)
         //draw the rect
         edk::GU::guVertex2f64(this->origin);edkEnd();
         edk::GU::guVertex2f64(this->origin.x,this->size.height);edkEnd();
@@ -1530,7 +1530,7 @@ public:
     }
 
     void drawQuads(){
-#ifdef EDK_QUADTREE_GU
+#if defined(EDK_QUADTREE_GU)
         //
         edk::GU::guColor4f32(this->color);
         edk::GU::guPushMatrix();
@@ -2583,7 +2583,7 @@ public:
     }
 
     void drawQuads(){
-#ifdef EDK_QUADTREE_GU
+#if defined(EDK_QUADTREE_GU)
         //
         edk::GU::guColor4f64(this->color);
         edk::GU::guPushMatrix();

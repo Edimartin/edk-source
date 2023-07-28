@@ -30,6 +30,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 #pragma once
+#if defined(EDK_FILEPACK_PRINT_DEBUG)
+#include "../DebugLineFile.h"
+#endif
 #include "../thread/Mutex.h"
 #include "FileNode.h"
 #include "../vector/BinaryTree.h"
@@ -47,6 +50,12 @@ class FilePackage{
 public:
     FilePackage();
     virtual ~FilePackage();
+
+    //set the debugFile Name
+    static bool createDebugFile(const edk::char8* name);
+    static bool createDebugFile(edk::char8* name);
+    //close the debug file to not write the file
+    static void closeDebugFile();
 
     //add a fileName to the tree
     bool addFileName(edk::char8* fileName);
@@ -111,6 +120,11 @@ private:
     edk::uint8* buffer;
     edk::uint64 bufferSize;
     edk::uint64 bufferReadSize;
+#if defined(EDK_FILEPACK_PRINT_DEBUG)
+    static edk::DebugLineFile debugFile;
+    static edk::multi::Mutex debugMut;
+#endif
+
     //node tree
     class treeInt:public edk::vector::BinaryTree<edk::pack::FileNode*>{
     public:
@@ -213,6 +227,19 @@ private:
     bool readNodeFile(edk::pack::FileNode* node,classID vec,uint64 size);
     //test if the buffer is valid with the node
     bool isBufferValid(edk::pack::FileNode* node);
+
+#if defined(EDK_FILEPACK_PRINT_DEBUG)
+    //write some command in the debugFile
+    inline void writeDebug(edk::char8* text,edk::int32 line,edk::char8* file,edk::char8* function){
+        //write this string into the file
+        edk::pack::FilePackage::debugMut.lock();
+        edk::pack::FilePackage::debugFile.writeDebug(text,line,file,function);
+        edk::pack::FilePackage::debugMut.unlock();
+    }
+    inline void writeDebug(const edk::char8* text,edk::int32 line,const edk::char8* file,const edk::char8* function){
+        this->writeDebug((edk::char8*) text,line,(edk::char8*) file,(edk::char8*) function);
+    }
+#endif
 };
 }
 }
