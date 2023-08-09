@@ -226,7 +226,7 @@ bool edk::Window::createWindow(uint32 width, uint32 height/*, uint32 bitsPerPixe
                               (edk::char8*) name,
                               design,
                               depth,stencil,antialiasing
-                              );edkEnd();
+                              );
 }
 
 bool edk::Window::createWindow(uint32  width, uint32  height/*, uint32  bitsPerPixel*/, char8 *name, typeID design){
@@ -235,7 +235,7 @@ bool edk::Window::createWindow(uint32  width, uint32  height/*, uint32  bitsPerP
                               name,
                               design,
                               24u,8u,0u
-                              );edkEnd();
+                              );
 }
 
 bool edk::Window::createWindow(uint32  width, uint32  height/*, uint32  bitsPerPixel*/, const char *name, typeID  design){
@@ -243,7 +243,7 @@ bool edk::Window::createWindow(uint32  width, uint32  height/*, uint32  bitsPerP
                               (char8 *)name,
                               design,
                               24u,8u,0u
-                              );edkEnd();
+                              );
 }
 
 bool edk::Window::isOpened(){
@@ -259,13 +259,13 @@ bool edk::Window::isOpened(){
 
 bool edk::Window::isShowing(){
     //retorna se a janela esta sendo mostrada
-    return this->renderWindow;edkEnd();
+    return this->renderWindow;
 }
 
 bool edk::Window::haveFocus(){
     //
-    return this->windowFocus;edkEnd();
-    //return this->events.focus;edkEnd();
+    return this->windowFocus;
+    //return this->events.focus;
 }
 
 void edk::Window::closeWindow(){
@@ -298,20 +298,20 @@ void edk::Window::clean(){
 
 edk::uint32 edk::Window::getViewCount(){
     //
-    return this->viewWindow.getCount();edkEnd();
+    return this->viewWindow.getCount();
 }
 
 bool edk::Window::addSubview(View *addView){
     //Add the view to the viewWindow
-    return this->viewWindow.addSubview(addView);edkEnd();
+    return this->viewWindow.addSubview(addView);
 }
 
 edk::View* edk::Window::getSubview(uint64 n){
-    return this->viewWindow.getSubview(n);edkEnd();
+    return this->viewWindow.getSubview(n);
 }
 
 edk::uint64 edk::Window::getSubviewId(View *subView){
-    return this->getSubviewId(subView);edkEnd();
+    return this->getSubviewId(subView);
 }
 
 void edk::Window::removeSubview(View *subView){
@@ -377,7 +377,7 @@ bool edk::Window::setMousePosition(vec2i32 pos){
 
 bool edk::Window::setMousePosition(int32 x, int32 y){
     //seta o mouse
-    return this->setMousePosition(edk::vec2i32(x,y));edkEnd();
+    return this->setMousePosition(edk::vec2i32(x,y));
 }
 
 bool edk::Window::setWindowPosition(vec2i32 pos){
@@ -395,7 +395,7 @@ bool edk::Window::setWindowPosition(vec2i32 pos){
 
 bool edk::Window::setWindowPosition(int32 x, int32 y){
     //
-    return this->setWindowPosition(edk::vec2i32(x,y));edkEnd();
+    return this->setWindowPosition(edk::vec2i32(x,y));
 }
 
 bool edk::Window::setWindowSize(size2ui32 size){
@@ -417,7 +417,7 @@ bool edk::Window::setWindowSize(size2ui32 size){
 
 bool edk::Window::setWindowSize(uint32 width, uint32 height){
     //
-    return this->setWindowSize(edk::size2ui32(width,height));edkEnd();
+    return this->setWindowSize(edk::size2ui32(width,height));
 }
 
 //Update the views
@@ -587,7 +587,7 @@ bool edk::Window::flip(){
 }
 
 bool edk::Window::render(){
-    return this->flip();edkEnd();
+    return this->flip();
 }
 
 edk::size2ui32 edk::Window::getSize(){
@@ -626,7 +626,7 @@ edk::uint32 edk::Window::getWidth(){
         return this->window.getSize().x;edkEnd();//2.0
     }
     //senao retorna 0u
-    return 0u;edkEnd();
+    return 0u;
 }
 
 edk::uint32 edk::Window::getHeight(){
@@ -634,141 +634,156 @@ edk::uint32 edk::Window::getHeight(){
     if(this->isOpened()){
         //
         //return this->window.GetHeight();edkEnd();//1.6
-        return this->window.getSize().y;edkEnd();//2.0
+        return this->window.getSize().y;//2.0
     }
     //senao retorna 0u
-    return 0u;edkEnd();
+    return 0u;
 }
 
 edk::vec2i32 edk::Window::getMousePos(){
     //
     //senao retorna uma posicao zerada
-    //return this->mousePos;edkEnd();
-    return this->events.mousePosWindow;edkEnd();
+    //return this->mousePos;
+    return this->events.mousePosWindow;
 }
 
 edk::vec2i32 edk::Window::eventGetMouseMoved(){
     //
-    //return this->mouseMove;edkEnd();
-    return this->events.mouseMove;edkEnd();
+    //return this->mouseMove;
+    return this->events.mouseMove;
+}
+
+//test if the events have something
+bool edk::Window::eventsHaveSomething(){
+    return this->events.haveSomething();
+}
+
+//print events
+void edk::Window::eventsPrint(){
+    this->events.printEvents();
+}
+
+//print events
+void edk::Window::printEvents(){
+    this->events.printEvents();
 }
 
 bool edk::Window::eventLostFocus(){
-    return this->events.lostFocus;edkEnd();
+    return this->events.lostFocus;
 }
 
 bool edk::Window::eventGainedFocus(){
-    return this->events.gainedFocus;edkEnd();
+    return this->events.gainedFocus;
 }
 
 bool edk::Window::eventButtonClose(){
     //
     bool temp = events.buttonExit;edkEnd();
     events.buttonExit=false;edkEnd();
-    return temp;edkEnd();
+    return temp;
 }
 
 bool edk::Window::eventKeyPressed(){
     //
-    return (bool)this->eventGetKeyPressedSize();edkEnd();
+    return (bool)this->eventGetKeyPressedSize();
 }
 
 bool edk::Window::eventKeyRelease(){
     //
-    return (bool)this->eventGetKeyReleaseSize();edkEnd();
+    return (bool)this->eventGetKeyReleaseSize();
 }
 
 bool edk::Window::eventKeyHolded(){
-    return (bool)this->eventGetKeyHoldedSize();edkEnd();
+    return (bool)this->eventGetKeyHoldedSize();
 }
 
 edk::uint32 edk::Window::eventGetKeyPressedSize(){
     //Retorna o tamanho do vector
-    return this->events.keyPressed.size();edkEnd();
+    return this->events.keyPressed.size();
 }
 
 edk::uint32 edk::Window::eventGetKeyReleaseSize(){
     //Retorna o tamanho do vetor
-    return this->events.keyRelease.size();edkEnd();
+    return this->events.keyRelease.size();
 }
 
 edk::uint32 edk::Window::eventGetKeyHoldedSize(){
-    return this->events.keyHolded.size();edkEnd();
+    return this->events.keyHolded.size();
 }
 
 edk::uint32 edk::Window::eventGetKeyPressed(uint32 pos){
     //
     if(pos<this->events.keyPressed.size()){
         //
-        return this->events.keyPressed.get(pos);edkEnd();
+        return this->events.keyPressed.get(pos);
     }
     //senao retorna 0u
-    return 0u;edkEnd();
+    return 0u;
 }
 
 edk::uint32 edk::Window::eventGetKeyRelease(uint32 pos){
     if(pos<this->events.keyRelease.size()){
         //
-        return this->events.keyRelease.get(pos);edkEnd();
+        return this->events.keyRelease.get(pos);
     }
     //senao retorna 0u
-    return 0u;edkEnd();
+    return 0u;
 }
 
 edk::uint32 edk::Window::eventGetKeyHolded(uint32 pos){
 
     if(pos<this->events.keyHolded.size()){
         //
-        return this->events.keyHolded.get(pos);edkEnd();
+        return this->events.keyHolded.get(pos);
     }
     //senao retorna 0u
-    return 0u;edkEnd();
+    return 0u;
 }
 
 bool edk::Window::eventMousePressed(){
     //
-    return (bool)this->eventGetMousePressedSize();edkEnd();
+    return (bool)this->eventGetMousePressedSize();
 }
 
 bool edk::Window::eventMouseRelease(){
     //
-    return (bool)this->eventGetMouseReleaseSize();edkEnd();
+    return (bool)this->eventGetMouseReleaseSize();
 }
 
 bool edk::Window::eventMouseDoubleClick(){
     //
-    return (bool)this->eventGetMouseDoubleClickSize();edkEnd();
+    return (bool)this->eventGetMouseDoubleClickSize();
 }
 
 bool edk::Window::eventMouseHolded(){
-    return (bool)this->eventGetMouseHoldedSize();edkEnd();
+    return (bool)this->eventGetMouseHoldedSize();
 }
 
 edk::uint8 edk::Window::eventGetMousePressedSize(){
     //
-    return this->events.mousePressed.size();edkEnd();
+    return this->events.mousePressed.size();
 }
 
 edk::uint8 edk::Window::eventGetMouseReleaseSize(){
     //
-    return this->events.mouseRelease.size();edkEnd();
+    return this->events.mouseRelease.size();
 }
 
 edk::uint8 edk::Window::eventGetMouseDoubleClickSize(){
     //
-    return this->events.mouseDoubleClick.size();edkEnd();
+    return this->events.mouseDoubleClick.size();
 }
 
 edk::uint8 edk::Window::eventGetMouseHoldedSize(){
     //
-    return this->events.mouseHolded.size();edkEnd();
+    return this->events.mouseHolded.size();
 }
 
 edk::uint8 edk::Window::eventGetMousePressed(uint32 pos){
     //
     if(pos<this->events.mousePressed.size()){
         //
-        return this->events.mousePressed.get(pos);edkEnd();
+        return this->events.mousePressed.get(pos);
     }
     //senao retorna false
     return false;
@@ -778,7 +793,7 @@ edk::uint8 edk::Window::eventGetMouseRelease(uint32 pos){
     //
     if(pos<this->events.mouseRelease.size()){
         //
-        return this->events.mouseRelease.get(pos);edkEnd();
+        return this->events.mouseRelease.get(pos);
     }
     //senao retorna false
     return false;
@@ -788,7 +803,7 @@ edk::uint8 edk::Window::eventGetMouseDoubleClick(edk::uint32 pos){
     //
     if(pos<this->events.mouseDoubleClick.size()){
         //
-        return this->events.mouseDoubleClick.get(pos);edkEnd();
+        return this->events.mouseDoubleClick.get(pos);
     }
     //senao retorna false
     return false;
@@ -798,7 +813,7 @@ edk::uint8 edk::Window::eventGetMouseHolded(uint32 pos){
     //
     if(pos<this->events.mouseHolded.size()){
         //
-        return this->events.mouseHolded.get(pos);edkEnd();
+        return this->events.mouseHolded.get(pos);
     }
     //senao retorna false
     return false;
@@ -806,44 +821,44 @@ edk::uint8 edk::Window::eventGetMouseHolded(uint32 pos){
 
 bool edk::Window::eventMouseEnter(){
     //
-    return this->events.mouseEnter;edkEnd();
+    return this->events.mouseEnter;
 }
 
 bool edk::Window::eventMouseExit(){
     //
-    return this->events.mouseExit;edkEnd();
+    return this->events.mouseExit;
 }
 
 bool edk::Window::eventMouseMoved(){
     //retorna se o mouse foi movido
-    return this->events.mouseMoved;edkEnd();
+    return this->events.mouseMoved;
 }
 
 edk::int8 edk::Window::getMouseScrollWheel(){
     //
-    return (int8)this->events.mouseScrollWheel;edkEnd();
+    return (int8)this->events.mouseScrollWheel;
 }
 
 bool edk::Window::eventResizeWindow(){
     //retorna se redimencionou a janela
-    return this->events.resize;edkEnd();
+    return this->events.resize;
 }
 
 edk::size2i32 edk::Window::getResize(){
     //
-    return this->events.resizePos;edkEnd();
+    return this->events.resizePos;
 }
 
 //set and get the second passed
 bool edk::Window::setSecondPassed(edk::float32 seconds){
     if(seconds>0.f){
-        this->events.secondPassed = seconds;edkEnd();
+        this->events.secondPassed = seconds;
         return true;
     }
     return false;
 }
 edk::float32 edk::Window::eventGetSecondPassed(){
-    return this->events.secondPassed;edkEnd();
+    return this->events.secondPassed;
 }
 
 bool edk::Window::loadEvents(){
@@ -1213,7 +1228,7 @@ edk::size2ui32 edk::Window::getDesktopSize(){
     //edk::size2ui32 temp(DesktopMode.Width,DesktopMode.Height);edkEnd();//1.6
     edk::size2ui32 temp(DesktopMode.width,DesktopMode.height);edkEnd();//2.0
     //carrega o desktop mode
-    return temp;edkEnd();
+    return temp;
 }
 
 edk::uint32 edk::Window::getDesktopBitsPerPixel(){
@@ -1221,8 +1236,8 @@ edk::uint32 edk::Window::getDesktopBitsPerPixel(){
     //sf::VideoMode DesktopMode = sf::VideoMode::GetDesktopMode();edkEnd();//1.6
     sf::VideoMode DesktopMode = sf::VideoMode::getDesktopMode();edkEnd();//2.0
     //retorna os bits
-    //return DesktopMode.BitsPerPixel;edkEnd();//1.6
-    return DesktopMode.bitsPerPixel;edkEnd();//2.0
+    //return DesktopMode.BitsPerPixel;//1.6
+    return DesktopMode.bitsPerPixel;//2.0
 }
 
 //test if have a controller
@@ -1235,61 +1250,61 @@ bool edk::Window::haveController(edk::uint32 controller){
 //return the number of buttons of a controller
 edk::uint32 edk::Window::getControllerButtonCount(edk::uint32 controller){
     // check how many buttons joystick number 0 has
-    return sf::Joystick::getButtonCount(controller);edkEnd();
+    return sf::Joystick::getButtonCount(controller);
 }
 
 bool edk::Window::eventControllerButtonPressed(edk::uint32 controller){
-    return (bool)this->eventGetControllerButtonPressedSize(controller);edkEnd();
+    return (bool)this->eventGetControllerButtonPressedSize(controller);
 }
 
 bool edk::Window::eventControllerButtonRelease(edk::uint32 controller){
-    return (bool)this->eventGetControllerButtonReleaseSize(controller);edkEnd();
+    return (bool)this->eventGetControllerButtonReleaseSize(controller);
 }
 
 bool edk::Window::eventControllerButtonHolded(edk::uint32 controller){
-    return (bool)this->eventGetControllerButtonHoldedSize(controller);edkEnd();
+    return (bool)this->eventGetControllerButtonHoldedSize(controller);
 }
 
 bool edk::Window::eventControllerAxisMoved(edk::uint32 controller){
-    return (bool)this->eventGetControllerAxisMovedSize(controller);edkEnd();
+    return (bool)this->eventGetControllerAxisMovedSize(controller);
 }
 
 edk::uint8 edk::Window::eventGetControllerButtonPressedSize(edk::uint32 controller){
-    return this->events.controllerPressed.getControllerButtonSizeInPosition(controller);edkEnd();
+    return this->events.controllerPressed.getControllerButtonSizeInPosition(controller);
 }
 
 edk::uint8 edk::Window::eventGetControllerButtonReleaseSize(edk::uint32 controller){
-    return this->events.controllerReleased.getControllerButtonSizeInPosition(controller);edkEnd();
+    return this->events.controllerReleased.getControllerButtonSizeInPosition(controller);
 }
 
 edk::uint8 edk::Window::eventGetControllerButtonHoldedSize(edk::uint32 controller){
-    return this->events.controllerHolded.getControllerButtonSizeInPosition(controller);edkEnd();
+    return this->events.controllerHolded.getControllerButtonSizeInPosition(controller);
 }
 
 edk::uint8 edk::Window::eventGetControllerAxisMovedSize(edk::uint32 controller){
-    return this->events.controllerAxisMoved.getControllerButtonSizeInPosition(controller);edkEnd();
+    return this->events.controllerAxisMoved.getControllerButtonSizeInPosition(controller);
 }
 
 edk::uint8 edk::Window::eventGetControllerButtonPressed(edk::uint32 controller, uint32 pos){
-    return this->events.controllerPressed.getControllerButtonInPosition(controller,pos);edkEnd();
+    return this->events.controllerPressed.getControllerButtonInPosition(controller,pos);
 }
 
 edk::uint8 edk::Window::eventGetControllerButtonRelease(edk::uint32 controller, uint32 pos){
-    return this->events.controllerReleased.getControllerButtonInPosition(controller,pos);edkEnd();
+    return this->events.controllerReleased.getControllerButtonInPosition(controller,pos);
 }
 
 edk::uint8 edk::Window::eventGetControllerButtonHolded(edk::uint32 controller, uint32 pos){
-    return this->events.controllerHolded.getControllerButtonInPosition(controller,pos);edkEnd();
+    return this->events.controllerHolded.getControllerButtonInPosition(controller,pos);
 }
 
 edk::uint32 edk::Window::eventGetControllerAxisIDMoved(edk::uint32 controller, uint32 pos){
-    return this->events.controllerAxisMoved.getControllerAxisInPosition(controller,pos);edkEnd();
+    return this->events.controllerAxisMoved.getControllerAxisInPosition(controller,pos);
 }
 
 edk::float32 edk::Window::eventGetControllerAxisMoved(edk::uint32 controller, uint32 pos){
-    return this->events.controllerAxisMoved.getControllerAxisValueInPosition(controller,pos);edkEnd();
+    return this->events.controllerAxisMoved.getControllerAxisValueInPosition(controller,pos);
 }
 
 edk::float32 edk::Window::eventGetControllerAxisMovedByID(edk::uint32 controller, uint32 id){
-    return this->events.controllerAxisMoved.getControllerAxisValueByID(controller,id);edkEnd();
+    return this->events.controllerAxisMoved.getControllerAxisValueByID(controller,id);
 }

@@ -32,6 +32,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma once
 //View to window
 #include "ViewGU.h"
+#include "vector/Queue.h"
 #include "ViewController.h"
 #include "edk/watch/Time.h"
 
@@ -161,6 +162,15 @@ public:
     vec2i32 getMousePos();
 
     vec2i32 eventGetMouseMoved();
+
+    //test if the events have something
+    bool eventsHaveSomething();
+
+    //print events
+    void eventsPrint();
+
+    //print events
+    void printEvents();
 
     bool eventLostFocus();
 

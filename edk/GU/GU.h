@@ -33,7 +33,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //include the SHD before GU
 #include "../GU/GU_GLSL.h"
 
-#if defined(_WIN32) || defined(__linux__)
+#if defined(_WIN32) || defined(_WIN64) || defined(__linux__)
 #include <GL/gl.h>
 #include <GL/glu.h>
 #elif defined(__APPLE__)
