@@ -736,16 +736,32 @@ bool edk::Window::startReadEvents(const edk::char8* fileName){
 }
 //get the events status
 bool edk::Window::isWritingEventsFile(){
+#if defined(EDK_WINDOW_EVENTS_RW)
     return this->playingWriteEvents;
+#else
+    return false;
+#endif
 }
 bool edk::Window::isReadingEventsFile(){
+#if defined(EDK_WINDOW_EVENTS_RW)
     return this->playingReadEvents;
+#else
+    return false;
+#endif
 }
 bool edk::Window::isPlayingWriteEventsFile(){
+#if defined(EDK_WINDOW_EVENTS_RW)
     return this->playingWriteEvents;
+#else
+    return false;
+#endif
 }
 bool edk::Window::isPlayingReadEventsFile(){
+#if defined(EDK_WINDOW_EVENTS_RW)
     return this->playingReadEvents;
+#else
+    return false;
+#endif
 }
 
 //stop writing the events into a file
