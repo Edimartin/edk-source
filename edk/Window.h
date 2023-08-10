@@ -165,6 +165,26 @@ public:
 
     //test if the events have something
     bool eventsHaveSomething();
+    bool haveSomethingTypes(edk::EventWindowType types, ...);
+
+    //start writing events into a file
+    bool startWriteEvents(edk::char8* fileName);
+    bool startWriteEvents(const edk::char8* fileName);
+    bool startWriteEvents(edk::char8* fileName,edk::EventWindowType types, ...);
+    bool startWriteEvents(const edk::char8* fileName,edk::EventWindowType types, ...);
+    //start reading events from a file
+    bool startReadEvents(edk::char8* fileName);
+    bool startReadEvents(const edk::char8* fileName);
+    //get the events status
+    bool isWritingEventsFile();
+    bool isReadingEventsFile();
+    bool isPlayingWriteEventsFile();
+    bool isPlayingReadEventsFile();
+
+    //stop writing the events into a file
+    void stopWriteEvents();
+    //stop reading the events from a file
+    void stopReadEvents();
 
     //print events
     void eventsPrint();
@@ -233,7 +253,7 @@ public:
     edk::size2i32 getResize();
 
     //set and get the second passed
-    bool setSecondPassed(edk::float32 seconds);
+    bool setSecondPassedBeforeLoadEvents(edk::float32 seconds);
     edk::float32 eventGetSecondPassed();
 
     bool loadEvents();
@@ -320,6 +340,16 @@ private:
     edk::size2ui32 windowSize;
 
     edk::WindowEvents events;
+#if defined(EDK_WINDOW_EVENTS_RW)
+    //file to write the windowEvents
+    edk::File fileEvents;
+    bool playingWriteEvents;
+    bool playingReadEvents;
+    edk::float32 secondEvents;
+    edk::float32 nextSecondEvents;
+    //eventTypes to be writed in the file
+    edk::vector::BinaryTree<edk::EventWindowType> treeEventTypes;
+#endif
 };
 
 }//End of namespace edk

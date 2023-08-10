@@ -188,6 +188,279 @@ public:
         }
         return false;
     }
+    bool haveSomethingTypes(edk::EventWindowType types, ...){
+        edk::EventWindowType type;
+        va_list vl;
+        //fist count the
+        va_start(vl,types);
+        type = va_arg(vl,edk::EventWindowType);
+        while(type){
+            switch(type){
+            case edk::eventWindowButtonExit:
+                if(this->buttonExit){
+                    return true;
+                }
+                break;
+            case edk::eventWindowLostFocus:
+                if(this->lostFocus){
+                    return true;
+                }
+                break;
+            case edk::eventWindowGainedFocus:
+                if(this->gainedFocus){
+                    return true;
+                }
+                break;
+            case edk::eventWindowResize:
+                if(this->resize){
+                    return true;
+                }
+                break;
+            case edk::eventWindowMouseMoved:
+                if(this->mouseMoved){
+                    return true;
+                }
+                break;
+            case edk::eventWindowMouseEnter:
+                if(this->mouseEnter){
+                    return true;
+                }
+                break;
+            case edk::eventWindowMouseExit:
+                if(this->mouseExit){
+                    return true;
+                }
+                break;
+            case edk::eventWindowResizePos:
+                if(this->resizePos.width || this->resizePos.height){
+                    return true;
+                }
+                break;
+            case edk::eventWindowWindowSize:
+                return true;
+                break;
+            case edk::eventWindowMousePos:
+                return true;
+                break;
+            case edk::eventWindowMousePosWorld:
+                return true;
+                break;
+            case edk::eventWindowMousePosWindow:
+                return true;
+                break;
+            case edk::eventWindowMouseMove:
+                if(this->mouseMove.x || this->mouseMove.y){
+                    return true;
+                }
+                break;
+            case edk::eventWindowKeyPressed:
+                if(this->keyPressed.size()){
+                    return true;
+                }
+                break;
+            case edk::eventWindowKeyRelease:
+                if(this->keyRelease.size()){
+                    return true;
+                }
+                break;
+            case edk::eventWindowKeyHolded:
+                if(this->keyHolded.size()){
+                    return true;
+                }
+                break;
+            case edk::eventWindowKeyText:
+                if(this->keyText.size()){
+                    return true;
+                }
+                break;
+            case edk::eventWindowMousePressed:
+                if(this->mousePressed.size()){
+                    return true;
+                }
+                break;
+            case edk::eventWindowMouseRelease:
+                if(this->mouseRelease.size()){
+                    return true;
+                }
+                break;
+            case edk::eventWindowMouseHolded:
+                if(this->mouseHolded.size()){
+                    return true;
+                }
+                break;
+            case edk::eventWindowMouseDoubleClick:
+                if(this->mouseDoubleClick.size()){
+                    return true;
+                }
+                break;
+            case edk::eventWindowMouseScrollWheel:
+                if(this->mouseScrollWheel){
+                    return true;
+                }
+                break;
+            case edk::eventWindowControllerPressed:
+                if(this->controllerPressed.getControllerSize()){
+                    return true;
+                }
+                break;
+            case edk::eventWindowControllerHolded:
+                if(this->controllerHolded.getControllerSize()){
+                    return true;
+                }
+                break;
+            case edk::eventWindowControllerReleased:
+                if(this->controllerReleased.getControllerSize()){
+                    return true;
+                }
+                break;
+            case edk::eventWindowControllerAxisMoved:
+                if(this->controllerAxisMoved.getControllerSize()){
+                    return true;
+                }
+                break;
+            default:
+                break;
+            }
+            type = va_arg(vl,edk::EventWindowType);
+        }
+        return false;
+    }
+    bool haveSomethingTypesTree(edk::vector::BinaryTree<edk::EventWindowType>* tree){
+        if(tree){
+            edk::EventWindowType type;
+            edk::uint32 size = tree->size();
+            for(edk::uint32 i=0u;i<size;i++){
+                type = tree->getElementInPosition(i);
+                switch(type){
+                case edk::eventWindowButtonExit:
+                    if(this->buttonExit){
+                        return true;
+                    }
+                    break;
+                case edk::eventWindowLostFocus:
+                    if(this->lostFocus){
+                        return true;
+                    }
+                    break;
+                case edk::eventWindowGainedFocus:
+                    if(this->gainedFocus){
+                        return true;
+                    }
+                    break;
+                case edk::eventWindowResize:
+                    if(this->resize){
+                        return true;
+                    }
+                    break;
+                case edk::eventWindowMouseMoved:
+                    if(this->mouseMoved){
+                        return true;
+                    }
+                    break;
+                case edk::eventWindowMouseEnter:
+                    if(this->mouseEnter){
+                        return true;
+                    }
+                    break;
+                case edk::eventWindowMouseExit:
+                    if(this->mouseExit){
+                        return true;
+                    }
+                    break;
+                case edk::eventWindowResizePos:
+                    if(this->resizePos.width || this->resizePos.height){
+                        return true;
+                    }
+                    break;
+                case edk::eventWindowWindowSize:
+                    return true;
+                    break;
+                case edk::eventWindowMousePos:
+                    return true;
+                    break;
+                case edk::eventWindowMousePosWorld:
+                    return true;
+                    break;
+                case edk::eventWindowMousePosWindow:
+                    return true;
+                    break;
+                case edk::eventWindowMouseMove:
+                    if(this->mouseMove.x || this->mouseMove.y){
+                        return true;
+                    }
+                    break;
+                case edk::eventWindowKeyPressed:
+                    if(this->keyPressed.size()){
+                        return true;
+                    }
+                    break;
+                case edk::eventWindowKeyRelease:
+                    if(this->keyRelease.size()){
+                        return true;
+                    }
+                    break;
+                case edk::eventWindowKeyHolded:
+                    if(this->keyHolded.size()){
+                        return true;
+                    }
+                    break;
+                case edk::eventWindowKeyText:
+                    if(this->keyText.size()){
+                        return true;
+                    }
+                    break;
+                case edk::eventWindowMousePressed:
+                    if(this->mousePressed.size()){
+                        return true;
+                    }
+                    break;
+                case edk::eventWindowMouseRelease:
+                    if(this->mouseRelease.size()){
+                        return true;
+                    }
+                    break;
+                case edk::eventWindowMouseHolded:
+                    if(this->mouseHolded.size()){
+                        return true;
+                    }
+                    break;
+                case edk::eventWindowMouseDoubleClick:
+                    if(this->mouseDoubleClick.size()){
+                        return true;
+                    }
+                    break;
+                case edk::eventWindowMouseScrollWheel:
+                    if(this->mouseScrollWheel){
+                        return true;
+                    }
+                    break;
+                case edk::eventWindowControllerPressed:
+                    if(this->controllerPressed.getControllerSize()){
+                        return true;
+                    }
+                    break;
+                case edk::eventWindowControllerHolded:
+                    if(this->controllerHolded.getControllerSize()){
+                        return true;
+                    }
+                    break;
+                case edk::eventWindowControllerReleased:
+                    if(this->controllerReleased.getControllerSize()){
+                        return true;
+                    }
+                    break;
+                case edk::eventWindowControllerAxisMoved:
+                    if(this->controllerAxisMoved.getControllerSize()){
+                        return true;
+                    }
+                    break;
+                default:
+                    break;
+                }
+            }
+        }
+        return false;
+    }
     void printEvents(){
         printf("\nEvents:");edkEnd();
         bool have=false;
@@ -683,24 +956,6 @@ public:
             }
 
 
-            if(writeWindowSize){
-                file->writeBin((edk::uint32)edk::eventWindowWindowSize);edkEnd();
-                ret=true;edkEnd();
-            }
-            if(writeMousePos){
-                file->writeBin((edk::uint32)edk::eventWindowMousePos);edkEnd();
-                ret=true;edkEnd();
-            }
-            if(writeMousePosWindow){
-                file->writeBin((edk::uint32)edk::eventWindowMousePosWorld);edkEnd();
-                ret=true;edkEnd();
-            }
-            if(writeMousePosWorld){
-                file->writeBin((edk::uint32)edk::eventWindowMousePosWindow);edkEnd();
-                ret=true;edkEnd();
-            }
-
-
             if(this->mouseMove.x || this->mouseMove.y){
                 file->writeBin((edk::uint32)edk::eventWindowMouseMove);edkEnd();
                 ret=true;edkEnd();
@@ -852,9 +1107,986 @@ public:
                 }
                 ret=true;edkEnd();
             }
+
+
+            if(writeWindowSize){
+                file->writeBin((edk::uint32)edk::eventWindowWindowSize);edkEnd();
+                ret=true;edkEnd();
+            }
+            if(writeMousePos){
+                file->writeBin((edk::uint32)edk::eventWindowMousePos);edkEnd();
+                ret=true;edkEnd();
+            }
+            if(writeMousePosWindow){
+                file->writeBin((edk::uint32)edk::eventWindowMousePosWorld);edkEnd();
+                ret=true;edkEnd();
+            }
+            if(writeMousePosWorld){
+                file->writeBin((edk::uint32)edk::eventWindowMousePosWindow);edkEnd();
+                ret=true;edkEnd();
+            }
             return ret;
         }
         return false;
+    }
+    bool writeFileTypes(edk::File* file,edk::EventWindowType types, ...){
+        //Alloc the return
+        bool ret=false;
+        //test if have the fileTemp
+        if(file){
+            edk::EventWindowType type;
+            va_list vl;
+            //fist count the
+            va_start(vl,types);
+            type = va_arg(vl,edk::EventWindowType);
+
+            bool writeWindowSize=false;edkEnd();
+            bool writeMousePos=false;edkEnd();
+            bool writeMousePosWorld=false;edkEnd();
+            bool writeMousePosWindow=false;edkEnd();
+
+            //first write the size of elements
+            edk::uint32 sizeElements=0u;
+
+            while(type){
+                switch(type){
+                case edk::eventWindowButtonExit:
+                    if(this->buttonExit){
+                        sizeElements++;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowLostFocus:
+                    if(this->lostFocus){
+                        sizeElements++;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowGainedFocus:
+                    if(this->gainedFocus){
+                        sizeElements++;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowResize:
+                    if(this->resize){
+                        sizeElements++;edkEnd();
+                        writeWindowSize=true;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowMouseMoved:
+                    if(this->mouseMoved){
+                        sizeElements++;edkEnd();
+                        writeMousePos=true;edkEnd();
+                        writeMousePosWorld=true;edkEnd();
+                        writeMousePosWindow=true;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowMouseEnter:
+                    if(this->mouseEnter){
+                        sizeElements++;edkEnd();
+                        writeMousePos=true;edkEnd();
+                        writeMousePosWorld=true;edkEnd();
+                        writeMousePosWindow=true;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowMouseExit:
+                    if(this->mouseExit){
+                        sizeElements++;edkEnd();
+                        writeMousePos=true;edkEnd();
+                        writeMousePosWorld=true;edkEnd();
+                        writeMousePosWindow=true;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowResizePos:
+                    if(this->resizePos.width || this->resizePos.height){
+                        sizeElements++;edkEnd();
+                        writeWindowSize=true;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowWindowSize:
+                    writeWindowSize=true;
+                    break;
+                case edk::eventWindowMousePos:
+                    writeMousePos=true;
+                    break;
+                case edk::eventWindowMousePosWorld:
+                    writeMousePosWorld=true;
+                    break;
+                case edk::eventWindowMousePosWindow:
+                    writeMousePosWindow=true;
+                    break;
+                case edk::eventWindowMouseMove:
+                    if(this->mouseMove.x || this->mouseMove.y){
+                        sizeElements++;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowKeyPressed:
+                    if(this->keyPressed.size()){
+                        sizeElements++;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowKeyRelease:
+                    if(this->keyRelease.size()){
+                        sizeElements++;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowKeyHolded:
+                    if(this->keyHolded.size()){
+                        sizeElements++;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowKeyText:
+                    if(this->keyText.size()){
+                        sizeElements++;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowMousePressed:
+                    if(this->mousePressed.size()){
+                        sizeElements++;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowMouseRelease:
+                    if(this->mouseRelease.size()){
+                        sizeElements++;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowMouseHolded:
+                    if(this->mouseHolded.size()){
+                        sizeElements++;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowMouseDoubleClick:
+                    if(this->mouseDoubleClick.size()){
+                        sizeElements++;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowMouseScrollWheel:
+                    if(this->mouseScrollWheel){
+                        sizeElements++;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowControllerPressed:
+                    if(this->controllerPressed.getControllerSize()){
+                        sizeElements++;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowControllerHolded:
+                    if(this->controllerHolded.getControllerSize()){
+                        sizeElements++;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowControllerReleased:
+                    if(this->controllerReleased.getControllerSize()){
+                        sizeElements++;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowControllerAxisMoved:
+                    if(this->controllerAxisMoved.getControllerSize()){
+                        sizeElements++;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                default:
+                    break;
+                }
+                type = va_arg(vl,edk::EventWindowType);
+            }
+            if(writeWindowSize){
+                sizeElements++;edkEnd();
+            }
+            if(writeMousePos){
+                sizeElements++;edkEnd();
+            }
+            if(writeMousePosWindow){
+                sizeElements++;edkEnd();
+            }
+            if(writeMousePosWorld){
+                sizeElements++;edkEnd();
+            }
+            //write the sizeElements
+            file->writeBin((edk::uint32)sizeElements);edkEnd();
+
+
+            if(!sizeElements){
+                return false;
+            }
+
+
+
+
+
+            writeWindowSize=false;edkEnd();
+            writeMousePos=false;edkEnd();
+            writeMousePosWorld=false;edkEnd();
+            writeMousePosWindow=false;edkEnd();
+
+
+
+
+
+
+            //write the values into the file
+            va_start(vl,types);
+            type = va_arg(vl,edk::EventWindowType);
+            while(type){
+                switch(type){
+                case edk::eventWindowButtonExit:
+                    if(this->buttonExit){
+                        file->writeBin((edk::uint32)edk::eventWindowButtonExit);edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowLostFocus:
+                    if(this->lostFocus){
+                        file->writeBin((edk::uint32)edk::eventWindowLostFocus);edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowGainedFocus:
+                    if(this->gainedFocus){
+                        file->writeBin((edk::uint32)edk::eventWindowGainedFocus);edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowResize:
+                    if(this->resize){
+                        file->writeBin((edk::uint32)edk::eventWindowResize);edkEnd();
+                        writeWindowSize=true;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowMouseMoved:
+                    if(this->mouseMoved){
+                        file->writeBin((edk::uint32)edk::eventWindowMouseMoved);edkEnd();
+                        writeMousePos=true;edkEnd();
+                        writeMousePosWorld=true;edkEnd();
+                        writeMousePosWindow=true;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowMouseEnter:
+                    if(this->mouseEnter){
+                        file->writeBin((edk::uint32)edk::eventWindowMouseEnter);edkEnd();
+                        writeMousePos=true;edkEnd();
+                        writeMousePosWorld=true;edkEnd();
+                        writeMousePosWindow=true;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowMouseExit:
+                    if(this->mouseExit){
+                        file->writeBin((edk::uint32)edk::eventWindowMouseExit);edkEnd();
+                        writeMousePos=true;edkEnd();
+                        writeMousePosWorld=true;edkEnd();
+                        writeMousePosWindow=true;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowResizePos:
+                    if(this->resizePos.width || this->resizePos.height){
+                        file->writeBin((edk::uint32)edk::eventWindowResizePos);edkEnd();
+                        writeWindowSize=true;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowWindowSize:
+                    writeWindowSize=true;
+                    break;
+                case edk::eventWindowMousePos:
+                    writeMousePos=true;
+                    break;
+                case edk::eventWindowMousePosWorld:
+                    writeMousePosWorld=true;
+                    break;
+                case edk::eventWindowMousePosWindow:
+                    writeMousePosWindow=true;
+                    break;
+                case edk::eventWindowMouseMove:
+                    if(this->mouseMove.x || this->mouseMove.y){
+                        file->writeBin((edk::uint32)edk::eventWindowMouseMove);edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowKeyPressed:
+                    if(this->keyPressed.size()){
+                        file->writeBin((edk::uint32)edk::eventWindowKeyPressed);edkEnd();
+                        edk::uint32 size = this->keyPressed.size();edkEnd();
+                        file->writeBin((edk::uint32)size);edkEnd();
+                        for(edk::uint32 i=0u;i<size;i++){
+                            file->writeBin((edk::uint32)this->keyPressed.get(i));edkEnd();
+                        }
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowKeyRelease:
+                    if(this->keyRelease.size()){
+                        file->writeBin((edk::uint32)edk::eventWindowKeyRelease);edkEnd();
+                        edk::uint32 size = this->keyRelease.size();edkEnd();
+                        file->writeBin((edk::uint32)size);edkEnd();
+                        for(edk::uint32 i=0u;i<size;i++){
+                            file->writeBin((edk::uint32)this->keyRelease.get(i));edkEnd();
+                        }
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowKeyHolded:
+                    if(this->keyHolded.size()){
+                        file->writeBin((edk::uint32)edk::eventWindowKeyHolded);edkEnd();
+                        edk::uint32 size = this->keyHolded.size();edkEnd();
+                        file->writeBin((edk::uint32)size);edkEnd();
+                        for(edk::uint32 i=0u;i<size;i++){
+                            file->writeBin((edk::uint32)this->keyHolded.get(i));edkEnd();
+                        }
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowKeyText:
+                    if(this->keyText.size()){
+                        file->writeBin((edk::uint32)edk::eventWindowKeyText);edkEnd();
+                        edk::uint32 size = this->keyText.size();edkEnd();
+                        file->writeBin((edk::uint32)size);edkEnd();
+                        for(edk::uint32 i=0u;i<size;i++){
+                            file->writeBin((edk::uint32)this->keyText.get(i));edkEnd();
+                        }
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowMousePressed:
+                    if(this->mousePressed.size()){
+                        file->writeBin((edk::uint32)edk::eventWindowMousePressed);edkEnd();
+                        edk::uint32 size = this->mousePressed.size();edkEnd();
+                        file->writeBin((edk::uint32)size);edkEnd();
+                        for(edk::uint32 i=0u;i<size;i++){
+                            file->writeBin((edk::uint32)this->mousePressed.get(i));edkEnd();
+                        }
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowMouseRelease:
+                    if(this->mouseRelease.size()){
+                        file->writeBin((edk::uint32)edk::eventWindowMouseRelease);edkEnd();
+                        edk::uint32 size = this->mouseRelease.size();edkEnd();
+                        file->writeBin((edk::uint32)size);edkEnd();
+                        for(edk::uint32 i=0u;i<size;i++){
+                            file->writeBin((edk::uint32)this->mouseRelease.get(i));edkEnd();
+                        }
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowMouseHolded:
+                    if(this->mouseHolded.size()){
+                        file->writeBin((edk::uint32)edk::eventWindowMouseHolded);edkEnd();
+                        edk::uint32 size = this->mouseHolded.size();edkEnd();
+                        file->writeBin((edk::uint32)size);edkEnd();
+                        for(edk::uint32 i=0u;i<size;i++){
+                            file->writeBin((edk::uint32)this->mouseHolded.get(i));edkEnd();
+                        }
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowMouseDoubleClick:
+                    if(this->mouseDoubleClick.size()){
+                        file->writeBin((edk::uint32)edk::eventWindowMouseDoubleClick);edkEnd();
+                        edk::uint32 size = this->mouseDoubleClick.size();edkEnd();
+                        file->writeBin((edk::uint32)size);edkEnd();
+                        for(edk::uint32 i=0u;i<size;i++){
+                            file->writeBin((edk::uint32)this->mouseDoubleClick.get(i));edkEnd();
+                        }
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowMouseScrollWheel:
+                    if(this->mouseScrollWheel){
+                        file->writeBin((edk::uint32)edk::eventWindowMouseScrollWheel);edkEnd();
+                        file->writeBin((edk::int32)this->mouseScrollWheel);edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowControllerPressed:
+                    if(this->controllerPressed.getControllerSize()){
+                        file->writeBin((edk::uint32)edk::eventWindowControllerPressed);edkEnd();
+                        edk::uint32 sizeI = this->controllerPressed.getControllerSize();edkEnd();
+                        file->writeBin((edk::uint32)sizeI);edkEnd();
+                        for(edk::uint32 i=0u;i<sizeI;i++){
+                            file->writeBin((edk::uint32)this->controllerPressed.getControllerIDInPosition(i));edkEnd();
+                            edk::uint32 sizeJ = this->controllerPressed.getControllerButtonSizeInPosition(i);edkEnd();
+                            file->writeBin((edk::uint32)sizeJ);edkEnd();
+                            for(edk::uint32 j=0u;j<sizeJ;j++){
+                                file->writeBin((edk::uint32)this->controllerPressed.getControllerButtonByID(i,j));edkEnd();
+                            }
+                        }
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowControllerHolded:
+                    if(this->controllerHolded.getControllerSize()){
+                        file->writeBin((edk::uint32)edk::eventWindowControllerHolded);edkEnd();
+                        edk::uint32 sizeI = this->controllerHolded.getControllerSize();edkEnd();
+                        file->writeBin((edk::uint32)sizeI);edkEnd();
+                        for(edk::uint32 i=0u;i<sizeI;i++){
+                            file->writeBin((edk::uint32)this->controllerHolded.getControllerIDInPosition(i));edkEnd();
+                            edk::uint32 sizeJ = this->controllerHolded.getControllerButtonSizeInPosition(i);edkEnd();
+                            file->writeBin((edk::uint32)sizeJ);edkEnd();
+                            for(edk::uint32 j=0u;j<sizeJ;j++){
+                                file->writeBin((edk::uint32)this->controllerHolded.getControllerButtonByID(i,j));edkEnd();
+                            }
+                        }
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowControllerReleased:
+                    if(this->controllerReleased.getControllerSize()){
+                        file->writeBin((edk::uint32)edk::eventWindowControllerReleased);edkEnd();
+                        edk::uint32 sizeI = this->controllerReleased.getControllerSize();edkEnd();
+                        file->writeBin((edk::uint32)sizeI);edkEnd();
+                        for(edk::uint32 i=0u;i<sizeI;i++){
+                            file->writeBin((edk::uint32)this->controllerReleased.getControllerIDInPosition(i));edkEnd();
+                            edk::uint32 sizeJ = this->controllerReleased.getControllerButtonSizeInPosition(i);edkEnd();
+                            file->writeBin((edk::uint32)sizeJ);edkEnd();
+                            for(edk::uint32 j=0u;j<sizeJ;j++){
+                                file->writeBin((edk::uint32)this->controllerReleased.getControllerButtonByID(i,j));edkEnd();
+                            }
+                        }
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowControllerAxisMoved:
+                    if(this->controllerAxisMoved.getControllerSize()){
+                        file->writeBin((edk::uint32)edk::eventWindowControllerAxisMoved);edkEnd();
+                        edk::uint32 sizeI = this->controllerAxisMoved.getControllerSize();edkEnd();
+                        file->writeBin((edk::uint32)sizeI);edkEnd();
+                        for(edk::uint32 i=0u;i<sizeI;i++){
+                            file->writeBin((edk::uint32)this->controllerAxisMoved.getControllerIDInPosition(i));edkEnd();
+                            edk::uint32 sizeJ = this->controllerAxisMoved.getControllerButtonSizeInPosition(i);edkEnd();
+                            file->writeBin((edk::uint32)sizeJ);edkEnd();
+                            for(edk::uint32 j=0u;j<sizeJ;j++){
+                                file->writeBin((edk::uint32)this->controllerAxisMoved.getControllerAxisInPosition(i,j));edkEnd();
+                                file->writeBin((edk::uint32)this->controllerAxisMoved.getControllerAxisValueInPosition(i,j));edkEnd();
+                            }
+                        }
+                        ret=true;edkEnd();
+                    }
+                    break;
+                default:
+                    break;
+                }
+                type = va_arg(vl,edk::EventWindowType);
+            }
+            if(writeWindowSize){
+                file->writeBin((edk::uint32)edk::eventWindowWindowSize);edkEnd();
+                ret=true;edkEnd();
+            }
+            if(writeMousePos){
+                file->writeBin((edk::uint32)edk::eventWindowMousePos);edkEnd();
+                ret=true;edkEnd();
+            }
+            if(writeMousePosWindow){
+                file->writeBin((edk::uint32)edk::eventWindowMousePosWorld);edkEnd();
+                ret=true;edkEnd();
+            }
+            if(writeMousePosWorld){
+                file->writeBin((edk::uint32)edk::eventWindowMousePosWindow);edkEnd();
+                ret=true;edkEnd();
+            }
+            //
+        }
+        return ret;
+    }
+    bool writeFileTypesTree(edk::File* file,edk::vector::BinaryTree<edk::EventWindowType>* tree){
+        //Alloc the return
+        bool ret=false;
+        //test if have the fileTemp
+        if(file && tree){
+            edk::EventWindowType type;
+
+
+            bool writeWindowSize=false;edkEnd();
+            bool writeMousePos=false;edkEnd();
+            bool writeMousePosWorld=false;edkEnd();
+            bool writeMousePosWindow=false;edkEnd();
+
+            //first write the size of elements
+            edk::uint32 sizeElements=0u;
+
+            edk::uint32 size = tree->size();
+
+            for(edk::uint32 i=0u;i<size;i++){
+                type = tree->getElementInPosition(i);
+                switch(type){
+                case edk::eventWindowButtonExit:
+                    if(this->buttonExit){
+                        sizeElements++;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowLostFocus:
+                    if(this->lostFocus){
+                        sizeElements++;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowGainedFocus:
+                    if(this->gainedFocus){
+                        sizeElements++;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowResize:
+                    if(this->resize){
+                        sizeElements++;edkEnd();
+                        writeWindowSize=true;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowMouseMoved:
+                    if(this->mouseMoved){
+                        sizeElements++;edkEnd();
+                        writeMousePos=true;edkEnd();
+                        writeMousePosWorld=true;edkEnd();
+                        writeMousePosWindow=true;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowMouseEnter:
+                    if(this->mouseEnter){
+                        sizeElements++;edkEnd();
+                        writeMousePos=true;edkEnd();
+                        writeMousePosWorld=true;edkEnd();
+                        writeMousePosWindow=true;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowMouseExit:
+                    if(this->mouseExit){
+                        sizeElements++;edkEnd();
+                        writeMousePos=true;edkEnd();
+                        writeMousePosWorld=true;edkEnd();
+                        writeMousePosWindow=true;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowResizePos:
+                    if(this->resizePos.width || this->resizePos.height){
+                        sizeElements++;edkEnd();
+                        writeWindowSize=true;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowWindowSize:
+                    writeWindowSize=true;
+                    break;
+                case edk::eventWindowMousePos:
+                    writeMousePos=true;
+                    break;
+                case edk::eventWindowMousePosWorld:
+                    writeMousePosWorld=true;
+                    break;
+                case edk::eventWindowMousePosWindow:
+                    writeMousePosWindow=true;
+                    break;
+                case edk::eventWindowMouseMove:
+                    if(this->mouseMove.x || this->mouseMove.y){
+                        sizeElements++;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowKeyPressed:
+                    if(this->keyPressed.size()){
+                        sizeElements++;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowKeyRelease:
+                    if(this->keyRelease.size()){
+                        sizeElements++;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowKeyHolded:
+                    if(this->keyHolded.size()){
+                        sizeElements++;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowKeyText:
+                    if(this->keyText.size()){
+                        sizeElements++;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowMousePressed:
+                    if(this->mousePressed.size()){
+                        sizeElements++;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowMouseRelease:
+                    if(this->mouseRelease.size()){
+                        sizeElements++;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowMouseHolded:
+                    if(this->mouseHolded.size()){
+                        sizeElements++;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowMouseDoubleClick:
+                    if(this->mouseDoubleClick.size()){
+                        sizeElements++;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowMouseScrollWheel:
+                    if(this->mouseScrollWheel){
+                        sizeElements++;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowControllerPressed:
+                    if(this->controllerPressed.getControllerSize()){
+                        sizeElements++;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowControllerHolded:
+                    if(this->controllerHolded.getControllerSize()){
+                        sizeElements++;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowControllerReleased:
+                    if(this->controllerReleased.getControllerSize()){
+                        sizeElements++;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowControllerAxisMoved:
+                    if(this->controllerAxisMoved.getControllerSize()){
+                        sizeElements++;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                default:
+                    break;
+                }
+            }
+            if(writeWindowSize){
+                sizeElements++;edkEnd();
+            }
+            if(writeMousePos){
+                sizeElements++;edkEnd();
+            }
+            if(writeMousePosWindow){
+                sizeElements++;edkEnd();
+            }
+            if(writeMousePosWorld){
+                sizeElements++;edkEnd();
+            }
+            //write the sizeElements
+            file->writeBin((edk::uint32)sizeElements);edkEnd();
+
+
+            if(!sizeElements){
+                return false;
+            }
+
+
+
+            writeWindowSize=false;edkEnd();
+            writeMousePos=false;edkEnd();
+            writeMousePosWorld=false;edkEnd();
+            writeMousePosWindow=false;edkEnd();
+
+
+
+
+
+
+            //write the values into the file
+            for(edk::uint32 i=0u;i<size;i++){
+                type = tree->getElementInPosition(i);
+                switch(type){
+                case edk::eventWindowButtonExit:
+                    if(this->buttonExit){
+                        file->writeBin((edk::uint32)edk::eventWindowButtonExit);edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowLostFocus:
+                    if(this->lostFocus){
+                        file->writeBin((edk::uint32)edk::eventWindowLostFocus);edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowGainedFocus:
+                    if(this->gainedFocus){
+                        file->writeBin((edk::uint32)edk::eventWindowGainedFocus);edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowResize:
+                    if(this->resize){
+                        file->writeBin((edk::uint32)edk::eventWindowResize);edkEnd();
+                        writeWindowSize=true;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowMouseMoved:
+                    if(this->mouseMoved){
+                        file->writeBin((edk::uint32)edk::eventWindowMouseMoved);edkEnd();
+                        writeMousePos=true;edkEnd();
+                        writeMousePosWorld=true;edkEnd();
+                        writeMousePosWindow=true;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowMouseEnter:
+                    if(this->mouseEnter){
+                        file->writeBin((edk::uint32)edk::eventWindowMouseEnter);edkEnd();
+                        writeMousePos=true;edkEnd();
+                        writeMousePosWorld=true;edkEnd();
+                        writeMousePosWindow=true;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowMouseExit:
+                    if(this->mouseExit){
+                        file->writeBin((edk::uint32)edk::eventWindowMouseExit);edkEnd();
+                        writeMousePos=true;edkEnd();
+                        writeMousePosWorld=true;edkEnd();
+                        writeMousePosWindow=true;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowResizePos:
+                    if(this->resizePos.width || this->resizePos.height){
+                        file->writeBin((edk::uint32)edk::eventWindowResizePos);edkEnd();
+                        writeWindowSize=true;edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowWindowSize:
+                    writeWindowSize=true;
+                    break;
+                case edk::eventWindowMousePos:
+                    writeMousePos=true;
+                    break;
+                case edk::eventWindowMousePosWorld:
+                    writeMousePosWorld=true;
+                    break;
+                case edk::eventWindowMousePosWindow:
+                    writeMousePosWindow=true;
+                    break;
+                case edk::eventWindowMouseMove:
+                    if(this->mouseMove.x || this->mouseMove.y){
+                        file->writeBin((edk::uint32)edk::eventWindowMouseMove);edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowKeyPressed:
+                    if(this->keyPressed.size()){
+                        file->writeBin((edk::uint32)edk::eventWindowKeyPressed);edkEnd();
+                        edk::uint32 size = this->keyPressed.size();edkEnd();
+                        file->writeBin((edk::uint32)size);edkEnd();
+                        for(edk::uint32 i=0u;i<size;i++){
+                            file->writeBin((edk::uint32)this->keyPressed.get(i));edkEnd();
+                        }
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowKeyRelease:
+                    if(this->keyRelease.size()){
+                        file->writeBin((edk::uint32)edk::eventWindowKeyRelease);edkEnd();
+                        edk::uint32 size = this->keyRelease.size();edkEnd();
+                        file->writeBin((edk::uint32)size);edkEnd();
+                        for(edk::uint32 i=0u;i<size;i++){
+                            file->writeBin((edk::uint32)this->keyRelease.get(i));edkEnd();
+                        }
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowKeyHolded:
+                    if(this->keyHolded.size()){
+                        file->writeBin((edk::uint32)edk::eventWindowKeyHolded);edkEnd();
+                        edk::uint32 size = this->keyHolded.size();edkEnd();
+                        file->writeBin((edk::uint32)size);edkEnd();
+                        for(edk::uint32 i=0u;i<size;i++){
+                            file->writeBin((edk::uint32)this->keyHolded.get(i));edkEnd();
+                        }
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowKeyText:
+                    if(this->keyText.size()){
+                        file->writeBin((edk::uint32)edk::eventWindowKeyText);edkEnd();
+                        edk::uint32 size = this->keyText.size();edkEnd();
+                        file->writeBin((edk::uint32)size);edkEnd();
+                        for(edk::uint32 i=0u;i<size;i++){
+                            file->writeBin((edk::uint32)this->keyText.get(i));edkEnd();
+                        }
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowMousePressed:
+                    if(this->mousePressed.size()){
+                        file->writeBin((edk::uint32)edk::eventWindowMousePressed);edkEnd();
+                        edk::uint32 size = this->mousePressed.size();edkEnd();
+                        file->writeBin((edk::uint32)size);edkEnd();
+                        for(edk::uint32 i=0u;i<size;i++){
+                            file->writeBin((edk::uint32)this->mousePressed.get(i));edkEnd();
+                        }
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowMouseRelease:
+                    if(this->mouseRelease.size()){
+                        file->writeBin((edk::uint32)edk::eventWindowMouseRelease);edkEnd();
+                        edk::uint32 size = this->mouseRelease.size();edkEnd();
+                        file->writeBin((edk::uint32)size);edkEnd();
+                        for(edk::uint32 i=0u;i<size;i++){
+                            file->writeBin((edk::uint32)this->mouseRelease.get(i));edkEnd();
+                        }
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowMouseHolded:
+                    if(this->mouseHolded.size()){
+                        file->writeBin((edk::uint32)edk::eventWindowMouseHolded);edkEnd();
+                        edk::uint32 size = this->mouseHolded.size();edkEnd();
+                        file->writeBin((edk::uint32)size);edkEnd();
+                        for(edk::uint32 i=0u;i<size;i++){
+                            file->writeBin((edk::uint32)this->mouseHolded.get(i));edkEnd();
+                        }
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowMouseDoubleClick:
+                    if(this->mouseDoubleClick.size()){
+                        file->writeBin((edk::uint32)edk::eventWindowMouseDoubleClick);edkEnd();
+                        edk::uint32 size = this->mouseDoubleClick.size();edkEnd();
+                        file->writeBin((edk::uint32)size);edkEnd();
+                        for(edk::uint32 i=0u;i<size;i++){
+                            file->writeBin((edk::uint32)this->mouseDoubleClick.get(i));edkEnd();
+                        }
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowMouseScrollWheel:
+                    if(this->mouseScrollWheel){
+                        file->writeBin((edk::uint32)edk::eventWindowMouseScrollWheel);edkEnd();
+                        file->writeBin((edk::int32)this->mouseScrollWheel);edkEnd();
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowControllerPressed:
+                    if(this->controllerPressed.getControllerSize()){
+                        file->writeBin((edk::uint32)edk::eventWindowControllerPressed);edkEnd();
+                        edk::uint32 sizeI = this->controllerPressed.getControllerSize();edkEnd();
+                        file->writeBin((edk::uint32)sizeI);edkEnd();
+                        for(edk::uint32 i=0u;i<sizeI;i++){
+                            file->writeBin((edk::uint32)this->controllerPressed.getControllerIDInPosition(i));edkEnd();
+                            edk::uint32 sizeJ = this->controllerPressed.getControllerButtonSizeInPosition(i);edkEnd();
+                            file->writeBin((edk::uint32)sizeJ);edkEnd();
+                            for(edk::uint32 j=0u;j<sizeJ;j++){
+                                file->writeBin((edk::uint32)this->controllerPressed.getControllerButtonByID(i,j));edkEnd();
+                            }
+                        }
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowControllerHolded:
+                    if(this->controllerHolded.getControllerSize()){
+                        file->writeBin((edk::uint32)edk::eventWindowControllerHolded);edkEnd();
+                        edk::uint32 sizeI = this->controllerHolded.getControllerSize();edkEnd();
+                        file->writeBin((edk::uint32)sizeI);edkEnd();
+                        for(edk::uint32 i=0u;i<sizeI;i++){
+                            file->writeBin((edk::uint32)this->controllerHolded.getControllerIDInPosition(i));edkEnd();
+                            edk::uint32 sizeJ = this->controllerHolded.getControllerButtonSizeInPosition(i);edkEnd();
+                            file->writeBin((edk::uint32)sizeJ);edkEnd();
+                            for(edk::uint32 j=0u;j<sizeJ;j++){
+                                file->writeBin((edk::uint32)this->controllerHolded.getControllerButtonByID(i,j));edkEnd();
+                            }
+                        }
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowControllerReleased:
+                    if(this->controllerReleased.getControllerSize()){
+                        file->writeBin((edk::uint32)edk::eventWindowControllerReleased);edkEnd();
+                        edk::uint32 sizeI = this->controllerReleased.getControllerSize();edkEnd();
+                        file->writeBin((edk::uint32)sizeI);edkEnd();
+                        for(edk::uint32 i=0u;i<sizeI;i++){
+                            file->writeBin((edk::uint32)this->controllerReleased.getControllerIDInPosition(i));edkEnd();
+                            edk::uint32 sizeJ = this->controllerReleased.getControllerButtonSizeInPosition(i);edkEnd();
+                            file->writeBin((edk::uint32)sizeJ);edkEnd();
+                            for(edk::uint32 j=0u;j<sizeJ;j++){
+                                file->writeBin((edk::uint32)this->controllerReleased.getControllerButtonByID(i,j));edkEnd();
+                            }
+                        }
+                        ret=true;edkEnd();
+                    }
+                    break;
+                case edk::eventWindowControllerAxisMoved:
+                    if(this->controllerAxisMoved.getControllerSize()){
+                        file->writeBin((edk::uint32)edk::eventWindowControllerAxisMoved);edkEnd();
+                        edk::uint32 sizeI = this->controllerAxisMoved.getControllerSize();edkEnd();
+                        file->writeBin((edk::uint32)sizeI);edkEnd();
+                        for(edk::uint32 i=0u;i<sizeI;i++){
+                            file->writeBin((edk::uint32)this->controllerAxisMoved.getControllerIDInPosition(i));edkEnd();
+                            edk::uint32 sizeJ = this->controllerAxisMoved.getControllerButtonSizeInPosition(i);edkEnd();
+                            file->writeBin((edk::uint32)sizeJ);edkEnd();
+                            for(edk::uint32 j=0u;j<sizeJ;j++){
+                                file->writeBin((edk::uint32)this->controllerAxisMoved.getControllerAxisInPosition(i,j));edkEnd();
+                                file->writeBin((edk::uint32)this->controllerAxisMoved.getControllerAxisValueInPosition(i,j));edkEnd();
+                            }
+                        }
+                        ret=true;edkEnd();
+                    }
+                    break;
+                default:
+                    break;
+                }
+            }
+            if(writeWindowSize){
+                file->writeBin((edk::uint32)edk::eventWindowWindowSize);edkEnd();
+                ret=true;edkEnd();
+            }
+            if(writeMousePos){
+                file->writeBin((edk::uint32)edk::eventWindowMousePos);edkEnd();
+                ret=true;edkEnd();
+            }
+            if(writeMousePosWindow){
+                file->writeBin((edk::uint32)edk::eventWindowMousePosWorld);edkEnd();
+                ret=true;edkEnd();
+            }
+            if(writeMousePosWorld){
+                file->writeBin((edk::uint32)edk::eventWindowMousePosWindow);edkEnd();
+                ret=true;edkEnd();
+            }
+            //
+        }
+        return ret;
     }
     //read the events from a file
     bool readFile(edk::File* file){

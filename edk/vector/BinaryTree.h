@@ -851,11 +851,11 @@ public:
     }
 
     //return the size
-    edk::uint32 getSize(){
+    inline edk::uint32 getSize(){
         //
         return this->sizeTree;edkEnd();
     }
-    edk::uint32 size(){
+    inline edk::uint32 size(){
         //
         return this->getSize();edkEnd();
     }

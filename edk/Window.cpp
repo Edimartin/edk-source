@@ -89,7 +89,6 @@ void edk::Window::updateControllerEvents(){
 
 
 edk::Window::Window(){
-    //ctor
     //por padrao a window e o mouse sao renderizados
     this->renderMouse = true;edkEnd();
     this->renderWindow = true;edkEnd();
@@ -98,11 +97,22 @@ edk::Window::Window(){
     this->mouseInside=false;edkEnd();
     this->cleanEvents();edkEnd();
     this->time.start();edkEnd();
+#if defined(EDK_WINDOW_EVENTS_RW)
+    this->fileEvents.closeFile();edkEnd();
+    this->playingWriteEvents=false;edkEnd();
+    this->playingReadEvents=false;edkEnd();
+    this->nextSecondEvents=0.f;edkEnd();
+    this->secondEvents=0.f;edkEnd();
+#endif
 }
 
 edk::Window::~Window(){
     //clean the events
     this->cleanEvents();edkEnd();
+#if defined(EDK_WINDOW_EVENTS_RW)
+    this->fileEvents.closeFile();edkEnd();
+    this->treeEventTypes.clean();edkEnd();
+#endif
 }
 
 bool edk::Window::createWindow(uint32 width, uint32 height/*, uint32 bitsPerPixel*/, char8 *name, typeID design, uint32 depth, uint32 stencil, uint32 antialiasing){
@@ -657,6 +667,106 @@ edk::vec2i32 edk::Window::eventGetMouseMoved(){
 bool edk::Window::eventsHaveSomething(){
     return this->events.haveSomething();
 }
+bool edk::Window::haveSomethingTypes(edk::EventWindowType types, ...){
+    return this->events.haveSomethingTypes(types);
+}
+
+//start writing events into a file
+bool edk::Window::startWriteEvents(edk::char8* fileName){
+    this->stopWriteEvents();edkEnd();
+#if defined(EDK_WINDOW_EVENTS_RW)
+    //create the file
+    if(this->fileEvents.createAndOpenBinFile(fileName)){
+        this->playingWriteEvents=true;edkEnd();
+        return true;
+    }
+#else
+    printf("\n%u %s %s ERROR: Tu use this function you need define EDK_WINDOW_EVENTS_RW",__LINE__,__FILE__,__func__);fflush(stdout);
+#endif
+    return false;
+}
+bool edk::Window::startWriteEvents(const edk::char8* fileName){
+    return this->startWriteEvents((edk::char8*) fileName);
+}
+bool edk::Window::startWriteEvents(edk::char8* fileName,edk::EventWindowType types, ...){
+    //create the file
+    if(this->startWriteEvents(fileName)){
+#if defined(EDK_WINDOW_EVENTS_RW)
+        edk::EventWindowType type;edkEnd();
+        va_list vl;edkEnd();
+        //fist count the
+        va_start(vl,types);edkEnd();
+        type = va_arg(vl,edk::EventWindowType);edkEnd();
+        while(type){
+            this->treeEventTypes.add(type);edkEnd();
+            type = va_arg(vl,edk::EventWindowType);edkEnd();
+        }
+        if(this->treeEventTypes.size()){
+            return true;
+        }
+        //else stop write events
+        this->stopWriteEvents();edkEnd();
+#else
+        printf("\n%u %s %s ERROR: Tu use this function you need define EDK_WINDOW_EVENTS_RW",__LINE__,__FILE__,__func__);fflush(stdout);
+#endif
+    }
+    return false;
+}
+bool edk::Window::startWriteEvents(const edk::char8* fileName,edk::EventWindowType types, ...){
+    return this->startWriteEvents((edk::char8*) fileName,types);
+}
+//start reading events from a file
+bool edk::Window::startReadEvents(edk::char8* fileName){
+    this->stopReadEvents();edkEnd();
+#if defined(EDK_WINDOW_EVENTS_RW)
+    //create the file
+    if(this->fileEvents.openBinFile(fileName)){
+        this->playingReadEvents=true;edkEnd();
+        //read the first second
+        this->fileEvents.readBin(&this->nextSecondEvents,sizeof(this->nextSecondEvents));edkEnd();
+        return true;
+    }
+#else
+    printf("\n%u %s %s ERROR: Tu use this function you need define EDK_WINDOW_EVENTS_RW",__LINE__,__FILE__,__func__);fflush(stdout);
+#endif
+    return false;
+}
+bool edk::Window::startReadEvents(const edk::char8* fileName){
+    return this->startReadEvents((edk::char8*) fileName);
+}
+//get the events status
+bool edk::Window::isWritingEventsFile(){
+    return this->playingWriteEvents;
+}
+bool edk::Window::isReadingEventsFile(){
+    return this->playingReadEvents;
+}
+bool edk::Window::isPlayingWriteEventsFile(){
+    return this->playingWriteEvents;
+}
+bool edk::Window::isPlayingReadEventsFile(){
+    return this->playingReadEvents;
+}
+
+//stop writing the events into a file
+void edk::Window::stopWriteEvents(){
+#if defined(EDK_WINDOW_EVENTS_RW)
+    this->fileEvents.closeFile();edkEnd();
+    this->treeEventTypes.clean();edkEnd();
+    this->playingWriteEvents=false;edkEnd();
+    this->playingReadEvents=false;edkEnd();
+    this->secondEvents=0.f;edkEnd();
+#endif
+}
+void edk::Window::stopReadEvents(){
+#if defined(EDK_WINDOW_EVENTS_RW)
+    this->fileEvents.closeFile();edkEnd();
+    this->playingWriteEvents=false;edkEnd();
+    this->playingReadEvents=false;edkEnd();
+    this->nextSecondEvents=0.f;edkEnd();
+    this->secondEvents=0.f;edkEnd();
+#endif
+}
 
 //print events
 void edk::Window::eventsPrint(){
@@ -850,9 +960,9 @@ edk::size2i32 edk::Window::getResize(){
 }
 
 //set and get the second passed
-bool edk::Window::setSecondPassed(edk::float32 seconds){
+bool edk::Window::setSecondPassedBeforeLoadEvents(edk::float32 seconds){
     if(seconds>0.f){
-        this->events.secondPassed = seconds;
+        this->events.forceSecondPassed(seconds);
         return true;
     }
     return false;
@@ -1112,7 +1222,7 @@ bool edk::Window::loadEvents(){
 
         //if(event.Type == sf::Event::JoyButtonPressed){//1.6
         if(event.type == sf::Event::JoystickButtonPressed){//2.0
-/*
+            /*
                 printf("\nJoyButtonPressed joy == %u button == %u"
                        ,event.joystickButton.joystickId
                        ,event.joystickButton.button
@@ -1123,7 +1233,7 @@ bool edk::Window::loadEvents(){
 
         //if(event.Type == sf::Event::JoyButtonPressed){//1.6
         if(event.type == sf::Event::JoystickButtonReleased){//2.0
-/*
+            /*
                 printf("\nJoyButtonReleased joy == %u button == %u"
                        ,event.joystickButton.joystickId
                        ,event.joystickButton.button
@@ -1135,7 +1245,7 @@ bool edk::Window::loadEvents(){
 
         //if(event.Type == sf::Event::JoyButtonPressed){//1.6
         if(event.type == sf::Event::JoystickMoved){//2.0
-/*
+            /*
                 printf("\nJoyMoved joy == %u position == %.2f axis %u"
                        ,event.joystickMove.joystickId
                        ,event.joystickMove.position
@@ -1215,6 +1325,56 @@ bool edk::Window::loadEvents(){
             }
         }
 */
+
+#if defined(EDK_WINDOW_EVENTS_RW)
+    //test if are writing or reading some events file
+    if(this->playingWriteEvents){
+        this->secondEvents+=this->events.secondPassed;edkEnd();
+        //test if have some eventType on the tree
+        if(this->treeEventTypes.size()){
+            //test if have something in the events
+            if(this->events.haveSomethingTypesTree(&this->treeEventTypes)){
+                //write the secondEvents
+                this->fileEvents.writeBin(this->secondEvents);edkEnd();
+                //write the events
+                this->events.writeFileTypesTree(&this->fileEvents,&this->treeEventTypes);edkEnd();
+            }
+        }
+        else{
+            //test if have something in the events
+            if(this->events.haveSomething()){
+                //write the secondEvents
+                this->fileEvents.writeBin(this->secondEvents);edkEnd();
+                //write the events
+                this->events.writeFile(&this->fileEvents);edkEnd();
+            }
+        }
+    }
+    else if(this->playingReadEvents){
+        this->secondEvents+=this->events.secondPassed;edkEnd();
+        //test if the secondEvents is bigger then the nextSecondEvent
+        while(this->secondEvents > this->nextSecondEvents){
+            //test if reach the end of the file
+            if(this->fileEvents.endOfFile()){
+                //stop the read
+                this->stopReadEvents();edkEnd();
+            }
+            else{
+                //else read the events
+                this->events.readFile(&this->fileEvents);
+                //test if reach the end of the file
+                if(this->fileEvents.endOfFile()){
+                    //stop the read
+                    this->stopReadEvents();edkEnd();
+                }
+                else{
+                    //then read the nextSecondEvent
+                    this->fileEvents.readBin(&this->nextSecondEvents,sizeof(this->nextSecondEvents));edkEnd();edkEnd();
+                }
+            }
+        }
+    }
+#endif
 
     //senao retorna false
     return ret;
