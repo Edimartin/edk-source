@@ -439,7 +439,14 @@ public:
     }
     //return true if have the quads
     bool haveQuads(){
-        return (bool)(this->quad[0u]);edkEnd();
+        if(this->quad[0u]
+                && this->quad[1u]
+                && this->quad[2u]
+                && this->quad[3u]
+                ){
+            return true;
+        }
+        return false;
     }
     //get the quad in position
     edk::vector::QuadLeaf32<typeTemplate>* getQuad(edk::uint8 position){
@@ -684,7 +691,14 @@ public:
     }
     //return true if have the quads
     bool haveQuads(){
-        return (bool)(this->quad[0u]);edkEnd();
+        if(this->quad[0u]
+                && this->quad[1u]
+                && this->quad[2u]
+                && this->quad[3u]
+                ){
+            return true;
+        }
+        return false;
     }
     //get the quad in position
     edk::vector::QuadLeaf64<typeTemplate>* getQuad(edk::uint8 position){
@@ -1156,6 +1170,7 @@ public:
         edk::vector::QuadLeaf32<typeTemplate>* temp = &this->root;edkEnd();
         edk::vector::QuadLeaf32<typeTemplate>* tempQuad;edkEnd();
         bool deleteQuads;edkEnd();
+        edk::uint8 cTemp=0u;
         //test if the value is inside the root
         if(this->isElementInside(value,
                                  edk::vec2f32(temp->origin.x,
@@ -1166,16 +1181,34 @@ public:
                                               )
                                  )
                 ){
+            temp->counter=0u;
             while(temp){
                 //remove from it
                 if(temp->haveInTree(value)){
                     temp->removeFromTree(value);edkEnd();
+                    ret=true;edkEnd();
                 }
 
                 //search for the quads
                 if(temp->haveQuads()){
                     if(temp->counter<4u){
-                        temp=temp->getQuad(++temp->counter);edkEnd();
+                        if(this->isElementColliding(value,
+                                                    edk::vec2f32(temp->origin.x,
+                                                                 temp->origin.y
+                                                                 ),
+                                                    edk::vec2f32(temp->size.width,
+                                                                 temp->size.height
+                                                                 )
+                                                    )
+                                ){
+                            cTemp = temp->counter;
+                            temp->counter++;
+                            temp=temp->getQuad(cTemp);edkEnd();
+                            temp->counter=0u;
+                        }
+                        else{
+                            temp->counter=4u;
+                        }
                     }
                     else{
                         deleteQuads=true;edkEnd();
@@ -1194,7 +1227,6 @@ public:
                         }
 
                         temp=temp->getFather();edkEnd();
-                        break;
                     }
                 }
                 else{
@@ -1202,21 +1234,22 @@ public:
                 }
             }
         }
-        if(ret){
-            if(this->treeTemp->haveElement(value)){
-                if(this->treeTemp->remove(value)){
-                    this->elementGetOut(value);edkEnd();
-                }
+        if(this->treeTemp->haveElement(value)){
+            ret=true;
+            if(this->treeTemp->remove(value)){
+                this->elementGetOut(value);edkEnd();
             }
-            if(this->treeOutside.haveElement(value)){
-                if(this->treeOutside.remove(value)){
-                    //
-                }
+        }
+        if(this->treeOutside.haveElement(value)){
+            ret=true;
+            if(this->treeOutside.remove(value)){
+                //
             }
-            if(this->treeGets.haveElement(value)){
-                if(this->treeGets.remove(value)){
-                    //
-                }
+        }
+        if(this->treeGets.haveElement(value)){
+            ret=true;
+            if(this->treeGets.remove(value)){
+                //
             }
         }
         return ret;
@@ -1656,6 +1689,7 @@ private:
             typeTemplate temp;edkEnd();
             bool decrement = false;edkEnd();
 
+            //add or remove elements from the trees
             size = this->treeGets.size();edkEnd();
             for(edk::uint32 i=0u;i<size;i++){
                 if(decrement){
@@ -1698,6 +1732,7 @@ private:
                                 ///RUN GETOUT
                                 this->elementGetOut(temp);edkEnd();
                                 this->treeTemp->remove(temp);edkEnd();
+                                this->treeOutside.add(temp);
                                 //decrement
                                 decrement=true;edkEnd();
                             }
@@ -1710,28 +1745,28 @@ private:
             for(edk::uint32 i=0u;i<size;i++){
                 this->elementUpdating(this->treeTemp->getElementInPosition(i));edkEnd();
             }
+            //add new elements.
             for(edk::uint8 t=0u;t<edkQuadSelectedSize;t++){
-                //add new elements.
                 size = tree[t]->size();edkEnd();
                 for(edk::uint32 i=0u;i<size;i++){
                     temp = tree[t]->getElementInPosition(i);edkEnd();
                     //test if have the object inside the temp
                     if(!this->treeGets.haveElement(temp)){
                         //add the element
-                        if(this->treeGets.add(temp)){
-                            if(this->isElementColliding(temp,
-                                                        edk::vec2f32(rect.origin.x,rect.origin.y),
-                                                        edk::vec2f32(rect.size.width,rect.size.height)
-                                                        )){
+                        if(this->isElementColliding(temp,
+                                                    edk::vec2f32(rect.origin.x,rect.origin.y),
+                                                    edk::vec2f32(rect.size.width,rect.size.height)
+                                                    )){
+                            if(this->treeGets.add(temp)){
                                 ///RUN GETIN
                                 this->elementGetIn(temp);edkEnd();
                                 this->treeTemp->add(temp);edkEnd();
                                 this->treeOutside.remove(temp);edkEnd();
                             }
-                            else{
-                                //else add in to the outside
-                                this->treeOutside.add(temp);edkEnd();
-                            }
+                        }
+                        else{
+                            //else add in to the outside
+                            this->treeOutside.add(temp);edkEnd();
                         }
                     }
                 }
@@ -2209,6 +2244,7 @@ public:
         edk::vector::QuadLeaf64<typeTemplate>* temp = &this->root;edkEnd();
         edk::vector::QuadLeaf64<typeTemplate>* tempQuad;edkEnd();
         bool deleteQuads;edkEnd();
+        edk::uint8 cTemp=0u;
         //test if the value is inside the root
         if(this->isElementInside(value,
                                  edk::vec2f64(temp->origin.x,
@@ -2219,16 +2255,34 @@ public:
                                               )
                                  )
                 ){
+            temp->counter=0u;
             while(temp){
                 //remove from it
                 if(temp->haveInTree(value)){
                     temp->removeFromTree(value);edkEnd();
+                    ret=true;edkEnd();
                 }
 
                 //search for the quads
                 if(temp->haveQuads()){
                     if(temp->counter<4u){
-                        temp=temp->getQuad(++temp->counter);edkEnd();
+                        if(this->isElementColliding(value,
+                                                    edk::vec2f64(temp->origin.x,
+                                                                 temp->origin.y
+                                                                 ),
+                                                    edk::vec2f64(temp->size.width,
+                                                                 temp->size.height
+                                                                 )
+                                                    )
+                                ){
+                            cTemp = temp->counter;
+                            temp->counter++;
+                            temp=temp->getQuad(cTemp);edkEnd();
+                            temp->counter=0u;
+                        }
+                        else{
+                            temp->counter=4u;
+                        }
                     }
                     else{
                         deleteQuads=true;edkEnd();
@@ -2247,7 +2301,6 @@ public:
                         }
 
                         temp=temp->getFather();edkEnd();
-                        break;
                     }
                 }
                 else{
@@ -2255,21 +2308,22 @@ public:
                 }
             }
         }
-        if(ret){
-            if(this->treeTemp->haveElement(value)){
-                if(this->treeTemp->remove(value)){
-                    this->elementGetOut(value);edkEnd();
-                }
+        if(this->treeTemp->haveElement(value)){
+            ret=true;
+            if(this->treeTemp->remove(value)){
+                this->elementGetOut(value);edkEnd();
             }
-            if(this->treeOutside.haveElement(value)){
-                if(this->treeOutside.remove(value)){
-                    //
-                }
+        }
+        if(this->treeOutside.haveElement(value)){
+            ret=true;
+            if(this->treeOutside.remove(value)){
+                //
             }
-            if(this->treeGets.haveElement(value)){
-                if(this->treeGets.remove(value)){
-                    //
-                }
+        }
+        if(this->treeGets.haveElement(value)){
+            ret=true;
+            if(this->treeGets.remove(value)){
+                //
             }
         }
         return ret;
@@ -2709,6 +2763,7 @@ private:
             typeTemplate temp;edkEnd();
             bool decrement = false;edkEnd();
 
+            //add or remove elements from the trees
             size = this->treeGets.size();edkEnd();
             for(edk::uint64 i=0u;i<size;i++){
                 if(decrement){
@@ -2751,6 +2806,7 @@ private:
                                 ///RUN GETOUT
                                 this->elementGetOut(temp);edkEnd();
                                 this->treeTemp->remove(temp);edkEnd();
+                                this->treeOutside.add(temp);
                                 //decrement
                                 decrement=true;edkEnd();
                             }
@@ -2763,28 +2819,28 @@ private:
             for(edk::uint64 i=0u;i<size;i++){
                 this->elementUpdating(this->treeTemp->getElementInPosition(i));edkEnd();
             }
+            //add new elements.
             for(edk::uint8 t=0u;t<edkQuadSelectedSize;t++){
-                //add new elements.
                 size = tree[t]->size();edkEnd();
                 for(edk::uint64 i=0u;i<size;i++){
                     temp = tree[t]->getElementInPosition(i);edkEnd();
                     //test if have the object inside the temp
                     if(!this->treeGets.haveElement(temp)){
                         //add the element
-                        if(this->treeGets.add(temp)){
-                            if(this->isElementColliding(temp,
-                                                        edk::vec2f64(rect.origin.x,rect.origin.y),
-                                                        edk::vec2f64(rect.size.width,rect.size.height)
-                                                        )){
+                        if(this->isElementColliding(temp,
+                                                    edk::vec2f64(rect.origin.x,rect.origin.y),
+                                                    edk::vec2f64(rect.size.width,rect.size.height)
+                                                    )){
+                            if(this->treeGets.add(temp)){
                                 ///RUN GETIN
                                 this->elementGetIn(temp);edkEnd();
                                 this->treeTemp->add(temp);edkEnd();
                                 this->treeOutside.remove(temp);edkEnd();
                             }
-                            else{
-                                //else add in to the outside
-                                this->treeOutside.add(temp);edkEnd();
-                            }
+                        }
+                        else{
+                            //else add in to the outside
+                            this->treeOutside.add(temp);edkEnd();
                         }
                     }
                 }
