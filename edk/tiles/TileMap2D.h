@@ -191,6 +191,7 @@ public:
     void drawWithoutMaterial(edk::color4f32 color);
     void drawWithoutMaterial(edk::vec2ui32 origin,edk::size2ui32 last,edk::color4f32 color);
     void drawInsideWorldRect(edk::rectf32 rect,edk::color4f32 color);
+    void drawInsideWorldRectPoints(edk::rectf32 rect,edk::color4f32 color);
     void drawIsometric(edk::color4f32 color);
     void drawIsometric(edk::vec2ui32 origin,edk::size2ui32 last,edk::color4f32 color);
     void drawIsometricInsideWorldRect(edk::rectf32 rect,edk::color4f32 color);
@@ -200,6 +201,7 @@ public:
     void drawWithoutMaterial();
     void drawWithoutMaterial(edk::vec2ui32 origin,edk::size2ui32 last);
     void drawInsideWorldRect(edk::rectf32 rect);
+    void drawInsideWorldRectPoints(edk::rectf32 rect);
     void drawIsometric();
     void drawIsometric(edk::vec2ui32 origin,edk::size2ui32 last);
     void drawIsometricInsideWorldRect(edk::rectf32 rect);
@@ -243,7 +245,9 @@ public:
     void drawSelection();
     void drawSelection(edk::vec2ui32 origin,edk::size2ui32 last);
     void drawInsideWorldRectSelectionWithID(edk::rectf32 rect,edk::uint8 id=0u);
+    void drawInsideWorldRectPointsSelectionWithID(edk::rectf32 rect,edk::uint8 id=0u);
     void drawInsideWorldRectSelection(edk::rectf32 rect);
+    void drawInsideWorldRectPointsSelection(edk::rectf32 rect);
     void drawIsometricSelectionWithID(edk::uint8 id=0u);
     void drawIsometricSelectionWithID(edk::vec2ui32 origin,edk::size2ui32 last,edk::uint8 id=0u);
     void drawIsometricSelection();

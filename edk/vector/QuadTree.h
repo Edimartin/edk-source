@@ -1474,6 +1474,85 @@ public:
         this->runUpdateGets(rect);edkEnd();
         return ret;
     }
+    virtual bool selectLeafInRectPoints(edk::rectf32 rect){
+#if defined(EDK_DONT_USE_QUADTREE)
+        return false;
+#endif
+        this->selected = &this->treeNULL;edkEnd();
+        edk::vector::QuadLeaf32<typeTemplate>** tree[edkQuadSelectedSize];edkEnd();
+        this->selected  = &this->treeNULL;edkEnd();
+        this->selected1 = &this->treeNULL;edkEnd();
+        this->selected2 = &this->treeNULL;edkEnd();
+        this->selected3 = &this->treeNULL;edkEnd();
+        tree[0u] = &this->selected;edkEnd();
+        tree[1u] = &this->selected1;edkEnd();
+        tree[2u] = &this->selected2;edkEnd();
+        tree[3u] = &this->selected3;edkEnd();
+        bool ret=false;edkEnd();
+        if(this->isRectPointsColliding(rect,
+                                 edk::vec2f32(this->root.origin.x,
+                                              this->root.origin.y
+                                              ),
+                                 edk::vec2f32(this->root.size.width,
+                                              this->root.size.height
+                                              )
+                                 )
+                ){
+            this->selected = &this->root;edkEnd();
+            edk::vector::QuadLeaf32<typeTemplate>* temp = &this->root;edkEnd();
+            ret=true;edkEnd();
+            edk::uint8 counter;edkEnd();
+            edk::uint8 nextID;edkEnd();
+            edk::vector::QuadLeaf32<typeTemplate>* tempQuad;edkEnd();
+            while(temp){
+                //test if have quads inside
+                if(temp->haveQuads()){
+                    counter=0u;
+                    for(edk::uint8 i=0u;i<4u;i++){
+                        tempQuad = temp->getQuad(i);edkEnd();
+                        if(this->isRectPointsColliding(rect,
+                                                 edk::vec2f32(tempQuad->origin.x,
+                                                              tempQuad->origin.y
+                                                              ),
+                                                 edk::vec2f32(tempQuad->size.width,
+                                                              tempQuad->size.height
+                                                              )
+                                                 )
+                                ){
+                            //
+                            *tree[counter]=tempQuad;
+                            counter++;edkEnd();
+                            nextID = i;edkEnd();
+                        }
+                    }
+                    //test if have just one colliding
+                    if(counter==1u){
+                        //select the next
+                        this->selected = temp = temp->getQuad(nextID);edkEnd();
+                        *tree[1u] = &this->treeNULL;edkEnd();
+                        *tree[2u] = &this->treeNULL;edkEnd();
+                        *tree[3u] = &this->treeNULL;edkEnd();
+                    }
+                    else if(counter==4u){
+                        //select only the temp
+                        this->selected = temp;edkEnd();
+                        *tree[1u] = &this->treeNULL;edkEnd();
+                        *tree[2u] = &this->treeNULL;edkEnd();
+                        *tree[3u] = &this->treeNULL;edkEnd();
+                        break;
+                    }
+                    else{
+                        break;
+                    }
+                }
+                else{
+                    break;
+                }
+            }
+        }
+        this->runUpdateGets(rect);edkEnd();
+        return ret;
+    }
 
     //clean the tree
     void clean(edk::rectf32 rect,edk::float32 minimumQuadSize=edkQuadMinimumSize){
@@ -1648,6 +1727,19 @@ private:
         return false;
     }
     bool isRectColliding(edk::rectf32 rect,edk::vec2f32 point1,edk::vec2f32 point2){
+        if(point1.x <= rect.origin.x + rect.size.width
+                &&
+                point2.x>= rect.origin.x
+                &&
+                point1.y <= rect.origin.y + rect.size.height
+                &&
+                point2.y >= rect.origin.y
+                ){
+            return true;
+        }
+        return false;
+    }
+    bool isRectPointsColliding(edk::rectf32 rect,edk::vec2f32 point1,edk::vec2f32 point2){
         if(point1.x <= rect.size.width
                 &&
                 point2.x>= rect.origin.x
@@ -2548,6 +2640,85 @@ public:
         this->runUpdateGets(rect);edkEnd();
         return ret;
     }
+    virtual bool selectLeafInRectPoints(edk::rectf64 rect){
+#if defined(EDK_DONT_USE_QUADTREE)
+        return false;
+#endif
+        this->selected = &this->treeNULL;edkEnd();
+        edk::vector::QuadLeaf64<typeTemplate>** tree[edkQuadSelectedSize];edkEnd();
+        this->selected  = &this->treeNULL;edkEnd();
+        this->selected1 = &this->treeNULL;edkEnd();
+        this->selected2 = &this->treeNULL;edkEnd();
+        this->selected3 = &this->treeNULL;edkEnd();
+        tree[0u] = &this->selected;edkEnd();
+        tree[1u] = &this->selected1;edkEnd();
+        tree[2u] = &this->selected2;edkEnd();
+        tree[3u] = &this->selected3;edkEnd();
+        bool ret=false;edkEnd();
+        if(this->isRectPointsColliding(rect,
+                                 edk::vec2f64(this->root.origin.x,
+                                              this->root.origin.y
+                                              ),
+                                 edk::vec2f64(this->root.size.width,
+                                              this->root.size.height
+                                              )
+                                 )
+                ){
+            this->selected = &this->root;edkEnd();
+            edk::vector::QuadLeaf64<typeTemplate>* temp = &this->root;edkEnd();
+            ret=true;edkEnd();
+            edk::uint8 counter;edkEnd();
+            edk::uint8 nextID;edkEnd();
+            edk::vector::QuadLeaf64<typeTemplate>* tempQuad;edkEnd();
+            while(temp){
+                //test if have quads inside
+                if(temp->haveQuads()){
+                    counter=0u;
+                    for(edk::uint8 i=0u;i<4u;i++){
+                        tempQuad = temp->getQuad(i);edkEnd();
+                        if(this->isRectPointsColliding(rect,
+                                                 edk::vec2f64(tempQuad->origin.x,
+                                                              tempQuad->origin.y
+                                                              ),
+                                                 edk::vec2f64(tempQuad->size.width,
+                                                              tempQuad->size.height
+                                                              )
+                                                 )
+                                ){
+                            //
+                            *tree[counter]=tempQuad;
+                            counter++;edkEnd();
+                            nextID = i;edkEnd();
+                        }
+                    }
+                    //test if have just one colliding
+                    if(counter==1u){
+                        //select the next
+                        this->selected = temp = temp->getQuad(nextID);edkEnd();
+                        *tree[1u] = &this->treeNULL;edkEnd();
+                        *tree[2u] = &this->treeNULL;edkEnd();
+                        *tree[3u] = &this->treeNULL;edkEnd();
+                    }
+                    else if(counter==4u){
+                        //select only the temp
+                        this->selected = temp;edkEnd();
+                        *tree[1u] = &this->treeNULL;edkEnd();
+                        *tree[2u] = &this->treeNULL;edkEnd();
+                        *tree[3u] = &this->treeNULL;edkEnd();
+                        break;
+                    }
+                    else{
+                        break;
+                    }
+                }
+                else{
+                    break;
+                }
+            }
+        }
+        this->runUpdateGets(rect);edkEnd();
+        return ret;
+    }
 
     //clean the tree
     void clean(edk::rectf64 rect,edk::float64 minimumQuadSize=edkQuadMinimumSize){
@@ -2722,6 +2893,19 @@ private:
         return false;
     }
     bool isRectColliding(edk::rectf64 rect,edk::vec2f64 point1,edk::vec2f64 point2){
+        if(point1.x <= rect.origin.x + rect.size.width
+                &&
+                point2.x>= rect.origin.x
+                &&
+                point1.y <= rect.origin.y + rect.size.height
+                &&
+                point2.y >= rect.origin.y
+                ){
+            return true;
+        }
+        return false;
+    }
+    bool isRectPointsColliding(edk::rectf64 rect,edk::vec2f64 point1,edk::vec2f64 point2){
         if(point1.x <= rect.size.width
                 &&
                 point2.x>= rect.origin.x

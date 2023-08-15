@@ -1793,6 +1793,10 @@ void edk::tiles::TileMap2D::drawWithoutMaterial(edk::vec2ui32 origin,edk::size2u
 }
 void edk::tiles::TileMap2D::drawInsideWorldRect(edk::rectf32 rect,edk::color4f32 color){
     edk::rectui32 newRect = this->calculateDrawPosition(rect);edkEnd();
+    this->draw(newRect.origin,edk::size2ui32(newRect.origin.x+newRect.size.width,newRect.origin.y+newRect.size.height),color);edkEnd();
+}
+void edk::tiles::TileMap2D::drawInsideWorldRectPoints(edk::rectf32 rect,edk::color4f32 color){
+    edk::rectui32 newRect = this->calculateDrawPosition(rect);edkEnd();
     this->draw(newRect.origin,newRect.size,color);edkEnd();
 }
 void edk::tiles::TileMap2D::drawIsometric(edk::color4f32 color){
@@ -2059,6 +2063,10 @@ void edk::tiles::TileMap2D::drawWithoutMaterial(edk::vec2ui32 origin,edk::size2u
 void edk::tiles::TileMap2D::drawInsideWorldRect(edk::rectf32 rect){
     edk::rectui32 newRect = this->calculateDrawPosition(rect);edkEnd();
     this->draw(newRect.origin,newRect.size);edkEnd();
+}
+void edk::tiles::TileMap2D::drawInsideWorldRectPoints(edk::rectf32 rect){
+    edk::rectui32 newRect = this->calculateDrawPosition(rect);edkEnd();
+    this->draw(newRect.origin,edk::size2ui32(newRect.origin.x+newRect.size.width,newRect.origin.y+newRect.size.height));edkEnd();
 }
 void edk::tiles::TileMap2D::drawIsometric(){
     if(this->tileSet){
@@ -2935,9 +2943,17 @@ void edk::tiles::TileMap2D::drawInsideWorldRectSelectionWithID(edk::rectf32 rect
     edk::rectui32 newRect = this->calculateDrawPosition(rect);edkEnd();
     this->drawSelectionWithID(newRect.origin,newRect.size,id);edkEnd();
 }
+void edk::tiles::TileMap2D::drawInsideWorldRectPointsSelectionWithID(edk::rectf32 rect,edk::uint8 id){
+    edk::rectui32 newRect = this->calculateDrawPosition(rect);edkEnd();
+    this->drawSelectionWithID(newRect.origin,edk::size2ui32(newRect.origin.x+newRect.size.width,newRect.origin.y+newRect.size.height));edkEnd();
+}
 void edk::tiles::TileMap2D::drawInsideWorldRectSelection(edk::rectf32 rect){
     edk::rectui32 newRect = this->calculateDrawPosition(rect);edkEnd();
     this->drawSelection(newRect.origin,newRect.size);edkEnd();
+}
+void edk::tiles::TileMap2D::drawInsideWorldRectPointsSelection(edk::rectf32 rect){
+    edk::rectui32 newRect = this->calculateDrawPosition(rect);edkEnd();
+    this->drawSelection(newRect.origin,edk::size2ui32(newRect.origin.x+newRect.size.width,newRect.origin.y+newRect.size.height));edkEnd();
 }
 void edk::tiles::TileMap2D::drawIsometricSelectionWithID(edk::uint8 id){
     if(this->tileSet){
