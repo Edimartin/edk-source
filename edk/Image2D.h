@@ -126,6 +126,11 @@ public:
     bool drawPosition(edk::uint32 positionX,edk::uint32 positionY,edk::uint8 g,edk::uint8 a);
     bool drawPosition(edk::uint32 positionX,edk::uint32 positionY,edk::uint8 r,edk::uint8 g,edk::uint8 b);
     bool drawPosition(edk::uint32 positionX,edk::uint32 positionY,edk::uint8 r,edk::uint8 g,edk::uint8 b,edk::uint8 a);
+    bool drawPosition(edk::uint32 position,edk::uint8* color);
+    bool drawPosition(edk::uint32 position,edk::uint8 g);
+    bool drawPosition(edk::uint32 position,edk::uint8 g,edk::uint8 a);
+    bool drawPosition(edk::uint32 position,edk::uint8 r,edk::uint8 g,edk::uint8 b);
+    bool drawPosition(edk::uint32 position,edk::uint8 r,edk::uint8 g,edk::uint8 b,edk::uint8 a);
     //draw the colors on the palette. The user need to know the size of the palette multiply by channel size
     bool drawPalette(edk::uint8* colors);
     //draw a color in palette position

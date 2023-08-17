@@ -1035,8 +1035,7 @@ bool edk::Image2D::draw(edk::uint8* pixels){
 //draw a color in the image vector
 bool edk::Image2D::drawPosition(edk::vec2ui32 position,edk::uint8* color){
     if(position.x < this->getWidth() && position.y<this->getHeight() && color){
-        edk::uint32 i = (position.x + (position.y*this->getHeight())) * this->channels;edkEnd();
-        memcpy(&this->vec[i],color,this->channels);edkEnd();
+        memcpy(&this->vec[(position.x + (position.y*this->getHeight())) * this->channels],color,this->channels);edkEnd();
         return true;
     }
     return false;
@@ -1071,6 +1070,29 @@ bool edk::Image2D::drawPosition(edk::uint32 positionX,edk::uint32 positionY,edk:
 }
 bool edk::Image2D::drawPosition(edk::uint32 positionX,edk::uint32 positionY,edk::uint8 r,edk::uint8 g,edk::uint8 b,edk::uint8 a){
     return this->drawPosition(edk::vec2ui32(positionX,positionY),r,g,b,a);edkEnd();
+}
+bool edk::Image2D::drawPosition(edk::uint32 position,edk::uint8* color){
+    if(position < (this->getWidth()*this->getHeight()) && color){
+        memcpy(&this->vec[position * this->channels],color,this->channels);edkEnd();
+        return true;
+    }
+    return false;
+}
+bool edk::Image2D::drawPosition(edk::uint32 position,edk::uint8 g){
+    edk::uint8 color[4u] = {g,1u,0u,0u};
+    return this->drawPosition(position,(edk::uint8*)&color);edkEnd();
+}
+bool edk::Image2D::drawPosition(edk::uint32 position,edk::uint8 g,edk::uint8 a){
+    edk::uint8 color[4u] = {g,a,0u,0u};
+    return this->drawPosition(position,(edk::uint8*)&color);edkEnd();
+}
+bool edk::Image2D::drawPosition(edk::uint32 position,edk::uint8 r,edk::uint8 g,edk::uint8 b){
+    edk::uint8 color[4u] = {r,g,b,1u};
+    return this->drawPosition(position,(edk::uint8*)&color);edkEnd();
+}
+bool edk::Image2D::drawPosition(edk::uint32 position,edk::uint8 r,edk::uint8 g,edk::uint8 b,edk::uint8 a){
+    edk::uint8 color[4u] = {r,g,b,a};
+    return this->drawPosition(position,(edk::uint8*)&color);edkEnd();
 }
 //draw the colors on the palette. The user need to know the size of the palette multiply by channel size
 bool edk::Image2D::drawPalette(edk::uint8* colors){

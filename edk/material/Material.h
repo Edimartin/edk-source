@@ -52,6 +52,12 @@ public:
     Material();
     ~Material();
 
+    //create a new texture
+    bool newTexture(edk::char8* name,edk::size2ui32 size,edk::uint8 position=0u,edk::uint32 mode = GU_RGB,edk::uint32 filter = GU_NEAREST);
+    bool newTexture(const edk::char8* name,edk::size2ui32 size,edk::uint8 position=0u,edk::uint32 mode = GU_RGB,edk::uint32 filter = GU_NEAREST);
+    bool newTexture(edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8 position=0u,edk::uint32 mode = GU_RGB,edk::uint32 filter = GU_NEAREST);
+    bool newTexture(const edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8 position=0u,edk::uint32 mode = GU_RGB,edk::uint32 filter = GU_NEAREST);
+
     //load the texture
     //filter
     //GU_NEAREST

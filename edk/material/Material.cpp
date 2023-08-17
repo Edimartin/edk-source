@@ -73,6 +73,31 @@ void edk::material::Material::useMaterialParameters(){
     edk::GU::guMaterialf32(GU_FRONT,GU_SHININESS,this->shininess);edkEnd();
 }
 
+//create a new texture
+bool edk::material::Material::newTexture(edk::char8* name,edk::size2ui32 size,edk::uint8 position,edk::uint32 mode,edk::uint32 filter){
+    //test the position
+    if(position<materialTextureCount){
+        //remove the texture
+        this->removeTexture(position);edkEnd();
+        //then load the new texture
+        this->textures[position] = this->list.createTexture(name,size,mode,filter);edkEnd();
+        if(this->textures[position]){
+            this->countTextures++;edkEnd();
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::material::Material::newTexture(const edk::char8* name,edk::size2ui32 size,edk::uint8 position,edk::uint32 mode,edk::uint32 filter){
+    return newTexture((edk::char8*) name,size,position,mode,filter);
+}
+bool edk::material::Material::newTexture(edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8 position,edk::uint32 mode,edk::uint32 filter){
+    return newTexture(name,edk::size2ui32(width,height),position,mode,filter);
+}
+bool edk::material::Material::newTexture(const edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8 position,edk::uint32 mode,edk::uint32 filter){
+    return newTexture((edk::char8*) name,edk::size2ui32(width,height),position,mode,filter);
+}
+
 //load the texture
 bool edk::material::Material::loadTexture(edk::char8* name,edk::uint8 position,edk::uint32 filter){
     //test the position
