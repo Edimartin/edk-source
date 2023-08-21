@@ -254,10 +254,6 @@ public:
 */
 
 
-
-
-
-
 namespace edk{
 namespace vector{
 //LEAF32
@@ -775,7 +771,7 @@ public:
         this->selected2 = &this->treeNULL;edkEnd();
         this->selected3 = &this->treeNULL;edkEnd();
         this->treeTemp = &this->treeUpdate;edkEnd();
-        this->clean(edk::rectf32(0,0,1,1));edkEnd();
+        this->cleanWithRectPoints(edk::rectf32(0,0,1,1));edkEnd();
         this->setMinimumElementInQuads(1u);
     }
     virtual ~QuadTree32(){
@@ -829,7 +825,7 @@ public:
     }
     //set the quadTree rectangle
     void setRect(edk::rectf32 rect,edk::float32 minimumQuadSize=edkQuadMinimumSize){
-        this->clean(rect);edkEnd();
+        this->cleanWithRectPoints(rect);edkEnd();
         this->minimumQuadSize=minimumQuadSize;edkEnd();
     }
     void setRect(edk::vec2f32 position1,edk::vec2f32 position2,edk::float32 minimumQuadSize=edkQuadMinimumSize){
@@ -840,8 +836,27 @@ public:
         this->clean(edk::rectf32(pos1X,pos1Y,pos2X,pos2Y));edkEnd();
         this->minimumQuadSize=minimumQuadSize;edkEnd();
     }
+    void setRectPoints(edk::rectf32 rect,edk::float32 minimumQuadSize=edkQuadMinimumSize){
+        this->clean(rect);edkEnd();
+        this->minimumQuadSize=minimumQuadSize;edkEnd();
+    }
+    void setRectPoints(edk::vec2f32 position1,edk::vec2f32 position2,edk::float32 minimumQuadSize=edkQuadMinimumSize){
+        this->clean(edk::rectf32(position1.x,position1.y,position2.x,position2.y));edkEnd();
+        this->minimumQuadSize=minimumQuadSize;edkEnd();
+    }
+    void setRectPoints(edk::float32 pos1X,edk::float32 pos1Y,edk::float32 pos2X,edk::float32 pos2Y,edk::float32 minimumQuadSize=edkQuadMinimumSize){
+        this->clean(edk::rectf32(pos1X,pos1Y,pos2X,pos2Y));edkEnd();
+        this->minimumQuadSize=minimumQuadSize;edkEnd();
+    }
     //return the quadtree rectangle
     edk::rectf32 getRectangle(){
+        return edk::rectf32(this->root.origin.x+(this->root.size.width*0.5f),
+                            this->root.origin.y+(this->root.size.height*0.5f),
+                            this->root.origin.x-(this->root.size.width*0.5f),
+                            this->root.origin.y-(this->root.size.height*0.5f)
+                            );
+    }
+    edk::rectf32 getRectanglePoints(){
         return edk::rectf32(this->root.origin,this->root.size);
     }
     void incrementRect(edk::rectf32 rect){
@@ -1080,6 +1095,118 @@ public:
         if(tree){
             edk::uint32 size = tree->size();edkEnd();
             edk::rectf32 rectangle = edk::rectf32(0,0,1,1);edkEnd();
+            edk::rectf32 rectanglePoints = edk::rectf32(0,0,1,1);edkEnd();
+            edk::rectf32 rectTemp;edkEnd();
+            edk::rectf32 rectTempPoints;edkEnd();
+            if(size){
+                rectangle = this->getElementRectangle(tree->getElementInPosition(0u));edkEnd();
+                rectanglePoints = edk::rectf32(rectangle.origin.x - rectangle.size.width,
+                                               rectangle.origin.y - rectangle.size.height,
+                                               rectangle.origin.x + rectangle.size.width,
+                                               rectangle.origin.y + rectangle.size.height
+                                               );
+                for(edk::uint32 i=1u;i<size;i++){
+                    rectTemp = this->getElementRectangle(tree->getElementInPosition(i));edkEnd();
+                    rectTempPoints = edk::rectf32(rectTemp.origin.x - rectTemp.size.width,
+                                                  rectTemp.origin.y - rectTemp.size.height,
+                                                  rectTemp.origin.x + rectTemp.size.width,
+                                                  rectTemp.origin.y + rectTemp.size.height
+                                                  );
+                    //test if need to update the rectangle
+                    if(rectanglePoints.origin.x >= rectTempPoints.origin.x){
+                        rectanglePoints.origin.x = rectTempPoints.origin.x;edkEnd();
+                    }
+                    if(rectanglePoints.origin.y >= rectTempPoints.origin.y){
+                        rectanglePoints.origin.y = rectTempPoints.origin.y;edkEnd();
+                    }
+                    if(rectanglePoints.size.width <= rectTempPoints.size.width){
+                        rectanglePoints.size.width = rectTempPoints.size.width;edkEnd();
+                    }
+                    if(rectanglePoints.size.height <= rectTempPoints.size.height){
+                        rectanglePoints.size.height = rectTempPoints.size.height;edkEnd();
+                    }
+                }
+                //increment the size of the rectangle
+                rectanglePoints.origin.x -= (rectanglePoints.size.width - rectanglePoints.origin.x)*0.025f;edkEnd();
+                rectanglePoints.origin.y -= (rectanglePoints.size.height - rectanglePoints.origin.y)*0.025f;edkEnd();
+                rectanglePoints.size.width += (rectanglePoints.size.width - rectanglePoints.origin.x)*0.025f;edkEnd();
+                rectanglePoints.size.height += (rectanglePoints.size.height - rectanglePoints.origin.y)*0.025f;edkEnd();
+                //set the rectangle
+                this->setRect(rectanglePoints);edkEnd();
+                return true;
+            }
+            this->setRect(rectanglePoints);edkEnd();
+        }
+        return false;
+    }
+    bool incrementRectFromTree(edk::vector::BinaryTree<typeTemplate>* tree){
+#if defined(EDK_DONT_USE_QUADTREE)
+        return false;
+#endif
+        if(tree){
+            edk::uint32 size = tree->size();edkEnd();
+            edk::rectf32 rectangle = edk::rectf32(0,0,1,1);edkEnd();
+            edk::rectf32 rectanglePoints = edk::rectf32(0,0,1,1);edkEnd();
+            edk::rectf32 rectTemp;edkEnd();
+            edk::rectf32 rectTempPoints;edkEnd();
+            if(size){
+                rectangle = this->getElementRectangle(tree->getElementInPosition(0u));edkEnd();
+                rectanglePoints = edk::rectf32(rectangle.origin.x - rectangle.size.width,
+                                               rectangle.origin.y - rectangle.size.height,
+                                               rectangle.origin.x + rectangle.size.width,
+                                               rectangle.origin.y + rectangle.size.height
+                                               );
+                for(edk::uint32 i=0u;i<size;i++){
+                    rectTemp = this->getElementRectangle(tree->getElementInPosition(i));edkEnd();
+                    rectTempPoints = edk::rectf32(rectTemp.origin.x - rectTemp.size.width,
+                                                  rectTemp.origin.y - rectTemp.size.height,
+                                                  rectTemp.origin.x + rectTemp.size.width,
+                                                  rectTemp.origin.y + rectTemp.size.height
+                                                  );
+                    //test if need to update the rectangle
+                    if(rectanglePoints.origin.x >= rectTempPoints.origin.x){
+                        rectanglePoints.origin.x = rectTempPoints.origin.x;edkEnd();
+                    }
+                    if(rectanglePoints.origin.y >= rectTempPoints.origin.y){
+                        rectanglePoints.origin.y = rectTempPoints.origin.y;edkEnd();
+                    }
+                    if(rectanglePoints.size.width <= rectTempPoints.size.width){
+                        rectanglePoints.size.width = rectTempPoints.size.width;edkEnd();
+                    }
+                    if(rectanglePoints.size.height <= rectTempPoints.size.height){
+                        rectanglePoints.size.height = rectTempPoints.size.height;edkEnd();
+                    }
+                    //increment the size of the rectangle
+                    rectanglePoints.origin.x -= (rectanglePoints.size.width - rectanglePoints.origin.x)*0.025f;edkEnd();
+                    rectanglePoints.origin.y -= (rectanglePoints.size.height - rectanglePoints.origin.y)*0.025f;edkEnd();
+                    rectanglePoints.size.width += (rectanglePoints.size.width - rectanglePoints.origin.x)*0.025f;edkEnd();
+                    rectanglePoints.size.height += (rectanglePoints.size.height - rectanglePoints.origin.y)*0.025f;edkEnd();
+                }
+                //set the rectangle
+                this->incrementRect(rectanglePoints);edkEnd();
+                return true;
+            }
+        }
+        return false;
+    }
+    bool setRectAndAddFromTree(edk::vector::BinaryTree<typeTemplate>* tree, edk::uint32 depthLimit=0xFFFFFFFF){
+#if defined(EDK_DONT_USE_QUADTREE)
+        return false;
+#endif
+        if(this->setRectFromTree(tree)){
+            if(this->addFromTree(tree,depthLimit)){
+                return true;
+            }
+        }
+        return false;
+    }
+    bool setRectPointsFromTree(edk::vector::BinaryTree<typeTemplate>* tree){
+#if defined(EDK_DONT_USE_QUADTREE)
+        return false;
+#endif
+        if(tree){
+            edk::uint32 size = tree->size();edkEnd();
+            edk::rectf32 rectangle = edk::rectf32(0,0,1,1);edkEnd();
             edk::rectf32 rectTemp;edkEnd();
             if(size){
                 rectangle = this->getElementRectangle(tree->getElementInPosition(0u));edkEnd();
@@ -1112,7 +1239,7 @@ public:
         }
         return false;
     }
-    bool incrementRectFromTree(edk::vector::BinaryTree<typeTemplate>* tree){
+    bool incrementRectPointsFromTree(edk::vector::BinaryTree<typeTemplate>* tree){
 #if defined(EDK_DONT_USE_QUADTREE)
         return false;
 #endif
@@ -1150,11 +1277,11 @@ public:
         }
         return false;
     }
-    bool setRectAndAddFromTree(edk::vector::BinaryTree<typeTemplate>* tree, edk::uint32 depthLimit=0xFFFFFFFF){
+    bool setRectPointsAndAddFromTree(edk::vector::BinaryTree<typeTemplate>* tree, edk::uint32 depthLimit=0xFFFFFFFF){
 #if defined(EDK_DONT_USE_QUADTREE)
         return false;
 #endif
-        if(this->setRectFromTree(tree)){
+        if(this->setRectPointsFromTree(tree)){
             if(this->addFromTree(tree,depthLimit)){
                 return true;
             }
@@ -1335,6 +1462,9 @@ public:
             }
         }
         this->runUpdateGets();edkEnd();
+        if(!ret){
+            ret = (bool)this->treeTemp->size();edkEnd();
+        }
         return ret;
     }
     virtual bool selectLeafInPoint(edk::vec2f32 point){
@@ -1393,6 +1523,9 @@ public:
             }
         }
         this->runUpdateGets(edk::rectf32(point.x,point.y,point.x,point.y));edkEnd();
+        if(!ret){
+            ret = (bool)this->treeTemp->size();edkEnd();
+        }
         return ret;
     }
     virtual bool selectLeafInRect(edk::rectf32 rect){
@@ -1472,6 +1605,9 @@ public:
             }
         }
         this->runUpdateGets(rect);edkEnd();
+        if(!ret){
+            ret = (bool)this->treeTemp->size();edkEnd();
+        }
         return ret;
     }
     virtual bool selectLeafInRectPoints(edk::rectf32 rect){
@@ -1490,13 +1626,13 @@ public:
         tree[3u] = &this->selected3;edkEnd();
         bool ret=false;edkEnd();
         if(this->isRectPointsColliding(rect,
-                                 edk::vec2f32(this->root.origin.x,
-                                              this->root.origin.y
-                                              ),
-                                 edk::vec2f32(this->root.size.width,
-                                              this->root.size.height
-                                              )
-                                 )
+                                       edk::vec2f32(this->root.origin.x,
+                                                    this->root.origin.y
+                                                    ),
+                                       edk::vec2f32(this->root.size.width,
+                                                    this->root.size.height
+                                                    )
+                                       )
                 ){
             this->selected = &this->root;edkEnd();
             edk::vector::QuadLeaf32<typeTemplate>* temp = &this->root;edkEnd();
@@ -1511,13 +1647,13 @@ public:
                     for(edk::uint8 i=0u;i<4u;i++){
                         tempQuad = temp->getQuad(i);edkEnd();
                         if(this->isRectPointsColliding(rect,
-                                                 edk::vec2f32(tempQuad->origin.x,
-                                                              tempQuad->origin.y
-                                                              ),
-                                                 edk::vec2f32(tempQuad->size.width,
-                                                              tempQuad->size.height
-                                                              )
-                                                 )
+                                                       edk::vec2f32(tempQuad->origin.x,
+                                                                    tempQuad->origin.y
+                                                                    ),
+                                                       edk::vec2f32(tempQuad->size.width,
+                                                                    tempQuad->size.height
+                                                                    )
+                                                       )
                                 ){
                             //
                             *tree[counter]=tempQuad;
@@ -1551,11 +1687,56 @@ public:
             }
         }
         this->runUpdateGets(rect);edkEnd();
+        if(!ret){
+            ret = (bool)this->treeTemp->size();edkEnd();
+        }
         return ret;
     }
 
     //clean the tree
-    void clean(edk::rectf32 rect,edk::float32 minimumQuadSize=edkQuadMinimumSize){
+    void cleanWithRect(edk::rectf32 rect,edk::float32 minimumQuadSize=edkQuadMinimumSize){
+        edk::rectf32 rectTemp = edk::rectf32(rect.origin.x - (rect.size.width*0.5f),
+                                             rect.origin.y - (rect.size.height*0.5f),
+                                             rect.origin.x + (rect.size.width*0.5f),
+                                             rect.origin.y + (rect.size.height*0.5f)
+                                             );
+        this->releaseTreeTemp();edkEnd();
+        this->root.clean();edkEnd();
+        this->root.setTree(this->newTree());edkEnd();
+        this->root.origin = rectTemp.origin;edkEnd();
+        this->root.size = rectTemp.size;edkEnd();
+        this->treeNULL.clean();edkEnd();
+        this->treeNULL.setTree(this->newTree());edkEnd();
+        this->treeNULL.origin = rectTemp.origin;edkEnd();
+        this->treeNULL.size = rectTemp.size;edkEnd();
+        this->selected=&this->treeNULL;edkEnd();
+        this->selected1 = &this->treeNULL;edkEnd();
+        this->selected2 = &this->treeNULL;edkEnd();
+        this->selected3 = &this->treeNULL;edkEnd();
+        //GETS
+        if(this->treeTemp!=&this->treeUpdate){
+            delete this->treeTemp;edkEnd();
+        }
+        this->treeUpdate.clean();edkEnd();
+        //create a new tree
+        this->treeTemp = this->newTree();edkEnd();
+        if(!this->treeTemp){
+            this->treeTemp = &this->treeUpdate;edkEnd();
+        }
+        //REMOVED
+        this->treeOutside.clean();edkEnd();
+
+        this->treeGets.clean();edkEnd();
+
+        this->minimumQuadSize=minimumQuadSize;
+    }
+
+    void cleanAndSetRectangleFromTree(edk::vector::BinaryTree<typeTemplate>* tree){
+        this->setRectFromTree(tree);
+    }
+
+    //clean the tree
+    void cleanWithRectPoints(edk::rectf32 rect,edk::float32 minimumQuadSize=edkQuadMinimumSize){
         this->releaseTreeTemp();edkEnd();
         this->root.clean();edkEnd();
         this->root.setTree(this->newTree());edkEnd();
@@ -1587,11 +1768,11 @@ public:
         this->minimumQuadSize=minimumQuadSize;
     }
     void clean(edk::float32 minimumQuadSize=edkQuadMinimumSize){
-        this->clean(edk::rectf32(0.f,0.f,1.f,1.f));
+        this->cleanWithRectPoints(edk::rectf32(0,0,1,1),minimumQuadSize);
     }
 
-    void cleanAndSetRectangleFromTree(edk::vector::BinaryTree<typeTemplate>* tree){
-        this->setRectFromTree(tree);edkEnd();
+    void cleanAndSetRectanglePointsFromTree(edk::vector::BinaryTree<typeTemplate>* tree){
+        this->setRectPointsFromTree(tree);
     }
 
     //SELECTED FUNCTIONS
@@ -1941,7 +2122,7 @@ public:
         this->selected2 = &this->treeNULL;edkEnd();
         this->selected3 = &this->treeNULL;edkEnd();
         this->treeTemp = &this->treeUpdate;edkEnd();
-        this->clean(edk::rectf64(0,0,1,1));edkEnd();
+        this->cleanWithRectPoints(edk::rectf64(0,0,1,1));edkEnd();
         this->setMinimumElementInQuads(1u);
     }
     virtual ~QuadTree64(){
@@ -1995,7 +2176,7 @@ public:
     }
     //set the quadTree rectangle
     void setRect(edk::rectf64 rect,edk::float64 minimumQuadSize=edkQuadMinimumSize){
-        this->clean(rect);edkEnd();
+        this->cleanWithRectPoints(rect);edkEnd();
         this->minimumQuadSize=minimumQuadSize;edkEnd();
     }
     void setRect(edk::vec2f64 position1,edk::vec2f64 position2,edk::float64 minimumQuadSize=edkQuadMinimumSize){
@@ -2006,8 +2187,27 @@ public:
         this->clean(edk::rectf64(pos1X,pos1Y,pos2X,pos2Y));edkEnd();
         this->minimumQuadSize=minimumQuadSize;edkEnd();
     }
+    void setRectPoints(edk::rectf64 rect,edk::float64 minimumQuadSize=edkQuadMinimumSize){
+        this->clean(rect);edkEnd();
+        this->minimumQuadSize=minimumQuadSize;edkEnd();
+    }
+    void setRectPoints(edk::vec2f64 position1,edk::vec2f64 position2,edk::float64 minimumQuadSize=edkQuadMinimumSize){
+        this->clean(edk::rectf64(position1.x,position1.y,position2.x,position2.y));edkEnd();
+        this->minimumQuadSize=minimumQuadSize;edkEnd();
+    }
+    void setRectPoints(edk::float64 pos1X,edk::float64 pos1Y,edk::float64 pos2X,edk::float64 pos2Y,edk::float64 minimumQuadSize=edkQuadMinimumSize){
+        this->clean(edk::rectf64(pos1X,pos1Y,pos2X,pos2Y));edkEnd();
+        this->minimumQuadSize=minimumQuadSize;edkEnd();
+    }
     //return the quadtree rectangle
     edk::rectf64 getRectangle(){
+        return edk::rectf64(this->root.origin.x+(this->root.size.width*0.5f),
+                            this->root.origin.y+(this->root.size.height*0.5f),
+                            this->root.origin.x-(this->root.size.width*0.5f),
+                            this->root.origin.y-(this->root.size.height*0.5f)
+                            );
+    }
+    edk::rectf64 getRectanglePoints(){
         return edk::rectf64(this->root.origin,this->root.size);
     }
     void incrementRect(edk::rectf64 rect){
@@ -2246,6 +2446,118 @@ public:
         if(tree){
             edk::uint64 size = tree->size();edkEnd();
             edk::rectf64 rectangle = edk::rectf64(0,0,1,1);edkEnd();
+            edk::rectf64 rectanglePoints = edk::rectf64(0,0,1,1);edkEnd();
+            edk::rectf64 rectTemp;edkEnd();
+            edk::rectf64 rectTempPoints;edkEnd();
+            if(size){
+                rectangle = this->getElementRectangle(tree->getElementInPosition(0u));edkEnd();
+                rectanglePoints = edk::rectf64(rectangle.origin.x - rectangle.size.width,
+                                               rectangle.origin.y - rectangle.size.height,
+                                               rectangle.origin.x + rectangle.size.width,
+                                               rectangle.origin.y + rectangle.size.height
+                                               );
+                for(edk::uint64 i=1u;i<size;i++){
+                    rectTemp = this->getElementRectangle(tree->getElementInPosition(i));edkEnd();
+                    rectTempPoints = edk::rectf64(rectTemp.origin.x - rectTemp.size.width,
+                                                  rectTemp.origin.y - rectTemp.size.height,
+                                                  rectTemp.origin.x + rectTemp.size.width,
+                                                  rectTemp.origin.y + rectTemp.size.height
+                                                  );
+                    //test if need to update the rectangle
+                    if(rectanglePoints.origin.x >= rectTempPoints.origin.x){
+                        rectanglePoints.origin.x = rectTempPoints.origin.x;edkEnd();
+                    }
+                    if(rectanglePoints.origin.y >= rectTempPoints.origin.y){
+                        rectanglePoints.origin.y = rectTempPoints.origin.y;edkEnd();
+                    }
+                    if(rectanglePoints.size.width <= rectTempPoints.size.width){
+                        rectanglePoints.size.width = rectTempPoints.size.width;edkEnd();
+                    }
+                    if(rectanglePoints.size.height <= rectTempPoints.size.height){
+                        rectanglePoints.size.height = rectTempPoints.size.height;edkEnd();
+                    }
+                }
+                //increment the size of the rectangle
+                rectanglePoints.origin.x -= (rectanglePoints.size.width - rectanglePoints.origin.x)*0.025f;edkEnd();
+                rectanglePoints.origin.y -= (rectanglePoints.size.height - rectanglePoints.origin.y)*0.025f;edkEnd();
+                rectanglePoints.size.width += (rectanglePoints.size.width - rectanglePoints.origin.x)*0.025f;edkEnd();
+                rectanglePoints.size.height += (rectanglePoints.size.height - rectanglePoints.origin.y)*0.025f;edkEnd();
+                //set the rectangle
+                this->setRect(rectanglePoints);edkEnd();
+                return true;
+            }
+            this->setRect(rectanglePoints);edkEnd();
+        }
+        return false;
+    }
+    bool incrementRectFromTree(edk::vector::BinaryTree<typeTemplate>* tree){
+#if defined(EDK_DONT_USE_QUADTREE)
+        return false;
+#endif
+        if(tree){
+            edk::uint64 size = tree->size();edkEnd();
+            edk::rectf64 rectangle = edk::rectf64(0,0,1,1);edkEnd();
+            edk::rectf64 rectanglePoints = edk::rectf64(0,0,1,1);edkEnd();
+            edk::rectf64 rectTemp;edkEnd();
+            edk::rectf64 rectTempPoints;edkEnd();
+            if(size){
+                rectangle = this->getElementRectangle(tree->getElementInPosition(0u));edkEnd();
+                rectanglePoints = edk::rectf64(rectangle.origin.x - rectangle.size.width,
+                                               rectangle.origin.y - rectangle.size.height,
+                                               rectangle.origin.x + rectangle.size.width,
+                                               rectangle.origin.y + rectangle.size.height
+                                               );
+                for(edk::uint64 i=0u;i<size;i++){
+                    rectTemp = this->getElementRectangle(tree->getElementInPosition(i));edkEnd();
+                    rectTempPoints = edk::rectf64(rectTemp.origin.x - rectTemp.size.width,
+                                                  rectTemp.origin.y - rectTemp.size.height,
+                                                  rectTemp.origin.x + rectTemp.size.width,
+                                                  rectTemp.origin.y + rectTemp.size.height
+                                                  );
+                    //test if need to update the rectangle
+                    if(rectanglePoints.origin.x >= rectTempPoints.origin.x){
+                        rectanglePoints.origin.x = rectTempPoints.origin.x;edkEnd();
+                    }
+                    if(rectanglePoints.origin.y >= rectTempPoints.origin.y){
+                        rectanglePoints.origin.y = rectTempPoints.origin.y;edkEnd();
+                    }
+                    if(rectanglePoints.size.width <= rectTempPoints.size.width){
+                        rectanglePoints.size.width = rectTempPoints.size.width;edkEnd();
+                    }
+                    if(rectanglePoints.size.height <= rectTempPoints.size.height){
+                        rectanglePoints.size.height = rectTempPoints.size.height;edkEnd();
+                    }
+                    //increment the size of the rectangle
+                    rectanglePoints.origin.x -= (rectanglePoints.size.width - rectanglePoints.origin.x)*0.025f;edkEnd();
+                    rectanglePoints.origin.y -= (rectanglePoints.size.height - rectanglePoints.origin.y)*0.025f;edkEnd();
+                    rectanglePoints.size.width += (rectanglePoints.size.width - rectanglePoints.origin.x)*0.025f;edkEnd();
+                    rectanglePoints.size.height += (rectanglePoints.size.height - rectanglePoints.origin.y)*0.025f;edkEnd();
+                }
+                //set the rectangle
+                this->incrementRect(rectanglePoints);edkEnd();
+                return true;
+            }
+        }
+        return false;
+    }
+    bool setRectAndAddFromTree(edk::vector::BinaryTree<typeTemplate>* tree, edk::uint64 depthLimit=0xFFFFFFFF){
+#if defined(EDK_DONT_USE_QUADTREE)
+        return false;
+#endif
+        if(this->setRectFromTree(tree)){
+            if(this->addFromTree(tree,depthLimit)){
+                return true;
+            }
+        }
+        return false;
+    }
+    bool setRectPointsFromTree(edk::vector::BinaryTree<typeTemplate>* tree){
+#if defined(EDK_DONT_USE_QUADTREE)
+        return false;
+#endif
+        if(tree){
+            edk::uint64 size = tree->size();edkEnd();
+            edk::rectf64 rectangle = edk::rectf64(0,0,1,1);edkEnd();
             edk::rectf64 rectTemp;edkEnd();
             if(size){
                 rectangle = this->getElementRectangle(tree->getElementInPosition(0u));edkEnd();
@@ -2278,7 +2590,7 @@ public:
         }
         return false;
     }
-    bool incrementRectFromTree(edk::vector::BinaryTree<typeTemplate>* tree){
+    bool incrementRectPointsFromTree(edk::vector::BinaryTree<typeTemplate>* tree){
 #if defined(EDK_DONT_USE_QUADTREE)
         return false;
 #endif
@@ -2316,11 +2628,11 @@ public:
         }
         return false;
     }
-    bool setRectAndAddFromTree(edk::vector::BinaryTree<typeTemplate>* tree, edk::uint64 depthLimit=0xFFFFFFFF){
+    bool setRectPointsAndAddFromTree(edk::vector::BinaryTree<typeTemplate>* tree, edk::uint64 depthLimit=0xFFFFFFFF){
 #if defined(EDK_DONT_USE_QUADTREE)
         return false;
 #endif
-        if(this->setRectFromTree(tree)){
+        if(this->setRectPointsFromTree(tree)){
             if(this->addFromTree(tree,depthLimit)){
                 return true;
             }
@@ -2501,6 +2813,9 @@ public:
             }
         }
         this->runUpdateGets();edkEnd();
+        if(!ret){
+            ret = (bool)this->treeTemp->size();edkEnd();
+        }
         return ret;
     }
     virtual bool selectLeafInPoint(edk::vec2f64 point){
@@ -2559,6 +2874,9 @@ public:
             }
         }
         this->runUpdateGets(edk::rectf64(point.x,point.y,point.x,point.y));edkEnd();
+        if(!ret){
+            ret = (bool)this->treeTemp->size();edkEnd();
+        }
         return ret;
     }
     virtual bool selectLeafInRect(edk::rectf64 rect){
@@ -2638,6 +2956,9 @@ public:
             }
         }
         this->runUpdateGets(rect);edkEnd();
+        if(!ret){
+            ret = (bool)this->treeTemp->size();edkEnd();
+        }
         return ret;
     }
     virtual bool selectLeafInRectPoints(edk::rectf64 rect){
@@ -2656,13 +2977,13 @@ public:
         tree[3u] = &this->selected3;edkEnd();
         bool ret=false;edkEnd();
         if(this->isRectPointsColliding(rect,
-                                 edk::vec2f64(this->root.origin.x,
-                                              this->root.origin.y
-                                              ),
-                                 edk::vec2f64(this->root.size.width,
-                                              this->root.size.height
-                                              )
-                                 )
+                                       edk::vec2f64(this->root.origin.x,
+                                                    this->root.origin.y
+                                                    ),
+                                       edk::vec2f64(this->root.size.width,
+                                                    this->root.size.height
+                                                    )
+                                       )
                 ){
             this->selected = &this->root;edkEnd();
             edk::vector::QuadLeaf64<typeTemplate>* temp = &this->root;edkEnd();
@@ -2677,13 +2998,13 @@ public:
                     for(edk::uint8 i=0u;i<4u;i++){
                         tempQuad = temp->getQuad(i);edkEnd();
                         if(this->isRectPointsColliding(rect,
-                                                 edk::vec2f64(tempQuad->origin.x,
-                                                              tempQuad->origin.y
-                                                              ),
-                                                 edk::vec2f64(tempQuad->size.width,
-                                                              tempQuad->size.height
-                                                              )
-                                                 )
+                                                       edk::vec2f64(tempQuad->origin.x,
+                                                                    tempQuad->origin.y
+                                                                    ),
+                                                       edk::vec2f64(tempQuad->size.width,
+                                                                    tempQuad->size.height
+                                                                    )
+                                                       )
                                 ){
                             //
                             *tree[counter]=tempQuad;
@@ -2717,11 +3038,56 @@ public:
             }
         }
         this->runUpdateGets(rect);edkEnd();
+        if(!ret){
+            ret = (bool)this->treeTemp->size();edkEnd();
+        }
         return ret;
     }
 
     //clean the tree
-    void clean(edk::rectf64 rect,edk::float64 minimumQuadSize=edkQuadMinimumSize){
+    void cleanWithRect(edk::rectf64 rect,edk::float64 minimumQuadSize=edkQuadMinimumSize){
+        edk::rectf64 rectTemp = edk::rectf64(rect.origin.x - (rect.size.width*0.5f),
+                                             rect.origin.y - (rect.size.height*0.5f),
+                                             rect.origin.x + (rect.size.width*0.5f),
+                                             rect.origin.y + (rect.size.height*0.5f)
+                                             );
+        this->releaseTreeTemp();edkEnd();
+        this->root.clean();edkEnd();
+        this->root.setTree(this->newTree());edkEnd();
+        this->root.origin = rectTemp.origin;edkEnd();
+        this->root.size = rectTemp.size;edkEnd();
+        this->treeNULL.clean();edkEnd();
+        this->treeNULL.setTree(this->newTree());edkEnd();
+        this->treeNULL.origin = rectTemp.origin;edkEnd();
+        this->treeNULL.size = rectTemp.size;edkEnd();
+        this->selected=&this->treeNULL;edkEnd();
+        this->selected1 = &this->treeNULL;edkEnd();
+        this->selected2 = &this->treeNULL;edkEnd();
+        this->selected3 = &this->treeNULL;edkEnd();
+        //GETS
+        if(this->treeTemp!=&this->treeUpdate){
+            delete this->treeTemp;edkEnd();
+        }
+        this->treeUpdate.clean();edkEnd();
+        //create a new tree
+        this->treeTemp = this->newTree();edkEnd();
+        if(!this->treeTemp){
+            this->treeTemp = &this->treeUpdate;edkEnd();
+        }
+        //REMOVED
+        this->treeOutside.clean();edkEnd();
+
+        this->treeGets.clean();edkEnd();
+
+        this->minimumQuadSize=minimumQuadSize;
+    }
+
+    void cleanAndSetRectangleFromTree(edk::vector::BinaryTree<typeTemplate>* tree){
+        this->setRectFromTree(tree);
+    }
+
+    //clean the tree
+    void cleanWithRectPoints(edk::rectf64 rect,edk::float64 minimumQuadSize=edkQuadMinimumSize){
         this->releaseTreeTemp();edkEnd();
         this->root.clean();edkEnd();
         this->root.setTree(this->newTree());edkEnd();
@@ -2753,11 +3119,11 @@ public:
         this->minimumQuadSize=minimumQuadSize;
     }
     void clean(edk::float64 minimumQuadSize=edkQuadMinimumSize){
-        this->clean(edk::rectf64(0.f,0.f,1.f,1.f));
+        this->cleanWithRectPoints(edk::rectf64(0,0,1,1),minimumQuadSize);
     }
 
-    void cleanAndSetRectangleFromTree(edk::vector::BinaryTree<typeTemplate>* tree){
-        this->setRectFromTree(tree);edkEnd();
+    void cleanAndSetRectanglePointsFromTree(edk::vector::BinaryTree<typeTemplate>* tree){
+        this->setRectPointsFromTree(tree);
     }
 
     //SELECTED FUNCTIONS
