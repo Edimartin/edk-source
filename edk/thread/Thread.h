@@ -106,6 +106,7 @@ public:
 
     //return the thread id
 #if __x86_64__ || __ppc64__
+    edk::uint64 getThreadID();
     static edk::uint64 getThisThreadID();
     static inline edk::uint64 getMainThreadID(){return edk::multi::Thread::mainID;}
     static inline bool setMainThreadID(edk::uint64 id){
@@ -116,6 +117,7 @@ public:
         return false;
     }
 #else
+    edk::uint32 getThreadID();
     static edk::uint32 getThisThreadID();
     static inline edk::uint32 getMainThreadID(){return edk::multi::Thread::mainID;}
     static inline bool setMainThreadID(edk::uint32 id){

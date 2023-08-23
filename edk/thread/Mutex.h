@@ -53,7 +53,7 @@ public:
 class Mutex : public edk::multi::MutexDisable{
 public:
     Mutex();
-    ~Mutex();
+    virtual ~Mutex();
 
     //set the debugFile Name
     static bool createDebugFile(const edk::char8* name);

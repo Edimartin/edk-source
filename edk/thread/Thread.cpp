@@ -481,7 +481,7 @@ bool edk::multi::Thread::kill(){
     //WINDOWS 32
 #ifdef WIN32
     if(this->threadID){
-/*
+        /*
         DWORD exitCode;edkEnd();
         //Finish the thread
         if(GetExitCodeThread(this->threadID,&exitCode) != 0){
@@ -490,10 +490,10 @@ bool edk::multi::Thread::kill(){
         }
         else{
 */
-            TerminateThread(this->threadID
-                            ,(DWORD)NULL
-                            );edkEnd();
-/*
+        TerminateThread(this->threadID
+                        ,(DWORD)NULL
+                        );edkEnd();
+        /*
         }
 */
         ret=true;edkEnd();
@@ -503,7 +503,7 @@ bool edk::multi::Thread::kill(){
 #elif defined WIN64
     //WINDOWS 64
     if(this->threadID){
-/*
+        /*
         DWORD exitCode;edkEnd();
         //Finish the thread
         if(GetExitCodeThread(this->threadID,&exitCode) != 0){
@@ -512,10 +512,10 @@ bool edk::multi::Thread::kill(){
         }
         else{
 */
-            TerminateThread(this->threadID
-                            ,(DWORD)NULL
-                            );edkEnd();
-/*
+        TerminateThread(this->threadID
+                        ,(DWORD)NULL
+                        );edkEnd();
+        /*
         }
 */
         ret=true;edkEnd();
@@ -609,6 +609,9 @@ void edk::multi::Thread::killAllThreads(){
 }
 #if __x86_64__ || __ppc64__
 //get the thread id
+edk::uint64 edk::multi::Thread::getThreadID(){
+    return (edk::uint64)this->threadID;
+}
 edk::uint64 edk::multi::Thread::getThisThreadID(){
 #if WIN64
     return GetCurrentThreadId();edkEnd();
@@ -618,6 +621,9 @@ edk::uint64 edk::multi::Thread::getThisThreadID(){
 }
 #else
 //get the thread id
+edk::uint32 edk::multi::Thread::getThreadID(){
+    return (edk::uint32)this->threadID;
+}
 edk::uint32 edk::multi::Thread::getThisThreadID(){
 #if WIN32
     return GetCurrentThreadId();edkEnd();

@@ -5281,7 +5281,7 @@ void edk::String::consoleClear(){
 #if defined(WIN32) || defined(WIN64)//Windows
     system("cls");
 #elif defined(__linux__) || defined(__APPLE__) //Linux //MacOS
-    printf("\033c");
+    printf("\033c");fflush(stdout);
 #endif
 }
 
