@@ -78,6 +78,7 @@ public:
     bool setDistance(edk::float32 distance);
     //move the distance
     bool moveDistance(edk::float32 distance);
+    bool incrementDistance(edk::float32 distance);
 
     //functions to move the camera in his axis
     void moveHorizontal(edk::float32 distance);

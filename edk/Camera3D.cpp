@@ -27,21 +27,21 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 edk::Camera3D::Camera3D(){
     //
     this->start();edkEnd();
-    this->perspective = false;edkEnd();
+    this->perspective = true;edkEnd();
     this->firstPerson=false;edkEnd();
 }
 edk::Camera3D::Camera3D(edk::vec3f32 position,edk::vec3f32 lookAt){
     this->start();edkEnd();
     this->position = position;edkEnd();
     this->lookAt = lookAt;edkEnd();
-    this->perspective = false;edkEnd();
+    this->perspective = true;edkEnd();
     this->firstPerson=false;edkEnd();
 }
 edk::Camera3D::Camera3D(edk::float32 pX,edk::float32 pY,edk::float32 pZ,edk::float32 lookX,edk::float32 lookY,edk::float32 lookZ){
     this->start();edkEnd();
     this->position = edk::vec3f32(pX,pY,pZ);edkEnd();
     this->lookAt = edk::vec3f32(lookX,lookY,lookZ);edkEnd();
-    this->perspective = false;edkEnd();
+    this->perspective = true;edkEnd();
     this->firstPerson=false;edkEnd();
 }
 edk::Camera3D::~Camera3D(){
@@ -146,6 +146,9 @@ bool edk::Camera3D::setDistance(edk::float32 distance){
 }
 //move the distance
 bool edk::Camera3D::moveDistance(edk::float32 distance){
+    return this->setDistance(this->getDistance()+distance);edkEnd();
+}
+bool edk::Camera3D::incrementDistance(edk::float32 distance){
     return this->setDistance(this->getDistance()+distance);edkEnd();
 }
 
