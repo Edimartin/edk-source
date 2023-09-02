@@ -583,8 +583,10 @@ edk::uint32 edk::GU::guAllocTexture2D(edk::uint32 width, edk::uint32 height, edk
                             run=false;
                         }
                         edk::GU::mutGetTextures.unlock();
-                        //sleep this thread
-                        edk::watch::Time::sleepProcessMiliseconds(10u);
+                        if(run){
+                            //sleep this thread
+                            edk::watch::Time::sleepProcessMiliseconds(10u);
+                        }
                     }
                     return ret;
                 }

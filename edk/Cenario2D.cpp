@@ -5704,6 +5704,7 @@ bool edk::Cenario2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::char8
                 else{
                     //else load textures from other threads
                     edk::GU::guUpdateLoadTextures();edkEnd();
+                    edk::GU_GLSL::guUpdateCreateShaders();edkEnd();
                 }
             }
         }
@@ -6569,6 +6570,7 @@ bool edk::Cenario2D::readLevelFromXMLFromPack(edk::pack::FilePackage* pack,edk::
                 else{
                     //else load textures from other threads
                     edk::GU::guUpdateLoadTextures();edkEnd();
+                    edk::GU_GLSL::guUpdateCreateShaders();edkEnd();
                 }
             }
         }
@@ -7440,6 +7442,7 @@ bool edk::Cenario2D::readLevelsFromXMLFromPack(edk::pack::FilePackage* pack,edk:
                 else{
                     //else load textures from other threads
                     edk::GU::guUpdateLoadTextures();edkEnd();
+                    edk::GU_GLSL::guUpdateCreateShaders();edkEnd();
                 }
             }
         }
@@ -7686,6 +7689,7 @@ bool edk::Cenario2D::readFromXMLFromPackWithoutLoadPhysics(edk::pack::FilePackag
                 else{
                     //else load textures from other threads
                     edk::GU::guUpdateLoadTextures();edkEnd();
+                    edk::GU_GLSL::guUpdateCreateShaders();edkEnd();
                 }
             }
         }
@@ -7938,6 +7942,7 @@ bool edk::Cenario2D::readLevelFromXMLFromPackWithoutLoadPhysics(edk::pack::FileP
                 else{
                     //else load textures from other threads
                     edk::GU::guUpdateLoadTextures();edkEnd();
+                    edk::GU_GLSL::guUpdateCreateShaders();edkEnd();
                 }
             }
         }
@@ -8196,6 +8201,7 @@ bool edk::Cenario2D::readLevelsFromXMLFromPackWithoutLoadPhysics(edk::pack::File
                 else{
                     //else load textures from other threads
                     edk::GU::guUpdateLoadTextures();edkEnd();
+                    edk::GU_GLSL::guUpdateCreateShaders();edkEnd();
                 }
             }
         }

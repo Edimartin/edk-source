@@ -589,6 +589,7 @@ bool edk::Window::flip(){
         this->window.display();edkEnd();//2.0
         //update the loadTexture from GU
         edk::GU::guUpdateLoadTextures();edkEnd();
+        edk::GU_GLSL::guUpdateCreateShaders();edkEnd();
         //retorna true
         return true;
     }

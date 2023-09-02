@@ -392,6 +392,7 @@ edk::uint32 edk::Texture2DList::loadTextureFromPack(edk::pack::FilePackage* pack
                     else{
                         //else load textures from other threads
                         edk::GU::guUpdateLoadTextures();edkEnd();
+                        edk::GU_GLSL::guUpdateCreateShaders();edkEnd();
                     }
                 }
                 while(true){
@@ -403,6 +404,7 @@ edk::uint32 edk::Texture2DList::loadTextureFromPack(edk::pack::FilePackage* pack
                     else{
                         //else load textures from other threads
                         edk::GU::guUpdateLoadTextures();edkEnd();
+                        edk::GU_GLSL::guUpdateCreateShaders();edkEnd();
                     }
                 }
             }

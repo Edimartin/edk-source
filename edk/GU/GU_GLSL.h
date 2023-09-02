@@ -70,6 +70,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #define GU_GLSL_FRAGMENT_SHADER GL_FRAGMENT_SHADER
 #define GU_GLSL_VERTEX_SHADER   GL_VERTEX_SHADER
+#define GU_GLSL_GEOMETRY_SHADER GL_GEOMETRY_SHADER
+#define GU_GLSL_PROGRAM         GL_PROGRAM
 
 #define GU_SHADER_TYPE          GL_SHADER_TYPE
 #define GU_DELETE_STATUS        GL_DELETE_STATUS
@@ -204,6 +206,9 @@ public:
     //destrutor
     ~GU_GLSL();
 
+    static void setCantCreateShaders();
+    static void setCanCreateShaders();
+
     //start the shaderLib
     static edk::int32 guShaderInit();
     //return true if have init the glut
@@ -216,17 +221,17 @@ public:
     static bool guShaderSource(edk::uint32 id, edk::uint8 *data,  edk::uint32 length);
     //Compile the shader source
     static void guCompileShader(edk::uint32 id);
-    static void guGetShaderiv(edk::uint32 shader,  edk::uint32 pname,  edk::int32 *params);
-    static void guGetProgramiv(edk::uint32 program, edk::uint32 pname,  edk::int32 *params);
-    static void guGetShaderInfoLog(edk::uint32 shader,  edk::int32 maxLength,  edk::int32 *length,  edk::char8 *infoLog);
-    static void guGetProgramInfoLog(edk::uint32 program,  edk::int32 maxLength,  edk::int32 *length,  edk::char8 *infoLog);
+    static void guGetShaderiv(edk::uint32 id,  edk::uint32 pname,  edk::int32 *params);
+    static void guGetProgramiv(edk::uint32 id, edk::uint32 pname,  edk::int32 *params);
+    static void guGetShaderInfoLog(edk::uint32 id,  edk::int32 maxLength,  edk::int32 *length,  edk::char8 *infoLog);
+    static void guGetProgramInfoLog(edk::uint32 id,  edk::int32 maxLength,  edk::int32 *length,  edk::char8 *infoLog);
     //shader program
     static edk::uint32 guCreateProgram();
     static bool guProgramUseShader(edk::uint32 id,edk::uint32 shaderId);
     static void guProgramRemoveShader(edk::uint32 id,edk::uint32 shaderId);
     static void guDeleteProgram(edk::uint32 id);
-    static void guLinkProgram(edk::uint32 shaderID);
-    static void guUseProgram(edk::uint32 shaderID);
+    static void guLinkProgram(edk::uint32 programID);
+    static void guUseProgram(edk::uint32 programID);
 
     static void guData1i32(edk::int32 id,edk::int32 d0);
     static void guData2i32(edk::int32 id,edk::vec2i32 d);
@@ -526,6 +531,9 @@ public:
     //static edk::uint32 guCheckRenderbufferStatus(edk::uint32 type);
     //static bool guCheckRenderBufferOK(edk::uint32 type);
 
+    //run function to create the shaders for other threads
+    static bool guUpdateCreateShaders();
+
     //STRING
     //GL_SHADING_LANGUAGE_VERSION
     //Returns a version or release number for the shading language of the form
@@ -537,12 +545,496 @@ public:
 #endif
 #ifdef __linux__
     //LINUX
-    static edk::multi::Mutex mut;
+    static edk::multi::MutexDisable mut;
 #endif
     static edk::multi::MutexDisable mutBeginEnd;
 
+    //mutex used to create the shader
+    static edk::multi::Mutex mutCreateShader;
+    //a boolean if can still running load the texture
+    static bool canLoadShader;
+
 private:
     static bool initiate;
+    class ShaderClass{
+    public:
+        ShaderClass(){this->threadID = 0u;this->id = 0u;this->type = 0u;}
+        ~ShaderClass(){}
+        edk::GU_GLSL::ShaderClass operator=(edk::GU_GLSL::ShaderClass shader){
+            this->threadID = shader.threadID;
+            this->id = shader.id;
+            this->type = shader.type;
+            return *this;
+        }
+        bool operator==(edk::GU_GLSL::ShaderClass shader){
+            return (this->threadID == shader.threadID);
+        }
+        bool operator>(edk::GU_GLSL::ShaderClass shader){
+            return (this->threadID > shader.threadID);
+        }
+        bool operator<(edk::GU_GLSL::ShaderClass shader){
+            return (this->threadID < shader.threadID);
+        }
+        edk::uint32 id;
+        edk::uint32 type;
+#if __x86_64__ || __ppc64__
+        edk::uint64 threadID;
+#else
+        edk::uint32 threadID;
+#endif
+    };
+    static edk::vector::Queue<edk::GU_GLSL::ShaderClass> genShaders;
+
+    class Shader_Tree : public edk::vector::BinaryTree<edk::GU_GLSL::ShaderClass>{
+    public:
+        Shader_Tree(){}
+        ~Shader_Tree(){}
+        //compare if the value is bigger
+        virtual bool firstBiggerSecond(edk::GU_GLSL::ShaderClass first,edk::GU_GLSL::ShaderClass second){
+            if(first.threadID>second.threadID){return true;}
+            return false;
+        }
+        //compare if the value is equal
+        virtual bool firstEqualSecond(edk::GU_GLSL::ShaderClass first,edk::GU_GLSL::ShaderClass second){
+            if(first.threadID==second.threadID){return true;}
+            return false;
+        }
+        //get a TexureClass by ID
+#if __x86_64__ || __ppc64__
+        edk::GU_GLSL::ShaderClass getShaderByThread(edk::uint64 threadID){
+#else
+        edk::GU_GLSL::ShaderClass getShaderByThread(edk::uint32 threadID){
+#endif
+            edk::GU_GLSL::ShaderClass temp;
+            temp.threadID = threadID;
+            return this->getElement(temp);
+        }
+        //return true if have a texture by thread ID
+#if __x86_64__ || __ppc64__
+        bool haveShaderByThread(edk::uint64 ID){
+#else
+        bool haveShaderByThread(edk::uint32 ID){
+#endif
+            edk::GU_GLSL::ShaderClass temp;
+            temp.threadID = ID;
+            return this->haveElement(temp);
+        }
+    };
+    static edk::GU_GLSL::Shader_Tree treeShaders;
+
+    //class ro write the shaders
+    class ShaderWriteClass{
+    public:
+        ShaderWriteClass(){this->threadID = 0u;this->id = 0u;this->data=NULL;this->length = 0u;this->success = false;}
+        ~ShaderWriteClass(){}
+        edk::GU_GLSL::ShaderWriteClass operator=(edk::GU_GLSL::ShaderWriteClass shader){
+            this->threadID = shader.threadID;
+            this->id = shader.id;
+            this->data = shader.data;
+            this->length = shader.length;
+            this->success = shader.success;
+            return *this;
+        }
+        bool operator==(edk::GU_GLSL::ShaderWriteClass shader){
+            return (this->threadID == shader.threadID);
+        }
+        bool operator>(edk::GU_GLSL::ShaderWriteClass shader){
+            return (this->threadID > shader.threadID);
+        }
+        bool operator<(edk::GU_GLSL::ShaderWriteClass shader){
+            return (this->threadID < shader.threadID);
+        }
+        edk::uint8 *data;
+        edk::uint32 length;
+        edk::uint32 id;
+        bool success;
+#if __x86_64__ || __ppc64__
+        edk::uint64 threadID;
+#else
+        edk::uint32 threadID;
+#endif
+    };
+    static edk::vector::Queue<edk::GU_GLSL::ShaderWriteClass> genShadersWrite;
+
+    class ShaderWrite_Tree : public edk::vector::BinaryTree<edk::GU_GLSL::ShaderWriteClass>{
+    public:
+        ShaderWrite_Tree(){}
+        ~ShaderWrite_Tree(){}
+        //compare if the value is bigger
+        virtual bool firstBiggerSecond(edk::GU_GLSL::ShaderClass first,edk::GU_GLSL::ShaderClass second){
+            if(first.threadID>second.threadID){return true;}
+            return false;
+        }
+        //compare if the value is equal
+        virtual bool firstEqualSecond(edk::GU_GLSL::ShaderClass first,edk::GU_GLSL::ShaderClass second){
+            if(first.threadID==second.threadID){return true;}
+            return false;
+        }
+        //get a TexureClass by ID
+#if __x86_64__ || __ppc64__
+        edk::GU_GLSL::ShaderWriteClass getShaderWriteByThread(edk::uint64 threadID){
+#else
+        edk::GU_GLSL::ShaderWriteClass getShaderWriteByThread(edk::uint32 threadID){
+#endif
+            edk::GU_GLSL::ShaderWriteClass temp;
+            temp.threadID = threadID;
+            return this->getElement(temp);
+        }
+        //return true if have a texture by thread ID
+#if __x86_64__ || __ppc64__
+        bool haveShaderWriteByThread(edk::uint64 ID){
+#else
+        bool haveShaderWriteByThread(edk::uint32 ID){
+#endif
+            edk::GU_GLSL::ShaderWriteClass temp;
+            temp.threadID = ID;
+            return this->haveElement(temp);
+        }
+    };
+    static edk::GU_GLSL::ShaderWrite_Tree treeShadersWrite;
+
+    //class ro write the shaders
+    class ShaderCompileClass{
+    public:
+        ShaderCompileClass(){this->threadID = 0u;this->id=0u;}
+        ~ShaderCompileClass(){}
+        edk::GU_GLSL::ShaderCompileClass operator=(edk::GU_GLSL::ShaderCompileClass shader){
+            this->threadID = shader.threadID;
+            this->id = shader.id;
+            return *this;
+        }
+        bool operator==(edk::GU_GLSL::ShaderCompileClass shader){
+            return (this->threadID == shader.threadID);
+        }
+        bool operator>(edk::GU_GLSL::ShaderCompileClass shader){
+            return (this->threadID > shader.threadID);
+        }
+        bool operator<(edk::GU_GLSL::ShaderCompileClass shader){
+            return (this->threadID < shader.threadID);
+        }
+        edk::uint32 id;
+#if __x86_64__ || __ppc64__
+        edk::uint64 threadID;
+#else
+        edk::uint32 threadID;
+#endif
+    };
+    static edk::vector::Queue<edk::GU_GLSL::ShaderCompileClass> genShadersCompile;
+
+    class ShaderCompile_Tree : public edk::vector::BinaryTree<edk::GU_GLSL::ShaderCompileClass>{
+    public:
+        ShaderCompile_Tree(){}
+        ~ShaderCompile_Tree(){}
+        //compare if the value is bigger
+        virtual bool firstBiggerSecond(edk::GU_GLSL::ShaderClass first,edk::GU_GLSL::ShaderClass second){
+            if(first.threadID>second.threadID){return true;}
+            return false;
+        }
+        //compare if the value is equal
+        virtual bool firstEqualSecond(edk::GU_GLSL::ShaderClass first,edk::GU_GLSL::ShaderClass second){
+            if(first.threadID==second.threadID){return true;}
+            return false;
+        }
+        //get a TexureClass by ID
+#if __x86_64__ || __ppc64__
+        edk::GU_GLSL::ShaderCompileClass getShaderCompileByThread(edk::uint64 threadID){
+#else
+        edk::GU_GLSL::ShaderCompileClass getShaderCompileByThread(edk::uint32 threadID){
+#endif
+            edk::GU_GLSL::ShaderCompileClass temp;
+            temp.threadID = threadID;
+            return this->getElement(temp);
+        }
+        //return true if have a texture by thread ID
+#if __x86_64__ || __ppc64__
+        bool haveShaderCompileByThread(edk::uint64 ID){
+#else
+        bool haveShaderCompileByThread(edk::uint32 ID){
+#endif
+            edk::GU_GLSL::ShaderCompileClass temp;
+            temp.threadID = ID;
+            return this->haveElement(temp);
+        }
+    };
+    static edk::GU_GLSL::ShaderCompile_Tree treeShadersCompile;
+
+    //class ro write the shaders
+    class ShaderIVClass{
+    public:
+        ShaderIVClass(){this->threadID = 0u;this->id=0u;this->pname=0u;this->params=NULL;this->type=0u;}
+        ~ShaderIVClass(){}
+        edk::GU_GLSL::ShaderIVClass operator=(edk::GU_GLSL::ShaderIVClass shader){
+            this->threadID = shader.threadID;
+            this->id = shader.id;
+            this->pname = shader.pname;
+            this->params = shader.params;
+            this->type = shader.type;
+            return *this;
+        }
+        bool operator==(edk::GU_GLSL::ShaderIVClass shader){
+            return (this->threadID == shader.threadID);
+        }
+        bool operator>(edk::GU_GLSL::ShaderIVClass shader){
+            return (this->threadID > shader.threadID);
+        }
+        bool operator<(edk::GU_GLSL::ShaderIVClass shader){
+            return (this->threadID < shader.threadID);
+        }
+        edk::uint32 id;
+        edk::uint32 pname;
+        edk::int32 *params;
+        edk::uint32 type;
+#if __x86_64__ || __ppc64__
+        edk::uint64 threadID;
+#else
+        edk::uint32 threadID;
+#endif
+    };
+    static edk::vector::Queue<edk::GU_GLSL::ShaderIVClass> genShadersIV;
+
+    class ShaderIV_Tree : public edk::vector::BinaryTree<edk::GU_GLSL::ShaderIVClass>{
+    public:
+        ShaderIV_Tree(){}
+        ~ShaderIV_Tree(){}
+        //compare if the value is bigger
+        virtual bool firstBiggerSecond(edk::GU_GLSL::ShaderClass first,edk::GU_GLSL::ShaderClass second){
+            if(first.threadID>second.threadID){return true;}
+            return false;
+        }
+        //compare if the value is equal
+        virtual bool firstEqualSecond(edk::GU_GLSL::ShaderClass first,edk::GU_GLSL::ShaderClass second){
+            if(first.threadID==second.threadID){return true;}
+            return false;
+        }
+        //get a TexureClass by ID
+#if __x86_64__ || __ppc64__
+        edk::GU_GLSL::ShaderIVClass getShaderIVByThread(edk::uint64 threadID){
+#else
+        edk::GU_GLSL::ShaderIVClass getShaderIVByThread(edk::uint32 threadID){
+#endif
+            edk::GU_GLSL::ShaderIVClass temp;
+            temp.threadID = threadID;
+            return this->getElement(temp);
+        }
+        //return true if have a texture by thread ID
+#if __x86_64__ || __ppc64__
+        bool haveShaderIVByThread(edk::uint64 ID){
+#else
+        bool haveShaderIVByThread(edk::uint32 ID){
+#endif
+            edk::GU_GLSL::ShaderIVClass temp;
+            temp.threadID = ID;
+            return this->haveElement(temp);
+        }
+    };
+    static edk::GU_GLSL::ShaderIV_Tree treeShadersIV;
+
+    //class ro write the shaders
+    class ShaderLogClass{
+    public:
+        ShaderLogClass(){this->threadID = 0u;this->id=0u;this->maxLength=0;this->length=NULL;this->infoLog=NULL;this->type=0u;}
+        ~ShaderLogClass(){}
+        edk::GU_GLSL::ShaderLogClass operator=(edk::GU_GLSL::ShaderLogClass shader){
+            this->threadID = shader.threadID;
+            this->id = shader.id;
+            this->maxLength = shader.maxLength;
+            this->length = shader.length;
+            this->infoLog = shader.infoLog;
+            this->type = shader.type;
+            return *this;
+        }
+        bool operator==(edk::GU_GLSL::ShaderLogClass shader){
+            return (this->threadID == shader.threadID);
+        }
+        bool operator>(edk::GU_GLSL::ShaderLogClass shader){
+            return (this->threadID > shader.threadID);
+        }
+        bool operator<(edk::GU_GLSL::ShaderLogClass shader){
+            return (this->threadID < shader.threadID);
+        }
+        edk::uint32 id;
+        edk::int32 maxLength;
+        edk::int32 *length;
+        edk::char8 *infoLog;
+        edk::uint32 type;
+#if __x86_64__ || __ppc64__
+        edk::uint64 threadID;
+#else
+        edk::uint32 threadID;
+#endif
+    };
+    static edk::vector::Queue<edk::GU_GLSL::ShaderLogClass> genShadersLog;
+
+    class ShaderLog_Tree : public edk::vector::BinaryTree<edk::GU_GLSL::ShaderLogClass>{
+    public:
+        ShaderLog_Tree(){}
+        ~ShaderLog_Tree(){}
+        //compare if the value is bigger
+        virtual bool firstBiggerSecond(edk::GU_GLSL::ShaderClass first,edk::GU_GLSL::ShaderClass second){
+            if(first.threadID>second.threadID){return true;}
+            return false;
+        }
+        //compare if the value is equal
+        virtual bool firstEqualSecond(edk::GU_GLSL::ShaderClass first,edk::GU_GLSL::ShaderClass second){
+            if(first.threadID==second.threadID){return true;}
+            return false;
+        }
+        //get a TexureClass by ID
+#if __x86_64__ || __ppc64__
+        edk::GU_GLSL::ShaderLogClass getShaderLogByThread(edk::uint64 threadID){
+#else
+        edk::GU_GLSL::ShaderLogClass getShaderLogByThread(edk::uint32 threadID){
+#endif
+            edk::GU_GLSL::ShaderLogClass temp;
+            temp.threadID = threadID;
+            return this->getElement(temp);
+        }
+        //return true if have a texture by thread ID
+#if __x86_64__ || __ppc64__
+        bool haveShaderLogByThread(edk::uint64 ID){
+#else
+        bool haveShaderLogByThread(edk::uint32 ID){
+#endif
+            edk::GU_GLSL::ShaderLogClass temp;
+            temp.threadID = ID;
+            return this->haveElement(temp);
+        }
+    };
+    static edk::GU_GLSL::ShaderLog_Tree treeShadersLog;
+
+    //class ro write the shaders
+    class ProgramAttachClass{
+    public:
+        ProgramAttachClass(){this->threadID = 0u;this->id=0u;this->shaderId=0u;this->success=false;}
+        ~ProgramAttachClass(){}
+        edk::GU_GLSL::ProgramAttachClass operator=(edk::GU_GLSL::ProgramAttachClass shader){
+            this->threadID = shader.threadID;
+            this->id = shader.id;
+            this->shaderId = shader.shaderId;
+            this->success = shader.success;
+            return *this;
+        }
+        bool operator==(edk::GU_GLSL::ProgramAttachClass shader){
+            return (this->threadID == shader.threadID);
+        }
+        bool operator>(edk::GU_GLSL::ProgramAttachClass shader){
+            return (this->threadID > shader.threadID);
+        }
+        bool operator<(edk::GU_GLSL::ProgramAttachClass shader){
+            return (this->threadID < shader.threadID);
+        }
+        edk::uint32 id;
+        edk::uint32 shaderId;
+        bool success;
+#if __x86_64__ || __ppc64__
+        edk::uint64 threadID;
+#else
+        edk::uint32 threadID;
+#endif
+    };
+    static edk::vector::Queue<edk::GU_GLSL::ProgramAttachClass> genProgramsAttach;
+
+    class ProgramAttach_Tree : public edk::vector::BinaryTree<edk::GU_GLSL::ProgramAttachClass>{
+    public:
+        ProgramAttach_Tree(){}
+        ~ProgramAttach_Tree(){}
+        //compare if the value is bigger
+        virtual bool firstBiggerSecond(edk::GU_GLSL::ShaderClass first,edk::GU_GLSL::ShaderClass second){
+            if(first.threadID>second.threadID){return true;}
+            return false;
+        }
+        //compare if the value is equal
+        virtual bool firstEqualSecond(edk::GU_GLSL::ShaderClass first,edk::GU_GLSL::ShaderClass second){
+            if(first.threadID==second.threadID){return true;}
+            return false;
+        }
+        //get a TexureClass by ID
+#if __x86_64__ || __ppc64__
+        edk::GU_GLSL::ProgramAttachClass getProgramAttachByThread(edk::uint64 threadID){
+#else
+        edk::GU_GLSL::ProgramAttachClass getProgramAttachByThread(edk::uint32 threadID){
+#endif
+            edk::GU_GLSL::ProgramAttachClass temp;
+            temp.threadID = threadID;
+            return this->getElement(temp);
+        }
+        //return true if have a texture by thread ID
+#if __x86_64__ || __ppc64__
+        bool haveProgramAttachByThread(edk::uint64 ID){
+#else
+        bool haveProgramAttachByThread(edk::uint32 ID){
+#endif
+            edk::GU_GLSL::ProgramAttachClass temp;
+            temp.threadID = ID;
+            return this->haveElement(temp);
+        }
+    };
+    static edk::GU_GLSL::ProgramAttach_Tree treeProgramsAttach;
+
+    //class ro write the shaders
+    class ProgramLinkClass{
+    public:
+        ProgramLinkClass(){this->threadID = 0u;this->programID=0u;}
+        ~ProgramLinkClass(){}
+        edk::GU_GLSL::ProgramLinkClass operator=(edk::GU_GLSL::ProgramLinkClass shader){
+            this->threadID = shader.threadID;
+            this->programID = shader.programID;
+            return *this;
+        }
+        bool operator==(edk::GU_GLSL::ProgramLinkClass shader){
+            return (this->threadID == shader.threadID);
+        }
+        bool operator>(edk::GU_GLSL::ProgramLinkClass shader){
+            return (this->threadID > shader.threadID);
+        }
+        bool operator<(edk::GU_GLSL::ProgramLinkClass shader){
+            return (this->threadID < shader.threadID);
+        }
+        edk::uint32 programID;
+#if __x86_64__ || __ppc64__
+        edk::uint64 threadID;
+#else
+        edk::uint32 threadID;
+#endif
+    };
+    static edk::vector::Queue<edk::GU_GLSL::ProgramLinkClass> genProgramsLink;
+
+    class ProgramLink_Tree : public edk::vector::BinaryTree<edk::GU_GLSL::ProgramLinkClass>{
+    public:
+        ProgramLink_Tree(){}
+        ~ProgramLink_Tree(){}
+        //compare if the value is bigger
+        virtual bool firstBiggerSecond(edk::GU_GLSL::ShaderClass first,edk::GU_GLSL::ShaderClass second){
+            if(first.threadID>second.threadID){return true;}
+            return false;
+        }
+        //compare if the value is equal
+        virtual bool firstEqualSecond(edk::GU_GLSL::ShaderClass first,edk::GU_GLSL::ShaderClass second){
+            if(first.threadID==second.threadID){return true;}
+            return false;
+        }
+        //get a TexureClass by ID
+#if __x86_64__ || __ppc64__
+        edk::GU_GLSL::ProgramLinkClass getProgramLinkByThread(edk::uint64 threadID){
+#else
+        edk::GU_GLSL::ProgramLinkClass getProgramLinkByThread(edk::uint32 threadID){
+#endif
+            edk::GU_GLSL::ProgramLinkClass temp;
+            temp.threadID = threadID;
+            return this->getElement(temp);
+        }
+        //return true if have a texture by thread ID
+#if __x86_64__ || __ppc64__
+        bool haveProgramLinkByThread(edk::uint64 ID){
+#else
+        bool haveProgramLinkByThread(edk::uint32 ID){
+#endif
+            edk::GU_GLSL::ProgramLinkClass temp;
+            temp.threadID = ID;
+            return this->haveElement(temp);
+        }
+    };
+    static edk::GU_GLSL::ProgramLink_Tree treeProgramsLink;
 };
 }//end namespace edk
 
