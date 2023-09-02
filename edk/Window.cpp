@@ -451,14 +451,16 @@ void edk::Window::updateViews(){
     }
 
     //update the view
-    this->updateView(&this->viewWindow);edkEnd();
+    this->updateView(&this->viewWindow,edk::vec2f32(0.f,0.f));edkEnd();
 }
 //update the viewGU
-void edk::Window::updateView(edk::View* view){
+void edk::Window::updateView(edk::View* view,edk::vec2f32 screenPosition){
     //test the viewGU
     if(view){
         this->events.mousePos.x -= (edk::int32)view->animatedFrame.origin.x;edkEnd();
         this->events.mousePos.y -= (edk::int32)view->animatedFrame.origin.y;edkEnd();
+        //update the position in the screen
+        view->positionInWindow=view->frame.origin+screenPosition;
         //update the envents on the view
         view->updateView(&this->events);edkEnd();
         //update the animations on the view
@@ -474,7 +476,7 @@ void edk::Window::updateView(edk::View* view){
                 //test if have the nextView
                 if(tempController){
                     //then test if is a ViewGU
-                    this->updateView(tempController);edkEnd();
+                    this->updateView(tempController,view->positionInWindow);edkEnd();
                 }
             }
         }

@@ -331,6 +331,7 @@ class View {
 
  public:
     edk::rectf32 frame;
+    edk::vec2f32 positionInWindow;
     edk::rectf32 animatedFrame;
     edk::color4f32 backgroundColor;
     //set if the view is hided

@@ -32,6 +32,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 edk::View::View(){
     this->frame = edk::rectf32(0.f,0.f,0.f,0.f);edkEnd();
+    this->positionInWindow=this->frame.origin;edkEnd();
     this->animatedFrame = this->frame;edkEnd();
     //set color to white
     this->backgroundColor = edk::color4f32(1,1,1,1);edkEnd();
@@ -47,6 +48,7 @@ edk::View::View(){
 
 edk::View::View(edk::rectf32 frame){
     this->frame = frame;edkEnd();
+    this->positionInWindow=this->frame.origin;edkEnd();
     this->animatedFrame = this->frame;edkEnd();
     //set color to white
     this->backgroundColor = edk::color4f32(1,1,1,1);edkEnd();

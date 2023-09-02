@@ -31,18 +31,21 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 edk::ViewController::ViewController(){
     //
     this->frame = edk::rectf32(0.f,0.f,0.f,0.f);edkEnd();
+    this->positionInWindow=this->frame.origin;edkEnd();
     this->setRectInside = false;edkEnd();
 }
 
 edk::ViewController::ViewController(rectf32 frame){
     //
     this->frame=frame;edkEnd();
+    this->positionInWindow=this->frame.origin;edkEnd();
     this->setRectInside = false;edkEnd();
 }
 
 edk::ViewController::~ViewController(){
     //
     this->frame = edk::rectf32(0.f,0.f,0.f,0.f);edkEnd();
+    this->positionInWindow=this->frame.origin;edkEnd();
 }
 
 //draw the view inside in a separated function to viewTexture draw other views inside

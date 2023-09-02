@@ -300,7 +300,7 @@ public:
     //
 private:
     //update the viewGU
-    void updateView(edk::View* viewGU);
+    void updateView(edk::View* viewGU,edk::vec2f32 screenPosition);
     //contactView
     void mousePressView(edk::ViewController* view, edk::vec2i32 point, edk::vector::Stack<edk::uint32> buttons);
     void mouseReleaseView(edk::ViewController* view, edk::vec2i32 point, edk::vector::Stack<edk::uint32> buttons);
