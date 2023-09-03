@@ -262,6 +262,8 @@ edk::shd::GLSL::GLSL()
 {
     //ctor
     this->id=0u;
+    this->idTemp=0u;
+    this->enable=false;
     this->log=NULL;edkEnd();
 }
 
@@ -282,12 +284,12 @@ bool fragmentLoaded=false,vertexLoaded=false,geometryLoaded=false;
 //create a new data
 bool edk::shd::GLSL::newData(edk::char8* name){
     //test if have one shaderProgram
-    if(this->id){
+    if(this->idTemp){
         //add the new data
         if(edk::shd::DataList::newData(name)){
             this->useThisShader();edkEnd();
             //load the data
-            if(this->setDataID(name,edk::GU_GLSL::guGetDataLocation(this->id, name))){
+            if(this->setDataID(name,edk::GU_GLSL::guGetDataLocation(this->idTemp, name))){
                 //return true
                 return true;
             }
@@ -501,6 +503,9 @@ bool edk::shd::GLSL::createProgram(edk::char8* name){
             this->id = edk::GU_GLSL::guCreateProgram();edkEnd();
             //test if create the program
             if(this->id){
+                if(this->enable){
+                this->idTemp=id;edkEnd();
+                }
                 //test if aready have shaders
                 edk::uint32 size = this->tree.size();edkEnd();
                 if(size){
@@ -563,6 +568,7 @@ void edk::shd::GLSL::deleteProgram(){
         this->deleteName();edkEnd();
     }
     this->id=0u;
+    this->idTemp=0u;
 }
 //delete the shaders
 void edk::shd::GLSL::deleteShaders(){
@@ -619,7 +625,7 @@ void edk::shd::GLSL::useThisShader(){
     //test if can use shader
     if(this->usingGLSL()){
         //use the shader
-        edk::GU_GLSL::guUseProgram(this->id);edkEnd();
+        edk::GU_GLSL::guUseProgram(this->idTemp);edkEnd();
     }
 }
 //remove the shader from the use
@@ -637,6 +643,20 @@ void edk::shd::GLSL::useNoShader(){
         //
         edk::GU_GLSL::guUseProgram(0u);edkEnd();
     }
+}
+
+//enable or disable the shader
+bool edk::shd::GLSL::enableProgram(){
+    this->enable=true;
+    this->idTemp=this->id;
+    return this->haveProgram();
+}
+void edk::shd::GLSL::disableProgram(){
+    this->enable=false;
+    this->idTemp=0u;
+}
+bool edk::shd::GLSL::isProgramEnable(){
+    return this->enable;
 }
 
 //GETERS

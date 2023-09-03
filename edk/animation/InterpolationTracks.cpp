@@ -1228,6 +1228,24 @@ edk::float32 edk::animation::InterpolationTracks::getInterpolationEndSecond(edk:
     }
     return 0.f;
 }
+//return an interpolation position in second
+edk::uint32 edk::animation::InterpolationTracks::getInterpolationPositionInSecond(edk::uint32 trackPosition,edk::float32 second){
+    //get track in position
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);edkEnd();
+    if(temp.animation){
+        return temp.animation->getInterpolationPositionInSecond(second);
+    }
+    return 0u;
+}
+//return an interpolation position in second
+bool edk::animation::InterpolationTracks::haveInterpolationPositionInSecond(edk::uint32 trackPosition,edk::float32 second){
+    //get track in position
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);edkEnd();
+    if(temp.animation){
+        return temp.animation->haveInterpolationPositionInSecond(second);
+    }
+    return false;
+}
 //return if are playing
 bool edk::animation::InterpolationTracks::isPlaying(){
     bool ret=false;edkEnd();

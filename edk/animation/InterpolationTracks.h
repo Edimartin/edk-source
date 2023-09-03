@@ -242,6 +242,9 @@ public:
     //return the interpolation seconds
     edk::float32 getInterpolationStartSecond(edk::uint32 trackPosition,edk::float32 position);
     edk::float32 getInterpolationEndSecond(edk::uint32 trackPosition,edk::float32 position);
+    //return an interpolation position in second
+    edk::uint32 getInterpolationPositionInSecond(edk::uint32 trackPosition,edk::float32 second);
+    bool haveInterpolationPositionInSecond(edk::uint32 trackPosition,edk::float32 second);
     //return if are playing
     bool isPlaying();
     bool isPlayingName(const edk::char8* name);

@@ -1411,6 +1411,57 @@ edk::float32 edk::animation::InterpolationGroup::getInterpolationEndSecond(edk::
     }
     return 0u;edkEnd();
 }
+//return an interpolation position in second
+edk::uint32 edk::animation::InterpolationGroup::getInterpolationPositionInSecond(edk::float32 second){
+    edk::uint32 size = this->animations.size();edkEnd();
+    //test the animations
+    if(size){
+        edk::animation::InterpolationLine* temp = NULL;edkEnd();
+        //test if the second is outside the start and end interpolation
+        temp = this->animations.get(0u);edkEnd();
+        if(second < temp->getStart().second){
+            return 0u;
+        }
+        temp = this->animations.get(size-1);edkEnd();
+        if(second >= temp->getEnd().second){
+            return size-1;
+        }
+        //test with all interpolations
+        for(edk::uint32 i=0u;i<size;i++){
+            if(second>=this->animations.get(i)->getStart().second && second<=this->animations.get(i)->getEnd().second){
+                //find it
+                return i;edkEnd();
+            }
+        }
+    }
+    //else return false
+    return size;
+}
+bool edk::animation::InterpolationGroup::haveInterpolationPositionInSecond(edk::float32 second){
+    edk::uint32 size = this->animations.size();edkEnd();
+    //test the animations
+    if(size){
+        edk::animation::InterpolationLine* temp = NULL;edkEnd();
+        //test if the second is outside the start and end interpolation
+        temp = this->animations.get(0u);edkEnd();
+        if(second < temp->getStart().second){
+            return true;
+        }
+        temp = this->animations.get(size-1);edkEnd();
+        if(second >= temp->getEnd().second){
+            return true;
+        }
+        //test with all interpolations
+        for(edk::uint32 i=0u;i<size;i++){
+            if(second>=this->animations.get(i)->getStart().second && second<=this->animations.get(i)->getEnd().second){
+                //find it
+                return true;edkEnd();
+            }
+        }
+    }
+    //else return false
+    return false;
+}
 //update the clock animation
 edk::float32 edk::animation::InterpolationGroup::updateClockAnimation(){
     return this->updateClockAnimation(this->clock.getMicroseconds()*edk::watch::microsecond);edkEnd();

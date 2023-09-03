@@ -85,6 +85,11 @@ class GLSL:public edk::shd::DataList{
         //dont use the shader
         static void useNoShader();
 
+        //enable or disable the shader
+        bool enableProgram();
+        void disableProgram();
+        bool isProgramEnable();
+
         //GETERS
         bool usingGLSL();
         bool usingFragment();
@@ -117,6 +122,10 @@ class GLSL:public edk::shd::DataList{
     };
     //program ID
     edk::uint32 id;
+    edk::uint32 idTemp;
+    //save if the shader are enabled
+    bool enable;
+
     //compike log
     edk::char8* log;
 
