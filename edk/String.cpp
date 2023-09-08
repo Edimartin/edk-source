@@ -31,7 +31,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #if defined (__linux__) || defined(__APPLE__)
 //https://stackoverflow.com/questions/1513734/problem-with-kbhitand-getch-for-linux?answertab=trending#tab-top
 struct termios oldTermios;
-int edkTTYraw(int fd){
+int edkTTYraw(edk::int32 fd){
     /* Set terminal mode as follows:
        Noncanonical mode - turn off ICANON.
        Turn off signal-generation (ISIG)
@@ -53,7 +53,11 @@ int edkTTYraw(int fd){
     }
     newtermios = oldTermios;
 
-    newtermios.c_lflag &= ~(ECHO | ICANON | IEXTEN | ISIG);
+    newtermios.c_lflag &= ~(ECHO
+                            | ICANON
+                            | IEXTEN
+                            | ISIG
+                            );
     /* OK, why IEXTEN? If IEXTEN is on, the DISCARD character
        is recognized and is not passed to the process. This
        character causes output to be suspended until another
@@ -63,7 +67,12 @@ int edkTTYraw(int fd){
        others are also in this category.
     */
 
-    newtermios.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
+    newtermios.c_iflag &= ~(BRKINT
+                            | ICRNL
+                            | INPCK
+                            | ISTRIP
+                            | IXON
+                            );
     /* If an input character arrives with the wrong parity, then INPCK
        is checked. If this flag is set, then IGNPAR is checked
        to see if input bytes with parity errors should be ignored.
@@ -73,7 +82,9 @@ int edkTTYraw(int fd){
        When we turn off IXON, the start and stop characters can be read.
     */
 
-    newtermios.c_cflag &= ~(CSIZE | PARENB);
+    newtermios.c_cflag &= ~(CSIZE
+                            | PARENB
+                            );
     /* CSIZE is a mask that determines the number of bits per byte.
        PARENB enables parity checking on input and parity generation
        on output.
@@ -82,7 +93,7 @@ int edkTTYraw(int fd){
     newtermios.c_cflag |= CS8;
     /* Set 8 bits per character. */
 
-    newtermios.c_oflag &= ~(OPOST);
+    //newtermios.c_oflag &= ~(OPOST);
     /* This includes things like expanding tabs to spaces. */
 
     newtermios.c_cc[VMIN] = 1;
@@ -95,7 +106,7 @@ int edkTTYraw(int fd){
     return(0);
 }
 
-int edkTTYreset(int fd)
+int edkTTYreset(edk::int32 fd)
 {
     if(tcsetattr(fd, TCSAFLUSH, &oldTermios) < 0){
         return(-1);
@@ -106,43 +117,42 @@ int edkTTYreset(int fd)
 
 int edkGetch(void)
 {
-    struct termios t;
-    tcgetattr(0, &t);
-    tcflag_t old_flag = t.c_lflag;
-    t.c_lflag &= ~(ICANON | ECHO);
-    tcsetattr(0, TCSANOW, &t);
-    int     c = getchar();
-    t.c_lflag = old_flag;
-    tcsetattr(0, TCSANOW, &t);
-    return c;
+    struct termios old, _new;
+    int ch;
+    tcgetattr(0, &old);
+    _new = old;
+    _new.c_lflag &= ~ICANON;
+    _new.c_lflag &= ~ECHO;
+    tcsetattr(0, TCSANOW, &_new);
+    ch = getchar();
+    tcsetattr(0, TCSANOW, &old);
+    return ch;
 }
 
 int edkKbhit(void){
-    int cnt = 0;
-    int error;
-    static struct termios Otty, Ntty;
+    struct termios oldt, _newt;
+    edk::int32 ch;
+    edk::int32 oldf;
 
-    tcgetattr(0, &Otty);
-    Ntty = Otty;
+    tcgetattr(STDIN_FILENO, &oldt);
+    _newt = oldt;
+    _newt.c_lflag &= ~(ICANON | ECHO);
+    tcsetattr(STDIN_FILENO, TCSANOW, &_newt);
+    oldf = fcntl(STDIN_FILENO, F_GETFL, 0);
+    fcntl(STDIN_FILENO, F_SETFL, oldf | O_NONBLOCK);
 
-    Ntty.c_iflag = 0; // input mode
-    Ntty.c_oflag = 0; // output mode
-    Ntty.c_lflag &= ~ICANON; // raw mode
-    Ntty.c_cc[VMIN] = CMIN; // minimum time to wait
-    Ntty.c_cc[VTIME] = CTIME; // minimum characters to wait for
+    ch = getchar();
 
-    if(0 == (error = tcsetattr(0, TCSANOW, &Ntty))){
-        struct timeval tv;
-        error += ioctl(0, FIONREAD, &cnt);
-        error += tcsetattr(0, TCSANOW, &Otty);
+    tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
+    fcntl(STDIN_FILENO, F_SETFL, oldf);
 
-        // throw in a miniscule time delay
-        tv.tv_sec = 0;
-        tv.tv_usec = 100;
-        select(1, NULL, NULL, NULL, &tv);
+    if (ch != EOF)
+    {
+      ungetc(ch, stdin);
+      return 1;
     }
 
-    return (error == 0 ? cnt : -1 );
+    return 0;
 }
 #endif
 #if defined(WIN32) || defined(WIN64)
@@ -163,10 +173,8 @@ edk::int32 edkIsSpace(edk::int32 c){
 
 edk::TTY::TTY(){
     this->haveInit=false;
-#if defined (EDK_LINUX_TERMINAL)
     //init the terminal
     this->initTerminal();
-#endif
 }
 edk::TTY::~TTY(){
     //reset the terminal if it was initiated
