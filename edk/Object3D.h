@@ -58,6 +58,8 @@ public:
     Object3D();
     ~Object3D();
 
+    void clean();
+
     //create a new mesh and add to the meshs stack
     edk::shape::Mesh3D* newMesh(edk::uint32* position=NULL);
     //Add a list to the Object2D
@@ -118,6 +120,7 @@ public:
     virtual void drawWire();
     virtual void drawNormals();
     virtual void drawNormalsWithColor(edk::color3f32 color = edk::color3f32(1,1,1));
+    virtual void drawNormalsWithColor(edk::float32 r,edk::float32 g,edk::float32 b);
     //draw the pivo
     void drawPivo(edk::float32 size,edk::color3f32 color);
 

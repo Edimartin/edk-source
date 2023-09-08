@@ -80,6 +80,7 @@ public:
     virtual void draw(edk::uint32 lightNumber);
     //draw the pivo
     virtual void drawPivo(edk::float32 size,edk::color3f32 color);
+    virtual void drawPivo(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b);
     void print(){
         printf("\nAmbiant %.2f %.2f %.2f %.2f"
                ,this->ambient[0u]

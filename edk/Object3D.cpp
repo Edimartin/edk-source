@@ -32,6 +32,11 @@ edk::Object3D::~Object3D(){
     //
 }
 
+void edk::Object3D::clean(){
+    this->cleanSelected();
+    this->cleanMeshes();
+}
+
 //create a new mesh and add to the meshs stack
 edk::shape::Mesh3D* edk::Object3D::newMesh(edk::uint32* position){
     return this->meshes.pushNewMesh(position);edkEnd();
@@ -261,7 +266,7 @@ bool edk::Object3D::addObj(edk::char8* fileName){
             edk::uint32 countN=0u;
             edk::float32 x,y,z;edkEnd();
 
-            edk::vector::Stack<edk::uint32> sv,sp,sn;edkEnd();
+            edk::vector::Stack<edk::uint32> sv(1000u),sp(1000u),sn(1000u);edkEnd();
 
             edk::shape::Mesh3D* mesh = NULL;edkEnd();
             bool smooth = true;edkEnd();
@@ -425,6 +430,7 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                             read = 0u;edkEnd();
                             //printf("\n");edkEnd();
 
+                            //printf("\nTEMP == '%s'",temp);fflush(stdout);
 
 
                             while(*temp){
@@ -782,6 +788,9 @@ void edk::Object3D::drawNormalsWithColor(edk::color3f32 color){
     this->meshes.drawNormalsWithColor(color);edkEnd();
 
     edk::GU::guPopMatrix();edkEnd();
+}
+void edk::Object3D::drawNormalsWithColor(edk::float32 r,edk::float32 g,edk::float32 b){
+    this->drawNormalsWithColor(edk::color3f32(r,g,b));
 }
 //draw the pivo
 void edk::Object3D::drawPivo(edk::float32 size,edk::color3f32 color){

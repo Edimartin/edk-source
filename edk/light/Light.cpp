@@ -320,3 +320,6 @@ void edk::light::Light::drawPivo(edk::float32 size,edk::color3f32 color){
     //
     edk::GU::guPopMatrix();edkEnd();
 }
+void edk::light::Light::drawPivo(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b){
+    this->drawPivo(size,edk::color3f32(r,g,b));
+}
