@@ -28,7 +28,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside Window.cpp"
 #endif
 
-//PRIVATE
 //Atualiza o tamanho da view
 void edk::Window::updateViewSize(){
     //seta o tamanho da view
@@ -695,14 +694,20 @@ bool edk::Window::startWriteEvents(edk::char8* fileName,edk::EventWindowType typ
     //create the file
     if(this->startWriteEvents(fileName)){
 #if defined(EDK_WINDOW_EVENTS_RW)
-        edk::EventWindowType type;edkEnd();
+        bool first=true;
+        edk::uint32 typeTemp;edkEnd();
+        edk::EventWindowType type=edk::eventWindowNothing;edkEnd();
         va_list vl;edkEnd();
-        //fist count the
-        va_start(vl,types);edkEnd();
-        type = va_arg(vl,edk::EventWindowType);edkEnd();
-        while(type){
+        //
+        typeTemp = (edk::uint32)types;
+        while(typeTemp){
+            type = (edk::EventWindowType)(typeTemp);
             this->treeEventTypes.add(type);edkEnd();
-            type = va_arg(vl,edk::EventWindowType);edkEnd();
+            if(first){
+                va_start(vl,types);edkEnd();
+                first=false;
+            }
+            typeTemp = va_arg(vl,edk::uint32);edkEnd();
         }
         if(this->treeEventTypes.size()){
             return true;

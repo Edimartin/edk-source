@@ -163,6 +163,36 @@ public:
 
     vec2i32 eventGetMouseMoved();
 
+    /*
+    eventWindowButtonExit
+    eventWindowLostFocus
+    eventWindowGainedFocus
+    eventWindowResize
+    eventWindowMouseMoved
+    eventWindowMouseEnter
+    eventWindowMouseExit
+    eventWindowResizePos
+    eventWindowWindowSize
+    eventWindowMousePos
+    eventWindowMousePosWorld
+    eventWindowMousePosWindow
+    eventWindowMouseMove
+    eventWindowKeyPressed
+    eventWindowKeyRelease
+    eventWindowKeyHolded
+    eventWindowKeyText
+    eventWindowMousePressed
+    eventWindowMouseRelease
+    eventWindowMouseHolded
+    eventWindowMouseDoubleClick
+    eventWindowMouseScrollWheel
+    eventWindowSecondPassed
+    eventWindowSecondsGlobal
+    eventWindowControllerPressed
+    eventWindowControllerHolded
+    eventWindowControllerReleased
+    eventWindowControllerAxisMoved
+*/
     //test if the events have something
     bool eventsHaveSomething();
     bool haveSomethingTypes(edk::EventWindowType types, ...);

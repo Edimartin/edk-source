@@ -219,7 +219,7 @@ bool edk::shape::Polygon3D::setNormal(edk::uint32 position,edk::shape::Vector3D*
             edk::uint32 vertexID = vert->vertexID;edkEnd();
             delete vert;edkEnd();
             edk::shape::Polygon3D::PolygonVertexWithNormal* vert2 =
-                    new edk::shape::Polygon3D::PolygonVertexWithNormal (vertex,vertexID,&edk::shape::Polygon3D::staticNormal,0u);edkEnd();
+                    new edk::shape::Polygon3D::PolygonVertexWithNormal (vertex,vertexID,normal,0u);edkEnd();
             if(vert2){
                 this->vertexs.set(position,(edk::shape::Polygon3D::PolygonVertex*)vert2);edkEnd();
             }
@@ -246,7 +246,7 @@ bool edk::shape::Polygon3D::setNormal(edk::uint32 position,edk::shape::Vector3D*
             edk::shape::UV2D* uv = vert->uv;edkEnd();
             edk::uint32 uvID = vert->uvID;edkEnd();
             edk::shape::Polygon3D::PolygonVertexWithUVNormal* vert2 =
-                    new edk::shape::Polygon3D::PolygonVertexWithUVNormal(vertex,vertexID,uv,uvID,&this->staticNormal,0u);edkEnd();
+                    new edk::shape::Polygon3D::PolygonVertexWithUVNormal(vertex,vertexID,uv,uvID,normal,0u);edkEnd();
             if(vert2){
                 this->vertexs.set(position,(edk::shape::Polygon3D::PolygonVertex*)vert2);edkEnd();
             }

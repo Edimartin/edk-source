@@ -174,6 +174,7 @@ protected:
             this->func(this,value);edkEnd();
         }
         void printElement(edk::Object3D::MeshAlloc* value){
+            printf("\nMESH");
             value->getMesh()->printPolygons();edkEnd();
         }
         void renderElement(edk::Object3D::MeshAlloc* value){

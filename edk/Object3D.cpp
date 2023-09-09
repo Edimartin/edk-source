@@ -381,7 +381,7 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                                 z = edk::String::strToFloat32(str);edkEnd();
                                 free(str);edkEnd();
                             }
-                            //printf("\nNEW Vertex Normal %.2f %.2f %.2f",x,y,z);edkEnd();
+                            //printf("\nNEW Vertex Normal %.2f %.2f %.2f",x,y,z);fflush(stdout);edkEnd();
                             mesh->newNormal(x,y,z);edkEnd();
                         }
                     }
@@ -402,12 +402,15 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                                     }
                                 }
                             }
-                            else{
-                                if(str[0u]=='1'){
-                                    //
-                                    //printf("\nSMOOTH TRUE '%s'",str);edkEnd();
-                                    smooth=true;edkEnd();
-                                }
+                            else if(str[0u]=='0'){
+                                //
+                                //printf("\nSMOOTH FALSE '%s'",str);edkEnd();
+                                smooth=false;edkEnd();
+                            }
+                            else if(str[0u]=='1'){
+                                //
+                                //printf("\nSMOOTH TRUE '%s'",str);edkEnd();
+                                smooth=true;edkEnd();
                             }
                             free(str);edkEnd();
                         }
@@ -628,6 +631,8 @@ bool edk::Object3D::loadOBJ(edk::char8* fileName){
 //print the mesh
 void edk::Object3D::print(){
     //
+    printf("\nOBJECT:");
+    this->meshes.print();edkEnd();
 }
 //draw the mesh
 void edk::Object3D::draw(){

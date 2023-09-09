@@ -57,6 +57,7 @@ namespace edk{
 class Window;
 //events ID
 enum EventWindowType{
+    eventWindowNothing=0u,
     eventWindowButtonExit=1u,
     eventWindowLostFocus,
     eventWindowGainedFocus,
@@ -189,11 +190,13 @@ public:
         return false;
     }
     bool haveSomethingTypes(edk::EventWindowType types, ...){
+        bool first=true;
+        edk::uint32 typeTemp;
         edk::EventWindowType type;
         va_list vl;
-        //fist count the
-        va_start(vl,types);
-        type = va_arg(vl,edk::EventWindowType);
+        //
+        typeTemp = types;
+        type = (edk::EventWindowType)typeTemp;
         while(type){
             switch(type){
             case edk::eventWindowButtonExit:
@@ -321,7 +324,12 @@ public:
             default:
                 break;
             }
-            type = va_arg(vl,edk::EventWindowType);
+            if(first){
+                va_start(vl,types);
+                first=false;
+            }
+            typeTemp = va_arg(vl,edk::uint32);
+            type = (edk::EventWindowType)typeTemp;
         }
         return false;
     }
@@ -1134,11 +1142,13 @@ public:
         bool ret=false;
         //test if have the fileTemp
         if(file){
+            bool first=true;
+            edk::uint32 typeTemp;
             edk::EventWindowType type;
             va_list vl;
-            //fist count the
-            va_start(vl,types);
-            type = va_arg(vl,edk::EventWindowType);
+            //
+            typeTemp = types;
+            type = (edk::EventWindowType)typeTemp;
 
             bool writeWindowSize=false;edkEnd();
             bool writeMousePos=false;edkEnd();
@@ -1308,7 +1318,12 @@ public:
                 default:
                     break;
                 }
-                type = va_arg(vl,edk::EventWindowType);
+                if(first){
+                    va_start(vl,types);
+                    first=false;
+                }
+                typeTemp = va_arg(vl,edk::uint32);
+                type = (edk::EventWindowType)typeTemp;
             }
             if(writeWindowSize){
                 sizeElements++;edkEnd();
@@ -1343,10 +1358,10 @@ public:
 
 
 
-
-            //write the values into the file
-            va_start(vl,types);
-            type = va_arg(vl,edk::EventWindowType);
+            first=true;
+            //
+            typeTemp = types;
+            type = (edk::EventWindowType)typeTemp;
             while(type){
                 switch(type){
                 case edk::eventWindowButtonExit:
@@ -1589,7 +1604,12 @@ public:
                 default:
                     break;
                 }
-                type = va_arg(vl,edk::EventWindowType);
+                if(first){
+                    va_start(vl,types);
+                    first=false;
+                }
+                typeTemp = va_arg(vl,edk::uint32);
+                type = (edk::EventWindowType)typeTemp;
             }
             if(writeWindowSize){
                 file->writeBin((edk::uint32)edk::eventWindowWindowSize);edkEnd();
