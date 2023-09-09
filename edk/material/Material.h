@@ -82,18 +82,22 @@ public:
     void setAmbient(edk::float32 r,edk::float32 g,edk::float32 b);
     void setAmbient(edk::color4f32 color);
     void setAmbient(edk::color3f32 color);
+    void setAmbientA(edk::float32 a);
     void setDiffuse(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
     void setDiffuse(edk::float32 r,edk::float32 g,edk::float32 b);
     void setDiffuse(edk::color4f32 color);
     void setDiffuse(edk::color3f32 color);
+    void setDiffuseA(edk::float32 a);
     void setSpecular(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
     void setSpecular(edk::float32 r,edk::float32 g,edk::float32 b);
     void setSpecular(edk::color4f32 color);
     void setSpecular(edk::color3f32 color);
+    void setSpecularA(edk::float32 a);
     void setEmission(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
     void setEmission(edk::float32 r,edk::float32 g,edk::float32 b);
     void setEmission(edk::color4f32 color);
     void setEmission(edk::color3f32 color);
+    void setEmissionA(edk::float32 a);
     void setShininess(edk::float32 shininess);
 
     //GETERS

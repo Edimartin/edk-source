@@ -188,6 +188,9 @@ void edk::material::Material::setAmbient(edk::color4f32 color){
 void edk::material::Material::setAmbient(edk::color3f32 color){
     this->setAmbient(color.r,color.g,color.b);edkEnd();
 }
+void edk::material::Material::setAmbientA(edk::float32 a){
+    this->ambient[3] = a;edkEnd();
+}
 void edk::material::Material::setDiffuse(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
     this->diffuse[0] = r;edkEnd();this->diffuse[1] = g;edkEnd();this->diffuse[2] = b;edkEnd();this->diffuse[3] = a;edkEnd();
 }
@@ -199,6 +202,9 @@ void edk::material::Material::setDiffuse(edk::color4f32 color){
 }
 void edk::material::Material::setDiffuse(edk::color3f32 color){
     this->setDiffuse(color.r,color.g,color.b);edkEnd();
+}
+void edk::material::Material::setDiffuseA(edk::float32 a){
+    this->diffuse[3] = a;edkEnd();
 }
 void edk::material::Material::setSpecular(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
     this->specular[0] = r;edkEnd();this->specular[1] = g;edkEnd();this->specular[2] = b;edkEnd();this->specular[3] = a;edkEnd();
@@ -212,6 +218,9 @@ void edk::material::Material::setSpecular(edk::color4f32 color){
 void edk::material::Material::setSpecular(edk::color3f32 color){
     this->setSpecular(color.r,color.g,color.b);edkEnd();
 }
+void edk::material::Material::setSpecularA(edk::float32 a){
+    this->specular[3] = a;edkEnd();
+}
 void edk::material::Material::setEmission(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
     this->emission[0] = r;edkEnd();this->emission[1] = g;edkEnd();this->emission[2] = b;edkEnd();this->emission[3] = a;edkEnd();
 }
@@ -223,6 +232,9 @@ void edk::material::Material::setEmission(edk::color4f32 color){
 }
 void edk::material::Material::setEmission(edk::color3f32 color){
     this->setEmission(color.r,color.g,color.b);edkEnd();
+}
+void edk::material::Material::setEmissionA(edk::float32 a){
+    this->emission[3] = a;edkEnd();
 }
 void edk::material::Material::setShininess(edk::float32 shininess){
     this->shininess = shininess;edkEnd();

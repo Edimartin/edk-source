@@ -30,6 +30,7 @@ edk::Object3D::Object3D(){
 }
 edk::Object3D::~Object3D(){
     //
+    this->clean();
 }
 
 void edk::Object3D::clean(){
