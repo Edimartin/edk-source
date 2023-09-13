@@ -71,13 +71,34 @@ public:
                     if(temp->setName(name)){
                         //add the temp to the network
                         if(this->tree.add(temp)){
-                            temp->tree = &this->values;edkEnd();
                             //then return true
                             return true;
                         }
                         delete temp;edkEnd();
                     }
                 }
+            }
+        }
+        return false;
+    }
+    //create a weight for a neuron
+    bool newNeuronWeight(const edk::char8* name,edk::char8* wName){
+        return this->newNeuronWeight((edk::char8*) name, wName);edkEnd();
+    }
+    bool newNeuronWeight(edk::char8* name,const edk::char8* wName){
+        return this->newNeuronWeight(name,(edk::char8*) wName);edkEnd();
+    }
+    bool newNeuronWeight(const edk::char8* name,const edk::char8* wName){
+        return this->newNeuronWeight((edk::char8*) name,(edk::char8*) wName);edkEnd();
+    }
+    bool newNeuronWeight(edk::char8* name,edk::char8* wName){
+        //test the names
+        if(name && wName){
+            //get the neuron
+            edk::neural::Neuron<typeTemplate>* temp = (edk::neural::Neuron<typeTemplate>*)this->tree.getElementByName(name);edkEnd();
+            if(temp){
+                //set the weight
+                return temp->newWeight(wName);edkEnd();
             }
         }
         return false;
@@ -103,7 +124,8 @@ public:
             }
         }
         return false;
-    }//set the neuron connection
+    }
+    //set the neuron connection
     bool setNeuronConnection(const edk::char8* name,const edk::char8* nName,const edk::char8* wName){
         return this->setNeuronConnection((edk::char8*) name,(edk::char8*) nName,(edk::char8*) wName);edkEnd();
     }
@@ -138,16 +160,10 @@ public:
         return false;
     }
     //add a entrance value in to the neurons
-    bool setValue(const edk::char8* nName,const edk::char8* wName,typeTemplate value){
-        return this->setValue((edk::char8*) nName,(edk::char8*) wName,value);edkEnd();
+    bool setValue(const edk::char8* nName,typeTemplate value){
+        return this->setValue((edk::char8*) nName,value);edkEnd();
     }
-    bool setValue(const edk::char8* nName, edk::char8* wName,typeTemplate value){
-        return this->setValue((edk::char8*) nName,wName,value);edkEnd();
-    }
-    bool setValue(edk::char8* nName,const edk::char8* wName,typeTemplate value){
-        return this->setValue(nName,(edk::char8*) wName,value);edkEnd();
-    }
-    bool setValue(edk::char8* nName,edk::char8* wName,typeTemplate value){
+    bool setValue(edk::char8* nName,typeTemplate value){
         //test if runProcess to clean sums
         if(this->runProcess){
             this->runProcess=false;edkEnd();
@@ -155,12 +171,13 @@ public:
             this->values.clean();edkEnd();
         }
         //validate the values
-        if(nName && wName){
+        if(nName){
             //test if have the neuron
             edk::neural::Neuron<typeTemplate>* temp = (edk::neural::Neuron<typeTemplate>*)this->tree.getElementByName(nName);edkEnd();
             if(temp){
                 //add the value
-                return this->values.add(wName,value,temp);edkEnd();
+                temp->setSum(value);
+                return true;
             }
         }
         return false;
@@ -176,6 +193,9 @@ public:
         return false;
     }
     //get the neuron bool
+    bool getNeuronBool(const edk::char8* nName){
+        return this->getNeuronBool((edk::char8*) nName);
+    }
     bool getNeuronBool(edk::char8* nName){
         //validate the values
         if(nName){
@@ -187,6 +207,61 @@ public:
             }
         }
         return false;
+    }
+    //return the neuron value
+    typeTemplate getNeuronValue(const edk::char8* nName){
+        return this->getNeuronValue((edk::char8*) nName);
+    }
+    typeTemplate getNeuronValue(edk::char8* nName){
+        typeTemplate ret;
+        memset(&ret,0u,sizeof(typeTemplate));
+        //validate the values
+        if(nName){
+            //test if have the neuron
+            edk::neural::Neuron<typeTemplate>* temp = (edk::neural::Neuron<typeTemplate>*)this->tree.getElementByName(nName);edkEnd();
+            if(temp){
+                //add the value
+                temp->getSum(&ret);edkEnd();
+            }
+        }
+        return ret;
+    }
+    bool getNeuronValue(edk::char8* nName,typeTemplate* dest){
+        //validate the values
+        if(nName && dest){
+            //test if have the neuron
+            edk::neural::Neuron<typeTemplate>* temp = (edk::neural::Neuron<typeTemplate>*)this->tree.getElementByName(nName);edkEnd();
+            if(temp){
+                //add the value
+                temp->getSum(dest);
+                return true;
+            }
+        }
+        return false;
+    }
+    //get the weigth of a neuron
+    typeTemplate getNeuronWeight(const edk::char8* name,edk::char8* wName){
+        return this->getNeuronWeight((edk::char8*) name, wName);edkEnd();
+    }
+    typeTemplate getNeuronWeight(edk::char8* name,const edk::char8* wName){
+        return this->getNeuronWeight(name,(edk::char8*) wName);edkEnd();
+    }
+    typeTemplate getNeuronWeight(const edk::char8* name,const edk::char8* wName){
+        return this->getNeuronWeight((edk::char8*) name,(edk::char8*) wName);edkEnd();
+    }
+    typeTemplate getNeuronWeight(edk::char8* name,edk::char8* wName){
+        typeTemplate ret;
+        memset(&ret,0u,sizeof(typeTemplate));
+        //test the names
+        if(name && wName){
+            //get the neuron
+            edk::neural::Neuron<typeTemplate>* temp = (edk::neural::Neuron<typeTemplate>*)this->tree.getElementByName(name);edkEnd();
+            if(temp){
+                //set the weight
+                return temp->getWeight(wName);edkEnd();
+            }
+        }
+        return ret;
     }
 
     //process the network passing the name of the neuron

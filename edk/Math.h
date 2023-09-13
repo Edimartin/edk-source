@@ -495,13 +495,20 @@ public:
     static edk::vec4i64 module(edk::vec4i64 vec);
 
     //Function pythagoras return de distance from 0,0,0,0 axis to X Y Z W
-    //FLOAT
+    //FLOAT32
     static edk::float32 pythagoras(edk::float32 x,edk::float32 y);
     static edk::float32 pythagoras(edk::vec2f32 vec);
     static edk::float32 pythagoras(edk::float32 x,edk::float32 y,edk::float32 z);
     static edk::float32 pythagoras(edk::vec3f32 vec);
     static edk::float32 pythagoras(edk::float32 x,edk::float32 y,edk::float32 z, edk::float32 w);
     static edk::float32 pythagoras(edk::vec4f32 vec);
+    //FLOAT64
+    static edk::float64 pythagoras(edk::float64 x,edk::float64 y);
+    static edk::float64 pythagoras(edk::vec2f64 vec);
+    static edk::float64 pythagoras(edk::float64 x,edk::float64 y,edk::float64 z);
+    static edk::float64 pythagoras(edk::vec3f64 vec);
+    static edk::float64 pythagoras(edk::float64 x,edk::float64 y,edk::float64 z, edk::float64 w);
+    static edk::float64 pythagoras(edk::vec4f64 vec);
     //INT8
     static edk::float32 pythagoras(edk::int8 x,edk::int8 y);
     static edk::float32 pythagoras(edk::vec2i8 vec);

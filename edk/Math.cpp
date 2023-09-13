@@ -293,7 +293,7 @@ edk::vec4i64 edk::Math::module(edk::int64 n1,edk::int64 n2,edk::int64 n3,edk::in
 edk::vec4i64 edk::Math::module(edk::vec4i64 vec){vec.x=edk::Math::module(vec.x);edkEnd();vec.y=edk::Math::module(vec.y);edkEnd(); return vec;edkEnd();}
 
 //Function pythagoras return de distance from 0,0,0 axis to X Y Z W
-//FLOAT
+//FLOAT32
 edk::float32 edk::Math::pythagoras(edk::float32 x,edk::float32 y){return edk::Math::pythagoras(edk::vec2f32(x,y));edkEnd();}
 edk::float32 edk::Math::pythagoras(edk::vec2f32 vec){return (edk::float32)edk::Math::squareRoot(edk::Math::square(vec.x)+edk::Math::square(vec.y));edkEnd();}
 edk::float32 edk::Math::pythagoras(edk::float32 x,edk::float32 y,edk::float32 z){return edk::Math::pythagoras(edk::vec3f32(x,y,z));edkEnd();}
@@ -301,6 +301,15 @@ edk::float32 edk::Math::pythagoras(edk::vec3f32 vec){return (edk::float32)edk::M
                                                                                                 edk::Math::square(vec.z));edkEnd();}
 edk::float32 edk::Math::pythagoras(edk::float32 x,edk::float32 y,edk::float32 z, edk::float32 w){return edk::Math::pythagoras(edk::vec4f32(x,y,z,w));edkEnd();}
 edk::float32 edk::Math::pythagoras(edk::vec4f32 vec){return (edk::float32)edk::Math::squareRoot(edk::Math::square(vec.x)+edk::Math::square(vec.y)+
+                                                                                                edk::Math::square(vec.z)+edk::Math::square(vec.w));edkEnd();}
+//FLOAT64
+edk::float64 edk::Math::pythagoras(edk::float64 x,edk::float64 y){return edk::Math::pythagoras(edk::vec2f64(x,y));edkEnd();}
+edk::float64 edk::Math::pythagoras(edk::vec2f64 vec){return (edk::float64)edk::Math::squareRoot(edk::Math::square(vec.x)+edk::Math::square(vec.y));edkEnd();}
+edk::float64 edk::Math::pythagoras(edk::float64 x,edk::float64 y,edk::float64 z){return edk::Math::pythagoras(edk::vec3f64(x,y,z));edkEnd();}
+edk::float64 edk::Math::pythagoras(edk::vec3f64 vec){return (edk::float64)edk::Math::squareRoot(edk::Math::square(vec.x)+edk::Math::square(vec.y)+
+                                                                                                edk::Math::square(vec.z));edkEnd();}
+edk::float64 edk::Math::pythagoras(edk::float64 x,edk::float64 y,edk::float64 z, edk::float64 w){return edk::Math::pythagoras(edk::vec4f64(x,y,z,w));edkEnd();}
+edk::float64 edk::Math::pythagoras(edk::vec4f64 vec){return (edk::float64)edk::Math::squareRoot(edk::Math::square(vec.x)+edk::Math::square(vec.y)+
                                                                                                 edk::Math::square(vec.z)+edk::Math::square(vec.w));edkEnd();}
 //INT8
 edk::float32 edk::Math::pythagoras(edk::int8 x,edk::int8 y){return edk::Math::pythagoras(edk::vec2i8(x,y));edkEnd();}
