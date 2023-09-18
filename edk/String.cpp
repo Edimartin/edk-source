@@ -56,7 +56,7 @@ int edkTTYraw(edk::int32 fd){
     newtermios.c_lflag &= ~(ECHO
                             | ICANON
                             | IEXTEN
-                            | ISIG
+                            //| ISIG //remove this SIG because it remove the SIG
                             );
     /* OK, why IEXTEN? If IEXTEN is on, the DISCARD character
        is recognized and is not passed to the process. This

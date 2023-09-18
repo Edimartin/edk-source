@@ -137,11 +137,12 @@ public:
     //return the object
     inline typeTemplate get(edk::uint32 pos){
         typeTemplate ret;edkEnd();
-        memcpy((void*)&ret,(void*)&vector[pos],sizeof(typeTemplate));edkEnd();
         if(this->have(pos)){
             //return the variable
             memcpy((void*)&ret,(void*)&vector[pos],sizeof(typeTemplate));edkEnd();
+            return ret;
         }
+        memset((void*)&ret,0u,sizeof(typeTemplate));edkEnd();
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
         return ret;

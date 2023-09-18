@@ -117,14 +117,16 @@ void edk::multi::Mutex::lock(){
     pthread_mutex_lock(&this->mut);edkEnd();
 #endif
 }
-void edk::multi::Mutex::lock(edk::char8* text,edk::int32 line,edk::char8* file,edk::char8* function){
 #if defined(EDK_MUTEX_PRINT_DEBUG)
+void edk::multi::Mutex::lock(edk::char8* text,edk::int32 line,edk::char8* file,edk::char8* function){
     edk::multi::Mutex::writeDebug((edk::char8*)text?(edk::char8*)text:(edk::char8*)"NULL",
                                   (edk::char8*)__func__,
                                   line,
                                   (edk::char8*)(edk::char8*)file?(edk::char8*)(edk::char8*)file:(edk::char8*)(edk::char8*)"FILE NULL",
                                   (edk::char8*)function?(edk::char8*)function:(edk::char8*)"FUNCTION NULL"
                                                         );
+#else
+void edk::multi::Mutex::lock(edk::char8*,edk::int32,edk::char8*,edk::char8*){
 #endif
     this->lock();
 #if defined(EDK_MUTEX_PRINT_DEBUG)
@@ -160,14 +162,16 @@ void edk::multi::Mutex::unlock(){
     pthread_mutex_unlock(&this->mut);edkEnd();
 #endif
 }
-void edk::multi::Mutex::unlock(edk::char8* text,edk::int32 line,edk::char8* file,edk::char8* function){
 #if defined(EDK_MUTEX_PRINT_DEBUG)
+void edk::multi::Mutex::unlock(edk::char8* text,edk::int32 line,edk::char8* file,edk::char8* function){
     edk::multi::Mutex::writeDebug((edk::char8*)text?(edk::char8*)text:(edk::char8*)"NULL",
                                   (edk::char8*)__func__,
                                   line,
                                   (edk::char8*)file?(edk::char8*)file:(edk::char8*)"FILE NULL",
                                   (edk::char8*)function?(edk::char8*)function:(edk::char8*)"FUNCTION NULL"
                                                         );
+#else
+void edk::multi::Mutex::unlock(edk::char8*,edk::int32,edk::char8*,edk::char8*){
 #endif
     this->unlock();
 #if defined(EDK_MUTEX_PRINT_DEBUG)
@@ -208,14 +212,16 @@ bool edk::multi::Mutex::tryLock(){
 #endif
     return false;
 }
-bool edk::multi::Mutex::tryLock(edk::char8* text,edk::int32 line,edk::char8* file,edk::char8* function){
 #if defined(EDK_MUTEX_PRINT_DEBUG)
+bool edk::multi::Mutex::tryLock(edk::char8* text,edk::int32 line,edk::char8* file,edk::char8* function){
     edk::multi::Mutex::writeDebug((edk::char8*)text?(edk::char8*)text:(edk::char8*)"NULL",
                                   (edk::char8*)__func__,
                                   line,
                                   (edk::char8*)file?(edk::char8*)file:(edk::char8*)"FILE NULL",
                                   (edk::char8*)function?(edk::char8*)function:(edk::char8*)"FUNCTION NULL"
                                                         );
+#else
+bool edk::multi::Mutex::tryLock(edk::char8*,edk::int32,edk::char8*,edk::char8*){
 #endif
     bool ret = this->tryLock();
 #if defined(EDK_MUTEX_PRINT_DEBUG)

@@ -231,7 +231,7 @@ public:
         }
         return false;
     }
-    bool newWeight(const edk::char8* name,int Weight){
+    bool newWeight(const edk::char8* name,edk::int32 Weight){
         return this->newWeight((edk::char8*) name,Weight);edkEnd();
     }
     inline bool newWeight(edk::char8* name){
@@ -253,10 +253,10 @@ public:
         }
         return false;
     }
-    bool setWeight(const edk::char8* name,int Weight){
+    bool setWeight(const edk::char8* name,edk::int32 Weight){
         return this->setWeight((edk::char8*) name,Weight);edkEnd();
     }
-    inline bool setWeight(edk::char8* name,int Weight){
+    inline bool setWeight(edk::char8* name,edk::int32 Weight){
         if(name){
             edk::neural::Neuron<typeTemplate>::Weights<typeTemplate> *temp = (edk::neural::Neuron<typeTemplate>::Weights<typeTemplate>*)this->treeWeights.getElementByName(name);edkEnd();
             if(!temp){
@@ -279,10 +279,10 @@ public:
         }
         return false;
     }
-    typeTemplate getWeight(const edk::char8* name){
-        return this->getWeight((edk::char8*) name);edkEnd();
+    typeTemplate getWeightValue(const edk::char8* name){
+        return this->getWeightValue((edk::char8*) name);edkEnd();
     }
-    inline typeTemplate getWeight(edk::char8* name){
+    inline typeTemplate getWeightValue(edk::char8* name){
         typeTemplate ret;
         if(name){
             edk::neural::Neuron<typeTemplate>::Weights<typeTemplate> *temp = (edk::neural::Neuron<typeTemplate>::Weights<typeTemplate>*)this->treeWeights.getElementByName(name);edkEnd();
@@ -293,10 +293,10 @@ public:
         memset(&ret,0u,sizeof(typeTemplate));
         return ret;edkEnd();
     }
-    bool getWeight(const edk::char8* name,typeTemplate* dest){
-        return this->getWeight((edk::char8*) name,dest);edkEnd();
+    bool getWeightValue(const edk::char8* name,typeTemplate* dest){
+        return this->getWeightValue((edk::char8*) name,dest);edkEnd();
     }
-    inline bool getWeight(edk::char8* name,typeTemplate* dest){
+    inline bool getWeightValue(edk::char8* name,typeTemplate* dest){
         if(name && dest){
             edk::neural::Neuron<typeTemplate>::Weights<typeTemplate> *temp = (edk::neural::Neuron<typeTemplate>::Weights<typeTemplate>*)this->treeWeights.getElementByName(name);edkEnd();
             if(temp){
@@ -305,7 +305,26 @@ public:
         }
         return false;edkEnd();
     }
-    inline edk::uint32 size(){return this->treeWeights.size();edkEnd();}
+    edk::neural::Neuron<typeTemplate> * getWeightConnection(const edk::char8* name){
+        return this->getWeightConnection((edk::char8*) name);edkEnd();
+    }
+    inline edk::neural::Neuron<typeTemplate> * getWeightConnection(edk::char8* name){
+        if(name){
+            edk::neural::Neuron<typeTemplate>::Weights<typeTemplate> *temp = (edk::neural::Neuron<typeTemplate>::Weights<typeTemplate>*)this->treeWeights.getElementByName(name);edkEnd();
+            if(temp){
+                return temp->connected;
+            }
+        }
+        return NULL;
+    }
+    edk::char8* getWeightNameInPosition(edk::uint32 position){
+        edk::neural::Neuron<typeTemplate>::Weights<typeTemplate> *temp = (edk::neural::Neuron<typeTemplate>::Weights<typeTemplate>*)this->treeWeights.getElementInPosition(position);edkEnd();
+        if(temp){
+            return temp->getName();
+        }
+        return NULL;
+    }
+    inline edk::uint32 getWeightSize(){return this->treeWeights.size();edkEnd();}
     //MATH functions
     inline void setSum(typeTemplate value){
         this->haveSum=true;edkEnd();
@@ -380,7 +399,7 @@ public:
         for(edk::uint32 i=0u;i<size;i++){
             temp=(edk::neural::Neuron<typeTemplate>::Weights<typeTemplate>*)this->treeWeights.getElementInPosition(i);edkEnd();
             if(temp){
-                printf("\n%u Name %s Weight %.4f "
+                printf("\n%u Name %s Weight %d "
                        ,i
                        ,temp->getName()?temp->getName():"noName"
                                         ,temp->weight
@@ -475,7 +494,7 @@ private:
             return false;
         }
         //Weight values inside the neuron
-        typeTemplate weight;
+        edk::int32 weight;
         //neuron connecteds
         edk::neural::Neuron<typeTemplate> *connected;
     };
