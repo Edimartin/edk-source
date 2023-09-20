@@ -342,6 +342,16 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationChangeToRewind(){
     //else return false
     return false;
 }
+bool edk::shape::AnimatedPolygon2DList::selectedAnimationChangeWay(){
+    //test if have a animationSelected
+    if(this->selectedAnimation){
+        //add new interpolationLine
+        this->selectedAnimation->changeWay();edkEnd();
+        return true;
+    }
+    //else return false
+    return false;
+}
 bool edk::shape::AnimatedPolygon2DList::selectedAnimationPause(){
     //test if have a animationSelected
     if(this->selectedAnimation){
@@ -445,6 +455,48 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationIsPlayingName(edk::char
     //else return false
     return false;
 }
+bool edk::shape::AnimatedPolygon2DList::selectedAnimationIsPlayingFoward(){
+    //test if have a animationSelected
+    if(this->selectedAnimation){
+        //add new interpolationLine
+        return this->selectedAnimation->isPlayingFoward();
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::AnimatedPolygon2DList::selectedAnimationIsPlayingFowardName(const edk::char8* name){
+    return this->selectedAnimationIsPlayingFowardName((edk::char8*) name);edkEnd();
+}
+bool edk::shape::AnimatedPolygon2DList::selectedAnimationIsPlayingFowardName(edk::char8* name){
+    //test if have a animationSelected
+    if(this->selectedAnimation){
+        //add new interpolationLine
+        return this->selectedAnimation->isPlayingFowardName(name);
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::AnimatedPolygon2DList::selectedAnimationIsPlayingRewind(){
+    //test if have a animationSelected
+    if(this->selectedAnimation){
+        //add new interpolationLine
+        return this->selectedAnimation->isPlaying();
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::AnimatedPolygon2DList::selectedAnimationIsPlayingRewindName(const edk::char8* name){
+    return this->selectedAnimationIsPlayingRewindName((edk::char8*) name);edkEnd();
+}
+bool edk::shape::AnimatedPolygon2DList::selectedAnimationIsPlayingRewindName(edk::char8* name){
+    //test if have a animationSelected
+    if(this->selectedAnimation){
+        //add new interpolationLine
+        return this->selectedAnimation->isPlayingName(name);
+    }
+    //else return false
+    return false;
+}
 bool edk::shape::AnimatedPolygon2DList::selectedAnimationWasPlayingName(const edk::char8* name){
     return this->selectedAnimationWasPlayingName((edk::char8*) name);edkEnd();
 }
@@ -453,6 +505,48 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationWasPlayingName(edk::cha
     if(this->selectedAnimation){
         //add new interpolationLine
         return this->selectedAnimation->wasPlayingName(name);
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::AnimatedPolygon2DList::selectedAnimationWasPlayingFoward(){
+    //test if have a animationSelected
+    if(this->selectedAnimation){
+        //add new interpolationLine
+        return this->selectedAnimation->wasPlayingFoward();
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::AnimatedPolygon2DList::selectedAnimationWasPlayingFowardName(const edk::char8* name){
+    return this->selectedAnimationWasPlayingFowardName((edk::char8*) name);edkEnd();
+}
+bool edk::shape::AnimatedPolygon2DList::selectedAnimationWasPlayingFowardName(edk::char8* name){
+    //test if have a animationSelected
+    if(this->selectedAnimation){
+        //add new interpolationLine
+        return this->selectedAnimation->wasPlayingFowardName(name);
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::AnimatedPolygon2DList::selectedAnimationWasPlayingRewind(){
+    //test if have a animationSelected
+    if(this->selectedAnimation){
+        //add new interpolationLine
+        return this->selectedAnimation->wasPlayingRewind();
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::AnimatedPolygon2DList::selectedAnimationWasPlayingRewindName(const edk::char8* name){
+    return this->selectedAnimationWasPlayingRewindName((edk::char8*) name);edkEnd();
+}
+bool edk::shape::AnimatedPolygon2DList::selectedAnimationWasPlayingRewindName(edk::char8* name){
+    //test if have a animationSelected
+    if(this->selectedAnimation){
+        //add new interpolationLine
+        return this->selectedAnimation->wasPlayingRewindName(name);
     }
     //else return false
     return false;

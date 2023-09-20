@@ -114,6 +114,10 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
                 contactTemp->objectB->setAngularVelocity(bodyB->GetAngularVelocity() * (180.f / b2_pi));edkEnd();
                 contactTemp->velocityA = contactTemp->objectA->getSpeed();edkEnd();
                 contactTemp->velocityB = contactTemp->objectB->getSpeed();edkEnd();
+                contactTemp->objectAWorldPosition.x = bodyA->GetPosition().x;edkEnd();
+                contactTemp->objectAWorldPosition.y = bodyA->GetPosition().y;edkEnd();
+                contactTemp->objectBWorldPosition.x = bodyB->GetPosition().x;edkEnd();
+                contactTemp->objectBWorldPosition.y = bodyB->GetPosition().y;edkEnd();
                 //
                 contactTemp->worldPositions.createArray(count);edkEnd();
                 contactTemp->objectAPositions.createArray(count);edkEnd();
@@ -327,6 +331,10 @@ void edk::physics2D::World2D::MyContactListener::EndContact(b2Contact* contact){
         contactTemp->objectB->setAngularVelocity(bodyB->GetAngularVelocity() * (180.f / b2_pi));edkEnd();
         contactTemp->velocityA = contactTemp->objectA->getSpeed();edkEnd();
         contactTemp->velocityB = contactTemp->objectB->getSpeed();edkEnd();
+        contactTemp->objectAWorldPosition.x = bodyA->GetPosition().x;edkEnd();
+        contactTemp->objectAWorldPosition.y = bodyA->GetPosition().y;edkEnd();
+        contactTemp->objectBWorldPosition.x = bodyB->GetPosition().x;edkEnd();
+        contactTemp->objectBWorldPosition.y = bodyB->GetPosition().y;edkEnd();
         //update the positions
         edk::uint8 count = contact->GetManifold()->pointCount;edkEnd();
         b2Vec2 point;edkEnd();
@@ -449,6 +457,10 @@ void edk::physics2D::World2D::MyContactListener::PreSolve(b2Contact* contact, co
         contactTemp->objectB->setAngularVelocity(bodyB->GetAngularVelocity() * (180.f / b2_pi));edkEnd();
         contactTemp->velocityA = contactTemp->objectA->getSpeed();edkEnd();
         contactTemp->velocityB = contactTemp->objectB->getSpeed();edkEnd();
+        contactTemp->objectAWorldPosition.x = bodyA->GetPosition().x;edkEnd();
+        contactTemp->objectAWorldPosition.y = bodyA->GetPosition().y;edkEnd();
+        contactTemp->objectBWorldPosition.x = bodyB->GetPosition().x;edkEnd();
+        contactTemp->objectBWorldPosition.y = bodyB->GetPosition().y;edkEnd();
         //update the positions
         edk::uint8 count = contact->GetManifold()->pointCount;edkEnd();
         b2Vec2 point;edkEnd();
@@ -576,6 +588,10 @@ void edk::physics2D::World2D::MyContactListener::PostSolve(b2Contact* contact, c
         contactTemp->objectB->setAngularVelocity(bodyB->GetAngularVelocity() * (180.f / b2_pi));edkEnd();
         contactTemp->velocityA = contactTemp->objectA->getSpeed();edkEnd();
         contactTemp->velocityB = contactTemp->objectB->getSpeed();edkEnd();
+        contactTemp->objectAWorldPosition.x = bodyA->GetPosition().x;edkEnd();
+        contactTemp->objectAWorldPosition.y = bodyA->GetPosition().y;edkEnd();
+        contactTemp->objectBWorldPosition.x = bodyB->GetPosition().x;edkEnd();
+        contactTemp->objectBWorldPosition.y = bodyB->GetPosition().y;edkEnd();
         //update the positions
         edk::uint8 count = contact->GetManifold()->pointCount;edkEnd();
         b2Vec2 point;edkEnd();
@@ -802,7 +818,6 @@ bool edk::physics2D::World2D::ObjectsJointsTree::firstEqualSecond(edk::physics2D
 }
 
 edk::physics2D::World2D::World2D():
-
 #if defined(EDK_USE_BOX2D)
     world(b2Vec2(0,0)),treeStatic(),treeKinematic(),treeDynamic()
     ,treeDeleted(&this->world),

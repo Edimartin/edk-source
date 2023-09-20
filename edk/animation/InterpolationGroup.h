@@ -234,6 +234,7 @@ public:
     void restartRewind();
     bool changeToForward();
     bool changeToRewind();
+    bool changeWay();
     void pause();
     void pauseOn();
     void pauseOff();
@@ -269,8 +270,20 @@ public:
     bool isPlaying();
     bool isPlayingName(const edk::char8* name);
     bool isPlayingName(edk::char8* name);
+    bool isPlayingFoward();
+    bool isPlayingFowardName(const edk::char8* name);
+    bool isPlayingFowardName(edk::char8* name);
+    bool isPlayingRewind();
+    bool isPlayingRewindName(const edk::char8* name);
+    bool isPlayingRewindName(edk::char8* name);
     bool wasPlayingName(const edk::char8* name);
     bool wasPlayingName(edk::char8* name);
+    bool wasPlayingFoward();
+    bool wasPlayingFowardName(const edk::char8* name);
+    bool wasPlayingFowardName(edk::char8* name);
+    bool wasPlayingRewind();
+    bool wasPlayingRewindName(const edk::char8* name);
+    bool wasPlayingRewindName(edk::char8* name);
     bool isPaused();
     bool isPausedName(const edk::char8* name);
     bool isPausedName(edk::char8* name);

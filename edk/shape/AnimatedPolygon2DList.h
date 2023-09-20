@@ -87,6 +87,7 @@ public:
     bool selectedAnimationRestartRewind();
     bool selectedAnimationChangeToForward();
     bool selectedAnimationChangeToRewind();
+    bool selectedAnimationChangeWay();
     bool selectedAnimationPause();
     bool selectedAnimationPauseOn();
     bool selectedAnimationPauseOff();
@@ -101,8 +102,20 @@ public:
     bool selectedAnimationIsPlaying();
     bool selectedAnimationIsPlayingName(const edk::char8* name);
     bool selectedAnimationIsPlayingName(edk::char8* name);
+    bool selectedAnimationIsPlayingFoward();
+    bool selectedAnimationIsPlayingFowardName(const edk::char8* name);
+    bool selectedAnimationIsPlayingFowardName(edk::char8* name);
+    bool selectedAnimationIsPlayingRewind();
+    bool selectedAnimationIsPlayingRewindName(const edk::char8* name);
+    bool selectedAnimationIsPlayingRewindName(edk::char8* name);
     bool selectedAnimationWasPlayingName(const edk::char8* name);
     bool selectedAnimationWasPlayingName(edk::char8* name);
+    bool selectedAnimationWasPlayingFoward();
+    bool selectedAnimationWasPlayingFowardName(const edk::char8* name);
+    bool selectedAnimationWasPlayingFowardName(edk::char8* name);
+    bool selectedAnimationWasPlayingRewind();
+    bool selectedAnimationWasPlayingRewindName(const edk::char8* name);
+    bool selectedAnimationWasPlayingRewindName(edk::char8* name);
     //return if are paused
     bool selectedAnimationIsPaused();
     bool selectedAnimationIsPausedName(const edk::char8* name);

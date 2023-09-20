@@ -80,6 +80,11 @@ public:
     //Impulses
     edk::vector::Array<edk::float32> impulses;
 
+    //objectA physic position
+    edk::vec2f32 objectAWorldPosition;
+    //objectB physic position
+    edk::vec2f32 objectBWorldPosition;
+
     //poinst contact
     edk::uint8 points;
 

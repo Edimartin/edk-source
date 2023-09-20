@@ -1234,6 +1234,7 @@ bool edk::animation::InterpolationGroup::changeToForward(){
     if(this->isPlaying()){
         //change the animation way
         this->rewind=false;edkEnd();
+        return true;
     }
     return false;
 }
@@ -1242,6 +1243,16 @@ bool edk::animation::InterpolationGroup::changeToRewind(){
     if(this->isPlaying()){
         //change the animation way
         this->rewind=true;edkEnd();
+        return true;
+    }
+    return false;
+}
+bool edk::animation::InterpolationGroup::changeWay(){
+    //test if is playing the animation
+    if(this->isPlaying()){
+        //change the animation way
+        this->rewind=!this->rewind;edkEnd();
+        return true;
     }
     return false;
 }
@@ -1370,11 +1381,81 @@ bool edk::animation::InterpolationGroup::isPlayingName(edk::char8* name){
     }
     return false;
 }
+bool edk::animation::InterpolationGroup::isPlayingFoward(){
+    //
+    if(this->playing && !this->paused && !this->rewind && this->animations.size()){
+        //
+        return true;
+    }
+    //else return false
+    return false;
+}
+bool edk::animation::InterpolationGroup::isPlayingFowardName(const edk::char8* name){
+    return this->isPlayingFowardName((edk::char8*) name);edkEnd();
+}
+bool edk::animation::InterpolationGroup::isPlayingFowardName(edk::char8* name){
+    if(name && this->isPlaying() && !this->rewind && this->nameSelected){
+        //test if is playing the name
+        return this->nameSelected->nameEqual(name);edkEnd();
+    }
+    return false;
+}
+bool edk::animation::InterpolationGroup::isPlayingRewind(){
+    //
+    if(this->playing && !this->paused && this->rewind && this->animations.size()){
+        //
+        return true;
+    }
+    //else return false
+    return false;
+}
+bool edk::animation::InterpolationGroup::isPlayingRewindName(const edk::char8* name){
+    return this->isPlayingRewindName((edk::char8*) name);edkEnd();
+}
+bool edk::animation::InterpolationGroup::isPlayingRewindName(edk::char8* name){
+    if(name && this->isPlayingRewind() && this->rewind && this->nameSelected){
+        //test if is playing the name
+        return this->nameSelected->nameEqual(name);edkEnd();
+    }
+    return false;
+}
 bool edk::animation::InterpolationGroup::wasPlayingName(const edk::char8* name){
     return this->wasPlayingName((edk::char8*) name);edkEnd();
 }
 bool edk::animation::InterpolationGroup::wasPlayingName(edk::char8* name){
     if(name && !this->isPlaying() && this->nameSelected){
+        //test if is playing the name
+        return this->nameSelected->nameEqual(name);edkEnd();
+    }
+    return false;
+}
+bool edk::animation::InterpolationGroup::wasPlayingFoward(){
+    if(!this->isPlayingFoward() && !this->rewind){
+        return true;
+    }
+    return false;
+}
+bool edk::animation::InterpolationGroup::wasPlayingFowardName(const edk::char8* name){
+    return this->wasPlayingFowardName((edk::char8*) name);edkEnd();
+}
+bool edk::animation::InterpolationGroup::wasPlayingFowardName(edk::char8* name){
+    if(name && !this->isPlayingFoward() && !this->rewind && this->nameSelected){
+        //test if is playing the name
+        return this->nameSelected->nameEqual(name);edkEnd();
+    }
+    return false;
+}
+bool edk::animation::InterpolationGroup::wasPlayingRewind(){
+    if(!this->isPlayingRewind() && this->rewind){
+        return true;
+    }
+    return false;
+}
+bool edk::animation::InterpolationGroup::wasPlayingRewindName(const edk::char8* name){
+    return this->wasPlayingRewindName((edk::char8*) name);edkEnd();
+}
+bool edk::animation::InterpolationGroup::wasPlayingRewindName(edk::char8* name){
+    if(name && !this->isPlayingRewind() && this->rewind && this->nameSelected){
         //test if is playing the name
         return this->nameSelected->nameEqual(name);edkEnd();
     }

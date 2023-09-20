@@ -897,6 +897,33 @@ bool edk::animation::InterpolationTracks::restartRewindTrack(edk::uint32 trackPo
     this->time.start();edkEnd();
     return false;
 }
+bool edk::animation::InterpolationTracks::changeWayAllTracks(){
+    bool ret=false;edkEnd();
+    edk::uint32 size = this->tracks->size();edkEnd();
+    if(size){
+        edk::animation::InterpolationTracks::AnimationAndPosition temp;edkEnd();
+        for(edk::uint32 i=0u;i<size;i++){
+            temp = this->tracks->get(i);edkEnd();
+            if(temp.animation){
+                temp.animation->changeWay();edkEnd();
+            }
+        }
+        ret=true;edkEnd();
+    }
+    this->time.start();edkEnd();
+    return ret;
+}
+bool edk::animation::InterpolationTracks::changeWayTrack(edk::uint32 trackPosition){
+    //get track in position
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);edkEnd();
+    if(temp.animation){
+        temp.animation->changeWay();edkEnd();
+        this->time.start();edkEnd();
+        return true;
+    }
+    this->time.start();edkEnd();
+    return false;
+}
 bool edk::animation::InterpolationTracks::pauseAllTracks(){
     bool ret=false;edkEnd();
     edk::uint32 size = this->tracks->size();edkEnd();
@@ -1286,6 +1313,84 @@ bool edk::animation::InterpolationTracks::isPlayingName(edk::char8* name){
     }
     return ret;
 }
+bool edk::animation::InterpolationTracks::isPlayingFoward(){
+    bool ret=false;edkEnd();
+    edk::uint32 size = this->tracks->size();edkEnd();
+    if(size){
+        edk::animation::InterpolationTracks::AnimationAndPosition temp;edkEnd();
+        for(edk::uint32 i=0u;i<size;i++){
+            temp = this->tracks->get(i);edkEnd();
+            if(temp.animation){
+                if(temp.animation->isPlayingFoward()){
+                    ret=true;edkEnd();
+                    break;
+                }
+            }
+        }
+    }
+    return ret;
+}
+bool edk::animation::InterpolationTracks::isPlayingFowardName(const edk::char8* name){
+    return this->isPlayingFowardName((edk::char8*) name);edkEnd();
+}
+bool edk::animation::InterpolationTracks::isPlayingFowardName(edk::char8* name){
+    bool ret=false;edkEnd();
+    if(name){
+        edk::uint32 size = this->tracks->size();edkEnd();
+        if(size){
+            edk::animation::InterpolationTracks::AnimationAndPosition temp;edkEnd();
+            for(edk::uint32 i=0u;i<size;i++){
+                temp = this->tracks->get(i);edkEnd();
+                if(temp.animation){
+                    if(temp.animation->isPlayingFowardName(name)){
+                        ret=true;edkEnd();
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    return ret;
+}
+bool edk::animation::InterpolationTracks::isPlayingRewind(){
+    bool ret=false;edkEnd();
+    edk::uint32 size = this->tracks->size();edkEnd();
+    if(size){
+        edk::animation::InterpolationTracks::AnimationAndPosition temp;edkEnd();
+        for(edk::uint32 i=0u;i<size;i++){
+            temp = this->tracks->get(i);edkEnd();
+            if(temp.animation){
+                if(temp.animation->isPlayingRewind()){
+                    ret=true;edkEnd();
+                    break;
+                }
+            }
+        }
+    }
+    return ret;
+}
+bool edk::animation::InterpolationTracks::isPlayingRewindName(const edk::char8* name){
+    return this->isPlayingRewindName((edk::char8*) name);edkEnd();
+}
+bool edk::animation::InterpolationTracks::isPlayingRewindName(edk::char8* name){
+    bool ret=false;edkEnd();
+    if(name){
+        edk::uint32 size = this->tracks->size();edkEnd();
+        if(size){
+            edk::animation::InterpolationTracks::AnimationAndPosition temp;edkEnd();
+            for(edk::uint32 i=0u;i<size;i++){
+                temp = this->tracks->get(i);edkEnd();
+                if(temp.animation){
+                    if(temp.animation->isPlayingRewindName(name)){
+                        ret=true;edkEnd();
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    return ret;
+}
 bool edk::animation::InterpolationTracks::wasPlayingName(const edk::char8* name){
     return this->wasPlayingName((edk::char8*) name);edkEnd();
 }
@@ -1299,6 +1404,84 @@ bool edk::animation::InterpolationTracks::wasPlayingName(edk::char8* name){
                 temp = this->tracks->get(i);edkEnd();
                 if(temp.animation){
                     if(temp.animation->wasPlayingName(name)){
+                        ret=true;edkEnd();
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    return ret;
+}
+bool edk::animation::InterpolationTracks::wasPlayingFoward(){
+    bool ret=false;edkEnd();
+    edk::uint32 size = this->tracks->size();edkEnd();
+    if(size){
+        edk::animation::InterpolationTracks::AnimationAndPosition temp;edkEnd();
+        for(edk::uint32 i=0u;i<size;i++){
+            temp = this->tracks->get(i);edkEnd();
+            if(temp.animation){
+                if(temp.animation->wasPlayingFoward()){
+                    ret=true;edkEnd();
+                    break;
+                }
+            }
+        }
+    }
+    return ret;
+}
+bool edk::animation::InterpolationTracks::wasPlayingFowardName(const edk::char8* name){
+    return this->wasPlayingFowardName((edk::char8*) name);edkEnd();
+}
+bool edk::animation::InterpolationTracks::wasPlayingFowardName(edk::char8* name){
+    bool ret=false;edkEnd();
+    if(name){
+        edk::uint32 size = this->tracks->size();edkEnd();
+        if(size){
+            edk::animation::InterpolationTracks::AnimationAndPosition temp;edkEnd();
+            for(edk::uint32 i=0u;i<size;i++){
+                temp = this->tracks->get(i);edkEnd();
+                if(temp.animation){
+                    if(temp.animation->wasPlayingFowardName(name)){
+                        ret=true;edkEnd();
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    return ret;
+}
+bool edk::animation::InterpolationTracks::wasPlayingRewind(){
+    bool ret=false;edkEnd();
+    edk::uint32 size = this->tracks->size();edkEnd();
+    if(size){
+        edk::animation::InterpolationTracks::AnimationAndPosition temp;edkEnd();
+        for(edk::uint32 i=0u;i<size;i++){
+            temp = this->tracks->get(i);edkEnd();
+            if(temp.animation){
+                if(temp.animation->wasPlayingRewind()){
+                    ret=true;edkEnd();
+                    break;
+                }
+            }
+        }
+    }
+    return ret;
+}
+bool edk::animation::InterpolationTracks::wasPlayingRewindName(const edk::char8* name){
+    return this->wasPlayingRewindName((edk::char8*) name);edkEnd();
+}
+bool edk::animation::InterpolationTracks::wasPlayingRewindName(edk::char8* name){
+    bool ret=false;edkEnd();
+    if(name){
+        edk::uint32 size = this->tracks->size();edkEnd();
+        if(size){
+            edk::animation::InterpolationTracks::AnimationAndPosition temp;edkEnd();
+            for(edk::uint32 i=0u;i<size;i++){
+                temp = this->tracks->get(i);edkEnd();
+                if(temp.animation){
+                    if(temp.animation->wasPlayingRewindName(name)){
                         ret=true;edkEnd();
                         break;
                     }
@@ -1329,6 +1512,48 @@ bool edk::animation::InterpolationTracks::isPlayingNameTrack(edk::uint32 trackPo
     }
     return false;
 }
+bool edk::animation::InterpolationTracks::isPlayingFowardTrack(edk::uint32 trackPosition){
+    //get track in position
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);edkEnd();
+    if(temp.animation){
+        return temp.animation->isPlayingFoward();edkEnd();
+    }
+    return false;
+}
+bool edk::animation::InterpolationTracks::isPlayingFowardNameTrack(edk::uint32 trackPosition,const edk::char8* name){
+    return this->isPlayingFowardNameTrack(trackPosition,(edk::char8*) name);edkEnd();
+}
+bool edk::animation::InterpolationTracks::isPlayingFowardNameTrack(edk::uint32 trackPosition,edk::char8* name){
+    if(name){
+        //get track in position
+        edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);edkEnd();
+        if(temp.animation){
+            return temp.animation->isPlayingFowardName(name);edkEnd();
+        }
+    }
+    return false;
+}
+bool edk::animation::InterpolationTracks::isPlayingRewindTrack(edk::uint32 trackPosition){
+    //get track in position
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);edkEnd();
+    if(temp.animation){
+        return temp.animation->isPlayingRewind();edkEnd();
+    }
+    return false;
+}
+bool edk::animation::InterpolationTracks::isPlayingRewindNameTrack(edk::uint32 trackPosition,const edk::char8* name){
+    return this->isPlayingRewindNameTrack(trackPosition,(edk::char8*) name);edkEnd();
+}
+bool edk::animation::InterpolationTracks::isPlayingRewindNameTrack(edk::uint32 trackPosition,edk::char8* name){
+    if(name){
+        //get track in position
+        edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);edkEnd();
+        if(temp.animation){
+            return temp.animation->isPlayingRewindName(name);edkEnd();
+        }
+    }
+    return false;
+}
 bool edk::animation::InterpolationTracks::wasPlayingNameTrack(edk::uint32 trackPosition,const edk::char8* name){
     return this->wasPlayingNameTrack(trackPosition,(edk::char8*) name);edkEnd();
 }
@@ -1338,6 +1563,48 @@ bool edk::animation::InterpolationTracks::wasPlayingNameTrack(edk::uint32 trackP
         edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);edkEnd();
         if(temp.animation){
             return temp.animation->wasPlayingName(name);edkEnd();
+        }
+    }
+    return false;
+}
+bool edk::animation::InterpolationTracks::wasPlayingFowardTrack(edk::uint32 trackPosition){
+    //get track in position
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);edkEnd();
+    if(temp.animation){
+        return temp.animation->wasPlayingFoward();edkEnd();
+    }
+    return false;
+}
+bool edk::animation::InterpolationTracks::wasPlayingFowardNameTrack(edk::uint32 trackPosition,const edk::char8* name){
+    return this->wasPlayingFowardNameTrack(trackPosition,(edk::char8*) name);edkEnd();
+}
+bool edk::animation::InterpolationTracks::wasPlayingFowardNameTrack(edk::uint32 trackPosition,edk::char8* name){
+    if(name){
+        //get track in position
+        edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);edkEnd();
+        if(temp.animation){
+            return temp.animation->wasPlayingFowardName(name);edkEnd();
+        }
+    }
+    return false;
+}
+bool edk::animation::InterpolationTracks::wasPlayingRewindTrack(edk::uint32 trackPosition){
+    //get track in position
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);edkEnd();
+    if(temp.animation){
+        return temp.animation->wasPlayingRewind();edkEnd();
+    }
+    return false;
+}
+bool edk::animation::InterpolationTracks::wasPlayingRewindNameTrack(edk::uint32 trackPosition,const edk::char8* name){
+    return this->wasPlayingRewindNameTrack(trackPosition,(edk::char8*) name);edkEnd();
+}
+bool edk::animation::InterpolationTracks::wasPlayingRewindNameTrack(edk::uint32 trackPosition,edk::char8* name){
+    if(name){
+        //get track in position
+        edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);edkEnd();
+        if(temp.animation){
+            return temp.animation->wasPlayingRewindName(name);edkEnd();
         }
     }
     return false;
