@@ -130,9 +130,9 @@ bool edk::codecs::CodecVideo::drawFrame(edk::uint8* frame,edk::uint8 channels){
         //convert the image
         switch(channels){
         case 1u:
-            return edk::codecs::CodecImage::grayToi240(frame,edk::size2ui32(this->frameSize.width,this->frameSize.height),this->Y,this->U,this->V);
+            return edk::codecs::CodecImage::grayToi420(frame,edk::size2ui32(this->frameSize.width,this->frameSize.height),this->Y,this->U,this->V);
         case 3u:
-            return edk::codecs::CodecImage::rgbToi240(frame,edk::size2ui32(this->frameSize.width,this->frameSize.height),this->Y,this->U,this->V);
+            return edk::codecs::CodecImage::rgbToi420(frame,edk::size2ui32(this->frameSize.width,this->frameSize.height),this->Y,this->U,this->V);
         }
     }
     return false;

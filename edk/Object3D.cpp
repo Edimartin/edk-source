@@ -194,6 +194,20 @@ bool edk::Object3D::updatePolygonsNormals(){
     }
     return false;
 }
+bool edk::Object3D::calculatePolygonsNormals(){
+    edk::uint32 size = this->meshes.size();edkEnd();
+    edk::shape::Mesh3D* temp;edkEnd();
+    if(size){
+        for(edk::uint32 i=0u;i<size;i++){
+            temp = this->meshes.getMesh(i);edkEnd();
+            if(temp){
+                temp->updatePolygonsNormals();edkEnd();
+            }
+        }
+        return true;
+    }
+    return false;
+}
 
 //rotate the object to look at the camera
 void edk::Object3D::lookAtPoint(edk::float32 x,edk::float32 y,edk::float32 z){
@@ -270,7 +284,7 @@ bool edk::Object3D::addObj(edk::char8* fileName){
             edk::vector::Stack<edk::uint32> sv(1000u),sp(1000u),sn(1000u);edkEnd();
 
             edk::shape::Mesh3D* mesh = NULL;edkEnd();
-            bool smooth = true;edkEnd();
+            bool smooth = false;edkEnd();
 
             while(!file.endOfFile()){
                 c = file.readTextChar();edkEnd();
@@ -305,6 +319,7 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                     }
                     break;
                 case 'o':
+                case 'g':
                     if(file.readTextChar() == ' '){
                         str = file.readTextString("\n",false);edkEnd();
                         if(str){
@@ -327,37 +342,92 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                     }
                     c = file.readTextChar();edkEnd();
                     if(c == ' '){
-                        str = file.readTextString(" ",false);edkEnd();
-                        if(str){
-                            x = edk::String::strToFloat32(str);edkEnd();
-                            free(str);edkEnd();
-                        }
-                        str = file.readTextString(" ",false);edkEnd();
-                        if(str){
-                            y = edk::String::strToFloat32(str);edkEnd();
-                            free(str);edkEnd();
-                        }
+                        //read the entire phrase
                         str = file.readTextString("\n",false);edkEnd();
                         if(str){
-                            z = edk::String::strToFloat32(str);edkEnd();
-                            free(str);edkEnd();
+                            if(edk::String::strSize(str)){
+                                //printf("\nStr == '%s'",str);fflush(stdout);edkEnd();
+                                edk::uint8 pos=1u;
+                                temp = str;
+                                while(*temp){
+                                    if(*temp!=' '){
+                                        switch(pos){
+                                        case 1u:
+                                            //read the value
+                                            x = edk::String::strToFloat32(temp);edkEnd();
+                                            pos++;
+                                            break;
+                                        case 2u:
+                                            //read the value
+                                            y = edk::String::strToFloat32(temp);edkEnd();
+                                            pos++;
+                                            break;
+                                        case 3u:
+                                            //read the value
+                                            z = edk::String::strToFloat32(temp);edkEnd();
+                                            pos++;
+                                            break;
+                                        }
+                                        //search for the next space ' '
+                                        while(*temp){
+                                            if(*temp==' '){
+                                                break;
+                                            }
+                                            temp++;
+                                        }
+                                    }
+                                    else{
+                                        temp++;
+                                    }
+                                }
+                            }
+                            free(str);
                         }
-                        //printf("\nNEW Vertex %.2f %.2f %.2f",x,y,z);edkEnd();
+                        //printf("\nNEW Vertex %.2f %.2f %.2f",x,y,z);fflush(stdout);edkEnd();
                         mesh->newVertex(x,y,z,1,1,1,1);edkEnd();
-                        //mesh->newVertex(x,y,z,0,0,0,1);edkEnd();
                     }
                     else if(c == 't'){
                         if(file.readTextChar() == ' '){
-                            //
-                            str = file.readTextString(" ",false);edkEnd();
-                            if(str){
-                                x = edk::String::strToFloat32(str);edkEnd();
-                                free(str);edkEnd();
-                            }
+                            //read the entire phrase
                             str = file.readTextString("\n",false);edkEnd();
                             if(str){
-                                y = edk::String::strToFloat32(str);edkEnd();
-                                free(str);edkEnd();
+                                if(edk::String::strSize(str)){
+                                    //printf("\nStr == '%s'",str);fflush(stdout);edkEnd();
+                                    edk::uint8 pos=1u;
+                                    temp = str;
+                                    while(*temp){
+                                        if(*temp!=' '){
+                                            switch(pos){
+                                            case 1u:
+                                                //read the value
+                                                x = edk::String::strToFloat32(temp);edkEnd();
+                                                pos++;
+                                                break;
+                                            case 2u:
+                                                //read the value
+                                                y = edk::String::strToFloat32(temp);edkEnd();
+                                                pos++;
+                                                break;
+                                            case 3u:
+                                                //read the value
+                                                z = edk::String::strToFloat32(temp);edkEnd();
+                                                pos++;
+                                                break;
+                                            }
+                                            //search for the next space ' '
+                                            while(*temp){
+                                                if(*temp==' '){
+                                                    break;
+                                                }
+                                                temp++;
+                                            }
+                                        }
+                                        else{
+                                            temp++;
+                                        }
+                                    }
+                                }
+                                free(str);
                             }
                             //printf("\nNEW Vertex Texture %.2f %.2f",x,y);edkEnd();
                             mesh->newUV(x,y);edkEnd();
@@ -365,21 +435,46 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                     }
                     else if(c == 'n'){
                         if(file.readTextChar() == ' '){
-                            //
-                            str = file.readTextString(" ",false);edkEnd();
-                            if(str){
-                                x = edk::String::strToFloat32(str);edkEnd();
-                                free(str);edkEnd();
-                            }
-                            str = file.readTextString(" ",false);edkEnd();
-                            if(str){
-                                y = edk::String::strToFloat32(str);edkEnd();
-                                free(str);edkEnd();
-                            }
+                            //read the entire phrase
                             str = file.readTextString("\n",false);edkEnd();
                             if(str){
-                                z = edk::String::strToFloat32(str);edkEnd();
-                                free(str);edkEnd();
+                                if(edk::String::strSize(str)){
+                                    //printf("\nStr == '%s'",str);fflush(stdout);edkEnd();
+                                    edk::uint8 pos=1u;
+                                    temp = str;
+                                    while(*temp){
+                                        if(*temp!=' '){
+                                            switch(pos){
+                                            case 1u:
+                                                //read the value
+                                                x = edk::String::strToFloat32(temp);edkEnd();
+                                                pos++;
+                                                break;
+                                            case 2u:
+                                                //read the value
+                                                y = edk::String::strToFloat32(temp);edkEnd();
+                                                pos++;
+                                                break;
+                                            case 3u:
+                                                //read the value
+                                                z = edk::String::strToFloat32(temp);edkEnd();
+                                                pos++;
+                                                break;
+                                            }
+                                            //search for the next space ' '
+                                            while(*temp){
+                                                if(*temp==' '){
+                                                    break;
+                                                }
+                                                temp++;
+                                            }
+                                        }
+                                        else{
+                                            temp++;
+                                        }
+                                    }
+                                }
+                                free(str);
                             }
                             //printf("\nNEW Vertex Normal %.2f %.2f %.2f",x,y,z);fflush(stdout);edkEnd();
                             mesh->newNormal(x,y,z);edkEnd();

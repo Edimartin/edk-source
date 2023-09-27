@@ -141,12 +141,12 @@ public:
     static bool rgbToyuv(edk::uint8* rgb,edk::size2ui32 size,edk::uint8* yuv);
     static bool rgbToyuv(edk::uint8* rgb,edk::size2ui32 size,edk::uint8* y,edk::uint8* u,edk::uint8* v);
     static bool grayToyuv(edk::uint8* gray,edk::size2ui32 size,edk::uint8* y,edk::uint8* u,edk::uint8* v);
-    static bool rgbToi240(edk::uint8* rgb,edk::size2ui32 size,edk::uint8* y,edk::uint8* u,edk::uint8* v);
-    static bool grayToi240(edk::uint8* gray,edk::size2ui32 size,edk::uint8* y,edk::uint8* u,edk::uint8* v);
+    static bool rgbToi420(edk::uint8* rgb,edk::size2ui32 size,edk::uint8* y,edk::uint8* u,edk::uint8* v);
+    static bool grayToi420(edk::uint8* gray,edk::size2ui32 size,edk::uint8* y,edk::uint8* u,edk::uint8* v);
     //YUV to RGB
     static edk::color3ui8 yuvTorgb(edk::uint8 y,edk::uint8 u,edk::uint8 v);
     static edk::color3ui8 yuvTorgb(edk::vec3ui8 color);
-    static bool i240Torgb(edk::uint8* y,edk::uint8* u,edk::uint8* v,edk::size2ui32 size,edk::uint8* rgb);
+    static bool i420Torgb(edk::uint8* y,edk::uint8* u,edk::uint8* v,edk::size2ui32 size,edk::uint8* rgb);
 protected:
     //save the size of the frame
     edk::size2ui32 frameSize;

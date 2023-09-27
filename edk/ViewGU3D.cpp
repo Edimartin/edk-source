@@ -52,9 +52,13 @@ void edk::ViewGU3D::drawPolygon(edk::rectf32 outsideViewOrigin){
     //set the matrix before draw the scene
     edk::GU::guUseMatrix(GU_MODELVIEW);edkEnd();
 
+    edk::GU::guEnable(GU_CULL_FACE);edkEnd();
     edk::GU::guEnable(GU_DEPTH_TEST);edkEnd();
 
-    edk::GU::guDepthFunc(GU_LESS);edkEnd();
+    //edk::GU::guCullFace(GU_FRONT_AND_BACK);edkEnd();
+    edk::GU::guCullFace(GU_BACK);edkEnd();
+
+    edk::GU::guDepthFunc(GU_LEQUAL);edkEnd();
 
     edk::GU::guDepthRange(0.0f, 1.0f);edkEnd();
 
@@ -63,6 +67,7 @@ void edk::ViewGU3D::drawPolygon(edk::rectf32 outsideViewOrigin){
     this->drawScene(outsideViewOrigin);edkEnd();
 
     edk::GU::guDisable(GU_DEPTH_TEST);edkEnd();
+    edk::GU::guDisable(GU_CULL_FACE);edkEnd();
 
     edk::GU::guDisableAllLights();edkEnd();
 }

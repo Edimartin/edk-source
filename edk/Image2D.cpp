@@ -262,6 +262,9 @@ bool edk::Image2D::newImage(const edk::char8 *imageName,edk::uint32 width,edk::u
 
 //create a new image with a palette
 bool edk::Image2D::newImage(edk::char8 *imageName,edk::size2ui32 size,edk::uint8 channels,edk::uint32 paletteSize){
+    if(!paletteSize){
+        return this->newImage(imageName,size,channels);
+    }
     //delete the last image
     this->deleteImage();edkEnd();
     //test the new image

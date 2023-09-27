@@ -1252,6 +1252,11 @@ void edk::GU::guVertexTex4f64(edk::float64 x,edk::float64 y,edk::float64 z,edk::
     edk::GU_GLSL::mut.unlock();
 }
 
+//cullFace
+void edk::GU::guCullFace(edk::uint32 mode){
+    glCullFace(mode);
+}
+
 //SELET BUFFER
 //alloc the buffer
 bool edk::GU::guSetSelectionBuffer(edk::uint32 size,edk::uint32* vector){
