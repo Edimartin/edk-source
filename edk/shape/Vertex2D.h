@@ -72,6 +72,11 @@ public:
         this->v=uv.v;edkEnd();
         return uv;edkEnd();
     }
+    edk::shape::UV2D* operator=(edk::shape::UV2D* uv){
+        this->u=uv->u;edkEnd();
+        this->v=uv->v;edkEnd();
+        return uv;edkEnd();
+    }
     bool operator==(edk::shape::UV2D uv){
         if(this->u==uv.u && this->v==uv.v){
             return true;

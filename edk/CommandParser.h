@@ -65,6 +65,18 @@ public:
     //return the size of the commands
     edk::uint32 getCommandsSize();
 
+    //Program
+    bool setCommandName(const edk::char8* name);
+    bool setCommandName(edk::char8* name);
+    bool setCommandCommand(const edk::char8* name);
+    bool setCommandCommand(edk::char8* name);
+    bool haveProgramName();
+    bool haveProgramCommand();
+    edk::uint32 getProgramNameLenght();
+    edk::uint32 getProgramCommandLenght();
+    edk::char8* getProgramName();
+    edk::char8* getProgramCommand();
+
     //print commands
     void printCommands();
     void printCommandsWithValues();
@@ -72,6 +84,12 @@ public:
     //parse ARGC and ARGV
     bool parseArgcArgv(edk::int32 argc,edk::char8* argv[]);
 private:
+    //program name
+    edk::Name strPName;
+    //program command
+    edk::Name strPCommand;
+
+    void printProgramStrings();
 
     //create a command class
     class Command : public edk::Name{

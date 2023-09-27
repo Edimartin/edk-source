@@ -52,7 +52,7 @@ void edk::CommandParser::TreeCommand::printElement(edk::Name* value){
     printf("\n%s %s"
            ,temp->getName()
            ,temp->value.getName()?temp->value.getName():" "
-           );edkEnd();
+                                  );edkEnd();
 }
 //print only the command name
 void edk::CommandParser::TreeCommand::renderElement(edk::Name* value){
@@ -83,7 +83,7 @@ void edk::CommandParser::TreeCommand::printElementsWithValues(){
             printf("\n%s %s"
                    ,temp->getName()
                    ,temp->value.getName()?temp->value.getName():" "
-                   );edkEnd();
+                                          );edkEnd();
         }
     }
 }
@@ -223,6 +223,15 @@ edk::CommandParser::~CommandParser(){
     this->tree.clean();edkEnd();
 }
 
+void edk::CommandParser::printProgramStrings(){
+    if(this->strPName.haveName()){
+        printf("\nProgram Name: '%s'",this->strPName.getName());edkEnd();
+    }
+    if(this->strPCommand.haveName()){
+        printf("\nCommand Exec: '%s'",this->strPName.getName());edkEnd();
+    }
+}
+
 //new command
 bool edk::CommandParser::addCommand(const edk::char8* command,const edk::char8* value){
     return addCommand((edk::char8*) command,(edk::char8*) value);edkEnd();
@@ -239,6 +248,8 @@ bool edk::CommandParser::removeCommand(edk::char8* command){
 }
 //clean the commands
 void edk::CommandParser::cleanCommands(){
+    this->strPName.cleanName();edkEnd();
+    this->strPCommand.cleanName();edkEnd();
     this->tree.cleanCommands();edkEnd();
 }
 //test if have a command
@@ -268,11 +279,45 @@ edk::uint32 edk::CommandParser::getCommandsSize(){
     return this->tree.size();edkEnd();
 }
 
+//Program
+bool edk::CommandParser::setCommandName(const edk::char8* name){
+    return this->setCommandName((edk::char8*) name);
+}
+bool edk::CommandParser::setCommandName(edk::char8* name){
+    return this->strPName.setName(name);
+}
+bool edk::CommandParser::setCommandCommand(const edk::char8* name){
+    return this->setCommandCommand((edk::char8*) name);
+}
+bool edk::CommandParser::setCommandCommand(edk::char8* name){
+    return this->strPCommand.setName(name);
+}
+bool edk::CommandParser::haveProgramName(){
+    return this->strPName.haveName();
+}
+bool edk::CommandParser::haveProgramCommand(){
+    return this->strPCommand.haveName();
+}
+edk::uint32 edk::CommandParser::getProgramNameLenght(){
+    return this->strPName.getSize();
+}
+edk::uint32 edk::CommandParser::getProgramCommandLenght(){
+    return this->strPCommand.getSize();
+}
+edk::char8* edk::CommandParser::getProgramName(){
+    return this->strPName.getName();
+}
+edk::char8* edk::CommandParser::getProgramCommand(){
+    return this->strPCommand.getName();
+}
+
 //print commands
 void edk::CommandParser::printCommands(){
+    this->printProgramStrings();edkEnd();
     this->tree.printElements();edkEnd();
 }
 void edk::CommandParser::printCommandsWithValues(){
+    this->printProgramStrings();edkEnd();
     this->tree.printElementsWithValues();edkEnd();
 }
 
@@ -281,88 +326,70 @@ bool edk::CommandParser::parseArgcArgv(edk::int32 argc,edk::char8* argv[]){
     if(argc>1 && argv){
         edk::char8* temp=NULL;edkEnd();
         edk::char8 character[3u];edkEnd();
-        character[0u]='-';edkEnd();
-        character[2u]='\0';edkEnd();
-        //test the argc,argv
-        for(edk::int32 i=1;i<argc;i++){
-            //test the commad
-            if(argv[i]){
-                temp = argv[i];edkEnd();
-                //test if have '-'
-                if(temp[0u] == '-'){
-                    //test if have the second '-'
-                    if(temp[1u] == '-'){
-                        //test if have an attribution
-                        while(*temp){
-                            //test if have an attribution
-                            if(*temp=='='){
-                                //remove the attribution
-                                *temp='\0';edkEnd();
-                                temp++;edkEnd();
-                                if(*temp){
-                                    //then add the command
-                                    this->addCommand(argv[i],temp);edkEnd();
-                                    temp=NULL;edkEnd();
-                                    break;
-                                }
-                            }
-                            temp++;edkEnd();
-                        }
-                        if(!temp){ continue;}
+        if(argc){
+            character[0u]='-';edkEnd();
+            character[2u]='\0';edkEnd();
 
-                        //else read the single command
-                        this->addCommand(argv[i],argv[i]);edkEnd();
-                        //increment i to teste the next two argv's
-                        continue;
-                    }
-                    else{
-                        //test if is not only one character
-                        if(temp[2u]!='\0' && temp[2u]!='='){
-                            //read the characters
-                            while(temp[1u]){
-                                character[1u] = temp[1u];edkEnd();
-                                this->addCommand((edk::char8*)character,(edk::char8*)character);edkEnd();
+            //load the program from the args
+            this->strPCommand.setName(argv[0u]);
+            temp = edk::String::strFileName(argv[0u]);
+            if(temp){
+                this->strPName.setName(temp);
+                free(temp);
+            }
+
+            //test the argc,argv
+            for(edk::int32 i=1;i<argc;i++){
+                //test the commad
+                if(argv[i]){
+                    temp = argv[i];edkEnd();
+                    //test if have '-'
+                    if(temp[0u] == '-'){
+                        //test if have the second '-'
+                        if(temp[1u] == '-'){
+                            //test if have an attribution
+                            while(*temp){
+                                //test if have an attribution
+                                if(*temp=='='){
+                                    //remove the attribution
+                                    *temp='\0';edkEnd();
+                                    temp++;edkEnd();
+                                    if(*temp){
+                                        //then add the command
+                                        this->addCommand(argv[i],temp);edkEnd();
+                                        temp=NULL;edkEnd();
+                                        break;
+                                    }
+                                }
                                 temp++;edkEnd();
                             }
+                            if(!temp){ continue;}
+
+                            //else read the single command
+                            this->addCommand(argv[i],argv[i]);edkEnd();
                             //increment i to teste the next two argv's
                             continue;
                         }
-                    }
-                }
-                else{
-                    this->addCommand(argv[i],argv[i]);edkEnd();
-                    continue;
-                }
-
-                //test if have an attribution
-                while(*temp){
-                    //test if have an attribution
-                    if(*temp=='='){
-                        //remove the attribution
-                        *temp='\0';edkEnd();
-                        temp++;edkEnd();
-                        if(*temp){
-                            //then add the command
-                            this->addCommand(argv[i],temp);edkEnd();
-                            temp=NULL;edkEnd();
-                            break;
+                        else{
+                            //test if is not only one character
+                            if(temp[2u]!='\0' && temp[2u]!='='){
+                                //read the characters
+                                while(temp[1u]){
+                                    character[1u] = temp[1u];edkEnd();
+                                    this->addCommand((edk::char8*)character,(edk::char8*)character);edkEnd();
+                                    temp++;edkEnd();
+                                }
+                                //increment i to teste the next two argv's
+                                continue;
+                            }
                         }
                     }
-                    temp++;edkEnd();
-                }
-                if(!temp){ continue;}
-                //else test if have the next argv
-                if(argv[i+1u]){
-                    //test if have the attribution
-                    temp = argv[i+1u];edkEnd();
-                    //test if the temp is an '-'
-                    if(*temp=='-'){
-                        //then add the single command
+                    else{
                         this->addCommand(argv[i],argv[i]);edkEnd();
                         continue;
                     }
 
-                    //else test if have an attribution
+                    //test if have an attribution
                     while(*temp){
                         //test if have an attribution
                         if(*temp=='='){
@@ -371,23 +398,52 @@ bool edk::CommandParser::parseArgcArgv(edk::int32 argc,edk::char8* argv[]){
                             temp++;edkEnd();
                             if(*temp){
                                 //then add the command
-                                this->addCommand(argv[i+1u],temp);edkEnd();
+                                this->addCommand(argv[i],temp);edkEnd();
+                                temp=NULL;edkEnd();
+                                break;
                             }
                         }
                         temp++;edkEnd();
                     }
-                    //else add the normal command with two argv's
-                    this->addCommand(argv[i],argv[i+1u]);edkEnd();
-                    //increment i to teste the next two argv's
-                    i++;edkEnd();
-                }
-                else{
-                    //else add the single command
-                    this->addCommand(argv[i],argv[i]);edkEnd();
+                    if(!temp){ continue;}
+                    //else test if have the next argv
+                    if(argv[i+1u]){
+                        //test if have the attribution
+                        temp = argv[i+1u];edkEnd();
+                        //test if the temp is an '-'
+                        if(*temp=='-'){
+                            //then add the single command
+                            this->addCommand(argv[i],argv[i]);edkEnd();
+                            continue;
+                        }
+
+                        //else test if have an attribution
+                        while(*temp){
+                            //test if have an attribution
+                            if(*temp=='='){
+                                //remove the attribution
+                                *temp='\0';edkEnd();
+                                temp++;edkEnd();
+                                if(*temp){
+                                    //then add the command
+                                    this->addCommand(argv[i+1u],temp);edkEnd();
+                                }
+                            }
+                            temp++;edkEnd();
+                        }
+                        //else add the normal command with two argv's
+                        this->addCommand(argv[i],argv[i+1u]);edkEnd();
+                        //increment i to teste the next two argv's
+                        i++;edkEnd();
+                    }
+                    else{
+                        //else add the single command
+                        this->addCommand(argv[i],argv[i]);edkEnd();
+                    }
                 }
             }
+            return true;
         }
-        return true;
     }
     return false;
 }

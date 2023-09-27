@@ -74,6 +74,16 @@ public:
     bool operator!=(edk::Object2DValues values){
         return (this->position!=values.position || this->angle!=values.angle || this->size != values.size);edkEnd();
     }
+    //clone from
+    bool cloneValuesFrom(edk::Object2DValues* values){
+        if(values){
+            this->position = values->position;edkEnd();
+            this->angle = values->angle;edkEnd();
+            this->size = values->size;edkEnd();
+            return true;
+        }
+        return false;
+    }
     //draw the pivo
     virtual void drawPivo(edk::float32 size,edk::color3f32 color);
     virtual void drawPivo(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b);
