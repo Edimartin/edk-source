@@ -84,7 +84,8 @@ public:
     virtual void clean();
 
     //set the world
-    bool setWorld(edk::physics2D::World2D* world);
+    bool setWorld(edk::physics2D::World2D* world=NULL);
+    bool newWorld();
     static edk::physics2D::World2D* getWorldTemplate();
 
     //TILEMAP
@@ -467,6 +468,9 @@ private:
     //world template
     static edk::physics2D::World2D worldTemplate;
 
+    //save if this cenario create the world
+    bool cenarioHaveCreateWorld;
+
     edk::tiles::TileMap2D* mapSelected;
     //actions group animation
     edk::animation::ActionGroup actions;
@@ -480,6 +484,9 @@ private:
 
     //save the minimun objects in quads
     edk::uint32 minimunObjectsInQuads;
+
+    //delete the world
+    void deleteWorld();
 
     //Function to read the actions
     static edk::Action* readXMLAction(edk::classID thisPointer,edk::uint32 actionCode);

@@ -31,6 +31,7 @@ edk::Cenario2D::Cenario2D():
 {
     this->setCanContinueFalse();edkEnd();
     this->world=NULL;
+    this->cenarioHaveCreateWorld=false;
     this->clean();edkEnd();
     this->minimunObjectsInQuads=1u;
 }
@@ -38,6 +39,7 @@ edk::Cenario2D::Cenario2D(edk::physics2D::World2D* world):
     treeAnimPhys(world)
 {
     this->world=NULL;
+    this->cenarioHaveCreateWorld=false;
     this->clean();
     this->setWorld(world);edkEnd();
 }
@@ -45,6 +47,21 @@ edk::Cenario2D::~Cenario2D(){
     //
     this->clean();edkEnd();
     this->world->removeContactCallback(this);
+
+    this->deleteWorld();
+}
+
+//delete the world
+void edk::Cenario2D::deleteWorld(){
+    if(this->cenarioHaveCreateWorld){
+        if(this->world){
+            this->world->removeContactCallback(this);
+        delete this->world;
+        this->world=NULL;
+        this->setWorld(NULL);
+        this->cenarioHaveCreateWorld=false;
+        }
+    }
 }
 
 //Function to read the actions
@@ -1841,9 +1858,9 @@ void edk::Cenario2D::clean(){
 
 //set the world
 bool edk::Cenario2D::setWorld(edk::physics2D::World2D* world){
-    if(this->world){
-        this->world->removeContactCallback(this);
-    }
+    //delete the last world
+    this->deleteWorld();
+    //
     if(world){
         this->world=world;
         this->world->addContactCallback(this);edkEnd();
@@ -1851,6 +1868,20 @@ bool edk::Cenario2D::setWorld(edk::physics2D::World2D* world){
     }
     this->world=&edk::Cenario2D::worldTemplate;
     this->world->addContactCallback(this);edkEnd();
+    return false;
+}
+bool edk::Cenario2D::newWorld(){
+    this->deleteWorld();
+    //create the new world
+    this->world = new edk::physics2D::World2D;
+    if(this->world){
+        this->cenarioHaveCreateWorld=true;
+        return true;
+    }
+    else{
+        //else just set the world;
+        this->setWorld(NULL);
+    }
     return false;
 }
 edk::physics2D::World2D* edk::Cenario2D::getWorldTemplate(){
