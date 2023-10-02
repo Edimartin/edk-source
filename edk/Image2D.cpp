@@ -589,16 +589,16 @@ bool edk::Image2D::loadFromMemoryToRGB(uint8 *image, edk::uint32 vecSize){
                                 return true;
                             }
                         }
-                    }
-                    else if(this->channels==3u){
-                        //The image aready have 3 channels
-                        if(this->vec){
-                            this->size = edk::size2ui32(decoder.getFrameWidth(),decoder.getFrameHeight());edkEnd();
-                            //just copy the frame in to the vec
-                            memcpy(this->vec,decoder.getFrame(),imageSize*3u);edkEnd();
-                            decoder.deleteFrame();edkEnd();
-                            this->channels=3u;edkEnd();
-                            return true;
+                        else if(this->channels==3u){
+                            //The image aready have 3 channels
+                            if(this->vec){
+                                this->size = edk::size2ui32(decoder.getFrameWidth(),decoder.getFrameHeight());edkEnd();
+                                //just copy the frame in to the vec
+                                memcpy(this->vec,decoder.getFrame(),imageSize*3u);edkEnd();
+                                decoder.deleteFrame();edkEnd();
+                                this->channels=3u;edkEnd();
+                                return true;
+                            }
                         }
                     }
                 }
