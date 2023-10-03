@@ -162,6 +162,7 @@ public:
     uint32 height();
     //return the channels of the image
     edk::uint8 getChannels();
+    edk::uint8 channels();
     //return the bytes per color to set the color values with the palette positions.
     edk::uint8 getBytesPerColor();
     //return the number of colors on the palette
@@ -202,6 +203,19 @@ public:
 
     //process the flip image in Y
     bool flipImageY();
+
+    //Compare with other image
+    edk::uint64 compareToUint64(edk::Image2D* compare);
+    edk::float64 compareToFloat64(edk::Image2D* compare);
+    edk::float64 compareLeftToFloat64(edk::Image2D* compare,edk::uint32 lenght);
+    edk::float64 compareRightToFloat64(edk::Image2D* compare,edk::uint32 lenght);
+    edk::float64 compareUpToFloat64(edk::Image2D* compare,edk::uint32 lenght);
+    edk::float64 compareDownToFloat64(edk::Image2D* compare,edk::uint32 lenght);
+    //compare dockable with other image
+    edk::float64 compareDockableLeftToFloat64(edk::Image2D* compare,edk::uint32 lenght);
+    edk::float64 compareDockableRightToFloat64(edk::Image2D* compare,edk::uint32 lenght);
+    edk::float64 compareDockableUpToFloat64(edk::Image2D* compare,edk::uint32 lenght);
+    edk::float64 compareDockableDownToFloat64(edk::Image2D* compare,edk::uint32 lenght);
 
     //Convertions
     //https://github.com/ratkins/RGBConverter/blob/master/RGBConverter.cpp
@@ -272,6 +286,18 @@ public:
     static edk::uint8* lTorgba(edk::uint8* vector,edk::size2ui32 size);
     static bool lTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest);
     static edk::uint8* lTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height);
+    //compare
+    static edk::uint64 cmpToUint64(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* compare,edk::uint8 channels);
+    static edk::float64 cmpToFloat64(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* compare,edk::uint8 channels);
+    static edk::float64 cmpLeftToFloat64(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 lenght,edk::uint8* compare,edk::uint8 channels);
+    static edk::float64 cmpRightToFloat64(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 lenght,edk::uint8* compare,edk::uint8 channels);
+    static edk::float64 cmpUpToFloat64(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 lenght,edk::uint8* compare,edk::uint8 channels);
+    static edk::float64 cmpDownToFloat64(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 lenght,edk::uint8* compare,edk::uint8 channels);
+    //compare dockable
+    static edk::float64 cmpDkbleLeftToFloat64(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 lenght,edk::uint8* compare,edk::uint8 channels);
+    static edk::float64 cmpDkbleRightToFloat64(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 lenght,edk::uint8* compare,edk::uint8 channels);
+    static edk::float64 cmpDkbleUpToFloat64(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 lenght,edk::uint8* compare,edk::uint8 channels);
+    static edk::float64 cmpDkbleDownToFloat64(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 lenght,edk::uint8* compare,edk::uint8 channels);
 
     //flip pixels
     static bool flipY(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 channels);
@@ -290,7 +316,7 @@ private:
     //color id vector
     edk::uint8* colors;
     //channels of the image
-    edk::uint8 channels;
+    edk::uint8 channelsValue;
     //save the bits per colors
     edk::uint8 bytesPerColors;
     //Size of the image

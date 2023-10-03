@@ -34,7 +34,7 @@ edk::Image2D::Image2D(){
     this->imageFileName=NULL;edkEnd();
     this->vec = NULL;edkEnd();
     this->colors = NULL;edkEnd();
-    this->channels=0u;
+    this->channelsValue=0u;
     this->palette=NULL;edkEnd();
     this->paletteSize=0u;
     this->bytesPerColors=0u;
@@ -46,7 +46,7 @@ edk::Image2D::Image2D(char8 *imageFileName){
     this->imageFileName=NULL;edkEnd();
     this->vec = NULL;edkEnd();
     this->colors = NULL;edkEnd();
-    this->channels=0u;
+    this->channelsValue=0u;
     this->palette=NULL;edkEnd();
     this->paletteSize=0u;
     this->bytesPerColors=0u;
@@ -60,7 +60,7 @@ edk::Image2D::Image2D(const char *imageFileName){
     this->imageFileName=NULL;edkEnd();
     this->vec = NULL;edkEnd();
     this->colors = NULL;edkEnd();
-    this->channels=0u;
+    this->channelsValue=0u;
     this->palette=NULL;edkEnd();
     this->paletteSize=0u;
     this->bytesPerColors=0u;
@@ -237,10 +237,10 @@ bool edk::Image2D::newImage(edk::char8 *imageName,edk::size2ui32 size,edk::uint8
         if(this->setName(imageName)){
             //set the size
             this->size = size;edkEnd();
-            this->channels=channels;edkEnd();
+            this->channelsValue=channels;edkEnd();
             edk::uint32 imageSize = size.width*size.height;edkEnd();
             //create the new vector
-            this->vec = (edk::uint8*)malloc(sizeof(edk::uint8) * (imageSize * this->channels));edkEnd();
+            this->vec = (edk::uint8*)malloc(sizeof(edk::uint8) * (imageSize * this->channelsValue));edkEnd();
             if(this->vec){
                 //return true
                 return true;
@@ -274,9 +274,9 @@ bool edk::Image2D::newImage(edk::char8 *imageName,edk::size2ui32 size,edk::uint8
             //set the size
             this->size = size;edkEnd();
             //clean the channels
-            this->channels=channels;edkEnd();
+            this->channelsValue=channels;edkEnd();
             //create the palette
-            this->palette= (edk::uint8*)malloc(sizeof(edk::uint8) * (paletteSize * this->channels));edkEnd();
+            this->palette= (edk::uint8*)malloc(sizeof(edk::uint8) * (paletteSize * this->channelsValue));edkEnd();
             if(this->palette){
                 this->paletteSize=paletteSize;edkEnd();
 
@@ -448,7 +448,7 @@ bool edk::Image2D::loadFromMemory(uint8 *image, edk::uint32 vecSize){
                     //get size
                     this->size = edk::size2ui32(decoder.getFrameWidth(),decoder.getFrameHeight());edkEnd();
                     //get channels
-                    this->channels = decoder.getFrameChannels();edkEnd();
+                    this->channelsValue = decoder.getFrameChannels();edkEnd();
                     decoder.cleanFrame();edkEnd();
                     return true;
                 }
@@ -465,7 +465,7 @@ bool edk::Image2D::loadFromMemory(uint8 *image, edk::uint32 vecSize){
                     //get size
                     this->size = edk::size2ui32(decoder.getFrameWidth(),decoder.getFrameHeight());edkEnd();
                     //get channels
-                    this->channels = decoder.getFrameChannels();edkEnd();
+                    this->channelsValue = decoder.getFrameChannels();edkEnd();
                     decoder.cleanFrame();edkEnd();
                     return true;
                 }
@@ -499,14 +499,14 @@ bool edk::Image2D::loadFromMemoryToRGB(uint8 *image, edk::uint32 vecSize){
                     this->vec = (edk::uint8*)malloc(sizeof(edk::uint8) * (imageSize*3u));edkEnd();
                     if(this->vec){
                         //get channels
-                        this->channels = decoder.getFrameChannels();edkEnd();
-                        if(this->channels==1u || this->channels == 3u){
+                        this->channelsValue = decoder.getFrameChannels();edkEnd();
+                        if(this->channelsValue==1u || this->channelsValue == 3u){
                             //get size
                             this->size = edk::size2ui32(decoder.getFrameWidth(),decoder.getFrameHeight());edkEnd();
                             //Convert the frame to RGBA
                             edk::uint8* rgbaTemp = this->vec;edkEnd();
                             edk::uint8* frameTemp = decoder.getFrame();edkEnd();
-                            switch(this->channels){
+                            switch(this->channelsValue){
                             case 1:
                                 for(edk::uint32 i=0u;i<imageSize;i++){
                                     rgbaTemp[0u] = frameTemp[0u];edkEnd();
@@ -516,7 +516,7 @@ bool edk::Image2D::loadFromMemoryToRGB(uint8 *image, edk::uint32 vecSize){
                                     frameTemp+=1u;edkEnd();
                                 }
                                 decoder.deleteFrame();edkEnd();
-                                this->channels=3u;edkEnd();
+                                this->channelsValue=3u;edkEnd();
                                 return true;
                             case 3:
                                 if(this->vec){
@@ -524,7 +524,7 @@ bool edk::Image2D::loadFromMemoryToRGB(uint8 *image, edk::uint32 vecSize){
                                     //just copy the frame in to the vec
                                     memcpy(this->vec,decoder.getFrame(),imageSize*3u);edkEnd();
                                     decoder.deleteFrame();edkEnd();
-                                    this->channels=3u;edkEnd();
+                                    this->channelsValue=3u;edkEnd();
                                     return true;
                                 }
                             }
@@ -546,14 +546,14 @@ bool edk::Image2D::loadFromMemoryToRGB(uint8 *image, edk::uint32 vecSize){
                     this->vec = (edk::uint8*)malloc(sizeof(edk::uint8) * (imageSize*3u));edkEnd();
                     if(this->vec){
                         //get channels
-                        this->channels = decoder.getFrameChannels();edkEnd();
-                        if(this->channels==1u || this->channels==2u || this->channels == 4u){
+                        this->channelsValue = decoder.getFrameChannels();edkEnd();
+                        if(this->channelsValue==1u || this->channelsValue==2u || this->channelsValue == 4u){
                             //get size
                             this->size = edk::size2ui32(decoder.getFrameWidth(),decoder.getFrameHeight());edkEnd();
                             //Convert the frame to RGBA
                             edk::uint8* rgbaTemp = this->vec;edkEnd();
                             edk::uint8* frameTemp = decoder.getFrame();edkEnd();
-                            switch(this->channels){
+                            switch(this->channelsValue){
                             case 1:
                                 for(edk::uint32 i=0u;i<imageSize;i++){
                                     rgbaTemp[0u] = frameTemp[0u];edkEnd();
@@ -563,7 +563,7 @@ bool edk::Image2D::loadFromMemoryToRGB(uint8 *image, edk::uint32 vecSize){
                                     frameTemp+=1u;edkEnd();
                                 }
                                 decoder.deleteFrame();edkEnd();
-                                this->channels=3u;edkEnd();
+                                this->channelsValue=3u;edkEnd();
                                 return true;
                             case 2:
                                 for(edk::uint32 i=0u;i<imageSize;i++){
@@ -574,7 +574,7 @@ bool edk::Image2D::loadFromMemoryToRGB(uint8 *image, edk::uint32 vecSize){
                                     frameTemp+=2u;edkEnd();
                                 }
                                 decoder.deleteFrame();edkEnd();
-                                this->channels=3u;edkEnd();
+                                this->channelsValue=3u;edkEnd();
                                 return true;
                             case 4:
                                 for(edk::uint32 i=0u;i<imageSize;i++){
@@ -585,18 +585,18 @@ bool edk::Image2D::loadFromMemoryToRGB(uint8 *image, edk::uint32 vecSize){
                                     frameTemp+=4u;edkEnd();
                                 }
                                 decoder.deleteFrame();edkEnd();
-                                this->channels=3u;edkEnd();
+                                this->channelsValue=3u;edkEnd();
                                 return true;
                             }
                         }
-                        else if(this->channels==3u){
+                        else if(this->channelsValue==3u){
                             //The image aready have 3 channels
                             if(this->vec){
                                 this->size = edk::size2ui32(decoder.getFrameWidth(),decoder.getFrameHeight());edkEnd();
                                 //just copy the frame in to the vec
                                 memcpy(this->vec,decoder.getFrame(),imageSize*3u);edkEnd();
                                 decoder.deleteFrame();edkEnd();
-                                this->channels=3u;edkEnd();
+                                this->channelsValue=3u;edkEnd();
                                 return true;
                             }
                         }
@@ -634,14 +634,14 @@ bool edk::Image2D::loadFromMemoryToRGBA(uint8 *image, edk::uint32 vecSize){
                     this->vec = (edk::uint8*)malloc(sizeof(edk::uint8) * (imageSize*4u));edkEnd();
                     if(this->vec){
                         //get channels
-                        this->channels = decoder.getFrameChannels();edkEnd();
-                        if(this->channels==1u || this->channels == 3u){
+                        this->channelsValue = decoder.getFrameChannels();edkEnd();
+                        if(this->channelsValue==1u || this->channelsValue == 3u){
                             //get size
                             this->size = edk::size2ui32(decoder.getFrameWidth(),decoder.getFrameHeight());edkEnd();
                             //Convert the frame to RGBA
                             edk::uint8* rgbaTemp = this->vec;edkEnd();
                             edk::uint8* frameTemp = decoder.getFrame();edkEnd();
-                            switch(this->channels){
+                            switch(this->channelsValue){
                             case 1:
                                 for(edk::uint32 i=0u;i<imageSize;i++){
                                     rgbaTemp[0u] = frameTemp[0u];edkEnd();
@@ -652,7 +652,7 @@ bool edk::Image2D::loadFromMemoryToRGBA(uint8 *image, edk::uint32 vecSize){
                                     frameTemp+=1u;edkEnd();
                                 }
                                 decoder.deleteFrame();edkEnd();
-                                this->channels=4u;edkEnd();
+                                this->channelsValue=4u;edkEnd();
                                 return true;
                             case 3:
                                 for(edk::uint32 i=0u;i<imageSize;i++){
@@ -664,7 +664,7 @@ bool edk::Image2D::loadFromMemoryToRGBA(uint8 *image, edk::uint32 vecSize){
                                     frameTemp+=3u;edkEnd();
                                 }
                                 decoder.deleteFrame();edkEnd();
-                                this->channels=4u;edkEnd();
+                                this->channelsValue=4u;edkEnd();
                                 return true;
                             }
                         }
@@ -685,14 +685,14 @@ bool edk::Image2D::loadFromMemoryToRGBA(uint8 *image, edk::uint32 vecSize){
                     this->vec = (edk::uint8*)malloc(sizeof(edk::uint8) * (imageSize*4u));edkEnd();
                     if(this->vec){
                         //get channels
-                        this->channels = decoder.getFrameChannels();edkEnd();
-                        if(this->channels==1u || this->channels==2u || this->channels == 3u){
+                        this->channelsValue = decoder.getFrameChannels();edkEnd();
+                        if(this->channelsValue==1u || this->channelsValue==2u || this->channelsValue == 3u){
                             //get size
                             this->size = edk::size2ui32(decoder.getFrameWidth(),decoder.getFrameHeight());edkEnd();
                             //Convert the frame to RGBA
                             edk::uint8* rgbaTemp = this->vec;edkEnd();
                             edk::uint8* frameTemp = decoder.getFrame();edkEnd();
-                            switch(this->channels){
+                            switch(this->channelsValue){
                             case 1:
                                 for(edk::uint32 i=0u;i<imageSize;i++){
                                     rgbaTemp[0u] = frameTemp[0u];edkEnd();
@@ -703,7 +703,7 @@ bool edk::Image2D::loadFromMemoryToRGBA(uint8 *image, edk::uint32 vecSize){
                                     frameTemp+=1u;edkEnd();
                                 }
                                 decoder.deleteFrame();edkEnd();
-                                this->channels=4u;edkEnd();
+                                this->channelsValue=4u;edkEnd();
                                 return true;
                             case 2:
                                 for(edk::uint32 i=0u;i<imageSize;i++){
@@ -715,7 +715,7 @@ bool edk::Image2D::loadFromMemoryToRGBA(uint8 *image, edk::uint32 vecSize){
                                     frameTemp+=2u;edkEnd();
                                 }
                                 decoder.deleteFrame();edkEnd();
-                                this->channels=4u;edkEnd();
+                                this->channelsValue=4u;edkEnd();
                                 return true;
                             case 3:
                                 for(edk::uint32 i=0u;i<imageSize;i++){
@@ -727,18 +727,18 @@ bool edk::Image2D::loadFromMemoryToRGBA(uint8 *image, edk::uint32 vecSize){
                                     frameTemp+=3u;edkEnd();
                                 }
                                 decoder.deleteFrame();edkEnd();
-                                this->channels=4u;edkEnd();
+                                this->channelsValue=4u;edkEnd();
                                 return true;
                             }
                         }
-                        else if(this->channels==4u){
+                        else if(this->channelsValue==4u){
                             //The image aready have 4 channels
                             if(this->vec){
                                 this->size = edk::size2ui32(decoder.getFrameWidth(),decoder.getFrameHeight());edkEnd();
                                 //just copy the frame in to the vec
                                 memcpy(this->vec,decoder.getFrame(),imageSize*4u);edkEnd();
                                 decoder.deleteFrame();edkEnd();
-                                this->channels=4u;edkEnd();
+                                this->channelsValue=4u;edkEnd();
                                 return true;
                             }
                         }
@@ -896,7 +896,7 @@ bool edk::Image2D::saveToFile(edk::char8 *fileName){
                 {
                     //save the encoder
                     edk::codecs::EncoderPNG encoder;edkEnd();
-                    ret = encoder.encodeToFile(this->vec,this->size.width,this->size.height,this->channels,9,fileName);edkEnd();
+                    ret = encoder.encodeToFile(this->vec,this->size.width,this->size.height,this->channelsValue,9,fileName);edkEnd();
                     if(deleteTempName){
                         free(fileName);edkEnd();
                     }
@@ -931,7 +931,7 @@ bool edk::Image2D::saveToFile(edk::char8 *fileName){
                 {
                     //save the encoder
                     edk::codecs::EncoderJPEG encoder;edkEnd();
-                    ret = encoder.encodeToFile(this->vec,this->size.width,this->size.height,this->channels,90,fileName);edkEnd();
+                    ret = encoder.encodeToFile(this->vec,this->size.width,this->size.height,this->channelsValue,90,fileName);edkEnd();
                     if(deleteTempName){
                         free(fileName);edkEnd();
                     }
@@ -941,7 +941,7 @@ bool edk::Image2D::saveToFile(edk::char8 *fileName){
                 {
                     //save the encoder
                     edk::codecs::EncoderPNG encoder;edkEnd();
-                    ret = encoder.encodeToFile(this->vec,this->size.width,this->size.height,this->channels,9,fileName);edkEnd();
+                    ret = encoder.encodeToFile(this->vec,this->size.width,this->size.height,this->channelsValue,9,fileName);edkEnd();
                     if(deleteTempName){
                         free(fileName);edkEnd();
                     }
@@ -969,7 +969,7 @@ bool edk::Image2D::saveToFile(edk::char8 *fileName){
                 {
                     //save the encoder
                     edk::codecs::EncoderPNG encoder;edkEnd();
-                    ret = encoder.encodeToFile(this->vec,this->size.width,this->size.height,this->channels,9,fileName);edkEnd();
+                    ret = encoder.encodeToFile(this->vec,this->size.width,this->size.height,this->channelsValue,9,fileName);edkEnd();
                     if(deleteTempName){
                         free(fileName);edkEnd();
                     }
@@ -981,7 +981,7 @@ bool edk::Image2D::saveToFile(edk::char8 *fileName){
                     edk::uint8* temp = (edk::uint8*)malloc(sizeof(edk::uint8) * (this->size.width * this->size.height * 3u));edkEnd();
                     if(temp){
                         //convert the image
-                        if(edk::Image2D::imageClone(this->vec,this->size.width,this->size.height,this->channels,
+                        if(edk::Image2D::imageClone(this->vec,this->size.width,this->size.height,this->channelsValue,
                                                     temp,this->size.width,this->size.height,3u,
                                                     0u,0u
                                                     )){
@@ -1038,7 +1038,7 @@ bool edk::Image2D::draw(edk::uint8* pixels){
 //draw a color in the image vector
 bool edk::Image2D::drawPosition(edk::vec2ui32 position,edk::uint8* color){
     if(position.x < this->getWidth() && position.y<this->getHeight() && color){
-        memcpy(&this->vec[(position.x + (position.y*this->getHeight())) * this->channels],color,this->channels);edkEnd();
+        memcpy(&this->vec[(position.x + (position.y*this->getHeight())) * this->channelsValue],color,this->channelsValue);edkEnd();
         return true;
     }
     return false;
@@ -1076,7 +1076,7 @@ bool edk::Image2D::drawPosition(edk::uint32 positionX,edk::uint32 positionY,edk:
 }
 bool edk::Image2D::drawPosition(edk::uint32 position,edk::uint8* color){
     if(position < (this->getWidth()*this->getHeight()) && color){
-        memcpy(&this->vec[position * this->channels],color,this->channels);edkEnd();
+        memcpy(&this->vec[position * this->channelsValue],color,this->channelsValue);edkEnd();
         return true;
     }
     return false;
@@ -1109,7 +1109,7 @@ bool edk::Image2D::drawPalette(edk::uint8* colors){
 bool edk::Image2D::drawPalettePosition(edk::uint32 position,edk::uint8* color){
     if(position < this->paletteSize && color && this->palette){
         //set the color
-        memcpy(&this->palette[position],color,this->channels);edkEnd();
+        memcpy(&this->palette[position],color,this->channelsValue);edkEnd();
         return true;
     }
     return false;
@@ -1260,7 +1260,10 @@ edk::uint32 edk::Image2D::height()
 }
 //return the channels of the image
 edk::uint8 edk::Image2D::getChannels(){
-    return this->channels;edkEnd();
+    return this->channelsValue;
+}
+edk::uint8 edk::Image2D::channels(){
+    return this->channelsValue;
 }
 //return the bytes per color to set the color values with the palette positions.
 edk::uint8 edk::Image2D::getBytesPerColor(){
@@ -1364,7 +1367,7 @@ void edk::Image2D::deleteImage()
     this->paletteSize=0u;
     this->bytesPerColors=0u;
     //clean the channels
-    this->channels=0u;
+    this->channelsValue=0u;
     //clean the size
     this->size = edk::size2ui32(0u,0u);edkEnd();
 
@@ -1385,7 +1388,7 @@ void edk::Image2D::deleteName()
 
 //process the flip image in Y
 bool edk::Image2D::flipImageY(){
-    return edk::Image2D::flipY(this->vec,this->size.width,this->size.height,this->channels);edkEnd();
+    return edk::Image2D::flipY(this->vec,this->size.width,this->size.height,this->channelsValue);edkEnd();
     /*
     //test if have the image
     if(this->vec && this->size.width && this->size.height && this->channels){
@@ -1415,6 +1418,159 @@ bool edk::Image2D::flipImageY(){
         }
     }
     */
+}
+
+//Compare with other image
+edk::uint64 edk::Image2D::compareToUint64(edk::Image2D* compare){
+    edk::float64 ret = 0xFFFFFFFFFFFFFFFF;
+    //comapre if the two are equal
+    if(compare){
+        if(this->width() == compare->width()
+                && this->height() == compare->height()
+                && this->channels() == compare->channels()
+                && this->getPixels()
+                && compare->getPixels()
+                ){
+            return edk::Image2D::cmpToUint64(this->getPixels(),this->width(),this->height(),compare->getPixels(),this->channels());
+        }
+    }
+    return ret;
+}
+edk::float64 edk::Image2D::compareToFloat64(edk::Image2D* compare){
+    edk::float64 ret = -1.f;
+    //comapre if the two are equal
+    if(compare){
+        if(this->width() == compare->width()
+                && this->height() == compare->height()
+                && this->channels() == compare->channels()
+                && this->getPixels()
+                && compare->getPixels()
+                ){
+            return edk::Image2D::cmpToFloat64(this->getPixels(),this->width(),this->height(),compare->getPixels(),this->channels());
+        }
+    }
+    return ret;
+}
+edk::float64 edk::Image2D::compareLeftToFloat64(edk::Image2D* compare,edk::uint32 lenght){
+    edk::float64 ret = -1.f;
+    //comapre if the two are equal
+    if(compare){
+        if(this->width() == compare->width()
+                && this->height() == compare->height()
+                && this->channels() == compare->channels()
+                && this->getPixels()
+                && compare->getPixels()
+                ){
+            return edk::Image2D::cmpLeftToFloat64(this->getPixels(),this->width(),this->height(),lenght,compare->getPixels(),this->channels());
+        }
+    }
+    return ret;
+}
+edk::float64 edk::Image2D::compareRightToFloat64(edk::Image2D* compare,edk::uint32 lenght){
+    edk::float64 ret = -1.f;
+    //comapre if the two are equal
+    if(compare){
+        if(this->width() == compare->width()
+                && this->height() == compare->height()
+                && this->channels() == compare->channels()
+                && this->getPixels()
+                && compare->getPixels()
+                ){
+            return edk::Image2D::cmpRightToFloat64(this->getPixels(),this->width(),this->height(),lenght,compare->getPixels(),this->channels());
+        }
+    }
+    return ret;
+}
+edk::float64 edk::Image2D::compareUpToFloat64(edk::Image2D* compare,edk::uint32 lenght){
+    edk::float64 ret = -1.f;
+    //comapre if the two are equal
+    if(compare){
+        if(this->width() == compare->width()
+                && this->height() == compare->height()
+                && this->channels() == compare->channels()
+                && this->getPixels()
+                && compare->getPixels()
+                ){
+            return edk::Image2D::cmpUpToFloat64(this->getPixels(),this->width(),this->height(),lenght,compare->getPixels(),this->channels());
+        }
+    }
+    return ret;
+}
+edk::float64 edk::Image2D::compareDownToFloat64(edk::Image2D* compare,edk::uint32 lenght){
+    edk::float64 ret = -1.f;
+    //comapre if the two are equal
+    if(compare){
+        if(this->width() == compare->width()
+                && this->height() == compare->height()
+                && this->channels() == compare->channels()
+                && this->getPixels()
+                && compare->getPixels()
+                ){
+            return edk::Image2D::cmpDownToFloat64(this->getPixels(),this->width(),this->height(),lenght,compare->getPixels(),this->channels());
+        }
+    }
+    return ret;
+}
+//compare dockable with other image
+edk::float64 edk::Image2D::compareDockableLeftToFloat64(edk::Image2D* compare,edk::uint32 lenght){
+    edk::float64 ret = -1.f;
+    //comapre if the two are equal
+    if(compare){
+        if(this->width() == compare->width()
+                && this->height() == compare->height()
+                && this->channels() == compare->channels()
+                && this->getPixels()
+                && compare->getPixels()
+                ){
+            return edk::Image2D::cmpDkbleLeftToFloat64(this->getPixels(),this->width(),this->height(),lenght,compare->getPixels(),this->channels());
+        }
+    }
+    return ret;
+}
+edk::float64 edk::Image2D::compareDockableRightToFloat64(edk::Image2D* compare,edk::uint32 lenght){
+    edk::float64 ret = -1.f;
+    //comapre if the two are equal
+    if(compare){
+        if(this->width() == compare->width()
+                && this->height() == compare->height()
+                && this->channels() == compare->channels()
+                && this->getPixels()
+                && compare->getPixels()
+                ){
+            return edk::Image2D::cmpDkbleRightToFloat64(this->getPixels(),this->width(),this->height(),lenght,compare->getPixels(),this->channels());
+        }
+    }
+    return ret;
+}
+edk::float64 edk::Image2D::compareDockableUpToFloat64(edk::Image2D* compare,edk::uint32 lenght){
+    edk::float64 ret = -1.f;
+    //comapre if the two are equal
+    if(compare){
+        if(this->width() == compare->width()
+                && this->height() == compare->height()
+                && this->channels() == compare->channels()
+                && this->getPixels()
+                && compare->getPixels()
+                ){
+            return edk::Image2D::cmpDkbleUpToFloat64(this->getPixels(),this->width(),this->height(),lenght,compare->getPixels(),this->channels());
+        }
+    }
+    return ret;
+}
+edk::float64 edk::Image2D::compareDockableDownToFloat64(edk::Image2D* compare,edk::uint32 lenght){
+    edk::float64 ret = -1.f;
+    //comapre if the two are equal
+    if(compare){
+        if(this->width() == compare->width()
+                && this->height() == compare->height()
+                && this->channels() == compare->channels()
+                && this->getPixels()
+                && compare->getPixels()
+                ){
+            return edk::Image2D::cmpDkbleDownToFloat64(this->getPixels(),this->width(),this->height(),lenght,compare->getPixels(),this->channels());
+        }
+    }
+    return ret;
 }
 
 //Convertions
@@ -1665,6 +1821,910 @@ bool edk::Image2D::lTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 heig
 edk::uint8* edk::Image2D::lTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height){
     return edk::Image2D::lTorgba(vector,edk::size2ui32(width,height));edkEnd();
 }
+//compare
+edk::uint64 edk::Image2D::cmpToUint64(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* compare,edk::uint8 channels){
+    edk::uint64 ret = 0xFFFFFFFFFFFFFFFF;
+    if(vector && compare && width && height && channels){
+        edk::uint32 size = width * height * channels;
+        edk::int32 cmp=0;
+        ret=0u;
+        for(edk::uint32 i=0u;i<size;i++){
+            cmp = (edk::int16)*compare - (edk::int16)*vector;
+            if(cmp<0){
+                cmp*=-1;
+            }
+            ret+=cmp;
+        }
+    }
+    return ret;
+}
+edk::float64 edk::Image2D::cmpToFloat64(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* compare,edk::uint8 channels){
+    edk::float64 ret = -1.f;
+    if(vector && compare && width && height && channels){
+        edk::int32 cmp;
+        edk::uint64 cmpLine=0u,cmpLineColor;
+        edk::float64 div = (edk::float64)width;
+        ret=0.;
+        switch(channels){
+        case 1u:
+            for(edk::uint32 y=0u;y<height;y++){
+                for(edk::uint32 x=0u;x<width;x++){
+                    cmp = (edk::int16)compare[0u] - (edk::int16)vector[0u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor=cmp;
+                    cmpLine+=cmpLineColor/1;
+                    //increment
+                    vector+=1u;
+                    compare+=1u;
+                }
+                ret+=(edk::float64)cmpLine/div;
+            }
+            break;
+        case 2u:
+            for(edk::uint32 y=0u;y<height;y++){
+                for(edk::uint32 x=0u;x<width;x++){
+                    cmp = (edk::int16)compare[0u] - (edk::int16)vector[0u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor=cmp;
+                    cmp = (edk::int16)compare[1u] - (edk::int16)vector[1u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmpLine+=cmpLineColor/2;
+                    //increment
+                    vector+=2u;
+                    compare+=2u;
+                }
+                ret+=(edk::float64)cmpLine/div;
+            }
+            break;
+        case 3u:
+            for(edk::uint32 y=0u;y<height;y++){
+                for(edk::uint32 x=0u;x<width;x++){
+                    cmp = (edk::int16)compare[0u] - (edk::int16)vector[0u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor=cmp;
+                    cmp = (edk::int16)compare[1u] - (edk::int16)vector[1u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmp = (edk::int16)compare[2u] - (edk::int16)vector[2u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmpLine+=cmpLineColor/3;
+                    //increment
+                    vector+=3u;
+                    compare+=3u;
+                }
+                ret+=(edk::float64)cmpLine/div;
+            }
+            break;
+        case 4u:
+            for(edk::uint32 y=0u;y<height;y++){
+                for(edk::uint32 x=0u;x<width;x++){
+                    cmp = (edk::int16)compare[0u] - (edk::int16)vector[0u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor=cmp;
+                    cmp = (edk::int16)compare[1u] - (edk::int16)vector[1u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmp = (edk::int16)compare[2u] - (edk::int16)vector[2u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmp = (edk::int16)compare[3u] - (edk::int16)vector[3u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmpLine+=cmpLineColor/4;
+                    //increment
+                    vector+=4u;
+                    compare+=4u;
+                }
+                ret+=(edk::float64)cmpLine/div;
+            }
+            break;
+        }
+        ret/=(edk::float64)height;
+    }
+    return ret;
+}
+edk::float64 edk::Image2D::cmpLeftToFloat64(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 lenght,edk::uint8* compare,edk::uint8 channels){
+    edk::float64 ret = -1.f;
+    if(vector && compare && width && height && channels && lenght && lenght<=width){
+        edk::int32 cmp;
+        edk::uint64 cmpLine=0u,cmpLineColor;
+        edk::float64 div = (edk::float64)lenght;
+        edk::uint32 increment = width - lenght;
+        ret=0.;
+        switch(channels){
+        case 1u:
+            for(edk::uint32 y=0u;y<height;y++){
+                for(edk::uint32 x=0u;x<lenght;x++){
+                    cmp = (edk::int16)compare[0u] - (edk::int16)vector[0u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor=cmp;
+                    cmpLine+=cmpLineColor/1;
+                    //increment
+                    compare+=1u;
+                    vector+=1u;
+                }
+                compare+=1u* increment;
+                vector+=1u* increment;
+                ret+=(edk::float64)cmpLine/div;
+            }
+            break;
+        case 2u:
+            for(edk::uint32 y=0u;y<height;y++){
+                for(edk::uint32 x=0u;x<lenght;x++){
+                    cmp = (edk::int16)compare[0u] - (edk::int16)vector[0u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor=cmp;
+                    cmp = (edk::int16)compare[1u] - (edk::int16)vector[1u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmpLine+=cmpLineColor/2;
+                    //increment
+                    compare+=2u;
+                    vector+=2u;
+                }
+                compare+=2u* increment;
+                vector+=2u* increment;
+                ret+=(edk::float64)cmpLine/div;
+            }
+            break;
+        case 3u:
+            for(edk::uint32 y=0u;y<height;y++){
+                for(edk::uint32 x=0u;x<lenght;x++){
+                    cmp = (edk::int16)compare[0u] - (edk::int16)vector[0u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor=cmp;
+                    cmp = (edk::int16)compare[1u] - (edk::int16)vector[1u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmp = (edk::int16)compare[2u] - (edk::int16)vector[2u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmpLine+=cmpLineColor/3;
+                    //increment
+                    compare+=3u;
+                    vector+=3u;
+                }
+                compare+=3u* increment;
+                vector+=3u* increment;
+                ret+=(edk::float64)cmpLine/div;
+            }
+            break;
+        case 4u:
+            for(edk::uint32 y=0u;y<height;y++){
+                for(edk::uint32 x=0u;x<lenght;x++){
+                    cmp = (edk::int16)compare[0u] - (edk::int16)vector[0u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor=cmp;
+                    cmp = (edk::int16)compare[1u] - (edk::int16)vector[1u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmp = (edk::int16)compare[2u] - (edk::int16)vector[2u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmp = (edk::int16)compare[3u] - (edk::int16)vector[3u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmpLine+=cmpLineColor/4;
+                    //increment
+                    compare+=4u;
+                    vector+=4u;
+                }
+                compare+=4u* increment;
+                vector+=4u* increment;
+                ret+=(edk::float64)cmpLine/div;
+            }
+            break;
+        }
+        ret/=(edk::float64)height;
+    }
+    return ret;
+}
+edk::float64 edk::Image2D::cmpRightToFloat64(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 lenght,edk::uint8* compare,edk::uint8 channels){
+    edk::float64 ret = -1.f;
+    if(vector && compare && width && height && channels && lenght && lenght<=width){
+        edk::int32 cmp;
+        edk::uint64 cmpLine=0u,cmpLineColor;
+        edk::float64 div = (edk::float64)lenght;
+        edk::uint32 increment = width - lenght;
+        ret=0.;
+        switch(channels){
+        case 1u:
+            for(edk::uint32 y=0u;y<height;y++){
+                compare+=1u* increment;
+                vector+=1u* increment;
+                for(edk::uint32 x=0u;x<lenght;x++){
+                    cmp = (edk::int16)compare[0u] - (edk::int16)vector[0u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor=cmp;
+                    cmpLine+=cmpLineColor/1;
+                    //increment
+                    compare+=1u;
+                    vector+=1u;
+                }
+                ret+=(edk::float64)cmpLine/div;
+            }
+            break;
+        case 2u:
+            for(edk::uint32 y=0u;y<height;y++){
+                compare+=2u* increment;
+                vector+=2u* increment;
+                for(edk::uint32 x=0u;x<lenght;x++){
+                    cmp = (edk::int16)compare[0u] - (edk::int16)vector[0u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor=cmp;
+                    cmp = (edk::int16)compare[1u] - (edk::int16)vector[1u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmpLine+=cmpLineColor/2;
+                    //increment
+                    compare+=2u;
+                    vector+=2u;
+                }
+                ret+=(edk::float64)cmpLine/div;
+            }
+            break;
+        case 3u:
+            for(edk::uint32 y=0u;y<height;y++){
+                compare+=3u* increment;
+                vector+=3u* increment;
+                for(edk::uint32 x=0u;x<lenght;x++){
+                    cmp = (edk::int16)compare[0u] - (edk::int16)vector[0u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor=cmp;
+                    cmp = (edk::int16)compare[1u] - (edk::int16)vector[1u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmp = (edk::int16)compare[2u] - (edk::int16)vector[2u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmpLine+=cmpLineColor/3;
+                    //increment
+                    compare+=3u;
+                    vector+=3u;
+                }
+                ret+=(edk::float64)cmpLine/div;
+            }
+            break;
+        case 4u:
+            for(edk::uint32 y=0u;y<height;y++){
+                compare+=4u* increment;
+                vector+=4u* increment;
+                for(edk::uint32 x=0u;x<lenght;x++){
+                    cmp = (edk::int16)compare[0u] - (edk::int16)vector[0u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor=cmp;
+                    cmp = (edk::int16)compare[1u] - (edk::int16)vector[1u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmp = (edk::int16)compare[2u] - (edk::int16)vector[2u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmp = (edk::int16)compare[3u] - (edk::int16)vector[3u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmpLine+=cmpLineColor/4;
+                    //increment
+                    compare+=4u;
+                    vector+=4u;
+                }
+                ret+=(edk::float64)cmpLine/div;
+            }
+            break;
+        }
+        ret/=(edk::float64)height;
+    }
+    return ret;
+}
+edk::float64 edk::Image2D::cmpUpToFloat64(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 lenght,edk::uint8* compare,edk::uint8 channels){
+    edk::float64 ret = -1.f;
+    if(vector && compare && width && height && channels && lenght && lenght<=height){
+        edk::int32 cmp;
+        edk::uint64 cmpLine=0u,cmpLineColor;
+        edk::float64 div = (edk::float64)width;
+        ret=0.;
+        switch(channels){
+        case 1u:
+            for(edk::uint32 y=0u;y<height;y++){
+                vector-=1u * width;
+                for(edk::uint32 x=0u;x<width;x++){
+                    cmp = (edk::int16)compare[0u] - (edk::int16)vector[0u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor=cmp;
+                    cmpLine+=cmpLineColor/1;
+                    //increment
+                    compare+=1u;
+                    vector+=1u;
+                }
+                ret+=(edk::float64)cmpLine/div;
+            }
+            break;
+        case 2u:
+            for(edk::uint32 y=0u;y<height;y++){
+                vector-=2u * width;
+                for(edk::uint32 x=0u;x<width;x++){
+                    cmp = (edk::int16)compare[0u] - (edk::int16)vector[0u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor=cmp;
+                    cmp = (edk::int16)compare[1u] - (edk::int16)vector[1u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmpLine+=cmpLineColor/2;
+                    //increment
+                    compare+=2u;
+                    vector+=2u;
+                }
+                ret+=(edk::float64)cmpLine/div;
+            }
+            break;
+        case 3u:
+            for(edk::uint32 y=0u;y<height;y++){
+                vector-=3u * width;
+                for(edk::uint32 x=0u;x<width;x++){
+                    cmp = (edk::int16)compare[0u] - (edk::int16)vector[0u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor=cmp;
+                    cmp = (edk::int16)compare[1u] - (edk::int16)vector[1u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmp = (edk::int16)compare[2u] - (edk::int16)vector[2u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmpLine+=cmpLineColor/3;
+                    //increment
+                    compare+=3u;
+                    vector+=3u;
+                }
+                ret+=(edk::float64)cmpLine/div;
+            }
+            break;
+        case 4u:
+            for(edk::uint32 y=0u;y<height;y++){
+                vector-=4u * width;
+                for(edk::uint32 x=0u;x<width;x++){
+                    cmp = (edk::int16)compare[0u] - (edk::int16)vector[0u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor=cmp;
+                    cmp = (edk::int16)compare[1u] - (edk::int16)vector[1u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmp = (edk::int16)compare[2u] - (edk::int16)vector[2u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmp = (edk::int16)compare[3u] - (edk::int16)vector[3u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmpLine+=cmpLineColor/4;
+                    //increment
+                    compare+=4u;
+                    vector+=4u;
+                }
+                ret+=(edk::float64)cmpLine/div;
+            }
+            break;
+        }
+        ret/=(edk::float64)height;
+    }
+    return ret;
+}
+edk::float64 edk::Image2D::cmpDownToFloat64(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 lenght,edk::uint8* compare,edk::uint8 channels){
+    edk::float64 ret = -1.f;
+    if(vector && compare && width && height && channels && lenght && lenght<=height){
+        edk::int32 cmp;
+        edk::uint64 cmpLine=0u,cmpLineColor;
+        edk::float64 div = (edk::float64)width;
+        edk::uint32 increment = height - lenght;
+        ret=0.;
+        switch(channels){
+        case 1u:
+            compare+=1u * increment*width;
+            vector+=1u * increment*width;
+            for(edk::uint32 y=0u;y<height;y++){
+                vector-=1u * width;
+                for(edk::uint32 x=0u;x<width;x++){
+                    cmp = (edk::int16)compare[0u] - (edk::int16)vector[0u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor=cmp;
+                    cmpLine+=cmpLineColor/1;
+                    //increment
+                    compare+=1u;
+                    vector+=1u;
+                }
+                ret+=(edk::float64)cmpLine/div;
+            }
+            break;
+        case 2u:
+            compare+=1u * increment*width;
+            vector+=1u * increment*width;
+            for(edk::uint32 y=0u;y<height;y++){
+                vector-=2u * width;
+                for(edk::uint32 x=0u;x<width;x++){
+                    cmp = (edk::int16)compare[0u] - (edk::int16)vector[0u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor=cmp;
+                    cmp = (edk::int16)compare[1u] - (edk::int16)vector[1u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmpLine+=cmpLineColor/2;
+                    //increment
+                    compare+=2u;
+                    vector+=2u;
+                }
+                ret+=(edk::float64)cmpLine/div;
+            }
+            break;
+        case 3u:
+            compare+=1u * increment*width;
+            vector+=1u * increment*width;
+            for(edk::uint32 y=0u;y<height;y++){
+                vector-=3u * width;
+                for(edk::uint32 x=0u;x<width;x++){
+                    cmp = (edk::int16)compare[0u] - (edk::int16)vector[0u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor=cmp;
+                    cmp = (edk::int16)compare[1u] - (edk::int16)vector[1u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmp = (edk::int16)compare[2u] - (edk::int16)vector[2u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmpLine+=cmpLineColor/3;
+                    //increment
+                    compare+=3u;
+                    vector+=3u;
+                }
+                ret+=(edk::float64)cmpLine/div;
+            }
+            break;
+        case 4u:
+            compare+=1u * increment*width;
+            vector+=1u * increment*width;
+            for(edk::uint32 y=0u;y<height;y++){
+                vector-=4u * width;
+                for(edk::uint32 x=0u;x<width;x++){
+                    cmp = (edk::int16)compare[0u] - (edk::int16)vector[0u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor=cmp;
+                    cmp = (edk::int16)compare[1u] - (edk::int16)vector[1u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmp = (edk::int16)compare[2u] - (edk::int16)vector[2u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmp = (edk::int16)compare[3u] - (edk::int16)vector[3u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmpLine+=cmpLineColor/4;
+                    //increment
+                    compare+=4u;
+                    vector+=4u;
+                }
+                ret+=(edk::float64)cmpLine/div;
+            }
+            break;
+        }
+        ret/=(edk::float64)height;
+    }
+    return ret;
+}
+//compare dockable
+edk::float64 edk::Image2D::cmpDkbleLeftToFloat64(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 lenght,edk::uint8* compare,edk::uint8 channels){
+    edk::float64 ret = -1.f;
+    if(vector && compare && width && height && channels && lenght && lenght<=width){
+        edk::int32 cmp;
+        edk::uint64 cmpLine=0u,cmpLineColor;
+        edk::float64 div = (edk::float64)lenght;
+        edk::uint32 increment = width - lenght;
+        ret=0.;
+        switch(channels){
+        case 1u:
+            for(edk::uint32 y=0u;y<height;y++){
+                //increment until the compare line in Y
+                compare+=1u * increment;
+                vector+=1u* lenght;
+                for(edk::uint32 x=0u;x<lenght;x++){
+                    cmp = (edk::int16)compare[0u] - (edk::int16)vector[0u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor=cmp;
+                    cmpLine+=cmpLineColor/1;
+                    //increment
+                    compare+=1u;
+                    vector-=1u;
+                }
+                vector+=1u* width;
+                ret+=(edk::float64)cmpLine/div;
+            }
+            break;
+        case 2u:
+            for(edk::uint32 y=0u;y<height;y++){
+                //increment until the compare line in Y
+                compare+=2u * increment;
+                vector+=2u* lenght;
+                for(edk::uint32 x=0u;x<lenght;x++){
+                    cmp = (edk::int16)compare[0u] - (edk::int16)vector[0u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor=cmp;
+                    cmp = (edk::int16)compare[1u] - (edk::int16)vector[1u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmpLine+=cmpLineColor/2;
+                    //increment
+                    compare+=2u;
+                    vector-=2u;
+                }
+                vector+=2u* width;
+                ret+=(edk::float64)cmpLine/div;
+            }
+            break;
+        case 3u:
+            for(edk::uint32 y=0u;y<height;y++){
+                //increment until the compare line in Y
+                compare+=3u * increment;
+                vector+=3u* lenght;
+                for(edk::uint32 x=0u;x<lenght;x++){
+                    cmp = (edk::int16)compare[0u] - (edk::int16)vector[0u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor=cmp;
+                    cmp = (edk::int16)compare[1u] - (edk::int16)vector[1u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmp = (edk::int16)compare[2u] - (edk::int16)vector[2u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmpLine+=cmpLineColor/3;
+                    //increment
+                    compare+=3u;
+                    vector-=3u;
+                }
+                vector+=3u* width;
+                ret+=(edk::float64)cmpLine/div;
+            }
+            break;
+        case 4u:
+            for(edk::uint32 y=0u;y<height;y++){
+                //increment until the compare line in Y
+                compare+=4u * increment;
+                vector+=4u* lenght;
+                for(edk::uint32 x=0u;x<lenght;x++){
+                    cmp = (edk::int16)compare[0u] - (edk::int16)vector[0u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor=cmp;
+                    cmp = (edk::int16)compare[1u] - (edk::int16)vector[1u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmp = (edk::int16)compare[2u] - (edk::int16)vector[2u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmp = (edk::int16)compare[3u] - (edk::int16)vector[3u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmpLine+=cmpLineColor/4;
+                    //increment
+                    compare+=4u;
+                    vector-=4u;
+                }
+                vector+=4u* width;
+                ret+=(edk::float64)cmpLine/div;
+            }
+            break;
+        }
+        ret/=(edk::float64)height;
+    }
+    return ret;
+}
+edk::float64 edk::Image2D::cmpDkbleRightToFloat64(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 lenght,edk::uint8* compare,edk::uint8 channels){
+    edk::float64 ret = -1.f;
+    if(vector && compare && width && height && channels && lenght && lenght<=width){
+        edk::int32 cmp;
+        edk::uint64 cmpLine=0u,cmpLineColor;
+        edk::float64 div = (edk::float64)lenght;
+        edk::uint32 increment = width - lenght;
+        ret=0.;
+        switch(channels){
+        case 1u:
+            for(edk::uint32 y=0u;y<height;y++){
+                //increment until the compare line in Y
+                vector+=1u * increment;
+                compare+=1u* lenght;
+                for(edk::uint32 x=0u;x<lenght;x++){
+                    cmp = (edk::int16)compare[0u] - (edk::int16)vector[0u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor=cmp;
+                    cmpLine+=cmpLineColor/1;
+                    //increment
+                    vector+=1u;
+                    compare-=1u;
+                }
+                compare+=1u* width;
+                ret+=(edk::float64)cmpLine/div;
+            }
+            break;
+        case 2u:
+            for(edk::uint32 y=0u;y<height;y++){
+                //increment until the compare line in Y
+                vector+=2u * increment;
+                compare+=2u* lenght;
+                for(edk::uint32 x=0u;x<lenght;x++){
+                    cmp = (edk::int16)compare[0u] - (edk::int16)vector[0u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor=cmp;
+                    cmp = (edk::int16)compare[1u] - (edk::int16)vector[1u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmpLine+=cmpLineColor/2;
+                    //increment
+                    vector+=2u;
+                    compare-=2u;
+                }
+                compare+=2u* width;
+                ret+=(edk::float64)cmpLine/div;
+            }
+            break;
+        case 3u:
+            for(edk::uint32 y=0u;y<height;y++){
+                //increment until the compare line in Y
+                vector+=3u * increment;
+                compare+=3u* lenght;
+                for(edk::uint32 x=0u;x<lenght;x++){
+                    cmp = (edk::int16)compare[0u] - (edk::int16)vector[0u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor=cmp;
+                    cmp = (edk::int16)compare[1u] - (edk::int16)vector[1u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmp = (edk::int16)compare[2u] - (edk::int16)vector[2u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmpLine+=cmpLineColor/3;
+                    //increment
+                    vector+=3u;
+                    compare-=3u;
+                }
+                compare+=3u* width;
+                ret+=(edk::float64)cmpLine/div;
+            }
+            break;
+        case 4u:
+            for(edk::uint32 y=0u;y<height;y++){
+                //increment until the compare line in Y
+                vector+=4u * increment;
+                compare+=4u* lenght;
+                for(edk::uint32 x=0u;x<lenght;x++){
+                    cmp = (edk::int16)compare[0u] - (edk::int16)vector[0u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor=cmp;
+                    cmp = (edk::int16)compare[1u] - (edk::int16)vector[1u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmp = (edk::int16)compare[2u] - (edk::int16)vector[2u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmp = (edk::int16)compare[3u] - (edk::int16)vector[3u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmpLine+=cmpLineColor/4;
+                    //increment
+                    vector+=4u;
+                    compare-=4u;
+                }
+                compare+=4u* width;
+                ret+=(edk::float64)cmpLine/div;
+            }
+            break;
+        }
+        ret/=(edk::float64)height;
+    }
+    return ret;
+}
+edk::float64 edk::Image2D::cmpDkbleUpToFloat64(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 lenght,edk::uint8* compare,edk::uint8 channels){
+    edk::float64 ret = -1.f;
+    if(vector && compare && width && height && channels && lenght && lenght<=height){
+        edk::int32 cmp;
+        edk::uint64 cmpLine=0u,cmpLineColor;
+        edk::float64 div = (edk::float64)width;
+        edk::uint32 increment = height - lenght;
+        ret=0.;
+        switch(channels){
+        case 1u:
+            compare+=1u * increment*width;
+            vector+=1u * lenght*width;
+            for(edk::uint32 y=0u;y<height;y++){
+                vector-=1u * width;
+                for(edk::uint32 x=0u;x<width;x++){
+                    cmp = (edk::int16)compare[0u] - (edk::int16)vector[0u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor=cmp;
+                    cmpLine+=cmpLineColor/1;
+                    //increment
+                    compare+=1u;
+                    vector+=1u;
+                }
+                vector-=1u * width;
+                ret+=(edk::float64)cmpLine/div;
+            }
+            break;
+        case 2u:
+            compare+=2u * increment*width;
+            vector+=2u * lenght*width;
+            for(edk::uint32 y=0u;y<height;y++){
+                vector-=2u * width;
+                for(edk::uint32 x=0u;x<width;x++){
+                    cmp = (edk::int16)compare[0u] - (edk::int16)vector[0u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor=cmp;
+                    cmp = (edk::int16)compare[1u] - (edk::int16)vector[1u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmpLine+=cmpLineColor/2;
+                    //increment
+                    compare+=2u;
+                    vector+=2u;
+                }
+                vector-=2u * width;
+                ret+=(edk::float64)cmpLine/div;
+            }
+            break;
+        case 3u:
+            compare+=3u * increment*width;
+            vector+=3u * lenght*width;
+            for(edk::uint32 y=0u;y<height;y++){
+                vector-=3u * width;
+                for(edk::uint32 x=0u;x<width;x++){
+                    cmp = (edk::int16)compare[0u] - (edk::int16)vector[0u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor=cmp;
+                    cmp = (edk::int16)compare[1u] - (edk::int16)vector[1u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmp = (edk::int16)compare[2u] - (edk::int16)vector[2u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmpLine+=cmpLineColor/3;
+                    //increment
+                    compare+=3u;
+                    vector+=3u;
+                }
+                vector-=3u * width;
+                ret+=(edk::float64)cmpLine/div;
+            }
+            break;
+        case 4u:
+            compare+=4u * increment*width;
+            vector+=4u * lenght*width;
+            for(edk::uint32 y=0u;y<height;y++){
+                vector-=4u * width;
+                for(edk::uint32 x=0u;x<width;x++){
+                    cmp = (edk::int16)compare[0u] - (edk::int16)vector[0u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor=cmp;
+                    cmp = (edk::int16)compare[1u] - (edk::int16)vector[1u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmp = (edk::int16)compare[2u] - (edk::int16)vector[2u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmp = (edk::int16)compare[3u] - (edk::int16)vector[3u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmpLine+=cmpLineColor/4;
+                    //increment
+                    compare+=4u;
+                    vector+=4u;
+                }
+                vector-=4u * width;
+                ret+=(edk::float64)cmpLine/div;
+            }
+            break;
+        }
+        ret/=(edk::float64)height;
+    }
+    return ret;
+}
+edk::float64 edk::Image2D::cmpDkbleDownToFloat64(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 lenght,edk::uint8* compare,edk::uint8 channels){
+    edk::float64 ret = -1.f;
+    if(vector && compare && width && height && channels && lenght && lenght<=height){
+        edk::int32 cmp;
+        edk::uint64 cmpLine=0u,cmpLineColor;
+        edk::float64 div = (edk::float64)width;
+        edk::uint32 increment = height - lenght;
+        ret=0.;
+        switch(channels){
+        case 1u:
+            vector+=1u * increment*width;
+            compare+=1u * lenght*width;
+            for(edk::uint32 y=0u;y<height;y++){
+                compare-=1u * width;
+                for(edk::uint32 x=0u;x<width;x++){
+                    cmp = (edk::int16)compare[0u] - (edk::int16)vector[0u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor=cmp;
+                    cmpLine+=cmpLineColor/1;
+                    //increment
+                    vector+=1u;
+                    compare+=1u;
+                }
+                compare-=1u * width;
+                ret+=(edk::float64)cmpLine/div;
+            }
+            break;
+        case 2u:
+            vector+=2u * increment*width;
+            compare+=2u * lenght*width;
+            for(edk::uint32 y=0u;y<height;y++){
+                compare-=2u * width;
+                for(edk::uint32 x=0u;x<width;x++){
+                    cmp = (edk::int16)compare[0u] - (edk::int16)vector[0u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor=cmp;
+                    cmp = (edk::int16)compare[1u] - (edk::int16)vector[1u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmpLine+=cmpLineColor/2;
+                    //increment
+                    vector+=2u;
+                    compare+=2u;
+                }
+                compare-=2u * width;
+                ret+=(edk::float64)cmpLine/div;
+            }
+            break;
+        case 3u:
+            vector+=3u * increment*width;
+            compare+=3u * lenght*width;
+            for(edk::uint32 y=0u;y<height;y++){
+                compare-=3u * width;
+                for(edk::uint32 x=0u;x<width;x++){
+                    cmp = (edk::int16)compare[0u] - (edk::int16)vector[0u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor=cmp;
+                    cmp = (edk::int16)compare[1u] - (edk::int16)vector[1u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmp = (edk::int16)compare[2u] - (edk::int16)vector[2u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmpLine+=cmpLineColor/3;
+                    //increment
+                    vector+=3u;
+                    compare+=3u;
+                }
+                compare-=3u * width;
+                ret+=(edk::float64)cmpLine/div;
+            }
+            break;
+        case 4u:
+            vector+=4u * increment*width;
+            compare+=4u * lenght*width;
+            for(edk::uint32 y=0u;y<height;y++){
+                compare-=4u * width;
+                for(edk::uint32 x=0u;x<width;x++){
+                    cmp = (edk::int16)compare[0u] - (edk::int16)vector[0u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor=cmp;
+                    cmp = (edk::int16)compare[1u] - (edk::int16)vector[1u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmp = (edk::int16)compare[2u] - (edk::int16)vector[2u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmp = (edk::int16)compare[3u] - (edk::int16)vector[3u];
+                    if(cmp<0){cmp*=-1;}
+                    cmpLineColor+=cmp;
+                    cmpLine+=cmpLineColor/4;
+                    //increment
+                    vector+=4u;
+                    compare+=4u;
+                }
+                compare-=4u * width;
+                ret+=(edk::float64)cmpLine/div;
+            }
+            break;
+        }
+        ret/=(edk::float64)height;
+    }
+    return ret;
+}
 
 //flip pixels
 bool edk::Image2D::flipY(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 channels){
@@ -1896,13 +2956,13 @@ bool edk::Image2D::imageClone(edk::uint8* vector,edk::uint32 width,edk::uint32 h
 bool edk::Image2D::cloneFrom(edk::Image2D* image){
     if(image){
         //test if the image exist
-        if(image->vec && image->channels && image->size.width && image->size.height && image->imageName){
+        if(image->vec && image->channelsValue && image->size.width && image->size.height && image->imageName){
             //test if the characteristics are equal
-            if(!(this->vec && image->channels == this->channels && image->size == this->size)){
+            if(!(this->vec && image->channelsValue == this->channelsValue && image->size == this->size)){
                 //else delete the last image
                 this->deleteImage();edkEnd();
                 //create a new vec with the vecSize
-                if(!this->newImage(image->name(),image->size.width,image->size.height,image->channels)){
+                if(!this->newImage(image->name(),image->size.width,image->size.height,image->channelsValue)){
                     //return false because it can't create a new image
                     return false;
                 }
@@ -1916,9 +2976,9 @@ bool edk::Image2D::cloneFrom(edk::Image2D* image){
                 }
             }
             //test if create the image
-            if(this->vec && this->size.width && this->size.height && this->channels){
+            if(this->vec && this->size.width && this->size.height && this->channelsValue){
                 //clean the image setting all zeros
-                memcpy(this->vec,image->vec,this->size.width * this->size.height * this->channels);edkEnd();
+                memcpy(this->vec,image->vec,this->size.width * this->size.height * this->channelsValue);edkEnd();
                 return true;
             }
         }
@@ -1930,13 +2990,13 @@ bool edk::Image2D::cloneFrom(edk::Image2D* image){
 bool edk::Image2D::newFrom(edk::Image2D* image){
     if(image){
         //test if the image exist
-        if(image->vec && image->channels && image->size.width && image->size.height && image->imageName){
+        if(image->vec && image->channelsValue && image->size.width && image->size.height && image->imageName){
             //test if the characteristics are equal
-            if(!(this->vec && image->channels == this->channels && image->size == this->size)){
+            if(!(this->vec && image->channelsValue == this->channelsValue && image->size == this->size)){
                 //else delete the last image
                 this->deleteImage();edkEnd();
                 //create a new vec with the vecSize
-                if(!this->newImage(image->name(),image->size.width,image->size.height,image->channels)){
+                if(!this->newImage(image->name(),image->size.width,image->size.height,image->channelsValue)){
                     //return false because it can't create a new image
                     return false;
                 }
@@ -1950,9 +3010,9 @@ bool edk::Image2D::newFrom(edk::Image2D* image){
                 }
             }
             //test if create the image
-            if(this->vec && this->size.width && this->size.height && this->channels){
+            if(this->vec && this->size.width && this->size.height && this->channelsValue){
                 //clean the image setting all zeros
-                memset(this->vec,0u,this->size.width * this->size.height * this->channels);edkEnd();
+                memset(this->vec,0u,this->size.width * this->size.height * this->channelsValue);edkEnd();
                 return true;
             }
         }
