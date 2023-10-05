@@ -41,29 +41,42 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 namespace edk{
 namespace shape{
 class Line2D{
-    public:
-        Line2D();
-        Line2D(edk::vec2f32 start,edk::vec2f32 end);
-        virtual ~Line2D();
-        //line Vectex's
-        edk::shape::Vertex2D start,end;
+public:
+    Line2D();
+    Line2D(edk::vec2f32 start,edk::vec2f32 end);
+    virtual ~Line2D();
+    //line Vectex's
+    edk::shape::Vertex2D start,end;
 
-        //set the points
-        void setStart(edk::vec2f32 point);
-        void setEnd(edk::vec2f32 point);
+    //set the points
+    void setStart(edk::vec2f32 point);
+    void setEnd(edk::vec2f32 point);
 
-        //set points
-        void setPoints(edk::vec2f32 start,edk::vec2f32 end);
+    //set points
+    void setPoints(edk::vec2f32 start,edk::vec2f32 end);
 
-        //return the point
-        virtual edk::vec2f32 getPoint(edk::float32 percent);
+    //return the point
+    virtual edk::vec2f32 getPoint(edk::float32 percent);
 
-        //print the line
-        void print();
-        //Draw the line
-        void draw();
-    protected:
-    private:
+    //print the line
+    void print();
+    //Draw the line
+    void draw();
+
+    edk::shape::Line2D operator=(edk::shape::Line2D line){
+        this->start = line.start;
+        this->end = line.end;
+        return line;
+    }
+    edk::shape::Line2D operator=(edk::shape::Line2D* line){
+        if(line){
+            this->start = line->start;
+            this->end = line->end;
+        }
+        return *line;
+    }
+protected:
+private:
 };
 }//end namespace shape
 }//end namespace edk

@@ -100,8 +100,11 @@ edk::Window::Window(){
     this->fileEvents.closeFile();edkEnd();
     this->playingWriteEvents=false;edkEnd();
     this->playingReadEvents=false;edkEnd();
+    this->pausedFileEvents=false;edkEnd();
+    this->saveHaveEvents=true;edkEnd();
     this->nextSecondEvents=0.f;edkEnd();
     this->secondEvents=0.f;edkEnd();
+    this->saveEvents.clean();
 #endif
 }
 
@@ -219,6 +222,8 @@ bool edk::Window::createWindow(uint32 width, uint32 height/*, uint32 bitsPerPixe
             //set the blend with alpha channel
             edk::GU::guEnable(GU_BLEND);edkEnd();
             edk::GU::guBlendFunc(GU_SRC_ALPHA,GU_ONE_MINUS_SRC_ALPHA);edkEnd();
+
+            //this->saveEvents.clean();
 
             this->time.start();edkEnd();
             //retorna true
@@ -680,6 +685,7 @@ bool edk::Window::startWriteEvents(edk::char8* fileName){
     //create the file
     if(this->fileEvents.createAndOpenBinFile(fileName)){
         this->playingWriteEvents=true;edkEnd();
+        this->pausedFileEvents=false;edkEnd();
         return true;
     }
 #else
@@ -779,6 +785,7 @@ void edk::Window::stopWriteEvents(){
     this->treeEventTypes.clean();edkEnd();
     this->playingWriteEvents=false;edkEnd();
     this->playingReadEvents=false;edkEnd();
+    this->pausedFileEvents=false;edkEnd();
     this->secondEvents=0.f;edkEnd();
 #endif
 }
@@ -787,9 +794,82 @@ void edk::Window::stopReadEvents(){
     this->fileEvents.closeFile();edkEnd();
     this->playingWriteEvents=false;edkEnd();
     this->playingReadEvents=false;edkEnd();
+    this->pausedFileEvents=false;edkEnd();
     this->nextSecondEvents=0.f;edkEnd();
     this->secondEvents=0.f;edkEnd();
+    this->saveEvents.clean();
 #endif
+}
+
+//pause file events
+void edk::Window::pauseFileEvents(){
+#if defined(EDK_WINDOW_EVENTS_RW)
+    this->pausedFileEvents=true;edkEnd();
+#endif
+}
+bool edk::Window::pauseWriteEvents(){
+#if defined(EDK_WINDOW_EVENTS_RW)
+    if(this->playingWriteEvents){
+        this->pausedFileEvents=true;edkEnd();
+        return true;
+    }
+#endif
+    return false;
+}
+bool edk::Window::pauseReadEvents(){
+#if defined(EDK_WINDOW_EVENTS_RW)
+    if(this->playingReadEvents){
+        this->pausedFileEvents=true;edkEnd();
+        return true;
+    }
+#endif
+    return false;
+}
+void edk::Window::unpauseFileEvents(){
+#if defined(EDK_WINDOW_EVENTS_RW)
+    this->pausedFileEvents=false;edkEnd();
+#endif
+}
+bool edk::Window::unpauseWriteEvents(){
+#if defined(EDK_WINDOW_EVENTS_RW)
+    if(this->playingWriteEvents){
+        this->pausedFileEvents=false;edkEnd();
+        return true;
+    }
+#endif
+    return false;
+}
+bool edk::Window::unpauseReadEvents(){
+#if defined(EDK_WINDOW_EVENTS_RW)
+    if(this->playingReadEvents){
+        this->pausedFileEvents=false;edkEnd();
+        return true;
+    }
+#endif
+    return false;
+}
+bool edk::Window::isPausedFileEvents(){
+#if defined(EDK_WINDOW_EVENTS_RW)
+    return this->pausedFileEvents;
+#else
+    return false;
+#endif
+}
+bool edk::Window::isPausedWriteEvents(){
+#if defined(EDK_WINDOW_EVENTS_RW)
+    if(this->playingWriteEvents){
+        return this->pausedFileEvents;
+    }
+#endif
+    return false;
+}
+bool edk::Window::isPausedReadEvents(){
+#if defined(EDK_WINDOW_EVENTS_RW)
+    if(this->playingReadEvents){
+        return this->pausedFileEvents;
+    }
+#endif
+    return false;
 }
 
 //print events
@@ -1014,6 +1094,46 @@ bool edk::Window::loadEvents(){
         this->events.secondPassed = this->time.getMicroseconds() * edk::watch::microsecond;edkEnd();
         this->events.secondsGlobal = this->time.getMicrosecondsReal() * edk::watch::microsecond;edkEnd();
     }
+
+
+
+#if defined(EDK_WINDOW_EVENTS_RW)
+    if(this->playingReadEvents && !this->pausedFileEvents){
+        this->secondEvents+=this->events.secondPassed;edkEnd();
+        //test if the secondEvents is bigger then the nextSecondEvent
+        if(this->secondEvents > this->nextSecondEvents){
+            while(this->secondEvents > this->nextSecondEvents){
+                //test if reach the end of the file
+                if(this->fileEvents.endOfFile()){
+                    //stop the read
+                    this->stopReadEvents();edkEnd();
+                }
+                else{
+                    //else read the events
+                    this->events.readFile(&this->fileEvents);edkEnd();
+                    this->saveEvents.clean();edkEnd();
+                    //test if reach the end of the file
+                    if(this->fileEvents.endOfFile()){
+                        //stop the read
+                        this->stopReadEvents();edkEnd();
+                    }
+                    else{
+                        //then read the nextSecondEvent
+                        this->fileEvents.readBin(&this->nextSecondEvents,sizeof(this->nextSecondEvents));edkEnd();edkEnd();
+                        saveEvents.cloneFrom(&this->events);edkEnd();
+                    }
+                }
+            }
+        }
+        else{
+            edk::float32 secondPassed = this->events.secondPassed;
+            edk::float32 secondsGlobal = this->events.secondsGlobal;
+            this->events.cloneFrom(&this->saveEvents);edkEnd();
+            this->events.secondPassed = secondPassed;
+            this->events.secondsGlobal = secondsGlobal;
+        }
+    }
+#endif
 
     this->time.start();edkEnd();
 
@@ -1352,7 +1472,7 @@ bool edk::Window::loadEvents(){
 
 #if defined(EDK_WINDOW_EVENTS_RW)
     //test if are writing or reading some events file
-    if(this->playingWriteEvents){
+    if(this->playingWriteEvents && !this->pausedFileEvents){
         this->secondEvents+=this->events.secondPassed;edkEnd();
         //test if have some eventType on the tree
         if(this->treeEventTypes.size()){
@@ -1362,6 +1482,14 @@ bool edk::Window::loadEvents(){
                 this->fileEvents.writeBin(this->secondEvents);edkEnd();
                 //write the events
                 this->events.writeFileTypesTree(&this->fileEvents,&this->treeEventTypes);edkEnd();
+                this->saveHaveEvents=true;edkEnd();
+            }
+            else if(this->saveHaveEvents){
+                //write the events to remove all used events
+                this->fileEvents.writeBin(this->secondEvents);edkEnd();
+                //write the events
+                this->events.writeFileTypesTree(&this->fileEvents,&this->treeEventTypes);edkEnd();
+                this->saveHaveEvents=false;edkEnd();
             }
         }
         else{
@@ -1371,9 +1499,19 @@ bool edk::Window::loadEvents(){
                 this->fileEvents.writeBin(this->secondEvents);edkEnd();
                 //write the events
                 this->events.writeFile(&this->fileEvents);edkEnd();
+                this->saveHaveEvents=true;edkEnd();
+            }
+            else if(this->saveHaveEvents){
+                //write the events to remove all used events
+                this->fileEvents.writeBin(this->secondEvents);edkEnd();
+                //write the events
+                this->events.writeFile(&this->fileEvents);edkEnd();
+                this->saveHaveEvents=false;edkEnd();
             }
         }
     }
+    /*
+    ///ELSE
     else if(this->playingReadEvents){
         this->secondEvents+=this->events.secondPassed;edkEnd();
         //test if the secondEvents is bigger then the nextSecondEvent
@@ -1398,6 +1536,8 @@ bool edk::Window::loadEvents(){
             }
         }
     }
+    ///ELSE
+    */
 #endif
 
     //senao retorna false

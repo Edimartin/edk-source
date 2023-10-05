@@ -148,7 +148,7 @@ public:
         }
     }
     //Destrutor
-    ~Stack(){
+    virtual ~Stack(){
         //delete the array
         if(this->canDeleteVector){
             //clean

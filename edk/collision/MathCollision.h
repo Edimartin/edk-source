@@ -131,6 +131,11 @@ public:
 
     //POLYGON POINT
     static bool polygonPoint(edk::shape::Polygon2D polygon, edk::vec2f32 point);
+
+    //RECTS
+    static bool rectRectPoints(edk::rectf32 r1,edk::rectf32 r2,
+                               edk::collision::Vecs2f32* vecs
+                               );
 protected:
 private:
 };

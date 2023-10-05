@@ -96,6 +96,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define GU_DEPTH_BUFFER_BIT                     GL_DEPTH_BUFFER_BIT
 #define GU_ACCUM_BUFFER_BIT                     GL_ACCUM_BUFFER_BIT
 #define GU_STENCIL_BUFFER_BIT                   GL_STENCIL_BUFFER_BIT
+#define GU_CULL_FACE                            GL_CULL_FACE
 
 // Blending
 #define GU_BLEND                                GL_BLEND
@@ -466,6 +467,9 @@ public:
     static void guVertexTex4f64(edk::vec4f64 vec);
     static void guVertexTex4f32(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 w);
     static void guVertexTex4f64(edk::float64 x,edk::float64 y,edk::float64 z,edk::float64 w);
+
+    //cullFace
+    static void guCullFace(edk::uint32 mode);
 
     //SELET BUFFER
     //alloc the buffer

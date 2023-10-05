@@ -216,6 +216,17 @@ public:
     //stop reading the events from a file
     void stopReadEvents();
 
+    //pause file events
+    void pauseFileEvents();
+    bool pauseWriteEvents();
+    bool pauseReadEvents();
+    void unpauseFileEvents();
+    bool unpauseWriteEvents();
+    bool unpauseReadEvents();
+    bool isPausedFileEvents();
+    bool isPausedWriteEvents();
+    bool isPausedReadEvents();
+
     //print events
     void eventsPrint();
 
@@ -371,10 +382,13 @@ private:
 
     edk::WindowEvents events;
 #if defined(EDK_WINDOW_EVENTS_RW)
+    edk::WindowEvents saveEvents;
+    bool saveHaveEvents;
     //file to write the windowEvents
     edk::File fileEvents;
     bool playingWriteEvents;
     bool playingReadEvents;
+    bool pausedFileEvents;
     edk::float32 secondEvents;
     edk::float32 nextSecondEvents;
     //eventTypes to be writed in the file

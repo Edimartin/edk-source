@@ -168,7 +168,7 @@ public:
         return false;
     }
     bool operator>(edk::int8 value){
-        if(this->x>value && this->y>value){
+        if(this->x>value || this->y>value){
             return true;
         }
         return false;
@@ -184,7 +184,7 @@ public:
         return false;
     }
     bool operator>=(edk::int8 value){
-        if(this->x>value && this->y>=value){
+        if(this->x>=value || this->y>=value){
             return true;
         }
         return false;
@@ -200,7 +200,7 @@ public:
         return false;
     }
     bool operator<(edk::int8 value){
-        if(this->x<value && this->y<value){
+        if(this->x<value || this->y<value){
             return true;
         }
         return false;
@@ -216,7 +216,7 @@ public:
         return false;
     }
     bool operator<=(edk::int8 value){
-        if(this->x<value && this->y<=value){
+        if(this->x<=value || this->y<=value){
             return true;
         }
         return false;
@@ -782,7 +782,7 @@ public:
         return false;
     }
     bool operator>(edk::int8 value){
-        if(this->x>(edk::int16)value && this->y>(edk::int16)value){
+        if(this->x>(edk::int16)value || this->y>(edk::int16)value){
             return true;
         }
         return false;
@@ -797,7 +797,7 @@ public:
         return false;
     }
     bool operator>(edk::int16 value){
-        if(this->x>value && this->y>value){
+        if(this->x>value || this->y>value){
             return true;
         }
         return false;
@@ -813,7 +813,7 @@ public:
         return false;
     }
     bool operator>=(edk::int8 value){
-        if(this->x>(edk::int16)value && this->y>=(edk::int16)value){
+        if(this->x>=(edk::int16)value || this->y>=(edk::int16)value){
             return true;
         }
         return false;
@@ -828,7 +828,7 @@ public:
         return false;
     }
     bool operator>=(edk::int16 value){
-        if(this->x>value && this->y>=value){
+        if(this->x>=value || this->y>=value){
             return true;
         }
         return false;
@@ -844,7 +844,7 @@ public:
         return false;
     }
     bool operator<(edk::int8 value){
-        if(this->x<(edk::int16)value && this->y<(edk::int16)value){
+        if(this->x<(edk::int16)value || this->y<(edk::int16)value){
             return true;
         }
         return false;
@@ -859,7 +859,7 @@ public:
         return false;
     }
     bool operator<(edk::int16 value){
-        if(this->x<value && this->y<value){
+        if(this->x<value || this->y<value){
             return true;
         }
         return false;
@@ -875,7 +875,7 @@ public:
         return false;
     }
     bool operator<=(edk::int8 value){
-        if(this->x<(edk::int16)value && this->y<=(edk::int16)value){
+        if(this->x<=(edk::int16)value || this->y<=(edk::int16)value){
             return true;
         }
         return false;
@@ -890,7 +890,7 @@ public:
         return false;
     }
     bool operator<=(edk::int16 value){
-        if(this->x<value && this->y<=value){
+        if(this->x<=value || this->y<=value){
             return true;
         }
         return false;
@@ -1506,7 +1506,7 @@ public:
         return false;
     }
     bool operator>(edk::int8 value){
-        if(this->x>(edk::int32)value && this->y>(edk::int32)value){
+        if(this->x>(edk::int32)value || this->y>(edk::int32)value){
             return true;
         }
         return false;
@@ -1521,7 +1521,7 @@ public:
         return false;
     }
     bool operator>(edk::int16 value){
-        if(this->x>(edk::int32)value && this->y>(edk::int32)value){
+        if(this->x>(edk::int32)value || this->y>(edk::int32)value){
             return true;
         }
         return false;
@@ -1536,7 +1536,7 @@ public:
         return false;
     }
     bool operator>(edk::int32 value){
-        if(this->x>value && this->y>value){
+        if(this->x>value || this->y>value){
             return true;
         }
         return false;
@@ -1552,7 +1552,7 @@ public:
         return false;
     }
     bool operator>=(edk::int8 value){
-        if(this->x>(edk::int32)value && this->y>=(edk::int32)value){
+        if(this->x>=(edk::int32)value || this->y>=(edk::int32)value){
             return true;
         }
         return false;
@@ -1567,7 +1567,7 @@ public:
         return false;
     }
     bool operator>=(edk::int16 value){
-        if(this->x>(edk::int32)value && this->y>=(edk::int32)value){
+        if(this->x>=(edk::int32)value || this->y>=(edk::int32)value){
             return true;
         }
         return false;
@@ -1582,7 +1582,7 @@ public:
         return false;
     }
     bool operator>=(edk::int32 value){
-        if(this->x>value && this->y>=value){
+        if(this->x>=value || this->y>=value){
             return true;
         }
         return false;
@@ -1598,7 +1598,7 @@ public:
         return false;
     }
     bool operator<(edk::int8 value){
-        if(this->x<(edk::int32)value && this->y<(edk::int32)value){
+        if(this->x<(edk::int32)value || this->y<(edk::int32)value){
             return true;
         }
         return false;
@@ -1613,7 +1613,7 @@ public:
         return false;
     }
     bool operator<(edk::int16 value){
-        if(this->x<(edk::int32)value && this->y<(edk::int32)value){
+        if(this->x<(edk::int32)value || this->y<(edk::int32)value){
             return true;
         }
         return false;
@@ -1628,7 +1628,7 @@ public:
         return false;
     }
     bool operator<(edk::int32 value){
-        if(this->x<value && this->y<value){
+        if(this->x<value || this->y<value){
             return true;
         }
         return false;
@@ -1644,7 +1644,7 @@ public:
         return false;
     }
     bool operator<=(edk::int8 value){
-        if(this->x<(edk::int32)value && this->y<=(edk::int32)value){
+        if(this->x<=(edk::int32)value || this->y<=(edk::int32)value){
             return true;
         }
         return false;
@@ -1659,7 +1659,7 @@ public:
         return false;
     }
     bool operator<=(edk::int16 value){
-        if(this->x<(edk::int32)value && this->y<=(edk::int32)value){
+        if(this->x<=(edk::int32)value || this->y<=(edk::int32)value){
             return true;
         }
         return false;
@@ -1674,7 +1674,7 @@ public:
         return false;
     }
     bool operator<=(edk::int32 value){
-        if(this->x<value && this->y<=value){
+        if(this->x<=value || this->y<=value){
             return true;
         }
         return false;
@@ -2340,7 +2340,7 @@ public:
         return false;
     }
     bool operator>(edk::int8 value){
-        if(this->x>(edk::int64)value && this->y>(edk::int64)value){
+        if(this->x>(edk::int64)value || this->y>(edk::int64)value){
             return true;
         }
         return false;
@@ -2355,7 +2355,7 @@ public:
         return false;
     }
     bool operator>(edk::int16 value){
-        if(this->x>(edk::int64)value && this->y>(edk::int64)value){
+        if(this->x>(edk::int64)value || this->y>(edk::int64)value){
             return true;
         }
         return false;
@@ -2370,7 +2370,7 @@ public:
         return false;
     }
     bool operator>(edk::int32 value){
-        if(this->x>(edk::int64)value && this->y>(edk::int64)value){
+        if(this->x>(edk::int64)value || this->y>(edk::int64)value){
             return true;
         }
         return false;
@@ -2385,7 +2385,7 @@ public:
         return false;
     }
     bool operator>(edk::int64 value){
-        if(this->x>value && this->y>value){
+        if(this->x>value || this->y>value){
             return true;
         }
         return false;
@@ -2401,7 +2401,7 @@ public:
         return false;
     }
     bool operator>=(edk::int8 value){
-        if(this->x>(edk::int64)value && this->y>=(edk::int64)value){
+        if(this->x>=(edk::int64)value || this->y>=(edk::int64)value){
             return true;
         }
         return false;
@@ -2416,7 +2416,7 @@ public:
         return false;
     }
     bool operator>=(edk::int16 value){
-        if(this->x>(edk::int64)value && this->y>=(edk::int64)value){
+        if(this->x>=(edk::int64)value || this->y>=(edk::int64)value){
             return true;
         }
         return false;
@@ -2431,7 +2431,7 @@ public:
         return false;
     }
     bool operator>=(edk::int32 value){
-        if(this->x>(edk::int64)value && this->y>=(edk::int64)value){
+        if(this->x>=(edk::int64)value || this->y>=(edk::int64)value){
             return true;
         }
         return false;
@@ -2446,7 +2446,7 @@ public:
         return false;
     }
     bool operator>=(edk::int64 value){
-        if(this->x>value && this->y>=value){
+        if(this->x>=value || this->y>=value){
             return true;
         }
         return false;
@@ -2462,7 +2462,7 @@ public:
         return false;
     }
     bool operator<(edk::int8 value){
-        if(this->x<(edk::int64)value && this->y<(edk::int64)value){
+        if(this->x<(edk::int64)value || this->y<(edk::int64)value){
             return true;
         }
         return false;
@@ -2477,7 +2477,7 @@ public:
         return false;
     }
     bool operator<(edk::int16 value){
-        if(this->x<(edk::int64)value && this->y<(edk::int64)value){
+        if(this->x<(edk::int64)value || this->y<(edk::int64)value){
             return true;
         }
         return false;
@@ -2492,7 +2492,7 @@ public:
         return false;
     }
     bool operator<(edk::int32 value){
-        if(this->x<(edk::int64)value && this->y<(edk::int64)value){
+        if(this->x<(edk::int64)value || this->y<(edk::int64)value){
             return true;
         }
         return false;
@@ -2507,7 +2507,7 @@ public:
         return false;
     }
     bool operator<(edk::int64 value){
-        if(this->x<value && this->y<value){
+        if(this->x<value || this->y<value){
             return true;
         }
         return false;
@@ -2523,7 +2523,7 @@ public:
         return false;
     }
     bool operator<=(edk::int8 value){
-        if(this->x<(edk::int64)value && this->y<=(edk::int64)value){
+        if(this->x<=(edk::int64)value || this->y<=(edk::int64)value){
             return true;
         }
         return false;
@@ -2538,7 +2538,7 @@ public:
         return false;
     }
     bool operator<=(edk::int16 value){
-        if(this->x<(edk::int64)value && this->y<=(edk::int64)value){
+        if(this->x<=(edk::int64)value || this->y<=(edk::int64)value){
             return true;
         }
         return false;
@@ -2553,7 +2553,7 @@ public:
         return false;
     }
     bool operator<=(edk::int32 value){
-        if(this->x<(edk::int64)value && this->y<=(edk::int64)value){
+        if(this->x<=(edk::int64)value || this->y<=(edk::int64)value){
             return true;
         }
         return false;
@@ -2568,7 +2568,7 @@ public:
         return false;
     }
     bool operator<=(edk::int64 value){
-        if(this->x<value && this->y<=value){
+        if(this->x<=value || this->y<=value){
             return true;
         }
         return false;
@@ -3184,7 +3184,7 @@ public:
         return false;
     }
     bool operator>(edk::uint8 value){
-        if(this->x>value && this->y>value){
+        if(this->x>value || this->y>value){
             return true;
         }
         return false;
@@ -3200,7 +3200,7 @@ public:
         return false;
     }
     bool operator>=(edk::uint8 value){
-        if(this->x>value && this->y>=value){
+        if(this->x>=value || this->y>=value){
             return true;
         }
         return false;
@@ -3216,7 +3216,7 @@ public:
         return false;
     }
     bool operator<(edk::uint8 value){
-        if(this->x<value && this->y<value){
+        if(this->x<value || this->y<value){
             return true;
         }
         return false;
@@ -3232,7 +3232,7 @@ public:
         return false;
     }
     bool operator<=(edk::uint8 value){
-        if(this->x<value && this->y<=value){
+        if(this->x<=value || this->y<=value){
             return true;
         }
         return false;
@@ -3586,7 +3586,7 @@ public:
         return false;
     }
     bool operator>(edk::uint8 value){
-        if(this->x>(edk::uint16)value && this->y>(edk::uint16)value){
+        if(this->x>(edk::uint16)value || this->y>(edk::uint16)value){
             return true;
         }
         return false;
@@ -3601,7 +3601,7 @@ public:
         return false;
     }
     bool operator>(edk::uint16 value){
-        if(this->x>value && this->y>value){
+        if(this->x>value || this->y>value){
             return true;
         }
         return false;
@@ -3617,7 +3617,7 @@ public:
         return false;
     }
     bool operator>=(edk::uint8 value){
-        if(this->x>(edk::uint16)value && this->y>=(edk::uint16)value){
+        if(this->x>=(edk::uint16)value || this->y>=(edk::uint16)value){
             return true;
         }
         return false;
@@ -3632,7 +3632,7 @@ public:
         return false;
     }
     bool operator>=(edk::uint16 value){
-        if(this->x>value && this->y>=value){
+        if(this->x>=value || this->y>=value){
             return true;
         }
         return false;
@@ -3648,7 +3648,7 @@ public:
         return false;
     }
     bool operator<(edk::uint8 value){
-        if(this->x<(edk::uint16)value && this->y<(edk::uint16)value){
+        if(this->x<(edk::uint16)value || this->y<(edk::uint16)value){
             return true;
         }
         return false;
@@ -3663,7 +3663,7 @@ public:
         return false;
     }
     bool operator<(edk::uint16 value){
-        if(this->x<value && this->y<value){
+        if(this->x<value || this->y<value){
             return true;
         }
         return false;
@@ -3679,7 +3679,7 @@ public:
         return false;
     }
     bool operator<=(edk::uint8 value){
-        if(this->x<(edk::uint16)value && this->y<=(edk::uint16)value){
+        if(this->x<=(edk::uint16)value || this->y<=(edk::uint16)value){
             return true;
         }
         return false;
@@ -3694,7 +3694,7 @@ public:
         return false;
     }
     bool operator<=(edk::uint16 value){
-        if(this->x<value && this->y<=value){
+        if(this->x<=value || this->y<=value){
             return true;
         }
         return false;
@@ -4098,7 +4098,7 @@ public:
         return false;
     }
     bool operator>(edk::uint8 value){
-        if(this->x>(edk::uint32)value && this->y>(edk::uint32)value){
+        if(this->x>(edk::uint32)value || this->y>(edk::uint32)value){
             return true;
         }
         return false;
@@ -4113,7 +4113,7 @@ public:
         return false;
     }
     bool operator>(edk::uint16 value){
-        if(this->x>(edk::uint32)value && this->y>(edk::uint32)value){
+        if(this->x>(edk::uint32)value || this->y>(edk::uint32)value){
             return true;
         }
         return false;
@@ -4128,7 +4128,7 @@ public:
         return false;
     }
     bool operator>(edk::uint32 value){
-        if(this->x>value && this->y>value){
+        if(this->x>value || this->y>value){
             return true;
         }
         return false;
@@ -4144,7 +4144,7 @@ public:
         return false;
     }
     bool operator>=(edk::uint8 value){
-        if(this->x>(edk::uint32)value && this->y>=(edk::uint32)value){
+        if(this->x>=(edk::uint32)value || this->y>=(edk::uint32)value){
             return true;
         }
         return false;
@@ -4159,7 +4159,7 @@ public:
         return false;
     }
     bool operator>=(edk::uint16 value){
-        if(this->x>(edk::uint32)value && this->y>=(edk::uint32)value){
+        if(this->x>=(edk::uint32)value || this->y>=(edk::uint32)value){
             return true;
         }
         return false;
@@ -4174,7 +4174,7 @@ public:
         return false;
     }
     bool operator>=(edk::uint32 value){
-        if(this->x>value && this->y>=value){
+        if(this->x>=value || this->y>=value){
             return true;
         }
         return false;
@@ -4190,7 +4190,7 @@ public:
         return false;
     }
     bool operator<(edk::uint8 value){
-        if(this->x<(edk::uint32)value && this->y<(edk::uint32)value){
+        if(this->x<(edk::uint32)value || this->y<(edk::uint32)value){
             return true;
         }
         return false;
@@ -4205,7 +4205,7 @@ public:
         return false;
     }
     bool operator<(edk::uint16 value){
-        if(this->x<(edk::uint32)value && this->y<(edk::uint32)value){
+        if(this->x<(edk::uint32)value || this->y<(edk::uint32)value){
             return true;
         }
         return false;
@@ -4220,7 +4220,7 @@ public:
         return false;
     }
     bool operator<(edk::uint32 value){
-        if(this->x<value && this->y<value){
+        if(this->x<value || this->y<value){
             return true;
         }
         return false;
@@ -4236,7 +4236,7 @@ public:
         return false;
     }
     bool operator<=(edk::uint8 value){
-        if(this->x<(edk::uint32)value && this->y<=(edk::uint32)value){
+        if(this->x<=(edk::uint32)value || this->y<=(edk::uint32)value){
             return true;
         }
         return false;
@@ -4251,7 +4251,7 @@ public:
         return false;
     }
     bool operator<=(edk::uint16 value){
-        if(this->x<(edk::uint32)value && this->y<=(edk::uint32)value){
+        if(this->x<=(edk::uint32)value || this->y<=(edk::uint32)value){
             return true;
         }
         return false;
@@ -4266,7 +4266,7 @@ public:
         return false;
     }
     bool operator<=(edk::uint32 value){
-        if(this->x<value && this->y<=value){
+        if(this->x<=value || this->y<=value){
             return true;
         }
         return false;
@@ -4720,7 +4720,7 @@ public:
         return false;
     }
     bool operator>(edk::uint8 value){
-        if(this->x>(edk::uint64)value && this->y>(edk::uint64)value){
+        if(this->x>(edk::uint64)value || this->y>(edk::uint64)value){
             return true;
         }
         return false;
@@ -4735,7 +4735,7 @@ public:
         return false;
     }
     bool operator>(edk::uint16 value){
-        if(this->x>(edk::uint64)value && this->y>(edk::uint64)value){
+        if(this->x>(edk::uint64)value || this->y>(edk::uint64)value){
             return true;
         }
         return false;
@@ -4750,7 +4750,7 @@ public:
         return false;
     }
     bool operator>(edk::uint32 value){
-        if(this->x>(edk::uint64)value && this->y>(edk::uint64)value){
+        if(this->x>(edk::uint64)value || this->y>(edk::uint64)value){
             return true;
         }
         return false;
@@ -4765,7 +4765,7 @@ public:
         return false;
     }
     bool operator>(edk::uint64 value){
-        if(this->x>value && this->y>value){
+        if(this->x>value || this->y>value){
             return true;
         }
         return false;
@@ -4781,7 +4781,7 @@ public:
         return false;
     }
     bool operator>=(edk::uint8 value){
-        if(this->x>(edk::uint64)value && this->y>=(edk::uint64)value){
+        if(this->x>=(edk::uint64)value || this->y>=(edk::uint64)value){
             return true;
         }
         return false;
@@ -4796,7 +4796,7 @@ public:
         return false;
     }
     bool operator>=(edk::uint16 value){
-        if(this->x>(edk::uint64)value && this->y>=(edk::uint64)value){
+        if(this->x>=(edk::uint64)value || this->y>=(edk::uint64)value){
             return true;
         }
         return false;
@@ -4811,7 +4811,7 @@ public:
         return false;
     }
     bool operator>=(edk::uint32 value){
-        if(this->x>(edk::uint64)value && this->y>=(edk::uint64)value){
+        if(this->x>=(edk::uint64)value || this->y>=(edk::uint64)value){
             return true;
         }
         return false;
@@ -4826,7 +4826,7 @@ public:
         return false;
     }
     bool operator>=(edk::uint64 value){
-        if(this->x>value && this->y>=value){
+        if(this->x>=value || this->y>=value){
             return true;
         }
         return false;
@@ -4842,7 +4842,7 @@ public:
         return false;
     }
     bool operator<(edk::uint8 value){
-        if(this->x<(edk::uint64)value && this->y<(edk::uint64)value){
+        if(this->x<(edk::uint64)value || this->y<(edk::uint64)value){
             return true;
         }
         return false;
@@ -4857,7 +4857,7 @@ public:
         return false;
     }
     bool operator<(edk::uint16 value){
-        if(this->x<(edk::uint64)value && this->y<(edk::uint64)value){
+        if(this->x<(edk::uint64)value || this->y<(edk::uint64)value){
             return true;
         }
         return false;
@@ -4872,7 +4872,7 @@ public:
         return false;
     }
     bool operator<(edk::uint32 value){
-        if(this->x<(edk::uint64)value && this->y<(edk::uint64)value){
+        if(this->x<(edk::uint64)value || this->y<(edk::uint64)value){
             return true;
         }
         return false;
@@ -4887,7 +4887,7 @@ public:
         return false;
     }
     bool operator<(edk::uint64 value){
-        if(this->x<value && this->y<value){
+        if(this->x<value || this->y<value){
             return true;
         }
         return false;
@@ -4903,7 +4903,7 @@ public:
         return false;
     }
     bool operator<=(edk::uint8 value){
-        if(this->x<(edk::uint64)value && this->y<=(edk::uint64)value){
+        if(this->x<=(edk::uint64)value || this->y<=(edk::uint64)value){
             return true;
         }
         return false;
@@ -4918,7 +4918,7 @@ public:
         return false;
     }
     bool operator<=(edk::uint16 value){
-        if(this->x<(edk::uint64)value && this->y<=(edk::uint64)value){
+        if(this->x<=(edk::uint64)value || this->y<=(edk::uint64)value){
             return true;
         }
         return false;
@@ -4933,7 +4933,7 @@ public:
         return false;
     }
     bool operator<=(edk::uint32 value){
-        if(this->x<(edk::uint64)value && this->y<=(edk::uint64)value){
+        if(this->x<=(edk::uint64)value || this->y<=(edk::uint64)value){
             return true;
         }
         return false;
@@ -4948,7 +4948,7 @@ public:
         return false;
     }
     bool operator<=(edk::uint64 value){
-        if(this->x<value && this->y<=value){
+        if(this->x<=value || this->y<=value){
             return true;
         }
         return false;
@@ -5466,7 +5466,7 @@ public:
         return false;
     }
     bool operator>(edk::float32 value){
-        if(this->x>value && this->y>value){
+        if(this->x>value || this->y>value){
             return true;
         }
         return false;
@@ -5482,7 +5482,7 @@ public:
         return false;
     }
     bool operator>=(edk::float32 value){
-        if(this->x>value && this->y>=value){
+        if(this->x>=value || this->y>=value){
             return true;
         }
         return false;
@@ -5499,7 +5499,7 @@ public:
     }
     //Operator <
     bool operator<(edk::float32 value){
-        if(this->x<value && this->y<value){
+        if(this->x<value || this->y<value){
             return true;
         }
         return false;
@@ -5515,7 +5515,7 @@ public:
         return false;
     }
     bool operator<=(edk::float32 value){
-        if(this->x<value && this->y<=value){
+        if(this->x<=value || this->y<=value){
             return true;
         }
         return false;
@@ -6342,6 +6342,20 @@ public:
         return false;
     }
     //Operator <
+/*
+    bool operator<(edk::float32 value){
+        if(this->x<(edk::float64)value || this->y<(edk::float64)value){
+            return true;
+        }
+        return false;
+    }
+    bool operator<(edk::float64 value){
+        if(this->x<value || this->y<value){
+            return true;
+        }
+        return false;
+    }
+*/
     bool operator<(edk::vec2f32 vec){
         if(this->x<(edk::float64)vec.x){
             return true;
@@ -6361,6 +6375,18 @@ public:
         return false;
     }
     //Operator <=
+    bool operator<=(edk::float32 value){
+        if(this->x<=(edk::float64)value || this->y<=(edk::float64)value){
+            return true;
+        }
+        return false;
+    }
+    bool operator<=(edk::float64 value){
+        if(this->x<=value || this->y<=value){
+            return true;
+        }
+        return false;
+    }
     bool operator<=(edk::vec2f32 vec){
         if(this->x<(edk::float64)vec.x){
             return true;

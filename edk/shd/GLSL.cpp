@@ -263,7 +263,7 @@ edk::shd::GLSL::GLSL()
     //ctor
     this->id=0u;
     this->idTemp=0u;
-    this->enable=false;
+    this->enable=true;edkEnd();
     this->log=NULL;edkEnd();
 }
 

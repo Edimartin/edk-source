@@ -630,3 +630,67 @@ bool edk::collision::MathCollision::polygonPoint(edk::shape::Polygon2D polygon, 
     //else return false
     return false;
 }
+
+//RECTS
+bool edk::collision::MathCollision::rectRectPoints(edk::rectf32 r1,edk::rectf32 r2,
+                                                   edk::collision::Vecs2f32* vecs
+                                                   ){
+    //calculate the collision
+    if(vecs){
+        if(r1.origin.x>=r2.origin.x
+                && r1.origin.x<=r2.size.width
+                ){
+            if(r2.origin.y>=r1.origin.y
+                    && r2.origin.y<=r1.size.height
+                    ){
+                vecs->pushBack(r1.origin.x,r2.origin.y);
+            }
+            if(r2.size.height>=r1.origin.y
+                    && r2.size.height<=r1.size.height
+                    ){
+                vecs->pushBack(r1.origin.x,r2.size.height);
+            }
+        }
+        if(r1.size.width>=r2.origin.x
+                && r1.size.width<=r2.size.width
+                ){
+            if(r2.origin.y>=r1.origin.y
+                    && r2.origin.y<=r1.size.height
+                    ){
+                vecs->pushBack(r1.size.width,r2.origin.y);
+            }
+            if(r2.size.height>=r1.origin.y
+                    && r2.size.height<=r1.size.height
+                    ){
+                vecs->pushBack(r1.size.width,r2.size.height);
+            }
+        }
+        if(!vecs->size()){
+            //test if one rect are inside other rect
+            if(r1.origin.x >=r2.origin.x
+                    && r1.origin.y >=r2.origin.y
+                    && r1.size.width <=r2.size.width
+                    && r1.size.height <=r2.size.height
+                    ){
+                vecs->pushBack(r1.origin.x,r1.origin.y);
+                vecs->pushBack(r1.origin.x,r1.size.height);
+                vecs->pushBack(r1.size.width,r1.size.height);
+                vecs->pushBack(r1.size.width,r1.size.height);
+                return true;
+            }
+            if(r1.origin.x >=r2.origin.x
+                    && r1.origin.y >=r2.origin.y
+                    && r1.size.width <=r2.size.width
+                    && r1.size.height <=r2.size.height
+                    ){
+                vecs->pushBack(r1.origin.x,r1.origin.y);
+                vecs->pushBack(r1.origin.x,r1.size.height);
+                vecs->pushBack(r1.size.width,r1.size.height);
+                vecs->pushBack(r1.size.width,r1.size.height);
+                return true;
+            }
+        }
+        else return true;
+    }
+    return edk::collision::MathCollision::aabbPoints(r1,r2);
+}

@@ -73,7 +73,7 @@ private:
     SBufferInfo m_sBufferInfo;
 #endif
     //convert the frame with border
-    bool i240TorgbWithBorder(edk::uint8* y,edk::uint8* u,edk::uint8* v,edk::size2ui32 size,edk::uint8* rgb,edk::uint32 border);
+    bool i420TorgbWithBorder(edk::uint8* y,edk::uint8* u,edk::uint8* v,edk::size2ui32 size,edk::uint8* rgb,edk::uint32 border);
 };
 }//end namespace codecs
 }//end namespace edk

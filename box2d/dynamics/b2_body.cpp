@@ -109,6 +109,7 @@ b2Body::b2Body(const b2BodyDef* bd, b2World* world)
 	this->runUpCY=false;
 	this->upA = 0.f;
 	this->runUpA=false;
+	this->runUpS=false;
 }
 
 b2Body::~b2Body()

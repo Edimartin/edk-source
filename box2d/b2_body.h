@@ -472,6 +472,7 @@ private:
 	bool runUpSCY;			//save if need update the ynchronize position
 	float upA;			//update the angle
 	bool runUpA;			//save if need update the angle
+	bool runUpS;			//save if have updated something
 
 	b2Vec2 m_linearVelocity;
 	float m_angularVelocity;

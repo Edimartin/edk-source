@@ -93,6 +93,7 @@ public:
     bool setPolygonsSmoothOff();
     //update the polygons normals
     bool updatePolygonsNormals();
+    bool calculatePolygonsNormals();
 
     //rotate the object to look at the camera
     void lookAtPoint(edk::float32 x,edk::float32 y,edk::float32 z);

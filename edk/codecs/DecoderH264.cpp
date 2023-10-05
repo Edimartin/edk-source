@@ -41,7 +41,7 @@ edk::codecs::DecoderH264::~DecoderH264(){
     //
 }
 //convert the frame with border
-bool edk::codecs::DecoderH264::i240TorgbWithBorder(edk::uint8* y,edk::uint8* u,edk::uint8* v,edk::size2ui32 size,edk::uint8* rgb,edk::uint32 border){
+bool edk::codecs::DecoderH264::i420TorgbWithBorder(edk::uint8* y,edk::uint8* u,edk::uint8* v,edk::size2ui32 size,edk::uint8* rgb,edk::uint32 border){
     if(rgb && size.width && size.height && y && u && v){
         edk::float32 r,g,b;edkEnd();
         register edk::uint32 i=0u;
@@ -253,7 +253,7 @@ bool edk::codecs::DecoderH264::decode(edk::uint8* encoded,edk::uint32 size){
                     //create the frame RGB
                     if(this->newFrame(width,height,3u)){
                         //convert the i420 frame for RGB
-                        this->i240TorgbWithBorder(pic.pData[0u],pic.pData[1u],pic.pData[2u],edk::size2ui32(width,height),this->getFrame(),border);edkEnd();
+                        this->i420TorgbWithBorder(pic.pData[0u],pic.pData[1u],pic.pData[2u],edk::size2ui32(width,height),this->getFrame(),border);edkEnd();
                         return true;
                     }
                 }

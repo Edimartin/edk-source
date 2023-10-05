@@ -885,7 +885,7 @@ public:
         if(rect.size.height < this->treeNULL.size.height){
             rect.size.height = this->treeNULL.size.height;edkEnd();
         }
-        this->clean(rect);edkEnd();
+        this->cleanWithRectPoints(rect);edkEnd();
     }
     void incrementRect(edk::vec2f32 position,edk::size2f32 size){
         this->incrementRect(edk::rectf32(position,size));edkEnd();
@@ -1493,7 +1493,7 @@ public:
             }
         }
         this->runUpdateGets();edkEnd();
-        if(!ret){
+        if(ret){
             ret = (bool)this->treeTemp->size();edkEnd();
         }
         return ret;
@@ -1554,7 +1554,7 @@ public:
             }
         }
         this->runUpdateGets(edk::rectf32(point.x,point.y,point.x,point.y));edkEnd();
-        if(!ret){
+        if(ret){
             ret = (bool)this->treeTemp->size();edkEnd();
         }
         return ret;
@@ -1636,7 +1636,7 @@ public:
             }
         }
         this->runUpdateGets(rect);edkEnd();
-        if(!ret){
+        if(ret){
             ret = (bool)this->treeTemp->size();edkEnd();
         }
         return ret;
@@ -1718,7 +1718,7 @@ public:
             }
         }
         this->runUpdateGets(rect);edkEnd();
-        if(!ret){
+        if(ret){
             ret = (bool)this->treeTemp->size();edkEnd();
         }
         return ret;
@@ -2267,7 +2267,7 @@ public:
         if(rect.size.height < this->treeNULL.size.height){
             rect.size.height = this->treeNULL.size.height;edkEnd();
         }
-        this->clean(rect);edkEnd();
+        this->cleanWithRectPoints(rect);edkEnd();
     }
     void incrementRect(edk::vec2f64 position,edk::size2f64 size){
         this->incrementRect(edk::rectf64(position,size));edkEnd();
@@ -2662,7 +2662,7 @@ public:
     }
     void incrementRectPointsFromValue(typeTemplate value){
 #if defined(EDK_DONT_USE_QUADTREE)
-        return false;
+        return;
 #endif
         edk::rectf64 rectangle = edk::rectf64(0,0,1,1);edkEnd();
         edk::rectf64 rectTemp;edkEnd();
@@ -2875,7 +2875,7 @@ public:
             }
         }
         this->runUpdateGets();edkEnd();
-        if(!ret){
+        if(ret){
             ret = (bool)this->treeTemp->size();edkEnd();
         }
         return ret;
@@ -2936,7 +2936,7 @@ public:
             }
         }
         this->runUpdateGets(edk::rectf64(point.x,point.y,point.x,point.y));edkEnd();
-        if(!ret){
+        if(ret){
             ret = (bool)this->treeTemp->size();edkEnd();
         }
         return ret;
@@ -3018,7 +3018,7 @@ public:
             }
         }
         this->runUpdateGets(rect);edkEnd();
-        if(!ret){
+        if(ret){
             ret = (bool)this->treeTemp->size();edkEnd();
         }
         return ret;
@@ -3100,7 +3100,7 @@ public:
             }
         }
         this->runUpdateGets(rect);edkEnd();
-        if(!ret){
+        if(ret){
             ret = (bool)this->treeTemp->size();edkEnd();
         }
         return ret;

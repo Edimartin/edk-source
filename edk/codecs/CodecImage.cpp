@@ -703,7 +703,7 @@ bool edk::codecs::CodecImage::grayToyuv(edk::uint8* gray,edk::size2ui32 size,edk
     }
     return false;
 }
-bool edk::codecs::CodecImage::rgbToi240(edk::uint8* rgb,edk::size2ui32 size,edk::uint8* y,edk::uint8* u,edk::uint8* v){
+bool edk::codecs::CodecImage::rgbToi420(edk::uint8* rgb,edk::size2ui32 size,edk::uint8* y,edk::uint8* u,edk::uint8* v){
     if(rgb && size.width && size.height && y && u && v){
         //test the lenght (even or odd)
         if(!(size.width<<((sizeof(size.width)*8u)-1u))){
@@ -890,7 +890,7 @@ bool edk::codecs::CodecImage::rgbToi240(edk::uint8* rgb,edk::size2ui32 size,edk:
     }
     return false;
 }
-bool edk::codecs::CodecImage::grayToi240(edk::uint8* gray,edk::size2ui32 size,edk::uint8* y,edk::uint8* u,edk::uint8* v){
+bool edk::codecs::CodecImage::grayToi420(edk::uint8* gray,edk::size2ui32 size,edk::uint8* y,edk::uint8* u,edk::uint8* v){
     if(gray && size.width && size.height && y && u && v){
         //test the lenght (even or odd)
         if(!(size.width<<((sizeof(size.width)*8u)-1u))){
@@ -1109,7 +1109,7 @@ edk::color3ui8 edk::codecs::CodecImage::yuvTorgb(edk::uint8 y,edk::uint8 u,edk::
 edk::color3ui8 edk::codecs::CodecImage::yuvTorgb(edk::vec3ui8 color){
     return edk::codecs::CodecImage::yuvTorgb(color.x,color.y,color.z);edkEnd();
 }
-bool edk::codecs::CodecImage::i240Torgb(edk::uint8* y,edk::uint8* u,edk::uint8* v,edk::size2ui32 size,edk::uint8* rgb){
+bool edk::codecs::CodecImage::i420Torgb(edk::uint8* y,edk::uint8* u,edk::uint8* v,edk::size2ui32 size,edk::uint8* rgb){
     if(rgb && size.width && size.height && y && u && v){
         edk::float32 r,g,b;edkEnd();
         //test the lenght (even or odd)
