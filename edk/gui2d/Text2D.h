@@ -51,9 +51,6 @@ public:
     Text2D();
     ~Text2D();
 
-    //get the type
-    virtual edk::gui2d::gui2dTypes getType();
-
     //load the button textures and meshes
     bool load();
     void unload();

@@ -60,9 +60,6 @@ public:
     ObjectGui2d();
     ~ObjectGui2d();
 
-    //get the type
-    virtual edk::gui2d::gui2dTypes getType();
-
     //LOAD SPRITES
     bool loadSprite(const edk::char8* name,edk::uint32 filter = GU_NEAREST);
     bool loadSprite(edk::char8* name,edk::uint32 filter = GU_NEAREST);

@@ -76,6 +76,7 @@ public:
     //return frames size
     edk::uint32 selectedAnimationGetInterpolationSize();
     //cleanFrames and Names
+    bool selectedAnimationClean();
     bool selectedAnimationCleanFrames();
     bool selectedAnimationCleanAnimationNames();
     //controls
@@ -126,6 +127,9 @@ public:
     //test if have the animationName
     bool selectedAnimationHaveAnimationName(const edk::char8* name);
     bool selectedAnimationHaveAnimationName(edk::char8* name);
+    //return the animation seconds
+    edk::float32 selectedAnimationGetAnimationStart();
+    edk::float32 selectedAnimationGetAnimationEnd();
     //return the animation name seconds
     edk::float32 selectedAnimationGetAnimationNameStart(const edk::char8* name);
     edk::float32 selectedAnimationGetAnimationNameStart(edk::char8* name);

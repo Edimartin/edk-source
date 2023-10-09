@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::physics2D::StaticObject2D::StaticObject2D(){
-    this->physType = edk::physics::StaticBody;edkEnd();
+    this->type=edk::TypeObject2DStatic;
 }
 edk::physics2D::StaticObject2D::~StaticObject2D(){
 }

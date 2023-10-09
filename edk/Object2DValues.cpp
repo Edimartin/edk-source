@@ -24,12 +24,14 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-edk::Object2DValues::Object2DValues()
-{
+edk::Object2DValues::Object2DValues(){
+    this->type=edk::TypeObject2DValues;
     //this->angle=0.f;edkEnd();
     this->loadIdentityValues();edkEnd();
     this->fixedRotation=false;edkEnd();
     //this->cleanSaved();edkEnd();
+}
+edk::Object2DValues::~Object2DValues(){
 }
 void edk::Object2DValues::loadIdentityValues(){
     this->position = edk::vec2f32(0,0);edkEnd();
@@ -113,4 +115,12 @@ bool edk::Object2DValues::updateAnimations(edk::float32 seconds){
 //draw
 void edk::Object2DValues::draw(){
     //
+}
+//get the bodyType
+edk::TypeObject edk::Object2DValues::getType(){
+    //return edk::TypeObject2DValues;
+    return this->type;
+}
+edk::uint8 edk::Object2DValues::getTypeValue(){
+    return (edk::uint8)this->type;
 }

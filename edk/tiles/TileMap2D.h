@@ -364,7 +364,7 @@ private:
                 //create the new object
                 edk::physics2D::PhysicObject2D* object = NULL;edkEnd();
                 switch(type){
-                case edk::physics::StaticBody:
+                case edk::TypeObject2DStatic:
                     if(sensor){
                         object = new edk::physics2D::StaticSensor2D;edkEnd();
                     }
@@ -372,7 +372,7 @@ private:
                         object = new edk::physics2D::StaticObject2D;edkEnd();
                     }
                     break;
-                case edk::physics::KinematicBody:
+                case edk::TypeObject2DKinematic:
                     if(sensor){
                         object = new edk::physics2D::KinematicSensor2D;edkEnd();
                     }
@@ -380,7 +380,7 @@ private:
                         object = new edk::physics2D::KinematicObject2D;edkEnd();
                     }
                     break;
-                case edk::physics::DynamicBody:
+                case edk::TypeObject2DDynamic:
                     object = new edk::physics2D::DynamicObject2D;edkEnd();
                     break;
                 }
@@ -644,7 +644,7 @@ private:
 
                 edk::physics2D::PhysicObject2D* object = NULL;edkEnd();
                 //create the new object
-                if(type == edk::physics::StaticBody){
+                if(type == edk::TypeObject2DStatic){
                     if(sensor){
                         object = new edk::physics2D::StaticSensor2D;edkEnd();
                     }

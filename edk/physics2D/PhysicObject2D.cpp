@@ -24,7 +24,18 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+namespace tempEDK{
+namespace physics{
+enum bodyType{
+    StaticBody = 0u,
+    KinematicBody,
+    DynamicBody
+};
+}
+}
+
 edk::physics2D::PhysicObject2D::PhysicObject2D(){
+    this->type=edk::TypeObject2DPhysic;
     this->fixedRotation=false;edkEnd();
     this->canSleep=false;edkEnd();
     this->isObjectSensor=false;edkEnd();
@@ -35,7 +46,6 @@ edk::physics2D::PhysicObject2D::PhysicObject2D(){
     this->angularVelocity=0.f;edkEnd();
     this->angularVelocitySetted=false;edkEnd();
     this->direction = edk::vec2f32(0,0);edkEnd();
-    this->physType=0u;
 }
 edk::physics2D::PhysicObject2D::~PhysicObject2D(){
     if(this->canDeleteObject){
@@ -133,11 +143,6 @@ bool edk::physics2D::PhysicObject2D::haveSettedAngularVelocity(){
 }
 void edk::physics2D::PhysicObject2D::removeAllMesh(){
     this->cleanMesh();edkEnd();
-}
-
-//get the bodyType
-edk::uint8 edk::physics2D::PhysicObject2D::getType(){
-    return this->physType;edkEnd();
 }
 
 //return if it's a sensor
@@ -288,7 +293,7 @@ bool edk::physics2D::PhysicObject2D::writeToXML(edk::XML* xml,edk::uint32 id,boo
                         edk::char8* temp;edkEnd();
                         edk::char8* nameTemp;edkEnd();
                         edk::char8* iTemp;edkEnd();
-                        temp = edk::String::int32ToStr(this->getType());edkEnd();
+                        temp = edk::String::int32ToStr(this->getTypeValue());edkEnd();
                         if(temp){
                             xml->addSelectedNextAttribute((edk::char8*)"type",temp);edkEnd();
                             free(temp);edkEnd();
@@ -396,7 +401,16 @@ bool edk::physics2D::PhysicObject2D::readFromXML(edk::XML* xml,edk::uint32 id){
                     //read the object
                     edk::Object2D::readFromXML(xml,id);edkEnd();
                     //read type
-                    this->physType = edk::String::strToInt32(xml->getSelectedAttributeValueByName("type"));edkEnd();
+                    edk::uint32 newType = edk::String::strToInt32(xml->getSelectedAttributeValueByName("type"));edkEnd();
+                    if(newType==(edk::uint32)edk::TypeObject2DStatic || newType==tempEDK::physics::StaticBody){
+                        this->type = edk::TypeObject2DStatic;
+                    }
+                    else if(newType==(edk::uint32)edk::TypeObject2DKinematic || newType==tempEDK::physics::KinematicBody){
+                        this->type = edk::TypeObject2DKinematic;
+                    }
+                    else if(newType==(edk::uint32)edk::TypeObject2DDynamic || newType==tempEDK::physics::DynamicBody){
+                        this->type = edk::TypeObject2DDynamic;
+                    }
                     //read sensor
                     if(edk::String::strCompare(xml->getSelectedAttributeValueByName("sensor"),(edk::char8*)"true")){
                         this->isObjectSensor=true;edkEnd();
@@ -504,7 +518,16 @@ bool edk::physics2D::PhysicObject2D::readFromXMLFromPack(edk::pack::FilePackage*
                     //read the object
                     edk::Object2D::readFromXMLFromPack(pack,xml,id);edkEnd();
                     //read type
-                    this->physType = edk::String::strToInt32(xml->getSelectedAttributeValueByName("type"));edkEnd();
+                    edk::uint32 newType = edk::String::strToInt32(xml->getSelectedAttributeValueByName("type"));edkEnd();
+                    if(newType==(edk::uint32)edk::TypeObject2DStatic || newType==tempEDK::physics::StaticBody){
+                        this->type = edk::TypeObject2DStatic;
+                    }
+                    else if(newType==(edk::uint32)edk::TypeObject2DKinematic || newType==tempEDK::physics::KinematicBody){
+                        this->type = edk::TypeObject2DKinematic;
+                    }
+                    else if(newType==(edk::uint32)edk::TypeObject2DDynamic || newType==tempEDK::physics::DynamicBody){
+                        this->type = edk::TypeObject2DDynamic;
+                    }
                     //read sensor
                     if(edk::String::strCompare(xml->getSelectedAttributeValueByName("sensor"),(edk::char8*)"true")){
                         this->isObjectSensor=true;edkEnd();

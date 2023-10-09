@@ -30,6 +30,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 edk::Object2D::Object2D(){
     //
+    this->type=edk::TypeObject2D;
     this->selected=NULL;edkEnd();
     //rotation
     this->angle=0.0f;edkEnd();
@@ -747,6 +748,12 @@ void edk::Object2D::clean(){
     this->removeAllActions();edkEnd();
     */
 }
+
+//get the bodyType
+edk::TypeObject edk::Object2D::getType(){
+    return this->type;
+}
+
 //Add a list to the Object2D
 edk::uint32 edk::Object2D::addMesh(edk::shape::Mesh2D* mesh){
     //test if the list exist

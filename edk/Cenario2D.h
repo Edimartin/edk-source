@@ -156,10 +156,10 @@ public:
 
     //OBJECTS_PHYSICS
     //add a object to the tree
-    edk::physics2D::PhysicObject2D* newPhysicObject(edk::uint32 levelPosition,edk::physics::bodyType physicType);
-    edk::physics2D::PhysicObject2D* newPhysicObject(edk::uint32 levelPosition,edk::physics::bodyType physicType,edk::float32 depth);
-    edk::physics2D::PhysicObject2D* newPhysicSensor(edk::uint32 levelPosition,edk::physics::bodyType physicType);
-    edk::physics2D::PhysicObject2D* newPhysicSensor(edk::uint32 levelPosition,edk::physics::bodyType physicType,edk::float32 depth);
+    edk::physics2D::PhysicObject2D* newPhysicObject(edk::uint32 levelPosition,edk::TypeObject physicType);
+    edk::physics2D::PhysicObject2D* newPhysicObject(edk::uint32 levelPosition,edk::TypeObject physicType,edk::float32 depth);
+    edk::physics2D::PhysicObject2D* newPhysicSensor(edk::uint32 levelPosition,edk::TypeObject physicType);
+    edk::physics2D::PhysicObject2D* newPhysicSensor(edk::uint32 levelPosition,edk::TypeObject physicType,edk::float32 depth);
     bool addPhysicObject(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj);
     bool addPhysicObject(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj,edk::float32 depth);
     bool addPhysicObjectCreated(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj);
@@ -1230,7 +1230,7 @@ private:
                     //test if was animating
                     if(value->animating){
                         //then test if is kinematic
-                        if(temp->getType() == edk::physics::KinematicBody){
+                        if(temp->getType() == edk::TypeObject2DKinematic){
                             //clean the velocity
                             this->world->cleanObjectVelocity(temp);edkEnd();
                         }

@@ -26,18 +26,13 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 edk::gui2d::Button2D::Button2D(){
     //
+    this->type=edk::TypeObject2DButton;
     this->obj.setBorderSize(0.25f);edkEnd();
 }
 edk::gui2d::Button2D::~Button2D(){
     //clean the meshes
     this->unload();edkEnd();
 }
-
-//get the type
-edk::gui2d::gui2dTypes edk::gui2d::Button2D::getType(){
-    return edk::gui2d::gui2dTypeButton;edkEnd();
-}
-
 
 //load the button textures and meshes
 bool edk::gui2d::Button2D::load(){

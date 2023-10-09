@@ -75,9 +75,6 @@ public:
 
     void removeAllMesh();
 
-    //get the bodyType
-    virtual edk::uint8 getType();
-
     //return if it's a sensor
     virtual bool isSensor();
 
@@ -146,7 +143,6 @@ protected:
     bool linearVelocitySetted;
     bool angularVelocitySetted;
     bool isObjectSensor;
-    edk::uint32 physType;
 
     edk::vector::BinaryTree<edk::uint32> treeCollisionGroups;
     edk::vector::BinaryTree<edk::uint32> treeNotCollisionGroups;

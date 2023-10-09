@@ -241,6 +241,16 @@ edk::uint32 edk::shape::AnimatedPolygon2DList::selectedAnimationGetInterpolation
 }
 
 //cleanFrames and Names
+bool edk::shape::AnimatedPolygon2DList::selectedAnimationClean(){
+    //test if have a animationSelected
+    if(this->selectedAnimation){
+        //add new interpolationLine
+        this->selectedAnimation->clean();edkEnd();
+        return true;
+    }
+    //else return false
+    return false;
+}
 bool edk::shape::AnimatedPolygon2DList::selectedAnimationCleanFrames(){
     //test if have a animationSelected
     if(this->selectedAnimation){
@@ -612,6 +622,25 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationHaveAnimationName(edk::
     }
     //else return false
     return false;
+}
+//return the animation seconds
+edk::float32 edk::shape::AnimatedPolygon2DList::selectedAnimationGetAnimationStart(){
+    //test if have a animationSelected
+    if(this->selectedAnimation){
+        //add new interpolationLine
+        return this->selectedAnimation->getAnimationStart();edkEnd();
+    }
+    //else return false
+    return 0.f;
+}
+edk::float32 edk::shape::AnimatedPolygon2DList::selectedAnimationGetAnimationEnd(){
+    //test if have a animationSelected
+    if(this->selectedAnimation){
+        //add new interpolationLine
+        return this->selectedAnimation->getAnimationEnd();edkEnd();
+    }
+    //else return false
+    return 0.f;
 }
 //return the animation name seconds
 edk::float32 edk::shape::AnimatedPolygon2DList::selectedAnimationGetAnimationNameStart(const edk::char8* name){

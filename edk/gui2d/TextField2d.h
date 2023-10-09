@@ -60,8 +60,6 @@ public:
     TextField2d();
     virtual ~TextField2d();
 
-    //get the type
-    virtual edk::gui2d::gui2dTypes getType();
     //clean all characters
     void cleanCharacters();
 

@@ -1280,7 +1280,7 @@ public:
     }
     void incrementRectPointsFromValue(typeTemplate value){
 #if defined(EDK_DONT_USE_QUADTREE)
-        return false;
+        return;
 #endif
         edk::rectf32 rectangle = edk::rectf32(0,0,1,1);edkEnd();
         edk::rectf32 rectTemp;edkEnd();

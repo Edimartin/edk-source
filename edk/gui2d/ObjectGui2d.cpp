@@ -26,6 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 edk::gui2d::ObjectGui2d::ObjectGui2d(){
     //
+    this->type=edk::TypeObject2DGui;
     this->percent1=this->percent2=this->resize=0.f;edkEnd();
     for(edk::uint32 i = 0u;i<edk::gui2d::gui2dTextureSize;i++){
         this->spriteSize[i].width = this->spriteSize[i].height = 0.f;edkEnd();
@@ -39,12 +40,6 @@ edk::gui2d::ObjectGui2d::ObjectGui2d(){
 }
 edk::gui2d::ObjectGui2d::~ObjectGui2d(){
     //
-}
-
-//get the type
-edk::gui2d::gui2dTypes edk::gui2d::ObjectGui2d::getType(){
-    //
-    return edk::gui2d::gui2dTypeObject;edkEnd();
 }
 
 void edk::gui2d::ObjectGui2d::drawStart(){

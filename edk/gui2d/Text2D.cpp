@@ -24,15 +24,11 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 edk::gui2d::Text2D::Text2D(){
+    this->type=edk::TypeObject2DText;
     edk::gui2d::ObjectGui2d::setBorderSize(0.01f);edkEnd();
 }
 edk::gui2d::Text2D::~Text2D(){
     //
-}
-
-//get the type
-edk::gui2d::gui2dTypes edk::gui2d::Text2D::getType(){
-    return edk::gui2d::gui2dTypeText;edkEnd();
 }
 
 //load the button textures and meshes

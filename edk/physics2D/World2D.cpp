@@ -965,13 +965,13 @@ b2Body* edk::physics2D::World2D::getBody(edk::physics2D::PhysicObject2D* object)
             DynamicBody
 */
         switch(object->getType()){
-        case edk::physics::StaticBody:
+        case edk::TypeObject2DStatic:
             return this->treeStatic.getBody(object);
             //break;
-        case edk::physics::KinematicBody:
+        case edk::TypeObject2DKinematic:
             return this->treeKinematic.getBody(object);
             //break;
-        case edk::physics::DynamicBody:
+        case edk::TypeObject2DDynamic:
             return this->treeDynamic.getBody(object);
             //break;
         }
@@ -1616,11 +1616,23 @@ bool edk::physics2D::World2D::addObject(edk::physics2D::PhysicObject2D* object){
         b2BodyDef objectDef;edkEnd();
 
         /*
-        objectDef.angle = object->angle / (180.f / b2_pi);edkEnd();
-        objectDef.position = b2Vec2(object->position.x,object->position.y);edkEnd();
+        b2_staticBody = 0,
+        b2_kinematicBody,
+        b2_dynamicBody
         */
 
-        objectDef.type = (b2BodyType)object->getType();edkEnd();
+        switch(object->getType()){
+        case edk::TypeObject2DStatic:
+            objectDef.type = b2_staticBody;edkEnd();
+            break;
+        case edk::TypeObject2DKinematic:
+            objectDef.type = b2_kinematicBody;edkEnd();
+            break;
+        case edk::TypeObject2DDynamic:
+            objectDef.type = b2_dynamicBody;edkEnd();
+            break;
+        }
+
         objectDef.fixedRotation=object->fixedRotation;edkEnd();
 
         //In the new version of box2D the userData will be setted in objectDef
@@ -2058,19 +2070,19 @@ bool edk::physics2D::World2D::removeObject(edk::physics2D::PhysicObject2D* objec
             //load the box2D object
             b2Body* temp=NULL;edkEnd();
             switch(object->getType()){
-            case edk::physics::StaticBody:
+            case edk::TypeObject2DStatic:
                 temp = this->treeStatic.getBody(object);edkEnd();
                 if(temp){
                     this->treeStatic.removeBody(temp);edkEnd();
                 }
                 break;
-            case edk::physics::DynamicBody:
+            case edk::TypeObject2DDynamic:
                 temp = this->treeDynamic.getBody(object);edkEnd();
                 if(temp){
                     this->treeDynamic.removeBody(temp);edkEnd();
                 }
                 break;
-            case edk::physics::KinematicBody:
+            case edk::TypeObject2DKinematic:
                 temp = this->treeKinematic.getBody(object);edkEnd();
                 if(temp){
                     this->treeKinematic.removeBody(temp);edkEnd();
@@ -2194,17 +2206,17 @@ bool edk::physics2D::World2D::haveObject(edk::physics2D::PhysicObject2D* object)
     if(object){
         //test the objectType
         switch(object->getType()){
-        case edk::physics::StaticBody:            
+        case edk::TypeObject2DStatic:
 #if defined(EDK_USE_BOX2D)
             return this->treeStatic.haveBody(object);
 #endif
             break;
-        case edk::physics::DynamicBody:
+        case edk::TypeObject2DDynamic:
 #if defined(EDK_USE_BOX2D)
             return this->treeDynamic.haveBody(object);
 #endif
             break;
-        case edk::physics::KinematicBody:
+        case edk::TypeObject2DKinematic:
 #if defined(EDK_USE_BOX2D)
             return this->treeKinematic.haveBody(object);
 #endif
@@ -2290,17 +2302,17 @@ bool edk::physics2D::World2D::updateObjectVelocity(edk::physics2D::PhysicObject2
         b2Body* temp=NULL;edkEnd();
 #endif
         switch(object->getType()){
-        case edk::physics::StaticBody:
+        case edk::TypeObject2DStatic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeStatic.getBody(object);edkEnd();
 #endif
             break;
-        case edk::physics::DynamicBody:
+        case edk::TypeObject2DDynamic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeDynamic.getBody(object);edkEnd();
 #endif
             break;
-        case edk::physics::KinematicBody:
+        case edk::TypeObject2DKinematic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeKinematic.getBody(object);edkEnd();
 #endif
@@ -2335,17 +2347,17 @@ bool edk::physics2D::World2D::updateObjectLinearVelocity(edk::physics2D::PhysicO
         b2Body* temp=NULL;edkEnd();
 #endif
         switch(object->getType()){
-        case edk::physics::StaticBody:
+        case edk::TypeObject2DStatic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeStatic.getBody(object);edkEnd();
 #endif
             break;
-        case edk::physics::DynamicBody:
+        case edk::TypeObject2DDynamic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeDynamic.getBody(object);edkEnd();
 #endif
             break;
-        case edk::physics::KinematicBody:
+        case edk::TypeObject2DKinematic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeKinematic.getBody(object);edkEnd();
 #endif
@@ -2376,17 +2388,17 @@ bool edk::physics2D::World2D::updateObjectAngularVelocity(edk::physics2D::Physic
         b2Body* temp=NULL;edkEnd();
 #endif
         switch(object->getType()){
-        case edk::physics::StaticBody:
+        case edk::TypeObject2DStatic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeStatic.getBody(object);edkEnd();
 #endif
             break;
-        case edk::physics::DynamicBody:
+        case edk::TypeObject2DDynamic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeDynamic.getBody(object);edkEnd();
 #endif
             break;
-        case edk::physics::KinematicBody:
+        case edk::TypeObject2DKinematic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeKinematic.getBody(object);edkEnd();
 #endif
@@ -2411,17 +2423,17 @@ bool edk::physics2D::World2D::cleanObjectVelocity(edk::physics2D::PhysicObject2D
         b2Body* temp=NULL;edkEnd();
 #endif
         switch(object->getType()){
-        case edk::physics::StaticBody:
+        case edk::TypeObject2DStatic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeStatic.getBody(object);edkEnd();
 #endif
             break;
-        case edk::physics::DynamicBody:
+        case edk::TypeObject2DDynamic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeDynamic.getBody(object);edkEnd();
 #endif
             break;
-        case edk::physics::KinematicBody:
+        case edk::TypeObject2DKinematic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeKinematic.getBody(object);edkEnd();
 #endif
@@ -2445,17 +2457,17 @@ bool edk::physics2D::World2D::updateObjectStatus(edk::physics2D::PhysicObject2D*
         b2Body* temp=NULL;edkEnd();
 #endif
         switch(object->getType()){
-        case edk::physics::StaticBody:
+        case edk::TypeObject2DStatic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeStatic.getBody(object);edkEnd();
 #endif
             break;
-        case edk::physics::DynamicBody:
+        case edk::TypeObject2DDynamic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeDynamic.getBody(object);edkEnd();
 #endif
             break;
-        case edk::physics::KinematicBody:
+        case edk::TypeObject2DKinematic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeKinematic.getBody(object);edkEnd();
 #endif
@@ -2483,17 +2495,17 @@ bool edk::physics2D::World2D::updateObjectPosition(edk::physics2D::PhysicObject2
         b2Body* temp=NULL;edkEnd();
 #endif
         switch(object->getType()){
-        case edk::physics::StaticBody:
+        case edk::TypeObject2DStatic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeStatic.getBody(object);edkEnd();
 #endif
             break;
-        case edk::physics::DynamicBody:
+        case edk::TypeObject2DDynamic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeDynamic.getBody(object);edkEnd();
 #endif
             break;
-        case edk::physics::KinematicBody:
+        case edk::TypeObject2DKinematic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeKinematic.getBody(object);edkEnd();
 #endif
@@ -2521,17 +2533,17 @@ bool edk::physics2D::World2D::updateObjectPositionX(edk::physics2D::PhysicObject
         b2Body* temp=NULL;edkEnd();
 #endif
         switch(object->getType()){
-        case edk::physics::StaticBody:
+        case edk::TypeObject2DStatic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeStatic.getBody(object);edkEnd();
 #endif
             break;
-        case edk::physics::DynamicBody:
+        case edk::TypeObject2DDynamic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeDynamic.getBody(object);edkEnd();
 #endif
             break;
-        case edk::physics::KinematicBody:
+        case edk::TypeObject2DKinematic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeKinematic.getBody(object);edkEnd();
 #endif
@@ -2559,17 +2571,17 @@ bool edk::physics2D::World2D::updateObjectPositionY(edk::physics2D::PhysicObject
         b2Body* temp=NULL;edkEnd();
 #endif
         switch(object->getType()){
-        case edk::physics::StaticBody:
+        case edk::TypeObject2DStatic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeStatic.getBody(object);edkEnd();
 #endif
             break;
-        case edk::physics::DynamicBody:
+        case edk::TypeObject2DDynamic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeDynamic.getBody(object);edkEnd();
 #endif
             break;
-        case edk::physics::KinematicBody:
+        case edk::TypeObject2DKinematic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeKinematic.getBody(object);edkEnd();
 #endif
@@ -2599,17 +2611,17 @@ bool edk::physics2D::World2D::updateObjectSyncronizePosition(edk::physics2D::Phy
         b2Body* temp=NULL;edkEnd();
 #endif
         switch(object->getType()){
-        case edk::physics::StaticBody:
+        case edk::TypeObject2DStatic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeStatic.getBody(object);edkEnd();
 #endif
             break;
-        case edk::physics::DynamicBody:
+        case edk::TypeObject2DDynamic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeDynamic.getBody(object);edkEnd();
 #endif
             break;
-        case edk::physics::KinematicBody:
+        case edk::TypeObject2DKinematic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeKinematic.getBody(object);edkEnd();
 #endif
@@ -2633,17 +2645,17 @@ bool edk::physics2D::World2D::updateObjectSyncronizePositionX(edk::physics2D::Ph
         b2Body* temp=NULL;edkEnd();
 #endif
         switch(object->getType()){
-        case edk::physics::StaticBody:
+        case edk::TypeObject2DStatic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeStatic.getBody(object);edkEnd();
 #endif
             break;
-        case edk::physics::DynamicBody:
+        case edk::TypeObject2DDynamic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeDynamic.getBody(object);edkEnd();
 #endif
             break;
-        case edk::physics::KinematicBody:
+        case edk::TypeObject2DKinematic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeKinematic.getBody(object);edkEnd();
 #endif
@@ -2667,17 +2679,17 @@ bool edk::physics2D::World2D::updateObjectSyncronizePositionY(edk::physics2D::Ph
         b2Body* temp=NULL;edkEnd();
 #endif
         switch(object->getType()){
-        case edk::physics::StaticBody:
+        case edk::TypeObject2DStatic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeStatic.getBody(object);edkEnd();
 #endif
             break;
-        case edk::physics::DynamicBody:
+        case edk::TypeObject2DDynamic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeDynamic.getBody(object);edkEnd();
 #endif
             break;
-        case edk::physics::KinematicBody:
+        case edk::TypeObject2DKinematic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeKinematic.getBody(object);edkEnd();
 #endif
@@ -2701,17 +2713,17 @@ bool edk::physics2D::World2D::updateObjectAngle(edk::physics2D::PhysicObject2D* 
         b2Body* temp=NULL;edkEnd();
 #endif
         switch(object->getType()){
-        case edk::physics::StaticBody:
+        case edk::TypeObject2DStatic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeStatic.getBody(object);edkEnd();
 #endif
             break;
-        case edk::physics::DynamicBody:
+        case edk::TypeObject2DDynamic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeDynamic.getBody(object);edkEnd();
 #endif
             break;
-        case edk::physics::KinematicBody:
+        case edk::TypeObject2DKinematic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeKinematic.getBody(object);edkEnd();
 #endif
@@ -2736,17 +2748,17 @@ bool edk::physics2D::World2D::updateObjectPositionAndAngle(edk::physics2D::Physi
         b2Body* temp=NULL;edkEnd();
 #endif
         switch(object->getType()){
-        case edk::physics::StaticBody:
+        case edk::TypeObject2DStatic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeStatic.getBody(object);edkEnd();
 #endif
             break;
-        case edk::physics::DynamicBody:
+        case edk::TypeObject2DDynamic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeDynamic.getBody(object);edkEnd();
 #endif
             break;
-        case edk::physics::KinematicBody:
+        case edk::TypeObject2DKinematic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeKinematic.getBody(object);edkEnd();
 #endif
@@ -2776,17 +2788,17 @@ bool edk::physics2D::World2D::updateObjectPositionXAndAngle(edk::physics2D::Phys
         b2Body* temp=NULL;edkEnd();
 #endif
         switch(object->getType()){
-        case edk::physics::StaticBody:
+        case edk::TypeObject2DStatic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeStatic.getBody(object);edkEnd();
 #endif
             break;
-        case edk::physics::DynamicBody:
+        case edk::TypeObject2DDynamic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeDynamic.getBody(object);edkEnd();
 #endif
             break;
-        case edk::physics::KinematicBody:
+        case edk::TypeObject2DKinematic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeKinematic.getBody(object);edkEnd();
 #endif
@@ -2816,17 +2828,17 @@ bool edk::physics2D::World2D::updateObjectPositionYAndAngle(edk::physics2D::Phys
         b2Body* temp=NULL;edkEnd();
 #endif
         switch(object->getType()){
-        case edk::physics::StaticBody:
+        case edk::TypeObject2DStatic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeStatic.getBody(object);edkEnd();
 #endif
             break;
-        case edk::physics::DynamicBody:
+        case edk::TypeObject2DDynamic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeDynamic.getBody(object);edkEnd();
 #endif
             break;
-        case edk::physics::KinematicBody:
+        case edk::TypeObject2DKinematic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeKinematic.getBody(object);edkEnd();
 #endif
@@ -2943,12 +2955,12 @@ bool edk::physics2D::World2D::setLinearVelocity(edk::physics2D::PhysicObject2D* 
         b2Body* temp=NULL;edkEnd();
 #endif
         switch(object->getType()){
-        case edk::physics::DynamicBody:
+        case edk::TypeObject2DDynamic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeDynamic.getBody(object);edkEnd();
 #endif
             break;
-        case edk::physics::KinematicBody:
+        case edk::TypeObject2DKinematic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeKinematic.getBody(object);edkEnd();
 #endif
@@ -2976,12 +2988,12 @@ bool edk::physics2D::World2D::setAngularVelocity(edk::physics2D::PhysicObject2D*
         b2Body* temp=NULL;edkEnd();
 #endif
         switch(object->getType()){
-        case edk::physics::DynamicBody:
+        case edk::TypeObject2DDynamic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeDynamic.getBody(object);edkEnd();
 #endif
             break;
-        case edk::physics::KinematicBody:
+        case edk::TypeObject2DKinematic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeKinematic.getBody(object);edkEnd();
 #endif
@@ -3020,12 +3032,12 @@ bool edk::physics2D::World2D::applyForce(edk::physics2D::PhysicObject2D* object,
         b2Body* temp=NULL;edkEnd();
 #endif
         switch(object->getType()){
-        case edk::physics::DynamicBody:
+        case edk::TypeObject2DDynamic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeDynamic.getBody(object);edkEnd();
 #endif
             break;
-        case edk::physics::KinematicBody:
+        case edk::TypeObject2DKinematic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeKinematic.getBody(object);edkEnd();
 #endif
@@ -3066,12 +3078,12 @@ bool edk::physics2D::World2D::applyLinearImpulse(edk::physics2D::PhysicObject2D*
         b2Body* temp=NULL;edkEnd();
 #endif
         switch(object->getType()){
-        case edk::physics::DynamicBody:
+        case edk::TypeObject2DDynamic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeDynamic.getBody(object);edkEnd();
 #endif
             break;
-        case edk::physics::KinematicBody:
+        case edk::TypeObject2DKinematic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeKinematic.getBody(object);edkEnd();
 #endif
@@ -3104,12 +3116,12 @@ bool edk::physics2D::World2D::applyAngularImpulse(edk::physics2D::PhysicObject2D
         b2Body* temp=NULL;edkEnd();
 #endif
         switch(object->getType()){
-        case edk::physics::DynamicBody:
+        case edk::TypeObject2DDynamic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeDynamic.getBody(object);edkEnd();
 #endif
             break;
-        case edk::physics::KinematicBody:
+        case edk::TypeObject2DKinematic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeKinematic.getBody(object);edkEnd();
 #endif
@@ -3144,12 +3156,12 @@ bool edk::physics2D::World2D::applyTorque(edk::physics2D::PhysicObject2D* object
         b2Body* temp=NULL;edkEnd();
 #endif
         switch(object->getType()){
-        case edk::physics::DynamicBody:
+        case edk::TypeObject2DDynamic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeDynamic.getBody(object);edkEnd();
 #endif
             break;
-        case edk::physics::KinematicBody:
+        case edk::TypeObject2DKinematic:
 #if defined(EDK_USE_BOX2D)
             temp = this->treeKinematic.getBody(object);edkEnd();
 #endif
@@ -3282,7 +3294,7 @@ edk::physics2D::MouseJoint2D* edk::physics2D::World2D::createMouseJoint(edk::phy
     //test the object
     if(objectA){
         //test the objectType
-        if(objectA->getType()!=edk::physics::StaticBody){
+        if(objectA->getType()!=edk::TypeObject2DStatic){
             //create a ground body
             edk::physics2D::KinematicObject2D* ground = new edk::physics2D::KinematicObject2D;edkEnd();
             if(ground){
@@ -3397,7 +3409,7 @@ edk::physics2D::RevoluteJoint2D* edk::physics2D::World2D::createRevoluteJoint(ed
     //test the object
     if(objectA && objectB){
         //test the objectType
-        if(objectA->getType()!=edk::physics::StaticBody || objectB->getType()!=edk::physics::StaticBody){
+        if(objectA->getType()!=edk::TypeObject2DStatic || objectB->getType()!=edk::TypeObject2DStatic){
 #if defined(EDK_USE_BOX2D)
 
             //load the objects
@@ -3515,7 +3527,7 @@ edk::physics2D::RevoluteJoint2D* edk::physics2D::World2D::createRevoluteAngleJoi
     //test the object
     if(objectA && objectB){
         //test the objectType
-        if(objectA->getType()!=edk::physics::StaticBody || objectB->getType()!=edk::physics::StaticBody){
+        if(objectA->getType()!=edk::TypeObject2DStatic || objectB->getType()!=edk::TypeObject2DStatic){
 #if defined(EDK_USE_BOX2D)
 
             //load the objects
@@ -3643,7 +3655,7 @@ edk::physics2D::RevoluteJoint2D* edk::physics2D::World2D::createRevoluteMotorJoi
     //test the object
     if(objectA && objectB){
         //test the objectType
-        if(objectA->getType()!=edk::physics::StaticBody || objectB->getType()!=edk::physics::StaticBody){
+        if(objectA->getType()!=edk::TypeObject2DStatic || objectB->getType()!=edk::TypeObject2DStatic){
             //load the objects
 #if defined(EDK_USE_BOX2D)
             b2Body* bodyA = this->getBody(objectA);edkEnd();
@@ -3780,7 +3792,7 @@ edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticJoint(
     //test the object
     if(objectA && objectB){
         //test the objectType
-        if(objectA->getType()!=edk::physics::StaticBody || objectB->getType()!=edk::physics::StaticBody){
+        if(objectA->getType()!=edk::TypeObject2DStatic || objectB->getType()!=edk::TypeObject2DStatic){
 #if defined(EDK_USE_BOX2D)
 
             //load the objects
@@ -4020,7 +4032,7 @@ edk::physics2D::PrismaticJoint2D* edk::physics2D::World2D::createPrismaticMotorJ
     //test the object
     if(objectA && objectB){
         //test the objectType
-        if(objectA->getType()!=edk::physics::StaticBody || objectB->getType()!=edk::physics::StaticBody){
+        if(objectA->getType()!=edk::TypeObject2DStatic || objectB->getType()!=edk::TypeObject2DStatic){
 #if defined(EDK_USE_BOX2D)
 
             //load the objects
@@ -4280,7 +4292,7 @@ edk::physics2D::DistanceJoint2D* edk::physics2D::World2D::createDistanceJoint(ed
     //test the object
     if(objectA && objectB){
         //test the objectType
-        if(objectA->getType()!=edk::physics::StaticBody || objectB->getType()!=edk::physics::StaticBody){
+        if(objectA->getType()!=edk::TypeObject2DStatic || objectB->getType()!=edk::TypeObject2DStatic){
 #if defined(EDK_USE_BOX2D)
 
             //load the objects
@@ -4416,7 +4428,7 @@ edk::physics2D::PulleyJoint2D* edk::physics2D::World2D::createPulleyJoint(edk::p
     //test the object
     if(objectA && objectB){
         //test the objectType
-        if(objectA->getType()!=edk::physics::StaticBody || objectB->getType()!=edk::physics::StaticBody){
+        if(objectA->getType()!=edk::TypeObject2DStatic || objectB->getType()!=edk::TypeObject2DStatic){
 #if defined(EDK_USE_BOX2D)
 
             //load the objects
@@ -4653,7 +4665,7 @@ edk::physics2D::WheelJoint2D* edk::physics2D::World2D::createWheelJoint(edk::phy
     //test the object
     if(objectA && objectB){
         //test the objectType
-        if(objectA->getType()!=edk::physics::StaticBody || objectB->getType()!=edk::physics::StaticBody){
+        if(objectA->getType()!=edk::TypeObject2DStatic || objectB->getType()!=edk::TypeObject2DStatic){
 #if defined(EDK_USE_BOX2D)
 
             //load the objects
@@ -4784,7 +4796,7 @@ edk::physics2D::WheelJoint2D* edk::physics2D::World2D::createWheelMotorJoint(edk
     //test the object
     if(objectA && objectB){
         //test the objectType
-        if(objectA->getType()!=edk::physics::StaticBody || objectB->getType()!=edk::physics::StaticBody){
+        if(objectA->getType()!=edk::TypeObject2DStatic || objectB->getType()!=edk::TypeObject2DStatic){
 #if defined(EDK_USE_BOX2D)
 
             //load the objects
@@ -4916,7 +4928,7 @@ edk::physics2D::Joint2D* edk::physics2D::World2D::createWeldJoint(edk::physics2D
     //test the object
     if(objectA && objectB){
         //test the objectType
-        if(objectA->getType()!=edk::physics::StaticBody || objectB->getType()!=edk::physics::StaticBody){
+        if(objectA->getType()!=edk::TypeObject2DStatic || objectB->getType()!=edk::TypeObject2DStatic){
 #if defined(EDK_USE_BOX2D)
 
             //load the objects
@@ -4994,7 +5006,7 @@ edk::physics2D::RopeJoint2D* edk::physics2D::World2D::createRopeJoint(edk::physi
     //test the object
     if(objectA && objectB){
         //test the objectType
-        if(objectA->getType()!=edk::physics::StaticBody || objectB->getType()!=edk::physics::StaticBody){
+        if(objectA->getType()!=edk::TypeObject2DStatic || objectB->getType()!=edk::TypeObject2DStatic){
             //load the objects
             b2Body* bodyA = this->getBody(objectA);edkEnd();
             b2Body* bodyB = this->getBody(objectB);edkEnd();
@@ -5098,7 +5110,7 @@ edk::physics2D::RopeJoint2D* edk::physics2D::World2D::createGearJoint(edk::physi
     //test the object
     if(objectA && objectB){
         //test the objectType
-        if(objectA->getType()!=edk::physics::StaticBody || objectB->getType()!=edk::physics::StaticBody){
+        if(objectA->getType()!=edk::TypeObject2DStatic || objectB->getType()!=edk::TypeObject2DStatic){
             //load the objects
             b2Body* bodyA = this->getBody(objectA);edkEnd();
             b2Body* bodyB = this->getBody(objectB);edkEnd();

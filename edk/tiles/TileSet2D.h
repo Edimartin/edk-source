@@ -419,7 +419,7 @@ public:
     bool updateAnimations(edk::float32 seconds);
 
     //create a new object physics
-    bool setTilePhysics(edk::uint32 tile,edk::physics::bodyType type);
+    bool setTilePhysics(edk::uint32 tile,edk::TypeObject type);
     //add a polygon to the physics Object
     bool addTilePhysicsPolygon(edk::uint32 tile,edk::shape::Polygon2D poly);
     bool cleanTilePhysicsPolygons(edk::uint32 tile);

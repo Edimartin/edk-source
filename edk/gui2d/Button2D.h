@@ -50,9 +50,6 @@ public:
     Button2D();
     virtual ~Button2D();
 
-    //get the type
-    virtual edk::gui2d::gui2dTypes getType();
-
     //load the button textures and meshes
     bool load();
     void unload();

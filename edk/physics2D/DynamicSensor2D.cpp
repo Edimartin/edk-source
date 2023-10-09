@@ -24,10 +24,8 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-edk::physics2D::DynamicSensor2D::DynamicSensor2D()
-{
-    this->physType = edk::physics::DynamicBody;edkEnd();
+edk::physics2D::DynamicSensor2D::DynamicSensor2D(){
+    this->type=edk::TypeObject2DDynamic;
 }
-edk::physics2D::DynamicSensor2D::~DynamicSensor2D()
-{
+edk::physics2D::DynamicSensor2D::~DynamicSensor2D(){
 }

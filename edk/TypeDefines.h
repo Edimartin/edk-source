@@ -404,13 +404,27 @@ enum id{
     }
 */
 
-namespace physics{
-enum bodyType{
-    StaticBody = 0u,
-    KinematicBody,
-    DynamicBody
+//object types
+enum TypeObject{
+    TypeObject2DValues=0x10,
+    TypeObject2D,
+    TypeObject2DPhysic,
+    TypeObject2DDynamic,
+    TypeObject2DStatic,
+    TypeObject2DKinematic,
+
+    TypeObject3DValues=0x50,
+    TypeObject3D,
+
+    TypeObject2DGui=0xF0,
+    TypeObject2DButton,
+    TypeObject2DScrollBar,
+    TypeObject2DMenu,
+    TypeObject2DText,
+    TypeObject2DTextField,
+
+    edkObject2DSize
 };
-}
 
 //network defines
 namespace network{

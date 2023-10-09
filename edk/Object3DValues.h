@@ -30,6 +30,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 #pragma once
+#include "TypeDefines.h"
 #include "TypeVec3.h"
 #include "TypeSize3.h"
 #include "DebugFile.h"
@@ -49,6 +50,12 @@ public:
     edk::size3f32 size;
     bool fixedRotation;
     void loadIdentityValues();
+
+    //get the bodyType
+    edk::TypeObject getType();
+    edk::uint8 getTypeValue();
+protected:
+    edk::TypeObject type;
 };
 }//end namespace edk
 

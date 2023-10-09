@@ -825,6 +825,7 @@ void edk::gui2d::TextField2d::TextVec::setCaseInput(edk::gui2d::Case caseInput){
 }
 
 edk::gui2d::TextField2d::TextField2d(){
+    this->type=edk::TypeObject2DTextField;
     //
     this->fontColor = edk::color4f32(0,0,0,1);edkEnd();
     this->drawBackground=true;edkEnd();
@@ -839,10 +840,6 @@ edk::gui2d::TextField2d::~TextField2d(){
     this->unload();edkEnd();
 }
 
-//get the type
-edk::gui2d::gui2dTypes edk::gui2d::TextField2d::getType(){
-    return edk::gui2d::gui2dTypeTextField;edkEnd();
-}
 //clean all characters
 void edk::gui2d::TextField2d::cleanCharacters(){
     this->textVec.clean();edkEnd();

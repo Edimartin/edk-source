@@ -44,9 +44,6 @@ public:
     ScrollBar2d();
     virtual ~ScrollBar2d();
 
-    //get the type
-    virtual edk::gui2d::gui2dTypes getType();
-
     //save the FontTemplate
     static bool saveTemplates(const edk::char8* folder);
     static bool saveTemplates(edk::char8* folder);

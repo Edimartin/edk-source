@@ -485,7 +485,7 @@ private:
                     obj->setAngularVelocity(value->body->GetAngularVelocity() * (180.f / b2_pi));edkEnd();
                     obj->getAngularVelocity();edkEnd();
                     //test if can sleep
-                    if(!obj->canSleep && obj->getType()==edk::physics::DynamicBody){
+                    if(!obj->canSleep && obj->getType()==edk::TypeObject2DDynamic){
                         //set awake to true
                         value->body->SetAwake(true);edkEnd();
                     }

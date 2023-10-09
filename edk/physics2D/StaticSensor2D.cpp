@@ -27,7 +27,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 edk::physics2D::StaticSensor2D::StaticSensor2D()
 {
     this->isObjectSensor=true;edkEnd();
-    this->physType = edk::physics::StaticBody;edkEnd();
+    this->type = edk::TypeObject2DStatic;edkEnd();
 }
 edk::physics2D::StaticSensor2D::~StaticSensor2D(){
     this->tree.clean();edkEnd();

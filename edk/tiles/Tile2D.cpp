@@ -421,7 +421,7 @@ edk::shape::Mesh2D* edk::tiles::Tile2D::getMeshPointer(){
 }
 
 //create a new object physics
-bool edk::tiles::Tile2D::setPhysics(edk::physics::bodyType type){
+bool edk::tiles::Tile2D::setPhysics(edk::TypeObject type){
     this->deletePhysics();edkEnd();
     /*
     edk::shape::Rectangle2D rect;edkEnd();
@@ -431,13 +431,13 @@ bool edk::tiles::Tile2D::setPhysics(edk::physics::bodyType type){
     rect.setFriction(0.5);edkEnd();
     */
     switch(type){
-    case edk::physics::StaticBody:
+    case edk::TypeObject2DStatic:
         this->objPhys = new edk::physics2D::StaticObject2D;edkEnd();
         break;
-    case edk::physics::KinematicBody:
+    case edk::TypeObject2DKinematic:
         this->objPhys = new edk::physics2D::KinematicObject2D;edkEnd();
         break;
-    case edk::physics::DynamicBody:
+    case edk::TypeObject2DDynamic:
         this->objPhys = new edk::physics2D::DynamicObject2D;edkEnd();
         break;
     }

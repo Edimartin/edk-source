@@ -24,10 +24,8 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-edk::physics2D::KinematicObject2D::KinematicObject2D()
-{
-    this->physType = edk::physics::KinematicBody;edkEnd();
+edk::physics2D::KinematicObject2D::KinematicObject2D(){
+    this->type=edk::TypeObject2DKinematic;
 }
-edk::physics2D::KinematicObject2D::~KinematicObject2D()
-{
+edk::physics2D::KinematicObject2D::~KinematicObject2D(){
 }

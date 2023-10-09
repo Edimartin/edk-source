@@ -30,6 +30,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 #pragma once
+#include "TypeDefines.h"
 #include "TypeVec2.h"
 #include "TypeSize2.h"
 #include "TypeColor.h"
@@ -44,6 +45,7 @@ namespace edk{
 class Object2DValues{
 public:
     Object2DValues();
+    ~Object2DValues();
     edk::vec2f32 position;
     edk::float32 angle;
     edk::size2f32 size;
@@ -92,6 +94,12 @@ public:
     virtual bool updateAnimations(edk::float32 seconds);
     //draw
     virtual void draw();
+
+    //get the bodyType
+    edk::TypeObject getType();
+    edk::uint8 getTypeValue();
+protected:
+    edk::TypeObject type;
 };
 }
 

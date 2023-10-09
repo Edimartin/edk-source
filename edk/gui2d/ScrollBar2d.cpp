@@ -344,6 +344,7 @@ static edk::uchar8 borderScrollUp[6555] = {
 
 edk::gui2d::ScrollBar2d::ScrollBar2d(){
     //
+    this->type=edk::TypeObject2DScrollBar;
     this->setBorderSize(0.5f);edkEnd();
     this->objPosition = 0.f;edkEnd();
     this->saveSize = 1.f;edkEnd();
@@ -357,12 +358,6 @@ edk::gui2d::ScrollBar2d::ScrollBar2d(){
 edk::gui2d::ScrollBar2d::~ScrollBar2d(){
     //clean the meshes
     this->unload();edkEnd();
-}
-
-//get the type
-edk::gui2d::gui2dTypes edk::gui2d::ScrollBar2d::getType(){
-    //
-    return edk::gui2d::gui2dTypeScrollBar;edkEnd();
 }
 
 void edk::gui2d::ScrollBar2d::updateObjPosition(){

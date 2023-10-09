@@ -38,6 +38,11 @@ void edk::Object3D::clean(){
     this->cleanMeshes();
 }
 
+//get the bodyType
+edk::TypeObject edk::Object3D::getType(){
+    return edk::TypeObject3D;
+}
+
 //create a new mesh and add to the meshs stack
 edk::shape::Mesh3D* edk::Object3D::newMesh(edk::uint32* position){
     return this->meshes.pushNewMesh(position);edkEnd();

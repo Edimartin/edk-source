@@ -1774,7 +1774,7 @@ bool edk::tiles::TileSet2D::updateAnimations(edk::float32 seconds){
 }
 
 //create a new object physics
-bool edk::tiles::TileSet2D::setTilePhysics(edk::uint32 tile,edk::physics::bodyType type){
+bool edk::tiles::TileSet2D::setTilePhysics(edk::uint32 tile,edk::TypeObject type){
     if(tile){
         tile--;edkEnd();
         //load the tile from the stack

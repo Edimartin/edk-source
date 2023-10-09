@@ -60,6 +60,9 @@ public:
 
     void clean();
 
+    //get the bodyType
+    virtual edk::TypeObject getType();
+
     //create a new mesh and add to the meshs stack
     edk::shape::Mesh3D* newMesh(edk::uint32* position=NULL);
     //Add a list to the Object2D

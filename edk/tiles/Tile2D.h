@@ -185,7 +185,7 @@ public:
     edk::shape::Mesh2D* getMeshPointer();
 
     //create a new object physics
-    bool setPhysics(edk::physics::bodyType type);
+    bool setPhysics(edk::TypeObject type);
     //add a polygon to the physics Object
     bool addPhysicsPolygon(edk::shape::Polygon2D poly);
     bool cleanPhysicsPolygons();

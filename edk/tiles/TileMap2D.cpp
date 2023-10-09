@@ -82,7 +82,7 @@ edk::physics2D::PhysicObject2D* edk::tiles::TileMap2D::getStaticTile(edk::vec2ui
                 temp2 = this->tileSet->getTilePhysicsObject(tileID);edkEnd();
                 if(temp2){
                     //test if the temp2 is a dynamic physics tile
-                    if(temp2->getType() == edk::physics::StaticBody){
+                    if(temp2->getType() == edk::TypeObject2DStatic){
                         //test if the tile have a physics rectangle object
                         if(temp2->physicMesh.getPolygonSize() == 1u){
                             //now test if the polygon is an rectangle
@@ -1257,7 +1257,7 @@ bool edk::tiles::TileMap2D::loadPhysicsTilesStaticMerged(){
                             positionf.y = sizef.height*0.5f + (rectf.origin.y);edkEnd();
 
                             //create the object
-                            temp = this->treeStaticPhysics.newObjectInPositions(&positions,tileID,edk::physics::StaticBody,false);edkEnd();
+                            temp = this->treeStaticPhysics.newObjectInPositions(&positions,tileID,edk::TypeObject2DStatic,false);edkEnd();
 
                             if(temp){
                                 //copy the tileSet object to te temp
@@ -1292,7 +1292,7 @@ bool edk::tiles::TileMap2D::loadPhysicsTilesStaticMerged(){
                             positionf = this->getTileWorldPosition(rect.origin.x,rect.origin.y);edkEnd();
 
                             //create the object
-                            temp = this->treeStaticPhysics.newObjectInPositions(&positions,tileID,edk::physics::StaticBody,false);edkEnd();
+                            temp = this->treeStaticPhysics.newObjectInPositions(&positions,tileID,edk::TypeObject2DStatic,false);edkEnd();
 
                             if(temp){
                                 //copy the tileSet object to te temp
@@ -1334,7 +1334,7 @@ bool edk::tiles::TileMap2D::loadPhysicsTilesStaticMerged(){
                         temp1 = this->tileSet->getTilePhysicsObject(tileID);edkEnd();
                         if(temp1){
                             //test if the temp1 is a dynamic physics tile
-                            if(temp1->getType() == edk::physics::StaticBody){
+                            if(temp1->getType() == edk::TypeObject2DStatic){
                                 //create the physics object
                                 temp = this->treePhysics.newObjectInPosition(edk::vec2ui32(x,y),tileID,temp1->getType(),temp1->isSensor());edkEnd();
 
@@ -1385,7 +1385,7 @@ bool edk::tiles::TileMap2D::loadPhysicsTilesDynamic(){
                         temp2 = this->tileSet->getTilePhysicsObject(tileID);edkEnd();
                         if(temp2){
                             //test if the temp2 is a dynamic physics tile
-                            if(temp2->getType() == edk::physics::DynamicBody){
+                            if(temp2->getType() == edk::TypeObject2DDynamic){
 
                                 //create the physics object
                                 edk::physics2D::PhysicObject2D* temp = this->treePhysics.newObjectInPosition(edk::vec2ui32(x,y),tileID,temp2->getType(),temp2->isSensor());edkEnd();
@@ -1435,7 +1435,7 @@ bool edk::tiles::TileMap2D::loadPhysicsTilesKinematic(){
                         temp2 = this->tileSet->getTilePhysicsObject(tileID);edkEnd();
                         if(temp2){
                             //test if the temp2 is a dynamic physics tile
-                            if(temp2->getType() == edk::physics::KinematicBody){
+                            if(temp2->getType() == edk::TypeObject2DKinematic){
 
                                 //create the physics object
                                 edk::physics2D::PhysicObject2D* temp = this->treePhysics.newObjectInPosition(edk::vec2ui32(x,y),tileID,temp2->getType(),temp2->isSensor());edkEnd();
@@ -1485,7 +1485,7 @@ bool edk::tiles::TileMap2D::loadPhysicsTilesKinematicAndDynamic(){
                         temp2 = this->tileSet->getTilePhysicsObject(tileID);edkEnd();
                         if(temp2){
                             //test if the temp2 is a dynamic physics tile
-                            if(temp2->getType() == edk::physics::KinematicBody || temp2->getType() == edk::physics::DynamicBody){
+                            if(temp2->getType() == edk::TypeObject2DKinematic || temp2->getType() == edk::TypeObject2DDynamic){
 
                                 //create the physics object
                                 edk::physics2D::PhysicObject2D* temp = this->treePhysics.newObjectInPosition(edk::vec2ui32(x,y),tileID,temp2->getType(),temp2->isSensor());edkEnd();
