@@ -830,23 +830,23 @@ public:
         this->minimumQuadSize=minimumQuadSize;edkEnd();
     }
     void setRect(edk::vec2f32 position1,edk::vec2f32 position2,edk::float32 minimumQuadSize=edkQuadMinimumSize){
-        this->clean(edk::rectf32(position1.x,position1.y,position2.x,position2.y));edkEnd();
+        this->cleanWithRectPoints(edk::rectf32(position1.x,position1.y,position2.x,position2.y));edkEnd();
         this->minimumQuadSize=minimumQuadSize;edkEnd();
     }
     void setRect(edk::float32 pos1X,edk::float32 pos1Y,edk::float32 pos2X,edk::float32 pos2Y,edk::float32 minimumQuadSize=edkQuadMinimumSize){
-        this->clean(edk::rectf32(pos1X,pos1Y,pos2X,pos2Y));edkEnd();
+        this->cleanWithRectPoints(edk::rectf32(pos1X,pos1Y,pos2X,pos2Y));edkEnd();
         this->minimumQuadSize=minimumQuadSize;edkEnd();
     }
     void setRectPoints(edk::rectf32 rect,edk::float32 minimumQuadSize=edkQuadMinimumSize){
-        this->clean(rect);edkEnd();
+        this->cleanWithRectPoints(rect);edkEnd();
         this->minimumQuadSize=minimumQuadSize;edkEnd();
     }
     void setRectPoints(edk::vec2f32 position1,edk::vec2f32 position2,edk::float32 minimumQuadSize=edkQuadMinimumSize){
-        this->clean(edk::rectf32(position1.x,position1.y,position2.x,position2.y));edkEnd();
+        this->cleanWithRectPoints(edk::rectf32(position1.x,position1.y,position2.x,position2.y));edkEnd();
         this->minimumQuadSize=minimumQuadSize;edkEnd();
     }
     void setRectPoints(edk::float32 pos1X,edk::float32 pos1Y,edk::float32 pos2X,edk::float32 pos2Y,edk::float32 minimumQuadSize=edkQuadMinimumSize){
-        this->clean(edk::rectf32(pos1X,pos1Y,pos2X,pos2Y));edkEnd();
+        this->cleanWithRectPoints(edk::rectf32(pos1X,pos1Y,pos2X,pos2Y));edkEnd();
         this->minimumQuadSize=minimumQuadSize;edkEnd();
     }
     //return the quadtree rectangle
@@ -2212,11 +2212,11 @@ public:
         this->minimumQuadSize=minimumQuadSize;edkEnd();
     }
     void setRect(edk::vec2f64 position1,edk::vec2f64 position2,edk::float64 minimumQuadSize=edkQuadMinimumSize){
-        this->clean(edk::rectf64(position1.x,position1.y,position2.x,position2.y));edkEnd();
+        this->cleanWithRectPoints(edk::rectf64(position1.x,position1.y,position2.x,position2.y));edkEnd();
         this->minimumQuadSize=minimumQuadSize;edkEnd();
     }
     void setRect(edk::float64 pos1X,edk::float64 pos1Y,edk::float64 pos2X,edk::float64 pos2Y,edk::float64 minimumQuadSize=edkQuadMinimumSize){
-        this->clean(edk::rectf64(pos1X,pos1Y,pos2X,pos2Y));edkEnd();
+        this->cleanWithRectPoints(edk::rectf64(pos1X,pos1Y,pos2X,pos2Y));edkEnd();
         this->minimumQuadSize=minimumQuadSize;edkEnd();
     }
     void setRectPoints(edk::rectf64 rect,edk::float64 minimumQuadSize=edkQuadMinimumSize){
@@ -2224,11 +2224,11 @@ public:
         this->minimumQuadSize=minimumQuadSize;edkEnd();
     }
     void setRectPoints(edk::vec2f64 position1,edk::vec2f64 position2,edk::float64 minimumQuadSize=edkQuadMinimumSize){
-        this->clean(edk::rectf64(position1.x,position1.y,position2.x,position2.y));edkEnd();
+        this->cleanWithRectPoints(edk::rectf64(position1.x,position1.y,position2.x,position2.y));edkEnd();
         this->minimumQuadSize=minimumQuadSize;edkEnd();
     }
     void setRectPoints(edk::float64 pos1X,edk::float64 pos1Y,edk::float64 pos2X,edk::float64 pos2Y,edk::float64 minimumQuadSize=edkQuadMinimumSize){
-        this->clean(edk::rectf64(pos1X,pos1Y,pos2X,pos2Y));edkEnd();
+        this->cleanWithRectPoints(edk::rectf64(pos1X,pos1Y,pos2X,pos2Y));edkEnd();
         this->minimumQuadSize=minimumQuadSize;edkEnd();
     }
     //return the quadtree rectangle
