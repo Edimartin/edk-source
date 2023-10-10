@@ -49,6 +49,7 @@ public:
     void draw(edk::uint32 lightNumber);
     //draw the pivo
     void drawPivo(edk::float32 size,edk::color3f32 color);
+    void drawPivo(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b);
 
     //Set the position of the light
     void setPosition(edk::float32 x,edk::float32 y,edk::float32 z);

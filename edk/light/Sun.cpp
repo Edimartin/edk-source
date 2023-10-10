@@ -48,6 +48,9 @@ void edk::light::Sun::draw(edk::uint32 lightNumber){
 void edk::light::Sun::drawPivo(edk::float32 size,edk::color3f32 color){
     edk::light::Light::drawPivo(size,color);edkEnd();
 }
+void edk::light::Sun::drawPivo(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b){
+    this->drawPivo(size,edk::color3f32(r,g,b));
+}
 
 //Set the position of the light
 void edk::light::Sun::setPosition(edk::float32 x,edk::float32 y,edk::float32 z){
