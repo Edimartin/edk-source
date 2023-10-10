@@ -1631,6 +1631,9 @@ bool edk::physics2D::World2D::addObject(edk::physics2D::PhysicObject2D* object){
         case edk::TypeObject2DDynamic:
             objectDef.type = b2_dynamicBody;edkEnd();
             break;
+        default:
+            objectDef.type = (b2BodyType)-1;edkEnd();
+            break;
         }
 
         objectDef.fixedRotation=object->fixedRotation;edkEnd();
