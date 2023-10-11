@@ -84,36 +84,56 @@ bool render(){
 
 namespace edk{
 namespace vector{
-
-
-//NEXT CEL
 template <class typeTemplate>
-class StackCel : public edk::vector::Array<typeTemplate>{
-    //
+class StackCellLeaf : public edk::vector::Array<edk::vector::Array<typeTemplate>*>{
 public:
     //construtor
-    StackCel(){
-        //clean the next
-        this->next=NULL;edkEnd();
-        this->previous=NULL;edkEnd();
-    }
-    StackCel(edk::uint32 size){
-        //clean the next
-        this->next=NULL;edkEnd();
-        this->previous=NULL;edkEnd();
-        //
+    StackCellLeaf(){}
+    StackCellLeaf(edk::uint32 size){
         this->createArray(size);edkEnd();
     }
     //Destrutor
-    ~StackCel(){
-        //clean the next
-        this->next=NULL;edkEnd();
-        this->previous=NULL;edkEnd();
-    }
+    ~StackCellLeaf(){}
+};
 
-    //Next array
-    edk::vector::StackCel<typeTemplate>* next;
-    edk::vector::StackCel<typeTemplate>* previous;
+class StackCell : public edk::vector::Array<edk::classID>{
+public:
+    //construtor
+    StackCell(edk::uint32 level){
+        this->level = level;
+        this->father=NULL;
+        this->position=0u;
+        this->readPosition=0u;
+    }
+    StackCell(edk::vector::StackCell* father,edk::uint32 level){
+        this->level = level;
+        this->father=father;
+        this->position=0u;
+        this->readPosition=0u;
+    }
+    StackCell(edk::uint32 size,edk::uint32 level){
+        this->father=NULL;
+        this->level = level;
+        this->createArray(size);edkEnd();
+        this->position=0u;
+        this->readPosition=0u;
+    }
+    StackCell(edk::vector::StackCell* father,edk::uint32 size,edk::uint32 level){
+        this->father=father;
+        this->level = level;
+        this->createArray(size);edkEnd();
+        this->position=0u;
+        this->readPosition=0u;
+    }
+    //Destrutor
+    ~StackCell(){}
+    bool isLeaf(){return this->level==1u;}
+    edk::uint32 getLevel(){return this->level;}
+    edk::uint32 position;
+    edk::uint32 readPosition;
+    edk::vector::StackCell* father;
+private:
+    edk::uint32 level;
 };
 
 template <class typeTemplate>
@@ -123,20 +143,15 @@ public:
     Stack(){
         //clean the vectors
         this->canDeleteVector=true;edkEnd();
-        this->first=NULL;edkEnd();
-        this->end=NULL;edkEnd();
-        this->stackSize=0u;edkEnd();
-        this->deleteLastCel=NULL;edkEnd();
         this->StackArraySize=PatternArraySize;edkEnd();
+        this->stackSize=0u;
+
+        this->root=NULL;
     }
     //Construtor with arraySize
     Stack(edk::uint32 arraySize){
         //clean the vectors
         this->canDeleteVector=true;edkEnd();
-        this->first=NULL;edkEnd();
-        this->end=NULL;edkEnd();
-        this->stackSize=0u;edkEnd();
-        this->deleteLastCel=NULL;edkEnd();
         //Test if the arraySize is bigger then zero
         if(arraySize){
             //
@@ -146,6 +161,9 @@ public:
             //else set the Pattern
             this->StackArraySize=PatternArraySize;edkEnd();
         }
+        this->stackSize=0u;
+
+        this->root=NULL;
     }
     //Destrutor
     virtual ~Stack(){
@@ -153,16 +171,12 @@ public:
         if(this->canDeleteVector){
             //clean
             this->clean();edkEnd();
-            //
-            this->first=NULL;edkEnd();
-            this->end=NULL;edkEnd();
-            this->stackSize=0u;edkEnd();
-            this->deleteLastCel=NULL;edkEnd();
             this->canDeleteVector=false;edkEnd();
         }
         else{
             this->removed.cantDestruct();edkEnd();
         }
+        this->stackSize=0u;
         //
         this->canDeleteVector=true;edkEnd();
     }
@@ -170,133 +184,286 @@ public:
     //ADDS
     //pushBack the object
     edk::uint32 pushBack(typeTemplate obj){
-        //First test if need delete the last array
-        if(this->deleteLastCel){
-            //delete the array.
-            delete this->deleteLastCel;edkEnd();
-        }
-        this->deleteLastCel=NULL;edkEnd();
-
-        //test if have a removed
-        if(this->removed.haveRoot()){
-            //then set the obj in the root
-            edk::uint32 tempRoot = this->removed.getRootValue();edkEnd();
-            //test if can remove root
-            if(this->removed.remove(tempRoot)){
-                //then set the value
-                this->set(tempRoot,obj);edkEnd();
-
-                //return the pos
-                return tempRoot;edkEnd();
-            }
-        }
-
-        //else add in the end
-        if(this->end){
-            //get the position of the last obj
-            edk::uint32 lastPos = this->stackSize%StackArraySize;edkEnd();
-            if(!(lastPos)){
-                //then create a new array
-                if((this->createNewArray())){
-                    //add the obj
-                    this->end->set(lastPos,obj);edkEnd();
-                    //increment the size
-                    this->stackSize++;edkEnd();
-                    return this->stackSize-1u;edkEnd();
+        edk::uint32 ret=0u;
+        //test if don't have the root
+        if(!this->root){
+            //create a new root with the first array
+            this->root=new edk::vector::StackCell(this->StackArraySize,1u);
+            if(this->root){
+                //create the first array
+                edk::vector::Array<typeTemplate>* temp = new edk::vector::Array<typeTemplate>(this->StackArraySize);
+                if(temp){
+                    this->root->set(this->root->position++,(edk::classID)temp);
+                }
+                else{
+                    //else delete the root because we have a problem
+                    delete this->root;
+                    this->root=NULL;
                 }
             }
-            else{
-                //add the obj in the position
-                this->end->set(lastPos,obj);edkEnd();
-                //increment the size
-                this->stackSize++;edkEnd();
-                return this->stackSize-1u;edkEnd();
-            }
         }
-        //test if have a first
-        else if(this->first){
-            //then corrige the end
-            this->end=this->first;edkEnd();
-        }
-        else{
-            //else create a new array
-            if((this->createNewArray())){
-                //test if have a end
-                if(this->end){
-                    //then add the obj
-                    this->end->set(stackSize,obj);edkEnd();
-                    //increment the size
-                    this->stackSize++;edkEnd();
-                    return 0u;edkEnd();
+        //test if have the root
+        if(this->root){
+            //first get the new position of the element
+            edk::uint32 pos = 0u;
+            edk::uint32 rest = 0u;
+
+            edk::vector::StackCell* temp = this->root;
+            edk::vector::Array<typeTemplate>* newStack;
+            edk::vector::StackCell* newCell;
+
+            edk::uint32 searchPos;
+
+            while(temp){
+                //test if the temp is a leaf
+                searchPos=0u;
+                //search for the last position
+                while(temp->get(searchPos)){
+                    ++searchPos;
                 }
-                //else something is wrong
+                if(searchPos){
+                    //else go to the cell
+                    searchPos--;
+                    pos+=searchPos*this->StackArraySize*temp->getLevel();
+
+                    //test if are a leaf
+                    if(temp->isLeaf()){
+                        pos = this->stackSize-pos;
+                        rest = pos%this->StackArraySize;
+                        pos = searchPos;
+                        edk::vector::Array<typeTemplate>* leaf = (edk::vector::Array<typeTemplate>*)temp->get(pos);
+                        if(temp){
+                            leaf->set(rest,obj);
+                            ret = this->stackSize;
+                            this->stackSize++;
+
+                            //test if need create a new stack
+                            if(rest>=this->StackArraySize-1u){
+                                while(temp){
+                                    //have set the last in the array
+                                    if(temp->position>=this->StackArraySize){
+                                        //test uf have a father
+                                        if(temp->father){
+                                            //go into the father
+                                            temp=temp->father;
+                                        }
+                                        else{
+                                            //else is root
+                                            this->root=new edk::vector::StackCell(this->StackArraySize,temp->getLevel()*this->StackArraySize);
+                                            if(this->root){
+                                                //
+                                                temp->father=this->root;
+                                                this->root->set(this->root->position++,temp);
+                                                temp=this->root;
+                                            }
+                                            else{
+                                                //else it crash
+                                                this->root=temp;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    else{
+                                        //else just create a new cell or create a new array
+                                        if(temp->isLeaf()){
+                                            //create a new stack
+                                            newStack = new edk::vector::Array<typeTemplate>(this->StackArraySize);
+                                            if(newStack){
+                                                temp->set(temp->position++,(edk::classID)newStack);
+                                            }
+                                            break;
+                                        }
+                                        else{
+                                            //
+                                            newCell = new edk::vector::StackCell(this->StackArraySize,temp->getLevel()/this->StackArraySize);
+                                            if(newCell){
+                                                temp->set(temp->position++,newCell);
+                                                newCell->father=temp;
+                                                temp=newCell;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        break;
+                    }
+                    else{
+                        temp=(edk::vector::StackCell*)temp->get(searchPos);
+                    }
+                }
+                else{
+                }
             }
         }
-        //else return false
-        return 0u;edkEnd();
+        return ret;
     }
 
     //DELETE
     //Remove the top
     typeTemplate popBack(){
-        //First test if need delete the last array
-        if(this->deleteLastCel){
-            //delete the array.
-            delete this->deleteLastCel;edkEnd();
-        }
-        this->deleteLastCel=NULL;edkEnd();
+        typeTemplate ret;
+        typeTemplate retTemp;
+        memset(&ret,0u,sizeof(typeTemplate));
 
-        //the return
-        typeTemplate ret;edkEnd(); memset((void*)&ret,0u,sizeof(typeTemplate));edkEnd();
-        bool getRet=false;edkEnd();
+        edk::vector::StackCell* temp = this->root;
+        edk::vector::StackCell* temp2;
+        edk::vector::Array<typeTemplate>* tempArray;
+        edk::uint32 pos=0u;
+        edk::uint32 positionRemove;
+        edk::uint32 increment;
+        //test if have root
+        while(temp){
+            if(temp->isLeaf()){
 
-        //test if have elements on the Stack
-        //remove the last element
-        do{
-            if(this->stackSize){
-                //decrement the stackSize to get the last position
-                this->stackSize--;edkEnd();
-
-                //calculate the position of the last element
-                edk::uint32 arrayPos = this->stackSize%StackArraySize;edkEnd();
-                //test if don't have the elements
                 if(this->removed.haveElement(this->stackSize)){
-                    //then remove
-                    this->removed.remove(this->stackSize);edkEnd();
+                    while(true){
+                        positionRemove=this->stackSize-(pos + this->StackArraySize*temp->getLevel()*(temp->position-1u));
+                        if(positionRemove){
+                            //decrement the size
+                            this->stackSize--;
+                        }
+                        else{
+                            tempArray = (edk::vector::Array<typeTemplate>*)temp->get(temp->position-1u);
+                            if(tempArray){
+                                delete tempArray;
+                                temp->set(temp->position-1u,NULL);
+                                temp->position--;
+                                if(!temp->position){
+                                    temp2 = temp;
+                                    temp->father=temp;
+                                    delete temp2;
+                                    temp->set(temp->position-1u,NULL);
+                                    temp->position--;
+                                }
+                            }
+                        }
+                    }
+                    continue;
                 }
                 else{
-                    //else return the element
-                    if(!getRet){
-                        //memcpy((void*)&ret,(void*)&this->get(arrayPos),sizeof(typeTemplate));edkEnd();
-                        ret = this->get(arrayPos);edkEnd();
-                        getRet = true;edkEnd();
+                    increment = this->StackArraySize*temp->getLevel()*(temp->position-1u);
+                    pos += increment;
+
+                    if(pos>=this->stackSize){
+                        //remove the right
+                        tempArray = (edk::vector::Array<typeTemplate>*)temp->get(temp->position-1u);
+                        if(tempArray){
+                            temp->position--;
+                            temp->set(temp->position,NULL);
+                            delete tempArray;
+                            pos -= increment;
+
+                            if(!temp->position){
+                                //delete this temp
+                                temp2 = temp;
+                                temp=temp->father;
+                                pos -= this->StackArraySize*temp->getLevel()*(temp->position-1u);
+                                temp->set(temp->position-1u,NULL);
+                                temp->position--;
+                                delete temp2;
+                            }
+                        }
                     }
                     else{
-                        break;
+                        if(!pos){
+                            if(this->stackSize && this->stackSize<=this->StackArraySize){
+                                positionRemove=this->stackSize-1u;
+                                tempArray = (edk::vector::Array<typeTemplate>*)temp->get(temp->position-1u);
+                                if(tempArray){
+                                    retTemp = tempArray->get(positionRemove);
+                                    //remove
+                                    tempArray->set(positionRemove,ret);
+                                    //
+                                    memcpy(&ret,&retTemp,sizeof(typeTemplate));
+                                    this->stackSize--;
+                                    if(!this->stackSize){
+                                        delete this->root;
+                                        this->root=NULL;
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                        else{
+                            pos++;
+                            if(pos){
+                                //test if have position
+                                positionRemove = (this->stackSize-pos)%this->StackArraySize;
+                            }
+                            else{
+                                positionRemove = 0u;
+                            }
+                            tempArray = (edk::vector::Array<typeTemplate>*)temp->get(temp->position-1u);
+                            if(tempArray){
+                                retTemp = tempArray->get(positionRemove);
+                                //remove
+                                tempArray->set(positionRemove,ret);
+                                //
+                                memcpy(&ret,&retTemp,sizeof(typeTemplate));
+                                this->stackSize--;
+                                if(!this->stackSize){
+                                    delete this->root;
+                                    this->root=NULL;
+                                }
+                                break;
+                            }
+                        }
                     }
                 }
-                //test if need delete the end
-                if(!arrayPos){
-                    edk::vector::StackCel<typeTemplate>* temp = end;edkEnd();
-                    if(this->end->previous){
-                        this->end = this->end->previous;edkEnd();
-                        this->end->next = NULL;edkEnd();
+            }
+            else if(temp->position){
+                if(pos>=this->stackSize){
+                    //test if have right
+                    if(temp->position){
+                        //go to right
+                        pos += this->StackArraySize*temp->getLevel()*(temp->position-1u);
+                        temp = (edk::vector::StackCell*)temp->get(temp->position-1u);
                     }
                     else{
-                        if(this->first != this->end){
-                            delete this->first;edkEnd();
+                        //remove the right
+                        tempArray = (edk::vector::Array<typeTemplate>*)temp->get(temp->position-1u);
+                        if(tempArray){
+                            temp->position--;
+                            temp->set(temp->position,NULL);
+                            delete tempArray;
+                            pos -= increment;
+
+                            if(!temp->position){
+                                //delete this temp
+                                pos -= this->StackArraySize*temp->getLevel()*(temp->position-1u);
+                                temp2 = temp;
+                                temp=temp->father;
+                                pos -= this->StackArraySize*temp->getLevel()*(temp->position-1u);
+                                delete temp2;
+                            }
                         }
-                        this->first = this->end = NULL;edkEnd();
                     }
-                    delete temp;edkEnd();
+                }
+                else{
+                    if(temp->position==1u && temp==this->root){
+                        //remove the root
+                        this->root=(edk::vector::StackCell*)temp->get(temp->position-1u);
+                        delete temp;
+                        temp=this->root;
+                    }
+                    else{
+                        pos += this->StackArraySize*temp->getLevel()*(temp->position-1u);
+                        temp = (edk::vector::StackCell*)temp->get(temp->position-1u);
+                    }
                 }
             }
             else{
-                break;
+                //remove the cell
+                temp2 = temp;
+                temp=temp->father;
+                pos -= this->StackArraySize*temp->getLevel()*(temp->position-1u);
+                temp->set(temp->position-1u,NULL);
+                temp->position--;
+                delete temp2;
             }
-        }while(!this->havePos(this->stackSize-1u));edkEnd();
+        }
 
-        //else return false
         return ret;
     }
     //delete all Stack
@@ -307,85 +474,205 @@ public:
     //Copy the values inside the stack to a vector
     bool copyToVector(typeTemplate* vector){
         if(vector){
-            edk::uint32 increment=0u;edkEnd();
-            edk::vector::StackCel<typeTemplate> *temp=this->first;edkEnd();
+            edk::vector::StackCell* temp = this->root;
+            edk::vector::StackCell* temp2;
+            edk::uint32 position=0u;
+            edk::uint32 size;
+            edk::vector::Array<typeTemplate>* arrayTemp;
+            edk::uint32 i=0u;
             if(temp){
-                while(temp){
-                    if(!temp->next){
-                        edk::uint32 size = this->stackSize - increment;edkEnd();
-                        for(edk::uint32 i=0u;i<size;i++){
-                            //test if have the element
-                            if(!this->removed.haveElement(i)){
-                                //copy the element
-                                vector[0u] = temp->get(i);edkEnd();
-                                vector++;edkEnd();
+                temp->readPosition=0u;
+                if(this->removed.size()){
+                    while(temp){
+                        //test if are a leaf
+                        if(temp->isLeaf()){
+                            if(temp->readPosition<this->StackArraySize){
+                                if(position+this->StackArraySize>this->stackSize){
+                                    arrayTemp=(edk::vector::Array<typeTemplate>*)temp->get(temp->readPosition++);
+                                    if(arrayTemp){
+                                        size = this->stackSize;
+                                        i=0u;
+                                        while(position<size){
+                                            if(!this->removed.haveElement(position)){
+                                                vector[0u] = arrayTemp->get(i);edkEnd();
+                                                vector++;edkEnd();
+                                            }
+                                            position++;
+                                            i++;
+                                        }
+                                    }
+                                    else{
+                                        //else return false
+                                        return false;
+                                    }
+                                    //find the end
+                                    return true;
+                                }
+                                else{
+                                    arrayTemp=(edk::vector::Array<typeTemplate>*)temp->get(temp->readPosition++);
+                                    if(arrayTemp){
+                                        for(i=0u;i<this->StackArraySize;i++){
+                                            if(!this->removed.haveElement(position)){
+                                                vector[0u] = arrayTemp->get(i);edkEnd();
+                                                vector++;edkEnd();
+                                            }
+                                            position++;
+                                        }
+                                    }
+                                    else{
+                                        //else return false
+                                        return false;
+                                    }
+                                }
+                            }
+                            else{
+                                //go to the father
+                                temp=temp->father;
+                            }
+                        }
+                        else{
+                            //else search for the next cell
+                            if(temp->readPosition>=this->StackArraySize){
+                                //else go to the father
+                                temp = temp->father;
+                            }
+                            else {
+                                temp2 = (edk::vector::StackCell*)temp->get(temp->readPosition++);
+                                if(temp2){
+                                    temp=temp2;
+                                    temp->readPosition=0u;
+                                }
+                                else{
+                                    //else go to the father
+                                    temp = temp->father;
+                                }
                             }
                         }
                     }
-                    else{
-                        for(edk::uint32 i=0u;i<this->StackArraySize;i++){
-                            //test if have the element
-                            if(!this->removed.haveElement(i)){
-                                //copy the element
-                                vector[0u] = temp->get(i);edkEnd();
-                                vector++;edkEnd();
+                }
+                else{
+                    //without removed
+                    while(temp){
+                        //test if are a leaf
+                        if(temp->isLeaf()){
+                            if(temp->readPosition<this->StackArraySize){
+                                if(position+this->StackArraySize>this->stackSize){
+                                    arrayTemp=(edk::vector::Array<typeTemplate>*)temp->get(temp->readPosition++);
+                                    if(arrayTemp){
+                                        size = this->stackSize;
+                                        i=0u;
+                                        while(position<size){
+                                            vector[0u] = arrayTemp->get(i);edkEnd();
+                                            vector++;edkEnd();
+                                            position++;
+                                            i++;
+                                        }
+                                    }
+                                    else{
+                                        //else return false
+                                        return false;
+                                    }
+                                    //find the end
+                                    return true;
+                                }
+                                else{
+                                    arrayTemp=(edk::vector::Array<typeTemplate>*)temp->get(temp->readPosition++);
+                                    if(arrayTemp){
+                                        for(i=0u;i<this->StackArraySize;i++){
+                                            vector[0u] = arrayTemp->get(i);edkEnd();
+                                            vector++;edkEnd();
+                                            position++;
+                                        }
+                                    }
+                                    else{
+                                        //else return false
+                                        return false;
+                                    }
+                                }
+                            }
+                            else{
+                                //go to the father
+                                temp=temp->father;
+                            }
+                        }
+                        else{
+                            //else search for the next cell
+                            if(temp->readPosition>=this->StackArraySize){
+                                //else go to the father
+                                temp = temp->father;
+                            }
+                            else {
+                                temp2 = (edk::vector::StackCell*)temp->get(temp->readPosition++);
+                                if(temp2){
+                                    temp=temp2;
+                                    temp->readPosition=0u;
+                                }
+                                else{
+                                    //else go to the father
+                                    temp = temp->father;
+                                }
                             }
                         }
                     }
-                    temp=temp->next;edkEnd();
-                    increment+=this->StackArraySize;edkEnd();
                 }
                 return true;
             }
-            return false;
         }
         return false;
     }
     //clean the Stack
     void clean(){
-        //First test if need delete the last array
-        if(this->deleteLastCel){
-            //delete the array.
-            delete this->deleteLastCel;edkEnd();
-        }
-        this->deleteLastCel=NULL;edkEnd();
-
-        //Then clean
-        this->stackSize=0u;edkEnd();
-        //test if have a first
-        if(this->first){
-            //then clean from the first
-            while(this->first){
-                //create a temp
-                edk::vector::StackCel<typeTemplate> *temp;edkEnd();
-                //copy the next to the temp
-                temp= this->first->next;edkEnd();
-                //delete the first
-                delete this->first;edkEnd();
-                //set the first
-                this->first=temp;edkEnd();
+        edk::vector::StackCell* temp = root;
+        edk::vector::StackCell* temp2;
+        edk::vector::Array<typeTemplate>* tempArray;
+        while(temp){
+            if(temp->isLeaf()){
+                while(temp->position){
+                    tempArray = (edk::vector::Array<typeTemplate>*)temp->get(temp->position-1u);
+                    if(tempArray){
+                        delete tempArray;
+                        temp->position--;
+                    }
+                }
+                //delete the leaf
+                if(temp->father){
+                    temp2=temp->father;
+                    delete temp;
+                    temp2->set(temp2->position-1u,NULL);
+                    temp2->position--;
+                    temp=temp2;
+                }
+                else if(this->root == temp){
+                    delete this->root;
+                    this->root=NULL;
+                    temp=NULL;
+                }
+            }
+            else if(temp->position>1u){
+                //go right
+                temp = (edk::vector::StackCell*)temp->get(temp->position-1u);
+            }
+            else if(temp->position==1u){
+                //else go left
+                temp = (edk::vector::StackCell*)temp->get(temp->position-1u);
+            }
+            else{
+                //delete the leaf
+                if(temp->father){
+                    temp2=temp->father;
+                    delete temp;
+                    temp2->set(temp2->position-1u,NULL);
+                    temp2->position--;
+                    temp=temp2;
+                }
+                else if(this->root == temp){
+                    delete this->root;
+                    this->root=NULL;
+                    temp=NULL;
+                }
             }
         }
-        //test if have a end
-        else if(this->end){
-            //then clean from the end
-            while(this->end){
-                //create a temp
-                edk::vector::StackCel<typeTemplate> *temp;edkEnd();
-                //copy the previous to the temp
-                temp= this->end->previous;edkEnd();
-                //delete the end
-                delete this->end;edkEnd();
-                //set the end
-                this->end=temp;edkEnd();
-            }
-        }
-        this->first=NULL;edkEnd();
-        this->end=NULL;edkEnd();
-
-        //clean the removed's
-        this->removed.clean();edkEnd();
-        //this->canDeleteVector=false;edkEnd();
+        this->stackSize=0u;
     }
     //Clean changing the Stack ArraySize
     void clean(edk::uint32 arraySize){
@@ -434,25 +721,38 @@ public:
     bool set(edk::uint32 pos,typeTemplate obj){
         //test if have the pos
         if(this->havePos(pos)){
-            //get the position in the Stack
-            edk::uint32 StackPos = pos/StackArraySize;edkEnd();
-            edk::uint32 arrayPos = pos%StackArraySize;edkEnd();
-            //create a temp
-            edk::vector::StackCel<typeTemplate> *temp=this->first;edkEnd();
-            //then find the value
-            for(edk::uint32 i=0u;i<StackPos;i++){
-                //
-                if(temp->next){
-                    temp=temp->next;edkEnd();
+            edk::vector::StackCell* temp = root;
+            edk::vector::Array<typeTemplate>* tempArray;
+            edk::uint32 posNew;
+            edk::uint32 rest;
+            edk::uint32 increment;
+            while(temp){
+                //test if are leaf
+                if(temp->isLeaf()){
+                    //get the position
+                    posNew = pos/this->StackArraySize;
+                    rest = pos%this->StackArraySize;
+
+                    //test if have the position
+                    if(posNew<temp->position){
+                        tempArray = (edk::vector::Array<typeTemplate>*)temp->get(posNew);
+                        if(tempArray){
+                            return tempArray->set(rest,obj);
+                        }
+                    }
                 }
                 else{
-                    break;
+                    //else search
+                    for(edk::uint32 i=temp->position;i>0u;--i){
+                        increment = (i-1u)*this->StackArraySize*temp->getLevel();
+                        if(pos>=increment){
+                            //find it
+                            pos-=increment;
+                            temp=(edk::vector::StackCell*)temp->get(i-1u);
+                            break;
+                        }
+                    }
                 }
-            }
-            //set the object
-            if(temp){
-                //
-                return temp->set(arrayPos,obj);edkEnd();
             }
         }
         //else return NULL
@@ -464,25 +764,38 @@ public:
     typeTemplate get(edk::uint32 pos){
         //test if have the pos
         if(this->havePos(pos)){
-            //get the position in the Stack
-            edk::uint32 StackPos = pos/this->StackArraySize;edkEnd();
-            edk::uint32 arrayPos = pos%this->StackArraySize;edkEnd();
-            //create a temp
-            edk::vector::StackCel<typeTemplate> *temp=this->first;edkEnd();
-            //then find the value
-            for(edk::uint32 i=0u;i<StackPos;i++){
-                //
-                if(temp->next){
-                    temp=temp->next;edkEnd();
+            edk::vector::StackCell* temp = root;
+            edk::vector::Array<typeTemplate>* tempArray;
+            edk::uint32 posNew;
+            edk::uint32 rest;
+            edk::uint32 increment;
+            while(temp){
+                //test if are leaf
+                if(temp->isLeaf()){
+                    //get the position
+                    posNew = pos/this->StackArraySize;
+                    rest = pos%this->StackArraySize;
+
+                    //test if have the position
+                    if(posNew<temp->position){
+                        tempArray = (edk::vector::Array<typeTemplate>*)temp->get(posNew);
+                        if(tempArray){
+                            return tempArray->get(rest);
+                        }
+                    }
                 }
                 else{
-                    break;
+                    //else search
+                    for(edk::uint32 i=temp->position;i>0u;--i){
+                        increment = (i-1u)*this->StackArraySize*temp->getLevel();
+                        if(pos>=increment){
+                            //find it
+                            pos-=increment;
+                            temp=(edk::vector::StackCell*)temp->get(i-1u);
+                            break;
+                        }
+                    }
                 }
-            }
-            //return the object
-            if(temp){
-                //
-                return temp->get(arrayPos);edkEnd();
             }
         }
         //else return false
@@ -491,31 +804,142 @@ public:
     }
     //load the objects inside the stack
     virtual bool load(){
-        edk::uint32 increment=0u;edkEnd();
-        edk::vector::StackCel<typeTemplate> *temp=this->first;edkEnd();
+        edk::vector::StackCell* temp = this->root;
+        edk::vector::StackCell* temp2;
+        edk::uint32 position=0u;
+        edk::uint32 size;
+        edk::vector::Array<typeTemplate>* arrayTemp;
+        edk::uint32 i=0u;
         if(temp){
-            while(temp){
-                if(!temp->next){
-                    edk::uint32 size = this->stackSize - increment;edkEnd();
-                    for(edk::uint32 i=0u;i<size;i++){
-                        //test if have the element
-                        if(!this->removed.haveElement(i)){
-                            //update element
-                            this->loadElement(temp->get(i));edkEnd();
+            temp->readPosition=0u;
+            if(this->removed.size()){
+                while(temp){
+                    //test if are a leaf
+                    if(temp->isLeaf()){
+                        if(temp->readPosition<this->StackArraySize){
+                            if(position+this->StackArraySize>this->stackSize){
+                                arrayTemp=(edk::vector::Array<typeTemplate>*)temp->get(temp->readPosition++);
+                                if(arrayTemp){
+                                    size = this->stackSize;
+                                    i=0u;
+                                    while(position<size){
+                                        if(!this->removed.haveElement(position)){
+                                            this->loadElement(arrayTemp->get(i));edkEnd();
+                                        }
+                                        position++;
+                                        i++;
+                                    }
+                                }
+                                else{
+                                    //else return false
+                                    return false;
+                                }
+                                //find the end
+                                return true;
+                            }
+                            else{
+                                arrayTemp=(edk::vector::Array<typeTemplate>*)temp->get(temp->readPosition++);
+                                if(arrayTemp){
+                                    for(i=0u;i<this->StackArraySize;i++){
+                                        if(!this->removed.haveElement(position)){
+                                            this->loadElement(arrayTemp->get(i));edkEnd();
+                                        }
+                                        position++;
+                                    }
+                                }
+                                else{
+                                    //else return false
+                                    return false;
+                                }
+                            }
+                        }
+                        else{
+                            //go to the father
+                            temp=temp->father;
+                        }
+                    }
+                    else{
+                        //else search for the next cell
+                        if(temp->readPosition>=this->StackArraySize){
+                            //else go to the father
+                            temp = temp->father;
+                        }
+                        else {
+                            temp2 = (edk::vector::StackCell*)temp->get(temp->readPosition++);
+                            if(temp2){
+                                temp=temp2;
+                                temp->readPosition=0u;
+                            }
+                            else{
+                                //else go to the father
+                                temp = temp->father;
+                            }
                         }
                     }
                 }
-                else{
-                    for(edk::uint32 i=0u;i<this->StackArraySize;i++){
-                        //test if have the element
-                        if(!this->removed.haveElement(i)){
-                            //update element
-                            this->loadElement(temp->get(i));edkEnd();
+            }
+            else{
+                //without removed
+                while(temp){
+                    //test if are a leaf
+                    if(temp->isLeaf()){
+                        if(temp->readPosition<this->StackArraySize){
+                            if(position+this->StackArraySize>this->stackSize){
+                                arrayTemp=(edk::vector::Array<typeTemplate>*)temp->get(temp->readPosition++);
+                                if(arrayTemp){
+                                    size = this->stackSize;
+                                    i=0u;
+                                    while(position<size){
+                                        this->loadElement(arrayTemp->get(i));edkEnd();
+                                        position++;
+                                        i++;
+                                    }
+                                }
+                                else{
+                                    //else return false
+                                    return false;
+                                }
+                                //find the end
+                                return true;
+                            }
+                            else{
+                                arrayTemp=(edk::vector::Array<typeTemplate>*)temp->get(temp->readPosition++);
+                                if(arrayTemp){
+                                    for(i=0u;i<this->StackArraySize;i++){
+                                        this->loadElement(arrayTemp->get(i));edkEnd();
+                                        position++;
+                                    }
+                                }
+                                else{
+                                    //else return false
+                                    return false;
+                                }
+                            }
+                        }
+                        else{
+                            //go to the father
+                            temp=temp->father;
+                        }
+                    }
+                    else{
+                        //else search for the next cell
+                        if(temp->readPosition>=this->StackArraySize){
+                            //else go to the father
+                            temp = temp->father;
+                        }
+                        else {
+                            temp2 = (edk::vector::StackCell*)temp->get(temp->readPosition++);
+                            if(temp2){
+                                temp=temp2;
+                                temp->readPosition=0u;
+                            }
+                            else{
+                                //else go to the father
+                                temp = temp->father;
+                            }
                         }
                     }
                 }
-                temp=temp->next;edkEnd();
-                increment+=this->StackArraySize;edkEnd();
             }
             return true;
         }
@@ -524,31 +948,142 @@ public:
     //unload
     //update the objects inside the stack
     virtual bool unload(){
-        edk::uint32 increment=0u;edkEnd();
-        edk::vector::StackCel<typeTemplate> *temp=this->first;edkEnd();
+        edk::vector::StackCell* temp = this->root;
+        edk::vector::StackCell* temp2;
+        edk::uint32 position=0u;
+        edk::uint32 size;
+        edk::vector::Array<typeTemplate>* arrayTemp;
+        edk::uint32 i=0u;
         if(temp){
-            while(temp){
-                if(!temp->next){
-                    edk::uint32 size = this->stackSize - increment;edkEnd();
-                    for(edk::uint32 i=0u;i<size;i++){
-                        //test if have the element
-                        if(!this->removed.haveElement(i)){
-                            //update element
-                            this->unloadElement(temp->get(i));edkEnd();
+            temp->readPosition=0u;
+            if(this->removed.size()){
+                while(temp){
+                    //test if are a leaf
+                    if(temp->isLeaf()){
+                        if(temp->readPosition<this->StackArraySize){
+                            if(position+this->StackArraySize>this->stackSize){
+                                arrayTemp=(edk::vector::Array<typeTemplate>*)temp->get(temp->readPosition++);
+                                if(arrayTemp){
+                                    size = this->stackSize;
+                                    i=0u;
+                                    while(position<size){
+                                        if(!this->removed.haveElement(position)){
+                                            this->unloadElement(arrayTemp->get(i));edkEnd();
+                                        }
+                                        position++;
+                                        i++;
+                                    }
+                                }
+                                else{
+                                    //else return false
+                                    return false;
+                                }
+                                //find the end
+                                return true;
+                            }
+                            else{
+                                arrayTemp=(edk::vector::Array<typeTemplate>*)temp->get(temp->readPosition++);
+                                if(arrayTemp){
+                                    for(i=0u;i<this->StackArraySize;i++){
+                                        if(!this->removed.haveElement(position)){
+                                            this->unloadElement(arrayTemp->get(i));edkEnd();
+                                        }
+                                        position++;
+                                    }
+                                }
+                                else{
+                                    //else return false
+                                    return false;
+                                }
+                            }
+                        }
+                        else{
+                            //go to the father
+                            temp=temp->father;
+                        }
+                    }
+                    else{
+                        //else search for the next cell
+                        if(temp->readPosition>=this->StackArraySize){
+                            //else go to the father
+                            temp = temp->father;
+                        }
+                        else {
+                            temp2 = (edk::vector::StackCell*)temp->get(temp->readPosition++);
+                            if(temp2){
+                                temp=temp2;
+                                temp->readPosition=0u;
+                            }
+                            else{
+                                //else go to the father
+                                temp = temp->father;
+                            }
                         }
                     }
                 }
-                else{
-                    for(edk::uint32 i=0u;i<this->StackArraySize;i++){
-                        //test if have the element
-                        if(!this->removed.haveElement(i)){
-                            //update element
-                            this->unloadElement(temp->get(i));edkEnd();
+            }
+            else{
+                //without removed
+                while(temp){
+                    //test if are a leaf
+                    if(temp->isLeaf()){
+                        if(temp->readPosition<this->StackArraySize){
+                            if(position+this->StackArraySize>this->stackSize){
+                                arrayTemp=(edk::vector::Array<typeTemplate>*)temp->get(temp->readPosition++);
+                                if(arrayTemp){
+                                    size = this->stackSize;
+                                    i=0u;
+                                    while(position<size){
+                                        this->unloadElement(arrayTemp->get(i));edkEnd();
+                                        position++;
+                                        i++;
+                                    }
+                                }
+                                else{
+                                    //else return false
+                                    return false;
+                                }
+                                //find the end
+                                return true;
+                            }
+                            else{
+                                arrayTemp=(edk::vector::Array<typeTemplate>*)temp->get(temp->readPosition++);
+                                if(arrayTemp){
+                                    for(i=0u;i<this->StackArraySize;i++){
+                                        this->unloadElement(arrayTemp->get(i));edkEnd();
+                                        position++;
+                                    }
+                                }
+                                else{
+                                    //else return false
+                                    return false;
+                                }
+                            }
+                        }
+                        else{
+                            //go to the father
+                            temp=temp->father;
+                        }
+                    }
+                    else{
+                        //else search for the next cell
+                        if(temp->readPosition>=this->StackArraySize){
+                            //else go to the father
+                            temp = temp->father;
+                        }
+                        else {
+                            temp2 = (edk::vector::StackCell*)temp->get(temp->readPosition++);
+                            if(temp2){
+                                temp=temp2;
+                                temp->readPosition=0u;
+                            }
+                            else{
+                                //else go to the father
+                                temp = temp->father;
+                            }
                         }
                     }
                 }
-                temp=temp->next;edkEnd();
-                increment+=this->StackArraySize;edkEnd();
             }
             return true;
         }
@@ -557,31 +1092,142 @@ public:
     //UPDATE
     //update the objects inside the stack
     virtual bool update(){
-        edk::uint32 increment=0u;edkEnd();
-        edk::vector::StackCel<typeTemplate> *temp=this->first;edkEnd();
+        edk::vector::StackCell* temp = this->root;
+        edk::vector::StackCell* temp2;
+        edk::uint32 position=0u;
+        edk::uint32 size;
+        edk::vector::Array<typeTemplate>* arrayTemp;
+        edk::uint32 i=0u;
         if(temp){
-            while(temp){
-                if(!temp->next){
-                    edk::uint32 size = this->stackSize - increment;edkEnd();
-                    for(edk::uint32 i=0u;i<size;i++){
-                        //test if have the element
-                        if(!this->removed.haveElement(i)){
-                            //update element
-                            this->updateElement(temp->get(i));edkEnd();
+            temp->readPosition=0u;
+            if(this->removed.size()){
+                while(temp){
+                    //test if are a leaf
+                    if(temp->isLeaf()){
+                        if(temp->readPosition<this->StackArraySize){
+                            if(position+this->StackArraySize>this->stackSize){
+                                arrayTemp=(edk::vector::Array<typeTemplate>*)temp->get(temp->readPosition++);
+                                if(arrayTemp){
+                                    size = this->stackSize;
+                                    i=0u;
+                                    while(position<size){
+                                        if(!this->removed.haveElement(position)){
+                                            this->updateElement(arrayTemp->get(i));edkEnd();
+                                        }
+                                        position++;
+                                        i++;
+                                    }
+                                }
+                                else{
+                                    //else return false
+                                    return false;
+                                }
+                                //find the end
+                                return true;
+                            }
+                            else{
+                                arrayTemp=(edk::vector::Array<typeTemplate>*)temp->get(temp->readPosition++);
+                                if(arrayTemp){
+                                    for(i=0u;i<this->StackArraySize;i++){
+                                        if(!this->removed.haveElement(position)){
+                                            this->updateElement(arrayTemp->get(i));edkEnd();
+                                        }
+                                        position++;
+                                    }
+                                }
+                                else{
+                                    //else return false
+                                    return false;
+                                }
+                            }
+                        }
+                        else{
+                            //go to the father
+                            temp=temp->father;
+                        }
+                    }
+                    else{
+                        //else search for the next cell
+                        if(temp->readPosition>=this->StackArraySize){
+                            //else go to the father
+                            temp = temp->father;
+                        }
+                        else {
+                            temp2 = (edk::vector::StackCell*)temp->get(temp->readPosition++);
+                            if(temp2){
+                                temp=temp2;
+                                temp->readPosition=0u;
+                            }
+                            else{
+                                //else go to the father
+                                temp = temp->father;
+                            }
                         }
                     }
                 }
-                else{
-                    for(edk::uint32 i=0u;i<this->StackArraySize;i++){
-                        //test if have the element
-                        if(!this->removed.haveElement(i)){
-                            //update element
-                            this->updateElement(temp->get(i));edkEnd();
+            }
+            else{
+                //without removed
+                while(temp){
+                    //test if are a leaf
+                    if(temp->isLeaf()){
+                        if(temp->readPosition<this->StackArraySize){
+                            if(position+this->StackArraySize>this->stackSize){
+                                arrayTemp=(edk::vector::Array<typeTemplate>*)temp->get(temp->readPosition++);
+                                if(arrayTemp){
+                                    size = this->stackSize;
+                                    i=0u;
+                                    while(position<size){
+                                        this->updateElement(arrayTemp->get(i));edkEnd();
+                                        position++;
+                                        i++;
+                                    }
+                                }
+                                else{
+                                    //else return false
+                                    return false;
+                                }
+                                //find the end
+                                return true;
+                            }
+                            else{
+                                arrayTemp=(edk::vector::Array<typeTemplate>*)temp->get(temp->readPosition++);
+                                if(arrayTemp){
+                                    for(i=0u;i<this->StackArraySize;i++){
+                                        this->updateElement(arrayTemp->get(i));edkEnd();
+                                        position++;
+                                    }
+                                }
+                                else{
+                                    //else return false
+                                    return false;
+                                }
+                            }
+                        }
+                        else{
+                            //go to the father
+                            temp=temp->father;
+                        }
+                    }
+                    else{
+                        //else search for the next cell
+                        if(temp->readPosition>=this->StackArraySize){
+                            //else go to the father
+                            temp = temp->father;
+                        }
+                        else {
+                            temp2 = (edk::vector::StackCell*)temp->get(temp->readPosition++);
+                            if(temp2){
+                                temp=temp2;
+                                temp->readPosition=0u;
+                            }
+                            else{
+                                //else go to the father
+                                temp = temp->father;
+                            }
                         }
                     }
                 }
-                temp=temp->next;edkEnd();
-                increment+=this->StackArraySize;edkEnd();
             }
             return true;
         }
@@ -589,31 +1235,142 @@ public:
     }
     //print the objects inside the stack
     virtual bool print(){
-        edk::uint32 increment=0u;edkEnd();
-        edk::vector::StackCel<typeTemplate> *temp=this->first;edkEnd();
+        edk::vector::StackCell* temp = this->root;
+        edk::vector::StackCell* temp2;
+        edk::uint32 position=0u;
+        edk::uint32 size;
+        edk::vector::Array<typeTemplate>* arrayTemp;
+        edk::uint32 i=0u;
         if(temp){
-            while(temp){
-                if(!temp->next){
-                    edk::uint32 size = this->stackSize - increment;edkEnd();
-                    for(edk::uint32 i=0u;i<size;i++){
-                        //test if have the element
-                        if(!this->removed.haveElement(i)){
-                            //update element
-                            this->printElement(temp->get(i));edkEnd();
+            temp->readPosition=0u;
+            if(this->removed.size()){
+                while(temp){
+                    //test if are a leaf
+                    if(temp->isLeaf()){
+                        if(temp->readPosition<this->StackArraySize){
+                            if(position+this->StackArraySize>this->stackSize){
+                                arrayTemp=(edk::vector::Array<typeTemplate>*)temp->get(temp->readPosition++);
+                                if(arrayTemp){
+                                    size = this->stackSize;
+                                    i=0u;
+                                    while(position<size){
+                                        if(!this->removed.haveElement(position)){
+                                            this->printElement(arrayTemp->get(i));edkEnd();
+                                        }
+                                        position++;
+                                        i++;
+                                    }
+                                }
+                                else{
+                                    //else return false
+                                    return false;
+                                }
+                                //find the end
+                                return true;
+                            }
+                            else{
+                                arrayTemp=(edk::vector::Array<typeTemplate>*)temp->get(temp->readPosition++);
+                                if(arrayTemp){
+                                    for(i=0u;i<this->StackArraySize;i++){
+                                        if(!this->removed.haveElement(position)){
+                                            this->printElement(arrayTemp->get(i));edkEnd();
+                                        }
+                                        position++;
+                                    }
+                                }
+                                else{
+                                    //else return false
+                                    return false;
+                                }
+                            }
+                        }
+                        else{
+                            //go to the father
+                            temp=temp->father;
+                        }
+                    }
+                    else{
+                        //else search for the next cell
+                        if(temp->readPosition>=this->StackArraySize){
+                            //else go to the father
+                            temp = temp->father;
+                        }
+                        else {
+                            temp2 = (edk::vector::StackCell*)temp->get(temp->readPosition++);
+                            if(temp2){
+                                temp=temp2;
+                                temp->readPosition=0u;
+                            }
+                            else{
+                                //else go to the father
+                                temp = temp->father;
+                            }
                         }
                     }
                 }
-                else{
-                    for(edk::uint32 i=0u;i<this->StackArraySize;i++){
-                        //test if have the element
-                        if(!this->removed.haveElement(i)){
-                            //update element
-                            this->printElement(temp->get(i));edkEnd();
+            }
+            else{
+                //without removed
+                while(temp){
+                    //test if are a leaf
+                    if(temp->isLeaf()){
+                        if(temp->readPosition<this->StackArraySize){
+                            if(position+this->StackArraySize>this->stackSize){
+                                arrayTemp=(edk::vector::Array<typeTemplate>*)temp->get(temp->readPosition++);
+                                if(arrayTemp){
+                                    size = this->stackSize;
+                                    i=0u;
+                                    while(position<size){
+                                        this->printElement(arrayTemp->get(i));edkEnd();
+                                        position++;
+                                        i++;
+                                    }
+                                }
+                                else{
+                                    //else return false
+                                    return false;
+                                }
+                                //find the end
+                                return true;
+                            }
+                            else{
+                                arrayTemp=(edk::vector::Array<typeTemplate>*)temp->get(temp->readPosition++);
+                                if(arrayTemp){
+                                    for(i=0u;i<this->StackArraySize;i++){
+                                        this->printElement(arrayTemp->get(i));edkEnd();
+                                        position++;
+                                    }
+                                }
+                                else{
+                                    //else return false
+                                    return false;
+                                }
+                            }
+                        }
+                        else{
+                            //go to the father
+                            temp=temp->father;
+                        }
+                    }
+                    else{
+                        //else search for the next cell
+                        if(temp->readPosition>=this->StackArraySize){
+                            //else go to the father
+                            temp = temp->father;
+                        }
+                        else {
+                            temp2 = (edk::vector::StackCell*)temp->get(temp->readPosition++);
+                            if(temp2){
+                                temp=temp2;
+                                temp->readPosition=0u;
+                            }
+                            else{
+                                //else go to the father
+                                temp = temp->father;
+                            }
                         }
                     }
                 }
-                temp=temp->next;edkEnd();
-                increment+=this->StackArraySize;edkEnd();
             }
             return true;
         }
@@ -621,31 +1378,142 @@ public:
     }
     //render the objects inside the stack
     virtual bool render(){
-        edk::uint32 increment=0u;edkEnd();
-        edk::vector::StackCel<typeTemplate> *temp=this->first;edkEnd();
+        edk::vector::StackCell* temp = this->root;
+        edk::vector::StackCell* temp2;
+        edk::uint32 position=0u;
+        edk::uint32 size;
+        edk::vector::Array<typeTemplate>* arrayTemp;
+        edk::uint32 i=0u;
         if(temp){
-            while(temp){
-                if(!temp->next){
-                    edk::uint32 size = this->stackSize - increment;edkEnd();
-                    for(edk::uint32 i=0u;i<size;i++){
-                        //test if have the element
-                        if(!this->removed.haveElement(i)){
-                            //update element
-                            this->renderElement(temp->get(i));edkEnd();
+            temp->readPosition=0u;
+            if(this->removed.size()){
+                while(temp){
+                    //test if are a leaf
+                    if(temp->isLeaf()){
+                        if(temp->readPosition<this->StackArraySize){
+                            if(position+this->StackArraySize>this->stackSize){
+                                arrayTemp=(edk::vector::Array<typeTemplate>*)temp->get(temp->readPosition++);
+                                if(arrayTemp){
+                                    size = this->stackSize;
+                                    i=0u;
+                                    while(position<size){
+                                        if(!this->removed.haveElement(position)){
+                                            this->renderElement(arrayTemp->get(i));edkEnd();
+                                        }
+                                        position++;
+                                        i++;
+                                    }
+                                }
+                                else{
+                                    //else return false
+                                    return false;
+                                }
+                                //find the end
+                                return true;
+                            }
+                            else{
+                                arrayTemp=(edk::vector::Array<typeTemplate>*)temp->get(temp->readPosition++);
+                                if(arrayTemp){
+                                    for(i=0u;i<this->StackArraySize;i++){
+                                        if(!this->removed.haveElement(position)){
+                                            this->renderElement(arrayTemp->get(i));edkEnd();
+                                        }
+                                        position++;
+                                    }
+                                }
+                                else{
+                                    //else return false
+                                    return false;
+                                }
+                            }
+                        }
+                        else{
+                            //go to the father
+                            temp=temp->father;
+                        }
+                    }
+                    else{
+                        //else search for the next cell
+                        if(temp->readPosition>=this->StackArraySize){
+                            //else go to the father
+                            temp = temp->father;
+                        }
+                        else {
+                            temp2 = (edk::vector::StackCell*)temp->get(temp->readPosition++);
+                            if(temp2){
+                                temp=temp2;
+                                temp->readPosition=0u;
+                            }
+                            else{
+                                //else go to the father
+                                temp = temp->father;
+                            }
                         }
                     }
                 }
-                else{
-                    for(edk::uint32 i=0u;i<this->StackArraySize;i++){
-                        //test if have the element
-                        if(!this->removed.haveElement(i)){
-                            //update element
-                            this->renderElement(temp->get(i));edkEnd();
+            }
+            else{
+                //without removed
+                while(temp){
+                    //test if are a leaf
+                    if(temp->isLeaf()){
+                        if(temp->readPosition<this->StackArraySize){
+                            if(position+this->StackArraySize>this->stackSize){
+                                arrayTemp=(edk::vector::Array<typeTemplate>*)temp->get(temp->readPosition++);
+                                if(arrayTemp){
+                                    size = this->stackSize;
+                                    i=0u;
+                                    while(position<size){
+                                        this->renderElement(arrayTemp->get(i));edkEnd();
+                                        position++;
+                                        i++;
+                                    }
+                                }
+                                else{
+                                    //else return false
+                                    return false;
+                                }
+                                //find the end
+                                return true;
+                            }
+                            else{
+                                arrayTemp=(edk::vector::Array<typeTemplate>*)temp->get(temp->readPosition++);
+                                if(arrayTemp){
+                                    for(i=0u;i<this->StackArraySize;i++){
+                                        this->renderElement(arrayTemp->get(i));edkEnd();
+                                        position++;
+                                    }
+                                }
+                                else{
+                                    //else return false
+                                    return false;
+                                }
+                            }
+                        }
+                        else{
+                            //go to the father
+                            temp=temp->father;
+                        }
+                    }
+                    else{
+                        //else search for the next cell
+                        if(temp->readPosition>=this->StackArraySize){
+                            //else go to the father
+                            temp = temp->father;
+                        }
+                        else {
+                            temp2 = (edk::vector::StackCell*)temp->get(temp->readPosition++);
+                            if(temp2){
+                                temp=temp2;
+                                temp->readPosition=0u;
+                            }
+                            else{
+                                //else go to the father
+                                temp = temp->father;
+                            }
                         }
                     }
                 }
-                temp=temp->next;edkEnd();
-                increment+=this->StackArraySize;edkEnd();
             }
             return true;
         }
@@ -657,8 +1525,7 @@ public:
         return this->size();edkEnd();
     }
     //return the size
-    edk::uint32 size(){
-        //
+    inline edk::uint32 size(){
         return this->stackSize;edkEnd();
     }
     edk::uint32 sizeRemoved(){
@@ -680,41 +1547,301 @@ public:
     }
     //find the position of the object
     edk::uint32 find(typeTemplate obj){
-        //Just find the object
-
-        //test the size
-        if(this->stackSize){
-            //then find the object
-            for(edk::uint32 i=0u;i<this->stackSize;i++){
-                //test if have the object
-                if(this->havePos(i)){
-                    //test the obj
-                    if(this->get(i)==obj){
-                        //then return the i
-                        return i;edkEnd();
+        edk::vector::StackCell* temp = this->root;
+        edk::vector::StackCell* temp2;
+        edk::uint32 position=0u;
+        edk::uint32 size;
+        edk::vector::Array<typeTemplate>* arrayTemp;
+        edk::uint32 i=0u;
+        if(temp){
+            temp->readPosition=0u;
+            if(this->removed.size()){
+                while(temp){
+                    //test if are a leaf
+                    if(temp->isLeaf()){
+                        if(temp->readPosition<this->StackArraySize){
+                            if(position+this->StackArraySize>this->stackSize){
+                                arrayTemp=(edk::vector::Array<typeTemplate>*)temp->get(temp->readPosition++);
+                                if(arrayTemp){
+                                    size = this->stackSize;
+                                    i=0u;
+                                    while(position<size){
+                                        if(!this->removed.haveElement(position)){
+                                            if(this->elementEqual(arrayTemp->get(i),obj)){
+                                                return position;
+                                            }
+                                        }
+                                        position++;
+                                        i++;
+                                    }
+                                }
+                                else{
+                                    //else return false
+                                    return false;
+                                }
+                                //find the end
+                                return true;
+                            }
+                            else{
+                                arrayTemp=(edk::vector::Array<typeTemplate>*)temp->get(temp->readPosition++);
+                                if(arrayTemp){
+                                    for(i=0u;i<this->StackArraySize;i++){
+                                        if(!this->removed.haveElement(position)){
+                                            if(this->elementEqual(arrayTemp->get(i),obj)){
+                                                return position;
+                                            }
+                                        }
+                                        position++;
+                                    }
+                                }
+                                else{
+                                    //else return false
+                                    return false;
+                                }
+                            }
+                        }
+                        else{
+                            //go to the father
+                            temp=temp->father;
+                        }
+                    }
+                    else{
+                        //else search for the next cell
+                        if(temp->readPosition>=this->StackArraySize){
+                            //else go to the father
+                            temp = temp->father;
+                        }
+                        else {
+                            temp2 = (edk::vector::StackCell*)temp->get(temp->readPosition++);
+                            if(temp2){
+                                temp=temp2;
+                                temp->readPosition=0u;
+                            }
+                            else{
+                                //else go to the father
+                                temp = temp->father;
+                            }
+                        }
+                    }
+                }
+            }
+            else{
+                //without removed
+                while(temp){
+                    //test if are a leaf
+                    if(temp->isLeaf()){
+                        if(temp->readPosition<this->StackArraySize){
+                            if(position+this->StackArraySize>this->stackSize){
+                                arrayTemp=(edk::vector::Array<typeTemplate>*)temp->get(temp->readPosition++);
+                                if(arrayTemp){
+                                    size = this->stackSize;
+                                    i=0u;
+                                    while(position<size){
+                                        if(this->elementEqual(arrayTemp->get(i),obj)){
+                                            return position;
+                                        }
+                                        position++;
+                                        i++;
+                                    }
+                                }
+                                else{
+                                    //else return false
+                                    return false;
+                                }
+                                //find the end
+                                return true;
+                            }
+                            else{
+                                arrayTemp=(edk::vector::Array<typeTemplate>*)temp->get(temp->readPosition++);
+                                if(arrayTemp){
+                                    for(i=0u;i<this->StackArraySize;i++){
+                                        if(this->elementEqual(arrayTemp->get(i),obj)){
+                                            return position;
+                                        }
+                                        position++;
+                                    }
+                                }
+                                else{
+                                    //else return false
+                                    return false;
+                                }
+                            }
+                        }
+                        else{
+                            //go to the father
+                            temp=temp->father;
+                        }
+                    }
+                    else{
+                        //else search for the next cell
+                        if(temp->readPosition>=this->StackArraySize){
+                            //else go to the father
+                            temp = temp->father;
+                        }
+                        else {
+                            temp2 = (edk::vector::StackCell*)temp->get(temp->readPosition++);
+                            if(temp2){
+                                temp=temp2;
+                                temp->readPosition=0u;
+                            }
+                            else{
+                                //else go to the father
+                                temp = temp->father;
+                            }
+                        }
                     }
                 }
             }
         }
-        //else return 0u;edkEnd();
-        return 0u;edkEnd();
+        return 0u;
     }
     bool haveElement(typeTemplate obj){
-        //test the size
-        if(this->stackSize){
-            //then find the object
-            for(edk::uint32 i=0u;i<this->stackSize;i++){
-                //test if have the object
-                if(this->havePos(i)){
-                    //test the obj
-                    if(this->get(i)==obj){
-                        //then return the i
-                        return true;
+        edk::vector::StackCell* temp = this->root;
+        edk::vector::StackCell* temp2;
+        edk::uint32 position=0u;
+        edk::uint32 size;
+        edk::vector::Array<typeTemplate>* arrayTemp;
+        edk::uint32 i=0u;
+        if(temp){
+            temp->readPosition=0u;
+            if(this->removed.size()){
+                while(temp){
+                    //test if are a leaf
+                    if(temp->isLeaf()){
+                        if(temp->readPosition<this->StackArraySize){
+                            if(position+this->StackArraySize>this->stackSize){
+                                arrayTemp=(edk::vector::Array<typeTemplate>*)temp->get(temp->readPosition++);
+                                if(arrayTemp){
+                                    size = this->stackSize;
+                                    i=0u;
+                                    while(position<size){
+                                        if(!this->removed.haveElement(position)){
+                                            if(this->elementEqual(arrayTemp->get(i),obj)){
+                                                return true;
+                                            }
+                                        }
+                                        position++;
+                                        i++;
+                                    }
+                                }
+                                else{
+                                    //else return false
+                                    return false;
+                                }
+                                //find the end
+                                return true;
+                            }
+                            else{
+                                arrayTemp=(edk::vector::Array<typeTemplate>*)temp->get(temp->readPosition++);
+                                if(arrayTemp){
+                                    for(i=0u;i<this->StackArraySize;i++){
+                                        if(!this->removed.haveElement(position)){
+                                            if(this->elementEqual(arrayTemp->get(i),obj)){
+                                                return true;
+                                            }
+                                        }
+                                        position++;
+                                    }
+                                }
+                                else{
+                                    //else return false
+                                    return false;
+                                }
+                            }
+                        }
+                        else{
+                            //go to the father
+                            temp=temp->father;
+                        }
+                    }
+                    else{
+                        //else search for the next cell
+                        if(temp->readPosition>=this->StackArraySize){
+                            //else go to the father
+                            temp = temp->father;
+                        }
+                        else {
+                            temp2 = (edk::vector::StackCell*)temp->get(temp->readPosition++);
+                            if(temp2){
+                                temp=temp2;
+                                temp->readPosition=0u;
+                            }
+                            else{
+                                //else go to the father
+                                temp = temp->father;
+                            }
+                        }
+                    }
+                }
+            }
+            else{
+                //without removed
+                while(temp){
+                    //test if are a leaf
+                    if(temp->isLeaf()){
+                        if(temp->readPosition<this->StackArraySize){
+                            if(position+this->StackArraySize>this->stackSize){
+                                arrayTemp=(edk::vector::Array<typeTemplate>*)temp->get(temp->readPosition++);
+                                if(arrayTemp){
+                                    size = this->stackSize;
+                                    i=0u;
+                                    while(position<size){
+                                        if(this->elementEqual(arrayTemp->get(i),obj)){
+                                            return true;
+                                        }
+                                        position++;
+                                        i++;
+                                    }
+                                }
+                                else{
+                                    //else return false
+                                    return false;
+                                }
+                                //find the end
+                                return true;
+                            }
+                            else{
+                                arrayTemp=(edk::vector::Array<typeTemplate>*)temp->get(temp->readPosition++);
+                                if(arrayTemp){
+                                    for(i=0u;i<this->StackArraySize;i++){
+                                        if(this->elementEqual(arrayTemp->get(i),obj)){
+                                            return true;
+                                        }
+                                        position++;
+                                    }
+                                }
+                                else{
+                                    //else return false
+                                    return false;
+                                }
+                            }
+                        }
+                        else{
+                            //go to the father
+                            temp=temp->father;
+                        }
+                    }
+                    else{
+                        //else search for the next cell
+                        if(temp->readPosition>=this->StackArraySize){
+                            //else go to the father
+                            temp = temp->father;
+                        }
+                        else {
+                            temp2 = (edk::vector::StackCell*)temp->get(temp->readPosition++);
+                            if(temp2){
+                                temp=temp2;
+                                temp->readPosition=0u;
+                            }
+                            else{
+                                //else go to the father
+                                temp = temp->father;
+                            }
+                        }
                     }
                 }
             }
         }
-        //else return 0u;edkEnd();
         return false;
     }
 
@@ -722,33 +1849,33 @@ public:
     bool swap(edk::uint32 pos1,edk::uint32 pos2){
         //first test if have the two objects
         if(pos1<this->stackSize && pos2<this->stackSize){
-            //then test if have the objects
-            bool have1 = this->havePos(pos1);edkEnd();
-            bool have2 = this->havePos(pos2);edkEnd();
+            //bool getPosition2(edk::uint32 pos,edk::vector::Array<typeTemplate>* array[],edk::uint32* posArray);
+            edk::vector::Array<typeTemplate>* array1=NULL;
+            edk::uint32 posArray1=0u;
+            edk::vector::Array<typeTemplate>* array2=NULL;
+            edk::uint32 posArray2=0u;
 
-            //remove the 1 and 2 from the removed's
-            this->removed.remove(pos1);edkEnd();
-            this->removed.remove(pos2);edkEnd();
-
-            //then switch
-            typeTemplate temp = this->get(pos1);edkEnd();
-            this->set(pos1,this->get(pos2));edkEnd();
-            this->set(pos2,temp);edkEnd();
-
-            //put the new removed's
-            if(!have1){
-                //
-                this->removed.add(pos2);edkEnd();
-                if(!have2){
-                    //
-                    this->removed.add(pos1);edkEnd();
+            if(this->getPosition(pos1,&array1,&posArray1)
+                    &&
+                    this->getPosition(pos2,&array2,&posArray2)
+                    ){
+                //change the position
+                typeTemplate type = array2->get(posArray2);
+                array2->set(posArray2,array1->get(posArray1));
+                array1->set(posArray1,type);
+                bool have1=this->removed.haveElement(posArray1),have2=this->removed.haveElement(posArray2);
+                if(have1!=have2){
+                    if(have1){
+                        this->removed.remove(have1);
+                        this->removed.add(have2);
+                    }
+                    else{
+                        this->removed.remove(have2);
+                        this->removed.add(have1);
+                    }
                 }
+                return true;
             }
-            else if(!have2){
-                //
-                this->removed.add(pos1);edkEnd();
-            }
-            return true;
         }
         //else return false
         return false;
@@ -850,13 +1977,10 @@ protected:
     virtual void updateElement(typeTemplate){}
     virtual void printElement(typeTemplate){}
     virtual void renderElement(typeTemplate){}
+    virtual bool elementEqual(typeTemplate ,typeTemplate ){return false;}
 private:
     //Have the first cel
-    edk::vector::StackCel<typeTemplate>* first;
-    //Have the next cel
-    edk::vector::StackCel<typeTemplate>* end;
-    //set to delete the last Cel
-    edk::vector::StackCel<typeTemplate>* deleteLastCel;
+    edk::vector::StackCell* root;
 
     //Have a binary of the removed positions
     edk::vector::BinaryTree<edk::uint32> removed;
@@ -865,10 +1989,10 @@ private:
 #if defined(__arch64__) || defined(_LP64)
     edk::uint64 stackSize;
 #elif defined(__arch32__) || defined(_LP32)
-    edk::uint32 stackSize;
+    edk::uint32 stackSize2;
 #else
     //another system
-    edk::uint32 stackSize;
+    edk::uint32 stackSize2;
 #endif
 
     //Size of the array on the stack
@@ -876,50 +2000,97 @@ private:
     //test if can delete the vector
     bool canDeleteVector;
 
-    //Create a new array
-    bool createNewArray(){
-        //First test if need delete the last array
-        if(this->deleteLastCel){
-            //delete the array.
-            delete this->deleteLastCel;edkEnd();
-        }
-        this->deleteLastCel=NULL;edkEnd();
+    //get the position in the stack
+    bool getPosition(edk::uint32 pos,edk::vector::Array<typeTemplate>* array[],edk::uint32* posArray){
+        if(array && posArray){
 
-        //test if have a end
-        if(this->end){
-            //then create a next in the end
-            if((this->end->next =new edk::vector::StackCel<typeTemplate>(StackArraySize))){
-                //set the previous
-                this->end->next->previous=this->end;edkEnd();
-                this->end->next->next=NULL;edkEnd();
-                //set the end
-                this->end = this->end->next;edkEnd();
-                //return true
-                return true;
-            }
-            //else clean the next
-            this->end->next=NULL;edkEnd();
-        }
-        else{
-            //else create the first
-            if(this->first){
-                //Clean the Stack to make a new Stack
-                this->clean();edkEnd();
-            }
-            if((this->first = new edk::vector::StackCel<typeTemplate>(StackArraySize))){
-                //set the end
-                this->end=this->first;edkEnd();
 
-                this->first->next=NULL;edkEnd();
-                this->first->previous=NULL;edkEnd();
 
-                //return true
-                return true;
+            //test if have the pos
+            if(this->havePos(pos)){
+                edk::vector::StackCell* temp = root;
+                edk::vector::Array<typeTemplate>* tempArray;
+                edk::uint32 posNew;
+                edk::uint32 rest;
+                edk::uint32 increment;
+                while(temp){
+                    //test if are leaf
+                    if(temp->isLeaf()){
+                        //get the position
+                        posNew = pos/this->StackArraySize;
+                        rest = pos%this->StackArraySize;
+
+                        //test if have the position
+                        if(posNew<temp->position){
+                            tempArray = (edk::vector::Array<typeTemplate>*)temp->get(posNew);
+                            if(tempArray){
+                                *array=tempArray;
+                                *posArray=rest;
+                                return true;
+                            }
+                        }
+                    }
+                    else{
+                        //else search
+                        for(edk::uint32 i=temp->position;i>0u;--i){
+                            increment = (i-1u)*this->StackArraySize*temp->getLevel();
+                            if(pos>=increment){
+                                //find it
+                                pos-=increment;
+                                temp=(edk::vector::StackCell*)temp->get(i-1u);
+                                break;
+                            }
+                        }
+                    }
+                }
             }
-            //clean the first
-            this->first=NULL;edkEnd();
+
+
+
+
+
+
+
+
+            //test if have the pos
+            if(this->havePos(pos)){
+                edk::vector::StackCell* temp = root;
+                edk::vector::Array<typeTemplate>* tempArray;
+                edk::uint32 posNew;
+                edk::uint32 rest;
+                edk::uint32 increment;
+                while(temp){
+                    //test if are leaf
+                    if(temp->isLeaf()){
+                        //get the position
+                        posNew = pos/this->StackArraySize;
+                        rest = pos%this->StackArraySize;
+
+                        //test if have the position
+                        if(posNew<temp->position){
+                            tempArray = (edk::vector::Array<typeTemplate>*)temp->get(posNew);
+                            if(tempArray){
+                                *array=tempArray;
+                                *posArray=rest;
+                                return true;
+                            }
+                        }
+                    }
+                    else{
+                        //else search
+                        for(edk::uint32 i=temp->position;i>0u;--i){
+                            increment = (i-1u)*this->StackArraySize*temp->getLevel();
+                            if(pos>=increment){
+                                //find it
+                                pos-=increment;
+                                temp=(edk::vector::StackCell*)temp->get(i-1u);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
         }
-        //else return false
         return false;
     }
 private:
