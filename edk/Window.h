@@ -142,8 +142,10 @@ public:
     void runPauseSwitchViews();
 
     void runPauseViews();
+    void pauseViews();
 
     void runUnpauseViews();
+    void unpauseViews();
 
     bool isPaused();
 

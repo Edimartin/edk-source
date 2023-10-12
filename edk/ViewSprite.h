@@ -65,6 +65,10 @@ public:
     bool loadSpriteFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 filter = GU_NEAREST);
     bool loadSpriteFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter = GU_NEAREST);
 
+    //Set UV
+    bool setSpriteUV(edk::vec2f32 uv);
+    bool setSpriteUV(edk::float32 u,edk::float32 v);
+
     //Delete the sprite
     void deleteSprite();
     //return the spriteSize
@@ -87,6 +91,7 @@ private:
     edk::Texture2DList list;
     //sprite
     edk::uint32 spriteCode;
+    edk::vec2f32 spriteUV;
     edk::uint32 spriteFilter;
     edk::size2ui32 spriteSize;
 };

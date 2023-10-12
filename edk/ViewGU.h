@@ -69,15 +69,22 @@ class ViewGU: public edk::ViewSpriteController{
         ViewGU();
         virtual ~ViewGU();
 
+        //filter
+        //GU_NEAREST
+        //GU_LINEAR
+        //GU_NEAREST_MIPMAP_NEAREST
+        //GU_NEAREST_MIPMAP_LINEAR
+        //GU_LINEAR_MIPMAP_NEAREST
+        //GU_LINEAR_MIPMAP_LINEAR
         //load the background
-        bool loadBackground(const edk::char8* name);
-        bool loadBackground(edk::char8* name);
+        bool loadBackground(const edk::char8* name,edk::uint32 filter = GU_NEAREST);
+        bool loadBackground(edk::char8* name,edk::uint32 filter = GU_NEAREST);
         //load the sprite from memory
-        bool loadBackgroundFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 size);
-        bool loadBackgroundFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size);
+        bool loadBackgroundFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
+        bool loadBackgroundFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
         //laod the sprite from pack
-        bool loadBackgroundFromPack(edk::pack::FilePackage* pack, edk::char8* name);
-        bool loadBackgroundFromPack(edk::pack::FilePackage* pack, const edk::char8* name);
+        bool loadBackgroundFromPack(edk::pack::FilePackage* pack, edk::char8* name,edk::uint32 filter = GU_NEAREST);
+        bool loadBackgroundFromPack(edk::pack::FilePackage* pack, const edk::char8* name,edk::uint32 filter = GU_NEAREST);
 
         //delete the background
         void deleteBackground();

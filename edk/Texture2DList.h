@@ -56,6 +56,13 @@ public:
     Texture2DList();
     ~Texture2DList();
 
+    //filter
+    //GU_NEAREST
+    //GU_LINEAR
+    //GU_NEAREST_MIPMAP_NEAREST
+    //GU_NEAREST_MIPMAP_LINEAR
+    //GU_LINEAR_MIPMAP_NEAREST
+    //GU_LINEAR_MIPMAP_LINEAR
     //create a new texture
     edk::uint32 createTexture(edk::char8* name,edk::size2ui32 size,edk::uint32 mode = GU_RGB,edk::uint32 filter = GU_NEAREST);
     edk::uint32 createTexture(const char8* name,edk::size2ui32 size,edk::uint32 mode = GU_RGB,edk::uint32 filter = GU_NEAREST);
@@ -77,6 +84,13 @@ public:
     //GU_RGBA
     //GU_BGR
     //GU_BGRA
+    //filter
+    //GU_NEAREST
+    //GU_LINEAR
+    //GU_NEAREST_MIPMAP_NEAREST
+    //GU_NEAREST_MIPMAP_LINEAR
+    //GU_LINEAR_MIPMAP_NEAREST
+    //GU_LINEAR_MIPMAP_LINEAR
     bool readTexture(edk::char8* name,edk::uint32 format,edk::uint8* image,edk::uint32 filter = GU_NEAREST);
     bool readTexture(const char8* name,edk::uint32 format,edk::uint8* image,edk::uint32 filter = GU_NEAREST);
     bool readTexture(edk::uint32 code,edk::uint32 format,edk::uint8* image);
@@ -105,6 +119,13 @@ public:
     //delete all textures
     void deleteAllTextures();
     //return the size of the texture
+    //filter
+    //GU_NEAREST
+    //GU_LINEAR
+    //GU_NEAREST_MIPMAP_NEAREST
+    //GU_NEAREST_MIPMAP_LINEAR
+    //GU_LINEAR_MIPMAP_NEAREST
+    //GU_LINEAR_MIPMAP_LINEAR
     edk::size2ui32 getTextureSize(edk::char8* name,edk::uint32 filter = GU_NEAREST);
     edk::size2ui32 getTextureSize(const edk::char8* name,edk::uint32 filter = GU_NEAREST);
     edk::size2ui32 getTextureSize(edk::uint32 code);

@@ -44,6 +44,13 @@ public:
     ViewSpriteController();
     virtual ~ViewSpriteController();
 
+    //filter
+    //GU_NEAREST
+    //GU_LINEAR
+    //GU_NEAREST_MIPMAP_NEAREST
+    //GU_NEAREST_MIPMAP_LINEAR
+    //GU_LINEAR_MIPMAP_NEAREST
+    //GU_LINEAR_MIPMAP_LINEAR
     //create a new sprite
     bool createSprite(const edk::char8* name,edk::size2ui32 size, edk::uint32 mode = GU_RGB,edk::uint32 filter = GU_NEAREST);
     bool createSprite(edk::char8* name,edk::size2ui32 size, edk::uint32 mode = GU_RGB,edk::uint32 filter = GU_NEAREST);

@@ -34,6 +34,7 @@ edk::ViewSprite::ViewSprite()
     this->spriteCode=0u;
     this->spriteFilter=0u;
     this->spriteSize = edk::size2ui32(0u,0u);edkEnd();
+    this->spriteUV = 1.f;
 }
 
 edk::ViewSprite::~ViewSprite()
@@ -168,6 +169,18 @@ bool edk::ViewSprite::loadSpriteFromPack(edk::pack::FilePackage* pack,edk::char8
     return false;
 }
 
+//Set UV
+bool edk::ViewSprite::setSpriteUV(edk::vec2f32 uv){
+    if(uv.x>0.f && uv.y>0.f){
+        this->spriteUV = uv;
+        return true;
+    }
+    return false;
+}
+bool edk::ViewSprite::setSpriteUV(edk::float32 u,edk::float32 v){
+    return this->setSpriteUV(edk::vec2f32(u,v));
+}
+
 //Delete the sprite
 void edk::ViewSprite::deleteSprite(){
     //
@@ -202,16 +215,16 @@ void edk::ViewSprite::drawPolygon(rectf32){
 
     //Draw a quadrangle
     edk::GU::guBegin(GU_QUADS);edkEnd();
-    edk::GU::guVertexTex2f32(0.f, 1.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.f, this->spriteUV.y);edkEnd();
     edk::GU::guVertex3f32(0.f, 0.f, 0.f);edkEnd();
 
     edk::GU::guVertexTex2f32(0.f, 0.f);edkEnd();
     edk::GU::guVertex3f32(0.f, 1.f, 0.f);edkEnd();
 
-    edk::GU::guVertexTex2f32(1.f, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(this->spriteUV.x, 0.f);edkEnd();
     edk::GU::guVertex3f32(1.f, 1.f, 0.f);edkEnd();
 
-    edk::GU::guVertexTex2f32(1.f, 1.f);edkEnd();
+    edk::GU::guVertexTex2f32(this->spriteUV.x, this->spriteUV.y);edkEnd();
     edk::GU::guVertex3f32(1.f, 0.f, 0.f);edkEnd();
     edk::GU::guEnd();edkEnd();
 
