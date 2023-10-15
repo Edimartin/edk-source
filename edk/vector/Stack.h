@@ -1989,10 +1989,10 @@ private:
 #if defined(__arch64__) || defined(_LP64)
     edk::uint64 stackSize;
 #elif defined(__arch32__) || defined(_LP32)
-    edk::uint32 stackSize2;
+    edk::uint32 stackSize;
 #else
     //another system
-    edk::uint32 stackSize2;
+    edk::uint32 stackSize;
 #endif
 
     //Size of the array on the stack
