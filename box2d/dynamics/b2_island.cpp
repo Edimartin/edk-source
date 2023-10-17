@@ -227,7 +227,7 @@ void b2Island::Solve(b2Profile* profile, const b2TimeStep& step, const b2Vec2& g
 				m_upositions[i].c.x = b->upC.x;
 				m_upositions[i].ucx = true;
 				//
-				b->runUpCX=false;
+				//b->runUpCX=false;
 				b->runUpS=true;
 			}
 			else{
@@ -237,7 +237,7 @@ void b2Island::Solve(b2Profile* profile, const b2TimeStep& step, const b2Vec2& g
 				m_upositions[i].c.y = b->upC.y;
 				m_upositions[i].ucy = true;
 				//
-				b->runUpCY=false;
+				//b->runUpCY=false;
 				b->runUpS=true;
 			}
 			else{
@@ -246,7 +246,7 @@ void b2Island::Solve(b2Profile* profile, const b2TimeStep& step, const b2Vec2& g
 			if(b->runUpSCX){
 				m_upositions[i].scx = true;
 				//
-				b->runUpSCX=false;
+				//b->runUpSCX=false;
 				b->runUpS=true;
 			}
 			else{
@@ -255,7 +255,7 @@ void b2Island::Solve(b2Profile* profile, const b2TimeStep& step, const b2Vec2& g
 			if(b->runUpSCY){
 				m_upositions[i].scy = true;
 				//
-				b->runUpSCY=false;
+				//b->runUpSCY=false;
 				b->runUpS=true;
 			}
 			else{
@@ -266,7 +266,7 @@ void b2Island::Solve(b2Profile* profile, const b2TimeStep& step, const b2Vec2& g
 				m_upositions[i].a = b->upA;
 				m_upositions[i].ua = true;
 				//
-				b->runUpA=false;
+				//b->runUpA=false;
 				b->runUpS=true;
 			}
 			else{
@@ -280,7 +280,7 @@ void b2Island::Solve(b2Profile* profile, const b2TimeStep& step, const b2Vec2& g
 				m_upositions[i].c.x = b->upC.x;
 				m_upositions[i].ucx = true;
 				//
-				b->runUpCX=false;
+				//b->runUpCX=false;
 				b->runUpS=true;
 			}
 			else{
@@ -290,7 +290,7 @@ void b2Island::Solve(b2Profile* profile, const b2TimeStep& step, const b2Vec2& g
 				m_upositions[i].c.y = b->upC.y;
 				m_upositions[i].ucy = true;
 				//
-				b->runUpCY=false;
+				//b->runUpCY=false;
 				b->runUpS=true;
 			}
 			else{
@@ -299,7 +299,7 @@ void b2Island::Solve(b2Profile* profile, const b2TimeStep& step, const b2Vec2& g
 			if(b->runUpSCX){
 				m_upositions[i].scx = true;
 				//
-				b->runUpSCX=false;
+				//b->runUpSCX=false;
 				b->runUpS=true;
 			}
 			else{
@@ -308,7 +308,7 @@ void b2Island::Solve(b2Profile* profile, const b2TimeStep& step, const b2Vec2& g
 			if(b->runUpSCY){
 				m_upositions[i].scy = true;
 				//
-				b->runUpSCY=false;
+				//b->runUpSCY=false;
 				b->runUpS=true;
 			}
 			else{
@@ -319,7 +319,7 @@ void b2Island::Solve(b2Profile* profile, const b2TimeStep& step, const b2Vec2& g
 				m_upositions[i].a = b->upA;
 				m_upositions[i].ua = true;
 				//
-				b->runUpA=false;
+				//b->runUpA=false;
 				b->runUpS=true;
 			}
 			else{

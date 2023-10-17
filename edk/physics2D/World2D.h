@@ -489,6 +489,9 @@ private:
                         //set awake to true
                         value->body->SetAwake(true);edkEnd();
                     }
+
+                    //clean the use of fixed positions
+                    value->body->cleanUpdates();
                 }
             }
         }

@@ -104,9 +104,11 @@ public:
 	/// contact listener. The contact is only disabled for the current
 	/// time step (or sub-step in continuous collisions).
 	void SetEnabled(bool flag);
+	void SetReallyEnabled(bool flag);
 
 	/// Has this contact been disabled?
 	bool IsEnabled() const;
+	bool IsReallyEnabled() const;
 
 	/// Get the next contact in the world's contact list.
 	b2Contact* GetNext();
@@ -214,6 +216,7 @@ protected:
 	static bool s_initialized;
 
 	uint32 m_flags;
+	bool reallyEnable;
 
 	// World pool and list pointers.
 	b2Contact* m_prev;
@@ -272,10 +275,18 @@ inline void b2Contact::SetEnabled(bool flag)
 		m_flags &= ~e_enabledFlag;
 	}
 }
+inline void b2Contact::SetReallyEnabled(bool flag){
+	this->reallyEnable=flag;
+}
 
 inline bool b2Contact::IsEnabled() const
 {
 	return (m_flags & e_enabledFlag) == e_enabledFlag;
+}
+
+inline bool b2Contact::IsReallyEnabled() const
+{
+	return this->reallyEnable;
 }
 
 inline bool b2Contact::IsTouching() const

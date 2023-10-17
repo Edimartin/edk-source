@@ -38,6 +38,8 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
            ,contact
            );edkEnd();
 */
+    //en begin the contact will really be enabled
+    contact->SetReallyEnabled(true);
     b2Body* bodyA = contact->GetFixtureA()->GetBody();edkEnd();
     b2Body* bodyB = contact->GetFixtureB()->GetBody();edkEnd();
 
@@ -48,6 +50,7 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
             ){
         //disable the contact
         contact->SetEnabled(false);edkEnd();
+        contact->SetReallyEnabled(false);edkEnd();
         return;edkEnd();
     }
 
@@ -100,6 +103,7 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
             if(contactTemp){
                 if(!contactTemp->isEnabled()){
                     contact->SetEnabled(false);edkEnd();
+                    contact->SetReallyEnabled(false);edkEnd();
                     return;edkEnd();
                 }
                 //update the values
@@ -182,6 +186,8 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
                         //this->world->sensorBegin(contactTemp);edkEnd();
                         this->world->physicsSensorBegin(contactTemp);edkEnd();
                     }
+                    contact->SetEnabled(false);edkEnd();
+                    contact->SetReallyEnabled(false);edkEnd();
                 }
                 else if(contactTemp->objectB->isSensor()){
                     //load the sensor
@@ -199,6 +205,8 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
                         //this->world->sensorBegin(contactTemp);edkEnd();
                         this->world->physicsSensorBegin(contactTemp);edkEnd();
                     }
+                    contact->SetEnabled(false);edkEnd();
+                    contact->SetReallyEnabled(false);edkEnd();
                 }
                 //Test if the lineA collide in one side
                 else if(contactTemp->objectA->physicMesh.selectedIsLine()){
@@ -210,6 +218,7 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
                                 this->world->physicsContactBegin(contactTemp);edkEnd();
                                 if(!contactTemp->isEnabled()){
                                     contact->SetEnabled(false);edkEnd();
+                                    contact->SetReallyEnabled(false);edkEnd();
                                 }
                             }
                             else{
@@ -223,6 +232,7 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
                                 this->world->physicsContactBegin(contactTemp);edkEnd();
                                 if(!contactTemp->isEnabled()){
                                     contact->SetEnabled(false);edkEnd();
+                                    contact->SetReallyEnabled(false);edkEnd();
                                 }
                             }
                             else{
@@ -235,6 +245,7 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
                             this->world->physicsContactBegin(contactTemp);edkEnd();
                             if(!contactTemp->isEnabled()){
                                 contact->SetEnabled(false);edkEnd();
+                                contact->SetReallyEnabled(false);edkEnd();
                             }
                             break;
                         }
@@ -250,6 +261,7 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
                                 this->world->physicsContactBegin(contactTemp);edkEnd();
                                 if(!contactTemp->isEnabled()){
                                     contact->SetEnabled(false);edkEnd();
+                                    contact->SetReallyEnabled(false);edkEnd();
                                 }
                             }
                             else{
@@ -263,6 +275,7 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
                                 this->world->physicsContactBegin(contactTemp);edkEnd();
                                 if(!contactTemp->isEnabled()){
                                     contact->SetEnabled(false);edkEnd();
+                                    contact->SetReallyEnabled(false);edkEnd();
                                 }
                             }
                             else{
@@ -275,6 +288,7 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
                             this->world->physicsContactBegin(contactTemp);edkEnd();
                             if(!contactTemp->isEnabled()){
                                 contact->SetEnabled(false);edkEnd();
+                                contact->SetReallyEnabled(false);edkEnd();
                             }
                             break;
                         }
@@ -285,6 +299,7 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
                     this->world->physicsContactBegin(contactTemp);edkEnd();
                     if(!contactTemp->isEnabled()){
                         contact->SetEnabled(false);edkEnd();
+                        contact->SetReallyEnabled(false);edkEnd();
                     }
                 }
             }
@@ -320,6 +335,7 @@ void edk::physics2D::World2D::MyContactListener::EndContact(b2Contact* contact){
             ){
         //disable the contact
         contact->SetEnabled(false);edkEnd();
+        contact->SetReallyEnabled(false);edkEnd();
         return;edkEnd();
     }
 
@@ -391,6 +407,8 @@ void edk::physics2D::World2D::MyContactListener::EndContact(b2Contact* contact){
                 //this->world->sensorEnd(contactTemp);edkEnd();
                 this->world->physicsSensorEnd(contactTemp);edkEnd();
             }
+            contact->SetEnabled(false);edkEnd();
+            contact->SetReallyEnabled(false);edkEnd();
         }
         else if(contactTemp->objectB->isSensor()){
             //load the sensor
@@ -408,10 +426,16 @@ void edk::physics2D::World2D::MyContactListener::EndContact(b2Contact* contact){
                 //this->world->sensorEnd(contactTemp);edkEnd();
                 this->world->physicsSensorEnd(contactTemp);edkEnd();
             }
+            contact->SetEnabled(false);edkEnd();
+            contact->SetReallyEnabled(false);edkEnd();
         }
         else{
             //this->world->contactEnd(contactTemp);edkEnd();
             this->world->physicsContactEnd(contactTemp);edkEnd();
+            if(!contactTemp->isEnabled()){
+                contact->SetEnabled(false);edkEnd();
+                contact->SetReallyEnabled(false);edkEnd();
+            }
         }
 
         //remove contactTemp from the tree
@@ -442,6 +466,7 @@ void edk::physics2D::World2D::MyContactListener::PreSolve(b2Contact* contact, co
             ){
         //disable the contact
         contact->SetEnabled(false);edkEnd();
+        contact->SetReallyEnabled(false);edkEnd();
         return;edkEnd();
     }
 
@@ -449,6 +474,7 @@ void edk::physics2D::World2D::MyContactListener::PreSolve(b2Contact* contact, co
     if(contactTemp){
         if(!contactTemp->isEnabled()){
             contact->SetEnabled(false);edkEnd();
+            contact->SetReallyEnabled(false);edkEnd();
             return;edkEnd();
         }
         contactTemp->objectA->setLinearVelocity(bodyA->GetLinearVelocity().x * this->percentOut,bodyA->GetLinearVelocity().y * this->percentOut);edkEnd();
@@ -517,6 +543,7 @@ void edk::physics2D::World2D::MyContactListener::PreSolve(b2Contact* contact, co
                     this->world->physicsSensorKeeping(contactTemp);edkEnd();
                 }
                 contact->SetEnabled(false);edkEnd();
+                contact->SetReallyEnabled(false);edkEnd();
             }
             else if(contactTemp->objectB->isSensor()){
                 //load the sensor
@@ -535,21 +562,25 @@ void edk::physics2D::World2D::MyContactListener::PreSolve(b2Contact* contact, co
                     this->world->physicsSensorKeeping(contactTemp);edkEnd();
                 }
                 contact->SetEnabled(false);edkEnd();
+                contact->SetReallyEnabled(false);edkEnd();
             }
             else{
                 //this->world->contactKeepBegin(contactTemp);edkEnd();
                 this->world->physicsContactKeepBegin(contactTemp);edkEnd();
                 if(!contactTemp->isEnabled()){
                     contact->SetEnabled(false);edkEnd();
+                    contact->SetReallyEnabled(false);edkEnd();
                 }
             }
         }
         else{
             contact->SetEnabled(false);edkEnd();
+            contact->SetReallyEnabled(false);edkEnd();
         }
     }
     else{
         contact->SetEnabled(false);edkEnd();
+        contact->SetReallyEnabled(false);edkEnd();
     }
 }
 
@@ -577,6 +608,7 @@ void edk::physics2D::World2D::MyContactListener::PostSolve(b2Contact* contact, c
             ){
         //disable the contact
         contact->SetEnabled(false);edkEnd();
+        contact->SetReallyEnabled(false);edkEnd();
         return;edkEnd();
     }
 
@@ -643,6 +675,10 @@ void edk::physics2D::World2D::MyContactListener::PostSolve(b2Contact* contact, c
                     !contactTemp->objectB->isSensor()){
                 //this->world->contactKeepEnd(contactTemp);edkEnd();
                 this->world->physicsContactKeepEnd(contactTemp);edkEnd();
+                if(!contactTemp->isEnabled()){
+                    contact->SetEnabled(false);edkEnd();
+                    contact->SetReallyEnabled(false);edkEnd();
+                }
             }
         }
     }

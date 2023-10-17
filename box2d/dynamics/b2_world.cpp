@@ -738,7 +738,35 @@ void b2World::SolveTOI(const b2TimeStep& step)
 
 		bA->Advance(minAlpha);
 		bB->Advance(minAlpha);
-
+		
+		//fix the position if is't contacting
+		if(!minContact->IsReallyEnabled()){
+			if(bA->runUpCX){
+				bA->m_xf.p.x = bA->upC.x;
+				//bA->runUpCX=false;
+			}
+			if(bA->runUpCY){
+				bA->m_xf.p.y = bA->upC.y;
+				//bA->runUpCY=false;
+			}
+			if(bA->runUpA){
+				bA->m_sweep.a = bA->upA;
+				//bA->runUpA=false;
+			}
+			if(bB->runUpCX){
+				bB->m_xf.p.x = bB->upC.x;
+				//bB->runUpCX=false;
+			}
+			if(bB->runUpCY){
+				bB->m_xf.p.y = bB->upC.y;
+				//bB->runUpCY=false;
+			}
+			if(bB->runUpA){
+				bB->m_sweep.a = bB->upA;
+				//bB->runUpA=false;
+			}
+		}
+		
 		// The TOI contact likely has some new contact points.
 		minContact->Update(m_contactManager.m_contactListener);
 		minContact->m_flags &= ~b2Contact::e_toiFlag;
@@ -753,6 +781,35 @@ void b2World::SolveTOI(const b2TimeStep& step)
 			bB->m_sweep = backup2;
 			bA->SynchronizeTransform();
 			bB->SynchronizeTransform();
+			
+			//fix the position if is't contacting
+			if(!minContact->IsReallyEnabled()){
+				if(bA->runUpCX){
+					bA->m_xf.p.x = bA->upC.x;
+					//bA->runUpCX=false;
+				}
+				if(bA->runUpCY){
+					bA->m_xf.p.y = bA->upC.y;
+					//bA->runUpCY=false;
+				}
+				if(bA->runUpA){
+					bA->m_sweep.a = bA->upA;
+					//bA->runUpA=false;
+				}
+				if(bB->runUpCX){
+					bB->m_xf.p.x = bB->upC.x;
+					//bB->runUpCX=false;
+				}
+				if(bB->runUpCY){
+					bB->m_xf.p.y = bB->upC.y;
+					//bB->runUpCY=false;
+				}
+				if(bB->runUpA){
+					bB->m_sweep.a = bB->upA;
+					//bB->runUpA=false;
+				}
+			}
+
 			//Set the objects old position if it's not collide.
 			if(!(minContact->IsEnabled() == false)){
 				if(bA->runUpS){

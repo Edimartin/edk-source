@@ -233,6 +233,8 @@ public:
 	/// @param wake also wake up the body
 	void ApplyAngularImpulse(float impulse, bool wake);
 
+	void cleanUpdates();
+	
 	/// Apply position update
 	/// @param position the new position to the object be moved in the world
 	void ApplyUpdatePosition(const b2Vec2& position);
@@ -890,6 +892,20 @@ inline void b2Body::ApplyAngularImpulse(float impulse, bool wake)
 	{
 		m_angularVelocity += m_invI * impulse;
 	}
+}
+
+inline void b2Body::cleanUpdates(){
+	this->upC.x = 0.f;
+	this->upC.y = 0.f;
+	this->runUpCX=false;
+	this->runUpCY=false;
+	this->upA = 0.f;
+	this->runUpA=false;
+	this->runUpS=false;
+	this->runUpCX=false;
+	this->runUpCY=false;
+	this->runUpSCX=false;
+	this->runUpSCY=false;
 }
 
 inline void b2Body::ApplyUpdatePosition(const b2Vec2& position)
