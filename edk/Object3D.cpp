@@ -33,6 +33,19 @@ edk::Object3D::~Object3D(){
     this->clean();
 }
 
+void edk::Object3D::calculateMatrices(){
+    //generate the matrices
+    this->matrixTransform.setIdentity(1.f,0.f);edkEnd();
+    edk::Math::generateTranslateMatrix(this->position,&this->matrixTranslate);edkEnd();
+    edk::Math::generateRotateMatrix(this->angle.x,this->angle.y,this->angle.z,&this->matrixRotate);edkEnd();
+    edk::Math::generateScaleMatrix(this->size,&this->matrixScale);edkEnd();
+    this->matrixTransform.multiplyThisWithMatrix(&this->matrixTranslate);edkEnd();
+    this->matrixTransform.multiplyThisWithMatrix(&this->matrixRotate);edkEnd();
+    this->matrixTransform.multiplyThisWithMatrix(&this->matrixScale);edkEnd();
+    edk::Math::generateTranslateMatrix(this->pivo*-1.f,&this->matrixTranslate);edkEnd();
+    this->matrixTransform.multiplyThisWithMatrix(&this->matrixTranslate);edkEnd();
+}
+
 void edk::Object3D::clean(){
     this->cleanSelected();
     this->cleanMeshes();
@@ -896,7 +909,140 @@ void edk::Object3D::drawNormalsWithColor(edk::color3f32 color){
     edk::GU::guPopMatrix();edkEnd();
 }
 void edk::Object3D::drawNormalsWithColor(edk::float32 r,edk::float32 g,edk::float32 b){
-    this->drawNormalsWithColor(edk::color3f32(r,g,b));
+    this->drawNormalsWithColor(edk::color3f32(r,g,b));edkEnd();
+}
+//draw the mesh with projection matrix
+void edk::Object3D::drawWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matrix){
+    if(matrix){
+        this->calculateMatrices();edkEnd();
+        //multiply with the matrix
+        this->matrixTransform.multiplyThisWithMatrix(matrix);edkEnd();
+
+        edk::uint32 size = this->meshes.size();edkEnd();
+        edk::Object3D::MeshAlloc* value;
+        for(edk::uint32 i=0u;i<size;i++){
+            value = this->meshes.get(i);edkEnd();
+            if(value->getMesh()->material.haveOneTexture()){
+                value->getMesh()->drawOneTextureWithMatrix(&this->matrixTransform,&this->matrixTemp);edkEnd();
+            }
+            else{
+                //
+                value->getMesh()->drawMultiTextureWithMatrix(&this->matrixTransform,&this->matrixTemp);edkEnd();
+            }
+        }
+    }
+}
+void edk::Object3D::drawWithMatrixWithoutMaterial(edk::vector::Matrix<edk::float32,3u,3u>* matrix){
+    if(matrix){
+        this->calculateMatrices();edkEnd();
+        //multiply with the matrix
+        this->matrixTransform.multiplyThisWithMatrix(matrix);edkEnd();
+
+        edk::uint32 size = this->meshes.size();edkEnd();
+        edk::Object3D::MeshAlloc* value;edkEnd();
+        for(edk::uint32 i=0u;i<size;i++){
+            value = this->meshes.get(i);edkEnd();
+            value->getMesh()->drawPolygonsWithMatrix(&this->matrixTransform,&this->matrixTemp);edkEnd();
+        }
+    }
+}
+void edk::Object3D::drawWithMatrixWithoutMaterialWithLight(edk::vector::Matrix<edk::float32,3u,3u>* matrix){
+    if(matrix){
+        this->calculateMatrices();edkEnd();
+        //multiply with the matrix
+        this->matrixTransform.multiplyThisWithMatrix(matrix);edkEnd();
+
+        bool haveLight=false;edkEnd();edkEnd();
+
+        {
+            //edk::vec3f32 temp;edkEnd();
+            for(edk::uint32 i=0u;i<EDK_LIGHT_LIMIT;i++){
+                if(this->lights[i].on){
+                    edk::GU::guEnable(GU_LIGHT0+i);edkEnd();
+                    this->lights[i].draw(i);edkEnd();
+                    haveLight=true;edkEnd();
+
+                }
+                else{
+                    edk::GU::guDisable(GU_LIGHT0+i);edkEnd();
+                }
+            }
+        }
+        if(haveLight){
+            edk::GU::guEnable(GU_LIGHTING);edkEnd();
+            edk::uint32 size = this->meshes.size();edkEnd();
+            edk::Object3D::MeshAlloc* value;edkEnd();
+            for(edk::uint32 i=0u;i<size;i++){
+                value = this->meshes.get(i);edkEnd();
+                value->getMesh()->drawPolygonsWithMatrix(&this->matrixTransform,&this->matrixTemp);edkEnd();
+            }
+            edk::GU::guDisable(GU_LIGHTING);edkEnd();
+        }
+        else{
+            edk::uint32 size = this->meshes.size();edkEnd();
+            edk::Object3D::MeshAlloc* value;edkEnd();
+            for(edk::uint32 i=0u;i<size;i++){
+                value = this->meshes.get(i);edkEnd();
+                value->getMesh()->drawPolygonsWithMatrix(&this->matrixTransform,&this->matrixTemp);edkEnd();
+            }
+        }
+    }
+}
+void edk::Object3D::drawWireWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matrix){
+    if(matrix){
+        this->calculateMatrices();edkEnd();
+        //multiply with the matrix
+        this->matrixTransform.multiplyThisWithMatrix(matrix);edkEnd();
+
+        edk::uint32 size = this->meshes.size();edkEnd();
+        edk::Object3D::MeshAlloc* value;edkEnd();
+        for(edk::uint32 i=0u;i<size;i++){
+            value = this->meshes.get(i);edkEnd();
+            value->getMesh()->drawWirePolygonsWithMatrix(&this->matrixTransform,&this->matrixTemp);edkEnd();
+        }
+    }
+}
+void edk::Object3D::drawNormalsWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matrix){
+    if(matrix){
+        this->calculateMatrices();edkEnd();
+        //multiply with the matrix
+        this->matrixTransform.multiplyThisWithMatrix(matrix);edkEnd();
+
+        edk::uint32 size = this->meshes.size();edkEnd();
+        edk::Object3D::MeshAlloc* value;edkEnd();
+        for(edk::uint32 i=0u;i<size;i++){
+            value = this->meshes.get(i);edkEnd();
+            value->getMesh()->drawWirePolygonsWithMatrix(&this->matrixTransform,&this->matrixTemp);edkEnd();
+        }
+    }
+}
+void edk::Object3D::drawNormalsWithMatrixWithColor(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::color3f32 color){
+    if(matrix){
+        this->calculateMatrices();edkEnd();
+        //multiply with the matrix
+        this->matrixTransform.multiplyThisWithMatrix(matrix);edkEnd();
+
+        edk::uint32 size = this->meshes.size();edkEnd();
+        edk::Object3D::MeshAlloc* value;edkEnd();
+        for(edk::uint32 i=0u;i<size;i++){
+            value = this->meshes.get(i);edkEnd();
+            value->getMesh()->drawWirePolygonsWithMatrixWithColor(&this->matrixTransform,&this->matrixTemp,edk::color4f32(color.r,color.g,color.b,1.f));edkEnd();
+        }
+    }
+}
+void edk::Object3D::drawNormalsWithMatrixWithColor(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::float32 r,edk::float32 g,edk::float32 b){
+    if(matrix){
+        this->calculateMatrices();edkEnd();
+        //multiply with the matrix
+        this->matrixTransform.multiplyThisWithMatrix(matrix);edkEnd();
+
+        edk::uint32 size = this->meshes.size();edkEnd();
+        edk::Object3D::MeshAlloc* value;edkEnd();
+        for(edk::uint32 i=0u;i<size;i++){
+            value = this->meshes.get(i);edkEnd();
+            value->getMesh()->drawWirePolygonsWithMatrixWithColor(&this->matrixTransform,&this->matrixTemp,edk::color4f32(r,g,b,1.f));edkEnd();
+        }
+    }
 }
 //draw the pivo
 void edk::Object3D::drawPivo(edk::float32 size,edk::color3f32 color){
@@ -906,6 +1052,45 @@ void edk::Object3D::drawPivo(edk::float32 size,edk::color3f32 color){
     edk::GU::guTranslate3f32(this->position);edkEnd();
     //add scale
     edk::GU::guScale3f32(edk::size3f32(size,size,size));edkEnd();
+
+    //lineSize
+    edk::GU::guLineWidth(3);edkEnd();
+
+    //set the colors
+    edk::GU::guColor3f32(color);edkEnd();
+    //draw the lines
+    edk::GU::guBegin(GU_LINES);edkEnd();
+    //LINE 1
+    edk::GU::guVertex3f32(-0.5f,-0.5f,0.f);edkEnd();
+    edk::GU::guVertex3f32( 0.5f, 0.5f,0.f);edkEnd();
+    //LINE 2
+    edk::GU::guVertex3f32(-0.5f, 0.5f,0.f);edkEnd();
+    edk::GU::guVertex3f32( 0.5f,-0.5f,0.f);edkEnd();
+    //LINE 3
+    edk::GU::guVertex3f32(0.0f, 0.5f,-0.5f);edkEnd();
+    edk::GU::guVertex3f32(0.0f,-0.5f, 0.5f);edkEnd();
+    //LINE 4
+    edk::GU::guVertex3f32(0.0f, 0.5f, 0.5f);edkEnd();
+    edk::GU::guVertex3f32(0.0f,-0.5f,-0.5f);edkEnd();
+    edk::GU::guEnd();edkEnd();
+
+    //lineSize
+    edk::GU::guLineWidth(1);edkEnd();
+
+    //
+    edk::GU::guPopMatrix();edkEnd();
+}
+void edk::Object3D::drawPivoWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::float32 size,edk::color3f32 color){
+
+    //
+    edk::GU::guPushMatrix();edkEnd();
+    this->matrixTransform.setIdentity(1.f,0.f);edkEnd();
+    edk::Math::generateTranslateMatrix(this->position,&this->matrixTranslate);edkEnd();
+    edk::Math::generateScaleMatrix3D(size,size,size,&this->matrixScale);edkEnd();
+    this->matrixTransform.multiplyThisWithMatrix(&this->matrixTranslate);edkEnd();
+    this->matrixTransform.multiplyThisWithMatrix(&this->matrixScale);edkEnd();
+    //multiply with the matrix
+    this->matrixTransform.multiplyThisWithMatrix(matrix);edkEnd();
 
     //lineSize
     edk::GU::guLineWidth(3);edkEnd();

@@ -37,6 +37,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "TypeVec3.h"
 #include "TypeRect.h"
 #include "animation/Interpolation3DGroup.h"
+#include "edk/vector/Matrix.h"
 
 #ifdef printMessages
 #pragma message "    Compiling Camera3D"
@@ -97,6 +98,10 @@ public:
     void rotateAngleY(edk::float32 angle);
     void rotateAngleUp(edk::float32 angle);
 
+    //get the projection matrix
+    void updateProjection();
+    edk::vector::Matrix<edk::float32,3u,3u>* getProjection();
+
     //draw the camera
     void draw();
     void drawAxisOnly();
@@ -113,7 +118,16 @@ private:
     edk::float32 _near;
     edk::float32 _far;
     bool firstPerson;
+
+    //camera 3D projection matrix
+    edk::vector::Matrix<edk::float32,3u,3u> matrixTranslate;
+    edk::vector::Matrix<edk::float32,3u,3u> matrixRotate;
+    edk::vector::Matrix<edk::float32,3u,3u> matrixScale;
+    edk::vector::Matrix<edk::float32,3u,3u> projection;
+
     void start();
+    //generate the camera matrix
+    void calculateProjectionMatrix();
 };
 }//end namespace edk
 

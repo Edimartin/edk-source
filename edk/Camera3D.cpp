@@ -58,6 +58,21 @@ void edk::Camera3D::start(){
     this->_near = 0.0001f;edkEnd();
     this->_far = 1.f;edkEnd();
 }
+//generate the camera matrix
+void edk::Camera3D::calculateProjectionMatrix(){
+    this->projection.setIdentity(1.f,0.f);
+    //generate the translate matrix
+    edk::Math::generateTranslateMatrix(this->position-1.f,&this->matrixTranslate);edkEnd();
+    //generate the rotate matrix
+    //edk::Math::generateRotateMatrix(this->getAngleX()-1.f,this->getAngleY()-1.f,this->getAngleUp()-1.f,&this->matrixRotate);edkEnd();
+    edk::Math::generateRotateMatrix(0.f,0.f,0.f,&this->matrixRotate);edkEnd();
+
+    //multiply the matrix
+    //translate
+    this->projection.multiplyThisWithMatrix(&this->matrixTranslate);edkEnd();
+    //angle
+    this->projection.multiplyThisWithMatrix(&this->matrixRotate);edkEnd();
+}
 
 //Sset witch camera type its using
 void edk::Camera3D::usePerspective(){
@@ -119,9 +134,9 @@ edk::float32 edk::Camera3D::getFar(){
 edk::float32 edk::Camera3D::getDistance(){
     //
     return edk::Math::pythagoras(this->lookAt.x - this->position.x,
-                                   this->lookAt.y - this->position.y,
-                                   this->lookAt.y - this->position.z
-                                   );edkEnd();
+                                 this->lookAt.y - this->position.y,
+                                 this->lookAt.y - this->position.z
+                                 );edkEnd();
 }
 //set the distance
 bool edk::Camera3D::setDistance(edk::float32 distance){
@@ -274,6 +289,14 @@ void edk::Camera3D::rotateAngleUp(edk::float32 angle){
     this->setAngleUp(angle + this->getAngleUp());edkEnd();
 }
 
+//get the projection matrix
+void edk::Camera3D::updateProjection(){
+    this->calculateProjectionMatrix();
+}
+edk::vector::Matrix<edk::float32,3u,3u>* edk::Camera3D::getProjection(){
+    return &this->projection;
+}
+
 //draw the camera
 void edk::Camera3D::draw(){
     //
@@ -350,6 +373,7 @@ bool edk::Camera3D::cloneFrom(edk::Camera3D* cam){
         this->_near = cam->_near;edkEnd();
         this->_far = cam->_far;edkEnd();
         this->firstPerson = cam->firstPerson;edkEnd();
+        this->projection.cloneFrom(&cam->projection);
         return true;
     }
     return false;

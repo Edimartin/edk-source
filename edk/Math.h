@@ -39,6 +39,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "TypeVec2.h"
 #include "TypeVec3.h"
 #include "TypeVec4.h"
+#include "TypeSize2.h"
+#include "TypeSize3.h"
 #include "TypeRect.h"
 #include "TypeColor.h"
 #include "vector/Matrix.h"
@@ -1193,10 +1195,44 @@ public:
     //2D
     //translate matrix
     static bool generateTranslateMatrix(edk::vec2f32 position,edk::vector::Matrix<edk::float32,3u,3u>* dest);
+    static inline bool generateTranslateMatrix2D(edk::float32 x,edk::float32 y,edk::vector::Matrix<edk::float32,3u,3u>* dest){
+        return edk::Math::generateTranslateMatrix(edk::vec2f32(x,y),dest);
+    }
     //rotate matrix
     static bool generateRotateMatrix(edk::float32 angle,edk::vector::Matrix<edk::float32,3u,3u>* dest);
+    static inline bool generateRotateMatrix2D(edk::float32 angle,edk::vector::Matrix<edk::float32,3u,3u>* dest){
+        return edk::Math::generateRotateMatrix(angle,dest);
+    }
+    static bool generateRotateMatrixX(edk::float32 angle,edk::vector::Matrix<edk::float32,3u,3u>* dest);
+    static inline bool generateRotateMatrix2DX(edk::float32 angle,edk::vector::Matrix<edk::float32,3u,3u>* dest){
+        return edk::Math::generateRotateMatrixX(angle,dest);
+    }
+    static bool generateRotateMatrixY(edk::float32 angle,edk::vector::Matrix<edk::float32,3u,3u>* dest);
+    static inline bool generateRotateMatrix2DY(edk::float32 angle,edk::vector::Matrix<edk::float32,3u,3u>* dest){
+        return edk::Math::generateRotateMatrixY(angle,dest);
+    }
+    static bool generateRotateMatrixZ(edk::float32 angle,edk::vector::Matrix<edk::float32,3u,3u>* dest);
+    static inline bool generateRotateMatrix2DZ(edk::float32 angle,edk::vector::Matrix<edk::float32,3u,3u>* dest){
+        return edk::Math::generateRotateMatrixZ(angle,dest);
+    }
     //scale matrix
     static bool generateScaleMatrix(edk::size2f32 size,edk::vector::Matrix<edk::float32,3u,3u>* dest);
+    static inline bool generateScaleMatrix2D(edk::float32 width,edk::float32 height,edk::vector::Matrix<edk::float32,3u,3u>* dest){
+        return edk::Math::generateScaleMatrix(edk::size2f32(width,height),dest);
+    }
+    //3D
+    //translate matrix
+    static bool generateTranslateMatrix(edk::vec3f32 position,edk::vector::Matrix<edk::float32,3u,3u>* dest);
+    static inline bool generateTranslateMatrix3D(edk::float32 x,edk::float32 y,edk::float32 z,edk::vector::Matrix<edk::float32,3u,3u>* dest){
+        return edk::Math::generateTranslateMatrix(edk::vec3f32(x,y,z),dest);
+    }
+    //rotate matrix
+    static bool generateRotateMatrix(edk::float32 angleX,edk::float32 angleY,edk::float32 angleZ,edk::vector::Matrix<edk::float32,3u,3u>* dest);
+    //scale matrix
+    static bool generateScaleMatrix(edk::size3f32 size,edk::vector::Matrix<edk::float32,3u,3u>* dest);
+    static inline bool generateScaleMatrix3D(edk::float32 width,edk::float32 height,edk::float32 lenght,edk::vector::Matrix<edk::float32,3u,3u>* dest){
+        return edk::Math::generateScaleMatrix(edk::size3f32(width,height,lenght),dest);
+    }
 
     //Rotate de vectors
     static edk::float32 rotateX(edk::float32 radius, edk::float32 angle);

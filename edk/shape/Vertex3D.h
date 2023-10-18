@@ -32,6 +32,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma once
 #include <stdio.h>
 #include "Vertex2D.h"
+#include "../vector/Matrix.h"
 #include "../TypeVec3.h"
 #include "../TypeColor.h"
 #include "../TypeDefines.h"
@@ -68,9 +69,35 @@ public:
         //draw the vertex
         edk::GU::guVertex3f32(this->x, this->y,this->z);edkEnd();
     }
+    virtual void drawVertexWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::vector::Matrix<edk::float32,3u,3u>* matrixTemp){
+        //draw the vertex
+        matrixTemp->setIdentity(1.f,0.f);
+        matrixTemp->set(0u,0u,this->x);edkEnd();
+        matrixTemp->set(0u,1u,this->y);edkEnd();
+        matrixTemp->set(0u,2u,this->z);edkEnd();
+        //multiply the matrix
+        matrixTemp->multiplyMatrixWithThis(matrix);edkEnd();
+        this->temp.x = matrixTemp->get(0u,0u);edkEnd();
+        this->temp.y = matrixTemp->get(0u,1u);edkEnd();
+        this->temp.z = matrixTemp->get(0u,2u);edkEnd();
+        edk::GU::guVertex3f32(this->temp.x, this->temp.y,this->temp.z);edkEnd();
+    }
     virtual void drawVertexPosition(edk::vec3f32 position){
         //draw the vertex
         edk::GU::guVertex3f32(this->x+position.x, this->y+position.y,this->z+position.z);edkEnd();
+    }
+    virtual void drawVertexPositionWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::vector::Matrix<edk::float32,3u,3u>* matrixTemp,edk::vec3f32 position){
+        //draw the vertex
+        matrixTemp->setIdentity(1.f,0.f);
+        matrixTemp->set(0u,0u,this->x+position.x);edkEnd();
+        matrixTemp->set(0u,1u,this->y+position.y);edkEnd();
+        matrixTemp->set(0u,2u,this->z+position.z);edkEnd();
+        //multiply the matrix
+        matrixTemp->multiplyMatrixWithThis(matrix);edkEnd();
+        this->temp.x = matrixTemp->get(0u,0u);edkEnd();
+        this->temp.y = matrixTemp->get(0u,1u);edkEnd();
+        this->temp.z = matrixTemp->get(0u,2u);edkEnd();
+        edk::GU::guVertex3f32(this->temp.x, this->temp.y,this->temp.z);edkEnd();
     }
     virtual void printVertex(){
         printf("\nVertex %.2f %.2f %.2f",
@@ -109,11 +136,17 @@ public:
         //draw the normal
         edk::GU::guVertexNormal3f32(this->x, this->y,this->z);edkEnd();
     }
+    void drawNormalWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>*,edk::vector::Matrix<edk::float32,3u,3u>*){
+        //draw the normal
+        edk::GU::guVertexNormal3f32(this->x, this->y,this->z);edkEnd();
+    }
     void printNormal(){
         printf("\nNormal %.2f %.2f %.2f",
                this->x,this->y,this->z
                );edkEnd();
     }
+    private:
+    edk::vec3f32 temp;
 };
 
 class Vertex3D : public edk::shape::Vector3D{
@@ -205,6 +238,7 @@ public:
         return false;
     }
     //VERTEX
+    //WithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matrix)
     void drawVertex(){
         //set the color of the vertex
         edk::GU::guColor4f32(this->r,
@@ -214,6 +248,16 @@ public:
                              );edkEnd();
         //draw the vertex
         edk::shape::Vector3D::drawVertex();edkEnd();
+    }
+    void drawVertexWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::vector::Matrix<edk::float32,3u,3u>* matrixTemp){
+        //set the color of the vertex
+        edk::GU::guColor4f32(this->r,
+                             this->g,
+                             this->b,
+                             this->a
+                             );edkEnd();
+        //draw the vertex
+        edk::shape::Vector3D::drawVertexWithMatrix(matrix,matrixTemp);edkEnd();
     }
     void drawVertexPosition(edk::vec3f32 position){
         //set the color of the vertex
@@ -225,6 +269,16 @@ public:
         //draw the vertex
         edk::shape::Vector3D::drawVertexPosition(position);edkEnd();
     }
+    void drawVertexPositionWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::vector::Matrix<edk::float32,3u,3u>* matrixTemp,edk::vec3f32 position){
+        //set the color of the vertex
+        edk::GU::guColor4f32(this->r,
+                             this->g,
+                             this->b,
+                             this->a
+                             );edkEnd();
+        //draw the vertex
+        edk::shape::Vector3D::drawVertexPositionWithMatrix(matrix,matrixTemp,position);edkEnd();
+    }
     void drawVertexWithColor(edk::color4f32 color){
         //set the color of the vertex
         edk::GU::guColor4f32(color.r,
@@ -235,6 +289,16 @@ public:
         //draw the vertex
         edk::shape::Vector3D::drawVertex();edkEnd();
     }
+    void drawVertexWithMatrixWithColor(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::vector::Matrix<edk::float32,3u,3u>* matrixTemp,edk::color4f32 color){
+        //set the color of the vertex
+        edk::GU::guColor4f32(color.r,
+                             color.g,
+                             color.b,
+                             color.a
+                             );edkEnd();
+        //draw the vertex
+        edk::shape::Vector3D::drawVertexWithMatrix(matrix,matrixTemp);edkEnd();
+    }
     void drawVertexPositionWithColor(edk::vec3f32 position,edk::color4f32 color){
         //set the color of the vertex
         edk::GU::guColor4f32(color.r,
@@ -244,6 +308,16 @@ public:
                              );edkEnd();
         //draw the vertex
         edk::shape::Vector3D::drawVertexPosition(position);edkEnd();
+    }
+    void drawVertexPositionWithMatrixWithColor(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::vector::Matrix<edk::float32,3u,3u>* matrixTemp,edk::vec3f32 position,edk::color4f32 color){
+        //set the color of the vertex
+        edk::GU::guColor4f32(color.r,
+                             color.g,
+                             color.b,
+                             color.a
+                             );edkEnd();
+        //draw the vertex
+        edk::shape::Vector3D::drawVertexPositionWithMatrix(matrix,matrixTemp,position);edkEnd();
     }
 
     void printVertex(){
