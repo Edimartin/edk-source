@@ -912,7 +912,7 @@ void edk::Object3D::drawNormalsWithColor(edk::float32 r,edk::float32 g,edk::floa
     this->drawNormalsWithColor(edk::color3f32(r,g,b));edkEnd();
 }
 //draw the mesh with projection matrix
-void edk::Object3D::drawWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matrix){
+void edk::Object3D::drawWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix){
     if(matrix){
         this->calculateMatrices();edkEnd();
         //multiply with the matrix
@@ -926,13 +926,12 @@ void edk::Object3D::drawWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matr
                 value->getMesh()->drawOneTextureWithMatrix(&this->matrixTransform,&this->matrixTemp);edkEnd();
             }
             else{
-                //
                 value->getMesh()->drawMultiTextureWithMatrix(&this->matrixTransform,&this->matrixTemp);edkEnd();
             }
         }
     }
 }
-void edk::Object3D::drawWithMatrixWithoutMaterial(edk::vector::Matrix<edk::float32,3u,3u>* matrix){
+void edk::Object3D::drawWithMatrixWithoutMaterial(edk::vector::Matrix<edk::float32,4u,4u>* matrix){
     if(matrix){
         this->calculateMatrices();edkEnd();
         //multiply with the matrix
@@ -946,7 +945,7 @@ void edk::Object3D::drawWithMatrixWithoutMaterial(edk::vector::Matrix<edk::float
         }
     }
 }
-void edk::Object3D::drawWithMatrixWithoutMaterialWithLight(edk::vector::Matrix<edk::float32,3u,3u>* matrix){
+void edk::Object3D::drawWithMatrixWithoutMaterialWithLight(edk::vector::Matrix<edk::float32,4u,4u>* matrix){
     if(matrix){
         this->calculateMatrices();edkEnd();
         //multiply with the matrix
@@ -988,7 +987,7 @@ void edk::Object3D::drawWithMatrixWithoutMaterialWithLight(edk::vector::Matrix<e
         }
     }
 }
-void edk::Object3D::drawWireWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matrix){
+void edk::Object3D::drawWireWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix){
     if(matrix){
         this->calculateMatrices();edkEnd();
         //multiply with the matrix
@@ -1002,7 +1001,7 @@ void edk::Object3D::drawWireWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* 
         }
     }
 }
-void edk::Object3D::drawNormalsWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matrix){
+void edk::Object3D::drawNormalsWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix){
     if(matrix){
         this->calculateMatrices();edkEnd();
         //multiply with the matrix
@@ -1016,7 +1015,7 @@ void edk::Object3D::drawNormalsWithMatrix(edk::vector::Matrix<edk::float32,3u,3u
         }
     }
 }
-void edk::Object3D::drawNormalsWithMatrixWithColor(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::color3f32 color){
+void edk::Object3D::drawNormalsWithMatrixWithColor(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::color3f32 color){
     if(matrix){
         this->calculateMatrices();edkEnd();
         //multiply with the matrix
@@ -1030,7 +1029,7 @@ void edk::Object3D::drawNormalsWithMatrixWithColor(edk::vector::Matrix<edk::floa
         }
     }
 }
-void edk::Object3D::drawNormalsWithMatrixWithColor(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::float32 r,edk::float32 g,edk::float32 b){
+void edk::Object3D::drawNormalsWithMatrixWithColor(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::float32 r,edk::float32 g,edk::float32 b){
     if(matrix){
         this->calculateMatrices();edkEnd();
         //multiply with the matrix
@@ -1080,7 +1079,7 @@ void edk::Object3D::drawPivo(edk::float32 size,edk::color3f32 color){
     //
     edk::GU::guPopMatrix();edkEnd();
 }
-void edk::Object3D::drawPivoWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::float32 size,edk::color3f32 color){
+void edk::Object3D::drawPivoWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::float32 size,edk::color3f32 color){
 
     //
     edk::GU::guPushMatrix();edkEnd();

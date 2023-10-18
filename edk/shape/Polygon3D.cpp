@@ -113,7 +113,7 @@ bool edk::shape::Polygon3D::drawVertexs(){
     }
     return false;
 }
-bool edk::shape::Polygon3D::drawVertexsWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::vector::Matrix<edk::float32,3u,3u>* matrixTemp){
+bool edk::shape::Polygon3D::drawVertexsWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp){
     if(matrix){
         edk::uint32 size = this->vertexs.size();edkEnd();
         if(size){
@@ -154,7 +154,7 @@ bool edk::shape::Polygon3D::drawVertexsOnly(){
     }
     return false;
 }
-bool edk::shape::Polygon3D::drawVertexsOnlyWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::vector::Matrix<edk::float32,3u,3u>* matrixTemp){
+bool edk::shape::Polygon3D::drawVertexsOnlyWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp){
     if(matrix){
         edk::uint32 size = this->vertexs.size();edkEnd();
         if(size){
@@ -185,7 +185,7 @@ bool edk::shape::Polygon3D::drawVertexsWithColor(edk::color4f32 color){
     }
     return false;
 }
-bool edk::shape::Polygon3D::drawVertexsWithMatrixWithColor(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::vector::Matrix<edk::float32,3u,3u>* matrixTemp,edk::color4f32 color){
+bool edk::shape::Polygon3D::drawVertexsWithMatrixWithColor(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::color4f32 color){
     if(matrix){
         edk::uint32 size = this->vertexs.size();edkEnd();
         if(size){
@@ -478,7 +478,7 @@ void edk::shape::Polygon3D::draw(){
     edk::GU::guEnd();edkEnd();
     //edk::GU::guPopMatrix();edkEnd();
 }
-void edk::shape::Polygon3D::drawWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::vector::Matrix<edk::float32,3u,3u>* matrixTemp){
+void edk::shape::Polygon3D::drawWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp){
     this->drawVertexsWithMatrix(matrix,matrixTemp);edkEnd();
 }
 //Draw the polygon with lines
@@ -492,7 +492,7 @@ void edk::shape::Polygon3D::drawWire(){
     edk::GU::guEnd();edkEnd();
     edk::GU::guPopMatrix();edkEnd();
 }
-void edk::shape::Polygon3D::drawWireWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::vector::Matrix<edk::float32,3u,3u>* matrixTemp){
+void edk::shape::Polygon3D::drawWireWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp){
     if(matrix){
         edk::GU::guPushMatrix();edkEnd();
         //    edk::GU::guTranslate2f32(this->translate);edkEnd();
@@ -514,7 +514,7 @@ void edk::shape::Polygon3D::drawWireWithColor(edk::color4f32 color){
     edk::GU::guEnd();edkEnd();
     edk::GU::guPopMatrix();edkEnd();
 }
-void edk::shape::Polygon3D::drawWithWireWithMatrixWithColor(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::vector::Matrix<edk::float32,3u,3u>* matrixTemp,edk::color4f32 color){
+void edk::shape::Polygon3D::drawWithWireWithMatrixWithColor(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::color4f32 color){
     if(matrix){
         edk::GU::guPushMatrix();edkEnd();
         //    edk::GU::guTranslate2f32(this->translate);edkEnd();
@@ -537,7 +537,7 @@ void edk::shape::Polygon3D::drawPolygonVertexs(edk::color4f32 color){
     edk::GU::guEnd();edkEnd();
     edk::GU::guPopMatrix();edkEnd();
 }
-void edk::shape::Polygon3D::drawPolygonVertexsWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::vector::Matrix<edk::float32,3u,3u>* matrixTemp,edk::color4f32 color){
+void edk::shape::Polygon3D::drawPolygonVertexsWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::color4f32 color){
     if(matrix){
         edk::GU::guPushMatrix();edkEnd();
         //    edk::GU::guTranslate2f32(this->translate);edkEnd();
@@ -584,7 +584,7 @@ void edk::shape::Polygon3D::drawPolygonNormals(){
         edk::GU::guPopMatrix();edkEnd();
     }
 }
-void edk::shape::Polygon3D::drawPolygonNormalsWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::vector::Matrix<edk::float32,3u,3u>* matrixTemp){
+void edk::shape::Polygon3D::drawPolygonNormalsWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp){
     if(matrix){
         edk::uint32 size = this->vertexs.size();edkEnd();
         if(size){
@@ -651,7 +651,7 @@ void edk::shape::Polygon3D::drawPolygonNormalsWithColor(edk::color4f32 color){
         edk::GU::guPopMatrix();edkEnd();
     }
 }
-void edk::shape::Polygon3D::drawPolygonNormalsWithMatrixWithColor(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::vector::Matrix<edk::float32,3u,3u>* matrixTemp,edk::color4f32 color){
+void edk::shape::Polygon3D::drawPolygonNormalsWithMatrixWithColor(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::color4f32 color){
     if(matrix){
         edk::uint32 size = this->vertexs.size();edkEnd();
         if(size){

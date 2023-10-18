@@ -126,16 +126,16 @@ public:
     virtual void drawNormalsWithColor(edk::color3f32 color = edk::color3f32(1,1,1));
     virtual void drawNormalsWithColor(edk::float32 r,edk::float32 g,edk::float32 b);
     //draw the mesh with projection matrix
-    virtual void drawWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matrix);
-    virtual void drawWithMatrixWithoutMaterial(edk::vector::Matrix<edk::float32,3u,3u>* matrix);
-    virtual void drawWithMatrixWithoutMaterialWithLight(edk::vector::Matrix<edk::float32,3u,3u>* matrix);
-    virtual void drawWireWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matrix);
-    virtual void drawNormalsWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matrix);
-    virtual void drawNormalsWithMatrixWithColor(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::color3f32 color = edk::color3f32(1,1,1));
-    virtual void drawNormalsWithMatrixWithColor(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::float32 r,edk::float32 g,edk::float32 b);
+    virtual void drawWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix);
+    virtual void drawWithMatrixWithoutMaterial(edk::vector::Matrix<edk::float32,4u,4u>* matrix);
+    virtual void drawWithMatrixWithoutMaterialWithLight(edk::vector::Matrix<edk::float32,4u,4u>* matrix);
+    virtual void drawWireWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix);
+    virtual void drawNormalsWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix);
+    virtual void drawNormalsWithMatrixWithColor(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::color3f32 color = edk::color3f32(1,1,1));
+    virtual void drawNormalsWithMatrixWithColor(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::float32 r,edk::float32 g,edk::float32 b);
     //draw the pivo
     void drawPivo(edk::float32 size,edk::color3f32 color);
-    void drawPivoWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::float32 size,edk::color3f32 color);
+    void drawPivoWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::float32 size,edk::color3f32 color);
 
     //PolygonList selected
     edk::shape::Mesh3D *selected;
@@ -340,11 +340,11 @@ private:
     //Tree Static Vector
     edk::light::Light lights[EDK_LIGHT_LIMIT];
 
-    edk::vector::Matrix<edk::float32,3u,3u> matrixTranslate;
-    edk::vector::Matrix<edk::float32,3u,3u> matrixRotate;
-    edk::vector::Matrix<edk::float32,3u,3u> matrixScale;
-    edk::vector::Matrix<edk::float32,3u,3u> matrixTransform;
-    edk::vector::Matrix<edk::float32,3u,3u> matrixTemp;
+    edk::vector::Matrix<edk::float32,4u,4u> matrixTranslate;
+    edk::vector::Matrix<edk::float32,4u,4u> matrixRotate;
+    edk::vector::Matrix<edk::float32,4u,4u> matrixScale;
+    edk::vector::Matrix<edk::float32,4u,4u> matrixTransform;
+    edk::vector::Matrix<edk::float32,4u,4u> matrixTemp;
 
     void calculateMatrices();
 };

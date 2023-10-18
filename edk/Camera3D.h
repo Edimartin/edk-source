@@ -100,7 +100,7 @@ public:
 
     //get the projection matrix
     void updateProjection();
-    edk::vector::Matrix<edk::float32,3u,3u>* getProjection();
+    edk::vector::Matrix<edk::float32,4u,4u>* getProjection();
 
     //draw the camera
     void draw();
@@ -120,10 +120,10 @@ private:
     bool firstPerson;
 
     //camera 3D projection matrix
-    edk::vector::Matrix<edk::float32,3u,3u> matrixTranslate;
-    edk::vector::Matrix<edk::float32,3u,3u> matrixRotate;
-    edk::vector::Matrix<edk::float32,3u,3u> matrixScale;
-    edk::vector::Matrix<edk::float32,3u,3u> projection;
+    edk::vector::Matrix<edk::float32,4u,4u> matrixTranslate;
+    edk::vector::Matrix<edk::float32,4u,4u> matrixRotate;
+    edk::vector::Matrix<edk::float32,4u,4u> matrixScale;
+    edk::vector::Matrix<edk::float32,4u,4u> projection;
 
     void start();
     //generate the camera matrix

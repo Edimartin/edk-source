@@ -1223,14 +1223,29 @@ public:
     //3D
     //translate matrix
     static bool generateTranslateMatrix(edk::vec3f32 position,edk::vector::Matrix<edk::float32,3u,3u>* dest);
+    static bool generateTranslateMatrix(edk::vec3f32 position,edk::vector::Matrix<edk::float32,4u,4u>* dest);
     static inline bool generateTranslateMatrix3D(edk::float32 x,edk::float32 y,edk::float32 z,edk::vector::Matrix<edk::float32,3u,3u>* dest){
         return edk::Math::generateTranslateMatrix(edk::vec3f32(x,y,z),dest);
     }
+    static inline bool generateTranslateMatrix3D(edk::float32 x,edk::float32 y,edk::float32 z,edk::vector::Matrix<edk::float32,4u,4u>* dest){
+        return edk::Math::generateTranslateMatrix(edk::vec3f32(x,y,z),dest);
+    }
     //rotate matrix
-    static bool generateRotateMatrix(edk::float32 angleX,edk::float32 angleY,edk::float32 angleZ,edk::vector::Matrix<edk::float32,3u,3u>* dest);
+    static bool generateRotateMatrix(edk::vec3f32 angles,edk::vector::Matrix<edk::float32,3u,3u>* dest);
+    static bool generateRotateMatrix(edk::vec3f32 angles,edk::vector::Matrix<edk::float32,4u,4u>* dest);
+    static inline bool generateRotateMatrix(edk::float32 x,edk::float32 y,edk::float32 z,edk::vector::Matrix<edk::float32,3u,3u>* dest){
+        return edk::Math::generateRotateMatrix(edk::vec3f32(x,y,z),dest);
+    }
+    static inline bool generateRotateMatrix(edk::float32 x,edk::float32 y,edk::float32 z,edk::vector::Matrix<edk::float32,4u,4u>* dest){
+        return edk::Math::generateRotateMatrix(edk::vec3f32(x,y,z),dest);
+    }
     //scale matrix
     static bool generateScaleMatrix(edk::size3f32 size,edk::vector::Matrix<edk::float32,3u,3u>* dest);
+    static bool generateScaleMatrix(edk::size3f32 size,edk::vector::Matrix<edk::float32,4u,4u>* dest);
     static inline bool generateScaleMatrix3D(edk::float32 width,edk::float32 height,edk::float32 lenght,edk::vector::Matrix<edk::float32,3u,3u>* dest){
+        return edk::Math::generateScaleMatrix(edk::size3f32(width,height,lenght),dest);
+    }
+    static inline bool generateScaleMatrix3D(edk::float32 width,edk::float32 height,edk::float32 lenght,edk::vector::Matrix<edk::float32,4u,4u>* dest){
         return edk::Math::generateScaleMatrix(edk::size3f32(width,height,lenght),dest);
     }
 

@@ -127,35 +127,35 @@ public:
     virtual void printPolygons();
     //draw the mesh
     virtual void drawPolygons();
-    virtual void drawPolygonsWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::vector::Matrix<edk::float32,3u,3u>* matrixTemp);
+    virtual void drawPolygonsWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp);
     //draw the polygons in wireframe
     virtual void drawWirePolygons();
-    virtual void drawWirePolygonsWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::vector::Matrix<edk::float32,3u,3u>* matrixTemp);
+    virtual void drawWirePolygonsWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp);
     virtual void drawWirePolygonsWithColor(edk::color4f32 color=edk::color4f32(1,1,1,1));
-    virtual void drawWirePolygonsWithMatrixWithColor(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::vector::Matrix<edk::float32,3u,3u>* matrixTemp,edk::color4f32 color=edk::color4f32(1,1,1,1));
+    virtual void drawWirePolygonsWithMatrixWithColor(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::color4f32 color=edk::color4f32(1,1,1,1));
     virtual void drawVertexs(edk::color3f32 color = edk::color3f32(1,1,1));
-    virtual void drawVertexsWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::vector::Matrix<edk::float32,3u,3u>* matrixTemp,edk::color3f32 color = edk::color3f32(1,1,1));
+    virtual void drawVertexsWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::color3f32 color = edk::color3f32(1,1,1));
     virtual void drawPolygonsNormals();
-    virtual void drawPolygonsNormalsWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::vector::Matrix<edk::float32,3u,3u>* matrixTemp);
+    virtual void drawPolygonsNormalsWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp);
     virtual void drawPolygonsNormalsWithColor(edk::color3f32 color = edk::color3f32(1,1,1));
-    virtual void drawPolygonsNormalsWithMatrixWithColor(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::vector::Matrix<edk::float32,3u,3u>* matrixTemp,edk::color3f32 color = edk::color3f32(1,1,1));
+    virtual void drawPolygonsNormalsWithMatrixWithColor(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::color3f32 color = edk::color3f32(1,1,1));
 
 
     //draw the mesh
     virtual void drawOneTexture();
-    virtual void drawOneTextureWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::vector::Matrix<edk::float32,3u,3u>* matrixTemp);
+    virtual void drawOneTextureWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp);
     virtual void drawOneTexture(edk::uint32 position);
-    virtual void drawOneTextureWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::vector::Matrix<edk::float32,3u,3u>* matrixTemp,edk::uint32 position);
+    virtual void drawOneTextureWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::uint32 position);
     virtual bool selectedDrawOneTexture();
-    virtual bool selectedDrawOneTextureWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::vector::Matrix<edk::float32,3u,3u>* matrixTemp);
+    virtual bool selectedDrawOneTextureWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp);
     virtual bool selectedDrawOneTexture(edk::uint32 position);
-    virtual bool selectedDrawOneTextureWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::vector::Matrix<edk::float32,3u,3u>* matrixTemp,edk::uint32 position);
+    virtual bool selectedDrawOneTextureWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::uint32 position);
     virtual void drawMultiTexture();
-    virtual void drawMultiTextureWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::vector::Matrix<edk::float32,3u,3u>* matrixTemp);
+    virtual void drawMultiTextureWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp);
     virtual bool selectedDrawMultiTexture();
-    virtual bool selectedDrawMultiTextureWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::vector::Matrix<edk::float32,3u,3u>* matrixTemp);
+    virtual bool selectedDrawMultiTextureWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp);
     virtual void drawWire();
-    virtual void drawWireWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::vector::Matrix<edk::float32,3u,3u>* matrixTemp);
+    virtual void drawWireWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp);
 
     //Material used for the mesh
     edk::material::Material material;
@@ -167,10 +167,10 @@ public:
     //mesh position inside the object
     edk::vec3f32 position;
 private:
-    edk::vector::Matrix<edk::float32,3u,3u> matrixTranslate;
-    edk::vector::Matrix<edk::float32,3u,3u> matrixRotate;
-    edk::vector::Matrix<edk::float32,3u,3u> matrixScale;
-    edk::vector::Matrix<edk::float32,3u,3u> matrixTransform;
+    edk::vector::Matrix<edk::float32,4u,4u> matrixTranslate;
+    edk::vector::Matrix<edk::float32,4u,4u> matrixRotate;
+    edk::vector::Matrix<edk::float32,4u,4u> matrixScale;
+    edk::vector::Matrix<edk::float32,4u,4u> matrixTransform;
 
     void calculateMatrices();
 
@@ -343,12 +343,12 @@ protected:
         }
 
         //Draw the polygon with lines
-        //WithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matrix)
+        //WithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix)
         void drawWire(){
             this->func = edk::shape::Mesh3D::PolygonList::runDrawWire;edkEnd();
             this->update();edkEnd();
         }
-        void drawWireWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::vector::Matrix<edk::float32,3u,3u>* matrixTemp){
+        void drawWireWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp){
             if(matrix){
                 this->matrixPointer = matrix;
                 this->matrixPointer2 = matrixTemp;
@@ -359,7 +359,7 @@ protected:
         static void runDrawWire(edk::shape::Mesh3D::PolygonList*,edk::shape::Polygon3D* value){
             value->drawWire();edkEnd();
         }
-        static void runDrawWireWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::vector::Matrix<edk::float32,3u,3u>* matrixTemp,edk::shape::Mesh3D::PolygonList*,edk::shape::Polygon3D* value){
+        static void runDrawWireWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::shape::Mesh3D::PolygonList*,edk::shape::Polygon3D* value){
             value->drawWireWithMatrix(matrix,matrixTemp);edkEnd();
         }
         /*
@@ -371,7 +371,7 @@ protected:
             this->color = color;edkEnd();
             this->update();edkEnd();
         }
-        void drawWireWithMatrixWithColor(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::vector::Matrix<edk::float32,3u,3u>* matrixTemp,edk::color4f32 color=edk::color4f32(1,1,1,1)){
+        void drawWireWithMatrixWithColor(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::color4f32 color=edk::color4f32(1,1,1,1)){
             if(matrix){
                 this->matrixPointer = matrix;
                 this->matrixPointer2 = matrixTemp;
@@ -383,7 +383,7 @@ protected:
         static void runDrawWireWithColor(edk::shape::Mesh3D::PolygonList* list,edk::shape::Polygon3D* value){
             value->drawWireWithColor(list->color);edkEnd();
         }
-        static void runDrawWireWithMatrixWithColor(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::vector::Matrix<edk::float32,3u,3u>* matrixTemp,edk::shape::Mesh3D::PolygonList* list,edk::shape::Polygon3D* value){
+        static void runDrawWireWithMatrixWithColor(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::shape::Mesh3D::PolygonList* list,edk::shape::Polygon3D* value){
             value->drawWithWireWithMatrixWithColor(matrix,matrixTemp,list->color);edkEnd();
         }
         //Draw the polygon with lines
@@ -392,7 +392,7 @@ protected:
             this->color = color;edkEnd();
             this->update();edkEnd();
         }
-        void drawPolygonVertexsWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::vector::Matrix<edk::float32,3u,3u>* matrixTemp,edk::color4f32 color=edk::color4f32(1,1,1,1)){
+        void drawPolygonVertexsWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::color4f32 color=edk::color4f32(1,1,1,1)){
             if(matrix){
                 this->matrixPointer = matrix;
                 this->matrixPointer2 = matrixTemp;
@@ -404,7 +404,7 @@ protected:
         static void runDrawPolygonVertexs(edk::shape::Mesh3D::PolygonList* list,edk::shape::Polygon3D* value){
             value->drawPolygonVertexs(list->color);edkEnd();
         }
-        static void runDrawPolygonVertexsWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::vector::Matrix<edk::float32,3u,3u>* matrixTemp,edk::shape::Mesh3D::PolygonList* list,edk::shape::Polygon3D* value){
+        static void runDrawPolygonVertexsWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::shape::Mesh3D::PolygonList* list,edk::shape::Polygon3D* value){
             value->drawPolygonVertexsWithMatrix(matrix,matrixTemp,list->color);edkEnd();
         }
 
@@ -413,7 +413,7 @@ protected:
             this->func = edk::shape::Mesh3D::PolygonList::runDrawPolygonNormals;edkEnd();
             this->update();edkEnd();
         }
-        void drawPolygonNormalsWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::vector::Matrix<edk::float32,3u,3u>* matrixTemp){
+        void drawPolygonNormalsWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp){
             if(matrix){
                 this->matrixPointer = matrix;
                 this->matrixPointer2 = matrixTemp;
@@ -424,7 +424,7 @@ protected:
         static void runDrawPolygonNormals(edk::shape::Mesh3D::PolygonList*,edk::shape::Polygon3D* value){
             value->drawPolygonNormals();edkEnd();
         }
-        static void runDrawPolygonNormalsWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::vector::Matrix<edk::float32,3u,3u>* matrixTemp,edk::shape::Mesh3D::PolygonList*,edk::shape::Polygon3D* value){
+        static void runDrawPolygonNormalsWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::shape::Mesh3D::PolygonList*,edk::shape::Polygon3D* value){
             value->drawPolygonNormalsWithMatrix(matrix,matrixTemp);edkEnd();
         }
         //Draw the polygon with lines
@@ -433,7 +433,7 @@ protected:
             this->color = color;edkEnd();
             this->update();edkEnd();
         }
-        void drawPolygonNormalsWithMatrixWithColor(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::vector::Matrix<edk::float32,3u,3u>* matrixTemp,edk::color3f32 color=edk::color3f32(1,1,1)){
+        void drawPolygonNormalsWithMatrixWithColor(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::color3f32 color=edk::color3f32(1,1,1)){
             if(matrix){
                 this->matrixPointer = matrix;
                 this->matrixPointer2 = matrixTemp;
@@ -445,18 +445,18 @@ protected:
         static void runDrawPolygonNormalsWithColor(edk::shape::Mesh3D::PolygonList* list,edk::shape::Polygon3D* value){
             value->drawPolygonNormalsWithColor(list->color);edkEnd();
         }
-        static void runDrawPolygonNormalsWithMatrixWithColor(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::vector::Matrix<edk::float32,3u,3u>* matrixTemp,edk::shape::Mesh3D::PolygonList* list,edk::shape::Polygon3D* value){
+        static void runDrawPolygonNormalsWithMatrixWithColor(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::shape::Mesh3D::PolygonList* list,edk::shape::Polygon3D* value){
             value->drawPolygonNormalsWithMatrixWithColor(matrix,matrixTemp,list->color);edkEnd();
         }
 
         void (*func)(edk::shape::Mesh3D::PolygonList* list,edk::shape::Polygon3D* value);
-        void (*funcWithMatrix)(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::vector::Matrix<edk::float32,3u,3u>* matrixTemp,edk::shape::Mesh3D::PolygonList* list,edk::shape::Polygon3D* value);
+        void (*funcWithMatrix)(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::shape::Mesh3D::PolygonList* list,edk::shape::Polygon3D* value);
         edk::color4f32 color;
         edk::float32 lightPositions[EDK_LIGHT_LIMIT][4u];
         edk::float32 lightDirections[EDK_LIGHT_LIMIT][4u];
         bool lightIsOn[EDK_LIGHT_LIMIT];
-        edk::vector::Matrix<edk::float32,3u,3u>* matrixPointer;
-        edk::vector::Matrix<edk::float32,3u,3u>* matrixPointer2;
+        edk::vector::Matrix<edk::float32,4u,4u>* matrixPointer;
+        edk::vector::Matrix<edk::float32,4u,4u>* matrixPointer2;
     };
     //Polygon List
     class StackPolygon{
@@ -478,22 +478,22 @@ protected:
         void printPolygons();
         //draw the polygons
         void drawPolygons();
-        void drawPolygonsWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::vector::Matrix<edk::float32,3u,3u>* matrixTemp);
+        void drawPolygonsWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp);
         //Draw the polygon with lines
         void drawWire();
-        void drawWireWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::vector::Matrix<edk::float32,3u,3u>* matrixTemp);
+        void drawWireWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp);
         //Draw the polygon with lines
         void drawWireWithColor(edk::color4f32 color=edk::color4f32(1,1,1,1));
-        void drawWireWithMatrixWithColor(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::vector::Matrix<edk::float32,3u,3u>* matrixTemp,edk::color4f32 color=edk::color4f32(1,1,1,1));
+        void drawWireWithMatrixWithColor(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::color4f32 color=edk::color4f32(1,1,1,1));
         //Draw the polygon with lines
         void drawPolygonVertexs(edk::color4f32 color=edk::color4f32(1,1,1,1));
-        void drawPolygonVertexsWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::vector::Matrix<edk::float32,3u,3u>* matrixTemp,edk::color4f32 color=edk::color4f32(1,1,1,1));
+        void drawPolygonVertexsWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::color4f32 color=edk::color4f32(1,1,1,1));
         //Draw the polygon normals lines
         void drawPolygonNormals();
-        void drawPolygonNormalsWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::vector::Matrix<edk::float32,3u,3u>* matrixTemp);
+        void drawPolygonNormalsWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp);
         //Draw the polygon normals lines
         void drawPolygonNormalsWithColor(edk::color3f32 color=edk::color3f32(1,1,1));
-        void drawPolygonNormalsWithMatrixWithColor(edk::vector::Matrix<edk::float32,3u,3u>* matrix,edk::vector::Matrix<edk::float32,3u,3u>* matrixTemp,edk::color3f32 color=edk::color3f32(1,1,1));
+        void drawPolygonNormalsWithMatrixWithColor(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::color3f32 color=edk::color3f32(1,1,1));
     private:
         //list of polygons
         edk::shape::Mesh3D::PolygonList list;
