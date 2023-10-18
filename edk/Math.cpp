@@ -651,7 +651,6 @@ bool edk::Math::generateTranslateMatrix(edk::vec2f32 position,edk::vector::Matri
         //set the values
         dest->set(2u,0u,position.x);edkEnd();
         dest->set(2u,1u,position.y);edkEnd();
-        dest->set(2u,2u,0.f);edkEnd();
         return true;
     }
     return false;
