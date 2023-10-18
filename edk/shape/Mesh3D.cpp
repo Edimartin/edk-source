@@ -469,10 +469,15 @@ void edk::shape::Mesh3D::calculateMatrices(){
     //generate the matrices
     this->matrixTransform.setIdentity(1.f,0.f);edkEnd();
     edk::Math::generateTranslateMatrix(this->position,&this->matrixTranslate);edkEnd();
-    edk::Math::generateRotateMatrix(this->angles.x,this->angles.y,this->angles.z,&this->matrixRotate);edkEnd();
+    edk::Math::generateRotateMatrixX(this->angles.x,&this->matrixRotateX);edkEnd();
+    edk::Math::generateRotateMatrixY(this->angles.y,&this->matrixRotateY);edkEnd();
+    edk::Math::generateRotateMatrixZ(this->angles.z,&this->matrixRotateZ);edkEnd();
     edk::Math::generateScaleMatrix(this->size,&this->matrixScale);edkEnd();
     this->matrixTransform.multiplyThisWithMatrix(&this->matrixTranslate);edkEnd();
-    this->matrixTransform.multiplyThisWithMatrix(&this->matrixRotate);edkEnd();
+    //this->matrixTransform.multiplyThisWithMatrix(&this->matrixRotate);edkEnd();
+    this->matrixTransform.multiplyThisWithMatrix(&this->matrixRotateX);edkEnd();
+    this->matrixTransform.multiplyThisWithMatrix(&this->matrixRotateY);edkEnd();
+    this->matrixTransform.multiplyThisWithMatrix(&this->matrixRotateZ);edkEnd();
     this->matrixTransform.multiplyThisWithMatrix(&this->matrixScale);edkEnd();
 }
 

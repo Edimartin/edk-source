@@ -168,7 +168,9 @@ public:
     edk::vec3f32 position;
 private:
     edk::vector::Matrix<edk::float32,4u,4u> matrixTranslate;
-    edk::vector::Matrix<edk::float32,4u,4u> matrixRotate;
+    edk::vector::Matrix<edk::float32,4u,4u> matrixRotateX;
+    edk::vector::Matrix<edk::float32,4u,4u> matrixRotateY;
+    edk::vector::Matrix<edk::float32,4u,4u> matrixRotateZ;
     edk::vector::Matrix<edk::float32,4u,4u> matrixScale;
     edk::vector::Matrix<edk::float32,4u,4u> matrixTransform;
 

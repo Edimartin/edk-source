@@ -64,14 +64,17 @@ void edk::Camera3D::calculateProjectionMatrix(){
     //generate the translate matrix
     edk::Math::generateTranslateMatrix(this->position-1.f,&this->matrixTranslate);edkEnd();
     //generate the rotate matrix
-    //edk::Math::generateRotateMatrix(this->getAngleX()-1.f,this->getAngleY()-1.f,this->getAngleUp()-1.f,&this->matrixRotate);edkEnd();
-    edk::Math::generateRotateMatrix(0.f,0.f,0.f,&this->matrixRotate);edkEnd();
+    edk::Math::generateRotateMatrixX(this->getAngleX()*-1.f,&this->matrixRotateX);edkEnd();
+    edk::Math::generateRotateMatrixY(this->getAngleY()*-1.f,&this->matrixRotateY);edkEnd();
+    edk::Math::generateRotateMatrixZ(this->getAngleUp()*-1.f,&this->matrixRotateZ);edkEnd();
 
     //multiply the matrix
     //translate
     this->projection.multiplyThisWithMatrix(&this->matrixTranslate);edkEnd();
     //angle
-    this->projection.multiplyThisWithMatrix(&this->matrixRotate);edkEnd();
+    this->projection.multiplyThisWithMatrix(&this->matrixRotateX);edkEnd();
+    this->projection.multiplyThisWithMatrix(&this->matrixRotateY);edkEnd();
+    this->projection.multiplyThisWithMatrix(&this->matrixRotateZ);edkEnd();
 }
 
 //Sset witch camera type its using

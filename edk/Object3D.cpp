@@ -37,10 +37,15 @@ void edk::Object3D::calculateMatrices(){
     //generate the matrices
     this->matrixTransform.setIdentity(1.f,0.f);edkEnd();
     edk::Math::generateTranslateMatrix(this->position,&this->matrixTranslate);edkEnd();
-    edk::Math::generateRotateMatrix(this->angle.x,this->angle.y,this->angle.z,&this->matrixRotate);edkEnd();
+    edk::Math::generateRotateMatrixX(this->angle.x,&this->matrixRotateX);edkEnd();
+    edk::Math::generateRotateMatrixY(this->angle.y,&this->matrixRotateY);edkEnd();
+    edk::Math::generateRotateMatrixZ(this->angle.z,&this->matrixRotateZ);edkEnd();
     edk::Math::generateScaleMatrix(this->size,&this->matrixScale);edkEnd();
     this->matrixTransform.multiplyThisWithMatrix(&this->matrixTranslate);edkEnd();
-    this->matrixTransform.multiplyThisWithMatrix(&this->matrixRotate);edkEnd();
+    //this->matrixTransform.multiplyThisWithMatrix(&this->matrixRotate);edkEnd();
+    this->matrixTransform.multiplyThisWithMatrix(&this->matrixRotateX);edkEnd();
+    this->matrixTransform.multiplyThisWithMatrix(&this->matrixRotateY);edkEnd();
+    this->matrixTransform.multiplyThisWithMatrix(&this->matrixRotateZ);edkEnd();
     this->matrixTransform.multiplyThisWithMatrix(&this->matrixScale);edkEnd();
     edk::Math::generateTranslateMatrix(this->pivo*-1.f,&this->matrixTranslate);edkEnd();
     this->matrixTransform.multiplyThisWithMatrix(&this->matrixTranslate);edkEnd();

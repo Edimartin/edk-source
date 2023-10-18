@@ -656,19 +656,6 @@ bool edk::Math::generateTranslateMatrix(edk::vec2f32 position,edk::vector::Matri
     return false;
 }
 //rotate matrix
-bool edk::Math::generateRotateMatrix(edk::float32 angle,edk::vector::Matrix<edk::float32,3u,3u>* dest){
-    if(dest){
-        //clean the matrix
-        dest->setIdentity(1.f,0.f);edkEnd();
-        //set the values
-        dest->set(0u,0u,edk::Math::getCosin(angle));edkEnd();//cos
-        dest->set(1u,0u,edk::Math::getSin(angle)*-1.f);edkEnd();//-sin
-        dest->set(0u,1u,edk::Math::getSin(angle));edkEnd();//sin
-        dest->set(1u,1u,edk::Math::getCosin(angle));edkEnd();//cos
-        return true;
-    }
-    return false;
-}
 bool edk::Math::generateRotateMatrixX(edk::float32 angle,edk::vector::Matrix<edk::float32,3u,3u>* dest){
     if(dest){
         //clean the matrix
@@ -747,38 +734,41 @@ bool edk::Math::generateTranslateMatrix(edk::vec3f32 position,edk::vector::Matri
     return false;
 }
 //rotate matrix
-bool edk::Math::generateRotateMatrix(edk::vec3f32 angles,edk::vector::Matrix<edk::float32,3u,3u>* dest){
+bool edk::Math::generateRotateMatrixX(edk::float32 angle,edk::vector::Matrix<edk::float32,4u,4u>* dest){
     if(dest){
         //clean the matrix
         dest->setIdentity(1.f,0.f);edkEnd();
         //set the values
-        dest->set(0u,0u,edk::Math::getCosin(angles.y)*edk::Math::getCosin(angles.z));edkEnd();//Y//cos//Z//cos
-        dest->set(0u,1u,edk::Math::getSin(angles.z));edkEnd();//Z//sin
-        dest->set(0u,2u,edk::Math::getSin(angles.y)*-1.f);edkEnd();//Y//-sin
-        dest->set(1u,0u,edk::Math::getSin(angles.z)*-1.f);edkEnd();//Z//-sin
-        dest->set(1u,1u,edk::Math::getCosin(angles.x*edk::Math::getCosin(angles.z)));edkEnd();//X//cos//Z//cos
-        dest->set(1u,2u,edk::Math::getSin(angles.x));edkEnd();//X//sin
-        dest->set(2u,0u,edk::Math::getSin(angles.y));edkEnd();//Y//sin
-        dest->set(2u,1u,edk::Math::getSin(angles.x)*-1.f);edkEnd();//X//-sin
-        dest->set(2u,2u,edk::Math::getCosin(angles.x)*edk::Math::getCosin(angles.y));edkEnd();//X//cos//Y//cos
+        dest->set(1u,1u,edk::Math::getCosin(angle));edkEnd();//cos
+        dest->set(2u,1u,edk::Math::getSin(angle)*-1.f);edkEnd();//-sin
+        dest->set(1u,2u,edk::Math::getSin(angle));edkEnd();//sin
+        dest->set(2u,2u,edk::Math::getCosin(angle));edkEnd();//cos
         return true;
     }
     return false;
 }
-bool edk::Math::generateRotateMatrix(edk::vec3f32 angles,edk::vector::Matrix<edk::float32,4u,4u>* dest){
+bool edk::Math::generateRotateMatrixY(edk::float32 angle,edk::vector::Matrix<edk::float32,4u,4u>* dest){
     if(dest){
         //clean the matrix
         dest->setIdentity(1.f,0.f);edkEnd();
         //set the values
-        dest->set(0u,0u,edk::Math::getCosin(angles.y)*edk::Math::getCosin(angles.z));edkEnd();//Y//cos//Z//cos
-        dest->set(0u,1u,edk::Math::getSin(angles.z));edkEnd();//Z//sin
-        dest->set(0u,2u,edk::Math::getSin(angles.y)*-1.f);edkEnd();//Y//-sin
-        dest->set(1u,0u,edk::Math::getSin(angles.z)*-1.f);edkEnd();//Z//-sin
-        dest->set(1u,1u,edk::Math::getCosin(angles.x*edk::Math::getCosin(angles.z)));edkEnd();//X//cos//Z//cos
-        dest->set(1u,2u,edk::Math::getSin(angles.x));edkEnd();//X//sin
-        dest->set(2u,0u,edk::Math::getSin(angles.y));edkEnd();//Y//sin
-        dest->set(2u,1u,edk::Math::getSin(angles.x)*-1.f);edkEnd();//X//-sin
-        dest->set(2u,2u,edk::Math::getCosin(angles.x)*edk::Math::getCosin(angles.y));edkEnd();//X//cos//Y//cos
+        dest->set(0u,0u,edk::Math::getCosin(angle));edkEnd();//cos
+        dest->set(2u,0u,edk::Math::getSin(angle));edkEnd();//sin
+        dest->set(0u,2u,edk::Math::getSin(angle)*-1.f);edkEnd();//-sin
+        dest->set(2u,2u,edk::Math::getCosin(angle));edkEnd();//cos
+        return true;
+    }
+    return false;
+}
+bool edk::Math::generateRotateMatrixZ(edk::float32 angle,edk::vector::Matrix<edk::float32,4u,4u>* dest){
+    if(dest){
+        //clean the matrix
+        dest->setIdentity(1.f,0.f);edkEnd();
+        //set the values
+        dest->set(0u,0u,edk::Math::getCosin(angle));edkEnd();//cos
+        dest->set(1u,0u,edk::Math::getSin(angle)*-1.f);edkEnd();//-sin
+        dest->set(0u,1u,edk::Math::getSin(angle));edkEnd();//sin
+        dest->set(1u,1u,edk::Math::getCosin(angle));edkEnd();//cos
         return true;
     }
     return false;

@@ -8728,7 +8728,7 @@ edk::rectf32 edk::shape::Polygon2D::generateBoundingBox(edk::vector::Matrix<edk:
         if(this->matrixTransform.cloneFrom(transformMat)){
             //generate transform matrices
             edk::Math::generateTranslateMatrix(this->translate,&this->matrixTranslate);edkEnd();
-            edk::Math::generateRotateMatrix(this->angle,&this->matrixRotate);edkEnd();
+            edk::Math::generateRotateMatrixZ(this->angle,&this->matrixRotate);edkEnd();
             edk::Math::generateScaleMatrix(this->scale,&this->matrixScale);edkEnd();
 
             //multiply the matrix by

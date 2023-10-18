@@ -789,7 +789,7 @@ bool edk::Object2D::calculateBoundingBox(){
     //first copy the matrix
     //generate transform matrices
     edk::Math::generateTranslateMatrix(this->position,&this->matrixPosition);edkEnd();
-    edk::Math::generateRotateMatrix(this->angle,&this->matrixAngle);edkEnd();
+    edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
     edk::Math::generateScaleMatrix(this->size,&this->matrixSize);edkEnd();
     edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->matrixPivo);edkEnd();
     //multiply the matrix by
@@ -833,7 +833,7 @@ bool edk::Object2D::calculateBoundingBox(edk::vector::Matrix<edk::float32,3,3>* 
     if(this->matrixTransform.cloneFrom(transformMat)){
         //generate transform matrices
         edk::Math::generateTranslateMatrix(this->position,&this->matrixPosition);edkEnd();
-        edk::Math::generateRotateMatrix(this->angle,&this->matrixAngle);edkEnd();
+        edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
         edk::Math::generateScaleMatrix(this->size,&this->matrixSize);edkEnd();
         edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->matrixPivo);edkEnd();
 
