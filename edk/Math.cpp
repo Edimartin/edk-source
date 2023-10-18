@@ -740,9 +740,9 @@ bool edk::Math::generateTranslateMatrix(edk::vec3f32 position,edk::vector::Matri
         //clean the matrix
         dest->setIdentity(1.f,0.f);edkEnd();
         //set the values
-        dest->set(2u,0u,position.x);edkEnd();
-        dest->set(2u,1u,position.y);edkEnd();
-        dest->set(2u,2u,position.z);edkEnd();
+        dest->set(3u,0u,position.x);edkEnd();
+        dest->set(3u,1u,position.y);edkEnd();
+        dest->set(3u,2u,position.z);edkEnd();
         return true;
     }
     return false;
