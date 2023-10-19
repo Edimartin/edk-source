@@ -1665,7 +1665,7 @@ private:
                     edk::GU::guRotateZf32(this->transform.angle);edkEnd();
                     //add scale
                     edk::GU::guScale2f32(this->transform.size);edkEnd();
-                    this->tileMap->drawInsideWorldRect(rect);edkEnd();
+                    this->tileMap->drawInsideWorldRectPoints(rect);edkEnd();
                     edk::GU::guPopMatrix();edkEnd();
                 }
             }
@@ -1767,6 +1767,7 @@ private:
                 }
                 else if(this->tileMap){
                     rect = this->updateRectPoints(rect);edkEnd();
+                    rect = this->pointsToRect(rect);
                     //apply tranformations
                     edk::GU::guPushMatrix();edkEnd();
                     //add translate
@@ -1938,7 +1939,7 @@ private:
                     edk::GU::guRotateZf32(this->transform.angle);edkEnd();
                     //add scale
                     edk::GU::guScale2f32(this->transform.size);edkEnd();
-                    this->tileMap->drawInsideWorldRectSelectionWithID(rect,levelID);edkEnd();
+                    this->tileMap->drawInsideWorldRectPointsSelectionWithID(rect,levelID);edkEnd();
                     edk::GU::guPopMatrix();edkEnd();
                 }
             }
@@ -2027,12 +2028,20 @@ private:
             }
             return rect;edkEnd();
         }
+        inline edk::rectf32 pointsToRect(edk::rectf32 rect){
+            edk::rectf32 ret;
+            ret.size.width = rect.size.width - rect.origin.x;
+            ret.size.height = rect.size.height - rect.origin.y;
+            ret.origin.x = rect.origin.x + ret.size.width*0.5f;
+            ret.origin.y = rect.origin.y + ret.size.height*0.5f;
+            return ret;
+        }
 
         //calculate matrices
         void calculateMatrices(){
             //generate transform matrices
             edk::Math::generateTranslateMatrix(this->transform.position,&this->matrixPosition);edkEnd();
-            edk::Math::generateRotateMatrixZ(this->transform.angle,&this->matrixAngle);edkEnd();
+            edk::Math::generateRotateMatrix(this->transform.angle,&this->matrixAngle);edkEnd();
             edk::Math::generateScaleMatrix(this->transform.size,&this->matrixSize);edkEnd();
 
             this->matrixTransform.setIdentity(1.f,0.f);edkEnd();
@@ -2046,7 +2055,7 @@ private:
 
             //generate negative transform matrices
             edk::Math::generateTranslateMatrix(this->transform.position*-1.f,&this->matrixPosition);edkEnd();
-            edk::Math::generateRotateMatrixZ(this->transform.angle*-1.f,&this->matrixAngle);edkEnd();
+            edk::Math::generateRotateMatrix(this->transform.angle*-1.f,&this->matrixAngle);edkEnd();
             edk::Math::generateScaleMatrix(this->transform.size/1.f,&this->matrixSize);edkEnd();
 
             this->matrixTransformNegative.setIdentity(1.f,0.f);edkEnd();

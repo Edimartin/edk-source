@@ -520,62 +520,98 @@ void edk::tiles::TileMap2D::endDrawTiles(edk::vec2ui32 origin,edk::size2ui32 las
 //calculate the draw position from worldRect
 edk::rectui32 edk::tiles::TileMap2D::calculateDrawPosition(edk::rectf32 rect){
     edk::rectui32 ret;edkEnd();
-    edk::vec2f32 position = this->getPosition();edkEnd();
-    //first translate the rect
-    rect.origin-=position;edkEnd();
-    rect.size.width-=position.x;edkEnd();
-    rect.size.height-=position.y;edkEnd();
+    edk::rectf32 full;edkEnd();
+    full.origin = this->getPosition();edkEnd();
+    //first move the position into the init of the map
+    full.origin.x -= this->scaleMap.width*0.5f;
+    full.origin.y -= this->scaleMap.height*0.5f;
 
-    rect.origin.x += this->scaleMap.width*0.5f;edkEnd();
-    rect.origin.y += this->scaleMap.height*0.5f;edkEnd();
-    rect.size.width += this->scaleMap.width*0.5f;edkEnd();
-    rect.size.height += this->scaleMap.height*0.5f;edkEnd();
+    full.size.width = full.origin.x + this->scaleMap.width*this->sizeMap.width;
+    full.size.height = full.origin.y + this->scaleMap.height*this->sizeMap.height;
+    //here i have the full tileMap rect
 
-    //now normalize the rect to fit inside the tileMap
-    rect.origin.x /= this->scaleMap.width;edkEnd();
-    rect.origin.y /= this->scaleMap.height;edkEnd();
-    rect.size /= this->scaleMap;edkEnd();
-
-    //rect.origin += 0.5f;edkEnd();
-    //rect.size += 0.5f;edkEnd();
-
-    //convert it into positive values
-
-
-    if(rect.size.width<0.f){
-        rect.size.width=0.f;edkEnd();
-        rect.origin.x=0.f;edkEnd();
-    }
-    else{
-        if(rect.origin.x<0.f){
-            rect.origin.x=0.f;edkEnd();
+    //now I test if the rect are colliding
+    //X1
+    if(rect.origin.x >= full.origin.x){
+        if(rect.origin.x <= full.size.width){
+            //the X is inside the full
+            ret.origin.x = (edk::uint32)((rect.origin.x-full.origin.x)/this->scaleMap.width);
+        }
+        else{
+            //else the X is the size
+            ret.origin.x=this->sizeMap.width;
         }
     }
-    if(rect.size.height<0.f){
-        rect.size.height=0.f;edkEnd();
-        rect.origin.y=0.f;edkEnd();
-    }
     else{
-        if(rect.origin.y<0.f){
-            rect.origin.y=0.f;edkEnd();
+        //else the X is zero
+        ret.origin.x=0u;
+    }
+    //X2
+    if(rect.size.width >= full.origin.x){
+        if(rect.size.width <= full.size.width){
+            //the X is inside the full
+            ret.size.width = (edk::uint32)((rect.size.width-full.origin.x)/this->scaleMap.width);
+        }
+        else{
+            //else the X is the size
+            ret.size.width=this->sizeMap.width;
         }
     }
-
-    //convert it to unsigned int and return it
-    ret.origin.x = (edk::uint32)rect.origin.x;edkEnd();
-    ret.origin.y = (edk::uint32)rect.origin.y;edkEnd();
-    ret.size.width = (edk::uint32)rect.size.width;edkEnd();
-    ret.size.height = (edk::uint32)rect.size.height;edkEnd();
-
-    //increment the size to draw the tileMap
-    ret.size.width++;edkEnd();
-    ret.size.height++;edkEnd();
-
-    if(ret.size.width>this->sizeMap.width){
-        ret.size.width=this->sizeMap.width;edkEnd();
+    else{
+        //else the X is zero
+        ret.size.width=0u;
     }
-    if(ret.size.height>this->sizeMap.height){
-        ret.size.height=this->sizeMap.height;edkEnd();
+    //Y1
+    if(rect.origin.y >= full.origin.y){
+        if(rect.origin.y <= full.size.height){
+            //the X is inside the full
+            ret.origin.y = (edk::uint32)((rect.origin.y-full.origin.y)/this->scaleMap.height);
+        }
+        else{
+            //else the X is the size
+            ret.origin.y=this->sizeMap.height;
+        }
+    }
+    else{
+        //else the X is zero
+        ret.origin.y=0u;
+    }
+    //Y2
+    if(rect.size.height >= full.origin.y){
+        if(rect.size.height <= full.size.height){
+            //the X is inside the full
+            ret.size.height = (edk::uint32)((rect.size.height-full.origin.y)/this->scaleMap.height);
+        }
+        else{
+            //else the X is the size
+            ret.size.height=this->sizeMap.height;
+        }
+    }
+    else{
+        //else the X is zero
+        ret.size.height=0u;
+    }
+
+
+    //increment the end
+    if(ret.size.width<this->sizeMap.width){
+        ret.size.width++;
+    }
+    if(ret.size.height<this->sizeMap.height){
+        ret.size.height++;
+    }
+
+    //invert the Y
+    edk::uint32 temp=(edk::uint32)(((edk::int32)ret.origin.y*-1)+this->sizeMap.height);
+    ret.origin.y=(edk::uint32)(((edk::int32)ret.size.height*-1)+this->sizeMap.height);
+    ret.size.height=temp;
+
+    //test if the begin is smaller then the end
+    if(ret.size.width>ret.origin.x){
+        ret.size.width-=ret.origin.x;
+    }
+    if(ret.size.height>ret.origin.y){
+        ret.size.height-=ret.origin.y;
     }
 
     return ret;
