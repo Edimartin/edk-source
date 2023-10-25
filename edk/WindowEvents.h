@@ -1133,6 +1133,7 @@ public:
                 file->writeBin((edk::uint32)edk::eventWindowMousePosWindow);edkEnd();
                 ret=true;edkEnd();
             }
+            file->flush();
             return ret;
         }
         return false;
@@ -1339,6 +1340,8 @@ public:
             }
             //write the sizeElements
             file->writeBin((edk::uint32)sizeElements);edkEnd();
+
+            file->flush();
 
 
             if(!sizeElements){
@@ -1628,6 +1631,7 @@ public:
                 ret=true;edkEnd();
             }
             //
+            file->flush();
         }
         return ret;
     }
@@ -1825,6 +1829,8 @@ public:
             }
             //write the sizeElements
             file->writeBin((edk::uint32)sizeElements);edkEnd();
+
+            file->flush();
 
 
             if(!sizeElements){
@@ -2104,6 +2110,7 @@ public:
                 file->writeBin((edk::uint32)edk::eventWindowMousePosWindow);edkEnd();
                 ret=true;edkEnd();
             }
+            file->flush();
             //
         }
         return ret;

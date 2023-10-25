@@ -73,6 +73,14 @@ public:
     //return if set angular velocoty
     bool haveSettedAngularVelocity();
 
+    //function to calculate physicBoundingBox
+    bool calculatePhysicBoundingBox();
+    bool calculatePhysicBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat);
+    bool generatePhysicBoundingBox();
+    bool generatePhysicBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat);
+    //return a copy of the physicBoundingBox
+    edk::rectf32 getPhysicBoundingBox();
+
     void removeAllMesh();
 
     //return if it's a sensor
@@ -94,7 +102,10 @@ public:
     edk::uint32 getCollisionGroupSize();
     edk::uint32 getNotCollisionGroupSize();
 
+    void drawPhysics();
     void drawWirePhysics();
+    void drawPolygonPhysics(edk::uint32 position);
+    void drawPolygonWirePhysics(edk::uint32 position);
 
     //update all animations
     virtual bool updateAnimations();
@@ -116,6 +127,14 @@ public:
     //set if the body canSleep
     bool canSleep;
 private:
+    edk::rectf32 physicBoundingBox;
+    //transform matrices
+    edk::vector::Matrix<edk::float32,3u,3u> physicMatrixPosition;
+    edk::vector::Matrix<edk::float32,3u,3u> physicMatrixPivo;
+    edk::vector::Matrix<edk::float32,3u,3u> physicMatrixAngle;
+    edk::vector::Matrix<edk::float32,3u,3u> physicMatrixSize;
+    edk::vector::Matrix<edk::float32,3,3> physicMatrixTransform;
+
     virtual edk::physics2D::PhysicObject2D operator=(edk::physics2D::PhysicObject2D obj){
         //copy the object
         this->cloneFrom(&obj);edkEnd();

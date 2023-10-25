@@ -343,6 +343,7 @@ public:
 
     //destroy the joint
     bool destroyJoint(edk::physics2D::Joint2D* joint);
+    bool inline deleteJoint(edk::physics2D::Joint2D* joint){return this->destroyJoint(joint);}
     //destroy joint with the object
     bool destroyObjectJoints(edk::physics2D::PhysicObject2D* object);
     //return the joint

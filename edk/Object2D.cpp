@@ -878,7 +878,7 @@ bool edk::Object2D::generateBoundingBox(edk::vector::Matrix<edk::float32,3,3>* t
 }
 //return a copy of the boundingBox
 edk::rectf32 edk::Object2D::getBoundingBox(){
-    return this->boundingBox;edkEnd();
+    return this->boundingBox;
 }
 
 //Select the polygonList
