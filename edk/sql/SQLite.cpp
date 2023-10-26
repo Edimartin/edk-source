@@ -25,7 +25,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::sql::SQLite::SQLite(){
+#if defined(EDK_USE_SQLITE)
     this->db = NULL;edkEnd();
+#endif
     this->baseName=NULL;edkEnd();
 }
 
@@ -88,6 +90,7 @@ bool edk::sql::SQLite::openDataBase(edk::char8* name){
     edk::char8* nameExtension = this->addExtension(name,(edk::char8*)edkDataBase);edkEnd();
     if(nameExtension){
         if(edk::File::fileExist(nameExtension)){
+#if defined(EDK_USE_SQLITE)
             edk::int32 rc;edkEnd();
             rc = sqlite3_open((const edk::char8*) nameExtension, &this->db);edkEnd();
             if(!rc){
@@ -100,12 +103,14 @@ bool edk::sql::SQLite::openDataBase(edk::char8* name){
                    );edkEnd();
             //else open the dataBase get error
             this->db=NULL;edkEnd();
+#endif
         }
         free(nameExtension);edkEnd();
     }
     else{
         //test if have the file
         if(edk::File::fileExist(name)){
+#if defined(EDK_USE_SQLITE)
             edk::int32 rc;edkEnd();
             rc = sqlite3_open((const edk::char8*) name, &this->db);edkEnd();
             if(!rc){
@@ -117,6 +122,7 @@ bool edk::sql::SQLite::openDataBase(edk::char8* name){
                    );edkEnd();
             //else open the dataBase get error
             this->db=NULL;edkEnd();
+#endif
         }
     }
     return false;
@@ -213,6 +219,7 @@ bool edk::sql::SQLite::execute(const edk::char8* command,edk::sql::SQLGroup* cal
 bool edk::sql::SQLite::execute(edk::char8* command,edk::sql::SQLGroup* callback){
     //est if have opened the dataBase
     if(this->haveOpenedDataBase() && command){
+#if defined(EDK_USE_SQLITE)
         //execute the comand
         edk::char8* zErrMsg = NULL;edkEnd();
         edk::int32 rc = sqlite3_exec(this->db, (const char *)command, sqlCallback, callback, (char**)&zErrMsg);edkEnd();
@@ -222,22 +229,27 @@ bool edk::sql::SQLite::execute(edk::char8* command,edk::sql::SQLGroup* callback)
             printf( "SQL error: %s\n", zErrMsg);edkEnd();
             sqlite3_free(zErrMsg);edkEnd();
         }
+#endif
     }
     return false;
 }
 
 //return true if have a dataBase
 bool edk::sql::SQLite::haveOpenedDataBase(){
+#if defined(EDK_USE_SQLITE)
     if(this->db){
         return true;
     }
+#endif
     return false;
 }
 
 //close the dataBase
 void edk::sql::SQLite::closeDataBase(){
+#if defined(EDK_USE_SQLITE)
     if(this->db){
         sqlite3_close(this->db);edkEnd();
     }
     this->db=NULL;edkEnd();
+#endif
 }

@@ -30,9 +30,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 #pragma once
+#ifndef EDK_NO_BOX2D
 #ifndef EDK_USE_BOX2D
 #define EDK_USE_BOX2D
-#pragma message "EDK WARNING: As default EDK use Box2D, If you don't want use 2D physics you can comment the line 34 in this file (edk/physics2D/World2D.h)"
+#pragma message "EDK WARNING: As default EDK use Box2D, If you don't want use 2D physics you can define EDK_NO_BOX2D"
+#endif
 #endif
 
 #include "../TypeDefines.h"

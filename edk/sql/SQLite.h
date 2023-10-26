@@ -37,9 +37,19 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define edkDataBase ".edb"
 
 #pragma once
+#ifndef EDK_NO_SQLITE
+#ifndef EDK_USE_SQLITE
+#define EDK_USE_SQLITE
+#pragma message "EDK WARNING: As default EDK use SQLite, If you don't want use SQLite you can define EDK_NO_SQLITE"
+#endif
+#endif
+
+#if defined(EDK_USE_SQLITE)
 extern "C" {
 #include "../../sqlite/sqlite3.h"
 }
+#endif
+
 #include "../File.h"
 #include "../String.h"
 #include "../vector/Stack.h"
@@ -79,7 +89,9 @@ public:
     void closeDataBase();
 
 private:
+#if defined(EDK_USE_SQLITE)
     sqlite3 *db;
+#endif
     edk::char8* baseName;
 
     //add a extension to the file
