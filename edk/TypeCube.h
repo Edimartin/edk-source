@@ -202,7 +202,7 @@ public:
     }
 
     //operators
-    edk::cubei8 operator=(edk::cubei8 cube){
+    inline edk::cubei8 operator=(edk::cubei8 cube){
         //
         this->origin.x=(edk::int8)cube.origin.x;
         this->origin.y=(edk::int8)cube.origin.y;
@@ -212,7 +212,7 @@ public:
         this->size.length=(edk::int8)cube.size.length;
         return *this;
     }
-    edk::cubei8 operator=(edk::int8 n){
+    inline edk::cubei8 operator=(edk::int8 n){
         //
         this->origin.x=(edk::int8)n;
         this->origin.y=(edk::int8)n;
@@ -222,7 +222,7 @@ public:
         this->size.length=(edk::int8)n;
         return *this;
     }
-    edk::cubei8 operator=(edk::int32 n){
+    inline edk::cubei8 operator=(edk::int32 n){
         //
         this->origin.x=(edk::int8)n;
         this->origin.y=(edk::int8)n;
@@ -232,7 +232,7 @@ public:
         this->size.length=(edk::int8)n;
         return *this;
     }
-    edk::cubei8 operator=(edk::int16 n){
+    inline edk::cubei8 operator=(edk::int16 n){
         //
         this->origin.x=(edk::int8)n;
         this->origin.y=(edk::int8)n;
@@ -242,7 +242,7 @@ public:
         this->size.length=(edk::int8)n;
         return *this;
     }
-    edk::cubei8 operator=(edk::int64 n){
+    inline edk::cubei8 operator=(edk::int64 n){
         //
         this->origin.x=(edk::int8)n;
         this->origin.y=(edk::int8)n;
@@ -252,7 +252,7 @@ public:
         this->size.length=(edk::int8)n;
         return *this;
     }
-    edk::cubei8 operator=(edk::uint8 n){
+    inline edk::cubei8 operator=(edk::uint8 n){
         //
         this->origin.x=(edk::int8)n;
         this->origin.y=(edk::int8)n;
@@ -262,7 +262,7 @@ public:
         this->size.length=(edk::int8)n;
         return *this;
     }
-    edk::cubei8 operator=(edk::uint32 n){
+    inline edk::cubei8 operator=(edk::uint32 n){
         //
         this->origin.x=(edk::int8)n;
         this->origin.y=(edk::int8)n;
@@ -272,7 +272,7 @@ public:
         this->size.length=(edk::int8)n;
         return *this;
     }
-    edk::cubei8 operator=(edk::uint16 n){
+    inline edk::cubei8 operator=(edk::uint16 n){
         //
         this->origin.x=(edk::int8)n;
         this->origin.y=(edk::int8)n;
@@ -282,7 +282,7 @@ public:
         this->size.length=(edk::int8)n;
         return *this;
     }
-    edk::cubei8 operator=(edk::uint64 n){
+    inline edk::cubei8 operator=(edk::uint64 n){
         //
         this->origin.x=(edk::int8)n;
         this->origin.y=(edk::int8)n;
@@ -293,7 +293,7 @@ public:
         return *this;
     }
 
-    bool operator==(edk::cubei8 cube){
+    inline bool operator==(edk::cubei8 cube){
         //
         return (this->origin.x==(edk::int8)cube.origin.x
                 &&this->origin.y==(edk::int8)cube.origin.y
@@ -303,7 +303,7 @@ public:
                 &&this->size.length==(edk::int8)cube.size.length
                 );
     }
-    bool operator!=(edk::cubei8 cube){
+    inline bool operator!=(edk::cubei8 cube){
         //
         return (this->origin.x!=(edk::int8)cube.origin.x
                 ||this->origin.y!=(edk::int8)cube.origin.y
@@ -313,9 +313,9 @@ public:
                 ||this->size.length!=(edk::int8)cube.size.length
                 );
     }
-    edk::cubei8 operator+(edk::cubei8 cube){
+    inline edk::cubei8 operator+(edk::cubei8 cube){
         //
-        edk::cubei8 ret;
+        inline edk::cubei8 ret;
         ret.origin.x=this->origin.x+(edk::int8)cube.origin.x;
         ret.origin.y=this->origin.y+(edk::int8)cube.origin.y;
         ret.origin.z=this->origin.z+(edk::int8)cube.origin.z;
@@ -324,9 +324,9 @@ public:
         ret.size.length=this->size.length+(edk::int8)cube.size.length;
         return ret;
     }
-    edk::cubei8 operator+(edk::int8 n){
+    inline edk::cubei8 operator+(edk::int8 n){
         //
-        edk::cubei8 ret;
+        inline edk::cubei8 ret;
         ret.origin.x=this->origin.x+(edk::int8)n;
         ret.origin.y=this->origin.y+(edk::int8)n;
         ret.origin.z=this->origin.z+(edk::int8)n;
@@ -335,9 +335,9 @@ public:
         ret.size.length=this->size.length+(edk::int8)n;
         return ret;
     }
-    edk::cubei8 operator+(edk::int32 n){
+    inline edk::cubei8 operator+(edk::int32 n){
         //
-        edk::cubei8 ret;
+        inline edk::cubei8 ret;
         ret.origin.x=this->origin.x+(edk::int8)n;
         ret.origin.y=this->origin.y+(edk::int8)n;
         ret.origin.z=this->origin.z+(edk::int8)n;
@@ -346,9 +346,9 @@ public:
         ret.size.length=this->size.length+(edk::int8)n;
         return ret;
     }
-    edk::cubei8 operator+(edk::int16 n){
+    inline edk::cubei8 operator+(edk::int16 n){
         //
-        edk::cubei8 ret;
+        inline edk::cubei8 ret;
         ret.origin.x=this->origin.x+(edk::int8)n;
         ret.origin.y=this->origin.y+(edk::int8)n;
         ret.origin.z=this->origin.z+(edk::int8)n;
@@ -357,9 +357,9 @@ public:
         ret.size.length=this->size.length+(edk::int8)n;
         return ret;
     }
-    edk::cubei8 operator+(edk::int64 n){
+    inline edk::cubei8 operator+(edk::int64 n){
         //
-        edk::cubei8 ret;
+        inline edk::cubei8 ret;
         ret.origin.x=this->origin.x+(edk::int8)n;
         ret.origin.y=this->origin.y+(edk::int8)n;
         ret.origin.z=this->origin.z+(edk::int8)n;
@@ -368,9 +368,9 @@ public:
         ret.size.length=this->size.length+(edk::int8)n;
         return ret;
     }
-    edk::cubei8 operator+(edk::uint8 n){
+    inline edk::cubei8 operator+(edk::uint8 n){
         //
-        edk::cubei8 ret;
+        inline edk::cubei8 ret;
         ret.origin.x=this->origin.x+(edk::int8)n;
         ret.origin.y=this->origin.y+(edk::int8)n;
         ret.origin.z=this->origin.z+(edk::int8)n;
@@ -379,9 +379,9 @@ public:
         ret.size.length=this->size.length+(edk::int8)n;
         return ret;
     }
-    edk::cubei8 operator+(edk::uint32 n){
+    inline edk::cubei8 operator+(edk::uint32 n){
         //
-        edk::cubei8 ret;
+        inline edk::cubei8 ret;
         ret.origin.x=this->origin.x+(edk::int8)n;
         ret.origin.y=this->origin.y+(edk::int8)n;
         ret.origin.z=this->origin.z+(edk::int8)n;
@@ -390,9 +390,9 @@ public:
         ret.size.length=this->size.length+(edk::int8)n;
         return ret;
     }
-    edk::cubei8 operator+(edk::uint16 n){
+    inline edk::cubei8 operator+(edk::uint16 n){
         //
-        edk::cubei8 ret;
+        inline edk::cubei8 ret;
         ret.origin.x=this->origin.x+(edk::int8)n;
         ret.origin.y=this->origin.y+(edk::int8)n;
         ret.origin.z=this->origin.z+(edk::int8)n;
@@ -401,9 +401,9 @@ public:
         ret.size.length=this->size.length+(edk::int8)n;
         return ret;
     }
-    edk::cubei8 operator+(edk::uint64 n){
+    inline edk::cubei8 operator+(edk::uint64 n){
         //
-        edk::cubei8 ret;
+        inline edk::cubei8 ret;
         ret.origin.x=this->origin.x+(edk::int8)n;
         ret.origin.y=this->origin.y+(edk::int8)n;
         ret.origin.z=this->origin.z+(edk::int8)n;
@@ -412,7 +412,7 @@ public:
         ret.size.length=this->size.length+(edk::int8)n;
         return ret;
     }
-    void operator+=(edk::cubei8 cube){
+    inline void operator+=(edk::cubei8 cube){
         //
         this->origin.x+=(edk::int8)cube.origin.x;
         this->origin.y+=(edk::int8)cube.origin.y;
@@ -421,7 +421,7 @@ public:
         this->size.height+=(edk::int8)cube.size.height;
         this->size.length+=(edk::int8)cube.size.length;
     }
-    void operator+=(edk::int8 n){
+    inline void operator+=(edk::int8 n){
         //
         this->origin.x+=(edk::int8)n;
         this->origin.y+=(edk::int8)n;
@@ -430,7 +430,7 @@ public:
         this->size.height+=(edk::int8)n;
         this->size.length+=(edk::int8)n;
     }
-    void operator+=(edk::int32 n){
+    inline void operator+=(edk::int32 n){
         //
         this->origin.x+=(edk::int8)n;
         this->origin.y+=(edk::int8)n;
@@ -439,7 +439,7 @@ public:
         this->size.height+=(edk::int8)n;
         this->size.length+=(edk::int8)n;
     }
-    void operator+=(edk::int16 n){
+    inline void operator+=(edk::int16 n){
         //
         this->origin.x+=(edk::int8)n;
         this->origin.y+=(edk::int8)n;
@@ -448,7 +448,7 @@ public:
         this->size.height+=(edk::int8)n;
         this->size.length+=(edk::int8)n;
     }
-    void operator+=(edk::int64 n){
+    inline void operator+=(edk::int64 n){
         //
         this->origin.x+=(edk::int8)n;
         this->origin.y+=(edk::int8)n;
@@ -457,7 +457,7 @@ public:
         this->size.height+=(edk::int8)n;
         this->size.length+=(edk::int8)n;
     }
-    void operator+=(edk::uint8 n){
+    inline void operator+=(edk::uint8 n){
         //
         this->origin.x+=(edk::int8)n;
         this->origin.y+=(edk::int8)n;
@@ -466,7 +466,7 @@ public:
         this->size.height+=(edk::int8)n;
         this->size.length+=(edk::int8)n;
     }
-    void operator+=(edk::uint32 n){
+    inline void operator+=(edk::uint32 n){
         //
         this->origin.x+=(edk::int8)n;
         this->origin.y+=(edk::int8)n;
@@ -475,7 +475,7 @@ public:
         this->size.height+=(edk::int8)n;
         this->size.length+=(edk::int8)n;
     }
-    void operator+=(edk::uint16 n){
+    inline void operator+=(edk::uint16 n){
         //
         this->origin.x+=(edk::int8)n;
         this->origin.y+=(edk::int8)n;
@@ -484,7 +484,7 @@ public:
         this->size.height+=(edk::int8)n;
         this->size.length+=(edk::int8)n;
     }
-    void operator+=(edk::uint64 n){
+    inline void operator+=(edk::uint64 n){
         //
         this->origin.x+=(edk::int8)n;
         this->origin.y+=(edk::int8)n;
@@ -493,9 +493,9 @@ public:
         this->size.height+=(edk::int8)n;
         this->size.length+=(edk::int8)n;
     }
-    edk::cubei8 operator-(edk::cubei8 cube){
+    inline edk::cubei8 operator-(edk::cubei8 cube){
         //
-        edk::cubei8 ret;
+        inline edk::cubei8 ret;
         ret.origin.x=this->origin.x-(edk::int8)cube.origin.x;
         ret.origin.y=this->origin.y-(edk::int8)cube.origin.y;
         ret.origin.z=this->origin.z-(edk::int8)cube.origin.z;
@@ -504,9 +504,9 @@ public:
         ret.size.length=this->size.length-(edk::int8)cube.size.length;
         return ret;
     }
-    edk::cubei8 operator-(edk::int8 n){
+    inline edk::cubei8 operator-(edk::int8 n){
         //
-        edk::cubei8 ret;
+        inline edk::cubei8 ret;
         ret.origin.x=this->origin.x-(edk::int8)n;
         ret.origin.y=this->origin.y-(edk::int8)n;
         ret.origin.z=this->origin.z-(edk::int8)n;
@@ -515,9 +515,9 @@ public:
         ret.size.length=this->size.length-(edk::int8)n;
         return ret;
     }
-    edk::cubei8 operator-(edk::int32 n){
+    inline edk::cubei8 operator-(edk::int32 n){
         //
-        edk::cubei8 ret;
+        inline edk::cubei8 ret;
         ret.origin.x=this->origin.x-(edk::int8)n;
         ret.origin.y=this->origin.y-(edk::int8)n;
         ret.origin.z=this->origin.z-(edk::int8)n;
@@ -526,9 +526,9 @@ public:
         ret.size.length=this->size.length-(edk::int8)n;
         return ret;
     }
-    edk::cubei8 operator-(edk::int16 n){
+    inline edk::cubei8 operator-(edk::int16 n){
         //
-        edk::cubei8 ret;
+        inline edk::cubei8 ret;
         ret.origin.x=this->origin.x-(edk::int8)n;
         ret.origin.y=this->origin.y-(edk::int8)n;
         ret.origin.z=this->origin.z-(edk::int8)n;
@@ -537,9 +537,9 @@ public:
         ret.size.length=this->size.length-(edk::int8)n;
         return ret;
     }
-    edk::cubei8 operator-(edk::int64 n){
+    inline edk::cubei8 operator-(edk::int64 n){
         //
-        edk::cubei8 ret;
+        inline edk::cubei8 ret;
         ret.origin.x=this->origin.x-(edk::int8)n;
         ret.origin.y=this->origin.y-(edk::int8)n;
         ret.origin.z=this->origin.z-(edk::int8)n;
@@ -548,9 +548,9 @@ public:
         ret.size.length=this->size.length-(edk::int8)n;
         return ret;
     }
-    edk::cubei8 operator-(edk::uint8 n){
+    inline edk::cubei8 operator-(edk::uint8 n){
         //
-        edk::cubei8 ret;
+        inline edk::cubei8 ret;
         ret.origin.x=this->origin.x-(edk::int8)n;
         ret.origin.y=this->origin.y-(edk::int8)n;
         ret.origin.z=this->origin.z-(edk::int8)n;
@@ -559,9 +559,9 @@ public:
         ret.size.length=this->size.length-(edk::int8)n;
         return ret;
     }
-    edk::cubei8 operator-(edk::uint32 n){
+    inline edk::cubei8 operator-(edk::uint32 n){
         //
-        edk::cubei8 ret;
+        inline edk::cubei8 ret;
         ret.origin.x=this->origin.x-(edk::int8)n;
         ret.origin.y=this->origin.y-(edk::int8)n;
         ret.origin.z=this->origin.z-(edk::int8)n;
@@ -570,9 +570,9 @@ public:
         ret.size.length=this->size.length-(edk::int8)n;
         return ret;
     }
-    edk::cubei8 operator-(edk::uint16 n){
+    inline edk::cubei8 operator-(edk::uint16 n){
         //
-        edk::cubei8 ret;
+        inline edk::cubei8 ret;
         ret.origin.x=this->origin.x-(edk::int8)n;
         ret.origin.y=this->origin.y-(edk::int8)n;
         ret.origin.z=this->origin.z-(edk::int8)n;
@@ -581,9 +581,9 @@ public:
         ret.size.length=this->size.length-(edk::int8)n;
         return ret;
     }
-    edk::cubei8 operator-(edk::uint64 n){
+    inline edk::cubei8 operator-(edk::uint64 n){
         //
-        edk::cubei8 ret;
+        inline edk::cubei8 ret;
         ret.origin.x=this->origin.x-(edk::int8)n;
         ret.origin.y=this->origin.y-(edk::int8)n;
         ret.origin.z=this->origin.z-(edk::int8)n;
@@ -592,7 +592,7 @@ public:
         ret.size.length=this->size.length-(edk::int8)n;
         return ret;
     }
-    void operator-=(edk::cubei8 vec){
+    inline void operator-=(edk::cubei8 vec){
         //
         this->origin.x-=(edk::int8)vec.origin.x;
         this->origin.y-=(edk::int8)vec.origin.y;
@@ -601,7 +601,7 @@ public:
         this->size.height-=(edk::int8)vec.size.height;
         this->size.length-=(edk::int8)vec.size.length;
     }
-    void operator-=(edk::int8 n){
+    inline void operator-=(edk::int8 n){
         //
         this->origin.x-=(edk::int8)n;
         this->origin.y-=(edk::int8)n;
@@ -610,7 +610,7 @@ public:
         this->size.height-=(edk::int8)n;
         this->size.length-=(edk::int8)n;
     }
-    void operator-=(edk::int32 n){
+    inline void operator-=(edk::int32 n){
         //
         this->origin.x-=(edk::int8)n;
         this->origin.y-=(edk::int8)n;
@@ -619,7 +619,7 @@ public:
         this->size.height-=(edk::int8)n;
         this->size.length-=(edk::int8)n;
     }
-    void operator-=(edk::int16 n){
+    inline void operator-=(edk::int16 n){
         //
         this->origin.x-=(edk::int8)n;
         this->origin.y-=(edk::int8)n;
@@ -628,7 +628,7 @@ public:
         this->size.height-=(edk::int8)n;
         this->size.length-=(edk::int8)n;
     }
-    void operator-=(edk::int64 n){
+    inline void operator-=(edk::int64 n){
         //
         this->origin.x-=(edk::int8)n;
         this->origin.y-=(edk::int8)n;
@@ -637,7 +637,7 @@ public:
         this->size.height-=(edk::int8)n;
         this->size.length-=(edk::int8)n;
     }
-    void operator-=(edk::uint8 n){
+    inline void operator-=(edk::uint8 n){
         //
         this->origin.x-=(edk::int8)n;
         this->origin.y-=(edk::int8)n;
@@ -646,7 +646,7 @@ public:
         this->size.height-=(edk::int8)n;
         this->size.length-=(edk::int8)n;
     }
-    void operator-=(edk::uint32 n){
+    inline void operator-=(edk::uint32 n){
         //
         this->origin.x-=(edk::int8)n;
         this->origin.y-=(edk::int8)n;
@@ -655,7 +655,7 @@ public:
         this->size.height-=(edk::int8)n;
         this->size.length-=(edk::int8)n;
     }
-    void operator-=(edk::uint16 n){
+    inline void operator-=(edk::uint16 n){
         //
         this->origin.x-=(edk::int8)n;
         this->origin.y-=(edk::int8)n;
@@ -664,7 +664,7 @@ public:
         this->size.height-=(edk::int8)n;
         this->size.length-=(edk::int8)n;
     }
-    void operator-=(edk::uint64 n){
+    inline void operator-=(edk::uint64 n){
         //
         this->origin.x-=(edk::int8)n;
         this->origin.y-=(edk::int8)n;
@@ -673,9 +673,9 @@ public:
         this->size.height-=(edk::int8)n;
         this->size.length-=(edk::int8)n;
     }
-    edk::cubei8 operator*(edk::cubei8 cube){
+    inline edk::cubei8 operator*(edk::cubei8 cube){
         //
-        edk::cubei8 ret;
+        inline edk::cubei8 ret;
         ret.origin.x=this->origin.x*(edk::int8)cube.origin.x;
         ret.origin.y=this->origin.y*(edk::int8)cube.origin.y;
         ret.origin.z=this->origin.z*(edk::int8)cube.origin.z;
@@ -684,9 +684,9 @@ public:
         ret.size.length=this->size.length*(edk::int8)cube.size.length;
         return ret;
     }
-    edk::cubei8 operator*(edk::int8 n){
+    inline edk::cubei8 operator*(edk::int8 n){
         //
-        edk::cubei8 ret;
+        inline edk::cubei8 ret;
         ret.origin.x=this->origin.x*(edk::int8)n;
         ret.origin.y=this->origin.y*(edk::int8)n;
         ret.origin.z=this->origin.z*(edk::int8)n;
@@ -695,9 +695,9 @@ public:
         ret.size.length=this->size.length*(edk::int8)n;
         return ret;
     }
-    edk::cubei8 operator*(edk::int32 n){
+    inline edk::cubei8 operator*(edk::int32 n){
         //
-        edk::cubei8 ret;
+        inline edk::cubei8 ret;
         ret.origin.x=this->origin.x*(edk::int8)n;
         ret.origin.y=this->origin.y*(edk::int8)n;
         ret.origin.z=this->origin.z*(edk::int8)n;
@@ -706,9 +706,9 @@ public:
         ret.size.length=this->size.length*(edk::int8)n;
         return ret;
     }
-    edk::cubei8 operator*(edk::int16 n){
+    inline edk::cubei8 operator*(edk::int16 n){
         //
-        edk::cubei8 ret;
+        inline edk::cubei8 ret;
         ret.origin.x=this->origin.x*(edk::int8)n;
         ret.origin.y=this->origin.y*(edk::int8)n;
         ret.origin.z=this->origin.z*(edk::int8)n;
@@ -717,9 +717,9 @@ public:
         ret.size.length=this->size.length*(edk::int8)n;
         return ret;
     }
-    edk::cubei8 operator*(edk::int64 n){
+    inline edk::cubei8 operator*(edk::int64 n){
         //
-        edk::cubei8 ret;
+        inline edk::cubei8 ret;
         ret.origin.x=this->origin.x*(edk::int8)n;
         ret.origin.y=this->origin.y*(edk::int8)n;
         ret.origin.z=this->origin.z*(edk::int8)n;
@@ -728,9 +728,9 @@ public:
         ret.size.length=this->size.length*(edk::int8)n;
         return ret;
     }
-    edk::cubei8 operator*(edk::uint8 n){
+    inline edk::cubei8 operator*(edk::uint8 n){
         //
-        edk::cubei8 ret;
+        inline edk::cubei8 ret;
         ret.origin.x=this->origin.x*(edk::int8)n;
         ret.origin.y=this->origin.y*(edk::int8)n;
         ret.origin.z=this->origin.z*(edk::int8)n;
@@ -739,9 +739,9 @@ public:
         ret.size.length=this->size.length*(edk::int8)n;
         return ret;
     }
-    edk::cubei8 operator*(edk::uint32 n){
+    inline edk::cubei8 operator*(edk::uint32 n){
         //
-        edk::cubei8 ret;
+        inline edk::cubei8 ret;
         ret.origin.x=this->origin.x*(edk::int8)n;
         ret.origin.y=this->origin.y*(edk::int8)n;
         ret.origin.z=this->origin.z*(edk::int8)n;
@@ -750,9 +750,9 @@ public:
         ret.size.length=this->size.length*(edk::int8)n;
         return ret;
     }
-    edk::cubei8 operator*(edk::uint16 n){
+    inline edk::cubei8 operator*(edk::uint16 n){
         //
-        edk::cubei8 ret;
+        inline edk::cubei8 ret;
         ret.origin.x=this->origin.x*(edk::int8)n;
         ret.origin.y=this->origin.y*(edk::int8)n;
         ret.origin.z=this->origin.z*(edk::int8)n;
@@ -761,9 +761,9 @@ public:
         ret.size.length=this->size.length*(edk::int8)n;
         return ret;
     }
-    edk::cubei8 operator*(edk::uint64 n){
+    inline edk::cubei8 operator*(edk::uint64 n){
         //
-        edk::cubei8 ret;
+        inline edk::cubei8 ret;
         ret.origin.x=this->origin.x*(edk::int8)n;
         ret.origin.y=this->origin.y*(edk::int8)n;
         ret.origin.z=this->origin.z*(edk::int8)n;
@@ -772,7 +772,7 @@ public:
         ret.size.length=this->size.length*(edk::int8)n;
         return ret;
     }
-    void operator*=(edk::cubei8 cube){
+    inline void operator*=(edk::cubei8 cube){
         //
         this->origin.x*=(edk::int8)cube.origin.x;
         this->origin.y*=(edk::int8)cube.origin.y;
@@ -781,7 +781,7 @@ public:
         this->size.height*=(edk::int8)cube.size.height;
         this->size.length*=(edk::int8)cube.size.length;
     }
-    void operator*=(edk::int8 n){
+    inline void operator*=(edk::int8 n){
         //
         this->origin.x*=(edk::int8)n;
         this->origin.y*=(edk::int8)n;
@@ -790,7 +790,7 @@ public:
         this->size.height*=(edk::int8)n;
         this->size.length*=(edk::int8)n;
     }
-    void operator*=(edk::int32 n){
+    inline void operator*=(edk::int32 n){
         //
         this->origin.x*=(edk::int8)n;
         this->origin.y*=(edk::int8)n;
@@ -799,7 +799,7 @@ public:
         this->size.height*=(edk::int8)n;
         this->size.length*=(edk::int8)n;
     }
-    void operator*=(edk::int16 n){
+    inline void operator*=(edk::int16 n){
         //
         this->origin.x*=(edk::int8)n;
         this->origin.y*=(edk::int8)n;
@@ -808,7 +808,7 @@ public:
         this->size.height*=(edk::int8)n;
         this->size.length*=(edk::int8)n;
     }
-    void operator*=(edk::int64 n){
+    inline void operator*=(edk::int64 n){
         //
         this->origin.x*=(edk::int8)n;
         this->origin.y*=(edk::int8)n;
@@ -817,7 +817,7 @@ public:
         this->size.height*=(edk::int8)n;
         this->size.length*=(edk::int8)n;
     }
-    void operator*=(edk::uint8 n){
+    inline void operator*=(edk::uint8 n){
         //
         this->origin.x*=(edk::int8)n;
         this->origin.y*=(edk::int8)n;
@@ -826,7 +826,7 @@ public:
         this->size.height*=(edk::int8)n;
         this->size.length*=(edk::int8)n;
     }
-    void operator*=(edk::uint32 n){
+    inline void operator*=(edk::uint32 n){
         //
         this->origin.x*=(edk::int8)n;
         this->origin.y*=(edk::int8)n;
@@ -835,7 +835,7 @@ public:
         this->size.height*=(edk::int8)n;
         this->size.length*=(edk::int8)n;
     }
-    void operator*=(edk::uint16 n){
+    inline void operator*=(edk::uint16 n){
         //
         this->origin.x*=(edk::int8)n;
         this->origin.y*=(edk::int8)n;
@@ -844,7 +844,7 @@ public:
         this->size.height*=(edk::int8)n;
         this->size.length*=(edk::int8)n;
     }
-    void operator*=(edk::uint64 n){
+    inline void operator*=(edk::uint64 n){
         //
         this->origin.x*=(edk::int8)n;
         this->origin.y*=(edk::int8)n;
@@ -854,7 +854,7 @@ public:
         this->size.length*=(edk::int8)n;
     }
     //
-    edk::cubei8 operator++(){
+    inline edk::cubei8 operator++(){
         //
         ++this->origin.x;
         ++this->origin.y;
@@ -862,9 +862,9 @@ public:
         ++this->size.width;
         ++this->size.height;
         ++this->size.length;
-        return cubei8(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
+        return edk::cubei8(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
     }
-    edk::cubei8 operator++(edk::int32){
+    inline edk::cubei8 operator++(edk::int32){
         //
         this->origin.x++;
         this->origin.y++;
@@ -872,9 +872,9 @@ public:
         this->size.width++;
         this->size.height++;
         this->size.length++;
-        return cubei8(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
+        return edk::cubei8(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
     }
-    edk::cubei8 operator--(){
+    inline edk::cubei8 operator--(){
         //
         --this->origin.x;
         --this->origin.y;
@@ -882,9 +882,9 @@ public:
         --this->size.width;
         --this->size.height;
         --this->size.length;
-        return cubei8(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
+        return edk::cubei8(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
     }
-    edk::cubei8 operator--(edk::int32){
+    inline edk::cubei8 operator--(edk::int32){
         //
         this->origin.x--;
         this->origin.y--;
@@ -892,9 +892,9 @@ public:
         this->size.width--;
         this->size.height--;
         this->size.length--;
-        return cubei8(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
+        return edk::cubei8(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
     }
-    edk::cubei8 operator()(edk::int8 x,edk::int8 y,edk::int8 z,edk::int8 width,edk::int8 height,edk::int8 length){
+    inline edk::cubei8 operator()(edk::int8 x,edk::int8 y,edk::int8 z,edk::int8 width,edk::int8 height,edk::int8 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -902,9 +902,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubei8((edk::int8)this->origin.x,(edk::int8)this->origin.y,(edk::int8)this->origin.z,(edk::int8)this->size.width,(edk::int8)this->size.height,(edk::int8)this->size.length);
+        return edk::cubei8((edk::int8)this->origin.x,(edk::int8)this->origin.y,(edk::int8)this->origin.z,(edk::int8)this->size.width,(edk::int8)this->size.height,(edk::int8)this->size.length);
     }
-    edk::cubei8 operator()(edk::int32 x,edk::int32 y,edk::int32 z,edk::int32 width,edk::int32 height,edk::int32 length){
+    inline edk::cubei8 operator()(edk::int32 x,edk::int32 y,edk::int32 z,edk::int32 width,edk::int32 height,edk::int32 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -912,9 +912,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubei8((edk::int8)this->origin.x,(edk::int8)this->origin.y,(edk::int8)this->origin.z,(edk::int8)this->size.width,(edk::int8)this->size.height,(edk::int8)this->size.length);
+        return edk::cubei8((edk::int8)this->origin.x,(edk::int8)this->origin.y,(edk::int8)this->origin.z,(edk::int8)this->size.width,(edk::int8)this->size.height,(edk::int8)this->size.length);
     }
-    edk::cubei8 operator()(edk::int16 x,edk::int16 y,edk::int16 z,edk::int16 width,edk::int16 height,edk::int16 length){
+    inline edk::cubei8 operator()(edk::int16 x,edk::int16 y,edk::int16 z,edk::int16 width,edk::int16 height,edk::int16 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -922,9 +922,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubei8((edk::int8)this->origin.x,(edk::int8)this->origin.y,(edk::int8)this->origin.z,(edk::int8)this->size.width,(edk::int8)this->size.height,(edk::int8)this->size.length);
+        return edk::cubei8((edk::int8)this->origin.x,(edk::int8)this->origin.y,(edk::int8)this->origin.z,(edk::int8)this->size.width,(edk::int8)this->size.height,(edk::int8)this->size.length);
     }
-    edk::cubei8 operator()(edk::int64 x,edk::int64 y,edk::int64 z,edk::int64 width,edk::int64 height,edk::int64 length){
+    inline edk::cubei8 operator()(edk::int64 x,edk::int64 y,edk::int64 z,edk::int64 width,edk::int64 height,edk::int64 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -932,9 +932,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubei8((edk::int8)this->origin.x,(edk::int8)this->origin.y,(edk::int8)this->origin.z,(edk::int8)this->size.width,(edk::int8)this->size.height,(edk::int8)this->size.length);
+        return edk::cubei8((edk::int8)this->origin.x,(edk::int8)this->origin.y,(edk::int8)this->origin.z,(edk::int8)this->size.width,(edk::int8)this->size.height,(edk::int8)this->size.length);
     }
-    edk::cubei8 operator()(edk::uint8 x,edk::uint8 y,edk::uint8 z,edk::uint8 width,edk::uint8 height,edk::uint8 length){
+    inline edk::cubei8 operator()(edk::uint8 x,edk::uint8 y,edk::uint8 z,edk::uint8 width,edk::uint8 height,edk::uint8 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -942,9 +942,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubei8((edk::int8)this->origin.x,(edk::int8)this->origin.y,(edk::int8)this->origin.z,(edk::int8)this->size.width,(edk::int8)this->size.height,(edk::int8)this->size.length);
+        return edk::cubei8((edk::int8)this->origin.x,(edk::int8)this->origin.y,(edk::int8)this->origin.z,(edk::int8)this->size.width,(edk::int8)this->size.height,(edk::int8)this->size.length);
     }
-    edk::cubei8 operator()(edk::uint32 x,edk::uint32 y,edk::uint32 z,edk::uint32 width,edk::uint32 height,edk::uint32 length){
+    inline edk::cubei8 operator()(edk::uint32 x,edk::uint32 y,edk::uint32 z,edk::uint32 width,edk::uint32 height,edk::uint32 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -952,9 +952,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubei8((edk::int8)this->origin.x,(edk::int8)this->origin.y,(edk::int8)this->origin.z,(edk::int8)this->size.width,(edk::int8)this->size.height,(edk::int8)this->size.length);
+        return edk::cubei8((edk::int8)this->origin.x,(edk::int8)this->origin.y,(edk::int8)this->origin.z,(edk::int8)this->size.width,(edk::int8)this->size.height,(edk::int8)this->size.length);
     }
-    edk::cubei8 operator()(edk::uint16 x,edk::uint16 y,edk::uint16 z,edk::uint16 width,edk::uint16 height,edk::uint16 length){
+    inline edk::cubei8 operator()(edk::uint16 x,edk::uint16 y,edk::uint16 z,edk::uint16 width,edk::uint16 height,edk::uint16 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -962,9 +962,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubei8((edk::int8)this->origin.x,(edk::int8)this->origin.y,(edk::int8)this->origin.z,(edk::int8)this->size.width,(edk::int8)this->size.height,(edk::int8)this->size.length);
+        return edk::cubei8((edk::int8)this->origin.x,(edk::int8)this->origin.y,(edk::int8)this->origin.z,(edk::int8)this->size.width,(edk::int8)this->size.height,(edk::int8)this->size.length);
     }
-    edk::cubei8 operator()(edk::uint64 x,edk::uint64 y,edk::uint64 z,edk::uint64 width,edk::uint64 height,edk::uint64 length){
+    inline edk::cubei8 operator()(edk::uint64 x,edk::uint64 y,edk::uint64 z,edk::uint64 width,edk::uint64 height,edk::uint64 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -972,10 +972,10 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubei8((edk::int8)this->origin.x,(edk::int8)this->origin.y,(edk::int8)this->origin.z,(edk::int8)this->size.width,(edk::int8)this->size.height,(edk::int8)this->size.length);
+        return edk::cubei8((edk::int8)this->origin.x,(edk::int8)this->origin.y,(edk::int8)this->origin.z,(edk::int8)this->size.width,(edk::int8)this->size.height,(edk::int8)this->size.length);
     }
     //function to merge the cube with another cube
-    void merge(edk::cubei8 rect){
+    inline void merge(edk::cubei8 rect){
         if(this->origin.x > rect.origin.x)this->origin.x = rect.origin.x;
         if(this->origin.y > rect.origin.y)this->origin.y = rect.origin.y;
         if(this->origin.z > rect.origin.z)this->origin.z = rect.origin.z;
@@ -1147,7 +1147,7 @@ public:
     }
 
     //operators
-    cubei16 operator=(cubei16 cube){
+    inline edk::cubei16 operator=(cubei16 cube){
         //
         this->origin.x=(edk::int16)cube.origin.x;
         this->origin.y=(edk::int16)cube.origin.y;
@@ -1157,7 +1157,7 @@ public:
         this->size.length=(edk::int16)cube.size.length;
         return *this;
     }
-    cubei16 operator=(edk::int8 n){
+    inline edk::cubei16 operator=(edk::int8 n){
         //
         this->origin.x=(edk::int16)n;
         this->origin.y=(edk::int16)n;
@@ -1167,7 +1167,7 @@ public:
         this->size.length=(edk::int16)n;
         return *this;
     }
-    cubei16 operator=(edk::int32 n){
+    inline edk::cubei16 operator=(edk::int32 n){
         //
         this->origin.x=(edk::int16)n;
         this->origin.y=(edk::int16)n;
@@ -1177,7 +1177,7 @@ public:
         this->size.length=(edk::int16)n;
         return *this;
     }
-    cubei16 operator=(edk::int16 n){
+    inline edk::cubei16 operator=(edk::int16 n){
         //
         this->origin.x=(edk::int16)n;
         this->origin.y=(edk::int16)n;
@@ -1187,7 +1187,7 @@ public:
         this->size.length=(edk::int16)n;
         return *this;
     }
-    cubei16 operator=(edk::int64 n){
+    inline edk::cubei16 operator=(edk::int64 n){
         //
         this->origin.x=(edk::int16)n;
         this->origin.y=(edk::int16)n;
@@ -1197,7 +1197,7 @@ public:
         this->size.length=(edk::int16)n;
         return *this;
     }
-    cubei16 operator=(edk::uint8 n){
+    inline edk::cubei16 operator=(edk::uint8 n){
         //
         this->origin.x=(edk::int16)n;
         this->origin.y=(edk::int16)n;
@@ -1207,7 +1207,7 @@ public:
         this->size.length=(edk::int16)n;
         return *this;
     }
-    cubei16 operator=(edk::uint32 n){
+    inline edk::cubei16 operator=(edk::uint32 n){
         //
         this->origin.x=(edk::int16)n;
         this->origin.y=(edk::int16)n;
@@ -1217,7 +1217,7 @@ public:
         this->size.length=(edk::int16)n;
         return *this;
     }
-    cubei16 operator=(edk::uint16 n){
+    inline edk::cubei16 operator=(edk::uint16 n){
         //
         this->origin.x=(edk::int16)n;
         this->origin.y=(edk::int16)n;
@@ -1227,7 +1227,7 @@ public:
         this->size.length=(edk::int16)n;
         return *this;
     }
-    cubei16 operator=(edk::uint64 n){
+    inline edk::cubei16 operator=(edk::uint64 n){
         //
         this->origin.x=(edk::int16)n;
         this->origin.y=(edk::int16)n;
@@ -1238,7 +1238,7 @@ public:
         return *this;
     }
 
-    bool operator==(cubei16 cube){
+    inline bool operator==(cubei16 cube){
         //
         return (this->origin.x==(edk::int16)cube.origin.x
                 &&this->origin.y==(edk::int16)cube.origin.y
@@ -1248,7 +1248,7 @@ public:
                 &&this->size.length==(edk::int16)cube.size.length
                 );
     }
-    bool operator!=(cubei16 cube){
+    inline bool operator!=(cubei16 cube){
         //
         return (this->origin.x!=(edk::int16)cube.origin.x
                 ||this->origin.y!=(edk::int16)cube.origin.y
@@ -1258,9 +1258,9 @@ public:
                 ||this->size.length!=(edk::int16)cube.size.length
                 );
     }
-    cubei16 operator+(cubei16 cube){
+    inline edk::cubei16 operator+(cubei16 cube){
         //
-        cubei16 ret;
+        edk::cubei16 ret;
         ret.origin.x=this->origin.x+(edk::int16)cube.origin.x;
         ret.origin.y=this->origin.y+(edk::int16)cube.origin.y;
         ret.origin.z=this->origin.z+(edk::int16)cube.origin.z;
@@ -1269,9 +1269,9 @@ public:
         ret.size.length=this->size.length+(edk::int16)cube.size.length;
         return ret;
     }
-    cubei16 operator+(edk::int8 n){
+    inline edk::cubei16 operator+(edk::int8 n){
         //
-        cubei16 ret;
+        edk::cubei16 ret;
         ret.origin.x=this->origin.x+(edk::int16)n;
         ret.origin.y=this->origin.y+(edk::int16)n;
         ret.origin.z=this->origin.z+(edk::int16)n;
@@ -1280,9 +1280,9 @@ public:
         ret.size.length=this->size.length+(edk::int16)n;
         return ret;
     }
-    cubei16 operator+(edk::int32 n){
+    inline edk::cubei16 operator+(edk::int32 n){
         //
-        cubei16 ret;
+        edk::cubei16 ret;
         ret.origin.x=this->origin.x+(edk::int16)n;
         ret.origin.y=this->origin.y+(edk::int16)n;
         ret.origin.z=this->origin.z+(edk::int16)n;
@@ -1291,9 +1291,9 @@ public:
         ret.size.length=this->size.length+(edk::int16)n;
         return ret;
     }
-    cubei16 operator+(edk::int16 n){
+    inline edk::cubei16 operator+(edk::int16 n){
         //
-        cubei16 ret;
+        edk::cubei16 ret;
         ret.origin.x=this->origin.x+(edk::int16)n;
         ret.origin.y=this->origin.y+(edk::int16)n;
         ret.origin.z=this->origin.z+(edk::int16)n;
@@ -1302,9 +1302,9 @@ public:
         ret.size.length=this->size.length+(edk::int16)n;
         return ret;
     }
-    cubei16 operator+(edk::int64 n){
+    inline edk::cubei16 operator+(edk::int64 n){
         //
-        cubei16 ret;
+        edk::cubei16 ret;
         ret.origin.x=this->origin.x+(edk::int16)n;
         ret.origin.y=this->origin.y+(edk::int16)n;
         ret.origin.z=this->origin.z+(edk::int16)n;
@@ -1313,9 +1313,9 @@ public:
         ret.size.length=this->size.length+(edk::int16)n;
         return ret;
     }
-    cubei16 operator+(edk::uint8 n){
+    inline edk::cubei16 operator+(edk::uint8 n){
         //
-        cubei16 ret;
+        edk::cubei16 ret;
         ret.origin.x=this->origin.x+(edk::int16)n;
         ret.origin.y=this->origin.y+(edk::int16)n;
         ret.origin.z=this->origin.z+(edk::int16)n;
@@ -1324,9 +1324,9 @@ public:
         ret.size.length=this->size.length+(edk::int16)n;
         return ret;
     }
-    cubei16 operator+(edk::uint32 n){
+    inline edk::cubei16 operator+(edk::uint32 n){
         //
-        cubei16 ret;
+        edk::cubei16 ret;
         ret.origin.x=this->origin.x+(edk::int16)n;
         ret.origin.y=this->origin.y+(edk::int16)n;
         ret.origin.z=this->origin.z+(edk::int16)n;
@@ -1335,9 +1335,9 @@ public:
         ret.size.length=this->size.length+(edk::int16)n;
         return ret;
     }
-    cubei16 operator+(edk::uint16 n){
+    inline edk::cubei16 operator+(edk::uint16 n){
         //
-        cubei16 ret;
+        edk::cubei16 ret;
         ret.origin.x=this->origin.x+(edk::int16)n;
         ret.origin.y=this->origin.y+(edk::int16)n;
         ret.origin.z=this->origin.z+(edk::int16)n;
@@ -1346,9 +1346,9 @@ public:
         ret.size.length=this->size.length+(edk::int16)n;
         return ret;
     }
-    cubei16 operator+(edk::uint64 n){
+    inline edk::cubei16 operator+(edk::uint64 n){
         //
-        cubei16 ret;
+        edk::cubei16 ret;
         ret.origin.x=this->origin.x+(edk::int16)n;
         ret.origin.y=this->origin.y+(edk::int16)n;
         ret.origin.z=this->origin.z+(edk::int16)n;
@@ -1357,7 +1357,7 @@ public:
         ret.size.length=this->size.length+(edk::int16)n;
         return ret;
     }
-    void operator+=(cubei16 cube){
+    inline void operator+=(cubei16 cube){
         //
         this->origin.x+=(edk::int16)cube.origin.x;
         this->origin.y+=(edk::int16)cube.origin.y;
@@ -1366,7 +1366,7 @@ public:
         this->size.height+=(edk::int16)cube.size.height;
         this->size.length+=(edk::int16)cube.size.length;
     }
-    void operator+=(edk::int8 n){
+    inline void operator+=(edk::int8 n){
         //
         this->origin.x+=(edk::int16)n;
         this->origin.y+=(edk::int16)n;
@@ -1375,7 +1375,7 @@ public:
         this->size.height+=(edk::int16)n;
         this->size.length+=(edk::int16)n;
     }
-    void operator+=(edk::int32 n){
+    inline void operator+=(edk::int32 n){
         //
         this->origin.x+=(edk::int16)n;
         this->origin.y+=(edk::int16)n;
@@ -1384,7 +1384,7 @@ public:
         this->size.height+=(edk::int16)n;
         this->size.length+=(edk::int16)n;
     }
-    void operator+=(edk::int16 n){
+    inline void operator+=(edk::int16 n){
         //
         this->origin.x+=(edk::int16)n;
         this->origin.y+=(edk::int16)n;
@@ -1393,7 +1393,7 @@ public:
         this->size.height+=(edk::int16)n;
         this->size.length+=(edk::int16)n;
     }
-    void operator+=(edk::int64 n){
+    inline void operator+=(edk::int64 n){
         //
         this->origin.x+=(edk::int16)n;
         this->origin.y+=(edk::int16)n;
@@ -1402,7 +1402,7 @@ public:
         this->size.height+=(edk::int16)n;
         this->size.length+=(edk::int16)n;
     }
-    void operator+=(edk::uint8 n){
+    inline void operator+=(edk::uint8 n){
         //
         this->origin.x+=(edk::int16)n;
         this->origin.y+=(edk::int16)n;
@@ -1411,7 +1411,7 @@ public:
         this->size.height+=(edk::int16)n;
         this->size.length+=(edk::int16)n;
     }
-    void operator+=(edk::uint32 n){
+    inline void operator+=(edk::uint32 n){
         //
         this->origin.x+=(edk::int16)n;
         this->origin.y+=(edk::int16)n;
@@ -1420,7 +1420,7 @@ public:
         this->size.height+=(edk::int16)n;
         this->size.length+=(edk::int16)n;
     }
-    void operator+=(edk::uint16 n){
+    inline void operator+=(edk::uint16 n){
         //
         this->origin.x+=(edk::int16)n;
         this->origin.y+=(edk::int16)n;
@@ -1429,7 +1429,7 @@ public:
         this->size.height+=(edk::int16)n;
         this->size.length+=(edk::int16)n;
     }
-    void operator+=(edk::uint64 n){
+    inline void operator+=(edk::uint64 n){
         //
         this->origin.x+=(edk::int16)n;
         this->origin.y+=(edk::int16)n;
@@ -1438,9 +1438,9 @@ public:
         this->size.height+=(edk::int16)n;
         this->size.length+=(edk::int16)n;
     }
-    cubei16 operator-(cubei16 cube){
+    inline edk::cubei16 operator-(cubei16 cube){
         //
-        cubei16 ret;
+        edk::cubei16 ret;
         ret.origin.x=this->origin.x-(edk::int16)cube.origin.x;
         ret.origin.y=this->origin.y-(edk::int16)cube.origin.y;
         ret.origin.z=this->origin.z-(edk::int16)cube.origin.z;
@@ -1449,9 +1449,9 @@ public:
         ret.size.length=this->size.length-(edk::int16)cube.size.length;
         return ret;
     }
-    cubei16 operator-(edk::int8 n){
+    inline edk::cubei16 operator-(edk::int8 n){
         //
-        cubei16 ret;
+        edk::cubei16 ret;
         ret.origin.x=this->origin.x-(edk::int16)n;
         ret.origin.y=this->origin.y-(edk::int16)n;
         ret.origin.z=this->origin.z-(edk::int16)n;
@@ -1460,9 +1460,9 @@ public:
         ret.size.length=this->size.length-(edk::int16)n;
         return ret;
     }
-    cubei16 operator-(edk::int32 n){
+    inline edk::cubei16 operator-(edk::int32 n){
         //
-        cubei16 ret;
+        edk::cubei16 ret;
         ret.origin.x=this->origin.x-(edk::int16)n;
         ret.origin.y=this->origin.y-(edk::int16)n;
         ret.origin.z=this->origin.z-(edk::int16)n;
@@ -1471,9 +1471,9 @@ public:
         ret.size.length=this->size.length-(edk::int16)n;
         return ret;
     }
-    cubei16 operator-(edk::int16 n){
+    inline edk::cubei16 operator-(edk::int16 n){
         //
-        cubei16 ret;
+        edk::cubei16 ret;
         ret.origin.x=this->origin.x-(edk::int16)n;
         ret.origin.y=this->origin.y-(edk::int16)n;
         ret.origin.z=this->origin.z-(edk::int16)n;
@@ -1482,9 +1482,9 @@ public:
         ret.size.length=this->size.length-(edk::int16)n;
         return ret;
     }
-    cubei16 operator-(edk::int64 n){
+    inline edk::cubei16 operator-(edk::int64 n){
         //
-        cubei16 ret;
+        edk::cubei16 ret;
         ret.origin.x=this->origin.x-(edk::int16)n;
         ret.origin.y=this->origin.y-(edk::int16)n;
         ret.origin.z=this->origin.z-(edk::int16)n;
@@ -1493,9 +1493,9 @@ public:
         ret.size.length=this->size.length-(edk::int16)n;
         return ret;
     }
-    cubei16 operator-(edk::uint8 n){
+    inline edk::cubei16 operator-(edk::uint8 n){
         //
-        cubei16 ret;
+        edk::cubei16 ret;
         ret.origin.x=this->origin.x-(edk::int16)n;
         ret.origin.y=this->origin.y-(edk::int16)n;
         ret.origin.z=this->origin.z-(edk::int16)n;
@@ -1504,9 +1504,9 @@ public:
         ret.size.length=this->size.length-(edk::int16)n;
         return ret;
     }
-    cubei16 operator-(edk::uint32 n){
+    inline edk::cubei16 operator-(edk::uint32 n){
         //
-        cubei16 ret;
+        edk::cubei16 ret;
         ret.origin.x=this->origin.x-(edk::int16)n;
         ret.origin.y=this->origin.y-(edk::int16)n;
         ret.origin.z=this->origin.z-(edk::int16)n;
@@ -1515,9 +1515,9 @@ public:
         ret.size.length=this->size.length-(edk::int16)n;
         return ret;
     }
-    cubei16 operator-(edk::uint16 n){
+    inline edk::cubei16 operator-(edk::uint16 n){
         //
-        cubei16 ret;
+        edk::cubei16 ret;
         ret.origin.x=this->origin.x-(edk::int16)n;
         ret.origin.y=this->origin.y-(edk::int16)n;
         ret.origin.z=this->origin.z-(edk::int16)n;
@@ -1526,9 +1526,9 @@ public:
         ret.size.length=this->size.length-(edk::int16)n;
         return ret;
     }
-    cubei16 operator-(edk::uint64 n){
+    inline edk::cubei16 operator-(edk::uint64 n){
         //
-        cubei16 ret;
+        edk::cubei16 ret;
         ret.origin.x=this->origin.x-(edk::int16)n;
         ret.origin.y=this->origin.y-(edk::int16)n;
         ret.origin.z=this->origin.z-(edk::int16)n;
@@ -1537,7 +1537,7 @@ public:
         ret.size.length=this->size.length-(edk::int16)n;
         return ret;
     }
-    void operator-=(cubei16 vec){
+    inline void operator-=(cubei16 vec){
         //
         this->origin.x-=(edk::int16)vec.origin.x;
         this->origin.y-=(edk::int16)vec.origin.y;
@@ -1546,7 +1546,7 @@ public:
         this->size.height-=(edk::int16)vec.size.height;
         this->size.length-=(edk::int16)vec.size.length;
     }
-    void operator-=(edk::int8 n){
+    inline void operator-=(edk::int8 n){
         //
         this->origin.x-=(edk::int16)n;
         this->origin.y-=(edk::int16)n;
@@ -1555,7 +1555,7 @@ public:
         this->size.height-=(edk::int16)n;
         this->size.length-=(edk::int16)n;
     }
-    void operator-=(edk::int32 n){
+    inline void operator-=(edk::int32 n){
         //
         this->origin.x-=(edk::int16)n;
         this->origin.y-=(edk::int16)n;
@@ -1564,7 +1564,7 @@ public:
         this->size.height-=(edk::int16)n;
         this->size.length-=(edk::int16)n;
     }
-    void operator-=(edk::int16 n){
+    inline void operator-=(edk::int16 n){
         //
         this->origin.x-=(edk::int16)n;
         this->origin.y-=(edk::int16)n;
@@ -1573,7 +1573,7 @@ public:
         this->size.height-=(edk::int16)n;
         this->size.length-=(edk::int16)n;
     }
-    void operator-=(edk::int64 n){
+    inline void operator-=(edk::int64 n){
         //
         this->origin.x-=(edk::int16)n;
         this->origin.y-=(edk::int16)n;
@@ -1582,7 +1582,7 @@ public:
         this->size.height-=(edk::int16)n;
         this->size.length-=(edk::int16)n;
     }
-    void operator-=(edk::uint8 n){
+    inline void operator-=(edk::uint8 n){
         //
         this->origin.x-=(edk::int16)n;
         this->origin.y-=(edk::int16)n;
@@ -1591,7 +1591,7 @@ public:
         this->size.height-=(edk::int16)n;
         this->size.length-=(edk::int16)n;
     }
-    void operator-=(edk::uint32 n){
+    inline void operator-=(edk::uint32 n){
         //
         this->origin.x-=(edk::int16)n;
         this->origin.y-=(edk::int16)n;
@@ -1600,7 +1600,7 @@ public:
         this->size.height-=(edk::int16)n;
         this->size.length-=(edk::int16)n;
     }
-    void operator-=(edk::uint16 n){
+    inline void operator-=(edk::uint16 n){
         //
         this->origin.x-=(edk::int16)n;
         this->origin.y-=(edk::int16)n;
@@ -1609,7 +1609,7 @@ public:
         this->size.height-=(edk::int16)n;
         this->size.length-=(edk::int16)n;
     }
-    void operator-=(edk::uint64 n){
+    inline void operator-=(edk::uint64 n){
         //
         this->origin.x-=(edk::int16)n;
         this->origin.y-=(edk::int16)n;
@@ -1618,9 +1618,9 @@ public:
         this->size.height-=(edk::int16)n;
         this->size.length-=(edk::int16)n;
     }
-    cubei16 operator*(cubei16 cube){
+    inline edk::cubei16 operator*(cubei16 cube){
         //
-        cubei16 ret;
+        edk::cubei16 ret;
         ret.origin.x=this->origin.x*(edk::int16)cube.origin.x;
         ret.origin.y=this->origin.y*(edk::int16)cube.origin.y;
         ret.origin.z=this->origin.z*(edk::int16)cube.origin.z;
@@ -1629,9 +1629,9 @@ public:
         ret.size.length=this->size.length*(edk::int16)cube.size.length;
         return ret;
     }
-    cubei16 operator*(edk::int8 n){
+    inline edk::cubei16 operator*(edk::int8 n){
         //
-        cubei16 ret;
+        edk::cubei16 ret;
         ret.origin.x=this->origin.x*(edk::int16)n;
         ret.origin.y=this->origin.y*(edk::int16)n;
         ret.origin.z=this->origin.z*(edk::int16)n;
@@ -1640,9 +1640,9 @@ public:
         ret.size.length=this->size.length*(edk::int16)n;
         return ret;
     }
-    cubei16 operator*(edk::int32 n){
+    inline edk::cubei16 operator*(edk::int32 n){
         //
-        cubei16 ret;
+        edk::cubei16 ret;
         ret.origin.x=this->origin.x*(edk::int16)n;
         ret.origin.y=this->origin.y*(edk::int16)n;
         ret.origin.z=this->origin.z*(edk::int16)n;
@@ -1651,9 +1651,9 @@ public:
         ret.size.length=this->size.length*(edk::int16)n;
         return ret;
     }
-    cubei16 operator*(edk::int16 n){
+    inline edk::cubei16 operator*(edk::int16 n){
         //
-        cubei16 ret;
+        edk::cubei16 ret;
         ret.origin.x=this->origin.x*(edk::int16)n;
         ret.origin.y=this->origin.y*(edk::int16)n;
         ret.origin.z=this->origin.z*(edk::int16)n;
@@ -1662,9 +1662,9 @@ public:
         ret.size.length=this->size.length*(edk::int16)n;
         return ret;
     }
-    cubei16 operator*(edk::int64 n){
+    inline edk::cubei16 operator*(edk::int64 n){
         //
-        cubei16 ret;
+        edk::cubei16 ret;
         ret.origin.x=this->origin.x*(edk::int16)n;
         ret.origin.y=this->origin.y*(edk::int16)n;
         ret.origin.z=this->origin.z*(edk::int16)n;
@@ -1673,9 +1673,9 @@ public:
         ret.size.length=this->size.length*(edk::int16)n;
         return ret;
     }
-    cubei16 operator*(edk::uint8 n){
+    inline edk::cubei16 operator*(edk::uint8 n){
         //
-        cubei16 ret;
+        edk::cubei16 ret;
         ret.origin.x=this->origin.x*(edk::int16)n;
         ret.origin.y=this->origin.y*(edk::int16)n;
         ret.origin.z=this->origin.z*(edk::int16)n;
@@ -1684,9 +1684,9 @@ public:
         ret.size.length=this->size.length*(edk::int16)n;
         return ret;
     }
-    cubei16 operator*(edk::uint32 n){
+    inline edk::cubei16 operator*(edk::uint32 n){
         //
-        cubei16 ret;
+        edk::cubei16 ret;
         ret.origin.x=this->origin.x*(edk::int16)n;
         ret.origin.y=this->origin.y*(edk::int16)n;
         ret.origin.z=this->origin.z*(edk::int16)n;
@@ -1695,9 +1695,9 @@ public:
         ret.size.length=this->size.length*(edk::int16)n;
         return ret;
     }
-    cubei16 operator*(edk::uint16 n){
+    inline edk::cubei16 operator*(edk::uint16 n){
         //
-        cubei16 ret;
+        edk::cubei16 ret;
         ret.origin.x=this->origin.x*(edk::int16)n;
         ret.origin.y=this->origin.y*(edk::int16)n;
         ret.origin.z=this->origin.z*(edk::int16)n;
@@ -1706,9 +1706,9 @@ public:
         ret.size.length=this->size.length*(edk::int16)n;
         return ret;
     }
-    cubei16 operator*(edk::uint64 n){
+    inline edk::cubei16 operator*(edk::uint64 n){
         //
-        cubei16 ret;
+        edk::cubei16 ret;
         ret.origin.x=this->origin.x*(edk::int16)n;
         ret.origin.y=this->origin.y*(edk::int16)n;
         ret.origin.z=this->origin.z*(edk::int16)n;
@@ -1717,7 +1717,7 @@ public:
         ret.size.length=this->size.length*(edk::int16)n;
         return ret;
     }
-    void operator*=(cubei16 cube){
+    inline void operator*=(cubei16 cube){
         //
         this->origin.x*=(edk::int16)cube.origin.x;
         this->origin.y*=(edk::int16)cube.origin.y;
@@ -1726,7 +1726,7 @@ public:
         this->size.height*=(edk::int16)cube.size.height;
         this->size.length*=(edk::int16)cube.size.length;
     }
-    void operator*=(edk::int8 n){
+    inline void operator*=(edk::int8 n){
         //
         this->origin.x*=(edk::int16)n;
         this->origin.y*=(edk::int16)n;
@@ -1735,7 +1735,7 @@ public:
         this->size.height*=(edk::int16)n;
         this->size.length*=(edk::int16)n;
     }
-    void operator*=(edk::int32 n){
+    inline void operator*=(edk::int32 n){
         //
         this->origin.x*=(edk::int16)n;
         this->origin.y*=(edk::int16)n;
@@ -1744,7 +1744,7 @@ public:
         this->size.height*=(edk::int16)n;
         this->size.length*=(edk::int16)n;
     }
-    void operator*=(edk::int16 n){
+    inline void operator*=(edk::int16 n){
         //
         this->origin.x*=(edk::int16)n;
         this->origin.y*=(edk::int16)n;
@@ -1753,7 +1753,7 @@ public:
         this->size.height*=(edk::int16)n;
         this->size.length*=(edk::int16)n;
     }
-    void operator*=(edk::int64 n){
+    inline void operator*=(edk::int64 n){
         //
         this->origin.x*=(edk::int16)n;
         this->origin.y*=(edk::int16)n;
@@ -1762,7 +1762,7 @@ public:
         this->size.height*=(edk::int16)n;
         this->size.length*=(edk::int16)n;
     }
-    void operator*=(edk::uint8 n){
+    inline void operator*=(edk::uint8 n){
         //
         this->origin.x*=(edk::int16)n;
         this->origin.y*=(edk::int16)n;
@@ -1771,7 +1771,7 @@ public:
         this->size.height*=(edk::int16)n;
         this->size.length*=(edk::int16)n;
     }
-    void operator*=(edk::uint32 n){
+    inline void operator*=(edk::uint32 n){
         //
         this->origin.x*=(edk::int16)n;
         this->origin.y*=(edk::int16)n;
@@ -1780,7 +1780,7 @@ public:
         this->size.height*=(edk::int16)n;
         this->size.length*=(edk::int16)n;
     }
-    void operator*=(edk::uint16 n){
+    inline void operator*=(edk::uint16 n){
         //
         this->origin.x*=(edk::int16)n;
         this->origin.y*=(edk::int16)n;
@@ -1789,7 +1789,7 @@ public:
         this->size.height*=(edk::int16)n;
         this->size.length*=(edk::int16)n;
     }
-    void operator*=(edk::uint64 n){
+    inline void operator*=(edk::uint64 n){
         //
         this->origin.x*=(edk::int16)n;
         this->origin.y*=(edk::int16)n;
@@ -1799,7 +1799,7 @@ public:
         this->size.length*=(edk::int16)n;
     }
     //
-    cubei16 operator++(){
+    inline edk::cubei16 operator++(){
         //
         ++this->origin.x;
         ++this->origin.y;
@@ -1807,9 +1807,9 @@ public:
         ++this->size.width;
         ++this->size.height;
         ++this->size.length;
-        return cubei16(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
+        return edk::cubei16(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
     }
-    cubei16 operator++(edk::int32){
+    inline edk::cubei16 operator++(edk::int32){
         //
         this->origin.x++;
         this->origin.y++;
@@ -1817,9 +1817,9 @@ public:
         this->size.width++;
         this->size.height++;
         this->size.length++;
-        return cubei16(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
+        return edk::cubei16(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
     }
-    cubei16 operator--(){
+    inline edk::cubei16 operator--(){
         //
         --this->origin.x;
         --this->origin.y;
@@ -1827,9 +1827,9 @@ public:
         --this->size.width;
         --this->size.height;
         --this->size.length;
-        return cubei16(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
+        return edk::cubei16(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
     }
-    cubei16 operator--(edk::int32){
+    inline edk::cubei16 operator--(edk::int32){
         //
         this->origin.x--;
         this->origin.y--;
@@ -1837,9 +1837,9 @@ public:
         this->size.width--;
         this->size.height--;
         this->size.length--;
-        return cubei16(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
+        return edk::cubei16(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
     }
-    cubei16 operator()(edk::int8 x,edk::int8 y,edk::int8 z,edk::int8 width,edk::int8 height,edk::int8 length){
+    inline edk::cubei16 operator()(edk::int8 x,edk::int8 y,edk::int8 z,edk::int8 width,edk::int8 height,edk::int8 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -1847,9 +1847,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubei16((edk::int16)this->origin.x,(edk::int16)this->origin.y,(edk::int16)this->origin.z,(edk::int16)this->size.width,(edk::int16)this->size.height,(edk::int16)this->size.length);
+        return edk::cubei16((edk::int16)this->origin.x,(edk::int16)this->origin.y,(edk::int16)this->origin.z,(edk::int16)this->size.width,(edk::int16)this->size.height,(edk::int16)this->size.length);
     }
-    cubei16 operator()(edk::int32 x,edk::int32 y,edk::int32 z,edk::int32 width,edk::int32 height,edk::int32 length){
+    inline edk::cubei16 operator()(edk::int32 x,edk::int32 y,edk::int32 z,edk::int32 width,edk::int32 height,edk::int32 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -1857,9 +1857,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubei16((edk::int16)this->origin.x,(edk::int16)this->origin.y,(edk::int16)this->origin.z,(edk::int16)this->size.width,(edk::int16)this->size.height,(edk::int16)this->size.length);
+        return edk::cubei16((edk::int16)this->origin.x,(edk::int16)this->origin.y,(edk::int16)this->origin.z,(edk::int16)this->size.width,(edk::int16)this->size.height,(edk::int16)this->size.length);
     }
-    cubei16 operator()(edk::int16 x,edk::int16 y,edk::int16 z,edk::int16 width,edk::int16 height,edk::int16 length){
+    inline edk::cubei16 operator()(edk::int16 x,edk::int16 y,edk::int16 z,edk::int16 width,edk::int16 height,edk::int16 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -1867,9 +1867,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubei16((edk::int16)this->origin.x,(edk::int16)this->origin.y,(edk::int16)this->origin.z,(edk::int16)this->size.width,(edk::int16)this->size.height,(edk::int16)this->size.length);
+        return edk::cubei16((edk::int16)this->origin.x,(edk::int16)this->origin.y,(edk::int16)this->origin.z,(edk::int16)this->size.width,(edk::int16)this->size.height,(edk::int16)this->size.length);
     }
-    cubei16 operator()(edk::int64 x,edk::int64 y,edk::int64 z,edk::int64 width,edk::int64 height,edk::int64 length){
+    inline edk::cubei16 operator()(edk::int64 x,edk::int64 y,edk::int64 z,edk::int64 width,edk::int64 height,edk::int64 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -1877,9 +1877,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubei16((edk::int16)this->origin.x,(edk::int16)this->origin.y,(edk::int16)this->origin.z,(edk::int16)this->size.width,(edk::int16)this->size.height,(edk::int16)this->size.length);
+        return edk::cubei16((edk::int16)this->origin.x,(edk::int16)this->origin.y,(edk::int16)this->origin.z,(edk::int16)this->size.width,(edk::int16)this->size.height,(edk::int16)this->size.length);
     }
-    cubei16 operator()(edk::uint8 x,edk::uint8 y,edk::uint8 z,edk::uint8 width,edk::uint8 height,edk::uint8 length){
+    inline edk::cubei16 operator()(edk::uint8 x,edk::uint8 y,edk::uint8 z,edk::uint8 width,edk::uint8 height,edk::uint8 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -1887,9 +1887,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubei16((edk::int16)this->origin.x,(edk::int16)this->origin.y,(edk::int16)this->origin.z,(edk::int16)this->size.width,(edk::int16)this->size.height,(edk::int16)this->size.length);
+        return edk::cubei16((edk::int16)this->origin.x,(edk::int16)this->origin.y,(edk::int16)this->origin.z,(edk::int16)this->size.width,(edk::int16)this->size.height,(edk::int16)this->size.length);
     }
-    cubei16 operator()(edk::uint32 x,edk::uint32 y,edk::uint32 z,edk::uint32 width,edk::uint32 height,edk::uint32 length){
+    inline edk::cubei16 operator()(edk::uint32 x,edk::uint32 y,edk::uint32 z,edk::uint32 width,edk::uint32 height,edk::uint32 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -1897,9 +1897,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubei16((edk::int16)this->origin.x,(edk::int16)this->origin.y,(edk::int16)this->origin.z,(edk::int16)this->size.width,(edk::int16)this->size.height,(edk::int16)this->size.length);
+        return edk::cubei16((edk::int16)this->origin.x,(edk::int16)this->origin.y,(edk::int16)this->origin.z,(edk::int16)this->size.width,(edk::int16)this->size.height,(edk::int16)this->size.length);
     }
-    cubei16 operator()(edk::uint16 x,edk::uint16 y,edk::uint16 z,edk::uint16 width,edk::uint16 height,edk::uint16 length){
+    inline edk::cubei16 operator()(edk::uint16 x,edk::uint16 y,edk::uint16 z,edk::uint16 width,edk::uint16 height,edk::uint16 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -1907,9 +1907,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubei16((edk::int16)this->origin.x,(edk::int16)this->origin.y,(edk::int16)this->origin.z,(edk::int16)this->size.width,(edk::int16)this->size.height,(edk::int16)this->size.length);
+        return edk::cubei16((edk::int16)this->origin.x,(edk::int16)this->origin.y,(edk::int16)this->origin.z,(edk::int16)this->size.width,(edk::int16)this->size.height,(edk::int16)this->size.length);
     }
-    cubei16 operator()(edk::uint64 x,edk::uint64 y,edk::uint64 z,edk::uint64 width,edk::uint64 height,edk::uint64 length){
+    inline edk::cubei16 operator()(edk::uint64 x,edk::uint64 y,edk::uint64 z,edk::uint64 width,edk::uint64 height,edk::uint64 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -1917,10 +1917,10 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubei16((edk::int16)this->origin.x,(edk::int16)this->origin.y,(edk::int16)this->origin.z,(edk::int16)this->size.width,(edk::int16)this->size.height,(edk::int16)this->size.length);
+        return edk::cubei16((edk::int16)this->origin.x,(edk::int16)this->origin.y,(edk::int16)this->origin.z,(edk::int16)this->size.width,(edk::int16)this->size.height,(edk::int16)this->size.length);
     }
     //function to merge the cube with another cube
-    void merge(edk::cubei8 rect){
+    inline void merge(edk::cubei8 rect){
         if(this->origin.x > (edk::int16)rect.origin.x)this->origin.x = (edk::int16)rect.origin.x;
         if(this->origin.y > (edk::int16)rect.origin.y)this->origin.y = (edk::int16)rect.origin.y;
         if(this->origin.z > (edk::int16)rect.origin.z)this->origin.z = (edk::int16)rect.origin.z;
@@ -1928,7 +1928,7 @@ public:
         if(this->size.height < (edk::int16)rect.size.height)this->size.height = (edk::int16)rect.size.height;
         if(this->size.length < (edk::int16)rect.size.length)this->size.length = (edk::int16)rect.size.length;
     }
-    void merge(edk::cubei16 rect){
+    inline void merge(edk::cubei16 rect){
         if(this->origin.x > rect.origin.x)this->origin.x = rect.origin.x;
         if(this->origin.y > rect.origin.y)this->origin.y = rect.origin.y;
         if(this->origin.z > rect.origin.z)this->origin.z = rect.origin.z;
@@ -2100,7 +2100,7 @@ public:
     }
 
     //operators
-    cubei32 operator=(cubei32 cube){
+    inline edk::cubei32 operator=(cubei32 cube){
         //
         this->origin.x=(edk::int32)cube.origin.x;
         this->origin.y=(edk::int32)cube.origin.y;
@@ -2110,7 +2110,7 @@ public:
         this->size.length=(edk::int32)cube.size.length;
         return *this;
     }
-    cubei32 operator=(edk::int8 n){
+    inline edk::cubei32 operator=(edk::int8 n){
         //
         this->origin.x=(edk::int32)n;
         this->origin.y=(edk::int32)n;
@@ -2120,7 +2120,7 @@ public:
         this->size.length=(edk::int32)n;
         return *this;
     }
-    cubei32 operator=(edk::int32 n){
+    inline edk::cubei32 operator=(edk::int32 n){
         //
         this->origin.x=(edk::int32)n;
         this->origin.y=(edk::int32)n;
@@ -2130,7 +2130,7 @@ public:
         this->size.length=(edk::int32)n;
         return *this;
     }
-    cubei32 operator=(edk::int16 n){
+    inline edk::cubei32 operator=(edk::int16 n){
         //
         this->origin.x=(edk::int32)n;
         this->origin.y=(edk::int32)n;
@@ -2140,7 +2140,7 @@ public:
         this->size.length=(edk::int32)n;
         return *this;
     }
-    cubei32 operator=(edk::int64 n){
+    inline edk::cubei32 operator=(edk::int64 n){
         //
         this->origin.x=(edk::int32)n;
         this->origin.y=(edk::int32)n;
@@ -2150,7 +2150,7 @@ public:
         this->size.length=(edk::int32)n;
         return *this;
     }
-    cubei32 operator=(edk::uint8 n){
+    inline edk::cubei32 operator=(edk::uint8 n){
         //
         this->origin.x=(edk::int32)n;
         this->origin.y=(edk::int32)n;
@@ -2160,7 +2160,7 @@ public:
         this->size.length=(edk::int32)n;
         return *this;
     }
-    cubei32 operator=(edk::uint32 n){
+    inline edk::cubei32 operator=(edk::uint32 n){
         //
         this->origin.x=(edk::int32)n;
         this->origin.y=(edk::int32)n;
@@ -2170,7 +2170,7 @@ public:
         this->size.length=(edk::int32)n;
         return *this;
     }
-    cubei32 operator=(edk::uint16 n){
+    inline edk::cubei32 operator=(edk::uint16 n){
         //
         this->origin.x=(edk::int32)n;
         this->origin.y=(edk::int32)n;
@@ -2180,7 +2180,7 @@ public:
         this->size.length=(edk::int32)n;
         return *this;
     }
-    cubei32 operator=(edk::uint64 n){
+    inline edk::cubei32 operator=(edk::uint64 n){
         //
         this->origin.x=(edk::int32)n;
         this->origin.y=(edk::int32)n;
@@ -2191,7 +2191,7 @@ public:
         return *this;
     }
 
-    bool operator==(cubei32 cube){
+    inline bool operator==(cubei32 cube){
         //
         return (this->origin.x==(edk::int32)cube.origin.x
                 &&this->origin.y==(edk::int32)cube.origin.y
@@ -2201,7 +2201,7 @@ public:
                 &&this->size.length==(edk::int32)cube.size.length
                 );
     }
-    bool operator!=(cubei32 cube){
+    inline bool operator!=(cubei32 cube){
         //
         return (this->origin.x!=(edk::int32)cube.origin.x
                 ||this->origin.y!=(edk::int32)cube.origin.y
@@ -2211,9 +2211,9 @@ public:
                 ||this->size.length!=(edk::int32)cube.size.length
                 );
     }
-    cubei32 operator+(cubei32 cube){
+    inline edk::cubei32 operator+(cubei32 cube){
         //
-        cubei32 ret;
+        edk::cubei32 ret;
         ret.origin.x=this->origin.x+(edk::int32)cube.origin.x;
         ret.origin.y=this->origin.y+(edk::int32)cube.origin.y;
         ret.origin.z=this->origin.z+(edk::int32)cube.origin.z;
@@ -2222,9 +2222,9 @@ public:
         ret.size.length=this->size.length+(edk::int32)cube.size.length;
         return ret;
     }
-    cubei32 operator+(edk::int8 n){
+    inline edk::cubei32 operator+(edk::int8 n){
         //
-        cubei32 ret;
+        edk::cubei32 ret;
         ret.origin.x=this->origin.x+(edk::int32)n;
         ret.origin.y=this->origin.y+(edk::int32)n;
         ret.origin.z=this->origin.z+(edk::int32)n;
@@ -2233,9 +2233,9 @@ public:
         ret.size.length=this->size.length+(edk::int32)n;
         return ret;
     }
-    cubei32 operator+(edk::int32 n){
+    inline edk::cubei32 operator+(edk::int32 n){
         //
-        cubei32 ret;
+        edk::cubei32 ret;
         ret.origin.x=this->origin.x+(edk::int32)n;
         ret.origin.y=this->origin.y+(edk::int32)n;
         ret.origin.z=this->origin.z+(edk::int32)n;
@@ -2244,9 +2244,9 @@ public:
         ret.size.length=this->size.length+(edk::int32)n;
         return ret;
     }
-    cubei32 operator+(edk::int16 n){
+    inline edk::cubei32 operator+(edk::int16 n){
         //
-        cubei32 ret;
+        edk::cubei32 ret;
         ret.origin.x=this->origin.x+(edk::int32)n;
         ret.origin.y=this->origin.y+(edk::int32)n;
         ret.origin.z=this->origin.z+(edk::int32)n;
@@ -2255,9 +2255,9 @@ public:
         ret.size.length=this->size.length+(edk::int32)n;
         return ret;
     }
-    cubei32 operator+(edk::int64 n){
+    inline edk::cubei32 operator+(edk::int64 n){
         //
-        cubei32 ret;
+        edk::cubei32 ret;
         ret.origin.x=this->origin.x+(edk::int32)n;
         ret.origin.y=this->origin.y+(edk::int32)n;
         ret.origin.z=this->origin.z+(edk::int32)n;
@@ -2266,9 +2266,9 @@ public:
         ret.size.length=this->size.length+(edk::int32)n;
         return ret;
     }
-    cubei32 operator+(edk::uint8 n){
+    inline edk::cubei32 operator+(edk::uint8 n){
         //
-        cubei32 ret;
+        edk::cubei32 ret;
         ret.origin.x=this->origin.x+(edk::int32)n;
         ret.origin.y=this->origin.y+(edk::int32)n;
         ret.origin.z=this->origin.z+(edk::int32)n;
@@ -2277,9 +2277,9 @@ public:
         ret.size.length=this->size.length+(edk::int32)n;
         return ret;
     }
-    cubei32 operator+(edk::uint32 n){
+    inline edk::cubei32 operator+(edk::uint32 n){
         //
-        cubei32 ret;
+        edk::cubei32 ret;
         ret.origin.x=this->origin.x+(edk::int32)n;
         ret.origin.y=this->origin.y+(edk::int32)n;
         ret.origin.z=this->origin.z+(edk::int32)n;
@@ -2288,9 +2288,9 @@ public:
         ret.size.length=this->size.length+(edk::int32)n;
         return ret;
     }
-    cubei32 operator+(edk::uint16 n){
+    inline edk::cubei32 operator+(edk::uint16 n){
         //
-        cubei32 ret;
+        edk::cubei32 ret;
         ret.origin.x=this->origin.x+(edk::int32)n;
         ret.origin.y=this->origin.y+(edk::int32)n;
         ret.origin.z=this->origin.z+(edk::int32)n;
@@ -2299,9 +2299,9 @@ public:
         ret.size.length=this->size.length+(edk::int32)n;
         return ret;
     }
-    cubei32 operator+(edk::uint64 n){
+    inline edk::cubei32 operator+(edk::uint64 n){
         //
-        cubei32 ret;
+        edk::cubei32 ret;
         ret.origin.x=this->origin.x+(edk::int32)n;
         ret.origin.y=this->origin.y+(edk::int32)n;
         ret.origin.z=this->origin.z+(edk::int32)n;
@@ -2310,7 +2310,7 @@ public:
         ret.size.length=this->size.length+(edk::int32)n;
         return ret;
     }
-    void operator+=(cubei32 cube){
+    inline void operator+=(cubei32 cube){
         //
         this->origin.x+=(edk::int32)cube.origin.x;
         this->origin.y+=(edk::int32)cube.origin.y;
@@ -2319,7 +2319,7 @@ public:
         this->size.height+=(edk::int32)cube.size.height;
         this->size.length+=(edk::int32)cube.size.length;
     }
-    void operator+=(edk::int8 n){
+    inline void operator+=(edk::int8 n){
         //
         this->origin.x+=(edk::int32)n;
         this->origin.y+=(edk::int32)n;
@@ -2328,7 +2328,7 @@ public:
         this->size.height+=(edk::int32)n;
         this->size.length+=(edk::int32)n;
     }
-    void operator+=(edk::int32 n){
+    inline void operator+=(edk::int32 n){
         //
         this->origin.x+=(edk::int32)n;
         this->origin.y+=(edk::int32)n;
@@ -2337,7 +2337,7 @@ public:
         this->size.height+=(edk::int32)n;
         this->size.length+=(edk::int32)n;
     }
-    void operator+=(edk::int16 n){
+    inline void operator+=(edk::int16 n){
         //
         this->origin.x+=(edk::int32)n;
         this->origin.y+=(edk::int32)n;
@@ -2346,7 +2346,7 @@ public:
         this->size.height+=(edk::int32)n;
         this->size.length+=(edk::int32)n;
     }
-    void operator+=(edk::int64 n){
+    inline void operator+=(edk::int64 n){
         //
         this->origin.x+=(edk::int32)n;
         this->origin.y+=(edk::int32)n;
@@ -2355,7 +2355,7 @@ public:
         this->size.height+=(edk::int32)n;
         this->size.length+=(edk::int32)n;
     }
-    void operator+=(edk::uint8 n){
+    inline void operator+=(edk::uint8 n){
         //
         this->origin.x+=(edk::int32)n;
         this->origin.y+=(edk::int32)n;
@@ -2364,7 +2364,7 @@ public:
         this->size.height+=(edk::int32)n;
         this->size.length+=(edk::int32)n;
     }
-    void operator+=(edk::uint32 n){
+    inline void operator+=(edk::uint32 n){
         //
         this->origin.x+=(edk::int32)n;
         this->origin.y+=(edk::int32)n;
@@ -2373,7 +2373,7 @@ public:
         this->size.height+=(edk::int32)n;
         this->size.length+=(edk::int32)n;
     }
-    void operator+=(edk::uint16 n){
+    inline void operator+=(edk::uint16 n){
         //
         this->origin.x+=(edk::int32)n;
         this->origin.y+=(edk::int32)n;
@@ -2382,7 +2382,7 @@ public:
         this->size.height+=(edk::int32)n;
         this->size.length+=(edk::int32)n;
     }
-    void operator+=(edk::uint64 n){
+    inline void operator+=(edk::uint64 n){
         //
         this->origin.x+=(edk::int32)n;
         this->origin.y+=(edk::int32)n;
@@ -2391,9 +2391,9 @@ public:
         this->size.height+=(edk::int32)n;
         this->size.length+=(edk::int32)n;
     }
-    cubei32 operator-(cubei32 cube){
+    inline edk::cubei32 operator-(cubei32 cube){
         //
-        cubei32 ret;
+        edk::cubei32 ret;
         ret.origin.x=this->origin.x-(edk::int32)cube.origin.x;
         ret.origin.y=this->origin.y-(edk::int32)cube.origin.y;
         ret.origin.z=this->origin.z-(edk::int32)cube.origin.z;
@@ -2402,9 +2402,9 @@ public:
         ret.size.length=this->size.length-(edk::int32)cube.size.length;
         return ret;
     }
-    cubei32 operator-(edk::int8 n){
+    inline edk::cubei32 operator-(edk::int8 n){
         //
-        cubei32 ret;
+        edk::cubei32 ret;
         ret.origin.x=this->origin.x-(edk::int32)n;
         ret.origin.y=this->origin.y-(edk::int32)n;
         ret.origin.z=this->origin.z-(edk::int32)n;
@@ -2413,9 +2413,9 @@ public:
         ret.size.length=this->size.length-(edk::int32)n;
         return ret;
     }
-    cubei32 operator-(edk::int32 n){
+    inline edk::cubei32 operator-(edk::int32 n){
         //
-        cubei32 ret;
+        edk::cubei32 ret;
         ret.origin.x=this->origin.x-(edk::int32)n;
         ret.origin.y=this->origin.y-(edk::int32)n;
         ret.origin.z=this->origin.z-(edk::int32)n;
@@ -2424,9 +2424,9 @@ public:
         ret.size.length=this->size.length-(edk::int32)n;
         return ret;
     }
-    cubei32 operator-(edk::int16 n){
+    inline edk::cubei32 operator-(edk::int16 n){
         //
-        cubei32 ret;
+        edk::cubei32 ret;
         ret.origin.x=this->origin.x-(edk::int32)n;
         ret.origin.y=this->origin.y-(edk::int32)n;
         ret.origin.z=this->origin.z-(edk::int32)n;
@@ -2435,9 +2435,9 @@ public:
         ret.size.length=this->size.length-(edk::int32)n;
         return ret;
     }
-    cubei32 operator-(edk::int64 n){
+    inline edk::cubei32 operator-(edk::int64 n){
         //
-        cubei32 ret;
+        edk::cubei32 ret;
         ret.origin.x=this->origin.x-(edk::int32)n;
         ret.origin.y=this->origin.y-(edk::int32)n;
         ret.origin.z=this->origin.z-(edk::int32)n;
@@ -2446,9 +2446,9 @@ public:
         ret.size.length=this->size.length-(edk::int32)n;
         return ret;
     }
-    cubei32 operator-(edk::uint8 n){
+    inline edk::cubei32 operator-(edk::uint8 n){
         //
-        cubei32 ret;
+        edk::cubei32 ret;
         ret.origin.x=this->origin.x-(edk::int32)n;
         ret.origin.y=this->origin.y-(edk::int32)n;
         ret.origin.z=this->origin.z-(edk::int32)n;
@@ -2457,9 +2457,9 @@ public:
         ret.size.length=this->size.length-(edk::int32)n;
         return ret;
     }
-    cubei32 operator-(edk::uint32 n){
+    inline edk::cubei32 operator-(edk::uint32 n){
         //
-        cubei32 ret;
+        edk::cubei32 ret;
         ret.origin.x=this->origin.x-(edk::int32)n;
         ret.origin.y=this->origin.y-(edk::int32)n;
         ret.origin.z=this->origin.z-(edk::int32)n;
@@ -2468,9 +2468,9 @@ public:
         ret.size.length=this->size.length-(edk::int32)n;
         return ret;
     }
-    cubei32 operator-(edk::uint16 n){
+    inline edk::cubei32 operator-(edk::uint16 n){
         //
-        cubei32 ret;
+        edk::cubei32 ret;
         ret.origin.x=this->origin.x-(edk::int32)n;
         ret.origin.y=this->origin.y-(edk::int32)n;
         ret.origin.z=this->origin.z-(edk::int32)n;
@@ -2479,9 +2479,9 @@ public:
         ret.size.length=this->size.length-(edk::int32)n;
         return ret;
     }
-    cubei32 operator-(edk::uint64 n){
+    inline edk::cubei32 operator-(edk::uint64 n){
         //
-        cubei32 ret;
+        edk::cubei32 ret;
         ret.origin.x=this->origin.x-(edk::int32)n;
         ret.origin.y=this->origin.y-(edk::int32)n;
         ret.origin.z=this->origin.z-(edk::int32)n;
@@ -2490,7 +2490,7 @@ public:
         ret.size.length=this->size.length-(edk::int32)n;
         return ret;
     }
-    void operator-=(cubei32 vec){
+    inline void operator-=(cubei32 vec){
         //
         this->origin.x-=(edk::int32)vec.origin.x;
         this->origin.y-=(edk::int32)vec.origin.y;
@@ -2499,7 +2499,7 @@ public:
         this->size.height-=(edk::int32)vec.size.height;
         this->size.length-=(edk::int32)vec.size.length;
     }
-    void operator-=(edk::int8 n){
+    inline void operator-=(edk::int8 n){
         //
         this->origin.x-=(edk::int32)n;
         this->origin.y-=(edk::int32)n;
@@ -2508,7 +2508,7 @@ public:
         this->size.height-=(edk::int32)n;
         this->size.length-=(edk::int32)n;
     }
-    void operator-=(edk::int32 n){
+    inline void operator-=(edk::int32 n){
         //
         this->origin.x-=(edk::int32)n;
         this->origin.y-=(edk::int32)n;
@@ -2517,7 +2517,7 @@ public:
         this->size.height-=(edk::int32)n;
         this->size.length-=(edk::int32)n;
     }
-    void operator-=(edk::int16 n){
+    inline void operator-=(edk::int16 n){
         //
         this->origin.x-=(edk::int32)n;
         this->origin.y-=(edk::int32)n;
@@ -2526,7 +2526,7 @@ public:
         this->size.height-=(edk::int32)n;
         this->size.length-=(edk::int32)n;
     }
-    void operator-=(edk::int64 n){
+    inline void operator-=(edk::int64 n){
         //
         this->origin.x-=(edk::int32)n;
         this->origin.y-=(edk::int32)n;
@@ -2535,7 +2535,7 @@ public:
         this->size.height-=(edk::int32)n;
         this->size.length-=(edk::int32)n;
     }
-    void operator-=(edk::uint8 n){
+    inline void operator-=(edk::uint8 n){
         //
         this->origin.x-=(edk::int32)n;
         this->origin.y-=(edk::int32)n;
@@ -2544,7 +2544,7 @@ public:
         this->size.height-=(edk::int32)n;
         this->size.length-=(edk::int32)n;
     }
-    void operator-=(edk::uint32 n){
+    inline void operator-=(edk::uint32 n){
         //
         this->origin.x-=(edk::int32)n;
         this->origin.y-=(edk::int32)n;
@@ -2553,7 +2553,7 @@ public:
         this->size.height-=(edk::int32)n;
         this->size.length-=(edk::int32)n;
     }
-    void operator-=(edk::uint16 n){
+    inline void operator-=(edk::uint16 n){
         //
         this->origin.x-=(edk::int32)n;
         this->origin.y-=(edk::int32)n;
@@ -2562,7 +2562,7 @@ public:
         this->size.height-=(edk::int32)n;
         this->size.length-=(edk::int32)n;
     }
-    void operator-=(edk::uint64 n){
+    inline void operator-=(edk::uint64 n){
         //
         this->origin.x-=(edk::int32)n;
         this->origin.y-=(edk::int32)n;
@@ -2571,9 +2571,9 @@ public:
         this->size.height-=(edk::int32)n;
         this->size.length-=(edk::int32)n;
     }
-    cubei32 operator*(cubei32 cube){
+    inline edk::cubei32 operator*(cubei32 cube){
         //
-        cubei32 ret;
+        edk::cubei32 ret;
         ret.origin.x=this->origin.x*(edk::int32)cube.origin.x;
         ret.origin.y=this->origin.y*(edk::int32)cube.origin.y;
         ret.origin.z=this->origin.z*(edk::int32)cube.origin.z;
@@ -2582,9 +2582,9 @@ public:
         ret.size.length=this->size.length*(edk::int32)cube.size.length;
         return ret;
     }
-    cubei32 operator*(edk::int8 n){
+    inline edk::cubei32 operator*(edk::int8 n){
         //
-        cubei32 ret;
+        edk::cubei32 ret;
         ret.origin.x=this->origin.x*(edk::int32)n;
         ret.origin.y=this->origin.y*(edk::int32)n;
         ret.origin.z=this->origin.z*(edk::int32)n;
@@ -2593,9 +2593,9 @@ public:
         ret.size.length=this->size.length*(edk::int32)n;
         return ret;
     }
-    cubei32 operator*(edk::int32 n){
+    inline edk::cubei32 operator*(edk::int32 n){
         //
-        cubei32 ret;
+        edk::cubei32 ret;
         ret.origin.x=this->origin.x*(edk::int32)n;
         ret.origin.y=this->origin.y*(edk::int32)n;
         ret.origin.z=this->origin.z*(edk::int32)n;
@@ -2604,9 +2604,9 @@ public:
         ret.size.length=this->size.length*(edk::int32)n;
         return ret;
     }
-    cubei32 operator*(edk::int16 n){
+    inline edk::cubei32 operator*(edk::int16 n){
         //
-        cubei32 ret;
+        edk::cubei32 ret;
         ret.origin.x=this->origin.x*(edk::int32)n;
         ret.origin.y=this->origin.y*(edk::int32)n;
         ret.origin.z=this->origin.z*(edk::int32)n;
@@ -2615,9 +2615,9 @@ public:
         ret.size.length=this->size.length*(edk::int32)n;
         return ret;
     }
-    cubei32 operator*(edk::int64 n){
+    inline edk::cubei32 operator*(edk::int64 n){
         //
-        cubei32 ret;
+        edk::cubei32 ret;
         ret.origin.x=this->origin.x*(edk::int32)n;
         ret.origin.y=this->origin.y*(edk::int32)n;
         ret.origin.z=this->origin.z*(edk::int32)n;
@@ -2626,9 +2626,9 @@ public:
         ret.size.length=this->size.length*(edk::int32)n;
         return ret;
     }
-    cubei32 operator*(edk::uint8 n){
+    inline edk::cubei32 operator*(edk::uint8 n){
         //
-        cubei32 ret;
+        edk::cubei32 ret;
         ret.origin.x=this->origin.x*(edk::int32)n;
         ret.origin.y=this->origin.y*(edk::int32)n;
         ret.origin.z=this->origin.z*(edk::int32)n;
@@ -2637,9 +2637,9 @@ public:
         ret.size.length=this->size.length*(edk::int32)n;
         return ret;
     }
-    cubei32 operator*(edk::uint32 n){
+    inline edk::cubei32 operator*(edk::uint32 n){
         //
-        cubei32 ret;
+        edk::cubei32 ret;
         ret.origin.x=this->origin.x*(edk::int32)n;
         ret.origin.y=this->origin.y*(edk::int32)n;
         ret.origin.z=this->origin.z*(edk::int32)n;
@@ -2648,9 +2648,9 @@ public:
         ret.size.length=this->size.length*(edk::int32)n;
         return ret;
     }
-    cubei32 operator*(edk::uint16 n){
+    inline edk::cubei32 operator*(edk::uint16 n){
         //
-        cubei32 ret;
+        edk::cubei32 ret;
         ret.origin.x=this->origin.x*(edk::int32)n;
         ret.origin.y=this->origin.y*(edk::int32)n;
         ret.origin.z=this->origin.z*(edk::int32)n;
@@ -2659,9 +2659,9 @@ public:
         ret.size.length=this->size.length*(edk::int32)n;
         return ret;
     }
-    cubei32 operator*(edk::uint64 n){
+    inline edk::cubei32 operator*(edk::uint64 n){
         //
-        cubei32 ret;
+        edk::cubei32 ret;
         ret.origin.x=this->origin.x*(edk::int32)n;
         ret.origin.y=this->origin.y*(edk::int32)n;
         ret.origin.z=this->origin.z*(edk::int32)n;
@@ -2670,7 +2670,7 @@ public:
         ret.size.length=this->size.length*(edk::int32)n;
         return ret;
     }
-    void operator*=(cubei32 cube){
+    inline void operator*=(cubei32 cube){
         //
         this->origin.x*=(edk::int32)cube.origin.x;
         this->origin.y*=(edk::int32)cube.origin.y;
@@ -2679,7 +2679,7 @@ public:
         this->size.height*=(edk::int32)cube.size.height;
         this->size.length*=(edk::int32)cube.size.length;
     }
-    void operator*=(edk::int8 n){
+    inline void operator*=(edk::int8 n){
         //
         this->origin.x*=(edk::int32)n;
         this->origin.y*=(edk::int32)n;
@@ -2688,7 +2688,7 @@ public:
         this->size.height*=(edk::int32)n;
         this->size.length*=(edk::int32)n;
     }
-    void operator*=(edk::int32 n){
+    inline void operator*=(edk::int32 n){
         //
         this->origin.x*=(edk::int32)n;
         this->origin.y*=(edk::int32)n;
@@ -2697,7 +2697,7 @@ public:
         this->size.height*=(edk::int32)n;
         this->size.length*=(edk::int32)n;
     }
-    void operator*=(edk::int16 n){
+    inline void operator*=(edk::int16 n){
         //
         this->origin.x*=(edk::int32)n;
         this->origin.y*=(edk::int32)n;
@@ -2706,7 +2706,7 @@ public:
         this->size.height*=(edk::int32)n;
         this->size.length*=(edk::int32)n;
     }
-    void operator*=(edk::int64 n){
+    inline void operator*=(edk::int64 n){
         //
         this->origin.x*=(edk::int32)n;
         this->origin.y*=(edk::int32)n;
@@ -2715,7 +2715,7 @@ public:
         this->size.height*=(edk::int32)n;
         this->size.length*=(edk::int32)n;
     }
-    void operator*=(edk::uint8 n){
+    inline void operator*=(edk::uint8 n){
         //
         this->origin.x*=(edk::int32)n;
         this->origin.y*=(edk::int32)n;
@@ -2724,7 +2724,7 @@ public:
         this->size.height*=(edk::int32)n;
         this->size.length*=(edk::int32)n;
     }
-    void operator*=(edk::uint32 n){
+    inline void operator*=(edk::uint32 n){
         //
         this->origin.x*=(edk::int32)n;
         this->origin.y*=(edk::int32)n;
@@ -2733,7 +2733,7 @@ public:
         this->size.height*=(edk::int32)n;
         this->size.length*=(edk::int32)n;
     }
-    void operator*=(edk::uint16 n){
+    inline void operator*=(edk::uint16 n){
         //
         this->origin.x*=(edk::int32)n;
         this->origin.y*=(edk::int32)n;
@@ -2742,7 +2742,7 @@ public:
         this->size.height*=(edk::int32)n;
         this->size.length*=(edk::int32)n;
     }
-    void operator*=(edk::uint64 n){
+    inline void operator*=(edk::uint64 n){
         //
         this->origin.x*=(edk::int32)n;
         this->origin.y*=(edk::int32)n;
@@ -2752,7 +2752,7 @@ public:
         this->size.length*=(edk::int32)n;
     }
     //
-    cubei32 operator++(){
+    inline edk::cubei32 operator++(){
         //
         ++this->origin.x;
         ++this->origin.y;
@@ -2760,9 +2760,9 @@ public:
         ++this->size.width;
         ++this->size.height;
         ++this->size.length;
-        return cubei32(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
+        return edk::cubei32(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
     }
-    cubei32 operator++(edk::int32){
+    inline edk::cubei32 operator++(edk::int32){
         //
         this->origin.x++;
         this->origin.y++;
@@ -2770,9 +2770,9 @@ public:
         this->size.width++;
         this->size.height++;
         this->size.length++;
-        return cubei32(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
+        return edk::cubei32(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
     }
-    cubei32 operator--(){
+    inline edk::cubei32 operator--(){
         //
         --this->origin.x;
         --this->origin.y;
@@ -2780,9 +2780,9 @@ public:
         --this->size.width;
         --this->size.height;
         --this->size.length;
-        return cubei32(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
+        return edk::cubei32(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
     }
-    cubei32 operator--(edk::int32){
+    inline edk::cubei32 operator--(edk::int32){
         //
         this->origin.x--;
         this->origin.y--;
@@ -2790,9 +2790,9 @@ public:
         this->size.width--;
         this->size.height--;
         this->size.length--;
-        return cubei32(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
+        return edk::cubei32(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
     }
-    cubei32 operator()(edk::int8 x,edk::int8 y,edk::int8 z,edk::int8 width,edk::int8 height,edk::int8 length){
+    inline edk::cubei32 operator()(edk::int8 x,edk::int8 y,edk::int8 z,edk::int8 width,edk::int8 height,edk::int8 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -2800,9 +2800,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubei32((edk::int32)this->origin.x,(edk::int32)this->origin.y,(edk::int32)this->origin.z,(edk::int32)this->size.width,(edk::int32)this->size.height,(edk::int32)this->size.length);
+        return edk::cubei32((edk::int32)this->origin.x,(edk::int32)this->origin.y,(edk::int32)this->origin.z,(edk::int32)this->size.width,(edk::int32)this->size.height,(edk::int32)this->size.length);
     }
-    cubei32 operator()(edk::int32 x,edk::int32 y,edk::int32 z,edk::int32 width,edk::int32 height,edk::int32 length){
+    inline edk::cubei32 operator()(edk::int32 x,edk::int32 y,edk::int32 z,edk::int32 width,edk::int32 height,edk::int32 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -2810,9 +2810,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubei32((edk::int32)this->origin.x,(edk::int32)this->origin.y,(edk::int32)this->origin.z,(edk::int32)this->size.width,(edk::int32)this->size.height,(edk::int32)this->size.length);
+        return edk::cubei32((edk::int32)this->origin.x,(edk::int32)this->origin.y,(edk::int32)this->origin.z,(edk::int32)this->size.width,(edk::int32)this->size.height,(edk::int32)this->size.length);
     }
-    cubei32 operator()(edk::int16 x,edk::int16 y,edk::int16 z,edk::int16 width,edk::int16 height,edk::int16 length){
+    inline edk::cubei32 operator()(edk::int16 x,edk::int16 y,edk::int16 z,edk::int16 width,edk::int16 height,edk::int16 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -2820,9 +2820,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubei32((edk::int32)this->origin.x,(edk::int32)this->origin.y,(edk::int32)this->origin.z,(edk::int32)this->size.width,(edk::int32)this->size.height,(edk::int32)this->size.length);
+        return edk::cubei32((edk::int32)this->origin.x,(edk::int32)this->origin.y,(edk::int32)this->origin.z,(edk::int32)this->size.width,(edk::int32)this->size.height,(edk::int32)this->size.length);
     }
-    cubei32 operator()(edk::int64 x,edk::int64 y,edk::int64 z,edk::int64 width,edk::int64 height,edk::int64 length){
+    inline edk::cubei32 operator()(edk::int64 x,edk::int64 y,edk::int64 z,edk::int64 width,edk::int64 height,edk::int64 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -2830,9 +2830,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubei32((edk::int32)this->origin.x,(edk::int32)this->origin.y,(edk::int32)this->origin.z,(edk::int32)this->size.width,(edk::int32)this->size.height,(edk::int32)this->size.length);
+        return edk::cubei32((edk::int32)this->origin.x,(edk::int32)this->origin.y,(edk::int32)this->origin.z,(edk::int32)this->size.width,(edk::int32)this->size.height,(edk::int32)this->size.length);
     }
-    cubei32 operator()(edk::uint8 x,edk::uint8 y,edk::uint8 z,edk::uint8 width,edk::uint8 height,edk::uint8 length){
+    inline edk::cubei32 operator()(edk::uint8 x,edk::uint8 y,edk::uint8 z,edk::uint8 width,edk::uint8 height,edk::uint8 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -2840,9 +2840,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubei32((edk::int32)this->origin.x,(edk::int32)this->origin.y,(edk::int32)this->origin.z,(edk::int32)this->size.width,(edk::int32)this->size.height,(edk::int32)this->size.length);
+        return edk::cubei32((edk::int32)this->origin.x,(edk::int32)this->origin.y,(edk::int32)this->origin.z,(edk::int32)this->size.width,(edk::int32)this->size.height,(edk::int32)this->size.length);
     }
-    cubei32 operator()(edk::uint32 x,edk::uint32 y,edk::uint32 z,edk::uint32 width,edk::uint32 height,edk::uint32 length){
+    inline edk::cubei32 operator()(edk::uint32 x,edk::uint32 y,edk::uint32 z,edk::uint32 width,edk::uint32 height,edk::uint32 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -2850,9 +2850,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubei32((edk::int32)this->origin.x,(edk::int32)this->origin.y,(edk::int32)this->origin.z,(edk::int32)this->size.width,(edk::int32)this->size.height,(edk::int32)this->size.length);
+        return edk::cubei32((edk::int32)this->origin.x,(edk::int32)this->origin.y,(edk::int32)this->origin.z,(edk::int32)this->size.width,(edk::int32)this->size.height,(edk::int32)this->size.length);
     }
-    cubei32 operator()(edk::uint16 x,edk::uint16 y,edk::uint16 z,edk::uint16 width,edk::uint16 height,edk::uint16 length){
+    inline edk::cubei32 operator()(edk::uint16 x,edk::uint16 y,edk::uint16 z,edk::uint16 width,edk::uint16 height,edk::uint16 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -2860,9 +2860,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubei32((edk::int32)this->origin.x,(edk::int32)this->origin.y,(edk::int32)this->origin.z,(edk::int32)this->size.width,(edk::int32)this->size.height,(edk::int32)this->size.length);
+        return edk::cubei32((edk::int32)this->origin.x,(edk::int32)this->origin.y,(edk::int32)this->origin.z,(edk::int32)this->size.width,(edk::int32)this->size.height,(edk::int32)this->size.length);
     }
-    cubei32 operator()(edk::uint64 x,edk::uint64 y,edk::uint64 z,edk::uint64 width,edk::uint64 height,edk::uint64 length){
+    inline edk::cubei32 operator()(edk::uint64 x,edk::uint64 y,edk::uint64 z,edk::uint64 width,edk::uint64 height,edk::uint64 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -2870,10 +2870,10 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubei32((edk::int32)this->origin.x,(edk::int32)this->origin.y,(edk::int32)this->origin.z,(edk::int32)this->size.width,(edk::int32)this->size.height,(edk::int32)this->size.length);
+        return edk::cubei32((edk::int32)this->origin.x,(edk::int32)this->origin.y,(edk::int32)this->origin.z,(edk::int32)this->size.width,(edk::int32)this->size.height,(edk::int32)this->size.length);
     }
     //function to merge the cube with another cube
-    void merge(edk::cubei8 rect){
+    inline void merge(edk::cubei8 rect){
         if(this->origin.x > (edk::int32)rect.origin.x)this->origin.x = (edk::int32)rect.origin.x;
         if(this->origin.y > (edk::int32)rect.origin.y)this->origin.y = (edk::int32)rect.origin.y;
         if(this->origin.z > (edk::int32)rect.origin.z)this->origin.z = (edk::int32)rect.origin.z;
@@ -2881,7 +2881,7 @@ public:
         if(this->size.height < (edk::int32)rect.size.height)this->size.height = (edk::int32)rect.size.height;
         if(this->size.length < (edk::int32)rect.size.length)this->size.length = (edk::int32)rect.size.length;
     }
-    void merge(edk::cubei16 rect){
+    inline void merge(edk::cubei16 rect){
         if(this->origin.x > (edk::int32)rect.origin.x)this->origin.x = (edk::int32)rect.origin.x;
         if(this->origin.y > (edk::int32)rect.origin.y)this->origin.y = (edk::int32)rect.origin.y;
         if(this->origin.z > (edk::int32)rect.origin.z)this->origin.z = (edk::int32)rect.origin.z;
@@ -2889,7 +2889,7 @@ public:
         if(this->size.height < (edk::int32)rect.size.height)this->size.height = (edk::int32)rect.size.height;
         if(this->size.length < (edk::int32)rect.size.length)this->size.length = (edk::int32)rect.size.length;
     }
-    void merge(edk::cubei32 rect){
+    inline void merge(edk::cubei32 rect){
         if(this->origin.x > rect.origin.x)this->origin.x = rect.origin.x;
         if(this->origin.y > rect.origin.y)this->origin.y = rect.origin.y;
         if(this->origin.z > rect.origin.z)this->origin.z = rect.origin.z;
@@ -3061,7 +3061,7 @@ public:
     }
 
     //operators
-    cubei64 operator=(cubei64 cube){
+    inline edk::cubei64 operator=(cubei64 cube){
         //
         this->origin.x=(edk::int64)cube.origin.x;
         this->origin.y=(edk::int64)cube.origin.y;
@@ -3071,7 +3071,7 @@ public:
         this->size.length=(edk::int64)cube.size.length;
         return *this;
     }
-    cubei64 operator=(edk::int8 n){
+    inline edk::cubei64 operator=(edk::int8 n){
         //
         this->origin.x=(edk::int64)n;
         this->origin.y=(edk::int64)n;
@@ -3081,7 +3081,7 @@ public:
         this->size.length=(edk::int64)n;
         return *this;
     }
-    cubei64 operator=(edk::int32 n){
+    inline edk::cubei64 operator=(edk::int32 n){
         //
         this->origin.x=(edk::int64)n;
         this->origin.y=(edk::int64)n;
@@ -3091,7 +3091,7 @@ public:
         this->size.length=(edk::int64)n;
         return *this;
     }
-    cubei64 operator=(edk::int16 n){
+    inline edk::cubei64 operator=(edk::int16 n){
         //
         this->origin.x=(edk::int64)n;
         this->origin.y=(edk::int64)n;
@@ -3101,7 +3101,7 @@ public:
         this->size.length=(edk::int64)n;
         return *this;
     }
-    cubei64 operator=(edk::int64 n){
+    inline edk::cubei64 operator=(edk::int64 n){
         //
         this->origin.x=(edk::int64)n;
         this->origin.y=(edk::int64)n;
@@ -3111,7 +3111,7 @@ public:
         this->size.length=(edk::int64)n;
         return *this;
     }
-    cubei64 operator=(edk::uint8 n){
+    inline edk::cubei64 operator=(edk::uint8 n){
         //
         this->origin.x=(edk::int64)n;
         this->origin.y=(edk::int64)n;
@@ -3121,7 +3121,7 @@ public:
         this->size.length=(edk::int64)n;
         return *this;
     }
-    cubei64 operator=(edk::uint32 n){
+    inline edk::cubei64 operator=(edk::uint32 n){
         //
         this->origin.x=(edk::int64)n;
         this->origin.y=(edk::int64)n;
@@ -3131,7 +3131,7 @@ public:
         this->size.length=(edk::int64)n;
         return *this;
     }
-    cubei64 operator=(edk::uint16 n){
+    inline edk::cubei64 operator=(edk::uint16 n){
         //
         this->origin.x=(edk::int64)n;
         this->origin.y=(edk::int64)n;
@@ -3141,7 +3141,7 @@ public:
         this->size.length=(edk::int64)n;
         return *this;
     }
-    cubei64 operator=(edk::uint64 n){
+    inline edk::cubei64 operator=(edk::uint64 n){
         //
         this->origin.x=(edk::int64)n;
         this->origin.y=(edk::int64)n;
@@ -3152,7 +3152,7 @@ public:
         return *this;
     }
 
-    bool operator==(cubei64 cube){
+    inline bool operator==(cubei64 cube){
         //
         return (this->origin.x==(edk::int64)cube.origin.x
                 &&this->origin.y==(edk::int64)cube.origin.y
@@ -3162,7 +3162,7 @@ public:
                 &&this->size.length==(edk::int64)cube.size.length
                 );
     }
-    bool operator!=(cubei64 cube){
+    inline bool operator!=(cubei64 cube){
         //
         return (this->origin.x!=(edk::int64)cube.origin.x
                 ||this->origin.y!=(edk::int64)cube.origin.y
@@ -3172,9 +3172,9 @@ public:
                 ||this->size.length!=(edk::int64)cube.size.length
                 );
     }
-    cubei64 operator+(cubei64 cube){
+    inline edk::cubei64 operator+(cubei64 cube){
         //
-        cubei64 ret;
+        edk::cubei64 ret;
         ret.origin.x=this->origin.x+(edk::int64)cube.origin.x;
         ret.origin.y=this->origin.y+(edk::int64)cube.origin.y;
         ret.origin.z=this->origin.z+(edk::int64)cube.origin.z;
@@ -3183,9 +3183,9 @@ public:
         ret.size.length=this->size.length+(edk::int64)cube.size.length;
         return ret;
     }
-    cubei64 operator+(edk::int8 n){
+    inline edk::cubei64 operator+(edk::int8 n){
         //
-        cubei64 ret;
+        edk::cubei64 ret;
         ret.origin.x=this->origin.x+(edk::int64)n;
         ret.origin.y=this->origin.y+(edk::int64)n;
         ret.origin.z=this->origin.z+(edk::int64)n;
@@ -3194,9 +3194,9 @@ public:
         ret.size.length=this->size.length+(edk::int64)n;
         return ret;
     }
-    cubei64 operator+(edk::int32 n){
+    inline edk::cubei64 operator+(edk::int32 n){
         //
-        cubei64 ret;
+        edk::cubei64 ret;
         ret.origin.x=this->origin.x+(edk::int64)n;
         ret.origin.y=this->origin.y+(edk::int64)n;
         ret.origin.z=this->origin.z+(edk::int64)n;
@@ -3205,9 +3205,9 @@ public:
         ret.size.length=this->size.length+(edk::int64)n;
         return ret;
     }
-    cubei64 operator+(edk::int16 n){
+    inline edk::cubei64 operator+(edk::int16 n){
         //
-        cubei64 ret;
+        edk::cubei64 ret;
         ret.origin.x=this->origin.x+(edk::int64)n;
         ret.origin.y=this->origin.y+(edk::int64)n;
         ret.origin.z=this->origin.z+(edk::int64)n;
@@ -3216,9 +3216,9 @@ public:
         ret.size.length=this->size.length+(edk::int64)n;
         return ret;
     }
-    cubei64 operator+(edk::int64 n){
+    inline edk::cubei64 operator+(edk::int64 n){
         //
-        cubei64 ret;
+        edk::cubei64 ret;
         ret.origin.x=this->origin.x+(edk::int64)n;
         ret.origin.y=this->origin.y+(edk::int64)n;
         ret.origin.z=this->origin.z+(edk::int64)n;
@@ -3227,9 +3227,9 @@ public:
         ret.size.length=this->size.length+(edk::int64)n;
         return ret;
     }
-    cubei64 operator+(edk::uint8 n){
+    inline edk::cubei64 operator+(edk::uint8 n){
         //
-        cubei64 ret;
+        edk::cubei64 ret;
         ret.origin.x=this->origin.x+(edk::int64)n;
         ret.origin.y=this->origin.y+(edk::int64)n;
         ret.origin.z=this->origin.z+(edk::int64)n;
@@ -3238,9 +3238,9 @@ public:
         ret.size.length=this->size.length+(edk::int64)n;
         return ret;
     }
-    cubei64 operator+(edk::uint32 n){
+    inline edk::cubei64 operator+(edk::uint32 n){
         //
-        cubei64 ret;
+        edk::cubei64 ret;
         ret.origin.x=this->origin.x+(edk::int64)n;
         ret.origin.y=this->origin.y+(edk::int64)n;
         ret.origin.z=this->origin.z+(edk::int64)n;
@@ -3249,9 +3249,9 @@ public:
         ret.size.length=this->size.length+(edk::int64)n;
         return ret;
     }
-    cubei64 operator+(edk::uint16 n){
+    inline edk::cubei64 operator+(edk::uint16 n){
         //
-        cubei64 ret;
+        edk::cubei64 ret;
         ret.origin.x=this->origin.x+(edk::int64)n;
         ret.origin.y=this->origin.y+(edk::int64)n;
         ret.origin.z=this->origin.z+(edk::int64)n;
@@ -3260,9 +3260,9 @@ public:
         ret.size.length=this->size.length+(edk::int64)n;
         return ret;
     }
-    cubei64 operator+(edk::uint64 n){
+    inline edk::cubei64 operator+(edk::uint64 n){
         //
-        cubei64 ret;
+        edk::cubei64 ret;
         ret.origin.x=this->origin.x+(edk::int64)n;
         ret.origin.y=this->origin.y+(edk::int64)n;
         ret.origin.z=this->origin.z+(edk::int64)n;
@@ -3271,7 +3271,7 @@ public:
         ret.size.length=this->size.length+(edk::int64)n;
         return ret;
     }
-    void operator+=(cubei64 cube){
+    inline void operator+=(cubei64 cube){
         //
         this->origin.x+=(edk::int64)cube.origin.x;
         this->origin.y+=(edk::int64)cube.origin.y;
@@ -3280,7 +3280,7 @@ public:
         this->size.height+=(edk::int64)cube.size.height;
         this->size.length+=(edk::int64)cube.size.length;
     }
-    void operator+=(edk::int8 n){
+    inline void operator+=(edk::int8 n){
         //
         this->origin.x+=(edk::int64)n;
         this->origin.y+=(edk::int64)n;
@@ -3289,7 +3289,7 @@ public:
         this->size.height+=(edk::int64)n;
         this->size.length+=(edk::int64)n;
     }
-    void operator+=(edk::int32 n){
+    inline void operator+=(edk::int32 n){
         //
         this->origin.x+=(edk::int64)n;
         this->origin.y+=(edk::int64)n;
@@ -3298,7 +3298,7 @@ public:
         this->size.height+=(edk::int64)n;
         this->size.length+=(edk::int64)n;
     }
-    void operator+=(edk::int16 n){
+    inline void operator+=(edk::int16 n){
         //
         this->origin.x+=(edk::int64)n;
         this->origin.y+=(edk::int64)n;
@@ -3307,7 +3307,7 @@ public:
         this->size.height+=(edk::int64)n;
         this->size.length+=(edk::int64)n;
     }
-    void operator+=(edk::int64 n){
+    inline void operator+=(edk::int64 n){
         //
         this->origin.x+=(edk::int64)n;
         this->origin.y+=(edk::int64)n;
@@ -3316,7 +3316,7 @@ public:
         this->size.height+=(edk::int64)n;
         this->size.length+=(edk::int64)n;
     }
-    void operator+=(edk::uint8 n){
+    inline void operator+=(edk::uint8 n){
         //
         this->origin.x+=(edk::int64)n;
         this->origin.y+=(edk::int64)n;
@@ -3325,7 +3325,7 @@ public:
         this->size.height+=(edk::int64)n;
         this->size.length+=(edk::int64)n;
     }
-    void operator+=(edk::uint32 n){
+    inline void operator+=(edk::uint32 n){
         //
         this->origin.x+=(edk::int64)n;
         this->origin.y+=(edk::int64)n;
@@ -3334,7 +3334,7 @@ public:
         this->size.height+=(edk::int64)n;
         this->size.length+=(edk::int64)n;
     }
-    void operator+=(edk::uint16 n){
+    inline void operator+=(edk::uint16 n){
         //
         this->origin.x+=(edk::int64)n;
         this->origin.y+=(edk::int64)n;
@@ -3343,7 +3343,7 @@ public:
         this->size.height+=(edk::int64)n;
         this->size.length+=(edk::int64)n;
     }
-    void operator+=(edk::uint64 n){
+    inline void operator+=(edk::uint64 n){
         //
         this->origin.x+=(edk::int64)n;
         this->origin.y+=(edk::int64)n;
@@ -3352,9 +3352,9 @@ public:
         this->size.height+=(edk::int64)n;
         this->size.length+=(edk::int64)n;
     }
-    cubei64 operator-(cubei64 cube){
+    inline edk::cubei64 operator-(cubei64 cube){
         //
-        cubei64 ret;
+        edk::cubei64 ret;
         ret.origin.x=this->origin.x-(edk::int64)cube.origin.x;
         ret.origin.y=this->origin.y-(edk::int64)cube.origin.y;
         ret.origin.z=this->origin.z-(edk::int64)cube.origin.z;
@@ -3363,9 +3363,9 @@ public:
         ret.size.length=this->size.length-(edk::int64)cube.size.length;
         return ret;
     }
-    cubei64 operator-(edk::int8 n){
+    inline edk::cubei64 operator-(edk::int8 n){
         //
-        cubei64 ret;
+        edk::cubei64 ret;
         ret.origin.x=this->origin.x-(edk::int64)n;
         ret.origin.y=this->origin.y-(edk::int64)n;
         ret.origin.z=this->origin.z-(edk::int64)n;
@@ -3374,9 +3374,9 @@ public:
         ret.size.length=this->size.length-(edk::int64)n;
         return ret;
     }
-    cubei64 operator-(edk::int32 n){
+    inline edk::cubei64 operator-(edk::int32 n){
         //
-        cubei64 ret;
+        edk::cubei64 ret;
         ret.origin.x=this->origin.x-(edk::int64)n;
         ret.origin.y=this->origin.y-(edk::int64)n;
         ret.origin.z=this->origin.z-(edk::int64)n;
@@ -3385,9 +3385,9 @@ public:
         ret.size.length=this->size.length-(edk::int64)n;
         return ret;
     }
-    cubei64 operator-(edk::int16 n){
+    inline edk::cubei64 operator-(edk::int16 n){
         //
-        cubei64 ret;
+        edk::cubei64 ret;
         ret.origin.x=this->origin.x-(edk::int64)n;
         ret.origin.y=this->origin.y-(edk::int64)n;
         ret.origin.z=this->origin.z-(edk::int64)n;
@@ -3396,9 +3396,9 @@ public:
         ret.size.length=this->size.length-(edk::int64)n;
         return ret;
     }
-    cubei64 operator-(edk::int64 n){
+    inline edk::cubei64 operator-(edk::int64 n){
         //
-        cubei64 ret;
+        edk::cubei64 ret;
         ret.origin.x=this->origin.x-(edk::int64)n;
         ret.origin.y=this->origin.y-(edk::int64)n;
         ret.origin.z=this->origin.z-(edk::int64)n;
@@ -3407,9 +3407,9 @@ public:
         ret.size.length=this->size.length-(edk::int64)n;
         return ret;
     }
-    cubei64 operator-(edk::uint8 n){
+    inline edk::cubei64 operator-(edk::uint8 n){
         //
-        cubei64 ret;
+        edk::cubei64 ret;
         ret.origin.x=this->origin.x-(edk::int64)n;
         ret.origin.y=this->origin.y-(edk::int64)n;
         ret.origin.z=this->origin.z-(edk::int64)n;
@@ -3418,9 +3418,9 @@ public:
         ret.size.length=this->size.length-(edk::int64)n;
         return ret;
     }
-    cubei64 operator-(edk::uint32 n){
+    inline edk::cubei64 operator-(edk::uint32 n){
         //
-        cubei64 ret;
+        edk::cubei64 ret;
         ret.origin.x=this->origin.x-(edk::int64)n;
         ret.origin.y=this->origin.y-(edk::int64)n;
         ret.origin.z=this->origin.z-(edk::int64)n;
@@ -3429,9 +3429,9 @@ public:
         ret.size.length=this->size.length-(edk::int64)n;
         return ret;
     }
-    cubei64 operator-(edk::uint16 n){
+    inline edk::cubei64 operator-(edk::uint16 n){
         //
-        cubei64 ret;
+        edk::cubei64 ret;
         ret.origin.x=this->origin.x-(edk::int64)n;
         ret.origin.y=this->origin.y-(edk::int64)n;
         ret.origin.z=this->origin.z-(edk::int64)n;
@@ -3440,9 +3440,9 @@ public:
         ret.size.length=this->size.length-(edk::int64)n;
         return ret;
     }
-    cubei64 operator-(edk::uint64 n){
+    inline edk::cubei64 operator-(edk::uint64 n){
         //
-        cubei64 ret;
+        edk::cubei64 ret;
         ret.origin.x=this->origin.x-(edk::int64)n;
         ret.origin.y=this->origin.y-(edk::int64)n;
         ret.origin.z=this->origin.z-(edk::int64)n;
@@ -3451,7 +3451,7 @@ public:
         ret.size.length=this->size.length-(edk::int64)n;
         return ret;
     }
-    void operator-=(cubei64 vec){
+    inline void operator-=(cubei64 vec){
         //
         this->origin.x-=(edk::int64)vec.origin.x;
         this->origin.y-=(edk::int64)vec.origin.y;
@@ -3460,7 +3460,7 @@ public:
         this->size.height-=(edk::int64)vec.size.height;
         this->size.length-=(edk::int64)vec.size.length;
     }
-    void operator-=(edk::int8 n){
+    inline void operator-=(edk::int8 n){
         //
         this->origin.x-=(edk::int64)n;
         this->origin.y-=(edk::int64)n;
@@ -3469,7 +3469,7 @@ public:
         this->size.height-=(edk::int64)n;
         this->size.length-=(edk::int64)n;
     }
-    void operator-=(edk::int32 n){
+    inline void operator-=(edk::int32 n){
         //
         this->origin.x-=(edk::int64)n;
         this->origin.y-=(edk::int64)n;
@@ -3478,7 +3478,7 @@ public:
         this->size.height-=(edk::int64)n;
         this->size.length-=(edk::int64)n;
     }
-    void operator-=(edk::int16 n){
+    inline void operator-=(edk::int16 n){
         //
         this->origin.x-=(edk::int64)n;
         this->origin.y-=(edk::int64)n;
@@ -3487,7 +3487,7 @@ public:
         this->size.height-=(edk::int64)n;
         this->size.length-=(edk::int64)n;
     }
-    void operator-=(edk::int64 n){
+    inline void operator-=(edk::int64 n){
         //
         this->origin.x-=(edk::int64)n;
         this->origin.y-=(edk::int64)n;
@@ -3496,7 +3496,7 @@ public:
         this->size.height-=(edk::int64)n;
         this->size.length-=(edk::int64)n;
     }
-    void operator-=(edk::uint8 n){
+    inline void operator-=(edk::uint8 n){
         //
         this->origin.x-=(edk::int64)n;
         this->origin.y-=(edk::int64)n;
@@ -3505,7 +3505,7 @@ public:
         this->size.height-=(edk::int64)n;
         this->size.length-=(edk::int64)n;
     }
-    void operator-=(edk::uint32 n){
+    inline void operator-=(edk::uint32 n){
         //
         this->origin.x-=(edk::int64)n;
         this->origin.y-=(edk::int64)n;
@@ -3514,7 +3514,7 @@ public:
         this->size.height-=(edk::int64)n;
         this->size.length-=(edk::int64)n;
     }
-    void operator-=(edk::uint16 n){
+    inline void operator-=(edk::uint16 n){
         //
         this->origin.x-=(edk::int64)n;
         this->origin.y-=(edk::int64)n;
@@ -3523,7 +3523,7 @@ public:
         this->size.height-=(edk::int64)n;
         this->size.length-=(edk::int64)n;
     }
-    void operator-=(edk::uint64 n){
+    inline void operator-=(edk::uint64 n){
         //
         this->origin.x-=(edk::int64)n;
         this->origin.y-=(edk::int64)n;
@@ -3532,9 +3532,9 @@ public:
         this->size.height-=(edk::int64)n;
         this->size.length-=(edk::int64)n;
     }
-    cubei64 operator*(cubei64 cube){
+    inline edk::cubei64 operator*(cubei64 cube){
         //
-        cubei64 ret;
+        edk::cubei64 ret;
         ret.origin.x=this->origin.x*(edk::int64)cube.origin.x;
         ret.origin.y=this->origin.y*(edk::int64)cube.origin.y;
         ret.origin.z=this->origin.z*(edk::int64)cube.origin.z;
@@ -3543,9 +3543,9 @@ public:
         ret.size.length=this->size.length*(edk::int64)cube.size.length;
         return ret;
     }
-    cubei64 operator*(edk::int8 n){
+    inline edk::cubei64 operator*(edk::int8 n){
         //
-        cubei64 ret;
+        edk::cubei64 ret;
         ret.origin.x=this->origin.x*(edk::int64)n;
         ret.origin.y=this->origin.y*(edk::int64)n;
         ret.origin.z=this->origin.z*(edk::int64)n;
@@ -3554,9 +3554,9 @@ public:
         ret.size.length=this->size.length*(edk::int64)n;
         return ret;
     }
-    cubei64 operator*(edk::int32 n){
+    inline edk::cubei64 operator*(edk::int32 n){
         //
-        cubei64 ret;
+        edk::cubei64 ret;
         ret.origin.x=this->origin.x*(edk::int64)n;
         ret.origin.y=this->origin.y*(edk::int64)n;
         ret.origin.z=this->origin.z*(edk::int64)n;
@@ -3565,9 +3565,9 @@ public:
         ret.size.length=this->size.length*(edk::int64)n;
         return ret;
     }
-    cubei64 operator*(edk::int16 n){
+    inline edk::cubei64 operator*(edk::int16 n){
         //
-        cubei64 ret;
+        edk::cubei64 ret;
         ret.origin.x=this->origin.x*(edk::int64)n;
         ret.origin.y=this->origin.y*(edk::int64)n;
         ret.origin.z=this->origin.z*(edk::int64)n;
@@ -3576,9 +3576,9 @@ public:
         ret.size.length=this->size.length*(edk::int64)n;
         return ret;
     }
-    cubei64 operator*(edk::int64 n){
+    inline edk::cubei64 operator*(edk::int64 n){
         //
-        cubei64 ret;
+        edk::cubei64 ret;
         ret.origin.x=this->origin.x*(edk::int64)n;
         ret.origin.y=this->origin.y*(edk::int64)n;
         ret.origin.z=this->origin.z*(edk::int64)n;
@@ -3587,9 +3587,9 @@ public:
         ret.size.length=this->size.length*(edk::int64)n;
         return ret;
     }
-    cubei64 operator*(edk::uint8 n){
+    inline edk::cubei64 operator*(edk::uint8 n){
         //
-        cubei64 ret;
+        edk::cubei64 ret;
         ret.origin.x=this->origin.x*(edk::int64)n;
         ret.origin.y=this->origin.y*(edk::int64)n;
         ret.origin.z=this->origin.z*(edk::int64)n;
@@ -3598,9 +3598,9 @@ public:
         ret.size.length=this->size.length*(edk::int64)n;
         return ret;
     }
-    cubei64 operator*(edk::uint32 n){
+    inline edk::cubei64 operator*(edk::uint32 n){
         //
-        cubei64 ret;
+        edk::cubei64 ret;
         ret.origin.x=this->origin.x*(edk::int64)n;
         ret.origin.y=this->origin.y*(edk::int64)n;
         ret.origin.z=this->origin.z*(edk::int64)n;
@@ -3609,9 +3609,9 @@ public:
         ret.size.length=this->size.length*(edk::int64)n;
         return ret;
     }
-    cubei64 operator*(edk::uint16 n){
+    inline edk::cubei64 operator*(edk::uint16 n){
         //
-        cubei64 ret;
+        edk::cubei64 ret;
         ret.origin.x=this->origin.x*(edk::int64)n;
         ret.origin.y=this->origin.y*(edk::int64)n;
         ret.origin.z=this->origin.z*(edk::int64)n;
@@ -3620,9 +3620,9 @@ public:
         ret.size.length=this->size.length*(edk::int64)n;
         return ret;
     }
-    cubei64 operator*(edk::uint64 n){
+    inline edk::cubei64 operator*(edk::uint64 n){
         //
-        cubei64 ret;
+        edk::cubei64 ret;
         ret.origin.x=this->origin.x*(edk::int64)n;
         ret.origin.y=this->origin.y*(edk::int64)n;
         ret.origin.z=this->origin.z*(edk::int64)n;
@@ -3631,7 +3631,7 @@ public:
         ret.size.length=this->size.length*(edk::int64)n;
         return ret;
     }
-    void operator*=(cubei64 cube){
+    inline void operator*=(cubei64 cube){
         //
         this->origin.x*=(edk::int64)cube.origin.x;
         this->origin.y*=(edk::int64)cube.origin.y;
@@ -3640,7 +3640,7 @@ public:
         this->size.height*=(edk::int64)cube.size.height;
         this->size.length*=(edk::int64)cube.size.length;
     }
-    void operator*=(edk::int8 n){
+    inline void operator*=(edk::int8 n){
         //
         this->origin.x*=(edk::int64)n;
         this->origin.y*=(edk::int64)n;
@@ -3649,7 +3649,7 @@ public:
         this->size.height*=(edk::int64)n;
         this->size.length*=(edk::int64)n;
     }
-    void operator*=(edk::int32 n){
+    inline void operator*=(edk::int32 n){
         //
         this->origin.x*=(edk::int64)n;
         this->origin.y*=(edk::int64)n;
@@ -3658,7 +3658,7 @@ public:
         this->size.height*=(edk::int64)n;
         this->size.length*=(edk::int64)n;
     }
-    void operator*=(edk::int16 n){
+    inline void operator*=(edk::int16 n){
         //
         this->origin.x*=(edk::int64)n;
         this->origin.y*=(edk::int64)n;
@@ -3667,7 +3667,7 @@ public:
         this->size.height*=(edk::int64)n;
         this->size.length*=(edk::int64)n;
     }
-    void operator*=(edk::int64 n){
+    inline void operator*=(edk::int64 n){
         //
         this->origin.x*=(edk::int64)n;
         this->origin.y*=(edk::int64)n;
@@ -3676,7 +3676,7 @@ public:
         this->size.height*=(edk::int64)n;
         this->size.length*=(edk::int64)n;
     }
-    void operator*=(edk::uint8 n){
+    inline void operator*=(edk::uint8 n){
         //
         this->origin.x*=(edk::int64)n;
         this->origin.y*=(edk::int64)n;
@@ -3685,7 +3685,7 @@ public:
         this->size.height*=(edk::int64)n;
         this->size.length*=(edk::int64)n;
     }
-    void operator*=(edk::uint32 n){
+    inline void operator*=(edk::uint32 n){
         //
         this->origin.x*=(edk::int64)n;
         this->origin.y*=(edk::int64)n;
@@ -3694,7 +3694,7 @@ public:
         this->size.height*=(edk::int64)n;
         this->size.length*=(edk::int64)n;
     }
-    void operator*=(edk::uint16 n){
+    inline void operator*=(edk::uint16 n){
         //
         this->origin.x*=(edk::int64)n;
         this->origin.y*=(edk::int64)n;
@@ -3703,7 +3703,7 @@ public:
         this->size.height*=(edk::int64)n;
         this->size.length*=(edk::int64)n;
     }
-    void operator*=(edk::uint64 n){
+    inline void operator*=(edk::uint64 n){
         //
         this->origin.x*=(edk::int64)n;
         this->origin.y*=(edk::int64)n;
@@ -3713,7 +3713,7 @@ public:
         this->size.length*=(edk::int64)n;
     }
     //
-    cubei64 operator++(){
+    inline edk::cubei64 operator++(){
         //
         ++this->origin.x;
         ++this->origin.y;
@@ -3721,9 +3721,9 @@ public:
         ++this->size.width;
         ++this->size.height;
         ++this->size.length;
-        return cubei64(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
+        return edk::cubei64(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
     }
-    cubei64 operator++(edk::int32){
+    inline edk::cubei64 operator++(edk::int32){
         //
         this->origin.x++;
         this->origin.y++;
@@ -3731,9 +3731,9 @@ public:
         this->size.width++;
         this->size.height++;
         this->size.length++;
-        return cubei64(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
+        return edk::cubei64(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
     }
-    cubei64 operator--(){
+    inline edk::cubei64 operator--(){
         //
         --this->origin.x;
         --this->origin.y;
@@ -3741,9 +3741,9 @@ public:
         --this->size.width;
         --this->size.height;
         --this->size.length;
-        return cubei64(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
+        return edk::cubei64(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
     }
-    cubei64 operator--(edk::int32){
+    inline edk::cubei64 operator--(edk::int32){
         //
         this->origin.x--;
         this->origin.y--;
@@ -3751,9 +3751,9 @@ public:
         this->size.width--;
         this->size.height--;
         this->size.length--;
-        return cubei64(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
+        return edk::cubei64(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
     }
-    cubei64 operator()(edk::int8 x,edk::int8 y,edk::int8 z,edk::int8 width,edk::int8 height,edk::int8 length){
+    inline edk::cubei64 operator()(edk::int8 x,edk::int8 y,edk::int8 z,edk::int8 width,edk::int8 height,edk::int8 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -3761,9 +3761,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubei64((edk::int64)this->origin.x,(edk::int64)this->origin.y,(edk::int64)this->origin.z,(edk::int64)this->size.width,(edk::int64)this->size.height,(edk::int64)this->size.length);
+        return edk::cubei64((edk::int64)this->origin.x,(edk::int64)this->origin.y,(edk::int64)this->origin.z,(edk::int64)this->size.width,(edk::int64)this->size.height,(edk::int64)this->size.length);
     }
-    cubei64 operator()(edk::int32 x,edk::int32 y,edk::int32 z,edk::int32 width,edk::int32 height,edk::int32 length){
+    inline edk::cubei64 operator()(edk::int32 x,edk::int32 y,edk::int32 z,edk::int32 width,edk::int32 height,edk::int32 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -3771,9 +3771,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubei64((edk::int64)this->origin.x,(edk::int64)this->origin.y,(edk::int64)this->origin.z,(edk::int64)this->size.width,(edk::int64)this->size.height,(edk::int64)this->size.length);
+        return edk::cubei64((edk::int64)this->origin.x,(edk::int64)this->origin.y,(edk::int64)this->origin.z,(edk::int64)this->size.width,(edk::int64)this->size.height,(edk::int64)this->size.length);
     }
-    cubei64 operator()(edk::int16 x,edk::int16 y,edk::int16 z,edk::int16 width,edk::int16 height,edk::int16 length){
+    inline edk::cubei64 operator()(edk::int16 x,edk::int16 y,edk::int16 z,edk::int16 width,edk::int16 height,edk::int16 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -3781,9 +3781,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubei64((edk::int64)this->origin.x,(edk::int64)this->origin.y,(edk::int64)this->origin.z,(edk::int64)this->size.width,(edk::int64)this->size.height,(edk::int64)this->size.length);
+        return edk::cubei64((edk::int64)this->origin.x,(edk::int64)this->origin.y,(edk::int64)this->origin.z,(edk::int64)this->size.width,(edk::int64)this->size.height,(edk::int64)this->size.length);
     }
-    cubei64 operator()(edk::int64 x,edk::int64 y,edk::int64 z,edk::int64 width,edk::int64 height,edk::int64 length){
+    inline edk::cubei64 operator()(edk::int64 x,edk::int64 y,edk::int64 z,edk::int64 width,edk::int64 height,edk::int64 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -3791,9 +3791,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubei64((edk::int64)this->origin.x,(edk::int64)this->origin.y,(edk::int64)this->origin.z,(edk::int64)this->size.width,(edk::int64)this->size.height,(edk::int64)this->size.length);
+        return edk::cubei64((edk::int64)this->origin.x,(edk::int64)this->origin.y,(edk::int64)this->origin.z,(edk::int64)this->size.width,(edk::int64)this->size.height,(edk::int64)this->size.length);
     }
-    cubei64 operator()(edk::uint8 x,edk::uint8 y,edk::uint8 z,edk::uint8 width,edk::uint8 height,edk::uint8 length){
+    inline edk::cubei64 operator()(edk::uint8 x,edk::uint8 y,edk::uint8 z,edk::uint8 width,edk::uint8 height,edk::uint8 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -3801,9 +3801,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubei64((edk::int64)this->origin.x,(edk::int64)this->origin.y,(edk::int64)this->origin.z,(edk::int64)this->size.width,(edk::int64)this->size.height,(edk::int64)this->size.length);
+        return edk::cubei64((edk::int64)this->origin.x,(edk::int64)this->origin.y,(edk::int64)this->origin.z,(edk::int64)this->size.width,(edk::int64)this->size.height,(edk::int64)this->size.length);
     }
-    cubei64 operator()(edk::uint32 x,edk::uint32 y,edk::uint32 z,edk::uint32 width,edk::uint32 height,edk::uint32 length){
+    inline edk::cubei64 operator()(edk::uint32 x,edk::uint32 y,edk::uint32 z,edk::uint32 width,edk::uint32 height,edk::uint32 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -3811,9 +3811,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubei64((edk::int64)this->origin.x,(edk::int64)this->origin.y,(edk::int64)this->origin.z,(edk::int64)this->size.width,(edk::int64)this->size.height,(edk::int64)this->size.length);
+        return edk::cubei64((edk::int64)this->origin.x,(edk::int64)this->origin.y,(edk::int64)this->origin.z,(edk::int64)this->size.width,(edk::int64)this->size.height,(edk::int64)this->size.length);
     }
-    cubei64 operator()(edk::uint16 x,edk::uint16 y,edk::uint16 z,edk::uint16 width,edk::uint16 height,edk::uint16 length){
+    inline edk::cubei64 operator()(edk::uint16 x,edk::uint16 y,edk::uint16 z,edk::uint16 width,edk::uint16 height,edk::uint16 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -3821,9 +3821,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubei64((edk::int64)this->origin.x,(edk::int64)this->origin.y,(edk::int64)this->origin.z,(edk::int64)this->size.width,(edk::int64)this->size.height,(edk::int64)this->size.length);
+        return edk::cubei64((edk::int64)this->origin.x,(edk::int64)this->origin.y,(edk::int64)this->origin.z,(edk::int64)this->size.width,(edk::int64)this->size.height,(edk::int64)this->size.length);
     }
-    cubei64 operator()(edk::uint64 x,edk::uint64 y,edk::uint64 z,edk::uint64 width,edk::uint64 height,edk::uint64 length){
+    inline edk::cubei64 operator()(edk::uint64 x,edk::uint64 y,edk::uint64 z,edk::uint64 width,edk::uint64 height,edk::uint64 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -3831,10 +3831,10 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubei64((edk::int64)this->origin.x,(edk::int64)this->origin.y,(edk::int64)this->origin.z,(edk::int64)this->size.width,(edk::int64)this->size.height,(edk::int64)this->size.length);
+        return edk::cubei64((edk::int64)this->origin.x,(edk::int64)this->origin.y,(edk::int64)this->origin.z,(edk::int64)this->size.width,(edk::int64)this->size.height,(edk::int64)this->size.length);
     }
     //function to merge the cube with another cube
-    void merge(edk::cubei8 rect){
+    inline void merge(edk::cubei8 rect){
         if(this->origin.x > (edk::int64)rect.origin.x)this->origin.x = (edk::int64)rect.origin.x;
         if(this->origin.y > (edk::int64)rect.origin.y)this->origin.y = (edk::int64)rect.origin.y;
         if(this->origin.z > (edk::int64)rect.origin.z)this->origin.z = (edk::int64)rect.origin.z;
@@ -3842,7 +3842,7 @@ public:
         if(this->size.height < (edk::int64)rect.size.height)this->size.height = (edk::int64)rect.size.height;
         if(this->size.length < (edk::int64)rect.size.length)this->size.length = (edk::int64)rect.size.length;
     }
-    void merge(edk::cubei16 rect){
+    inline void merge(edk::cubei16 rect){
         if(this->origin.x > (edk::int64)rect.origin.x)this->origin.x = (edk::int64)rect.origin.x;
         if(this->origin.y > (edk::int64)rect.origin.y)this->origin.y = (edk::int64)rect.origin.y;
         if(this->origin.z > (edk::int64)rect.origin.z)this->origin.z = (edk::int64)rect.origin.z;
@@ -3850,7 +3850,7 @@ public:
         if(this->size.height < (edk::int64)rect.size.height)this->size.height = (edk::int64)rect.size.height;
         if(this->size.length < (edk::int64)rect.size.length)this->size.length = (edk::int64)rect.size.length;
     }
-    void merge(edk::cubei32 rect){
+    inline void merge(edk::cubei32 rect){
         if(this->origin.x > (edk::int64)rect.origin.x)this->origin.x = (edk::int64)rect.origin.x;
         if(this->origin.y > (edk::int64)rect.origin.y)this->origin.y = (edk::int64)rect.origin.y;
         if(this->origin.z > (edk::int64)rect.origin.z)this->origin.z = (edk::int64)rect.origin.z;
@@ -3858,7 +3858,7 @@ public:
         if(this->size.height < (edk::int64)rect.size.height)this->size.height = (edk::int64)rect.size.height;
         if(this->size.length < (edk::int64)rect.size.length)this->size.length = (edk::int64)rect.size.length;
     }
-    void merge(edk::cubei64 rect){
+    inline void merge(edk::cubei64 rect){
         if(this->origin.x > rect.origin.x)this->origin.x = rect.origin.x;
         if(this->origin.y > rect.origin.y)this->origin.y = rect.origin.y;
         if(this->origin.z > rect.origin.z)this->origin.z = rect.origin.z;
@@ -3958,7 +3958,7 @@ public:
     }
 
     //operators
-    cubeui8 operator=(cubeui8 cube){
+    inline edk::cubeui8 operator=(cubeui8 cube){
         //
         this->origin.x=(edk::uint8)cube.origin.x;
         this->origin.y=(edk::uint8)cube.origin.y;
@@ -3968,7 +3968,7 @@ public:
         this->size.length=(edk::uint8)cube.size.length;
         return *this;
     }
-    cubeui8 operator=(edk::uint8 n){
+    inline edk::cubeui8 operator=(edk::uint8 n){
         //
         this->origin.x=(edk::uint8)n;
         this->origin.y=(edk::uint8)n;
@@ -3978,7 +3978,7 @@ public:
         this->size.length=(edk::uint8)n;
         return *this;
     }
-    cubeui8 operator=(edk::uint32 n){
+    inline edk::cubeui8 operator=(edk::uint32 n){
         //
         this->origin.x=(edk::uint8)n;
         this->origin.y=(edk::uint8)n;
@@ -3988,7 +3988,7 @@ public:
         this->size.length=(edk::uint8)n;
         return *this;
     }
-    cubeui8 operator=(edk::uint16 n){
+    inline edk::cubeui8 operator=(edk::uint16 n){
         //
         this->origin.x=(edk::uint8)n;
         this->origin.y=(edk::uint8)n;
@@ -3998,7 +3998,7 @@ public:
         this->size.length=(edk::uint8)n;
         return *this;
     }
-    cubeui8 operator=(edk::uint64 n){
+    inline edk::cubeui8 operator=(edk::uint64 n){
         //
         this->origin.x=(edk::uint8)n;
         this->origin.y=(edk::uint8)n;
@@ -4009,7 +4009,7 @@ public:
         return *this;
     }
 
-    bool operator==(cubeui8 cube){
+    inline bool operator==(cubeui8 cube){
         //
         return (this->origin.x==(edk::uint8)cube.origin.x
                 &&this->origin.y==(edk::uint8)cube.origin.y
@@ -4019,7 +4019,7 @@ public:
                 &&this->size.length==(edk::uint8)cube.size.length
                 );
     }
-    bool operator!=(cubeui8 cube){
+    inline bool operator!=(cubeui8 cube){
         //
         return (this->origin.x!=(edk::uint8)cube.origin.x
                 ||this->origin.y!=(edk::uint8)cube.origin.y
@@ -4029,9 +4029,9 @@ public:
                 ||this->size.length!=(edk::uint8)cube.size.length
                 );
     }
-    cubeui8 operator+(cubeui8 cube){
+    inline edk::cubeui8 operator+(cubeui8 cube){
         //
-        cubeui8 ret;
+        edk::cubeui8 ret;
         ret.origin.x=this->origin.x+(edk::uint8)cube.origin.x;
         ret.origin.y=this->origin.y+(edk::uint8)cube.origin.y;
         ret.origin.z=this->origin.z+(edk::uint8)cube.origin.z;
@@ -4040,9 +4040,9 @@ public:
         ret.size.length=this->size.length+(edk::uint8)cube.size.length;
         return ret;
     }
-    cubeui8 operator+(edk::uint8 n){
+    inline edk::cubeui8 operator+(edk::uint8 n){
         //
-        cubeui8 ret;
+        edk::cubeui8 ret;
         ret.origin.x=this->origin.x+(edk::uint8)n;
         ret.origin.y=this->origin.y+(edk::uint8)n;
         ret.origin.z=this->origin.z+(edk::uint8)n;
@@ -4051,9 +4051,9 @@ public:
         ret.size.length=this->size.length+(edk::uint8)n;
         return ret;
     }
-    cubeui8 operator+(edk::uint32 n){
+    inline edk::cubeui8 operator+(edk::uint32 n){
         //
-        cubeui8 ret;
+        edk::cubeui8 ret;
         ret.origin.x=this->origin.x+(edk::uint8)n;
         ret.origin.y=this->origin.y+(edk::uint8)n;
         ret.origin.z=this->origin.z+(edk::uint8)n;
@@ -4062,9 +4062,9 @@ public:
         ret.size.length=this->size.length+(edk::uint8)n;
         return ret;
     }
-    cubeui8 operator+(edk::uint16 n){
+    inline edk::cubeui8 operator+(edk::uint16 n){
         //
-        cubeui8 ret;
+        edk::cubeui8 ret;
         ret.origin.x=this->origin.x+(edk::uint8)n;
         ret.origin.y=this->origin.y+(edk::uint8)n;
         ret.origin.z=this->origin.z+(edk::uint8)n;
@@ -4073,9 +4073,9 @@ public:
         ret.size.length=this->size.length+(edk::uint8)n;
         return ret;
     }
-    cubeui8 operator+(edk::uint64 n){
+    inline edk::cubeui8 operator+(edk::uint64 n){
         //
-        cubeui8 ret;
+        edk::cubeui8 ret;
         ret.origin.x=this->origin.x+(edk::uint8)n;
         ret.origin.y=this->origin.y+(edk::uint8)n;
         ret.origin.z=this->origin.z+(edk::uint8)n;
@@ -4084,7 +4084,7 @@ public:
         ret.size.length=this->size.length+(edk::uint8)n;
         return ret;
     }
-    void operator+=(cubeui8 cube){
+    inline void operator+=(cubeui8 cube){
         //
         this->origin.x+=(edk::uint8)cube.origin.x;
         this->origin.y+=(edk::uint8)cube.origin.y;
@@ -4093,7 +4093,7 @@ public:
         this->size.height+=(edk::uint8)cube.size.height;
         this->size.length+=(edk::uint8)cube.size.length;
     }
-    void operator+=(edk::uint8 n){
+    inline void operator+=(edk::uint8 n){
         //
         this->origin.x+=(edk::uint8)n;
         this->origin.y+=(edk::uint8)n;
@@ -4102,7 +4102,7 @@ public:
         this->size.height+=(edk::uint8)n;
         this->size.length+=(edk::uint8)n;
     }
-    void operator+=(edk::uint32 n){
+    inline void operator+=(edk::uint32 n){
         //
         this->origin.x+=(edk::uint8)n;
         this->origin.y+=(edk::uint8)n;
@@ -4111,7 +4111,7 @@ public:
         this->size.height+=(edk::uint8)n;
         this->size.length+=(edk::uint8)n;
     }
-    void operator+=(edk::uint16 n){
+    inline void operator+=(edk::uint16 n){
         //
         this->origin.x+=(edk::uint8)n;
         this->origin.y+=(edk::uint8)n;
@@ -4120,7 +4120,7 @@ public:
         this->size.height+=(edk::uint8)n;
         this->size.length+=(edk::uint8)n;
     }
-    void operator+=(edk::uint64 n){
+    inline void operator+=(edk::uint64 n){
         //
         this->origin.x+=(edk::uint8)n;
         this->origin.y+=(edk::uint8)n;
@@ -4129,9 +4129,9 @@ public:
         this->size.height+=(edk::uint8)n;
         this->size.length+=(edk::uint8)n;
     }
-    cubeui8 operator-(cubeui8 cube){
+    inline edk::cubeui8 operator-(cubeui8 cube){
         //
-        cubeui8 ret;
+        edk::cubeui8 ret;
         ret.origin.x=this->origin.x-(edk::uint8)cube.origin.x;
         ret.origin.y=this->origin.y-(edk::uint8)cube.origin.y;
         ret.origin.z=this->origin.z-(edk::uint8)cube.origin.z;
@@ -4140,9 +4140,9 @@ public:
         ret.size.length=this->size.length-(edk::uint8)cube.size.length;
         return ret;
     }
-    cubeui8 operator-(edk::uint8 n){
+    inline edk::cubeui8 operator-(edk::uint8 n){
         //
-        cubeui8 ret;
+        edk::cubeui8 ret;
         ret.origin.x=this->origin.x-(edk::uint8)n;
         ret.origin.y=this->origin.y-(edk::uint8)n;
         ret.origin.z=this->origin.z-(edk::uint8)n;
@@ -4151,9 +4151,9 @@ public:
         ret.size.length=this->size.length-(edk::uint8)n;
         return ret;
     }
-    cubeui8 operator-(edk::uint32 n){
+    inline edk::cubeui8 operator-(edk::uint32 n){
         //
-        cubeui8 ret;
+        edk::cubeui8 ret;
         ret.origin.x=this->origin.x-(edk::uint8)n;
         ret.origin.y=this->origin.y-(edk::uint8)n;
         ret.origin.z=this->origin.z-(edk::uint8)n;
@@ -4162,9 +4162,9 @@ public:
         ret.size.length=this->size.length-(edk::uint8)n;
         return ret;
     }
-    cubeui8 operator-(edk::uint16 n){
+    inline edk::cubeui8 operator-(edk::uint16 n){
         //
-        cubeui8 ret;
+        edk::cubeui8 ret;
         ret.origin.x=this->origin.x-(edk::uint8)n;
         ret.origin.y=this->origin.y-(edk::uint8)n;
         ret.origin.z=this->origin.z-(edk::uint8)n;
@@ -4173,9 +4173,9 @@ public:
         ret.size.length=this->size.length-(edk::uint8)n;
         return ret;
     }
-    cubeui8 operator-(edk::uint64 n){
+    inline edk::cubeui8 operator-(edk::uint64 n){
         //
-        cubeui8 ret;
+        edk::cubeui8 ret;
         ret.origin.x=this->origin.x-(edk::uint8)n;
         ret.origin.y=this->origin.y-(edk::uint8)n;
         ret.origin.z=this->origin.z-(edk::uint8)n;
@@ -4184,7 +4184,7 @@ public:
         ret.size.length=this->size.length-(edk::uint8)n;
         return ret;
     }
-    void operator-=(cubeui8 vec){
+    inline void operator-=(cubeui8 vec){
         //
         this->origin.x-=(edk::uint8)vec.origin.x;
         this->origin.y-=(edk::uint8)vec.origin.y;
@@ -4193,7 +4193,7 @@ public:
         this->size.height-=(edk::uint8)vec.size.height;
         this->size.length-=(edk::uint8)vec.size.length;
     }
-    void operator-=(edk::uint8 n){
+    inline void operator-=(edk::uint8 n){
         //
         this->origin.x-=(edk::uint8)n;
         this->origin.y-=(edk::uint8)n;
@@ -4202,7 +4202,7 @@ public:
         this->size.height-=(edk::uint8)n;
         this->size.length-=(edk::uint8)n;
     }
-    void operator-=(edk::uint32 n){
+    inline void operator-=(edk::uint32 n){
         //
         this->origin.x-=(edk::uint8)n;
         this->origin.y-=(edk::uint8)n;
@@ -4211,7 +4211,7 @@ public:
         this->size.height-=(edk::uint8)n;
         this->size.length-=(edk::uint8)n;
     }
-    void operator-=(edk::uint16 n){
+    inline void operator-=(edk::uint16 n){
         //
         this->origin.x-=(edk::uint8)n;
         this->origin.y-=(edk::uint8)n;
@@ -4220,7 +4220,7 @@ public:
         this->size.height-=(edk::uint8)n;
         this->size.length-=(edk::uint8)n;
     }
-    void operator-=(edk::uint64 n){
+    inline void operator-=(edk::uint64 n){
         //
         this->origin.x-=(edk::uint8)n;
         this->origin.y-=(edk::uint8)n;
@@ -4229,9 +4229,9 @@ public:
         this->size.height-=(edk::uint8)n;
         this->size.length-=(edk::uint8)n;
     }
-    cubeui8 operator*(cubeui8 cube){
+    inline edk::cubeui8 operator*(cubeui8 cube){
         //
-        cubeui8 ret;
+        edk::cubeui8 ret;
         ret.origin.x=this->origin.x*(edk::uint8)cube.origin.x;
         ret.origin.y=this->origin.y*(edk::uint8)cube.origin.y;
         ret.origin.z=this->origin.z*(edk::uint8)cube.origin.z;
@@ -4240,9 +4240,9 @@ public:
         ret.size.length=this->size.length*(edk::uint8)cube.size.length;
         return ret;
     }
-    cubeui8 operator*(edk::uint8 n){
+    inline edk::cubeui8 operator*(edk::uint8 n){
         //
-        cubeui8 ret;
+        edk::cubeui8 ret;
         ret.origin.x=this->origin.x*(edk::uint8)n;
         ret.origin.y=this->origin.y*(edk::uint8)n;
         ret.origin.z=this->origin.z*(edk::uint8)n;
@@ -4251,9 +4251,9 @@ public:
         ret.size.length=this->size.length*(edk::uint8)n;
         return ret;
     }
-    cubeui8 operator*(edk::uint32 n){
+    inline edk::cubeui8 operator*(edk::uint32 n){
         //
-        cubeui8 ret;
+        edk::cubeui8 ret;
         ret.origin.x=this->origin.x*(edk::uint8)n;
         ret.origin.y=this->origin.y*(edk::uint8)n;
         ret.origin.z=this->origin.z*(edk::uint8)n;
@@ -4262,9 +4262,9 @@ public:
         ret.size.length=this->size.length*(edk::uint8)n;
         return ret;
     }
-    cubeui8 operator*(edk::uint16 n){
+    inline edk::cubeui8 operator*(edk::uint16 n){
         //
-        cubeui8 ret;
+        edk::cubeui8 ret;
         ret.origin.x=this->origin.x*(edk::uint8)n;
         ret.origin.y=this->origin.y*(edk::uint8)n;
         ret.origin.z=this->origin.z*(edk::uint8)n;
@@ -4273,9 +4273,9 @@ public:
         ret.size.length=this->size.length*(edk::uint8)n;
         return ret;
     }
-    cubeui8 operator*(edk::uint64 n){
+    inline edk::cubeui8 operator*(edk::uint64 n){
         //
-        cubeui8 ret;
+        edk::cubeui8 ret;
         ret.origin.x=this->origin.x*(edk::uint8)n;
         ret.origin.y=this->origin.y*(edk::uint8)n;
         ret.origin.z=this->origin.z*(edk::uint8)n;
@@ -4284,7 +4284,7 @@ public:
         ret.size.length=this->size.length*(edk::uint8)n;
         return ret;
     }
-    void operator*=(cubeui8 cube){
+    inline void operator*=(cubeui8 cube){
         //
         this->origin.x*=(edk::uint8)cube.origin.x;
         this->origin.y*=(edk::uint8)cube.origin.y;
@@ -4293,7 +4293,7 @@ public:
         this->size.height*=(edk::uint8)cube.size.height;
         this->size.length*=(edk::uint8)cube.size.length;
     }
-    void operator*=(edk::uint8 n){
+    inline void operator*=(edk::uint8 n){
         //
         this->origin.x*=(edk::uint8)n;
         this->origin.y*=(edk::uint8)n;
@@ -4302,7 +4302,7 @@ public:
         this->size.height*=(edk::uint8)n;
         this->size.length*=(edk::uint8)n;
     }
-    void operator*=(edk::uint32 n){
+    inline void operator*=(edk::uint32 n){
         //
         this->origin.x*=(edk::uint8)n;
         this->origin.y*=(edk::uint8)n;
@@ -4311,7 +4311,7 @@ public:
         this->size.height*=(edk::uint8)n;
         this->size.length*=(edk::uint8)n;
     }
-    void operator*=(edk::uint16 n){
+    inline void operator*=(edk::uint16 n){
         //
         this->origin.x*=(edk::uint8)n;
         this->origin.y*=(edk::uint8)n;
@@ -4320,7 +4320,7 @@ public:
         this->size.height*=(edk::uint8)n;
         this->size.length*=(edk::uint8)n;
     }
-    void operator*=(edk::uint64 n){
+    inline void operator*=(edk::uint64 n){
         //
         this->origin.x*=(edk::uint8)n;
         this->origin.y*=(edk::uint8)n;
@@ -4330,7 +4330,7 @@ public:
         this->size.length*=(edk::uint8)n;
     }
     //
-    cubeui8 operator++(){
+    inline edk::cubeui8 operator++(){
         //
         ++this->origin.x;
         ++this->origin.y;
@@ -4338,9 +4338,9 @@ public:
         ++this->size.width;
         ++this->size.height;
         ++this->size.length;
-        return cubeui8(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
+        return edk::cubeui8(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
     }
-    cubeui8 operator++(edk::int32){
+    inline edk::cubeui8 operator++(edk::int32){
         //
         this->origin.x++;
         this->origin.y++;
@@ -4348,9 +4348,9 @@ public:
         this->size.width++;
         this->size.height++;
         this->size.length++;
-        return cubeui8(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
+        return edk::cubeui8(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
     }
-    cubeui8 operator--(){
+    inline edk::cubeui8 operator--(){
         //
         --this->origin.x;
         --this->origin.y;
@@ -4358,9 +4358,9 @@ public:
         --this->size.width;
         --this->size.height;
         --this->size.length;
-        return cubeui8(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
+        return edk::cubeui8(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
     }
-    cubeui8 operator--(edk::int32){
+    inline edk::cubeui8 operator--(edk::int32){
         //
         this->origin.x--;
         this->origin.y--;
@@ -4368,9 +4368,9 @@ public:
         this->size.width--;
         this->size.height--;
         this->size.length--;
-        return cubeui8(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
+        return edk::cubeui8(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
     }
-    cubeui8 operator()(edk::uint8 x,edk::uint8 y,edk::uint8 z,edk::uint8 width,edk::uint8 height,edk::uint8 length){
+    inline edk::cubeui8 operator()(edk::uint8 x,edk::uint8 y,edk::uint8 z,edk::uint8 width,edk::uint8 height,edk::uint8 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -4378,9 +4378,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubeui8((edk::uint8)this->origin.x,(edk::uint8)this->origin.y,(edk::uint8)this->origin.z,(edk::uint8)this->size.width,(edk::uint8)this->size.height,(edk::uint8)this->size.length);
+        return edk::cubeui8((edk::uint8)this->origin.x,(edk::uint8)this->origin.y,(edk::uint8)this->origin.z,(edk::uint8)this->size.width,(edk::uint8)this->size.height,(edk::uint8)this->size.length);
     }
-    cubeui8 operator()(edk::uint32 x,edk::uint32 y,edk::uint32 z,edk::uint32 width,edk::uint32 height,edk::uint32 length){
+    inline edk::cubeui8 operator()(edk::uint32 x,edk::uint32 y,edk::uint32 z,edk::uint32 width,edk::uint32 height,edk::uint32 length){
         //
         this->origin.x=(edk::uint8)x;
         this->origin.y=(edk::uint8)y;
@@ -4388,9 +4388,9 @@ public:
         this->size.width=(edk::uint8)width;
         this->size.height=(edk::uint8)height;
         this->size.length=(edk::uint8)length;
-        return cubeui8((edk::uint8)this->origin.x,(edk::uint8)this->origin.y,(edk::uint8)this->origin.z,(edk::uint8)this->size.width,(edk::uint8)this->size.height,(edk::uint8)this->size.length);
+        return edk::cubeui8((edk::uint8)this->origin.x,(edk::uint8)this->origin.y,(edk::uint8)this->origin.z,(edk::uint8)this->size.width,(edk::uint8)this->size.height,(edk::uint8)this->size.length);
     }
-    cubeui8 operator()(edk::uint16 x,edk::uint16 y,edk::uint16 z,edk::uint16 width,edk::uint16 height,edk::uint16 length){
+    inline edk::cubeui8 operator()(edk::uint16 x,edk::uint16 y,edk::uint16 z,edk::uint16 width,edk::uint16 height,edk::uint16 length){
         //
         this->origin.x=(edk::uint8)x;
         this->origin.y=(edk::uint8)y;
@@ -4398,9 +4398,9 @@ public:
         this->size.width=(edk::uint8)width;
         this->size.height=(edk::uint8)height;
         this->size.length=(edk::uint8)length;
-        return cubeui8((edk::uint8)this->origin.x,(edk::uint8)this->origin.y,(edk::uint8)this->origin.z,(edk::uint8)this->size.width,(edk::uint8)this->size.height,(edk::uint8)this->size.length);
+        return edk::cubeui8((edk::uint8)this->origin.x,(edk::uint8)this->origin.y,(edk::uint8)this->origin.z,(edk::uint8)this->size.width,(edk::uint8)this->size.height,(edk::uint8)this->size.length);
     }
-    cubeui8 operator()(edk::uint64 x,edk::uint64 y,edk::uint64 z,edk::uint64 width,edk::uint64 height,edk::uint64 length){
+    inline edk::cubeui8 operator()(edk::uint64 x,edk::uint64 y,edk::uint64 z,edk::uint64 width,edk::uint64 height,edk::uint64 length){
         //
         this->origin.x=(edk::uint8)x;
         this->origin.y=(edk::uint8)y;
@@ -4408,10 +4408,10 @@ public:
         this->size.width=(edk::uint8)width;
         this->size.height=(edk::uint8)height;
         this->size.length=(edk::uint8)length;
-        return cubeui8((edk::uint8)this->origin.x,(edk::uint8)this->origin.y,(edk::uint8)this->origin.z,(edk::uint8)this->size.width,(edk::uint8)this->size.height,(edk::uint8)this->size.length);
+        return edk::cubeui8((edk::uint8)this->origin.x,(edk::uint8)this->origin.y,(edk::uint8)this->origin.z,(edk::uint8)this->size.width,(edk::uint8)this->size.height,(edk::uint8)this->size.length);
     }
     //function to merge the cube with another cube
-    void merge(edk::cubeui8 rect){
+    inline void merge(edk::cubeui8 rect){
         if(this->origin.x > rect.origin.x)this->origin.x = rect.origin.x;
         if(this->origin.y > rect.origin.y)this->origin.y = rect.origin.y;
         if(this->origin.z > rect.origin.z)this->origin.z = rect.origin.z;
@@ -4511,7 +4511,7 @@ public:
     }
 
     //operators
-    cubeui16 operator=(cubeui16 cube){
+    inline edk::cubeui16 operator=(cubeui16 cube){
         //
         this->origin.x=(edk::uint16)cube.origin.x;
         this->origin.y=(edk::uint16)cube.origin.y;
@@ -4521,7 +4521,7 @@ public:
         this->size.length=(edk::uint16)cube.size.length;
         return *this;
     }
-    cubeui16 operator=(edk::uint8 n){
+    inline edk::cubeui16 operator=(edk::uint8 n){
         //
         this->origin.x=(edk::uint16)n;
         this->origin.y=(edk::uint16)n;
@@ -4531,7 +4531,7 @@ public:
         this->size.length=(edk::uint16)n;
         return *this;
     }
-    cubeui16 operator=(edk::uint32 n){
+    inline edk::cubeui16 operator=(edk::uint32 n){
         //
         this->origin.x=(edk::uint16)n;
         this->origin.y=(edk::uint16)n;
@@ -4541,7 +4541,7 @@ public:
         this->size.length=(edk::uint16)n;
         return *this;
     }
-    cubeui16 operator=(edk::uint16 n){
+    inline edk::cubeui16 operator=(edk::uint16 n){
         //
         this->origin.x=(edk::uint16)n;
         this->origin.y=(edk::uint16)n;
@@ -4551,7 +4551,7 @@ public:
         this->size.length=(edk::uint16)n;
         return *this;
     }
-    cubeui16 operator=(edk::uint64 n){
+    inline edk::cubeui16 operator=(edk::uint64 n){
         //
         this->origin.x=(edk::uint16)n;
         this->origin.y=(edk::uint16)n;
@@ -4562,7 +4562,7 @@ public:
         return *this;
     }
 
-    bool operator==(cubeui16 cube){
+    inline bool operator==(cubeui16 cube){
         //
         return (this->origin.x==(edk::uint16)cube.origin.x
                 &&this->origin.y==(edk::uint16)cube.origin.y
@@ -4572,7 +4572,7 @@ public:
                 &&this->size.length==(edk::uint16)cube.size.length
                 );
     }
-    bool operator!=(cubeui16 cube){
+    inline bool operator!=(cubeui16 cube){
         //
         return (this->origin.x!=(edk::uint16)cube.origin.x
                 ||this->origin.y!=(edk::uint16)cube.origin.y
@@ -4582,9 +4582,9 @@ public:
                 ||this->size.length!=(edk::uint16)cube.size.length
                 );
     }
-    cubeui16 operator+(cubeui16 cube){
+    inline edk::cubeui16 operator+(cubeui16 cube){
         //
-        cubeui16 ret;
+        edk::cubeui16 ret;
         ret.origin.x=this->origin.x+(edk::uint16)cube.origin.x;
         ret.origin.y=this->origin.y+(edk::uint16)cube.origin.y;
         ret.origin.z=this->origin.z+(edk::uint16)cube.origin.z;
@@ -4593,9 +4593,9 @@ public:
         ret.size.length=this->size.length+(edk::uint16)cube.size.length;
         return ret;
     }
-    cubeui16 operator+(edk::uint8 n){
+    inline edk::cubeui16 operator+(edk::uint8 n){
         //
-        cubeui16 ret;
+        edk::cubeui16 ret;
         ret.origin.x=this->origin.x+(edk::uint16)n;
         ret.origin.y=this->origin.y+(edk::uint16)n;
         ret.origin.z=this->origin.z+(edk::uint16)n;
@@ -4604,9 +4604,9 @@ public:
         ret.size.length=this->size.length+(edk::uint16)n;
         return ret;
     }
-    cubeui16 operator+(edk::uint32 n){
+    inline edk::cubeui16 operator+(edk::uint32 n){
         //
-        cubeui16 ret;
+        edk::cubeui16 ret;
         ret.origin.x=this->origin.x+(edk::uint16)n;
         ret.origin.y=this->origin.y+(edk::uint16)n;
         ret.origin.z=this->origin.z+(edk::uint16)n;
@@ -4615,9 +4615,9 @@ public:
         ret.size.length=this->size.length+(edk::uint16)n;
         return ret;
     }
-    cubeui16 operator+(edk::uint16 n){
+    inline edk::cubeui16 operator+(edk::uint16 n){
         //
-        cubeui16 ret;
+        edk::cubeui16 ret;
         ret.origin.x=this->origin.x+(edk::uint16)n;
         ret.origin.y=this->origin.y+(edk::uint16)n;
         ret.origin.z=this->origin.z+(edk::uint16)n;
@@ -4626,9 +4626,9 @@ public:
         ret.size.length=this->size.length+(edk::uint16)n;
         return ret;
     }
-    cubeui16 operator+(edk::uint64 n){
+    inline edk::cubeui16 operator+(edk::uint64 n){
         //
-        cubeui16 ret;
+        edk::cubeui16 ret;
         ret.origin.x=this->origin.x+(edk::uint16)n;
         ret.origin.y=this->origin.y+(edk::uint16)n;
         ret.origin.z=this->origin.z+(edk::uint16)n;
@@ -4637,7 +4637,7 @@ public:
         ret.size.length=this->size.length+(edk::uint16)n;
         return ret;
     }
-    void operator+=(cubeui16 cube){
+    inline void operator+=(cubeui16 cube){
         //
         this->origin.x+=(edk::uint16)cube.origin.x;
         this->origin.y+=(edk::uint16)cube.origin.y;
@@ -4646,7 +4646,7 @@ public:
         this->size.height+=(edk::uint16)cube.size.height;
         this->size.length+=(edk::uint16)cube.size.length;
     }
-    void operator+=(edk::uint8 n){
+    inline void operator+=(edk::uint8 n){
         //
         this->origin.x+=(edk::uint16)n;
         this->origin.y+=(edk::uint16)n;
@@ -4655,7 +4655,7 @@ public:
         this->size.height+=(edk::uint16)n;
         this->size.length+=(edk::uint16)n;
     }
-    void operator+=(edk::uint32 n){
+    inline void operator+=(edk::uint32 n){
         //
         this->origin.x+=(edk::uint16)n;
         this->origin.y+=(edk::uint16)n;
@@ -4664,7 +4664,7 @@ public:
         this->size.height+=(edk::uint16)n;
         this->size.length+=(edk::uint16)n;
     }
-    void operator+=(edk::uint16 n){
+    inline void operator+=(edk::uint16 n){
         //
         this->origin.x+=(edk::uint16)n;
         this->origin.y+=(edk::uint16)n;
@@ -4673,7 +4673,7 @@ public:
         this->size.height+=(edk::uint16)n;
         this->size.length+=(edk::uint16)n;
     }
-    void operator+=(edk::uint64 n){
+    inline void operator+=(edk::uint64 n){
         //
         this->origin.x+=(edk::uint16)n;
         this->origin.y+=(edk::uint16)n;
@@ -4682,9 +4682,9 @@ public:
         this->size.height+=(edk::uint16)n;
         this->size.length+=(edk::uint16)n;
     }
-    cubeui16 operator-(cubeui16 cube){
+    inline edk::cubeui16 operator-(cubeui16 cube){
         //
-        cubeui16 ret;
+        edk::cubeui16 ret;
         ret.origin.x=this->origin.x-(edk::uint16)cube.origin.x;
         ret.origin.y=this->origin.y-(edk::uint16)cube.origin.y;
         ret.origin.z=this->origin.z-(edk::uint16)cube.origin.z;
@@ -4693,9 +4693,9 @@ public:
         ret.size.length=this->size.length-(edk::uint16)cube.size.length;
         return ret;
     }
-    cubeui16 operator-(edk::uint8 n){
+    inline edk::cubeui16 operator-(edk::uint8 n){
         //
-        cubeui16 ret;
+        edk::cubeui16 ret;
         ret.origin.x=this->origin.x-(edk::uint16)n;
         ret.origin.y=this->origin.y-(edk::uint16)n;
         ret.origin.z=this->origin.z-(edk::uint16)n;
@@ -4704,9 +4704,9 @@ public:
         ret.size.length=this->size.length-(edk::uint16)n;
         return ret;
     }
-    cubeui16 operator-(edk::uint32 n){
+    inline edk::cubeui16 operator-(edk::uint32 n){
         //
-        cubeui16 ret;
+        edk::cubeui16 ret;
         ret.origin.x=this->origin.x-(edk::uint16)n;
         ret.origin.y=this->origin.y-(edk::uint16)n;
         ret.origin.z=this->origin.z-(edk::uint16)n;
@@ -4715,9 +4715,9 @@ public:
         ret.size.length=this->size.length-(edk::uint16)n;
         return ret;
     }
-    cubeui16 operator-(edk::uint16 n){
+    inline edk::cubeui16 operator-(edk::uint16 n){
         //
-        cubeui16 ret;
+        edk::cubeui16 ret;
         ret.origin.x=this->origin.x-(edk::uint16)n;
         ret.origin.y=this->origin.y-(edk::uint16)n;
         ret.origin.z=this->origin.z-(edk::uint16)n;
@@ -4726,9 +4726,9 @@ public:
         ret.size.length=this->size.length-(edk::uint16)n;
         return ret;
     }
-    cubeui16 operator-(edk::uint64 n){
+    inline edk::cubeui16 operator-(edk::uint64 n){
         //
-        cubeui16 ret;
+        edk::cubeui16 ret;
         ret.origin.x=this->origin.x-(edk::uint16)n;
         ret.origin.y=this->origin.y-(edk::uint16)n;
         ret.origin.z=this->origin.z-(edk::uint16)n;
@@ -4737,7 +4737,7 @@ public:
         ret.size.length=this->size.length-(edk::uint16)n;
         return ret;
     }
-    void operator-=(cubeui16 vec){
+    inline void operator-=(cubeui16 vec){
         //
         this->origin.x-=(edk::uint16)vec.origin.x;
         this->origin.y-=(edk::uint16)vec.origin.y;
@@ -4746,7 +4746,7 @@ public:
         this->size.height-=(edk::uint16)vec.size.height;
         this->size.length-=(edk::uint16)vec.size.length;
     }
-    void operator-=(edk::uint8 n){
+    inline void operator-=(edk::uint8 n){
         //
         this->origin.x-=(edk::uint16)n;
         this->origin.y-=(edk::uint16)n;
@@ -4755,7 +4755,7 @@ public:
         this->size.height-=(edk::uint16)n;
         this->size.length-=(edk::uint16)n;
     }
-    void operator-=(edk::uint32 n){
+    inline void operator-=(edk::uint32 n){
         //
         this->origin.x-=(edk::uint16)n;
         this->origin.y-=(edk::uint16)n;
@@ -4764,7 +4764,7 @@ public:
         this->size.height-=(edk::uint16)n;
         this->size.length-=(edk::uint16)n;
     }
-    void operator-=(edk::uint16 n){
+    inline void operator-=(edk::uint16 n){
         //
         this->origin.x-=(edk::uint16)n;
         this->origin.y-=(edk::uint16)n;
@@ -4773,7 +4773,7 @@ public:
         this->size.height-=(edk::uint16)n;
         this->size.length-=(edk::uint16)n;
     }
-    void operator-=(edk::uint64 n){
+    inline void operator-=(edk::uint64 n){
         //
         this->origin.x-=(edk::uint16)n;
         this->origin.y-=(edk::uint16)n;
@@ -4782,9 +4782,9 @@ public:
         this->size.height-=(edk::uint16)n;
         this->size.length-=(edk::uint16)n;
     }
-    cubeui16 operator*(cubeui16 cube){
+    inline edk::cubeui16 operator*(cubeui16 cube){
         //
-        cubeui16 ret;
+        edk::cubeui16 ret;
         ret.origin.x=this->origin.x*(edk::uint16)cube.origin.x;
         ret.origin.y=this->origin.y*(edk::uint16)cube.origin.y;
         ret.origin.z=this->origin.z*(edk::uint16)cube.origin.z;
@@ -4793,9 +4793,9 @@ public:
         ret.size.length=this->size.length*(edk::uint16)cube.size.length;
         return ret;
     }
-    cubeui16 operator*(edk::uint8 n){
+    inline edk::cubeui16 operator*(edk::uint8 n){
         //
-        cubeui16 ret;
+        edk::cubeui16 ret;
         ret.origin.x=this->origin.x*(edk::uint16)n;
         ret.origin.y=this->origin.y*(edk::uint16)n;
         ret.origin.z=this->origin.z*(edk::uint16)n;
@@ -4804,9 +4804,9 @@ public:
         ret.size.length=this->size.length*(edk::uint16)n;
         return ret;
     }
-    cubeui16 operator*(edk::uint32 n){
+    inline edk::cubeui16 operator*(edk::uint32 n){
         //
-        cubeui16 ret;
+        edk::cubeui16 ret;
         ret.origin.x=this->origin.x*(edk::uint16)n;
         ret.origin.y=this->origin.y*(edk::uint16)n;
         ret.origin.z=this->origin.z*(edk::uint16)n;
@@ -4815,9 +4815,9 @@ public:
         ret.size.length=this->size.length*(edk::uint16)n;
         return ret;
     }
-    cubeui16 operator*(edk::uint16 n){
+    inline edk::cubeui16 operator*(edk::uint16 n){
         //
-        cubeui16 ret;
+        edk::cubeui16 ret;
         ret.origin.x=this->origin.x*(edk::uint16)n;
         ret.origin.y=this->origin.y*(edk::uint16)n;
         ret.origin.z=this->origin.z*(edk::uint16)n;
@@ -4826,9 +4826,9 @@ public:
         ret.size.length=this->size.length*(edk::uint16)n;
         return ret;
     }
-    cubeui16 operator*(edk::uint64 n){
+    inline edk::cubeui16 operator*(edk::uint64 n){
         //
-        cubeui16 ret;
+        edk::cubeui16 ret;
         ret.origin.x=this->origin.x*(edk::uint16)n;
         ret.origin.y=this->origin.y*(edk::uint16)n;
         ret.origin.z=this->origin.z*(edk::uint16)n;
@@ -4837,7 +4837,7 @@ public:
         ret.size.length=this->size.length*(edk::uint16)n;
         return ret;
     }
-    void operator*=(cubeui16 cube){
+    inline void operator*=(cubeui16 cube){
         //
         this->origin.x*=(edk::uint16)cube.origin.x;
         this->origin.y*=(edk::uint16)cube.origin.y;
@@ -4846,7 +4846,7 @@ public:
         this->size.height*=(edk::uint16)cube.size.height;
         this->size.length*=(edk::uint16)cube.size.length;
     }
-    void operator*=(edk::uint8 n){
+    inline void operator*=(edk::uint8 n){
         //
         this->origin.x*=(edk::uint16)n;
         this->origin.y*=(edk::uint16)n;
@@ -4855,7 +4855,7 @@ public:
         this->size.height*=(edk::uint16)n;
         this->size.length*=(edk::uint16)n;
     }
-    void operator*=(edk::uint32 n){
+    inline void operator*=(edk::uint32 n){
         //
         this->origin.x*=(edk::uint16)n;
         this->origin.y*=(edk::uint16)n;
@@ -4864,7 +4864,7 @@ public:
         this->size.height*=(edk::uint16)n;
         this->size.length*=(edk::uint16)n;
     }
-    void operator*=(edk::uint16 n){
+    inline void operator*=(edk::uint16 n){
         //
         this->origin.x*=(edk::uint16)n;
         this->origin.y*=(edk::uint16)n;
@@ -4873,7 +4873,7 @@ public:
         this->size.height*=(edk::uint16)n;
         this->size.length*=(edk::uint16)n;
     }
-    void operator*=(edk::uint64 n){
+    inline void operator*=(edk::uint64 n){
         //
         this->origin.x*=(edk::uint16)n;
         this->origin.y*=(edk::uint16)n;
@@ -4883,7 +4883,7 @@ public:
         this->size.length*=(edk::uint16)n;
     }
     //
-    cubeui16 operator++(){
+    inline edk::cubeui16 operator++(){
         //
         ++this->origin.x;
         ++this->origin.y;
@@ -4891,9 +4891,9 @@ public:
         ++this->size.width;
         ++this->size.height;
         ++this->size.length;
-        return cubeui16(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
+        return edk::cubeui16(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
     }
-    cubeui16 operator++(edk::int32){
+    inline edk::cubeui16 operator++(edk::int32){
         //
         this->origin.x++;
         this->origin.y++;
@@ -4901,9 +4901,9 @@ public:
         this->size.width++;
         this->size.height++;
         this->size.length++;
-        return cubeui16(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
+        return edk::cubeui16(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
     }
-    cubeui16 operator--(){
+    inline edk::cubeui16 operator--(){
         //
         --this->origin.x;
         --this->origin.y;
@@ -4911,9 +4911,9 @@ public:
         --this->size.width;
         --this->size.height;
         --this->size.length;
-        return cubeui16(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
+        return edk::cubeui16(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
     }
-    cubeui16 operator--(edk::int32){
+    inline edk::cubeui16 operator--(edk::int32){
         //
         this->origin.x--;
         this->origin.y--;
@@ -4921,9 +4921,9 @@ public:
         this->size.width--;
         this->size.height--;
         this->size.length--;
-        return cubeui16(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
+        return edk::cubeui16(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
     }
-    cubeui16 operator()(edk::uint8 x,edk::uint8 y,edk::uint8 z,edk::uint8 width,edk::uint8 height,edk::uint8 length){
+    inline edk::cubeui16 operator()(edk::uint8 x,edk::uint8 y,edk::uint8 z,edk::uint8 width,edk::uint8 height,edk::uint8 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -4931,9 +4931,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubeui16((edk::uint16)this->origin.x,(edk::uint16)this->origin.y,(edk::uint16)this->origin.z,(edk::uint16)this->size.width,(edk::uint16)this->size.height,(edk::uint16)this->size.length);
+        return edk::cubeui16((edk::uint16)this->origin.x,(edk::uint16)this->origin.y,(edk::uint16)this->origin.z,(edk::uint16)this->size.width,(edk::uint16)this->size.height,(edk::uint16)this->size.length);
     }
-    cubeui16 operator()(edk::uint32 x,edk::uint32 y,edk::uint32 z,edk::uint32 width,edk::uint32 height,edk::uint32 length){
+    inline edk::cubeui16 operator()(edk::uint32 x,edk::uint32 y,edk::uint32 z,edk::uint32 width,edk::uint32 height,edk::uint32 length){
         //
         this->origin.x=(edk::uint16)x;
         this->origin.y=(edk::uint16)y;
@@ -4941,9 +4941,9 @@ public:
         this->size.width=(edk::uint16)width;
         this->size.height=(edk::uint16)height;
         this->size.length=(edk::uint16)length;
-        return cubeui16((edk::uint16)this->origin.x,(edk::uint16)this->origin.y,(edk::uint16)this->origin.z,(edk::uint16)this->size.width,(edk::uint16)this->size.height,(edk::uint16)this->size.length);
+        return edk::cubeui16((edk::uint16)this->origin.x,(edk::uint16)this->origin.y,(edk::uint16)this->origin.z,(edk::uint16)this->size.width,(edk::uint16)this->size.height,(edk::uint16)this->size.length);
     }
-    cubeui16 operator()(edk::uint16 x,edk::uint16 y,edk::uint16 z,edk::uint16 width,edk::uint16 height,edk::uint16 length){
+    inline edk::cubeui16 operator()(edk::uint16 x,edk::uint16 y,edk::uint16 z,edk::uint16 width,edk::uint16 height,edk::uint16 length){
         //
         this->origin.x=(edk::uint16)x;
         this->origin.y=(edk::uint16)y;
@@ -4951,9 +4951,9 @@ public:
         this->size.width=(edk::uint16)width;
         this->size.height=(edk::uint16)height;
         this->size.length=(edk::uint16)length;
-        return cubeui16((edk::uint16)this->origin.x,(edk::uint16)this->origin.y,(edk::uint16)this->origin.z,(edk::uint16)this->size.width,(edk::uint16)this->size.height,(edk::uint16)this->size.length);
+        return edk::cubeui16((edk::uint16)this->origin.x,(edk::uint16)this->origin.y,(edk::uint16)this->origin.z,(edk::uint16)this->size.width,(edk::uint16)this->size.height,(edk::uint16)this->size.length);
     }
-    cubeui16 operator()(edk::uint64 x,edk::uint64 y,edk::uint64 z,edk::uint64 width,edk::uint64 height,edk::uint64 length){
+    inline edk::cubeui16 operator()(edk::uint64 x,edk::uint64 y,edk::uint64 z,edk::uint64 width,edk::uint64 height,edk::uint64 length){
         //
         this->origin.x=(edk::uint16)x;
         this->origin.y=(edk::uint16)y;
@@ -4961,10 +4961,10 @@ public:
         this->size.width=(edk::uint16)width;
         this->size.height=(edk::uint16)height;
         this->size.length=(edk::uint16)length;
-        return cubeui16((edk::uint16)this->origin.x,(edk::uint16)this->origin.y,(edk::uint16)this->origin.z,(edk::uint16)this->size.width,(edk::uint16)this->size.height,(edk::uint16)this->size.length);
+        return edk::cubeui16((edk::uint16)this->origin.x,(edk::uint16)this->origin.y,(edk::uint16)this->origin.z,(edk::uint16)this->size.width,(edk::uint16)this->size.height,(edk::uint16)this->size.length);
     }
     //function to merge the cube with another cube
-    void merge(edk::cubeui8 rect){
+    inline void merge(edk::cubeui8 rect){
         if(this->origin.x > (edk::uint16)rect.origin.x)this->origin.x = (edk::uint16)rect.origin.x;
         if(this->origin.y > (edk::uint16)rect.origin.y)this->origin.y = (edk::uint16)rect.origin.y;
         if(this->origin.z > (edk::uint16)rect.origin.z)this->origin.z = (edk::uint16)rect.origin.z;
@@ -4972,7 +4972,7 @@ public:
         if(this->size.height < (edk::uint16)rect.size.height)this->size.height = (edk::uint16)rect.size.height;
         if(this->size.length < (edk::uint16)rect.size.length)this->size.length = (edk::uint16)rect.size.length;
     }
-    void merge(edk::cubeui16 rect){
+    inline void merge(edk::cubeui16 rect){
         if(this->origin.x > rect.origin.x)this->origin.x = rect.origin.x;
         if(this->origin.y > rect.origin.y)this->origin.y = rect.origin.y;
         if(this->origin.z > rect.origin.z)this->origin.z = rect.origin.z;
@@ -5072,7 +5072,7 @@ public:
     }
 
     //operators
-    cubeui32 operator=(cubeui32 cube){
+    inline edk::cubeui32 operator=(cubeui32 cube){
         //
         this->origin.x=(edk::uint32)cube.origin.x;
         this->origin.y=(edk::uint32)cube.origin.y;
@@ -5082,7 +5082,7 @@ public:
         this->size.length=(edk::uint32)cube.size.length;
         return *this;
     }
-    cubeui32 operator=(edk::uint8 n){
+    inline edk::cubeui32 operator=(edk::uint8 n){
         //
         this->origin.x=(edk::uint32)n;
         this->origin.y=(edk::uint32)n;
@@ -5092,7 +5092,7 @@ public:
         this->size.length=(edk::uint32)n;
         return *this;
     }
-    cubeui32 operator=(edk::uint32 n){
+    inline edk::cubeui32 operator=(edk::uint32 n){
         //
         this->origin.x=(edk::uint32)n;
         this->origin.y=(edk::uint32)n;
@@ -5102,7 +5102,7 @@ public:
         this->size.length=(edk::uint32)n;
         return *this;
     }
-    cubeui32 operator=(edk::uint16 n){
+    inline edk::cubeui32 operator=(edk::uint16 n){
         //
         this->origin.x=(edk::uint32)n;
         this->origin.y=(edk::uint32)n;
@@ -5112,7 +5112,7 @@ public:
         this->size.length=(edk::uint32)n;
         return *this;
     }
-    cubeui32 operator=(edk::uint64 n){
+    inline edk::cubeui32 operator=(edk::uint64 n){
         //
         this->origin.x=(edk::uint32)n;
         this->origin.y=(edk::uint32)n;
@@ -5123,7 +5123,7 @@ public:
         return *this;
     }
 
-    bool operator==(cubeui32 cube){
+    inline bool operator==(cubeui32 cube){
         //
         return (this->origin.x==(edk::uint32)cube.origin.x
                 &&this->origin.y==(edk::uint32)cube.origin.y
@@ -5133,7 +5133,7 @@ public:
                 &&this->size.length==(edk::uint32)cube.size.length
                 );
     }
-    bool operator!=(cubeui32 cube){
+    inline bool operator!=(cubeui32 cube){
         //
         return (this->origin.x!=(edk::uint32)cube.origin.x
                 ||this->origin.y!=(edk::uint32)cube.origin.y
@@ -5143,9 +5143,9 @@ public:
                 ||this->size.length!=(edk::uint32)cube.size.length
                 );
     }
-    cubeui32 operator+(cubeui32 cube){
+    inline edk::cubeui32 operator+(cubeui32 cube){
         //
-        cubeui32 ret;
+        edk::cubeui32 ret;
         ret.origin.x=this->origin.x+(edk::uint32)cube.origin.x;
         ret.origin.y=this->origin.y+(edk::uint32)cube.origin.y;
         ret.origin.z=this->origin.z+(edk::uint32)cube.origin.z;
@@ -5154,9 +5154,9 @@ public:
         ret.size.length=this->size.length+(edk::uint32)cube.size.length;
         return ret;
     }
-    cubeui32 operator+(edk::uint8 n){
+    inline edk::cubeui32 operator+(edk::uint8 n){
         //
-        cubeui32 ret;
+        edk::cubeui32 ret;
         ret.origin.x=this->origin.x+(edk::uint32)n;
         ret.origin.y=this->origin.y+(edk::uint32)n;
         ret.origin.z=this->origin.z+(edk::uint32)n;
@@ -5165,9 +5165,9 @@ public:
         ret.size.length=this->size.length+(edk::uint32)n;
         return ret;
     }
-    cubeui32 operator+(edk::uint32 n){
+    inline edk::cubeui32 operator+(edk::uint32 n){
         //
-        cubeui32 ret;
+        edk::cubeui32 ret;
         ret.origin.x=this->origin.x+(edk::uint32)n;
         ret.origin.y=this->origin.y+(edk::uint32)n;
         ret.origin.z=this->origin.z+(edk::uint32)n;
@@ -5176,9 +5176,9 @@ public:
         ret.size.length=this->size.length+(edk::uint32)n;
         return ret;
     }
-    cubeui32 operator+(edk::uint16 n){
+    inline edk::cubeui32 operator+(edk::uint16 n){
         //
-        cubeui32 ret;
+        edk::cubeui32 ret;
         ret.origin.x=this->origin.x+(edk::uint32)n;
         ret.origin.y=this->origin.y+(edk::uint32)n;
         ret.origin.z=this->origin.z+(edk::uint32)n;
@@ -5187,9 +5187,9 @@ public:
         ret.size.length=this->size.length+(edk::uint32)n;
         return ret;
     }
-    cubeui32 operator+(edk::uint64 n){
+    inline edk::cubeui32 operator+(edk::uint64 n){
         //
-        cubeui32 ret;
+        edk::cubeui32 ret;
         ret.origin.x=this->origin.x+(edk::uint32)n;
         ret.origin.y=this->origin.y+(edk::uint32)n;
         ret.origin.z=this->origin.z+(edk::uint32)n;
@@ -5198,7 +5198,7 @@ public:
         ret.size.length=this->size.length+(edk::uint32)n;
         return ret;
     }
-    void operator+=(cubeui32 cube){
+    inline void operator+=(cubeui32 cube){
         //
         this->origin.x+=(edk::uint32)cube.origin.x;
         this->origin.y+=(edk::uint32)cube.origin.y;
@@ -5207,7 +5207,7 @@ public:
         this->size.height+=(edk::uint32)cube.size.height;
         this->size.length+=(edk::uint32)cube.size.length;
     }
-    void operator+=(edk::uint8 n){
+    inline void operator+=(edk::uint8 n){
         //
         this->origin.x+=(edk::uint32)n;
         this->origin.y+=(edk::uint32)n;
@@ -5216,7 +5216,7 @@ public:
         this->size.height+=(edk::uint32)n;
         this->size.length+=(edk::uint32)n;
     }
-    void operator+=(edk::uint32 n){
+    inline void operator+=(edk::uint32 n){
         //
         this->origin.x+=(edk::uint32)n;
         this->origin.y+=(edk::uint32)n;
@@ -5225,7 +5225,7 @@ public:
         this->size.height+=(edk::uint32)n;
         this->size.length+=(edk::uint32)n;
     }
-    void operator+=(edk::uint16 n){
+    inline void operator+=(edk::uint16 n){
         //
         this->origin.x+=(edk::uint32)n;
         this->origin.y+=(edk::uint32)n;
@@ -5234,7 +5234,7 @@ public:
         this->size.height+=(edk::uint32)n;
         this->size.length+=(edk::uint32)n;
     }
-    void operator+=(edk::uint64 n){
+    inline void operator+=(edk::uint64 n){
         //
         this->origin.x+=(edk::uint32)n;
         this->origin.y+=(edk::uint32)n;
@@ -5243,9 +5243,9 @@ public:
         this->size.height+=(edk::uint32)n;
         this->size.length+=(edk::uint32)n;
     }
-    cubeui32 operator-(cubeui32 cube){
+    inline edk::cubeui32 operator-(cubeui32 cube){
         //
-        cubeui32 ret;
+        edk::cubeui32 ret;
         ret.origin.x=this->origin.x-(edk::uint32)cube.origin.x;
         ret.origin.y=this->origin.y-(edk::uint32)cube.origin.y;
         ret.origin.z=this->origin.z-(edk::uint32)cube.origin.z;
@@ -5254,9 +5254,9 @@ public:
         ret.size.length=this->size.length-(edk::uint32)cube.size.length;
         return ret;
     }
-    cubeui32 operator-(edk::uint8 n){
+    inline edk::cubeui32 operator-(edk::uint8 n){
         //
-        cubeui32 ret;
+        edk::cubeui32 ret;
         ret.origin.x=this->origin.x-(edk::uint32)n;
         ret.origin.y=this->origin.y-(edk::uint32)n;
         ret.origin.z=this->origin.z-(edk::uint32)n;
@@ -5265,9 +5265,9 @@ public:
         ret.size.length=this->size.length-(edk::uint32)n;
         return ret;
     }
-    cubeui32 operator-(edk::uint32 n){
+    inline edk::cubeui32 operator-(edk::uint32 n){
         //
-        cubeui32 ret;
+        edk::cubeui32 ret;
         ret.origin.x=this->origin.x-(edk::uint32)n;
         ret.origin.y=this->origin.y-(edk::uint32)n;
         ret.origin.z=this->origin.z-(edk::uint32)n;
@@ -5276,9 +5276,9 @@ public:
         ret.size.length=this->size.length-(edk::uint32)n;
         return ret;
     }
-    cubeui32 operator-(edk::uint16 n){
+    inline edk::cubeui32 operator-(edk::uint16 n){
         //
-        cubeui32 ret;
+        edk::cubeui32 ret;
         ret.origin.x=this->origin.x-(edk::uint32)n;
         ret.origin.y=this->origin.y-(edk::uint32)n;
         ret.origin.z=this->origin.z-(edk::uint32)n;
@@ -5287,9 +5287,9 @@ public:
         ret.size.length=this->size.length-(edk::uint32)n;
         return ret;
     }
-    cubeui32 operator-(edk::uint64 n){
+    inline edk::cubeui32 operator-(edk::uint64 n){
         //
-        cubeui32 ret;
+        edk::cubeui32 ret;
         ret.origin.x=this->origin.x-(edk::uint32)n;
         ret.origin.y=this->origin.y-(edk::uint32)n;
         ret.origin.z=this->origin.z-(edk::uint32)n;
@@ -5298,7 +5298,7 @@ public:
         ret.size.length=this->size.length-(edk::uint32)n;
         return ret;
     }
-    void operator-=(cubeui32 vec){
+    inline void operator-=(cubeui32 vec){
         //
         this->origin.x-=(edk::uint32)vec.origin.x;
         this->origin.y-=(edk::uint32)vec.origin.y;
@@ -5307,7 +5307,7 @@ public:
         this->size.height-=(edk::uint32)vec.size.height;
         this->size.length-=(edk::uint32)vec.size.length;
     }
-    void operator-=(edk::uint8 n){
+    inline void operator-=(edk::uint8 n){
         //
         this->origin.x-=(edk::uint32)n;
         this->origin.y-=(edk::uint32)n;
@@ -5316,7 +5316,7 @@ public:
         this->size.height-=(edk::uint32)n;
         this->size.length-=(edk::uint32)n;
     }
-    void operator-=(edk::uint32 n){
+    inline void operator-=(edk::uint32 n){
         //
         this->origin.x-=(edk::uint32)n;
         this->origin.y-=(edk::uint32)n;
@@ -5325,7 +5325,7 @@ public:
         this->size.height-=(edk::uint32)n;
         this->size.length-=(edk::uint32)n;
     }
-    void operator-=(edk::uint16 n){
+    inline void operator-=(edk::uint16 n){
         //
         this->origin.x-=(edk::uint32)n;
         this->origin.y-=(edk::uint32)n;
@@ -5334,7 +5334,7 @@ public:
         this->size.height-=(edk::uint32)n;
         this->size.length-=(edk::uint32)n;
     }
-    void operator-=(edk::uint64 n){
+    inline void operator-=(edk::uint64 n){
         //
         this->origin.x-=(edk::uint32)n;
         this->origin.y-=(edk::uint32)n;
@@ -5343,9 +5343,9 @@ public:
         this->size.height-=(edk::uint32)n;
         this->size.length-=(edk::uint32)n;
     }
-    cubeui32 operator*(cubeui32 cube){
+    inline edk::cubeui32 operator*(cubeui32 cube){
         //
-        cubeui32 ret;
+        edk::cubeui32 ret;
         ret.origin.x=this->origin.x*(edk::uint32)cube.origin.x;
         ret.origin.y=this->origin.y*(edk::uint32)cube.origin.y;
         ret.origin.z=this->origin.z*(edk::uint32)cube.origin.z;
@@ -5354,9 +5354,9 @@ public:
         ret.size.length=this->size.length*(edk::uint32)cube.size.length;
         return ret;
     }
-    cubeui32 operator*(edk::uint8 n){
+    inline edk::cubeui32 operator*(edk::uint8 n){
         //
-        cubeui32 ret;
+        edk::cubeui32 ret;
         ret.origin.x=this->origin.x*(edk::uint32)n;
         ret.origin.y=this->origin.y*(edk::uint32)n;
         ret.origin.z=this->origin.z*(edk::uint32)n;
@@ -5365,9 +5365,9 @@ public:
         ret.size.length=this->size.length*(edk::uint32)n;
         return ret;
     }
-    cubeui32 operator*(edk::uint32 n){
+    inline edk::cubeui32 operator*(edk::uint32 n){
         //
-        cubeui32 ret;
+        edk::cubeui32 ret;
         ret.origin.x=this->origin.x*(edk::uint32)n;
         ret.origin.y=this->origin.y*(edk::uint32)n;
         ret.origin.z=this->origin.z*(edk::uint32)n;
@@ -5376,9 +5376,9 @@ public:
         ret.size.length=this->size.length*(edk::uint32)n;
         return ret;
     }
-    cubeui32 operator*(edk::uint16 n){
+    inline edk::cubeui32 operator*(edk::uint16 n){
         //
-        cubeui32 ret;
+        edk::cubeui32 ret;
         ret.origin.x=this->origin.x*(edk::uint32)n;
         ret.origin.y=this->origin.y*(edk::uint32)n;
         ret.origin.z=this->origin.z*(edk::uint32)n;
@@ -5387,9 +5387,9 @@ public:
         ret.size.length=this->size.length*(edk::uint32)n;
         return ret;
     }
-    cubeui32 operator*(edk::uint64 n){
+    inline edk::cubeui32 operator*(edk::uint64 n){
         //
-        cubeui32 ret;
+        edk::cubeui32 ret;
         ret.origin.x=this->origin.x*(edk::uint32)n;
         ret.origin.y=this->origin.y*(edk::uint32)n;
         ret.origin.z=this->origin.z*(edk::uint32)n;
@@ -5398,7 +5398,7 @@ public:
         ret.size.length=this->size.length*(edk::uint32)n;
         return ret;
     }
-    void operator*=(cubeui32 cube){
+    inline void operator*=(cubeui32 cube){
         //
         this->origin.x*=(edk::uint32)cube.origin.x;
         this->origin.y*=(edk::uint32)cube.origin.y;
@@ -5407,7 +5407,7 @@ public:
         this->size.height*=(edk::uint32)cube.size.height;
         this->size.length*=(edk::uint32)cube.size.length;
     }
-    void operator*=(edk::uint8 n){
+    inline void operator*=(edk::uint8 n){
         //
         this->origin.x*=(edk::uint32)n;
         this->origin.y*=(edk::uint32)n;
@@ -5416,7 +5416,7 @@ public:
         this->size.height*=(edk::uint32)n;
         this->size.length*=(edk::uint32)n;
     }
-    void operator*=(edk::uint32 n){
+    inline void operator*=(edk::uint32 n){
         //
         this->origin.x*=(edk::uint32)n;
         this->origin.y*=(edk::uint32)n;
@@ -5425,7 +5425,7 @@ public:
         this->size.height*=(edk::uint32)n;
         this->size.length*=(edk::uint32)n;
     }
-    void operator*=(edk::uint16 n){
+    inline void operator*=(edk::uint16 n){
         //
         this->origin.x*=(edk::uint32)n;
         this->origin.y*=(edk::uint32)n;
@@ -5434,7 +5434,7 @@ public:
         this->size.height*=(edk::uint32)n;
         this->size.length*=(edk::uint32)n;
     }
-    void operator*=(edk::uint64 n){
+    inline void operator*=(edk::uint64 n){
         //
         this->origin.x*=(edk::uint32)n;
         this->origin.y*=(edk::uint32)n;
@@ -5444,7 +5444,7 @@ public:
         this->size.length*=(edk::uint32)n;
     }
     //
-    cubeui32 operator++(){
+    inline edk::cubeui32 operator++(){
         //
         ++this->origin.x;
         ++this->origin.y;
@@ -5452,9 +5452,9 @@ public:
         ++this->size.width;
         ++this->size.height;
         ++this->size.length;
-        return cubeui32(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
+        return edk::cubeui32(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
     }
-    cubeui32 operator++(edk::int32){
+    inline edk::cubeui32 operator++(edk::int32){
         //
         this->origin.x++;
         this->origin.y++;
@@ -5462,9 +5462,9 @@ public:
         this->size.width++;
         this->size.height++;
         this->size.length++;
-        return cubeui32(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
+        return edk::cubeui32(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
     }
-    cubeui32 operator--(){
+    inline edk::cubeui32 operator--(){
         //
         --this->origin.x;
         --this->origin.y;
@@ -5472,9 +5472,9 @@ public:
         --this->size.width;
         --this->size.height;
         --this->size.length;
-        return cubeui32(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
+        return edk::cubeui32(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
     }
-    cubeui32 operator--(edk::int32){
+    inline edk::cubeui32 operator--(edk::int32){
         //
         this->origin.x--;
         this->origin.y--;
@@ -5482,9 +5482,9 @@ public:
         this->size.width--;
         this->size.height--;
         this->size.length--;
-        return cubeui32(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
+        return edk::cubeui32(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
     }
-    cubeui32 operator()(edk::uint8 x,edk::uint8 y,edk::uint8 z,edk::uint8 width,edk::uint8 height,edk::uint8 length){
+    inline edk::cubeui32 operator()(edk::uint8 x,edk::uint8 y,edk::uint8 z,edk::uint8 width,edk::uint8 height,edk::uint8 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -5492,9 +5492,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubeui32((edk::uint32)this->origin.x,(edk::uint32)this->origin.y,(edk::uint32)this->origin.z,(edk::uint32)this->size.width,(edk::uint32)this->size.height,(edk::uint32)this->size.length);
+        return edk::cubeui32((edk::uint32)this->origin.x,(edk::uint32)this->origin.y,(edk::uint32)this->origin.z,(edk::uint32)this->size.width,(edk::uint32)this->size.height,(edk::uint32)this->size.length);
     }
-    cubeui32 operator()(edk::uint32 x,edk::uint32 y,edk::uint32 z,edk::uint32 width,edk::uint32 height,edk::uint32 length){
+    inline edk::cubeui32 operator()(edk::uint32 x,edk::uint32 y,edk::uint32 z,edk::uint32 width,edk::uint32 height,edk::uint32 length){
         //
         this->origin.x=(edk::uint32)x;
         this->origin.y=(edk::uint32)y;
@@ -5502,9 +5502,9 @@ public:
         this->size.width=(edk::uint32)width;
         this->size.height=(edk::uint32)height;
         this->size.length=(edk::uint32)length;
-        return cubeui32((edk::uint32)this->origin.x,(edk::uint32)this->origin.y,(edk::uint32)this->origin.z,(edk::uint32)this->size.width,(edk::uint32)this->size.height,(edk::uint32)this->size.length);
+        return edk::cubeui32((edk::uint32)this->origin.x,(edk::uint32)this->origin.y,(edk::uint32)this->origin.z,(edk::uint32)this->size.width,(edk::uint32)this->size.height,(edk::uint32)this->size.length);
     }
-    cubeui32 operator()(edk::uint16 x,edk::uint16 y,edk::uint16 z,edk::uint16 width,edk::uint16 height,edk::uint16 length){
+    inline edk::cubeui32 operator()(edk::uint16 x,edk::uint16 y,edk::uint16 z,edk::uint16 width,edk::uint16 height,edk::uint16 length){
         //
         this->origin.x=(edk::uint32)x;
         this->origin.y=(edk::uint32)y;
@@ -5512,9 +5512,9 @@ public:
         this->size.width=(edk::uint32)width;
         this->size.height=(edk::uint32)height;
         this->size.length=(edk::uint32)length;
-        return cubeui32((edk::uint32)this->origin.x,(edk::uint32)this->origin.y,(edk::uint32)this->origin.z,(edk::uint32)this->size.width,(edk::uint32)this->size.height,(edk::uint32)this->size.length);
+        return edk::cubeui32((edk::uint32)this->origin.x,(edk::uint32)this->origin.y,(edk::uint32)this->origin.z,(edk::uint32)this->size.width,(edk::uint32)this->size.height,(edk::uint32)this->size.length);
     }
-    cubeui32 operator()(edk::uint64 x,edk::uint64 y,edk::uint64 z,edk::uint64 width,edk::uint64 height,edk::uint64 length){
+    inline edk::cubeui32 operator()(edk::uint64 x,edk::uint64 y,edk::uint64 z,edk::uint64 width,edk::uint64 height,edk::uint64 length){
         //
         this->origin.x=(edk::uint32)x;
         this->origin.y=(edk::uint32)y;
@@ -5522,10 +5522,10 @@ public:
         this->size.width=(edk::uint32)width;
         this->size.height=(edk::uint32)height;
         this->size.length=(edk::uint32)length;
-        return cubeui32((edk::uint32)this->origin.x,(edk::uint32)this->origin.y,(edk::uint32)this->origin.z,(edk::uint32)this->size.width,(edk::uint32)this->size.height,(edk::uint32)this->size.length);
+        return edk::cubeui32((edk::uint32)this->origin.x,(edk::uint32)this->origin.y,(edk::uint32)this->origin.z,(edk::uint32)this->size.width,(edk::uint32)this->size.height,(edk::uint32)this->size.length);
     }
     //function to merge the cube with another cube
-    void merge(edk::cubeui8 rect){
+    inline void merge(edk::cubeui8 rect){
         if(this->origin.x > (edk::uint32)rect.origin.x)this->origin.x = (edk::uint32)rect.origin.x;
         if(this->origin.y > (edk::uint32)rect.origin.y)this->origin.y = (edk::uint32)rect.origin.y;
         if(this->origin.z > (edk::uint32)rect.origin.z)this->origin.z = (edk::uint32)rect.origin.z;
@@ -5533,7 +5533,7 @@ public:
         if(this->size.height < (edk::uint32)rect.size.height)this->size.height = (edk::uint32)rect.size.height;
         if(this->size.length < (edk::uint32)rect.size.length)this->size.length = (edk::uint32)rect.size.length;
     }
-    void merge(edk::cubeui16 rect){
+    inline void merge(edk::cubeui16 rect){
         if(this->origin.x > (edk::uint32)rect.origin.x)this->origin.x = (edk::uint32)rect.origin.x;
         if(this->origin.y > (edk::uint32)rect.origin.y)this->origin.y = (edk::uint32)rect.origin.y;
         if(this->origin.z > (edk::uint32)rect.origin.z)this->origin.z = (edk::uint32)rect.origin.z;
@@ -5541,7 +5541,7 @@ public:
         if(this->size.height < (edk::uint32)rect.size.height)this->size.height = (edk::uint32)rect.size.height;
         if(this->size.length < (edk::uint32)rect.size.length)this->size.length = (edk::uint32)rect.size.length;
     }
-    void merge(edk::cubeui32 rect){
+    inline void merge(edk::cubeui32 rect){
         if(this->origin.x > rect.origin.x)this->origin.x = rect.origin.x;
         if(this->origin.y > rect.origin.y)this->origin.y = rect.origin.y;
         if(this->origin.z > rect.origin.z)this->origin.z = rect.origin.z;
@@ -5641,7 +5641,7 @@ public:
     }
 
     //operators
-    cubeui64 operator=(cubeui64 cube){
+    inline edk::cubeui64 operator=(cubeui64 cube){
         //
         this->origin.x=(edk::uint64)cube.origin.x;
         this->origin.y=(edk::uint64)cube.origin.y;
@@ -5651,7 +5651,7 @@ public:
         this->size.length=(edk::uint64)cube.size.length;
         return *this;
     }
-    cubeui64 operator=(edk::uint8 n){
+    inline edk::cubeui64 operator=(edk::uint8 n){
         //
         this->origin.x=(edk::uint64)n;
         this->origin.y=(edk::uint64)n;
@@ -5661,7 +5661,7 @@ public:
         this->size.length=(edk::uint64)n;
         return *this;
     }
-    cubeui64 operator=(edk::uint32 n){
+    inline edk::cubeui64 operator=(edk::uint32 n){
         //
         this->origin.x=(edk::uint64)n;
         this->origin.y=(edk::uint64)n;
@@ -5671,7 +5671,7 @@ public:
         this->size.length=(edk::uint64)n;
         return *this;
     }
-    cubeui64 operator=(edk::uint16 n){
+    inline edk::cubeui64 operator=(edk::uint16 n){
         //
         this->origin.x=(edk::uint64)n;
         this->origin.y=(edk::uint64)n;
@@ -5681,7 +5681,7 @@ public:
         this->size.length=(edk::uint64)n;
         return *this;
     }
-    cubeui64 operator=(edk::uint64 n){
+    inline edk::cubeui64 operator=(edk::uint64 n){
         //
         this->origin.x=(edk::uint64)n;
         this->origin.y=(edk::uint64)n;
@@ -5692,7 +5692,7 @@ public:
         return *this;
     }
 
-    bool operator==(cubeui64 cube){
+    inline bool operator==(cubeui64 cube){
         //
         return (this->origin.x==(edk::uint64)cube.origin.x
                 &&this->origin.y==(edk::uint64)cube.origin.y
@@ -5702,7 +5702,7 @@ public:
                 &&this->size.length==(edk::uint64)cube.size.length
                 );
     }
-    bool operator!=(cubeui64 cube){
+    inline bool operator!=(cubeui64 cube){
         //
         return (this->origin.x!=(edk::uint64)cube.origin.x
                 ||this->origin.y!=(edk::uint64)cube.origin.y
@@ -5712,9 +5712,9 @@ public:
                 ||this->size.length!=(edk::uint64)cube.size.length
                 );
     }
-    cubeui64 operator+(cubeui64 cube){
+    inline edk::cubeui64 operator+(cubeui64 cube){
         //
-        cubeui64 ret;
+        edk::cubeui64 ret;
         ret.origin.x=this->origin.x+(edk::uint64)cube.origin.x;
         ret.origin.y=this->origin.y+(edk::uint64)cube.origin.y;
         ret.origin.z=this->origin.z+(edk::uint64)cube.origin.z;
@@ -5723,9 +5723,9 @@ public:
         ret.size.length=this->size.length+(edk::uint64)cube.size.length;
         return ret;
     }
-    cubeui64 operator+(edk::uint8 n){
+    inline edk::cubeui64 operator+(edk::uint8 n){
         //
-        cubeui64 ret;
+        edk::cubeui64 ret;
         ret.origin.x=this->origin.x+(edk::uint64)n;
         ret.origin.y=this->origin.y+(edk::uint64)n;
         ret.origin.z=this->origin.z+(edk::uint64)n;
@@ -5734,9 +5734,9 @@ public:
         ret.size.length=this->size.length+(edk::uint64)n;
         return ret;
     }
-    cubeui64 operator+(edk::uint32 n){
+    inline edk::cubeui64 operator+(edk::uint32 n){
         //
-        cubeui64 ret;
+        edk::cubeui64 ret;
         ret.origin.x=this->origin.x+(edk::uint64)n;
         ret.origin.y=this->origin.y+(edk::uint64)n;
         ret.origin.z=this->origin.z+(edk::uint64)n;
@@ -5745,9 +5745,9 @@ public:
         ret.size.length=this->size.length+(edk::uint64)n;
         return ret;
     }
-    cubeui64 operator+(edk::uint16 n){
+    inline edk::cubeui64 operator+(edk::uint16 n){
         //
-        cubeui64 ret;
+        edk::cubeui64 ret;
         ret.origin.x=this->origin.x+(edk::uint64)n;
         ret.origin.y=this->origin.y+(edk::uint64)n;
         ret.origin.z=this->origin.z+(edk::uint64)n;
@@ -5756,9 +5756,9 @@ public:
         ret.size.length=this->size.length+(edk::uint64)n;
         return ret;
     }
-    cubeui64 operator+(edk::uint64 n){
+    inline edk::cubeui64 operator+(edk::uint64 n){
         //
-        cubeui64 ret;
+        edk::cubeui64 ret;
         ret.origin.x=this->origin.x+(edk::uint64)n;
         ret.origin.y=this->origin.y+(edk::uint64)n;
         ret.origin.z=this->origin.z+(edk::uint64)n;
@@ -5767,7 +5767,7 @@ public:
         ret.size.length=this->size.length+(edk::uint64)n;
         return ret;
     }
-    void operator+=(cubeui64 cube){
+    inline void operator+=(cubeui64 cube){
         //
         this->origin.x+=(edk::uint64)cube.origin.x;
         this->origin.y+=(edk::uint64)cube.origin.y;
@@ -5776,7 +5776,7 @@ public:
         this->size.height+=(edk::uint64)cube.size.height;
         this->size.length+=(edk::uint64)cube.size.length;
     }
-    void operator+=(edk::uint8 n){
+    inline void operator+=(edk::uint8 n){
         //
         this->origin.x+=(edk::uint64)n;
         this->origin.y+=(edk::uint64)n;
@@ -5785,7 +5785,7 @@ public:
         this->size.height+=(edk::uint64)n;
         this->size.length+=(edk::uint64)n;
     }
-    void operator+=(edk::uint32 n){
+    inline void operator+=(edk::uint32 n){
         //
         this->origin.x+=(edk::uint64)n;
         this->origin.y+=(edk::uint64)n;
@@ -5794,7 +5794,7 @@ public:
         this->size.height+=(edk::uint64)n;
         this->size.length+=(edk::uint64)n;
     }
-    void operator+=(edk::uint16 n){
+    inline void operator+=(edk::uint16 n){
         //
         this->origin.x+=(edk::uint64)n;
         this->origin.y+=(edk::uint64)n;
@@ -5803,7 +5803,7 @@ public:
         this->size.height+=(edk::uint64)n;
         this->size.length+=(edk::uint64)n;
     }
-    void operator+=(edk::uint64 n){
+    inline void operator+=(edk::uint64 n){
         //
         this->origin.x+=(edk::uint64)n;
         this->origin.y+=(edk::uint64)n;
@@ -5812,9 +5812,9 @@ public:
         this->size.height+=(edk::uint64)n;
         this->size.length+=(edk::uint64)n;
     }
-    cubeui64 operator-(cubeui64 cube){
+    inline edk::cubeui64 operator-(cubeui64 cube){
         //
-        cubeui64 ret;
+        edk::cubeui64 ret;
         ret.origin.x=this->origin.x-(edk::uint64)cube.origin.x;
         ret.origin.y=this->origin.y-(edk::uint64)cube.origin.y;
         ret.origin.z=this->origin.z-(edk::uint64)cube.origin.z;
@@ -5823,9 +5823,9 @@ public:
         ret.size.length=this->size.length-(edk::uint64)cube.size.length;
         return ret;
     }
-    cubeui64 operator-(edk::uint8 n){
+    inline edk::cubeui64 operator-(edk::uint8 n){
         //
-        cubeui64 ret;
+        edk::cubeui64 ret;
         ret.origin.x=this->origin.x-(edk::uint64)n;
         ret.origin.y=this->origin.y-(edk::uint64)n;
         ret.origin.z=this->origin.z-(edk::uint64)n;
@@ -5834,9 +5834,9 @@ public:
         ret.size.length=this->size.length-(edk::uint64)n;
         return ret;
     }
-    cubeui64 operator-(edk::uint32 n){
+    inline edk::cubeui64 operator-(edk::uint32 n){
         //
-        cubeui64 ret;
+        edk::cubeui64 ret;
         ret.origin.x=this->origin.x-(edk::uint64)n;
         ret.origin.y=this->origin.y-(edk::uint64)n;
         ret.origin.z=this->origin.z-(edk::uint64)n;
@@ -5845,9 +5845,9 @@ public:
         ret.size.length=this->size.length-(edk::uint64)n;
         return ret;
     }
-    cubeui64 operator-(edk::uint16 n){
+    inline edk::cubeui64 operator-(edk::uint16 n){
         //
-        cubeui64 ret;
+        edk::cubeui64 ret;
         ret.origin.x=this->origin.x-(edk::uint64)n;
         ret.origin.y=this->origin.y-(edk::uint64)n;
         ret.origin.z=this->origin.z-(edk::uint64)n;
@@ -5856,9 +5856,9 @@ public:
         ret.size.length=this->size.length-(edk::uint64)n;
         return ret;
     }
-    cubeui64 operator-(edk::uint64 n){
+    inline edk::cubeui64 operator-(edk::uint64 n){
         //
-        cubeui64 ret;
+        edk::cubeui64 ret;
         ret.origin.x=this->origin.x-(edk::uint64)n;
         ret.origin.y=this->origin.y-(edk::uint64)n;
         ret.origin.z=this->origin.z-(edk::uint64)n;
@@ -5867,7 +5867,7 @@ public:
         ret.size.length=this->size.length-(edk::uint64)n;
         return ret;
     }
-    void operator-=(cubeui64 vec){
+    inline void operator-=(cubeui64 vec){
         //
         this->origin.x-=(edk::uint64)vec.origin.x;
         this->origin.y-=(edk::uint64)vec.origin.y;
@@ -5876,7 +5876,7 @@ public:
         this->size.height-=(edk::uint64)vec.size.height;
         this->size.length-=(edk::uint64)vec.size.length;
     }
-    void operator-=(edk::uint8 n){
+    inline void operator-=(edk::uint8 n){
         //
         this->origin.x-=(edk::uint64)n;
         this->origin.y-=(edk::uint64)n;
@@ -5885,7 +5885,7 @@ public:
         this->size.height-=(edk::uint64)n;
         this->size.length-=(edk::uint64)n;
     }
-    void operator-=(edk::uint32 n){
+    inline void operator-=(edk::uint32 n){
         //
         this->origin.x-=(edk::uint64)n;
         this->origin.y-=(edk::uint64)n;
@@ -5894,7 +5894,7 @@ public:
         this->size.height-=(edk::uint64)n;
         this->size.length-=(edk::uint64)n;
     }
-    void operator-=(edk::uint16 n){
+    inline void operator-=(edk::uint16 n){
         //
         this->origin.x-=(edk::uint64)n;
         this->origin.y-=(edk::uint64)n;
@@ -5903,7 +5903,7 @@ public:
         this->size.height-=(edk::uint64)n;
         this->size.length-=(edk::uint64)n;
     }
-    void operator-=(edk::uint64 n){
+    inline void operator-=(edk::uint64 n){
         //
         this->origin.x-=(edk::uint64)n;
         this->origin.y-=(edk::uint64)n;
@@ -5912,9 +5912,9 @@ public:
         this->size.height-=(edk::uint64)n;
         this->size.length-=(edk::uint64)n;
     }
-    cubeui64 operator*(cubeui64 cube){
+    inline edk::cubeui64 operator*(cubeui64 cube){
         //
-        cubeui64 ret;
+        edk::cubeui64 ret;
         ret.origin.x=this->origin.x*(edk::uint64)cube.origin.x;
         ret.origin.y=this->origin.y*(edk::uint64)cube.origin.y;
         ret.origin.z=this->origin.z*(edk::uint64)cube.origin.z;
@@ -5923,9 +5923,9 @@ public:
         ret.size.length=this->size.length*(edk::uint64)cube.size.length;
         return ret;
     }
-    cubeui64 operator*(edk::uint8 n){
+    inline edk::cubeui64 operator*(edk::uint8 n){
         //
-        cubeui64 ret;
+        edk::cubeui64 ret;
         ret.origin.x=this->origin.x*(edk::uint64)n;
         ret.origin.y=this->origin.y*(edk::uint64)n;
         ret.origin.z=this->origin.z*(edk::uint64)n;
@@ -5934,9 +5934,9 @@ public:
         ret.size.length=this->size.length*(edk::uint64)n;
         return ret;
     }
-    cubeui64 operator*(edk::uint32 n){
+    inline edk::cubeui64 operator*(edk::uint32 n){
         //
-        cubeui64 ret;
+        edk::cubeui64 ret;
         ret.origin.x=this->origin.x*(edk::uint64)n;
         ret.origin.y=this->origin.y*(edk::uint64)n;
         ret.origin.z=this->origin.z*(edk::uint64)n;
@@ -5945,9 +5945,9 @@ public:
         ret.size.length=this->size.length*(edk::uint64)n;
         return ret;
     }
-    cubeui64 operator*(edk::uint16 n){
+    inline edk::cubeui64 operator*(edk::uint16 n){
         //
-        cubeui64 ret;
+        edk::cubeui64 ret;
         ret.origin.x=this->origin.x*(edk::uint64)n;
         ret.origin.y=this->origin.y*(edk::uint64)n;
         ret.origin.z=this->origin.z*(edk::uint64)n;
@@ -5956,9 +5956,9 @@ public:
         ret.size.length=this->size.length*(edk::uint64)n;
         return ret;
     }
-    cubeui64 operator*(edk::uint64 n){
+    inline edk::cubeui64 operator*(edk::uint64 n){
         //
-        cubeui64 ret;
+        edk::cubeui64 ret;
         ret.origin.x=this->origin.x*(edk::uint64)n;
         ret.origin.y=this->origin.y*(edk::uint64)n;
         ret.origin.z=this->origin.z*(edk::uint64)n;
@@ -5967,7 +5967,7 @@ public:
         ret.size.length=this->size.length*(edk::uint64)n;
         return ret;
     }
-    void operator*=(cubeui64 cube){
+    inline void operator*=(cubeui64 cube){
         //
         this->origin.x*=(edk::uint64)cube.origin.x;
         this->origin.y*=(edk::uint64)cube.origin.y;
@@ -5976,7 +5976,7 @@ public:
         this->size.height*=(edk::uint64)cube.size.height;
         this->size.length*=(edk::uint64)cube.size.length;
     }
-    void operator*=(edk::uint8 n){
+    inline void operator*=(edk::uint8 n){
         //
         this->origin.x*=(edk::uint64)n;
         this->origin.y*=(edk::uint64)n;
@@ -5985,7 +5985,7 @@ public:
         this->size.height*=(edk::uint64)n;
         this->size.length*=(edk::uint64)n;
     }
-    void operator*=(edk::uint32 n){
+    inline void operator*=(edk::uint32 n){
         //
         this->origin.x*=(edk::uint64)n;
         this->origin.y*=(edk::uint64)n;
@@ -5994,7 +5994,7 @@ public:
         this->size.height*=(edk::uint64)n;
         this->size.length*=(edk::uint64)n;
     }
-    void operator*=(edk::uint16 n){
+    inline void operator*=(edk::uint16 n){
         //
         this->origin.x*=(edk::uint64)n;
         this->origin.y*=(edk::uint64)n;
@@ -6003,7 +6003,7 @@ public:
         this->size.height*=(edk::uint64)n;
         this->size.length*=(edk::uint64)n;
     }
-    void operator*=(edk::uint64 n){
+    inline void operator*=(edk::uint64 n){
         //
         this->origin.x*=(edk::uint64)n;
         this->origin.y*=(edk::uint64)n;
@@ -6013,7 +6013,7 @@ public:
         this->size.length*=(edk::uint64)n;
     }
     //
-    cubeui64 operator++(){
+    inline edk::cubeui64 operator++(){
         //
         ++this->origin.x;
         ++this->origin.y;
@@ -6021,9 +6021,9 @@ public:
         ++this->size.width;
         ++this->size.height;
         ++this->size.length;
-        return cubeui64(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
+        return edk::cubeui64(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
     }
-    cubeui64 operator++(edk::int32){
+    inline edk::cubeui64 operator++(edk::int32){
         //
         this->origin.x++;
         this->origin.y++;
@@ -6031,9 +6031,9 @@ public:
         this->size.width++;
         this->size.height++;
         this->size.length++;
-        return cubeui64(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
+        return edk::cubeui64(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
     }
-    cubeui64 operator--(){
+    inline edk::cubeui64 operator--(){
         //
         --this->origin.x;
         --this->origin.y;
@@ -6041,9 +6041,9 @@ public:
         --this->size.width;
         --this->size.height;
         --this->size.length;
-        return cubeui64(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
+        return edk::cubeui64(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
     }
-    cubeui64 operator--(edk::int32){
+    inline edk::cubeui64 operator--(edk::int32){
         //
         this->origin.x--;
         this->origin.y--;
@@ -6051,9 +6051,9 @@ public:
         this->size.width--;
         this->size.height--;
         this->size.length--;
-        return cubeui64(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
+        return edk::cubeui64(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
     }
-    cubeui64 operator()(edk::uint8 x,edk::uint8 y,edk::uint8 z,edk::uint8 width,edk::uint8 height,edk::uint8 length){
+    inline edk::cubeui64 operator()(edk::uint8 x,edk::uint8 y,edk::uint8 z,edk::uint8 width,edk::uint8 height,edk::uint8 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -6061,9 +6061,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubeui64((edk::uint64)this->origin.x,(edk::uint64)this->origin.y,(edk::uint64)this->origin.z,(edk::uint64)this->size.width,(edk::uint64)this->size.height,(edk::uint64)this->size.length);
+        return edk::cubeui64((edk::uint64)this->origin.x,(edk::uint64)this->origin.y,(edk::uint64)this->origin.z,(edk::uint64)this->size.width,(edk::uint64)this->size.height,(edk::uint64)this->size.length);
     }
-    cubeui64 operator()(edk::uint32 x,edk::uint32 y,edk::uint32 z,edk::uint32 width,edk::uint32 height,edk::uint32 length){
+    inline edk::cubeui64 operator()(edk::uint32 x,edk::uint32 y,edk::uint32 z,edk::uint32 width,edk::uint32 height,edk::uint32 length){
         //
         this->origin.x=(edk::uint64)x;
         this->origin.y=(edk::uint64)y;
@@ -6071,9 +6071,9 @@ public:
         this->size.width=(edk::uint64)width;
         this->size.height=(edk::uint64)height;
         this->size.length=(edk::uint64)length;
-        return cubeui64((edk::uint64)this->origin.x,(edk::uint64)this->origin.y,(edk::uint64)this->origin.z,(edk::uint64)this->size.width,(edk::uint64)this->size.height,(edk::uint64)this->size.length);
+        return edk::cubeui64((edk::uint64)this->origin.x,(edk::uint64)this->origin.y,(edk::uint64)this->origin.z,(edk::uint64)this->size.width,(edk::uint64)this->size.height,(edk::uint64)this->size.length);
     }
-    cubeui64 operator()(edk::uint16 x,edk::uint16 y,edk::uint16 z,edk::uint16 width,edk::uint16 height,edk::uint16 length){
+    inline edk::cubeui64 operator()(edk::uint16 x,edk::uint16 y,edk::uint16 z,edk::uint16 width,edk::uint16 height,edk::uint16 length){
         //
         this->origin.x=(edk::uint64)x;
         this->origin.y=(edk::uint64)y;
@@ -6081,9 +6081,9 @@ public:
         this->size.width=(edk::uint64)width;
         this->size.height=(edk::uint64)height;
         this->size.length=(edk::uint64)length;
-        return cubeui64((edk::uint64)this->origin.x,(edk::uint64)this->origin.y,(edk::uint64)this->origin.z,(edk::uint64)this->size.width,(edk::uint64)this->size.height,(edk::uint64)this->size.length);
+        return edk::cubeui64((edk::uint64)this->origin.x,(edk::uint64)this->origin.y,(edk::uint64)this->origin.z,(edk::uint64)this->size.width,(edk::uint64)this->size.height,(edk::uint64)this->size.length);
     }
-    cubeui64 operator()(edk::uint64 x,edk::uint64 y,edk::uint64 z,edk::uint64 width,edk::uint64 height,edk::uint64 length){
+    inline edk::cubeui64 operator()(edk::uint64 x,edk::uint64 y,edk::uint64 z,edk::uint64 width,edk::uint64 height,edk::uint64 length){
         //
         this->origin.x=(edk::uint64)x;
         this->origin.y=(edk::uint64)y;
@@ -6091,10 +6091,10 @@ public:
         this->size.width=(edk::uint64)width;
         this->size.height=(edk::uint64)height;
         this->size.length=(edk::uint64)length;
-        return cubeui64((edk::uint64)this->origin.x,(edk::uint64)this->origin.y,(edk::uint64)this->origin.z,(edk::uint64)this->size.width,(edk::uint64)this->size.height,(edk::uint64)this->size.length);
+        return edk::cubeui64((edk::uint64)this->origin.x,(edk::uint64)this->origin.y,(edk::uint64)this->origin.z,(edk::uint64)this->size.width,(edk::uint64)this->size.height,(edk::uint64)this->size.length);
     }
     //function to merge the cube with another cube
-    void merge(edk::cubeui8 rect){
+    inline void merge(edk::cubeui8 rect){
         if(this->origin.x > (edk::uint64)rect.origin.x)this->origin.x = (edk::uint64)rect.origin.x;
         if(this->origin.y > (edk::uint64)rect.origin.y)this->origin.y = (edk::uint64)rect.origin.y;
         if(this->origin.z > (edk::uint64)rect.origin.z)this->origin.z = (edk::uint64)rect.origin.z;
@@ -6102,7 +6102,7 @@ public:
         if(this->size.height < (edk::uint64)rect.size.height)this->size.height = (edk::uint64)rect.size.height;
         if(this->size.length < (edk::uint64)rect.size.length)this->size.length = (edk::uint64)rect.size.length;
     }
-    void merge(edk::cubeui16 rect){
+    inline void merge(edk::cubeui16 rect){
         if(this->origin.x > (edk::uint64)rect.origin.x)this->origin.x = (edk::uint64)rect.origin.x;
         if(this->origin.y > (edk::uint64)rect.origin.y)this->origin.y = (edk::uint64)rect.origin.y;
         if(this->origin.z > (edk::uint64)rect.origin.z)this->origin.z = (edk::uint64)rect.origin.z;
@@ -6110,7 +6110,7 @@ public:
         if(this->size.height < (edk::uint64)rect.size.height)this->size.height = (edk::uint64)rect.size.height;
         if(this->size.length < (edk::uint64)rect.size.length)this->size.length = (edk::uint64)rect.size.length;
     }
-    void merge(edk::cubeui32 rect){
+    inline void merge(edk::cubeui32 rect){
         if(this->origin.x > (edk::uint64)rect.origin.x)this->origin.x = (edk::uint64)rect.origin.x;
         if(this->origin.y > (edk::uint64)rect.origin.y)this->origin.y = (edk::uint64)rect.origin.y;
         if(this->origin.z > (edk::uint64)rect.origin.z)this->origin.z = (edk::uint64)rect.origin.z;
@@ -6118,7 +6118,7 @@ public:
         if(this->size.height < (edk::uint64)rect.size.height)this->size.height = (edk::uint64)rect.size.height;
         if(this->size.length < (edk::uint64)rect.size.length)this->size.length = (edk::uint64)rect.size.length;
     }
-    void merge(edk::cubeui64 rect){
+    inline void merge(edk::cubeui64 rect){
         if(this->origin.x > rect.origin.x)this->origin.x = rect.origin.x;
         if(this->origin.y > rect.origin.y)this->origin.y = rect.origin.y;
         if(this->origin.z > rect.origin.z)this->origin.z = rect.origin.z;
@@ -6326,7 +6326,7 @@ public:
     }
 
     //operators
-    cubef32 operator=(cubef32 cube){
+    inline cubef32 operator=(cubef32 cube){
         //
         this->origin.x=(edk::float32)cube.origin.x;
         this->origin.y=(edk::float32)cube.origin.y;
@@ -6336,7 +6336,7 @@ public:
         this->size.length=(edk::float32)cube.size.length;
         return *this;
     }
-    cubef32 operator=(edk::float32 n){
+    inline cubef32 operator=(edk::float32 n){
         //
         this->origin.x=(edk::float32)n;
         this->origin.y=(edk::float32)n;
@@ -6346,7 +6346,7 @@ public:
         this->size.length=(edk::float32)n;
         return *this;
     }
-    cubef32 operator=(edk::float64 n){
+    inline cubef32 operator=(edk::float64 n){
         //
         this->origin.x=(edk::float32)n;
         this->origin.y=(edk::float32)n;
@@ -6356,7 +6356,7 @@ public:
         this->size.length=(edk::float32)n;
         return *this;
     }
-    cubef32 operator=(edk::int8 n){
+    inline cubef32 operator=(edk::int8 n){
         //
         this->origin.x=(edk::float32)n;
         this->origin.y=(edk::float32)n;
@@ -6366,7 +6366,7 @@ public:
         this->size.length=(edk::float32)n;
         return *this;
     }
-    cubef32 operator=(edk::int32 n){
+    inline cubef32 operator=(edk::int32 n){
         //
         this->origin.x=(edk::float32)n;
         this->origin.y=(edk::float32)n;
@@ -6376,7 +6376,7 @@ public:
         this->size.length=(edk::float32)n;
         return *this;
     }
-    cubef32 operator=(edk::int16 n){
+    inline cubef32 operator=(edk::int16 n){
         //
         this->origin.x=(edk::float32)n;
         this->origin.y=(edk::float32)n;
@@ -6386,7 +6386,7 @@ public:
         this->size.length=(edk::float32)n;
         return *this;
     }
-    cubef32 operator=(edk::int64 n){
+    inline cubef32 operator=(edk::int64 n){
         //
         this->origin.x=(edk::float32)n;
         this->origin.y=(edk::float32)n;
@@ -6396,7 +6396,7 @@ public:
         this->size.length=(edk::float32)n;
         return *this;
     }
-    cubef32 operator=(edk::uint8 n){
+    inline cubef32 operator=(edk::uint8 n){
         //
         this->origin.x=(edk::float32)n;
         this->origin.y=(edk::float32)n;
@@ -6406,7 +6406,7 @@ public:
         this->size.length=(edk::float32)n;
         return *this;
     }
-    cubef32 operator=(edk::uint32 n){
+    inline cubef32 operator=(edk::uint32 n){
         //
         this->origin.x=(edk::float32)n;
         this->origin.y=(edk::float32)n;
@@ -6416,7 +6416,7 @@ public:
         this->size.length=(edk::float32)n;
         return *this;
     }
-    cubef32 operator=(edk::uint16 n){
+    inline cubef32 operator=(edk::uint16 n){
         //
         this->origin.x=(edk::float32)n;
         this->origin.y=(edk::float32)n;
@@ -6426,7 +6426,7 @@ public:
         this->size.length=(edk::float32)n;
         return *this;
     }
-    cubef32 operator=(edk::uint64 n){
+    inline cubef32 operator=(edk::uint64 n){
         //
         this->origin.x=(edk::float32)n;
         this->origin.y=(edk::float32)n;
@@ -6437,7 +6437,7 @@ public:
         return *this;
     }
 
-    bool operator==(cubef32 cube){
+    inline bool operator==(cubef32 cube){
         //
         return (this->origin.x==(edk::float32)cube.origin.x
                 &&this->origin.y==(edk::float32)cube.origin.y
@@ -6447,7 +6447,7 @@ public:
                 &&this->size.length==(edk::float32)cube.size.length
                 );
     }
-    bool operator!=(cubef32 cube){
+    inline bool operator!=(cubef32 cube){
         //
         return (this->origin.x!=(edk::float32)cube.origin.x
                 ||this->origin.y!=(edk::float32)cube.origin.y
@@ -6457,7 +6457,7 @@ public:
                 ||this->size.length!=(edk::float32)cube.size.length
                 );
     }
-    cubef32 operator+(cubef32 cube){
+    inline cubef32 operator+(cubef32 cube){
         //
         cubef32 ret;
         ret.origin.x=this->origin.x+(edk::float32)cube.origin.x;
@@ -6468,7 +6468,7 @@ public:
         ret.size.length=this->size.length+(edk::float32)cube.size.length;
         return ret;
     }
-    cubef32 operator+(edk::float32 n){
+    inline cubef32 operator+(edk::float32 n){
         //
         cubef32 ret;
         ret.origin.x=this->origin.x+(edk::float32)n;
@@ -6479,7 +6479,7 @@ public:
         ret.size.length=this->size.length+(edk::float32)n;
         return ret;
     }
-    cubef32 operator+(edk::float64 n){
+    inline cubef32 operator+(edk::float64 n){
         //
         cubef32 ret;
         ret.origin.x=this->origin.x+(edk::float32)n;
@@ -6490,7 +6490,7 @@ public:
         ret.size.length=this->size.length+(edk::float32)n;
         return ret;
     }
-    cubef32 operator+(edk::int8 n){
+    inline cubef32 operator+(edk::int8 n){
         //
         cubef32 ret;
         ret.origin.x=this->origin.x+(edk::float32)n;
@@ -6501,7 +6501,7 @@ public:
         ret.size.length=this->size.length+(edk::float32)n;
         return ret;
     }
-    cubef32 operator+(edk::int32 n){
+    inline cubef32 operator+(edk::int32 n){
         //
         cubef32 ret;
         ret.origin.x=this->origin.x+(edk::float32)n;
@@ -6512,7 +6512,7 @@ public:
         ret.size.length=this->size.length+(edk::float32)n;
         return ret;
     }
-    cubef32 operator+(edk::int16 n){
+    inline cubef32 operator+(edk::int16 n){
         //
         cubef32 ret;
         ret.origin.x=this->origin.x+(edk::float32)n;
@@ -6523,7 +6523,7 @@ public:
         ret.size.length=this->size.length+(edk::float32)n;
         return ret;
     }
-    cubef32 operator+(edk::int64 n){
+    inline cubef32 operator+(edk::int64 n){
         //
         cubef32 ret;
         ret.origin.x=this->origin.x+(edk::float32)n;
@@ -6534,7 +6534,7 @@ public:
         ret.size.length=this->size.length+(edk::float32)n;
         return ret;
     }
-    cubef32 operator+(edk::uint8 n){
+    inline cubef32 operator+(edk::uint8 n){
         //
         cubef32 ret;
         ret.origin.x=this->origin.x+(edk::float32)n;
@@ -6545,7 +6545,7 @@ public:
         ret.size.length=this->size.length+(edk::float32)n;
         return ret;
     }
-    cubef32 operator+(edk::uint32 n){
+    inline cubef32 operator+(edk::uint32 n){
         //
         cubef32 ret;
         ret.origin.x=this->origin.x+(edk::float32)n;
@@ -6556,7 +6556,7 @@ public:
         ret.size.length=this->size.length+(edk::float32)n;
         return ret;
     }
-    cubef32 operator+(edk::uint16 n){
+    inline cubef32 operator+(edk::uint16 n){
         //
         cubef32 ret;
         ret.origin.x=this->origin.x+(edk::float32)n;
@@ -6567,7 +6567,7 @@ public:
         ret.size.length=this->size.length+(edk::float32)n;
         return ret;
     }
-    cubef32 operator+(edk::uint64 n){
+    inline cubef32 operator+(edk::uint64 n){
         //
         cubef32 ret;
         ret.origin.x=this->origin.x+(edk::float32)n;
@@ -6578,7 +6578,7 @@ public:
         ret.size.length=this->size.length+(edk::float32)n;
         return ret;
     }
-    void operator+=(cubef32 cube){
+    inline void operator+=(cubef32 cube){
         //
         this->origin.x+=(edk::float32)cube.origin.x;
         this->origin.y+=(edk::float32)cube.origin.y;
@@ -6587,7 +6587,7 @@ public:
         this->size.height+=(edk::float32)cube.size.height;
         this->size.length+=(edk::float32)cube.size.length;
     }
-    void operator+=(edk::float32 n){
+    inline void operator+=(edk::float32 n){
         //
         this->origin.x+=(edk::float32)n;
         this->origin.y+=(edk::float32)n;
@@ -6596,7 +6596,7 @@ public:
         this->size.height+=(edk::float32)n;
         this->size.length+=(edk::float32)n;
     }
-    void operator+=(edk::float64 n){
+    inline void operator+=(edk::float64 n){
         //
         this->origin.x+=(edk::float32)n;
         this->origin.y+=(edk::float32)n;
@@ -6605,7 +6605,7 @@ public:
         this->size.height+=(edk::float32)n;
         this->size.length+=(edk::float32)n;
     }
-    void operator+=(edk::int8 n){
+    inline void operator+=(edk::int8 n){
         //
         this->origin.x+=(edk::float32)n;
         this->origin.y+=(edk::float32)n;
@@ -6614,7 +6614,7 @@ public:
         this->size.height+=(edk::float32)n;
         this->size.length+=(edk::float32)n;
     }
-    void operator+=(edk::int32 n){
+    inline void operator+=(edk::int32 n){
         //
         this->origin.x+=(edk::float32)n;
         this->origin.y+=(edk::float32)n;
@@ -6623,7 +6623,7 @@ public:
         this->size.height+=(edk::float32)n;
         this->size.length+=(edk::float32)n;
     }
-    void operator+=(edk::int16 n){
+    inline void operator+=(edk::int16 n){
         //
         this->origin.x+=(edk::float32)n;
         this->origin.y+=(edk::float32)n;
@@ -6632,7 +6632,7 @@ public:
         this->size.height+=(edk::float32)n;
         this->size.length+=(edk::float32)n;
     }
-    void operator+=(edk::int64 n){
+    inline void operator+=(edk::int64 n){
         //
         this->origin.x+=(edk::float32)n;
         this->origin.y+=(edk::float32)n;
@@ -6641,7 +6641,7 @@ public:
         this->size.height+=(edk::float32)n;
         this->size.length+=(edk::float32)n;
     }
-    void operator+=(edk::uint8 n){
+    inline void operator+=(edk::uint8 n){
         //
         this->origin.x+=(edk::float32)n;
         this->origin.y+=(edk::float32)n;
@@ -6650,7 +6650,7 @@ public:
         this->size.height+=(edk::float32)n;
         this->size.length+=(edk::float32)n;
     }
-    void operator+=(edk::uint32 n){
+    inline void operator+=(edk::uint32 n){
         //
         this->origin.x+=(edk::float32)n;
         this->origin.y+=(edk::float32)n;
@@ -6659,7 +6659,7 @@ public:
         this->size.height+=(edk::float32)n;
         this->size.length+=(edk::float32)n;
     }
-    void operator+=(edk::uint16 n){
+    inline void operator+=(edk::uint16 n){
         //
         this->origin.x+=(edk::float32)n;
         this->origin.y+=(edk::float32)n;
@@ -6668,7 +6668,7 @@ public:
         this->size.height+=(edk::float32)n;
         this->size.length+=(edk::float32)n;
     }
-    void operator+=(edk::uint64 n){
+    inline void operator+=(edk::uint64 n){
         //
         this->origin.x+=(edk::float32)n;
         this->origin.y+=(edk::float32)n;
@@ -6677,7 +6677,7 @@ public:
         this->size.height+=(edk::float32)n;
         this->size.length+=(edk::float32)n;
     }
-    cubef32 operator-(cubef32 cube){
+    inline cubef32 operator-(cubef32 cube){
         //
         cubef32 ret;
         ret.origin.x=this->origin.x-(edk::float32)cube.origin.x;
@@ -6688,7 +6688,7 @@ public:
         ret.size.length=this->size.length-(edk::float32)cube.size.length;
         return ret;
     }
-    cubef32 operator-(edk::float32 n){
+    inline cubef32 operator-(edk::float32 n){
         //
         cubef32 ret;
         ret.origin.x=this->origin.x-(edk::float32)n;
@@ -6699,7 +6699,7 @@ public:
         ret.size.length=this->size.length-(edk::float32)n;
         return ret;
     }
-    cubef32 operator-(edk::float64 n){
+    inline cubef32 operator-(edk::float64 n){
         //
         cubef32 ret;
         ret.origin.x=this->origin.x-(edk::float32)n;
@@ -6710,7 +6710,7 @@ public:
         ret.size.length=this->size.length-(edk::float32)n;
         return ret;
     }
-    cubef32 operator-(edk::int8 n){
+    inline cubef32 operator-(edk::int8 n){
         //
         cubef32 ret;
         ret.origin.x=this->origin.x-(edk::float32)n;
@@ -6721,7 +6721,7 @@ public:
         ret.size.length=this->size.length-(edk::float32)n;
         return ret;
     }
-    cubef32 operator-(edk::int32 n){
+    inline cubef32 operator-(edk::int32 n){
         //
         cubef32 ret;
         ret.origin.x=this->origin.x-(edk::float32)n;
@@ -6732,7 +6732,7 @@ public:
         ret.size.length=this->size.length-(edk::float32)n;
         return ret;
     }
-    cubef32 operator-(edk::int16 n){
+    inline cubef32 operator-(edk::int16 n){
         //
         cubef32 ret;
         ret.origin.x=this->origin.x-(edk::float32)n;
@@ -6743,7 +6743,7 @@ public:
         ret.size.length=this->size.length-(edk::float32)n;
         return ret;
     }
-    cubef32 operator-(edk::int64 n){
+    inline cubef32 operator-(edk::int64 n){
         //
         cubef32 ret;
         ret.origin.x=this->origin.x-(edk::float32)n;
@@ -6754,7 +6754,7 @@ public:
         ret.size.length=this->size.length-(edk::float32)n;
         return ret;
     }
-    cubef32 operator-(edk::uint8 n){
+    inline cubef32 operator-(edk::uint8 n){
         //
         cubef32 ret;
         ret.origin.x=this->origin.x-(edk::float32)n;
@@ -6765,7 +6765,7 @@ public:
         ret.size.length=this->size.length-(edk::float32)n;
         return ret;
     }
-    cubef32 operator-(edk::uint32 n){
+    inline cubef32 operator-(edk::uint32 n){
         //
         cubef32 ret;
         ret.origin.x=this->origin.x-(edk::float32)n;
@@ -6776,7 +6776,7 @@ public:
         ret.size.length=this->size.length-(edk::float32)n;
         return ret;
     }
-    cubef32 operator-(edk::uint16 n){
+    inline cubef32 operator-(edk::uint16 n){
         //
         cubef32 ret;
         ret.origin.x=this->origin.x-(edk::float32)n;
@@ -6787,7 +6787,7 @@ public:
         ret.size.length=this->size.length-(edk::float32)n;
         return ret;
     }
-    cubef32 operator-(edk::uint64 n){
+    inline cubef32 operator-(edk::uint64 n){
         //
         cubef32 ret;
         ret.origin.x=this->origin.x-(edk::float32)n;
@@ -6798,7 +6798,7 @@ public:
         ret.size.length=this->size.length-(edk::float32)n;
         return ret;
     }
-    void operator-=(cubef32 vec){
+    inline void operator-=(cubef32 vec){
         //
         this->origin.x-=(edk::float32)vec.origin.x;
         this->origin.y-=(edk::float32)vec.origin.y;
@@ -6807,7 +6807,7 @@ public:
         this->size.height-=(edk::float32)vec.size.height;
         this->size.length-=(edk::float32)vec.size.length;
     }
-    void operator-=(edk::float32 n){
+    inline void operator-=(edk::float32 n){
         //
         this->origin.x-=(edk::float32)n;
         this->origin.y-=(edk::float32)n;
@@ -6816,7 +6816,7 @@ public:
         this->size.height-=(edk::float32)n;
         this->size.length-=(edk::float32)n;
     }
-    void operator-=(edk::float64 n){
+    inline void operator-=(edk::float64 n){
         //
         this->origin.x-=(edk::float32)n;
         this->origin.y-=(edk::float32)n;
@@ -6825,7 +6825,7 @@ public:
         this->size.height-=(edk::float32)n;
         this->size.length-=(edk::float32)n;
     }
-    void operator-=(edk::int8 n){
+    inline void operator-=(edk::int8 n){
         //
         this->origin.x-=(edk::float32)n;
         this->origin.y-=(edk::float32)n;
@@ -6834,7 +6834,7 @@ public:
         this->size.height-=(edk::float32)n;
         this->size.length-=(edk::float32)n;
     }
-    void operator-=(edk::int32 n){
+    inline void operator-=(edk::int32 n){
         //
         this->origin.x-=(edk::float32)n;
         this->origin.y-=(edk::float32)n;
@@ -6843,7 +6843,7 @@ public:
         this->size.height-=(edk::float32)n;
         this->size.length-=(edk::float32)n;
     }
-    void operator-=(edk::int16 n){
+    inline void operator-=(edk::int16 n){
         //
         this->origin.x-=(edk::float32)n;
         this->origin.y-=(edk::float32)n;
@@ -6852,7 +6852,7 @@ public:
         this->size.height-=(edk::float32)n;
         this->size.length-=(edk::float32)n;
     }
-    void operator-=(edk::int64 n){
+    inline void operator-=(edk::int64 n){
         //
         this->origin.x-=(edk::float32)n;
         this->origin.y-=(edk::float32)n;
@@ -6861,7 +6861,7 @@ public:
         this->size.height-=(edk::float32)n;
         this->size.length-=(edk::float32)n;
     }
-    void operator-=(edk::uint8 n){
+    inline void operator-=(edk::uint8 n){
         //
         this->origin.x-=(edk::float32)n;
         this->origin.y-=(edk::float32)n;
@@ -6870,7 +6870,7 @@ public:
         this->size.height-=(edk::float32)n;
         this->size.length-=(edk::float32)n;
     }
-    void operator-=(edk::uint32 n){
+    inline void operator-=(edk::uint32 n){
         //
         this->origin.x-=(edk::float32)n;
         this->origin.y-=(edk::float32)n;
@@ -6879,7 +6879,7 @@ public:
         this->size.height-=(edk::float32)n;
         this->size.length-=(edk::float32)n;
     }
-    void operator-=(edk::uint16 n){
+    inline void operator-=(edk::uint16 n){
         //
         this->origin.x-=(edk::float32)n;
         this->origin.y-=(edk::float32)n;
@@ -6888,7 +6888,7 @@ public:
         this->size.height-=(edk::float32)n;
         this->size.length-=(edk::float32)n;
     }
-    void operator-=(edk::uint64 n){
+    inline void operator-=(edk::uint64 n){
         //
         this->origin.x-=(edk::float32)n;
         this->origin.y-=(edk::float32)n;
@@ -6897,7 +6897,7 @@ public:
         this->size.height-=(edk::float32)n;
         this->size.length-=(edk::float32)n;
     }
-    cubef32 operator*(cubef32 cube){
+    inline cubef32 operator*(cubef32 cube){
         //
         cubef32 ret;
         ret.origin.x=this->origin.x*(edk::float32)cube.origin.x;
@@ -6908,7 +6908,7 @@ public:
         ret.size.length=this->size.length*(edk::float32)cube.size.length;
         return ret;
     }
-    cubef32 operator*(edk::float32 n){
+    inline cubef32 operator*(edk::float32 n){
         //
         cubef32 ret;
         ret.origin.x=this->origin.x*(edk::float32)n;
@@ -6919,7 +6919,7 @@ public:
         ret.size.length=this->size.length*(edk::float32)n;
         return ret;
     }
-    cubef32 operator*(edk::float64 n){
+    inline cubef32 operator*(edk::float64 n){
         //
         cubef32 ret;
         ret.origin.x=this->origin.x*(edk::float32)n;
@@ -6930,7 +6930,7 @@ public:
         ret.size.length=this->size.length*(edk::float32)n;
         return ret;
     }
-    cubef32 operator*(edk::int8 n){
+    inline cubef32 operator*(edk::int8 n){
         //
         cubef32 ret;
         ret.origin.x=this->origin.x*(edk::float32)n;
@@ -6941,7 +6941,7 @@ public:
         ret.size.length=this->size.length*(edk::float32)n;
         return ret;
     }
-    cubef32 operator*(edk::int32 n){
+    inline cubef32 operator*(edk::int32 n){
         //
         cubef32 ret;
         ret.origin.x=this->origin.x*(edk::float32)n;
@@ -6952,7 +6952,7 @@ public:
         ret.size.length=this->size.length*(edk::float32)n;
         return ret;
     }
-    cubef32 operator*(edk::int16 n){
+    inline cubef32 operator*(edk::int16 n){
         //
         cubef32 ret;
         ret.origin.x=this->origin.x*(edk::float32)n;
@@ -6963,7 +6963,7 @@ public:
         ret.size.length=this->size.length*(edk::float32)n;
         return ret;
     }
-    cubef32 operator*(edk::int64 n){
+    inline cubef32 operator*(edk::int64 n){
         //
         cubef32 ret;
         ret.origin.x=this->origin.x*(edk::float32)n;
@@ -6974,7 +6974,7 @@ public:
         ret.size.length=this->size.length*(edk::float32)n;
         return ret;
     }
-    cubef32 operator*(edk::uint8 n){
+    inline cubef32 operator*(edk::uint8 n){
         //
         cubef32 ret;
         ret.origin.x=this->origin.x*(edk::float32)n;
@@ -6985,7 +6985,7 @@ public:
         ret.size.length=this->size.length*(edk::float32)n;
         return ret;
     }
-    cubef32 operator*(edk::uint32 n){
+    inline cubef32 operator*(edk::uint32 n){
         //
         cubef32 ret;
         ret.origin.x=this->origin.x*(edk::float32)n;
@@ -6996,7 +6996,7 @@ public:
         ret.size.length=this->size.length*(edk::float32)n;
         return ret;
     }
-    cubef32 operator*(edk::uint16 n){
+    inline cubef32 operator*(edk::uint16 n){
         //
         cubef32 ret;
         ret.origin.x=this->origin.x*(edk::float32)n;
@@ -7007,7 +7007,7 @@ public:
         ret.size.length=this->size.length*(edk::float32)n;
         return ret;
     }
-    cubef32 operator*(edk::uint64 n){
+    inline cubef32 operator*(edk::uint64 n){
         //
         cubef32 ret;
         ret.origin.x=this->origin.x*(edk::float32)n;
@@ -7018,7 +7018,7 @@ public:
         ret.size.length=this->size.length*(edk::float32)n;
         return ret;
     }
-    void operator*=(cubef32 cube){
+    inline void operator*=(cubef32 cube){
         //
         this->origin.x*=(edk::float32)cube.origin.x;
         this->origin.y*=(edk::float32)cube.origin.y;
@@ -7027,7 +7027,7 @@ public:
         this->size.height*=(edk::float32)cube.size.height;
         this->size.length*=(edk::float32)cube.size.length;
     }
-    void operator*=(edk::float32 n){
+    inline void operator*=(edk::float32 n){
         //
         this->origin.x*=(edk::float32)n;
         this->origin.y*=(edk::float32)n;
@@ -7036,7 +7036,7 @@ public:
         this->size.height*=(edk::float32)n;
         this->size.length*=(edk::float32)n;
     }
-    void operator*=(edk::float64 n){
+    inline void operator*=(edk::float64 n){
         //
         this->origin.x*=(edk::float32)n;
         this->origin.y*=(edk::float32)n;
@@ -7045,7 +7045,7 @@ public:
         this->size.height*=(edk::float32)n;
         this->size.length*=(edk::float32)n;
     }
-    void operator*=(edk::int8 n){
+    inline void operator*=(edk::int8 n){
         //
         this->origin.x*=(edk::float32)n;
         this->origin.y*=(edk::float32)n;
@@ -7054,7 +7054,7 @@ public:
         this->size.height*=(edk::float32)n;
         this->size.length*=(edk::float32)n;
     }
-    void operator*=(edk::int32 n){
+    inline void operator*=(edk::int32 n){
         //
         this->origin.x*=(edk::float32)n;
         this->origin.y*=(edk::float32)n;
@@ -7063,23 +7063,14 @@ public:
         this->size.height*=(edk::float32)n;
         this->size.length*=(edk::float32)n;
     }
-    void operator*=(edk::int16 n){
+    inline void operator*=(edk::int16 n){
         //
         this->origin.x*=(edk::float32)n;
         this->origin.y*=(edk::float32)n;
         this->size.width*=(edk::float32)n;
         this->size.height*=(edk::float32)n;
     }
-    void operator*=(edk::int64 n){
-        //
-        this->origin.x*=(edk::float32)n;
-        this->origin.y*=(edk::float32)n;
-        this->origin.z*=(edk::float32)n;
-        this->size.width*=(edk::float32)n;
-        this->size.height*=(edk::float32)n;
-        this->size.length*=(edk::float32)n;
-    }
-    void operator*=(edk::uint8 n){
+    inline void operator*=(edk::int64 n){
         //
         this->origin.x*=(edk::float32)n;
         this->origin.y*=(edk::float32)n;
@@ -7088,7 +7079,7 @@ public:
         this->size.height*=(edk::float32)n;
         this->size.length*=(edk::float32)n;
     }
-    void operator*=(edk::uint32 n){
+    inline void operator*=(edk::uint8 n){
         //
         this->origin.x*=(edk::float32)n;
         this->origin.y*=(edk::float32)n;
@@ -7097,7 +7088,7 @@ public:
         this->size.height*=(edk::float32)n;
         this->size.length*=(edk::float32)n;
     }
-    void operator*=(edk::uint16 n){
+    inline void operator*=(edk::uint32 n){
         //
         this->origin.x*=(edk::float32)n;
         this->origin.y*=(edk::float32)n;
@@ -7106,7 +7097,16 @@ public:
         this->size.height*=(edk::float32)n;
         this->size.length*=(edk::float32)n;
     }
-    void operator*=(edk::uint64 n){
+    inline void operator*=(edk::uint16 n){
+        //
+        this->origin.x*=(edk::float32)n;
+        this->origin.y*=(edk::float32)n;
+        this->origin.z*=(edk::float32)n;
+        this->size.width*=(edk::float32)n;
+        this->size.height*=(edk::float32)n;
+        this->size.length*=(edk::float32)n;
+    }
+    inline void operator*=(edk::uint64 n){
         //
         this->origin.x*=(edk::float32)n;
         this->origin.y*=(edk::float32)n;
@@ -7116,7 +7116,7 @@ public:
         this->size.length*=(edk::float32)n;
     }
     //
-    cubef32 operator++(){
+    inline cubef32 operator++(){
         //
         ++this->origin.x;
         ++this->origin.y;
@@ -7124,9 +7124,9 @@ public:
         ++this->size.width;
         ++this->size.height;
         ++this->size.length;
-        return cubef32(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
+        return edk::cubef32(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
     }
-    cubef32 operator++(edk::int32){
+    inline cubef32 operator++(edk::int32){
         //
         this->origin.x++;
         this->origin.y++;
@@ -7134,9 +7134,9 @@ public:
         this->size.width++;
         this->size.height++;
         this->size.length++;
-        return cubef32(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
+        return edk::cubef32(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
     }
-    cubef32 operator--(){
+    inline cubef32 operator--(){
         //
         --this->origin.x;
         --this->origin.y;
@@ -7144,9 +7144,9 @@ public:
         --this->size.width;
         --this->size.height;
         --this->size.length;
-        return cubef32(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
+        return edk::cubef32(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
     }
-    cubef32 operator--(edk::int32){
+    inline cubef32 operator--(edk::int32){
         //
         this->origin.x--;
         this->origin.y--;
@@ -7154,9 +7154,9 @@ public:
         this->size.width--;
         this->size.height--;
         this->size.length--;
-        return cubef32(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
+        return edk::cubef32(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
     }
-    cubef32 operator()(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 width,edk::float32 height,edk::float32 length){
+    inline cubef32 operator()(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 width,edk::float32 height,edk::float32 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -7164,9 +7164,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubef32((edk::float32)this->origin.x,(edk::float32)this->origin.y,(edk::float32)this->origin.z,(edk::float32)this->size.width,(edk::float32)this->size.height,(edk::float32)this->size.length);
+        return edk::cubef32((edk::float32)this->origin.x,(edk::float32)this->origin.y,(edk::float32)this->origin.z,(edk::float32)this->size.width,(edk::float32)this->size.height,(edk::float32)this->size.length);
     }
-    cubef32 operator()(edk::float64 x,edk::float64 y,edk::float64 z,edk::float64 width,edk::float64 height,edk::float64 length){
+    inline cubef32 operator()(edk::float64 x,edk::float64 y,edk::float64 z,edk::float64 width,edk::float64 height,edk::float64 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -7174,9 +7174,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubef32((edk::float32)this->origin.x,(edk::float32)this->origin.y,(edk::float32)this->origin.z,(edk::float32)this->size.width,(edk::float32)this->size.height,(edk::float32)this->size.length);
+        return edk::cubef32((edk::float32)this->origin.x,(edk::float32)this->origin.y,(edk::float32)this->origin.z,(edk::float32)this->size.width,(edk::float32)this->size.height,(edk::float32)this->size.length);
     }
-    cubef32 operator()(edk::int8 x,edk::int8 y,edk::int8 z,edk::int8 width,edk::int8 height,edk::int8 length){
+    inline cubef32 operator()(edk::int8 x,edk::int8 y,edk::int8 z,edk::int8 width,edk::int8 height,edk::int8 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -7184,9 +7184,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubef32((edk::float32)this->origin.x,(edk::float32)this->origin.y,(edk::float32)this->origin.z,(edk::float32)this->size.width,(edk::float32)this->size.height,(edk::float32)this->size.length);
+        return edk::cubef32((edk::float32)this->origin.x,(edk::float32)this->origin.y,(edk::float32)this->origin.z,(edk::float32)this->size.width,(edk::float32)this->size.height,(edk::float32)this->size.length);
     }
-    cubef32 operator()(edk::int32 x,edk::int32 y,edk::int32 z,edk::int32 width,edk::int32 height,edk::int32 length){
+    inline cubef32 operator()(edk::int32 x,edk::int32 y,edk::int32 z,edk::int32 width,edk::int32 height,edk::int32 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -7194,9 +7194,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubef32((edk::float32)this->origin.x,(edk::float32)this->origin.y,(edk::float32)this->origin.z,(edk::float32)this->size.width,(edk::float32)this->size.height,(edk::float32)this->size.length);
+        return edk::cubef32((edk::float32)this->origin.x,(edk::float32)this->origin.y,(edk::float32)this->origin.z,(edk::float32)this->size.width,(edk::float32)this->size.height,(edk::float32)this->size.length);
     }
-    cubef32 operator()(edk::int16 x,edk::int16 y,edk::int16 z,edk::int16 width,edk::int16 height,edk::int16 length){
+    inline cubef32 operator()(edk::int16 x,edk::int16 y,edk::int16 z,edk::int16 width,edk::int16 height,edk::int16 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -7204,9 +7204,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubef32((edk::float32)this->origin.x,(edk::float32)this->origin.y,(edk::float32)this->origin.z,(edk::float32)this->size.width,(edk::float32)this->size.height,(edk::float32)this->size.length);
+        return edk::cubef32((edk::float32)this->origin.x,(edk::float32)this->origin.y,(edk::float32)this->origin.z,(edk::float32)this->size.width,(edk::float32)this->size.height,(edk::float32)this->size.length);
     }
-    cubef32 operator()(edk::int64 x,edk::int64 y,edk::int64 z,edk::int64 width,edk::int64 height,edk::int64 length){
+    inline cubef32 operator()(edk::int64 x,edk::int64 y,edk::int64 z,edk::int64 width,edk::int64 height,edk::int64 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -7214,9 +7214,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubef32((edk::float32)this->origin.x,(edk::float32)this->origin.y,(edk::float32)this->origin.z,(edk::float32)this->size.width,(edk::float32)this->size.height,(edk::float32)this->size.length);
+        return edk::cubef32((edk::float32)this->origin.x,(edk::float32)this->origin.y,(edk::float32)this->origin.z,(edk::float32)this->size.width,(edk::float32)this->size.height,(edk::float32)this->size.length);
     }
-    cubef32 operator()(edk::uint8 x,edk::uint8 y,edk::uint8 z,edk::uint8 width,edk::uint8 height,edk::uint8 length){
+    inline cubef32 operator()(edk::uint8 x,edk::uint8 y,edk::uint8 z,edk::uint8 width,edk::uint8 height,edk::uint8 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -7224,9 +7224,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubef32((edk::float32)this->origin.x,(edk::float32)this->origin.y,(edk::float32)this->origin.z,(edk::float32)this->size.width,(edk::float32)this->size.height,(edk::float32)this->size.length);
+        return edk::cubef32((edk::float32)this->origin.x,(edk::float32)this->origin.y,(edk::float32)this->origin.z,(edk::float32)this->size.width,(edk::float32)this->size.height,(edk::float32)this->size.length);
     }
-    cubef32 operator()(edk::uint32 x,edk::uint32 y,edk::uint32 z,edk::uint32 width,edk::uint32 height,edk::uint32 length){
+    inline cubef32 operator()(edk::uint32 x,edk::uint32 y,edk::uint32 z,edk::uint32 width,edk::uint32 height,edk::uint32 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -7234,9 +7234,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubef32((edk::float32)this->origin.x,(edk::float32)this->origin.y,(edk::float32)this->origin.z,(edk::float32)this->size.width,(edk::float32)this->size.height,(edk::float32)this->size.length);
+        return edk::cubef32((edk::float32)this->origin.x,(edk::float32)this->origin.y,(edk::float32)this->origin.z,(edk::float32)this->size.width,(edk::float32)this->size.height,(edk::float32)this->size.length);
     }
-    cubef32 operator()(edk::uint16 x,edk::uint16 y,edk::uint16 z,edk::uint16 width,edk::uint16 height,edk::uint16 length){
+    inline cubef32 operator()(edk::uint16 x,edk::uint16 y,edk::uint16 z,edk::uint16 width,edk::uint16 height,edk::uint16 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -7244,9 +7244,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubef32((edk::float32)this->origin.x,(edk::float32)this->origin.y,(edk::float32)this->origin.z,(edk::float32)this->size.width,(edk::float32)this->size.height,(edk::float32)this->size.length);
+        return edk::cubef32((edk::float32)this->origin.x,(edk::float32)this->origin.y,(edk::float32)this->origin.z,(edk::float32)this->size.width,(edk::float32)this->size.height,(edk::float32)this->size.length);
     }
-    cubef32 operator()(edk::uint64 x,edk::uint64 y,edk::uint64 z,edk::uint64 width,edk::uint64 height,edk::uint64 length){
+    inline cubef32 operator()(edk::uint64 x,edk::uint64 y,edk::uint64 z,edk::uint64 width,edk::uint64 height,edk::uint64 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -7254,10 +7254,10 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubef32((edk::float32)this->origin.x,(edk::float32)this->origin.y,(edk::float32)this->origin.z,(edk::float32)this->size.width,(edk::float32)this->size.height,(edk::float32)this->size.length);
+        return edk::cubef32((edk::float32)this->origin.x,(edk::float32)this->origin.y,(edk::float32)this->origin.z,(edk::float32)this->size.width,(edk::float32)this->size.height,(edk::float32)this->size.length);
     }
     //function to merge the cube with another cube
-    void merge(edk::cubef32 rect){
+    inline void merge(edk::cubef32 rect){
         if(this->origin.x > rect.origin.x)this->origin.x = rect.origin.x;
         if(this->origin.y > rect.origin.y)this->origin.y = rect.origin.y;
         if(this->origin.z > rect.origin.z)this->origin.z = rect.origin.z;
@@ -7465,7 +7465,7 @@ public:
     }
 
     //operators
-    cubef64 operator=(cubef64 cube){
+    inline cubef64 operator=(cubef64 cube){
         //
         this->origin.x=(edk::float64)cube.origin.x;
         this->origin.y=(edk::float64)cube.origin.y;
@@ -7475,7 +7475,7 @@ public:
         this->size.length=(edk::float64)cube.size.length;
         return *this;
     }
-    cubef64 operator=(edk::float32 n){
+    inline cubef64 operator=(edk::float32 n){
         //
         this->origin.x=(edk::float64)n;
         this->origin.y=(edk::float64)n;
@@ -7485,7 +7485,7 @@ public:
         this->size.length=(edk::float64)n;
         return *this;
     }
-    cubef64 operator=(edk::float64 n){
+    inline cubef64 operator=(edk::float64 n){
         //
         this->origin.x=(edk::float64)n;
         this->origin.y=(edk::float64)n;
@@ -7495,7 +7495,7 @@ public:
         this->size.length=(edk::float64)n;
         return *this;
     }
-    cubef64 operator=(edk::int8 n){
+    inline cubef64 operator=(edk::int8 n){
         //
         this->origin.x=(edk::float64)n;
         this->origin.y=(edk::float64)n;
@@ -7505,7 +7505,7 @@ public:
         this->size.length=(edk::float64)n;
         return *this;
     }
-    cubef64 operator=(edk::int32 n){
+    inline cubef64 operator=(edk::int32 n){
         //
         this->origin.x=(edk::float64)n;
         this->origin.y=(edk::float64)n;
@@ -7515,7 +7515,7 @@ public:
         this->size.length=(edk::float64)n;
         return *this;
     }
-    cubef64 operator=(edk::int16 n){
+    inline cubef64 operator=(edk::int16 n){
         //
         this->origin.x=(edk::float64)n;
         this->origin.y=(edk::float64)n;
@@ -7525,7 +7525,7 @@ public:
         this->size.length=(edk::float64)n;
         return *this;
     }
-    cubef64 operator=(edk::int64 n){
+    inline cubef64 operator=(edk::int64 n){
         //
         this->origin.x=(edk::float64)n;
         this->origin.y=(edk::float64)n;
@@ -7535,7 +7535,7 @@ public:
         this->size.length=(edk::float64)n;
         return *this;
     }
-    cubef64 operator=(edk::uint8 n){
+    inline cubef64 operator=(edk::uint8 n){
         //
         this->origin.x=(edk::float64)n;
         this->origin.y=(edk::float64)n;
@@ -7545,7 +7545,7 @@ public:
         this->size.length=(edk::float64)n;
         return *this;
     }
-    cubef64 operator=(edk::uint32 n){
+    inline cubef64 operator=(edk::uint32 n){
         //
         this->origin.x=(edk::float64)n;
         this->origin.y=(edk::float64)n;
@@ -7555,7 +7555,7 @@ public:
         this->size.length=(edk::float64)n;
         return *this;
     }
-    cubef64 operator=(edk::uint16 n){
+    inline cubef64 operator=(edk::uint16 n){
         //
         this->origin.x=(edk::float64)n;
         this->origin.y=(edk::float64)n;
@@ -7565,7 +7565,7 @@ public:
         this->size.length=(edk::float64)n;
         return *this;
     }
-    cubef64 operator=(edk::uint64 n){
+    inline cubef64 operator=(edk::uint64 n){
         //
         this->origin.x=(edk::float64)n;
         this->origin.y=(edk::float64)n;
@@ -7576,7 +7576,7 @@ public:
         return *this;
     }
 
-    bool operator==(cubef64 cube){
+    inline bool operator==(cubef64 cube){
         //
         return (this->origin.x==(edk::float64)cube.origin.x
                 &&this->origin.y==(edk::float64)cube.origin.y
@@ -7586,7 +7586,7 @@ public:
                 &&this->size.length==(edk::float64)cube.size.length
                 );
     }
-    bool operator!=(cubef64 cube){
+    inline bool operator!=(cubef64 cube){
         //
         return (this->origin.x!=(edk::float64)cube.origin.x
                 ||this->origin.y!=(edk::float64)cube.origin.y
@@ -7596,7 +7596,7 @@ public:
                 ||this->size.length!=(edk::float64)cube.size.length
                 );
     }
-    cubef64 operator+(cubef64 cube){
+    inline cubef64 operator+(cubef64 cube){
         //
         cubef64 ret;
         ret.origin.x=this->origin.x+(edk::float64)cube.origin.x;
@@ -7607,7 +7607,7 @@ public:
         ret.size.length=this->size.length+(edk::float64)cube.size.length;
         return ret;
     }
-    cubef64 operator+(edk::float32 n){
+    inline cubef64 operator+(edk::float32 n){
         //
         cubef64 ret;
         ret.origin.x=this->origin.x+(edk::float64)n;
@@ -7618,7 +7618,7 @@ public:
         ret.size.length=this->size.length+(edk::float64)n;
         return ret;
     }
-    cubef64 operator+(edk::float64 n){
+    inline cubef64 operator+(edk::float64 n){
         //
         cubef64 ret;
         ret.origin.x=this->origin.x+(edk::float64)n;
@@ -7629,7 +7629,7 @@ public:
         ret.size.length=this->size.length+(edk::float64)n;
         return ret;
     }
-    cubef64 operator+(edk::int8 n){
+    inline cubef64 operator+(edk::int8 n){
         //
         cubef64 ret;
         ret.origin.x=this->origin.x+(edk::float64)n;
@@ -7640,7 +7640,7 @@ public:
         ret.size.length=this->size.length+(edk::float64)n;
         return ret;
     }
-    cubef64 operator+(edk::int32 n){
+    inline cubef64 operator+(edk::int32 n){
         //
         cubef64 ret;
         ret.origin.x=this->origin.x+(edk::float64)n;
@@ -7651,7 +7651,7 @@ public:
         ret.size.length=this->size.length+(edk::float64)n;
         return ret;
     }
-    cubef64 operator+(edk::int16 n){
+    inline cubef64 operator+(edk::int16 n){
         //
         cubef64 ret;
         ret.origin.x=this->origin.x+(edk::float64)n;
@@ -7662,7 +7662,7 @@ public:
         ret.size.length=this->size.length+(edk::float64)n;
         return ret;
     }
-    cubef64 operator+(edk::int64 n){
+    inline cubef64 operator+(edk::int64 n){
         //
         cubef64 ret;
         ret.origin.x=this->origin.x+(edk::float64)n;
@@ -7673,7 +7673,7 @@ public:
         ret.size.length=this->size.length+(edk::float64)n;
         return ret;
     }
-    cubef64 operator+(edk::uint8 n){
+    inline cubef64 operator+(edk::uint8 n){
         //
         cubef64 ret;
         ret.origin.x=this->origin.x+(edk::float64)n;
@@ -7684,7 +7684,7 @@ public:
         ret.size.length=this->size.length+(edk::float64)n;
         return ret;
     }
-    cubef64 operator+(edk::uint32 n){
+    inline cubef64 operator+(edk::uint32 n){
         //
         cubef64 ret;
         ret.origin.x=this->origin.x+(edk::float64)n;
@@ -7695,7 +7695,7 @@ public:
         ret.size.length=this->size.length+(edk::float64)n;
         return ret;
     }
-    cubef64 operator+(edk::uint16 n){
+    inline cubef64 operator+(edk::uint16 n){
         //
         cubef64 ret;
         ret.origin.x=this->origin.x+(edk::float64)n;
@@ -7706,7 +7706,7 @@ public:
         ret.size.length=this->size.length+(edk::float64)n;
         return ret;
     }
-    cubef64 operator+(edk::uint64 n){
+    inline cubef64 operator+(edk::uint64 n){
         //
         cubef64 ret;
         ret.origin.x=this->origin.x+(edk::float64)n;
@@ -7717,7 +7717,7 @@ public:
         ret.size.length=this->size.length+(edk::float64)n;
         return ret;
     }
-    void operator+=(cubef64 cube){
+    inline void operator+=(cubef64 cube){
         //
         this->origin.x+=(edk::float64)cube.origin.x;
         this->origin.y+=(edk::float64)cube.origin.y;
@@ -7726,7 +7726,7 @@ public:
         this->size.height+=(edk::float64)cube.size.height;
         this->size.length+=(edk::float64)cube.size.length;
     }
-    void operator+=(edk::float32 n){
+    inline void operator+=(edk::float32 n){
         //
         this->origin.x+=(edk::float64)n;
         this->origin.y+=(edk::float64)n;
@@ -7735,7 +7735,7 @@ public:
         this->size.height+=(edk::float64)n;
         this->size.length+=(edk::float64)n;
     }
-    void operator+=(edk::float64 n){
+    inline void operator+=(edk::float64 n){
         //
         this->origin.x+=(edk::float64)n;
         this->origin.y+=(edk::float64)n;
@@ -7744,7 +7744,7 @@ public:
         this->size.height+=(edk::float64)n;
         this->size.length+=(edk::float64)n;
     }
-    void operator+=(edk::int8 n){
+    inline void operator+=(edk::int8 n){
         //
         this->origin.x+=(edk::float64)n;
         this->origin.y+=(edk::float64)n;
@@ -7753,7 +7753,7 @@ public:
         this->size.height+=(edk::float64)n;
         this->size.length+=(edk::float64)n;
     }
-    void operator+=(edk::int32 n){
+    inline void operator+=(edk::int32 n){
         //
         this->origin.x+=(edk::float64)n;
         this->origin.y+=(edk::float64)n;
@@ -7762,7 +7762,7 @@ public:
         this->size.height+=(edk::float64)n;
         this->size.length+=(edk::float64)n;
     }
-    void operator+=(edk::int16 n){
+    inline void operator+=(edk::int16 n){
         //
         this->origin.x+=(edk::float64)n;
         this->origin.y+=(edk::float64)n;
@@ -7771,7 +7771,7 @@ public:
         this->size.height+=(edk::float64)n;
         this->size.length+=(edk::float64)n;
     }
-    void operator+=(edk::int64 n){
+    inline void operator+=(edk::int64 n){
         //
         this->origin.x+=(edk::float64)n;
         this->origin.y+=(edk::float64)n;
@@ -7780,7 +7780,7 @@ public:
         this->size.height+=(edk::float64)n;
         this->size.length+=(edk::float64)n;
     }
-    void operator+=(edk::uint8 n){
+    inline void operator+=(edk::uint8 n){
         //
         this->origin.x+=(edk::float64)n;
         this->origin.y+=(edk::float64)n;
@@ -7789,7 +7789,7 @@ public:
         this->size.height+=(edk::float64)n;
         this->size.length+=(edk::float64)n;
     }
-    void operator+=(edk::uint32 n){
+    inline void operator+=(edk::uint32 n){
         //
         this->origin.x+=(edk::float64)n;
         this->origin.y+=(edk::float64)n;
@@ -7798,7 +7798,7 @@ public:
         this->size.height+=(edk::float64)n;
         this->size.length+=(edk::float64)n;
     }
-    void operator+=(edk::uint16 n){
+    inline void operator+=(edk::uint16 n){
         //
         this->origin.x+=(edk::float64)n;
         this->origin.y+=(edk::float64)n;
@@ -7807,7 +7807,7 @@ public:
         this->size.height+=(edk::float64)n;
         this->size.length+=(edk::float64)n;
     }
-    void operator+=(edk::uint64 n){
+    inline void operator+=(edk::uint64 n){
         //
         this->origin.x+=(edk::float64)n;
         this->origin.y+=(edk::float64)n;
@@ -7816,7 +7816,7 @@ public:
         this->size.height+=(edk::float64)n;
         this->size.length+=(edk::float64)n;
     }
-    cubef64 operator-(cubef64 cube){
+    inline cubef64 operator-(cubef64 cube){
         //
         cubef64 ret;
         ret.origin.x=this->origin.x-(edk::float64)cube.origin.x;
@@ -7827,7 +7827,7 @@ public:
         ret.size.length=this->size.length-(edk::float64)cube.size.length;
         return ret;
     }
-    cubef64 operator-(edk::float32 n){
+    inline cubef64 operator-(edk::float32 n){
         //
         cubef64 ret;
         ret.origin.x=this->origin.x-(edk::float64)n;
@@ -7838,7 +7838,7 @@ public:
         ret.size.length=this->size.length-(edk::float64)n;
         return ret;
     }
-    cubef64 operator-(edk::float64 n){
+    inline cubef64 operator-(edk::float64 n){
         //
         cubef64 ret;
         ret.origin.x=this->origin.x-(edk::float64)n;
@@ -7849,7 +7849,7 @@ public:
         ret.size.length=this->size.length-(edk::float64)n;
         return ret;
     }
-    cubef64 operator-(edk::int8 n){
+    inline cubef64 operator-(edk::int8 n){
         //
         cubef64 ret;
         ret.origin.x=this->origin.x-(edk::float64)n;
@@ -7860,7 +7860,7 @@ public:
         ret.size.length=this->size.length-(edk::float64)n;
         return ret;
     }
-    cubef64 operator-(edk::int32 n){
+    inline cubef64 operator-(edk::int32 n){
         //
         cubef64 ret;
         ret.origin.x=this->origin.x-(edk::float64)n;
@@ -7871,7 +7871,7 @@ public:
         ret.size.length=this->size.length-(edk::float64)n;
         return ret;
     }
-    cubef64 operator-(edk::int16 n){
+    inline cubef64 operator-(edk::int16 n){
         //
         cubef64 ret;
         ret.origin.x=this->origin.x-(edk::float64)n;
@@ -7882,7 +7882,7 @@ public:
         ret.size.length=this->size.length-(edk::float64)n;
         return ret;
     }
-    cubef64 operator-(edk::int64 n){
+    inline cubef64 operator-(edk::int64 n){
         //
         cubef64 ret;
         ret.origin.x=this->origin.x-(edk::float64)n;
@@ -7893,7 +7893,7 @@ public:
         ret.size.length=this->size.length-(edk::float64)n;
         return ret;
     }
-    cubef64 operator-(edk::uint8 n){
+    inline cubef64 operator-(edk::uint8 n){
         //
         cubef64 ret;
         ret.origin.x=this->origin.x-(edk::float64)n;
@@ -7904,7 +7904,7 @@ public:
         ret.size.length=this->size.length-(edk::float64)n;
         return ret;
     }
-    cubef64 operator-(edk::uint32 n){
+    inline cubef64 operator-(edk::uint32 n){
         //
         cubef64 ret;
         ret.origin.x=this->origin.x-(edk::float64)n;
@@ -7915,7 +7915,7 @@ public:
         ret.size.length=this->size.length-(edk::float64)n;
         return ret;
     }
-    cubef64 operator-(edk::uint16 n){
+    inline cubef64 operator-(edk::uint16 n){
         //
         cubef64 ret;
         ret.origin.x=this->origin.x-(edk::float64)n;
@@ -7926,7 +7926,7 @@ public:
         ret.size.length=this->size.length-(edk::float64)n;
         return ret;
     }
-    cubef64 operator-(edk::uint64 n){
+    inline cubef64 operator-(edk::uint64 n){
         //
         cubef64 ret;
         ret.origin.x=this->origin.x-(edk::float64)n;
@@ -7937,7 +7937,7 @@ public:
         ret.size.length=this->size.length-(edk::float64)n;
         return ret;
     }
-    void operator-=(cubef64 vec){
+    inline void operator-=(cubef64 vec){
         //
         this->origin.x-=(edk::float64)vec.origin.x;
         this->origin.y-=(edk::float64)vec.origin.y;
@@ -7946,7 +7946,7 @@ public:
         this->size.height-=(edk::float64)vec.size.height;
         this->size.length-=(edk::float64)vec.size.length;
     }
-    void operator-=(edk::float32 n){
+    inline void operator-=(edk::float32 n){
         //
         this->origin.x-=(edk::float64)n;
         this->origin.y-=(edk::float64)n;
@@ -7955,7 +7955,7 @@ public:
         this->size.height-=(edk::float64)n;
         this->size.length-=(edk::float64)n;
     }
-    void operator-=(edk::float64 n){
+    inline void operator-=(edk::float64 n){
         //
         this->origin.x-=(edk::float64)n;
         this->origin.y-=(edk::float64)n;
@@ -7964,7 +7964,7 @@ public:
         this->size.height-=(edk::float64)n;
         this->size.length-=(edk::float64)n;
     }
-    void operator-=(edk::int8 n){
+    inline void operator-=(edk::int8 n){
         //
         this->origin.x-=(edk::float64)n;
         this->origin.y-=(edk::float64)n;
@@ -7973,7 +7973,7 @@ public:
         this->size.height-=(edk::float64)n;
         this->size.length-=(edk::float64)n;
     }
-    void operator-=(edk::int32 n){
+    inline void operator-=(edk::int32 n){
         //
         this->origin.x-=(edk::float64)n;
         this->origin.y-=(edk::float64)n;
@@ -7982,7 +7982,7 @@ public:
         this->size.height-=(edk::float64)n;
         this->size.length-=(edk::float64)n;
     }
-    void operator-=(edk::int16 n){
+    inline void operator-=(edk::int16 n){
         //
         this->origin.x-=(edk::float64)n;
         this->origin.y-=(edk::float64)n;
@@ -7991,7 +7991,7 @@ public:
         this->size.height-=(edk::float64)n;
         this->size.length-=(edk::float64)n;
     }
-    void operator-=(edk::int64 n){
+    inline void operator-=(edk::int64 n){
         //
         this->origin.x-=(edk::float64)n;
         this->origin.y-=(edk::float64)n;
@@ -8000,7 +8000,7 @@ public:
         this->size.height-=(edk::float64)n;
         this->size.length-=(edk::float64)n;
     }
-    void operator-=(edk::uint8 n){
+    inline void operator-=(edk::uint8 n){
         //
         this->origin.x-=(edk::float64)n;
         this->origin.y-=(edk::float64)n;
@@ -8009,7 +8009,7 @@ public:
         this->size.height-=(edk::float64)n;
         this->size.length-=(edk::float64)n;
     }
-    void operator-=(edk::uint32 n){
+    inline void operator-=(edk::uint32 n){
         //
         this->origin.x-=(edk::float64)n;
         this->origin.y-=(edk::float64)n;
@@ -8018,7 +8018,7 @@ public:
         this->size.height-=(edk::float64)n;
         this->size.length-=(edk::float64)n;
     }
-    void operator-=(edk::uint16 n){
+    inline void operator-=(edk::uint16 n){
         //
         this->origin.x-=(edk::float64)n;
         this->origin.y-=(edk::float64)n;
@@ -8027,7 +8027,7 @@ public:
         this->size.height-=(edk::float64)n;
         this->size.length-=(edk::float64)n;
     }
-    void operator-=(edk::uint64 n){
+    inline void operator-=(edk::uint64 n){
         //
         this->origin.x-=(edk::float64)n;
         this->origin.y-=(edk::float64)n;
@@ -8036,7 +8036,7 @@ public:
         this->size.height-=(edk::float64)n;
         this->size.length-=(edk::float64)n;
     }
-    cubef64 operator*(cubef64 cube){
+    inline cubef64 operator*(cubef64 cube){
         //
         cubef64 ret;
         ret.origin.x=this->origin.x*(edk::float64)cube.origin.x;
@@ -8047,7 +8047,7 @@ public:
         ret.size.length=this->size.length*(edk::float64)cube.size.length;
         return ret;
     }
-    cubef64 operator*(edk::float32 n){
+    inline cubef64 operator*(edk::float32 n){
         //
         cubef64 ret;
         ret.origin.x=this->origin.x*(edk::float64)n;
@@ -8058,7 +8058,7 @@ public:
         ret.size.length=this->size.length*(edk::float64)n;
         return ret;
     }
-    cubef64 operator*(edk::float64 n){
+    inline cubef64 operator*(edk::float64 n){
         //
         cubef64 ret;
         ret.origin.x=this->origin.x*(edk::float64)n;
@@ -8069,7 +8069,7 @@ public:
         ret.size.length=this->size.length*(edk::float64)n;
         return ret;
     }
-    cubef64 operator*(edk::int8 n){
+    inline cubef64 operator*(edk::int8 n){
         //
         cubef64 ret;
         ret.origin.x=this->origin.x*(edk::float64)n;
@@ -8080,7 +8080,7 @@ public:
         ret.size.length=this->size.length*(edk::float64)n;
         return ret;
     }
-    cubef64 operator*(edk::int32 n){
+    inline cubef64 operator*(edk::int32 n){
         //
         cubef64 ret;
         ret.origin.x=this->origin.x*(edk::float64)n;
@@ -8091,7 +8091,7 @@ public:
         ret.size.length=this->size.length*(edk::float64)n;
         return ret;
     }
-    cubef64 operator*(edk::int16 n){
+    inline cubef64 operator*(edk::int16 n){
         //
         cubef64 ret;
         ret.origin.x=this->origin.x*(edk::float64)n;
@@ -8102,7 +8102,7 @@ public:
         ret.size.length=this->size.length*(edk::float64)n;
         return ret;
     }
-    cubef64 operator*(edk::int64 n){
+    inline cubef64 operator*(edk::int64 n){
         //
         cubef64 ret;
         ret.origin.x=this->origin.x*(edk::float64)n;
@@ -8113,7 +8113,7 @@ public:
         ret.size.length=this->size.length*(edk::float64)n;
         return ret;
     }
-    cubef64 operator*(edk::uint8 n){
+    inline cubef64 operator*(edk::uint8 n){
         //
         cubef64 ret;
         ret.origin.x=this->origin.x*(edk::float64)n;
@@ -8124,7 +8124,7 @@ public:
         ret.size.length=this->size.length*(edk::float64)n;
         return ret;
     }
-    cubef64 operator*(edk::uint32 n){
+    inline cubef64 operator*(edk::uint32 n){
         //
         cubef64 ret;
         ret.origin.x=this->origin.x*(edk::float64)n;
@@ -8135,7 +8135,7 @@ public:
         ret.size.length=this->size.length*(edk::float64)n;
         return ret;
     }
-    cubef64 operator*(edk::uint16 n){
+    inline cubef64 operator*(edk::uint16 n){
         //
         cubef64 ret;
         ret.origin.x=this->origin.x*(edk::float64)n;
@@ -8146,7 +8146,7 @@ public:
         ret.size.length=this->size.length*(edk::float64)n;
         return ret;
     }
-    cubef64 operator*(edk::uint64 n){
+    inline cubef64 operator*(edk::uint64 n){
         //
         cubef64 ret;
         ret.origin.x=this->origin.x*(edk::float64)n;
@@ -8157,7 +8157,7 @@ public:
         ret.size.length=this->size.length*(edk::float64)n;
         return ret;
     }
-    void operator*=(cubef64 cube){
+    inline void operator*=(cubef64 cube){
         //
         this->origin.x*=(edk::float64)cube.origin.x;
         this->origin.y*=(edk::float64)cube.origin.y;
@@ -8166,7 +8166,7 @@ public:
         this->size.height*=(edk::float64)cube.size.height;
         this->size.length*=(edk::float64)cube.size.length;
     }
-    void operator*=(edk::float32 n){
+    inline void operator*=(edk::float32 n){
         //
         this->origin.x*=(edk::float64)n;
         this->origin.y*=(edk::float64)n;
@@ -8175,7 +8175,7 @@ public:
         this->size.height*=(edk::float64)n;
         this->size.length*=(edk::float64)n;
     }
-    void operator*=(edk::float64 n){
+    inline void operator*=(edk::float64 n){
         //
         this->origin.x*=(edk::float64)n;
         this->origin.y*=(edk::float64)n;
@@ -8184,7 +8184,7 @@ public:
         this->size.height*=(edk::float64)n;
         this->size.length*=(edk::float64)n;
     }
-    void operator*=(edk::int8 n){
+    inline void operator*=(edk::int8 n){
         //
         this->origin.x*=(edk::float64)n;
         this->origin.y*=(edk::float64)n;
@@ -8193,7 +8193,7 @@ public:
         this->size.height*=(edk::float64)n;
         this->size.length*=(edk::float64)n;
     }
-    void operator*=(edk::int32 n){
+    inline void operator*=(edk::int32 n){
         //
         this->origin.x*=(edk::float64)n;
         this->origin.y*=(edk::float64)n;
@@ -8202,23 +8202,14 @@ public:
         this->size.height*=(edk::float64)n;
         this->size.length*=(edk::float64)n;
     }
-    void operator*=(edk::int16 n){
+    inline void operator*=(edk::int16 n){
         //
         this->origin.x*=(edk::float64)n;
         this->origin.y*=(edk::float64)n;
         this->size.width*=(edk::float64)n;
         this->size.height*=(edk::float64)n;
     }
-    void operator*=(edk::int64 n){
-        //
-        this->origin.x*=(edk::float64)n;
-        this->origin.y*=(edk::float64)n;
-        this->origin.z*=(edk::float64)n;
-        this->size.width*=(edk::float64)n;
-        this->size.height*=(edk::float64)n;
-        this->size.length*=(edk::float64)n;
-    }
-    void operator*=(edk::uint8 n){
+    inline void operator*=(edk::int64 n){
         //
         this->origin.x*=(edk::float64)n;
         this->origin.y*=(edk::float64)n;
@@ -8227,7 +8218,7 @@ public:
         this->size.height*=(edk::float64)n;
         this->size.length*=(edk::float64)n;
     }
-    void operator*=(edk::uint32 n){
+    inline void operator*=(edk::uint8 n){
         //
         this->origin.x*=(edk::float64)n;
         this->origin.y*=(edk::float64)n;
@@ -8236,7 +8227,7 @@ public:
         this->size.height*=(edk::float64)n;
         this->size.length*=(edk::float64)n;
     }
-    void operator*=(edk::uint16 n){
+    inline void operator*=(edk::uint32 n){
         //
         this->origin.x*=(edk::float64)n;
         this->origin.y*=(edk::float64)n;
@@ -8245,7 +8236,16 @@ public:
         this->size.height*=(edk::float64)n;
         this->size.length*=(edk::float64)n;
     }
-    void operator*=(edk::uint64 n){
+    inline void operator*=(edk::uint16 n){
+        //
+        this->origin.x*=(edk::float64)n;
+        this->origin.y*=(edk::float64)n;
+        this->origin.z*=(edk::float64)n;
+        this->size.width*=(edk::float64)n;
+        this->size.height*=(edk::float64)n;
+        this->size.length*=(edk::float64)n;
+    }
+    inline void operator*=(edk::uint64 n){
         //
         this->origin.x*=(edk::float64)n;
         this->origin.y*=(edk::float64)n;
@@ -8255,7 +8255,7 @@ public:
         this->size.length*=(edk::float64)n;
     }
     //
-    cubef64 operator++(){
+    inline cubef64 operator++(){
         //
         ++this->origin.x;
         ++this->origin.y;
@@ -8263,9 +8263,9 @@ public:
         ++this->size.width;
         ++this->size.height;
         ++this->size.length;
-        return cubef64(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
+        return edk::cubef64(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
     }
-    cubef64 operator++(edk::int32){
+    inline cubef64 operator++(edk::int32){
         //
         this->origin.x++;
         this->origin.y++;
@@ -8273,9 +8273,9 @@ public:
         this->size.width++;
         this->size.height++;
         this->size.length++;
-        return cubef64(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
+        return edk::cubef64(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
     }
-    cubef64 operator--(){
+    inline cubef64 operator--(){
         //
         --this->origin.x;
         --this->origin.y;
@@ -8283,9 +8283,9 @@ public:
         --this->size.width;
         --this->size.height;
         --this->size.length;
-        return cubef64(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
+        return edk::cubef64(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
     }
-    cubef64 operator--(edk::int32){
+    inline cubef64 operator--(edk::int32){
         //
         this->origin.x--;
         this->origin.y--;
@@ -8293,9 +8293,9 @@ public:
         this->size.width--;
         this->size.height--;
         this->size.length--;
-        return cubef64(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
+        return edk::cubef64(this->origin.x,this->origin.y,this->origin.z,this->size.width,this->size.height,this->size.length);
     }
-    cubef64 operator()(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 width,edk::float32 height,edk::float32 length){
+    inline cubef64 operator()(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 width,edk::float32 height,edk::float32 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -8303,9 +8303,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubef64((edk::float64)this->origin.x,(edk::float64)this->origin.y,(edk::float64)this->origin.z,(edk::float64)this->size.width,(edk::float64)this->size.height,(edk::float64)this->size.length);
+        return edk::cubef64((edk::float64)this->origin.x,(edk::float64)this->origin.y,(edk::float64)this->origin.z,(edk::float64)this->size.width,(edk::float64)this->size.height,(edk::float64)this->size.length);
     }
-    cubef64 operator()(edk::float64 x,edk::float64 y,edk::float64 z,edk::float64 width,edk::float64 height,edk::float64 length){
+    inline cubef64 operator()(edk::float64 x,edk::float64 y,edk::float64 z,edk::float64 width,edk::float64 height,edk::float64 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -8313,9 +8313,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubef64((edk::float64)this->origin.x,(edk::float64)this->origin.y,(edk::float64)this->origin.z,(edk::float64)this->size.width,(edk::float64)this->size.height,(edk::float64)this->size.length);
+        return edk::cubef64((edk::float64)this->origin.x,(edk::float64)this->origin.y,(edk::float64)this->origin.z,(edk::float64)this->size.width,(edk::float64)this->size.height,(edk::float64)this->size.length);
     }
-    cubef64 operator()(edk::int8 x,edk::int8 y,edk::int8 z,edk::int8 width,edk::int8 height,edk::int8 length){
+    inline cubef64 operator()(edk::int8 x,edk::int8 y,edk::int8 z,edk::int8 width,edk::int8 height,edk::int8 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -8323,9 +8323,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubef64((edk::float64)this->origin.x,(edk::float64)this->origin.y,(edk::float64)this->origin.z,(edk::float64)this->size.width,(edk::float64)this->size.height,(edk::float64)this->size.length);
+        return edk::cubef64((edk::float64)this->origin.x,(edk::float64)this->origin.y,(edk::float64)this->origin.z,(edk::float64)this->size.width,(edk::float64)this->size.height,(edk::float64)this->size.length);
     }
-    cubef64 operator()(edk::int32 x,edk::int32 y,edk::int32 z,edk::int32 width,edk::int32 height,edk::int32 length){
+    inline cubef64 operator()(edk::int32 x,edk::int32 y,edk::int32 z,edk::int32 width,edk::int32 height,edk::int32 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -8333,9 +8333,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubef64((edk::float64)this->origin.x,(edk::float64)this->origin.y,(edk::float64)this->origin.z,(edk::float64)this->size.width,(edk::float64)this->size.height,(edk::float64)this->size.length);
+        return edk::cubef64((edk::float64)this->origin.x,(edk::float64)this->origin.y,(edk::float64)this->origin.z,(edk::float64)this->size.width,(edk::float64)this->size.height,(edk::float64)this->size.length);
     }
-    cubef64 operator()(edk::int16 x,edk::int16 y,edk::int16 z,edk::int16 width,edk::int16 height,edk::int16 length){
+    inline cubef64 operator()(edk::int16 x,edk::int16 y,edk::int16 z,edk::int16 width,edk::int16 height,edk::int16 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -8343,9 +8343,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubef64((edk::float64)this->origin.x,(edk::float64)this->origin.y,(edk::float64)this->origin.z,(edk::float64)this->size.width,(edk::float64)this->size.height,(edk::float64)this->size.length);
+        return edk::cubef64((edk::float64)this->origin.x,(edk::float64)this->origin.y,(edk::float64)this->origin.z,(edk::float64)this->size.width,(edk::float64)this->size.height,(edk::float64)this->size.length);
     }
-    cubef64 operator()(edk::int64 x,edk::int64 y,edk::int64 z,edk::int64 width,edk::int64 height,edk::int64 length){
+    inline cubef64 operator()(edk::int64 x,edk::int64 y,edk::int64 z,edk::int64 width,edk::int64 height,edk::int64 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -8353,9 +8353,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubef64((edk::float64)this->origin.x,(edk::float64)this->origin.y,(edk::float64)this->origin.z,(edk::float64)this->size.width,(edk::float64)this->size.height,(edk::float64)this->size.length);
+        return edk::cubef64((edk::float64)this->origin.x,(edk::float64)this->origin.y,(edk::float64)this->origin.z,(edk::float64)this->size.width,(edk::float64)this->size.height,(edk::float64)this->size.length);
     }
-    cubef64 operator()(edk::uint8 x,edk::uint8 y,edk::uint8 z,edk::uint8 width,edk::uint8 height,edk::uint8 length){
+    inline cubef64 operator()(edk::uint8 x,edk::uint8 y,edk::uint8 z,edk::uint8 width,edk::uint8 height,edk::uint8 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -8363,9 +8363,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubef64((edk::float64)this->origin.x,(edk::float64)this->origin.y,(edk::float64)this->origin.z,(edk::float64)this->size.width,(edk::float64)this->size.height,(edk::float64)this->size.length);
+        return edk::cubef64((edk::float64)this->origin.x,(edk::float64)this->origin.y,(edk::float64)this->origin.z,(edk::float64)this->size.width,(edk::float64)this->size.height,(edk::float64)this->size.length);
     }
-    cubef64 operator()(edk::uint32 x,edk::uint32 y,edk::uint32 z,edk::uint32 width,edk::uint32 height,edk::uint32 length){
+    inline cubef64 operator()(edk::uint32 x,edk::uint32 y,edk::uint32 z,edk::uint32 width,edk::uint32 height,edk::uint32 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -8373,9 +8373,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubef64((edk::float64)this->origin.x,(edk::float64)this->origin.y,(edk::float64)this->origin.z,(edk::float64)this->size.width,(edk::float64)this->size.height,(edk::float64)this->size.length);
+        return edk::cubef64((edk::float64)this->origin.x,(edk::float64)this->origin.y,(edk::float64)this->origin.z,(edk::float64)this->size.width,(edk::float64)this->size.height,(edk::float64)this->size.length);
     }
-    cubef64 operator()(edk::uint16 x,edk::uint16 y,edk::uint16 z,edk::uint16 width,edk::uint16 height,edk::uint16 length){
+    inline cubef64 operator()(edk::uint16 x,edk::uint16 y,edk::uint16 z,edk::uint16 width,edk::uint16 height,edk::uint16 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -8383,9 +8383,9 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubef64((edk::float64)this->origin.x,(edk::float64)this->origin.y,(edk::float64)this->origin.z,(edk::float64)this->size.width,(edk::float64)this->size.height,(edk::float64)this->size.length);
+        return edk::cubef64((edk::float64)this->origin.x,(edk::float64)this->origin.y,(edk::float64)this->origin.z,(edk::float64)this->size.width,(edk::float64)this->size.height,(edk::float64)this->size.length);
     }
-    cubef64 operator()(edk::uint64 x,edk::uint64 y,edk::uint64 z,edk::uint64 width,edk::uint64 height,edk::uint64 length){
+    inline cubef64 operator()(edk::uint64 x,edk::uint64 y,edk::uint64 z,edk::uint64 width,edk::uint64 height,edk::uint64 length){
         //
         this->origin.x=x;
         this->origin.y=y;
@@ -8393,10 +8393,10 @@ public:
         this->size.width=width;
         this->size.height=height;
         this->size.length=length;
-        return cubef64((edk::float64)this->origin.x,(edk::float64)this->origin.y,(edk::float64)this->origin.z,(edk::float64)this->size.width,(edk::float64)this->size.height,(edk::float64)this->size.length);
+        return edk::cubef64((edk::float64)this->origin.x,(edk::float64)this->origin.y,(edk::float64)this->origin.z,(edk::float64)this->size.width,(edk::float64)this->size.height,(edk::float64)this->size.length);
     }
     //function to merge the cube with another cube
-    void merge(edk::cubef32 rect){
+    inline void merge(edk::cubef32 rect){
         if(this->origin.x > (edk::float64)rect.origin.x)this->origin.x = (edk::float64)rect.origin.x;
         if(this->origin.y > (edk::float64)rect.origin.y)this->origin.y = (edk::float64)rect.origin.y;
         if(this->origin.z > (edk::float64)rect.origin.z)this->origin.z = (edk::float64)rect.origin.z;
@@ -8404,7 +8404,7 @@ public:
         if(this->size.height < (edk::float64)rect.size.height)this->size.height = (edk::float64)rect.size.height;
         if(this->size.length < (edk::float64)rect.size.length)this->size.length = (edk::float64)rect.size.length;
     }
-    void merge(edk::cubef64 rect){
+    inline void merge(edk::cubef64 rect){
         if(this->origin.x > rect.origin.x)this->origin.x = rect.origin.x;
         if(this->origin.y > rect.origin.y)this->origin.y = rect.origin.y;
         if(this->origin.z > rect.origin.z)this->origin.z = rect.origin.z;

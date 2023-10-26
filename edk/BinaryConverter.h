@@ -44,6 +44,7 @@ public:
     virtual ~BinaryConverter();
 
     static void printBits(edk::uchar8 byte);
+    static inline void printBits(edk::char8 byte){printBits((edk::uchar8)byte);}
     static void printBits(edk::uchar8* bytes,edk::uint32 size,bool newLine = false);
     static void printBits(edk::char8* bytes,edk::uint32 size,bool newLine = false);
     static void printBits(const edk::uchar8* bytes,edk::uint32 size,bool newLine = false);
@@ -60,6 +61,7 @@ public:
     static void printBits(edk::int64 byte,bool newLine = false);
     //
     static void printByte(edk::uchar8 byte);
+    static inline void printByte(edk::char8 byte){printByte((edk::uchar8) byte);}
     static void printBytes(edk::uchar8* bytes,edk::uint32 size,bool newLine = false);
     static void printBytes(edk::char8* bytes,edk::uint32 size,bool newLine = false);
     static void printBytes(const edk::uchar8* bytes,edk::uint32 size,bool newLine = false);
@@ -74,6 +76,23 @@ public:
     static void printBytes(edk::int16 byte,bool newLine = false);
     static void printBytes(edk::int32 byte,bool newLine = false);
     static void printBytes(edk::int64 byte,bool newLine = false);
+    //
+    static void printHex(edk::uchar8 byte);
+    static inline void printHex(edk::char8 byte){printHex((edk::uchar8) byte);}
+    static void printHex(edk::uchar8* bytes,edk::uint32 size,bool newLine = false);
+    static void printHex(edk::char8* bytes,edk::uint32 size,bool newLine = false);
+    static void printHex(const edk::uchar8* bytes,edk::uint32 size,bool newLine = false);
+    static void printHex(const edk::char8* bytes,edk::uint32 size,bool newLine = false);
+    static void printHexInverted(edk::uchar8* bytes,edk::uint32 size,bool newLine = false);
+    static void printHexInverted(edk::char8* bytes,edk::uint32 size,bool newLine = false);
+    static void printHexInverted(const edk::uchar8* bytes,edk::uint32 size,bool newLine = false);
+    static void printHexInverted(const edk::char8* bytes,edk::uint32 size,bool newLine = false);
+    static void printHex(edk::uint16 byte,bool newLine = false);
+    static void printHex(edk::uint32 byte,bool newLine = false);
+    static void printHex(edk::uint64 byte,bool newLine = false);
+    static void printHex(edk::int16 byte,bool newLine = false);
+    static void printHex(edk::int32 byte,bool newLine = false);
+    static void printHex(edk::int64 byte,bool newLine = false);
     //inverte os bytes
     static inline edk::uint64 swapBytes(edk::uint64 value){
         return  (edk::uint64)
@@ -615,7 +634,6 @@ public:
         }
         return false;
     }
-
 };
 }//end namespace edk
 

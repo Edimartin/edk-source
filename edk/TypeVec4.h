@@ -110,7 +110,7 @@ public:
     //operators
 
     //=
-    vec4i8 operator=(vec4i8 vec){
+    inline edk::vec4i8 operator=(edk::vec4i8 vec){
         //
         this->x=vec.x;
         this->y=vec.y;
@@ -118,7 +118,7 @@ public:
         this->w=vec.w;
         return *this;
     }
-    vec4i8 operator=(vec3i8 vec){
+    inline edk::vec4i8 operator=(vec3i8 vec){
         //
         this->x=vec.x;
         this->y=vec.y;
@@ -126,7 +126,7 @@ public:
         this->w=0;
         return *this;
     }
-    vec4i8 operator=(vec2i8 vec){
+    inline edk::vec4i8 operator=(vec2i8 vec){
         //
         this->x=vec.x;
         this->y=vec.y;
@@ -134,7 +134,7 @@ public:
         this->w=0;
         return *this;
     }
-    vec4i8 operator=(edk::int8 n){
+    inline edk::vec4i8 operator=(edk::int8 n){
         //
         this->x=(edk::int8)n;
         this->y=(edk::int8)n;
@@ -142,7 +142,7 @@ public:
         this->w=(edk::int8)n;
         return *this;
     }
-    vec4i8 operator=(edk::int16 n){
+    inline edk::vec4i8 operator=(edk::int16 n){
         //
         this->x=(edk::int8)n;
         this->y=(edk::int8)n;
@@ -150,7 +150,7 @@ public:
         this->w=(edk::int8)n;
         return *this;
     }
-    vec4i8 operator=(edk::int32 n){
+    inline edk::vec4i8 operator=(edk::int32 n){
         //
         this->x=(edk::int8)n;
         this->y=(edk::int8)n;
@@ -158,7 +158,7 @@ public:
         this->w=(edk::int8)n;
         return *this;
     }
-    vec4i8 operator=(edk::int64 n){
+    inline edk::vec4i8 operator=(edk::int64 n){
         //
         this->x=(edk::int8)n;
         this->y=(edk::int8)n;
@@ -166,7 +166,7 @@ public:
         this->w=(edk::int8)n;
         return *this;
     }
-    vec4i8 operator=(edk::uint8 n){
+    inline edk::vec4i8 operator=(edk::uint8 n){
         //
         this->x=(edk::int8)n;
         this->y=(edk::int8)n;
@@ -174,7 +174,7 @@ public:
         this->w=(edk::int8)n;
         return *this;
     }
-    vec4i8 operator=(edk::uint16 n){
+    inline edk::vec4i8 operator=(edk::uint16 n){
         //
         this->x=(edk::int8)n;
         this->y=(edk::int8)n;
@@ -182,7 +182,7 @@ public:
         this->w=(edk::int8)n;
         return *this;
     }
-    vec4i8 operator=(edk::uint32 n){
+    inline edk::vec4i8 operator=(edk::uint32 n){
         //
         this->x=(edk::int8)n;
         this->y=(edk::int8)n;
@@ -190,7 +190,7 @@ public:
         this->w=(edk::int8)n;
         return *this;
     }
-    vec4i8 operator=(edk::uint64 n){
+    inline edk::vec4i8 operator=(edk::uint64 n){
         //
         this->x=(edk::int8)n;
         this->y=(edk::int8)n;
@@ -200,18 +200,18 @@ public:
     }
 
     //==
-    bool operator==(vec4i8 vec){
+    inline bool operator==(edk::vec4i8 vec){
         //
         return (this->x==vec.x&&this->y==vec.y&&this->z==vec.z&&this->w==vec.w);
     }
     //!=
-    bool operator!=(vec4i8 vec){
+    inline bool operator!=(edk::vec4i8 vec){
         //
         return (this->x!=vec.x||this->y!=vec.y||this->z!=vec.z||this->w!=vec.w);
     }
 
     //Operator >
-    bool operator>(vec4i8 vec){
+    inline bool operator>(edk::vec4i8 vec){
         if(this->x>vec.x){
             return true;
         }
@@ -227,7 +227,7 @@ public:
         return false;
     }
     //Operator >=
-    bool operator>=(vec4i8 vec){
+    inline bool operator>=(edk::vec4i8 vec){
         if(this->x>vec.x){
             return true;
         }
@@ -243,7 +243,7 @@ public:
         return false;
     }
     //Operator <
-    bool operator<(vec4i8 vec){
+    inline bool operator<(edk::vec4i8 vec){
         if(this->x<vec.x){
             return true;
         }
@@ -259,7 +259,7 @@ public:
         return false;
     }
     //Operator <=
-    bool operator<=(vec4i8 vec){
+    inline bool operator<=(edk::vec4i8 vec){
         if(this->x<vec.x){
             return true;
         }
@@ -276,7 +276,7 @@ public:
     }
 
     //+
-    vec4i8 operator+(vec4i8 vec){
+    inline edk::vec4i8 operator+(edk::vec4i8 vec){
         //
         vec4i8 ret;
         ret.x=this->x+vec.x;
@@ -285,7 +285,7 @@ public:
         ret.w=this->w+vec.w;
         return ret;
     }
-    vec4i8 operator+(vec3i8 vec){
+    inline edk::vec4i8 operator+(vec3i8 vec){
         //
         vec4i8 ret;
         ret.x=this->x+vec.x;
@@ -293,14 +293,14 @@ public:
         ret.z=this->z+vec.z;
         return ret;
     }
-    vec4i8 operator+(vec2i8 vec){
+    inline edk::vec4i8 operator+(vec2i8 vec){
         //
         vec4i8 ret;
         ret.x=this->x+vec.x;
         ret.y=this->y+vec.y;
         return ret;
     }
-    vec4i8 operator+(edk::int8 n){
+    inline edk::vec4i8 operator+(edk::int8 n){
         //
         vec4i8 ret;
         ret.x=this->x+(edk::int8)n;
@@ -309,7 +309,7 @@ public:
         ret.w=this->w+(edk::int8)n;
         return ret;
     }
-    vec4i8 operator+(edk::int16 n){
+    inline edk::vec4i8 operator+(edk::int16 n){
         //
         vec4i8 ret;
         ret.x=this->x+(edk::int8)n;
@@ -318,7 +318,7 @@ public:
         ret.w=this->w+(edk::int8)n;
         return ret;
     }
-    vec4i8 operator+(edk::int32 n){
+    inline edk::vec4i8 operator+(edk::int32 n){
         //
         vec4i8 ret;
         ret.x=this->x+(edk::int8)n;
@@ -327,7 +327,7 @@ public:
         ret.w=this->w+(edk::int8)n;
         return ret;
     }
-    vec4i8 operator+(edk::int64 n){
+    inline edk::vec4i8 operator+(edk::int64 n){
         //
         vec4i8 ret;
         ret.x=this->x+(edk::int8)n;
@@ -336,7 +336,7 @@ public:
         ret.w=this->w+(edk::int8)n;
         return ret;
     }
-    vec4i8 operator+(edk::uint8 n){
+    inline edk::vec4i8 operator+(edk::uint8 n){
         //
         vec4i8 ret;
         ret.x=this->x+(edk::int8)n;
@@ -345,7 +345,7 @@ public:
         ret.w=this->w+(edk::int8)n;
         return ret;
     }
-    vec4i8 operator+(edk::uint16 n){
+    inline edk::vec4i8 operator+(edk::uint16 n){
         //
         vec4i8 ret;
         ret.x=this->x+(edk::int8)n;
@@ -354,7 +354,7 @@ public:
         ret.w=this->w+(edk::int8)n;
         return ret;
     }
-    vec4i8 operator+(edk::uint32 n){
+    inline edk::vec4i8 operator+(edk::uint32 n){
         //
         vec4i8 ret;
         ret.x=this->x+(edk::int8)n;
@@ -363,7 +363,7 @@ public:
         ret.w=this->w+(edk::int8)n;
         return ret;
     }
-    vec4i8 operator+(edk::uint64 n){
+    inline edk::vec4i8 operator+(edk::uint64 n){
         //
         vec4i8 ret;
         ret.x=this->x+(edk::int8)n;
@@ -374,74 +374,74 @@ public:
     }
 
     //+=
-    void operator+=(vec4i8 vec){
+    inline void operator+=(edk::vec4i8 vec){
         //
         this->x+=vec.x;
         this->y+=vec.y;
         this->z+=vec.z;
         this->w+=vec.w;
     }
-    void operator+=(vec3i8 vec){
+    inline void operator+=(vec3i8 vec){
         //
         this->x+=vec.x;
         this->y+=vec.y;
         this->z+=vec.z;
     }
-    void operator+=(vec2i8 vec){
+    inline void operator+=(vec2i8 vec){
         //
         this->x+=vec.x;
         this->y+=vec.y;
     }
-    void operator+=(edk::int8 n){
+    inline void operator+=(edk::int8 n){
         //
         this->x+=(edk::int8)n;
         this->y+=(edk::int8)n;
         this->z+=(edk::int8)n;
         this->w+=(edk::int8)n;
     }
-    void operator+=(edk::int16 n){
+    inline void operator+=(edk::int16 n){
         //
         this->x+=(edk::int8)n;
         this->y+=(edk::int8)n;
         this->z+=(edk::int8)n;
         this->w+=(edk::int8)n;
     }
-    void operator+=(edk::int32 n){
+    inline void operator+=(edk::int32 n){
         //
         this->x+=(edk::int8)n;
         this->y+=(edk::int8)n;
         this->z+=(edk::int8)n;
         this->w+=(edk::int8)n;
     }
-    void operator+=(edk::int64 n){
+    inline void operator+=(edk::int64 n){
         //
         this->x+=(edk::int8)n;
         this->y+=(edk::int8)n;
         this->z+=(edk::int8)n;
         this->w+=(edk::int8)n;
     }
-    void operator+=(edk::uint8 n){
+    inline void operator+=(edk::uint8 n){
         //
         this->x+=(edk::int8)n;
         this->y+=(edk::int8)n;
         this->z+=(edk::int8)n;
         this->w+=(edk::int8)n;
     }
-    void operator+=(edk::uint16 n){
+    inline void operator+=(edk::uint16 n){
         //
         this->x+=(edk::int8)n;
         this->y+=(edk::int8)n;
         this->z+=(edk::int8)n;
         this->w+=(edk::int8)n;
     }
-    void operator+=(edk::uint32 n){
+    inline void operator+=(edk::uint32 n){
         //
         this->x+=(edk::int8)n;
         this->y+=(edk::int8)n;
         this->z+=(edk::int8)n;
         this->w+=(edk::int8)n;
     }
-    void operator+=(edk::uint64 n){
+    inline void operator+=(edk::uint64 n){
         //
         this->x+=(edk::int8)n;
         this->y+=(edk::int8)n;
@@ -450,7 +450,7 @@ public:
     }
 
     //-
-    vec4i8 operator-(vec4i8 vec){
+    inline edk::vec4i8 operator-(edk::vec4i8 vec){
         //
         vec4i8 ret;
         ret.x=this->x-vec.x;
@@ -459,7 +459,7 @@ public:
         ret.w=this->w-vec.w;
         return ret;
     }
-    vec4i8 operator-(vec3i8 vec){
+    inline edk::vec4i8 operator-(vec3i8 vec){
         //
         vec4i8 ret;
         ret.x=this->x-vec.x;
@@ -467,14 +467,14 @@ public:
         ret.z=this->z-vec.z;
         return ret;
     }
-    vec4i8 operator-(vec2i8 vec){
+    inline edk::vec4i8 operator-(vec2i8 vec){
         //
         vec4i8 ret;
         ret.x=this->x-vec.x;
         ret.y=this->y-vec.y;
         return ret;
     }
-    vec4i8 operator-(edk::int8 n){
+    inline edk::vec4i8 operator-(edk::int8 n){
         //
         vec4i8 ret;
         ret.x=this->x-(edk::int8)n;
@@ -483,7 +483,7 @@ public:
         ret.w=this->w-(edk::int8)n;
         return ret;
     }
-    vec4i8 operator-(edk::int16 n){
+    inline edk::vec4i8 operator-(edk::int16 n){
         //
         vec4i8 ret;
         ret.x=this->x-(edk::int8)n;
@@ -492,7 +492,7 @@ public:
         ret.w=this->w-(edk::int8)n;
         return ret;
     }
-    vec4i8 operator-(edk::int32 n){
+    inline edk::vec4i8 operator-(edk::int32 n){
         //
         vec4i8 ret;
         ret.x=this->x-(edk::int8)n;
@@ -501,7 +501,7 @@ public:
         ret.w=this->w-(edk::int8)n;
         return ret;
     }
-    vec4i8 operator-(edk::int64 n){
+    inline edk::vec4i8 operator-(edk::int64 n){
         //
         vec4i8 ret;
         ret.x=this->x-(edk::int8)n;
@@ -510,7 +510,7 @@ public:
         ret.w=this->w-(edk::int8)n;
         return ret;
     }
-    vec4i8 operator-(edk::uint8 n){
+    inline edk::vec4i8 operator-(edk::uint8 n){
         //
         vec4i8 ret;
         ret.x=this->x-(edk::int8)n;
@@ -519,7 +519,7 @@ public:
         ret.w=this->w-(edk::int8)n;
         return ret;
     }
-    vec4i8 operator-(edk::uint16 n){
+    inline edk::vec4i8 operator-(edk::uint16 n){
         //
         vec4i8 ret;
         ret.x=this->x-(edk::int8)n;
@@ -528,7 +528,7 @@ public:
         ret.w=this->w-(edk::int8)n;
         return ret;
     }
-    vec4i8 operator-(edk::uint32 n){
+    inline edk::vec4i8 operator-(edk::uint32 n){
         //
         vec4i8 ret;
         ret.x=this->x-(edk::int8)n;
@@ -537,7 +537,7 @@ public:
         ret.w=this->w-(edk::int8)n;
         return ret;
     }
-    vec4i8 operator-(edk::uint64 n){
+    inline edk::vec4i8 operator-(edk::uint64 n){
         //
         vec4i8 ret;
         ret.x=this->x-(edk::int8)n;
@@ -548,74 +548,74 @@ public:
     }
 
     //-=
-    void operator-=(vec4i8 vec){
+    inline void operator-=(edk::vec4i8 vec){
         //
         this->x-=vec.x;
         this->y-=vec.y;
         this->z-=vec.z;
         this->w-=vec.w;
     }
-    void operator-=(vec3i8 vec){
+    inline void operator-=(vec3i8 vec){
         //
         this->x-=vec.x;
         this->y-=vec.y;
         this->z-=vec.z;
     }
-    void operator-=(vec2i8 vec){
+    inline void operator-=(vec2i8 vec){
         //
         this->x-=vec.x;
         this->y-=vec.y;
     }
-    void operator-=(edk::int8 n){
+    inline void operator-=(edk::int8 n){
         //
         this->x-=(edk::int8)n;
         this->y-=(edk::int8)n;
         this->z-=(edk::int8)n;
         this->w-=(edk::int8)n;
     }
-    void operator-=(edk::int16 n){
+    inline void operator-=(edk::int16 n){
         //
         this->x-=(edk::int8)n;
         this->y-=(edk::int8)n;
         this->z-=(edk::int8)n;
         this->w-=(edk::int8)n;
     }
-    void operator-=(edk::int32 n){
+    inline void operator-=(edk::int32 n){
         //
         this->x-=(edk::int8)n;
         this->y-=(edk::int8)n;
         this->z-=(edk::int8)n;
         this->w-=(edk::int8)n;
     }
-    void operator-=(edk::int64 n){
+    inline void operator-=(edk::int64 n){
         //
         this->x-=(edk::int8)n;
         this->y-=(edk::int8)n;
         this->z-=(edk::int8)n;
         this->w-=(edk::int8)n;
     }
-    void operator-=(edk::uint8 n){
+    inline void operator-=(edk::uint8 n){
         //
         this->x-=(edk::int8)n;
         this->y-=(edk::int8)n;
         this->z-=(edk::int8)n;
         this->w-=(edk::int8)n;
     }
-    void operator-=(edk::uint16 n){
+    inline void operator-=(edk::uint16 n){
         //
         this->x-=(edk::int8)n;
         this->y-=(edk::int8)n;
         this->z-=(edk::int8)n;
         this->w-=(edk::int8)n;
     }
-    void operator-=(edk::uint32 n){
+    inline void operator-=(edk::uint32 n){
         //
         this->x-=(edk::int8)n;
         this->y-=(edk::int8)n;
         this->z-=(edk::int8)n;
         this->w-=(edk::int8)n;
     }
-    void operator-=(edk::uint64 n){
+    inline void operator-=(edk::uint64 n){
         //
         this->x-=(edk::int8)n;
         this->y-=(edk::int8)n;
@@ -624,7 +624,7 @@ public:
     }
 
     //*
-    vec4i8 operator*(vec4i8 vec){
+    inline edk::vec4i8 operator*(edk::vec4i8 vec){
         //
         vec4i8 ret;
         ret.x=this->x*vec.x;
@@ -633,7 +633,7 @@ public:
         ret.w=this->w*vec.w;
         return ret;
     }
-    vec4i8 operator*(vec3i8 vec){
+    inline edk::vec4i8 operator*(vec3i8 vec){
         //
         vec4i8 ret;
         ret.x=this->x*vec.x;
@@ -641,14 +641,14 @@ public:
         ret.z=this->z*vec.z;
         return ret;
     }
-    vec4i8 operator*(vec2i8 vec){
+    inline edk::vec4i8 operator*(vec2i8 vec){
         //
         vec4i8 ret;
         ret.x=this->x*vec.x;
         ret.y=this->y*vec.y;
         return ret;
     }
-    vec4i8 operator*(edk::int8 n){
+    inline edk::vec4i8 operator*(edk::int8 n){
         //
         vec4i8 ret;
         ret.x=this->x*(edk::int8)n;
@@ -657,7 +657,7 @@ public:
         ret.w=this->w*(edk::int8)n;
         return ret;
     }
-    vec4i8 operator*(edk::int16 n){
+    inline edk::vec4i8 operator*(edk::int16 n){
         //
         vec4i8 ret;
         ret.x=this->x*(edk::int8)n;
@@ -666,7 +666,7 @@ public:
         ret.w=this->w*(edk::int8)n;
         return ret;
     }
-    vec4i8 operator*(edk::int32 n){
+    inline edk::vec4i8 operator*(edk::int32 n){
         //
         vec4i8 ret;
         ret.x=this->x*(edk::int8)n;
@@ -675,7 +675,7 @@ public:
         ret.w=this->w*(edk::int8)n;
         return ret;
     }
-    vec4i8 operator*(edk::int64 n){
+    inline edk::vec4i8 operator*(edk::int64 n){
         //
         vec4i8 ret;
         ret.x=this->x*(edk::int8)n;
@@ -684,7 +684,7 @@ public:
         ret.w=this->w*(edk::int8)n;
         return ret;
     }
-    vec4i8 operator*(edk::uint8 n){
+    inline edk::vec4i8 operator*(edk::uint8 n){
         //
         vec4i8 ret;
         ret.x=this->x*(edk::int8)n;
@@ -693,7 +693,7 @@ public:
         ret.w=this->w*(edk::int8)n;
         return ret;
     }
-    vec4i8 operator*(edk::uint16 n){
+    inline edk::vec4i8 operator*(edk::uint16 n){
         //
         vec4i8 ret;
         ret.x=this->x*(edk::int8)n;
@@ -702,7 +702,7 @@ public:
         ret.w=this->w*(edk::int8)n;
         return ret;
     }
-    vec4i8 operator*(edk::uint32 n){
+    inline edk::vec4i8 operator*(edk::uint32 n){
         //
         vec4i8 ret;
         ret.x=this->x*(edk::int8)n;
@@ -711,7 +711,7 @@ public:
         ret.w=this->w*(edk::int8)n;
         return ret;
     }
-    vec4i8 operator*(edk::uint64 n){
+    inline edk::vec4i8 operator*(edk::uint64 n){
         //
         vec4i8 ret;
         ret.x=this->x*(edk::int8)n;
@@ -722,74 +722,74 @@ public:
     }
 
     //*=
-    void operator*=(vec4i8 vec){
+    inline void operator*=(edk::vec4i8 vec){
         //
         this->x*=vec.x;
         this->y*=vec.y;
         this->z*=vec.z;
         this->w*=vec.w;
     }
-    void operator*=(vec3i8 vec){
+    inline void operator*=(vec3i8 vec){
         //
         this->x*=vec.x;
         this->y*=vec.y;
         this->z*=vec.z;
     }
-    void operator*=(vec2i8 vec){
+    inline void operator*=(vec2i8 vec){
         //
         this->x*=vec.x;
         this->y*=vec.y;
     }
-    void operator*=(edk::int8 n){
+    inline void operator*=(edk::int8 n){
         //
         this->x*=(edk::int8)n;
         this->y*=(edk::int8)n;
         this->z*=(edk::int8)n;
         this->w*=(edk::int8)n;
     }
-    void operator*=(edk::int16 n){
+    inline void operator*=(edk::int16 n){
         //
         this->x*=(edk::int8)n;
         this->y*=(edk::int8)n;
         this->z*=(edk::int8)n;
         this->w*=(edk::int8)n;
     }
-    void operator*=(edk::int32 n){
+    inline void operator*=(edk::int32 n){
         //
         this->x*=(edk::int8)n;
         this->y*=(edk::int8)n;
         this->z*=(edk::int8)n;
         this->w*=(edk::int8)n;
     }
-    void operator*=(edk::int64 n){
+    inline void operator*=(edk::int64 n){
         //
         this->x*=(edk::int8)n;
         this->y*=(edk::int8)n;
         this->z*=(edk::int8)n;
         this->w*=(edk::int8)n;
     }
-    void operator*=(edk::uint8 n){
+    inline void operator*=(edk::uint8 n){
         //
         this->x*=(edk::int8)n;
         this->y*=(edk::int8)n;
         this->z*=(edk::int8)n;
         this->w*=(edk::int8)n;
     }
-    void operator*=(edk::uint16 n){
+    inline void operator*=(edk::uint16 n){
         //
         this->x*=(edk::int8)n;
         this->y*=(edk::int8)n;
         this->z*=(edk::int8)n;
         this->w*=(edk::int8)n;
     }
-    void operator*=(edk::uint32 n){
+    inline void operator*=(edk::uint32 n){
         //
         this->x*=(edk::int8)n;
         this->y*=(edk::int8)n;
         this->z*=(edk::int8)n;
         this->w*=(edk::int8)n;
     }
-    void operator*=(edk::uint64 n){
+    inline void operator*=(edk::uint64 n){
         //
         this->x*=(edk::int8)n;
         this->y*=(edk::int8)n;
@@ -798,105 +798,105 @@ public:
     }
 
     //++
-    vec4i8 operator++(){
+    inline edk::vec4i8 operator++(){
         //
         ++this->x;
         ++this->y;
         ++this->z;
         ++this->w;
-        return vec4i8(this->x,this->y,this->z,this->w);
+        return edk::vec4i8(this->x,this->y,this->z,this->w);
     }
-    vec4i8 operator++(edk::int32){
+    inline edk::vec4i8 operator++(edk::int32){
         //
         this->x++;
         this->y++;
         this->z++;
         this->w++;
-        return vec4i8(this->x,this->y,this->z,this->w);
+        return edk::vec4i8(this->x,this->y,this->z,this->w);
     }
 
     //--
-    vec4i8 operator--(){
+    inline edk::vec4i8 operator--(){
         //
         --this->x;
         --this->y;
         --this->z;
         --this->w;
-        return vec4i8(this->x,this->y,this->z,this->w);
+        return edk::vec4i8(this->x,this->y,this->z,this->w);
     }
-    vec4i8 operator--(edk::int32){
+    inline edk::vec4i8 operator--(edk::int32){
         //
         this->x--;
         this->y--;
         this->z--;
         this->w--;
-        return vec4i8(this->x,this->y,this->z,this->w);
+        return edk::vec4i8(this->x,this->y,this->z,this->w);
     }
 
     //
-    vec4i8 operator()(edk::int8 x,edk::int8 y,edk::int8 z,edk::int8 w){
+    inline edk::vec4i8 operator()(edk::int8 x,edk::int8 y,edk::int8 z,edk::int8 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4i8((edk::int8)this->x,(edk::int8)this->y,(edk::int8)this->z,(edk::int8)this->w);
+        return edk::vec4i8((edk::int8)this->x,(edk::int8)this->y,(edk::int8)this->z,(edk::int8)this->w);
     }
-    vec4i8 operator()(edk::int16 x,edk::int16 y,edk::int16 z,edk::int16 w){
+    inline edk::vec4i8 operator()(edk::int16 x,edk::int16 y,edk::int16 z,edk::int16 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4i8((edk::int8)this->x,(edk::int8)this->y,(edk::int8)this->z,(edk::int8)this->w);
+        return edk::vec4i8((edk::int8)this->x,(edk::int8)this->y,(edk::int8)this->z,(edk::int8)this->w);
     }
-    vec4i8 operator()(edk::int32 x,edk::int32 y,edk::int32 z,edk::int32 w){
+    inline edk::vec4i8 operator()(edk::int32 x,edk::int32 y,edk::int32 z,edk::int32 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4i8((edk::int8)this->x,(edk::int8)this->y,(edk::int8)this->z,(edk::int8)this->w);
+        return edk::vec4i8((edk::int8)this->x,(edk::int8)this->y,(edk::int8)this->z,(edk::int8)this->w);
     }
-    vec4i8 operator()(edk::int64 x,edk::int64 y,edk::int64 z,edk::int64 w){
+    inline edk::vec4i8 operator()(edk::int64 x,edk::int64 y,edk::int64 z,edk::int64 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4i8((edk::int8)this->x,(edk::int8)this->y,(edk::int8)this->z,(edk::int8)this->w);
+        return edk::vec4i8((edk::int8)this->x,(edk::int8)this->y,(edk::int8)this->z,(edk::int8)this->w);
     }
-    vec4i8 operator()(edk::uint8 x,edk::uint8 y,edk::uint8 z,edk::uint8 w){
+    inline edk::vec4i8 operator()(edk::uint8 x,edk::uint8 y,edk::uint8 z,edk::uint8 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4i8((edk::int8)this->x,(edk::int8)this->y,(edk::int8)this->z,(edk::int8)this->w);
+        return edk::vec4i8((edk::int8)this->x,(edk::int8)this->y,(edk::int8)this->z,(edk::int8)this->w);
     }
-    vec4i8 operator()(edk::uint16 x,edk::uint16 y,edk::uint16 z,edk::uint16 w){
+    inline edk::vec4i8 operator()(edk::uint16 x,edk::uint16 y,edk::uint16 z,edk::uint16 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4i8((edk::int8)this->x,(edk::int8)this->y,(edk::int8)this->z,(edk::int8)this->w);
+        return edk::vec4i8((edk::int8)this->x,(edk::int8)this->y,(edk::int8)this->z,(edk::int8)this->w);
     }
-    vec4i8 operator()(edk::uint32 x,edk::uint32 y,edk::uint32 z,edk::uint32 w){
+    inline edk::vec4i8 operator()(edk::uint32 x,edk::uint32 y,edk::uint32 z,edk::uint32 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4i8((edk::int8)this->x,(edk::int8)this->y,(edk::int8)this->z,(edk::int8)this->w);
+        return edk::vec4i8((edk::int8)this->x,(edk::int8)this->y,(edk::int8)this->z,(edk::int8)this->w);
     }
-    vec4i8 operator()(edk::uint64 x,edk::uint64 y,edk::uint64 z,edk::uint64 w){
+    inline edk::vec4i8 operator()(edk::uint64 x,edk::uint64 y,edk::uint64 z,edk::uint64 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4i8((edk::int8)this->x,(edk::int8)this->y,(edk::int8)this->z,(edk::int8)this->w);
+        return edk::vec4i8((edk::int8)this->x,(edk::int8)this->y,(edk::int8)this->z,(edk::int8)this->w);
     }
 };
 
@@ -970,7 +970,7 @@ public:
     //operators
 
     //=
-    vec4i16 operator=(vec4i8 vec){
+    inline edk::vec4i16 operator=(edk::vec4i8 vec){
         //
         this->x=(edk::int16)vec.x;
         this->y=(edk::int16)vec.y;
@@ -978,7 +978,7 @@ public:
         this->w=(edk::int16)vec.w;
         return *this;
     }
-    vec4i16 operator=(vec4i16 vec){
+    inline edk::vec4i16 operator=(edk::vec4i16 vec){
         //
         this->x=vec.x;
         this->y=vec.y;
@@ -986,7 +986,7 @@ public:
         this->w=vec.w;
         return *this;
     }
-    vec4i16 operator=(vec3i8 vec){
+    inline edk::vec4i16 operator=(vec3i8 vec){
         //
         this->x=vec.x;
         this->y=vec.y;
@@ -994,7 +994,7 @@ public:
         this->w=0;
         return *this;
     }
-    vec4i16 operator=(vec2i8 vec){
+    inline edk::vec4i16 operator=(vec2i8 vec){
         //
         this->x=vec.x;
         this->y=vec.y;
@@ -1002,7 +1002,7 @@ public:
         this->w=0;
         return *this;
     }
-    vec4i16 operator=(edk::int8 n){
+    inline edk::vec4i16 operator=(edk::int8 n){
         //
         this->x=(edk::int16)n;
         this->y=(edk::int16)n;
@@ -1010,7 +1010,7 @@ public:
         this->w=(edk::int16)n;
         return *this;
     }
-    vec4i16 operator=(edk::int16 n){
+    inline edk::vec4i16 operator=(edk::int16 n){
         //
         this->x=(edk::int16)n;
         this->y=(edk::int16)n;
@@ -1018,7 +1018,7 @@ public:
         this->w=(edk::int16)n;
         return *this;
     }
-    vec4i16 operator=(edk::int32 n){
+    inline edk::vec4i16 operator=(edk::int32 n){
         //
         this->x=(edk::int16)n;
         this->y=(edk::int16)n;
@@ -1026,7 +1026,7 @@ public:
         this->w=(edk::int16)n;
         return *this;
     }
-    vec4i16 operator=(edk::int64 n){
+    inline edk::vec4i16 operator=(edk::int64 n){
         //
         this->x=(edk::int16)n;
         this->y=(edk::int16)n;
@@ -1034,7 +1034,7 @@ public:
         this->w=(edk::int16)n;
         return *this;
     }
-    vec4i16 operator=(edk::uint8 n){
+    inline edk::vec4i16 operator=(edk::uint8 n){
         //
         this->x=(edk::int16)n;
         this->y=(edk::int16)n;
@@ -1042,7 +1042,7 @@ public:
         this->w=(edk::int16)n;
         return *this;
     }
-    vec4i16 operator=(edk::uint16 n){
+    inline edk::vec4i16 operator=(edk::uint16 n){
         //
         this->x=(edk::int16)n;
         this->y=(edk::int16)n;
@@ -1050,7 +1050,7 @@ public:
         this->w=(edk::int16)n;
         return *this;
     }
-    vec4i16 operator=(edk::uint32 n){
+    inline edk::vec4i16 operator=(edk::uint32 n){
         //
         this->x=(edk::int16)n;
         this->y=(edk::int16)n;
@@ -1058,7 +1058,7 @@ public:
         this->w=(edk::int16)n;
         return *this;
     }
-    vec4i16 operator=(edk::uint64 n){
+    inline edk::vec4i16 operator=(edk::uint64 n){
         //
         this->x=(edk::int16)n;
         this->y=(edk::int16)n;
@@ -1068,26 +1068,26 @@ public:
     }
 
     //==
-    bool operator==(vec4i8 vec){
+    inline bool operator==(edk::vec4i8 vec){
         //
         return (this->x==(edk::int16)vec.x&&this->y==(edk::int16)vec.y&&this->z==(edk::int16)vec.z&&this->w==(edk::int16)vec.w);
     }
-    bool operator==(vec4i16 vec){
+    inline bool operator==(edk::vec4i16 vec){
         //
         return (this->x==vec.x&&this->y==vec.y&&this->z==vec.z&&this->w==vec.w);
     }
     //!=
-    bool operator!=(vec4i8 vec){
+    inline bool operator!=(edk::vec4i8 vec){
         //
         return (this->x!=(edk::int16)vec.x||this->y!=(edk::int16)vec.y||this->z!=(edk::int16)vec.z||this->w!=(edk::int16)vec.w);
     }
-    bool operator!=(vec4i16 vec){
+    inline bool operator!=(edk::vec4i16 vec){
         //
         return (this->x!=vec.x||this->y!=vec.y||this->z!=vec.z||this->w!=vec.w);
     }
 
     //Operator >
-    bool operator>(vec4i8 vec){
+    inline bool operator>(edk::vec4i8 vec){
         if(this->x>(edk::int16)vec.x){
             return true;
         }
@@ -1102,7 +1102,7 @@ public:
         }
         return false;
     }
-    bool operator>(vec4i16 vec){
+    inline bool operator>(edk::vec4i16 vec){
         if(this->x>vec.x){
             return true;
         }
@@ -1118,7 +1118,7 @@ public:
         return false;
     }
     //Operator >=
-    bool operator>=(vec4i8 vec){
+    inline bool operator>=(edk::vec4i8 vec){
         if(this->x>(edk::int16)vec.x){
             return true;
         }
@@ -1133,7 +1133,7 @@ public:
         }
         return false;
     }
-    bool operator>=(vec4i16 vec){
+    inline bool operator>=(edk::vec4i16 vec){
         if(this->x>vec.x){
             return true;
         }
@@ -1149,7 +1149,7 @@ public:
         return false;
     }
     //Operator <
-    bool operator<(vec4i8 vec){
+    inline bool operator<(edk::vec4i8 vec){
         if(this->x<(edk::int16)vec.x){
             return true;
         }
@@ -1164,7 +1164,7 @@ public:
         }
         return false;
     }
-    bool operator<(vec4i16 vec){
+    inline bool operator<(edk::vec4i16 vec){
         if(this->x<vec.x){
             return true;
         }
@@ -1180,7 +1180,7 @@ public:
         return false;
     }
     //Operator <=
-    bool operator<=(vec4i8 vec){
+    inline bool operator<=(edk::vec4i8 vec){
         if(this->x<(edk::int16)vec.x){
             return true;
         }
@@ -1195,7 +1195,7 @@ public:
         }
         return false;
     }
-    bool operator<=(vec4i16 vec){
+    inline bool operator<=(edk::vec4i16 vec){
         if(this->x<vec.x){
             return true;
         }
@@ -1212,7 +1212,7 @@ public:
     }
 
     //+
-    vec4i16 operator+(vec4i8 vec){
+    inline edk::vec4i16 operator+(edk::vec4i8 vec){
         //
         vec4i16 ret;
         ret.x=this->x+(edk::int16)vec.x;
@@ -1221,7 +1221,7 @@ public:
         ret.w=this->w+(edk::int16)vec.w;
         return ret;
     }
-    vec4i16 operator+(vec4i16 vec){
+    inline edk::vec4i16 operator+(edk::vec4i16 vec){
         //
         vec4i16 ret;
         ret.x=this->x+vec.x;
@@ -1230,7 +1230,7 @@ public:
         ret.w=this->w+vec.w;
         return ret;
     }
-    vec4i16 operator+(vec3i8 vec){
+    inline edk::vec4i16 operator+(vec3i8 vec){
         //
         vec4i16 ret;
         ret.x=this->x+vec.x;
@@ -1238,14 +1238,14 @@ public:
         ret.z=this->z+vec.z;
         return ret;
     }
-    vec4i16 operator+(vec2i8 vec){
+    inline edk::vec4i16 operator+(vec2i8 vec){
         //
         vec4i16 ret;
         ret.x=this->x+vec.x;
         ret.y=this->y+vec.y;
         return ret;
     }
-    vec4i16 operator+(edk::int8 n){
+    inline edk::vec4i16 operator+(edk::int8 n){
         //
         vec4i16 ret;
         ret.x=this->x+(edk::int16)n;
@@ -1254,7 +1254,7 @@ public:
         ret.w=this->w+(edk::int16)n;
         return ret;
     }
-    vec4i16 operator+(edk::int16 n){
+    inline edk::vec4i16 operator+(edk::int16 n){
         //
         vec4i16 ret;
         ret.x=this->x+(edk::int16)n;
@@ -1263,7 +1263,7 @@ public:
         ret.w=this->w+(edk::int16)n;
         return ret;
     }
-    vec4i16 operator+(edk::int32 n){
+    inline edk::vec4i16 operator+(edk::int32 n){
         //
         vec4i16 ret;
         ret.x=this->x+(edk::int16)n;
@@ -1272,7 +1272,7 @@ public:
         ret.w=this->w+(edk::int16)n;
         return ret;
     }
-    vec4i16 operator+(edk::int64 n){
+    inline edk::vec4i16 operator+(edk::int64 n){
         //
         vec4i16 ret;
         ret.x=this->x+(edk::int16)n;
@@ -1281,7 +1281,7 @@ public:
         ret.w=this->w+(edk::int16)n;
         return ret;
     }
-    vec4i16 operator+(edk::uint8 n){
+    inline edk::vec4i16 operator+(edk::uint8 n){
         //
         vec4i16 ret;
         ret.x=this->x+(edk::int16)n;
@@ -1290,7 +1290,7 @@ public:
         ret.w=this->w+(edk::int16)n;
         return ret;
     }
-    vec4i16 operator+(edk::uint16 n){
+    inline edk::vec4i16 operator+(edk::uint16 n){
         //
         vec4i16 ret;
         ret.x=this->x+(edk::int16)n;
@@ -1299,7 +1299,7 @@ public:
         ret.w=this->w+(edk::int16)n;
         return ret;
     }
-    vec4i16 operator+(edk::uint32 n){
+    inline edk::vec4i16 operator+(edk::uint32 n){
         //
         vec4i16 ret;
         ret.x=this->x+(edk::int16)n;
@@ -1308,7 +1308,7 @@ public:
         ret.w=this->w+(edk::int16)n;
         return ret;
     }
-    vec4i16 operator+(edk::uint64 n){
+    inline edk::vec4i16 operator+(edk::uint64 n){
         //
         vec4i16 ret;
         ret.x=this->x+(edk::int16)n;
@@ -1319,81 +1319,81 @@ public:
     }
 
     //+=
-    void operator+=(vec4i8 vec){
+    inline void operator+=(edk::vec4i8 vec){
         //
         this->x+=(edk::int16)vec.x;
         this->y+=(edk::int16)vec.y;
         this->z+=(edk::int16)vec.z;
         this->w+=(edk::int16)vec.w;
     }
-    void operator+=(vec4i16 vec){
+    inline void operator+=(edk::vec4i16 vec){
         //
         this->x+=vec.x;
         this->y+=vec.y;
         this->z+=vec.z;
         this->w+=vec.w;
     }
-    void operator+=(vec3i8 vec){
+    inline void operator+=(vec3i8 vec){
         //
         this->x+=vec.x;
         this->y+=vec.y;
         this->z+=vec.z;
     }
-    void operator+=(vec2i8 vec){
+    inline void operator+=(vec2i8 vec){
         //
         this->x+=vec.x;
         this->y+=vec.y;
     }
-    void operator+=(edk::int8 n){
+    inline void operator+=(edk::int8 n){
         //
         this->x+=(edk::int16)n;
         this->y+=(edk::int16)n;
         this->z+=(edk::int16)n;
         this->w+=(edk::int16)n;
     }
-    void operator+=(edk::int16 n){
+    inline void operator+=(edk::int16 n){
         //
         this->x+=(edk::int16)n;
         this->y+=(edk::int16)n;
         this->z+=(edk::int16)n;
         this->w+=(edk::int16)n;
     }
-    void operator+=(edk::int32 n){
+    inline void operator+=(edk::int32 n){
         //
         this->x+=(edk::int16)n;
         this->y+=(edk::int16)n;
         this->z+=(edk::int16)n;
         this->w+=(edk::int16)n;
     }
-    void operator+=(edk::int64 n){
+    inline void operator+=(edk::int64 n){
         //
         this->x+=(edk::int16)n;
         this->y+=(edk::int16)n;
         this->z+=(edk::int16)n;
         this->w+=(edk::int16)n;
     }
-    void operator+=(edk::uint8 n){
+    inline void operator+=(edk::uint8 n){
         //
         this->x+=(edk::int16)n;
         this->y+=(edk::int16)n;
         this->z+=(edk::int16)n;
         this->w+=(edk::int16)n;
     }
-    void operator+=(edk::uint16 n){
+    inline void operator+=(edk::uint16 n){
         //
         this->x+=(edk::int16)n;
         this->y+=(edk::int16)n;
         this->z+=(edk::int16)n;
         this->w+=(edk::int16)n;
     }
-    void operator+=(edk::uint32 n){
+    inline void operator+=(edk::uint32 n){
         //
         this->x+=(edk::int16)n;
         this->y+=(edk::int16)n;
         this->z+=(edk::int16)n;
         this->w+=(edk::int16)n;
     }
-    void operator+=(edk::uint64 n){
+    inline void operator+=(edk::uint64 n){
         //
         this->x+=(edk::int16)n;
         this->y+=(edk::int16)n;
@@ -1402,7 +1402,7 @@ public:
     }
 
     //-
-    vec4i16 operator-(vec4i8 vec){
+    inline edk::vec4i16 operator-(edk::vec4i8 vec){
         //
         vec4i16 ret;
         ret.x=this->x-(edk::int16)vec.x;
@@ -1411,7 +1411,7 @@ public:
         ret.w=this->w-(edk::int16)vec.w;
         return ret;
     }
-    vec4i16 operator-(vec4i16 vec){
+    inline edk::vec4i16 operator-(edk::vec4i16 vec){
         //
         vec4i16 ret;
         ret.x=this->x-vec.x;
@@ -1420,7 +1420,7 @@ public:
         ret.w=this->w-vec.w;
         return ret;
     }
-    vec4i16 operator-(vec3i8 vec){
+    inline edk::vec4i16 operator-(vec3i8 vec){
         //
         vec4i16 ret;
         ret.x=this->x-vec.x;
@@ -1428,14 +1428,14 @@ public:
         ret.z=this->z-vec.z;
         return ret;
     }
-    vec4i16 operator-(vec2i8 vec){
+    inline edk::vec4i16 operator-(vec2i8 vec){
         //
         vec4i16 ret;
         ret.x=this->x-vec.x;
         ret.y=this->y-vec.y;
         return ret;
     }
-    vec4i16 operator-(edk::int8 n){
+    inline edk::vec4i16 operator-(edk::int8 n){
         //
         vec4i16 ret;
         ret.x=this->x-(edk::int16)n;
@@ -1444,7 +1444,7 @@ public:
         ret.w=this->w-(edk::int16)n;
         return ret;
     }
-    vec4i16 operator-(edk::int16 n){
+    inline edk::vec4i16 operator-(edk::int16 n){
         //
         vec4i16 ret;
         ret.x=this->x-(edk::int16)n;
@@ -1453,7 +1453,7 @@ public:
         ret.w=this->w-(edk::int16)n;
         return ret;
     }
-    vec4i16 operator-(edk::int32 n){
+    inline edk::vec4i16 operator-(edk::int32 n){
         //
         vec4i16 ret;
         ret.x=this->x-(edk::int16)n;
@@ -1462,7 +1462,7 @@ public:
         ret.w=this->w-(edk::int16)n;
         return ret;
     }
-    vec4i16 operator-(edk::int64 n){
+    inline edk::vec4i16 operator-(edk::int64 n){
         //
         vec4i16 ret;
         ret.x=this->x-(edk::int16)n;
@@ -1471,7 +1471,7 @@ public:
         ret.w=this->w-(edk::int16)n;
         return ret;
     }
-    vec4i16 operator-(edk::uint8 n){
+    inline edk::vec4i16 operator-(edk::uint8 n){
         //
         vec4i16 ret;
         ret.x=this->x-(edk::int16)n;
@@ -1480,7 +1480,7 @@ public:
         ret.w=this->w-(edk::int16)n;
         return ret;
     }
-    vec4i16 operator-(edk::uint16 n){
+    inline edk::vec4i16 operator-(edk::uint16 n){
         //
         vec4i16 ret;
         ret.x=this->x-(edk::int16)n;
@@ -1489,7 +1489,7 @@ public:
         ret.w=this->w-(edk::int16)n;
         return ret;
     }
-    vec4i16 operator-(edk::uint32 n){
+    inline edk::vec4i16 operator-(edk::uint32 n){
         //
         vec4i16 ret;
         ret.x=this->x-(edk::int16)n;
@@ -1498,7 +1498,7 @@ public:
         ret.w=this->w-(edk::int16)n;
         return ret;
     }
-    vec4i16 operator-(edk::uint64 n){
+    inline edk::vec4i16 operator-(edk::uint64 n){
         //
         vec4i16 ret;
         ret.x=this->x-(edk::int16)n;
@@ -1509,81 +1509,81 @@ public:
     }
 
     //-=
-    void operator-=(vec4i8 vec){
+    inline void operator-=(edk::vec4i8 vec){
         //
         this->x-=(edk::int16)vec.x;
         this->y-=(edk::int16)vec.y;
         this->z-=(edk::int16)vec.z;
         this->w-=(edk::int16)vec.w;
     }
-    void operator-=(vec4i16 vec){
+    inline void operator-=(edk::vec4i16 vec){
         //
         this->x-=vec.x;
         this->y-=vec.y;
         this->z-=vec.z;
         this->w-=vec.w;
     }
-    void operator-=(vec3i8 vec){
+    inline void operator-=(vec3i8 vec){
         //
         this->x-=vec.x;
         this->y-=vec.y;
         this->z-=vec.z;
     }
-    void operator-=(vec2i8 vec){
+    inline void operator-=(vec2i8 vec){
         //
         this->x-=vec.x;
         this->y-=vec.y;
     }
-    void operator-=(edk::int8 n){
+    inline void operator-=(edk::int8 n){
         //
         this->x-=(edk::int16)n;
         this->y-=(edk::int16)n;
         this->z-=(edk::int16)n;
         this->w-=(edk::int16)n;
     }
-    void operator-=(edk::int16 n){
+    inline void operator-=(edk::int16 n){
         //
         this->x-=(edk::int16)n;
         this->y-=(edk::int16)n;
         this->z-=(edk::int16)n;
         this->w-=(edk::int16)n;
     }
-    void operator-=(edk::int32 n){
+    inline void operator-=(edk::int32 n){
         //
         this->x-=(edk::int16)n;
         this->y-=(edk::int16)n;
         this->z-=(edk::int16)n;
         this->w-=(edk::int16)n;
     }
-    void operator-=(edk::int64 n){
+    inline void operator-=(edk::int64 n){
         //
         this->x-=(edk::int16)n;
         this->y-=(edk::int16)n;
         this->z-=(edk::int16)n;
         this->w-=(edk::int16)n;
     }
-    void operator-=(edk::uint8 n){
+    inline void operator-=(edk::uint8 n){
         //
         this->x-=(edk::int16)n;
         this->y-=(edk::int16)n;
         this->z-=(edk::int16)n;
         this->w-=(edk::int16)n;
     }
-    void operator-=(edk::uint16 n){
+    inline void operator-=(edk::uint16 n){
         //
         this->x-=(edk::int16)n;
         this->y-=(edk::int16)n;
         this->z-=(edk::int16)n;
         this->w-=(edk::int16)n;
     }
-    void operator-=(edk::uint32 n){
+    inline void operator-=(edk::uint32 n){
         //
         this->x-=(edk::int16)n;
         this->y-=(edk::int16)n;
         this->z-=(edk::int16)n;
         this->w-=(edk::int16)n;
     }
-    void operator-=(edk::uint64 n){
+    inline void operator-=(edk::uint64 n){
         //
         this->x-=(edk::int16)n;
         this->y-=(edk::int16)n;
@@ -1592,7 +1592,7 @@ public:
     }
 
     //*
-    vec4i16 operator*(vec4i8 vec){
+    inline edk::vec4i16 operator*(edk::vec4i8 vec){
         //
         vec4i16 ret;
         ret.x=this->x*(edk::int16)vec.x;
@@ -1601,7 +1601,7 @@ public:
         ret.w=this->w*(edk::int16)vec.w;
         return ret;
     }
-    vec4i16 operator*(vec4i16 vec){
+    inline edk::vec4i16 operator*(edk::vec4i16 vec){
         //
         vec4i16 ret;
         ret.x=this->x*vec.x;
@@ -1610,7 +1610,7 @@ public:
         ret.w=this->w*vec.w;
         return ret;
     }
-    vec4i16 operator*(vec3i8 vec){
+    inline edk::vec4i16 operator*(vec3i8 vec){
         //
         vec4i16 ret;
         ret.x=this->x*vec.x;
@@ -1618,14 +1618,14 @@ public:
         ret.z=this->z*vec.z;
         return ret;
     }
-    vec4i16 operator*(vec2i8 vec){
+    inline edk::vec4i16 operator*(vec2i8 vec){
         //
         vec4i16 ret;
         ret.x=this->x*vec.x;
         ret.y=this->y*vec.y;
         return ret;
     }
-    vec4i16 operator*(edk::int8 n){
+    inline edk::vec4i16 operator*(edk::int8 n){
         //
         vec4i16 ret;
         ret.x=this->x*(edk::int16)n;
@@ -1634,7 +1634,7 @@ public:
         ret.w=this->w*(edk::int16)n;
         return ret;
     }
-    vec4i16 operator*(edk::int16 n){
+    inline edk::vec4i16 operator*(edk::int16 n){
         //
         vec4i16 ret;
         ret.x=this->x*(edk::int16)n;
@@ -1643,7 +1643,7 @@ public:
         ret.w=this->w*(edk::int16)n;
         return ret;
     }
-    vec4i16 operator*(edk::int32 n){
+    inline edk::vec4i16 operator*(edk::int32 n){
         //
         vec4i16 ret;
         ret.x=this->x*(edk::int16)n;
@@ -1652,7 +1652,7 @@ public:
         ret.w=this->w*(edk::int16)n;
         return ret;
     }
-    vec4i16 operator*(edk::int64 n){
+    inline edk::vec4i16 operator*(edk::int64 n){
         //
         vec4i16 ret;
         ret.x=this->x*(edk::int16)n;
@@ -1661,7 +1661,7 @@ public:
         ret.w=this->w*(edk::int16)n;
         return ret;
     }
-    vec4i16 operator*(edk::uint8 n){
+    inline edk::vec4i16 operator*(edk::uint8 n){
         //
         vec4i16 ret;
         ret.x=this->x*(edk::int16)n;
@@ -1670,7 +1670,7 @@ public:
         ret.w=this->w*(edk::int16)n;
         return ret;
     }
-    vec4i16 operator*(edk::uint16 n){
+    inline edk::vec4i16 operator*(edk::uint16 n){
         //
         vec4i16 ret;
         ret.x=this->x*(edk::int16)n;
@@ -1679,7 +1679,7 @@ public:
         ret.w=this->w*(edk::int16)n;
         return ret;
     }
-    vec4i16 operator*(edk::uint32 n){
+    inline edk::vec4i16 operator*(edk::uint32 n){
         //
         vec4i16 ret;
         ret.x=this->x*(edk::int16)n;
@@ -1688,7 +1688,7 @@ public:
         ret.w=this->w*(edk::int16)n;
         return ret;
     }
-    vec4i16 operator*(edk::uint64 n){
+    inline edk::vec4i16 operator*(edk::uint64 n){
         //
         vec4i16 ret;
         ret.x=this->x*(edk::int16)n;
@@ -1699,81 +1699,81 @@ public:
     }
 
     //*=
-    void operator*=(vec4i8 vec){
+    inline void operator*=(edk::vec4i8 vec){
         //
         this->x*=(edk::int16)vec.x;
         this->y*=(edk::int16)vec.y;
         this->z*=(edk::int16)vec.z;
         this->w*=(edk::int16)vec.w;
     }
-    void operator*=(vec4i16 vec){
+    inline void operator*=(edk::vec4i16 vec){
         //
         this->x*=vec.x;
         this->y*=vec.y;
         this->z*=vec.z;
         this->w*=vec.w;
     }
-    void operator*=(vec3i8 vec){
+    inline void operator*=(vec3i8 vec){
         //
         this->x*=vec.x;
         this->y*=vec.y;
         this->z*=vec.z;
     }
-    void operator*=(vec2i8 vec){
+    inline void operator*=(vec2i8 vec){
         //
         this->x*=vec.x;
         this->y*=vec.y;
     }
-    void operator*=(edk::int8 n){
+    inline void operator*=(edk::int8 n){
         //
         this->x*=(edk::int16)n;
         this->y*=(edk::int16)n;
         this->z*=(edk::int16)n;
         this->w*=(edk::int16)n;
     }
-    void operator*=(edk::int16 n){
+    inline void operator*=(edk::int16 n){
         //
         this->x*=(edk::int16)n;
         this->y*=(edk::int16)n;
         this->z*=(edk::int16)n;
         this->w*=(edk::int16)n;
     }
-    void operator*=(edk::int32 n){
+    inline void operator*=(edk::int32 n){
         //
         this->x*=(edk::int16)n;
         this->y*=(edk::int16)n;
         this->z*=(edk::int16)n;
         this->w*=(edk::int16)n;
     }
-    void operator*=(edk::int64 n){
+    inline void operator*=(edk::int64 n){
         //
         this->x*=(edk::int16)n;
         this->y*=(edk::int16)n;
         this->z*=(edk::int16)n;
         this->w*=(edk::int16)n;
     }
-    void operator*=(edk::uint8 n){
+    inline void operator*=(edk::uint8 n){
         //
         this->x*=(edk::int16)n;
         this->y*=(edk::int16)n;
         this->z*=(edk::int16)n;
         this->w*=(edk::int16)n;
     }
-    void operator*=(edk::uint16 n){
+    inline void operator*=(edk::uint16 n){
         //
         this->x*=(edk::int16)n;
         this->y*=(edk::int16)n;
         this->z*=(edk::int16)n;
         this->w*=(edk::int16)n;
     }
-    void operator*=(edk::uint32 n){
+    inline void operator*=(edk::uint32 n){
         //
         this->x*=(edk::int16)n;
         this->y*=(edk::int16)n;
         this->z*=(edk::int16)n;
         this->w*=(edk::int16)n;
     }
-    void operator*=(edk::uint64 n){
+    inline void operator*=(edk::uint64 n){
         //
         this->x*=(edk::int16)n;
         this->y*=(edk::int16)n;
@@ -1782,105 +1782,105 @@ public:
     }
 
     //++
-    vec4i16 operator++(){
+    inline edk::vec4i16 operator++(){
         //
         ++this->x;
         ++this->y;
         ++this->z;
         ++this->w;
-        return vec4i16(this->x,this->y,this->z,this->w);
+        return edk::vec4i16(this->x,this->y,this->z,this->w);
     }
-    vec4i16 operator++(edk::int32){
+    inline edk::vec4i16 operator++(edk::int32){
         //
         this->x++;
         this->y++;
         this->z++;
         this->w++;
-        return vec4i16(this->x,this->y,this->z,this->w);
+        return edk::vec4i16(this->x,this->y,this->z,this->w);
     }
 
     //--
-    vec4i16 operator--(){
+    inline edk::vec4i16 operator--(){
         //
         --this->x;
         --this->y;
         --this->z;
         --this->w;
-        return vec4i16(this->x,this->y,this->z,this->w);
+        return edk::vec4i16(this->x,this->y,this->z,this->w);
     }
-    vec4i16 operator--(edk::int32){
+    inline edk::vec4i16 operator--(edk::int32){
         //
         this->x--;
         this->y--;
         this->z--;
         this->w--;
-        return vec4i16(this->x,this->y,this->z,this->w);
+        return edk::vec4i16(this->x,this->y,this->z,this->w);
     }
 
     //
-    vec4i16 operator()(edk::int8 x,edk::int8 y,edk::int8 z,edk::int8 w){
+    inline edk::vec4i16 operator()(edk::int8 x,edk::int8 y,edk::int8 z,edk::int8 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4i16((edk::int16)this->x,(edk::int16)this->y,(edk::int16)this->z,(edk::int16)this->w);
+        return edk::vec4i16((edk::int16)this->x,(edk::int16)this->y,(edk::int16)this->z,(edk::int16)this->w);
     }
-    vec4i16 operator()(edk::int16 x,edk::int16 y,edk::int16 z,edk::int16 w){
+    inline edk::vec4i16 operator()(edk::int16 x,edk::int16 y,edk::int16 z,edk::int16 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4i16((edk::int16)this->x,(edk::int16)this->y,(edk::int16)this->z,(edk::int16)this->w);
+        return edk::vec4i16((edk::int16)this->x,(edk::int16)this->y,(edk::int16)this->z,(edk::int16)this->w);
     }
-    vec4i16 operator()(edk::int32 x,edk::int32 y,edk::int32 z,edk::int32 w){
+    inline edk::vec4i16 operator()(edk::int32 x,edk::int32 y,edk::int32 z,edk::int32 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4i16((edk::int16)this->x,(edk::int16)this->y,(edk::int16)this->z,(edk::int16)this->w);
+        return edk::vec4i16((edk::int16)this->x,(edk::int16)this->y,(edk::int16)this->z,(edk::int16)this->w);
     }
-    vec4i16 operator()(edk::int64 x,edk::int64 y,edk::int64 z,edk::int64 w){
+    inline edk::vec4i16 operator()(edk::int64 x,edk::int64 y,edk::int64 z,edk::int64 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4i16((edk::int16)this->x,(edk::int16)this->y,(edk::int16)this->z,(edk::int16)this->w);
+        return edk::vec4i16((edk::int16)this->x,(edk::int16)this->y,(edk::int16)this->z,(edk::int16)this->w);
     }
-    vec4i16 operator()(edk::uint8 x,edk::uint8 y,edk::uint8 z,edk::uint8 w){
+    inline edk::vec4i16 operator()(edk::uint8 x,edk::uint8 y,edk::uint8 z,edk::uint8 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4i16((edk::int16)this->x,(edk::int16)this->y,(edk::int16)this->z,(edk::int16)this->w);
+        return edk::vec4i16((edk::int16)this->x,(edk::int16)this->y,(edk::int16)this->z,(edk::int16)this->w);
     }
-    vec4i16 operator()(edk::uint16 x,edk::uint16 y,edk::uint16 z,edk::uint16 w){
+    inline edk::vec4i16 operator()(edk::uint16 x,edk::uint16 y,edk::uint16 z,edk::uint16 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4i16((edk::int16)this->x,(edk::int16)this->y,(edk::int16)this->z,(edk::int16)this->w);
+        return edk::vec4i16((edk::int16)this->x,(edk::int16)this->y,(edk::int16)this->z,(edk::int16)this->w);
     }
-    vec4i16 operator()(edk::uint32 x,edk::uint32 y,edk::uint32 z,edk::uint32 w){
+    inline edk::vec4i16 operator()(edk::uint32 x,edk::uint32 y,edk::uint32 z,edk::uint32 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4i16((edk::int16)this->x,(edk::int16)this->y,(edk::int16)this->z,(edk::int16)this->w);
+        return edk::vec4i16((edk::int16)this->x,(edk::int16)this->y,(edk::int16)this->z,(edk::int16)this->w);
     }
-    vec4i16 operator()(edk::uint64 x,edk::uint64 y,edk::uint64 z,edk::uint64 w){
+    inline edk::vec4i16 operator()(edk::uint64 x,edk::uint64 y,edk::uint64 z,edk::uint64 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4i16((edk::int16)this->x,(edk::int16)this->y,(edk::int16)this->z,(edk::int16)this->w);
+        return edk::vec4i16((edk::int16)this->x,(edk::int16)this->y,(edk::int16)this->z,(edk::int16)this->w);
     }
 };
 
@@ -1954,7 +1954,7 @@ public:
     //operators
 
     //=
-    vec4i32 operator=(vec4i8 vec){
+    inline edk::vec4i32 operator=(edk::vec4i8 vec){
         //
         this->x=vec.x;
         this->y=vec.y;
@@ -1962,7 +1962,7 @@ public:
         this->w=vec.w;
         return *this;
     }
-    vec4i32 operator=(vec4i16 vec){
+    inline edk::vec4i32 operator=(edk::vec4i16 vec){
         //
         this->x=vec.x;
         this->y=vec.y;
@@ -1970,7 +1970,7 @@ public:
         this->w=vec.w;
         return *this;
     }
-    vec4i32 operator=(vec4i32 vec){
+    inline edk::vec4i32 operator=(edk::vec4i32 vec){
         //
         this->x=vec.x;
         this->y=vec.y;
@@ -1978,7 +1978,7 @@ public:
         this->w=vec.w;
         return *this;
     }
-    vec4i32 operator=(vec3i8 vec){
+    inline edk::vec4i32 operator=(vec3i8 vec){
         //
         this->x=vec.x;
         this->y=vec.y;
@@ -1986,7 +1986,7 @@ public:
         this->w=0;
         return *this;
     }
-    vec4i32 operator=(vec2i8 vec){
+    inline edk::vec4i32 operator=(vec2i8 vec){
         //
         this->x=vec.x;
         this->y=vec.y;
@@ -1994,7 +1994,7 @@ public:
         this->w=0;
         return *this;
     }
-    vec4i32 operator=(edk::int8 n){
+    inline edk::vec4i32 operator=(edk::int8 n){
         //
         this->x=(edk::int32)n;
         this->y=(edk::int32)n;
@@ -2002,7 +2002,7 @@ public:
         this->w=(edk::int32)n;
         return *this;
     }
-    vec4i32 operator=(edk::int16 n){
+    inline edk::vec4i32 operator=(edk::int16 n){
         //
         this->x=(edk::int32)n;
         this->y=(edk::int32)n;
@@ -2010,7 +2010,7 @@ public:
         this->w=(edk::int32)n;
         return *this;
     }
-    vec4i32 operator=(edk::int32 n){
+    inline edk::vec4i32 operator=(edk::int32 n){
         //
         this->x=(edk::int32)n;
         this->y=(edk::int32)n;
@@ -2018,7 +2018,7 @@ public:
         this->w=(edk::int32)n;
         return *this;
     }
-    vec4i32 operator=(edk::int64 n){
+    inline edk::vec4i32 operator=(edk::int64 n){
         //
         this->x=(edk::int32)n;
         this->y=(edk::int32)n;
@@ -2026,7 +2026,7 @@ public:
         this->w=(edk::int32)n;
         return *this;
     }
-    vec4i32 operator=(edk::uint8 n){
+    inline edk::vec4i32 operator=(edk::uint8 n){
         //
         this->x=(edk::int32)n;
         this->y=(edk::int32)n;
@@ -2034,7 +2034,7 @@ public:
         this->w=(edk::int32)n;
         return *this;
     }
-    vec4i32 operator=(edk::uint16 n){
+    inline edk::vec4i32 operator=(edk::uint16 n){
         //
         this->x=(edk::int32)n;
         this->y=(edk::int32)n;
@@ -2042,7 +2042,7 @@ public:
         this->w=(edk::int32)n;
         return *this;
     }
-    vec4i32 operator=(edk::uint32 n){
+    inline edk::vec4i32 operator=(edk::uint32 n){
         //
         this->x=(edk::int32)n;
         this->y=(edk::int32)n;
@@ -2050,7 +2050,7 @@ public:
         this->w=(edk::int32)n;
         return *this;
     }
-    vec4i32 operator=(edk::uint64 n){
+    inline edk::vec4i32 operator=(edk::uint64 n){
         //
         this->x=(edk::int32)n;
         this->y=(edk::int32)n;
@@ -2060,34 +2060,34 @@ public:
     }
 
     //==
-    bool operator==(vec4i8 vec){
+    inline bool operator==(edk::vec4i8 vec){
         //
         return (this->x==(edk::int32)vec.x&&this->y==(edk::int32)vec.y&&this->z==(edk::int32)vec.z&&this->w==(edk::int32)vec.w);
     }
-    bool operator==(vec4i16 vec){
+    inline bool operator==(edk::vec4i16 vec){
         //
         return (this->x==(edk::int32)vec.x&&this->y==(edk::int32)vec.y&&this->z==(edk::int32)vec.z&&this->w==(edk::int32)vec.w);
     }
-    bool operator==(vec4i32 vec){
+    inline bool operator==(edk::vec4i32 vec){
         //
         return (this->x==vec.x&&this->y==vec.y&&this->z==vec.z&&this->w==vec.w);
     }
     //!=
-    bool operator!=(vec4i8 vec){
+    inline bool operator!=(edk::vec4i8 vec){
         //
         return (this->x!=(edk::int32)vec.x||this->y!=(edk::int32)vec.y||this->z!=(edk::int32)vec.z||this->w!=(edk::int32)vec.w);
     }
-    bool operator!=(vec4i16 vec){
+    inline bool operator!=(edk::vec4i16 vec){
         //
         return (this->x!=(edk::int32)vec.x||this->y!=(edk::int32)vec.y||this->z!=(edk::int32)vec.z||this->w!=(edk::int32)vec.w);
     }
-    bool operator!=(vec4i32 vec){
+    inline bool operator!=(edk::vec4i32 vec){
         //
         return (this->x!=vec.x||this->y!=vec.y||this->z!=vec.z||this->w!=vec.w);
     }
 
     //Operator >
-    bool operator>(vec4i8 vec){
+    inline bool operator>(edk::vec4i8 vec){
         if(this->x>(edk::int32)vec.x){
             return true;
         }
@@ -2102,7 +2102,7 @@ public:
         }
         return false;
     }
-    bool operator>(vec4i16 vec){
+    inline bool operator>(edk::vec4i16 vec){
         if(this->x>(edk::int32)vec.x){
             return true;
         }
@@ -2117,7 +2117,7 @@ public:
         }
         return false;
     }
-    bool operator>(vec4i32 vec){
+    inline bool operator>(edk::vec4i32 vec){
         if(this->x>vec.x){
             return true;
         }
@@ -2133,7 +2133,7 @@ public:
         return false;
     }
     //Operator >=
-    bool operator>=(vec4i8 vec){
+    inline bool operator>=(edk::vec4i8 vec){
         if(this->x>(edk::int32)vec.x){
             return true;
         }
@@ -2148,7 +2148,7 @@ public:
         }
         return false;
     }
-    bool operator>=(vec4i16 vec){
+    inline bool operator>=(edk::vec4i16 vec){
         if(this->x>(edk::int32)vec.x){
             return true;
         }
@@ -2163,7 +2163,7 @@ public:
         }
         return false;
     }
-    bool operator>=(vec4i32 vec){
+    inline bool operator>=(edk::vec4i32 vec){
         if(this->x>vec.x){
             return true;
         }
@@ -2179,7 +2179,7 @@ public:
         return false;
     }
     //Operator <
-    bool operator<(vec4i8 vec){
+    inline bool operator<(edk::vec4i8 vec){
         if(this->x<(edk::int32)vec.x){
             return true;
         }
@@ -2194,7 +2194,7 @@ public:
         }
         return false;
     }
-    bool operator<(vec4i16 vec){
+    inline bool operator<(edk::vec4i16 vec){
         if(this->x<(edk::int32)vec.x){
             return true;
         }
@@ -2209,7 +2209,7 @@ public:
         }
         return false;
     }
-    bool operator<(vec4i32 vec){
+    inline bool operator<(edk::vec4i32 vec){
         if(this->x<vec.x){
             return true;
         }
@@ -2225,7 +2225,7 @@ public:
         return false;
     }
     //Operator <=
-    bool operator<=(vec4i8 vec){
+    inline bool operator<=(edk::vec4i8 vec){
         if(this->x<(edk::int32)vec.x){
             return true;
         }
@@ -2240,7 +2240,7 @@ public:
         }
         return false;
     }
-    bool operator<=(vec4i16 vec){
+    inline bool operator<=(edk::vec4i16 vec){
         if(this->x<(edk::int32)vec.x){
             return true;
         }
@@ -2255,7 +2255,7 @@ public:
         }
         return false;
     }
-    bool operator<=(vec4i32 vec){
+    inline bool operator<=(edk::vec4i32 vec){
         if(this->x<vec.x){
             return true;
         }
@@ -2272,7 +2272,7 @@ public:
     }
 
     //+
-    vec4i32 operator+(vec4i8 vec){
+    inline edk::vec4i32 operator+(edk::vec4i8 vec){
         //
         vec4i32 ret;
         ret.x=this->x+vec.x;
@@ -2281,7 +2281,7 @@ public:
         ret.w=this->w+vec.w;
         return ret;
     }
-    vec4i32 operator+(vec4i16 vec){
+    inline edk::vec4i32 operator+(edk::vec4i16 vec){
         //
         vec4i32 ret;
         ret.x=this->x+vec.x;
@@ -2290,7 +2290,7 @@ public:
         ret.w=this->w+vec.w;
         return ret;
     }
-    vec4i32 operator+(vec4i32 vec){
+    inline edk::vec4i32 operator+(edk::vec4i32 vec){
         //
         vec4i32 ret;
         ret.x=this->x+vec.x;
@@ -2299,7 +2299,7 @@ public:
         ret.w=this->w+vec.w;
         return ret;
     }
-    vec4i32 operator+(vec3i8 vec){
+    inline edk::vec4i32 operator+(vec3i8 vec){
         //
         vec4i32 ret;
         ret.x=this->x+vec.x;
@@ -2307,14 +2307,14 @@ public:
         ret.z=this->z+vec.z;
         return ret;
     }
-    vec4i32 operator+(vec2i8 vec){
+    inline edk::vec4i32 operator+(vec2i8 vec){
         //
         vec4i32 ret;
         ret.x=this->x+vec.x;
         ret.y=this->y+vec.y;
         return ret;
     }
-    vec4i32 operator+(edk::int8 n){
+    inline edk::vec4i32 operator+(edk::int8 n){
         //
         vec4i32 ret;
         ret.x=this->x+(edk::int32)n;
@@ -2323,7 +2323,7 @@ public:
         ret.w=this->w+(edk::int32)n;
         return ret;
     }
-    vec4i32 operator+(edk::int16 n){
+    inline edk::vec4i32 operator+(edk::int16 n){
         //
         vec4i32 ret;
         ret.x=this->x+(edk::int32)n;
@@ -2332,7 +2332,7 @@ public:
         ret.w=this->w+(edk::int32)n;
         return ret;
     }
-    vec4i32 operator+(edk::int32 n){
+    inline edk::vec4i32 operator+(edk::int32 n){
         //
         vec4i32 ret;
         ret.x=this->x+(edk::int32)n;
@@ -2341,7 +2341,7 @@ public:
         ret.w=this->w+(edk::int32)n;
         return ret;
     }
-    vec4i32 operator+(edk::int64 n){
+    inline edk::vec4i32 operator+(edk::int64 n){
         //
         vec4i32 ret;
         ret.x=this->x+(edk::int32)n;
@@ -2350,7 +2350,7 @@ public:
         ret.w=this->w+(edk::int32)n;
         return ret;
     }
-    vec4i32 operator+(edk::uint8 n){
+    inline edk::vec4i32 operator+(edk::uint8 n){
         //
         vec4i32 ret;
         ret.x=this->x+(edk::int32)n;
@@ -2359,7 +2359,7 @@ public:
         ret.w=this->w+(edk::int32)n;
         return ret;
     }
-    vec4i32 operator+(edk::uint16 n){
+    inline edk::vec4i32 operator+(edk::uint16 n){
         //
         vec4i32 ret;
         ret.x=this->x+(edk::int32)n;
@@ -2368,7 +2368,7 @@ public:
         ret.w=this->w+(edk::int32)n;
         return ret;
     }
-    vec4i32 operator+(edk::uint32 n){
+    inline edk::vec4i32 operator+(edk::uint32 n){
         //
         vec4i32 ret;
         ret.x=this->x+(edk::int32)n;
@@ -2377,7 +2377,7 @@ public:
         ret.w=this->w+(edk::int32)n;
         return ret;
     }
-    vec4i32 operator+(edk::uint64 n){
+    inline edk::vec4i32 operator+(edk::uint64 n){
         //
         vec4i32 ret;
         ret.x=this->x+(edk::int32)n;
@@ -2388,88 +2388,88 @@ public:
     }
 
     //+=
-    void operator+=(vec4i8 vec){
+    inline void operator+=(edk::vec4i8 vec){
         //
         this->x+=vec.x;
         this->y+=vec.y;
         this->z+=vec.z;
         this->w+=vec.w;
     }
-    void operator+=(vec4i16 vec){
+    inline void operator+=(edk::vec4i16 vec){
         //
         this->x+=vec.x;
         this->y+=vec.y;
         this->z+=vec.z;
         this->w+=vec.w;
     }
-    void operator+=(vec4i32 vec){
+    inline void operator+=(edk::vec4i32 vec){
         //
         this->x+=vec.x;
         this->y+=vec.y;
         this->z+=vec.z;
         this->w+=vec.w;
     }
-    void operator+=(vec3i8 vec){
+    inline void operator+=(vec3i8 vec){
         //
         this->x+=vec.x;
         this->y+=vec.y;
         this->z+=vec.z;
     }
-    void operator+=(vec2i8 vec){
+    inline void operator+=(vec2i8 vec){
         //
         this->x+=vec.x;
         this->y+=vec.y;
     }
-    void operator+=(edk::int8 n){
+    inline void operator+=(edk::int8 n){
         //
         this->x+=(edk::int32)n;
         this->y+=(edk::int32)n;
         this->z+=(edk::int32)n;
         this->w+=(edk::int32)n;
     }
-    void operator+=(edk::int16 n){
+    inline void operator+=(edk::int16 n){
         //
         this->x+=(edk::int32)n;
         this->y+=(edk::int32)n;
         this->z+=(edk::int32)n;
         this->w+=(edk::int32)n;
     }
-    void operator+=(edk::int32 n){
+    inline void operator+=(edk::int32 n){
         //
         this->x+=(edk::int32)n;
         this->y+=(edk::int32)n;
         this->z+=(edk::int32)n;
         this->w+=(edk::int32)n;
     }
-    void operator+=(edk::int64 n){
+    inline void operator+=(edk::int64 n){
         //
         this->x+=(edk::int32)n;
         this->y+=(edk::int32)n;
         this->z+=(edk::int32)n;
         this->w+=(edk::int32)n;
     }
-    void operator+=(edk::uint8 n){
+    inline void operator+=(edk::uint8 n){
         //
         this->x+=(edk::int32)n;
         this->y+=(edk::int32)n;
         this->z+=(edk::int32)n;
         this->w+=(edk::int32)n;
     }
-    void operator+=(edk::uint16 n){
+    inline void operator+=(edk::uint16 n){
         //
         this->x+=(edk::int32)n;
         this->y+=(edk::int32)n;
         this->z+=(edk::int32)n;
         this->w+=(edk::int32)n;
     }
-    void operator+=(edk::uint32 n){
+    inline void operator+=(edk::uint32 n){
         //
         this->x+=(edk::int32)n;
         this->y+=(edk::int32)n;
         this->z+=(edk::int32)n;
         this->w+=(edk::int32)n;
     }
-    void operator+=(edk::uint64 n){
+    inline void operator+=(edk::uint64 n){
         //
         this->x+=(edk::int32)n;
         this->y+=(edk::int32)n;
@@ -2478,7 +2478,7 @@ public:
     }
 
     //-
-    vec4i32 operator-(vec4i8 vec){
+    inline edk::vec4i32 operator-(edk::vec4i8 vec){
         //
         vec4i32 ret;
         ret.x=this->x-vec.x;
@@ -2487,7 +2487,7 @@ public:
         ret.w=this->w-vec.w;
         return ret;
     }
-    vec4i32 operator-(vec4i16 vec){
+    inline edk::vec4i32 operator-(edk::vec4i16 vec){
         //
         vec4i32 ret;
         ret.x=this->x-vec.x;
@@ -2496,7 +2496,7 @@ public:
         ret.w=this->w-vec.w;
         return ret;
     }
-    vec4i32 operator-(vec4i32 vec){
+    inline edk::vec4i32 operator-(edk::vec4i32 vec){
         //
         vec4i32 ret;
         ret.x=this->x-vec.x;
@@ -2505,7 +2505,7 @@ public:
         ret.w=this->w-vec.w;
         return ret;
     }
-    vec4i32 operator-(vec3i8 vec){
+    inline edk::vec4i32 operator-(vec3i8 vec){
         //
         vec4i32 ret;
         ret.x=this->x-vec.x;
@@ -2513,14 +2513,14 @@ public:
         ret.z=this->z-vec.z;
         return ret;
     }
-    vec4i32 operator-(vec2i8 vec){
+    inline edk::vec4i32 operator-(vec2i8 vec){
         //
         vec4i32 ret;
         ret.x=this->x-vec.x;
         ret.y=this->y-vec.y;
         return ret;
     }
-    vec4i32 operator-(edk::int8 n){
+    inline edk::vec4i32 operator-(edk::int8 n){
         //
         vec4i32 ret;
         ret.x=this->x-(edk::int32)n;
@@ -2529,7 +2529,7 @@ public:
         ret.w=this->w-(edk::int32)n;
         return ret;
     }
-    vec4i32 operator-(edk::int16 n){
+    inline edk::vec4i32 operator-(edk::int16 n){
         //
         vec4i32 ret;
         ret.x=this->x-(edk::int32)n;
@@ -2538,7 +2538,7 @@ public:
         ret.w=this->w-(edk::int32)n;
         return ret;
     }
-    vec4i32 operator-(edk::int32 n){
+    inline edk::vec4i32 operator-(edk::int32 n){
         //
         vec4i32 ret;
         ret.x=this->x-(edk::int32)n;
@@ -2547,7 +2547,7 @@ public:
         ret.w=this->w-(edk::int32)n;
         return ret;
     }
-    vec4i32 operator-(edk::int64 n){
+    inline edk::vec4i32 operator-(edk::int64 n){
         //
         vec4i32 ret;
         ret.x=this->x-(edk::int32)n;
@@ -2556,7 +2556,7 @@ public:
         ret.w=this->w-(edk::int32)n;
         return ret;
     }
-    vec4i32 operator-(edk::uint8 n){
+    inline edk::vec4i32 operator-(edk::uint8 n){
         //
         vec4i32 ret;
         ret.x=this->x-(edk::int32)n;
@@ -2565,7 +2565,7 @@ public:
         ret.w=this->w-(edk::int32)n;
         return ret;
     }
-    vec4i32 operator-(edk::uint16 n){
+    inline edk::vec4i32 operator-(edk::uint16 n){
         //
         vec4i32 ret;
         ret.x=this->x-(edk::int32)n;
@@ -2574,7 +2574,7 @@ public:
         ret.w=this->w-(edk::int32)n;
         return ret;
     }
-    vec4i32 operator-(edk::uint32 n){
+    inline edk::vec4i32 operator-(edk::uint32 n){
         //
         vec4i32 ret;
         ret.x=this->x-(edk::int32)n;
@@ -2583,7 +2583,7 @@ public:
         ret.w=this->w-(edk::int32)n;
         return ret;
     }
-    vec4i32 operator-(edk::uint64 n){
+    inline edk::vec4i32 operator-(edk::uint64 n){
         //
         vec4i32 ret;
         ret.x=this->x-(edk::int32)n;
@@ -2594,88 +2594,88 @@ public:
     }
 
     //-=
-    void operator-=(vec4i8 vec){
+    inline void operator-=(edk::vec4i8 vec){
         //
         this->x-=vec.x;
         this->y-=vec.y;
         this->z-=vec.z;
         this->w-=vec.w;
     }
-    void operator-=(vec4i16 vec){
+    inline void operator-=(edk::vec4i16 vec){
         //
         this->x-=vec.x;
         this->y-=vec.y;
         this->z-=vec.z;
         this->w-=vec.w;
     }
-    void operator-=(vec4i32 vec){
+    inline void operator-=(edk::vec4i32 vec){
         //
         this->x-=vec.x;
         this->y-=vec.y;
         this->z-=vec.z;
         this->w-=vec.w;
     }
-    void operator-=(vec3i8 vec){
+    inline void operator-=(vec3i8 vec){
         //
         this->x-=vec.x;
         this->y-=vec.y;
         this->z-=vec.z;
     }
-    void operator-=(vec2i8 vec){
+    inline void operator-=(vec2i8 vec){
         //
         this->x-=vec.x;
         this->y-=vec.y;
     }
-    void operator-=(edk::int8 n){
+    inline void operator-=(edk::int8 n){
         //
         this->x-=(edk::int32)n;
         this->y-=(edk::int32)n;
         this->z-=(edk::int32)n;
         this->w-=(edk::int32)n;
     }
-    void operator-=(edk::int16 n){
+    inline void operator-=(edk::int16 n){
         //
         this->x-=(edk::int32)n;
         this->y-=(edk::int32)n;
         this->z-=(edk::int32)n;
         this->w-=(edk::int32)n;
     }
-    void operator-=(edk::int32 n){
+    inline void operator-=(edk::int32 n){
         //
         this->x-=(edk::int32)n;
         this->y-=(edk::int32)n;
         this->z-=(edk::int32)n;
         this->w-=(edk::int32)n;
     }
-    void operator-=(edk::int64 n){
+    inline void operator-=(edk::int64 n){
         //
         this->x-=(edk::int32)n;
         this->y-=(edk::int32)n;
         this->z-=(edk::int32)n;
         this->w-=(edk::int32)n;
     }
-    void operator-=(edk::uint8 n){
+    inline void operator-=(edk::uint8 n){
         //
         this->x-=(edk::int32)n;
         this->y-=(edk::int32)n;
         this->z-=(edk::int32)n;
         this->w-=(edk::int32)n;
     }
-    void operator-=(edk::uint16 n){
+    inline void operator-=(edk::uint16 n){
         //
         this->x-=(edk::int32)n;
         this->y-=(edk::int32)n;
         this->z-=(edk::int32)n;
         this->w-=(edk::int32)n;
     }
-    void operator-=(edk::uint32 n){
+    inline void operator-=(edk::uint32 n){
         //
         this->x-=(edk::int32)n;
         this->y-=(edk::int32)n;
         this->z-=(edk::int32)n;
         this->w-=(edk::int32)n;
     }
-    void operator-=(edk::uint64 n){
+    inline void operator-=(edk::uint64 n){
         //
         this->x-=(edk::int32)n;
         this->y-=(edk::int32)n;
@@ -2684,7 +2684,7 @@ public:
     }
 
     //*
-    vec4i32 operator*(vec4i8 vec){
+    inline edk::vec4i32 operator*(edk::vec4i8 vec){
         //
         vec4i32 ret;
         ret.x=this->x*vec.x;
@@ -2693,7 +2693,7 @@ public:
         ret.w=this->w*vec.w;
         return ret;
     }
-    vec4i32 operator*(vec4i16 vec){
+    inline edk::vec4i32 operator*(edk::vec4i16 vec){
         //
         vec4i32 ret;
         ret.x=this->x*vec.x;
@@ -2702,7 +2702,7 @@ public:
         ret.w=this->w*vec.w;
         return ret;
     }
-    vec4i32 operator*(vec4i32 vec){
+    inline edk::vec4i32 operator*(edk::vec4i32 vec){
         //
         vec4i32 ret;
         ret.x=this->x*vec.x;
@@ -2711,7 +2711,7 @@ public:
         ret.w=this->w*vec.w;
         return ret;
     }
-    vec4i32 operator*(vec3i8 vec){
+    inline edk::vec4i32 operator*(vec3i8 vec){
         //
         vec4i32 ret;
         ret.x=this->x*vec.x;
@@ -2719,14 +2719,14 @@ public:
         ret.z=this->z*vec.z;
         return ret;
     }
-    vec4i32 operator*(vec2i8 vec){
+    inline edk::vec4i32 operator*(vec2i8 vec){
         //
         vec4i32 ret;
         ret.x=this->x*vec.x;
         ret.y=this->y*vec.y;
         return ret;
     }
-    vec4i32 operator*(edk::int8 n){
+    inline edk::vec4i32 operator*(edk::int8 n){
         //
         vec4i32 ret;
         ret.x=this->x*(edk::int32)n;
@@ -2735,7 +2735,7 @@ public:
         ret.w=this->w*(edk::int32)n;
         return ret;
     }
-    vec4i32 operator*(edk::int16 n){
+    inline edk::vec4i32 operator*(edk::int16 n){
         //
         vec4i32 ret;
         ret.x=this->x*(edk::int32)n;
@@ -2744,7 +2744,7 @@ public:
         ret.w=this->w*(edk::int32)n;
         return ret;
     }
-    vec4i32 operator*(edk::int32 n){
+    inline edk::vec4i32 operator*(edk::int32 n){
         //
         vec4i32 ret;
         ret.x=this->x*(edk::int32)n;
@@ -2753,7 +2753,7 @@ public:
         ret.w=this->w*(edk::int32)n;
         return ret;
     }
-    vec4i32 operator*(edk::int64 n){
+    inline edk::vec4i32 operator*(edk::int64 n){
         //
         vec4i32 ret;
         ret.x=this->x*(edk::int32)n;
@@ -2762,7 +2762,7 @@ public:
         ret.w=this->w*(edk::int32)n;
         return ret;
     }
-    vec4i32 operator*(edk::uint8 n){
+    inline edk::vec4i32 operator*(edk::uint8 n){
         //
         vec4i32 ret;
         ret.x=this->x*(edk::int32)n;
@@ -2771,7 +2771,7 @@ public:
         ret.w=this->w*(edk::int32)n;
         return ret;
     }
-    vec4i32 operator*(edk::uint16 n){
+    inline edk::vec4i32 operator*(edk::uint16 n){
         //
         vec4i32 ret;
         ret.x=this->x*(edk::int32)n;
@@ -2780,7 +2780,7 @@ public:
         ret.w=this->w*(edk::int32)n;
         return ret;
     }
-    vec4i32 operator*(edk::uint32 n){
+    inline edk::vec4i32 operator*(edk::uint32 n){
         //
         vec4i32 ret;
         ret.x=this->x*(edk::int32)n;
@@ -2789,7 +2789,7 @@ public:
         ret.w=this->w*(edk::int32)n;
         return ret;
     }
-    vec4i32 operator*(edk::uint64 n){
+    inline edk::vec4i32 operator*(edk::uint64 n){
         //
         vec4i32 ret;
         ret.x=this->x*(edk::int32)n;
@@ -2800,88 +2800,88 @@ public:
     }
 
     //*=
-    void operator*=(vec4i8 vec){
+    inline void operator*=(edk::vec4i8 vec){
         //
         this->x*=vec.x;
         this->y*=vec.y;
         this->z*=vec.z;
         this->w*=vec.w;
     }
-    void operator*=(vec4i16 vec){
+    inline void operator*=(edk::vec4i16 vec){
         //
         this->x*=vec.x;
         this->y*=vec.y;
         this->z*=vec.z;
         this->w*=vec.w;
     }
-    void operator*=(vec4i32 vec){
+    inline void operator*=(edk::vec4i32 vec){
         //
         this->x*=vec.x;
         this->y*=vec.y;
         this->z*=vec.z;
         this->w*=vec.w;
     }
-    void operator*=(vec3i8 vec){
+    inline void operator*=(vec3i8 vec){
         //
         this->x*=vec.x;
         this->y*=vec.y;
         this->z*=vec.z;
     }
-    void operator*=(vec2i8 vec){
+    inline void operator*=(vec2i8 vec){
         //
         this->x*=vec.x;
         this->y*=vec.y;
     }
-    void operator*=(edk::int8 n){
+    inline void operator*=(edk::int8 n){
         //
         this->x*=(edk::int32)n;
         this->y*=(edk::int32)n;
         this->z*=(edk::int32)n;
         this->w*=(edk::int32)n;
     }
-    void operator*=(edk::int16 n){
+    inline void operator*=(edk::int16 n){
         //
         this->x*=(edk::int32)n;
         this->y*=(edk::int32)n;
         this->z*=(edk::int32)n;
         this->w*=(edk::int32)n;
     }
-    void operator*=(edk::int32 n){
+    inline void operator*=(edk::int32 n){
         //
         this->x*=(edk::int32)n;
         this->y*=(edk::int32)n;
         this->z*=(edk::int32)n;
         this->w*=(edk::int32)n;
     }
-    void operator*=(edk::int64 n){
+    inline void operator*=(edk::int64 n){
         //
         this->x*=(edk::int32)n;
         this->y*=(edk::int32)n;
         this->z*=(edk::int32)n;
         this->w*=(edk::int32)n;
     }
-    void operator*=(edk::uint8 n){
+    inline void operator*=(edk::uint8 n){
         //
         this->x*=(edk::int32)n;
         this->y*=(edk::int32)n;
         this->z*=(edk::int32)n;
         this->w*=(edk::int32)n;
     }
-    void operator*=(edk::uint16 n){
+    inline void operator*=(edk::uint16 n){
         //
         this->x*=(edk::int32)n;
         this->y*=(edk::int32)n;
         this->z*=(edk::int32)n;
         this->w*=(edk::int32)n;
     }
-    void operator*=(edk::uint32 n){
+    inline void operator*=(edk::uint32 n){
         //
         this->x*=(edk::int32)n;
         this->y*=(edk::int32)n;
         this->z*=(edk::int32)n;
         this->w*=(edk::int32)n;
     }
-    void operator*=(edk::uint64 n){
+    inline void operator*=(edk::uint64 n){
         //
         this->x*=(edk::int32)n;
         this->y*=(edk::int32)n;
@@ -2890,105 +2890,105 @@ public:
     }
 
     //++
-    vec4i32 operator++(){
+    inline edk::vec4i32 operator++(){
         //
         ++this->x;
         ++this->y;
         ++this->z;
         ++this->w;
-        return vec4i32(this->x,this->y,this->z,this->w);
+        return edk::vec4i32(this->x,this->y,this->z,this->w);
     }
-    vec4i32 operator++(edk::int32){
+    inline edk::vec4i32 operator++(edk::int32){
         //
         this->x++;
         this->y++;
         this->z++;
         this->w++;
-        return vec4i32(this->x,this->y,this->z,this->w);
+        return edk::vec4i32(this->x,this->y,this->z,this->w);
     }
 
     //--
-    vec4i32 operator--(){
+    inline edk::vec4i32 operator--(){
         //
         --this->x;
         --this->y;
         --this->z;
         --this->w;
-        return vec4i32(this->x,this->y,this->z,this->w);
+        return edk::vec4i32(this->x,this->y,this->z,this->w);
     }
-    vec4i32 operator--(edk::int32){
+    inline edk::vec4i32 operator--(edk::int32){
         //
         this->x--;
         this->y--;
         this->z--;
         this->w--;
-        return vec4i32(this->x,this->y,this->z,this->w);
+        return edk::vec4i32(this->x,this->y,this->z,this->w);
     }
 
     //
-    vec4i32 operator()(edk::int8 x,edk::int8 y,edk::int8 z,edk::int8 w){
+    inline edk::vec4i32 operator()(edk::int8 x,edk::int8 y,edk::int8 z,edk::int8 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4i32((edk::int32)this->x,(edk::int32)this->y,(edk::int32)this->z,(edk::int32)this->w);
+        return edk::vec4i32((edk::int32)this->x,(edk::int32)this->y,(edk::int32)this->z,(edk::int32)this->w);
     }
-    vec4i32 operator()(edk::int16 x,edk::int16 y,edk::int16 z,edk::int16 w){
+    inline edk::vec4i32 operator()(edk::int16 x,edk::int16 y,edk::int16 z,edk::int16 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4i32((edk::int32)this->x,(edk::int32)this->y,(edk::int32)this->z,(edk::int32)this->w);
+        return edk::vec4i32((edk::int32)this->x,(edk::int32)this->y,(edk::int32)this->z,(edk::int32)this->w);
     }
-    vec4i32 operator()(edk::int32 x,edk::int32 y,edk::int32 z,edk::int32 w){
+    inline edk::vec4i32 operator()(edk::int32 x,edk::int32 y,edk::int32 z,edk::int32 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4i32((edk::int32)this->x,(edk::int32)this->y,(edk::int32)this->z,(edk::int32)this->w);
+        return edk::vec4i32((edk::int32)this->x,(edk::int32)this->y,(edk::int32)this->z,(edk::int32)this->w);
     }
-    vec4i32 operator()(edk::int64 x,edk::int64 y,edk::int64 z,edk::int64 w){
+    inline edk::vec4i32 operator()(edk::int64 x,edk::int64 y,edk::int64 z,edk::int64 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4i32((edk::int32)this->x,(edk::int32)this->y,(edk::int32)this->z,(edk::int32)this->w);
+        return edk::vec4i32((edk::int32)this->x,(edk::int32)this->y,(edk::int32)this->z,(edk::int32)this->w);
     }
-    vec4i32 operator()(edk::uint8 x,edk::uint8 y,edk::uint8 z,edk::uint8 w){
+    inline edk::vec4i32 operator()(edk::uint8 x,edk::uint8 y,edk::uint8 z,edk::uint8 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4i32((edk::int32)this->x,(edk::int32)this->y,(edk::int32)this->z,(edk::int32)this->w);
+        return edk::vec4i32((edk::int32)this->x,(edk::int32)this->y,(edk::int32)this->z,(edk::int32)this->w);
     }
-    vec4i32 operator()(edk::uint16 x,edk::uint16 y,edk::uint16 z,edk::uint16 w){
+    inline edk::vec4i32 operator()(edk::uint16 x,edk::uint16 y,edk::uint16 z,edk::uint16 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4i32((edk::int32)this->x,(edk::int32)this->y,(edk::int32)this->z,(edk::int32)this->w);
+        return edk::vec4i32((edk::int32)this->x,(edk::int32)this->y,(edk::int32)this->z,(edk::int32)this->w);
     }
-    vec4i32 operator()(edk::uint32 x,edk::uint32 y,edk::uint32 z,edk::uint32 w){
+    inline edk::vec4i32 operator()(edk::uint32 x,edk::uint32 y,edk::uint32 z,edk::uint32 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4i32((edk::int32)this->x,(edk::int32)this->y,(edk::int32)this->z,(edk::int32)this->w);
+        return edk::vec4i32((edk::int32)this->x,(edk::int32)this->y,(edk::int32)this->z,(edk::int32)this->w);
     }
-    vec4i32 operator()(edk::uint64 x,edk::uint64 y,edk::uint64 z,edk::uint64 w){
+    inline edk::vec4i32 operator()(edk::uint64 x,edk::uint64 y,edk::uint64 z,edk::uint64 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4i32((edk::int32)this->x,(edk::int32)this->y,(edk::int32)this->z,(edk::int32)this->w);
+        return edk::vec4i32((edk::int32)this->x,(edk::int32)this->y,(edk::int32)this->z,(edk::int32)this->w);
     }
 };
 
@@ -3062,7 +3062,7 @@ public:
     //operators
 
     //=
-    vec4i64 operator=(vec4i8 vec){
+    inline edk::vec4i64 operator=(edk::vec4i8 vec){
         //
         this->x=vec.x;
         this->y=vec.y;
@@ -3070,7 +3070,7 @@ public:
         this->w=vec.w;
         return *this;
     }
-    vec4i64 operator=(vec4i16 vec){
+    inline edk::vec4i64 operator=(edk::vec4i16 vec){
         //
         this->x=vec.x;
         this->y=vec.y;
@@ -3078,7 +3078,7 @@ public:
         this->w=vec.w;
         return *this;
     }
-    vec4i64 operator=(vec4i32 vec){
+    inline edk::vec4i64 operator=(edk::vec4i32 vec){
         //
         this->x=vec.x;
         this->y=vec.y;
@@ -3086,7 +3086,7 @@ public:
         this->w=vec.w;
         return *this;
     }
-    vec4i64 operator=(vec4i64 vec){
+    inline edk::vec4i64 operator=(edk::vec4i64 vec){
         //
         this->x=vec.x;
         this->y=vec.y;
@@ -3094,7 +3094,7 @@ public:
         this->w=vec.w;
         return *this;
     }
-    vec4i64 operator=(vec3i8 vec){
+    inline edk::vec4i64 operator=(vec3i8 vec){
         //
         this->x=vec.x;
         this->y=vec.y;
@@ -3102,7 +3102,7 @@ public:
         this->w=0;
         return *this;
     }
-    vec4i64 operator=(vec2i8 vec){
+    inline edk::vec4i64 operator=(vec2i8 vec){
         //
         this->x=vec.x;
         this->y=vec.y;
@@ -3110,7 +3110,7 @@ public:
         this->w=0;
         return *this;
     }
-    vec4i64 operator=(edk::int8 n){
+    inline edk::vec4i64 operator=(edk::int8 n){
         //
         this->x=(edk::int64)n;
         this->y=(edk::int64)n;
@@ -3118,7 +3118,7 @@ public:
         this->w=(edk::int64)n;
         return *this;
     }
-    vec4i64 operator=(edk::int16 n){
+    inline edk::vec4i64 operator=(edk::int16 n){
         //
         this->x=(edk::int64)n;
         this->y=(edk::int64)n;
@@ -3126,7 +3126,7 @@ public:
         this->w=(edk::int64)n;
         return *this;
     }
-    vec4i64 operator=(edk::int32 n){
+    inline edk::vec4i64 operator=(edk::int32 n){
         //
         this->x=(edk::int64)n;
         this->y=(edk::int64)n;
@@ -3134,7 +3134,7 @@ public:
         this->w=(edk::int64)n;
         return *this;
     }
-    vec4i64 operator=(edk::int64 n){
+    inline edk::vec4i64 operator=(edk::int64 n){
         //
         this->x=(edk::int64)n;
         this->y=(edk::int64)n;
@@ -3142,7 +3142,7 @@ public:
         this->w=(edk::int64)n;
         return *this;
     }
-    vec4i64 operator=(edk::uint8 n){
+    inline edk::vec4i64 operator=(edk::uint8 n){
         //
         this->x=(edk::int64)n;
         this->y=(edk::int64)n;
@@ -3150,7 +3150,7 @@ public:
         this->w=(edk::int64)n;
         return *this;
     }
-    vec4i64 operator=(edk::uint16 n){
+    inline edk::vec4i64 operator=(edk::uint16 n){
         //
         this->x=(edk::int64)n;
         this->y=(edk::int64)n;
@@ -3158,7 +3158,7 @@ public:
         this->w=(edk::int64)n;
         return *this;
     }
-    vec4i64 operator=(edk::uint32 n){
+    inline edk::vec4i64 operator=(edk::uint32 n){
         //
         this->x=(edk::int64)n;
         this->y=(edk::int64)n;
@@ -3166,7 +3166,7 @@ public:
         this->w=(edk::int64)n;
         return *this;
     }
-    vec4i64 operator=(edk::uint64 n){
+    inline edk::vec4i64 operator=(edk::uint64 n){
         //
         this->x=(edk::int64)n;
         this->y=(edk::int64)n;
@@ -3176,42 +3176,42 @@ public:
     }
 
     //==
-    bool operator==(vec4i8 vec){
+    inline bool operator==(edk::vec4i8 vec){
         //
         return (this->x==(edk::int64)vec.x&&this->y==(edk::int64)vec.y&&this->z==(edk::int64)vec.z&&this->w==(edk::int64)vec.w);
     }
-    bool operator==(vec4i16 vec){
+    inline bool operator==(edk::vec4i16 vec){
         //
         return (this->x==(edk::int64)vec.x&&this->y==(edk::int64)vec.y&&this->z==(edk::int64)vec.z&&this->w==(edk::int64)vec.w);
     }
-    bool operator==(vec4i32 vec){
+    inline bool operator==(edk::vec4i32 vec){
         //
         return (this->x==(edk::int64)vec.x&&this->y==(edk::int64)vec.y&&this->z==(edk::int64)vec.z&&this->w==(edk::int64)vec.w);
     }
-    bool operator==(vec4i64 vec){
+    inline bool operator==(edk::vec4i64 vec){
         //
         return (this->x==vec.x&&this->y==vec.y&&this->z==vec.z&&this->w==vec.w);
     }
     //!=
-    bool operator!=(vec4i8 vec){
+    inline bool operator!=(edk::vec4i8 vec){
         //
         return (this->x!=(edk::int64)vec.x||this->y!=(edk::int64)vec.y||this->z!=(edk::int64)vec.z||this->w!=(edk::int64)vec.w);
     }
-    bool operator!=(vec4i16 vec){
+    inline bool operator!=(edk::vec4i16 vec){
         //
         return (this->x!=(edk::int64)vec.x||this->y!=(edk::int64)vec.y||this->z!=(edk::int64)vec.z||this->w!=(edk::int64)vec.w);
     }
-    bool operator!=(vec4i32 vec){
+    inline bool operator!=(edk::vec4i32 vec){
         //
         return (this->x!=(edk::int64)vec.x||this->y!=(edk::int64)vec.y||this->z!=(edk::int64)vec.z||this->w!=(edk::int64)vec.w);
     }
-    bool operator!=(vec4i64 vec){
+    inline bool operator!=(edk::vec4i64 vec){
         //
         return (this->x!=vec.x||this->y!=vec.y||this->z!=vec.z||this->w!=vec.w);
     }
 
     //Operator >
-    bool operator>(vec4i8 vec){
+    inline bool operator>(edk::vec4i8 vec){
         if(this->x>(edk::int64)vec.x){
             return true;
         }
@@ -3226,7 +3226,7 @@ public:
         }
         return false;
     }
-    bool operator>(vec4i16 vec){
+    inline bool operator>(edk::vec4i16 vec){
         if(this->x>(edk::int64)vec.x){
             return true;
         }
@@ -3241,7 +3241,7 @@ public:
         }
         return false;
     }
-    bool operator>(vec4i32 vec){
+    inline bool operator>(edk::vec4i32 vec){
         if(this->x>(edk::int64)vec.x){
             return true;
         }
@@ -3256,7 +3256,7 @@ public:
         }
         return false;
     }
-    bool operator>(vec4i64 vec){
+    inline bool operator>(edk::vec4i64 vec){
         if(this->x>vec.x){
             return true;
         }
@@ -3272,7 +3272,7 @@ public:
         return false;
     }
     //Operator >=
-    bool operator>=(vec4i8 vec){
+    inline bool operator>=(edk::vec4i8 vec){
         if(this->x>(edk::int64)vec.x){
             return true;
         }
@@ -3287,7 +3287,7 @@ public:
         }
         return false;
     }
-    bool operator>=(vec4i16 vec){
+    inline bool operator>=(edk::vec4i16 vec){
         if(this->x>(edk::int64)vec.x){
             return true;
         }
@@ -3302,7 +3302,7 @@ public:
         }
         return false;
     }
-    bool operator>=(vec4i32 vec){
+    inline bool operator>=(edk::vec4i32 vec){
         if(this->x>(edk::int64)vec.x){
             return true;
         }
@@ -3317,7 +3317,7 @@ public:
         }
         return false;
     }
-    bool operator>=(vec4i64 vec){
+    inline bool operator>=(edk::vec4i64 vec){
         if(this->x>vec.x){
             return true;
         }
@@ -3333,7 +3333,7 @@ public:
         return false;
     }
     //Operator <
-    bool operator<(vec4i8 vec){
+    inline bool operator<(edk::vec4i8 vec){
         if(this->x<(edk::int64)vec.x){
             return true;
         }
@@ -3348,7 +3348,7 @@ public:
         }
         return false;
     }
-    bool operator<(vec4i16 vec){
+    inline bool operator<(edk::vec4i16 vec){
         if(this->x<(edk::int64)vec.x){
             return true;
         }
@@ -3363,7 +3363,7 @@ public:
         }
         return false;
     }
-    bool operator<(vec4i32 vec){
+    inline bool operator<(edk::vec4i32 vec){
         if(this->x<(edk::int64)vec.x){
             return true;
         }
@@ -3378,7 +3378,7 @@ public:
         }
         return false;
     }
-    bool operator<(vec4i64 vec){
+    inline bool operator<(edk::vec4i64 vec){
         if(this->x<vec.x){
             return true;
         }
@@ -3394,7 +3394,7 @@ public:
         return false;
     }
     //Operator <=
-    bool operator<=(vec4i8 vec){
+    inline bool operator<=(edk::vec4i8 vec){
         if(this->x<(edk::int64)vec.x){
             return true;
         }
@@ -3409,7 +3409,7 @@ public:
         }
         return false;
     }
-    bool operator<=(vec4i16 vec){
+    inline bool operator<=(edk::vec4i16 vec){
         if(this->x<(edk::int64)vec.x){
             return true;
         }
@@ -3424,7 +3424,7 @@ public:
         }
         return false;
     }
-    bool operator<=(vec4i32 vec){
+    inline bool operator<=(edk::vec4i32 vec){
         if(this->x<(edk::int64)vec.x){
             return true;
         }
@@ -3439,7 +3439,7 @@ public:
         }
         return false;
     }
-    bool operator<=(vec4i64 vec){
+    inline bool operator<=(edk::vec4i64 vec){
         if(this->x<vec.x){
             return true;
         }
@@ -3456,7 +3456,7 @@ public:
     }
 
     //+
-    vec4i64 operator+(vec4i8 vec){
+    inline edk::vec4i64 operator+(edk::vec4i8 vec){
         //
         vec4i64 ret;
         ret.x=this->x+vec.x;
@@ -3465,7 +3465,7 @@ public:
         ret.w=this->w+vec.w;
         return ret;
     }
-    vec4i64 operator+(vec4i16 vec){
+    inline edk::vec4i64 operator+(edk::vec4i16 vec){
         //
         vec4i64 ret;
         ret.x=this->x+vec.x;
@@ -3474,7 +3474,7 @@ public:
         ret.w=this->w+vec.w;
         return ret;
     }
-    vec4i64 operator+(vec4i32 vec){
+    inline edk::vec4i64 operator+(edk::vec4i32 vec){
         //
         vec4i64 ret;
         ret.x=this->x+vec.x;
@@ -3483,7 +3483,7 @@ public:
         ret.w=this->w+vec.w;
         return ret;
     }
-    vec4i64 operator+(vec4i64 vec){
+    inline edk::vec4i64 operator+(edk::vec4i64 vec){
         //
         vec4i64 ret;
         ret.x=this->x+vec.x;
@@ -3492,7 +3492,7 @@ public:
         ret.w=this->w+vec.w;
         return ret;
     }
-    vec4i64 operator+(vec3i8 vec){
+    inline edk::vec4i64 operator+(vec3i8 vec){
         //
         vec4i64 ret;
         ret.x=this->x+vec.x;
@@ -3500,14 +3500,14 @@ public:
         ret.z=this->z+vec.z;
         return ret;
     }
-    vec4i64 operator+(vec2i8 vec){
+    inline edk::vec4i64 operator+(vec2i8 vec){
         //
         vec4i64 ret;
         ret.x=this->x+vec.x;
         ret.y=this->y+vec.y;
         return ret;
     }
-    vec4i64 operator+(edk::int8 n){
+    inline edk::vec4i64 operator+(edk::int8 n){
         //
         vec4i64 ret;
         ret.x=this->x+(edk::int64)n;
@@ -3516,7 +3516,7 @@ public:
         ret.w=this->w+(edk::int64)n;
         return ret;
     }
-    vec4i64 operator+(edk::int16 n){
+    inline edk::vec4i64 operator+(edk::int16 n){
         //
         vec4i64 ret;
         ret.x=this->x+(edk::int64)n;
@@ -3525,7 +3525,7 @@ public:
         ret.w=this->w+(edk::int64)n;
         return ret;
     }
-    vec4i64 operator+(edk::int32 n){
+    inline edk::vec4i64 operator+(edk::int32 n){
         //
         vec4i64 ret;
         ret.x=this->x+(edk::int64)n;
@@ -3534,7 +3534,7 @@ public:
         ret.w=this->w+(edk::int64)n;
         return ret;
     }
-    vec4i64 operator+(edk::int64 n){
+    inline edk::vec4i64 operator+(edk::int64 n){
         //
         vec4i64 ret;
         ret.x=this->x+(edk::int64)n;
@@ -3543,7 +3543,7 @@ public:
         ret.w=this->w+(edk::int64)n;
         return ret;
     }
-    vec4i64 operator+(edk::uint8 n){
+    inline edk::vec4i64 operator+(edk::uint8 n){
         //
         vec4i64 ret;
         ret.x=this->x+(edk::int64)n;
@@ -3552,7 +3552,7 @@ public:
         ret.w=this->w+(edk::int64)n;
         return ret;
     }
-    vec4i64 operator+(edk::uint16 n){
+    inline edk::vec4i64 operator+(edk::uint16 n){
         //
         vec4i64 ret;
         ret.x=this->x+(edk::int64)n;
@@ -3561,7 +3561,7 @@ public:
         ret.w=this->w+(edk::int64)n;
         return ret;
     }
-    vec4i64 operator+(edk::uint32 n){
+    inline edk::vec4i64 operator+(edk::uint32 n){
         //
         vec4i64 ret;
         ret.x=this->x+(edk::int64)n;
@@ -3570,7 +3570,7 @@ public:
         ret.w=this->w+(edk::int64)n;
         return ret;
     }
-    vec4i64 operator+(edk::uint64 n){
+    inline edk::vec4i64 operator+(edk::uint64 n){
         //
         vec4i64 ret;
         ret.x=this->x+(edk::int64)n;
@@ -3581,95 +3581,95 @@ public:
     }
 
     //+=
-    void operator+=(vec4i8 vec){
+    inline void operator+=(edk::vec4i8 vec){
         //
         this->x+=vec.x;
         this->y+=vec.y;
         this->z+=vec.z;
         this->w+=vec.w;
     }
-    void operator+=(vec4i16 vec){
+    inline void operator+=(edk::vec4i16 vec){
         //
         this->x+=vec.x;
         this->y+=vec.y;
         this->z+=vec.z;
         this->w+=vec.w;
     }
-    void operator+=(vec4i32 vec){
+    inline void operator+=(edk::vec4i32 vec){
         //
         this->x+=vec.x;
         this->y+=vec.y;
         this->z+=vec.z;
         this->w+=vec.w;
     }
-    void operator+=(vec4i64 vec){
+    inline void operator+=(edk::vec4i64 vec){
         //
         this->x+=vec.x;
         this->y+=vec.y;
         this->z+=vec.z;
         this->w+=vec.w;
     }
-    void operator+=(vec3i8 vec){
+    inline void operator+=(vec3i8 vec){
         //
         this->x+=vec.x;
         this->y+=vec.y;
         this->z+=vec.z;
     }
-    void operator+=(vec2i8 vec){
+    inline void operator+=(vec2i8 vec){
         //
         this->x+=vec.x;
         this->y+=vec.y;
     }
-    void operator+=(edk::int8 n){
+    inline void operator+=(edk::int8 n){
         //
         this->x+=(edk::int64)n;
         this->y+=(edk::int64)n;
         this->z+=(edk::int64)n;
         this->w+=(edk::int64)n;
     }
-    void operator+=(edk::int16 n){
+    inline void operator+=(edk::int16 n){
         //
         this->x+=(edk::int64)n;
         this->y+=(edk::int64)n;
         this->z+=(edk::int64)n;
         this->w+=(edk::int64)n;
     }
-    void operator+=(edk::int32 n){
+    inline void operator+=(edk::int32 n){
         //
         this->x+=(edk::int64)n;
         this->y+=(edk::int64)n;
         this->z+=(edk::int64)n;
         this->w+=(edk::int64)n;
     }
-    void operator+=(edk::int64 n){
+    inline void operator+=(edk::int64 n){
         //
         this->x+=(edk::int64)n;
         this->y+=(edk::int64)n;
         this->z+=(edk::int64)n;
         this->w+=(edk::int64)n;
     }
-    void operator+=(edk::uint8 n){
+    inline void operator+=(edk::uint8 n){
         //
         this->x+=(edk::int64)n;
         this->y+=(edk::int64)n;
         this->z+=(edk::int64)n;
         this->w+=(edk::int64)n;
     }
-    void operator+=(edk::uint16 n){
+    inline void operator+=(edk::uint16 n){
         //
         this->x+=(edk::int64)n;
         this->y+=(edk::int64)n;
         this->z+=(edk::int64)n;
         this->w+=(edk::int64)n;
     }
-    void operator+=(edk::uint32 n){
+    inline void operator+=(edk::uint32 n){
         //
         this->x+=(edk::int64)n;
         this->y+=(edk::int64)n;
         this->z+=(edk::int64)n;
         this->w+=(edk::int64)n;
     }
-    void operator+=(edk::uint64 n){
+    inline void operator+=(edk::uint64 n){
         //
         this->x+=(edk::int64)n;
         this->y+=(edk::int64)n;
@@ -3678,7 +3678,7 @@ public:
     }
 
     //-
-    vec4i64 operator-(vec4i8 vec){
+    inline edk::vec4i64 operator-(edk::vec4i8 vec){
         //
         vec4i64 ret;
         ret.x=this->x-vec.x;
@@ -3687,7 +3687,7 @@ public:
         ret.w=this->w-vec.w;
         return ret;
     }
-    vec4i64 operator-(vec4i16 vec){
+    inline edk::vec4i64 operator-(edk::vec4i16 vec){
         //
         vec4i64 ret;
         ret.x=this->x-vec.x;
@@ -3696,7 +3696,7 @@ public:
         ret.w=this->w-vec.w;
         return ret;
     }
-    vec4i64 operator-(vec4i32 vec){
+    inline edk::vec4i64 operator-(edk::vec4i32 vec){
         //
         vec4i64 ret;
         ret.x=this->x-vec.x;
@@ -3705,7 +3705,7 @@ public:
         ret.w=this->w-vec.w;
         return ret;
     }
-    vec4i64 operator-(vec4i64 vec){
+    inline edk::vec4i64 operator-(edk::vec4i64 vec){
         //
         vec4i64 ret;
         ret.x=this->x-vec.x;
@@ -3714,7 +3714,7 @@ public:
         ret.w=this->w-vec.w;
         return ret;
     }
-    vec4i64 operator-(vec3i8 vec){
+    inline edk::vec4i64 operator-(vec3i8 vec){
         //
         vec4i64 ret;
         ret.x=this->x-vec.x;
@@ -3722,14 +3722,14 @@ public:
         ret.z=this->z-vec.z;
         return ret;
     }
-    vec4i64 operator-(vec2i8 vec){
+    inline edk::vec4i64 operator-(vec2i8 vec){
         //
         vec4i64 ret;
         ret.x=this->x-vec.x;
         ret.y=this->y-vec.y;
         return ret;
     }
-    vec4i64 operator-(edk::int8 n){
+    inline edk::vec4i64 operator-(edk::int8 n){
         //
         vec4i64 ret;
         ret.x=this->x-(edk::int64)n;
@@ -3738,7 +3738,7 @@ public:
         ret.w=this->w-(edk::int64)n;
         return ret;
     }
-    vec4i64 operator-(edk::int16 n){
+    inline edk::vec4i64 operator-(edk::int16 n){
         //
         vec4i64 ret;
         ret.x=this->x-(edk::int64)n;
@@ -3747,7 +3747,7 @@ public:
         ret.w=this->w-(edk::int64)n;
         return ret;
     }
-    vec4i64 operator-(edk::int32 n){
+    inline edk::vec4i64 operator-(edk::int32 n){
         //
         vec4i64 ret;
         ret.x=this->x-(edk::int64)n;
@@ -3756,7 +3756,7 @@ public:
         ret.w=this->w-(edk::int64)n;
         return ret;
     }
-    vec4i64 operator-(edk::int64 n){
+    inline edk::vec4i64 operator-(edk::int64 n){
         //
         vec4i64 ret;
         ret.x=this->x-(edk::int64)n;
@@ -3765,7 +3765,7 @@ public:
         ret.w=this->w-(edk::int64)n;
         return ret;
     }
-    vec4i64 operator-(edk::uint8 n){
+    inline edk::vec4i64 operator-(edk::uint8 n){
         //
         vec4i64 ret;
         ret.x=this->x-(edk::int64)n;
@@ -3774,7 +3774,7 @@ public:
         ret.w=this->w-(edk::int64)n;
         return ret;
     }
-    vec4i64 operator-(edk::uint16 n){
+    inline edk::vec4i64 operator-(edk::uint16 n){
         //
         vec4i64 ret;
         ret.x=this->x-(edk::int64)n;
@@ -3783,7 +3783,7 @@ public:
         ret.w=this->w-(edk::int64)n;
         return ret;
     }
-    vec4i64 operator-(edk::uint32 n){
+    inline edk::vec4i64 operator-(edk::uint32 n){
         //
         vec4i64 ret;
         ret.x=this->x-(edk::int64)n;
@@ -3792,7 +3792,7 @@ public:
         ret.w=this->w-(edk::int64)n;
         return ret;
     }
-    vec4i64 operator-(edk::uint64 n){
+    inline edk::vec4i64 operator-(edk::uint64 n){
         //
         vec4i64 ret;
         ret.x=this->x-(edk::int64)n;
@@ -3803,95 +3803,95 @@ public:
     }
 
     //-=
-    void operator-=(vec4i8 vec){
+    inline void operator-=(edk::vec4i8 vec){
         //
         this->x-=vec.x;
         this->y-=vec.y;
         this->z-=vec.z;
         this->w-=vec.w;
     }
-    void operator-=(vec4i16 vec){
+    inline void operator-=(edk::vec4i16 vec){
         //
         this->x-=vec.x;
         this->y-=vec.y;
         this->z-=vec.z;
         this->w-=vec.w;
     }
-    void operator-=(vec4i32 vec){
+    inline void operator-=(edk::vec4i32 vec){
         //
         this->x-=vec.x;
         this->y-=vec.y;
         this->z-=vec.z;
         this->w-=vec.w;
     }
-    void operator-=(vec4i64 vec){
+    inline void operator-=(edk::vec4i64 vec){
         //
         this->x-=vec.x;
         this->y-=vec.y;
         this->z-=vec.z;
         this->w-=vec.w;
     }
-    void operator-=(vec3i8 vec){
+    inline void operator-=(vec3i8 vec){
         //
         this->x-=vec.x;
         this->y-=vec.y;
         this->z-=vec.z;
     }
-    void operator-=(vec2i8 vec){
+    inline void operator-=(vec2i8 vec){
         //
         this->x-=vec.x;
         this->y-=vec.y;
     }
-    void operator-=(edk::int8 n){
+    inline void operator-=(edk::int8 n){
         //
         this->x-=(edk::int64)n;
         this->y-=(edk::int64)n;
         this->z-=(edk::int64)n;
         this->w-=(edk::int64)n;
     }
-    void operator-=(edk::int16 n){
+    inline void operator-=(edk::int16 n){
         //
         this->x-=(edk::int64)n;
         this->y-=(edk::int64)n;
         this->z-=(edk::int64)n;
         this->w-=(edk::int64)n;
     }
-    void operator-=(edk::int32 n){
+    inline void operator-=(edk::int32 n){
         //
         this->x-=(edk::int64)n;
         this->y-=(edk::int64)n;
         this->z-=(edk::int64)n;
         this->w-=(edk::int64)n;
     }
-    void operator-=(edk::int64 n){
+    inline void operator-=(edk::int64 n){
         //
         this->x-=(edk::int64)n;
         this->y-=(edk::int64)n;
         this->z-=(edk::int64)n;
         this->w-=(edk::int64)n;
     }
-    void operator-=(edk::uint8 n){
+    inline void operator-=(edk::uint8 n){
         //
         this->x-=(edk::int64)n;
         this->y-=(edk::int64)n;
         this->z-=(edk::int64)n;
         this->w-=(edk::int64)n;
     }
-    void operator-=(edk::uint16 n){
+    inline void operator-=(edk::uint16 n){
         //
         this->x-=(edk::int64)n;
         this->y-=(edk::int64)n;
         this->z-=(edk::int64)n;
         this->w-=(edk::int64)n;
     }
-    void operator-=(edk::uint32 n){
+    inline void operator-=(edk::uint32 n){
         //
         this->x-=(edk::int64)n;
         this->y-=(edk::int64)n;
         this->z-=(edk::int64)n;
         this->w-=(edk::int64)n;
     }
-    void operator-=(edk::uint64 n){
+    inline void operator-=(edk::uint64 n){
         //
         this->x-=(edk::int64)n;
         this->y-=(edk::int64)n;
@@ -3900,7 +3900,7 @@ public:
     }
 
     //*
-    vec4i64 operator*(vec4i8 vec){
+    inline edk::vec4i64 operator*(edk::vec4i8 vec){
         //
         vec4i64 ret;
         ret.x=this->x*vec.x;
@@ -3909,7 +3909,7 @@ public:
         ret.w=this->w*vec.w;
         return ret;
     }
-    vec4i64 operator*(vec4i16 vec){
+    inline edk::vec4i64 operator*(edk::vec4i16 vec){
         //
         vec4i64 ret;
         ret.x=this->x*vec.x;
@@ -3918,7 +3918,7 @@ public:
         ret.w=this->w*vec.w;
         return ret;
     }
-    vec4i64 operator*(vec4i32 vec){
+    inline edk::vec4i64 operator*(edk::vec4i32 vec){
         //
         vec4i64 ret;
         ret.x=this->x*vec.x;
@@ -3927,7 +3927,7 @@ public:
         ret.w=this->w*vec.w;
         return ret;
     }
-    vec4i64 operator*(vec4i64 vec){
+    inline edk::vec4i64 operator*(edk::vec4i64 vec){
         //
         vec4i64 ret;
         ret.x=this->x*vec.x;
@@ -3936,7 +3936,7 @@ public:
         ret.w=this->w*vec.w;
         return ret;
     }
-    vec4i64 operator*(vec3i8 vec){
+    inline edk::vec4i64 operator*(vec3i8 vec){
         //
         vec4i64 ret;
         ret.x=this->x*vec.x;
@@ -3944,14 +3944,14 @@ public:
         ret.z=this->z*vec.z;
         return ret;
     }
-    vec4i64 operator*(vec2i8 vec){
+    inline edk::vec4i64 operator*(vec2i8 vec){
         //
         vec4i64 ret;
         ret.x=this->x*vec.x;
         ret.y=this->y*vec.y;
         return ret;
     }
-    vec4i64 operator*(edk::int8 n){
+    inline edk::vec4i64 operator*(edk::int8 n){
         //
         vec4i64 ret;
         ret.x=this->x*(edk::int64)n;
@@ -3960,7 +3960,7 @@ public:
         ret.w=this->w*(edk::int64)n;
         return ret;
     }
-    vec4i64 operator*(edk::int16 n){
+    inline edk::vec4i64 operator*(edk::int16 n){
         //
         vec4i64 ret;
         ret.x=this->x*(edk::int64)n;
@@ -3969,7 +3969,7 @@ public:
         ret.w=this->w*(edk::int64)n;
         return ret;
     }
-    vec4i64 operator*(edk::int32 n){
+    inline edk::vec4i64 operator*(edk::int32 n){
         //
         vec4i64 ret;
         ret.x=this->x*(edk::int64)n;
@@ -3978,7 +3978,7 @@ public:
         ret.w=this->w*(edk::int64)n;
         return ret;
     }
-    vec4i64 operator*(edk::int64 n){
+    inline edk::vec4i64 operator*(edk::int64 n){
         //
         vec4i64 ret;
         ret.x=this->x*(edk::int64)n;
@@ -3987,7 +3987,7 @@ public:
         ret.w=this->w*(edk::int64)n;
         return ret;
     }
-    vec4i64 operator*(edk::uint8 n){
+    inline edk::vec4i64 operator*(edk::uint8 n){
         //
         vec4i64 ret;
         ret.x=this->x*(edk::int64)n;
@@ -3996,7 +3996,7 @@ public:
         ret.w=this->w*(edk::int64)n;
         return ret;
     }
-    vec4i64 operator*(edk::uint16 n){
+    inline edk::vec4i64 operator*(edk::uint16 n){
         //
         vec4i64 ret;
         ret.x=this->x*(edk::int64)n;
@@ -4005,7 +4005,7 @@ public:
         ret.w=this->w*(edk::int64)n;
         return ret;
     }
-    vec4i64 operator*(edk::uint32 n){
+    inline edk::vec4i64 operator*(edk::uint32 n){
         //
         vec4i64 ret;
         ret.x=this->x*(edk::int64)n;
@@ -4014,7 +4014,7 @@ public:
         ret.w=this->w*(edk::int64)n;
         return ret;
     }
-    vec4i64 operator*(edk::uint64 n){
+    inline edk::vec4i64 operator*(edk::uint64 n){
         //
         vec4i64 ret;
         ret.x=this->x*(edk::int64)n;
@@ -4025,95 +4025,95 @@ public:
     }
 
     //*=
-    void operator*=(vec4i8 vec){
+    inline void operator*=(edk::vec4i8 vec){
         //
         this->x*=vec.x;
         this->y*=vec.y;
         this->z*=vec.z;
         this->w*=vec.w;
     }
-    void operator*=(vec4i16 vec){
+    inline void operator*=(edk::vec4i16 vec){
         //
         this->x*=vec.x;
         this->y*=vec.y;
         this->z*=vec.z;
         this->w*=vec.w;
     }
-    void operator*=(vec4i32 vec){
+    inline void operator*=(edk::vec4i32 vec){
         //
         this->x*=vec.x;
         this->y*=vec.y;
         this->z*=vec.z;
         this->w*=vec.w;
     }
-    void operator*=(vec4i64 vec){
+    inline void operator*=(edk::vec4i64 vec){
         //
         this->x*=vec.x;
         this->y*=vec.y;
         this->z*=vec.z;
         this->w*=vec.w;
     }
-    void operator*=(vec3i8 vec){
+    inline void operator*=(vec3i8 vec){
         //
         this->x*=vec.x;
         this->y*=vec.y;
         this->z*=vec.z;
     }
-    void operator*=(vec2i8 vec){
+    inline void operator*=(vec2i8 vec){
         //
         this->x*=vec.x;
         this->y*=vec.y;
     }
-    void operator*=(edk::int8 n){
+    inline void operator*=(edk::int8 n){
         //
         this->x*=(edk::int64)n;
         this->y*=(edk::int64)n;
         this->z*=(edk::int64)n;
         this->w*=(edk::int64)n;
     }
-    void operator*=(edk::int16 n){
+    inline void operator*=(edk::int16 n){
         //
         this->x*=(edk::int64)n;
         this->y*=(edk::int64)n;
         this->z*=(edk::int64)n;
         this->w*=(edk::int64)n;
     }
-    void operator*=(edk::int32 n){
+    inline void operator*=(edk::int32 n){
         //
         this->x*=(edk::int64)n;
         this->y*=(edk::int64)n;
         this->z*=(edk::int64)n;
         this->w*=(edk::int64)n;
     }
-    void operator*=(edk::int64 n){
+    inline void operator*=(edk::int64 n){
         //
         this->x*=(edk::int64)n;
         this->y*=(edk::int64)n;
         this->z*=(edk::int64)n;
         this->w*=(edk::int64)n;
     }
-    void operator*=(edk::uint8 n){
+    inline void operator*=(edk::uint8 n){
         //
         this->x*=(edk::int64)n;
         this->y*=(edk::int64)n;
         this->z*=(edk::int64)n;
         this->w*=(edk::int64)n;
     }
-    void operator*=(edk::uint16 n){
+    inline void operator*=(edk::uint16 n){
         //
         this->x*=(edk::int64)n;
         this->y*=(edk::int64)n;
         this->z*=(edk::int64)n;
         this->w*=(edk::int64)n;
     }
-    void operator*=(edk::uint32 n){
+    inline void operator*=(edk::uint32 n){
         //
         this->x*=(edk::int64)n;
         this->y*=(edk::int64)n;
         this->z*=(edk::int64)n;
         this->w*=(edk::int64)n;
     }
-    void operator*=(edk::uint64 n){
+    inline void operator*=(edk::uint64 n){
         //
         this->x*=(edk::int64)n;
         this->y*=(edk::int64)n;
@@ -4122,105 +4122,105 @@ public:
     }
 
     //++
-    vec4i64 operator++(){
+    inline edk::vec4i64 operator++(){
         //
         ++this->x;
         ++this->y;
         ++this->z;
         ++this->w;
-        return vec4i64(this->x,this->y,this->z,this->w);
+        return edk::vec4i64(this->x,this->y,this->z,this->w);
     }
-    vec4i64 operator++(edk::int32){
+    inline edk::vec4i64 operator++(edk::int32){
         //
         this->x++;
         this->y++;
         this->z++;
         this->w++;
-        return vec4i64(this->x,this->y,this->z,this->w);
+        return edk::vec4i64(this->x,this->y,this->z,this->w);
     }
 
     //--
-    vec4i64 operator--(){
+    inline edk::vec4i64 operator--(){
         //
         --this->x;
         --this->y;
         --this->z;
         --this->w;
-        return vec4i64(this->x,this->y,this->z,this->w);
+        return edk::vec4i64(this->x,this->y,this->z,this->w);
     }
-    vec4i64 operator--(edk::int32){
+    inline edk::vec4i64 operator--(edk::int32){
         //
         this->x--;
         this->y--;
         this->z--;
         this->w--;
-        return vec4i64(this->x,this->y,this->z,this->w);
+        return edk::vec4i64(this->x,this->y,this->z,this->w);
     }
 
     //
-    vec4i64 operator()(edk::int8 x,edk::int8 y,edk::int8 z,edk::int8 w){
+    inline edk::vec4i64 operator()(edk::int8 x,edk::int8 y,edk::int8 z,edk::int8 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4i64((edk::int64)this->x,(edk::int64)this->y,(edk::int64)this->z,(edk::int64)this->w);
+        return edk::vec4i64((edk::int64)this->x,(edk::int64)this->y,(edk::int64)this->z,(edk::int64)this->w);
     }
-    vec4i64 operator()(edk::int16 x,edk::int16 y,edk::int16 z,edk::int16 w){
+    inline edk::vec4i64 operator()(edk::int16 x,edk::int16 y,edk::int16 z,edk::int16 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4i64((edk::int64)this->x,(edk::int64)this->y,(edk::int64)this->z,(edk::int64)this->w);
+        return edk::vec4i64((edk::int64)this->x,(edk::int64)this->y,(edk::int64)this->z,(edk::int64)this->w);
     }
-    vec4i64 operator()(edk::int32 x,edk::int32 y,edk::int32 z,edk::int32 w){
+    inline edk::vec4i64 operator()(edk::int32 x,edk::int32 y,edk::int32 z,edk::int32 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4i64((edk::int64)this->x,(edk::int64)this->y,(edk::int64)this->z,(edk::int64)this->w);
+        return edk::vec4i64((edk::int64)this->x,(edk::int64)this->y,(edk::int64)this->z,(edk::int64)this->w);
     }
-    vec4i64 operator()(edk::int64 x,edk::int64 y,edk::int64 z,edk::int64 w){
+    inline edk::vec4i64 operator()(edk::int64 x,edk::int64 y,edk::int64 z,edk::int64 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4i64((edk::int64)this->x,(edk::int64)this->y,(edk::int64)this->z,(edk::int64)this->w);
+        return edk::vec4i64((edk::int64)this->x,(edk::int64)this->y,(edk::int64)this->z,(edk::int64)this->w);
     }
-    vec4i64 operator()(edk::uint8 x,edk::uint8 y,edk::uint8 z,edk::uint8 w){
+    inline edk::vec4i64 operator()(edk::uint8 x,edk::uint8 y,edk::uint8 z,edk::uint8 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4i64((edk::int64)this->x,(edk::int64)this->y,(edk::int64)this->z,(edk::int64)this->w);
+        return edk::vec4i64((edk::int64)this->x,(edk::int64)this->y,(edk::int64)this->z,(edk::int64)this->w);
     }
-    vec4i64 operator()(edk::uint16 x,edk::uint16 y,edk::uint16 z,edk::uint16 w){
+    inline edk::vec4i64 operator()(edk::uint16 x,edk::uint16 y,edk::uint16 z,edk::uint16 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4i64((edk::int64)this->x,(edk::int64)this->y,(edk::int64)this->z,(edk::int64)this->w);
+        return edk::vec4i64((edk::int64)this->x,(edk::int64)this->y,(edk::int64)this->z,(edk::int64)this->w);
     }
-    vec4i64 operator()(edk::uint32 x,edk::uint32 y,edk::uint32 z,edk::uint32 w){
+    inline edk::vec4i64 operator()(edk::uint32 x,edk::uint32 y,edk::uint32 z,edk::uint32 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4i64((edk::int64)this->x,(edk::int64)this->y,(edk::int64)this->z,(edk::int64)this->w);
+        return edk::vec4i64((edk::int64)this->x,(edk::int64)this->y,(edk::int64)this->z,(edk::int64)this->w);
     }
-    vec4i64 operator()(edk::uint64 x,edk::uint64 y,edk::uint64 z,edk::uint64 w){
+    inline edk::vec4i64 operator()(edk::uint64 x,edk::uint64 y,edk::uint64 z,edk::uint64 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4i64((edk::int64)this->x,(edk::int64)this->y,(edk::int64)this->z,(edk::int64)this->w);
+        return edk::vec4i64((edk::int64)this->x,(edk::int64)this->y,(edk::int64)this->z,(edk::int64)this->w);
     }
 };
 
@@ -4266,7 +4266,7 @@ public:
     //operators
 
     //=
-    vec4ui8 operator=(vec4ui8 vec){
+    inline edk::vec4ui8 operator=(edk::vec4ui8 vec){
         //
         this->x=vec.x;
         this->y=vec.y;
@@ -4274,7 +4274,7 @@ public:
         this->w=vec.w;
         return *this;
     }
-    vec4ui8 operator=(vec3i8 vec){
+    inline edk::vec4ui8 operator=(vec3i8 vec){
         //
         this->x=vec.x;
         this->y=vec.y;
@@ -4282,7 +4282,7 @@ public:
         this->w=0;
         return *this;
     }
-    vec4ui8 operator=(vec2i8 vec){
+    inline edk::vec4ui8 operator=(vec2i8 vec){
         //
         this->x=vec.x;
         this->y=vec.y;
@@ -4290,7 +4290,7 @@ public:
         this->w=0;
         return *this;
     }
-    vec4ui8 operator=(edk::uint8 n){
+    inline edk::vec4ui8 operator=(edk::uint8 n){
         //
         this->x=(edk::uint8)n;
         this->y=(edk::uint8)n;
@@ -4298,7 +4298,7 @@ public:
         this->w=(edk::uint8)n;
         return *this;
     }
-    vec4ui8 operator=(edk::uint16 n){
+    inline edk::vec4ui8 operator=(edk::uint16 n){
         //
         this->x=(edk::uint8)n;
         this->y=(edk::uint8)n;
@@ -4306,7 +4306,7 @@ public:
         this->w=(edk::uint8)n;
         return *this;
     }
-    vec4ui8 operator=(edk::uint32 n){
+    inline edk::vec4ui8 operator=(edk::uint32 n){
         //
         this->x=(edk::uint8)n;
         this->y=(edk::uint8)n;
@@ -4314,7 +4314,7 @@ public:
         this->w=(edk::uint8)n;
         return *this;
     }
-    vec4ui8 operator=(edk::uint64 n){
+    inline edk::vec4ui8 operator=(edk::uint64 n){
         //
         this->x=(edk::uint8)n;
         this->y=(edk::uint8)n;
@@ -4324,18 +4324,18 @@ public:
     }
 
     //==
-    bool operator==(vec4ui8 vec){
+    inline bool operator==(edk::vec4ui8 vec){
         //
         return (this->x==vec.x&&this->y==vec.y&&this->z==vec.z&&this->w==vec.w);
     }
     //!=
-    bool operator!=(vec4ui8 vec){
+    inline bool operator!=(edk::vec4ui8 vec){
         //
         return (this->x!=vec.x||this->y!=vec.y||this->z!=vec.z||this->w!=vec.w);
     }
 
     //Operator >
-    bool operator>(vec4ui8 vec){
+    inline bool operator>(edk::vec4ui8 vec){
         if(this->x>vec.x){
             return true;
         }
@@ -4351,7 +4351,7 @@ public:
         return false;
     }
     //Operator >=
-    bool operator>=(vec4ui8 vec){
+    inline bool operator>=(edk::vec4ui8 vec){
         if(this->x>vec.x){
             return true;
         }
@@ -4367,7 +4367,7 @@ public:
         return false;
     }
     //Operator <
-    bool operator<(vec4ui8 vec){
+    inline bool operator<(edk::vec4ui8 vec){
         if(this->x<vec.x){
             return true;
         }
@@ -4383,7 +4383,7 @@ public:
         return false;
     }
     //Operator <=
-    bool operator<=(vec4ui8 vec){
+    inline bool operator<=(edk::vec4ui8 vec){
         if(this->x<vec.x){
             return true;
         }
@@ -4400,7 +4400,7 @@ public:
     }
 
     //+
-    vec4ui8 operator+(vec4ui8 vec){
+    inline edk::vec4ui8 operator+(edk::vec4ui8 vec){
         //
         vec4ui8 ret;
         ret.x=this->x+vec.x;
@@ -4409,7 +4409,7 @@ public:
         ret.w=this->w+vec.w;
         return ret;
     }
-    vec4ui8 operator+(vec3i8 vec){
+    inline edk::vec4ui8 operator+(vec3i8 vec){
         //
         vec4ui8 ret;
         ret.x=this->x+vec.x;
@@ -4417,14 +4417,14 @@ public:
         ret.z=this->z+vec.z;
         return ret;
     }
-    vec4ui8 operator+(vec2i8 vec){
+    inline edk::vec4ui8 operator+(vec2i8 vec){
         //
         vec4ui8 ret;
         ret.x=this->x+vec.x;
         ret.y=this->y+vec.y;
         return ret;
     }
-    vec4ui8 operator+(edk::uint8 n){
+    inline edk::vec4ui8 operator+(edk::uint8 n){
         //
         vec4ui8 ret;
         ret.x=this->x+(edk::uint8)n;
@@ -4433,7 +4433,7 @@ public:
         ret.w=this->w+(edk::uint8)n;
         return ret;
     }
-    vec4ui8 operator+(edk::uint16 n){
+    inline edk::vec4ui8 operator+(edk::uint16 n){
         //
         vec4ui8 ret;
         ret.x=this->x+(edk::uint8)n;
@@ -4442,7 +4442,7 @@ public:
         ret.w=this->w+(edk::uint8)n;
         return ret;
     }
-    vec4ui8 operator+(edk::uint32 n){
+    inline edk::vec4ui8 operator+(edk::uint32 n){
         //
         vec4ui8 ret;
         ret.x=this->x+(edk::uint8)n;
@@ -4451,7 +4451,7 @@ public:
         ret.w=this->w+(edk::uint8)n;
         return ret;
     }
-    vec4ui8 operator+(edk::uint64 n){
+    inline edk::vec4ui8 operator+(edk::uint64 n){
         //
         vec4ui8 ret;
         ret.x=this->x+(edk::uint8)n;
@@ -4462,46 +4462,46 @@ public:
     }
 
     //+=
-    void operator+=(vec4ui8 vec){
+    inline void operator+=(edk::vec4ui8 vec){
         //
         this->x+=vec.x;
         this->y+=vec.y;
         this->z+=vec.z;
         this->w+=vec.w;
     }
-    void operator+=(vec3i8 vec){
+    inline void operator+=(vec3i8 vec){
         //
         this->x+=vec.x;
         this->y+=vec.y;
         this->z+=vec.z;
     }
-    void operator+=(vec2i8 vec){
+    inline void operator+=(vec2i8 vec){
         //
         this->x+=vec.x;
         this->y+=vec.y;
     }
-    void operator+=(edk::uint8 n){
+    inline void operator+=(edk::uint8 n){
         //
         this->x+=(edk::uint8)n;
         this->y+=(edk::uint8)n;
         this->z+=(edk::uint8)n;
         this->w+=(edk::uint8)n;
     }
-    void operator+=(edk::uint16 n){
+    inline void operator+=(edk::uint16 n){
         //
         this->x+=(edk::uint8)n;
         this->y+=(edk::uint8)n;
         this->z+=(edk::uint8)n;
         this->w+=(edk::uint8)n;
     }
-    void operator+=(edk::uint32 n){
+    inline void operator+=(edk::uint32 n){
         //
         this->x+=(edk::uint8)n;
         this->y+=(edk::uint8)n;
         this->z+=(edk::uint8)n;
         this->w+=(edk::uint8)n;
     }
-    void operator+=(edk::uint64 n){
+    inline void operator+=(edk::uint64 n){
         //
         this->x+=(edk::uint8)n;
         this->y+=(edk::uint8)n;
@@ -4510,7 +4510,7 @@ public:
     }
 
     //-
-    vec4ui8 operator-(vec4ui8 vec){
+    inline edk::vec4ui8 operator-(edk::vec4ui8 vec){
         //
         vec4ui8 ret;
         ret.x=this->x-vec.x;
@@ -4519,7 +4519,7 @@ public:
         ret.w=this->w-vec.w;
         return ret;
     }
-    vec4ui8 operator-(vec3i8 vec){
+    inline edk::vec4ui8 operator-(vec3i8 vec){
         //
         vec4ui8 ret;
         ret.x=this->x-vec.x;
@@ -4527,14 +4527,14 @@ public:
         ret.z=this->z-vec.z;
         return ret;
     }
-    vec4ui8 operator-(vec2i8 vec){
+    inline edk::vec4ui8 operator-(vec2i8 vec){
         //
         vec4ui8 ret;
         ret.x=this->x-vec.x;
         ret.y=this->y-vec.y;
         return ret;
     }
-    vec4ui8 operator-(edk::uint8 n){
+    inline edk::vec4ui8 operator-(edk::uint8 n){
         //
         vec4ui8 ret;
         ret.x=this->x-(edk::uint8)n;
@@ -4543,7 +4543,7 @@ public:
         ret.w=this->w-(edk::uint8)n;
         return ret;
     }
-    vec4ui8 operator-(edk::uint16 n){
+    inline edk::vec4ui8 operator-(edk::uint16 n){
         //
         vec4ui8 ret;
         ret.x=this->x-(edk::uint8)n;
@@ -4552,7 +4552,7 @@ public:
         ret.w=this->w-(edk::uint8)n;
         return ret;
     }
-    vec4ui8 operator-(edk::uint32 n){
+    inline edk::vec4ui8 operator-(edk::uint32 n){
         //
         vec4ui8 ret;
         ret.x=this->x-(edk::uint8)n;
@@ -4561,7 +4561,7 @@ public:
         ret.w=this->w-(edk::uint8)n;
         return ret;
     }
-    vec4ui8 operator-(edk::uint64 n){
+    inline edk::vec4ui8 operator-(edk::uint64 n){
         //
         vec4ui8 ret;
         ret.x=this->x-(edk::uint8)n;
@@ -4572,46 +4572,46 @@ public:
     }
 
     //-=
-    void operator-=(vec4ui8 vec){
+    inline void operator-=(edk::vec4ui8 vec){
         //
         this->x-=vec.x;
         this->y-=vec.y;
         this->z-=vec.z;
         this->w-=vec.w;
     }
-    void operator-=(vec3i8 vec){
+    inline void operator-=(vec3i8 vec){
         //
         this->x-=vec.x;
         this->y-=vec.y;
         this->z-=vec.z;
     }
-    void operator-=(vec2i8 vec){
+    inline void operator-=(vec2i8 vec){
         //
         this->x-=vec.x;
         this->y-=vec.y;
     }
-    void operator-=(edk::uint8 n){
+    inline void operator-=(edk::uint8 n){
         //
         this->x-=(edk::uint8)n;
         this->y-=(edk::uint8)n;
         this->z-=(edk::uint8)n;
         this->w-=(edk::uint8)n;
     }
-    void operator-=(edk::uint16 n){
+    inline void operator-=(edk::uint16 n){
         //
         this->x-=(edk::uint8)n;
         this->y-=(edk::uint8)n;
         this->z-=(edk::uint8)n;
         this->w-=(edk::uint8)n;
     }
-    void operator-=(edk::uint32 n){
+    inline void operator-=(edk::uint32 n){
         //
         this->x-=(edk::uint8)n;
         this->y-=(edk::uint8)n;
         this->z-=(edk::uint8)n;
         this->w-=(edk::uint8)n;
     }
-    void operator-=(edk::uint64 n){
+    inline void operator-=(edk::uint64 n){
         //
         this->x-=(edk::uint8)n;
         this->y-=(edk::uint8)n;
@@ -4620,7 +4620,7 @@ public:
     }
 
     //*
-    vec4ui8 operator*(vec4ui8 vec){
+    inline edk::vec4ui8 operator*(edk::vec4ui8 vec){
         //
         vec4ui8 ret;
         ret.x=this->x*vec.x;
@@ -4629,7 +4629,7 @@ public:
         ret.w=this->w*vec.w;
         return ret;
     }
-    vec4ui8 operator*(vec3i8 vec){
+    inline edk::vec4ui8 operator*(vec3i8 vec){
         //
         vec4ui8 ret;
         ret.x=this->x*vec.x;
@@ -4637,14 +4637,14 @@ public:
         ret.z=this->z*vec.z;
         return ret;
     }
-    vec4ui8 operator*(vec2i8 vec){
+    inline edk::vec4ui8 operator*(vec2i8 vec){
         //
         vec4ui8 ret;
         ret.x=this->x*vec.x;
         ret.y=this->y*vec.y;
         return ret;
     }
-    vec4ui8 operator*(edk::uint8 n){
+    inline edk::vec4ui8 operator*(edk::uint8 n){
         //
         vec4ui8 ret;
         ret.x=this->x*(edk::uint8)n;
@@ -4653,7 +4653,7 @@ public:
         ret.w=this->w*(edk::uint8)n;
         return ret;
     }
-    vec4ui8 operator*(edk::uint16 n){
+    inline edk::vec4ui8 operator*(edk::uint16 n){
         //
         vec4ui8 ret;
         ret.x=this->x*(edk::uint8)n;
@@ -4662,7 +4662,7 @@ public:
         ret.w=this->w*(edk::uint8)n;
         return ret;
     }
-    vec4ui8 operator*(edk::uint32 n){
+    inline edk::vec4ui8 operator*(edk::uint32 n){
         //
         vec4ui8 ret;
         ret.x=this->x*(edk::uint8)n;
@@ -4671,7 +4671,7 @@ public:
         ret.w=this->w*(edk::uint8)n;
         return ret;
     }
-    vec4ui8 operator*(edk::uint64 n){
+    inline edk::vec4ui8 operator*(edk::uint64 n){
         //
         vec4ui8 ret;
         ret.x=this->x*(edk::uint8)n;
@@ -4682,46 +4682,46 @@ public:
     }
 
     //*=
-    void operator*=(vec4ui8 vec){
+    inline void operator*=(edk::vec4ui8 vec){
         //
         this->x*=vec.x;
         this->y*=vec.y;
         this->z*=vec.z;
         this->w*=vec.w;
     }
-    void operator*=(vec3i8 vec){
+    inline void operator*=(vec3i8 vec){
         //
         this->x*=vec.x;
         this->y*=vec.y;
         this->z*=vec.z;
     }
-    void operator*=(vec2i8 vec){
+    inline void operator*=(vec2i8 vec){
         //
         this->x*=vec.x;
         this->y*=vec.y;
     }
-    void operator*=(edk::uint8 n){
+    inline void operator*=(edk::uint8 n){
         //
         this->x*=(edk::uint8)n;
         this->y*=(edk::uint8)n;
         this->z*=(edk::uint8)n;
         this->w*=(edk::uint8)n;
     }
-    void operator*=(edk::uint16 n){
+    inline void operator*=(edk::uint16 n){
         //
         this->x*=(edk::uint8)n;
         this->y*=(edk::uint8)n;
         this->z*=(edk::uint8)n;
         this->w*=(edk::uint8)n;
     }
-    void operator*=(edk::uint32 n){
+    inline void operator*=(edk::uint32 n){
         //
         this->x*=(edk::uint8)n;
         this->y*=(edk::uint8)n;
         this->z*=(edk::uint8)n;
         this->w*=(edk::uint8)n;
     }
-    void operator*=(edk::uint64 n){
+    inline void operator*=(edk::uint64 n){
         //
         this->x*=(edk::uint8)n;
         this->y*=(edk::uint8)n;
@@ -4730,73 +4730,73 @@ public:
     }
 
     //++
-    vec4ui8 operator++(){
+    inline edk::vec4ui8 operator++(){
         //
         ++this->x;
         ++this->y;
         ++this->z;
         ++this->w;
-        return vec4ui8(this->x,this->y,this->z,this->w);
+        return edk::vec4ui8(this->x,this->y,this->z,this->w);
     }
-    vec4ui8 operator++(edk::int32){
+    inline edk::vec4ui8 operator++(edk::int32){
         //
         this->x++;
         this->y++;
         this->z++;
         this->w++;
-        return vec4ui8(this->x,this->y,this->z,this->w);
+        return edk::vec4ui8(this->x,this->y,this->z,this->w);
     }
 
     //--
-    vec4ui8 operator--(){
+    inline edk::vec4ui8 operator--(){
         //
         --this->x;
         --this->y;
         --this->z;
         --this->w;
-        return vec4ui8(this->x,this->y,this->z,this->w);
+        return edk::vec4ui8(this->x,this->y,this->z,this->w);
     }
-    vec4ui8 operator--(edk::int32){
+    inline edk::vec4ui8 operator--(edk::int32){
         //
         this->x--;
         this->y--;
         this->z--;
         this->w--;
-        return vec4ui8(this->x,this->y,this->z,this->w);
+        return edk::vec4ui8(this->x,this->y,this->z,this->w);
     }
 
     //
-    vec4ui8 operator()(edk::uint8 x,edk::uint8 y,edk::uint8 z,edk::uint8 w){
+    inline edk::vec4ui8 operator()(edk::uint8 x,edk::uint8 y,edk::uint8 z,edk::uint8 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4ui8((edk::uint8)this->x,(edk::uint8)this->y,(edk::uint8)this->z,(edk::uint8)this->w);
+        return edk::vec4ui8((edk::uint8)this->x,(edk::uint8)this->y,(edk::uint8)this->z,(edk::uint8)this->w);
     }
-    vec4ui8 operator()(edk::uint16 x,edk::uint16 y,edk::uint16 z,edk::uint16 w){
+    inline edk::vec4ui8 operator()(edk::uint16 x,edk::uint16 y,edk::uint16 z,edk::uint16 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4ui8((edk::uint8)this->x,(edk::uint8)this->y,(edk::uint8)this->z,(edk::uint8)this->w);
+        return edk::vec4ui8((edk::uint8)this->x,(edk::uint8)this->y,(edk::uint8)this->z,(edk::uint8)this->w);
     }
-    vec4ui8 operator()(edk::uint32 x,edk::uint32 y,edk::uint32 z,edk::uint32 w){
+    inline edk::vec4ui8 operator()(edk::uint32 x,edk::uint32 y,edk::uint32 z,edk::uint32 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4ui8((edk::uint8)this->x,(edk::uint8)this->y,(edk::uint8)this->z,(edk::uint8)this->w);
+        return edk::vec4ui8((edk::uint8)this->x,(edk::uint8)this->y,(edk::uint8)this->z,(edk::uint8)this->w);
     }
-    vec4ui8 operator()(edk::uint64 x,edk::uint64 y,edk::uint64 z,edk::uint64 w){
+    inline edk::vec4ui8 operator()(edk::uint64 x,edk::uint64 y,edk::uint64 z,edk::uint64 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4ui8((edk::uint8)this->x,(edk::uint8)this->y,(edk::uint8)this->z,(edk::uint8)this->w);
+        return edk::vec4ui8((edk::uint8)this->x,(edk::uint8)this->y,(edk::uint8)this->z,(edk::uint8)this->w);
     }
 };
 
@@ -4842,7 +4842,7 @@ public:
     //operators
 
     //=
-    vec4ui16 operator=(vec4ui8 vec){
+    inline edk::vec4ui16 operator=(edk::vec4ui8 vec){
         //
         this->x=(edk::uint16)vec.x;
         this->y=(edk::uint16)vec.y;
@@ -4850,7 +4850,7 @@ public:
         this->w=(edk::uint16)vec.w;
         return *this;
     }
-    vec4ui16 operator=(vec4ui16 vec){
+    inline edk::vec4ui16 operator=(edk::vec4ui16 vec){
         //
         this->x=vec.x;
         this->y=vec.y;
@@ -4858,7 +4858,7 @@ public:
         this->w=vec.w;
         return *this;
     }
-    vec4ui16 operator=(vec3i8 vec){
+    inline edk::vec4ui16 operator=(vec3i8 vec){
         //
         this->x=vec.x;
         this->y=vec.y;
@@ -4866,7 +4866,7 @@ public:
         this->w=0;
         return *this;
     }
-    vec4ui16 operator=(vec2i8 vec){
+    inline edk::vec4ui16 operator=(vec2i8 vec){
         //
         this->x=vec.x;
         this->y=vec.y;
@@ -4874,7 +4874,7 @@ public:
         this->w=0;
         return *this;
     }
-    vec4ui16 operator=(edk::uint8 n){
+    inline edk::vec4ui16 operator=(edk::uint8 n){
         //
         this->x=(edk::uint16)n;
         this->y=(edk::uint16)n;
@@ -4882,7 +4882,7 @@ public:
         this->w=(edk::uint16)n;
         return *this;
     }
-    vec4ui16 operator=(edk::uint16 n){
+    inline edk::vec4ui16 operator=(edk::uint16 n){
         //
         this->x=(edk::uint16)n;
         this->y=(edk::uint16)n;
@@ -4890,7 +4890,7 @@ public:
         this->w=(edk::uint16)n;
         return *this;
     }
-    vec4ui16 operator=(edk::uint32 n){
+    inline edk::vec4ui16 operator=(edk::uint32 n){
         //
         this->x=(edk::uint16)n;
         this->y=(edk::uint16)n;
@@ -4898,7 +4898,7 @@ public:
         this->w=(edk::uint16)n;
         return *this;
     }
-    vec4ui16 operator=(edk::uint64 n){
+    inline edk::vec4ui16 operator=(edk::uint64 n){
         //
         this->x=(edk::uint16)n;
         this->y=(edk::uint16)n;
@@ -4908,26 +4908,26 @@ public:
     }
 
     //==
-    bool operator==(vec4ui8 vec){
+    inline bool operator==(edk::vec4ui8 vec){
         //
         return (this->x==(edk::uint16)vec.x&&this->y==(edk::uint16)vec.y&&this->z==(edk::uint16)vec.z&&this->w==(edk::uint16)vec.w);
     }
-    bool operator==(vec4ui16 vec){
+    inline bool operator==(edk::vec4ui16 vec){
         //
         return (this->x==vec.x&&this->y==vec.y&&this->z==vec.z&&this->w==vec.w);
     }
     //!=
-    bool operator!=(vec4ui8 vec){
+    inline bool operator!=(edk::vec4ui8 vec){
         //
         return (this->x!=(edk::uint16)vec.x||this->y!=(edk::uint16)vec.y||this->z!=(edk::uint16)vec.z||this->w!=(edk::uint16)vec.w);
     }
-    bool operator!=(vec4ui16 vec){
+    inline bool operator!=(edk::vec4ui16 vec){
         //
         return (this->x!=vec.x||this->y!=vec.y||this->z!=vec.z||this->w!=vec.w);
     }
 
     //Operator >
-    bool operator>(vec4ui8 vec){
+    inline bool operator>(edk::vec4ui8 vec){
         if(this->x>(edk::uint16)vec.x){
             return true;
         }
@@ -4942,7 +4942,7 @@ public:
         }
         return false;
     }
-    bool operator>(vec4ui16 vec){
+    inline bool operator>(edk::vec4ui16 vec){
         if(this->x>vec.x){
             return true;
         }
@@ -4958,7 +4958,7 @@ public:
         return false;
     }
     //Operator >=
-    bool operator>=(vec4ui8 vec){
+    inline bool operator>=(edk::vec4ui8 vec){
         if(this->x>(edk::uint16)vec.x){
             return true;
         }
@@ -4973,7 +4973,7 @@ public:
         }
         return false;
     }
-    bool operator>=(vec4ui16 vec){
+    inline bool operator>=(edk::vec4ui16 vec){
         if(this->x>vec.x){
             return true;
         }
@@ -4989,7 +4989,7 @@ public:
         return false;
     }
     //Operator <
-    bool operator<(vec4ui8 vec){
+    inline bool operator<(edk::vec4ui8 vec){
         if(this->x<(edk::uint16)vec.x){
             return true;
         }
@@ -5004,7 +5004,7 @@ public:
         }
         return false;
     }
-    bool operator<(vec4ui16 vec){
+    inline bool operator<(edk::vec4ui16 vec){
         if(this->x<vec.x){
             return true;
         }
@@ -5020,7 +5020,7 @@ public:
         return false;
     }
     //Operator <=
-    bool operator<=(vec4ui8 vec){
+    inline bool operator<=(edk::vec4ui8 vec){
         if(this->x<(edk::uint16)vec.x){
             return true;
         }
@@ -5035,7 +5035,7 @@ public:
         }
         return false;
     }
-    bool operator<=(vec4ui16 vec){
+    inline bool operator<=(edk::vec4ui16 vec){
         if(this->x<vec.x){
             return true;
         }
@@ -5052,7 +5052,7 @@ public:
     }
 
     //+
-    vec4ui16 operator+(vec4ui8 vec){
+    inline edk::vec4ui16 operator+(edk::vec4ui8 vec){
         //
         vec4ui16 ret;
         ret.x=this->x+(edk::uint16)vec.x;
@@ -5061,7 +5061,7 @@ public:
         ret.w=this->w+(edk::uint16)vec.w;
         return ret;
     }
-    vec4ui16 operator+(vec4ui16 vec){
+    inline edk::vec4ui16 operator+(edk::vec4ui16 vec){
         //
         vec4ui16 ret;
         ret.x=this->x+vec.x;
@@ -5070,7 +5070,7 @@ public:
         ret.w=this->w+vec.w;
         return ret;
     }
-    vec4ui16 operator+(vec3i8 vec){
+    inline edk::vec4ui16 operator+(vec3i8 vec){
         //
         vec4ui16 ret;
         ret.x=this->x+vec.x;
@@ -5078,14 +5078,14 @@ public:
         ret.z=this->z+vec.z;
         return ret;
     }
-    vec4ui16 operator+(vec2i8 vec){
+    inline edk::vec4ui16 operator+(vec2i8 vec){
         //
         vec4ui16 ret;
         ret.x=this->x+vec.x;
         ret.y=this->y+vec.y;
         return ret;
     }
-    vec4ui16 operator+(edk::uint8 n){
+    inline edk::vec4ui16 operator+(edk::uint8 n){
         //
         vec4ui16 ret;
         ret.x=this->x+(edk::uint16)n;
@@ -5094,7 +5094,7 @@ public:
         ret.w=this->w+(edk::uint16)n;
         return ret;
     }
-    vec4ui16 operator+(edk::uint16 n){
+    inline edk::vec4ui16 operator+(edk::uint16 n){
         //
         vec4ui16 ret;
         ret.x=this->x+(edk::uint16)n;
@@ -5103,7 +5103,7 @@ public:
         ret.w=this->w+(edk::uint16)n;
         return ret;
     }
-    vec4ui16 operator+(edk::uint32 n){
+    inline edk::vec4ui16 operator+(edk::uint32 n){
         //
         vec4ui16 ret;
         ret.x=this->x+(edk::uint16)n;
@@ -5112,7 +5112,7 @@ public:
         ret.w=this->w+(edk::uint16)n;
         return ret;
     }
-    vec4ui16 operator+(edk::uint64 n){
+    inline edk::vec4ui16 operator+(edk::uint64 n){
         //
         vec4ui16 ret;
         ret.x=this->x+(edk::uint16)n;
@@ -5123,53 +5123,53 @@ public:
     }
 
     //+=
-    void operator+=(vec4ui8 vec){
+    inline void operator+=(edk::vec4ui8 vec){
         //
         this->x+=(edk::uint16)vec.x;
         this->y+=(edk::uint16)vec.y;
         this->z+=(edk::uint16)vec.z;
         this->w+=(edk::uint16)vec.w;
     }
-    void operator+=(vec4ui16 vec){
+    inline void operator+=(edk::vec4ui16 vec){
         //
         this->x+=vec.x;
         this->y+=vec.y;
         this->z+=vec.z;
         this->w+=vec.w;
     }
-    void operator+=(vec3i8 vec){
+    inline void operator+=(vec3i8 vec){
         //
         this->x+=vec.x;
         this->y+=vec.y;
         this->z+=vec.z;
     }
-    void operator+=(vec2i8 vec){
+    inline void operator+=(vec2i8 vec){
         //
         this->x+=vec.x;
         this->y+=vec.y;
     }
-    void operator+=(edk::uint8 n){
+    inline void operator+=(edk::uint8 n){
         //
         this->x+=(edk::uint16)n;
         this->y+=(edk::uint16)n;
         this->z+=(edk::uint16)n;
         this->w+=(edk::uint16)n;
     }
-    void operator+=(edk::uint16 n){
+    inline void operator+=(edk::uint16 n){
         //
         this->x+=(edk::uint16)n;
         this->y+=(edk::uint16)n;
         this->z+=(edk::uint16)n;
         this->w+=(edk::uint16)n;
     }
-    void operator+=(edk::uint32 n){
+    inline void operator+=(edk::uint32 n){
         //
         this->x+=(edk::uint16)n;
         this->y+=(edk::uint16)n;
         this->z+=(edk::uint16)n;
         this->w+=(edk::uint16)n;
     }
-    void operator+=(edk::uint64 n){
+    inline void operator+=(edk::uint64 n){
         //
         this->x+=(edk::uint16)n;
         this->y+=(edk::uint16)n;
@@ -5178,7 +5178,7 @@ public:
     }
 
     //-
-    vec4ui16 operator-(vec4ui8 vec){
+    inline edk::vec4ui16 operator-(edk::vec4ui8 vec){
         //
         vec4ui16 ret;
         ret.x=this->x-(edk::uint16)vec.x;
@@ -5187,7 +5187,7 @@ public:
         ret.w=this->w-(edk::uint16)vec.w;
         return ret;
     }
-    vec4ui16 operator-(vec4ui16 vec){
+    inline edk::vec4ui16 operator-(edk::vec4ui16 vec){
         //
         vec4ui16 ret;
         ret.x=this->x-vec.x;
@@ -5196,7 +5196,7 @@ public:
         ret.w=this->w-vec.w;
         return ret;
     }
-    vec4ui16 operator-(vec3i8 vec){
+    inline edk::vec4ui16 operator-(vec3i8 vec){
         //
         vec4ui16 ret;
         ret.x=this->x-vec.x;
@@ -5204,14 +5204,14 @@ public:
         ret.z=this->z-vec.z;
         return ret;
     }
-    vec4ui16 operator-(vec2i8 vec){
+    inline edk::vec4ui16 operator-(vec2i8 vec){
         //
         vec4ui16 ret;
         ret.x=this->x-vec.x;
         ret.y=this->y-vec.y;
         return ret;
     }
-    vec4ui16 operator-(edk::uint8 n){
+    inline edk::vec4ui16 operator-(edk::uint8 n){
         //
         vec4ui16 ret;
         ret.x=this->x-(edk::uint16)n;
@@ -5220,7 +5220,7 @@ public:
         ret.w=this->w-(edk::uint16)n;
         return ret;
     }
-    vec4ui16 operator-(edk::uint16 n){
+    inline edk::vec4ui16 operator-(edk::uint16 n){
         //
         vec4ui16 ret;
         ret.x=this->x-(edk::uint16)n;
@@ -5229,7 +5229,7 @@ public:
         ret.w=this->w-(edk::uint16)n;
         return ret;
     }
-    vec4ui16 operator-(edk::uint32 n){
+    inline edk::vec4ui16 operator-(edk::uint32 n){
         //
         vec4ui16 ret;
         ret.x=this->x-(edk::uint16)n;
@@ -5238,7 +5238,7 @@ public:
         ret.w=this->w-(edk::uint16)n;
         return ret;
     }
-    vec4ui16 operator-(edk::uint64 n){
+    inline edk::vec4ui16 operator-(edk::uint64 n){
         //
         vec4ui16 ret;
         ret.x=this->x-(edk::uint16)n;
@@ -5249,53 +5249,53 @@ public:
     }
 
     //-=
-    void operator-=(vec4ui8 vec){
+    inline void operator-=(edk::vec4ui8 vec){
         //
         this->x-=(edk::uint16)vec.x;
         this->y-=(edk::uint16)vec.y;
         this->z-=(edk::uint16)vec.z;
         this->w-=(edk::uint16)vec.w;
     }
-    void operator-=(vec4ui16 vec){
+    inline void operator-=(edk::vec4ui16 vec){
         //
         this->x-=vec.x;
         this->y-=vec.y;
         this->z-=vec.z;
         this->w-=vec.w;
     }
-    void operator-=(vec3i8 vec){
+    inline void operator-=(vec3i8 vec){
         //
         this->x-=vec.x;
         this->y-=vec.y;
         this->z-=vec.z;
     }
-    void operator-=(vec2i8 vec){
+    inline void operator-=(vec2i8 vec){
         //
         this->x-=vec.x;
         this->y-=vec.y;
     }
-    void operator-=(edk::uint8 n){
+    inline void operator-=(edk::uint8 n){
         //
         this->x-=(edk::uint16)n;
         this->y-=(edk::uint16)n;
         this->z-=(edk::uint16)n;
         this->w-=(edk::uint16)n;
     }
-    void operator-=(edk::uint16 n){
+    inline void operator-=(edk::uint16 n){
         //
         this->x-=(edk::uint16)n;
         this->y-=(edk::uint16)n;
         this->z-=(edk::uint16)n;
         this->w-=(edk::uint16)n;
     }
-    void operator-=(edk::uint32 n){
+    inline void operator-=(edk::uint32 n){
         //
         this->x-=(edk::uint16)n;
         this->y-=(edk::uint16)n;
         this->z-=(edk::uint16)n;
         this->w-=(edk::uint16)n;
     }
-    void operator-=(edk::uint64 n){
+    inline void operator-=(edk::uint64 n){
         //
         this->x-=(edk::uint16)n;
         this->y-=(edk::uint16)n;
@@ -5304,7 +5304,7 @@ public:
     }
 
     //*
-    vec4ui16 operator*(vec4ui8 vec){
+    inline edk::vec4ui16 operator*(edk::vec4ui8 vec){
         //
         vec4ui16 ret;
         ret.x=this->x*(edk::uint16)vec.x;
@@ -5313,7 +5313,7 @@ public:
         ret.w=this->w*(edk::uint16)vec.w;
         return ret;
     }
-    vec4ui16 operator*(vec4ui16 vec){
+    inline edk::vec4ui16 operator*(edk::vec4ui16 vec){
         //
         vec4ui16 ret;
         ret.x=this->x*vec.x;
@@ -5322,7 +5322,7 @@ public:
         ret.w=this->w*vec.w;
         return ret;
     }
-    vec4ui16 operator*(vec3i8 vec){
+    inline edk::vec4ui16 operator*(vec3i8 vec){
         //
         vec4ui16 ret;
         ret.x=this->x*vec.x;
@@ -5330,14 +5330,14 @@ public:
         ret.z=this->z*vec.z;
         return ret;
     }
-    vec4ui16 operator*(vec2i8 vec){
+    inline edk::vec4ui16 operator*(vec2i8 vec){
         //
         vec4ui16 ret;
         ret.x=this->x*vec.x;
         ret.y=this->y*vec.y;
         return ret;
     }
-    vec4ui16 operator*(edk::uint8 n){
+    inline edk::vec4ui16 operator*(edk::uint8 n){
         //
         vec4ui16 ret;
         ret.x=this->x*(edk::uint16)n;
@@ -5346,7 +5346,7 @@ public:
         ret.w=this->w*(edk::uint16)n;
         return ret;
     }
-    vec4ui16 operator*(edk::uint16 n){
+    inline edk::vec4ui16 operator*(edk::uint16 n){
         //
         vec4ui16 ret;
         ret.x=this->x*(edk::uint16)n;
@@ -5355,7 +5355,7 @@ public:
         ret.w=this->w*(edk::uint16)n;
         return ret;
     }
-    vec4ui16 operator*(edk::uint32 n){
+    inline edk::vec4ui16 operator*(edk::uint32 n){
         //
         vec4ui16 ret;
         ret.x=this->x*(edk::uint16)n;
@@ -5364,7 +5364,7 @@ public:
         ret.w=this->w*(edk::uint16)n;
         return ret;
     }
-    vec4ui16 operator*(edk::uint64 n){
+    inline edk::vec4ui16 operator*(edk::uint64 n){
         //
         vec4ui16 ret;
         ret.x=this->x*(edk::uint16)n;
@@ -5375,53 +5375,53 @@ public:
     }
 
     //*=
-    void operator*=(vec4ui8 vec){
+    inline void operator*=(edk::vec4ui8 vec){
         //
         this->x*=(edk::uint16)vec.x;
         this->y*=(edk::uint16)vec.y;
         this->z*=(edk::uint16)vec.z;
         this->w*=(edk::uint16)vec.w;
     }
-    void operator*=(vec4ui16 vec){
+    inline void operator*=(edk::vec4ui16 vec){
         //
         this->x*=vec.x;
         this->y*=vec.y;
         this->z*=vec.z;
         this->w*=vec.w;
     }
-    void operator*=(vec3i8 vec){
+    inline void operator*=(vec3i8 vec){
         //
         this->x*=vec.x;
         this->y*=vec.y;
         this->z*=vec.z;
     }
-    void operator*=(vec2i8 vec){
+    inline void operator*=(vec2i8 vec){
         //
         this->x*=vec.x;
         this->y*=vec.y;
     }
-    void operator*=(edk::uint8 n){
+    inline void operator*=(edk::uint8 n){
         //
         this->x*=(edk::uint16)n;
         this->y*=(edk::uint16)n;
         this->z*=(edk::uint16)n;
         this->w*=(edk::uint16)n;
     }
-    void operator*=(edk::uint16 n){
+    inline void operator*=(edk::uint16 n){
         //
         this->x*=(edk::uint16)n;
         this->y*=(edk::uint16)n;
         this->z*=(edk::uint16)n;
         this->w*=(edk::uint16)n;
     }
-    void operator*=(edk::uint32 n){
+    inline void operator*=(edk::uint32 n){
         //
         this->x*=(edk::uint16)n;
         this->y*=(edk::uint16)n;
         this->z*=(edk::uint16)n;
         this->w*=(edk::uint16)n;
     }
-    void operator*=(edk::uint64 n){
+    inline void operator*=(edk::uint64 n){
         //
         this->x*=(edk::uint16)n;
         this->y*=(edk::uint16)n;
@@ -5430,73 +5430,73 @@ public:
     }
 
     //++
-    vec4ui16 operator++(){
+    inline edk::vec4ui16 operator++(){
         //
         ++this->x;
         ++this->y;
         ++this->z;
         ++this->w;
-        return vec4ui16(this->x,this->y,this->z,this->w);
+        return edk::vec4ui16(this->x,this->y,this->z,this->w);
     }
-    vec4ui16 operator++(edk::int32){
+    inline edk::vec4ui16 operator++(edk::int32){
         //
         this->x++;
         this->y++;
         this->z++;
         this->w++;
-        return vec4ui16(this->x,this->y,this->z,this->w);
+        return edk::vec4ui16(this->x,this->y,this->z,this->w);
     }
 
     //--
-    vec4ui16 operator--(){
+    inline edk::vec4ui16 operator--(){
         //
         --this->x;
         --this->y;
         --this->z;
         --this->w;
-        return vec4ui16(this->x,this->y,this->z,this->w);
+        return edk::vec4ui16(this->x,this->y,this->z,this->w);
     }
-    vec4ui16 operator--(edk::int32){
+    inline edk::vec4ui16 operator--(edk::int32){
         //
         this->x--;
         this->y--;
         this->z--;
         this->w--;
-        return vec4ui16(this->x,this->y,this->z,this->w);
+        return edk::vec4ui16(this->x,this->y,this->z,this->w);
     }
 
     //
-    vec4ui16 operator()(edk::uint8 x,edk::uint8 y,edk::uint8 z,edk::uint8 w){
+    inline edk::vec4ui16 operator()(edk::uint8 x,edk::uint8 y,edk::uint8 z,edk::uint8 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4ui16((edk::uint16)this->x,(edk::uint16)this->y,(edk::uint16)this->z,(edk::uint16)this->w);
+        return edk::vec4ui16((edk::uint16)this->x,(edk::uint16)this->y,(edk::uint16)this->z,(edk::uint16)this->w);
     }
-    vec4ui16 operator()(edk::uint16 x,edk::uint16 y,edk::uint16 z,edk::uint16 w){
+    inline edk::vec4ui16 operator()(edk::uint16 x,edk::uint16 y,edk::uint16 z,edk::uint16 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4ui16((edk::uint16)this->x,(edk::uint16)this->y,(edk::uint16)this->z,(edk::uint16)this->w);
+        return edk::vec4ui16((edk::uint16)this->x,(edk::uint16)this->y,(edk::uint16)this->z,(edk::uint16)this->w);
     }
-    vec4ui16 operator()(edk::uint32 x,edk::uint32 y,edk::uint32 z,edk::uint32 w){
+    inline edk::vec4ui16 operator()(edk::uint32 x,edk::uint32 y,edk::uint32 z,edk::uint32 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4ui16((edk::uint16)this->x,(edk::uint16)this->y,(edk::uint16)this->z,(edk::uint16)this->w);
+        return edk::vec4ui16((edk::uint16)this->x,(edk::uint16)this->y,(edk::uint16)this->z,(edk::uint16)this->w);
     }
-    vec4ui16 operator()(edk::uint64 x,edk::uint64 y,edk::uint64 z,edk::uint64 w){
+    inline edk::vec4ui16 operator()(edk::uint64 x,edk::uint64 y,edk::uint64 z,edk::uint64 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4ui16((edk::uint16)this->x,(edk::uint16)this->y,(edk::uint16)this->z,(edk::uint16)this->w);
+        return edk::vec4ui16((edk::uint16)this->x,(edk::uint16)this->y,(edk::uint16)this->z,(edk::uint16)this->w);
     }
 };
 
@@ -5542,7 +5542,7 @@ public:
     //operators
 
     //=
-    vec4ui32 operator=(vec4ui8 vec){
+    inline edk::vec4ui32 operator=(edk::vec4ui8 vec){
         //
         this->x=vec.x;
         this->y=vec.y;
@@ -5550,7 +5550,7 @@ public:
         this->w=vec.w;
         return *this;
     }
-    vec4ui32 operator=(vec4ui16 vec){
+    inline edk::vec4ui32 operator=(edk::vec4ui16 vec){
         //
         this->x=vec.x;
         this->y=vec.y;
@@ -5558,7 +5558,7 @@ public:
         this->w=vec.w;
         return *this;
     }
-    vec4ui32 operator=(vec4ui32 vec){
+    inline edk::vec4ui32 operator=(edk::vec4ui32 vec){
         //
         this->x=vec.x;
         this->y=vec.y;
@@ -5566,7 +5566,7 @@ public:
         this->w=vec.w;
         return *this;
     }
-    vec4ui32 operator=(vec3i8 vec){
+    inline edk::vec4ui32 operator=(vec3i8 vec){
         //
         this->x=vec.x;
         this->y=vec.y;
@@ -5574,7 +5574,7 @@ public:
         this->w=0;
         return *this;
     }
-    vec4ui32 operator=(vec2i8 vec){
+    inline edk::vec4ui32 operator=(vec2i8 vec){
         //
         this->x=vec.x;
         this->y=vec.y;
@@ -5582,7 +5582,7 @@ public:
         this->w=0;
         return *this;
     }
-    vec4ui32 operator=(edk::uint8 n){
+    inline edk::vec4ui32 operator=(edk::uint8 n){
         //
         this->x=(edk::uint32)n;
         this->y=(edk::uint32)n;
@@ -5590,7 +5590,7 @@ public:
         this->w=(edk::uint32)n;
         return *this;
     }
-    vec4ui32 operator=(edk::uint16 n){
+    inline edk::vec4ui32 operator=(edk::uint16 n){
         //
         this->x=(edk::uint32)n;
         this->y=(edk::uint32)n;
@@ -5598,7 +5598,7 @@ public:
         this->w=(edk::uint32)n;
         return *this;
     }
-    vec4ui32 operator=(edk::uint32 n){
+    inline edk::vec4ui32 operator=(edk::uint32 n){
         //
         this->x=(edk::uint32)n;
         this->y=(edk::uint32)n;
@@ -5606,7 +5606,7 @@ public:
         this->w=(edk::uint32)n;
         return *this;
     }
-    vec4ui32 operator=(edk::uint64 n){
+    inline edk::vec4ui32 operator=(edk::uint64 n){
         //
         this->x=(edk::uint32)n;
         this->y=(edk::uint32)n;
@@ -5616,34 +5616,34 @@ public:
     }
 
     //==
-    bool operator==(vec4ui8 vec){
+    inline bool operator==(edk::vec4ui8 vec){
         //
         return (this->x==(edk::uint32)vec.x&&this->y==(edk::uint32)vec.y&&this->z==(edk::uint32)vec.z&&this->w==(edk::uint32)vec.w);
     }
-    bool operator==(vec4ui16 vec){
+    inline bool operator==(edk::vec4ui16 vec){
         //
         return (this->x==(edk::uint32)vec.x&&this->y==(edk::uint32)vec.y&&this->z==(edk::uint32)vec.z&&this->w==(edk::uint32)vec.w);
     }
-    bool operator==(vec4ui32 vec){
+    inline bool operator==(edk::vec4ui32 vec){
         //
         return (this->x==vec.x&&this->y==vec.y&&this->z==vec.z&&this->w==vec.w);
     }
     //!=
-    bool operator!=(vec4ui8 vec){
+    inline bool operator!=(edk::vec4ui8 vec){
         //
         return (this->x!=(edk::uint32)vec.x||this->y!=(edk::uint32)vec.y||this->z!=(edk::uint32)vec.z||this->w!=(edk::uint32)vec.w);
     }
-    bool operator!=(vec4ui16 vec){
+    inline bool operator!=(edk::vec4ui16 vec){
         //
         return (this->x!=(edk::uint32)vec.x||this->y!=(edk::uint32)vec.y||this->z!=(edk::uint32)vec.z||this->w!=(edk::uint32)vec.w);
     }
-    bool operator!=(vec4ui32 vec){
+    inline bool operator!=(edk::vec4ui32 vec){
         //
         return (this->x!=vec.x||this->y!=vec.y||this->z!=vec.z||this->w!=vec.w);
     }
 
     //Operator >
-    bool operator>(vec4ui8 vec){
+    inline bool operator>(edk::vec4ui8 vec){
         if(this->x>(edk::uint32)vec.x){
             return true;
         }
@@ -5658,7 +5658,7 @@ public:
         }
         return false;
     }
-    bool operator>(vec4ui16 vec){
+    inline bool operator>(edk::vec4ui16 vec){
         if(this->x>(edk::uint32)vec.x){
             return true;
         }
@@ -5673,7 +5673,7 @@ public:
         }
         return false;
     }
-    bool operator>(vec4ui32 vec){
+    inline bool operator>(edk::vec4ui32 vec){
         if(this->x>vec.x){
             return true;
         }
@@ -5689,7 +5689,7 @@ public:
         return false;
     }
     //Operator >=
-    bool operator>=(vec4ui8 vec){
+    inline bool operator>=(edk::vec4ui8 vec){
         if(this->x>(edk::uint32)vec.x){
             return true;
         }
@@ -5704,7 +5704,7 @@ public:
         }
         return false;
     }
-    bool operator>=(vec4ui16 vec){
+    inline bool operator>=(edk::vec4ui16 vec){
         if(this->x>(edk::uint32)vec.x){
             return true;
         }
@@ -5719,7 +5719,7 @@ public:
         }
         return false;
     }
-    bool operator>=(vec4ui32 vec){
+    inline bool operator>=(edk::vec4ui32 vec){
         if(this->x>vec.x){
             return true;
         }
@@ -5735,7 +5735,7 @@ public:
         return false;
     }
     //Operator <
-    bool operator<(vec4ui8 vec){
+    inline bool operator<(edk::vec4ui8 vec){
         if(this->x<(edk::uint32)vec.x){
             return true;
         }
@@ -5750,7 +5750,7 @@ public:
         }
         return false;
     }
-    bool operator<(vec4ui16 vec){
+    inline bool operator<(edk::vec4ui16 vec){
         if(this->x<(edk::uint32)vec.x){
             return true;
         }
@@ -5765,7 +5765,7 @@ public:
         }
         return false;
     }
-    bool operator<(vec4ui32 vec){
+    inline bool operator<(edk::vec4ui32 vec){
         if(this->x<vec.x){
             return true;
         }
@@ -5781,7 +5781,7 @@ public:
         return false;
     }
     //Operator <=
-    bool operator<=(vec4ui8 vec){
+    inline bool operator<=(edk::vec4ui8 vec){
         if(this->x<(edk::uint32)vec.x){
             return true;
         }
@@ -5796,7 +5796,7 @@ public:
         }
         return false;
     }
-    bool operator<=(vec4ui16 vec){
+    inline bool operator<=(edk::vec4ui16 vec){
         if(this->x<(edk::uint32)vec.x){
             return true;
         }
@@ -5811,7 +5811,7 @@ public:
         }
         return false;
     }
-    bool operator<=(vec4ui32 vec){
+    inline bool operator<=(edk::vec4ui32 vec){
         if(this->x<vec.x){
             return true;
         }
@@ -5828,7 +5828,7 @@ public:
     }
 
     //+
-    vec4ui32 operator+(vec4ui8 vec){
+    inline edk::vec4ui32 operator+(edk::vec4ui8 vec){
         //
         vec4ui32 ret;
         ret.x=this->x+vec.x;
@@ -5837,7 +5837,7 @@ public:
         ret.w=this->w+vec.w;
         return ret;
     }
-    vec4ui32 operator+(vec4ui16 vec){
+    inline edk::vec4ui32 operator+(edk::vec4ui16 vec){
         //
         vec4ui32 ret;
         ret.x=this->x+vec.x;
@@ -5846,7 +5846,7 @@ public:
         ret.w=this->w+vec.w;
         return ret;
     }
-    vec4ui32 operator+(vec4ui32 vec){
+    inline edk::vec4ui32 operator+(edk::vec4ui32 vec){
         //
         vec4ui32 ret;
         ret.x=this->x+vec.x;
@@ -5855,7 +5855,7 @@ public:
         ret.w=this->w+vec.w;
         return ret;
     }
-    vec4ui32 operator+(vec3i8 vec){
+    inline edk::vec4ui32 operator+(vec3i8 vec){
         //
         vec4ui32 ret;
         ret.x=this->x+vec.x;
@@ -5863,14 +5863,14 @@ public:
         ret.z=this->z+vec.z;
         return ret;
     }
-    vec4ui32 operator+(vec2i8 vec){
+    inline edk::vec4ui32 operator+(vec2i8 vec){
         //
         vec4ui32 ret;
         ret.x=this->x+vec.x;
         ret.y=this->y+vec.y;
         return ret;
     }
-    vec4ui32 operator+(edk::uint8 n){
+    inline edk::vec4ui32 operator+(edk::uint8 n){
         //
         vec4ui32 ret;
         ret.x=this->x+(edk::uint32)n;
@@ -5879,7 +5879,7 @@ public:
         ret.w=this->w+(edk::uint32)n;
         return ret;
     }
-    vec4ui32 operator+(edk::uint16 n){
+    inline edk::vec4ui32 operator+(edk::uint16 n){
         //
         vec4ui32 ret;
         ret.x=this->x+(edk::uint32)n;
@@ -5888,7 +5888,7 @@ public:
         ret.w=this->w+(edk::uint32)n;
         return ret;
     }
-    vec4ui32 operator+(edk::uint32 n){
+    inline edk::vec4ui32 operator+(edk::uint32 n){
         //
         vec4ui32 ret;
         ret.x=this->x+(edk::uint32)n;
@@ -5897,7 +5897,7 @@ public:
         ret.w=this->w+(edk::uint32)n;
         return ret;
     }
-    vec4ui32 operator+(edk::uint64 n){
+    inline edk::vec4ui32 operator+(edk::uint64 n){
         //
         vec4ui32 ret;
         ret.x=this->x+(edk::uint32)n;
@@ -5908,60 +5908,60 @@ public:
     }
 
     //+=
-    void operator+=(vec4ui8 vec){
+    inline void operator+=(edk::vec4ui8 vec){
         //
         this->x+=vec.x;
         this->y+=vec.y;
         this->z+=vec.z;
         this->w+=vec.w;
     }
-    void operator+=(vec4ui16 vec){
+    inline void operator+=(edk::vec4ui16 vec){
         //
         this->x+=vec.x;
         this->y+=vec.y;
         this->z+=vec.z;
         this->w+=vec.w;
     }
-    void operator+=(vec4ui32 vec){
+    inline void operator+=(edk::vec4ui32 vec){
         //
         this->x+=vec.x;
         this->y+=vec.y;
         this->z+=vec.z;
         this->w+=vec.w;
     }
-    void operator+=(vec3i8 vec){
+    inline void operator+=(vec3i8 vec){
         //
         this->x+=vec.x;
         this->y+=vec.y;
         this->z+=vec.z;
     }
-    void operator+=(vec2i8 vec){
+    inline void operator+=(vec2i8 vec){
         //
         this->x+=vec.x;
         this->y+=vec.y;
     }
-    void operator+=(edk::uint8 n){
+    inline void operator+=(edk::uint8 n){
         //
         this->x+=(edk::uint32)n;
         this->y+=(edk::uint32)n;
         this->z+=(edk::uint32)n;
         this->w+=(edk::uint32)n;
     }
-    void operator+=(edk::uint16 n){
+    inline void operator+=(edk::uint16 n){
         //
         this->x+=(edk::uint32)n;
         this->y+=(edk::uint32)n;
         this->z+=(edk::uint32)n;
         this->w+=(edk::uint32)n;
     }
-    void operator+=(edk::uint32 n){
+    inline void operator+=(edk::uint32 n){
         //
         this->x+=(edk::uint32)n;
         this->y+=(edk::uint32)n;
         this->z+=(edk::uint32)n;
         this->w+=(edk::uint32)n;
     }
-    void operator+=(edk::uint64 n){
+    inline void operator+=(edk::uint64 n){
         //
         this->x+=(edk::uint32)n;
         this->y+=(edk::uint32)n;
@@ -5970,7 +5970,7 @@ public:
     }
 
     //-
-    vec4ui32 operator-(vec4ui8 vec){
+    inline edk::vec4ui32 operator-(edk::vec4ui8 vec){
         //
         vec4ui32 ret;
         ret.x=this->x-vec.x;
@@ -5979,7 +5979,7 @@ public:
         ret.w=this->w-vec.w;
         return ret;
     }
-    vec4ui32 operator-(vec4ui16 vec){
+    inline edk::vec4ui32 operator-(edk::vec4ui16 vec){
         //
         vec4ui32 ret;
         ret.x=this->x-vec.x;
@@ -5988,7 +5988,7 @@ public:
         ret.w=this->w-vec.w;
         return ret;
     }
-    vec4ui32 operator-(vec4ui32 vec){
+    inline edk::vec4ui32 operator-(edk::vec4ui32 vec){
         //
         vec4ui32 ret;
         ret.x=this->x-vec.x;
@@ -5997,7 +5997,7 @@ public:
         ret.w=this->w-vec.w;
         return ret;
     }
-    vec4ui32 operator-(vec3i8 vec){
+    inline edk::vec4ui32 operator-(vec3i8 vec){
         //
         vec4ui32 ret;
         ret.x=this->x-vec.x;
@@ -6005,14 +6005,14 @@ public:
         ret.z=this->z-vec.z;
         return ret;
     }
-    vec4ui32 operator-(vec2i8 vec){
+    inline edk::vec4ui32 operator-(vec2i8 vec){
         //
         vec4ui32 ret;
         ret.x=this->x-vec.x;
         ret.y=this->y-vec.y;
         return ret;
     }
-    vec4ui32 operator-(edk::uint8 n){
+    inline edk::vec4ui32 operator-(edk::uint8 n){
         //
         vec4ui32 ret;
         ret.x=this->x-(edk::uint32)n;
@@ -6021,7 +6021,7 @@ public:
         ret.w=this->w-(edk::uint32)n;
         return ret;
     }
-    vec4ui32 operator-(edk::uint16 n){
+    inline edk::vec4ui32 operator-(edk::uint16 n){
         //
         vec4ui32 ret;
         ret.x=this->x-(edk::uint32)n;
@@ -6030,7 +6030,7 @@ public:
         ret.w=this->w-(edk::uint32)n;
         return ret;
     }
-    vec4ui32 operator-(edk::uint32 n){
+    inline edk::vec4ui32 operator-(edk::uint32 n){
         //
         vec4ui32 ret;
         ret.x=this->x-(edk::uint32)n;
@@ -6039,7 +6039,7 @@ public:
         ret.w=this->w-(edk::uint32)n;
         return ret;
     }
-    vec4ui32 operator-(edk::uint64 n){
+    inline edk::vec4ui32 operator-(edk::uint64 n){
         //
         vec4ui32 ret;
         ret.x=this->x-(edk::uint32)n;
@@ -6050,60 +6050,60 @@ public:
     }
 
     //-=
-    void operator-=(vec4ui8 vec){
+    inline void operator-=(edk::vec4ui8 vec){
         //
         this->x-=vec.x;
         this->y-=vec.y;
         this->z-=vec.z;
         this->w-=vec.w;
     }
-    void operator-=(vec4ui16 vec){
+    inline void operator-=(edk::vec4ui16 vec){
         //
         this->x-=vec.x;
         this->y-=vec.y;
         this->z-=vec.z;
         this->w-=vec.w;
     }
-    void operator-=(vec4ui32 vec){
+    inline void operator-=(edk::vec4ui32 vec){
         //
         this->x-=vec.x;
         this->y-=vec.y;
         this->z-=vec.z;
         this->w-=vec.w;
     }
-    void operator-=(vec3i8 vec){
+    inline void operator-=(vec3i8 vec){
         //
         this->x-=vec.x;
         this->y-=vec.y;
         this->z-=vec.z;
     }
-    void operator-=(vec2i8 vec){
+    inline void operator-=(vec2i8 vec){
         //
         this->x-=vec.x;
         this->y-=vec.y;
     }
-    void operator-=(edk::uint8 n){
+    inline void operator-=(edk::uint8 n){
         //
         this->x-=(edk::uint32)n;
         this->y-=(edk::uint32)n;
         this->z-=(edk::uint32)n;
         this->w-=(edk::uint32)n;
     }
-    void operator-=(edk::uint16 n){
+    inline void operator-=(edk::uint16 n){
         //
         this->x-=(edk::uint32)n;
         this->y-=(edk::uint32)n;
         this->z-=(edk::uint32)n;
         this->w-=(edk::uint32)n;
     }
-    void operator-=(edk::uint32 n){
+    inline void operator-=(edk::uint32 n){
         //
         this->x-=(edk::uint32)n;
         this->y-=(edk::uint32)n;
         this->z-=(edk::uint32)n;
         this->w-=(edk::uint32)n;
     }
-    void operator-=(edk::uint64 n){
+    inline void operator-=(edk::uint64 n){
         //
         this->x-=(edk::uint32)n;
         this->y-=(edk::uint32)n;
@@ -6112,7 +6112,7 @@ public:
     }
 
     //*
-    vec4ui32 operator*(vec4ui8 vec){
+    inline edk::vec4ui32 operator*(edk::vec4ui8 vec){
         //
         vec4ui32 ret;
         ret.x=this->x*vec.x;
@@ -6121,7 +6121,7 @@ public:
         ret.w=this->w*vec.w;
         return ret;
     }
-    vec4ui32 operator*(vec4ui16 vec){
+    inline edk::vec4ui32 operator*(edk::vec4ui16 vec){
         //
         vec4ui32 ret;
         ret.x=this->x*vec.x;
@@ -6130,7 +6130,7 @@ public:
         ret.w=this->w*vec.w;
         return ret;
     }
-    vec4ui32 operator*(vec4ui32 vec){
+    inline edk::vec4ui32 operator*(edk::vec4ui32 vec){
         //
         vec4ui32 ret;
         ret.x=this->x*vec.x;
@@ -6139,7 +6139,7 @@ public:
         ret.w=this->w*vec.w;
         return ret;
     }
-    vec4ui32 operator*(vec3i8 vec){
+    inline edk::vec4ui32 operator*(vec3i8 vec){
         //
         vec4ui32 ret;
         ret.x=this->x*vec.x;
@@ -6147,14 +6147,14 @@ public:
         ret.z=this->z*vec.z;
         return ret;
     }
-    vec4ui32 operator*(vec2i8 vec){
+    inline edk::vec4ui32 operator*(vec2i8 vec){
         //
         vec4ui32 ret;
         ret.x=this->x*vec.x;
         ret.y=this->y*vec.y;
         return ret;
     }
-    vec4ui32 operator*(edk::uint8 n){
+    inline edk::vec4ui32 operator*(edk::uint8 n){
         //
         vec4ui32 ret;
         ret.x=this->x*(edk::uint32)n;
@@ -6163,7 +6163,7 @@ public:
         ret.w=this->w*(edk::uint32)n;
         return ret;
     }
-    vec4ui32 operator*(edk::uint16 n){
+    inline edk::vec4ui32 operator*(edk::uint16 n){
         //
         vec4ui32 ret;
         ret.x=this->x*(edk::uint32)n;
@@ -6172,7 +6172,7 @@ public:
         ret.w=this->w*(edk::uint32)n;
         return ret;
     }
-    vec4ui32 operator*(edk::uint32 n){
+    inline edk::vec4ui32 operator*(edk::uint32 n){
         //
         vec4ui32 ret;
         ret.x=this->x*(edk::uint32)n;
@@ -6181,7 +6181,7 @@ public:
         ret.w=this->w*(edk::uint32)n;
         return ret;
     }
-    vec4ui32 operator*(edk::uint64 n){
+    inline edk::vec4ui32 operator*(edk::uint64 n){
         //
         vec4ui32 ret;
         ret.x=this->x*(edk::uint32)n;
@@ -6192,60 +6192,60 @@ public:
     }
 
     //*=
-    void operator*=(vec4ui8 vec){
+    inline void operator*=(edk::vec4ui8 vec){
         //
         this->x*=vec.x;
         this->y*=vec.y;
         this->z*=vec.z;
         this->w*=vec.w;
     }
-    void operator*=(vec4ui16 vec){
+    inline void operator*=(edk::vec4ui16 vec){
         //
         this->x*=vec.x;
         this->y*=vec.y;
         this->z*=vec.z;
         this->w*=vec.w;
     }
-    void operator*=(vec4ui32 vec){
+    inline void operator*=(edk::vec4ui32 vec){
         //
         this->x*=vec.x;
         this->y*=vec.y;
         this->z*=vec.z;
         this->w*=vec.w;
     }
-    void operator*=(vec3i8 vec){
+    inline void operator*=(vec3i8 vec){
         //
         this->x*=vec.x;
         this->y*=vec.y;
         this->z*=vec.z;
     }
-    void operator*=(vec2i8 vec){
+    inline void operator*=(vec2i8 vec){
         //
         this->x*=vec.x;
         this->y*=vec.y;
     }
-    void operator*=(edk::uint8 n){
+    inline void operator*=(edk::uint8 n){
         //
         this->x*=(edk::uint32)n;
         this->y*=(edk::uint32)n;
         this->z*=(edk::uint32)n;
         this->w*=(edk::uint32)n;
     }
-    void operator*=(edk::uint16 n){
+    inline void operator*=(edk::uint16 n){
         //
         this->x*=(edk::uint32)n;
         this->y*=(edk::uint32)n;
         this->z*=(edk::uint32)n;
         this->w*=(edk::uint32)n;
     }
-    void operator*=(edk::uint32 n){
+    inline void operator*=(edk::uint32 n){
         //
         this->x*=(edk::uint32)n;
         this->y*=(edk::uint32)n;
         this->z*=(edk::uint32)n;
         this->w*=(edk::uint32)n;
     }
-    void operator*=(edk::uint64 n){
+    inline void operator*=(edk::uint64 n){
         //
         this->x*=(edk::uint32)n;
         this->y*=(edk::uint32)n;
@@ -6254,73 +6254,73 @@ public:
     }
 
     //++
-    vec4ui32 operator++(){
+    inline edk::vec4ui32 operator++(){
         //
         ++this->x;
         ++this->y;
         ++this->z;
         ++this->w;
-        return vec4ui32(this->x,this->y,this->z,this->w);
+        return edk::vec4ui32(this->x,this->y,this->z,this->w);
     }
-    vec4ui32 operator++(edk::int32){
+    inline edk::vec4ui32 operator++(edk::int32){
         //
         this->x++;
         this->y++;
         this->z++;
         this->w++;
-        return vec4ui32(this->x,this->y,this->z,this->w);
+        return edk::vec4ui32(this->x,this->y,this->z,this->w);
     }
 
     //--
-    vec4ui32 operator--(){
+    inline edk::vec4ui32 operator--(){
         //
         --this->x;
         --this->y;
         --this->z;
         --this->w;
-        return vec4ui32(this->x,this->y,this->z,this->w);
+        return edk::vec4ui32(this->x,this->y,this->z,this->w);
     }
-    vec4ui32 operator--(edk::int32){
+    inline edk::vec4ui32 operator--(edk::int32){
         //
         this->x--;
         this->y--;
         this->z--;
         this->w--;
-        return vec4ui32(this->x,this->y,this->z,this->w);
+        return edk::vec4ui32(this->x,this->y,this->z,this->w);
     }
 
     //
-    vec4ui32 operator()(edk::uint8 x,edk::uint8 y,edk::uint8 z,edk::uint8 w){
+    inline edk::vec4ui32 operator()(edk::uint8 x,edk::uint8 y,edk::uint8 z,edk::uint8 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4ui32((edk::uint32)this->x,(edk::uint32)this->y,(edk::uint32)this->z,(edk::uint32)this->w);
+        return edk::vec4ui32((edk::uint32)this->x,(edk::uint32)this->y,(edk::uint32)this->z,(edk::uint32)this->w);
     }
-    vec4ui32 operator()(edk::uint16 x,edk::uint16 y,edk::uint16 z,edk::uint16 w){
+    inline edk::vec4ui32 operator()(edk::uint16 x,edk::uint16 y,edk::uint16 z,edk::uint16 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4ui32((edk::uint32)this->x,(edk::uint32)this->y,(edk::uint32)this->z,(edk::uint32)this->w);
+        return edk::vec4ui32((edk::uint32)this->x,(edk::uint32)this->y,(edk::uint32)this->z,(edk::uint32)this->w);
     }
-    vec4ui32 operator()(edk::uint32 x,edk::uint32 y,edk::uint32 z,edk::uint32 w){
+    inline edk::vec4ui32 operator()(edk::uint32 x,edk::uint32 y,edk::uint32 z,edk::uint32 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4ui32((edk::uint32)this->x,(edk::uint32)this->y,(edk::uint32)this->z,(edk::uint32)this->w);
+        return edk::vec4ui32((edk::uint32)this->x,(edk::uint32)this->y,(edk::uint32)this->z,(edk::uint32)this->w);
     }
-    vec4ui32 operator()(edk::uint64 x,edk::uint64 y,edk::uint64 z,edk::uint64 w){
+    inline edk::vec4ui32 operator()(edk::uint64 x,edk::uint64 y,edk::uint64 z,edk::uint64 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4ui32((edk::uint32)this->x,(edk::uint32)this->y,(edk::uint32)this->z,(edk::uint32)this->w);
+        return edk::vec4ui32((edk::uint32)this->x,(edk::uint32)this->y,(edk::uint32)this->z,(edk::uint32)this->w);
     }
 };
 
@@ -6366,7 +6366,7 @@ public:
     //operators
 
     //=
-    vec4ui64 operator=(vec4ui8 vec){
+    inline edk::vec4ui64 operator=(edk::vec4ui8 vec){
         //
         this->x=vec.x;
         this->y=vec.y;
@@ -6374,7 +6374,7 @@ public:
         this->w=vec.w;
         return *this;
     }
-    vec4ui64 operator=(vec4ui16 vec){
+    inline edk::vec4ui64 operator=(edk::vec4ui16 vec){
         //
         this->x=vec.x;
         this->y=vec.y;
@@ -6382,7 +6382,7 @@ public:
         this->w=vec.w;
         return *this;
     }
-    vec4ui64 operator=(vec4ui32 vec){
+    inline edk::vec4ui64 operator=(edk::vec4ui32 vec){
         //
         this->x=vec.x;
         this->y=vec.y;
@@ -6390,7 +6390,7 @@ public:
         this->w=vec.w;
         return *this;
     }
-    vec4ui64 operator=(vec4ui64 vec){
+    inline edk::vec4ui64 operator=(edk::vec4ui64 vec){
         //
         this->x=vec.x;
         this->y=vec.y;
@@ -6398,7 +6398,7 @@ public:
         this->w=vec.w;
         return *this;
     }
-    vec4ui64 operator=(vec3i8 vec){
+    inline edk::vec4ui64 operator=(vec3i8 vec){
         //
         this->x=vec.x;
         this->y=vec.y;
@@ -6406,7 +6406,7 @@ public:
         this->w=0;
         return *this;
     }
-    vec4ui64 operator=(vec2i8 vec){
+    inline edk::vec4ui64 operator=(vec2i8 vec){
         //
         this->x=vec.x;
         this->y=vec.y;
@@ -6414,7 +6414,7 @@ public:
         this->w=0;
         return *this;
     }
-    vec4ui64 operator=(edk::uint8 n){
+    inline edk::vec4ui64 operator=(edk::uint8 n){
         //
         this->x=(edk::uint64)n;
         this->y=(edk::uint64)n;
@@ -6422,7 +6422,7 @@ public:
         this->w=(edk::uint64)n;
         return *this;
     }
-    vec4ui64 operator=(edk::uint16 n){
+    inline edk::vec4ui64 operator=(edk::uint16 n){
         //
         this->x=(edk::uint64)n;
         this->y=(edk::uint64)n;
@@ -6430,7 +6430,7 @@ public:
         this->w=(edk::uint64)n;
         return *this;
     }
-    vec4ui64 operator=(edk::uint32 n){
+    inline edk::vec4ui64 operator=(edk::uint32 n){
         //
         this->x=(edk::uint64)n;
         this->y=(edk::uint64)n;
@@ -6438,7 +6438,7 @@ public:
         this->w=(edk::uint64)n;
         return *this;
     }
-    vec4ui64 operator=(edk::uint64 n){
+    inline edk::vec4ui64 operator=(edk::uint64 n){
         //
         this->x=(edk::uint64)n;
         this->y=(edk::uint64)n;
@@ -6448,42 +6448,42 @@ public:
     }
 
     //==
-    bool operator==(vec4ui8 vec){
+    inline bool operator==(edk::vec4ui8 vec){
         //
         return (this->x==(edk::uint64)vec.x&&this->y==(edk::uint64)vec.y&&this->z==(edk::uint64)vec.z&&this->w==(edk::uint64)vec.w);
     }
-    bool operator==(vec4ui16 vec){
+    inline bool operator==(edk::vec4ui16 vec){
         //
         return (this->x==(edk::uint64)vec.x&&this->y==(edk::uint64)vec.y&&this->z==(edk::uint64)vec.z&&this->w==(edk::uint64)vec.w);
     }
-    bool operator==(vec4ui32 vec){
+    inline bool operator==(edk::vec4ui32 vec){
         //
         return (this->x==(edk::uint64)vec.x&&this->y==(edk::uint64)vec.y&&this->z==(edk::uint64)vec.z&&this->w==(edk::uint64)vec.w);
     }
-    bool operator==(vec4ui64 vec){
+    inline bool operator==(edk::vec4ui64 vec){
         //
         return (this->x==vec.x&&this->y==vec.y&&this->z==vec.z&&this->w==vec.w);
     }
     //!=
-    bool operator!=(vec4ui8 vec){
+    inline bool operator!=(edk::vec4ui8 vec){
         //
         return (this->x!=(edk::uint64)vec.x||this->y!=(edk::uint64)vec.y||this->z!=(edk::uint64)vec.z||this->w!=(edk::uint64)vec.w);
     }
-    bool operator!=(vec4ui16 vec){
+    inline bool operator!=(edk::vec4ui16 vec){
         //
         return (this->x!=(edk::uint64)vec.x||this->y!=(edk::uint64)vec.y||this->z!=(edk::uint64)vec.z||this->w!=(edk::uint64)vec.w);
     }
-    bool operator!=(vec4ui32 vec){
+    inline bool operator!=(edk::vec4ui32 vec){
         //
         return (this->x!=(edk::uint64)vec.x||this->y!=(edk::uint64)vec.y||this->z!=(edk::uint64)vec.z||this->w!=(edk::uint64)vec.w);
     }
-    bool operator!=(vec4ui64 vec){
+    inline bool operator!=(edk::vec4ui64 vec){
         //
         return (this->x!=vec.x||this->y!=vec.y||this->z!=vec.z||this->w!=vec.w);
     }
 
     //Operator >
-    bool operator>(vec4ui8 vec){
+    inline bool operator>(edk::vec4ui8 vec){
         if(this->x>(edk::uint64)vec.x){
             return true;
         }
@@ -6498,7 +6498,7 @@ public:
         }
         return false;
     }
-    bool operator>(vec4ui16 vec){
+    inline bool operator>(edk::vec4ui16 vec){
         if(this->x>(edk::uint64)vec.x){
             return true;
         }
@@ -6513,7 +6513,7 @@ public:
         }
         return false;
     }
-    bool operator>(vec4ui32 vec){
+    inline bool operator>(edk::vec4ui32 vec){
         if(this->x>(edk::uint64)vec.x){
             return true;
         }
@@ -6528,7 +6528,7 @@ public:
         }
         return false;
     }
-    bool operator>(vec4ui64 vec){
+    inline bool operator>(edk::vec4ui64 vec){
         if(this->x>vec.x){
             return true;
         }
@@ -6544,7 +6544,7 @@ public:
         return false;
     }
     //Operator >=
-    bool operator>=(vec4ui8 vec){
+    inline bool operator>=(edk::vec4ui8 vec){
         if(this->x>(edk::uint64)vec.x){
             return true;
         }
@@ -6559,7 +6559,7 @@ public:
         }
         return false;
     }
-    bool operator>=(vec4ui16 vec){
+    inline bool operator>=(edk::vec4ui16 vec){
         if(this->x>(edk::uint64)vec.x){
             return true;
         }
@@ -6574,7 +6574,7 @@ public:
         }
         return false;
     }
-    bool operator>=(vec4ui32 vec){
+    inline bool operator>=(edk::vec4ui32 vec){
         if(this->x>(edk::uint64)vec.x){
             return true;
         }
@@ -6589,7 +6589,7 @@ public:
         }
         return false;
     }
-    bool operator>=(vec4ui64 vec){
+    inline bool operator>=(edk::vec4ui64 vec){
         if(this->x>vec.x){
             return true;
         }
@@ -6605,7 +6605,7 @@ public:
         return false;
     }
     //Operator <
-    bool operator<(vec4ui8 vec){
+    inline bool operator<(edk::vec4ui8 vec){
         if(this->x<(edk::uint64)vec.x){
             return true;
         }
@@ -6620,7 +6620,7 @@ public:
         }
         return false;
     }
-    bool operator<(vec4ui16 vec){
+    inline bool operator<(edk::vec4ui16 vec){
         if(this->x<(edk::uint64)vec.x){
             return true;
         }
@@ -6635,7 +6635,7 @@ public:
         }
         return false;
     }
-    bool operator<(vec4ui32 vec){
+    inline bool operator<(edk::vec4ui32 vec){
         if(this->x<(edk::uint64)vec.x){
             return true;
         }
@@ -6650,7 +6650,7 @@ public:
         }
         return false;
     }
-    bool operator<(vec4ui64 vec){
+    inline bool operator<(edk::vec4ui64 vec){
         if(this->x<vec.x){
             return true;
         }
@@ -6666,7 +6666,7 @@ public:
         return false;
     }
     //Operator <=
-    bool operator<=(vec4ui8 vec){
+    inline bool operator<=(edk::vec4ui8 vec){
         if(this->x<(edk::uint64)vec.x){
             return true;
         }
@@ -6681,7 +6681,7 @@ public:
         }
         return false;
     }
-    bool operator<=(vec4ui16 vec){
+    inline bool operator<=(edk::vec4ui16 vec){
         if(this->x<(edk::uint64)vec.x){
             return true;
         }
@@ -6696,7 +6696,7 @@ public:
         }
         return false;
     }
-    bool operator<=(vec4ui32 vec){
+    inline bool operator<=(edk::vec4ui32 vec){
         if(this->x<(edk::uint64)vec.x){
             return true;
         }
@@ -6711,7 +6711,7 @@ public:
         }
         return false;
     }
-    bool operator<=(vec4ui64 vec){
+    inline bool operator<=(edk::vec4ui64 vec){
         if(this->x<vec.x){
             return true;
         }
@@ -6728,7 +6728,7 @@ public:
     }
 
     //+
-    vec4ui64 operator+(vec4ui8 vec){
+    inline edk::vec4ui64 operator+(edk::vec4ui8 vec){
         //
         vec4ui64 ret;
         ret.x=this->x+vec.x;
@@ -6737,7 +6737,7 @@ public:
         ret.w=this->w+vec.w;
         return ret;
     }
-    vec4ui64 operator+(vec4ui16 vec){
+    inline edk::vec4ui64 operator+(edk::vec4ui16 vec){
         //
         vec4ui64 ret;
         ret.x=this->x+vec.x;
@@ -6746,7 +6746,7 @@ public:
         ret.w=this->w+vec.w;
         return ret;
     }
-    vec4ui64 operator+(vec4ui32 vec){
+    inline edk::vec4ui64 operator+(edk::vec4ui32 vec){
         //
         vec4ui64 ret;
         ret.x=this->x+vec.x;
@@ -6755,7 +6755,7 @@ public:
         ret.w=this->w+vec.w;
         return ret;
     }
-    vec4ui64 operator+(vec4ui64 vec){
+    inline edk::vec4ui64 operator+(edk::vec4ui64 vec){
         //
         vec4ui64 ret;
         ret.x=this->x+vec.x;
@@ -6764,7 +6764,7 @@ public:
         ret.w=this->w+vec.w;
         return ret;
     }
-    vec4ui64 operator+(vec3i8 vec){
+    inline edk::vec4ui64 operator+(vec3i8 vec){
         //
         vec4ui64 ret;
         ret.x=this->x+vec.x;
@@ -6772,14 +6772,14 @@ public:
         ret.z=this->z+vec.z;
         return ret;
     }
-    vec4ui64 operator+(vec2i8 vec){
+    inline edk::vec4ui64 operator+(vec2i8 vec){
         //
         vec4ui64 ret;
         ret.x=this->x+vec.x;
         ret.y=this->y+vec.y;
         return ret;
     }
-    vec4ui64 operator+(edk::uint8 n){
+    inline edk::vec4ui64 operator+(edk::uint8 n){
         //
         vec4ui64 ret;
         ret.x=this->x+(edk::uint64)n;
@@ -6788,7 +6788,7 @@ public:
         ret.w=this->w+(edk::uint64)n;
         return ret;
     }
-    vec4ui64 operator+(edk::uint16 n){
+    inline edk::vec4ui64 operator+(edk::uint16 n){
         //
         vec4ui64 ret;
         ret.x=this->x+(edk::uint64)n;
@@ -6797,7 +6797,7 @@ public:
         ret.w=this->w+(edk::uint64)n;
         return ret;
     }
-    vec4ui64 operator+(edk::uint32 n){
+    inline edk::vec4ui64 operator+(edk::uint32 n){
         //
         vec4ui64 ret;
         ret.x=this->x+(edk::uint64)n;
@@ -6806,7 +6806,7 @@ public:
         ret.w=this->w+(edk::uint64)n;
         return ret;
     }
-    vec4ui64 operator+(edk::uint64 n){
+    inline edk::vec4ui64 operator+(edk::uint64 n){
         //
         vec4ui64 ret;
         ret.x=this->x+(edk::uint64)n;
@@ -6817,67 +6817,67 @@ public:
     }
 
     //+=
-    void operator+=(vec4ui8 vec){
+    inline void operator+=(edk::vec4ui8 vec){
         //
         this->x+=vec.x;
         this->y+=vec.y;
         this->z+=vec.z;
         this->w+=vec.w;
     }
-    void operator+=(vec4ui16 vec){
+    inline void operator+=(edk::vec4ui16 vec){
         //
         this->x+=vec.x;
         this->y+=vec.y;
         this->z+=vec.z;
         this->w+=vec.w;
     }
-    void operator+=(vec4ui32 vec){
+    inline void operator+=(edk::vec4ui32 vec){
         //
         this->x+=vec.x;
         this->y+=vec.y;
         this->z+=vec.z;
         this->w+=vec.w;
     }
-    void operator+=(vec4ui64 vec){
+    inline void operator+=(edk::vec4ui64 vec){
         //
         this->x+=vec.x;
         this->y+=vec.y;
         this->z+=vec.z;
         this->w+=vec.w;
     }
-    void operator+=(vec3i8 vec){
+    inline void operator+=(vec3i8 vec){
         //
         this->x+=vec.x;
         this->y+=vec.y;
         this->z+=vec.z;
     }
-    void operator+=(vec2i8 vec){
+    inline void operator+=(vec2i8 vec){
         //
         this->x+=vec.x;
         this->y+=vec.y;
     }
-    void operator+=(edk::uint8 n){
+    inline void operator+=(edk::uint8 n){
         //
         this->x+=(edk::uint64)n;
         this->y+=(edk::uint64)n;
         this->z+=(edk::uint64)n;
         this->w+=(edk::uint64)n;
     }
-    void operator+=(edk::uint16 n){
+    inline void operator+=(edk::uint16 n){
         //
         this->x+=(edk::uint64)n;
         this->y+=(edk::uint64)n;
         this->z+=(edk::uint64)n;
         this->w+=(edk::uint64)n;
     }
-    void operator+=(edk::uint32 n){
+    inline void operator+=(edk::uint32 n){
         //
         this->x+=(edk::uint64)n;
         this->y+=(edk::uint64)n;
         this->z+=(edk::uint64)n;
         this->w+=(edk::uint64)n;
     }
-    void operator+=(edk::uint64 n){
+    inline void operator+=(edk::uint64 n){
         //
         this->x+=(edk::uint64)n;
         this->y+=(edk::uint64)n;
@@ -6886,7 +6886,7 @@ public:
     }
 
     //-
-    vec4ui64 operator-(vec4ui8 vec){
+    inline edk::vec4ui64 operator-(edk::vec4ui8 vec){
         //
         vec4ui64 ret;
         ret.x=this->x-vec.x;
@@ -6895,7 +6895,7 @@ public:
         ret.w=this->w-vec.w;
         return ret;
     }
-    vec4ui64 operator-(vec4ui16 vec){
+    inline edk::vec4ui64 operator-(edk::vec4ui16 vec){
         //
         vec4ui64 ret;
         ret.x=this->x-vec.x;
@@ -6904,7 +6904,7 @@ public:
         ret.w=this->w-vec.w;
         return ret;
     }
-    vec4ui64 operator-(vec4ui32 vec){
+    inline edk::vec4ui64 operator-(edk::vec4ui32 vec){
         //
         vec4ui64 ret;
         ret.x=this->x-vec.x;
@@ -6913,7 +6913,7 @@ public:
         ret.w=this->w-vec.w;
         return ret;
     }
-    vec4ui64 operator-(vec4ui64 vec){
+    inline edk::vec4ui64 operator-(edk::vec4ui64 vec){
         //
         vec4ui64 ret;
         ret.x=this->x-vec.x;
@@ -6922,7 +6922,7 @@ public:
         ret.w=this->w-vec.w;
         return ret;
     }
-    vec4ui64 operator-(vec3i8 vec){
+    inline edk::vec4ui64 operator-(vec3i8 vec){
         //
         vec4ui64 ret;
         ret.x=this->x-vec.x;
@@ -6930,14 +6930,14 @@ public:
         ret.z=this->z-vec.z;
         return ret;
     }
-    vec4ui64 operator-(vec2i8 vec){
+    inline edk::vec4ui64 operator-(vec2i8 vec){
         //
         vec4ui64 ret;
         ret.x=this->x-vec.x;
         ret.y=this->y-vec.y;
         return ret;
     }
-    vec4ui64 operator-(edk::uint8 n){
+    inline edk::vec4ui64 operator-(edk::uint8 n){
         //
         vec4ui64 ret;
         ret.x=this->x-(edk::uint64)n;
@@ -6946,7 +6946,7 @@ public:
         ret.w=this->w-(edk::uint64)n;
         return ret;
     }
-    vec4ui64 operator-(edk::uint16 n){
+    inline edk::vec4ui64 operator-(edk::uint16 n){
         //
         vec4ui64 ret;
         ret.x=this->x-(edk::uint64)n;
@@ -6955,7 +6955,7 @@ public:
         ret.w=this->w-(edk::uint64)n;
         return ret;
     }
-    vec4ui64 operator-(edk::uint32 n){
+    inline edk::vec4ui64 operator-(edk::uint32 n){
         //
         vec4ui64 ret;
         ret.x=this->x-(edk::uint64)n;
@@ -6964,7 +6964,7 @@ public:
         ret.w=this->w-(edk::uint64)n;
         return ret;
     }
-    vec4ui64 operator-(edk::uint64 n){
+    inline edk::vec4ui64 operator-(edk::uint64 n){
         //
         vec4ui64 ret;
         ret.x=this->x-(edk::uint64)n;
@@ -6975,67 +6975,67 @@ public:
     }
 
     //-=
-    void operator-=(vec4ui8 vec){
+    inline void operator-=(edk::vec4ui8 vec){
         //
         this->x-=vec.x;
         this->y-=vec.y;
         this->z-=vec.z;
         this->w-=vec.w;
     }
-    void operator-=(vec4ui16 vec){
+    inline void operator-=(edk::vec4ui16 vec){
         //
         this->x-=vec.x;
         this->y-=vec.y;
         this->z-=vec.z;
         this->w-=vec.w;
     }
-    void operator-=(vec4ui32 vec){
+    inline void operator-=(edk::vec4ui32 vec){
         //
         this->x-=vec.x;
         this->y-=vec.y;
         this->z-=vec.z;
         this->w-=vec.w;
     }
-    void operator-=(vec4ui64 vec){
+    inline void operator-=(edk::vec4ui64 vec){
         //
         this->x-=vec.x;
         this->y-=vec.y;
         this->z-=vec.z;
         this->w-=vec.w;
     }
-    void operator-=(vec3i8 vec){
+    inline void operator-=(vec3i8 vec){
         //
         this->x-=vec.x;
         this->y-=vec.y;
         this->z-=vec.z;
     }
-    void operator-=(vec2i8 vec){
+    inline void operator-=(vec2i8 vec){
         //
         this->x-=vec.x;
         this->y-=vec.y;
     }
-    void operator-=(edk::uint8 n){
+    inline void operator-=(edk::uint8 n){
         //
         this->x-=(edk::uint64)n;
         this->y-=(edk::uint64)n;
         this->z-=(edk::uint64)n;
         this->w-=(edk::uint64)n;
     }
-    void operator-=(edk::uint16 n){
+    inline void operator-=(edk::uint16 n){
         //
         this->x-=(edk::uint64)n;
         this->y-=(edk::uint64)n;
         this->z-=(edk::uint64)n;
         this->w-=(edk::uint64)n;
     }
-    void operator-=(edk::uint32 n){
+    inline void operator-=(edk::uint32 n){
         //
         this->x-=(edk::uint64)n;
         this->y-=(edk::uint64)n;
         this->z-=(edk::uint64)n;
         this->w-=(edk::uint64)n;
     }
-    void operator-=(edk::uint64 n){
+    inline void operator-=(edk::uint64 n){
         //
         this->x-=(edk::uint64)n;
         this->y-=(edk::uint64)n;
@@ -7044,7 +7044,7 @@ public:
     }
 
     //*
-    vec4ui64 operator*(vec4ui8 vec){
+    inline edk::vec4ui64 operator*(edk::vec4ui8 vec){
         //
         vec4ui64 ret;
         ret.x=this->x*vec.x;
@@ -7053,7 +7053,7 @@ public:
         ret.w=this->w*vec.w;
         return ret;
     }
-    vec4ui64 operator*(vec4ui16 vec){
+    inline edk::vec4ui64 operator*(edk::vec4ui16 vec){
         //
         vec4ui64 ret;
         ret.x=this->x*vec.x;
@@ -7062,7 +7062,7 @@ public:
         ret.w=this->w*vec.w;
         return ret;
     }
-    vec4ui64 operator*(vec4ui32 vec){
+    inline edk::vec4ui64 operator*(edk::vec4ui32 vec){
         //
         vec4ui64 ret;
         ret.x=this->x*vec.x;
@@ -7071,7 +7071,7 @@ public:
         ret.w=this->w*vec.w;
         return ret;
     }
-    vec4ui64 operator*(vec4ui64 vec){
+    inline edk::vec4ui64 operator*(edk::vec4ui64 vec){
         //
         vec4ui64 ret;
         ret.x=this->x*vec.x;
@@ -7080,7 +7080,7 @@ public:
         ret.w=this->w*vec.w;
         return ret;
     }
-    vec4ui64 operator*(vec3i8 vec){
+    inline edk::vec4ui64 operator*(vec3i8 vec){
         //
         vec4ui64 ret;
         ret.x=this->x*vec.x;
@@ -7088,14 +7088,14 @@ public:
         ret.z=this->z*vec.z;
         return ret;
     }
-    vec4ui64 operator*(vec2i8 vec){
+    inline edk::vec4ui64 operator*(vec2i8 vec){
         //
         vec4ui64 ret;
         ret.x=this->x*vec.x;
         ret.y=this->y*vec.y;
         return ret;
     }
-    vec4ui64 operator*(edk::uint8 n){
+    inline edk::vec4ui64 operator*(edk::uint8 n){
         //
         vec4ui64 ret;
         ret.x=this->x*(edk::uint64)n;
@@ -7104,7 +7104,7 @@ public:
         ret.w=this->w*(edk::uint64)n;
         return ret;
     }
-    vec4ui64 operator*(edk::uint16 n){
+    inline edk::vec4ui64 operator*(edk::uint16 n){
         //
         vec4ui64 ret;
         ret.x=this->x*(edk::uint64)n;
@@ -7113,7 +7113,7 @@ public:
         ret.w=this->w*(edk::uint64)n;
         return ret;
     }
-    vec4ui64 operator*(edk::uint32 n){
+    inline edk::vec4ui64 operator*(edk::uint32 n){
         //
         vec4ui64 ret;
         ret.x=this->x*(edk::uint64)n;
@@ -7122,7 +7122,7 @@ public:
         ret.w=this->w*(edk::uint64)n;
         return ret;
     }
-    vec4ui64 operator*(edk::uint64 n){
+    inline edk::vec4ui64 operator*(edk::uint64 n){
         //
         vec4ui64 ret;
         ret.x=this->x*(edk::uint64)n;
@@ -7133,67 +7133,67 @@ public:
     }
 
     //*=
-    void operator*=(vec4ui8 vec){
+    inline void operator*=(edk::vec4ui8 vec){
         //
         this->x*=vec.x;
         this->y*=vec.y;
         this->z*=vec.z;
         this->w*=vec.w;
     }
-    void operator*=(vec4ui16 vec){
+    inline void operator*=(edk::vec4ui16 vec){
         //
         this->x*=vec.x;
         this->y*=vec.y;
         this->z*=vec.z;
         this->w*=vec.w;
     }
-    void operator*=(vec4ui32 vec){
+    inline void operator*=(edk::vec4ui32 vec){
         //
         this->x*=vec.x;
         this->y*=vec.y;
         this->z*=vec.z;
         this->w*=vec.w;
     }
-    void operator*=(vec4ui64 vec){
+    inline void operator*=(edk::vec4ui64 vec){
         //
         this->x*=vec.x;
         this->y*=vec.y;
         this->z*=vec.z;
         this->w*=vec.w;
     }
-    void operator*=(vec3i8 vec){
+    inline void operator*=(vec3i8 vec){
         //
         this->x*=vec.x;
         this->y*=vec.y;
         this->z*=vec.z;
     }
-    void operator*=(vec2i8 vec){
+    inline void operator*=(vec2i8 vec){
         //
         this->x*=vec.x;
         this->y*=vec.y;
     }
-    void operator*=(edk::uint8 n){
+    inline void operator*=(edk::uint8 n){
         //
         this->x*=(edk::uint64)n;
         this->y*=(edk::uint64)n;
         this->z*=(edk::uint64)n;
         this->w*=(edk::uint64)n;
     }
-    void operator*=(edk::uint16 n){
+    inline void operator*=(edk::uint16 n){
         //
         this->x*=(edk::uint64)n;
         this->y*=(edk::uint64)n;
         this->z*=(edk::uint64)n;
         this->w*=(edk::uint64)n;
     }
-    void operator*=(edk::uint32 n){
+    inline void operator*=(edk::uint32 n){
         //
         this->x*=(edk::uint64)n;
         this->y*=(edk::uint64)n;
         this->z*=(edk::uint64)n;
         this->w*=(edk::uint64)n;
     }
-    void operator*=(edk::uint64 n){
+    inline void operator*=(edk::uint64 n){
         //
         this->x*=(edk::uint64)n;
         this->y*=(edk::uint64)n;
@@ -7202,73 +7202,73 @@ public:
     }
 
     //++
-    vec4ui64 operator++(){
+    inline edk::vec4ui64 operator++(){
         //
         ++this->x;
         ++this->y;
         ++this->z;
         ++this->w;
-        return vec4ui64(this->x,this->y,this->z,this->w);
+        return edk::vec4ui64(this->x,this->y,this->z,this->w);
     }
-    vec4ui64 operator++(edk::int32){
+    inline edk::vec4ui64 operator++(edk::int32){
         //
         this->x++;
         this->y++;
         this->z++;
         this->w++;
-        return vec4ui64(this->x,this->y,this->z,this->w);
+        return edk::vec4ui64(this->x,this->y,this->z,this->w);
     }
 
     //--
-    vec4ui64 operator--(){
+    inline edk::vec4ui64 operator--(){
         //
         --this->x;
         --this->y;
         --this->z;
         --this->w;
-        return vec4ui64(this->x,this->y,this->z,this->w);
+        return edk::vec4ui64(this->x,this->y,this->z,this->w);
     }
-    vec4ui64 operator--(edk::int32){
+    inline edk::vec4ui64 operator--(edk::int32){
         //
         this->x--;
         this->y--;
         this->z--;
         this->w--;
-        return vec4ui64(this->x,this->y,this->z,this->w);
+        return edk::vec4ui64(this->x,this->y,this->z,this->w);
     }
 
     //
-    vec4ui64 operator()(edk::uint8 x,edk::uint8 y,edk::uint8 z,edk::uint8 w){
+    inline edk::vec4ui64 operator()(edk::uint8 x,edk::uint8 y,edk::uint8 z,edk::uint8 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4ui64((edk::uint64)this->x,(edk::uint64)this->y,(edk::uint64)this->z,(edk::uint64)this->w);
+        return edk::vec4ui64((edk::uint64)this->x,(edk::uint64)this->y,(edk::uint64)this->z,(edk::uint64)this->w);
     }
-    vec4ui64 operator()(edk::uint16 x,edk::uint16 y,edk::uint16 z,edk::uint16 w){
+    inline edk::vec4ui64 operator()(edk::uint16 x,edk::uint16 y,edk::uint16 z,edk::uint16 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4ui64((edk::uint64)this->x,(edk::uint64)this->y,(edk::uint64)this->z,(edk::uint64)this->w);
+        return edk::vec4ui64((edk::uint64)this->x,(edk::uint64)this->y,(edk::uint64)this->z,(edk::uint64)this->w);
     }
-    vec4ui64 operator()(edk::uint32 x,edk::uint32 y,edk::uint32 z,edk::uint32 w){
+    inline edk::vec4ui64 operator()(edk::uint32 x,edk::uint32 y,edk::uint32 z,edk::uint32 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4ui64((edk::uint64)this->x,(edk::uint64)this->y,(edk::uint64)this->z,(edk::uint64)this->w);
+        return edk::vec4ui64((edk::uint64)this->x,(edk::uint64)this->y,(edk::uint64)this->z,(edk::uint64)this->w);
     }
-    vec4ui64 operator()(edk::uint64 x,edk::uint64 y,edk::uint64 z,edk::uint64 w){
+    inline edk::vec4ui64 operator()(edk::uint64 x,edk::uint64 y,edk::uint64 z,edk::uint64 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4ui64((edk::uint64)this->x,(edk::uint64)this->y,(edk::uint64)this->z,(edk::uint64)this->w);
+        return edk::vec4ui64((edk::uint64)this->x,(edk::uint64)this->y,(edk::uint64)this->z,(edk::uint64)this->w);
     }
 };
 
@@ -7356,7 +7356,7 @@ public:
     //operators
 
     //=
-    vec4f32 operator=(vec4f32 vec){
+    inline edk::vec4f32 operator=(edk::vec4f32 vec){
         //
         this->x=vec.x;
         this->y=vec.y;
@@ -7364,7 +7364,7 @@ public:
         this->w=vec.w;
         return *this;
     }
-    vec4f32 operator=(vec3i8 vec){
+    inline edk::vec4f32 operator=(vec3i8 vec){
         //
         this->x=vec.x;
         this->y=vec.y;
@@ -7372,7 +7372,7 @@ public:
         this->w=0;
         return *this;
     }
-    vec4f32 operator=(vec2i8 vec){
+    inline edk::vec4f32 operator=(vec2i8 vec){
         //
         this->x=vec.x;
         this->y=vec.y;
@@ -7380,7 +7380,7 @@ public:
         this->w=0;
         return *this;
     }
-    vec4f32 operator=(edk::float32 n){
+    inline edk::vec4f32 operator=(edk::float32 n){
         //
         this->x=(edk::float32)n;
         this->y=(edk::float32)n;
@@ -7388,7 +7388,7 @@ public:
         this->w=(edk::float32)n;
         return *this;
     }
-    vec4f32 operator=(edk::float64 n){
+    inline edk::vec4f32 operator=(edk::float64 n){
         //
         this->x=(edk::float32)n;
         this->y=(edk::float32)n;
@@ -7396,7 +7396,7 @@ public:
         this->w=(edk::float32)n;
         return *this;
     }
-    vec4f32 operator=(edk::int8 n){
+    inline edk::vec4f32 operator=(edk::int8 n){
         //
         this->x=(edk::float32)n;
         this->y=(edk::float32)n;
@@ -7404,7 +7404,7 @@ public:
         this->w=(edk::float32)n;
         return *this;
     }
-    vec4f32 operator=(edk::int16 n){
+    inline edk::vec4f32 operator=(edk::int16 n){
         //
         this->x=(edk::float32)n;
         this->y=(edk::float32)n;
@@ -7412,7 +7412,7 @@ public:
         this->w=(edk::float32)n;
         return *this;
     }
-    vec4f32 operator=(edk::int32 n){
+    inline edk::vec4f32 operator=(edk::int32 n){
         //
         this->x=(edk::float32)n;
         this->y=(edk::float32)n;
@@ -7420,7 +7420,7 @@ public:
         this->w=(edk::float32)n;
         return *this;
     }
-    vec4f32 operator=(edk::int64 n){
+    inline edk::vec4f32 operator=(edk::int64 n){
         //
         this->x=(edk::float32)n;
         this->y=(edk::float32)n;
@@ -7428,7 +7428,7 @@ public:
         this->w=(edk::float32)n;
         return *this;
     }
-    vec4f32 operator=(edk::uint8 n){
+    inline edk::vec4f32 operator=(edk::uint8 n){
         //
         this->x=(edk::float32)n;
         this->y=(edk::float32)n;
@@ -7436,7 +7436,7 @@ public:
         this->w=(edk::float32)n;
         return *this;
     }
-    vec4f32 operator=(edk::uint16 n){
+    inline edk::vec4f32 operator=(edk::uint16 n){
         //
         this->x=(edk::float32)n;
         this->y=(edk::float32)n;
@@ -7444,7 +7444,7 @@ public:
         this->w=(edk::float32)n;
         return *this;
     }
-    vec4f32 operator=(edk::uint32 n){
+    inline edk::vec4f32 operator=(edk::uint32 n){
         //
         this->x=(edk::float32)n;
         this->y=(edk::float32)n;
@@ -7452,7 +7452,7 @@ public:
         this->w=(edk::float32)n;
         return *this;
     }
-    vec4f32 operator=(edk::uint64 n){
+    inline edk::vec4f32 operator=(edk::uint64 n){
         //
         this->x=(edk::float32)n;
         this->y=(edk::float32)n;
@@ -7462,18 +7462,18 @@ public:
     }
 
     //==
-    bool operator==(vec4f32 vec){
+    inline bool operator==(edk::vec4f32 vec){
         //
         return (this->x==vec.x&&this->y==vec.y&&this->z==vec.z&&this->w==vec.w);
     }
     //!=
-    bool operator!=(vec4f32 vec){
+    inline bool operator!=(edk::vec4f32 vec){
         //
         return (this->x!=vec.x||this->y!=vec.y||this->z!=vec.z||this->w!=vec.w);
     }
 
     //Operator >
-    bool operator>(vec4f32 vec){
+    inline bool operator>(edk::vec4f32 vec){
         if(this->x>vec.x){
             return true;
         }
@@ -7489,7 +7489,7 @@ public:
         return false;
     }
     //Operator >=
-    bool operator>=(vec4f32 vec){
+    inline bool operator>=(edk::vec4f32 vec){
         if(this->x>vec.x){
             return true;
         }
@@ -7505,7 +7505,7 @@ public:
         return false;
     }
     //Operator <
-    bool operator<(vec4f32 vec){
+    inline bool operator<(edk::vec4f32 vec){
         if(this->x<vec.x){
             return true;
         }
@@ -7521,7 +7521,7 @@ public:
         return false;
     }
     //Operator <=
-    bool operator<=(vec4f32 vec){
+    inline bool operator<=(edk::vec4f32 vec){
         if(this->x<vec.x){
             return true;
         }
@@ -7538,7 +7538,7 @@ public:
     }
 
     //+
-    vec4f32 operator+(vec4f32 vec){
+    inline edk::vec4f32 operator+(edk::vec4f32 vec){
         //
         vec4f32 ret;
         ret.x=this->x+vec.x;
@@ -7547,7 +7547,7 @@ public:
         ret.w=this->w+vec.w;
         return ret;
     }
-    vec4f32 operator+(vec3i8 vec){
+    inline edk::vec4f32 operator+(vec3i8 vec){
         //
         vec4f32 ret;
         ret.x=this->x+vec.x;
@@ -7555,14 +7555,14 @@ public:
         ret.z=this->z+vec.z;
         return ret;
     }
-    vec4f32 operator+(vec2i8 vec){
+    inline edk::vec4f32 operator+(vec2i8 vec){
         //
         vec4f32 ret;
         ret.x=this->x+vec.x;
         ret.y=this->y+vec.y;
         return ret;
     }
-    vec4f32 operator+(edk::float32 n){
+    inline edk::vec4f32 operator+(edk::float32 n){
         //
         vec4f32 ret;
         ret.x=this->x+(edk::float32)n;
@@ -7571,7 +7571,7 @@ public:
         ret.w=this->w+(edk::float32)n;
         return ret;
     }
-    vec4f32 operator+(edk::float64 n){
+    inline edk::vec4f32 operator+(edk::float64 n){
         //
         vec4f32 ret;
         ret.x=this->x+(edk::float32)n;
@@ -7580,7 +7580,7 @@ public:
         ret.w=this->w+(edk::float32)n;
         return ret;
     }
-    vec4f32 operator+(edk::int8 n){
+    inline edk::vec4f32 operator+(edk::int8 n){
         //
         vec4f32 ret;
         ret.x=this->x+(edk::float32)n;
@@ -7589,7 +7589,7 @@ public:
         ret.w=this->w+(edk::float32)n;
         return ret;
     }
-    vec4f32 operator+(edk::int16 n){
+    inline edk::vec4f32 operator+(edk::int16 n){
         //
         vec4f32 ret;
         ret.x=this->x+(edk::float32)n;
@@ -7598,7 +7598,7 @@ public:
         ret.w=this->w+(edk::float32)n;
         return ret;
     }
-    vec4f32 operator+(edk::int32 n){
+    inline edk::vec4f32 operator+(edk::int32 n){
         //
         vec4f32 ret;
         ret.x=this->x+(edk::float32)n;
@@ -7607,7 +7607,7 @@ public:
         ret.w=this->w+(edk::float32)n;
         return ret;
     }
-    vec4f32 operator+(edk::int64 n){
+    inline edk::vec4f32 operator+(edk::int64 n){
         //
         vec4f32 ret;
         ret.x=this->x+(edk::float32)n;
@@ -7616,7 +7616,7 @@ public:
         ret.w=this->w+(edk::float32)n;
         return ret;
     }
-    vec4f32 operator+(edk::uint8 n){
+    inline edk::vec4f32 operator+(edk::uint8 n){
         //
         vec4f32 ret;
         ret.x=this->x+(edk::float32)n;
@@ -7625,7 +7625,7 @@ public:
         ret.w=this->w+(edk::float32)n;
         return ret;
     }
-    vec4f32 operator+(edk::uint16 n){
+    inline edk::vec4f32 operator+(edk::uint16 n){
         //
         vec4f32 ret;
         ret.x=this->x+(edk::float32)n;
@@ -7634,7 +7634,7 @@ public:
         ret.w=this->w+(edk::float32)n;
         return ret;
     }
-    vec4f32 operator+(edk::uint32 n){
+    inline edk::vec4f32 operator+(edk::uint32 n){
         //
         vec4f32 ret;
         ret.x=this->x+(edk::float32)n;
@@ -7643,7 +7643,7 @@ public:
         ret.w=this->w+(edk::float32)n;
         return ret;
     }
-    vec4f32 operator+(edk::uint64 n){
+    inline edk::vec4f32 operator+(edk::uint64 n){
         //
         vec4f32 ret;
         ret.x=this->x+(edk::float32)n;
@@ -7654,88 +7654,88 @@ public:
     }
 
     //+=
-    void operator+=(vec4f32 vec){
+    inline void operator+=(edk::vec4f32 vec){
         //
         this->x+=vec.x;
         this->y+=vec.y;
         this->z+=vec.z;
         this->w+=vec.w;
     }
-    void operator+=(vec3i8 vec){
+    inline void operator+=(vec3i8 vec){
         //
         this->x+=vec.x;
         this->y+=vec.y;
         this->z+=vec.z;
     }
-    void operator+=(vec2i8 vec){
+    inline void operator+=(vec2i8 vec){
         //
         this->x+=vec.x;
         this->y+=vec.y;
     }
-    void operator+=(edk::float32 n){
+    inline void operator+=(edk::float32 n){
         //
         this->x+=(edk::float32)n;
         this->y+=(edk::float32)n;
         this->z+=(edk::float32)n;
         this->w+=(edk::float32)n;
     }
-    void operator+=(edk::float64 n){
+    inline void operator+=(edk::float64 n){
         //
         this->x+=(edk::float32)n;
         this->y+=(edk::float32)n;
         this->z+=(edk::float32)n;
         this->w+=(edk::float32)n;
     }
-    void operator+=(edk::int8 n){
+    inline void operator+=(edk::int8 n){
         //
         this->x+=(edk::float32)n;
         this->y+=(edk::float32)n;
         this->z+=(edk::float32)n;
         this->w+=(edk::float32)n;
     }
-    void operator+=(edk::int16 n){
+    inline void operator+=(edk::int16 n){
         //
         this->x+=(edk::float32)n;
         this->y+=(edk::float32)n;
         this->z+=(edk::float32)n;
         this->w+=(edk::float32)n;
     }
-    void operator+=(edk::int32 n){
+    inline void operator+=(edk::int32 n){
         //
         this->x+=(edk::float32)n;
         this->y+=(edk::float32)n;
         this->z+=(edk::float32)n;
         this->w+=(edk::float32)n;
     }
-    void operator+=(edk::int64 n){
+    inline void operator+=(edk::int64 n){
         //
         this->x+=(edk::float32)n;
         this->y+=(edk::float32)n;
         this->z+=(edk::float32)n;
         this->w+=(edk::float32)n;
     }
-    void operator+=(edk::uint8 n){
+    inline void operator+=(edk::uint8 n){
         //
         this->x+=(edk::float32)n;
         this->y+=(edk::float32)n;
         this->z+=(edk::float32)n;
         this->w+=(edk::float32)n;
     }
-    void operator+=(edk::uint16 n){
+    inline void operator+=(edk::uint16 n){
         //
         this->x+=(edk::float32)n;
         this->y+=(edk::float32)n;
         this->z+=(edk::float32)n;
         this->w+=(edk::float32)n;
     }
-    void operator+=(edk::uint32 n){
+    inline void operator+=(edk::uint32 n){
         //
         this->x+=(edk::float32)n;
         this->y+=(edk::float32)n;
         this->z+=(edk::float32)n;
         this->w+=(edk::float32)n;
     }
-    void operator+=(edk::uint64 n){
+    inline void operator+=(edk::uint64 n){
         //
         this->x+=(edk::float32)n;
         this->y+=(edk::float32)n;
@@ -7744,7 +7744,7 @@ public:
     }
 
     //-
-    vec4f32 operator-(vec4f32 vec){
+    inline edk::vec4f32 operator-(edk::vec4f32 vec){
         //
         vec4f32 ret;
         ret.x=this->x-vec.x;
@@ -7753,7 +7753,7 @@ public:
         ret.w=this->w-vec.w;
         return ret;
     }
-    vec4f32 operator-(vec3i8 vec){
+    inline edk::vec4f32 operator-(vec3i8 vec){
         //
         vec4f32 ret;
         ret.x=this->x-vec.x;
@@ -7761,14 +7761,14 @@ public:
         ret.z=this->z-vec.z;
         return ret;
     }
-    vec4f32 operator-(vec2i8 vec){
+    inline edk::vec4f32 operator-(vec2i8 vec){
         //
         vec4f32 ret;
         ret.x=this->x-vec.x;
         ret.y=this->y-vec.y;
         return ret;
     }
-    vec4f32 operator-(edk::float32 n){
+    inline edk::vec4f32 operator-(edk::float32 n){
         //
         vec4f32 ret;
         ret.x=this->x-(edk::float32)n;
@@ -7777,7 +7777,7 @@ public:
         ret.w=this->w-(edk::float32)n;
         return ret;
     }
-    vec4f32 operator-(edk::float64 n){
+    inline edk::vec4f32 operator-(edk::float64 n){
         //
         vec4f32 ret;
         ret.x=this->x-(edk::float32)n;
@@ -7786,7 +7786,7 @@ public:
         ret.w=this->w-(edk::float32)n;
         return ret;
     }
-    vec4f32 operator-(edk::int8 n){
+    inline edk::vec4f32 operator-(edk::int8 n){
         //
         vec4f32 ret;
         ret.x=this->x-(edk::float32)n;
@@ -7795,7 +7795,7 @@ public:
         ret.w=this->w-(edk::float32)n;
         return ret;
     }
-    vec4f32 operator-(edk::int16 n){
+    inline edk::vec4f32 operator-(edk::int16 n){
         //
         vec4f32 ret;
         ret.x=this->x-(edk::float32)n;
@@ -7804,7 +7804,7 @@ public:
         ret.w=this->w-(edk::float32)n;
         return ret;
     }
-    vec4f32 operator-(edk::int32 n){
+    inline edk::vec4f32 operator-(edk::int32 n){
         //
         vec4f32 ret;
         ret.x=this->x-(edk::float32)n;
@@ -7813,7 +7813,7 @@ public:
         ret.w=this->w-(edk::float32)n;
         return ret;
     }
-    vec4f32 operator-(edk::int64 n){
+    inline edk::vec4f32 operator-(edk::int64 n){
         //
         vec4f32 ret;
         ret.x=this->x-(edk::float32)n;
@@ -7822,7 +7822,7 @@ public:
         ret.w=this->w-(edk::float32)n;
         return ret;
     }
-    vec4f32 operator-(edk::uint8 n){
+    inline edk::vec4f32 operator-(edk::uint8 n){
         //
         vec4f32 ret;
         ret.x=this->x-(edk::float32)n;
@@ -7831,7 +7831,7 @@ public:
         ret.w=this->w-(edk::float32)n;
         return ret;
     }
-    vec4f32 operator-(edk::uint16 n){
+    inline edk::vec4f32 operator-(edk::uint16 n){
         //
         vec4f32 ret;
         ret.x=this->x-(edk::float32)n;
@@ -7840,7 +7840,7 @@ public:
         ret.w=this->w-(edk::float32)n;
         return ret;
     }
-    vec4f32 operator-(edk::uint32 n){
+    inline edk::vec4f32 operator-(edk::uint32 n){
         //
         vec4f32 ret;
         ret.x=this->x-(edk::float32)n;
@@ -7849,7 +7849,7 @@ public:
         ret.w=this->w-(edk::float32)n;
         return ret;
     }
-    vec4f32 operator-(edk::uint64 n){
+    inline edk::vec4f32 operator-(edk::uint64 n){
         //
         vec4f32 ret;
         ret.x=this->x-(edk::float32)n;
@@ -7860,88 +7860,88 @@ public:
     }
 
     //-=
-    void operator-=(vec4f32 vec){
+    inline void operator-=(edk::vec4f32 vec){
         //
         this->x-=vec.x;
         this->y-=vec.y;
         this->z-=vec.z;
         this->w-=vec.w;
     }
-    void operator-=(vec3i8 vec){
+    inline void operator-=(vec3i8 vec){
         //
         this->x-=vec.x;
         this->y-=vec.y;
         this->z-=vec.z;
     }
-    void operator-=(vec2i8 vec){
+    inline void operator-=(vec2i8 vec){
         //
         this->x-=vec.x;
         this->y-=vec.y;
     }
-    void operator-=(edk::float32 n){
+    inline void operator-=(edk::float32 n){
         //
         this->x-=(edk::float32)n;
         this->y-=(edk::float32)n;
         this->z-=(edk::float32)n;
         this->w-=(edk::float32)n;
     }
-    void operator-=(edk::float64 n){
+    inline void operator-=(edk::float64 n){
         //
         this->x-=(edk::float32)n;
         this->y-=(edk::float32)n;
         this->z-=(edk::float32)n;
         this->w-=(edk::float32)n;
     }
-    void operator-=(edk::int8 n){
+    inline void operator-=(edk::int8 n){
         //
         this->x-=(edk::float32)n;
         this->y-=(edk::float32)n;
         this->z-=(edk::float32)n;
         this->w-=(edk::float32)n;
     }
-    void operator-=(edk::int16 n){
+    inline void operator-=(edk::int16 n){
         //
         this->x-=(edk::float32)n;
         this->y-=(edk::float32)n;
         this->z-=(edk::float32)n;
         this->w-=(edk::float32)n;
     }
-    void operator-=(edk::int32 n){
+    inline void operator-=(edk::int32 n){
         //
         this->x-=(edk::float32)n;
         this->y-=(edk::float32)n;
         this->z-=(edk::float32)n;
         this->w-=(edk::float32)n;
     }
-    void operator-=(edk::int64 n){
+    inline void operator-=(edk::int64 n){
         //
         this->x-=(edk::float32)n;
         this->y-=(edk::float32)n;
         this->z-=(edk::float32)n;
         this->w-=(edk::float32)n;
     }
-    void operator-=(edk::uint8 n){
+    inline void operator-=(edk::uint8 n){
         //
         this->x-=(edk::float32)n;
         this->y-=(edk::float32)n;
         this->z-=(edk::float32)n;
         this->w-=(edk::float32)n;
     }
-    void operator-=(edk::uint16 n){
+    inline void operator-=(edk::uint16 n){
         //
         this->x-=(edk::float32)n;
         this->y-=(edk::float32)n;
         this->z-=(edk::float32)n;
         this->w-=(edk::float32)n;
     }
-    void operator-=(edk::uint32 n){
+    inline void operator-=(edk::uint32 n){
         //
         this->x-=(edk::float32)n;
         this->y-=(edk::float32)n;
         this->z-=(edk::float32)n;
         this->w-=(edk::float32)n;
     }
-    void operator-=(edk::uint64 n){
+    inline void operator-=(edk::uint64 n){
         //
         this->x-=(edk::float32)n;
         this->y-=(edk::float32)n;
@@ -7950,7 +7950,7 @@ public:
     }
 
     //*
-    vec4f32 operator*(vec4f32 vec){
+    inline edk::vec4f32 operator*(edk::vec4f32 vec){
         //
         vec4f32 ret;
         ret.x=this->x*vec.x;
@@ -7959,7 +7959,7 @@ public:
         ret.w=this->w*vec.w;
         return ret;
     }
-    vec4f32 operator*(vec3i8 vec){
+    inline edk::vec4f32 operator*(vec3i8 vec){
         //
         vec4f32 ret;
         ret.x=this->x*vec.x;
@@ -7967,14 +7967,14 @@ public:
         ret.z=this->z*vec.z;
         return ret;
     }
-    vec4f32 operator*(vec2i8 vec){
+    inline edk::vec4f32 operator*(vec2i8 vec){
         //
         vec4f32 ret;
         ret.x=this->x*vec.x;
         ret.y=this->y*vec.y;
         return ret;
     }
-    vec4f32 operator*(edk::float32 n){
+    inline edk::vec4f32 operator*(edk::float32 n){
         //
         vec4f32 ret;
         ret.x=this->x*(edk::float32)n;
@@ -7983,7 +7983,7 @@ public:
         ret.w=this->w*(edk::float32)n;
         return ret;
     }
-    vec4f32 operator*(edk::float64 n){
+    inline edk::vec4f32 operator*(edk::float64 n){
         //
         vec4f32 ret;
         ret.x=this->x*(edk::float32)n;
@@ -7992,7 +7992,7 @@ public:
         ret.w=this->w*(edk::float32)n;
         return ret;
     }
-    vec4f32 operator*(edk::int8 n){
+    inline edk::vec4f32 operator*(edk::int8 n){
         //
         vec4f32 ret;
         ret.x=this->x*(edk::float32)n;
@@ -8001,7 +8001,7 @@ public:
         ret.w=this->w*(edk::float32)n;
         return ret;
     }
-    vec4f32 operator*(edk::int16 n){
+    inline edk::vec4f32 operator*(edk::int16 n){
         //
         vec4f32 ret;
         ret.x=this->x*(edk::float32)n;
@@ -8010,7 +8010,7 @@ public:
         ret.w=this->w*(edk::float32)n;
         return ret;
     }
-    vec4f32 operator*(edk::int32 n){
+    inline edk::vec4f32 operator*(edk::int32 n){
         //
         vec4f32 ret;
         ret.x=this->x*(edk::float32)n;
@@ -8019,7 +8019,7 @@ public:
         ret.w=this->w*(edk::float32)n;
         return ret;
     }
-    vec4f32 operator*(edk::int64 n){
+    inline edk::vec4f32 operator*(edk::int64 n){
         //
         vec4f32 ret;
         ret.x=this->x*(edk::float32)n;
@@ -8028,7 +8028,7 @@ public:
         ret.w=this->w*(edk::float32)n;
         return ret;
     }
-    vec4f32 operator*(edk::uint8 n){
+    inline edk::vec4f32 operator*(edk::uint8 n){
         //
         vec4f32 ret;
         ret.x=this->x*(edk::float32)n;
@@ -8037,7 +8037,7 @@ public:
         ret.w=this->w*(edk::float32)n;
         return ret;
     }
-    vec4f32 operator*(edk::uint16 n){
+    inline edk::vec4f32 operator*(edk::uint16 n){
         //
         vec4f32 ret;
         ret.x=this->x*(edk::float32)n;
@@ -8046,7 +8046,7 @@ public:
         ret.w=this->w*(edk::float32)n;
         return ret;
     }
-    vec4f32 operator*(edk::uint32 n){
+    inline edk::vec4f32 operator*(edk::uint32 n){
         //
         vec4f32 ret;
         ret.x=this->x*(edk::float32)n;
@@ -8055,7 +8055,7 @@ public:
         ret.w=this->w*(edk::float32)n;
         return ret;
     }
-    vec4f32 operator*(edk::uint64 n){
+    inline edk::vec4f32 operator*(edk::uint64 n){
         //
         vec4f32 ret;
         ret.x=this->x*(edk::float32)n;
@@ -8066,88 +8066,88 @@ public:
     }
 
     //*=
-    void operator*=(vec4f32 vec){
+    inline void operator*=(edk::vec4f32 vec){
         //
         this->x*=vec.x;
         this->y*=vec.y;
         this->z*=vec.z;
         this->w*=vec.w;
     }
-    void operator*=(vec3i8 vec){
+    inline void operator*=(vec3i8 vec){
         //
         this->x*=vec.x;
         this->y*=vec.y;
         this->z*=vec.z;
     }
-    void operator*=(vec2i8 vec){
+    inline void operator*=(vec2i8 vec){
         //
         this->x*=vec.x;
         this->y*=vec.y;
     }
-    void operator*=(edk::float32 n){
+    inline void operator*=(edk::float32 n){
         //
         this->x*=(edk::float32)n;
         this->y*=(edk::float32)n;
         this->z*=(edk::float32)n;
         this->w*=(edk::float32)n;
     }
-    void operator*=(edk::float64 n){
+    inline void operator*=(edk::float64 n){
         //
         this->x*=(edk::float32)n;
         this->y*=(edk::float32)n;
         this->z*=(edk::float32)n;
         this->w*=(edk::float32)n;
     }
-    void operator*=(edk::int8 n){
+    inline void operator*=(edk::int8 n){
         //
         this->x*=(edk::float32)n;
         this->y*=(edk::float32)n;
         this->z*=(edk::float32)n;
         this->w*=(edk::float32)n;
     }
-    void operator*=(edk::int16 n){
+    inline void operator*=(edk::int16 n){
         //
         this->x*=(edk::float32)n;
         this->y*=(edk::float32)n;
         this->z*=(edk::float32)n;
         this->w*=(edk::float32)n;
     }
-    void operator*=(edk::int32 n){
+    inline void operator*=(edk::int32 n){
         //
         this->x*=(edk::float32)n;
         this->y*=(edk::float32)n;
         this->z*=(edk::float32)n;
         this->w*=(edk::float32)n;
     }
-    void operator*=(edk::int64 n){
+    inline void operator*=(edk::int64 n){
         //
         this->x*=(edk::float32)n;
         this->y*=(edk::float32)n;
         this->z*=(edk::float32)n;
         this->w*=(edk::float32)n;
     }
-    void operator*=(edk::uint8 n){
+    inline void operator*=(edk::uint8 n){
         //
         this->x*=(edk::float32)n;
         this->y*=(edk::float32)n;
         this->z*=(edk::float32)n;
         this->w*=(edk::float32)n;
     }
-    void operator*=(edk::uint16 n){
+    inline void operator*=(edk::uint16 n){
         //
         this->x*=(edk::float32)n;
         this->y*=(edk::float32)n;
         this->z*=(edk::float32)n;
         this->w*=(edk::float32)n;
     }
-    void operator*=(edk::uint32 n){
+    inline void operator*=(edk::uint32 n){
         //
         this->x*=(edk::float32)n;
         this->y*=(edk::float32)n;
         this->z*=(edk::float32)n;
         this->w*=(edk::float32)n;
     }
-    void operator*=(edk::uint64 n){
+    inline void operator*=(edk::uint64 n){
         //
         this->x*=(edk::float32)n;
         this->y*=(edk::float32)n;
@@ -8156,7 +8156,7 @@ public:
     }
 
     // /
-    vec4f32 operator/(vec4f32 vec){
+    inline edk::vec4f32 operator/(edk::vec4f32 vec){
         //
         vec4f32 ret;
         ret.x=this->x/vec.x;
@@ -8165,7 +8165,7 @@ public:
         ret.w=this->w/vec.w;
         return ret;
     }
-    vec4f32 operator/(vec3i8 vec){
+    inline edk::vec4f32 operator/(vec3i8 vec){
         //
         vec4f32 ret;
         ret.x=this->x/vec.x;
@@ -8173,14 +8173,14 @@ public:
         ret.z=this->z/vec.z;
         return ret;
     }
-    vec4f32 operator/(vec2i8 vec){
+    inline edk::vec4f32 operator/(vec2i8 vec){
         //
         vec4f32 ret;
         ret.x=this->x/vec.x;
         ret.y=this->y/vec.y;
         return ret;
     }
-    vec4f32 operator/(edk::float32 n){
+    inline edk::vec4f32 operator/(edk::float32 n){
         //
         vec4f32 ret;
         ret.x=this->x/(edk::float32)n;
@@ -8189,7 +8189,7 @@ public:
         ret.w=this->w/(edk::float32)n;
         return ret;
     }
-    vec4f32 operator/(edk::float64 n){
+    inline edk::vec4f32 operator/(edk::float64 n){
         //
         vec4f32 ret;
         ret.x=this->x/(edk::float32)n;
@@ -8198,7 +8198,7 @@ public:
         ret.w=this->w/(edk::float32)n;
         return ret;
     }
-    vec4f32 operator/(edk::int8 n){
+    inline edk::vec4f32 operator/(edk::int8 n){
         //
         vec4f32 ret;
         ret.x=this->x/(edk::float32)n;
@@ -8207,7 +8207,7 @@ public:
         ret.w=this->w/(edk::float32)n;
         return ret;
     }
-    vec4f32 operator/(edk::int16 n){
+    inline edk::vec4f32 operator/(edk::int16 n){
         //
         vec4f32 ret;
         ret.x=this->x/(edk::float32)n;
@@ -8216,7 +8216,7 @@ public:
         ret.w=this->w/(edk::float32)n;
         return ret;
     }
-    vec4f32 operator/(edk::int32 n){
+    inline edk::vec4f32 operator/(edk::int32 n){
         //
         vec4f32 ret;
         ret.x=this->x/(edk::float32)n;
@@ -8225,7 +8225,7 @@ public:
         ret.w=this->w/(edk::float32)n;
         return ret;
     }
-    vec4f32 operator/(edk::int64 n){
+    inline edk::vec4f32 operator/(edk::int64 n){
         //
         vec4f32 ret;
         ret.x=this->x/(edk::float32)n;
@@ -8234,7 +8234,7 @@ public:
         ret.w=this->w/(edk::float32)n;
         return ret;
     }
-    vec4f32 operator/(edk::uint8 n){
+    inline edk::vec4f32 operator/(edk::uint8 n){
         //
         vec4f32 ret;
         ret.x=this->x/(edk::float32)n;
@@ -8243,7 +8243,7 @@ public:
         ret.w=this->w/(edk::float32)n;
         return ret;
     }
-    vec4f32 operator/(edk::uint16 n){
+    inline edk::vec4f32 operator/(edk::uint16 n){
         //
         vec4f32 ret;
         ret.x=this->x/(edk::float32)n;
@@ -8252,7 +8252,7 @@ public:
         ret.w=this->w/(edk::float32)n;
         return ret;
     }
-    vec4f32 operator/(edk::uint32 n){
+    inline edk::vec4f32 operator/(edk::uint32 n){
         //
         vec4f32 ret;
         ret.x=this->x/(edk::float32)n;
@@ -8261,7 +8261,7 @@ public:
         ret.w=this->w/(edk::float32)n;
         return ret;
     }
-    vec4f32 operator/(edk::uint64 n){
+    inline edk::vec4f32 operator/(edk::uint64 n){
         //
         vec4f32 ret;
         ret.x=this->x/(edk::float32)n;
@@ -8272,88 +8272,88 @@ public:
     }
 
     // /=
-    void operator/=(vec4f32 vec){
+    inline void operator/=(edk::vec4f32 vec){
         //
         this->x/=vec.x;
         this->y/=vec.y;
         this->z/=vec.z;
         this->w/=vec.w;
     }
-    void operator/=(vec3i8 vec){
+    inline void operator/=(vec3i8 vec){
         //
         this->x/=vec.x;
         this->y/=vec.y;
         this->z/=vec.z;
     }
-    void operator/=(vec2i8 vec){
+    inline void operator/=(vec2i8 vec){
         //
         this->x/=vec.x;
         this->y/=vec.y;
     }
-    void operator/=(edk::float32 n){
+    inline void operator/=(edk::float32 n){
         //
         this->x/=(edk::float32)n;
         this->y/=(edk::float32)n;
         this->z/=(edk::float32)n;
         this->w/=(edk::float32)n;
     }
-    void operator/=(edk::float64 n){
+    inline void operator/=(edk::float64 n){
         //
         this->x/=(edk::float32)n;
         this->y/=(edk::float32)n;
         this->z/=(edk::float32)n;
         this->w/=(edk::float32)n;
     }
-    void operator/=(edk::int8 n){
+    inline void operator/=(edk::int8 n){
         //
         this->x/=(edk::float32)n;
         this->y/=(edk::float32)n;
         this->z/=(edk::float32)n;
         this->w/=(edk::float32)n;
     }
-    void operator/=(edk::int16 n){
+    inline void operator/=(edk::int16 n){
         //
         this->x/=(edk::float32)n;
         this->y/=(edk::float32)n;
         this->z/=(edk::float32)n;
         this->w/=(edk::float32)n;
     }
-    void operator/=(edk::int32 n){
+    inline void operator/=(edk::int32 n){
         //
         this->x/=(edk::float32)n;
         this->y/=(edk::float32)n;
         this->z/=(edk::float32)n;
         this->w/=(edk::float32)n;
     }
-    void operator/=(edk::int64 n){
+    inline void operator/=(edk::int64 n){
         //
         this->x/=(edk::float32)n;
         this->y/=(edk::float32)n;
         this->z/=(edk::float32)n;
         this->w/=(edk::float32)n;
     }
-    void operator/=(edk::uint8 n){
+    inline void operator/=(edk::uint8 n){
         //
         this->x/=(edk::float32)n;
         this->y/=(edk::float32)n;
         this->z/=(edk::float32)n;
         this->w/=(edk::float32)n;
     }
-    void operator/=(edk::uint16 n){
+    inline void operator/=(edk::uint16 n){
         //
         this->x/=(edk::float32)n;
         this->y/=(edk::float32)n;
         this->z/=(edk::float32)n;
         this->w/=(edk::float32)n;
     }
-    void operator/=(edk::uint32 n){
+    inline void operator/=(edk::uint32 n){
         //
         this->x/=(edk::float32)n;
         this->y/=(edk::float32)n;
         this->z/=(edk::float32)n;
         this->w/=(edk::float32)n;
     }
-    void operator/=(edk::uint64 n){
+    inline void operator/=(edk::uint64 n){
         //
         this->x/=(edk::float32)n;
         this->y/=(edk::float32)n;
@@ -8362,121 +8362,121 @@ public:
     }
 
     //++
-    vec4f32 operator++(){
+    inline edk::vec4f32 operator++(){
         //
         ++this->x;
         ++this->y;
         ++this->z;
         ++this->w;
-        return vec4f32(this->x,this->y,this->z,this->w);
+        return edk::vec4f32(this->x,this->y,this->z,this->w);
     }
-    vec4f32 operator++(edk::int32){
+    inline edk::vec4f32 operator++(edk::int32){
         //
         this->x++;
         this->y++;
         this->z++;
         this->w++;
-        return vec4f32(this->x,this->y,this->z,this->w);
+        return edk::vec4f32(this->x,this->y,this->z,this->w);
     }
 
     //--
-    vec4f32 operator--(){
+    inline edk::vec4f32 operator--(){
         //
         --this->x;
         --this->y;
         --this->z;
         --this->w;
-        return vec4f32(this->x,this->y,this->z,this->w);
+        return edk::vec4f32(this->x,this->y,this->z,this->w);
     }
-    vec4f32 operator--(edk::int32){
+    inline edk::vec4f32 operator--(edk::int32){
         //
         this->x--;
         this->y--;
         this->z--;
         this->w--;
-        return vec4f32(this->x,this->y,this->z,this->w);
+        return edk::vec4f32(this->x,this->y,this->z,this->w);
     }
 
     //
-    vec4f32 operator()(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 w){
+    inline edk::vec4f32 operator()(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4f32((edk::float32)this->x,(edk::float32)this->y,(edk::float32)this->z,(edk::float32)this->w);
+        return edk::vec4f32((edk::float32)this->x,(edk::float32)this->y,(edk::float32)this->z,(edk::float32)this->w);
     }
-    vec4f32 operator()(edk::float64 x,edk::float64 y,edk::float64 z,edk::float64 w){
+    inline edk::vec4f32 operator()(edk::float64 x,edk::float64 y,edk::float64 z,edk::float64 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4f32((edk::float32)this->x,(edk::float32)this->y,(edk::float32)this->z,(edk::float32)this->w);
+        return edk::vec4f32((edk::float32)this->x,(edk::float32)this->y,(edk::float32)this->z,(edk::float32)this->w);
     }
-    vec4f32 operator()(edk::int8 x,edk::int8 y,edk::int8 z,edk::int8 w){
+    inline edk::vec4f32 operator()(edk::int8 x,edk::int8 y,edk::int8 z,edk::int8 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4f32((edk::float32)this->x,(edk::float32)this->y,(edk::float32)this->z,(edk::float32)this->w);
+        return edk::vec4f32((edk::float32)this->x,(edk::float32)this->y,(edk::float32)this->z,(edk::float32)this->w);
     }
-    vec4f32 operator()(edk::int16 x,edk::int16 y,edk::int16 z,edk::int16 w){
+    inline edk::vec4f32 operator()(edk::int16 x,edk::int16 y,edk::int16 z,edk::int16 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4f32((edk::float32)this->x,(edk::float32)this->y,(edk::float32)this->z,(edk::float32)this->w);
+        return edk::vec4f32((edk::float32)this->x,(edk::float32)this->y,(edk::float32)this->z,(edk::float32)this->w);
     }
-    vec4f32 operator()(edk::int32 x,edk::int32 y,edk::int32 z,edk::int32 w){
+    inline edk::vec4f32 operator()(edk::int32 x,edk::int32 y,edk::int32 z,edk::int32 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4f32((edk::float32)this->x,(edk::float32)this->y,(edk::float32)this->z,(edk::float32)this->w);
+        return edk::vec4f32((edk::float32)this->x,(edk::float32)this->y,(edk::float32)this->z,(edk::float32)this->w);
     }
-    vec4f32 operator()(edk::int64 x,edk::int64 y,edk::int64 z,edk::int64 w){
+    inline edk::vec4f32 operator()(edk::int64 x,edk::int64 y,edk::int64 z,edk::int64 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4f32((edk::float32)this->x,(edk::float32)this->y,(edk::float32)this->z,(edk::float32)this->w);
+        return edk::vec4f32((edk::float32)this->x,(edk::float32)this->y,(edk::float32)this->z,(edk::float32)this->w);
     }
-    vec4f32 operator()(edk::uint8 x,edk::uint8 y,edk::uint8 z,edk::uint8 w){
+    inline edk::vec4f32 operator()(edk::uint8 x,edk::uint8 y,edk::uint8 z,edk::uint8 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4f32((edk::float32)this->x,(edk::float32)this->y,(edk::float32)this->z,(edk::float32)this->w);
+        return edk::vec4f32((edk::float32)this->x,(edk::float32)this->y,(edk::float32)this->z,(edk::float32)this->w);
     }
-    vec4f32 operator()(edk::uint16 x,edk::uint16 y,edk::uint16 z,edk::uint16 w){
+    inline edk::vec4f32 operator()(edk::uint16 x,edk::uint16 y,edk::uint16 z,edk::uint16 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4f32((edk::float32)this->x,(edk::float32)this->y,(edk::float32)this->z,(edk::float32)this->w);
+        return edk::vec4f32((edk::float32)this->x,(edk::float32)this->y,(edk::float32)this->z,(edk::float32)this->w);
     }
-    vec4f32 operator()(edk::uint32 x,edk::uint32 y,edk::uint32 z,edk::uint32 w){
+    inline edk::vec4f32 operator()(edk::uint32 x,edk::uint32 y,edk::uint32 z,edk::uint32 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4f32((edk::float32)this->x,(edk::float32)this->y,(edk::float32)this->z,(edk::float32)this->w);
+        return edk::vec4f32((edk::float32)this->x,(edk::float32)this->y,(edk::float32)this->z,(edk::float32)this->w);
     }
-    vec4f32 operator()(edk::uint64 x,edk::uint64 y,edk::uint64 z,edk::uint64 w){
+    inline edk::vec4f32 operator()(edk::uint64 x,edk::uint64 y,edk::uint64 z,edk::uint64 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4f32((edk::float32)this->x,(edk::float32)this->y,(edk::float32)this->z,(edk::float32)this->w);
+        return edk::vec4f32((edk::float32)this->x,(edk::float32)this->y,(edk::float32)this->z,(edk::float32)this->w);
     }
 };
 
@@ -8564,7 +8564,7 @@ public:
     //operators
 
     //=
-    vec4f64 operator=(vec4f64 vec){
+    inline edk::vec4f64 operator=(edk::vec4f64 vec){
         //
         this->x=vec.x;
         this->y=vec.y;
@@ -8572,7 +8572,7 @@ public:
         this->w=vec.w;
         return *this;
     }
-    vec4f64 operator=(vec3i8 vec){
+    inline edk::vec4f64 operator=(vec3i8 vec){
         //
         this->x=vec.x;
         this->y=vec.y;
@@ -8580,7 +8580,7 @@ public:
         this->w=0;
         return *this;
     }
-    vec4f64 operator=(vec2i8 vec){
+    inline edk::vec4f64 operator=(vec2i8 vec){
         //
         this->x=vec.x;
         this->y=vec.y;
@@ -8588,7 +8588,7 @@ public:
         this->w=0;
         return *this;
     }
-    vec4f64 operator=(edk::float32 n){
+    inline edk::vec4f64 operator=(edk::float32 n){
         //
         this->x=(edk::float64)n;
         this->y=(edk::float64)n;
@@ -8596,7 +8596,7 @@ public:
         this->w=(edk::float64)n;
         return *this;
     }
-    vec4f64 operator=(edk::float64 n){
+    inline edk::vec4f64 operator=(edk::float64 n){
         //
         this->x=(edk::float64)n;
         this->y=(edk::float64)n;
@@ -8604,7 +8604,7 @@ public:
         this->w=(edk::float64)n;
         return *this;
     }
-    vec4f64 operator=(edk::int8 n){
+    inline edk::vec4f64 operator=(edk::int8 n){
         //
         this->x=(edk::float64)n;
         this->y=(edk::float64)n;
@@ -8612,7 +8612,7 @@ public:
         this->w=(edk::float64)n;
         return *this;
     }
-    vec4f64 operator=(edk::int16 n){
+    inline edk::vec4f64 operator=(edk::int16 n){
         //
         this->x=(edk::float64)n;
         this->y=(edk::float64)n;
@@ -8620,7 +8620,7 @@ public:
         this->w=(edk::float64)n;
         return *this;
     }
-    vec4f64 operator=(edk::int32 n){
+    inline edk::vec4f64 operator=(edk::int32 n){
         //
         this->x=(edk::float64)n;
         this->y=(edk::float64)n;
@@ -8628,7 +8628,7 @@ public:
         this->w=(edk::float64)n;
         return *this;
     }
-    vec4f64 operator=(edk::int64 n){
+    inline edk::vec4f64 operator=(edk::int64 n){
         //
         this->x=(edk::float64)n;
         this->y=(edk::float64)n;
@@ -8636,7 +8636,7 @@ public:
         this->w=(edk::float64)n;
         return *this;
     }
-    vec4f64 operator=(edk::uint8 n){
+    inline edk::vec4f64 operator=(edk::uint8 n){
         //
         this->x=(edk::float64)n;
         this->y=(edk::float64)n;
@@ -8644,7 +8644,7 @@ public:
         this->w=(edk::float64)n;
         return *this;
     }
-    vec4f64 operator=(edk::uint16 n){
+    inline edk::vec4f64 operator=(edk::uint16 n){
         //
         this->x=(edk::float64)n;
         this->y=(edk::float64)n;
@@ -8652,7 +8652,7 @@ public:
         this->w=(edk::float64)n;
         return *this;
     }
-    vec4f64 operator=(edk::uint32 n){
+    inline edk::vec4f64 operator=(edk::uint32 n){
         //
         this->x=(edk::float64)n;
         this->y=(edk::float64)n;
@@ -8660,7 +8660,7 @@ public:
         this->w=(edk::float64)n;
         return *this;
     }
-    vec4f64 operator=(edk::uint64 n){
+    inline edk::vec4f64 operator=(edk::uint64 n){
         //
         this->x=(edk::float64)n;
         this->y=(edk::float64)n;
@@ -8670,18 +8670,18 @@ public:
     }
 
     //==
-    bool operator==(vec4f64 vec){
+    inline bool operator==(edk::vec4f64 vec){
         //
         return (this->x==vec.x&&this->y==vec.y&&this->z==vec.z&&this->w==vec.w);
     }
     //!=
-    bool operator!=(vec4f64 vec){
+    inline bool operator!=(edk::vec4f64 vec){
         //
         return (this->x!=vec.x||this->y!=vec.y||this->z!=vec.z||this->w!=vec.w);
     }
 
     //Operator >
-    bool operator>(vec4f32 vec){
+    inline bool operator>(edk::vec4f32 vec){
         if(this->x>(float64)vec.x){
             return true;
         }
@@ -8696,7 +8696,7 @@ public:
         }
         return false;
     }
-    bool operator>(vec4f64 vec){
+    inline bool operator>(edk::vec4f64 vec){
         if(this->x>vec.x){
             return true;
         }
@@ -8712,7 +8712,7 @@ public:
         return false;
     }
     //Operator >=
-    bool operator>=(vec4f32 vec){
+    inline bool operator>=(edk::vec4f32 vec){
         if(this->x>(float64)vec.x){
             return true;
         }
@@ -8727,7 +8727,7 @@ public:
         }
         return false;
     }
-    bool operator>=(vec4f64 vec){
+    inline bool operator>=(edk::vec4f64 vec){
         if(this->x>vec.x){
             return true;
         }
@@ -8743,7 +8743,7 @@ public:
         return false;
     }
     //Operator <
-    bool operator<(vec4f32 vec){
+    inline bool operator<(edk::vec4f32 vec){
         if(this->x<(float64)vec.x){
             return true;
         }
@@ -8758,7 +8758,7 @@ public:
         }
         return false;
     }
-    bool operator<(vec4f64 vec){
+    inline bool operator<(edk::vec4f64 vec){
         if(this->x<vec.x){
             return true;
         }
@@ -8774,7 +8774,7 @@ public:
         return false;
     }
     //Operator <=
-    bool operator<=(vec4f32 vec){
+    inline bool operator<=(edk::vec4f32 vec){
         if(this->x<(float64)vec.x){
             return true;
         }
@@ -8789,7 +8789,7 @@ public:
         }
         return false;
     }
-    bool operator<=(vec4f64 vec){
+    inline bool operator<=(edk::vec4f64 vec){
         if(this->x<vec.x){
             return true;
         }
@@ -8806,7 +8806,7 @@ public:
     }
 
     //+
-    vec4f64 operator+(vec4f64 vec){
+    inline edk::vec4f64 operator+(edk::vec4f64 vec){
         //
         vec4f64 ret;
         ret.x=this->x+vec.x;
@@ -8815,7 +8815,7 @@ public:
         ret.w=this->w+vec.w;
         return ret;
     }
-    vec4f64 operator+(vec3i8 vec){
+    inline edk::vec4f64 operator+(vec3i8 vec){
         //
         vec4f64 ret;
         ret.x=this->x+vec.x;
@@ -8823,14 +8823,14 @@ public:
         ret.z=this->z+vec.z;
         return ret;
     }
-    vec4f64 operator+(vec2i8 vec){
+    inline edk::vec4f64 operator+(vec2i8 vec){
         //
         vec4f64 ret;
         ret.x=this->x+vec.x;
         ret.y=this->y+vec.y;
         return ret;
     }
-    vec4f64 operator+(edk::float32 n){
+    inline edk::vec4f64 operator+(edk::float32 n){
         //
         vec4f64 ret;
         ret.x=this->x+(edk::float64)n;
@@ -8839,7 +8839,7 @@ public:
         ret.w=this->w+(edk::float64)n;
         return ret;
     }
-    vec4f64 operator+(edk::float64 n){
+    inline edk::vec4f64 operator+(edk::float64 n){
         //
         vec4f64 ret;
         ret.x=this->x+(edk::float64)n;
@@ -8848,7 +8848,7 @@ public:
         ret.w=this->w+(edk::float64)n;
         return ret;
     }
-    vec4f64 operator+(edk::int8 n){
+    inline edk::vec4f64 operator+(edk::int8 n){
         //
         vec4f64 ret;
         ret.x=this->x+(edk::float64)n;
@@ -8857,7 +8857,7 @@ public:
         ret.w=this->w+(edk::float64)n;
         return ret;
     }
-    vec4f64 operator+(edk::int16 n){
+    inline edk::vec4f64 operator+(edk::int16 n){
         //
         vec4f64 ret;
         ret.x=this->x+(edk::float64)n;
@@ -8866,7 +8866,7 @@ public:
         ret.w=this->w+(edk::float64)n;
         return ret;
     }
-    vec4f64 operator+(edk::int32 n){
+    inline edk::vec4f64 operator+(edk::int32 n){
         //
         vec4f64 ret;
         ret.x=this->x+(edk::float64)n;
@@ -8875,7 +8875,7 @@ public:
         ret.w=this->w+(edk::float64)n;
         return ret;
     }
-    vec4f64 operator+(edk::int64 n){
+    inline edk::vec4f64 operator+(edk::int64 n){
         //
         vec4f64 ret;
         ret.x=this->x+(edk::float64)n;
@@ -8884,7 +8884,7 @@ public:
         ret.w=this->w+(edk::float64)n;
         return ret;
     }
-    vec4f64 operator+(edk::uint8 n){
+    inline edk::vec4f64 operator+(edk::uint8 n){
         //
         vec4f64 ret;
         ret.x=this->x+(edk::float64)n;
@@ -8893,7 +8893,7 @@ public:
         ret.w=this->w+(edk::float64)n;
         return ret;
     }
-    vec4f64 operator+(edk::uint16 n){
+    inline edk::vec4f64 operator+(edk::uint16 n){
         //
         vec4f64 ret;
         ret.x=this->x+(edk::float64)n;
@@ -8902,7 +8902,7 @@ public:
         ret.w=this->w+(edk::float64)n;
         return ret;
     }
-    vec4f64 operator+(edk::uint32 n){
+    inline edk::vec4f64 operator+(edk::uint32 n){
         //
         vec4f64 ret;
         ret.x=this->x+(edk::float64)n;
@@ -8911,7 +8911,7 @@ public:
         ret.w=this->w+(edk::float64)n;
         return ret;
     }
-    vec4f64 operator+(edk::uint64 n){
+    inline edk::vec4f64 operator+(edk::uint64 n){
         //
         vec4f64 ret;
         ret.x=this->x+(edk::float64)n;
@@ -8922,88 +8922,88 @@ public:
     }
 
     //+=
-    void operator+=(vec4f64 vec){
+    inline void operator+=(edk::vec4f64 vec){
         //
         this->x+=vec.x;
         this->y+=vec.y;
         this->z+=vec.z;
         this->w+=vec.w;
     }
-    void operator+=(vec3i8 vec){
+    inline void operator+=(vec3i8 vec){
         //
         this->x+=vec.x;
         this->y+=vec.y;
         this->z+=vec.z;
     }
-    void operator+=(vec2i8 vec){
+    inline void operator+=(vec2i8 vec){
         //
         this->x+=vec.x;
         this->y+=vec.y;
     }
-    void operator+=(edk::float32 n){
+    inline void operator+=(edk::float32 n){
         //
         this->x+=(edk::float64)n;
         this->y+=(edk::float64)n;
         this->z+=(edk::float64)n;
         this->w+=(edk::float64)n;
     }
-    void operator+=(edk::float64 n){
+    inline void operator+=(edk::float64 n){
         //
         this->x+=(edk::float64)n;
         this->y+=(edk::float64)n;
         this->z+=(edk::float64)n;
         this->w+=(edk::float64)n;
     }
-    void operator+=(edk::int8 n){
+    inline void operator+=(edk::int8 n){
         //
         this->x+=(edk::float64)n;
         this->y+=(edk::float64)n;
         this->z+=(edk::float64)n;
         this->w+=(edk::float64)n;
     }
-    void operator+=(edk::int16 n){
+    inline void operator+=(edk::int16 n){
         //
         this->x+=(edk::float64)n;
         this->y+=(edk::float64)n;
         this->z+=(edk::float64)n;
         this->w+=(edk::float64)n;
     }
-    void operator+=(edk::int32 n){
+    inline void operator+=(edk::int32 n){
         //
         this->x+=(edk::float64)n;
         this->y+=(edk::float64)n;
         this->z+=(edk::float64)n;
         this->w+=(edk::float64)n;
     }
-    void operator+=(edk::int64 n){
+    inline void operator+=(edk::int64 n){
         //
         this->x+=(edk::float64)n;
         this->y+=(edk::float64)n;
         this->z+=(edk::float64)n;
         this->w+=(edk::float64)n;
     }
-    void operator+=(edk::uint8 n){
+    inline void operator+=(edk::uint8 n){
         //
         this->x+=(edk::float64)n;
         this->y+=(edk::float64)n;
         this->z+=(edk::float64)n;
         this->w+=(edk::float64)n;
     }
-    void operator+=(edk::uint16 n){
+    inline void operator+=(edk::uint16 n){
         //
         this->x+=(edk::float64)n;
         this->y+=(edk::float64)n;
         this->z+=(edk::float64)n;
         this->w+=(edk::float64)n;
     }
-    void operator+=(edk::uint32 n){
+    inline void operator+=(edk::uint32 n){
         //
         this->x+=(edk::float64)n;
         this->y+=(edk::float64)n;
         this->z+=(edk::float64)n;
         this->w+=(edk::float64)n;
     }
-    void operator+=(edk::uint64 n){
+    inline void operator+=(edk::uint64 n){
         //
         this->x+=(edk::float64)n;
         this->y+=(edk::float64)n;
@@ -9012,7 +9012,7 @@ public:
     }
 
     //-
-    vec4f64 operator-(vec4f64 vec){
+    inline edk::vec4f64 operator-(edk::vec4f64 vec){
         //
         vec4f64 ret;
         ret.x=this->x-vec.x;
@@ -9021,7 +9021,7 @@ public:
         ret.w=this->w-vec.w;
         return ret;
     }
-    vec4f64 operator-(vec3i8 vec){
+    inline edk::vec4f64 operator-(vec3i8 vec){
         //
         vec4f64 ret;
         ret.x=this->x-vec.x;
@@ -9029,14 +9029,14 @@ public:
         ret.z=this->z-vec.z;
         return ret;
     }
-    vec4f64 operator-(vec2i8 vec){
+    inline edk::vec4f64 operator-(vec2i8 vec){
         //
         vec4f64 ret;
         ret.x=this->x-vec.x;
         ret.y=this->y-vec.y;
         return ret;
     }
-    vec4f64 operator-(edk::float32 n){
+    inline edk::vec4f64 operator-(edk::float32 n){
         //
         vec4f64 ret;
         ret.x=this->x-(edk::float64)n;
@@ -9045,7 +9045,7 @@ public:
         ret.w=this->w-(edk::float64)n;
         return ret;
     }
-    vec4f64 operator-(edk::float64 n){
+    inline edk::vec4f64 operator-(edk::float64 n){
         //
         vec4f64 ret;
         ret.x=this->x-(edk::float64)n;
@@ -9054,7 +9054,7 @@ public:
         ret.w=this->w-(edk::float64)n;
         return ret;
     }
-    vec4f64 operator-(edk::int8 n){
+    inline edk::vec4f64 operator-(edk::int8 n){
         //
         vec4f64 ret;
         ret.x=this->x-(edk::float64)n;
@@ -9063,7 +9063,7 @@ public:
         ret.w=this->w-(edk::float64)n;
         return ret;
     }
-    vec4f64 operator-(edk::int16 n){
+    inline edk::vec4f64 operator-(edk::int16 n){
         //
         vec4f64 ret;
         ret.x=this->x-(edk::float64)n;
@@ -9072,7 +9072,7 @@ public:
         ret.w=this->w-(edk::float64)n;
         return ret;
     }
-    vec4f64 operator-(edk::int32 n){
+    inline edk::vec4f64 operator-(edk::int32 n){
         //
         vec4f64 ret;
         ret.x=this->x-(edk::float64)n;
@@ -9081,7 +9081,7 @@ public:
         ret.w=this->w-(edk::float64)n;
         return ret;
     }
-    vec4f64 operator-(edk::int64 n){
+    inline edk::vec4f64 operator-(edk::int64 n){
         //
         vec4f64 ret;
         ret.x=this->x-(edk::float64)n;
@@ -9090,7 +9090,7 @@ public:
         ret.w=this->w-(edk::float64)n;
         return ret;
     }
-    vec4f64 operator-(edk::uint8 n){
+    inline edk::vec4f64 operator-(edk::uint8 n){
         //
         vec4f64 ret;
         ret.x=this->x-(edk::float64)n;
@@ -9099,7 +9099,7 @@ public:
         ret.w=this->w-(edk::float64)n;
         return ret;
     }
-    vec4f64 operator-(edk::uint16 n){
+    inline edk::vec4f64 operator-(edk::uint16 n){
         //
         vec4f64 ret;
         ret.x=this->x-(edk::float64)n;
@@ -9108,7 +9108,7 @@ public:
         ret.w=this->w-(edk::float64)n;
         return ret;
     }
-    vec4f64 operator-(edk::uint32 n){
+    inline edk::vec4f64 operator-(edk::uint32 n){
         //
         vec4f64 ret;
         ret.x=this->x-(edk::float64)n;
@@ -9117,7 +9117,7 @@ public:
         ret.w=this->w-(edk::float64)n;
         return ret;
     }
-    vec4f64 operator-(edk::uint64 n){
+    inline edk::vec4f64 operator-(edk::uint64 n){
         //
         vec4f64 ret;
         ret.x=this->x-(edk::float64)n;
@@ -9128,88 +9128,88 @@ public:
     }
 
     //-=
-    void operator-=(vec4f64 vec){
+    inline void operator-=(edk::vec4f64 vec){
         //
         this->x-=vec.x;
         this->y-=vec.y;
         this->z-=vec.z;
         this->w-=vec.w;
     }
-    void operator-=(vec3i8 vec){
+    inline void operator-=(vec3i8 vec){
         //
         this->x-=vec.x;
         this->y-=vec.y;
         this->z-=vec.z;
     }
-    void operator-=(vec2i8 vec){
+    inline void operator-=(vec2i8 vec){
         //
         this->x-=vec.x;
         this->y-=vec.y;
     }
-    void operator-=(edk::float32 n){
+    inline void operator-=(edk::float32 n){
         //
         this->x-=(edk::float64)n;
         this->y-=(edk::float64)n;
         this->z-=(edk::float64)n;
         this->w-=(edk::float64)n;
     }
-    void operator-=(edk::float64 n){
+    inline void operator-=(edk::float64 n){
         //
         this->x-=(edk::float64)n;
         this->y-=(edk::float64)n;
         this->z-=(edk::float64)n;
         this->w-=(edk::float64)n;
     }
-    void operator-=(edk::int8 n){
+    inline void operator-=(edk::int8 n){
         //
         this->x-=(edk::float64)n;
         this->y-=(edk::float64)n;
         this->z-=(edk::float64)n;
         this->w-=(edk::float64)n;
     }
-    void operator-=(edk::int16 n){
+    inline void operator-=(edk::int16 n){
         //
         this->x-=(edk::float64)n;
         this->y-=(edk::float64)n;
         this->z-=(edk::float64)n;
         this->w-=(edk::float64)n;
     }
-    void operator-=(edk::int32 n){
+    inline void operator-=(edk::int32 n){
         //
         this->x-=(edk::float64)n;
         this->y-=(edk::float64)n;
         this->z-=(edk::float64)n;
         this->w-=(edk::float64)n;
     }
-    void operator-=(edk::int64 n){
+    inline void operator-=(edk::int64 n){
         //
         this->x-=(edk::float64)n;
         this->y-=(edk::float64)n;
         this->z-=(edk::float64)n;
         this->w-=(edk::float64)n;
     }
-    void operator-=(edk::uint8 n){
+    inline void operator-=(edk::uint8 n){
         //
         this->x-=(edk::float64)n;
         this->y-=(edk::float64)n;
         this->z-=(edk::float64)n;
         this->w-=(edk::float64)n;
     }
-    void operator-=(edk::uint16 n){
+    inline void operator-=(edk::uint16 n){
         //
         this->x-=(edk::float64)n;
         this->y-=(edk::float64)n;
         this->z-=(edk::float64)n;
         this->w-=(edk::float64)n;
     }
-    void operator-=(edk::uint32 n){
+    inline void operator-=(edk::uint32 n){
         //
         this->x-=(edk::float64)n;
         this->y-=(edk::float64)n;
         this->z-=(edk::float64)n;
         this->w-=(edk::float64)n;
     }
-    void operator-=(edk::uint64 n){
+    inline void operator-=(edk::uint64 n){
         //
         this->x-=(edk::float64)n;
         this->y-=(edk::float64)n;
@@ -9218,7 +9218,7 @@ public:
     }
 
     //*
-    vec4f64 operator*(vec4f64 vec){
+    inline edk::vec4f64 operator*(edk::vec4f64 vec){
         //
         vec4f64 ret;
         ret.x=this->x*vec.x;
@@ -9227,7 +9227,7 @@ public:
         ret.w=this->w*vec.w;
         return ret;
     }
-    vec4f64 operator*(vec3i8 vec){
+    inline edk::vec4f64 operator*(vec3i8 vec){
         //
         vec4f64 ret;
         ret.x=this->x*vec.x;
@@ -9235,14 +9235,14 @@ public:
         ret.z=this->z*vec.z;
         return ret;
     }
-    vec4f64 operator*(vec2i8 vec){
+    inline edk::vec4f64 operator*(vec2i8 vec){
         //
         vec4f64 ret;
         ret.x=this->x*vec.x;
         ret.y=this->y*vec.y;
         return ret;
     }
-    vec4f64 operator*(edk::float32 n){
+    inline edk::vec4f64 operator*(edk::float32 n){
         //
         vec4f64 ret;
         ret.x=this->x*(edk::float64)n;
@@ -9251,7 +9251,7 @@ public:
         ret.w=this->w*(edk::float64)n;
         return ret;
     }
-    vec4f64 operator*(edk::float64 n){
+    inline edk::vec4f64 operator*(edk::float64 n){
         //
         vec4f64 ret;
         ret.x=this->x*(edk::float64)n;
@@ -9260,7 +9260,7 @@ public:
         ret.w=this->w*(edk::float64)n;
         return ret;
     }
-    vec4f64 operator*(edk::int8 n){
+    inline edk::vec4f64 operator*(edk::int8 n){
         //
         vec4f64 ret;
         ret.x=this->x*(edk::float64)n;
@@ -9269,7 +9269,7 @@ public:
         ret.w=this->w*(edk::float64)n;
         return ret;
     }
-    vec4f64 operator*(edk::int16 n){
+    inline edk::vec4f64 operator*(edk::int16 n){
         //
         vec4f64 ret;
         ret.x=this->x*(edk::float64)n;
@@ -9278,7 +9278,7 @@ public:
         ret.w=this->w*(edk::float64)n;
         return ret;
     }
-    vec4f64 operator*(edk::int32 n){
+    inline edk::vec4f64 operator*(edk::int32 n){
         //
         vec4f64 ret;
         ret.x=this->x*(edk::float64)n;
@@ -9287,7 +9287,7 @@ public:
         ret.w=this->w*(edk::float64)n;
         return ret;
     }
-    vec4f64 operator*(edk::int64 n){
+    inline edk::vec4f64 operator*(edk::int64 n){
         //
         vec4f64 ret;
         ret.x=this->x*(edk::float64)n;
@@ -9296,7 +9296,7 @@ public:
         ret.w=this->w*(edk::float64)n;
         return ret;
     }
-    vec4f64 operator*(edk::uint8 n){
+    inline edk::vec4f64 operator*(edk::uint8 n){
         //
         vec4f64 ret;
         ret.x=this->x*(edk::float64)n;
@@ -9305,7 +9305,7 @@ public:
         ret.w=this->w*(edk::float64)n;
         return ret;
     }
-    vec4f64 operator*(edk::uint16 n){
+    inline edk::vec4f64 operator*(edk::uint16 n){
         //
         vec4f64 ret;
         ret.x=this->x*(edk::float64)n;
@@ -9314,7 +9314,7 @@ public:
         ret.w=this->w*(edk::float64)n;
         return ret;
     }
-    vec4f64 operator*(edk::uint32 n){
+    inline edk::vec4f64 operator*(edk::uint32 n){
         //
         vec4f64 ret;
         ret.x=this->x*(edk::float64)n;
@@ -9323,7 +9323,7 @@ public:
         ret.w=this->w*(edk::float64)n;
         return ret;
     }
-    vec4f64 operator*(edk::uint64 n){
+    inline edk::vec4f64 operator*(edk::uint64 n){
         //
         vec4f64 ret;
         ret.x=this->x*(edk::float64)n;
@@ -9334,88 +9334,88 @@ public:
     }
 
     //*=
-    void operator*=(vec4f64 vec){
+    inline void operator*=(edk::vec4f64 vec){
         //
         this->x*=vec.x;
         this->y*=vec.y;
         this->z*=vec.z;
         this->w*=vec.w;
     }
-    void operator*=(vec3i8 vec){
+    inline void operator*=(vec3i8 vec){
         //
         this->x*=vec.x;
         this->y*=vec.y;
         this->z*=vec.z;
     }
-    void operator*=(vec2i8 vec){
+    inline void operator*=(vec2i8 vec){
         //
         this->x*=vec.x;
         this->y*=vec.y;
     }
-    void operator*=(edk::float32 n){
+    inline void operator*=(edk::float32 n){
         //
         this->x*=(edk::float64)n;
         this->y*=(edk::float64)n;
         this->z*=(edk::float64)n;
         this->w*=(edk::float64)n;
     }
-    void operator*=(edk::float64 n){
+    inline void operator*=(edk::float64 n){
         //
         this->x*=(edk::float64)n;
         this->y*=(edk::float64)n;
         this->z*=(edk::float64)n;
         this->w*=(edk::float64)n;
     }
-    void operator*=(edk::int8 n){
+    inline void operator*=(edk::int8 n){
         //
         this->x*=(edk::float64)n;
         this->y*=(edk::float64)n;
         this->z*=(edk::float64)n;
         this->w*=(edk::float64)n;
     }
-    void operator*=(edk::int16 n){
+    inline void operator*=(edk::int16 n){
         //
         this->x*=(edk::float64)n;
         this->y*=(edk::float64)n;
         this->z*=(edk::float64)n;
         this->w*=(edk::float64)n;
     }
-    void operator*=(edk::int32 n){
+    inline void operator*=(edk::int32 n){
         //
         this->x*=(edk::float64)n;
         this->y*=(edk::float64)n;
         this->z*=(edk::float64)n;
         this->w*=(edk::float64)n;
     }
-    void operator*=(edk::int64 n){
+    inline void operator*=(edk::int64 n){
         //
         this->x*=(edk::float64)n;
         this->y*=(edk::float64)n;
         this->z*=(edk::float64)n;
         this->w*=(edk::float64)n;
     }
-    void operator*=(edk::uint8 n){
+    inline void operator*=(edk::uint8 n){
         //
         this->x*=(edk::float64)n;
         this->y*=(edk::float64)n;
         this->z*=(edk::float64)n;
         this->w*=(edk::float64)n;
     }
-    void operator*=(edk::uint16 n){
+    inline void operator*=(edk::uint16 n){
         //
         this->x*=(edk::float64)n;
         this->y*=(edk::float64)n;
         this->z*=(edk::float64)n;
         this->w*=(edk::float64)n;
     }
-    void operator*=(edk::uint32 n){
+    inline void operator*=(edk::uint32 n){
         //
         this->x*=(edk::float64)n;
         this->y*=(edk::float64)n;
         this->z*=(edk::float64)n;
         this->w*=(edk::float64)n;
     }
-    void operator*=(edk::uint64 n){
+    inline void operator*=(edk::uint64 n){
         //
         this->x*=(edk::float64)n;
         this->y*=(edk::float64)n;
@@ -9424,7 +9424,7 @@ public:
     }
 
     // /
-    vec4f64 operator/(vec4f64 vec){
+    inline edk::vec4f64 operator/(edk::vec4f64 vec){
         //
         vec4f64 ret;
         ret.x=this->x/vec.x;
@@ -9433,7 +9433,7 @@ public:
         ret.w=this->w/vec.w;
         return ret;
     }
-    vec4f64 operator/(vec3i8 vec){
+    inline edk::vec4f64 operator/(vec3i8 vec){
         //
         vec4f64 ret;
         ret.x=this->x/vec.x;
@@ -9441,14 +9441,14 @@ public:
         ret.z=this->z/vec.z;
         return ret;
     }
-    vec4f64 operator/(vec2i8 vec){
+    inline edk::vec4f64 operator/(vec2i8 vec){
         //
         vec4f64 ret;
         ret.x=this->x/vec.x;
         ret.y=this->y/vec.y;
         return ret;
     }
-    vec4f64 operator/(edk::float32 n){
+    inline edk::vec4f64 operator/(edk::float32 n){
         //
         vec4f64 ret;
         ret.x=this->x/(edk::float64)n;
@@ -9457,7 +9457,7 @@ public:
         ret.w=this->w/(edk::float64)n;
         return ret;
     }
-    vec4f64 operator/(edk::float64 n){
+    inline edk::vec4f64 operator/(edk::float64 n){
         //
         vec4f64 ret;
         ret.x=this->x/(edk::float64)n;
@@ -9466,7 +9466,7 @@ public:
         ret.w=this->w/(edk::float64)n;
         return ret;
     }
-    vec4f64 operator/(edk::int8 n){
+    inline edk::vec4f64 operator/(edk::int8 n){
         //
         vec4f64 ret;
         ret.x=this->x/(edk::float64)n;
@@ -9475,7 +9475,7 @@ public:
         ret.w=this->w/(edk::float64)n;
         return ret;
     }
-    vec4f64 operator/(edk::int16 n){
+    inline edk::vec4f64 operator/(edk::int16 n){
         //
         vec4f64 ret;
         ret.x=this->x/(edk::float64)n;
@@ -9484,7 +9484,7 @@ public:
         ret.w=this->w/(edk::float64)n;
         return ret;
     }
-    vec4f64 operator/(edk::int32 n){
+    inline edk::vec4f64 operator/(edk::int32 n){
         //
         vec4f64 ret;
         ret.x=this->x/(edk::float64)n;
@@ -9493,7 +9493,7 @@ public:
         ret.w=this->w/(edk::float64)n;
         return ret;
     }
-    vec4f64 operator/(edk::int64 n){
+    inline edk::vec4f64 operator/(edk::int64 n){
         //
         vec4f64 ret;
         ret.x=this->x/(edk::float64)n;
@@ -9502,7 +9502,7 @@ public:
         ret.w=this->w/(edk::float64)n;
         return ret;
     }
-    vec4f64 operator/(edk::uint8 n){
+    inline edk::vec4f64 operator/(edk::uint8 n){
         //
         vec4f64 ret;
         ret.x=this->x/(edk::float64)n;
@@ -9511,7 +9511,7 @@ public:
         ret.w=this->w/(edk::float64)n;
         return ret;
     }
-    vec4f64 operator/(edk::uint16 n){
+    inline edk::vec4f64 operator/(edk::uint16 n){
         //
         vec4f64 ret;
         ret.x=this->x/(edk::float64)n;
@@ -9520,7 +9520,7 @@ public:
         ret.w=this->w/(edk::float64)n;
         return ret;
     }
-    vec4f64 operator/(edk::uint32 n){
+    inline edk::vec4f64 operator/(edk::uint32 n){
         //
         vec4f64 ret;
         ret.x=this->x/(edk::float64)n;
@@ -9529,7 +9529,7 @@ public:
         ret.w=this->w/(edk::float64)n;
         return ret;
     }
-    vec4f64 operator/(edk::uint64 n){
+    inline edk::vec4f64 operator/(edk::uint64 n){
         //
         vec4f64 ret;
         ret.x=this->x/(edk::float64)n;
@@ -9540,88 +9540,88 @@ public:
     }
 
     // /=
-    void operator/=(vec4f64 vec){
+    inline void operator/=(edk::vec4f64 vec){
         //
         this->x/=vec.x;
         this->y/=vec.y;
         this->z/=vec.z;
         this->w/=vec.w;
     }
-    void operator/=(vec3i8 vec){
+    inline void operator/=(vec3i8 vec){
         //
         this->x/=vec.x;
         this->y/=vec.y;
         this->z/=vec.z;
     }
-    void operator/=(vec2i8 vec){
+    inline void operator/=(vec2i8 vec){
         //
         this->x/=vec.x;
         this->y/=vec.y;
     }
-    void operator/=(edk::float32 n){
+    inline void operator/=(edk::float32 n){
         //
         this->x/=(edk::float64)n;
         this->y/=(edk::float64)n;
         this->z/=(edk::float64)n;
         this->w/=(edk::float64)n;
     }
-    void operator/=(edk::float64 n){
+    inline void operator/=(edk::float64 n){
         //
         this->x/=(edk::float64)n;
         this->y/=(edk::float64)n;
         this->z/=(edk::float64)n;
         this->w/=(edk::float64)n;
     }
-    void operator/=(edk::int8 n){
+    inline void operator/=(edk::int8 n){
         //
         this->x/=(edk::float64)n;
         this->y/=(edk::float64)n;
         this->z/=(edk::float64)n;
         this->w/=(edk::float64)n;
     }
-    void operator/=(edk::int16 n){
+    inline void operator/=(edk::int16 n){
         //
         this->x/=(edk::float64)n;
         this->y/=(edk::float64)n;
         this->z/=(edk::float64)n;
         this->w/=(edk::float64)n;
     }
-    void operator/=(edk::int32 n){
+    inline void operator/=(edk::int32 n){
         //
         this->x/=(edk::float64)n;
         this->y/=(edk::float64)n;
         this->z/=(edk::float64)n;
         this->w/=(edk::float64)n;
     }
-    void operator/=(edk::int64 n){
+    inline void operator/=(edk::int64 n){
         //
         this->x/=(edk::float64)n;
         this->y/=(edk::float64)n;
         this->z/=(edk::float64)n;
         this->w/=(edk::float64)n;
     }
-    void operator/=(edk::uint8 n){
+    inline void operator/=(edk::uint8 n){
         //
         this->x/=(edk::float64)n;
         this->y/=(edk::float64)n;
         this->z/=(edk::float64)n;
         this->w/=(edk::float64)n;
     }
-    void operator/=(edk::uint16 n){
+    inline void operator/=(edk::uint16 n){
         //
         this->x/=(edk::float64)n;
         this->y/=(edk::float64)n;
         this->z/=(edk::float64)n;
         this->w/=(edk::float64)n;
     }
-    void operator/=(edk::uint32 n){
+    inline void operator/=(edk::uint32 n){
         //
         this->x/=(edk::float64)n;
         this->y/=(edk::float64)n;
         this->z/=(edk::float64)n;
         this->w/=(edk::float64)n;
     }
-    void operator/=(edk::uint64 n){
+    inline void operator/=(edk::uint64 n){
         //
         this->x/=(edk::float64)n;
         this->y/=(edk::float64)n;
@@ -9630,121 +9630,121 @@ public:
     }
 
     //++
-    vec4f64 operator++(){
+    inline edk::vec4f64 operator++(){
         //
         ++this->x;
         ++this->y;
         ++this->z;
         ++this->w;
-        return vec4f64(this->x,this->y,this->z,this->w);
+        return edk::vec4f64(this->x,this->y,this->z,this->w);
     }
-    vec4f64 operator++(edk::int32){
+    inline edk::vec4f64 operator++(edk::int32){
         //
         this->x++;
         this->y++;
         this->z++;
         this->w++;
-        return vec4f64(this->x,this->y,this->z,this->w);
+        return edk::vec4f64(this->x,this->y,this->z,this->w);
     }
 
     //--
-    vec4f64 operator--(){
+    inline edk::vec4f64 operator--(){
         //
         --this->x;
         --this->y;
         --this->z;
         --this->w;
-        return vec4f64(this->x,this->y,this->z,this->w);
+        return edk::vec4f64(this->x,this->y,this->z,this->w);
     }
-    vec4f64 operator--(edk::int32){
+    inline edk::vec4f64 operator--(edk::int32){
         //
         this->x--;
         this->y--;
         this->z--;
         this->w--;
-        return vec4f64(this->x,this->y,this->z,this->w);
+        return edk::vec4f64(this->x,this->y,this->z,this->w);
     }
 
     //
-    vec4f64 operator()(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 w){
+    inline edk::vec4f64 operator()(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4f64((edk::float64)this->x,(edk::float64)this->y,(edk::float64)this->z,(edk::float64)this->w);
+        return edk::vec4f64((edk::float64)this->x,(edk::float64)this->y,(edk::float64)this->z,(edk::float64)this->w);
     }
-    vec4f64 operator()(edk::float64 x,edk::float64 y,edk::float64 z,edk::float64 w){
+    inline edk::vec4f64 operator()(edk::float64 x,edk::float64 y,edk::float64 z,edk::float64 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4f64((edk::float64)this->x,(edk::float64)this->y,(edk::float64)this->z,(edk::float64)this->w);
+        return edk::vec4f64((edk::float64)this->x,(edk::float64)this->y,(edk::float64)this->z,(edk::float64)this->w);
     }
-    vec4f64 operator()(edk::int8 x,edk::int8 y,edk::int8 z,edk::int8 w){
+    inline edk::vec4f64 operator()(edk::int8 x,edk::int8 y,edk::int8 z,edk::int8 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4f64((edk::float64)this->x,(edk::float64)this->y,(edk::float64)this->z,(edk::float64)this->w);
+        return edk::vec4f64((edk::float64)this->x,(edk::float64)this->y,(edk::float64)this->z,(edk::float64)this->w);
     }
-    vec4f64 operator()(edk::int16 x,edk::int16 y,edk::int16 z,edk::int16 w){
+    inline edk::vec4f64 operator()(edk::int16 x,edk::int16 y,edk::int16 z,edk::int16 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4f64((edk::float64)this->x,(edk::float64)this->y,(edk::float64)this->z,(edk::float64)this->w);
+        return edk::vec4f64((edk::float64)this->x,(edk::float64)this->y,(edk::float64)this->z,(edk::float64)this->w);
     }
-    vec4f64 operator()(edk::int32 x,edk::int32 y,edk::int32 z,edk::int32 w){
+    inline edk::vec4f64 operator()(edk::int32 x,edk::int32 y,edk::int32 z,edk::int32 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4f64((edk::float64)this->x,(edk::float64)this->y,(edk::float64)this->z,(edk::float64)this->w);
+        return edk::vec4f64((edk::float64)this->x,(edk::float64)this->y,(edk::float64)this->z,(edk::float64)this->w);
     }
-    vec4f64 operator()(edk::int64 x,edk::int64 y,edk::int64 z,edk::int64 w){
+    inline edk::vec4f64 operator()(edk::int64 x,edk::int64 y,edk::int64 z,edk::int64 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4f64((edk::float64)this->x,(edk::float64)this->y,(edk::float64)this->z,(edk::float64)this->w);
+        return edk::vec4f64((edk::float64)this->x,(edk::float64)this->y,(edk::float64)this->z,(edk::float64)this->w);
     }
-    vec4f64 operator()(edk::uint8 x,edk::uint8 y,edk::uint8 z,edk::uint8 w){
+    inline edk::vec4f64 operator()(edk::uint8 x,edk::uint8 y,edk::uint8 z,edk::uint8 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4f64((edk::float64)this->x,(edk::float64)this->y,(edk::float64)this->z,(edk::float64)this->w);
+        return edk::vec4f64((edk::float64)this->x,(edk::float64)this->y,(edk::float64)this->z,(edk::float64)this->w);
     }
-    vec4f64 operator()(edk::uint16 x,edk::uint16 y,edk::uint16 z,edk::uint16 w){
+    inline edk::vec4f64 operator()(edk::uint16 x,edk::uint16 y,edk::uint16 z,edk::uint16 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4f64((edk::float64)this->x,(edk::float64)this->y,(edk::float64)this->z,(edk::float64)this->w);
+        return edk::vec4f64((edk::float64)this->x,(edk::float64)this->y,(edk::float64)this->z,(edk::float64)this->w);
     }
-    vec4f64 operator()(edk::uint32 x,edk::uint32 y,edk::uint32 z,edk::uint32 w){
+    inline edk::vec4f64 operator()(edk::uint32 x,edk::uint32 y,edk::uint32 z,edk::uint32 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4f64((edk::float64)this->x,(edk::float64)this->y,(edk::float64)this->z,(edk::float64)this->w);
+        return edk::vec4f64((edk::float64)this->x,(edk::float64)this->y,(edk::float64)this->z,(edk::float64)this->w);
     }
-    vec4f64 operator()(edk::uint64 x,edk::uint64 y,edk::uint64 z,edk::uint64 w){
+    inline edk::vec4f64 operator()(edk::uint64 x,edk::uint64 y,edk::uint64 z,edk::uint64 w){
         //
         this->x=x;
         this->y=y;
         this->z=z;
         this->w=w;
-        return vec4f64((edk::float64)this->x,(edk::float64)this->y,(edk::float64)this->z,(edk::float64)this->w);
+        return edk::vec4f64((edk::float64)this->x,(edk::float64)this->y,(edk::float64)this->z,(edk::float64)this->w);
     }
 };
 
