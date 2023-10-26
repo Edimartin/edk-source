@@ -69,11 +69,11 @@ public:
     }
 
     // ==
-    bool operator==(edk::Object2DValues values){
+    inline bool operator==(edk::Object2DValues values){
         return (this->position==values.position && this->angle==values.angle && this->size == values.size);edkEnd();
     }
     // !=
-    bool operator!=(edk::Object2DValues values){
+    inline bool operator!=(edk::Object2DValues values){
         return (this->position!=values.position || this->angle!=values.angle || this->size != values.size);edkEnd();
     }
     //clone from

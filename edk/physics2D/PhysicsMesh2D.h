@@ -259,25 +259,25 @@ public:
     }
 
     //==
-    bool operator==(vec3f32 vec){
+    inline bool operator==(vec3f32 vec){
         return (this->position.x==vec.x&&this->position.y==vec.y&&this->position.z==vec.z);edkEnd();
     }
-    bool operator==(color4f32 color){
+    inline bool operator==(color4f32 color){
         return (this->color.r==color.r&&this->color.g==color.g&&this->color.b==color.b&&this->color.a==color.a);edkEnd();
     }
-    bool operator==(vec3f32Color4f32 vec){
+    inline bool operator==(vec3f32Color4f32 vec){
         return (this->position.x==vec.position.x&&this->position.y==vec.position.y&&this->position.z==vec.position.z&&
                 this->color.r==vec.color.r&&this->color.g==vec.color.g&&this->color.b==vec.color.b&&this->color.a==vec.color.a
                 );edkEnd();
     }
     //!=
-    bool operator!=(vec3f32 vec){
+    inline bool operator!=(vec3f32 vec){
         return (this->position.x!=vec.x||this->position.y!=vec.y||this->position.z!=vec.z);edkEnd();
     }
-    bool operator!=(color4f32 color){
+    inline bool operator!=(color4f32 color){
         return (this->color.r!=color.r||this->color.g!=color.g||this->color.b!=color.b||this->color.a!=color.a);edkEnd();
     }
-    bool operator!=(vec3f32Color4f32 vec){
+    inline bool operator!=(vec3f32Color4f32 vec){
         return (this->position.x!=vec.position.x||this->position.y!=vec.position.y||this->position.z!=vec.position.z||
                 this->color.r!=vec.color.r||this->color.g!=vec.color.g||this->color.b!=vec.color.b||this->color.a!=vec.color.a
                 );edkEnd();
@@ -462,81 +462,81 @@ public:
     }
 
     //+=
-    void operator+=(vec3f32Color4f32 vec){
+    inline void operator+=(vec3f32Color4f32 vec){
         this->position.x+=vec.position.x;edkEnd();
         this->position.y+=vec.position.y;edkEnd();
         this->position.z+=vec.position.z;edkEnd();
     }
-    void operator+=(vec3f32 vec){
+    inline void operator+=(vec3f32 vec){
         this->position.x+=vec.x;edkEnd();
         this->position.y+=vec.y;edkEnd();
         this->position.z+=vec.z;edkEnd();
     }
-    void operator+=(vec2f32 vec){
+    inline void operator+=(vec2f32 vec){
         this->position.x+=vec.x;edkEnd();
         this->position.y+=vec.y;edkEnd();
     }
-    void operator+=(vec2i8 vec){
+    inline void operator+=(vec2i8 vec){
         this->position.x+=vec.x;edkEnd();
         this->position.y+=vec.y;edkEnd();
     }
-    void operator+=(edk::float32 n){
+    inline void operator+=(edk::float32 n){
         this->position.x+=(edk::float32)n;edkEnd();
         this->position.y+=(edk::float32)n;edkEnd();
         this->position.z+=(edk::float32)n;edkEnd();
     }
-    void operator+=(edk::float64 n){
+    inline void operator+=(edk::float64 n){
         this->position.x+=(edk::float32)n;edkEnd();
         this->position.y+=(edk::float32)n;edkEnd();
         this->position.z+=(edk::float32)n;edkEnd();
     }
-    void operator+=(int8 n){
+    inline void operator+=(int8 n){
         this->position.x+=(edk::float32)n;edkEnd();
         this->position.y+=(edk::float32)n;edkEnd();
         this->position.z+=(edk::float32)n;edkEnd();
     }
-    void operator+=(int16 n){
+    inline void operator+=(int16 n){
         this->position.x+=(edk::float32)n;edkEnd();
         this->position.y+=(edk::float32)n;edkEnd();
         this->position.z+=(edk::float32)n;edkEnd();
     }
-    void operator+=(int32 n){
+    inline void operator+=(int32 n){
         this->position.x+=(edk::float32)n;edkEnd();
         this->position.y+=(edk::float32)n;edkEnd();
         this->position.z+=(edk::float32)n;edkEnd();
     }
-    void operator+=(int64 n){
+    inline void operator+=(int64 n){
         this->position.x+=(edk::float32)n;edkEnd();
         this->position.y+=(edk::float32)n;edkEnd();
         this->position.z+=(edk::float32)n;edkEnd();
     }
-    void operator+=(uint8 n){
+    inline void operator+=(uint8 n){
         this->position.x+=(edk::float32)n;edkEnd();
         this->position.y+=(edk::float32)n;edkEnd();
         this->position.z+=(edk::float32)n;edkEnd();
     }
-    void operator+=(uint16 n){
+    inline void operator+=(uint16 n){
         this->position.x+=(edk::float32)n;edkEnd();
         this->position.y+=(edk::float32)n;edkEnd();
         this->position.z+=(edk::float32)n;edkEnd();
     }
-    void operator+=(uint32 n){
+    inline void operator+=(uint32 n){
         this->position.x+=(edk::float32)n;edkEnd();
         this->position.y+=(edk::float32)n;edkEnd();
         this->position.z+=(edk::float32)n;edkEnd();
     }
-    void operator+=(uint64 n){
+    inline void operator+=(uint64 n){
         this->position.x+=(edk::float32)n;edkEnd();
         this->position.y+=(edk::float32)n;edkEnd();
         this->position.z+=(edk::float32)n;edkEnd();
     }
-    void operator+=(color4f32 color){
+    inline void operator+=(color4f32 color){
         this->color.r+=color.r;edkEnd();
         this->color.g+=color.g;edkEnd();
         this->color.b+=color.b;edkEnd();
         this->color.a+=color.a;edkEnd();
     }
-    void operator+=(color3f32 color){
+    inline void operator+=(color3f32 color){
         this->color.r+=color.r;edkEnd();
         this->color.g+=color.g;edkEnd();
         this->color.b+=color.b;edkEnd();
@@ -721,81 +721,81 @@ public:
     }
 
     //-=
-    void operator-=(vec3f32Color4f32 vec){
+    inline void operator-=(vec3f32Color4f32 vec){
         this->position.x-=vec.position.x;edkEnd();
         this->position.y-=vec.position.y;edkEnd();
         this->position.z-=vec.position.z;edkEnd();
     }
-    void operator-=(vec3f32 vec){
+    inline void operator-=(vec3f32 vec){
         this->position.x-=vec.x;edkEnd();
         this->position.y-=vec.y;edkEnd();
         this->position.z-=vec.z;edkEnd();
     }
-    void operator-=(vec2f32 vec){
+    inline void operator-=(vec2f32 vec){
         this->position.x-=vec.x;edkEnd();
         this->position.y-=vec.y;edkEnd();
     }
-    void operator-=(vec2i8 vec){
+    inline void operator-=(vec2i8 vec){
         this->position.x-=vec.x;edkEnd();
         this->position.y-=vec.y;edkEnd();
     }
-    void operator-=(edk::float32 n){
+    inline void operator-=(edk::float32 n){
         this->position.x-=(edk::float32)n;edkEnd();
         this->position.y-=(edk::float32)n;edkEnd();
         this->position.z-=(edk::float32)n;edkEnd();
     }
-    void operator-=(edk::float64 n){
+    inline void operator-=(edk::float64 n){
         this->position.x-=(edk::float32)n;edkEnd();
         this->position.y-=(edk::float32)n;edkEnd();
         this->position.z-=(edk::float32)n;edkEnd();
     }
-    void operator-=(int8 n){
+    inline void operator-=(int8 n){
         this->position.x-=(edk::float32)n;edkEnd();
         this->position.y-=(edk::float32)n;edkEnd();
         this->position.z-=(edk::float32)n;edkEnd();
     }
-    void operator-=(int16 n){
+    inline void operator-=(int16 n){
         this->position.x-=(edk::float32)n;edkEnd();
         this->position.y-=(edk::float32)n;edkEnd();
         this->position.z-=(edk::float32)n;edkEnd();
     }
-    void operator-=(int32 n){
+    inline void operator-=(int32 n){
         this->position.x-=(edk::float32)n;edkEnd();
         this->position.y-=(edk::float32)n;edkEnd();
         this->position.z-=(edk::float32)n;edkEnd();
     }
-    void operator-=(int64 n){
+    inline void operator-=(int64 n){
         this->position.x-=(edk::float32)n;edkEnd();
         this->position.y-=(edk::float32)n;edkEnd();
         this->position.z-=(edk::float32)n;edkEnd();
     }
-    void operator-=(uint8 n){
+    inline void operator-=(uint8 n){
         this->position.x-=(edk::float32)n;edkEnd();
         this->position.y-=(edk::float32)n;edkEnd();
         this->position.z-=(edk::float32)n;edkEnd();
     }
-    void operator-=(uint16 n){
+    inline void operator-=(uint16 n){
         this->position.x-=(edk::float32)n;edkEnd();
         this->position.y-=(edk::float32)n;edkEnd();
         this->position.z-=(edk::float32)n;edkEnd();
     }
-    void operator-=(uint32 n){
+    inline void operator-=(uint32 n){
         this->position.x-=(edk::float32)n;edkEnd();
         this->position.y-=(edk::float32)n;edkEnd();
         this->position.z-=(edk::float32)n;edkEnd();
     }
-    void operator-=(uint64 n){
+    inline void operator-=(uint64 n){
         this->position.x-=(edk::float32)n;edkEnd();
         this->position.y-=(edk::float32)n;edkEnd();
         this->position.z-=(edk::float32)n;edkEnd();
     }
-    void operator-=(color4f32 color){
+    inline void operator-=(color4f32 color){
         this->color.r-=color.r;edkEnd();
         this->color.g-=color.g;edkEnd();
         this->color.b-=color.b;edkEnd();
         this->color.a-=color.a;edkEnd();
     }
-    void operator-=(color3f32 color){
+    inline void operator-=(color3f32 color){
         this->color.r-=color.r;edkEnd();
         this->color.g-=color.g;edkEnd();
         this->color.b-=color.b;edkEnd();
@@ -980,81 +980,81 @@ public:
     }
 
     //*=
-    void operator*=(vec3f32Color4f32 vec){
+    inline void operator*=(vec3f32Color4f32 vec){
         this->position.x*=vec.position.x;edkEnd();
         this->position.y*=vec.position.y;edkEnd();
         this->position.z*=vec.position.z;edkEnd();
     }
-    void operator*=(vec3f32 vec){
+    inline void operator*=(vec3f32 vec){
         this->position.x*=vec.x;edkEnd();
         this->position.y*=vec.y;edkEnd();
         this->position.z*=vec.z;edkEnd();
     }
-    void operator*=(vec2f32 vec){
+    inline void operator*=(vec2f32 vec){
         this->position.x*=vec.x;edkEnd();
         this->position.y*=vec.y;edkEnd();
     }
-    void operator*=(vec2i8 vec){
+    inline void operator*=(vec2i8 vec){
         this->position.x*=vec.x;edkEnd();
         this->position.y*=vec.y;edkEnd();
     }
-    void operator*=(edk::float32 n){
+    inline void operator*=(edk::float32 n){
         this->position.x*=(edk::float32)n;edkEnd();
         this->position.y*=(edk::float32)n;edkEnd();
         this->position.z*=(edk::float32)n;edkEnd();
     }
-    void operator*=(edk::float64 n){
+    inline void operator*=(edk::float64 n){
         this->position.x*=(edk::float32)n;edkEnd();
         this->position.y*=(edk::float32)n;edkEnd();
         this->position.z*=(edk::float32)n;edkEnd();
     }
-    void operator*=(int8 n){
+    inline void operator*=(int8 n){
         this->position.x*=(edk::float32)n;edkEnd();
         this->position.y*=(edk::float32)n;edkEnd();
         this->position.z*=(edk::float32)n;edkEnd();
     }
-    void operator*=(int16 n){
+    inline void operator*=(int16 n){
         this->position.x*=(edk::float32)n;edkEnd();
         this->position.y*=(edk::float32)n;edkEnd();
         this->position.z*=(edk::float32)n;edkEnd();
     }
-    void operator*=(int32 n){
+    inline void operator*=(int32 n){
         this->position.x*=(edk::float32)n;edkEnd();
         this->position.y*=(edk::float32)n;edkEnd();
         this->position.z*=(edk::float32)n;edkEnd();
     }
-    void operator*=(int64 n){
+    inline void operator*=(int64 n){
         this->position.x*=(edk::float32)n;edkEnd();
         this->position.y*=(edk::float32)n;edkEnd();
         this->position.z*=(edk::float32)n;edkEnd();
     }
-    void operator*=(uint8 n){
+    inline void operator*=(uint8 n){
         this->position.x*=(edk::float32)n;edkEnd();
         this->position.y*=(edk::float32)n;edkEnd();
         this->position.z*=(edk::float32)n;edkEnd();
     }
-    void operator*=(uint16 n){
+    inline void operator*=(uint16 n){
         this->position.x*=(edk::float32)n;edkEnd();
         this->position.y*=(edk::float32)n;edkEnd();
         this->position.z*=(edk::float32)n;edkEnd();
     }
-    void operator*=(uint32 n){
+    inline void operator*=(uint32 n){
         this->position.x*=(edk::float32)n;edkEnd();
         this->position.y*=(edk::float32)n;edkEnd();
         this->position.z*=(edk::float32)n;edkEnd();
     }
-    void operator*=(uint64 n){
+    inline void operator*=(uint64 n){
         this->position.x*=(edk::float32)n;edkEnd();
         this->position.y*=(edk::float32)n;edkEnd();
         this->position.z*=(edk::float32)n;edkEnd();
     }
-    void operator*=(color4f32 color){
+    inline void operator*=(color4f32 color){
         this->color.r*=color.r;edkEnd();
         this->color.g*=color.g;edkEnd();
         this->color.b*=color.b;edkEnd();
         this->color.a*=color.a;edkEnd();
     }
-    void operator*=(color3f32 color){
+    inline void operator*=(color3f32 color){
         this->color.r*=color.r;edkEnd();
         this->color.g*=color.g;edkEnd();
         this->color.b*=color.b;edkEnd();
@@ -1239,81 +1239,81 @@ public:
     }
 
     // /=
-    void operator/=(vec3f32Color4f32 vec){
+    inline void operator/=(vec3f32Color4f32 vec){
         this->position.x/=vec.position.x;edkEnd();
         this->position.y/=vec.position.y;edkEnd();
         this->position.z/=vec.position.z;edkEnd();
     }
-    void operator/=(vec3f32 vec){
+    inline void operator/=(vec3f32 vec){
         this->position.x/=vec.x;edkEnd();
         this->position.y/=vec.y;edkEnd();
         this->position.z/=vec.z;edkEnd();
     }
-    void operator/=(vec2f32 vec){
+    inline void operator/=(vec2f32 vec){
         this->position.x/=vec.x;edkEnd();
         this->position.y/=vec.y;edkEnd();
     }
-    void operator/=(vec2i8 vec){
+    inline void operator/=(vec2i8 vec){
         this->position.x/=vec.x;edkEnd();
         this->position.y/=vec.y;edkEnd();
     }
-    void operator/=(edk::float32 n){
+    inline void operator/=(edk::float32 n){
         this->position.x/=(edk::float32)n;edkEnd();
         this->position.y/=(edk::float32)n;edkEnd();
         this->position.z/=(edk::float32)n;edkEnd();
     }
-    void operator/=(edk::float64 n){
+    inline void operator/=(edk::float64 n){
         this->position.x/=(edk::float32)n;edkEnd();
         this->position.y/=(edk::float32)n;edkEnd();
         this->position.z/=(edk::float32)n;edkEnd();
     }
-    void operator/=(int8 n){
+    inline void operator/=(int8 n){
         this->position.x/=(edk::float32)n;edkEnd();
         this->position.y/=(edk::float32)n;edkEnd();
         this->position.z/=(edk::float32)n;edkEnd();
     }
-    void operator/=(int16 n){
+    inline void operator/=(int16 n){
         this->position.x/=(edk::float32)n;edkEnd();
         this->position.y/=(edk::float32)n;edkEnd();
         this->position.z/=(edk::float32)n;edkEnd();
     }
-    void operator/=(int32 n){
+    inline void operator/=(int32 n){
         this->position.x/=(edk::float32)n;edkEnd();
         this->position.y/=(edk::float32)n;edkEnd();
         this->position.z/=(edk::float32)n;edkEnd();
     }
-    void operator/=(int64 n){
+    inline void operator/=(int64 n){
         this->position.x/=(edk::float32)n;edkEnd();
         this->position.y/=(edk::float32)n;edkEnd();
         this->position.z/=(edk::float32)n;edkEnd();
     }
-    void operator/=(uint8 n){
+    inline void operator/=(uint8 n){
         this->position.x/=(edk::float32)n;edkEnd();
         this->position.y/=(edk::float32)n;edkEnd();
         this->position.z/=(edk::float32)n;edkEnd();
     }
-    void operator/=(uint16 n){
+    inline void operator/=(uint16 n){
         this->position.x/=(edk::float32)n;edkEnd();
         this->position.y/=(edk::float32)n;edkEnd();
         this->position.z/=(edk::float32)n;edkEnd();
     }
-    void operator/=(uint32 n){
+    inline void operator/=(uint32 n){
         this->position.x/=(edk::float32)n;edkEnd();
         this->position.y/=(edk::float32)n;edkEnd();
         this->position.z/=(edk::float32)n;edkEnd();
     }
-    void operator/=(uint64 n){
+    inline void operator/=(uint64 n){
         this->position.x/=(edk::float32)n;edkEnd();
         this->position.y/=(edk::float32)n;edkEnd();
         this->position.z/=(edk::float32)n;edkEnd();
     }
-    void operator/=(color4f32 color){
+    inline void operator/=(color4f32 color){
         this->color.r/=color.r;edkEnd();
         this->color.g/=color.g;edkEnd();
         this->color.b/=color.b;edkEnd();
         this->color.a/=color.a;edkEnd();
     }
-    void operator/=(color3f32 color){
+    inline void operator/=(color3f32 color){
         this->color.r/=color.r;edkEnd();
         this->color.g/=color.g;edkEnd();
         this->color.b/=color.b;edkEnd();

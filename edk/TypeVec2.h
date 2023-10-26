@@ -6342,7 +6342,7 @@ public:
         return false;
     }
     //Operator <
-/*
+    /*
     inline bool operator<(edk::float32 value){
         if(this->x<(edk::float64)value || this->y<(edk::float64)value){
             return true;

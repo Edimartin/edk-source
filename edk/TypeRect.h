@@ -426,63 +426,63 @@ public:
         ret.size.height=this->size.height+(edk::int8)n;
         return ret;
     }
-    void operator+=(edk::recti8 rect){
+   inline void operator+=(edk::recti8 rect){
         //
         this->origin.x+=(edk::int8)rect.origin.x;
         this->origin.y+=(edk::int8)rect.origin.y;
         this->size.width+=(edk::int8)rect.size.width;
         this->size.height+=(edk::int8)rect.size.height;
     }
-    void operator+=(edk::int8 n){
+   inline void operator+=(edk::int8 n){
         //
         this->origin.x+=(edk::int8)n;
         this->origin.y+=(edk::int8)n;
         this->size.width+=(edk::int8)n;
         this->size.height+=(edk::int8)n;
     }
-    void operator+=(edk::int32 n){
+   inline void operator+=(edk::int32 n){
         //
         this->origin.x+=(edk::int8)n;
         this->origin.y+=(edk::int8)n;
         this->size.width+=(edk::int8)n;
         this->size.height+=(edk::int8)n;
     }
-    void operator+=(edk::int16 n){
+   inline void operator+=(edk::int16 n){
         //
         this->origin.x+=(edk::int8)n;
         this->origin.y+=(edk::int8)n;
         this->size.width+=(edk::int8)n;
         this->size.height+=(edk::int8)n;
     }
-    void operator+=(edk::int64 n){
+   inline void operator+=(edk::int64 n){
         //
         this->origin.x+=(edk::int8)n;
         this->origin.y+=(edk::int8)n;
         this->size.width+=(edk::int8)n;
         this->size.height+=(edk::int8)n;
     }
-    void operator+=(edk::uint8 n){
+   inline void operator+=(edk::uint8 n){
         //
         this->origin.x+=(edk::int8)n;
         this->origin.y+=(edk::int8)n;
         this->size.width+=(edk::int8)n;
         this->size.height+=(edk::int8)n;
     }
-    void operator+=(edk::uint32 n){
+   inline void operator+=(edk::uint32 n){
         //
         this->origin.x+=(edk::int8)n;
         this->origin.y+=(edk::int8)n;
         this->size.width+=(edk::int8)n;
         this->size.height+=(edk::int8)n;
     }
-    void operator+=(edk::uint16 n){
+   inline void operator+=(edk::uint16 n){
         //
         this->origin.x+=(edk::int8)n;
         this->origin.y+=(edk::int8)n;
         this->size.width+=(edk::int8)n;
         this->size.height+=(edk::int8)n;
     }
-    void operator+=(edk::uint64 n){
+   inline void operator+=(edk::uint64 n){
         //
         this->origin.x+=(edk::int8)n;
         this->origin.y+=(edk::int8)n;
@@ -570,63 +570,63 @@ public:
         ret.size.height=this->size.height-(edk::int8)n;
         return ret;
     }
-    void operator-=(edk::recti8 vec){
+   inline void operator-=(edk::recti8 vec){
         //
         this->origin.x-=(edk::int8)vec.origin.x;
         this->origin.y-=(edk::int8)vec.origin.y;
         this->size.width-=(edk::int8)vec.size.width;
         this->size.height-=(edk::int8)vec.size.height;
     }
-    void operator-=(edk::int8 n){
+   inline void operator-=(edk::int8 n){
         //
         this->origin.x-=(edk::int8)n;
         this->origin.y-=(edk::int8)n;
         this->size.width-=(edk::int8)n;
         this->size.height-=(edk::int8)n;
     }
-    void operator-=(edk::int32 n){
+   inline void operator-=(edk::int32 n){
         //
         this->origin.x-=(edk::int8)n;
         this->origin.y-=(edk::int8)n;
         this->size.width-=(edk::int8)n;
         this->size.height-=(edk::int8)n;
     }
-    void operator-=(edk::int16 n){
+   inline void operator-=(edk::int16 n){
         //
         this->origin.x-=(edk::int8)n;
         this->origin.y-=(edk::int8)n;
         this->size.width-=(edk::int8)n;
         this->size.height-=(edk::int8)n;
     }
-    void operator-=(edk::int64 n){
+   inline void operator-=(edk::int64 n){
         //
         this->origin.x-=(edk::int8)n;
         this->origin.y-=(edk::int8)n;
         this->size.width-=(edk::int8)n;
         this->size.height-=(edk::int8)n;
     }
-    void operator-=(edk::uint8 n){
+   inline void operator-=(edk::uint8 n){
         //
         this->origin.x-=(edk::int8)n;
         this->origin.y-=(edk::int8)n;
         this->size.width-=(edk::int8)n;
         this->size.height-=(edk::int8)n;
     }
-    void operator-=(edk::uint32 n){
+   inline void operator-=(edk::uint32 n){
         //
         this->origin.x-=(edk::int8)n;
         this->origin.y-=(edk::int8)n;
         this->size.width-=(edk::int8)n;
         this->size.height-=(edk::int8)n;
     }
-    void operator-=(edk::uint16 n){
+   inline void operator-=(edk::uint16 n){
         //
         this->origin.x-=(edk::int8)n;
         this->origin.y-=(edk::int8)n;
         this->size.width-=(edk::int8)n;
         this->size.height-=(edk::int8)n;
     }
-    void operator-=(edk::uint64 n){
+   inline void operator-=(edk::uint64 n){
         //
         this->origin.x-=(edk::int8)n;
         this->origin.y-=(edk::int8)n;
@@ -714,63 +714,63 @@ public:
         ret.size.height=this->size.height*(edk::int8)n;
         return ret;
     }
-    void operator*=(edk::recti8 rect){
+   inline void operator*=(edk::recti8 rect){
         //
         this->origin.x*=(edk::int8)rect.origin.x;
         this->origin.y*=(edk::int8)rect.origin.y;
         this->size.width*=(edk::int8)rect.size.width;
         this->size.height*=(edk::int8)rect.size.height;
     }
-    void operator*=(edk::int8 n){
+   inline void operator*=(edk::int8 n){
         //
         this->origin.x*=(edk::int8)n;
         this->origin.y*=(edk::int8)n;
         this->size.width*=(edk::int8)n;
         this->size.height*=(edk::int8)n;
     }
-    void operator*=(edk::int32 n){
+   inline void operator*=(edk::int32 n){
         //
         this->origin.x*=(edk::int8)n;
         this->origin.y*=(edk::int8)n;
         this->size.width*=(edk::int8)n;
         this->size.height*=(edk::int8)n;
     }
-    void operator*=(edk::int16 n){
+   inline void operator*=(edk::int16 n){
         //
         this->origin.x*=(edk::int8)n;
         this->origin.y*=(edk::int8)n;
         this->size.width*=(edk::int8)n;
         this->size.height*=(edk::int8)n;
     }
-    void operator*=(edk::int64 n){
+   inline void operator*=(edk::int64 n){
         //
         this->origin.x*=(edk::int8)n;
         this->origin.y*=(edk::int8)n;
         this->size.width*=(edk::int8)n;
         this->size.height*=(edk::int8)n;
     }
-    void operator*=(edk::uint8 n){
+   inline void operator*=(edk::uint8 n){
         //
         this->origin.x*=(edk::int8)n;
         this->origin.y*=(edk::int8)n;
         this->size.width*=(edk::int8)n;
         this->size.height*=(edk::int8)n;
     }
-    void operator*=(edk::uint32 n){
+   inline void operator*=(edk::uint32 n){
         //
         this->origin.x*=(edk::int8)n;
         this->origin.y*=(edk::int8)n;
         this->size.width*=(edk::int8)n;
         this->size.height*=(edk::int8)n;
     }
-    void operator*=(edk::uint16 n){
+   inline void operator*=(edk::uint16 n){
         //
         this->origin.x*=(edk::int8)n;
         this->origin.y*=(edk::int8)n;
         this->size.width*=(edk::int8)n;
         this->size.height*=(edk::int8)n;
     }
-    void operator*=(edk::uint64 n){
+   inline void operator*=(edk::uint64 n){
         //
         this->origin.x*=(edk::int8)n;
         this->origin.y*=(edk::int8)n;
@@ -1302,70 +1302,70 @@ public:
         ret.size.height=this->size.height+(edk::int16)n;
         return ret;
     }
-    void operator+=(edk::recti8 rect){
+   inline void operator+=(edk::recti8 rect){
         //
         this->origin.x+=(edk::int16)rect.origin.x;
         this->origin.y+=(edk::int16)rect.origin.y;
         this->size.width+=(edk::int16)rect.size.width;
         this->size.height+=(edk::int16)rect.size.height;
     }
-    void operator+=(edk::recti16 rect){
+   inline void operator+=(edk::recti16 rect){
         //
         this->origin.x+=(edk::int16)rect.origin.x;
         this->origin.y+=(edk::int16)rect.origin.y;
         this->size.width+=(edk::int16)rect.size.width;
         this->size.height+=(edk::int16)rect.size.height;
     }
-    void operator+=(edk::int8 n){
+   inline void operator+=(edk::int8 n){
         //
         this->origin.x+=(edk::int16)n;
         this->origin.y+=(edk::int16)n;
         this->size.width+=(edk::int16)n;
         this->size.height+=(edk::int16)n;
     }
-    void operator+=(edk::int32 n){
+   inline void operator+=(edk::int32 n){
         //
         this->origin.x+=(edk::int16)n;
         this->origin.y+=(edk::int16)n;
         this->size.width+=(edk::int16)n;
         this->size.height+=(edk::int16)n;
     }
-    void operator+=(edk::int16 n){
+   inline void operator+=(edk::int16 n){
         //
         this->origin.x+=(edk::int16)n;
         this->origin.y+=(edk::int16)n;
         this->size.width+=(edk::int16)n;
         this->size.height+=(edk::int16)n;
     }
-    void operator+=(edk::int64 n){
+   inline void operator+=(edk::int64 n){
         //
         this->origin.x+=(edk::int16)n;
         this->origin.y+=(edk::int16)n;
         this->size.width+=(edk::int16)n;
         this->size.height+=(edk::int16)n;
     }
-    void operator+=(edk::uint8 n){
+   inline void operator+=(edk::uint8 n){
         //
         this->origin.x+=(edk::int16)n;
         this->origin.y+=(edk::int16)n;
         this->size.width+=(edk::int16)n;
         this->size.height+=(edk::int16)n;
     }
-    void operator+=(edk::uint32 n){
+   inline void operator+=(edk::uint32 n){
         //
         this->origin.x+=(edk::int16)n;
         this->origin.y+=(edk::int16)n;
         this->size.width+=(edk::int16)n;
         this->size.height+=(edk::int16)n;
     }
-    void operator+=(edk::uint16 n){
+   inline void operator+=(edk::uint16 n){
         //
         this->origin.x+=(edk::int16)n;
         this->origin.y+=(edk::int16)n;
         this->size.width+=(edk::int16)n;
         this->size.height+=(edk::int16)n;
     }
-    void operator+=(edk::uint64 n){
+   inline void operator+=(edk::uint64 n){
         //
         this->origin.x+=(edk::int16)n;
         this->origin.y+=(edk::int16)n;
@@ -1462,70 +1462,70 @@ public:
         ret.size.height=this->size.height-(edk::int16)n;
         return ret;
     }
-    void operator-=(edk::recti8 vec){
+   inline void operator-=(edk::recti8 vec){
         //
         this->origin.x-=(edk::int16)vec.origin.x;
         this->origin.y-=(edk::int16)vec.origin.y;
         this->size.width-=(edk::int16)vec.size.width;
         this->size.height-=(edk::int16)vec.size.height;
     }
-    void operator-=(edk::recti16 vec){
+   inline void operator-=(edk::recti16 vec){
         //
         this->origin.x-=(edk::int16)vec.origin.x;
         this->origin.y-=(edk::int16)vec.origin.y;
         this->size.width-=(edk::int16)vec.size.width;
         this->size.height-=(edk::int16)vec.size.height;
     }
-    void operator-=(edk::int8 n){
+   inline void operator-=(edk::int8 n){
         //
         this->origin.x-=(edk::int16)n;
         this->origin.y-=(edk::int16)n;
         this->size.width-=(edk::int16)n;
         this->size.height-=(edk::int16)n;
     }
-    void operator-=(edk::int32 n){
+   inline void operator-=(edk::int32 n){
         //
         this->origin.x-=(edk::int16)n;
         this->origin.y-=(edk::int16)n;
         this->size.width-=(edk::int16)n;
         this->size.height-=(edk::int16)n;
     }
-    void operator-=(edk::int16 n){
+   inline void operator-=(edk::int16 n){
         //
         this->origin.x-=(edk::int16)n;
         this->origin.y-=(edk::int16)n;
         this->size.width-=(edk::int16)n;
         this->size.height-=(edk::int16)n;
     }
-    void operator-=(edk::int64 n){
+   inline void operator-=(edk::int64 n){
         //
         this->origin.x-=(edk::int16)n;
         this->origin.y-=(edk::int16)n;
         this->size.width-=(edk::int16)n;
         this->size.height-=(edk::int16)n;
     }
-    void operator-=(edk::uint8 n){
+   inline void operator-=(edk::uint8 n){
         //
         this->origin.x-=(edk::int16)n;
         this->origin.y-=(edk::int16)n;
         this->size.width-=(edk::int16)n;
         this->size.height-=(edk::int16)n;
     }
-    void operator-=(edk::uint32 n){
+   inline void operator-=(edk::uint32 n){
         //
         this->origin.x-=(edk::int16)n;
         this->origin.y-=(edk::int16)n;
         this->size.width-=(edk::int16)n;
         this->size.height-=(edk::int16)n;
     }
-    void operator-=(edk::uint16 n){
+   inline void operator-=(edk::uint16 n){
         //
         this->origin.x-=(edk::int16)n;
         this->origin.y-=(edk::int16)n;
         this->size.width-=(edk::int16)n;
         this->size.height-=(edk::int16)n;
     }
-    void operator-=(edk::uint64 n){
+   inline void operator-=(edk::uint64 n){
         //
         this->origin.x-=(edk::int16)n;
         this->origin.y-=(edk::int16)n;
@@ -1622,70 +1622,70 @@ public:
         ret.size.height=this->size.height*(edk::int16)n;
         return ret;
     }
-    void operator*=(edk::recti8 rect){
+   inline void operator*=(edk::recti8 rect){
         //
         this->origin.x*=(edk::int16)rect.origin.x;
         this->origin.y*=(edk::int16)rect.origin.y;
         this->size.width*=(edk::int16)rect.size.width;
         this->size.height*=(edk::int16)rect.size.height;
     }
-    void operator*=(edk::recti16 rect){
+   inline void operator*=(edk::recti16 rect){
         //
         this->origin.x*=(edk::int16)rect.origin.x;
         this->origin.y*=(edk::int16)rect.origin.y;
         this->size.width*=(edk::int16)rect.size.width;
         this->size.height*=(edk::int16)rect.size.height;
     }
-    void operator*=(edk::int8 n){
+   inline void operator*=(edk::int8 n){
         //
         this->origin.x*=(edk::int16)n;
         this->origin.y*=(edk::int16)n;
         this->size.width*=(edk::int16)n;
         this->size.height*=(edk::int16)n;
     }
-    void operator*=(edk::int32 n){
+   inline void operator*=(edk::int32 n){
         //
         this->origin.x*=(edk::int16)n;
         this->origin.y*=(edk::int16)n;
         this->size.width*=(edk::int16)n;
         this->size.height*=(edk::int16)n;
     }
-    void operator*=(edk::int16 n){
+   inline void operator*=(edk::int16 n){
         //
         this->origin.x*=(edk::int16)n;
         this->origin.y*=(edk::int16)n;
         this->size.width*=(edk::int16)n;
         this->size.height*=(edk::int16)n;
     }
-    void operator*=(edk::int64 n){
+   inline void operator*=(edk::int64 n){
         //
         this->origin.x*=(edk::int16)n;
         this->origin.y*=(edk::int16)n;
         this->size.width*=(edk::int16)n;
         this->size.height*=(edk::int16)n;
     }
-    void operator*=(edk::uint8 n){
+   inline void operator*=(edk::uint8 n){
         //
         this->origin.x*=(edk::int16)n;
         this->origin.y*=(edk::int16)n;
         this->size.width*=(edk::int16)n;
         this->size.height*=(edk::int16)n;
     }
-    void operator*=(edk::uint32 n){
+   inline void operator*=(edk::uint32 n){
         //
         this->origin.x*=(edk::int16)n;
         this->origin.y*=(edk::int16)n;
         this->size.width*=(edk::int16)n;
         this->size.height*=(edk::int16)n;
     }
-    void operator*=(edk::uint16 n){
+   inline void operator*=(edk::uint16 n){
         //
         this->origin.x*=(edk::int16)n;
         this->origin.y*=(edk::int16)n;
         this->size.width*=(edk::int16)n;
         this->size.height*=(edk::int16)n;
     }
-    void operator*=(edk::uint64 n){
+   inline void operator*=(edk::uint64 n){
         //
         this->origin.x*=(edk::int16)n;
         this->origin.y*=(edk::int16)n;
@@ -2256,77 +2256,77 @@ public:
         ret.size.height=this->size.height+(edk::int32)n;
         return ret;
     }
-    void operator+=(edk::recti8 rect){
+   inline void operator+=(edk::recti8 rect){
         //
         this->origin.x+=(edk::int32)rect.origin.x;
         this->origin.y+=(edk::int32)rect.origin.y;
         this->size.width+=(edk::int32)rect.size.width;
         this->size.height+=(edk::int32)rect.size.height;
     }
-    void operator+=(edk::recti16 rect){
+   inline void operator+=(edk::recti16 rect){
         //
         this->origin.x+=(edk::int32)rect.origin.x;
         this->origin.y+=(edk::int32)rect.origin.y;
         this->size.width+=(edk::int32)rect.size.width;
         this->size.height+=(edk::int32)rect.size.height;
     }
-    void operator+=(edk::recti32 rect){
+   inline void operator+=(edk::recti32 rect){
         //
         this->origin.x+=(edk::int32)rect.origin.x;
         this->origin.y+=(edk::int32)rect.origin.y;
         this->size.width+=(edk::int32)rect.size.width;
         this->size.height+=(edk::int32)rect.size.height;
     }
-    void operator+=(edk::int8 n){
+   inline void operator+=(edk::int8 n){
         //
         this->origin.x+=(edk::int32)n;
         this->origin.y+=(edk::int32)n;
         this->size.width+=(edk::int32)n;
         this->size.height+=(edk::int32)n;
     }
-    void operator+=(edk::int32 n){
+   inline void operator+=(edk::int32 n){
         //
         this->origin.x+=(edk::int32)n;
         this->origin.y+=(edk::int32)n;
         this->size.width+=(edk::int32)n;
         this->size.height+=(edk::int32)n;
     }
-    void operator+=(edk::int16 n){
+   inline void operator+=(edk::int16 n){
         //
         this->origin.x+=(edk::int32)n;
         this->origin.y+=(edk::int32)n;
         this->size.width+=(edk::int32)n;
         this->size.height+=(edk::int32)n;
     }
-    void operator+=(edk::int64 n){
+   inline void operator+=(edk::int64 n){
         //
         this->origin.x+=(edk::int32)n;
         this->origin.y+=(edk::int32)n;
         this->size.width+=(edk::int32)n;
         this->size.height+=(edk::int32)n;
     }
-    void operator+=(edk::uint8 n){
+   inline void operator+=(edk::uint8 n){
         //
         this->origin.x+=(edk::int32)n;
         this->origin.y+=(edk::int32)n;
         this->size.width+=(edk::int32)n;
         this->size.height+=(edk::int32)n;
     }
-    void operator+=(edk::uint32 n){
+   inline void operator+=(edk::uint32 n){
         //
         this->origin.x+=(edk::int32)n;
         this->origin.y+=(edk::int32)n;
         this->size.width+=(edk::int32)n;
         this->size.height+=(edk::int32)n;
     }
-    void operator+=(edk::uint16 n){
+   inline void operator+=(edk::uint16 n){
         //
         this->origin.x+=(edk::int32)n;
         this->origin.y+=(edk::int32)n;
         this->size.width+=(edk::int32)n;
         this->size.height+=(edk::int32)n;
     }
-    void operator+=(edk::uint64 n){
+   inline void operator+=(edk::uint64 n){
         //
         this->origin.x+=(edk::int32)n;
         this->origin.y+=(edk::int32)n;
@@ -2432,77 +2432,77 @@ public:
         ret.size.height=this->size.height-(edk::int32)n;
         return ret;
     }
-    void operator-=(edk::recti8 vec){
+   inline void operator-=(edk::recti8 vec){
         //
         this->origin.x-=(edk::int32)vec.origin.x;
         this->origin.y-=(edk::int32)vec.origin.y;
         this->size.width-=(edk::int32)vec.size.width;
         this->size.height-=(edk::int32)vec.size.height;
     }
-    void operator-=(edk::recti16 vec){
+   inline void operator-=(edk::recti16 vec){
         //
         this->origin.x-=(edk::int32)vec.origin.x;
         this->origin.y-=(edk::int32)vec.origin.y;
         this->size.width-=(edk::int32)vec.size.width;
         this->size.height-=(edk::int32)vec.size.height;
     }
-    void operator-=(edk::recti32 vec){
+   inline void operator-=(edk::recti32 vec){
         //
         this->origin.x-=(edk::int32)vec.origin.x;
         this->origin.y-=(edk::int32)vec.origin.y;
         this->size.width-=(edk::int32)vec.size.width;
         this->size.height-=(edk::int32)vec.size.height;
     }
-    void operator-=(edk::int8 n){
+   inline void operator-=(edk::int8 n){
         //
         this->origin.x-=(edk::int32)n;
         this->origin.y-=(edk::int32)n;
         this->size.width-=(edk::int32)n;
         this->size.height-=(edk::int32)n;
     }
-    void operator-=(edk::int32 n){
+   inline void operator-=(edk::int32 n){
         //
         this->origin.x-=(edk::int32)n;
         this->origin.y-=(edk::int32)n;
         this->size.width-=(edk::int32)n;
         this->size.height-=(edk::int32)n;
     }
-    void operator-=(edk::int16 n){
+   inline void operator-=(edk::int16 n){
         //
         this->origin.x-=(edk::int32)n;
         this->origin.y-=(edk::int32)n;
         this->size.width-=(edk::int32)n;
         this->size.height-=(edk::int32)n;
     }
-    void operator-=(edk::int64 n){
+   inline void operator-=(edk::int64 n){
         //
         this->origin.x-=(edk::int32)n;
         this->origin.y-=(edk::int32)n;
         this->size.width-=(edk::int32)n;
         this->size.height-=(edk::int32)n;
     }
-    void operator-=(edk::uint8 n){
+   inline void operator-=(edk::uint8 n){
         //
         this->origin.x-=(edk::int32)n;
         this->origin.y-=(edk::int32)n;
         this->size.width-=(edk::int32)n;
         this->size.height-=(edk::int32)n;
     }
-    void operator-=(edk::uint32 n){
+   inline void operator-=(edk::uint32 n){
         //
         this->origin.x-=(edk::int32)n;
         this->origin.y-=(edk::int32)n;
         this->size.width-=(edk::int32)n;
         this->size.height-=(edk::int32)n;
     }
-    void operator-=(edk::uint16 n){
+   inline void operator-=(edk::uint16 n){
         //
         this->origin.x-=(edk::int32)n;
         this->origin.y-=(edk::int32)n;
         this->size.width-=(edk::int32)n;
         this->size.height-=(edk::int32)n;
     }
-    void operator-=(edk::uint64 n){
+   inline void operator-=(edk::uint64 n){
         //
         this->origin.x-=(edk::int32)n;
         this->origin.y-=(edk::int32)n;
@@ -2608,77 +2608,77 @@ public:
         ret.size.height=this->size.height*(edk::int32)n;
         return ret;
     }
-    void operator*=(edk::recti8 rect){
+   inline void operator*=(edk::recti8 rect){
         //
         this->origin.x*=(edk::int32)rect.origin.x;
         this->origin.y*=(edk::int32)rect.origin.y;
         this->size.width*=(edk::int32)rect.size.width;
         this->size.height*=(edk::int32)rect.size.height;
     }
-    void operator*=(edk::recti16 rect){
+   inline void operator*=(edk::recti16 rect){
         //
         this->origin.x*=(edk::int32)rect.origin.x;
         this->origin.y*=(edk::int32)rect.origin.y;
         this->size.width*=(edk::int32)rect.size.width;
         this->size.height*=(edk::int32)rect.size.height;
     }
-    void operator*=(edk::recti32 rect){
+   inline void operator*=(edk::recti32 rect){
         //
         this->origin.x*=(edk::int32)rect.origin.x;
         this->origin.y*=(edk::int32)rect.origin.y;
         this->size.width*=(edk::int32)rect.size.width;
         this->size.height*=(edk::int32)rect.size.height;
     }
-    void operator*=(edk::int8 n){
+   inline void operator*=(edk::int8 n){
         //
         this->origin.x*=(edk::int32)n;
         this->origin.y*=(edk::int32)n;
         this->size.width*=(edk::int32)n;
         this->size.height*=(edk::int32)n;
     }
-    void operator*=(edk::int32 n){
+   inline void operator*=(edk::int32 n){
         //
         this->origin.x*=(edk::int32)n;
         this->origin.y*=(edk::int32)n;
         this->size.width*=(edk::int32)n;
         this->size.height*=(edk::int32)n;
     }
-    void operator*=(edk::int16 n){
+   inline void operator*=(edk::int16 n){
         //
         this->origin.x*=(edk::int32)n;
         this->origin.y*=(edk::int32)n;
         this->size.width*=(edk::int32)n;
         this->size.height*=(edk::int32)n;
     }
-    void operator*=(edk::int64 n){
+   inline void operator*=(edk::int64 n){
         //
         this->origin.x*=(edk::int32)n;
         this->origin.y*=(edk::int32)n;
         this->size.width*=(edk::int32)n;
         this->size.height*=(edk::int32)n;
     }
-    void operator*=(edk::uint8 n){
+   inline void operator*=(edk::uint8 n){
         //
         this->origin.x*=(edk::int32)n;
         this->origin.y*=(edk::int32)n;
         this->size.width*=(edk::int32)n;
         this->size.height*=(edk::int32)n;
     }
-    void operator*=(edk::uint32 n){
+   inline void operator*=(edk::uint32 n){
         //
         this->origin.x*=(edk::int32)n;
         this->origin.y*=(edk::int32)n;
         this->size.width*=(edk::int32)n;
         this->size.height*=(edk::int32)n;
     }
-    void operator*=(edk::uint16 n){
+   inline void operator*=(edk::uint16 n){
         //
         this->origin.x*=(edk::int32)n;
         this->origin.y*=(edk::int32)n;
         this->size.width*=(edk::int32)n;
         this->size.height*=(edk::int32)n;
     }
-    void operator*=(edk::uint64 n){
+   inline void operator*=(edk::uint64 n){
         //
         this->origin.x*=(edk::int32)n;
         this->origin.y*=(edk::int32)n;
@@ -3288,84 +3288,84 @@ public:
         ret.size.height=this->size.height+(edk::int64)n;
         return ret;
     }
-    void operator+=(edk::recti8 rect){
+   inline void operator+=(edk::recti8 rect){
         //
         this->origin.x+=(edk::int64)rect.origin.x;
         this->origin.y+=(edk::int64)rect.origin.y;
         this->size.width+=(edk::int64)rect.size.width;
         this->size.height+=(edk::int64)rect.size.height;
     }
-    void operator+=(edk::recti16 rect){
+   inline void operator+=(edk::recti16 rect){
         //
         this->origin.x+=(edk::int64)rect.origin.x;
         this->origin.y+=(edk::int64)rect.origin.y;
         this->size.width+=(edk::int64)rect.size.width;
         this->size.height+=(edk::int64)rect.size.height;
     }
-    void operator+=(edk::recti32 rect){
+   inline void operator+=(edk::recti32 rect){
         //
         this->origin.x+=(edk::int64)rect.origin.x;
         this->origin.y+=(edk::int64)rect.origin.y;
         this->size.width+=(edk::int64)rect.size.width;
         this->size.height+=(edk::int64)rect.size.height;
     }
-    void operator+=(edk::recti64 rect){
+   inline void operator+=(edk::recti64 rect){
         //
         this->origin.x+=(edk::int64)rect.origin.x;
         this->origin.y+=(edk::int64)rect.origin.y;
         this->size.width+=(edk::int64)rect.size.width;
         this->size.height+=(edk::int64)rect.size.height;
     }
-    void operator+=(edk::int8 n){
+   inline void operator+=(edk::int8 n){
         //
         this->origin.x+=(edk::int64)n;
         this->origin.y+=(edk::int64)n;
         this->size.width+=(edk::int64)n;
         this->size.height+=(edk::int64)n;
     }
-    void operator+=(edk::int32 n){
+   inline void operator+=(edk::int32 n){
         //
         this->origin.x+=(edk::int64)n;
         this->origin.y+=(edk::int64)n;
         this->size.width+=(edk::int64)n;
         this->size.height+=(edk::int64)n;
     }
-    void operator+=(edk::int16 n){
+   inline void operator+=(edk::int16 n){
         //
         this->origin.x+=(edk::int64)n;
         this->origin.y+=(edk::int64)n;
         this->size.width+=(edk::int64)n;
         this->size.height+=(edk::int64)n;
     }
-    void operator+=(edk::int64 n){
+   inline void operator+=(edk::int64 n){
         //
         this->origin.x+=(edk::int64)n;
         this->origin.y+=(edk::int64)n;
         this->size.width+=(edk::int64)n;
         this->size.height+=(edk::int64)n;
     }
-    void operator+=(edk::uint8 n){
+   inline void operator+=(edk::uint8 n){
         //
         this->origin.x+=(edk::int64)n;
         this->origin.y+=(edk::int64)n;
         this->size.width+=(edk::int64)n;
         this->size.height+=(edk::int64)n;
     }
-    void operator+=(edk::uint32 n){
+   inline void operator+=(edk::uint32 n){
         //
         this->origin.x+=(edk::int64)n;
         this->origin.y+=(edk::int64)n;
         this->size.width+=(edk::int64)n;
         this->size.height+=(edk::int64)n;
     }
-    void operator+=(edk::uint16 n){
+   inline void operator+=(edk::uint16 n){
         //
         this->origin.x+=(edk::int64)n;
         this->origin.y+=(edk::int64)n;
         this->size.width+=(edk::int64)n;
         this->size.height+=(edk::int64)n;
     }
-    void operator+=(edk::uint64 n){
+   inline void operator+=(edk::uint64 n){
         //
         this->origin.x+=(edk::int64)n;
         this->origin.y+=(edk::int64)n;
@@ -3480,84 +3480,84 @@ public:
         ret.size.height=this->size.height-(edk::int64)n;
         return ret;
     }
-    void operator-=(edk::recti8 vec){
+   inline void operator-=(edk::recti8 vec){
         //
         this->origin.x-=(edk::int64)vec.origin.x;
         this->origin.y-=(edk::int64)vec.origin.y;
         this->size.width-=(edk::int64)vec.size.width;
         this->size.height-=(edk::int64)vec.size.height;
     }
-    void operator-=(edk::recti16 vec){
+   inline void operator-=(edk::recti16 vec){
         //
         this->origin.x-=(edk::int64)vec.origin.x;
         this->origin.y-=(edk::int64)vec.origin.y;
         this->size.width-=(edk::int64)vec.size.width;
         this->size.height-=(edk::int64)vec.size.height;
     }
-    void operator-=(edk::recti32 vec){
+   inline void operator-=(edk::recti32 vec){
         //
         this->origin.x-=(edk::int64)vec.origin.x;
         this->origin.y-=(edk::int64)vec.origin.y;
         this->size.width-=(edk::int64)vec.size.width;
         this->size.height-=(edk::int64)vec.size.height;
     }
-    void operator-=(edk::recti64 vec){
+   inline void operator-=(edk::recti64 vec){
         //
         this->origin.x-=(edk::int64)vec.origin.x;
         this->origin.y-=(edk::int64)vec.origin.y;
         this->size.width-=(edk::int64)vec.size.width;
         this->size.height-=(edk::int64)vec.size.height;
     }
-    void operator-=(edk::int8 n){
+   inline void operator-=(edk::int8 n){
         //
         this->origin.x-=(edk::int64)n;
         this->origin.y-=(edk::int64)n;
         this->size.width-=(edk::int64)n;
         this->size.height-=(edk::int64)n;
     }
-    void operator-=(edk::int32 n){
+   inline void operator-=(edk::int32 n){
         //
         this->origin.x-=(edk::int64)n;
         this->origin.y-=(edk::int64)n;
         this->size.width-=(edk::int64)n;
         this->size.height-=(edk::int64)n;
     }
-    void operator-=(edk::int16 n){
+   inline void operator-=(edk::int16 n){
         //
         this->origin.x-=(edk::int64)n;
         this->origin.y-=(edk::int64)n;
         this->size.width-=(edk::int64)n;
         this->size.height-=(edk::int64)n;
     }
-    void operator-=(edk::int64 n){
+   inline void operator-=(edk::int64 n){
         //
         this->origin.x-=(edk::int64)n;
         this->origin.y-=(edk::int64)n;
         this->size.width-=(edk::int64)n;
         this->size.height-=(edk::int64)n;
     }
-    void operator-=(edk::uint8 n){
+   inline void operator-=(edk::uint8 n){
         //
         this->origin.x-=(edk::int64)n;
         this->origin.y-=(edk::int64)n;
         this->size.width-=(edk::int64)n;
         this->size.height-=(edk::int64)n;
     }
-    void operator-=(edk::uint32 n){
+   inline void operator-=(edk::uint32 n){
         //
         this->origin.x-=(edk::int64)n;
         this->origin.y-=(edk::int64)n;
         this->size.width-=(edk::int64)n;
         this->size.height-=(edk::int64)n;
     }
-    void operator-=(edk::uint16 n){
+   inline void operator-=(edk::uint16 n){
         //
         this->origin.x-=(edk::int64)n;
         this->origin.y-=(edk::int64)n;
         this->size.width-=(edk::int64)n;
         this->size.height-=(edk::int64)n;
     }
-    void operator-=(edk::uint64 n){
+   inline void operator-=(edk::uint64 n){
         //
         this->origin.x-=(edk::int64)n;
         this->origin.y-=(edk::int64)n;
@@ -3672,84 +3672,84 @@ public:
         ret.size.height=this->size.height*(edk::int64)n;
         return ret;
     }
-    void operator*=(edk::recti8 rect){
+   inline void operator*=(edk::recti8 rect){
         //
         this->origin.x*=(edk::int64)rect.origin.x;
         this->origin.y*=(edk::int64)rect.origin.y;
         this->size.width*=(edk::int64)rect.size.width;
         this->size.height*=(edk::int64)rect.size.height;
     }
-    void operator*=(edk::recti16 rect){
+   inline void operator*=(edk::recti16 rect){
         //
         this->origin.x*=(edk::int64)rect.origin.x;
         this->origin.y*=(edk::int64)rect.origin.y;
         this->size.width*=(edk::int64)rect.size.width;
         this->size.height*=(edk::int64)rect.size.height;
     }
-    void operator*=(edk::recti32 rect){
+   inline void operator*=(edk::recti32 rect){
         //
         this->origin.x*=(edk::int64)rect.origin.x;
         this->origin.y*=(edk::int64)rect.origin.y;
         this->size.width*=(edk::int64)rect.size.width;
         this->size.height*=(edk::int64)rect.size.height;
     }
-    void operator*=(edk::recti64 rect){
+   inline void operator*=(edk::recti64 rect){
         //
         this->origin.x*=(edk::int64)rect.origin.x;
         this->origin.y*=(edk::int64)rect.origin.y;
         this->size.width*=(edk::int64)rect.size.width;
         this->size.height*=(edk::int64)rect.size.height;
     }
-    void operator*=(edk::int8 n){
+   inline void operator*=(edk::int8 n){
         //
         this->origin.x*=(edk::int64)n;
         this->origin.y*=(edk::int64)n;
         this->size.width*=(edk::int64)n;
         this->size.height*=(edk::int64)n;
     }
-    void operator*=(edk::int32 n){
+   inline void operator*=(edk::int32 n){
         //
         this->origin.x*=(edk::int64)n;
         this->origin.y*=(edk::int64)n;
         this->size.width*=(edk::int64)n;
         this->size.height*=(edk::int64)n;
     }
-    void operator*=(edk::int16 n){
+   inline void operator*=(edk::int16 n){
         //
         this->origin.x*=(edk::int64)n;
         this->origin.y*=(edk::int64)n;
         this->size.width*=(edk::int64)n;
         this->size.height*=(edk::int64)n;
     }
-    void operator*=(edk::int64 n){
+   inline void operator*=(edk::int64 n){
         //
         this->origin.x*=(edk::int64)n;
         this->origin.y*=(edk::int64)n;
         this->size.width*=(edk::int64)n;
         this->size.height*=(edk::int64)n;
     }
-    void operator*=(edk::uint8 n){
+   inline void operator*=(edk::uint8 n){
         //
         this->origin.x*=(edk::int64)n;
         this->origin.y*=(edk::int64)n;
         this->size.width*=(edk::int64)n;
         this->size.height*=(edk::int64)n;
     }
-    void operator*=(edk::uint32 n){
+   inline void operator*=(edk::uint32 n){
         //
         this->origin.x*=(edk::int64)n;
         this->origin.y*=(edk::int64)n;
         this->size.width*=(edk::int64)n;
         this->size.height*=(edk::int64)n;
     }
-    void operator*=(edk::uint16 n){
+   inline void operator*=(edk::uint16 n){
         //
         this->origin.x*=(edk::int64)n;
         this->origin.y*=(edk::int64)n;
         this->size.width*=(edk::int64)n;
         this->size.height*=(edk::int64)n;
     }
-    void operator*=(edk::uint64 n){
+   inline void operator*=(edk::uint64 n){
         //
         this->origin.x*=(edk::int64)n;
         this->origin.y*=(edk::int64)n;
@@ -4142,35 +4142,35 @@ public:
         ret.size.height=this->size.height+(edk::uint8)n;
         return ret;
     }
-    void operator+=(edk::rectui8 rect){
+   inline void operator+=(edk::rectui8 rect){
         //
         this->origin.x+=(edk::uint8)rect.origin.x;
         this->origin.y+=(edk::uint8)rect.origin.y;
         this->size.width+=(edk::uint8)rect.size.width;
         this->size.height+=(edk::uint8)rect.size.height;
     }
-    void operator+=(edk::uint8 n){
+   inline void operator+=(edk::uint8 n){
         //
         this->origin.x+=(edk::uint8)n;
         this->origin.y+=(edk::uint8)n;
         this->size.width+=(edk::uint8)n;
         this->size.height+=(edk::uint8)n;
     }
-    void operator+=(edk::uint32 n){
+   inline void operator+=(edk::uint32 n){
         //
         this->origin.x+=(edk::uint8)n;
         this->origin.y+=(edk::uint8)n;
         this->size.width+=(edk::uint8)n;
         this->size.height+=(edk::uint8)n;
     }
-    void operator+=(edk::uint16 n){
+   inline void operator+=(edk::uint16 n){
         //
         this->origin.x+=(edk::uint8)n;
         this->origin.y+=(edk::uint8)n;
         this->size.width+=(edk::uint8)n;
         this->size.height+=(edk::uint8)n;
     }
-    void operator+=(edk::uint64 n){
+   inline void operator+=(edk::uint64 n){
         //
         this->origin.x+=(edk::uint8)n;
         this->origin.y+=(edk::uint8)n;
@@ -4222,35 +4222,35 @@ public:
         ret.size.height=this->size.height-(edk::uint8)n;
         return ret;
     }
-    void operator-=(edk::rectui8 vec){
+   inline void operator-=(edk::rectui8 vec){
         //
         this->origin.x-=(edk::uint8)vec.origin.x;
         this->origin.y-=(edk::uint8)vec.origin.y;
         this->size.width-=(edk::uint8)vec.size.width;
         this->size.height-=(edk::uint8)vec.size.height;
     }
-    void operator-=(edk::uint8 n){
+   inline void operator-=(edk::uint8 n){
         //
         this->origin.x-=(edk::uint8)n;
         this->origin.y-=(edk::uint8)n;
         this->size.width-=(edk::uint8)n;
         this->size.height-=(edk::uint8)n;
     }
-    void operator-=(edk::uint32 n){
+   inline void operator-=(edk::uint32 n){
         //
         this->origin.x-=(edk::uint8)n;
         this->origin.y-=(edk::uint8)n;
         this->size.width-=(edk::uint8)n;
         this->size.height-=(edk::uint8)n;
     }
-    void operator-=(edk::uint16 n){
+   inline void operator-=(edk::uint16 n){
         //
         this->origin.x-=(edk::uint8)n;
         this->origin.y-=(edk::uint8)n;
         this->size.width-=(edk::uint8)n;
         this->size.height-=(edk::uint8)n;
     }
-    void operator-=(edk::uint64 n){
+   inline void operator-=(edk::uint64 n){
         //
         this->origin.x-=(edk::uint8)n;
         this->origin.y-=(edk::uint8)n;
@@ -4302,35 +4302,35 @@ public:
         ret.size.height=this->size.height*(edk::uint8)n;
         return ret;
     }
-    void operator*=(edk::rectui8 rect){
+   inline void operator*=(edk::rectui8 rect){
         //
         this->origin.x*=(edk::uint8)rect.origin.x;
         this->origin.y*=(edk::uint8)rect.origin.y;
         this->size.width*=(edk::uint8)rect.size.width;
         this->size.height*=(edk::uint8)rect.size.height;
     }
-    void operator*=(edk::uint8 n){
+   inline void operator*=(edk::uint8 n){
         //
         this->origin.x*=(edk::uint8)n;
         this->origin.y*=(edk::uint8)n;
         this->size.width*=(edk::uint8)n;
         this->size.height*=(edk::uint8)n;
     }
-    void operator*=(edk::uint32 n){
+   inline void operator*=(edk::uint32 n){
         //
         this->origin.x*=(edk::uint8)n;
         this->origin.y*=(edk::uint8)n;
         this->size.width*=(edk::uint8)n;
         this->size.height*=(edk::uint8)n;
     }
-    void operator*=(edk::uint16 n){
+   inline void operator*=(edk::uint16 n){
         //
         this->origin.x*=(edk::uint8)n;
         this->origin.y*=(edk::uint8)n;
         this->size.width*=(edk::uint8)n;
         this->size.height*=(edk::uint8)n;
     }
-    void operator*=(edk::uint64 n){
+   inline void operator*=(edk::uint64 n){
         //
         this->origin.x*=(edk::uint8)n;
         this->origin.y*=(edk::uint8)n;
@@ -4706,42 +4706,42 @@ public:
         ret.size.height=this->size.height+(edk::uint16)n;
         return ret;
     }
-    void operator+=(edk::rectui8 rect){
+   inline void operator+=(edk::rectui8 rect){
         //
         this->origin.x+=(edk::uint16)rect.origin.x;
         this->origin.y+=(edk::uint16)rect.origin.y;
         this->size.width+=(edk::uint16)rect.size.width;
         this->size.height+=(edk::uint16)rect.size.height;
     }
-    void operator+=(edk::rectui16 rect){
+   inline void operator+=(edk::rectui16 rect){
         //
         this->origin.x+=(edk::uint16)rect.origin.x;
         this->origin.y+=(edk::uint16)rect.origin.y;
         this->size.width+=(edk::uint16)rect.size.width;
         this->size.height+=(edk::uint16)rect.size.height;
     }
-    void operator+=(edk::uint8 n){
+   inline void operator+=(edk::uint8 n){
         //
         this->origin.x+=(edk::uint16)n;
         this->origin.y+=(edk::uint16)n;
         this->size.width+=(edk::uint16)n;
         this->size.height+=(edk::uint16)n;
     }
-    void operator+=(edk::uint32 n){
+   inline void operator+=(edk::uint32 n){
         //
         this->origin.x+=(edk::uint16)n;
         this->origin.y+=(edk::uint16)n;
         this->size.width+=(edk::uint16)n;
         this->size.height+=(edk::uint16)n;
     }
-    void operator+=(edk::uint16 n){
+   inline void operator+=(edk::uint16 n){
         //
         this->origin.x+=(edk::uint16)n;
         this->origin.y+=(edk::uint16)n;
         this->size.width+=(edk::uint16)n;
         this->size.height+=(edk::uint16)n;
     }
-    void operator+=(edk::uint64 n){
+   inline void operator+=(edk::uint64 n){
         //
         this->origin.x+=(edk::uint16)n;
         this->origin.y+=(edk::uint16)n;
@@ -4802,42 +4802,42 @@ public:
         ret.size.height=this->size.height-(edk::uint16)n;
         return ret;
     }
-    void operator-=(edk::rectui8 vec){
+   inline void operator-=(edk::rectui8 vec){
         //
         this->origin.x-=(edk::uint16)vec.origin.x;
         this->origin.y-=(edk::uint16)vec.origin.y;
         this->size.width-=(edk::uint16)vec.size.width;
         this->size.height-=(edk::uint16)vec.size.height;
     }
-    void operator-=(edk::rectui16 vec){
+   inline void operator-=(edk::rectui16 vec){
         //
         this->origin.x-=(edk::uint16)vec.origin.x;
         this->origin.y-=(edk::uint16)vec.origin.y;
         this->size.width-=(edk::uint16)vec.size.width;
         this->size.height-=(edk::uint16)vec.size.height;
     }
-    void operator-=(edk::uint8 n){
+   inline void operator-=(edk::uint8 n){
         //
         this->origin.x-=(edk::uint16)n;
         this->origin.y-=(edk::uint16)n;
         this->size.width-=(edk::uint16)n;
         this->size.height-=(edk::uint16)n;
     }
-    void operator-=(edk::uint32 n){
+   inline void operator-=(edk::uint32 n){
         //
         this->origin.x-=(edk::uint16)n;
         this->origin.y-=(edk::uint16)n;
         this->size.width-=(edk::uint16)n;
         this->size.height-=(edk::uint16)n;
     }
-    void operator-=(edk::uint16 n){
+   inline void operator-=(edk::uint16 n){
         //
         this->origin.x-=(edk::uint16)n;
         this->origin.y-=(edk::uint16)n;
         this->size.width-=(edk::uint16)n;
         this->size.height-=(edk::uint16)n;
     }
-    void operator-=(edk::uint64 n){
+   inline void operator-=(edk::uint64 n){
         //
         this->origin.x-=(edk::uint16)n;
         this->origin.y-=(edk::uint16)n;
@@ -4898,42 +4898,42 @@ public:
         ret.size.height=this->size.height*(edk::uint16)n;
         return ret;
     }
-    void operator*=(edk::rectui8 rect){
+   inline void operator*=(edk::rectui8 rect){
         //
         this->origin.x*=(edk::uint16)rect.origin.x;
         this->origin.y*=(edk::uint16)rect.origin.y;
         this->size.width*=(edk::uint16)rect.size.width;
         this->size.height*=(edk::uint16)rect.size.height;
     }
-    void operator*=(edk::rectui16 rect){
+   inline void operator*=(edk::rectui16 rect){
         //
         this->origin.x*=(edk::uint16)rect.origin.x;
         this->origin.y*=(edk::uint16)rect.origin.y;
         this->size.width*=(edk::uint16)rect.size.width;
         this->size.height*=(edk::uint16)rect.size.height;
     }
-    void operator*=(edk::uint8 n){
+   inline void operator*=(edk::uint8 n){
         //
         this->origin.x*=(edk::uint16)n;
         this->origin.y*=(edk::uint16)n;
         this->size.width*=(edk::uint16)n;
         this->size.height*=(edk::uint16)n;
     }
-    void operator*=(edk::uint32 n){
+   inline void operator*=(edk::uint32 n){
         //
         this->origin.x*=(edk::uint16)n;
         this->origin.y*=(edk::uint16)n;
         this->size.width*=(edk::uint16)n;
         this->size.height*=(edk::uint16)n;
     }
-    void operator*=(edk::uint16 n){
+   inline void operator*=(edk::uint16 n){
         //
         this->origin.x*=(edk::uint16)n;
         this->origin.y*=(edk::uint16)n;
         this->size.width*=(edk::uint16)n;
         this->size.height*=(edk::uint16)n;
     }
-    void operator*=(edk::uint64 n){
+   inline void operator*=(edk::uint64 n){
         //
         this->origin.x*=(edk::uint16)n;
         this->origin.y*=(edk::uint16)n;
@@ -5348,49 +5348,49 @@ public:
         ret.size.height=this->size.height+(edk::uint32)n;
         return ret;
     }
-    void operator+=(edk::rectui8 rect){
+   inline void operator+=(edk::rectui8 rect){
         //
         this->origin.x+=(edk::uint32)rect.origin.x;
         this->origin.y+=(edk::uint32)rect.origin.y;
         this->size.width+=(edk::uint32)rect.size.width;
         this->size.height+=(edk::uint32)rect.size.height;
     }
-    void operator+=(edk::rectui16 rect){
+   inline void operator+=(edk::rectui16 rect){
         //
         this->origin.x+=(edk::uint32)rect.origin.x;
         this->origin.y+=(edk::uint32)rect.origin.y;
         this->size.width+=(edk::uint32)rect.size.width;
         this->size.height+=(edk::uint32)rect.size.height;
     }
-    void operator+=(edk::rectui32 rect){
+   inline void operator+=(edk::rectui32 rect){
         //
         this->origin.x+=(edk::uint32)rect.origin.x;
         this->origin.y+=(edk::uint32)rect.origin.y;
         this->size.width+=(edk::uint32)rect.size.width;
         this->size.height+=(edk::uint32)rect.size.height;
     }
-    void operator+=(edk::uint8 n){
+   inline void operator+=(edk::uint8 n){
         //
         this->origin.x+=(edk::uint32)n;
         this->origin.y+=(edk::uint32)n;
         this->size.width+=(edk::uint32)n;
         this->size.height+=(edk::uint32)n;
     }
-    void operator+=(edk::uint32 n){
+   inline void operator+=(edk::uint32 n){
         //
         this->origin.x+=(edk::uint32)n;
         this->origin.y+=(edk::uint32)n;
         this->size.width+=(edk::uint32)n;
         this->size.height+=(edk::uint32)n;
     }
-    void operator+=(edk::uint16 n){
+   inline void operator+=(edk::uint16 n){
         //
         this->origin.x+=(edk::uint32)n;
         this->origin.y+=(edk::uint32)n;
         this->size.width+=(edk::uint32)n;
         this->size.height+=(edk::uint32)n;
     }
-    void operator+=(edk::uint64 n){
+   inline void operator+=(edk::uint64 n){
         //
         this->origin.x+=(edk::uint32)n;
         this->origin.y+=(edk::uint32)n;
@@ -5460,49 +5460,49 @@ public:
         ret.size.height=this->size.height-(edk::uint32)n;
         return ret;
     }
-    void operator-=(edk::rectui8 vec){
+   inline void operator-=(edk::rectui8 vec){
         //
         this->origin.x-=(edk::uint32)vec.origin.x;
         this->origin.y-=(edk::uint32)vec.origin.y;
         this->size.width-=(edk::uint32)vec.size.width;
         this->size.height-=(edk::uint32)vec.size.height;
     }
-    void operator-=(edk::rectui16 vec){
+   inline void operator-=(edk::rectui16 vec){
         //
         this->origin.x-=(edk::uint32)vec.origin.x;
         this->origin.y-=(edk::uint32)vec.origin.y;
         this->size.width-=(edk::uint32)vec.size.width;
         this->size.height-=(edk::uint32)vec.size.height;
     }
-    void operator-=(edk::rectui32 vec){
+   inline void operator-=(edk::rectui32 vec){
         //
         this->origin.x-=(edk::uint32)vec.origin.x;
         this->origin.y-=(edk::uint32)vec.origin.y;
         this->size.width-=(edk::uint32)vec.size.width;
         this->size.height-=(edk::uint32)vec.size.height;
     }
-    void operator-=(edk::uint8 n){
+   inline void operator-=(edk::uint8 n){
         //
         this->origin.x-=(edk::uint32)n;
         this->origin.y-=(edk::uint32)n;
         this->size.width-=(edk::uint32)n;
         this->size.height-=(edk::uint32)n;
     }
-    void operator-=(edk::uint32 n){
+   inline void operator-=(edk::uint32 n){
         //
         this->origin.x-=(edk::uint32)n;
         this->origin.y-=(edk::uint32)n;
         this->size.width-=(edk::uint32)n;
         this->size.height-=(edk::uint32)n;
     }
-    void operator-=(edk::uint16 n){
+   inline void operator-=(edk::uint16 n){
         //
         this->origin.x-=(edk::uint32)n;
         this->origin.y-=(edk::uint32)n;
         this->size.width-=(edk::uint32)n;
         this->size.height-=(edk::uint32)n;
     }
-    void operator-=(edk::uint64 n){
+   inline void operator-=(edk::uint64 n){
         //
         this->origin.x-=(edk::uint32)n;
         this->origin.y-=(edk::uint32)n;
@@ -5572,49 +5572,49 @@ public:
         ret.size.height=this->size.height*(edk::uint32)n;
         return ret;
     }
-    void operator*=(edk::rectui8 rect){
+   inline void operator*=(edk::rectui8 rect){
         //
         this->origin.x*=(edk::uint32)rect.origin.x;
         this->origin.y*=(edk::uint32)rect.origin.y;
         this->size.width*=(edk::uint32)rect.size.width;
         this->size.height*=(edk::uint32)rect.size.height;
     }
-    void operator*=(edk::rectui16 rect){
+   inline void operator*=(edk::rectui16 rect){
         //
         this->origin.x*=(edk::uint32)rect.origin.x;
         this->origin.y*=(edk::uint32)rect.origin.y;
         this->size.width*=(edk::uint32)rect.size.width;
         this->size.height*=(edk::uint32)rect.size.height;
     }
-    void operator*=(edk::rectui32 rect){
+   inline void operator*=(edk::rectui32 rect){
         //
         this->origin.x*=(edk::uint32)rect.origin.x;
         this->origin.y*=(edk::uint32)rect.origin.y;
         this->size.width*=(edk::uint32)rect.size.width;
         this->size.height*=(edk::uint32)rect.size.height;
     }
-    void operator*=(edk::uint8 n){
+   inline void operator*=(edk::uint8 n){
         //
         this->origin.x*=(edk::uint32)n;
         this->origin.y*=(edk::uint32)n;
         this->size.width*=(edk::uint32)n;
         this->size.height*=(edk::uint32)n;
     }
-    void operator*=(edk::uint32 n){
+   inline void operator*=(edk::uint32 n){
         //
         this->origin.x*=(edk::uint32)n;
         this->origin.y*=(edk::uint32)n;
         this->size.width*=(edk::uint32)n;
         this->size.height*=(edk::uint32)n;
     }
-    void operator*=(edk::uint16 n){
+   inline void operator*=(edk::uint16 n){
         //
         this->origin.x*=(edk::uint32)n;
         this->origin.y*=(edk::uint32)n;
         this->size.width*=(edk::uint32)n;
         this->size.height*=(edk::uint32)n;
     }
-    void operator*=(edk::uint64 n){
+   inline void operator*=(edk::uint64 n){
         //
         this->origin.x*=(edk::uint32)n;
         this->origin.y*=(edk::uint32)n;
@@ -6068,56 +6068,56 @@ public:
         ret.size.height=this->size.height+(edk::uint64)n;
         return ret;
     }
-    void operator+=(edk::rectui8 rect){
+   inline void operator+=(edk::rectui8 rect){
         //
         this->origin.x+=(edk::uint64)rect.origin.x;
         this->origin.y+=(edk::uint64)rect.origin.y;
         this->size.width+=(edk::uint64)rect.size.width;
         this->size.height+=(edk::uint64)rect.size.height;
     }
-    void operator+=(edk::rectui16 rect){
+   inline void operator+=(edk::rectui16 rect){
         //
         this->origin.x+=(edk::uint64)rect.origin.x;
         this->origin.y+=(edk::uint64)rect.origin.y;
         this->size.width+=(edk::uint64)rect.size.width;
         this->size.height+=(edk::uint64)rect.size.height;
     }
-    void operator+=(edk::rectui32 rect){
+   inline void operator+=(edk::rectui32 rect){
         //
         this->origin.x+=(edk::uint64)rect.origin.x;
         this->origin.y+=(edk::uint64)rect.origin.y;
         this->size.width+=(edk::uint64)rect.size.width;
         this->size.height+=(edk::uint64)rect.size.height;
     }
-    void operator+=(edk::rectui64 rect){
+   inline void operator+=(edk::rectui64 rect){
         //
         this->origin.x+=(edk::uint64)rect.origin.x;
         this->origin.y+=(edk::uint64)rect.origin.y;
         this->size.width+=(edk::uint64)rect.size.width;
         this->size.height+=(edk::uint64)rect.size.height;
     }
-    void operator+=(edk::uint8 n){
+   inline void operator+=(edk::uint8 n){
         //
         this->origin.x+=(edk::uint64)n;
         this->origin.y+=(edk::uint64)n;
         this->size.width+=(edk::uint64)n;
         this->size.height+=(edk::uint64)n;
     }
-    void operator+=(edk::uint32 n){
+   inline void operator+=(edk::uint32 n){
         //
         this->origin.x+=(edk::uint64)n;
         this->origin.y+=(edk::uint64)n;
         this->size.width+=(edk::uint64)n;
         this->size.height+=(edk::uint64)n;
     }
-    void operator+=(edk::uint16 n){
+   inline void operator+=(edk::uint16 n){
         //
         this->origin.x+=(edk::uint64)n;
         this->origin.y+=(edk::uint64)n;
         this->size.width+=(edk::uint64)n;
         this->size.height+=(edk::uint64)n;
     }
-    void operator+=(edk::uint64 n){
+   inline void operator+=(edk::uint64 n){
         //
         this->origin.x+=(edk::uint64)n;
         this->origin.y+=(edk::uint64)n;
@@ -6196,56 +6196,56 @@ public:
         ret.size.height=this->size.height-(edk::uint64)n;
         return ret;
     }
-    void operator-=(edk::rectui8 vec){
+   inline void operator-=(edk::rectui8 vec){
         //
         this->origin.x-=(edk::uint64)vec.origin.x;
         this->origin.y-=(edk::uint64)vec.origin.y;
         this->size.width-=(edk::uint64)vec.size.width;
         this->size.height-=(edk::uint64)vec.size.height;
     }
-    void operator-=(edk::rectui16 vec){
+   inline void operator-=(edk::rectui16 vec){
         //
         this->origin.x-=(edk::uint64)vec.origin.x;
         this->origin.y-=(edk::uint64)vec.origin.y;
         this->size.width-=(edk::uint64)vec.size.width;
         this->size.height-=(edk::uint64)vec.size.height;
     }
-    void operator-=(edk::rectui32 vec){
+   inline void operator-=(edk::rectui32 vec){
         //
         this->origin.x-=(edk::uint64)vec.origin.x;
         this->origin.y-=(edk::uint64)vec.origin.y;
         this->size.width-=(edk::uint64)vec.size.width;
         this->size.height-=(edk::uint64)vec.size.height;
     }
-    void operator-=(edk::rectui64 vec){
+   inline void operator-=(edk::rectui64 vec){
         //
         this->origin.x-=(edk::uint64)vec.origin.x;
         this->origin.y-=(edk::uint64)vec.origin.y;
         this->size.width-=(edk::uint64)vec.size.width;
         this->size.height-=(edk::uint64)vec.size.height;
     }
-    void operator-=(edk::uint8 n){
+   inline void operator-=(edk::uint8 n){
         //
         this->origin.x-=(edk::uint64)n;
         this->origin.y-=(edk::uint64)n;
         this->size.width-=(edk::uint64)n;
         this->size.height-=(edk::uint64)n;
     }
-    void operator-=(edk::uint32 n){
+   inline void operator-=(edk::uint32 n){
         //
         this->origin.x-=(edk::uint64)n;
         this->origin.y-=(edk::uint64)n;
         this->size.width-=(edk::uint64)n;
         this->size.height-=(edk::uint64)n;
     }
-    void operator-=(edk::uint16 n){
+   inline void operator-=(edk::uint16 n){
         //
         this->origin.x-=(edk::uint64)n;
         this->origin.y-=(edk::uint64)n;
         this->size.width-=(edk::uint64)n;
         this->size.height-=(edk::uint64)n;
     }
-    void operator-=(edk::uint64 n){
+   inline void operator-=(edk::uint64 n){
         //
         this->origin.x-=(edk::uint64)n;
         this->origin.y-=(edk::uint64)n;
@@ -6324,56 +6324,56 @@ public:
         ret.size.height=this->size.height*(edk::uint64)n;
         return ret;
     }
-    void operator*=(edk::rectui8 rect){
+   inline void operator*=(edk::rectui8 rect){
         //
         this->origin.x*=(edk::uint64)rect.origin.x;
         this->origin.y*=(edk::uint64)rect.origin.y;
         this->size.width*=(edk::uint64)rect.size.width;
         this->size.height*=(edk::uint64)rect.size.height;
     }
-    void operator*=(edk::rectui16 rect){
+   inline void operator*=(edk::rectui16 rect){
         //
         this->origin.x*=(edk::uint64)rect.origin.x;
         this->origin.y*=(edk::uint64)rect.origin.y;
         this->size.width*=(edk::uint64)rect.size.width;
         this->size.height*=(edk::uint64)rect.size.height;
     }
-    void operator*=(edk::rectui32 rect){
+   inline void operator*=(edk::rectui32 rect){
         //
         this->origin.x*=(edk::uint64)rect.origin.x;
         this->origin.y*=(edk::uint64)rect.origin.y;
         this->size.width*=(edk::uint64)rect.size.width;
         this->size.height*=(edk::uint64)rect.size.height;
     }
-    void operator*=(edk::rectui64 rect){
+   inline void operator*=(edk::rectui64 rect){
         //
         this->origin.x*=(edk::uint64)rect.origin.x;
         this->origin.y*=(edk::uint64)rect.origin.y;
         this->size.width*=(edk::uint64)rect.size.width;
         this->size.height*=(edk::uint64)rect.size.height;
     }
-    void operator*=(edk::uint8 n){
+   inline void operator*=(edk::uint8 n){
         //
         this->origin.x*=(edk::uint64)n;
         this->origin.y*=(edk::uint64)n;
         this->size.width*=(edk::uint64)n;
         this->size.height*=(edk::uint64)n;
     }
-    void operator*=(edk::uint32 n){
+   inline void operator*=(edk::uint32 n){
         //
         this->origin.x*=(edk::uint64)n;
         this->origin.y*=(edk::uint64)n;
         this->size.width*=(edk::uint64)n;
         this->size.height*=(edk::uint64)n;
     }
-    void operator*=(edk::uint16 n){
+   inline void operator*=(edk::uint16 n){
         //
         this->origin.x*=(edk::uint64)n;
         this->origin.y*=(edk::uint64)n;
         this->size.width*=(edk::uint64)n;
         this->size.height*=(edk::uint64)n;
     }
-    void operator*=(edk::uint64 n){
+   inline void operator*=(edk::uint64 n){
         //
         this->origin.x*=(edk::uint64)n;
         this->origin.y*=(edk::uint64)n;
@@ -6920,77 +6920,77 @@ public:
         ret.size.height=this->size.height+(edk::float32)n;
         return ret;
     }
-    void operator+=(edk::rectf32 rect){
+   inline void operator+=(edk::rectf32 rect){
         //
         this->origin.x+=(edk::float32)rect.origin.x;
         this->origin.y+=(edk::float32)rect.origin.y;
         this->size.width+=(edk::float32)rect.size.width;
         this->size.height+=(edk::float32)rect.size.height;
     }
-    void operator+=(edk::float32 n){
+   inline void operator+=(edk::float32 n){
         //
         this->origin.x+=(edk::float32)n;
         this->origin.y+=(edk::float32)n;
         this->size.width+=(edk::float32)n;
         this->size.height+=(edk::float32)n;
     }
-    void operator+=(edk::float64 n){
+   inline void operator+=(edk::float64 n){
         //
         this->origin.x+=(edk::float32)n;
         this->origin.y+=(edk::float32)n;
         this->size.width+=(edk::float32)n;
         this->size.height+=(edk::float32)n;
     }
-    void operator+=(edk::int8 n){
+   inline void operator+=(edk::int8 n){
         //
         this->origin.x+=(edk::float32)n;
         this->origin.y+=(edk::float32)n;
         this->size.width+=(edk::float32)n;
         this->size.height+=(edk::float32)n;
     }
-    void operator+=(edk::int32 n){
+   inline void operator+=(edk::int32 n){
         //
         this->origin.x+=(edk::float32)n;
         this->origin.y+=(edk::float32)n;
         this->size.width+=(edk::float32)n;
         this->size.height+=(edk::float32)n;
     }
-    void operator+=(edk::int16 n){
+   inline void operator+=(edk::int16 n){
         //
         this->origin.x+=(edk::float32)n;
         this->origin.y+=(edk::float32)n;
         this->size.width+=(edk::float32)n;
         this->size.height+=(edk::float32)n;
     }
-    void operator+=(edk::int64 n){
+   inline void operator+=(edk::int64 n){
         //
         this->origin.x+=(edk::float32)n;
         this->origin.y+=(edk::float32)n;
         this->size.width+=(edk::float32)n;
         this->size.height+=(edk::float32)n;
     }
-    void operator+=(edk::uint8 n){
+   inline void operator+=(edk::uint8 n){
         //
         this->origin.x+=(edk::float32)n;
         this->origin.y+=(edk::float32)n;
         this->size.width+=(edk::float32)n;
         this->size.height+=(edk::float32)n;
     }
-    void operator+=(edk::uint32 n){
+   inline void operator+=(edk::uint32 n){
         //
         this->origin.x+=(edk::float32)n;
         this->origin.y+=(edk::float32)n;
         this->size.width+=(edk::float32)n;
         this->size.height+=(edk::float32)n;
     }
-    void operator+=(edk::uint16 n){
+   inline void operator+=(edk::uint16 n){
         //
         this->origin.x+=(edk::float32)n;
         this->origin.y+=(edk::float32)n;
         this->size.width+=(edk::float32)n;
         this->size.height+=(edk::float32)n;
     }
-    void operator+=(edk::uint64 n){
+   inline void operator+=(edk::uint64 n){
         //
         this->origin.x+=(edk::float32)n;
         this->origin.y+=(edk::float32)n;
@@ -7096,77 +7096,77 @@ public:
         ret.size.height=this->size.height-(edk::float32)n;
         return ret;
     }
-    void operator-=(edk::rectf32 vec){
+   inline void operator-=(edk::rectf32 vec){
         //
         this->origin.x-=(edk::float32)vec.origin.x;
         this->origin.y-=(edk::float32)vec.origin.y;
         this->size.width-=(edk::float32)vec.size.width;
         this->size.height-=(edk::float32)vec.size.height;
     }
-    void operator-=(edk::float32 n){
+   inline void operator-=(edk::float32 n){
         //
         this->origin.x-=(edk::float32)n;
         this->origin.y-=(edk::float32)n;
         this->size.width-=(edk::float32)n;
         this->size.height-=(edk::float32)n;
     }
-    void operator-=(edk::float64 n){
+   inline void operator-=(edk::float64 n){
         //
         this->origin.x-=(edk::float32)n;
         this->origin.y-=(edk::float32)n;
         this->size.width-=(edk::float32)n;
         this->size.height-=(edk::float32)n;
     }
-    void operator-=(edk::int8 n){
+   inline void operator-=(edk::int8 n){
         //
         this->origin.x-=(edk::float32)n;
         this->origin.y-=(edk::float32)n;
         this->size.width-=(edk::float32)n;
         this->size.height-=(edk::float32)n;
     }
-    void operator-=(edk::int32 n){
+   inline void operator-=(edk::int32 n){
         //
         this->origin.x-=(edk::float32)n;
         this->origin.y-=(edk::float32)n;
         this->size.width-=(edk::float32)n;
         this->size.height-=(edk::float32)n;
     }
-    void operator-=(edk::int16 n){
+   inline void operator-=(edk::int16 n){
         //
         this->origin.x-=(edk::float32)n;
         this->origin.y-=(edk::float32)n;
         this->size.width-=(edk::float32)n;
         this->size.height-=(edk::float32)n;
     }
-    void operator-=(edk::int64 n){
+   inline void operator-=(edk::int64 n){
         //
         this->origin.x-=(edk::float32)n;
         this->origin.y-=(edk::float32)n;
         this->size.width-=(edk::float32)n;
         this->size.height-=(edk::float32)n;
     }
-    void operator-=(edk::uint8 n){
+   inline void operator-=(edk::uint8 n){
         //
         this->origin.x-=(edk::float32)n;
         this->origin.y-=(edk::float32)n;
         this->size.width-=(edk::float32)n;
         this->size.height-=(edk::float32)n;
     }
-    void operator-=(edk::uint32 n){
+   inline void operator-=(edk::uint32 n){
         //
         this->origin.x-=(edk::float32)n;
         this->origin.y-=(edk::float32)n;
         this->size.width-=(edk::float32)n;
         this->size.height-=(edk::float32)n;
     }
-    void operator-=(edk::uint16 n){
+   inline void operator-=(edk::uint16 n){
         //
         this->origin.x-=(edk::float32)n;
         this->origin.y-=(edk::float32)n;
         this->size.width-=(edk::float32)n;
         this->size.height-=(edk::float32)n;
     }
-    void operator-=(edk::uint64 n){
+   inline void operator-=(edk::uint64 n){
         //
         this->origin.x-=(edk::float32)n;
         this->origin.y-=(edk::float32)n;
@@ -7272,77 +7272,77 @@ public:
         ret.size.height=this->size.height*(edk::float32)n;
         return ret;
     }
-    void operator*=(edk::rectf32 rect){
+   inline void operator*=(edk::rectf32 rect){
         //
         this->origin.x*=(edk::float32)rect.origin.x;
         this->origin.y*=(edk::float32)rect.origin.y;
         this->size.width*=(edk::float32)rect.size.width;
         this->size.height*=(edk::float32)rect.size.height;
     }
-    void operator*=(edk::float32 n){
+   inline void operator*=(edk::float32 n){
         //
         this->origin.x*=(edk::float32)n;
         this->origin.y*=(edk::float32)n;
         this->size.width*=(edk::float32)n;
         this->size.height*=(edk::float32)n;
     }
-    void operator*=(edk::float64 n){
+   inline void operator*=(edk::float64 n){
         //
         this->origin.x*=(edk::float32)n;
         this->origin.y*=(edk::float32)n;
         this->size.width*=(edk::float32)n;
         this->size.height*=(edk::float32)n;
     }
-    void operator*=(edk::int8 n){
+   inline void operator*=(edk::int8 n){
         //
         this->origin.x*=(edk::float32)n;
         this->origin.y*=(edk::float32)n;
         this->size.width*=(edk::float32)n;
         this->size.height*=(edk::float32)n;
     }
-    void operator*=(edk::int32 n){
+   inline void operator*=(edk::int32 n){
         //
         this->origin.x*=(edk::float32)n;
         this->origin.y*=(edk::float32)n;
         this->size.width*=(edk::float32)n;
         this->size.height*=(edk::float32)n;
     }
-    void operator*=(edk::int16 n){
+   inline void operator*=(edk::int16 n){
         //
         this->origin.x*=(edk::float32)n;
         this->origin.y*=(edk::float32)n;
         this->size.width*=(edk::float32)n;
         this->size.height*=(edk::float32)n;
     }
-    void operator*=(edk::int64 n){
+   inline void operator*=(edk::int64 n){
         //
         this->origin.x*=(edk::float32)n;
         this->origin.y*=(edk::float32)n;
         this->size.width*=(edk::float32)n;
         this->size.height*=(edk::float32)n;
     }
-    void operator*=(edk::uint8 n){
+   inline void operator*=(edk::uint8 n){
         //
         this->origin.x*=(edk::float32)n;
         this->origin.y*=(edk::float32)n;
         this->size.width*=(edk::float32)n;
         this->size.height*=(edk::float32)n;
     }
-    void operator*=(edk::uint32 n){
+   inline void operator*=(edk::uint32 n){
         //
         this->origin.x*=(edk::float32)n;
         this->origin.y*=(edk::float32)n;
         this->size.width*=(edk::float32)n;
         this->size.height*=(edk::float32)n;
     }
-    void operator*=(edk::uint16 n){
+   inline void operator*=(edk::uint16 n){
         //
         this->origin.x*=(edk::float32)n;
         this->origin.y*=(edk::float32)n;
         this->size.width*=(edk::float32)n;
         this->size.height*=(edk::float32)n;
     }
-    void operator*=(edk::uint64 n){
+   inline void operator*=(edk::uint64 n){
         //
         this->origin.x*=(edk::float32)n;
         this->origin.y*=(edk::float32)n;
@@ -7919,77 +7919,77 @@ public:
         ret.size.height=this->size.height+(edk::float64)n;
         return ret;
     }
-    void operator+=(edk::rectf64 rect){
+   inline void operator+=(edk::rectf64 rect){
         //
         this->origin.x+=(edk::float64)rect.origin.x;
         this->origin.y+=(edk::float64)rect.origin.y;
         this->size.width+=(edk::float64)rect.size.width;
         this->size.height+=(edk::float64)rect.size.height;
     }
-    void operator+=(edk::float32 n){
+   inline void operator+=(edk::float32 n){
         //
         this->origin.x+=(edk::float64)n;
         this->origin.y+=(edk::float64)n;
         this->size.width+=(edk::float64)n;
         this->size.height+=(edk::float64)n;
     }
-    void operator+=(edk::float64 n){
+   inline void operator+=(edk::float64 n){
         //
         this->origin.x+=(edk::float64)n;
         this->origin.y+=(edk::float64)n;
         this->size.width+=(edk::float64)n;
         this->size.height+=(edk::float64)n;
     }
-    void operator+=(edk::int8 n){
+   inline void operator+=(edk::int8 n){
         //
         this->origin.x+=(edk::float64)n;
         this->origin.y+=(edk::float64)n;
         this->size.width+=(edk::float64)n;
         this->size.height+=(edk::float64)n;
     }
-    void operator+=(edk::int32 n){
+   inline void operator+=(edk::int32 n){
         //
         this->origin.x+=(edk::float64)n;
         this->origin.y+=(edk::float64)n;
         this->size.width+=(edk::float64)n;
         this->size.height+=(edk::float64)n;
     }
-    void operator+=(edk::int16 n){
+   inline void operator+=(edk::int16 n){
         //
         this->origin.x+=(edk::float64)n;
         this->origin.y+=(edk::float64)n;
         this->size.width+=(edk::float64)n;
         this->size.height+=(edk::float64)n;
     }
-    void operator+=(edk::int64 n){
+   inline void operator+=(edk::int64 n){
         //
         this->origin.x+=(edk::float64)n;
         this->origin.y+=(edk::float64)n;
         this->size.width+=(edk::float64)n;
         this->size.height+=(edk::float64)n;
     }
-    void operator+=(edk::uint8 n){
+   inline void operator+=(edk::uint8 n){
         //
         this->origin.x+=(edk::float64)n;
         this->origin.y+=(edk::float64)n;
         this->size.width+=(edk::float64)n;
         this->size.height+=(edk::float64)n;
     }
-    void operator+=(edk::uint32 n){
+   inline void operator+=(edk::uint32 n){
         //
         this->origin.x+=(edk::float64)n;
         this->origin.y+=(edk::float64)n;
         this->size.width+=(edk::float64)n;
         this->size.height+=(edk::float64)n;
     }
-    void operator+=(edk::uint16 n){
+   inline void operator+=(edk::uint16 n){
         //
         this->origin.x+=(edk::float64)n;
         this->origin.y+=(edk::float64)n;
         this->size.width+=(edk::float64)n;
         this->size.height+=(edk::float64)n;
     }
-    void operator+=(edk::uint64 n){
+   inline void operator+=(edk::uint64 n){
         //
         this->origin.x+=(edk::float64)n;
         this->origin.y+=(edk::float64)n;
@@ -8095,77 +8095,77 @@ public:
         ret.size.height=this->size.height-(edk::float64)n;
         return ret;
     }
-    void operator-=(edk::rectf64 vec){
+   inline void operator-=(edk::rectf64 vec){
         //
         this->origin.x-=(edk::float64)vec.origin.x;
         this->origin.y-=(edk::float64)vec.origin.y;
         this->size.width-=(edk::float64)vec.size.width;
         this->size.height-=(edk::float64)vec.size.height;
     }
-    void operator-=(edk::float32 n){
+   inline void operator-=(edk::float32 n){
         //
         this->origin.x-=(edk::float64)n;
         this->origin.y-=(edk::float64)n;
         this->size.width-=(edk::float64)n;
         this->size.height-=(edk::float64)n;
     }
-    void operator-=(edk::float64 n){
+   inline void operator-=(edk::float64 n){
         //
         this->origin.x-=(edk::float64)n;
         this->origin.y-=(edk::float64)n;
         this->size.width-=(edk::float64)n;
         this->size.height-=(edk::float64)n;
     }
-    void operator-=(edk::int8 n){
+   inline void operator-=(edk::int8 n){
         //
         this->origin.x-=(edk::float64)n;
         this->origin.y-=(edk::float64)n;
         this->size.width-=(edk::float64)n;
         this->size.height-=(edk::float64)n;
     }
-    void operator-=(edk::int32 n){
+   inline void operator-=(edk::int32 n){
         //
         this->origin.x-=(edk::float64)n;
         this->origin.y-=(edk::float64)n;
         this->size.width-=(edk::float64)n;
         this->size.height-=(edk::float64)n;
     }
-    void operator-=(edk::int16 n){
+   inline void operator-=(edk::int16 n){
         //
         this->origin.x-=(edk::float64)n;
         this->origin.y-=(edk::float64)n;
         this->size.width-=(edk::float64)n;
         this->size.height-=(edk::float64)n;
     }
-    void operator-=(edk::int64 n){
+   inline void operator-=(edk::int64 n){
         //
         this->origin.x-=(edk::float64)n;
         this->origin.y-=(edk::float64)n;
         this->size.width-=(edk::float64)n;
         this->size.height-=(edk::float64)n;
     }
-    void operator-=(edk::uint8 n){
+   inline void operator-=(edk::uint8 n){
         //
         this->origin.x-=(edk::float64)n;
         this->origin.y-=(edk::float64)n;
         this->size.width-=(edk::float64)n;
         this->size.height-=(edk::float64)n;
     }
-    void operator-=(edk::uint32 n){
+   inline void operator-=(edk::uint32 n){
         //
         this->origin.x-=(edk::float64)n;
         this->origin.y-=(edk::float64)n;
         this->size.width-=(edk::float64)n;
         this->size.height-=(edk::float64)n;
     }
-    void operator-=(edk::uint16 n){
+   inline void operator-=(edk::uint16 n){
         //
         this->origin.x-=(edk::float64)n;
         this->origin.y-=(edk::float64)n;
         this->size.width-=(edk::float64)n;
         this->size.height-=(edk::float64)n;
     }
-    void operator-=(edk::uint64 n){
+   inline void operator-=(edk::uint64 n){
         //
         this->origin.x-=(edk::float64)n;
         this->origin.y-=(edk::float64)n;
@@ -8271,77 +8271,77 @@ public:
         ret.size.height=this->size.height*(edk::float64)n;
         return ret;
     }
-    void operator*=(edk::rectf64 rect){
+   inline void operator*=(edk::rectf64 rect){
         //
         this->origin.x*=(edk::float64)rect.origin.x;
         this->origin.y*=(edk::float64)rect.origin.y;
         this->size.width*=(edk::float64)rect.size.width;
         this->size.height*=(edk::float64)rect.size.height;
     }
-    void operator*=(edk::float32 n){
+   inline void operator*=(edk::float32 n){
         //
         this->origin.x*=(edk::float64)n;
         this->origin.y*=(edk::float64)n;
         this->size.width*=(edk::float64)n;
         this->size.height*=(edk::float64)n;
     }
-    void operator*=(edk::float64 n){
+   inline void operator*=(edk::float64 n){
         //
         this->origin.x*=(edk::float64)n;
         this->origin.y*=(edk::float64)n;
         this->size.width*=(edk::float64)n;
         this->size.height*=(edk::float64)n;
     }
-    void operator*=(edk::int8 n){
+   inline void operator*=(edk::int8 n){
         //
         this->origin.x*=(edk::float64)n;
         this->origin.y*=(edk::float64)n;
         this->size.width*=(edk::float64)n;
         this->size.height*=(edk::float64)n;
     }
-    void operator*=(edk::int32 n){
+   inline void operator*=(edk::int32 n){
         //
         this->origin.x*=(edk::float64)n;
         this->origin.y*=(edk::float64)n;
         this->size.width*=(edk::float64)n;
         this->size.height*=(edk::float64)n;
     }
-    void operator*=(edk::int16 n){
+   inline void operator*=(edk::int16 n){
         //
         this->origin.x*=(edk::float64)n;
         this->origin.y*=(edk::float64)n;
         this->size.width*=(edk::float64)n;
         this->size.height*=(edk::float64)n;
     }
-    void operator*=(edk::int64 n){
+   inline void operator*=(edk::int64 n){
         //
         this->origin.x*=(edk::float64)n;
         this->origin.y*=(edk::float64)n;
         this->size.width*=(edk::float64)n;
         this->size.height*=(edk::float64)n;
     }
-    void operator*=(edk::uint8 n){
+   inline void operator*=(edk::uint8 n){
         //
         this->origin.x*=(edk::float64)n;
         this->origin.y*=(edk::float64)n;
         this->size.width*=(edk::float64)n;
         this->size.height*=(edk::float64)n;
     }
-    void operator*=(edk::uint32 n){
+   inline void operator*=(edk::uint32 n){
         //
         this->origin.x*=(edk::float64)n;
         this->origin.y*=(edk::float64)n;
         this->size.width*=(edk::float64)n;
         this->size.height*=(edk::float64)n;
     }
-    void operator*=(edk::uint16 n){
+   inline void operator*=(edk::uint16 n){
         //
         this->origin.x*=(edk::float64)n;
         this->origin.y*=(edk::float64)n;
         this->size.width*=(edk::float64)n;
         this->size.height*=(edk::float64)n;
     }
-    void operator*=(edk::uint64 n){
+   inline void operator*=(edk::uint64 n){
         //
         this->origin.x*=(edk::float64)n;
         this->origin.y*=(edk::float64)n;

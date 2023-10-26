@@ -566,13 +566,13 @@ private:
             this->type = shader.type;
             return *this;
         }
-        bool operator==(edk::GU_GLSL::ShaderClass shader){
+        inline bool operator==(edk::GU_GLSL::ShaderClass shader){
             return (this->threadID == shader.threadID);
         }
-        bool operator>(edk::GU_GLSL::ShaderClass shader){
+        inline bool operator>(edk::GU_GLSL::ShaderClass shader){
             return (this->threadID > shader.threadID);
         }
-        bool operator<(edk::GU_GLSL::ShaderClass shader){
+        inline bool operator<(edk::GU_GLSL::ShaderClass shader){
             return (this->threadID < shader.threadID);
         }
         edk::uint32 id;
@@ -635,13 +635,13 @@ private:
             this->success = shader.success;
             return *this;
         }
-        bool operator==(edk::GU_GLSL::ShaderWriteClass shader){
+        inline bool operator==(edk::GU_GLSL::ShaderWriteClass shader){
             return (this->threadID == shader.threadID);
         }
-        bool operator>(edk::GU_GLSL::ShaderWriteClass shader){
+        inline bool operator>(edk::GU_GLSL::ShaderWriteClass shader){
             return (this->threadID > shader.threadID);
         }
-        bool operator<(edk::GU_GLSL::ShaderWriteClass shader){
+        inline bool operator<(edk::GU_GLSL::ShaderWriteClass shader){
             return (this->threadID < shader.threadID);
         }
         edk::uint8 *data;
@@ -703,13 +703,13 @@ private:
             this->id = shader.id;
             return *this;
         }
-        bool operator==(edk::GU_GLSL::ShaderCompileClass shader){
+        inline bool operator==(edk::GU_GLSL::ShaderCompileClass shader){
             return (this->threadID == shader.threadID);
         }
-        bool operator>(edk::GU_GLSL::ShaderCompileClass shader){
+        inline bool operator>(edk::GU_GLSL::ShaderCompileClass shader){
             return (this->threadID > shader.threadID);
         }
-        bool operator<(edk::GU_GLSL::ShaderCompileClass shader){
+        inline bool operator<(edk::GU_GLSL::ShaderCompileClass shader){
             return (this->threadID < shader.threadID);
         }
         edk::uint32 id;
@@ -771,13 +771,13 @@ private:
             this->type = shader.type;
             return *this;
         }
-        bool operator==(edk::GU_GLSL::ShaderIVClass shader){
+        inline bool operator==(edk::GU_GLSL::ShaderIVClass shader){
             return (this->threadID == shader.threadID);
         }
-        bool operator>(edk::GU_GLSL::ShaderIVClass shader){
+        inline bool operator>(edk::GU_GLSL::ShaderIVClass shader){
             return (this->threadID > shader.threadID);
         }
-        bool operator<(edk::GU_GLSL::ShaderIVClass shader){
+        inline bool operator<(edk::GU_GLSL::ShaderIVClass shader){
             return (this->threadID < shader.threadID);
         }
         edk::uint32 id;
@@ -843,13 +843,13 @@ private:
             this->type = shader.type;
             return *this;
         }
-        bool operator==(edk::GU_GLSL::ShaderLogClass shader){
+        inline bool operator==(edk::GU_GLSL::ShaderLogClass shader){
             return (this->threadID == shader.threadID);
         }
-        bool operator>(edk::GU_GLSL::ShaderLogClass shader){
+        inline bool operator>(edk::GU_GLSL::ShaderLogClass shader){
             return (this->threadID > shader.threadID);
         }
-        bool operator<(edk::GU_GLSL::ShaderLogClass shader){
+        inline bool operator<(edk::GU_GLSL::ShaderLogClass shader){
             return (this->threadID < shader.threadID);
         }
         edk::uint32 id;
@@ -914,13 +914,13 @@ private:
             this->success = shader.success;
             return *this;
         }
-        bool operator==(edk::GU_GLSL::ProgramAttachClass shader){
+        inline bool operator==(edk::GU_GLSL::ProgramAttachClass shader){
             return (this->threadID == shader.threadID);
         }
-        bool operator>(edk::GU_GLSL::ProgramAttachClass shader){
+        inline bool operator>(edk::GU_GLSL::ProgramAttachClass shader){
             return (this->threadID > shader.threadID);
         }
-        bool operator<(edk::GU_GLSL::ProgramAttachClass shader){
+        inline bool operator<(edk::GU_GLSL::ProgramAttachClass shader){
             return (this->threadID < shader.threadID);
         }
         edk::uint32 id;
@@ -981,13 +981,13 @@ private:
             this->programID = shader.programID;
             return *this;
         }
-        bool operator==(edk::GU_GLSL::ProgramLinkClass shader){
+        inline bool operator==(edk::GU_GLSL::ProgramLinkClass shader){
             return (this->threadID == shader.threadID);
         }
-        bool operator>(edk::GU_GLSL::ProgramLinkClass shader){
+        inline bool operator>(edk::GU_GLSL::ProgramLinkClass shader){
             return (this->threadID > shader.threadID);
         }
-        bool operator<(edk::GU_GLSL::ProgramLinkClass shader){
+        inline bool operator<(edk::GU_GLSL::ProgramLinkClass shader){
             return (this->threadID < shader.threadID);
         }
         edk::uint32 programID;

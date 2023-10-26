@@ -117,14 +117,14 @@ public:
         this->z=vertex.z;edkEnd();
         return vertex;edkEnd();
     }
-    bool operator==(edk::shape::Vector3D vertex){
+    inline bool operator==(edk::shape::Vector3D vertex){
         if(this->x==vertex.x && this->y==vertex.y && this->z==vertex.z
                 ){
             return true;
         }
         return false;
     }
-    bool operator!=(edk::shape::Vector3D vertex){
+    inline bool operator!=(edk::shape::Vector3D vertex){
         if(this->x!=vertex.x || this->y!=vertex.y || this->z!=vertex.z
                 ){
             return true;
@@ -219,7 +219,7 @@ public:
         this->a = vertex.a;edkEnd();
         return vertex;edkEnd();
     }
-    bool operator==(edk::shape::Vertex3D vertex){
+    inline bool operator==(edk::shape::Vertex3D vertex){
         if(this->x==vertex.x && this->y==vertex.y && this->z==vertex.z
                 &&
                 this->r==vertex.r && this->g==vertex.g && this->b==vertex.b && this->a==vertex.a
@@ -228,7 +228,7 @@ public:
         }
         return false;
     }
-    bool operator!=(edk::shape::Vertex3D vertex){
+    inline bool operator!=(edk::shape::Vertex3D vertex){
         if(this->x!=vertex.x || this->y!=vertex.y || this->z!=vertex.z
                 ||
                 this->r!=vertex.r || this->g!=vertex.g || this->b!=vertex.b || this->a!=vertex.a

@@ -350,13 +350,13 @@ protected:
             this->number=anim.number;edkEnd();
             return this;edkEnd();
         }
-        bool operator>(edk::animation::InterpolationTracks::AnimationAndPosition anim){
+        inline bool operator>(edk::animation::InterpolationTracks::AnimationAndPosition anim){
             if(this->animation>anim.animation){
                 return true;
             }
             return false;
         }
-        bool operator==(edk::animation::InterpolationTracks::AnimationAndPosition anim){
+        inline bool operator==(edk::animation::InterpolationTracks::AnimationAndPosition anim){
             if(this->animation==anim.animation){
                 return true;
             }

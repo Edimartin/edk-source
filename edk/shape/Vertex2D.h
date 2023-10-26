@@ -77,13 +77,13 @@ public:
         this->v=uv->v;edkEnd();
         return uv;edkEnd();
     }
-    bool operator==(edk::shape::UV2D uv){
+    inline bool operator==(edk::shape::UV2D uv){
         if(this->u==uv.u && this->v==uv.v){
             return true;
         }
         return false;
     }
-    bool operator!=(edk::shape::UV2D uv){
+    inline bool operator!=(edk::shape::UV2D uv){
         if(this->u!=uv.u || this->v!=uv.v){
             return true;
         }

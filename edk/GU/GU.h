@@ -531,13 +531,13 @@ private:
             this->id = tex.id;
             return *this;
         }
-        bool operator==(edk::GU::TextureClass tex){
+        inline bool operator==(edk::GU::TextureClass tex){
             return (this->threadID == tex.threadID);
         }
-        bool operator>(edk::GU::TextureClass tex){
+        inline bool operator>(edk::GU::TextureClass tex){
             return (this->threadID > tex.threadID);
         }
-        bool operator<(edk::GU::TextureClass tex){
+        inline bool operator<(edk::GU::TextureClass tex){
             return (this->threadID < tex.threadID);
         }
         edk::uint32 width; edk::uint32 height; edk::uint32 mode; edk::uint32 filter; edk::classID  data;

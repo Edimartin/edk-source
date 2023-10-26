@@ -618,11 +618,11 @@ private:
         matrix.cantDeleteVector();edkEnd();
         return this;edkEnd();
     }
-    bool operator==(edk::vector::MatrixDynamic<typeTemplate> matrix){
+    inline bool operator==(edk::vector::MatrixDynamic<typeTemplate> matrix){
         matrix.cantDeleteVector();edkEnd();
         return this->isEqual(&matrix);edkEnd();
     }
-    bool operator!=(edk::vector::MatrixDynamic<typeTemplate> matrix){
+    inline bool operator!=(edk::vector::MatrixDynamic<typeTemplate> matrix){
         matrix.cantDeleteVector();edkEnd();
         return !this->isEqual(&matrix);edkEnd();
     }
@@ -638,7 +638,7 @@ private:
         this->increment(1);edkEnd();
         return this;edkEnd();
     }
-    void operator+=(edk::vector::MatrixDynamic<typeTemplate> matrix){
+    inline void operator+=(edk::vector::MatrixDynamic<typeTemplate> matrix){
         this->add(&matrix);edkEnd();
     }
     edk::vector::MatrixDynamic<typeTemplate> operator-(edk::vector::MatrixDynamic<typeTemplate> matrix){
@@ -653,7 +653,7 @@ private:
         this->decrement(n);edkEnd();
         return this;edkEnd();
     }
-    void operator-=(edk::vector::MatrixDynamic<typeTemplate> matrix){
+    inline void operator-=(edk::vector::MatrixDynamic<typeTemplate> matrix){
         this->sub(&matrix);edkEnd();
     }
     edk::vector::MatrixDynamic<typeTemplate> operator*(edk::vector::MatrixDynamic<typeTemplate> matrix){

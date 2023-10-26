@@ -315,7 +315,7 @@ public:
     }
     inline edk::cubei8 operator+(edk::cubei8 cube){
         //
-        inline edk::cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x+(edk::int8)cube.origin.x;
         ret.origin.y=this->origin.y+(edk::int8)cube.origin.y;
         ret.origin.z=this->origin.z+(edk::int8)cube.origin.z;
@@ -326,7 +326,7 @@ public:
     }
     inline edk::cubei8 operator+(edk::int8 n){
         //
-        inline edk::cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x+(edk::int8)n;
         ret.origin.y=this->origin.y+(edk::int8)n;
         ret.origin.z=this->origin.z+(edk::int8)n;
@@ -337,7 +337,7 @@ public:
     }
     inline edk::cubei8 operator+(edk::int32 n){
         //
-        inline edk::cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x+(edk::int8)n;
         ret.origin.y=this->origin.y+(edk::int8)n;
         ret.origin.z=this->origin.z+(edk::int8)n;
@@ -348,7 +348,7 @@ public:
     }
     inline edk::cubei8 operator+(edk::int16 n){
         //
-        inline edk::cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x+(edk::int8)n;
         ret.origin.y=this->origin.y+(edk::int8)n;
         ret.origin.z=this->origin.z+(edk::int8)n;
@@ -359,7 +359,7 @@ public:
     }
     inline edk::cubei8 operator+(edk::int64 n){
         //
-        inline edk::cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x+(edk::int8)n;
         ret.origin.y=this->origin.y+(edk::int8)n;
         ret.origin.z=this->origin.z+(edk::int8)n;
@@ -370,7 +370,7 @@ public:
     }
     inline edk::cubei8 operator+(edk::uint8 n){
         //
-        inline edk::cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x+(edk::int8)n;
         ret.origin.y=this->origin.y+(edk::int8)n;
         ret.origin.z=this->origin.z+(edk::int8)n;
@@ -381,7 +381,7 @@ public:
     }
     inline edk::cubei8 operator+(edk::uint32 n){
         //
-        inline edk::cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x+(edk::int8)n;
         ret.origin.y=this->origin.y+(edk::int8)n;
         ret.origin.z=this->origin.z+(edk::int8)n;
@@ -392,7 +392,7 @@ public:
     }
     inline edk::cubei8 operator+(edk::uint16 n){
         //
-        inline edk::cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x+(edk::int8)n;
         ret.origin.y=this->origin.y+(edk::int8)n;
         ret.origin.z=this->origin.z+(edk::int8)n;
@@ -403,7 +403,7 @@ public:
     }
     inline edk::cubei8 operator+(edk::uint64 n){
         //
-        inline edk::cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x+(edk::int8)n;
         ret.origin.y=this->origin.y+(edk::int8)n;
         ret.origin.z=this->origin.z+(edk::int8)n;
@@ -495,7 +495,7 @@ public:
     }
     inline edk::cubei8 operator-(edk::cubei8 cube){
         //
-        inline edk::cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x-(edk::int8)cube.origin.x;
         ret.origin.y=this->origin.y-(edk::int8)cube.origin.y;
         ret.origin.z=this->origin.z-(edk::int8)cube.origin.z;
@@ -506,7 +506,7 @@ public:
     }
     inline edk::cubei8 operator-(edk::int8 n){
         //
-        inline edk::cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x-(edk::int8)n;
         ret.origin.y=this->origin.y-(edk::int8)n;
         ret.origin.z=this->origin.z-(edk::int8)n;
@@ -517,7 +517,7 @@ public:
     }
     inline edk::cubei8 operator-(edk::int32 n){
         //
-        inline edk::cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x-(edk::int8)n;
         ret.origin.y=this->origin.y-(edk::int8)n;
         ret.origin.z=this->origin.z-(edk::int8)n;
@@ -528,7 +528,7 @@ public:
     }
     inline edk::cubei8 operator-(edk::int16 n){
         //
-        inline edk::cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x-(edk::int8)n;
         ret.origin.y=this->origin.y-(edk::int8)n;
         ret.origin.z=this->origin.z-(edk::int8)n;
@@ -539,7 +539,7 @@ public:
     }
     inline edk::cubei8 operator-(edk::int64 n){
         //
-        inline edk::cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x-(edk::int8)n;
         ret.origin.y=this->origin.y-(edk::int8)n;
         ret.origin.z=this->origin.z-(edk::int8)n;
@@ -550,7 +550,7 @@ public:
     }
     inline edk::cubei8 operator-(edk::uint8 n){
         //
-        inline edk::cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x-(edk::int8)n;
         ret.origin.y=this->origin.y-(edk::int8)n;
         ret.origin.z=this->origin.z-(edk::int8)n;
@@ -561,7 +561,7 @@ public:
     }
     inline edk::cubei8 operator-(edk::uint32 n){
         //
-        inline edk::cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x-(edk::int8)n;
         ret.origin.y=this->origin.y-(edk::int8)n;
         ret.origin.z=this->origin.z-(edk::int8)n;
@@ -572,7 +572,7 @@ public:
     }
     inline edk::cubei8 operator-(edk::uint16 n){
         //
-        inline edk::cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x-(edk::int8)n;
         ret.origin.y=this->origin.y-(edk::int8)n;
         ret.origin.z=this->origin.z-(edk::int8)n;
@@ -583,7 +583,7 @@ public:
     }
     inline edk::cubei8 operator-(edk::uint64 n){
         //
-        inline edk::cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x-(edk::int8)n;
         ret.origin.y=this->origin.y-(edk::int8)n;
         ret.origin.z=this->origin.z-(edk::int8)n;
@@ -675,7 +675,7 @@ public:
     }
     inline edk::cubei8 operator*(edk::cubei8 cube){
         //
-        inline edk::cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x*(edk::int8)cube.origin.x;
         ret.origin.y=this->origin.y*(edk::int8)cube.origin.y;
         ret.origin.z=this->origin.z*(edk::int8)cube.origin.z;
@@ -686,7 +686,7 @@ public:
     }
     inline edk::cubei8 operator*(edk::int8 n){
         //
-        inline edk::cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x*(edk::int8)n;
         ret.origin.y=this->origin.y*(edk::int8)n;
         ret.origin.z=this->origin.z*(edk::int8)n;
@@ -697,7 +697,7 @@ public:
     }
     inline edk::cubei8 operator*(edk::int32 n){
         //
-        inline edk::cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x*(edk::int8)n;
         ret.origin.y=this->origin.y*(edk::int8)n;
         ret.origin.z=this->origin.z*(edk::int8)n;
@@ -708,7 +708,7 @@ public:
     }
     inline edk::cubei8 operator*(edk::int16 n){
         //
-        inline edk::cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x*(edk::int8)n;
         ret.origin.y=this->origin.y*(edk::int8)n;
         ret.origin.z=this->origin.z*(edk::int8)n;
@@ -719,7 +719,7 @@ public:
     }
     inline edk::cubei8 operator*(edk::int64 n){
         //
-        inline edk::cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x*(edk::int8)n;
         ret.origin.y=this->origin.y*(edk::int8)n;
         ret.origin.z=this->origin.z*(edk::int8)n;
@@ -730,7 +730,7 @@ public:
     }
     inline edk::cubei8 operator*(edk::uint8 n){
         //
-        inline edk::cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x*(edk::int8)n;
         ret.origin.y=this->origin.y*(edk::int8)n;
         ret.origin.z=this->origin.z*(edk::int8)n;
@@ -741,7 +741,7 @@ public:
     }
     inline edk::cubei8 operator*(edk::uint32 n){
         //
-        inline edk::cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x*(edk::int8)n;
         ret.origin.y=this->origin.y*(edk::int8)n;
         ret.origin.z=this->origin.z*(edk::int8)n;
@@ -752,7 +752,7 @@ public:
     }
     inline edk::cubei8 operator*(edk::uint16 n){
         //
-        inline edk::cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x*(edk::int8)n;
         ret.origin.y=this->origin.y*(edk::int8)n;
         ret.origin.z=this->origin.z*(edk::int8)n;
@@ -763,7 +763,7 @@ public:
     }
     inline edk::cubei8 operator*(edk::uint64 n){
         //
-        inline edk::cubei8 ret;
+        edk::cubei8 ret;
         ret.origin.x=this->origin.x*(edk::int8)n;
         ret.origin.y=this->origin.y*(edk::int8)n;
         ret.origin.z=this->origin.z*(edk::int8)n;
