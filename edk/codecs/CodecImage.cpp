@@ -302,6 +302,51 @@ edk::uint8 edk::codecs::CodecImage::rgbToV(edk::color3ui8 rgb){
 edk::uint8 edk::codecs::CodecImage::rgbaToV(edk::color4ui8 rgba){
     return edk::codecs::CodecImage::rgbToV(rgba.r,rgba.g,rgba.b);edkEnd();
 }
+//RGB to A
+edk::uint8 edk::codecs::CodecImage::rgbToA(edk::uint8 r,edk::uint8 g,edk::uint8 b
+                                           ,edk::uint8 compareR,edk::uint8 compareG,edk::uint8 compareB
+                                           ){
+    return (edk::uint8)edk::Math::pythagoras((edk::int16)r-compareR
+                                             ,(edk::int16)g-compareG
+                                             ,(edk::int16)b-compareB
+                                             )
+            /edk::Math::pythagoras(0x00FF-compareR,0x00FF-compareG,0x00FF-compareB);
+}
+edk::uint8 edk::codecs::CodecImage::rgbToA(edk::uint8 r,edk::uint8 g,edk::uint8 b
+                                           ,edk::uint8 compareR,edk::uint8 compareG,edk::uint8 compareB
+                                           ,edk::uint8 min,edk::uint8 max
+                                           ){
+    edk::uint8 ret = edk::codecs::CodecImage::rgbToA(r,g,b,compareR,compareG,compareB);
+    if(ret<=min||ret>=max){
+        return 0u;
+    }
+    return ret;
+}
+edk::uint8 edk::codecs::CodecImage::rgbToA(edk::color3ui8 rgb,edk::color3ui8 compareRGB){
+    return edk::codecs::CodecImage::rgbToA(rgb.r,rgb.g,rgb.b
+                                           ,compareRGB.r,compareRGB.g,compareRGB.b
+                                           );
+}
+edk::uint8 edk::codecs::CodecImage::rgbToA(edk::color3ui8 rgb,edk::color3ui8 compareRGB,edk::uint8 min,edk::uint8 max){
+    edk::uint8 ret = edk::codecs::CodecImage::rgbToA(rgb,compareRGB);
+    if(ret<=min||ret>=max){
+        return 0u;
+    }
+    return ret;
+}
+//RGBA to A
+edk::uint8 edk::codecs::CodecImage::rgbaToA(edk::color4ui8 rgba,edk::color3ui8 compareRGB){
+    return edk::codecs::CodecImage::rgbToA(rgba.r,rgba.g,rgba.b
+                                           ,compareRGB.r,compareRGB.g,compareRGB.b
+                                           );
+}
+edk::uint8 edk::codecs::CodecImage::rgbaToA(edk::color4ui8 rgba,edk::color3ui8 compareRGB,edk::uint8 min,edk::uint8 max){
+    edk::uint8 ret = edk::codecs::CodecImage::rgbaToA(rgba,compareRGB);
+    if(ret<=min||ret>=max){
+        return 0u;
+    }
+    return ret;
+}
 //vector
 bool edk::codecs::CodecImage::rgbToV(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest){
     if(vector && size.width && size.height && dest){
@@ -370,6 +415,86 @@ bool edk::codecs::CodecImage::rgbaToV(edk::uint8* vector,edk::uint32 width,edk::
 }
 edk::uint8* edk::codecs::CodecImage::rgbaToV(edk::uint8* vector,edk::uint32 width,edk::uint32 height){
     return edk::codecs::CodecImage::rgbaToV(vector,edk::size2ui32(width,height));edkEnd();
+}
+bool edk::codecs::CodecImage::rgbaToAlpha(edk::uint8* vector,edk::size2ui32 size
+                                          ,edk::uint8 compareR,edk::uint8 compareG,edk::uint8 compareB
+                                          ){
+    if(vector && size.width && size.height){
+        edk::uint32 vecSize = size.width * size.height;edkEnd();
+        for(edk::uint32 i=0u;i<vecSize;i++){
+            vector[3u] = edk::codecs::CodecImage::rgbToA(vector[0u],vector[1u],vector[2u]
+                    ,compareR,compareG,compareB
+                    );edkEnd();
+            vector+=4u;edkEnd();
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::codecs::CodecImage::rgbaToAlpha(edk::uint8* vector,edk::size2ui32 size
+                                          ,edk::uint8 compareR,edk::uint8 compareG,edk::uint8 compareB
+                                          ,edk::uint8 min,edk::uint8 max
+                                          ){
+    if(vector && size.width && size.height){
+        edk::uint32 vecSize = size.width * size.height;edkEnd();
+        for(edk::uint32 i=0u;i<vecSize;i++){
+            vector[3u] = edk::codecs::CodecImage::rgbToA(vector[0u],vector[1u],vector[2u]
+                    ,compareR,compareG,compareB
+                    ,min,max
+                    );edkEnd();
+            vector+=4u;edkEnd();
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::codecs::CodecImage::rgbaToAlpha(edk::uint8* vector,edk::size2ui32 size
+                                          ,edk::color3ui8 compareRGB
+                                          ){
+    return edk::codecs::CodecImage::rgbaToAlpha(vector,size
+                                                ,compareRGB.r,compareRGB.g,compareRGB.b
+                                                );
+}
+bool edk::codecs::CodecImage::rgbaToAlpha(edk::uint8* vector,edk::size2ui32 size
+                                          ,edk::color3ui8 compareRGB
+                                          ,edk::uint8 min,edk::uint8 max
+                                          ){
+    return edk::codecs::CodecImage::rgbaToAlpha(vector,size
+                                                ,compareRGB.r,compareRGB.g,compareRGB.b
+                                                ,min,max
+                                                );
+}
+bool edk::codecs::CodecImage::rgbaToAlpha(edk::uint8* vector,edk::uint32 width,edk::uint32 height
+                                          ,edk::uint8 compareR,edk::uint8 compareG,edk::uint8 compareB
+                                          ){
+    return edk::codecs::CodecImage::rgbaToAlpha(vector,edk::size2ui32(width,height)
+                                                ,compareR,compareG,compareB
+                                                );
+}
+bool edk::codecs::CodecImage::rgbaToAlpha(edk::uint8* vector,edk::uint32 width,edk::uint32 height
+                                          ,edk::uint8 compareR,edk::uint8 compareG,edk::uint8 compareB
+                                          ,edk::uint8 min,edk::uint8 max
+                                          ){
+    return edk::codecs::CodecImage::rgbaToAlpha(vector,edk::size2ui32(width,height)
+                                                ,compareR,compareG,compareB
+                                                ,min,max
+                                                );
+}
+bool edk::codecs::CodecImage::rgbaToAlpha(edk::uint8* vector,edk::uint32 width,edk::uint32 height
+                                          ,edk::color3ui8 compareRGB
+                                          ){
+    return edk::codecs::CodecImage::rgbaToAlpha(vector,edk::size2ui32(width,height)
+                                                ,compareRGB.r,compareRGB.g,compareRGB.b
+                                                );
+}
+bool edk::codecs::CodecImage::rgbaToAlpha(edk::uint8* vector,edk::uint32 width,edk::uint32 height
+                                          ,edk::color3ui8 compareRGB
+                                          ,edk::uint8 min,edk::uint8 max
+                                          ){
+    return edk::codecs::CodecImage::rgbaToAlpha(vector,edk::size2ui32(width,height)
+                                                ,compareRGB.r,compareRGB.g,compareRGB.b
+                                                ,min,max
+                                                );
 }
 //HSV to RGB
 edk::color3ui8 edk::codecs::CodecImage::hsvTorgb(edk::float32 h,edk::float32 s,edk::float32 v){

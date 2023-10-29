@@ -35,6 +35,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../TypeSize2.h"
 #include "../TypeColor.h"
 #include "../DebugFile.h"
+#include "../Math.h"
 
 #include <stdio.h>
 
@@ -99,6 +100,19 @@ public:
     static edk::uint8 rgbToV(edk::uint8 r,edk::uint8 g,edk::uint8 b);
     static edk::uint8 rgbToV(edk::color3ui8 rgb);
     static edk::uint8 rgbaToV(edk::color4ui8 rgba);
+    //RGB to A
+    static edk::uint8 rgbToA(edk::uint8 r,edk::uint8 g,edk::uint8 b
+                             ,edk::uint8 compareR,edk::uint8 compareG,edk::uint8 compareB
+                             );
+    static edk::uint8 rgbToA(edk::uint8 r,edk::uint8 g,edk::uint8 b
+                             ,edk::uint8 compareR,edk::uint8 compareG,edk::uint8 compareB
+                             ,edk::uint8 min,edk::uint8 max
+                             );
+    static edk::uint8 rgbToA(edk::color3ui8 rgb,edk::color3ui8 compareRGB);
+    static edk::uint8 rgbToA(edk::color3ui8 rgb,edk::color3ui8 compareRGB,edk::uint8 min,edk::uint8 max);
+    //RGBA to A
+    static edk::uint8 rgbaToA(edk::color4ui8 rgba,edk::color3ui8 compareRGB);
+    static edk::uint8 rgbaToA(edk::color4ui8 rgba,edk::color3ui8 compareRGB,edk::uint8 min,edk::uint8 max);
     //vector
     static bool rgbToV(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest);
     static edk::uint8* rgbToV(edk::uint8* vector,edk::size2ui32 size);
@@ -108,6 +122,34 @@ public:
     static edk::uint8* rgbaToV(edk::uint8* vector,edk::size2ui32 size);
     static bool rgbaToV(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest);
     static edk::uint8* rgbaToV(edk::uint8* vector,edk::uint32 width,edk::uint32 height);
+    static bool rgbaToAlpha(edk::uint8* vector,edk::size2ui32 size
+                            ,edk::uint8 compareR,edk::uint8 compareG,edk::uint8 compareB
+                            );
+    static bool rgbaToAlpha(edk::uint8* vector,edk::size2ui32 size
+                            ,edk::uint8 compareR,edk::uint8 compareG,edk::uint8 compareB
+                            ,edk::uint8 min,edk::uint8 max
+                            );
+    static bool rgbaToAlpha(edk::uint8* vector,edk::size2ui32 size
+                            ,edk::color3ui8 compareRGB
+                            );
+    static bool rgbaToAlpha(edk::uint8* vector,edk::size2ui32 size
+                            ,edk::color3ui8 compareRGB
+                            ,edk::uint8 min,edk::uint8 max
+                            );
+    static bool rgbaToAlpha(edk::uint8* vector,edk::uint32 width,edk::uint32 height
+                            ,edk::uint8 compareR,edk::uint8 compareG,edk::uint8 compareB
+                            );
+    static bool rgbaToAlpha(edk::uint8* vector,edk::uint32 width,edk::uint32 height
+                            ,edk::uint8 compareR,edk::uint8 compareG,edk::uint8 compareB
+                            ,edk::uint8 min,edk::uint8 max
+                            );
+    static bool rgbaToAlpha(edk::uint8* vector,edk::uint32 width,edk::uint32 height
+                            ,edk::color3ui8 compareRGB
+                            );
+    static bool rgbaToAlpha(edk::uint8* vector,edk::uint32 width,edk::uint32 height
+                            ,edk::color3ui8 compareRGB
+                            ,edk::uint8 min,edk::uint8 max
+                            );
     //HSV to RGB
     static edk::color3ui8 hsvTorgb(edk::float32 h,edk::float32 s,edk::float32 v);
     static edk::color3ui8 hsvTorgb(edk::color3f32 hsv);

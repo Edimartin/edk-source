@@ -1339,6 +1339,127 @@ edk::uint8* edk::Image2D::getPixels(){
     //else return false
     return NULL;
 }
+edk::uint8 edk::Image2D::getPixelR(edk::vec2ui32 position){
+    edk::uint8 ret=0u;
+    if(position.x<this->getWidth()
+            && position.y<this->getHeight()
+            && (this->getChannels() == 3u || this->getChannels() == 4u)
+            ){
+        ret = this->vec[(((position.y*this->getWidth())
+                          + position.x) * this->getChannels())
+                + 0u
+                ];
+    }
+    return ret;
+}
+edk::uint8 edk::Image2D::getPixelR(edk::uint32 x,edk::uint32 y){
+    return this->getPixelR(edk::vec2ui32(x,y));
+}
+edk::uint8 edk::Image2D::getPixelG(edk::vec2ui32 position){
+    edk::uint8 ret=0u;
+    if(position.x<this->getWidth()
+            && position.y<this->getHeight()
+            && (this->getChannels() == 3u || this->getChannels() == 4u)
+            ){
+        ret = this->vec[(((position.y*this->getWidth())
+                          + position.x) * this->getChannels())
+                + 1u
+                ];
+    }
+    return ret;
+}
+edk::uint8 edk::Image2D::getPixelG(edk::uint32 x,edk::uint32 y){
+    return this->getPixelG(edk::vec2ui32(x,y));
+}
+edk::uint8 edk::Image2D::getPixelB(edk::vec2ui32 position){
+    edk::uint8 ret=0u;
+    if(position.x<this->getWidth()
+            && position.y<this->getHeight()
+            && (this->getChannels() == 3u || this->getChannels() == 4u)
+            ){
+        ret = this->vec[(((position.y*this->getWidth())
+                          + position.x) * this->getChannels())
+                + 2u
+                ];
+    }
+    return ret;
+}
+edk::uint8 edk::Image2D::getPixelB(edk::uint32 x,edk::uint32 y){
+    return this->getPixelB(edk::vec2ui32(x,y));
+}
+edk::uint8 edk::Image2D::getPixelGray(edk::vec2ui32 position){
+    edk::uint8 ret=0u;
+    if(position.x<this->getWidth()
+            && position.y<this->getHeight()
+            && (this->getChannels() == 1u || this->getChannels() == 2u)
+            ){
+        ret = this->vec[(((position.y*this->getWidth())
+                          + position.x) * this->getChannels())
+                + 0u
+                ];
+    }
+    return ret;
+}
+edk::uint8 edk::Image2D::getPixelGray(edk::uint32 x,edk::uint32 y){
+    return this->getPixelGray(edk::vec2ui32(x,y));
+}
+edk::uint8 edk::Image2D::getPixelA(edk::vec2ui32 position){
+    edk::uint8 ret=0u;
+    if(position.x<this->getWidth()
+            && position.y<this->getHeight()
+            && (this->getChannels() == 2u || this->getChannels() == 4u)
+            ){
+        ret = this->vec[(((position.y*this->getWidth())
+                          + position.x) * this->getChannels())
+                + this->getChannels()-1u
+                ];
+    }
+    return ret;
+}
+edk::uint8 edk::Image2D::getPixelA(edk::uint32 x,edk::uint32 y){
+    return this->getPixelA(edk::vec2ui32(x,y));
+}
+edk::color3ui8 edk::Image2D::getPixelRGB(edk::vec2ui32 position){
+    edk::color3ui8 ret;
+    ret.r=0u;
+    ret.g=0u;
+    ret.b=0u;
+    if(position.x<this->getWidth()
+            && position.y<this->getHeight()
+            && (this->getChannels() == 3u || this->getChannels() == 4u)
+            ){
+        edk::uint32 newPosition = (((position.y*this->getWidth())
+                                    + position.x) * this->getChannels());
+        ret.r = this->vec[newPosition + 0u];
+        ret.g = this->vec[newPosition + 1u];
+        ret.b = this->vec[newPosition + 2u];
+    }
+    return ret;
+}
+edk::color3ui8 edk::Image2D::getPixelRGB(edk::uint32 x,edk::uint32 y){
+    return this->getPixelRGB(edk::vec2ui32(x,y));
+}
+edk::color4ui8 edk::Image2D::getPixelRGBA(edk::vec2ui32 position){
+    edk::color4ui8 ret;
+    ret.r=0u;
+    ret.g=0u;
+    ret.b=0u;
+    ret.a=0u;
+    if(position.x<this->getWidth()
+            && position.y<this->getHeight()
+            && this->getChannels() == 4u
+            ){
+        edk::uint32 newPosition = (((position.y*this->getWidth()) + position.x) * this->getChannels());
+        ret.r = this->vec[newPosition + 0u];
+        ret.g = this->vec[newPosition + 1u];
+        ret.b = this->vec[newPosition + 2u];
+        ret.a = this->vec[newPosition + 3u];
+    }
+    return ret;
+}
+edk::color4ui8 edk::Image2D::getPixelRGBA(edk::uint32 x,edk::uint32 y){
+    return this->getPixelRGBA(edk::vec2ui32(x,y));
+}
 //return the colors vector with all the palette codes
 edk::uint8* edk::Image2D::getColors(){
     //test if open the image
@@ -1348,6 +1469,41 @@ edk::uint8* edk::Image2D::getColors(){
     }
     //else return false
     return NULL;
+}
+
+//convert the image pixels
+bool edk::Image2D::calculateAlpha(edk::uint8 compareR,edk::uint8 compareG,edk::uint8 compareB){
+    if(this->haveImage() && this->getChannels()==4u){
+        return edk::Image2D::rgbaToAlpha(this->getPixels(),this->getSize()
+                                         ,compareR,compareG,compareB
+                                         );
+    }
+    return false;
+}
+bool edk::Image2D::calculateAlpha(edk::uint8 compareR,edk::uint8 compareG,edk::uint8 compareB,edk::uint8 min,edk::uint8 max){
+    if(this->haveImage() && this->getChannels()==4u){
+        return edk::Image2D::rgbaToAlpha(this->getPixels(),this->getSize()
+                                         ,compareR,compareG,compareB
+                                         ,min,max
+                                         );
+    }
+    return false;
+}
+bool edk::Image2D::calculateAlpha(edk::color3ui8 compareRGB){
+    if(this->haveImage() && this->getChannels()==4u){
+        return edk::Image2D::rgbaToAlpha(this->getPixels(),this->getSize()
+                                         ,compareRGB
+                                         );
+    }
+    return false;
+}
+bool edk::Image2D::calculateAlpha(edk::color3ui8 compareRGB,edk::uint8 min,edk::uint8 max){
+    if(this->haveImage() && this->getChannels()==4u){
+        return edk::Image2D::rgbaToAlpha(this->getPixels(),this->getSize()
+                                         ,compareRGB,min,max
+                                         );
+    }
+    return false;
 }
 
 void edk::Image2D::deleteImage()
@@ -1593,6 +1749,31 @@ edk::uint8 edk::Image2D::rgbToV(edk::color3ui8 rgb){
 edk::uint8 edk::Image2D::rgbaToV(edk::color4ui8 rgba){
     return edk::codecs::CodecImage::rgbToV(rgba.r,rgba.g,rgba.b);edkEnd();
 }
+//RGB to A
+edk::uint8 edk::Image2D::rgbToA(edk::uint8 r,edk::uint8 g,edk::uint8 b
+                                ,edk::uint8 compareR,edk::uint8 compareG,edk::uint8 compareB
+                                ){
+    return edk::codecs::CodecImage::rgbToA(r,g,b,compareR,compareG,compareB);
+}
+edk::uint8 edk::Image2D::rgbToA(edk::uint8 r,edk::uint8 g,edk::uint8 b
+                                ,edk::uint8 compareR,edk::uint8 compareG,edk::uint8 compareB
+                                ,edk::uint8 min,edk::uint8 max
+                                ){
+    return edk::codecs::CodecImage::rgbToA(r,g,b,compareR,compareG,compareB,min,max);
+}
+edk::uint8 edk::Image2D::rgbToA(edk::color3ui8 rgb,edk::color3ui8 compareRGB){
+    return edk::codecs::CodecImage::rgbToA(rgb,compareRGB);
+}
+edk::uint8 edk::Image2D::rgbToA(edk::color3ui8 rgb,edk::color3ui8 compareRGB,edk::uint8 min,edk::uint8 max){
+    return edk::codecs::CodecImage::rgbToA(rgb,compareRGB,min,max);
+}
+//RGBA to A
+edk::uint8 edk::Image2D::rgbaToA(edk::color4ui8 rgba,edk::color3ui8 compareRGB){
+    return edk::codecs::CodecImage::rgbaToA(rgba,compareRGB);
+}
+edk::uint8 edk::Image2D::rgbaToA(edk::color4ui8 rgba,edk::color3ui8 compareRGB,edk::uint8 min,edk::uint8 max){
+    return edk::codecs::CodecImage::rgbaToA(rgba,compareRGB,min,max);
+}
 //vector
 bool edk::Image2D::rgbToV(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest){
     return edk::codecs::CodecImage::rgbToV(vector,size,dest);edkEnd();
@@ -1617,6 +1798,51 @@ bool edk::Image2D::rgbaToV(edk::uint8* vector,edk::uint32 width,edk::uint32 heig
 }
 edk::uint8* edk::Image2D::rgbaToV(edk::uint8* vector,edk::uint32 width,edk::uint32 height){
     return edk::codecs::CodecImage::rgbaToV(vector,edk::size2ui32(width,height));edkEnd();
+}
+//RGB to Alpha
+bool edk::Image2D::rgbaToAlpha(edk::uint8* vector,edk::size2ui32 size
+                               ,edk::uint8 compareR,edk::uint8 compareG,edk::uint8 compareB
+                               ){
+    return edk::codecs::CodecImage::rgbaToAlpha(vector,size,compareR,compareG,compareB);
+}
+bool edk::Image2D::rgbaToAlpha(edk::uint8* vector,edk::size2ui32 size
+                               ,edk::uint8 compareR,edk::uint8 compareG,edk::uint8 compareB
+                               ,edk::uint8 min,edk::uint8 max
+                               ){
+    return edk::codecs::CodecImage::rgbaToAlpha(vector,size,compareR,compareG,compareB,min,max);
+}
+bool edk::Image2D::rgbaToAlpha(edk::uint8* vector,edk::size2ui32 size
+                               ,edk::color3ui8 compareRGB
+                               ){
+    return edk::codecs::CodecImage::rgbaToAlpha(vector,size,compareRGB);
+}
+bool edk::Image2D::rgbaToAlpha(edk::uint8* vector,edk::size2ui32 size
+                               ,edk::color3ui8 compareRGB
+                               ,edk::uint8 min,edk::uint8 max
+                               ){
+    return edk::codecs::CodecImage::rgbaToAlpha(vector,size,compareRGB,min,max);
+}
+bool edk::Image2D::rgbaToAlpha(edk::uint8* vector,edk::uint32 width,edk::uint32 height
+                               ,edk::uint8 compareR,edk::uint8 compareG,edk::uint8 compareB
+                               ){
+    return edk::codecs::CodecImage::rgbaToAlpha(vector,width,height,compareR,compareG,compareB);
+}
+bool edk::Image2D::rgbaToAlpha(edk::uint8* vector,edk::uint32 width,edk::uint32 height
+                               ,edk::uint8 compareR,edk::uint8 compareG,edk::uint8 compareB
+                               ,edk::uint8 min,edk::uint8 max
+                               ){
+    return edk::codecs::CodecImage::rgbaToAlpha(vector,width,height,compareR,compareG,compareB,min,max);
+}
+bool edk::Image2D::rgbaToAlpha(edk::uint8* vector,edk::uint32 width,edk::uint32 height
+                               ,edk::color3ui8 compareRGB
+                               ){
+    return edk::codecs::CodecImage::rgbaToAlpha(vector,width,height,compareRGB);
+}
+bool edk::Image2D::rgbaToAlpha(edk::uint8* vector,edk::uint32 width,edk::uint32 height
+                               ,edk::color3ui8 compareRGB
+                               ,edk::uint8 min,edk::uint8 max
+                               ){
+    return edk::codecs::CodecImage::rgbaToAlpha(vector,width,height,compareRGB,min,max);
 }
 //HSV to RGB
 edk::color3ui8 edk::Image2D::hsvTorgb(edk::float32 h,edk::float32 s,edk::float32 v){

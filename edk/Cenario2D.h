@@ -168,6 +168,8 @@ public:
     bool addPhysicSensor(edk::uint32 levelPosition,edk::physics2D::StaticSensor2D* sensor,edk::float32 depth);
     bool addPhysicSensorCreated(edk::uint32 levelPosition,edk::physics2D::StaticSensor2D* sensor);
     bool addPhysicSensorCreated(edk::uint32 levelPosition,edk::physics2D::StaticSensor2D* sensor,edk::float32 depth);
+    //change the objects physics to sensors
+    bool changePhysicsToSensor(edk::uint32 levelPosition);
     //get the object
     edk::physics2D::PhysicObject2D* getPhysicObject(edk::uint32 levelPosition,edk::float32 depth);
     edk::physics2D::PhysicObject2D* getPhysicObjectInPosition(edk::uint32 levelPosition,edk::uint32 position);

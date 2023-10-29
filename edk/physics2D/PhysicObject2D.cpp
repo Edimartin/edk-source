@@ -212,7 +212,7 @@ void edk::physics2D::PhysicObject2D::removeAllMesh(){
 
 //return if it's a sensor
 bool edk::physics2D::PhysicObject2D::isSensor(){
-    return this->isObjectSensor;edkEnd();
+    return this->isObjectSensor;
 }
 
 //add a group

@@ -56,10 +56,10 @@ void edk::Cenario2D::deleteWorld(){
     if(this->cenarioHaveCreateWorld){
         if(this->world){
             this->world->removeContactCallback(this);
-        delete this->world;
-        this->world=NULL;
-        this->setWorld(NULL);
-        this->cenarioHaveCreateWorld=false;
+            delete this->world;
+            this->world=NULL;
+            this->setWorld(NULL);
+            this->cenarioHaveCreateWorld=false;
         }
     }
 }
@@ -2608,6 +2608,63 @@ bool edk::Cenario2D::addPhysicSensorCreated(edk::uint32 levelPosition,edk::physi
 bool edk::Cenario2D::addPhysicSensorCreated(edk::uint32 levelPosition,edk::physics2D::StaticSensor2D* sensor,edk::float32 depth){
     return this->addPhysicObjectCreated(levelPosition,sensor,depth);edkEnd();
 }
+//change the objects physics to sensors
+bool edk::Cenario2D::changePhysicsToSensor(edk::uint32 levelPosition){
+    bool ret=false;
+    if(levelPosition){
+        levelPosition--;edkEnd();
+        //test if have the position
+        if(this->levels.havePos(levelPosition)){
+            edk::Cenario2D::LevelObj* level =this->levels.get(levelPosition);edkEnd();
+            if(level){
+                if(level->objsPhys){
+                    edk::physics2D::PhysicObject2D* temp;
+                    edk::physics2D::PhysicObject2D tempClone;
+                    edk::uint32 size = level->objsPhys->size();
+                    edk::TypeObject type;
+                    edk::float32 depth;
+                    bool canClone=false;
+                    for(edk::uint32 i=0u;i<size;i++){
+                        temp = (edk::physics2D::PhysicObject2D*)level->objsPhys->getObjectInPosition(i);
+                        if(temp){
+                            depth = level->objsPhys->getObjectDepthInPosition(i);
+                            switch(temp->getType()){
+                            case edk::TypeObject2DDynamic:
+                                canClone=true;
+                                type=edk::TypeObject2DDynamic;
+                                break;
+                            case edk::TypeObject2DStatic:
+                                canClone=true;
+                                type=edk::TypeObject2DStatic;
+                                break;
+                            case edk::TypeObject2DKinematic:
+                                canClone=true;
+                                type=edk::TypeObject2DKinematic;
+                                break;
+                            default:
+                                canClone=false;
+                                break;
+                            }
+                            if(canClone){
+                                if(tempClone.cloneFrom(temp)){
+                                    //delete the object
+                                    this->deletePhysicObject(levelPosition+1u,temp);
+                                    //create a new sensor
+                                    temp = this->newPhysicSensor(levelPosition+1u,type,depth);
+                                    if(temp){
+                                        temp->cloneFrom(&tempClone);
+                                        ret=true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
 //get the object
 edk::physics2D::PhysicObject2D* edk::Cenario2D::getPhysicObject(edk::uint32 levelPosition,edk::float32 depth){
     if(levelPosition){
@@ -2617,7 +2674,7 @@ edk::physics2D::PhysicObject2D* edk::Cenario2D::getPhysicObject(edk::uint32 leve
             edk::Cenario2D::LevelObj* level =this->levels.get(levelPosition);edkEnd();
             if(level){
                 if(level->objsPhys){
-                    return (edk::physics2D::PhysicObject2D*)level->objsPhys->getObjectFromDepth(depth);edkEnd();
+                    return (edk::physics2D::PhysicObject2D*)level->objsPhys->getObjectFromDepth(depth);
                 }
             }
         }
