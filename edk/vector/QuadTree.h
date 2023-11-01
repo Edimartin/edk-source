@@ -1414,7 +1414,7 @@ public:
     }
 
     //select a leaf
-    virtual bool selectLeafIWithValue(typeTemplate value){
+    virtual bool selectLeafWithValue(typeTemplate value){
 #if defined(EDK_DONT_USE_QUADTREE)
         return false;
 #endif
@@ -2796,7 +2796,7 @@ public:
     }
 
     //select a leaf
-    virtual bool selectLeafIWithValue(typeTemplate value){
+    virtual bool selectLeafWithValue(typeTemplate value){
 #if defined(EDK_DONT_USE_QUADTREE)
         return false;
 #endif
