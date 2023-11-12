@@ -193,6 +193,52 @@ bool edk::XML::addSelectedNewAttribute(edk::char8* name,edk::char8* value){
     return false;
 }
 
+void edk::XML::printNewLineSpaces(edk::uint32 spaces){
+    printf("\n");
+    for(edk::uint32 i=0u;i<spaces;i++){
+        printf(" ");
+    }
+}
+void edk::XML::recursivePrint(edk::uint32 indent,pugi::xml_node nodePrint){
+    while(!nodePrint.empty()){
+        //print the name
+        this->printNewLineSpaces(indent*4u);
+        printf("<'%s'",nodePrint.name());fflush(stdout);
+
+        bool haveAtt=false;
+
+        //print the attributes
+        for(pugi::xml_attribute attr = nodePrint.first_attribute(); *attr.name(); attr = attr.next_attribute()){
+            //test if the name are equal
+            this->printNewLineSpaces((indent+1u)*4u);
+            printf("'%s':'%s'",(edk::char8*)attr.name(),(edk::char8*)attr.value());fflush(stdout);
+            haveAtt=true;
+        }
+        //print the string
+        if(haveAtt){
+            this->printNewLineSpaces(indent*4u);
+            printf(">");fflush(stdout);
+        }
+        else{
+            printf(">");fflush(stdout);
+        }
+
+        if(*nodePrint.text()){
+            //return the text
+            printf(" '%s' ",nodePrint.text().as_string());fflush(stdout);
+        }
+        if(!nodePrint.first_child().empty()){
+            //go to the next brother
+            this->recursivePrint(indent+1u,nodePrint.first_child());
+        }
+
+        this->printNewLineSpaces(indent*4u);
+        printf("</'%s'>",nodePrint.name());fflush(stdout);
+
+        nodePrint = nodePrint.next_sibling();
+    }
+}
+
 //return the string type
 edk::uint8 edk::XML::getStringType(const edk::char8* str){
     return edk::XML::getStringType((edk::char8*) str);
@@ -421,7 +467,12 @@ void edk::XML::clean(){
 //print the XML on the screen
 void edk::XML::print(){
     //
-    doc.print(std::cout, "", pugi::format_raw);
+    //doc.print(std::cout, "", pugi::format_indent);
+
+    this->nodePrint = this->doc.first_child();
+    if(this->nodePrint.name()){
+        this->recursivePrint(0u,this->nodePrint);
+    }
 }
 
 //SELECT

@@ -289,12 +289,16 @@ class XML{
     pugi::xml_document doc;
 
     pugi::xml_node selected;
+    pugi::xml_node nodePrint;
 
     //parsing the xml
     void parsing(pugi::xml_node node);
 	//add a root cleaning the code
 	bool addNewRoot(edk::char8* name);
     bool addSelectedNewAttribute(edk::char8* name,edk::char8* value);
+
+    void printNewLineSpaces(edk::uint32 spaces);
+    void recursivePrint(edk::uint32 indent,pugi::xml_node nodePrint);
 };
 }//end namespace edk
 
