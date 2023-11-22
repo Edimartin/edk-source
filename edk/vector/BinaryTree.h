@@ -139,14 +139,14 @@ public:
         edk::vector::BinaryTree<obj*>::render();edkEnd();
     }
     virtual void renderWire(){
-        edk::vector::BinaryTree<obj*>::render();edkEnd();
+        edk::vector::BinaryTree<obj*>::renderWire();edkEnd();
     }
     //draw the elements
     virtual void draw(){
-        edk::vector::BinaryTree<obj*>::render();edkEnd();
+        edk::vector::BinaryTree<obj*>::draw();edkEnd();
     }
     virtual void drawWire(){
-        edk::vector::BinaryTree<obj*>::render();edkEnd();
+        edk::vector::BinaryTree<obj*>::drawWire();edkEnd();
     }
     //update the elements
     virtual void update(){
