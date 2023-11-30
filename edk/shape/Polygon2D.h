@@ -152,6 +152,7 @@ public:
     //function to calculate boundingBox
     bool calculateBoundingBox(edk::rectf32* rectangle,edk::vector::Matrix<edk::float32,3,3>* transformMat);
     edk::rectf32 generateBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat);
+    bool getWorldPolygon(edk::shape::Polygon2D* dest,edk::vector::Matrix<edk::float32,3,3>* transformMat);
 
     //delete the polygonVertex
     virtual void deletePolygon();

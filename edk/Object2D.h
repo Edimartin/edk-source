@@ -80,6 +80,11 @@ public:
     bool calculateBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat);
     bool generateBoundingBox();
     bool generateBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat);
+    //functions to calculate a new boundingBox
+    edk::rectf32 calculateNewBoundingBox();
+    edk::rectf32 calculateNewBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat);
+    edk::rectf32 generateNewBoundingBox();
+    edk::rectf32 generateNewBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat);
     //return a copy of the boundingBox
     edk::rectf32 getBoundingBox();
 
@@ -104,6 +109,10 @@ public:
     void setPolygonsColorG(edk::float32 g);
     void setPolygonsColorB(edk::float32 b);
     void setPolygonsColorA(edk::float32 a);
+
+    //get world polygon
+    bool getWorldPolygon(edk::shape::Polygon2D* dest,edk::uint32 meshPosition,edk::uint32 polygonPosition);
+    bool getWorldPolygon(edk::shape::Polygon2D* dest,edk::uint32 meshPosition,edk::uint32 polygonPosition,edk::vector::Matrix<edk::float32,3,3>* transformMat);
 
     //LIGHT
     bool setLight(edk::uint32 position,edk::light::Light light);
@@ -248,7 +257,7 @@ protected:
         }
         ~MeshsStack(){
             if(this->canDeleteMeshes){
-            this->removeAllMeshes();edkEnd();
+                this->removeAllMeshes();edkEnd();
             }
             else{
                 //
@@ -370,6 +379,9 @@ private:
 
     //object boundingBox
     edk::rectf32 boundingBox;
+
+    bool writeBoundingBox(edk::rectf32* rect);
+    bool writeBoundingBox(edk::rectf32* rect,edk::vector::Matrix<edk::float32,3,3>* transformMat);
 
     //Function to read the actions
     static edk::Action* readXMLAction(edk::classID thisPointer,edk::uint32 actionCode);
@@ -535,14 +547,14 @@ private:
         this->size = obj.size;edkEnd();
 
 
-    //class ActionPosition 1
-    //class ActionMove     2
-    //class ActionSetSize  3
-    //class ActionSize     4
-    //class ActionSetAngle 5
-    //class ActionAngle    6
-    //class ActionMeshName 7
-    //class ActionMeshStop 8
+        //class ActionPosition 1
+        //class ActionMove     2
+        //class ActionSetSize  3
+        //class ActionSize     4
+        //class ActionSetAngle 5
+        //class ActionAngle    6
+        //class ActionMeshName 7
+        //class ActionMeshStop 8
 
 
 

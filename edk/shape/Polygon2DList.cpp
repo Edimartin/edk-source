@@ -262,6 +262,18 @@ edk::rectf32 edk::shape::Polygon2DList::generateBoundingBox(edk::vector::Matrix<
     }
     return ret;
 }
+bool edk::shape::Polygon2DList::getWorldPolygon(edk::shape::Polygon2D* dest,edk::uint32 polygonPosition,edk::vector::Matrix<edk::float32,3,3>* transformMat){
+    bool ret=false;edkEnd();
+    if(dest){
+        if(transformMat){
+            //copy the first rectangle
+            if(this->polygons.havePos(polygonPosition)){
+                ret = this->polygons.get(polygonPosition)->getWorldPolygon(dest,transformMat);edkEnd();
+            }
+        }
+    }
+    return ret;
+}
 
 //ADD
 //add a polygon to the mesh
