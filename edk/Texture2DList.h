@@ -174,7 +174,8 @@ private:
         bool createTexture(edk::char8* name,edk::size2ui32 size,edk::uint32 mode,edk::uint32 filter){
             this->deleteTexture();edkEnd();
             if(name){
-                if((this->file = new edk::Texture2DFile)){
+                this->file = new edk::Texture2DFile;edkEnd();
+                if(this->file){
                     if(this->file->createTexture(size.width,size.height,mode,NULL,filter)){
                         //save the name
                         if(this->setName(name)){
@@ -208,7 +209,8 @@ private:
         //load texture
         bool loadFromFile(edk::char8* name,edk::uint32 filter){
             this->deleteTexture();edkEnd();
-            if((this->file = new edk::Texture2DFile)){
+            this->file = new edk::Texture2DFile;edkEnd();
+            if(this->file){
                 if(this->file->loadFromFile(name,filter)){
                     //save the name
                     if(this->setName(name)){
@@ -225,7 +227,8 @@ private:
         bool loadFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter){
             this->deleteTexture();edkEnd();
             if(name){
-                if((this->file = new edk::Texture2DFile)){
+                this->file = new edk::Texture2DFile;edkEnd();
+                if(this->file){
                     if(this->file->loadFromMemory(image,size,filter)){
                         //save the name
                         if(this->setName(name)){
@@ -243,7 +246,8 @@ private:
         bool setFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 filter){
             this->deleteTexture();edkEnd();
             if(name){
-                if((this->file = new edk::Texture2DFile)){
+                this->file = new edk::Texture2DFile;edkEnd();
+                if(this->file){
                     if(this->file->setFromMemory(/*name,*/image,width,height,channels,filter)){
                         //save the name
                         if(this->setName(name)){

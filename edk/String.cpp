@@ -1223,7 +1223,7 @@ TCHAR* edk::String::strToTCHAR(const edk::char8* str){
 }
 TCHAR* edk::String::strToTCHAR(edk::char8* str){
     edk::int32 size = edk::String::strSize(str);
-    TCHAR* ret = new TCHAR[size+1u];
+    TCHAR* ret = (TCHAR*)malloc(sizeof(TCHAR)*size+1u);
     for(int i = 0; i< size+1; i++){
         ret[i]=str[i];
     }
@@ -5391,7 +5391,7 @@ edk::char8* edk::String::strCopyWithBackslashSpace(edk::char8 *str){
     edk::uint32 size = edk::String::strSizeWithBackslashSpace(str);
     if(size>0u){
         //alloc the string
-        strRet = new edk::char8[size+1u];
+        strRet = (edk::char8*)malloc(sizeof(edk::char8)*size+1u);
         //test if alloc de string
         if(strRet){
             strRet[size]='\0';

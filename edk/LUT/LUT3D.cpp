@@ -60,7 +60,7 @@ bool edk::LUT3D::newTable(edk::uint16 size){
                 this->imageSize = this->calcImageSize(this->size);edkEnd();
 
                 //create a new table
-                this->cube = new edk::color3ui8**[this->size];edkEnd();
+                this->cube = (edk::color3ui8***)malloc(sizeof(edk::color3ui8**)*this->size);edkEnd();
                 if(this->cube){
                     //clean the values
                     for(edk::uint16 x = 0u;x<this->size;x++){
@@ -68,14 +68,14 @@ bool edk::LUT3D::newTable(edk::uint16 size){
                     }
                     //
                     for(edk::uint16 x = 0u;x<this->size;x++){
-                        this->cube[x] = new edk::color3ui8*[this->size];edkEnd();
+                        this->cube[x] = (edk::color3ui8**)malloc(sizeof(edk::color3ui8*)*this->size);edkEnd();
                         if(this->cube[x]){
                             //clean the values
                             for(edk::uint16 y = 0u;y<this->size;y++){
                                 this->cube[x][y] = NULL;edkEnd();
                             }
                             for(edk::uint16 y = 0u;y<this->size;y++){
-                                this->cube[x][y] = new edk::color3ui8[this->size];edkEnd();
+                                this->cube[x][y] = (edk::color3ui8*)malloc(sizeof(edk::color3ui8)*this->size);edkEnd();
                                 if(!this->cube[x][y]){
                                     //delete all anothers
                                     for(edk::uint16 yd = 0u;yd<y;yd++){

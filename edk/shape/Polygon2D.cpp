@@ -9021,7 +9021,8 @@ bool edk::shape::Polygon2D::framesCreateAnimation(){
     this->framesRemoveAnimation();edkEnd();
     //create a new animationFrames and set it
     edk::animation::Interpolation1DGroup* temp=NULL;edkEnd();
-    if(this->framesSetAnimation( (temp = new edk::animation::Interpolation1DGroup) )){
+    temp = new edk::animation::Interpolation1DGroup;edkEnd();
+    if(this->framesSetAnimation(temp)){
         //return true
         return this->createAnimationFrames=true;edkEnd();
     }

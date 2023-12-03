@@ -88,11 +88,11 @@ public:
 
         //Test the size
         if(size.width && size.height){
-            this->matrix = new typeTemplate*[size.height];edkEnd();
+            this->matrix = (typeTemplate**)malloc(sizeof(typeTemplate*)*size.height);edkEnd();
             if(this->matrix){
                 memset(this->matrix,0u,sizeof(typeTemplate)*size.height);edkEnd();
                 for(edk::uint32 i=0u;i<size.height;i++){
-                    this->matrix[i] = new typeTemplate[size.width];edkEnd();
+                    this->matrix[i] = (typeTemplate*)malloc(sizeof(typeTemplate)*size.width);edkEnd();
                     if(this->matrix[i]){
                         memset(this->matrix[i],0u,sizeof(typeTemplate)*size.width);edkEnd();
                     }
@@ -359,11 +359,11 @@ public:
                 //alloc the new matrix
                 edk::size2ui32 size = edk::size2ui32(matrix->matrixSize.width,this->matrixSize.height);edkEnd();
 
-                typeTemplate** newMatrix = new typeTemplate*[size.height];edkEnd();
+                typeTemplate** newMatrix = (typeTemplate**)malloc(sizeof(typeTemplate*)*size.height);edkEnd();
                 if(newMatrix){
                     memset(newMatrix,0u,sizeof(typeTemplate)*size.height);edkEnd();
                     for(edk::uint32 y=0u;y<size.height;y++){
-                        newMatrix[y] = new typeTemplate[size.width];edkEnd();
+                        newMatrix[y] = (typeTemplate*)malloc(sizeof(typeTemplate)*size.width);edkEnd();
                         if(newMatrix[y]){
                             memset(newMatrix[y],0u,sizeof(typeTemplate)*size.width);edkEnd();
                             for(edk::uint32 x=0u;x<size.width;x++){
@@ -430,11 +430,11 @@ public:
                 //alloc the new matrix
                 edk::size2ui32 size = edk::size2ui32(this->matrixSize.width,matrix->matrixSize.height);edkEnd();
 
-                typeTemplate** newMatrix = new typeTemplate*[size.height];edkEnd();
+                typeTemplate** newMatrix = (typeTemplate**)malloc(sizeof(typeTemplate*)*size.height);edkEnd();
                 if(newMatrix){
                     memset(newMatrix,0u,sizeof(typeTemplate)*size.height);edkEnd();
                     for(edk::uint32 y=0u;y<size.height;y++){
-                        newMatrix[y] = new typeTemplate[size.width];edkEnd();
+                        newMatrix[y] = (typeTemplate*)malloc(sizeof(typeTemplate)*size.width);edkEnd();
                         if(newMatrix[y]){
                             memset(newMatrix[y],0u,sizeof(typeTemplate)*size.width);edkEnd();
                             for(edk::uint32 x=0u;x<size.width;x++){
@@ -515,11 +515,11 @@ public:
                 //alloc the new matrix
                 edk::size2ui32 size = edk::size2ui32(matrix2->matrixSize.width,matrix1->matrixSize.height);edkEnd();
 
-                typeTemplate** newMatrix = new typeTemplate*[size.height];edkEnd();
+                typeTemplate** newMatrix = (typeTemplate**)malloc(sizeof(typeTemplate*)*size.height);edkEnd();
                 if(newMatrix){
                     memset(newMatrix,0u,sizeof(typeTemplate)*size.height);edkEnd();
                     for(edk::uint32 y=0u;y<size.height;y++){
-                        newMatrix[y] = new typeTemplate[size.width];edkEnd();
+                        newMatrix[y] = (typeTemplate*)malloc(sizeof(typeTemplate)*size.width);edkEnd();
                         if(newMatrix[y]){
                             memset(newMatrix[y],0u,sizeof(typeTemplate)*size.width);edkEnd();
                             for(edk::uint32 x=0u;x<size.width;x++){
@@ -708,11 +708,11 @@ public:
 
         //Test the size
         if(this->matrixSize.width && this->matrixSize.height){
-            this->matrixDest = new typeTemplate*[this->matrixSize.height];edkEnd();
+            this->matrixDest = (typeTemplate**)malloc(sizeof(typeTemplate*)*this->matrixSize.height);edkEnd();
             if(this->matrixDest){
                 memset(this->matrixDest,0u,sizeof(typeTemplate)*this->matrixSize.height);edkEnd();
                 for(edk::uint32 i=0u;i<matrixSize.height;i++){
-                    this->matrixDest[i] = new typeTemplate[this->matrixSize.width];edkEnd();
+                    this->matrixDest[i] = (typeTemplate*)malloc(sizeof(typeTemplate)*this->matrixSize.width);edkEnd();
                     if(this->matrixDest[i]){
                         memset(this->matrixDest[i],0u,sizeof(typeTemplate)*this->matrixSize.width);edkEnd();
                     }

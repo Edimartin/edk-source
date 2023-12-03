@@ -366,7 +366,7 @@ bool edk::collision::MathCollision::straightStraight2D(vec2f32 line1Start,vec2f3
         temp.x=((line2End.x - line2Start.x) * (line2Start.y - line1Start.y) - (line2End.y - line2Start.y) * (line2Start.x - line1Start.x))/(edk::float32)det;edkEnd();
         //t =  ((line1End.x - line1Start.x) * (line2Start.y - line1Start.y) - (line1End.y - line1Start.y) * (line2Start.x - line1Start.x))/ det ;edkEnd();
         temp.y=((line1End.x - line1Start.x) * (line2Start.y - line1Start.y) - (line1End.y - line1Start.y) * (line2Start.x - line1Start.x))/(edk::float32)det;edkEnd();
-        if( temp.x>=0.f && temp.y<=1.f && temp.y>=0.f && temp.y<=1.f){
+        if( temp.x>=0.f && temp.x<=1.f && temp.y>=0.f && temp.y<=1.f){
             //
             //ret.createVectors(1u);edkEnd();
             //Pi.x = k.x + (l.x-k.x)*s;edkEnd();
@@ -599,29 +599,74 @@ bool edk::collision::MathCollision::straightTriangle3D(edk::vec3f32 lineStart,ed
 
 //POLYGON POINT
 bool edk::collision::MathCollision::polygonPoint(edk::shape::Polygon2D polygon, edk::vec2f32 point){
-    //test if the point is inside the polygon
-    for(edk::uint32 i=0u;i<polygon.getVertexCount();i++){
-        //test what line of the polygon is test
-        if(i==(polygon.getVertexCount()-1u)){
-            //if this is the last line. Test if the point is inside
-            if(edk::Math::getAngleDistance(polygon.getVertexPosition(i) - polygon.getVertexPosition(0u)
-                                           ,point - polygon.getVertexPosition(0u)
-                                           )
-                    ){
-                //set cant delete the polygon
-                polygon.cantDeletePolygon();edkEnd();
-                //if the point is inside the polygon. Return true
-                return true;
+    //create the second point to check the line
+    if(polygon.getVertexCount()>=3u){
+        edk::vec2f32 pointTemp=edk::vec2f32(0.f,0.f);
+        edk::vec2f32 pointEnd = polygon.getVertexPosition(0u);
+        for(edk::uint32 i=1u;i<polygon.getVertexCount();i++){
+            pointTemp = polygon.getVertexPosition(i);
+            if(pointEnd.x<pointTemp.x){
+                pointEnd.x=pointTemp.x;
             }
         }
-        else{
-            //test if the point is outside the line
-            if(edk::Math::getAngleDistance(polygon.getVertexPosition(i+1u) - polygon.getVertexPosition(i)
-                                           ,point - polygon.getVertexPosition(i)
-                                           )
-                    <=0.f){
-                //if the point is outside the polygon. Return false
-                break;
+        if(pointEnd.x<point.x){
+            //set cant delete the polygon
+            polygon.cantDeletePolygon();edkEnd();
+            //else return false
+            return false;
+        }
+        {
+            pointEnd.y=point.y;
+            edk::int32 collisions=0u;
+            edk::collision::Vecs2f32 vecs;edkEnd();
+            edk::vec2f32 p1;
+            edk::vec2f32 p2;
+            //calculate the intersection beetween the lines
+            for(edk::uint32 i=0u;i<polygon.getVertexCount();i++){
+                //test what line of the polygon is test
+                if(i==(polygon.getVertexCount()-1u)){
+                    p1 = polygon.getVertexPosition(i);
+                    p2 = polygon.getVertexPosition(0u);
+                    if(edk::collision::MathCollision::straightStraight2D(p1,
+                                                                         p2,
+                                                                         point,
+                                                                         pointEnd,
+                                                                         &vecs
+                                                                         )){
+                        for(edk::uint32 j=0u;j<vecs.size();j++){
+                            pointTemp = vecs[j];
+                            if(edk::collision::MathCollision::pointStraigh2D(pointTemp,point,pointEnd)){
+                                collisions++;
+                            }
+                        }
+                    }
+                }
+                else{
+                    p1 = polygon.getVertexPosition(i);
+                    p2 = polygon.getVertexPosition(i+1u);
+                    if(edk::collision::MathCollision::straightStraight2D(p1,
+                                                                         p2,
+                                                                         point,
+                                                                         pointEnd,
+                                                                         &vecs
+                                                                         )){
+                        for(edk::uint32 j=0u;j<vecs.size();j++){
+                            pointTemp = vecs[j];
+                            if(edk::collision::MathCollision::pointStraigh2D(pointTemp,point,pointEnd)){
+                                collisions++;
+                            }
+                        }
+                    }
+                }
+                vecs.clean();
+            }
+            //test if the collisions are even
+            if(!edk::Math::isEven(collisions)){
+                //INSIDE
+                //set cant delete the polygon
+                polygon.cantDeletePolygon();edkEnd();
+                //then return true because is inside
+                return true;
             }
         }
     }

@@ -78,7 +78,8 @@ public:
         //Test the size
         if(size){
             //create the new array
-            if( ( this->vector = new typeTemplate[size] ) ){
+            this->vector = (typeTemplate*)malloc(sizeof(typeTemplate)*size);edkEnd();
+            if(this->vector){
                 //save the size of the vector
                 this->vectorSize=size;edkEnd();
                 //can delete the vector
@@ -181,7 +182,7 @@ public:
             }
             EDKArrayVectorFreeCounter++;
             */
-            delete[] this->vector;edkEnd();
+            free(this->vector);edkEnd();
         }
         this->vector=NULL;edkEnd();
         this->vectorSize=0u;edkEnd();

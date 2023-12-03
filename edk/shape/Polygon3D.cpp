@@ -215,7 +215,8 @@ bool edk::shape::Polygon3D::createPolygon(edk::uint32 vertexCount){
             //alloc the vertexes and put it into the array
             for(edk::uint32 i=0u;i<vertexCount;i++){
                 if(haveVertex){
-                    this->vertexs.set(i,(vertex=new edk::shape::Polygon3D::PolygonVertex(&edk::shape::Polygon3D::staticVertex,0u)));edkEnd();
+                    vertex=new edk::shape::Polygon3D::PolygonVertex(&edk::shape::Polygon3D::staticVertex,0u);edkEnd();
+                    this->vertexs.set(i,(vertex));edkEnd();
                     if(!vertex){
                         haveVertex = false;edkEnd();
                         this->vertexs.set(i,NULL);edkEnd();

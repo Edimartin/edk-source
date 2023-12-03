@@ -500,7 +500,8 @@ bool edk::Voronoi::multiGenerateImageRGB(edk::uint32 cores,edk::vector::Array<ed
                         list->end = end;edkEnd();
 
                         //create the new thread
-                        if((threadPointer = new edk::multi::Thread)){
+                        threadPointer = new edk::multi::Thread;edkEnd();
+                        if(threadPointer){
                             //start the thread
                             if(threadPointer->start(edk::Voronoi::runThreadGenerateImageRGBFromRGB, (edk::classID)list)){
                                 //set the thread pointer in the list
@@ -598,7 +599,8 @@ bool edk::Voronoi::multiGenerateImageRGB(edk::uint32 cores,edk::vector::Array<ed
                         list->end = end;edkEnd();
 
                         //create the new thread
-                        if((threadPointer = new edk::multi::Thread)){
+                        threadPointer = new edk::multi::Thread;edkEnd();
+                        if(threadPointer){
                             //start the thread
                             if(threadPointer->start(edk::Voronoi::runThreadGenerateImageRGBFromGray, (edk::classID)list)){
                                 //set the thread pointer in the list
@@ -722,7 +724,8 @@ bool edk::Voronoi::multiGenerateImageGray(edk::uint32 cores,edk::vector::Array<e
                         list->end = end;edkEnd();
 
                         //create the new thread
-                        if((threadPointer = new edk::multi::Thread)){
+                        threadPointer = new edk::multi::Thread;edkEnd();
+                        if(threadPointer){
                             //start the thread
                             if(threadPointer->start(edk::Voronoi::runThreadGenerateImageGrayFromRGB, (edk::classID)list)){
                                 //set the thread pointer in the list
@@ -820,7 +823,8 @@ bool edk::Voronoi::multiGenerateImageGray(edk::uint32 cores,edk::vector::Array<e
                         list->end = end;edkEnd();
 
                         //create the new thread
-                        if((threadPointer = new edk::multi::Thread)){
+                        threadPointer = new edk::multi::Thread;edkEnd();
+                        if(threadPointer){
                             //start the thread
                             if(threadPointer->start(edk::Voronoi::runThreadGenerateImageGrayFromGray, (edk::classID)list)){
                                 //set the thread pointer in the list

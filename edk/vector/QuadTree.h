@@ -323,22 +323,26 @@ public:
             return false;
         }
         //else create all the quads
-        if((this->quad[0u] = new edk::vector::QuadLeaf32<typeTemplate>(this,rect))){
+        this->quad[0u] = new edk::vector::QuadLeaf32<typeTemplate>(this,rect);edkEnd();
+        if(this->quad[0u]){
             rect.origin.x = this->origin.x+((this->size.width - this->origin.x)*0.5);edkEnd();
             rect.origin.y = this->origin.y;edkEnd();
             rect.size.width = this->size.width;edkEnd();
             rect.size.height = this->origin.y+((this->size.height - this->origin.y)*0.5);edkEnd();
-            if((this->quad[1u] = new edk::vector::QuadLeaf32<typeTemplate>(this,rect))){
+            this->quad[1u] = new edk::vector::QuadLeaf32<typeTemplate>(this,rect);edkEnd();
+            if(this->quad[1u]){
                 rect.origin.x = this->origin.x+((this->size.width - this->origin.x)*0.5);edkEnd();
                 rect.origin.y = this->origin.y+((this->size.height - this->origin.y)*0.5);edkEnd();
                 rect.size.width = this->size.width;edkEnd();
                 rect.size.height = this->size.height;edkEnd();
-                if((this->quad[2u] = new edk::vector::QuadLeaf32<typeTemplate>(this,rect))){
+                this->quad[2u] = new edk::vector::QuadLeaf32<typeTemplate>(this,rect);edkEnd();
+                if(this->quad[2u]){
                     rect.origin.x = this->origin.x;edkEnd();
                     rect.origin.y = this->origin.y+((this->size.height - this->origin.y)*0.5);edkEnd();
                     rect.size.width = this->origin.x+((this->size.width - this->origin.x)*0.5);edkEnd();
                     rect.size.height = this->size.height;edkEnd();
-                    if((this->quad[3u] = new edk::vector::QuadLeaf32<typeTemplate>(this,rect))){
+                    this->quad[3u] = new edk::vector::QuadLeaf32<typeTemplate>(this,rect);edkEnd();
+                    if(this->quad[3u]){
                         this->quad[0u]->setTree(tree0);edkEnd();
                         this->quad[1u]->setTree(tree1);edkEnd();
                         this->quad[2u]->setTree(tree2);edkEnd();
@@ -575,22 +579,26 @@ public:
             return false;
         }
         //else create all the quads
-        if((this->quad[0u] = new edk::vector::QuadLeaf64<typeTemplate>(this,rect))){
+        this->quad[0u] = new edk::vector::QuadLeaf64<typeTemplate>(this,rect);edkEnd();
+        if(this->quad[0u]){
             rect.origin.x = this->origin.x+((this->size.width - this->origin.x)*0.5);edkEnd();
             rect.origin.y = this->origin.y;edkEnd();
             rect.size.width = this->size.width;edkEnd();
             rect.size.height = this->origin.y+((this->size.height - this->origin.y)*0.5);edkEnd();
-            if((this->quad[1u] = new edk::vector::QuadLeaf64<typeTemplate>(this,rect))){
+            this->quad[1u] = new edk::vector::QuadLeaf64<typeTemplate>(this,rect);edkEnd();
+            if(this->quad[1u]){
                 rect.origin.x = this->origin.x+((this->size.width - this->origin.x)*0.5);edkEnd();
                 rect.origin.y = this->origin.y+((this->size.height - this->origin.y)*0.5);edkEnd();
                 rect.size.width = this->size.width;edkEnd();
                 rect.size.height = this->size.height;edkEnd();
-                if((this->quad[2u] = new edk::vector::QuadLeaf64<typeTemplate>(this,rect))){
+                this->quad[2u] = new edk::vector::QuadLeaf64<typeTemplate>(this,rect);edkEnd();
+                if(this->quad[2u]){
                     rect.origin.x = this->origin.x;edkEnd();
                     rect.origin.y = this->origin.y+((this->size.height - this->origin.y)*0.5);edkEnd();
                     rect.size.width = this->origin.x+((this->size.width - this->origin.x)*0.5);edkEnd();
                     rect.size.height = this->size.height;edkEnd();
-                    if((this->quad[3u] = new edk::vector::QuadLeaf64<typeTemplate>(this,rect))){
+                    this->quad[3u] = new edk::vector::QuadLeaf64<typeTemplate>(this,rect);edkEnd();
+                    if(this->quad[3u]){
                         this->quad[0u]->setTree(tree0);edkEnd();
                         this->quad[1u]->setTree(tree1);edkEnd();
                         this->quad[2u]->setTree(tree2);edkEnd();

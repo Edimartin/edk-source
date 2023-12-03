@@ -676,7 +676,7 @@ edk::uint32 edk::Texture2DList::getTextureFilter(edk::uint32 code){
 
 //Test if have the texture
 bool edk::Texture2DList::haveTexture(edk::char8* name,edk::uint32 filter){
-    if((this->getTextureByName(name,filter))){
+    if(this->getTextureByName(name,filter)){
         return true;
     }
     return false;
@@ -685,7 +685,7 @@ bool edk::Texture2DList::haveTexture(const edk::char8* name,edk::uint32 filter){
     return this->haveTexture((edk::char8*) name,filter);edkEnd();
 }
 bool edk::Texture2DList::haveTexture(uint32 code){
-    if((this->getTextureByCode(code))){
+    if(this->getTextureByCode(code)){
         return true;
     }
     return false;

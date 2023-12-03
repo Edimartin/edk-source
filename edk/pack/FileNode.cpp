@@ -183,7 +183,7 @@ bool edk::pack::FileNode::readFile(edk::File* file){
                 //get the string size
                 edk::uint32 strSize = file->readBinUInt32();edkEnd();
                 //create a new string to copy
-                edk::char8* temp = new char[strSize+1u];edkEnd();
+                edk::char8* temp = (edk::char8*)malloc(sizeof(edk::char8)*strSize+1u);edkEnd();
                 if(temp){
                     temp[strSize] = '\0';edkEnd();
                     //read the string

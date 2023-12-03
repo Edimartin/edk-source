@@ -57,6 +57,8 @@ public:
     //boolean with two polygons
     static bool booleanAnotB(edk::shape::Polygon2D* polyA,edk::shape::Polygon2D* polyB,edk::shape::Polygon2D* polyDest);
 
+    static bool boolean(edk::shape::Polygon2D* polyA,edk::shape::Polygon2D* polyB,edk::shape::Polygon2D* polyDest,edk::collision::TypesBoolean type);
+
 private:
     class ContactVertex{
     public:
@@ -80,7 +82,7 @@ private:
         }
     };
     //calculate the vertexes
-    static bool pointsCalculateFromPolygons(edk::shape::Polygon2D* polyA,
+    static bool pointsCalculateFromPolygonA(edk::shape::Polygon2D* polyA,
                                             edk::shape::Polygon2D* polyB,
                                             edk::vector::Stack<edk::shape::Vertex2DAnimatedUV>* aOutside,
                                             edk::vector::Stack<edk::shape::Vertex2DAnimatedUV>* aInside,
@@ -88,6 +90,10 @@ private:
                                             edk::vector::Stack<edk::shape::Vertex2DAnimatedUV>* bInside,
                                             edk::vector::Stack<edk::collision::Polygon2DContact::ContactVertex>* newVertexesA,
                                             edk::vector::Stack<edk::collision::Polygon2DContact::ContactVertex>* newVertexesB
+                                            );
+    static bool pointsCalculateFromPolygonA(edk::shape::Polygon2D* polyA,
+                                            edk::shape::Polygon2D* polyB,
+                                            edk::shape::Polygon2D* polyNewA
                                             );
 };
 }//end namespace collision

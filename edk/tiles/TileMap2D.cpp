@@ -865,13 +865,13 @@ bool edk::tiles::TileMap2D::newTileMap(edk::size2ui32 size){
         bool alloc=false;edkEnd();
 
         //create a new tileMap
-        this->tileMap = new edk::uint32*[size.height];edkEnd();
+        this->tileMap = (edk::uint32**)malloc(sizeof(edk::uint32*)*size.height);edkEnd();
         if(this->tileMap){
             alloc=true;edkEnd();
             //create the width's
             for(edk::uint32 i=0u;i<size.height;i++){
                 //
-                this->tileMap[i]=new edk::uint32[size.width];edkEnd();
+                this->tileMap[i] = (edk::uint32*)malloc(sizeof(edk::uint32)*size.width);edkEnd();
                 if(tileMap[i]){
                     //clean the vector
                     for(edk::uint32 j=0u;j<size.width;j++){
@@ -1739,11 +1739,11 @@ void edk::tiles::TileMap2D::draw(edk::vec2ui32 origin,edk::size2ui32 last,edk::c
             for(edk::uint32 y=origin.y,y2=this->sizeMap.height-origin.y-1u;y<last.height;y++,y2--){
                 for(edk::uint32 x=origin.x;x<last.width;x++){
                     //draw the tile
-                    this->tileSet->drawTile( this->tileMap[y][x]
-                                             ,(x*this->scaleMap.width) + positionTemp.x
-                                             ,(y2*this->scaleMap.height) + positionTemp.y
-                                             ,0.f,this->scaleMap,color
-                                             );edkEnd();
+                    this->tileSet->drawTile(this->tileMap[y][x]
+                                            ,(x*this->scaleMap.width) + positionTemp.x
+                                            ,(y2*this->scaleMap.height) + positionTemp.y
+                                            ,0.f,this->scaleMap,color
+                                            );edkEnd();
                 }
             }
 
@@ -1807,11 +1807,11 @@ void edk::tiles::TileMap2D::drawWithoutMaterial(edk::vec2ui32 origin,edk::size2u
             for(edk::uint32 y=origin.y,y2=this->sizeMap.height-origin.y-1u;y<last.height;y++,y2--){
                 for(edk::uint32 x=origin.x;x<last.width;x++){
                     //draw the tile
-                    this->tileSet->drawTileWithoutMaterial( this->tileMap[y][x]
-                                                            ,(x*this->scaleMap.width) + positionTemp.x
-                                                            ,(y2*this->scaleMap.height) + positionTemp.y
-                                                            ,0.f,this->scaleMap,color
-                                                            );edkEnd();
+                    this->tileSet->drawTileWithoutMaterial(this->tileMap[y][x]
+                                                           ,(x*this->scaleMap.width) + positionTemp.x
+                                                           ,(y2*this->scaleMap.height) + positionTemp.y
+                                                           ,0.f,this->scaleMap,color
+                                                           );edkEnd();
                 }
             }
 
@@ -1843,11 +1843,11 @@ void edk::tiles::TileMap2D::drawIsometric(edk::color4f32 color){
         for(edk::uint32 y=0u,y2=this->sizeMap.height-1u;y<this->sizeMap.height;y++,y2--){
             for(edk::uint32 x=0u;x<this->sizeMap.width;x++){
                 //draw the tile
-                this->tileSet->drawTile( this->tileMap[y][x]
-                                         ,(x*this->scaleMap.width) + positionTemp.x + ((y%2u)*this->scaleMap.width*0.5f)
-                                         ,((y2*this->scaleMap.height)*0.25f) + positionTemp.y
-                                         ,0.f,this->scaleMap,color
-                                         );edkEnd();
+                this->tileSet->drawTile(this->tileMap[y][x]
+                                        ,(x*this->scaleMap.width) + positionTemp.x + ((y%2u)*this->scaleMap.width*0.5f)
+                                        ,((y2*this->scaleMap.height)*0.25f) + positionTemp.y
+                                        ,0.f,this->scaleMap,color
+                                        );edkEnd();
             }
         }
 
@@ -1883,11 +1883,11 @@ void edk::tiles::TileMap2D::drawIsometric(edk::vec2ui32 origin,edk::size2ui32 la
             for(edk::uint32 y=origin.y,y2=this->sizeMap.height-origin.y-1u;y<last.height;y++,y2--){
                 for(edk::uint32 x=origin.x;x<last.width;x++){
                     //draw the tile
-                    this->tileSet->drawTile( this->tileMap[y][x]
-                                             ,(x*this->scaleMap.width) + positionTemp.x + ((y%2u)*this->scaleMap.width*0.5f)
-                                             ,((y2*this->scaleMap.height)*0.25f) + positionTemp.y
-                                             ,0.f,this->scaleMap,color
-                                             );edkEnd();
+                    this->tileSet->drawTile(this->tileMap[y][x]
+                                            ,(x*this->scaleMap.width) + positionTemp.x + ((y%2u)*this->scaleMap.width*0.5f)
+                                            ,((y2*this->scaleMap.height)*0.25f) + positionTemp.y
+                                            ,0.f,this->scaleMap,color
+                                            );edkEnd();
                 }
             }
 
@@ -1968,11 +1968,11 @@ void edk::tiles::TileMap2D::draw(){
         for(edk::uint32 y=0u,y2=this->sizeMap.height-1u;y<this->sizeMap.height;y++,y2--){
             for(edk::uint32 x=0u;x<this->sizeMap.width;x++){
                 //draw the tile
-                this->tileSet->drawTile( this->tileMap[y][x]
-                                         ,(x*this->scaleMap.width) + positionTemp.x
-                                         ,(y2*this->scaleMap.height) + positionTemp.y
-                                         ,0.f,this->scaleMap,this->colorMap[y][x]
-                                         );edkEnd();
+                this->tileSet->drawTile(this->tileMap[y][x]
+                                        ,(x*this->scaleMap.width) + positionTemp.x
+                                        ,(y2*this->scaleMap.height) + positionTemp.y
+                                        ,0.f,this->scaleMap,this->colorMap[y][x]
+                                        );edkEnd();
             }
         }
 
@@ -2008,11 +2008,11 @@ void edk::tiles::TileMap2D::draw(edk::vec2ui32 origin,edk::size2ui32 last){
             for(edk::uint32 y=origin.y,y2=this->sizeMap.height-origin.y-1u;y<last.height;y++,y2--){
                 for(edk::uint32 x=origin.x;x<last.width;x++){
                     //draw the tile
-                    this->tileSet->drawTile( this->tileMap[y][x]
-                                             ,(x*this->scaleMap.width) + positionTemp.x
-                                             ,(y2*this->scaleMap.height) + positionTemp.y
-                                             ,0.f,this->scaleMap,this->colorMap[y][x]
-                                             );edkEnd();
+                    this->tileSet->drawTile(this->tileMap[y][x]
+                                            ,(x*this->scaleMap.width) + positionTemp.x
+                                            ,(y2*this->scaleMap.height) + positionTemp.y
+                                            ,0.f,this->scaleMap,this->colorMap[y][x]
+                                            );edkEnd();
                 }
             }
 
@@ -2076,11 +2076,11 @@ void edk::tiles::TileMap2D::drawWithoutMaterial(edk::vec2ui32 origin,edk::size2u
             for(edk::uint32 y=origin.y,y2=this->sizeMap.height-origin.y-1u;y<last.height;y++,y2--){
                 for(edk::uint32 x=origin.x;x<last.width;x++){
                     //draw the tile
-                    this->tileSet->drawTileWithoutMaterial( this->tileMap[y][x]
-                                                            ,(x*this->scaleMap.width) + positionTemp.x
-                                                            ,(y2*this->scaleMap.height) + positionTemp.y
-                                                            ,0.f,this->scaleMap,this->colorMap[y][x]
-                                                            );edkEnd();
+                    this->tileSet->drawTileWithoutMaterial(this->tileMap[y][x]
+                                                           ,(x*this->scaleMap.width) + positionTemp.x
+                                                           ,(y2*this->scaleMap.height) + positionTemp.y
+                                                           ,0.f,this->scaleMap,this->colorMap[y][x]
+                                                           );edkEnd();
                 }
             }
 
@@ -2112,11 +2112,11 @@ void edk::tiles::TileMap2D::drawIsometric(){
         for(edk::uint32 y=0u,y2=this->sizeMap.height-1u;y<this->sizeMap.height;y++,y2--){
             for(edk::uint32 x=0u;x<this->sizeMap.width;x++){
                 //draw the tile
-                this->tileSet->drawTile( this->tileMap[y][x]
-                                         ,(x*this->scaleMap.width) + positionTemp.x + ((y%2u)*this->scaleMap.width*0.5f)
-                                         ,((y2*this->scaleMap.height)*0.25f) + positionTemp.y
-                                         ,0.f,this->scaleMap,this->colorMap[y][x]
-                                         );edkEnd();
+                this->tileSet->drawTile(this->tileMap[y][x]
+                                        ,(x*this->scaleMap.width) + positionTemp.x + ((y%2u)*this->scaleMap.width*0.5f)
+                                        ,((y2*this->scaleMap.height)*0.25f) + positionTemp.y
+                                        ,0.f,this->scaleMap,this->colorMap[y][x]
+                                        );edkEnd();
             }
         }
 
@@ -2152,11 +2152,11 @@ void edk::tiles::TileMap2D::drawIsometric(edk::vec2ui32 origin,edk::size2ui32 la
             for(edk::uint32 y=origin.y,y2=this->sizeMap.height-origin.y-1u;y<last.height;y++,y2--){
                 for(edk::uint32 x=origin.x;x<last.width;x++){
                     //draw the tile
-                    this->tileSet->drawTile( this->tileMap[y][x]
-                                             ,(x*this->scaleMap.width) + positionTemp.x + ((y%2u)*this->scaleMap.width*0.5f)
-                                             ,((y2*this->scaleMap.height)*0.25f) + positionTemp.y
-                                             ,0.f,this->scaleMap,this->colorMap[y][x]
-                                             );edkEnd();
+                    this->tileSet->drawTile(this->tileMap[y][x]
+                                            ,(x*this->scaleMap.width) + positionTemp.x + ((y%2u)*this->scaleMap.width*0.5f)
+                                            ,((y2*this->scaleMap.height)*0.25f) + positionTemp.y
+                                            ,0.f,this->scaleMap,this->colorMap[y][x]
+                                            );edkEnd();
                 }
             }
 
@@ -3817,8 +3817,6 @@ bool edk::tiles::TileMap2D::readFromXML(edk::XML* xml,edk::uint32 id){
                             xml->selectFather();edkEnd();
                         }
                     }
-
-
 
                     edk::vec2f32 positionTemp = edk::vec2f32(edk::String::strToFloat32(xml->getSelectedAttributeValueByName("posMapX")),
                                                              edk::String::strToFloat32(xml->getSelectedAttributeValueByName("posMapY"))

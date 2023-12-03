@@ -389,7 +389,7 @@ bool edk::animation::ParticlesPoint2D::loadParticles(edk::uint32 size){
     this->cleanParticles();edkEnd();
     if(size){
         //create the new particles
-        this->particles = new edk::animation::ParticlesPoint2D::ParticleObject[size];edkEnd();
+        this->particles = (edk::animation::ParticlesPoint2D::ParticleObject*)malloc(sizeof(edk::animation::ParticlesPoint2D::ParticleObject)*size);edkEnd();
         if(this->particles){
             this->sizeParticles = size;edkEnd();
             //set the objects
@@ -405,7 +405,7 @@ bool edk::animation::ParticlesPoint2D::loadParticles(edk::uint32 size){
 void edk::animation::ParticlesPoint2D::cleanParticles(){
     if(this->particles){
         this->stop();edkEnd();
-        free(particles);edkEnd();
+        free(this->particles);edkEnd();
         this->particles=NULL;edkEnd();
     }
     this->sizeParticles = 0u;edkEnd();
