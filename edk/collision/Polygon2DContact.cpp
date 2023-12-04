@@ -229,19 +229,91 @@ bool edk::collision::Polygon2DContact::pointsCalculateFromPolygonA(edk::shape::P
                         //test if the point before are inside
                         vec = polyA->getVertexPosition(k);
                         if(edk::collision::MathCollision::polygonPoint(*polyB,vec)){
-                            //create a new line with the two points
+                            //search for the last vertex inside and the vertex outside
+                            for(;i<sizeA;i++){
+                                vec = polyA->getVertexPosition(i);
+                                if(edk::collision::MathCollision::polygonPoint(*polyB,vec)){
+                                    //
+                                    v.position = polyA->getVertexPosition(i);edkEnd();
+                                    v.color = polyA->getVertexColor(i);edkEnd();
+                                    v.setUV(polyA->getVertexUV(i));edkEnd();
+                                    v.setUVFrames(polyA->getFrames());edkEnd();
+                                    newA.pushBack(v);edkEnd();
+                                    ret=true;edkEnd();
+                                }
+                                else{
 
-                            v.position = polyA->getVertexPosition(k);edkEnd();
-                            v.color = polyA->getVertexColor(k);edkEnd();
-                            v.setUV(polyA->getVertexUV(k));edkEnd();
-                            v.setUVFrames(polyA->getFrames());edkEnd();
-                            newA.pushBack(v);edkEnd();
+                                    if(i){
+                                        k = i-1u;
+                                    }
+                                    else{
+                                        k = sizeA-1u;
+                                    }
 
-                            v.position = polyA->getVertexPosition(i);edkEnd();
-                            v.color = polyA->getVertexColor(i);edkEnd();
-                            v.setUV(polyA->getVertexUV(i));edkEnd();
-                            v.setUVFrames(polyA->getFrames());edkEnd();
-                            newA.pushBack(v);edkEnd();
+                                    haveInter=false;
+
+                                    do{
+                                        aStart = polyA->getVertexPosition(k);edkEnd();
+                                        aEnd = polyA->getVertexPosition(i);edkEnd();
+                                        if(j<sizeB){
+                                            bStart = polyB->getVertexPosition(j+1u);edkEnd();
+                                        }
+                                        else{
+                                            bStart = polyB->getVertexPosition(0u);edkEnd();
+                                        }
+                                        bEnd = polyB->getVertexPosition(j);edkEnd();
+                                        if(edk::collision::MathCollision::straightStraight2D(aStart,
+                                                                                             aEnd,
+                                                                                             bStart,
+                                                                                             bEnd,
+                                                                                             &vecs
+                                                                                             )){
+                                            ret=true;edkEnd();
+                                            haveInter=true;edkEnd();
+                                            vec = vecs[0u];edkEnd();
+                                            //set the positions
+                                            v.position = vec;edkEnd();
+
+                                            //calculate the percent
+                                            percentA = edk::Math::pythagoras(vec - aStart)/edk::Math::pythagoras(aEnd - aStart);edkEnd();
+
+                                            //set the vA
+                                            v.color = (((polyA->getVertexColor(i)-polyA->getVertexColor(i-1u))*percentA)+polyA->getVertexColor(i-1u));edkEnd();
+                                            if(polyA->getVertexType(i-1u) == polyA->getVertexType(i)){
+                                                switch(polyA->getVertexType(i)){
+                                                case EDK_SHAPE_ANIMATED_UV:
+                                                    v.setUV(((polyA->getVertexUV(i)-polyA->getVertexUV(i-1u))*percentA)+polyA->getVertexUV(i-1u));edkEnd();
+                                                    v.setUVFrames(polyA->getFrames());edkEnd();
+                                                    //set the vA
+                                                    break;
+                                                case EDK_SHAPE_UV:
+                                                    v.setUV(((polyA->getVertexUV(i)-polyA->getVertexUV(i-1u))*percentA)+polyA->getVertexUV(i-1u));edkEnd();
+                                                    //set the vA
+                                                    break;
+                                                }
+                                            }
+
+                                            //copy the new vertex
+                                            newA.pushBack(v);edkEnd();
+
+                                            break;
+                                        }
+                                        vecs.clean();edkEnd();
+                                        if(j){
+                                            j--;edkEnd();
+                                        }
+                                    }while(j);
+
+                                    //add the outside vertex
+                                    v.position = polyA->getVertexPosition(i);edkEnd();
+                                    v.color = polyA->getVertexColor(i);edkEnd();
+                                    v.setUV(polyA->getVertexUV(i));edkEnd();
+                                    v.setUVFrames(polyA->getFrames());edkEnd();
+                                    newA.pushBack(v);edkEnd();
+                                    break;
+                                }
+
+                            }
 
                             continue;
                         }
@@ -253,58 +325,63 @@ bool edk::collision::Polygon2DContact::pointsCalculateFromPolygonA(edk::shape::P
                     }
 
                     haveInter=false;
-
-                    do{
-                        aStart = polyA->getVertexPosition(k);edkEnd();
-                        aEnd = polyA->getVertexPosition(i);edkEnd();
-                        bStart = polyB->getVertexPosition(j);edkEnd();
-                        if(!j){
-                            bEnd = polyB->getVertexPosition(sizeB-1u);edkEnd();
-                        }
-                        else{
-                            bEnd = polyB->getVertexPosition(j-1u);edkEnd();
-                        }
-                        if(edk::collision::MathCollision::straightStraight2D(aStart,
-                                                                             aEnd,
-                                                                             bStart,
-                                                                             bEnd,
-                                                                             &vecs
-                                                                             )){
-                            ret=true;edkEnd();
-                            haveInter=true;edkEnd();
-                            vec = vecs[0u];edkEnd();
-                            //set the positions
-                            v.position = vec;edkEnd();
-
-                            //calculate the percent
-                            percentA = edk::Math::pythagoras(vec - aStart)/edk::Math::pythagoras(aEnd - aStart);edkEnd();
-
-                            //set the vA
-                            v.color = (((polyA->getVertexColor(i)-polyA->getVertexColor(i-1u))*percentA)+polyA->getVertexColor(i-1u));edkEnd();
-                            if(polyA->getVertexType(i-1u) == polyA->getVertexType(i)){
-                                switch(polyA->getVertexType(i)){
-                                case EDK_SHAPE_ANIMATED_UV:
-                                    v.setUV(((polyA->getVertexUV(i)-polyA->getVertexUV(i-1u))*percentA)+polyA->getVertexUV(i-1u));edkEnd();
-                                    v.setUVFrames(polyA->getFrames());edkEnd();
-                                    //set the vA
-                                    break;
-                                case EDK_SHAPE_UV:
-                                    v.setUV(((polyA->getVertexUV(i)-polyA->getVertexUV(i-1u))*percentA)+polyA->getVertexUV(i-1u));edkEnd();
-                                    //set the vA
-                                    break;
-                                }
+                    if(j){
+                        do{
+                            aStart = polyA->getVertexPosition(k);edkEnd();
+                            aEnd = polyA->getVertexPosition(i);edkEnd();
+                            bStart = polyB->getVertexPosition(j);edkEnd();
+                            if(!j){
+                                bEnd = polyB->getVertexPosition(sizeB-1u);edkEnd();
                             }
+                            else{
+                                bEnd = polyB->getVertexPosition(j-1u);edkEnd();
+                            }
+                            if(edk::collision::MathCollision::straightStraight2D(aStart,
+                                                                                 aEnd,
+                                                                                 bStart,
+                                                                                 bEnd,
+                                                                                 &vecs
+                                                                                 )){
+                                ret=true;edkEnd();
+                                haveInter=true;edkEnd();
+                                vec = vecs[0u];edkEnd();
+                                //set the positions
+                                v.position = vec;edkEnd();
 
-                            //copy the new vertex
-                            newA.pushBack(v);edkEnd();
+                                //calculate the percent
+                                percentA = edk::Math::pythagoras(vec - aStart)/edk::Math::pythagoras(aEnd - aStart);edkEnd();
 
-                            j--;
+                                //set the vA
+                                v.color = (((polyA->getVertexColor(i)-polyA->getVertexColor(i-1u))*percentA)+polyA->getVertexColor(i-1u));edkEnd();
+                                if(polyA->getVertexType(i-1u) == polyA->getVertexType(i)){
+                                    switch(polyA->getVertexType(i)){
+                                    case EDK_SHAPE_ANIMATED_UV:
+                                        v.setUV(((polyA->getVertexUV(i)-polyA->getVertexUV(i-1u))*percentA)+polyA->getVertexUV(i-1u));edkEnd();
+                                        v.setUVFrames(polyA->getFrames());edkEnd();
+                                        //set the vA
+                                        break;
+                                    case EDK_SHAPE_UV:
+                                        v.setUV(((polyA->getVertexUV(i)-polyA->getVertexUV(i-1u))*percentA)+polyA->getVertexUV(i-1u));edkEnd();
+                                        //set the vA
+                                        break;
+                                    }
+                                }
+
+                                //copy the new vertex
+                                newA.pushBack(v);edkEnd();
+
+                                if(j){
+                                    j--;edkEnd();
+                                }
+                                vecs.clean();edkEnd();
+                                break;
+                            }
                             vecs.clean();edkEnd();
-                            break;
-                        }
-                        vecs.clean();edkEnd();
-                        j--;
-                    }while(j>0u);
+                            if(j){
+                                j--;edkEnd();
+                            }
+                        }while(j);
+                    }
 
                     //test if find a intersection
                     if(haveInter){
@@ -388,7 +465,9 @@ bool edk::collision::Polygon2DContact::pointsCalculateFromPolygonA(edk::shape::P
                                                     break;
                                                 }
                                                 vecs.clean();edkEnd();
-                                                j--;
+                                                if(j){
+                                                    j--;edkEnd();
+                                                }
                                             }while(j>0u);
 
                                             //add the outside vertex
@@ -403,8 +482,10 @@ bool edk::collision::Polygon2DContact::pointsCalculateFromPolygonA(edk::shape::P
                                     }
                                     break;
                                 }
-                                j--;
-                            }while(j>0u);
+                                if(j){
+                                    j--;edkEnd();
+                                }
+                            }while(j);
                         }
                     }
 
@@ -417,6 +498,214 @@ bool edk::collision::Polygon2DContact::pointsCalculateFromPolygonA(edk::shape::P
                     v.setUV(polyA->getVertexUV(i));edkEnd();
                     v.setUVFrames(polyA->getFrames());edkEnd();
                     newA.pushBack(v);edkEnd();
+
+                    //test if the next vertex are inside
+                    if(i<sizeA){
+                        k = i+1u;
+                    }
+                    else{
+                        k = 0u;
+                    }
+                    vec = polyA->getVertexPosition(k);
+                    if(edk::collision::MathCollision::polygonPoint(*polyB,vec)){
+                        //continue
+                        continue;
+                    }
+                    else{
+                        //test if the lineA have contact with the polyB
+                        aStart = polyA->getVertexPosition(i);edkEnd();
+                        aEnd = polyA->getVertexPosition(k);edkEnd();
+                        if(j){
+                            haveInter=false;
+                            do{
+                                bStart = polyB->getVertexPosition(j);edkEnd();
+                                if(!j){
+                                    bEnd = polyB->getVertexPosition(sizeB-1u);edkEnd();
+                                }
+                                else{
+                                    bEnd = polyB->getVertexPosition(j-1u);edkEnd();
+                                }
+                                if(edk::collision::MathCollision::straightStraight2D(aStart,
+                                                                                     aEnd,
+                                                                                     bStart,
+                                                                                     bEnd,
+                                                                                     &vecs
+                                                                                     )){
+                                    ret=true;edkEnd();
+                                    vec = vecs[0u];edkEnd();
+                                    //set the positions
+                                    v.position = vec;edkEnd();
+
+                                    //calculate the percent
+                                    percentA = edk::Math::pythagoras(vec - aStart)/edk::Math::pythagoras(aEnd - aStart);edkEnd();
+
+                                    //set the vA
+                                    v.color = (((polyA->getVertexColor(i)-polyA->getVertexColor(i-1u))*percentA)+polyA->getVertexColor(i-1u));edkEnd();
+                                    if(polyA->getVertexType(i-1u) == polyA->getVertexType(i)){
+                                        switch(polyA->getVertexType(i)){
+                                        case EDK_SHAPE_ANIMATED_UV:
+                                            v.setUV(((polyA->getVertexUV(i)-polyA->getVertexUV(i-1u))*percentA)+polyA->getVertexUV(i-1u));edkEnd();
+                                            v.setUVFrames(polyA->getFrames());edkEnd();
+                                            //set the vA
+                                            break;
+                                        case EDK_SHAPE_UV:
+                                            v.setUV(((polyA->getVertexUV(i)-polyA->getVertexUV(i-1u))*percentA)+polyA->getVertexUV(i-1u));edkEnd();
+                                            //set the vA
+                                            break;
+                                        }
+                                    }
+
+                                    //copy the new vertex
+                                    newA.pushBack(v);edkEnd();
+
+                                    if(haveInter){
+                                        //break the loop
+                                        break;
+                                    }
+
+                                    haveInter=true;edkEnd();
+                                }
+                                else if(haveInter){
+                                    //add the polyB vetex
+                                    v.position = polyB->getVertexPosition(j);edkEnd();
+                                    v.color = polyB->getVertexColor(j);edkEnd();
+                                    v.setUV(polyB->getVertexUV(j));edkEnd();
+                                    v.setUVFrames(polyB->getFrames());edkEnd();
+                                    newA.pushBack(v);edkEnd();
+                                    ret=true;edkEnd();
+                                }
+                                vecs.clean();edkEnd();
+                                if(j){
+                                    j--;edkEnd();
+                                }
+                            }while(j);
+                            if(!j){
+                                //if reach the last vertex then test the first line
+                                bStart = polyB->getVertexPosition(j);edkEnd();
+                                j=sizeB-1u;
+                                bEnd = polyB->getVertexPosition(j);edkEnd();
+                                if(edk::collision::MathCollision::straightStraight2D(aStart,
+                                                                                     aEnd,
+                                                                                     bStart,
+                                                                                     bEnd,
+                                                                                     &vecs
+                                                                                     )){
+                                    ret=true;edkEnd();
+                                    vec = vecs[0u];edkEnd();
+                                    //set the positions
+                                    v.position = vec;edkEnd();
+
+                                    //calculate the percent
+                                    percentA = edk::Math::pythagoras(vec - aStart)/edk::Math::pythagoras(aEnd - aStart);edkEnd();
+
+                                    //set the vA
+                                    v.color = (((polyA->getVertexColor(i)-polyA->getVertexColor(i-1u))*percentA)+polyA->getVertexColor(i-1u));edkEnd();
+                                    if(polyA->getVertexType(i-1u) == polyA->getVertexType(i)){
+                                        switch(polyA->getVertexType(i)){
+                                        case EDK_SHAPE_ANIMATED_UV:
+                                            v.setUV(((polyA->getVertexUV(i)-polyA->getVertexUV(i-1u))*percentA)+polyA->getVertexUV(i-1u));edkEnd();
+                                            v.setUVFrames(polyA->getFrames());edkEnd();
+                                            //set the vA
+                                            break;
+                                        case EDK_SHAPE_UV:
+                                            v.setUV(((polyA->getVertexUV(i)-polyA->getVertexUV(i-1u))*percentA)+polyA->getVertexUV(i-1u));edkEnd();
+                                            //set the vA
+                                            break;
+                                        }
+                                    }
+
+                                    //copy the new vertex
+                                    newA.pushBack(v);edkEnd();
+                                }
+                                else if(haveInter){
+                                    //add the polyB vetex
+                                    v.position = polyB->getVertexPosition(j);edkEnd();
+                                    v.color = polyB->getVertexColor(j);edkEnd();
+                                    v.setUV(polyB->getVertexUV(j));edkEnd();
+                                    v.setUVFrames(polyB->getFrames());edkEnd();
+                                    newA.pushBack(v);edkEnd();
+                                    ret=true;edkEnd();
+                                }
+                                vecs.clean();edkEnd();
+                            }
+                        }
+
+                    }
+                }
+            }
+
+            //test if DON'T create the polygon
+            if(!ret){
+                //test if the polygon B are inside the polygon A
+                newA.clean();
+
+                ret=true;
+                edk::uint32 closerPos = 0u;
+                edk::float32 closer = edk::Math::pythagoras(polyB->getVertexPosition(0u)-polyA->getVertexPosition(0u));
+                edk::float32 newCloser;
+                for(i=0u;i<sizeB;i++){
+                    vec = polyB->getVertexPosition(i);
+                    if(!edk::collision::MathCollision::polygonPoint(*polyA,vec)){
+                        ret=false;
+                    }
+                    if(i){
+                        //calculate the new closer
+                        newCloser = edk::Math::pythagoras(polyB->getVertexPosition(j)-polyA->getVertexPosition(0u));
+                        if(closer>newCloser){
+                            closer=newCloser;
+                            closerPos = j;
+                        }
+                    }
+                }
+                if(ret){
+                    //Then copy the vertexes from outside to inside
+                    for(i=0u;i<=sizeA;i++){
+                        if(i==sizeA){
+                            i=0u;
+                            v.position = polyA->getVertexPosition(i);edkEnd();
+                            v.color = polyA->getVertexColor(i);edkEnd();
+                            v.setUV(polyA->getVertexUV(i));edkEnd();
+                            v.setUVFrames(polyA->getFrames());edkEnd();
+                            newA.pushBack(v);edkEnd();
+
+                            //copy the polyB vertexes
+                            j=closerPos;
+                            do{
+                                v.position = polyB->getVertexPosition(j);edkEnd();
+                                v.color = polyB->getVertexColor(j);edkEnd();
+                                v.setUV(polyB->getVertexUV(j));edkEnd();
+                                v.setUVFrames(polyB->getFrames());edkEnd();
+                                newA.pushBack(v);edkEnd();
+                                if(j){
+                                    j--;
+                                }
+                            }while(j);
+                            j=sizeB-1u;
+                            v.position = polyB->getVertexPosition(j);edkEnd();
+                            v.color = polyB->getVertexColor(j);edkEnd();
+                            v.setUV(polyB->getVertexUV(j));edkEnd();
+                            v.setUVFrames(polyB->getFrames());edkEnd();
+                            newA.pushBack(v);edkEnd();
+                            while(j>closerPos){
+                                if(j){
+                                    j--;
+                                }
+                                v.position = polyB->getVertexPosition(j);edkEnd();
+                                v.color = polyB->getVertexColor(j);edkEnd();
+                                v.setUV(polyB->getVertexUV(j));edkEnd();
+                                v.setUVFrames(polyB->getFrames());edkEnd();
+                                newA.pushBack(v);edkEnd();
+                            }
+                            break;
+                        }
+                        else{
+                            v.position = polyA->getVertexPosition(i);edkEnd();
+                            v.color = polyA->getVertexColor(i);edkEnd();
+                            v.setUV(polyA->getVertexUV(i));edkEnd();
+                            v.setUVFrames(polyA->getFrames());edkEnd();
+                            newA.pushBack(v);edkEnd();
+                        }
+                    }
                 }
             }
 
@@ -587,11 +876,14 @@ bool edk::collision::Polygon2DContact::booleanAnotB(edk::shape::Polygon2D* polyA
                                                                                     );
             }
         }
-        if(ret){
+        if(ret && polyDest->getVertexCount()){
+            /*
             //print the vertexes
             printf("\n%u %s %s",__LINE__,__FILE__,__func__);
             polyDest->print();
             fflush(stdout);
+            */
+            return true;
         }
     }
     return false;

@@ -101,6 +101,12 @@ public:
     //test if the polygon is Counterclockwise
     bool isCounterclockwise();
 
+    //invert the sense
+    bool invertVertexSense();
+    bool changeVertexSense(bool counterClockWise);
+    bool setClockWise();
+    bool setCounterClockWise();
+
     //SETTERS
     //set the position of a vertex
     bool setVertexPosition(edk::uint32 vertex,edk::vec2f32 position);

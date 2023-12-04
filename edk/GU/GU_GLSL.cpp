@@ -41,10 +41,14 @@ edk::multi::MutexDisable edk::GU_GLSL::mutBeginEnd;
 
 //mutex used to create the shader
 edk::multi::Mutex edk::GU_GLSL::mutCreateShader;
+edk::multi::Mutex edk::GU_GLSL::mutDelShader;
+edk::multi::Mutex edk::GU_GLSL::mutUseShader;
+edk::multi::Mutex edk::GU_GLSL::mutUseNoShader;
 //a boolean if can still running load the texture
 bool edk::GU_GLSL::canLoadShader=true;
 
 edk::vector::Queue<edk::GU_GLSL::ShaderClass> edk::GU_GLSL::genShaders;
+edk::vector::Queue<edk::uint32> edk::GU_GLSL::delShaders;
 edk::GU_GLSL::Shader_Tree edk::GU_GLSL::treeShaders;
 edk::vector::Queue<edk::GU_GLSL::ShaderWriteClass> edk::GU_GLSL::genShadersWrite;
 edk::GU_GLSL::ShaderWrite_Tree edk::GU_GLSL::treeShadersWrite;
@@ -58,6 +62,10 @@ edk::vector::Queue<edk::GU_GLSL::ProgramAttachClass> edk::GU_GLSL::genProgramsAt
 edk::GU_GLSL::ProgramAttach_Tree edk::GU_GLSL::treeProgramsAttach;
 edk::vector::Queue<edk::GU_GLSL::ProgramLinkClass> edk::GU_GLSL::genProgramsLink;
 edk::GU_GLSL::ProgramLink_Tree edk::GU_GLSL::treeProgramsLink;
+edk::vector::Queue<edk::GU_GLSL::ShaderUseClass> edk::GU_GLSL::useShaders;
+edk::vector::Queue<edk::GU_GLSL::ShaderUseClass> edk::GU_GLSL::useNoShaders;
+edk::GU_GLSL::ShaderUse_Tree edk::GU_GLSL::treeUseShaders;
+edk::GU_GLSL::ShaderUse_Tree edk::GU_GLSL::treeUseNoShaders;
 
 //construtor
 edk::GU_GLSL::GU_GLSL(){
@@ -185,9 +193,17 @@ edk::uint32 edk::GU_GLSL::guCreateShader(edk::uint32 type){
     return ret;
 }
 void edk::GU_GLSL::guDeleteShader(edk::uint32 id){
-    edk::GU_GLSL::mut.lock();
-    glDeleteShader(id);
-    edk::GU_GLSL::mut.unlock();
+    if(edk::multi::Thread::isThisThreadMain()){
+        edk::GU_GLSL::mut.lock();
+        glDeleteShader(id);
+        edk::GU_GLSL::mut.unlock();
+    }
+    else{
+        //push the id
+        edk::GU_GLSL::mutDelShader.lock();
+        edk::GU_GLSL::delShaders.pushBack(id);
+        edk::GU_GLSL::mutDelShader.unlock();
+    }
 }
 bool edk::GU_GLSL::guShaderSource(edk::uint32 id, edk::uint8 *data,  edk::uint32 length){
     bool ret = false;
@@ -295,7 +311,7 @@ void edk::GU_GLSL::guCompileShader(edk::uint32 id){
                 }
                 //test if can't load the shader
                 if(!edk::GU_GLSL::canLoadShader){
-                        edk::GU_GLSL::guDeleteShader(shader.id);
+                    edk::GU_GLSL::guDeleteShader(shader.id);
                     run=false;
                 }
                 edk::GU_GLSL::mutCreateShader.unlock();
@@ -351,7 +367,7 @@ void edk::GU_GLSL::guGetShaderiv(edk::uint32 id,  edk::uint32 pname,  edk::int32
                 }
                 //test if can't load the shader
                 if(!edk::GU_GLSL::canLoadShader){
-                        edk::GU_GLSL::guDeleteShader(shader.id);
+                    edk::GU_GLSL::guDeleteShader(shader.id);
                     run=false;
                 }
                 edk::GU_GLSL::mutCreateShader.unlock();
@@ -407,7 +423,7 @@ void edk::GU_GLSL::guGetProgramiv(edk::uint32 id, edk::uint32 pname,  edk::int32
                 }
                 //test if can't load the shader
                 if(!edk::GU_GLSL::canLoadShader){
-                        edk::GU_GLSL::guDeleteShader(shader.id);
+                    edk::GU_GLSL::guDeleteShader(shader.id);
                     run=false;
                 }
                 edk::GU_GLSL::mutCreateShader.unlock();
@@ -464,7 +480,7 @@ void edk::GU_GLSL::guGetShaderInfoLog(edk::uint32 id,  edk::int32 maxLength,  ed
                 }
                 //test if can't load the shader
                 if(!edk::GU_GLSL::canLoadShader){
-                        edk::GU_GLSL::guDeleteShader(shader.id);
+                    edk::GU_GLSL::guDeleteShader(shader.id);
                     run=false;
                 }
                 edk::GU_GLSL::mutCreateShader.unlock();
@@ -521,7 +537,7 @@ void edk::GU_GLSL::guGetProgramInfoLog(edk::uint32 id,  edk::int32 maxLength,  e
                 }
                 //test if can't load the shader
                 if(!edk::GU_GLSL::canLoadShader){
-                        edk::GU_GLSL::guDeleteShader(shader.id);
+                    edk::GU_GLSL::guDeleteShader(shader.id);
                     run=false;
                 }
                 edk::GU_GLSL::mutCreateShader.unlock();
@@ -640,7 +656,7 @@ bool edk::GU_GLSL::guProgramUseShader(edk::uint32 id,edk::uint32 shaderId){
                 }
                 //test if can't load the progam
                 if(!edk::GU_GLSL::canLoadShader){
-                        edk::GU_GLSL::guDeleteProgram(program.id);
+                    edk::GU_GLSL::guDeleteProgram(program.id);
                     run=false;
                 }
                 edk::GU_GLSL::mutCreateShader.unlock();
@@ -703,7 +719,7 @@ void edk::GU_GLSL::guLinkProgram(edk::uint32 programID){
                 }
                 //test if can't load the progam
                 if(!edk::GU_GLSL::canLoadShader){
-                        edk::GU_GLSL::guDeleteProgram(program.programID);
+                    edk::GU_GLSL::guDeleteProgram(program.programID);
                     run=false;
                 }
                 edk::GU_GLSL::mutCreateShader.unlock();
@@ -716,9 +732,80 @@ void edk::GU_GLSL::guLinkProgram(edk::uint32 programID){
     }
 }
 void edk::GU_GLSL::guUseProgram(edk::uint32 programID){
-    edk::GU_GLSL::mut.lock();
-    glUseProgram(programID);
-    edk::GU_GLSL::mut.unlock();
+    if(edk::multi::Thread::isThisThreadMain()){
+        edk::GU_GLSL::mut.lock();
+        glUseProgram(programID);
+        edk::GU_GLSL::mut.unlock();
+    }
+    else{
+
+#if __x86_64__ || __ppc64__
+        edk::uint64 threadID = edk::multi::Thread::getThisThreadID();
+#else
+        edk::uint32 threadID = edk::multi::Thread::getThisThreadID();
+#endif
+        if(threadID){
+            edk::GU_GLSL::ShaderUseClass shader;
+            shader.id=programID;
+            shader.threadID = threadID;
+            //test if gonna use shader
+            if(shader.id){
+                edk::GU_GLSL::mutUseShader.lock();
+                //add the tex in to the queue
+                edk::GU_GLSL::useShaders.pushBack(shader);
+                edk::GU_GLSL::mutUseShader.unlock();
+
+                bool run=true;
+                //wait to get the texture ID
+                while(run){
+                    edk::GU_GLSL::mutUseShader.lock();
+                    //test if have some textures in the tree
+                    if(edk::GU_GLSL::treeUseShaders.size()){
+                        //tes if have the texture inside the tree
+                        if(edk::GU_GLSL::treeUseNoShaders.haveShaderByThread(threadID)){
+                            //get the texture
+                            shader = edk::GU_GLSL::treeUseShaders.getShaderByThread(threadID);
+                            edk::GU_GLSL::treeUseShaders.remove(shader);
+                            run=false;
+                        }
+                    }
+                    edk::GU_GLSL::mutUseShader.unlock();
+                    if(run){
+                        //sleep this thread
+                        edk::watch::Time::sleepProcessMiliseconds(1u);
+                    }
+                }
+            }
+            //else this gonna useNo shader
+            else{
+                edk::GU_GLSL::mutUseNoShader.lock();
+                //add the tex in to the queue
+                edk::GU_GLSL::useNoShaders.pushBack(shader);
+                edk::GU_GLSL::mutUseNoShader.unlock();
+
+                bool run=true;
+                //wait to get the texture ID
+                while(run){
+                    edk::GU_GLSL::mutUseNoShader.lock();
+                    //test if have some textures in the tree
+                    if(edk::GU_GLSL::treeUseNoShaders.size()){
+                        //tes if have the texture inside the tree
+                        if(edk::GU_GLSL::treeUseNoShaders.haveShaderByThread(threadID)){
+                            //get the texture
+                            shader = edk::GU_GLSL::treeUseNoShaders.getShaderByThread(threadID);
+                            edk::GU_GLSL::treeUseNoShaders.remove(shader);
+                            run=false;
+                        }
+                    }
+                    edk::GU_GLSL::mutUseNoShader.unlock();
+                    if(run){
+                        //sleep this thread
+                        edk::watch::Time::sleepProcessMiliseconds(1u);
+                    }
+                }
+            }
+        }
+    }
 }
 
 void edk::GU_GLSL::guData1i32(edk::int32 id,edk::int32 d0){
@@ -1414,6 +1501,44 @@ bool edk::GU_GLSL::guUpdateCreateShaders(){
     if(edk::multi::Thread::isThisThreadMain()){
         edk::uint32 size;
         //test if it's the main thread
+        edk::GU_GLSL::mutUseNoShader.lock();
+        size = edk::GU_GLSL::useNoShaders.size();
+        if(size){
+            edk::GU_GLSL::ShaderUseClass shaderID;
+            for(edk::uint32 i=0u;i<size;i++){
+                //get the tex
+                shaderID = edk::GU_GLSL::useNoShaders.popFront();
+                if(!i){
+                    edk::GU_GLSL::guUseProgram(0u);
+
+                    //add the useNoShaderTree
+                    edk::GU_GLSL::treeUseNoShaders.add(shaderID);
+                }
+            }
+            ret = true;
+        }
+        edk::GU_GLSL::mutUseNoShader.unlock();
+
+        //test if it's the main thread
+        edk::GU_GLSL::mutDelShader.lock();
+        size = edk::GU_GLSL::delShaders.size();
+        edk::GU_GLSL::mutDelShader.unlock();
+        if(size){
+            if(size>2u){
+                size=2u;
+            }
+            edk::uint32 shaderID=0u;
+            for(edk::uint32 i=1u;i<size;i++){
+                //get the tex
+                edk::GU_GLSL::mutDelShader.lock();
+                shaderID = edk::GU_GLSL::delShaders.popFront();
+                edk::GU_GLSL::guDeleteShader(shaderID);
+                edk::GU_GLSL::mutDelShader.unlock();
+            }
+            ret = true;
+        }
+
+        //test if it's the main thread
         edk::GU_GLSL::mutCreateShader.lock();
         size = edk::GU_GLSL::genShaders.size();
         edk::GU_GLSL::mutCreateShader.unlock();
@@ -1714,6 +1839,25 @@ bool edk::GU_GLSL::guUpdateCreateShaders(){
             }
             ret = true;
         }
+
+        //test if it's the main thread
+        edk::GU_GLSL::mutUseShader.lock();
+        size = edk::GU_GLSL::useShaders.size();
+        if(size){
+            edk::GU_GLSL::ShaderUseClass shaderID;
+            for(edk::uint32 i=0u;i<size;i++){
+                //get the tex
+                shaderID = edk::GU_GLSL::useShaders.popFront();
+                if(!i){
+                    edk::GU_GLSL::guUseProgram(shaderID.id);
+
+                    //add the useShaderTree
+                    edk::GU_GLSL::treeUseShaders.add(shaderID);
+                }
+            }
+            ret = true;
+        }
+        edk::GU_GLSL::mutUseShader.unlock();
 
         //
     }

@@ -8253,6 +8253,33 @@ bool edk::shape::Polygon2D::isCounterclockwise(){
     return false;
 }
 
+//invert the sense
+bool edk::shape::Polygon2D::invertVertexSense(){
+    edk::shape::Vertex2D* temp;
+    if(this->getVertexCount()>=2u){
+        edk::uint32 i=0u,j=this->getVertexCount()-1u,limit=this->getVertexCount()/2u;
+        for(;i<limit;i++,j--){
+            temp = this->vertexs.get(i);
+            this->vertexs.set(i,this->vertexs.get(j));
+            this->vertexs.set(j,temp);
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon2D::changeVertexSense(bool counterClockWise){
+    if(counterClockWise != this->isCounterclockwise()){
+        return this->invertVertexSense();
+    }
+    return false;
+}
+bool edk::shape::Polygon2D::setClockWise(){
+    return this->changeVertexSense(false);
+}
+bool edk::shape::Polygon2D::setCounterClockWise(){
+    return this->changeVertexSense(true);
+}
+
 //SETTERS
 //set the position of a vertex
 bool edk::shape::Polygon2D::setVertexPosition(edk::uint32 vertex,edk::vec2f32 position){

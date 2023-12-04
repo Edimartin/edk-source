@@ -508,12 +508,14 @@ public:
 
     //run function to load the textures from other threads
     static bool guUpdateLoadTextures();
+    static bool guUpdateDeleteTextures();
 
 private:
     static edk::uint32 initiate;
     static edk::uint32 ID;
     //threads mut
     static edk::multi::Mutex mutGetTextures;
+    static edk::multi::Mutex mutDelTextures;
     //a boolean if can still running load the texture
     static bool canLoadTexture;
 
@@ -586,6 +588,8 @@ private:
         }
     };
     static edk::GU::Texture_Tree treeTextures;
+
+    static edk::vector::Queue<edk::uint32> delTextures;
 };
 }//end namespace
 

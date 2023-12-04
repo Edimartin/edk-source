@@ -44,8 +44,10 @@ edk::uint32 edk::GU::initiate=0u;
 edk::uint32 edk::GU::ID=0u;
 edk::vector::Queue<edk::GU::TextureClass> edk::GU::genTextures(50u);
 edk::GU::Texture_Tree edk::GU::treeTextures;
+edk::vector::Queue<edk::uint32> edk::GU::delTextures;
 //threads mut
 edk::multi::Mutex edk::GU::mutGetTextures;
+edk::multi::Mutex edk::GU::mutDelTextures;
 //a boolean if can still running load the texture
 bool edk::GU::canLoadTexture=true;
 
@@ -652,11 +654,20 @@ bool edk::GU::guDrawToTexture(edk::uint32 ID,edk::uint32 width, edk::uint32 heig
 //delete texture
 void edk::GU::guDeleteTexture(edk::uint32 ID){
     if(edk::GU::initiate){
-        edk::GU_GLSL::mutBeginEnd.lock();
-        edk::GU_GLSL::mut.lock();
-        glDeleteTextures(1u,&ID);
-        edk::GU_GLSL::mut.unlock();
-        edk::GU_GLSL::mutBeginEnd.unlock();
+        if(edk::multi::Thread::isThisThreadMain()){
+            edk::GU_GLSL::mutBeginEnd.lock();
+            edk::GU_GLSL::mut.lock();
+            glDeleteTextures(1u,&ID);
+            edk::GU_GLSL::mut.unlock();
+            edk::GU_GLSL::mutBeginEnd.unlock();
+        }
+        else{
+            //
+            edk::GU::mutGetTextures.lock();
+            //add the tex in to the queue
+            edk::GU::delTextures.pushBack(ID);
+            edk::GU::mutGetTextures.unlock();
+        }
     }
 }
 
@@ -1350,6 +1361,7 @@ edk::char8* edk::GU::guGetExtensions(){
 
 //run function to load the textures from other threads
 bool edk::GU::guUpdateLoadTextures(){
+    edk::GU::guUpdateDeleteTextures();
     //test if it's the main thread
     edk::GU::mutGetTextures.lock();
     edk::uint32 size = edk::GU::genTextures.size();
@@ -1393,6 +1405,29 @@ bool edk::GU::guUpdateLoadTextures(){
             }
         }
         return true;
+    }
+    return false;
+}
+bool edk::GU::guUpdateDeleteTextures(){
+    //test if it's the main thread
+    edk::GU::mutDelTextures.lock();
+    edk::uint32 size = edk::GU::delTextures.size();
+    edk::GU::mutDelTextures.unlock();
+    if(size){
+        if(edk::multi::Thread::isThisThreadMain()){
+            if(size>2u){
+                size=2u;
+            }
+            edk::uint32 ID=0u;
+            for(edk::uint32 i=0u;i<size;i++){
+                //get the tex
+                edk::GU::mutDelTextures.lock();
+                ID = edk::GU::delTextures.popFront();
+                edk::GU::guDeleteTexture(ID);
+                edk::GU::mutDelTextures.unlock();
+            }
+            return true;
+        }
     }
     return false;
 }

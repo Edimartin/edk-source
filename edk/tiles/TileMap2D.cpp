@@ -886,12 +886,12 @@ bool edk::tiles::TileMap2D::newTileMap(edk::size2ui32 size){
 
         if(alloc){
             //create a new colorMap
-            this->colorMap = new edk::color4f32*[size.height];edkEnd();
+            this->colorMap = (edk::color4f32**)malloc(sizeof(edk::color4f32*)*size.height);edkEnd();
             if(this->colorMap){
                 //create the width's
                 for(edk::uint32 i=0u;i<size.height;i++){
                     //
-                    this->colorMap[i]=new edk::color4f32[size.width];edkEnd();
+                    this->colorMap[i]=(edk::color4f32*)malloc(sizeof(edk::color4f32)*size.width);edkEnd();
                     if(tileMap[i]){
                         //clean the vector
                         for(edk::uint32 j=0u;j<size.width;j++){
