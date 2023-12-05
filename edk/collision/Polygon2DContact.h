@@ -67,18 +67,33 @@ private:
         edk::shape::Vertex2DAnimatedUV vec;
         edk::vec2ui32 posA;
         edk::vec2ui32 posB;
+        edk::float32 distance;
+        edk::uint32 position;
 
         ContactVertex operator=(ContactVertex vec){
             this->vec=vec.vec;
             this->posA=vec.posA;
             this->posB=vec.posB;
+            this->distance=vec.distance;
+            this->position=vec.position;
             return vec;
         }
         ContactVertex* operator=(ContactVertex* vec){
             this->vec=vec->vec;
             this->posA=vec->posA;
             this->posB=vec->posB;
+            this->distance=vec->distance;
+            this->position=vec->position;
             return this;
+        }
+        bool operator>(ContactVertex vec){
+            return (this->distance>vec.distance);
+        }
+        bool operator<(ContactVertex vec){
+            return (this->distance<vec.distance);
+        }
+        bool operator==(ContactVertex vec){
+            return edk::Math::equal(this->distance,vec.distance);
         }
     };
     //calculate the vertexes
