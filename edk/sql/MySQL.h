@@ -38,7 +38,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../String.h"
 #include "SQLGroup.h"
 #include "../vector/Stack.h"
-#ifdef EDK_USE_MYSQL
+#if defined(EDK_USE_MYSQL)
 #include <mysql/mysql.h>
 #endif
 
@@ -74,7 +74,7 @@ public:
     //return the error string
     edk::char8* getError();
 private:
-#ifdef EDK_USE_MYSQL
+#if defined(EDK_USE_MYSQL)
     MYSQL *con;	// the connection
     MYSQL_RES *res;	// the results
     MYSQL_ROW row;	// the results rows (array)

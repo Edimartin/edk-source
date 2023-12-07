@@ -37,7 +37,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma once
 #include "../String.h"
 #include "SQLGroup.h"
-#ifdef EDK_USE_POSTGRE
+#if defined(EDK_USE_POSTGRE)
 #include <pqxx/pqxx>
 #endif
 
@@ -73,7 +73,7 @@ public:
     //return the error string
     edk::char8* getError();
 private:
-#ifdef EDK_USE_POSTGRE
+#if defined(EDK_USE_POSTGRE)
     pqxx::connection* C;
     pqxx::nontransaction* N;
 #endif

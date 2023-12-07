@@ -51,19 +51,67 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /*QTCreator
 
-#nostdlib to g++ not use the str library
-QMAKE_CXXFLAGS +=  -nostdlib
+#C_FLAGS
+#QMAKE_CFLAGS +=  -nostdlib
+#QMAKE_CFLAGS +=  -O3
+#QMAKE_CFLAGS +=  -nostdinc
+QMAKE_CFLAGS += -Wno-deprecated-declarations
+QMAKE_CFLAGS += -Wno-deprecated-copy
+
+#C++_FLAGS
+#QMAKE_CXXFLAGS +=  -nostdlib
+#QMAKE_CXXFLAGS +=  -O3
+#QMAKE_CXXFLAGS +=  -nostdinc
 QMAKE_CXXFLAGS += -Wno-deprecated-declarations
 QMAKE_CXXFLAGS += -Wno-deprecated-copy
+
+#DEFINES DEBUGGER
+#This line will enable write the debugger file
+#DEFINES += EDK_DEBUGGER
+#This line will enable write debug message in memset function
+#DEFINES += EDK_DEBUG_MEMSET
+#This line will enable write debug message in memcpy function
+#DEFINES += EDK_DEBUG_MEMCPY
+#This line will enable debug print in edk::InfiniteWallpaper
+#DEFINES += EDK_INFITINE_WALLPAPER_DEBUG_ON
+
+#This line unable the use of printDebug to edk::pack::FilePackage (NEED RUN 'edk::pack::FilePackage::createDebugFile(edk::char8* name)' function to create the file)
+#DEFINES += EDK_FILEPACK_PRINT_DEBUG
+#This line unable write a debug file to edk::Texture2DFile (NEED RUN 'edk::Texture2DFile::createDebugFile(edk::char8* name)' function to create the file)
+#DEFINES += EDK_TEX2DFILE_PRINT_DEBUG
+#This line unable the use of printDebug to edk::multi::Mutex (NEED RUN 'edk::multi::Mutex::createDebugFile(edk::char8* name)' function to create the file)
+#DEFINES += EDK_MUTEX_PRINT_DEBUG
+#This line unable the use of draw to edk::vector::QuadTree32 and edk::vector::QuadTree64
+#DEFINES += EDK_QUADTREE_GU
+#This line activate the use of printDebug to
+#DEFINES += EDK_DEBUGGER EDK_DEBUG_FILE_NAME=\\\"./edkDebug.txt\\\"
+
+#DEFINES DISABLE
+#This line disable the use of edk::vector::QuadTree32 and edk::vector::QuadTree64
+#DEFINES += EDK_DONT_USE_QUADTREE
+#This line disable the use of Box2D (don't need Box2D files in project)
+#DEFINES += EDK_NO_BOX2D
+#This line disable the use of SQlite (don't need Sqlite file in project)
+#DEFINES += EDK_NO_SQLITE
+
+#DEFINES ENABLE
+#This line will enable read and write window events in class edk::Window
+#DEFINES += EDK_WINDOW_EVENTS_RW
+#This line will enable the use of mariaDB
+#DEFINES += EDK_USE_MARIADB
+#This line will enable the use of postgree
+#DEFINES += EDK_USE_POSTGRE
+#This line will enable the use of mysql
+#DEFINES += EDK_USE_MYSQL
+
 #with no pie it will not run in terminal
 win32: QMAKE_LFLAGS   += -mwindows
 else:unix: QMAKE_LFLAGS   += -no-pie
 
-
 LIBS += -lsfml-system -lsfml-window -lsfml-graphics -lsfml-audio
 
 win32: LIBS += -lwsock32 -lopengl32 -lglu32 -lglew32
-else:unix: LIBS += -lpthread -lGL -lGLU -lGLEW -ldl
+else:unix: LIBS += -lX11 -lGL -lGLU -lGLEW -ldl -lpthread
 
 */
 

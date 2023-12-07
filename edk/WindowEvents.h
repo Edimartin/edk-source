@@ -39,6 +39,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "TypeSize2.h"
 #include "TypeDefines.h"
 #include "vector/Stack.h"
+#include "vector/BinaryTree.h"
 #include "watch/Time.h"
 
 #ifdef printMessages

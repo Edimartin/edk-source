@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::sql::MySQL::MySQL(){
-#ifdef EDK_USE_MYSQL
+#if defined(EDK_USE_MYSQL)
     this->con=NULL;edkEnd();
     this->res=NULL;edkEnd();
     this->field=NULL;edkEnd();
@@ -57,7 +57,7 @@ bool edk::sql::MySQL::openDataBase(edk::char8* database,edk::char8* user,edk::ch
     this->closeDataBase();edkEnd();
 
     if(database && user && password && host && port){
-#ifdef EDK_USE_MYSQL
+#if defined(EDK_USE_MYSQL)
         this->con = mysql_init(NULL);edkEnd(); // mysql instance
         if(this->con){
             // connect to the mysql database
@@ -85,7 +85,7 @@ bool edk::sql::MySQL::execute(const edk::char8* command,edk::sql::SQLGroup* call
 }
 bool edk::sql::MySQL::execute(edk::char8* command,
                               edk::sql::SQLGroup*
-#ifdef EDK_USE_MYSQL
+#if defined(EDK_USE_MYSQL)
                               callback
 #endif
                               ){
@@ -93,7 +93,7 @@ bool edk::sql::MySQL::execute(edk::char8* command,
     if(this->haveOpenedDataBase()){
         //
         if(command){
-#ifdef EDK_USE_MYSQL
+#if defined(EDK_USE_MYSQL)
             if(mysql_query(this->con, command)){
                 //if error then copy the error
                 this->error.setName(mysql_error(this->con));edkEnd();
@@ -144,7 +144,7 @@ bool edk::sql::MySQL::execute(edk::char8* command,
 
 //return true if have a dataBase
 bool edk::sql::MySQL::haveOpenedDataBase(){
-#ifdef EDK_USE_MYSQL
+#if defined(EDK_USE_MYSQL)
     if(this->con){
         return true;
     }
@@ -156,7 +156,7 @@ bool edk::sql::MySQL::haveOpenedDataBase(){
 
 //close the dataBase
 void edk::sql::MySQL::closeDataBase(){
-#ifdef EDK_USE_MYSQL
+#if defined(EDK_USE_MYSQL)
     if(this->con){
         // close database connection
         mysql_close(this->con);edkEnd();

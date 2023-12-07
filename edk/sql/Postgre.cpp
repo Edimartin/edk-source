@@ -33,7 +33,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 edk::sql::Postgre::Postgre(){
     //
-#ifdef EDK_USE_POSTGRE
+#if defined(EDK_USE_POSTGRE)
     this->C=NULL;edkEnd();
     this->N=NULL;edkEnd();
 #endif
@@ -64,7 +64,7 @@ bool edk::sql::Postgre::openDataBase(edk::char8* database,edk::char8* user,edk::
 
 
     if(database && user && password && host && port){
-#ifdef EDK_USE_POSTGRE
+#if defined(EDK_USE_POSTGRE)
         //create the postgre connection string
         edk::char8* str=NULL;edkEnd();
         edk::uint32 size = sizeof(name_dbname) +
@@ -140,7 +140,7 @@ bool edk::sql::Postgre::execute(const edk::char8* command,edk::sql::SQLGroup* ca
 }
 bool edk::sql::Postgre::execute(edk::char8* command,
                                 edk::sql::SQLGroup*
-#ifdef EDK_USE_POSTGRE
+#if defined(EDK_USE_POSTGRE)
                                 callback
 #endif
                                 ){
@@ -148,7 +148,7 @@ bool edk::sql::Postgre::execute(edk::char8* command,
     if(this->haveOpenedDataBase()){
         //
         if(command){
-#ifdef EDK_USE_POSTGRE
+#if defined(EDK_USE_POSTGRE)
             try {
                 //execute
                 /* Execute SQL query */
@@ -191,7 +191,7 @@ bool edk::sql::Postgre::execute(edk::char8* command,
 
 //return true if have a dataBase
 bool edk::sql::Postgre::haveOpenedDataBase(){
-#ifdef EDK_USE_POSTGRE
+#if defined(EDK_USE_POSTGRE)
     if(this->C){
         if(this->C->is_open()){
             return true;
@@ -206,7 +206,7 @@ bool edk::sql::Postgre::haveOpenedDataBase(){
 //close the dataBase
 void edk::sql::Postgre::closeDataBase(){
     this->error.setName(" ");edkEnd();
-#ifdef EDK_USE_POSTGRE
+#if defined(EDK_USE_POSTGRE)
     if(this->N){
         delete this->N;edkEnd();
     }
