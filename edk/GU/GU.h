@@ -291,6 +291,8 @@ public:
     //GU_LINEAR_MIPMAP_NEAREST
     //GU_LINEAR_MIPMAP_LINEAR
     static edk::uint32 guAllocTexture2D(edk::uint32 width, edk::uint32 height, edk::uint32 mode, edk::uint32 filter, const edk::classID  data);
+    //generate the mipmap from texture
+    static void guGenerateMipmap(edk::uint32 ID);
     //Draw to texture
     //mode
     //GU_RGB
@@ -301,6 +303,7 @@ public:
     //GU_NEAREST
     //GU_LINEAR
     static bool guDrawToTexture(edk::uint32 ID,edk::uint32 width, edk::uint32 height, edk::uint32 mode, edk::uint32 filter, const edk::classID  data);
+    static bool guDrawToTextureAndGenerateMipmap(edk::uint32 ID,edk::uint32 width, edk::uint32 height, edk::uint32 mode, edk::uint32 filter, const edk::classID  data);
     //delete texture
     static void guDeleteTexture(edk::uint32 ID);
 
@@ -516,6 +519,7 @@ private:
     //threads mut
     static edk::multi::Mutex mutGetTextures;
     static edk::multi::Mutex mutDelTextures;
+    static edk::multi::Mutex mutGetMipmaps;
     //a boolean if can still running load the texture
     static bool canLoadTexture;
 
@@ -566,7 +570,7 @@ private:
             if(first.threadID==second.threadID){return true;}
             return false;
         }
-        //get a TexureClass by ID
+        //get a TextureClass by ID
 #if __x86_64__ || __ppc64__
         edk::GU::TextureClass getTextureByThread(edk::uint64 threadID){
 #else
@@ -590,6 +594,33 @@ private:
     static edk::GU::Texture_Tree treeTextures;
 
     static edk::vector::Queue<edk::uint32> delTextures;
+
+    class MipmapClass{
+    public:
+        MipmapClass(){this->threadID = 0u;this->ID = 0u;}
+        ~MipmapClass(){}
+        edk::GU::MipmapClass operator=(edk::GU::MipmapClass tex){
+            this->threadID = tex.threadID;
+            this->ID = tex.ID;
+            return *this;
+        }
+        inline bool operator==(edk::GU::MipmapClass tex){
+            return (this->threadID == tex.threadID);
+        }
+        inline bool operator>(edk::GU::MipmapClass tex){
+            return (this->threadID > tex.threadID);
+        }
+        inline bool operator<(edk::GU::MipmapClass tex){
+            return (this->threadID < tex.threadID);
+        }
+        edk::uint32 ID;
+#if __x86_64__ || __ppc64__
+        edk::uint64 threadID;
+#else
+        edk::uint32 threadID;
+#endif
+    };
+    static edk::vector::Queue<edk::GU::MipmapClass> genMipmaps;
 };
 }//end namespace
 

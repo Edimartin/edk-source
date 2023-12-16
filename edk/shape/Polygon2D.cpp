@@ -8186,6 +8186,10 @@ edk::shape::Vertex2D* edk::shape::Polygon2D::getVertexOriginalPointer(edk::uint3
     return NULL;
 }
 
+void edk::shape::Polygon2D::clean(){
+    this->deletePolygon();
+}
+
 //create the polygon
 bool edk::shape::Polygon2D::createPolygon(edk::uint32 vertexCount){
     //delete the polygon

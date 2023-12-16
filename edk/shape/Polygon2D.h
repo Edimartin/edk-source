@@ -95,6 +95,8 @@ public:
     Polygon2D(edk::uint32 vertexCount);
     virtual ~Polygon2D();
 
+    void clean();
+
     //create the polygon
     virtual bool createPolygon(edk::uint32 vertexCount);
 
